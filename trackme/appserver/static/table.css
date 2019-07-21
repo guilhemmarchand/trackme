@@ -1,0 +1,62 @@
+/* Table icons */
+
+.ico_good,
+.ico_warn,
+.ico_error,
+.ico_unknown {
+    display:inline-block;
+    text-align: center;
+    width: 30px;
+    height: 30px;
+    line-height: 30px;
+    position:relative;
+}
+
+.ico_good {
+    color: white;
+    background-color: #39ba23;
+    border-radius: 50%;
+    font-size: 24px;
+}
+.ico_good .icon-check {
+    color: #ffffff !important;
+}
+.ico_warn {
+    color: #ffa500;
+    font-size: 39px;
+}
+.ico_error {
+    color: white;
+    background-color: #d54642;
+    border-radius: 10%;
+    font-size: 25px;
+}
+.ico_unknown  {
+    color: white;
+    background-color: rgb(26, 150, 240);
+    border-radius: 50%;
+    font-size: 24px;
+}
+
+
+.ico_small.ico_good,
+.ico_small.ico_warn,
+.ico_small.ico_error,
+.ico_small.ico_unknown {
+    width: 18px;
+    height: 18px;
+    line-height: 18px;
+}
+.ico_small.ico_good {
+    font-size: 15px;
+}
+.ico_small.ico_warn {
+    font-size: 26px;
+    width: 20px;
+}
+.ico_small.ico_error {
+    font-size: 15px;
+}
+.ico_small.ico_unknown  {
+    font-size: 15px;
+}

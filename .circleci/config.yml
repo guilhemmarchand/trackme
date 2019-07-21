@@ -1,0 +1,107 @@
+# Python CircleCI 2.0 configuration file
+#
+# Check https://circleci.com/docs/2.0/language-python/ for more details
+#
+
+dependencies:
+  cache_directories:
+    - "~/.apt-cache"
+  pre:
+    - sudo rm -rf /var/cache/apt/archives && sudo ln -s ~/.apt-cache /var/cache/apt/archives && mkdir -p ~/.apt-cache/partial
+
+apt-run: &apt-install
+  name: install system packages
+  command: |
+    sudo apt update -qq
+    sudo apt install -y python-pip
+
+version: 2.1
+
+executors:
+  content-executor:
+    docker:
+      - image: circleci/python:2.7.16
+    working_directory: ~/repo
+
+jobs:
+  validate-content:
+    executor: content-executor
+    steps:
+      - run:
+          name: checkout repo
+          command: |
+            if [ "${CIRCLE_BRANCH}" == "" ]; then
+                git clone https://${GITHUB_TOKEN}@github.com/guilhemmarchand/trackme
+            else
+                git clone --branch ${CIRCLE_BRANCH} https://${GITHUB_TOKEN}@github.com/guilhemmarchand/trackme
+            fi
+      - restore_cache:
+          key: deps1-{{ .Branch }}-{{ checksum "trackme/trackme/default/app.conf" }}
+      - run: *apt-install
+      - run:
+          name: grab appinspect
+          command: |
+            curl -Ls http://dev.splunk.com/goto/appinspectdownload -o appinspect-lastest.tar.gz
+            mkdir appinspect-latest
+            tar -zxvf appinspect-lastest.tar.gz -C appinspect-latest --strip-components=1
+      - run:
+          name: install appinspect
+          command: |
+            cd appinspect-latest
+            rm -rf venv
+            sudo pip install --upgrade pip setuptools
+            sudo pip install virtualenv
+            virtualenv --clear venv
+            source venv/bin/activate
+            pip install .
+      - run:
+          name: run appinspect
+          command: |
+            cd trackme
+            rm -rf trackme/.git
+            rm -rf trackme/.circleci
+            rm -rf trackme/.gitignore
+            tar -zcvf trackme.tar.gz trackme
+            mkdir dist
+            cp trackme.tar.gz dist/
+            cd ../
+            cd appinspect-latest
+            pwd
+            ls -ltr
+            source venv/bin/activate
+            splunk-appinspect inspect ../trackme/trackme.tar.gz --included-tags=cloud
+      - save_cache:
+          key: deps1-{{ .Branch }}-{{ checksum "trackme/trackme/default/app.conf" }}
+          paths:
+            - "venv"
+      - persist_to_workspace:
+          root: trackme/dist/
+          paths:
+              - trackme.tar.gz
+  publish-github-release:
+    docker:
+      - image: cibuilds/github:0.10
+    steps:
+      - attach_workspace:
+          at: ~/trackme/dist/trackme.tar.gz
+      - run:
+          name: publish release on github
+          command: |
+            ghr -t ${GITHUB_TOKEN} -u ${CIRCLE_PROJECT_USERNAME} -r ${CIRCLE_PROJECT_REPONAME} -c ${CIRCLE_SHA1} -delete ${CIRCLE_TAG} ~/trackme/dist/trackme.tar.gz
+workflows:
+  version: 2.1
+  validate-and-build:
+    jobs:
+      - validate-content:
+          filters:
+            tags:
+              only: /.*/
+      - publish-github-release:
+          requires:
+            - validate-content
+          filters:
+            tags:
+              only: /^v.*/
+            branches:
+              ignore: /.*/
+

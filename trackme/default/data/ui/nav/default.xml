@@ -1,0 +1,9 @@
+<nav search_view="search" color="#404040">
+  <view name="TrackMe" default="true" />
+  <view name="search" />
+  <view name="analysis_workspace" />
+  <view name="datasets" />
+  <view name="reports" />
+  <view name="alerts" />
+  <view name="dashboards" />
+</nav>

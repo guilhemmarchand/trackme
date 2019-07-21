@@ -1,0 +1,10 @@
+/* Fix link input object align */
+.input-linklist {
+  display: inline !important;
+  min-width: 500px;
+}
+
+/* Fix link input object align for Splunk 6.5 */
+.input-link {
+  display: inline !important;
+}

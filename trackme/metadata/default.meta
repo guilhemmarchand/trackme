@@ -1,0 +1,142 @@
+
+# Application-level permissions
+
+[]
+owner = admin
+access = read : [ * ], write : [ admin, kafka_admin ]
+
+### EVENT TYPES
+
+[eventtypes]
+export = none
+
+
+### PROPS
+
+[props]
+export = none
+
+
+### MACROS
+
+[macros]
+export = system
+
+
+### TRANSFORMS
+
+[transforms]
+export = system
+
+
+### LOOKUPS
+
+[lookups]
+export = system
+
+### TAGS
+
+[tags]
+export = none
+
+### VIEWSTATES: even normal users should be able to create shared viewstates
+
+[viewstates]
+access = read : [ * ], write : [ * ]
+export = system
+
+### KVSTORE COLLECTIONS
+
+#
+# Application configuration
+#
+
+[transforms/telegraf_kafka_configuration]
+access = read : [ * ], write : [ admin, kafka_admin ]
+
+[collections/kv_telegraf_kafka_configuration]
+access = read : [ * ], write : [ admin, kafka_admin ]
+
+#
+# Kafka Infrastructure Inventory Lookup Table
+#
+
+[transforms/telegraf_kafka_inventory]
+access = read : [ * ], write : [ admin, kafka_admin ]
+
+[collections/kv_telegraf_kafka_inventory]
+access = read : [ * ], write : [ admin, kafka_admin ]
+
+#
+# Kafka Infrastructure Nodes Inventory Lookup Table
+#
+
+[transforms/kafka_infra_nodes_inventory]
+access = read : [ * ], write : [ admin, kafka_admin ]
+
+[collections/kv_kafka_infra_nodes_inventory]
+access = read : [ * ], write : [ admin, kafka_admin ]
+
+#
+# Kafka topics monitoring
+#
+
+[transforms/telegraf_kafka_topics_monitoring]
+access = read : [ * ], write : [ admin, kafka_admin ]
+
+[collections/kv_telegraf_kafka_topics_monitoring]
+access = read : [ * ], write : [ admin, kafka_admin ]
+
+#
+# Kafka Connect tasks monitoring
+#
+
+[transforms/telegraf_kafka_connect_tasks_monitoring]
+access = read : [ * ], write : [ admin, kafka_admin ]
+
+[collections/kv_telegraf_kafka_connect_tasks_monitoring]
+access = read : [ * ], write : [ admin, kafka_admin ]
+
+#
+# Kafka alerting maintenance mode
+#
+
+[transforms/telegraf_kafka_alerting_maintenance]
+access = read : [ * ], write : [ admin, kafka_admin ]
+
+[collections/kv_telegraf_kafka_alerting_maintenance]
+access = read : [ * ], write : [ admin, kafka_admin ]
+
+#
+# Burrow consumers monitoring
+#
+
+[transforms/kafka_burrow_consumers_monitoring]
+access = read : [ * ], write : [ admin, kafka_admin ]
+
+[collections/kv_kafka_burrow_consumers_monitoring]
+access = read : [ * ], write : [ admin, kafka_admin ]
+
+### MOBILES VIEWS
+
+# These views are shared globally, and designed to be used with Splunk mobile experience
+
+[views/mobile_kafka_zookeeper]
+access = read : [ * ], write : [ admin, kafka_admin ]
+export = system
+
+[views/mobile_kafka_brokers]
+access = read : [ * ], write : [ admin, kafka_admin ]
+export = system
+
+[views/mobile_kafka_topics]
+access = read : [ * ], write : [ admin, kafka_admin ]
+export = system
+
+[views/mobile_kafka_connect]
+access = read : [ * ], write : [ admin, kafka_admin ]
+export = system
+
+[views/mobile_kafka_burrow]
+access = read : [ * ], write : [ admin, kafka_admin ]
+export = system

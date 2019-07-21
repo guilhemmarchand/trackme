@@ -1,0 +1,32 @@
+#.gitignore
+
+# local configuration files
+*/local/*
+
+# local metadata
+*/metadata/local.meta
+
+# Custom lookup table
+*/lookups/my_frameid_lookup.csv
+
+# Compiled Python files
+*.pyo
+*.pyc
+
+# Backup files
+*~
+
+# pycharm
+.idea
+
+# Read the doc & Sphinx
+docs/_build
+docs/_static
+docs/_templates
+
+# backups local
+backups
+
+# spl
+*.spl
+
