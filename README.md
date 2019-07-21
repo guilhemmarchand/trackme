@@ -1,4 +1,4 @@
-# TrackMe - An application for Splunk administrators to monitor and track data sources and hosts availability thea easy way
+# TrackMe - An application for Splunk administrators to monitor and track data sources and hosts availability the easy way
 
 | branch | build status |
 | ---    | ---          |
