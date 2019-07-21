@@ -19,7 +19,7 @@
 
 ![incomplete_installation.png](./docs/img/incomplete_installation.png)
 
-## Why this application?**
+## Why this application?
 
 Splunk administrators and engineers have to spend a good amount of time and energy to on-board new data sources, another data source after another data source.
 
