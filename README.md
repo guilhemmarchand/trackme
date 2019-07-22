@@ -4,7 +4,7 @@
 | ---    | ---          |
 | master | [![master status](https://circleci.com/gh/guilhemmarchand/trackme/tree/master.svg?style=svg)](https://circleci.com/gh/guilhemmarchand/trackme/tree/master)
 
-## The Splunk TrackMe application for data source monitoring provides a handy user interface and workflow for Splunk administrators to monitor the availability of their data sources:**
+## The Splunk TrackMe application for data source monitoring provides a handy user interface and workflow for Splunk administrators to monitor the availability of their data sources:
 
 - Discover and store data sources and hosts information and states
 - Provides a handy and easy user interface to manage states, configuration and quickly trouble shoot alerts
