@@ -192,6 +192,41 @@ Modifying the monitoring lag value:
 
 Modifying this value can be done via the UI, which value has to be a positive integer.
 
+Custom Lagging classes
+======================
+
+**Custom lagging classes allows defining custom default values of maximal lagging allowed based on index or sourcetype.**
+
+.. image:: img/lagging_class_main.png
+   :alt: lagging_class_main.png
+   :align: center
+
+**A custom lagging class can apply to both data sources and hosts monitoring, based on the following rules:**
+
+- For data sources: index based lagging class wins over sourcetype based lagging class
+- For data hosts: if multiple lagging class match, the highest lagging value wins
+
+.. image:: img/lagging_class_selection.png
+   :alt: lagging_class_selection.png
+   :align: center
+
+When a lagging class is defined and is matched for a data source or a data host, you can still override this lagging value by defining a lagging value on the object within the UI.
+
+**An override option is provided:**
+
+.. image:: img/lagging_class_override.png
+   :alt: lagging_class_override.png
+   :align: center
+
+**As explained within the UI:**
+
+- The maximal allowed lagging value defines the maximal value in seconds before a data source / host would be considered as red
+- Override lagging classes allows bypassing any lagging classes configuration that would apply to this data source or host
+- If you define a custom lagging value for a specific data source or host, use this option to avoid conflicts with lagging classes
+- If a lagging class matches index(es) or sourcetype(es) for this data source or host and the option is unchecked, it will bypass this value
+
+Finally, when a custom lagging value is defined for an object, a value of "true" is created for the field named "data_override_lagging_class", which value is used to determine the actual value for that object.
+
 Blacklisting features
 =====================
 
