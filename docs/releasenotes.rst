@@ -1,6 +1,13 @@
 Release notes
 #############
 
+Version 1.0.2
+=============
+
+- Feature: custom lagging classes feature introduction
+- Fix: provides detailed explanation about the reset collection button
+- Feature: UI experience improvements
+
 Version 1.0.1
 =============
 
