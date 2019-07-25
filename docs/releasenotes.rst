@@ -1,6 +1,11 @@
 Release notes
 #############
 
+Version 1.0.3
+=============
+
+- Fix: better bootstrap buttons alignment
+
 Version 1.0.2
 =============
 
