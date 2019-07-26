@@ -1,6 +1,11 @@
 Release notes
 #############
 
+Version 1.0.4
+=============
+
+- Fix: case issue when hosts are seen in both lower and upper case, or a mix or them
+
 Version 1.0.3
 =============
 
