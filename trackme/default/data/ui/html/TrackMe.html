@@ -2577,7 +2577,7 @@ require([
             "refreshType": "delay",
             "refresh": "$refresh$",
             "latest_time": "now",
-            "search": "| `tstats` max(_time) as current_data_last_time_seen count as current_data_last_count_seen where index=* sourcetype=* `trackme_tstats_main_filter` `apply_data_source_blacklists_data_retrieve` by index, sourcetype | rename index as data_index, sourcetype as data_sourcetype | lookup trackme_data_source_monitoring data_index, data_sourcetype OUTPUT data_name | append [ | inputlookup trackme_data_source_monitoring | eval keyid=_key ] | stats first(*) as \"*\" by data_name, data_index, data_sourcetype | eval data_last_time_seen=if(isnotnull(current_data_last_time_seen), current_data_last_time_seen, data_last_time_seen) | eval current_data_last_count_seen=if(isnotnull(current_data_last_count_seen), current_data_last_count_seen, data_last_count_seen) | fields - current_* | eventstats max(data_last_time_seen) as data_last_time_seen_idx, min(data_last_lag_seen) as data_last_lag_seen_idx by data_index | `trackme_eval_data_source_state` | `trackme_date_format` | fillnull value=\"red\" data_source_state | sort 0 data_source | `trackme_eval_icons` | search $data_source_state$ | search $data_name$ $data_index$ $data_sourcetype$ $data_monitored_state$ | fields keyid, data_name, data_index, data_sourcetype, \"data_last_time_seen (translated)\", data_last_time_seen, \"data_last_time_seen_idx (translated)\", data_last_time_seen_idx, state, data_last_lag_seen, data_last_lag_seen_idx, data_max_lag_allowed, monitoring, data_monitored_state, data_monitoring_level, data_source_state, data_monitoring_wdays, data_override_lagging_class | `apply_data_source_blacklists` | rename \"data_last_time_seen (translated)\" as \"last time\", \"data_last_time_seen_idx (translated)\" as \"last time idx\"",
+            "search": "| `tstats` max(_indextime) as current_data_last_ingest, max(_time) as current_data_last_time_seen count as current_data_last_count_seen where index=* sourcetype=* `trackme_tstats_main_filter` `apply_data_source_blacklists_data_retrieve` by index, sourcetype | rename index as data_index, sourcetype as data_sourcetype | lookup trackme_data_source_monitoring data_index, data_sourcetype OUTPUT data_name | append [ | inputlookup trackme_data_source_monitoring | eval keyid=_key ] | stats first(*) as \"*\" by data_name, data_index, data_sourcetype | eval data_last_ingest=if(isnotnull(current_data_last_ingest), current_data_last_ingest, data_last_ingest), data_last_time_seen=if(isnotnull(current_data_last_time_seen), current_data_last_time_seen, data_last_time_seen) | eval current_data_last_count_seen=if(isnotnull(current_data_last_count_seen), current_data_last_count_seen, data_last_count_seen) | fields - current_* | eventstats max(data_last_time_seen) as data_last_time_seen_idx, min(data_last_lag_seen) as data_last_lag_seen_idx by data_index | `trackme_eval_data_source_state` | `trackme_date_format` | fillnull value=\"red\" data_source_state | sort 0 data_source | `trackme_eval_icons` | search $data_source_state$ | search $data_name$ $data_index$ $data_sourcetype$ $data_monitored_state$ | fields keyid, data_name, data_index, data_sourcetype, \"data_last_time_seen (translated)\", data_last_time_seen, \"data_last_ingest (translated)\", data_last_ingest, \"data_last_time_seen_idx (translated)\", data_last_time_seen_idx, state, data_last_lag_seen, data_last_lag_seen_idx, data_max_lag_allowed, monitoring, data_monitored_state, data_monitoring_level, data_source_state, data_monitoring_wdays, data_override_lagging_class | `apply_data_source_blacklists` | rename \"data_last_time_seen (translated)\" as \"last time\", \"data_last_ingest (translated)\" as \"last ingest\", \"data_last_time_seen_idx (translated)\" as \"last time idx\"",
             "status_buckets": 0,
             "app": utils.getCurrentApp(),
             "auto_cancel": 90,
@@ -2687,7 +2687,7 @@ require([
             "refreshType": "delay",
             "refresh": "$refresh$",
             "latest_time": "now",
-            "search": "| `tstats` max(_time) as current_data_last_time_seen count as current_data_last_count_seen values(sourcetype) as sourcetype where index=* sourcetype=* `trackme_tstats_main_filter` `apply_data_host_blacklists_data_retrieve` by index, host | stats max(current_data_last_time_seen) as current_data_last_time_seen, sum(current_data_last_count_seen) as current_data_last_count_seen, values(index) as index, values(sourcetype) as sourcetype by host | rename index as data_index, host as data_host, sourcetype as data_sourcetype | lookup trackme_host_monitoring data_host | append [ | inputlookup trackme_host_monitoring | eval keyid=_key ] | stats values(data_index) as data_index, values(data_sourcetype) as data_sourcetype, first(*) as \"*\" by data_host | eval data_last_time_seen=if(isnotnull(current_data_last_time_seen), current_data_last_time_seen, data_last_time_seen) | eval current_data_last_count_seen=if(isnotnull(current_data_last_count_seen), current_data_last_count_seen, data_last_count_seen) | fields - current_* | `trackme_eval_data_host_state` | `trackme_date_format` | fillnull value=\"red\" data_host_state | sort 0 data_host | `trackme_eval_icons_host` | search data_host=* | search data_host=* $data_monitored_state$ | fields keyid, data_host, data_index, data_sourcetype, \"data_last_time_seen (translated)\", data_last_time_seen, state, data_last_lag_seen, data_max_lag_allowed, monitoring, data_monitored_state, data_monitoring_wdays, data_host_state, data_override_lagging_class | `apply_data_host_blacklists` | search $data_host$ $data_host_state$ $data_monitored_state$ | rename \"data_last_time_seen (translated)\" as \"last time\" | eval data_index_raw=data_index, data_sourcetype_raw=data_sourcetype | makemv data_index delim=\",\" | makemv data_sourcetype delim=\",\"",
+            "search": "| `tstats` max(_indextime) as current_data_last_ingest, max(_time) as current_data_last_time_seen count as current_data_last_count_seen values(sourcetype) as sourcetype where index=* sourcetype=* `trackme_tstats_main_filter` `apply_data_host_blacklists_data_retrieve` by index, host | stats max(current_data_last_ingest) as current_data_last_ingest, max(current_data_last_time_seen) as current_data_last_time_seen, sum(current_data_last_count_seen) as current_data_last_count_seen, values(index) as index, values(sourcetype) as sourcetype by host | rename index as data_index, host as data_host, sourcetype as data_sourcetype | lookup trackme_host_monitoring data_host | append [ | inputlookup trackme_host_monitoring | eval keyid=_key ] | stats values(data_index) as data_index, values(data_sourcetype) as data_sourcetype, first(*) as \"*\" by data_host | eval data_last_ingest=if(isnotnull(current_data_last_ingest), current_data_last_ingest, data_last_ingest), data_last_time_seen=if(isnotnull(current_data_last_time_seen), current_data_last_time_seen, data_last_time_seen) | eval current_data_last_count_seen=if(isnotnull(current_data_last_count_seen), current_data_last_count_seen, data_last_count_seen) | fields - current_* | `trackme_eval_data_host_state` | `trackme_date_format` | fillnull value=\"red\" data_host_state | sort 0 data_host | `trackme_eval_icons_host` | search data_host=* | search data_host=* $data_monitored_state$ | fields keyid, data_host, data_index, data_sourcetype, \"data_last_ingest (translated)\", \"data_last_time_seen (translated)\", data_last_time_seen, state, data_last_lag_seen, data_max_lag_allowed, monitoring, data_monitored_state, data_monitoring_wdays, data_host_state, data_override_lagging_class | `apply_data_host_blacklists` | search $data_host$ $data_host_state$ $data_monitored_state$ | rename \"data_last_ingest (translated)\" as \"last ingest\", \"data_last_time_seen (translated)\" as \"last time\" | eval data_index_raw=data_index, data_sourcetype_raw=data_sourcetype | makemv data_index delim=\",\" | makemv data_sourcetype delim=\",\"",
             "status_buckets": 0,
             "app": utils.getCurrentApp(),
             "auto_cancel": 90,
@@ -4625,7 +4625,7 @@ require([
             "id": "elementMainTable",
             "count": 100,
             "drilldown": "row",
-            "fields": "data_name, data_index, data_sourcetype, \"last time\", state, data_last_lag_seen, \"last time idx\", data_last_lag_seen_idx, data_max_lag_allowed, monitoring, data_monitoring_level, data_monitoring_wdays",
+            "fields": "data_name, data_index, data_sourcetype, \"last time\", \"last ingest\", state, data_last_lag_seen, \"last time idx\", data_last_lag_seen_idx, data_max_lag_allowed, monitoring, data_monitoring_level, data_monitoring_wdays",
             "refresh.display": "none",
             "wrap": "false",
             "managerid": "searchMainTable",
@@ -4647,6 +4647,8 @@ require([
                 setToken("tk_data_last_lag_seen_idx", TokenUtils.replaceTokenNames("$row.data_last_lag_seen_idx$", _.extend(submittedTokenModel.toJSON(), e.data)));
                 setToken("tk_data_last_time_seen", TokenUtils.replaceTokenNames("$row.data_last_time_seen$", _.extend(submittedTokenModel.toJSON(), e.data)));
                 setToken("tk_data_last_time_seen_human", TokenUtils.replaceTokenNames("$row.last time$", _.extend(submittedTokenModel.toJSON(), e.data)));
+                setToken("tk_data_last_ingest", TokenUtils.replaceTokenNames("$row.data_last_ingest$", _.extend(submittedTokenModel.toJSON(), e.data)));
+                setToken("tk_data_last_ingest_human", TokenUtils.replaceTokenNames("$row.last ingest$", _.extend(submittedTokenModel.toJSON(), e.data)));
                 setToken("tk_data_last_time_seen_idx", TokenUtils.replaceTokenNames("$row.data_last_time_seen_idx$", _.extend(submittedTokenModel.toJSON(), e.data)));
                 setToken("tk_data_last_time_seen_idx_human", TokenUtils.replaceTokenNames("$row.data_last_time_seen_idx (translated)$", _.extend(submittedTokenModel.toJSON(), e.data)));
                 setToken("tk_data_max_lag_allowed", TokenUtils.replaceTokenNames("$row.data_max_lag_allowed$", _.extend(submittedTokenModel.toJSON(), e.data)));
@@ -4735,7 +4737,7 @@ require([
             "id": "elementMainTableHost",
             "count": 100,
             "drilldown": "row",
-            "fields": "data_host, data_index, data_sourcetype, \"last time\", state, data_last_lag_seen, data_max_lag_allowed, monitoring, data_monitoring_wdays",
+            "fields": "data_host, data_index, data_sourcetype, \"last time\", \"last ingest\", state, data_last_lag_seen, data_max_lag_allowed, monitoring, data_monitoring_wdays",
             "refresh.display": "none",
             "wrap": "false",
             "managerid": "searchMainTableHost",
@@ -4756,6 +4758,8 @@ require([
                 setToken("tk_data_last_lag_seen", TokenUtils.replaceTokenNames("$row.data_last_lag_seen$", _.extend(submittedTokenModel.toJSON(), e.data)));
                 setToken("tk_data_last_time_seen", TokenUtils.replaceTokenNames("$row.data_last_time_seen$", _.extend(submittedTokenModel.toJSON(), e.data)));
                 setToken("tk_data_last_time_seen_human", TokenUtils.replaceTokenNames("$row.last time$", _.extend(submittedTokenModel.toJSON(), e.data)));
+                setToken("tk_data_last_ingest", TokenUtils.replaceTokenNames("$row.data_last_ingest$", _.extend(submittedTokenModel.toJSON(), e.data)));
+                setToken("tk_data_last_ingest_human", TokenUtils.replaceTokenNames("$row.last ingest$", _.extend(submittedTokenModel.toJSON(), e.data)));
                 setToken("tk_data_max_lag_allowed", TokenUtils.replaceTokenNames("$row.data_max_lag_allowed$", _.extend(submittedTokenModel.toJSON(), e.data)));
                 setToken("tk_data_monitored_state", TokenUtils.replaceTokenNames("$row.data_monitored_state$", _.extend(submittedTokenModel.toJSON(), e.data)));
                 setToken("tk_data_monitoring_wdays", TokenUtils.replaceTokenNames("$row.data_monitoring_wdays$", _.extend(submittedTokenModel.toJSON(), e.data)));
@@ -6273,6 +6277,7 @@ require([
             var tk_data_sourcetype = tokens.get("tk_data_sourcetype");
             var tk_data_last_lag_seen = tokens.get("tk_data_last_lag_seen");
             var tk_data_last_time_seen = tokens.get("tk_data_last_time_seen");
+            var tk_data_last_ingest = tokens.get("tk_data_last_ingest");
             var tk_data_last_lag_seen_idx = tokens.get("tk_data_last_lag_seen_idx");
             var tk_data_last_time_seen_idx = tokens.get("tk_data_last_time_seen_idx");
             var tk_data_max_lag_allowed = tokens.get("tk_data_max_lag_allowed");
@@ -6292,6 +6297,7 @@ require([
                 "data_sourcetype": tk_data_sourcetype,
                 "data_last_lag_seen": tk_data_last_lag_seen,
                 "data_last_time_seen": tk_data_last_time_seen,
+                "data_last_ingest": tk_data_last_ingest,
                 "data_last_lag_seen_idx": tk_data_last_lag_seen_idx,
                 "data_last_time_seen_idx": tk_data_last_time_seen_idx,
                 "data_max_lag_allowed": tk_data_max_lag_allowed,
@@ -6338,7 +6344,7 @@ require([
                                 "change_type": "enable monitoring",
                                 "object": tk_data_name,
                                 "object_category": "data_source",
-                                "object_attrs": "enabled"
+                                "object_attrs": JSON.stringify(record),
                             };
                             $.ajax({
                                 url: auditendpoint_URl,
@@ -6407,6 +6413,7 @@ require([
             var tk_data_sourcetype = tokens.get("tk_data_sourcetype");
             var tk_data_last_lag_seen = tokens.get("tk_data_last_lag_seen");
             var tk_data_last_time_seen = tokens.get("tk_data_last_time_seen");
+            var tk_data_last_ingest = tokens.get("tk_data_last_ingest");
             var tk_data_max_lag_allowed = tokens.get("tk_data_max_lag_allowed");
             var tk_data_monitoring_wdays = tokens.get("tk_data_monitoring_wdays");
             var tk_data_override_lagging_class = tokens.get("tk_data_override_lagging_class");
@@ -6422,6 +6429,7 @@ require([
                 "data_sourcetype": tk_data_sourcetype,
                 "data_last_lag_seen": tk_data_last_lag_seen,
                 "data_last_time_seen": tk_data_last_time_seen,
+                "data_last_ingest": tk_data_last_ingest,
                 "data_max_lag_allowed": tk_data_max_lag_allowed,
                 "data_monitored_state": tk_data_monitored_state,
                 "data_monitoring_wdays": tk_data_monitoring_wdays,
@@ -6465,7 +6473,7 @@ require([
                                 "change_type": "enable monitoring",
                                 "object": tk_data_host,
                                 "object_category": "data_host",
-                                "object_attrs": "disabled"
+                                "object_attrs": JSON.stringify(record),
                             };
                             $.ajax({
                                 url: auditendpoint_URl,
@@ -6536,6 +6544,7 @@ require([
             var tk_data_sourcetype = tokens.get("tk_data_sourcetype");
             var tk_data_last_lag_seen = tokens.get("tk_data_last_lag_seen");
             var tk_data_last_time_seen = tokens.get("tk_data_last_time_seen");
+            var tk_data_last_ingest = tokens.get("tk_data_last_ingest");
             var tk_data_last_lag_seen_idx = tokens.get("tk_data_last_lag_seen_idx");
             var tk_data_last_time_seen_idx = tokens.get("tk_data_last_time_seen_idx");
             var tk_data_max_lag_allowed = tokens.get("tk_data_max_lag_allowed");
@@ -6554,6 +6563,7 @@ require([
                 "data_sourcetype": tk_data_sourcetype,
                 "data_last_lag_seen": tk_data_last_lag_seen,
                 "data_last_time_seen": tk_data_last_time_seen,
+                "data_last_ingest": tk_data_last_ingest,
                 "data_last_lag_seen_idx": tk_data_last_lag_seen_idx,
                 "data_last_time_seen_idx": tk_data_last_time_seen_idx,
                 "data_max_lag_allowed": tk_data_max_lag_allowed,
@@ -6669,6 +6679,7 @@ require([
             var tk_data_sourcetype = tokens.get("tk_data_sourcetype");
             var tk_data_last_lag_seen = tokens.get("tk_data_last_lag_seen");
             var tk_data_last_time_seen = tokens.get("tk_data_last_time_seen");
+            var tk_data_last_ingest = tokens.get("tk_data_last_ingest");
             var tk_data_max_lag_allowed = tokens.get("tk_data_max_lag_allowed");
             var tk_data_monitoring_wdays = tokens.get("tk_data_monitoring_wdays");
             var tk_data_override_lagging_class = tokens.get("tk_data_override_lagging_class");
@@ -6684,6 +6695,7 @@ require([
                 "data_sourcetype": tk_data_sourcetype,
                 "data_last_lag_seen": tk_data_last_lag_seen,
                 "data_last_time_seen": tk_data_last_time_seen,
+                "data_last_ingest": tk_data_last_ingest,
                 "data_max_lag_allowed": tk_data_max_lag_allowed,
                 "data_monitored_state": tk_data_monitored_state,
                 "data_monitoring_wdays": tk_data_monitoring_wdays,
@@ -10109,6 +10121,7 @@ require([
             var tk_data_sourcetype = tokens.get("tk_data_sourcetype");
             var tk_data_last_lag_seen = tokens.get("tk_data_last_lag_seen");
             var tk_data_last_time_seen = tokens.get("tk_data_last_time_seen");
+            var tk_data_last_ingest = tokens.get("tk_data_last_ingest");
             var tk_data_last_lag_seen_idx = tokens.get("tk_data_last_lag_seen_idx");
             var tk_data_last_time_seen_idx = tokens.get("tk_data_last_time_seen_idx");
             var tk_data_max_lag_allowed = tokens.get("tk_data_max_lag_allowed");
@@ -10138,6 +10151,7 @@ require([
                     "data_sourcetype": tk_data_sourcetype,
                     "data_last_lag_seen": tk_data_last_lag_seen,
                     "data_last_time_seen": tk_data_last_time_seen,
+                    "data_last_ingest": tk_data_last_ingest,
                     "data_last_lag_seen_idx": tk_data_last_lag_seen_idx,
                     "data_last_time_seen_idx": tk_data_last_time_seen_idx,
                     "data_max_lag_allowed": tk_data_max_lag_allowed,
@@ -10252,6 +10266,7 @@ require([
             var tk_data_sourcetype = tokens.get("tk_data_sourcetype");
             var tk_data_last_lag_seen = tokens.get("tk_data_last_lag_seen");
             var tk_data_last_time_seen = tokens.get("tk_data_last_time_seen");
+            var tk_data_last_ingest = tokens.get("tk_data_last_ingest");
             var tk_data_last_lag_seen_idx = tokens.get("tk_data_last_lag_seen_idx");
             var tk_data_last_time_seen_idx = tokens.get("tk_data_last_time_seen_idx");
             var tk_data_max_lag_allowed = tokens.get("tk_data_max_lag_allowed");
@@ -10281,6 +10296,7 @@ require([
                     "data_sourcetype": tk_data_sourcetype,
                     "data_last_lag_seen": tk_data_last_lag_seen,
                     "data_last_time_seen": tk_data_last_time_seen,
+                    "data_last_ingest": tk_data_last_ingest,
                     "data_last_lag_seen_idx": tk_data_last_lag_seen_idx,
                     "data_last_time_seen_idx": tk_data_last_time_seen_idx,
                     "data_max_lag_allowed": tk_data_max_lag_allowed,
@@ -10395,6 +10411,7 @@ require([
             var tk_data_sourcetype = tokens.get("tk_data_sourcetype");
             var tk_data_last_lag_seen = tokens.get("tk_data_last_lag_seen");
             var tk_data_last_time_seen = tokens.get("tk_data_last_time_seen");
+            var tk_data_last_ingest = tokens.get("tk_data_last_ingest");
             var tk_data_last_lag_seen_idx = tokens.get("tk_data_last_lag_seen_idx");
             var tk_data_last_time_seen_idx = tokens.get("tk_data_last_time_seen_idx");
             var tk_data_max_lag_allowed = tokens.get("tk_data_max_lag_allowed");
@@ -10424,6 +10441,7 @@ require([
                     "data_sourcetype": tk_data_sourcetype,
                     "data_last_lag_seen": tk_data_last_lag_seen,
                     "data_last_time_seen": tk_data_last_time_seen,
+                    "data_last_ingest": tk_data_last_ingest,
                     "data_last_lag_seen_idx": tk_data_last_lag_seen_idx,
                     "data_last_time_seen_idx": tk_data_last_time_seen_idx,
                     "data_max_lag_allowed": tk_data_max_lag_allowed,
@@ -10538,6 +10556,7 @@ require([
             var tk_data_sourcetype = tokens.get("tk_data_sourcetype");
             var tk_data_last_lag_seen = tokens.get("tk_data_last_lag_seen");
             var tk_data_last_time_seen = tokens.get("tk_data_last_time_seen");
+            var tk_data_last_ingest = tokens.get("tk_data_last_ingest");
             var tk_data_last_lag_seen_idx = tokens.get("tk_data_last_lag_seen_idx");
             var tk_data_last_time_seen_idx = tokens.get("tk_data_last_time_seen_idx");
             var tk_data_max_lag_allowed = tokens.get("tk_data_max_lag_allowed");
@@ -10568,6 +10587,7 @@ require([
                     "data_sourcetype": tk_data_sourcetype,
                     "data_last_lag_seen": tk_data_last_lag_seen,
                     "data_last_time_seen": tk_data_last_time_seen,
+                    "data_last_ingest": tk_data_last_ingest,
                     "data_last_lag_seen_idx": tk_data_last_lag_seen_idx,
                     "data_last_time_seen_idx": tk_data_last_time_seen_idx,
                     "data_max_lag_allowed": tk_data_max_lag_allowed,
@@ -10692,6 +10712,7 @@ require([
             var tk_data_sourcetype = tokens.get("tk_data_sourcetype");
             var tk_data_last_lag_seen = tokens.get("tk_data_last_lag_seen");
             var tk_data_last_time_seen = tokens.get("tk_data_last_time_seen");
+            var tk_data_last_ingest = tokens.get("tk_data_last_ingest");
             var tk_data_max_lag_allowed = tokens.get("tk_data_max_lag_allowed");
             var tk_data_monitoring_wdays = tokens.get("tk_data_monitoring_wdays");
             var tk_data_monitored_state = tokens.get("tk_data_monitored_state");
@@ -10718,6 +10739,7 @@ require([
                     "data_sourcetype": tk_data_sourcetype,
                     "data_last_lag_seen": tk_data_last_lag_seen,
                     "data_last_time_seen": tk_data_last_time_seen,
+                    "data_last_ingest": tk_data_last_ingest,
                     "data_max_lag_allowed": tk_data_max_lag_allowed,
                     "data_monitored_state": tk_data_monitored_state,
                     "data_monitoring_wdays": tk_data_monitoring_wdays,
@@ -10825,6 +10847,7 @@ require([
             var tk_data_sourcetype = tokens.get("tk_data_sourcetype");
             var tk_data_last_lag_seen = tokens.get("tk_data_last_lag_seen");
             var tk_data_last_time_seen = tokens.get("tk_data_last_time_seen");
+            var tk_data_last_ingest = tokens.get("tk_data_last_ingest");
             var tk_data_max_lag_allowed = tokens.get("tk_data_max_lag_allowed");
             var tk_data_monitoring_wdays = tokens.get("tk_data_monitoring_wdays");
             var tk_data_monitored_state = tokens.get("tk_data_monitored_state");
@@ -10851,6 +10874,7 @@ require([
                     "data_sourcetype": tk_data_sourcetype,
                     "data_last_lag_seen": tk_data_last_lag_seen,
                     "data_last_time_seen": tk_data_last_time_seen,
+                    "data_last_ingest": tk_data_last_ingest,
                     "data_max_lag_allowed": tk_data_max_lag_allowed,
                     "data_monitored_state": tk_data_monitored_state,
                     "data_monitoring_wdays": tk_data_monitoring_wdays_no,
@@ -10960,6 +10984,7 @@ require([
             var tk_data_sourcetype = tokens.get("tk_data_sourcetype");
             var tk_data_last_lag_seen = tokens.get("tk_data_last_lag_seen");
             var tk_data_last_time_seen = tokens.get("tk_data_last_time_seen");
+            var tk_data_last_ingest = tokens.get("tk_data_last_ingest");
             var tk_data_max_lag_allowed = tokens.get("tk_data_max_lag_allowed");
             var tk_data_monitoring_wdays = tokens.get("tk_data_monitoring_wdays");
             var tk_data_monitored_state = tokens.get("tk_data_monitored_state");
@@ -10987,6 +11012,7 @@ require([
                     "data_sourcetype": tk_data_sourcetype,
                     "data_last_lag_seen": tk_data_last_lag_seen,
                     "data_last_time_seen": tk_data_last_time_seen,
+                    "data_last_ingest": tk_data_last_ingest,
                     "data_max_lag_allowed": tk_data_max_lag_allowed,
                     "data_monitored_state": tk_data_monitored_state,
                     "data_monitoring_wdays": tk_data_monitoring_wdays,
