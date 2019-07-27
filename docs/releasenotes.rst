@@ -1,6 +1,12 @@
 Release notes
 #############
 
+Version 1.0.5
+=============
+
+- Feature: Implementation of audit changes
+- Feature: Unify blacklist buttons in main modal
+
 Version 1.0.4
 =============
 

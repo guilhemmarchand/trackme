@@ -969,7 +969,7 @@ styles in <div> tags, similar to Bootstrap's grid system.
 
                 </div>
                 <div class="modal-footer">
-                    <button type="submit" class="btn btn-default btn-default pull-left" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Cancel</button>
+                    <button type="submit" id="btn_modal_data_source_blacklist_host_add_cancel" class="btn btn-default btn-default pull-left" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Cancel</button>
                 </div>
             </div>
         </div>
@@ -1061,7 +1061,7 @@ styles in <div> tags, similar to Bootstrap's grid system.
 
                 </div>
                 <div class="modal-footer">
-                    <button type="submit" class="btn btn-default btn-default pull-left" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Cancel</button>
+                    <button type="submit" id="btn_modal_data_source_blacklist_index_add_cancel" class="btn btn-default btn-default pull-left" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Cancel</button>
                 </div>
             </div>
         </div>
@@ -1153,7 +1153,7 @@ styles in <div> tags, similar to Bootstrap's grid system.
 
                 </div>
                 <div class="modal-footer">
-                    <button type="submit" class="btn btn-default btn-default pull-left" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Cancel</button>
+                    <button type="submit" id="btn_modal_data_source_blacklist_sourcetype_add_cancel" class="btn btn-default btn-default pull-left" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Cancel</button>
                 </div>
             </div>
         </div>
@@ -1239,7 +1239,7 @@ styles in <div> tags, similar to Bootstrap's grid system.
 
                 </div>
                 <div class="modal-footer">
-                    <button type="submit" class="btn btn-default btn-default pull-left" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Cancel</button>
+                    <button type="submit" id="btn_modal_data_host_blacklist_host_add_cancel" class="btn btn-default btn-default pull-left" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Cancel</button>
                 </div>
             </div>
         </div>
@@ -1648,6 +1648,80 @@ styles in <div> tags, similar to Bootstrap's grid system.
 
     <!-- blacklist -->
 
+    <!-- Modal main -->
+    <div id="main_modal_manage_data_source_blacklists" class="dashboard-element html" style="width: 100%">
+        <div class="panel-body html">
+            <div class="modal custom-modal-50 fade" id="modal_manage_data_source_blacklists" role="dialog">
+                <div class="modal-dialog">
+                    <!-- Modal content-->
+                    <div class="modal-content">
+                        <!-- This is required to get the token subsitutions without affecting the buttons actions in js -->
+                        <div class="dashboard-element html" id="body_modal_manage_data_source_blacklists">
+                            <div class="panel-body html">
+                                <div class="modal-header">
+                                    <h3>Manage blacklist for: <span style="color: steelblue">data sources</span></h3>
+                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                </div>
+                                <div class="modal-body" style="display:grid;">
+                                    <b>Use these features to blacklist hosts, indexes or sourcetypes at data discovery and search time.</b>
+                                    <br />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <div class="btn_modify_data_source_blacklist_host custom-btn">
+                                <button type="submit" style="margin-right: 15px;" class="btn btn-default btn-primary" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Manage: blacklist hosts</button>
+                            </div>
+                            <div class="btn_modify_data_source_blacklist_index custom-btn">
+                                <button type="submit" style="margin-right: 15px;" class="btn btn-default btn-primary" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Manage: blacklist indexes</button>
+                            </div>
+                            <div class="btn_modify_data_source_blacklist_sourcetype custom-btn">
+                                <button type="submit" style="margin-right: 15px;" class="btn btn-default btn-primary" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Manage: blacklist sourcetypes</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal main -->
+    <div id="main_modal_manage_data_host_blacklists" class="dashboard-element html" style="width: 100%">
+        <div class="panel-body html">
+            <div class="modal custom-modal-50 fade" id="modal_manage_data_host_blacklists" role="dialog">
+                <div class="modal-dialog">
+                    <!-- Modal content-->
+                    <div class="modal-content">
+                        <!-- This is required to get the token subsitutions without affecting the buttons actions in js -->
+                        <div class="dashboard-element html" id="body_modal_manage_data_host_blacklists">
+                            <div class="panel-body html">
+                                <div class="modal-header">
+                                    <h3>Manage blacklist for: <span style="color: steelblue">data hosts</span></h3>
+                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                </div>
+                                <div class="modal-body" style="display:grid;">
+                                    <b>Use these features to blacklist hosts, indexes or sourcetypes at data discovery and search time.</b>
+                                    <br />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <div class="btn_modify_data_host_blacklist_host custom-btn">
+                                <button type="submit" style="margin-right: 15px;" class="btn btn-default btn-primary" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Manage: blacklist hosts</button>
+                            </div>
+                            <div class="btn_modify_data_host_blacklist_index custom-btn">
+                                <button type="submit" style="margin-right: 15px;" class="btn btn-default btn-primary" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Manage: blacklist indexes</button>
+                            </div>
+                            <div class="btn_modify_data_host_blacklist_sourcetype custom-btn">
+                                <button type="submit" style="margin-right: 15px;" class="btn btn-default btn-primary" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Manage: blacklist sourcetypes</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Modal drilldown context for Blacklist -->
     <div id="main_modal_manage_data_host_blacklist_index" class="dashboard-element html" style="width: 100%">
         <div class="panel-body html">
@@ -1800,7 +1874,7 @@ styles in <div> tags, similar to Bootstrap's grid system.
 
                 </div>
                 <div class="modal-footer">
-                    <button type="submit" class="btn btn-default btn-default pull-left" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Cancel</button>
+                    <button type="submit" id="btn_modal_data_host_blacklist_index_add_cancel" class="btn btn-default btn-default pull-left" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Cancel</button>
                 </div>
             </div>
         </div>
@@ -1892,7 +1966,7 @@ styles in <div> tags, similar to Bootstrap's grid system.
 
                 </div>
                 <div class="modal-footer">
-                    <button type="submit" class="btn btn-default btn-default pull-left" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Cancel</button>
+                    <button type="submit" id="btn_modal_data_host_blacklist_sourcetype_add_cancel" class="btn btn-default btn-default pull-left" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Cancel</button>
                 </div>
             </div>
         </div>
@@ -2110,17 +2184,8 @@ styles in <div> tags, similar to Bootstrap's grid system.
                     <div id="elementBtns" class="dashboard-element html" style="width: 100%">
                         <div class="panel-body html">
                             <div>
-                                <div class="btn_modify_data_source_blacklist_host custom-btn">
-                                    <button type="submit" style="margin-right: 15px;" class="btn btn-default btn-primary" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Manage: blacklist hosts</button>
-                                </div>
-                                <div class="btn_modify_data_source_blacklist_index custom-btn">
-                                    <button type="submit" style="margin-right: 15px;" class="btn btn-default btn-primary" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Manage: blacklist indexes</button>
-                                </div>
-                                <div class="btn_modify_data_source_blacklist_sourcetype custom-btn">
-                                    <button type="submit" style="margin-right: 15px;" class="btn btn-default btn-primary" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Manage: blacklist sourcetypes</button>
-                                </div>
-                                <div class="btn_modify_custom_lagging custom-btn">
-                                    <button type="submit" style="margin-right: 15px;" class="btn btn-default btn-primary" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Manage: define lagging classes</button>
+                                <div class="custom-btn">
+                                    <button type="submit" id="btn_modify_data_source_blacklist_main" style="margin-right: 15px;" class="btn btn-default btn-primary" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Manage: blacklists sources</button>
                                 </div>
                                 <div class="custom-btn">
                                     <button type="submit" id="btn_run_tracker" style="margin-right: 15px;" class="btn btn-default btn-primary"><span class="glyphicon glyphicon-remove"></span> Manage: run short term tracker now</button>
@@ -2169,14 +2234,8 @@ styles in <div> tags, similar to Bootstrap's grid system.
                     <div id="elementBtnsHosts" class="dashboard-element html" style="width: 100%">
                         <div class="panel-body html">
                             <div>
-                                <div class="btn_modify_data_host_blacklist_host custom-btn">
-                                    <button type="submit" style="margin-right: 15px;" class="btn btn-default btn-primary" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Manage: blacklist hosts</button>
-                                </div>
-                                <div class="btn_modify_data_host_blacklist_index custom-btn">
-                                    <button type="submit" style="margin-right: 15px;" class="btn btn-default btn-primary" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Manage: blacklist indexes</button>
-                                </div>
-                                <div class="btn_modify_data_host_blacklist_sourcetype custom-btn">
-                                    <button type="submit" style="margin-right: 15px;" class="btn btn-default btn-primary" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Manage: blacklist sourcetypes</button>
+                                <div class="custom-btn">
+                                    <button type="submit" id="btn_modify_data_host_blacklist_main" style="margin-right: 15px;" class="btn btn-default btn-primary" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Manage: blacklists sources</button>
                                 </div>
                                 <div class="btn_modify_custom_lagging custom-btn">
                                     <button type="submit" style="margin-right: 15px;" class="btn btn-default btn-primary" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Manage: define lagging classes</button>
@@ -2213,6 +2272,83 @@ styles in <div> tags, similar to Bootstrap's grid system.
                 <div class="panel-element-row">
 
                     <div id="elementMainTableHost" class="dashboard-element table" style="width: 100%">
+                        <div class="panel-body"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="rowAuditChangesTop" class="dashboard-row dashboard-row1" data-original-id="rowAuditChangesTop" data-depends="$show_audit_changes$">
+        <div id="panelAuditChangesTop1" class="dashboard-cell" style="width: 33.33%;">
+            <div class="dashboard-panel clearfix">
+
+                <div class="panel-element-row">
+                    <div id="chartAuditChangesTopAction" class="dashboard-element chart" style="width: 100%">
+                        <div class="panel-head">
+                            <h3>TOP Actions</h3>
+                        </div>
+                        <div class="panel-body"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="panelAuditChangesTop2" class="dashboard-cell" style="width: 33.33%;">
+            <div class="dashboard-panel clearfix">
+
+                <div class="panel-element-row">
+                    <div id="chartAuditChangesTopUser" class="dashboard-element chart" style="width: 100%">
+                        <div class="panel-head">
+                            <h3>TOP Users</h3>
+                        </div>
+                        <div class="panel-body"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="panelAuditChangesTop3" class="dashboard-cell" style="width: 33.33%;">
+            <div class="dashboard-panel clearfix">
+
+                <div class="panel-element-row">
+                    <div id="chartAuditChangesTopChangeType" class="dashboard-element chart" style="width: 100%">
+                        <div class="panel-head">
+                            <h3>TOP Change Types</h3>
+                        </div>
+                        <div class="panel-body"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="rowAuditChangesFilters" class="dashboard-row dashboard-AuditChangesFilters" data-depends="$show_audit_changes$">
+        <div id="panelAuditChangesFilters" class="dashboard-cell" style="width: 100%;">
+            <div class="dashboard-panel clearfix">
+                <h2 class="panel-title">Search for audit changes:</h2>
+                <div class="fieldset">
+                    <div class="input input-dropdown" id="inputAuditChangesAction">
+                        <label>action:</label>
+                    </div>
+                    <div class="input input-dropdown" id="inputAuditChangesObjectCategory">
+                        <label>object_category:</label>
+                    </div>
+                    <div class="input input-dropdown" id="inputAuditChangesChangeType">
+                        <label>change_type:</label>
+                    </div>
+                    <div class="input input-dropdown" id="inputAuditChangesUser">
+                        <label>user:</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="rowAuditChangesTable" class="dashboard-row dashboard-rowDataSourcesTable" data-depends="$show_audit_changes$">
+        <div id="panelAuditChangesTable" class="dashboard-cell" style="width: 100%;">
+            <div class="dashboard-panel clearfix">
+                <div class="panel-element-row">
+
+                    <div id="elementMainTableAuditChanges" class="dashboard-element table" style="width: 100%">
                         <div class="panel-body"></div>
                     </div>
                 </div>
@@ -2444,6 +2580,93 @@ require([
             tokens: true,
             tokenNamespace: "submitted"
         });
+
+        // Audit Changes
+        var searchMainAuditChanges = new SearchManager({
+            "id": "searchMainAuditChanges",
+            "earliest_time": "-15m",
+            "cancelOnUnload": true,
+            "sample_ratio": null,
+            "refreshType": "delay",
+            "refresh": "$refresh$",
+            "latest_time": "now",
+            "search": "| inputlookup trackme_audit_changes | sort limit=0 - time | eval _time=time/1000 | fields - time | search $audit_changes_action$ $audit_changes_object_category$ $audit_changes_change_type$ $audit_changes_user$ | table _time user action change_type object_category object object_attrs *",
+            "status_buckets": 0,
+            "app": utils.getCurrentApp(),
+            "auto_cancel": 90,
+            "preview": true,
+            "tokenDependencies": {
+                "depends": "$show_audit_changes$"
+            },
+            "runWhenTimeIsUndefined": false
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        });
+
+        var searchAuditChangesAction = new PostProcessManager({
+            "tokenDependencies": {},
+            "search": "stats count by action | sort limit=0 action",
+            "managerid": "searchMainAuditChanges",
+            "id": "searchAuditChangesAction"
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        });
+
+        var searchAuditChangesObjectCategory = new PostProcessManager({
+            "tokenDependencies": {},
+            "search": "stats count by object_category | sort limit=0 object_category",
+            "managerid": "searchMainAuditChanges",
+            "id": "searchAuditChangesObjectCategory"
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        });
+
+        var searchAuditChangesChangeType = new PostProcessManager({
+            "tokenDependencies": {},
+            "search": "stats count by change_type | sort limit=0 change_type",
+            "managerid": "searchMainAuditChanges",
+            "id": "searchAuditChangesChangeType"
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        });
+
+        var searchAuditChangesUser = new PostProcessManager({
+            "tokenDependencies": {},
+            "search": "stats count by user | sort limit=0 user",
+            "managerid": "searchMainAuditChanges",
+            "id": "searchAuditChangesUser"
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        });
+
+        var searchAuditChangesTopAction = new PostProcessManager({
+            "tokenDependencies": {
+            },
+            "search": "top action",
+            "managerid": "searchMainAuditChanges",
+            "id": "searchAuditChangesTopAction"
+        }, {tokens: true, tokenNamespace: "submitted"});
+
+        var searchAuditChangesTopUser = new PostProcessManager({
+            "tokenDependencies": {
+            },
+            "search": "top user",
+            "managerid": "searchMainAuditChanges",
+            "id": "searchAuditChangesTopUser"
+        }, {tokens: true, tokenNamespace: "submitted"});
+
+        var searchAuditChangesTopChangeType = new PostProcessManager({
+            "tokenDependencies": {
+            },
+            "search": "top change_type",
+            "managerid": "searchMainAuditChanges",
+            "id": "searchAuditChangesTopChangeType"
+        }, {tokens: true, tokenNamespace: "submitted"});
 
         // hosts monitoring
         var searchMainTableHost = new SearchManager({
@@ -4455,6 +4678,47 @@ require([
             }
         });
 
+        // Audit Changes
+        var elementMainTableAuditChanges = new TableElement({
+            "id": "elementMainTableAuditChanges",
+            "count": 100,
+            "drilldown": "none",
+            "refresh.display": "none",
+            "wrap": "false",
+            "managerid": "searchMainAuditChanges",
+            "el": $('#elementMainTableAuditChanges')
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        }).render();
+
+        var chartAuditChangesTopAction = new ChartElement({
+            "id": "chartAuditChangesTopAction",
+            "charting.chart": "pie",
+            "charting.drilldown": "all",
+            "resizable": true,
+            "managerid": "searchAuditChangesTopAction",
+            "el": $('#chartAuditChangesTopAction')
+        }, {tokens: true, tokenNamespace: "submitted"}).render();
+
+        var chartAuditChangesTopUser = new ChartElement({
+            "id": "chartAuditChangesUser",
+            "charting.chart": "pie",
+            "charting.drilldown": "all",
+            "resizable": true,
+            "managerid": "searchAuditChangesTopUser",
+            "el": $('#chartAuditChangesTopUser')
+        }, {tokens: true, tokenNamespace: "submitted"}).render();
+
+        var chartAuditChangesTopChangeType = new ChartElement({
+            "id": "chartAuditChangesTopChangeType",
+            "charting.chart": "pie",
+            "charting.drilldown": "all",
+            "resizable": true,
+            "managerid": "searchAuditChangesTopChangeType",
+            "el": $('#chartAuditChangesTopChangeType')
+        }, {tokens: true, tokenNamespace: "submitted"}).render();
+
         // data host monitoring
 
         var elementMainTableHost = new TableElement({
@@ -5460,7 +5724,8 @@ require([
             "id": "link1",
             "choices": [
                 {"value": "show_data_source_tracker", "label": "DATA SOURCES AVAILABILITY TRACKING"},
-                {"value": "show_host_tracker", "label": "DATA HOSTS AVAILABILITY TRACKING"}
+                {"value": "show_host_tracker", "label": "DATA HOSTS AVAILABILITY TRACKING"},
+                {"value": "show_audit_changes", "label": "INVESTIGATE AUDIT CHANGES"}
             ],
             "default": "show_data_source_tracker",
             "selectFirstChoice": false,
@@ -5477,9 +5742,15 @@ require([
             if (e.value === "show_data_source_tracker") {
                 EventHandler.setToken("show_data_source_tracker", "true", {}, e.data);
                 EventHandler.unsetToken("show_host_tracker");
+                EventHandler.unsetToken("show_audit_changes");
             } else if (e.value === "show_host_tracker") {
                 EventHandler.setToken("show_host_tracker", "true", {}, e.data);
                 EventHandler.unsetToken("show_data_source_tracker");
+                EventHandler.unsetToken("show_audit_changes");
+            } else if (e.value === "show_audit_changes") {
+                EventHandler.setToken("show_audit_changes", "true", {}, e.data);
+                EventHandler.unsetToken("show_data_source_tracker");
+                EventHandler.unsetToken("show_host_tracker");
             }
         });
 
@@ -5500,6 +5771,117 @@ require([
         input1.on("change", function(newValue) {
             FormUtils.handleValueChange(input1);
         });
+
+        // Audit Changes
+        var inputAuditChangesAction = new DropdownInput({
+            "id": "inputAuditChangesAction",
+            "tokenDependencies": {"depends": "$show_audit_changes$"},
+            "choices": [{
+                "label": "ANY",
+                "value": "*"
+            }],
+            "searchWhenChanged": true,
+            "default": "*",
+            "showClearButton": true,
+            "labelField": "action",
+            "prefix": "action=\"",
+            "suffix": "\"",
+            "initialValue": "*",
+            "selectFirstChoice": false,
+            "valueField": "action",
+            "value": "$form.audit_changes_action$",
+            "managerid": "searchAuditChangesAction",
+            "el": $('#inputAuditChangesAction')
+        }, {
+            tokens: true
+        }).render();
+
+        inputAuditChangesAction.on("change", function(newValue) {
+            FormUtils.handleValueChange(inputAuditChangesAction);
+        });
+
+        var inputAuditChangesObjectCategory = new DropdownInput({
+            "id": "inputAuditChangesObjectCategory",
+            "tokenDependencies": {"depends": "$show_audit_changes$"},
+            "choices": [{
+                "label": "ANY",
+                "value": "*"
+            }],
+            "searchWhenChanged": true,
+            "default": "*",
+            "showClearButton": true,
+            "labelField": "object_category",
+            "prefix": "object_category=\"",
+            "suffix": "\"",
+            "initialValue": "*",
+            "selectFirstChoice": false,
+            "valueField": "object_category",
+            "value": "$form.audit_changes_object_category$",
+            "managerid": "searchAuditChangesObjectCategory",
+            "el": $('#inputAuditChangesObjectCategory')
+        }, {
+            tokens: true
+        }).render();
+
+        inputAuditChangesObjectCategory.on("change", function(newValue) {
+            FormUtils.handleValueChange(inputAuditChangesObjectCategory);
+        });
+
+        var inputAuditChangesChangeType = new DropdownInput({
+            "id": "inputAuditChangesChangeType",
+            "tokenDependencies": {"depends": "$show_audit_changes$"},
+            "choices": [{
+                "label": "ANY",
+                "value": "*"
+            }],
+            "searchWhenChanged": true,
+            "default": "*",
+            "showClearButton": true,
+            "labelField": "change_type",
+            "prefix": "change_type=\"",
+            "suffix": "\"",
+            "initialValue": "*",
+            "selectFirstChoice": false,
+            "valueField": "change_type",
+            "value": "$form.audit_changes_change_type$",
+            "managerid": "searchAuditChangesChangeType",
+            "el": $('#inputAuditChangesChangeType')
+        }, {
+            tokens: true
+        }).render();
+
+        inputAuditChangesChangeType.on("change", function(newValue) {
+            FormUtils.handleValueChange(inputAuditChangesChangeType);
+        });
+
+        var inputAuditChangesUser = new DropdownInput({
+            "id": "inputAuditChangesUser",
+            "tokenDependencies": {"depends": "$show_audit_changes$"},
+            "choices": [{
+                "label": "ANY",
+                "value": "*"
+            }],
+            "searchWhenChanged": true,
+            "default": "*",
+            "showClearButton": true,
+            "labelField": "user",
+            "prefix": "user=\"",
+            "suffix": "\"",
+            "initialValue": "*",
+            "selectFirstChoice": false,
+            "valueField": "user",
+            "value": "$form.audit_changes_user$",
+            "managerid": "searchAuditChangesUser",
+            "el": $('#inputAuditChangesUser')
+        }, {
+            tokens: true
+        }).render();
+
+        inputAuditChangesUser.on("change", function(newValue) {
+            FormUtils.handleValueChange(inputAuditChangesUser);
+        });
+
+        //
 
         var inputDataName = new DropdownInput({
             "id": "inputDataName",
@@ -5826,6 +6208,12 @@ require([
         // BEGIN OPERATIONS
         //
 
+        // Audit changes
+        var tokens = mvc.Components.get("default");
+        var currentUser=Splunk.util.getConfigValue("USERNAME");
+        tokens.set("currentUser", currentUser);
+        var auditendpoint_URl = "/en-US/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_audit_changes/"
+
         //
         // Verify if data collection is empty or ready
         //
@@ -5930,9 +6318,58 @@ require([
                             searchSingleDataSource2.startSearch();
                             searchSingleDataSource3.startSearch();
                             searchMainTable.startSearch();
+
+                            // Audit success change
+                            var time = (new Date).getTime();
+                            var audit_record = {
+                                "time": time,
+                                "action": "success",
+                                "user": currentUser,
+                                "change_type": "enable monitoring",
+                                "object": tk_data_name,
+                                "object_category": "data_source",
+                                "object_attrs": "enabled"
+                            };
+                            $.ajax({
+                                url: auditendpoint_URl,
+                                type: "POST",
+                                async: true,
+                                contentType: "application/json",
+                                data: JSON.stringify(audit_record),
+                                success: function(returneddata) {
+                                    //console.log("Updated!", returneddata)
+                                    // Run the search again to update the table
+                                }
+                            });
+
                         },
                         error: function(xhr, textStatus, error) {
                             message = "Error Updating!" + xhr + textStatus + error;
+
+                            // Audit failed change
+                            var time = (new Date).getTime();
+                            var audit_record = {
+                                "time": time,
+                                "action": "failure",
+                                "user": currentUser,
+                                "change_type": "enable monitoring",
+                                "object": tk_data_name,
+                                "object_category": "data_source",
+                                "object_attrs": JSON.stringify(record),
+                                "result": message
+                            };
+                            $.ajax({
+                                url: auditendpoint_URl,
+                                type: "POST",
+                                async: true,
+                                contentType: "application/json",
+                                data: JSON.stringify(audit_record),
+                                success: function(returneddata) {
+                                    //console.log("Updated!", returneddata)
+                                    // Run the search again to update the table
+                                }
+                            });
+
                             $("#modal_update_collection_failure_return").find('.modal-error-message p').text(message);
                             $("#modal_update_collection_failure_return").modal()
                         }
@@ -6008,9 +6445,58 @@ require([
                             searchSingleDataHost1.startSearch();
                             searchSingleDataHost2.startSearch();
                             searchSingleDataHost3.startSearch();
+
+                             // Audit success change
+                            var time = (new Date).getTime();
+                            var audit_record = {
+                                "time": time,
+                                "action": "success",
+                                "user": currentUser,
+                                "change_type": "enable monitoring",
+                                "object": tk_data_host,
+                                "object_category": "data_host",
+                                "object_attrs": "disabled"
+                            };
+                            $.ajax({
+                                url: auditendpoint_URl,
+                                type: "POST",
+                                async: true,
+                                contentType: "application/json",
+                                data: JSON.stringify(audit_record),
+                                success: function(returneddata) {
+                                    //console.log("Updated!", returneddata)
+                                    // Run the search again to update the table
+                                }
+                            });
+
                         },
                         error: function(xhr, textStatus, error) {
                             message = "Error Updating!" + xhr + textStatus + error;
+
+                            // Audit failure change
+                            var time = (new Date).getTime();
+                            var audit_record = {
+                                "time": time,
+                                "action": "failure",
+                                "user": currentUser,
+                                "change_type": "disable monitoring",
+                                "object": tk_data_host,
+                                "object_category": "data_host",
+                                "object_attrs": JSON.stringify(record),
+                                "result": message
+                            };
+                            $.ajax({
+                                url: auditendpoint_URl,
+                                type: "POST",
+                                async: true,
+                                contentType: "application/json",
+                                data: JSON.stringify(audit_record),
+                                success: function(returneddata) {
+                                    //console.log("Updated!", returneddata)
+                                    // Run the search again to update the table
+                                }
+                            });
+
                             $("#modal_update_collection_failure_return").find('.modal-error-message p').text(message);
                             $("#modal_update_collection_failure_return").modal()
                         }
@@ -6094,9 +6580,58 @@ require([
                             searchSingleDataSource2.startSearch();
                             searchSingleDataSource3.startSearch();
                             searchMainTable.startSearch();
+
+                            // Audit success change
+                            var time = (new Date).getTime();
+                            var audit_record = {
+                                "time": time,
+                                "action": "success",
+                                "user": currentUser,
+                                "change_type": "disable monitoring",
+                                "object": tk_data_name,
+                                "object_category": "data_source",
+                                "object_attrs": JSON.stringify(record)
+                            };
+                            $.ajax({
+                                url: auditendpoint_URl,
+                                type: "POST",
+                                async: true,
+                                contentType: "application/json",
+                                data: JSON.stringify(audit_record),
+                                success: function(returneddata) {
+                                    //console.log("Updated!", returneddata)
+                                    // Run the search again to update the table
+                                }
+                            });
+
                         },
                         error: function(xhr, textStatus, error) {
                             message = "Error Updating!" + xhr + textStatus + error;
+
+                            // Audit failure change
+                            var time = (new Date).getTime();
+                            var audit_record = {
+                                "time": time,
+                                "action": "failure",
+                                "user": currentUser,
+                                "change_type": "disable monitoring",
+                                "object": tk_data_name,
+                                "object_category": "data_source",
+                                "object_attrs": JSON.stringify(record),
+                                "result": message
+                            };
+                            $.ajax({
+                                url: auditendpoint_URl,
+                                type: "POST",
+                                async: true,
+                                contentType: "application/json",
+                                data: JSON.stringify(audit_record),
+                                success: function(returneddata) {
+                                    //console.log("Updated!", returneddata)
+                                    // Run the search again to update the table
+                                }
+                            });
+
                             $("#modal_update_collection_failure_return").find('.modal-error-message p').text(message);
                             $("#modal_update_collection_failure_return").modal()
                         }
@@ -6168,9 +6703,58 @@ require([
                             //console.log("Updated!", returneddata)
                             // Run the search again to update the table
                             searchMainTableHost.startSearch();
+
+                            // Audit success change
+                            var time = (new Date).getTime();
+                            var audit_record = {
+                                "time": time,
+                                "action": "success",
+                                "user": currentUser,
+                                "change_type": "disable monitoring",
+                                "object": tk_data_host,
+                                "object_category": "data_host",
+                                "object_attrs": JSON.stringify(record)
+                            };
+                            $.ajax({
+                                url: auditendpoint_URl,
+                                type: "POST",
+                                async: true,
+                                contentType: "application/json",
+                                data: JSON.stringify(audit_record),
+                                success: function(returneddata) {
+                                    //console.log("Updated!", returneddata)
+                                    // Run the search again to update the table
+                                }
+                            });
+
                         },
                         error: function(xhr, textStatus, error) {
                             message = "Error Updating!" + xhr + textStatus + error;
+
+                            // Audit failure change
+                            var time = (new Date).getTime();
+                            var audit_record = {
+                                "time": time,
+                                "action": "failure",
+                                "user": currentUser,
+                                "change_type": "disable monitoring",
+                                "object": tk_data_host,
+                                "object_category": "data_host",
+                                "object_attrs": JSON.stringify(record),
+                                "result": message
+                            };
+                            $.ajax({
+                                url: auditendpoint_URl,
+                                type: "POST",
+                                async: true,
+                                contentType: "application/json",
+                                data: JSON.stringify(audit_record),
+                                success: function(returneddata) {
+                                    //console.log("Updated!", returneddata)
+                                    // Run the search again to update the table
+                                }
+                            });
+
                             $("#modal_update_collection_failure_return").find('.modal-error-message p').text(message);
                             $("#modal_update_collection_failure_return").modal()
                         }
@@ -6201,6 +6785,9 @@ require([
             // When the Submit button is clicked, get all the form fields by accessing token values
             var tk_keyid = tokens.get("tk_keyid");
 
+            // Get data name
+            var tk_data_name = tokens.get("tk_data_name");
+
             // Create the endpoint URL
             var myendpoint_URl = "/en-US/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_data_source_monitoring/" + tk_keyid;
 
@@ -6226,6 +6813,29 @@ require([
                             searchSingleDataSource3.startSearch();
                             searchMainTable.startSearch();
 
+                            // Audit success change
+                            var time = (new Date).getTime();
+                            var audit_record = {
+                                "time": time,
+                                "action": "success",
+                                "user": currentUser,
+                                "change_type": "delete",
+                                "object": tk_data_name,
+                                "object_category": "data_source",
+                                "object_attrs": ""
+                            };
+                            $.ajax({
+                                url: auditendpoint_URl,
+                                type: "POST",
+                                async: true,
+                                contentType: "application/json",
+                                data: JSON.stringify(audit_record),
+                                success: function(returneddata) {
+                                    //console.log("Updated!", returneddata)
+                                    // Run the search again to update the table
+                                }
+                            });
+
                             // house cleaning
                             myendpoint_URl = undefined;
                             delete(myendpoint_URl);
@@ -6235,6 +6845,31 @@ require([
                         },
                         error: function(xhr, textStatus, error) {
                             message = "Error Updating!" + xhr + textStatus + error;
+
+                            // Audit failure change
+                            var time = (new Date).getTime();
+                            var audit_record = {
+                                "time": time,
+                                "action": "failure",
+                                "user": currentUser,
+                                "change_type": "delete",
+                                "object": tk_data_name,
+                                "object_category": "data_source",
+                                "object_attrs": "",
+                                "result": message
+                            };
+                            $.ajax({
+                                url: auditendpoint_URl,
+                                type: "POST",
+                                async: true,
+                                contentType: "application/json",
+                                data: JSON.stringify(audit_record),
+                                success: function(returneddata) {
+                                    //console.log("Updated!", returneddata)
+                                    // Run the search again to update the table
+                                }
+                            });
+
                             $("#modal_update_collection_failure_return").find('.modal-error-message p').text(message);
                             $("#modal_update_collection_failure_return").modal()
                         }
@@ -6259,6 +6894,9 @@ require([
 
             // When the Submit button is clicked, get all the form fields by accessing token values
             var tk_keyid = tokens.get("tk_keyid");
+
+            // Get data host
+            var tk_data_host = tokens.get("tk_data_host");
 
             // Create the endpoint URL
             var myendpoint_URl = "/en-US/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_host_monitoring/" + tk_keyid;
@@ -6285,6 +6923,29 @@ require([
                             searchSingleDataHost3.startSearch();
                             searchMainTableHost.startSearch();
 
+                            // Audit success change
+                            var time = (new Date).getTime();
+                            var audit_record = {
+                                "time": time,
+                                "action": "success",
+                                "user": currentUser,
+                                "change_type": "delete",
+                                "object": tk_data_host,
+                                "object_category": "data_host",
+                                "object_attrs": ""
+                            };
+                            $.ajax({
+                                url: auditendpoint_URl,
+                                type: "POST",
+                                async: true,
+                                contentType: "application/json",
+                                data: JSON.stringify(audit_record),
+                                success: function(returneddata) {
+                                    //console.log("Updated!", returneddata)
+                                    // Run the search again to update the table
+                                }
+                            });
+
                             // house cleaning
                             myendpoint_URl = undefined;
                             delete(myendpoint_URl);
@@ -6294,6 +6955,31 @@ require([
                         },
                         error: function(xhr, textStatus, error) {
                             message = "Error Updating!" + xhr + textStatus + error;
+
+                            // Audit failure change
+                            var time = (new Date).getTime();
+                            var audit_record = {
+                                "time": time,
+                                "action": "failure",
+                                "user": currentUser,
+                                "change_type": "delete",
+                                "object": tk_data_name,
+                                "object_category": "data_source",
+                                "object_attrs": "",
+                                "result": message
+                            };
+                            $.ajax({
+                                url: auditendpoint_URl,
+                                type: "POST",
+                                async: true,
+                                contentType: "application/json",
+                                data: JSON.stringify(audit_record),
+                                success: function(returneddata) {
+                                    //console.log("Updated!", returneddata)
+                                    // Run the search again to update the table
+                                }
+                            });
+
                             $("#modal_update_collection_failure_return").find('.modal-error-message p').text(message);
                             $("#modal_update_collection_failure_return").modal()
                         }
@@ -6342,6 +7028,31 @@ require([
                     searchParams,
                     function(err, job) {
 
+                        function audit_failure() {
+                            // Audit failure change
+                            var time = (new Date).getTime();
+                            var audit_record = {
+                                "time": time,
+                                "action": "failure",
+                                "user": currentUser,
+                                "change_type": "create lagging class",
+                                "object": tk_input_custom_lagging_name,
+                                "object_category": "lagging_class",
+                                "object_attrs": "type:" + tk_input_custom_lagging_type + ", name:" + tk_input_custom_lagging_name + ", value:" + tk_input_custom_lagging_value
+                            };
+                            $.ajax({
+                                url: auditendpoint_URl,
+                                type: "POST",
+                                async: true,
+                                contentType: "application/json",
+                                data: JSON.stringify(audit_record),
+                                success: function(returneddata) {
+                                    //console.log("Updated!", returneddata)
+                                    // Run the search again to update the table
+                                }
+                            });
+                        }
+
                         // Shall the search fail before we can get properties
                         if (job == null) {
                             let errorStr = "Unknown Error!";
@@ -6350,6 +7061,7 @@ require([
                             } else if (err && err.data && err.data.messages) {
                                 errorStr = JSON.stringify(err.data.messages);
                             }
+                            audit_failure();
                             $("#modal_update_collection_failure_return").find('.modal-error-message p').text(errorStr);
                             $("#modal_update_collection_failure_return").modal()
                         } else {
@@ -6362,6 +7074,29 @@ require([
                                     // Once the job is done, update all searches
                                     searchCustomLagging.startSearch();
 
+                                    // Audit success change
+                                    var time = (new Date).getTime();
+                                    var audit_record = {
+                                        "time": time,
+                                        "action": "success",
+                                        "user": currentUser,
+                                        "change_type": "create lagging class",
+                                        "object": tk_input_custom_lagging_name,
+                                        "object_category": "lagging_class",
+                                        "object_attrs": "type:" + tk_input_custom_lagging_type + ", name:" + tk_input_custom_lagging_name + ", value:" + tk_input_custom_lagging_value
+                                    };
+                                    $.ajax({
+                                        url: auditendpoint_URl,
+                                        type: "POST",
+                                        async: true,
+                                        contentType: "application/json",
+                                        data: JSON.stringify(audit_record),
+                                        success: function(returneddata) {
+                                            //console.log("Updated!", returneddata)
+                                            // Run the search again to update the table
+                                        }
+                                    });
+
                                     $("#modify_custom_lagging").modal();
                                 },
                                 failed: function(properties) {
@@ -6371,11 +7106,13 @@ require([
                                     } else if (properties && properties._properties && properties._properties.messages) {
                                         errorStr = JSON.stringify(properties._properties.messages);
                                     }
+                                    audit_failure();
                                     $("#modal_update_collection_failure_return").find('.modal-error-message p').text(errorStr);
                                     $("#modal_update_collection_failure_return").modal()
                                 },
                                 error: function(err) {
                                     done(err);
+                                    audit_failure();
                                     $("#modal_update_collection_failure_flush").modal()
                                 }
                             });
@@ -6397,7 +7134,7 @@ require([
 
         });
 
-        // delete entry from blacklist
+        // delete lagging class
 
         $("#btn_delete_custom_lagging").click(function() {
 
@@ -6413,6 +7150,11 @@ require([
 
             // Create the endpoint URL
             var myendpoint_URl = "/en-US/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_custom_lagging_definition/" + tk_keyid;
+
+            // Get tokens
+            var tk_input_custom_lagging_type = tokens.get("tk_input_custom_lagging_type");
+            var tk_input_custom_lagging_name = tokens.get("tk_input_custom_lagging_name");
+            var tk_input_custom_lagging_value = tokens.get("tk_input_custom_lagging_value");
 
             //console.log("Endpoint URL is: " + myendpoint_URl);
 
@@ -6432,6 +7174,29 @@ require([
                         // Run the search again to update the table
                         searchCustomLagging.startSearch();
 
+                        // Audit success change
+                        var time = (new Date).getTime();
+                        var audit_record = {
+                            "time": time,
+                            "action": "success",
+                            "user": currentUser,
+                            "change_type": "delete lagging class",
+                            "object": tk_input_custom_lagging_name,
+                            "object_category": "lagging_class",
+                            "object_attrs": "type:" + tk_input_custom_lagging_type + ", name:" + tk_input_custom_lagging_name + ", value:" + tk_input_custom_lagging_value
+                        };
+                        $.ajax({
+                            url: auditendpoint_URl,
+                            type: "POST",
+                            async: true,
+                            contentType: "application/json",
+                            data: JSON.stringify(audit_record),
+                            success: function(returneddata) {
+                                //console.log("Updated!", returneddata)
+                                // Run the search again to update the table
+                            }
+                        });
+
                         // house cleaning
                         myendpoint_URl = undefined;
                         delete(myendpoint_URl);
@@ -6443,6 +7208,30 @@ require([
                     },
                     error: function(xhr, textStatus, error) {
                         message = "Error Updating!" + xhr + textStatus + error;
+
+                        // Audit failure change
+                        var time = (new Date).getTime();
+                        var audit_record = {
+                            "time": time,
+                            "action": "failure",
+                            "user": currentUser,
+                            "change_type": "delete lagging class",
+                            "object": tk_input_custom_lagging_name,
+                            "object_category": "lagging_class",
+                            "object_attrs": "type:" + tk_input_custom_lagging_type + ", name:" + tk_input_custom_lagging_name + ", value:" + tk_input_custom_lagging_value
+                        };
+                        $.ajax({
+                            url: auditendpoint_URl,
+                            type: "POST",
+                            async: true,
+                            contentType: "application/json",
+                            data: JSON.stringify(audit_record),
+                            success: function(returneddata) {
+                                //console.log("Updated!", returneddata)
+                                // Run the search again to update the table
+                            }
+                        });
+
                         // Hide main modal
                         $("#modify_custom_lagging").modal('hide');
                         $("#manage_custom_lagging").modal('hide');
@@ -6494,6 +7283,33 @@ require([
                     searchParams,
                     function(err, job) {
 
+                        function audit_failure() {
+
+                            // Audit failure change
+                            var time = (new Date).getTime();
+                            var audit_record = {
+                                "time": time,
+                                "action": "failure",
+                                "user": currentUser,
+                                "change_type": "add blacklist host",
+                                "object": tk_input_blacklist_host,
+                                "object_category": "data_source",
+                                "object_attrs": "host:" + tk_input_blacklist_host
+                            };
+                            $.ajax({
+                                url: auditendpoint_URl,
+                                type: "POST",
+                                async: true,
+                                contentType: "application/json",
+                                data: JSON.stringify(audit_record),
+                                success: function(returneddata) {
+                                    //console.log("Updated!", returneddata)
+                                    // Run the search again to update the table
+                                }
+                            });
+
+                        }
+
                         // Shall the search fail before we can get properties
                         if (job == null) {
                             let errorStr = "Unknown Error!";
@@ -6502,6 +7318,7 @@ require([
                             } else if (err && err.data && err.data.messages) {
                                 errorStr = JSON.stringify(err.data.messages);
                             }
+                            audit_failure();
                             $("#modal_update_collection_failure_return").find('.modal-error-message p').text(errorStr);
                             $("#modal_update_collection_failure_return").modal()
                         } else {
@@ -6519,11 +7336,29 @@ require([
                                     searchSingleDataSource2.startSearch();
                                     searchSingleDataSource3.startSearch();
                                     searchMainTable.startSearch();
-                                    searchMainTableHost.startSearch();
-                                    baseSearchDataHost.startSearch();
-                                    searchSingleDataHost1.startSearch();
-                                    searchSingleDataHost2.startSearch();
-                                    searchSingleDataHost3.startSearch();
+
+                                    // Audit success change
+                                    var time = (new Date).getTime();
+                                    var audit_record = {
+                                        "time": time,
+                                        "action": "success",
+                                        "user": currentUser,
+                                        "change_type": "add blacklist host",
+                                        "object": tk_input_blacklist_host,
+                                        "object_category": "data_source",
+                                        "object_attrs": "host:" + tk_input_blacklist_host
+                                    };
+                                    $.ajax({
+                                        url: auditendpoint_URl,
+                                        type: "POST",
+                                        async: true,
+                                        contentType: "application/json",
+                                        data: JSON.stringify(audit_record),
+                                        success: function(returneddata) {
+                                            //console.log("Updated!", returneddata)
+                                            // Run the search again to update the table
+                                        }
+                                    });
 
                                     $("#modal_modify_data_source_blacklist_host").modal();
                                 },
@@ -6534,11 +7369,13 @@ require([
                                     } else if (properties && properties._properties && properties._properties.messages) {
                                         errorStr = JSON.stringify(properties._properties.messages);
                                     }
+                                    audit_failure();
                                     $("#modal_update_collection_failure_return").find('.modal-error-message p').text(errorStr);
                                     $("#modal_update_collection_failure_return").modal()
                                 },
                                 error: function(err) {
                                     done(err);
+                                    audit_failure();
                                     $("#modal_update_collection_failure_flush").modal()
                                 }
                             });
@@ -6574,6 +7411,9 @@ require([
             // When the Submit button is clicked, get all the form fields by accessing token values
             var tk_keyid = tokens.get("tk_keyid");
 
+            // Get
+            var tk_data_host = tokens.get("tk_data_host");
+
             // Create the endpoint URL
             var myendpoint_URl = "/en-US/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_data_source_monitoring_blacklist_host/" + tk_keyid;
 
@@ -6600,11 +7440,29 @@ require([
                         searchSingleDataSource2.startSearch();
                         searchSingleDataSource3.startSearch();
                         searchMainTable.startSearch();
-                        searchMainTableHost.startSearch();
-                        baseSearchDataHost.startSearch();
-                        searchSingleDataHost1.startSearch();
-                        searchSingleDataHost2.startSearch();
-                        searchSingleDataHost3.startSearch();
+
+                        // Audit success change
+                        var time = (new Date).getTime();
+                        var audit_record = {
+                            "time": time,
+                            "action": "success",
+                            "user": currentUser,
+                            "change_type": "delete blacklist host",
+                            "object": tk_data_host,
+                            "object_category": "data_source",
+                            "object_attrs": "host:" + tk_data_host
+                        };
+                        $.ajax({
+                            url: auditendpoint_URl,
+                            type: "POST",
+                            async: true,
+                            contentType: "application/json",
+                            data: JSON.stringify(audit_record),
+                            success: function(returneddata) {
+                                //console.log("Updated!", returneddata)
+                                // Run the search again to update the table
+                            }
+                        });
 
                         // house cleaning
                         myendpoint_URl = undefined;
@@ -6617,6 +7475,31 @@ require([
                     },
                     error: function(xhr, textStatus, error) {
                         message = "Error Updating!" + xhr + textStatus + error;
+
+                        // Audit failure change
+                        var time = (new Date).getTime();
+                        var audit_record = {
+                            "time": time,
+                            "action": "failure",
+                            "user": currentUser,
+                            "change_type": "delete blacklist host",
+                            "object": tk_data_host,
+                            "object_category": "data_source",
+                            "object_attrs": "host:" + tk_data_host,
+                            "result": message
+                        };
+                        $.ajax({
+                            url: auditendpoint_URl,
+                            type: "POST",
+                            async: true,
+                            contentType: "application/json",
+                            data: JSON.stringify(audit_record),
+                            success: function(returneddata) {
+                                //console.log("Updated!", returneddata)
+                                // Run the search again to update the table
+                            }
+                        });
+
                         // Hide main modal
                         $("#modal_manage_data_source_blacklist_host").modal('hide');
                         $("#modal_modify_data_source_blacklist_host").modal('hide');
@@ -6664,6 +7547,33 @@ require([
                     searchParams,
                     function(err, job) {
 
+                        function audit_failure() {
+
+                            // Audit failure change
+                            var time = (new Date).getTime();
+                            var audit_record = {
+                                "time": time,
+                                "action": "failure",
+                                "user": currentUser,
+                                "change_type": "add blacklist host",
+                                "object": tk_input_blacklist_host,
+                                "object_category": "data_host",
+                                "object_attrs": "host:" + tk_input_blacklist_host
+                            };
+                            $.ajax({
+                                url: auditendpoint_URl,
+                                type: "POST",
+                                async: true,
+                                contentType: "application/json",
+                                data: JSON.stringify(audit_record),
+                                success: function(returneddata) {
+                                    //console.log("Updated!", returneddata)
+                                    // Run the search again to update the table
+                                }
+                            });
+
+                        }
+
                         // Shall the search fail before we can get properties
                         if (job == null) {
                             let errorStr = "Unknown Error!";
@@ -6672,6 +7582,7 @@ require([
                             } else if (err && err.data && err.data.messages) {
                                 errorStr = JSON.stringify(err.data.messages);
                             }
+                            audit_failure();
                             $("#modal_update_collection_failure_return").find('.modal-error-message p').text(errorStr);
                             $("#modal_update_collection_failure_return").modal()
                         } else {
@@ -6690,6 +7601,29 @@ require([
                                     searchSingleDataHost2.startSearch();
                                     searchSingleDataHost3.startSearch();
 
+                                    // Audit success change
+                                    var time = (new Date).getTime();
+                                    var audit_record = {
+                                        "time": time,
+                                        "action": "success",
+                                        "user": currentUser,
+                                        "change_type": "add blacklist host",
+                                        "object": tk_input_blacklist_host,
+                                        "object_category": "data_host",
+                                        "object_attrs": "host:" + tk_input_blacklist_host
+                                    };
+                                    $.ajax({
+                                        url: auditendpoint_URl,
+                                        type: "POST",
+                                        async: true,
+                                        contentType: "application/json",
+                                        data: JSON.stringify(audit_record),
+                                        success: function(returneddata) {
+                                            //console.log("Updated!", returneddata)
+                                            // Run the search again to update the table
+                                        }
+                                    });
+
                                     $("#modal_modify_data_host_blacklist_host").modal();
                                 },
                                 failed: function(properties) {
@@ -6699,11 +7633,13 @@ require([
                                     } else if (properties && properties._properties && properties._properties.messages) {
                                         errorStr = JSON.stringify(properties._properties.messages);
                                     }
+                                    audit_failure();
                                     $("#modal_update_collection_failure_return").find('.modal-error-message p').text(errorStr);
                                     $("#modal_update_collection_failure_return").modal()
                                 },
                                 error: function(err) {
                                     done(err);
+                                    audit_failure();
                                     $("#modal_update_collection_failure_flush").modal()
                                 }
                             });
@@ -6739,6 +7675,9 @@ require([
             // When the Submit button is clicked, get all the form fields by accessing token values
             var tk_keyid = tokens.get("tk_keyid");
 
+            // Get
+            var tk_data_host = tokens.get("tk_data_host");
+
             // Create the endpoint URL
             var myendpoint_URl = "/en-US/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_data_host_monitoring_blacklist_host/" + tk_keyid;
 
@@ -6766,6 +7705,29 @@ require([
                         searchSingleDataHost2.startSearch();
                         searchSingleDataHost3.startSearch();
 
+                        // Audit success change
+                        var time = (new Date).getTime();
+                        var audit_record = {
+                            "time": time,
+                            "action": "success",
+                            "user": currentUser,
+                            "change_type": "delete blacklist host",
+                            "object": tk_data_host,
+                            "object_category": "data_host",
+                            "object_attrs": "host:" + tk_data_host
+                        };
+                        $.ajax({
+                            url: auditendpoint_URl,
+                            type: "POST",
+                            async: true,
+                            contentType: "application/json",
+                            data: JSON.stringify(audit_record),
+                            success: function(returneddata) {
+                                //console.log("Updated!", returneddata)
+                                // Run the search again to update the table
+                            }
+                        });
+
                         // house cleaning
                         myendpoint_URl = undefined;
                         delete(myendpoint_URl);
@@ -6777,6 +7739,31 @@ require([
                     },
                     error: function(xhr, textStatus, error) {
                         message = "Error Updating!" + xhr + textStatus + error;
+
+                        // Audit failure change
+                        var time = (new Date).getTime();
+                        var audit_record = {
+                            "time": time,
+                            "action": "failure",
+                            "user": currentUser,
+                            "change_type": "delete blacklist host",
+                            "object": tk_data_host,
+                            "object_category": "data_host",
+                            "object_attrs": "host:" + tk_data_host,
+                            "result": message
+                        };
+                        $.ajax({
+                            url: auditendpoint_URl,
+                            type: "POST",
+                            async: true,
+                            contentType: "application/json",
+                            data: JSON.stringify(audit_record),
+                            success: function(returneddata) {
+                                //console.log("Updated!", returneddata)
+                                // Run the search again to update the table
+                            }
+                        });
+
                         // Hide main modal
                         $("#modal_manage_data_host_blacklist_host").modal('hide');
                         $("#modal_modify_data_host_blacklist_host").modal('hide');
@@ -6826,6 +7813,31 @@ require([
                     searchParams,
                     function(err, job) {
 
+                        function audit_failure() {
+                            // Audit failure change
+                            var time = (new Date).getTime();
+                            var audit_record = {
+                                "time": time,
+                                "action": "failure",
+                                "user": currentUser,
+                                "change_type": "add blacklist index",
+                                "object": tk_input_blacklist_index,
+                                "object_category": "data_source",
+                                "object_attrs": "index:" + tk_input_blacklist_index
+                            };
+                            $.ajax({
+                                url: auditendpoint_URl,
+                                type: "POST",
+                                async: true,
+                                contentType: "application/json",
+                                data: JSON.stringify(audit_record),
+                                success: function(returneddata) {
+                                    //console.log("Updated!", returneddata)
+                                    // Run the search again to update the table
+                                }
+                            });
+                        }
+
                         // Shall the search fail before we can get properties
                         if (job == null) {
                             let errorStr = "Unknown Error!";
@@ -6834,6 +7846,7 @@ require([
                             } else if (err && err.data && err.data.messages) {
                                 errorStr = JSON.stringify(err.data.messages);
                             }
+                            audit_failure();
                             $("#modal_update_collection_failure_return").find('.modal-error-message p').text(errorStr);
                             $("#modal_update_collection_failure_return").modal()
                         } else {
@@ -6852,6 +7865,29 @@ require([
                                     searchSingleDataSource3.startSearch();
                                     searchMainTable.startSearch();
 
+                                    // Audit success change
+                                    var time = (new Date).getTime();
+                                    var audit_record = {
+                                        "time": time,
+                                        "action": "success",
+                                        "user": currentUser,
+                                        "change_type": "add blacklist index",
+                                        "object": tk_input_blacklist_index,
+                                        "object_category": "data_source",
+                                        "object_attrs": "index:" + tk_input_blacklist_index
+                                    };
+                                    $.ajax({
+                                        url: auditendpoint_URl,
+                                        type: "POST",
+                                        async: true,
+                                        contentType: "application/json",
+                                        data: JSON.stringify(audit_record),
+                                        success: function(returneddata) {
+                                            //console.log("Updated!", returneddata)
+                                            // Run the search again to update the table
+                                        }
+                                    });
+
                                     $("#modal_modify_data_source_blacklist_index").modal();
                                 },
                                 failed: function(properties) {
@@ -6861,11 +7897,13 @@ require([
                                     } else if (properties && properties._properties && properties._properties.messages) {
                                         errorStr = JSON.stringify(properties._properties.messages);
                                     }
+                                    audit_failure();
                                     $("#modal_update_collection_failure_return").find('.modal-error-message p').text(errorStr);
                                     $("#modal_update_collection_failure_return").modal()
                                 },
                                 error: function(err) {
                                     done(err);
+                                    audit_failure();
                                     $("#modal_update_collection_failure_flush").modal()
                                 }
                             });
@@ -6901,6 +7939,9 @@ require([
             // When the Submit button is clicked, get all the form fields by accessing token values
             var tk_keyid = tokens.get("tk_keyid");
 
+            // Get
+            var tk_data_index = tokens.get("tk_data_index");
+
             // Create the endpoint URL
             var myendpoint_URl = "/en-US/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_data_source_monitoring_blacklist_index/" + tk_keyid;
 
@@ -6927,11 +7968,29 @@ require([
                         searchSingleDataSource2.startSearch();
                         searchSingleDataSource3.startSearch();
                         searchMainTable.startSearch();
-                        searchMainTableHost.startSearch();
-                        baseSearchDataHost.startSearch();
-                        searchSingleDataHost1.startSearch();
-                        searchSingleDataHost2.startSearch();
-                        searchSingleDataHost3.startSearch();
+
+                        // Audit success change
+                        var time = (new Date).getTime();
+                        var audit_record = {
+                            "time": time,
+                            "action": "success",
+                            "user": currentUser,
+                            "change_type": "delete blacklist index",
+                            "object": tk_data_index,
+                            "object_category": "data_source",
+                            "object_attrs": "index:" + tk_data_index
+                        };
+                        $.ajax({
+                            url: auditendpoint_URl,
+                            type: "POST",
+                            async: true,
+                            contentType: "application/json",
+                            data: JSON.stringify(audit_record),
+                            success: function(returneddata) {
+                                //console.log("Updated!", returneddata)
+                                // Run the search again to update the table
+                            }
+                        });
 
                         // house cleaning
                         myendpoint_URl = undefined;
@@ -6944,6 +8003,31 @@ require([
                     },
                     error: function(xhr, textStatus, error) {
                         message = "Error Updating!" + xhr + textStatus + error;
+
+                        // Audit failure change
+                        var time = (new Date).getTime();
+                        var audit_record = {
+                            "time": time,
+                            "action": "failure",
+                            "user": currentUser,
+                            "change_type": "delete blacklist index",
+                            "object": tk_data_index,
+                            "object_category": "data_source",
+                            "object_attrs": "index:" + tk_data_index,
+                            "result": message
+                        };
+                        $.ajax({
+                            url: auditendpoint_URl,
+                            type: "POST",
+                            async: true,
+                            contentType: "application/json",
+                            data: JSON.stringify(audit_record),
+                            success: function(returneddata) {
+                                //console.log("Updated!", returneddata)
+                                // Run the search again to update the table
+                            }
+                        });
+
                         // Hide main modal
                         $("#modal_manage_data_source_blacklist_index").modal('hide');
                         $("#modal_modify_data_source_blacklist_index").modal('hide');
@@ -6991,6 +8075,31 @@ require([
                     searchParams,
                     function(err, job) {
 
+                        function audit_failure() {
+                            // Audit failure change
+                            var time = (new Date).getTime();
+                            var audit_record = {
+                                "time": time,
+                                "action": "failure",
+                                "user": currentUser,
+                                "change_type": "add blacklist index",
+                                "object": tk_input_blacklist_index,
+                                "object_category": "data_host",
+                                "object_attrs": "index:" + tk_input_blacklist_index
+                            };
+                            $.ajax({
+                                url: auditendpoint_URl,
+                                type: "POST",
+                                async: true,
+                                contentType: "application/json",
+                                data: JSON.stringify(audit_record),
+                                success: function(returneddata) {
+                                    //console.log("Updated!", returneddata)
+                                    // Run the search again to update the table
+                                }
+                            });
+                        }
+
                         // Shall the search fail before we can get properties
                         if (job == null) {
                             let errorStr = "Unknown Error!";
@@ -6999,6 +8108,7 @@ require([
                             } else if (err && err.data && err.data.messages) {
                                 errorStr = JSON.stringify(err.data.messages);
                             }
+                            audit_failure();
                             $("#modal_update_collection_failure_return").find('.modal-error-message p').text(errorStr);
                             $("#modal_update_collection_failure_return").modal()
                         } else {
@@ -7017,6 +8127,29 @@ require([
                                     searchSingleDataHost3.startSearch();
                                     searchMainTableHost.startSearch();
 
+                                    // Audit success change
+                                    var time = (new Date).getTime();
+                                    var audit_record = {
+                                        "time": time,
+                                        "action": "success",
+                                        "user": currentUser,
+                                        "change_type": "add blacklist index",
+                                        "object": tk_input_blacklist_index,
+                                        "object_category": "data_host",
+                                        "object_attrs": "index:" + tk_input_blacklist_index
+                                    };
+                                    $.ajax({
+                                        url: auditendpoint_URl,
+                                        type: "POST",
+                                        async: true,
+                                        contentType: "application/json",
+                                        data: JSON.stringify(audit_record),
+                                        success: function(returneddata) {
+                                            //console.log("Updated!", returneddata)
+                                            // Run the search again to update the table
+                                        }
+                                    });
+
                                     $("#modal_modify_data_host_blacklist_index").modal();
                                 },
                                 failed: function(properties) {
@@ -7026,11 +8159,13 @@ require([
                                     } else if (properties && properties._properties && properties._properties.messages) {
                                         errorStr = JSON.stringify(properties._properties.messages);
                                     }
+                                    audit_failure();
                                     $("#modal_update_collection_failure_return").find('.modal-error-message p').text(errorStr);
                                     $("#modal_update_collection_failure_return").modal()
                                 },
                                 error: function(err) {
                                     done(err);
+                                    audit_failure();
                                     $("#modal_update_collection_failure_flush").modal()
                                 }
                             });
@@ -7066,6 +8201,9 @@ require([
             // When the Submit button is clicked, get all the form fields by accessing token values
             var tk_keyid = tokens.get("tk_keyid");
 
+            // When the Submit button is clicked, get all the form fields by accessing token values
+            var tk_data_index = tokens.get("tk_data_index");
+
             // Create the endpoint URL
             var myendpoint_URl = "/en-US/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_data_host_monitoring_blacklist_index/" + tk_keyid;
 
@@ -7093,6 +8231,29 @@ require([
                         searchSingleDataHost2.startSearch();
                         searchSingleDataHost3.startSearch();
 
+                        // Audit success change
+                        var time = (new Date).getTime();
+                        var audit_record = {
+                            "time": time,
+                            "action": "success",
+                            "user": currentUser,
+                            "change_type": "delete blacklist index",
+                            "object": tk_data_index,
+                            "object_category": "data_host",
+                            "object_attrs": "index:" + tk_data_index
+                        };
+                        $.ajax({
+                            url: auditendpoint_URl,
+                            type: "POST",
+                            async: true,
+                            contentType: "application/json",
+                            data: JSON.stringify(audit_record),
+                            success: function(returneddata) {
+                                //console.log("Updated!", returneddata)
+                                // Run the search again to update the table
+                            }
+                        });
+
                         // house cleaning
                         myendpoint_URl = undefined;
                         delete(myendpoint_URl);
@@ -7104,6 +8265,31 @@ require([
                     },
                     error: function(xhr, textStatus, error) {
                         message = "Error Updating!" + xhr + textStatus + error;
+
+                        // Audit failure change
+                        var time = (new Date).getTime();
+                        var audit_record = {
+                            "time": time,
+                            "action": "failure",
+                            "user": currentUser,
+                            "change_type": "delete blacklist index",
+                            "object": tk_data_index,
+                            "object_category": "data_source",
+                            "object_attrs": "index:" + tk_data_index,
+                            "result": message
+                        };
+                        $.ajax({
+                            url: auditendpoint_URl,
+                            type: "POST",
+                            async: true,
+                            contentType: "application/json",
+                            data: JSON.stringify(audit_record),
+                            success: function(returneddata) {
+                                //console.log("Updated!", returneddata)
+                                // Run the search again to update the table
+                            }
+                        });
+
                         // Hide main modal
                         $("#modal_manage_data_host_blacklist_index").modal('hide');
                         $("#modal_modify_data_host_blacklist_index").modal('hide');
@@ -7151,6 +8337,31 @@ require([
                     searchParams,
                     function(err, job) {
 
+                        function audit_failure() {
+                            // Audit failure change
+                            var time = (new Date).getTime();
+                            var audit_record = {
+                                "time": time,
+                                "action": "failure",
+                                "user": currentUser,
+                                "change_type": "add blacklist sourcetype",
+                                "object": tk_input_blacklist_sourcetype,
+                                "object_category": "data_source",
+                                "object_attrs": "sourcetype:" + tk_input_blacklist_sourcetype
+                            };
+                            $.ajax({
+                                url: auditendpoint_URl,
+                                type: "POST",
+                                async: true,
+                                contentType: "application/json",
+                                data: JSON.stringify(audit_record),
+                                success: function(returneddata) {
+                                    //console.log("Updated!", returneddata)
+                                    // Run the search again to update the table
+                                }
+                            });
+                        }
+
                         // Shall the search fail before we can get properties
                         if (job == null) {
                             let errorStr = "Unknown Error!";
@@ -7159,6 +8370,7 @@ require([
                             } else if (err && err.data && err.data.messages) {
                                 errorStr = JSON.stringify(err.data.messages);
                             }
+                            audit_failure();
                             $("#modal_update_collection_failure_return").find('.modal-error-message p').text(errorStr);
                             $("#modal_update_collection_failure_return").modal()
                         } else {
@@ -7177,6 +8389,29 @@ require([
                                     searchSingleDataSource3.startSearch();
                                     searchMainTable.startSearch();
 
+                                    // Audit success change
+                                    var time = (new Date).getTime();
+                                    var audit_record = {
+                                        "time": time,
+                                        "action": "success",
+                                        "user": currentUser,
+                                        "change_type": "add blacklist sourcetype",
+                                        "object": tk_input_blacklist_sourcetype,
+                                        "object_category": "data_source",
+                                        "object_attrs": "sourcetype:" + tk_input_blacklist_sourcetype
+                                    };
+                                    $.ajax({
+                                        url: auditendpoint_URl,
+                                        type: "POST",
+                                        async: true,
+                                        contentType: "application/json",
+                                        data: JSON.stringify(audit_record),
+                                        success: function(returneddata) {
+                                            //console.log("Updated!", returneddata)
+                                            // Run the search again to update the table
+                                        }
+                                    });
+
                                     $("#modal_modify_data_source_blacklist_sourcetype").modal();
                                 },
                                 failed: function(properties) {
@@ -7186,11 +8421,13 @@ require([
                                     } else if (properties && properties._properties && properties._properties.messages) {
                                         errorStr = JSON.stringify(properties._properties.messages);
                                     }
+                                    audit_failure();
                                     $("#modal_update_collection_failure_return").find('.modal-error-message p').text(errorStr);
                                     $("#modal_update_collection_failure_return").modal()
                                 },
                                 error: function(err) {
                                     done(err);
+                                    audit_failure();
                                     $("#modal_update_collection_failure_flush").modal()
                                 }
                             });
@@ -7226,6 +8463,9 @@ require([
             // When the Submit button is clicked, get all the form fields by accessing token values
             var tk_keyid = tokens.get("tk_keyid");
 
+            // Get
+            var tk_data_sourcetype = tokens.get("tk_data_sourcetype");
+
             // Create the endpoint URL
             var myendpoint_URl = "/en-US/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_data_source_monitoring_blacklist_sourcetype/" + tk_keyid;
 
@@ -7253,6 +8493,29 @@ require([
                         searchSingleDataSource3.startSearch();
                         searchMainTable.startSearch();
 
+                        // Audit success change
+                        var time = (new Date).getTime();
+                        var audit_record = {
+                            "time": time,
+                            "action": "success",
+                            "user": currentUser,
+                            "change_type": "delete blacklist sourcetype",
+                            "object": tk_data_sourcetype,
+                            "object_category": "data_source",
+                            "object_attrs": "sourcetype:" + tk_data_sourcetype
+                        };
+                        $.ajax({
+                            url: auditendpoint_URl,
+                            type: "POST",
+                            async: true,
+                            contentType: "application/json",
+                            data: JSON.stringify(audit_record),
+                            success: function(returneddata) {
+                                //console.log("Updated!", returneddata)
+                                // Run the search again to update the table
+                            }
+                        });
+
                         // house cleaning
                         myendpoint_URl = undefined;
                         delete(myendpoint_URl);
@@ -7264,6 +8527,31 @@ require([
                     },
                     error: function(xhr, textStatus, error) {
                         message = "Error Updating!" + xhr + textStatus + error;
+
+                        // Audit success change
+                        var time = (new Date).getTime();
+                        var audit_record = {
+                            "time": time,
+                            "action": "failure",
+                            "user": currentUser,
+                            "change_type": "delete blacklist sourcetype",
+                            "object": tk_data_sourcetype,
+                            "object_category": "data_source",
+                            "object_attrs": "sourcetype:" + tk_data_sourcetype,
+                            "result": message
+                        };
+                        $.ajax({
+                            url: auditendpoint_URl,
+                            type: "POST",
+                            async: true,
+                            contentType: "application/json",
+                            data: JSON.stringify(audit_record),
+                            success: function(returneddata) {
+                                //console.log("Updated!", returneddata)
+                                // Run the search again to update the table
+                            }
+                        });
+
                         // Hide main modal
                         $("#modal_manage_data_source_blacklist_sourcetype").modal('hide');
                         $("#modal_modify_data_source_blacklist_sourcetype").modal('hide');
@@ -7311,6 +8599,31 @@ require([
                     searchParams,
                     function(err, job) {
 
+                        function audit_failure() {
+                            // Audit failure change
+                            var time = (new Date).getTime();
+                            var audit_record = {
+                                "time": time,
+                                "action": "failure",
+                                "user": currentUser,
+                                "change_type": "add blacklist sourcetype",
+                                "object": tk_input_blacklist_sourcetype,
+                                "object_category": "data_host",
+                                "object_attrs": "sourcetype:" + tk_input_blacklist_sourcetype
+                            };
+                            $.ajax({
+                                url: auditendpoint_URl,
+                                type: "POST",
+                                async: true,
+                                contentType: "application/json",
+                                data: JSON.stringify(audit_record),
+                                success: function(returneddata) {
+                                    //console.log("Updated!", returneddata)
+                                    // Run the search again to update the table
+                                }
+                            });
+                        }
+
                         // Shall the search fail before we can get properties
                         if (job == null) {
                             let errorStr = "Unknown Error!";
@@ -7319,6 +8632,7 @@ require([
                             } else if (err && err.data && err.data.messages) {
                                 errorStr = JSON.stringify(err.data.messages);
                             }
+                            audit_failure();
                             $("#modal_update_collection_failure_return").find('.modal-error-message p').text(errorStr);
                             $("#modal_update_collection_failure_return").modal()
                         } else {
@@ -7337,6 +8651,29 @@ require([
                                     searchSingleDataHost3.startSearch();
                                     searchMainTableHost.startSearch();
 
+                                    // Audit success change
+                                    var time = (new Date).getTime();
+                                    var audit_record = {
+                                        "time": time,
+                                        "action": "success",
+                                        "user": currentUser,
+                                        "change_type": "add blacklist sourcetype",
+                                        "object": tk_input_blacklist_sourcetype,
+                                        "object_category": "data_host",
+                                        "object_attrs": "sourcetype:" + tk_input_blacklist_sourcetype
+                                    };
+                                    $.ajax({
+                                        url: auditendpoint_URl,
+                                        type: "POST",
+                                        async: true,
+                                        contentType: "application/json",
+                                        data: JSON.stringify(audit_record),
+                                        success: function(returneddata) {
+                                            //console.log("Updated!", returneddata)
+                                            // Run the search again to update the table
+                                        }
+                                    });
+
                                     $("#modal_modify_data_host_blacklist_sourcetype").modal();
                                 },
                                 failed: function(properties) {
@@ -7346,11 +8683,13 @@ require([
                                     } else if (properties && properties._properties && properties._properties.messages) {
                                         errorStr = JSON.stringify(properties._properties.messages);
                                     }
+                                    audit_failure();
                                     $("#modal_update_collection_failure_return").find('.modal-error-message p').text(errorStr);
                                     $("#modal_update_collection_failure_return").modal()
                                 },
                                 error: function(err) {
                                     done(err);
+                                    audit_failure();
                                     $("#modal_update_collection_failure_flush").modal()
                                 }
                             });
@@ -7386,6 +8725,9 @@ require([
             // When the Submit button is clicked, get all the form fields by accessing token values
             var tk_keyid = tokens.get("tk_keyid");
 
+            // When the Submit button is clicked, get all the form fields by accessing token values
+            var tk_data_sourcetype = tokens.get("tk_data_sourcetype");
+
             // Create the endpoint URL
             var myendpoint_URl = "/en-US/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_data_host_monitoring_blacklist_sourcetype/" + tk_keyid;
 
@@ -7402,6 +8744,29 @@ require([
 
                         // Hide main modal
                         $("#modal_manage_data_host_blacklist_sourcetype").modal('hide');
+
+                        // Audit success change
+                        var time = (new Date).getTime();
+                        var audit_record = {
+                            "time": time,
+                            "action": "success",
+                            "user": currentUser,
+                            "change_type": "delete blacklist sourcetype",
+                            "object": tk_data_sourcetype,
+                            "object_category": "data_host",
+                            "object_attrs": "sourcetype:" + tk_data_sourcetype
+                        };
+                        $.ajax({
+                            url: auditendpoint_URl,
+                            type: "POST",
+                            async: true,
+                            contentType: "application/json",
+                            data: JSON.stringify(audit_record),
+                            success: function(returneddata) {
+                                //console.log("Updated!", returneddata)
+                                // Run the search again to update the table
+                            }
+                        });
 
                         //console.log("Updated!", returneddata)
                         // Run the search again to update the table
@@ -7424,6 +8789,31 @@ require([
                     },
                     error: function(xhr, textStatus, error) {
                         message = "Error Updating!" + xhr + textStatus + error;
+
+                        // Audit failure change
+                        var time = (new Date).getTime();
+                        var audit_record = {
+                            "time": time,
+                            "action": "failure",
+                            "user": currentUser,
+                            "change_type": "delete blacklist sourcetype",
+                            "object": tk_data_sourcetype,
+                            "object_category": "data_host",
+                            "object_attrs": "sourcetype:" + tk_data_sourcetype,
+                            "result": message
+                        };
+                        $.ajax({
+                            url: auditendpoint_URl,
+                            type: "POST",
+                            async: true,
+                            contentType: "application/json",
+                            data: JSON.stringify(audit_record),
+                            success: function(returneddata) {
+                                //console.log("Updated!", returneddata)
+                                // Run the search again to update the table
+                            }
+                        });
+
                         // Hide main modal
                         $("#modal_manage_data_host_blacklist_sourcetype").modal('hide');
                         $("#modal_modify_data_host_blacklist_sourcetype").modal('hide');
@@ -7748,6 +9138,29 @@ require([
                                 }).spin(document.getElementById('spinner'));
                             })
 
+                            function audit_failure() {
+                                // Audit failure change
+                                var time = (new Date).getTime();
+                                var audit_record = {
+                                    "time": time,
+                                    "action": "failure",
+                                    "user": currentUser,
+                                    "change_type": "reset full collection",
+                                    "object_category": "data_source",
+                                };
+                                $.ajax({
+                                    url: auditendpoint_URl,
+                                    type: "POST",
+                                    async: true,
+                                    contentType: "application/json",
+                                    data: JSON.stringify(audit_record),
+                                    success: function(returneddata) {
+                                        //console.log("Updated!", returneddata)
+                                        // Run the search again to update the table
+                                    }
+                                });
+                            }
+
                         // Shall the search fail before we can get properties
                         if (job == null) {
                             let errorStr = "Unknown Error!";
@@ -7757,6 +9170,7 @@ require([
                                 errorStr = JSON.stringify(err.data.messages);
                             }
                             $("#loadingGray").remove()
+                            audit_failure();
                             $("#modal_update_collection_failure_return").find('.modal-error-message p').text(errorStr);
                             $("#modal_update_collection_failure_return").modal()
                         } else {
@@ -7806,6 +9220,7 @@ require([
                                                     errorStr = JSON.stringify(err.data.messages);
                                                 }
                                                 $("#loadingGray").remove()
+                                                audit_failure();
                                                 $("#modal_update_collection_failure_return").find('.modal-error-message p').text(errorStr);
                                                 $("#modal_update_collection_failure_return").modal()
                                             } else {
@@ -7825,6 +9240,28 @@ require([
                                                         searchMainTable.startSearch();
 
                                                         $("#loadingGray").remove()
+
+                                                        // Audit success change
+                                                        var time = (new Date).getTime();
+                                                        var audit_record = {
+                                                            "time": time,
+                                                            "action": "success",
+                                                            "user": currentUser,
+                                                            "change_type": "reset full collection",
+                                                            "object_category": "data_source",
+                                                        };
+                                                        $.ajax({
+                                                            url: auditendpoint_URl,
+                                                            type: "POST",
+                                                            async: true,
+                                                            contentType: "application/json",
+                                                            data: JSON.stringify(audit_record),
+                                                            success: function(returneddata) {
+                                                                //console.log("Updated!", returneddata)
+                                                                // Run the search again to update the table
+                                                            }
+                                                        });
+
                                                         $("#modal_update_collection_done").modal()
 
                                                     },
@@ -7836,11 +9273,13 @@ require([
                                                             errorStr = JSON.stringify(properties._properties.messages);
                                                         }
                                                         $("#loadingGray").remove()
+                                                        audit_failure();
                                                         $("#modal_update_collection_failure_return").find('.modal-error-message p').text(errorStr);
                                                         $("#modal_update_collection_failure_return").modal()
                                                     },
                                                     error: function(err) {
                                                         done(err);
+                                                        audit_failure();
                                                         $("#loadingGray").remove()
                                                         $("#modal_update_collection_failure").modal()
                                                     }
@@ -7858,12 +9297,14 @@ require([
                                         errorStr = JSON.stringify(properties._properties.messages);
                                     }
                                     $("#loadingGray").remove()
+                                    audit_failure();
                                     $("#modal_update_collection_failure_return").find('.modal-error-message p').text(errorStr);
                                     $("#modal_update_collection_failure_return").modal()
                                 },
                                 error: function(err) {
                                     done(err);
                                     $("#loadingGray").remove()
+                                    audit_failure();
                                     $("#modal_update_collection_failure").modal()
                                 }
                             });
@@ -7919,6 +9360,29 @@ require([
                                 }).spin(document.getElementById('spinner'));
                             })
 
+                        function audit_failure() {
+                            // Audit failure change
+                            var time = (new Date).getTime();
+                            var audit_record = {
+                                "time": time,
+                                "action": "failure",
+                                "user": currentUser,
+                                "change_type": "reset full collection",
+                                "object_category": "data_host",
+                            };
+                            $.ajax({
+                                url: auditendpoint_URl,
+                                type: "POST",
+                                async: true,
+                                contentType: "application/json",
+                                data: JSON.stringify(audit_record),
+                                success: function(returneddata) {
+                                    //console.log("Updated!", returneddata)
+                                    // Run the search again to update the table
+                                }
+                            });
+                        }
+
                         // Shall the search fail before we can get properties
                         if (job == null) {
                             let errorStr = "Unknown Error!";
@@ -7928,6 +9392,7 @@ require([
                                 errorStr = JSON.stringify(err.data.messages);
                             }
                             $("#loadingGray").remove()
+                            audit_failure();
                             $("#modal_update_collection_failure_return").find('.modal-error-message p').text(errorStr);
                             $("#modal_update_collection_failure_return").modal()
                         } else {
@@ -7977,6 +9442,7 @@ require([
                                                     errorStr = JSON.stringify(err.data.messages);
                                                 }
                                                 $("#loadingGray").remove()
+                                                audit_failure();
                                                 $("#modal_update_collection_failure_return").find('.modal-error-message p').text(errorStr);
                                                 $("#modal_update_collection_failure_return").modal()
                                             } else {
@@ -7995,6 +9461,27 @@ require([
                                                         searchSingleDataHost3.startSearch();
                                                         searchMainTableHost.startSearch();
 
+                                                        // Audit success change
+                                                        var time = (new Date).getTime();
+                                                        var audit_record = {
+                                                            "time": time,
+                                                            "action": "success",
+                                                            "user": currentUser,
+                                                            "change_type": "reset full collection",
+                                                            "object_category": "data_host",
+                                                        };
+                                                        $.ajax({
+                                                            url: auditendpoint_URl,
+                                                            type: "POST",
+                                                            async: true,
+                                                            contentType: "application/json",
+                                                            data: JSON.stringify(audit_record),
+                                                            success: function(returneddata) {
+                                                                //console.log("Updated!", returneddata)
+                                                                // Run the search again to update the table
+                                                            }
+                                                        });
+
                                                         $("#loadingGray").remove()
                                                         $("#modal_update_collection_done").modal()
 
@@ -8007,12 +9494,14 @@ require([
                                                             errorStr = JSON.stringify(properties._properties.messages);
                                                         }
                                                         $("#loadingGray").remove()
+                                                        audit_failure();
                                                         $("#modal_update_collection_failure_return").find('.modal-error-message p').text(errorStr);
                                                         $("#modal_update_collection_failure_return").modal()
                                                     },
                                                     error: function(err) {
                                                         done(err);
                                                         $("#loadingGray").remove()
+                                                        audit_failure();
                                                         $("#modal_update_collection_failure").modal()
                                                     }
                                                 });
@@ -8029,12 +9518,14 @@ require([
                                         errorStr = JSON.stringify(properties._properties.messages);
                                     }
                                     $("#loadingGray").remove()
+                                    audit_failure();
                                     $("#modal_update_collection_failure_return").find('.modal-error-message p').text(errorStr);
                                     $("#modal_update_collection_failure_return").modal()
                                 },
                                 error: function(err) {
                                     done(err);
                                     $("#loadingGray").remove()
+                                    audit_failure();
                                     $("#modal_update_collection_failure").modal()
                                 }
                             });
@@ -8522,6 +10013,54 @@ require([
 
         });
 
+        // Show main
+
+        // for data sources
+
+        $("#btn_modify_data_source_blacklist_main").click(function() {
+            // Show input modal
+            $("#modal_manage_data_source_blacklists").modal();
+        });
+
+        // Cancel buttons
+        $("#btn_modal_data_source_blacklist_host_add_cancel").click(function() {
+            // Show input modal
+            $("#modal_manage_data_source_blacklists").modal();
+        });
+
+        $("#btn_modal_data_source_blacklist_index_add_cancel").click(function() {
+            // Show input modal
+            $("#modal_manage_data_source_blacklists").modal();
+        });
+
+        $("#btn_modal_data_source_blacklist_sourcetype_add_cancel").click(function() {
+            // Show input modal
+            $("#modal_manage_data_source_blacklists").modal();
+        });
+
+        // for data hosts
+
+        $("#btn_modify_data_host_blacklist_main").click(function() {
+            // Show input modal
+            $("#modal_manage_data_host_blacklists").modal();
+        });
+
+        // Cancel buttons
+        $("#btn_modal_data_host_blacklist_host_add_cancel").click(function() {
+            // Show input modal
+            $("#modal_manage_data_host_blacklists").modal();
+        });
+
+        $("#btn_modal_data_host_blacklist_index_add_cancel").click(function() {
+            // Show input modal
+            $("#modal_manage_data_host_blacklists").modal();
+        });
+
+        $("#btn_modal_data_host_blacklist_sourcetype_add_cancel").click(function() {
+            // Show input modal
+            $("#modal_manage_data_host_blacklists").modal();
+        });
+
         //
         // MODIFY BUTTON
         //
@@ -8536,6 +10075,20 @@ require([
 
             // Show input modal
             $("#modal_modify_main").modal();
+
+        });
+
+        $("#btn_modal_modify_wdays").click(function() {
+            submitTokens();
+
+            // Show input modal
+            $("#modal_modify_monitoring_wdays").modal();
+
+        });
+
+        $("#btn_modal_modify_monitoring_wdays_confirm").click(function() {
+
+            submitTokens();
 
             // When the Submit button is clicked, get all the form fields by accessing token values
             var tokens = mvc.Components.get("default");
@@ -8559,322 +10112,566 @@ require([
             // Create the endpoint URL
             var myendpoint_URl = "/en-US/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_data_source_monitoring/" + tk_keyid;
 
-            //console.log("myendpoint_URl is:" + myendpoint_URl);
+            var tk_origin_data_monitoring_wdays = tokens.get("tk_data_monitoring_wdays");
+            var tk_data_monitoring_wdays = tokens.get("tk_input_wdays");
 
-            if (!tk_keyid || !tk_keyid.length) {
+            if (!tk_data_monitoring_wdays || !tk_data_monitoring_wdays.length) {
                 // Show an error message
                 $("#modal_entry_update_invalid").modal()
                 return;
             } else {
 
-                //
-                // Modify monitoring wdays
-                //
+                // Create a dictionary to store the field names and values
+                var record = {
+                    "data_name": tk_data_name,
+                    "data_index": tk_data_index,
+                    "data_sourcetype": tk_data_sourcetype,
+                    "data_last_lag_seen": tk_data_last_lag_seen,
+                    "data_last_time_seen": tk_data_last_time_seen,
+                    "data_last_lag_seen_idx": tk_data_last_lag_seen_idx,
+                    "data_last_time_seen_idx": tk_data_last_time_seen_idx,
+                    "data_max_lag_allowed": tk_data_max_lag_allowed,
+                    "data_monitored_state": tk_data_monitored_state,
+                    "data_monitoring_level": tk_data_monitoring_level,
+                    "data_monitoring_wdays": tk_data_monitoring_wdays,
+                    "data_override_lagging_class": tk_data_override_lagging_class
+                };
 
-                $("#btn_modal_modify_wdays").click(function() {
+                $.ajax({
+                    url: myendpoint_URl,
+                    type: "POST",
+                    async: true,
+                    contentType: "application/json",
+                    data: JSON.stringify(record),
+                    success: function(returneddata) {
+                        //console.log("Updated!", returneddata)
+                        // Run the search again to update the table
+                        baseSearchDataSource.startSearch();
+                        searchSingleDataSource1.startSearch();
+                        searchSingleDataSource2.startSearch();
+                        searchSingleDataSource3.startSearch();
+                        searchMainTable.startSearch();
 
-                    // Show input modal
-                    $("#modal_modify_monitoring_wdays").modal();
+                        // Audit success change
+                        var time = (new Date).getTime();
+                        var audit_record = {
+                            "time": time,
+                            "action": "success",
+                            "user": currentUser,
+                            "change_type": "modify week days monitoring",
+                            "object": tk_data_name,
+                            "object_category": "data_source",
+                            "object_attrs": "data_monitoring_wdays changed from:" + tk_origin_data_monitoring_wdays + " to:" + tk_data_monitoring_wdays
+                        };
 
-                    $("#btn_modal_modify_monitoring_wdays_confirm").click(function() {
+                        $.ajax({
+                            url: auditendpoint_URl,
+                            type: "POST",
+                            async: true,
+                            contentType: "application/json",
+                            data: JSON.stringify(audit_record),
+                            success: function(returneddata) {
+                                //console.log("Updated!", returneddata)
+                                // Run the search again to update the table
+                            }
+                        });
 
-                        var tk_data_monitoring_wdays = tokens.get("tk_input_wdays");
+                        // house cleaning
+                        myendpoint_URl = undefined;
+                        delete(myendpoint_URl);
 
-                        if (!tk_data_monitoring_wdays || !tk_data_monitoring_wdays.length) {
-                            // Show an error message
-                            $("#modal_entry_update_invalid").modal()
-                            return;
-                        } else {
+                        tk_keyid = undefined;
+                        delete(tk_keyid);
+                        return;
 
-                            // Create a dictionary to store the field names and values
-                            var record = {
-                                "data_name": tk_data_name,
-                                "data_index": tk_data_index,
-                                "data_sourcetype": tk_data_sourcetype,
-                                "data_last_lag_seen": tk_data_last_lag_seen,
-                                "data_last_time_seen": tk_data_last_time_seen,
-                                "data_last_lag_seen_idx": tk_data_last_lag_seen_idx,
-                                "data_last_time_seen_idx": tk_data_last_time_seen_idx,
-                                "data_max_lag_allowed": tk_data_max_lag_allowed,
-                                "data_monitored_state": tk_data_monitored_state,
-                                "data_monitoring_level": tk_data_monitoring_level,
-                                "data_monitoring_wdays": tk_data_monitoring_wdays,
-                                "data_override_lagging_class": tk_data_override_lagging_class
-                            };
+                    },
+                    error: function(xhr, textStatus, error) {
+                        message = "Error Updating!" + xhr + textStatus + error;
 
-                            var that = $(this);
-                            that.off('click'); // remove handler
+                        // Audit failure change
+                        var time = (new Date).getTime();
+                        var audit_record = {
+                            "time": time,
+                            "action": "failure",
+                            "user": currentUser,
+                            "change_type": "modify week days monitoring",
+                            "object": tk_data_name,
+                            "object_category": "data_source",
+                            "object_attrs": "data_monitoring_wdays changed from:" + tk_origin_data_monitoring_wdays + " to:" + tk_data_monitoring_wdays,
+                            "result": message
+                        };
 
-                            $.ajax({
-                                url: myendpoint_URl,
-                                type: "POST",
-                                async: true,
-                                contentType: "application/json",
-                                data: JSON.stringify(record),
-                                success: function(returneddata) {
-                                    //console.log("Updated!", returneddata)
-                                    // Run the search again to update the table
-                                    baseSearchDataSource.startSearch();
-                                    searchSingleDataSource1.startSearch();
-                                    searchSingleDataSource2.startSearch();
-                                    searchSingleDataSource3.startSearch();
-                                    searchMainTable.startSearch();
+                        $.ajax({
+                            url: auditendpoint_URl,
+                            type: "POST",
+                            async: true,
+                            contentType: "application/json",
+                            data: JSON.stringify(audit_record),
+                            success: function(returneddata) {
+                                //console.log("Updated!", returneddata)
+                                // Run the search again to update the table
+                            }
+                        });
 
-                                    // house cleaning
-                                    myendpoint_URl = undefined;
-                                    delete(myendpoint_URl);
-                                    tk_keyid = undefined;
-                                    delete(tk_keyid);
-                                    return;
-
-                                },
-                                error: function(xhr, textStatus, error) {
-                                    message = "Error Updating!" + xhr + textStatus + error;
-                                    $("#modal_update_collection_failure_return").find('.modal-error-message p').text(message);
-                                    $("#modal_update_collection_failure_return").modal()
-                                }
-                            });
-
-                        }
-                    });
-
-                });
-
-                $("#btn_modal_modify_wdays_no").click(function() {
-
-                    // Show input modal
-                    $("#modal_modify_monitoring_wdays_no").modal();
-
-                    $("#btn_modal_modify_monitoring_wdays_no_confirm").click(function() {
-
-                        var tk_data_monitoring_wdays_no = tokens.get("tk_input_wdays_no");
-
-                        if (!tk_data_monitoring_wdays_no || !tk_data_monitoring_wdays_no.length) {
-                            // Show an error message
-                            $("#modal_entry_update_invalid").modal()
-                            return;
-                        } else {
-
-                            // Create a dictionary to store the field names and values
-                            var record = {
-                                "data_name": tk_data_name,
-                                "data_index": tk_data_index,
-                                "data_sourcetype": tk_data_sourcetype,
-                                "data_last_lag_seen": tk_data_last_lag_seen,
-                                "data_last_time_seen": tk_data_last_time_seen,
-                                "data_last_lag_seen_idx": tk_data_last_lag_seen_idx,
-                                "data_last_time_seen_idx": tk_data_last_time_seen_idx,
-                                "data_max_lag_allowed": tk_data_max_lag_allowed,
-                                "data_monitored_state": tk_data_monitored_state,
-                                "data_monitoring_level": tk_data_monitoring_level,
-                                "data_monitoring_wdays": tk_data_monitoring_wdays_no,
-                                "data_override_lagging_class": tk_data_override_lagging_class
-                            };
-
-                            var that = $(this);
-                            that.off('click'); // remove handler
-
-                            $.ajax({
-                                url: myendpoint_URl,
-                                type: "POST",
-                                async: true,
-                                contentType: "application/json",
-                                data: JSON.stringify(record),
-                                success: function(returneddata) {
-                                    //console.log("Updated!", returneddata)
-                                    // Run the search again to update the table
-                                    baseSearchDataSource.startSearch();
-                                    searchSingleDataSource1.startSearch();
-                                    searchSingleDataSource2.startSearch();
-                                    searchSingleDataSource3.startSearch();
-                                    searchMainTable.startSearch();
-
-                                    // house cleaning
-                                    myendpoint_URl = undefined;
-                                    delete(myendpoint_URl);
-                                    tk_keyid = undefined;
-                                    delete(tk_keyid);
-                                    return;
-
-                                },
-                                error: function(xhr, textStatus, error) {
-                                    message = "Error Updating!" + xhr + textStatus + error;
-                                    $("#modal_update_collection_failure_return").find('.modal-error-message p').text(message);
-                                    $("#modal_update_collection_failure_return").modal()
-                                }
-                            });
-
-                        }
-                    });
-
-                });
-
-                //
-                // Modify monitoring level
-                //
-
-                $("#btn_modal_modify_level").click(function() {
-
-                    // Show input modal
-                    $("#modal_modify_monitoring_level").modal();
-
-                    $("#btn_modal_modify_monitoring_level_confirm").click(function() {
-
-                        var tk_data_monitoring_level = tokens.get("tk_input_level");
-
-                        if (!tk_data_monitoring_level || !tk_data_monitoring_level.length) {
-                            // Show an error message
-                            $("#modal_entry_update_invalid").modal()
-                            return;
-                        } else {
-
-                            // Create a dictionary to store the field names and values
-                            var record = {
-                                "data_name": tk_data_name,
-                                "data_index": tk_data_index,
-                                "data_sourcetype": tk_data_sourcetype,
-                                "data_last_lag_seen": tk_data_last_lag_seen,
-                                "data_last_time_seen": tk_data_last_time_seen,
-                                "data_last_lag_seen_idx": tk_data_last_lag_seen_idx,
-                                "data_last_time_seen_idx": tk_data_last_time_seen_idx,
-                                "data_max_lag_allowed": tk_data_max_lag_allowed,
-                                "data_monitored_state": tk_data_monitored_state,
-                                "data_monitoring_level": tk_data_monitoring_level,
-                                "data_monitoring_wdays": tk_data_monitoring_wdays,
-                                "data_override_lagging_class": tk_data_override_lagging_class
-                            };
-
-                            var that = $(this);
-                            that.off('click'); // remove handler
-
-                            $.ajax({
-                                url: myendpoint_URl,
-                                type: "POST",
-                                async: true,
-                                contentType: "application/json",
-                                data: JSON.stringify(record),
-                                success: function(returneddata) {
-                                    //console.log("Updated!", returneddata)
-                                    // Run the search again to update the table
-                                    baseSearchDataSource.startSearch();
-                                    searchSingleDataSource1.startSearch();
-                                    searchSingleDataSource2.startSearch();
-                                    searchSingleDataSource3.startSearch();
-                                    searchMainTable.startSearch();
-
-                                    // house cleaning
-                                    myendpoint_URl = undefined;
-                                    delete(myendpoint_URl);
-                                    tk_keyid = undefined;
-                                    delete(tk_keyid);
-                                    return;
-
-                                },
-                                error: function(xhr, textStatus, error) {
-                                    message = "Error Updating!" + xhr + textStatus + error;
-                                    $("#modal_update_collection_failure_return").find('.modal-error-message p').text(message);
-                                    $("#modal_update_collection_failure_return").modal()
-                                }
-                            });
-
-                        }
-                    });
-
-                });
-
-                //
-                // Modify lag
-                //
-
-                $("#btn_modal_modify_lag").click(function() {
-
-                    submitTokens();
-
-                    // When the Submit button is clicked, get all the form fields by accessing token values
-                    var tokens = mvc.Components.get("default");
-
-                    // Show input modal
-                    $("#modal_modify_lag").modal();
-
-                    $("#btn_modal_modify_lag_confirm").click(function() {
-
-                        var tk_data_max_lag_allowed = tokens.get("tk_input_lag");
-                        var tk_data_override_lagging_class = tokens.get("modal_input_lag_override_class");
-
-                        if (!tk_data_max_lag_allowed || !tk_data_max_lag_allowed.length || !isNumeric(tk_data_max_lag_allowed)) {
-                            // Show an error message
-                            $("#modal_entry_update_invalid").modal()
-                            return;
-                        } else {
-
-                            // Create a dictionary to store the field names and values
-                            var record = {
-                                "data_name": tk_data_name,
-                                "data_index": tk_data_index,
-                                "data_sourcetype": tk_data_sourcetype,
-                                "data_last_lag_seen": tk_data_last_lag_seen,
-                                "data_last_time_seen": tk_data_last_time_seen,
-                                "data_last_lag_seen_idx": tk_data_last_lag_seen_idx,
-                                "data_last_time_seen_idx": tk_data_last_time_seen_idx,
-                                "data_max_lag_allowed": tk_data_max_lag_allowed,
-                                "data_monitored_state": tk_data_monitored_state,
-                                "data_monitoring_level": tk_data_monitoring_level,
-                                "data_monitoring_wdays": tk_data_monitoring_wdays,
-                                "data_override_lagging_class": tk_data_override_lagging_class
-                            };
-
-                            var that = $(this);
-                            that.off('click'); // remove handler
-
-                            $.ajax({
-                                url: myendpoint_URl,
-                                type: "POST",
-                                async: true,
-                                contentType: "application/json",
-                                data: JSON.stringify(record),
-                                success: function(returneddata) {
-                                    //console.log("Updated!", returneddata)
-                                    // Run the search again to update the table
-                                    baseSearchDataSource.startSearch();
-                                    searchSingleDataSource1.startSearch();
-                                    searchSingleDataSource2.startSearch();
-                                    searchSingleDataSource3.startSearch();
-                                    searchMainTable.startSearch();
-
-                                    // house cleaning
-                                    myendpoint_URl = undefined;
-                                    delete(myendpoint_URl);
-                                    tk_keyid = undefined;
-                                    delete(tk_keyid);
-                                    return;
-
-                                },
-                                error: function(xhr, textStatus, error) {
-                                    message = "Error Updating!" + xhr + textStatus + error;
-                                    $("#modal_update_collection_failure_return").find('.modal-error-message p').text(message);
-                                    $("#modal_update_collection_failure_return").modal()
-                                }
-                            });
-
-                        }
-                    });
-
+                        $("#modal_update_collection_failure_return").find('.modal-error-message p').text(message);
+                        $("#modal_update_collection_failure_return").modal()
+                    }
                 });
 
             }
 
         });
 
+        $("#btn_modal_modify_wdays_no").click(function() {
+
+            // Show input modal
+            $("#modal_modify_monitoring_wdays_no").modal();
+
+        });
+
+        $("#btn_modal_modify_monitoring_wdays_no_confirm").click(function() {
+
+            submitTokens();
+
+            // When the Submit button is clicked, get all the form fields by accessing token values
+            var tokens = mvc.Components.get("default");
+
+            var tk_keyid = tokens.get("tk_keyid");
+            var tk_data_name = tokens.get("tk_data_name");
+            var tk_data_index = tokens.get("tk_data_index");
+            var tk_data_sourcetype = tokens.get("tk_data_sourcetype");
+            var tk_data_last_lag_seen = tokens.get("tk_data_last_lag_seen");
+            var tk_data_last_time_seen = tokens.get("tk_data_last_time_seen");
+            var tk_data_last_lag_seen_idx = tokens.get("tk_data_last_lag_seen_idx");
+            var tk_data_last_time_seen_idx = tokens.get("tk_data_last_time_seen_idx");
+            var tk_data_max_lag_allowed = tokens.get("tk_data_max_lag_allowed");
+            var tk_data_monitored_state = tokens.get("tk_data_monitored_state");
+            var tk_data_monitoring_level = tokens.get("tk_data_monitoring_level");
+            var tk_data_monitoring_wdays = tokens.get("tk_data_monitoring_wdays");
+            var tk_data_override_lagging_class = tokens.get("tk_data_override_lagging_class");
+
+            //console.log("Value of modal_input_grace_period is: " + tk_kafka_infra_grace_period);
+
+            // Create the endpoint URL
+            var myendpoint_URl = "/en-US/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_data_source_monitoring/" + tk_keyid;
+
+            var tk_origin_data_monitoring_wdays = tokens.get("tk_data_monitoring_wdays");
+            var tk_data_monitoring_wdays_no = tokens.get("tk_input_wdays_no");
+
+            if (!tk_data_monitoring_wdays_no || !tk_data_monitoring_wdays_no.length) {
+                // Show an error message
+                $("#modal_entry_update_invalid").modal()
+                return;
+            } else {
+
+                // Create a dictionary to store the field names and values
+                var record = {
+                    "data_name": tk_data_name,
+                    "data_index": tk_data_index,
+                    "data_sourcetype": tk_data_sourcetype,
+                    "data_last_lag_seen": tk_data_last_lag_seen,
+                    "data_last_time_seen": tk_data_last_time_seen,
+                    "data_last_lag_seen_idx": tk_data_last_lag_seen_idx,
+                    "data_last_time_seen_idx": tk_data_last_time_seen_idx,
+                    "data_max_lag_allowed": tk_data_max_lag_allowed,
+                    "data_monitored_state": tk_data_monitored_state,
+                    "data_monitoring_level": tk_data_monitoring_level,
+                    "data_monitoring_wdays": tk_data_monitoring_wdays_no,
+                    "data_override_lagging_class": tk_data_override_lagging_class
+                };
+
+                $.ajax({
+                    url: myendpoint_URl,
+                    type: "POST",
+                    async: true,
+                    contentType: "application/json",
+                    data: JSON.stringify(record),
+                    success: function(returneddata) {
+                        //console.log("Updated!", returneddata)
+                        // Run the search again to update the table
+                        baseSearchDataSource.startSearch();
+                        searchSingleDataSource1.startSearch();
+                        searchSingleDataSource2.startSearch();
+                        searchSingleDataSource3.startSearch();
+                        searchMainTable.startSearch();
+
+                        // Audit success change
+                        var time = (new Date).getTime();
+                        var audit_record = {
+                            "time": time,
+                            "action": "success",
+                            "user": currentUser,
+                            "change_type": "modify week days monitoring",
+                            "object": tk_data_name,
+                            "object_category": "data_source",
+                            "object_attrs": "data_monitoring_wdays changed from:" + tk_origin_data_monitoring_wdays + " to:" + tk_data_monitoring_wdays_no
+                        };
+                        $.ajax({
+                            url: auditendpoint_URl,
+                            type: "POST",
+                            async: true,
+                            contentType: "application/json",
+                            data: JSON.stringify(audit_record),
+                            success: function(returneddata) {
+                                //console.log("Updated!", returneddata)
+                                // Run the search again to update the table
+                            }
+                        });
+
+                        // house cleaning
+                        myendpoint_URl = undefined;
+                        delete(myendpoint_URl);
+                        tk_keyid = undefined;
+                        delete(tk_keyid);
+                        return;
+
+                    },
+                    error: function(xhr, textStatus, error) {
+                        message = "Error Updating!" + xhr + textStatus + error;
+
+                        // Audit failure change
+                        var time = (new Date).getTime();
+                        var audit_record = {
+                            "time": time,
+                            "action": "failure",
+                            "user": currentUser,
+                            "change_type": "modify week days monitoring",
+                            "object": tk_data_name,
+                            "object_category": "data_source",
+                            "object_attrs": "data_monitoring_wdays changed from:" + tk_origin_data_monitoring_wdays + " to:" + tk_data_monitoring_wdays_no,
+                            "result": message
+                        };
+                        $.ajax({
+                            url: auditendpoint_URl,
+                            type: "POST",
+                            async: true,
+                            contentType: "application/json",
+                            data: JSON.stringify(audit_record),
+                            success: function(returneddata) {
+                                //console.log("Updated!", returneddata)
+                                // Run the search again to update the table
+                            }
+                        });
+
+                        $("#modal_update_collection_failure_return").find('.modal-error-message p').text(message);
+                        $("#modal_update_collection_failure_return").modal()
+                    }
+                });
+
+            }
+        });
+
+        //
+        // Modify monitoring level
+        //
+
+        $("#btn_modal_modify_level").click(function() {
+
+            // Show input modal
+            $("#modal_modify_monitoring_level").modal();
+
+        });
+
+        $("#btn_modal_modify_monitoring_level_confirm").click(function() {
+
+            submitTokens();
+
+            // When the Submit button is clicked, get all the form fields by accessing token values
+            var tokens = mvc.Components.get("default");
+
+            var tk_keyid = tokens.get("tk_keyid");
+            var tk_data_name = tokens.get("tk_data_name");
+            var tk_data_index = tokens.get("tk_data_index");
+            var tk_data_sourcetype = tokens.get("tk_data_sourcetype");
+            var tk_data_last_lag_seen = tokens.get("tk_data_last_lag_seen");
+            var tk_data_last_time_seen = tokens.get("tk_data_last_time_seen");
+            var tk_data_last_lag_seen_idx = tokens.get("tk_data_last_lag_seen_idx");
+            var tk_data_last_time_seen_idx = tokens.get("tk_data_last_time_seen_idx");
+            var tk_data_max_lag_allowed = tokens.get("tk_data_max_lag_allowed");
+            var tk_data_monitored_state = tokens.get("tk_data_monitored_state");
+            var tk_data_monitoring_level = tokens.get("tk_data_monitoring_level");
+            var tk_data_monitoring_wdays = tokens.get("tk_data_monitoring_wdays");
+            var tk_data_override_lagging_class = tokens.get("tk_data_override_lagging_class");
+
+            //console.log("Value of modal_input_grace_period is: " + tk_kafka_infra_grace_period);
+
+            // Create the endpoint URL
+            var myendpoint_URl = "/en-US/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_data_source_monitoring/" + tk_keyid;
+
+            var tk_data_monitoring_level = tokens.get("tk_input_level");
+            var tk_origin_data_monitoring_level = tokens.get("tk_data_monitoring_level");
+
+            if (!tk_data_monitoring_level || !tk_data_monitoring_level.length) {
+                // Show an error message
+                $("#modal_entry_update_invalid").modal()
+                return;
+            } else {
+
+                // Create a dictionary to store the field names and values
+                var record = {
+                    "data_name": tk_data_name,
+                    "data_index": tk_data_index,
+                    "data_sourcetype": tk_data_sourcetype,
+                    "data_last_lag_seen": tk_data_last_lag_seen,
+                    "data_last_time_seen": tk_data_last_time_seen,
+                    "data_last_lag_seen_idx": tk_data_last_lag_seen_idx,
+                    "data_last_time_seen_idx": tk_data_last_time_seen_idx,
+                    "data_max_lag_allowed": tk_data_max_lag_allowed,
+                    "data_monitored_state": tk_data_monitored_state,
+                    "data_monitoring_level": tk_data_monitoring_level,
+                    "data_monitoring_wdays": tk_data_monitoring_wdays,
+                    "data_override_lagging_class": tk_data_override_lagging_class
+                };
+
+                $.ajax({
+                    url: myendpoint_URl,
+                    type: "POST",
+                    async: true,
+                    contentType: "application/json",
+                    data: JSON.stringify(record),
+                    success: function(returneddata) {
+                        //console.log("Updated!", returneddata)
+                        // Run the search again to update the table
+                        baseSearchDataSource.startSearch();
+                        searchSingleDataSource1.startSearch();
+                        searchSingleDataSource2.startSearch();
+                        searchSingleDataSource3.startSearch();
+                        searchMainTable.startSearch();
+
+                        // Audit success change
+                        var time = (new Date).getTime();
+                        var audit_record = {
+                            "time": time,
+                            "action": "success",
+                            "user": currentUser,
+                            "change_type": "modify monitoring level",
+                            "object": tk_data_name,
+                            "object_category": "data_source",
+                            "object_attrs": "data_monitoring_level changed from:" + tk_origin_data_monitoring_level + " to:" + tk_data_monitoring_level
+                        };
+                        $.ajax({
+                            url: auditendpoint_URl,
+                            type: "POST",
+                            async: true,
+                            contentType: "application/json",
+                            data: JSON.stringify(audit_record),
+                            success: function(returneddata) {
+                                //console.log("Updated!", returneddata)
+                                // Run the search again to update the table
+                            }
+                        });
+
+                        // house cleaning
+                        myendpoint_URl = undefined;
+                        delete(myendpoint_URl);
+                        tk_keyid = undefined;
+                        delete(tk_keyid);
+                        return;
+
+                    },
+                    error: function(xhr, textStatus, error) {
+                        message = "Error Updating!" + xhr + textStatus + error;
+
+                        // Audit failure change
+                        var time = (new Date).getTime();
+                        var audit_record = {
+                            "time": time,
+                            "action": "failure",
+                            "user": currentUser,
+                            "change_type": "modify monitoring level",
+                            "object": tk_data_name,
+                            "object_category": "data_source",
+                            "object_attrs": "data_monitoring_level changed from:" + tk_origin_data_monitoring_level + " to:" + tk_data_monitoring_level,
+                            "result": message
+                        };
+                        $.ajax({
+                            url: auditendpoint_URl,
+                            type: "POST",
+                            async: true,
+                            contentType: "application/json",
+                            data: JSON.stringify(audit_record),
+                            success: function(returneddata) {
+                                //console.log("Updated!", returneddata)
+                                // Run the search again to update the table
+                            }
+                        });
+
+                        $("#modal_update_collection_failure_return").find('.modal-error-message p').text(message);
+                        $("#modal_update_collection_failure_return").modal()
+                    }
+                });
+
+            }
+        });
+
+        //
+        // Modify lag
+        //
+
+        $("#btn_modal_modify_lag").click(function() {
+
+            // Show input modal
+            $("#modal_modify_lag").modal();
+
+        });
+
+        $("#btn_modal_modify_lag_confirm").click(function() {
+
+            submitTokens();
+
+            // When the Submit button is clicked, get all the form fields by accessing token values
+            var tokens = mvc.Components.get("default");
+
+            var tk_keyid = tokens.get("tk_keyid");
+            var tk_data_name = tokens.get("tk_data_name");
+            var tk_data_index = tokens.get("tk_data_index");
+            var tk_data_sourcetype = tokens.get("tk_data_sourcetype");
+            var tk_data_last_lag_seen = tokens.get("tk_data_last_lag_seen");
+            var tk_data_last_time_seen = tokens.get("tk_data_last_time_seen");
+            var tk_data_last_lag_seen_idx = tokens.get("tk_data_last_lag_seen_idx");
+            var tk_data_last_time_seen_idx = tokens.get("tk_data_last_time_seen_idx");
+            var tk_data_max_lag_allowed = tokens.get("tk_data_max_lag_allowed");
+            var tk_data_monitored_state = tokens.get("tk_data_monitored_state");
+            var tk_data_monitoring_level = tokens.get("tk_data_monitoring_level");
+            var tk_data_monitoring_wdays = tokens.get("tk_data_monitoring_wdays");
+            var tk_data_override_lagging_class = tokens.get("tk_data_override_lagging_class");
+
+            //console.log("Value of modal_input_grace_period is: " + tk_kafka_infra_grace_period);
+
+            // Create the endpoint URL
+            var myendpoint_URl = "/en-US/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_data_source_monitoring/" + tk_keyid;
+
+            var tk_data_max_lag_allowed = tokens.get("tk_input_lag");
+            var tk_origin_data_max_lag_allowed = tokens.get("tk_data_max_lag_allowed");
+            var tk_data_override_lagging_class = tokens.get("tk_data_override_lagging_class");
+
+            if (!tk_data_max_lag_allowed || !tk_data_max_lag_allowed.length || !isNumeric(tk_data_max_lag_allowed)) {
+                // Show an error message
+                $("#modal_entry_update_invalid").modal()
+                return;
+            } else {
+
+                // Create a dictionary to store the field names and values
+                var record = {
+                    "data_name": tk_data_name,
+                    "data_index": tk_data_index,
+                    "data_sourcetype": tk_data_sourcetype,
+                    "data_last_lag_seen": tk_data_last_lag_seen,
+                    "data_last_time_seen": tk_data_last_time_seen,
+                    "data_last_lag_seen_idx": tk_data_last_lag_seen_idx,
+                    "data_last_time_seen_idx": tk_data_last_time_seen_idx,
+                    "data_max_lag_allowed": tk_data_max_lag_allowed,
+                    "data_monitored_state": tk_data_monitored_state,
+                    "data_monitoring_level": tk_data_monitoring_level,
+                    "data_monitoring_wdays": tk_data_monitoring_wdays,
+                    "data_override_lagging_class": tk_data_override_lagging_class
+                };
+
+                $.ajax({
+                    url: myendpoint_URl,
+                    type: "POST",
+                    async: true,
+                    contentType: "application/json",
+                    data: JSON.stringify(record),
+                    success: function(returneddata) {
+                        //console.log("Updated!", returneddata)
+                        // Run the search again to update the table
+                        baseSearchDataSource.startSearch();
+                        searchSingleDataSource1.startSearch();
+                        searchSingleDataSource2.startSearch();
+                        searchSingleDataSource3.startSearch();
+                        searchMainTable.startSearch();
+
+                        // Audit success change
+                        var time = (new Date).getTime();
+                        var audit_record = {
+                            "time": time,
+                            "action": "success",
+                            "user": currentUser,
+                            "change_type": "modify monitoring lag",
+                            "object": tk_data_name,
+                            "object_category": "data_source",
+                            "object_attrs": "data_max_lag_allowed changed from:" + tk_origin_data_max_lag_allowed + " to:" + tk_data_max_lag_allowed + " with data_override_lagging_class:" + tk_data_override_lagging_class
+                        };
+                        $.ajax({
+                            url: auditendpoint_URl,
+                            type: "POST",
+                            async: true,
+                            contentType: "application/json",
+                            data: JSON.stringify(audit_record),
+                            success: function(returneddata) {
+                                //console.log("Updated!", returneddata)
+                                // Run the search again to update the table
+                            }
+                        });
+
+                        // house cleaning
+                        myendpoint_URl = undefined;
+                        delete(myendpoint_URl);
+                        tk_keyid = undefined;
+                        delete(tk_keyid);
+                        return;
+
+                    },
+                    error: function(xhr, textStatus, error) {
+                        message = "Error Updating!" + xhr + textStatus + error;
+
+                        // Audit failure change
+                        var time = (new Date).getTime();
+                        var audit_record = {
+                            "time": time,
+                            "action": "success",
+                            "user": currentUser,
+                            "change_type": "modify monitoring lag",
+                            "object": tk_data_name,
+                            "object_category": "data_source",
+                            "object_attrs": "data_max_lag_allowed changed from:" + tk_origin_data_max_lag_allowed + " to:" + tk_data_max_lag_allowed + " with data_override_lagging_class:" + tk_data_override_lagging_class,
+                            "result": message
+                        };
+                        $.ajax({
+                            url: auditendpoint_URl,
+                            type: "POST",
+                            async: true,
+                            contentType: "application/json",
+                            data: JSON.stringify(audit_record),
+                            success: function(returneddata) {
+                                //console.log("Updated!", returneddata)
+                                // Run the search again to update the table
+                            }
+                        });
+
+                        $("#modal_update_collection_failure_return").find('.modal-error-message p').text(message);
+                        $("#modal_update_collection_failure_return").modal()
+                    }
+                });
+
+            }
+        });
+
         // data host monitoring
 
         $("#btn_modify_data_host").click(function() {
-            submitTokens();
 
             // Hide main modal
             $("#modal_manage_host").modal('hide');
 
             // Show input modal
             $("#modal_modify_main_host").modal();
+
+        });
+
+        //
+        // Modify monitoring wdays
+        //
+
+        $("#btn_modal_modify_wdays_host").click(function() {
+
+            // Show input modal
+            $("#modal_modify_monitoring_wdays_host").modal();
+
+        });
+
+        $("#btn_modal_modify_monitoring_wdays_host_confirm").click(function() {
 
             // When the Submit button is clicked, get all the form fields by accessing token values
             var tokens = mvc.Components.get("default");
@@ -8895,225 +10692,377 @@ require([
             // Create the endpoint URL
             var myendpoint_URl = "/en-US/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_host_monitoring/" + tk_keyid;
 
-            //console.log("myendpoint_URl is:" + myendpoint_URl);
+            var tk_origin_data_monitoring_wdays = tokens.get("tk_data_monitoring_wdays");
+            var tk_data_monitoring_wdays = tokens.get("tk_input_wdays_host");
 
-            if (!tk_keyid || !tk_keyid.length) {
+            if (!tk_data_monitoring_wdays || !tk_data_monitoring_wdays.length) {
                 // Show an error message
                 $("#modal_entry_update_invalid").modal()
                 return;
             } else {
 
-                //
-                // Modify monitoring wdays
-                //
+                // Create a dictionary to store the field names and values
+                var record = {
+                    "data_host": tk_data_host,
+                    "data_index": tk_data_index,
+                    "data_sourcetype": tk_data_sourcetype,
+                    "data_last_lag_seen": tk_data_last_lag_seen,
+                    "data_last_time_seen": tk_data_last_time_seen,
+                    "data_max_lag_allowed": tk_data_max_lag_allowed,
+                    "data_monitored_state": tk_data_monitored_state,
+                    "data_monitoring_wdays": tk_data_monitoring_wdays,
+                    "data_override_lagging_class": tk_data_override_lagging_class
+                };
 
-                $("#btn_modal_modify_wdays_host").click(function() {
+                $.ajax({
+                    url: myendpoint_URl,
+                    type: "POST",
+                    async: true,
+                    contentType: "application/json",
+                    data: JSON.stringify(record),
+                    success: function(returneddata) {
+                        //console.log("Updated!", returneddata)
+                        // Run the search again to update the table
+                        searchMainTableHost.startSearch();
+                        baseSearchDataHost.startSearch();
+                        searchSingleDataHost1.startSearch();
+                        searchSingleDataHost2.startSearch();
+                        searchSingleDataHost3.startSearch();
 
-                    // Show input modal
-                    $("#modal_modify_monitoring_wdays_host").modal();
+                        // Audit success change
+                        var time = (new Date).getTime();
+                        var audit_record = {
+                            "time": time,
+                            "action": "success",
+                            "user": currentUser,
+                            "change_type": "modify week days monitoring",
+                            "object": tk_data_host,
+                            "object_category": "data_host",
+                            "object_attrs": "data_monitoring_wdays changed from:" + tk_origin_data_monitoring_wdays + " to:" + tk_data_monitoring_wdays
+                        };
 
-                    $("#btn_modal_modify_monitoring_wdays_host_confirm").click(function() {
+                        $.ajax({
+                            url: auditendpoint_URl,
+                            type: "POST",
+                            async: true,
+                            contentType: "application/json",
+                            data: JSON.stringify(audit_record),
+                            success: function(returneddata) {
+                                //console.log("Updated!", returneddata)
+                                // Run the search again to update the table
+                            }
+                        });
 
-                        var tk_data_monitoring_wdays = tokens.get("tk_input_wdays_host");
+                        // house cleaning
+                        myendpoint_URl = undefined;
+                        delete(myendpoint_URl);
+                        tk_keyid = undefined;
+                        delete(tk_keyid);
+                        return;
 
-                        if (!tk_data_monitoring_wdays || !tk_data_monitoring_wdays.length) {
-                            // Show an error message
-                            $("#modal_entry_update_invalid").modal()
-                            return;
-                        } else {
+                    },
+                    error: function(xhr, textStatus, error) {
+                        message = "Error Updating!" + xhr + textStatus + error;
 
-                            // Create a dictionary to store the field names and values
-                            var record = {
-                                "data_host": tk_data_host,
-                                "data_index": tk_data_index,
-                                "data_sourcetype": tk_data_sourcetype,
-                                "data_last_lag_seen": tk_data_last_lag_seen,
-                                "data_last_time_seen": tk_data_last_time_seen,
-                                "data_max_lag_allowed": tk_data_max_lag_allowed,
-                                "data_monitored_state": tk_data_monitored_state,
-                                "data_monitoring_wdays": tk_data_monitoring_wdays,
-                                "data_override_lagging_class": tk_data_override_lagging_class
-                            };
+                        // Audit failure change
+                        var time = (new Date).getTime();
+                        var audit_record = {
+                            "time": time,
+                            "action": "failure",
+                            "user": currentUser,
+                            "change_type": "modify week days monitoring",
+                            "object": tk_data_host,
+                            "object_category": "data_host",
+                            "object_attrs": "data_monitoring_wdays changed from:" + tk_origin_data_monitoring_wdays + " to:" + tk_data_monitoring_wdays,
+                            "result": message
+                        };
 
-                            var that = $(this);
-                            that.off('click'); // remove handler
+                        $.ajax({
+                            url: auditendpoint_URl,
+                            type: "POST",
+                            async: true,
+                            contentType: "application/json",
+                            data: JSON.stringify(audit_record),
+                            success: function(returneddata) {
+                                //console.log("Updated!", returneddata)
+                                // Run the search again to update the table
+                            }
+                        });
 
-                            $.ajax({
-                                url: myendpoint_URl,
-                                type: "POST",
-                                async: true,
-                                contentType: "application/json",
-                                data: JSON.stringify(record),
-                                success: function(returneddata) {
-                                    //console.log("Updated!", returneddata)
-                                    // Run the search again to update the table
-                                    searchMainTableHost.startSearch();
-                                    baseSearchDataHost.startSearch();
-                                    searchSingleDataHost1.startSearch();
-                                    searchSingleDataHost2.startSearch();
-                                    searchSingleDataHost3.startSearch();
-
-                                    // house cleaning
-                                    myendpoint_URl = undefined;
-                                    delete(myendpoint_URl);
-                                    tk_keyid = undefined;
-                                    delete(tk_keyid);
-                                    return;
-
-                                },
-                                error: function(xhr, textStatus, error) {
-                                    message = "Error Updating!" + xhr + textStatus + error;
-                                    $("#modal_update_collection_failure_return").find('.modal-error-message p').text(message);
-                                    $("#modal_update_collection_failure_return").modal()
-                                }
-                            });
-
-                        }
-                    });
-
-                });
-
-                $("#btn_modal_modify_wdays_host_no").click(function() {
-
-                    // Show input modal
-                    $("#modal_modify_monitoring_wdays_host_no").modal();
-
-                    $("#btn_modal_modify_monitoring_wdays_host_no_confirm").click(function() {
-
-                        var tk_data_monitoring_wdays_no = tokens.get("tk_input_wdays_host_no");
-
-                        if (!tk_data_monitoring_wdays_no || !tk_data_monitoring_wdays_no.length) {
-                            // Show an error message
-                            $("#modal_entry_update_invalid").modal()
-                            return;
-                        } else {
-
-                            // Create a dictionary to store the field names and values
-                            var record = {
-                                "data_host": tk_data_host,
-                                "data_index": tk_data_index,
-                                "data_sourcetype": tk_data_sourcetype,
-                                "data_last_lag_seen": tk_data_last_lag_seen,
-                                "data_last_time_seen": tk_data_last_time_seen,
-                                "data_max_lag_allowed": tk_data_max_lag_allowed,
-                                "data_monitored_state": tk_data_monitored_state,
-                                "data_monitoring_wdays": tk_data_monitoring_wdays_no,
-                                "data_override_lagging_class": tk_data_override_lagging_class
-                            };
-
-                            var that = $(this);
-                            that.off('click'); // remove handler
-
-                            $.ajax({
-                                url: myendpoint_URl,
-                                type: "POST",
-                                async: true,
-                                contentType: "application/json",
-                                data: JSON.stringify(record),
-                                success: function(returneddata) {
-                                    //console.log("Updated!", returneddata)
-                                    // Run the search again to update the table
-                                    searchMainTableHost.startSearch();
-                                    baseSearchDataHost.startSearch();
-                                    searchSingleDataHost1.startSearch();
-                                    searchSingleDataHost2.startSearch();
-                                    searchSingleDataHost3.startSearch();
-
-                                    // house cleaning
-                                    myendpoint_URl = undefined;
-                                    delete(myendpoint_URl);
-                                    tk_keyid = undefined;
-                                    delete(tk_keyid);
-                                    return;
-
-                                },
-                                error: function(xhr, textStatus, error) {
-                                    message = "Error Updating!" + xhr + textStatus + error;
-                                    $("#modal_update_collection_failure_return").find('.modal-error-message p').text(message);
-                                    $("#modal_update_collection_failure_return").modal()
-                                }
-                            });
-
-                        }
-                    });
-
-                });
-
-                //
-                // Modify lag
-                //
-
-                $("#btn_modal_modify_lag_host").click(function() {
-
-                    // Show input modal
-                    $("#modal_modify_lag_host").modal();
-
-                    $("#btn_modal_modify_lag_confirm_host").click(function() {
-
-                        var tk_data_max_lag_allowed = tokens.get("tk_input_lag_host");
-                        var tk_data_override_lagging_class = tokens.get("modal_input_lag_override_class_host");
-
-                        if (!tk_data_max_lag_allowed || !tk_data_max_lag_allowed.length || !isNumeric(tk_data_max_lag_allowed)) {
-                            // Show an error message
-                            $("#modal_entry_update_invalid").modal()
-                            return;
-                        } else {
-
-                            // Create a dictionary to store the field names and values
-                            var record = {
-                                "data_host": tk_data_host,
-                                "data_index": tk_data_index,
-                                "data_sourcetype": tk_data_sourcetype,
-                                "data_last_lag_seen": tk_data_last_lag_seen,
-                                "data_last_time_seen": tk_data_last_time_seen,
-                                "data_max_lag_allowed": tk_data_max_lag_allowed,
-                                "data_monitored_state": tk_data_monitored_state,
-                                "data_monitoring_wdays": tk_data_monitoring_wdays,
-                                "data_override_lagging_class": tk_data_override_lagging_class
-                            };
-
-                            var that = $(this);
-                            that.off('click'); // remove handler
-
-                            $.ajax({
-                                url: myendpoint_URl,
-                                type: "POST",
-                                async: true,
-                                contentType: "application/json",
-                                data: JSON.stringify(record),
-                                success: function(returneddata) {
-                                    //console.log("Updated!", returneddata)
-                                    // Run the search again to update the table
-                                    searchMainTableHost.startSearch();
-                                    baseSearchDataHost.startSearch();
-                                    searchSingleDataHost1.startSearch();
-                                    searchSingleDataHost2.startSearch();
-                                    searchSingleDataHost3.startSearch();
-
-                                    // house cleaning
-                                    myendpoint_URl = undefined;
-                                    delete(myendpoint_URl);
-                                    tk_keyid = undefined;
-                                    delete(tk_keyid);
-                                    return;
-
-                                },
-                                error: function(xhr, textStatus, error) {
-                                    message = "Error Updating!" + xhr + textStatus + error;
-                                    $("#modal_update_collection_failure_return").find('.modal-error-message p').text(message);
-                                    $("#modal_update_collection_failure_return").modal()
-                                }
-                            });
-
-                        }
-                    });
-
+                        $("#modal_update_collection_failure_return").find('.modal-error-message p').text(message);
+                        $("#modal_update_collection_failure_return").modal()
+                    }
                 });
 
             }
+        });
+
+        $("#btn_modal_modify_wdays_host_no").click(function() {
+
+            // Show input modal
+            $("#modal_modify_monitoring_wdays_host_no").modal();
 
         });
 
+        $("#btn_modal_modify_monitoring_wdays_host_no_confirm").click(function() {
+
+            // When the Submit button is clicked, get all the form fields by accessing token values
+            var tokens = mvc.Components.get("default");
+
+            var tk_keyid = tokens.get("tk_keyid");
+            var tk_data_host = tokens.get("tk_data_host");
+            var tk_data_index = tokens.get("tk_data_index");
+            var tk_data_sourcetype = tokens.get("tk_data_sourcetype");
+            var tk_data_last_lag_seen = tokens.get("tk_data_last_lag_seen");
+            var tk_data_last_time_seen = tokens.get("tk_data_last_time_seen");
+            var tk_data_max_lag_allowed = tokens.get("tk_data_max_lag_allowed");
+            var tk_data_monitoring_wdays = tokens.get("tk_data_monitoring_wdays");
+            var tk_data_monitored_state = tokens.get("tk_data_monitored_state");
+            var tk_data_override_lagging_class = tokens.get("tk_data_override_lagging_class");
+
+            //console.log("Value of modal_input_grace_period is: " + tk_kafka_infra_grace_period);
+
+            // Create the endpoint URL
+            var myendpoint_URl = "/en-US/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_host_monitoring/" + tk_keyid;
+
+            var tk_origin_data_monitoring_wdays = tokens.get("tk_data_monitoring_wdays");
+            var tk_data_monitoring_wdays_no = tokens.get("tk_input_wdays_host_no");
+
+            if (!tk_data_monitoring_wdays_no || !tk_data_monitoring_wdays_no.length) {
+                // Show an error message
+                $("#modal_entry_update_invalid").modal()
+                return;
+            } else {
+
+                // Create a dictionary to store the field names and values
+                var record = {
+                    "data_host": tk_data_host,
+                    "data_index": tk_data_index,
+                    "data_sourcetype": tk_data_sourcetype,
+                    "data_last_lag_seen": tk_data_last_lag_seen,
+                    "data_last_time_seen": tk_data_last_time_seen,
+                    "data_max_lag_allowed": tk_data_max_lag_allowed,
+                    "data_monitored_state": tk_data_monitored_state,
+                    "data_monitoring_wdays": tk_data_monitoring_wdays_no,
+                    "data_override_lagging_class": tk_data_override_lagging_class
+                };
+
+                $.ajax({
+                    url: myendpoint_URl,
+                    type: "POST",
+                    async: true,
+                    contentType: "application/json",
+                    data: JSON.stringify(record),
+                    success: function(returneddata) {
+                        //console.log("Updated!", returneddata)
+                        // Run the search again to update the table
+                        searchMainTableHost.startSearch();
+                        baseSearchDataHost.startSearch();
+                        searchSingleDataHost1.startSearch();
+                        searchSingleDataHost2.startSearch();
+                        searchSingleDataHost3.startSearch();
+
+                        // Audit success change
+                        var time = (new Date).getTime();
+                        var audit_record = {
+                            "time": time,
+                            "action": "success",
+                            "user": currentUser,
+                            "change_type": "modify week days monitoring",
+                            "object": tk_data_host,
+                            "object_category": "data_host",
+                            "object_attrs": "data_monitoring_wdays changed from:" + tk_origin_data_monitoring_wdays + " to:" + tk_data_monitoring_wdays_no
+                        };
+                        $.ajax({
+                            url: auditendpoint_URl,
+                            type: "POST",
+                            async: true,
+                            contentType: "application/json",
+                            data: JSON.stringify(audit_record),
+                            success: function(returneddata) {
+                                //console.log("Updated!", returneddata)
+                                // Run the search again to update the table
+                            }
+                        });
+
+                        // house cleaning
+                        myendpoint_URl = undefined;
+                        delete(myendpoint_URl);
+                        tk_keyid = undefined;
+                        delete(tk_keyid);
+                        return;
+
+                    },
+                    error: function(xhr, textStatus, error) {
+                        message = "Error Updating!" + xhr + textStatus + error;
+
+                        // Audit failure change
+                        var time = (new Date).getTime();
+                        var audit_record = {
+                            "time": time,
+                            "action": "failure",
+                            "user": currentUser,
+                            "change_type": "modify week days monitoring",
+                            "object": tk_data_host,
+                            "object_category": "data_host",
+                            "object_attrs": "data_monitoring_wdays changed from:" + tk_origin_data_monitoring_wdays + " to:" + tk_data_monitoring_wdays_no,
+                            "result": message
+                        };
+                        $.ajax({
+                            url: auditendpoint_URl,
+                            type: "POST",
+                            async: true,
+                            contentType: "application/json",
+                            data: JSON.stringify(audit_record),
+                            success: function(returneddata) {
+                                //console.log("Updated!", returneddata)
+                                // Run the search again to update the table
+                            }
+                        });
+
+                        $("#modal_update_collection_failure_return").find('.modal-error-message p').text(message);
+                        $("#modal_update_collection_failure_return").modal()
+                    }
+                });
+
+            }
+        });
+
+        //
+        // Modify lag
+        //
+
+        $("#btn_modal_modify_lag_host").click(function() {
+
+            // Show input modal
+            $("#modal_modify_lag_host").modal();
+
+        });
+
+        $("#btn_modal_modify_lag_confirm_host").click(function() {
+
+            // When the Submit button is clicked, get all the form fields by accessing token values
+            var tokens = mvc.Components.get("default");
+
+            var tk_keyid = tokens.get("tk_keyid");
+            var tk_data_host = tokens.get("tk_data_host");
+            var tk_data_index = tokens.get("tk_data_index");
+            var tk_data_sourcetype = tokens.get("tk_data_sourcetype");
+            var tk_data_last_lag_seen = tokens.get("tk_data_last_lag_seen");
+            var tk_data_last_time_seen = tokens.get("tk_data_last_time_seen");
+            var tk_data_max_lag_allowed = tokens.get("tk_data_max_lag_allowed");
+            var tk_data_monitoring_wdays = tokens.get("tk_data_monitoring_wdays");
+            var tk_data_monitored_state = tokens.get("tk_data_monitored_state");
+            var tk_data_override_lagging_class = tokens.get("tk_data_override_lagging_class");
+
+            //console.log("Value of modal_input_grace_period is: " + tk_kafka_infra_grace_period);
+
+            // Create the endpoint URL
+            var myendpoint_URl = "/en-US/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_host_monitoring/" + tk_keyid;
+
+            var tk_data_max_lag_allowed = tokens.get("tk_input_lag_host");
+            var tk_origin_data_max_lag_allowed = tokens.get("tk_data_max_lag_allowed");
+            var tk_data_override_lagging_class = tokens.get("modal_input_lag_override_class_host");
+
+            if (!tk_data_max_lag_allowed || !tk_data_max_lag_allowed.length || !isNumeric(tk_data_max_lag_allowed)) {
+                // Show an error message
+                $("#modal_entry_update_invalid").modal()
+                return;
+            } else {
+
+                // Create a dictionary to store the field names and values
+                var record = {
+                    "data_host": tk_data_host,
+                    "data_index": tk_data_index,
+                    "data_sourcetype": tk_data_sourcetype,
+                    "data_last_lag_seen": tk_data_last_lag_seen,
+                    "data_last_time_seen": tk_data_last_time_seen,
+                    "data_max_lag_allowed": tk_data_max_lag_allowed,
+                    "data_monitored_state": tk_data_monitored_state,
+                    "data_monitoring_wdays": tk_data_monitoring_wdays,
+                    "data_override_lagging_class": tk_data_override_lagging_class
+                };
+
+                $.ajax({
+                    url: myendpoint_URl,
+                    type: "POST",
+                    async: true,
+                    contentType: "application/json",
+                    data: JSON.stringify(record),
+                    success: function(returneddata) {
+                        //console.log("Updated!", returneddata)
+                        // Run the search again to update the table
+                        searchMainTableHost.startSearch();
+                        baseSearchDataHost.startSearch();
+                        searchSingleDataHost1.startSearch();
+                        searchSingleDataHost2.startSearch();
+                        searchSingleDataHost3.startSearch();
+
+                        // Audit success change
+                        var time = (new Date).getTime();
+                        var audit_record = {
+                            "time": time,
+                            "action": "success",
+                            "user": currentUser,
+                            "change_type": "modify monitoring lag",
+                            "object": tk_data_host,
+                            "object_category": "data_source",
+                            "object_attrs": "data_max_lag_allowed changed from:" + tk_origin_data_max_lag_allowed + " to:" + tk_data_max_lag_allowed + " with data_override_lagging_class:" + tk_data_override_lagging_class
+                        };
+                        $.ajax({
+                            url: auditendpoint_URl,
+                            type: "POST",
+                            async: true,
+                            contentType: "application/json",
+                            data: JSON.stringify(audit_record),
+                            success: function(returneddata) {
+                                //console.log("Updated!", returneddata)
+                                // Run the search again to update the table
+                            }
+                        });
+
+                        // house cleaning
+                        myendpoint_URl = undefined;
+                        delete(myendpoint_URl);
+                        tk_keyid = undefined;
+                        delete(tk_keyid);
+                        return;
+
+                    },
+                    error: function(xhr, textStatus, error) {
+                        message = "Error Updating!" + xhr + textStatus + error;
+
+                        // Audit failure change
+                        var time = (new Date).getTime();
+                        var audit_record = {
+                            "time": time,
+                            "action": "failure",
+                            "user": currentUser,
+                            "change_type": "modify monitoring lag",
+                            "object": tk_data_host,
+                            "object_category": "data_source",
+                            "object_attrs": "data_max_lag_allowed changed from:" + tk_origin_data_max_lag_allowed + " to:" + tk_data_max_lag_allowed + " with data_override_lagging_class:" + tk_data_override_lagging_class,
+                            "result": message
+                        };
+                        $.ajax({
+                            url: auditendpoint_URl,
+                            type: "POST",
+                            async: true,
+                            contentType: "application/json",
+                            data: JSON.stringify(audit_record),
+                            success: function(returneddata) {
+                                //console.log("Updated!", returneddata)
+                                // Run the search again to update the table
+                            }
+                        });
+
+                        $("#modal_update_collection_failure_return").find('.modal-error-message p').text(message);
+                        $("#modal_update_collection_failure_return").modal()
+                    }
+                });
+
+            }
+        });
 
         DashboardController.onReady(function() {
             if (!submittedTokenModel.has('earliest') && !submittedTokenModel.has('latest')) {
