@@ -25,6 +25,14 @@ Welcome to the Splunk TrackMe application documentation
    :alt: screenshot2.png
    :align: center
 
+.. image:: img/screenshot3.png
+   :alt: screenshot3.png
+   :align: center
+
+.. image:: img/screenshot4.png
+   :alt: screenshot4.png
+   :align: center
+
 **Why this application?**
 
 Splunk administrators and engineers have to spend a good amount of time and energy to on-board new data sources, another data source after another data source.
@@ -57,6 +65,7 @@ Deployment and configuration:
    :maxdepth: 2
 
    deployment
+   configuration
 
 User guide:
 ===========
