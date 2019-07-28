@@ -2339,14 +2339,17 @@ styles in <div> tags, similar to Bootstrap's grid system.
                     <div class="input input-dropdown" id="inputAuditChangesAction">
                         <label>action:</label>
                     </div>
+                    <div class="input input-dropdown" id="inputAuditChangesUser">
+                        <label>user:</label>
+                    </div>
                     <div class="input input-dropdown" id="inputAuditChangesObjectCategory">
                         <label>object_category:</label>
                     </div>
                     <div class="input input-dropdown" id="inputAuditChangesChangeType">
                         <label>change_type:</label>
                     </div>
-                    <div class="input input-dropdown" id="inputAuditChangesUser">
-                        <label>user:</label>
+                    <div class="input input-dropdown" id="inputAuditChangesObject">
+                        <label>object:</label>
                     </div>
                 </div>
             </div>
@@ -2600,7 +2603,29 @@ require([
             "refreshType": "delay",
             "refresh": "$refresh$",
             "latest_time": "now",
-            "search": "| inputlookup trackme_audit_changes | sort limit=0 - time | eval _time=time/1000 | fields - time | search $audit_changes_action$ $audit_changes_object_category$ $audit_changes_change_type$ $audit_changes_user$ | table _time user action change_type object_category object object_attrs *",
+            "search": "| inputlookup trackme_audit_changes | sort limit=0 - time | eval _time=time/1000 | fields - time | search $audit_changes_action$ $audit_changes_object_category$ $audit_changes_change_type$ $audit_changes_user$ $audit_changes_object$ | table _time user action change_type object_category object object_attrs *",
+            "status_buckets": 0,
+            "app": utils.getCurrentApp(),
+            "auto_cancel": 90,
+            "preview": true,
+            "tokenDependencies": {
+                "depends": "$show_audit_changes$"
+            },
+            "runWhenTimeIsUndefined": false
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        });
+
+        var searchMainAuditChangesPopulate = new SearchManager({
+            "id": "searchMainAuditChangesPopulate",
+            "earliest_time": "-15m",
+            "cancelOnUnload": true,
+            "sample_ratio": null,
+            "refreshType": "delay",
+            "refresh": "$refresh$",
+            "latest_time": "now",
+            "search": "| inputlookup trackme_audit_changes",
             "status_buckets": 0,
             "app": utils.getCurrentApp(),
             "auto_cancel": 90,
@@ -2617,8 +2642,18 @@ require([
         var searchAuditChangesAction = new PostProcessManager({
             "tokenDependencies": {},
             "search": "stats count by action | sort limit=0 action",
-            "managerid": "searchMainAuditChanges",
+            "managerid": "searchMainAuditChangesPopulate",
             "id": "searchAuditChangesAction"
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        });
+
+        var searchAuditChangesUser = new PostProcessManager({
+            "tokenDependencies": {},
+            "search": "search $audit_changes_action$ | stats count by user | sort limit=0 user",
+            "managerid": "searchMainAuditChangesPopulate",
+            "id": "searchAuditChangesUser"
         }, {
             tokens: true,
             tokenNamespace: "submitted"
@@ -2626,8 +2661,8 @@ require([
 
         var searchAuditChangesObjectCategory = new PostProcessManager({
             "tokenDependencies": {},
-            "search": "stats count by object_category | sort limit=0 object_category",
-            "managerid": "searchMainAuditChanges",
+            "search": "search $audit_changes_action$ $audit_changes_user$ | stats count by object_category | sort limit=0 object_category",
+            "managerid": "searchMainAuditChangesPopulate",
             "id": "searchAuditChangesObjectCategory"
         }, {
             tokens: true,
@@ -2636,19 +2671,19 @@ require([
 
         var searchAuditChangesChangeType = new PostProcessManager({
             "tokenDependencies": {},
-            "search": "stats count by change_type | sort limit=0 change_type",
-            "managerid": "searchMainAuditChanges",
+            "search": "search $audit_changes_action$ $audit_changes_user$ $audit_changes_object_category$ | stats count by change_type | sort limit=0 change_type",
+            "managerid": "searchMainAuditChangesPopulate",
             "id": "searchAuditChangesChangeType"
         }, {
             tokens: true,
             tokenNamespace: "submitted"
         });
 
-        var searchAuditChangesUser = new PostProcessManager({
+        var searchAuditChangesObject = new PostProcessManager({
             "tokenDependencies": {},
-            "search": "stats count by user | sort limit=0 user",
-            "managerid": "searchMainAuditChanges",
-            "id": "searchAuditChangesUser"
+            "search": "search $audit_changes_action$ $audit_changes_user$ $audit_changes_object_category$ $audit_changes_change_type$ | stats count by object | sort limit=0 object",
+            "managerid": "searchMainAuditChangesPopulate",
+            "id": "searchAuditChangesObject"
         }, {
             tokens: true,
             tokenNamespace: "submitted"
@@ -5942,6 +5977,35 @@ require([
 
         inputAuditChangesUser.on("change", function(newValue) {
             FormUtils.handleValueChange(inputAuditChangesUser);
+        });
+
+        var inputAuditChangesObject = new DropdownInput({
+            "id": "inputAuditChangesObject",
+            "tokenDependencies": {
+                "depends": "$show_audit_changes$"
+            },
+            "choices": [{
+                "label": "ANY",
+                "value": "*"
+            }],
+            "searchWhenChanged": true,
+            "default": "*",
+            "showClearButton": true,
+            "labelField": "object",
+            "prefix": "object=\"",
+            "suffix": "\"",
+            "initialValue": "*",
+            "selectFirstChoice": false,
+            "valueField": "object",
+            "value": "$form.audit_changes_object$",
+            "managerid": "searchAuditChangesObject",
+            "el": $('#inputAuditChangesObject')
+        }, {
+            tokens: true
+        }).render();
+
+        inputAuditChangesObject.on("change", function(newValue) {
+            FormUtils.handleValueChange(inputAuditChangesObject);
         });
 
         //
