@@ -1,6 +1,14 @@
 Release notes
 #############
 
+Version 1.0.5
+=============
+
+- Feature: Implementation of audit changes
+- Feature: Unify blacklist buttons in main modal
+- Feature: Provides entities deletion permanent or temporary options to avoid re-creation of unwanted entities
+- Feature: Add last ingest column in data sources and hosts
+
 Version 1.0.4
 =============
 
