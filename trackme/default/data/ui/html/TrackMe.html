@@ -539,7 +539,7 @@ styles in <div> tags, similar to Bootstrap's grid system.
     </div>
 
     <!-- Generic deletion -->
-    <div class="modal fade" id="modal_entry_deletion" role="dialog">
+    <div class="modal custom-modal-50 fade" id="modal_entry_deletion" role="dialog">
         <div class="modal-dialog">
 
             <!-- Modal content-->
@@ -552,12 +552,21 @@ styles in <div> tags, similar to Bootstrap's grid system.
                     <p><b>Confirm deletion of this entry?</b><br /><br />
                         You may want to delete a data source entry if the data source has been discontinued, or if the target index or sourcetype was changed.
                         <br /><br />
+
+                        <b>Two options are available:</b>
+                        <lu>
+                            <li><b>Delete temporary:</b> removes the entity and its settings, shall the data source or host be active in the past 7 days, it will be re-created automatically by the trackers</li>
+                            <li><b>Delete permanently:</b> removes the entity and its settings, in addition it prevents the data source or host from being re-created automatically by the trackers</li>
+                            <br />
+                        </lu>
+
                     </p>
                 </div>
 
                 <div class="modal-footer">
                     <button type="submit" class="btn btn-default btn-default pull-left" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Cancel</button>
-                    <button type="submit" id="btn_modal_entry_deletion" class="btn btn-default btn-danger pull-right" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Ok</button>
+                    <button type="submit" id="btn_modal_entry_deletion_temporary" class="btn btn-default btn-primary pull-right" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Delete temporary</button>
+                    <button type="submit" id="btn_modal_entry_deletion" class="btn btn-default btn-danger pull-right" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Delete permanently</button>
                 </div>
             </div>
         </div>
@@ -6964,7 +6973,9 @@ require([
             if (tk_keyid && tk_keyid.length) {
 
                 $("#modal_entry_deletion").modal()
-                $("#btn_modal_entry_deletion").click(function() {
+
+                // Delete temporary: change_type will be set to temporary
+                $("#btn_modal_entry_deletion_temporary").unbind('click').click(function() {
 
                     var that = $(this);
                     that.off('click'); // remove handler
@@ -6989,7 +7000,7 @@ require([
                                 "time": time,
                                 "action": "success",
                                 "user": currentUser,
-                                "change_type": "delete",
+                                "change_type": "delete temporary",
                                 "object": tk_data_name,
                                 "object_category": "data_source",
                                 "object_attrs": JSON.stringify(record)
@@ -7022,7 +7033,92 @@ require([
                                 "time": time,
                                 "action": "failure",
                                 "user": currentUser,
-                                "change_type": "delete",
+                                "change_type": "delete temporary",
+                                "object": tk_data_name,
+                                "object_category": "data_source",
+                                "object_attrs": JSON.stringify(record),
+                                "result": message
+                            };
+                            $.ajax({
+                                url: auditendpoint_URl,
+                                type: "POST",
+                                async: true,
+                                contentType: "application/json",
+                                data: JSON.stringify(audit_record),
+                                success: function(returneddata) {
+                                    //console.log("Updated!", returneddata)
+                                    // Run the search again to update the table
+                                }
+                            });
+
+                            $("#modal_update_collection_failure_return").find('.modal-error-message p').text(message);
+                            $("#modal_update_collection_failure_return").modal()
+                        }
+
+                    });
+
+                });
+
+                // Delete temporary: change_type will be set to permanent
+                $("#btn_modal_entry_deletion").unbind('click').click(function() {
+
+                    var that = $(this);
+                    that.off('click'); // remove handler
+
+                    $.ajax({
+                        url: myendpoint_URl,
+                        type: "DELETE",
+                        async: true,
+                        contentType: "application/json",
+                        success: function(returneddata) {
+                            //console.log("Updated!", returneddata)
+                            // Run the search again to update the table
+                            baseSearchDataSource.startSearch();
+                            searchSingleDataSource1.startSearch();
+                            searchSingleDataSource2.startSearch();
+                            searchSingleDataSource3.startSearch();
+                            searchMainTable.startSearch();
+
+                            // Audit success change
+                            var time = (new Date).getTime();
+                            var audit_record = {
+                                "time": time,
+                                "action": "success",
+                                "user": currentUser,
+                                "change_type": "delete permanent",
+                                "object": tk_data_name,
+                                "object_category": "data_source",
+                                "object_attrs": JSON.stringify(record)
+                            };
+                            $.ajax({
+                                url: auditendpoint_URl,
+                                type: "POST",
+                                async: true,
+                                contentType: "application/json",
+                                data: JSON.stringify(audit_record),
+                                success: function(returneddata) {
+                                    //console.log("Updated!", returneddata)
+                                    // Run the search again to update the table
+                                }
+                            });
+
+                            // house cleaning
+                            myendpoint_URl = undefined;
+                            delete(myendpoint_URl);
+                            tk_keyid = undefined;
+                            delete(tk_keyid);
+                            return;
+                        },
+                        error: function(xhr, textStatus, error) {
+                            message = "Error Updating!" + xhr + textStatus + error;
+
+                            // Audit failure change
+                            var time = (new Date).getTime();
+                            var audit_record = {
+                                "time": time,
+                                "action": "failure",
+                                "user": currentUser,
+                                "change_type": "delete permanent",
                                 "object": tk_data_name,
                                 "object_category": "data_source",
                                 "object_attrs": JSON.stringify(record),
@@ -7095,7 +7191,8 @@ require([
             if (tk_keyid && tk_keyid.length) {
 
                 $("#modal_entry_deletion").modal()
-                $("#btn_modal_entry_deletion").click(function() {
+
+                $("#btn_modal_entry_deletion_temporary").unbind('click').click(function() {
 
                     var that = $(this);
                     that.off('click'); // remove handler
@@ -7120,7 +7217,91 @@ require([
                                 "time": time,
                                 "action": "success",
                                 "user": currentUser,
+                                "change_type": "delete temporary",
+                                "object": tk_data_host,
+                                "object_category": "data_host",
+                                "object_attrs": JSON.stringify(record)
+                            };
+                            $.ajax({
+                                url: auditendpoint_URl,
+                                type: "POST",
+                                async: true,
+                                contentType: "application/json",
+                                data: JSON.stringify(audit_record),
+                                success: function(returneddata) {
+                                    //console.log("Updated!", returneddata)
+                                    // Run the search again to update the table
+                                }
+                            });
+
+                            // house cleaning
+                            myendpoint_URl = undefined;
+                            delete(myendpoint_URl);
+                            tk_keyid = undefined;
+                            delete(tk_keyid);
+                            return;
+                        },
+                        error: function(xhr, textStatus, error) {
+                            message = "Error Updating!" + xhr + textStatus + error;
+
+                            // Audit failure change
+                            var time = (new Date).getTime();
+                            var audit_record = {
+                                "time": time,
+                                "action": "failure",
+                                "user": currentUser,
                                 "change_type": "delete",
+                                "object": tk_data_name,
+                                "object_category": "data_source",
+                                "object_attrs": JSON.stringify(record),
+                                "result": message
+                            };
+                            $.ajax({
+                                url: auditendpoint_URl,
+                                type: "POST",
+                                async: true,
+                                contentType: "application/json",
+                                data: JSON.stringify(audit_record),
+                                success: function(returneddata) {
+                                    //console.log("Updated!", returneddata)
+                                    // Run the search again to update the table
+                                }
+                            });
+
+                            $("#modal_update_collection_failure_return").find('.modal-error-message p').text(message);
+                            $("#modal_update_collection_failure_return").modal()
+                        }
+
+                    });
+
+                });
+
+                $("#btn_modal_entry_deletion").unbind('click').click(function() {
+
+                    var that = $(this);
+                    that.off('click'); // remove handler
+
+                    $.ajax({
+                        url: myendpoint_URl,
+                        type: "DELETE",
+                        async: true,
+                        contentType: "application/json",
+                        success: function(returneddata) {
+                            //console.log("Updated!", returneddata)
+                            // Run the search again to update the table
+                            baseSearchDataHost.startSearch();
+                            searchSingleDataHost1.startSearch();
+                            searchSingleDataHost2.startSearch();
+                            searchSingleDataHost3.startSearch();
+                            searchMainTableHost.startSearch();
+
+                            // Audit success change
+                            var time = (new Date).getTime();
+                            var audit_record = {
+                                "time": time,
+                                "action": "success",
+                                "user": currentUser,
+                                "change_type": "delete permanent",
                                 "object": tk_data_host,
                                 "object_category": "data_host",
                                 "object_attrs": JSON.stringify(record)
@@ -9336,8 +9517,9 @@ require([
                                 "time": time,
                                 "action": "failure",
                                 "user": currentUser,
-                                "change_type": "reset full collection",
+                                "change_type": "reset",
                                 "object_category": "data_source",
+                                "object": "full_collection"
                             };
                             $.ajax({
                                 url: auditendpoint_URl,
@@ -9438,8 +9620,9 @@ require([
                                                             "time": time,
                                                             "action": "success",
                                                             "user": currentUser,
-                                                            "change_type": "reset full collection",
+                                                            "change_type": "reset",
                                                             "object_category": "data_source",
+                                                            "object": "full_collection"
                                                         };
                                                         $.ajax({
                                                             url: auditendpoint_URl,
@@ -9558,8 +9741,9 @@ require([
                                 "time": time,
                                 "action": "failure",
                                 "user": currentUser,
-                                "change_type": "reset full collection",
+                                "change_type": "reset",
                                 "object_category": "data_host",
+                                "object": "full_collection"
                             };
                             $.ajax({
                                 url: auditendpoint_URl,
@@ -9658,8 +9842,9 @@ require([
                                                             "time": time,
                                                             "action": "success",
                                                             "user": currentUser,
-                                                            "change_type": "reset full collection",
+                                                            "change_type": "reset",
                                                             "object_category": "data_host",
+                                                            "object": "full_collection"
                                                         };
                                                         $.ajax({
                                                             url: auditendpoint_URl,
