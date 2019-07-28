@@ -45,6 +45,7 @@ The data sources state table exposes the information and the state of each data 
 - **data_index:** the name of the index where resides the data
 - **data_sourcetype:** the name of the sourcetype
 - **last time:** a human readable value of the latest time data was seen for this data source (respectively from limitations of the short and long term trackers time range scopes)
+- **last ingest:** a human readable value of the latest time data was indexed for this data source (respectively from limitations of the short and long term trackers time range scopes)
 - **state:** the state of the data source based on the monitoring rules for this data source
 - **data_last_lag_seen:** the latest lag value in seconds seen for that data source
 - **data_last_seen_index:** a human readable value of the latest time data was seen in this index (can be used to monitor on a per index basis rather than on a per sourcetype basis)
@@ -53,6 +54,16 @@ The data sources state table exposes the information and the state of each data 
 - **monitoring:** the monitoring state of this data source, can be enabled or disabled
 - **data_monitoring_level:** defines the criteria level of the data source monitoring, valid values are sourcetype (default) or index
 - **data_monitoring_wdays:** defines the week days monitoring rule for the data source, different values are possible and exposed further in this documentation
+
+**Trackers:**
+
+The update of the data source monitoring collection is driven by the execution of the data source scheduled tracker reports:
+
+- TrackMe - Data sources availability short term tracker, runs every 5 minutes over the last 4 hours
+- TrackMe - Data sources availability short term tracker, runs every hour over the last 7 days
+
+Both tracker reports rely on extremely fast and cost less tstats queries.
+Even on very large environments, the tracker's run time and running costs are very limited.
 
 Data hosts availability tracking
 ================================
@@ -77,11 +88,22 @@ The data hosts state table exposes the information and the state of each data ho
 - **data_index:** the name of the index(es) where resides the data
 - **data_sourcetype:** the name of the sourcetype(s)
 - **last time:** a human readable value of the latest time data was seen for this data source (respectively from limitations of the short and long term trackers time range scopes)
+- **last ingest:** a human readable value of the latest time data was indexed for this data source (respectively from limitations of the short and long term trackers time range scopes)
 - **state:** the state of the data source based on the monitoring rules for this data source
 - **data_last_lag_seen:** the latest lag value in seconds seen for that data source
 - **data_max_lag_allowed:** the maximal value of lag accepted for this data source
 - **monitoring:** the monitoring state of this data source, can be enabled or disabled
 - **data_monitoring_wdays:** defines the week days monitoring rule for the data source, different values are possible and exposed further in this documentation
+
+**Trackers:**
+
+The update of the data source monitoring collection is driven by the execution of the data source scheduled tracker reports:
+
+- TrackMe - Data hosts availability short term tracker, runs every 5 minutes over the last 4 hours
+- TrackMe - Data hosts availability short term tracker, runs every hour over the last 7 days
+
+Both tracker reports rely on extremely fast and cost less tstats queries.
+Even on very large environments, the tracker's run time and running costs are very limited.
 
 Interactive drilldown and administration of objects
 ===================================================
@@ -257,8 +279,8 @@ Manual run of the trackers
    :alt: run_tracker.png
    :align: center
 
-Reset the collection to factory default
-=======================================
+Reset the collection to factory defaults
+========================================
 
 **This danger button allows to you to perform a flush and fill operation of the KVstore collection, that is shipping out the current content and running a fresh tracker report:**
 
@@ -275,3 +297,44 @@ Reset the collection to factory default
 .. image:: img/reset2.png
    :alt: reset2.png
    :align: center
+
+Deletion of entities
+====================
+
+**You can delete a data source or a data host that was discovered automatically by using the builtin delete function:**
+
+.. image:: img/delete1.png
+   :alt: delete1.png
+   :align: center
+
+**Two options are available:**
+
+.. image:: img/delete2.png
+   :alt: delete2.png
+   :align: center
+
+- When the data source or host is temporary removed, it will be automatically re-created if it has been active during the time range scope of the trackers.
+- When the data source or host is permanently removed, a record of the operation is stored in the audit changes KVstore collection, which we automatically use to prevent the source from being re-created effectively.
+
+Auditing changes
+================
+
+**Every action that involves a modification of an object via the UI is stored in a KVstore collection to be used for auditing and investigation purposes:**
+
+.. image:: img/auditing1.png
+   :alt: auditing1.png
+   :align: center
+
+Different information related to the change performed are stored in the collection, such as the user that performed the change, the type of object, the existing state before the change is performed, and so forth.
+
+**In addition, each audit change record has a time stamp information stored, which we use to purge old records automatically, via the scheduled report:**
+
+- TrackMe - Audit changes night purge
+
+The purge is performed in a daily fashion executed during the night, by default every record older than 90 days will be purged.
+
+**You can customize this value using the following macro definition:**
+
+- trackme_audit_changes_retention
+
+Finally, the auditing change collection is automatically used by the trackers reports when a permanent deletion of an object has been requested.
