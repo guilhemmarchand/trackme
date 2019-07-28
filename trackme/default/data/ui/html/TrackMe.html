@@ -64,6 +64,9 @@
 
         .modal-guts {
 
+          /* For Splunk 7.0.x */
+          margin-top: 30px;
+
           /* other stuff we already covered */
 
           /* cover the modal */
@@ -503,7 +506,7 @@ styles in <div> tags, similar to Bootstrap's grid system.
         </div>
     </div>
 
-    <div class="modal fade" id="modal_time_to_configure" role="dialog">
+    <div class="modal custom-modal-50 fade" id="modal_time_to_configure" role="dialog">
         <div class="modal-dialog">
             <!-- Modal content-->
             <div class="modal-content">
@@ -515,7 +518,7 @@ styles in <div> tags, similar to Bootstrap's grid system.
 
                     <img style="float: left; margin: 0px 15px 15px 0px;" src="../../static/app/trackme/icons/sorry_poney.png"/>
 
-                    <p>It looks like this is your first visit here, the collection is currently empty as the first occurrence of the tracker was not executed yet.<br /><br />
+                    <p>It looks like this is your first visit here, the collection is currently empty as the tracker reports were not executed yet.<br /><br />
                         <b>The tracker reports are automatically scheduled but you can request an execution immediately by clicking on the button bellow.</b>
                         <br /><br />
                         <b>Make sure the tracker reports are activated and scheduled:</b>
@@ -527,10 +530,12 @@ styles in <div> tags, similar to Bootstrap's grid system.
                             <li>TrackMe - Data hosts availability long term tracker</li>
                         </lu>
 
+                        <b></b>
+
                     </p>
                 </div>
 
-                <div class="modal-footer" style="margin-top: 150px;">
+                <div class="modal-footer" style="margin-top: 300px;">
                     <button type="submit" class="btn btn-default btn-default" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Close</button>
                     <button id="btn_modal_update_collection" class="btn btn-default btn-primary" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Update collection now</button>
                 </div>
@@ -2535,6 +2540,12 @@ require([
             defaultTokenModel.unset(name);
             submittedTokenModel.unset(name);
         }
+
+        //
+        // VARIOUS
+        //
+
+        // console.log("Splunk version is " + $C.VERSION_LABEL);
 
         //
         // SEARCH MANAGERS
@@ -6363,7 +6374,7 @@ require([
         //
 
         // Search everything and return the first 100 results
-        var searchQuery = "| inputlookup trackme_data_source_monitoring";
+        var searchQuery = "| inputlookup trackme_data_source_monitoring | inputlookup append=t trackme_host_monitoring";
 
         // Set the search parameters
         var searchParams = {
@@ -10362,9 +10373,89 @@ require([
                                 searchSingleDataSource3.startSearch();
                                 searchMainTable.startSearch();
 
-                                $("#loadingGray").remove()
-                                $("#modal_update_collection_done").modal()
+                                // Run second job!
 
+                                // Define the query
+                                var searchQuery = "| savedsearch \"TrackMe - hosts availability long term tracker\"";
+
+                                // Set the search parameters--specify a time range
+                                var searchParams = {
+                                    earliest_time: "-48h",
+                                    latest_time: "now"
+                                };
+
+                                // Run a normal search that immediately returns the job's SID
+                                service.search(
+                                    searchQuery,
+                                    searchParams,
+                                    function(err, job) {
+
+                                        $("#loadingGray").remove()
+                                        $("body").append('<div id="loadingGray" style="background: #e9e9e9; display: block; position: fixed; z-index: 100; top: 0; right: 0; bottom: 0; left: 0; height: 100%; opacity: 0.8;"><div style="width: 100%; margin-top: 250px; padding-bottom: 50px; text-align: center;"><p style="font-size: 18pt; font-weight: bolder;">Running the data hosts tracker...</p></div><div id="spinner"></div></div>')
+
+                                        require(["jquery",
+                                                "/static/app/trackme/spin.js"
+                                            ],
+                                            function($,
+                                                Spinner
+                                            ) {
+                                                new Spinner({
+                                                    lines: 12,
+                                                    position: "relative"
+                                                }).spin(document.getElementById('spinner'));
+                                            })
+
+                                        // Shall the search fail before we can get properties
+                                        if (job == null) {
+                                            let errorStr = "Unknown Error!";
+                                            if (err && err.data && err.data.messages && err.data.messages[0]['text']) {
+                                                errorStr = err.data.messages[0]['text'];
+                                            } else if (err && err.data && err.data.messages) {
+                                                errorStr = JSON.stringify(err.data.messages);
+                                            }
+                                            $("#loadingGray").remove()
+                                            $("#modal_update_collection_failure_return").find('.modal-error-message p').text(errorStr);
+                                            $("#modal_update_collection_failure_return").modal()
+                                        } else {
+
+                                            // Poll the status of the search job
+                                            job.track({
+                                                period: 200
+                                            }, {
+                                                done: function(job) {
+                                                    //console.log("Done!");
+
+                                                    // Once the job is done, update all searches
+                                                    baseSearchDataHost.startSearch();
+                                                    searchSingleDataHost1.startSearch();
+                                                    searchSingleDataHost2.startSearch();
+                                                    searchSingleDataHost3.startSearch();
+                                                    searchMainTableHost.startSearch();
+
+                                                    $("#loadingGray").remove()
+                                                    $("#modal_update_collection_done").modal()
+
+                                                },
+                                                failed: function(properties) {
+                                                    let errorStr = "Unknown Error!";
+                                                    if (properties && properties._properties && properties._properties.messages && properties._properties.messages[0]['text']) {
+                                                        errorStr = properties._properties.messages[0]['text'];
+                                                    } else if (properties && properties._properties && properties._properties.messages) {
+                                                        errorStr = JSON.stringify(properties._properties.messages);
+                                                    }
+                                                    $("#loadingGray").remove()
+                                                    $("#modal_update_collection_failure_return").find('.modal-error-message p').text(errorStr);
+                                                    $("#modal_update_collection_failure_return").modal()
+                                                },
+                                                error: function(err) {
+                                                    done(err);
+                                                    $("#loadingGray").remove()
+                                                    $("#modal_update_collection_failure").modal()
+                                                }
+                                            });
+                                        }
+                                    }
+                                );
                             },
                             failed: function(properties) {
                                 let errorStr = "Unknown Error!";

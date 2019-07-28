@@ -24,7 +24,7 @@ Open a issue in Git
 
 To report an issue, request a feature change or improvement, please open an issue in Github:
 
-- https://github.com/guilhemmarchand/dsmon/issues
+- https://github.com/guilhemmarchand/trackme/issues
 
 Email support
 =============

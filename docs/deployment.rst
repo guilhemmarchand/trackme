@@ -14,6 +14,11 @@ Deployment matrix
 
 If Splunk search heads are running in Search Head Cluster (SHC), the Splunk application must be deployed by the SHC deployer.
 
+Dependencies
+============
+
+There are currently no dependencies for the application.
+
 Initial deployment
 ==================
 

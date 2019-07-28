@@ -338,3 +338,13 @@ The purge is performed in a daily fashion executed during the night, by default 
 - trackme_audit_changes_retention
 
 Finally, the auditing change collection is automatically used by the trackers reports when a permanent deletion of an object has been requested.
+
+Out of the box alerts
+=====================
+
+**Pre-built alerts are provided if you want to get alerting based in the data sources and hosts monitoring:**
+
+- TrackMe - Alert on data source availability
+- TrackMe - Alert on data host availability
+
+**The builtin alerts are disabled by default.**

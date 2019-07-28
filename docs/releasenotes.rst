@@ -1,6 +1,12 @@
 Release notes
 #############
 
+Version 1.0.6
+=============
+
+- Fix: Minor UI fixes
+- Fix: Remove include_reduced_buckets for Splunk pre 7.3.x compatibility
+
 Version 1.0.5
 =============
 
