@@ -1,6 +1,11 @@
 Release notes
 #############
 
+Version 1.0.7
+=============
+
+- Fix: Missing lagging class button in data sources view
+
 Version 1.0.6
 =============
 
