@@ -1,6 +1,12 @@
 Release notes
 #############
 
+Version 1.0.8
+=============
+
+- Feature: Add dropdown filters for data host monitoring (data_index, data_sourcetype)
+- Feature: Improve filtering logics
+
 Version 1.0.7
 =============
 
