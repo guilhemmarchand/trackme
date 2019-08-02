@@ -3,7 +3,7 @@
 
 []
 owner = admin
-access = read : [ * ], write : [ admin, kafka_admin ]
+access = read : [ * ], write : [ admin ]
 
 ### EVENT TYPES
 
