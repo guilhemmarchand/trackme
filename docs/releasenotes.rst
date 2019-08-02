@@ -1,6 +1,11 @@
 Release notes
 #############
 
+Version 1.0.9
+=============
+
+- Fix: bad reference to a group in default Meta
+
 Version 1.0.8
 =============
 
