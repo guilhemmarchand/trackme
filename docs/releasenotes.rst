@@ -1,6 +1,11 @@
 Release notes
 #############
 
+Version 1.0.10
+==============
+
+- Feature: Provides a trackme_admin role with relevant default meta configuration to allow granular access control for non admin users
+
 Version 1.0.9
 =============
 
