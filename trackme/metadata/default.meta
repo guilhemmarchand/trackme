@@ -3,7 +3,7 @@
 
 []
 owner = admin
-access = read : [ * ], write : [ admin ]
+access = read : [ * ], write : [ admin, trackme_admin ]
 
 ### EVENT TYPES
 
@@ -48,11 +48,97 @@ export = system
 ### KVSTORE COLLECTIONS
 
 #
+# Data source availability monitoring
+#
+
+[transforms/trackme_data_source_monitoring]
+access = read : [ * ], write : [ admin, trackme_admin ]
+
+[collections/kv_trackme_data_source_monitoring]
+access = read : [ * ], write : [ admin, trackme_admin ]
+
+#
+# Hosts availability monitoring
+#
+
+[transforms/trackme_host_monitoring]
+access = read : [ * ], write : [ admin, trackme_admin ]
+
+[collections/kv_trackme_host_monitoring]
+access = read : [ * ], write : [ admin, trackme_admin ]
+
+#
+# blacklisting for data source monitoring
+#
+
+# Hosts blacklisting
+
+[transforms/trackme_data_source_monitoring_blacklist_host]
+access = read : [ * ], write : [ admin, trackme_admin ]
+
+[collections/kv_trackme_data_source_monitoring_blacklist_host]
+access = read : [ * ], write : [ admin, trackme_admin ]
+
+# Indexes blacklisting
+
+[transforms/trackme_data_source_monitoring_blacklist_index]
+access = read : [ * ], write : [ admin, trackme_admin ]
+
+[collections/kv_trackme_data_source_monitoring_blacklist_index]
+access = read : [ * ], write : [ admin, trackme_admin ]
+
+# Sourcetypes blacklisting
+
+[transforms/trackme_data_source_monitoring_blacklist_sourcetype]
+access = read : [ * ], write : [ admin, trackme_admin ]
+
+[collections/kv_trackme_data_source_monitoring_blacklist_sourcetype]
+access = read : [ * ], write : [ admin, trackme_admin ]
+
+#
+# blacklisting for data host monitoring
+#
+
+# Hosts blacklisting
+
+[transforms/trackme_data_host_monitoring_blacklist_host]
+access = read : [ * ], write : [ admin, trackme_admin ]
+
+[collections/kv_trackme_data_host_monitoring_blacklist_host]
+access = read : [ * ], write : [ admin, trackme_admin ]
+
+# Indexes blacklisting
+
+[transforms/trackme_data_host_monitoring_blacklist_index]
+access = read : [ * ], write : [ admin, trackme_admin ]
+
+[collections/kv_trackme_data_host_monitoring_blacklist_index]
+access = read : [ * ], write : [ admin, trackme_admin ]
+
+# Sourcetypes blacklisting
+
+[transforms/trackme_data_host_monitoring_blacklist_sourcetype]
+access = read : [ * ], write : [ admin, trackme_admin ]
+
+[collections/kv_trackme_data_host_monitoring_blacklist_sourcetype]
+access = read : [ * ], write : [ admin, trackme_admin ]
+
+#
+# Default lagging value
+#
+
+[transforms/trackme_custom_lagging_definition]
+access = read : [ * ], write : [ admin, trackme_admin ]
+
+[collections/kv_trackme_custom_lagging_definition]
+access = read : [ * ], write : [ admin, trackme_admin ]
+
+#
 # Audit change
 #
 
 [transforms/trackme_audit_changes]
-access = read : [ admin ], write : [ admin ]
+access = read : [ admin ], write : [ admin, trackme_admin ]
 
 [collections/kv_trackme_audit_changes]
 access = read : [ * ], write : [ * ]
