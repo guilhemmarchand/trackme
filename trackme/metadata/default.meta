@@ -142,3 +142,13 @@ access = read : [ admin ], write : [ admin, trackme_admin ]
 
 [collections/kv_trackme_audit_changes]
 access = read : [ * ], write : [ * ]
+
+#
+# Audit status flipping
+#
+
+[transforms/trackme_audit_flip]
+access = read : [ * ], write : [ admin, trackme_admin ]
+
+[collections/kv_trackme_audit_flip]
+access = read : [ * ], write : [ admin, trackme_admin ]

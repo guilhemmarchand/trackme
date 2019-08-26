@@ -50,9 +50,9 @@ This is driven by the following macro definition:
 
 ::
 
-    [trackme_date_format]
-    definition = eval "data_last_time_seen (translated)"=strftime(data_last_time_seen, "%d/%m/%Y %H:%M")\
-    | eval "data_last_time_seen_idx (translated)"=strftime(data_last_time_seen_idx, "%d/%m/%Y %H:%M")\
-    | eval "data_last_ingest (translated)"=strftime(data_last_ingest, "%d/%m/%Y %H:%M")
+    [trackme_date_format(1)]
+    args = input_field
+    definition = eval "$input_field$ (translated)"=strftime($input_field$, "%d/%m/%Y %H:%M")
+    iseval = 0
 
 If you prefer to have a different format, customise this macro definition.

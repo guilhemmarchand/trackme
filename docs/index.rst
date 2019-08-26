@@ -11,6 +11,7 @@ Welcome to the Splunk TrackMe application documentation
 - Discover and store data sources and hosts information and states
 - Provides a handy and easy user interface to manage states, configuration and quickly trouble shoot alerts
 - Analyse and detect lack of data and performance lagging of data sources and hosts
+- Record and investigate historical changes of statuses, as well as administrators changes (audit flipping and changes)
 - Easy administration via graphical human interface
 
 .. image:: img/screenshot.png
