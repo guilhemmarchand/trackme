@@ -1,6 +1,11 @@
 Release notes
 #############
 
+Version 1.0.11
+==============
+
+- Feature: Introducing status flipping audit and investigation to record and report on historical changes of data sources and hosts status
+
 Version 1.0.10
 ==============
 

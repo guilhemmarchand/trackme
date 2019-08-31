@@ -156,20 +156,23 @@ styles in <div> tags, similar to Bootstrap's grid system.
                                 </div>
 
                                 <div style="margin-top:10px; margin-left: 20px;">
-                                    <div style="float:left;width:45%;">
+                                    <div style="float:left;width:33%;">
                                         <p><b>data_index:</b> $tk_data_index$</p>
                                         <p><b>data_sourcetype:</b> $tk_data_sourcetype$</p>
                                         <p><b>data_last_lag_seen:</b> $tk_data_last_lag_seen$</p>
                                         <p><b>data_last_time_seen:</b> $tk_data_last_time_seen_human$</p>
                                     </div>
-                                    <div style="float:left;width:45%;">
+                                    <div style="float:left;width:33%;">
                                         <p><b>data_last_ingest:</b> $tk_data_last_ingest_human$</p>
                                         <p><b>data_max_lag_allowed:</b> $tk_data_max_lag_allowed$</p>
                                         <p><b>data_monitored_state:</b> $tk_data_monitored_state$</p>
                                         <p><b>data_monitoring_level:</b> $tk_data_monitoring_level$</p>
                                     </div>
+                                    <div style="float:left;width:33%;">
+                                        <p><b>latest_flip_time:</b> $tk_latest_flip_time_human$</p>
+                                        <p><b>latest_flip_state:</b> $tk_latest_flip_state$</p>
+                                    </div>
                                 </div>
-
                             </div>
                         </div>
 
@@ -245,14 +248,18 @@ styles in <div> tags, similar to Bootstrap's grid system.
                                 </div>
 
                                 <div style="margin-top:10px; margin-left: 20px;">
-                                    <div style="float:left;width:45%;">
+                                    <div style="float:left;width:33%;">
                                         <p><b>data_last_lag_seen:</b> $tk_data_last_lag_seen$</p>
                                         <p><b>data_last_time_seen:</b> $tk_data_last_time_seen_human$</p>
                                         <p><b>data_last_ingest:</b> $tk_data_last_ingest_human$</p>
                                     </div>
-                                    <div style="float:left;width:45%;">
+                                    <div style="float:left;width:33%;">
                                         <p><b>data_max_lag_allowed:</b> $tk_data_max_lag_allowed$</p>
                                         <p><b>data_monitored_state:</b> $tk_data_monitored_state$</p>
+                                    </div>
+                                    <div style="float:left;width:33%;">
+                                        <p><b>latest_flip_time:</b> $tk_latest_flip_time_human$</p>
+                                        <p><b>latest_flip_state:</b> $tk_latest_flip_state$</p>
                                     </div>
                                 </div>
 
@@ -2356,6 +2363,62 @@ styles in <div> tags, similar to Bootstrap's grid system.
         </div>
     </div>
 
+    <div id="rowAuditFlipTop" class="dashboard-row dashboard-row1" data-original-id="rowAuditFlipTop" data-depends="$show_audit_flip$">
+        <div id="panelAuditFlipChart1" class="dashboard-cell" style="width: 100%;">
+            <div class="dashboard-panel clearfix">
+                <div class="panel-element-row">
+                    <div id="chartAuditFlipTopObject" class="dashboard-element chart" style="width: 100%">
+                        <div class="panel-head">
+                            <h3>TOP Object</h3>
+                        </div>
+                        <div class="panel-body"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="panelAuditFlipChart2" class="dashboard-cell" style="width: 100%;">
+            <div class="dashboard-panel clearfix">
+                <div class="panel-element-row">
+                    <div id="chartAuditFlipOverTime" class="dashboard-element chart" style="width: 100%">
+                        <div class="panel-head">
+                            <h3>Flip over time</h3>
+                        </div>
+                        <div class="panel-body"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="rowAuditFlipFilters" class="dashboard-row dashboard-AuditChangesFilters" data-depends="$show_audit_flip$">
+        <div id="panelAuditFlipFilters" class="dashboard-cell" style="width: 100%;">
+            <div class="dashboard-panel clearfix">
+                <h2 class="panel-title">Search for alert state flipping:</h2>
+                <div class="fieldset">
+                    <div class="input input-dropdown" id="inputAuditFlipObjectCategory">
+                        <label>object_category:</label>
+                    </div>
+                    <div class="input input-dropdown" id="inputAuditFlipObject">
+                        <label>object:</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="rowAuditFlipTable" class="dashboard-row dashboard-rowDataSourcesTable" data-depends="$show_audit_flip$">
+        <div id="panelAuditFlipTable" class="dashboard-cell" style="width: 100%;">
+            <div class="dashboard-panel clearfix">
+                <div class="panel-element-row">
+
+                    <div id="elementMainTableAuditFlip" class="dashboard-element table" style="width: 100%">
+                        <div class="panel-body"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <div id="rowAuditChangesFilters" class="dashboard-row dashboard-AuditChangesFilters" data-depends="$show_audit_changes$">
         <div id="panelAuditChangesFilters" class="dashboard-cell" style="width: 100%;">
             <div class="dashboard-panel clearfix">
@@ -2611,7 +2674,7 @@ require([
             "refreshType": "delay",
             "refresh": "$refresh$",
             "latest_time": "now",
-            "search": "| `tstats` max(_indextime) as current_data_last_ingest, max(_time) as current_data_last_time_seen count as current_data_last_count_seen where index=* sourcetype=* `trackme_tstats_main_filter` `apply_data_source_blacklists_data_retrieve` by index, sourcetype | rename index as data_index, sourcetype as data_sourcetype | lookup trackme_data_source_monitoring data_index, data_sourcetype OUTPUT data_name | append [ | inputlookup trackme_data_source_monitoring | eval keyid=_key ] | stats first(*) as \"*\" by data_name, data_index, data_sourcetype | eval data_last_ingest=if(isnotnull(current_data_last_ingest), current_data_last_ingest, data_last_ingest), data_last_time_seen=if(isnotnull(current_data_last_time_seen), current_data_last_time_seen, data_last_time_seen) | eval current_data_last_count_seen=if(isnotnull(current_data_last_count_seen), current_data_last_count_seen, data_last_count_seen) | fields - current_* | eventstats max(data_last_time_seen) as data_last_time_seen_idx, min(data_last_lag_seen) as data_last_lag_seen_idx by data_index | `trackme_eval_data_source_state` | `trackme_date_format` | fillnull value=\"red\" data_source_state | sort 0 data_source | `trackme_eval_icons` | search $data_source_state$ | search $inputDataName$ $inputDataIndex$ $inputDataSourcetype$ $data_monitored_state$ | fields keyid, data_name, data_index, data_sourcetype, \"data_last_time_seen (translated)\", data_last_time_seen, \"data_last_ingest (translated)\", data_last_ingest, \"data_last_time_seen_idx (translated)\", data_last_time_seen_idx, state, data_last_lag_seen, data_last_lag_seen_idx, data_max_lag_allowed, monitoring, data_monitored_state, data_monitoring_level, data_source_state, data_monitoring_wdays, data_override_lagging_class | `apply_data_source_blacklists` | rename \"data_last_time_seen (translated)\" as \"last time\", \"data_last_ingest (translated)\" as \"last ingest\", \"data_last_time_seen_idx (translated)\" as \"last time idx\"",
+            "search": "| `tstats` max(_indextime) as current_data_last_ingest, max(_time) as current_data_last_time_seen count as current_data_last_count_seen where index=* sourcetype=* `trackme_tstats_main_filter` `apply_data_source_blacklists_data_retrieve` by index, sourcetype | rename index as data_index, sourcetype as data_sourcetype | lookup trackme_data_source_monitoring data_index, data_sourcetype OUTPUT data_name | append [ | inputlookup trackme_data_source_monitoring | eval keyid=_key ] | stats first(*) as \"*\" by data_name, data_index, data_sourcetype | eval data_last_ingest=if(isnotnull(current_data_last_ingest), current_data_last_ingest, data_last_ingest), data_last_time_seen=if(isnotnull(current_data_last_time_seen), current_data_last_time_seen, data_last_time_seen) | eval current_data_last_count_seen=if(isnotnull(current_data_last_count_seen), current_data_last_count_seen, data_last_count_seen) | fields - current_* | eventstats max(data_last_time_seen) as data_last_time_seen_idx, min(data_last_lag_seen) as data_last_lag_seen_idx by data_index | `trackme_eval_data_source_state` | `trackme_date_format(data_last_time_seen)` | `trackme_date_format(data_last_time_seen_idx)` | `trackme_date_format(data_last_ingest)` | fillnull value=\"red\" data_source_state | sort 0 data_source | `trackme_eval_icons` | search $data_source_state$ | search $inputDataName$ $inputDataIndex$ $inputDataSourcetype$ $data_monitored_state$ | fields keyid, data_name, data_index, data_sourcetype, \"data_last_time_seen (translated)\", data_last_time_seen, \"data_last_ingest (translated)\", data_last_ingest, \"data_last_time_seen_idx (translated)\", data_last_time_seen_idx, state, data_last_lag_seen, data_last_lag_seen_idx, data_max_lag_allowed, monitoring, data_monitored_state, data_monitoring_level, data_source_state, data_monitoring_wdays, data_override_lagging_class | `apply_data_source_blacklists` | rename \"data_last_time_seen (translated)\" as \"last time\", \"data_last_ingest (translated)\" as \"last ingest\", \"data_last_time_seen_idx (translated)\" as \"last time idx\" | eval data_tracker_runtime=now() | lookup local=t trackme_data_source_monitoring data_name OUTPUT data_source_state as data_previous_source_state, data_tracker_runtime as data_previous_tracker_runtime, latest_flip_state, latest_flip_time | `trackme_date_format(\"latest_flip_time\")` | fillnull value=\"N/A\" latest_flip_state, latest_flip_time, \"latest_flip_time (translated)\"",
             "status_buckets": 0,
             "app": utils.getCurrentApp(),
             "auto_cancel": 90,
@@ -2650,6 +2713,91 @@ require([
             "search": "search $inputDataName$ $inputDataIndex$ | stats values(data_sourcetype) as data_sourcetype | mvexpand data_sourcetype | dedup data_sourcetype | sort limit=0 data_sourcetype",
             "managerid": "baseSearchDataSource",
             "id": "searchPopulateDataSourcesSourcetypes"
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        });
+
+        // Audit Flip
+        var searchMainAuditFlip = new SearchManager({
+            "id": "searchMainAuditFlip",
+            "earliest_time": "-15m",
+            "cancelOnUnload": true,
+            "sample_ratio": null,
+            "refreshType": "delay",
+            "refresh": "$refresh$",
+            "latest_time": "now",
+            "search": "| inputlookup trackme_audit_flip | sort limit=0 - time | eval _time=time | fields - time | search $audit_flip_object_category$ $audit_flip_object$ | eval \" \" = \"-->\" | table _time object object_category object_previous_state \" \" object_state result | `trackme_eval_icons_flip`",
+            "status_buckets": 0,
+            "app": utils.getCurrentApp(),
+            "auto_cancel": 90,
+            "preview": true,
+            "tokenDependencies": {
+                "depends": "$show_audit_flip$"
+            },
+            "runWhenTimeIsUndefined": false
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        });
+
+        var searchMainAuditFlipPopulate = new SearchManager({
+            "id": "searchMainAuditFlipPopulate",
+            "earliest_time": "-15m",
+            "cancelOnUnload": true,
+            "sample_ratio": null,
+            "refreshType": "delay",
+            "refresh": "$refresh$",
+            "latest_time": "now",
+            "search": "| inputlookup trackme_audit_flip",
+            "status_buckets": 0,
+            "app": utils.getCurrentApp(),
+            "auto_cancel": 90,
+            "preview": true,
+            "tokenDependencies": {
+                "depends": "$show_audit_flip$"
+            },
+            "runWhenTimeIsUndefined": false
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        });
+
+        var searchAuditFlipObjectCategory = new PostProcessManager({
+            "tokenDependencies": {},
+            "search": "stats count by object_category | sort limit=0 object_category",
+            "managerid": "searchMainAuditFlipPopulate",
+            "id": "searchAuditFlipObjectCategory"
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        });
+
+        var searchAuditFlipObject = new PostProcessManager({
+            "tokenDependencies": {},
+            "search": "search $audit_flip_object$ | stats count by object | sort limit=0 object",
+            "managerid": "searchMainAuditFlipPopulate",
+            "id": "searchAuditFlipObject"
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        });
+
+        var searchAuditFlipTopObject = new PostProcessManager({
+            "tokenDependencies": {},
+            "search": "top object",
+            "managerid": "searchMainAuditFlip",
+            "id": "searchAuditFlipTopObject"
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        });
+
+        var searchAuditFlipOverTime = new PostProcessManager({
+            "tokenDependencies": {},
+            "search": "timechart limit=40 useother=t minspan=1h bins=1000 count by object",
+            "managerid": "searchMainAuditFlip",
+            "id": "searchAuditFlipOverTime"
         }, {
             tokens: true,
             tokenNamespace: "submitted"
@@ -2789,7 +2937,7 @@ require([
             "refreshType": "delay",
             "refresh": "$refresh$",
             "latest_time": "now",
-            "search": "| `tstats` max(_indextime) as current_data_last_ingest, max(_time) as current_data_last_time_seen count as current_data_last_count_seen values(sourcetype) as sourcetype where index=* sourcetype=* `trackme_tstats_main_filter` `apply_data_host_blacklists_data_retrieve` by index, host | stats max(current_data_last_ingest) as current_data_last_ingest, max(current_data_last_time_seen) as current_data_last_time_seen, sum(current_data_last_count_seen) as current_data_last_count_seen, values(index) as index, values(sourcetype) as sourcetype by host | rename index as data_index, host as data_host, sourcetype as data_sourcetype | lookup trackme_host_monitoring data_host | append [ | inputlookup trackme_host_monitoring | eval keyid=_key ] | stats values(data_index) as data_index, values(data_sourcetype) as data_sourcetype, first(*) as \"*\" by data_host | eval data_last_ingest=if(isnotnull(current_data_last_ingest), current_data_last_ingest, data_last_ingest), data_last_time_seen=if(isnotnull(current_data_last_time_seen), current_data_last_time_seen, data_last_time_seen) | eval current_data_last_count_seen=if(isnotnull(current_data_last_count_seen), current_data_last_count_seen, data_last_count_seen) | fields - current_* | `trackme_eval_data_host_state` | `trackme_date_format` | fillnull value=\"red\" data_host_state | sort 0 data_host | `trackme_eval_icons_host` | search data_host=* | search data_host=* $data_monitored_state$ | fields keyid, data_host, data_index, data_sourcetype, \"data_last_ingest (translated)\", \"data_last_time_seen (translated)\", data_last_time_seen, state, data_last_lag_seen, data_max_lag_allowed, monitoring, data_monitored_state, data_monitoring_wdays, data_host_state, data_override_lagging_class | `apply_data_host_blacklists` | search $inputDataHost$ $data_host_state$ $data_monitored_state$ | rename \"data_last_ingest (translated)\" as \"last ingest\", \"data_last_time_seen (translated)\" as \"last time\" | eval data_index_raw=data_index, data_sourcetype_raw=data_sourcetype | makemv data_index delim=\",\" | makemv data_sourcetype delim=\",\" | search $inputDataHostIndexes$ $inputDataHostSourcetypes$",
+            "search": "| `tstats` max(_indextime) as current_data_last_ingest, max(_time) as current_data_last_time_seen count as current_data_last_count_seen values(sourcetype) as sourcetype where index=* sourcetype=* host=* host!=\"\" `trackme_tstats_main_filter` `apply_data_host_blacklists_data_retrieve` by index, host | stats max(current_data_last_ingest) as current_data_last_ingest, max(current_data_last_time_seen) as current_data_last_time_seen, sum(current_data_last_count_seen) as current_data_last_count_seen, values(index) as index, values(sourcetype) as sourcetype by host | rename index as data_index, host as data_host, sourcetype as data_sourcetype | lookup trackme_host_monitoring data_host | append [ | inputlookup trackme_host_monitoring | eval keyid=_key ] | stats values(data_index) as data_index, values(data_sourcetype) as data_sourcetype, first(*) as \"*\" by data_host | eval data_last_ingest=if(isnotnull(current_data_last_ingest), current_data_last_ingest, data_last_ingest), data_last_time_seen=if(isnotnull(current_data_last_time_seen), current_data_last_time_seen, data_last_time_seen) | eval current_data_last_count_seen=if(isnotnull(current_data_last_count_seen), current_data_last_count_seen, data_last_count_seen) | fields - current_* | `trackme_eval_data_host_state` | `trackme_date_format(data_last_time_seen)` | `trackme_date_format(data_last_time_seen_idx)` | `trackme_date_format(data_last_ingest)` | fillnull value=\"red\" data_host_state | sort 0 data_host | `trackme_eval_icons_host` | search data_host=* | search data_host=* $data_monitored_state$ | fields keyid, data_host, data_index, data_sourcetype, data_last_ingest, \"data_last_ingest (translated)\", \"data_last_time_seen (translated)\", data_last_time_seen, state, data_last_lag_seen, data_max_lag_allowed, monitoring, data_monitored_state, data_monitoring_wdays, data_host_state, data_override_lagging_class | `apply_data_host_blacklists` | search $inputDataHost$ $data_host_state$ $data_monitored_state$ | rename \"data_last_ingest (translated)\" as \"last ingest\", \"data_last_time_seen (translated)\" as \"last time\" | eval data_index_raw=data_index, data_sourcetype_raw=data_sourcetype | makemv data_index delim=\",\" | makemv data_sourcetype delim=\",\" | eval data_tracker_runtime=now() | lookup local=t trackme_host_monitoring data_host OUTPUT data_host_state as data_previous_host_state, data_tracker_runtime as data_previous_tracker_runtime, latest_flip_state, latest_flip_time | `trackme_date_format(\"latest_flip_time\")` | fillnull value=\"N/A\" latest_flip_state, latest_flip_time, \"latest_flip_time (translated)\" | search $inputDataHostIndexes$ $inputDataHostSourcetypes$",
             "status_buckets": 0,
             "app": utils.getCurrentApp(),
             "auto_cancel": 90,
@@ -4798,6 +4946,13 @@ require([
                 setToken("tk_data_monitoring_level", TokenUtils.replaceTokenNames("$row.data_monitoring_level$", _.extend(submittedTokenModel.toJSON(), e.data)));
                 setToken("tk_data_monitoring_wdays", TokenUtils.replaceTokenNames("$row.data_monitoring_wdays$", _.extend(submittedTokenModel.toJSON(), e.data)));
                 setToken("tk_data_override_lagging_class", TokenUtils.replaceTokenNames("$row.data_override_lagging_class$", _.extend(submittedTokenModel.toJSON(), e.data)));
+                setToken("tk_data_source_state", TokenUtils.replaceTokenNames("$row.data_source_state$", _.extend(submittedTokenModel.toJSON(), e.data)));
+                setToken("tk_data_tracker_runtime", TokenUtils.replaceTokenNames("$row.data_tracker_runtime$", _.extend(submittedTokenModel.toJSON(), e.data)));
+                setToken("tk_data_previous_source_state", TokenUtils.replaceTokenNames("$row.data_previous_source_state$", _.extend(submittedTokenModel.toJSON(), e.data)));
+                setToken("tk_data_previous_tracker_runtime", TokenUtils.replaceTokenNames("$row.data_previous_tracker_runtime$", _.extend(submittedTokenModel.toJSON(), e.data)));
+                setToken("tk_latest_flip_state", TokenUtils.replaceTokenNames("$row.latest_flip_state$", _.extend(submittedTokenModel.toJSON(), e.data)));
+                setToken("tk_latest_flip_time", TokenUtils.replaceTokenNames("$row.latest_flip_time$", _.extend(submittedTokenModel.toJSON(), e.data)));
+                setToken("tk_latest_flip_time_human", TokenUtils.replaceTokenNames("$row.latest_flip_time (translated)$", _.extend(submittedTokenModel.toJSON(), e.data)));
 
                 submitTokens();
 
@@ -4831,6 +4986,44 @@ require([
 
             }
         });
+
+        // Audit Flip
+        var elementMainTableAuditFlip = new TableElement({
+            "id": "elementMainTableAuditFlip",
+            "count": 100,
+            "drilldown": "none",
+            "refresh.display": "none",
+            "wrap": "false",
+            "managerid": "searchMainAuditFlip",
+            "el": $('#elementMainTableAuditFlip')
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        }).render();
+
+        var chartAuditFlipOverTime = new ChartElement({
+            "id": "chartAuditFlipOverTime",
+            "charting.chart": "column",
+            "charting.drilldown": "all",
+            "resizable": true,
+            "managerid": "searchAuditFlipOverTime",
+            "el": $('#chartAuditFlipOverTime')
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        }).render();
+
+        var chartAuditFlipTopObject = new ChartElement({
+            "id": "chartAuditFlipTopObject",
+            "charting.chart": "pie",
+            "charting.drilldown": "all",
+            "resizable": true,
+            "managerid": "searchAuditFlipTopObject",
+            "el": $('#chartAuditFlipTopObject')
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        }).render();
 
         // Audit Changes
         var elementMainTableAuditChanges = new TableElement({
@@ -4915,6 +5108,13 @@ require([
                 setToken("tk_data_monitored_state", TokenUtils.replaceTokenNames("$row.data_monitored_state$", _.extend(submittedTokenModel.toJSON(), e.data)));
                 setToken("tk_data_monitoring_wdays", TokenUtils.replaceTokenNames("$row.data_monitoring_wdays$", _.extend(submittedTokenModel.toJSON(), e.data)));
                 setToken("tk_data_override_lagging_class", TokenUtils.replaceTokenNames("$row.data_override_lagging_class$", _.extend(submittedTokenModel.toJSON(), e.data)));
+                setToken("tk_data_host_state", TokenUtils.replaceTokenNames("$row.data_host_state$", _.extend(submittedTokenModel.toJSON(), e.data)));
+                setToken("tk_data_tracker_runtime", TokenUtils.replaceTokenNames("$row.data_tracker_runtime$", _.extend(submittedTokenModel.toJSON(), e.data)));
+                setToken("tk_data_previous_host_state", TokenUtils.replaceTokenNames("$row.data_previous_host_state$", _.extend(submittedTokenModel.toJSON(), e.data)));
+                setToken("tk_data_previous_tracker_runtime", TokenUtils.replaceTokenNames("$row.data_previous_tracker_runtime$", _.extend(submittedTokenModel.toJSON(), e.data)));
+                setToken("tk_latest_flip_state", TokenUtils.replaceTokenNames("$row.latest_flip_state$", _.extend(submittedTokenModel.toJSON(), e.data)));
+                setToken("tk_latest_flip_time", TokenUtils.replaceTokenNames("$row.latest_flip_time$", _.extend(submittedTokenModel.toJSON(), e.data)));
+                setToken("tk_latest_flip_time_human", TokenUtils.replaceTokenNames("$row.latest_flip_time (translated)$", _.extend(submittedTokenModel.toJSON(), e.data)));
 
                 submitTokens();
 
@@ -5902,6 +6102,10 @@ require([
                     "label": "DATA HOSTS AVAILABILITY TRACKING"
                 },
                 {
+                    "value": "show_audit_flip",
+                    "label": "INVESTIGATE STATUS FLIPPING"
+                },
+                {
                     "value": "show_audit_changes",
                     "label": "INVESTIGATE AUDIT CHANGES"
                 }
@@ -5923,15 +6127,23 @@ require([
             if (e.value === "show_data_source_tracker") {
                 EventHandler.setToken("show_data_source_tracker", "true", {}, e.data);
                 EventHandler.unsetToken("show_host_tracker");
+                EventHandler.unsetToken("show_audit_flip");
                 EventHandler.unsetToken("show_audit_changes");
             } else if (e.value === "show_host_tracker") {
                 EventHandler.setToken("show_host_tracker", "true", {}, e.data);
                 EventHandler.unsetToken("show_data_source_tracker");
+                EventHandler.unsetToken("show_audit_flip");
+                EventHandler.unsetToken("show_audit_changes");
+            } else if (e.value === "show_audit_flip") {
+                EventHandler.setToken("show_audit_flip", "true", {}, e.data);
+                EventHandler.unsetToken("show_data_source_tracker");
+                EventHandler.unsetToken("show_host_tracker");
                 EventHandler.unsetToken("show_audit_changes");
             } else if (e.value === "show_audit_changes") {
                 EventHandler.setToken("show_audit_changes", "true", {}, e.data);
                 EventHandler.unsetToken("show_data_source_tracker");
                 EventHandler.unsetToken("show_host_tracker");
+                EventHandler.unsetToken("show_audit_flip");
             }
         });
 
@@ -5951,6 +6163,66 @@ require([
 
         input1.on("change", function(newValue) {
             FormUtils.handleValueChange(input1);
+        });
+
+        // Audit Flip
+
+        var inputAuditFlipObjectCategory = new DropdownInput({
+            "id": "inputAuditFlipObjectCategory",
+            "tokenDependencies": {
+                "depends": "$show_audit_flip$"
+            },
+            "choices": [{
+                "label": "ANY",
+                "value": "*"
+            }],
+            "searchWhenChanged": true,
+            "default": "*",
+            "showClearButton": true,
+            "labelField": "object_category",
+            "prefix": "object_category=\"",
+            "suffix": "\"",
+            "initialValue": "*",
+            "selectFirstChoice": false,
+            "valueField": "object_category",
+            "value": "$form.audit_flip_object_category$",
+            "managerid": "searchAuditFlipObjectCategory",
+            "el": $('#inputAuditFlipObjectCategory')
+        }, {
+            tokens: true
+        }).render();
+
+        inputAuditFlipObjectCategory.on("change", function(newValue) {
+            FormUtils.handleValueChange(inputAuditFlipObjectCategory);
+        });
+
+        var inputAuditFlipObject = new DropdownInput({
+            "id": "inputAuditFlipObject",
+            "tokenDependencies": {
+                "depends": "$show_audit_flip$"
+            },
+            "choices": [{
+                "label": "ANY",
+                "value": "*"
+            }],
+            "searchWhenChanged": true,
+            "default": "*",
+            "showClearButton": true,
+            "labelField": "object",
+            "prefix": "object=\"",
+            "suffix": "\"",
+            "initialValue": "*",
+            "selectFirstChoice": false,
+            "valueField": "object",
+            "value": "$form.audit_flip_object$",
+            "managerid": "searchAuditFlipObject",
+            "el": $('#inputAuditFlipObject')
+        }, {
+            tokens: true
+        }).render();
+
+        inputAuditFlipObject.on("change", function(newValue) {
+            FormUtils.handleValueChange(inputAuditFlipObject);
         });
 
         // Audit Changes
@@ -6552,8 +6824,11 @@ require([
             var tk_data_monitoring_level = tokens.get("tk_data_monitoring_level");
             var tk_data_monitoring_wdays = tokens.get("tk_data_monitoring_wdays");
             var tk_data_override_lagging_class = tokens.get("tk_data_override_lagging_class");
+            var tk_data_source_state = tokens.get("tk_data_source_state");
+            var tk_data_tracker_runtime = tokens.get("tk_data_tracker_runtime");
+            var tk_data_previous_source_state = tokens.get("tk_data_previous_source_state");
+            var tk_data_previous_tracker_runtime = tokens.get("tk_data_previous_tracker_runtime");
             var tk_data_monitored_state = "enabled";
-
 
             // Create the endpoint URL
             var myendpoint_URl = "/en-US/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_data_source_monitoring/" + tk_keyid;
@@ -6572,7 +6847,11 @@ require([
                 "data_monitored_state": tk_data_monitored_state,
                 "data_monitoring_level": tk_data_monitoring_level,
                 "data_monitoring_wdays": tk_data_monitoring_wdays,
-                "data_override_lagging_class": tk_data_override_lagging_class
+                "data_override_lagging_class": tk_data_override_lagging_class,
+                "data_source_state": tk_data_source_state,
+                "data_tracker_runtime": tk_data_tracker_runtime,
+                "data_previous_source_state": tk_data_previous_source_state,
+                "data_previous_tracker_runtime": tk_data_previous_tracker_runtime
             };
 
             if (!tk_keyid || !tk_keyid.length) {
@@ -6685,7 +6964,11 @@ require([
             var tk_data_max_lag_allowed = tokens.get("tk_data_max_lag_allowed");
             var tk_data_monitoring_wdays = tokens.get("tk_data_monitoring_wdays");
             var tk_data_override_lagging_class = tokens.get("tk_data_override_lagging_class");
-            var tk_data_monitored_state = "enabled";
+            var tk_data_host_state = tokens.get("tk_data_host_state");
+            var tk_data_tracker_runtime = tokens.get("tk_data_tracker_runtime");
+            var tk_data_previous_host_state = tokens.get("tk_data_previous_host_state");
+            var tk_data_previous_tracker_runtime = tokens.get("tk_data_previous_tracker_runtime");
+            var tk_latest_flip_state = tokens.get("tk_latest_flip_state");
 
             // Create the endpoint URL
             var myendpoint_URl = "/en-US/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_host_monitoring/" + tk_keyid;
@@ -6701,7 +6984,11 @@ require([
                 "data_max_lag_allowed": tk_data_max_lag_allowed,
                 "data_monitored_state": tk_data_monitored_state,
                 "data_monitoring_wdays": tk_data_monitoring_wdays,
-                "data_override_lagging_class": tk_data_override_lagging_class
+                "data_override_lagging_class": tk_data_override_lagging_class,
+                "data_host_state": tk_data_host_state,
+                "data_tracker_runtime": tk_data_tracker_runtime,
+                "data_previous_host_state": tk_data_previous_host_state,
+                "data_previous_tracker_runtime": tk_data_previous_tracker_runtime
             };
 
             if (!tk_keyid || !tk_keyid.length) {
@@ -6819,6 +7106,10 @@ require([
             var tk_data_monitoring_level = tokens.get("tk_data_monitoring_level");
             var tk_data_monitoring_wdays = tokens.get("tk_data_monitoring_wdays");
             var tk_data_override_lagging_class = tokens.get("tk_data_override_lagging_class");
+            var tk_data_source_state = tokens.get("tk_data_source_state");
+            var tk_data_tracker_runtime = tokens.get("tk_data_tracker_runtime");
+            var tk_data_previous_source_state = tokens.get("tk_data_previous_source_state");
+            var tk_data_previous_tracker_runtime = tokens.get("tk_data_previous_tracker_runtime");
             var tk_data_monitored_state = "disabled";
 
             // Create the endpoint URL
@@ -6838,7 +7129,11 @@ require([
                 "data_monitored_state": tk_data_monitored_state,
                 "data_monitoring_level": tk_data_monitoring_level,
                 "data_monitoring_wdays": tk_data_monitoring_wdays,
-                "data_override_lagging_class": tk_data_override_lagging_class
+                "data_override_lagging_class": tk_data_override_lagging_class,
+                "data_source_state": tk_data_source_state,
+                "data_tracker_runtime": tk_data_tracker_runtime,
+                "data_previous_source_state": tk_data_previous_source_state,
+                "data_previous_tracker_runtime": tk_data_previous_tracker_runtime
             };
 
             if (!tk_keyid || !tk_keyid.length) {
@@ -6951,6 +7246,10 @@ require([
             var tk_data_max_lag_allowed = tokens.get("tk_data_max_lag_allowed");
             var tk_data_monitoring_wdays = tokens.get("tk_data_monitoring_wdays");
             var tk_data_override_lagging_class = tokens.get("tk_data_override_lagging_class");
+            var tk_data_host_state = tokens.get("tk_data_host_state");
+            var tk_data_tracker_runtime = tokens.get("tk_data_tracker_runtime");
+            var tk_data_previous_host_state = tokens.get("tk_data_previous_host_state");
+            var tk_data_previous_tracker_runtime = tokens.get("tk_data_previous_tracker_runtime");
             var tk_data_monitored_state = "disabled";
 
             // Create the endpoint URL
@@ -6967,7 +7266,11 @@ require([
                 "data_max_lag_allowed": tk_data_max_lag_allowed,
                 "data_monitored_state": tk_data_monitored_state,
                 "data_monitoring_wdays": tk_data_monitoring_wdays,
-                "data_override_lagging_class": tk_data_override_lagging_class
+                "data_override_lagging_class": tk_data_override_lagging_class,
+                "data_host_state": tk_data_host_state,
+                "data_tracker_runtime": tk_data_tracker_runtime,
+                "data_previous_host_state": tk_data_previous_host_state,
+                "data_previous_tracker_runtime": tk_data_previous_tracker_runtime
             };
 
             if (!tk_keyid || !tk_keyid.length) {
@@ -10701,6 +11004,10 @@ require([
             var tk_data_monitoring_level = tokens.get("tk_data_monitoring_level");
             var tk_data_monitoring_wdays = tokens.get("tk_data_monitoring_wdays");
             var tk_data_override_lagging_class = tokens.get("tk_data_override_lagging_class");
+            var tk_data_source_state = tokens.get("tk_data_source_state");
+            var tk_data_tracker_runtime = tokens.get("tk_data_tracker_runtime");
+            var tk_data_previous_source_state = tokens.get("tk_data_previous_source_state");
+            var tk_data_previous_tracker_runtime = tokens.get("tk_data_previous_tracker_runtime");
 
             //console.log("Value of modal_input_grace_period is: " + tk_kafka_infra_grace_period);
 
@@ -10730,7 +11037,11 @@ require([
                     "data_monitored_state": tk_data_monitored_state,
                     "data_monitoring_level": tk_data_monitoring_level,
                     "data_monitoring_wdays": tk_data_monitoring_wdays,
-                    "data_override_lagging_class": tk_data_override_lagging_class
+                    "data_override_lagging_class": tk_data_override_lagging_class,
+                    "data_source_state": tk_data_source_state,
+                    "data_tracker_runtime": tk_data_tracker_runtime,
+                    "data_previous_source_state": tk_data_previous_source_state,
+                    "data_previous_tracker_runtime": tk_data_previous_tracker_runtime
                 };
 
                 $.ajax({
@@ -10846,6 +11157,10 @@ require([
             var tk_data_monitoring_level = tokens.get("tk_data_monitoring_level");
             var tk_data_monitoring_wdays = tokens.get("tk_data_monitoring_wdays");
             var tk_data_override_lagging_class = tokens.get("tk_data_override_lagging_class");
+            var tk_data_source_state = tokens.get("tk_data_source_state");
+            var tk_data_tracker_runtime = tokens.get("tk_data_tracker_runtime");
+            var tk_data_previous_source_state = tokens.get("tk_data_previous_source_state");
+            var tk_data_previous_tracker_runtime = tokens.get("tk_data_previous_tracker_runtime");
 
             //console.log("Value of modal_input_grace_period is: " + tk_kafka_infra_grace_period);
 
@@ -10875,7 +11190,11 @@ require([
                     "data_monitored_state": tk_data_monitored_state,
                     "data_monitoring_level": tk_data_monitoring_level,
                     "data_monitoring_wdays": tk_data_monitoring_wdays_no,
-                    "data_override_lagging_class": tk_data_override_lagging_class
+                    "data_override_lagging_class": tk_data_override_lagging_class,
+                    "data_source_state": tk_data_source_state,
+                    "data_tracker_runtime": tk_data_tracker_runtime,
+                    "data_previous_source_state": tk_data_previous_source_state,
+                    "data_previous_tracker_runtime": tk_data_previous_tracker_runtime
                 };
 
                 $.ajax({
@@ -10991,6 +11310,10 @@ require([
             var tk_data_monitoring_level = tokens.get("tk_data_monitoring_level");
             var tk_data_monitoring_wdays = tokens.get("tk_data_monitoring_wdays");
             var tk_data_override_lagging_class = tokens.get("tk_data_override_lagging_class");
+            var tk_data_source_state = tokens.get("tk_data_source_state");
+            var tk_data_tracker_runtime = tokens.get("tk_data_tracker_runtime");
+            var tk_data_previous_source_state = tokens.get("tk_data_previous_source_state");
+            var tk_data_previous_tracker_runtime = tokens.get("tk_data_previous_tracker_runtime");
 
             //console.log("Value of modal_input_grace_period is: " + tk_kafka_infra_grace_period);
 
@@ -11020,7 +11343,11 @@ require([
                     "data_monitored_state": tk_data_monitored_state,
                     "data_monitoring_level": tk_data_monitoring_level,
                     "data_monitoring_wdays": tk_data_monitoring_wdays,
-                    "data_override_lagging_class": tk_data_override_lagging_class
+                    "data_override_lagging_class": tk_data_override_lagging_class,
+                    "data_source_state": tk_data_source_state,
+                    "data_tracker_runtime": tk_data_tracker_runtime,
+                    "data_previous_source_state": tk_data_previous_source_state,
+                    "data_previous_tracker_runtime": tk_data_previous_tracker_runtime
                 };
 
                 $.ajax({
@@ -11136,6 +11463,10 @@ require([
             var tk_data_monitoring_level = tokens.get("tk_data_monitoring_level");
             var tk_data_monitoring_wdays = tokens.get("tk_data_monitoring_wdays");
             var tk_data_override_lagging_class = tokens.get("tk_data_override_lagging_class");
+            var tk_data_source_state = tokens.get("tk_data_source_state");
+            var tk_data_tracker_runtime = tokens.get("tk_data_tracker_runtime");
+            var tk_data_previous_source_state = tokens.get("tk_data_previous_source_state");
+            var tk_data_previous_tracker_runtime = tokens.get("tk_data_previous_tracker_runtime");
 
             //console.log("Value of modal_input_grace_period is: " + tk_kafka_infra_grace_period);
 
@@ -11166,7 +11497,11 @@ require([
                     "data_monitored_state": tk_data_monitored_state,
                     "data_monitoring_level": tk_data_monitoring_level,
                     "data_monitoring_wdays": tk_data_monitoring_wdays,
-                    "data_override_lagging_class": tk_data_override_lagging_class
+                    "data_override_lagging_class": tk_data_override_lagging_class,
+                    "data_source_state": tk_data_source_state,
+                    "data_tracker_runtime": tk_data_tracker_runtime,
+                    "data_previous_source_state": tk_data_previous_source_state,
+                    "data_previous_tracker_runtime": tk_data_previous_tracker_runtime
                 };
 
                 $.ajax({
@@ -11289,6 +11624,10 @@ require([
             var tk_data_monitoring_wdays = tokens.get("tk_data_monitoring_wdays");
             var tk_data_monitored_state = tokens.get("tk_data_monitored_state");
             var tk_data_override_lagging_class = tokens.get("tk_data_override_lagging_class");
+            var tk_data_host_state = tokens.get("tk_data_host_state");
+            var tk_data_tracker_runtime = tokens.get("tk_data_tracker_runtime");
+            var tk_data_previous_host_state = tokens.get("tk_data_previous_host_state");
+            var tk_data_previous_tracker_runtime = tokens.get("tk_data_previous_tracker_runtime");
 
             //console.log("Value of modal_input_grace_period is: " + tk_kafka_infra_grace_period);
 
@@ -11315,7 +11654,11 @@ require([
                     "data_max_lag_allowed": tk_data_max_lag_allowed,
                     "data_monitored_state": tk_data_monitored_state,
                     "data_monitoring_wdays": tk_data_monitoring_wdays,
-                    "data_override_lagging_class": tk_data_override_lagging_class
+                    "data_override_lagging_class": tk_data_override_lagging_class,
+                    "data_host_state": tk_data_host_state,
+                    "data_tracker_runtime": tk_data_tracker_runtime,
+                    "data_previous_host_state": tk_data_previous_host_state,
+                    "data_previous_tracker_runtime": tk_data_previous_tracker_runtime
                 };
 
                 $.ajax({
@@ -11424,6 +11767,10 @@ require([
             var tk_data_monitoring_wdays = tokens.get("tk_data_monitoring_wdays");
             var tk_data_monitored_state = tokens.get("tk_data_monitored_state");
             var tk_data_override_lagging_class = tokens.get("tk_data_override_lagging_class");
+            var tk_data_host_state = tokens.get("tk_data_host_state");
+            var tk_data_tracker_runtime = tokens.get("tk_data_tracker_runtime");
+            var tk_data_previous_host_state = tokens.get("tk_data_previous_host_state");
+            var tk_data_previous_tracker_runtime = tokens.get("tk_data_previous_tracker_runtime");
 
             //console.log("Value of modal_input_grace_period is: " + tk_kafka_infra_grace_period);
 
@@ -11450,7 +11797,11 @@ require([
                     "data_max_lag_allowed": tk_data_max_lag_allowed,
                     "data_monitored_state": tk_data_monitored_state,
                     "data_monitoring_wdays": tk_data_monitoring_wdays_no,
-                    "data_override_lagging_class": tk_data_override_lagging_class
+                    "data_override_lagging_class": tk_data_override_lagging_class,
+                    "data_host_state": tk_data_host_state,
+                    "data_tracker_runtime": tk_data_tracker_runtime,
+                    "data_previous_host_state": tk_data_previous_host_state,
+                    "data_previous_tracker_runtime": tk_data_previous_tracker_runtime
                 };
 
                 $.ajax({
@@ -11561,6 +11912,10 @@ require([
             var tk_data_monitoring_wdays = tokens.get("tk_data_monitoring_wdays");
             var tk_data_monitored_state = tokens.get("tk_data_monitored_state");
             var tk_data_override_lagging_class = tokens.get("tk_data_override_lagging_class");
+            var tk_data_host_state = tokens.get("tk_data_host_state");
+            var tk_data_tracker_runtime = tokens.get("tk_data_tracker_runtime");
+            var tk_data_previous_host_state = tokens.get("tk_data_previous_host_state");
+            var tk_data_previous_tracker_runtime = tokens.get("tk_data_previous_tracker_runtime");
 
             //console.log("Value of modal_input_grace_period is: " + tk_kafka_infra_grace_period);
 
@@ -11588,7 +11943,11 @@ require([
                     "data_max_lag_allowed": tk_data_max_lag_allowed,
                     "data_monitored_state": tk_data_monitored_state,
                     "data_monitoring_wdays": tk_data_monitoring_wdays,
-                    "data_override_lagging_class": tk_data_override_lagging_class
+                    "data_override_lagging_class": tk_data_override_lagging_class,
+                    "data_host_state": tk_data_host_state,
+                    "data_tracker_runtime": tk_data_tracker_runtime,
+                    "data_previous_host_state": tk_data_previous_host_state,
+                    "data_previous_tracker_runtime": tk_data_previous_tracker_runtime
                 };
 
                 $.ajax({

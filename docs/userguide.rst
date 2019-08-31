@@ -339,6 +339,29 @@ The purge is performed in a daily fashion executed during the night, by default 
 
 Finally, the auditing change collection is automatically used by the trackers reports when a permanent deletion of an object has been requested.
 
+Auditing and investigating status flapping
+==========================================
+
+**Each time a data source or host changes from a status, green for example, to another, a record of that change is saved to a KVstore based lookup named trackme_audit_flip.**
+
+Using the UI, you can easily monitor and investigate the historical changes of a given a data source or host over time:
+
+.. image:: img/audit_flipping.png
+   :alt: audit_flipping.png
+   :align: center
+
+**The record saving operation are performed by the availability trackers that store the statuses of the data source, and the flapping tracker which compares previous statuses to current statuses:**
+
+- TrackMe - Flip state change tracker
+
+**In addition, a purge of old records (by default older than 90 days) are performed automatically by a night time job:**
+
+- TrackMe - Flip state night purge
+
+**If you wish to modify the retention period, customize the following macro:**
+
+- trackme_flip_state_retention
+
 Out of the box alerts
 =====================
 
