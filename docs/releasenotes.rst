@@ -1,6 +1,11 @@
 Release notes
 #############
 
+Version 1.0.12
+==============
+
+- Fix: Flipping audit tracker is not filtering on monitored entities
+
 Version 1.0.11
 ==============
 
