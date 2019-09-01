@@ -1,6 +1,11 @@
 Release notes
 #############
 
+Version 1.0.13
+==============
+
+- Fix: Flipping object dropdown populating issue
+
 Version 1.0.12
 ==============
 

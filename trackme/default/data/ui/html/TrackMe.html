@@ -2775,7 +2775,7 @@ require([
 
         var searchAuditFlipObject = new PostProcessManager({
             "tokenDependencies": {},
-            "search": "search $audit_flip_object$ | stats count by object | sort limit=0 object",
+            "search": "search $audit_flip_object_category$ | stats count by object | sort limit=0 object",
             "managerid": "searchMainAuditFlipPopulate",
             "id": "searchAuditFlipObject"
         }, {
