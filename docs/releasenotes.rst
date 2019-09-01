@@ -1,6 +1,11 @@
 Release notes
 #############
 
+Version 1.0.14
+==============
+
+- Fix: Flipping chart over time should be stacked
+
 Version 1.0.13
 ==============
 
