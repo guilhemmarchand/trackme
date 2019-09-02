@@ -1,6 +1,11 @@
 Release notes
 #############
 
+Version 1.0.15
+==============
+
+- Feature: Provide a time range picker for audit flipping and audit changes investigations
+
 Version 1.0.14
 ==============
 
