@@ -2395,6 +2395,9 @@ styles in <div> tags, similar to Bootstrap's grid system.
             <div class="dashboard-panel clearfix">
                 <h2 class="panel-title">Search for alert state flipping:</h2>
                 <div class="fieldset">
+                    <div class="input input-timerangepicker" id="input_timerange_audit_flip">
+                        <label>time period:</label>
+                    </div>
                     <div class="input input-dropdown" id="inputAuditFlipObjectCategory">
                         <label>object_category:</label>
                     </div>
@@ -2424,6 +2427,9 @@ styles in <div> tags, similar to Bootstrap's grid system.
             <div class="dashboard-panel clearfix">
                 <h2 class="panel-title">Search for audit changes:</h2>
                 <div class="fieldset">
+                    <div class="input input-timerangepicker" id="input_timerange_audit_changes">
+                        <label>time period:</label>
+                    </div>
                     <div class="input input-dropdown" id="inputAuditChangesAction">
                         <label>action:</label>
                     </div>
@@ -2721,13 +2727,13 @@ require([
         // Audit Flip
         var searchMainAuditFlip = new SearchManager({
             "id": "searchMainAuditFlip",
-            "earliest_time": "-15m",
+            "earliest_time": "$timerange_audit_flip.earliest$",
             "cancelOnUnload": true,
             "sample_ratio": null,
             "refreshType": "delay",
             "refresh": "$refresh$",
-            "latest_time": "now",
-            "search": "| inputlookup trackme_audit_flip | sort limit=0 - time | eval _time=time | fields - time | search $audit_flip_object_category$ $audit_flip_object$ | eval \" \" = \"-->\" | table _time object object_category object_previous_state \" \" object_state result | `trackme_eval_icons_flip`",
+            "latest_time": "$timerange_audit_flip.latest$",
+            "search": "| inputlookup trackme_audit_flip | sort limit=0 - time | eval _time=time | fields - time | addinfo | where _time>=info_min_time AND _time<=info_max_time | search $audit_flip_object_category$ $audit_flip_object$ | eval \" \" = \"-->\" | table _time object object_category object_previous_state \" \" object_state result | `trackme_eval_icons_flip`",
             "status_buckets": 0,
             "app": utils.getCurrentApp(),
             "auto_cancel": 90,
@@ -2743,13 +2749,13 @@ require([
 
         var searchMainAuditFlipPopulate = new SearchManager({
             "id": "searchMainAuditFlipPopulate",
-            "earliest_time": "-15m",
+            "earliest_time": "$timerange_audit_flip.earliest$",
             "cancelOnUnload": true,
             "sample_ratio": null,
             "refreshType": "delay",
             "refresh": "$refresh$",
-            "latest_time": "now",
-            "search": "| inputlookup trackme_audit_flip",
+            "latest_time": "$timerange_audit_flip.latest$",
+            "search": "| inputlookup trackme_audit_flip | addinfo | where _time>=info_min_time AND _time<=info_max_time | stats count by object_category, object",
             "status_buckets": 0,
             "app": utils.getCurrentApp(),
             "auto_cancel": 90,
@@ -2806,13 +2812,13 @@ require([
         // Audit Changes
         var searchMainAuditChanges = new SearchManager({
             "id": "searchMainAuditChanges",
-            "earliest_time": "-15m",
+            "earliest_time": "$timerange_audit_changes.earliest$",
             "cancelOnUnload": true,
             "sample_ratio": null,
             "refreshType": "delay",
             "refresh": "$refresh$",
-            "latest_time": "now",
-            "search": "| inputlookup trackme_audit_changes | sort limit=0 - time | eval _time=time/1000 | fields - time | search $audit_changes_action$ $audit_changes_object_category$ $audit_changes_change_type$ $audit_changes_user$ $audit_changes_object$ | table _time user action change_type object_category object object_attrs *",
+            "latest_time": "$timerange_audit_changes.latest$",
+            "search": "| inputlookup trackme_audit_changes | sort limit=0 - time | eval _time=time/1000 | fields - time | addinfo | where _time>=info_min_time AND _time<=info_max_time | search $audit_changes_action$ $audit_changes_object_category$ $audit_changes_change_type$ $audit_changes_user$ $audit_changes_object$ | table _time user action change_type object_category object object_attrs *",
             "status_buckets": 0,
             "app": utils.getCurrentApp(),
             "auto_cancel": 90,
@@ -2828,13 +2834,13 @@ require([
 
         var searchMainAuditChangesPopulate = new SearchManager({
             "id": "searchMainAuditChangesPopulate",
-            "earliest_time": "-15m",
+            "earliest_time": "$timerange_audit_changes.earliest$",
             "cancelOnUnload": true,
             "sample_ratio": null,
             "refreshType": "delay",
             "refresh": "$refresh$",
-            "latest_time": "now",
-            "search": "| inputlookup trackme_audit_changes",
+            "latest_time": "$timerange_audit_changes.latest$",
+            "search": "| inputlookup trackme_audit_changes | addinfo | where _time>=info_min_time AND _time<=info_max_time",
             "status_buckets": 0,
             "app": utils.getCurrentApp(),
             "auto_cancel": 90,
@@ -6168,6 +6174,19 @@ require([
 
         // Audit Flip
 
+        var input_timerange_audit_flip = new TimeRangeInput({
+            "id": "input_timerange_audit_flip",
+            "searchWhenChanged": true,
+            "default": {"latest_time": "now", "earliest_time": "-7d@d"},
+            "earliest_time": "$form.timerange_audit_flip.earliest$",
+            "latest_time": "$form.timerange_audit_flip.latest$",
+            "el": $('#input_timerange_audit_flip')
+        }, {tokens: true}).render();
+
+        input_timerange_audit_flip.on("change", function(newValue) {
+            FormUtils.handleValueChange(input_timerange_audit_flip);
+        });
+
         var inputAuditFlipObjectCategory = new DropdownInput({
             "id": "inputAuditFlipObjectCategory",
             "tokenDependencies": {
@@ -6227,6 +6246,20 @@ require([
         });
 
         // Audit Changes
+
+        var input_timerange_audit_changes = new TimeRangeInput({
+            "id": "input_timerange_audit_changes",
+            "searchWhenChanged": true,
+            "default": {"latest_time": "now", "earliest_time": "-7d@d"},
+            "earliest_time": "$form.timerange_audit_changes.earliest$",
+            "latest_time": "$form.timerange_audit_changes.latest$",
+            "el": $('#input_timerange_audit_changes')
+        }, {tokens: true}).render();
+
+        input_timerange_audit_changes.on("change", function(newValue) {
+            FormUtils.handleValueChange(input_timerange_audit_changes);
+        });
+
         var inputAuditChangesAction = new DropdownInput({
             "id": "inputAuditChangesAction",
             "tokenDependencies": {
