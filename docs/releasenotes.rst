@@ -1,6 +1,11 @@
 Release notes
 #############
 
+Version 1.0.16
+==============
+
+- Fix: Dropdown populating issues caused by 1.0.15 update
+
 Version 1.0.15
 ==============
 
