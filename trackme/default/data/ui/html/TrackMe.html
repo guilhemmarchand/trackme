@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <title>TrackMe - Data tracking system for Splunk admins</title>
+    <title>TrackMe - Data tracking system for Splunk administrators</title>
     <link rel="shortcut icon" href="/en-US/static/@E0748683B67CEA4FEB581C608314742274902FE131518C73E0D443740659785A.7/img/favicon.ico" />
     <link rel="stylesheet" type="text/css" href="{{SPLUNKWEB_URL_PREFIX}}/static/build/css/bootstrap-enterprise.css" />
     <link rel="stylesheet" type="text/css" href="{{SPLUNKWEB_URL_PREFIX}}/static/css/build/pages/dashboard-simple-bootstrap.min.css" />
@@ -85,6 +85,11 @@
 
         }
 
+        /* fix some issues with long modals within Splunk 7.0.x */
+        .modal-body {
+            max-height: 700px !important;
+        }
+
         /* Fix link input object align */
         .input-linklist {
           display: inline !important;
@@ -114,6 +119,27 @@
             margin-top:15px;
         }
 
+
+        /*Notification alerts*/
+
+        [class^="boxnotify"] {
+          position: fixed;
+          bottom: 1em;
+          left: 1em;
+          z-index: 999999;
+        }
+
+        [class^="boxnotify"] p {
+          background-color: rgba(0, 0, 0, .7);
+          width: 600px;
+          border-radius: 5px;
+          padding: .7em;
+          margin: .5em;
+          color: white;
+          font-size: 1.6em;
+          display: none;
+        }
+
         </style>
 </head>
 <body class="simplexml preload locale-en" data-splunk-version="" data-splunk-product="enterprise">
@@ -134,7 +160,7 @@ styles in <div> tags, similar to Bootstrap's grid system.
 </header>
 <div class="dashboard-body container-fluid main-section-body" data-role="main">
     <div class="dashboard-header clearfix">
-        <h2>TrackMe - Data tracking system for Splunk admins</h2>
+        <h2>TrackMe - Data tracking system for Splunk administrators</h2>
          <p>Monitoring your Splunk data availability made easy</p>
     </div>
     <div class="fieldset">
@@ -808,6 +834,9 @@ styles in <div> tags, similar to Bootstrap's grid system.
                     </lu>
                     <br /><br />
 
+                    <div class="boxnotify" id="boxnotify-modify_custom_lagging">
+                    </div>
+
                     <div id="rowCustomLagging1a" class="dashboard-row dashboard-row3">
                         <div id="panelCustomLagging1" class="dashboard-cell" style="width: 100%;">
 
@@ -930,6 +959,9 @@ styles in <div> tags, similar to Bootstrap's grid system.
                     <b>Hosts that have been blacklisted are excluded from the data discovery</b>
                     <br /><br />
 
+                    <div class="boxnotify" id="boxnotify-modal_modify_data_source_blacklist_host">
+                    </div>
+
                     <lu>
                         <li>TrackMe - Data sources availability short term tracker: tracks data on a frequency over a small time range</li>
                         <li>TrackMe - Data sources availability long term tracker: tracks data on a hourly frequency over a large time range</li>
@@ -1011,6 +1043,9 @@ styles in <div> tags, similar to Bootstrap's grid system.
                 <div class="modal-body">
                     <b>Indexes that have been blacklisted are excluded from the data discovery</b>
                     <br /><br />
+
+                    <div class="boxnotify" id="boxnotify-modal_modify_data_source_blacklist_index">
+                    </div>
 
                     <lu>
                         <li>TrackMe - Data sources availability short term tracker: tracks data on a frequency over a small time range</li>
@@ -1103,6 +1138,9 @@ styles in <div> tags, similar to Bootstrap's grid system.
                 <div class="modal-body">
                     <b>Sourcetypes that have been blacklisted are excluded from the data discovery</b>
                     <br /><br />
+
+                    <div class="boxnotify" id="boxnotify-modal_modify_data_source_blacklist_sourcetype">
+                    </div>
 
                     <lu>
                         <li>TrackMe - Data sources availability short term tracker: tracks data on a frequency over a small time range</li>
@@ -1200,6 +1238,9 @@ styles in <div> tags, similar to Bootstrap's grid system.
                     <b>Hosts that have been blacklisted are excluded from the data discovery</b>
                     <br /><br />
 
+                    <div class="boxnotify" id="boxnotify-modal_modify_data_host_blacklist_host">
+                    </div>
+
                     <lu>
                         <li>TrackMe - Data hosts availability short term tracker: tracks data on a frequency over a small time range</li>
                         <li>TrackMe - Data hosts availability long term tracker: tracks data on a hourly frequency over a large time range</li>
@@ -1268,7 +1309,6 @@ styles in <div> tags, similar to Bootstrap's grid system.
         </div>
     </div>
 
-
     <!-- Added message -->
     <div class="modal fade" id="modal_blacklist_added" role="dialog">
         <div class="modal-dialog">
@@ -1294,18 +1334,33 @@ styles in <div> tags, similar to Bootstrap's grid system.
 
     <!-- data source monitoring -->
 
-    <!-- Modal window for lag value modification -->
-    <div class="modal custom-modal-50 fade" id="modal_modify_lag" role="dialog">
+    <!-- Modal window for data source unified -->
+    <div class="modal fade custom-modal-60" id="modal_modify_data_source_unified" role="dialog">
         <div class="modal-dialog">
 
             <!-- Modal content-->
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h3 style="color: indianred;"><span class="glyphicon glyphicon-lock"></span> Maximal lag value update </h3>
+                    <h3 style="color: indianred;"><span class="glyphicon glyphicon-lock"></span> Data source unified update </h3>
                 </div>
+
                 <div class="modal-body">
-                    <p>Enter the maximal allowed lag value for this data source, and press Ok to update:</p>
+
+                    <div>
+
+                    <h4>Data source lagging value:</h4>
+
+                    <div style="margin-left: 15px;">
+                        <lu>
+                            <li>The maximal allowed lagging value defines the maximal value in seconds before a data source / host would be considered as red</li>
+                            <li>Override lagging classes allows bypassing any lagging classes configuration that would apply to this data source or host</li>
+                            <li>If a lagging class matches index(es) or sourcetype(es) for this data source or host and the option is unchecked, it will bypass this value unless override is true</li>
+                        </lu>
+                    </div>
+
+                    <br />
+
                     <div class="fieldset">
                         <div class="input input-text" id="modal_input_lag">
                             <label>Maximal allowed lagging value:</label>
@@ -1317,41 +1372,81 @@ styles in <div> tags, similar to Bootstrap's grid system.
                         </div>
                     </div>
 
-                    <div>
+                    <button id="btn_modal_modify_lag_confirm" type="submit" class="btn btn-default btn-primary"><span class="glyphicon glyphicon-remove"></span> Apply lagging rule</button>
 
-                        <lu>
-                            <li>The maximal allowed lagging value defines the maximal value in seconds before a data source / host would be considered as red</li>
-                            <li>Override lagging classes allows bypassing any lagging classes configuration that would apply to this data source or host</li>
-                            <li>If you define a custom lagging value for a specific data source or host, use this option to avoid conflicts with lagging classes</li>
-                            <li>If a lagging class matches index(es) or sourcetype(es) for this data source or host and the option is unchecked, it will bypass this value</li>
-                        </p>
-                        </lu>
+                    <div class="boxnotify" id="boxnotify-unified-data-source">
+                    </div>
+
+                    <hr>
+
+                    <h4>Data source week days monitoring:</h4>
+
+                    <p>Monitor source on a all days basis, apply a builtin rule, or explicitly select week days:</p>
+
+                    <div class="fieldset">
+                        <div class="input input-text" id="modal_input_wdays">
+                            <label></label>
+                        </div>
+                    </div>
+
+                    <div>
+                        <button id="btn_modal_modify_monitoring_wdays_confirm" type="submit" class="btn btn-default btn-primary"><span class="glyphicon glyphicon-remove"></span> Apply wdays builtin rule</button>
+                        <button id="btn_modal_modify_wdays_no" type="submit" class="btn btn-default btn-primary" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Or select days of the week</button>
+                    </div>
+
+                    <hr>
+
+                    <h4>Data source monitoring level:</h4>
+
+                    <p>Choose to monitor the data source based on the index and sourcetype association (default), or based on the latest data available in the index where the data source is stored:</p>
+
+                    <div class="fieldset">
+                        <div class="input input-text" id="modal_input_level">
+                            <label></label>
+                        </div>
+                    </div>
+
+                    <button id="btn_modal_modify_monitoring_level_confirm" type="submit" class="btn btn-default btn-primary"><span class="glyphicon glyphicon-remove"></span> Apply monitoring level rule</button>
+
                     </div>
 
                 </div>
 
                 <div class="modal-footer">
-                    <button type="submit" class="btn btn-default btn-default pull-left" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Cancel</button>
-                    <button id="btn_modal_modify_lag_confirm" type="submit" class="btn btn-default btn-primary pull-right" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Ok</button>
+                    <button type="submit" class="btn btn-default btn-default pull-left" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Close</button>
                 </div>
             </div>
+
         </div>
     </div>
 
     <!-- data host monitoring -->
 
-    <!-- Modal window for lag value modification -->
-    <div class="modal custom-modal-50 fade" id="modal_modify_lag_host" role="dialog">
+    <!-- Modal window for data source unified -->
+    <div class="modal fade custom-modal-60" id="modal_modify_data_host_unified" role="dialog">
         <div class="modal-dialog">
 
             <!-- Modal content-->
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h3 style="color: indianred;"><span class="glyphicon glyphicon-lock"></span> Maximal lag value update </h3>
+                    <h3 style="color: indianred;"><span class="glyphicon glyphicon-lock"></span> Data host unified update </h3>
                 </div>
+
                 <div class="modal-body">
-                    <p>Enter the maximal allowed lag value for this data source, and press Ok to update:</p>
+
+                    <h4>Data host lagging value:</h4>
+
+                    <div style="margin-left: 15px;">
+                        <lu>
+                            <li>The maximal allowed lagging value defines the maximal value in seconds before a data source / host would be considered as red</li>
+                            <li>Override lagging classes allows bypassing any lagging classes configuration that would apply to this data source or host</li>
+                            <li>If a lagging class matches index(es) or sourcetype(es) for this data source or host and the option is unchecked, it will bypass this value unless override is true</li>
+                        </lu>
+                    </div>
+
+                    <br />
+
                     <div class="fieldset">
                         <div class="input input-text" id="modal_input_lag_host">
                             <label>Maximal allowed lagging value:</label>
@@ -1363,99 +1458,37 @@ styles in <div> tags, similar to Bootstrap's grid system.
                         </div>
                     </div>
 
-                    <div>
+                    <button id="btn_modal_modify_lag_confirm_host" type="submit" class="btn btn-default btn-primary"><span class="glyphicon glyphicon-remove"></span> Apply lagging rule</button>
 
-                        <lu>
-                            <li>The maximal allowed lagging value defines the maximal value in seconds before a data source / host would be considered as red</li>
-                            <li>Override lagging classes allows bypassing any lagging classes configuration that would apply to this data source or host</li>
-                            <li>If you define a custom lagging value for a specific data source or host, use this option to avoid conflicts with lagging classes</li>
-                            <li>If a lagging class matches index(es) or sourcetype(es) for this data source or host and the option is unchecked, it will bypass this value</li>
-                        </p>
-                        </lu>
+                    <div class="boxnotify" id="boxnotify-unified-data-host">
                     </div>
 
-                </div>
-                <div class="modal-footer">
-                    <button type="submit" class="btn btn-default btn-default pull-left" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Cancel</button>
-                    <button id="btn_modal_modify_lag_confirm_host" type="submit" class="btn btn-default btn-primary pull-right" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Ok</button>
-                </div>
-            </div>
-        </div>
-    </div>
+                    <hr>
 
-    <!-- data source monitoring -->
+                    <h4>Data host week days monitoring:</h4>
 
-    <!-- Modal window for monitoring level modification -->
-    <div class="modal fade" id="modal_modify_monitoring_wdays" role="dialog">
-        <div class="modal-dialog">
+                    <p>Monitor source on a all days basis, apply a builtin rule, or explicitly select week days:</p>
 
-            <!-- Modal content-->
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h3 style="color: indianred;"><span class="glyphicon glyphicon-lock"></span> Monitoring week days update </h3>
-                </div>
-                <div class="modal-body">
-                    <p>Choose the monitoring week days rule for this data source, and press Ok to update:
-                        <br /><br />
-                    </p>
-                    <div class="fieldset">
-                        <div class="input input-text" id="modal_input_wdays">
-                            <label>Monitoring week days rule:</label>
-                        </div>
-                    </div>
-
-                    <div>
-                        <button id="btn_modal_modify_wdays_no" type="submit" class="btn btn-default btn-primary" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Or select days of the week</button>
-                    </div>
-
-                    <br /><br />
-
-                </div>
-                <div class="modal-footer">
-                    <button type="submit" class="btn btn-default btn-default pull-left" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Cancel</button>
-                    <button id="btn_modal_modify_monitoring_wdays_confirm" type="submit" class="btn btn-default btn-primary pull-right" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Ok</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Modal window for monitoring level modification -->
-    <div class="modal fade" id="modal_modify_monitoring_wdays_host" role="dialog">
-        <div class="modal-dialog">
-
-            <!-- Modal content-->
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h3 style="color: indianred;"><span class="glyphicon glyphicon-lock"></span> Monitoring week days update </h3>
-                </div>
-                <div class="modal-body">
-                    <p>Choose the monitoring week days rule for this data source, and press Ok to update:
-                        <br /><br />
-                    </p>
                     <div class="fieldset">
                         <div class="input input-text" id="modal_input_wdays_host">
-                            <label>Monitoring week days rule:</label>
+                            <label></label>
                         </div>
                     </div>
 
                     <div>
+                        <button id="btn_modal_modify_monitoring_wdays_host_confirm" type="submit" class="btn btn-default btn-primary"><span class="glyphicon glyphicon-remove"></span> Apply wdays builtin rule</button>
                         <button id="btn_modal_modify_wdays_host_no" type="submit" class="btn btn-default btn-primary" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Or select days of the week</button>
                     </div>
 
-                    <br /><br />
-
                 </div>
+
                 <div class="modal-footer">
-                    <button type="submit" class="btn btn-default btn-default pull-left" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Cancel</button>
-                    <button id="btn_modal_modify_monitoring_wdays_host_confirm" type="submit" class="btn btn-default btn-primary pull-right" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Ok</button>
+                    <button type="submit" class="btn btn-default btn-default pull-left" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Close</button>
                 </div>
             </div>
+
         </div>
     </div>
-
-    <!-- data source monitoring -->
 
     <!-- Modal window for monitoring level modification -->
     <div class="modal fade" id="modal_modify_monitoring_wdays_no" role="dialog">
@@ -1483,7 +1516,7 @@ styles in <div> tags, similar to Bootstrap's grid system.
 
                 </div>
                 <div class="modal-footer">
-                    <button type="submit" class="btn btn-default btn-default pull-left" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Cancel</button>
+                    <button id="btn_modal_modify_monitoring_wdays_no_cancel" type="submit" class="btn btn-default btn-default pull-left" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Cancel</button>
                     <button id="btn_modal_modify_monitoring_wdays_no_confirm" type="submit" class="btn btn-default btn-primary pull-right" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Ok</button>
                 </div>
             </div>
@@ -1518,7 +1551,7 @@ styles in <div> tags, similar to Bootstrap's grid system.
 
                 </div>
                 <div class="modal-footer">
-                    <button type="submit" class="btn btn-default btn-default pull-left" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Cancel</button>
+                    <button id="btn_modal_modify_monitoring_wdays_host_no_cancel" type="submit" class="btn btn-default btn-default pull-left" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Cancel</button>
                     <button id="btn_modal_modify_monitoring_wdays_host_no_confirm" type="submit" class="btn btn-default btn-primary pull-right" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Ok</button>
                 </div>
             </div>
@@ -1835,6 +1868,9 @@ styles in <div> tags, similar to Bootstrap's grid system.
                     <b>Indexes that have been blacklisted are excluded from the data discovery</b>
                     <br /><br />
 
+                    <div class="boxnotify" id="boxnotify-modal_modify_data_host_blacklist_index">
+                    </div>
+
                     <lu>
                         <li>TrackMe - Data hosts availability short term tracker: tracks data on a frequency over a small time range</li>
                         <li>TrackMe - Data hosts availability long term tracker: tracks data on a hourly frequency over a large time range</li>
@@ -1927,6 +1963,9 @@ styles in <div> tags, similar to Bootstrap's grid system.
                     <b>Sourcetypes that have been blacklisted are excluded from the data discovery</b>
                     <br /><br />
 
+                    <div class="boxnotify" id="boxnotify-modal_modify_data_host_blacklist_sourcetype">
+                    </div>
+
                     <lu>
                         <li>TrackMe - Data hosts availability short term tracker: tracks data on a frequency over a small time range</li>
                         <li>TrackMe - Data hosts availability long term tracker: tracks data on a hourly frequency over a large time range</li>
@@ -2000,32 +2039,6 @@ styles in <div> tags, similar to Bootstrap's grid system.
                 </div>
                 <div class="modal-footer">
                     <button type="submit" id="btn_modal_data_host_blacklist_sourcetype_add_cancel" class="btn btn-default btn-default pull-left" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Cancel</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Modal window for monitoring level modification -->
-    <div class="modal fade" id="modal_modify_monitoring_level" role="dialog">
-        <div class="modal-dialog">
-
-            <!-- Modal content-->
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h3 style="color: indianred;"><span class="glyphicon glyphicon-lock"></span> Monitoring level update </h3>
-                </div>
-                <div class="modal-body">
-                    <p>Choose the monitoring level for this data source, and press Ok to update:</p>
-                    <div class="fieldset">
-                        <div class="input input-text" id="modal_input_level">
-                            <label>Monitoring level:</label>
-                        </div>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="submit" class="btn btn-default btn-default pull-left" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Cancel</button>
-                    <button id="btn_modal_modify_monitoring_level_confirm" type="submit" class="btn btn-default btn-primary pull-right" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Ok</button>
                 </div>
             </div>
         </div>
@@ -4960,6 +4973,15 @@ require([
                 setToken("tk_latest_flip_time", TokenUtils.replaceTokenNames("$row.latest_flip_time$", _.extend(submittedTokenModel.toJSON(), e.data)));
                 setToken("tk_latest_flip_time_human", TokenUtils.replaceTokenNames("$row.latest_flip_time (translated)$", _.extend(submittedTokenModel.toJSON(), e.data)));
 
+                // pref-fill current lagging input
+                setToken("form.tk_input_lag", TokenUtils.replaceTokenNames("$row.data_max_lag_allowed$", _.extend(submittedTokenModel.toJSON(), e.data)));
+
+                // pref-fill current wdays input
+                setToken("form.tk_input_wdays", TokenUtils.replaceTokenNames("$row.data_monitoring_wdays$", _.extend(submittedTokenModel.toJSON(), e.data)));
+
+                // pre-fill current monitoring level
+                setToken("form.tk_input_level", TokenUtils.replaceTokenNames("$row.data_monitoring_level$", _.extend(submittedTokenModel.toJSON(), e.data)));
+
                 submitTokens();
 
                 // When the Submit button is clicked, get all the form fields by accessing token values
@@ -5122,6 +5144,12 @@ require([
                 setToken("tk_latest_flip_state", TokenUtils.replaceTokenNames("$row.latest_flip_state$", _.extend(submittedTokenModel.toJSON(), e.data)));
                 setToken("tk_latest_flip_time", TokenUtils.replaceTokenNames("$row.latest_flip_time$", _.extend(submittedTokenModel.toJSON(), e.data)));
                 setToken("tk_latest_flip_time_human", TokenUtils.replaceTokenNames("$row.latest_flip_time (translated)$", _.extend(submittedTokenModel.toJSON(), e.data)));
+
+                // pref-fill current lagging input
+                setToken("form.tk_input_lag_host", TokenUtils.replaceTokenNames("$row.data_max_lag_allowed$", _.extend(submittedTokenModel.toJSON(), e.data)));
+
+                // pref-fill current wdays input
+                setToken("form.tk_input_wdays_host", TokenUtils.replaceTokenNames("$row.data_monitoring_wdays$", _.extend(submittedTokenModel.toJSON(), e.data)));
 
                 submitTokens();
 
@@ -7894,8 +7922,6 @@ require([
                                 contentType: "application/json",
                                 data: JSON.stringify(audit_record),
                                 success: function(returneddata) {
-                                    //console.log("Updated!", returneddata)
-                                    // Run the search again to update the table
                                 }
                             });
                         }
@@ -7939,8 +7965,8 @@ require([
                                         contentType: "application/json",
                                         data: JSON.stringify(audit_record),
                                         success: function(returneddata) {
-                                            //console.log("Updated!", returneddata)
-                                            // Run the search again to update the table
+                                            // notify
+                                            notification('Modification has been registered successfully.', 2000)
                                         }
                                     });
 
@@ -8039,8 +8065,8 @@ require([
                             contentType: "application/json",
                             data: JSON.stringify(audit_record),
                             success: function(returneddata) {
-                                //console.log("Updated!", returneddata)
-                                // Run the search again to update the table
+                                // notify
+                                notification('Modification has been registered successfully.', 2000)
                             }
                         });
 
@@ -8183,6 +8209,8 @@ require([
                                     searchSingleDataSource2.startSearch();
                                     searchSingleDataSource3.startSearch();
                                     searchMainTable.startSearch();
+                                    // notify
+                                    notification('Modification has been registered successfully.', 2000)
 
                                     // Audit success change
                                     var time = (new Date).getTime();
@@ -8287,6 +8315,9 @@ require([
                         searchSingleDataSource2.startSearch();
                         searchSingleDataSource3.startSearch();
                         searchMainTable.startSearch();
+
+                        // notify
+                        notification('Modification has been registered successfully.', 2000)
 
                         // Audit success change
                         var time = (new Date).getTime();
@@ -8448,6 +8479,9 @@ require([
                                     searchSingleDataHost2.startSearch();
                                     searchSingleDataHost3.startSearch();
 
+                                    // notify
+                                    notification('Modification has been registered successfully.', 2000)
+
                                     // Audit success change
                                     var time = (new Date).getTime();
                                     var audit_record = {
@@ -8551,6 +8585,9 @@ require([
                         searchSingleDataHost1.startSearch();
                         searchSingleDataHost2.startSearch();
                         searchSingleDataHost3.startSearch();
+
+                        // notify
+                        notification('Modification has been registered successfully.', 2000)
 
                         // Audit success change
                         var time = (new Date).getTime();
@@ -8712,6 +8749,9 @@ require([
                                     searchSingleDataSource3.startSearch();
                                     searchMainTable.startSearch();
 
+                                    // notify
+                                    notification('Modification has been registered successfully.', 2000)
+
                                     // Audit success change
                                     var time = (new Date).getTime();
                                     var audit_record = {
@@ -8815,6 +8855,9 @@ require([
                         searchSingleDataSource2.startSearch();
                         searchSingleDataSource3.startSearch();
                         searchMainTable.startSearch();
+
+                        // notify
+                        notification('Modification has been registered successfully.', 2000)
 
                         // Audit success change
                         var time = (new Date).getTime();
@@ -8974,6 +9017,9 @@ require([
                                     searchSingleDataHost3.startSearch();
                                     searchMainTableHost.startSearch();
 
+                                    // notify
+                                    notification('Modification has been registered successfully.', 2000)
+
                                     // Audit success change
                                     var time = (new Date).getTime();
                                     var audit_record = {
@@ -9077,6 +9123,9 @@ require([
                         searchSingleDataHost1.startSearch();
                         searchSingleDataHost2.startSearch();
                         searchSingleDataHost3.startSearch();
+
+                        // notify
+                        notification('Modification has been registered successfully.', 2000)
 
                         // Audit success change
                         var time = (new Date).getTime();
@@ -9236,6 +9285,9 @@ require([
                                     searchSingleDataSource3.startSearch();
                                     searchMainTable.startSearch();
 
+                                    // notify
+                                    notification('Modification has been registered successfully.', 2000)
+
                                     // Audit success change
                                     var time = (new Date).getTime();
                                     var audit_record = {
@@ -9339,6 +9391,9 @@ require([
                         searchSingleDataSource2.startSearch();
                         searchSingleDataSource3.startSearch();
                         searchMainTable.startSearch();
+
+                        // notify
+                        notification('Modification has been registered successfully.', 2000)
 
                         // Audit success change
                         var time = (new Date).getTime();
@@ -9498,6 +9553,9 @@ require([
                                     searchSingleDataHost3.startSearch();
                                     searchMainTableHost.startSearch();
 
+                                    // notify
+                                    notification('Modification has been registered successfully.', 2000)
+
                                     // Audit success change
                                     var time = (new Date).getTime();
                                     var audit_record = {
@@ -9624,6 +9682,9 @@ require([
                         searchSingleDataHost2.startSearch();
                         searchSingleDataHost3.startSearch();
                         searchMainTableHost.startSearch();
+
+                        // notify
+                        notification('Modification has been registered successfully.', 2000)
 
                         // house cleaning
                         myendpoint_URl = undefined;
@@ -11005,7 +11066,7 @@ require([
             $("#modal_manage").modal('hide');
 
             // Show input modal
-            $("#modal_modify_main").modal();
+            $("#modal_modify_data_source_unified").modal();
 
         });
 
@@ -11092,6 +11153,9 @@ require([
                         searchSingleDataSource2.startSearch();
                         searchSingleDataSource3.startSearch();
                         searchMainTable.startSearch();
+
+                        // notify
+                        notification('Modification has been registered successfully.', 2000)
 
                         // Audit success change
                         var time = (new Date).getTime();
@@ -11246,6 +11310,11 @@ require([
                         searchSingleDataSource3.startSearch();
                         searchMainTable.startSearch();
 
+                        $("#modal_modify_data_source_unified").modal();
+
+                        // notify
+                        notification('Modification has been registered successfully.', 2000)
+
                         // Audit success change
                         var time = (new Date).getTime();
                         var audit_record = {
@@ -11310,6 +11379,14 @@ require([
                 });
 
             }
+        });
+
+        // cancel: returns to unified modal
+        $("#btn_modal_modify_monitoring_wdays_no_cancel").click(function() {
+
+            // Show input modal
+            $("#modal_modify_data_source_unified").modal();
+
         });
 
         //
@@ -11398,6 +11475,9 @@ require([
                         searchSingleDataSource2.startSearch();
                         searchSingleDataSource3.startSearch();
                         searchMainTable.startSearch();
+
+                        // notify
+                        notification('Modification has been registered successfully.', 2000)
 
                         // Audit success change
                         var time = (new Date).getTime();
@@ -11552,6 +11632,8 @@ require([
                         searchSingleDataSource2.startSearch();
                         searchSingleDataSource3.startSearch();
                         searchMainTable.startSearch();
+                        // notify
+                        notification('Modification has been registered successfully.', 2000)
 
                         // Audit success change
                         var time = (new Date).getTime();
@@ -11627,7 +11709,7 @@ require([
             $("#modal_manage_host").modal('hide');
 
             // Show input modal
-            $("#modal_modify_main_host").modal();
+            $("#modal_modify_data_host_unified").modal();
 
         });
 
@@ -11709,6 +11791,9 @@ require([
                         searchSingleDataHost1.startSearch();
                         searchSingleDataHost2.startSearch();
                         searchSingleDataHost3.startSearch();
+
+                        // notify
+                        notification('Modification has been registered successfully.', 2000)
 
                         // Audit success change
                         var time = (new Date).getTime();
@@ -11853,6 +11938,12 @@ require([
                         searchSingleDataHost2.startSearch();
                         searchSingleDataHost3.startSearch();
 
+                        $("#modal_modify_data_source_unified").modal();
+
+                        // notify
+                        console.log("Notify")
+                        notification('Modification has been registered successfully.', 2000)
+
                         // Audit success change
                         var time = (new Date).getTime();
                         var audit_record = {
@@ -11917,6 +12008,14 @@ require([
                 });
 
             }
+        });
+
+        // cancel: returns to unified modal
+        $("#btn_modal_modify_monitoring_wdays_host_no_confirm").click(function() {
+
+            // Show input modal
+            $("#modal_modify_data_host_unified").modal();
+
         });
 
         //
@@ -11998,6 +12097,9 @@ require([
                         searchSingleDataHost1.startSearch();
                         searchSingleDataHost2.startSearch();
                         searchSingleDataHost3.startSearch();
+
+                        // notify
+                        notification('Modification has been registered successfully.', 2000)
 
                         // Audit success change
                         var time = (new Date).getTime();
@@ -12099,5 +12201,76 @@ require([
 // ]]>
 </script>
 <script src="{{SPLUNKWEB_URL_PREFIX}}/static/app/trackme/table.js" type="text/javascript"></script>
+<script>
+$(".btn").mouseup(function(){
+    $(this).blur();
+})
+</script>
+<script>
+$('.modal').on('show.bs.modal', function () {
+    $('.modal').not($(this)).each(function () {
+        $(this).modal('hide');
+    });
+});
+</script>
+<script>
+function notification(s, time) {
+
+  $("<p>" + s + "</p>").appendTo('#boxnotify-unified-data-source').fadeTo(time, 1, function() {
+    $(this).fadeTo(1000, 0, function() {
+      $(this).remove()
+    });
+  });
+
+  $("<p>" + s + "</p>").appendTo('#boxnotify-unified-data-host').fadeTo(time, 1, function() {
+    $(this).fadeTo(1000, 0, function() {
+      $(this).remove()
+    });
+  });
+
+  $("<p>" + s + "</p>").appendTo('#boxnotify-modal_modify_data_source_blacklist_host').fadeTo(time, 1, function() {
+    $(this).fadeTo(1000, 0, function() {
+      $(this).remove()
+    });
+  });
+
+  $("<p>" + s + "</p>").appendTo('#boxnotify-modal_modify_data_source_blacklist_index').fadeTo(time, 1, function() {
+    $(this).fadeTo(1000, 0, function() {
+      $(this).remove()
+    });
+  });
+
+  $("<p>" + s + "</p>").appendTo('#boxnotify-modal_modify_data_source_blacklist_sourcetype').fadeTo(time, 1, function() {
+    $(this).fadeTo(1000, 0, function() {
+      $(this).remove()
+    });
+  });
+
+  $("<p>" + s + "</p>").appendTo('#boxnotify-modal_modify_data_host_blacklist_host').fadeTo(time, 1, function() {
+    $(this).fadeTo(1000, 0, function() {
+      $(this).remove()
+    });
+  });
+
+  $("<p>" + s + "</p>").appendTo('#boxnotify-modal_modify_data_host_blacklist_index').fadeTo(time, 1, function() {
+    $(this).fadeTo(1000, 0, function() {
+      $(this).remove()
+    });
+  });
+
+  $("<p>" + s + "</p>").appendTo('#boxnotify-modal_modify_data_host_blacklist_sourcetype').fadeTo(time, 1, function() {
+    $(this).fadeTo(1000, 0, function() {
+      $(this).remove()
+    });
+  });
+
+  $("<p>" + s + "</p>").appendTo('#boxnotify-modify_custom_lagging').fadeTo(time, 1, function() {
+    $(this).fadeTo(1000, 0, function() {
+      $(this).remove()
+    });
+  });
+
+}
+</script>
 </body>
 </html>
