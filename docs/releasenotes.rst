@@ -1,6 +1,12 @@
 Release notes
 #############
 
+Version 1.0.17
+==============
+
+- Feature: Unified update modal Windows for data source and host modification
+- Feature: Suspension effect when modification of entity is registered
+
 Version 1.0.16
 ==============
 
