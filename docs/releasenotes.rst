@@ -6,6 +6,7 @@ Version 1.0.17
 
 - Feature: Unified update modal Windows for data source and host modification
 - Feature: Suspension effect when modification of entity is registered
+- Fix: Prevent bootstrap button to remain focused once clicked
 
 Version 1.0.16
 ==============
