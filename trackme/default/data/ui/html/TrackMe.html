@@ -85,6 +85,11 @@
 
         }
 
+        /* fix some issues with long modals within Splunk 7.0.x */
+        .modal-body {
+            max-height: 700px !important;
+        }
+
         /* Fix link input object align */
         .input-linklist {
           display: inline !important;
@@ -1342,6 +1347,8 @@ styles in <div> tags, similar to Bootstrap's grid system.
 
                 <div class="modal-body">
 
+                    <div>
+
                     <h4>Data source lagging value:</h4>
 
                     <div style="margin-left: 15px;">
@@ -1400,6 +1407,8 @@ styles in <div> tags, similar to Bootstrap's grid system.
                     </div>
 
                     <button id="btn_modal_modify_monitoring_level_confirm" type="submit" class="btn btn-default btn-primary"><span class="glyphicon glyphicon-remove"></span> Apply monitoring level rule</button>
+
+                    </div>
 
                 </div>
 
