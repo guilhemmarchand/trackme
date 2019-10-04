@@ -1,6 +1,11 @@
 Release notes
 #############
 
+Version 1.0.18
+==============
+
+- Fix: data index dropdown shouldn't itself be filtering on selected index
+
 Version 1.0.17
 ==============
 
