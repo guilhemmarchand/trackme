@@ -2719,7 +2719,7 @@ require([
 
         var searchPopulateDataSourcesIndexes = new PostProcessManager({
             "tokenDependencies": {},
-            "search": "search $inputDataIndex$ | stats values(data_index) as data_index | mvexpand data_index | dedup data_index | sort limit=0 data_index",
+            "search": "stats values(data_index) as data_index | mvexpand data_index | dedup data_index | sort limit=0 data_index",
             "managerid": "baseSearchDataSource",
             "id": "searchPopulateDataSourcesIndexes"
         }, {
