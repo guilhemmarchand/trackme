@@ -11576,7 +11576,6 @@ require([
             var tk_data_monitored_state = tokens.get("tk_data_monitored_state");
             var tk_data_monitoring_level = tokens.get("tk_data_monitoring_level");
             var tk_data_monitoring_wdays = tokens.get("tk_data_monitoring_wdays");
-            var tk_data_override_lagging_class = tokens.get("tk_data_override_lagging_class");
             var tk_data_source_state = tokens.get("tk_data_source_state");
             var tk_data_tracker_runtime = tokens.get("tk_data_tracker_runtime");
             var tk_data_previous_source_state = tokens.get("tk_data_previous_source_state");
@@ -11589,7 +11588,7 @@ require([
 
             var tk_data_max_lag_allowed = tokens.get("tk_input_lag");
             var tk_origin_data_max_lag_allowed = tokens.get("tk_data_max_lag_allowed");
-            var tk_data_override_lagging_class = tokens.get("tk_data_override_lagging_class");
+            var tk_data_override_lagging_class = tokens.get("modal_input_lag_override_class");
 
             if (!tk_data_max_lag_allowed || !tk_data_max_lag_allowed.length || !isNumeric(tk_data_max_lag_allowed)) {
                 // Show an error message

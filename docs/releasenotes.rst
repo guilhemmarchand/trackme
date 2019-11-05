@@ -1,6 +1,11 @@
 Release notes
 #############
 
+Version 1.0.20
+==============
+
+- fix: Issue #34: Lagging class override for data_source is not registered properly
+
 Version 1.0.19
 ==============
 
