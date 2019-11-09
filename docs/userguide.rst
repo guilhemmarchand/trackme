@@ -32,7 +32,8 @@ Data sources availability tracking
 **The data sources availability tracking is the first and default active tab in the user interface, it provides:**
 
 - Single form overview of the total number of data sources discovered ("DATA SOURCES")
-- Single form overview of the number of data sources in alert ("DATA SOURCES IN ALERT")
+- Single form overview of the number of data sources in alert ("ANY PRIORITY DATA SOURCES IN ALERT")
+- Single form overview of the number of data sources in alert with an high priority ("HIGH PRIORITY DATA SOURCES IN ALERT")
 - Single form overview of the total number of data sources that are not being monitored ("DATA SOURCES NOT MONITORED")
 - Filters for investigations
 - A dynamic and interactive table representation of the data sources content. (see bellow)
@@ -46,9 +47,10 @@ The data sources state table exposes the information and the state of each data 
 - **data_sourcetype:** the name of the sourcetype
 - **last time:** a human readable value of the latest time data was seen for this data source (respectively from limitations of the short and long term trackers time range scopes)
 - **last ingest:** a human readable value of the latest time data was indexed for this data source (respectively from limitations of the short and long term trackers time range scopes)
+- **priority:** a value that describes the priority (low / medium / high) of the data source, to be used for granular alerting purposes
 - **state:** the state of the data source based on the monitoring rules for this data source
 - **data_last_lag_seen:** the latest lag value in seconds seen for that data source
-- **data_last_seen_index:** a human readable value of the latest time data was seen in this index (can be used to monitor on a per index basis rather than on a per sourcetype basis)
+- **last time idx:** a human readable value of the latest time data was seen in this index (can be used to monitor on a per index basis rather than on a per sourcetype basis)
 - **data_last_lag_seen_idx:** the latest lag value in seconds seen for that index (can be used to monitor on a per index basis rather than on a per sourcetype basis)
 - **data_max_lag_allowed:** the maximal value of lag accepted for this data source
 - **monitoring:** the monitoring state of this data source, can be enabled or disabled
@@ -75,7 +77,8 @@ Data hosts availability tracking
 **The data hosts availability tracking is the second available tab in the user interface, it provides:**
 
 - Single form overview of the total number of data hosts discovered ("DATA HOSTS")
-- Single form overview of the number of data hosts in alert ("DATA HOSTS IN ALERT")
+- Single form overview of the number of data hosts in alert ("ANY PRIORITY DATA HOSTS IN ALERT")
+- Single form overview of the number of data hosts in alert with an high priority ("HIGH PRIORITY DATA HOSTS IN ALERT")
 - Single form overview of the total number of data hosts that are not being monitored ("DATA HOSTS NOT MONITORED")
 - Filters for investigations
 - A dynamic and interactive table representation of the data hosts content. (see bellow)
@@ -87,9 +90,10 @@ The data hosts state table exposes the information and the state of each data ho
 - **data_host:** the discovered name of the host
 - **data_index:** the name of the index(es) where resides the data
 - **data_sourcetype:** the name of the sourcetype(s)
-- **last time:** a human readable value of the latest time data was seen for this data source (respectively from limitations of the short and long term trackers time range scopes)
-- **last ingest:** a human readable value of the latest time data was indexed for this data source (respectively from limitations of the short and long term trackers time range scopes)
-- **state:** the state of the data source based on the monitoring rules for this data source
+- **last time:** a human readable value of the latest time data was seen for this data host (respectively from limitations of the short and long term trackers time range scopes)
+- **last ingest:** a human readable value of the latest time data was indexed for this data host(respectively from limitations of the short and long term trackers time range scopes)
+- **priority:** a value that describes the priority (low / medium / high) of the data host, to be used for granular alerting purposes
+- **state:** the state of the data source based on the monitoring rules for this data host
 - **data_last_lag_seen:** the latest lag value in seconds seen for that data source
 - **data_max_lag_allowed:** the maximal value of lag accepted for this data source
 - **monitoring:** the monitoring state of this data source, can be enabled or disabled
@@ -147,6 +151,19 @@ The monitoring state drives different aspects of the restitution within the UI, 
 .. image:: img/monitored_state.png
    :alt: monitored_state.png
    :align: center
+
+Modifying the priority
+----------------------
+
+.. image:: img/modify_priority.png
+   :alt: modify_priority.png
+   :align: center
+
+**The priority of an object can be modified in the UI via the unified modification window, the following values are valid and available:**
+
+- low
+- medium
+- high
 
 Modifying a data source / data host
 -----------------------------------
@@ -371,3 +388,14 @@ Out of the box alerts
 - TrackMe - Alert on data host availability
 
 **The builtin alerts are disabled by default.**
+
+Connected experience dashboard for Splunk Mobile & Apple TV
+===========================================================
+
+**TrackMe provides a connected experience dashboard for Splunk Cloud Gateway, that can be displayed on Mobile applications & Apple TV:**
+
+.. image:: img/connected_dashboard.png
+   :alt: connected_dashboard.png
+   :align: center
+
+This dashboard is exported to the system, to be made available to Splunk Cloud Gateway.
