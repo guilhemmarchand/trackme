@@ -10,6 +10,7 @@ Version 1.0.21
 - feature: Default OOTB alerts now filter on red, and medium (default priority) or high priority entities
 - feature: Improvement of OOTB alerts (outputs by default human readable time stamps for key fields)
 - feature: TrackMe Mobile dashboard for dark theme summary view compatible with Splunk Mobile Experience (Apple TV, Mobile)
+- feature: Improved navigation for unified modification modal windows
 - fix: data sources that came of scope might loose time context upon time and returned as green state
 - fix: over time, trackers can re-add old entries due to flipping state cross-searches
 - fix: data_host_state icon shown as empty if state=orange due to mismatch in macro eval state icon for data_host

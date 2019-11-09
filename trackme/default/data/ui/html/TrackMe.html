@@ -1398,7 +1398,7 @@ styles in <div> tags, similar to Bootstrap's grid system.
 
                     <div>
 
-                        <div style="margin-bottom: 20px;">
+                        <div style="margin-bottom: 10px;">
 
                             <h4>Data source lagging value:</h4>
 
@@ -1432,7 +1432,7 @@ styles in <div> tags, similar to Bootstrap's grid system.
 
                         <hr>
 
-                        <div style="margin-bottom: 20px; width: 50%; float:left">
+                        <div style="margin-bottom: 10px; width: 50%; float:left">
 
                             <h4>Data source priority:</h4>
 
@@ -1456,7 +1456,7 @@ styles in <div> tags, similar to Bootstrap's grid system.
 
                         </div>
 
-                        <div style="margin-bottom: 20px; width: 50%; float:right">
+                        <div style="margin-bottom: 10px; width: 50%; float:right">
 
                             <h4>Data source week days monitoring:</h4>
 
@@ -1475,7 +1475,7 @@ styles in <div> tags, similar to Bootstrap's grid system.
 
                         </div>
 
-                        <div style="margin-top: 240px; margin-bottom: 30px;">
+                        <div style="margin-top: 240px; margin-bottom: 10px;">
 
                             <hr>
 
@@ -1497,8 +1497,8 @@ styles in <div> tags, similar to Bootstrap's grid system.
 
                 </div>
 
-                <div class="modal-footer">
-                    <button type="submit" class="btn btn-default btn-default pull-left" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Close</button>
+                <div style="margin-top: 20px;" class="modal-footer">
+                    <button type="submit" id="btn_close_data_source_unified" class="btn btn-default btn-default pull-right" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Back</button>
                 </div>
 
             </div>
@@ -1595,7 +1595,7 @@ styles in <div> tags, similar to Bootstrap's grid system.
                 </div>
 
                 <div class="modal-footer">
-                    <button type="submit" class="btn btn-default btn-default pull-left" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Close</button>
+                    <button type="submit" id="btn_close_data_host_unified" class="btn btn-default btn-default pull-right" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> back</button>
                 </div>
             </div>
 
@@ -11407,6 +11407,15 @@ require([
 
         });
 
+        // cancel button: returns to selected
+        $("#btn_close_data_source_unified").click(function() {
+            submitTokens();
+
+            // Show modal
+            $("#modal_manage").modal();
+
+        });
+
         $("#btn_modal_modify_wdays").click(function() {
             submitTokens();
 
@@ -12191,6 +12200,15 @@ require([
 
             // Show input modal
             $("#modal_modify_data_host_unified").modal();
+
+        });
+
+        // cancel button: returns to selected
+        $("#btn_close_data_host_unified").click(function() {
+            submitTokens();
+
+            // Show modal
+            $("#modal_manage_host").modal();
 
         });
 
