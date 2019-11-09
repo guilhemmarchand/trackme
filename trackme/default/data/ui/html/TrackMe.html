@@ -140,6 +140,51 @@
           display: none;
         }
 
+        span.title_yellow {
+            background: #ffd700;
+            padding: 0.3em 1.5em;
+            font-weight: 600;
+            position: relative;
+            border-radius: 5px;
+            margin-left: 5px;
+        }
+
+        span.title_orange {
+            background: #ffb347;
+            padding: 0.3em 1.5em;
+            font-weight: 600;
+            position: relative;
+            border-radius: 5px;
+            margin-left: 5px;
+        }
+
+        span.title_green {
+            background: #77dd77;
+            padding: 0.3em 1.5em;
+            font-weight: 600;
+            position: relative;
+            border-radius: 5px;
+            margin-left: 5px;
+        }
+
+        span.title_red {
+            background: #ff6961;
+            padding: 0.3em 1.5em;
+            font-weight: 600;
+            position: relative;
+            border-radius: 5px;
+            margin-left: 5px;
+        }
+
+        span.title_grey {
+            background: #808080;
+            padding: 0.3em 1.5em;
+            font-weight: 600;
+            position: relative;
+            border-radius: 5px;
+            margin-left: 5px;
+        }
+
         </style>
 </head>
 <body class="simplexml preload locale-en" data-splunk-version="" data-splunk-product="enterprise">
@@ -191,12 +236,14 @@ styles in <div> tags, similar to Bootstrap's grid system.
                                     <div style="float:left;width:33%;">
                                         <p><b>data_last_ingest:</b> $tk_data_last_ingest_human$</p>
                                         <p><b>data_max_lag_allowed:</b> $tk_data_max_lag_allowed$</p>
-                                        <p><b>data_monitored_state:</b> $tk_data_monitored_state$</p>
+                                        <p><b>data_monitored_state:</b> <span class="$tk_data_monitored_state_class$">$tk_data_monitored_state$</span></p>
                                         <p><b>data_monitoring_level:</b> $tk_data_monitoring_level$</p>
                                     </div>
                                     <div style="float:left;width:33%;">
                                         <p><b>latest_flip_time:</b> $tk_latest_flip_time_human$</p>
                                         <p><b>latest_flip_state:</b> $tk_latest_flip_state$</p>
+                                        <p><b>state:</b> <span class="$tk_data_source_state_class$">$tk_data_source_state$</span></p>
+                                        <p><b>priority:</b> <span class="$tk_priority_class$">$tk_priority$</span></p>
                                     </div>
                                 </div>
                             </div>
@@ -281,11 +328,13 @@ styles in <div> tags, similar to Bootstrap's grid system.
                                     </div>
                                     <div style="float:left;width:33%;">
                                         <p><b>data_max_lag_allowed:</b> $tk_data_max_lag_allowed$</p>
-                                        <p><b>data_monitored_state:</b> $tk_data_monitored_state$</p>
+                                        <p><b>data_monitored_state:</b> <span class="$tk_data_monitored_state_class$">$tk_data_monitored_state$</span></p>
+                                        <p><b>data_host_state:</b> <span class="$tk_data_host_state_class$">$tk_data_host_state$</span></p>
                                     </div>
                                     <div style="float:left;width:33%;">
                                         <p><b>latest_flip_time:</b> $tk_latest_flip_time_human$</p>
                                         <p><b>latest_flip_state:</b> $tk_latest_flip_state$</p>
+                                        <p><b>priority:</b> <span class="$tk_priority_class$">$tk_priority$</span></p>
                                     </div>
                                 </div>
 
@@ -1349,64 +1398,100 @@ styles in <div> tags, similar to Bootstrap's grid system.
 
                     <div>
 
-                    <h4>Data source lagging value:</h4>
+                        <div style="margin-bottom: 20px;">
 
-                    <div style="margin-left: 15px;">
-                        <lu>
-                            <li>The maximal allowed lagging value defines the maximal value in seconds before a data source / host would be considered as red</li>
-                            <li>Override lagging classes allows bypassing any lagging classes configuration that would apply to this data source or host</li>
-                            <li>If a lagging class matches index(es) or sourcetype(es) for this data source or host and the option is unchecked, it will bypass this value unless override is true</li>
-                        </lu>
-                    </div>
+                            <h4>Data source lagging value:</h4>
 
-                    <br />
+                            <div style="margin-left: 15px;">
+                                <lu>
+                                    <li>The maximal allowed lagging value defines the maximal value in seconds before a data source / host would be considered as red</li>
+                                    <li>Override lagging classes allows bypassing any lagging classes configuration that would apply to this data source or host</li>
+                                    <li>If a lagging class matches index(es) or sourcetype(es) for this data source or host and the option is unchecked, it will bypass this value unless override is true</li>
+                                </lu>
+                            </div>
 
-                    <div class="fieldset">
-                        <div class="input input-text" id="modal_input_lag">
-                            <label>Maximal allowed lagging value:</label>
+                            <br />
+
+                            <div class="fieldset">
+                                <div class="input input-text" id="modal_input_lag">
+                                    <label>Maximal allowed lagging value:</label>
+                                </div>
+                            </div>
+                            <div class="fieldset">
+                                <div class="input input-dropdown" id="modal_input_lag_override_class">
+                                    <label>Override lagging classes:</label>
+                                </div>
+                            </div>
+
+                            <button id="btn_modal_modify_lag_confirm" type="submit" class="btn btn-default btn-primary"><span class="glyphicon glyphicon-remove"></span> Apply lagging rule</button>
+
+                            <div class="boxnotify" id="boxnotify-unified-data-source">
+                            </div>
+
                         </div>
-                    </div>
-                    <div class="fieldset">
-                        <div class="input input-dropdown" id="modal_input_lag_override_class">
-                            <label>Override lagging classes:</label>
+
+                        <hr>
+
+                        <div style="margin-bottom: 20px; width: 50%; float:left">
+
+                            <h4>Data source priority:</h4>
+
+                            <p>Define the priority of the data source for granular level of SLA alerting:</p>
+
+                            <p>
+                                <span class="title_green">low</span>
+                                <span class="title_yellow">medium</span>
+                                <span class="title_red">high</span>
+                            </p>
+
+                            <div class="fieldset">
+                                <div class="input input-text" id="modal_input_priority">
+                                    <label></label>
+                                </div>
+                            </div>
+
+                            <div>
+                                <button id="btn_modal_modify_priority_confirm" type="submit" class="btn btn-default btn-primary"><span class="glyphicon glyphicon-remove"></span> Apply priority</button>
+                            </div>
+
                         </div>
-                    </div>
 
-                    <button id="btn_modal_modify_lag_confirm" type="submit" class="btn btn-default btn-primary"><span class="glyphicon glyphicon-remove"></span> Apply lagging rule</button>
+                        <div style="margin-bottom: 20px; width: 50%; float:right">
 
-                    <div class="boxnotify" id="boxnotify-unified-data-source">
-                    </div>
+                            <h4>Data source week days monitoring:</h4>
 
-                    <hr>
+                            <p>Monitor source on a all days basis, apply a builtin rule, or explicitly select week days:</p>
 
-                    <h4>Data source week days monitoring:</h4>
+                            <div class="fieldset">
+                                <div class="input input-text" id="modal_input_wdays">
+                                    <label></label>
+                                </div>
+                            </div>
 
-                    <p>Monitor source on a all days basis, apply a builtin rule, or explicitly select week days:</p>
+                            <div>
+                                <button id="btn_modal_modify_monitoring_wdays_confirm" type="submit" class="btn btn-default btn-primary"><span class="glyphicon glyphicon-remove"></span> Apply wdays builtin rule</button>
+                                <button id="btn_modal_modify_wdays_no" type="submit" class="btn btn-default btn-primary" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Or select days of the week</button>
+                            </div>
 
-                    <div class="fieldset">
-                        <div class="input input-text" id="modal_input_wdays">
-                            <label></label>
                         </div>
-                    </div>
 
-                    <div>
-                        <button id="btn_modal_modify_monitoring_wdays_confirm" type="submit" class="btn btn-default btn-primary"><span class="glyphicon glyphicon-remove"></span> Apply wdays builtin rule</button>
-                        <button id="btn_modal_modify_wdays_no" type="submit" class="btn btn-default btn-primary" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Or select days of the week</button>
-                    </div>
+                        <div style="margin-top: 240px; margin-bottom: 30px;">
 
-                    <hr>
+                            <hr>
 
-                    <h4>Data source monitoring level:</h4>
+                            <h4>Data source monitoring level:</h4>
 
-                    <p>Choose to monitor the data source based on the index and sourcetype association (default), or based on the latest data available in the index where the data source is stored:</p>
+                            <p>Choose to monitor the data source based on the index and sourcetype association (default), or based on the latest data available in the index where the data source is stored:</p>
 
-                    <div class="fieldset">
-                        <div class="input input-text" id="modal_input_level">
-                            <label></label>
+                            <div class="fieldset">
+                                <div class="input input-text" id="modal_input_level">
+                                    <label></label>
+                                </div>
+                            </div>
+
+                            <button id="btn_modal_modify_monitoring_level_confirm" type="submit" class="btn btn-default btn-primary"><span class="glyphicon glyphicon-remove"></span> Apply monitoring level rule</button>
+
                         </div>
-                    </div>
-
-                    <button id="btn_modal_modify_monitoring_level_confirm" type="submit" class="btn btn-default btn-primary"><span class="glyphicon glyphicon-remove"></span> Apply monitoring level rule</button>
 
                     </div>
 
@@ -1415,6 +1500,7 @@ styles in <div> tags, similar to Bootstrap's grid system.
                 <div class="modal-footer">
                     <button type="submit" class="btn btn-default btn-default pull-left" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Close</button>
                 </div>
+
             </div>
 
         </div>
@@ -1465,19 +1551,45 @@ styles in <div> tags, similar to Bootstrap's grid system.
 
                     <hr>
 
-                    <h4>Data host week days monitoring:</h4>
+                    <h4>Data host priority:</h4>
 
-                    <p>Monitor source on a all days basis, apply a builtin rule, or explicitly select week days:</p>
+                    <p>Define the priority of the data host for granular level of SLA alerting:</p>
+
+                    <p>
+                        <span class="title_green">low</span>
+                        <span class="title_yellow">medium</span>
+                        <span class="title_red">high</span>
+                    </p>
 
                     <div class="fieldset">
-                        <div class="input input-text" id="modal_input_wdays_host">
+                        <div class="input input-text" id="modal_input_host_priority">
                             <label></label>
                         </div>
                     </div>
 
                     <div>
-                        <button id="btn_modal_modify_monitoring_wdays_host_confirm" type="submit" class="btn btn-default btn-primary"><span class="glyphicon glyphicon-remove"></span> Apply wdays builtin rule</button>
-                        <button id="btn_modal_modify_wdays_host_no" type="submit" class="btn btn-default btn-primary" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Or select days of the week</button>
+                        <button id="btn_modal_modify_priority_host_confirm" type="submit" class="btn btn-default btn-primary"><span class="glyphicon glyphicon-remove"></span> Apply priority</button>
+                    </div>
+
+                    <hr>
+
+                    <div style="margin-bottom: 20px;">
+
+                        <h4>Data host week days monitoring:</h4>
+
+                        <p>Monitor source on a all days basis, apply a builtin rule, or explicitly select week days:</p>
+
+                        <div class="fieldset">
+                            <div class="input input-text" id="modal_input_wdays_host">
+                                <label></label>
+                            </div>
+                        </div>
+
+                        <div>
+                            <button id="btn_modal_modify_monitoring_wdays_host_confirm" type="submit" class="btn btn-default btn-primary"><span class="glyphicon glyphicon-remove"></span> Apply wdays builtin rule</button>
+                            <button id="btn_modal_modify_wdays_host_no" type="submit" class="btn btn-default btn-primary" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Or select days of the week</button>
+                        </div>
+
                     </div>
 
                 </div>
@@ -2124,6 +2236,16 @@ styles in <div> tags, similar to Bootstrap's grid system.
                     </div>
                 </div>
             </div>
+            <div id="SingleFormsDataSourcePanelHighPriority" class="dashboard-cell" style="width: 33.33%;" data-original-id="SingleFormsDataSourcePanelHighPriority">
+                <div class="dashboard-panel clearfix">
+
+                    <div class="panel-element-row">
+                        <div id="singleFormTotalDataSourceAlertsHighPriority" class="dashboard-element single" style="width: 100%">
+                            <div class="panel-body"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
             <div id="SingleFormsDataSourcePanel3" class="dashboard-cell" style="width: 33.33%;" data-original-id="SingleFormsDataSourcePanel3">
                 <div class="dashboard-panel clearfix">
 
@@ -2154,6 +2276,16 @@ styles in <div> tags, similar to Bootstrap's grid system.
 
                     <div class="panel-element-row">
                         <div id="singleFormTotalDataHostAlerts" class="dashboard-element single" style="width: 100%">
+                            <div class="panel-body"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="SingleFormsDataHostPanelHighPriority" class="dashboard-cell" style="width: 33.33%;" data-original-id="SingleFormsDataHostPanel2">
+                <div class="dashboard-panel clearfix">
+
+                    <div class="panel-element-row">
+                        <div id="singleFormTotalDataHostAlertsHighPriority" class="dashboard-element single" style="width: 100%">
                             <div class="panel-body"></div>
                         </div>
                     </div>
@@ -2192,6 +2324,9 @@ styles in <div> tags, similar to Bootstrap's grid system.
                     <div class="input input-dropdown" id="inputDataMonitoredState">
                         <label>filter monitored_state:</label>
                     </div>
+                    <div class="input input-dropdown" id="inputDataPriority">
+                        <label>filter priority:</label>
+                    </div>
                     <div class="input input-dropdown" id="refreshForm">
                         <label>Auto refresh:</label>
                     </div>
@@ -2219,6 +2354,9 @@ styles in <div> tags, similar to Bootstrap's grid system.
                     </div>
                     <div class="input input-dropdown" id="inputDataHostMonitoredState">
                         <label>filter monitored_state:</label>
+                    </div>
+                    <div class="input input-dropdown" id="inputDataHostPriority">
+                        <label>filter priority:</label>
                     </div>
                     <div class="input input-dropdown" id="refreshHostForm">
                         <label>Auto refresh:</label>
@@ -2693,7 +2831,7 @@ require([
             "refreshType": "delay",
             "refresh": "$refresh$",
             "latest_time": "now",
-            "search": "| `tstats` max(_indextime) as current_data_last_ingest, max(_time) as current_data_last_time_seen count as current_data_last_count_seen where index=* sourcetype=* `trackme_tstats_main_filter` `apply_data_source_blacklists_data_retrieve` by index, sourcetype | rename index as data_index, sourcetype as data_sourcetype | lookup trackme_data_source_monitoring data_index, data_sourcetype OUTPUT data_name | append [ | inputlookup trackme_data_source_monitoring | eval keyid=_key ] | stats first(*) as \"*\" by data_name, data_index, data_sourcetype | eval data_last_ingest=if(isnotnull(current_data_last_ingest), current_data_last_ingest, data_last_ingest), data_last_time_seen=if(isnotnull(current_data_last_time_seen), current_data_last_time_seen, data_last_time_seen) | eval current_data_last_count_seen=if(isnotnull(current_data_last_count_seen), current_data_last_count_seen, data_last_count_seen) | fields - current_* | eventstats max(data_last_time_seen) as data_last_time_seen_idx, min(data_last_lag_seen) as data_last_lag_seen_idx by data_index | `trackme_eval_data_source_state` | `trackme_date_format(data_last_time_seen)` | `trackme_date_format(data_last_time_seen_idx)` | `trackme_date_format(data_last_ingest)` | fillnull value=\"red\" data_source_state | sort 0 data_source | `trackme_eval_icons` | search $data_source_state$ | search $inputDataName$ $inputDataIndex$ $inputDataSourcetype$ $data_monitored_state$ | fields keyid, data_name, data_index, data_sourcetype, \"data_last_time_seen (translated)\", data_last_time_seen, \"data_last_ingest (translated)\", data_last_ingest, \"data_last_time_seen_idx (translated)\", data_last_time_seen_idx, state, data_last_lag_seen, data_last_lag_seen_idx, data_max_lag_allowed, monitoring, data_monitored_state, data_monitoring_level, data_source_state, data_monitoring_wdays, data_override_lagging_class | `apply_data_source_blacklists` | rename \"data_last_time_seen (translated)\" as \"last time\", \"data_last_ingest (translated)\" as \"last ingest\", \"data_last_time_seen_idx (translated)\" as \"last time idx\" | eval data_tracker_runtime=now() | lookup local=t trackme_data_source_monitoring data_name OUTPUT data_source_state as data_previous_source_state, data_tracker_runtime as data_previous_tracker_runtime, latest_flip_state, latest_flip_time | `trackme_date_format(\"latest_flip_time\")` | fillnull value=\"N/A\" latest_flip_state, latest_flip_time, \"latest_flip_time (translated)\"",
+            "search": "| `tstats` max(_indextime) as current_data_last_ingest, max(_time) as current_data_last_time_seen count as current_data_last_count_seen where index=* sourcetype=* `trackme_tstats_main_filter` `apply_data_source_blacklists_data_retrieve` by index, sourcetype | rename index as data_index, sourcetype as data_sourcetype | lookup trackme_data_source_monitoring data_index, data_sourcetype OUTPUT data_name | append [ | inputlookup trackme_data_source_monitoring | eval keyid=_key ] | stats first(*) as \"*\" by data_name, data_index, data_sourcetype | eval data_last_ingest=if(isnotnull(current_data_last_ingest), current_data_last_ingest, data_last_ingest), data_last_time_seen=if(isnotnull(current_data_last_time_seen), current_data_last_time_seen, data_last_time_seen) | eval current_data_last_count_seen=if(isnotnull(current_data_last_count_seen), current_data_last_count_seen, data_last_count_seen) | fields - current_* | eventstats max(data_last_time_seen) as data_last_time_seen_idx, min(data_last_lag_seen) as data_last_lag_seen_idx by data_index | `trackme_eval_data_source_state` | `trackme_date_format(data_last_time_seen)` | `trackme_date_format(data_last_time_seen_idx)` | `trackme_date_format(data_last_ingest)` | fillnull value=\"red\" data_source_state | sort 0 data_source | `trackme_eval_icons` | search $data_source_state$ | search $inputDataName$ $inputDataIndex$ $inputDataSourcetype$ $data_monitored_state$ $inputDataPriority$ | fields keyid, data_name, data_index, data_sourcetype, \"data_last_time_seen (translated)\", data_last_time_seen, \"data_last_ingest (translated)\", data_last_ingest, \"data_last_time_seen_idx (translated)\", data_last_time_seen_idx, state, data_last_lag_seen, data_last_lag_seen_idx, data_max_lag_allowed, monitoring, data_monitored_state, data_monitoring_level, data_source_state, data_monitoring_wdays, data_override_lagging_class, priority | `apply_data_source_blacklists` | rename \"data_last_time_seen (translated)\" as \"last time\", \"data_last_ingest (translated)\" as \"last ingest\", \"data_last_time_seen_idx (translated)\" as \"last time idx\" | eval data_tracker_runtime=now() | lookup local=t trackme_data_source_monitoring data_name OUTPUT data_source_state as data_previous_source_state, data_tracker_runtime as data_previous_tracker_runtime, latest_flip_state, latest_flip_time | `trackme_date_format(\"latest_flip_time\")` | fillnull value=\"N/A\" latest_flip_state, latest_flip_time, \"latest_flip_time (translated)\"",
             "status_buckets": 0,
             "app": utils.getCurrentApp(),
             "auto_cancel": 90,
@@ -2956,7 +3094,7 @@ require([
             "refreshType": "delay",
             "refresh": "$refresh$",
             "latest_time": "now",
-            "search": "| `tstats` max(_indextime) as current_data_last_ingest, max(_time) as current_data_last_time_seen count as current_data_last_count_seen values(sourcetype) as sourcetype where index=* sourcetype=* host=* host!=\"\" `trackme_tstats_main_filter` `apply_data_host_blacklists_data_retrieve` by index, host | stats max(current_data_last_ingest) as current_data_last_ingest, max(current_data_last_time_seen) as current_data_last_time_seen, sum(current_data_last_count_seen) as current_data_last_count_seen, values(index) as index, values(sourcetype) as sourcetype by host | rename index as data_index, host as data_host, sourcetype as data_sourcetype | lookup trackme_host_monitoring data_host | append [ | inputlookup trackme_host_monitoring | eval keyid=_key ] | stats values(data_index) as data_index, values(data_sourcetype) as data_sourcetype, first(*) as \"*\" by data_host | eval data_last_ingest=if(isnotnull(current_data_last_ingest), current_data_last_ingest, data_last_ingest), data_last_time_seen=if(isnotnull(current_data_last_time_seen), current_data_last_time_seen, data_last_time_seen) | eval current_data_last_count_seen=if(isnotnull(current_data_last_count_seen), current_data_last_count_seen, data_last_count_seen) | fields - current_* | `trackme_eval_data_host_state` | `trackme_date_format(data_last_time_seen)` | `trackme_date_format(data_last_time_seen_idx)` | `trackme_date_format(data_last_ingest)` | fillnull value=\"red\" data_host_state | sort 0 data_host | `trackme_eval_icons_host` | search data_host=* | search data_host=* $data_monitored_state$ | fields keyid, data_host, data_index, data_sourcetype, data_last_ingest, \"data_last_ingest (translated)\", \"data_last_time_seen (translated)\", data_last_time_seen, state, data_last_lag_seen, data_max_lag_allowed, monitoring, data_monitored_state, data_monitoring_wdays, data_host_state, data_override_lagging_class | `apply_data_host_blacklists` | search $inputDataHost$ $data_host_state$ $data_monitored_state$ | rename \"data_last_ingest (translated)\" as \"last ingest\", \"data_last_time_seen (translated)\" as \"last time\" | eval data_index_raw=data_index, data_sourcetype_raw=data_sourcetype | makemv data_index delim=\",\" | makemv data_sourcetype delim=\",\" | eval data_tracker_runtime=now() | lookup local=t trackme_host_monitoring data_host OUTPUT data_host_state as data_previous_host_state, data_tracker_runtime as data_previous_tracker_runtime, latest_flip_state, latest_flip_time | `trackme_date_format(\"latest_flip_time\")` | fillnull value=\"N/A\" latest_flip_state, latest_flip_time, \"latest_flip_time (translated)\" | search $inputDataHostIndexes$ $inputDataHostSourcetypes$",
+            "search": "| `tstats` max(_indextime) as current_data_last_ingest, max(_time) as current_data_last_time_seen count as current_data_last_count_seen values(sourcetype) as sourcetype where index=* sourcetype=* host=* host!=\"\" `trackme_tstats_main_filter` `apply_data_host_blacklists_data_retrieve` by index, host | stats max(current_data_last_ingest) as current_data_last_ingest, max(current_data_last_time_seen) as current_data_last_time_seen, sum(current_data_last_count_seen) as current_data_last_count_seen, values(index) as index, values(sourcetype) as sourcetype by host | rename index as data_index, host as data_host, sourcetype as data_sourcetype | lookup trackme_host_monitoring data_host | append [ | inputlookup trackme_host_monitoring | eval keyid=_key ] | stats values(data_index) as data_index, values(data_sourcetype) as data_sourcetype, first(*) as \"*\" by data_host | eval data_last_ingest=if(isnotnull(current_data_last_ingest), current_data_last_ingest, data_last_ingest), data_last_time_seen=if(isnotnull(current_data_last_time_seen), current_data_last_time_seen, data_last_time_seen) | eval current_data_last_count_seen=if(isnotnull(current_data_last_count_seen), current_data_last_count_seen, data_last_count_seen) | fields - current_* | `trackme_eval_data_host_state` | `trackme_date_format(data_last_time_seen)` | `trackme_date_format(data_last_time_seen_idx)` | `trackme_date_format(data_last_ingest)` | fillnull value=\"red\" data_host_state | sort 0 data_host | `trackme_eval_icons_host` | search data_host=* | search data_host=* $data_monitored_state$ | fields keyid, data_host, data_index, data_sourcetype, data_last_ingest, \"data_last_ingest (translated)\", \"data_last_time_seen (translated)\", data_last_time_seen, state, data_last_lag_seen, data_max_lag_allowed, monitoring, data_monitored_state, data_monitoring_wdays, data_host_state, data_override_lagging_class, priority | `apply_data_host_blacklists` | search $inputDataHost$ $data_host_state$ $data_monitored_state$ | rename \"data_last_ingest (translated)\" as \"last ingest\", \"data_last_time_seen (translated)\" as \"last time\" | eval data_index_raw=data_index, data_sourcetype_raw=data_sourcetype | makemv data_index delim=\",\" | makemv data_sourcetype delim=\",\" | eval data_tracker_runtime=now() | lookup local=t trackme_host_monitoring data_host OUTPUT data_host_state as data_previous_host_state, data_tracker_runtime as data_previous_tracker_runtime, latest_flip_state, latest_flip_time | `trackme_date_format(\"latest_flip_time\")` | fillnull value=\"N/A\" latest_flip_state, latest_flip_time, \"latest_flip_time (translated)\" | search $inputDataHostIndexes$ $inputDataHostSourcetypes$ $inputDataHostPriority$",
             "status_buckets": 0,
             "app": utils.getCurrentApp(),
             "auto_cancel": 90,
@@ -3060,6 +3198,16 @@ require([
             tokenNamespace: "submitted"
         });
 
+        var searchSingleDataSourceHighPriority = new PostProcessManager({
+            "tokenDependencies": {},
+            "search": "search $inputDataName$ $inputDataIndex$ $inputDataSourcetype$ | where data_source_state=\"red\" AND priority=\"high\" | where NOT data_monitored_state=\"disabled\" | stats count",
+            "managerid": "searchMainTable",
+            "id": "searchSingleDataSourceHighPriority"
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        });
+
         var searchSingleDataSource3 = new PostProcessManager({
             "tokenDependencies": {},
             "search": "search $inputDataName$ $inputDataIndex$ $inputDataSourcetype$ | where data_monitored_state=\"disabled\" | stats count",
@@ -3095,6 +3243,16 @@ require([
             "search": "makemv data_index delim=\",\" | makemv data_sourcetype delim=\",\" | search $inputDataHostIndexes$ $inputDataHostSourcetypes$ | where data_monitored_state=\"disabled\" | stats count",
             "managerid": "baseSearchDataHost",
             "id": "searchSingleDataHost3"
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        });
+
+        var searchSingleDataHostHighPriority = new PostProcessManager({
+            "tokenDependencies": {},
+            "search": "makemv data_index delim=\",\" | makemv data_sourcetype delim=\",\" | search $inputDataHostIndexes$ $inputDataHostSourcetypes$ | where data_host_state=\"red\" AND priority=\"high\" | where NOT data_monitored_state=\"disabled\" | stats count",
+            "managerid": "searchMainTableHost",
+            "id": "searchSingleDataHostHighPriority"
         }, {
             tokens: true,
             tokenNamespace: "submitted"
@@ -4168,6 +4326,38 @@ require([
             FormUtils.handleValueChange(modal_input_lag_host);
         });
 
+        // data host priority
+
+        var modal_input_host_priority = new DropdownInput({
+            "id": "modal_input_host_priority",
+            "choices": [{
+                    "label": "low",
+                    "value": "low"
+                },
+                {
+                    "label": "medium",
+                    "value": "medium"
+                },
+                {
+                    "label": "high",
+                    "value": "high"
+                }
+            ],
+            "searchWhenChanged": true,
+            "default": "medium",
+            "showClearButton": true,
+            "initialValue": "medium",
+            "selectFirstChoice": false,
+            "value": "$form.tk_input_host_priority$",
+            "el": $('#modal_input_host_priority')
+        }, {
+            tokens: true
+        }).render();
+
+        modal_input_host_priority.on("change", function(newValue) {
+            FormUtils.handleValueChange(modal_input_host_priority);
+        });
+
         var modal_input_level = new DropdownInput({
             "id": "modal_input_level",
             "choices": [{
@@ -4192,6 +4382,38 @@ require([
 
         modal_input_level.on("change", function(newValue) {
             FormUtils.handleValueChange(modal_input_level);
+        });
+
+        // data source priority
+
+        var modal_input_priority = new DropdownInput({
+            "id": "modal_input_priority",
+            "choices": [{
+                    "label": "low",
+                    "value": "low"
+                },
+                {
+                    "label": "medium",
+                    "value": "medium"
+                },
+                {
+                    "label": "high",
+                    "value": "high"
+                }
+            ],
+            "searchWhenChanged": true,
+            "default": "medium",
+            "showClearButton": true,
+            "initialValue": "medium",
+            "selectFirstChoice": false,
+            "value": "$form.tk_input_priority$",
+            "el": $('#modal_input_priority')
+        }, {
+            tokens: true
+        }).render();
+
+        modal_input_priority.on("change", function(newValue) {
+            FormUtils.handleValueChange(modal_input_priority);
         });
 
         // data source monitoring
@@ -4634,10 +4856,36 @@ require([
             "trendColorInterpretation": "standard",
             "trellis.size": "medium",
             "rangeValues": "[0]",
-            "rangeColors": "[\"0x779ecb\",\"0xff6961\"]",
-            "underLabel": "DATA SOURCES IN ALERT",
+            "rangeColors": "[\"0x779ecb\",\"0xffb347\"]",
+            "underLabel": "ANY PRIORITY DATA SOURCES IN ALERT",
             "managerid": "searchSingleDataSource2",
             "el": $('#singleFormTotalDataSourceAlerts')
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        }).render();
+
+        var singleFormTotalDataSourceAlertsHighPriority = new SingleElement({
+            "id": "singleFormTotalDataSourceAlertsHighPriority",
+            "showTrendIndicator": "1",
+            "unitPosition": "after",
+            "useThousandSeparators": "1",
+            "numberPrecision": "0",
+            "colorBy": "value",
+            "colorMode": "block",
+            "drilldown": "none",
+            "showSparkline": "1",
+            "trellis.scales.shared": "1",
+            "useColors": "1",
+            "trendDisplayMode": "absolute",
+            "trellis.enabled": "0",
+            "trendColorInterpretation": "standard",
+            "trellis.size": "medium",
+            "rangeValues": "[0]",
+            "rangeColors": "[\"0x779ecb\",\"0xff6961\"]",
+            "underLabel": "HIGH PRIORITY DATA SOURCES IN ALERT",
+            "managerid": "searchSingleDataSourceHighPriority",
+            "el": $('#singleFormTotalDataSourceAlertsHighPriority')
         }, {
             tokens: true,
             tokenNamespace: "submitted"
@@ -4712,10 +4960,36 @@ require([
             "trendColorInterpretation": "standard",
             "trellis.size": "medium",
             "rangeValues": "[0]",
-            "rangeColors": "[\"0x779ecb\",\"0xff6961\"]",
-            "underLabel": "DATA HOSTS IN ALERT",
+            "rangeColors": "[\"0x779ecb\",\"0xffb347\"]",
+            "underLabel": "ANY PRIORITY DATA HOSTS IN ALERT",
             "managerid": "searchSingleDataHost2",
             "el": $('#singleFormTotalDataHostAlerts')
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        }).render();
+
+        var singleFormTotalDataHostAlertsHighPriority = new SingleElement({
+            "id": "singleFormTotalDataHostAlertsHighPriority",
+            "showTrendIndicator": "1",
+            "unitPosition": "after",
+            "useThousandSeparators": "1",
+            "numberPrecision": "0",
+            "colorBy": "value",
+            "colorMode": "block",
+            "drilldown": "none",
+            "showSparkline": "1",
+            "trellis.scales.shared": "1",
+            "useColors": "1",
+            "trendDisplayMode": "absolute",
+            "trellis.enabled": "0",
+            "trendColorInterpretation": "standard",
+            "trellis.size": "medium",
+            "rangeValues": "[0]",
+            "rangeColors": "[\"0x779ecb\",\"0xff6961\"]",
+            "underLabel": "HIGH PRIORITY DATA HOSTS IN ALERT",
+            "managerid": "searchSingleDataHostHighPriority",
+            "el": $('#singleFormTotalDataHostAlertsHighPriority')
         }, {
             tokens: true,
             tokenNamespace: "submitted"
@@ -4934,7 +5208,7 @@ require([
             "id": "elementMainTable",
             "count": 100,
             "drilldown": "row",
-            "fields": "data_name, data_index, data_sourcetype, \"last time\", \"last ingest\", state, data_last_lag_seen, \"last time idx\", data_last_lag_seen_idx, data_max_lag_allowed, monitoring, data_monitoring_level, data_monitoring_wdays",
+            "fields": "data_name, data_index, data_sourcetype, \"last time\", \"last ingest\", priority, state, data_last_lag_seen, \"last time idx\", data_last_lag_seen_idx, data_max_lag_allowed, monitoring, data_monitoring_level, data_monitoring_wdays",
             "refresh.display": "none",
             "wrap": "false",
             "managerid": "searchMainTable",
@@ -4972,6 +5246,7 @@ require([
                 setToken("tk_latest_flip_state", TokenUtils.replaceTokenNames("$row.latest_flip_state$", _.extend(submittedTokenModel.toJSON(), e.data)));
                 setToken("tk_latest_flip_time", TokenUtils.replaceTokenNames("$row.latest_flip_time$", _.extend(submittedTokenModel.toJSON(), e.data)));
                 setToken("tk_latest_flip_time_human", TokenUtils.replaceTokenNames("$row.latest_flip_time (translated)$", _.extend(submittedTokenModel.toJSON(), e.data)));
+                setToken("tk_priority", TokenUtils.replaceTokenNames("$row.priority$", _.extend(submittedTokenModel.toJSON(), e.data)));
 
                 // pref-fill current lagging input
                 setToken("form.tk_input_lag", TokenUtils.replaceTokenNames("$row.data_max_lag_allowed$", _.extend(submittedTokenModel.toJSON(), e.data)));
@@ -4981,6 +5256,9 @@ require([
 
                 // pre-fill current monitoring level
                 setToken("form.tk_input_level", TokenUtils.replaceTokenNames("$row.data_monitoring_level$", _.extend(submittedTokenModel.toJSON(), e.data)));
+
+                // pre-fill current priority
+                setToken("form.tk_input_priority", TokenUtils.replaceTokenNames("$row.priority$", _.extend(submittedTokenModel.toJSON(), e.data)));
 
                 submitTokens();
 
@@ -4997,6 +5275,12 @@ require([
                 // Define the history search
                 var search_data_source = location.protocol + '//' + location.hostname + (location.port ? ':' + location.port : '') + '//app/trackme/search' + "?q=search%20index%3D\"" + encodeURI(tk_data_index) + "\"" + " sourcetype%3D\"" + encodeURI(tk_data_sourcetype) + "\""
 
+                // state
+                var tk_data_source_state = tokens.get("tk_data_source_state");
+
+                // priority
+                var tk_priority = tokens.get("tk_priority");
+
                 // Define the URL target
                 document.getElementById("btn_search_data_source").href = search_data_source;
 
@@ -5004,9 +5288,29 @@ require([
                 if (tk_data_monitored_state == "enabled") {
                     document.getElementById('btn_enable_monitoring').disabled = true;
                     document.getElementById('btn_disable_monitoring').disabled = false;
+                    setToken("tk_data_monitored_state_class", TokenUtils.replaceTokenNames("title_green", _.extend(submittedTokenModel.toJSON(), e.data)));
                 } else {
                     document.getElementById('btn_enable_monitoring').disabled = false;
                     document.getElementById('btn_disable_monitoring').disabled = true;
+                    setToken("tk_data_monitored_state_class", TokenUtils.replaceTokenNames("title_grey", _.extend(submittedTokenModel.toJSON(), e.data)));
+                }
+
+                // Dynamically manage state color
+                if (tk_data_source_state == "green") {
+                    setToken("tk_data_source_state_class", TokenUtils.replaceTokenNames("title_green", _.extend(submittedTokenModel.toJSON(), e.data)));
+                } else if (tk_data_source_state == "orange") {
+                    setToken("tk_data_source_state_class", TokenUtils.replaceTokenNames("title_orange", _.extend(submittedTokenModel.toJSON(), e.data)));
+                } else if (tk_data_source_state == "red") {
+                    setToken("tk_data_source_state_class", TokenUtils.replaceTokenNames("title_red", _.extend(submittedTokenModel.toJSON(), e.data)));
+                }
+
+                // Dynamically manage priority color
+                if (tk_priority == "low") {
+                    setToken("tk_priority_class", TokenUtils.replaceTokenNames("title_green", _.extend(submittedTokenModel.toJSON(), e.data)));
+                } else if (tk_priority == "medium") {
+                    setToken("tk_priority_class", TokenUtils.replaceTokenNames("title_yellow", _.extend(submittedTokenModel.toJSON(), e.data)));
+                } else if (tk_priority == "high") {
+                    setToken("tk_priority_class", TokenUtils.replaceTokenNames("title_red", _.extend(submittedTokenModel.toJSON(), e.data)));
                 }
 
                 // Enable modal context
@@ -5110,7 +5414,7 @@ require([
             "id": "elementMainTableHost",
             "count": 100,
             "drilldown": "row",
-            "fields": "data_host, data_index, data_sourcetype, \"last time\", \"last ingest\", state, data_last_lag_seen, data_max_lag_allowed, monitoring, data_monitoring_wdays",
+            "fields": "data_host, data_index, data_sourcetype, \"last time\", \"last ingest\", priority, state, data_last_lag_seen, data_max_lag_allowed, monitoring, data_monitoring_wdays",
             "refresh.display": "none",
             "wrap": "false",
             "managerid": "searchMainTableHost",
@@ -5144,12 +5448,16 @@ require([
                 setToken("tk_latest_flip_state", TokenUtils.replaceTokenNames("$row.latest_flip_state$", _.extend(submittedTokenModel.toJSON(), e.data)));
                 setToken("tk_latest_flip_time", TokenUtils.replaceTokenNames("$row.latest_flip_time$", _.extend(submittedTokenModel.toJSON(), e.data)));
                 setToken("tk_latest_flip_time_human", TokenUtils.replaceTokenNames("$row.latest_flip_time (translated)$", _.extend(submittedTokenModel.toJSON(), e.data)));
+                setToken("tk_priority", TokenUtils.replaceTokenNames("$row.priority$", _.extend(submittedTokenModel.toJSON(), e.data)));
 
                 // pref-fill current lagging input
                 setToken("form.tk_input_lag_host", TokenUtils.replaceTokenNames("$row.data_max_lag_allowed$", _.extend(submittedTokenModel.toJSON(), e.data)));
 
                 // pref-fill current wdays input
                 setToken("form.tk_input_wdays_host", TokenUtils.replaceTokenNames("$row.data_monitoring_wdays$", _.extend(submittedTokenModel.toJSON(), e.data)));
+
+                // pre-fill current priority
+                setToken("form.tk_input_host_priority", TokenUtils.replaceTokenNames("$row.priority$", _.extend(submittedTokenModel.toJSON(), e.data)));
 
                 submitTokens();
 
@@ -5162,6 +5470,12 @@ require([
                 var tk_data_monitored_state = tokens.get("tk_data_monitored_state");
                 var tk_data_host = tokens.get("tk_data_host");
 
+                // state
+                var tk_data_host_state = tokens.get("tk_data_host_state");
+
+                // priority
+                var tk_priority = tokens.get("tk_priority");
+
                 // Define the history search
                 var search_data_host = location.protocol + '//' + location.hostname + (location.port ? ':' + location.port : '') + '//app/trackme/search' + "?q=search%20index%3D\"*\" " + "host=\"" + encodeURI(tk_data_host) + "\""
 
@@ -5172,9 +5486,29 @@ require([
                 if (tk_data_monitored_state == "enabled") {
                     document.getElementById('btn_enable_monitoring_host').disabled = true;
                     document.getElementById('btn_disable_monitoring_host').disabled = false;
+                    setToken("tk_data_monitored_state_class", TokenUtils.replaceTokenNames("title_green", _.extend(submittedTokenModel.toJSON(), e.data)));
                 } else {
                     document.getElementById('btn_enable_monitoring_host').disabled = false;
                     document.getElementById('btn_disable_monitoring_host').disabled = true;
+                    setToken("tk_data_monitored_state_class", TokenUtils.replaceTokenNames("title_grey", _.extend(submittedTokenModel.toJSON(), e.data)));
+                }
+
+                // Dynamically manage state color
+                if (tk_data_host_state == "green") {
+                    setToken("tk_data_host_state_class", TokenUtils.replaceTokenNames("title_green", _.extend(submittedTokenModel.toJSON(), e.data)));
+                } else if (tk_data_host_state == "orange") {
+                    setToken("tk_data_host_state_class", TokenUtils.replaceTokenNames("title_orange", _.extend(submittedTokenModel.toJSON(), e.data)));
+                } else if (tk_data_host_state == "red") {
+                    setToken("tk_data_host_state_class", TokenUtils.replaceTokenNames("title_red", _.extend(submittedTokenModel.toJSON(), e.data)));
+                }
+
+                // Dynamically manage priority color
+                if (tk_priority == "low") {
+                    setToken("tk_priority_class", TokenUtils.replaceTokenNames("title_green", _.extend(submittedTokenModel.toJSON(), e.data)));
+                } else if (tk_priority == "medium") {
+                    setToken("tk_priority_class", TokenUtils.replaceTokenNames("title_yellow", _.extend(submittedTokenModel.toJSON(), e.data)));
+                } else if (tk_priority == "high") {
+                    setToken("tk_priority_class", TokenUtils.replaceTokenNames("title_red", _.extend(submittedTokenModel.toJSON(), e.data)));
                 }
 
                 // Enable modal context
@@ -6710,6 +7044,42 @@ require([
             FormUtils.handleValueChange(inputDataMonitoredState);
         });
 
+        var inputDataPriority = new DropdownInput({
+            "id": "inputDataPriority",
+            "choices": [{
+                    "label": "Any",
+                    "value": "*"
+                },
+                {
+                    "label": "low",
+                    "value": "low"
+                },
+                {
+                    "label": "medium",
+                    "value": "medium"
+                },
+                {
+                    "label": "high",
+                    "value": "high"
+                }
+            ],
+            "searchWhenChanged": true,
+            "default": "*",
+            "showClearButton": true,
+            "prefix": "priority=\"",
+            "suffix": "\"",
+            "initialValue": "*",
+            "selectFirstChoice": false,
+            "value": "$form.inputDataPriority$",
+            "el": $('#inputDataPriority')
+        }, {
+            tokens: true
+        }).render();
+
+        inputDataPriority.on("change", function(newValue) {
+            FormUtils.handleValueChange(inputDataPriority);
+        });
+
         var inputDataHostMonitoredState = new DropdownInput({
             "id": "inputDataHostMonitoredState",
             "choices": [{
@@ -6740,6 +7110,42 @@ require([
 
         inputDataHostMonitoredState.on("change", function(newValue) {
             FormUtils.handleValueChange(inputDataHostMonitoredState);
+        });
+
+        var inputDataHostPriority = new DropdownInput({
+            "id": "inputDataHostPriority",
+            "choices": [{
+                    "label": "Any",
+                    "value": "*"
+                },
+                {
+                    "label": "low",
+                    "value": "low"
+                },
+                {
+                    "label": "medium",
+                    "value": "medium"
+                },
+                {
+                    "label": "high",
+                    "value": "high"
+                }
+            ],
+            "searchWhenChanged": true,
+            "default": "*",
+            "showClearButton": true,
+            "prefix": "priority=\"",
+            "suffix": "\"",
+            "initialValue": "*",
+            "selectFirstChoice": false,
+            "value": "$form.inputDataHostPriority$",
+            "el": $('#inputDataHostPriority')
+        }, {
+            tokens: true
+        }).render();
+
+        inputDataHostPriority.on("change", function(newValue) {
+            FormUtils.handleValueChange(inputDataHostPriority);
         });
 
         var refreshForm = new DropdownInput({
@@ -6891,6 +7297,7 @@ require([
             var tk_data_previous_source_state = tokens.get("tk_data_previous_source_state");
             var tk_data_previous_tracker_runtime = tokens.get("tk_data_previous_tracker_runtime");
             var tk_data_monitored_state = "enabled";
+            var tk_priority = tokens.get("tk_priority");
 
             // Create the endpoint URL
             var myendpoint_URl = "/en-US/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_data_source_monitoring/" + tk_keyid;
@@ -6913,7 +7320,8 @@ require([
                 "data_source_state": tk_data_source_state,
                 "data_tracker_runtime": tk_data_tracker_runtime,
                 "data_previous_source_state": tk_data_previous_source_state,
-                "data_previous_tracker_runtime": tk_data_previous_tracker_runtime
+                "data_previous_tracker_runtime": tk_data_previous_tracker_runtime,
+                "priority": tk_priority
             };
 
             if (!tk_keyid || !tk_keyid.length) {
@@ -6939,9 +7347,6 @@ require([
                             //console.log("Updated!", returneddata)
                             // Run the search again to update the table
                             baseSearchDataSource.startSearch();
-                            searchSingleDataSource1.startSearch();
-                            searchSingleDataSource2.startSearch();
-                            searchSingleDataSource3.startSearch();
                             searchMainTable.startSearch();
 
                             // Audit success change
@@ -7031,6 +7436,7 @@ require([
             var tk_data_previous_host_state = tokens.get("tk_data_previous_host_state");
             var tk_data_previous_tracker_runtime = tokens.get("tk_data_previous_tracker_runtime");
             var tk_latest_flip_state = tokens.get("tk_latest_flip_state");
+            var tk_priority = tokens.get("tk_priority");
 
             // Create the endpoint URL
             var myendpoint_URl = "/en-US/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_host_monitoring/" + tk_keyid;
@@ -7050,7 +7456,8 @@ require([
                 "data_host_state": tk_data_host_state,
                 "data_tracker_runtime": tk_data_tracker_runtime,
                 "data_previous_host_state": tk_data_previous_host_state,
-                "data_previous_tracker_runtime": tk_data_previous_tracker_runtime
+                "data_previous_tracker_runtime": tk_data_previous_tracker_runtime,
+                "priority": tk_priority
             };
 
             if (!tk_keyid || !tk_keyid.length) {
@@ -7077,9 +7484,6 @@ require([
                             // Run the search again to update the table
                             searchMainTableHost.startSearch();
                             baseSearchDataHost.startSearch();
-                            searchSingleDataHost1.startSearch();
-                            searchSingleDataHost2.startSearch();
-                            searchSingleDataHost3.startSearch();
 
                             // Audit success change
                             var time = (new Date).getTime();
@@ -7173,6 +7577,7 @@ require([
             var tk_data_previous_source_state = tokens.get("tk_data_previous_source_state");
             var tk_data_previous_tracker_runtime = tokens.get("tk_data_previous_tracker_runtime");
             var tk_data_monitored_state = "disabled";
+            var tk_priority = tokens.get("tk_priority");
 
             // Create the endpoint URL
             var myendpoint_URl = "/en-US/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_data_source_monitoring/" + tk_keyid;
@@ -7195,7 +7600,8 @@ require([
                 "data_source_state": tk_data_source_state,
                 "data_tracker_runtime": tk_data_tracker_runtime,
                 "data_previous_source_state": tk_data_previous_source_state,
-                "data_previous_tracker_runtime": tk_data_previous_tracker_runtime
+                "data_previous_tracker_runtime": tk_data_previous_tracker_runtime,
+                "priority": tk_priority
             };
 
             if (!tk_keyid || !tk_keyid.length) {
@@ -7221,9 +7627,6 @@ require([
                             //console.log("Updated!", returneddata)
                             // Run the search again to update the table
                             baseSearchDataSource.startSearch();
-                            searchSingleDataSource1.startSearch();
-                            searchSingleDataSource2.startSearch();
-                            searchSingleDataSource3.startSearch();
                             searchMainTable.startSearch();
 
                             // Audit success change
@@ -7313,6 +7716,7 @@ require([
             var tk_data_previous_host_state = tokens.get("tk_data_previous_host_state");
             var tk_data_previous_tracker_runtime = tokens.get("tk_data_previous_tracker_runtime");
             var tk_data_monitored_state = "disabled";
+            var tk_priority = tokens.get("tk_priority");
 
             // Create the endpoint URL
             var myendpoint_URl = "/en-US/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_host_monitoring/" + tk_keyid;
@@ -7332,7 +7736,8 @@ require([
                 "data_host_state": tk_data_host_state,
                 "data_tracker_runtime": tk_data_tracker_runtime,
                 "data_previous_host_state": tk_data_previous_host_state,
-                "data_previous_tracker_runtime": tk_data_previous_tracker_runtime
+                "data_previous_tracker_runtime": tk_data_previous_tracker_runtime,
+                "priority": tk_priority
             };
 
             if (!tk_keyid || !tk_keyid.length) {
@@ -7452,6 +7857,7 @@ require([
             var tk_data_monitoring_level = tokens.get("tk_data_monitoring_level");
             var tk_data_monitoring_wdays = tokens.get("tk_data_monitoring_wdays");
             var tk_data_override_lagging_class = tokens.get("tk_data_override_lagging_class");
+            var tk_priority = tokens.get("tk_priority");
 
             // Create a dictionary to store the field names and values
             var record = {
@@ -7467,7 +7873,8 @@ require([
                 "data_monitored_state": tk_data_monitored_state,
                 "data_monitoring_level": tk_data_monitoring_level,
                 "data_monitoring_wdays": tk_data_monitoring_wdays,
-                "data_override_lagging_class": tk_data_override_lagging_class
+                "data_override_lagging_class": tk_data_override_lagging_class,
+                "priority": tk_priority
             };
 
             // Create the endpoint URL
@@ -7492,9 +7899,6 @@ require([
                             //console.log("Updated!", returneddata)
                             // Run the search again to update the table
                             baseSearchDataSource.startSearch();
-                            searchSingleDataSource1.startSearch();
-                            searchSingleDataSource2.startSearch();
-                            searchSingleDataSource3.startSearch();
                             searchMainTable.startSearch();
 
                             // Audit success change
@@ -7577,9 +7981,6 @@ require([
                             //console.log("Updated!", returneddata)
                             // Run the search again to update the table
                             baseSearchDataSource.startSearch();
-                            searchSingleDataSource1.startSearch();
-                            searchSingleDataSource2.startSearch();
-                            searchSingleDataSource3.startSearch();
                             searchMainTable.startSearch();
 
                             // Audit success change
@@ -7673,6 +8074,7 @@ require([
             var tk_data_monitoring_wdays = tokens.get("tk_data_monitoring_wdays");
             var tk_data_monitored_state = tokens.get("tk_data_monitored_state");
             var tk_data_override_lagging_class = tokens.get("tk_data_override_lagging_class");
+            var tk_priority = tokens.get("tk_priority");
 
             // Create a dictionary to store the field names and values
             var record = {
@@ -7685,7 +8087,8 @@ require([
                 "data_max_lag_allowed": tk_data_max_lag_allowed,
                 "data_monitored_state": tk_data_monitored_state,
                 "data_monitoring_wdays": tk_data_monitoring_wdays,
-                "data_override_lagging_class": tk_data_override_lagging_class
+                "data_override_lagging_class": tk_data_override_lagging_class,
+                "priority": tk_priority
             };
 
             // Create the endpoint URL
@@ -7709,9 +8112,6 @@ require([
                             //console.log("Updated!", returneddata)
                             // Run the search again to update the table
                             baseSearchDataHost.startSearch();
-                            searchSingleDataHost1.startSearch();
-                            searchSingleDataHost2.startSearch();
-                            searchSingleDataHost3.startSearch();
                             searchMainTableHost.startSearch();
 
                             // Audit success change
@@ -7793,9 +8193,6 @@ require([
                             //console.log("Updated!", returneddata)
                             // Run the search again to update the table
                             baseSearchDataHost.startSearch();
-                            searchSingleDataHost1.startSearch();
-                            searchSingleDataHost2.startSearch();
-                            searchSingleDataHost3.startSearch();
                             searchMainTableHost.startSearch();
 
                             // Audit success change
@@ -8205,9 +8602,6 @@ require([
                                     searchBlackListDataSourceHost.startSearch();
                                     searchSingleBlackListDataSourceHost.startSearch();
                                     baseSearchDataSource.startSearch();
-                                    searchSingleDataSource1.startSearch();
-                                    searchSingleDataSource2.startSearch();
-                                    searchSingleDataSource3.startSearch();
                                     searchMainTable.startSearch();
                                     // notify
                                     notification('Modification has been registered successfully.', 2000)
@@ -8311,9 +8705,6 @@ require([
                         searchBlackListDataSourceHost.startSearch();
                         searchSingleBlackListDataSourceHost.startSearch();
                         baseSearchDataSource.startSearch();
-                        searchSingleDataSource1.startSearch();
-                        searchSingleDataSource2.startSearch();
-                        searchSingleDataSource3.startSearch();
                         searchMainTable.startSearch();
 
                         // notify
@@ -8475,9 +8866,6 @@ require([
                                     searchSingleBlackListDataHostHost.startSearch();
                                     searchMainTableHost.startSearch();
                                     baseSearchDataHost.startSearch();
-                                    searchSingleDataHost1.startSearch();
-                                    searchSingleDataHost2.startSearch();
-                                    searchSingleDataHost3.startSearch();
 
                                     // notify
                                     notification('Modification has been registered successfully.', 2000)
@@ -8582,9 +8970,6 @@ require([
                         searchSingleBlackListDataHostHost.startSearch();
                         searchMainTableHost.startSearch();
                         baseSearchDataHost.startSearch();
-                        searchSingleDataHost1.startSearch();
-                        searchSingleDataHost2.startSearch();
-                        searchSingleDataHost3.startSearch();
 
                         // notify
                         notification('Modification has been registered successfully.', 2000)
@@ -8744,9 +9129,6 @@ require([
                                     searchBlackListDataSourceIndex.startSearch();
                                     searchSingleBlackListDataSourceIndex.startSearch();
                                     baseSearchDataSource.startSearch();
-                                    searchSingleDataSource1.startSearch();
-                                    searchSingleDataSource2.startSearch();
-                                    searchSingleDataSource3.startSearch();
                                     searchMainTable.startSearch();
 
                                     // notify
@@ -8851,9 +9233,6 @@ require([
                         searchBlackListDataSourceIndex.startSearch();
                         searchSingleBlackListDataSourceIndex.startSearch();
                         baseSearchDataSource.startSearch();
-                        searchSingleDataSource1.startSearch();
-                        searchSingleDataSource2.startSearch();
-                        searchSingleDataSource3.startSearch();
                         searchMainTable.startSearch();
 
                         // notify
@@ -9012,9 +9391,6 @@ require([
                                     searchBlackListDataHostIndex.startSearch();
                                     searchSingleBlackListDataHostIndex.startSearch();
                                     baseSearchDataHost.startSearch();
-                                    searchSingleDataHost1.startSearch();
-                                    searchSingleDataHost2.startSearch();
-                                    searchSingleDataHost3.startSearch();
                                     searchMainTableHost.startSearch();
 
                                     // notify
@@ -9120,9 +9496,6 @@ require([
                         searchSingleBlackListDataHostIndex.startSearch();
                         searchMainTableHost.startSearch();
                         baseSearchDataHost.startSearch();
-                        searchSingleDataHost1.startSearch();
-                        searchSingleDataHost2.startSearch();
-                        searchSingleDataHost3.startSearch();
 
                         // notify
                         notification('Modification has been registered successfully.', 2000)
@@ -9280,9 +9653,6 @@ require([
                                     searchBlackListDataSourceSourcetype.startSearch();
                                     searchSingleBlackListDataSourceSourcetype.startSearch();
                                     baseSearchDataSource.startSearch();
-                                    searchSingleDataSource1.startSearch();
-                                    searchSingleDataSource2.startSearch();
-                                    searchSingleDataSource3.startSearch();
                                     searchMainTable.startSearch();
 
                                     // notify
@@ -9387,9 +9757,6 @@ require([
                         searchBlackListDataSourceSourcetype.startSearch();
                         searchSingleBlackListDataSourceSourcetype.startSearch();
                         baseSearchDataSource.startSearch();
-                        searchSingleDataSource1.startSearch();
-                        searchSingleDataSource2.startSearch();
-                        searchSingleDataSource3.startSearch();
                         searchMainTable.startSearch();
 
                         // notify
@@ -9548,9 +9915,6 @@ require([
                                     searchBlackListDataHostSourcetype.startSearch();
                                     searchSingleBlackListDataHostSourcetype.startSearch();
                                     baseSearchDataHost.startSearch();
-                                    searchSingleDataHost1.startSearch();
-                                    searchSingleDataHost2.startSearch();
-                                    searchSingleDataHost3.startSearch();
                                     searchMainTableHost.startSearch();
 
                                     // notify
@@ -9678,9 +10042,6 @@ require([
                         searchBlackListDataHostSourcetype.startSearch();
                         searchSingleBlackListDataHostSourcetype.startSearch();
                         baseSearchDataHost.startSearch();
-                        searchSingleDataHost1.startSearch();
-                        searchSingleDataHost2.startSearch();
-                        searchSingleDataHost3.startSearch();
                         searchMainTableHost.startSearch();
 
                         // notify
@@ -10143,9 +10504,6 @@ require([
 
                                                         // Once the job is done, update all searches
                                                         baseSearchDataSource.startSearch();
-                                                        searchSingleDataSource1.startSearch();
-                                                        searchSingleDataSource2.startSearch();
-                                                        searchSingleDataSource3.startSearch();
                                                         searchMainTable.startSearch();
 
                                                         $("#loadingGray").remove()
@@ -10367,9 +10725,6 @@ require([
 
                                                         // Once the job is done, update all searches
                                                         baseSearchDataHost.startSearch();
-                                                        searchSingleDataHost1.startSearch();
-                                                        searchSingleDataHost2.startSearch();
-                                                        searchSingleDataHost3.startSearch();
                                                         searchMainTableHost.startSearch();
 
                                                         // Audit success change
@@ -10519,9 +10874,6 @@ require([
 
                                 // Once the job is done, update all searches
                                 baseSearchDataSource.startSearch();
-                                searchSingleDataSource1.startSearch();
-                                searchSingleDataSource2.startSearch();
-                                searchSingleDataSource3.startSearch();
                                 searchMainTable.startSearch();
 
                                 $("#loadingGray").remove()
@@ -10612,9 +10964,6 @@ require([
                                 // Once the job is done, update all searches
                                 searchMainTableHost.startSearch();
                                 baseSearchDataHost.startSearch();
-                                searchSingleDataHost1.startSearch();
-                                searchSingleDataHost2.startSearch();
-                                searchSingleDataHost3.startSearch();
 
                                 $("#loadingGray").remove()
                                 $("#modal_update_collection_done").modal()
@@ -10706,9 +11055,6 @@ require([
 
                                 // Once the job is done, update all searches
                                 baseSearchDataSource.startSearch();
-                                searchSingleDataSource1.startSearch();
-                                searchSingleDataSource2.startSearch();
-                                searchSingleDataSource3.startSearch();
                                 searchMainTable.startSearch();
 
                                 $("#loadingGray").remove()
@@ -10800,9 +11146,6 @@ require([
                                 // Once the job is done, update all searches
                                 searchMainTableHost.startSearch();
                                 baseSearchDataHost.startSearch();
-                                searchSingleDataHost1.startSearch();
-                                searchSingleDataHost2.startSearch();
-                                searchSingleDataHost3.startSearch();
 
                                 $("#loadingGray").remove()
                                 $("#modal_update_collection_done").modal()
@@ -10893,9 +11236,6 @@ require([
 
                                 // Once the job is done, update all searches
                                 baseSearchDataSource.startSearch();
-                                searchSingleDataSource1.startSearch();
-                                searchSingleDataSource2.startSearch();
-                                searchSingleDataSource3.startSearch();
                                 searchMainTable.startSearch();
 
                                 // Run second job!
@@ -10952,9 +11292,6 @@ require([
 
                                                     // Once the job is done, update all searches
                                                     baseSearchDataHost.startSearch();
-                                                    searchSingleDataHost1.startSearch();
-                                                    searchSingleDataHost2.startSearch();
-                                                    searchSingleDataHost3.startSearch();
                                                     searchMainTableHost.startSearch();
 
                                                     $("#loadingGray").remove()
@@ -11103,6 +11440,7 @@ require([
             var tk_data_tracker_runtime = tokens.get("tk_data_tracker_runtime");
             var tk_data_previous_source_state = tokens.get("tk_data_previous_source_state");
             var tk_data_previous_tracker_runtime = tokens.get("tk_data_previous_tracker_runtime");
+            var tk_priority = tokens.get("tk_priority");
 
             //console.log("Value of modal_input_grace_period is: " + tk_kafka_infra_grace_period);
 
@@ -11136,7 +11474,8 @@ require([
                     "data_source_state": tk_data_source_state,
                     "data_tracker_runtime": tk_data_tracker_runtime,
                     "data_previous_source_state": tk_data_previous_source_state,
-                    "data_previous_tracker_runtime": tk_data_previous_tracker_runtime
+                    "data_previous_tracker_runtime": tk_data_previous_tracker_runtime,
+                    "priority": tk_priority
                 };
 
                 $.ajax({
@@ -11149,9 +11488,6 @@ require([
                         //console.log("Updated!", returneddata)
                         // Run the search again to update the table
                         baseSearchDataSource.startSearch();
-                        searchSingleDataSource1.startSearch();
-                        searchSingleDataSource2.startSearch();
-                        searchSingleDataSource3.startSearch();
                         searchMainTable.startSearch();
 
                         // notify
@@ -11227,6 +11563,155 @@ require([
 
         });
 
+        // priority
+        $("#btn_modal_modify_priority_confirm").click(function() {
+
+            submitTokens();
+
+            // When the Submit button is clicked, get all the form fields by accessing token values
+            var tokens = mvc.Components.get("default");
+
+            var tk_keyid = tokens.get("tk_keyid");
+            var tk_data_name = tokens.get("tk_data_name");
+            var tk_data_index = tokens.get("tk_data_index");
+            var tk_data_sourcetype = tokens.get("tk_data_sourcetype");
+            var tk_data_last_lag_seen = tokens.get("tk_data_last_lag_seen");
+            var tk_data_last_time_seen = tokens.get("tk_data_last_time_seen");
+            var tk_data_last_ingest = tokens.get("tk_data_last_ingest");
+            var tk_data_last_lag_seen_idx = tokens.get("tk_data_last_lag_seen_idx");
+            var tk_data_last_time_seen_idx = tokens.get("tk_data_last_time_seen_idx");
+            var tk_data_max_lag_allowed = tokens.get("tk_data_max_lag_allowed");
+            var tk_data_monitored_state = tokens.get("tk_data_monitored_state");
+            var tk_data_monitoring_level = tokens.get("tk_data_monitoring_level");
+            var tk_data_monitoring_wdays = tokens.get("tk_data_monitoring_wdays");
+            var tk_data_override_lagging_class = tokens.get("tk_data_override_lagging_class");
+            var tk_data_source_state = tokens.get("tk_data_source_state");
+            var tk_data_tracker_runtime = tokens.get("tk_data_tracker_runtime");
+            var tk_data_previous_source_state = tokens.get("tk_data_previous_source_state");
+            var tk_data_previous_tracker_runtime = tokens.get("tk_data_previous_tracker_runtime");
+            var tk_priority = tokens.get("tk_priority");
+
+            //console.log("Value of modal_input_grace_period is: " + tk_kafka_infra_grace_period);
+
+            // Create the endpoint URL
+            var myendpoint_URl = "/en-US/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_data_source_monitoring/" + tk_keyid;
+
+            var tk_origin_priority = tk_priority;
+            var tk_new_priority = tokens.get("tk_input_priority");
+
+            if (!tk_new_priority || !tk_new_priority.length) {
+                // Show an error message
+                $("#modal_entry_update_invalid").modal()
+                return;
+            } else {
+
+                // Create a dictionary to store the field names and values
+                var record = {
+                    "data_name": tk_data_name,
+                    "data_index": tk_data_index,
+                    "data_sourcetype": tk_data_sourcetype,
+                    "data_last_lag_seen": tk_data_last_lag_seen,
+                    "data_last_time_seen": tk_data_last_time_seen,
+                    "data_last_ingest": tk_data_last_ingest,
+                    "data_last_lag_seen_idx": tk_data_last_lag_seen_idx,
+                    "data_last_time_seen_idx": tk_data_last_time_seen_idx,
+                    "data_max_lag_allowed": tk_data_max_lag_allowed,
+                    "data_monitored_state": tk_data_monitored_state,
+                    "data_monitoring_level": tk_data_monitoring_level,
+                    "data_monitoring_wdays": tk_data_monitoring_wdays,
+                    "data_override_lagging_class": tk_data_override_lagging_class,
+                    "data_source_state": tk_data_source_state,
+                    "data_tracker_runtime": tk_data_tracker_runtime,
+                    "data_previous_source_state": tk_data_previous_source_state,
+                    "data_previous_tracker_runtime": tk_data_previous_tracker_runtime,
+                    "priority": tk_new_priority
+                };
+
+                $.ajax({
+                    url: myendpoint_URl,
+                    type: "POST",
+                    async: true,
+                    contentType: "application/json",
+                    data: JSON.stringify(record),
+                    success: function(returneddata) {
+                        //console.log("Updated!", returneddata)
+                        // Run the search again to update the table
+                        baseSearchDataSource.startSearch();
+                        searchMainTable.startSearch();
+
+                        // notify
+                        notification('Modification has been registered successfully.', 2000)
+
+                        // Audit success change
+                        var time = (new Date).getTime();
+                        var audit_record = {
+                            "time": time,
+                            "action": "success",
+                            "user": currentUser,
+                            "change_type": "modify priority",
+                            "object": tk_data_name,
+                            "object_category": "data_source",
+                            "object_attrs": "priority changed from:" + tk_origin_priority + " to:" + tk_new_priority
+                        };
+
+                        $.ajax({
+                            url: auditendpoint_URl,
+                            type: "POST",
+                            async: true,
+                            contentType: "application/json",
+                            data: JSON.stringify(audit_record),
+                            success: function(returneddata) {
+                                //console.log("Updated!", returneddata)
+                                // Run the search again to update the table
+                            }
+                        });
+
+                        // house cleaning
+                        myendpoint_URl = undefined;
+                        delete(myendpoint_URl);
+
+                        tk_keyid = undefined;
+                        delete(tk_keyid);
+                        return;
+
+                    },
+                    error: function(xhr, textStatus, error) {
+                        message = "Error Updating!" + xhr + textStatus + error;
+
+                        // Audit failure change
+                        var time = (new Date).getTime();
+                        var audit_record = {
+                            "time": time,
+                            "action": "failure",
+                            "user": currentUser,
+                            "change_type": "modify priority",
+                            "object": tk_data_name,
+                            "object_category": "data_source",
+                            "object_attrs": "priority changed from:" + tk_origin_priority + " to:" + tk_new_priority,
+                            "result": message
+                        };
+
+                        $.ajax({
+                            url: auditendpoint_URl,
+                            type: "POST",
+                            async: true,
+                            contentType: "application/json",
+                            data: JSON.stringify(audit_record),
+                            success: function(returneddata) {
+                                //console.log("Updated!", returneddata)
+                                // Run the search again to update the table
+                            }
+                        });
+
+                        $("#modal_update_collection_failure_return").find('.modal-error-message p').text(message);
+                        $("#modal_update_collection_failure_return").modal()
+                    }
+                });
+
+            }
+
+        });
+
         $("#btn_modal_modify_wdays_no").click(function() {
 
             // Show input modal
@@ -11259,6 +11744,7 @@ require([
             var tk_data_tracker_runtime = tokens.get("tk_data_tracker_runtime");
             var tk_data_previous_source_state = tokens.get("tk_data_previous_source_state");
             var tk_data_previous_tracker_runtime = tokens.get("tk_data_previous_tracker_runtime");
+            var tk_priority = tokens.get("tk_priority");
 
             //console.log("Value of modal_input_grace_period is: " + tk_kafka_infra_grace_period);
 
@@ -11292,7 +11778,8 @@ require([
                     "data_source_state": tk_data_source_state,
                     "data_tracker_runtime": tk_data_tracker_runtime,
                     "data_previous_source_state": tk_data_previous_source_state,
-                    "data_previous_tracker_runtime": tk_data_previous_tracker_runtime
+                    "data_previous_tracker_runtime": tk_data_previous_tracker_runtime,
+                    "priority": tk_priority
                 };
 
                 $.ajax({
@@ -11305,9 +11792,6 @@ require([
                         //console.log("Updated!", returneddata)
                         // Run the search again to update the table
                         baseSearchDataSource.startSearch();
-                        searchSingleDataSource1.startSearch();
-                        searchSingleDataSource2.startSearch();
-                        searchSingleDataSource3.startSearch();
                         searchMainTable.startSearch();
 
                         $("#modal_modify_data_source_unified").modal();
@@ -11425,6 +11909,7 @@ require([
             var tk_data_tracker_runtime = tokens.get("tk_data_tracker_runtime");
             var tk_data_previous_source_state = tokens.get("tk_data_previous_source_state");
             var tk_data_previous_tracker_runtime = tokens.get("tk_data_previous_tracker_runtime");
+            var tk_priority = tokens.get("tk_priority");
 
             //console.log("Value of modal_input_grace_period is: " + tk_kafka_infra_grace_period);
 
@@ -11458,7 +11943,8 @@ require([
                     "data_source_state": tk_data_source_state,
                     "data_tracker_runtime": tk_data_tracker_runtime,
                     "data_previous_source_state": tk_data_previous_source_state,
-                    "data_previous_tracker_runtime": tk_data_previous_tracker_runtime
+                    "data_previous_tracker_runtime": tk_data_previous_tracker_runtime,
+                    "priority": tk_priority
                 };
 
                 $.ajax({
@@ -11471,9 +11957,6 @@ require([
                         //console.log("Updated!", returneddata)
                         // Run the search again to update the table
                         baseSearchDataSource.startSearch();
-                        searchSingleDataSource1.startSearch();
-                        searchSingleDataSource2.startSearch();
-                        searchSingleDataSource3.startSearch();
                         searchMainTable.startSearch();
 
                         // notify
@@ -11580,6 +12063,7 @@ require([
             var tk_data_tracker_runtime = tokens.get("tk_data_tracker_runtime");
             var tk_data_previous_source_state = tokens.get("tk_data_previous_source_state");
             var tk_data_previous_tracker_runtime = tokens.get("tk_data_previous_tracker_runtime");
+            var tk_priority = tokens.get("tk_priority");
 
             //console.log("Value of modal_input_grace_period is: " + tk_kafka_infra_grace_period);
 
@@ -11614,7 +12098,8 @@ require([
                     "data_source_state": tk_data_source_state,
                     "data_tracker_runtime": tk_data_tracker_runtime,
                     "data_previous_source_state": tk_data_previous_source_state,
-                    "data_previous_tracker_runtime": tk_data_previous_tracker_runtime
+                    "data_previous_tracker_runtime": tk_data_previous_tracker_runtime,
+                    "priority": tk_priority
                 };
 
                 $.ajax({
@@ -11627,9 +12112,6 @@ require([
                         //console.log("Updated!", returneddata)
                         // Run the search again to update the table
                         baseSearchDataSource.startSearch();
-                        searchSingleDataSource1.startSearch();
-                        searchSingleDataSource2.startSearch();
-                        searchSingleDataSource3.startSearch();
                         searchMainTable.startSearch();
                         // notify
                         notification('Modification has been registered successfully.', 2000)
@@ -11743,6 +12225,7 @@ require([
             var tk_data_tracker_runtime = tokens.get("tk_data_tracker_runtime");
             var tk_data_previous_host_state = tokens.get("tk_data_previous_host_state");
             var tk_data_previous_tracker_runtime = tokens.get("tk_data_previous_tracker_runtime");
+            var tk_priority = tokens.get("tk_priority");
 
             //console.log("Value of modal_input_grace_period is: " + tk_kafka_infra_grace_period);
 
@@ -11773,7 +12256,8 @@ require([
                     "data_host_state": tk_data_host_state,
                     "data_tracker_runtime": tk_data_tracker_runtime,
                     "data_previous_host_state": tk_data_previous_host_state,
-                    "data_previous_tracker_runtime": tk_data_previous_tracker_runtime
+                    "data_previous_tracker_runtime": tk_data_previous_tracker_runtime,
+                    "priority": tk_priority
                 };
 
                 $.ajax({
@@ -11787,9 +12271,6 @@ require([
                         // Run the search again to update the table
                         searchMainTableHost.startSearch();
                         baseSearchDataHost.startSearch();
-                        searchSingleDataHost1.startSearch();
-                        searchSingleDataHost2.startSearch();
-                        searchSingleDataHost3.startSearch();
 
                         // notify
                         notification('Modification has been registered successfully.', 2000)
@@ -11862,6 +12343,143 @@ require([
             }
         });
 
+        // host priority
+        $("#btn_modal_modify_priority_host_confirm").click(function() {
+
+            // When the Submit button is clicked, get all the form fields by accessing token values
+            var tokens = mvc.Components.get("default");
+
+            var tk_keyid = tokens.get("tk_keyid");
+            var tk_data_host = tokens.get("tk_data_host");
+            var tk_data_index = tokens.get("tk_data_index");
+            var tk_data_sourcetype = tokens.get("tk_data_sourcetype");
+            var tk_data_last_lag_seen = tokens.get("tk_data_last_lag_seen");
+            var tk_data_last_time_seen = tokens.get("tk_data_last_time_seen");
+            var tk_data_last_ingest = tokens.get("tk_data_last_ingest");
+            var tk_data_max_lag_allowed = tokens.get("tk_data_max_lag_allowed");
+            var tk_data_monitoring_wdays = tokens.get("tk_data_monitoring_wdays");
+            var tk_data_monitored_state = tokens.get("tk_data_monitored_state");
+            var tk_data_override_lagging_class = tokens.get("tk_data_override_lagging_class");
+            var tk_data_host_state = tokens.get("tk_data_host_state");
+            var tk_data_tracker_runtime = tokens.get("tk_data_tracker_runtime");
+            var tk_data_previous_host_state = tokens.get("tk_data_previous_host_state");
+            var tk_data_previous_tracker_runtime = tokens.get("tk_data_previous_tracker_runtime");
+            var tk_priority = tokens.get("tk_priority");
+
+            // Create the endpoint URL
+            var myendpoint_URl = "/en-US/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_host_monitoring/" + tk_keyid;
+
+            var tk_origin_priority = tk_priority;
+            var tk_new_priority = tokens.get("tk_input_host_priority");
+
+            if (!tk_new_priority || !tk_new_priority.length) {
+                // Show an error message
+                $("#modal_entry_update_invalid").modal()
+                return;
+            } else {
+
+                // Create a dictionary to store the field names and values
+                var record = {
+                    "data_host": tk_data_host,
+                    "data_index": tk_data_index,
+                    "data_sourcetype": tk_data_sourcetype,
+                    "data_last_lag_seen": tk_data_last_lag_seen,
+                    "data_last_time_seen": tk_data_last_time_seen,
+                    "data_last_ingest": tk_data_last_ingest,
+                    "data_max_lag_allowed": tk_data_max_lag_allowed,
+                    "data_monitored_state": tk_data_monitored_state,
+                    "data_monitoring_wdays": tk_data_monitoring_wdays,
+                    "data_override_lagging_class": tk_data_override_lagging_class,
+                    "data_host_state": tk_data_host_state,
+                    "data_tracker_runtime": tk_data_tracker_runtime,
+                    "data_previous_host_state": tk_data_previous_host_state,
+                    "data_previous_tracker_runtime": tk_data_previous_tracker_runtime,
+                    "priority": tk_new_priority
+                };
+
+                $.ajax({
+                    url: myendpoint_URl,
+                    type: "POST",
+                    async: true,
+                    contentType: "application/json",
+                    data: JSON.stringify(record),
+                    success: function(returneddata) {
+                        //console.log("Updated!", returneddata)
+                        // Run the search again to update the table
+                        searchMainTableHost.startSearch();
+                        baseSearchDataHost.startSearch();
+
+                        // notify
+                        notification('Modification has been registered successfully.', 2000)
+
+                        // Audit success change
+                        var time = (new Date).getTime();
+                        var audit_record = {
+                            "time": time,
+                            "action": "success",
+                            "user": currentUser,
+                            "change_type": "modify priority",
+                            "object": tk_data_host,
+                            "object_category": "data_host",
+                            "object_attrs": "priority changed from:" + tk_origin_priority + " to:" + tk_new_priority
+                        };
+
+                        $.ajax({
+                            url: auditendpoint_URl,
+                            type: "POST",
+                            async: true,
+                            contentType: "application/json",
+                            data: JSON.stringify(audit_record),
+                            success: function(returneddata) {
+                                //console.log("Updated!", returneddata)
+                                // Run the search again to update the table
+                            }
+                        });
+
+                        // house cleaning
+                        myendpoint_URl = undefined;
+                        delete(myendpoint_URl);
+                        tk_keyid = undefined;
+                        delete(tk_keyid);
+                        return;
+
+                    },
+                    error: function(xhr, textStatus, error) {
+                        message = "Error Updating!" + xhr + textStatus + error;
+
+                        // Audit failure change
+                        var time = (new Date).getTime();
+                        var audit_record = {
+                            "time": time,
+                            "action": "failure",
+                            "user": currentUser,
+                            "change_type": "modify priority",
+                            "object": tk_data_host,
+                            "object_category": "data_host",
+                            "object_attrs": "priority changed from:" + tk_origin_priority + " to:" + tk_new_priority,
+                            "result": message
+                        };
+
+                        $.ajax({
+                            url: auditendpoint_URl,
+                            type: "POST",
+                            async: true,
+                            contentType: "application/json",
+                            data: JSON.stringify(audit_record),
+                            success: function(returneddata) {
+                                //console.log("Updated!", returneddata)
+                                // Run the search again to update the table
+                            }
+                        });
+
+                        $("#modal_update_collection_failure_return").find('.modal-error-message p').text(message);
+                        $("#modal_update_collection_failure_return").modal()
+                    }
+                });
+
+            }
+        });
+
         $("#btn_modal_modify_wdays_host_no").click(function() {
 
             // Show input modal
@@ -11889,6 +12507,7 @@ require([
             var tk_data_tracker_runtime = tokens.get("tk_data_tracker_runtime");
             var tk_data_previous_host_state = tokens.get("tk_data_previous_host_state");
             var tk_data_previous_tracker_runtime = tokens.get("tk_data_previous_tracker_runtime");
+            var tk_priority = tokens.get("tk_priority");
 
             //console.log("Value of modal_input_grace_period is: " + tk_kafka_infra_grace_period);
 
@@ -11919,7 +12538,8 @@ require([
                     "data_host_state": tk_data_host_state,
                     "data_tracker_runtime": tk_data_tracker_runtime,
                     "data_previous_host_state": tk_data_previous_host_state,
-                    "data_previous_tracker_runtime": tk_data_previous_tracker_runtime
+                    "data_previous_tracker_runtime": tk_data_previous_tracker_runtime,
+                    "priority": tk_priority
                 };
 
                 $.ajax({
@@ -11933,9 +12553,6 @@ require([
                         // Run the search again to update the table
                         searchMainTableHost.startSearch();
                         baseSearchDataHost.startSearch();
-                        searchSingleDataHost1.startSearch();
-                        searchSingleDataHost2.startSearch();
-                        searchSingleDataHost3.startSearch();
 
                         $("#modal_modify_data_source_unified").modal();
 
@@ -12048,6 +12665,7 @@ require([
             var tk_data_tracker_runtime = tokens.get("tk_data_tracker_runtime");
             var tk_data_previous_host_state = tokens.get("tk_data_previous_host_state");
             var tk_data_previous_tracker_runtime = tokens.get("tk_data_previous_tracker_runtime");
+            var tk_priority = tokens.get("tk_priority");
 
             //console.log("Value of modal_input_grace_period is: " + tk_kafka_infra_grace_period);
 
@@ -12079,7 +12697,8 @@ require([
                     "data_host_state": tk_data_host_state,
                     "data_tracker_runtime": tk_data_tracker_runtime,
                     "data_previous_host_state": tk_data_previous_host_state,
-                    "data_previous_tracker_runtime": tk_data_previous_tracker_runtime
+                    "data_previous_tracker_runtime": tk_data_previous_tracker_runtime,
+                    "priority": tk_priority
                 };
 
                 $.ajax({
@@ -12093,9 +12712,6 @@ require([
                         // Run the search again to update the table
                         searchMainTableHost.startSearch();
                         baseSearchDataHost.startSearch();
-                        searchSingleDataHost1.startSearch();
-                        searchSingleDataHost2.startSearch();
-                        searchSingleDataHost3.startSearch();
 
                         // notify
                         notification('Modification has been registered successfully.', 2000)

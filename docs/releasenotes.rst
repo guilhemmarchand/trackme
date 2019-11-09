@@ -1,6 +1,19 @@
 Release notes
 #############
 
+Version 1.0.21
+==============
+
+- feature: Introducing a priority (low/medium/high) concept to ease granular alerting of data sources and hosts
+- feature: Home landing page reviewed to expose data sources and host and any alert, and with high priority in alerts
+- feature: Colored vignette design in modal window to ease investigating statuses
+- feature: Default OOTB alerts now filter on red, and medium (default priority) or high priority entities
+- feature: Improvement of OOTB alerts (outputs by default human readable time stamps for key fields)
+- feature: TrackMe Mobile dashboard for dark theme summary view compatible with Splunk Mobile Experience (Apple TV, Mobile)
+- fix: data sources that came of scope might loose time context upon time and returned as green state
+- fix: over time, trackers can re-add old entries due to flipping state cross-searches
+- fix: data_host_state icon shown as empty if state=orange due to mismatch in macro eval state icon for data_host
+
 Version 1.0.20
 ==============
 

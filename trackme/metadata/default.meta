@@ -152,3 +152,11 @@ access = read : [ * ], write : [ admin, trackme_admin ]
 
 [collections/kv_trackme_audit_flip]
 access = read : [ * ], write : [ admin, trackme_admin ]
+
+### MOBILES VIEWS
+
+# These views are shared globally, and designed to be used with Splunk mobile experience
+
+[views/trackMe_summary]
+access = read : [ * ], write : [ admin, trackme_admin ]
+export = system
