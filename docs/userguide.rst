@@ -4,7 +4,7 @@ User guide
 First steps with the application
 ================================
 
-**Open up the application:**
+**Open the application:**
 
 .. image:: img/minilabel.png
    :alt: minilabel.png

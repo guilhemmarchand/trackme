@@ -13,6 +13,7 @@ Version 1.0.21
 - fix: data sources that came of scope might loose time context upon time and returned as green state
 - fix: over time, trackers can re-add old entries due to flipping state cross-searches
 - fix: data_host_state icon shown as empty if state=orange due to mismatch in macro eval state icon for data_host
+- fix: trackers should refer to the tstats macro
 
 Version 1.0.20
 ==============
