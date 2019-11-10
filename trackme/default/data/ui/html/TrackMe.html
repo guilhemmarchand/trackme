@@ -4878,6 +4878,8 @@ require([
         singleFormTotalDataSourceAlerts.on("click", function(e) {
             if (e.field !== undefined) {
                 e.preventDefault();
+                setToken("form.inputDataPriority", TokenUtils.replaceTokenNames("*", _.extend(submittedTokenModel.toJSON(), e.data)));
+                setToken("form.data_monitored_state", TokenUtils.replaceTokenNames("*", _.extend(submittedTokenModel.toJSON(), e.data)));
                 setToken("form.data_source_state", TokenUtils.replaceTokenNames("red", _.extend(submittedTokenModel.toJSON(), e.data)));
             }
         });
@@ -4911,6 +4913,8 @@ require([
         singleFormTotalDataSourceAlertsHighPriority.on("click", function(e) {
             if (e.field !== undefined) {
                 e.preventDefault();
+                setToken("form.data_source_state", TokenUtils.replaceTokenNames("red", _.extend(submittedTokenModel.toJSON(), e.data)));
+                setToken("form.data_monitored_state", TokenUtils.replaceTokenNames("*", _.extend(submittedTokenModel.toJSON(), e.data)));
                 setToken("form.inputDataPriority", TokenUtils.replaceTokenNames("high", _.extend(submittedTokenModel.toJSON(), e.data)));
             }
         });
@@ -4945,6 +4949,8 @@ require([
             if (e.field !== undefined) {
                 e.preventDefault();
                 setToken("form.data_monitored_state", TokenUtils.replaceTokenNames("disabled", _.extend(submittedTokenModel.toJSON(), e.data)));
+                setToken("form.data_source_state", TokenUtils.replaceTokenNames("*", _.extend(submittedTokenModel.toJSON(), e.data)));
+                setToken("form.inputDataPriority", TokenUtils.replaceTokenNames("*", _.extend(submittedTokenModel.toJSON(), e.data)));
             }
         });
 
@@ -5012,6 +5018,8 @@ require([
         singleFormTotalDataHostAlerts.on("click", function(e) {
             if (e.field !== undefined) {
                 e.preventDefault();
+                setToken("form.inputDataHostPriority", TokenUtils.replaceTokenNames("*", _.extend(submittedTokenModel.toJSON(), e.data)));
+                setToken("form.data_monitored_state", TokenUtils.replaceTokenNames("*", _.extend(submittedTokenModel.toJSON(), e.data)));
                 setToken("form.data_host_state", TokenUtils.replaceTokenNames("red", _.extend(submittedTokenModel.toJSON(), e.data)));
             }
         });
@@ -5045,6 +5053,8 @@ require([
         singleFormTotalDataHostAlertsHighPriority.on("click", function(e) {
             if (e.field !== undefined) {
                 e.preventDefault();
+                setToken("form.data_host_state", TokenUtils.replaceTokenNames("red", _.extend(submittedTokenModel.toJSON(), e.data)));
+                setToken("form.data_monitored_state", TokenUtils.replaceTokenNames("*", _.extend(submittedTokenModel.toJSON(), e.data)));
                 setToken("form.inputDataHostPriority", TokenUtils.replaceTokenNames("high", _.extend(submittedTokenModel.toJSON(), e.data)));
             }
         });
@@ -5079,6 +5089,8 @@ require([
             if (e.field !== undefined) {
                 e.preventDefault();
                 setToken("form.data_monitored_state", TokenUtils.replaceTokenNames("disabled", _.extend(submittedTokenModel.toJSON(), e.data)));
+                setToken("form.data_host_state", TokenUtils.replaceTokenNames("*", _.extend(submittedTokenModel.toJSON(), e.data)));
+                setToken("form.inputDataHostPriority", TokenUtils.replaceTokenNames("*", _.extend(submittedTokenModel.toJSON(), e.data)));
             }
         });
 
