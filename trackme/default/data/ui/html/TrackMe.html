@@ -208,7 +208,8 @@ styles in <div> tags, similar to Bootstrap's grid system.
         <h2>TrackMe - Data tracking system for Splunk administrators</h2>
          <p>Monitoring your Splunk data availability made easy</p>
     </div>
-    <div class="fieldset">
+
+    <div style="display: none;" class="fieldset">
     </div>
 
     <!-- Modal drilldown context for Alerts -->
@@ -4821,7 +4822,7 @@ require([
             "numberPrecision": "0",
             "colorBy": "value",
             "colorMode": "block",
-            "drilldown": "none",
+            "drilldown": "all",
             "showSparkline": "1",
             "trellis.scales.shared": "1",
             "useColors": "1",
@@ -4839,6 +4840,15 @@ require([
             tokenNamespace: "submitted"
         }).render();
 
+        singleFormTotalDataSource.on("click", function(e) {
+            if (e.field !== undefined) {
+                e.preventDefault();
+                setToken("form.data_source_state", TokenUtils.replaceTokenNames("*", _.extend(submittedTokenModel.toJSON(), e.data)));
+                setToken("form.inputDataPriority", TokenUtils.replaceTokenNames("*", _.extend(submittedTokenModel.toJSON(), e.data)));
+                setToken("form.data_monitored_state", TokenUtils.replaceTokenNames("*", _.extend(submittedTokenModel.toJSON(), e.data)));
+            }
+        });
+
         var singleFormTotalDataSourceAlerts = new SingleElement({
             "id": "singleFormTotalDataSourceAlerts",
             "showTrendIndicator": "1",
@@ -4847,7 +4857,7 @@ require([
             "numberPrecision": "0",
             "colorBy": "value",
             "colorMode": "block",
-            "drilldown": "none",
+            "drilldown": "all",
             "showSparkline": "1",
             "trellis.scales.shared": "1",
             "useColors": "1",
@@ -4865,6 +4875,13 @@ require([
             tokenNamespace: "submitted"
         }).render();
 
+        singleFormTotalDataSourceAlerts.on("click", function(e) {
+            if (e.field !== undefined) {
+                e.preventDefault();
+                setToken("form.data_source_state", TokenUtils.replaceTokenNames("red", _.extend(submittedTokenModel.toJSON(), e.data)));
+            }
+        });
+
         var singleFormTotalDataSourceAlertsHighPriority = new SingleElement({
             "id": "singleFormTotalDataSourceAlertsHighPriority",
             "showTrendIndicator": "1",
@@ -4873,7 +4890,7 @@ require([
             "numberPrecision": "0",
             "colorBy": "value",
             "colorMode": "block",
-            "drilldown": "none",
+            "drilldown": "all",
             "showSparkline": "1",
             "trellis.scales.shared": "1",
             "useColors": "1",
@@ -4891,6 +4908,13 @@ require([
             tokenNamespace: "submitted"
         }).render();
 
+        singleFormTotalDataSourceAlertsHighPriority.on("click", function(e) {
+            if (e.field !== undefined) {
+                e.preventDefault();
+                setToken("form.inputDataPriority", TokenUtils.replaceTokenNames("high", _.extend(submittedTokenModel.toJSON(), e.data)));
+            }
+        });
+
         var singleFormTotalDataSourceDisabled = new SingleElement({
             "id": "singleFormTotalDataSourceDisabled",
             "showTrendIndicator": "1",
@@ -4899,7 +4923,7 @@ require([
             "numberPrecision": "0",
             "colorBy": "value",
             "colorMode": "block",
-            "drilldown": "none",
+            "drilldown": "all",
             "showSparkline": "1",
             "trellis.scales.shared": "1",
             "useColors": "1",
@@ -4917,6 +4941,13 @@ require([
             tokenNamespace: "submitted"
         }).render();
 
+        singleFormTotalDataSourceDisabled.on("click", function(e) {
+            if (e.field !== undefined) {
+                e.preventDefault();
+                setToken("form.data_monitored_state", TokenUtils.replaceTokenNames("disabled", _.extend(submittedTokenModel.toJSON(), e.data)));
+            }
+        });
+
         var singleFormTotalDataHost = new SingleElement({
             "id": "singleFormTotalDataHost",
             "showTrendIndicator": "1",
@@ -4925,7 +4956,7 @@ require([
             "numberPrecision": "0",
             "colorBy": "value",
             "colorMode": "block",
-            "drilldown": "none",
+            "drilldown": "all",
             "showSparkline": "1",
             "trellis.scales.shared": "1",
             "useColors": "1",
@@ -4943,6 +4974,15 @@ require([
             tokenNamespace: "submitted"
         }).render();
 
+        singleFormTotalDataHost.on("click", function(e) {
+            if (e.field !== undefined) {
+                e.preventDefault();
+                setToken("form.data_host_state", TokenUtils.replaceTokenNames("*", _.extend(submittedTokenModel.toJSON(), e.data)));
+                setToken("form.inputDataHostPriority", TokenUtils.replaceTokenNames("*", _.extend(submittedTokenModel.toJSON(), e.data)));
+                setToken("form.data_monitored_state", TokenUtils.replaceTokenNames("*", _.extend(submittedTokenModel.toJSON(), e.data)));
+            }
+        });
+
         var singleFormTotalDataHostAlerts = new SingleElement({
             "id": "singleFormTotalDataHostAlerts",
             "showTrendIndicator": "1",
@@ -4951,7 +4991,7 @@ require([
             "numberPrecision": "0",
             "colorBy": "value",
             "colorMode": "block",
-            "drilldown": "none",
+            "drilldown": "all",
             "showSparkline": "1",
             "trellis.scales.shared": "1",
             "useColors": "1",
@@ -4969,6 +5009,13 @@ require([
             tokenNamespace: "submitted"
         }).render();
 
+        singleFormTotalDataHostAlerts.on("click", function(e) {
+            if (e.field !== undefined) {
+                e.preventDefault();
+                setToken("form.data_host_state", TokenUtils.replaceTokenNames("red", _.extend(submittedTokenModel.toJSON(), e.data)));
+            }
+        });
+
         var singleFormTotalDataHostAlertsHighPriority = new SingleElement({
             "id": "singleFormTotalDataHostAlertsHighPriority",
             "showTrendIndicator": "1",
@@ -4977,7 +5024,7 @@ require([
             "numberPrecision": "0",
             "colorBy": "value",
             "colorMode": "block",
-            "drilldown": "none",
+            "drilldown": "all",
             "showSparkline": "1",
             "trellis.scales.shared": "1",
             "useColors": "1",
@@ -4995,6 +5042,13 @@ require([
             tokenNamespace: "submitted"
         }).render();
 
+        singleFormTotalDataHostAlertsHighPriority.on("click", function(e) {
+            if (e.field !== undefined) {
+                e.preventDefault();
+                setToken("form.inputDataHostPriority", TokenUtils.replaceTokenNames("high", _.extend(submittedTokenModel.toJSON(), e.data)));
+            }
+        });
+
         var singleFormTotalDataHostDisabled = new SingleElement({
             "id": "singleFormTotalDataHostDisabled",
             "showTrendIndicator": "1",
@@ -5003,7 +5057,7 @@ require([
             "numberPrecision": "0",
             "colorBy": "value",
             "colorMode": "block",
-            "drilldown": "none",
+            "drilldown": "all",
             "showSparkline": "1",
             "trellis.scales.shared": "1",
             "useColors": "1",
@@ -5020,6 +5074,13 @@ require([
             tokens: true,
             tokenNamespace: "submitted"
         }).render();
+
+        singleFormTotalDataHostDisabled.on("click", function(e) {
+            if (e.field !== undefined) {
+                e.preventDefault();
+                setToken("form.data_monitored_state", TokenUtils.replaceTokenNames("disabled", _.extend(submittedTokenModel.toJSON(), e.data)));
+            }
+        });
 
         var singleBlackListDataSourceHost = new SingleElement({
             "id": "singleBlackListDataSourceHost",
