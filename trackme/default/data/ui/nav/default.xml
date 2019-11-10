@@ -1,5 +1,6 @@
 <nav search_view="search" color="#404040">
   <view name="TrackMe" default="true" />
+  <view name="trackMe_summary" />
   <view name="search" />
   <view name="analysis_workspace" />
   <view name="datasets" />

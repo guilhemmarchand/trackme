@@ -17,6 +17,10 @@
 
 ![screenshot2](./docs/img/screenshot2.png)
 
+![screenshot3](./docs/img/screenshot3.png)
+
+![screenshot4](./docs/img/screenshot4.png)
+
 ![incomplete_installation.png](./docs/img/incomplete_installation.png)
 
 ## Why this application?

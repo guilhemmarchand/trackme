@@ -1,0 +1,178 @@
+<dashboard theme="dark">
+  <label>TrackMe Mobile</label>
+    <description>Connected Experience tracking review of data sources availability</description>
+  <row>
+    <panel>
+      <title>Any priority data sources in SLA alert</title>
+      <single>
+        <search>
+          <query>| inputlookup trackme_data_source_monitoring
+| where data_monitored_state="enabled" AND data_source_state="red" | stats dc(data_name)</query>
+          <earliest>-5m</earliest>
+          <latest>now</latest>
+          <sampleRatio>1</sampleRatio>
+          <refresh>30s</refresh>
+          <refreshType>delay</refreshType>
+        </search>
+        <option name="colorBy">value</option>
+        <option name="colorMode">none</option>
+        <option name="drilldown">none</option>
+        <option name="numberPrecision">0</option>
+        <option name="rangeColors">["0x53a051","0xf8be34"]</option>
+        <option name="rangeValues">[0]</option>
+        <option name="showSparkline">1</option>
+        <option name="showTrendIndicator">1</option>
+        <option name="trellis.enabled">0</option>
+        <option name="trellis.scales.shared">1</option>
+        <option name="trellis.size">medium</option>
+        <option name="trendColorInterpretation">standard</option>
+        <option name="trendDisplayMode">absolute</option>
+        <option name="unitPosition">after</option>
+        <option name="useColors">1</option>
+        <option name="useThousandSeparators">1</option>
+      </single>
+    </panel>
+    <panel>
+      <title>High priority data sources in SLA alert</title>
+      <single>
+        <search>
+          <query>| inputlookup trackme_data_source_monitoring
+| where data_monitored_state="enabled" AND data_source_state="red" AND priority="high" | stats dc(data_name)</query>
+          <earliest>-5m</earliest>
+          <latest>now</latest>
+          <sampleRatio>1</sampleRatio>
+          <refresh>30s</refresh>
+          <refreshType>delay</refreshType>
+        </search>
+        <option name="colorBy">value</option>
+        <option name="colorMode">none</option>
+        <option name="drilldown">none</option>
+        <option name="numberPrecision">0</option>
+        <option name="rangeColors">["0x53a051","0xdc4e41"]</option>
+        <option name="rangeValues">[0]</option>
+        <option name="showSparkline">1</option>
+        <option name="showTrendIndicator">1</option>
+        <option name="trellis.enabled">0</option>
+        <option name="trellis.scales.shared">1</option>
+        <option name="trellis.size">medium</option>
+        <option name="trendColorInterpretation">standard</option>
+        <option name="trendDisplayMode">absolute</option>
+        <option name="unitPosition">after</option>
+        <option name="useColors">1</option>
+        <option name="useThousandSeparators">1</option>
+      </single>
+    </panel>
+  </row>
+  <row>
+    <panel>
+      <title>Any priority data hosts in SLA alert</title>
+      <single>
+        <search>
+          <query>| inputlookup trackme_host_monitoring
+| where data_monitored_state="enabled" AND data_host_state="red" | stats dc(data_host)</query>
+          <earliest>-5m</earliest>
+          <latest>now</latest>
+          <sampleRatio>1</sampleRatio>
+          <refresh>30s</refresh>
+          <refreshType>delay</refreshType>
+        </search>
+        <option name="colorBy">value</option>
+        <option name="colorMode">none</option>
+        <option name="drilldown">none</option>
+        <option name="numberPrecision">0</option>
+        <option name="rangeColors">["0x53a051","0xf8be34"]</option>
+        <option name="rangeValues">[0]</option>
+        <option name="showSparkline">1</option>
+        <option name="showTrendIndicator">1</option>
+        <option name="trellis.enabled">0</option>
+        <option name="trellis.scales.shared">1</option>
+        <option name="trellis.size">medium</option>
+        <option name="trendColorInterpretation">standard</option>
+        <option name="trendDisplayMode">absolute</option>
+        <option name="unitPosition">after</option>
+        <option name="useColors">1</option>
+        <option name="useThousandSeparators">1</option>
+      </single>
+    </panel>
+    <panel>
+      <title>High priority data hosts in SLA alert</title>
+      <single>
+        <search>
+          <query>| inputlookup trackme_host_monitoring
+| where data_monitored_state="enabled" AND data_host_state="red" AND priority="high" | stats dc(data_host)</query>
+          <earliest>-5m</earliest>
+          <latest>now</latest>
+          <sampleRatio>1</sampleRatio>
+          <refresh>30s</refresh>
+          <refreshType>delay</refreshType>
+        </search>
+        <option name="colorBy">value</option>
+        <option name="colorMode">none</option>
+        <option name="drilldown">none</option>
+        <option name="numberPrecision">0</option>
+        <option name="rangeColors">["0x53a051","0xdc4e41"]</option>
+        <option name="rangeValues">[0]</option>
+        <option name="showSparkline">1</option>
+        <option name="showTrendIndicator">1</option>
+        <option name="trellis.enabled">0</option>
+        <option name="trellis.scales.shared">1</option>
+        <option name="trellis.size">medium</option>
+        <option name="trendColorInterpretation">standard</option>
+        <option name="trendDisplayMode">absolute</option>
+        <option name="unitPosition">after</option>
+        <option name="useColors">1</option>
+        <option name="useThousandSeparators">1</option>
+      </single>
+    </panel>
+  </row>
+  <row>
+    <panel>
+      <table>
+        <title>Data Sources in SLA alert by priority</title>
+        <search>
+          <query>| inputlookup trackme_data_source_monitoring
+| where data_monitored_state="enabled"
+| where data_source_state="red"
+| eval priority_num=case(priority="low", 2, priority="medium", 1, priority="high", 0)
+| sort limit=0 priority_num, data_host
+| fields data_name data_last_ingest data_last_lag_seen data_last_time_seen data_max_lag_allowed priority
+| `trackme_date_format(data_last_ingest)`
+| `trackme_date_format(data_last_time_seen)`
+| fields data_name "data_last_ingest (translated)" "data_last_time_seen (translated)" data_last_lag_seen "data_last_time_seen (translated)" data_max_lag_allowed priority
+| rename "* (translated)" as "*"</query>
+          <earliest>-5m</earliest>
+          <latest>now</latest>
+          <sampleRatio>1</sampleRatio>
+          <refresh>30s</refresh>
+          <refreshType>delay</refreshType>
+        </search>
+        <option name="drilldown">none</option>
+      </table>
+    </panel>
+  </row>
+  <row>
+    <panel>
+      <table>
+        <title>Data hosts in SLA alert by priority</title>
+        <search>
+          <query>| inputlookup trackme_host_monitoring
+| where data_monitored_state="enabled"
+| where data_host_state="red"
+| eval priority_num=case(priority="low", 2, priority="medium", 1, priority="high", 0)
+| sort limit=0 priority_num, data_host
+| fields data_host data_last_ingest data_last_lag_seen data_last_time_seen data_max_lag_allowed priority
+| `trackme_date_format(data_last_ingest)`
+| `trackme_date_format(data_last_time_seen)`
+| fields data_host "data_last_ingest (translated)" "data_last_time_seen (translated)" data_last_lag_seen "data_last_time_seen (translated)" data_max_lag_allowed priority
+| rename "* (translated)" as "*"</query>
+          <earliest>-5m</earliest>
+          <latest>now</latest>
+          <sampleRatio>1</sampleRatio>
+          <refresh>30s</refresh>
+          <refreshType>delay</refreshType>
+        </search>
+        <option name="drilldown">none</option>
+      </table>
+    </panel>
+  </row>
+</dashboard>
