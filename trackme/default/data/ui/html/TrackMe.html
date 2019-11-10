@@ -835,7 +835,7 @@ styles in <div> tags, similar to Bootstrap's grid system.
                     <h3 style="color: indianred;"><span class="glyphicon glyphicon-lock"></span>Data collection reset</h3>
                 </div>
                 <div class="modal-body">
-                    <p><b>Are you sure that you want to reset the data source collection?</b><br /><br />
+                    <p><b>Are you sure that you want to reset the data host collection?</b><br /><br />
                         All changes in the collection will be irremediably lost and trackers will be automatically started to populate a fresh collection version.
                         <br /><br />
                         <b>Which changes will be affected?</b>
@@ -2387,9 +2387,6 @@ styles in <div> tags, similar to Bootstrap's grid system.
                                 <div class="custom-btn">
                                     <button type="submit" id="btn_run_tracker_longterm" style="margin-right: 15px;" class="btn btn-default btn-primary"><span class="glyphicon glyphicon-remove"></span> Manage: run long term tracker now</button>
                                 </div>
-                                <div class="custom-btn">
-                                    <button type="submit" id="btn_manage_reset_data_source" style="margin-right: 15px;" class="btn btn-default btn-danger" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Manage: reset collection</button>
-                                </div>
                             </div>
                             <div style="float: left;">
                                 <div class="btn_ops_index_queue custom-btn">
@@ -2439,9 +2436,6 @@ styles in <div> tags, similar to Bootstrap's grid system.
                                 </div>
                                 <div class="custom-btn">
                                     <button type="submit" id="btn_run_tracker_host_longterm" style="margin-right: 15px;" class="btn btn-default btn-primary"><span class="glyphicon glyphicon-remove"></span> Manage: run long term tracker now</button>
-                                </div>
-                                <div class="custom-btn">
-                                    <button type="submit" id="btn_manage_reset_data_host" style="margin-right: 15px;" class="btn btn-default btn-danger" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Manage: reset collection</button>
                                 </div>
                             </div>
                             <div style="float: left;">
@@ -2608,6 +2602,228 @@ styles in <div> tags, similar to Bootstrap's grid system.
                 <div class="panel-element-row">
 
                     <div id="elementMainTableAuditChanges" class="dashboard-element table" style="width: 100%">
+                        <div class="panel-body"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="rowManageResetInfo" class="dashboard-row dashboard-rowManageResetInfo" data-depends="$show_manage$">
+        <div id="panelManageResetInfo" class="dashboard-cell" style="width: 100%;">
+            <div class="dashboard-panel clearfix">
+                <div class="panel-element-row">
+                    <div id="elementManageResetInfo" class="dashboard-element html" style="width: 100%">
+                        <div class="panel-body html">
+                            <div style="text-align: center; border: 3px dashed #ccc;">
+                                <div style="display: inline-flex; align-items: center; margin-top: 5px;">
+                                    <span style="font-size: 22px; font-weight: bold; color: #999999; margin-top: 5px;">RESET COLLECTIONS</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="rowManage" class="dashboard-row dashboard-row1" data-original-id="rowManage" data-depends="$show_manage$">
+        <div id="panelManage1" class="dashboard-cell" style="width: 100%;">
+            <div class="dashboard-panel clearfix">
+                <div id="ManageRow1" class="dashboard-row dashboard-row1">
+                    <div id="ManageRow1Panel1" class="dashboard-cell" style="width: 50%;">
+                        <div class="dashboard-panel clearfix">
+
+                            <div class="panel-element-row">
+                                <div id="ManageRow1Panel1Element1" class="dashboard-element html" style="width: 100%">
+                                    <div class="panel-body html">
+                                        <div>
+                                            <div style="margin-bottom: 15px;" class="custom-btn">
+                                                <h2>Use this function to reset the <b>data_source</b> collection and automatically run the trackers:</h2>
+                                                <button type="submit" id="btn_manage_reset_data_source" style="margin-right: 15px;" class="btn btn-default btn-danger" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Manage: reset collection</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="panel2" class="dashboard-cell" style="width: 50%;">
+                        <div class="dashboard-panel clearfix">
+
+                            <div class="panel-element-row">
+                                <div id="ManageRow1Panel1Element2" class="dashboard-element html" style="width: 100%">
+                                    <div class="panel-body html">
+                                        <div>
+                                            <div style="margin-bottom: 15px;" class="custom-btn">
+                                                <h2>Use this function to reset the <b>data_host</b> collection and automatically run the trackers:</h2>
+                                                <button type="submit" id="btn_manage_reset_data_host" style="margin-right: 15px;" class="btn btn-default btn-danger" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Manage: reset collection</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="rowManageMacrosInfo" class="dashboard-row dashboard-rowManageResetInfo" data-depends="$show_manage$">
+        <div id="panelManageMacrosInfo" class="dashboard-cell" style="width: 100%;">
+            <div class="dashboard-panel clearfix">
+                <div class="panel-element-row">
+                    <div id="elementManageMacrosInfo" class="dashboard-element html" style="width: 100%">
+                        <div class="panel-body html">
+                            <div style="text-align: center; border: 3px dashed #ccc;">
+                                <div style="display: inline-flex; align-items: center; margin-top: 5px;">
+                                    <span style="font-size: 22px; font-weight: bold; color: #999999; margin-top: 5px;">MACROS DEFINITIONS</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="ManageRowMacro1" class="dashboard-row dashboard-rowDataSourcesTable" data-depends="$show_manage$">
+        <div id="panelManageMacro1" class="dashboard-cell" style="width: 100%;">
+            <div class="dashboard-panel clearfix">
+                <h2 style="padding: 12px 55px 7px 12px;">tstats</h2><h2 class="panel-title">Macro definition for every call to the tstats command in the application: (click on the table bellow to edit the macro definition)</h2>
+                <div class="panel-element-row">
+                    <div id="elementTable_tstats" class="dashboard-element table" style="width: 100%">
+                        <div class="panel-body"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="ManageRowMacro2" class="dashboard-row dashboard-rowDataSourcesTable" data-depends="$show_manage$">
+        <div id="panelManage2" class="dashboard-cell" style="width: 100%;">
+            <div class="dashboard-panel clearfix">
+                <h2 style="padding: 12px 55px 7px 12px;">trackme_tstats_main_filter</h2><h2 class="panel-title">The default behaviour of TrackMe is to track data available in all indexes, a macro is used within each tracker which can be modified if you wish to restrict TrackMe to a given list of indexes or any other valid Meta data filter: (click on the table bellow to edit the macro definition)</h2>
+                <div class="panel-element-row">
+                    <div id="elementTable_trackme_tstats_main_filter" class="dashboard-element table" style="width: 100%">
+                        <div class="panel-body"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="ManageRowMacro3" class="dashboard-row dashboard-rowDataSourcesTable" data-depends="$show_manage$">
+        <div id="panelManage3" class="dashboard-cell" style="width: 100%;">
+            <div class="dashboard-panel clearfix">
+                <h2 style="padding: 12px 55px 7px 12px;">trackme_idx_filter</h2><h2 class="panel-title">The builtin views “Ops: Indexes queues” and “Ops: Parsing issues” rely on the usage of the following macro: (click on the table bellow to edit the macro definition)</h2>
+                <div class="panel-element-row">
+                    <div id="elementTable_trackme_idx_filter" class="dashboard-element table" style="width: 100%">
+                        <div class="panel-body"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="ManageRowMacro4" class="dashboard-row dashboard-rowDataSourcesTable" data-depends="$show_manage$">
+        <div id="panelManage4" class="dashboard-cell" style="width: 100%;">
+            <div class="dashboard-panel clearfix">
+                <h2 style="padding: 12px 55px 7px 12px;">trackme_date_format</h2><h2 class="panel-title">The UI generates human readable time stamps in the following format: (click on the table bellow to edit the macro definition)</h2>
+                <div class="panel-element-row">
+                    <div id="elementTable_trackme_date_format" class="dashboard-element table" style="width: 100%">
+                        <div class="panel-body"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="ManageRowMacro5" class="dashboard-row dashboard-rowDataSourcesTable" data-depends="$show_manage$">
+        <div id="panelManage5" class="dashboard-cell" style="width: 100%;">
+            <div class="dashboard-panel clearfix">
+                <h2 style="padding: 12px 55px 7px 12px;">default_monitored_state</h2><h2 class="panel-title">Defines the default value for monitored_state when a data source is discovered: (click on the table bellow to edit the macro definition)</h2>
+                <div class="panel-element-row">
+                    <div id="elementTable_trackme_default_monitored_state" class="dashboard-element table" style="width: 100%">
+                        <div class="panel-body"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="ManageRowMacro6" class="dashboard-row dashboard-rowDataSourcesTable" data-depends="$show_manage$">
+        <div id="panelManage6" class="dashboard-cell" style="width: 100%;">
+            <div class="dashboard-panel clearfix">
+                <h2 style="padding: 12px 55px 7px 12px;">default_host_monitored_state</h2><h2 class="panel-title">Defines the default value for monitored_state when a data host is discovered: (click on the table bellow to edit the macro definition)</h2>
+                <div class="panel-element-row">
+                    <div id="elementTable_trackme_default_host_monitored_state" class="dashboard-element table" style="width: 100%">
+                        <div class="panel-body"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="ManageRowMacro7" class="dashboard-row dashboard-rowDataSourcesTable" data-depends="$show_manage$">
+        <div id="panelManage7" class="dashboard-cell" style="width: 100%;">
+            <div class="dashboard-panel clearfix">
+                <h2 style="padding: 12px 55px 7px 12px;">trackme_default_lag</h2><h2 class="panel-title">Defines the default value in seconds for the maximal lag latency for data sources: (click on the table bellow to edit the macro definition)</h2>
+                <div class="panel-element-row">
+                    <div id="elementTable_trackme_default_lag" class="dashboard-element table" style="width: 100%">
+                        <div class="panel-body"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="ManageRowMacro8" class="dashboard-row dashboard-rowDataSourcesTable" data-depends="$show_manage$">
+        <div id="panelManage8" class="dashboard-cell" style="width: 100%;">
+            <div class="dashboard-panel clearfix">
+                <h2 style="padding: 12px 55px 7px 12px;">trackme_default_host_lag</h2><h2 class="panel-title">Defines the default value in seconds for the maximal lag latency for data hosts: (click on the table bellow to edit the macro definition)</h2>
+                <div class="panel-element-row">
+                    <div id="elementTable_trackme_default_host_lag" class="dashboard-element table" style="width: 100%">
+                        <div class="panel-body"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="ManageRowMacro9" class="dashboard-row dashboard-rowDataSourcesTable" data-depends="$show_manage$">
+        <div id="panelManage9" class="dashboard-cell" style="width: 100%;">
+            <div class="dashboard-panel clearfix">
+                <h2 style="padding: 12px 55px 7px 12px;">trackme_audit_changes_retention</h2><h2 class="panel-title">Defines the retention to be used for entries stored in the audit collection: (click on the table bellow to edit the macro definition)</h2>
+                <div class="panel-element-row">
+                    <div id="elementTable_trackme_audit_changes_retention" class="dashboard-element table" style="width: 100%">
+                        <div class="panel-body"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="ManageRowMacro10" class="dashboard-row dashboard-rowDataSourcesTable" data-depends="$show_manage$">
+        <div id="panelManage10" class="dashboard-cell" style="width: 100%;">
+            <div class="dashboard-panel clearfix">
+                <h2 style="padding: 12px 55px 7px 12px;">trackme_flip_state_retention</h2><h2 class="panel-title">Defines the retention to be used for entries stored in the flip state collection: (click on the table bellow to edit the macro definition)</h2>
+                <div class="panel-element-row">
+                    <div id="elementTable_trackme_flip_state_retention" class="dashboard-element table" style="width: 100%">
+                        <div class="panel-body"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="ManageRowMacro11" class="dashboard-row dashboard-rowDataSourcesTable" data-depends="$show_manage$">
+        <div id="panelManage11" class="dashboard-cell" style="width: 100%;">
+            <div class="dashboard-panel clearfix">
+                <h2 style="padding: 12px 55px 7px 12px;">trackme_alerts_priority</h2><h2 class="panel-title">Macro definition for alerting priority, this macro is used by the application out of the box alerts to return SLA alerts based on the rules and the priority level: (click on the table bellow to edit the macro definition)</h2>
+                <div class="panel-element-row">
+                    <div id="elementTable_trackme_alerts_priority" class="dashboard-element table" style="width: 100%">
                         <div class="panel-body"></div>
                     </div>
                 </div>
@@ -3962,6 +4178,139 @@ require([
             "auto_cancel": 90,
             "preview": true,
             "runWhenTimeIsUndefined": false
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        });
+
+        // manage and configure
+
+        var searchGetMacrosDefinitions = new SearchManager({
+            "id": "searchGetMacrosDefinitions",
+            "earliest_time": "-15m",
+            "cancelOnUnload": true,
+            "sample_ratio": null,
+            "refreshType": "delay",
+            "latest_time": "now",
+            "search": "| rest /servicesNS/-/-/admin/macros count=0 splunk_server=local | rename eai:appName as app | where app=\"trackme\" | table title definition",
+            "status_buckets": 0,
+            "app": utils.getCurrentApp(),
+            "auto_cancel": 90,
+            "preview": true,
+            "tokenDependencies": {
+                "depends": "$show_manage$",
+            },
+            "runWhenTimeIsUndefined": false
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        });
+
+        var searchGetMacro_tstats = new PostProcessManager({
+            "tokenDependencies": {},
+            "search": "where title=\"tstats\" | eval alternative_definition=\"tstats include_reduced_buckets=t\" | table definition, alternative_definition",
+            "managerid": "searchGetMacrosDefinitions",
+            "id": "searchGetMacro_tstats"
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        });
+
+        var searchGetMacro_trackme_idx_filter = new PostProcessManager({
+            "tokenDependencies": {},
+            "search": "where title=\"trackme_idx_filter\" | table definition",
+            "managerid": "searchGetMacrosDefinitions",
+            "id": "searchGetMacro_trackme_idx_filter"
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        });
+
+        var searchGetMacro_trackme_date_format = new PostProcessManager({
+            "tokenDependencies": {},
+            "search": "where title=\"trackme_date_format(1)\" | table definition",
+            "managerid": "searchGetMacrosDefinitions",
+            "id": "searchGetMacro_trackme_date_format"
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        });
+
+        var searchGetMacro_trackme_tstats_main_filter = new PostProcessManager({
+            "tokenDependencies": {},
+            "search": "where title=\"trackme_tstats_main_filter\" | table definition",
+            "managerid": "searchGetMacrosDefinitions",
+            "id": "searchGetMacro_trackme_tstats_main_filter"
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        });
+
+        var searchGetMacro_trackme_default_monitored_state = new PostProcessManager({
+            "tokenDependencies": {},
+            "search": "where title=\"trackme_default_monitored_state\" | table definition",
+            "managerid": "searchGetMacrosDefinitions",
+            "id": "searchGetMacro_trackme_default_monitored_state"
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        });
+
+        var searchGetMacro_trackme_default_host_monitored_state = new PostProcessManager({
+            "tokenDependencies": {},
+            "search": "where title=\"trackme_default_host_monitored_state\" | table definition",
+            "managerid": "searchGetMacrosDefinitions",
+            "id": "searchGetMacro_trackme_default_host_monitored_state"
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        });
+
+        var searchGetMacro_trackme_default_lag = new PostProcessManager({
+            "tokenDependencies": {},
+            "search": "where title=\"trackme_default_lag\" | table definition",
+            "managerid": "searchGetMacrosDefinitions",
+            "id": "searchGetMacro_trackme_default_lag"
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        });
+
+        var searchGetMacro_trackme_default_host_lag = new PostProcessManager({
+            "tokenDependencies": {},
+            "search": "where title=\"trackme_default_host_lag\" | table definition",
+            "managerid": "searchGetMacrosDefinitions",
+            "id": "searchGetMacro_trackme_default_host_lag"
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        });
+
+        var searchGetMacro_trackme_audit_changes_retention = new PostProcessManager({
+            "tokenDependencies": {},
+            "search": "where title=\"trackme_audit_changes_retention\" | table definition",
+            "managerid": "searchGetMacrosDefinitions",
+            "id": "searchGetMacro_trackme_audit_changes_retention"
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        });
+
+        var searchGetMacro_trackme_flip_state_retention = new PostProcessManager({
+            "tokenDependencies": {},
+            "search": "where title=\"trackme_flip_state_retention\" | table definition",
+            "managerid": "searchGetMacrosDefinitions",
+            "id": "searchGetMacro_trackme_flip_state_retention"
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        });
+
+        var searchGetMacro_trackme_alerts_priority = new PostProcessManager({
+            "tokenDependencies": {},
+            "search": "where title=\"trackme_alerts_priority\" | table definition",
+            "managerid": "searchGetMacrosDefinitions",
+            "id": "searchGetMacro_trackme_alerts_priority"
         }, {
             tokens: true,
             tokenNamespace: "submitted"
@@ -6423,6 +6772,239 @@ require([
             tokenNamespace: "submitted"
         }).render();
 
+        // manage and configure
+
+        var elementTable_tstats = new TableElement({
+            "id": "elementTable_tstats",
+            "count": 100,
+            "drilldown": "row",
+            "refresh.display": "none",
+            "wrap": "false",
+            "managerid": "searchGetMacro_tstats",
+            "el": $('#elementTable_tstats')
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        }).render();
+
+        elementTable_tstats.on("click", function(e) {
+            if (e.field !== undefined) {
+                e.preventDefault();
+                var url = TokenUtils.replaceTokenNames("/en-GB/manager/trackme/admin/macros/tstats?action=edit", _.extend(submittedTokenModel.toJSON(), e.data), TokenUtils.getEscaper('url'), TokenUtils.getFilters(mvc.Components));
+                utils.redirect(url, false, "_blank");
+            }
+        });
+
+        var elementTable_trackme_idx_filter = new TableElement({
+            "id": "elementTable_trackme_idx_filter",
+            "count": 100,
+            "drilldown": "row",
+            "refresh.display": "none",
+            "wrap": "false",
+            "managerid": "searchGetMacro_trackme_idx_filter",
+            "el": $('#elementTable_trackme_idx_filter')
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        }).render();
+
+        elementTable_trackme_idx_filter.on("click", function(e) {
+            if (e.field !== undefined) {
+                e.preventDefault();
+                var url = TokenUtils.replaceTokenNames("/en-GB/manager/trackme/admin/macros/trackme_idx_filter?action=edit", _.extend(submittedTokenModel.toJSON(), e.data), TokenUtils.getEscaper('url'), TokenUtils.getFilters(mvc.Components));
+                utils.redirect(url, false, "_blank");
+            }
+        });
+
+        var elementTable_trackme_date_format = new TableElement({
+            "id": "elementTable_trackme_date_format",
+            "count": 100,
+            "drilldown": "row",
+            "refresh.display": "none",
+            "wrap": "false",
+            "managerid": "searchGetMacro_trackme_date_format",
+            "el": $('#elementTable_trackme_date_format')
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        }).render();
+
+        elementTable_trackme_date_format.on("click", function(e) {
+            if (e.field !== undefined) {
+                e.preventDefault();
+                var url = TokenUtils.replaceTokenNames("/en-GB/manager/trackme/admin/macros/trackme_date_format(1)?action=edit", _.extend(submittedTokenModel.toJSON(), e.data), TokenUtils.getEscaper('url'), TokenUtils.getFilters(mvc.Components));
+                utils.redirect(url, false, "_blank");
+            }
+        });
+
+        var elementTable_trackme_tstats_main_filter = new TableElement({
+            "id": "elementTable_trackme_tstats_main_filter",
+            "count": 100,
+            "drilldown": "row",
+            "refresh.display": "none",
+            "wrap": "false",
+            "managerid": "searchGetMacro_trackme_tstats_main_filter",
+            "el": $('#elementTable_trackme_tstats_main_filter')
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        }).render();
+
+        elementTable_trackme_tstats_main_filter.on("click", function(e) {
+            if (e.field !== undefined) {
+                e.preventDefault();
+                var url = TokenUtils.replaceTokenNames("/en-GB/manager/trackme/admin/macros/trackme_tstats_main_filter?action=edit", _.extend(submittedTokenModel.toJSON(), e.data), TokenUtils.getEscaper('url'), TokenUtils.getFilters(mvc.Components));
+                utils.redirect(url, false, "_blank");
+            }
+        });
+
+        var elementTable_trackme_alerts_priority = new TableElement({
+            "id": "elementTable_trackme_alerts_priority",
+            "count": 100,
+            "drilldown": "row",
+            "refresh.display": "none",
+            "wrap": "false",
+            "managerid": "searchGetMacro_trackme_alerts_priority",
+            "el": $('#elementTable_trackme_alerts_priority')
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        }).render();
+
+        elementTable_trackme_alerts_priority.on("click", function(e) {
+            if (e.field !== undefined) {
+                e.preventDefault();
+                var url = TokenUtils.replaceTokenNames("/en-GB/manager/trackme/admin/macros/trackme_alerts_priority?action=edit", _.extend(submittedTokenModel.toJSON(), e.data), TokenUtils.getEscaper('url'), TokenUtils.getFilters(mvc.Components));
+                utils.redirect(url, false, "_blank");
+            }
+        });
+
+        var elementTable_trackme_default_monitored_state = new TableElement({
+            "id": "elementTable_trackme_default_monitored_state",
+            "count": 100,
+            "drilldown": "row",
+            "refresh.display": "none",
+            "wrap": "false",
+            "managerid": "searchGetMacro_trackme_default_monitored_state",
+            "el": $('#elementTable_trackme_default_monitored_state')
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        }).render();
+
+        elementTable_trackme_default_monitored_state.on("click", function(e) {
+            if (e.field !== undefined) {
+                e.preventDefault();
+                var url = TokenUtils.replaceTokenNames("/en-GB/manager/trackme/admin/macros/trackme_default_monitored_state?action=edit", _.extend(submittedTokenModel.toJSON(), e.data), TokenUtils.getEscaper('url'), TokenUtils.getFilters(mvc.Components));
+                utils.redirect(url, false, "_blank");
+            }
+        });
+
+        var elementTable_trackme_default_host_monitored_state = new TableElement({
+            "id": "elementTable_trackme_default_host_monitored_state",
+            "count": 100,
+            "drilldown": "row",
+            "refresh.display": "none",
+            "wrap": "false",
+            "managerid": "searchGetMacro_trackme_default_host_monitored_state",
+            "el": $('#elementTable_trackme_default_host_monitored_state')
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        }).render();
+
+        elementTable_trackme_default_host_monitored_state.on("click", function(e) {
+            if (e.field !== undefined) {
+                e.preventDefault();
+                var url = TokenUtils.replaceTokenNames("/en-GB/manager/trackme/admin/macros/trackme_default_host_monitored_state?action=edit", _.extend(submittedTokenModel.toJSON(), e.data), TokenUtils.getEscaper('url'), TokenUtils.getFilters(mvc.Components));
+                utils.redirect(url, false, "_blank");
+            }
+        });
+
+        var elementTable_trackme_default_lag = new TableElement({
+            "id": "elementTable_trackme_default_lag",
+            "count": 100,
+            "drilldown": "row",
+            "refresh.display": "none",
+            "wrap": "false",
+            "managerid": "searchGetMacro_trackme_default_lag",
+            "el": $('#elementTable_trackme_default_lag')
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        }).render();
+
+        elementTable_trackme_default_lag.on("click", function(e) {
+            if (e.field !== undefined) {
+                e.preventDefault();
+                var url = TokenUtils.replaceTokenNames("/en-GB/manager/trackme/admin/macros/trackme_default_lag?action=edit", _.extend(submittedTokenModel.toJSON(), e.data), TokenUtils.getEscaper('url'), TokenUtils.getFilters(mvc.Components));
+                utils.redirect(url, false, "_blank");
+            }
+        });
+
+        var elementTable_trackme_default_host_lag = new TableElement({
+            "id": "elementTable_trackme_default_host_lag",
+            "count": 100,
+            "drilldown": "row",
+            "refresh.display": "none",
+            "wrap": "false",
+            "managerid": "searchGetMacro_trackme_default_host_lag",
+            "el": $('#elementTable_trackme_default_host_lag')
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        }).render();
+
+        elementTable_trackme_default_host_lag.on("click", function(e) {
+            if (e.field !== undefined) {
+                e.preventDefault();
+                var url = TokenUtils.replaceTokenNames("/en-GB/manager/trackme/admin/macros/trackme_default_host_lag?action=edit", _.extend(submittedTokenModel.toJSON(), e.data), TokenUtils.getEscaper('url'), TokenUtils.getFilters(mvc.Components));
+                utils.redirect(url, false, "_blank");
+            }
+        });
+
+        var elementTable_trackme_audit_changes_retention = new TableElement({
+            "id": "elementTable_trackme_audit_changes_retention",
+            "count": 100,
+            "drilldown": "row",
+            "refresh.display": "none",
+            "wrap": "false",
+            "managerid": "searchGetMacro_trackme_audit_changes_retention",
+            "el": $('#elementTable_trackme_audit_changes_retention')
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        }).render();
+
+        elementTable_trackme_audit_changes_retention.on("click", function(e) {
+            if (e.field !== undefined) {
+                e.preventDefault();
+                var url = TokenUtils.replaceTokenNames("/en-GB/manager/trackme/admin/macros/trackme_audit_changes_retention?action=edit", _.extend(submittedTokenModel.toJSON(), e.data), TokenUtils.getEscaper('url'), TokenUtils.getFilters(mvc.Components));
+                utils.redirect(url, false, "_blank");
+            }
+        });
+
+        var elementTable_trackme_flip_state_retention = new TableElement({
+            "id": "elementTable_trackme_flip_state_retention",
+            "count": 100,
+            "drilldown": "row",
+            "refresh.display": "none",
+            "wrap": "false",
+            "managerid": "searchGetMacro_trackme_flip_state_retention",
+            "el": $('#elementTable_trackme_flip_state_retention')
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        }).render();
+
+        elementTable_trackme_flip_state_retention.on("click", function(e) {
+            if (e.field !== undefined) {
+                e.preventDefault();
+                var url = TokenUtils.replaceTokenNames("/en-GB/manager/trackme/admin/macros/trackme_flip_state_retention?action=edit", _.extend(submittedTokenModel.toJSON(), e.data), TokenUtils.getEscaper('url'), TokenUtils.getFilters(mvc.Components));
+                utils.redirect(url, false, "_blank");
+            }
+        });
+
         // Manage html dynamic panels
 
         var body_modal_manage = new HtmlElement({
@@ -6550,6 +7132,10 @@ require([
                 {
                     "value": "show_audit_changes",
                     "label": "INVESTIGATE AUDIT CHANGES"
+                },
+                {
+                    "value": "show_manage",
+                    "label": "MANAGE AND CONFIGURE"
                 }
             ],
             "default": "show_data_source_tracker",
@@ -6571,21 +7157,31 @@ require([
                 EventHandler.unsetToken("show_host_tracker");
                 EventHandler.unsetToken("show_audit_flip");
                 EventHandler.unsetToken("show_audit_changes");
+                EventHandler.unsetToken("show_manage");
             } else if (e.value === "show_host_tracker") {
                 EventHandler.setToken("show_host_tracker", "true", {}, e.data);
                 EventHandler.unsetToken("show_data_source_tracker");
                 EventHandler.unsetToken("show_audit_flip");
                 EventHandler.unsetToken("show_audit_changes");
+                EventHandler.unsetToken("show_manage");
             } else if (e.value === "show_audit_flip") {
                 EventHandler.setToken("show_audit_flip", "true", {}, e.data);
                 EventHandler.unsetToken("show_data_source_tracker");
                 EventHandler.unsetToken("show_host_tracker");
                 EventHandler.unsetToken("show_audit_changes");
+                EventHandler.unsetToken("show_manage");
             } else if (e.value === "show_audit_changes") {
                 EventHandler.setToken("show_audit_changes", "true", {}, e.data);
                 EventHandler.unsetToken("show_data_source_tracker");
                 EventHandler.unsetToken("show_host_tracker");
                 EventHandler.unsetToken("show_audit_flip");
+                EventHandler.unsetToken("show_manage");
+            } else if (e.value === "show_manage") {
+                EventHandler.setToken("show_manage", "true", {}, e.data);
+                EventHandler.unsetToken("show_data_source_tracker");
+                EventHandler.unsetToken("show_host_tracker");
+                EventHandler.unsetToken("show_audit_flip");
+                EventHandler.unsetToken("show_audit_changes");
             }
         });
 

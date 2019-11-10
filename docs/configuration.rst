@@ -1,7 +1,11 @@
 Configuration
 #############
 
-**TrackMe does not require any configuration and works out of the box after its installation, however there are some configuration items you might wish to consider:**
+**TrackMe does not require any configuration and works out of the box after its installation, however there are some configuration items that can modified up to your needs, jump to the manage and configure tab in the application UI:**
+
+.. image:: img/configure_ui.png
+   :alt: configure_ui.png
+   :align: center
 
 tstats root macro definition
 ============================
@@ -23,8 +27,8 @@ If you are using Splunk 7.3.x or a later version, you can include the reduced bu
     definition = tstats include_reduced_buckets=t
     iseval = 0
 
-Index macro definition
-======================
+Indexers macro definition
+=========================
 
 The builtin views "Ops: Indexes queues" and "Ops: Parsing issues" rely on the usage of the following macro:
 
@@ -60,7 +64,7 @@ If you prefer to have a different format, customise this macro definition.
 Whitelisting of indexes
 =======================
 
-The default behaviour of TrackMe is track data available in all indexes, a macro is used within each tracker which can be modified if you wish to restrict TrackMe to a given list of indexes or any other valid Meta data filter:
+The default behaviour of TrackMe is to track data available in all indexes, a macro is used within each tracker which can be modified if you wish to restrict TrackMe to a given list of indexes or any other valid Meta data filter:
 
 ::
 

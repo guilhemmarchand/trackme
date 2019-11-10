@@ -12,6 +12,7 @@ Version 1.0.21
 - feature: TrackMe Mobile dashboard for dark theme summary view compatible with Splunk Mobile Experience (Apple TV, Mobile)
 - feature: Improved navigation for unified modification modal windows
 - feature: Drilldown on single forms, defines filtering based on the single form purpose
+- feature: Manage and configure tab in main UI, access to reset collections functions or key macros definition and short cuts
 - fix: data sources that came of scope might loose time context upon time and returned as green state
 - fix: over time, trackers can re-add old entries due to flipping state cross-searches
 - fix: data_host_state icon shown as empty if state=orange due to mismatch in macro eval state icon for data_host
