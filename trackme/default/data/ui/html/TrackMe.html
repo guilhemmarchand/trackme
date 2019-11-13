@@ -10721,6 +10721,9 @@ require([
         });
 
         // metrics sla policy
+
+        // add policy
+
         $("#btn_modal_metric_policy_add").click(function() {
 
             submitTokens();
@@ -10849,6 +10852,120 @@ require([
             } else {
                 $("#modal_entry_update_invalid").modal()
                 return;
+            }
+
+        });
+
+        // delete policy
+
+        $("#btn_delete_metric_sla_policy").click(function() {
+
+            //console.log("Button was pressed");
+
+            submitTokens();
+
+            // When the Submit button is clicked, get all the form fields by accessing token values
+            var tokens = mvc.Components.get("default");
+
+            // When the Submit button is clicked, get all the form fields by accessing token values
+            var tk_keyid = tokens.get("tk_keyid");
+
+            // When the Submit button is clicked, get all the form fields by accessing token values
+            var tk_input_metric_policy_metric_category = tokens.get("tk_input_metric_policy_metric_category");
+            var tk_input_metric_policy_metric_value = tokens.get("tk_input_metric_policy_metric_value");
+
+            // Create the endpoint URL
+            var myendpoint_URl = "/en-US/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_metric_lagging_definition/" + tk_keyid;
+
+            console.log("Endpoint URL is: " + myendpoint_URl);
+
+            if (tk_keyid && tk_keyid.length) {
+
+                $.ajax({
+                    url: myendpoint_URl,
+                    type: "DELETE",
+                    async: true,
+                    contentType: "application/json",
+                    success: function(returneddata) {
+
+                        // Hide main modal
+                        $("#manage_metric_sla_policy").modal('hide');
+
+                        // Audit success change
+                        var time = (new Date).getTime();
+                        var audit_record = {
+                            "time": time,
+                            "action": "success",
+                            "user": currentUser,
+                            "change_type": "delete metric sla policy",
+                            "object": tk_input_metric_policy_metric_category,
+                            "object_category": "metric_host",
+                            "object_attrs": "metric_sla_policy:" + tk_input_metric_policy_metric_category + " ,metric_max_lag_allowed:" + tk_input_metric_policy_metric_value
+                        };
+                        $.ajax({
+                            url: auditendpoint_URl,
+                            type: "POST",
+                            async: true,
+                            contentType: "application/json",
+                            data: JSON.stringify(audit_record),
+                            success: function(returneddata) {
+                                //console.log("Updated!", returneddata)
+                                // Run the search again to update the table
+                            }
+                        });
+
+                        //console.log("Updated!", returneddata)
+                        // Run the search again to update the table
+                        searchMetricPolicies.startSearch();
+
+                        // notify
+                        notification('Modification has been registered successfully.', 2000)
+
+                        // house cleaning
+                        myendpoint_URl = undefined;
+                        delete(myendpoint_URl);
+                        tk_keyid = undefined;
+                        delete(tk_keyid);
+
+                        // Return to modal
+                        $("#modal_metric_sla_policies").modal();
+                    },
+                    error: function(xhr, textStatus, error) {
+                        message = "Error Updating!" + xhr + textStatus + error;
+
+                        // Audit failure change
+                        var time = (new Date).getTime();
+                        var audit_record = {
+                            "time": time,
+                            "action": "failure",
+                            "user": currentUser,
+                            "change_type": "delete metric sla policy",
+                            "object": tk_input_metric_policy_metric_category,
+                            "object_category": "metric_host",
+                            "object_attrs": "metric_sla_policy:" + tk_input_metric_policy_metric_category + " ,metric_max_lag_allowed:" + tk_input_metric_policy_metric_value,
+                            "result": message
+                        };
+                        $.ajax({
+                            url: auditendpoint_URl,
+                            type: "POST",
+                            async: true,
+                            contentType: "application/json",
+                            data: JSON.stringify(audit_record),
+                            success: function(returneddata) {
+                                //console.log("Updated!", returneddata)
+                                // Run the search again to update the table
+                            }
+                        });
+
+                        // Hide main modal
+                        $("#manage_metric_sla_policy").modal('hide');
+                        $("#modal_metric_sla_policies").modal('hide');
+                        $("#modal_update_collection_failure_return").find('.modal-error-message p').text(message);
+                        $("#modal_update_collection_failure_return").modal()
+                    }
+
+                });
+
             }
 
         });
