@@ -498,6 +498,7 @@ styles in <div> tags, similar to Bootstrap's grid system.
                         </div>
 
                         <div class="modal-footer">
+                            <button type="submit" id="btn_refresh_metric_host" role="button" class="btn btn-primary btn-default pull-left"><span class="glyphicon glyphicon-remove"></span>Refresh</button>
                             <button type="submit" id="btn_enable_monitoring_metric_host" role="button" class="btn btn-primary btn-default"><span class="glyphicon glyphicon-remove"></span>Enable</button>
                             <button type="submit" id="btn_disable_monitoring_metric_host" role="button" class="btn btn-danger btn-default"><span class="glyphicon glyphicon-remove"></span>Disable</button>
                             <button type="submit" id="btn_modify_metric_host" role="button" class="btn btn-primary btn-default"><span class="glyphicon glyphicon-remove"></span>Modify</button>
@@ -1774,32 +1775,27 @@ styles in <div> tags, similar to Bootstrap's grid system.
 
                 <div class="modal-body">
 
-                    <h4>Data host lagging value:</h4>
+                    <h4>Metric host priority:</h4>
 
-                    <div style="margin-left: 15px;">
-                        <lu>
-                            <li>The maximal allowed lagging value defines the maximal value in seconds before a data source / host would be considered as red</li>
-                            <li>Override lagging classes allows bypassing any lagging classes configuration that would apply to this data source or host</li>
-                            <li>If a lagging class matches index(es) or sourcetype(es) for this data source or host and the option is unchecked, it will bypass this value unless override is true</li>
-                        </lu>
+                    <div class="boxnotify" id="boxnotify-unified-metric-host">
                     </div>
 
-                    <br />
+                    <p>Define the priority of the metric host for granular level of SLA alerting:</p>
+
+                    <p>
+                        <span class="title_green">low</span>
+                        <span class="title_yellow">medium</span>
+                        <span class="title_red">high</span>
+                    </p>
 
                     <div class="fieldset">
-                        <div class="input input-text" id="modal_input_lag_metric_host">
-                            <label>Maximal allowed lagging value:</label>
-                        </div>
-                    </div>
-                    <div class="fieldset">
-                        <div class="input input-dropdown" id="modal_input_lag_override_class_metric_host">
-                            <label>Override lagging classes:</label>
+                        <div class="input input-text" id="modal_input_metric_host_priority">
+                            <label></label>
                         </div>
                     </div>
 
-                    <button id="btn_modal_modify_lag_confirm_metric_host" type="submit" class="btn btn-default btn-primary"><span class="glyphicon glyphicon-remove"></span> Apply lagging rule</button>
-
-                    <div class="boxnotify" id="boxnotify-unified-data-metric-host">
+                    <div>
+                        <button id="btn_modal_modify_priority_metric_host_confirm" type="submit" class="btn btn-default btn-primary"><span class="glyphicon glyphicon-remove"></span> Apply priority</button>
                     </div>
 
                     <hr>
@@ -1822,7 +1818,7 @@ styles in <div> tags, similar to Bootstrap's grid system.
                 </div>
 
                 <div class="modal-footer">
-                    <button type="submit" class="btn btn-default btn-default pull-left" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Close</button>
+                    <button type="submit" id="btn_close_metric_host_unified" class="btn btn-default btn-default pull-right" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> back</button>
                 </div>
             </div>
 
@@ -3884,7 +3880,7 @@ require([
 
         var searchHostSingleMetricHost = new PostProcessManager({
             "tokenDependencies": {},
-            "search": "stats count as count_metric_category, count(eval(metric_host_state=\"green\")) as count_green, count(eval(metric_host_state!=\"green\")) as count_non_green | eval summary=\" metric categories: \" . count_metric_category .  \", \" . \"green state: \" . count_green . \", \" . \"not green state: \" . count_non_green | fields summary",
+            "search": "stats count as count_metric_category, count(eval(metric_host_state=\"green\")) as count_green, count(eval(metric_host_state!=\"green\")) as count_non_green | eval summary=\" metric categories: \" . count_metric_category .  \", \" . \"green state: \" . count_green . \", \" . \"red state: \" . count_non_green | fields summary",
             "managerid": "searchHostTableMetricHost",
             "id": "searchHostSingleMetricHost"
         }, {
@@ -5391,6 +5387,38 @@ require([
 
         modal_input_lag_host.on("change", function(newValue) {
             FormUtils.handleValueChange(modal_input_lag_host);
+        });
+
+        // metric host priority
+
+        var modal_input_metric_host_priority = new DropdownInput({
+            "id": "modal_input_metric_host_priority",
+            "choices": [{
+                    "label": "low",
+                    "value": "low"
+                },
+                {
+                    "label": "medium",
+                    "value": "medium"
+                },
+                {
+                    "label": "high",
+                    "value": "high"
+                }
+            ],
+            "searchWhenChanged": true,
+            "default": "medium",
+            "showClearButton": true,
+            "initialValue": "medium",
+            "selectFirstChoice": false,
+            "value": "$form.tk_input_metric_host_priority$",
+            "el": $('#modal_input_metric_host_priority')
+        }, {
+            tokens: true
+        }).render();
+
+        modal_input_metric_host_priority.on("change", function(newValue) {
+            FormUtils.handleValueChange(modal_input_metric_host_priority);
         });
 
         // data host priority
@@ -9735,6 +9763,11 @@ require([
 
             }
 
+        });
+
+        // refresh metric_host
+        $("#btn_refresh_metric_host").click(function(mode) {
+            searchHostTableMetricHost.startSearch();
         });
 
         $("#btn_enable_monitoring_metric_host").click(function(mode) {
@@ -15252,6 +15285,15 @@ require([
 
         });
 
+        // cancel button: returns to selected
+        $("#btn_close_metric_host_unified").click(function() {
+            submitTokens();
+
+            // Show modal
+            $("#modal_manage_metric_host").modal();
+
+        });
+
         //
         // Modify monitoring wdays
         //
@@ -15856,6 +15898,140 @@ require([
             }
         });
 
+        // metric host priority
+        $("#btn_modal_modify_priority_metric_host_confirm").click(function() {
+
+            // When the Submit button is clicked, get all the form fields by accessing token values
+            var tokens = mvc.Components.get("default");
+
+            var tk_keyid = tokens.get("tk_keyid");
+            var tk_metric_host = tokens.get("tk_metric_host");
+            var tk_metric_index = tokens.get("tk_metric_index");
+            var tk_metric_category = tokens.get("tk_metric_category");
+            var tk_metric_details = tokens.get("tk_metric_details");
+            var tk_metric_last_lag_seen = tokens.get("tk_metric_last_lag_seen");
+            var tk_metric_last_time_seen = tokens.get("tk_metric_last_time_seen");
+            //var tk_metric_max_lag_allowed = tokens.get("tk_metric_max_lag_allowed");
+            var tk_metric_monitoring_wdays = tokens.get("tk_metric_monitoring_wdays");
+            //var tk_metric_override_lagging_class = tokens.get("tk_metric_override_lagging_class");
+            var tk_metric_host_state = tokens.get("tk_metric_host_state");
+            var tk_metric_tracker_runtime = tokens.get("tk_metric_tracker_runtime");
+            var tk_metric_previous_host_state = tokens.get("tk_metric_previous_host_state");
+            var tk_metric_previous_tracker_runtime = tokens.get("tk_metric_previous_tracker_runtime");
+            var tk_metric_monitored_state = "enabled";
+            var tk_priority = tokens.get("tk_priority");
+
+            // Create the endpoint URL
+            var myendpoint_URl = "/en-US/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_metric_host_monitoring/" + tk_keyid;
+
+            var tk_origin_priority = tk_priority;
+            var tk_new_priority = tokens.get("tk_input_metric_host_priority");
+
+            if (!tk_new_priority || !tk_new_priority.length) {
+                // Show an error message
+                $("#modal_entry_update_invalid").modal()
+                return;
+            } else {
+
+                // Create a dictionary to store the field names and values
+                var record = {
+	                "metric_host": tk_metric_host,
+	                "metric_index": tk_metric_index,
+	                "metric_category": tk_metric_category,
+	                "metric_details": tk_metric_details,
+	                "metric_last_lag_seen": tk_metric_last_lag_seen,
+	                "metric_last_time_seen": tk_metric_last_time_seen,
+	                "metric_monitored_state": tk_metric_monitored_state,
+	                "metric_monitoring_wdays": tk_metric_monitoring_wdays,
+	                "metric_host_state": tk_metric_host_state,
+	                "metric_tracker_runtime": tk_metric_tracker_runtime,
+	                "metric_previous_host_state": tk_metric_previous_host_state,
+	                "metric_previous_tracker_runtime": tk_metric_previous_tracker_runtime,
+	                "priority": tk_new_priority
+                };
+
+                $.ajax({
+                    url: myendpoint_URl,
+                    type: "POST",
+                    async: true,
+                    contentType: "application/json",
+                    data: JSON.stringify(record),
+                    success: function(returneddata) {
+                        //console.log("Updated!", returneddata)
+                        // Run the search again to update the table
+                        searchMainTableMetricHost.startSearch();
+
+                        // notify
+                        notification('Modification has been registered successfully.', 2000)
+
+                        // Audit success change
+                        var time = (new Date).getTime();
+                        var audit_record = {
+                            "time": time,
+                            "action": "success",
+                            "user": currentUser,
+                            "change_type": "modify priority",
+                            "object": tk_metric_host,
+                            "object_category": "metric_host",
+                            "object_attrs": "priority changed from:" + tk_origin_priority + " to:" + tk_new_priority
+                        };
+
+                        $.ajax({
+                            url: auditendpoint_URl,
+                            type: "POST",
+                            async: true,
+                            contentType: "application/json",
+                            data: JSON.stringify(audit_record),
+                            success: function(returneddata) {
+                                //console.log("Updated!", returneddata)
+                                // Run the search again to update the table
+                            }
+                        });
+
+                        // house cleaning
+                        myendpoint_URl = undefined;
+                        delete(myendpoint_URl);
+                        tk_keyid = undefined;
+                        delete(tk_keyid);
+                        return;
+
+                    },
+                    error: function(xhr, textStatus, error) {
+                        message = "Error Updating!" + xhr + textStatus + error;
+
+                        // Audit failure change
+                        var time = (new Date).getTime();
+                        var audit_record = {
+                            "time": time,
+                            "action": "failure",
+                            "user": currentUser,
+                            "change_type": "modify priority",
+                            "object": tk_metric_host,
+                            "object_category": "metric_host",
+                            "object_attrs": "priority changed from:" + tk_origin_priority + " to:" + tk_new_priority,
+                            "result": message
+                        };
+
+                        $.ajax({
+                            url: auditendpoint_URl,
+                            type: "POST",
+                            async: true,
+                            contentType: "application/json",
+                            data: JSON.stringify(audit_record),
+                            success: function(returneddata) {
+                                //console.log("Updated!", returneddata)
+                                // Run the search again to update the table
+                            }
+                        });
+
+                        $("#modal_update_collection_failure_return").find('.modal-error-message p').text(message);
+                        $("#modal_update_collection_failure_return").modal()
+                    }
+                });
+
+            }
+        });
+
         $("#btn_modal_modify_wdays_host_no").click(function() {
 
             // Show input modal
@@ -16214,6 +16390,12 @@ function notification(s, time) {
   });
 
   $("<p>" + s + "</p>").appendTo('#boxnotify-unified-data-host').fadeTo(time, 1, function() {
+    $(this).fadeTo(1000, 0, function() {
+      $(this).remove()
+    });
+  });
+
+  $("<p>" + s + "</p>").appendTo('#boxnotify-unified-metric-host').fadeTo(time, 1, function() {
     $(this).fadeTo(1000, 0, function() {
       $(this).remove()
     });
