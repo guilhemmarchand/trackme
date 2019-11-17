@@ -1,6 +1,11 @@
 Release notes
 #############
 
+Version 1.0.24
+==============
+
+- fix: appinspect failure to local=true in commands.conf which is not required when chunked = true
+
 Version 1.0.23
 ==============
 
