@@ -20,7 +20,7 @@ import app
 import os,sys
 
 splunkhome = os.environ['SPLUNK_HOME']
-sys.path.append(os.path.join(splunkhome, 'etc', 'apps', 'searchcommands_app', 'lib'))
+sys.path.append(os.path.join(splunkhome, 'etc', 'apps', 'trackme', 'lib'))
 from splunklib.searchcommands import dispatch, StreamingCommand, Configuration, Option, validators
 from splunklib import six
 

@@ -1,6 +1,11 @@
 Release notes
 #############
 
+Version 1.0.23
+==============
+
+- fix: error in lib path call to the new custom command for whitelisting
+
 Version 1.0.22
 ==============
 
