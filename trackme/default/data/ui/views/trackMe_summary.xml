@@ -1,12 +1,14 @@
 <dashboard theme="dark">
-  <label>TrackMe Mobile</label>
-    <description>Connected Experience tracking review of data sources availability</description>
+  <label>TrackMe Mobile Copy</label>
+  <description>Connected Experience tracking review of data sources availability</description>
   <row>
     <panel>
       <title>Any priority data sources in SLA alert</title>
       <single>
         <search>
           <query>| inputlookup trackme_data_source_monitoring
+| `apply_data_source_blacklists`
+| search `trackme_get_idx_whitelist_searchtime(trackme_data_source_monitoring_whitelist_index)`
 | where data_monitored_state="enabled" AND data_source_state="red" | stats dc(data_name)</query>
           <earliest>-5m</earliest>
           <latest>now</latest>
@@ -37,6 +39,8 @@
       <single>
         <search>
           <query>| inputlookup trackme_data_source_monitoring
+| `apply_data_source_blacklists`
+| search `trackme_get_idx_whitelist_searchtime(trackme_data_source_monitoring_whitelist_index)`
 | where data_monitored_state="enabled" AND data_source_state="red" AND priority="high" | stats dc(data_name)</query>
           <earliest>-5m</earliest>
           <latest>now</latest>
@@ -69,6 +73,8 @@
       <single>
         <search>
           <query>| inputlookup trackme_host_monitoring
+| `apply_data_host_blacklists`
+| makemv data_index delim="," | search `trackme_get_idx_whitelist_searchtime(trackme_data_host_monitoring_whitelist_index)`
 | where data_monitored_state="enabled" AND data_host_state="red" | stats dc(data_host)</query>
           <earliest>-5m</earliest>
           <latest>now</latest>
@@ -99,6 +105,8 @@
       <single>
         <search>
           <query>| inputlookup trackme_host_monitoring
+| `apply_data_host_blacklists`
+| makemv data_index delim="," | search `trackme_get_idx_whitelist_searchtime(trackme_data_host_monitoring_whitelist_index)`
 | where data_monitored_state="enabled" AND data_host_state="red" AND priority="high" | stats dc(data_host)</query>
           <earliest>-5m</earliest>
           <latest>now</latest>
@@ -131,6 +139,8 @@
         <title>Data Sources in SLA alert by priority</title>
         <search>
           <query>| inputlookup trackme_data_source_monitoring
+| `apply_data_source_blacklists`
+| search `trackme_get_idx_whitelist_searchtime(trackme_data_source_monitoring_whitelist_index)`
 | where data_monitored_state="enabled"
 | where data_source_state="red"
 | eval priority_num=case(priority="low", 2, priority="medium", 1, priority="high", 0)
@@ -156,6 +166,8 @@
         <title>Data hosts in SLA alert by priority</title>
         <search>
           <query>| inputlookup trackme_host_monitoring
+| `apply_data_host_blacklists`
+| makemv data_index delim="," | search `trackme_get_idx_whitelist_searchtime(trackme_data_host_monitoring_whitelist_index)`
 | where data_monitored_state="enabled"
 | where data_host_state="red"
 | eval priority_num=case(priority="low", 2, priority="medium", 1, priority="high", 0)

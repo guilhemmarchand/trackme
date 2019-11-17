@@ -1,6 +1,21 @@
 Release notes
 #############
 
+Version 1.0.22
+==============
+
+- feature: Whitelisting major improvement with UI supported and driven whitelisting of indexes at data discovery and search time (Issue #27)
+- feature: Improve builtin choices for time input link selection within modal windows
+- feature: Abstract tracker saved searches to remove useless code redundancy
+- fix: Remove auto-refresh search link for searches which shouldn't be refreshed automatically (audit changes & flip, various collection management)
+- fix: Drilldown on any priority entities in alert should define monitored_state to enabled
+- fix: Monitor split share percentage error (Single forms shall share 25% each)
+- fix: Lagging class auditing can register an incorrect type of operation
+- fix: All time time range picker will not work for audit changes & status flipping
+- fix: Auto refresh set to none has random side effects on embedded chart loading, fixed by none set to long period
+- fix: Switched from default last 7 days to last 24 hours in audit and status flipping UIs
+- fix: TrackMe Mobile view does not honour blacklists
+
 Version 1.0.21
 ==============
 

@@ -266,8 +266,20 @@ When a lagging class is defined and is matched for a data source or a data host,
 
 Finally, when a custom lagging value is defined for an object, a value of "true" is created for the field named "data_override_lagging_class", which value is used to determine the actual value for that object.
 
-Blacklisting features
-=====================
+Whitelisting & Blacklisting features
+====================================
+
+**TrackMe version 1.0.22 introduced builtin support for both whitelisting of indexes and blacklisting of indexes, sourcetypes and hosts.**
+
+.. image:: img/whitelist_and_blacklist.png
+   :alt: whitelist_and_blacklist.png
+   :align: center
+
+**The default behaviour of TrackMe is to track data available in all indexes, which changes if whitelisting has been defined:**
+
+.. image:: img/whitelisting.png
+   :alt: .png
+   :align: center
 
 **Different level of blacklisting features are provided out of the box, which features can be used to avoid taking in consideration indexes, sourcetypes and hosts.**
 

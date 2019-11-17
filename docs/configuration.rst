@@ -61,10 +61,24 @@ This is driven by the following macro definition:
 
 If you prefer to have a different format, customise this macro definition.
 
-Whitelisting of indexes
-=======================
+Whitelisting and blacklisting
+=============================
 
-The default behaviour of TrackMe is to track data available in all indexes, a macro is used within each tracker which can be modified if you wish to restrict TrackMe to a given list of indexes or any other valid Meta data filter:
+TrackMe version 1.0.22 introduced builtin support for both whitelisting of indexes and blacklisting of indexes, sourcetypes and hosts.
+
+.. image:: img/whitelist_and_blacklist.png
+   :alt: whitelist_and_blacklist.png
+   :align: center
+
+The default behaviour of TrackMe is to track data available in all indexes, which changes if whitelisting has been defined:
+
+.. image:: img/whitelisting.png
+   :alt: .png
+   :align: center
+
+The same UI allows you to define blacklisted items, which are added as part of a "NOT" boolean syntax within the searches.
+
+Finally, in addition the following macro is used within the searches, and can be customized if you need:
 
 ::
 
@@ -73,8 +87,8 @@ The default behaviour of TrackMe is to track data available in all indexes, a ma
     definition = sourcetype!="stash" sourcetype!="*too_small"
     iseval = 0
 
-Activation of out of the box alerts
-===================================
+Activation of builtin alerts
+============================
 
 **TrackMe provides out of the box alerts that be used to deliver alerting when a data source or host reaches a red alert:**
 
