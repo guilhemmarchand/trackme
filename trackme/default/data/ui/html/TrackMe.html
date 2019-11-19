@@ -498,6 +498,7 @@ styles in <div> tags, similar to Bootstrap's grid system.
                         </div>
 
                         <div class="modal-footer">
+                            <button type="submit" id="btn_refresh_metric_host" role="button" class="btn btn-primary btn-default pull-left"><span class="glyphicon glyphicon-remove"></span>Refresh</button>
                             <button type="submit" id="btn_enable_monitoring_metric_host" role="button" class="btn btn-primary btn-default"><span class="glyphicon glyphicon-remove"></span>Enable</button>
                             <button type="submit" id="btn_disable_monitoring_metric_host" role="button" class="btn btn-danger btn-default"><span class="glyphicon glyphicon-remove"></span>Disable</button>
                             <button type="submit" id="btn_modify_metric_host" role="button" class="btn btn-primary btn-default"><span class="glyphicon glyphicon-remove"></span>Modify</button>
@@ -944,6 +945,39 @@ styles in <div> tags, similar to Bootstrap's grid system.
                 <div class="modal-footer">
                     <button type="submit" class="btn btn-default btn-default pull-left" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Cancel</button>
                     <button type="submit" id="btn_modal_reset_data_host_confirmed" class="btn btn-default btn-danger pull-right" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Ok</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Reset data source collection -->
+    <div class="modal fade" id="modal_reset_metric_host" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h3 style="color: indianred;"><span class="glyphicon glyphicon-lock"></span>Metric collection reset</h3>
+                </div>
+                <div class="modal-body">
+                    <p><b>Are you sure that you want to reset the metric host collection?</b><br /><br />
+                        All changes in the collection will be irremediably lost and trackers will be automatically started to populate a fresh collection version.
+                        <br /><br />
+                        <b>Which changes will be affected?</b>
+                        <br />
+                        <lu>
+                            <li>modifications of metric grace periods for all entries</li>
+                            <li>modifications of week days rules for all entries</li>
+                        </lu>
+                        <br />
+                        <b>Blacklisted items will not be touched at any level, and will be preserved in their current state.</b>
+                    </p>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-default btn-default pull-left" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Cancel</button>
+                    <button type="submit" id="btn_modal_reset_metric_host_confirmed" class="btn btn-default btn-danger pull-right" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Ok</button>
                 </div>
             </div>
         </div>
@@ -1959,55 +1993,35 @@ styles in <div> tags, similar to Bootstrap's grid system.
 
                 <div class="modal-body">
 
-                    <h4>Data host lagging value:</h4>
+                    <h4>Metric host priority:</h4>
 
-                    <div style="margin-left: 15px;">
-                        <lu>
-                            <li>The maximal allowed lagging value defines the maximal value in seconds before a data source / host would be considered as red</li>
-                            <li>Override lagging classes allows bypassing any lagging classes configuration that would apply to this data source or host</li>
-                            <li>If a lagging class matches index(es) or sourcetype(es) for this data source or host and the option is unchecked, it will bypass this value unless override is true</li>
-                        </lu>
+                    <div class="boxnotify" id="boxnotify-unified-metric-host">
                     </div>
 
-                    <br />
+                    <p>Define the priority of the metric host for granular level of SLA alerting:</p>
+
+                    <p>
+                        <span class="title_green">low</span>
+                        <span class="title_yellow">medium</span>
+                        <span class="title_red">high</span>
+                    </p>
 
                     <div class="fieldset">
-                        <div class="input input-text" id="modal_input_lag_metric_host">
-                            <label>Maximal allowed lagging value:</label>
-                        </div>
-                    </div>
-                    <div class="fieldset">
-                        <div class="input input-dropdown" id="modal_input_lag_override_class_metric_host">
-                            <label>Override lagging classes:</label>
-                        </div>
-                    </div>
-
-                    <button id="btn_modal_modify_lag_confirm_metric_host" type="submit" class="btn btn-default btn-primary"><span class="glyphicon glyphicon-remove"></span> Apply lagging rule</button>
-
-                    <div class="boxnotify" id="boxnotify-unified-data-metric-host">
-                    </div>
-
-                    <hr>
-
-                    <h4>Data host week days monitoring:</h4>
-
-                    <p>Monitor source on a all days basis, apply a builtin rule, or explicitly select week days:</p>
-
-                    <div class="fieldset">
-                        <div class="input input-text" id="modal_input_wdays_metric_host">
+                        <div class="input input-text" id="modal_input_metric_host_priority">
                             <label></label>
                         </div>
                     </div>
 
                     <div>
-                        <button id="btn_modal_modify_monitoring_wdays_metric_host_confirm" type="submit" class="btn btn-default btn-primary"><span class="glyphicon glyphicon-remove"></span> Apply wdays builtin rule</button>
-                        <button id="btn_modal_modify_wdays_metric_host_no" type="submit" class="btn btn-default btn-primary" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Or select days of the week</button>
+                        <button id="btn_modal_modify_priority_metric_host_confirm" type="submit" class="btn btn-default btn-primary"><span class="glyphicon glyphicon-remove"></span> Apply priority</button>
                     </div>
+
+                    <hr>
 
                 </div>
 
                 <div class="modal-footer">
-                    <button type="submit" class="btn btn-default btn-default pull-left" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Close</button>
+                    <button type="submit" id="btn_close_metric_host_unified" class="btn btn-default btn-default pull-right" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> back</button>
                 </div>
             </div>
 
@@ -3423,7 +3437,7 @@ styles in <div> tags, similar to Bootstrap's grid system.
                                     <div class="panel-body html">
                                         <div>
                                             <div style="margin-bottom: 15px;" class="custom-btn">
-                                                <h2>Use this function to reset the <b>data_host</b> collection and automatically run trackers:</h2>
+                                                <h2>Use this function to reset the <b>metric_host</b> collection and automatically run trackers:</h2>
                                                 <button type="submit" id="btn_manage_reset_metric_host" style="margin-right: 15px;" class="btn btn-default btn-danger" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Manage: reset collection</button>
                                             </div>
                                         </div>
@@ -4164,7 +4178,7 @@ require([
             "refreshType": "delay",
             "refresh": "$refresh$",
             "latest_time": "now",
-            "search": "| savedsearch \"trackMe - metric host table report\" | `trackme_eval_icons_metric_host` | eval metric_index_raw=metric_index, metric_category_raw=metric_category, metric_details_raw=metric_details | lookup local=t trackme_metric_host_monitoring metric_host OUTPUT metric_host_state as metric_previous_host_state, metric_tracker_runtime as metric_previous_tracker_runtime, latest_flip_state, latest_flip_time | `trackme_date_format(\"latest_flip_time\")` | fillnull value=\"N/A\" latest_flip_state, latest_flip_time, \"latest_flip_time (translated)\" | search $inputMetricHostIndexes$ $inputMetricHostCategories$ $inputMetricHost$ $inputMetricHostPriority$",
+            "search": "| savedsearch \"trackMe - metric host table report\" | `trackme_eval_icons_metric_host` | eval metric_index_raw=metric_index, metric_category_raw=metric_category, metric_details_raw=metric_details | lookup local=t trackme_metric_host_monitoring metric_host OUTPUT metric_host_state as metric_previous_host_state, metric_tracker_runtime as metric_previous_tracker_runtime, latest_flip_state, latest_flip_time | where isnotnull(metric_previous_tracker_runtime) | `trackme_date_format(\"latest_flip_time\")` | fillnull value=\"N/A\" latest_flip_state, latest_flip_time, \"latest_flip_time (translated)\" | search $inputMetricHostIndexes$ $inputMetricHostCategories$ $inputMetricHost$ $inputMetricHostPriority$",
             "status_buckets": 0,
             "app": utils.getCurrentApp(),
             "auto_cancel": 90,
@@ -4200,7 +4214,7 @@ require([
 
         var searchPopulateMetricHostsCategories = new PostProcessManager({
             "tokenDependencies": {},
-            "search": "makemv metric_category delim=\",\" | stats values(metric_category) as metric_category | mvexpand metric_category | dedup metric_category | sort limit=0 metric_category",
+            "search": "makemv metric_category delim=\",\" | stats values(metric_category) as metric_category | mvexpand metric_category | dedup metric_category | search NOT [ | inputlookup trackme_metric_lagging_definition | table metric_category ] | sort limit=0 metric_category",
             "managerid": "baseSearchMetricHost",
             "id": "searchPopulateMetricHostsCategories"
         }, {
@@ -4233,7 +4247,7 @@ require([
 
         var searchHostSingleMetricHost = new PostProcessManager({
             "tokenDependencies": {},
-            "search": "stats count as count_metric_category, count(eval(metric_host_state=\"green\")) as count_green, count(eval(metric_host_state!=\"green\")) as count_non_green | eval summary=\" metric categories: \" . count_metric_category .  \", \" . \"green state: \" . count_green . \", \" . \"not green state: \" . count_non_green | fields summary",
+            "search": "stats count as count_metric_category, count(eval(metric_host_state=\"green\")) as count_green, count(eval(metric_host_state!=\"green\")) as count_non_green | eval summary=\" metric categories: \" . count_metric_category .  \", \" . \"green state: \" . count_green . \", \" . \"red state: \" . count_non_green | fields summary",
             "managerid": "searchHostTableMetricHost",
             "id": "searchHostSingleMetricHost"
         }, {
@@ -5993,6 +6007,38 @@ require([
             FormUtils.handleValueChange(modal_input_lag_host);
         });
 
+        // metric host priority
+
+        var modal_input_metric_host_priority = new DropdownInput({
+            "id": "modal_input_metric_host_priority",
+            "choices": [{
+                    "label": "low",
+                    "value": "low"
+                },
+                {
+                    "label": "medium",
+                    "value": "medium"
+                },
+                {
+                    "label": "high",
+                    "value": "high"
+                }
+            ],
+            "searchWhenChanged": true,
+            "default": "medium",
+            "showClearButton": true,
+            "initialValue": "medium",
+            "selectFirstChoice": false,
+            "value": "$form.tk_input_metric_host_priority$",
+            "el": $('#modal_input_metric_host_priority')
+        }, {
+            tokens: true
+        }).render();
+
+        modal_input_metric_host_priority.on("change", function(newValue) {
+            FormUtils.handleValueChange(modal_input_metric_host_priority);
+        });
+
         // data host priority
 
         var modal_input_host_priority = new DropdownInput({
@@ -6254,89 +6300,6 @@ require([
         });
 
         // metric host monitoring
-
-        var modal_input_wdays_metric_host = new DropdownInput({
-            "id": "modal_input_wdays_metric_host",
-            "choices": [{
-                    "label": "manual:all_days",
-                    "value": "manual:all_days"
-                },
-                {
-                    "label": "manual:monday-to-friday",
-                    "value": "manual:monday-to-friday"
-                },
-                {
-                    "label": "manual:monday-to-saturday",
-                    "value": "manual:monday-to-saturday"
-                }
-            ],
-            "searchWhenChanged": true,
-            "default": "manual:all_days",
-            "showClearButton": true,
-            "initialValue": "all_days",
-            "selectFirstChoice": false,
-            "value": "$form.tk_input_wdays_metric_host$",
-            "el": $('#modal_input_wdays_metric_host')
-        }, {
-            tokens: true
-        }).render();
-
-        modal_input_wdays_metric_host.on("change", function(newValue) {
-            FormUtils.handleValueChange(modal_input_wdays_metric_host);
-        });
-
-        modal_input_wdays_metric_host.on("valueChange", function(e) {
-            if (e.value === "manual:enter_days_numbers") {
-                EventHandler.setToken("show_manual_wdays_metric_host", "true", {}, e.data);
-            } else {
-                EventHandler.unsetToken("show_manual_wdays_metric_host");
-            }
-        });
-
-        var modal_input_wdays_metric_host_no = new CheckboxGroupInput({
-            "id": "modal_input_wdays_metric_host_no",
-            "choices": [{
-                    "label": "Monday",
-                    "value": "1"
-                },
-                {
-                    "label": "Tuesday",
-                    "value": "2"
-                },
-                {
-                    "label": "Wednesday",
-                    "value": "3"
-                },
-                {
-                    "label": "Thursday",
-                    "value": "4"
-                },
-                {
-                    "label": "Friday",
-                    "value": "5"
-                },
-                {
-                    "label": "Saturday",
-                    "value": "6"
-                },
-                {
-                    "label": "Sunday",
-                    "value": "0"
-                }
-            ],
-            "prefix": "manual:",
-            "searchWhenChanged": true,
-            "default": ["1", "2", "3", "4", "5", "6", "0"],
-            "delimiter": ",",
-            "value": "$form.tk_input_wdays_metric_host_no$",
-            "el": $('#modal_input_wdays_metric_host_no')
-        }, {
-            tokens: true
-        }).render();
-
-        modal_input_wdays_metric_host_no.on("change", function(newValue) {
-            FormUtils.handleValueChange(modal_input_wdays_metric_host_no);
-        });
 
         // whitelist
 
@@ -6986,7 +6949,7 @@ require([
             if (e.field !== undefined) {
                 e.preventDefault();
                 setToken("form.inputMetricHostPriority", TokenUtils.replaceTokenNames("*", _.extend(submittedTokenModel.toJSON(), e.data)));
-                setToken("form.metric_monitored_state", TokenUtils.replaceTokenNames("*", _.extend(submittedTokenModel.toJSON(), e.data)));
+                setToken("form.metric_monitored_state", TokenUtils.replaceTokenNames("enabled", _.extend(submittedTokenModel.toJSON(), e.data)));
                 setToken("form.metric_host_state", TokenUtils.replaceTokenNames("red", _.extend(submittedTokenModel.toJSON(), e.data)));
             }
         });
@@ -7021,7 +6984,7 @@ require([
             if (e.field !== undefined) {
                 e.preventDefault();
                 setToken("form.metric_host_state", TokenUtils.replaceTokenNames("red", _.extend(submittedTokenModel.toJSON(), e.data)));
-                setToken("form.metric_monitored_state", TokenUtils.replaceTokenNames("*", _.extend(submittedTokenModel.toJSON(), e.data)));
+                setToken("form.metric_monitored_state", TokenUtils.replaceTokenNames("enabled", _.extend(submittedTokenModel.toJSON(), e.data)));
                 setToken("form.inputMetricHostPriority", TokenUtils.replaceTokenNames("high", _.extend(submittedTokenModel.toJSON(), e.data)));
             }
         });
@@ -7670,10 +7633,7 @@ require([
                 setToken("tk_metric_last_time_seen_human", TokenUtils.replaceTokenNames("$row.last time$", _.extend(submittedTokenModel.toJSON(), e.data)));
                 setToken("tk_metric_last_lag_seen", TokenUtils.replaceTokenNames("$row.metric_last_lag_seen$", _.extend(submittedTokenModel.toJSON(), e.data)));
                 setToken("tk_metric_details", TokenUtils.replaceTokenNames("$row.metric_details_raw$", _.extend(submittedTokenModel.toJSON(), e.data)));
-                //setToken("tk_data_max_lag_allowed", TokenUtils.replaceTokenNames("$row.data_max_lag_allowed$", _.extend(submittedTokenModel.toJSON(), e.data)));
                 setToken("tk_metric_monitored_state", TokenUtils.replaceTokenNames("$row.metric_monitored_state$", _.extend(submittedTokenModel.toJSON(), e.data)));
-                setToken("tk_metric_monitoring_wdays", TokenUtils.replaceTokenNames("$row.metric_monitoring_wdays$", _.extend(submittedTokenModel.toJSON(), e.data)));
-                //setToken("tk_data_override_lagging_class", TokenUtils.replaceTokenNames("$row.data_override_lagging_class$", _.extend(submittedTokenModel.toJSON(), e.data)));
                 setToken("tk_metric_host_state", TokenUtils.replaceTokenNames("$row.metric_host_state$", _.extend(submittedTokenModel.toJSON(), e.data)));
                 setToken("tk_metric_tracker_runtime", TokenUtils.replaceTokenNames("$row.metric_tracker_runtime$", _.extend(submittedTokenModel.toJSON(), e.data)));
                 setToken("tk_metric_previous_host_state", TokenUtils.replaceTokenNames("$row.metric_previous_host_state$", _.extend(submittedTokenModel.toJSON(), e.data)));
@@ -7682,12 +7642,6 @@ require([
                 setToken("tk_latest_flip_time", TokenUtils.replaceTokenNames("$row.latest_flip_time$", _.extend(submittedTokenModel.toJSON(), e.data)));
                 setToken("tk_latest_flip_time_human", TokenUtils.replaceTokenNames("$row.latest_flip_time (translated)$", _.extend(submittedTokenModel.toJSON(), e.data)));
                 setToken("tk_priority", TokenUtils.replaceTokenNames("$row.priority$", _.extend(submittedTokenModel.toJSON(), e.data)));
-
-                // pref-fill current lagging input
-                //setToken("form.tk_input_lag_host", TokenUtils.replaceTokenNames("$row.data_max_lag_allowed$", _.extend(submittedTokenModel.toJSON(), e.data)));
-
-                // pref-fill current wdays input
-                //setToken("form.tk_input_wdays_host", TokenUtils.replaceTokenNames("$row.data_monitoring_wdays$", _.extend(submittedTokenModel.toJSON(), e.data)));
 
                 submitTokens();
 
@@ -9258,7 +9212,7 @@ require([
                 EventHandler.unsetToken("show_data_source_tracker");
                 EventHandler.unsetToken("show_host_tracker");
                 EventHandler.unsetToken("show_audit_flip");
-                EventHandler.unsetToken("show_audit_change");
+                EventHandler.unsetToken("show_audit_changes");
                 EventHandler.unsetToken("show_manage");
             } else if (e.value === "show_audit_flip") {
                 EventHandler.setToken("show_audit_flip", "true", {}, e.data);
@@ -10576,6 +10530,11 @@ require([
 
         });
 
+        // refresh metric_host
+        $("#btn_refresh_metric_host").click(function(mode) {
+            searchHostTableMetricHost.startSearch();
+        });
+
         $("#btn_enable_monitoring_metric_host").click(function(mode) {
 
             // Hide main modal
@@ -10593,9 +10552,6 @@ require([
             var tk_metric_details = tokens.get("tk_metric_details");
             var tk_metric_last_lag_seen = tokens.get("tk_metric_last_lag_seen");
             var tk_metric_last_time_seen = tokens.get("tk_metric_last_time_seen");
-            //var tk_metric_max_lag_allowed = tokens.get("tk_metric_max_lag_allowed");
-            var tk_metric_monitoring_wdays = tokens.get("tk_metric_monitoring_wdays");
-            //var tk_metric_override_lagging_class = tokens.get("tk_metric_override_lagging_class");
             var tk_metric_host_state = tokens.get("tk_metric_host_state");
             var tk_metric_tracker_runtime = tokens.get("tk_metric_tracker_runtime");
             var tk_metric_previous_host_state = tokens.get("tk_metric_previous_host_state");
@@ -10614,7 +10570,6 @@ require([
                 "metric_last_lag_seen": tk_metric_last_lag_seen,
                 "metric_last_time_seen": tk_metric_last_time_seen,
                 "metric_monitored_state": tk_metric_monitored_state,
-                "metric_monitoring_wdays": tk_metric_monitoring_wdays,
                 "metric_host_state": tk_metric_host_state,
                 "metric_tracker_runtime": tk_metric_tracker_runtime,
                 "metric_previous_host_state": tk_metric_previous_host_state,
@@ -10643,6 +10598,7 @@ require([
                         success: function(returneddata) {
                             //console.log("Updated!", returneddata)
                             // Run the search again to update the table
+                            baseSearchMetricHost.startSearch();
                             searchMainTableMetricHost.startSearch();
 
                             // Audit success change
@@ -10705,6 +10661,146 @@ require([
 
             }
 
+        });
+
+        // cancel button: returns to selected
+        $("#btn_close_metric_host_unified").click(function() {
+            submitTokens();
+
+            // Show modal
+            $("#modal_manage_metric_host").modal();
+
+        });
+
+        // metric host priority
+        $("#btn_modal_modify_priority_metric_host_confirm").click(function() {
+
+            // When the Submit button is clicked, get all the form fields by accessing token values
+            var tokens = mvc.Components.get("default");
+
+            var tk_keyid = tokens.get("tk_keyid");
+            var tk_metric_host = tokens.get("tk_metric_host");
+            var tk_metric_index = tokens.get("tk_metric_index");
+            var tk_metric_category = tokens.get("tk_metric_category");
+            var tk_metric_details = tokens.get("tk_metric_details");
+            var tk_metric_last_lag_seen = tokens.get("tk_metric_last_lag_seen");
+            var tk_metric_last_time_seen = tokens.get("tk_metric_last_time_seen");
+            var tk_metric_host_state = tokens.get("tk_metric_host_state");
+            var tk_metric_tracker_runtime = tokens.get("tk_metric_tracker_runtime");
+            var tk_metric_previous_host_state = tokens.get("tk_metric_previous_host_state");
+            var tk_metric_previous_tracker_runtime = tokens.get("tk_metric_previous_tracker_runtime");
+            var tk_metric_monitored_state = "enabled";
+            var tk_priority = tokens.get("tk_priority");
+
+            // Create the endpoint URL
+            var myendpoint_URl = "/en-US/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_metric_host_monitoring/" + tk_keyid;
+
+            var tk_origin_priority = tk_priority;
+            var tk_new_priority = tokens.get("tk_input_metric_host_priority");
+
+            if (!tk_new_priority || !tk_new_priority.length) {
+                // Show an error message
+                $("#modal_entry_update_invalid").modal()
+                return;
+            } else {
+
+                // Create a dictionary to store the field names and values
+                var record = {
+	                "metric_host": tk_metric_host,
+	                "metric_index": tk_metric_index,
+	                "metric_category": tk_metric_category,
+	                "metric_details": tk_metric_details,
+	                "metric_last_lag_seen": tk_metric_last_lag_seen,
+	                "metric_last_time_seen": tk_metric_last_time_seen,
+	                "metric_monitored_state": tk_metric_monitored_state,
+	                "metric_host_state": tk_metric_host_state,
+	                "metric_tracker_runtime": tk_metric_tracker_runtime,
+	                "metric_previous_host_state": tk_metric_previous_host_state,
+	                "metric_previous_tracker_runtime": tk_metric_previous_tracker_runtime,
+	                "priority": tk_new_priority
+                };
+
+                $.ajax({
+                    url: myendpoint_URl,
+                    type: "POST",
+                    async: true,
+                    contentType: "application/json",
+                    data: JSON.stringify(record),
+                    success: function(returneddata) {
+                        //console.log("Updated!", returneddata)
+                        // Run the search again to update the table
+                        baseSearchMetricHost.startSearch();
+                        searchMainTableMetricHost.startSearch();
+
+                        // notify
+                        notification('Modification has been registered successfully.', 2000)
+
+                        // Audit success change
+                        var time = (new Date).getTime();
+                        var audit_record = {
+                            "time": time,
+                            "action": "success",
+                            "user": currentUser,
+                            "change_type": "modify priority",
+                            "object": tk_metric_host,
+                            "object_category": "metric_host",
+                            "object_attrs": "priority changed from:" + tk_origin_priority + " to:" + tk_new_priority
+                        };
+
+                        $.ajax({
+                            url: auditendpoint_URl,
+                            type: "POST",
+                            async: true,
+                            contentType: "application/json",
+                            data: JSON.stringify(audit_record),
+                            success: function(returneddata) {
+                                //console.log("Updated!", returneddata)
+                                // Run the search again to update the table
+                            }
+                        });
+
+                        // house cleaning
+                        myendpoint_URl = undefined;
+                        delete(myendpoint_URl);
+                        tk_keyid = undefined;
+                        delete(tk_keyid);
+                        return;
+
+                    },
+                    error: function(xhr, textStatus, error) {
+                        message = "Error Updating!" + xhr + textStatus + error;
+
+                        // Audit failure change
+                        var time = (new Date).getTime();
+                        var audit_record = {
+                            "time": time,
+                            "action": "failure",
+                            "user": currentUser,
+                            "change_type": "modify priority",
+                            "object": tk_metric_host,
+                            "object_category": "metric_host",
+                            "object_attrs": "priority changed from:" + tk_origin_priority + " to:" + tk_new_priority,
+                            "result": message
+                        };
+
+                        $.ajax({
+                            url: auditendpoint_URl,
+                            type: "POST",
+                            async: true,
+                            contentType: "application/json",
+                            data: JSON.stringify(audit_record),
+                            success: function(returneddata) {
+                                //console.log("Updated!", returneddata)
+                                // Run the search again to update the table
+                            }
+                        });
+
+                        $("#modal_update_collection_failure_return").find('.modal-error-message p').text(message);
+                        $("#modal_update_collection_failure_return").modal()
+                    }
+                });
+
+            }
         });
 
         // disable monitoring
@@ -11003,9 +11099,6 @@ require([
             var tk_metric_details = tokens.get("tk_metric_details");
             var tk_metric_last_lag_seen = tokens.get("tk_metric_last_lag_seen");
             var tk_metric_last_time_seen = tokens.get("tk_metric_last_time_seen");
-            //var tk_metric_max_lag_allowed = tokens.get("tk_metric_max_lag_allowed");
-            var tk_metric_monitoring_wdays = tokens.get("tk_metric_monitoring_wdays");
-            //var tk_metric_override_lagging_class = tokens.get("tk_metric_override_lagging_class");
             var tk_metric_host_state = tokens.get("tk_metric_host_state");
             var tk_metric_tracker_runtime = tokens.get("tk_metric_tracker_runtime");
             var tk_metric_previous_host_state = tokens.get("tk_metric_previous_host_state");
@@ -11025,7 +11118,6 @@ require([
                 "metric_last_lag_seen": tk_metric_last_lag_seen,
                 "metric_last_time_seen": tk_metric_last_time_seen,
                 "metric_monitored_state": tk_metric_monitored_state,
-                "metric_monitoring_wdays": tk_metric_monitoring_wdays,
                 "metric_host_state": tk_metric_host_state,
                 "metric_tracker_runtime": tk_metric_tracker_runtime,
                 "metric_previous_host_state": tk_metric_previous_host_state,
@@ -11057,6 +11149,7 @@ require([
                         success: function(returneddata) {
                             //console.log("Updated!", returneddata)
                             // Run the search again to update the table
+                            baseSearchMetricHost.startSearch();
                             searchMainTableMetricHost.startSearch();
 
                             // Audit success change
@@ -11124,6 +11217,219 @@ require([
         //
         // DELETE BUTTON
         //
+
+        $("#btn_delete_metric_host").click(function() {
+
+            // Hide main modal
+            $("#modal_manage_metric_host").modal('hide');
+
+            submitTokens();
+
+            // When the Submit button is clicked, get all the form fields by accessing token values
+            var tokens = mvc.Components.get("default");
+
+            var tk_keyid = tokens.get("tk_keyid");
+            var tk_metric_host = tokens.get("tk_metric_host");
+            var tk_metric_index = tokens.get("tk_metric_index");
+            var tk_metric_category = tokens.get("tk_metric_category");
+            var tk_metric_details = tokens.get("tk_metric_details");
+            var tk_metric_last_lag_seen = tokens.get("tk_metric_last_lag_seen");
+            var tk_metric_last_time_seen = tokens.get("tk_metric_last_time_seen");
+            var tk_metric_host_state = tokens.get("tk_metric_host_state");
+            var tk_metric_tracker_runtime = tokens.get("tk_metric_tracker_runtime");
+            var tk_metric_previous_host_state = tokens.get("tk_metric_previous_host_state");
+            var tk_metric_previous_tracker_runtime = tokens.get("tk_metric_previous_tracker_runtime");
+            var tk_metric_monitored_state = "disabled";
+            var tk_priority = tokens.get("tk_priority");
+
+            // Create a dictionary to store the field names and values
+            var record = {
+                "metric_host": tk_metric_host,
+                "metric_index": tk_metric_index,
+                "metric_category": tk_metric_category,
+                "metric_details": tk_metric_details,
+                "metric_last_lag_seen": tk_metric_last_lag_seen,
+                "metric_last_time_seen": tk_metric_last_time_seen,
+                "metric_monitored_state": tk_metric_monitored_state,
+                "metric_host_state": tk_metric_host_state,
+                "metric_tracker_runtime": tk_metric_tracker_runtime,
+                "metric_previous_host_state": tk_metric_previous_host_state,
+                "metric_previous_tracker_runtime": tk_metric_previous_tracker_runtime,
+                "priority": tk_priority
+            };
+
+            // Create the endpoint URL
+            var myendpoint_URl = "/en-US/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_metric_host_monitoring/" + tk_keyid;
+
+            if (tk_keyid && tk_keyid.length) {
+
+                $("#modal_entry_deletion").modal()
+
+                $("#btn_modal_entry_deletion_temporary").unbind('click').click(function() {
+
+                    var that = $(this);
+                    that.off('click'); // remove handler
+
+                    $.ajax({
+                        url: myendpoint_URl,
+                        type: "DELETE",
+                        async: true,
+                        contentType: "application/json",
+                        success: function(returneddata) {
+                            //console.log("Updated!", returneddata)
+                            // Run the search again to update the table
+                            baseSearchMetricHost.startSearch();
+                            searchMainTableMetricHost.startSearch();
+
+                            // Audit success change
+                            var time = (new Date).getTime();
+                            var audit_record = {
+                                "time": time,
+                                "action": "success",
+                                "user": currentUser,
+                                "change_type": "delete temporary",
+                                "object": tk_metric_host,
+                                "object_category": "metric_host",
+                                "object_attrs": JSON.stringify(record)
+                            };
+                            $.ajax({
+                                url: auditendpoint_URl,
+                                type: "POST",
+                                async: true,
+                                contentType: "application/json",
+                                data: JSON.stringify(audit_record),
+                                success: function(returneddata) {
+                                    //console.log("Updated!", returneddata)
+                                    // Run the search again to update the table
+                                }
+                            });
+
+                            // house cleaning
+                            myendpoint_URl = undefined;
+                            delete(myendpoint_URl);
+                            tk_keyid = undefined;
+                            delete(tk_keyid);
+                            return;
+                        },
+                        error: function(xhr, textStatus, error) {
+                            message = "Error Updating!" + xhr + textStatus + error;
+
+                            // Audit failure change
+                            var time = (new Date).getTime();
+                            var audit_record = {
+                                "time": time,
+                                "action": "failure",
+                                "user": currentUser,
+                                "change_type": "delete",
+                                "object": tk_metric_host,
+                                "object_category": "metric_host",
+                                "object_attrs": JSON.stringify(record),
+                                "result": message
+                            };
+                            $.ajax({
+                                url: auditendpoint_URl,
+                                type: "POST",
+                                async: true,
+                                contentType: "application/json",
+                                data: JSON.stringify(audit_record),
+                                success: function(returneddata) {
+                                    //console.log("Updated!", returneddata)
+                                    // Run the search again to update the table
+                                }
+                            });
+
+                            $("#modal_update_collection_failure_return").find('.modal-error-message p').text(message);
+                            $("#modal_update_collection_failure_return").modal()
+                        }
+
+                    });
+
+                });
+
+                $("#btn_modal_entry_deletion").unbind('click').click(function() {
+
+                    var that = $(this);
+                    that.off('click'); // remove handler
+
+                    $.ajax({
+                        url: myendpoint_URl,
+                        type: "DELETE",
+                        async: true,
+                        contentType: "application/json",
+                        success: function(returneddata) {
+                            //console.log("Updated!", returneddata)
+                            // Run the search again to update the table
+                            baseSearchMetricHost.startSearch();
+                            searchMainTableMetricHost.startSearch();
+
+                            // Audit success change
+                            var time = (new Date).getTime();
+                            var audit_record = {
+                                "time": time,
+                                "action": "success",
+                                "user": currentUser,
+                                "change_type": "delete permanent",
+                                "object": tk_metric_host,
+                                "object_category": "metric_host",
+                                "object_attrs": JSON.stringify(record)
+                            };
+                            $.ajax({
+                                url: auditendpoint_URl,
+                                type: "POST",
+                                async: true,
+                                contentType: "application/json",
+                                data: JSON.stringify(audit_record),
+                                success: function(returneddata) {
+                                    //console.log("Updated!", returneddata)
+                                    // Run the search again to update the table
+                                }
+                            });
+
+                            // house cleaning
+                            myendpoint_URl = undefined;
+                            delete(myendpoint_URl);
+                            tk_keyid = undefined;
+                            delete(tk_keyid);
+                            return;
+                        },
+                        error: function(xhr, textStatus, error) {
+                            message = "Error Updating!" + xhr + textStatus + error;
+
+                            // Audit failure change
+                            var time = (new Date).getTime();
+                            var audit_record = {
+                                "time": time,
+                                "action": "failure",
+                                "user": currentUser,
+                                "change_type": "delete",
+                                "object": tk_metric_host,
+                                "object_category": "metric_host",
+                                "object_attrs": JSON.stringify(record),
+                                "result": message
+                            };
+                            $.ajax({
+                                url: auditendpoint_URl,
+                                type: "POST",
+                                async: true,
+                                contentType: "application/json",
+                                data: JSON.stringify(audit_record),
+                                success: function(returneddata) {
+                                    //console.log("Updated!", returneddata)
+                                    // Run the search again to update the table
+                                }
+                            });
+
+                            $("#modal_update_collection_failure_return").find('.modal-error-message p').text(message);
+                            $("#modal_update_collection_failure_return").modal()
+                        }
+
+                    });
+
+                });
+
+            }
+
+        });
 
         // delete entry
 
@@ -11633,7 +11939,9 @@ require([
                             }, {
                                 done: function(job) {
                                     // Once the job is done, update all searches
+                                    unsetToken("form.tk_input_metric_policy_metric_category");
                                     searchMetricPolicies.startSearch();
+                                    baseSearchMetricHost.startSearch();
 
                                     // Audit success change
                                     var time = (new Date).getTime();
@@ -11755,7 +12063,9 @@ require([
 
                         //console.log("Updated!", returneddata)
                         // Run the search again to update the table
+                        unsetToken("form.tk_input_metric_policy_metric_category");
                         searchMetricPolicies.startSearch();
+                        baseSearchMetricHost.startSearch();
 
                         // notify
                         notification('Modification has been registered successfully.', 2000)
@@ -15107,9 +15417,6 @@ require([
 
                                                         // Once the job is done, update all searches
                                                         baseSearchMetricHost.startSearch();
-                                                        searchSingleMetricHost1.startSearch();
-                                                        searchSingleMetricHost2.startSearch();
-                                                        searchSingleMetricHost3.startSearch();
                                                         searchMainTableMetricHost.startSearch();
 
                                                         // Audit success change
@@ -15620,11 +15927,8 @@ require([
                                 //console.log("Done!");
 
                                 // Once the job is done, update all searches
-                                searchMainTableMetricHost.startSearch();
                                 baseSearchMetricHost.startSearch();
-                                searchSingleMetricHost1.startSearch();
-                                searchSingleMetricHost2.startSearch();
-                                searchSingleMetricHost3.startSearch();
+                                searchMainTableMetricHost.startSearch();
 
                                 $("#loadingGray").remove()
                                 $("#modal_update_collection_done").modal()
@@ -16691,303 +16995,6 @@ require([
 
         });
 
-        //
-        // Modify monitoring wdays
-        //
-
-        $("#btn_modal_modify_wdays_metric_host").click(function() {
-
-            // Show input modal
-            $("#modal_modify_monitoring_wdays_metric_host").modal();
-
-        });
-
-        $("#btn_modal_modify_monitoring_wdays_metric_host_confirm").click(function() {
-
-            // When the Submit button is clicked, get all the form fields by accessing token values
-            var tokens = mvc.Components.get("default");
-
-            var tk_keyid = tokens.get("tk_keyid");
-            var tk_metric_host = tokens.get("tk_metric_host");
-            var tk_metric_index = tokens.get("tk_metric_index");
-            var tk_metric_sourcetype = tokens.get("tk_metric_sourcetype");
-            var tk_metric_last_lag_seen = tokens.get("tk_metric_last_lag_seen");
-            var tk_metric_last_time_seen = tokens.get("tk_metric_last_time_seen");
-            //var tk_metric_last_ingest = tokens.get("tk_metric_last_ingest");
-            var tk_metric_max_lag_allowed = tokens.get("tk_metric_max_lag_allowed");
-            var tk_metric_monitoring_wdays = tokens.get("tk_metric_monitoring_wdays");
-            var tk_metric_monitored_state = tokens.get("tk_metric_monitored_state");
-            //var tk_metric_override_lagging_class = tokens.get("tk_metric_override_lagging_class");
-            var tk_metric_host_state = tokens.get("tk_metric_host_state");
-            var tk_metric_tracker_runtime = tokens.get("tk_metric_tracker_runtime");
-            var tk_metric_previous_metric_host_state = tokens.get("tk_metric_previous_metric_host_state");
-            var tk_metric_previous_tracker_runtime = tokens.get("tk_metric_previous_tracker_runtime");
-
-            // Create the endpoint URL
-            var myendpoint_URl = "/en-US/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_metric_host_monitoring/" + tk_keyid;
-
-            var tk_origin_metric_monitoring_wdays = tokens.get("tk_metric_monitoring_wdays");
-            var tk_metric_monitoring_wdays = tokens.get("tk_input_wdays_metric_host");
-
-            if (!tk_metric_monitoring_wdays || !tk_metric_monitoring_wdays.length) {
-                // Show an error message
-                $("#modal_entry_update_invalid").modal()
-                return;
-            } else {
-
-                // Create a dictionary to store the field names and values
-                var record = {
-                    "metric_host": tk_metric_host,
-                    "metric_index": tk_metric_index,
-                    "metric_sourcetype": tk_metric_sourcetype,
-                    "metric_last_lag_seen": tk_metric_last_lag_seen,
-                    "metric_last_time_seen": tk_metric_last_time_seen,
-                    "metric_max_lag_allowed": tk_metric_max_lag_allowed,
-                    "metric_monitored_state": tk_metric_monitored_state,
-                    "metric_monitoring_wdays": tk_metric_monitoring_wdays,
-                    "metric_metric_host_state": tk_metric_host_state,
-                    "metric_tracker_runtime": tk_metric_tracker_runtime,
-                    "metric_previous_metric_host_state": tk_metric_previous_metric_host_state,
-                    "metric_previous_tracker_runtime": tk_metric_previous_tracker_runtime
-                };
-
-                $.ajax({
-                    url: myendpoint_URl,
-                    type: "POST",
-                    async: true,
-                    contentType: "application/json",
-                    data: JSON.stringify(record),
-                    success: function(returneddata) {
-                        //console.log("Updated!", returneddata)
-                        // Run the search again to update the table
-                        searchMainTableMetricHost.startSearch();
-                        baseSearchMetricHost.startSearch();
-                        searchSingleMetricHost1.startSearch();
-                        searchSingleMetricHost2.startSearch();
-                        searchSingleMetricHost3.startSearch();
-
-                        // notify
-                        notification('Modification has been registered successfully.', 2000)
-
-                        // Audit success change
-                        var time = (new Date).getTime();
-                        var audit_record = {
-                            "time": time,
-                            "action": "success",
-                            "user": currentUser,
-                            "change_type": "modify week days monitoring",
-                            "object": tk_metric_host,
-                            "object_category": "metric_host",
-                            "object_attrs": "metric_monitoring_wdays changed from:" + tk_origin_metric_monitoring_wdays + " to:" + tk_metric_monitoring_wdays
-                        };
-
-                        $.ajax({
-                            url: auditendpoint_URl,
-                            type: "POST",
-                            async: true,
-                            contentType: "application/json",
-                            data: JSON.stringify(audit_record),
-                            success: function(returneddata) {
-                                //console.log("Updated!", returneddata)
-                                // Run the search again to update the table
-                            }
-                        });
-
-                        // house cleaning
-                        myendpoint_URl = undefined;
-                        delete(myendpoint_URl);
-                        tk_keyid = undefined;
-                        delete(tk_keyid);
-                        return;
-
-                    },
-                    error: function(xhr, textStatus, error) {
-                        message = "Error Updating!" + xhr + textStatus + error;
-
-                        // Audit failure change
-                        var time = (new Date).getTime();
-                        var audit_record = {
-                            "time": time,
-                            "action": "failure",
-                            "user": currentUser,
-                            "change_type": "modify week days monitoring",
-                            "object": tk_metric_host,
-                            "object_category": "metric_host",
-                            "object_attrs": "metric_monitoring_wdays changed from:" + tk_origin_metric_monitoring_wdays + " to:" + tk_metric_monitoring_wdays,
-                            "result": message
-                        };
-
-                        $.ajax({
-                            url: auditendpoint_URl,
-                            type: "POST",
-                            async: true,
-                            contentType: "application/json",
-                            data: JSON.stringify(audit_record),
-                            success: function(returneddata) {
-                                //console.log("Updated!", returneddata)
-                                // Run the search again to update the table
-                            }
-                        });
-
-                        $("#modal_update_collection_failure_return").find('.modal-error-message p').text(message);
-                        $("#modal_update_collection_failure_return").modal()
-                    }
-                });
-
-            }
-        });
-
-        $("#btn_modal_modify_wdays_metric_host_no").click(function() {
-
-            // Show input modal
-            $("#modal_modify_monitoring_wdays_metric_host_no").modal();
-
-        });
-
-        $("#btn_modal_modify_monitoring_wdays_metric_host_no_confirm").click(function() {
-
-            // When the Submit button is clicked, get all the form fields by accessing token values
-            var tokens = mvc.Components.get("default");
-
-            var tk_keyid = tokens.get("tk_keyid");
-            var tk_metric_host = tokens.get("tk_metric_host");
-            var tk_metric_index = tokens.get("tk_metric_index");
-            var tk_metric_sourcetype = tokens.get("tk_metric_sourcetype");
-            var tk_metric_last_lag_seen = tokens.get("tk_metric_last_lag_seen");
-            var tk_metric_last_time_seen = tokens.get("tk_metric_last_time_seen");
-            var tk_metric_last_ingest = tokens.get("tk_metric_last_ingest");
-            var tk_metric_max_lag_allowed = tokens.get("tk_metric_max_lag_allowed");
-            var tk_metric_monitoring_wdays = tokens.get("tk_metric_monitoring_wdays");
-            var tk_metric_monitored_state = tokens.get("tk_metric_monitored_state");
-            var tk_metric_override_lagging_class = tokens.get("tk_metric_override_lagging_class");
-            var tk_metric_host_state = tokens.get("tk_metric_host_state");
-            var tk_metric_tracker_runtime = tokens.get("tk_metric_tracker_runtime");
-            var tk_metric_previous_metric_host_state = tokens.get("tk_metric_previous_metric_host_state");
-            var tk_metric_previous_tracker_runtime = tokens.get("tk_metric_previous_tracker_runtime");
-
-            // Create the endpoint URL
-            var myendpoint_URl = "/en-US/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_metric_host_monitoring/" + tk_keyid;
-
-            var tk_origin_metric_monitoring_wdays = tokens.get("tk_metric_monitoring_wdays");
-            var tk_metric_monitoring_wdays_no = tokens.get("tk_input_wdays_metric_host_no");
-
-            if (!tk_metric_monitoring_wdays_no || !tk_metric_monitoring_wdays_no.length) {
-                // Show an error message
-                $("#modal_entry_update_invalid").modal()
-                return;
-            } else {
-
-                // Create a dictionary to store the field names and values
-                var record = {
-                    "metric_host": tk_metric_host,
-                    "metric_index": tk_metric_index,
-                    "metric_last_lag_seen": tk_metric_last_lag_seen,
-                    "metric_last_time_seen": tk_metric_last_time_seen,
-                    "metric_max_lag_allowed": tk_metric_max_lag_allowed,
-                    "metric_monitored_state": tk_metric_monitored_state,
-                    "metric_monitoring_wdays": tk_metric_monitoring_wdays_no,
-                    "metric_override_lagging_class": tk_metric_override_lagging_class,
-                    "metric_metric_host_state": tk_metric_host_state,
-                    "metric_tracker_runtime": tk_metric_tracker_runtime,
-                    "metric_previous_metric_host_state": tk_metric_previous_metric_host_state,
-                    "metric_previous_tracker_runtime": tk_metric_previous_tracker_runtime
-                };
-
-                $.ajax({
-                    url: myendpoint_URl,
-                    type: "POST",
-                    async: true,
-                    contentType: "application/json",
-                    data: JSON.stringify(record),
-                    success: function(returneddata) {
-                        //console.log("Updated!", returneddata)
-                        // Run the search again to update the table
-                        searchMainTableMetricHost.startSearch();
-                        baseSearchMetricHost.startSearch();
-                        searchSingleMetricHost1.startSearch();
-                        searchSingleMetricHost2.startSearch();
-                        searchSingleMetricHost3.startSearch();
-
-                        $("#modal_modify_metric_host_unified").modal();
-
-                        // notify
-                        console.log("Notify")
-                        notification('Modification has been registered successfully.', 2000)
-
-                        // Audit success change
-                        var time = (new Date).getTime();
-                        var audit_record = {
-                            "time": time,
-                            "action": "success",
-                            "user": currentUser,
-                            "change_type": "modify week days monitoring",
-                            "object": tk_metric_host,
-                            "object_category": "metric_host",
-                            "object_attrs": "metric_monitoring_wdays changed from:" + tk_origin_metric_monitoring_wdays + " to:" + tk_metric_monitoring_wdays_no
-                        };
-                        $.ajax({
-                            url: auditendpoint_URl,
-                            type: "POST",
-                            async: true,
-                            contentType: "application/json",
-                            data: JSON.stringify(audit_record),
-                            success: function(returneddata) {
-                                //console.log("Updated!", returneddata)
-                                // Run the search again to update the table
-                            }
-                        });
-
-                        // house cleaning
-                        myendpoint_URl = undefined;
-                        delete(myendpoint_URl);
-                        tk_keyid = undefined;
-                        delete(tk_keyid);
-                        return;
-
-                    },
-                    error: function(xhr, textStatus, error) {
-                        message = "Error Updating!" + xhr + textStatus + error;
-
-                        // Audit failure change
-                        var time = (new Date).getTime();
-                        var audit_record = {
-                            "time": time,
-                            "action": "failure",
-                            "user": currentUser,
-                            "change_type": "modify week days monitoring",
-                            "object": tk_metric_host,
-                            "object_category": "metric_host",
-                            "object_attrs": "metric_monitoring_wdays changed from:" + tk_origin_metric_monitoring_wdays + " to:" + tk_metric_monitoring_wdays_no,
-                            "result": message
-                        };
-                        $.ajax({
-                            url: auditendpoint_URl,
-                            type: "POST",
-                            async: true,
-                            contentType: "application/json",
-                            data: JSON.stringify(audit_record),
-                            success: function(returneddata) {
-                                //console.log("Updated!", returneddata)
-                                // Run the search again to update the table
-                            }
-                        });
-
-                        $("#modal_update_collection_failure_return").find('.modal-error-message p').text(message);
-                        $("#modal_update_collection_failure_return").modal()
-                    }
-                });
-
-            }
-        });
-
-        // cancel: returns to unified modal
-        $("#btn_modal_modify_monitoring_wdays_metric_host_no_confirm").click(function() {
-
-            // Show input modal
-            $("#modal_modify_metric_host_unified").modal();
-
-        });
-
         // data host monitoring
 
         $("#btn_modify_data_host").click(function() {
@@ -17653,6 +17660,12 @@ function notification(s, time) {
   });
 
   $("<p>" + s + "</p>").appendTo('#boxnotify-unified-data-host').fadeTo(time, 1, function() {
+    $(this).fadeTo(1000, 0, function() {
+      $(this).remove()
+    });
+  });
+
+  $("<p>" + s + "</p>").appendTo('#boxnotify-unified-metric-host').fadeTo(time, 1, function() {
     $(this).fadeTo(1000, 0, function() {
       $(this).remove()
     });
