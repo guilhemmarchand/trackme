@@ -1364,6 +1364,112 @@ styles in <div> tags, similar to Bootstrap's grid system.
         </div>
     </div>
 
+    <!-- whitelist metric_host -->
+    <div class="modal fade custom-modal-50" id="modal_modify_metric_host_whitelist" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h3 style="color: indianred;"><span class="glyphicon glyphicon-lock"></span> Modify index whitelisting</h3>
+                </div>
+                <div class="modal-body">
+                    <b>If no indexes are in whitelist, TrackMe will use all available indexes, otherwise only the indexes in whitelist will be taken in charge</b>
+                    <br /><br />
+
+                    <div class="boxnotify" id="boxnotify-modal_modify_metric_host_whitelist">
+                    </div>
+
+                    <div id="rowWhiteListMetricHost1a" class="dashboard-row dashboard-row3">
+                        <div id="panelWhiteListMetricHost1" class="dashboard-cell" style="width: 100%;">
+
+                            <div class="dashboard-panel clearfix">
+                                <div class="panel-element-row">
+
+                                    <div class="fieldset">
+
+                                        <div class="input input-linklist" id="inputLinkTimeWhiteListMetricHost">
+                                            <label>&nbsp;</label>
+                                        </div>
+
+                                        <div class="input input-dropdown" id="modal_input_metric_host_whitelist" style="margin-bottom: 10px;">
+                                            <label>index name:</label>
+                                        </div>
+
+                                        <div style="margin-bottom: 10px;">
+                                            <button id="btn_modal_metric_host_whitelist_add" type="submit" class="btn btn-default btn-primary" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Add this index</button>
+                                        </div>
+
+                                    </div>
+
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div id="rowWhiteListMetricHost1b" class="dashboard-cell" style="width: 50%;">
+                            <div class="dashboard-panel clearfix">
+
+                                <div class="panel-element-row">
+                                    <div id="singleWhiteListMetricHost" class="dashboard-element single" style="width: 100%">
+                                        <div class="panel-body"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div id="rowWhiteListMetricHostEmpty" class="dashboard-row dashboard-row" data-rejects="$show_table_metric_host_whitelist$">
+                        <div id="panelWhiteListMetricHostEmpty" class="dashboard-cell" style="width: 100%;">
+
+                            <div class="dashboard-panel clearfix">
+                                <div class="panel-element-row">
+
+                                    <div class="modal-body">
+                                        <h3 style="color: lightslategray;">All indexes are currently allowed in the data discovery.</h3>
+                                        <br /><br />
+                                    </div>
+
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div id="rowWhiteListMetricHost2" class="dashboard-row dashboard-row3">
+                        <div id="panelWhiteListMetricHost2" class="dashboard-cell" style="width: 100%;">
+
+                            <div class="dashboard-panel clearfix">
+                                <div class="panel-element-row">
+
+                                    <div class="fieldset">
+                                        <div class="input input-text" id="modal_input_metric_host_whitelist_search" style="margin-bottom: 10px;">
+                                            <label>Search for index name:</label>
+                                        </div>
+
+                                        <div id="tableWhiteListMetricHost" class="dashboard-element table" style="width: 100%">
+                                            <label>Click on the table for interactive actions:</label>
+                                            <div class="panel-body"></div>
+                                        </div>
+
+                                    </div>
+
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" id="btn_modal_metric_host_whitelist_add_cancel" class="btn btn-default btn-default pull-left" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!--
 
     Blacklist management
@@ -2231,6 +2337,40 @@ styles in <div> tags, similar to Bootstrap's grid system.
         </div>
     </div>
 
+    <!-- whitelist metric_host -->
+
+    <!-- Modal drilldown context for WhiteList -->
+    <div id="main_modal_manage_metric_host_whitelist" class="dashboard-element html" style="width: 100%">
+        <div class="panel-body html">
+            <div class="modal fade" id="modal_manage_metric_host_whitelist" role="dialog">
+                <div class="modal-dialog">
+                    <!-- Modal content-->
+                    <div class="modal-content">
+                        <!-- This is required to get the token subsitutions without affecting the buttons actions in js -->
+                        <div class="dashboard-element html" id="body_modal_manage_metric_host_whitelist">
+                            <div class="panel-body html">
+                                <div class="modal-header">
+                                    <h3>Actions for index in whitelist: <span style="color: steelblue">$tk_metric_index$</span></h3>
+                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                </div>
+                                <div class="modal-body" style="display:grid;">
+                                    <p><b>metric_index:</b> $tk_metric_index$</p>
+                                    <br />
+                                    <b>This index is currently included in the data discovery.</b>
+                                    <br />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="submit" id="btn_delete_metric_host_whitelist_cancel" role="button" class="btn btn-default btn-default" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span>Cancel</button>
+                            <button type="submit" id="btn_delete_metric_host_whitelist" role="button" class="btn btn-danger btn-default"><span class="glyphicon glyphicon-remove"></span>Delete</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- whitelist data_host -->
 
     <!-- Modal drilldown context for WhiteList -->
@@ -2537,6 +2677,73 @@ styles in <div> tags, similar to Bootstrap's grid system.
                             </div>
                             <div class="btn_modify_data_host_blacklist_sourcetype custom-btn">
                                 <button type="submit" style="margin-right: 15px;" class="btn btn-default btn-primary" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Manage: blacklist sourcetypes</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal main -->
+    <div id="main_modal_manage_metric_host_blacklists" class="dashboard-element html" style="width: 100%">
+        <div class="panel-body html">
+            <div class="modal custom-modal-50 fade" id="modal_manage_metric_host_blacklists" role="dialog">
+                <div class="modal-dialog">
+                    <!-- Modal content-->
+                    <div class="modal-content">
+                        <!-- This is required to get the token subsitutions without affecting the buttons actions in js -->
+                        <div class="dashboard-element html" id="body_modal_manage_metric_host_blacklists">
+                            <div class="panel-body html">
+                                <div class="modal-header">
+                                    <h3>Manage whitelists & blacklist for: <span style="color: steelblue">data hosts</span></h3>
+                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                </div>
+
+                                <div class="modal-body" style="margin-bottom: 10px;">
+                                    <span class="title_green">Whitelist</span>
+                                </div>
+
+                                <div class="modal-body" style="display:grid;">
+                                    <b>Whitelist of indexes at data discovery and search time:</b>
+                                    <br />
+                                    <lu>
+                                        <li>By default, trackMe searches for entities in all available indexes</li>
+                                        <li>You can restrict at any time the list of indexes allowed by editing the content of the whitelist collections</li>
+                                        <li>Indexes whitelisting is applied at discovery and search time, but can require the collection to be reset or previously discovered entities to be removed manually</li>
+                                    </lu>
+                                </div>
+
+                                <br />
+
+                                <div class="modal-body" style="margin-bottom: 10px;">
+                                    <span class="title_red">Blacklist</span>
+                                </div>
+
+                                <div class="modal-body" style="display:grid;">
+                                    <b>Use these features to blacklist hosts, indexes or sourcetypes at data discovery and search time.</b>
+                                    <br />
+                                    <lu>
+                                        <li>Hosts that have been blacklisted are excluded from the data discovery, and from alerting results at search time</li>
+                                        <li>Indexes that have been blacklisted are excluded from the data discovery, and from alerting results at search time</li>
+                                        <li>Sourcetypes that have been blacklisted are excluded from the data discovery, and from alerting results at search time</li>
+                                    </lu>
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <div class="btn_modify_metric_host_whitelist custom-btn">
+                                <button type="submit" style="margin-right: 15px;" class="btn btn-default btn-primary" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Manage: whitelist indexes</button>
+                            </div>
+                            <div class="btn_modify_metric_host_blacklist_host custom-btn">
+                                <button type="submit" style="margin-right: 15px;" class="btn btn-default btn-primary" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Manage: blacklist hosts</button>
+                            </div>
+                            <div class="btn_modify_metric_host_blacklist_index custom-btn">
+                                <button type="submit" style="margin-right: 15px;" class="btn btn-default btn-primary" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Manage: blacklist indexes</button>
+                            </div>
+                            <div class="btn_modify_metric_host_blacklist_sourcetype custom-btn">
+                                <button type="submit" style="margin-right: 15px;" class="btn btn-default btn-primary" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Manage: blacklist metric_category</button>
                             </div>
                         </div>
                     </div>
@@ -3133,7 +3340,7 @@ styles in <div> tags, similar to Bootstrap's grid system.
                         <div class="panel-body html">
                             <div>
                                 <div class="custom-btn">
-                                    <button type="submit" id="btn_modify_metric_host_blacklist_main" style="margin-right: 15px;" class="btn btn-default btn-primary" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Manage: blacklists sources</button>
+                                    <button type="submit" id="btn_modify_metric_host_blacklist_main" style="margin-right: 15px;" class="btn btn-default btn-primary" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Manage: whitelists & blacklists</button>
                                 </div>
                                 <div class="btn_modify_metric_sla_policies custom-btn">
                                     <button type="submit" style="margin-right: 15px;" class="btn btn-default btn-primary" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Manage: metric SLA policies</button>
@@ -3906,6 +4113,29 @@ require([
             "tokenDependencies": {
                 "depends": "$show_host_tracker$",
                 "depends": "$start_modify_data_host_whitelist$",
+            },
+            "runWhenTimeIsUndefined": false
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        });
+
+        // whitelist metric_host
+
+        var searchPopulateIndexesForWhiteListMetricHost = new SearchManager({
+            "id": "searchPopulateIndexesForWhiteListMetricHost",
+            "earliest_time": "$modalTimeWhiteListMetricHost.earliest$",
+            "cancelOnUnload": true,
+            "sample_ratio": null,
+            "latest_time": "$modalTimeWhiteListMetricHost.latest$",
+            "search": "| mcatalog values(metric_name) as metric_name where index=* by index | stats values(index) as index | mvexpand index | lookup trackme_metric_host_monitoring_whitelist_index metric_index as index OUTPUT metric_index as FOUND | where isnull(FOUND) | sort limit=0 index | fields index",
+            "status_buckets": 0,
+            "app": utils.getCurrentApp(),
+            "auto_cancel": 90,
+            "preview": true,
+            "tokenDependencies": {
+                "depends": "$show_metric_host_tracker$",
+                "depends": "$start_modify_metric_host_whitelist$",
             },
             "runWhenTimeIsUndefined": false
         }, {
@@ -4810,6 +5040,62 @@ require([
             tokenNamespace: "submitted"
         });
 
+        // whitelist metric_host
+
+        var searchWhiteListMetricHost = new SearchManager({
+            "id": "searchWhiteListMetricHost",
+            "earliest_time": "-15m",
+            "cancelOnUnload": true,
+            "sample_ratio": null,
+            "latest_time": "now",
+            "search": "| inputlookup trackme_metric_host_monitoring_whitelist_index | eval keyid=_key | search metric_index=\"$form.tk_input_metric_host_whitelist_search$\" | sort limit=0 metric_index",
+            "status_buckets": 0,
+            "app": utils.getCurrentApp(),
+            "auto_cancel": 90,
+            "preview": true,
+            "tokenDependencies": {
+                "depends": "$show_metric_host_tracker$",
+                "depends": "$start_modify_metric_host_whitelist$",
+            },
+            "runWhenTimeIsUndefined": false
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        });
+
+        new SearchEventHandler({
+            managerid: "searchWhiteListMetricHost",
+            event: "progress",
+            conditions: [{
+                    attr: "match",
+                    value: "'job.resultCount' == 0",
+                    actions: [{
+                        "type": "unset",
+                        "token": "show_table_metric_host_whitelist"
+                    }]
+                },
+                {
+                    attr: "any",
+                    value: "*",
+                    actions: [{
+                        "type": "set",
+                        "token": "show_table_metric_host_whitelist",
+                        "value": "True"
+                    }]
+                }
+            ]
+        });
+
+        var searchSingleWhiteListMetricHost = new PostProcessManager({
+            "tokenDependencies": {},
+            "search": "| stats count",
+            "managerid": "searchWhiteListMetricHost",
+            "id": "searchSingleWhiteListMetricHost"
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        });
+
         // whitelist data_host
 
         var searchWhiteListDataHost = new SearchManager({
@@ -5547,7 +5833,7 @@ require([
             }
         });
 
-        // whitelist data_source
+        // whitelist data_host
         // input link selection for modal window
         var inputLinkTimeWhiteListDataHost = new LinkListInput({
             "id": "inputLinkTimeWhiteListDataHost",
@@ -5596,6 +5882,58 @@ require([
             } else if (e.value === "90d") {
                 EventHandler.setToken("modalTimeWhiteListDataHost.earliest", "-90d", {}, e.data);
                 EventHandler.setToken("modalTimeWhiteListDataHost.latest", "now", {}, e.data);
+            }
+        });
+
+        // whitelist metric_host
+        // input link selection for modal window
+        var inputLinkTimeWhiteListMetricHost = new LinkListInput({
+            "id": "inputLinkTimeWhiteListMetricHost",
+            "choices": [
+                {
+                    "value": "24h",
+                    "label": "24h"
+                },
+                {
+                    "value": "7d",
+                    "label": "7d"
+                },
+                {
+                    "value": "30d",
+                    "label": "30d"
+                },
+                {
+                    "value": "90d",
+                    "label": "90d"
+                }
+            ],
+            "default": "24h",
+            "searchWhenChanged": true,
+            "selectFirstChoice": false,
+            "initialValue": "24h",
+            "value": "$form.LinkTimeWhiteListMetricHost$",
+            "el": $('#inputLinkTimeWhiteListMetricHost')
+        }, {
+            tokens: true
+        }).render();
+
+        inputLinkTimeWhiteListMetricHost.on("change", function(newValue) {
+            FormUtils.handleValueChange(input1);
+        });
+
+        inputLinkTimeWhiteListMetricHost.on("valueChange", function(e) {
+            if (e.value === "24h") {
+                EventHandler.setToken("modalTimeWhiteListMetricHost.earliest", "-24h", {}, e.data);
+                EventHandler.setToken("modalTimeWhiteListMetricHost.latest", "now", {}, e.data);
+            } else if (e.value === "7d") {
+                EventHandler.setToken("modalTimeWhiteListMetricHost.earliest", "-7d", {}, e.data);
+                EventHandler.setToken("modalTimeWhiteListMetricHost.latest", "now", {}, e.data);
+            } else if (e.value === "30d") {
+                EventHandler.setToken("modalTimeWhiteListMetricHost.earliest", "-30d", {}, e.data);
+                EventHandler.setToken("modalTimeWhiteListMetricHost.latest", "now", {}, e.data);
+            } else if (e.value === "90d") {
+                EventHandler.setToken("modalTimeWhiteListMetricHost.earliest", "-90d", {}, e.data);
+                EventHandler.setToken("modalTimeWhiteListMetricHost.latest", "now", {}, e.data);
             }
         });
 
@@ -6308,7 +6646,7 @@ require([
         var modal_input_data_source_whitelist = new DropdownInput({
             "id": "modal_input_data_source_whitelist",
             "tokenDependencies": {
-                "depends": "$show_metric_host_tracker$"
+                "depends": "$show_data_source_tracker$"
             },
             "searchWhenChanged": true,
             "showClearButton": true,
@@ -6340,12 +6678,49 @@ require([
             FormUtils.handleValueChange(modal_input_data_source_whitelist_search);
         });
 
+        // whitelist metric_host
+
+        var modal_input_metric_host_whitelist = new DropdownInput({
+            "id": "modal_input_metric_host_whitelist",
+            "tokenDependencies": {
+                "depends": "$show_metric_host_tracker$"
+            },
+            "searchWhenChanged": true,
+            "showClearButton": true,
+            "labelField": "index",
+            "selectFirstChoice": false,
+            "valueField": "index",
+            "value": "$form.tk_input_whitelist_metric_host$",
+            "managerid": "searchPopulateIndexesForWhiteListMetricHost",
+            "el": $('#modal_input_metric_host_whitelist')
+        }, {
+            tokens: true
+        }).render();
+
+        modal_input_metric_host_whitelist.on("change", function(newValue) {
+            FormUtils.handleValueChange(modal_input_metric_host_whitelist);
+        });
+
+        var modal_input_metric_host_whitelist_search = new TextInput({
+            "id": "modal_input_metric_host_whitelist_search",
+            "default": "*",
+            "searchWhenChanged": true,
+            "value": "$form.tk_input_metric_host_whitelist_search$",
+            "el": $('#modal_input_metric_host_whitelist_search')
+        }, {
+            tokens: true
+        }).render();
+
+        modal_input_metric_host_whitelist_search.on("change", function(newValue) {
+            FormUtils.handleValueChange(modal_input_metric_host_whitelist_search);
+        });
+
         // whitelist data_host
 
         var modal_input_data_host_whitelist = new DropdownInput({
             "id": "modal_input_data_host_whitelist",
             "tokenDependencies": {
-                "depends": "$show_metric_host_tracker$"
+                "depends": "$show_host_tracker$"
             },
             "searchWhenChanged": true,
             "showClearButton": true,
@@ -7054,7 +7429,35 @@ require([
             tokenNamespace: "submitted"
         }).render();
 
-        // whitelist data_source
+        // whitelist metric_host
+
+        var singleWhiteListMetricHost = new SingleElement({
+            "id": "singleWhiteListMetricHost",
+            "trendDisplayMode": "absolute",
+            "drilldown": "none",
+            "trendColorInterpretation": "standard",
+            "useColors": "0",
+            "colorBy": "value",
+            "showTrendIndicator": "1",
+            "showSparkline": "1",
+            "trellis.enabled": "0",
+            "numberPrecision": "0",
+            "rangeColors": "[\"0x53a051\",\"0x0877a6\",\"0xf8be34\",\"0xf1813f\",\"0xdc4e41\"]",
+            "trellis.size": "medium",
+            "colorMode": "none",
+            "rangeValues": "[0,30,70,100]",
+            "unitPosition": "after",
+            "trellis.scales.shared": "1",
+            "useThousandSeparators": "1",
+            "underLabel": "index(es) in whitelist currently",
+            "managerid": "searchSingleWhiteListMetricHost",
+            "el": $('#singleWhiteListMetricHost')
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        }).render();
+
+        // whitelist data_host
 
         var singleWhiteListDataHost = new SingleElement({
             "id": "singleWhiteListDataHost",
@@ -7928,6 +8331,49 @@ require([
                 // Enable modal context
                 $("#modal_modify_data_host_whitelist").modal('hide');
                 $("#modal_manage_data_host_whitelist").modal();
+
+            }
+        });
+
+        // whitelist metric_host
+
+        var tableWhiteListMetricHost = new TableElement({
+            "id": "tableWhiteListMetricHost",
+            "tokenDependencies": {
+                "depends": "$show_table_metric_host_whitelist$",
+            },
+            "count": 10,
+            "drilldown": "row",
+            "fields": "metric_index",
+            "refresh.display": "none",
+            "wrap": "false",
+            "managerid": "searchWhiteListMetricHost",
+            "el": $('#tableWhiteListMetricHost')
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        }).render();
+
+        tableWhiteListMetricHost.on("click", function(e) {
+            if (e.field !== undefined) {
+                e.preventDefault();
+
+                setToken("tk_keyid", TokenUtils.replaceTokenNames("$row.keyid$", _.extend(submittedTokenModel.toJSON(), e.data)));
+                setToken("tk_metric_index", TokenUtils.replaceTokenNames("$row.metric_index$", _.extend(submittedTokenModel.toJSON(), e.data)));
+
+                submitTokens();
+
+                // When the Submit button is clicked, get all the form fields by accessing token values
+                var tokens = mvc.Components.get("default");
+
+                // When the Submit button is clicked, get all the form fields by accessing token values
+                var tokens = mvc.Components.get("default");
+
+                var tk_metric_index = tokens.get("tk_metric_index");
+
+                // Enable modal context
+                $("#modal_modify_metric_host_whitelist").modal('hide');
+                $("#modal_manage_metric_host_whitelist").modal();
 
             }
         });
@@ -9060,6 +9506,19 @@ require([
         }).render();
 
         DashboardController.addReadyDep(body_modal_manage_data_source_whitelist.contentLoaded());
+
+        // whitelist metric_host
+
+        var body_modal_manage_metric_host_whitelist = new HtmlElement({
+            "id": "body_modal_manage_metric_host_whitelist",
+            "useTokens": true,
+            "el": $('#body_modal_manage_metric_host_whitelist')
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        }).render();
+
+        DashboardController.addReadyDep(body_modal_manage_metric_host_whitelist.contentLoaded());
 
         // whitelist data_host
 
@@ -12642,6 +13101,272 @@ require([
 
         // add entry from whitelist
 
+        $("#btn_modal_metric_host_whitelist_add").click(function() {
+
+            submitTokens();
+
+            // When the Submit button is clicked, get all the form fields by accessing token values
+            var tokens = mvc.Components.get("default");
+
+            // When the Submit button is clicked, get all the form fields by accessing token values
+            var tk_input_whitelist_metric_host = tokens.get("tk_input_whitelist_metric_host");
+
+            // Create the endpoint URL
+            var myendpoint_URl = "/en-US/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_metric_host_monitoring_whitelist_index";
+
+            //console.log("Endpoint URL is: " + myendpoint_URl);
+
+            // Define the query
+            var searchQuery = "| inputlookup trackme_metric_host_monitoring_whitelist_index | append [ | makeresults | eval metric_index=\"" + tk_input_whitelist_metric_host + "\"] | dedup metric_index | sort limit=0 metric_index | outputlookup trackme_metric_host_monitoring_whitelist_index";
+
+            // Set the search parameters--specify a time range
+            var searchParams = {
+                earliest_time: "-60m",
+                latest_time: "now"
+            };
+
+            if (tk_input_whitelist_metric_host && tk_input_whitelist_metric_host.length) {
+
+                // Run a blocking search and get back a job
+                service.search(
+                    searchQuery,
+                    searchParams,
+                    function(err, job) {
+
+                        function audit_failure() {
+
+                            // Audit failure change
+                            var time = (new Date).getTime();
+                            var audit_record = {
+                                "time": time,
+                                "action": "failure",
+                                "user": currentUser,
+                                "change_type": "add whitelist index",
+                                "object": tk_input_whitelist_metric_host,
+                                "object_category": "metric_host",
+                                "object_attrs": "index:" + tk_input_whitelist_metric_host
+                            };
+                            $.ajax({
+                                url: auditendpoint_URl,
+                                type: "POST",
+                                async: true,
+                                contentType: "application/json",
+                                data: JSON.stringify(audit_record),
+                                success: function(returneddata) {
+                                    //console.log("Updated!", returneddata)
+                                    // Run the search again to update the table
+                                }
+                            });
+
+                        }
+
+                        // Shall the search fail before we can get properties
+                        if (job == null) {
+                            let errorStr = "Unknown Error!";
+                            if (err && err.data && err.data.messages && err.data.messages[0]['text']) {
+                                errorStr = err.data.messages[0]['text'];
+                            } else if (err && err.data && err.data.messages) {
+                                errorStr = JSON.stringify(err.data.messages);
+                            }
+                            audit_failure();
+                            $("#modal_update_collection_failure_return").find('.modal-error-message p').text(errorStr);
+                            $("#modal_update_collection_failure_return").modal()
+                        } else {
+
+                            // Poll the status of the search job
+                            job.track({
+                                period: 200
+                            }, {
+                                done: function(job) {
+                                    // Once the job is done, update all searches
+                                    searchWhiteListMetricHost.startSearch();
+                                    searchSingleWhiteListMetricHost.startSearch();
+                                    baseSearchMetricHost.startSearch();
+                                    searchMainTableMetricHost.startSearch();
+                                    unsetToken("form.tk_input_whitelist_metric_host");
+
+                                    // notify
+                                    notification('Modification has been registered successfully.', 2000)
+
+                                    // Audit success change
+                                    var time = (new Date).getTime();
+                                    var audit_record = {
+                                        "time": time,
+                                        "action": "success",
+                                        "user": currentUser,
+                                        "change_type": "add whitelist index",
+                                        "object": tk_input_whitelist_metric_host,
+                                        "object_category": "metric_host",
+                                        "object_attrs": "index:" + tk_input_whitelist_metric_host
+                                    };
+                                    $.ajax({
+                                        url: auditendpoint_URl,
+                                        type: "POST",
+                                        async: true,
+                                        contentType: "application/json",
+                                        data: JSON.stringify(audit_record),
+                                        success: function(returneddata) {
+                                            //console.log("Updated!", returneddata)
+                                            // Run the search again to update the table
+                                        }
+                                    });
+
+                                    $("#modal_modify_metric_host_whitelist").modal();
+                                },
+                                failed: function(properties) {
+                                    let errorStr = "Unknown Error!";
+                                    if (properties && properties._properties && properties._properties.messages && properties._properties.messages[0]['text']) {
+                                        errorStr = properties._properties.messages[0]['text'];
+                                    } else if (properties && properties._properties && properties._properties.messages) {
+                                        errorStr = JSON.stringify(properties._properties.messages);
+                                    }
+                                    audit_failure();
+                                    $("#modal_update_collection_failure_return").find('.modal-error-message p').text(errorStr);
+                                    $("#modal_update_collection_failure_return").modal()
+                                },
+                                error: function(err) {
+                                    done(err);
+                                    audit_failure();
+                                    $("#modal_update_collection_failure_flush").modal()
+                                }
+                            });
+
+                        }
+
+                    }
+                );
+
+                // house cleaning
+                myendpoint_URl = undefined;
+                delete(myendpoint_URl);
+                return;
+
+            } else {
+                $("#modal_entry_update_invalid").modal()
+                return;
+            }
+
+        });
+
+        // delete entry from whitelist
+
+        $("#btn_delete_metric_host_whitelist").click(function() {
+
+            //console.log("Button was pressed");
+
+            submitTokens();
+
+            // When the Submit button is clicked, get all the form fields by accessing token values
+            var tokens = mvc.Components.get("default");
+
+            // When the Submit button is clicked, get all the form fields by accessing token values
+            var tk_keyid = tokens.get("tk_keyid");
+
+            // Get
+            var tk_metric_index = tokens.get("tk_metric_index");
+
+            // Create the endpoint URL
+            var myendpoint_URl = "/en-US/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_metric_host_monitoring_whitelist_index/" + tk_keyid;
+
+            //console.log("Endpoint URL is: " + myendpoint_URl);
+
+            if (tk_keyid && tk_keyid.length) {
+
+                $.ajax({
+                    url: myendpoint_URl,
+                    type: "DELETE",
+                    async: true,
+                    contentType: "application/json",
+                    success: function(returneddata) {
+
+                        // Hide main modal
+                        $("#modal_manage_metric_host_whitelist").modal('hide');
+
+                        //console.log("Updated!", returneddata)
+                        // Run the search again to update the table
+                        searchWhiteListMetricHost.startSearch();
+                        searchSingleWhiteListMetricHost.startSearch();
+                        baseSearchMetricHost.startSearch();
+                        searchMainTableMetricHost.startSearch();
+                        unsetToken("form.tk_input_whitelist_metric_host");
+
+                        // notify
+                        notification('Modification has been registered successfully.', 2000)
+
+                        // Audit success change
+                        var time = (new Date).getTime();
+                        var audit_record = {
+                            "time": time,
+                            "action": "success",
+                            "user": currentUser,
+                            "change_type": "delete whitelist index",
+                            "object": tk_metric_index,
+                            "object_category": "metric_host",
+                            "object_attrs": "index:" + tk_metric_index
+                        };
+                        $.ajax({
+                            url: auditendpoint_URl,
+                            type: "POST",
+                            async: true,
+                            contentType: "application/json",
+                            data: JSON.stringify(audit_record),
+                            success: function(returneddata) {
+                                //console.log("Updated!", returneddata)
+                                // Run the search again to update the table
+                            }
+                        });
+
+                        // house cleaning
+                        myendpoint_URl = undefined;
+                        delete(myendpoint_URl);
+                        tk_keyid = undefined;
+                        delete(tk_keyid);
+
+                        // Return to modal
+                        $("#modal_modify_metric_host_whitelist").modal();
+                    },
+                    error: function(xhr, textStatus, error) {
+                        message = "Error Updating!" + xhr + textStatus + error;
+
+                        // Audit failure change
+                        var time = (new Date).getTime();
+                        var audit_record = {
+                            "time": time,
+                            "action": "failure",
+                            "user": currentUser,
+                            "change_type": "delete whitelist index",
+                            "object": tk_metric_index,
+                            "object_category": "metric_host",
+                            "object_attrs": "index:" + tk_metric_index,
+                            "result": message
+                        };
+                        $.ajax({
+                            url: auditendpoint_URl,
+                            type: "POST",
+                            async: true,
+                            contentType: "application/json",
+                            data: JSON.stringify(audit_record),
+                            success: function(returneddata) {
+                                //console.log("Updated!", returneddata)
+                                // Run the search again to update the table
+                            }
+                        });
+
+                        // Hide main modal
+                        $("#modal_manage_metric_host_whitelist").modal('hide');
+                        $("#modal_modify_metric_host_whitelist").modal('hide');
+                        $("#modal_update_collection_failure_return").find('.modal-error-message p').text(message);
+                        $("#modal_update_collection_failure_return").modal()
+                    }
+
+                });
+
+            }
+
+        });
+
+        // add entry from whitelist
+
         $("#btn_modal_data_host_whitelist_add").click(function() {
 
             submitTokens();
@@ -14588,7 +15313,7 @@ require([
         });
 
         //
-        // whitelisting data source
+        // whitelisting data host
         //
 
         $('.btn_modify_data_host_whitelist').each(function() {
@@ -14610,6 +15335,32 @@ require([
 
             // Show input modal
             $("#modal_modify_data_host_whitelist").modal();
+
+        });
+
+        //
+        // whitelisting metric host
+        //
+
+        $('.btn_modify_metric_host_whitelist').each(function() {
+            var $btn_group = $(this);
+            $btn_group.find('button').on('click', function() {
+                var $btn = $(this);
+
+                submitTokens();
+                setToken("start_modify_metric_host_whitelist", "true");
+                // Show input modal
+                $("#modal_modify_metric_host_whitelist").modal();
+            });
+
+        });
+
+        // Return to bootstrap modal when clicking on cancel
+        $("#btn_delete_metric_host_whitelist_cancel").click(function() {
+            submitTokens();
+
+            // Show input modal
+            $("#modal_modify_metric_host_whitelist").modal();
 
         });
 
@@ -16165,6 +16916,12 @@ require([
             $("#modal_manage_data_host_blacklists").modal();
         });
 
+        // for metric indexes
+        $("#btn_modify_metric_host_blacklist_main").click(function() {
+            // Show input modal
+            $("#modal_manage_metric_host_blacklists").modal();
+        });
+
         // Cancel buttons
 
         $("#btn_modal_data_host_whitelist_add_cancel").click(function() {
@@ -17678,6 +18435,12 @@ function notification(s, time) {
   });
 
   $("<p>" + s + "</p>").appendTo('#boxnotify-modal_modify_data_host_whitelist').fadeTo(time, 1, function() {
+    $(this).fadeTo(1000, 0, function() {
+      $(this).remove()
+    });
+  });
+
+  $("<p>" + s + "</p>").appendTo('#boxnotify-modal_modify_metric_host_whitelist').fadeTo(time, 1, function() {
     $(this).fadeTo(1000, 0, function() {
       $(this).remove()
     });
