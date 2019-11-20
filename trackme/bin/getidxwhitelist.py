@@ -55,6 +55,12 @@ class CountMatchesCommand(StreamingCommand):
         **Description:** Name of the field that will hold the match count''',
         require=True, validate=validators.Fieldname())
 
+    outname = Option(
+        doc='''
+        **Syntax:** **outname=***<outname>*
+        **Description:** Name of the outpuf field that will hold the index name''',
+        require=True, validate=validators.Fieldname())
+
     pattern = Option(
         doc='''
         **Syntax:** **pattern=***<regular-expression>*
@@ -64,6 +70,7 @@ class CountMatchesCommand(StreamingCommand):
     def stream(self, records):
         self.logger.debug('CountMatchesCommand: %s', self)  # logs command line
         pattern = self.pattern
+        outname = self.outname
 
         count = 0
         whitelist = ""
@@ -82,7 +89,7 @@ class CountMatchesCommand(StreamingCommand):
 
         # whitelist is empty
         if count == 0:
-            whitelist = "[('data_index', '*')]"
+            whitelist = "[('" + str(outname) + "', '*')]"
 
         yield {'_raw': str(whitelist)}
 
