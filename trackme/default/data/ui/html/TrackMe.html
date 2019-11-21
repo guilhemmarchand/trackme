@@ -2736,13 +2736,7 @@ styles in <div> tags, similar to Bootstrap's grid system.
                             <div class="btn_modify_metric_host_whitelist custom-btn">
                                 <button type="submit" style="margin-right: 15px;" class="btn btn-default btn-primary" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Manage: whitelist indexes</button>
                             </div>
-                            <div class="btn_modify_metric_host_blacklist_host custom-btn">
-                                <button type="submit" style="margin-right: 15px;" class="btn btn-default btn-primary" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Manage: blacklist hosts</button>
-                            </div>
-                            <div class="btn_modify_metric_host_blacklist_index custom-btn">
-                                <button type="submit" style="margin-right: 15px;" class="btn btn-default btn-primary" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Manage: blacklist indexes</button>
-                            </div>
-                            <div class="btn_modify_metric_host_blacklist_sourcetype custom-btn">
+                            <div class="btn_modify_metric_host_blacklist_metric_category custom-btn">
                                 <button type="submit" style="margin-right: 15px;" class="btn btn-default btn-primary" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Manage: blacklist metric_category</button>
                             </div>
                         </div>
@@ -12399,6 +12393,8 @@ require([
                                 done: function(job) {
                                     // Once the job is done, update all searches
                                     unsetToken("form.tk_input_metric_policy_metric_category");
+                                    baseSearchMetricHost.startSearch();
+                                    searchMainTableMetricHost.startSearch();
                                     searchMetricPolicies.startSearch();
                                     baseSearchMetricHost.startSearch();
 
@@ -12523,6 +12519,8 @@ require([
                         //console.log("Updated!", returneddata)
                         // Run the search again to update the table
                         unsetToken("form.tk_input_metric_policy_metric_category");
+                        baseSearchMetricHost.startSearch();
+                        searchMainTableMetricHost.startSearch();
                         searchMetricPolicies.startSearch();
                         baseSearchMetricHost.startSearch();
 
