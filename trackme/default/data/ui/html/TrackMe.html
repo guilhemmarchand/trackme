@@ -294,6 +294,7 @@ styles in <div> tags, similar to Bootstrap's grid system.
                         </div>
 
                         <div class="modal-footer">
+                            <button type="submit" id="btn_refresh_data_source" role="button" class="btn btn-primary btn-default pull-left"><span class="glyphicon glyphicon-remove"></span>Refresh</button>
                             <button type="submit" id="btn_enable_monitoring" role="button" class="btn btn-primary btn-default"><span class="glyphicon glyphicon-remove"></span>Enable</button>
                             <button type="submit" id="btn_disable_monitoring" role="button" class="btn btn-danger btn-default"><span class="glyphicon glyphicon-remove"></span>Disable</button>
                             <button type="submit" id="btn_modify_data_source" role="button" class="btn btn-primary btn-default"><span class="glyphicon glyphicon-remove"></span>Modify</button>
@@ -407,6 +408,7 @@ styles in <div> tags, similar to Bootstrap's grid system.
                         </div>
 
                         <div class="modal-footer">
+                            <button type="submit" id="btn_refresh_data_host" role="button" class="btn btn-primary btn-default pull-left"><span class="glyphicon glyphicon-remove"></span>Refresh</button>
                             <button type="submit" id="btn_enable_monitoring_host" role="button" class="btn btn-primary btn-default"><span class="glyphicon glyphicon-remove"></span>Enable</button>
                             <button type="submit" id="btn_disable_monitoring_host" role="button" class="btn btn-danger btn-default"><span class="glyphicon glyphicon-remove"></span>Disable</button>
                             <button type="submit" id="btn_modify_data_host" role="button" class="btn btn-primary btn-default"><span class="glyphicon glyphicon-remove"></span>Modify</button>
@@ -11357,6 +11359,19 @@ require([
 
             }
 
+        });
+
+        // refresh data_source
+        $("#btn_refresh_data_source").click(function(mode) {
+            searchSingleLag.startSearch();
+            searchChartLag.startSearch();
+        });
+
+        // refresh data_host
+        $("#btn_refresh_data_host").click(function(mode) {
+            searchSingleLagHost.startSearch();
+            searchChartHostBaseSearch.startSearch();
+            searchChartLagHostOverTime.startSearch();
         });
 
         // refresh metric_host
