@@ -34,3 +34,5 @@ Upgrades
 ========
 
 Upgrading the Splunk application is pretty much the same operation than the initial deployment.
+
+All of TrackMe components and configuration items are upgraded resilient, in respects with Splunk configuration good practices.
