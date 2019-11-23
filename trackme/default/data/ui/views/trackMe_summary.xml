@@ -1,20 +1,40 @@
 <dashboard theme="dark">
-  <label>TrackMe Mobile Copy</label>
+  <label>TrackMe Mobile</label>
   <description>Connected Experience tracking review of data sources availability</description>
+
+  <search id="baseMainDataSources">
+    <query>| `tstats` max(_indextime) as current_data_last_ingest, max(_time) as current_data_last_time_seen count as current_data_last_count_seen where index=* sourcetype=* `trackme_tstats_main_filter` `trackme_get_idx_whitelist(trackme_data_source_monitoring_whitelist_index, data_index)` `apply_data_source_blacklists_data_retrieve` by index, sourcetype | rename index as data_index, sourcetype as data_sourcetype | lookup trackme_data_source_monitoring data_index, data_sourcetype OUTPUT data_name | append [ | inputlookup trackme_data_source_monitoring | eval keyid=_key | search `trackme_get_idx_whitelist_searchtime(trackme_data_source_monitoring_whitelist_index, data_index)` ] | stats first(*) as "*" by data_name, data_index, data_sourcetype | eval data_last_ingest=if(isnotnull(current_data_last_ingest), current_data_last_ingest, data_last_ingest), data_last_time_seen=if(isnotnull(current_data_last_time_seen), current_data_last_time_seen, data_last_time_seen) | eval current_data_last_count_seen=if(isnotnull(current_data_last_count_seen), current_data_last_count_seen, data_last_count_seen) | fields - current_* | eventstats max(data_last_time_seen) as data_last_time_seen_idx, min(data_last_lag_seen) as data_last_lag_seen_idx by data_index | `trackme_eval_data_source_state` | `trackme_default_priority` | `trackme_date_format(data_last_time_seen)` | `trackme_date_format(data_last_time_seen_idx)` | `trackme_date_format(data_last_ingest)` | fillnull value="red" data_source_state | sort 0 data_source | `trackme_eval_icons`</query>
+      <earliest>-5m</earliest>
+      <latest>now</latest>
+      <sampleRatio>1</sampleRatio>
+      <refresh>30s</refresh>
+      <refreshType>delay</refreshType>
+  </search>
+
+  <search id="baseMainDataHosts">
+    <query>| `tstats` max(_indextime) as current_data_last_ingest, max(_time) as current_data_last_time_seen count as current_data_last_count_seen values(sourcetype) as sourcetype where index=* sourcetype=* host=* host!="" `trackme_tstats_main_filter` `trackme_get_idx_whitelist(trackme_data_host_monitoring_whitelist_index, data_index)` `apply_data_host_blacklists_data_retrieve` by index, host | stats max(current_data_last_ingest) as current_data_last_ingest, max(current_data_last_time_seen) as current_data_last_time_seen, sum(current_data_last_count_seen) as current_data_last_count_seen, values(index) as index, values(sourcetype) as sourcetype by host | rename index as data_index, host as data_host, sourcetype as data_sourcetype | lookup trackme_host_monitoring data_host | append [ | inputlookup trackme_host_monitoring | eval keyid=_key ] | stats values(data_index) as data_index, values(data_sourcetype) as data_sourcetype, first(*) as "*" by data_host | eval data_last_ingest=if(isnotnull(current_data_last_ingest), current_data_last_ingest, data_last_ingest), data_last_time_seen=if(isnotnull(current_data_last_time_seen), current_data_last_time_seen, data_last_time_seen) | eval current_data_last_count_seen=if(isnotnull(current_data_last_count_seen), current_data_last_count_seen, data_last_count_seen) | fields - current_* | `trackme_eval_data_host_state` | `trackme_default_priority` | `trackme_date_format(data_last_time_seen)` | `trackme_date_format(data_last_time_seen_idx)` | `trackme_date_format(data_last_ingest)` | fillnull value="red" data_host_state | sort 0 data_host | `trackme_eval_icons_host` | search data_host=* | search data_host=* data_monitored_state=* | fields keyid, data_host, data_index, data_sourcetype, data_last_ingest, "data_last_ingest (translated)", "data_last_time_seen (translated)", data_last_time_seen, state, data_last_lag_seen, data_max_lag_allowed, monitoring, data_monitored_state, data_monitoring_wdays, data_host_state, data_override_lagging_class, priority | `apply_data_host_blacklists` | rename "data_last_ingest (translated)" as "last ingest", "data_last_time_seen (translated)" as "last time" | eval data_index_raw=data_index, data_sourcetype_raw=data_sourcetype | makemv data_index delim="," | makemv data_sourcetype delim="," | eval data_tracker_runtime=now() | lookup local=t trackme_host_monitoring data_host OUTPUT data_host_state as data_previous_host_state, data_tracker_runtime as data_previous_tracker_runtime, latest_flip_state, latest_flip_time | `trackme_date_format("latest_flip_time")` | fillnull value="N/A" latest_flip_state, latest_flip_time, "latest_flip_time (translated)" | search `trackme_get_idx_whitelist_searchtime(trackme_data_host_monitoring_whitelist_index, data_index)`</query>
+      <earliest>-5m</earliest>
+      <latest>now</latest>
+      <sampleRatio>1</sampleRatio>
+      <refresh>30s</refresh>
+      <refreshType>delay</refreshType>
+  </search>
+
+  <search id="baseMainMetricHosts">
+    <query>| savedsearch "trackMe - metric host table report" | `trackme_eval_icons_metric_host` | eval metric_index_raw=metric_index, metric_category_raw=metric_category, metric_details_raw=metric_details | lookup local=t trackme_metric_host_monitoring metric_host OUTPUT metric_host_state as metric_previous_host_state, metric_tracker_runtime as metric_previous_tracker_runtime, latest_flip_state, latest_flip_time | where isnotnull(metric_previous_tracker_runtime) | `trackme_date_format("latest_flip_time")` | fillnull value="N/A" latest_flip_state, latest_flip_time, "latest_flip_time (translated)"</query>
+      <earliest>-5m</earliest>
+      <latest>now</latest>
+      <sampleRatio>1</sampleRatio>
+      <refresh>30s</refresh>
+      <refreshType>delay</refreshType>
+  </search>
+
   <row>
     <panel>
       <title>Any priority data sources in SLA alert</title>
       <single>
-        <search>
-          <query>| inputlookup trackme_data_source_monitoring
-| `apply_data_source_blacklists`
-| search `trackme_get_idx_whitelist_searchtime(trackme_data_source_monitoring_whitelist_index)`
-| where data_monitored_state="enabled" AND data_source_state="red" | stats dc(data_name)</query>
-          <earliest>-5m</earliest>
-          <latest>now</latest>
-          <sampleRatio>1</sampleRatio>
-          <refresh>30s</refresh>
-          <refreshType>delay</refreshType>
+        <search base="baseMainDataSources">
+          <query>stats count</query>
         </search>
         <option name="colorBy">value</option>
         <option name="colorMode">none</option>
@@ -37,16 +57,8 @@
     <panel>
       <title>High priority data sources in SLA alert</title>
       <single>
-        <search>
-          <query>| inputlookup trackme_data_source_monitoring
-| `apply_data_source_blacklists`
-| search `trackme_get_idx_whitelist_searchtime(trackme_data_source_monitoring_whitelist_index)`
-| where data_monitored_state="enabled" AND data_source_state="red" AND priority="high" | stats dc(data_name)</query>
-          <earliest>-5m</earliest>
-          <latest>now</latest>
-          <sampleRatio>1</sampleRatio>
-          <refresh>30s</refresh>
-          <refreshType>delay</refreshType>
+        <search base="baseMainDataSources">
+          <query>| where data_monitored_state="enabled" AND data_source_state="red" AND priority="high" | stats count</query>
         </search>
         <option name="colorBy">value</option>
         <option name="colorMode">none</option>
@@ -71,16 +83,8 @@
     <panel>
       <title>Any priority data hosts in SLA alert</title>
       <single>
-        <search>
-          <query>| inputlookup trackme_host_monitoring
-| `apply_data_host_blacklists`
-| makemv data_index delim="," | search `trackme_get_idx_whitelist_searchtime(trackme_data_host_monitoring_whitelist_index)`
-| where data_monitored_state="enabled" AND data_host_state="red" | stats dc(data_host)</query>
-          <earliest>-5m</earliest>
-          <latest>now</latest>
-          <sampleRatio>1</sampleRatio>
-          <refresh>30s</refresh>
-          <refreshType>delay</refreshType>
+        <search base="baseMainDataHosts">
+          <query>stats count</query>
         </search>
         <option name="colorBy">value</option>
         <option name="colorMode">none</option>
@@ -103,16 +107,58 @@
     <panel>
       <title>High priority data hosts in SLA alert</title>
       <single>
-        <search>
-          <query>| inputlookup trackme_host_monitoring
-| `apply_data_host_blacklists`
-| makemv data_index delim="," | search `trackme_get_idx_whitelist_searchtime(trackme_data_host_monitoring_whitelist_index)`
-| where data_monitored_state="enabled" AND data_host_state="red" AND priority="high" | stats dc(data_host)</query>
-          <earliest>-5m</earliest>
-          <latest>now</latest>
-          <sampleRatio>1</sampleRatio>
-          <refresh>30s</refresh>
-          <refreshType>delay</refreshType>
+        <search base="baseMainDataHosts">
+          <query>| where data_monitored_state="enabled" AND data_host_state="red" AND priority="high" | stats count</query>
+        </search>
+        <option name="colorBy">value</option>
+        <option name="colorMode">none</option>
+        <option name="drilldown">none</option>
+        <option name="numberPrecision">0</option>
+        <option name="rangeColors">["0x53a051","0xdc4e41"]</option>
+        <option name="rangeValues">[0]</option>
+        <option name="showSparkline">1</option>
+        <option name="showTrendIndicator">1</option>
+        <option name="trellis.enabled">0</option>
+        <option name="trellis.scales.shared">1</option>
+        <option name="trellis.size">medium</option>
+        <option name="trendColorInterpretation">standard</option>
+        <option name="trendDisplayMode">absolute</option>
+        <option name="unitPosition">after</option>
+        <option name="useColors">1</option>
+        <option name="useThousandSeparators">1</option>
+      </single>
+    </panel>
+  </row>
+  <row>
+    <panel>
+      <title>Any priority metric hosts in SLA alert</title>
+      <single>
+        <search base="baseMainMetricHosts">
+          <query>stats count</query>
+        </search>
+        <option name="colorBy">value</option>
+        <option name="colorMode">none</option>
+        <option name="drilldown">none</option>
+        <option name="numberPrecision">0</option>
+        <option name="rangeColors">["0x53a051","0xf8be34"]</option>
+        <option name="rangeValues">[0]</option>
+        <option name="showSparkline">1</option>
+        <option name="showTrendIndicator">1</option>
+        <option name="trellis.enabled">0</option>
+        <option name="trellis.scales.shared">1</option>
+        <option name="trellis.size">medium</option>
+        <option name="trendColorInterpretation">standard</option>
+        <option name="trendDisplayMode">absolute</option>
+        <option name="unitPosition">after</option>
+        <option name="useColors">1</option>
+        <option name="useThousandSeparators">1</option>
+      </single>
+    </panel>
+    <panel>
+      <title>High priority metric hosts in SLA alert</title>
+      <single>
+        <search base="baseMainMetricHosts">
+          <query>| where metric_monitored_state="enabled" AND metric_host_state="red" AND priority="high" | stats count</query>
         </search>
         <option name="colorBy">value</option>
         <option name="colorMode">none</option>
@@ -137,24 +183,14 @@
     <panel>
       <table>
         <title>Data Sources in SLA alert by priority</title>
-        <search>
-          <query>| inputlookup trackme_data_source_monitoring
-| `apply_data_source_blacklists`
-| search `trackme_get_idx_whitelist_searchtime(trackme_data_source_monitoring_whitelist_index)`
-| where data_monitored_state="enabled"
-| where data_source_state="red"
+        <search base="baseMainDataSources">
+          <query>| where data_monitored_state="enabled" AND data_source_state="red"
 | eval priority_num=case(priority="low", 2, priority="medium", 1, priority="high", 0)
 | sort limit=0 priority_num, data_host
-| fields data_name data_last_ingest data_last_lag_seen data_last_time_seen data_max_lag_allowed priority
 | `trackme_date_format(data_last_ingest)`
 | `trackme_date_format(data_last_time_seen)`
 | fields data_name "data_last_ingest (translated)" "data_last_time_seen (translated)" data_last_lag_seen "data_last_time_seen (translated)" data_max_lag_allowed priority
 | rename "* (translated)" as "*"</query>
-          <earliest>-5m</earliest>
-          <latest>now</latest>
-          <sampleRatio>1</sampleRatio>
-          <refresh>30s</refresh>
-          <refreshType>delay</refreshType>
         </search>
         <option name="drilldown">none</option>
       </table>
@@ -164,24 +200,31 @@
     <panel>
       <table>
         <title>Data hosts in SLA alert by priority</title>
-        <search>
-          <query>| inputlookup trackme_host_monitoring
-| `apply_data_host_blacklists`
-| makemv data_index delim="," | search `trackme_get_idx_whitelist_searchtime(trackme_data_host_monitoring_whitelist_index)`
-| where data_monitored_state="enabled"
-| where data_host_state="red"
+        <search base="baseMainDataHosts">
+          <query>| where data_monitored_state="enabled" AND data_host_state="red"
 | eval priority_num=case(priority="low", 2, priority="medium", 1, priority="high", 0)
 | sort limit=0 priority_num, data_host
-| fields data_host data_last_ingest data_last_lag_seen data_last_time_seen data_max_lag_allowed priority
 | `trackme_date_format(data_last_ingest)`
 | `trackme_date_format(data_last_time_seen)`
 | fields data_host "data_last_ingest (translated)" "data_last_time_seen (translated)" data_last_lag_seen "data_last_time_seen (translated)" data_max_lag_allowed priority
 | rename "* (translated)" as "*"</query>
-          <earliest>-5m</earliest>
-          <latest>now</latest>
-          <sampleRatio>1</sampleRatio>
-          <refresh>30s</refresh>
-          <refreshType>delay</refreshType>
+        </search>
+        <option name="drilldown">none</option>
+      </table>
+    </panel>
+  </row>
+  <row>
+    <panel>
+      <table>
+        <title>Metric hosts in SLA alert by priority</title>
+        <search base="baseMainMetricHosts">
+          <query>| where metric_monitored_state="enabled" AND metric_host_state="red"
+| eval priority_num=case(priority="low", 2, priority="medium", 1, priority="high", 0)
+| sort limit=0 priority_num, metric_host
+| `trackme_date_format(metric_last_time_seen)`
+| makemv delim="," metric_details
+| fields metric_host  metric_last_lag_seen	"metric_last_time_seen (translated)" metric_details priority
+| rename "* (translated)" as "*"</query>
         </search>
         <option name="drilldown">none</option>
       </table>

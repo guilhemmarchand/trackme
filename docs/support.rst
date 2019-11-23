@@ -1,7 +1,7 @@
 Support
 #######
 
-This is application is community supported.
+This application is community supported.
 
 To get support, use of one the following options:
 
@@ -15,7 +15,7 @@ Open a question in Splunk answers for the application:
 Splunk community slack
 ======================
 
-Contact me on Splunk community slack, or even better, ask the community !
+Contact me on Splunk community slack, and even better, ask the community!
 
 - https://splunk-usergroups.slack.com
 

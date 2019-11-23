@@ -96,18 +96,57 @@ The data hosts state table exposes the information and the state of each data ho
 - **state:** the state of the data source based on the monitoring rules for this data host
 - **data_last_lag_seen:** the latest lag value in seconds seen for that data source
 - **data_max_lag_allowed:** the maximal value of lag accepted for this data source
-- **monitoring:** the monitoring state of this data source, can be enabled or disabled
+- **monitoring:** the monitoring state of this data host, can be enabled or disabled
 - **data_monitoring_wdays:** defines the week days monitoring rule for the data source, different values are possible and exposed further in this documentation
 
 **Trackers:**
 
-The update of the data source monitoring collection is driven by the execution of the data source scheduled tracker reports:
+The update of the data host monitoring collection is driven by the execution of the data host scheduled tracker reports:
 
 - TrackMe - Data hosts availability short term tracker, runs every 5 minutes over the last 4 hours
 - TrackMe - Data hosts availability short term tracker, runs every hour over the last 7 days
 
 Both tracker reports rely on extremely fast and cost less tstats queries.
 Even on very large environments, the tracker's run time and running costs are very limited.
+
+Metric hosts availability tracking
+==================================
+
+.. image:: img/metric_host_main.png
+   :alt: metrics_host_main.png
+   :align: center
+
+**Metric hosts availability tracking monitors hosts generating metrics stored into metrics indexes, it provides:**
+
+- Single form overview of the total number of metrics hosts discovered ("METRIC HOSTS")
+- Single form overview of the number of metric hosts in alert ("ANY PRIORITY METRIC HOSTS IN ALERT")
+- Single form overview of the number of metric hosts in alert with an high priority ("HIGH PRIORITY METRIC HOSTS IN ALERT")
+- Single form overview of the total number of metric hosts that are not being monitored ("METRIC HOSTS NOT MONITORED")
+- Filters for investigations
+- A dynamic and interactive table representation of the metric hosts content. (see bellow)
+
+**Metric host state table:**
+
+The metric hosts state table exposes the information and the state of each metric host:
+
+- **metric_host:** the discovered name of the host
+- **metric_index:** the name of the index(es) where resides the data
+- **metric_category:** this field represents the main category of the metrics group, being the first segment of the metric_name value
+- **metric_details_human:** A multi-value field which tracks for each metric category the individual status
+- **latest time:** The very latest time a metric was seen for the host (between all metric categories)
+- **priority:** a value that describes the priority (low / medium / high) of the metric host, to be used for granular alerting purposes
+- **state:** the state of the metric host, by default shall any of the metric categories enters in a red state so will be the host state
+- **monitoring:** the monitoring state of this host, can be enabled or disabled
+
+**Trackers:**
+
+The update of the metric host monitoring collection is driven by the execution of the metric host scheduled tracker report:
+
+- TrackMe - metric hosts availability tracker, runs every 5 minutes over the last 5 minutes
+
+The tracker uses the mstats command to retrieve the latest value and the according time on a per metric category.
+
+These information are merged with the existing (if any) information stored in the KVstore collection, to finally define a state for each metric category, and a state for each host.
 
 Interactive drilldown and administration of objects
 ===================================================
@@ -126,14 +165,20 @@ The main concept of the user interface resides in providing an easy and interact
    :alt: data_host_drilldown.png
    :align: center
 
-*Both tracking provides the same types of access to the administration options:*
+*Accessing a metric host overview and options:*
+
+.. image:: img/metric_host_drilldown.png
+   :alt: metric_host_drilldown.png
+   :align: center
+
+*Different options are available depending on the type of object:*
 
 .. image:: img/drilldown_mainoptions.png
    :alt: drilldown_mainoptions.png
    :align: center
 
-Modification of data sources or hosts monitoring rules
-======================================================
+Modification of objects and monitoring rules
+============================================
 
 Enabling / Deactivating monitoring
 ----------------------------------
@@ -142,7 +187,7 @@ Enabling / Deactivating monitoring
    :alt: enable_disable.png
    :align: center
 
-Each object, either a data source or a data host, has a monitoring state that will be enabled or disabled.
+Each object has a monitoring state that will be enabled or disabled.
 
 The monitoring state drives different aspects of the restitution within the UI, and as well the fact that this object will result in an alert trigger or not.
 
@@ -184,6 +229,8 @@ Modifying monitoring week days
 ------------------------------
 
 **You can modify the rules for days of week monitoring, which means specifying for which days of the week a data will be monitored actively:**
+
+*Week days monitoring rules apply to event data only (data sources and hosts)*
 
 .. image:: img/week_days1.png
    :alt: week_days1.png

@@ -90,11 +90,13 @@ Finally, in addition the following macro is used within the searches, and can be
 Activation of builtin alerts
 ============================
 
-**TrackMe provides out of the box alerts that be used to deliver alerting when a data source or host reaches a red alert:**
+**TrackMe provides out of the box alerts that can be used to deliver alerting when a monitored component reaches a red state:**
 
 - TrackMe - Alert on data source availability
 
 - TrackMe - Alert on data host availability
+
+- TrackMe - Alert on metric host availability
 
 **These alerts are disabled by default, and need to be manually enabled if you wish to use them in your global alerting workflow.**
 
