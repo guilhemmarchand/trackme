@@ -5,8 +5,9 @@ Version 1.0.25
 ==============
 
 - feature: Introducing support for metric store availability monitoring with metric hosts and granular detection of metric availability failure and latency
-- feature: Refresh button in all modal windows
+- feature: Refresh button in all modal windows, improved placements for buttons, improved navigation coherence between modal windows
 - fix: data host modal embedded charts and table should honour tstats main filter, whitelists and blacklists
+- fix: Improved Mobile dashboard
 
 Version 1.0.24
 ==============
