@@ -297,9 +297,10 @@ styles in <div> tags, similar to Bootstrap's grid system.
                             <button type="submit" id="btn_refresh_data_source" role="button" class="btn btn-primary btn-default pull-left"><span class="glyphicon glyphicon-remove"></span>Refresh</button>
                             <button type="submit" id="btn_enable_monitoring" role="button" class="btn btn-primary btn-default"><span class="glyphicon glyphicon-remove"></span>Enable</button>
                             <button type="submit" id="btn_disable_monitoring" role="button" class="btn btn-danger btn-default"><span class="glyphicon glyphicon-remove"></span>Disable</button>
+                            <button type="submit" id="btn_delete_data_source" role="button" class="btn btn-danger btn-default"><span class="glyphicon glyphicon-remove"></span>Delete</button>
                             <button type="submit" id="btn_modify_data_source" role="button" class="btn btn-primary btn-default"><span class="glyphicon glyphicon-remove"></span>Modify</button>
                             <a class="btn btn-primary" id="btn_search_data_source" target="_blank" href="search_data_source_url" role="button">Search</a>
-                            <button type="submit" id="btn_delete_data_source" role="button" class="btn btn-danger btn-default"><span class="glyphicon glyphicon-remove"></span>Delete</button>
+                            <button type="submit" class="btn btn-default btn-default" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Close</button>
                         </div>
                     </div>
                 </div>
@@ -411,9 +412,10 @@ styles in <div> tags, similar to Bootstrap's grid system.
                             <button type="submit" id="btn_refresh_data_host" role="button" class="btn btn-primary btn-default pull-left"><span class="glyphicon glyphicon-remove"></span>Refresh</button>
                             <button type="submit" id="btn_enable_monitoring_host" role="button" class="btn btn-primary btn-default"><span class="glyphicon glyphicon-remove"></span>Enable</button>
                             <button type="submit" id="btn_disable_monitoring_host" role="button" class="btn btn-danger btn-default"><span class="glyphicon glyphicon-remove"></span>Disable</button>
+                            <button type="submit" id="btn_delete_data_host" role="button" class="btn btn-danger btn-default"><span class="glyphicon glyphicon-remove"></span>Delete</button>
                             <button type="submit" id="btn_modify_data_host" role="button" class="btn btn-primary btn-default"><span class="glyphicon glyphicon-remove"></span>Modify</button>
                             <a class="btn btn-primary" id="btn_search_data_host" target="_blank" href="search_data_source_url" role="button">Search</a>
-                            <button type="submit" id="btn_delete_data_host" role="button" class="btn btn-danger btn-default"><span class="glyphicon glyphicon-remove"></span>Delete</button>
+                            <button type="submit" class="btn btn-default btn-default" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Close</button>
                         </div>
                     </div>
                 </div>
@@ -503,10 +505,11 @@ styles in <div> tags, similar to Bootstrap's grid system.
                             <button type="submit" id="btn_refresh_metric_host" role="button" class="btn btn-primary btn-default pull-left"><span class="glyphicon glyphicon-remove"></span>Refresh</button>
                             <button type="submit" id="btn_enable_monitoring_metric_host" role="button" class="btn btn-primary btn-default"><span class="glyphicon glyphicon-remove"></span>Enable</button>
                             <button type="submit" id="btn_disable_monitoring_metric_host" role="button" class="btn btn-danger btn-default"><span class="glyphicon glyphicon-remove"></span>Disable</button>
+                            <button type="submit" id="btn_delete_metric_host" role="button" class="btn btn-danger btn-default"><span class="glyphicon glyphicon-remove"></span>Delete</button>
                             <button type="submit" id="btn_modify_metric_host" role="button" class="btn btn-primary btn-default"><span class="glyphicon glyphicon-remove"></span>Modify</button>
                             <a class="btn btn-primary" id="btn_search_metric_host" target="_blank" href="search_metric_source_url" role="button">Metrics mcatalog report</a>
                             <a class="btn btn-primary" id="btn_search_metric_host_live_report" target="_blank" href="search_metric_source_live_report_url" role="button">Metrics live report</a>
-                            <button type="submit" id="btn_delete_metric_host" role="button" class="btn btn-danger btn-default"><span class="glyphicon glyphicon-remove"></span>Delete</button>
+                            <button type="submit" class="btn btn-default btn-default" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Close</button>
                         </div>
                     </div>
                 </div>
@@ -1254,7 +1257,8 @@ styles in <div> tags, similar to Bootstrap's grid system.
 
                 </div>
                 <div class="modal-footer">
-                    <button type="submit" id="btn_modal_data_source_whitelist_add_cancel" class="btn btn-default btn-default pull-left" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Cancel</button>
+                    <button type="submit" id="btn_modal_data_source_whitelist_add_cancel" class="btn btn-default btn-primary pull-left" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Back</button>
+                    <button type="submit" class="btn btn-default btn-default pull-right" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Cancel</button>
                 </div>
             </div>
         </div>
@@ -1360,7 +1364,8 @@ styles in <div> tags, similar to Bootstrap's grid system.
 
                 </div>
                 <div class="modal-footer">
-                    <button type="submit" id="btn_modal_data_host_whitelist_add_cancel" class="btn btn-default btn-default pull-left" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Cancel</button>
+                    <button type="submit" id="btn_modal_data_host_whitelist_add_cancel" class="btn btn-default btn-primary pull-left" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Back</button>
+                    <button type="submit" class="btn btn-default btn-default pull-right" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Cancel</button>
                 </div>
             </div>
         </div>
@@ -1466,7 +1471,8 @@ styles in <div> tags, similar to Bootstrap's grid system.
 
                 </div>
                 <div class="modal-footer">
-                    <button type="submit" id="btn_modal_metric_host_whitelist_add_cancel" class="btn btn-default btn-default pull-left" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Cancel</button>
+                    <button type="submit" id="btn_modal_metric_host_whitelist_add_cancel" class="btn btn-default btn-primary pull-left" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Back</button>
+                    <button type="submit" class="btn btn-default btn-default pull-right" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Cancel</button>
                 </div>
             </div>
         </div>
@@ -1557,7 +1563,8 @@ styles in <div> tags, similar to Bootstrap's grid system.
 
                 </div>
                 <div class="modal-footer">
-                    <button type="submit" id="btn_modal_data_source_blacklist_host_add_cancel" class="btn btn-default btn-default pull-left" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Cancel</button>
+                    <button type="submit" id="btn_modal_data_source_blacklist_host_add_cancel" class="btn btn-default btn-primary pull-left" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Back</button>
+                    <button type="submit" class="btn btn-default btn-default pull-right" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Cancel</button>
                 </div>
             </div>
         </div>
@@ -1652,7 +1659,8 @@ styles in <div> tags, similar to Bootstrap's grid system.
 
                 </div>
                 <div class="modal-footer">
-                    <button type="submit" id="btn_modal_data_source_blacklist_index_add_cancel" class="btn btn-default btn-default pull-left" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Cancel</button>
+                    <button type="submit" id="btn_modal_data_source_blacklist_index_add_cancel" class="btn btn-default btn-primary pull-left" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Back</button>
+                    <button type="submit" class="btn btn-default btn-default pull-right" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Cancel</button>
                 </div>
             </div>
         </div>
@@ -1747,7 +1755,8 @@ styles in <div> tags, similar to Bootstrap's grid system.
 
                 </div>
                 <div class="modal-footer">
-                    <button type="submit" id="btn_modal_data_source_blacklist_sourcetype_add_cancel" class="btn btn-default btn-default pull-left" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Cancel</button>
+                    <button type="submit" id="btn_modal_data_source_blacklist_sourcetype_add_cancel" class="btn btn-default btn-primary pull-left" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Back</button>
+                    <button type="submit" class="btn btn-default btn-default pull-right" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Cancel</button>
                 </div>
             </div>
         </div>
@@ -1836,7 +1845,8 @@ styles in <div> tags, similar to Bootstrap's grid system.
 
                 </div>
                 <div class="modal-footer">
-                    <button type="submit" id="btn_modal_data_host_blacklist_host_add_cancel" class="btn btn-default btn-default pull-left" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Cancel</button>
+                    <button type="submit" id="btn_modal_data_host_blacklist_host_add_cancel" class="btn btn-default btn-primary pull-left" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Back</button>
+                    <button type="submit" class="btn btn-default btn-default pull-right" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Cancel</button>
                 </div>
             </div>
         </div>
@@ -1982,7 +1992,8 @@ styles in <div> tags, similar to Bootstrap's grid system.
                 </div>
 
                 <div style="margin-top: 20px;" class="modal-footer">
-                    <button type="submit" id="btn_close_data_source_unified" class="btn btn-default btn-default pull-right" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Back</button>
+                    <button type="submit" id="btn_close_data_source_unified" class="btn btn-default btn-primary pull-left" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Back</button>
+                    <button type="submit" class="btn btn-default btn-right" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Close</button>
                 </div>
 
             </div>
@@ -2079,7 +2090,8 @@ styles in <div> tags, similar to Bootstrap's grid system.
                 </div>
 
                 <div class="modal-footer">
-                    <button type="submit" id="btn_close_data_host_unified" class="btn btn-default btn-default pull-right" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> back</button>
+                    <button type="submit" id="btn_close_data_host_unified" class="btn btn-default btn-primary pull-left" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Back</button>
+                    <button type="submit" class="btn btn-default btn-default" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Close</button>
                 </div>
             </div>
 
@@ -2129,7 +2141,8 @@ styles in <div> tags, similar to Bootstrap's grid system.
                 </div>
 
                 <div class="modal-footer">
-                    <button type="submit" id="btn_close_metric_host_unified" class="btn btn-default btn-default pull-right" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> back</button>
+                    <button type="submit" id="btn_close_metric_host_unified" class="btn btn-default btn-primary pull-left" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Back</button>
+                    <button type="submit" class="btn btn-default btn-default" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Close</button>
                 </div>
             </div>
 
@@ -2936,7 +2949,8 @@ styles in <div> tags, similar to Bootstrap's grid system.
 
                 </div>
                 <div class="modal-footer">
-                    <button type="submit" id="btn_modal_data_host_blacklist_index_add_cancel" class="btn btn-default btn-default pull-left" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Cancel</button>
+                    <button type="submit" id="btn_modal_data_host_blacklist_index_add_cancel" class="btn btn-default btn-primary pull-left" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Back</button>
+                    <button type="submit" class="btn btn-default btn-default pull-right" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Cancel</button>
                 </div>
             </div>
         </div>
@@ -3031,7 +3045,8 @@ styles in <div> tags, similar to Bootstrap's grid system.
 
                 </div>
                 <div class="modal-footer">
-                    <button type="submit" id="btn_modal_data_host_blacklist_sourcetype_add_cancel" class="btn btn-default btn-default pull-left" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Cancel</button>
+                    <button type="submit" id="btn_modal_data_host_blacklist_sourcetype_add_cancel" class="btn btn-default btn-primary pull-left" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Back</button>
+                    <button type="submit" class="btn btn-default btn-default pull-right" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Cancel</button>
                 </div>
             </div>
         </div>
@@ -3126,7 +3141,8 @@ styles in <div> tags, similar to Bootstrap's grid system.
 
                 </div>
                 <div class="modal-footer">
-                    <button type="submit" id="btn_modal_metric_host_blacklist_metric_category_add_cancel" class="btn btn-default btn-default pull-left" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Cancel</button>
+                    <button type="submit" id="btn_modal_metric_host_blacklist_metric_category_add_cancel" class="btn btn-default btn-primary pull-left" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Back</button>
+                    <button type="submit" class="btn btn-default btn-default pull-right" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Close</button>
                 </div>
             </div>
         </div>
@@ -3235,7 +3251,7 @@ styles in <div> tags, similar to Bootstrap's grid system.
         </div>
     </div>
 
-    <div id="rowSingleFormsDataHost" class="dashboard-row dashboard-rowSingleFormsDataHost" data-depends="$show_host_tracker$">
+    <div id="rowSingleFormsDataHost" class="dashboard-row dashboard-rowSingleFormsDataHost" data-depends="$show_data_host_tracker$">
         <div id="SingleFormsDataHost" class="dashboard-row dashboard-row1" data-original-id="SingleFormsDataHost">
             <div id="SingleFormsDataHostPanel1" class="dashboard-cell" style="width: 25%;" data-original-id="SingleFormsDataHostPanel1">
                 <div class="dashboard-panel clearfix">
@@ -3356,7 +3372,7 @@ styles in <div> tags, similar to Bootstrap's grid system.
         </div>
     </div>
 
-    <div id="row2b" class="dashboard-row dashboard-row2" data-depends="$show_host_tracker$">
+    <div id="row2b" class="dashboard-row dashboard-row2" data-depends="$show_data_host_tracker$">
         <div id="panel2b" class="dashboard-cell" style="width: 100%;">
             <div class="dashboard-panel clearfix">
                 <h2 class="panel-title">Click on any entry of the table to open interactive actions for the host:</h2>
@@ -3502,7 +3518,7 @@ styles in <div> tags, similar to Bootstrap's grid system.
         </div>
     </div>
 
-    <div id="rowDataHostsBtns" class="dashboard-row dashboard-rowDataSourcesBtns" data-depends="$show_host_tracker$">
+    <div id="rowDataHostsBtns" class="dashboard-row dashboard-rowDataSourcesBtns" data-depends="$show_data_host_tracker$">
         <div id="panelDataHostsBtns" class="dashboard-cell" style="width: 100%;">
             <div class="dashboard-panel clearfix">
                 <div class="panel-element-row">
@@ -3539,7 +3555,7 @@ styles in <div> tags, similar to Bootstrap's grid system.
         </div>
     </div>
 
-    <div id="rowDataHostsTable" class="dashboard-row dashboard-rowDataSourcesTable" data-depends="$show_host_tracker$">
+    <div id="rowDataHostsTable" class="dashboard-row dashboard-rowDataSourcesTable" data-depends="$show_data_host_tracker$">
         <div id="panelDataHostsTable" class="dashboard-cell" style="width: 100%;">
             <div class="dashboard-panel clearfix">
                 <div class="panel-element-row">
@@ -4136,66 +4152,6 @@ require([
         // SEARCH MANAGERS
         //
 
-        var baseSearchDataSource = new SearchManager({
-            "id": "baseSearchDataSource",
-            "earliest_time": "$earliest$",
-            "sample_ratio": null,
-            "cancelOnUnload": true,
-            "latest_time": "$latest$",
-            "search": "| inputlookup trackme_data_source_monitoring",
-            "status_buckets": 0,
-            "app": utils.getCurrentApp(),
-            "auto_cancel": 90,
-            "preview": true,
-            "tokenDependencies": {
-                "depends": "$show_data_source_tracker$"
-            },
-            "runWhenTimeIsUndefined": false
-        }, {
-            tokens: true,
-            tokenNamespace: "submitted"
-        });
-
-        var baseSearchDataHost = new SearchManager({
-            "id": "baseSearchDataHost",
-            "earliest_time": "$earliest$",
-            "sample_ratio": null,
-            "cancelOnUnload": true,
-            "latest_time": "$latest$",
-            "search": "| inputlookup trackme_host_monitoring",
-            "status_buckets": 0,
-            "app": utils.getCurrentApp(),
-            "auto_cancel": 90,
-            "preview": true,
-            "tokenDependencies": {
-                "depends": "$show_host_tracker$"
-            },
-            "runWhenTimeIsUndefined": false
-        }, {
-            tokens: true,
-            tokenNamespace: "submitted"
-        });
-
-        var baseSearchMetricHost = new SearchManager({
-            "id": "baseSearchMetricHost",
-            "earliest_time": "$earliest$",
-            "sample_ratio": null,
-            "cancelOnUnload": true,
-            "latest_time": "$latest$",
-            "search": "| inputlookup trackme_metric_host_monitoring",
-            "status_buckets": 0,
-            "app": utils.getCurrentApp(),
-            "auto_cancel": 90,
-            "preview": true,
-            "tokenDependencies": {
-                "depends": "$show_metric_host_tracker$"
-            },
-            "runWhenTimeIsUndefined": false
-        }, {
-            tokens: true,
-            tokenNamespace: "submitted"
-        });
-
         // whitelist
 
         // whitelist data_source
@@ -4258,7 +4214,7 @@ require([
             "auto_cancel": 90,
             "preview": true,
             "tokenDependencies": {
-                "depends": "$show_host_tracker$",
+                "depends": "$show_data_host_tracker$",
                 "depends": "$start_modify_data_host_whitelist$",
             },
             "runWhenTimeIsUndefined": false
@@ -4292,15 +4248,15 @@ require([
 
         // data sources monitoring
 
-        var searchMainTable = new SearchManager({
-            "id": "searchMainTable",
-            "earliest_time": "-15m",
+        var searchDataSourcesMain = new SearchManager({
+            "id": "searchDataSourcesMain",
+            "earliest_time": "-5m",
             "cancelOnUnload": true,
             "sample_ratio": null,
             "refreshType": "delay",
             "refresh": "$refresh$",
             "latest_time": "now",
-            "search": "| `tstats` max(_indextime) as current_data_last_ingest, max(_time) as current_data_last_time_seen count as current_data_last_count_seen where index=* sourcetype=* `trackme_tstats_main_filter` `trackme_get_idx_whitelist(trackme_data_host_monitoring_whitelist_index, data_index)` `apply_data_source_blacklists_data_retrieve` by index, sourcetype | rename index as data_index, sourcetype as data_sourcetype | lookup trackme_data_source_monitoring data_index, data_sourcetype OUTPUT data_name | append [ | inputlookup trackme_data_source_monitoring | eval keyid=_key | search `trackme_get_idx_whitelist_searchtime(trackme_data_source_monitoring_whitelist_index, data_index)` ] | stats first(*) as \"*\" by data_name, data_index, data_sourcetype | eval data_last_ingest=if(isnotnull(current_data_last_ingest), current_data_last_ingest, data_last_ingest), data_last_time_seen=if(isnotnull(current_data_last_time_seen), current_data_last_time_seen, data_last_time_seen) | eval current_data_last_count_seen=if(isnotnull(current_data_last_count_seen), current_data_last_count_seen, data_last_count_seen) | fields - current_* | eventstats max(data_last_time_seen) as data_last_time_seen_idx, min(data_last_lag_seen) as data_last_lag_seen_idx by data_index | `trackme_eval_data_source_state` | `trackme_default_priority` | `trackme_date_format(data_last_time_seen)` | `trackme_date_format(data_last_time_seen_idx)` | `trackme_date_format(data_last_ingest)` | fillnull value=\"red\" data_source_state | sort 0 data_source | `trackme_eval_icons` | search $data_source_state$ | search $inputDataName$ $inputDataIndex$ $inputDataSourcetype$ $data_monitored_state$ $inputDataPriority$ | fields keyid, data_name, data_index, data_sourcetype, \"data_last_time_seen (translated)\", data_last_time_seen, \"data_last_ingest (translated)\", data_last_ingest, \"data_last_time_seen_idx (translated)\", data_last_time_seen_idx, state, data_last_lag_seen, data_last_lag_seen_idx, data_max_lag_allowed, monitoring, data_monitored_state, data_monitoring_level, data_source_state, data_monitoring_wdays, data_override_lagging_class, priority | search `trackme_get_idx_whitelist_searchtime(trackme_data_source_monitoring_whitelist_index, data_index)` | `apply_data_source_blacklists` | rename \"data_last_time_seen (translated)\" as \"last time\", \"data_last_ingest (translated)\" as \"last ingest\", \"data_last_time_seen_idx (translated)\" as \"last time idx\" | eval data_tracker_runtime=now() | lookup local=t trackme_data_source_monitoring data_name OUTPUT data_source_state as data_previous_source_state, data_tracker_runtime as data_previous_tracker_runtime, latest_flip_state, latest_flip_time | `trackme_date_format(\"latest_flip_time\")` | fillnull value=\"N/A\" latest_flip_state, latest_flip_time, \"latest_flip_time (translated)\"",
+            "search": "| `tstats` max(_indextime) as current_data_last_ingest, max(_time) as current_data_last_time_seen count as current_data_last_count_seen where index=* sourcetype=* `trackme_tstats_main_filter` `trackme_get_idx_whitelist(trackme_data_source_monitoring_whitelist_index, data_index)` `apply_data_source_blacklists_data_retrieve` by index, sourcetype | rename index as data_index, sourcetype as data_sourcetype | lookup trackme_data_source_monitoring data_index, data_sourcetype OUTPUT data_name | append [ | inputlookup trackme_data_source_monitoring | eval keyid=_key | search `trackme_get_idx_whitelist_searchtime(trackme_data_source_monitoring_whitelist_index, data_index)` ] | stats first(*) as \"*\" by data_name, data_index, data_sourcetype | eval data_last_ingest=if(isnotnull(current_data_last_ingest), current_data_last_ingest, data_last_ingest), data_last_time_seen=if(isnotnull(current_data_last_time_seen), current_data_last_time_seen, data_last_time_seen) | eval current_data_last_count_seen=if(isnotnull(current_data_last_count_seen), current_data_last_count_seen, data_last_count_seen) | fields - current_* | eventstats max(data_last_time_seen) as data_last_time_seen_idx, min(data_last_lag_seen) as data_last_lag_seen_idx by data_index | `trackme_eval_data_source_state` | `trackme_default_priority` | `trackme_date_format(data_last_time_seen)` | `trackme_date_format(data_last_time_seen_idx)` | `trackme_date_format(data_last_ingest)` | fillnull value=\"red\" data_source_state | sort 0 data_source | `trackme_eval_icons`",
             "status_buckets": 0,
             "app": utils.getCurrentApp(),
             "auto_cancel": 90,
@@ -4314,10 +4270,20 @@ require([
             tokenNamespace: "submitted"
         });
 
+        var searchDataSourcesPostTable = new PostProcessManager({
+            "tokenDependencies": {},
+            "search": "search $data_source_state$ | search $inputDataName$ $inputDataIndex$ $inputDataSourcetype$ $data_monitored_state$ $inputDataPriority$ | fields keyid, data_name, data_index, data_sourcetype, \"data_last_time_seen (translated)\", data_last_time_seen, \"data_last_ingest (translated)\", data_last_ingest, \"data_last_time_seen_idx (translated)\", data_last_time_seen_idx, state, data_last_lag_seen, data_last_lag_seen_idx, data_max_lag_allowed, monitoring, data_monitored_state, data_monitoring_level, data_source_state, data_monitoring_wdays, data_override_lagging_class, priority | search `trackme_get_idx_whitelist_searchtime(trackme_data_source_monitoring_whitelist_index, data_index)` | `apply_data_source_blacklists` | rename \"data_last_time_seen (translated)\" as \"last time\", \"data_last_ingest (translated)\" as \"last ingest\", \"data_last_time_seen_idx (translated)\" as \"last time idx\" | eval data_tracker_runtime=now() | lookup local=t trackme_data_source_monitoring data_name OUTPUT data_source_state as data_previous_source_state, data_tracker_runtime as data_previous_tracker_runtime, latest_flip_state, latest_flip_time | `trackme_date_format(\"latest_flip_time\")` | fillnull value=\"N/A\" latest_flip_state, latest_flip_time, \"latest_flip_time (translated)\"",
+            "managerid": "searchDataSourcesMain",
+            "id": "searchDataSourcesPostTable"
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        });
+
         var searchPopulateDataSources = new PostProcessManager({
             "tokenDependencies": {},
             "search": "stats values(data_name) as data_name | mvexpand data_name | dedup data_name | sort limit=0 data_name",
-            "managerid": "baseSearchDataSource",
+            "managerid": "searchDataSourcesMain",
             "id": "searchPopulateDataSources"
         }, {
             tokens: true,
@@ -4327,7 +4293,7 @@ require([
         var searchPopulateDataSourcesIndexes = new PostProcessManager({
             "tokenDependencies": {},
             "search": "stats values(data_index) as data_index | mvexpand data_index | dedup data_index | sort limit=0 data_index",
-            "managerid": "baseSearchDataSource",
+            "managerid": "searchDataSourcesMain",
             "id": "searchPopulateDataSourcesIndexes"
         }, {
             tokens: true,
@@ -4337,7 +4303,7 @@ require([
         var searchPopulateDataSourcesSourcetypes = new PostProcessManager({
             "tokenDependencies": {},
             "search": "search $inputDataName$ $inputDataIndex$ | stats values(data_sourcetype) as data_sourcetype | mvexpand data_sourcetype | dedup data_sourcetype | sort limit=0 data_sourcetype",
-            "managerid": "baseSearchDataSource",
+            "managerid": "searchDataSourcesMain",
             "id": "searchPopulateDataSourcesSourcetypes"
         }, {
             tokens: true,
@@ -4547,15 +4513,15 @@ require([
         });
 
         // metric hosts monitoring
-        var searchMainTableMetricHost = new SearchManager({
-            "id": "searchMainTableMetricHost",
+        var searchMetricHostsMain = new SearchManager({
+            "id": "searchMetricHostsMain",
             "earliest_time": "-5m",
             "cancelOnUnload": true,
             "sample_ratio": null,
             "refreshType": "delay",
             "refresh": "$refresh$",
             "latest_time": "now",
-            "search": "| savedsearch \"trackMe - metric host table report\" | `trackme_eval_icons_metric_host` | eval metric_index_raw=metric_index, metric_category_raw=metric_category, metric_details_raw=metric_details | lookup local=t trackme_metric_host_monitoring metric_host OUTPUT metric_host_state as metric_previous_host_state, metric_tracker_runtime as metric_previous_tracker_runtime, latest_flip_state, latest_flip_time | where isnotnull(metric_previous_tracker_runtime) | `trackme_date_format(\"latest_flip_time\")` | fillnull value=\"N/A\" latest_flip_state, latest_flip_time, \"latest_flip_time (translated)\" | search $inputMetricHostIndexes$ $inputMetricHostCategories$ $inputMetricHost$ $inputMetricHostPriority$",
+            "search": "| savedsearch \"trackMe - metric host table report\" | `trackme_eval_icons_metric_host` | eval metric_index_raw=metric_index, metric_category_raw=metric_category, metric_details_raw=metric_details | lookup local=t trackme_metric_host_monitoring metric_host OUTPUT metric_host_state as metric_previous_host_state, metric_tracker_runtime as metric_previous_tracker_runtime, latest_flip_state, latest_flip_time | where isnotnull(metric_previous_tracker_runtime) | `trackme_date_format(\"latest_flip_time\")` | fillnull value=\"N/A\" latest_flip_state, latest_flip_time, \"latest_flip_time (translated)\"",
             "status_buckets": 0,
             "app": utils.getCurrentApp(),
             "auto_cancel": 90,
@@ -4569,10 +4535,20 @@ require([
             tokenNamespace: "submitted"
         });
 
+        var searchMainTableMetricHost = new PostProcessManager({
+            "tokenDependencies": {},
+            "search": "search $inputMetricHostIndexes$ $inputMetricHostCategories$ $inputMetricHost$ $inputMetricHostPriority$ $metric_host_state$ $metric_monitored_state$",
+            "managerid": "searchMetricHostsMain",
+            "id": "searchMainTableMetricHost"
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        });
+
         var searchPopulateMetricHostsIndexes = new PostProcessManager({
             "tokenDependencies": {},
-            "search": "makemv metric_index delim=\",\" | stats values(metric_index) as metric_index | mvexpand metric_index | dedup metric_index | sort limit=0 metric_index",
-            "managerid": "baseSearchMetricHost",
+            "search": "stats values(metric_index) as metric_index | mvexpand metric_index | dedup metric_index | sort limit=0 metric_index",
+            "managerid": "searchMetricHostsMain",
             "id": "searchPopulateMetricHostsIndexes"
         }, {
             tokens: true,
@@ -4582,7 +4558,7 @@ require([
         var searchPopulateMetricHosts = new PostProcessManager({
             "tokenDependencies": {},
             "search": "stats count by metric_host | sort limit=0 metric_host",
-            "managerid": "baseSearchMetricHost",
+            "managerid": "searchMetricHostsMain",
             "id": "searchPopulateMetricHosts"
         }, {
             tokens: true,
@@ -4591,8 +4567,8 @@ require([
 
         var searchPopulateMetricHostsCategories = new PostProcessManager({
             "tokenDependencies": {},
-            "search": "makemv metric_category delim=\",\" | stats values(metric_category) as metric_category | mvexpand metric_category | dedup metric_category | search NOT [ | inputlookup trackme_metric_lagging_definition | table metric_category ] | sort limit=0 metric_category",
-            "managerid": "baseSearchMetricHost",
+            "search": "stats values(metric_category) as metric_category | mvexpand metric_category | dedup metric_category | search NOT [ | inputlookup trackme_metric_lagging_definition | table metric_category ] | sort limit=0 metric_category",
+            "managerid": "searchMetricHostsMain",
             "id": "searchPopulateMetricHostsCategories"
         }, {
             tokens: true,
@@ -4643,23 +4619,34 @@ require([
         });
 
         // hosts monitoring
-        var searchMainTableHost = new SearchManager({
-            "id": "searchMainTableHost",
-            "earliest_time": "-15m",
+
+        var searchDataHostsMain = new SearchManager({
+            "id": "searchDataHostsMain",
+            "earliest_time": "-5m",
             "cancelOnUnload": true,
             "sample_ratio": null,
             "refreshType": "delay",
             "refresh": "$refresh$",
             "latest_time": "now",
-            "search": "| `tstats` max(_indextime) as current_data_last_ingest, max(_time) as current_data_last_time_seen count as current_data_last_count_seen values(sourcetype) as sourcetype where index=* sourcetype=* host=* host!=\"\" `trackme_tstats_main_filter` `trackme_get_idx_whitelist(trackme_data_host_monitoring_whitelist_index, data_index)` `apply_data_host_blacklists_data_retrieve` by index, host | stats max(current_data_last_ingest) as current_data_last_ingest, max(current_data_last_time_seen) as current_data_last_time_seen, sum(current_data_last_count_seen) as current_data_last_count_seen, values(index) as index, values(sourcetype) as sourcetype by host | rename index as data_index, host as data_host, sourcetype as data_sourcetype | lookup trackme_host_monitoring data_host | append [ | inputlookup trackme_host_monitoring | eval keyid=_key ] | stats values(data_index) as data_index, values(data_sourcetype) as data_sourcetype, first(*) as \"*\" by data_host | eval data_last_ingest=if(isnotnull(current_data_last_ingest), current_data_last_ingest, data_last_ingest), data_last_time_seen=if(isnotnull(current_data_last_time_seen), current_data_last_time_seen, data_last_time_seen) | eval current_data_last_count_seen=if(isnotnull(current_data_last_count_seen), current_data_last_count_seen, data_last_count_seen) | fields - current_* | `trackme_eval_data_host_state` | `trackme_default_priority` | `trackme_date_format(data_last_time_seen)` | `trackme_date_format(data_last_time_seen_idx)` | `trackme_date_format(data_last_ingest)` | fillnull value=\"red\" data_host_state | sort 0 data_host | `trackme_eval_icons_host` | search data_host=* | search data_host=* $data_monitored_state$ | fields keyid, data_host, data_index, data_sourcetype, data_last_ingest, \"data_last_ingest (translated)\", \"data_last_time_seen (translated)\", data_last_time_seen, state, data_last_lag_seen, data_max_lag_allowed, monitoring, data_monitored_state, data_monitoring_wdays, data_host_state, data_override_lagging_class, priority | `apply_data_host_blacklists` | search $inputDataHost$ $data_host_state$ $data_monitored_state$ | rename \"data_last_ingest (translated)\" as \"last ingest\", \"data_last_time_seen (translated)\" as \"last time\" | eval data_index_raw=data_index, data_sourcetype_raw=data_sourcetype | makemv data_index delim=\",\" | makemv data_sourcetype delim=\",\" | eval data_tracker_runtime=now() | lookup local=t trackme_host_monitoring data_host OUTPUT data_host_state as data_previous_host_state, data_tracker_runtime as data_previous_tracker_runtime, latest_flip_state, latest_flip_time | `trackme_date_format(\"latest_flip_time\")` | fillnull value=\"N/A\" latest_flip_state, latest_flip_time, \"latest_flip_time (translated)\" | search `trackme_get_idx_whitelist_searchtime(trackme_data_host_monitoring_whitelist_index, data_index)` | search $inputDataHostIndexes$ $inputDataHostSourcetypes$ $inputDataHostPriority$",
+            "search": "| `tstats` max(_indextime) as current_data_last_ingest, max(_time) as current_data_last_time_seen count as current_data_last_count_seen values(sourcetype) as sourcetype where index=* sourcetype=* host=* host!=\"\" `trackme_tstats_main_filter` `trackme_get_idx_whitelist(trackme_data_host_monitoring_whitelist_index, data_index)` `apply_data_host_blacklists_data_retrieve` by index, host | stats max(current_data_last_ingest) as current_data_last_ingest, max(current_data_last_time_seen) as current_data_last_time_seen, sum(current_data_last_count_seen) as current_data_last_count_seen, values(index) as index, values(sourcetype) as sourcetype by host | rename index as data_index, host as data_host, sourcetype as data_sourcetype | lookup trackme_host_monitoring data_host | append [ | inputlookup trackme_host_monitoring | eval keyid=_key ] | stats values(data_index) as data_index, values(data_sourcetype) as data_sourcetype, first(*) as \"*\" by data_host | eval data_last_ingest=if(isnotnull(current_data_last_ingest), current_data_last_ingest, data_last_ingest), data_last_time_seen=if(isnotnull(current_data_last_time_seen), current_data_last_time_seen, data_last_time_seen) | eval current_data_last_count_seen=if(isnotnull(current_data_last_count_seen), current_data_last_count_seen, data_last_count_seen) | fields - current_* | `trackme_eval_data_host_state` | `trackme_default_priority` | `trackme_date_format(data_last_time_seen)` | `trackme_date_format(data_last_time_seen_idx)` | `trackme_date_format(data_last_ingest)` | fillnull value=\"red\" data_host_state | sort 0 data_host | `trackme_eval_icons_host` | search data_host=* | search data_host=* $data_monitored_state$ | fields keyid, data_host, data_index, data_sourcetype, data_last_ingest, \"data_last_ingest (translated)\", \"data_last_time_seen (translated)\", data_last_time_seen, state, data_last_lag_seen, data_max_lag_allowed, monitoring, data_monitored_state, data_monitoring_wdays, data_host_state, data_override_lagging_class, priority | `apply_data_host_blacklists` | search $inputDataHost$ $data_host_state$ $data_monitored_state$ | rename \"data_last_ingest (translated)\" as \"last ingest\", \"data_last_time_seen (translated)\" as \"last time\" | eval data_index_raw=data_index, data_sourcetype_raw=data_sourcetype | makemv data_index delim=\",\" | makemv data_sourcetype delim=\",\" | eval data_tracker_runtime=now() | lookup local=t trackme_host_monitoring data_host OUTPUT data_host_state as data_previous_host_state, data_tracker_runtime as data_previous_tracker_runtime, latest_flip_state, latest_flip_time | `trackme_date_format(\"latest_flip_time\")` | fillnull value=\"N/A\" latest_flip_state, latest_flip_time, \"latest_flip_time (translated)\" | search `trackme_get_idx_whitelist_searchtime(trackme_data_host_monitoring_whitelist_index, data_index)`",
             "status_buckets": 0,
             "app": utils.getCurrentApp(),
             "auto_cancel": 90,
             "preview": true,
             "tokenDependencies": {
-                "depends": "$show_host_tracker$"
+                "depends": "$show_data_host_tracker$"
             },
             "runWhenTimeIsUndefined": false
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        });
+
+        var searchMainTableHost = new PostProcessManager({
+            "tokenDependencies": {},
+            "search": "search $inputDataHostIndexes$ $inputDataHostSourcetypes$ $inputDataHostPriority$",
+            "managerid": "searchDataHostsMain",
+            "id": "searchMainTableHost"
         }, {
             tokens: true,
             tokenNamespace: "submitted"
@@ -4668,7 +4655,7 @@ require([
         var searchPopulateDataHostsIndexes = new PostProcessManager({
             "tokenDependencies": {},
             "search": "makemv data_index delim=\",\" | stats values(data_index) as data_index | mvexpand data_index | dedup data_index | sort limit=0 data_index",
-            "managerid": "baseSearchDataHost",
+            "managerid": "searchDataHostsMain",
             "id": "searchPopulateDataHostsIndexes"
         }, {
             tokens: true,
@@ -4678,7 +4665,7 @@ require([
         var searchPopulateDataHostsSourcetypes = new PostProcessManager({
             "tokenDependencies": {},
             "search": "makemv data_index delim=\",\" | makemv data_sourcetype delim=\",\" | search $inputDataHostIndexes$ | stats values(data_sourcetype) as data_sourcetype | mvexpand data_sourcetype | dedup data_sourcetype | sort limit=0 data_sourcetype",
-            "managerid": "baseSearchDataHost",
+            "managerid": "searchDataHostsMain",
             "id": "searchPopulateDataHostsSourcetypes"
         }, {
             tokens: true,
@@ -4688,7 +4675,7 @@ require([
         var searchPopulateDataHosts = new PostProcessManager({
             "tokenDependencies": {},
             "search": "makemv data_index delim=\",\" | makemv data_sourcetype delim=\",\" | search $inputDataHostIndexes$ $inputDataHostSourcetypes$ | stats values(data_host) as data_host | mvexpand data_host | dedup data_host | sort limit=0 data_host",
-            "managerid": "baseSearchDataHost",
+            "managerid": "searchDataHostsMain",
             "id": "searchPopulateDataHosts"
         }, {
             tokens: true,
@@ -4698,7 +4685,7 @@ require([
         var searchSingleNoDataSources = new PostProcessManager({
             "tokenDependencies": {},
             "search": "stats count by data_name | sort limit=0 data_name",
-            "managerid": "baseSearchDataSource",
+            "managerid": "searchDataSourcesMain",
             "id": "searchSingleNoDataSources"
         }, {
             tokens: true,
@@ -4708,7 +4695,7 @@ require([
         var searchSingleNoDataIndexes = new PostProcessManager({
             "tokenDependencies": {},
             "search": "stats count by data_index | sort limit=0 data_index",
-            "managerid": "baseSearchDataSource",
+            "managerid": "searchDataSourcesMain",
             "id": "searchSingleNoDataIndexes"
         }, {
             tokens: true,
@@ -4718,7 +4705,7 @@ require([
         var searchSingleNoDataSourcetypes = new PostProcessManager({
             "tokenDependencies": {},
             "search": "stats count by data_sourcetype | sort limit=0 data_sourcetype",
-            "managerid": "baseSearchDataSource",
+            "managerid": "searchDataSourcesMain",
             "id": "searchSingleNoDataSourcetypes"
         }, {
             tokens: true,
@@ -4728,7 +4715,7 @@ require([
         var searchSingleNoDataHosts = new PostProcessManager({
             "tokenDependencies": {},
             "search": "stats count by data_host | sort limit=0 data_host",
-            "managerid": "baseSearchDataHost",
+            "managerid": "searchDataHostsMain",
             "id": "searchSingleNoDataHosts"
         }, {
             tokens: true,
@@ -4738,7 +4725,7 @@ require([
         var searchSingleDataSource1 = new PostProcessManager({
             "tokenDependencies": {},
             "search": "search $inputDataName$ $inputDataIndex$ $inputDataSourcetype$ | stats count",
-            "managerid": "baseSearchDataSource",
+            "managerid": "searchDataSourcesMain",
             "id": "searchSingleDataSource1"
         }, {
             tokens: true,
@@ -4748,7 +4735,7 @@ require([
         var searchSingleDataSource2 = new PostProcessManager({
             "tokenDependencies": {},
             "search": "search $inputDataName$ $inputDataIndex$ $inputDataSourcetype$ | where data_source_state=\"red\" | where NOT data_monitored_state=\"disabled\" | stats count",
-            "managerid": "searchMainTable",
+            "managerid": "searchDataSourcesPostTable",
             "id": "searchSingleDataSource2"
         }, {
             tokens: true,
@@ -4758,7 +4745,7 @@ require([
         var searchSingleDataSourceHighPriority = new PostProcessManager({
             "tokenDependencies": {},
             "search": "search $inputDataName$ $inputDataIndex$ $inputDataSourcetype$ | where data_source_state=\"red\" AND priority=\"high\" | where NOT data_monitored_state=\"disabled\" | stats count",
-            "managerid": "searchMainTable",
+            "managerid": "searchDataSourcesPostTable",
             "id": "searchSingleDataSourceHighPriority"
         }, {
             tokens: true,
@@ -4768,7 +4755,7 @@ require([
         var searchSingleDataSource3 = new PostProcessManager({
             "tokenDependencies": {},
             "search": "search $inputDataName$ $inputDataIndex$ $inputDataSourcetype$ | where data_monitored_state=\"disabled\" | stats count",
-            "managerid": "baseSearchDataSource",
+            "managerid": "searchDataSourcesMain",
             "id": "searchSingleDataSource3"
         }, {
             tokens: true,
@@ -4778,7 +4765,7 @@ require([
         var searchSingleDataHost1 = new PostProcessManager({
             "tokenDependencies": {},
             "search": "makemv data_index delim=\",\" | makemv data_sourcetype delim=\",\" | search $inputDataHostIndexes$ $inputDataHostSourcetypes$ | stats dc(data_host) as count",
-            "managerid": "baseSearchDataHost",
+            "managerid": "searchDataHostsMain",
             "id": "searchSingleDataHost1"
         }, {
             tokens: true,
@@ -4798,7 +4785,7 @@ require([
         var searchSingleDataHost3 = new PostProcessManager({
             "tokenDependencies": {},
             "search": "makemv data_index delim=\",\" | makemv data_sourcetype delim=\",\" | search $inputDataHostIndexes$ $inputDataHostSourcetypes$ | where data_monitored_state=\"disabled\" | stats count",
-            "managerid": "baseSearchDataHost",
+            "managerid": "searchDataHostsMain",
             "id": "searchSingleDataHost3"
         }, {
             tokens: true,
@@ -4818,7 +4805,7 @@ require([
         var searchSingleMetricHost1 = new PostProcessManager({
             "tokenDependencies": {},
             "search": "search $inputMetricHostIndexes$ $inputMetricHostCategories$ | stats dc(metric_host) as count",
-            "managerid": "baseSearchMetricHost",
+            "managerid": "searchMetricHostsMain",
             "id": "searchSingleMetricHost1"
         }, {
             tokens: true,
@@ -4848,7 +4835,7 @@ require([
         var searchSingleMetricHost3 = new PostProcessManager({
             "tokenDependencies": {},
             "search": "search $inputMetricHostIndexes$ $inputMetricHostCategories$ | where metric_monitored_state=\"disabled\" | stats count",
-            "managerid": "baseSearchMetricHost",
+            "managerid": "searchMetricHostsMain",
             "id": "searchSingleMetricHost3"
         }, {
             tokens: true,
@@ -4931,7 +4918,7 @@ require([
             "auto_cancel": 90,
             "preview": true,
             "tokenDependencies": {
-                "depends": "$show_host_tracker$"
+                "depends": "$show_data_host_tracker$"
             },
             "runWhenTimeIsUndefined": false
         }, {
@@ -4971,7 +4958,7 @@ require([
             "auto_cancel": 90,
             "preview": true,
             "tokenDependencies": {
-                "depends": "$show_host_tracker$"
+                "depends": "$show_data_host_tracker$"
             },
             "runWhenTimeIsUndefined": false
         }, {
@@ -5011,7 +4998,7 @@ require([
             "auto_cancel": 90,
             "preview": true,
             "tokenDependencies": {
-                "depends": "$show_host_tracker$"
+                "depends": "$show_data_host_tracker$"
             },
             "runWhenTimeIsUndefined": false
         }, {
@@ -5257,7 +5244,7 @@ require([
             "auto_cancel": 90,
             "preview": true,
             "tokenDependencies": {
-                "depends": "$show_host_tracker$",
+                "depends": "$show_data_host_tracker$",
                 "depends": "$start_modify_data_host_whitelist$",
             },
             "runWhenTimeIsUndefined": false
@@ -6974,7 +6961,7 @@ require([
         var modal_input_data_host_whitelist = new DropdownInput({
             "id": "modal_input_data_host_whitelist",
             "tokenDependencies": {
-                "depends": "$show_host_tracker$"
+                "depends": "$show_data_host_tracker$"
             },
             "searchWhenChanged": true,
             "showClearButton": true,
@@ -8020,7 +8007,7 @@ require([
             "fields": "data_name, data_index, data_sourcetype, \"last time\", \"last ingest\", priority, state, data_last_lag_seen, \"last time idx\", data_last_lag_seen_idx, data_max_lag_allowed, monitoring, data_monitoring_level, data_monitoring_wdays",
             "refresh.display": "none",
             "wrap": "false",
-            "managerid": "searchMainTable",
+            "managerid": "searchDataSourcesPostTable",
             "el": $('#elementMainTable')
         }, {
             tokens: true,
@@ -9990,7 +9977,7 @@ require([
                     "label": "DATA SOURCES AVAILABILITY TRACKING"
                 },
                 {
-                    "value": "show_host_tracker",
+                    "value": "show_data_host_tracker",
                     "label": "DATA HOSTS AVAILABILITY TRACKING"
                 },
                 {
@@ -10026,13 +10013,13 @@ require([
         link1.on("valueChange", function(e) {
             if (e.value === "show_data_source_tracker") {
                 EventHandler.setToken("show_data_source_tracker", "true", {}, e.data);
-                EventHandler.unsetToken("show_host_tracker");
+                EventHandler.unsetToken("show_data_host_tracker");
                 EventHandler.unsetToken("show_audit_flip");
                 EventHandler.unsetToken("show_audit_changes");
                 EventHandler.unsetToken("show_manage");
                 EventHandler.unsetToken("show_metric_host_tracker");
-            } else if (e.value === "show_host_tracker") {
-                EventHandler.setToken("show_host_tracker", "true", {}, e.data);
+            } else if (e.value === "show_data_host_tracker") {
+                EventHandler.setToken("show_data_host_tracker", "true", {}, e.data);
                 EventHandler.unsetToken("show_data_source_tracker");
                 EventHandler.unsetToken("show_audit_flip");
                 EventHandler.unsetToken("show_audit_changes");
@@ -10041,28 +10028,28 @@ require([
             } else if (e.value === "show_metric_host_tracker") {
                 EventHandler.setToken("show_metric_host_tracker", "true", {}, e.data);
                 EventHandler.unsetToken("show_data_source_tracker");
-                EventHandler.unsetToken("show_host_tracker");
+                EventHandler.unsetToken("show_data_host_tracker");
                 EventHandler.unsetToken("show_audit_flip");
                 EventHandler.unsetToken("show_audit_changes");
                 EventHandler.unsetToken("show_manage");
             } else if (e.value === "show_audit_flip") {
                 EventHandler.setToken("show_audit_flip", "true", {}, e.data);
                 EventHandler.unsetToken("show_data_source_tracker");
-                EventHandler.unsetToken("show_host_tracker");
+                EventHandler.unsetToken("show_data_host_tracker");
                 EventHandler.unsetToken("show_audit_changes");
                 EventHandler.unsetToken("show_manage");
                 EventHandler.unsetToken("show_metric_host_tracker");
             } else if (e.value === "show_audit_changes") {
                 EventHandler.setToken("show_audit_changes", "true", {}, e.data);
                 EventHandler.unsetToken("show_data_source_tracker");
-                EventHandler.unsetToken("show_host_tracker");
+                EventHandler.unsetToken("show_data_host_tracker");
                 EventHandler.unsetToken("show_audit_flip");
                 EventHandler.unsetToken("show_manage");
                 EventHandler.unsetToken("show_metric_host_tracker");
             } else if (e.value === "show_manage") {
                 EventHandler.setToken("show_manage", "true", {}, e.data);
                 EventHandler.unsetToken("show_data_source_tracker");
-                EventHandler.unsetToken("show_host_tracker");
+                EventHandler.unsetToken("show_data_host_tracker");
                 EventHandler.unsetToken("show_audit_flip");
                 EventHandler.unsetToken("show_audit_changes");
                 EventHandler.unsetToken("show_metric_host_tracker");
@@ -10634,7 +10621,7 @@ require([
         var inputDataHostIndexes = new DropdownInput({
             "id": "inputDataHostIndexes",
             "tokenDependencies": {
-                "depends": "$show_host_tracker$"
+                "depends": "$show_data_host_tracker$"
             },
             "choices": [{
                 "label": "ANY",
@@ -10663,7 +10650,7 @@ require([
         var inputDataHostSourcetypes = new DropdownInput({
             "id": "inputDataHostSourcetypes",
             "tokenDependencies": {
-                "depends": "$show_host_tracker$"
+                "depends": "$show_data_host_tracker$"
             },
             "choices": [{
                 "label": "ANY",
@@ -10692,7 +10679,7 @@ require([
         var inputDataHost = new DropdownInput({
             "id": "inputDataHost",
             "tokenDependencies": {
-                "depends": "$show_host_tracker$"
+                "depends": "$show_data_host_tracker$"
             },
             "choices": [{
                 "label": "ANY",
@@ -11160,8 +11147,7 @@ require([
                         success: function(returneddata) {
                             //console.log("Updated!", returneddata)
                             // Run the search again to update the table
-                            baseSearchDataSource.startSearch();
-                            searchMainTable.startSearch();
+                            searchDataSourcesMain.startSearch();
 
                             // Audit success change
                             var time = (new Date).getTime();
@@ -11296,8 +11282,7 @@ require([
                         success: function(returneddata) {
                             //console.log("Updated!", returneddata)
                             // Run the search again to update the table
-                            searchMainTableHost.startSearch();
-                            baseSearchDataHost.startSearch();
+                            searchDataHostsMain.startSearch();
 
                             // Audit success change
                             var time = (new Date).getTime();
@@ -11442,8 +11427,7 @@ require([
                         success: function(returneddata) {
                             //console.log("Updated!", returneddata)
                             // Run the search again to update the table
-                            baseSearchMetricHost.startSearch();
-                            searchMainTableMetricHost.startSearch();
+                            searchMetricHostsMain.startSearch();
 
                             // Audit success change
                             var time = (new Date).getTime();
@@ -11573,8 +11557,7 @@ require([
                     success: function(returneddata) {
                         //console.log("Updated!", returneddata)
                         // Run the search again to update the table
-                        baseSearchMetricHost.startSearch();
-                        searchMainTableMetricHost.startSearch();
+                        searchMetricHostsMain.startSearch();
 
                         // notify
                         notification('Modification has been registered successfully.', 2000)
@@ -11726,8 +11709,7 @@ require([
                         success: function(returneddata) {
                             //console.log("Updated!", returneddata)
                             // Run the search again to update the table
-                            baseSearchDataSource.startSearch();
-                            searchMainTable.startSearch();
+                            searchDataSourcesMain.startSearch();
 
                             // Audit success change
                             var time = (new Date).getTime();
@@ -11862,7 +11844,7 @@ require([
                         success: function(returneddata) {
                             //console.log("Updated!", returneddata)
                             // Run the search again to update the table
-                            searchMainTableHost.startSearch();
+                            searchDataHostsMain.startSearch();
 
                             // Audit success change
                             var time = (new Date).getTime();
@@ -11993,8 +11975,7 @@ require([
                         success: function(returneddata) {
                             //console.log("Updated!", returneddata)
                             // Run the search again to update the table
-                            baseSearchMetricHost.startSearch();
-                            searchMainTableMetricHost.startSearch();
+                            searchMetricHostsMain.startSearch();
 
                             // Audit success change
                             var time = (new Date).getTime();
@@ -12122,8 +12103,7 @@ require([
                         success: function(returneddata) {
                             //console.log("Updated!", returneddata)
                             // Run the search again to update the table
-                            baseSearchMetricHost.startSearch();
-                            searchMainTableMetricHost.startSearch();
+                            searchMetricHostsMain.startSearch();
 
                             // Audit success change
                             var time = (new Date).getTime();
@@ -12203,8 +12183,7 @@ require([
                         success: function(returneddata) {
                             //console.log("Updated!", returneddata)
                             // Run the search again to update the table
-                            baseSearchMetricHost.startSearch();
-                            searchMainTableMetricHost.startSearch();
+                            searchMetricHostsMain.startSearch();
 
                             // Audit success change
                             var time = (new Date).getTime();
@@ -12343,8 +12322,7 @@ require([
                         success: function(returneddata) {
                             //console.log("Updated!", returneddata)
                             // Run the search again to update the table
-                            baseSearchDataSource.startSearch();
-                            searchMainTable.startSearch();
+                            searchDataSourcesMain.startSearch();
 
                             // Audit success change
                             var time = (new Date).getTime();
@@ -12425,8 +12403,7 @@ require([
                         success: function(returneddata) {
                             //console.log("Updated!", returneddata)
                             // Run the search again to update the table
-                            baseSearchDataSource.startSearch();
-                            searchMainTable.startSearch();
+                            searchDataSourcesMain.startSearch();
 
                             // Audit success change
                             var time = (new Date).getTime();
@@ -12556,8 +12533,7 @@ require([
                         success: function(returneddata) {
                             //console.log("Updated!", returneddata)
                             // Run the search again to update the table
-                            baseSearchDataHost.startSearch();
-                            searchMainTableHost.startSearch();
+                            searchDataHostsMain.startSearch();
 
                             // Audit success change
                             var time = (new Date).getTime();
@@ -12637,8 +12613,7 @@ require([
                         success: function(returneddata) {
                             //console.log("Updated!", returneddata)
                             // Run the search again to update the table
-                            baseSearchDataHost.startSearch();
-                            searchMainTableHost.startSearch();
+                            searchDataHostsMain.startSearch();
 
                             // Audit success change
                             var time = (new Date).getTime();
@@ -12784,10 +12759,8 @@ require([
                                 done: function(job) {
                                     // Once the job is done, update all searches
                                     unsetToken("form.tk_input_metric_policy_metric_category");
-                                    baseSearchMetricHost.startSearch();
-                                    searchMainTableMetricHost.startSearch();
+                                    searchMetricHostsMain.startSearch();
                                     searchMetricPolicies.startSearch();
-                                    baseSearchMetricHost.startSearch();
 
                                     // Audit success change
                                     var time = (new Date).getTime();
@@ -12910,10 +12883,8 @@ require([
                         //console.log("Updated!", returneddata)
                         // Run the search again to update the table
                         unsetToken("form.tk_input_metric_policy_metric_category");
-                        baseSearchMetricHost.startSearch();
-                        searchMainTableMetricHost.startSearch();
+                        searchMetricHostsMain.startSearch();
                         searchMetricPolicies.startSearch();
-                        baseSearchMetricHost.startSearch();
 
                         // notify
                         notification('Modification has been registered successfully.', 2000)
@@ -13302,8 +13273,7 @@ require([
                                     // Once the job is done, update all searches
                                     searchWhiteListDataSource.startSearch();
                                     searchSingleWhiteListDataSource.startSearch();
-                                    baseSearchDataSource.startSearch();
-                                    searchMainTable.startSearch();
+                                    searchDataSourcesMain.startSearch();
                                     searchPopulateIndexesForWhiteListDataSource.startSearch();
                                     unsetToken("form.tk_input_whitelist_data_source");
 
@@ -13408,8 +13378,7 @@ require([
                         // Run the search again to update the table
                         searchWhiteListDataSource.startSearch();
                         searchSingleWhiteListDataSource.startSearch();
-                        baseSearchDataSource.startSearch();
-                        searchMainTable.startSearch();
+                        searchDataSourcesMain.startSearch();
                         searchPopulateIndexesForWhiteListDataSource.startSearch();
                         unsetToken("form.tk_input_whitelist_data_source");
 
@@ -13571,8 +13540,7 @@ require([
                                     searchPopulateIndexesForWhiteListMetricHost.startSearch();
                                     searchWhiteListMetricHost.startSearch();
                                     searchSingleWhiteListMetricHost.startSearch();
-                                    baseSearchMetricHost.startSearch();
-                                    searchMainTableMetricHost.startSearch();
+                                    searchMetricHostsMain.startSearch();
                                     unsetToken("form.tk_input_whitelist_metric_host");
 
                                     // notify
@@ -13677,8 +13645,7 @@ require([
                         searchPopulateIndexesForWhiteListMetricHost.startSearch();
                         searchWhiteListMetricHost.startSearch();
                         searchSingleWhiteListMetricHost.startSearch();
-                        baseSearchMetricHost.startSearch();
-                        searchMainTableMetricHost.startSearch();
+                        searchMetricHostsMain.startSearch();
                         unsetToken("form.tk_input_whitelist_metric_host");
 
                         // notify
@@ -13838,8 +13805,7 @@ require([
                                     // Once the job is done, update all searches
                                     searchWhiteListDataHost.startSearch();
                                     searchSingleWhiteListDataHost.startSearch();
-                                    baseSearchDataHost.startSearch();
-                                    searchMainTableHost.startSearch();
+                                    searchDataHostsMain.startSearch();
                                     searchPopulateIndexesForWhiteListDataHost.startSearch();
                                     unsetToken("form.tk_input_whitelist_data_host");
 
@@ -13944,8 +13910,7 @@ require([
                         // Run the search again to update the table
                         searchWhiteListDataHost.startSearch();
                         searchSingleWhiteListDataHost.startSearch();
-                        baseSearchDataHost.startSearch();
-                        searchMainTableHost.startSearch();
+                        searchDataHostsMain.startSearch();
                         searchPopulateIndexesForWhiteListDataHost.startSearch();
                         unsetToken("form.tk_input_whitelist_data_host");
 
@@ -14110,8 +14075,7 @@ require([
                                     // Once the job is done, update all searches
                                     searchBlackListDataSourceHost.startSearch();
                                     searchSingleBlackListDataSourceHost.startSearch();
-                                    baseSearchDataSource.startSearch();
-                                    searchMainTable.startSearch();
+                                    searchDataSourcesMain.startSearch();
                                     // notify
                                     notification('Modification has been registered successfully.', 2000)
 
@@ -14213,8 +14177,7 @@ require([
                         // Run the search again to update the table
                         searchBlackListDataSourceHost.startSearch();
                         searchSingleBlackListDataSourceHost.startSearch();
-                        baseSearchDataSource.startSearch();
-                        searchMainTable.startSearch();
+                        searchDataSourcesMain.startSearch();
 
                         // notify
                         notification('Modification has been registered successfully.', 2000)
@@ -14373,8 +14336,7 @@ require([
                                     // Once the job is done, update all searches
                                     searchBlackListDataHostHost.startSearch();
                                     searchSingleBlackListDataHostHost.startSearch();
-                                    searchMainTableHost.startSearch();
-                                    baseSearchDataHost.startSearch();
+                                    searchDataHostsMain.startSearch();
 
                                     // notify
                                     notification('Modification has been registered successfully.', 2000)
@@ -14477,8 +14439,7 @@ require([
                         // Run the search again to update the table
                         searchBlackListDataHostHost.startSearch();
                         searchSingleBlackListDataHostHost.startSearch();
-                        searchMainTableHost.startSearch();
-                        baseSearchDataHost.startSearch();
+                        searchDataHostsMain.startSearch();
 
                         // notify
                         notification('Modification has been registered successfully.', 2000)
@@ -14637,8 +14598,7 @@ require([
                                     // Once the job is done, update all searches
                                     searchBlackListDataSourceIndex.startSearch();
                                     searchSingleBlackListDataSourceIndex.startSearch();
-                                    baseSearchDataSource.startSearch();
-                                    searchMainTable.startSearch();
+                                    searchDataSourcesMain.startSearch();
 
                                     // notify
                                     notification('Modification has been registered successfully.', 2000)
@@ -14741,8 +14701,7 @@ require([
                         // Run the search again to update the table
                         searchBlackListDataSourceIndex.startSearch();
                         searchSingleBlackListDataSourceIndex.startSearch();
-                        baseSearchDataSource.startSearch();
-                        searchMainTable.startSearch();
+                        searchDataSourcesMain.startSearch();
 
                         // notify
                         notification('Modification has been registered successfully.', 2000)
@@ -14899,8 +14858,7 @@ require([
                                     // Once the job is done, update all searches
                                     searchBlackListDataHostIndex.startSearch();
                                     searchSingleBlackListDataHostIndex.startSearch();
-                                    baseSearchDataHost.startSearch();
-                                    searchMainTableHost.startSearch();
+                                    searchDataHostsMain.startSearch();
 
                                     // notify
                                     notification('Modification has been registered successfully.', 2000)
@@ -15003,8 +14961,7 @@ require([
                         // Run the search again to update the table
                         searchBlackListDataHostIndex.startSearch();
                         searchSingleBlackListDataHostIndex.startSearch();
-                        searchMainTableHost.startSearch();
-                        baseSearchDataHost.startSearch();
+                        searchDataHostsMain.startSearch();
 
                         // notify
                         notification('Modification has been registered successfully.', 2000)
@@ -15161,8 +15118,7 @@ require([
                                     // Once the job is done, update all searches
                                     searchBlackListDataSourceSourcetype.startSearch();
                                     searchSingleBlackListDataSourceSourcetype.startSearch();
-                                    baseSearchDataSource.startSearch();
-                                    searchMainTable.startSearch();
+                                    searchDataSourcesMain.startSearch();
 
                                     // notify
                                     notification('Modification has been registered successfully.', 2000)
@@ -15265,8 +15221,7 @@ require([
                         // Run the search again to update the table
                         searchBlackListDataSourceSourcetype.startSearch();
                         searchSingleBlackListDataSourceSourcetype.startSearch();
-                        baseSearchDataSource.startSearch();
-                        searchMainTable.startSearch();
+                        searchDataSourcesMain.startSearch();
 
                         // notify
                         notification('Modification has been registered successfully.', 2000)
@@ -15423,8 +15378,7 @@ require([
                                     // Once the job is done, update all searches
                                     searchBlackListDataHostSourcetype.startSearch();
                                     searchSingleBlackListDataHostSourcetype.startSearch();
-                                    baseSearchDataHost.startSearch();
-                                    searchMainTableHost.startSearch();
+                                    searchDataHostsMain.startSearch();
 
                                     // notify
                                     notification('Modification has been registered successfully.', 2000)
@@ -15550,8 +15504,7 @@ require([
                         // Run the search again to update the table
                         searchBlackListDataHostSourcetype.startSearch();
                         searchSingleBlackListDataHostSourcetype.startSearch();
-                        baseSearchDataHost.startSearch();
-                        searchMainTableHost.startSearch();
+                        searchDataHostsMain.startSearch();
 
                         // notify
                         notification('Modification has been registered successfully.', 2000)
@@ -15685,8 +15638,7 @@ require([
                                     // Once the job is done, update all searches
                                     searchBlackListMetricHostMetricCategory.startSearch();
                                     searchPopulateMetricCategoriesForBlackListMetricHost.startSearch();
-                                    baseSearchMetricHost.startSearch();
-                                    searchMainTableMetricHost.startSearch();
+                                    searchMetricHostsMain.startSearch();
                                     unsetToken("form.tk_input_metric_host_blacklist_metric_category");
 
                                     // notify
@@ -15813,8 +15765,7 @@ require([
                         // Run the search again to update the table
                         searchBlackListMetricHostMetricCategory.startSearch();
                         searchPopulateMetricCategoriesForBlackListMetricHost.startSearch();
-                        baseSearchMetricHost.startSearch();
-                        searchMainTableMetricHost.startSearch();
+                        searchMetricHostsMain.startSearch();
                         unsetToken("form.tk_input_metric_host_blacklist_metric_category");
 
                         // notify
@@ -16394,8 +16345,7 @@ require([
                                                         //console.log("Done!");
 
                                                         // Once the job is done, update all searches
-                                                        baseSearchDataSource.startSearch();
-                                                        searchMainTable.startSearch();
+                                                        searchDataSourcesMain.startSearch();
 
                                                         $("#loadingGray").remove()
 
@@ -16615,8 +16565,7 @@ require([
                                                         //console.log("Done!");
 
                                                         // Once the job is done, update all searches
-                                                        baseSearchDataHost.startSearch();
-                                                        searchMainTableHost.startSearch();
+                                                        searchDataHostsMain.startSearch();
 
                                                         // Audit success change
                                                         var time = (new Date).getTime();
@@ -16836,8 +16785,7 @@ require([
                                                         //console.log("Done!");
 
                                                         // Once the job is done, update all searches
-                                                        baseSearchMetricHost.startSearch();
-                                                        searchMainTableMetricHost.startSearch();
+                                                        searchMetricHostsMain.startSearch();
 
                                                         // Audit success change
                                                         var time = (new Date).getTime();
@@ -16985,8 +16933,7 @@ require([
                                 //console.log("Done!");
 
                                 // Once the job is done, update all searches
-                                baseSearchDataSource.startSearch();
-                                searchMainTable.startSearch();
+                                searchDataSourcesMain.startSearch();
 
                                 $("#loadingGray").remove()
                                 $("#modal_update_collection_done").modal()
@@ -17074,8 +17021,7 @@ require([
                                 //console.log("Done!");
 
                                 // Once the job is done, update all searches
-                                searchMainTableHost.startSearch();
-                                baseSearchDataHost.startSearch();
+                                searchDataHostsMain.startSearch();
 
                                 $("#loadingGray").remove()
                                 $("#modal_update_collection_done").modal()
@@ -17166,8 +17112,7 @@ require([
                                 //console.log("Done!");
 
                                 // Once the job is done, update all searches
-                                baseSearchDataSource.startSearch();
-                                searchMainTable.startSearch();
+                                searchDataSourcesMain.startSearch();
 
                                 $("#loadingGray").remove()
                                 $("#modal_update_collection_done").modal()
@@ -17256,8 +17201,7 @@ require([
                                 //console.log("Done!");
 
                                 // Once the job is done, update all searches
-                                searchMainTableHost.startSearch();
-                                baseSearchDataHost.startSearch();
+                                searchDataHostsMain.startSearch();
 
                                 $("#loadingGray").remove()
                                 $("#modal_update_collection_done").modal()
@@ -17347,8 +17291,7 @@ require([
                                 //console.log("Done!");
 
                                 // Once the job is done, update all searches
-                                baseSearchMetricHost.startSearch();
-                                searchMainTableMetricHost.startSearch();
+                                searchMetricHostsMain.startSearch();
 
                                 $("#loadingGray").remove()
                                 $("#modal_update_collection_done").modal()
@@ -17438,8 +17381,7 @@ require([
                                 //console.log("Done!");
 
                                 // Once the job is done, update all searches
-                                baseSearchDataSource.startSearch();
-                                searchMainTable.startSearch();
+                                searchDataSourcesMain.startSearch();
 
                                 // Run second job!
 
@@ -17494,8 +17436,7 @@ require([
                                                     //console.log("Done!");
 
                                                     // Once the job is done, update all searches
-                                                    baseSearchDataHost.startSearch();
-                                                    searchMainTableHost.startSearch();
+                                                    searchDataHostsMain.startSearch();
 
                                                     $("#loadingGray").remove()
                                                     $("#modal_update_collection_done").modal()
@@ -17608,6 +17549,21 @@ require([
             $("#modal_manage_data_host_blacklists").modal();
         });
 
+        $("#btn_modal_data_host_blacklist_host_add_cancel").click(function() {
+            // Show input modal
+            $("#modal_manage_data_host_blacklists").modal();
+        });
+
+        $("#btn_modal_metric_host_whitelist_add_cancel").click(function() {
+            // Show input modal
+            $("#modal_manage_metric_host_blacklists").modal();
+        });
+
+        $("#btn_modal_metric_host_blacklist_metric_category_add_cancel").click(function() {
+            // Show input modal
+            $("#modal_manage_metric_host_blacklists").modal();
+        });
+
         //
         // MODIFY BUTTON
         //
@@ -17714,8 +17670,7 @@ require([
                     success: function(returneddata) {
                         //console.log("Updated!", returneddata)
                         // Run the search again to update the table
-                        baseSearchDataSource.startSearch();
-                        searchMainTable.startSearch();
+                        searchDataSourcesMain.startSearch();
 
                         // notify
                         notification('Modification has been registered successfully.', 2000)
@@ -17863,8 +17818,7 @@ require([
                     success: function(returneddata) {
                         //console.log("Updated!", returneddata)
                         // Run the search again to update the table
-                        baseSearchDataSource.startSearch();
-                        searchMainTable.startSearch();
+                        searchDataSourcesMain.startSearch();
 
                         // notify
                         notification('Modification has been registered successfully.', 2000)
@@ -18018,8 +17972,7 @@ require([
                     success: function(returneddata) {
                         //console.log("Updated!", returneddata)
                         // Run the search again to update the table
-                        baseSearchDataSource.startSearch();
-                        searchMainTable.startSearch();
+                        searchDataSourcesMain.startSearch();
 
                         $("#modal_modify_data_source_unified").modal();
 
@@ -18183,8 +18136,7 @@ require([
                     success: function(returneddata) {
                         //console.log("Updated!", returneddata)
                         // Run the search again to update the table
-                        baseSearchDataSource.startSearch();
-                        searchMainTable.startSearch();
+                        searchDataSourcesMain.startSearch();
 
                         // notify
                         notification('Modification has been registered successfully.', 2000)
@@ -18338,8 +18290,7 @@ require([
                     success: function(returneddata) {
                         //console.log("Updated!", returneddata)
                         // Run the search again to update the table
-                        baseSearchDataSource.startSearch();
-                        searchMainTable.startSearch();
+                        searchDataSourcesMain.startSearch();
                         // notify
                         notification('Modification has been registered successfully.', 2000)
 
@@ -18517,8 +18468,7 @@ require([
                     success: function(returneddata) {
                         //console.log("Updated!", returneddata)
                         // Run the search again to update the table
-                        searchMainTableHost.startSearch();
-                        baseSearchDataHost.startSearch();
+                        searchDataHostsMain.startSearch();
 
                         // notify
                         notification('Modification has been registered successfully.', 2000)
@@ -18654,8 +18604,7 @@ require([
                     success: function(returneddata) {
                         //console.log("Updated!", returneddata)
                         // Run the search again to update the table
-                        searchMainTableHost.startSearch();
-                        baseSearchDataHost.startSearch();
+                        searchDataHostsMain.startSearch();
 
                         // notify
                         notification('Modification has been registered successfully.', 2000)
@@ -18799,8 +18748,7 @@ require([
                     success: function(returneddata) {
                         //console.log("Updated!", returneddata)
                         // Run the search again to update the table
-                        searchMainTableHost.startSearch();
-                        baseSearchDataHost.startSearch();
+                        searchDataHostsMain.startSearch();
 
                         $("#modal_modify_data_source_unified").modal();
 
@@ -18958,8 +18906,7 @@ require([
                     success: function(returneddata) {
                         //console.log("Updated!", returneddata)
                         // Run the search again to update the table
-                        searchMainTableHost.startSearch();
-                        baseSearchDataHost.startSearch();
+                        searchDataHostsMain.startSearch();
 
                         // notify
                         notification('Modification has been registered successfully.', 2000)

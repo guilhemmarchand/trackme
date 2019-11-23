@@ -145,6 +145,7 @@ The update of the metric host monitoring collection is driven by the execution o
 - TrackMe - metric hosts availability tracker, runs every 5 minutes over the last 5 minutes
 
 The tracker uses the mstats command to retrieve the latest value and the according time on a per metric category.
+
 These information are merged with the existing (if any) information stored in the KVstore collection, to finally define a state for each metric category, and a state for each host.
 
 Interactive drilldown and administration of objects
