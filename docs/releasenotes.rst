@@ -1,6 +1,12 @@
 Release notes
 #############
 
+Version 1.0.29
+==============
+
+- fix: errors in Splunk Mobile dashboard (Any priority SLA alerts singles do not filter on red state)
+- fix: better table rendering in Splunk Mobile dashboard for metric hosts
+
 Version 1.0.28
 ==============
 
