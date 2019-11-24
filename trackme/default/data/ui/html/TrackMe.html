@@ -8376,7 +8376,7 @@ require([
                 // Define the URL target
                 document.getElementById("btn_search_metric_host").href = search_metric_host;
 
-                var search_metric_host_live_report = '| savedsearch \"trackMe - metric host live report\" metric_host=\"' + tk_metric_host + '"'
+                var search_metric_host_live_report = '| savedsearch \"trackMe - metric host live report\" host=\"' + tk_metric_host + '"'
                 search_metric_host_live_report = location.protocol + '//' + location.hostname + (location.port ? ':' + location.port : '') + '//app/trackme/search' + "?q=" + encodeURI(search_metric_host_live_report) + '&earliest=-15m&latest=now'
 
                 // Define the URL target
