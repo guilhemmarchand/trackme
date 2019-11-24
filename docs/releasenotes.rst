@@ -1,6 +1,11 @@
 Release notes
 #############
 
+Version 1.0.30
+==============
+
+- fix: Splunk Mobile Dashboard does not honour whitelist and blacklists for data sources
+
 Version 1.0.29
 ==============
 
