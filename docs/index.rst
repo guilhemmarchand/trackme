@@ -40,7 +40,7 @@ Welcome to the Splunk TrackMe application documentation
 
 Splunk administrators and engineers have to spend a good amount of time and energy to on-board new data sources, another data source after another data source.
 
-However, it is very frequent to realise after math that something when wrong, for some reason the sender stopped sending, an issue appeared, a network rule was lost...
+However, it is very frequent to realise after math that something went wrong, for some reason the sender stopped sending, an upgrade broke a configuration, a network rule was lost…
 
 No administrator should be informed of an issue in the data flow by the customer or end users, this is why you need pro-activity and cost less availability monitoring.
 
