@@ -1,6 +1,11 @@
 Release notes
 #############
 
+Version 1.0.27
+==============
+
+- fix: appinspect failure with metric_host variable replacement in "trackMe - metric per host table report"
+
 Version 1.0.26
 ==============
 
