@@ -1,6 +1,11 @@
 Release notes
 #############
 
+Version 1.0.28
+==============
+
+- fix: collection key id retrieval fails if a metric category has been blacklisted for an existing object
+
 Version 1.0.27
 ==============
 
