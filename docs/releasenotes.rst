@@ -1,6 +1,12 @@
 Release notes
 #############
 
+Version 1.0.31
+==============
+
+- feature: Add auditing view to report on application scheduling search workload
+- feature: Nav menus re-organized
+
 Version 1.0.30
 ==============
 

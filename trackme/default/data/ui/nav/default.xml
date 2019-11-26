@@ -1,10 +1,15 @@
 <nav search_view="search" color="#404040">
   <view name="TrackMe" default="true" />
   <view name="trackMe_summary" />
-  <view name="search" />
-  <view name="analysis_workspace" />
-  <view name="datasets" />
-  <view name="reports" />
-  <view name="alerts" />
-  <view name="dashboards" />
+  <collection label="Search">
+    <view name="search" />
+    <view name="reports" />
+    <view name="dashboards" />
+    <view name="alerts" />
+    <view name="analysis_workspace" />
+  </collection>
+  <collection label="Audit">
+    <a href="trackMe_internal_scheduling">Audit scheduling</a>
+  </collection>
+  <a href="search">Run a search</a>
 </nav>

@@ -1,0 +1,176 @@
+<form>
+    <label>TrackMe - Internal scheduling audit</label>
+    <!-- main search for scheduling cost -->
+    <search id="scheduling_mainsearch">
+        <query>index=_internal host="*" source=*scheduler.log status="*" NOT (status="continued" OR status=delegated*) trackme app="trackme"
+| timechart span=1d avg(run_time) AS avg_run_time, max(run_time) AS max_run_time, sum(run_time) AS sum_run_time
+| stats avg(avg_run_time) AS avg_run_time, avg(max_run_time) AS max_run_time, avg(sum_run_time) AS sum_run_time</query>
+        <earliest>-24h</earliest>
+        <latest>now</latest>
+        <sampleRatio>1</sampleRatio>
+    </search>
+    <search id="scheduling_table">
+        <query>index=_internal host="*" source=*scheduler.log status="*" AND status!="continued" trackme app="trackme" savedsearch_name="TrackMe - *"
+| stats avg(run_time) AS avg_run_time, max(run_time) AS max_run_time, latest(run_time) AS latest_run_time, max(_time) AS "last_run (dd/mm/YYYY H:M:S)" by app,savedsearch_name
+| append [ | rest splunk_server=local /servicesNS/-/trackme/saved/searches | search eai:acl.app="trackme" title="TrackMe - *" is_visible=1 | fields eai:acl.app, title, cron_schedule, schedule_window, disabled, next_scheduled_time | sort limit=0 title | rename eai:acl.app as app, title as savedsearch_name ]
+| stats first(*) as "*" by app, savedsearch_name
+| eval "last_run (dd/mm/YYYY H:M:S)"=strftime('last_run (dd/mm/YYYY H:M:S)', "%d/%m/%Y %H:%M:%S")
+| foreach *_run_time [ eval &lt;&lt;FIELD&gt;&gt;=round('&lt;&lt;FIELD&gt;&gt;', 2) ]
+| sort - avg_run_time | rename savedsearch_name AS "report (savedsearch_name)"
+| eval duration_avg=tostring(avg_run_time, "duration"), duration_max=tostring(max_run_time, "duration"), duration_latest=tostring(latest_run_time, "duration")
+| eval "Avg run time (seconds / duration)" = avg_run_time + " sec / " + duration_avg + " (HH:MM:SSS)"
+| eval "Max run time (seconds / duration)" = max_run_time + " sec / " + duration_avg + " (HH:MM:SSS)"
+| eval "Latest run time (seconds / duration)" = latest_run_time + " sec / " + duration_avg + " (HH:MM:SSS)"
+| fields app,report*,Avg*,Max*,Latest*,"last_run (dd/mm/YYYY H:M:S)", avg_run_time, cron_schedule, disabled, next_scheduled_time, schedule_window</query>
+        <earliest>$timerange_scheduled.earliest$</earliest>
+        <latest>$timerange_scheduled.latest$</latest>
+    </search>
+    <fieldset submitButton="false"></fieldset>
+    <row>
+        <panel>
+            <title>Scheduling summary</title>
+            <single>
+                <search>
+                    <query>index=_internal host="*" source=*scheduler.log status="*" NOT (status="continued" OR status=delegated*) trackme app="trackme"
+| bucket _time span=5m
+| stats count AS count by _time
+| stats avg(count) AS avg_scheduled_per_5min</query>
+                    <earliest>-24h</earliest>
+                    <latest>now</latest>
+                    <sampleRatio>1</sampleRatio>
+                </search>
+                <option name="colorBy">value</option>
+                <option name="colorMode">none</option>
+                <option name="drilldown">all</option>
+                <option name="numberPrecision">0</option>
+                <option name="rangeColors">["0x65a637","0x6db7c6","0xf7bc38","0xf58f39","0xd93f3c"]</option>
+                <option name="rangeValues">[0,30,70,100]</option>
+                <option name="showSparkline">1</option>
+                <option name="showTrendIndicator">1</option>
+                <option name="trendColorInterpretation">standard</option>
+                <option name="trendDisplayMode">absolute</option>
+                <option name="underLabel">AVERAGE NUMBER OF SCHEDULED SEARCHED PER 5 MIN</option>
+                <option name="unit">Scheduled searches / 5 min</option>
+                <option name="unitPosition">after</option>
+                <option name="useColors">0</option>
+                <option name="useThousandSeparators">1</option>
+            </single>
+            <single>
+                <search base="scheduling_mainsearch">
+                    <query>fields avg_run_time</query>
+                </search>
+                <option name="colorBy">value</option>
+                <option name="colorMode">none</option>
+                <option name="drilldown">all</option>
+                <option name="numberPrecision">0.00</option>
+                <option name="rangeColors">["0x65a637","0x6db7c6","0xf7bc38","0xf58f39","0xd93f3c"]</option>
+                <option name="rangeValues">[0,30,70,100]</option>
+                <option name="showSparkline">1</option>
+                <option name="showTrendIndicator">1</option>
+                <option name="trendColorInterpretation">standard</option>
+                <option name="trendDisplayMode">absolute</option>
+                <option name="underLabel">AVERAGE RUN TIME PER DAY</option>
+                <option name="unit">sec</option>
+                <option name="unitPosition">after</option>
+                <option name="useColors">0</option>
+                <option name="useThousandSeparators">1</option>
+            </single>
+            <single>
+                <search base="scheduling_mainsearch">
+                    <query>fields max_run_time</query>
+                </search>
+                <option name="colorBy">value</option>
+                <option name="colorMode">none</option>
+                <option name="drilldown">all</option>
+                <option name="numberPrecision">0.00</option>
+                <option name="rangeColors">["0x65a637","0x6db7c6","0xf7bc38","0xf58f39","0xd93f3c"]</option>
+                <option name="rangeValues">[0,30,70,100]</option>
+                <option name="showSparkline">1</option>
+                <option name="showTrendIndicator">1</option>
+                <option name="trendColorInterpretation">standard</option>
+                <option name="trendDisplayMode">absolute</option>
+                <option name="underLabel">MAX RUN TIME PER DAY</option>
+                <option name="unit">sec</option>
+                <option name="unitPosition">after</option>
+                <option name="useColors">0</option>
+                <option name="useThousandSeparators">1</option>
+            </single>
+            <single>
+                <search base="scheduling_mainsearch">
+                    <query>fields sum_run_time</query>
+                </search>
+                <option name="colorBy">value</option>
+                <option name="colorMode">none</option>
+                <option name="drilldown">all</option>
+                <option name="numberPrecision">0.00</option>
+                <option name="rangeColors">["0x65a637","0x6db7c6","0xf7bc38","0xf58f39","0xd93f3c"]</option>
+                <option name="rangeValues">[0,30,70,100]</option>
+                <option name="showSparkline">1</option>
+                <option name="showTrendIndicator">1</option>
+                <option name="trendColorInterpretation">standard</option>
+                <option name="trendDisplayMode">absolute</option>
+                <option name="underLabel">AVERAGE SUM RUN TIME PER DAY</option>
+                <option name="unit">sec</option>
+                <option name="unitPosition">after</option>
+                <option name="useColors">0</option>
+                <option name="useThousandSeparators">1</option>
+            </single>
+        </panel>
+    </row>
+    <row>
+        <panel>
+            <title>Statistics per scheduled report</title>
+            <input type="time" token="timerange_scheduled" searchWhenChanged="true">
+                <label>Time Range:</label>
+                <default>
+                    <earliest>-24h@h</earliest>
+                    <latest>now</latest>
+                </default>
+            </input>
+        </panel>
+    </row>
+    <row>
+        <panel>
+            <title>Trackers - These scheduled reports are responsible for discovering and maintaining data states</title>
+            <chart>
+                <search base="scheduling_table">
+                    <query>search "report (savedsearch_name)"="TrackMe - * tracker" | fields "report (savedsearch_name)", avg_run_time</query>
+                </search>
+                <option name="charting.chart">pie</option>
+                <option name="charting.drilldown">all</option>
+            </chart>
+            <table>
+                <search base="scheduling_table">
+                    <query>search "report (savedsearch_name)"="TrackMe - * tracker" | sort "report (savedsearch_name)" | fields - avg_run_time</query>
+                </search>
+                <option name="count">100</option>
+                <option name="dataOverlayMode">none</option>
+                <option name="drilldown">cell</option>
+                <option name="rowNumbers">false</option>
+                <option name="wrap">true</option>
+            </table>
+        </panel>
+    </row>
+    <row>
+        <panel>
+            <title>Alerts &amp; Miscellaneous - Builtin alerts and various scheduled reports related to the application</title>
+            <chart>
+                <search base="scheduling_table">
+                    <query>search "report (savedsearch_name)"="TrackMe -*" "report (savedsearch_name)"!="TrackMe - * tracker" | fields "report (savedsearch_name)", avg_run_time</query>
+                </search>
+                <option name="charting.chart">pie</option>
+                <option name="charting.drilldown">all</option>
+            </chart>
+            <table>
+                <search base="scheduling_table">
+                    <query>search "report (savedsearch_name)"="TrackMe -*" "report (savedsearch_name)"!="TrackMe - * tracker" | sort "report (savedsearch_name)" | fields - avg_run_time</query>
+                </search>
+                <option name="count">100</option>
+                <option name="dataOverlayMode">none</option>
+                <option name="drilldown">cell</option>
+                <option name="rowNumbers">false</option>
+                <option name="wrap">true</option>
+            </table>
+        </panel>
+    </row>
+</form>
