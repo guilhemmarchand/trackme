@@ -1,6 +1,13 @@
 Release notes
 #############
 
+Version 1.0.31
+==============
+
+- fix: Regression in flipping state introduced by metric implementation, does not trigger anymore for events indexes
+- feature: Add auditing view to report on application scheduling search workload
+- feature: Nav menus re-organized
+
 Version 1.0.30
 ==============
 
