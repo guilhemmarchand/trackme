@@ -1,6 +1,15 @@
 Release notes
 #############
 
+Version 1.0.32
+==============
+
+- fix: Performance issues with TrackMe mobile dashboard on mobile devices
+- fix: TrackMe does not honour indexes whitelisting for metric hosts
+- fix: Add metric host lookup in initial configuration load check operation
+- fix: Wrong message for flush of metric KVstore collection
+- feature: Remove management features from main UI to be transferred to a second management UI available from the nav menu
+
 Version 1.0.31
 ==============
 
