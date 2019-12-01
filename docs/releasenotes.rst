@@ -1,6 +1,11 @@
 Release notes
 #############
 
+Version 1.0.33
+==============
+
+- fix: Avoids post processed searches in the Mobile dashboard, better single form placement for Apple TV rendering
+
 Version 1.0.32
 ==============
 

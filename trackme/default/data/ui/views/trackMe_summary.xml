@@ -2,49 +2,138 @@
   <label>TrackMe Mobile</label>
   <description>Connected Experience tracking review of data sources availability</description>
 
-  <search id="baseMainDataSources">
-    <query>| inputlookup trackme_data_source_monitoring
+  <row>
+    <panel>
+      <title>Any priority data sources in alert</title>
+      <single>
+        <search>
+          <query>| inputlookup trackme_data_source_monitoring
 | `apply_data_source_blacklists`
-| search `trackme_get_idx_whitelist_searchtime(trackme_data_source_monitoring_whitelist_index, data_index)`</query>
-      <earliest>-5m</earliest>
-      <latest>now</latest>
-      <sampleRatio>1</sampleRatio>
-      <refresh>30s</refresh>
-      <refreshType>delay</refreshType>
-  </search>
-
-  <search id="baseMainDataHosts">
-    <query>| inputlookup trackme_host_monitoring
+| search `trackme_get_idx_whitelist_searchtime(trackme_data_source_monitoring_whitelist_index, data_index)`
+| where data_monitored_state="enabled" AND data_source_state="red" | stats count</query>
+          <refresh>30s</refresh>
+          <refreshType>delay</refreshType>
+        </search>
+        <option name="colorBy">value</option>
+        <option name="colorMode">none</option>
+        <option name="drilldown">none</option>
+        <option name="numberPrecision">0</option>
+        <option name="rangeColors">["0x53a051","0xf8be34"]</option>
+        <option name="rangeValues">[0]</option>
+        <option name="showSparkline">1</option>
+        <option name="showTrendIndicator">1</option>
+        <option name="trellis.enabled">0</option>
+        <option name="trellis.scales.shared">1</option>
+        <option name="trellis.size">medium</option>
+        <option name="trendColorInterpretation">standard</option>
+        <option name="trendDisplayMode">absolute</option>
+        <option name="unitPosition">after</option>
+        <option name="useColors">1</option>
+        <option name="useThousandSeparators">1</option>
+      </single>
+    </panel>
+    <panel>
+      <title>High priority data sources in alert</title>
+      <single>
+        <search>
+          <query>| inputlookup trackme_data_source_monitoring
+| `apply_data_source_blacklists`
+| search `trackme_get_idx_whitelist_searchtime(trackme_data_source_monitoring_whitelist_index, data_index)`
+| where data_monitored_state="enabled" AND data_source_state="red" AND priority="high" | stats count</query>
+          <refresh>30s</refresh>
+          <refreshType>delay</refreshType>
+        </search>
+        <option name="colorBy">value</option>
+        <option name="colorMode">none</option>
+        <option name="drilldown">none</option>
+        <option name="numberPrecision">0</option>
+        <option name="rangeColors">["0x53a051","0xdc4e41"]</option>
+        <option name="rangeValues">[0]</option>
+        <option name="showSparkline">1</option>
+        <option name="showTrendIndicator">1</option>
+        <option name="trellis.enabled">0</option>
+        <option name="trellis.scales.shared">1</option>
+        <option name="trellis.size">medium</option>
+        <option name="trendColorInterpretation">standard</option>
+        <option name="trendDisplayMode">absolute</option>
+        <option name="unitPosition">after</option>
+        <option name="useColors">1</option>
+        <option name="useThousandSeparators">1</option>
+      </single>
+    </panel>
+    <panel>
+      <title>Any priority data hosts in alert</title>
+      <single>
+        <search>
+          <query>| inputlookup trackme_host_monitoring
 | makemv delim="," data_index
 | `apply_data_host_blacklists`
-| search `trackme_get_idx_whitelist_searchtime(trackme_data_host_monitoring_whitelist_index, data_index)`</query>
-      <earliest>-5m</earliest>
-      <latest>now</latest>
-      <sampleRatio>1</sampleRatio>
-      <refresh>30s</refresh>
-      <refreshType>delay</refreshType>
-  </search>
-
-  <search id="baseMainMetricHosts">
-    <query>| inputlookup trackme_metric_host_monitoring
+| search `trackme_get_idx_whitelist_searchtime(trackme_data_host_monitoring_whitelist_index, data_index)`
+| where data_monitored_state="enabled" AND data_host_state="red" | stats count</query>
+          <refresh>30s</refresh>
+          <refreshType>delay</refreshType>
+        </search>
+        <option name="colorBy">value</option>
+        <option name="colorMode">none</option>
+        <option name="drilldown">none</option>
+        <option name="numberPrecision">0</option>
+        <option name="rangeColors">["0x53a051","0xf8be34"]</option>
+        <option name="rangeValues">[0]</option>
+        <option name="showSparkline">1</option>
+        <option name="showTrendIndicator">1</option>
+        <option name="trellis.enabled">0</option>
+        <option name="trellis.scales.shared">1</option>
+        <option name="trellis.size">medium</option>
+        <option name="trendColorInterpretation">standard</option>
+        <option name="trendDisplayMode">absolute</option>
+        <option name="unitPosition">after</option>
+        <option name="useColors">1</option>
+        <option name="useThousandSeparators">1</option>
+      </single>
+    </panel>
+    <panel>
+      <title>High priority data hosts in alert</title>
+      <single>
+        <search>
+          <query>| inputlookup trackme_host_monitoring
+| makemv delim="," data_index
+| `apply_data_host_blacklists`
+| search `trackme_get_idx_whitelist_searchtime(trackme_data_host_monitoring_whitelist_index, data_index)`
+| where data_monitored_state="enabled" AND data_host_state="red" AND priority="high" | stats count</query>
+          <refresh>30s</refresh>
+          <refreshType>delay</refreshType>
+        </search>
+        <option name="colorBy">value</option>
+        <option name="colorMode">none</option>
+        <option name="drilldown">none</option>
+        <option name="numberPrecision">0</option>
+        <option name="rangeColors">["0x53a051","0xdc4e41"]</option>
+        <option name="rangeValues">[0]</option>
+        <option name="showSparkline">1</option>
+        <option name="showTrendIndicator">1</option>
+        <option name="trellis.enabled">0</option>
+        <option name="trellis.scales.shared">1</option>
+        <option name="trellis.size">medium</option>
+        <option name="trendColorInterpretation">standard</option>
+        <option name="trendDisplayMode">absolute</option>
+        <option name="unitPosition">after</option>
+        <option name="useColors">1</option>
+        <option name="useThousandSeparators">1</option>
+      </single>
+    </panel>
+    <panel>
+      <title>Any priority metric hosts in alert</title>
+      <single>
+        <search>
+          <query>| inputlookup trackme_metric_host_monitoring
 | makemv delim="," metric_category
 | makemv delim="," metric_details
 | makemv delim="," metric_index
 | `apply_metric_host_blacklists_detail_metric_category`
-| search `trackme_get_idx_whitelist_searchtime(trackme_metric_host_monitoring_whitelist_index, metric_index)`</query>
-      <earliest>-5m</earliest>
-      <latest>now</latest>
-      <sampleRatio>1</sampleRatio>
-      <refresh>30s</refresh>
-      <refreshType>delay</refreshType>
-  </search>
-
-  <row>
-    <panel>
-      <title>Any priority data sources in SLA alert</title>
-      <single>
-        <search base="baseMainDataSources">
-          <query>| where data_monitored_state="enabled" AND data_source_state="red" | stats count</query>
+| search `trackme_get_idx_whitelist_searchtime(trackme_metric_host_monitoring_whitelist_index, metric_index)`
+| where metric_monitored_state="enabled" AND metric_host_state="red" | stats count</query>
+          <refresh>30s</refresh>
+          <refreshType>delay</refreshType>
         </search>
         <option name="colorBy">value</option>
         <option name="colorMode">none</option>
@@ -65,110 +154,18 @@
       </single>
     </panel>
     <panel>
-      <title>High priority data sources in SLA alert</title>
+      <title>High priority metric hosts in alert</title>
       <single>
-        <search base="baseMainDataSources">
-          <query>| where data_monitored_state="enabled" AND data_source_state="red" AND priority="high" | stats count</query>
-        </search>
-        <option name="colorBy">value</option>
-        <option name="colorMode">none</option>
-        <option name="drilldown">none</option>
-        <option name="numberPrecision">0</option>
-        <option name="rangeColors">["0x53a051","0xdc4e41"]</option>
-        <option name="rangeValues">[0]</option>
-        <option name="showSparkline">1</option>
-        <option name="showTrendIndicator">1</option>
-        <option name="trellis.enabled">0</option>
-        <option name="trellis.scales.shared">1</option>
-        <option name="trellis.size">medium</option>
-        <option name="trendColorInterpretation">standard</option>
-        <option name="trendDisplayMode">absolute</option>
-        <option name="unitPosition">after</option>
-        <option name="useColors">1</option>
-        <option name="useThousandSeparators">1</option>
-      </single>
-    </panel>
-  </row>
-  <row>
-    <panel>
-      <title>Any priority data hosts in SLA alert</title>
-      <single>
-        <search base="baseMainDataHosts">
-          <query>| where data_monitored_state="enabled" AND data_host_state="red" | stats count</query>
-        </search>
-        <option name="colorBy">value</option>
-        <option name="colorMode">none</option>
-        <option name="drilldown">none</option>
-        <option name="numberPrecision">0</option>
-        <option name="rangeColors">["0x53a051","0xf8be34"]</option>
-        <option name="rangeValues">[0]</option>
-        <option name="showSparkline">1</option>
-        <option name="showTrendIndicator">1</option>
-        <option name="trellis.enabled">0</option>
-        <option name="trellis.scales.shared">1</option>
-        <option name="trellis.size">medium</option>
-        <option name="trendColorInterpretation">standard</option>
-        <option name="trendDisplayMode">absolute</option>
-        <option name="unitPosition">after</option>
-        <option name="useColors">1</option>
-        <option name="useThousandSeparators">1</option>
-      </single>
-    </panel>
-    <panel>
-      <title>High priority data hosts in SLA alert</title>
-      <single>
-        <search base="baseMainDataHosts">
-          <query>| where data_monitored_state="enabled" AND data_host_state="red" AND priority="high" | stats count</query>
-        </search>
-        <option name="colorBy">value</option>
-        <option name="colorMode">none</option>
-        <option name="drilldown">none</option>
-        <option name="numberPrecision">0</option>
-        <option name="rangeColors">["0x53a051","0xdc4e41"]</option>
-        <option name="rangeValues">[0]</option>
-        <option name="showSparkline">1</option>
-        <option name="showTrendIndicator">1</option>
-        <option name="trellis.enabled">0</option>
-        <option name="trellis.scales.shared">1</option>
-        <option name="trellis.size">medium</option>
-        <option name="trendColorInterpretation">standard</option>
-        <option name="trendDisplayMode">absolute</option>
-        <option name="unitPosition">after</option>
-        <option name="useColors">1</option>
-        <option name="useThousandSeparators">1</option>
-      </single>
-    </panel>
-  </row>
-  <row>
-    <panel>
-      <title>Any priority metric hosts in SLA alert</title>
-      <single>
-        <search base="baseMainMetricHosts">
-          <query>| where metric_monitored_state="enabled" AND metric_host_state="red" | stats count</query>
-        </search>
-        <option name="colorBy">value</option>
-        <option name="colorMode">none</option>
-        <option name="drilldown">none</option>
-        <option name="numberPrecision">0</option>
-        <option name="rangeColors">["0x53a051","0xf8be34"]</option>
-        <option name="rangeValues">[0]</option>
-        <option name="showSparkline">1</option>
-        <option name="showTrendIndicator">1</option>
-        <option name="trellis.enabled">0</option>
-        <option name="trellis.scales.shared">1</option>
-        <option name="trellis.size">medium</option>
-        <option name="trendColorInterpretation">standard</option>
-        <option name="trendDisplayMode">absolute</option>
-        <option name="unitPosition">after</option>
-        <option name="useColors">1</option>
-        <option name="useThousandSeparators">1</option>
-      </single>
-    </panel>
-    <panel>
-      <title>High priority metric hosts in SLA alert</title>
-      <single>
-        <search base="baseMainMetricHosts">
-          <query>| where metric_monitored_state="enabled" AND metric_host_state="red" AND priority="high" | stats count</query>
+        <search>
+          <query>| inputlookup trackme_metric_host_monitoring
+| makemv delim="," metric_category
+| makemv delim="," metric_details
+| makemv delim="," metric_index
+| `apply_metric_host_blacklists_detail_metric_category`
+| search `trackme_get_idx_whitelist_searchtime(trackme_metric_host_monitoring_whitelist_index, metric_index)`
+| where metric_monitored_state="enabled" AND metric_host_state="red" AND priority="high" | stats count</query>
+          <refresh>30s</refresh>
+          <refreshType>delay</refreshType>
         </search>
         <option name="colorBy">value</option>
         <option name="colorMode">none</option>
@@ -192,15 +189,20 @@
   <row>
     <panel>
       <table>
-        <title>Data Sources in SLA alert by priority</title>
-        <search base="baseMainDataSources">
-          <query>| where data_monitored_state="enabled" AND data_source_state="red"
+        <title>Data Sources in alert by priority</title>
+        <search>
+          <query>| inputlookup trackme_data_source_monitoring
+| `apply_data_source_blacklists`
+| search `trackme_get_idx_whitelist_searchtime(trackme_data_source_monitoring_whitelist_index, data_index)`
+| where data_monitored_state="enabled" AND data_source_state="red"
 | eval priority_num=case(priority="low", 2, priority="medium", 1, priority="high", 0)
 | sort limit=0 priority_num, data_host
 | `trackme_date_format(data_last_ingest)`
 | `trackme_date_format(data_last_time_seen)`
 | fields data_name "data_last_ingest (translated)" "data_last_time_seen (translated)" data_last_lag_seen "data_last_time_seen (translated)" data_max_lag_allowed priority
 | rename "* (translated)" as "*"</query>
+          <refresh>30s</refresh>
+          <refreshType>delay</refreshType>
         </search>
         <option name="drilldown">none</option>
       </table>
@@ -209,15 +211,21 @@
   <row>
     <panel>
       <table>
-        <title>Data hosts in SLA alert by priority</title>
-        <search base="baseMainDataHosts">
-          <query>| where data_monitored_state="enabled" AND data_host_state="red"
+        <title>Data hosts in alert by priority</title>
+        <search>
+          <query>| inputlookup trackme_host_monitoring
+| makemv delim="," data_index
+| `apply_data_host_blacklists`
+| search `trackme_get_idx_whitelist_searchtime(trackme_data_host_monitoring_whitelist_index, data_index)`
+| where data_monitored_state="enabled" AND data_host_state="red"
 | eval priority_num=case(priority="low", 2, priority="medium", 1, priority="high", 0)
 | sort limit=0 priority_num, data_host
 | `trackme_date_format(data_last_ingest)`
 | `trackme_date_format(data_last_time_seen)`
 | fields data_host "data_last_ingest (translated)" "data_last_time_seen (translated)" data_last_lag_seen "data_last_time_seen (translated)" data_max_lag_allowed priority
 | rename "* (translated)" as "*"</query>
+          <refresh>30s</refresh>
+          <refreshType>delay</refreshType>
         </search>
         <option name="drilldown">none</option>
       </table>
@@ -226,9 +234,15 @@
   <row>
     <panel>
       <table>
-        <title>Metric hosts in SLA alert by priority</title>
-        <search base="baseMainMetricHosts">
-          <query>| where metric_monitored_state="enabled" AND metric_host_state="red"
+        <title>Metric hosts in alert by priority</title>
+        <search>
+          <query>| inputlookup trackme_metric_host_monitoring
+| makemv delim="," metric_category
+| makemv delim="," metric_details
+| makemv delim="," metric_index
+| `apply_metric_host_blacklists_detail_metric_category`
+| search `trackme_get_idx_whitelist_searchtime(trackme_metric_host_monitoring_whitelist_index, metric_index)`
+| where metric_monitored_state="enabled" AND metric_host_state="red"
 | eval priority_num=case(priority="low", 2, priority="medium", 1, priority="high", 0)
 | sort limit=0 priority_num, metric_host
 | `trackme_date_format(metric_last_time_seen)`
@@ -237,6 +251,8 @@
 | stats first(priority) as priority, first(metric_last_time_seen) as metric_last_time_seen, dc(metric_category) as count_metric_category, count(eval(match(metric_details, "metric_host_state\=green"))) as count_green, count(eval(match(metric_details, "metric_host_state=green"))) as count_non_green by metric_host
 | eval summary=" metric categories: " . count_metric_category .  ", " . "green state: " . count_green . ", " . "red state: " . count_non_green
 | fields metric_host, metric_last_time_seen, priority, summary</query>
+          <refresh>30s</refresh>
+          <refreshType>delay</refreshType>
         </search>
         <option name="drilldown">none</option>
       </table>
