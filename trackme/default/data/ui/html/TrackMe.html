@@ -73,7 +73,7 @@
           position: absolute;
 
           width: 90%;
-          min-height: 400px;
+          min-height: 50px;
           max-height: 600px;
           height: 100%;
 
@@ -118,7 +118,6 @@
             float: left;
             margin-top:15px;
         }
-
 
         /*Notification alerts*/
 
@@ -185,6 +184,36 @@
             margin-left: 5px;
         }
 
+        .imgheader {
+           margin-top: 10px;
+           margin-bottom: 40px;
+        }
+
+        .imgheader img {
+            float: left;
+            width: 48px;
+            height: 48px;
+        }
+
+        .imgheader h1 {
+            color: lightslategrey;
+            text-align: left;
+            position: relative;
+            top: 9px;
+            left: 10px;
+        }
+
+        .imgheader h3 {
+            position: relative;
+            top: 14px;
+            left: -10px;
+        }
+
+        .imgminiheader img {
+            position: relative;
+            top: -4px;
+        }
+
         </style>
 </head>
 <body class="simplexml preload locale-en" data-splunk-version="" data-splunk-product="enterprise">
@@ -212,10 +241,229 @@ styles in <div> tags, similar to Bootstrap's grid system.
     <div style="display: none;" class="fieldset">
     </div>
 
+    <!--
+    identity card
+    -->
+
+    <!-- Modal drilldown context for identity card -->
+    <div id="main_manage_identity_card" class="dashboard-element html" style="width: 100%">
+        <div class="panel-body html">
+            <div class="modal fade custom-modal-50" id="manage_identity_card" role="dialog">
+                <div class="modal-dialog">
+                    <!-- Modal content-->
+                    <div class="modal-content">
+                        <!-- This is required to get the token subsitutions without affecting the buttons actions in js -->
+                        <div class="dashboard-element html" id="body_manage_identity_card">
+                            <div class="panel-body html">
+                                <div class="modal-header">
+                                    <h3 style="font-size: 18px;">Identity card for data source: <span style="color: steelblue">$tk_data_name$</span></h3>
+                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                </div>
+
+                                <div style="margin-top:10px; margin-left: 20px;">
+
+                                    <div class="imgheader">
+                                        <img style="float: left; margin: 0px 15px 15px 0px;" src="../../static/app/trackme/icons/identity_card.png"/></span>
+                                        <h3>Identity card note:</h3>
+                                        <br />
+                                    </div>
+
+                                    <div>
+                                      $tk_doc_note$
+                                    </div>
+
+                                    <div style="margin-bottom: 20px;">
+                                        <h3>Link to documentation: </h3><a target="_blank" href="$tk_doc_link$">$tk_doc_link$</a>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    <div class="modal-footer">
+                        <button type="submit" id="btn_delete_manage_identity_card" class="btn btn-default btn-danger" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Delete card</button>
+                        <button type="submit" id="btn_modify_manage_identity_card" class="btn btn-default btn-primary" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Update card</button>
+                        <button type="submit" id="btn_back_manage_identity_card" class="btn btn-default btn-primary pull-left" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Back</button>
+                        <button type="submit" id="btn_close_manage_identity_card" class="btn btn-default btn-default pull-right" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Close</button>
+                    </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal window define for identity card -->
+    <div class="modal fade custom-modal-60" id="define_identity_card" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h3 style="color: indianred;"><span class="glyphicon glyphicon-lock"></span> Documentation identity card </h3>
+                </div>
+
+                <div class="modal-body">
+
+                    <div>
+
+                        <div style="margin-bottom: 10px;">
+
+                            <form>
+                                <fieldset>
+                                    <legend>Define a link and a note to document this data source</legend>
+                                    <p>
+                                        <label>Optional: enter the documentation link, this will be made available in the source identity card:</label>
+                                        <input type = "text"
+                                               id = "input_doc_link"
+                                               value = "link to documentation"
+                                               style="width: 900px;"
+                                               onfocus="if(this.value==this.defaultValue)this.value='';" onblur="if(this.value=='')this.value=this.defaultValue;"/>
+                                    </p>
+
+                                    <p>
+                                        <label>Optional: enter a documentation note:</label>
+                                        <textarea
+                                                id = "input_doc_note"
+                                                rows = "10"
+                                                cols = "160" style="width: 900px;"
+                                                onfocus="if(this.value==this.defaultValue)this.value='';" onblur="if(this.value=='')this.value=this.defaultValue;">documentation note</textarea>
+                                    </p>
+
+                                </fieldset>
+                            </form>
+
+                            <div class="btn_define_identity_card">
+                                <button type="submit" class="btn btn-default btn-primary" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Create or update this record </button>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div style="margin-top: 20px;" class="modal-footer">
+                    <button type="submit" class="btn btn-default pull-right" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Close</button>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Modal window deletion for identity card -->
+    <div class="modal fade" id="delete_identity_card" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h3 style="color: indianred;"><span class="glyphicon glyphicon-lock"></span> Documentation identity card </h3>
+                </div>
+
+                <div class="modal-body">
+
+                    <div>
+
+                        <div style="margin-bottom: 10px;">
+
+                            <div>
+                                <h4>Please confirm the deletion of the identity card records?</h4>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div style="margin-top: 20px;" class="modal-footer">
+                    <button type="submit" id="btn_delete_identity_card_confirm" class="btn btn-default btn-danger" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Delete this record </button>
+                    <button type="submit" id="btn_delete_identity_card_back" class="btn btn-default btn-primary" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Back </button>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Modal window confirmation of deletion for identity card -->
+    <div class="modal fade" id="update_achieved_identity_card" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h3 style="color: indianred;"><span class="glyphicon glyphicon-lock"></span> Documentation identity card </h3>
+                </div>
+
+                <div class="modal-body">
+
+                    <div>
+
+                        <div style="margin-bottom: 10px;">
+
+                            <div>
+                                <h4>The identity card record was successfully created or updated.</h4>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div style="margin-top: 20px;" class="modal-footer">
+                    <button type="submit" class="btn btn-default btn-primary" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Ok </button>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Modal window confirmation of deletion for identity card -->
+    <div class="modal fade" id="delete_achieved_identity_card" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h3 style="color: indianred;"><span class="glyphicon glyphicon-lock"></span> Documentation identity card </h3>
+                </div>
+
+                <div class="modal-body">
+
+                    <div>
+
+                        <div style="margin-bottom: 10px;">
+
+                            <div>
+                                <h4>The identity card record was successfully deleted.</h4>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div style="margin-top: 20px;" class="modal-footer">
+                    <button type="submit" class="btn btn-default btn-primary" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Ok </button>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
     <!-- Modal drilldown context for Alerts -->
     <div id="main_modal_manage" class="dashboard-element html" style="width: 100%">
         <div class="panel-body html">
-            <div class="modal fade custom-modal-60" id="modal_manage" role="dialog">
+            <div class="modal fade custom-modal-80" id="modal_manage" role="dialog">
                 <div class="modal-dialog">
                     <!-- Modal content-->
                     <div class="modal-content">
@@ -247,6 +495,14 @@ styles in <div> tags, similar to Bootstrap's grid system.
                                         <p><b>priority:</b> <span class="$tk_priority_class$">$tk_priority$</span></p>
                                     </div>
                                 </div>
+
+                                <div style="margin-left: 10px;">
+                                    <div class="imgheader">
+                                        <img style="float: left; margin: 0px 15px 15px 0px;" src="../../static/app/trackme/icons/identity_card.png"/>
+                                        <h3><a id="doc_link_data_source" data-toggle="modal" data-target="#$tk_doc_modal_target$">$tk_doc_link_main$</a></h3>
+                                    </div>
+                                </div>
+
                             </div>
                         </div>
 
@@ -311,7 +567,7 @@ styles in <div> tags, similar to Bootstrap's grid system.
     <!-- Modal drilldown context for Alerts -->
     <div id="main_modal_manage_host" class="dashboard-element html" style="width: 100%">
         <div class="panel-body html">
-            <div class="modal fade custom-modal-60" id="modal_manage_host" role="dialog">
+            <div class="modal fade custom-modal-80" id="modal_manage_host" role="dialog">
                 <div class="modal-dialog">
                     <!-- Modal content-->
                     <div class="modal-content">
@@ -426,7 +682,7 @@ styles in <div> tags, similar to Bootstrap's grid system.
     <!-- Modal drilldown context for Alerts -->
     <div id="main_modal_manage_metric_host" class="dashboard-element html" style="width: 100%">
         <div class="panel-body html">
-            <div class="modal fade custom-modal-60" id="modal_manage_metric_host" role="dialog">
+            <div class="modal fade custom-modal-80" id="modal_manage_metric_host" role="dialog">
                 <div class="modal-dialog">
                     <!-- Modal content-->
                     <div class="modal-content">
@@ -892,7 +1148,7 @@ styles in <div> tags, similar to Bootstrap's grid system.
     Custom lagging
     -->
 
-    <div class="modal fade custom-modal-60" id="modify_custom_lagging" role="dialog">
+    <div class="modal fade custom-modal-80" id="modify_custom_lagging" role="dialog">
         <div class="modal-dialog">
 
             <!-- Modal content-->
@@ -1778,7 +2034,7 @@ styles in <div> tags, similar to Bootstrap's grid system.
     <!-- data source monitoring -->
 
     <!-- Modal window for data source unified -->
-    <div class="modal fade custom-modal-60" id="modal_modify_data_source_unified" role="dialog">
+    <div class="modal fade custom-modal-80" id="modal_modify_data_source_unified" role="dialog">
         <div class="modal-dialog">
 
             <!-- Modal content-->
@@ -1904,7 +2160,7 @@ styles in <div> tags, similar to Bootstrap's grid system.
     <!-- data host monitoring -->
 
     <!-- Modal window for data source unified -->
-    <div class="modal fade custom-modal-60" id="modal_modify_data_host_unified" role="dialog">
+    <div class="modal fade custom-modal-80" id="modal_modify_data_host_unified" role="dialog">
         <div class="modal-dialog">
 
             <!-- Modal content-->
@@ -2001,7 +2257,7 @@ styles in <div> tags, similar to Bootstrap's grid system.
     <!-- metric host monitoring -->
 
     <!-- Modal window for data source unified -->
-    <div class="modal fade custom-modal-60" id="modal_modify_metric_host_unified" role="dialog">
+    <div class="modal fade custom-modal-80" id="modal_modify_metric_host_unified" role="dialog">
         <div class="modal-dialog">
 
             <!-- Modal content-->
@@ -2123,7 +2379,7 @@ styles in <div> tags, similar to Bootstrap's grid system.
 
     -->
 
-    <div class="modal fade custom-modal-60" id="modal_metric_sla_policies" role="dialog">
+    <div class="modal fade custom-modal-80" id="modal_metric_sla_policies" role="dialog">
         <div class="modal-dialog">
 
             <!-- Modal content-->
@@ -3909,7 +4165,7 @@ require([
 
         var searchDataSourcesPostTable = new PostProcessManager({
             "tokenDependencies": {},
-            "search": "search $data_source_state$ | search $inputDataName$ $inputDataIndex$ $inputDataSourcetype$ $data_monitored_state$ $inputDataPriority$ | fields keyid, data_name, data_index, data_sourcetype, \"data_last_time_seen (translated)\", data_last_time_seen, \"data_last_ingest (translated)\", data_last_ingest, \"data_last_time_seen_idx (translated)\", data_last_time_seen_idx, state, data_last_lag_seen, data_last_lag_seen_idx, data_max_lag_allowed, monitoring, data_monitored_state, data_monitoring_level, data_source_state, data_monitoring_wdays, data_override_lagging_class, priority | search `trackme_get_idx_whitelist_searchtime(trackme_data_source_monitoring_whitelist_index, data_index)` | `apply_data_source_blacklists` | rename \"data_last_time_seen (translated)\" as \"last time\", \"data_last_ingest (translated)\" as \"last ingest\", \"data_last_time_seen_idx (translated)\" as \"last time idx\" | eval data_tracker_runtime=now() | lookup local=t trackme_data_source_monitoring data_name OUTPUT data_source_state as data_previous_source_state, data_tracker_runtime as data_previous_tracker_runtime, latest_flip_state, latest_flip_time | `trackme_date_format(\"latest_flip_time\")` | fillnull value=\"N/A\" latest_flip_state, latest_flip_time, \"latest_flip_time (translated)\"",
+            "search": "search $data_source_state$ | search $inputDataName$ $inputDataIndex$ $inputDataSourcetype$ $data_monitored_state$ $inputDataPriority$ | fields keyid, data_name, data_index, data_sourcetype, \"data_last_time_seen (translated)\", data_last_time_seen, \"data_last_ingest (translated)\", data_last_ingest, \"data_last_time_seen_idx (translated)\", data_last_time_seen_idx, state, data_last_lag_seen, data_last_lag_seen_idx, data_max_lag_allowed, monitoring, data_monitored_state, data_monitoring_level, data_source_state, data_monitoring_wdays, data_override_lagging_class, priority | search `trackme_get_idx_whitelist_searchtime(trackme_data_source_monitoring_whitelist_index, data_index)` | `apply_data_source_blacklists` | rename \"data_last_time_seen (translated)\" as \"last time\", \"data_last_ingest (translated)\" as \"last ingest\", \"data_last_time_seen_idx (translated)\" as \"last time idx\" | eval data_tracker_runtime=now() | lookup local=t trackme_data_source_monitoring data_name OUTPUT data_source_state as data_previous_source_state, data_tracker_runtime as data_previous_tracker_runtime, latest_flip_state, latest_flip_time | `trackme_date_format(\"latest_flip_time\")` | fillnull value=\"N/A\" latest_flip_state, latest_flip_time, \"latest_flip_time (translated)\" | `trackme_get_identity_card(data_name)`",
             "managerid": "searchDataSourcesMain",
             "id": "searchDataSourcesPostTable"
         }, {
@@ -5684,6 +5940,10 @@ require([
                     "label": "24h"
                 },
                 {
+                    "value": "48h",
+                    "label": "48h"
+                },
+                {
                     "value": "7d",
                     "label": "7d"
                 },
@@ -5727,6 +5987,10 @@ require([
                 EventHandler.setToken("modalTime.earliest", "-24h", {}, e.data);
                 EventHandler.setToken("modalTime.latest", "now", {}, e.data);
                 EventHandler.setToken("modalTime.span", "15m", {}, e.data);
+            } else if (e.value === "48h") {
+                EventHandler.setToken("modalTime.earliest", "-48h", {}, e.data);
+                EventHandler.setToken("modalTime.latest", "now", {}, e.data);
+                EventHandler.setToken("modalTime.span", "30m", {}, e.data);
             } else if (e.value === "7d") {
                 EventHandler.setToken("modalTime.earliest", "-7d", {}, e.data);
                 EventHandler.setToken("modalTime.latest", "now", {}, e.data);
@@ -5762,6 +6026,10 @@ require([
                 {
                     "value": "24h",
                     "label": "24h"
+                },
+                {
+                    "value": "48h",
+                    "label": "48h"
                 },
                 {
                     "value": "7d",
@@ -5807,6 +6075,10 @@ require([
                 EventHandler.setToken("modalTimeHost.earliest", "-24h", {}, e.data);
                 EventHandler.setToken("modalTimeHost.latest", "now", {}, e.data);
                 EventHandler.setToken("modalTimeHost.span", "15m", {}, e.data);
+            } else if (e.value === "48h") {
+                EventHandler.setToken("modalTimeHost.earliest", "-48h", {}, e.data);
+                EventHandler.setToken("modalTimeHost.latest", "now", {}, e.data);
+                EventHandler.setToken("modalTimeHost.span", "30m", {}, e.data);
             } else if (e.value === "7d") {
                 EventHandler.setToken("modalTimeHost.earliest", "-7d", {}, e.data);
                 EventHandler.setToken("modalTimeHost.latest", "now", {}, e.data);
@@ -7528,6 +7800,10 @@ require([
                 setToken("tk_latest_flip_time_human", TokenUtils.replaceTokenNames("$row.latest_flip_time (translated)$", _.extend(submittedTokenModel.toJSON(), e.data)));
                 setToken("tk_priority", TokenUtils.replaceTokenNames("$row.priority$", _.extend(submittedTokenModel.toJSON(), e.data)));
 
+                // doc href
+                setToken("tk_doc_link", TokenUtils.replaceTokenNames("$row.doc_link$", _.extend(submittedTokenModel.toJSON(), e.data)));
+                setToken("tk_doc_note", TokenUtils.replaceTokenNames("$row.doc_note$", _.extend(submittedTokenModel.toJSON(), e.data)));
+
                 // pref-fill current lagging input
                 setToken("form.tk_input_lag", TokenUtils.replaceTokenNames("$row.data_max_lag_allowed$", _.extend(submittedTokenModel.toJSON(), e.data)));
 
@@ -7551,6 +7827,32 @@ require([
                 var tk_data_monitored_state = tokens.get("tk_data_monitored_state");
                 var tk_data_index = tokens.get("tk_data_index");
                 var tk_data_sourcetype = tokens.get("tk_data_sourcetype");
+
+                // href docs
+                var tk_doc_link = tokens.get("tk_doc_link");
+                var tk_doc_note = tokens.get("tk_doc_note");
+
+                // If the documentation reference has not been set, define the href format
+                if (tk_doc_link == "null") {
+                    setToken("tk_doc_link_main", TokenUtils.replaceTokenNames("No identity documentation has been defined, click here to define a documentation reference", _.extend(submittedTokenModel.toJSON(), e.data)));
+                    setToken("tk_doc_modal_target", TokenUtils.replaceTokenNames("define_identity_card", _.extend(submittedTokenModel.toJSON(), e.data)));
+                    // replace the textinput for modification requests
+                    document.getElementById("input_doc_link").value = "link to documentation";
+                } else {
+                    setToken("tk_doc_link_main", TokenUtils.replaceTokenNames("Click here to access data source identity card", _.extend(submittedTokenModel.toJSON(), e.data)));
+                    setToken("tk_doc_modal_target", TokenUtils.replaceTokenNames("manage_identity_card", _.extend(submittedTokenModel.toJSON(), e.data)));
+                    // replace the textinput for modification requests
+                    document.getElementById("input_doc_link").value = tk_doc_link;
+                }
+
+                if (tk_doc_note == "null") {
+                    setToken("tk_doc_link", TokenUtils.replaceTokenNames("No documentation defined.", _.extend(submittedTokenModel.toJSON(), e.data)));
+                    // replace the textarea for modification requests
+                    document.getElementById("input_doc_note").value = "documentation note";
+                } else {
+                    // replace the textarea for modification requests
+                    document.getElementById("input_doc_note").value = tk_doc_note;
+                }
 
                 // Define the history search
                 var search_data_source = location.protocol + '//' + location.hostname + (location.port ? ':' + location.port : '') + '//app/trackme/search' + "?q=search%20index%3D\"" + encodeURI(tk_data_index) + "\"" + " sourcetype%3D\"" + encodeURI(tk_data_sourcetype) + "\""
@@ -8497,6 +8799,7 @@ require([
             "charting.chart.style": "shiny",
             "charting.axisY.scale": "linear",
             "charting.layout.splitSeries": "0",
+            "charting.fieldColors": "{\"events_count\": 0xaec6cf, \"avg_lag_sec\": 0x8b0000}",
             "resizable": true,
             "charting.legend.labelStyle.overflowMode": "ellipsisMiddle",
             "charting.lineWidth": "2",
@@ -8613,6 +8916,7 @@ require([
             "charting.axisY2.abbreviation": "none",
             "charting.chart": "column",
             "charting.axisY.abbreviation": "none",
+            "charting.fieldColors": "{\"events_count\": 0xaec6cf, \"avg_lag_sec\": 0x8b0000}",
             "trellis.enabled": "0",
             "height": "200",
             "managerid": "searchChartLagHostOverTime",
@@ -9042,6 +9346,16 @@ require([
             "id": "body_manage_custom_lagging",
             "useTokens": true,
             "el": $('#body_manage_custom_lagging')
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        }).render();
+
+        // data source identity card
+        var body_manage_identity_card = new HtmlElement({
+            "id": "body_manage_identity_card",
+            "useTokens": true,
+            "el": $('#body_manage_identity_card')
         }, {
             tokens: true,
             tokenNamespace: "submitted"
@@ -17361,6 +17675,11 @@ require([
         });
 
         //
+        // data source id
+        //
+
+
+        //
         // Modify lag
         //
 
@@ -17507,6 +17826,328 @@ require([
             }
         });
 
+        // data source identity documentation
+
+        // back button
+        $("#btn_back_manage_identity_card").click(function() {
+            // Show input modal
+            $("#modal_manage").modal();
+        });
+
+        $("#btn_close_define_identity_card").click(function() {
+            // Show input modal
+            $("#modal_manage").modal();
+        });
+
+        // update button
+        $("#btn_modify_manage_identity_card").click(function() {
+            // Show input modal
+            $("#define_identity_card").modal();
+        });
+
+        // delete button
+        $("#btn_delete_manage_identity_card").click(function() {
+            // Show deletion modal
+            $("#delete_identity_card").modal();
+        });
+
+        // identity card
+
+        $('.btn_define_identity_card').each(function() {
+            var $btn_group = $(this);
+            $btn_group.find('button').on('click', function() {
+                var $btn = $(this);
+
+                submitTokens();
+
+                // When the Submit button is clicked, get all the form fields by accessing token values
+                var tokens = mvc.Components.get("default");
+
+                // Retrieve input values
+
+                var input_doc_object = tokens.get("tk_data_name");
+                var input_doc_note = document.getElementById("input_doc_note").value;
+                var input_doc_link = document.getElementById("input_doc_link").value;
+
+                //console.log("link is: " + input_doc_link);
+                //console.log("note is: " + input_doc_note);
+
+                // Define the query
+                var searchQuery = "| inputlookup trackme_sources_knowledge | where object!=\"" + input_doc_object + "\" | append [ | makeresults | eval object=\"" + input_doc_object + "\", doc_link=\"" +  input_doc_link + "\", doc_note=\"" +  input_doc_note + "\" ] | dedup object | sort limit=0 object | outputlookup trackme_sources_knowledge";
+
+                // Set the search parameters--specify a time range
+                var searchParams = {
+                    earliest_time: "-60m",
+                    latest_time: "now"
+                };
+
+                if (input_doc_link && input_doc_link.length) {
+
+                    // Run a blocking search and get back a job
+                    service.search(
+                        searchQuery,
+                        searchParams,
+                        function(err, job) {
+
+                            function audit_failure() {
+
+                                // Audit failure change
+                                var time = (new Date).getTime();
+                                var audit_record = {
+                                    "time": time,
+                                    "action": "failure",
+                                    "user": currentUser,
+                                    "change_type": "create or update identity card",
+                                    "object": input_doc_object,
+                                    "object_category": "data_source",
+                                    "object_attrs": "object:" + input_doc_object + ", doc_link:" + input_doc_link + ", doc_note:" + input_doc_note
+                                };
+                                $.ajax({
+                                    url: auditendpoint_URl,
+                                    type: "POST",
+                                    async: true,
+                                    contentType: "application/json",
+                                    data: JSON.stringify(audit_record),
+                                    success: function(returneddata) {
+                                        //console.log("Updated!", returneddata)
+                                        // Run the search again to update the table
+                                        searchDataSourcesMain.startSearch();
+                                    }
+                                });
+
+                            }
+
+                            // Shall the search fail before we can get properties
+                            if (job == null) {
+                                let errorStr = "Unknown Error!";
+                                if (err && err.data && err.data.messages && err.data.messages[0]['text']) {
+                                    errorStr = err.data.messages[0]['text'];
+                                } else if (err && err.data && err.data.messages) {
+                                    errorStr = JSON.stringify(err.data.messages);
+                                }
+                                audit_failure();
+                                $("#modal_update_collection_failure_return").find('.modal-error-message p').text(errorStr);
+                                $("#modal_update_collection_failure_return").modal()
+                            } else {
+
+                                // Poll the status of the search job
+                                job.track({
+                                    period: 200
+                                }, {
+                                    done: function(job) {
+                                        // Run the search again to update the table
+                                        searchDataSourcesMain.startSearch();
+                                        $("#update_achieved_identity_card").modal()
+
+                                        // Audit success change
+                                        var time = (new Date).getTime();
+                                        var audit_record = {
+                                            "time": time,
+                                            "action": "success",
+                                            "user": currentUser,
+                                            "change_type": "create or update identity card",
+                                            "object": input_doc_object,
+                                            "object_category": "data_source",
+                                            "object_attrs": "object:" + input_doc_object + ", doc_link:" + input_doc_link + ", doc_note:" + input_doc_note
+                                        };
+                                        $.ajax({
+                                            url: auditendpoint_URl,
+                                            type: "POST",
+                                            async: true,
+                                            contentType: "application/json",
+                                            data: JSON.stringify(audit_record),
+                                            success: function(returneddata) {
+                                            }
+                                        });
+
+                                    },
+                                    failed: function(properties) {
+                                        let errorStr = "Unknown Error!";
+                                        if (properties && properties._properties && properties._properties.messages && properties._properties.messages[0]['text']) {
+                                            errorStr = properties._properties.messages[0]['text'];
+                                        } else if (properties && properties._properties && properties._properties.messages) {
+                                            errorStr = JSON.stringify(properties._properties.messages);
+                                        }
+                                        audit_failure();
+                                        $("#modal_update_collection_failure_return").find('.modal-error-message p').text(errorStr);
+                                        $("#modal_update_collection_failure_return").modal()
+                                    },
+                                    error: function(err) {
+                                        done(err);
+                                        audit_failure();
+                                        $("#modal_update_collection_failure_flush").modal()
+                                    }
+                                });
+
+                            }
+
+                        }
+                    );
+
+                    // house cleaning
+                    myendpoint_URl = undefined;
+                    delete(myendpoint_URl);
+                    return;
+
+                } else {
+                    $("#modal_entry_update_invalid").modal()
+                    return;
+                }
+
+            });
+
+        });
+
+        // delete button
+        $("#btn_delete_identity_card_confirm").click(function() {
+
+                submitTokens();
+
+                // When the Submit button is clicked, get all the form fields by accessing token values
+                var tokens = mvc.Components.get("default");
+
+                // Retrieve input values
+
+                var input_doc_object = tokens.get("tk_data_name");
+                var input_doc_note = document.getElementById("input_doc_note").value;
+                var input_doc_link = document.getElementById("input_doc_link").value;
+
+                //console.log("link is: " + input_doc_link);
+                //console.log("note is: " + input_doc_note);
+
+                // Define the query
+                var searchQuery = "| inputlookup trackme_sources_knowledge | where object!=\"" + input_doc_object + "\" | dedup object | sort limit=0 object | outputlookup trackme_sources_knowledge";
+
+                // Set the search parameters--specify a time range
+                var searchParams = {
+                    earliest_time: "-60m",
+                    latest_time: "now"
+                };
+
+                if (input_doc_link && input_doc_link.length) {
+
+                    // Run a blocking search and get back a job
+                    service.search(
+                        searchQuery,
+                        searchParams,
+                        function(err, job) {
+
+                            function audit_failure() {
+
+                                // Audit failure change
+                                var time = (new Date).getTime();
+                                var audit_record = {
+                                    "time": time,
+                                    "action": "failure",
+                                    "user": currentUser,
+                                    "change_type": "delete identity card",
+                                    "object": input_doc_object,
+                                    "object_category": "data_source",
+                                    "object_attrs": "object:" + input_doc_object + ", doc_link:" + input_doc_link + ", doc_note:" + input_doc_note
+                                };
+                                $.ajax({
+                                    url: auditendpoint_URl,
+                                    type: "POST",
+                                    async: true,
+                                    contentType: "application/json",
+                                    data: JSON.stringify(audit_record),
+                                    success: function(returneddata) {
+                                        //console.log("Updated!", returneddata)
+                                        // Run the search again to update the table
+                                        searchDataSourcesMain.startSearch();
+                                    }
+                                });
+
+                            }
+
+                            // Shall the search fail before we can get properties
+                            if (job == null) {
+                                let errorStr = "Unknown Error!";
+                                if (err && err.data && err.data.messages && err.data.messages[0]['text']) {
+                                    errorStr = err.data.messages[0]['text'];
+                                } else if (err && err.data && err.data.messages) {
+                                    errorStr = JSON.stringify(err.data.messages);
+                                }
+                                audit_failure();
+                                $("#modal_update_collection_failure_return").find('.modal-error-message p').text(errorStr);
+                                $("#modal_update_collection_failure_return").modal()
+                            } else {
+
+                                // Poll the status of the search job
+                                job.track({
+                                    period: 200
+                                }, {
+                                    done: function(job) {
+                                        // Run the search again to update the table
+                                        searchDataSourcesMain.startSearch();
+                                        // show deleted modal
+                                        $("#delete_achieved_identity_card").modal()
+
+                                        // Audit success change
+                                        var time = (new Date).getTime();
+                                        var audit_record = {
+                                            "time": time,
+                                            "action": "success",
+                                            "user": currentUser,
+                                            "change_type": "delete identity card",
+                                            "object": input_doc_object,
+                                            "object_category": "data_source",
+                                            "object_attrs": "object:" + input_doc_object + ", doc_link:" + input_doc_link + ", doc_note:" + input_doc_note
+                                        };
+                                        $.ajax({
+                                            url: auditendpoint_URl,
+                                            type: "POST",
+                                            async: true,
+                                            contentType: "application/json",
+                                            data: JSON.stringify(audit_record),
+                                            success: function(returneddata) {
+                                            }
+                                        });
+
+                                    },
+                                    failed: function(properties) {
+                                        let errorStr = "Unknown Error!";
+                                        if (properties && properties._properties && properties._properties.messages && properties._properties.messages[0]['text']) {
+                                            errorStr = properties._properties.messages[0]['text'];
+                                        } else if (properties && properties._properties && properties._properties.messages) {
+                                            errorStr = JSON.stringify(properties._properties.messages);
+                                        }
+                                        audit_failure();
+                                        $("#modal_update_collection_failure_return").find('.modal-error-message p').text(errorStr);
+                                        $("#modal_update_collection_failure_return").modal()
+                                    },
+                                    error: function(err) {
+                                        done(err);
+                                        audit_failure();
+                                        $("#modal_update_collection_failure_flush").modal()
+                                    }
+                                });
+
+                            }
+
+                        }
+                    );
+
+                    // house cleaning
+                    myendpoint_URl = undefined;
+                    delete(myendpoint_URl);
+                    return;
+
+                } else {
+                    $("#modal_entry_update_invalid").modal()
+                    return;
+                }
+
+        });
+
+        // back button
+        $("#btn_delete_identity_card_back").click(function() {
+            // Show modal
+            $("#define_identity_card").modal();
+        });
+
+        // END
+
         DashboardController.onReady(function() {
             if (!submittedTokenModel.has('earliest') && !submittedTokenModel.has('latest')) {
                 submittedTokenModel.set({
@@ -17527,7 +18168,6 @@ require([
         if (!_.isEmpty(urlTokenModel.toJSON())) {
             submitTokens();
         }
-
 
         //
         // DASHBOARD READY
