@@ -73,7 +73,7 @@
           position: absolute;
 
           width: 90%;
-          min-height: 400px;
+          min-height: 50px;
           max-height: 600px;
           height: 100%;
 
@@ -118,7 +118,6 @@
             float: left;
             margin-top:15px;
         }
-
 
         /*Notification alerts*/
 
@@ -185,6 +184,36 @@
             margin-left: 5px;
         }
 
+        .imgheader {
+           margin-top: 10px;
+           margin-bottom: 40px;
+        }
+
+        .imgheader img {
+            float: left;
+            width: 48px;
+            height: 48px;
+        }
+
+        .imgheader h1 {
+            color: lightslategrey;
+            text-align: left;
+            position: relative;
+            top: 9px;
+            left: 10px;
+        }
+
+        .imgheader h3 {
+            position: relative;
+            top: 14px;
+            left: -10px;
+        }
+
+        .imgminiheader img {
+            position: relative;
+            top: -4px;
+        }
+
         </style>
 </head>
 <body class="simplexml preload locale-en" data-splunk-version="" data-splunk-product="enterprise">
@@ -212,10 +241,229 @@ styles in <div> tags, similar to Bootstrap's grid system.
     <div style="display: none;" class="fieldset">
     </div>
 
+    <!--
+    identity card
+    -->
+
+    <!-- Modal drilldown context for identity card -->
+    <div id="main_manage_identity_card" class="dashboard-element html" style="width: 100%">
+        <div class="panel-body html">
+            <div class="modal fade custom-modal-50" id="manage_identity_card" role="dialog">
+                <div class="modal-dialog">
+                    <!-- Modal content-->
+                    <div class="modal-content">
+                        <!-- This is required to get the token subsitutions without affecting the buttons actions in js -->
+                        <div class="dashboard-element html" id="body_manage_identity_card">
+                            <div class="panel-body html">
+                                <div class="modal-header">
+                                    <h3 style="font-size: 18px;">Identity card for data source: <span style="color: steelblue">$tk_data_name$</span></h3>
+                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                </div>
+
+                                <div style="margin-top:10px; margin-left: 20px;">
+
+                                    <div class="imgheader">
+                                        <img style="float: left; margin: 0px 15px 15px 0px;" src="../../static/app/trackme/icons/identity_card.png"/></span>
+                                        <h3>Identity card note:</h3>
+                                        <br />
+                                    </div>
+
+                                    <div>
+                                      $tk_doc_note$
+                                    </div>
+
+                                    <div style="margin-bottom: 20px;">
+                                        <h3>Link to documentation: </h3><a target="_blank" href="$tk_doc_link$">$tk_doc_link$</a>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    <div class="modal-footer">
+                        <button type="submit" id="btn_delete_manage_identity_card" class="btn btn-default btn-danger" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Delete card</button>
+                        <button type="submit" id="btn_modify_manage_identity_card" class="btn btn-default btn-primary" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Update card</button>
+                        <button type="submit" id="btn_back_manage_identity_card" class="btn btn-default btn-primary pull-left" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Back</button>
+                        <button type="submit" id="btn_close_manage_identity_card" class="btn btn-default btn-default pull-right" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Close</button>
+                    </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal window define for identity card -->
+    <div class="modal fade custom-modal-60" id="define_identity_card" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h3 style="color: indianred;"><span class="glyphicon glyphicon-lock"></span> Documentation identity card </h3>
+                </div>
+
+                <div class="modal-body">
+
+                    <div>
+
+                        <div style="margin-bottom: 10px;">
+
+                            <form>
+                                <fieldset>
+                                    <legend>Define a link and a note to document this data source</legend>
+                                    <p>
+                                        <label>Optional: enter the documentation link, this will be made available in the source identity card:</label>
+                                        <input type = "text"
+                                               id = "input_doc_link"
+                                               value = "link to documentation"
+                                               style="width: 900px;"
+                                               onfocus="if(this.value==this.defaultValue)this.value='';" onblur="if(this.value=='')this.value=this.defaultValue;"/>
+                                    </p>
+
+                                    <p>
+                                        <label>Optional: enter a documentation note:</label>
+                                        <textarea
+                                                id = "input_doc_note"
+                                                rows = "10"
+                                                cols = "160" style="width: 900px;"
+                                                onfocus="if(this.value==this.defaultValue)this.value='';" onblur="if(this.value=='')this.value=this.defaultValue;">documentation note</textarea>
+                                    </p>
+
+                                </fieldset>
+                            </form>
+
+                            <div class="btn_define_identity_card">
+                                <button type="submit" class="btn btn-default btn-primary" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Create or update this record </button>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div style="margin-top: 20px;" class="modal-footer">
+                    <button type="submit" class="btn btn-default pull-right" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Close</button>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Modal window deletion for identity card -->
+    <div class="modal fade" id="delete_identity_card" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h3 style="color: indianred;"><span class="glyphicon glyphicon-lock"></span> Documentation identity card </h3>
+                </div>
+
+                <div class="modal-body">
+
+                    <div>
+
+                        <div style="margin-bottom: 10px;">
+
+                            <div>
+                                <h4>Please confirm the deletion of the identity card records?</h4>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div style="margin-top: 20px;" class="modal-footer">
+                    <button type="submit" id="btn_delete_identity_card_confirm" class="btn btn-default btn-danger" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Delete this record </button>
+                    <button type="submit" id="btn_delete_identity_card_back" class="btn btn-default btn-primary" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Back </button>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Modal window confirmation of deletion for identity card -->
+    <div class="modal fade" id="update_achieved_identity_card" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h3 style="color: indianred;"><span class="glyphicon glyphicon-lock"></span> Documentation identity card </h3>
+                </div>
+
+                <div class="modal-body">
+
+                    <div>
+
+                        <div style="margin-bottom: 10px;">
+
+                            <div>
+                                <h4>The identity card record was successfully created or updated.</h4>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div style="margin-top: 20px;" class="modal-footer">
+                    <button type="submit" class="btn btn-default btn-primary" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Ok </button>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Modal window confirmation of deletion for identity card -->
+    <div class="modal fade" id="delete_achieved_identity_card" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h3 style="color: indianred;"><span class="glyphicon glyphicon-lock"></span> Documentation identity card </h3>
+                </div>
+
+                <div class="modal-body">
+
+                    <div>
+
+                        <div style="margin-bottom: 10px;">
+
+                            <div>
+                                <h4>The identity card record was successfully deleted.</h4>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div style="margin-top: 20px;" class="modal-footer">
+                    <button type="submit" class="btn btn-default btn-primary" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Ok </button>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
     <!-- Modal drilldown context for Alerts -->
     <div id="main_modal_manage" class="dashboard-element html" style="width: 100%">
         <div class="panel-body html">
-            <div class="modal fade custom-modal-60" id="modal_manage" role="dialog">
+            <div class="modal fade custom-modal-80" id="modal_manage" role="dialog">
                 <div class="modal-dialog">
                     <!-- Modal content-->
                     <div class="modal-content">
@@ -247,6 +495,14 @@ styles in <div> tags, similar to Bootstrap's grid system.
                                         <p><b>priority:</b> <span class="$tk_priority_class$">$tk_priority$</span></p>
                                     </div>
                                 </div>
+
+                                <div style="margin-left: 10px;">
+                                    <div class="imgheader">
+                                        <img style="float: left; margin: 0px 15px 15px 0px;" src="../../static/app/trackme/icons/identity_card.png"/>
+                                        <h3><a id="doc_link_data_source" data-toggle="modal" data-target="#$tk_doc_modal_target$">$tk_doc_link_main$</a></h3>
+                                    </div>
+                                </div>
+
                             </div>
                         </div>
 
@@ -311,7 +567,7 @@ styles in <div> tags, similar to Bootstrap's grid system.
     <!-- Modal drilldown context for Alerts -->
     <div id="main_modal_manage_host" class="dashboard-element html" style="width: 100%">
         <div class="panel-body html">
-            <div class="modal fade custom-modal-60" id="modal_manage_host" role="dialog">
+            <div class="modal fade custom-modal-80" id="modal_manage_host" role="dialog">
                 <div class="modal-dialog">
                     <!-- Modal content-->
                     <div class="modal-content">
@@ -426,7 +682,7 @@ styles in <div> tags, similar to Bootstrap's grid system.
     <!-- Modal drilldown context for Alerts -->
     <div id="main_modal_manage_metric_host" class="dashboard-element html" style="width: 100%">
         <div class="panel-body html">
-            <div class="modal fade custom-modal-60" id="modal_manage_metric_host" role="dialog">
+            <div class="modal fade custom-modal-80" id="modal_manage_metric_host" role="dialog">
                 <div class="modal-dialog">
                     <!-- Modal content-->
                     <div class="modal-content">
@@ -888,111 +1144,11 @@ styles in <div> tags, similar to Bootstrap's grid system.
         </div>
     </div>
 
-    <!-- Reset data source collection -->
-    <div class="modal fade" id="modal_reset_data_source" role="dialog">
-        <div class="modal-dialog">
-
-            <!-- Modal content-->
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h3 style="color: indianred;"><span class="glyphicon glyphicon-lock"></span>Data collection reset</h3>
-                </div>
-                <div class="modal-body">
-                    <p><b>Are you sure that you want to reset the data source collection?</b><br /><br />
-                        All changes in the collection will be irremediably lost and trackers will be automatically started to populate a fresh collection version.
-                        <br /><br />
-                        <b>Which changes will be affected?</b>
-                        <br />
-                        <lu>
-                            <li>modifications of lagging values for all entries</li>
-                            <li>modifications of week days rules for all entries</li>
-                            <li>modifications of monitoring level for all entries</li>
-                        </lu>
-                        <br />
-                        <b>Blacklisted items will not be touched at any level, and will be preserved in their current state.</b>
-                    </p>
-                </div>
-
-                <div class="modal-footer">
-                    <button type="submit" class="btn btn-default btn-default pull-left" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Cancel</button>
-                    <button type="submit" id="btn_modal_reset_data_source_confirmed" class="btn btn-default btn-danger pull-right" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Ok</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Reset data source collection -->
-    <div class="modal fade" id="modal_reset_data_host" role="dialog">
-        <div class="modal-dialog">
-
-            <!-- Modal content-->
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h3 style="color: indianred;"><span class="glyphicon glyphicon-lock"></span>Data collection reset</h3>
-                </div>
-                <div class="modal-body">
-                    <p><b>Are you sure that you want to reset the data host collection?</b><br /><br />
-                        All changes in the collection will be irremediably lost and trackers will be automatically started to populate a fresh collection version.
-                        <br /><br />
-                        <b>Which changes will be affected?</b>
-                        <br />
-                        <lu>
-                            <li>modifications of lagging values for all entries</li>
-                            <li>modifications of week days rules for all entries</li>
-                        </lu>
-                        <br />
-                        <b>Blacklisted items will not be touched at any level, and will be preserved in their current state.</b>
-                    </p>
-                </div>
-
-                <div class="modal-footer">
-                    <button type="submit" class="btn btn-default btn-default pull-left" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Cancel</button>
-                    <button type="submit" id="btn_modal_reset_data_host_confirmed" class="btn btn-default btn-danger pull-right" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Ok</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Reset data source collection -->
-    <div class="modal fade" id="modal_reset_metric_host" role="dialog">
-        <div class="modal-dialog">
-
-            <!-- Modal content-->
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h3 style="color: indianred;"><span class="glyphicon glyphicon-lock"></span>Metric collection reset</h3>
-                </div>
-                <div class="modal-body">
-                    <p><b>Are you sure that you want to reset the metric host collection?</b><br /><br />
-                        All changes in the collection will be irremediably lost and trackers will be automatically started to populate a fresh collection version.
-                        <br /><br />
-                        <b>Which changes will be affected?</b>
-                        <br />
-                        <lu>
-                            <li>modifications of metric grace periods for all entries</li>
-                            <li>modifications of week days rules for all entries</li>
-                        </lu>
-                        <br />
-                        <b>Blacklisted items will not be touched at any level, and will be preserved in their current state.</b>
-                    </p>
-                </div>
-
-                <div class="modal-footer">
-                    <button type="submit" class="btn btn-default btn-default pull-left" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Cancel</button>
-                    <button type="submit" id="btn_modal_reset_metric_host_confirmed" class="btn btn-default btn-danger pull-right" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Ok</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
     <!--
     Custom lagging
     -->
 
-    <div class="modal fade custom-modal-60" id="modify_custom_lagging" role="dialog">
+    <div class="modal fade custom-modal-80" id="modify_custom_lagging" role="dialog">
         <div class="modal-dialog">
 
             <!-- Modal content-->
@@ -1878,7 +2034,7 @@ styles in <div> tags, similar to Bootstrap's grid system.
     <!-- data source monitoring -->
 
     <!-- Modal window for data source unified -->
-    <div class="modal fade custom-modal-60" id="modal_modify_data_source_unified" role="dialog">
+    <div class="modal fade custom-modal-80" id="modal_modify_data_source_unified" role="dialog">
         <div class="modal-dialog">
 
             <!-- Modal content-->
@@ -2004,7 +2160,7 @@ styles in <div> tags, similar to Bootstrap's grid system.
     <!-- data host monitoring -->
 
     <!-- Modal window for data source unified -->
-    <div class="modal fade custom-modal-60" id="modal_modify_data_host_unified" role="dialog">
+    <div class="modal fade custom-modal-80" id="modal_modify_data_host_unified" role="dialog">
         <div class="modal-dialog">
 
             <!-- Modal content-->
@@ -2101,7 +2257,7 @@ styles in <div> tags, similar to Bootstrap's grid system.
     <!-- metric host monitoring -->
 
     <!-- Modal window for data source unified -->
-    <div class="modal fade custom-modal-60" id="modal_modify_metric_host_unified" role="dialog">
+    <div class="modal fade custom-modal-80" id="modal_modify_metric_host_unified" role="dialog">
         <div class="modal-dialog">
 
             <!-- Modal content-->
@@ -2223,7 +2379,7 @@ styles in <div> tags, similar to Bootstrap's grid system.
 
     -->
 
-    <div class="modal fade custom-modal-60" id="modal_metric_sla_policies" role="dialog">
+    <div class="modal fade custom-modal-80" id="modal_metric_sla_policies" role="dialog">
         <div class="modal-dialog">
 
             <!-- Modal content-->
@@ -3723,269 +3879,6 @@ styles in <div> tags, similar to Bootstrap's grid system.
         </div>
     </div>
 
-    <div id="rowManageResetInfo" class="dashboard-row dashboard-rowManageResetInfo" data-depends="$show_manage$">
-        <div id="panelManageResetInfo" class="dashboard-cell" style="width: 100%;">
-            <div class="dashboard-panel clearfix">
-                <div class="panel-element-row">
-                    <div id="elementManageResetInfo" class="dashboard-element html" style="width: 100%">
-                        <div class="panel-body html">
-                            <div style="text-align: center; border: 3px dashed #ccc;">
-                                <div style="display: inline-flex; align-items: center; margin-top: 5px;">
-                                    <span style="font-size: 22px; font-weight: bold; color: #999999; margin-top: 5px;">RESET COLLECTIONS</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div id="rowManage" class="dashboard-row dashboard-row1" data-original-id="rowManage" data-depends="$show_manage$">
-        <div id="panelManage1" class="dashboard-cell" style="width: 100%;">
-            <div class="dashboard-panel clearfix">
-                <div id="ManageRow1" class="dashboard-row dashboard-row1">
-                    <div id="ManageRow1Panel1" class="dashboard-cell" style="width: 33%;">
-                        <div class="dashboard-panel clearfix">
-                            <div class="panel-element-row">
-                                <div id="ManageRow1Panel1Element1" class="dashboard-element html" style="width: 100%">
-                                    <div class="panel-body html">
-                                        <div>
-                                            <div style="margin-bottom: 15px;" class="custom-btn">
-                                                <h2>Use this function to reset the <b>data_source</b> collection and automatically run trackers:</h2>
-                                                <button type="submit" id="btn_manage_reset_data_source" style="margin-right: 15px;" class="btn btn-default btn-danger" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Manage: reset collection</button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div id="ManageRow1Panel2" class="dashboard-cell" style="width: 33%;">
-                        <div class="dashboard-panel clearfix">
-                            <div class="panel-element-row">
-                                <div id="ManageRow1Panel1Element2" class="dashboard-element html" style="width: 100%">
-                                    <div class="panel-body html">
-                                        <div>
-                                            <div style="margin-bottom: 15px;" class="custom-btn">
-                                                <h2>Use this function to reset the <b>data_host</b> collection and automatically run trackers:</h2>
-                                                <button type="submit" id="btn_manage_reset_data_host" style="margin-right: 15px;" class="btn btn-default btn-danger" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Manage: reset collection</button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div id="ManageRow1Panel3" class="dashboard-cell" style="width: 33%;">
-                        <div class="dashboard-panel clearfix">
-                            <div class="panel-element-row">
-                                <div id="ManageRow1Panel1Element3" class="dashboard-element html" style="width: 100%">
-                                    <div class="panel-body html">
-                                        <div>
-                                            <div style="margin-bottom: 15px;" class="custom-btn">
-                                                <h2>Use this function to reset the <b>metric_host</b> collection and automatically run trackers:</h2>
-                                                <button type="submit" id="btn_manage_reset_metric_host" style="margin-right: 15px;" class="btn btn-default btn-danger" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Manage: reset collection</button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div id="rowManageMacrosInfo" class="dashboard-row dashboard-rowManageResetInfo" data-depends="$show_manage$">
-        <div id="panelManageMacrosInfo" class="dashboard-cell" style="width: 100%;">
-            <div class="dashboard-panel clearfix">
-                <div class="panel-element-row">
-                    <div id="elementManageMacrosInfo" class="dashboard-element html" style="width: 100%">
-                        <div class="panel-body html">
-                            <div style="text-align: center; border: 3px dashed #ccc;">
-                                <div style="display: inline-flex; align-items: center; margin-top: 5px;">
-                                    <span style="font-size: 22px; font-weight: bold; color: #999999; margin-top: 5px;">MACROS DEFINITIONS</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div id="ManageRowMacro1" class="dashboard-row dashboard-rowDataSourcesTable" data-depends="$show_manage$">
-        <div id="panelManageMacro1" class="dashboard-cell" style="width: 100%;">
-            <div class="dashboard-panel clearfix">
-                <h2 style="padding: 12px 55px 7px 12px;">tstats</h2><h2 class="panel-title">Macro definition for every call to the tstats command in the application: (click on the table bellow to edit the macro definition)</h2>
-                <div class="panel-element-row">
-                    <div id="elementTable_tstats" class="dashboard-element table" style="width: 100%">
-                        <div class="panel-body"></div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div id="ManageRowMacro2" class="dashboard-row dashboard-rowDataSourcesTable" data-depends="$show_manage$">
-        <div id="panelManage2" class="dashboard-cell" style="width: 100%;">
-            <div class="dashboard-panel clearfix">
-                <h2 style="padding: 12px 55px 7px 12px;">trackme_tstats_main_filter</h2><h2 class="panel-title">The default behaviour of TrackMe is to track data available in all indexes, a macro is used within each tracker which can be modified if you wish to restrict TrackMe to a given list of indexes or any other valid Meta data filter: (click on the table bellow to edit the macro definition)</h2>
-                <div class="panel-element-row">
-                    <div id="elementTable_trackme_tstats_main_filter" class="dashboard-element table" style="width: 100%">
-                        <div class="panel-body"></div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div id="ManageRowMacro3" class="dashboard-row dashboard-rowDataSourcesTable" data-depends="$show_manage$">
-        <div id="panelManage3" class="dashboard-cell" style="width: 100%;">
-            <div class="dashboard-panel clearfix">
-                <h2 style="padding: 12px 55px 7px 12px;">trackme_idx_filter</h2><h2 class="panel-title">The builtin views “Ops: Indexes queues” and “Ops: Parsing issues” rely on the usage of the following macro: (click on the table bellow to edit the macro definition)</h2>
-                <div class="panel-element-row">
-                    <div id="elementTable_trackme_idx_filter" class="dashboard-element table" style="width: 100%">
-                        <div class="panel-body"></div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div id="ManageRowMacro4" class="dashboard-row dashboard-rowDataSourcesTable" data-depends="$show_manage$">
-        <div id="panelManage4" class="dashboard-cell" style="width: 100%;">
-            <div class="dashboard-panel clearfix">
-                <h2 style="padding: 12px 55px 7px 12px;">trackme_date_format</h2><h2 class="panel-title">The UI generates human readable time stamps in the following format: (click on the table bellow to edit the macro definition)</h2>
-                <div class="panel-element-row">
-                    <div id="elementTable_trackme_date_format" class="dashboard-element table" style="width: 100%">
-                        <div class="panel-body"></div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div id="ManageRowMacro5" class="dashboard-row dashboard-rowDataSourcesTable" data-depends="$show_manage$">
-        <div id="panelManage5" class="dashboard-cell" style="width: 100%;">
-            <div class="dashboard-panel clearfix">
-                <h2 style="padding: 12px 55px 7px 12px;">trackme_default_monitored_state</h2><h2 class="panel-title">Defines the default value for monitored_state when a data source is discovered: (click on the table bellow to edit the macro definition)</h2>
-                <div class="panel-element-row">
-                    <div id="elementTable_trackme_default_monitored_state" class="dashboard-element table" style="width: 100%">
-                        <div class="panel-body"></div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div id="ManageRowMacro6" class="dashboard-row dashboard-rowDataSourcesTable" data-depends="$show_manage$">
-        <div id="panelManage6" class="dashboard-cell" style="width: 100%;">
-            <div class="dashboard-panel clearfix">
-                <h2 style="padding: 12px 55px 7px 12px;">trackme_default_host_monitored_state</h2><h2 class="panel-title">Defines the default value for monitored_state when a data host is discovered: (click on the table bellow to edit the macro definition)</h2>
-                <div class="panel-element-row">
-                    <div id="elementTable_trackme_default_host_monitored_state" class="dashboard-element table" style="width: 100%">
-                        <div class="panel-body"></div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div id="ManageRowMacro7" class="dashboard-row dashboard-rowDataSourcesTable" data-depends="$show_manage$">
-        <div id="panelManage7" class="dashboard-cell" style="width: 100%;">
-            <div class="dashboard-panel clearfix">
-                <h2 style="padding: 12px 55px 7px 12px;">trackme_default_metric_host_monitored_state</h2><h2 class="panel-title">Defines the default value for monitored_state when a metric host is discovered: (click on the table bellow to edit the macro definition)</h2>
-                <div class="panel-element-row">
-                    <div id="elementTable_trackme_default_metric_host_monitored_state" class="dashboard-element table" style="width: 100%">
-                        <div class="panel-body"></div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div id="ManageRowMacro8" class="dashboard-row dashboard-rowDataSourcesTable" data-depends="$show_manage$">
-        <div id="panelManage8" class="dashboard-cell" style="width: 100%;">
-            <div class="dashboard-panel clearfix">
-                <h2 style="padding: 12px 55px 7px 12px;">trackme_default_lag</h2><h2 class="panel-title">Defines the default value in seconds for the maximal lag latency for data sources: (click on the table bellow to edit the macro definition)</h2>
-                <div class="panel-element-row">
-                    <div id="elementTable_trackme_default_lag" class="dashboard-element table" style="width: 100%">
-                        <div class="panel-body"></div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div id="ManageRowMacro9" class="dashboard-row dashboard-rowDataSourcesTable" data-depends="$show_manage$">
-        <div id="panelManage9" class="dashboard-cell" style="width: 100%;">
-            <div class="dashboard-panel clearfix">
-                <h2 style="padding: 12px 55px 7px 12px;">trackme_default_host_lag</h2><h2 class="panel-title">Defines the default value in seconds for the maximal lag latency for data hosts: (click on the table bellow to edit the macro definition)</h2>
-                <div class="panel-element-row">
-                    <div id="elementTable_trackme_default_host_lag" class="dashboard-element table" style="width: 100%">
-                        <div class="panel-body"></div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div id="ManageRowMacro10" class="dashboard-row dashboard-rowDataSourcesTable" data-depends="$show_manage$">
-        <div id="panelManage10" class="dashboard-cell" style="width: 100%;">
-            <div class="dashboard-panel clearfix">
-                <h2 style="padding: 12px 55px 7px 12px;">trackme_default_metric_host_lag</h2><h2 class="panel-title">Defines the default value in seconds for the maximal lag latency for metric hosts: (click on the table bellow to edit the macro definition)</h2>
-                <div class="panel-element-row">
-                    <div id="elementTable_trackme_default_metric_host_lag" class="dashboard-element table" style="width: 100%">
-                        <div class="panel-body"></div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div id="ManageRowMacro11" class="dashboard-row dashboard-rowDataSourcesTable" data-depends="$show_manage$">
-        <div id="panelManage11" class="dashboard-cell" style="width: 100%;">
-            <div class="dashboard-panel clearfix">
-                <h2 style="padding: 12px 55px 7px 12px;">trackme_audit_changes_retention</h2><h2 class="panel-title">Defines the retention to be used for entries stored in the audit collection: (click on the table bellow to edit the macro definition)</h2>
-                <div class="panel-element-row">
-                    <div id="elementTable_trackme_audit_changes_retention" class="dashboard-element table" style="width: 100%">
-                        <div class="panel-body"></div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div id="ManageRowMacro12" class="dashboard-row dashboard-rowDataSourcesTable" data-depends="$show_manage$">
-        <div id="panelManage12" class="dashboard-cell" style="width: 100%;">
-            <div class="dashboard-panel clearfix">
-                <h2 style="padding: 12px 55px 7px 12px;">trackme_flip_state_retention</h2><h2 class="panel-title">Defines the retention to be used for entries stored in the flip state collection: (click on the table bellow to edit the macro definition)</h2>
-                <div class="panel-element-row">
-                    <div id="elementTable_trackme_flip_state_retention" class="dashboard-element table" style="width: 100%">
-                        <div class="panel-body"></div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div id="ManageRowMacro13" class="dashboard-row dashboard-rowDataSourcesTable" data-depends="$show_manage$">
-        <div id="panelManage13" class="dashboard-cell" style="width: 100%;">
-            <div class="dashboard-panel clearfix">
-                <h2 style="padding: 12px 55px 7px 12px;">trackme_alerts_priority</h2><h2 class="panel-title">Macro definition for alerting priority, this macro is used by the application out of the box alerts to return SLA alerts based on the rules and the priority level: (click on the table bellow to edit the macro definition)</h2>
-                <div class="panel-element-row">
-                    <div id="elementTable_trackme_alerts_priority" class="dashboard-element table" style="width: 100%">
-                        <div class="panel-body"></div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
 </div>
 
 </div>
@@ -4272,7 +4165,7 @@ require([
 
         var searchDataSourcesPostTable = new PostProcessManager({
             "tokenDependencies": {},
-            "search": "search $data_source_state$ | search $inputDataName$ $inputDataIndex$ $inputDataSourcetype$ $data_monitored_state$ $inputDataPriority$ | fields keyid, data_name, data_index, data_sourcetype, \"data_last_time_seen (translated)\", data_last_time_seen, \"data_last_ingest (translated)\", data_last_ingest, \"data_last_time_seen_idx (translated)\", data_last_time_seen_idx, state, data_last_lag_seen, data_last_lag_seen_idx, data_max_lag_allowed, monitoring, data_monitored_state, data_monitoring_level, data_source_state, data_monitoring_wdays, data_override_lagging_class, priority | search `trackme_get_idx_whitelist_searchtime(trackme_data_source_monitoring_whitelist_index, data_index)` | `apply_data_source_blacklists` | rename \"data_last_time_seen (translated)\" as \"last time\", \"data_last_ingest (translated)\" as \"last ingest\", \"data_last_time_seen_idx (translated)\" as \"last time idx\" | eval data_tracker_runtime=now() | lookup local=t trackme_data_source_monitoring data_name OUTPUT data_source_state as data_previous_source_state, data_tracker_runtime as data_previous_tracker_runtime, latest_flip_state, latest_flip_time | `trackme_date_format(\"latest_flip_time\")` | fillnull value=\"N/A\" latest_flip_state, latest_flip_time, \"latest_flip_time (translated)\"",
+            "search": "search $data_source_state$ | search $inputDataName$ $inputDataIndex$ $inputDataSourcetype$ $data_monitored_state$ $inputDataPriority$ | fields keyid, data_name, data_index, data_sourcetype, \"data_last_time_seen (translated)\", data_last_time_seen, \"data_last_ingest (translated)\", data_last_ingest, \"data_last_time_seen_idx (translated)\", data_last_time_seen_idx, state, data_last_lag_seen, data_last_lag_seen_idx, data_max_lag_allowed, monitoring, data_monitored_state, data_monitoring_level, data_source_state, data_monitoring_wdays, data_override_lagging_class, priority | search `trackme_get_idx_whitelist_searchtime(trackme_data_source_monitoring_whitelist_index, data_index)` | `apply_data_source_blacklists` | rename \"data_last_time_seen (translated)\" as \"last time\", \"data_last_ingest (translated)\" as \"last ingest\", \"data_last_time_seen_idx (translated)\" as \"last time idx\" | eval data_tracker_runtime=now() | lookup local=t trackme_data_source_monitoring data_name OUTPUT data_source_state as data_previous_source_state, data_tracker_runtime as data_previous_tracker_runtime, latest_flip_state, latest_flip_time | `trackme_date_format(\"latest_flip_time\")` | fillnull value=\"N/A\" latest_flip_state, latest_flip_time, \"latest_flip_time (translated)\" | `trackme_get_identity_card(data_name)`",
             "managerid": "searchDataSourcesMain",
             "id": "searchDataSourcesPostTable"
         }, {
@@ -5816,159 +5709,6 @@ require([
             tokenNamespace: "submitted"
         });
 
-        // manage and configure
-
-        var searchGetMacrosDefinitions = new SearchManager({
-            "id": "searchGetMacrosDefinitions",
-            "earliest_time": "-15m",
-            "cancelOnUnload": true,
-            "sample_ratio": null,
-            "refreshType": "delay",
-            "latest_time": "now",
-            "search": "| rest /servicesNS/-/-/admin/macros count=0 splunk_server=local | rename eai:appName as app | where app=\"trackme\" | table title definition",
-            "status_buckets": 0,
-            "app": utils.getCurrentApp(),
-            "auto_cancel": 90,
-            "preview": true,
-            "tokenDependencies": {
-                "depends": "$show_manage$",
-            },
-            "runWhenTimeIsUndefined": false
-        }, {
-            tokens: true,
-            tokenNamespace: "submitted"
-        });
-
-        var searchGetMacro_tstats = new PostProcessManager({
-            "tokenDependencies": {},
-            "search": "where title=\"tstats\" | eval alternative_definition=\"tstats include_reduced_buckets=t\" | table definition, alternative_definition",
-            "managerid": "searchGetMacrosDefinitions",
-            "id": "searchGetMacro_tstats"
-        }, {
-            tokens: true,
-            tokenNamespace: "submitted"
-        });
-
-        var searchGetMacro_trackme_idx_filter = new PostProcessManager({
-            "tokenDependencies": {},
-            "search": "where title=\"trackme_idx_filter\" | table definition",
-            "managerid": "searchGetMacrosDefinitions",
-            "id": "searchGetMacro_trackme_idx_filter"
-        }, {
-            tokens: true,
-            tokenNamespace: "submitted"
-        });
-
-        var searchGetMacro_trackme_date_format = new PostProcessManager({
-            "tokenDependencies": {},
-            "search": "where title=\"trackme_date_format(1)\" | table definition",
-            "managerid": "searchGetMacrosDefinitions",
-            "id": "searchGetMacro_trackme_date_format"
-        }, {
-            tokens: true,
-            tokenNamespace: "submitted"
-        });
-
-        var searchGetMacro_trackme_tstats_main_filter = new PostProcessManager({
-            "tokenDependencies": {},
-            "search": "where title=\"trackme_tstats_main_filter\" | table definition",
-            "managerid": "searchGetMacrosDefinitions",
-            "id": "searchGetMacro_trackme_tstats_main_filter"
-        }, {
-            tokens: true,
-            tokenNamespace: "submitted"
-        });
-
-        var searchGetMacro_trackme_default_monitored_state = new PostProcessManager({
-            "tokenDependencies": {},
-            "search": "where title=\"trackme_default_monitored_state\" | table definition",
-            "managerid": "searchGetMacrosDefinitions",
-            "id": "searchGetMacro_trackme_default_monitored_state"
-        }, {
-            tokens: true,
-            tokenNamespace: "submitted"
-        });
-
-        var searchGetMacro_trackme_default_host_monitored_state = new PostProcessManager({
-            "tokenDependencies": {},
-            "search": "where title=\"trackme_default_host_monitored_state\" | table definition",
-            "managerid": "searchGetMacrosDefinitions",
-            "id": "searchGetMacro_trackme_default_host_monitored_state"
-        }, {
-            tokens: true,
-            tokenNamespace: "submitted"
-        });
-
-        var searchGetMacro_trackme_default_metric_host_monitored_state = new PostProcessManager({
-            "tokenDependencies": {},
-            "search": "where title=\"trackme_default_metric_host_monitored_state\" | table definition",
-            "managerid": "searchGetMacrosDefinitions",
-            "id": "searchGetMacro_trackme_default_metric_host_monitored_state"
-        }, {
-            tokens: true,
-            tokenNamespace: "submitted"
-        });
-
-        var searchGetMacro_trackme_default_lag = new PostProcessManager({
-            "tokenDependencies": {},
-            "search": "where title=\"trackme_default_lag\" | table definition",
-            "managerid": "searchGetMacrosDefinitions",
-            "id": "searchGetMacro_trackme_default_lag"
-        }, {
-            tokens: true,
-            tokenNamespace: "submitted"
-        });
-
-        var searchGetMacro_trackme_default_host_lag = new PostProcessManager({
-            "tokenDependencies": {},
-            "search": "where title=\"trackme_default_host_lag\" | table definition",
-            "managerid": "searchGetMacrosDefinitions",
-            "id": "searchGetMacro_trackme_default_host_lag"
-        }, {
-            tokens: true,
-            tokenNamespace: "submitted"
-        });
-
-        var searchGetMacro_trackme_default_metric_host_lag = new PostProcessManager({
-            "tokenDependencies": {},
-            "search": "where title=\"trackme_default_metric_host_lag\" | table definition",
-            "managerid": "searchGetMacrosDefinitions",
-            "id": "searchGetMacro_trackme_default_metric_host_lag"
-        }, {
-            tokens: true,
-            tokenNamespace: "submitted"
-        });
-
-        var searchGetMacro_trackme_audit_changes_retention = new PostProcessManager({
-            "tokenDependencies": {},
-            "search": "where title=\"trackme_audit_changes_retention\" | table definition",
-            "managerid": "searchGetMacrosDefinitions",
-            "id": "searchGetMacro_trackme_audit_changes_retention"
-        }, {
-            tokens: true,
-            tokenNamespace: "submitted"
-        });
-
-        var searchGetMacro_trackme_flip_state_retention = new PostProcessManager({
-            "tokenDependencies": {},
-            "search": "where title=\"trackme_flip_state_retention\" | table definition",
-            "managerid": "searchGetMacrosDefinitions",
-            "id": "searchGetMacro_trackme_flip_state_retention"
-        }, {
-            tokens: true,
-            tokenNamespace: "submitted"
-        });
-
-        var searchGetMacro_trackme_alerts_priority = new PostProcessManager({
-            "tokenDependencies": {},
-            "search": "where title=\"trackme_alerts_priority\" | table definition",
-            "managerid": "searchGetMacrosDefinitions",
-            "id": "searchGetMacro_trackme_alerts_priority"
-        }, {
-            tokens: true,
-            tokenNamespace: "submitted"
-        });
-
         // whitelist
 
         // whitelist data_source
@@ -6200,6 +5940,10 @@ require([
                     "label": "24h"
                 },
                 {
+                    "value": "48h",
+                    "label": "48h"
+                },
+                {
                     "value": "7d",
                     "label": "7d"
                 },
@@ -6243,6 +5987,10 @@ require([
                 EventHandler.setToken("modalTime.earliest", "-24h", {}, e.data);
                 EventHandler.setToken("modalTime.latest", "now", {}, e.data);
                 EventHandler.setToken("modalTime.span", "15m", {}, e.data);
+            } else if (e.value === "48h") {
+                EventHandler.setToken("modalTime.earliest", "-48h", {}, e.data);
+                EventHandler.setToken("modalTime.latest", "now", {}, e.data);
+                EventHandler.setToken("modalTime.span", "30m", {}, e.data);
             } else if (e.value === "7d") {
                 EventHandler.setToken("modalTime.earliest", "-7d", {}, e.data);
                 EventHandler.setToken("modalTime.latest", "now", {}, e.data);
@@ -6278,6 +6026,10 @@ require([
                 {
                     "value": "24h",
                     "label": "24h"
+                },
+                {
+                    "value": "48h",
+                    "label": "48h"
                 },
                 {
                     "value": "7d",
@@ -6323,6 +6075,10 @@ require([
                 EventHandler.setToken("modalTimeHost.earliest", "-24h", {}, e.data);
                 EventHandler.setToken("modalTimeHost.latest", "now", {}, e.data);
                 EventHandler.setToken("modalTimeHost.span", "15m", {}, e.data);
+            } else if (e.value === "48h") {
+                EventHandler.setToken("modalTimeHost.earliest", "-48h", {}, e.data);
+                EventHandler.setToken("modalTimeHost.latest", "now", {}, e.data);
+                EventHandler.setToken("modalTimeHost.span", "30m", {}, e.data);
             } else if (e.value === "7d") {
                 EventHandler.setToken("modalTimeHost.earliest", "-7d", {}, e.data);
                 EventHandler.setToken("modalTimeHost.latest", "now", {}, e.data);
@@ -8044,6 +7800,10 @@ require([
                 setToken("tk_latest_flip_time_human", TokenUtils.replaceTokenNames("$row.latest_flip_time (translated)$", _.extend(submittedTokenModel.toJSON(), e.data)));
                 setToken("tk_priority", TokenUtils.replaceTokenNames("$row.priority$", _.extend(submittedTokenModel.toJSON(), e.data)));
 
+                // doc href
+                setToken("tk_doc_link", TokenUtils.replaceTokenNames("$row.doc_link$", _.extend(submittedTokenModel.toJSON(), e.data)));
+                setToken("tk_doc_note", TokenUtils.replaceTokenNames("$row.doc_note$", _.extend(submittedTokenModel.toJSON(), e.data)));
+
                 // pref-fill current lagging input
                 setToken("form.tk_input_lag", TokenUtils.replaceTokenNames("$row.data_max_lag_allowed$", _.extend(submittedTokenModel.toJSON(), e.data)));
 
@@ -8067,6 +7827,32 @@ require([
                 var tk_data_monitored_state = tokens.get("tk_data_monitored_state");
                 var tk_data_index = tokens.get("tk_data_index");
                 var tk_data_sourcetype = tokens.get("tk_data_sourcetype");
+
+                // href docs
+                var tk_doc_link = tokens.get("tk_doc_link");
+                var tk_doc_note = tokens.get("tk_doc_note");
+
+                // If the documentation reference has not been set, define the href format
+                if (tk_doc_link == "null") {
+                    setToken("tk_doc_link_main", TokenUtils.replaceTokenNames("No identity documentation has been defined, click here to define a documentation reference", _.extend(submittedTokenModel.toJSON(), e.data)));
+                    setToken("tk_doc_modal_target", TokenUtils.replaceTokenNames("define_identity_card", _.extend(submittedTokenModel.toJSON(), e.data)));
+                    // replace the textinput for modification requests
+                    document.getElementById("input_doc_link").value = "link to documentation";
+                } else {
+                    setToken("tk_doc_link_main", TokenUtils.replaceTokenNames("Click here to access data source identity card", _.extend(submittedTokenModel.toJSON(), e.data)));
+                    setToken("tk_doc_modal_target", TokenUtils.replaceTokenNames("manage_identity_card", _.extend(submittedTokenModel.toJSON(), e.data)));
+                    // replace the textinput for modification requests
+                    document.getElementById("input_doc_link").value = tk_doc_link;
+                }
+
+                if (tk_doc_note == "null") {
+                    setToken("tk_doc_link", TokenUtils.replaceTokenNames("No documentation defined.", _.extend(submittedTokenModel.toJSON(), e.data)));
+                    // replace the textarea for modification requests
+                    document.getElementById("input_doc_note").value = "documentation note";
+                } else {
+                    // replace the textarea for modification requests
+                    document.getElementById("input_doc_note").value = tk_doc_note;
+                }
 
                 // Define the history search
                 var search_data_source = location.protocol + '//' + location.hostname + (location.port ? ':' + location.port : '') + '//app/trackme/search' + "?q=search%20index%3D\"" + encodeURI(tk_data_index) + "\"" + " sourcetype%3D\"" + encodeURI(tk_data_sourcetype) + "\""
@@ -9013,6 +8799,7 @@ require([
             "charting.chart.style": "shiny",
             "charting.axisY.scale": "linear",
             "charting.layout.splitSeries": "0",
+            "charting.fieldColors": "{\"events_count\": 0xaec6cf, \"avg_lag_sec\": 0x8b0000}",
             "resizable": true,
             "charting.legend.labelStyle.overflowMode": "ellipsisMiddle",
             "charting.lineWidth": "2",
@@ -9129,6 +8916,7 @@ require([
             "charting.axisY2.abbreviation": "none",
             "charting.chart": "column",
             "charting.axisY.abbreviation": "none",
+            "charting.fieldColors": "{\"events_count\": 0xaec6cf, \"avg_lag_sec\": 0x8b0000}",
             "trellis.enabled": "0",
             "height": "200",
             "managerid": "searchChartLagHostOverTime",
@@ -9512,281 +9300,6 @@ require([
             tokenNamespace: "submitted"
         }).render();
 
-        // manage and configure
-
-        var elementTable_tstats = new TableElement({
-            "id": "elementTable_tstats",
-            "count": 100,
-            "drilldown": "row",
-            "refresh.display": "none",
-            "wrap": "false",
-            "managerid": "searchGetMacro_tstats",
-            "el": $('#elementTable_tstats')
-        }, {
-            tokens: true,
-            tokenNamespace: "submitted"
-        }).render();
-
-        elementTable_tstats.on("click", function(e) {
-            if (e.field !== undefined) {
-                e.preventDefault();
-                var url = TokenUtils.replaceTokenNames("/en-GB/manager/trackme/admin/macros/tstats?action=edit", _.extend(submittedTokenModel.toJSON(), e.data), TokenUtils.getEscaper('url'), TokenUtils.getFilters(mvc.Components));
-                utils.redirect(url, false, "_blank");
-            }
-        });
-
-        var elementTable_trackme_idx_filter = new TableElement({
-            "id": "elementTable_trackme_idx_filter",
-            "count": 100,
-            "drilldown": "row",
-            "refresh.display": "none",
-            "wrap": "false",
-            "managerid": "searchGetMacro_trackme_idx_filter",
-            "el": $('#elementTable_trackme_idx_filter')
-        }, {
-            tokens: true,
-            tokenNamespace: "submitted"
-        }).render();
-
-        elementTable_trackme_idx_filter.on("click", function(e) {
-            if (e.field !== undefined) {
-                e.preventDefault();
-                var url = TokenUtils.replaceTokenNames("/en-GB/manager/trackme/admin/macros/trackme_idx_filter?action=edit", _.extend(submittedTokenModel.toJSON(), e.data), TokenUtils.getEscaper('url'), TokenUtils.getFilters(mvc.Components));
-                utils.redirect(url, false, "_blank");
-            }
-        });
-
-        var elementTable_trackme_date_format = new TableElement({
-            "id": "elementTable_trackme_date_format",
-            "count": 100,
-            "drilldown": "row",
-            "refresh.display": "none",
-            "wrap": "false",
-            "managerid": "searchGetMacro_trackme_date_format",
-            "el": $('#elementTable_trackme_date_format')
-        }, {
-            tokens: true,
-            tokenNamespace: "submitted"
-        }).render();
-
-        elementTable_trackme_date_format.on("click", function(e) {
-            if (e.field !== undefined) {
-                e.preventDefault();
-                var url = TokenUtils.replaceTokenNames("/en-GB/manager/trackme/admin/macros/trackme_date_format(1)?action=edit", _.extend(submittedTokenModel.toJSON(), e.data), TokenUtils.getEscaper('url'), TokenUtils.getFilters(mvc.Components));
-                utils.redirect(url, false, "_blank");
-            }
-        });
-
-        var elementTable_trackme_tstats_main_filter = new TableElement({
-            "id": "elementTable_trackme_tstats_main_filter",
-            "count": 100,
-            "drilldown": "row",
-            "refresh.display": "none",
-            "wrap": "false",
-            "managerid": "searchGetMacro_trackme_tstats_main_filter",
-            "el": $('#elementTable_trackme_tstats_main_filter')
-        }, {
-            tokens: true,
-            tokenNamespace: "submitted"
-        }).render();
-
-        elementTable_trackme_tstats_main_filter.on("click", function(e) {
-            if (e.field !== undefined) {
-                e.preventDefault();
-                var url = TokenUtils.replaceTokenNames("/en-GB/manager/trackme/admin/macros/trackme_tstats_main_filter?action=edit", _.extend(submittedTokenModel.toJSON(), e.data), TokenUtils.getEscaper('url'), TokenUtils.getFilters(mvc.Components));
-                utils.redirect(url, false, "_blank");
-            }
-        });
-
-        var elementTable_trackme_alerts_priority = new TableElement({
-            "id": "elementTable_trackme_alerts_priority",
-            "count": 100,
-            "drilldown": "row",
-            "refresh.display": "none",
-            "wrap": "false",
-            "managerid": "searchGetMacro_trackme_alerts_priority",
-            "el": $('#elementTable_trackme_alerts_priority')
-        }, {
-            tokens: true,
-            tokenNamespace: "submitted"
-        }).render();
-
-        elementTable_trackme_alerts_priority.on("click", function(e) {
-            if (e.field !== undefined) {
-                e.preventDefault();
-                var url = TokenUtils.replaceTokenNames("/en-GB/manager/trackme/admin/macros/trackme_alerts_priority?action=edit", _.extend(submittedTokenModel.toJSON(), e.data), TokenUtils.getEscaper('url'), TokenUtils.getFilters(mvc.Components));
-                utils.redirect(url, false, "_blank");
-            }
-        });
-
-        var elementTable_trackme_default_monitored_state = new TableElement({
-            "id": "elementTable_trackme_default_monitored_state",
-            "count": 100,
-            "drilldown": "row",
-            "refresh.display": "none",
-            "wrap": "false",
-            "managerid": "searchGetMacro_trackme_default_monitored_state",
-            "el": $('#elementTable_trackme_default_monitored_state')
-        }, {
-            tokens: true,
-            tokenNamespace: "submitted"
-        }).render();
-
-        elementTable_trackme_default_monitored_state.on("click", function(e) {
-            if (e.field !== undefined) {
-                e.preventDefault();
-                var url = TokenUtils.replaceTokenNames("/en-GB/manager/trackme/admin/macros/trackme_default_monitored_state?action=edit", _.extend(submittedTokenModel.toJSON(), e.data), TokenUtils.getEscaper('url'), TokenUtils.getFilters(mvc.Components));
-                utils.redirect(url, false, "_blank");
-            }
-        });
-
-        var elementTable_trackme_default_host_monitored_state = new TableElement({
-            "id": "elementTable_trackme_default_host_monitored_state",
-            "count": 100,
-            "drilldown": "row",
-            "refresh.display": "none",
-            "wrap": "false",
-            "managerid": "searchGetMacro_trackme_default_host_monitored_state",
-            "el": $('#elementTable_trackme_default_host_monitored_state')
-        }, {
-            tokens: true,
-            tokenNamespace: "submitted"
-        }).render();
-
-        elementTable_trackme_default_host_monitored_state.on("click", function(e) {
-            if (e.field !== undefined) {
-                e.preventDefault();
-                var url = TokenUtils.replaceTokenNames("/en-GB/manager/trackme/admin/macros/trackme_default_host_monitored_state?action=edit", _.extend(submittedTokenModel.toJSON(), e.data), TokenUtils.getEscaper('url'), TokenUtils.getFilters(mvc.Components));
-                utils.redirect(url, false, "_blank");
-            }
-        });
-
-        var elementTable_trackme_default_metric_host_monitored_state = new TableElement({
-            "id": "elementTable_trackme_default_metric_host_monitored_state",
-            "count": 100,
-            "drilldown": "row",
-            "refresh.display": "none",
-            "wrap": "false",
-            "managerid": "searchGetMacro_trackme_default_metric_host_monitored_state",
-            "el": $('#elementTable_trackme_default_metric_host_monitored_state')
-        }, {
-            tokens: true,
-            tokenNamespace: "submitted"
-        }).render();
-
-        elementTable_trackme_default_metric_host_monitored_state.on("click", function(e) {
-            if (e.field !== undefined) {
-                e.preventDefault();
-                var url = TokenUtils.replaceTokenNames("/en-GB/manager/trackme/admin/macros/trackme_default_metric_host_monitored_state?action=edit", _.extend(submittedTokenModel.toJSON(), e.data), TokenUtils.getEscaper('url'), TokenUtils.getFilters(mvc.Components));
-                utils.redirect(url, false, "_blank");
-            }
-        });
-
-        var elementTable_trackme_default_lag = new TableElement({
-            "id": "elementTable_trackme_default_lag",
-            "count": 100,
-            "drilldown": "row",
-            "refresh.display": "none",
-            "wrap": "false",
-            "managerid": "searchGetMacro_trackme_default_lag",
-            "el": $('#elementTable_trackme_default_lag')
-        }, {
-            tokens: true,
-            tokenNamespace: "submitted"
-        }).render();
-
-        elementTable_trackme_default_lag.on("click", function(e) {
-            if (e.field !== undefined) {
-                e.preventDefault();
-                var url = TokenUtils.replaceTokenNames("/en-GB/manager/trackme/admin/macros/trackme_default_lag?action=edit", _.extend(submittedTokenModel.toJSON(), e.data), TokenUtils.getEscaper('url'), TokenUtils.getFilters(mvc.Components));
-                utils.redirect(url, false, "_blank");
-            }
-        });
-
-        var elementTable_trackme_default_host_lag = new TableElement({
-            "id": "elementTable_trackme_default_host_lag",
-            "count": 100,
-            "drilldown": "row",
-            "refresh.display": "none",
-            "wrap": "false",
-            "managerid": "searchGetMacro_trackme_default_host_lag",
-            "el": $('#elementTable_trackme_default_host_lag')
-        }, {
-            tokens: true,
-            tokenNamespace: "submitted"
-        }).render();
-
-        elementTable_trackme_default_host_lag.on("click", function(e) {
-            if (e.field !== undefined) {
-                e.preventDefault();
-                var url = TokenUtils.replaceTokenNames("/en-GB/manager/trackme/admin/macros/trackme_default_host_lag?action=edit", _.extend(submittedTokenModel.toJSON(), e.data), TokenUtils.getEscaper('url'), TokenUtils.getFilters(mvc.Components));
-                utils.redirect(url, false, "_blank");
-            }
-        });
-
-        var elementTable_trackme_default_metric_host_lag = new TableElement({
-            "id": "elementTable_trackme_default_metric_host_lag",
-            "count": 100,
-            "drilldown": "row",
-            "refresh.display": "none",
-            "wrap": "false",
-            "managerid": "searchGetMacro_trackme_default_metric_host_lag",
-            "el": $('#elementTable_trackme_default_metric_host_lag')
-        }, {
-            tokens: true,
-            tokenNamespace: "submitted"
-        }).render();
-
-        elementTable_trackme_default_metric_host_lag.on("click", function(e) {
-            if (e.field !== undefined) {
-                e.preventDefault();
-                var url = TokenUtils.replaceTokenNames("/en-GB/manager/trackme/admin/macros/trackme_default_metric_host_lag?action=edit", _.extend(submittedTokenModel.toJSON(), e.data), TokenUtils.getEscaper('url'), TokenUtils.getFilters(mvc.Components));
-                utils.redirect(url, false, "_blank");
-            }
-        });
-
-        var elementTable_trackme_audit_changes_retention = new TableElement({
-            "id": "elementTable_trackme_audit_changes_retention",
-            "count": 100,
-            "drilldown": "row",
-            "refresh.display": "none",
-            "wrap": "false",
-            "managerid": "searchGetMacro_trackme_audit_changes_retention",
-            "el": $('#elementTable_trackme_audit_changes_retention')
-        }, {
-            tokens: true,
-            tokenNamespace: "submitted"
-        }).render();
-
-        elementTable_trackme_audit_changes_retention.on("click", function(e) {
-            if (e.field !== undefined) {
-                e.preventDefault();
-                var url = TokenUtils.replaceTokenNames("/en-GB/manager/trackme/admin/macros/trackme_audit_changes_retention?action=edit", _.extend(submittedTokenModel.toJSON(), e.data), TokenUtils.getEscaper('url'), TokenUtils.getFilters(mvc.Components));
-                utils.redirect(url, false, "_blank");
-            }
-        });
-
-        var elementTable_trackme_flip_state_retention = new TableElement({
-            "id": "elementTable_trackme_flip_state_retention",
-            "count": 100,
-            "drilldown": "row",
-            "refresh.display": "none",
-            "wrap": "false",
-            "managerid": "searchGetMacro_trackme_flip_state_retention",
-            "el": $('#elementTable_trackme_flip_state_retention')
-        }, {
-            tokens: true,
-            tokenNamespace: "submitted"
-        }).render();
-
-        elementTable_trackme_flip_state_retention.on("click", function(e) {
-            if (e.field !== undefined) {
-                e.preventDefault();
-                var url = TokenUtils.replaceTokenNames("/en-GB/manager/trackme/admin/macros/trackme_flip_state_retention?action=edit", _.extend(submittedTokenModel.toJSON(), e.data), TokenUtils.getEscaper('url'), TokenUtils.getFilters(mvc.Components));
-                utils.redirect(url, false, "_blank");
-            }
-        });
-
         // Manage html dynamic panels
 
         var body_modal_manage = new HtmlElement({
@@ -9833,6 +9346,16 @@ require([
             "id": "body_manage_custom_lagging",
             "useTokens": true,
             "el": $('#body_manage_custom_lagging')
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        }).render();
+
+        // data source identity card
+        var body_manage_identity_card = new HtmlElement({
+            "id": "body_manage_identity_card",
+            "useTokens": true,
+            "el": $('#body_manage_identity_card')
         }, {
             tokens: true,
             tokenNamespace: "submitted"
@@ -9991,10 +9514,6 @@ require([
                 {
                     "value": "show_audit_changes",
                     "label": "INVESTIGATE AUDIT CHANGES"
-                },
-                {
-                    "value": "show_manage",
-                    "label": "MANAGE AND CONFIGURE"
                 }
             ],
             "default": "show_data_source_tracker",
@@ -10016,14 +9535,12 @@ require([
                 EventHandler.unsetToken("show_data_host_tracker");
                 EventHandler.unsetToken("show_audit_flip");
                 EventHandler.unsetToken("show_audit_changes");
-                EventHandler.unsetToken("show_manage");
                 EventHandler.unsetToken("show_metric_host_tracker");
             } else if (e.value === "show_data_host_tracker") {
                 EventHandler.setToken("show_data_host_tracker", "true", {}, e.data);
                 EventHandler.unsetToken("show_data_source_tracker");
                 EventHandler.unsetToken("show_audit_flip");
                 EventHandler.unsetToken("show_audit_changes");
-                EventHandler.unsetToken("show_manage");
                 EventHandler.unsetToken("show_metric_host_tracker");
             } else if (e.value === "show_metric_host_tracker") {
                 EventHandler.setToken("show_metric_host_tracker", "true", {}, e.data);
@@ -10031,27 +9548,17 @@ require([
                 EventHandler.unsetToken("show_data_host_tracker");
                 EventHandler.unsetToken("show_audit_flip");
                 EventHandler.unsetToken("show_audit_changes");
-                EventHandler.unsetToken("show_manage");
             } else if (e.value === "show_audit_flip") {
                 EventHandler.setToken("show_audit_flip", "true", {}, e.data);
                 EventHandler.unsetToken("show_data_source_tracker");
                 EventHandler.unsetToken("show_data_host_tracker");
                 EventHandler.unsetToken("show_audit_changes");
-                EventHandler.unsetToken("show_manage");
                 EventHandler.unsetToken("show_metric_host_tracker");
             } else if (e.value === "show_audit_changes") {
                 EventHandler.setToken("show_audit_changes", "true", {}, e.data);
                 EventHandler.unsetToken("show_data_source_tracker");
                 EventHandler.unsetToken("show_data_host_tracker");
                 EventHandler.unsetToken("show_audit_flip");
-                EventHandler.unsetToken("show_manage");
-                EventHandler.unsetToken("show_metric_host_tracker");
-            } else if (e.value === "show_manage") {
-                EventHandler.setToken("show_manage", "true", {}, e.data);
-                EventHandler.unsetToken("show_data_source_tracker");
-                EventHandler.unsetToken("show_data_host_tracker");
-                EventHandler.unsetToken("show_audit_flip");
-                EventHandler.unsetToken("show_audit_changes");
                 EventHandler.unsetToken("show_metric_host_tracker");
             }
         });
@@ -11042,7 +10549,7 @@ require([
         //
 
         // Search everything and return the first 100 results
-        var searchQuery = "| inputlookup trackme_data_source_monitoring | inputlookup append=t trackme_host_monitoring";
+        var searchQuery = "| inputlookup trackme_data_source_monitoring | inputlookup append=t trackme_host_monitoring | inputlookup append=t trackme_metric_host_monitoring";
 
         // Set the search parameters
         var searchParams = {
@@ -16202,669 +15709,6 @@ require([
         });
 
         //
-        // RESET COLLECTIONS
-        //
-
-        // data source
-
-        $("#btn_manage_reset_data_source").click(function() {
-            submitTokens();
-
-            // When the Submit button is clicked, get all the form fields by accessing token values
-            var tokens = mvc.Components.get("default");
-
-            $("#modal_reset_data_source").modal()
-
-            $("#btn_modal_reset_data_source_confirmed").click(function() {
-
-                console.log("Reset of data source collection");
-
-                // Define the query
-                var searchQuery = "| outputlookup trackme_data_source_monitoring";
-
-                // Set the search parameters--specify a time range
-                var searchParams = {
-                    earliest_time: "-5m",
-                    latest_time: "now"
-                };
-
-                // Run a normal search that immediately returns the job's SID
-                service.search(
-                    searchQuery,
-                    searchParams,
-                    function(err, job) {
-
-                        $("#loadingGray").remove()
-                        $("body").append('<div id="loadingGray" style="background: #e9e9e9; display: block; position: fixed; z-index: 100; top: 0; right: 0; bottom: 0; left: 0; height: 100%; opacity: 0.8;"><div style="width: 100%; margin-top: 250px; padding-bottom: 50px; text-align: center;"><p style="font-size: 18pt; font-weight: bolder;">Flushing data source KVstore collection and running long term tracker, please wait...</p></div><div id="spinner"></div></div>')
-
-                        require(["jquery",
-                                "/static/app/trackme/spin.js"
-                            ],
-                            function($,
-                                Spinner
-                            ) {
-                                new Spinner({
-                                    lines: 12,
-                                    position: "relative"
-                                }).spin(document.getElementById('spinner'));
-                            })
-
-                        function audit_failure() {
-                            // Audit failure change
-                            var time = (new Date).getTime();
-                            var audit_record = {
-                                "time": time,
-                                "action": "failure",
-                                "user": currentUser,
-                                "change_type": "reset",
-                                "object_category": "data_source",
-                                "object": "full_collection"
-                            };
-                            $.ajax({
-                                url: auditendpoint_URl,
-                                type: "POST",
-                                async: true,
-                                contentType: "application/json",
-                                data: JSON.stringify(audit_record),
-                                success: function(returneddata) {
-                                    //console.log("Updated!", returneddata)
-                                    // Run the search again to update the table
-                                }
-                            });
-                        }
-
-                        // Shall the search fail before we can get properties
-                        if (job == null) {
-                            let errorStr = "Unknown Error!";
-                            if (err && err.data && err.data.messages && err.data.messages[0]['text']) {
-                                errorStr = err.data.messages[0]['text'];
-                            } else if (err && err.data && err.data.messages) {
-                                errorStr = JSON.stringify(err.data.messages);
-                            }
-                            $("#loadingGray").remove()
-                            audit_failure();
-                            $("#modal_update_collection_failure_return").find('.modal-error-message p').text(errorStr);
-                            $("#modal_update_collection_failure_return").modal()
-                        } else {
-
-                            // Poll the status of the search job
-                            job.track({
-                                period: 200
-                            }, {
-                                done: function(job) {
-                                    //console.log("Done!");
-
-                                    // Once the job is done, update all searches
-
-                                    // Define the query
-                                    var searchQuery = "| savedsearch \"TrackMe - Data sources availability long term tracker\"";
-
-                                    // Set the search parameters--specify a time range
-                                    var searchParams = {
-                                        earliest_time: "-7d",
-                                        latest_time: "now"
-                                    };
-
-                                    // Run a normal search that immediately returns the job's SID
-                                    service.search(
-                                        searchQuery,
-                                        searchParams,
-                                        function(err, job) {
-
-                                            require(["jquery",
-                                                    "/static/app/trackme/spin.js"
-                                                ],
-                                                function($,
-                                                    Spinner
-                                                ) {
-                                                    new Spinner({
-                                                        lines: 12,
-                                                        position: "relative"
-                                                    }).spin(document.getElementById('spinner'));
-                                                })
-
-                                            // Shall the search fail before we can get properties
-                                            if (job == null) {
-                                                let errorStr = "Unknown Error!";
-                                                if (err && err.data && err.data.messages && err.data.messages[0]['text']) {
-                                                    errorStr = err.data.messages[0]['text'];
-                                                } else if (err && err.data && err.data.messages) {
-                                                    errorStr = JSON.stringify(err.data.messages);
-                                                }
-                                                $("#loadingGray").remove()
-                                                audit_failure();
-                                                $("#modal_update_collection_failure_return").find('.modal-error-message p').text(errorStr);
-                                                $("#modal_update_collection_failure_return").modal()
-                                            } else {
-
-                                                // Poll the status of the search job
-                                                job.track({
-                                                    period: 200
-                                                }, {
-                                                    done: function(job) {
-                                                        //console.log("Done!");
-
-                                                        // Once the job is done, update all searches
-                                                        searchDataSourcesMain.startSearch();
-
-                                                        $("#loadingGray").remove()
-
-                                                        // Audit success change
-                                                        var time = (new Date).getTime();
-                                                        var audit_record = {
-                                                            "time": time,
-                                                            "action": "success",
-                                                            "user": currentUser,
-                                                            "change_type": "reset",
-                                                            "object_category": "data_source",
-                                                            "object": "full_collection"
-                                                        };
-                                                        $.ajax({
-                                                            url: auditendpoint_URl,
-                                                            type: "POST",
-                                                            async: true,
-                                                            contentType: "application/json",
-                                                            data: JSON.stringify(audit_record),
-                                                            success: function(returneddata) {
-                                                                //console.log("Updated!", returneddata)
-                                                                // Run the search again to update the table
-                                                            }
-                                                        });
-
-                                                        $("#modal_update_collection_done").modal()
-
-                                                    },
-                                                    failed: function(properties) {
-                                                        let errorStr = "Unknown Error!";
-                                                        if (properties && properties._properties && properties._properties.messages && properties._properties.messages[0]['text']) {
-                                                            errorStr = properties._properties.messages[0]['text'];
-                                                        } else if (properties && properties._properties && properties._properties.messages) {
-                                                            errorStr = JSON.stringify(properties._properties.messages);
-                                                        }
-                                                        $("#loadingGray").remove()
-                                                        audit_failure();
-                                                        $("#modal_update_collection_failure_return").find('.modal-error-message p').text(errorStr);
-                                                        $("#modal_update_collection_failure_return").modal()
-                                                    },
-                                                    error: function(err) {
-                                                        done(err);
-                                                        audit_failure();
-                                                        $("#loadingGray").remove()
-                                                        $("#modal_update_collection_failure").modal()
-                                                    }
-                                                });
-                                            }
-                                        }
-                                    );
-
-                                },
-                                failed: function(properties) {
-                                    let errorStr = "Unknown Error!";
-                                    if (properties && properties._properties && properties._properties.messages && properties._properties.messages[0]['text']) {
-                                        errorStr = properties._properties.messages[0]['text'];
-                                    } else if (properties && properties._properties && properties._properties.messages) {
-                                        errorStr = JSON.stringify(properties._properties.messages);
-                                    }
-                                    $("#loadingGray").remove()
-                                    audit_failure();
-                                    $("#modal_update_collection_failure_return").find('.modal-error-message p').text(errorStr);
-                                    $("#modal_update_collection_failure_return").modal()
-                                },
-                                error: function(err) {
-                                    done(err);
-                                    $("#loadingGray").remove()
-                                    audit_failure();
-                                    $("#modal_update_collection_failure").modal()
-                                }
-                            });
-                        }
-                    }
-                );
-
-            });
-
-        });
-
-        // data host
-
-        $("#btn_manage_reset_data_host").click(function() {
-            submitTokens();
-
-            // When the Submit button is clicked, get all the form fields by accessing token values
-            var tokens = mvc.Components.get("default");
-
-            $("#modal_reset_data_host").modal()
-
-            $("#btn_modal_reset_data_host_confirmed").click(function() {
-
-                console.log("Reset of data source collection");
-
-                // Define the query
-                var searchQuery = "| outputlookup trackme_host_monitoring";
-
-                // Set the search parameters--specify a time range
-                var searchParams = {
-                    earliest_time: "-5m",
-                    latest_time: "now"
-                };
-
-                // Run a normal search that immediately returns the job's SID
-                service.search(
-                    searchQuery,
-                    searchParams,
-                    function(err, job) {
-
-                        $("#loadingGray").remove()
-                        $("body").append('<div id="loadingGray" style="background: #e9e9e9; display: block; position: fixed; z-index: 100; top: 0; right: 0; bottom: 0; left: 0; height: 100%; opacity: 0.8;"><div style="width: 100%; margin-top: 250px; padding-bottom: 50px; text-align: center;"><p style="font-size: 18pt; font-weight: bolder;">Flushing data hosts KVstore collection and running long term tracker, please wait...</p></div><div id="spinner"></div></div>')
-
-                        require(["jquery",
-                                "/static/app/trackme/spin.js"
-                            ],
-                            function($,
-                                Spinner
-                            ) {
-                                new Spinner({
-                                    lines: 12,
-                                    position: "relative"
-                                }).spin(document.getElementById('spinner'));
-                            })
-
-                        function audit_failure() {
-                            // Audit failure change
-                            var time = (new Date).getTime();
-                            var audit_record = {
-                                "time": time,
-                                "action": "failure",
-                                "user": currentUser,
-                                "change_type": "reset",
-                                "object_category": "data_host",
-                                "object": "full_collection"
-                            };
-                            $.ajax({
-                                url: auditendpoint_URl,
-                                type: "POST",
-                                async: true,
-                                contentType: "application/json",
-                                data: JSON.stringify(audit_record),
-                                success: function(returneddata) {
-                                    //console.log("Updated!", returneddata)
-                                    // Run the search again to update the table
-                                }
-                            });
-                        }
-
-                        // Shall the search fail before we can get properties
-                        if (job == null) {
-                            let errorStr = "Unknown Error!";
-                            if (err && err.data && err.data.messages && err.data.messages[0]['text']) {
-                                errorStr = err.data.messages[0]['text'];
-                            } else if (err && err.data && err.data.messages) {
-                                errorStr = JSON.stringify(err.data.messages);
-                            }
-                            $("#loadingGray").remove()
-                            audit_failure();
-                            $("#modal_update_collection_failure_return").find('.modal-error-message p').text(errorStr);
-                            $("#modal_update_collection_failure_return").modal()
-                        } else {
-
-                            // Poll the status of the search job
-                            job.track({
-                                period: 200
-                            }, {
-                                done: function(job) {
-                                    //console.log("Done!");
-
-                                    // Once the job is done, update all searches
-
-                                    // Define the query
-                                    var searchQuery = "| savedsearch \"TrackMe - hosts availability long term tracker\"";
-
-                                    // Set the search parameters--specify a time range
-                                    var searchParams = {
-                                        earliest_time: "-7d",
-                                        latest_time: "now"
-                                    };
-
-                                    // Run a normal search that immediately returns the job's SID
-                                    service.search(
-                                        searchQuery,
-                                        searchParams,
-                                        function(err, job) {
-
-                                            require(["jquery",
-                                                    "/static/app/trackme/spin.js"
-                                                ],
-                                                function($,
-                                                    Spinner
-                                                ) {
-                                                    new Spinner({
-                                                        lines: 12,
-                                                        position: "relative"
-                                                    }).spin(document.getElementById('spinner'));
-                                                })
-
-                                            // Shall the search fail before we can get properties
-                                            if (job == null) {
-                                                let errorStr = "Unknown Error!";
-                                                if (err && err.data && err.data.messages && err.data.messages[0]['text']) {
-                                                    errorStr = err.data.messages[0]['text'];
-                                                } else if (err && err.data && err.data.messages) {
-                                                    errorStr = JSON.stringify(err.data.messages);
-                                                }
-                                                $("#loadingGray").remove()
-                                                audit_failure();
-                                                $("#modal_update_collection_failure_return").find('.modal-error-message p').text(errorStr);
-                                                $("#modal_update_collection_failure_return").modal()
-                                            } else {
-
-                                                // Poll the status of the search job
-                                                job.track({
-                                                    period: 200
-                                                }, {
-                                                    done: function(job) {
-                                                        //console.log("Done!");
-
-                                                        // Once the job is done, update all searches
-                                                        searchDataHostsMain.startSearch();
-
-                                                        // Audit success change
-                                                        var time = (new Date).getTime();
-                                                        var audit_record = {
-                                                            "time": time,
-                                                            "action": "success",
-                                                            "user": currentUser,
-                                                            "change_type": "reset",
-                                                            "object_category": "data_host",
-                                                            "object": "full_collection"
-                                                        };
-                                                        $.ajax({
-                                                            url: auditendpoint_URl,
-                                                            type: "POST",
-                                                            async: true,
-                                                            contentType: "application/json",
-                                                            data: JSON.stringify(audit_record),
-                                                            success: function(returneddata) {
-                                                                //console.log("Updated!", returneddata)
-                                                                // Run the search again to update the table
-                                                            }
-                                                        });
-
-                                                        $("#loadingGray").remove()
-                                                        $("#modal_update_collection_done").modal()
-
-                                                    },
-                                                    failed: function(properties) {
-                                                        let errorStr = "Unknown Error!";
-                                                        if (properties && properties._properties && properties._properties.messages && properties._properties.messages[0]['text']) {
-                                                            errorStr = properties._properties.messages[0]['text'];
-                                                        } else if (properties && properties._properties && properties._properties.messages) {
-                                                            errorStr = JSON.stringify(properties._properties.messages);
-                                                        }
-                                                        $("#loadingGray").remove()
-                                                        audit_failure();
-                                                        $("#modal_update_collection_failure_return").find('.modal-error-message p').text(errorStr);
-                                                        $("#modal_update_collection_failure_return").modal()
-                                                    },
-                                                    error: function(err) {
-                                                        done(err);
-                                                        $("#loadingGray").remove()
-                                                        audit_failure();
-                                                        $("#modal_update_collection_failure").modal()
-                                                    }
-                                                });
-                                            }
-                                        }
-                                    );
-
-                                },
-                                failed: function(properties) {
-                                    let errorStr = "Unknown Error!";
-                                    if (properties && properties._properties && properties._properties.messages && properties._properties.messages[0]['text']) {
-                                        errorStr = properties._properties.messages[0]['text'];
-                                    } else if (properties && properties._properties && properties._properties.messages) {
-                                        errorStr = JSON.stringify(properties._properties.messages);
-                                    }
-                                    $("#loadingGray").remove()
-                                    audit_failure();
-                                    $("#modal_update_collection_failure_return").find('.modal-error-message p').text(errorStr);
-                                    $("#modal_update_collection_failure_return").modal()
-                                },
-                                error: function(err) {
-                                    done(err);
-                                    $("#loadingGray").remove()
-                                    audit_failure();
-                                    $("#modal_update_collection_failure").modal()
-                                }
-                            });
-                        }
-                    }
-                );
-
-            });
-
-        });
-
-        // metric host
-
-        // reset collection
-        $("#btn_manage_reset_metric_host").click(function() {
-            submitTokens();
-
-            // When the Submit button is clicked, get all the form fields by accessing token values
-            var tokens = mvc.Components.get("default");
-
-            $("#modal_reset_metric_host").modal()
-
-            $("#btn_modal_reset_metric_host_confirmed").click(function() {
-
-                //console.log("Reset of metric host collection");
-
-                // Define the query
-                var searchQuery = "| outputlookup trackme_metric_host_monitoring";
-
-                // Set the search parameters--specify a time range
-                var searchParams = {
-                    earliest_time: "-5m",
-                    latest_time: "now"
-                };
-
-                // Run a normal search that immediately returns the job's SID
-                service.search(
-                    searchQuery,
-                    searchParams,
-                    function(err, job) {
-
-                        $("#loadingGray").remove()
-                        $("body").append('<div id="loadingGray" style="background: #e9e9e9; display: block; position: fixed; z-index: 100; top: 0; right: 0; bottom: 0; left: 0; height: 100%; opacity: 0.8;"><div style="width: 100%; margin-top: 250px; padding-bottom: 50px; text-align: center;"><p style="font-size: 18pt; font-weight: bolder;">Flushing data hosts KVstore collection and running metric tracker, please wait...</p></div><div id="spinner"></div></div>')
-
-                        require(["jquery",
-                                "/static/app/trackme/spin.js"
-                            ],
-                            function($,
-                                Spinner
-                            ) {
-                                new Spinner({
-                                    lines: 12,
-                                    position: "relative"
-                                }).spin(document.getElementById('spinner'));
-                            })
-
-                        function audit_failure() {
-                            // Audit failure change
-                            var time = (new Date).getTime();
-                            var audit_record = {
-                                "time": time,
-                                "action": "failure",
-                                "user": currentUser,
-                                "change_type": "reset",
-                                "object_category": "data_host",
-                                "object": "full_collection"
-                            };
-                            $.ajax({
-                                url: auditendpoint_URl,
-                                type: "POST",
-                                async: true,
-                                contentType: "application/json",
-                                data: JSON.stringify(audit_record),
-                                success: function(returneddata) {
-                                    //console.log("Updated!", returneddata)
-                                    // Run the search again to update the table
-                                }
-                            });
-                        }
-
-                        // Shall the search fail before we can get properties
-                        if (job == null) {
-                            let errorStr = "Unknown Error!";
-                            if (err && err.data && err.data.messages && err.data.messages[0]['text']) {
-                                errorStr = err.data.messages[0]['text'];
-                            } else if (err && err.data && err.data.messages) {
-                                errorStr = JSON.stringify(err.data.messages);
-                            }
-                            $("#loadingGray").remove()
-                            audit_failure();
-                            $("#modal_update_collection_failure_return").find('.modal-error-message p').text(errorStr);
-                            $("#modal_update_collection_failure_return").modal()
-                        } else {
-
-                            // Poll the status of the search job
-                            job.track({
-                                period: 200
-                            }, {
-                                done: function(job) {
-                                    //console.log("Done!");
-
-                                    // Once the job is done, update all searches
-
-                                    // Define the query
-                                    var searchQuery = "| savedsearch \"TrackMe - metric hosts availability tracker\"";
-
-                                    // Set the search parameters--specify a time range
-                                    var searchParams = {
-                                        earliest_time: "-5m",
-                                        latest_time: "now"
-                                    };
-
-                                    // Run a normal search that immediately returns the job's SID
-                                    service.search(
-                                        searchQuery,
-                                        searchParams,
-                                        function(err, job) {
-
-                                            require(["jquery",
-                                                    "/static/app/trackme/spin.js"
-                                                ],
-                                                function($,
-                                                    Spinner
-                                                ) {
-                                                    new Spinner({
-                                                        lines: 12,
-                                                        position: "relative"
-                                                    }).spin(document.getElementById('spinner'));
-                                                })
-
-                                            // Shall the search fail before we can get properties
-                                            if (job == null) {
-                                                let errorStr = "Unknown Error!";
-                                                if (err && err.data && err.data.messages && err.data.messages[0]['text']) {
-                                                    errorStr = err.data.messages[0]['text'];
-                                                } else if (err && err.data && err.data.messages) {
-                                                    errorStr = JSON.stringify(err.data.messages);
-                                                }
-                                                $("#loadingGray").remove()
-                                                audit_failure();
-                                                $("#modal_update_collection_failure_return").find('.modal-error-message p').text(errorStr);
-                                                $("#modal_update_collection_failure_return").modal()
-                                            } else {
-
-                                                // Poll the status of the search job
-                                                job.track({
-                                                    period: 200
-                                                }, {
-                                                    done: function(job) {
-                                                        //console.log("Done!");
-
-                                                        // Once the job is done, update all searches
-                                                        searchMetricHostsMain.startSearch();
-
-                                                        // Audit success change
-                                                        var time = (new Date).getTime();
-                                                        var audit_record = {
-                                                            "time": time,
-                                                            "action": "success",
-                                                            "user": currentUser,
-                                                            "change_type": "reset",
-                                                            "object_category": "metric_host",
-                                                            "object": "full_collection"
-                                                        };
-                                                        $.ajax({
-                                                            url: auditendpoint_URl,
-                                                            type: "POST",
-                                                            async: true,
-                                                            contentType: "application/json",
-                                                            data: JSON.stringify(audit_record),
-                                                            success: function(returneddata) {
-                                                                //console.log("Updated!", returneddata)
-                                                                // Run the search again to update the table
-                                                            }
-                                                        });
-
-                                                        $("#loadingGray").remove()
-                                                        $("#modal_update_collection_done").modal()
-
-                                                    },
-                                                    failed: function(properties) {
-                                                        let errorStr = "Unknown Error!";
-                                                        if (properties && properties._properties && properties._properties.messages && properties._properties.messages[0]['text']) {
-                                                            errorStr = properties._properties.messages[0]['text'];
-                                                        } else if (properties && properties._properties && properties._properties.messages) {
-                                                            errorStr = JSON.stringify(properties._properties.messages);
-                                                        }
-                                                        $("#loadingGray").remove()
-                                                        audit_failure();
-                                                        $("#modal_update_collection_failure_return").find('.modal-error-message p').text(errorStr);
-                                                        $("#modal_update_collection_failure_return").modal()
-                                                    },
-                                                    error: function(err) {
-                                                        done(err);
-                                                        $("#loadingGray").remove()
-                                                        audit_failure();
-                                                        $("#modal_update_collection_failure").modal()
-                                                    }
-                                                });
-                                            }
-                                        }
-                                    );
-
-                                },
-                                failed: function(properties) {
-                                    let errorStr = "Unknown Error!";
-                                    if (properties && properties._properties && properties._properties.messages && properties._properties.messages[0]['text']) {
-                                        errorStr = properties._properties.messages[0]['text'];
-                                    } else if (properties && properties._properties && properties._properties.messages) {
-                                        errorStr = JSON.stringify(properties._properties.messages);
-                                    }
-                                    $("#loadingGray").remove()
-                                    audit_failure();
-                                    $("#modal_update_collection_failure_return").find('.modal-error-message p').text(errorStr);
-                                    $("#modal_update_collection_failure_return").modal()
-                                },
-                                error: function(err) {
-                                    done(err);
-                                    $("#loadingGray").remove()
-                                    audit_failure();
-                                    $("#modal_update_collection_failure").modal()
-                                }
-                            });
-                        }
-                    }
-                );
-
-            });
-
-        });
-
-        //
         // RUN TRACKERS
         //
 
@@ -18831,6 +17675,11 @@ require([
         });
 
         //
+        // data source id
+        //
+
+
+        //
         // Modify lag
         //
 
@@ -18977,6 +17826,328 @@ require([
             }
         });
 
+        // data source identity documentation
+
+        // back button
+        $("#btn_back_manage_identity_card").click(function() {
+            // Show input modal
+            $("#modal_manage").modal();
+        });
+
+        $("#btn_close_define_identity_card").click(function() {
+            // Show input modal
+            $("#modal_manage").modal();
+        });
+
+        // update button
+        $("#btn_modify_manage_identity_card").click(function() {
+            // Show input modal
+            $("#define_identity_card").modal();
+        });
+
+        // delete button
+        $("#btn_delete_manage_identity_card").click(function() {
+            // Show deletion modal
+            $("#delete_identity_card").modal();
+        });
+
+        // identity card
+
+        $('.btn_define_identity_card').each(function() {
+            var $btn_group = $(this);
+            $btn_group.find('button').on('click', function() {
+                var $btn = $(this);
+
+                submitTokens();
+
+                // When the Submit button is clicked, get all the form fields by accessing token values
+                var tokens = mvc.Components.get("default");
+
+                // Retrieve input values
+
+                var input_doc_object = tokens.get("tk_data_name");
+                var input_doc_note = document.getElementById("input_doc_note").value;
+                var input_doc_link = document.getElementById("input_doc_link").value;
+
+                //console.log("link is: " + input_doc_link);
+                //console.log("note is: " + input_doc_note);
+
+                // Define the query
+                var searchQuery = "| inputlookup trackme_sources_knowledge | where object!=\"" + input_doc_object + "\" | append [ | makeresults | eval object=\"" + input_doc_object + "\", doc_link=\"" +  input_doc_link + "\", doc_note=\"" +  input_doc_note + "\" ] | dedup object | sort limit=0 object | outputlookup trackme_sources_knowledge";
+
+                // Set the search parameters--specify a time range
+                var searchParams = {
+                    earliest_time: "-60m",
+                    latest_time: "now"
+                };
+
+                if (input_doc_link && input_doc_link.length) {
+
+                    // Run a blocking search and get back a job
+                    service.search(
+                        searchQuery,
+                        searchParams,
+                        function(err, job) {
+
+                            function audit_failure() {
+
+                                // Audit failure change
+                                var time = (new Date).getTime();
+                                var audit_record = {
+                                    "time": time,
+                                    "action": "failure",
+                                    "user": currentUser,
+                                    "change_type": "create or update identity card",
+                                    "object": input_doc_object,
+                                    "object_category": "data_source",
+                                    "object_attrs": "object:" + input_doc_object + ", doc_link:" + input_doc_link + ", doc_note:" + input_doc_note
+                                };
+                                $.ajax({
+                                    url: auditendpoint_URl,
+                                    type: "POST",
+                                    async: true,
+                                    contentType: "application/json",
+                                    data: JSON.stringify(audit_record),
+                                    success: function(returneddata) {
+                                        //console.log("Updated!", returneddata)
+                                        // Run the search again to update the table
+                                        searchDataSourcesMain.startSearch();
+                                    }
+                                });
+
+                            }
+
+                            // Shall the search fail before we can get properties
+                            if (job == null) {
+                                let errorStr = "Unknown Error!";
+                                if (err && err.data && err.data.messages && err.data.messages[0]['text']) {
+                                    errorStr = err.data.messages[0]['text'];
+                                } else if (err && err.data && err.data.messages) {
+                                    errorStr = JSON.stringify(err.data.messages);
+                                }
+                                audit_failure();
+                                $("#modal_update_collection_failure_return").find('.modal-error-message p').text(errorStr);
+                                $("#modal_update_collection_failure_return").modal()
+                            } else {
+
+                                // Poll the status of the search job
+                                job.track({
+                                    period: 200
+                                }, {
+                                    done: function(job) {
+                                        // Run the search again to update the table
+                                        searchDataSourcesMain.startSearch();
+                                        $("#update_achieved_identity_card").modal()
+
+                                        // Audit success change
+                                        var time = (new Date).getTime();
+                                        var audit_record = {
+                                            "time": time,
+                                            "action": "success",
+                                            "user": currentUser,
+                                            "change_type": "create or update identity card",
+                                            "object": input_doc_object,
+                                            "object_category": "data_source",
+                                            "object_attrs": "object:" + input_doc_object + ", doc_link:" + input_doc_link + ", doc_note:" + input_doc_note
+                                        };
+                                        $.ajax({
+                                            url: auditendpoint_URl,
+                                            type: "POST",
+                                            async: true,
+                                            contentType: "application/json",
+                                            data: JSON.stringify(audit_record),
+                                            success: function(returneddata) {
+                                            }
+                                        });
+
+                                    },
+                                    failed: function(properties) {
+                                        let errorStr = "Unknown Error!";
+                                        if (properties && properties._properties && properties._properties.messages && properties._properties.messages[0]['text']) {
+                                            errorStr = properties._properties.messages[0]['text'];
+                                        } else if (properties && properties._properties && properties._properties.messages) {
+                                            errorStr = JSON.stringify(properties._properties.messages);
+                                        }
+                                        audit_failure();
+                                        $("#modal_update_collection_failure_return").find('.modal-error-message p').text(errorStr);
+                                        $("#modal_update_collection_failure_return").modal()
+                                    },
+                                    error: function(err) {
+                                        done(err);
+                                        audit_failure();
+                                        $("#modal_update_collection_failure_flush").modal()
+                                    }
+                                });
+
+                            }
+
+                        }
+                    );
+
+                    // house cleaning
+                    myendpoint_URl = undefined;
+                    delete(myendpoint_URl);
+                    return;
+
+                } else {
+                    $("#modal_entry_update_invalid").modal()
+                    return;
+                }
+
+            });
+
+        });
+
+        // delete button
+        $("#btn_delete_identity_card_confirm").click(function() {
+
+                submitTokens();
+
+                // When the Submit button is clicked, get all the form fields by accessing token values
+                var tokens = mvc.Components.get("default");
+
+                // Retrieve input values
+
+                var input_doc_object = tokens.get("tk_data_name");
+                var input_doc_note = document.getElementById("input_doc_note").value;
+                var input_doc_link = document.getElementById("input_doc_link").value;
+
+                //console.log("link is: " + input_doc_link);
+                //console.log("note is: " + input_doc_note);
+
+                // Define the query
+                var searchQuery = "| inputlookup trackme_sources_knowledge | where object!=\"" + input_doc_object + "\" | dedup object | sort limit=0 object | outputlookup trackme_sources_knowledge";
+
+                // Set the search parameters--specify a time range
+                var searchParams = {
+                    earliest_time: "-60m",
+                    latest_time: "now"
+                };
+
+                if (input_doc_link && input_doc_link.length) {
+
+                    // Run a blocking search and get back a job
+                    service.search(
+                        searchQuery,
+                        searchParams,
+                        function(err, job) {
+
+                            function audit_failure() {
+
+                                // Audit failure change
+                                var time = (new Date).getTime();
+                                var audit_record = {
+                                    "time": time,
+                                    "action": "failure",
+                                    "user": currentUser,
+                                    "change_type": "delete identity card",
+                                    "object": input_doc_object,
+                                    "object_category": "data_source",
+                                    "object_attrs": "object:" + input_doc_object + ", doc_link:" + input_doc_link + ", doc_note:" + input_doc_note
+                                };
+                                $.ajax({
+                                    url: auditendpoint_URl,
+                                    type: "POST",
+                                    async: true,
+                                    contentType: "application/json",
+                                    data: JSON.stringify(audit_record),
+                                    success: function(returneddata) {
+                                        //console.log("Updated!", returneddata)
+                                        // Run the search again to update the table
+                                        searchDataSourcesMain.startSearch();
+                                    }
+                                });
+
+                            }
+
+                            // Shall the search fail before we can get properties
+                            if (job == null) {
+                                let errorStr = "Unknown Error!";
+                                if (err && err.data && err.data.messages && err.data.messages[0]['text']) {
+                                    errorStr = err.data.messages[0]['text'];
+                                } else if (err && err.data && err.data.messages) {
+                                    errorStr = JSON.stringify(err.data.messages);
+                                }
+                                audit_failure();
+                                $("#modal_update_collection_failure_return").find('.modal-error-message p').text(errorStr);
+                                $("#modal_update_collection_failure_return").modal()
+                            } else {
+
+                                // Poll the status of the search job
+                                job.track({
+                                    period: 200
+                                }, {
+                                    done: function(job) {
+                                        // Run the search again to update the table
+                                        searchDataSourcesMain.startSearch();
+                                        // show deleted modal
+                                        $("#delete_achieved_identity_card").modal()
+
+                                        // Audit success change
+                                        var time = (new Date).getTime();
+                                        var audit_record = {
+                                            "time": time,
+                                            "action": "success",
+                                            "user": currentUser,
+                                            "change_type": "delete identity card",
+                                            "object": input_doc_object,
+                                            "object_category": "data_source",
+                                            "object_attrs": "object:" + input_doc_object + ", doc_link:" + input_doc_link + ", doc_note:" + input_doc_note
+                                        };
+                                        $.ajax({
+                                            url: auditendpoint_URl,
+                                            type: "POST",
+                                            async: true,
+                                            contentType: "application/json",
+                                            data: JSON.stringify(audit_record),
+                                            success: function(returneddata) {
+                                            }
+                                        });
+
+                                    },
+                                    failed: function(properties) {
+                                        let errorStr = "Unknown Error!";
+                                        if (properties && properties._properties && properties._properties.messages && properties._properties.messages[0]['text']) {
+                                            errorStr = properties._properties.messages[0]['text'];
+                                        } else if (properties && properties._properties && properties._properties.messages) {
+                                            errorStr = JSON.stringify(properties._properties.messages);
+                                        }
+                                        audit_failure();
+                                        $("#modal_update_collection_failure_return").find('.modal-error-message p').text(errorStr);
+                                        $("#modal_update_collection_failure_return").modal()
+                                    },
+                                    error: function(err) {
+                                        done(err);
+                                        audit_failure();
+                                        $("#modal_update_collection_failure_flush").modal()
+                                    }
+                                });
+
+                            }
+
+                        }
+                    );
+
+                    // house cleaning
+                    myendpoint_URl = undefined;
+                    delete(myendpoint_URl);
+                    return;
+
+                } else {
+                    $("#modal_entry_update_invalid").modal()
+                    return;
+                }
+
+        });
+
+        // back button
+        $("#btn_delete_identity_card_back").click(function() {
+            // Show modal
+            $("#define_identity_card").modal();
+        });
+
+        // END
+
         DashboardController.onReady(function() {
             if (!submittedTokenModel.has('earliest') && !submittedTokenModel.has('latest')) {
                 submittedTokenModel.set({
@@ -18997,7 +18168,6 @@ require([
         if (!_.isEmpty(urlTokenModel.toJSON())) {
             submitTokens();
         }
-
 
         //
         // DASHBOARD READY

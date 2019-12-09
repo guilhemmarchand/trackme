@@ -1,0 +1,2229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>TrackMe - Data tracking system for Splunk administrators</title>
+    <link rel="shortcut icon" href="/en-US/static/@E0748683B67CEA4FEB581C608314742274902FE131518C73E0D443740659785A.7/img/favicon.ico" />
+    <link rel="stylesheet" type="text/css" href="{{SPLUNKWEB_URL_PREFIX}}/static/build/css/bootstrap-enterprise.css" />
+    <link rel="stylesheet" type="text/css" href="{{SPLUNKWEB_URL_PREFIX}}/static/css/build/pages/dashboard-simple-bootstrap.min.css" />
+    <link rel="stylesheet" type="text/css" media="all" href="{{SPLUNKWEB_URL_PREFIX}}/static/app/trackme/table.css" />
+    <link rel="stylesheet" type="text/css" media="all" href="{{SPLUNKWEB_URL_PREFIX}}/static/app/trackme/common.css" />
+
+
+    <meta name="referrer" content="never" />
+    <meta name="referrer" content="no-referrer" />
+
+    <script>
+        window._splunk_metrics_events = {
+            push : function() {},
+            active: false,
+        }
+    </script>
+    <style>
+        /* Bootstrap btns */
+        .btn-primary{color:#fff;background-color:#337ab7;border-color:#2e6da4}.btn-primary.focus,.btn-primary:focus{color:#fff;background-color:#286090;border-color:#122b40}.btn-primary:hover{color:#fff;background-color:#286090;border-color:#204d74}.btn-primary.active,.btn-primary:active,.open>.dropdown-toggle.btn-primary{color:#fff;background-color:#286090;border-color:#204d74}.btn-primary.active.focus,.btn-primary.active:focus,.btn-primary.active:hover,.btn-primary:active.focus,.btn-primary:active:focus,.btn-primary:active:hover,.open>.dropdown-toggle.btn-primary.focus,.open>.dropdown-toggle.btn-primary:focus,.open>.dropdown-toggle.btn-primary:hover{color:#fff;background-color:#204d74;border-color:#122b40}.btn-primary.active,.btn-primary:active,.open>.dropdown-toggle.btn-primary{background-image:none}.btn-primary.disabled.focus,.btn-primary.disabled:focus,.btn-primary.disabled:hover,.btn-primary[disabled].focus,.btn-primary[disabled]:focus,.btn-primary[disabled]:hover,fieldset[disabled] .btn-primary.focus,fieldset[disabled] .btn-primary:focus,fieldset[disabled] .btn-primary:hover{background-color:#337ab7;border-color:#2e6da4}.btn-primary .badge{color:#337ab7;background-color:#fff}
+
+        .btn-danger{color:#fff;background-color:#d9534f;border-color:#d43f3a}.btn-danger.focus,.btn-danger:focus{color:#fff;background-color:#c9302c;border-color:#761c19}.btn-danger:hover{color:#fff;background-color:#c9302c;border-color:#ac2925}.btn-danger.active,.btn-danger:active,.open>.dropdown-toggle.btn-danger{color:#fff;background-color:#c9302c;border-color:#ac2925}.btn-danger.active.focus,.btn-danger.active:focus,.btn-danger.active:hover,.btn-danger:active.focus,.btn-danger:active:focus,.btn-danger:active:hover,.open>.dropdown-toggle.btn-danger.focus,.open>.dropdown-toggle.btn-danger:focus,.open>.dropdown-toggle.btn-danger:hover{color:#fff;background-color:#ac2925;border-color:#761c19}.btn-danger.active,.btn-danger:active,.open>.dropdown-toggle.btn-danger{background-image:none}.btn-danger.disabled.focus,.btn-danger.disabled:focus,.btn-danger.disabled:hover,.btn-danger[disabled].focus,.btn-danger[disabled]:focus,.btn-danger[disabled]:hover,fieldset[disabled] .btn-danger.focus,fieldset[disabled] .btn-danger:focus,fieldset[disabled] .btn-danger:hover{background-color:#d9534f;border-color:#d43f3a}.btn-danger .badge{color:#d9534f;background-color:#fff}
+
+        .btn-info{color:#fff;background-color:#5bc0de;border-color:#46b8da}.btn-info.focus,.btn-info:focus{color:#fff;background-color:#31b0d5;border-color:#1b6d85}.btn-info:hover{color:#fff;background-color:#31b0d5;border-color:#269abc}.btn-info.active,.btn-info:active,.open>.dropdown-toggle.btn-info{color:#fff;background-color:#31b0d5;border-color:#269abc}.btn-info.active.focus,.btn-info.active:focus,.btn-info.active:hover,.btn-info:active.focus,.btn-info:active:focus,.btn-info:active:hover,.open>.dropdown-toggle.btn-info.focus,.open>.dropdown-toggle.btn-info:focus,.open>.dropdown-toggle.btn-info:hover{color:#fff;background-color:#269abc;border-color:#1b6d85}.btn-info.active,.btn-info:active,.open>.dropdown-toggle.btn-info{background-image:none}.btn-info.disabled.focus,.btn-info.disabled:focus,.btn-info.disabled:hover,.btn-info[disabled].focus,.btn-info[disabled]:focus,.btn-info[disabled]:hover,fieldset[disabled] .btn-info.focus,fieldset[disabled] .btn-info:focus,fieldset[disabled] .btn-info:hover{background-color:#5bc0de;border-color:#46b8da}.btn-info .badge{color:#5bc0de;background-color:#fff}
+
+        .btn-warning{color:#fff;background-color:#f0ad4e;border-color:#eea236}.btn-warning.focus,.btn-warning:focus{color:#fff;background-color:#ec971f;border-color:#985f0d}.btn-warning:hover{color:#fff;background-color:#ec971f;border-color:#d58512}.btn-warning.active,.btn-warning:active,.open>.dropdown-toggle.btn-warning{color:#fff;background-color:#ec971f;border-color:#d58512}.btn-warning.active.focus,.btn-warning.active:focus,.btn-warning.active:hover,.btn-warning:active.focus,.btn-warning:active:focus,.btn-warning:active:hover,.open>.dropdown-toggle.btn-warning.focus,.open>.dropdown-toggle.btn-warning:focus,.open>.dropdown-toggle.btn-warning:hover{color:#fff;background-color:#d58512;border-color:#985f0d}.btn-warning.active,.btn-warning:active,.open>.dropdown-toggle.btn-warning{background-image:none}.btn-warning.disabled.focus,.btn-warning.disabled:focus,.btn-warning.disabled:hover,.btn-warning[disabled].focus,.btn-warning[disabled]:focus,.btn-warning[disabled]:hover,fieldset[disabled] .btn-warning.focus,fieldset[disabled] .btn-warning:focus,fieldset[disabled] .btn-warning:hover{background-color:#f0ad4e;border-color:#eea236}.btn-warning .badge{color:#f0ad4e;background-color:#fff}
+
+        .btn-success{color:#fff;background-color:#5cb85c;border-color:#4cae4c}.btn-success.focus,.btn-success:focus{color:#fff;background-color:#449d44;border-color:#255625}.btn-success:hover{color:#fff;background-color:#449d44;border-color:#398439}.btn-success.active,.btn-success:active,.open>.dropdown-toggle.btn-success{color:#fff;background-color:#449d44;border-color:#398439}.btn-success.active.focus,.btn-success.active:focus,.btn-success.active:hover,.btn-success:active.focus,.btn-success:active:focus,.btn-success:active:hover,.open>.dropdown-toggle.btn-success.focus,.open>.dropdown-toggle.btn-success:focus,.open>.dropdown-toggle.btn-success:hover{color:#fff;background-color:#398439;border-color:#255625}.btn-success.active,.btn-success:active,.open>.dropdown-toggle.btn-success{background-image:none}.btn-success.disabled.focus,.btn-success.disabled:focus,.btn-success.disabled:hover,.btn-success[disabled].focus,.btn-success[disabled]:focus,.btn-success[disabled]:hover,fieldset[disabled] .btn-success.focus,fieldset[disabled] .btn-success:focus,fieldset[disabled] .btn-success:hover{background-color:#5cb85c;border-color:#4cae4c}.btn-success .badge{color:#5cb85c;background-color:#fff}
+
+        /* Prevents green disabled button */
+        .btn-primary[disabled] {
+            background-color: #337ab7;
+            opacity: .40;
+        }
+        /* Manage modal hidden properly */
+        .modal {
+            display: none;
+        }
+        /* Increase modal width */
+        .custom-modal-50 {
+            width: 50%;
+            margin-left: -25%;
+        }
+        .custom-modal-60 {
+            width: 60%;
+            margin-left: -30%;
+        }
+        .custom-modal-80 {
+            width: 80%;
+            margin-left: -40%;
+        }
+
+        .modal-big {
+          height: 800px;
+          max-height: 400%;
+          width: 80%;
+          margin-left: -40%;
+        }
+
+        .modal-guts {
+
+          /* For Splunk 7.0.x */
+          margin-top: 30px;
+
+          /* other stuff we already covered */
+
+          /* cover the modal */
+          position: absolute;
+
+          width: 90%;
+          min-height: 400px;
+          max-height: 600px;
+          height: 100%;
+
+          /* spacing as needed */
+          padding: 20px 50px 20px 20px;
+
+          /* let it scroll */
+          overflow: auto;
+
+        }
+
+        /* fix some issues with long modals within Splunk 7.0.x */
+        .modal-body {
+            max-height: 700px !important;
+        }
+
+        /* Fix link input object align */
+        .input-linklist {
+          display: inline !important;
+        }
+
+        /* Fix link input object align for Splunk 6.5 */
+        .input-link {
+          display: inline !important;
+        }
+
+        /* reduce size of the token input panel */
+        .input-link label{
+          display: none !important;
+        }
+
+        .splunk-choice-input-message{
+          display: none !important;
+        }
+
+        /* Increase the default max-width for links */
+        .btn-pill {
+          max-width: 600px !important;
+        }
+
+        .custom-btn {
+            float: left;
+            margin-top:15px;
+        }
+
+
+        /*Notification alerts*/
+
+        [class^="boxnotify"] {
+          position: fixed;
+          bottom: 1em;
+          left: 1em;
+          z-index: 999999;
+        }
+
+        [class^="boxnotify"] p {
+          background-color: rgba(0, 0, 0, .7);
+          width: 600px;
+          border-radius: 5px;
+          padding: .7em;
+          margin: .5em;
+          color: white;
+          font-size: 1.6em;
+          display: none;
+        }
+
+        span.title_yellow {
+            background: #ffd700;
+            padding: 0.3em 1.5em;
+            font-weight: 600;
+            position: relative;
+            border-radius: 5px;
+            margin-left: 5px;
+        }
+
+        span.title_orange {
+            background: #ffb347;
+            padding: 0.3em 1.5em;
+            font-weight: 600;
+            position: relative;
+            border-radius: 5px;
+            margin-left: 5px;
+        }
+
+        span.title_green {
+            background: #77dd77;
+            padding: 0.3em 1.5em;
+            font-weight: 600;
+            position: relative;
+            border-radius: 5px;
+            margin-left: 5px;
+        }
+
+        span.title_red {
+            background: #ff6961;
+            padding: 0.3em 1.5em;
+            font-weight: 600;
+            position: relative;
+            border-radius: 5px;
+            margin-left: 5px;
+        }
+
+        span.title_grey {
+            background: #808080;
+            padding: 0.3em 1.5em;
+            font-weight: 600;
+            position: relative;
+            border-radius: 5px;
+            margin-left: 5px;
+        }
+
+        </style>
+</head>
+<body class="simplexml preload locale-en" data-splunk-version="" data-splunk-product="enterprise">
+<!--
+BEGIN LAYOUT
+This section contains the layout for the dashboard. Splunk uses proprietary
+styles in <div> tags, similar to Bootstrap's grid system.
+-->
+<header>
+    <a class="navSkip" href="#navSkip" tabindex="1">Screen reader users, click here to skip the navigation bar</a>
+    <div class="header splunk-header">
+        <div id="placeholder-splunk-bar">
+            <a href="{{SPLUNKWEB_URL_PREFIX}}/app/launcher/home" class="brand" title="splunk &gt; listen to your data">splunk<strong>&gt;</strong></a>
+        </div>
+        <div id="placeholder-app-bar"></div>
+    </div>
+    <a id="navSkip"></a>
+</header>
+<div class="dashboard-body container-fluid main-section-body" data-role="main">
+    <div class="dashboard-header clearfix">
+        <h2>TrackMe Manage and configure</h2>
+         <p></p>
+    </div>
+
+    <div style="display: none;" class="fieldset">
+    </div>
+
+    <!-- Error or failure during KVstore collection update -->
+    <div class="modal fade" id="modal_update_collection_failure_return" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h3 style="color: indianred;"><span class="glyphicon glyphicon-lock"></span>Oops!</h3>
+                </div>
+                <div class="modal-body">
+                    <p>Sorry but it looks like an error occurred while attempting to perform the KVstore collection update.<br /><br />
+                        <b>You might not have the permission to write to the collection</b>, or an unexpected failure was encountered.<br /><br />
+                        <b>The server returned the following error message:</b>
+                    </p>
+                    <div class="modal-error-message" style="margin: 10px 0; padding: 10px; border-radius: 3px 3px 3px 3px; color: #D8000C; background-color: #FFBABA;">
+                        <p>error return message</p>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-default btn-default pull-right" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Reset data source collection -->
+    <div class="modal fade" id="modal_reset_data_host" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h3 style="color: indianred;"><span class="glyphicon glyphicon-lock"></span>Data collection reset</h3>
+                </div>
+                <div class="modal-body">
+                    <p><b>Are you sure that you want to reset the data host collection?</b><br /><br />
+                        All changes in the collection will be irremediably lost and trackers will be automatically started to populate a fresh collection version.
+                        <br /><br />
+                        <b>Which changes will be affected?</b>
+                        <br />
+                        <lu>
+                            <li>modifications of lagging values for all entries</li>
+                            <li>modifications of week days rules for all entries</li>
+                        </lu>
+                        <br />
+                        <b>Whitelisted/Blacklisted items will not be touched at any level, and will be preserved in their current state.</b>
+                    </p>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-default btn-default pull-left" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Cancel</button>
+                    <button type="submit" id="btn_modal_reset_data_host_confirmed" class="btn btn-default btn-danger pull-right" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Ok</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Reset data source collection -->
+    <div class="modal fade" id="modal_reset_data_source" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h3 style="color: indianred;"><span class="glyphicon glyphicon-lock"></span>Data collection reset</h3>
+                </div>
+                <div class="modal-body">
+                    <p><b>Are you sure that you want to reset the data source collection?</b><br /><br />
+                        All changes in the collection will be irremediably lost and trackers will be automatically started to populate a fresh collection version.
+                        <br /><br />
+                        <b>Which changes will be affected?</b>
+                        <br />
+                        <lu>
+                            <li>modifications of lagging values for all entries</li>
+                            <li>modifications of week days rules for all entries</li>
+                            <li>modifications of monitoring level for all entries</li>
+                        </lu>
+                        <br />
+                        <b>Whitelisted/Blacklisted items will not be touched at any level, and will be preserved in their current state.</b>
+                    </p>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-default btn-default pull-left" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Cancel</button>
+                    <button type="submit" id="btn_modal_reset_data_source_confirmed" class="btn btn-default btn-danger pull-right" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Ok</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Reset data source collection -->
+    <div class="modal fade" id="modal_reset_metric_host" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h3 style="color: indianred;"><span class="glyphicon glyphicon-lock"></span>Metric collection reset</h3>
+                </div>
+                <div class="modal-body">
+                    <p><b>Are you sure that you want to reset the metric host collection?</b><br /><br />
+                        All changes in the collection will be irremediably lost and the metric tracker will be automatically started to populate a fresh collection version.
+                        <br /><br />
+                        <b>Which changes will be affected?</b>
+                        <br />
+                        <lu>
+                            <li>List of metric hosts in the collection</li>
+                            <li>Activation state of collection entries</li>
+                        </lu>
+                        <br />
+                        <b>Whitelisted/Blacklisted items and metric SLA policies will not be touched at any level, and will be preserved in their current state.</b>
+                    </p>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-default btn-default pull-left" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Cancel</button>
+                    <button type="submit" id="btn_modal_reset_metric_host_confirmed" class="btn btn-default btn-danger pull-right" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Ok</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- START MAIN -->
+
+    <div id="rowManageResetInfo" class="dashboard-row dashboard-rowManageResetInfo">
+        <div id="panelManageResetInfo" class="dashboard-cell" style="width: 100%;">
+            <div class="dashboard-panel clearfix">
+                <div class="panel-element-row">
+                    <div id="elementManageResetInfo" class="dashboard-element html" style="width: 100%">
+                        <div class="panel-body html">
+                            <div style="text-align: center; border: 3px dashed #ccc;">
+                                <div style="display: inline-flex; align-items: center; margin-top: 5px;">
+                                    <span style="font-size: 22px; font-weight: bold; color: #999999; margin-top: 5px;">RESET COLLECTIONS</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="rowManage" class="dashboard-row dashboard-row1" data-original-id="rowManage">
+        <div id="panelManage1" class="dashboard-cell" style="width: 100%;">
+            <div class="dashboard-panel clearfix">
+                <div id="ManageRow1" class="dashboard-row dashboard-row1">
+                    <div id="ManageRow1Panel1" class="dashboard-cell" style="width: 33%;">
+                        <div class="dashboard-panel clearfix">
+                            <div class="panel-element-row">
+                                <div id="ManageRow1Panel1Element1" class="dashboard-element html" style="width: 100%">
+                                    <div class="panel-body html">
+                                        <div>
+                                            <div style="margin-bottom: 15px;" class="custom-btn">
+                                                <h2>Use this function to reset the <b>data_source</b> collection and automatically run trackers:</h2>
+                                                <button type="submit" id="btn_manage_reset_data_source" style="margin-right: 15px;" class="btn btn-default btn-danger" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Manage: reset collection</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="ManageRow1Panel2" class="dashboard-cell" style="width: 33%;">
+                        <div class="dashboard-panel clearfix">
+                            <div class="panel-element-row">
+                                <div id="ManageRow1Panel1Element2" class="dashboard-element html" style="width: 100%">
+                                    <div class="panel-body html">
+                                        <div>
+                                            <div style="margin-bottom: 15px;" class="custom-btn">
+                                                <h2>Use this function to reset the <b>data_host</b> collection and automatically run trackers:</h2>
+                                                <button type="submit" id="btn_manage_reset_data_host" style="margin-right: 15px;" class="btn btn-default btn-danger" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Manage: reset collection</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="ManageRow1Panel3" class="dashboard-cell" style="width: 33%;">
+                        <div class="dashboard-panel clearfix">
+                            <div class="panel-element-row">
+                                <div id="ManageRow1Panel1Element3" class="dashboard-element html" style="width: 100%">
+                                    <div class="panel-body html">
+                                        <div>
+                                            <div style="margin-bottom: 15px;" class="custom-btn">
+                                                <h2>Use this function to reset the <b>metric_host</b> collection and automatically run trackers:</h2>
+                                                <button type="submit" id="btn_manage_reset_metric_host" style="margin-right: 15px;" class="btn btn-default btn-danger" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Manage: reset collection</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="rowManageMacrosInfo" class="dashboard-row dashboard-rowManageResetInfo">
+        <div id="panelManageMacrosInfo" class="dashboard-cell" style="width: 100%;">
+            <div class="dashboard-panel clearfix">
+                <div class="panel-element-row">
+                    <div id="elementManageMacrosInfo" class="dashboard-element html" style="width: 100%">
+                        <div class="panel-body html">
+                            <div style="text-align: center; border: 3px dashed #ccc;">
+                                <div style="display: inline-flex; align-items: center; margin-top: 5px;">
+                                    <span style="font-size: 22px; font-weight: bold; color: #999999; margin-top: 5px;">MACROS DEFINITIONS</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="ManageRowMacro1" class="dashboard-row dashboard-rowDataSourcesTable">
+        <div id="panelManageMacro1" class="dashboard-cell" style="width: 100%;">
+            <div class="dashboard-panel clearfix">
+                <h2 style="padding: 12px 55px 7px 12px;">tstats</h2><h2 class="panel-title">Macro definition for every call to the tstats command in the application: (click on the table bellow to edit the macro definition)</h2>
+                <div class="panel-element-row">
+                    <div id="elementTable_tstats" class="dashboard-element table" style="width: 100%">
+                        <div class="panel-body"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="ManageRowMacro2" class="dashboard-row dashboard-rowDataSourcesTable" >
+        <div id="panelManage2" class="dashboard-cell" style="width: 100%;">
+            <div class="dashboard-panel clearfix">
+                <h2 style="padding: 12px 55px 7px 12px;">trackme_tstats_main_filter</h2><h2 class="panel-title">The default behaviour of TrackMe is to track data available in all indexes, a macro is used within each tracker which can be modified if you wish to restrict TrackMe to a given list of indexes or any other valid Meta data filter: (click on the table bellow to edit the macro definition)</h2>
+                <div class="panel-element-row">
+                    <div id="elementTable_trackme_tstats_main_filter" class="dashboard-element table" style="width: 100%">
+                        <div class="panel-body"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="ManageRowMacro3" class="dashboard-row dashboard-rowDataSourcesTable" >
+        <div id="panelManage3" class="dashboard-cell" style="width: 100%;">
+            <div class="dashboard-panel clearfix">
+                <h2 style="padding: 12px 55px 7px 12px;">trackme_idx_filter</h2><h2 class="panel-title">The builtin views “Ops: Indexes queues” and “Ops: Parsing issues” rely on the usage of the following macro: (click on the table bellow to edit the macro definition)</h2>
+                <div class="panel-element-row">
+                    <div id="elementTable_trackme_idx_filter" class="dashboard-element table" style="width: 100%">
+                        <div class="panel-body"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="ManageRowMacro4" class="dashboard-row dashboard-rowDataSourcesTable" >
+        <div id="panelManage4" class="dashboard-cell" style="width: 100%;">
+            <div class="dashboard-panel clearfix">
+                <h2 style="padding: 12px 55px 7px 12px;">trackme_date_format</h2><h2 class="panel-title">The UI generates human readable time stamps in the following format: (click on the table bellow to edit the macro definition)</h2>
+                <div class="panel-element-row">
+                    <div id="elementTable_trackme_date_format" class="dashboard-element table" style="width: 100%">
+                        <div class="panel-body"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="ManageRowMacro5" class="dashboard-row dashboard-rowDataSourcesTable" >
+        <div id="panelManage5" class="dashboard-cell" style="width: 100%;">
+            <div class="dashboard-panel clearfix">
+                <h2 style="padding: 12px 55px 7px 12px;">trackme_default_monitored_state</h2><h2 class="panel-title">Defines the default value for monitored_state when a data source is discovered: (click on the table bellow to edit the macro definition)</h2>
+                <div class="panel-element-row">
+                    <div id="elementTable_trackme_default_monitored_state" class="dashboard-element table" style="width: 100%">
+                        <div class="panel-body"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="ManageRowMacro6" class="dashboard-row dashboard-rowDataSourcesTable" >
+        <div id="panelManage6" class="dashboard-cell" style="width: 100%;">
+            <div class="dashboard-panel clearfix">
+                <h2 style="padding: 12px 55px 7px 12px;">trackme_default_host_monitored_state</h2><h2 class="panel-title">Defines the default value for monitored_state when a data host is discovered: (click on the table bellow to edit the macro definition)</h2>
+                <div class="panel-element-row">
+                    <div id="elementTable_trackme_default_host_monitored_state" class="dashboard-element table" style="width: 100%">
+                        <div class="panel-body"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="ManageRowMacro7" class="dashboard-row dashboard-rowDataSourcesTable" >
+        <div id="panelManage7" class="dashboard-cell" style="width: 100%;">
+            <div class="dashboard-panel clearfix">
+                <h2 style="padding: 12px 55px 7px 12px;">trackme_default_metric_host_monitored_state</h2><h2 class="panel-title">Defines the default value for monitored_state when a metric host is discovered: (click on the table bellow to edit the macro definition)</h2>
+                <div class="panel-element-row">
+                    <div id="elementTable_trackme_default_metric_host_monitored_state" class="dashboard-element table" style="width: 100%">
+                        <div class="panel-body"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="ManageRowMacro8" class="dashboard-row dashboard-rowDataSourcesTable" >
+        <div id="panelManage8" class="dashboard-cell" style="width: 100%;">
+            <div class="dashboard-panel clearfix">
+                <h2 style="padding: 12px 55px 7px 12px;">trackme_default_lag</h2><h2 class="panel-title">Defines the default value in seconds for the maximal lag latency for data sources: (click on the table bellow to edit the macro definition)</h2>
+                <div class="panel-element-row">
+                    <div id="elementTable_trackme_default_lag" class="dashboard-element table" style="width: 100%">
+                        <div class="panel-body"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="ManageRowMacro9" class="dashboard-row dashboard-rowDataSourcesTable" >
+        <div id="panelManage9" class="dashboard-cell" style="width: 100%;">
+            <div class="dashboard-panel clearfix">
+                <h2 style="padding: 12px 55px 7px 12px;">trackme_default_host_lag</h2><h2 class="panel-title">Defines the default value in seconds for the maximal lag latency for data hosts: (click on the table bellow to edit the macro definition)</h2>
+                <div class="panel-element-row">
+                    <div id="elementTable_trackme_default_host_lag" class="dashboard-element table" style="width: 100%">
+                        <div class="panel-body"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="ManageRowMacro10" class="dashboard-row dashboard-rowDataSourcesTable" >
+        <div id="panelManage10" class="dashboard-cell" style="width: 100%;">
+            <div class="dashboard-panel clearfix">
+                <h2 style="padding: 12px 55px 7px 12px;">trackme_default_metric_host_lag</h2><h2 class="panel-title">Defines the default value in seconds for the maximal lag latency for metric hosts: (click on the table bellow to edit the macro definition)</h2>
+                <div class="panel-element-row">
+                    <div id="elementTable_trackme_default_metric_host_lag" class="dashboard-element table" style="width: 100%">
+                        <div class="panel-body"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="ManageRowMacro11" class="dashboard-row dashboard-rowDataSourcesTable" >
+        <div id="panelManage11" class="dashboard-cell" style="width: 100%;">
+            <div class="dashboard-panel clearfix">
+                <h2 style="padding: 12px 55px 7px 12px;">trackme_audit_changes_retention</h2><h2 class="panel-title">Defines the retention to be used for entries stored in the audit collection: (click on the table bellow to edit the macro definition)</h2>
+                <div class="panel-element-row">
+                    <div id="elementTable_trackme_audit_changes_retention" class="dashboard-element table" style="width: 100%">
+                        <div class="panel-body"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="ManageRowMacro12" class="dashboard-row dashboard-rowDataSourcesTable" >
+        <div id="panelManage12" class="dashboard-cell" style="width: 100%;">
+            <div class="dashboard-panel clearfix">
+                <h2 style="padding: 12px 55px 7px 12px;">trackme_flip_state_retention</h2><h2 class="panel-title">Defines the retention to be used for entries stored in the flip state collection: (click on the table bellow to edit the macro definition)</h2>
+                <div class="panel-element-row">
+                    <div id="elementTable_trackme_flip_state_retention" class="dashboard-element table" style="width: 100%">
+                        <div class="panel-body"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="ManageRowMacro13" class="dashboard-row dashboard-rowDataSourcesTable" >
+        <div id="panelManage13" class="dashboard-cell" style="width: 100%;">
+            <div class="dashboard-panel clearfix">
+                <h2 style="padding: 12px 55px 7px 12px;">trackme_alerts_priority</h2><h2 class="panel-title">Macro definition for alerting priority, this macro is used by the application out of the box alerts to return SLA alerts based on the rules and the priority level: (click on the table bellow to edit the macro definition)</h2>
+                <div class="panel-element-row">
+                    <div id="elementTable_trackme_alerts_priority" class="dashboard-element table" style="width: 100%">
+                        <div class="panel-body"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+</div>
+</div>
+
+<!--
+END LAYOUT
+-->
+
+<script src="{{SPLUNKWEB_URL_PREFIX}}/config?autoload=1" crossorigin="use-credentials"></script>
+<script src="{{SPLUNKWEB_URL_PREFIX}}/static/js/i18n.js"></script>
+<script src="{{SPLUNKWEB_URL_PREFIX}}/i18ncatalog?autoload=1"></script>
+<script src="{{SPLUNKWEB_URL_PREFIX}}/static/build/simplexml/index.js"></script>
+<script type="text/javascript">
+// <![CDATA[
+// <![CDATA[
+//
+// LIBRARY REQUIREMENTS
+//
+// In the require function, we include the necessary libraries and modules for
+// the HTML dashboard. Then, we pass variable names for these libraries and
+// modules as function parameters, in order.
+//
+// When you add libraries or modules, remember to retain this mapping order
+// between the library or module and its function parameter. You can do this by
+// adding to the end of these lists, as shown in the commented examples below.
+require([
+        "splunkjs/mvc",
+        "splunkjs/mvc/utils",
+        "splunkjs/mvc/tokenutils",
+        "underscore",
+        "jquery",
+        "splunkjs/mvc/simplexml",
+        "splunkjs/mvc/layoutview",
+        "splunkjs/mvc/simplexml/dashboardview",
+        "splunkjs/mvc/simplexml/dashboard/panelref",
+        "splunkjs/mvc/simplexml/element/chart",
+        "splunkjs/mvc/simplexml/element/event",
+        "splunkjs/mvc/simplexml/element/html",
+        "splunkjs/mvc/simplexml/element/list",
+        "splunkjs/mvc/simplexml/element/map",
+        "splunkjs/mvc/simplexml/element/single",
+        "splunkjs/mvc/simplexml/element/table",
+        "splunkjs/mvc/simplexml/element/visualization",
+        "splunkjs/mvc/simpleform/formutils",
+        "splunkjs/mvc/simplexml/eventhandler",
+        "splunkjs/mvc/simplexml/searcheventhandler",
+        "splunkjs/mvc/simpleform/input/dropdown",
+        "splunkjs/mvc/simpleform/input/radiogroup",
+        "splunkjs/mvc/simpleform/input/linklist",
+        "splunkjs/mvc/simpleform/input/multiselect",
+        "splunkjs/mvc/simpleform/input/checkboxgroup",
+        "splunkjs/mvc/simpleform/input/text",
+        "splunkjs/mvc/simpleform/input/timerange",
+        "splunkjs/mvc/simpleform/input/submit",
+        "splunkjs/mvc/searchmanager",
+        "splunkjs/mvc/savedsearchmanager",
+        "splunkjs/mvc/postprocessmanager",
+        "splunkjs/mvc/simplexml/urltokenmodel"
+        // Add comma-separated libraries and modules manually here, for example:
+        // ..."splunkjs/mvc/simplexml/urltokenmodel",
+        // "splunkjs/mvc/tokenforwarder"
+    ],
+    function(
+        mvc,
+        utils,
+        TokenUtils,
+        _,
+        $,
+        DashboardController,
+        LayoutView,
+        Dashboard,
+        PanelRef,
+        ChartElement,
+        EventElement,
+        HtmlElement,
+        ListElement,
+        MapElement,
+        SingleElement,
+        TableElement,
+        VisualizationElement,
+        FormUtils,
+        EventHandler,
+        SearchEventHandler,
+        DropdownInput,
+        RadioGroupInput,
+        LinkListInput,
+        MultiSelectInput,
+        CheckboxGroupInput,
+        TextInput,
+        TimeRangeInput,
+        SubmitButton,
+        SearchManager,
+        SavedSearchManager,
+        PostProcessManager,
+        UrlTokenModel
+
+        // Add comma-separated parameter names here, for example:
+        // ...UrlTokenModel,
+        // TokenForwarder
+    ) {
+
+        var pageLoading = true;
+
+        //
+        // FUNCTIONS
+        //
+
+        // Returns true if numeric
+        function isNumeric(n) {
+            return !isNaN(parseFloat(n)) && isFinite(n) && n > 0;
+        }
+
+        //
+        // TOKENS
+        //
+
+        // Create token namespaces
+        var urlTokenModel = new UrlTokenModel();
+        mvc.Components.registerInstance('url', urlTokenModel);
+        var defaultTokenModel = mvc.Components.getInstance('default', {
+            create: true
+        });
+        var submittedTokenModel = mvc.Components.getInstance('submitted', {
+            create: true
+        });
+
+        urlTokenModel.on('url:navigate', function() {
+            defaultTokenModel.set(urlTokenModel.toJSON());
+            if (!_.isEmpty(urlTokenModel.toJSON()) && !_.all(urlTokenModel.toJSON(), _.isUndefined)) {
+                submitTokens();
+            } else {
+                submittedTokenModel.clear();
+            }
+        });
+
+        // Initialize tokens
+        defaultTokenModel.set(urlTokenModel.toJSON());
+
+        function submitTokens() {
+            // Copy the contents of the defaultTokenModel to the submittedTokenModel and urlTokenModel
+            FormUtils.submitForm({
+                replaceState: pageLoading
+            });
+        }
+
+        function setToken(name, value) {
+            defaultTokenModel.set(name, value);
+            submittedTokenModel.set(name, value);
+        }
+
+        function unsetToken(name) {
+            defaultTokenModel.unset(name);
+            submittedTokenModel.unset(name);
+        }
+
+        //
+        // VARIOUS
+        //
+
+        // console.log("Splunk version is " + $C.VERSION_LABEL);
+
+        //
+        // SEARCH MANAGERS
+        //
+
+        // manage and configure
+
+        var searchGetMacrosDefinitions = new SearchManager({
+            "id": "searchGetMacrosDefinitions",
+            "earliest_time": "-15m",
+            "cancelOnUnload": true,
+            "sample_ratio": null,
+            "refreshType": "delay",
+            "latest_time": "now",
+            "search": "| rest /servicesNS/-/-/admin/macros count=0 splunk_server=local | rename eai:appName as app | where app=\"trackme\" | table title definition",
+            "status_buckets": 0,
+            "app": utils.getCurrentApp(),
+            "auto_cancel": 90,
+            "preview": true,
+            "runWhenTimeIsUndefined": false
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        });
+
+        var searchGetMacro_tstats = new PostProcessManager({
+            "tokenDependencies": {},
+            "search": "where title=\"tstats\" | eval alternative_definition=\"tstats include_reduced_buckets=t\" | table definition, alternative_definition",
+            "managerid": "searchGetMacrosDefinitions",
+            "id": "searchGetMacro_tstats"
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        });
+
+        var searchGetMacro_trackme_idx_filter = new PostProcessManager({
+            "tokenDependencies": {},
+            "search": "where title=\"trackme_idx_filter\" | table definition",
+            "managerid": "searchGetMacrosDefinitions",
+            "id": "searchGetMacro_trackme_idx_filter"
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        });
+
+        var searchGetMacro_trackme_date_format = new PostProcessManager({
+            "tokenDependencies": {},
+            "search": "where title=\"trackme_date_format(1)\" | table definition",
+            "managerid": "searchGetMacrosDefinitions",
+            "id": "searchGetMacro_trackme_date_format"
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        });
+
+        var searchGetMacro_trackme_tstats_main_filter = new PostProcessManager({
+            "tokenDependencies": {},
+            "search": "where title=\"trackme_tstats_main_filter\" | table definition",
+            "managerid": "searchGetMacrosDefinitions",
+            "id": "searchGetMacro_trackme_tstats_main_filter"
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        });
+
+        var searchGetMacro_trackme_default_monitored_state = new PostProcessManager({
+            "tokenDependencies": {},
+            "search": "where title=\"trackme_default_monitored_state\" | table definition",
+            "managerid": "searchGetMacrosDefinitions",
+            "id": "searchGetMacro_trackme_default_monitored_state"
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        });
+
+        var searchGetMacro_trackme_default_host_monitored_state = new PostProcessManager({
+            "tokenDependencies": {},
+            "search": "where title=\"trackme_default_host_monitored_state\" | table definition",
+            "managerid": "searchGetMacrosDefinitions",
+            "id": "searchGetMacro_trackme_default_host_monitored_state"
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        });
+
+        var searchGetMacro_trackme_default_metric_host_monitored_state = new PostProcessManager({
+            "tokenDependencies": {},
+            "search": "where title=\"trackme_default_metric_host_monitored_state\" | table definition",
+            "managerid": "searchGetMacrosDefinitions",
+            "id": "searchGetMacro_trackme_default_metric_host_monitored_state"
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        });
+
+        var searchGetMacro_trackme_default_lag = new PostProcessManager({
+            "tokenDependencies": {},
+            "search": "where title=\"trackme_default_lag\" | table definition",
+            "managerid": "searchGetMacrosDefinitions",
+            "id": "searchGetMacro_trackme_default_lag"
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        });
+
+        var searchGetMacro_trackme_default_host_lag = new PostProcessManager({
+            "tokenDependencies": {},
+            "search": "where title=\"trackme_default_host_lag\" | table definition",
+            "managerid": "searchGetMacrosDefinitions",
+            "id": "searchGetMacro_trackme_default_host_lag"
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        });
+
+        var searchGetMacro_trackme_default_metric_host_lag = new PostProcessManager({
+            "tokenDependencies": {},
+            "search": "where title=\"trackme_default_metric_host_lag\" | table definition",
+            "managerid": "searchGetMacrosDefinitions",
+            "id": "searchGetMacro_trackme_default_metric_host_lag"
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        });
+
+        var searchGetMacro_trackme_audit_changes_retention = new PostProcessManager({
+            "tokenDependencies": {},
+            "search": "where title=\"trackme_audit_changes_retention\" | table definition",
+            "managerid": "searchGetMacrosDefinitions",
+            "id": "searchGetMacro_trackme_audit_changes_retention"
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        });
+
+        var searchGetMacro_trackme_flip_state_retention = new PostProcessManager({
+            "tokenDependencies": {},
+            "search": "where title=\"trackme_flip_state_retention\" | table definition",
+            "managerid": "searchGetMacrosDefinitions",
+            "id": "searchGetMacro_trackme_flip_state_retention"
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        });
+
+        var searchGetMacro_trackme_alerts_priority = new PostProcessManager({
+            "tokenDependencies": {},
+            "search": "where title=\"trackme_alerts_priority\" | table definition",
+            "managerid": "searchGetMacrosDefinitions",
+            "id": "searchGetMacro_trackme_alerts_priority"
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        });
+
+        //
+        // SPLUNK LAYOUT
+        //
+
+        $('header').remove();
+        new LayoutView({
+                "hideChrome": false,
+                "hideAppBar": false,
+                "hideSplunkBar": false,
+                "hideFooter": false
+            })
+            .render()
+            .getContainerElement()
+            .appendChild($('.dashboard-body')[0]);
+
+        //
+        // DASHBOARD EDITOR
+        //
+
+        new Dashboard({
+            id: 'dashboard',
+            el: $('.dashboard-body'),
+            showTitle: true,
+            editable: false
+        }, {
+            tokens: true
+        }).render();
+
+
+        //
+        // VIEWS: VISUALIZATION ELEMENTS
+        //
+
+        // Manage html dynamic panels
+
+        //
+        // VIEWS: FORM INPUTS
+        //
+
+        // manage and configure
+
+        var elementTable_tstats = new TableElement({
+            "id": "elementTable_tstats",
+            "count": 100,
+            "drilldown": "row",
+            "refresh.display": "none",
+            "wrap": "false",
+            "managerid": "searchGetMacro_tstats",
+            "el": $('#elementTable_tstats')
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        }).render();
+
+        elementTable_tstats.on("click", function(e) {
+            if (e.field !== undefined) {
+                e.preventDefault();
+                var url = TokenUtils.replaceTokenNames("/en-GB/manager/trackme/admin/macros/tstats?action=edit", _.extend(submittedTokenModel.toJSON(), e.data), TokenUtils.getEscaper('url'), TokenUtils.getFilters(mvc.Components));
+                utils.redirect(url, false, "_blank");
+            }
+        });
+
+        var elementTable_trackme_idx_filter = new TableElement({
+            "id": "elementTable_trackme_idx_filter",
+            "count": 100,
+            "drilldown": "row",
+            "refresh.display": "none",
+            "wrap": "false",
+            "managerid": "searchGetMacro_trackme_idx_filter",
+            "el": $('#elementTable_trackme_idx_filter')
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        }).render();
+
+        elementTable_trackme_idx_filter.on("click", function(e) {
+            if (e.field !== undefined) {
+                e.preventDefault();
+                var url = TokenUtils.replaceTokenNames("/en-GB/manager/trackme/admin/macros/trackme_idx_filter?action=edit", _.extend(submittedTokenModel.toJSON(), e.data), TokenUtils.getEscaper('url'), TokenUtils.getFilters(mvc.Components));
+                utils.redirect(url, false, "_blank");
+            }
+        });
+
+        var elementTable_trackme_date_format = new TableElement({
+            "id": "elementTable_trackme_date_format",
+            "count": 100,
+            "drilldown": "row",
+            "refresh.display": "none",
+            "wrap": "false",
+            "managerid": "searchGetMacro_trackme_date_format",
+            "el": $('#elementTable_trackme_date_format')
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        }).render();
+
+        elementTable_trackme_date_format.on("click", function(e) {
+            if (e.field !== undefined) {
+                e.preventDefault();
+                var url = TokenUtils.replaceTokenNames("/en-GB/manager/trackme/admin/macros/trackme_date_format(1)?action=edit", _.extend(submittedTokenModel.toJSON(), e.data), TokenUtils.getEscaper('url'), TokenUtils.getFilters(mvc.Components));
+                utils.redirect(url, false, "_blank");
+            }
+        });
+
+        var elementTable_trackme_tstats_main_filter = new TableElement({
+            "id": "elementTable_trackme_tstats_main_filter",
+            "count": 100,
+            "drilldown": "row",
+            "refresh.display": "none",
+            "wrap": "false",
+            "managerid": "searchGetMacro_trackme_tstats_main_filter",
+            "el": $('#elementTable_trackme_tstats_main_filter')
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        }).render();
+
+        elementTable_trackme_tstats_main_filter.on("click", function(e) {
+            if (e.field !== undefined) {
+                e.preventDefault();
+                var url = TokenUtils.replaceTokenNames("/en-GB/manager/trackme/admin/macros/trackme_tstats_main_filter?action=edit", _.extend(submittedTokenModel.toJSON(), e.data), TokenUtils.getEscaper('url'), TokenUtils.getFilters(mvc.Components));
+                utils.redirect(url, false, "_blank");
+            }
+        });
+
+        var elementTable_trackme_alerts_priority = new TableElement({
+            "id": "elementTable_trackme_alerts_priority",
+            "count": 100,
+            "drilldown": "row",
+            "refresh.display": "none",
+            "wrap": "false",
+            "managerid": "searchGetMacro_trackme_alerts_priority",
+            "el": $('#elementTable_trackme_alerts_priority')
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        }).render();
+
+        elementTable_trackme_alerts_priority.on("click", function(e) {
+            if (e.field !== undefined) {
+                e.preventDefault();
+                var url = TokenUtils.replaceTokenNames("/en-GB/manager/trackme/admin/macros/trackme_alerts_priority?action=edit", _.extend(submittedTokenModel.toJSON(), e.data), TokenUtils.getEscaper('url'), TokenUtils.getFilters(mvc.Components));
+                utils.redirect(url, false, "_blank");
+            }
+        });
+
+        var elementTable_trackme_default_monitored_state = new TableElement({
+            "id": "elementTable_trackme_default_monitored_state",
+            "count": 100,
+            "drilldown": "row",
+            "refresh.display": "none",
+            "wrap": "false",
+            "managerid": "searchGetMacro_trackme_default_monitored_state",
+            "el": $('#elementTable_trackme_default_monitored_state')
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        }).render();
+
+        elementTable_trackme_default_monitored_state.on("click", function(e) {
+            if (e.field !== undefined) {
+                e.preventDefault();
+                var url = TokenUtils.replaceTokenNames("/en-GB/manager/trackme/admin/macros/trackme_default_monitored_state?action=edit", _.extend(submittedTokenModel.toJSON(), e.data), TokenUtils.getEscaper('url'), TokenUtils.getFilters(mvc.Components));
+                utils.redirect(url, false, "_blank");
+            }
+        });
+
+        var elementTable_trackme_default_host_monitored_state = new TableElement({
+            "id": "elementTable_trackme_default_host_monitored_state",
+            "count": 100,
+            "drilldown": "row",
+            "refresh.display": "none",
+            "wrap": "false",
+            "managerid": "searchGetMacro_trackme_default_host_monitored_state",
+            "el": $('#elementTable_trackme_default_host_monitored_state')
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        }).render();
+
+        elementTable_trackme_default_host_monitored_state.on("click", function(e) {
+            if (e.field !== undefined) {
+                e.preventDefault();
+                var url = TokenUtils.replaceTokenNames("/en-GB/manager/trackme/admin/macros/trackme_default_host_monitored_state?action=edit", _.extend(submittedTokenModel.toJSON(), e.data), TokenUtils.getEscaper('url'), TokenUtils.getFilters(mvc.Components));
+                utils.redirect(url, false, "_blank");
+            }
+        });
+
+        var elementTable_trackme_default_metric_host_monitored_state = new TableElement({
+            "id": "elementTable_trackme_default_metric_host_monitored_state",
+            "count": 100,
+            "drilldown": "row",
+            "refresh.display": "none",
+            "wrap": "false",
+            "managerid": "searchGetMacro_trackme_default_metric_host_monitored_state",
+            "el": $('#elementTable_trackme_default_metric_host_monitored_state')
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        }).render();
+
+        elementTable_trackme_default_metric_host_monitored_state.on("click", function(e) {
+            if (e.field !== undefined) {
+                e.preventDefault();
+                var url = TokenUtils.replaceTokenNames("/en-GB/manager/trackme/admin/macros/trackme_default_metric_host_monitored_state?action=edit", _.extend(submittedTokenModel.toJSON(), e.data), TokenUtils.getEscaper('url'), TokenUtils.getFilters(mvc.Components));
+                utils.redirect(url, false, "_blank");
+            }
+        });
+
+        var elementTable_trackme_default_lag = new TableElement({
+            "id": "elementTable_trackme_default_lag",
+            "count": 100,
+            "drilldown": "row",
+            "refresh.display": "none",
+            "wrap": "false",
+            "managerid": "searchGetMacro_trackme_default_lag",
+            "el": $('#elementTable_trackme_default_lag')
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        }).render();
+
+        elementTable_trackme_default_lag.on("click", function(e) {
+            if (e.field !== undefined) {
+                e.preventDefault();
+                var url = TokenUtils.replaceTokenNames("/en-GB/manager/trackme/admin/macros/trackme_default_lag?action=edit", _.extend(submittedTokenModel.toJSON(), e.data), TokenUtils.getEscaper('url'), TokenUtils.getFilters(mvc.Components));
+                utils.redirect(url, false, "_blank");
+            }
+        });
+
+        var elementTable_trackme_default_host_lag = new TableElement({
+            "id": "elementTable_trackme_default_host_lag",
+            "count": 100,
+            "drilldown": "row",
+            "refresh.display": "none",
+            "wrap": "false",
+            "managerid": "searchGetMacro_trackme_default_host_lag",
+            "el": $('#elementTable_trackme_default_host_lag')
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        }).render();
+
+        elementTable_trackme_default_host_lag.on("click", function(e) {
+            if (e.field !== undefined) {
+                e.preventDefault();
+                var url = TokenUtils.replaceTokenNames("/en-GB/manager/trackme/admin/macros/trackme_default_host_lag?action=edit", _.extend(submittedTokenModel.toJSON(), e.data), TokenUtils.getEscaper('url'), TokenUtils.getFilters(mvc.Components));
+                utils.redirect(url, false, "_blank");
+            }
+        });
+
+        var elementTable_trackme_default_metric_host_lag = new TableElement({
+            "id": "elementTable_trackme_default_metric_host_lag",
+            "count": 100,
+            "drilldown": "row",
+            "refresh.display": "none",
+            "wrap": "false",
+            "managerid": "searchGetMacro_trackme_default_metric_host_lag",
+            "el": $('#elementTable_trackme_default_metric_host_lag')
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        }).render();
+
+        elementTable_trackme_default_metric_host_lag.on("click", function(e) {
+            if (e.field !== undefined) {
+                e.preventDefault();
+                var url = TokenUtils.replaceTokenNames("/en-GB/manager/trackme/admin/macros/trackme_default_metric_host_lag?action=edit", _.extend(submittedTokenModel.toJSON(), e.data), TokenUtils.getEscaper('url'), TokenUtils.getFilters(mvc.Components));
+                utils.redirect(url, false, "_blank");
+            }
+        });
+
+        var elementTable_trackme_audit_changes_retention = new TableElement({
+            "id": "elementTable_trackme_audit_changes_retention",
+            "count": 100,
+            "drilldown": "row",
+            "refresh.display": "none",
+            "wrap": "false",
+            "managerid": "searchGetMacro_trackme_audit_changes_retention",
+            "el": $('#elementTable_trackme_audit_changes_retention')
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        }).render();
+
+        elementTable_trackme_audit_changes_retention.on("click", function(e) {
+            if (e.field !== undefined) {
+                e.preventDefault();
+                var url = TokenUtils.replaceTokenNames("/en-GB/manager/trackme/admin/macros/trackme_audit_changes_retention?action=edit", _.extend(submittedTokenModel.toJSON(), e.data), TokenUtils.getEscaper('url'), TokenUtils.getFilters(mvc.Components));
+                utils.redirect(url, false, "_blank");
+            }
+        });
+
+        var elementTable_trackme_flip_state_retention = new TableElement({
+            "id": "elementTable_trackme_flip_state_retention",
+            "count": 100,
+            "drilldown": "row",
+            "refresh.display": "none",
+            "wrap": "false",
+            "managerid": "searchGetMacro_trackme_flip_state_retention",
+            "el": $('#elementTable_trackme_flip_state_retention')
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        }).render();
+
+        elementTable_trackme_flip_state_retention.on("click", function(e) {
+            if (e.field !== undefined) {
+                e.preventDefault();
+                var url = TokenUtils.replaceTokenNames("/en-GB/manager/trackme/admin/macros/trackme_flip_state_retention?action=edit", _.extend(submittedTokenModel.toJSON(), e.data), TokenUtils.getEscaper('url'), TokenUtils.getFilters(mvc.Components));
+                utils.redirect(url, false, "_blank");
+            }
+        });
+
+        //
+        // SERVICE OBJECT
+        //
+
+        // Create a service object using the Splunk SDK for JavaScript
+        // to send REST requests
+        var service = mvc.createService({
+            owner: "nobody"
+        });
+
+        //
+        // BEGIN OPERATIONS
+        //
+
+        // Audit changes
+        var tokens = mvc.Components.get("default");
+        var currentUser = Splunk.util.getConfigValue("USERNAME");
+        tokens.set("currentUser", currentUser);
+        var auditendpoint_URl = "/en-US/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_audit_changes/"
+
+        //
+        // RESET COLLECTIONS
+        //
+
+        // data source
+
+        $("#btn_manage_reset_data_source").click(function() {
+            submitTokens();
+
+            // When the Submit button is clicked, get all the form fields by accessing token values
+            var tokens = mvc.Components.get("default");
+
+            $("#modal_reset_data_source").modal()
+
+            $("#btn_modal_reset_data_source_confirmed").click(function() {
+
+                console.log("Reset of data source collection");
+
+                // Define the query
+                var searchQuery = "| outputlookup trackme_data_source_monitoring";
+
+                // Set the search parameters--specify a time range
+                var searchParams = {
+                    earliest_time: "-5m",
+                    latest_time: "now"
+                };
+
+                // Run a normal search that immediately returns the job's SID
+                service.search(
+                    searchQuery,
+                    searchParams,
+                    function(err, job) {
+
+                        $("#loadingGray").remove()
+                        $("body").append('<div id="loadingGray" style="background: #e9e9e9; display: block; position: fixed; z-index: 100; top: 0; right: 0; bottom: 0; left: 0; height: 100%; opacity: 0.8;"><div style="width: 100%; margin-top: 250px; padding-bottom: 50px; text-align: center;"><p style="font-size: 18pt; font-weight: bolder;">Flushing data source KVstore collection and running long term tracker, please wait...</p></div><div id="spinner"></div></div>')
+
+                        require(["jquery",
+                                "/static/app/trackme/spin.js"
+                            ],
+                            function($,
+                                Spinner
+                            ) {
+                                new Spinner({
+                                    lines: 12,
+                                    position: "relative"
+                                }).spin(document.getElementById('spinner'));
+                            })
+
+                        function audit_failure() {
+                            // Audit failure change
+                            var time = (new Date).getTime();
+                            var audit_record = {
+                                "time": time,
+                                "action": "failure",
+                                "user": currentUser,
+                                "change_type": "reset",
+                                "object_category": "data_source",
+                                "object": "full_collection"
+                            };
+                            $.ajax({
+                                url: auditendpoint_URl,
+                                type: "POST",
+                                async: true,
+                                contentType: "application/json",
+                                data: JSON.stringify(audit_record),
+                                success: function(returneddata) {
+                                    //console.log("Updated!", returneddata)
+                                    // Run the search again to update the table
+                                }
+                            });
+                        }
+
+                        // Shall the search fail before we can get properties
+                        if (job == null) {
+                            let errorStr = "Unknown Error!";
+                            if (err && err.data && err.data.messages && err.data.messages[0]['text']) {
+                                errorStr = err.data.messages[0]['text'];
+                            } else if (err && err.data && err.data.messages) {
+                                errorStr = JSON.stringify(err.data.messages);
+                            }
+                            $("#loadingGray").remove()
+                            audit_failure();
+                            $("#modal_update_collection_failure_return").find('.modal-error-message p').text(errorStr);
+                            $("#modal_update_collection_failure_return").modal()
+                        } else {
+
+                            // Poll the status of the search job
+                            job.track({
+                                period: 200
+                            }, {
+                                done: function(job) {
+                                    //console.log("Done!");
+
+                                    // Once the job is done, update all searches
+
+                                    // Define the query
+                                    var searchQuery = "| savedsearch \"TrackMe - Data sources availability long term tracker\"";
+
+                                    // Set the search parameters--specify a time range
+                                    var searchParams = {
+                                        earliest_time: "-7d",
+                                        latest_time: "now"
+                                    };
+
+                                    // Run a normal search that immediately returns the job's SID
+                                    service.search(
+                                        searchQuery,
+                                        searchParams,
+                                        function(err, job) {
+
+                                            require(["jquery",
+                                                    "/static/app/trackme/spin.js"
+                                                ],
+                                                function($,
+                                                    Spinner
+                                                ) {
+                                                    new Spinner({
+                                                        lines: 12,
+                                                        position: "relative"
+                                                    }).spin(document.getElementById('spinner'));
+                                                })
+
+                                            // Shall the search fail before we can get properties
+                                            if (job == null) {
+                                                let errorStr = "Unknown Error!";
+                                                if (err && err.data && err.data.messages && err.data.messages[0]['text']) {
+                                                    errorStr = err.data.messages[0]['text'];
+                                                } else if (err && err.data && err.data.messages) {
+                                                    errorStr = JSON.stringify(err.data.messages);
+                                                }
+                                                $("#loadingGray").remove()
+                                                audit_failure();
+                                                $("#modal_update_collection_failure_return").find('.modal-error-message p').text(errorStr);
+                                                $("#modal_update_collection_failure_return").modal()
+                                            } else {
+
+                                                // Poll the status of the search job
+                                                job.track({
+                                                    period: 200
+                                                }, {
+                                                    done: function(job) {
+                                                        //console.log("Done!");
+
+                                                        $("#loadingGray").remove()
+
+                                                        // Audit success change
+                                                        var time = (new Date).getTime();
+                                                        var audit_record = {
+                                                            "time": time,
+                                                            "action": "success",
+                                                            "user": currentUser,
+                                                            "change_type": "reset",
+                                                            "object_category": "data_source",
+                                                            "object": "full_collection"
+                                                        };
+                                                        $.ajax({
+                                                            url: auditendpoint_URl,
+                                                            type: "POST",
+                                                            async: true,
+                                                            contentType: "application/json",
+                                                            data: JSON.stringify(audit_record),
+                                                            success: function(returneddata) {
+                                                                //console.log("Updated!", returneddata)
+                                                                // Run the search again to update the table
+                                                            }
+                                                        });
+
+                                                        $("#modal_update_collection_done").modal()
+
+                                                    },
+                                                    failed: function(properties) {
+                                                        let errorStr = "Unknown Error!";
+                                                        if (properties && properties._properties && properties._properties.messages && properties._properties.messages[0]['text']) {
+                                                            errorStr = properties._properties.messages[0]['text'];
+                                                        } else if (properties && properties._properties && properties._properties.messages) {
+                                                            errorStr = JSON.stringify(properties._properties.messages);
+                                                        }
+                                                        $("#loadingGray").remove()
+                                                        audit_failure();
+                                                        $("#modal_update_collection_failure_return").find('.modal-error-message p').text(errorStr);
+                                                        $("#modal_update_collection_failure_return").modal()
+                                                    },
+                                                    error: function(err) {
+                                                        done(err);
+                                                        audit_failure();
+                                                        $("#loadingGray").remove()
+                                                        $("#modal_update_collection_failure").modal()
+                                                    }
+                                                });
+                                            }
+                                        }
+                                    );
+
+                                },
+                                failed: function(properties) {
+                                    let errorStr = "Unknown Error!";
+                                    if (properties && properties._properties && properties._properties.messages && properties._properties.messages[0]['text']) {
+                                        errorStr = properties._properties.messages[0]['text'];
+                                    } else if (properties && properties._properties && properties._properties.messages) {
+                                        errorStr = JSON.stringify(properties._properties.messages);
+                                    }
+                                    $("#loadingGray").remove()
+                                    audit_failure();
+                                    $("#modal_update_collection_failure_return").find('.modal-error-message p').text(errorStr);
+                                    $("#modal_update_collection_failure_return").modal()
+                                },
+                                error: function(err) {
+                                    done(err);
+                                    $("#loadingGray").remove()
+                                    audit_failure();
+                                    $("#modal_update_collection_failure").modal()
+                                }
+                            });
+                        }
+                    }
+                );
+
+            });
+
+        });
+
+        // data host
+
+        $("#btn_manage_reset_data_host").click(function() {
+            submitTokens();
+
+            // When the Submit button is clicked, get all the form fields by accessing token values
+            var tokens = mvc.Components.get("default");
+
+            $("#modal_reset_data_host").modal()
+
+            $("#btn_modal_reset_data_host_confirmed").click(function() {
+
+                console.log("Reset of data source collection");
+
+                // Define the query
+                var searchQuery = "| outputlookup trackme_host_monitoring";
+
+                // Set the search parameters--specify a time range
+                var searchParams = {
+                    earliest_time: "-5m",
+                    latest_time: "now"
+                };
+
+                // Run a normal search that immediately returns the job's SID
+                service.search(
+                    searchQuery,
+                    searchParams,
+                    function(err, job) {
+
+                        $("#loadingGray").remove()
+                        $("body").append('<div id="loadingGray" style="background: #e9e9e9; display: block; position: fixed; z-index: 100; top: 0; right: 0; bottom: 0; left: 0; height: 100%; opacity: 0.8;"><div style="width: 100%; margin-top: 250px; padding-bottom: 50px; text-align: center;"><p style="font-size: 18pt; font-weight: bolder;">Flushing data hosts KVstore collection and running long term tracker, please wait...</p></div><div id="spinner"></div></div>')
+
+                        require(["jquery",
+                                "/static/app/trackme/spin.js"
+                            ],
+                            function($,
+                                Spinner
+                            ) {
+                                new Spinner({
+                                    lines: 12,
+                                    position: "relative"
+                                }).spin(document.getElementById('spinner'));
+                            })
+
+                        function audit_failure() {
+                            // Audit failure change
+                            var time = (new Date).getTime();
+                            var audit_record = {
+                                "time": time,
+                                "action": "failure",
+                                "user": currentUser,
+                                "change_type": "reset",
+                                "object_category": "data_host",
+                                "object": "full_collection"
+                            };
+                            $.ajax({
+                                url: auditendpoint_URl,
+                                type: "POST",
+                                async: true,
+                                contentType: "application/json",
+                                data: JSON.stringify(audit_record),
+                                success: function(returneddata) {
+                                    //console.log("Updated!", returneddata)
+                                    // Run the search again to update the table
+                                }
+                            });
+                        }
+
+                        // Shall the search fail before we can get properties
+                        if (job == null) {
+                            let errorStr = "Unknown Error!";
+                            if (err && err.data && err.data.messages && err.data.messages[0]['text']) {
+                                errorStr = err.data.messages[0]['text'];
+                            } else if (err && err.data && err.data.messages) {
+                                errorStr = JSON.stringify(err.data.messages);
+                            }
+                            $("#loadingGray").remove()
+                            audit_failure();
+                            $("#modal_update_collection_failure_return").find('.modal-error-message p').text(errorStr);
+                            $("#modal_update_collection_failure_return").modal()
+                        } else {
+
+                            // Poll the status of the search job
+                            job.track({
+                                period: 200
+                            }, {
+                                done: function(job) {
+                                    //console.log("Done!");
+
+                                    // Once the job is done, update all searches
+
+                                    // Define the query
+                                    var searchQuery = "| savedsearch \"TrackMe - hosts availability long term tracker\"";
+
+                                    // Set the search parameters--specify a time range
+                                    var searchParams = {
+                                        earliest_time: "-7d",
+                                        latest_time: "now"
+                                    };
+
+                                    // Run a normal search that immediately returns the job's SID
+                                    service.search(
+                                        searchQuery,
+                                        searchParams,
+                                        function(err, job) {
+
+                                            require(["jquery",
+                                                    "/static/app/trackme/spin.js"
+                                                ],
+                                                function($,
+                                                    Spinner
+                                                ) {
+                                                    new Spinner({
+                                                        lines: 12,
+                                                        position: "relative"
+                                                    }).spin(document.getElementById('spinner'));
+                                                })
+
+                                            // Shall the search fail before we can get properties
+                                            if (job == null) {
+                                                let errorStr = "Unknown Error!";
+                                                if (err && err.data && err.data.messages && err.data.messages[0]['text']) {
+                                                    errorStr = err.data.messages[0]['text'];
+                                                } else if (err && err.data && err.data.messages) {
+                                                    errorStr = JSON.stringify(err.data.messages);
+                                                }
+                                                $("#loadingGray").remove()
+                                                audit_failure();
+                                                $("#modal_update_collection_failure_return").find('.modal-error-message p').text(errorStr);
+                                                $("#modal_update_collection_failure_return").modal()
+                                            } else {
+
+                                                // Poll the status of the search job
+                                                job.track({
+                                                    period: 200
+                                                }, {
+                                                    done: function(job) {
+                                                        //console.log("Done!");
+
+                                                        // Audit success change
+                                                        var time = (new Date).getTime();
+                                                        var audit_record = {
+                                                            "time": time,
+                                                            "action": "success",
+                                                            "user": currentUser,
+                                                            "change_type": "reset",
+                                                            "object_category": "data_host",
+                                                            "object": "full_collection"
+                                                        };
+                                                        $.ajax({
+                                                            url: auditendpoint_URl,
+                                                            type: "POST",
+                                                            async: true,
+                                                            contentType: "application/json",
+                                                            data: JSON.stringify(audit_record),
+                                                            success: function(returneddata) {
+                                                                //console.log("Updated!", returneddata)
+                                                                // Run the search again to update the table
+                                                            }
+                                                        });
+
+                                                        $("#loadingGray").remove()
+                                                        $("#modal_update_collection_done").modal()
+
+                                                    },
+                                                    failed: function(properties) {
+                                                        let errorStr = "Unknown Error!";
+                                                        if (properties && properties._properties && properties._properties.messages && properties._properties.messages[0]['text']) {
+                                                            errorStr = properties._properties.messages[0]['text'];
+                                                        } else if (properties && properties._properties && properties._properties.messages) {
+                                                            errorStr = JSON.stringify(properties._properties.messages);
+                                                        }
+                                                        $("#loadingGray").remove()
+                                                        audit_failure();
+                                                        $("#modal_update_collection_failure_return").find('.modal-error-message p').text(errorStr);
+                                                        $("#modal_update_collection_failure_return").modal()
+                                                    },
+                                                    error: function(err) {
+                                                        done(err);
+                                                        $("#loadingGray").remove()
+                                                        audit_failure();
+                                                        $("#modal_update_collection_failure").modal()
+                                                    }
+                                                });
+                                            }
+                                        }
+                                    );
+
+                                },
+                                failed: function(properties) {
+                                    let errorStr = "Unknown Error!";
+                                    if (properties && properties._properties && properties._properties.messages && properties._properties.messages[0]['text']) {
+                                        errorStr = properties._properties.messages[0]['text'];
+                                    } else if (properties && properties._properties && properties._properties.messages) {
+                                        errorStr = JSON.stringify(properties._properties.messages);
+                                    }
+                                    $("#loadingGray").remove()
+                                    audit_failure();
+                                    $("#modal_update_collection_failure_return").find('.modal-error-message p').text(errorStr);
+                                    $("#modal_update_collection_failure_return").modal()
+                                },
+                                error: function(err) {
+                                    done(err);
+                                    $("#loadingGray").remove()
+                                    audit_failure();
+                                    $("#modal_update_collection_failure").modal()
+                                }
+                            });
+                        }
+                    }
+                );
+
+            });
+
+        });
+
+        // metric host
+
+        // reset collection
+        $("#btn_manage_reset_metric_host").click(function() {
+            submitTokens();
+
+            // When the Submit button is clicked, get all the form fields by accessing token values
+            var tokens = mvc.Components.get("default");
+
+            $("#modal_reset_metric_host").modal()
+
+            $("#btn_modal_reset_metric_host_confirmed").click(function() {
+
+                //console.log("Reset of metric host collection");
+
+                // Define the query
+                var searchQuery = "| outputlookup trackme_metric_host_monitoring";
+
+                // Set the search parameters--specify a time range
+                var searchParams = {
+                    earliest_time: "-5m",
+                    latest_time: "now"
+                };
+
+                // Run a normal search that immediately returns the job's SID
+                service.search(
+                    searchQuery,
+                    searchParams,
+                    function(err, job) {
+
+                        $("#loadingGray").remove()
+                        $("body").append('<div id="loadingGray" style="background: #e9e9e9; display: block; position: fixed; z-index: 100; top: 0; right: 0; bottom: 0; left: 0; height: 100%; opacity: 0.8;"><div style="width: 100%; margin-top: 250px; padding-bottom: 50px; text-align: center;"><p style="font-size: 18pt; font-weight: bolder;">Flushing metric hosts KVstore collection and running metric tracker, please wait...</p></div><div id="spinner"></div></div>')
+
+                        require(["jquery",
+                                "/static/app/trackme/spin.js"
+                            ],
+                            function($,
+                                Spinner
+                            ) {
+                                new Spinner({
+                                    lines: 12,
+                                    position: "relative"
+                                }).spin(document.getElementById('spinner'));
+                            })
+
+                        function audit_failure() {
+                            // Audit failure change
+                            var time = (new Date).getTime();
+                            var audit_record = {
+                                "time": time,
+                                "action": "failure",
+                                "user": currentUser,
+                                "change_type": "reset",
+                                "object_category": "data_host",
+                                "object": "full_collection"
+                            };
+                            $.ajax({
+                                url: auditendpoint_URl,
+                                type: "POST",
+                                async: true,
+                                contentType: "application/json",
+                                data: JSON.stringify(audit_record),
+                                success: function(returneddata) {
+                                    //console.log("Updated!", returneddata)
+                                    // Run the search again to update the table
+                                }
+                            });
+                        }
+
+                        // Shall the search fail before we can get properties
+                        if (job == null) {
+                            let errorStr = "Unknown Error!";
+                            if (err && err.data && err.data.messages && err.data.messages[0]['text']) {
+                                errorStr = err.data.messages[0]['text'];
+                            } else if (err && err.data && err.data.messages) {
+                                errorStr = JSON.stringify(err.data.messages);
+                            }
+                            $("#loadingGray").remove()
+                            audit_failure();
+                            $("#modal_update_collection_failure_return").find('.modal-error-message p').text(errorStr);
+                            $("#modal_update_collection_failure_return").modal()
+                        } else {
+
+                            // Poll the status of the search job
+                            job.track({
+                                period: 200
+                            }, {
+                                done: function(job) {
+                                    //console.log("Done!");
+
+                                    // Once the job is done, update all searches
+
+                                    // Define the query
+                                    var searchQuery = "| savedsearch \"TrackMe - metric hosts availability tracker\"";
+
+                                    // Set the search parameters--specify a time range
+                                    var searchParams = {
+                                        earliest_time: "-5m",
+                                        latest_time: "now"
+                                    };
+
+                                    // Run a normal search that immediately returns the job's SID
+                                    service.search(
+                                        searchQuery,
+                                        searchParams,
+                                        function(err, job) {
+
+                                            require(["jquery",
+                                                    "/static/app/trackme/spin.js"
+                                                ],
+                                                function($,
+                                                    Spinner
+                                                ) {
+                                                    new Spinner({
+                                                        lines: 12,
+                                                        position: "relative"
+                                                    }).spin(document.getElementById('spinner'));
+                                                })
+
+                                            // Shall the search fail before we can get properties
+                                            if (job == null) {
+                                                let errorStr = "Unknown Error!";
+                                                if (err && err.data && err.data.messages && err.data.messages[0]['text']) {
+                                                    errorStr = err.data.messages[0]['text'];
+                                                } else if (err && err.data && err.data.messages) {
+                                                    errorStr = JSON.stringify(err.data.messages);
+                                                }
+                                                $("#loadingGray").remove()
+                                                audit_failure();
+                                                $("#modal_update_collection_failure_return").find('.modal-error-message p').text(errorStr);
+                                                $("#modal_update_collection_failure_return").modal()
+                                            } else {
+
+                                                // Poll the status of the search job
+                                                job.track({
+                                                    period: 200
+                                                }, {
+                                                    done: function(job) {
+                                                        //console.log("Done!");
+
+                                                        // Audit success change
+                                                        var time = (new Date).getTime();
+                                                        var audit_record = {
+                                                            "time": time,
+                                                            "action": "success",
+                                                            "user": currentUser,
+                                                            "change_type": "reset",
+                                                            "object_category": "metric_host",
+                                                            "object": "full_collection"
+                                                        };
+                                                        $.ajax({
+                                                            url: auditendpoint_URl,
+                                                            type: "POST",
+                                                            async: true,
+                                                            contentType: "application/json",
+                                                            data: JSON.stringify(audit_record),
+                                                            success: function(returneddata) {
+                                                                //console.log("Updated!", returneddata)
+                                                                // Run the search again to update the table
+                                                            }
+                                                        });
+
+                                                        $("#loadingGray").remove()
+                                                        $("#modal_update_collection_done").modal()
+
+                                                    },
+                                                    failed: function(properties) {
+                                                        let errorStr = "Unknown Error!";
+                                                        if (properties && properties._properties && properties._properties.messages && properties._properties.messages[0]['text']) {
+                                                            errorStr = properties._properties.messages[0]['text'];
+                                                        } else if (properties && properties._properties && properties._properties.messages) {
+                                                            errorStr = JSON.stringify(properties._properties.messages);
+                                                        }
+                                                        $("#loadingGray").remove()
+                                                        audit_failure();
+                                                        $("#modal_update_collection_failure_return").find('.modal-error-message p').text(errorStr);
+                                                        $("#modal_update_collection_failure_return").modal()
+                                                    },
+                                                    error: function(err) {
+                                                        done(err);
+                                                        $("#loadingGray").remove()
+                                                        audit_failure();
+                                                        $("#modal_update_collection_failure").modal()
+                                                    }
+                                                });
+                                            }
+                                        }
+                                    );
+
+                                },
+                                failed: function(properties) {
+                                    let errorStr = "Unknown Error!";
+                                    if (properties && properties._properties && properties._properties.messages && properties._properties.messages[0]['text']) {
+                                        errorStr = properties._properties.messages[0]['text'];
+                                    } else if (properties && properties._properties && properties._properties.messages) {
+                                        errorStr = JSON.stringify(properties._properties.messages);
+                                    }
+                                    $("#loadingGray").remove()
+                                    audit_failure();
+                                    $("#modal_update_collection_failure_return").find('.modal-error-message p').text(errorStr);
+                                    $("#modal_update_collection_failure_return").modal()
+                                },
+                                error: function(err) {
+                                    done(err);
+                                    $("#loadingGray").remove()
+                                    audit_failure();
+                                    $("#modal_update_collection_failure").modal()
+                                }
+                            });
+                        }
+                    }
+                );
+
+            });
+
+        });
+
+        //
+        // RUN TRACKERS
+        //
+
+        //
+        // UPDATE COLLECTION
+        //
+
+        // Call this function when the Update collection button is clicked
+
+        $("#btn_run_tracker").click(function() {
+            submitTokens();
+
+            // When the Submit button is clicked, get all the form fields by accessing token values
+            var tokens = mvc.Components.get("default");
+
+            //console.log("Start collection update");
+
+            // Define the query
+            var searchQuery = "| savedsearch \"TrackMe - Data sources availability short term tracker\"";
+
+            // Set the search parameters--specify a time range
+            var searchParams = {
+                earliest_time: "-4h",
+                latest_time: "now"
+            };
+
+            // Run a normal search that immediately returns the job's SID
+            service.search(
+                searchQuery,
+                searchParams,
+                function(err, job) {
+
+                    $("#loadingGray").remove()
+                    $("body").append('<div id="loadingGray" style="background: #e9e9e9; display: block; position: fixed; z-index: 100; top: 0; right: 0; bottom: 0; left: 0; height: 100%; opacity: 0.8;"><div style="width: 100%; margin-top: 250px; padding-bottom: 50px; text-align: center;"><p style="font-size: 18pt; font-weight: bolder;">Running the data sources short term tracker...</p></div><div id="spinner"></div></div>')
+
+                    require(["jquery",
+                            "/static/app/trackme/spin.js"
+                        ],
+                        function($,
+                            Spinner
+                        ) {
+                            new Spinner({
+                                lines: 12,
+                                position: "relative"
+                            }).spin(document.getElementById('spinner'));
+                        })
+
+                    // Shall the search fail before we can get properties
+                    if (job == null) {
+                        let errorStr = "Unknown Error!";
+                        if (err && err.data && err.data.messages && err.data.messages[0]['text']) {
+                            errorStr = err.data.messages[0]['text'];
+                        } else if (err && err.data && err.data.messages) {
+                            errorStr = JSON.stringify(err.data.messages);
+                        }
+                        $("#loadingGray").remove()
+                        $("#modal_update_collection_failure_return").find('.modal-error-message p').text(errorStr);
+                        $("#modal_update_collection_failure_return").modal()
+                    } else {
+
+                        // Poll the status of the search job
+                        job.track({
+                            period: 200
+                        }, {
+                            done: function(job) {
+                                //console.log("Done!");
+
+                                $("#loadingGray").remove()
+                                $("#modal_update_collection_done").modal()
+
+                            },
+                            failed: function(properties) {
+                                let errorStr = "Unknown Error!";
+                                if (properties && properties._properties && properties._properties.messages && properties._properties.messages[0]['text']) {
+                                    errorStr = properties._properties.messages[0]['text'];
+                                } else if (properties && properties._properties && properties._properties.messages) {
+                                    errorStr = JSON.stringify(properties._properties.messages);
+                                }
+                                $("#loadingGray").remove()
+                                $("#modal_update_collection_failure_return").find('.modal-error-message p').text(errorStr);
+                                $("#modal_update_collection_failure_return").modal()
+                            },
+                            error: function(err) {
+                                done(err);
+                                $("#loadingGray").remove()
+                                $("#modal_update_collection_failure").modal()
+                            }
+                        });
+                    }
+                }
+            );
+
+        });
+
+        $("#btn_run_tracker_host").click(function() {
+            submitTokens();
+
+            // When the Submit button is clicked, get all the form fields by accessing token values
+            var tokens = mvc.Components.get("default");
+
+            //console.log("Start collection update");
+
+            // Define the query
+            var searchQuery = "| savedsearch \"TrackMe - hosts availability short term tracker\"";
+
+            // Set the search parameters--specify a time range
+            var searchParams = {
+                earliest_time: "-4h",
+                latest_time: "now"
+            };
+
+            // Run a normal search that immediately returns the job's SID
+            service.search(
+                searchQuery,
+                searchParams,
+                function(err, job) {
+
+                    $("#loadingGray").remove()
+                    $("body").append('<div id="loadingGray" style="background: #e9e9e9; display: block; position: fixed; z-index: 100; top: 0; right: 0; bottom: 0; left: 0; height: 100%; opacity: 0.8;"><div style="width: 100%; margin-top: 250px; padding-bottom: 50px; text-align: center;"><p style="font-size: 18pt; font-weight: bolder;">Running the host short term tracker...</p></div><div id="spinner"></div></div>')
+
+                    require(["jquery",
+                            "/static/app/trackme/spin.js"
+                        ],
+                        function($,
+                            Spinner
+                        ) {
+                            new Spinner({
+                                lines: 12,
+                                position: "relative"
+                            }).spin(document.getElementById('spinner'));
+                        })
+
+                    // Shall the search fail before we can get properties
+                    if (job == null) {
+                        let errorStr = "Unknown Error!";
+                        if (err && err.data && err.data.messages && err.data.messages[0]['text']) {
+                            errorStr = err.data.messages[0]['text'];
+                        } else if (err && err.data && err.data.messages) {
+                            errorStr = JSON.stringify(err.data.messages);
+                        }
+                        $("#loadingGray").remove()
+                        $("#modal_update_collection_failure_return").find('.modal-error-message p').text(errorStr);
+                        $("#modal_update_collection_failure_return").modal()
+                    } else {
+
+                        // Poll the status of the search job
+                        job.track({
+                            period: 200
+                        }, {
+                            done: function(job) {
+                                //console.log("Done!");
+
+                                $("#loadingGray").remove()
+                                $("#modal_update_collection_done").modal()
+
+                            },
+                            failed: function(properties) {
+                                let errorStr = "Unknown Error!";
+                                if (properties && properties._properties && properties._properties.messages && properties._properties.messages[0]['text']) {
+                                    errorStr = properties._properties.messages[0]['text'];
+                                } else if (properties && properties._properties && properties._properties.messages) {
+                                    errorStr = JSON.stringify(properties._properties.messages);
+                                }
+                                $("#loadingGray").remove()
+                                $("#modal_update_collection_failure_return").find('.modal-error-message p').text(errorStr);
+                                $("#modal_update_collection_failure_return").modal()
+                            },
+                            error: function(err) {
+                                done(err);
+                                $("#loadingGray").remove()
+                                $("#modal_update_collection_failure").modal()
+                            }
+                        });
+                    }
+                }
+            );
+
+        });
+
+        // Show main
+
+        DashboardController.onReady(function() {
+            if (!submittedTokenModel.has('earliest') && !submittedTokenModel.has('latest')) {
+                submittedTokenModel.set({
+                    earliest: '0',
+                    latest: ''
+                });
+            }
+        });
+
+        // Initialize time tokens to default
+        if (!defaultTokenModel.has('earliest') && !defaultTokenModel.has('latest')) {
+            defaultTokenModel.set({
+                earliest: '0',
+                latest: ''
+            });
+        }
+
+        if (!_.isEmpty(urlTokenModel.toJSON())) {
+            submitTokens();
+        }
+
+
+        //
+        // DASHBOARD READY
+        //
+
+        DashboardController.ready();
+        pageLoading = false;
+
+    }
+);
+// ]]>
+</script>
+<script src="{{SPLUNKWEB_URL_PREFIX}}/static/app/trackme/table.js" type="text/javascript"></script>
+<script>
+$(".btn").mouseup(function(){
+    $(this).blur();
+})
+</script>
+<script>
+$('.modal').on('show.bs.modal', function () {
+    $('.modal').not($(this)).each(function () {
+        $(this).modal('hide');
+    });
+});
+</script>
+<script>
+function notification(s, time) {
+
+  $("<p>" + s + "</p>").appendTo('#boxnotify-unified-data-source').fadeTo(time, 1, function() {
+    $(this).fadeTo(1000, 0, function() {
+      $(this).remove()
+    });
+  });
+
+  $("<p>" + s + "</p>").appendTo('#boxnotify-unified-data-host').fadeTo(time, 1, function() {
+    $(this).fadeTo(1000, 0, function() {
+      $(this).remove()
+    });
+  });
+
+  $("<p>" + s + "</p>").appendTo('#boxnotify-unified-metric-host').fadeTo(time, 1, function() {
+    $(this).fadeTo(1000, 0, function() {
+      $(this).remove()
+    });
+  });
+
+  $("<p>" + s + "</p>").appendTo('#boxnotify-modal_modify_data_source_whitelist').fadeTo(time, 1, function() {
+    $(this).fadeTo(1000, 0, function() {
+      $(this).remove()
+    });
+  });
+
+  $("<p>" + s + "</p>").appendTo('#boxnotify-modal_modify_data_host_whitelist').fadeTo(time, 1, function() {
+    $(this).fadeTo(1000, 0, function() {
+      $(this).remove()
+    });
+  });
+
+  $("<p>" + s + "</p>").appendTo('#boxnotify-modal_modify_metric_host_whitelist').fadeTo(time, 1, function() {
+    $(this).fadeTo(1000, 0, function() {
+      $(this).remove()
+    });
+  });
+
+  $("<p>" + s + "</p>").appendTo('#boxnotify-modal_modify_data_source_blacklist_host').fadeTo(time, 1, function() {
+    $(this).fadeTo(1000, 0, function() {
+      $(this).remove()
+    });
+  });
+
+  $("<p>" + s + "</p>").appendTo('#boxnotify-modal_modify_data_source_blacklist_index').fadeTo(time, 1, function() {
+    $(this).fadeTo(1000, 0, function() {
+      $(this).remove()
+    });
+  });
+
+  $("<p>" + s + "</p>").appendTo('#boxnotify-modal_modify_data_source_blacklist_sourcetype').fadeTo(time, 1, function() {
+    $(this).fadeTo(1000, 0, function() {
+      $(this).remove()
+    });
+  });
+
+  $("<p>" + s + "</p>").appendTo('#boxnotify-modal_modify_data_host_blacklist_host').fadeTo(time, 1, function() {
+    $(this).fadeTo(1000, 0, function() {
+      $(this).remove()
+    });
+  });
+
+  $("<p>" + s + "</p>").appendTo('#boxnotify-modal_modify_data_host_blacklist_index').fadeTo(time, 1, function() {
+    $(this).fadeTo(1000, 0, function() {
+      $(this).remove()
+    });
+  });
+
+  $("<p>" + s + "</p>").appendTo('#boxnotify-modal_modify_data_host_blacklist_sourcetype').fadeTo(time, 1, function() {
+    $(this).fadeTo(1000, 0, function() {
+      $(this).remove()
+    });
+  });
+
+  $("<p>" + s + "</p>").appendTo('#boxnotify-modal_modify_metric_host_blacklist_metric_category').fadeTo(time, 1, function() {
+    $(this).fadeTo(1000, 0, function() {
+      $(this).remove()
+    });
+  });
+
+  $("<p>" + s + "</p>").appendTo('#boxnotify-modify_custom_lagging').fadeTo(time, 1, function() {
+    $(this).fadeTo(1000, 0, function() {
+      $(this).remove()
+    });
+  });
+
+}
+</script>
+</body>
+</html>

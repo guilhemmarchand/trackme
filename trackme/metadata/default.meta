@@ -160,3 +160,11 @@ access = read : [ * ], write : [ admin, trackme_admin ]
 [views/trackMe_summary]
 access = read : [ * ], write : [ admin, trackme_admin ]
 export = system
+
+### TrackMe knowledge sources
+
+[transforms/trackme_sources_knowledge]
+access = read : [ * ], write : [ admin, trackme_admin ]
+
+[collections/kv_trackme_sources_knowledge]
+access = read : [ * ], write : [ admin, trackme_admin ]
