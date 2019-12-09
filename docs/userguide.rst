@@ -392,6 +392,39 @@ Deletion of entities
 - When the data source or host is temporary removed, it will be automatically re-created if it has been active during the time range scope of the trackers.
 - When the data source or host is permanently removed, a record of the operation is stored in the audit changes KVstore collection, which we automatically use to prevent the source from being re-created effectively.
 
+Data identity card
+==================
+
+**This feature is currently supported only for data sources monitoring.**
+
+**Data identity cards allow you to define a Web link and a documentation note that will be stored in a KVstore collection, and made available automatically via the UI and the out of the box alert.**
+
+Data identity cards are managed via the UI, when no card has been defined yet for a data source, the following message is shown:
+
+.. image:: img/identity_card1.png
+   :alt: identity_card1.png
+   :align: center
+
+You can click on the link to create a new identity card:
+
+.. image:: img/identity_card2.png
+   :alt: identity_card2.png
+   :align: center
+
+Once the identity card has been created, the following message link is shown:
+
+.. image:: img/identity_card3.png
+   :alt: identity_card3.png
+   :align: center
+
+Which automatically provides a view with the identity card content:
+
+.. image:: img/identity_card4.png
+   :alt: identity_card4.png
+   :align: center
+
+In addition, the fields "doc_link" and "doc_note" are part of the default output of the default alert, which can be recycled eventually to enrich a ticketing system incident.
+
 Auditing changes
 ================
 

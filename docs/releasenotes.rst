@@ -4,9 +4,7 @@ Release notes
 Version 1.0.34
 ==============
 
-- feature: introduction of the concept of source identity card, allows defining and store a documentation link and note for data sources, which
-identity cards are made available automatically via the UI and via the OOTB alert.
-Identity cards records can be created, maintained and delete via the UI.
+- feature: introduction of the concept of source identity card, allows defining and store a documentation link and note for data sources, which identity cards are made available automatically via the UI and via the OOTB alert. Identity cards records can be created, maintained and delete via the UI.
 - feature: increase default size of modal windows
 - feature: fixed charts color for data sources and data hosts events vs lag embedded charts
 - feature: add last 48 hours in link time selectors
