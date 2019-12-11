@@ -807,7 +807,7 @@ styles in <div> tags, similar to Bootstrap's grid system.
                                         <div class="panel-element-row">
                                             <div id="elementChartQueue1" class="dashboard-element chart" style="width: 100%">
                                                 <div class="panel-head">
-                                                    <h3>1 - TCP_IN Queue</h3>
+                                                    <h3>1 - Splunk Tcpin Queue</h3>
                                                 </div>
                                                 <div class="panel-body"></div>
                                             </div>
@@ -872,7 +872,8 @@ styles in <div> tags, similar to Bootstrap's grid system.
                                 </div>
                             </div>
                         </div>
-                        <div class="modal-footer">
+                        <div class="modal-footer" style="margin-top: 700px;">
+                            <button type="submit" class="btn btn-default btn-default pull-left" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Close</button>
                         </div>
                     </div>
                 </div>
@@ -933,6 +934,7 @@ styles in <div> tags, similar to Bootstrap's grid system.
                             </div>
                         </div>
                         <div class="modal-footer" style="margin-top: 700px;">
+                            <button type="submit" class="btn btn-default btn-default pull-left" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Close</button>
                             <a class="btn btn-primary" id="btn_search_parsing_issues_linebreaking" target="_blank" href="search_data_source_url" role="button">Search line breaking issues</a>
                             <a class="btn btn-primary" id="btn_search_parsing_issues_aggregator" target="_blank" href="search_data_source_url" role="button">Search aggregator mining issues</a>
                             <a class="btn btn-primary" id="btn_search_parsing_issues_dateparser" target="_blank" href="search_data_source_url" role="button">Search date parser issues</a>
@@ -5575,7 +5577,7 @@ require([
             },
             "sample_ratio": 1,
             "earliest_time": "$inputLinkQueuesTime.earliest$",
-            "search": "(index=_internal `trackme_idx_filter` source=*metrics.log sourcetype=splunkd group=queue name IN(\"tcpin_cooked_pqueue\")) | eval nhost=replace(host,\"\\\\..*\",\"\")  | eval ingest_pipe=if(isnotnull(ingest_pipe),ingest_pipe,\"none\")  | search ingest_pipe=* | eval max=coalesce(max_size_kb, max_size) | eval curr=coalesce(current_size_kb, current_size) | eval fill_perc=round(((curr / max) * 100), 2) | timechart span=$inputLinkQueuesTime.span$ max(fill_perc) as avg_fill by nhost useother=false limit=0",
+            "search": "(index=_internal `trackme_idx_filter` source=*metrics.log sourcetype=splunkd group=queue name IN(\"splunktcpin\")) | eval nhost=replace(host,\"\\\\..*\",\"\")  | eval ingest_pipe=if(isnotnull(ingest_pipe),ingest_pipe,\"none\")  | search ingest_pipe=* | eval max=coalesce(max_size_kb, max_size) | eval curr=coalesce(current_size_kb, current_size) | eval fill_perc=round(((curr / max) * 100), 2) | timechart span=$inputLinkQueuesTime.span$ max(fill_perc) as avg_fill by nhost useother=false limit=0",
             "latest_time": "$inputLinkQueuesTime.latest$",
             "cancelOnUnload": true,
             "status_buckets": 0,

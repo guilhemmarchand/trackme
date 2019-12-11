@@ -1,6 +1,11 @@
 Release notes
 #############
 
+Version 1.0.35
+==============
+
+- fix: Ops indexers queues issue, first queue should be splunk tcpin queue
+
 Version 1.0.34
 ==============
 
