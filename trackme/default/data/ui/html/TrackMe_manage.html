@@ -604,6 +604,19 @@ styles in <div> tags, similar to Bootstrap's grid system.
         </div>
     </div>
 
+    <div id="ManageRowMacro14" class="dashboard-row dashboard-rowDataSourcesTable" >
+        <div id="panelManage14" class="dashboard-cell" style="width: 100%;">
+            <div class="dashboard-panel clearfix">
+                <h2 style="padding: 12px 55px 7px 12px;">trackme_ack_default_duration</h2><h2 class="panel-title">Macro definition for acknowledgment, this macro defines the amount in seconds for maximal acknowledge duration, default to 1 day: (click on the table bellow to edit the macro definition)</h2>
+                <div class="panel-element-row">
+                    <div id="elementTable_trackme_ack_default_duration" class="dashboard-element table" style="width: 100%">
+                        <div class="panel-body"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
 </div>
 
 </div>
@@ -920,6 +933,16 @@ require([
             tokenNamespace: "submitted"
         });
 
+        var searchGetMacro_trackme_ack_default_duration = new PostProcessManager({
+            "tokenDependencies": {},
+            "search": "where title=\"trackme_ack_default_duration\" | table definition",
+            "managerid": "searchGetMacrosDefinitions",
+            "id": "searchGetMacro_trackme_ack_default_duration"
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        });
+
         //
         // SPLUNK LAYOUT
         //
@@ -1230,6 +1253,27 @@ require([
             if (e.field !== undefined) {
                 e.preventDefault();
                 var url = TokenUtils.replaceTokenNames("/en-GB/manager/trackme/admin/macros/trackme_flip_state_retention?action=edit", _.extend(submittedTokenModel.toJSON(), e.data), TokenUtils.getEscaper('url'), TokenUtils.getFilters(mvc.Components));
+                utils.redirect(url, false, "_blank");
+            }
+        });
+
+        var elementTable_trackme_ack_default_duration = new TableElement({
+            "id": "elementTable_trackme_ack_default_duration",
+            "count": 100,
+            "drilldown": "row",
+            "refresh.display": "none",
+            "wrap": "false",
+            "managerid": "searchGetMacro_trackme_ack_default_duration",
+            "el": $('#elementTable_trackme_ack_default_duration')
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        }).render();
+
+        elementTable_trackme_ack_default_duration.on("click", function(e) {
+            if (e.field !== undefined) {
+                e.preventDefault();
+                var url = TokenUtils.replaceTokenNames("/en-GB/manager/trackme/admin/macros/trackme_ack_default_duration?action=edit", _.extend(submittedTokenModel.toJSON(), e.data), TokenUtils.getEscaper('url'), TokenUtils.getFilters(mvc.Components));
                 utils.redirect(url, false, "_blank");
             }
         });

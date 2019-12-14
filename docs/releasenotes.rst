@@ -1,6 +1,12 @@
 Release notes
 #############
 
+Version 1.0.36
+==============
+
+- feature: Introducing the active alert acknowledgement feature, provides a framework to acknowledge an active alert which will inhibits generating new alerts while continuing to monitor and investigate in the UI.
+- feature: Identity card improvements, allow existing identity card records to be associated with sources within the UI
+
 Version 1.0.35
 ==============
 

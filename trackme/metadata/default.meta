@@ -168,3 +168,11 @@ access = read : [ * ], write : [ admin, trackme_admin ]
 
 [collections/kv_trackme_sources_knowledge]
 access = read : [ * ], write : [ admin, trackme_admin ]
+
+### TrackMe Ack
+
+[transforms/trackme_alerts_ack]
+access = read : [ * ], write : [ admin, trackme_admin ]
+
+[collections/kv_trackme_alerts_ack]
+access = read : [ * ], write : [ admin, trackme_admin ]

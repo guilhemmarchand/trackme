@@ -399,31 +399,45 @@ Data identity card
 
 **Data identity cards allow you to define a Web link and a documentation note that will be stored in a KVstore collection, and made available automatically via the UI and the out of the box alert.**
 
-Data identity cards are managed via the UI, when no card has been defined yet for a data source, the following message is shown:
+**Data identity cards are managed via the UI, when no card has been defined yet for a data source, the following message is shown:**
 
 .. image:: img/identity_card1.png
    :alt: identity_card1.png
    :align: center
 
-You can click on the link to create a new identity card:
+**You can click on the link to create a new identity card:**
 
 .. image:: img/identity_card2.png
    :alt: identity_card2.png
    :align: center
 
-Once the identity card has been created, the following message link is shown:
+**Once the identity card has been created, the following message link is shown:**
 
 .. image:: img/identity_card3.png
    :alt: identity_card3.png
    :align: center
 
-Which automatically provides a view with the identity card content:
+**Which automatically provides a view with the identity card content:**
 
 .. image:: img/identity_card4.png
    :alt: identity_card4.png
    :align: center
 
 In addition, the fields "doc_link" and "doc_note" are part of the default output of the default alert, which can be recycled eventually to enrich a ticketing system incident.
+
+**Finally, multiple entities can share the same identity record via the identity card association feature and button:**
+
+.. image:: img/identity_card5.png
+   :alt: identity_card5.png
+   :align: center
+
+.. image:: img/identity_card6.png
+   :alt: identity_card6.png
+   :align: center
+
+.. image:: img/identity_card7.png
+   :alt: identity_card7.png
+   :align: center
 
 Auditing changes
 ================
@@ -478,8 +492,58 @@ Out of the box alerts
 
 - TrackMe - Alert on data source availability
 - TrackMe - Alert on data host availability
+- TrackMe - Alert on metric host availability
 
 **The builtin alerts are disabled by default.**
+
+Builtin alerts are Splunk alerts which can be extended to be integrated in many powerful ways, such as your ticketing system (Service Now, JIRA...) or even mobile notifications with Splunk Cloud Gateway.
+
+Alerts acknowledgment
+=====================
+
+**When using builtin alerts, you can leverage alerts acknowledgments within the UI to acknowledge an active alert.**
+
+.. image:: img/ack1.png
+   :alt: ack1.png
+   :align: center
+
+**Acknowledgments provides a way to:**
+
+- Via the user interface, acknowledge an active alert
+- Once acknowledged, the entity remains visible in the UI and monitored, but no more alerts will be generated during the time of the acknowledge
+- By default, acknowledges have an expiration duration of 24 hours
+- This means that once acknowledged, an active alert will not generate a new alert for the next 24 hours
+- Therefore, if the entity flips to a state green again, the acknowledge is automatically disabled
+- If the entity flips later on to a red state, a new acknowledge should be created
+
+**Under the wood, the acknowledgment workflow works the following way:**
+
+- Via the UI, if the entity is in red state, the "Acknowledgment" button becomes active, otherwise it is inactive and cannot be clicked
+- If the acknowledge is confirmed by the user, an active entry is created in the KVstore collection named "kv_trackme_alerts_ack". (lookup definition trackme_alerts_ack)
+- The default duration of acknowledges is define by the macro named "trackme_ack_default_duration"
+- Every 5 minutes, the tracker scheduled report named "TrackMe - Ack tracker" verifies if an acknowledge has reached its expiration and will update its status if required
+- The tracker as well verifies the current state of the entity, if the entity has flipped again to a green state, the acknowledge is disabled
+- An acknowledge can be acknowledged again within the UI, which will extend its expiration for another cycle of 24 hours from now
+
+**Acknowledge for an active alert is inactive:**
+
+.. image:: img/ack2.png
+   :alt: ack2.png
+   :align: center
+
+**Acknowledge for an active alert is active:**
+
+.. image:: img/ack3.png
+   :alt: ack3.png
+   :align: center
+
+**Once active, an acknowledge can be disabled on demand by clicking on the Ack table:**
+
+.. image:: img/ack4.png
+   :alt: ack4.png
+   :align: center
+
+**All acknowledge related actions are recorded in the audit collection and report.**
 
 Connected experience dashboard for Splunk Mobile & Apple TV
 ===========================================================
