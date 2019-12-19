@@ -176,3 +176,11 @@ access = read : [ * ], write : [ admin, trackme_admin ]
 
 [collections/kv_trackme_alerts_ack]
 access = read : [ * ], write : [ admin, trackme_admin ]
+
+### TrackMe Logical Groups
+
+[transforms/trackme_logical_group]
+access = read : [ * ], write : [ admin, trackme_admin ]
+
+[collections/kv_trackme_logical_group]
+access = read : [ * ], write : [ admin, trackme_admin ]
