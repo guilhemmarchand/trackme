@@ -808,6 +808,372 @@ styles in <div> tags, similar to Bootstrap's grid system.
         </div>
     </div>
 
+    <!-- Modal window for logical group association -->
+    <div class="modal fade custom-modal-80" id="logical_group" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h3 style="color: indianred;"><span class="glyphicon glyphicon-lock"></span> Logical group </h3>
+                </div>
+                <div class="modal-body">
+                    <b>Entities logical group management</b>
+                    <br /><br />
+
+                    <div id="rowAddLogicalGroup" class="dashboard-row dashboard-row" data-depends="$show_add_logical_group$">
+                        <div id="panelAddLogicalGroup" class="dashboard-cell" style="width: 100%;">
+
+                            <div class="dashboard-panel clearfix">
+                                <div class="panel-element-row">
+
+                                    <div class="modal-body">
+                                        <h3 style="color: lightslategray;">This entity is not currently associated to a logical group, choose one of the following options:</h3>
+
+                                        <div style="margin-top: 20px;">
+                                            <div style="float: left; margin-right: 20px;">
+                                                <button type="submit" id="btn_add_logical_group_new" class="btn btn-default btn-primary" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Create a new group </button>
+                                            </div>
+                                            <div style="float: left; margin-right: 20px;">
+                                                <button type="submit" id="btn_add_logical_group_member" class="btn btn-default btn-primary" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Add to an existing group </button>
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div id="rowTableLogicalGroup" class="dashboard-row dashboard-row3" data-depends="$show_table_logical_group$">
+                        <div id="panelTableLogicalGroup" class="dashboard-cell" style="width: 100%;">
+
+                            <div class="dashboard-panel clearfix">
+                                <div class="panel-element-row">
+
+                                    <div class="modal-body">
+                                        <h3 style="color: lightslategray;">This entity is currently associated with the following logical group, if you wish to remove this
+                                            membership, click on the table entry bellow:</h3>
+                                    </div>
+
+                                    <div class="fieldset">
+
+                                        <div id="elementLogicalGroupTable" class="dashboard-element table" style="width: 100%">
+                                            <label></label>
+                                            <div class="panel-body"></div>
+                                        </div>
+
+                                    </div>
+
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" id="btn_associate_logical_group_back" class="btn btn-default btn-primary pull-left" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Back</button>
+                    <button type="submit" class="btn btn-default btn-default pull-right" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal window for logical group association -->
+    <div class="modal fade custom-modal-80" id="logical_group_add_member" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h3 style="color: indianred;"><span class="glyphicon glyphicon-lock"></span> Logical group </h3>
+                </div>
+                <div class="modal-body">
+                    <b>Entities logical group management</b>
+                    <br /><br />
+
+                    <div id="rowTableLogicalGroupAddMember" class="dashboard-row dashboard-row3">
+                        <div id="panelTableLogicalGroupAddMember" class="dashboard-cell" style="width: 100%;">
+
+                            <div class="dashboard-panel clearfix">
+                                <div class="panel-element-row">
+
+                                    <div class="modal-body">
+                                        <h3 style="color: lightslategray;">Click on a logical group in the table bellow to make this entity part of the group.
+                                        Optionally use the filter input to search in existing groups.</h3>
+                                    </div>
+
+                                    <div class="fieldset">
+
+                                        <div class="input input-text" id="FilterLogicalGroupTable" style="margin-bottom: 10px;">
+                                            <label>Filter:</label>
+                                        </div>
+
+                                        <div id="elementLogicalGroupTableAddMember" class="dashboard-element table" style="width: 100%">
+                                            <label></label>
+                                            <div class="panel-body"></div>
+                                        </div>
+
+                                    </div>
+
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" id="btn_associate_logical_group_add_member_back" class="btn btn-default btn-primary pull-left" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Back</button>
+                    <button type="submit" class="btn btn-default btn-default pull-right" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal window for logical group association -->
+    <div class="modal fade custom-modal-50" id="logical_group_add_group" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h3 style="color: indianred;"><span class="glyphicon glyphicon-lock"></span> Logical group </h3>
+                </div>
+                <div class="modal-body">
+                    <b>Entities logical group management</b>
+                    <br /><br />
+
+                    <div id="rowTableLogicalGroupAddGroup" class="dashboard-row dashboard-row3">
+                        <div id="panelTableLogicalGroupAddGroup" class="dashboard-cell" style="width: 100%;">
+
+                            <div class="dashboard-panel clearfix">
+                                <div class="panel-element-row">
+
+                                    <div class="modal-body">
+                                        <h3 style="color: lightslategray;">Create a new logical group, once created the current entity will automatically member of it.
+                                            You can then add as many members as you need to form the logical group entity.
+                                        </h3>
+                                    </div>
+
+                                    <div class="fieldset">
+                                        <div class="input input-text" id="InputLogicalGroupName" style="margin-bottom: 10px;">
+                                            <label>Enter the logical group name:</label>
+                                        </div>
+                                    </div>
+                                    <div class="fieldset">
+                                        <div class="input input-dropdown" id="InputLogicalGroupNamePercent" style="margin-bottom: 10px;">
+                                            <label>Minimal percent of members in green state:</label>
+                                        </div>
+                                        <div style="margin-top: 10px;">
+                                            <p>A logical group of 2 members with a minimal 50% green state means one member actively generating data will not trigger alerts.</p>
+                                        </div>
+                                    </div>
+
+                                    <div class="modal-body" style="margin-top: 20px;">
+                                        <button type="submit" id="btn_associate_logical_group_add_group" class="btn btn-default btn-primary pull-left" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Create new logical group </button>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
+                <div class="modal-footer" style="margin-top: 20px;">
+                    <button type="submit" id="btn_associate_logical_group_add_group_back" class="btn btn-default btn-primary pull-left" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Back</button>
+                    <button type="submit" class="btn btn-default btn-default pull-right" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal window Logical group removal -->
+    <div class="modal fade" id="confirm_remove_from_logical_group" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h3 style="color: indianred;"><span class="glyphicon glyphicon-lock"></span> Logical group </h3>
+                </div>
+
+                <div class="modal-body">
+
+                    <div>
+
+                        <div style="margin-bottom: 10px;">
+
+                            <div>
+                                <h4>Do you want to remove this entity from the logical group?</h4>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div style="margin-top: 20px;" class="modal-footer">
+                    <button type="submit" id="btn_remove_from_logical_group_confirm_valid" class="btn btn-default btn-danger" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Remove association </button>
+                    <button type="submit" id="btn_remove_from_logical_group_confirm_back" class="btn btn-default btn-primary" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Back </button>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+    <div class="modal fade" id="logical_group_removal_achieved" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h3 style="color: indianred;"><span class="glyphicon glyphicon-lock"></span> Logical group </h3>
+                </div>
+
+                <div class="modal-body">
+
+                    <div>
+
+                        <div style="margin-bottom: 10px;">
+
+                            <div>
+                                <h4>Logical group membership was successfully removed.</h4>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div style="margin-top: 20px;" class="modal-footer">
+                    <button type="submit" class="btn btn-default btn-primary" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Ok </button>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Modal window Logical group removal -->
+    <div class="modal fade" id="confirm_add_member_logical_group" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h3 style="color: indianred;"><span class="glyphicon glyphicon-lock"></span> Logical group </h3>
+                </div>
+
+                <div class="modal-body">
+
+                    <div>
+
+                        <div style="margin-bottom: 10px;">
+
+                            <div>
+                                <h4>Do you want to add the entity in the logical group?</h4>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div style="margin-top: 20px;" class="modal-footer">
+                    <button type="submit" id="btn_add_logical_group_member_confirm_valid" class="btn btn-default btn-primary" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Confirm membership </button>
+                    <button type="submit" id="btn_add_logical_group_member_confirm_back" class="btn btn-default btn-primary" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Back </button>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+    <div class="modal fade" id="logical_group_add_member_achieved" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h3 style="color: indianred;"><span class="glyphicon glyphicon-lock"></span> Logical group </h3>
+                </div>
+
+                <div class="modal-body">
+
+                    <div>
+
+                        <div style="margin-bottom: 10px;">
+
+                            <div>
+                                <h4>Logical group membership was successfully achieved.</h4>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div style="margin-top: 20px;" class="modal-footer">
+                    <button type="submit" class="btn btn-default btn-primary" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Ok </button>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+    <div class="modal fade" id="logical_group_add_achieved" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h3 style="color: indianred;"><span class="glyphicon glyphicon-lock"></span> Logical group </h3>
+                </div>
+
+                <div class="modal-body">
+
+                    <div>
+
+                        <div style="margin-bottom: 10px;">
+
+                            <div>
+                                <h4>Logical group has been successfully created, and entity associated.</h4>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div style="margin-top: 20px;" class="modal-footer">
+                    <button type="submit" class="btn btn-default btn-primary" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Ok </button>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
     <!-- Modal drilldown context for Alerts -->
     <div id="main_modal_manage" class="dashboard-element html" style="width: 100%">
         <div class="panel-body html">
@@ -2606,30 +2972,52 @@ styles in <div> tags, similar to Bootstrap's grid system.
 
                     <hr>
 
-                    <h4>Data host priority:</h4>
+                    <div style="margin-bottom: 10px; width: 50%; float:left">
 
-                    <p>Define the priority of the data host for granular level of SLA alerting:</p>
+                        <h4>Data host priority:</h4>
 
-                    <p>
-                        <span class="title_green">low</span>
-                        <span class="title_yellow">medium</span>
-                        <span class="title_red">high</span>
-                    </p>
+                        <p>Define the priority of the data host for granular level of SLA alerting:</p>
 
-                    <div class="fieldset">
-                        <div class="input input-text" id="modal_input_host_priority">
-                            <label></label>
+                        <p>
+                            <span class="title_green">low</span>
+                            <span class="title_yellow">medium</span>
+                            <span class="title_red">high</span>
+                        </p>
+
+                        <div class="fieldset">
+                            <div class="input input-text" id="modal_input_host_priority">
+                                <label></label>
+                            </div>
                         </div>
+
+                        <div>
+                            <button id="btn_modal_modify_priority_host_confirm" type="submit" class="btn btn-default btn-primary"><span class="glyphicon glyphicon-remove"></span> Apply priority</button>
+                        </div>
+
                     </div>
 
-                    <div>
-                        <button id="btn_modal_modify_priority_host_confirm" type="submit" class="btn btn-default btn-primary"><span class="glyphicon glyphicon-remove"></span> Apply priority</button>
+                    <div style="margin-bottom: 10px; width: 50%; float:right">
+
+                        <h4>Associate to a Logical group:</h4>
+
+                        <p>Logical groups are groups of entities that will be considered as an ensemble for monitoring purposes.
+                            <br />
+                            A typical use case is a couple of active / passive appliances, where only the active member generates data.
+                            <br /><br />
+                            When associated in a Logical group, the entity status relies on the minimal green percentage configured during the group creation versus
+                            the current green percentage of the group. (percentages of members green)
+                        </p>
+
+                        <div style="margin-bottom: 20px;" class="btn_logical_group">
+                            <button type="submit" class="btn btn-default btn-primary"><span class="glyphicon glyphicon-remove"></span> Manage in a Logical group </button>
+                        </div>
+
                     </div>
 
-                    <hr>
+                    <div style="margin-top: 240px; margin-bottom: 10px;">
 
-                    <div style="margin-bottom: 20px;">
-
+                        <hr>
+                        
                         <h4>Data host week days monitoring:</h4>
 
                         <p>Monitor source on a all days basis, apply a builtin rule, or explicitly select week days:</p>
@@ -2649,7 +3037,7 @@ styles in <div> tags, similar to Bootstrap's grid system.
 
                 </div>
 
-                <div class="modal-footer">
+                <div style="margin-top: 20px;" class="modal-footer">
                     <button type="submit" id="btn_close_data_host_unified" class="btn btn-default btn-primary pull-left" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Back</button>
                     <button type="submit" class="btn btn-default btn-default" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Close</button>
                 </div>
@@ -2673,34 +3061,54 @@ styles in <div> tags, similar to Bootstrap's grid system.
 
                 <div class="modal-body">
 
-                    <h4>Metric host priority:</h4>
+                    <div style="margin-bottom: 10px; width: 50%; float: left;">
 
-                    <div class="boxnotify" id="boxnotify-unified-metric-host">
-                    </div>
+                        <h4>Metric host priority:</h4>
 
-                    <p>Define the priority of the metric host for granular level of SLA alerting:</p>
-
-                    <p>
-                        <span class="title_green">low</span>
-                        <span class="title_yellow">medium</span>
-                        <span class="title_red">high</span>
-                    </p>
-
-                    <div class="fieldset">
-                        <div class="input input-text" id="modal_input_metric_host_priority">
-                            <label></label>
+                        <div class="boxnotify" id="boxnotify-unified-metric-host">
                         </div>
+
+                        <p>Define the priority of the metric host for granular level of SLA alerting:</p>
+
+                        <p>
+                            <span class="title_green">low</span>
+                            <span class="title_yellow">medium</span>
+                            <span class="title_red">high</span>
+                        </p>
+
+                        <div class="fieldset">
+                            <div class="input input-text" id="modal_input_metric_host_priority">
+                                <label></label>
+                            </div>
+                        </div>
+
+                        <div>
+                            <button id="btn_modal_modify_priority_metric_host_confirm" type="submit" class="btn btn-default btn-primary"><span class="glyphicon glyphicon-remove"></span> Apply priority</button>
+                        </div>
+
                     </div>
 
-                    <div>
-                        <button id="btn_modal_modify_priority_metric_host_confirm" type="submit" class="btn btn-default btn-primary"><span class="glyphicon glyphicon-remove"></span> Apply priority</button>
-                    </div>
+                    <div style="margin-bottom: 10px; width: 50%; float: right;">
 
-                    <hr>
+                        <h4>Associate to a Logical group:</h4>
+
+                        <p>Logical groups are groups of entities that will be considered as an ensemble for monitoring purposes.
+                            <br />
+                            A typical use case is a couple of active / passive appliances, where only the active member generates data.
+                            <br /><br />
+                            When associated in a Logical group, the entity status relies on the minimal green percentage configured during the group creation versus
+                            the current green percentage of the group. (percentages of members green)
+                        </p>
+
+                        <div style="margin-bottom: 20px;" class="btn_logical_group">
+                            <button type="submit" class="btn btn-default btn-primary"><span class="glyphicon glyphicon-remove"></span> Manage in a Logical group </button>
+                        </div>
+
+                    </div>
 
                 </div>
 
-                <div class="modal-footer">
+                <div style="margin-top: 260px;" class="modal-footer">
                     <button type="submit" id="btn_close_metric_host_unified" class="btn btn-default btn-primary pull-left" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Back</button>
                     <button type="submit" class="btn btn-default btn-default" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Close</button>
                 </div>
@@ -4925,7 +5333,7 @@ require([
             "refreshType": "delay",
             "refresh": "$refresh$",
             "latest_time": "now",
-            "search": "| `tstats` max(_indextime) as current_data_last_ingest, max(_time) as current_data_last_time_seen count as current_data_last_count_seen values(sourcetype) as sourcetype where index=* sourcetype=* host=* host!=\"\" `trackme_tstats_main_filter` `trackme_get_idx_whitelist(trackme_data_host_monitoring_whitelist_index, data_index)` `apply_data_host_blacklists_data_retrieve` by index, host | stats max(current_data_last_ingest) as current_data_last_ingest, max(current_data_last_time_seen) as current_data_last_time_seen, sum(current_data_last_count_seen) as current_data_last_count_seen, values(index) as index, values(sourcetype) as sourcetype by host | rename index as data_index, host as data_host, sourcetype as data_sourcetype | lookup trackme_host_monitoring data_host | append [ | inputlookup trackme_host_monitoring | eval keyid=_key ] | stats values(data_index) as data_index, values(data_sourcetype) as data_sourcetype, first(*) as \"*\" by data_host | eval data_last_ingest=if(isnotnull(current_data_last_ingest), current_data_last_ingest, data_last_ingest), data_last_time_seen=if(isnotnull(current_data_last_time_seen), current_data_last_time_seen, data_last_time_seen) | eval current_data_last_count_seen=if(isnotnull(current_data_last_count_seen), current_data_last_count_seen, data_last_count_seen) | fields - current_* | `trackme_eval_data_host_state` | `trackme_default_priority` | `trackme_date_format(data_last_time_seen)` | `trackme_date_format(data_last_time_seen_idx)` | `trackme_date_format(data_last_ingest)` | fillnull value=\"red\" data_host_state | sort 0 data_host | `trackme_eval_icons_host` | search data_host=* | search data_host=* $data_monitored_state$ | fields keyid, data_host, data_index, data_sourcetype, data_last_ingest, \"data_last_ingest (translated)\", \"data_last_time_seen (translated)\", data_last_time_seen, state, data_last_lag_seen, data_max_lag_allowed, monitoring, data_monitored_state, data_monitoring_wdays, data_host_state, data_override_lagging_class, priority | `apply_data_host_blacklists` | search $inputDataHost$ $data_host_state$ $data_monitored_state$ | rename \"data_last_ingest (translated)\" as \"last ingest\", \"data_last_time_seen (translated)\" as \"last time\" | eval data_index_raw=data_index, data_sourcetype_raw=data_sourcetype | makemv data_index delim=\",\" | makemv data_sourcetype delim=\",\" | eval data_tracker_runtime=now() | lookup local=t trackme_host_monitoring data_host OUTPUT data_host_state as data_previous_host_state, data_tracker_runtime as data_previous_tracker_runtime, latest_flip_state, latest_flip_time | `trackme_date_format(\"latest_flip_time\")` | fillnull value=\"N/A\" latest_flip_state, latest_flip_time, \"latest_flip_time (translated)\" | search `trackme_get_idx_whitelist_searchtime(trackme_data_host_monitoring_whitelist_index, data_index)`",
+            "search": "| `tstats` max(_indextime) as current_data_last_ingest, max(_time) as current_data_last_time_seen count as current_data_last_count_seen values(sourcetype) as sourcetype where index=* sourcetype=* host=* host!=\"\" `trackme_tstats_main_filter` `trackme_get_idx_whitelist(trackme_data_host_monitoring_whitelist_index, data_index)` `apply_data_host_blacklists_data_retrieve` by index, host | stats max(current_data_last_ingest) as current_data_last_ingest, max(current_data_last_time_seen) as current_data_last_time_seen, sum(current_data_last_count_seen) as current_data_last_count_seen, values(index) as index, values(sourcetype) as sourcetype by host | rename index as data_index, host as data_host, sourcetype as data_sourcetype | lookup trackme_host_monitoring data_host | append [ | inputlookup trackme_host_monitoring | eval keyid=_key ] | stats values(data_index) as data_index, values(data_sourcetype) as data_sourcetype, first(*) as \"*\" by data_host | eval data_last_ingest=if(isnotnull(current_data_last_ingest), current_data_last_ingest, data_last_ingest), data_last_time_seen=if(isnotnull(current_data_last_time_seen), current_data_last_time_seen, data_last_time_seen) | eval current_data_last_count_seen=if(isnotnull(current_data_last_count_seen), current_data_last_count_seen, data_last_count_seen) | fields - current_* | `trackme_eval_data_host_state` | `trackme_default_priority` | `trackme_data_host_group_lookup` | `trackme_date_format(data_last_time_seen)` | `trackme_date_format(data_last_time_seen_idx)` | `trackme_date_format(data_last_ingest)` | fillnull value=\"red\" data_host_state | sort 0 data_host | `trackme_eval_icons_host` | search data_host=* | search data_host=* $data_monitored_state$ | fields keyid, data_host, data_index, data_sourcetype, data_last_ingest, \"data_last_ingest (translated)\", \"data_last_time_seen (translated)\", data_last_time_seen, state, data_last_lag_seen, data_max_lag_allowed, monitoring, data_monitored_state, data_monitoring_wdays, data_host_state, data_override_lagging_class, priority, object_group* | `apply_data_host_blacklists` | search $inputDataHost$ $data_host_state$ $data_monitored_state$ | rename \"data_last_ingest (translated)\" as \"last ingest\", \"data_last_time_seen (translated)\" as \"last time\" | eval data_index_raw=data_index, data_sourcetype_raw=data_sourcetype | makemv data_index delim=\",\" | makemv data_sourcetype delim=\",\" | eval data_tracker_runtime=now() | lookup local=t trackme_host_monitoring data_host OUTPUT data_host_state as data_previous_host_state, data_tracker_runtime as data_previous_tracker_runtime, latest_flip_state, latest_flip_time | `trackme_date_format(\"latest_flip_time\")` | fillnull value=\"N/A\" latest_flip_state, latest_flip_time, \"latest_flip_time (translated)\" | search `trackme_get_idx_whitelist_searchtime(trackme_data_host_monitoring_whitelist_index, data_index)`",
             "status_buckets": 0,
             "app": utils.getCurrentApp(),
             "auto_cancel": 90,
@@ -6133,6 +6541,79 @@ require([
             tokenNamespace: "submitted"
         });
 
+        // Logical group
+
+        var searchLogicalGroupTable = new SearchManager({
+            "id": "searchLogicalGroupTable",
+            "tokenDependencies": {
+                "depends": "$tk_start_logical_member_get$"
+            },
+            "sample_ratio": 1,
+            "search": "| inputlookup trackme_logical_group | eval keyid=_key | search object_group_members=\"$input_object$\" | eval object_group_mtime=strftime(object_group_mtime, \"%c\") | table keyid, object_group_name, object_group_members, object_group_min_green_percent, object_group_mtime",
+            "cancelOnUnload": true,
+            "status_buckets": 0,
+            "app": utils.getCurrentApp(),
+            "auto_cancel": 90,
+            "preview": true,
+            "runWhenTimeIsUndefined": false
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        });
+
+        new SearchEventHandler({
+            managerid: "searchLogicalGroupTable",
+            event: "progress",
+            conditions: [{
+                    attr: "match",
+                    value: "'job.resultCount' == 0",
+                    actions: [{
+                        "type": "set",
+                        "token": "show_add_logical_group",
+                        "value": "True"
+                    },
+                    {
+                        "type": "unset",
+                        "token": "show_table_logical_group"
+                    }]
+                },
+                {
+                    attr: "any",
+                    value: "*",
+                    actions: [{
+                        "type": "set",
+                        "token": "show_table_logical_group",
+                        "value": "True"
+                    },
+                    {
+                        "type": "unset",
+                        "token": "show_add_logical_group"
+                    }
+                    ]
+                }
+            ]
+        });
+
+        // Logical group add member
+
+        var searchLogicalGroupTableAddMember = new SearchManager({
+            "id": "searchLogicalGroupTableAddMember",
+            "tokenDependencies": {
+                "depends": "$tk_start_logical_member_add$"
+            },
+            "sample_ratio": 1,
+            "search": "| inputlookup trackme_logical_group | eval keyid=_key | search object_group_name=*$FilterLogicalGroupTable$* OR object_group_members=*$FilterLogicalGroupTable$* | eval object_group_mtime=strftime(object_group_mtime, \"%c\") | table keyid, object_group_name, object_group_members, object_group_min_green_percent, object_group_mtime",
+            "cancelOnUnload": true,
+            "status_buckets": 0,
+            "app": utils.getCurrentApp(),
+            "auto_cancel": 90,
+            "preview": true,
+            "runWhenTimeIsUndefined": false
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        });
+
         // Ack
 
         var searchAckGet = new SearchManager({
@@ -7266,6 +7747,69 @@ require([
 
         FilterIdentityCardTable.on("change", function(newValue) {
             FormUtils.handleValueChange(FilterIdentityCardTable);
+        });
+
+        // Logical group
+        var FilterLogicalGroupTable = new TextInput({
+            "id": "FilterLogicalGroupTable",
+            "searchWhenChanged": true,
+            "default": "*",
+            "value": "$form.FilterLogicalGroupTable$",
+            "el": $('#FilterLogicalGroupTable')
+        }, {
+            tokens: true
+        }).render();
+
+        FilterLogicalGroupTable.on("change", function(newValue) {
+            FormUtils.handleValueChange(FilterLogicalGroupTable);
+        });
+
+        // Logical group add
+        var InputLogicalGroupName = new TextInput({
+            "id": "InputLogicalGroupName",
+            "searchWhenChanged": true,
+            "value": "$form.InputLogicalGroupName$",
+            "el": $('#InputLogicalGroupName')
+        }, {
+            tokens: true
+        }).render();
+
+        InputLogicalGroupName.on("change", function(newValue) {
+            FormUtils.handleValueChange(InputLogicalGroupName);
+        });
+
+        var InputLogicalGroupNamePercent = new DropdownInput({
+            "id": "InputLogicalGroupNamePercent",
+            "choices": [{
+                    "label": "50%",
+                    "value": "50"
+                },
+                {
+                    "label": "33.33%",
+                    "value": "33.33"
+                },
+                {
+                    "label": "25%",
+                    "value": "25"
+                },
+                {
+                    "label": "12.5%",
+                    "value": "12.5"
+                }
+            ],
+            "searchWhenChanged": true,
+            "default": "50",
+            "showClearButton": true,
+            "initialValue": "50",
+            "selectFirstChoice": false,
+            "value": "$form.InputLogicalGroupNamePercent$",
+            "el": $('#InputLogicalGroupNamePercent')
+        }, {
+            tokens: true
+        }).render();
+
+        InputLogicalGroupNamePercent.on("change", function(newValue) {
+            FormUtils.handleValueChange(InputLogicalGroupNamePercent);
         });
 
         // blacklist sourcetype
@@ -8445,6 +8989,57 @@ require([
             }
         });
 
+        // Logical group
+        var elementLogicalGroupTable = new TableElement({
+            "id": "elementLogicalGroupTable",
+            "count": 100,
+            "drilldown": "row",
+            "refresh.display": "none",
+            "wrap": "false",
+            "managerid": "searchLogicalGroupTable",
+            "el": $('#elementLogicalGroupTable')
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        }).render();
+
+        elementLogicalGroupTable.on("click", function(e) {
+            if (e.field !== undefined) {
+                e.preventDefault();
+
+                // Enable modal context
+                $("#confirm_remove_from_logical_group").modal();
+
+            }
+        });
+
+        // Logical group add member
+        var elementLogicalGroupTableAddMember = new TableElement({
+            "id": "elementLogicalGroupTableAddMember",
+            "count": 100,
+            "drilldown": "row",
+            "refresh.display": "none",
+            "wrap": "false",
+            "managerid": "searchLogicalGroupTableAddMember",
+            "el": $('#elementLogicalGroupTableAddMember')
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        }).render();
+
+        elementLogicalGroupTableAddMember.on("click", function(e) {
+            if (e.field !== undefined) {
+                e.preventDefault();
+
+                setToken("tk_keyid", TokenUtils.replaceTokenNames("$row.keyid$", _.extend(submittedTokenModel.toJSON(), e.data)));
+                setToken("tk_object_group_name", TokenUtils.replaceTokenNames("$row.object_group_name$", _.extend(submittedTokenModel.toJSON(), e.data)));
+
+                // Enable modal context
+                $("#confirm_add_member_logical_group").modal();
+
+            }
+        });
+
         // Audit Flip
         var elementMainTableAuditFlip = new TableElement({
             "id": "elementMainTableAuditFlip",
@@ -8695,6 +9290,12 @@ require([
                 setToken("tk_latest_flip_time", TokenUtils.replaceTokenNames("$row.latest_flip_time$", _.extend(submittedTokenModel.toJSON(), e.data)));
                 setToken("tk_latest_flip_time_human", TokenUtils.replaceTokenNames("$row.latest_flip_time (translated)$", _.extend(submittedTokenModel.toJSON(), e.data)));
                 setToken("tk_priority", TokenUtils.replaceTokenNames("$row.priority$", _.extend(submittedTokenModel.toJSON(), e.data)));
+
+                // logical group
+                setToken("tk_object_group_name", TokenUtils.replaceTokenNames("$row.object_group_name$", _.extend(submittedTokenModel.toJSON(), e.data)));
+                setToken("tk_object_group_state", TokenUtils.replaceTokenNames("$row.object_group_state$", _.extend(submittedTokenModel.toJSON(), e.data)));
+                setToken("tk_object_group_green_percent", TokenUtils.replaceTokenNames("$row.object_group_green_percent$", _.extend(submittedTokenModel.toJSON(), e.data)));
+                setToken("tk_object_group_min_green_percent", TokenUtils.replaceTokenNames("$row.object_group_min_green_percent$", _.extend(submittedTokenModel.toJSON(), e.data)));
 
                 submitTokens();
 
@@ -18094,6 +18695,8 @@ require([
 
         });
 
+        // Week days
+
         $("#btn_modal_modify_monitoring_wdays_host_no_confirm").click(function() {
 
             // When the Submit button is clicked, get all the form fields by accessing token values
@@ -18233,7 +18836,7 @@ require([
         });
 
         // cancel: returns to unified modal
-        $("#btn_modal_modify_monitoring_wdays_host_no_confirm").click(function() {
+        $("#btn_modal_modify_monitoring_wdays_host_no_cancel").click(function() {
 
             // Show input modal
             $("#modal_modify_data_host_unified").modal();
@@ -19258,6 +19861,613 @@ require([
                 }
 
             });
+
+        });
+
+        // Logical group
+
+        // show modal
+        $('.btn_logical_group').each(function() {
+            var $btn_group = $(this);
+            $btn_group.find('button').on('click', function() {
+                var $btn = $(this);
+
+                // create token that will free the search for table populate
+                submitTokens();
+
+                // When the Submit button is clicked, get all the form fields by accessing token values
+                var tokens = mvc.Components.get("default");
+
+                // if the token exists already, restart the search, otherwise allow the search to start
+                var tk_start_logical_member_get = tokens.get("tk_start_logical_member_get");
+
+                if (tk_start_logical_member_get && tk_start_logical_member_get.length) {
+                    searchLogicalGroupTable.startSearch();
+                } else
+                {
+                    setToken("tk_start_logical_member_get", "true");
+                }
+
+                var tk_data_name = tokens.get("tk_data_name");
+                var tk_data_host = tokens.get("tk_data_host");
+                var tk_metric_host = tokens.get("tk_metric_host");
+
+                //console.log("tk_data_name is " + tk_data_name);
+                //console.log("tk_data_host is " + tk_data_host);
+                //console.log("tk_metric_host is " + tk_metric_host);
+
+                if (tk_data_name !== undefined) {
+                    setToken("input_object", tk_data_name);
+                    setToken("input_object_category", "data_source");
+                } else if (tk_data_host !== undefined) {
+                    setToken("input_object", tk_data_host);
+                    setToken("input_object_category", "data_host");
+                } else if (tk_metric_host !== undefined) {
+                    setToken("input_object", tk_metric_host);
+                    setToken("input_object_category", "metric_host");
+                }
+
+                // show modal
+                $("#logical_group").modal()
+
+            });
+
+        });
+
+        // back
+        $("#btn_associate_logical_group_back").click(function() {
+
+                // create token that will free the search for table populate
+                submitTokens();
+
+                // When the Submit button is clicked, get all the form fields by accessing token values
+                var tokens = mvc.Components.get("default");
+
+                // retrieve token
+                var input_object_category = tokens.get("input_object_category");
+
+                // conditional modal target
+                if (input_object_category === "data_source") {
+                    //console.log("Clicked back");
+                    $("#modal_modify_data_source_unified").modal()
+                }
+                else if (input_object_category === "data_host") {
+                    //console.log("Clicked back");
+                    $("#modal_modify_data_host_unified").modal()
+                }
+                else if (input_object_category === "metric_host") {
+                    //console.log("Clicked back");
+                    $("#modal_modify_metric_host_unified").modal()
+                }
+
+        });
+
+        // back delete
+        $("#confirm_remove_from_logical_group").click(function() {
+                $("#logical_group").modal()
+        });
+
+        //
+        $('.btn_logical_group_valid').each(function() {
+            var $btn_group = $(this);
+            $btn_group.find('button').on('click', function() {
+                var $btn = $(this);
+
+                // create token that will free the search for table populate
+                submitTokens();
+
+                // When the Submit button is clicked, get all the form fields by accessing token values
+                var tokens = mvc.Components.get("default");
+
+                var tk_data_name = tokens.get("tk_data_name");
+                var tk_data_host = tokens.get("tk_data_host");
+                var tk_metric_host = tokens.get("tk_metric_host");
+
+                if (tk_data_name !== undefined) {
+                    setToken("input_object", tk_data_name);
+                    setToken("input_object_category", "data_source");
+                } else if (tk_data_host !== undefined) {
+                    setToken("input_object", tk_data_host);
+                    setToken("input_object_category", "data_host");
+                } else if (tk_metric_host !== undefined) {
+                    setToken("input_object", tk_metric_host);
+                    setToken("input_object_category", "metric_host");
+                }
+
+
+            });
+
+        });
+
+        // Remove from logical group
+        $("#btn_remove_from_logical_group_confirm_valid").click(function() {
+
+                // create token that will free the search for table populate
+                submitTokens();
+
+                // When the Submit button is clicked, get all the form fields by accessing token values
+                var tokens = mvc.Components.get("default");
+
+                var input_object = tokens.get("input_object");
+                var input_object_category = tokens.get("input_object_category");
+
+                //console.log("Proceeding to removal of " + input_object);
+
+                // Define the query
+                var searchQuery = "| inputlookup trackme_logical_group | mvexpand object_group_members | where object_group_members!=\"" + input_object + "\" | stats values(*) as \"*\" by object_group_name | outputlookup trackme_logical_group";
+
+                //console.log(keyid);
+                //console.log(searchQuery);
+
+                // Set the search parameters--specify a time range
+                var searchParams = {
+                    earliest_time: "-60m",
+                    latest_time: "now"
+                };
+
+                if (input_object && input_object.length) {
+
+                    // Run a blocking search and get back a job
+                    service.search(
+                        searchQuery,
+                        searchParams,
+                        function(err, job) {
+
+                            function audit_failure() {
+
+                                // Audit failure change
+                                var time = (new Date).getTime();
+                                var audit_record = {
+                                    "time": time,
+                                    "action": "failure",
+                                    "user": currentUser,
+                                    "change_type": "Logical group removal",
+                                    "object": input_object,
+                                    "object_category": input_object_category,
+                                    "object_attrs": "object:" + input_object + " has been removed from Logical group. "
+                                };
+                                $.ajax({
+                                    url: auditendpoint_URl,
+                                    type: "POST",
+                                    async: true,
+                                    contentType: "application/json",
+                                    data: JSON.stringify(audit_record),
+                                    success: function(returneddata) {
+                                        //console.log("Updated!", returneddata)
+                                    }
+                                });
+
+                            }
+
+                            // Shall the search fail before we can get properties
+                            if (job == null) {
+                                let errorStr = "Unknown Error!";
+                                if (err && err.data && err.data.messages && err.data.messages[0]['text']) {
+                                    errorStr = err.data.messages[0]['text'];
+                                } else if (err && err.data && err.data.messages) {
+                                    errorStr = JSON.stringify(err.data.messages);
+                                }
+                                audit_failure();
+                                $("#modal_update_collection_failure_return").find('.modal-error-message p').text(errorStr);
+                                $("#modal_update_collection_failure_return").modal()
+                            } else {
+
+                                // Poll the status of the search job
+                                job.track({
+                                    period: 200
+                                }, {
+                                    done: function(job) {
+                                        // show disabled modal
+                                        $("#logical_group_removal_achieved").modal()
+
+                                        if (input_object_category === "data_source") {
+                                            searchDataSourcesMain.startSearch();
+                                        }
+                                        else if (input_object_category === "data_host") {
+                                            searchDataHostsMain.startSearch();
+                                        }
+                                        else if (input_object_category === "metric_host") {
+                                            searchMetricHostsMain.startSearch();
+                                        }
+
+                                        // Audit success change
+                                        var time = (new Date).getTime();
+                                        var audit_record = {
+		                                    "time": time,
+		                                    "action": "success",
+		                                    "user": currentUser,
+		                                    "change_type": "Logical group removal",
+		                                    "object": input_object,
+		                                    "object_category": input_object_category,
+		                                    "object_attrs": "object:" + input_object + " has been removed from Logical group. "
+                                        };
+                                        $.ajax({
+                                            url: auditendpoint_URl,
+                                            type: "POST",
+                                            async: true,
+                                            contentType: "application/json",
+                                            data: JSON.stringify(audit_record),
+                                            success: function(returneddata) {
+                                            }
+                                        });
+
+                                    },
+                                    failed: function(properties) {
+                                        let errorStr = "Unknown Error!";
+                                        if (properties && properties._properties && properties._properties.messages && properties._properties.messages[0]['text']) {
+                                            errorStr = properties._properties.messages[0]['text'];
+                                        } else if (properties && properties._properties && properties._properties.messages) {
+                                            errorStr = JSON.stringify(properties._properties.messages);
+                                        }
+                                        audit_failure();
+                                        $("#modal_update_collection_failure_return").find('.modal-error-message p').text(errorStr);
+                                        $("#modal_update_collection_failure_return").modal()
+                                    },
+                                    error: function(err) {
+                                        done(err);
+                                        audit_failure();
+                                        $("#modal_update_collection_failure_flush").modal()
+                                    }
+                                });
+
+                            }
+
+                        }
+                    );
+
+                    // house cleaning
+                    myendpoint_URl = undefined;
+                    delete(myendpoint_URl);
+                    return;
+
+                } else {
+                    $("#modal_entry_update_invalid").modal()
+                    return;
+                }
+
+        });
+
+        // Add logical group member
+        $("#btn_add_logical_group_member").click(function() {
+
+                // create token that will free the search for table populate
+                submitTokens();
+
+                // When the Submit button is clicked, get all the form fields by accessing token values
+                var tokens = mvc.Components.get("default");
+
+                // if the token exists already, restart the search, otherwise allow the search to start
+                var tk_start_logical_member_add = tokens.get("tk_start_logical_member_add");
+                
+                if (tk_start_logical_member_add && tk_start_logical_member_add.length) {
+                    searchLogicalGroupTableAddMember.startSearch();
+                } else
+                {
+                    setToken("tk_start_logical_member_add", "true");
+                }
+
+                $("#logical_group_add_member").modal()
+        });
+
+        // Add logical group member
+        $("#btn_add_logical_group_member_confirm_valid").click(function() {
+
+                // create token that will free the search for table populate
+                submitTokens();
+
+                // When the Submit button is clicked, get all the form fields by accessing token values
+                var tokens = mvc.Components.get("default");
+
+                var input_object = tokens.get("input_object");
+                var input_object_category = tokens.get("input_object_category");
+
+                // keyid is used to add to group
+                var tk_keyid = tokens.get("tk_keyid");
+
+                // from click
+                var tk_object_group_name = tokens.get("tk_object_group_name");
+
+                // Define the query
+                var searchQuery = "| inputlookup trackme_logical_group | eval keyid=_key | mvexpand object_group_members | append [ | makeresults | eval keyid=\"" + tk_keyid + "\", object_group_members=\"" + input_object + "\", object_group_name=\"" + tk_object_group_name + "\", object_group_mtime=now() ] | stats values(object_group_members) as object_group_members, first(object_group_name) as object_group_name, first(object_group_min_green_percent) as object_group_min_green_percent, max(object_group_mtime) as object_group_mtime by keyid | outputlookup trackme_logical_group append=t key_field=keyid";
+                //console.log(searchQuery);
+
+                //console.log(keyid);
+                //console.log(searchQuery);
+
+                // Set the search parameters--specify a time range
+                var searchParams = {
+                    earliest_time: "-60m",
+                    latest_time: "now"
+                };
+
+                if (input_object && input_object.length) {
+
+                    // Run a blocking search and get back a job
+                    service.search(
+                        searchQuery,
+                        searchParams,
+                        function(err, job) {
+
+                            function audit_failure() {
+
+                                // Audit failure change
+                                var time = (new Date).getTime();
+                                var audit_record = {
+                                    "time": time,
+                                    "action": "failure",
+                                    "user": currentUser,
+                                    "change_type": "Logical group add membership",
+                                    "object": input_object,
+                                    "object_category": input_object_category,
+                                    "object_attrs": "object:" + input_object + " has been added to the logical group " + tk_object_group_name + "."
+                                };
+                                $.ajax({
+                                    url: auditendpoint_URl,
+                                    type: "POST",
+                                    async: true,
+                                    contentType: "application/json",
+                                    data: JSON.stringify(audit_record),
+                                    success: function(returneddata) {
+                                        //console.log("Updated!", returneddata)
+                                    }
+                                });
+
+                            }
+
+                            // Shall the search fail before we can get properties
+                            if (job == null) {
+                                let errorStr = "Unknown Error!";
+                                if (err && err.data && err.data.messages && err.data.messages[0]['text']) {
+                                    errorStr = err.data.messages[0]['text'];
+                                } else if (err && err.data && err.data.messages) {
+                                    errorStr = JSON.stringify(err.data.messages);
+                                }
+                                audit_failure();
+                                $("#modal_update_collection_failure_return").find('.modal-error-message p').text(errorStr);
+                                $("#modal_update_collection_failure_return").modal()
+                            } else {
+
+                                // Poll the status of the search job
+                                job.track({
+                                    period: 200
+                                }, {
+                                    done: function(job) {
+                                        // show disabled modal
+                                        $("#logical_group_add_member_achieved").modal()
+
+                                        if (input_object_category === "data_source") {
+                                            searchDataSourcesMain.startSearch();
+                                        }
+                                        else if (input_object_category === "data_host") {
+                                            searchDataHostsMain.startSearch();
+                                        }
+                                        else if (input_object_category === "metric_host") {
+                                            searchMetricHostsMain.startSearch();
+                                        }
+
+                                        // Audit success change
+                                        var time = (new Date).getTime();
+                                        var audit_record = {
+		                                    "time": time,
+		                                    "action": "success",
+		                                    "user": currentUser,
+		                                    "change_type": "Logical group add membership",
+		                                    "object": input_object,
+		                                    "object_category": input_object_category,
+		                                    "object_attrs": "object:" + input_object + " has been added to the logical group " + tk_object_group_name + "."
+                                        };
+                                        $.ajax({
+                                            url: auditendpoint_URl,
+                                            type: "POST",
+                                            async: true,
+                                            contentType: "application/json",
+                                            data: JSON.stringify(audit_record),
+                                            success: function(returneddata) {
+                                            }
+                                        });
+
+                                    },
+                                    failed: function(properties) {
+                                        let errorStr = "Unknown Error!";
+                                        if (properties && properties._properties && properties._properties.messages && properties._properties.messages[0]['text']) {
+                                            errorStr = properties._properties.messages[0]['text'];
+                                        } else if (properties && properties._properties && properties._properties.messages) {
+                                            errorStr = JSON.stringify(properties._properties.messages);
+                                        }
+                                        audit_failure();
+                                        $("#modal_update_collection_failure_return").find('.modal-error-message p').text(errorStr);
+                                        $("#modal_update_collection_failure_return").modal()
+                                    },
+                                    error: function(err) {
+                                        done(err);
+                                        audit_failure();
+                                        $("#modal_update_collection_failure_flush").modal()
+                                    }
+                                });
+
+                            }
+
+                        }
+                    );
+
+                    // house cleaning
+                    myendpoint_URl = undefined;
+                    delete(myendpoint_URl);
+                    return;
+
+                } else {
+                    $("#modal_entry_update_invalid").modal()
+                    return;
+                }
+
+        });
+
+        // Add logical group member
+        $("#btn_add_logical_group_new").click(function() {
+                $("#logical_group_add_group").modal()
+        });
+
+        // back
+        $("#btn_associate_logical_group_add_member_back").click(function() {
+                $("#logical_group").modal()
+        });
+
+        // back
+        $("#btn_associate_logical_group_add_group_back").click(function() {
+                $("#logical_group").modal()
+        });
+
+        // back
+        $("#btn_add_logical_group_member_confirm_back").click(function() {
+                $("#logical_group").modal()
+        });
+
+        // Add logical group
+        $("#btn_associate_logical_group_add_group").click(function() {
+
+                // create token that will free the search for table populate
+                submitTokens();
+
+                // When the Submit button is clicked, get all the form fields by accessing token values
+                var tokens = mvc.Components.get("default");
+
+                var input_object = tokens.get("input_object");
+                var input_object_category = tokens.get("input_object_category");
+
+                // from input
+                var tk_object_group_name = tokens.get("InputLogicalGroupName");
+                var tk_object_group_green_percent = tokens.get("InputLogicalGroupNamePercent");
+
+                // Define the query
+                var searchQuery = "| makeresults | eval object_group_name=\"" + tk_object_group_name + "\", object_group_members=\"" + input_object + "\", object_group_min_green_percent=\"" +  tk_object_group_green_percent + "\", object_group_mtime=now() | append [ | inputlookup trackme_logical_group ] | outputlookup trackme_logical_group";
+                //console.log(searchQuery);
+
+                // Set the search parameters--specify a time range
+                var searchParams = {
+                    earliest_time: "-60m",
+                    latest_time: "now"
+                };
+
+                if (tk_object_group_name && tk_object_group_name.length) {
+
+                    // Run a blocking search and get back a job
+                    service.search(
+                        searchQuery,
+                        searchParams,
+                        function(err, job) {
+
+                            function audit_failure() {
+
+                                // Audit failure change
+                                var time = (new Date).getTime();
+                                var audit_record = {
+                                    "time": time,
+                                    "action": "failure",
+                                    "user": currentUser,
+                                    "change_type": "Logical group add",
+                                    "object": tk_object_group_name,
+                                    "object_category": input_object_category,
+                                    "object_attrs": "new logical group " + tk_object_group_name + " has been created for object:" + input_object + " with a minimal logical group green percentage of " + tk_object_group_green_percent + "."
+                                };
+                                $.ajax({
+                                    url: auditendpoint_URl,
+                                    type: "POST",
+                                    async: true,
+                                    contentType: "application/json",
+                                    data: JSON.stringify(audit_record),
+                                    success: function(returneddata) {
+                                        //console.log("Updated!", returneddata)
+                                    }
+                                });
+
+                            }
+
+                            // Shall the search fail before we can get properties
+                            if (job == null) {
+                                let errorStr = "Unknown Error!";
+                                if (err && err.data && err.data.messages && err.data.messages[0]['text']) {
+                                    errorStr = err.data.messages[0]['text'];
+                                } else if (err && err.data && err.data.messages) {
+                                    errorStr = JSON.stringify(err.data.messages);
+                                }
+                                audit_failure();
+                                $("#modal_update_collection_failure_return").find('.modal-error-message p').text(errorStr);
+                                $("#modal_update_collection_failure_return").modal()
+                            } else {
+
+                                // Poll the status of the search job
+                                job.track({
+                                    period: 200
+                                }, {
+                                    done: function(job) {
+                                        // show disabled modal
+                                        $("#logical_group_add_achieved").modal()
+
+                                        if (input_object_category === "data_source") {
+                                            searchDataSourcesMain.startSearch();
+                                        }
+                                        else if (input_object_category === "data_host") {
+                                            searchDataHostsMain.startSearch();
+                                        }
+                                        else if (input_object_category === "metric_host") {
+                                            searchMetricHostsMain.startSearch();
+                                        }
+
+                                        // Audit success change
+                                        var time = (new Date).getTime();
+                                        var audit_record = {
+		                                    "time": time,
+		                                    "action": "success",
+		                                    "user": currentUser,
+		                                    "change_type": "Logical group add",
+		                                    "object": tk_object_group_name,
+		                                    "object_category": input_object_category,
+		                                    "object_attrs": "new logical group " + tk_object_group_name + " has been created for object:" + input_object + " with a minimal logical group green percentage of " + tk_object_group_green_percent + "."
+                                        };
+                                        $.ajax({
+                                            url: auditendpoint_URl,
+                                            type: "POST",
+                                            async: true,
+                                            contentType: "application/json",
+                                            data: JSON.stringify(audit_record),
+                                            success: function(returneddata) {
+                                            }
+                                        });
+
+                                    },
+                                    failed: function(properties) {
+                                        let errorStr = "Unknown Error!";
+                                        if (properties && properties._properties && properties._properties.messages && properties._properties.messages[0]['text']) {
+                                            errorStr = properties._properties.messages[0]['text'];
+                                        } else if (properties && properties._properties && properties._properties.messages) {
+                                            errorStr = JSON.stringify(properties._properties.messages);
+                                        }
+                                        audit_failure();
+                                        $("#modal_update_collection_failure_return").find('.modal-error-message p').text(errorStr);
+                                        $("#modal_update_collection_failure_return").modal()
+                                    },
+                                    error: function(err) {
+                                        done(err);
+                                        audit_failure();
+                                        $("#modal_update_collection_failure_flush").modal()
+                                    }
+                                });
+
+                            }
+
+                        }
+                    );
+
+                    // house cleaning
+                    myendpoint_URl = undefined;
+                    delete(myendpoint_URl);
+                    return;
+
+                } else {
+                    $("#modal_entry_update_invalid").modal()
+                    return;
+                }
+
 
         });
 

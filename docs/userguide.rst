@@ -392,6 +392,118 @@ Deletion of entities
 - When the data source or host is temporary removed, it will be automatically re-created if it has been active during the time range scope of the trackers.
 - When the data source or host is permanently removed, a record of the operation is stored in the audit changes KVstore collection, which we automatically use to prevent the source from being re-created effectively.
 
+Icon dynamic messages
+=====================
+
+**For each type object (data sources / data hosts / metric hosts) the UI shows a status icon which describes the reason for the status with dynamic information:**
+
+.. image:: img/icon_message1.png
+   :alt: icon_message1.png
+   :align: center
+
+.. image:: img/icon_message2.png
+   :alt: icon_message2.png
+   :align: center
+
+.. image:: img/icon_message3.png
+   :alt: icon_message3.png
+   :align: center
+
+To access to the dynamic message, simply focus over the icon in the relevant table cell, and the Web browser will automatically display the message for that entity.
+
+Logical groups (clusters)
+=========================
+
+**Logical groups are groups of entities that will be considered as an ensemble for monitoring purposes.**
+
+A typical use case is a couple of active / passive appliances, where only the active member generates data.
+
+When associated in a Logical group, the entity status relies on the minimal green percentage configured during the group creation versus the current green percentage of the group. (percentages of members green)
+
+*Notes: Logical groups are available to data hosts and metric hosts monitoring objects.*
+
+Create a new logical group
+--------------------------
+
+To create a new logical group and associate a first member, enter the unified modification window (click on a entity and modify button), then click on the "Manage in a Logical group" button:
+
+*For metric hosts:*
+
+.. image:: img/logical_group1.png
+   :alt: logical_group1.png
+   :align: center
+
+*For data hosts:*
+
+.. image:: img/logical_group2.png
+   :alt: logical_group2.png
+   :align: center
+
+If the entity is not yet associated with a logical group (an entity cannot be associated with more than one group), the following message is displayed:
+
+.. image:: img/logical_group3.png
+   :alt: logical_group3.png
+   :align: center
+
+Click on the button "Create a new group" which opens the following configuration window:
+
+.. image:: img/logical_group4.png
+   :alt: logical_group4.png
+   :align: center
+
+- Enter a name for the logical group (names do not need to be uniques and can accept any ascii characters)
+
+- Choose a minimal green percentage for the group, this defines the alerting factor for that group, for example when using 50% (default), a minimal 50% or more of the members need to be green for the logical group status to be green
+
+Associate to an existing logical group
+--------------------------------------
+
+If a logical group already exists and you wish to associate this entity to this group, following the same path (Modify entity) and select the button "Add to an existing group":
+
+.. image:: img/logical_group5.png
+   :alt: logical_group5.png
+   :align: center
+
+- Optionally use the filter input box to search for a logical group
+
+- Click on then logical group entity table, and confirm association to automatically the entity in this logical group
+
+How alerting is handled once the logical group is created with enough members
+-----------------------------------------------------------------------------
+
+Member of logical group is red but logical group is green
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+When an entity is associated to a logical group and if this entity is in red status, but the logical group complies with the monitoring rules, the UI will show a blue icon message which dynamically provides logical group information:
+
+.. image:: img/logical_group6.png
+   :alt: logical_group6.png
+   :align: center
+
+In addition, the entity will not be eligible to trigger any alert as long as the logical group honours the monitoring rules.(minimal green percentage of the logical group)
+
+Member of logical group is red and logical group is red
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+When an entity associated to a logical group is red, and the logical group is red as well (for example in a logical group of 2 nodes where both nodes are down), the UI shows the following:
+
+.. image:: img/logical_group7.png
+   :alt: logical_group7.png
+   :align: center
+
+Alerts will be generated for any entities part of the logical groups which are in red status, and where the monitoring state is enabled.
+
+Remove association from a new logical group
+-------------------------------------------
+
+To remove an association from a logical group, click on the entry table in the initial logical group screen for that entity:
+
+.. image:: img/logical_group8.png
+   :alt: logical_group8.png
+   :align: center
+
+Once the action is confirmed, the association is immediately removed and the entity acts as any other independent entities.
+
 Data identity card
 ==================
 

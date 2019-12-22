@@ -1,6 +1,14 @@
 Release notes
 #############
 
+Version 1.0.37
+==============
+
+- feature: Introducing the logical group concept which allows grouping data hosts and metric hosts in groups of clusters to manage use cases such as active / passive appliances which passive members do not actively generate data
+- feature: Icon message are now dynamics and provide inline information describing the reason of the status
+- feature: Collection navigation menu to expose quick access to raw KVstore collections content
+- fix: Bad modal cancel action for week days (detailed per day selection) for data host monitoring
+
 Version 1.0.36
 ==============
 
