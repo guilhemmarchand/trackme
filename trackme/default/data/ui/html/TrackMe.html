@@ -13400,7 +13400,7 @@ require([
                                 "change_type": "create metric sla policy",
                                 "object": tk_input_metric_policy_metric_category,
                                 "object_category": "metric_sla_policy",
-                                "object_attrs": "metric_category:" + tk_input_metric_policy_metric_category + ", metric_max_lag_allowed:" + tk_input_metric_policy_metric_value
+                                "object_attrs": "SLA policy was created for metric_category:" + tk_input_metric_policy_metric_category + ", metric_max_lag_allowed:" + tk_input_metric_policy_metric_value
                             };
                             $.ajax({
                                 url: auditendpoint_URl,
@@ -13445,7 +13445,7 @@ require([
                                         "change_type": "create metric sla policy",
                                         "object": tk_input_metric_policy_metric_category,
                                         "object_category": "metric_sla_policy",
-                                        "object_attrs": "metric_category:" + tk_input_metric_policy_metric_category + ", metric_max_lag_allowed:" + tk_input_metric_policy_metric_value
+                                        "object_attrs": "SLA policy was created for metric_category:" + tk_input_metric_policy_metric_category + ", metric_max_lag_allowed:" + tk_input_metric_policy_metric_value
                                     };
                                     $.ajax({
                                         url: auditendpoint_URl,
@@ -13540,7 +13540,7 @@ require([
                             "change_type": "delete metric sla policy",
                             "object": tk_input_metric_policy_metric_category,
                             "object_category": "metric_host",
-                            "object_attrs": "metric_sla_policy:" + tk_input_metric_policy_metric_category + " ,metric_max_lag_allowed:" + tk_input_metric_policy_metric_value
+                            "object_attrs": "SLA policy was removed for metric_category:" + tk_input_metric_policy_metric_category + ", metric_max_lag_allowed:" + tk_input_metric_policy_metric_value,
                         };
                         $.ajax({
                             url: auditendpoint_URl,
@@ -13584,7 +13584,7 @@ require([
                             "change_type": "delete metric sla policy",
                             "object": tk_input_metric_policy_metric_category,
                             "object_category": "metric_host",
-                            "object_attrs": "metric_sla_policy:" + tk_input_metric_policy_metric_category + " ,metric_max_lag_allowed:" + tk_input_metric_policy_metric_value,
+                            "object_attrs": "SLA policy was removed for metric_category:" + tk_input_metric_policy_metric_category + ", metric_max_lag_allowed:" + tk_input_metric_policy_metric_value,
                             "result": message
                         };
                         $.ajax({

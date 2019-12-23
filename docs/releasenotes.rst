@@ -1,6 +1,11 @@
 Release notes
 #############
 
+Version 1.0.39
+==============
+
+- fix: minor audit changes logging improvements for metric SLA policies edition
+
 Version 1.0.38
 ==============
 
