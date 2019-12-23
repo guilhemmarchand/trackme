@@ -248,7 +248,7 @@
 | `trackme_date_format(metric_last_time_seen)`
 | rename "* (translated)" as "*"
 | mvexpand metric_details
-| stats first(priority) as priority, first(metric_last_time_seen) as metric_last_time_seen, dc(metric_category) as count_metric_category, count(eval(match(metric_details, "metric_host_state\=green"))) as count_green, count(eval(match(metric_details, "metric_host_state=green"))) as count_non_green by metric_host
+| stats first(priority) as priority, first(metric_last_time_seen) as metric_last_time_seen, dc(metric_category) as count_metric_category, count(eval(match(metric_details, "metric_host_state=green"))) as count_green, count(eval(match(metric_details, "metric_host_state=(?!green)"))) as count_non_green by metric_host
 | eval summary=" metric categories: " . count_metric_category .  ", " . "green state: " . count_green . ", " . "red state: " . count_non_green
 | fields metric_host, metric_last_time_seen, priority, summary</query>
           <refresh>30s</refresh>
