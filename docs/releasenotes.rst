@@ -1,6 +1,11 @@
 Release notes
 #############
 
+Version 1.0.38
+==============
+
+- fix: Error in TrackMe Mobile dashboard for summary not green statuses for metric hosts (count not green counts green metrics)
+
 Version 1.0.37
 ==============
 
