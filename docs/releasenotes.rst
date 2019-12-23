@@ -7,6 +7,11 @@ Version 1.1.0
 - feature: Introducing the concept of HBA which stands for Health score Based Analysis to define the status of source based on a multi-factor calculation score
 - feature: In the scope of HBA, trackers do retain now both ingestion and latest time as ingestion time lag and data lag
 
+Version 1.0.39
+==============
+
+- fix: minor audit changes logging improvements for metric SLA policies edition
+
 Version 1.0.38
 ==============
 
