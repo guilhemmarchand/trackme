@@ -351,7 +351,8 @@ styles in <div> tags, similar to Bootstrap's grid system.
                 </div>
 
                 <div style="margin-top: 20px;" class="modal-footer">
-                    <button type="submit" class="btn btn-default pull-right" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Close</button>
+                    <button type="submit" id="btn_define_identity_card_back" class="btn btn-default btn-primary" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Back</button>
+                    <button type="submit" class="btn btn-default" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Close</button>
                 </div>
 
             </div>
@@ -631,6 +632,10 @@ styles in <div> tags, similar to Bootstrap's grid system.
                                         <div id="elementAckGet" class="dashboard-element table" style="width: 100%">
                                             <label>Current Ack status:</label>
                                             <div class="panel-body"></div>
+                                        </div>
+
+                                        <div class="input input-dropdown" id="input_ack_duration">
+                                            <label>Ack duration:</label>
                                         </div>
 
                                     </div>
@@ -1193,7 +1198,7 @@ styles in <div> tags, similar to Bootstrap's grid system.
                                     <div style="float:left;width:33%;">
                                         <p><b>data_index:</b> $tk_data_index$</p>
                                         <p><b>data_sourcetype:</b> $tk_data_sourcetype$</p>
-                                        <p><b>data_last_lag_seen:</b> $tk_data_last_lag_seen$</p>
+                                        <p><b>lag event / lag ingestion:</b> $tk_data_lag_summary$</p>
                                         <p><b>data_last_time_seen:</b> $tk_data_last_time_seen_human$</p>
                                     </div>
                                     <div style="float:left;width:33%;">
@@ -1312,7 +1317,7 @@ styles in <div> tags, similar to Bootstrap's grid system.
 
                                 <div style="margin-top:10px; margin-left: 20px;">
                                     <div style="float:left;width:33%;">
-                                        <p><b>data_last_lag_seen:</b> $tk_data_last_lag_seen$</p>
+                                        <p><b>lag event / lag ingestion:</b> $tk_data_lag_summary$</p>
                                         <p><b>data_last_time_seen:</b> $tk_data_last_time_seen_human$</p>
                                         <p><b>data_last_ingest:</b> $tk_data_last_ingest_human$</p>
                                     </div>
@@ -4314,6 +4319,9 @@ styles in <div> tags, similar to Bootstrap's grid system.
             <div class="dashboard-panel clearfix">
                 <h2 class="panel-title">Click on any entry of the table to open interactive actions for the data source:</h2>
                 <div class="fieldset">
+                    <div class="input input-dropdown" id="SearchModeSelectorDataSources">
+                        <label>Search mode:</label>
+                    </div>
                     <div class="input input-dropdown" id="inputDataName">
                         <label>data_name:</label>
                     </div>
@@ -4345,6 +4353,9 @@ styles in <div> tags, similar to Bootstrap's grid system.
             <div class="dashboard-panel clearfix">
                 <h2 class="panel-title">Click on any entry of the table to open interactive actions for the host:</h2>
                 <div class="fieldset">
+                    <div class="input input-dropdown" id="SearchModeSelectorDataHosts">
+                        <label>Search mode:</label>
+                    </div>
                     <div class="input input-dropdown" id="inputDataHostIndexes">
                         <label>data_index:</label>
                     </div>
@@ -4376,6 +4387,9 @@ styles in <div> tags, similar to Bootstrap's grid system.
             <div class="dashboard-panel clearfix">
                 <h2 class="panel-title">Click on any entry of the table to open interactive actions for the host:</h2>
                 <div class="fieldset">
+                    <div class="input input-dropdown" id="SearchModeSelectorMetricHosts">
+                        <label>Search mode:</label>
+                    </div>
                     <div class="input input-dropdown" id="inputMetricHostIndexes">
                         <label>metric_index:</label>
                     </div>
@@ -4960,8 +4974,8 @@ require([
             "sample_ratio": null,
             "refreshType": "delay",
             "refresh": "$refresh$",
-            "latest_time": "now",
-            "search": "| `tstats` max(_indextime) as current_data_last_ingest, max(_time) as current_data_last_time_seen count as current_data_last_count_seen where index=* sourcetype=* `trackme_tstats_main_filter` `trackme_get_idx_whitelist(trackme_data_source_monitoring_whitelist_index, data_index)` `apply_data_source_blacklists_data_retrieve` by index, sourcetype | rename index as data_index, sourcetype as data_sourcetype | lookup trackme_data_source_monitoring data_index, data_sourcetype OUTPUT data_name | append [ | inputlookup trackme_data_source_monitoring | eval keyid=_key | search `trackme_get_idx_whitelist_searchtime(trackme_data_source_monitoring_whitelist_index, data_index)` ] | stats first(*) as \"*\" by data_name, data_index, data_sourcetype | eval data_last_ingest=if(isnotnull(current_data_last_ingest), current_data_last_ingest, data_last_ingest), data_last_time_seen=if(isnotnull(current_data_last_time_seen), current_data_last_time_seen, data_last_time_seen) | eval current_data_last_count_seen=if(isnotnull(current_data_last_count_seen), current_data_last_count_seen, data_last_count_seen) | fields - current_* | eventstats max(data_last_time_seen) as data_last_time_seen_idx, min(data_last_lag_seen) as data_last_lag_seen_idx by data_index | `trackme_eval_data_source_state` | `trackme_default_priority` | `trackme_date_format(data_last_time_seen)` | `trackme_date_format(data_last_time_seen_idx)` | `trackme_date_format(data_last_ingest)` | fillnull value=\"red\" data_source_state | sort 0 data_source | `trackme_eval_icons`",
+            "latest_time": "+5m",
+            "search": "$data_source_mainsearch$",
             "status_buckets": 0,
             "app": utils.getCurrentApp(),
             "auto_cancel": 90,
@@ -4977,7 +4991,7 @@ require([
 
         var searchDataSourcesPostTable = new PostProcessManager({
             "tokenDependencies": {},
-            "search": "search $data_source_state$ | search $inputDataName$ $inputDataIndex$ $inputDataSourcetype$ $data_monitored_state$ $inputDataPriority$ | fields keyid, data_name, data_index, data_sourcetype, \"data_last_time_seen (translated)\", data_last_time_seen, \"data_last_ingest (translated)\", data_last_ingest, \"data_last_time_seen_idx (translated)\", data_last_time_seen_idx, state, data_last_lag_seen, data_last_lag_seen_idx, data_max_lag_allowed, monitoring, data_monitored_state, data_monitoring_level, data_source_state, data_monitoring_wdays, data_override_lagging_class, priority | search `trackme_get_idx_whitelist_searchtime(trackme_data_source_monitoring_whitelist_index, data_index)` | `apply_data_source_blacklists` | rename \"data_last_time_seen (translated)\" as \"last time\", \"data_last_ingest (translated)\" as \"last ingest\", \"data_last_time_seen_idx (translated)\" as \"last time idx\" | eval data_tracker_runtime=now() | lookup local=t trackme_data_source_monitoring data_name OUTPUT data_source_state as data_previous_source_state, data_tracker_runtime as data_previous_tracker_runtime, latest_flip_state, latest_flip_time | `trackme_date_format(\"latest_flip_time\")` | fillnull value=\"N/A\" latest_flip_state, latest_flip_time, \"latest_flip_time (translated)\" | `trackme_get_identity_card(data_name)`",
+            "search": "search $data_source_state$ | search $inputDataName$ $inputDataIndex$ $inputDataSourcetype$ $data_monitored_state$ $inputDataPriority$ | fillnull data_last_lag_seen, data_last_ingestion_lag_seen | eval \"lag summary (lag event / lag ingestion)\" = data_last_lag_seen . \" sec / \" . data_last_ingestion_lag_seen . \" sec\" | fields keyid, data_name, data_index, data_sourcetype, \"data_last_time_seen (translated)\", data_last_time_seen, \"data_last_ingest (translated)\", data_last_ingest, \"lag summary (lag event / lag ingestion)\", data_last_ingestion_lag_seen, \"data_last_time_seen_idx (translated)\", data_last_time_seen_idx, state, data_last_lag_seen, data_last_lag_seen_idx, data_max_lag_allowed, monitoring, data_monitored_state, data_monitoring_level, data_source_state, data_monitoring_wdays, data_override_lagging_class, priority | search `trackme_get_idx_whitelist_searchtime(trackme_data_source_monitoring_whitelist_index, data_index)` | `apply_data_source_blacklists` | rename \"data_last_time_seen (translated)\" as \"last time\", \"data_last_ingest (translated)\" as \"last ingest\", \"data_last_time_seen_idx (translated)\" as \"last time idx\" | eval data_tracker_runtime=now() | lookup local=t trackme_data_source_monitoring data_name OUTPUT data_source_state as data_previous_source_state, data_tracker_runtime as data_previous_tracker_runtime, latest_flip_state, latest_flip_time | `trackme_date_format(\"latest_flip_time\")` | fillnull value=\"N/A\" latest_flip_state, latest_flip_time, \"latest_flip_time (translated)\" | `trackme_get_identity_card(data_name)`",
             "managerid": "searchDataSourcesMain",
             "id": "searchDataSourcesPostTable"
         }, {
@@ -5226,7 +5240,7 @@ require([
             "refreshType": "delay",
             "refresh": "$refresh$",
             "latest_time": "now",
-            "search": "| savedsearch \"trackMe - metric host table report\" | `trackme_eval_icons_metric_host` | eval metric_index_raw=metric_index, metric_category_raw=metric_category, metric_details_raw=metric_details | lookup local=t trackme_metric_host_monitoring metric_host OUTPUT metric_host_state as metric_previous_host_state, metric_tracker_runtime as metric_previous_tracker_runtime, latest_flip_state, latest_flip_time | where isnotnull(metric_previous_tracker_runtime) | `trackme_date_format(\"latest_flip_time\")` | fillnull value=\"N/A\" latest_flip_state, latest_flip_time, \"latest_flip_time (translated)\"",
+            "search": "$metric_host_mainsearch$",
             "status_buckets": 0,
             "app": utils.getCurrentApp(),
             "auto_cancel": 90,
@@ -5332,8 +5346,8 @@ require([
             "sample_ratio": null,
             "refreshType": "delay",
             "refresh": "$refresh$",
-            "latest_time": "now",
-            "search": "| `tstats` max(_indextime) as current_data_last_ingest, max(_time) as current_data_last_time_seen count as current_data_last_count_seen values(sourcetype) as sourcetype where index=* sourcetype=* host=* host!=\"\" `trackme_tstats_main_filter` `trackme_get_idx_whitelist(trackme_data_host_monitoring_whitelist_index, data_index)` `apply_data_host_blacklists_data_retrieve` by index, host | stats max(current_data_last_ingest) as current_data_last_ingest, max(current_data_last_time_seen) as current_data_last_time_seen, sum(current_data_last_count_seen) as current_data_last_count_seen, values(index) as index, values(sourcetype) as sourcetype by host | rename index as data_index, host as data_host, sourcetype as data_sourcetype | lookup trackme_host_monitoring data_host | append [ | inputlookup trackme_host_monitoring | eval keyid=_key ] | stats values(data_index) as data_index, values(data_sourcetype) as data_sourcetype, first(*) as \"*\" by data_host | eval data_last_ingest=if(isnotnull(current_data_last_ingest), current_data_last_ingest, data_last_ingest), data_last_time_seen=if(isnotnull(current_data_last_time_seen), current_data_last_time_seen, data_last_time_seen) | eval current_data_last_count_seen=if(isnotnull(current_data_last_count_seen), current_data_last_count_seen, data_last_count_seen) | fields - current_* | `trackme_eval_data_host_state` | `trackme_default_priority` | `trackme_data_host_group_lookup` | `trackme_date_format(data_last_time_seen)` | `trackme_date_format(data_last_time_seen_idx)` | `trackme_date_format(data_last_ingest)` | fillnull value=\"red\" data_host_state | sort 0 data_host | `trackme_eval_icons_host` | search data_host=* | search data_host=* $data_monitored_state$ | fields keyid, data_host, data_index, data_sourcetype, data_last_ingest, \"data_last_ingest (translated)\", \"data_last_time_seen (translated)\", data_last_time_seen, state, data_last_lag_seen, data_max_lag_allowed, monitoring, data_monitored_state, data_monitoring_wdays, data_host_state, data_override_lagging_class, priority, object_group* | `apply_data_host_blacklists` | search $inputDataHost$ $data_host_state$ $data_monitored_state$ | rename \"data_last_ingest (translated)\" as \"last ingest\", \"data_last_time_seen (translated)\" as \"last time\" | eval data_index_raw=data_index, data_sourcetype_raw=data_sourcetype | makemv data_index delim=\",\" | makemv data_sourcetype delim=\",\" | eval data_tracker_runtime=now() | lookup local=t trackme_host_monitoring data_host OUTPUT data_host_state as data_previous_host_state, data_tracker_runtime as data_previous_tracker_runtime, latest_flip_state, latest_flip_time | `trackme_date_format(\"latest_flip_time\")` | fillnull value=\"N/A\" latest_flip_state, latest_flip_time, \"latest_flip_time (translated)\" | search `trackme_get_idx_whitelist_searchtime(trackme_data_host_monitoring_whitelist_index, data_index)`",
+            "latest_time": "+5m",
+            "search": "$data_host_mainsearch$",
             "status_buckets": 0,
             "app": utils.getCurrentApp(),
             "auto_cancel": 90,
@@ -5349,7 +5363,7 @@ require([
 
         var searchMainTableHost = new PostProcessManager({
             "tokenDependencies": {},
-            "search": "search $inputDataHostIndexes$ $inputDataHostSourcetypes$ $inputDataHostPriority$",
+            "search": "search $inputDataHost$ $data_host_state$ $data_monitored_state$ $inputDataHostIndexes$ $inputDataHostSourcetypes$ $inputDataHostPriority$ | fillnull data_last_lag_seen, data_last_ingestion_lag_seen | eval \"lag summary (lag event / lag ingestion)\" = data_last_lag_seen . \" sec / \" . data_last_ingestion_lag_seen . \" sec\"",
             "managerid": "searchDataHostsMain",
             "id": "searchMainTableHost"
         }, {
@@ -6633,6 +6647,25 @@ require([
             tokens: true,
             tokenNamespace: "submitted"
         });
+
+        var searchAckDuration = new SearchManager({
+            "id": "searchAckDuration",
+            "tokenDependencies": {
+                "depends": "$tk_start_ack_get$"
+            },
+            "earliest_time": "-5m",
+            "latest_time": "now",
+            "sample_ratio": null,
+            "search": "| makeresults | eval duration=`trackme_ack_default_duration` | eval label=\"default\" | eval label=tostring(duration, \"duration\"), priority=1 | fields - _time | append [ | makeresults | eval duration=2*24*60*60 | eval label=\"default\" | eval label=tostring(duration, \"duration\"), priority=2 | fields - _time ] | append [ | makeresults | eval duration=7*24*60*60 | eval label=\"default\" | eval label=tostring(duration, \"duration\"), priority=3 | fields - _time ] | append [ | makeresults | eval duration=15*24*60*60 | eval label=\"default\" | eval label=tostring(duration, \"duration\"), priority=4 | fields - _time ] | append [ | makeresults | eval duration=30*24*60*60 | eval label=\"default\" | eval label=tostring(duration, \"duration\"), priority=5 | fields - _time ] | sort priority | fields duration, label",
+            "status_buckets": 0,
+            "cancelOnUnload": true,
+            "app": utils.getCurrentApp(),
+            "auto_cancel": 90,
+            "preview": true,
+            "tokenDependencies": {
+            },
+            "runWhenTimeIsUndefined": false
+        }, {tokens: true});
 
         // whitelist
 
@@ -8763,7 +8796,7 @@ require([
             "id": "elementMainTable",
             "count": 100,
             "drilldown": "row",
-            "fields": "data_name, data_index, data_sourcetype, \"last time\", \"last ingest\", priority, state, data_last_lag_seen, \"last time idx\", data_last_lag_seen_idx, data_max_lag_allowed, monitoring, data_monitoring_level, data_monitoring_wdays",
+            "fields": "data_name, data_index, data_sourcetype, \"last time\", \"last ingest\", priority, state, \"lag summary (lag event / lag ingestion)\", \"last time idx\", data_last_lag_seen_idx, data_max_lag_allowed, monitoring, data_monitoring_level, data_monitoring_wdays",
             "refresh.display": "none",
             "wrap": "false",
             "managerid": "searchDataSourcesPostTable",
@@ -8786,6 +8819,8 @@ require([
                 setToken("tk_data_index", TokenUtils.replaceTokenNames("$row.data_index$", _.extend(submittedTokenModel.toJSON(), e.data)));
                 setToken("tk_data_sourcetype", TokenUtils.replaceTokenNames("$row.data_sourcetype$", _.extend(submittedTokenModel.toJSON(), e.data)));
                 setToken("tk_data_last_lag_seen", TokenUtils.replaceTokenNames("$row.data_last_lag_seen$", _.extend(submittedTokenModel.toJSON(), e.data)));
+                setToken("tk_data_last_ingestion_lag_seen", TokenUtils.replaceTokenNames("$row.data_last_ingestion_lag_seen$", _.extend(submittedTokenModel.toJSON(), e.data)));
+                setToken("tk_data_lag_summary", TokenUtils.replaceTokenNames("$row.lag summary (lag event / lag ingestion)$", _.extend(submittedTokenModel.toJSON(), e.data)));
                 setToken("tk_data_last_lag_seen_idx", TokenUtils.replaceTokenNames("$row.data_last_lag_seen_idx$", _.extend(submittedTokenModel.toJSON(), e.data)));
                 setToken("tk_data_last_time_seen", TokenUtils.replaceTokenNames("$row.data_last_time_seen$", _.extend(submittedTokenModel.toJSON(), e.data)));
                 setToken("tk_data_last_time_seen_human", TokenUtils.replaceTokenNames("$row.last time$", _.extend(submittedTokenModel.toJSON(), e.data)));
@@ -9135,7 +9170,7 @@ require([
             "id": "elementMainTableHost",
             "count": 100,
             "drilldown": "row",
-            "fields": "data_host, data_index, data_sourcetype, \"last time\", \"last ingest\", priority, state, data_last_lag_seen, data_max_lag_allowed, monitoring, data_monitoring_wdays",
+            "fields": "data_host, data_index, data_sourcetype, \"last time\", \"last ingest\", priority, state, \"lag summary (lag event / lag ingestion)\", data_max_lag_allowed, monitoring, data_monitoring_wdays",
             "refresh.display": "none",
             "wrap": "false",
             "managerid": "searchMainTableHost",
@@ -9158,6 +9193,7 @@ require([
                 setToken("tk_data_index", TokenUtils.replaceTokenNames("$row.data_index_raw$", _.extend(submittedTokenModel.toJSON(), e.data)));
                 setToken("tk_data_sourcetype", TokenUtils.replaceTokenNames("$row.data_sourcetype_raw$", _.extend(submittedTokenModel.toJSON(), e.data)));
                 setToken("tk_data_last_lag_seen", TokenUtils.replaceTokenNames("$row.data_last_lag_seen$", _.extend(submittedTokenModel.toJSON(), e.data)));
+                setToken("tk_data_lag_summary", TokenUtils.replaceTokenNames("$row.lag summary (lag event / lag ingestion)$", _.extend(submittedTokenModel.toJSON(), e.data)));
                 setToken("tk_data_last_time_seen", TokenUtils.replaceTokenNames("$row.data_last_time_seen$", _.extend(submittedTokenModel.toJSON(), e.data)));
                 setToken("tk_data_last_time_seen_human", TokenUtils.replaceTokenNames("$row.last time$", _.extend(submittedTokenModel.toJSON(), e.data)));
                 setToken("tk_data_last_ingest", TokenUtils.replaceTokenNames("$row.data_last_ingest$", _.extend(submittedTokenModel.toJSON(), e.data)));
@@ -9290,6 +9326,9 @@ require([
                 setToken("tk_latest_flip_time", TokenUtils.replaceTokenNames("$row.latest_flip_time$", _.extend(submittedTokenModel.toJSON(), e.data)));
                 setToken("tk_latest_flip_time_human", TokenUtils.replaceTokenNames("$row.latest_flip_time (translated)$", _.extend(submittedTokenModel.toJSON(), e.data)));
                 setToken("tk_priority", TokenUtils.replaceTokenNames("$row.priority$", _.extend(submittedTokenModel.toJSON(), e.data)));
+
+                // pre-fill current priority
+                setToken("form.tk_input_metric_host_priority", TokenUtils.replaceTokenNames("$row.priority$", _.extend(submittedTokenModel.toJSON(), e.data)));
 
                 // logical group
                 setToken("tk_object_group_name", TokenUtils.replaceTokenNames("$row.object_group_name$", _.extend(submittedTokenModel.toJSON(), e.data)));
@@ -10660,6 +10699,87 @@ require([
         // VIEWS: FORM INPUTS
         //
 
+        var SearchModeSelectorDataSources = new DropdownInput({
+            "id": "SearchModeSelectorDataSources",
+            "choices": [
+                {"label": "Collection based", "value": "collection_based"},
+                {"label": "Search based", "value": "search_based"}
+            ],
+            "default": "collection_based",
+            "searchWhenChanged": true,
+            "selectFirstChoice": false,
+            "showClearButton": true,
+            "initialValue": "collection_based",
+            "value": "$form.SearchModeSelectorDataSources$",
+            "el": $('#SearchModeSelectorDataSources')
+        }, {tokens: true}).render();
+
+        SearchModeSelectorDataSources.on("change", function(newValue) {
+            FormUtils.handleValueChange(SearchModeSelectorDataSources);
+        });
+
+        SearchModeSelectorDataSources.on("valueChange", function(e) {
+            if (e.value === "search_based") {
+                EventHandler.setToken("data_source_mainsearch", "| `tstats` max(_indextime) as current_data_last_ingest, max(_time) as current_data_last_time_seen count as current_data_last_count_seen where index=* sourcetype=* `trackme_tstats_main_filter` `trackme_get_idx_whitelist(trackme_data_source_monitoring_whitelist_index, data_index)` `apply_data_source_blacklists_data_retrieve` by index, sourcetype\n| rename index as data_index, sourcetype as data_sourcetype\n| lookup trackme_data_source_monitoring data_index, data_sourcetype OUTPUT data_name | append [ | inputlookup trackme_data_source_monitoring | eval keyid=_key | search `trackme_get_idx_whitelist_searchtime(trackme_data_source_monitoring_whitelist_index, data_index)` ] | stats first(*) as \"*\" by data_name, data_index, data_sourcetype | eval data_last_ingest=if(isnotnull(current_data_last_ingest), current_data_last_ingest, data_last_ingest), data_last_ingestion_lag_seen=if(isnotnull(current_data_last_ingestion_lag_seen), round(current_data_last_ingestion_lag_seen, 0), round(data_last_ingestion_lag_seen, 0)), data_last_time_seen=if(isnotnull(current_data_last_time_seen), current_data_last_time_seen, data_last_time_seen) | eval current_data_last_count_seen=if(isnotnull(current_data_last_count_seen), current_data_last_count_seen, data_last_count_seen) | fields - current_* | eventstats max(data_last_time_seen) as data_last_time_seen_idx, min(data_last_lag_seen) as data_last_lag_seen_idx by data_index | `trackme_eval_data_source_state` | `trackme_default_priority` | `trackme_date_format(data_last_time_seen)` | `trackme_date_format(data_last_time_seen_idx)` | `trackme_date_format(data_last_ingest)` | fillnull value=\"red\" data_source_state | sort 0 data_source | `trackme_eval_icons`", {}, e.data);
+            } else if (e.value === "collection_based") {
+                EventHandler.setToken("data_source_mainsearch", "| inputlookup trackme_data_source_monitoring\n| eval keyid=_key\n| `apply_data_source_blacklists`\n| search `trackme_get_idx_whitelist_searchtime(trackme_data_source_monitoring_whitelist_index, data_index)`\n| `trackme_eval_data_source_state` | `trackme_default_priority` | `trackme_date_format(data_last_time_seen)` | `trackme_date_format(data_last_time_seen_idx)` | `trackme_date_format(data_last_ingest)` | fillnull value=\"red\" data_source_state | sort 0 data_source | `trackme_eval_icons`", {}, e.data);
+            }
+        });
+
+        var SearchModeSelectorDataHosts = new DropdownInput({
+            "id": "SearchModeSelectorDataHosts",
+            "choices": [
+                {"label": "Collection based", "value": "collection_based"},
+                {"label": "Search based", "value": "search_based"}
+            ],
+            "default": "collection_based",
+            "searchWhenChanged": true,
+            "selectFirstChoice": false,
+            "showClearButton": true,
+            "initialValue": "collection_based",
+            "value": "$form.SearchModeSelectorDataHosts$",
+            "el": $('#SearchModeSelectorDataHosts')
+        }, {tokens: true}).render();
+
+        SearchModeSelectorDataHosts.on("change", function(newValue) {
+            FormUtils.handleValueChange(SearchModeSelectorDataHosts);
+        });
+
+        SearchModeSelectorDataHosts.on("valueChange", function(e) {
+            if (e.value === "search_based") {
+                EventHandler.setToken("data_host_mainsearch", "| `tstats` max(_indextime) as current_data_last_ingest, max(_time) as current_data_last_time_seen count as current_data_last_count_seen values(sourcetype) as sourcetype where index=* sourcetype=* host=* host!=\"\" `trackme_tstats_main_filter` `trackme_get_idx_whitelist(trackme_data_host_monitoring_whitelist_index, data_index)` `apply_data_host_blacklists_data_retrieve` by index, host\n| eval current_data_last_ingestion_lag_seen=current_data_last_ingest-current_data_last_time_seen\n| stats max(current_data_last_ingest) as current_data_last_ingest, max(current_data_last_time_seen) as current_data_last_time_seen, avg(current_data_last_ingestion_lag_seen) as current_data_last_ingestion_lag_seen, sum(current_data_last_count_seen) as current_data_last_count_seen, values(index) as index, values(sourcetype) as sourcetype by host\n| rename index as data_index, host as data_host, sourcetype as data_sourcetype\n| eval data_host=upper(data_host)\n| lookup trackme_host_monitoring data_host\n| append [ | inputlookup trackme_host_monitoring | eval keyid=_key | eval data_host=upper(data_host) ]\n| stats values(data_index) as data_index, values(data_sourcetype) as data_sourcetype, first(*) as \"*\" by data_host\n| eval data_last_ingest=if(isnotnull(current_data_last_ingest), current_data_last_ingest, data_last_ingest), data_last_time_seen=if(isnotnull(current_data_last_time_seen), current_data_last_time_seen, data_last_time_seen)\n| eval data_last_ingestion_lag_seen=if(isnotnull(current_data_last_ingestion_lag_seen), round(current_data_last_ingestion_lag_seen, 0), round(data_last_ingestion_lag_seen, 0))\n| eval current_data_last_count_seen=if(isnotnull(current_data_last_count_seen), current_data_last_count_seen, data_last_count_seen)\n| fields - current_*\n| `trackme_eval_data_host_state`\n| `trackme_default_priority`\n| `trackme_data_host_group_lookup`\n| `trackme_date_format(data_last_time_seen)`\n| `trackme_date_format(data_last_time_seen_idx)`\n| `trackme_date_format(data_last_ingest)`\n| fillnull value=\"red\" data_host_state\n| sort 0 data_host\n| `trackme_eval_icons_host`\n| fields keyid, data_host, data_index, data_sourcetype, data_last_ingest, \"data_last_ingest (translated)\", \"data_last_time_seen (translated)\", data_last_time_seen, state, data_last_lag_seen, data_last_ingestion_lag_seen, data_max_lag_allowed, monitoring, data_monitored_state, data_monitoring_wdays, data_host_state, data_override_lagging_class, priority, object_group*\n| `apply_data_host_blacklists`\n| rename \"data_last_ingest (translated)\" as \"last ingest\", \"data_last_time_seen (translated)\" as \"last time\"\n| eval data_index_raw=data_index, data_sourcetype_raw=data_sourcetype\n| makemv data_index delim=\",\"\n| makemv data_sourcetype delim=\",\"\n| eval data_tracker_runtime=now()\n| lookup local=t trackme_host_monitoring data_host OUTPUT data_host_state as data_previous_host_state, data_tracker_runtime as data_previous_tracker_runtime, latest_flip_state, latest_flip_time\n| `trackme_date_format(\"latest_flip_time\")`\n| fillnull value=\"N/A\" latest_flip_state, latest_flip_time, \"latest_flip_time (translated)\"\n| search `trackme_get_idx_whitelist_searchtime(trackme_data_host_monitoring_whitelist_index, data_index)`", {}, e.data);
+            } else if (e.value === "collection_based") {
+                EventHandler.setToken("data_host_mainsearch", "| inputlookup trackme_host_monitoring\n| eval keyid=_key\n| sort limit=0 - data_last_time_seen\n| dedup data_host\n| eval data_index_raw=data_index, data_sourcetype_raw=data_sourcetype\n| makemv delim=\",\" data_index\n| makemv delim=\",\" data_sourcetype\n| `apply_data_host_blacklists`\n| search `trackme_get_idx_whitelist_searchtime(trackme_data_host_monitoring_whitelist_index, data_index)`\n| `trackme_eval_data_host_state`\n| `trackme_default_priority`\n| `trackme_data_host_group_lookup`\n| `trackme_date_format(data_last_time_seen)`\n| `trackme_date_format(data_last_time_seen_idx)`\n| `trackme_date_format(data_last_ingest)`\n| `trackme_eval_icons_host`\n| rename \"data_last_ingest (translated)\" as \"last ingest\", \"data_last_time_seen (translated)\" as \"last time\"\n| lookup local=t trackme_host_monitoring data_host OUTPUT data_host_state as data_previous_host_state, data_tracker_runtime as data_previous_tracker_runtime, latest_flip_state, latest_flip_time\n | `trackme_date_format(\"latest_flip_time\")`\n| fillnull value=\"N/A\" latest_flip_state, latest_flip_time, \"latest_flip_time (translated)\"\n| sort limit=0 data_host", {}, e.data);
+            }
+        });
+
+        var SearchModeSelectorMetricHosts = new DropdownInput({
+            "id": "SearchModeSelectorMetricHosts",
+            "choices": [
+                {"label": "Collection based", "value": "collection_based"},
+                {"label": "Search based", "value": "search_based"}
+            ],
+            "default": "collection_based",
+            "searchWhenChanged": true,
+            "selectFirstChoice": false,
+            "showClearButton": true,
+            "initialValue": "collection_based",
+            "value": "$form.SearchModeSelectorMetricHosts$",
+            "el": $('#SearchModeSelectorMetricHosts')
+        }, {tokens: true}).render();
+
+        SearchModeSelectorMetricHosts.on("change", function(newValue) {
+            FormUtils.handleValueChange(SearchModeSelectorMetricHosts);
+        });
+
+        SearchModeSelectorMetricHosts.on("valueChange", function(e) {
+            if (e.value === "search_based") {
+                EventHandler.setToken("metric_host_mainsearch", "| savedsearch \"trackMe - metric host table report\" | `trackme_eval_icons_metric_host` | eval metric_index_raw=metric_index, metric_category_raw=metric_category, metric_details_raw=metric_details | lookup local=t trackme_metric_host_monitoring metric_host OUTPUT metric_host_state as metric_previous_host_state, metric_tracker_runtime as metric_previous_tracker_runtime, latest_flip_state, latest_flip_time | where isnotnull(metric_previous_tracker_runtime) | `trackme_date_format(\"latest_flip_time\")` | fillnull value=\"N/A\" latest_flip_state, latest_flip_time, \"latest_flip_time (translated)\"", {}, e.data);
+            } else if (e.value === "collection_based") {
+                EventHandler.setToken("metric_host_mainsearch", "| savedsearch \"TrackMe - metric hosts collection based table report\"\n| `trackme_date_format(\"metric_last_time_seen\")`\n| rename \"metric_last_time_seen (translated)\" as \"last time\"\n| `trackme_eval_metric_host_state`\n| `trackme_metric_host_group_lookup`\n|`trackme_eval_icons_metric_host`\n|`trackme_date_format(\"latest_flip_time\")`\n| fillnull value=\"N/A\" latest_flip_state, latest_flip_time, \"latest_flip_time (translated)\"", {}, e.data);
+            }
+        });
+
         var link1 = new LinkListInput({
             "id": "link1",
             "choices": [{
@@ -10819,6 +10939,30 @@ require([
 
         inputAuditFlipObject.on("change", function(newValue) {
             FormUtils.handleValueChange(inputAuditFlipObject);
+        });
+
+        // Ack
+        var input_ack_duration = new DropdownInput({
+            "id": "input_ack_duration",
+            "choices": [],
+            "searchWhenChanged": true,
+            "labelField": "label",
+            "valueField": "duration",
+            "selectFirstChoice": true,
+            "showClearButton": true,
+            "value": "$form.input_ack_duration$",
+            "managerid": "searchAckDuration",
+            "el": $('#input_ack_duration')
+        }, {tokens: true}).render();
+
+        input_ack_duration.on("change", function(newValue) {
+            FormUtils.handleValueChange(input_ack_duration);
+        });
+
+        DashboardController.onReady(function() {
+            if (!submittedTokenModel.has('earliest') && !submittedTokenModel.has('latest')) {
+                submittedTokenModel.set({ earliest: '0', latest: '' });
+            }
         });
 
         // Audit Changes
@@ -11244,9 +11388,9 @@ require([
                 }
             ],
             "selectFirstChoice": false,
-            "default": "60",
+            "default": "300",
             "showClearButton": true,
-            "initialValue": "60",
+            "initialValue": "300",
             "searchWhenChanged": true,
             "value": "$refresh$",
             "el": $('#refreshMetricHostForm')
@@ -11643,9 +11787,9 @@ require([
                 }
             ],
             "selectFirstChoice": false,
-            "default": "60",
+            "default": "300",
             "showClearButton": true,
-            "initialValue": "60",
+            "initialValue": "300",
             "searchWhenChanged": true,
             "value": "$refresh$",
             "el": $('#refreshForm')
@@ -11677,9 +11821,9 @@ require([
                 }
             ],
             "selectFirstChoice": false,
-            "default": "60",
+            "default": "300",
             "showClearButton": true,
-            "initialValue": "60",
+            "initialValue": "300",
             "searchWhenChanged": true,
             "value": "$refresh$",
             "el": $('#refreshHostForm')
@@ -11759,6 +11903,7 @@ require([
             var tk_data_index = tokens.get("tk_data_index");
             var tk_data_sourcetype = tokens.get("tk_data_sourcetype");
             var tk_data_last_lag_seen = tokens.get("tk_data_last_lag_seen");
+            var tk_data_last_ingestion_lag_seen = tokens.get("tk_data_last_ingestion_lag_seen");
             var tk_data_last_time_seen = tokens.get("tk_data_last_time_seen");
             var tk_data_last_ingest = tokens.get("tk_data_last_ingest");
             var tk_data_last_lag_seen_idx = tokens.get("tk_data_last_lag_seen_idx");
@@ -11783,6 +11928,7 @@ require([
                 "data_index": tk_data_index,
                 "data_sourcetype": tk_data_sourcetype,
                 "data_last_lag_seen": tk_data_last_lag_seen,
+                "data_last_ingestion_lag_seen": tk_data_last_ingestion_lag_seen,
                 "data_last_time_seen": tk_data_last_time_seen,
                 "data_last_ingest": tk_data_last_ingest,
                 "data_last_lag_seen_idx": tk_data_last_lag_seen_idx,
@@ -11911,6 +12057,7 @@ require([
             var tk_data_previous_tracker_runtime = tokens.get("tk_data_previous_tracker_runtime");
             var tk_latest_flip_state = tokens.get("tk_latest_flip_state");
             var tk_priority = tokens.get("tk_priority");
+            var tk_data_monitored_state = "enabled";
 
             // Create the endpoint URL
             var myendpoint_URl = "/en-US/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_host_monitoring/" + tk_keyid;
@@ -12060,6 +12207,7 @@ require([
             var tk_metric_previous_host_state = tokens.get("tk_metric_previous_host_state");
             var tk_metric_previous_tracker_runtime = tokens.get("tk_metric_previous_tracker_runtime");
             var tk_metric_monitored_state = "enabled";
+            var tk_priority = tokens.get("tk_priority");
 
             // Create the endpoint URL
             var myendpoint_URl = "/en-US/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_metric_host_monitoring/" + tk_keyid;
@@ -12076,7 +12224,8 @@ require([
                 "metric_host_state": tk_metric_host_state,
                 "metric_tracker_runtime": tk_metric_tracker_runtime,
                 "metric_previous_host_state": tk_metric_previous_host_state,
-                "metric_previous_tracker_runtime": tk_metric_previous_tracker_runtime
+                "metric_previous_tracker_runtime": tk_metric_previous_tracker_runtime,
+                "priority": tk_priority
             };
 
             if (!tk_keyid || !tk_keyid.length) {
@@ -12321,6 +12470,7 @@ require([
             var tk_data_index = tokens.get("tk_data_index");
             var tk_data_sourcetype = tokens.get("tk_data_sourcetype");
             var tk_data_last_lag_seen = tokens.get("tk_data_last_lag_seen");
+            var tk_data_last_ingestion_lag_seen = tokens.get("tk_data_last_ingestion_lag_seen");
             var tk_data_last_time_seen = tokens.get("tk_data_last_time_seen");
             var tk_data_last_ingest = tokens.get("tk_data_last_ingest");
             var tk_data_last_lag_seen_idx = tokens.get("tk_data_last_lag_seen_idx");
@@ -12345,6 +12495,7 @@ require([
                 "data_index": tk_data_index,
                 "data_sourcetype": tk_data_sourcetype,
                 "data_last_lag_seen": tk_data_last_lag_seen,
+                "data_last_ingestion_lag_seen": tk_data_last_ingestion_lag_seen,
                 "data_last_time_seen": tk_data_last_time_seen,
                 "data_last_ingest": tk_data_last_ingest,
                 "data_last_lag_seen_idx": tk_data_last_lag_seen_idx,
@@ -12946,6 +13097,7 @@ require([
             var tk_data_index = tokens.get("tk_data_index");
             var tk_data_sourcetype = tokens.get("tk_data_sourcetype");
             var tk_data_last_lag_seen = tokens.get("tk_data_last_lag_seen");
+            var tk_data_last_ingestion_lag_seen = tokens.get("tk_data_last_ingestion_lag_seen");
             var tk_data_last_time_seen = tokens.get("tk_data_last_time_seen");
             var tk_data_last_ingest = tokens.get("tk_data_last_ingest");
             var tk_data_last_lag_seen_idx = tokens.get("tk_data_last_lag_seen_idx");
@@ -12963,6 +13115,7 @@ require([
                 "data_index": tk_data_index,
                 "data_sourcetype": tk_data_sourcetype,
                 "data_last_lag_seen": tk_data_last_lag_seen,
+                "data_last_ingestion_lag_seen": tk_data_last_ingestion_lag_seen,
                 "data_last_time_seen": tk_data_last_time_seen,
                 "data_last_ingest": tk_data_last_ingest,
                 "data_last_lag_seen_idx": tk_data_last_lag_seen_idx,
@@ -17621,6 +17774,7 @@ require([
             var tk_data_index = tokens.get("tk_data_index");
             var tk_data_sourcetype = tokens.get("tk_data_sourcetype");
             var tk_data_last_lag_seen = tokens.get("tk_data_last_lag_seen");
+            var tk_data_last_ingestion_lag_seen = tokens.get("tk_data_last_ingestion_lag_seen");
             var tk_data_last_time_seen = tokens.get("tk_data_last_time_seen");
             var tk_data_last_ingest = tokens.get("tk_data_last_ingest");
             var tk_data_last_lag_seen_idx = tokens.get("tk_data_last_lag_seen_idx");
@@ -17656,6 +17810,7 @@ require([
                     "data_index": tk_data_index,
                     "data_sourcetype": tk_data_sourcetype,
                     "data_last_lag_seen": tk_data_last_lag_seen,
+                    "data_last_ingestion_lag_seen": tk_data_last_ingestion_lag_seen,
                     "data_last_time_seen": tk_data_last_time_seen,
                     "data_last_ingest": tk_data_last_ingest,
                     "data_last_lag_seen_idx": tk_data_last_lag_seen_idx,
@@ -17769,6 +17924,7 @@ require([
             var tk_data_index = tokens.get("tk_data_index");
             var tk_data_sourcetype = tokens.get("tk_data_sourcetype");
             var tk_data_last_lag_seen = tokens.get("tk_data_last_lag_seen");
+            var tk_data_last_ingestion_lag_seen = tokens.get("tk_data_last_ingestion_lag_seen");
             var tk_data_last_time_seen = tokens.get("tk_data_last_time_seen");
             var tk_data_last_ingest = tokens.get("tk_data_last_ingest");
             var tk_data_last_lag_seen_idx = tokens.get("tk_data_last_lag_seen_idx");
@@ -17804,6 +17960,7 @@ require([
                     "data_index": tk_data_index,
                     "data_sourcetype": tk_data_sourcetype,
                     "data_last_lag_seen": tk_data_last_lag_seen,
+                    "data_last_ingestion_lag_seen": tk_data_last_ingestion_lag_seen,
                     "data_last_time_seen": tk_data_last_time_seen,
                     "data_last_ingest": tk_data_last_ingest,
                     "data_last_lag_seen_idx": tk_data_last_lag_seen_idx,
@@ -17923,6 +18080,7 @@ require([
             var tk_data_index = tokens.get("tk_data_index");
             var tk_data_sourcetype = tokens.get("tk_data_sourcetype");
             var tk_data_last_lag_seen = tokens.get("tk_data_last_lag_seen");
+            var tk_data_last_ingestion_lag_seen = tokens.get("tk_data_last_ingestion_lag_seen");
             var tk_data_last_time_seen = tokens.get("tk_data_last_time_seen");
             var tk_data_last_ingest = tokens.get("tk_data_last_ingest");
             var tk_data_last_lag_seen_idx = tokens.get("tk_data_last_lag_seen_idx");
@@ -17958,6 +18116,7 @@ require([
                     "data_index": tk_data_index,
                     "data_sourcetype": tk_data_sourcetype,
                     "data_last_lag_seen": tk_data_last_lag_seen,
+                    "data_last_ingestion_lag_seen": tk_data_last_ingestion_lag_seen,
                     "data_last_time_seen": tk_data_last_time_seen,
                     "data_last_ingest": tk_data_last_ingest,
                     "data_last_lag_seen_idx": tk_data_last_lag_seen_idx,
@@ -18087,6 +18246,7 @@ require([
             var tk_data_index = tokens.get("tk_data_index");
             var tk_data_sourcetype = tokens.get("tk_data_sourcetype");
             var tk_data_last_lag_seen = tokens.get("tk_data_last_lag_seen");
+            var tk_data_last_ingestion_lag_seen = tokens.get("tk_data_last_ingestion_lag_seen");
             var tk_data_last_time_seen = tokens.get("tk_data_last_time_seen");
             var tk_data_last_ingest = tokens.get("tk_data_last_ingest");
             var tk_data_last_lag_seen_idx = tokens.get("tk_data_last_lag_seen_idx");
@@ -18122,6 +18282,7 @@ require([
                     "data_index": tk_data_index,
                     "data_sourcetype": tk_data_sourcetype,
                     "data_last_lag_seen": tk_data_last_lag_seen,
+                    "data_last_ingestion_lag_seen": tk_data_last_ingestion_lag_seen,
                     "data_last_time_seen": tk_data_last_time_seen,
                     "data_last_ingest": tk_data_last_ingest,
                     "data_last_lag_seen_idx": tk_data_last_lag_seen_idx,
@@ -18241,6 +18402,7 @@ require([
             var tk_data_index = tokens.get("tk_data_index");
             var tk_data_sourcetype = tokens.get("tk_data_sourcetype");
             var tk_data_last_lag_seen = tokens.get("tk_data_last_lag_seen");
+            var tk_data_last_ingestion_lag_seen = tokens.get("tk_data_last_ingestion_lag_seen");
             var tk_data_last_time_seen = tokens.get("tk_data_last_time_seen");
             var tk_data_last_ingest = tokens.get("tk_data_last_ingest");
             var tk_data_last_lag_seen_idx = tokens.get("tk_data_last_lag_seen_idx");
@@ -18276,6 +18438,7 @@ require([
                     "data_index": tk_data_index,
                     "data_sourcetype": tk_data_sourcetype,
                     "data_last_lag_seen": tk_data_last_lag_seen,
+                    "data_last_ingestion_lag_seen": tk_data_last_ingestion_lag_seen,
                     "data_last_time_seen": tk_data_last_time_seen,
                     "data_last_ingest": tk_data_last_ingest,
                     "data_last_lag_seen_idx": tk_data_last_lag_seen_idx,
@@ -19174,6 +19337,12 @@ require([
 
         });
 
+        // back
+        $("#btn_define_identity_card_back").click(function() {
+            // Show modal
+            $("#modal_manage").modal();
+        });
+
         // delete button
         $("#btn_delete_identity_card_confirm").click(function() {
 
@@ -19584,12 +19753,14 @@ require([
 
                 var input_object = tokens.get("input_object");
                 var input_object_category = tokens.get("input_object_category");
+                var input_ack_duration = tokens.get("input_ack_duration");
 
                 //console.log("input_object is: " + input_object);
                 //console.log("input_object_category is: " + input_object_category);
+                //console.log("input_ack_duration is: "+ input_ack_duration);
 
                 // Define the query
-                var searchQuery = "| `trackme_ack_add(\"" + input_object + "\", \"" +  input_object_category + "\")`";
+                var searchQuery = "| `trackme_ack_add(\"" + input_object + "\", \"" +  input_object_category + "\", \"" +  input_ack_duration + "\")`";
 
                 //console.log(searchQuery);
 
@@ -19599,7 +19770,7 @@ require([
                     latest_time: "now"
                 };
 
-                if (input_object && input_object.length) {
+                if (input_object && input_object.length && input_ack_duration && input_ack_duration.length) {
 
                     // Run a blocking search and get back a job
                     service.search(
@@ -19618,7 +19789,7 @@ require([
                                     "change_type": "ack enable",
                                     "object": input_object,
                                     "object_category": input_object_category,
-                                    "object_attrs": "object:" + input_object + " has been acknowledged, no more alerts will be generated until the acknowledge is expired. "
+                                    "object_attrs": "object:" + input_object + " has been acknowledged for a period of " + input_ack_duration + " seconds, no more alerts will be generated until the acknowledge is expired."
                                 };
                                 $.ajax({
                                     url: auditendpoint_URl,
@@ -19663,7 +19834,7 @@ require([
 		                                    "change_type": "ack enable",
 		                                    "object": input_object,
 		                                    "object_category": input_object_category,
-		                                    "object_attrs": "object:" + input_object + " has been acknowledged, no more alerts will be generated until the acknowledge is expired. "
+		                                    "object_attrs": "object:" + input_object + " has been acknowledged for a period of " + input_ack_duration + " seconds, no more alerts will be generated until the acknowledge is expired."
                                         };
                                         $.ajax({
                                             url: auditendpoint_URl,
@@ -19814,7 +19985,7 @@ require([
 		                                    "change_type": "ack disable",
 		                                    "object": input_object,
 		                                    "object_category": input_object_category,
-		                                    "object_attrs": "object:" + input_object + " acknowledge has been disabled (ack_expiration was: " + ack_expiration + ") , alerts will be generated depending on state and rules. "
+		                                    "object_attrs": "object:" + input_object + " acknowledge has been disabled (ack_expiration was: " + ack_expiration + "), alerts will be generated depending on state and rules. "
                                         };
                                         $.ajax({
                                             url: auditendpoint_URl,

@@ -4,8 +4,12 @@ Release notes
 Version 1.1.0
 ==============
 
-- feature: Introducing the concept of HBA which stands for Health score Based Analysis to define the status of source based on a multi-factor calculation score
-- feature: In the scope of HBA, trackers do retain now both ingestion and latest time as ingestion time lag and data lag
+- feature: Better lagging management handling by storing and comparing both event based lagging and ingestion based lagging for multi-factor status definition
+- feature: Detection of data indexed in the future, data sources or hosts indexing in the future appear as orange state with a dynamic icon message
+- feature: Alert acknowledgment improvements, allows selecting an extended period for acknowledgment
+- feature: Provides by default a collection based search rather than a tstats search (dropdown selector in UI) for better performances on large deployments
+- fix: Ensure results coherence with various lookup command calls used for enrichment purposes where never more than one match should be achieved
+- change: Refresh default is now defined to 5 min instead of 1 min by default
 
 Version 1.0.39
 ==============
