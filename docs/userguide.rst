@@ -267,8 +267,8 @@ When the monitoring of the data source applies on the sourcetype level, if that 
 
 When the monitoring ot the data source applies on the index level, we take in consideration what the latest data available is in this index, not matter what the sourcetype is.
 
-Modifying the monitoring lag value:
------------------------------------
+Modifying the monitoring lag value
+----------------------------------
 
 **The maximal lagging value in seconds is the most essential item to be configured and defines the maximal time in seconds we accept a lack of data for that data source / host:**
 
@@ -507,7 +507,7 @@ Once the action is confirmed, the association is immediately removed and the ent
 Data identity card
 ==================
 
-**This feature is currently supported only for data sources monitoring.**
+**Data identity cards are available for data sources monitoring only.**
 
 **Data identity cards allow you to define a Web link and a documentation note that will be stored in a KVstore collection, and made available automatically via the UI and the out of the box alert.**
 
@@ -613,7 +613,7 @@ Builtin alerts are Splunk alerts which can be extended to be integrated in many 
 Alerts acknowledgment
 =====================
 
-**When using builtin alerts, you can leverage alerts acknowledgments within the UI to acknowledge an active alert.**
+**When using builtin alerts, you can leverage alert acknowledgments within the UI to silent an active alert during a given period.**
 
 .. image:: img/ack1.png
    :alt: ack1.png
@@ -623,8 +623,7 @@ Alerts acknowledgment
 
 - Via the user interface, acknowledge an active alert
 - Once acknowledged, the entity remains visible in the UI and monitored, but no more alerts will be generated during the time of the acknowledge
-- By default, acknowledges have an expiration duration of 24 hours
-- This means that once acknowledged, an active alert will not generate a new alert for the next 24 hours
+- An entity (data source, etc) that is in active alert and has been acknowledged will not generate any new alert for the next 24 hours by default, which value can be increased via the input selector
 - Therefore, if the entity flips to a state green again, the acknowledge is automatically disabled
 - If the entity flips later on to a red state, a new acknowledge should be created
 
@@ -635,7 +634,7 @@ Alerts acknowledgment
 - The default duration of acknowledges is define by the macro named "trackme_ack_default_duration"
 - Every 5 minutes, the tracker scheduled report named "TrackMe - Ack tracker" verifies if an acknowledge has reached its expiration and will update its status if required
 - The tracker as well verifies the current state of the entity, if the entity has flipped again to a green state, the acknowledge is disabled
-- An acknowledge can be acknowledged again within the UI, which will extend its expiration for another cycle of 24 hours from now
+- An acknowledge can be acknowledged again within the UI, which will extend its expiration for another cycle
 
 **Acknowledge for an active alert is inactive:**
 
