@@ -493,8 +493,8 @@ When an entity associated to a logical group is red, and the logical group is re
 
 Alerts will be generated for any entities part of the logical groups which are in red status, and where the monitoring state is enabled.
 
-Remove association from a new logical group
--------------------------------------------
+Remove association from a logical group
+---------------------------------------
 
 To remove an association from a logical group, click on the entry table in the initial logical group screen for that entity:
 
