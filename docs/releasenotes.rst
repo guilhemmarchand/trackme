@@ -1,6 +1,24 @@
 Release notes
 #############
 
+Version 1.1.0
+==============
+
+- feature: Better lagging management handling by storing and comparing both event based lagging and ingestion based lagging for multi-factor status definition
+- feature: Detection of data indexed in the future, data sources or hosts indexing in the future appear as orange state with a dynamic icon message
+- feature: Alert acknowledgment improvements, allows selecting an extended period for acknowledgment
+- feature: Provides by default a collection based search rather than a Meta search based approach (dropdown selector in UI) for better performances on large deployments
+- feature: Store first time seen and eventcount base for further use
+- feature: Provides a rex based filter and length condition to avoid taking incorrect hosts in consideration
+- change: Refresh default is now defined to 5 min instead of 1 min by default
+- fix: Ensure results coherence with various lookup command calls used for enrichment purposes where never more than one match should be achieved
+- fix: Various fixes
+
+Version 1.0.39
+==============
+
+- fix: minor audit changes logging improvements for metric SLA policies edition
+
 Version 1.0.38
 ==============
 
