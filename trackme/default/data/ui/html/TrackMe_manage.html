@@ -981,7 +981,7 @@ require([
 
         var searchGetMacro_trackme_data_host_rule_filter = new PostProcessManager({
             "tokenDependencies": {},
-            "search": "where title=\"trackme_data_host_rule_filter\" | table definition",
+            "search": "where title=\"trackme_data_host_rule_filter(1)\" | table definition",
             "managerid": "searchGetMacrosDefinitions",
             "id": "searchGetMacro_trackme_data_host_rule_filter"
         }, {
@@ -1361,7 +1361,7 @@ require([
         elementTable_trackme_data_host_rule_filter.on("click", function(e) {
             if (e.field !== undefined) {
                 e.preventDefault();
-                var url = TokenUtils.replaceTokenNames("/en-GB/manager/trackme/admin/macros/trackme_data_host_rule_filter?action=edit", _.extend(submittedTokenModel.toJSON(), e.data), TokenUtils.getEscaper('url'), TokenUtils.getFilters(mvc.Components));
+                var url = TokenUtils.replaceTokenNames("/en-GB/manager/trackme/admin/macros/trackme_data_host_rule_filter(1)?action=edit", _.extend(submittedTokenModel.toJSON(), e.data), TokenUtils.getEscaper('url'), TokenUtils.getFilters(mvc.Components));
                 utils.redirect(url, false, "_blank");
             }
         });
