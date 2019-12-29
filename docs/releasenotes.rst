@@ -1,6 +1,12 @@
 Release notes
 #############
 
+Version 1.1.1
+=============
+
+- fix: Long term trackers should use latest time in the future too
+- fix: New trackme_data_host_rule_filter macro does not show up properly in manage UI
+
 Version 1.1.0
 ==============
 
