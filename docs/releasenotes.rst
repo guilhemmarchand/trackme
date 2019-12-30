@@ -1,6 +1,14 @@
 Release notes
 #############
 
+Version 1.1.2
+=============
+
+- fix: Under some circumstances, the last flipping status and date fail to be properly updated in the collections due to a weakness in the merging process
+- fix: data_source modal window embedded chart should split by host in a first pipeline level for better lagging calculation accuracy
+- fix: modal window embedded chart searches should refer to the tstats macro for consistency
+- feature: Add audit view for KVstore collections
+
 Version 1.1.1
 =============
 
