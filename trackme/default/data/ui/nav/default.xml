@@ -44,6 +44,7 @@
   </collection>
   <collection label="Audit">
     <a href="trackMe_internal_scheduling">Audit scheduling</a>
+    <a href="trackMe_kvstore">KVstore collections</a>
   </collection>
   <a href="search">Run a search</a>
 </nav>
