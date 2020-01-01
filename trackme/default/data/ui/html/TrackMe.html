@@ -157,6 +157,15 @@
             margin-left: 5px;
         }
 
+        span.title_blue {
+            background: #89cff0;
+            padding: 0.3em 1.5em;
+            font-weight: 600;
+            position: relative;
+            border-radius: 5px;
+            margin-left: 5px;
+        }
+
         span.title_green {
             background: #77dd77;
             padding: 0.3em 1.5em;
@@ -5564,7 +5573,7 @@ require([
         var searchChartLag = new SearchManager({
             "id": "searchChartLag",
             "sample_ratio": 1,
-            "search": "| `tstats` count max(_indextime) as indextime where index=\"$tk_data_index$\" sourcetype=\"$tk_data_sourcetype$\" by _time, index, sourcetype, host span=1s | eval delta=(indextime-_time) | timechart span=$modalTime.span$ sum(count) as events_count, avg(delta) as avg_lag_sec",
+            "search": "| `tstats` count latest(_indextime) as indextime where index=\"$tk_data_index$\" sourcetype=\"$tk_data_sourcetype$\" by _time, index, sourcetype span=1s | eval delta=(indextime-_time) | timechart span=$modalTime.span$ sum(count) as events_count, avg(delta) as avg_lag_sec",
             "status_buckets": 0,
             "earliest_time": "$modalTime.earliest$",
             "cancelOnUnload": true,
@@ -5586,7 +5595,7 @@ require([
         var searchSingleLag = new SearchManager({
             "id": "searchSingleLag",
             "sample_ratio": 1,
-            "search": "| `tstats` count max(_indextime) as indextime where index=\"$tk_data_index$\" sourcetype=\"$tk_data_sourcetype$\" by _time, index, sourcetype, host span=1s | eval delta=(indextime-_time) | stats perc95(delta) as perc95_lag, avg(delta) as avg_lag",
+            "search": "| `tstats` count latest(_indextime) as indextime where index=\"$tk_data_index$\" sourcetype=\"$tk_data_sourcetype$\" by _time, index, sourcetype span=1s | eval delta=(indextime-_time) | stats perc95(delta) as perc95_lag, avg(delta) as avg_lag",
             "status_buckets": 0,
             "earliest_time": "$modalTime.earliest$",
             "cancelOnUnload": true,
@@ -5628,7 +5637,7 @@ require([
         var searchSingleLagHost = new SearchManager({
             "id": "searchSingleLagHost",
             "sample_ratio": 1,
-            "search": "| tstats count latest(_indextime) as indextime where index=* host=\"$tk_data_host$\" `trackme_tstats_main_filter` `trackme_get_idx_whitelist(trackme_data_host_monitoring_whitelist_index, data_index)` `apply_data_host_blacklists_data_retrieve` by _time, index, sourcetype, host span=1s | eval delta=(indextime-_time) | stats perc95(delta) as perc95_lag, avg(delta) as avg_lag",
+            "search": "| tstats count latest(_indextime) as indextime where index=* host=\"$tk_data_host$\" `trackme_tstats_main_filter` `trackme_get_idx_whitelist(trackme_data_host_monitoring_whitelist_index, data_index)` `apply_data_host_blacklists_data_retrieve` by _time, index, sourcetype span=1s | eval delta=(indextime-_time) | stats perc95(delta) as perc95_lag, avg(delta) as avg_lag",
             "status_buckets": 0,
             "earliest_time": "$modalTimeHost.earliest$",
             "cancelOnUnload": true,
@@ -8933,6 +8942,8 @@ require([
                     setToken("tk_data_source_state_class", TokenUtils.replaceTokenNames("title_green", _.extend(submittedTokenModel.toJSON(), e.data)));
                 } else if (tk_data_source_state == "orange") {
                     setToken("tk_data_source_state_class", TokenUtils.replaceTokenNames("title_orange", _.extend(submittedTokenModel.toJSON(), e.data)));
+                } else if (tk_data_source_state == "blue") {
+                    setToken("tk_data_source_state_class", TokenUtils.replaceTokenNames("title_blue", _.extend(submittedTokenModel.toJSON(), e.data)));
                 } else if (tk_data_source_state == "red") {
                     setToken("tk_data_source_state_class", TokenUtils.replaceTokenNames("title_red", _.extend(submittedTokenModel.toJSON(), e.data)));
                 }
@@ -9270,6 +9281,8 @@ require([
                     setToken("tk_data_host_state_class", TokenUtils.replaceTokenNames("title_green", _.extend(submittedTokenModel.toJSON(), e.data)));
                 } else if (tk_data_host_state == "orange") {
                     setToken("tk_data_host_state_class", TokenUtils.replaceTokenNames("title_orange", _.extend(submittedTokenModel.toJSON(), e.data)));
+                } else if (tk_data_host_state == "blue") {
+                    setToken("tk_data_host_state_class", TokenUtils.replaceTokenNames("title_blue", _.extend(submittedTokenModel.toJSON(), e.data)));
                 } else if (tk_data_host_state == "red") {
                     setToken("tk_data_host_state_class", TokenUtils.replaceTokenNames("title_red", _.extend(submittedTokenModel.toJSON(), e.data)));
                 }
@@ -9394,6 +9407,8 @@ require([
                     setToken("tk_metric_host_state_class", TokenUtils.replaceTokenNames("title_green", _.extend(submittedTokenModel.toJSON(), e.data)));
                 } else if (tk_metric_host_state == "orange") {
                     setToken("tk_metric_host_state_class", TokenUtils.replaceTokenNames("title_orange", _.extend(submittedTokenModel.toJSON(), e.data)));
+                } else if (tk_metric_host_state == "blue") {
+                    setToken("tk_metric_host_state_class", TokenUtils.replaceTokenNames("title_blue", _.extend(submittedTokenModel.toJSON(), e.data)));
                 } else if (tk_metric_host_state == "red") {
                     setToken("tk_metric_host_state_class", TokenUtils.replaceTokenNames("title_red", _.extend(submittedTokenModel.toJSON(), e.data)));
                 }
@@ -9431,7 +9446,7 @@ require([
             "id": "elementHostChartMetricHost",
             "charting.chart": "pie",
             "charting.drilldown": "all",
-            "charting.fieldColors": "{\"red\": 0xff6961, \"orange\": 0xffb347, \"green\": 0x77dd77}",
+            "charting.fieldColors": "{\"red\": 0xff6961, \"orange\": 0xffb347, \"blue\": 0x89cff0, \"green\": 0x77dd77}",
             "height": "180",
             "resizable": true,
             "managerid": "searchHostChartMetricHost",
@@ -11315,6 +11330,10 @@ require([
                     "value": "Green"
                 },
                 {
+                    "label": "Blue",
+                    "value": "Blue"
+                },
+                {
                     "label": "Orange",
                     "value": "Orange"
                 },
@@ -11538,6 +11557,10 @@ require([
                     "value": "Green"
                 },
                 {
+                    "label": "Blue",
+                    "value": "Blue"
+                },
+                {
                     "label": "Orange",
                     "value": "Orange"
                 },
@@ -11572,6 +11595,10 @@ require([
                 {
                     "label": "Green",
                     "value": "Green"
+                },
+                {
+                    "label": "Blue",
+                    "value": "Blue"
                 },
                 {
                     "label": "Orange",

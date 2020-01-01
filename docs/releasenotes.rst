@@ -1,6 +1,14 @@
 Release notes
 #############
 
+Version 1.1.3
+=============
+
+- feature: Creation of an additional blue status, used for data hosts and metric hosts managed in a logical group when logical group monitoring conditions are met but entity is not green
+- fix: Improved dynamic icon messages (reference the current latency when state is red)
+- change: Increased default tolerance for data indexed in the future detection macro
+- change: limit embedded charts searches overhead for data sources (do not split by host which limits accuracy but slightly improves searches performance in large environments)
+
 Version 1.1.2
 =============
 
