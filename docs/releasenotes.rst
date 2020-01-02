@@ -1,6 +1,11 @@
 Release notes
 #############
 
+Version 1.1.4
+=============
+
+- fix: Previously added data sources or hosts can under some conditions appear with no state icon if status remained red and added in the collections before collecting last data ingestion statistics
+
 Version 1.1.3
 =============
 
