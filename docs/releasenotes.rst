@@ -1,6 +1,20 @@
 Release notes
 #############
 
+Version 1.1.6
+=============
+
+- feature: Introducing the SLA compliance reporting dashboard and features, providing analytic over the level of compliance based on the time objects have spent in red state (flipping mode detection)
+- feature: Allows entering an update note for logging and notification purposes when a modification a KVstore entry is made via the UI
+- feature: Regular expression support for data sources and host blacklisting entries
+- feature: Pretty parse and print json objects in audit changes
+- feature: Provides index and host blacklisting features for metric hosts monitoring
+- feature: New tracker "TrackMe - Audit change notification tracker" which is due to be used for dedicated team work for updates notification (Slack...)
+- change: Increase default retention for flipping states KVstore collection from 3 months to 6 months
+- fix: Provides KVstore entry modification window for entity deletion to allow note update
+- fix: Blue state icon will not show up in flipping status tab
+- fix: Improvements in initial discovery detection for flipping status and SLA calculation purposes
+
 Version 1.1.5
 =============
 

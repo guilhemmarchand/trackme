@@ -334,6 +334,16 @@ Whitelisting & Blacklisting features
    :alt: blacklist_btns.png
    :align: center
 
+*The following type of blacklisting entries are supported:**
+
+- explicit names, example: ``dev001``
+- wildcards, example: ``dev-*``
+- regular expressions, example: ``(?i)dev-.*``
+
+*regular expressions are supported starting version 1.1.6.*
+
+*metric_category blacklisting for metric hosts supports explicit blacklist only.*
+
 **Adding or removing a blacklist item if performed entirely and easily within the UI:**
 
 .. image:: img/blacklist_example.png
@@ -666,3 +676,32 @@ Connected experience dashboard for Splunk Mobile & Apple TV
    :align: center
 
 This dashboard is exported to the system, to be made available to Splunk Cloud Gateway.
+
+Team working with trackMe alerts and audit changes flow tracker
+===============================================================
+
+**Nowadays it is very convenient to have team workspaces (Slack, Webex Teams, MS-Teams...) where people and applications can interact.**
+
+Fortunately, Splunk with alert actions and addon extensions allows interacting with any kind of platform, TrackMe makes it very handy with the following alerts:
+
+*Out of the box alerts can be communicating when potential issues data sources, hosts or metric hosts are detected:*
+
+- TrackMe - Alert on data source availability
+- TrackMe - Alert on data host availability
+- TrackMe - Alert on metric host availability
+
+*In addition, the notification change tracker allows sharing automatically updates performed by administrators, which could be sent to a dedicated channel:*
+
+- TrackMe - Audit change notification tracker
+
+**Example in a Slack channel:**
+
+.. image:: img/slack_audit_change_flow.png
+   :alt: slack_audit_change_flow.png
+   :align: center
+
+*For Slack integration, see*
+
+- https://splunkbase.splunk.com/app/2878
+
+Many more integration are available on Splunk Base.
