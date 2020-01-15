@@ -1,6 +1,12 @@
 Release notes
 #############
 
+Version 1.1.7
+=============
+
+- fix: Blacklist modal windows might under some resolution not be entirely visible, reduce height and max count table
+- fix: Acknowledgment expiration is not honoured properly
+
 Version 1.1.6
 =============
 

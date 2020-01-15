@@ -2456,13 +2456,6 @@ styles in <div> tags, similar to Bootstrap's grid system.
                     <div class="boxnotify" id="boxnotify-modal_modify_data_source_blacklist_host">
                     </div>
 
-                    <lu>
-                        <li>TrackMe - Data sources availability short term tracker: tracks data on a frequency over a small time range</li>
-                        <li>TrackMe - Data sources availability long term tracker: tracks data on a hourly frequency over a large time range</li>
-                    </lu>
-
-                    <br />
-
                     <b>Blacklist entries support the following types:</b>
                     <br /><br />
 
@@ -2552,13 +2545,6 @@ styles in <div> tags, similar to Bootstrap's grid system.
 
                     <div class="boxnotify" id="boxnotify-modal_modify_data_source_blacklist_index">
                     </div>
-
-                    <lu>
-                        <li>TrackMe - Data sources availability short term tracker: tracks data on a frequency over a small time range</li>
-                        <li>TrackMe - Data sources availability long term tracker: tracks data on a hourly frequency over a large time range</li>
-                    </lu>
-
-                    <br />
 
                     <b>Blacklist entries support the following types:</b>
                     <br /><br />
@@ -2655,13 +2641,6 @@ styles in <div> tags, similar to Bootstrap's grid system.
 
                     <div class="boxnotify" id="boxnotify-modal_modify_data_source_blacklist_sourcetype">
                     </div>
-
-                    <lu>
-                        <li>TrackMe - Data sources availability short term tracker: tracks data on a frequency over a small time range</li>
-                        <li>TrackMe - Data sources availability long term tracker: tracks data on a hourly frequency over a large time range</li>
-                    </lu>
-
-                    <br />
 
                     <b>Blacklist entries support the following types:</b>
                     <br /><br />
@@ -2762,13 +2741,6 @@ styles in <div> tags, similar to Bootstrap's grid system.
 
                     <div class="boxnotify" id="boxnotify-modal_modify_data_host_blacklist_host">
                     </div>
-
-                    <lu>
-                        <li>TrackMe - Data hosts availability short term tracker: tracks data on a frequency over a small time range</li>
-                        <li>TrackMe - Data hosts availability long term tracker: tracks data on a hourly frequency over a large time range</li>
-                    </lu>
-
-                    <br />
 
                     <b>Blacklist entries support the following types:</b>
                     <br /><br />
@@ -3982,13 +3954,6 @@ styles in <div> tags, similar to Bootstrap's grid system.
                     <div class="boxnotify" id="boxnotify-modal_modify_data_host_blacklist_index">
                     </div>
 
-                    <lu>
-                        <li>TrackMe - Data hosts availability short term tracker: tracks data on a frequency over a small time range</li>
-                        <li>TrackMe - Data hosts availability long term tracker: tracks data on a hourly frequency over a large time range</li>
-                    </lu>
-
-                    <br />
-
                     <b>Blacklist entries support the following types:</b>
                     <br /><br />
 
@@ -4084,12 +4049,6 @@ styles in <div> tags, similar to Bootstrap's grid system.
 
                     <div class="boxnotify" id="boxnotify-modal_modify_metric_host_blacklist_index">
                     </div>
-
-                    <lu>
-                        <li>TrackMe - metric hosts availability tracker</li>
-                    </lu>
-
-                    <br />
 
                     <b>Blacklist entries support the following types:</b>
                     <br /><br />
@@ -4187,13 +4146,6 @@ styles in <div> tags, similar to Bootstrap's grid system.
                     <div class="boxnotify" id="boxnotify-modal_modify_data_host_blacklist_sourcetype">
                     </div>
 
-                    <lu>
-                        <li>TrackMe - Data hosts availability short term tracker: tracks data on a frequency over a small time range</li>
-                        <li>TrackMe - Data hosts availability long term tracker: tracks data on a hourly frequency over a large time range</li>
-                    </lu>
-
-                    <br />
-
                     <b>Blacklist entries support the following types:</b>
                     <br /><br />
 
@@ -4289,12 +4241,6 @@ styles in <div> tags, similar to Bootstrap's grid system.
 
                     <div class="boxnotify" id="boxnotify-modal_modify_metric_host_blacklist_host">
                     </div>
-
-                    <lu>
-                        <li>TrackMe - metric hosts availability tracker</li>
-                    </lu>
-
-                    <br />
 
                     <b>Blacklist entries support the following types:</b>
                     <br /><br />
@@ -10360,7 +10306,7 @@ require([
             "tokenDependencies": {
                 "depends": "$show_table_data_source_blacklist_host$"
             },
-            "count": 10,
+            "count": 5,
             "drilldown": "row",
             "fields": "data_host, data_blacklist_state, is_rex",
             "refresh.display": "none",
@@ -10403,7 +10349,7 @@ require([
             "tokenDependencies": {
                 "depends": "$show_table_data_source_blacklist_index$",
             },
-            "count": 10,
+            "count": 5,
             "drilldown": "row",
             "fields": "data_index, data_blacklist_state, is_rex",
             "refresh.display": "none",
@@ -10446,7 +10392,7 @@ require([
             "tokenDependencies": {
                 "depends": "$show_table_data_source_blacklist_sourcetype$"
             },
-            "count": 10,
+            "count": 5,
             "drilldown": "row",
             "fields": "data_sourcetype, data_blacklist_state, is_rex",
             "refresh.display": "none",
@@ -10489,7 +10435,7 @@ require([
             "tokenDependencies": {
                 "depends": "$show_table_data_host_blacklist_host$"
             },
-            "count": 10,
+            "count": 5,
             "drilldown": "row",
             "fields": "data_host, data_blacklist_state, is_rex",
             "refresh.display": "none",
@@ -10532,7 +10478,7 @@ require([
             "tokenDependencies": {
                 "depends": "$show_table_data_host_blacklist_index$"
             },
-            "count": 10,
+            "count": 5,
             "drilldown": "row",
             "fields": "data_index, data_blacklist_state, is_rex",
             "refresh.display": "none",
@@ -10575,7 +10521,7 @@ require([
             "tokenDependencies": {
                 "depends": "$show_table_metric_host_blacklist_index$"
             },
-            "count": 10,
+            "count": 5,
             "drilldown": "row",
             "fields": "metric_index, metric_blacklist_state, is_rex",
             "refresh.display": "none",
@@ -10618,7 +10564,7 @@ require([
             "tokenDependencies": {
                 "depends": "$show_table_data_host_blacklist_sourcetype$"
             },
-            "count": 10,
+            "count": 5,
             "drilldown": "row",
             "fields": "data_sourcetype, data_blacklist_state, is_rex",
             "refresh.display": "none",
@@ -10661,7 +10607,7 @@ require([
             "tokenDependencies": {
                 "depends": "$show_table_metric_host_blacklist_host$"
             },
-            "count": 10,
+            "count": 5,
             "drilldown": "row",
             "fields": "metric_host, metric_blacklist_state, is_rex",
             "refresh.display": "none",
@@ -10704,7 +10650,7 @@ require([
             "tokenDependencies": {
                 "depends": "$show_table_metric_host_blacklist_metric_category$"
             },
-            "count": 10,
+            "count": 5,
             "drilldown": "row",
             "fields": "metric_category, metric_blacklist_state, is_rex",
             "refresh.display": "none",
