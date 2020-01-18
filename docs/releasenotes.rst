@@ -1,6 +1,12 @@
 Release notes
 #############
 
+Version 1.1.8
+=============
+
+- fix: SLA incorrect calculation, improvements and corrections in calculating the percentage of time spent in green/blue mode
+- feature: Implement time based approach for SLA calculation restriction, provides time range picker in QOS dashboard
+
 Version 1.1.7
 =============
 

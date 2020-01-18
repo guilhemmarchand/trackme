@@ -5646,7 +5646,7 @@ require([
             "id": "searchSingleSLAMetricHostpct",
             "sample_ratio": 1,
             "status_buckets": 0,
-            "earliest_time": "0",
+            "earliest_time": "-90d@d",
             "cancelOnUnload": true,
             "latest_time": "now",
             "app": utils.getCurrentApp(),
@@ -5951,7 +5951,7 @@ require([
             "id": "searchSingleSLApct",
             "sample_ratio": 1,
             "status_buckets": 0,
-            "earliest_time": "0",
+            "earliest_time": "-90d@d",
             "cancelOnUnload": true,
             "latest_time": "now",
             "app": utils.getCurrentApp(),
@@ -6012,7 +6012,7 @@ require([
             "id": "searchSingleSLAHostpct",
             "sample_ratio": 1,
             "status_buckets": 0,
-            "earliest_time": "0",
+            "earliest_time": "-90d@d",
             "cancelOnUnload": true,
             "latest_time": "now",
             "app": utils.getCurrentApp(),
@@ -10045,7 +10045,7 @@ require([
             "trellis.scales.shared": "1",
             "useColors": "1",
             "useThousandSeparators": "1",
-            "underLabel": "SLA COMPLIANCE PERCENTAGE (% of time spent in green/blue mode)",
+            "underLabel": "SLA COMPLIANCE PERCENTAGE (% of time spent in green/blue mode in the last 90d)",
             "managerid": "searchSingleSLAMetricHostpct",
             "el": $('#elementSingleSLAMetricHostpct')
         }, {
@@ -10056,7 +10056,7 @@ require([
         elementSingleSLAMetricHostpct.on("click", function(e) {
             if (e.field !== undefined) {
                 e.preventDefault();
-                var url = TokenUtils.replaceTokenNames("{{SPLUNKWEB_URL_PREFIX}}/app/trackme/search?q=%7C%20%60trackme_get_sla($tk_metric_host$,metric_host)%60&earliest=-24h@h&latest=now", _.extend(submittedTokenModel.toJSON(), e.data), TokenUtils.getEscaper('url'), TokenUtils.getFilters(mvc.Components));
+                var url = TokenUtils.replaceTokenNames("{{SPLUNKWEB_URL_PREFIX}}/app/trackme/search?q=%7C%20%60trackme_get_sla($tk_metric_host$,metric_host)%60&earliest=-90d@d&latest=now", _.extend(submittedTokenModel.toJSON(), e.data), TokenUtils.getEscaper('url'), TokenUtils.getFilters(mvc.Components));
                 utils.redirect(url, false, "_blank");
             }
         });
@@ -10812,7 +10812,7 @@ require([
             "trellis.scales.shared": "1",
             "useColors": "1",
             "useThousandSeparators": "1",
-            "underLabel": "SLA COMPLIANCE PERCENTAGE (% of time spent in green mode)",
+            "underLabel": "SLA COMPLIANCE PERCENTAGE (% of time spent in green/blue mode in the last 90d)",
             "managerid": "searchSingleSLApct",
             "el": $('#elementSingleSLApct')
         }, {
@@ -10823,7 +10823,7 @@ require([
         elementSingleSLApct.on("click", function(e) {
             if (e.field !== undefined) {
                 e.preventDefault();
-                var url = TokenUtils.replaceTokenNames("{{SPLUNKWEB_URL_PREFIX}}/app/trackme/search?q=%7C%20%60trackme_get_sla($tk_data_name$,data_source)%60&earliest=-24h@h&latest=now", _.extend(submittedTokenModel.toJSON(), e.data), TokenUtils.getEscaper('url'), TokenUtils.getFilters(mvc.Components));
+                var url = TokenUtils.replaceTokenNames("{{SPLUNKWEB_URL_PREFIX}}/app/trackme/search?q=%7C%20%60trackme_get_sla($tk_data_name$,data_source)%60&earliest=-90d@d&latest=now", _.extend(submittedTokenModel.toJSON(), e.data), TokenUtils.getEscaper('url'), TokenUtils.getFilters(mvc.Components));
                 utils.redirect(url, false, "_blank");
             }
         });
@@ -10956,7 +10956,7 @@ require([
             "trellis.scales.shared": "1",
             "useColors": "1",
             "useThousandSeparators": "1",
-            "underLabel": "SLA COMPLIANCE PERCENTAGE (% of time spent in green/blue mode)",
+            "underLabel": "SLA COMPLIANCE PERCENTAGE (% of time spent in green/blue mode in the last 90d)",
             "managerid": "searchSingleSLAHostpct",
             "el": $('#elementSingleSLAHostpct')
         }, {
@@ -10967,7 +10967,7 @@ require([
         elementSingleSLAHostpct.on("click", function(e) {
             if (e.field !== undefined) {
                 e.preventDefault();
-                var url = TokenUtils.replaceTokenNames("{{SPLUNKWEB_URL_PREFIX}}/app/trackme/search?q=%7C%20%60trackme_get_sla($tk_data_host$,data_host)%60&earliest=-24h@h&latest=now", _.extend(submittedTokenModel.toJSON(), e.data), TokenUtils.getEscaper('url'), TokenUtils.getFilters(mvc.Components));
+                var url = TokenUtils.replaceTokenNames("{{SPLUNKWEB_URL_PREFIX}}/app/trackme/search?q=%7C%20%60trackme_get_sla($tk_data_host$,data_host)%60&earliest=-90d@d&latest=now", _.extend(submittedTokenModel.toJSON(), e.data), TokenUtils.getEscaper('url'), TokenUtils.getFilters(mvc.Components));
                 utils.redirect(url, false, "_blank");
             }
         });
