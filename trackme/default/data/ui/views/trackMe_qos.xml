@@ -4,18 +4,26 @@
 
   <search id="baseSearch">
     <query>| `trackme_get_sla($object_category$,$object$,$object_freetext$,$priority$)`</query>
-    <earliest>-24h@h</earliest>
-    <latest>now</latest>
+    <earliest>$timerange.earliest$</earliest>
+    <latest>$timerange.latest$</latest>
   </search>
 
   <search id="percent_main" base="baseSearch">
-    <query>| where percent_sla&gt;0
+    <query>| where percent_sla&gt;=0
 | stats avg(percent_sla) as average_percent_sla by object_category</query>
-    <earliest>-24h@h</earliest>
-    <latest>now</latest>
+    <earliest>$timerange.earliest$</earliest>
+    <latest>$timerange.latest$</latest>
   </search>
 
-  <fieldset submitButton="false"></fieldset>
+  <fieldset submitButton="false">
+    <input type="time" token="timerange" searchWhenChanged="true">
+      <label>time period for SLA calculation:</label>
+      <default>
+        <earliest>-90d@d</earliest>
+        <latest>now</latest>
+      </default>
+    </input>
+  </fieldset>
 
   <row>
     <panel depends="$show_single_data_source$">
@@ -144,7 +152,7 @@
         <drilldown>
           <link target="_blank">
   <![CDATA[
-/app/trackme/search?q=| `trackme_get_sla($row.object$,$row.object_category$)`
+/app/trackme/search?q=| `trackme_get_sla($row.object$,$row.object_category$)`&earliest=$timerange.earliest$&latest=$timerange.latest$
   ]]>
           </link>
         </drilldown>
