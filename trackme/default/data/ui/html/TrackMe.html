@@ -9631,7 +9631,7 @@ require([
         // Logical group add member
         var elementLogicalGroupTableAddMember = new TableElement({
             "id": "elementLogicalGroupTableAddMember",
-            "count": 100,
+            "count": 5,
             "drilldown": "row",
             "refresh.display": "none",
             "wrap": "false",
@@ -13036,6 +13036,7 @@ require([
         $("#btn_refresh_data_source").click(function(mode) {
             searchSingleLag.startSearch();
             searchChartLag.startSearch();
+            searchSingleSLApct.startSearch();
         });
 
         // refresh data_host
@@ -13043,11 +13044,13 @@ require([
             searchSingleLagHost.startSearch();
             searchChartHostBaseSearch.startSearch();
             searchChartLagHostOverTime.startSearch();
+            searchSingleSLAHostpct.startSearch();
         });
 
         // refresh metric_host
         $("#btn_refresh_metric_host").click(function(mode) {
             searchHostTableMetricHost.startSearch();
+            searchSingleSLAMetricHostpct.startSearch();
         });
 
         $("#btn_enable_monitoring_metric_host").click(function(mode) {
@@ -20961,6 +20964,10 @@ require([
 
                 var input_doc_object = tokens.get("tk_data_name");
                 var input_doc_note = document.getElementById("input_doc_note").value;
+
+                // replace chars that would lead the operation to fail
+                var input_doc_note = input_doc_note.replace(/\"/g, '\\"');
+
                 var input_doc_link = document.getElementById("input_doc_link").value;
 
                 //console.log("link is: " + input_doc_link);

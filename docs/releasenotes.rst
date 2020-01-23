@@ -1,6 +1,13 @@
 Release notes
 #############
 
+Version 1.1.9
+=============
+
+- fix: Prevents data source identity card note failing if note contains double quotes (leads the underneath Splunk search adding to the collection to fail)
+- fix: Reduce the maximal number of tables count in logical group show group table modal window, to avoid large number of groups hidden next pages
+- fix: Refresh in modal window does not refresh SLA single forms
+
 Version 1.1.8
 =============
 
