@@ -138,7 +138,7 @@ access = read : [ * ], write : [ admin, trackme_admin ]
 #
 
 [transforms/trackme_audit_changes]
-access = read : [ admin ], write : [ admin, trackme_admin ]
+access = read : [ admin, trackme_admin ], write : [ admin, trackme_admin ]
 
 [collections/kv_trackme_audit_changes]
 access = read : [ * ], write : [ * ]

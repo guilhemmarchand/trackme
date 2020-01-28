@@ -193,6 +193,33 @@
             margin-left: 5px;
         }
 
+        span.title_low_priority {
+            background: #cce5ff;
+            padding: 0.3em 1.5em;
+            font-weight: 600;
+            position: relative;
+            border-radius: 5px;
+            margin-left: 5px;
+        }
+
+        span.title_medium_priority {
+            background: #7fbfff;
+            padding: 0.3em 1.5em;
+            font-weight: 600;
+            position: relative;
+            border-radius: 5px;
+            margin-left: 5px;
+        }
+
+        span.title_high_priority {
+            background: #3298ff;
+            padding: 0.3em 1.5em;
+            font-weight: 600;
+            position: relative;
+            border-radius: 5px;
+            margin-left: 5px;
+        }
+
         .imgheader {
            margin-top: 10px;
            margin-bottom: 40px;
@@ -2896,9 +2923,9 @@ styles in <div> tags, similar to Bootstrap's grid system.
                             <p>Define the priority of the data source for granular level of SLA alerting:</p>
 
                             <p>
-                                <span class="title_green">low</span>
-                                <span class="title_yellow">medium</span>
-                                <span class="title_red">high</span>
+                                <span class="title_low_priority">low</span>
+                                <span class="title_medium_priority">medium</span>
+                                <span class="title_high_priority">high</span>
                             </p>
 
                             <div class="fieldset">
@@ -3016,9 +3043,9 @@ styles in <div> tags, similar to Bootstrap's grid system.
                         <p>Define the priority of the data host for granular level of SLA alerting:</p>
 
                         <p>
-                            <span class="title_green">low</span>
-                            <span class="title_yellow">medium</span>
-                            <span class="title_red">high</span>
+                            <span class="title_low_priority">low</span>
+                            <span class="title_medium_priority">medium</span>
+                            <span class="title_high_priority">high</span>
                         </p>
 
                         <div class="fieldset">
@@ -3108,9 +3135,9 @@ styles in <div> tags, similar to Bootstrap's grid system.
                         <p>Define the priority of the metric host for granular level of SLA alerting:</p>
 
                         <p>
-                            <span class="title_green">low</span>
-                            <span class="title_yellow">medium</span>
-                            <span class="title_red">high</span>
+                            <span class="title_low_priority">low</span>
+                            <span class="title_medium_priority">medium</span>
+                            <span class="title_high_priority">high</span>
                         </p>
 
                         <div class="fieldset">
@@ -9517,11 +9544,11 @@ require([
 
                 // Dynamically manage priority color
                 if (tk_priority == "low") {
-                    setToken("tk_priority_class", TokenUtils.replaceTokenNames("title_green", _.extend(submittedTokenModel.toJSON(), e.data)));
+                    setToken("tk_priority_class", TokenUtils.replaceTokenNames("title_low_priority", _.extend(submittedTokenModel.toJSON(), e.data)));
                 } else if (tk_priority == "medium") {
-                    setToken("tk_priority_class", TokenUtils.replaceTokenNames("title_yellow", _.extend(submittedTokenModel.toJSON(), e.data)));
+                    setToken("tk_priority_class", TokenUtils.replaceTokenNames("title_medium_priority", _.extend(submittedTokenModel.toJSON(), e.data)));
                 } else if (tk_priority == "high") {
-                    setToken("tk_priority_class", TokenUtils.replaceTokenNames("title_red", _.extend(submittedTokenModel.toJSON(), e.data)));
+                    setToken("tk_priority_class", TokenUtils.replaceTokenNames("title_high_priority", _.extend(submittedTokenModel.toJSON(), e.data)));
                 }
 
                 // Enable modal context
@@ -9856,11 +9883,11 @@ require([
 
                 // Dynamically manage priority color
                 if (tk_priority == "low") {
-                    setToken("tk_priority_class", TokenUtils.replaceTokenNames("title_green", _.extend(submittedTokenModel.toJSON(), e.data)));
+                    setToken("tk_priority_class", TokenUtils.replaceTokenNames("title_low_priority", _.extend(submittedTokenModel.toJSON(), e.data)));
                 } else if (tk_priority == "medium") {
-                    setToken("tk_priority_class", TokenUtils.replaceTokenNames("title_yellow", _.extend(submittedTokenModel.toJSON(), e.data)));
+                    setToken("tk_priority_class", TokenUtils.replaceTokenNames("title_medium_priority", _.extend(submittedTokenModel.toJSON(), e.data)));
                 } else if (tk_priority == "high") {
-                    setToken("tk_priority_class", TokenUtils.replaceTokenNames("title_red", _.extend(submittedTokenModel.toJSON(), e.data)));
+                    setToken("tk_priority_class", TokenUtils.replaceTokenNames("title_high_priority", _.extend(submittedTokenModel.toJSON(), e.data)));
                 }
 
                 // Enable modal context
@@ -9983,11 +10010,11 @@ require([
 
                 // Dynamically manage priority color
                 if (tk_priority == "low") {
-                    setToken("tk_priority_class", TokenUtils.replaceTokenNames("title_green", _.extend(submittedTokenModel.toJSON(), e.data)));
+                    setToken("tk_priority_class", TokenUtils.replaceTokenNames("title_low_priority", _.extend(submittedTokenModel.toJSON(), e.data)));
                 } else if (tk_priority == "medium") {
-                    setToken("tk_priority_class", TokenUtils.replaceTokenNames("title_yellow", _.extend(submittedTokenModel.toJSON(), e.data)));
+                    setToken("tk_priority_class", TokenUtils.replaceTokenNames("title_medium_priority", _.extend(submittedTokenModel.toJSON(), e.data)));
                 } else if (tk_priority == "high") {
-                    setToken("tk_priority_class", TokenUtils.replaceTokenNames("title_red", _.extend(submittedTokenModel.toJSON(), e.data)));
+                    setToken("tk_priority_class", TokenUtils.replaceTokenNames("title_high_priority", _.extend(submittedTokenModel.toJSON(), e.data)));
                 }
 
                 // Enable modal context
