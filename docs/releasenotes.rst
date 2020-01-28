@@ -1,6 +1,12 @@
 Release notes
 #############
 
+Version 1.1.10
+==============
+
+- fix: TrackMe admin members that are not admin cannot access to the audit collection content due to missing role statement in Metadata
+- change: Change priority color code scheme to avoid confusion with object statuses
+
 Version 1.1.9
 =============
 
