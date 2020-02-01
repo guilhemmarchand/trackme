@@ -1,6 +1,12 @@
 Release notes
 #############
 
+Version 1.1.11
+==============
+
+- feature: Enrichment tags is a new feature available for data and metric hosts which allows you to provide automatic access to your assets context within TrackMe (Enterprise Security assets, custom CMDB data, etc)
+- feature: Provides update comment capabilities for acknowledgments
+
 Version 1.1.10
 ==============
 

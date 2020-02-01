@@ -705,3 +705,22 @@ Fortunately, Splunk with alert actions and addon extensions allows interacting w
 - https://splunkbase.splunk.com/app/2878
 
 Many more integration are available on Splunk Base.
+
+Enrichments tags
+================
+
+**Enrichment tags are available for data and metric hosts to provide context for your assets based on the assets data available in your Splunk deployment.**
+
+.. image:: img/tags_screen1.png
+   :alt: tags_screen1.png
+   :align: center
+
+.. image:: img/tags_screen2.png
+   :alt: tags_screen2.png
+   :align: center
+
+Once configured, enrichment tags provides access to your assets information to help analyst identifying the entities in alert and facilitate further investigations:
+
+.. image:: img/tags_screen3.png
+   :alt: tags_screen3.png
+   :align: center
