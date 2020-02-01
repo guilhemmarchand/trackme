@@ -185,6 +185,31 @@
             margin-left: 5px;
         }
 
+        .imgheader36 img {
+            float: left;
+            width: 36px;
+            height: 36px;
+        }
+
+        .imgheader36 h1 {
+            color: lightslategrey;
+            text-align: left;
+            position: relative;
+            top: 9px;
+            left: 10px;
+        }
+
+        .imgheader36 h3 {
+            position: relative;
+            top: 8px;
+            left: -10px;
+        }
+
+        .imgminiheader img {
+            position: relative;
+            top: -4px;
+        }
+
         </style>
 </head>
 <body class="simplexml preload locale-en" data-splunk-version="" data-splunk-product="enterprise">
@@ -412,6 +437,95 @@ styles in <div> tags, similar to Bootstrap's grid system.
                         </div>
                     </div>
 
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="rowManageEnrichmentMacrosInfo" class="dashboard-row dashboard-rowManageResetInfo">
+        <div id="panelManageEnrichmentMacrosInfo" class="dashboard-cell" style="width: 100%;">
+            <div class="dashboard-panel clearfix">
+                <div class="panel-element-row">
+                    <div id="elementManageEnrichmentMacrosInfo" class="dashboard-element html" style="width: 100%">
+                        <div class="panel-body html">
+                            <div style="text-align: center; border: 3px dashed #ccc;">
+                                <div style="display: inline-flex; align-items: center; margin-top: 5px;">
+                                    <span style="font-size: 22px; font-weight: bold; color: #999999; margin-top: 5px;">TAGS ENRICHMENT MACRO DEFINITIONS</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="rowManageEnrichmentMacrosInfoExtended" class="dashboard-row dashboard-rowManageResetInfo">
+        <div id="panelManageEnrichmentMacrosInfoExtended" class="dashboard-cell" style="width: 100%;">
+            <div class="dashboard-panel clearfix">
+                <div class="panel-element-row">
+                    <div id="elementManageEnrichmentMacrosInfoExtended" class="dashboard-element html" style="width: 100%">
+                        <div class="panel-body html">
+                            <div>
+
+                                <div class="imgheader36">
+                                    <img style="float: left; margin: 0px 15px 15px 0px;" src="../../static/app/trackme/icons/tags.png"/></span>
+                                    <h3>Object tags:</h3>
+                                    <br />
+                                </div>
+
+                                <br />
+                                <p>Tags enrichment is made available when investigating a data or metric host within the user interface, to provide valuable context and get benefit from assets information available in the Splunk deployment.
+
+                                <br /><br />
+                                <b><i>Splunk Enterprise Security assets usage:</i></b>
+                                <br /><br />
+
+                                If TrackMe is running on the same search head than Enterprise Security and you wish to use its assets knowledge, customize the macro with <code> `get_asset(data_host)`</code> for data hosts, and <code>`get_asset(metric_host)`</code> for metric hosts.
+                                <br />
+                                If Enterprise Security is running on a different search head, one option is to define a summary scheduled report on the ES search head, then a scheduled report that will use the summary data to automatically build a copy of Enterprise Security assets lookup. (asset_lookup_by_str)
+                                Customize the macro with a call to lookup <code>lookup name_of_lookup key as data_host</code> for data_hosts, and <code>lookup name_of_lookup key as metric_host</code> for metric_hosts.
+                                <br /><br />
+
+                                <b><i>Any kind of CMDB data available in Splunk:</i></b>
+                                <br /><br />
+                                Similarly you can use any lookup available in the Splunk instance which provides Assets context looking up a key which in most cases would be host name, dns name or IP address.
+                                <br />
+                                Make sure your asset lookup definition is exported to the system, is case insensitive and contains the relevant information, then customize the macros depending on your configuration, example: <code>lookup name_of_lookup key as data_hosts</code> for data hosts, <code>lookup name_of_lookup key as metric_hosts</code> for metric hosts.
+
+
+                                </p>
+
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="ManageRowEnrichmentMacro1" class="dashboard-row dashboard-rowDataSourcesTable">
+        <div id="panelManageEnrichmentMacro1" class="dashboard-cell" style="width: 100%;">
+            <div class="dashboard-panel clearfix">
+                <h2 style="padding: 12px 55px 7px 12px;">trackme_get_data_host_tags</h2><h2 class="panel-title">Macro definition for data host tags enrichment</h2>
+                <div class="panel-element-row">
+                    <div id="elementTable_trackme_get_data_host_tags" class="dashboard-element table" style="width: 100%">
+                        <div class="panel-body"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="ManageRowEnrichmentMacro2" class="dashboard-row dashboard-rowDataSourcesTable">
+        <div id="panelManageEnrichmentMacro2" class="dashboard-cell" style="width: 100%;">
+            <div class="dashboard-panel clearfix">
+                <h2 style="padding: 12px 55px 7px 12px;">trackme_get_metric_host_tags</h2><h2 class="panel-title">Macro definition for metric host tags enrichment</h2>
+                <div class="panel-element-row">
+                    <div id="elementTable_trackme_get_metric_host_tags" class="dashboard-element table" style="width: 100%">
+                        <div class="panel-body"></div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -989,6 +1103,26 @@ require([
             tokenNamespace: "submitted"
         });
 
+        var searchGetMacro_trackme_get_data_host_tags = new PostProcessManager({
+            "tokenDependencies": {},
+            "search": "where title=\"trackme_get_data_host_tags\" | eval alternative_definition_es=\"`get_asset(data_host)` | rename \\\"data_host_*\\\" as \\\"*\\\" | fields tags\", alternative_definition_cmdb=\"lookup name_of_lookup key_name_field as data_host | fields tags\" | table definition, alternative_definition_es, alternative_definition_cmdb",
+            "managerid": "searchGetMacrosDefinitions",
+            "id": "searchGetMacro_trackme_get_data_host_tags"
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        });
+
+        var searchGetMacro_trackme_get_metric_host_tags = new PostProcessManager({
+            "tokenDependencies": {},
+            "search": "where title=\"trackme_get_metric_host_tags\" | eval alternative_definition_es=\"`get_asset(metric_host)` | rename \\\"metric_host_*\\\" as \\\"*\\\" | fields tags\", alternative_definition_cmdb=\"lookup name_of_lookup key_name_field as metric_host | fields tags\" | table definition, alternative_definition_es, alternative_definition_cmdb",
+            "managerid": "searchGetMacrosDefinitions",
+            "id": "searchGetMacro_trackme_get_metric_host_tags"
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        });
+
         //
         // SPLUNK LAYOUT
         //
@@ -1362,6 +1496,48 @@ require([
             if (e.field !== undefined) {
                 e.preventDefault();
                 var url = TokenUtils.replaceTokenNames("/en-GB/manager/trackme/admin/macros/trackme_data_host_rule_filter(1)?action=edit", _.extend(submittedTokenModel.toJSON(), e.data), TokenUtils.getEscaper('url'), TokenUtils.getFilters(mvc.Components));
+                utils.redirect(url, false, "_blank");
+            }
+        });
+
+        var elementTable_trackme_get_data_host_tags = new TableElement({
+            "id": "elementTable_trackme_get_data_host_tags",
+            "count": 100,
+            "drilldown": "row",
+            "refresh.display": "none",
+            "wrap": "false",
+            "managerid": "searchGetMacro_trackme_get_data_host_tags",
+            "el": $('#elementTable_trackme_get_data_host_tags')
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        }).render();
+
+        elementTable_trackme_get_data_host_tags.on("click", function(e) {
+            if (e.field !== undefined) {
+                e.preventDefault();
+                var url = TokenUtils.replaceTokenNames("/en-GB/manager/trackme/admin/macros/trackme_get_data_host_tags?action=edit", _.extend(submittedTokenModel.toJSON(), e.data), TokenUtils.getEscaper('url'), TokenUtils.getFilters(mvc.Components));
+                utils.redirect(url, false, "_blank");
+            }
+        });
+
+        var elementTable_trackme_get_metric_host_tags = new TableElement({
+            "id": "elementTable_trackme_get_metric_host_tags",
+            "count": 100,
+            "drilldown": "row",
+            "refresh.display": "none",
+            "wrap": "false",
+            "managerid": "searchGetMacro_trackme_get_metric_host_tags",
+            "el": $('#elementTable_trackme_get_metric_host_tags')
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        }).render();
+
+        elementTable_trackme_get_metric_host_tags.on("click", function(e) {
+            if (e.field !== undefined) {
+                e.preventDefault();
+                var url = TokenUtils.replaceTokenNames("/en-GB/manager/trackme/admin/macros/trackme_get_metric_host_tags?action=edit", _.extend(submittedTokenModel.toJSON(), e.data), TokenUtils.getEscaper('url'), TokenUtils.getFilters(mvc.Components));
                 utils.redirect(url, false, "_blank");
             }
         });
