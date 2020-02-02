@@ -245,6 +245,31 @@
             left: -10px;
         }
 
+        .imgheader {
+           margin-top: 10px;
+           margin-bottom: 40px;
+        }
+
+        .imgheader36 img {
+            float: left;
+            width: 36px;
+            height: 36px;
+        }
+
+        .imgheader36 h1 {
+            color: lightslategrey;
+            text-align: left;
+            position: relative;
+            top: 9px;
+            left: 10px;
+        }
+
+        .imgheader36 h3 {
+            position: relative;
+            top: 8px;
+            left: -10px;
+        }
+
         .imgminiheader img {
             position: relative;
             top: -4px;
@@ -278,6 +303,100 @@ styles in <div> tags, similar to Bootstrap's grid system.
     </div>
 
     <!--
+    Object tags
+    -->
+
+    <!-- Modal window define for identity card association -->
+    <div class="modal fade custom-modal-80" id="modal_data_host_tags" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <!-- This is required to get the token substitutions without affecting the buttons actions in js -->
+                <div class="dashboard-element html" id="body_data_host_tags">
+                    <div class="panel-body html">
+
+                        <div class="modal-header">
+                            <h3 style="font-size: 18px;">Enrichment tags: <span style="color: steelblue">$tk_data_host$</span></h3>
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-body">
+                    <div id="rowGetTagsDataHost" class="dashboard-row dashboard-row1">
+                        <div id="panelGetTagsDataHost" class="dashboard-cell" style="width: 100%;">
+                            <div class="dashboard-panel clearfix">
+
+                                <div class="panel-element-row">
+                                    <div class="imgheader36">
+                                        <img style="float: left; margin: 0px 15px 15px 0px;" src="../../static/app/trackme/icons/tags.png"/></span>
+                                        <h3>Object tags:</h3>
+                                        <br />
+                                    </div>
+                                </div>
+
+                                <div class="panel-element-row">
+                                    <div id="elementGetTagsDataHost" class="dashboard-element table" style="width: 100%">
+                                        <div class="panel-body"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" id="btn_back_data_host_tags" class="btn btn-default btn-primary pull-left" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Back</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal window define for identity card association -->
+    <div class="modal fade custom-modal-80" id="modal_metric_host_tags" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <!-- This is required to get the token substitutions without affecting the buttons actions in js -->
+                <div class="dashboard-element html" id="body_metric_host_tags">
+                    <div class="panel-body html">
+
+                        <div class="modal-header">
+                            <h3 style="font-size: 18px;">Enrichment tags: <span style="color: steelblue">$tk_metric_host$</span></h3>
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-body">
+                    <div id="rowGetTagsMetricHost" class="dashboard-row dashboard-row1">
+                        <div id="panelGetTagsMetricHost" class="dashboard-cell" style="width: 100%;">
+                            <div class="dashboard-panel clearfix">
+
+                                <div class="panel-element-row">
+                                    <div class="imgheader36">
+                                        <img style="float: left; margin: 0px 15px 15px 0px;" src="../../static/app/trackme/icons/tags.png"/></span>
+                                        <h3>Object tags:</h3>
+                                        <br />
+                                    </div>
+                                </div>
+
+                                <div class="panel-element-row">
+                                    <div id="elementGetTagsMetricHost" class="dashboard-element table" style="width: 100%">
+                                        <div class="panel-body"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" id="btn_back_metric_host_tags" class="btn btn-default btn-primary pull-left" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Back</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--
     identity card
     -->
 
@@ -288,7 +407,7 @@ styles in <div> tags, similar to Bootstrap's grid system.
                 <div class="modal-dialog">
                     <!-- Modal content-->
                     <div class="modal-content">
-                        <!-- This is required to get the token subsitutions without affecting the buttons actions in js -->
+                        <!-- This is required to get the token substitutions without affecting the buttons actions in js -->
                         <div class="dashboard-element html" id="body_manage_identity_card">
                             <div class="panel-body html">
                                 <div class="modal-header">
@@ -670,8 +789,26 @@ styles in <div> tags, similar to Bootstrap's grid system.
                                             <div class="panel-body"></div>
                                         </div>
 
+                                        <br />
+                                        <br />
+
                                         <div class="input input-dropdown" id="input_ack_duration">
                                             <label>Ack duration:</label>
+                                        </div>
+
+                                        <br />
+                                        <br />
+
+                                        <div>
+                                            <p>
+                                                <label>Optional: enter a note of this acknowledgment. <br />
+                                                    This note will be logged and made available for notification.</label>
+                                                <textarea
+                                                        id = "input_ack_comment"
+                                                        rows = "6"
+                                                        cols = "160" style="width: 500px;"
+                                                        onfocus="if(this.value==this.defaultValue)this.value='';" onblur="if(this.value=='')this.value=this.defaultValue;">update note</textarea>
+                                            </p>
                                         </div>
 
                                     </div>
@@ -1222,7 +1359,7 @@ styles in <div> tags, similar to Bootstrap's grid system.
                 <div class="modal-dialog">
                     <!-- Modal content-->
                     <div class="modal-content">
-                        <!-- This is required to get the token subsitutions without affecting the buttons actions in js -->
+                        <!-- This is required to get the token substitutions without affecting the buttons actions in js -->
                         <div class="dashboard-element html" id="body_modal_manage">
                             <div class="panel-body html">
                                 <div class="modal-header">
@@ -1346,7 +1483,7 @@ styles in <div> tags, similar to Bootstrap's grid system.
                 <div class="modal-dialog">
                     <!-- Modal content-->
                     <div class="modal-content">
-                        <!-- This is required to get the token subsitutions without affecting the buttons actions in js -->
+                        <!-- This is required to get the token substitutions without affecting the buttons actions in js -->
                         <div class="dashboard-element html" id="body_modal_manage_host">
                             <div class="panel-body html">
                                 <div class="modal-header">
@@ -1371,7 +1508,12 @@ styles in <div> tags, similar to Bootstrap's grid system.
                                         <p><b>priority:</b> <span class="$tk_priority_class$">$tk_priority$</span></p>
                                     </div>
                                 </div>
-
+                                <div style="margin-left: 10px;">
+                                    <div class="imgheader36">
+                                        <img style="float: left; margin: 0px 15px 15px 0px;" src="../../static/app/trackme/icons/tags.png"/>
+                                        <h3><a id="link_data_host_tags" data-toggle="modal" data-target="#modal_data_host_tags">Show object tags</a></h3>
+                                    </div>
+                                </div>
                             </div>
                         </div>
 
@@ -1481,7 +1623,7 @@ styles in <div> tags, similar to Bootstrap's grid system.
                 <div class="modal-dialog">
                     <!-- Modal content-->
                     <div class="modal-content">
-                        <!-- This is required to get the token subsitutions without affecting the buttons actions in js -->
+                        <!-- This is required to get the token substitutions without affecting the buttons actions in js -->
                         <div class="dashboard-element html" id="body_modal_manage_metric_host">
                             <div class="panel-body html">
                                 <div class="modal-header">
@@ -1490,21 +1632,28 @@ styles in <div> tags, similar to Bootstrap's grid system.
                                 </div>
 
                                 <div style="margin-top:10px; margin-left: 20px;">
-                                    <div style="float:left;width:33%;">
+                                    <div style="float:left;width:25%;">
                                         <p><b>metric_last_lag_seen:</b> $tk_metric_last_lag_seen$</p>
                                         <p><b>metric_last_time_seen:</b> $tk_metric_last_time_seen_human$</p>
                                     </div>
-                                    <div style="float:left;width:33%;">
+                                    <div style="float:left;width:25%;">
                                         <p><b>metric_monitored_state:</b> <span class="$tk_metric_monitored_state_class$">$tk_metric_monitored_state$</span></p>
                                         <p><b>metric_host_state:</b> <span class="$tk_metric_host_state_class$">$tk_metric_host_state$</span></p>
                                     </div>
-                                    <div style="float:left;width:33%;">
+                                    <div style="float:left;width:25%;">
                                         <p><b>latest_flip_time:</b> $tk_latest_flip_time_human$</p>
                                         <p><b>latest_flip_state:</b> $tk_latest_flip_state$</p>
+                                    </div>
+                                    <div style="float:left;width:25%;">
                                         <p><b>priority:</b> <span class="$tk_priority_class$">$tk_priority$</span></p>
                                     </div>
                                 </div>
-
+                                <div style="margin-left: 10px;">
+                                    <div class="imgheader36">
+                                        <img style="float: left; margin: 0px 15px 15px 0px;" src="../../static/app/trackme/icons/tags.png"/>
+                                        <h3><a id="link_metric_host_tags" data-toggle="modal" data-target="#modal_metric_host_tags">Show object tags</a></h3>
+                                    </div>
+                                </div>
                             </div>
                         </div>
 
@@ -2077,7 +2226,7 @@ styles in <div> tags, similar to Bootstrap's grid system.
                 <div class="modal-dialog">
                     <!-- Modal content-->
                     <div class="modal-content">
-                        <!-- This is required to get the token subsitutions without affecting the buttons actions in js -->
+                        <!-- This is required to get the token substitutions without affecting the buttons actions in js -->
                         <div class="dashboard-element html" id="body_manage_custom_lagging">
                             <div class="panel-body html">
                                 <div class="modal-header">
@@ -2109,7 +2258,7 @@ styles in <div> tags, similar to Bootstrap's grid system.
                 <div class="modal-dialog">
                     <!-- Modal content-->
                     <div class="modal-content">
-                        <!-- This is required to get the token subsitutions without affecting the buttons actions in js -->
+                        <!-- This is required to get the token substitutions without affecting the buttons actions in js -->
                         <div class="dashboard-element html" id="body_manage_metric_sla_policy">
                             <div class="panel-body html">
                                 <div class="modal-header">
@@ -3359,7 +3508,7 @@ styles in <div> tags, similar to Bootstrap's grid system.
                 <div class="modal-dialog">
                     <!-- Modal content-->
                     <div class="modal-content">
-                        <!-- This is required to get the token subsitutions without affecting the buttons actions in js -->
+                        <!-- This is required to get the token substitutions without affecting the buttons actions in js -->
                         <div class="dashboard-element html" id="body_modal_manage_data_source_whitelist">
                             <div class="panel-body html">
                                 <div class="modal-header">
@@ -3393,7 +3542,7 @@ styles in <div> tags, similar to Bootstrap's grid system.
                 <div class="modal-dialog">
                     <!-- Modal content-->
                     <div class="modal-content">
-                        <!-- This is required to get the token subsitutions without affecting the buttons actions in js -->
+                        <!-- This is required to get the token substitutions without affecting the buttons actions in js -->
                         <div class="dashboard-element html" id="body_modal_manage_metric_host_whitelist">
                             <div class="panel-body html">
                                 <div class="modal-header">
@@ -3427,7 +3576,7 @@ styles in <div> tags, similar to Bootstrap's grid system.
                 <div class="modal-dialog">
                     <!-- Modal content-->
                     <div class="modal-content">
-                        <!-- This is required to get the token subsitutions without affecting the buttons actions in js -->
+                        <!-- This is required to get the token substitutions without affecting the buttons actions in js -->
                         <div class="dashboard-element html" id="body_modal_manage_data_host_whitelist">
                             <div class="panel-body html">
                                 <div class="modal-header">
@@ -3467,7 +3616,7 @@ styles in <div> tags, similar to Bootstrap's grid system.
                 <div class="modal-dialog">
                     <!-- Modal content-->
                     <div class="modal-content">
-                        <!-- This is required to get the token subsitutions without affecting the buttons actions in js -->
+                        <!-- This is required to get the token substitutions without affecting the buttons actions in js -->
                         <div class="dashboard-element html" id="body_modal_manage_data_source_blacklist_host">
                             <div class="panel-body html">
                                 <div class="modal-header">
@@ -3502,7 +3651,7 @@ styles in <div> tags, similar to Bootstrap's grid system.
                 <div class="modal-dialog">
                     <!-- Modal content-->
                     <div class="modal-content">
-                        <!-- This is required to get the token subsitutions without affecting the buttons actions in js -->
+                        <!-- This is required to get the token substitutions without affecting the buttons actions in js -->
                         <div class="dashboard-element html" id="body_modal_manage_data_source_blacklist_index">
                             <div class="panel-body html">
                                 <div class="modal-header">
@@ -3535,7 +3684,7 @@ styles in <div> tags, similar to Bootstrap's grid system.
                 <div class="modal-dialog">
                     <!-- Modal content-->
                     <div class="modal-content">
-                        <!-- This is required to get the token subsitutions without affecting the buttons actions in js -->
+                        <!-- This is required to get the token substitutions without affecting the buttons actions in js -->
                         <div class="dashboard-element html" id="body_modal_manage_data_source_blacklist_sourcetype">
                             <div class="panel-body html">
                                 <div class="modal-header">
@@ -3570,7 +3719,7 @@ styles in <div> tags, similar to Bootstrap's grid system.
                 <div class="modal-dialog">
                     <!-- Modal content-->
                     <div class="modal-content">
-                        <!-- This is required to get the token subsitutions without affecting the buttons actions in js -->
+                        <!-- This is required to get the token substitutions without affecting the buttons actions in js -->
                         <div class="dashboard-element html" id="body_modal_manage_data_host_blacklist_host">
                             <div class="panel-body html">
                                 <div class="modal-header">
@@ -3603,7 +3752,7 @@ styles in <div> tags, similar to Bootstrap's grid system.
                 <div class="modal-dialog">
                     <!-- Modal content-->
                     <div class="modal-content">
-                        <!-- This is required to get the token subsitutions without affecting the buttons actions in js -->
+                        <!-- This is required to get the token substitutions without affecting the buttons actions in js -->
                         <div class="dashboard-element html" id="body_modal_manage_metric_host_blacklist_host">
                             <div class="panel-body html">
                                 <div class="modal-header">
@@ -3638,7 +3787,7 @@ styles in <div> tags, similar to Bootstrap's grid system.
                 <div class="modal-dialog">
                     <!-- Modal content-->
                     <div class="modal-content">
-                        <!-- This is required to get the token subsitutions without affecting the buttons actions in js -->
+                        <!-- This is required to get the token substitutions without affecting the buttons actions in js -->
                         <div class="dashboard-element html" id="body_modal_manage_data_source_blacklists">
                             <div class="panel-body html">
                                 <div class="modal-header">
@@ -3705,7 +3854,7 @@ styles in <div> tags, similar to Bootstrap's grid system.
                 <div class="modal-dialog">
                     <!-- Modal content-->
                     <div class="modal-content">
-                        <!-- This is required to get the token subsitutions without affecting the buttons actions in js -->
+                        <!-- This is required to get the token substitutions without affecting the buttons actions in js -->
                         <div class="dashboard-element html" id="body_modal_manage_data_host_blacklists">
                             <div class="panel-body html">
                                 <div class="modal-header">
@@ -3772,7 +3921,7 @@ styles in <div> tags, similar to Bootstrap's grid system.
                 <div class="modal-dialog">
                     <!-- Modal content-->
                     <div class="modal-content">
-                        <!-- This is required to get the token subsitutions without affecting the buttons actions in js -->
+                        <!-- This is required to get the token substitutions without affecting the buttons actions in js -->
                         <div class="dashboard-element html" id="body_modal_manage_metric_host_blacklists">
                             <div class="panel-body html">
                                 <div class="modal-header">
@@ -3839,7 +3988,7 @@ styles in <div> tags, similar to Bootstrap's grid system.
                 <div class="modal-dialog">
                     <!-- Modal content-->
                     <div class="modal-content">
-                        <!-- This is required to get the token subsitutions without affecting the buttons actions in js -->
+                        <!-- This is required to get the token substitutions without affecting the buttons actions in js -->
                         <div class="dashboard-element html" id="body_modal_manage_data_host_blacklist_index">
                             <div class="panel-body html">
                                 <div class="modal-header">
@@ -3872,7 +4021,7 @@ styles in <div> tags, similar to Bootstrap's grid system.
                 <div class="modal-dialog">
                     <!-- Modal content-->
                     <div class="modal-content">
-                        <!-- This is required to get the token subsitutions without affecting the buttons actions in js -->
+                        <!-- This is required to get the token substitutions without affecting the buttons actions in js -->
                         <div class="dashboard-element html" id="body_modal_manage_metric_host_blacklist_index">
                             <div class="panel-body html">
                                 <div class="modal-header">
@@ -3905,7 +4054,7 @@ styles in <div> tags, similar to Bootstrap's grid system.
                 <div class="modal-dialog">
                     <!-- Modal content-->
                     <div class="modal-content">
-                        <!-- This is required to get the token subsitutions without affecting the buttons actions in js -->
+                        <!-- This is required to get the token substitutions without affecting the buttons actions in js -->
                         <div class="dashboard-element html" id="body_modal_manage_data_host_blacklist_sourcetype">
                             <div class="panel-body html">
                                 <div class="modal-header">
@@ -3938,7 +4087,7 @@ styles in <div> tags, similar to Bootstrap's grid system.
                 <div class="modal-dialog">
                     <!-- Modal content-->
                     <div class="modal-content">
-                        <!-- This is required to get the token subsitutions without affecting the buttons actions in js -->
+                        <!-- This is required to get the token substitutions without affecting the buttons actions in js -->
                         <div class="dashboard-element html" id="body_modal_manage_metric_host_blacklist_metric_category">
                             <div class="panel-body html">
                                 <div class="modal-header">
@@ -5868,6 +6017,25 @@ require([
             tokenNamespace: "submitted"
         });
 
+        var searchGetDataHostTags = new SearchManager({
+            "id": "searchGetDataHostTags",
+            "earliest_time": "-15m",
+            "cancelOnUnload": true,
+            "sample_ratio": null,
+            "latest_time": "now",
+            "search": "| makeresults | eval data_host=\"$tk_data_host$\" | fields - _time | `trackme_get_data_host_tags` | fields - data_host",
+            "status_buckets": 0,
+            "app": utils.getCurrentApp(),
+            "auto_cancel": 90,
+            "preview": true,
+            "runWhenTimeIsUndefined": false
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        });
+
+        // metric_host
+
         var searchSingleMetricHost1 = new PostProcessManager({
             "tokenDependencies": {},
             "search": "search $inputMetricHostIndexes$ $inputMetricHostCategories$ | stats dc(metric_host) as count",
@@ -5906,6 +6074,38 @@ require([
         }, {
             tokens: true,
             tokenNamespace: "submitted"
+        });
+
+        var searchGetMetricHostTags = new SearchManager({
+            "id": "searchGetMetricHostTags",
+            "earliest_time": "-15m",
+            "cancelOnUnload": true,
+            "sample_ratio": null,
+            "latest_time": "now",
+            "search": "| makeresults | eval metric_host=\"$tk_metric_host$\" | fields - _time | `trackme_get_metric_host_tags` | fields - metric_host",
+            "status_buckets": 0,
+            "app": utils.getCurrentApp(),
+            "auto_cancel": 90,
+            "preview": true,
+            "runWhenTimeIsUndefined": false
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        });
+
+        new SearchEventHandler({
+            managerid: "searchGetMetricHostTags",
+            event: "progress",
+            conditions: [{
+                    attr: "any",
+                    value: "*",
+                    actions: [{
+                        "type": "set",
+                        "token": "tk_metric_host_tags",
+                        "value": "$result.metric_host_tags$"
+                    }]
+                }
+            ]
         });
 
         var searchChartLag = new SearchManager({
@@ -9557,6 +9757,33 @@ require([
             }
         });
 
+        // Get assets tags
+        var elementGetTagsDataHost = new TableElement({
+            "id": "elementGetTagsDataHost",
+            "count": 100,
+            "drilldown": "row",
+            "refresh.display": "none",
+            "wrap": "true",
+            "managerid": "searchGetDataHostTags",
+            "el": $('#elementGetTagsDataHost')
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        }).render();
+
+        var elementGetTagsMetricHost = new TableElement({
+            "id": "elementGetTagsMetricHost",
+            "count": 100,
+            "drilldown": "row",
+            "refresh.display": "none",
+            "wrap": "true",
+            "managerid": "searchGetMetricHostTags",
+            "el": $('#elementGetTagsMetricHost')
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        }).render();
+
         // Ack
         var elementAckGet = new TableElement({
             "id": "elementAckGet",
@@ -9820,6 +10047,9 @@ require([
                 setToken("tk_latest_flip_time_human", TokenUtils.replaceTokenNames("$row.latest_flip_time (translated)$", _.extend(submittedTokenModel.toJSON(), e.data)));
                 setToken("tk_priority", TokenUtils.replaceTokenNames("$row.priority$", _.extend(submittedTokenModel.toJSON(), e.data)));
 
+                // tags
+                setToken("tk_data_host_tags", TokenUtils.replaceTokenNames("$row.pdata_host_tags$", _.extend(submittedTokenModel.toJSON(), e.data)));
+
                 // pref-fill current lagging input
                 setToken("form.tk_input_lag_host", TokenUtils.replaceTokenNames("$row.data_max_lag_allowed$", _.extend(submittedTokenModel.toJSON(), e.data)));
 
@@ -9889,6 +10119,9 @@ require([
                 } else if (tk_priority == "high") {
                     setToken("tk_priority_class", TokenUtils.replaceTokenNames("title_high_priority", _.extend(submittedTokenModel.toJSON(), e.data)));
                 }
+
+                // Explicitly refresh the get tags search
+                searchGetDataHostTags.startSearch();
 
                 // Enable modal context
                 $("#modal_manage_host").modal();
@@ -10016,6 +10249,9 @@ require([
                 } else if (tk_priority == "high") {
                     setToken("tk_priority_class", TokenUtils.replaceTokenNames("title_high_priority", _.extend(submittedTokenModel.toJSON(), e.data)));
                 }
+
+                // Explicitly refresh the get tags search
+                searchGetMetricHostTags.startSearch();
 
                 // Enable modal context
                 $("#modal_manage_metric_host").modal();
@@ -11317,6 +11553,26 @@ require([
         }).render();
 
         // Manage html dynamic panels
+
+        // object tags
+
+        var body_data_host_tags = new HtmlElement({
+            "id": "body_data_host_tags",
+            "useTokens": true,
+            "el": $('#body_data_host_tags')
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        }).render();
+
+        var body_metric_host_tags = new HtmlElement({
+            "id": "body_metric_host_tags",
+            "useTokens": true,
+            "el": $('#body_metric_host_tags')
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        }).render();
 
         var body_modal_manage = new HtmlElement({
             "id": "body_modal_manage",
@@ -21555,6 +21811,24 @@ require([
                 //console.log("input_object_category is: " + input_object_category);
                 //console.log("input_ack_duration is: "+ input_ack_duration);
 
+                // Retrieve update comment if any
+                var tk_comment = document.getElementById("input_ack_comment").value;
+
+                // if is not defined, give it a value and override text box content
+                if (tk_comment == "null") {
+                    setToken("tk_update_comment", TokenUtils.replaceTokenNames("No comments for update.", _.extend(submittedTokenModel.toJSON(), e.data)));
+                    // replace the textarea for modification requests
+                    document.getElementById("input_ack_comment").value = "update note";
+                }
+                else if (tk_comment == "update note") {
+                    tk_comment = "No comment for update.";
+                    document.getElementById("input_ack_comment").value = "update note";
+                }
+                else {
+                    // replace the textarea for modification requests
+                    document.getElementById("input_ack_comment").value = "update note";
+                }
+
                 // Define the query
                 var searchQuery = "| `trackme_ack_add(\"" + input_object + "\", \"" +  input_object_category + "\", \"" +  input_ack_duration + "\")`";
 
@@ -21585,7 +21859,8 @@ require([
                                     "change_type": "ack enable",
                                     "object": input_object,
                                     "object_category": input_object_category,
-                                    "object_attrs": "object:" + input_object + " has been acknowledged for a period of " + input_ack_duration + " seconds, no more alerts will be generated until the acknowledge is expired."
+                                    "object_attrs": "object:" + input_object + " has been acknowledged for a period of " + input_ack_duration + " seconds, no more alerts will be generated until the acknowledge is expired.",
+                                    "comment": tk_comment
                                 };
                                 $.ajax({
                                     url: auditendpoint_URl,
@@ -21630,7 +21905,8 @@ require([
 		                                    "change_type": "ack enable",
 		                                    "object": input_object,
 		                                    "object_category": input_object_category,
-		                                    "object_attrs": "object:" + input_object + " has been acknowledged for a period of " + input_ack_duration + " seconds, no more alerts will be generated until the acknowledge is expired."
+		                                    "object_attrs": "object:" + input_object + " has been acknowledged for a period of " + input_ack_duration + " seconds, no more alerts will be generated until the acknowledge is expired.",
+		                                    "comment": tk_comment
                                         };
                                         $.ajax({
                                             url: auditendpoint_URl,
@@ -22435,7 +22711,18 @@ require([
                     return;
                 }
 
+        });
 
+        // object tags
+
+        // return to unified modify when clicking on back
+        $("#btn_back_data_host_tags").click(function() {
+                $("#modal_manage_host").modal()
+        });
+
+        // return to unified modify when clicking on back
+        $("#btn_back_metric_host_tags").click(function() {
+                $("#modal_manage_metric_host").modal()
         });
 
         // END
