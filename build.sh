@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# set -x
+#set -x
 
 PWD=`pwd`
 app="trackme"
@@ -9,7 +9,7 @@ rm -f *.tgz
 find . -name "*.pyc" -type f | xargs rm -f
 find . -name "*.py" -type f | xargs chmod go-x
 find trackme/lib -name "*.py" -type f | xargs chmod a-x
-tar -czf ${app}_${version}.tgz --exclude=trackme/local --exclude=trackme/metadata/local.meta --exclude=trackme/lookups/lookup_file_backups trackme
+tar -cvzf ${app}_${version}.tgz --exclude=trackme/local --exclude=trackme/metadata/local.meta --exclude=trackme/lookups/lookup_file_backups --exclude='./.*'  --exclude='.[^/]*' --exclude="._*" trackme
 echo "Wrote: ${app}_${version}.tgz"
 
 exit 0
