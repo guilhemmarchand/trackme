@@ -4,7 +4,8 @@ Release notes
 Version 1.1.12
 ==============
 
-
+- fix: SLA calculation is incorrect, this release fixes and improves the SLA calculation logic
+- feature: Monitoring state auto disablement, provides a customizable macro logic that automatically disables the monitoring state of a data source, data host or metric host that has not actively sent data to Splunk since a given amount of days, by default 45 days
 
 Version 1.1.11
 ==============
