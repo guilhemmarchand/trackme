@@ -757,6 +757,19 @@ styles in <div> tags, similar to Bootstrap's grid system.
         </div>
     </div>
 
+    <div id="ManageRowMacro17" class="dashboard-row dashboard-rowDataSourcesTable" >
+        <div id="panelManage17" class="dashboard-cell" style="width: 100%;">
+            <div class="dashboard-panel clearfix">
+                <h2 style="padding: 12px 55px 7px 12px;">trackme_auto_disablement_period</h2><h2 class="panel-title">Macro definition for monitoring state auto disablement, this macro defines the number of days before a data source, data host or metric host gets automatically disabled if it has not actively sent data to Splunk:</h2>
+                <div class="panel-element-row">
+                    <div id="elementTable_trackme_auto_disablement_period" class="dashboard-element table" style="width: 100%">
+                        <div class="panel-body"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
 </div>
 
 </div>
@@ -1118,6 +1131,16 @@ require([
             "search": "where title=\"trackme_get_metric_host_tags\" | eval alternative_definition_es=\"`get_asset(metric_host)` | rename \\\"metric_host_*\\\" as \\\"*\\\" | fields tags\", alternative_definition_cmdb=\"lookup name_of_lookup key_name_field as metric_host | fields tags\" | table definition, alternative_definition_es, alternative_definition_cmdb",
             "managerid": "searchGetMacrosDefinitions",
             "id": "searchGetMacro_trackme_get_metric_host_tags"
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        });
+
+        var searchGetMacro_trackme_auto_disablement_period = new PostProcessManager({
+            "tokenDependencies": {},
+            "search": "where title=\"trackme_auto_disablement_period\" | table definition",
+            "managerid": "searchGetMacrosDefinitions",
+            "id": "searchGetMacro_trackme_auto_disablement_period"
         }, {
             tokens: true,
             tokenNamespace: "submitted"
@@ -1538,6 +1561,27 @@ require([
             if (e.field !== undefined) {
                 e.preventDefault();
                 var url = TokenUtils.replaceTokenNames("/en-GB/manager/trackme/admin/macros/trackme_get_metric_host_tags?action=edit", _.extend(submittedTokenModel.toJSON(), e.data), TokenUtils.getEscaper('url'), TokenUtils.getFilters(mvc.Components));
+                utils.redirect(url, false, "_blank");
+            }
+        });
+
+        var elementTable_trackme_auto_disablement_period = new TableElement({
+            "id": "elementTable_trackme_auto_disablement_period",
+            "count": 100,
+            "drilldown": "row",
+            "refresh.display": "none",
+            "wrap": "false",
+            "managerid": "searchGetMacro_trackme_auto_disablement_period",
+            "el": $('#elementTable_trackme_auto_disablement_period')
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        }).render();
+
+        elementTable_trackme_auto_disablement_period.on("click", function(e) {
+            if (e.field !== undefined) {
+                e.preventDefault();
+                var url = TokenUtils.replaceTokenNames("/en-GB/manager/trackme/admin/macros/trackme_auto_disablement_period?action=edit", _.extend(submittedTokenModel.toJSON(), e.data), TokenUtils.getEscaper('url'), TokenUtils.getFilters(mvc.Components));
                 utils.redirect(url, false, "_blank");
             }
         });
