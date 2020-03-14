@@ -1,6 +1,13 @@
 Release notes
 #############
 
+Version 1.1.13
+==============
+
+- feature: Introducing inter-updates automatic refresh, operations that involve updates (modification of the max lag, etc) now dynamically refresh the entity drilldown view and related tokens, which prevents and automatically fixes conflicts during entity updates within the UI.
+- feature: Introducing on demand auto determination of entity max lagging for data sources and hosts, based on either the percentile 95 or average lagging observed for that entity
+- fix: minor fixes and code improvements
+
 Version 1.1.12
 ==============
 
