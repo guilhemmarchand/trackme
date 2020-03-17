@@ -706,8 +706,8 @@ Fortunately, Splunk with alert actions and addon extensions allows interacting w
 
 Many more integration are available on Splunk Base.
 
-Enrichments tags
-================
+Enrichment tags
+===============
 
 **Enrichment tags are available for data and metric hosts to provide context for your assets based on the assets data available in your Splunk deployment.**
 
@@ -723,4 +723,60 @@ Once configured, enrichment tags provides access to your assets information to h
 
 .. image:: img/tags_screen3.png
    :alt: tags_screen3.png
+   :align: center
+
+Maintenance mode
+================
+
+All alerts are by default driven by the status of the maintenance mode stored in a KVstore collection.
+
+Shall the maintenance be enabled by an administrator, Splunk will continue to run the schedule alerts but none of them will be able to trigger during the maintenance time window.
+
+When the end of maintenance time window is reached, its state will be automatically disabled and alerts will be able to trigger again.
+
+A maintenance time window can start immediately, or be automatically automatically scheduled according to your selection.
+
+Enabling or extending the maintenance mode
+------------------------------------------
+
+- Click on the enable maintenance mode button:
+
+.. image:: img/maintenance_mode1.png
+   :alt: maintenance_mode1.png
+   :align: center
+
+- Within the modal configuration window, enter the date and hours of the end of the maintenance time window:
+
+.. image:: img/maintenance_mode2.png
+   :alt: maintenance_mode2.png
+   :align: center
+
+- When the date and hours of the maintenance time window are reached, the scheduled report "Verify Kafka alerting maintenance status" will automatically disable the maintenance mode.
+
+- If a start date time different than the current time is selected (default), this action will automatically schedule the maintenance time window.
+
+Disabling the maintenance mode
+------------------------------
+
+During any time of the maintenance time window, an administrator can decide to disable the maintenance mode:
+
+.. image:: img/maintenance_mode3.png
+   :alt: maintenance_mode3.png
+   :align: center
+
+Scheduling a maintenance window
+-------------------------------
+
+You can configure the maintenance mode to be automatically enabled between a specific date time that you enter in the UI.
+
+- When the end time is reached, the maintenance mode will automatically be disable, and the alerting will return to normal operations.
+
+.. image:: img/maintenance_mode4.png
+   :alt: maintenance_mode4.png
+   :align: center
+
+- When a maintenance mode window has been scheduled, the UI shows a specific message with the starts / ends on dates:
+
+.. image:: img/maintenance_mode5.png
+   :alt: maintenance_mode5.png
    :align: center

@@ -1,6 +1,12 @@
 Release notes
 #############
 
+Version 1.1.14
+==============
+
+- feature: Introducing the maintenance mode feature, which allows to enable / schedule / disable the maintenance mode to silence all alerts during a scheduled maintenance window
+- fix: Refresh buttons should refresh header main information for the entities too
+
 Version 1.1.13
 ==============
 

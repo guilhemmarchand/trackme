@@ -184,3 +184,11 @@ access = read : [ * ], write : [ admin, trackme_admin ]
 
 [collections/kv_trackme_logical_group]
 access = read : [ * ], write : [ admin, trackme_admin ]
+
+### TrackMe maintenance mode
+
+[transforms/trackme_maintenance_mode]
+access = read : [ * ], write : [ admin, trackme_admin ]
+
+[collections/kv_trackme_maintenance_mode]
+access = read : [ * ], write : [ admin, trackme_admin ]

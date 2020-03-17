@@ -3,6 +3,7 @@
   <view name="trackMe_summary" />
   <a href="trackMe_qos">TrackMe QOS</a>
   <a href="TrackMe_manage">TrackMe manage and configure</a>
+  <a href="TrackMe_maintenance">Maintenance mode</a>
   <collection label="Search">
     <view name="search" />
     <view name="reports" />
