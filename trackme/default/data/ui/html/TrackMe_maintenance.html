@@ -286,6 +286,18 @@ styles in <div> tags, similar to Bootstrap's grid system.
                         <label>At:</label>
                     </div>
 
+                    <br />
+
+                    <p>
+                        <label>Optional: enter a note of this update. <br />
+                            This note will be logged and made available for notification.</label>
+                        <textarea
+                                id = "input_enable_comment"
+                                rows = "6"
+                                cols = "160" style="width: 500px;"
+                                onfocus="if(this.value==this.defaultValue)this.value='';" onblur="if(this.value=='')this.value=this.defaultValue;">update note</textarea>
+                    </p>
+
                 </div>
 
                 <div class="modal-footer">
@@ -311,6 +323,18 @@ styles in <div> tags, similar to Bootstrap's grid system.
                     <p><b>Do you want to confirm disabling the maintenance mode?</b>
                     <br /><br />
                         Once the maintenance mode will be disabled, all activated alerts will be able to trigger.
+                    </p>
+
+                    <br />
+
+                    <p>
+                        <label>Optional: enter a note of this update. <br />
+                            This note will be logged and made available for notification.</label>
+                        <textarea
+                                id = "input_disable_comment"
+                                rows = "6"
+                                cols = "160" style="width: 500px;"
+                                onfocus="if(this.value==this.defaultValue)this.value='';" onblur="if(this.value=='')this.value=this.defaultValue;">update note</textarea>
                     </p>
 
                 </div>
@@ -513,11 +537,11 @@ styles in <div> tags, similar to Bootstrap's grid system.
                     <div id="elementMaintenanceInfo2" class="dashboard-element html" style="width: 100%">
                         <div class="panel-body html">
                             <div style="text-align: left;">
-                                <p>The maintenance mode can be activated for a given period of time to automatically silence any alert from TrackMe.
+                                <p>The maintenance mode can be activated for a given period of time to automatically silence all alerts from TrackMe.
                                 <br />
-                                    Once activated or scheduled to be activated automatically, any alert from TrackMe will still be running but will not be able to trigger based on the maintenance mode condition.
+                                    Once activated or scheduled to be activated automatically, alerts will continue to be executed but will not be able to trigger based on the maintenance mode condition.
                                 <br />
-                                    The maintenance mode can be enabled / disabled at any time,  and its period can be extended if required. Once the maintenance end time has been reached, it will automatically be disabled and alert will trigger again as usual.
+                                    The maintenance mode can be enabled / disabled at any time,  and its period can be extended if required. Once the maintenance end time has been reached, it will automatically be disabled.
                                 <br />
                                     Time is shown in your own local time zone settings.
                                 </p>
@@ -1572,6 +1596,24 @@ require([
 
                 if (inputStartMaintenance && inputEndMaintenance) {
 
+                    // Retrieve update comment if any
+                    var tk_comment = document.getElementById("input_enable_comment").value;
+
+                    // if is not defined, give it a value and override text box content
+                    if (tk_comment == "null") {
+                        setToken("tk_update_comment", TokenUtils.replaceTokenNames("No comments for update.", _.extend(submittedTokenModel.toJSON(), e.data)));
+                        // replace the textarea for modification requests
+                        document.getElementById("input_enable_comment").value = "update note";
+                    }
+                    else if (tk_comment == "update note") {
+                        tk_comment = "No comment for update.";
+                        document.getElementById("input_enable_comment").value = "update note";
+                    }
+                    else {
+                        // replace the textarea for modification requests
+                        document.getElementById("input_enable_comment").value = "update note";
+                    }
+
                     //
                     // Verify that the end date selection is not in the past time
                     //
@@ -1660,7 +1702,7 @@ require([
                                                 object_category = "all";
                                                 object_attrs = "The maintenance mode has been enabled or extended starting " + inputStartMaintenance + " " + inputStartMaintenanceTime + " until " + inputEndMaintenance + " " + inputEndMaintenanceTime + ". No more alerts will trigger as long as the maintenance mode is enabled" ;
                                                 result = "N/A";
-                                                comment = "N/A";
+                                                comment = tk_comment;
                                                 auditRecord(action, change_type, object, object_category, object_attrs, result, comment);
 
                                                 //
@@ -1748,7 +1790,7 @@ require([
                                                 object_category = "all";
                                                 object_attrs = "The maintenance mode has been enabled or extended starting " + inputStartMaintenance + " " + inputStartMaintenanceTime + " until " + inputEndMaintenance + " " + inputEndMaintenanceTime + ". No more alerts will trigger as long as the maintenance mode is enabled" ;
                                                 result = "N/A";
-                                                comment = "N/A";
+                                                comment = tk_comment;
                                                 auditRecord(action, change_type, object, object_category, object_attrs, result, comment);
 
                                                 $("#modal_update_collection_failure_return").find('.modal-error-message p').text(errorStr);
@@ -1764,7 +1806,7 @@ require([
                                                 object_category = "all";
                                                 object_attrs = "The maintenance mode has been enabled or extended starting " + inputStartMaintenance + " " + inputStartMaintenanceTime + " until " + inputEndMaintenance + " " + inputEndMaintenanceTime + ". No more alerts will trigger as long as the maintenance mode is enabled" ;
                                                 result = "N/A";
-                                                comment = "N/A";
+                                                comment = tk_comment;
                                                 auditRecord(action, change_type, object, object_category, object_attrs, result, comment);
 
                                                 $("#modal_maintenance_mode_failure").modal()
@@ -1814,6 +1856,24 @@ require([
                 var that = $(this);
                 that.off('click'); // remove handler
 
+                // Retrieve update comment if any
+                var tk_comment = document.getElementById("input_disable_comment").value;
+
+                // if is not defined, give it a value and override text box content
+                if (tk_comment == "null") {
+                    setToken("tk_update_comment", TokenUtils.replaceTokenNames("No comments for update.", _.extend(submittedTokenModel.toJSON(), e.data)));
+                    // replace the textarea for modification requests
+                    document.getElementById("input_enable_comment").value = "update note";
+                }
+                else if (tk_comment == "update note") {
+                    tk_comment = "No comment for update.";
+                    document.getElementById("input_enable_comment").value = "update note";
+                }
+                else {
+                    // replace the textarea for modification requests
+                    document.getElementById("input_enable_comment").value = "update note";
+                }
+
                 //console.log("Disable maintenance mode now");
                 var searchQuery = "| makeresults | eval maintenance_mode=\"disabled\", time_updated=now(), maintenance_mode_end=\"\" | fields - _time | outputlookup trackme_maintenance_mode";
 
@@ -1847,7 +1907,7 @@ require([
                                 object_category = "all";
                                 object_attrs = "Maintenance mode was disabled. Any active alert will now fire as usual." ;
                                 result = "N/A";
-                                comment = "N/A";
+                                comment = tk_comment;
                                 auditRecord(action, change_type, object, object_category, object_attrs, result, comment);
 
                                 // buttons states
@@ -1874,7 +1934,7 @@ require([
                                 object_category = "all";
                                 object_attrs = "Maintenance mode was disabled. Any active alert will now fire as usual." ;
                                 result = "N/A";
-                                comment = "N/A";
+                                comment = tk_comment;
                                 auditRecord(action, change_type, object, object_category, object_attrs, result, comment);
 
                                 $("#modal_update_collection_failure_return").find('.modal-error-message p').text(errorStr);
@@ -1890,7 +1950,7 @@ require([
                                 object_category = "all";
                                 object_attrs = "Maintenance mode was disabled. Any active alert will now fire as usual." ;
                                 result = "N/A";
-                                comment = "N/A";
+                                comment = tk_comment;
                                 auditRecord(action, change_type, object, object_category, object_attrs, result, comment);
 
                                 $("#modal_maintenance_mode_failure").modal()
