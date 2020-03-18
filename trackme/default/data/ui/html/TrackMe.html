@@ -13730,6 +13730,9 @@ require([
             searchSingleLag.startSearch();
             searchChartLag.startSearch();
             searchSingleSLApct.startSearch();
+            var tk_keyid = tokens.get("tk_keyid");
+            // call update data source
+            updateDataSource(tk_keyid);
         });
 
         // refresh data_host
@@ -13738,12 +13741,18 @@ require([
             searchChartHostBaseSearch.startSearch();
             searchChartLagHostOverTime.startSearch();
             searchSingleSLAHostpct.startSearch();
+            var tk_keyid = tokens.get("tk_keyid");
+            // call update data host
+            updateDataHost(tk_keyid);
         });
 
         // refresh metric_host
         $("#btn_refresh_metric_host").click(function(mode) {
             searchHostTableMetricHost.startSearch();
             searchSingleSLAMetricHostpct.startSearch();
+            var tk_keyid = tokens.get("tk_keyid");
+            // call update metric host
+            updateMetricHost(tk_keyid);
         });
 
         $("#btn_enable_monitoring_metric_host").click(function(mode) {

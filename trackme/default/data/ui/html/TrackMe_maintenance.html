@@ -1,0 +1,2014 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>TrackMe - Data tracking system for Splunk administrators</title>
+    <link rel="shortcut icon" href="/en-US/static/@E0748683B67CEA4FEB581C608314742274902FE131518C73E0D443740659785A.7/img/favicon.ico" />
+    <link rel="stylesheet" type="text/css" href="{{SPLUNKWEB_URL_PREFIX}}/static/build/css/bootstrap-enterprise.css" />
+    <link rel="stylesheet" type="text/css" href="{{SPLUNKWEB_URL_PREFIX}}/static/css/build/pages/dashboard-simple-bootstrap.min.css" />
+    <link rel="stylesheet" type="text/css" media="all" href="{{SPLUNKWEB_URL_PREFIX}}/static/app/trackme/table.css" />
+    <link rel="stylesheet" type="text/css" media="all" href="{{SPLUNKWEB_URL_PREFIX}}/static/app/trackme/common.css" />
+
+
+    <meta name="referrer" content="never" />
+    <meta name="referrer" content="no-referrer" />
+
+    <script>
+        window._splunk_metrics_events = {
+            push : function() {},
+            active: false,
+        }
+    </script>
+    <style>
+        /* Bootstrap btns */
+        .btn-primary{color:#fff;background-color:#337ab7;border-color:#2e6da4}.btn-primary.focus,.btn-primary:focus{color:#fff;background-color:#286090;border-color:#122b40}.btn-primary:hover{color:#fff;background-color:#286090;border-color:#204d74}.btn-primary.active,.btn-primary:active,.open>.dropdown-toggle.btn-primary{color:#fff;background-color:#286090;border-color:#204d74}.btn-primary.active.focus,.btn-primary.active:focus,.btn-primary.active:hover,.btn-primary:active.focus,.btn-primary:active:focus,.btn-primary:active:hover,.open>.dropdown-toggle.btn-primary.focus,.open>.dropdown-toggle.btn-primary:focus,.open>.dropdown-toggle.btn-primary:hover{color:#fff;background-color:#204d74;border-color:#122b40}.btn-primary.active,.btn-primary:active,.open>.dropdown-toggle.btn-primary{background-image:none}.btn-primary.disabled.focus,.btn-primary.disabled:focus,.btn-primary.disabled:hover,.btn-primary[disabled].focus,.btn-primary[disabled]:focus,.btn-primary[disabled]:hover,fieldset[disabled] .btn-primary.focus,fieldset[disabled] .btn-primary:focus,fieldset[disabled] .btn-primary:hover{background-color:#337ab7;border-color:#2e6da4}.btn-primary .badge{color:#337ab7;background-color:#fff}
+
+        .btn-danger{color:#fff;background-color:#d9534f;border-color:#d43f3a}.btn-danger.focus,.btn-danger:focus{color:#fff;background-color:#c9302c;border-color:#761c19}.btn-danger:hover{color:#fff;background-color:#c9302c;border-color:#ac2925}.btn-danger.active,.btn-danger:active,.open>.dropdown-toggle.btn-danger{color:#fff;background-color:#c9302c;border-color:#ac2925}.btn-danger.active.focus,.btn-danger.active:focus,.btn-danger.active:hover,.btn-danger:active.focus,.btn-danger:active:focus,.btn-danger:active:hover,.open>.dropdown-toggle.btn-danger.focus,.open>.dropdown-toggle.btn-danger:focus,.open>.dropdown-toggle.btn-danger:hover{color:#fff;background-color:#ac2925;border-color:#761c19}.btn-danger.active,.btn-danger:active,.open>.dropdown-toggle.btn-danger{background-image:none}.btn-danger.disabled.focus,.btn-danger.disabled:focus,.btn-danger.disabled:hover,.btn-danger[disabled].focus,.btn-danger[disabled]:focus,.btn-danger[disabled]:hover,fieldset[disabled] .btn-danger.focus,fieldset[disabled] .btn-danger:focus,fieldset[disabled] .btn-danger:hover{background-color:#d9534f;border-color:#d43f3a}.btn-danger .badge{color:#d9534f;background-color:#fff}
+
+        .btn-info{color:#fff;background-color:#5bc0de;border-color:#46b8da}.btn-info.focus,.btn-info:focus{color:#fff;background-color:#31b0d5;border-color:#1b6d85}.btn-info:hover{color:#fff;background-color:#31b0d5;border-color:#269abc}.btn-info.active,.btn-info:active,.open>.dropdown-toggle.btn-info{color:#fff;background-color:#31b0d5;border-color:#269abc}.btn-info.active.focus,.btn-info.active:focus,.btn-info.active:hover,.btn-info:active.focus,.btn-info:active:focus,.btn-info:active:hover,.open>.dropdown-toggle.btn-info.focus,.open>.dropdown-toggle.btn-info:focus,.open>.dropdown-toggle.btn-info:hover{color:#fff;background-color:#269abc;border-color:#1b6d85}.btn-info.active,.btn-info:active,.open>.dropdown-toggle.btn-info{background-image:none}.btn-info.disabled.focus,.btn-info.disabled:focus,.btn-info.disabled:hover,.btn-info[disabled].focus,.btn-info[disabled]:focus,.btn-info[disabled]:hover,fieldset[disabled] .btn-info.focus,fieldset[disabled] .btn-info:focus,fieldset[disabled] .btn-info:hover{background-color:#5bc0de;border-color:#46b8da}.btn-info .badge{color:#5bc0de;background-color:#fff}
+
+        .btn-warning{color:#fff;background-color:#f0ad4e;border-color:#eea236}.btn-warning.focus,.btn-warning:focus{color:#fff;background-color:#ec971f;border-color:#985f0d}.btn-warning:hover{color:#fff;background-color:#ec971f;border-color:#d58512}.btn-warning.active,.btn-warning:active,.open>.dropdown-toggle.btn-warning{color:#fff;background-color:#ec971f;border-color:#d58512}.btn-warning.active.focus,.btn-warning.active:focus,.btn-warning.active:hover,.btn-warning:active.focus,.btn-warning:active:focus,.btn-warning:active:hover,.open>.dropdown-toggle.btn-warning.focus,.open>.dropdown-toggle.btn-warning:focus,.open>.dropdown-toggle.btn-warning:hover{color:#fff;background-color:#d58512;border-color:#985f0d}.btn-warning.active,.btn-warning:active,.open>.dropdown-toggle.btn-warning{background-image:none}.btn-warning.disabled.focus,.btn-warning.disabled:focus,.btn-warning.disabled:hover,.btn-warning[disabled].focus,.btn-warning[disabled]:focus,.btn-warning[disabled]:hover,fieldset[disabled] .btn-warning.focus,fieldset[disabled] .btn-warning:focus,fieldset[disabled] .btn-warning:hover{background-color:#f0ad4e;border-color:#eea236}.btn-warning .badge{color:#f0ad4e;background-color:#fff}
+
+        .btn-success{color:#fff;background-color:#5cb85c;border-color:#4cae4c}.btn-success.focus,.btn-success:focus{color:#fff;background-color:#449d44;border-color:#255625}.btn-success:hover{color:#fff;background-color:#449d44;border-color:#398439}.btn-success.active,.btn-success:active,.open>.dropdown-toggle.btn-success{color:#fff;background-color:#449d44;border-color:#398439}.btn-success.active.focus,.btn-success.active:focus,.btn-success.active:hover,.btn-success:active.focus,.btn-success:active:focus,.btn-success:active:hover,.open>.dropdown-toggle.btn-success.focus,.open>.dropdown-toggle.btn-success:focus,.open>.dropdown-toggle.btn-success:hover{color:#fff;background-color:#398439;border-color:#255625}.btn-success.active,.btn-success:active,.open>.dropdown-toggle.btn-success{background-image:none}.btn-success.disabled.focus,.btn-success.disabled:focus,.btn-success.disabled:hover,.btn-success[disabled].focus,.btn-success[disabled]:focus,.btn-success[disabled]:hover,fieldset[disabled] .btn-success.focus,fieldset[disabled] .btn-success:focus,fieldset[disabled] .btn-success:hover{background-color:#5cb85c;border-color:#4cae4c}.btn-success .badge{color:#5cb85c;background-color:#fff}
+
+        /* Prevents green disabled button */
+        .btn-primary[disabled] {
+            background-color: #337ab7;
+            opacity: .40;
+        }
+        /* Manage modal hidden properly */
+        .modal {
+            display: none;
+        }
+        /* Increase modal width */
+        .custom-modal-50 {
+            width: 50%;
+            margin-left: -25%;
+        }
+        .custom-modal-60 {
+            width: 60%;
+            margin-left: -30%;
+        }
+        .custom-modal-80 {
+            width: 80%;
+            margin-left: -40%;
+        }
+
+        .modal-big {
+          height: 800px;
+          max-height: 400%;
+          width: 80%;
+          margin-left: -40%;
+        }
+
+        .modal-guts {
+
+          /* For Splunk 7.0.x */
+          margin-top: 30px;
+
+          /* other stuff we already covered */
+
+          /* cover the modal */
+          position: absolute;
+
+          width: 90%;
+          min-height: 400px;
+          max-height: 600px;
+          height: 100%;
+
+          /* spacing as needed */
+          padding: 20px 50px 20px 20px;
+
+          /* let it scroll */
+          overflow: auto;
+
+        }
+
+        /* fix some issues with long modals within Splunk 7.0.x */
+        .modal-body {
+            max-height: 700px !important;
+        }
+
+        /* Fix link input object align */
+        .input-linklist {
+          display: inline !important;
+        }
+
+        /* Fix link input object align for Splunk 6.5 */
+        .input-link {
+          display: inline !important;
+        }
+
+        /* reduce size of the token input panel */
+        .input-link label{
+          display: none !important;
+        }
+
+        .splunk-choice-input-message{
+          display: none !important;
+        }
+
+        /* Increase the default max-width for links */
+        .btn-pill {
+          max-width: 600px !important;
+        }
+
+        .custom-btn {
+            float: left;
+            margin-top:15px;
+        }
+
+        span.title_yellow {
+            background: #ffd700;
+            padding: 0.3em 1.5em;
+            font-weight: 600;
+            position: relative;
+            border-radius: 5px;
+            margin-left: 5px;
+        }
+
+        span.title_orange {
+            background: #ffb347;
+            padding: 0.3em 1.5em;
+            font-weight: 600;
+            position: relative;
+            border-radius: 5px;
+            margin-left: 5px;
+        }
+
+        span.title_green {
+            background: #77dd77;
+            padding: 0.3em 1.5em;
+            font-weight: 600;
+            position: relative;
+            border-radius: 5px;
+            margin-left: 5px;
+        }
+
+        span.title_red {
+            background: #ff6961;
+            padding: 0.3em 1.5em;
+            font-weight: 600;
+            position: relative;
+            border-radius: 5px;
+            margin-left: 5px;
+        }
+
+        span.title_grey {
+            background: #808080;
+            padding: 0.3em 1.5em;
+            font-weight: 600;
+            position: relative;
+            border-radius: 5px;
+            margin-left: 5px;
+        }
+
+        .imgheader36 img {
+            float: left;
+            width: 36px;
+            height: 36px;
+        }
+
+        .imgheader36 h1 {
+            color: lightslategrey;
+            text-align: left;
+            position: relative;
+            top: 9px;
+            left: 10px;
+        }
+
+        .imgheader36 h3 {
+            position: relative;
+            top: 8px;
+            left: -10px;
+        }
+
+        .imgminiheader img {
+            position: relative;
+            top: -4px;
+        }
+
+        /* hide resizing panel option */
+
+        .ui-resizable-handle,.action-bar,.menus {
+           visibility:hidden !important;
+        }
+
+        /* hide the footer everywhere */
+        .dashboard-row .dashboard-panel .dashboard-element .panel-footer {
+           display: none !important;
+        }
+
+        </style>
+</head>
+<body class="simplexml preload locale-en" data-splunk-version="" data-splunk-product="enterprise">
+<!--
+BEGIN LAYOUT
+This section contains the layout for the dashboard. Splunk uses proprietary
+styles in <div> tags, similar to Bootstrap's grid system.
+-->
+<header>
+    <a class="navSkip" href="#navSkip" tabindex="1">Screen reader users, click here to skip the navigation bar</a>
+    <div class="header splunk-header">
+        <div id="placeholder-splunk-bar">
+            <a href="{{SPLUNKWEB_URL_PREFIX}}/app/launcher/home" class="brand" title="splunk &gt; listen to your data">splunk<strong>&gt;</strong></a>
+        </div>
+        <div id="placeholder-app-bar"></div>
+    </div>
+    <a id="navSkip"></a>
+</header>
+<div class="dashboard-body container-fluid main-section-body" data-role="main">
+    <div class="dashboard-header clearfix">
+        <h2>TrackMe Maintenance Mode</h2>
+         <p></p>
+    </div>
+
+    <div style="display: none;" class="fieldset">
+    </div>
+
+    <!-- Error or failure during KVstore collection update -->
+    <div class="modal fade" id="modal_update_collection_failure_return" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h3 style="color: indianred;"><span class="glyphicon glyphicon-lock"></span>Oops!</h3>
+                </div>
+                <div class="modal-body">
+                    <p>Sorry but it looks like an error occurred while attempting to perform the KVstore collection update.<br /><br />
+                        <b>You might not have the permission to write to the collection</b>, or an unexpected failure was encountered.<br /><br />
+                        <b>The server returned the following error message:</b>
+                    </p>
+                    <div class="modal-error-message" style="margin: 10px 0; padding: 10px; border-radius: 3px 3px 3px 3px; color: #D8000C; background-color: #FFBABA;">
+                        <p>error return message</p>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-default btn-default pull-right" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal window for maintenance enable end time calendar selection -->
+    <div class="modal fade" id="enable_maintenance_endtime" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h3 style="color: indianred;"><span class="glyphicon glyphicon-lock"></span> Enabling the maintenance mode</h3>
+                </div>
+                <div class="modal-body">
+
+                    <p><b>Enable maintenance mode to avoid alerts triggering during your maintenance time window:</b></p>
+
+                    <div class="dateInput">
+                        <div style="margin-bottom: 6px">Maintenance modes starts on:</div>
+                        <input id="inputStartMaintenance" type="date">
+                    </div>
+                    <div class="input input-dropdown" id="inputStartMaintenanceTime">
+                        <label>At:</label>
+                    </div>
+
+                    <br />
+
+                    <div class="dateInput">
+                        <div style="margin-bottom: 6px">Maintenance modes ends on:</div>
+                        <input id="inputEndMaintenance" type="date">
+                    </div>
+                    <div class="input input-dropdown" id="inputEndMaintenanceTime">
+                        <label>At:</label>
+                    </div>
+
+                    <br />
+
+                    <p>
+                        <label>Optional: enter a note of this update. <br />
+                            This note will be logged and made available for notification.</label>
+                        <textarea
+                                id = "input_enable_comment"
+                                rows = "6"
+                                cols = "160" style="width: 500px;"
+                                onfocus="if(this.value==this.defaultValue)this.value='';" onblur="if(this.value=='')this.value=this.defaultValue;">update note</textarea>
+                    </p>
+
+                </div>
+
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-default btn-default pull-left" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Cancel</button>
+                    <button id="btn_enable_maintenance_endtime" type="submit" class="btn btn-default btn-danger pull-right" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Ok</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal window asking for confirmation before deactivating the maintenance mode -->
+    <div class="modal fade" id="disabled_maintenance_confirmation" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h3 style="color: indianred;"><span class="glyphicon glyphicon-lock"></span> Disabling the maintenance mode</h3>
+                </div>
+                <div class="modal-body">
+
+                    <p><b>Do you want to confirm disabling the maintenance mode?</b>
+                    <br /><br />
+                        Once the maintenance mode will be disabled, all activated alerts will be able to trigger.
+                    </p>
+
+                    <br />
+
+                    <p>
+                        <label>Optional: enter a note of this update. <br />
+                            This note will be logged and made available for notification.</label>
+                        <textarea
+                                id = "input_disable_comment"
+                                rows = "6"
+                                cols = "160" style="width: 500px;"
+                                onfocus="if(this.value==this.defaultValue)this.value='';" onblur="if(this.value=='')this.value=this.defaultValue;">update note</textarea>
+                    </p>
+
+                </div>
+
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-default btn-default pull-left" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Cancel</button>
+                    <button id="btn_disable_maintenance_confirmation" type="submit" class="btn btn-default btn-primary pull-right" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Ok</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Maintenance mode selection is invalid -->
+    <div class="modal fade" id="maintenance_mode_date_is_invalid" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h3 style="color: indianred;"><span class="glyphicon glyphicon-lock"></span>Oops!</h3>
+                </div>
+                <div class="modal-body">
+                    <p><b>Invalid entry:</b> the selected date time is in the past or your start / end time selection is invalid, please correct your selection.
+                    </p>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-default btn-primary pull-right" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Ok</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Maintenance mode end of date is invalid -->
+    <div class="modal fade" id="maintenance_mode_data_is_invalid" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h3 style="color: indianred;"><span class="glyphicon glyphicon-lock"></span>Maintenance mode</h3>
+                </div>
+                <div class="modal-body">
+                    <p><b>Invalid entry:</b> the date / time entries are empty or incorrect, please select a valid end date for the maintenance mode.
+                    </p>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-default btn-primary pull-right" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Ok</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- maintenance mode disabled -->
+    <div class="modal fade" id="modal_maintenance_mode_disabled" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h3 style="color: steelblue;"><span class="glyphicon glyphicon-lock"></span>Maintenance mode has been disabled</h3>
+                </div>
+                <div class="modal-body">
+                    <p><b>The maintenance mode has been successfully disabled.</b><br /><br />
+                        Returning to normal operation mode, all of the activated alerts will be able to trigger starting now. <br />
+                    </p>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-default btn-default pull-right" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- maintenance mode final message-->
+    <div class="modal fade" id="modal_maintenance_mode_confirmed" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h3 style="color: indianred;"><span class="glyphicon glyphicon-lock"></span>Maintenance mode has been enabled</h3>
+                </div>
+                <div class="modal-body">
+                    <p><b>The maintenance mode has been successfully enabled.</b><br /><br />
+                        None of the alerts will be able to trigger during the maintenance time window. <br /><br />
+                        The maintenance mode will be automatically deactivated when the end date time configured will be reached.
+                    </p>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-default btn-default pull-right" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- maintenance mode final message-->
+    <div class="modal fade" id="modal_maintenance_mode_scheduled" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h3 style="color: indianred;"><span class="glyphicon glyphicon-lock"></span>Maintenance mode scheduled</h3>
+                </div>
+                <div class="modal-body">
+                    <p><b>The maintenance mode has been successfully scheduled.</b><br /><br />
+                        The scheduled report will automatically enable the maintenance mode according to your request. <br /><br />
+                        During the maintenance time window, none of the Kafka alerting wll be able to trigger.
+                    </p>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-default btn-default pull-right" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Error or failure while attempting to enable or disable the maintenance mode -->
+    <div class="modal fade" id="modal_maintenance_mode_failure" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h3 style="color: indianred;"><span class="glyphicon glyphicon-lock"></span>Oops!</h3>
+                </div>
+                <div class="modal-body">
+                    <p>Sorry but it looks like an error occurred while attempting to modify the maintenance mode.<br /><br />
+                        <b>You might not have the permission to write to the collection</b>, or an unexpected failure was encountered.
+                    </p>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-default btn-default pull-right" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Error loading the current maintenance mode -->
+    <div class="modal fade" id="modal_loading_maintenance_mode_failure" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h3 style="color: indianred;"><span class="glyphicon glyphicon-lock"></span>Oops!</h3>
+                </div>
+                <div class="modal-body">
+                    <p>Sorry but it looks like an error occurred while loading the current maintenance mode status.
+                        <br /><br />
+                        Please attempt to refresh the page or review Splunk logs.<br /><br />
+                        <b>If the application was just deployed, please make sure Splunk was restarted after the installation.</b>
+                    </p>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-default btn-default pull-right" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- START MAIN -->
+
+    <div id="rowMaintenanceInfo" class="dashboard-row dashboard-rowManageResetInfo">
+        <div id="panelMaintenanceInfo" class="dashboard-cell" style="width: 100%;">
+            <div class="dashboard-panel clearfix">
+                <div class="panel-element-row">
+                    <div id="elementMaintenanceInfo" class="dashboard-element html" style="width: 100%">
+                        <div class="panel-body html">
+                            <div style="text-align: center; border: 3px dashed #ccc;">
+                                <div style="display: inline-flex; align-items: center; margin-top: 5px;">
+                                    <span style="font-size: 22px; font-weight: bold; color: #999999; margin-top: 5px;">MAINTENANCE MODE</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="rowMaintenanceInfo2" class="dashboard-row dashboard-rowManageResetInfo">
+        <div id="panelMaintenanceInfo2" class="dashboard-cell" style="width: 100%;">
+            <div class="dashboard-panel clearfix">
+                <div class="panel-element-row">
+                    <div id="elementMaintenanceInfo2" class="dashboard-element html" style="width: 100%">
+                        <div class="panel-body html">
+                            <div style="text-align: left;">
+                                <p>The maintenance mode can be activated for a given period of time to automatically silence all alerts from TrackMe.
+                                <br />
+                                    Once activated or scheduled to be activated automatically, alerts will continue to be executed but will not be able to trigger based on the maintenance mode condition.
+                                <br />
+                                    The maintenance mode can be enabled / disabled at any time,  and its period can be extended if required. Once the maintenance end time has been reached, it will automatically be disabled.
+                                <br />
+                                    Time is shown in your own local time zone settings.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="row_maintenance_state" class="dashboard-row dashboard-row_maintenance_state">
+        <div id="panel_maintenance_state" class="dashboard-cell" style="width: 100%;">
+            <div class="dashboard-panel clearfix">
+
+                <div class="panel-element-row">
+                    <div id="element_maintenance_state" class="dashboard-element single" style="width: 100%">
+                        <div class="panel-body"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="row_maintenance_state_reactivation" class="dashboard-row dashboard-row_maintenance_state_reactivation" data-depends="$maintenance_enabled$">
+        <div id="panel_maintenance_state_reactivation" class="dashboard-cell" style="width: 100%;">
+            <div class="dashboard-panel clearfix">
+
+                <div class="panel-element-row">
+                    <div id="element_maintenance_state_reactivation" class="dashboard-element single" style="width: 100%">
+                        <div class="panel-body"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="row_maintenance_state_scheduled" class="dashboard-row dashboard-row_maintenance_state_scheduled" data-depends="$maintenance_scheduled$">
+        <div id="panel_maintenance_state_scheduled" class="dashboard-cell" style="width: 100%;">
+            <div class="dashboard-panel clearfix">
+
+                <div class="panel-element-row">
+                    <div id="element_maintenance_state_scheduled" class="dashboard-element single" style="width: 100%">
+                        <div class="panel-body"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="row_maintenance" class="dashboard-row dashboard-row_maintenance">
+        <div id="panel_maintenance_enable" class="dashboard-cell" style="width: 50%;">
+            <div class="dashboard-panel clearfix">
+                <h2 class="panel-title"></h2>
+                <div class="fieldset" style="text-align: center;">
+                    <div class="form-submit" id="btn_enable_maintenance">
+                        <button id="btn_press_enable_maintenance" class="btn btn-danger submit">Enable maintenance mode</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="panel_maintenance_disable" class="dashboard-cell" style="width: 50%;">
+            <div class="dashboard-panel clearfix">
+                <h2 class="panel-title"></h2>
+                <div class="fieldset" style="text-align: center;">
+                    <div class="form-submit" id="btn_disable_maintenance">
+                        <button id="btn_press_disable_maintenance" class="btn btn-primary submit">Disable maintenance mode</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+</div>
+</div>
+
+<!--
+END LAYOUT
+-->
+
+<script src="{{SPLUNKWEB_URL_PREFIX}}/config?autoload=1" crossorigin="use-credentials"></script>
+<script src="{{SPLUNKWEB_URL_PREFIX}}/static/js/i18n.js"></script>
+<script src="{{SPLUNKWEB_URL_PREFIX}}/i18ncatalog?autoload=1"></script>
+<script src="{{SPLUNKWEB_URL_PREFIX}}/static/build/simplexml/index.js"></script>
+<script type="text/javascript">
+// <![CDATA[
+// <![CDATA[
+//
+// LIBRARY REQUIREMENTS
+//
+// In the require function, we include the necessary libraries and modules for
+// the HTML dashboard. Then, we pass variable names for these libraries and
+// modules as function parameters, in order.
+//
+// When you add libraries or modules, remember to retain this mapping order
+// between the library or module and its function parameter. You can do this by
+// adding to the end of these lists, as shown in the commented examples below.
+require([
+        "splunkjs/mvc",
+        "splunkjs/mvc/utils",
+        "splunkjs/mvc/tokenutils",
+        "underscore",
+        "jquery",
+        "splunkjs/mvc/simplexml",
+        "splunkjs/mvc/layoutview",
+        "splunkjs/mvc/simplexml/dashboardview",
+        "splunkjs/mvc/simplexml/dashboard/panelref",
+        "splunkjs/mvc/simplexml/element/chart",
+        "splunkjs/mvc/simplexml/element/event",
+        "splunkjs/mvc/simplexml/element/html",
+        "splunkjs/mvc/simplexml/element/list",
+        "splunkjs/mvc/simplexml/element/map",
+        "splunkjs/mvc/simplexml/element/single",
+        "splunkjs/mvc/simplexml/element/table",
+        "splunkjs/mvc/simplexml/element/visualization",
+        "splunkjs/mvc/simpleform/formutils",
+        "splunkjs/mvc/simplexml/eventhandler",
+        "splunkjs/mvc/simplexml/searcheventhandler",
+        "splunkjs/mvc/simpleform/input/dropdown",
+        "splunkjs/mvc/simpleform/input/radiogroup",
+        "splunkjs/mvc/simpleform/input/linklist",
+        "splunkjs/mvc/simpleform/input/multiselect",
+        "splunkjs/mvc/simpleform/input/checkboxgroup",
+        "splunkjs/mvc/simpleform/input/text",
+        "splunkjs/mvc/simpleform/input/timerange",
+        "splunkjs/mvc/simpleform/input/submit",
+        "splunkjs/mvc/searchmanager",
+        "splunkjs/mvc/savedsearchmanager",
+        "splunkjs/mvc/postprocessmanager",
+        "splunkjs/mvc/simplexml/urltokenmodel"
+        // Add comma-separated libraries and modules manually here, for example:
+        // ..."splunkjs/mvc/simplexml/urltokenmodel",
+        // "splunkjs/mvc/tokenforwarder"
+    ],
+    function(
+        mvc,
+        utils,
+        TokenUtils,
+        _,
+        $,
+        DashboardController,
+        LayoutView,
+        Dashboard,
+        PanelRef,
+        ChartElement,
+        EventElement,
+        HtmlElement,
+        ListElement,
+        MapElement,
+        SingleElement,
+        TableElement,
+        VisualizationElement,
+        FormUtils,
+        EventHandler,
+        SearchEventHandler,
+        DropdownInput,
+        RadioGroupInput,
+        LinkListInput,
+        MultiSelectInput,
+        CheckboxGroupInput,
+        TextInput,
+        TimeRangeInput,
+        SubmitButton,
+        SearchManager,
+        SavedSearchManager,
+        PostProcessManager,
+        UrlTokenModel
+
+        // Add comma-separated parameter names here, for example:
+        // ...UrlTokenModel,
+        // TokenForwarder
+    ) {
+
+        var pageLoading = true;
+
+        //
+        // FUNCTIONS
+        //
+
+        // Returns true if numeric
+        function isNumeric(n) {
+            return !isNaN(parseFloat(n)) && isFinite(n) && n > 0;
+        }
+
+        //
+        // TOKENS
+        //
+
+        // Create token namespaces
+        var urlTokenModel = new UrlTokenModel();
+        mvc.Components.registerInstance('url', urlTokenModel);
+        var defaultTokenModel = mvc.Components.getInstance('default', {
+            create: true
+        });
+        var submittedTokenModel = mvc.Components.getInstance('submitted', {
+            create: true
+        });
+
+        urlTokenModel.on('url:navigate', function() {
+            defaultTokenModel.set(urlTokenModel.toJSON());
+            if (!_.isEmpty(urlTokenModel.toJSON()) && !_.all(urlTokenModel.toJSON(), _.isUndefined)) {
+                submitTokens();
+            } else {
+                submittedTokenModel.clear();
+            }
+        });
+
+        // Initialize tokens
+        defaultTokenModel.set(urlTokenModel.toJSON());
+
+        function submitTokens() {
+            // Copy the contents of the defaultTokenModel to the submittedTokenModel and urlTokenModel
+            FormUtils.submitForm({
+                replaceState: pageLoading
+            });
+        }
+
+        function setToken(name, value) {
+            defaultTokenModel.set(name, value);
+            submittedTokenModel.set(name, value);
+        }
+
+        function unsetToken(name) {
+            defaultTokenModel.unset(name);
+            submittedTokenModel.unset(name);
+        }
+
+        //
+        // VARIOUS
+        //
+
+        //console.log("Splunk version is " + $C.VERSION_LABEL);
+
+        //
+        // SEARCH MANAGERS
+        //
+
+        //
+        // MAINTENANCE MODE
+        //
+
+        var search_maintenance_mode_mainsearch = new SearchManager({
+            "id": "search_maintenance_mode_mainsearch",
+            "sample_ratio": 1,
+            "search": "| inputlookup trackme_maintenance_mode | eval maintenance_mode=if(now()<maintenance_mode_start AND maintenance_mode_end>now(), \"scheduled\", maintenance_mode)",
+            "status_buckets": 0,
+            "earliest_time": "-24h@h",
+            "cancelOnUnload": true,
+            "latest_time": "now",
+            "app": utils.getCurrentApp(),
+            "auto_cancel": 90,
+            "refresh": "30s",
+            "refreshType": "delay",
+            "preview": true,
+            "tokenDependencies": {},
+            "runWhenTimeIsUndefined": false
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        });
+
+        new SearchEventHandler({
+            managerid: "search_maintenance_mode_mainsearch",
+            event: "progress",
+            conditions: [{
+                    attr: "match",
+                    value: "'result.maintenance_mode'==\"enabled\"",
+                    actions: [{
+                        "type": "set",
+                        "token": "maintenance_enabled",
+                        "value": "true"
+                    },
+                    {
+                        "type": "unset",
+                        "token": "maintenance_scheduled"
+                    }]
+                },
+                {
+                    attr: "match",
+                    value: "'result.maintenance_mode'==\"scheduled\"",
+                    actions: [{
+                        "type": "set",
+                        "token": "maintenance_scheduled",
+                        "value": "true"
+                    },
+                    {
+                        "type": "unset",
+                        "token": "maintenance_enabled"
+                    }]
+                },
+                {
+                    attr: "match",
+                    value: "'result.maintenance_mode'==\"disabled\"",
+                    actions: [{
+                        "type": "unset",
+                        "token": "maintenance_scheduled"
+                    },
+                    {
+                        "type": "unset",
+                        "token": "maintenance_enabled"
+                    }]
+                }
+            ]
+        });
+
+        var search_maintenance_state = new PostProcessManager({
+            "managerid": "search_maintenance_mode_mainsearch",
+            "id": "search_maintenance_state",
+            "search": "fields maintenance_mode | eval maintenance=case(match(maintenance_mode, \"enabled\"), 1, match(maintenance_mode, \"disabled\"), 0, match(maintenance_mode, \"scheduled\"), 2), maintenance_mode=upper(maintenance_mode) | rangemap field=maintenance low=0-0 severe=1-1 high=2-2 default=severe",
+            "tokenDependencies": {},
+            "runWhenTimeIsUndefined": false
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        });
+
+        var search_maintenance_state_reactivation = new PostProcessManager({
+            "managerid": "search_maintenance_mode_mainsearch",
+            "id": "search_maintenance_state_reactivation",
+            "search": "eval maintenance_mode_end=strftime(maintenance_mode_end, \"%d %b %H:%M\") | eval maintenance = \"Ends on: \" . maintenance_mode_end | fields maintenance",
+            "tokenDependencies": {},
+            "runWhenTimeIsUndefined": false
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        });
+
+        var search_maintenance_state_scheduled = new PostProcessManager({
+            "managerid": "search_maintenance_mode_mainsearch",
+            "id": "search_maintenance_state_scheduled",
+            "search": "eval maintenance_mode_start=strftime(maintenance_mode_start, \"%d %b %H:%M\"), maintenance_mode_end=strftime(maintenance_mode_end, \"%d %b %H:%M\") | eval maintenance = \"Starts on: \" . maintenance_mode_start . \" / \" . \"Ends on: \" . maintenance_mode_end | fields maintenance",
+            "tokenDependencies": {},
+            "runWhenTimeIsUndefined": false
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        });
+
+        // start time maintenance mode
+        var inputStartMaintenanceTime = new DropdownInput({
+            "id": "inputStartMaintenanceTime",
+            "choices": [{
+                    "value": "now",
+                    "label": "now"
+                },
+                {
+                    "value": "00:00",
+                    "label": "12:00am"
+                },
+                {
+                    "value": "00:30",
+                    "label": "12:30am"
+                },
+                {
+                    "value": "01:00",
+                    "label": "01:00am"
+                },
+                {
+                    "value": "01:30",
+                    "label": "01:30am"
+                },
+                {
+                    "value": "02:00",
+                    "label": "02:00am"
+                },
+                {
+                    "value": "02:30",
+                    "label": "02:30am"
+                },
+                {
+                    "value": "03:00",
+                    "label": "03:00am"
+                },
+                {
+                    "value": "03:30",
+                    "label": "03:30am"
+                },
+                {
+                    "value": "04:00",
+                    "label": "04:00am"
+                },
+                {
+                    "value": "04:30",
+                    "label": "04:30am"
+                },
+                {
+                    "value": "05:00",
+                    "label": "05:00am"
+                },
+                {
+                    "value": "05:30",
+                    "label": "05:30am"
+                },
+                {
+                    "value": "06:00",
+                    "label": "06:00am"
+                },
+                {
+                    "value": "06:30",
+                    "label": "06:30am"
+                },
+                {
+                    "value": "07:00",
+                    "label": "07:00am"
+                },
+                {
+                    "value": "07:30",
+                    "label": "07:30am"
+                },
+                {
+                    "value": "08:00",
+                    "label": "08:00am"
+                },
+                {
+                    "value": "08:30",
+                    "label": "08:30am"
+                },
+                {
+                    "value": "09:00",
+                    "label": "09:00am"
+                },
+                {
+                    "value": "09:30",
+                    "label": "09:30am"
+                },
+                {
+                    "value": "10:00",
+                    "label": "10:00am"
+                },
+                {
+                    "value": "10:30",
+                    "label": "10:30am"
+                },
+                {
+                    "value": "11:00",
+                    "label": "11:00am"
+                },
+                {
+                    "value": "11:30",
+                    "label": "11:30am"
+                },
+                {
+                    "value": "12:00",
+                    "label": "12:00pm"
+                },
+                {
+                    "value": "12:30",
+                    "label": "12:30pm"
+                },
+                {
+                    "value": "13:00",
+                    "label": "01:00pm"
+                },
+                {
+                    "value": "13:30",
+                    "label": "01:30pm"
+                },
+                {
+                    "value": "14:00",
+                    "label": "02:00pm"
+                },
+                {
+                    "value": "14:30",
+                    "label": "02:30pm"
+                },
+                {
+                    "value": "15:00",
+                    "label": "03:00pm"
+                },
+                {
+                    "value": "15:30",
+                    "label": "03:30pm"
+                },
+                {
+                    "value": "16:00",
+                    "label": "04:00pm"
+                },
+                {
+                    "value": "16:30",
+                    "label": "04:30pm"
+                },
+                {
+                    "value": "17:00",
+                    "label": "05:00pm"
+                },
+                {
+                    "value": "17:30",
+                    "label": "05:30pm"
+                },
+                {
+                    "value": "18:00",
+                    "label": "06:00pm"
+                },
+                {
+                    "value": "18:30",
+                    "label": "06:30pm"
+                },
+                {
+                    "value": "19:00",
+                    "label": "07:00pm"
+                },
+                {
+                    "value": "19:30",
+                    "label": "07:30pm"
+                },
+                {
+                    "value": "20:00",
+                    "label": "08:00pm"
+                },
+                {
+                    "value": "20:30",
+                    "label": "08:30pm"
+                },
+                {
+                    "value": "21:00",
+                    "label": "09:00pm"
+                },
+                {
+                    "value": "21:30",
+                    "label": "09:30pm"
+                },
+                {
+                    "value": "22:00",
+                    "label": "10:00pm"
+                },
+                {
+                    "value": "22:30",
+                    "label": "10:30pm"
+                },
+                {
+                    "value": "23:00",
+                    "label": "11:00pm"
+                },
+                {
+                    "value": "23:30",
+                    "label": "11:30pm"
+                }
+            ],
+            "searchWhenChanged": true,
+            "selectFirstChoice": false,
+            "initialValue": "now",
+            "showClearButton": true,
+            "value": "$form.time_start_maintenance$",
+            "el": $('#inputStartMaintenanceTime')
+        }, {
+            tokens: true
+        }).render();
+
+        inputStartMaintenanceTime.on("change", function(newValue) {
+            FormUtils.handleValueChange(inputStartMaintenanceTime);
+        });
+
+        // end time maintenance mode
+        var inputEndMaintenanceTime = new DropdownInput({
+            "id": "inputEndMaintenanceTime",
+            "choices": [{
+                    "value": "00:00",
+                    "label": "12:00am"
+                },
+                {
+                    "value": "00:30",
+                    "label": "12:30am"
+                },
+                {
+                    "value": "01:00",
+                    "label": "01:00am"
+                },
+                {
+                    "value": "01:30",
+                    "label": "01:30am"
+                },
+                {
+                    "value": "02:00",
+                    "label": "02:00am"
+                },
+                {
+                    "value": "02:30",
+                    "label": "02:30am"
+                },
+                {
+                    "value": "03:00",
+                    "label": "03:00am"
+                },
+                {
+                    "value": "03:30",
+                    "label": "03:30am"
+                },
+                {
+                    "value": "04:00",
+                    "label": "04:00am"
+                },
+                {
+                    "value": "04:30",
+                    "label": "04:30am"
+                },
+                {
+                    "value": "05:00",
+                    "label": "05:00am"
+                },
+                {
+                    "value": "05:30",
+                    "label": "05:30am"
+                },
+                {
+                    "value": "06:00",
+                    "label": "06:00am"
+                },
+                {
+                    "value": "06:30",
+                    "label": "06:30am"
+                },
+                {
+                    "value": "07:00",
+                    "label": "07:00am"
+                },
+                {
+                    "value": "07:30",
+                    "label": "07:30am"
+                },
+                {
+                    "value": "08:00",
+                    "label": "08:00am"
+                },
+                {
+                    "value": "08:30",
+                    "label": "08:30am"
+                },
+                {
+                    "value": "09:00",
+                    "label": "09:00am"
+                },
+                {
+                    "value": "09:30",
+                    "label": "09:30am"
+                },
+                {
+                    "value": "10:00",
+                    "label": "10:00am"
+                },
+                {
+                    "value": "10:30",
+                    "label": "10:30am"
+                },
+                {
+                    "value": "11:00",
+                    "label": "11:00am"
+                },
+                {
+                    "value": "11:30",
+                    "label": "11:30am"
+                },
+                {
+                    "value": "12:00",
+                    "label": "12:00pm"
+                },
+                {
+                    "value": "12:30",
+                    "label": "12:30pm"
+                },
+                {
+                    "value": "13:00",
+                    "label": "01:00pm"
+                },
+                {
+                    "value": "13:30",
+                    "label": "01:30pm"
+                },
+                {
+                    "value": "14:00",
+                    "label": "02:00pm"
+                },
+                {
+                    "value": "14:30",
+                    "label": "02:30pm"
+                },
+                {
+                    "value": "15:00",
+                    "label": "03:00pm"
+                },
+                {
+                    "value": "15:30",
+                    "label": "03:30pm"
+                },
+                {
+                    "value": "16:00",
+                    "label": "04:00pm"
+                },
+                {
+                    "value": "16:30",
+                    "label": "04:30pm"
+                },
+                {
+                    "value": "17:00",
+                    "label": "05:00pm"
+                },
+                {
+                    "value": "17:30",
+                    "label": "05:30pm"
+                },
+                {
+                    "value": "18:00",
+                    "label": "06:00pm"
+                },
+                {
+                    "value": "18:30",
+                    "label": "06:30pm"
+                },
+                {
+                    "value": "19:00",
+                    "label": "07:00pm"
+                },
+                {
+                    "value": "19:30",
+                    "label": "07:30pm"
+                },
+                {
+                    "value": "20:00",
+                    "label": "08:00pm"
+                },
+                {
+                    "value": "20:30",
+                    "label": "08:30pm"
+                },
+                {
+                    "value": "21:00",
+                    "label": "09:00pm"
+                },
+                {
+                    "value": "21:30",
+                    "label": "09:30pm"
+                },
+                {
+                    "value": "22:00",
+                    "label": "10:00pm"
+                },
+                {
+                    "value": "22:30",
+                    "label": "10:30pm"
+                },
+                {
+                    "value": "23:00",
+                    "label": "11:00pm"
+                },
+                {
+                    "value": "23:30",
+                    "label": "11:30pm"
+                }
+            ],
+            "searchWhenChanged": true,
+            "selectFirstChoice": false,
+            "initialValue": "00:00",
+            "showClearButton": true,
+            "value": "$form.time_end_maintenance$",
+            "el": $('#inputEndMaintenanceTime')
+        }, {
+            tokens: true
+        }).render();
+
+        inputEndMaintenanceTime.on("change", function(newValue) {
+            FormUtils.handleValueChange(inputEndMaintenanceTime);
+        });
+
+        //
+        // SPLUNK LAYOUT
+        //
+
+        $('header').remove();
+        new LayoutView({
+                "hideChrome": false,
+                "hideAppBar": false,
+                "hideSplunkBar": false,
+                "hideFooter": false
+            })
+            .render()
+            .getContainerElement()
+            .appendChild($('.dashboard-body')[0]);
+
+        //
+        // DASHBOARD EDITOR
+        //
+
+        new Dashboard({
+            id: 'dashboard',
+            el: $('.dashboard-body'),
+            showTitle: true,
+            editable: false
+        }, {
+            tokens: true
+        }).render();
+
+
+        //
+        // VIEWS: VISUALIZATION ELEMENTS
+        //
+
+        // Manage html dynamic panels
+
+        //
+        // VIEWS: FORM INPUTS
+        //
+
+        //
+        // MAINTENANCE MODE
+        //
+
+        var element_maintenance_state = new SingleElement({
+            "id": "element_maintenance_state",
+            "drilldown": "none",
+            "colorMode": "block",
+            "link.visible": "false",
+            "numberPrecision": "0",
+            "useColors": "0",
+            "underLabel": "MAINTENANCE MODE STATUS",
+            "colorBy": "value",
+            "height": "60",
+            "managerid": "search_maintenance_state",
+            "el": $('#element_maintenance_state')
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        }).render();
+
+        var element_maintenance_state_reactivation = new SingleElement({
+            "id": "element_maintenance_state_reactivation",
+            "drilldown": "none",
+            "colorMode": "block",
+            "link.visible": "false",
+            "numberPrecision": "0",
+            "useColors": "0",
+            "underLabel": "ESTIMATED DATE FOR AUTO-DEACTIVATION OF THE MAINTENANCE MODE",
+            "colorBy": "value",
+            "height": "60",
+            "managerid": "search_maintenance_state_reactivation",
+            "el": $('#element_maintenance_state_reactivation')
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        }).render();
+
+        var element_maintenance_state_scheduled = new SingleElement({
+            "id": "element_maintenance_state_scheduled",
+            "drilldown": "none",
+            "colorMode": "block",
+            "link.visible": "false",
+            "numberPrecision": "0",
+            "useColors": "0",
+            "underLabel": "MAINTENANCE MODE HAS BEEN SCHEDULED",
+            "colorBy": "value",
+            "height": "60",
+            "managerid": "search_maintenance_state_scheduled",
+            "el": $('#element_maintenance_state_scheduled')
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        }).render();
+
+        //
+        // SERVICE OBJECT
+        //
+
+        // Create a service object using the Splunk SDK for JavaScript
+        // to send REST requests
+        var service = mvc.createService({
+            owner: "nobody"
+        });
+
+        //
+        // BEGIN OPERATIONS
+        //
+
+        //
+        // MAINTENANCE MODE
+        //
+
+        // Audit record
+        function auditRecord(action, change_type, object, object_category, object_attrs, result, comment) {
+
+            // Audit changes
+            var tokens = mvc.Components.get("default");
+            var currentUser = Splunk.util.getConfigValue("USERNAME");
+            tokens.set("currentUser", currentUser);
+            var auditendpoint_URl = "/en-US/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_audit_changes/"
+
+            var time = (new Date).getTime();
+            var audit_record = {
+                "time": time,
+                "action": action,
+                "user": currentUser,
+                "change_type": change_type,
+                "object": object,
+                "object_category": object_category,
+                "object_attrs": object_attrs,
+                "result": result,
+                "comment": comment
+            };
+            $.ajax({
+                url: auditendpoint_URl,
+                type: "POST",
+                async: true,
+                contentType: "application/json",
+                data: JSON.stringify(audit_record),
+                success: function(returneddata) {
+                    //console.log("Updated!", returneddata)
+                    // Run the search again to update the table
+                }
+            });
+
+        }
+
+        function get_maintenance_mode() {
+
+        // Manage buttons states dynamically
+
+        submitTokens();
+
+        // When the Submit button is clicked, get all the form fields by accessing token values
+        var tokens = mvc.Components.get("default");
+
+        //
+        // Verify the current status
+        //
+
+        // Define the query
+        var searchQuery = "| savedsearch \"Verify trackMe alerting maintenance status\" | eval maintenance_mode=if(now()<maintenance_mode_start AND maintenance_mode_end>now(), \"scheduled\", maintenance_mode)";
+
+        // Set the search parameters--specify a time range
+        var searchParams = {
+            earliest_time: "-5m",
+            latest_time: "now"
+        };
+
+        // Run a oneshot search that returns the job's results
+        service.oneshotSearch(
+            searchQuery,
+            searchParams,
+            function(err, results) {
+
+                // Display the results
+                var fields = results.fields;
+                var rows = results.rows;
+                var current_maintenance_mode;
+                var current_time_updated;
+
+                for (var i = 0; i < rows.length; i++) {
+                    var values = rows[i];
+                    //console.log("Row " + i + ": ");
+
+                    for (var j = 0; j < values.length; j++) {
+                        var field = fields[j];
+
+                        if (fields[j] == "maintenance_mode") {
+                            current_maintenance_mode = values[j];
+                        }
+                        if (fields[j] == "time_updated") {
+                            current_time_updated = values[j];
+                        }
+                    }
+                }
+
+                //console.log("current_maintenance_mode: " + current_maintenance_mode + " ,current_time_updated: " + current_time_updated);
+
+                if (!current_maintenance_mode) {
+                    $("#modal_loading_maintenance_mode_failure").modal()
+                    document.getElementById('btn_press_enable_maintenance').disabled = true;
+                    document.getElementById('btn_press_disable_maintenance').disabled = true;
+                    return;
+                }
+
+                // Dynamically manage buttons states
+                if (current_maintenance_mode == "disabled") {
+                    //console.log("maintenance_mode is disabled");
+                    document.getElementById('btn_press_disable_maintenance').disabled = true;
+                    document.getElementById('btn_press_enable_maintenance').disabled = false;
+                }
+                else if (current_maintenance_mode == "scheduled") {
+                    //console.log("maintenance_mode is scheduled");
+                    document.getElementById('btn_press_disable_maintenance').disabled = false;
+                    document.getElementById('btn_press_enable_maintenance').disabled = true;
+                }
+                else {
+                    //console.log("maintenance_mode is enabled");
+                    document.getElementById('btn_press_disable_maintenance').disabled = false;
+                    //document.getElementById('btn_press_enable_maintenance').disabled = true;
+                    $("#btn_press_enable_maintenance").html("Extend maintenance mode");
+                }
+
+            });
+
+        }
+
+        // get current status
+        get_maintenance_mode();
+
+        //
+        // ENABLE MAINTENANCE MODE BUTTON
+        //
+
+        $("#btn_enable_maintenance").click(function() {
+            submitTokens();
+
+            // When the Submit button is clicked, get all the form fields by accessing token values
+            var tokens = mvc.Components.get("default");
+
+            $("#enable_maintenance_endtime").modal()
+
+            // Disabled past selection
+            $(function() {
+                var dtToday = new Date();
+
+                var month = dtToday.getMonth() + 1;
+                var day = dtToday.getDate();
+                var year = dtToday.getFullYear();
+                if (month < 10)
+                    month = '0' + month.toString();
+                if (day < 10)
+                    day = '0' + day.toString();
+
+                var maxDate = year + '-' + month + '-' + day;
+
+                // preset today's date
+                document.getElementById('inputStartMaintenance').valueAsDate = new Date();
+
+                // define minimal date that can be selected
+                $('#inputEndMaintenance').attr('min', maxDate);
+
+            });
+
+            $("#btn_enable_maintenance_endtime").click(function() {
+
+                var that = $(this);
+                that.off('click'); // remove handler
+
+                // Retrieve start date
+                var inputStartMaintenance = document.getElementById("inputStartMaintenance").value;
+
+                // Retrieve start time
+                var inputStartMaintenanceTime = tokens.get("time_start_maintenance");
+
+                // Retrieve end date
+                var inputEndMaintenance = document.getElementById("inputEndMaintenance").value;
+
+                // Retrieve end time
+                var inputEndMaintenanceTime = tokens.get("time_end_maintenance");
+
+                // Validation submitted with no date entry
+                if (!inputStartMaintenance || inputStartMaintenance == "YYYY-MM-DD" || !inputStartMaintenanceTime || !inputEndMaintenance || inputEndMaintenance == "YYYY-MM-DD" || !inputEndMaintenanceTime) {
+                    $("#maintenance_mode_data_is_invalid").modal()
+                    return;
+                }
+
+                if (inputStartMaintenance && inputEndMaintenance) {
+
+                    // Retrieve update comment if any
+                    var tk_comment = document.getElementById("input_enable_comment").value;
+
+                    // if is not defined, give it a value and override text box content
+                    if (tk_comment == "null") {
+                        setToken("tk_update_comment", TokenUtils.replaceTokenNames("No comments for update.", _.extend(submittedTokenModel.toJSON(), e.data)));
+                        // replace the textarea for modification requests
+                        document.getElementById("input_enable_comment").value = "update note";
+                    }
+                    else if (tk_comment == "update note") {
+                        tk_comment = "No comment for update.";
+                        document.getElementById("input_enable_comment").value = "update note";
+                    }
+                    else {
+                        // replace the textarea for modification requests
+                        document.getElementById("input_enable_comment").value = "update note";
+                    }
+
+                    //
+                    // Verify that the end date selection is not in the past time
+                    //
+
+                    // Define the query
+                    var searchQuery = "| makeresults | eval start_date=\"" + inputStartMaintenance + "\", start_time=\"" + inputStartMaintenanceTime + "\", end_date=\"" + inputEndMaintenance + "\", end_time=\"" + inputEndMaintenanceTime + "\" | eval maintenance_mode_start=start_date . \" \" . start_time, maintenance_mode_end=end_date . \" \" . end_time | eval maintenance_mode_start=round(strptime(maintenance_mode_start, \"%Y-%m-%d %H:%M\"), 0), maintenance_mode_end=round(strptime(maintenance_mode_end, \"%Y-%m-%d %H:%M\"), 0), now=now() | eval is_invalid=case(now>=maintenance_mode_end, \"true\", maintenance_mode_start>maintenance_mode_end, \"true\", maintenance_mode_end>now, \"false\") | fields - _time | fields is_invalid";
+
+                    //console.log("searchQuery is : " + searchQuery);
+
+                    // Set the search parameters--specify a time range
+                    var searchParams = {
+                        earliest_time: "-60m",
+                        latest_time: "now"
+                    };
+
+                    // Run a oneshot search that returns the job's results
+
+                    service.oneshotSearch(
+                        searchQuery,
+                        searchParams,
+                        function(err, results) {
+                            // Display the results
+                            var fields = results.fields;
+                            var rows = results.rows;
+                            var is_in_the_past;
+
+                            for (var i = 0; i < rows.length; i++) {
+                                var values = rows[i];
+                                //console.log("Row " + i + ": ");
+
+                                for (var j = 0; j < values.length; j++) {
+                                    var field = fields[j];
+
+                                    if (fields[j] == "is_invalid") {
+                                        is_invalid = values[j];
+                                    }
+
+                                    //console.log("is_in_the_past is: " + is_in_the_past);
+                                }
+                            }
+
+                            if (is_invalid === "true") {
+                                $("#maintenance_mode_date_is_invalid").modal()
+                                return;
+                            } else {
+
+                                if (inputStartMaintenanceTime == "now") {
+                                    //console.log("Enabling maintenance mode now");
+                                    var searchQuery = "| makeresults | eval maintenance_mode=\"enabled\", time_updated=now(), end_date=\"" + inputEndMaintenance + "\", end_time=\"" + inputEndMaintenanceTime + "\" | eval maintenance_mode_end=end_date . \" \" . end_time | eval maintenance_mode_end=round(strptime(maintenance_mode_end, \"%Y-%m-%d %H:%M\"), 0) | fields - _time | fields maintenance_mode, time_updated, maintenance_mode_end | outputlookup trackme_maintenance_mode";
+                                }
+
+                                else {
+                                    //console.log("Enabling maintenance mode as scheduled");
+                                    var searchQuery = "| makeresults | eval maintenance_mode=\"disabled\", time_updated=now(), start_date=\"" + inputStartMaintenance  + "\", start_time=\"" + inputStartMaintenanceTime + "\", end_date=\"" + inputEndMaintenance + "\", end_time=\"" + inputEndMaintenanceTime + "\" | eval maintenance_mode_start=start_date . \" \" . start_time, maintenance_mode_end=end_date . \" \" . end_time | eval maintenance_mode_start=round(strptime(maintenance_mode_start, \"%Y-%m-%d %H:%M\"), 0), maintenance_mode_end=round(strptime(maintenance_mode_end, \"%Y-%m-%d %H:%M\"), 0) | fields - _time | fields maintenance_mode, time_updated, maintenance_mode_start, maintenance_mode_end | eval maintenance_mode=if(now()>=maintenance_mode_start AND maintenance_mode_end>now(), \"enabled\", maintenance_mode) | outputlookup trackme_maintenance_mode";
+                                }
+
+                                //console.log("searchQuery is " + searchQuery);
+
+                                // Set the search parameters--specify a time range
+                                var searchParams = {
+                                    earliest_time: "-60m",
+                                    latest_time: "now"
+                                };
+
+                                // Update the collection
+                                service.search(
+                                    searchQuery,
+                                    searchParams,
+                                    function(err, job) {
+
+                                        // Poll the status of the search job
+                                        job.track({
+                                            period: 200
+                                        }, {
+                                            done: function(job) {
+                                                //console.log("Done!");
+
+                                                // Update single
+                                                search_maintenance_mode_mainsearch.startSearch();
+                                                search_maintenance_state.startSearch();
+
+                                                // Audit
+                                                action = "success";
+                                                change_type = "enable";
+                                                object = "maintenance_mode";
+                                                object_category = "all";
+                                                object_attrs = "The maintenance mode has been enabled or extended starting " + inputStartMaintenance + " " + inputStartMaintenanceTime + " until " + inputEndMaintenance + " " + inputEndMaintenanceTime + ". No more alerts will trigger as long as the maintenance mode is enabled" ;
+                                                result = "N/A";
+                                                comment = tk_comment;
+                                                auditRecord(action, change_type, object, object_category, object_attrs, result, comment);
+
+                                                //
+                                                // Verify the current status and update buttons state
+                                                //
+
+                                                // Define the query
+                                                var searchQuery = "| inputlookup trackme_maintenance_mode | eval maintenance_mode=if(now()<maintenance_mode_start AND maintenance_mode_end>now(), \"scheduled\", maintenance_mode)";
+
+                                                // Set the search parameters--specify a time range
+                                                var searchParams = {
+                                                    earliest_time: "-60m",
+                                                    latest_time: "now"
+                                                };
+
+                                                // Run a oneshot search that returns the job's results
+                                                service.oneshotSearch(
+                                                    searchQuery,
+                                                    searchParams,
+                                                    function(err, results) {
+
+                                                        // Display the results
+                                                        var fields = results.fields;
+                                                        var rows = results.rows;
+                                                        var current_maintenance_mode;
+                                                        var current_time_updated;
+
+                                                        for (var i = 0; i < rows.length; i++) {
+                                                            var values = rows[i];
+                                                            //console.log("Row " + i + ": ");
+
+                                                            for (var j = 0; j < values.length; j++) {
+                                                                var field = fields[j];
+
+                                                                if (fields[j] == "maintenance_mode") {
+                                                                    current_maintenance_mode = values[j];
+                                                                }
+                                                                if (fields[j] == "time_updated") {
+                                                                    current_time_updated = values[j];
+                                                                }
+
+                                                                //console.log("current_maintenance_mode: " + current_maintenance_mode + " ,current_time_updated: " + current_time_updated);
+                                                            }
+                                                        }
+
+                                                        if (!current_maintenance_mode) {
+                                                            $("#modal_loading_maintenance_mode_failure").modal()
+                                                            document.getElementById('btn_press_enable_maintenance').disabled = true;
+                                                            document.getElementById('btn_press_disable_maintenance').disabled = true;
+                                                            return;
+                                                        }
+
+                                                        // Dynamically manage buttons states
+                                                        if (current_maintenance_mode == "disabled") {
+                                                            //console.log("maintenance_mode is disabled");
+                                                            document.getElementById('btn_press_disable_maintenance').disabled = true;
+                                                            document.getElementById('btn_press_enable_maintenance').disabled = false;
+                                                        }
+                                                        else if (current_maintenance_mode == "scheduled") {
+                                                            document.getElementById('btn_press_disable_maintenance').disabled = false;
+                                                            document.getElementById('btn_press_enable_maintenance').disabled = true;
+                                                        }
+                                                        else {
+                                                            //console.log("maintenance_mode is enabled");
+                                                            document.getElementById('btn_press_disable_maintenance').disabled = false;
+                                                            //document.getElementById('btn_press_enable_maintenance').disabled = true;
+                                                            $("#btn_press_enable_maintenance").html("Extend maintenance mode");
+                                                        }
+
+                                                    });
+
+                                            },
+                                            failed: function(properties) {
+                                                let errorStr = "Unknown Error!";
+                                                if (properties && properties._properties && properties._properties.messages && properties._properties.messages[0]['text']) {
+                                                    errorStr = properties._properties.messages[0]['text'];
+                                                } else if (properties && properties._properties && properties._properties.messages) {
+                                                    errorStr = JSON.stringify(properties._properties.messages);
+                                                }
+
+                                                // Audit
+                                                action = "failure";
+                                                change_type = "enable";
+                                                object = "maintenance_mode";
+                                                object_category = "all";
+                                                object_attrs = "The maintenance mode has been enabled or extended starting " + inputStartMaintenance + " " + inputStartMaintenanceTime + " until " + inputEndMaintenance + " " + inputEndMaintenanceTime + ". No more alerts will trigger as long as the maintenance mode is enabled" ;
+                                                result = "N/A";
+                                                comment = tk_comment;
+                                                auditRecord(action, change_type, object, object_category, object_attrs, result, comment);
+
+                                                $("#modal_update_collection_failure_return").find('.modal-error-message p').text(errorStr);
+                                                $("#modal_update_collection_failure_return").modal()
+                                            },
+                                            error: function(err) {
+                                                done(err);
+
+                                                // Audit
+                                                action = "failure";
+                                                change_type = "enable";
+                                                object = "maintenance_mode";
+                                                object_category = "all";
+                                                object_attrs = "The maintenance mode has been enabled or extended starting " + inputStartMaintenance + " " + inputStartMaintenanceTime + " until " + inputEndMaintenance + " " + inputEndMaintenanceTime + ". No more alerts will trigger as long as the maintenance mode is enabled" ;
+                                                result = "N/A";
+                                                comment = tk_comment;
+                                                auditRecord(action, change_type, object, object_category, object_attrs, result, comment);
+
+                                                $("#modal_maintenance_mode_failure").modal()
+                                            }
+                                        });
+                                    }
+                                );
+
+                                // Clear date inputs
+                                $("input[type=date]").val("");
+
+                                // Show confirmed modal
+
+                                if (inputStartMaintenanceTime == "now") {
+                                    $("#modal_maintenance_mode_confirmed").modal()
+                                }
+                                else {
+                                    $("#modal_maintenance_mode_scheduled").modal()
+                                }
+
+
+                            }
+
+                        });
+
+                }
+
+                // end modal calendar selection
+            });
+
+        });
+
+        //
+        // DISABLE MAINTENANCE MODE BUTTON
+        //
+
+        $("#btn_disable_maintenance").click(function() {
+            submitTokens();
+
+            // When the Submit button is clicked, get all the form fields by accessing token values
+            var tokens = mvc.Components.get("default");
+
+            $("#disabled_maintenance_confirmation").modal()
+
+            $("#btn_disable_maintenance_confirmation").click(function() {
+
+                var that = $(this);
+                that.off('click'); // remove handler
+
+                // Retrieve update comment if any
+                var tk_comment = document.getElementById("input_disable_comment").value;
+
+                // if is not defined, give it a value and override text box content
+                if (tk_comment == "null") {
+                    setToken("tk_update_comment", TokenUtils.replaceTokenNames("No comments for update.", _.extend(submittedTokenModel.toJSON(), e.data)));
+                    // replace the textarea for modification requests
+                    document.getElementById("input_enable_comment").value = "update note";
+                }
+                else if (tk_comment == "update note") {
+                    tk_comment = "No comment for update.";
+                    document.getElementById("input_enable_comment").value = "update note";
+                }
+                else {
+                    // replace the textarea for modification requests
+                    document.getElementById("input_enable_comment").value = "update note";
+                }
+
+                //console.log("Disable maintenance mode now");
+                var searchQuery = "| makeresults | eval maintenance_mode=\"disabled\", time_updated=now(), maintenance_mode_end=\"\" | fields - _time | outputlookup trackme_maintenance_mode";
+
+                // Set the search parameters--specify a time range
+                var searchParams = {
+                    earliest_time: "-60m",
+                    latest_time: "now"
+                };
+
+                // Update the collection
+                service.search(
+                    searchQuery,
+                    searchParams,
+                    function(err, job) {
+
+                        // Poll the status of the search job
+                        job.track({
+                            period: 200
+                        }, {
+                            done: function(job) {
+                                //console.log("Done!");
+
+                                // Update single
+                                search_maintenance_mode_mainsearch.startSearch();
+                                search_maintenance_state.startSearch();
+
+                                // Audit
+                                action = "success";
+                                change_type = "disable";
+                                object = "maintenance_mode";
+                                object_category = "all";
+                                object_attrs = "Maintenance mode was disabled. Any active alert will now fire as usual." ;
+                                result = "N/A";
+                                comment = tk_comment;
+                                auditRecord(action, change_type, object, object_category, object_attrs, result, comment);
+
+                                // buttons states
+                                document.getElementById('btn_press_disable_maintenance').disabled = true;
+                                document.getElementById('btn_press_enable_maintenance').disabled = false;
+                                $("#btn_press_enable_maintenance").html("Enable maintenance mode");
+
+                                // Show final modal
+                                $("#modal_maintenance_mode_disabled").modal()
+
+                            },
+                            failed: function(properties) {
+                                let errorStr = "Unknown Error!";
+                                if (properties && properties._properties && properties._properties.messages && properties._properties.messages[0]['text']) {
+                                    errorStr = properties._properties.messages[0]['text'];
+                                } else if (properties && properties._properties && properties._properties.messages) {
+                                    errorStr = JSON.stringify(properties._properties.messages);
+                                }
+
+                                // Audit
+                                action = "failure";
+                                change_type = "disable";
+                                object = "maintenance_mode";
+                                object_category = "all";
+                                object_attrs = "Maintenance mode was disabled. Any active alert will now fire as usual." ;
+                                result = "N/A";
+                                comment = tk_comment;
+                                auditRecord(action, change_type, object, object_category, object_attrs, result, comment);
+
+                                $("#modal_update_collection_failure_return").find('.modal-error-message p').text(errorStr);
+                                $("#modal_update_collection_failure_return").modal()
+                            },
+                            error: function(err) {
+                                done(err);
+
+                                // Audit
+                                action = "failure";
+                                change_type = "disable";
+                                object = "maintenance_mode";
+                                object_category = "all";
+                                object_attrs = "Maintenance mode was disabled. Any active alert will now fire as usual." ;
+                                result = "N/A";
+                                comment = tk_comment;
+                                auditRecord(action, change_type, object, object_category, object_attrs, result, comment);
+
+                                $("#modal_maintenance_mode_failure").modal()
+                            }
+                        });
+                    }
+                );
+            });
+
+        });
+
+        // Show main
+
+        DashboardController.onReady(function() {
+            if (!submittedTokenModel.has('earliest') && !submittedTokenModel.has('latest')) {
+                submittedTokenModel.set({
+                    earliest: '0',
+                    latest: ''
+                });
+            }
+        });
+
+        // Initialize time tokens to default
+        if (!defaultTokenModel.has('earliest') && !defaultTokenModel.has('latest')) {
+            defaultTokenModel.set({
+                earliest: '0',
+                latest: ''
+            });
+        }
+
+        if (!_.isEmpty(urlTokenModel.toJSON())) {
+            submitTokens();
+        }
+
+
+        //
+        // DASHBOARD READY
+        //
+
+        DashboardController.ready();
+        pageLoading = false;
+
+    }
+);
+// ]]>
+</script>
+<script src="{{SPLUNKWEB_URL_PREFIX}}/static/app/trackme/table.js" type="text/javascript"></script>
+<script>
+$(".btn").mouseup(function(){
+    $(this).blur();
+})
+</script>
+<script>
+$('.modal').on('show.bs.modal', function () {
+    $('.modal').not($(this)).each(function () {
+        $(this).modal('hide');
+    });
+});
+</script>
+</body>
+</html>
