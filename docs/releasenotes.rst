@@ -4,7 +4,7 @@ Release notes
 Version 1.1.16
 ==============
 
-- change: Decomission of the two auto mode tracker reports, these searches were designed to automatically define a potential value for the week days monitoring, therefore the searches can have a potential cost in term of resources without providing a key value justifying it.
+- change: Decommission of the two auto mode tracker reports, these searches were designed to automatically define a potential value for the week days monitoring, therefore the searches can have a potential cost in term of resources without providing a key value justifying it.
 
 Version 1.1.15
 ==============
