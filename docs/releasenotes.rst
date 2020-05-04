@@ -1,6 +1,11 @@
 Release notes
 #############
 
+Version 1.1.17
+==============
+
+- fix: Provide support for more than 50K data hosts which was truncated due to append calls limitation in the data hosts trackers
+
 Version 1.1.16
 ==============
 
