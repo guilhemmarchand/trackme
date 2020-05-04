@@ -13487,6 +13487,8 @@ require([
             var tk_data_previous_source_state = tokens.get("tk_data_previous_source_state");
             var tk_data_previous_tracker_runtime = tokens.get("tk_data_previous_tracker_runtime");
             var tk_data_monitored_state = "enabled";
+            var tk_latest_flip_state = tokens.get("tk_latest_flip_state");
+            var tk_latest_flip_time = tokens.get("tk_latest_flip_time");
             var tk_priority = tokens.get("tk_priority");
 
             // Create the endpoint URL
@@ -13514,6 +13516,8 @@ require([
                 "data_tracker_runtime": tk_data_tracker_runtime,
                 "data_previous_source_state": tk_data_previous_source_state,
                 "data_previous_tracker_runtime": tk_data_previous_tracker_runtime,
+                "latest_flip_state": tk_latest_flip_state,
+                "latest_flip_time": tk_latest_flip_time,
                 "priority": tk_priority
             };
 
@@ -13609,6 +13613,7 @@ require([
             var tk_data_index = tokens.get("tk_data_index");
             var tk_data_sourcetype = tokens.get("tk_data_sourcetype");
             var tk_data_last_lag_seen = tokens.get("tk_data_last_lag_seen");
+            var tk_data_last_ingestion_lag_seen = tokens.get("tk_data_last_ingestion_lag_seen");
             var tk_data_eventcount = tokens.get("tk_data_eventcount");
             var tk_data_first_time_seen = tokens.get("tk_data_first_time_seen");
             var tk_data_last_time_seen = tokens.get("tk_data_last_time_seen");
@@ -13621,6 +13626,7 @@ require([
             var tk_data_previous_host_state = tokens.get("tk_data_previous_host_state");
             var tk_data_previous_tracker_runtime = tokens.get("tk_data_previous_tracker_runtime");
             var tk_latest_flip_state = tokens.get("tk_latest_flip_state");
+            var tk_latest_flip_time = tokens.get("tk_latest_flip_time");
             var tk_priority = tokens.get("tk_priority");
             var tk_data_monitored_state = "enabled";
 
@@ -13633,6 +13639,7 @@ require([
                 "data_index": tk_data_index,
                 "data_sourcetype": tk_data_sourcetype,
                 "data_last_lag_seen": tk_data_last_lag_seen,
+                "data_last_ingestion_lag_seen": tk_data_last_ingestion_lag_seen,
                 "data_eventcount": tk_data_eventcount,
                 "data_first_time_seen": tk_data_first_time_seen,
                 "data_last_time_seen": tk_data_last_time_seen,
@@ -13645,6 +13652,8 @@ require([
                 "data_tracker_runtime": tk_data_tracker_runtime,
                 "data_previous_host_state": tk_data_previous_host_state,
                 "data_previous_tracker_runtime": tk_data_previous_tracker_runtime,
+                "latest_flip_state": tk_latest_flip_state,
+                "latest_flip_time": tk_latest_flip_time,
                 "priority": tk_priority
             };
 
@@ -13778,6 +13787,8 @@ require([
             var tk_metric_previous_host_state = tokens.get("tk_metric_previous_host_state");
             var tk_metric_previous_tracker_runtime = tokens.get("tk_metric_previous_tracker_runtime");
             var tk_metric_monitored_state = "enabled";
+            var tk_latest_flip_state = tokens.get("tk_latest_flip_state");
+            var tk_latest_flip_time = tokens.get("tk_latest_flip_time");
             var tk_priority = tokens.get("tk_priority");
 
             // Create the endpoint URL
@@ -13797,6 +13808,8 @@ require([
                 "metric_tracker_runtime": tk_metric_tracker_runtime,
                 "metric_previous_host_state": tk_metric_previous_host_state,
                 "metric_previous_tracker_runtime": tk_metric_previous_tracker_runtime,
+                "latest_flip_state": tk_latest_flip_state,
+                "latest_flip_time": tk_latest_flip_time,
                 "priority": tk_priority
             };
 
@@ -13905,6 +13918,8 @@ require([
             var tk_metric_previous_host_state = tokens.get("tk_metric_previous_host_state");
             var tk_metric_previous_tracker_runtime = tokens.get("tk_metric_previous_tracker_runtime");
             var tk_metric_monitored_state = "enabled";
+            var tk_latest_flip_state = tokens.get("tk_latest_flip_state");
+            var tk_latest_flip_time = tokens.get("tk_latest_flip_time");
             var tk_priority = tokens.get("tk_priority");
 
             // Create the endpoint URL
@@ -13933,6 +13948,8 @@ require([
 	                "metric_tracker_runtime": tk_metric_tracker_runtime,
 	                "metric_previous_host_state": tk_metric_previous_host_state,
 	                "metric_previous_tracker_runtime": tk_metric_previous_tracker_runtime,
+                    "latest_flip_state": tk_latest_flip_state,
+                    "latest_flip_time": tk_latest_flip_time,
 	                "priority": tk_new_priority
                 };
 
@@ -14025,6 +14042,8 @@ require([
             var tk_data_previous_source_state = tokens.get("tk_data_previous_source_state");
             var tk_data_previous_tracker_runtime = tokens.get("tk_data_previous_tracker_runtime");
             var tk_data_monitored_state = "disabled";
+            var tk_latest_flip_state = tokens.get("tk_latest_flip_state");
+            var tk_latest_flip_time = tokens.get("tk_latest_flip_time");
             var tk_priority = tokens.get("tk_priority");
 
             // Create the endpoint URL
@@ -14052,6 +14071,8 @@ require([
                 "data_tracker_runtime": tk_data_tracker_runtime,
                 "data_previous_source_state": tk_data_previous_source_state,
                 "data_previous_tracker_runtime": tk_data_previous_tracker_runtime,
+                "latest_flip_state": tk_latest_flip_state,
+                "latest_flip_time": tk_latest_flip_time,
                 "priority": tk_priority
             };
 
@@ -14147,6 +14168,7 @@ require([
             var tk_data_index = tokens.get("tk_data_index");
             var tk_data_sourcetype = tokens.get("tk_data_sourcetype");
             var tk_data_last_lag_seen = tokens.get("tk_data_last_lag_seen");
+            var tk_data_last_ingestion_lag_seen = tokens.get("tk_data_last_ingestion_lag_seen");
             var tk_data_eventcount = tokens.get("tk_data_eventcount");
             var tk_data_first_time_seen = tokens.get("tk_data_first_time_seen");
             var tk_data_last_time_seen = tokens.get("tk_data_last_time_seen");
@@ -14159,6 +14181,8 @@ require([
             var tk_data_previous_host_state = tokens.get("tk_data_previous_host_state");
             var tk_data_previous_tracker_runtime = tokens.get("tk_data_previous_tracker_runtime");
             var tk_data_monitored_state = "disabled";
+            var tk_latest_flip_state = tokens.get("tk_latest_flip_state");
+            var tk_latest_flip_time = tokens.get("tk_latest_flip_time");
             var tk_priority = tokens.get("tk_priority");
 
             // Create the endpoint URL
@@ -14170,6 +14194,7 @@ require([
                 "data_index": tk_data_index,
                 "data_sourcetype": tk_data_sourcetype,
                 "data_last_lag_seen": tk_data_last_lag_seen,
+                "data_last_ingestion_lag_seen": tk_data_last_ingestion_lag_seen,
                 "data_eventcount": tk_data_eventcount,
                 "data_first_time_seen": tk_data_first_time_seen,
                 "data_last_time_seen": tk_data_last_time_seen,
@@ -14182,6 +14207,8 @@ require([
                 "data_tracker_runtime": tk_data_tracker_runtime,
                 "data_previous_host_state": tk_data_previous_host_state,
                 "data_previous_tracker_runtime": tk_data_previous_tracker_runtime,
+                "latest_flip_state": tk_latest_flip_state,
+                "latest_flip_time": tk_latest_flip_time,
                 "priority": tk_priority
             };
 
@@ -14285,6 +14312,8 @@ require([
             var tk_metric_previous_host_state = tokens.get("tk_metric_previous_host_state");
             var tk_metric_previous_tracker_runtime = tokens.get("tk_metric_previous_tracker_runtime");
             var tk_metric_monitored_state = "disabled";
+            var tk_latest_flip_state = tokens.get("tk_latest_flip_state");
+            var tk_latest_flip_time = tokens.get("tk_latest_flip_time");
             var tk_priority = tokens.get("tk_priority");
 
             // Create the endpoint URL
@@ -14304,6 +14333,8 @@ require([
                 "metric_tracker_runtime": tk_metric_tracker_runtime,
                 "metric_previous_host_state": tk_metric_previous_host_state,
                 "metric_previous_tracker_runtime": tk_metric_previous_tracker_runtime,
+                "latest_flip_state": tk_latest_flip_state,
+                "latest_flip_time": tk_latest_flip_time,
                 "priority": tk_priority
             };
 
@@ -14413,6 +14444,8 @@ require([
             var tk_metric_previous_host_state = tokens.get("tk_metric_previous_host_state");
             var tk_metric_previous_tracker_runtime = tokens.get("tk_metric_previous_tracker_runtime");
             var tk_metric_monitored_state = "disabled";
+            var tk_latest_flip_state = tokens.get("tk_latest_flip_state");
+            var tk_latest_flip_time = tokens.get("tk_latest_flip_time");
             var tk_priority = tokens.get("tk_priority");
 
             // Create a dictionary to store the field names and values
@@ -14429,6 +14462,8 @@ require([
                 "metric_tracker_runtime": tk_metric_tracker_runtime,
                 "metric_previous_host_state": tk_metric_previous_host_state,
                 "metric_previous_tracker_runtime": tk_metric_previous_tracker_runtime,
+                "latest_flip_state": tk_latest_flip_state,
+                "latest_flip_time": tk_latest_flip_time,
                 "priority": tk_priority
             };
 
@@ -14633,6 +14668,8 @@ require([
             var tk_data_monitoring_level = tokens.get("tk_data_monitoring_level");
             var tk_data_monitoring_wdays = tokens.get("tk_data_monitoring_wdays");
             var tk_data_override_lagging_class = tokens.get("tk_data_override_lagging_class");
+            var tk_latest_flip_state = tokens.get("tk_latest_flip_state");
+            var tk_latest_flip_time = tokens.get("tk_latest_flip_time");
             var tk_priority = tokens.get("tk_priority");
 
             // Create a dictionary to store the field names and values
@@ -14653,6 +14690,8 @@ require([
                 "data_monitoring_level": tk_data_monitoring_level,
                 "data_monitoring_wdays": tk_data_monitoring_wdays,
                 "data_override_lagging_class": tk_data_override_lagging_class,
+                "latest_flip_state": tk_latest_flip_state,
+                "latest_flip_time": tk_latest_flip_time,
                 "priority": tk_priority
             };
 
@@ -14845,6 +14884,7 @@ require([
             var tk_data_index = tokens.get("tk_data_index");
             var tk_data_sourcetype = tokens.get("tk_data_sourcetype");
             var tk_data_last_lag_seen = tokens.get("tk_data_last_lag_seen");
+            var tk_data_last_ingestion_lag_seen = tokens.get("tk_data_last_ingestion_lag_seen");
             var tk_data_eventcount = tokens.get("tk_data_eventcount");
             var tk_data_first_time_seen = tokens.get("tk_data_first_time_seen");
             var tk_data_last_time_seen = tokens.get("tk_data_last_time_seen");
@@ -14853,6 +14893,8 @@ require([
             var tk_data_monitoring_wdays = tokens.get("tk_data_monitoring_wdays");
             var tk_data_monitored_state = tokens.get("tk_data_monitored_state");
             var tk_data_override_lagging_class = tokens.get("tk_data_override_lagging_class");
+            var tk_latest_flip_state = tokens.get("tk_latest_flip_state");
+            var tk_latest_flip_time = tokens.get("tk_latest_flip_time");
             var tk_priority = tokens.get("tk_priority");
 
             // Create a dictionary to store the field names and values
@@ -14861,6 +14903,7 @@ require([
                 "data_index": tk_data_index,
                 "data_sourcetype": tk_data_sourcetype,
                 "data_last_lag_seen": tk_data_last_lag_seen,
+                "data_last_ingestion_lag_seen": tk_data_last_ingestion_lag_seen,
                 "data_eventcount": tk_data_eventcount,
                 "data_first_time_seen": tk_data_first_time_seen,
                 "data_last_time_seen": tk_data_last_time_seen,
@@ -14869,6 +14912,8 @@ require([
                 "data_monitored_state": tk_data_monitored_state,
                 "data_monitoring_wdays": tk_data_monitoring_wdays,
                 "data_override_lagging_class": tk_data_override_lagging_class,
+                "latest_flip_state": tk_latest_flip_state,
+                "latest_flip_time": tk_latest_flip_time,
                 "priority": tk_priority
             };
 
@@ -19184,6 +19229,8 @@ require([
             var tk_data_tracker_runtime = tokens.get("tk_data_tracker_runtime");
             var tk_data_previous_source_state = tokens.get("tk_data_previous_source_state");
             var tk_data_previous_tracker_runtime = tokens.get("tk_data_previous_tracker_runtime");
+            var tk_latest_flip_state = tokens.get("tk_latest_flip_state");
+            var tk_latest_flip_time = tokens.get("tk_latest_flip_time");
             var tk_priority = tokens.get("tk_priority");
 
             //console.log("Value of modal_input_grace_period is: " + tk_kafka_infra_grace_period);
@@ -19222,6 +19269,8 @@ require([
                     "data_tracker_runtime": tk_data_tracker_runtime,
                     "data_previous_source_state": tk_data_previous_source_state,
                     "data_previous_tracker_runtime": tk_data_previous_tracker_runtime,
+                    "latest_flip_state": tk_latest_flip_state,
+                    "latest_flip_time": tk_latest_flip_time,
                     "priority": tk_priority
                 };
 
@@ -19312,6 +19361,8 @@ require([
             var tk_data_tracker_runtime = tokens.get("tk_data_tracker_runtime");
             var tk_data_previous_source_state = tokens.get("tk_data_previous_source_state");
             var tk_data_previous_tracker_runtime = tokens.get("tk_data_previous_tracker_runtime");
+            var tk_latest_flip_state = tokens.get("tk_latest_flip_state");
+            var tk_latest_flip_time = tokens.get("tk_latest_flip_time");
             var tk_priority = tokens.get("tk_priority");
 
             //console.log("Value of modal_input_grace_period is: " + tk_kafka_infra_grace_period);
@@ -19350,6 +19401,8 @@ require([
                     "data_tracker_runtime": tk_data_tracker_runtime,
                     "data_previous_source_state": tk_data_previous_source_state,
                     "data_previous_tracker_runtime": tk_data_previous_tracker_runtime,
+                    "latest_flip_state": tk_latest_flip_state,
+                    "latest_flip_time": tk_latest_flip_time,
                     "priority": tk_new_priority
                 };
 
@@ -19446,6 +19499,8 @@ require([
             var tk_data_tracker_runtime = tokens.get("tk_data_tracker_runtime");
             var tk_data_previous_source_state = tokens.get("tk_data_previous_source_state");
             var tk_data_previous_tracker_runtime = tokens.get("tk_data_previous_tracker_runtime");
+            var tk_latest_flip_state = tokens.get("tk_latest_flip_state");
+            var tk_latest_flip_time = tokens.get("tk_latest_flip_time");
             var tk_priority = tokens.get("tk_priority");
 
             //console.log("Value of modal_input_grace_period is: " + tk_kafka_infra_grace_period);
@@ -19484,6 +19539,8 @@ require([
                     "data_tracker_runtime": tk_data_tracker_runtime,
                     "data_previous_source_state": tk_data_previous_source_state,
                     "data_previous_tracker_runtime": tk_data_previous_tracker_runtime,
+                    "latest_flip_state": tk_latest_flip_state,
+                    "latest_flip_time": tk_latest_flip_time,
                     "priority": tk_priority
                 };
 
@@ -19592,6 +19649,8 @@ require([
             var tk_data_tracker_runtime = tokens.get("tk_data_tracker_runtime");
             var tk_data_previous_source_state = tokens.get("tk_data_previous_source_state");
             var tk_data_previous_tracker_runtime = tokens.get("tk_data_previous_tracker_runtime");
+            var tk_latest_flip_state = tokens.get("tk_latest_flip_state");
+            var tk_latest_flip_time = tokens.get("tk_latest_flip_time");
             var tk_priority = tokens.get("tk_priority");
 
             //console.log("Value of modal_input_grace_period is: " + tk_kafka_infra_grace_period);
@@ -19630,6 +19689,8 @@ require([
                     "data_tracker_runtime": tk_data_tracker_runtime,
                     "data_previous_source_state": tk_data_previous_source_state,
                     "data_previous_tracker_runtime": tk_data_previous_tracker_runtime,
+                    "latest_flip_state": tk_latest_flip_state,
+                    "latest_flip_time": tk_latest_flip_time,
                     "priority": tk_priority
                 };
 
@@ -19727,6 +19788,8 @@ require([
             var tk_data_tracker_runtime = tokens.get("tk_data_tracker_runtime");
             var tk_data_previous_source_state = tokens.get("tk_data_previous_source_state");
             var tk_data_previous_tracker_runtime = tokens.get("tk_data_previous_tracker_runtime");
+            var tk_latest_flip_state = tokens.get("tk_latest_flip_state");
+            var tk_latest_flip_time = tokens.get("tk_latest_flip_time");
             var tk_priority = tokens.get("tk_priority");
 
             //console.log("Value of modal_input_grace_period is: " + tk_kafka_infra_grace_period);
@@ -19766,6 +19829,8 @@ require([
                     "data_tracker_runtime": tk_data_tracker_runtime,
                     "data_previous_source_state": tk_data_previous_source_state,
                     "data_previous_tracker_runtime": tk_data_previous_tracker_runtime,
+                    "latest_flip_state": tk_latest_flip_state,
+                    "latest_flip_time": tk_latest_flip_time,
                     "priority": tk_priority
                 };
 
@@ -20556,6 +20621,7 @@ require([
             var tk_data_index = tokens.get("tk_data_index");
             var tk_data_sourcetype = tokens.get("tk_data_sourcetype");
             var tk_data_last_lag_seen = tokens.get("tk_data_last_lag_seen");
+            var tk_data_last_ingestion_lag_seen = tokens.get("tk_data_last_ingestion_lag_seen");
             var tk_data_eventcount = tokens.get("tk_data_eventcount");
             var tk_data_first_time_seen = tokens.get("tk_data_first_time_seen");
             var tk_data_last_time_seen = tokens.get("tk_data_last_time_seen");
@@ -20568,6 +20634,8 @@ require([
             var tk_data_tracker_runtime = tokens.get("tk_data_tracker_runtime");
             var tk_data_previous_host_state = tokens.get("tk_data_previous_host_state");
             var tk_data_previous_tracker_runtime = tokens.get("tk_data_previous_tracker_runtime");
+            var tk_latest_flip_state = tokens.get("tk_latest_flip_state");
+            var tk_latest_flip_time = tokens.get("tk_latest_flip_time");
             var tk_priority = tokens.get("tk_priority");
 
             //console.log("Value of modal_input_grace_period is: " + tk_kafka_infra_grace_period);
@@ -20590,6 +20658,7 @@ require([
                     "data_index": tk_data_index,
                     "data_sourcetype": tk_data_sourcetype,
                     "data_last_lag_seen": tk_data_last_lag_seen,
+                    "data_last_ingestion_lag_seen": tk_data_last_ingestion_lag_seen,
                     "data_eventcount": tk_data_eventcount,
                     "data_first_time_seen": tk_data_first_time_seen,
                     "data_last_time_seen": tk_data_last_time_seen,
@@ -20602,6 +20671,8 @@ require([
                     "data_tracker_runtime": tk_data_tracker_runtime,
                     "data_previous_host_state": tk_data_previous_host_state,
                     "data_previous_tracker_runtime": tk_data_previous_tracker_runtime,
+                    "latest_flip_state": tk_latest_flip_state,
+                    "latest_flip_time": tk_latest_flip_time,
                     "priority": tk_priority
                 };
 
@@ -20672,6 +20743,7 @@ require([
             var tk_data_index = tokens.get("tk_data_index");
             var tk_data_sourcetype = tokens.get("tk_data_sourcetype");
             var tk_data_last_lag_seen = tokens.get("tk_data_last_lag_seen");
+            var tk_data_last_ingestion_lag_seen = tokens.get("tk_data_last_ingestion_lag_seen");
             var tk_data_eventcount = tokens.get("tk_data_eventcount");
             var tk_data_first_time_seen = tokens.get("tk_data_first_time_seen");
             var tk_data_last_time_seen = tokens.get("tk_data_last_time_seen");
@@ -20684,6 +20756,8 @@ require([
             var tk_data_tracker_runtime = tokens.get("tk_data_tracker_runtime");
             var tk_data_previous_host_state = tokens.get("tk_data_previous_host_state");
             var tk_data_previous_tracker_runtime = tokens.get("tk_data_previous_tracker_runtime");
+            var tk_latest_flip_state = tokens.get("tk_latest_flip_state");
+            var tk_latest_flip_time = tokens.get("tk_latest_flip_time");
             var tk_priority = tokens.get("tk_priority");
 
             // Create the endpoint URL
@@ -20704,6 +20778,7 @@ require([
                     "data_index": tk_data_index,
                     "data_sourcetype": tk_data_sourcetype,
                     "data_last_lag_seen": tk_data_last_lag_seen,
+                    "data_last_ingestion_lag_seen": tk_data_last_ingestion_lag_seen,
                     "data_eventcount": tk_data_eventcount,
                     "data_first_time_seen": tk_data_first_time_seen,
                     "data_last_time_seen": tk_data_last_time_seen,
@@ -20716,6 +20791,8 @@ require([
                     "data_tracker_runtime": tk_data_tracker_runtime,
                     "data_previous_host_state": tk_data_previous_host_state,
                     "data_previous_tracker_runtime": tk_data_previous_tracker_runtime,
+                    "latest_flip_state": tk_latest_flip_state,
+                    "latest_flip_time": tk_latest_flip_time,
                     "priority": tk_new_priority
                 };
 
@@ -20794,6 +20871,7 @@ require([
             var tk_data_index = tokens.get("tk_data_index");
             var tk_data_sourcetype = tokens.get("tk_data_sourcetype");
             var tk_data_last_lag_seen = tokens.get("tk_data_last_lag_seen");
+            var tk_data_last_ingestion_lag_seen = tokens.get("tk_data_last_ingestion_lag_seen");
             var tk_data_eventcount = tokens.get("tk_data_eventcount");
             var tk_data_first_time_seen = tokens.get("tk_data_first_time_seen");
             var tk_data_last_time_seen = tokens.get("tk_data_last_time_seen");
@@ -20806,6 +20884,8 @@ require([
             var tk_data_tracker_runtime = tokens.get("tk_data_tracker_runtime");
             var tk_data_previous_host_state = tokens.get("tk_data_previous_host_state");
             var tk_data_previous_tracker_runtime = tokens.get("tk_data_previous_tracker_runtime");
+            var tk_latest_flip_state = tokens.get("tk_latest_flip_state");
+            var tk_latest_flip_time = tokens.get("tk_latest_flip_time");
             var tk_priority = tokens.get("tk_priority");
 
             //console.log("Value of modal_input_grace_period is: " + tk_kafka_infra_grace_period);
@@ -20828,6 +20908,7 @@ require([
                     "data_index": tk_data_index,
                     "data_sourcetype": tk_data_sourcetype,
                     "data_last_lag_seen": tk_data_last_lag_seen,
+                    "data_last_ingestion_lag_seen": tk_data_last_ingestion_lag_seen,
                     "data_eventcount": tk_data_eventcount,
                     "data_first_time_seen": tk_data_first_time_seen,
                     "data_last_time_seen": tk_data_last_time_seen,
@@ -20840,6 +20921,8 @@ require([
                     "data_tracker_runtime": tk_data_tracker_runtime,
                     "data_previous_host_state": tk_data_previous_host_state,
                     "data_previous_tracker_runtime": tk_data_previous_tracker_runtime,
+                    "latest_flip_state": tk_latest_flip_state,
+                    "latest_flip_time": tk_latest_flip_time,
                     "priority": tk_priority
                 };
 
@@ -20935,6 +21018,7 @@ require([
             var tk_data_index = tokens.get("tk_data_index");
             var tk_data_sourcetype = tokens.get("tk_data_sourcetype");
             var tk_data_last_lag_seen = tokens.get("tk_data_last_lag_seen");
+            var tk_data_last_ingestion_lag_seen = tokens.get("tk_data_last_ingestion_lag_seen");
             var tk_data_eventcount = tokens.get("tk_data_eventcount");
             var tk_data_first_time_seen = tokens.get("tk_data_first_time_seen");
             var tk_data_last_time_seen = tokens.get("tk_data_last_time_seen");
@@ -20947,6 +21031,8 @@ require([
             var tk_data_tracker_runtime = tokens.get("tk_data_tracker_runtime");
             var tk_data_previous_host_state = tokens.get("tk_data_previous_host_state");
             var tk_data_previous_tracker_runtime = tokens.get("tk_data_previous_tracker_runtime");
+            var tk_latest_flip_state = tokens.get("tk_latest_flip_state");
+            var tk_latest_flip_time = tokens.get("tk_latest_flip_time");
             var tk_priority = tokens.get("tk_priority");
 
             //console.log("Value of modal_input_grace_period is: " + tk_kafka_infra_grace_period);
@@ -20970,6 +21056,7 @@ require([
                     "data_index": tk_data_index,
                     "data_sourcetype": tk_data_sourcetype,
                     "data_last_lag_seen": tk_data_last_lag_seen,
+                    "data_last_ingestion_lag_seen": tk_data_last_ingestion_lag_seen,
                     "data_eventcount": tk_data_eventcount,
                     "data_first_time_seen": tk_data_first_time_seen,
                     "data_last_time_seen": tk_data_last_time_seen,
@@ -20982,6 +21069,8 @@ require([
                     "data_tracker_runtime": tk_data_tracker_runtime,
                     "data_previous_host_state": tk_data_previous_host_state,
                     "data_previous_tracker_runtime": tk_data_previous_tracker_runtime,
+                    "latest_flip_state": tk_latest_flip_state,
+                    "latest_flip_time": tk_latest_flip_time,
                     "priority": tk_priority
                 };
 
