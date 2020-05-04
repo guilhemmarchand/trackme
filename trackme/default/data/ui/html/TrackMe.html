@@ -10070,6 +10070,7 @@ require([
                 setToken("tk_data_index", TokenUtils.replaceTokenNames("$row.data_index_raw$", _.extend(submittedTokenModel.toJSON(), e.data)));
                 setToken("tk_data_sourcetype", TokenUtils.replaceTokenNames("$row.data_sourcetype_raw$", _.extend(submittedTokenModel.toJSON(), e.data)));
                 setToken("tk_data_last_lag_seen", TokenUtils.replaceTokenNames("$row.data_last_lag_seen$", _.extend(submittedTokenModel.toJSON(), e.data)));
+                setToken("tk_data_last_ingestion_lag_seen", TokenUtils.replaceTokenNames("$row.data_last_ingestion_lag_seen$", _.extend(submittedTokenModel.toJSON(), e.data)));
                 setToken("tk_data_lag_summary", TokenUtils.replaceTokenNames("$row.lag summary (lag event / lag ingestion)$", _.extend(submittedTokenModel.toJSON(), e.data)));
                 setToken("tk_data_eventcount", TokenUtils.replaceTokenNames("$row.data_eventcount$", _.extend(submittedTokenModel.toJSON(), e.data)));
                 setToken("tk_data_first_time_seen", TokenUtils.replaceTokenNames("$row.data_first_time_seen$", _.extend(submittedTokenModel.toJSON(), e.data)));
