@@ -4,7 +4,8 @@ Release notes
 Version 1.1.17
 ==============
 
-- fix: Provide support for more than 50K data hosts which was truncated due to append calls limitation in the data hosts trackers
+- Fix: data host collection is limited to 50K entries #80
+- Fix: Modification of objects via the UI do not preserve some fields during KVstore update #81
 
 Version 1.1.16
 ==============
