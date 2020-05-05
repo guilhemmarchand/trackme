@@ -6,6 +6,7 @@ Version 1.1.17
 
 - Fix: data host collection is limited to 50K entries #80
 - Fix: Modification of objects via the UI do not preserve some fields during KVstore update #81
+- fix: useless calls to lookup commands reduce searches performances in main UI #82
 
 Version 1.1.16
 ==============
