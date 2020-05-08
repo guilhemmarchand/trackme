@@ -1402,7 +1402,19 @@ styles in <div> tags, similar to Bootstrap's grid system.
                             <hr width="100%" size="8" align="center">
                         </div>
 
-                        <div id="rowSingleLag" class="dashboard-row dashboard-row1">
+                        <div id="rowLinkMain" class="dashboard-row dashboard-row1" style="margin-left: 15px;">
+                            <div id="panelLinktMain" class="dashboard-cell" style="width: 100%;">
+                                <div class="dashboard-panel clearfix">
+                                    <div class="panel-element-row">
+                                        <div class="input input-linklist" id="inputLinkDataSource">
+                                            <label>&nbsp;</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div id="rowSingleLag" class="dashboard-row dashboard-row1" data-depends="$show_data_source_overview$">
                             <div id="panelSingleLag2" class="dashboard-cell" style="width: 100%;">
                                 <div class="dashboard-panel clearfix">
                                     <div class="panel-element-row">
@@ -1420,11 +1432,23 @@ styles in <div> tags, similar to Bootstrap's grid system.
                             </div>
                         </div>
 
-                        <div id="rowChartLag" class="dashboard-row dashboard-row1">
+                        <div id="rowChartLag" class="dashboard-row dashboard-row1" data-depends="$show_data_source_overview$">
                             <div id="panelChartLag2" class="dashboard-cell" style="width: 100%;">
                                 <div class="dashboard-panel clearfix">
                                     <div class="panel-element-row">
                                         <div id="elementChartLag" class="dashboard-element chart" style="width: 100%">
+                                            <div class="panel-body"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div id="rowChartOutlier" class="dashboard-row dashboard-row1" data-depends="$show_data_source_outlier$">
+                            <div id="panelChartOutlier2" class="dashboard-cell" style="width: 100%;">
+                                <div class="dashboard-panel clearfix">
+                                    <div class="panel-element-row">
+                                        <div id="elementOutlier" class="dashboard-element chart" style="width: 100%">
                                             <div class="panel-body"></div>
                                         </div>
                                     </div>
@@ -1521,7 +1545,19 @@ styles in <div> tags, similar to Bootstrap's grid system.
                             <hr width="100%" size="8" align="center">
                         </div>
 
-                        <div id="rowSingleLagHost" class="dashboard-row dashboard-row1">
+                        <div id="rowLinkMainHost" class="dashboard-row dashboard-row1" style="margin-left: 15px;">
+                            <div id="panelLinktMainHost" class="dashboard-cell" style="width: 100%;">
+                                <div class="dashboard-panel clearfix">
+                                    <div class="panel-element-row">
+                                        <div class="input input-linklist" id="inputLinkDataHost">
+                                            <label>&nbsp;</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div id="rowSingleLagHost" class="dashboard-row dashboard-row1" data-depends="$show_data_host_overview$">
                             <div id="panelSingleLagHost2" class="dashboard-cell" style="width: 100%;">
                                 <div class="dashboard-panel clearfix">
                                     <div class="panel-element-row">
@@ -1539,7 +1575,7 @@ styles in <div> tags, similar to Bootstrap's grid system.
                             </div>
                         </div>
 
-                        <div id="rowChartLagHost" class="dashboard-row dashboard-row1">
+                        <div id="rowChartLagHost" class="dashboard-row dashboard-row1" data-depends="$show_data_host_overview$">
                             <div id="panelChartLagHost2" class="dashboard-cell" style="width: 100%;">
                                 <div class="dashboard-panel clearfix">
                                     <div class="panel-element-row">
@@ -1549,7 +1585,7 @@ styles in <div> tags, similar to Bootstrap's grid system.
                                     </div>
                                 </div>
                             </div>
-                            <div id="panelChartLagHost3" class="dashboard-cell" style="width: 100%;">
+                            <div id="panelChartLagHost3" class="dashboard-cell" style="width: 100%;" data-depends="$show_data_host_overview$">
                                 <div class="dashboard-panel clearfix">
                                     <div class="panel-element-row">
                                         <div id="elementChartHostSourcetypes" class="dashboard-element chart" style="width: 100%">
@@ -1560,11 +1596,23 @@ styles in <div> tags, similar to Bootstrap's grid system.
                             </div>
                         </div>
 
-                        <div id="rowChartLagHostOverTime" class="dashboard-row dashboard-row1">
+                        <div id="rowChartLagHostOverTime" class="dashboard-row dashboard-row1" data-depends="$show_data_host_overview$">
                             <div id="panelChartLagHostOverTime2" class="dashboard-cell" style="width: 100%;">
                                 <div class="dashboard-panel clearfix">
                                     <div class="panel-element-row">
                                         <div id="elementChartLagHostOverTime" class="dashboard-element chart" style="width: 100%">
+                                            <div class="panel-body"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div id="rowChartOutlierDataHost" class="dashboard-row dashboard-row1" data-depends="$show_data_host_outlier$">
+                            <div id="panelChartOutlierDataHost2" class="dashboard-cell" style="width: 100%;">
+                                <div class="dashboard-panel clearfix">
+                                    <div class="panel-element-row">
+                                        <div id="elementOutlierDataHost" class="dashboard-element chart" style="width: 100%">
                                             <div class="panel-body"></div>
                                         </div>
                                     </div>
@@ -6173,6 +6221,28 @@ require([
 
         // data source monitoring
 
+        // Outlier detection
+        var searchOutlierDetectionChart = new SearchManager({
+            "id": "searchOutlierDetectionChart",
+            "sample_ratio": 1,
+            "search": "`trackme_outlier_chart(trackme_datasource_tracker_shorterm, data_source, \"$tk_data_name$\", data_name)`",
+            "status_buckets": 0,
+            "earliest_time": "$modalTime.earliest$",
+            "cancelOnUnload": true,
+            "latest_time": "$modalTime.latest$",
+            "app": utils.getCurrentApp(),
+            "auto_cancel": 90,
+            "preview": true,
+            "tokenDependencies": {
+                "depends": "$show_data_source_tracker$",
+                "depends": "$show_data_source_outlier$"
+            },
+            "runWhenTimeIsUndefined": false
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        });
+
         var searchSingleLag = new SearchManager({
             "id": "searchSingleLag",
             "sample_ratio": 1,
@@ -6233,6 +6303,28 @@ require([
         });
 
         // data host monitoring
+
+        // Outlier detection
+        var searchOutlierDetectionChartDataHost = new SearchManager({
+            "id": "searchOutlierDetectionChartDataHost",
+            "sample_ratio": 1,
+            "search": "`trackme_outlier_chart(trackme_datahost_tracker_shorterm, data_host, \"$tk_data_host$\", data_host)`",
+            "status_buckets": 0,
+            "earliest_time": "$modalTimeHost.earliest$",
+            "cancelOnUnload": true,
+            "latest_time": "$modalTimeHost.latest$",
+            "app": utils.getCurrentApp(),
+            "auto_cancel": 90,
+            "preview": true,
+            "tokenDependencies": {
+                "depends": "$show_data_host_tracker$",
+                "depends": "$show_data_host_outlier$"
+            },
+            "runWhenTimeIsUndefined": false
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        });
 
         var searchSingleLagHost = new SearchManager({
             "id": "searchSingleLagHost",
@@ -7615,6 +7707,42 @@ require([
 
         // data source monitoring
 
+        // main data_source link input for modal window
+        var inputLinkDataSource = new LinkListInput({
+            "id": "inputLinkDataSource",
+            "choices": [{
+                    "value": "overview",
+                    "label": "Overview"
+                },
+                {
+                    "value": "outlier",
+                    "label": "Outlier detection"
+                }
+            ],
+            "default": "overview",
+            "searchWhenChanged": true,
+            "selectFirstChoice": false,
+            "initialValue": "overview",
+            "value": "$form.inputLinkDataSource$",
+            "el": $('#inputLinkDataSource')
+        }, {
+            tokens: true
+        }).render();
+
+        inputLinkDataSource.on("change", function(newValue) {
+            FormUtils.handleValueChange(inputLinkDataSource);
+        });
+
+        inputLinkDataSource.on("valueChange", function(e) {
+            if (e.value === "overview") {
+                EventHandler.setToken("show_data_source_overview", "true", {}, e.data);
+                EventHandler.unsetToken("show_data_source_outlier");
+            } else if (e.value === "outlier") {
+                EventHandler.setToken("show_data_source_outlier", "true", {}, e.data);
+                EventHandler.unsetToken("show_data_source_overview");
+            }
+        });
+
         // input link selection for modal window
         var inputLinkTime = new LinkListInput({
             "id": "inputLinkTime",
@@ -7702,6 +7830,42 @@ require([
         });
 
         // data source monitoring
+
+        // main data_host link input for modal window
+        var inputLinkDataHost = new LinkListInput({
+            "id": "inputLinkDataHost",
+            "choices": [{
+                    "value": "overview",
+                    "label": "Overview"
+                },
+                {
+                    "value": "outlier",
+                    "label": "Outlier detection"
+                }
+            ],
+            "default": "overview",
+            "searchWhenChanged": true,
+            "selectFirstChoice": false,
+            "initialValue": "overview",
+            "value": "$form.inputLinkDataHost$",
+            "el": $('#inputLinkDataHost')
+        }, {
+            tokens: true
+        }).render();
+
+        inputLinkDataHost.on("change", function(newValue) {
+            FormUtils.handleValueChange(inputLinkDataHost);
+        });
+
+        inputLinkDataHost.on("valueChange", function(e) {
+            if (e.value === "overview") {
+                EventHandler.setToken("show_data_host_overview", "true", {}, e.data);
+                EventHandler.unsetToken("show_data_host_outlier");
+            } else if (e.value === "outlier") {
+                EventHandler.setToken("show_data_host_outlier", "true", {}, e.data);
+                EventHandler.unsetToken("show_data_host_overview");
+            }
+        });
 
         // input link selection for modal window
         var inputLinkTimeHost = new LinkListInput({
@@ -9690,6 +9854,11 @@ require([
                 setToken("tk_latest_flip_time_human", TokenUtils.replaceTokenNames("$row.latest_flip_time (translated)$", _.extend(submittedTokenModel.toJSON(), e.data)));
                 setToken("tk_priority", TokenUtils.replaceTokenNames("$row.priority$", _.extend(submittedTokenModel.toJSON(), e.data)));
 
+                // outlier
+                setToken("tk_outliermineventcount", TokenUtils.replaceTokenNames("$row.OutlierMinEventCount$", _.extend(submittedTokenModel.toJSON(), e.data)));
+                setToken("tk_outlierthresholdmultiplier", TokenUtils.replaceTokenNames("$row.OutlierThresholdMultiplier$", _.extend(submittedTokenModel.toJSON(), e.data)));
+                setToken("tk_isoutlier", TokenUtils.replaceTokenNames("$row.isOutlier$", _.extend(submittedTokenModel.toJSON(), e.data)));
+
                 // doc href
                 setToken("tk_doc_link", TokenUtils.replaceTokenNames("$row.doc_link$", _.extend(submittedTokenModel.toJSON(), e.data)));
                 setToken("tk_doc_note", TokenUtils.replaceTokenNames("$row.doc_note$", _.extend(submittedTokenModel.toJSON(), e.data)));
@@ -9717,6 +9886,21 @@ require([
                 var tk_data_monitored_state = tokens.get("tk_data_monitored_state");
                 var tk_data_index = tokens.get("tk_data_index");
                 var tk_data_sourcetype = tokens.get("tk_data_sourcetype");
+
+                // define some NA values for outlier
+                var tk_outliermineventcount = tokens.get("tk_outliermineventcount");
+                var tk_outlierthresholdmultiplier = tokens.get("tk_outlierthresholdmultiplier");
+                var tk_isoutlier = tokens.get("tk_isoutlier");
+
+                if (tk_outliermineventcount = "null") {
+                    setToken("tk_outliermineventcount", TokenUtils.replaceTokenNames("NA", _.extend(submittedTokenModel.toJSON(), e.data)));
+                }
+                if (tk_outlierthresholdmultiplier = "null") {
+                    setToken("tk_outlierthresholdmultiplier", TokenUtils.replaceTokenNames("NA", _.extend(submittedTokenModel.toJSON(), e.data)));
+                }
+                if (tk_isoutlier = "null") {
+                    setToken("tk_isoutlier", TokenUtils.replaceTokenNames("NA", _.extend(submittedTokenModel.toJSON(), e.data)));
+                }
 
                 // href docs
                 var tk_doc_link = tokens.get("tk_doc_link");
@@ -10091,6 +10275,11 @@ require([
                 setToken("tk_latest_flip_time_human", TokenUtils.replaceTokenNames("$row.latest_flip_time (translated)$", _.extend(submittedTokenModel.toJSON(), e.data)));
                 setToken("tk_priority", TokenUtils.replaceTokenNames("$row.priority$", _.extend(submittedTokenModel.toJSON(), e.data)));
 
+                // outlier
+                setToken("tk_outliermineventcount", TokenUtils.replaceTokenNames("$row.OutlierMinEventCount$", _.extend(submittedTokenModel.toJSON(), e.data)));
+                setToken("tk_outlierthresholdmultiplier", TokenUtils.replaceTokenNames("$row.OutlierThresholdMultiplier$", _.extend(submittedTokenModel.toJSON(), e.data)));
+                setToken("tk_isoutlier", TokenUtils.replaceTokenNames("$row.isOutlier$", _.extend(submittedTokenModel.toJSON(), e.data)));
+
                 // tags
                 setToken("tk_data_host_tags", TokenUtils.replaceTokenNames("$row.pdata_host_tags$", _.extend(submittedTokenModel.toJSON(), e.data)));
 
@@ -10162,6 +10351,21 @@ require([
                     setToken("tk_priority_class", TokenUtils.replaceTokenNames("title_medium_priority", _.extend(submittedTokenModel.toJSON(), e.data)));
                 } else if (tk_priority == "high") {
                     setToken("tk_priority_class", TokenUtils.replaceTokenNames("title_high_priority", _.extend(submittedTokenModel.toJSON(), e.data)));
+                }
+
+                // define some NA values for outlier
+                var tk_outliermineventcount = tokens.get("tk_outliermineventcount");
+                var tk_outlierthresholdmultiplier = tokens.get("tk_outlierthresholdmultiplier");
+                var tk_isoutlier = tokens.get("tk_isoutlier");
+
+                if (tk_outliermineventcount = "null") {
+                    setToken("tk_outliermineventcount", TokenUtils.replaceTokenNames("NA", _.extend(submittedTokenModel.toJSON(), e.data)));
+                }
+                if (tk_outlierthresholdmultiplier = "null") {
+                    setToken("tk_outlierthresholdmultiplier", TokenUtils.replaceTokenNames("NA", _.extend(submittedTokenModel.toJSON(), e.data)));
+                }
+                if (tk_isoutlier = "null") {
+                    setToken("tk_isoutlier", TokenUtils.replaceTokenNames("NA", _.extend(submittedTokenModel.toJSON(), e.data)));
                 }
 
                 // Explicitly refresh the get tags search
@@ -11043,6 +11247,18 @@ require([
         }).render();
 
         // data source monitoring
+        var elementOutlier = new VisualizationElement({
+            "id": "elementOutlier",
+            "type": "Splunk_ML_Toolkit.OutliersViz",
+            "resizable": true,
+            "Splunk_ML_Toolkit.OutliersViz.showOutlierCount": "true",
+            "drilldown": "none",
+            "trellis.enabled": "0",
+            "trellis.scales.shared": "1",
+            "trellis.size": "medium",
+            "managerid": "searchOutlierDetectionChart",
+            "el": $('#elementOutlier')
+        }, {tokens: true, tokenNamespace: "submitted"}).render();
 
         // modal Single Lag
         var elementSingleLagPerc95 = new SingleElement({
@@ -11136,6 +11352,20 @@ require([
         });
 
         // data host monitoring
+
+        // outlier chart
+        var elementOutlierDataHost = new VisualizationElement({
+            "id": "elementOutlierDataHost",
+            "type": "Splunk_ML_Toolkit.OutliersViz",
+            "resizable": true,
+            "Splunk_ML_Toolkit.OutliersViz.showOutlierCount": "true",
+            "drilldown": "none",
+            "trellis.enabled": "0",
+            "trellis.scales.shared": "1",
+            "trellis.size": "medium",
+            "managerid": "searchOutlierDetectionChartDataHost",
+            "el": $('#elementOutlierDataHost')
+        }, {tokens: true, tokenNamespace: "submitted"}).render();
 
         // modal window chart
         var elementChartLagHostOverTime = new ChartElement({
@@ -13491,12 +13721,16 @@ require([
             var tk_latest_flip_state = tokens.get("tk_latest_flip_state");
             var tk_latest_flip_time = tokens.get("tk_latest_flip_time");
             var tk_priority = tokens.get("tk_priority");
+            var tk_outliermineventcount = tokens.get("tk_outliermineventcount");
+            var tk_outlierthresholdmultiplier = tokens.get("tk_outlierthresholdmultiplier");
+            var tk_isoutlier = tokens.get("tk_isoutlier");
 
             // Create the endpoint URL
             var myendpoint_URl = "/en-US/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_data_source_monitoring/" + tk_keyid;
 
             // Create a dictionary to store the field names and values
             var record = {
+                "object_category": "data_source",
                 "data_name": tk_data_name,
                 "data_index": tk_data_index,
                 "data_sourcetype": tk_data_sourcetype,
@@ -13517,6 +13751,9 @@ require([
                 "data_tracker_runtime": tk_data_tracker_runtime,
                 "data_previous_source_state": tk_data_previous_source_state,
                 "data_previous_tracker_runtime": tk_data_previous_tracker_runtime,
+                "OutlierMinEventCount": tk_outliermineventcount,
+                "OutlierThresholdMultiplier": tk_outlierthresholdmultiplier,
+                "isOutlier": tk_isoutlier,
                 "latest_flip_state": tk_latest_flip_state,
                 "latest_flip_time": tk_latest_flip_time,
                 "priority": tk_priority
@@ -13630,12 +13867,16 @@ require([
             var tk_latest_flip_time = tokens.get("tk_latest_flip_time");
             var tk_priority = tokens.get("tk_priority");
             var tk_data_monitored_state = "enabled";
+            var tk_outliermineventcount = tokens.get("tk_outliermineventcount");
+            var tk_outlierthresholdmultiplier = tokens.get("tk_outlierthresholdmultiplier");
+            var tk_isoutlier = tokens.get("tk_isoutlier");
 
             // Create the endpoint URL
             var myendpoint_URl = "/en-US/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_host_monitoring/" + tk_keyid;
 
             // Create a dictionary to store the field names and values
             var record = {
+                "object_category": "data_host",
                 "data_host": tk_data_host,
                 "data_index": tk_data_index,
                 "data_sourcetype": tk_data_sourcetype,
@@ -13653,6 +13894,9 @@ require([
                 "data_tracker_runtime": tk_data_tracker_runtime,
                 "data_previous_host_state": tk_data_previous_host_state,
                 "data_previous_tracker_runtime": tk_data_previous_tracker_runtime,
+                "OutlierMinEventCount": tk_outliermineventcount,
+                "OutlierThresholdMultiplier": tk_outlierthresholdmultiplier,
+                "isOutlier": tk_isoutlier,
                 "latest_flip_state": tk_latest_flip_state,
                 "latest_flip_time": tk_latest_flip_time,
                 "priority": tk_priority
@@ -13740,6 +13984,7 @@ require([
             searchSingleLag.startSearch();
             searchChartLag.startSearch();
             searchSingleSLApct.startSearch();
+            searchOutlierDetectionChart.startSearch();
             var tk_keyid = tokens.get("tk_keyid");
             // call update data source
             updateDataSource(tk_keyid);
@@ -13751,6 +13996,7 @@ require([
             searchChartHostBaseSearch.startSearch();
             searchChartLagHostOverTime.startSearch();
             searchSingleSLAHostpct.startSearch();
+            searchOutlierDetectionChartDataHost.startSearch();
             var tk_keyid = tokens.get("tk_keyid");
             // call update data host
             updateDataHost(tk_keyid);
@@ -13797,6 +14043,7 @@ require([
 
             // Create a dictionary to store the field names and values
             var record = {
+                "object_category": "metric_host",
                 "metric_host": tk_metric_host,
                 "metric_index": tk_metric_index,
                 "metric_category": tk_metric_category,
@@ -13937,6 +14184,7 @@ require([
 
                 // Create a dictionary to store the field names and values
                 var record = {
+                    "object_category": "metric_host",
 	                "metric_host": tk_metric_host,
 	                "metric_index": tk_metric_index,
 	                "metric_category": tk_metric_category,
@@ -14046,12 +14294,16 @@ require([
             var tk_latest_flip_state = tokens.get("tk_latest_flip_state");
             var tk_latest_flip_time = tokens.get("tk_latest_flip_time");
             var tk_priority = tokens.get("tk_priority");
+            var tk_outliermineventcount = tokens.get("tk_outliermineventcount");
+            var tk_outlierthresholdmultiplier = tokens.get("tk_outlierthresholdmultiplier");
+            var tk_isoutlier = tokens.get("tk_isoutlier");
 
             // Create the endpoint URL
             var myendpoint_URl = "/en-US/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_data_source_monitoring/" + tk_keyid;
 
             // Create a dictionary to store the field names and values
             var record = {
+                "object_category": "data_source",
                 "data_name": tk_data_name,
                 "data_index": tk_data_index,
                 "data_sourcetype": tk_data_sourcetype,
@@ -14072,6 +14324,9 @@ require([
                 "data_tracker_runtime": tk_data_tracker_runtime,
                 "data_previous_source_state": tk_data_previous_source_state,
                 "data_previous_tracker_runtime": tk_data_previous_tracker_runtime,
+                "OutlierMinEventCount": tk_outliermineventcount,
+                "OutlierThresholdMultiplier": tk_outlierthresholdmultiplier,
+                "isOutlier": tk_isoutlier,
                 "latest_flip_state": tk_latest_flip_state,
                 "latest_flip_time": tk_latest_flip_time,
                 "priority": tk_priority
@@ -14185,12 +14440,16 @@ require([
             var tk_latest_flip_state = tokens.get("tk_latest_flip_state");
             var tk_latest_flip_time = tokens.get("tk_latest_flip_time");
             var tk_priority = tokens.get("tk_priority");
+            var tk_outliermineventcount = tokens.get("tk_outliermineventcount");
+            var tk_outlierthresholdmultiplier = tokens.get("tk_outlierthresholdmultiplier");
+            var tk_isoutlier = tokens.get("tk_isoutlier");
 
             // Create the endpoint URL
             var myendpoint_URl = "/en-US/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_host_monitoring/" + tk_keyid;
 
             // Create a dictionary to store the field names and values
             var record = {
+                "object_category": "data_host",
                 "data_host": tk_data_host,
                 "data_index": tk_data_index,
                 "data_sourcetype": tk_data_sourcetype,
@@ -14208,6 +14467,9 @@ require([
                 "data_tracker_runtime": tk_data_tracker_runtime,
                 "data_previous_host_state": tk_data_previous_host_state,
                 "data_previous_tracker_runtime": tk_data_previous_tracker_runtime,
+                "OutlierMinEventCount": tk_outliermineventcount,
+                "OutlierThresholdMultiplier": tk_outlierthresholdmultiplier,
+                "isOutlier": tk_isoutlier,
                 "latest_flip_state": tk_latest_flip_state,
                 "latest_flip_time": tk_latest_flip_time,
                 "priority": tk_priority
@@ -14669,12 +14931,16 @@ require([
             var tk_data_monitoring_level = tokens.get("tk_data_monitoring_level");
             var tk_data_monitoring_wdays = tokens.get("tk_data_monitoring_wdays");
             var tk_data_override_lagging_class = tokens.get("tk_data_override_lagging_class");
+            var tk_outliermineventcount = tokens.get("tk_outliermineventcount");
+            var tk_outlierthresholdmultiplier = tokens.get("tk_outlierthresholdmultiplier");
+            var tk_isoutlier = tokens.get("tk_isoutlier");
             var tk_latest_flip_state = tokens.get("tk_latest_flip_state");
             var tk_latest_flip_time = tokens.get("tk_latest_flip_time");
             var tk_priority = tokens.get("tk_priority");
 
             // Create a dictionary to store the field names and values
             var record = {
+                "object_category": "data_source",
                 "data_name": tk_data_name,
                 "data_index": tk_data_index,
                 "data_sourcetype": tk_data_sourcetype,
@@ -14691,6 +14957,9 @@ require([
                 "data_monitoring_level": tk_data_monitoring_level,
                 "data_monitoring_wdays": tk_data_monitoring_wdays,
                 "data_override_lagging_class": tk_data_override_lagging_class,
+                "OutlierMinEventCount": tk_outliermineventcount,
+                "OutlierThresholdMultiplier": tk_outlierthresholdmultiplier,
+                "isOutlier": tk_isoutlier,
                 "latest_flip_state": tk_latest_flip_state,
                 "latest_flip_time": tk_latest_flip_time,
                 "priority": tk_priority
@@ -14894,12 +15163,16 @@ require([
             var tk_data_monitoring_wdays = tokens.get("tk_data_monitoring_wdays");
             var tk_data_monitored_state = tokens.get("tk_data_monitored_state");
             var tk_data_override_lagging_class = tokens.get("tk_data_override_lagging_class");
+            var tk_outliermineventcount = tokens.get("tk_outliermineventcount");
+            var tk_outlierthresholdmultiplier = tokens.get("tk_outlierthresholdmultiplier");
+            var tk_isoutlier = tokens.get("tk_isoutlier");
             var tk_latest_flip_state = tokens.get("tk_latest_flip_state");
             var tk_latest_flip_time = tokens.get("tk_latest_flip_time");
             var tk_priority = tokens.get("tk_priority");
 
             // Create a dictionary to store the field names and values
             var record = {
+                "object_category": "data_host",
                 "data_host": tk_data_host,
                 "data_index": tk_data_index,
                 "data_sourcetype": tk_data_sourcetype,
@@ -14913,6 +15186,9 @@ require([
                 "data_monitored_state": tk_data_monitored_state,
                 "data_monitoring_wdays": tk_data_monitoring_wdays,
                 "data_override_lagging_class": tk_data_override_lagging_class,
+                "OutlierMinEventCount": tk_outliermineventcount,
+                "OutlierThresholdMultiplier": tk_outlierthresholdmultiplier,
+                "isOutlier": tk_isoutlier,
                 "latest_flip_state": tk_latest_flip_state,
                 "latest_flip_time": tk_latest_flip_time,
                 "priority": tk_priority
@@ -19230,6 +19506,9 @@ require([
             var tk_data_tracker_runtime = tokens.get("tk_data_tracker_runtime");
             var tk_data_previous_source_state = tokens.get("tk_data_previous_source_state");
             var tk_data_previous_tracker_runtime = tokens.get("tk_data_previous_tracker_runtime");
+            var tk_outliermineventcount = tokens.get("tk_outliermineventcount");
+            var tk_outlierthresholdmultiplier = tokens.get("tk_outlierthresholdmultiplier");
+            var tk_isoutlier = tokens.get("tk_isoutlier");
             var tk_latest_flip_state = tokens.get("tk_latest_flip_state");
             var tk_latest_flip_time = tokens.get("tk_latest_flip_time");
             var tk_priority = tokens.get("tk_priority");
@@ -19250,6 +19529,7 @@ require([
 
                 // Create a dictionary to store the field names and values
                 var record = {
+                    "object_category": "data_source",
                     "data_name": tk_data_name,
                     "data_index": tk_data_index,
                     "data_sourcetype": tk_data_sourcetype,
@@ -19270,6 +19550,9 @@ require([
                     "data_tracker_runtime": tk_data_tracker_runtime,
                     "data_previous_source_state": tk_data_previous_source_state,
                     "data_previous_tracker_runtime": tk_data_previous_tracker_runtime,
+                    "OutlierMinEventCount": tk_outliermineventcount,
+                    "OutlierThresholdMultiplier": tk_outlierthresholdmultiplier,
+                    "isOutlier": tk_isoutlier,
                     "latest_flip_state": tk_latest_flip_state,
                     "latest_flip_time": tk_latest_flip_time,
                     "priority": tk_priority
@@ -19362,6 +19645,9 @@ require([
             var tk_data_tracker_runtime = tokens.get("tk_data_tracker_runtime");
             var tk_data_previous_source_state = tokens.get("tk_data_previous_source_state");
             var tk_data_previous_tracker_runtime = tokens.get("tk_data_previous_tracker_runtime");
+            var tk_outliermineventcount = tokens.get("tk_outliermineventcount");
+            var tk_outlierthresholdmultiplier = tokens.get("tk_outlierthresholdmultiplier");
+            var tk_isoutlier = tokens.get("tk_isoutlier");
             var tk_latest_flip_state = tokens.get("tk_latest_flip_state");
             var tk_latest_flip_time = tokens.get("tk_latest_flip_time");
             var tk_priority = tokens.get("tk_priority");
@@ -19382,6 +19668,7 @@ require([
 
                 // Create a dictionary to store the field names and values
                 var record = {
+                    "object_category": "data_source",
                     "data_name": tk_data_name,
                     "data_index": tk_data_index,
                     "data_sourcetype": tk_data_sourcetype,
@@ -19402,6 +19689,9 @@ require([
                     "data_tracker_runtime": tk_data_tracker_runtime,
                     "data_previous_source_state": tk_data_previous_source_state,
                     "data_previous_tracker_runtime": tk_data_previous_tracker_runtime,
+                    "OutlierMinEventCount": tk_outliermineventcount,
+                    "OutlierThresholdMultiplier": tk_outlierthresholdmultiplier,
+                    "isOutlier": tk_isoutlier,
                     "latest_flip_state": tk_latest_flip_state,
                     "latest_flip_time": tk_latest_flip_time,
                     "priority": tk_new_priority
@@ -19500,6 +19790,9 @@ require([
             var tk_data_tracker_runtime = tokens.get("tk_data_tracker_runtime");
             var tk_data_previous_source_state = tokens.get("tk_data_previous_source_state");
             var tk_data_previous_tracker_runtime = tokens.get("tk_data_previous_tracker_runtime");
+            var tk_outliermineventcount = tokens.get("tk_outliermineventcount");
+            var tk_outlierthresholdmultiplier = tokens.get("tk_outlierthresholdmultiplier");
+            var tk_isoutlier = tokens.get("tk_isoutlier");
             var tk_latest_flip_state = tokens.get("tk_latest_flip_state");
             var tk_latest_flip_time = tokens.get("tk_latest_flip_time");
             var tk_priority = tokens.get("tk_priority");
@@ -19520,6 +19813,7 @@ require([
 
                 // Create a dictionary to store the field names and values
                 var record = {
+                    "object_category": "data_source",
                     "data_name": tk_data_name,
                     "data_index": tk_data_index,
                     "data_sourcetype": tk_data_sourcetype,
@@ -19540,6 +19834,9 @@ require([
                     "data_tracker_runtime": tk_data_tracker_runtime,
                     "data_previous_source_state": tk_data_previous_source_state,
                     "data_previous_tracker_runtime": tk_data_previous_tracker_runtime,
+                    "OutlierMinEventCount": tk_outliermineventcount,
+                    "OutlierThresholdMultiplier": tk_outlierthresholdmultiplier,
+                    "isOutlier": tk_isoutlier,
                     "latest_flip_state": tk_latest_flip_state,
                     "latest_flip_time": tk_latest_flip_time,
                     "priority": tk_priority
@@ -19650,6 +19947,9 @@ require([
             var tk_data_tracker_runtime = tokens.get("tk_data_tracker_runtime");
             var tk_data_previous_source_state = tokens.get("tk_data_previous_source_state");
             var tk_data_previous_tracker_runtime = tokens.get("tk_data_previous_tracker_runtime");
+            var tk_outliermineventcount = tokens.get("tk_outliermineventcount");
+            var tk_outlierthresholdmultiplier = tokens.get("tk_outlierthresholdmultiplier");
+            var tk_isoutlier = tokens.get("tk_isoutlier");
             var tk_latest_flip_state = tokens.get("tk_latest_flip_state");
             var tk_latest_flip_time = tokens.get("tk_latest_flip_time");
             var tk_priority = tokens.get("tk_priority");
@@ -19670,6 +19970,7 @@ require([
 
                 // Create a dictionary to store the field names and values
                 var record = {
+                    "object_category": "data_source",
                     "data_name": tk_data_name,
                     "data_index": tk_data_index,
                     "data_sourcetype": tk_data_sourcetype,
@@ -19690,6 +19991,9 @@ require([
                     "data_tracker_runtime": tk_data_tracker_runtime,
                     "data_previous_source_state": tk_data_previous_source_state,
                     "data_previous_tracker_runtime": tk_data_previous_tracker_runtime,
+                    "OutlierMinEventCount": tk_outliermineventcount,
+                    "OutlierThresholdMultiplier": tk_outlierthresholdmultiplier,
+                    "isOutlier": tk_isoutlier,
                     "latest_flip_state": tk_latest_flip_state,
                     "latest_flip_time": tk_latest_flip_time,
                     "priority": tk_priority
@@ -19789,6 +20093,9 @@ require([
             var tk_data_tracker_runtime = tokens.get("tk_data_tracker_runtime");
             var tk_data_previous_source_state = tokens.get("tk_data_previous_source_state");
             var tk_data_previous_tracker_runtime = tokens.get("tk_data_previous_tracker_runtime");
+            var tk_outliermineventcount = tokens.get("tk_outliermineventcount");
+            var tk_outlierthresholdmultiplier = tokens.get("tk_outlierthresholdmultiplier");
+            var tk_isoutlier = tokens.get("tk_isoutlier");
             var tk_latest_flip_state = tokens.get("tk_latest_flip_state");
             var tk_latest_flip_time = tokens.get("tk_latest_flip_time");
             var tk_priority = tokens.get("tk_priority");
@@ -19810,6 +20117,7 @@ require([
 
                 // Create a dictionary to store the field names and values
                 var record = {
+                    "object_category": "data_source",
                     "data_name": tk_data_name,
                     "data_index": tk_data_index,
                     "data_sourcetype": tk_data_sourcetype,
@@ -19830,6 +20138,9 @@ require([
                     "data_tracker_runtime": tk_data_tracker_runtime,
                     "data_previous_source_state": tk_data_previous_source_state,
                     "data_previous_tracker_runtime": tk_data_previous_tracker_runtime,
+                    "OutlierMinEventCount": tk_outliermineventcount,
+                    "OutlierThresholdMultiplier": tk_outlierthresholdmultiplier,
+                    "isOutlier": tk_isoutlier,
                     "latest_flip_state": tk_latest_flip_state,
                     "latest_flip_time": tk_latest_flip_time,
                     "priority": tk_priority
@@ -20635,6 +20946,9 @@ require([
             var tk_data_tracker_runtime = tokens.get("tk_data_tracker_runtime");
             var tk_data_previous_host_state = tokens.get("tk_data_previous_host_state");
             var tk_data_previous_tracker_runtime = tokens.get("tk_data_previous_tracker_runtime");
+            var tk_outliermineventcount = tokens.get("tk_outliermineventcount");
+            var tk_outlierthresholdmultiplier = tokens.get("tk_outlierthresholdmultiplier");
+            var tk_isoutlier = tokens.get("tk_isoutlier");
             var tk_latest_flip_state = tokens.get("tk_latest_flip_state");
             var tk_latest_flip_time = tokens.get("tk_latest_flip_time");
             var tk_priority = tokens.get("tk_priority");
@@ -20655,6 +20969,7 @@ require([
 
                 // Create a dictionary to store the field names and values
                 var record = {
+                    "object_category": "data_host",
                     "data_host": tk_data_host,
                     "data_index": tk_data_index,
                     "data_sourcetype": tk_data_sourcetype,
@@ -20672,6 +20987,9 @@ require([
                     "data_tracker_runtime": tk_data_tracker_runtime,
                     "data_previous_host_state": tk_data_previous_host_state,
                     "data_previous_tracker_runtime": tk_data_previous_tracker_runtime,
+                    "OutlierMinEventCount": tk_outliermineventcount,
+                    "OutlierThresholdMultiplier": tk_outlierthresholdmultiplier,
+                    "isOutlier": tk_isoutlier,
                     "latest_flip_state": tk_latest_flip_state,
                     "latest_flip_time": tk_latest_flip_time,
                     "priority": tk_priority
@@ -20757,6 +21075,9 @@ require([
             var tk_data_tracker_runtime = tokens.get("tk_data_tracker_runtime");
             var tk_data_previous_host_state = tokens.get("tk_data_previous_host_state");
             var tk_data_previous_tracker_runtime = tokens.get("tk_data_previous_tracker_runtime");
+            var tk_outliermineventcount = tokens.get("tk_outliermineventcount");
+            var tk_outlierthresholdmultiplier = tokens.get("tk_outlierthresholdmultiplier");
+            var tk_isoutlier = tokens.get("tk_isoutlier");
             var tk_latest_flip_state = tokens.get("tk_latest_flip_state");
             var tk_latest_flip_time = tokens.get("tk_latest_flip_time");
             var tk_priority = tokens.get("tk_priority");
@@ -20775,6 +21096,7 @@ require([
 
                 // Create a dictionary to store the field names and values
                 var record = {
+                    "object_category": "data_host",
                     "data_host": tk_data_host,
                     "data_index": tk_data_index,
                     "data_sourcetype": tk_data_sourcetype,
@@ -20792,6 +21114,9 @@ require([
                     "data_tracker_runtime": tk_data_tracker_runtime,
                     "data_previous_host_state": tk_data_previous_host_state,
                     "data_previous_tracker_runtime": tk_data_previous_tracker_runtime,
+                    "OutlierMinEventCount": tk_outliermineventcount,
+                    "OutlierThresholdMultiplier": tk_outlierthresholdmultiplier,
+                    "isOutlier": tk_isoutlier,
                     "latest_flip_state": tk_latest_flip_state,
                     "latest_flip_time": tk_latest_flip_time,
                     "priority": tk_new_priority
@@ -20885,6 +21210,9 @@ require([
             var tk_data_tracker_runtime = tokens.get("tk_data_tracker_runtime");
             var tk_data_previous_host_state = tokens.get("tk_data_previous_host_state");
             var tk_data_previous_tracker_runtime = tokens.get("tk_data_previous_tracker_runtime");
+            var tk_outliermineventcount = tokens.get("tk_outliermineventcount");
+            var tk_outlierthresholdmultiplier = tokens.get("tk_outlierthresholdmultiplier");
+            var tk_isoutlier = tokens.get("tk_isoutlier");
             var tk_latest_flip_state = tokens.get("tk_latest_flip_state");
             var tk_latest_flip_time = tokens.get("tk_latest_flip_time");
             var tk_priority = tokens.get("tk_priority");
@@ -20905,6 +21233,7 @@ require([
 
                 // Create a dictionary to store the field names and values
                 var record = {
+                    "object_category": "data_host",
                     "data_host": tk_data_host,
                     "data_index": tk_data_index,
                     "data_sourcetype": tk_data_sourcetype,
@@ -20922,6 +21251,9 @@ require([
                     "data_tracker_runtime": tk_data_tracker_runtime,
                     "data_previous_host_state": tk_data_previous_host_state,
                     "data_previous_tracker_runtime": tk_data_previous_tracker_runtime,
+                    "OutlierMinEventCount": tk_outliermineventcount,
+                    "OutlierThresholdMultiplier": tk_outlierthresholdmultiplier,
+                    "isOutlier": tk_isoutlier,
                     "latest_flip_state": tk_latest_flip_state,
                     "latest_flip_time": tk_latest_flip_time,
                     "priority": tk_priority
@@ -21032,6 +21364,9 @@ require([
             var tk_data_tracker_runtime = tokens.get("tk_data_tracker_runtime");
             var tk_data_previous_host_state = tokens.get("tk_data_previous_host_state");
             var tk_data_previous_tracker_runtime = tokens.get("tk_data_previous_tracker_runtime");
+            var tk_outliermineventcount = tokens.get("tk_outliermineventcount");
+            var tk_outlierthresholdmultiplier = tokens.get("tk_outlierthresholdmultiplier");
+            var tk_isoutlier = tokens.get("tk_isoutlier");
             var tk_latest_flip_state = tokens.get("tk_latest_flip_state");
             var tk_latest_flip_time = tokens.get("tk_latest_flip_time");
             var tk_priority = tokens.get("tk_priority");
@@ -21053,6 +21388,7 @@ require([
 
                 // Create a dictionary to store the field names and values
                 var record = {
+                    "object_category": "data_host",
                     "data_host": tk_data_host,
                     "data_index": tk_data_index,
                     "data_sourcetype": tk_data_sourcetype,
@@ -21070,6 +21406,9 @@ require([
                     "data_tracker_runtime": tk_data_tracker_runtime,
                     "data_previous_host_state": tk_data_previous_host_state,
                     "data_previous_tracker_runtime": tk_data_previous_tracker_runtime,
+                    "OutlierMinEventCount": tk_outliermineventcount,
+                    "OutlierThresholdMultiplier": tk_outlierthresholdmultiplier,
+                    "isOutlier": tk_isoutlier,
                     "latest_flip_state": tk_latest_flip_state,
                     "latest_flip_time": tk_latest_flip_time,
                     "priority": tk_priority
