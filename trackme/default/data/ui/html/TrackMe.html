@@ -1402,7 +1402,7 @@ styles in <div> tags, similar to Bootstrap's grid system.
                             <hr width="100%" size="8" align="center">
                         </div>
 
-                        <div id="rowLinkMain" class="dashboard-row dashboard-row1" style="margin-left: 15px;">
+                        <div id="rowLinkMain" class="dashboard-row dashboard-row1" style="margin-left: 15px; margin-top: -20px;">
                             <div id="panelLinktMain" class="dashboard-cell" style="width: 100%;">
                                 <div class="dashboard-panel clearfix">
                                     <div class="panel-element-row">
@@ -1445,10 +1445,23 @@ styles in <div> tags, similar to Bootstrap's grid system.
                         </div>
 
                         <div id="rowChartOutlier" class="dashboard-row dashboard-row1" data-depends="$show_data_source_outlier$">
-                            <div id="panelChartOutlier2" class="dashboard-cell" style="width: 100%;">
+                            <div id="panelChartOutlier2" class="dashboard-cell" style="width: 100%; max-height: 350px;">
                                 <div class="dashboard-panel clearfix">
                                     <div class="panel-element-row">
                                         <div id="elementOutlier" class="dashboard-element chart" style="width: 100%">
+                                            <div class="panel-body"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div id="rowTableOutlier" class="dashboard-row dashboard-row1" data-depends="$show_data_source_outlier$">
+                            <div id="panelTableOutlier2" class="dashboard-cell" style="width: 100%; max-height: 70px;">
+                                <div class="dashboard-panel clearfix">
+
+                                    <div class="panel-element-row">
+                                        <div id="elementOutlierTable" class="dashboard-element table" style="width: 100%">
                                             <div class="panel-body"></div>
                                         </div>
                                     </div>
@@ -1545,7 +1558,7 @@ styles in <div> tags, similar to Bootstrap's grid system.
                             <hr width="100%" size="8" align="center">
                         </div>
 
-                        <div id="rowLinkMainHost" class="dashboard-row dashboard-row1" style="margin-left: 15px;">
+                        <div id="rowLinkMainHost" class="dashboard-row dashboard-row1" style="margin-left: 15px; margin-top: -20px;">
                             <div id="panelLinktMainHost" class="dashboard-cell" style="width: 100%;">
                                 <div class="dashboard-panel clearfix">
                                     <div class="panel-element-row">
@@ -1612,7 +1625,20 @@ styles in <div> tags, similar to Bootstrap's grid system.
                             <div id="panelChartOutlierDataHost2" class="dashboard-cell" style="width: 100%;">
                                 <div class="dashboard-panel clearfix">
                                     <div class="panel-element-row">
-                                        <div id="elementOutlierDataHost" class="dashboard-element chart" style="width: 100%">
+                                        <div id="elementOutlierDataHost" class="dashboard-element chart" style="width: 100%; max-height: 350px;">
+                                            <div class="panel-body"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div id="rowTableOutlierDataHost" class="dashboard-row dashboard-row1" data-depends="$show_data_host_outlier$">
+                            <div id="panelTableOutlierDataHost2" class="dashboard-cell" style="width: 100%; max-height: 70px;">
+                                <div class="dashboard-panel clearfix">
+
+                                    <div class="panel-element-row">
+                                        <div id="elementOutlierTableDataHost" class="dashboard-element table" style="width: 100%">
                                             <div class="panel-body"></div>
                                         </div>
                                     </div>
@@ -6243,6 +6269,27 @@ require([
             tokenNamespace: "submitted"
         });
 
+        var searchOutlierDetectionTable = new SearchManager({
+            "id": "searchOutlierDetectionTable",
+            "sample_ratio": 1,
+            "search": "| inputlookup trackme_summary_investigator where object=\"$tk_data_name$\" | eval data_tracker_runtime=strftime(data_tracker_runtime, \"%c\") | fields object_category, object, data_tracker_runtime, isOutlier, OutlierMinEventCount, OutlierThresholdMultiplier, lowerBound, upperBound, stdev | foreach lowerBound, upperBound, stdev [ eval <<FIELD>> = round('<<FIELD>>', 2) ]",
+            "status_buckets": 0,
+            "earliest_time": "-5m",
+            "cancelOnUnload": true,
+            "latest_time": "now",
+            "app": utils.getCurrentApp(),
+            "auto_cancel": 90,
+            "preview": true,
+            "tokenDependencies": {
+                "depends": "$show_data_source_tracker$",
+                "depends": "$show_data_source_outlier$"
+            },
+            "runWhenTimeIsUndefined": false
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        });
+
         var searchSingleLag = new SearchManager({
             "id": "searchSingleLag",
             "sample_ratio": 1,
@@ -6313,6 +6360,27 @@ require([
             "earliest_time": "$modalTimeHost.earliest$",
             "cancelOnUnload": true,
             "latest_time": "$modalTimeHost.latest$",
+            "app": utils.getCurrentApp(),
+            "auto_cancel": 90,
+            "preview": true,
+            "tokenDependencies": {
+                "depends": "$show_data_host_tracker$",
+                "depends": "$show_data_host_outlier$"
+            },
+            "runWhenTimeIsUndefined": false
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        });
+
+        var searchOutlierDetectionTableDataHost = new SearchManager({
+            "id": "searchOutlierDetectionTableDataHost",
+            "sample_ratio": 1,
+            "search": "| inputlookup trackme_summary_investigator where object=\"$tk_data_host$\" | eval data_tracker_runtime=strftime(data_tracker_runtime, \"%c\") | fields object_category, object, data_tracker_runtime, isOutlier, OutlierMinEventCount, OutlierThresholdMultiplier, lowerBound, upperBound, stdev | foreach lowerBound, upperBound, stdev [ eval <<FIELD>> = round('<<FIELD>>', 2) ]",
+            "status_buckets": 0,
+            "earliest_time": "-5m",
+            "cancelOnUnload": true,
+            "latest_time": "now",
             "app": utils.getCurrentApp(),
             "auto_cancel": 90,
             "preview": true,
@@ -7712,7 +7780,7 @@ require([
             "id": "inputLinkDataSource",
             "choices": [{
                     "value": "overview",
-                    "label": "Overview"
+                    "label": "Overview data source"
                 },
                 {
                     "value": "outlier",
@@ -7836,7 +7904,7 @@ require([
             "id": "inputLinkDataHost",
             "choices": [{
                     "value": "overview",
-                    "label": "Overview"
+                    "label": "Overview data host"
                 },
                 {
                     "value": "outlier",
@@ -11256,8 +11324,22 @@ require([
             "trellis.enabled": "0",
             "trellis.scales.shared": "1",
             "trellis.size": "medium",
+            "height": "350",
             "managerid": "searchOutlierDetectionChart",
             "el": $('#elementOutlier')
+        }, {tokens: true, tokenNamespace: "submitted"}).render();
+
+        var elementOutlierTable = new TableElement({
+            "id": "elementOutlierTable",
+            "count": 100,
+            "dataOverlayMode": "none",
+            "drilldown": "none",
+            "percentagesRow": "false",
+            "rowNumbers": "false",
+            "totalsRow": "false",
+            "wrap": "true",
+            "managerid": "searchOutlierDetectionTable",
+            "el": $('#elementOutlierTable')
         }, {tokens: true, tokenNamespace: "submitted"}).render();
 
         // modal Single Lag
@@ -11363,8 +11445,22 @@ require([
             "trellis.enabled": "0",
             "trellis.scales.shared": "1",
             "trellis.size": "medium",
+            "height": "350",
             "managerid": "searchOutlierDetectionChartDataHost",
             "el": $('#elementOutlierDataHost')
+        }, {tokens: true, tokenNamespace: "submitted"}).render();
+
+        var elementOutlierTableDataHost = new TableElement({
+            "id": "elementOutlierTableDataHost",
+            "count": 100,
+            "dataOverlayMode": "none",
+            "drilldown": "none",
+            "percentagesRow": "false",
+            "rowNumbers": "false",
+            "totalsRow": "false",
+            "wrap": "true",
+            "managerid": "searchOutlierDetectionTableDataHost",
+            "el": $('#elementOutlierTableDataHost')
         }, {tokens: true, tokenNamespace: "submitted"}).render();
 
         // modal window chart
