@@ -1469,7 +1469,24 @@ styles in <div> tags, similar to Bootstrap's grid system.
                             </div>
                         </div>
 
-                        <div id="rowLinkLag" class="dashboard-row dashboard-row1" style="margin-left: 15px;">
+                        <div id="rowStatusMessageDataSource" class="dashboard-row dashboard-row2" data-depends="$show_data_source_status_message$">
+                            <div id="panelStatusMessageDataSource" class="dashboard-cell" style="width: 100%;">
+                                <div class="dashboard-panel clearfix">
+
+                                    <div class="panel-element-row">
+                                        <div class="dashboard-element html" id="body_data_source_status_message" style="width: 100%">
+                                            <div class="panel-body html" style="margin-left: 40px; margin-right: 40px; min-height: 350px; margin-top: 30px;">
+                                                <hr width="100%" size="8" align="center" style="border-style: dashed;">
+                                                <h2>$tk_status_message$</h2>
+                                                <hr width="100%" size="8" align="center" style="border-style: dashed;">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div id="rowLinkLag" class="dashboard-row dashboard-row1" style="margin-left: 15px;" data-rejects="$show_data_source_status_message$">
                             <div id="panelLinktLag2" class="dashboard-cell" style="width: 100%;">
                                 <div class="dashboard-panel clearfix">
                                     <div class="panel-element-row">
@@ -1646,7 +1663,24 @@ styles in <div> tags, similar to Bootstrap's grid system.
                             </div>
                         </div>
 
-                        <div id="rowLinkLagHost" class="dashboard-row dashboard-row1" style="margin-left: 15px;">
+                        <div id="rowStatusMessageDataHost" class="dashboard-row dashboard-row2" data-depends="$show_data_host_status_message$">
+                            <div id="panelStatusMessageDataHost" class="dashboard-cell" style="width: 100%;">
+                                <div class="dashboard-panel clearfix">
+
+                                    <div class="panel-element-row">
+                                        <div class="dashboard-element html" id="body_data_host_status_message" style="width: 100%">
+                                            <div class="panel-body html" style="margin-left: 40px; margin-right: 40px; min-height: 350px; margin-top: 30px;">
+                                                <hr width="100%" size="8" align="center" style="border-style: dashed;">
+                                                <h2>$tk_status_message$</h2>
+                                                <hr width="100%" size="8" align="center" style="border-style: dashed;">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div id="rowLinkLagHost" class="dashboard-row dashboard-row1" style="margin-left: 15px;" data-rejects="$show_data_host_status_message$">
                             <div id="panelLinktLagHost2" class="dashboard-cell" style="width: 100%;">
                                 <div class="dashboard-panel clearfix">
                                     <div class="panel-element-row">
@@ -1735,7 +1769,19 @@ styles in <div> tags, similar to Bootstrap's grid system.
                             <hr width="100%" size="8" align="center">
                         </div>
 
-                        <div id="rowHostMetricChart" class="dashboard-row dashboard-row1">
+                        <div id="rowLinkMainMetricHost" class="dashboard-row dashboard-row1" style="margin-left: 15px; margin-top: -20px;">
+                            <div id="panelLinktMainMetricHost" class="dashboard-cell" style="width: 100%;">
+                                <div class="dashboard-panel clearfix">
+                                    <div class="panel-element-row">
+                                        <div class="input input-linklist" id="inputLinkMetricHost">
+                                            <label>&nbsp;</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div id="rowHostMetricChart" class="dashboard-row dashboard-row1" data-depends="$show_metric_host_overview$">
                             <div id="panelHostMetricSingle" class="dashboard-cell" style="width: 100%;">
                                 <div class="dashboard-panel clearfix">
                                     <div class="panel-element-row">
@@ -1745,7 +1791,7 @@ styles in <div> tags, similar to Bootstrap's grid system.
                                     </div>
                                 </div>
                             </div>
-                            <div id="panelHostMetricChart" class="dashboard-cell" style="width: 100%;">
+                            <div id="panelHostMetricChart" class="dashboard-cell" style="width: 100%;" data-depends="$show_metric_host_overview$">
                                 <div class="dashboard-panel clearfix">
                                     <div class="panel-element-row">
                                         <div id="elementHostChartMetricHost" class="dashboard-element chart" style="width: 100%">
@@ -1754,7 +1800,7 @@ styles in <div> tags, similar to Bootstrap's grid system.
                                     </div>
                                 </div>
                             </div>
-                            <div id="panelHostMetricSLApct" class="dashboard-cell" style="width: 100%;">
+                            <div id="panelHostMetricSLApct" class="dashboard-cell" style="width: 100%;" data-depends="$show_metric_host_overview$">
                                 <div class="dashboard-panel clearfix">
                                     <div class="panel-element-row">
                                         <div id="elementSingleSLAMetricHostpct" class="dashboard-element chart" style="width: 100%">
@@ -1765,7 +1811,7 @@ styles in <div> tags, similar to Bootstrap's grid system.
                             </div>
                         </div>
 
-                        <div id="rowHostMetricTable" class="dashboard-row dashboard-row3">
+                        <div id="rowHostMetricTable" class="dashboard-row dashboard-row3" data-depends="$show_metric_host_overview$">
                             <div id="panelHostMetricTable" class="dashboard-cell" style="width: 100%;">
                                 <div class="dashboard-panel clearfix">
                                     <div class="panel-element-row">
@@ -1773,6 +1819,23 @@ styles in <div> tags, similar to Bootstrap's grid system.
                                             <div id="elementHostTableMetricHost" class="dashboard-element table" style="width: 100%">
                                                 <label>Metrics availability table:</label>
                                                 <div class="panel-body"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div id="rowStatusMessageMetricHost" class="dashboard-row dashboard-row2" data-depends="$show_metric_host_status_message$">
+                            <div id="panelStatusMessageMetricHost" class="dashboard-cell" style="width: 100%;">
+                                <div class="dashboard-panel clearfix">
+
+                                    <div class="panel-element-row">
+                                        <div class="dashboard-element html" id="body_metric_host_status_message" style="width: 100%">
+                                            <div class="panel-body html" style="margin-left: 40px; margin-right: 40px; min-height: 350px; margin-top: 30px;">
+                                                <hr width="100%" size="8" align="center" style="border-style: dashed;">
+                                                <h2>$tk_status_message$</h2>
+                                                <hr width="100%" size="8" align="center" style="border-style: dashed;">
                                             </div>
                                         </div>
                                     </div>
@@ -7939,6 +8002,10 @@ require([
                 {
                     "value": "outlier",
                     "label": "Outlier detection"
+                },
+                {
+                    "value": "status_message",
+                    "label": "Status message"
                 }
             ],
             "default": "overview",
@@ -7959,9 +8026,15 @@ require([
             if (e.value === "overview") {
                 EventHandler.setToken("show_data_source_overview", "true", {}, e.data);
                 EventHandler.unsetToken("show_data_source_outlier");
+                EventHandler.unsetToken("show_data_source_status_message");
             } else if (e.value === "outlier") {
                 EventHandler.setToken("show_data_source_outlier", "true", {}, e.data);
                 EventHandler.unsetToken("show_data_source_overview");
+                EventHandler.unsetToken("show_data_source_status_message");
+            } else if (e.value === "status_message") {
+                EventHandler.setToken("show_data_source_status_message", "true", {}, e.data);
+                EventHandler.unsetToken("show_data_source_overview");
+                EventHandler.unsetToken("show_data_source_outlier");
             }
         });
 
@@ -8063,6 +8136,10 @@ require([
                 {
                     "value": "outlier",
                     "label": "Outlier detection"
+                },
+                {
+                    "value": "status_message",
+                    "label": "Status message"
                 }
             ],
             "default": "overview",
@@ -8083,9 +8160,15 @@ require([
             if (e.value === "overview") {
                 EventHandler.setToken("show_data_host_overview", "true", {}, e.data);
                 EventHandler.unsetToken("show_data_host_outlier");
+                EventHandler.unsetToken("show_data_host_status_message");
             } else if (e.value === "outlier") {
                 EventHandler.setToken("show_data_host_outlier", "true", {}, e.data);
                 EventHandler.unsetToken("show_data_host_overview");
+                EventHandler.unsetToken("show_data_host_status_message");
+            } else if (e.value === "status_message") {
+                EventHandler.setToken("show_data_host_status_message", "true", {}, e.data);
+                EventHandler.unsetToken("show_data_host_overview");
+                EventHandler.unsetToken("show_data_host_outlier");
             }
         });
 
@@ -8716,6 +8799,42 @@ require([
         });
 
         // metric host monitoring
+
+        // modal link input
+        var inputLinkMetricHost = new LinkListInput({
+            "id": "inputLinkMetricHost",
+            "choices": [{
+                    "value": "overview",
+                    "label": "Overview metric host"
+                },
+                {
+                    "value": "status_message",
+                    "label": "Status message"
+                }
+            ],
+            "default": "overview",
+            "searchWhenChanged": true,
+            "selectFirstChoice": false,
+            "initialValue": "overview",
+            "value": "$form.inputLinkMetricHost$",
+            "el": $('#inputLinkMetricHost')
+        }, {
+            tokens: true
+        }).render();
+
+        inputLinkMetricHost.on("change", function(newValue) {
+            FormUtils.handleValueChange(inputLinkMetricHost);
+        });
+
+        inputLinkMetricHost.on("valueChange", function(e) {
+            if (e.value === "overview") {
+                EventHandler.setToken("show_metric_host_overview", "true", {}, e.data);
+                EventHandler.unsetToken("show_metric_host_status_message");
+            } else if (e.value === "status_message") {
+                EventHandler.setToken("show_metric_host_status_message", "true", {}, e.data);
+                EventHandler.unsetToken("show_metric_host_overview");
+            }
+        });
 
         // whitelist
 
@@ -10217,6 +10336,9 @@ require([
                 setToken("tk_isoutlier", TokenUtils.replaceTokenNames("$row.isOutlier$", _.extend(submittedTokenModel.toJSON(), e.data)));
                 setToken("tk_enable_behaviour_analytic", TokenUtils.replaceTokenNames("$row.enable_behaviour_analytic$", _.extend(submittedTokenModel.toJSON(), e.data)));
 
+                // status message
+                setToken("tk_status_message", TokenUtils.replaceTokenNames("$row.status_message$", _.extend(submittedTokenModel.toJSON(), e.data)));
+
                 // doc href
                 setToken("tk_doc_link", TokenUtils.replaceTokenNames("$row.doc_link$", _.extend(submittedTokenModel.toJSON(), e.data)));
                 setToken("tk_doc_note", TokenUtils.replaceTokenNames("$row.doc_note$", _.extend(submittedTokenModel.toJSON(), e.data)));
@@ -10639,8 +10761,11 @@ require([
                 setToken("tk_isoutlier", TokenUtils.replaceTokenNames("$row.isOutlier$", _.extend(submittedTokenModel.toJSON(), e.data)));
                 setToken("tk_enable_behaviour_analytic", TokenUtils.replaceTokenNames("$row.enable_behaviour_analytic$", _.extend(submittedTokenModel.toJSON(), e.data)));
 
+                // status message
+                setToken("tk_status_message", TokenUtils.replaceTokenNames("$row.status_message$", _.extend(submittedTokenModel.toJSON(), e.data)));
+
                 // tags
-                setToken("tk_data_host_tags", TokenUtils.replaceTokenNames("$row.pdata_host_tags$", _.extend(submittedTokenModel.toJSON(), e.data)));
+                setToken("tk_data_host_tags", TokenUtils.replaceTokenNames("$row.data_host_tags$", _.extend(submittedTokenModel.toJSON(), e.data)));
 
                 // pref-fill current lagging input
                 setToken("form.tk_input_lag_host", TokenUtils.replaceTokenNames("$row.data_max_lag_allowed$", _.extend(submittedTokenModel.toJSON(), e.data)));
@@ -10787,6 +10912,9 @@ require([
                 setToken("tk_object_group_state", TokenUtils.replaceTokenNames("$row.object_group_state$", _.extend(submittedTokenModel.toJSON(), e.data)));
                 setToken("tk_object_group_green_percent", TokenUtils.replaceTokenNames("$row.object_group_green_percent$", _.extend(submittedTokenModel.toJSON(), e.data)));
                 setToken("tk_object_group_min_green_percent", TokenUtils.replaceTokenNames("$row.object_group_min_green_percent$", _.extend(submittedTokenModel.toJSON(), e.data)));
+
+                // status message
+                setToken("tk_status_message", TokenUtils.replaceTokenNames("$row.status_message$", _.extend(submittedTokenModel.toJSON(), e.data)));
 
                 submitTokens();
 
@@ -12257,7 +12385,34 @@ require([
             tokenNamespace: "submitted"
         }).render();
 
+        var body_data_source_status_message = new HtmlElement({
+            "id": "body_data_source_status_message",
+            "useTokens": true,
+            "el": $('#body_data_source_status_message')
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        }).render();
+
+        var body_data_host_status_message = new HtmlElement({
+            "id": "body_data_host_status_message",
+            "useTokens": true,
+            "el": $('#body_data_host_status_message')
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        }).render();
+
         // metric host
+
+        var body_metric_host_status_message = new HtmlElement({
+            "id": "body_metric_host_status_message",
+            "useTokens": true,
+            "el": $('#body_metric_host_status_message')
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        }).render();
 
         var body_modal_manage_metric_host = new HtmlElement({
             "id": "body_modal_manage_metric_host",

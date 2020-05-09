@@ -1,6 +1,17 @@
 Release notes
 #############
 
+Version 1.2.0
+=============
+
+Main new release of TrackMe
+
+- Feature: TrackMe goes with a touch of Machine Learning!
+Automatically detect outliers in the event distribution based on the summary investigator, a new internal workflow that records and detects a suspicious decrease of events over time based in the outliers detection method.
+- Feature: Improved UI, Donuts charts completing the exposing of statuses, multi tabs in modal windows to navigate through the views, new outliers detection view, new message status view.
+- Fix: collections monitoring are limited to 50K entries #80
+- Fix: Modification of objects via the UI do not preserve some fields during KVstore update #81
+
 Version 1.1.17
 ==============
 
