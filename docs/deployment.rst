@@ -17,7 +17,10 @@ If Splunk search heads are running in Search Head Cluster (SHC), the Splunk appl
 Dependencies
 ============
 
-There are currently no dependencies for the application.
+**Since TrackMe 1.2.0, there are dependencies:**
+
+- Semicircle Donut Chart Viz, Splunk Base: https://splunkbase.splunk.com/app/4378
+- Splunk Machine Learning Toolkit, Splunk Base: https://splunkbase.splunk.com/app/2890
 
 Initial deployment
 ==================
