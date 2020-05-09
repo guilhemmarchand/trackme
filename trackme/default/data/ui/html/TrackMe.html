@@ -4738,6 +4738,37 @@ styles in <div> tags, similar to Bootstrap's grid system.
         </div>
     </div>
 
+    <div id="rowDonutsDataSource" class="dashboard-row dashboard-rowSingleFormsDataSource" data-depends="$show_data_source_tracker$">
+        <div id="DonutDataSource1" class="dashboard-row dashboard-row1" data-original-id="SingleFormsDataSource">
+            <div id="DonutDataSourcePanel1" class="dashboard-cell" style="width: 50%;" data-original-id="DonutDataSourcePanel1">
+                <div class="dashboard-panel clearfix">
+
+                    <div class="panel-element-row">
+                        <div id="DonutDataSourcePriorities" class="dashboard-element single" style="width: 100%">
+                            <div class="panel-body"></div>
+                            <div style="text-align: center;">
+                                <h3 style="font-size: 14px;">Monitored data sources count by priority</h3>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="DonutDataSourcePanel2" class="dashboard-cell" style="width: 50%;" data-original-id="DonutDataSourcePanel2">
+                <div class="dashboard-panel clearfix">
+
+                    <div class="panel-element-row">
+                        <div id="DonutDataSourceAlerts" class="dashboard-element single" style="width: 100%">
+                            <div class="panel-body"></div>
+                            <div style="text-align: center;">
+                                <h3 style="font-size: 14px;">Monitored data sources count by state and priority</h3>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <div id="rowSingleFormsDataSource" class="dashboard-row dashboard-rowSingleFormsDataSource" data-depends="$show_data_source_tracker$">
         <div id="SingleFormsDataSource" class="dashboard-row dashboard-row1" data-original-id="SingleFormsDataSource">
             <div id="SingleFormsDataSourcePanel1" class="dashboard-cell" style="width: 25%;" data-original-id="SingleFormsDataSourcePanel1">
@@ -4783,6 +4814,37 @@ styles in <div> tags, similar to Bootstrap's grid system.
         </div>
     </div>
 
+    <div id="rowDonutsDataHost" class="dashboard-row dashboard-rowSingleFormsDataHost" data-depends="$show_data_host_tracker$">
+        <div id="DonutDataHost1" class="dashboard-row dashboard-row1" data-original-id="SingleFormsDataHost">
+            <div id="DonutDataHostPanel1" class="dashboard-cell" style="width: 50%;" data-original-id="DonutDataHostPanel1">
+                <div class="dashboard-panel clearfix">
+
+                    <div class="panel-element-row">
+                        <div id="DonutDataHostPriorities" class="dashboard-element single" style="width: 100%">
+                            <div class="panel-body"></div>
+                            <div style="text-align: center;">
+                                <h3 style="font-size: 14px;">Monitored data hosts count by priority</h3>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="DonutDataHostPanel2" class="dashboard-cell" style="width: 50%;" data-original-id="DonutDataHostPanel2">
+                <div class="dashboard-panel clearfix">
+
+                    <div class="panel-element-row">
+                        <div id="DonutDataHostAlerts" class="dashboard-element single" style="width: 100%">
+                            <div class="panel-body"></div>
+                            <div style="text-align: center;">
+                                <h3 style="font-size: 14px;">Monitored data hosts count by state and priority</h3>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <div id="rowSingleFormsDataHost" class="dashboard-row dashboard-rowSingleFormsDataHost" data-depends="$show_data_host_tracker$">
         <div id="SingleFormsDataHost" class="dashboard-row dashboard-row1" data-original-id="SingleFormsDataHost">
             <div id="SingleFormsDataHostPanel1" class="dashboard-cell" style="width: 25%;" data-original-id="SingleFormsDataHostPanel1">
@@ -4821,6 +4883,37 @@ styles in <div> tags, similar to Bootstrap's grid system.
                     <div class="panel-element-row">
                         <div id="singleFormTotalDataHostDisabled" class="dashboard-element single" style="width: 100%">
                             <div class="panel-body"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="rowDonutsMetricHost" class="dashboard-row dashboard-rowSingleFormsMetricHost" data-depends="$show_metric_host_tracker$">
+        <div id="DonutMetricHost1" class="dashboard-row dashboard-row1" data-original-id="SingleFormsMetricHost">
+            <div id="DonutMetricHostPanel1" class="dashboard-cell" style="width: 50%;" data-original-id="DonutMetricHostPanel1">
+                <div class="dashboard-panel clearfix">
+
+                    <div class="panel-element-row">
+                        <div id="DonutMetricHostPriorities" class="dashboard-element single" style="width: 100%">
+                            <div class="panel-body"></div>
+                            <div style="text-align: center;">
+                                <h3 style="font-size: 14px;">Monitored metric hosts count by priority</h3>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="DonutMetricHostPanel2" class="dashboard-cell" style="width: 50%;" data-original-id="DonutMetricHostPanel2">
+                <div class="dashboard-panel clearfix">
+
+                    <div class="panel-element-row">
+                        <div id="DonutMetricHostAlerts" class="dashboard-element single" style="width: 100%">
+                            <div class="panel-body"></div>
+                            <div style="text-align: center;">
+                                <h3 style="font-size: 14px;">Monitored metric hosts count by state and priority</h3>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -6054,6 +6147,26 @@ require([
             tokenNamespace: "submitted"
         });
 
+        var searchSingleDataSourceDonutAlerts = new PostProcessManager({
+            "tokenDependencies": {},
+            "search": "search $inputDataName$ $inputDataIndex$ $inputDataSourcetype$\n| where NOT data_monitored_state=\"disabled\"\n| eval data_source_state=if(data_source_state=\"red\" AND priority=\"high\", \"red - high priority\", data_source_state)\n| eval data_source_state=if(data_source_state=\"red\" AND priority!=\"high\", \"red - other priority\", data_source_state)\n| stats count by data_source_state\n| `trackme_donut_alert_by_type(data_source_state)`\n",
+            "managerid": "searchDataSourcesMain",
+            "id": "searchSingleDataSourceDonutAlerts"
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        });
+
+        var searchSingleDataSourceDonutPriorities = new PostProcessManager({
+            "tokenDependencies": {},
+            "search": "search $inputDataName$ $inputDataIndex$ $inputDataSourcetype$\n| where NOT data_monitored_state=\"disabled\"\n| stats count by priority\n| `trackme_donut_alert_by_priority`",
+            "managerid": "searchDataSourcesMain",
+            "id": "searchSingleDataSourceDonutPriorities"
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        });
+
         var searchSingleDataSource1 = new PostProcessManager({
             "tokenDependencies": {},
             "search": "search $inputDataName$ $inputDataIndex$ $inputDataSourcetype$ | stats count",
@@ -6086,9 +6199,29 @@ require([
 
         var searchSingleDataSource3 = new PostProcessManager({
             "tokenDependencies": {},
-            "search": "search $inputDataName$ $inputDataIndex$ $inputDataSourcetype$ | where data_monitored_state=\"disabled\" | stats count",
+            "search": "makemv data_index delim=\",\" | makemv data_sourcetype delim=\",\" | search $inputDataHostIndexes$ $inputDataHostSourcetypes$\n| where data_monitored_state=\"disabled\" | stats count",
             "managerid": "searchDataSourcesMain",
             "id": "searchSingleDataSource3"
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        });
+
+        var searchSingleDataHostDonutAlerts = new PostProcessManager({
+            "tokenDependencies": {},
+            "search": "makemv data_index delim=\",\" | makemv data_sourcetype delim=\",\" | search $inputDataHostIndexes$ $inputDataHostSourcetypes$\n| where NOT data_monitored_state=\"disabled\"\n| eval data_host_state=if(data_host_state=\"red\" AND priority=\"high\", \"red - high priority\", data_host_state)\n| eval data_host_state=if(data_host_state=\"red\" AND priority!=\"high\", \"red - other priority\", data_host_state)\n| stats count by data_host_state\n| `trackme_donut_alert_by_type(data_host_state)`",
+            "managerid": "searchDataHostsMain",
+            "id": "searchSingleDataHostDonutAlerts"
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        });
+
+        var searchSingleDataHostDonutPriorities = new PostProcessManager({
+            "tokenDependencies": {},
+            "search": "makemv data_index delim=\",\" | makemv data_sourcetype delim=\",\" | search $inputDataHostIndexes$ $inputDataHostSourcetypes$\n| where NOT data_monitored_state=\"disabled\"\n| stats count by priority\n| `trackme_donut_alert_by_priority`",
+            "managerid": "searchDataHostsMain",
+            "id": "searchSingleDataHostDonutPriorities"
         }, {
             tokens: true,
             tokenNamespace: "submitted"
@@ -6152,6 +6285,27 @@ require([
         });
 
         // metric_host
+
+        var searchSingleMetricHostDonutAlerts = new PostProcessManager({
+            "tokenDependencies": {},
+            "search": "search $inputMetricHostIndexes$ $inputMetricHostCategories$\n| where NOT metric_monitored_state=\"disabled\"\n| eval metric_host_state=if(metric_host_state=\"red\" AND priority=\"high\", \"red - high priority\", metric_host_state)\n| eval metric_host_state=if(data_host_state=\"red\" AND priority!=\"high\", \"red - other priority\", metric_host_state)\n| stats count by metric_host_state\n| `trackme_donut_alert_by_type(metric_host_state)`",
+            "managerid": "searchMetricHostsMain",
+            "id": "searchSingleMetricHostDonutAlerts"
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        });
+
+        var searchSingleMetricHostDonutPriorities = new PostProcessManager({
+            "tokenDependencies": {},
+            "search": "search $inputMetricHostIndexes$ $inputMetricHostCategories$\n| where NOT metric_monitored_state=\"disabled\"\n| stats count by priority\n| `trackme_donut_alert_by_priority`",
+            "managerid": "searchMetricHostsMain",
+            "id": "searchSingleMetricHostDonutPriorities"
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        });
+
 
         var searchSingleMetricHost1 = new PostProcessManager({
             "tokenDependencies": {},
@@ -6272,7 +6426,7 @@ require([
         var searchOutlierDetectionTable = new SearchManager({
             "id": "searchOutlierDetectionTable",
             "sample_ratio": 1,
-            "search": "| inputlookup trackme_summary_investigator where object=\"$tk_data_name$\" | eval data_tracker_runtime=strftime(data_tracker_runtime, \"%c\") | fields object_category, object, data_tracker_runtime, isOutlier, OutlierMinEventCount, OutlierThresholdMultiplier, lowerBound, upperBound, stdev | foreach lowerBound, upperBound, stdev [ eval <<FIELD>> = round('<<FIELD>>', 2) ]",
+            "search": "| inputlookup trackme_summary_investigator where object=\"$tk_data_name$\" | eval data_tracker_runtime=strftime(data_tracker_runtime, \"%c\") | fields enable_behaviour_analytic, data_tracker_runtime, isOutlier, OutlierMinEventCount, OutlierThresholdMultiplier, lowerBound, upperBound, stdev | foreach lowerBound, upperBound, stdev [ eval <<FIELD>> = round('<<FIELD>>', 2) ]",
             "status_buckets": 0,
             "earliest_time": "-5m",
             "cancelOnUnload": true,
@@ -6376,7 +6530,7 @@ require([
         var searchOutlierDetectionTableDataHost = new SearchManager({
             "id": "searchOutlierDetectionTableDataHost",
             "sample_ratio": 1,
-            "search": "| inputlookup trackme_summary_investigator where object=\"$tk_data_host$\" | eval data_tracker_runtime=strftime(data_tracker_runtime, \"%c\") | fields object_category, object, data_tracker_runtime, isOutlier, OutlierMinEventCount, OutlierThresholdMultiplier, lowerBound, upperBound, stdev | foreach lowerBound, upperBound, stdev [ eval <<FIELD>> = round('<<FIELD>>', 2) ]",
+            "search": "| inputlookup trackme_summary_investigator where object=\"$tk_data_host$\" | eval data_tracker_runtime=strftime(data_tracker_runtime, \"%c\") | fields enable_behaviour_analytic, data_tracker_runtime, isOutlier, OutlierMinEventCount, OutlierThresholdMultiplier, lowerBound, upperBound, stdev | foreach lowerBound, upperBound, stdev [ eval <<FIELD>> = round('<<FIELD>>', 2) ]",
             "status_buckets": 0,
             "earliest_time": "-5m",
             "cancelOnUnload": true,
@@ -9074,6 +9228,51 @@ require([
         // VIEWS: VISUALIZATION ELEMENTS
         //
 
+        var DonutDataSourceAlerts = new VisualizationElement({
+            "id": "DonutDataSourceAlerts",
+            "type": "semicircle_donut.semicircle_donut",
+            "resizable": true,
+            "drilldown": "none",
+            "height": "170",
+            "refresh.display": "progressbar",
+            "semicircle_donut.semicircle_donut.colorField": "color",
+            "semicircle_donut.semicircle_donut.cutoutPercentage": "50",
+            "semicircle_donut.semicircle_donut.legendPosition": "top",
+            "semicircle_donut.semicircle_donut.type": "half",
+            "trellis.enabled": "0",
+            "trellis.scales.shared": "1",
+            "trellis.size": "medium",
+            "managerid": "searchSingleDataSourceDonutAlerts",
+            "el": $('#DonutDataSourceAlerts')
+        }, {tokens: true, tokenNamespace: "submitted"}).render();
+
+        var DonutDataSourcePriorities = new VisualizationElement({
+            "id": "DonutDataSourcePriorities",
+            "type": "semicircle_donut.semicircle_donut",
+            "resizable": true,
+            "drilldown": "all",
+            "height": "170",
+            "refresh.display": "progressbar",
+            "semicircle_donut.semicircle_donut.colorField": "color",
+            "semicircle_donut.semicircle_donut.cutoutPercentage": "50",
+            "semicircle_donut.semicircle_donut.legendPosition": "top",
+            "semicircle_donut.semicircle_donut.type": "half",
+            "trellis.enabled": "0",
+            "trellis.scales.shared": "1",
+            "trellis.size": "medium",
+            "managerid": "searchSingleDataSourceDonutPriorities",
+            "el": $('#DonutDataSourcePriorities')
+        }, {tokens: true, tokenNamespace: "submitted"}).render();
+
+        DonutDataSourcePriorities.on("click", function(e) {
+            if (e.field !== undefined) {
+                e.preventDefault();
+                setToken("form.inputDataPriority", TokenUtils.replaceTokenNames("$row.priority$", _.extend(submittedTokenModel.toJSON(), e.data)));
+                setToken("form.data_source_state", TokenUtils.replaceTokenNames("*", _.extend(submittedTokenModel.toJSON(), e.data)));
+                setToken("form.data_monitored_state", TokenUtils.replaceTokenNames("enabled", _.extend(submittedTokenModel.toJSON(), e.data)));
+            }
+        });
+
         var singleFormTotalDataSource = new SingleElement({
             "id": "singleFormTotalDataSource",
             "showTrendIndicator": "1",
@@ -9214,6 +9413,51 @@ require([
             }
         });
 
+        var DonutDataHostAlerts = new VisualizationElement({
+            "id": "DonutDataHostAlerts",
+            "type": "semicircle_donut.semicircle_donut",
+            "resizable": true,
+            "drilldown": "none",
+            "height": "170",
+            "refresh.display": "progressbar",
+            "semicircle_donut.semicircle_donut.colorField": "color",
+            "semicircle_donut.semicircle_donut.cutoutPercentage": "50",
+            "semicircle_donut.semicircle_donut.legendPosition": "top",
+            "semicircle_donut.semicircle_donut.type": "half",
+            "trellis.enabled": "0",
+            "trellis.scales.shared": "1",
+            "trellis.size": "medium",
+            "managerid": "searchSingleDataHostDonutAlerts",
+            "el": $('#DonutDataHostAlerts')
+        }, {tokens: true, tokenNamespace: "submitted"}).render();
+
+        var DonutDataHostPriorities = new VisualizationElement({
+            "id": "DonutDataHostPriorities",
+            "type": "semicircle_donut.semicircle_donut",
+            "resizable": true,
+            "drilldown": "all",
+            "height": "170",
+            "refresh.display": "progressbar",
+            "semicircle_donut.semicircle_donut.colorField": "color",
+            "semicircle_donut.semicircle_donut.cutoutPercentage": "50",
+            "semicircle_donut.semicircle_donut.legendPosition": "top",
+            "semicircle_donut.semicircle_donut.type": "half",
+            "trellis.enabled": "0",
+            "trellis.scales.shared": "1",
+            "trellis.size": "medium",
+            "managerid": "searchSingleDataHostDonutPriorities",
+            "el": $('#DonutDataHostPriorities')
+        }, {tokens: true, tokenNamespace: "submitted"}).render();
+
+        DonutDataHostPriorities.on("click", function(e) {
+            if (e.field !== undefined) {
+                e.preventDefault();
+                setToken("form.data_host_state", TokenUtils.replaceTokenNames("*", _.extend(submittedTokenModel.toJSON(), e.data)));
+                setToken("form.inputDataHostPriority", TokenUtils.replaceTokenNames("$row.priority$", _.extend(submittedTokenModel.toJSON(), e.data)));
+                setToken("form.data_monitored_state", TokenUtils.replaceTokenNames("enabled", _.extend(submittedTokenModel.toJSON(), e.data)));
+            }
+        });
+
         var singleFormTotalDataHost = new SingleElement({
             "id": "singleFormTotalDataHost",
             "showTrendIndicator": "1",
@@ -9351,6 +9595,51 @@ require([
                 setToken("form.data_monitored_state", TokenUtils.replaceTokenNames("disabled", _.extend(submittedTokenModel.toJSON(), e.data)));
                 setToken("form.data_host_state", TokenUtils.replaceTokenNames("*", _.extend(submittedTokenModel.toJSON(), e.data)));
                 setToken("form.inputDataHostPriority", TokenUtils.replaceTokenNames("*", _.extend(submittedTokenModel.toJSON(), e.data)));
+            }
+        });
+
+        var DonutMetricHostAlerts = new VisualizationElement({
+            "id": "DonutMetricHostAlerts",
+            "type": "semicircle_donut.semicircle_donut",
+            "resizable": true,
+            "drilldown": "none",
+            "height": "170",
+            "refresh.display": "progressbar",
+            "semicircle_donut.semicircle_donut.colorField": "color",
+            "semicircle_donut.semicircle_donut.cutoutPercentage": "50",
+            "semicircle_donut.semicircle_donut.legendPosition": "top",
+            "semicircle_donut.semicircle_donut.type": "half",
+            "trellis.enabled": "0",
+            "trellis.scales.shared": "1",
+            "trellis.size": "medium",
+            "managerid": "searchSingleMetricHostDonutAlerts",
+            "el": $('#DonutMetricHostAlerts')
+        }, {tokens: true, tokenNamespace: "submitted"}).render();
+
+        var DonutMetricHostPriorities = new VisualizationElement({
+            "id": "DonutMetricHostPriorities",
+            "type": "semicircle_donut.semicircle_donut",
+            "resizable": true,
+            "drilldown": "all",
+            "height": "170",
+            "refresh.display": "progressbar",
+            "semicircle_donut.semicircle_donut.colorField": "color",
+            "semicircle_donut.semicircle_donut.cutoutPercentage": "50",
+            "semicircle_donut.semicircle_donut.legendPosition": "top",
+            "semicircle_donut.semicircle_donut.type": "half",
+            "trellis.enabled": "0",
+            "trellis.scales.shared": "1",
+            "trellis.size": "medium",
+            "managerid": "searchSingleMetricHostDonutPriorities",
+            "el": $('#DonutMetricHostPriorities')
+        }, {tokens: true, tokenNamespace: "submitted"}).render();
+
+        DonutMetricHostPriorities.on("click", function(e) {
+            if (e.field !== undefined) {
+                e.preventDefault();
+                setToken("form.metric_host_state", TokenUtils.replaceTokenNames("*", _.extend(submittedTokenModel.toJSON(), e.data)));
+                setToken("form.inputMetricHostPriority", TokenUtils.replaceTokenNames("$row.priority$", _.extend(submittedTokenModel.toJSON(), e.data)));
+                setToken("form.metric_monitored_state", TokenUtils.replaceTokenNames("enabled", _.extend(submittedTokenModel.toJSON(), e.data)));
             }
         });
 
@@ -9926,6 +10215,7 @@ require([
                 setToken("tk_outliermineventcount", TokenUtils.replaceTokenNames("$row.OutlierMinEventCount$", _.extend(submittedTokenModel.toJSON(), e.data)));
                 setToken("tk_outlierthresholdmultiplier", TokenUtils.replaceTokenNames("$row.OutlierThresholdMultiplier$", _.extend(submittedTokenModel.toJSON(), e.data)));
                 setToken("tk_isoutlier", TokenUtils.replaceTokenNames("$row.isOutlier$", _.extend(submittedTokenModel.toJSON(), e.data)));
+                setToken("tk_enable_behaviour_analytic", TokenUtils.replaceTokenNames("$row.enable_behaviour_analytic$", _.extend(submittedTokenModel.toJSON(), e.data)));
 
                 // doc href
                 setToken("tk_doc_link", TokenUtils.replaceTokenNames("$row.doc_link$", _.extend(submittedTokenModel.toJSON(), e.data)));
@@ -9967,7 +10257,7 @@ require([
                     setToken("tk_outlierthresholdmultiplier", TokenUtils.replaceTokenNames("NA", _.extend(submittedTokenModel.toJSON(), e.data)));
                 }
                 if (tk_isoutlier = "null") {
-                    setToken("tk_isoutlier", TokenUtils.replaceTokenNames("NA", _.extend(submittedTokenModel.toJSON(), e.data)));
+                    setToken("tk_isoutlier", TokenUtils.replaceTokenNames("0", _.extend(submittedTokenModel.toJSON(), e.data)));
                 }
 
                 // href docs
@@ -10347,6 +10637,7 @@ require([
                 setToken("tk_outliermineventcount", TokenUtils.replaceTokenNames("$row.OutlierMinEventCount$", _.extend(submittedTokenModel.toJSON(), e.data)));
                 setToken("tk_outlierthresholdmultiplier", TokenUtils.replaceTokenNames("$row.OutlierThresholdMultiplier$", _.extend(submittedTokenModel.toJSON(), e.data)));
                 setToken("tk_isoutlier", TokenUtils.replaceTokenNames("$row.isOutlier$", _.extend(submittedTokenModel.toJSON(), e.data)));
+                setToken("tk_enable_behaviour_analytic", TokenUtils.replaceTokenNames("$row.enable_behaviour_analytic$", _.extend(submittedTokenModel.toJSON(), e.data)));
 
                 // tags
                 setToken("tk_data_host_tags", TokenUtils.replaceTokenNames("$row.pdata_host_tags$", _.extend(submittedTokenModel.toJSON(), e.data)));
@@ -10433,7 +10724,7 @@ require([
                     setToken("tk_outlierthresholdmultiplier", TokenUtils.replaceTokenNames("NA", _.extend(submittedTokenModel.toJSON(), e.data)));
                 }
                 if (tk_isoutlier = "null") {
-                    setToken("tk_isoutlier", TokenUtils.replaceTokenNames("NA", _.extend(submittedTokenModel.toJSON(), e.data)));
+                    setToken("tk_isoutlier", TokenUtils.replaceTokenNames("0", _.extend(submittedTokenModel.toJSON(), e.data)));
                 }
 
                 // Explicitly refresh the get tags search
@@ -12182,7 +12473,7 @@ require([
 
         SearchModeSelectorDataSources.on("valueChange", function(e) {
             if (e.value === "search_based") {
-                EventHandler.setToken("data_source_mainsearch", "| `tstats` max(_indextime) as current_data_last_ingest, min(_time) as current_data_first_time_seen, max(_time) as current_data_last_time_seen, count as current_data_eventcount where index=* sourcetype=* `trackme_tstats_main_filter` `trackme_get_idx_whitelist(trackme_data_source_monitoring_whitelist_index, data_index)` `apply_data_source_blacklists_data_retrieve` by index, sourcetype\n| rename index as data_index, sourcetype as data_sourcetype\n| lookup trackme_data_source_monitoring data_index, data_sourcetype OUTPUT data_name | append [ | inputlookup trackme_data_source_monitoring | eval keyid=_key | search `trackme_get_idx_whitelist_searchtime(trackme_data_source_monitoring_whitelist_index, data_index)` ] | stats first(*) as \"*\" by data_name, data_index, data_sourcetype | eval data_last_ingest=if(isnotnull(current_data_last_ingest), current_data_last_ingest, data_last_ingest), data_last_ingestion_lag_seen=if(isnotnull(current_data_last_ingestion_lag_seen), round(current_data_last_ingestion_lag_seen, 0), round(data_last_ingestion_lag_seen, 0)), data_first_time_seen=if(isnotnull(current_data_first_time_seen), current_data_first_time_seen, data_first_time_seen), data_last_time_seen=if(isnotnull(current_data_last_time_seen), current_data_last_time_seen, data_last_time_seen) | eval current_data_eventcount=if(isnotnull(current_data_eventcount), current_data_eventcount, data_eventcount) | fields - current_* | eventstats max(data_last_time_seen) as data_last_time_seen_idx, min(data_last_lag_seen) as data_last_lag_seen_idx by data_index | `trackme_eval_data_source_state` | `trackme_default_priority` | `trackme_date_format(data_last_time_seen)` | `trackme_date_format(data_last_time_seen_idx)` | `trackme_date_format(data_last_ingest)` | fillnull value=\"red\" data_source_state | sort 0 data_source | `trackme_eval_icons`", {}, e.data);
+                EventHandler.setToken("data_source_mainsearch", "| savedsearch \"TrackMe - Data sources abstract root tracker\"\n| inputlookup append=t trackme_data_source_monitoring | eval lookup_key=_key | eval keyid=coalesce(key, lookup_key) | dedup keyid\n| `apply_data_source_blacklists`\n| search `trackme_get_idx_whitelist_searchtime(trackme_data_source_monitoring_whitelist_index, data_index)`\n| `trackme_eval_data_source_state`\n| `trackme_default_priority`\n| `trackme_date_format(data_last_time_seen)`\n| `trackme_date_format(data_last_time_seen_idx)`\n| `trackme_date_format(data_last_ingest)`\n| fillnull value=\"red\" data_source_state\n| sort 0 data_source\n| `trackme_eval_icons`", {}, e.data);
             } else if (e.value === "collection_based") {
                 EventHandler.setToken("data_source_mainsearch", "| inputlookup trackme_data_source_monitoring\n| eval keyid=_key\n| `apply_data_source_blacklists`\n| search `trackme_get_idx_whitelist_searchtime(trackme_data_source_monitoring_whitelist_index, data_index)`\n| `trackme_eval_data_source_state`\n| `trackme_default_priority`\n| `trackme_date_format(data_last_time_seen)`\n| `trackme_date_format(data_last_time_seen_idx)`\n| `trackme_date_format(data_last_ingest)`\n| fillnull value=\"red\" data_source_state\n| sort 0 data_source\n| `trackme_eval_icons`", {}, e.data);
             }
@@ -12209,7 +12500,7 @@ require([
 
         SearchModeSelectorDataHosts.on("valueChange", function(e) {
             if (e.value === "search_based") {
-                EventHandler.setToken("data_host_mainsearch", "| `tstats` max(_indextime) as current_data_last_ingest, min(_time) as current_data_first_time_seen, max(_time) as current_data_last_time_seen count as current_data_eventcount values(sourcetype) as sourcetype where index=* sourcetype=* host=* host!=\"\" `trackme_tstats_main_filter` `trackme_get_idx_whitelist(trackme_data_host_monitoring_whitelist_index, data_index)` `apply_data_host_blacklists_data_retrieve` by index, host\n| eval current_data_last_ingestion_lag_seen=current_data_last_ingest-current_data_last_time_seen\n| stats max(current_data_last_ingest) as current_data_last_ingest, min(current_data_first_time_seen) as current_data_first_time_seen, max(current_data_last_time_seen) as current_data_last_time_seen, avg(current_data_last_ingestion_lag_seen) as current_data_last_ingestion_lag_seen, sum(current_data_eventcount) as current_data_eventcount, values(index) as index, values(sourcetype) as sourcetype by host\n| rename index as data_index, host as data_host, sourcetype as data_sourcetype\n| eval data_host=upper(data_host)\n| lookup trackme_host_monitoring data_host\n| append [ | inputlookup trackme_host_monitoring | eval keyid=_key | eval data_host=upper(data_host) ]\n| stats values(data_index) as data_index, values(data_sourcetype) as data_sourcetype, first(*) as \"*\" by data_host\n| eval data_last_ingest=if(isnotnull(current_data_last_ingest), current_data_last_ingest, data_last_ingest), data_first_time_seen=if(isnotnull(current_data_first_time_seen), current_data_first_time_seen, data_first_time_seen), data_last_time_seen=if(isnotnull(current_data_last_time_seen), current_data_last_time_seen, data_last_time_seen)\n| eval data_last_ingestion_lag_seen=if(isnotnull(current_data_last_ingestion_lag_seen), round(current_data_last_ingestion_lag_seen, 0), round(data_last_ingestion_lag_seen, 0))\n| eval current_data_eventcount=if(isnotnull(current_data_eventcount), current_data_eventcount, data_eventcount)\n| fields - current_*\n| `trackme_eval_data_host_state`\n| `trackme_default_priority`\n| `trackme_data_host_group_lookup`\n| `trackme_date_format(data_last_time_seen)`\n| `trackme_date_format(data_last_time_seen_idx)`\n| `trackme_date_format(data_last_ingest)`\n| fillnull value=\"red\" data_host_state\n| sort 0 data_host\n| `trackme_eval_icons_host`\n| `apply_data_host_blacklists`\n| rename \"data_last_ingest (translated)\" as \"last ingest\", \"data_last_time_seen (translated)\" as \"last time\"\n| eval data_index_raw=data_index, data_sourcetype_raw=data_sourcetype\n| makemv data_index delim=\",\"\n| makemv data_sourcetype delim=\",\"\n| eval data_tracker_runtime=now()\n| `trackme_date_format(\"latest_flip_time\")`\n| fillnull value=\"N/A\" latest_flip_state, latest_flip_time, \"latest_flip_time (translated)\"\n| search `trackme_get_idx_whitelist_searchtime(trackme_data_host_monitoring_whitelist_index, data_index)`", {}, e.data);
+                EventHandler.setToken("data_host_mainsearch", "| savedsearch \"TrackMe - Data hosts abstract root tracker\" | inputlookup append=t trackme_host_monitoring | eval lookup_key=_key | eval keyid=coalesce(key, lookup_key) | dedup keyid\n| sort limit=0 - data_last_time_seen\n| dedup data_host\n| eval data_index_raw=data_index, data_sourcetype_raw=data_sourcetype\n| makemv delim=\",\" data_index\n| makemv delim=\",\" data_sourcetype\n| `apply_data_host_blacklists`\n| search `trackme_get_idx_whitelist_searchtime(trackme_data_host_monitoring_whitelist_index, data_index)`\n| `trackme_eval_data_host_state`\n| `trackme_default_priority`\n| `trackme_data_host_group_lookup`\n| `trackme_date_format(data_last_time_seen)`\n| `trackme_date_format(data_last_time_seen_idx)`\n| `trackme_date_format(data_last_ingest)`\n| `trackme_eval_icons_host`\n| rename \"data_last_ingest (translated)\" as \"last ingest\", \"data_last_time_seen (translated)\" as \"last time\"\n| lookup local=t trackme_host_monitoring data_host OUTPUT data_host_state as data_previous_host_state, data_tracker_runtime as data_previous_tracker_runtime, latest_flip_state, latest_flip_time\n | `trackme_date_format(\"latest_flip_time\")`\n| fillnull value=\"N/A\" latest_flip_state, latest_flip_time, \"latest_flip_time (translated)\"\n| sort limit=0 data_host", {}, e.data);
             } else if (e.value === "collection_based") {
                 EventHandler.setToken("data_host_mainsearch", "| inputlookup trackme_host_monitoring\n| eval keyid=_key\n| sort limit=0 - data_last_time_seen\n| dedup data_host\n| eval data_index_raw=data_index, data_sourcetype_raw=data_sourcetype\n| makemv delim=\",\" data_index\n| makemv delim=\",\" data_sourcetype\n| `apply_data_host_blacklists`\n| search `trackme_get_idx_whitelist_searchtime(trackme_data_host_monitoring_whitelist_index, data_index)`\n| `trackme_eval_data_host_state`\n| `trackme_default_priority`\n| `trackme_data_host_group_lookup`\n| `trackme_date_format(data_last_time_seen)`\n| `trackme_date_format(data_last_time_seen_idx)`\n| `trackme_date_format(data_last_ingest)`\n| `trackme_eval_icons_host`\n| rename \"data_last_ingest (translated)\" as \"last ingest\", \"data_last_time_seen (translated)\" as \"last time\"\n| lookup local=t trackme_host_monitoring data_host OUTPUT data_host_state as data_previous_host_state, data_tracker_runtime as data_previous_tracker_runtime, latest_flip_state, latest_flip_time\n | `trackme_date_format(\"latest_flip_time\")`\n| fillnull value=\"N/A\" latest_flip_state, latest_flip_time, \"latest_flip_time (translated)\"\n| sort limit=0 data_host", {}, e.data);
             }
@@ -12236,9 +12527,9 @@ require([
 
         SearchModeSelectorMetricHosts.on("valueChange", function(e) {
             if (e.value === "search_based") {
-                EventHandler.setToken("metric_host_mainsearch", "| savedsearch \"trackMe - metric host table report\" | `trackme_eval_icons_metric_host` | eval metric_index_raw=metric_index, metric_category_raw=metric_category, metric_details_raw=metric_details | lookup local=t trackme_metric_host_monitoring metric_host OUTPUT metric_host_state as metric_previous_host_state, metric_tracker_runtime as metric_previous_tracker_runtime, latest_flip_state, latest_flip_time | where isnotnull(metric_previous_tracker_runtime) | `trackme_date_format(\"latest_flip_time\")` | fillnull value=\"N/A\" latest_flip_state, latest_flip_time, \"latest_flip_time (translated)\"", {}, e.data);
+                EventHandler.setToken("metric_host_mainsearch", "| savedsearch \"trackMe - metric host table report\"\n| rename key as keyid\n| `trackme_eval_icons_metric_host`\n| eval metric_index_raw=metric_index, metric_category_raw=metric_category, metric_details_raw=metric_details | lookup local=t trackme_metric_host_monitoring metric_host OUTPUT metric_host_state as metric_previous_host_state, metric_tracker_runtime as metric_previous_tracker_runtime, latest_flip_state, latest_flip_time | where isnotnull(metric_previous_tracker_runtime) | `trackme_date_format(\"latest_flip_time\")` | fillnull value=\"N/A\" latest_flip_state, latest_flip_time, \"latest_flip_time (translated)\"", {}, e.data);
             } else if (e.value === "collection_based") {
-                EventHandler.setToken("metric_host_mainsearch", "| savedsearch \"TrackMe - metric hosts collection based table report\"\n| `trackme_date_format(\"metric_last_time_seen\")`\n| rename \"metric_last_time_seen (translated)\" as \"last time\"\n| `trackme_eval_metric_host_state`\n| `trackme_metric_host_group_lookup`\n|`trackme_eval_icons_metric_host`\n|`trackme_date_format(\"latest_flip_time\")`\n| fillnull value=\"N/A\" latest_flip_state, latest_flip_time, \"latest_flip_time (translated)\"", {}, e.data);
+                EventHandler.setToken("metric_host_mainsearch", "| savedsearch \"TrackMe - metric hosts collection based table report\"\n| rename key as keyid\n| `trackme_date_format(\"metric_last_time_seen\")`\n| rename \"metric_last_time_seen (translated)\" as \"last time\"\n| `trackme_eval_metric_host_state`\n| `trackme_metric_host_group_lookup`\n|`trackme_eval_icons_metric_host`\n|`trackme_date_format(\"latest_flip_time\")`\n| fillnull value=\"N/A\" latest_flip_state, latest_flip_time, \"latest_flip_time (translated)\"", {}, e.data);
             }
         });
 
@@ -13820,6 +14111,7 @@ require([
             var tk_outliermineventcount = tokens.get("tk_outliermineventcount");
             var tk_outlierthresholdmultiplier = tokens.get("tk_outlierthresholdmultiplier");
             var tk_isoutlier = tokens.get("tk_isoutlier");
+            var tk_enable_behaviour_analytic = tokens.get("tk_enable_behaviour_analytic");
 
             // Create the endpoint URL
             var myendpoint_URl = "/en-US/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_data_source_monitoring/" + tk_keyid;
@@ -13850,6 +14142,7 @@ require([
                 "OutlierMinEventCount": tk_outliermineventcount,
                 "OutlierThresholdMultiplier": tk_outlierthresholdmultiplier,
                 "isOutlier": tk_isoutlier,
+                "enable_behaviour_analytic" : tk_enable_behaviour_analytic,
                 "latest_flip_state": tk_latest_flip_state,
                 "latest_flip_time": tk_latest_flip_time,
                 "priority": tk_priority
@@ -13966,6 +14259,7 @@ require([
             var tk_outliermineventcount = tokens.get("tk_outliermineventcount");
             var tk_outlierthresholdmultiplier = tokens.get("tk_outlierthresholdmultiplier");
             var tk_isoutlier = tokens.get("tk_isoutlier");
+            var tk_enable_behaviour_analytic = tokens.get("tk_enable_behaviour_analytic");
 
             // Create the endpoint URL
             var myendpoint_URl = "/en-US/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_host_monitoring/" + tk_keyid;
@@ -13993,6 +14287,7 @@ require([
                 "OutlierMinEventCount": tk_outliermineventcount,
                 "OutlierThresholdMultiplier": tk_outlierthresholdmultiplier,
                 "isOutlier": tk_isoutlier,
+                "enable_behaviour_analytic" : tk_enable_behaviour_analytic,
                 "latest_flip_state": tk_latest_flip_state,
                 "latest_flip_time": tk_latest_flip_time,
                 "priority": tk_priority
@@ -14393,6 +14688,7 @@ require([
             var tk_outliermineventcount = tokens.get("tk_outliermineventcount");
             var tk_outlierthresholdmultiplier = tokens.get("tk_outlierthresholdmultiplier");
             var tk_isoutlier = tokens.get("tk_isoutlier");
+            var tk_enable_behaviour_analytic = tokens.get("tk_enable_behaviour_analytic");
 
             // Create the endpoint URL
             var myendpoint_URl = "/en-US/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_data_source_monitoring/" + tk_keyid;
@@ -14423,6 +14719,7 @@ require([
                 "OutlierMinEventCount": tk_outliermineventcount,
                 "OutlierThresholdMultiplier": tk_outlierthresholdmultiplier,
                 "isOutlier": tk_isoutlier,
+                "enable_behaviour_analytic" : tk_enable_behaviour_analytic,
                 "latest_flip_state": tk_latest_flip_state,
                 "latest_flip_time": tk_latest_flip_time,
                 "priority": tk_priority
@@ -14539,6 +14836,7 @@ require([
             var tk_outliermineventcount = tokens.get("tk_outliermineventcount");
             var tk_outlierthresholdmultiplier = tokens.get("tk_outlierthresholdmultiplier");
             var tk_isoutlier = tokens.get("tk_isoutlier");
+            var tk_enable_behaviour_analytic = tokens.get("tk_enable_behaviour_analytic");
 
             // Create the endpoint URL
             var myendpoint_URl = "/en-US/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_host_monitoring/" + tk_keyid;
@@ -14566,6 +14864,7 @@ require([
                 "OutlierMinEventCount": tk_outliermineventcount,
                 "OutlierThresholdMultiplier": tk_outlierthresholdmultiplier,
                 "isOutlier": tk_isoutlier,
+                "enable_behaviour_analytic" : tk_enable_behaviour_analytic,
                 "latest_flip_state": tk_latest_flip_state,
                 "latest_flip_time": tk_latest_flip_time,
                 "priority": tk_priority
@@ -15030,6 +15329,7 @@ require([
             var tk_outliermineventcount = tokens.get("tk_outliermineventcount");
             var tk_outlierthresholdmultiplier = tokens.get("tk_outlierthresholdmultiplier");
             var tk_isoutlier = tokens.get("tk_isoutlier");
+            var tk_enable_behaviour_analytic = tokens.get("tk_enable_behaviour_analytic");
             var tk_latest_flip_state = tokens.get("tk_latest_flip_state");
             var tk_latest_flip_time = tokens.get("tk_latest_flip_time");
             var tk_priority = tokens.get("tk_priority");
@@ -15056,6 +15356,7 @@ require([
                 "OutlierMinEventCount": tk_outliermineventcount,
                 "OutlierThresholdMultiplier": tk_outlierthresholdmultiplier,
                 "isOutlier": tk_isoutlier,
+                "enable_behaviour_analytic" : tk_enable_behaviour_analytic,
                 "latest_flip_state": tk_latest_flip_state,
                 "latest_flip_time": tk_latest_flip_time,
                 "priority": tk_priority
@@ -15262,6 +15563,7 @@ require([
             var tk_outliermineventcount = tokens.get("tk_outliermineventcount");
             var tk_outlierthresholdmultiplier = tokens.get("tk_outlierthresholdmultiplier");
             var tk_isoutlier = tokens.get("tk_isoutlier");
+            var tk_enable_behaviour_analytic = tokens.get("tk_enable_behaviour_analytic");
             var tk_latest_flip_state = tokens.get("tk_latest_flip_state");
             var tk_latest_flip_time = tokens.get("tk_latest_flip_time");
             var tk_priority = tokens.get("tk_priority");
@@ -15285,6 +15587,7 @@ require([
                 "OutlierMinEventCount": tk_outliermineventcount,
                 "OutlierThresholdMultiplier": tk_outlierthresholdmultiplier,
                 "isOutlier": tk_isoutlier,
+                "enable_behaviour_analytic" : tk_enable_behaviour_analytic,
                 "latest_flip_state": tk_latest_flip_state,
                 "latest_flip_time": tk_latest_flip_time,
                 "priority": tk_priority
@@ -19605,6 +19908,7 @@ require([
             var tk_outliermineventcount = tokens.get("tk_outliermineventcount");
             var tk_outlierthresholdmultiplier = tokens.get("tk_outlierthresholdmultiplier");
             var tk_isoutlier = tokens.get("tk_isoutlier");
+            var tk_enable_behaviour_analytic = tokens.get("tk_enable_behaviour_analytic");
             var tk_latest_flip_state = tokens.get("tk_latest_flip_state");
             var tk_latest_flip_time = tokens.get("tk_latest_flip_time");
             var tk_priority = tokens.get("tk_priority");
@@ -19649,6 +19953,7 @@ require([
                     "OutlierMinEventCount": tk_outliermineventcount,
                     "OutlierThresholdMultiplier": tk_outlierthresholdmultiplier,
                     "isOutlier": tk_isoutlier,
+                    "enable_behaviour_analytic" : tk_enable_behaviour_analytic,
                     "latest_flip_state": tk_latest_flip_state,
                     "latest_flip_time": tk_latest_flip_time,
                     "priority": tk_priority
@@ -19744,6 +20049,7 @@ require([
             var tk_outliermineventcount = tokens.get("tk_outliermineventcount");
             var tk_outlierthresholdmultiplier = tokens.get("tk_outlierthresholdmultiplier");
             var tk_isoutlier = tokens.get("tk_isoutlier");
+            var tk_enable_behaviour_analytic = tokens.get("tk_enable_behaviour_analytic");
             var tk_latest_flip_state = tokens.get("tk_latest_flip_state");
             var tk_latest_flip_time = tokens.get("tk_latest_flip_time");
             var tk_priority = tokens.get("tk_priority");
@@ -19788,6 +20094,7 @@ require([
                     "OutlierMinEventCount": tk_outliermineventcount,
                     "OutlierThresholdMultiplier": tk_outlierthresholdmultiplier,
                     "isOutlier": tk_isoutlier,
+                    "enable_behaviour_analytic" : tk_enable_behaviour_analytic,
                     "latest_flip_state": tk_latest_flip_state,
                     "latest_flip_time": tk_latest_flip_time,
                     "priority": tk_new_priority
@@ -19889,6 +20196,7 @@ require([
             var tk_outliermineventcount = tokens.get("tk_outliermineventcount");
             var tk_outlierthresholdmultiplier = tokens.get("tk_outlierthresholdmultiplier");
             var tk_isoutlier = tokens.get("tk_isoutlier");
+            var tk_enable_behaviour_analytic = tokens.get("tk_enable_behaviour_analytic");
             var tk_latest_flip_state = tokens.get("tk_latest_flip_state");
             var tk_latest_flip_time = tokens.get("tk_latest_flip_time");
             var tk_priority = tokens.get("tk_priority");
@@ -19933,6 +20241,7 @@ require([
                     "OutlierMinEventCount": tk_outliermineventcount,
                     "OutlierThresholdMultiplier": tk_outlierthresholdmultiplier,
                     "isOutlier": tk_isoutlier,
+                    "enable_behaviour_analytic" : tk_enable_behaviour_analytic,
                     "latest_flip_state": tk_latest_flip_state,
                     "latest_flip_time": tk_latest_flip_time,
                     "priority": tk_priority
@@ -20046,6 +20355,7 @@ require([
             var tk_outliermineventcount = tokens.get("tk_outliermineventcount");
             var tk_outlierthresholdmultiplier = tokens.get("tk_outlierthresholdmultiplier");
             var tk_isoutlier = tokens.get("tk_isoutlier");
+            var tk_enable_behaviour_analytic = tokens.get("tk_enable_behaviour_analytic");
             var tk_latest_flip_state = tokens.get("tk_latest_flip_state");
             var tk_latest_flip_time = tokens.get("tk_latest_flip_time");
             var tk_priority = tokens.get("tk_priority");
@@ -20090,6 +20400,7 @@ require([
                     "OutlierMinEventCount": tk_outliermineventcount,
                     "OutlierThresholdMultiplier": tk_outlierthresholdmultiplier,
                     "isOutlier": tk_isoutlier,
+                    "enable_behaviour_analytic" : tk_enable_behaviour_analytic,
                     "latest_flip_state": tk_latest_flip_state,
                     "latest_flip_time": tk_latest_flip_time,
                     "priority": tk_priority
@@ -20192,6 +20503,7 @@ require([
             var tk_outliermineventcount = tokens.get("tk_outliermineventcount");
             var tk_outlierthresholdmultiplier = tokens.get("tk_outlierthresholdmultiplier");
             var tk_isoutlier = tokens.get("tk_isoutlier");
+            var tk_enable_behaviour_analytic = tokens.get("tk_enable_behaviour_analytic");
             var tk_latest_flip_state = tokens.get("tk_latest_flip_state");
             var tk_latest_flip_time = tokens.get("tk_latest_flip_time");
             var tk_priority = tokens.get("tk_priority");
@@ -20237,6 +20549,7 @@ require([
                     "OutlierMinEventCount": tk_outliermineventcount,
                     "OutlierThresholdMultiplier": tk_outlierthresholdmultiplier,
                     "isOutlier": tk_isoutlier,
+                    "enable_behaviour_analytic" : tk_enable_behaviour_analytic,
                     "latest_flip_state": tk_latest_flip_state,
                     "latest_flip_time": tk_latest_flip_time,
                     "priority": tk_priority
@@ -21045,6 +21358,7 @@ require([
             var tk_outliermineventcount = tokens.get("tk_outliermineventcount");
             var tk_outlierthresholdmultiplier = tokens.get("tk_outlierthresholdmultiplier");
             var tk_isoutlier = tokens.get("tk_isoutlier");
+            var tk_enable_behaviour_analytic = tokens.get("tk_enable_behaviour_analytic");
             var tk_latest_flip_state = tokens.get("tk_latest_flip_state");
             var tk_latest_flip_time = tokens.get("tk_latest_flip_time");
             var tk_priority = tokens.get("tk_priority");
@@ -21085,6 +21399,7 @@ require([
                     "data_previous_tracker_runtime": tk_data_previous_tracker_runtime,
                     "OutlierMinEventCount": tk_outliermineventcount,
                     "OutlierThresholdMultiplier": tk_outlierthresholdmultiplier,
+                    "enable_behaviour_analytic" : tk_enable_behaviour_analytic,
                     "isOutlier": tk_isoutlier,
                     "latest_flip_state": tk_latest_flip_state,
                     "latest_flip_time": tk_latest_flip_time,
@@ -21174,6 +21489,7 @@ require([
             var tk_outliermineventcount = tokens.get("tk_outliermineventcount");
             var tk_outlierthresholdmultiplier = tokens.get("tk_outlierthresholdmultiplier");
             var tk_isoutlier = tokens.get("tk_isoutlier");
+            var tk_enable_behaviour_analytic = tokens.get("tk_enable_behaviour_analytic");
             var tk_latest_flip_state = tokens.get("tk_latest_flip_state");
             var tk_latest_flip_time = tokens.get("tk_latest_flip_time");
             var tk_priority = tokens.get("tk_priority");
@@ -21213,6 +21529,7 @@ require([
                     "OutlierMinEventCount": tk_outliermineventcount,
                     "OutlierThresholdMultiplier": tk_outlierthresholdmultiplier,
                     "isOutlier": tk_isoutlier,
+                    "enable_behaviour_analytic" : tk_enable_behaviour_analytic,
                     "latest_flip_state": tk_latest_flip_state,
                     "latest_flip_time": tk_latest_flip_time,
                     "priority": tk_new_priority
@@ -21309,6 +21626,7 @@ require([
             var tk_outliermineventcount = tokens.get("tk_outliermineventcount");
             var tk_outlierthresholdmultiplier = tokens.get("tk_outlierthresholdmultiplier");
             var tk_isoutlier = tokens.get("tk_isoutlier");
+            var tk_enable_behaviour_analytic = tokens.get("tk_enable_behaviour_analytic");
             var tk_latest_flip_state = tokens.get("tk_latest_flip_state");
             var tk_latest_flip_time = tokens.get("tk_latest_flip_time");
             var tk_priority = tokens.get("tk_priority");
@@ -21350,6 +21668,7 @@ require([
                     "OutlierMinEventCount": tk_outliermineventcount,
                     "OutlierThresholdMultiplier": tk_outlierthresholdmultiplier,
                     "isOutlier": tk_isoutlier,
+                    "enable_behaviour_analytic" : tk_enable_behaviour_analytic,
                     "latest_flip_state": tk_latest_flip_state,
                     "latest_flip_time": tk_latest_flip_time,
                     "priority": tk_priority
@@ -21463,6 +21782,7 @@ require([
             var tk_outliermineventcount = tokens.get("tk_outliermineventcount");
             var tk_outlierthresholdmultiplier = tokens.get("tk_outlierthresholdmultiplier");
             var tk_isoutlier = tokens.get("tk_isoutlier");
+            var tk_enable_behaviour_analytic = tokens.get("tk_enable_behaviour_analytic");
             var tk_latest_flip_state = tokens.get("tk_latest_flip_state");
             var tk_latest_flip_time = tokens.get("tk_latest_flip_time");
             var tk_priority = tokens.get("tk_priority");
@@ -21505,6 +21825,7 @@ require([
                     "OutlierMinEventCount": tk_outliermineventcount,
                     "OutlierThresholdMultiplier": tk_outlierthresholdmultiplier,
                     "isOutlier": tk_isoutlier,
+                    "enable_behaviour_analytic" : tk_enable_behaviour_analytic,
                     "latest_flip_state": tk_latest_flip_state,
                     "latest_flip_time": tk_latest_flip_time,
                     "priority": tk_priority
