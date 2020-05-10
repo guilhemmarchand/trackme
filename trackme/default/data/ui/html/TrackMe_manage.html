@@ -539,7 +539,7 @@ styles in <div> tags, similar to Bootstrap's grid system.
                         <div class="panel-body html">
                             <div style="text-align: center; border: 3px dashed #ccc;">
                                 <div style="display: inline-flex; align-items: center; margin-top: 5px;">
-                                    <span style="font-size: 22px; font-weight: bold; color: #999999; margin-top: 5px;">MACROS DEFINITIONS</span>
+                                    <span style="font-size: 22px; font-weight: bold; color: #999999; margin-top: 5px;">MAIN MACROS DEFINITIONS</span>
                                 </div>
                             </div>
                         </div>
@@ -582,6 +582,81 @@ styles in <div> tags, similar to Bootstrap's grid system.
                 <div class="panel-element-row">
                     <div id="elementTable_trackme_idx_filter" class="dashboard-element table" style="width: 100%">
                         <div class="panel-body"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="ManageRowMacro3b" class="dashboard-row dashboard-rowDataSourcesTable" >
+        <div id="panelManage3b" class="dashboard-cell" style="width: 100%;">
+            <div class="dashboard-panel clearfix">
+                <h2 style="padding: 12px 55px 7px 12px;">trackme_idx: summary index for TrackMe</h2><h2 class="panel-title">The Summary Investigator tracker generates summary data to be indexed into a summary index which is defined in the following macro: (default to index=summary, click on the table bellow to edit the macro definition)</h2>
+                <div class="panel-element-row">
+                    <div id="elementTable_trackme_idx_summary" class="dashboard-element table" style="width: 100%">
+                        <div class="panel-body"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="rowManageMacrosInfoBehaviourAnalytic" class="dashboard-row dashboard-rowManageResetInfo">
+        <div id="panelManageMacrosInfoBehaviourAnalytic" class="dashboard-cell" style="width: 100%;">
+            <div class="dashboard-panel clearfix">
+                <div class="panel-element-row">
+                    <div id="elementManageMacrosInfoBehaviourAnalytic" class="dashboard-element html" style="width: 100%">
+                        <div class="panel-body html">
+                            <div style="text-align: center; border: 3px dashed #ccc;">
+                                <div style="display: inline-flex; align-items: center; margin-top: 5px;">
+                                    <span style="font-size: 22px; font-weight: bold; color: #999999; margin-top: 5px;">BEHAVIOUR ANALYTIC MACROS DEFINITIONS</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="ManageRowMacro4a" class="dashboard-row dashboard-rowDataSourcesTable" >
+        <div id="panelManage4a" class="dashboard-cell" style="width: 100%;">
+            <div class="dashboard-panel clearfix">
+                <h2 style="padding: 12px 55px 7px 12px;">trackme_default_enable_behaviour_analytic: default enabled status for behaviour analytic features (true is enabled, false is disabled)</h2><h2 class="panel-title">When an entity is added to the collection, a default status is defined for behaviour analytic features, default to enabled: (click on the table bellow to edit the macro definition)</h2>
+                <div class="panel-element-row">
+                    <div id="elementTable_trackme_default_enable_behaviour_analytic" class="dashboard-element table" style="width: 100%">
+                        <div class="panel-body"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="ManageRowMacro4b" class="dashboard-row dashboard-rowDataSourcesTable" >
+        <div id="panelManage4b" class="dashboard-cell" style="width: 100%;">
+            <div class="dashboard-panel clearfix">
+                <h2 style="padding: 12px 55px 7px 12px;">trackme_default_outlier_threshold_multiplier: default value for outlier threshold multiplier</h2><h2 class="panel-title">Event count outliers detection for behaviour analytics uses the default threshold multiplier for outliers calculations: (click on the table bellow to edit the macro definition)</h2>
+                <div class="panel-element-row">
+                    <div id="elementTable_trackme_default_outlier_threshold_multiplier" class="dashboard-element table" style="width: 100%">
+                        <div class="panel-body"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="rowManageMacrosInfoVarious" class="dashboard-row dashboard-rowManageResetInfo">
+        <div id="panelManageMacrosInfoVarious" class="dashboard-cell" style="width: 100%;">
+            <div class="dashboard-panel clearfix">
+                <div class="panel-element-row">
+                    <div id="elementManageMacrosInfoVarious" class="dashboard-element html" style="width: 100%">
+                        <div class="panel-body html">
+                            <div style="text-align: center; border: 3px dashed #ccc;">
+                                <div style="display: inline-flex; align-items: center; margin-top: 5px;">
+                                    <span style="font-size: 22px; font-weight: bold; color: #999999; margin-top: 5px;">OTHER MACROS DEFINITIONS</span>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -976,6 +1051,36 @@ require([
             tokenNamespace: "submitted"
         });
 
+        var searchGetMacro_trackme_idx_summary = new PostProcessManager({
+            "tokenDependencies": {},
+            "search": "where title=\"trackme_idx\" | table definition",
+            "managerid": "searchGetMacrosDefinitions",
+            "id": "searchGetMacro_trackme_idx_summary"
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        });
+
+        var searchGetMacro_trackme_default_outlier_threshold_multiplier = new PostProcessManager({
+            "tokenDependencies": {},
+            "search": "where title=\"trackme_default_outlier_threshold_multiplier\" | table definition",
+            "managerid": "searchGetMacrosDefinitions",
+            "id": "searchGetMacro_trackme_default_outlier_threshold_multiplier"
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        });
+
+        var searchGetMacro_trackme_default_enable_behaviour_analytic = new PostProcessManager({
+            "tokenDependencies": {},
+            "search": "where title=\"trackme_default_enable_behaviour_analytic\" | table definition",
+            "managerid": "searchGetMacrosDefinitions",
+            "id": "searchGetMacro_trackme_default_enable_behaviour_analytic"
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        });
+
         var searchGetMacro_trackme_date_format = new PostProcessManager({
             "tokenDependencies": {},
             "search": "where title=\"trackme_date_format(1)\" | table definition",
@@ -1225,6 +1330,69 @@ require([
             if (e.field !== undefined) {
                 e.preventDefault();
                 var url = TokenUtils.replaceTokenNames("/en-GB/manager/trackme/admin/macros/trackme_idx_filter?action=edit", _.extend(submittedTokenModel.toJSON(), e.data), TokenUtils.getEscaper('url'), TokenUtils.getFilters(mvc.Components));
+                utils.redirect(url, false, "_blank");
+            }
+        });
+
+        var elementTable_trackme_idx_summary = new TableElement({
+            "id": "elementTable_trackme_idx_summary",
+            "count": 100,
+            "drilldown": "row",
+            "refresh.display": "none",
+            "wrap": "false",
+            "managerid": "searchGetMacro_trackme_idx_summary",
+            "el": $('#elementTable_trackme_idx_summary')
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        }).render();
+
+        elementTable_trackme_idx_summary.on("click", function(e) {
+            if (e.field !== undefined) {
+                e.preventDefault();
+                var url = TokenUtils.replaceTokenNames("/en-GB/manager/trackme/admin/macros/trackme_idx?action=edit", _.extend(submittedTokenModel.toJSON(), e.data), TokenUtils.getEscaper('url'), TokenUtils.getFilters(mvc.Components));
+                utils.redirect(url, false, "_blank");
+            }
+        });
+
+        var elementTable_trackme_default_outlier_threshold_multiplier = new TableElement({
+            "id": "elementTable_trackme_default_outlier_threshold_multiplier",
+            "count": 100,
+            "drilldown": "row",
+            "refresh.display": "none",
+            "wrap": "false",
+            "managerid": "searchGetMacro_trackme_default_outlier_threshold_multiplier",
+            "el": $('#elementTable_trackme_default_outlier_threshold_multiplier')
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        }).render();
+
+        elementTable_trackme_default_outlier_threshold_multiplier.on("click", function(e) {
+            if (e.field !== undefined) {
+                e.preventDefault();
+                var url = TokenUtils.replaceTokenNames("/en-GB/manager/trackme/admin/macros/trackme_default_outlier_threshold_multiplier?action=edit", _.extend(submittedTokenModel.toJSON(), e.data), TokenUtils.getEscaper('url'), TokenUtils.getFilters(mvc.Components));
+                utils.redirect(url, false, "_blank");
+            }
+        });
+
+        var elementTable_trackme_default_enable_behaviour_analytic = new TableElement({
+            "id": "elementTable_trackme_default_enable_behaviour_analytic",
+            "count": 100,
+            "drilldown": "row",
+            "refresh.display": "none",
+            "wrap": "false",
+            "managerid": "searchGetMacro_trackme_default_enable_behaviour_analytic",
+            "el": $('#elementTable_trackme_default_enable_behaviour_analytic')
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        }).render();
+
+        elementTable_trackme_default_enable_behaviour_analytic.on("click", function(e) {
+            if (e.field !== undefined) {
+                e.preventDefault();
+                var url = TokenUtils.replaceTokenNames("/en-GB/manager/trackme/admin/macros/trackme_default_enable_behaviour_analytic?action=edit", _.extend(submittedTokenModel.toJSON(), e.data), TokenUtils.getEscaper('url'), TokenUtils.getFilters(mvc.Components));
                 utils.redirect(url, false, "_blank");
             }
         });

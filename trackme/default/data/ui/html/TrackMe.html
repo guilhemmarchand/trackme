@@ -1520,7 +1520,7 @@ styles in <div> tags, similar to Bootstrap's grid system.
                                         <div class="dashboard-element html" id="body_data_source_status_message" style="width: 100%">
                                             <div class="panel-body html" style="margin-left: 40px; margin-right: 40px; min-height: 350px; margin-top: 30px;">
                                                 <hr width="100%" size="8" align="center" style="border-style: dashed;">
-                                                <h2>$tk_status_message$</h2>
+                                                <h2 style="font-weight: bold;">$tk_status_message$</h2>
                                                 <hr width="100%" size="8" align="center" style="border-style: dashed;">
                                             </div>
                                         </div>
@@ -1706,6 +1706,50 @@ styles in <div> tags, similar to Bootstrap's grid system.
                             </div>
                         </div>
 
+                        <div id="rowOutlierConfigDataHost" class="dashboard-row dashboard-row1" data-depends="$show_data_host_outlier_configuration$">
+                            <div id="panelOutlierConfigDataHost" class="dashboard-cell" style="width: 100%;">
+                                <div class="dashboard-panel clearfix">
+
+                                    <div style="margin-left: 30px;" class="fieldset">
+                                        <div class="input input-dropdown" id="inputDataHostConfigOutlierEnableOutlier">
+                                            <label>Enable Outlier Detection:</label>
+                                        </div>
+                                        <div class="input input-dropdown" id="inputDataHostConfigOutlierOutlierMinEventCountMode">
+                                            <label>OutlierMinEventCount mode:</label>
+                                        </div>
+                                        <div class="input input-text" id="inputDataHostConfigOutlierOutlierMinEventCount">
+                                            <label>OutlierMinEventCount:</label>
+                                        </div>
+                                        <div class="input input-text" id="inputDataHostConfigOutlierOutlierThresholdMultiplier">
+                                            <label>OutlierThresholdMultiplier:</label>
+                                        </div>
+                                    </div>
+
+                                    <div style="margin-left: 42px; margin-right: 42px;">
+                                        <button type="submit" id="btn_outlier_config_data_host_save" role="button" style="margin-right: 15px;" class="btn btn-primary btn-default pull-right"><span class="glyphicon glyphicon-remove"></span>Save Outliers settings</button>
+                                        <button type="submit" id="btn_outlier_config_data_host_simulate" role="button" style="margin-right: 15px;" class="btn btn-primary btn-default pull-right"><span class="glyphicon glyphicon-remove"></span>Simulate Outliers settings</button>
+                                    </div>
+
+                                    <div class="boxnotify" id="boxnotify-data-host-outliers-update">
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+
+                        <div id="rowOutlierConfigChartSimulationDataHost" class="dashboard-row dashboard-row1" data-depends="$show_data_host_outlier_configuration$, $start_outliers_simulation_data_host$">
+                            <div id="panelOutlierConfigChartSimulationDataHost" class="dashboard-cell" style="width: 100%; max-height: 350px;">
+                                <div class="dashboard-panel clearfix">
+                                    <div class="panel-element-row">
+                                        <div id="elementOutlierSimulationDataHost" class="dashboard-element chart" style="width: 100%">
+                                            <div class="panel-body"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
                         <div id="rowStatusMessageDataHost" class="dashboard-row dashboard-row2" data-depends="$show_data_host_status_message$">
                             <div id="panelStatusMessageDataHost" class="dashboard-cell" style="width: 100%;">
                                 <div class="dashboard-panel clearfix">
@@ -1714,7 +1758,7 @@ styles in <div> tags, similar to Bootstrap's grid system.
                                         <div class="dashboard-element html" id="body_data_host_status_message" style="width: 100%">
                                             <div class="panel-body html" style="margin-left: 40px; margin-right: 40px; min-height: 350px; margin-top: 30px;">
                                                 <hr width="100%" size="8" align="center" style="border-style: dashed;">
-                                                <h2>$tk_status_message$</h2>
+                                                <h2 style="font-weight: bold;">$tk_status_message$</h2>
                                                 <hr width="100%" size="8" align="center" style="border-style: dashed;">
                                             </div>
                                         </div>
@@ -1877,7 +1921,7 @@ styles in <div> tags, similar to Bootstrap's grid system.
                                         <div class="dashboard-element html" id="body_metric_host_status_message" style="width: 100%">
                                             <div class="panel-body html" style="margin-left: 40px; margin-right: 40px; min-height: 350px; margin-top: 30px;">
                                                 <hr width="100%" size="8" align="center" style="border-style: dashed;">
-                                                <h2>$tk_status_message$</h2>
+                                                <h2 style="font-weight: bold;">$tk_status_message$</h2>
                                                 <hr width="100%" size="8" align="center" style="border-style: dashed;">
                                             </div>
                                         </div>
@@ -6677,6 +6721,28 @@ require([
             tokenNamespace: "submitted"
         });
 
+        var searchOutlierDetectionChartSimulationDataHost = new SearchManager({
+            "id": "searchOutlierDetectionChartSimulationDataHost",
+            "sample_ratio": 1,
+            "search": "`trackme_outlier_chart_simulate(trackme_datahost_tracker_shorterm, data_host, \"$tk_data_host$\", data_host, $tk_input_data_host_outlier_threshold_multiplier$, $tk_input_data_host_outlier_min_eventcount$)`",
+            "status_buckets": 0,
+            "earliest_time": "$modalTimeHost.earliest$",
+            "cancelOnUnload": true,
+            "latest_time": "$modalTimeHost.latest$",
+            "app": utils.getCurrentApp(),
+            "auto_cancel": 90,
+            "preview": true,
+            "tokenDependencies": {
+                "depends": "$show_data_host_tracker$",
+                "depends": "$show_data_host_outlier_configuration$",
+                "depends": "$start_outliers_simulation_data_host$"
+            },
+            "runWhenTimeIsUndefined": false
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        });
+
         var searchOutlierDetectionTableDataHost = new SearchManager({
             "id": "searchOutlierDetectionTableDataHost",
             "sample_ratio": 1,
@@ -6691,6 +6757,28 @@ require([
             "tokenDependencies": {
                 "depends": "$show_data_host_tracker$",
                 "depends": "$show_data_host_outlier$"
+            },
+            "runWhenTimeIsUndefined": false
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        });
+
+        var searchOutlierDetectionTableUpdateDataHost = new SearchManager({
+            "id": "searchOutlierDetectionTableUpdateDataHost",
+            "sample_ratio": 1,
+            "search": "`trackme_outlier_table(trackme_datahost_tracker_shorterm, data_host, \"$tk_data_host$\", data_host)` | eval key = md5(object_category . \":\" . object) | `trackme_outputlookup(trackme_summary_investigator, key)`",
+            "status_buckets": 0,
+            "earliest_time": "-24h",
+            "cancelOnUnload": true,
+            "latest_time": "now",
+            "app": utils.getCurrentApp(),
+            "auto_cancel": 90,
+            "preview": true,
+            "tokenDependencies": {
+                "depends": "$show_data_host_tracker$",
+                "depends": "$show_data_host_outlier_configuration$",
+                "depends": "$run_data_host_outlier_update$"
             },
             "runWhenTimeIsUndefined": false
         }, {
@@ -8223,7 +8311,7 @@ require([
             }
         });
 
-        // data source monitoring
+        // data host monitoring
 
         // main data_host link input for modal window
         var inputLinkDataHost = new LinkListInput({
@@ -8234,7 +8322,11 @@ require([
                 },
                 {
                     "value": "outlier",
-                    "label": "Outlier detection"
+                    "label": "Outlier detection overview"
+                },
+                {
+                    "value": "outlier_configuration",
+                    "label": "Outlier detection configuration"
                 },
                 {
                     "value": "status_message",
@@ -8259,14 +8351,22 @@ require([
             if (e.value === "overview") {
                 EventHandler.setToken("show_data_host_overview", "true", {}, e.data);
                 EventHandler.unsetToken("show_data_host_outlier");
+                EventHandler.unsetToken("show_data_host_outlier_configuration");
                 EventHandler.unsetToken("show_data_host_status_message");
             } else if (e.value === "outlier") {
                 EventHandler.setToken("show_data_host_outlier", "true", {}, e.data);
                 EventHandler.unsetToken("show_data_host_overview");
+                EventHandler.unsetToken("show_data_host_outlier_configuration");
+                EventHandler.unsetToken("show_data_host_status_message");
+            } else if (e.value === "outlier_configuration") {
+                EventHandler.setToken("show_data_host_outlier_configuration", "true", {}, e.data);
+                EventHandler.unsetToken("show_data_host_overview");
+                EventHandler.unsetToken("show_data_host_outlier");
                 EventHandler.unsetToken("show_data_host_status_message");
             } else if (e.value === "status_message") {
                 EventHandler.setToken("show_data_host_status_message", "true", {}, e.data);
                 EventHandler.unsetToken("show_data_host_overview");
+                EventHandler.unsetToken("show_data_host_outlier_configuration");
                 EventHandler.unsetToken("show_data_host_outlier");
             }
         });
@@ -8332,15 +8432,87 @@ require([
 
         var inputDataSourceConfigOutlierOutlierThresholdMultiplier = new TextInput({
             "id": "inputDataSourceConfigOutlierOutlierThresholdMultiplier",
-            "default": "2",
+            "default": "4",
             "searchWhenChanged": true,
-            "initialValue": "2",
+            "initialValue": "4",
             "value": "$form.tk_input_data_source_outlier_threshold_multiplier$",
             "el": $('#inputDataSourceConfigOutlierOutlierThresholdMultiplier')
         }, {tokens: true}).render();
 
         inputDataSourceConfigOutlierOutlierThresholdMultiplier.on("change", function(newValue) {
             FormUtils.handleValueChange(inputDataSourceConfigOutlierOutlierThresholdMultiplier);
+        });
+
+        // data host outlier configuration
+        var inputDataHostConfigOutlierEnableOutlier = new DropdownInput({
+            "id": "inputDataHostConfigOutlierEnableOutlier",
+            "choices": [
+                {"label": "True", "value": "true"},
+                {"label": "False", "value": "false"}
+            ],
+            "default": "true",
+            "searchWhenChanged": true,
+            "selectFirstChoice": false,
+            "showClearButton": true,
+            "initialValue": "true",
+            "value": "$form.tk_input_data_host_enable_outlier$",
+            "el": $('#inputDataHostConfigOutlierEnableOutlier')
+        }, {tokens: true}).render();
+
+        inputDataHostConfigOutlierEnableOutlier.on("change", function(newValue) {
+            FormUtils.handleValueChange(inputDataHostConfigOutlierEnableOutlier);
+        });
+
+        var inputDataHostConfigOutlierOutlierMinEventCountMode = new DropdownInput({
+            "id": "inputDataHostConfigOutlierOutlierMinEventCountMode",
+            "choices": [
+                {"label": "Dynamic", "value": "dynamic"},
+                {"label": "Static", "value": "static"}
+            ],
+            "default": "dynamic",
+            "searchWhenChanged": true,
+            "selectFirstChoice": false,
+            "showClearButton": true,
+            "initialValue": "dynamic",
+            "value": "$form.tk_input_data_host_outlier_min_eventcount_mode$",
+            "el": $('#inputDataHostConfigOutlierOutlierMinEventCountMode')
+        }, {tokens: true}).render();
+
+        inputDataHostConfigOutlierOutlierMinEventCountMode.on("change", function(newValue) {
+            FormUtils.handleValueChange(inputDataHostConfigOutlierOutlierMinEventCountMode);
+        });
+
+        inputDataHostConfigOutlierOutlierMinEventCountMode.on("valueChange", function(e) {
+            if (e.value === "dynamic") {
+                EventHandler.setToken("form.tk_input_data_host_outlier_min_eventcount", "disabled", {}, e.data);
+            } else if (e.value === "static") {
+                EventHandler.unsetToken("form.tk_input_data_host_outlier_min_eventcount");
+            }
+        });
+
+        var inputDataHostConfigOutlierOutlierMinEventCount = new TextInput({
+            "id": "inputDataHostConfigOutlierOutlierMinEventCount",
+            "tokenDependencies": {"depends": "$show_tk_input_data_host_outlier_min_eventcount$"},
+            "searchWhenChanged": true,
+            "value": "$form.tk_input_data_host_outlier_min_eventcount$",
+            "el": $('#inputDataHostConfigOutlierOutlierMinEventCount')
+        }, {tokens: true}).render();
+
+        inputDataHostConfigOutlierOutlierMinEventCount.on("change", function(newValue) {
+            FormUtils.handleValueChange(inputDataHostConfigOutlierOutlierMinEventCount);
+        });
+
+        var inputDataHostConfigOutlierOutlierThresholdMultiplier = new TextInput({
+            "id": "inputDataHostConfigOutlierOutlierThresholdMultiplier",
+            "default": "4",
+            "searchWhenChanged": true,
+            "initialValue": "4",
+            "value": "$form.tk_input_data_host_outlier_threshold_multiplier$",
+            "el": $('#inputDataHostConfigOutlierOutlierThresholdMultiplier')
+        }, {tokens: true}).render();
+
+        inputDataHostConfigOutlierOutlierThresholdMultiplier.on("change", function(newValue) {
+            FormUtils.handleValueChange(inputDataHostConfigOutlierOutlierThresholdMultiplier);
         });
 
         DashboardController.onReady(function() {
@@ -10525,6 +10697,10 @@ require([
                 setToken("tk_isoutlier", TokenUtils.replaceTokenNames("$row.isOutlier$", _.extend(submittedTokenModel.toJSON(), e.data)));
                 setToken("tk_enable_behaviour_analytic", TokenUtils.replaceTokenNames("$row.enable_behaviour_analytic$", _.extend(submittedTokenModel.toJSON(), e.data)));
 
+                // pre-fill current values for outlier modification window
+                setToken("form.tk_input_data_source_enable_outlier", TokenUtils.replaceTokenNames("$row.enable_behaviour_analytic$", _.extend(submittedTokenModel.toJSON(), e.data)));
+                setToken("form.tk_input_data_source_outlier_threshold_multiplier", TokenUtils.replaceTokenNames("$row.OutlierThresholdMultiplier$", _.extend(submittedTokenModel.toJSON(), e.data)));
+
                 // status message
                 setToken("tk_status_message", TokenUtils.replaceTokenNames("$row.status_message$", _.extend(submittedTokenModel.toJSON(), e.data)));
 
@@ -10949,6 +11125,10 @@ require([
                 setToken("tk_outlierthresholdmultiplier", TokenUtils.replaceTokenNames("$row.OutlierThresholdMultiplier$", _.extend(submittedTokenModel.toJSON(), e.data)));
                 setToken("tk_isoutlier", TokenUtils.replaceTokenNames("$row.isOutlier$", _.extend(submittedTokenModel.toJSON(), e.data)));
                 setToken("tk_enable_behaviour_analytic", TokenUtils.replaceTokenNames("$row.enable_behaviour_analytic$", _.extend(submittedTokenModel.toJSON(), e.data)));
+
+                // pre-fill current values for outlier modification window
+                setToken("form.tk_input_data_host_enable_outlier", TokenUtils.replaceTokenNames("$row.enable_behaviour_analytic$", _.extend(submittedTokenModel.toJSON(), e.data)));
+                setToken("form.tk_input_data_host_outlier_threshold_multiplier", TokenUtils.replaceTokenNames("$row.OutlierThresholdMultiplier$", _.extend(submittedTokenModel.toJSON(), e.data)));
 
                 // status message
                 setToken("tk_status_message", TokenUtils.replaceTokenNames("$row.status_message$", _.extend(submittedTokenModel.toJSON(), e.data)));
@@ -12085,6 +12265,20 @@ require([
             "el": $('#elementOutlierTableDataHost')
         }, {tokens: true, tokenNamespace: "submitted"}).render();
 
+        var elementOutlierSimulationDataHost = new VisualizationElement({
+            "id": "elementOutlierSimulationDataHost",
+            "type": "Splunk_ML_Toolkit.OutliersViz",
+            "resizable": true,
+            "Splunk_ML_Toolkit.OutliersViz.showOutlierCount": "true",
+            "drilldown": "none",
+            "trellis.enabled": "0",
+            "trellis.scales.shared": "1",
+            "trellis.size": "medium",
+            "height": "350",
+            "managerid": "searchOutlierDetectionChartSimulationDataHost",
+            "el": $('#elementOutlierSimulationDataHost')
+        }, {tokens: true, tokenNamespace: "submitted"}).render();
+
         // modal window chart
         var elementChartLagHostOverTime = new ChartElement({
             "id": "elementChartLagHostOverTime",
@@ -12887,7 +13081,7 @@ require([
             if (e.value === "search_based") {
                 EventHandler.setToken("metric_host_mainsearch", "| savedsearch \"trackMe - metric host table report\"\n| rename key as keyid\n| `trackme_eval_icons_metric_host`\n| eval metric_index_raw=metric_index, metric_category_raw=metric_category, metric_details_raw=metric_details | lookup local=t trackme_metric_host_monitoring metric_host OUTPUT metric_host_state as metric_previous_host_state, metric_tracker_runtime as metric_previous_tracker_runtime, latest_flip_state, latest_flip_time | where isnotnull(metric_previous_tracker_runtime) | `trackme_date_format(\"latest_flip_time\")` | fillnull value=\"N/A\" latest_flip_state, latest_flip_time, \"latest_flip_time (translated)\"", {}, e.data);
             } else if (e.value === "collection_based") {
-                EventHandler.setToken("metric_host_mainsearch", "| savedsearch \"TrackMe - metric hosts collection based table report\"\n| rename key as keyid\n| `trackme_date_format(\"metric_last_time_seen\")`\n| rename \"metric_last_time_seen (translated)\" as \"last time\"\n| `trackme_eval_metric_host_state`\n| `trackme_metric_host_group_lookup`\n|`trackme_eval_icons_metric_host`\n|`trackme_date_format(\"latest_flip_time\")`\n| fillnull value=\"N/A\" latest_flip_state, latest_flip_time, \"latest_flip_time (translated)\"", {}, e.data);
+                EventHandler.setToken("metric_host_mainsearch", "| savedsearch \"TrackMe - metric hosts collection based table report\"\n| `trackme_date_format(\"metric_last_time_seen\")`\n| rename \"metric_last_time_seen (translated)\" as \"last time\"\n| `trackme_eval_metric_host_state`\n| `trackme_metric_host_group_lookup`\n|`trackme_eval_icons_metric_host`\n|`trackme_date_format(\"latest_flip_time\")`\n| fillnull value=\"N/A\" latest_flip_state, latest_flip_time, \"latest_flip_time (translated)\"", {}, e.data);
             }
         });
 
@@ -24419,6 +24613,181 @@ require([
 
         });
 
+        // Outliers simulation
+
+        // data source run simulation
+        $("#btn_outlier_config_data_host_simulate").click(function() {
+
+                // create token that will free the search for table populate
+                submitTokens();
+
+                // When the Submit button is clicked, get all the form fields by accessing token values
+                var tokens = mvc.Components.get("default");
+
+                // get the object name
+                var tk_data_host = tokens.get("tk_data_host");
+
+                // set the token the search depends on
+                setToken("start_outliers_simulation_data_host", "true");
+
+                // explicitly start the search
+                searchOutlierDetectionChartSimulationDataHost.startSearch();
+
+                // notify
+                notification('Outliers simulation started for data host ' + tk_data_host + '.', 6000)
+
+        });
+
+        $("#btn_outlier_config_data_host_save").click(function(mode) {
+
+            submitTokens();
+
+            // When the Submit button is clicked, get all the form fields by accessing token values
+            var tokens = mvc.Components.get("default");
+
+            var tk_keyid = tokens.get("tk_keyid");
+            var tk_data_host = tokens.get("tk_data_host");
+            var tk_data_index = tokens.get("tk_data_index");
+            var tk_data_sourcetype = tokens.get("tk_data_sourcetype");
+            var tk_data_last_lag_seen = tokens.get("tk_data_last_lag_seen");
+            var tk_data_last_ingestion_lag_seen = tokens.get("tk_data_last_ingestion_lag_seen");
+            var tk_data_eventcount = tokens.get("tk_data_eventcount");
+            var tk_data_first_time_seen = tokens.get("tk_data_first_time_seen");
+            var tk_data_last_time_seen = tokens.get("tk_data_last_time_seen");
+            var tk_data_last_ingest = tokens.get("tk_data_last_ingest");
+            var tk_data_max_lag_allowed = tokens.get("tk_data_max_lag_allowed");
+            var tk_data_monitoring_wdays = tokens.get("tk_data_monitoring_wdays");
+            var tk_data_monitored_state = tokens.get("tk_data_monitored_state");
+            var tk_data_override_lagging_class = tokens.get("tk_data_override_lagging_class");
+            var tk_data_host_state = tokens.get("tk_data_host_state");
+            var tk_data_tracker_runtime = tokens.get("tk_data_tracker_runtime");
+            var tk_data_previous_host_state = tokens.get("tk_data_previous_host_state");
+            var tk_data_previous_tracker_runtime = tokens.get("tk_data_previous_tracker_runtime");
+            var tk_outliermineventcount = tokens.get("tk_outliermineventcount");
+            var tk_outlierthresholdmultiplier = tokens.get("tk_outlierthresholdmultiplier");
+            var tk_isoutlier = tokens.get("tk_isoutlier");
+            var tk_enable_behaviour_analytic = tokens.get("tk_enable_behaviour_analytic");
+            var tk_latest_flip_state = tokens.get("tk_latest_flip_state");
+            var tk_latest_flip_time = tokens.get("tk_latest_flip_time");
+            var tk_priority = tokens.get("tk_priority");
+
+            // get inputs tokens
+
+            var tk_input_data_host_enable_outlier = tokens.get("tk_input_data_host_enable_outlier");
+            var tk_input_data_host_outlier_min_eventcount_mode = tokens.get("tk_input_data_host_outlier_min_eventcount_mode");
+            var tk_input_data_host_outlier_min_eventcount = tokens.get("tk_input_data_host_outlier_min_eventcount");
+            var tk_input_data_host_outlier_threshold_multiplier = tokens.get("tk_input_data_host_outlier_threshold_multiplier");
+
+            // Conditionally define record values for Outliers
+            if (tk_enable_behaviour_analytic != tk_input_data_host_enable_outlier) {
+                tk_enable_behaviour_analytic = tk_input_data_host_enable_outlier;
+            }
+
+            if (tk_outlierthresholdmultiplier != tk_input_data_host_outlier_threshold_multiplier && isNumeric(tk_input_data_host_outlier_threshold_multiplier)) {
+                tk_outlierthresholdmultiplier = tk_input_data_host_outlier_threshold_multiplier;
+            }
+
+            if (tk_input_data_host_outlier_min_eventcount_mode === "static" && isNumeric(tk_input_data_host_outlier_min_eventcount)) {
+                tk_outliermineventcount = tk_input_data_host_outlier_min_eventcount;
+            } else {
+                tk_outliermineventcount = "NA";
+                tk_input_data_host_outlier_min_eventcount_mode = "dynamic";
+            }
+
+            // Create the endpoint URL
+            var myendpoint_URl = "/en-US/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_host_monitoring/" + tk_keyid;
+
+            // Create a dictionary to store the field names and values
+            var record = {
+                "object_category": "data_host",
+                "data_host": tk_data_host,
+                "data_index": tk_data_index,
+                "data_sourcetype": tk_data_sourcetype,
+                "data_last_lag_seen": tk_data_last_lag_seen,
+                "data_last_ingestion_lag_seen": tk_data_last_ingestion_lag_seen,
+                "data_eventcount": tk_data_eventcount,
+                "data_first_time_seen": tk_data_first_time_seen,
+                "data_last_time_seen": tk_data_last_time_seen,
+                "data_last_ingest": tk_data_last_ingest,
+                "data_max_lag_allowed": tk_data_max_lag_allowed,
+                "data_monitored_state": tk_data_monitored_state,
+                "data_monitoring_wdays": tk_data_monitoring_wdays,
+                "data_override_lagging_class": tk_data_override_lagging_class,
+                "data_host_state": tk_data_host_state,
+                "data_tracker_runtime": tk_data_tracker_runtime,
+                "data_previous_host_state": tk_data_previous_host_state,
+                "data_previous_tracker_runtime": tk_data_previous_tracker_runtime,
+                "OutlierMinEventCount": tk_outliermineventcount,
+                "OutlierThresholdMultiplier": tk_outlierthresholdmultiplier,
+                "isOutlier": tk_isoutlier,
+                "enable_behaviour_analytic" : tk_enable_behaviour_analytic,
+                "latest_flip_state": tk_latest_flip_state,
+                "latest_flip_time": tk_latest_flip_time,
+                "priority": tk_priority
+            };
+
+            if (!tk_keyid || !tk_keyid.length) {
+                // Show an error message
+                $("#modal_entry_update_invalid").modal()
+                return;
+            } else {
+
+                $.ajax({
+                    url: myendpoint_URl,
+                    type: "POST",
+                    async: true,
+                    contentType: "application/json",
+                    data: JSON.stringify(record),
+                    success: function(returneddata) {
+                        //console.log("Updated!", returneddata)
+
+                        // notify
+                        notification('Outliers configuration for data host ' + tk_data_host + ' has been successfully updated, behaviour analytic is set to ' + tk_enable_behaviour_analytic + ', Outliers detection mode is ' + tk_input_data_host_outlier_min_eventcount_mode + ', manually run execute the trackers or wait for their next execution for a full refresh of statuses.', 6000)
+
+                        // Update the Summary investigator lookup for this entry only
+                        setToken("run_data_host_outlier_update", "true");
+                        searchOutlierDetectionTableUpdateDataHost.startSearch();
+                        unsetToken("run_data_host_outlier_update");
+
+                        // Run the search again to update the table
+                        searchDataHostsMain.startSearch();
+
+                        // Refresh vignettes
+                        updateDataHost(tk_keyid);
+
+                        // Audit
+                        action = "success";
+                        change_type = "modify outliers";
+                        object = tk_data_host;
+                        object_category = "data_host";
+                        object_attrs = JSON.stringify(record, null, '\t');
+                        result = "N/A";
+                        comment = "N/A";
+                        auditRecord(action, change_type, object, object_category, object_attrs, result, comment);
+
+                    },
+                    error: function(xhr, textStatus, error) {
+                        message = "Error Updating!" + xhr + textStatus + error;
+
+                        // Audit
+                        action = "failure";
+                        change_type = "modify outliers";
+                        object = tk_data_host;
+                        object_category = "data_host";
+                        object_attrs = JSON.stringify(record, null, '\t');
+                        result = message;
+                        comment = "N/A";
+                        auditRecord(action, change_type, object, object_category, object_attrs, result, comment);
+
+                        $("#modal_update_collection_failure_return").find('.modal-error-message p').text(message);
+                        $("#modal_update_collection_failure_return").modal()
+                    }
+                });
+
+            }
+
+        });
+
         // END
 
         DashboardController.onReady(function() {
@@ -24566,6 +24935,12 @@ function notification(s, time) {
   });
 
   $("<p>" + s + "</p>").appendTo('#boxnotify-data-source-outliers-update').fadeTo(time, 1, function() {
+    $(this).fadeTo(1000, 0, function() {
+      $(this).remove()
+    });
+  });
+
+  $("<p>" + s + "</p>").appendTo('#boxnotify-data-host-outliers-update').fadeTo(time, 1, function() {
     $(this).fadeTo(1000, 0, function() {
       $(this).remove()
     });
