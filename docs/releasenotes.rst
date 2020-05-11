@@ -17,6 +17,7 @@ This is a new main release branch, TrackMe 1.2.x require the deployment of the f
 - Feature: Improved UI, Donuts charts completing the exposing of statuses, multi tabs in modal windows to navigate through the views, new outliers detection view, new message status view.
 - Fix: collections monitoring are limited to 50K entries #80
 - Fix: Modification of objects via the UI do not preserve some fields during KVstore update #81
+- Change: fix app.py to avoid Readiness App warning, update Splunk Python SDK splunklib to very last version
 
 Version 1.1.16
 ==============
