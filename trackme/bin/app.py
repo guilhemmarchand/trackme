@@ -23,6 +23,7 @@ debug egg which must be copied to your application's bin directory and renamed a
 """
 
 from __future__ import absolute_import, division, print_function, unicode_literals
+import os
 
 settrace = stoptrace = lambda: NotImplemented
 remote_debugging = None
