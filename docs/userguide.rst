@@ -167,6 +167,56 @@ How things work:
 - Different options are provided to control the quality of the outliers calculation, as controlling the threshold multiplier or even switching to a static lower bond definition
 - Builtin views provide the key feature to quickly investigate the source in alert and proceed to further investigations if required
 
+Using Outliers detection
+------------------------
+
+**By default the outlier detection is automatically activated for each data source and host, use the Outliers Overview tab to visualize the status of the Outliers detection:**
+
+.. image:: img/outliers_zoom1.png
+   :alt: outliers_zoom1.png
+   :align: center
+
+**The table exposes the very last result from the analysis:**
+
++--------------------------------------------+--------------------------------------------------------------------------------------------------------+
+| field                                      |                     Purpose                                                                            |
++============================================+========================================================================================================+
+| enable_behaviour_analytic                  | defines if behaviour analytic should be enabled or disabled for that source (default to true)          |
++--------------------------------------------+--------------------------------------------------------------------------------------------------------+
+| data_tracker_runtime                       | last run time of the Summary Investigator tracker which defines the statuses of Outliers detection     |
++--------------------------------------------+--------------------------------------------------------------------------------------------------------+
+| isOutlier                                  | main flag for Outlier detection, 0=no Outliers detected, 1=Outliers detected                           |
++--------------------------------------------+--------------------------------------------------------------------------------------------------------+
+| OutlierMinEventCount                       | static lower bound value used with static mode, in dynamic mode this is not set                        |
++--------------------------------------------+--------------------------------------------------------------------------------------------------------+
+| OutlierThresholdMultiplier                 | default to 4, modifying the value influences the lower and upper bound calculations based on the data  |
++--------------------------------------------+--------------------------------------------------------------------------------------------------------+
+| lowerBound/upperBound                      | exposes latest values for the lower and upper bound                                                    |
++--------------------------------------------+--------------------------------------------------------------------------------------------------------+
+| stddev                                     | exposes the latest value for the standard deviation calculated for that source                         |
++--------------------------------------------+--------------------------------------------------------------------------------------------------------+
+
+Simulating and adjusting Outliers detection
+-------------------------------------------
+
+**Use the Outliers detection configuration tab to run simulations and proceed to configuration adjustments:**
+
+.. image:: img/outliers_config1.png
+   :alt: outliers_config1.png
+   :align: center
+
+**For example you can increase the value of the threshold multiplier to improve the outliers detection in regard with your knowledge of this data, or how its distribution behaves over time:**
+
+.. image:: img/outliers_config2.png
+   :alt: outliers_config2.png
+   :align: center
+
+**As well, in some cases you may wish to use a static lower bound value, if you use the static mode, then the outlier detection for the lower band is not used anymore and replaced by this static value as the minimal amount of events:**
+
+.. image:: img/outliers_config3.png
+   :alt: outliers_config3.png
+   :align: center
+
 Interactive drilldown and administration of objects
 ===================================================
 
