@@ -622,6 +622,19 @@ styles in <div> tags, similar to Bootstrap's grid system.
     <div id="ManageRowMacro4a" class="dashboard-row dashboard-rowDataSourcesTable" >
         <div id="panelManage4a" class="dashboard-cell" style="width: 100%;">
             <div class="dashboard-panel clearfix">
+                <h2 style="padding: 12px 55px 7px 12px;">trackme_system_enable_behaviour_analytic_mode: enables at the system level the behaviour analytic features</h2><h2 class="panel-title">Defining the macro to anything else than enabled will permanently disable all behaviour analytic features from being taken in consideration: (click on the table bellow to edit the macro definition)</h2>
+                <div class="panel-element-row">
+                    <div id="elementTable_trackme_system_enable_behaviour_analytic_mode" class="dashboard-element table" style="width: 100%">
+                        <div class="panel-body"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="ManageRowMacro4b" class="dashboard-row dashboard-rowDataSourcesTable" >
+        <div id="panelManage4b" class="dashboard-cell" style="width: 100%;">
+            <div class="dashboard-panel clearfix">
                 <h2 style="padding: 12px 55px 7px 12px;">trackme_default_enable_behaviour_analytic: default enabled status for behaviour analytic features (true is enabled, false is disabled)</h2><h2 class="panel-title">When an entity is added to the collection, a default status is defined for behaviour analytic features, default to enabled: (click on the table bellow to edit the macro definition)</h2>
                 <div class="panel-element-row">
                     <div id="elementTable_trackme_default_enable_behaviour_analytic" class="dashboard-element table" style="width: 100%">
@@ -632,8 +645,8 @@ styles in <div> tags, similar to Bootstrap's grid system.
         </div>
     </div>
 
-    <div id="ManageRowMacro4b" class="dashboard-row dashboard-rowDataSourcesTable" >
-        <div id="panelManage4b" class="dashboard-cell" style="width: 100%;">
+    <div id="ManageRowMacro4c" class="dashboard-row dashboard-rowDataSourcesTable" >
+        <div id="panelManage4c" class="dashboard-cell" style="width: 100%;">
             <div class="dashboard-panel clearfix">
                 <h2 style="padding: 12px 55px 7px 12px;">trackme_default_outlier_threshold_multiplier: default value for outlier threshold multiplier</h2><h2 class="panel-title">Event count outliers detection for behaviour analytics uses the default threshold multiplier for outliers calculations: (click on the table bellow to edit the macro definition)</h2>
                 <div class="panel-element-row">
@@ -1071,6 +1084,16 @@ require([
             tokenNamespace: "submitted"
         });
 
+        var searchGetMacro_trackme_system_enable_behaviour_analytic_mode = new PostProcessManager({
+            "tokenDependencies": {},
+            "search": "where title=\"trackme_system_enable_behaviour_analytic_mode\" | table definition",
+            "managerid": "searchGetMacrosDefinitions",
+            "id": "searchGetMacro_trackme_system_enable_behaviour_analytic_mode"
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        });
+
         var searchGetMacro_trackme_default_enable_behaviour_analytic = new PostProcessManager({
             "tokenDependencies": {},
             "search": "where title=\"trackme_default_enable_behaviour_analytic\" | table definition",
@@ -1372,6 +1395,27 @@ require([
             if (e.field !== undefined) {
                 e.preventDefault();
                 var url = TokenUtils.replaceTokenNames("/en-GB/manager/trackme/admin/macros/trackme_default_outlier_threshold_multiplier?action=edit", _.extend(submittedTokenModel.toJSON(), e.data), TokenUtils.getEscaper('url'), TokenUtils.getFilters(mvc.Components));
+                utils.redirect(url, false, "_blank");
+            }
+        });
+
+        var elementTable_trackme_system_enable_behaviour_analytic_mode = new TableElement({
+            "id": "elementTable_trackme_system_enable_behaviour_analytic_mode",
+            "count": 100,
+            "drilldown": "row",
+            "refresh.display": "none",
+            "wrap": "false",
+            "managerid": "searchGetMacro_trackme_system_enable_behaviour_analytic_mode",
+            "el": $('#elementTable_trackme_system_enable_behaviour_analytic_mode')
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        }).render();
+
+        elementTable_trackme_system_enable_behaviour_analytic_mode.on("click", function(e) {
+            if (e.field !== undefined) {
+                e.preventDefault();
+                var url = TokenUtils.replaceTokenNames("/en-GB/manager/trackme/admin/macros/trackme_system_enable_behaviour_analytic_mode?action=edit", _.extend(submittedTokenModel.toJSON(), e.data), TokenUtils.getEscaper('url'), TokenUtils.getFilters(mvc.Components));
                 utils.redirect(url, false, "_blank");
             }
         });

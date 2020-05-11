@@ -14,9 +14,9 @@
 - No matters the purpose of your Splunk deployment, trackMe will easily become an essential and easy piece of your deployment, and even providing efficient answers to PCI and compliance requirements
 - Never let again your team be the last to discover what empty and no results found mean!
 
-![screenshot](./docs/img/screenshot.png)
+![screenshot](./docs/img/screenshot_home.png)
 
-![screenshot1](./docs/img/screenshot1.png)
+![screenshot](./docs/img/screenshot.png)
 
 ![screenshot2](./docs/img/screenshot2.png)
 
