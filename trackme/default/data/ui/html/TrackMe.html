@@ -1402,6 +1402,9 @@ styles in <div> tags, similar to Bootstrap's grid system.
                             <hr width="100%" size="8" align="center">
                         </div>
 
+                        <div class="boxnotify" id="boxnotify-data-source">
+                        </div>
+
                         <div id="rowLinkMain" class="dashboard-row dashboard-row1" style="margin-left: 15px; margin-top: -20px;">
                             <div id="panelLinktMain" class="dashboard-cell" style="width: 100%;">
                                 <div class="dashboard-panel clearfix">
@@ -1622,6 +1625,9 @@ styles in <div> tags, similar to Bootstrap's grid system.
 
                         <div>
                             <hr width="100%" size="8" align="center">
+                        </div>
+
+                        <div class="boxnotify" id="boxnotify-data-host">
                         </div>
 
                         <div id="rowLinkMainHost" class="dashboard-row dashboard-row1" style="margin-left: 15px; margin-top: -20px;">
@@ -1866,6 +1872,9 @@ styles in <div> tags, similar to Bootstrap's grid system.
 
                         <div>
                             <hr width="100%" size="8" align="center">
+                        </div>
+
+                        <div class="boxnotify" id="boxnotify-metric-host">
                         </div>
 
                         <div id="rowLinkMainMetricHost" class="dashboard-row dashboard-row1" style="margin-left: 15px; margin-top: -20px;">
@@ -6628,28 +6637,6 @@ require([
             tokenNamespace: "submitted"
         });
 
-        var searchOutlierDetectionTableUpdate = new SearchManager({
-            "id": "searchOutlierDetectionTableUpdate",
-            "sample_ratio": 1,
-            "search": "`trackme_outlier_table(trackme_datasource_tracker_shorterm, data_source, \"$tk_data_name$\", data_name)` | eval key = md5(object_category . \":\" . object) | `trackme_outputlookup(trackme_summary_investigator, key)`",
-            "status_buckets": 0,
-            "earliest_time": "-24h",
-            "cancelOnUnload": true,
-            "latest_time": "now",
-            "app": utils.getCurrentApp(),
-            "auto_cancel": 90,
-            "preview": true,
-            "tokenDependencies": {
-                "depends": "$show_data_source_tracker$",
-                "depends": "$show_data_source_outlier_configuration$",
-                "depends": "$run_data_source_outlier_update$"
-            },
-            "runWhenTimeIsUndefined": false
-        }, {
-            tokens: true,
-            tokenNamespace: "submitted"
-        });
-
         var searchSingleLag = new SearchManager({
             "id": "searchSingleLag",
             "sample_ratio": 1,
@@ -6769,28 +6756,6 @@ require([
             "tokenDependencies": {
                 "depends": "$show_data_host_tracker$",
                 "depends": "$show_data_host_outlier$"
-            },
-            "runWhenTimeIsUndefined": false
-        }, {
-            tokens: true,
-            tokenNamespace: "submitted"
-        });
-
-        var searchOutlierDetectionTableUpdateDataHost = new SearchManager({
-            "id": "searchOutlierDetectionTableUpdateDataHost",
-            "sample_ratio": 1,
-            "search": "`trackme_outlier_table(trackme_datahost_tracker_shorterm, data_host, \"$tk_data_host$\", data_host)` | eval key = md5(object_category . \":\" . object) | `trackme_outputlookup(trackme_summary_investigator, key)`",
-            "status_buckets": 0,
-            "earliest_time": "-24h",
-            "cancelOnUnload": true,
-            "latest_time": "now",
-            "app": utils.getCurrentApp(),
-            "auto_cancel": 90,
-            "preview": true,
-            "tokenDependencies": {
-                "depends": "$show_data_host_tracker$",
-                "depends": "$show_data_host_outlier_configuration$",
-                "depends": "$run_data_host_outlier_update$"
             },
             "runWhenTimeIsUndefined": false
         }, {
@@ -14438,6 +14403,13 @@ require([
                                 tk_latest_flip_state = value
                             }
 
+                            // update status_message
+                            if (field == "status_message") {
+                                //console.log("  " + field + ": " + value);
+                                setToken("tk_status_message", value);
+                                tk_status_message = value
+                            }
+
                         }
                       }
                     });
@@ -14587,6 +14559,13 @@ require([
                                 tk_latest_flip_state = value
                             }
 
+                            // update status_message
+                            if (field == "status_message") {
+                                //console.log("  " + field + ": " + value);
+                                setToken("tk_status_message", value);
+                                tk_status_message = value
+                            }
+
                         }
                       }
                     });
@@ -14707,6 +14686,117 @@ require([
                                 setToken("tk_latest_flip_state", value);
                                 tk_latest_flip_state = value
                             }
+
+                            // update status_message
+                            if (field == "status_message") {
+                                //console.log("  " + field + ": " + value);
+                                setToken("tk_status_message", value);
+                                tk_status_message = value
+                            }
+
+                        }
+                      }
+                    });
+
+                  },
+                  failed: function(job) {
+                  },
+                  error: function(err) {
+                    done(err);
+                  }
+                });
+
+              }
+            );
+
+        }
+
+        function updateSummaryInvestigatorDataSource(tk_summary_report, tk_data_name) {
+
+            //console.log("Starting function");
+
+            // Perform a target search to update key values
+            var searchQuery = "| savedsearch \"TrackMe - Summary investigator update for data_source per entity\" source=" + tk_summary_report + " data_name=" + tk_data_name;
+            //console.log(searchQuery);
+
+            // Set the search parameters
+            var searchParams = {
+              exec_mode: "normal",
+              earliest_time: "-24h"
+            };
+
+            service.search(
+              searchQuery,
+              searchParams,
+              function(err, job) {
+
+                // Poll the status of the search job
+                job.track({period: 200}, {
+                  done: function(job) {
+
+                    // Get the results and print them
+                    job.results({}, function(err, results, job) {
+                      var fields = results.fields;
+                      var rows = results.rows;
+                      for(var i = 0; i < rows.length; i++) {
+                        var values = rows[i];
+                        //console.log("Row " + i + ": ");
+                        for(var j = 0; j < values.length; j++) {
+                          var field = fields[j];
+                          var value = values[j];
+                          //console.log("  " + field + ": " + value);
+
+                        }
+                      }
+                    });
+
+                  },
+                  failed: function(job) {
+                  },
+                  error: function(err) {
+                    done(err);
+                  }
+                });
+
+              }
+            );
+
+        }
+
+        function updateSummaryInvestigatorDataHost(tk_summary_report, tk_data_host) {
+
+            //console.log("Starting function");
+
+            // Perform a target search to update key values
+            var searchQuery = "| savedsearch \"TrackMe - Summary investigator update for data_host per entity\" source=" + tk_summary_report + " data_host=" + tk_data_host;
+            //console.log(searchQuery);
+
+            // Set the search parameters
+            var searchParams = {
+              exec_mode: "normal",
+              earliest_time: "-24h"
+            };
+
+            service.search(
+              searchQuery,
+              searchParams,
+              function(err, job) {
+
+                // Poll the status of the search job
+                job.track({period: 200}, {
+                  done: function(job) {
+
+                    // Get the results and print them
+                    job.results({}, function(err, results, job) {
+                      var fields = results.fields;
+                      var rows = results.rows;
+                      for(var i = 0; i < rows.length; i++) {
+                        var values = rows[i];
+                        //console.log("Row " + i + ": ");
+                        for(var j = 0; j < values.length; j++) {
+                          var field = fields[j];
+                          var value = values[j];
+                          //console.log("  " + field + ": " + value);
 
                         }
                       }
@@ -15033,29 +15123,43 @@ require([
 
         // refresh data_source
         $("#btn_refresh_data_source").click(function(mode) {
+            // notify
+            notification('Refresh of all information and statuses for that entity are being processed.', 6000)
             searchSingleLag.startSearch();
             searchChartLag.startSearch();
             searchSingleSLApct.startSearch();
             searchOutlierDetectionChart.startSearch();
-            var tk_keyid = tokens.get("tk_keyid");
+            searchOutlierDetectionTable.startSearch();
+            // call update summary investigator for that entity only
+            var tk_data_name = tokens.get("tk_data_name");
+            updateSummaryInvestigatorDataSource("trackme_datasource_tracker_shorterm", tk_data_name);
             // call update data source
+            var tk_keyid = tokens.get("tk_keyid");
             updateDataSource(tk_keyid);
         });
 
         // refresh data_host
         $("#btn_refresh_data_host").click(function(mode) {
+            // notify
+            notification('Refresh of all information and statuses for that entity are being processed.', 6000)
             searchSingleLagHost.startSearch();
             searchChartHostBaseSearch.startSearch();
             searchChartLagHostOverTime.startSearch();
             searchSingleSLAHostpct.startSearch();
             searchOutlierDetectionChartDataHost.startSearch();
-            var tk_keyid = tokens.get("tk_keyid");
+            searchOutlierDetectionTableDataHost.startSearch();
+            // call update summary investigator for that entity only
+            var tk_data_host = tokens.get("tk_data_host");
+            updateSummaryInvestigatorDataHost("trackme_datahost_tracker_shorterm", tk_data_host);
             // call update data host
+            var tk_keyid = tokens.get("tk_keyid");
             updateDataHost(tk_keyid);
         });
 
         // refresh metric_host
         $("#btn_refresh_metric_host").click(function(mode) {
+            // notify
+            notification('Refresh of all information and statuses for that entity are being processed.', 6000)
             searchHostTableMetricHost.startSearch();
             searchSingleSLAMetricHostpct.startSearch();
             var tk_keyid = tokens.get("tk_keyid");
@@ -24741,12 +24845,10 @@ require([
                         //console.log("Updated!", returneddata)
 
                         // notify
-                        notification('Outliers configuration for data source ' + tk_data_name + ' has been successfully updated, behaviour analytic is set to ' + tk_enable_behaviour_analytic + ', Outliers detection mode is ' + tk_input_data_source_outlier_min_eventcount_mode + ', manually run execute the trackers or wait for their next execution for a full refresh of statuses.', 6000)
+                        notification('Outliers configuration for data source ' + tk_data_name + ' has been successfully updated, behaviour analytic is set to ' + tk_enable_behaviour_analytic + ', Outliers detection mode is ' + tk_input_data_source_outlier_min_eventcount_mode + ', manually run the trackers or wait for their next execution for a full refresh of statuses.', 6000)
 
                         // Update the Summary investigator lookup for this entry only
-                        setToken("run_data_source_outlier_update", "true");
-                        searchOutlierDetectionTableUpdate.startSearch();
-                        unsetToken("run_data_source_outlier_update");
+                        updateSummaryInvestigatorDataSource("trackme_datasource_tracker_shorterm", tk_data_name);
 
                         // Run the search again to update the table
                         searchDataSourcesMain.startSearch();
@@ -24930,12 +25032,10 @@ require([
                         //console.log("Updated!", returneddata)
 
                         // notify
-                        notification('Outliers configuration for data host ' + tk_data_host + ' has been successfully updated, behaviour analytic is set to ' + tk_enable_behaviour_analytic + ', Outliers detection mode is ' + tk_input_data_host_outlier_min_eventcount_mode + ', manually run execute the trackers or wait for their next execution for a full refresh of statuses.', 6000)
+                        notification('Outliers configuration for data host ' + tk_data_host + ' has been successfully updated, behaviour analytic is set to ' + tk_enable_behaviour_analytic + ', Outliers detection mode is ' + tk_input_data_host_outlier_min_eventcount_mode + ', manually run the trackers or wait for their next execution for a full refresh of statuses.', 6000)
 
                         // Update the Summary investigator lookup for this entry only
-                        setToken("run_data_host_outlier_update", "true");
-                        searchOutlierDetectionTableUpdateDataHost.startSearch();
-                        unsetToken("run_data_host_outlier_update");
+                        updateSummaryInvestigatorDataHost("trackme_datahost_tracker_shorterm", tk_data_host);
 
                         // Run the search again to update the table
                         searchDataHostsMain.startSearch();
@@ -25025,6 +25125,24 @@ $('.modal').on('show.bs.modal', function () {
 </script>
 <script>
 function notification(s, time) {
+
+  $("<p>" + s + "</p>").appendTo('#boxnotify-data-source').fadeTo(time, 1, function() {
+    $(this).fadeTo(1000, 0, function() {
+      $(this).remove()
+    });
+  });
+
+  $("<p>" + s + "</p>").appendTo('#boxnotify-data-host').fadeTo(time, 1, function() {
+    $(this).fadeTo(1000, 0, function() {
+      $(this).remove()
+    });
+  });
+
+  $("<p>" + s + "</p>").appendTo('#boxnotify-metric-host').fadeTo(time, 1, function() {
+    $(this).fadeTo(1000, 0, function() {
+      $(this).remove()
+    });
+  });
 
   $("<p>" + s + "</p>").appendTo('#boxnotify-unified-data-source').fadeTo(time, 1, function() {
     $(this).fadeTo(1000, 0, function() {
