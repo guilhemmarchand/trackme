@@ -374,7 +374,7 @@ styles in <div> tags, similar to Bootstrap's grid system.
                         <div class="panel-body html">
                             <div style="text-align: center; border: 3px dashed #ccc;">
                                 <div style="display: inline-flex; align-items: center; margin-top: 5px;">
-                                    <span style="font-size: 22px; font-weight: bold; color: #999999; margin-top: 5px;">RESET COLLECTIONS</span>
+                                    <span style="font-size: 22px; font-weight: bold; color: #6495ed; margin-top: 5px;">RESET COLLECTIONS</span>
                                 </div>
                             </div>
                         </div>
@@ -450,7 +450,7 @@ styles in <div> tags, similar to Bootstrap's grid system.
                         <div class="panel-body html">
                             <div style="text-align: center; border: 3px dashed #ccc;">
                                 <div style="display: inline-flex; align-items: center; margin-top: 5px;">
-                                    <span style="font-size: 22px; font-weight: bold; color: #999999; margin-top: 5px;">TAGS ENRICHMENT MACRO DEFINITIONS</span>
+                                    <span style="font-size: 22px; font-weight: bold; color: #6495ed; margin-top: 5px;">TAGS ENRICHMENT MACRO DEFINITIONS</span>
                                 </div>
                             </div>
                         </div>
@@ -539,7 +539,7 @@ styles in <div> tags, similar to Bootstrap's grid system.
                         <div class="panel-body html">
                             <div style="text-align: center; border: 3px dashed #ccc;">
                                 <div style="display: inline-flex; align-items: center; margin-top: 5px;">
-                                    <span style="font-size: 22px; font-weight: bold; color: #999999; margin-top: 5px;">MAIN MACROS DEFINITIONS</span>
+                                    <span style="font-size: 22px; font-weight: bold; color: #6495ed; margin-top: 5px;">MAIN MACROS DEFINITIONS</span>
                                 </div>
                             </div>
                         </div>
@@ -609,7 +609,7 @@ styles in <div> tags, similar to Bootstrap's grid system.
                         <div class="panel-body html">
                             <div style="text-align: center; border: 3px dashed #ccc;">
                                 <div style="display: inline-flex; align-items: center; margin-top: 5px;">
-                                    <span style="font-size: 22px; font-weight: bold; color: #999999; margin-top: 5px;">BEHAVIOUR ANALYTIC MACROS DEFINITIONS</span>
+                                    <span style="font-size: 22px; font-weight: bold; color: #6495ed; margin-top: 5px;">BEHAVIOUR ANALYTIC MACROS DEFINITIONS</span>
                                 </div>
                             </div>
                         </div>
@@ -658,6 +658,32 @@ styles in <div> tags, similar to Bootstrap's grid system.
         </div>
     </div>
 
+    <div id="ManageRowMacro4d" class="dashboard-row dashboard-rowDataSourcesTable" >
+        <div id="panelManage4d" class="dashboard-cell" style="width: 100%;">
+            <div class="dashboard-panel clearfix">
+                <h2 style="padding: 12px 55px 7px 12px;">trackme_default_outlier_alert_on_upper: default behaviour for alerting on outliers increase (true is enabled, false is disabled)</h2><h2 class="panel-title">Enable or disable impacting the entity status on upper outliers detection: (click on the table bellow to edit the macro definition)</h2>
+                <div class="panel-element-row">
+                    <div id="elementTable_trackme_default_outlier_alert_on_upper" class="dashboard-element table" style="width: 100%">
+                        <div class="panel-body"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="ManageRowMacro4e" class="dashboard-row dashboard-rowDataSourcesTable" >
+        <div id="panelManage4e" class="dashboard-cell" style="width: 100%;">
+            <div class="dashboard-panel clearfix">
+                <h2 style="padding: 12px 55px 7px 12px;">trackme_default_outlier_period: default period in relative days for outliers detection calculations</h2><h2 class="panel-title">define the period which is by default taken in consideration during outliers calculations: (click on the table bellow to edit the macro definition)</h2>
+                <div class="panel-element-row">
+                    <div id="elementTable_trackme_default_outlier_period" class="dashboard-element table" style="width: 100%">
+                        <div class="panel-body"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <div id="rowManageMacrosInfoVarious" class="dashboard-row dashboard-rowManageResetInfo">
         <div id="panelManageMacrosInfoVarious" class="dashboard-cell" style="width: 100%;">
             <div class="dashboard-panel clearfix">
@@ -666,7 +692,7 @@ styles in <div> tags, similar to Bootstrap's grid system.
                         <div class="panel-body html">
                             <div style="text-align: center; border: 3px dashed #ccc;">
                                 <div style="display: inline-flex; align-items: center; margin-top: 5px;">
-                                    <span style="font-size: 22px; font-weight: bold; color: #999999; margin-top: 5px;">OTHER MACROS DEFINITIONS</span>
+                                    <span style="font-size: 22px; font-weight: bold; color: #6495ed; margin-top: 5px;">OTHER MACROS DEFINITIONS</span>
                                 </div>
                             </div>
                         </div>
@@ -1084,6 +1110,26 @@ require([
             tokenNamespace: "submitted"
         });
 
+        var searchGetMacro_trackme_default_outlier_period = new PostProcessManager({
+            "tokenDependencies": {},
+            "search": "where title=\"trackme_default_outlier_period\" | table definition",
+            "managerid": "searchGetMacrosDefinitions",
+            "id": "searchGetMacro_trackme_default_outlier_period"
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        });
+
+        var searchGetMacro_trackme_default_outlier_alert_on_upper = new PostProcessManager({
+            "tokenDependencies": {},
+            "search": "where title=\"trackme_default_outlier_alert_on_upper\" | table definition",
+            "managerid": "searchGetMacrosDefinitions",
+            "id": "searchGetMacro_trackme_default_outlier_alert_on_upper"
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        });
+
         var searchGetMacro_trackme_system_enable_behaviour_analytic_mode = new PostProcessManager({
             "tokenDependencies": {},
             "search": "where title=\"trackme_system_enable_behaviour_analytic_mode\" | table definition",
@@ -1395,6 +1441,48 @@ require([
             if (e.field !== undefined) {
                 e.preventDefault();
                 var url = TokenUtils.replaceTokenNames("/en-GB/manager/trackme/admin/macros/trackme_default_outlier_threshold_multiplier?action=edit", _.extend(submittedTokenModel.toJSON(), e.data), TokenUtils.getEscaper('url'), TokenUtils.getFilters(mvc.Components));
+                utils.redirect(url, false, "_blank");
+            }
+        });
+
+        var elementTable_trackme_default_outlier_period = new TableElement({
+            "id": "elementTable_trackme_default_outlier_period",
+            "count": 100,
+            "drilldown": "row",
+            "refresh.display": "none",
+            "wrap": "false",
+            "managerid": "searchGetMacro_trackme_default_outlier_period",
+            "el": $('#elementTable_trackme_default_outlier_period')
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        }).render();
+
+        elementTable_trackme_default_outlier_period.on("click", function(e) {
+            if (e.field !== undefined) {
+                e.preventDefault();
+                var url = TokenUtils.replaceTokenNames("/en-GB/manager/trackme/admin/macros/trackme_default_outlier_period?action=edit", _.extend(submittedTokenModel.toJSON(), e.data), TokenUtils.getEscaper('url'), TokenUtils.getFilters(mvc.Components));
+                utils.redirect(url, false, "_blank");
+            }
+        });
+
+        var elementTable_trackme_default_outlier_alert_on_upper = new TableElement({
+            "id": "elementTable_trackme_default_outlier_alert_on_upper",
+            "count": 100,
+            "drilldown": "row",
+            "refresh.display": "none",
+            "wrap": "false",
+            "managerid": "searchGetMacro_trackme_default_outlier_alert_on_upper",
+            "el": $('#elementTable_trackme_default_outlier_alert_on_upper')
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        }).render();
+
+        elementTable_trackme_default_outlier_alert_on_upper.on("click", function(e) {
+            if (e.field !== undefined) {
+                e.preventDefault();
+                var url = TokenUtils.replaceTokenNames("/en-GB/manager/trackme/admin/macros/trackme_default_outlier_alert_on_upper?action=edit", _.extend(submittedTokenModel.toJSON(), e.data), TokenUtils.getEscaper('url'), TokenUtils.getFilters(mvc.Components));
                 utils.redirect(url, false, "_blank");
             }
         });
