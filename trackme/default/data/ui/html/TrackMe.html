@@ -2541,7 +2541,7 @@ styles in <div> tags, similar to Bootstrap's grid system.
                         </tr>
                         <tr>
                             <td class="tg-p1nr"><span style="font-weight:bold">search_constraint</span></td>
-                            <td class="tg-p1nr">The constraint of the search:<br>- <strong>tstats</strong>: this represents the where part of a tstats search, like: <span><code>index=my_index source=my_source</code></span><br>- <strong>raw</strong>: Any filter that is before stats calculation, like: <span><code>index=my_index tag=authentication app=my_application</code></span><br>- <strong>from</strong>: a search using from is in 2 parts with a pipe separation, where the 1st segment is the object and the 2nd a search constraint, like: <span><code>datamodel:Authentication|user=* action="success" app="my_application"</code></span> <br />Filters can include a time range which will override the default 4 hours time range of the wrapper tracker, like: <span><code>earliest="-15m" latest="+15m"</code></span></td>
+                            <td class="tg-p1nr">The constraint of the search:<br>- <strong>tstats</strong>: this represents the where part of a tstats search, like: <span><code>index=my_index source=my_source</code></span><br>- <strong>raw</strong>: Any filter that is before stats calculation, like: <span><code>index=my_index tag=authentication app=my_application</code></span><br>- <strong>from</strong>: a search using from is in 2 parts with a pipe separation, where the 1st segment is the object and the 2nd a search constraint, like: <span><code>datamodel:"Authentication" | user="*" action="success" app="my_application"</code></span> <br />Filters can include a time range which will override the default 4 hours time range of the wrapper tracker, like: <span><code>earliest="-15m" latest="+15m"</code></span></td>
                         </tr>
                         <tr>
                             <td class="tg-p1nr"><span style="font-weight:bold">magic _data_index</span></td>
@@ -2680,6 +2680,7 @@ styles in <div> tags, similar to Bootstrap's grid system.
                 </div>
                 <div class="modal-footer">
                     <button type="submit" class="btn btn-default btn-default pull-left" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Cancel</button>
+                    <button type="submit" id="btn_modal_magic_sources_add_new_back" class="btn btn-default btn-primary pull-right" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Back</button>
                 </div>
             </div>
         </div>
@@ -7414,7 +7415,7 @@ require([
             "cancelOnUnload": true,
             "sample_ratio": null,
             "latest_time": "now",
-            "search": "| savedsearch runSPL [ | makeresults | eval data_name=\"$tk_input_magic_source_data_name$\", search_mode=\"$form.tk_input_magic_source_search_type$\", search_constraint=\"$tk_input_magic_source_search_constraint$\", magic_data_index=\"$tk_input_magic_source_magic_data_index$\", + magic_data_sourcetype=\"$tk_input_magic_source_magic_data_sourcetype$\" | `trackme_magic_sources_simulate`",
+            "search": "| savedsearch runSPL [ | makeresults | eval data_name=\"$tk_input_magic_source_data_name$\", search_mode=\"$form.tk_input_magic_source_search_type$\", search_constraint=\"$tk_input_magic_source_search_constraint$\", magic_data_index=\"$tk_input_magic_source_magic_data_index$\", magic_data_sourcetype=\"$tk_input_magic_source_magic_data_sourcetype$\" | `trackme_magic_sources_simulate`",
             "status_buckets": 0,
             "app": utils.getCurrentApp(),
             "auto_cancel": 90,
@@ -20250,6 +20251,9 @@ require([
         $('#btn_modal_magic_sources_manage').click(function() {
                 // Show input modal
                 $("#modify_magic_sources").modal();
+
+                // Excplicitely refresh the search
+                searchMagicSources.startSearch();
         });
 
         $('#btn_modal_magic_sources_add').click(function() {
@@ -20263,11 +20267,15 @@ require([
                 $("#modify_magic_sources_main").modal();
         });
 
+        $('#btn_modal_magic_sources_add_new_back').click(function() {
+                // Show input modal
+                $("#modify_magic_sources_main").modal();
+        });
+
         // Run simulation
-        $('#btn_modal_magic_source_add_simulate').click(function() {
+        $('#btn_modal_magic_source_add_simulate').unbind('click').click(function() {
 
             //console.log("Button was pressed");
-
             submitTokens();
 
             // When the Submit button is clicked, get all the form fields by accessing token values
@@ -20293,12 +20301,16 @@ require([
                 // Free the beast
                 var start_simulation_magic_sources = "true";
                 setToken("start_simulation_magic_sources", "true");
+                searchMagicSourcesTest.startSearch();
             } else {
                 notification('ERROR: Inputs entered are either incorrect or incomplete, please try again.', 6000)
             }
 
             // add a new magic source
-            $('#btn_modal_magic_source_add_new').click(function() {
+            $('#btn_modal_magic_source_add_new').unbind('click').click(function() {
+
+                var that = $(this);
+                that.off('click'); // remove handler
 
                 if (start_simulation_magic_sources && start_simulation_magic_sources=='true') {
 
@@ -20324,7 +20336,7 @@ require([
                         success: function(returneddata) {
 
                             // Processed modal
-                            //console.log("New magic source added!");
+                            // console.log("New magic source added with data_name: " + tk_input_magic_source_data_name);
                             start_simulation_magic_sources = undefined;
                             delete(start_simulation_magic_sources);
                             $("#add_magic_sources").modal('hide');
