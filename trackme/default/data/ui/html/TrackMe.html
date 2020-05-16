@@ -2488,6 +2488,335 @@ styles in <div> tags, similar to Bootstrap's grid system.
         </div>
     </div>
 
+    <!--
+    Magic sources
+    -->
+
+    <div class="modal fade custom-modal-80" id="modify_magic_sources_main" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h3 style="color: indianred;"><span class="glyphicon glyphicon-lock"></span> Magic sources definition </h3>
+                </div>
+                <div class="modal-body">
+                    <b>Use this interface to create and manage magic sources:</b>
+                    <br /><br />
+
+                    <lu>
+                        <li>magic sources can be searches based on regular raw events searches, tstats searches or searches using the from command</li>
+                        <li>magic sources should be used when the default concepts of trackMe (statement by index/sourcetype) does not comply the monitoring requirements of this data source</li>
+                        <li>these searches need to be performing as much as possible, ideally relying on tstats and the usage of standard Meta data (source, etc), custom indexed fields or raw searches using TERM()</li>
+                        <li>search constraints are free and can contain filters of any kind, including time filters (earliest and latest) and as well complex SPL logic</li>
+                    </lu>
+
+                    <br />
+
+                    <style type="text/css">
+                    .tg  {border-collapse:collapse;border-spacing:0;}
+                    .tg td{border-color:black;border-style:solid;border-width:1px;font-family:Arial, sans-serif;font-size:14px;
+                      overflow:hidden;padding:10px 5px;word-break:normal;}
+                    .tg th{border-color:black;border-style:solid;border-width:1px;font-family:Arial, sans-serif;font-size:14px;
+                      font-weight:normal;overflow:hidden;padding:10px 5px;word-break:normal;}
+                    .tg .tg-p1nr{border-color:inherit;font-size:12px;text-align:left;vertical-align:top}
+                    .tg .tg-f4iu{border-color:inherit;font-size:13px;text-align:center;vertical-align:top}
+                    </style>
+                    <table class="tg">
+                        <thead>
+                        <tr>
+                            <th class="tg-f4iu"><span style="font-weight:bold">FIELD</span></th>
+                            <th class="tg-f4iu"><span style="font-weight:bold">DEFINITION</span></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td class="tg-p1nr"><span style="font-weight:bold">data_name</span></td>
+                            <td class="tg-p1nr">This is the main identifier for a data source, and needs to be unique within the entire collection</td>
+                        </tr>
+                        <tr>
+                            <td class="tg-p1nr"><span style="font-weight:bold">search_mode</span></td>
+                            <td class="tg-p1nr">The type of search, valid options are: <strong>tstats</strong> / <strong>raw</strong> / <strong>from</strong></td>
+                        </tr>
+                        <tr>
+                            <td class="tg-p1nr"><span style="font-weight:bold">search_constraint</span></td>
+                            <td class="tg-p1nr">The constraint of the search:<br>- <strong>tstats</strong>: this represents the where part of a tstats search, like: <span><code>index=my_index source=my_source</code></span><br>- <strong>raw</strong>: Any filter that is before stats calculation, like: <span><code>index=my_index tag=authentication app=my_application</code></span><br>- <strong>from</strong>: a search using from is in 2 parts with a pipe separation, where the 1st segment is the object and the 2nd a search constraint, like: <span><code>datamodel:Authentication|user=* action="success" app="my_application"</code></span> <br />Filters can include a time range which will override the default 4 hours time range of the wrapper tracker, like: <span><code>earliest="-15m" latest="+15m"</code></span></td>
+                        </tr>
+                        <tr>
+                            <td class="tg-p1nr"><span style="font-weight:bold">magic _data_index</span></td>
+                            <td class="tg-p1nr">Optional, this value will be used in the UI but has no impacts on the search, default to the data_name if unset</td>
+                        </tr>
+                        <tr>
+                            <td class="tg-p1nr"><span style="font-weight:bold">magic_data_sourcetype</span></td>
+                            <td class="tg-p1nr"><span style="font-weight:400;font-style:normal">Optional, this value will be used in the UI but has no impacts on the search, default to the data_name if unset</span></td>
+                        </tr>
+                        </tbody>
+                    </table>
+
+                    <div id="rowMagicSourcesMain1a" class="dashboard-row dashboard-row3">
+                        <div id="panelMagicSourcesMain1" class="dashboard-cell" style="width: 100%;">
+
+                            <div class="dashboard-panel clearfix">
+                                <div class="panel-element-row">
+
+                                    <div class="fieldset">
+
+                                        <br /><br />
+
+                                        <div style="margin-bottom: 10px;">
+                                            <button id="btn_modal_magic_sources_manage" type="submit" style="margin-right: 15px;" class="btn btn-default btn-primary" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Manage existing magic sources</button>
+                                            <button id="btn_modal_magic_sources_add" type="submit" class="btn btn-default btn-primary" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Create a new magic sources</button>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div id="rowMagicSourcesMain1b" class="dashboard-cell" style="width: 50%;">
+                            <div class="dashboard-panel clearfix">
+
+                                <div class="panel-element-row">
+
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-default btn-default pull-left" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade custom-modal-80" id="add_magic_sources" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h3 style="color: indianred;"><span class="glyphicon glyphicon-lock"></span> Magic sources definition </h3>
+                </div>
+                <div class="modal-body">
+                    <b>Use this interface to create and manage magic sources:</b>
+                    <br /><br />
+
+                    <div class="boxnotify" id="boxnotify-add_magic_source">
+                    </div>
+
+                    <div id="rowMagicSourcesAdd1a" class="dashboard-row dashboard-row3">
+
+                        <div id="rowMagicSourcesAdd1b" class="dashboard-cell" style="width: 100%;">
+
+                            <div class="dashboard-panel clearfix">
+
+                                <div class="panel-element-row">
+
+                                    <div class="input input-text" id="modal_input_magic_source_data_name" style="margin-bottom: 10px; max-width: 300px;">
+                                        <label>Enter the unique identifier of the magic source:</label>
+                                    </div>
+
+                                    <div class="input input-dropdown" id="modal_input_magic_source_search_type" style="margin-bottom: 10px;">
+                                        <label>Choose the type of search:</label>
+                                    </div>
+
+                                    <form>
+                                        <fieldset>
+                                            <legend>Fill the search constraint according to the type of search:</legend>
+                                            <p>
+                                                <label>Enter the constraint for the search:</label>
+                                                <textarea
+                                                        id = "modal_input_magic_source_search_constraint"
+                                                        rows = "6"
+                                                        cols = "80" style="width: 900px;"
+                                                        onfocus="if(this.value==this.defaultValue)this.value='';" onblur="if(this.value=='')this.value=this.defaultValue;">Splunk search constraint</textarea>
+                                            </p>
+
+                                        </fieldset>
+                                    </form>
+
+                                    <div class="input input-text" id="modal_input_magic_source_magic_data_index" style="margin-bottom: 10px; max-width: 300px;">
+                                        <label>Optional: UI visible index value:</label>
+                                    </div>
+
+                                    <div class="input input-text" id="modal_input_magic_source_magic_data_sourcetype" style="margin-bottom: 10px; max-width: 300px;">
+                                        <label>Optional: UI visible sourcetype value:</label>
+                                    </div>
+
+                                    <div style="margin-top: 15x;">
+                                        <button type="submit" id="btn_modal_magic_source_add_simulate" class="btn btn-default btn-primary"><span class="glyphicon glyphicon-remove"></span> Simulate the search</button>
+                                        <button type="submit" id="btn_modal_magic_source_add_new" class="btn btn-default btn-primary"><span class="glyphicon glyphicon-remove"></span> Add this new magic source</button>
+                                    </div>
+
+                                </div>
+
+                                <br />
+                                <br />
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <div id="rowMagicSourcesAdd1c" class="dashboard-row dashboard-row1" data-depends="$start_simulation_magic_sources$">
+                        <div id="panelMagicSourcesAdd1c" class="dashboard-cell" style="width: 100%;">
+                            <div class="dashboard-panel clearfix">
+                                <div class="panel-element-row">
+                                    <div id="tableMagicSourcesTest" class="dashboard-element table" style="width: 100%; max-height: 70px;">
+                                        <div class="panel-body"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-default btn-default pull-left" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal window confirmation of association for identity card -->
+    <div class="modal fade" id="add_magic_source_processed" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h3 style="color: indianred;"><span class="glyphicon glyphicon-lock"></span> Magic Sources </h3>
+                </div>
+
+                <div class="modal-body">
+
+                    <div>
+
+                        <div style="margin-bottom: 10px;">
+
+                            <div>
+                                <h4>The new magic source was successfully added to the collection, run the tracker data source immediately or wait for its next scheduled execution.</h4>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div style="margin-top: 20px;" class="modal-footer">
+                    <button type="submit" class="btn btn-default btn-primary" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Ok </button>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+    <div class="modal fade custom-modal-80" id="modify_magic_sources" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h3 style="color: indianred;"><span class="glyphicon glyphicon-lock"></span> Magic sources definition </h3>
+                </div>
+                <div class="modal-body">
+                    <b>Use this interface to create and manage magic sources:</b>
+                    <br /><br />
+
+                    <div class="boxnotify" id="boxnotify-modify_magic_sources">
+                    </div>
+
+                    <div id="rowMagicSources1a" class="dashboard-row dashboard-row3">
+
+                        <div id="rowMagicSources1b" class="dashboard-cell" style="width: 50%;">
+                            <div class="dashboard-panel clearfix">
+
+                                <div class="panel-element-row">
+                                    <div id="SingleMagicSources" class="dashboard-element single" style="width: 100%">
+                                        <div class="panel-body"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div id="rowMagicSourcesTable" class="dashboard-row dashboard-row3">
+                        <div id="panelMagicSourcesTable" class="dashboard-cell" style="width: 100%;">
+                            <div class="dashboard-panel clearfix">
+                                <div class="panel-element-row">
+                                    <div class="fieldset">
+                                        <div class="input input-text" id="modal_input_magic_sources_search" style="margin-bottom: 10px;">
+                                            <label>Search for magic source:</label>
+                                        </div>
+                                        <div id="tableMagicSources" class="dashboard-element table" style="width: 100%">
+                                            <label>Click on the table for interactive actions:</label>
+                                            <div class="panel-body"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-default btn-default pull-left" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Cancel</button>
+                    <button type="submit" id="btn_modal_magic_sources_add_back" class="btn btn-default btn-primary pull-right" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Back</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- magic sources deletion -->
+    <div id="delete_magic_source" class="dashboard-element html" style="width: 100%">
+        <div class="panel-body html">
+            <div class="modal fade" id="delete_magic_source_main" role="dialog">
+                <div class="modal-dialog">
+                    <!-- Modal content-->
+                    <div class="modal-content">
+                        <!-- This is required to get the token substitutions without affecting the buttons actions in js -->
+                        <div class="dashboard-element html" id="body_delete_magic_source">
+                            <div class="panel-body html">
+                                <div class="modal-header">
+                                    <h3>Actions for magic source: <span style="color: steelblue">$tk_magic_source_data_name$</span></h3>
+                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                </div>
+                                <div class="modal-body" style="display:grid;">
+                                    <p><b>data_name:</b> $tk_magic_source_data_name$</p>
+                                    <p><b>search_mode:</b> $tk_magic_source_search_mode$</p>
+                                    <p><b>search_constraint:</b> $tk_magic_source_search_constraint$</p>
+                                    <p><b>magic_data_index:</b> $tk_magic_source_magic_data_index$</p>
+                                    <p><b>magic_data_sourcetype:</b> $tk_magic_source_magic_data_sourcetype$</p>
+                                    <br />
+                                    <br />
+                                    <p>Deleting a magic source from the magic source does not delete the data source from the data sources collection.</p>
+                                </div>
+
+
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="submit" id="btn_delete_magic_source_cancel" role="button" class="btn btn-default btn-default" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span>Cancel</button>
+                            <button type="submit" id="btn_delete_magic_source_confirm" role="button" class="btn btn-danger btn-default"><span class="glyphicon glyphicon-remove"></span>Delete</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Modal drilldown context for Custom lagging -->
     <div id="main_manage_custom_lagging" class="dashboard-element html" style="width: 100%">
         <div class="panel-body html">
@@ -5271,6 +5600,9 @@ styles in <div> tags, similar to Bootstrap's grid system.
                     <div id="elementBtns" class="dashboard-element html" style="width: 100%">
                         <div class="panel-body html">
                             <div>
+                                <div class="btn_modify_magic_sources_main custom-btn">
+                                    <button type="submit" style="margin-right: 15px;" class="btn btn-default btn-primary" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Manage: magic sources</button>
+                                </div>
                                 <div class="custom-btn">
                                     <button type="submit" id="btn_modify_data_source_blacklist_main" style="margin-right: 15px;" class="btn btn-default btn-primary" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Manage: whitelists &amp; blacklists</button>
                                 </div>
@@ -5663,6 +5995,11 @@ require([
         // Returns true if numeric
         function isNumeric(n) {
             return !isNaN(parseFloat(n)) && isFinite(n) && n > 0;
+        }
+
+        // Escape double quotes
+        function escapeDoubleQuotes(str) {
+            return str.replace(/\\([\s\S])|(")/g,"\\$1$2"); // thanks @slevithan!
         }
 
         // Audit record
@@ -7011,6 +7348,81 @@ require([
             "search": "| stats count",
             "managerid": "searchCustomLagging",
             "id": "searchSingleCustomLagging"
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        });
+
+        // Magic Sources
+
+        var searchMagicSources = new SearchManager({
+            "id": "searchMagicSources",
+            "earliest_time": "-15m",
+            "cancelOnUnload": true,
+            "sample_ratio": null,
+            "latest_time": "now",
+            "search": "| inputlookup trackme_magic_sources | eval keyid=_key | search data_name=$tk_input_magic_sources_search$",
+            "status_buckets": 0,
+            "app": utils.getCurrentApp(),
+            "auto_cancel": 90,
+            "preview": true,
+            "tokenDependencies": {
+                "depends": "$start_modify_magic_sources$",
+            },
+            "runWhenTimeIsUndefined": false
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        });
+
+        new SearchEventHandler({
+            managerid: "searchMagicSources",
+            event: "progress",
+            conditions: [{
+                    attr: "match",
+                    value: "'job.resultCount' == 0",
+                    actions: [{
+                        "type": "unset",
+                        "token": "show_table_magic_sources"
+                    }]
+                },
+                {
+                    attr: "any",
+                    value: "*",
+                    actions: [{
+                        "type": "set",
+                        "token": "show_table_magic_sources",
+                        "value": "True"
+                    }]
+                }
+            ]
+        });
+
+        var searchSingleMagicSources = new PostProcessManager({
+            "tokenDependencies": {},
+            "search": "| stats count",
+            "managerid": "searchMagicSources",
+            "id": "searchSingleMagicSources"
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        });
+
+        var searchMagicSourcesTest = new SearchManager({
+            "id": "searchMagicSourcesTest",
+            "earliest_time": "-4h",
+            "cancelOnUnload": true,
+            "sample_ratio": null,
+            "latest_time": "now",
+            "search": "| savedsearch runSPL [ | makeresults | eval data_name=\"$tk_input_magic_source_data_name$\", search_mode=\"$form.tk_input_magic_source_search_type$\", search_constraint=\"$tk_input_magic_source_search_constraint$\", magic_data_index=\"$tk_input_magic_source_magic_data_index$\", + magic_data_sourcetype=\"$tk_input_magic_source_magic_data_sourcetype$\" | `trackme_magic_sources_simulate`",
+            "status_buckets": 0,
+            "app": utils.getCurrentApp(),
+            "auto_cancel": 90,
+            "preview": true,
+            "tokenDependencies": {
+                "depends": "$start_simulation_magic_sources$",
+            },
+            "runWhenTimeIsUndefined": false
         }, {
             tokens: true,
             tokenNamespace: "submitted"
@@ -8941,6 +9353,81 @@ require([
             FormUtils.handleValueChange(modal_input_lag_override_class_host);
         });
 
+        // magic sources
+
+        var modal_input_magic_source_search_type = new DropdownInput({
+            "id": "modal_input_magic_source_search_type",
+            "choices": [{
+                    "label": "tstats",
+                    "value": "tstats"
+                },
+                {
+                    "label": "raw",
+                    "value": "raw"
+                },
+                {
+                    "label": "from",
+                    "value": "from"
+                }
+            ],
+            "searchWhenChanged": true,
+            "default": "tstats",
+            "showClearButton": true,
+            "initialValue": "tstats",
+            "selectFirstChoice": false,
+            "value": "$form.tk_input_magic_source_search_type$",
+            "el": $('#modal_input_magic_source_search_type')
+        }, {
+            tokens: true
+        }).render();
+
+        modal_input_magic_source_search_type.on("change", function(newValue) {
+            FormUtils.handleValueChange(modal_input_magic_source_search_type);
+        });
+
+        var modal_input_magic_source_data_name = new TextInput({
+            "id": "modal_input_magic_source_data_name",
+            "searchWhenChanged": true,
+            "value": "$form.tk_input_magic_source_data_name$",
+            "el": $('#modal_input_magic_source_data_name')
+        }, {
+            tokens: true
+        }).render();
+
+        modal_input_magic_source_data_name.on("change", function(newValue) {
+            FormUtils.handleValueChange(modal_input_magic_source_data_name);
+        });
+
+        var modal_input_magic_source_magic_data_index = new TextInput({
+            "id": "modal_input_magic_source_magic_data_index",
+            "searchWhenChanged": true,
+            "default": "none",
+            "initialValue": "none",
+            "value": "$form.tk_input_magic_source_magic_data_index$",
+            "el": $('#modal_input_magic_source_magic_data_index')
+        }, {
+            tokens: true
+        }).render();
+
+        modal_input_magic_source_magic_data_index.on("change", function(newValue) {
+            FormUtils.handleValueChange(modal_input_magic_source_magic_data_index);
+        });
+
+        var modal_input_magic_source_magic_data_sourcetype = new TextInput({
+            "id": "modal_input_magic_source_magic_data_sourcetype",
+            "searchWhenChanged": true,
+            "default": "none",
+            "initialValue": "none",
+            "value": "$form.tk_input_magic_source_magic_data_sourcetype$",
+            "el": $('#modal_input_magic_source_magic_data_sourcetype')
+        }, {
+            tokens: true
+        }).render();
+
+        modal_input_magic_source_magic_data_sourcetype.on("change", function(newValue) {
+            FormUtils.handleValueChange(modal_input_magic_source_magic_data_sourcetype);
+        });
+
         // Custom lagging
 
         var modal_input_custom_lagging_type = new DropdownInput({
@@ -9802,6 +10289,22 @@ require([
 
         modal_input_metric_host_blacklist_metric_category_search.on("change", function(newValue) {
             FormUtils.handleValueChange(modal_input_metric_host_blacklist_metric_category_search);
+        });
+
+        // Magic Sources
+
+        var modal_input_magic_sources_search = new TextInput({
+            "id": "modal_input_magic_sources_search",
+            "default": "*",
+            "searchWhenChanged": true,
+            "value": "$form.tk_input_magic_sources_search$",
+            "el": $('#modal_input_magic_sources_search')
+        }, {
+            tokens: true
+        }).render();
+
+        modal_input_magic_sources_search.on("change", function(newValue) {
+            FormUtils.handleValueChange(modal_input_magic_sources_search);
         });
 
         // Custom lagging
@@ -10769,6 +11272,33 @@ require([
             tokenNamespace: "submitted"
         }).render();
 
+        // Magic Sources
+        var SingleMagicSources = new SingleElement({
+            "id": "SingleMagicSources",
+            "trendDisplayMode": "absolute",
+            "drilldown": "none",
+            "trendColorInterpretation": "standard",
+            "useColors": "0",
+            "colorBy": "value",
+            "showTrendIndicator": "1",
+            "showSparkline": "1",
+            "trellis.enabled": "0",
+            "numberPrecision": "0",
+            "rangeColors": "[\"0x53a051\",\"0x0877a6\",\"0xf8be34\",\"0xf1813f\",\"0xdc4e41\"]",
+            "trellis.size": "medium",
+            "colorMode": "none",
+            "rangeValues": "[0,30,70,100]",
+            "unitPosition": "after",
+            "trellis.scales.shared": "1",
+            "useThousandSeparators": "1",
+            "underLabel": "current magic source(s)",
+            "managerid": "searchSingleMagicSources",
+            "el": $('#SingleMagicSources')
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        }).render();
+
         // Custom lagging
         var SingleCustomLagging = new SingleElement({
             "id": "SingleCustomLagging",
@@ -11720,6 +12250,61 @@ require([
 
             }
         });
+
+        // Magic Sources
+
+        var tableMagicSources = new TableElement({
+            "id": "tableMagicSources",
+            "tokenDependencies": {
+                "depends": "$show_table_magic_sources$"
+            },
+            "count": 10,
+            "drilldown": "row",
+            "fields": "data_name, search_mode, search_constraint, magic_data_index, magic_data_sourcetype",
+            "refresh.display": "none",
+            "wrap": "false",
+            "managerid": "searchMagicSources",
+            "el": $('#tableMagicSources')
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        }).render();
+
+        tableMagicSources.on("click", function(e) {
+            if (e.field !== undefined) {
+                e.preventDefault();
+
+                // get tokens
+                setToken("tk_keyid", TokenUtils.replaceTokenNames("$row.keyid$", _.extend(submittedTokenModel.toJSON(), e.data)));
+                setToken("tk_magic_source_data_name", TokenUtils.replaceTokenNames("$row.data_name$", _.extend(submittedTokenModel.toJSON(), e.data)));
+                setToken("tk_magic_source_search_mode", TokenUtils.replaceTokenNames("$row.search_mode$", _.extend(submittedTokenModel.toJSON(), e.data)));
+                setToken("tk_magic_source_search_constraint", TokenUtils.replaceTokenNames("$row.search_constraint$", _.extend(submittedTokenModel.toJSON(), e.data)));
+                setToken("tk_magic_source_magic_data_index", TokenUtils.replaceTokenNames("$row.magic_data_index$", _.extend(submittedTokenModel.toJSON(), e.data)));
+                setToken("tk_magic_source_magic_data_sourcetype", TokenUtils.replaceTokenNames("$row.magic_data_sourcetype$", _.extend(submittedTokenModel.toJSON(), e.data)));
+
+                // Enable modal context
+                $("#modify_magic_sources").modal('hide');
+                $("#delete_magic_source_main").modal();
+
+            }
+        });
+
+        // Simulation
+        var tableMagicSourcesTest = new TableElement({
+            "id": "tableMagicSourcesTest",
+            "tokenDependencies": {
+                "depends": "$start_simulation_magic_sources$"
+            },
+            "count": 1,
+            "drilldown": "row",
+            "refresh.display": "none",
+            "wrap": "false",
+            "managerid": "searchMagicSourcesTest",
+            "el": $('#tableMagicSourcesTest')
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        }).render();
 
         // whitelist
 
@@ -13021,6 +13606,16 @@ require([
             "id": "body_manage_custom_lagging",
             "useTokens": true,
             "el": $('#body_manage_custom_lagging')
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        }).render();
+
+        // Custom lagging
+        var body_delete_magic_source = new HtmlElement({
+            "id": "body_delete_magic_source",
+            "useTokens": true,
+            "el": $('#body_delete_magic_source')
         }, {
             tokens: true,
             tokenNamespace: "submitted"
@@ -19636,6 +20231,237 @@ require([
         });
 
         //
+        // Magic sources
+        //
+
+        $('.btn_modify_magic_sources_main').each(function() {
+            var $btn_group = $(this);
+            $btn_group.find('button').on('click', function() {
+                var $btn = $(this);
+
+                submitTokens();
+                setToken("start_modify_magic_sources", "true");
+                // Show input modal
+                $("#modify_magic_sources_main").modal();
+            });
+
+        });
+
+        $('#btn_modal_magic_sources_manage').click(function() {
+                // Show input modal
+                $("#modify_magic_sources").modal();
+        });
+
+        $('#btn_modal_magic_sources_add').click(function() {
+                // Show input modal
+                $("#add_magic_sources").modal();
+        });
+
+        // Back
+        $('#btn_modal_magic_sources_add_back').click(function() {
+                // Show input modal
+                $("#modify_magic_sources_main").modal();
+        });
+
+        // Run simulation
+        $('#btn_modal_magic_source_add_simulate').click(function() {
+
+            //console.log("Button was pressed");
+
+            submitTokens();
+
+            // When the Submit button is clicked, get all the form fields by accessing token values
+            var tokens = mvc.Components.get("default");
+
+            // Get tokens
+            var tk_input_magic_source_search_type = tokens.get("tk_input_magic_source_search_type");
+            var tk_input_magic_source_data_name = tokens.get("tk_input_magic_source_data_name");
+            var tk_input_magic_source_magic_data_index = tokens.get("tk_input_magic_source_magic_data_index");
+            var tk_input_magic_source_magic_data_sourcetype = tokens.get("tk_input_magic_source_magic_data_sourcetype");
+
+            // This is not a Splunk form
+            var tk_input_magic_source_search_constraint = document.getElementById("modal_input_magic_source_search_constraint").value
+            // the token used by the search needs to have escaped double quotes, but not the value to be stored in the KV
+            var tk_raw_input_magic_source_search_constraint = document.getElementById("modal_input_magic_source_search_constraint").value
+            tk_input_magic_source_search_constraint = escapeDoubleQuotes(tk_input_magic_source_search_constraint);
+            setToken("tk_input_magic_source_search_constraint", tk_input_magic_source_search_constraint);
+            //console.log(tk_input_magic_source_search_constraint);
+
+            // Start the search if all tokens are defined
+            if (tk_input_magic_source_search_type && tk_input_magic_source_data_name && tk_input_magic_source_magic_data_index && tk_input_magic_source_magic_data_sourcetype && tk_input_magic_source_search_constraint) {
+                notification('Magic source simulation started for data_name: ' +  tk_input_magic_source_data_name + ', if the simulation is successful, click on save new magic source to include this new source in the collection.', 6000)
+                // Free the beast
+                var start_simulation_magic_sources = "true";
+                setToken("start_simulation_magic_sources", "true");
+            } else {
+                notification('ERROR: Inputs entered are either incorrect or incomplete, please try again.', 6000)
+            }
+
+            // add a new magic source
+            $('#btn_modal_magic_source_add_new').click(function() {
+
+                if (start_simulation_magic_sources && start_simulation_magic_sources=='true') {
+
+                    //console.log("Button was pressed");
+
+                    var myendpoint_URl = "/en-US/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_magic_sources/"
+
+                    // Create a dictionary to store the field names and values
+                    var record = {
+                        "data_name": tk_input_magic_source_data_name,
+                        "search_constraint": tk_raw_input_magic_source_search_constraint,
+                        "search_mode": tk_input_magic_source_search_type,
+                        "magic_data_index": tk_input_magic_source_magic_data_index,
+                        "magic_data_sourcetype": tk_input_magic_source_magic_data_sourcetype
+                    };
+
+                    $.ajax({
+                        url: myendpoint_URl,
+                        type: "POST",
+                        async: true,
+                        contentType: "application/json",
+                        data: JSON.stringify(record),
+                        success: function(returneddata) {
+
+                            // Processed modal
+                            //console.log("New magic source added!");
+                            start_simulation_magic_sources = undefined;
+                            delete(start_simulation_magic_sources);
+                            $("#add_magic_sources").modal('hide');
+                            $("#add_magic_source_processed").modal();
+
+                            // Audit
+                            action = "success";
+                            change_type = "add magic source";
+                            object = tk_input_magic_source_data_name;
+                            object_category = "magic_sources";
+                            object_attrs = "search_mode:" + tk_input_magic_source_search_type + ", search_constraint:" + tk_raw_input_magic_source_search_constraint + ", magic_data_index:" + tk_input_magic_source_magic_data_index + ", magic_data_sourcetype:" + tk_input_magic_source_magic_data_sourcetype;;
+                            result = "N/A";
+                            comment = "N/A";
+                            auditRecord(action, change_type, object, object_category, object_attrs, result, comment);
+
+                            // house cleaning
+                            myendpoint_URl = undefined;
+                            delete(myendpoint_URl);
+
+                        },
+                        error: function(xhr, textStatus, error) {
+                            message = "Error Updating!" + xhr + textStatus + error;
+
+                            // Audit
+                            action = "failure";
+                            change_type = "add magic source";
+                            object = tk_input_magic_source_data_name;
+                            object_category = "magic_sources";
+                            object_attrs = "search_mode:" + tk_input_magic_source_search_type + ", search_constraint:" + tk_raw_input_magic_source_search_constraint + ", magic_data_index:" + tk_input_magic_source_magic_data_index + ", magic_data_sourcetype:" + tk_input_magic_source_magic_data_sourcetype;;
+                            result = "N/A";
+                            comment = "N/A";
+                            auditRecord(action, change_type, object, object_category, object_attrs, result, comment);
+
+                            // back tp main modal
+                            $("#add_magic_sources").modal('hide');
+                            $("#modal_update_collection_failure_return").find('.modal-error-message p').text(message);
+                            $("#modal_update_collection_failure_return").modal()
+                        }
+
+                    });
+
+                } else {
+                    notification('ERROR: Please run the simulation first.', 6000)
+                }
+
+            });
+
+        });
+
+        // delete magic source
+
+        $("#btn_delete_magic_source_confirm").click(function() {
+
+            //console.log("Button was pressed");
+
+            submitTokens();
+
+            // When the Submit button is clicked, get all the form fields by accessing token values
+            var tokens = mvc.Components.get("default");
+
+            // When the Submit button is clicked, get all the form fields by accessing token values
+            var tk_keyid = tokens.get("tk_keyid");
+
+            // Create the endpoint URL
+            var myendpoint_URl = "/en-US/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_magic_sources/" + tk_keyid;
+
+            // Get tokens
+            var tk_keyid = tokens.get("tk_keyid");
+            var tk_magic_source_data_name = tokens.get("tk_magic_source_data_name");
+            var tk_magic_source_search_mode = tokens.get("tk_magic_source_search_mode");
+            var tk_magic_source_search_constraint = tokens.get("tk_magic_source_search_constraint");
+            var tk_magic_source_magic_data_index = tokens.get("tk_magic_source_magic_data_index");
+            var tk_magic_source_magic_data_sourcetype = tokens.get("tk_magic_source_magic_data_sourcetype");
+
+            //console.log("Endpoint URL is: " + myendpoint_URl);
+
+            if (tk_keyid && tk_keyid.length) {
+
+                $.ajax({
+                    url: myendpoint_URl,
+                    type: "DELETE",
+                    async: true,
+                    contentType: "application/json",
+                    success: function(returneddata) {
+
+                        // Hide main modal
+                        $("#btn_delete_magic_source_confirm").modal('hide');
+
+                        //console.log("Updated!", returneddata)
+                        // Run the search again to update the table
+                        searchMagicSources.startSearch();
+
+                        // Audit
+                        action = "success";
+                        change_type = "delete magic source";
+                        object = tk_magic_source_data_name;
+                        object_category = "magic_sources";
+                        object_attrs = "search_mode:" + tk_magic_source_search_mode + ", search_constraint:" + tk_magic_source_search_constraint + ", magic_data_index:" + tk_magic_source_magic_data_index + ", magic_data_sourcetype:" + tk_magic_source_magic_data_sourcetype;;
+                        result = "N/A";
+                        comment = "N/A";
+                        auditRecord(action, change_type, object, object_category, object_attrs, result, comment);
+
+                        // house cleaning
+                        myendpoint_URl = undefined;
+                        delete(myendpoint_URl);
+                        tk_keyid = undefined;
+                        delete(tk_keyid);
+
+                        // Return to modal
+                        $("#modify_magic_sources").modal();
+                    },
+                    error: function(xhr, textStatus, error) {
+                        message = "Error Updating!" + xhr + textStatus + error;
+
+                        // Audit
+                        action = "failure";
+                        change_type = "delete magic source";
+                        object = tk_magic_source_data_name;
+                        object_category = "magic_sources";
+                        object_attrs = "search_mode:" + tk_magic_source_search_mode + ", search_constraint:" + tk_magic_source_search_constraint + ", magic_data_index:" + tk_magic_source_magic_data_index + ", magic_data_sourcetype:" + tk_magic_source_magic_data_sourcetype;;
+                        result = "N/A";
+                        comment = "N/A";
+                        auditRecord(action, change_type, object, object_category, object_attrs, result, comment);
+
+                        // back tp main modal
+                        $("#btn_delete_magic_source_confirm").modal('hide');
+                        $("#modal_update_collection_failure_return").find('.modal-error-message p').text(message);
+                        $("#modal_update_collection_failure_return").modal()
+                    }
+
+                });
+
+            }
+
+        });
+
+        //
         // Custom lagging classes
         //
 
@@ -25413,6 +26239,12 @@ function notification(s, time) {
   });
 
   $("<p>" + s + "</p>").appendTo('#boxnotify-data-host-outliers-update').fadeTo(time, 1, function() {
+    $(this).fadeTo(1000, 0, function() {
+      $(this).remove()
+    });
+  });
+
+  $("<p>" + s + "</p>").appendTo('#boxnotify-add_magic_source').fadeTo(time, 1, function() {
     $(this).fadeTo(1000, 0, function() {
       $(this).remove()
     });
