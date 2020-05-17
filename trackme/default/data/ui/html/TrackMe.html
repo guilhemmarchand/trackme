@@ -2285,6 +2285,29 @@ styles in <div> tags, similar to Bootstrap's grid system.
         </div>
     </div>
 
+    <!-- Error or failure during KVstore collection update -->
+    <div class="modal fade" id="modal_generic_search_error" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h3 style="color: indianred;"><span class="glyphicon glyphicon-lock"></span>Oops!</h3>
+                </div>
+                <div class="modal-body">
+                    <p>Sorry but the simulation of the search has failed due to a syntax error or another failure.<br /><br />
+                        <b>Verify your syntax and try again.</b><br /><br />
+                    </p>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="submit" id="btn_modal_generic_search_error_back" class="btn btn-default btn-primary pull-right" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Back</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Modal window for lag value modification -->
 
     <!-- data source monitoring -->
@@ -2506,7 +2529,7 @@ styles in <div> tags, similar to Bootstrap's grid system.
                     <br /><br />
 
                     <lu>
-                        <li>magic sources can be searches based on regular raw events searches, tstats searches or searches using the from command</li>
+                        <li>magic sources are custom data sources entities that can be searches based on regular raw events searches, tstats searches or searches using the from command</li>
                         <li>magic sources should be used when the default concepts of trackMe (statement by index/sourcetype) does not comply the monitoring requirements of this data source</li>
                         <li>these searches need to be performing as much as possible, ideally relying on tstats and the usage of standard Meta data (source, etc), custom indexed fields or raw searches using TERM()</li>
                         <li>search constraints are free and can contain filters of any kind, including time filters (earliest and latest) and as well complex SPL logic</li>
@@ -2633,9 +2656,9 @@ styles in <div> tags, similar to Bootstrap's grid system.
                                                 <label>Enter the constraint for the search:</label>
                                                 <textarea
                                                         id = "modal_input_magic_source_search_constraint"
-                                                        rows = "6"
-                                                        cols = "80" style="width: 900px;"
-                                                        onfocus="if(this.value==this.defaultValue)this.value='';" onblur="if(this.value=='')this.value=this.defaultValue;">Splunk search constraint</textarea>
+                                                        rows = "3"
+                                                        cols = "80" style="width: 1100px;"
+                                                        onfocus="if(this.value==this.defaultValue)this.value='';" onblur="if(this.value=='')this.value=this.defaultValue;">Enter the Splunk search constraint chain according to the type of search selected</textarea>
                                             </p>
 
                                         </fieldset>
@@ -2669,7 +2692,7 @@ styles in <div> tags, similar to Bootstrap's grid system.
                         <div id="panelMagicSourcesAdd1c" class="dashboard-cell" style="width: 100%;">
                             <div class="dashboard-panel clearfix">
                                 <div class="panel-element-row">
-                                    <div id="tableMagicSourcesTest" class="dashboard-element table" style="width: 100%; max-height: 70px;">
+                                    <div id="tableMagicSourcesTest" class="dashboard-element table" style="width: 100%; max-height: 140px;">
                                         <div class="panel-body"></div>
                                     </div>
                                 </div>
@@ -6003,6 +6026,14 @@ require([
             return str.replace(/\\([\s\S])|(")/g,"\\$1$2"); // thanks @slevithan!
         }
 
+        // generate a unique ID
+        function uuid() {
+          return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+            var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
+            return v.toString(16);
+          });
+        }
+
         // Audit record
         function auditRecord(action, change_type, object, object_category, object_attrs, result, comment) {
 
@@ -6211,7 +6242,7 @@ require([
 
         var searchDataSourcesPostTable = new PostProcessManager({
             "tokenDependencies": {},
-            "search": "search $data_source_state$\n| search $inputDataName$ $inputDataIndex$ $inputDataSourcetype$ $data_monitored_state$ $inputDataPriority$\n| fillnull data_last_lag_seen, data_last_ingestion_lag_seen\n| eval \"lag summary (lag event / lag ingestion)\" = data_last_lag_seen . \" sec / \" . data_last_ingestion_lag_seen . \" sec\"\n| search `trackme_get_idx_whitelist_searchtime(trackme_data_source_monitoring_whitelist_index, data_index)`\n| `apply_data_source_blacklists`\n| rename \"data_last_time_seen (translated)\" as \"last time\", \"data_last_ingest (translated)\" as \"last ingest\", \"data_last_time_seen_idx (translated)\" as \"last time idx\"\n| eval data_tracker_runtime=now()\n| `trackme_date_format(\"latest_flip_time\")`\n| fillnull value=\"N/A\" latest_flip_state, latest_flip_time, \"latest_flip_time (translated)\"\n| `trackme_get_identity_card(data_name)`",
+            "search": "search $data_source_state$\n| search $inputDataName$ $inputDataIndex$ $inputDataSourcetype$ $data_monitored_state$ $inputDataPriority$\n| fillnull data_last_lag_seen, data_last_ingestion_lag_seen\n| eval \"lag summary (lag event / lag ingestion)\" = data_last_lag_seen . \" sec / \" . data_last_ingestion_lag_seen . \" sec\"\n| search `trackme_get_idx_whitelist_searchtime(trackme_data_source_monitoring_whitelist_index, data_index)`\n| `apply_data_source_blacklists`\n| rename \"data_last_time_seen (translated)\" as \"last time\", \"data_last_ingest (translated)\" as \"last ingest\", \"data_last_time_seen_idx (translated)\" as \"last time idx\"\n| eval data_tracker_runtime=now()\n| `trackme_date_format(\"latest_flip_time\")`\n| fillnull value=\"N/A\" latest_flip_state, latest_flip_time, \"latest_flip_time (translated)\"\n| `trackme_get_identity_card(data_name)` | `trackme_lookup_magic_sources`",
             "managerid": "searchDataSourcesMain",
             "id": "searchDataSourcesPostTable"
         }, {
@@ -6915,7 +6946,7 @@ require([
         var searchChartLag = new SearchManager({
             "id": "searchChartLag",
             "sample_ratio": 1,
-            "search": "| `tstats` count latest(_indextime) as indextime where index=\"$tk_data_index$\" sourcetype=\"$tk_data_sourcetype$\" by _time, index, sourcetype span=1s | eval delta=(indextime-_time) | timechart span=$modalTime.span$ sum(count) as events_count, avg(delta) as avg_lag_sec",
+            "search": "$tk_data_source_overview_root_search$ | timechart span=$modalTime.span$ sum(count) as events_count, avg(delta) as avg_lag_sec",
             "status_buckets": 0,
             "earliest_time": "$modalTime.earliest$",
             "cancelOnUnload": true,
@@ -7002,7 +7033,7 @@ require([
         var searchSingleLag = new SearchManager({
             "id": "searchSingleLag",
             "sample_ratio": 1,
-            "search": "| `tstats` count latest(_indextime) as indextime where index=\"$tk_data_index$\" sourcetype=\"$tk_data_sourcetype$\" by _time, index, sourcetype span=1s | eval delta=(indextime-_time) | stats perc95(delta) as perc95_lag, avg(delta) as avg_lag",
+            "search": "$tk_data_source_overview_root_search$ | stats perc95(delta) as perc95_lag, avg(delta) as avg_lag",
             "status_buckets": 0,
             "earliest_time": "$modalTime.earliest$",
             "cancelOnUnload": true,
@@ -9371,7 +9402,7 @@ require([
                     "value": "from"
                 }
             ],
-            "searchWhenChanged": true,
+            "searchWhenChanged": false,
             "default": "tstats",
             "showClearButton": true,
             "initialValue": "tstats",
@@ -9388,7 +9419,7 @@ require([
 
         var modal_input_magic_source_data_name = new TextInput({
             "id": "modal_input_magic_source_data_name",
-            "searchWhenChanged": true,
+            "searchWhenChanged": false,
             "value": "$form.tk_input_magic_source_data_name$",
             "el": $('#modal_input_magic_source_data_name')
         }, {
@@ -9401,7 +9432,7 @@ require([
 
         var modal_input_magic_source_magic_data_index = new TextInput({
             "id": "modal_input_magic_source_magic_data_index",
-            "searchWhenChanged": true,
+            "searchWhenChanged": false,
             "default": "none",
             "initialValue": "none",
             "value": "$form.tk_input_magic_source_magic_data_index$",
@@ -9416,7 +9447,7 @@ require([
 
         var modal_input_magic_source_magic_data_sourcetype = new TextInput({
             "id": "modal_input_magic_source_magic_data_sourcetype",
-            "searchWhenChanged": true,
+            "searchWhenChanged": false,
             "default": "none",
             "initialValue": "none",
             "value": "$form.tk_input_magic_source_magic_data_sourcetype$",
@@ -11388,6 +11419,12 @@ require([
                 setToken("tk_isoutlier", TokenUtils.replaceTokenNames("$row.isOutlier$", _.extend(submittedTokenModel.toJSON(), e.data)));
                 setToken("tk_enable_behaviour_analytic", TokenUtils.replaceTokenNames("$row.enable_behaviour_analytic$", _.extend(submittedTokenModel.toJSON(), e.data)));
 
+                // magic sources
+                setToken("tk_magic_source_search_mode", TokenUtils.replaceTokenNames("$row.magic_source_search_mode$", _.extend(submittedTokenModel.toJSON(), e.data)));
+                setToken("tk_magic_source_search_constraint", TokenUtils.replaceTokenNames("$row.magic_source_search_constraint$", _.extend(submittedTokenModel.toJSON(), e.data)));
+                setToken("tk_magic_source_from_part1", TokenUtils.replaceTokenNames("$row.magic_source_from_part1$", _.extend(submittedTokenModel.toJSON(), e.data)));
+                setToken("tk_magic_source_from_part2", TokenUtils.replaceTokenNames("$row.magic_source_from_part2$", _.extend(submittedTokenModel.toJSON(), e.data)));
+
                 // pre-fill current values for outlier modification window
                 setToken("form.tk_input_data_source_outlier_alert_on_upper", TokenUtils.replaceTokenNames("$row.OutlierAlertOnUpper$", _.extend(submittedTokenModel.toJSON(), e.data)));
                 setToken("form.tk_input_data_source_enable_outlier", TokenUtils.replaceTokenNames("$row.enable_behaviour_analytic$", _.extend(submittedTokenModel.toJSON(), e.data)));
@@ -11525,6 +11562,28 @@ require([
                 } else if (tk_priority == "high") {
                     setToken("tk_priority_class", TokenUtils.replaceTokenNames("title_high_priority", _.extend(submittedTokenModel.toJSON(), e.data)));
                 }
+
+                // Manage root search for overview, conditionally define the query depending on the search
+                var tk_magic_source_search_mode = tokens.get("tk_magic_source_search_mode");
+                var tk_magic_source_search_constraint = tokens.get("tk_magic_source_search_constraint");
+                var tk_magic_source_from_part1 = tokens.get("tk_magic_source_from_part1");
+                var tk_magic_source_from_part2 = tokens.get("tk_magic_source_from_part2");
+
+                if (tk_magic_source_search_mode == "null") {
+                    tk_data_source_overview_root_search = "| `tstats` count latest(_indextime) as indextime where index=\"" + tk_data_index + "\" sourcetype=\"" + tk_data_sourcetype + "\" by _time, index, sourcetype span=1s | eval delta=(indextime-_time)";
+                } else if (tk_magic_source_search_mode == "tstats") {
+                    tk_data_source_overview_root_search = "| `tstats` count latest(_indextime) as indextime where " + tk_magic_source_search_constraint + " by _time, index, sourcetype span=1s | eval delta=(indextime-_time)";
+                } else if (tk_magic_source_search_mode == "raw") {
+                    tk_data_source_overview_root_search = tk_magic_source_search_constraint + " | eval delta=(_indextime-_time) | bucket _time span=1s | stats count, avg(delta) as delta by _time";
+                } else if (tk_magic_source_search_mode == "from" && tk_magic_source_from_part1 != "null" && tk_magic_source_from_part2 != "null") {
+                    tk_data_source_overview_root_search = "| " + tk_magic_source_search_mode + " " + tk_magic_source_from_part1 + " | " +  tk_magic_source_from_part2 + " | eval delta=(_indextime-_time) | bucket _time span=1s | stats count, avg(delta) as delta by _time";
+                } else {
+                    tk_data_source_overview_root_search = "| `tstats` count latest(_indextime) as indextime where index=\"" + tk_data_index + "\" sourcetype=\"" + tk_data_sourcetype + "\" by _time, index, sourcetype span=1s | eval delta=(indextime-_time)";
+                }
+
+                //console.log("tk_data_source_overview_root_search is: " + tk_data_source_overview_root_search);
+                setToken("tk_data_source_overview_root_search", TokenUtils.replaceTokenNames(tk_data_source_overview_root_search, _.extend(submittedTokenModel.toJSON(), e.data)));
+
 
                 // Enable modal context
                 $("#modal_manage").modal();
@@ -20257,6 +20316,8 @@ require([
         });
 
         $('#btn_modal_magic_sources_add').click(function() {
+                // Default disable button add state
+                document.getElementById('btn_modal_magic_source_add_new').disabled = true;
                 // Show input modal
                 $("#add_magic_sources").modal();
         });
@@ -20272,14 +20333,84 @@ require([
                 $("#modify_magic_sources_main").modal();
         });
 
+        $('#btn_modal_generic_search_error_back').click(function() {
+                // Show input modal
+                $("#add_magic_sources").modal();
+        });
+
+        function magic_sources_check_unique(data_name, status) {
+
+            // Define the query
+            var searchQuery = "| makeresults | eval data_name=\"" + data_name + "\" | lookup trackme_magic_sources data_name OUTPUTNEW _key as found | eval is_unique=if(isnull(found), \"true\", \"false\") | fields - _time | fields is_unique";
+            //console.log("searchQuery is: " + searchQuery);
+
+            // Set the search parameters--specify a time range
+            var searchParams = {
+                earliest_time: "-5m",
+                latest_time: "now"
+            };
+
+            // Run a oneshot search that returns the job's results
+            service.oneshotSearch(
+                searchQuery,
+                searchParams,
+                function(err, results) {
+
+                    // Display the results
+                    var fields = results.fields;
+                    var rows = results.rows;
+                    var is_unique;
+
+                    for (var i = 0; i < rows.length; i++) {
+                        var values = rows[i];
+
+                        for (var j = 0; j < values.length; j++) {
+                            var field = fields[j];
+
+                            if (fields[j] == "is_unique") {
+                                is_unique = values[j];
+                            }
+                        }
+                    }
+
+                    if (!is_unique) {
+                        var start_simulation_magic_sources = "false";
+                        document.getElementById('btn_modal_magic_source_add_new').disabled = true;
+                        setToken("start_simulation_magic_sources", "false");
+                        //console.log("result is undefined");
+                    }
+
+                    if (is_unique == "true" && status == "true") {
+                        var start_simulation_magic_sources = "true";
+                        document.getElementById('btn_modal_magic_source_add_new').disabled = false;
+                        setToken("start_simulation_magic_sources", "true");
+                        //console.log("data source is unique");
+                    }
+                    else if (is_unique == "false") {
+                        var start_simulation_magic_sources = "false";
+                        document.getElementById('btn_modal_magic_source_add_new').disabled = true;
+                        setToken("start_simulation_magic_sources", "false");
+                        //console.log("data source is not unique");
+                    }
+
+                });
+
+            return false;
+
+        };
+
         // Run simulation
-        $('#btn_modal_magic_source_add_simulate').unbind('click').click(function() {
+        $('#btn_modal_magic_source_add_simulate').click(function(event) {
+            event.stopImmediatePropagation();
 
             //console.log("Button was pressed");
             submitTokens();
 
             // When the Submit button is clicked, get all the form fields by accessing token values
             var tokens = mvc.Components.get("default");
+
+            // disabled if enabled
+            document.getElementById('btn_modal_magic_source_add_new').disabled = true;
 
             // Get tokens
             var tk_input_magic_source_search_type = tokens.get("tk_input_magic_source_search_type");
@@ -20296,25 +20427,53 @@ require([
             //console.log(tk_input_magic_source_search_constraint);
 
             // Start the search if all tokens are defined
-            if (tk_input_magic_source_search_type && tk_input_magic_source_data_name && tk_input_magic_source_magic_data_index && tk_input_magic_source_magic_data_sourcetype && tk_input_magic_source_search_constraint) {
+            if (tk_input_magic_source_search_type && tk_input_magic_source_data_name && tk_input_magic_source_magic_data_index && tk_input_magic_source_magic_data_sourcetype && tk_input_magic_source_search_constraint && tk_input_magic_source_search_constraint!=="Enter the Splunk search constraint chain according to the type of search selected") {
                 notification('Magic source simulation started for data_name: ' +  tk_input_magic_source_data_name + ', if the simulation is successful, click on save new magic source to include this new source in the collection.', 6000)
                 // Free the beast
                 var start_simulation_magic_sources = "true";
+                var success_simulation_magic_sources = "false";
                 setToken("start_simulation_magic_sources", "true");
                 searchMagicSourcesTest.startSearch();
+
+                searchMagicSourcesTest.on('search:error', function(properties) {
+                    var start_simulation_magic_sources = "false";
+                    var success_simulation_magic_sources = "false";
+                    setToken("start_simulation_magic_sources", "false");
+                    document.getElementById('btn_modal_magic_source_add_new').disabled = true;
+                    $("#add_magic_sources").modal('hide');
+                    $("#modal_generic_search_error").modal();
+                });
+
+                searchMagicSourcesTest.on('search:fail', function(properties) {
+                    var start_simulation_magic_sources = "false";
+                    var success_simulation_magic_sources = "false";
+                    setToken("start_simulation_magic_sources", "false");
+                    document.getElementById('btn_modal_magic_source_add_new').disabled = true;
+                    $("#add_magic_sources").modal('hide');
+                    $("#modal_generic_search_error").modal();
+                });
+
+                // If the search is processed successfully, verify the data_name is unique
+                searchMagicSourcesTest.on('search:done', function(properties) {
+
+                    var success_simulation_magic_sources = "true";
+                    magic_sources_check_unique(tk_input_magic_source_data_name, "true");
+
+                });
+
             } else {
-                notification('ERROR: Inputs entered are either incorrect or incomplete, please try again.', 6000)
+                unsetToken("start_simulation_magic_sources");
+                notification('ERROR: Entries are either incorrect or incomplete, please correct and try again.', 6000)
             }
 
             // add a new magic source
-            $('#btn_modal_magic_source_add_new').unbind('click').click(function() {
+            $('#btn_modal_magic_source_add_new').click(function(event) {
+                event.stopImmediatePropagation();
 
-                var that = $(this);
-                that.off('click'); // remove handler
+                // disable the button once clicked
+                document.getElementById('btn_modal_magic_source_add_new').disabled = true;
 
                 if (start_simulation_magic_sources && start_simulation_magic_sources=='true') {
-
-                    //console.log("Button was pressed");
 
                     var myendpoint_URl = "/en-US/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_magic_sources/"
 
@@ -20336,7 +20495,7 @@ require([
                         success: function(returneddata) {
 
                             // Processed modal
-                            // console.log("New magic source added with data_name: " + tk_input_magic_source_data_name);
+                            //console.log("New magic source added with data_name: " + tk_input_magic_source_data_name);
                             start_simulation_magic_sources = undefined;
                             delete(start_simulation_magic_sources);
                             $("#add_magic_sources").modal('hide');
@@ -20379,7 +20538,7 @@ require([
                     });
 
                 } else {
-                    notification('ERROR: Please run the simulation first.', 6000)
+                    notification('ERROR: Please successfully run the simulation first.', 6000)
                 }
 
             });
