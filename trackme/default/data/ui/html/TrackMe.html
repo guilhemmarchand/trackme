@@ -2656,7 +2656,7 @@ styles in <div> tags, similar to Bootstrap's grid system.
                                         <br /><br />
 
                                         <div style="margin-bottom: 10px;">
-                                            <button id="btn_modal_elastic_sources_manage" type="submit" style="margin-right: 15px;" class="btn btn-default btn-primary" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Manage existing elastic sources</button>
+                                            <button id="btn_modal_elastic_sources_manage" type="submit" style="margin-right: 15px;" class="btn btn-default btn-primary" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Manage existing shared elastic sources</button>
                                             <button id="btn_modal_elastic_sources_add" type="submit" class="btn btn-default btn-primary" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Create a new elastic source</button>
                                         </div>
                                     </div>
@@ -20713,7 +20713,7 @@ require([
                 if (start_simulation_elastic_sources && start_simulation_elastic_sources == 'true') {
 
                     // Create a unique name for the tracker
-                    var tracker_name = "trackMe - " + tk_input_elastic_source_data_name + " elastic tracker " + uuid();
+                    var tracker_name = "TrackMe - " + tk_input_elastic_source_data_name + " elastic tracker " + uuid();
 
                     // define the alert search
                     if (tk_input_elastic_source_search_type == "tstats") {

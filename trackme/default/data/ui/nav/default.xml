@@ -14,7 +14,8 @@
   <collection label="Collections">
     <collection label="Data sources monitoring">
       <a href="search?q=%7C%20inputlookup%20trackme_data_source_monitoring%20%7C%20eval%20keyid%3D_key">Data sources collection</a>
-      <a href="search?q=%7C%20inputlookup%20trackme_elastic_sources%20%7C%20eval%20keyid%3D_key">Elastic Data sources collection</a>
+      <a href="search?q=%7C%20inputlookup%20trackme_elastic_sources%20%7C%20eval%20keyid%3D_key">Elastic Shared Data sources collection</a>
+      <a href="search?q=%7C%20inputlookup%20trackme_elastic_sources_dedicated%20%7C%20eval%20keyid%3D_key">Elastic Dedicated Data sources mapping collection</a>
       <collection label="Whitelist &amp; Blacklists">
         <a href="search?q=%7C%20inputlookup%20trackme_data_source_monitoring_whitelist_index%20%7C%20eval%20keyid%3D_key">Whitelist indexes</a>
         <a href="search?q=%7C%20inputlookup%20trackme_data_source_monitoring_blacklist_index%20%7C%20eval%20keyid%3D_key">Blacklist indexes</a>
