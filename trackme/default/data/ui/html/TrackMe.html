@@ -2732,12 +2732,24 @@ styles in <div> tags, similar to Bootstrap's grid system.
                                         </fieldset>
                                     </form>
 
-                                    <div class="input input-text" id="modal_input_elastic_source_elastic_data_index" style="margin-bottom: 10px; max-width: 300px;">
-                                        <label>Optional: UI visible index value:</label>
-                                    </div>
+                                    <div class="fieldset">
 
-                                    <div class="input input-text" id="modal_input_elastic_source_elastic_data_sourcetype" style="margin-bottom: 10px; max-width: 300px;">
-                                        <label>Optional: UI visible sourcetype value:</label>
+                                        <div class="input input-text" id="modal_input_elastic_source_elastic_data_index" style="margin-bottom: 10px; max-width: 300px;">
+                                            <label>Optional: The value for index visible in the UI</label>
+                                        </div>
+
+                                        <div class="input input-text" id="modal_input_elastic_source_elastic_data_sourcetype" style="margin-bottom: 10px; max-width: 300px;">
+                                            <label>Optional: The value for sourcetype visible in the UI</label>
+                                        </div>
+
+                                        <div class="input input-text" id="modal_input_elastic_source_earliest" style="margin-bottom: 10px; max-width: 300px;">
+                                            <label>Earliest, for dedicated trackers only (shared tracker uses -4h)</label>
+                                        </div>
+
+                                        <div class="input input-text" id="modal_input_elastic_source_latest" style="margin-bottom: 10px; max-width: 300px;">
+                                            <label>Latest, for dedicated trackers only (shared tracker uses +4h)</label>
+                                        </div>
+
                                     </div>
 
                                     <div style="margin-top: 15x;">
@@ -7511,10 +7523,10 @@ require([
 
         var searchElasticSourcesTest = new SearchManager({
             "id": "searchElasticSourcesTest",
-            "earliest_time": "-4h",
+            "earliest_time": "$tk_input_elastic_source_earliest$",
             "cancelOnUnload": true,
             "sample_ratio": null,
-            "latest_time": "now",
+            "latest_time": "$tk_input_elastic_source_latest$",
             "search": "| savedsearch runSPL [ | makeresults | eval data_name=\"$tk_input_elastic_source_data_name$\", search_mode=\"$form.tk_input_elastic_source_search_type$\", search_constraint=\"$tk_input_elastic_source_search_constraint$\", elastic_data_index=\"$tk_input_elastic_source_elastic_data_index$\", elastic_data_sourcetype=\"$tk_input_elastic_source_elastic_data_sourcetype$\" | `trackme_elastic_sources_simulate`",
             "status_buckets": 0,
             "app": utils.getCurrentApp(),
@@ -9531,6 +9543,36 @@ require([
 
         modal_input_elastic_source_elastic_data_sourcetype.on("change", function(newValue) {
             FormUtils.handleValueChange(modal_input_elastic_source_elastic_data_sourcetype);
+        });
+
+        var modal_input_elastic_source_earliest = new TextInput({
+            "id": "modal_input_elastic_source_earliest",
+            "searchWhenChanged": false,
+            "default": "-4h",
+            "initialValue": "-4h",
+            "value": "$form.tk_input_elastic_source_earliest$",
+            "el": $('#modal_input_elastic_source_earliest')
+        }, {
+            tokens: true
+        }).render();
+
+        modal_input_elastic_source_earliest.on("change", function(newValue) {
+            FormUtils.handleValueChange(modal_input_elastic_source_earliest);
+        });
+
+        var modal_input_elastic_source_latest = new TextInput({
+            "id": "modal_input_elastic_source_latest",
+            "searchWhenChanged": false,
+            "default": "+4h",
+            "initialValue": "+4h",
+            "value": "$form.tk_input_elastic_source_latest$",
+            "el": $('#modal_input_elastic_source_latest')
+        }, {
+            tokens: true
+        }).render();
+
+        modal_input_elastic_source_latest.on("change", function(newValue) {
+            FormUtils.handleValueChange(modal_input_elastic_source_latest);
         });
 
         // Custom lagging
@@ -20498,6 +20540,8 @@ require([
             var tk_input_elastic_source_data_name = tokens.get("tk_input_elastic_source_data_name");
             var tk_input_elastic_source_elastic_data_index = tokens.get("tk_input_elastic_source_elastic_data_index");
             var tk_input_elastic_source_elastic_data_sourcetype = tokens.get("tk_input_elastic_source_elastic_data_sourcetype");
+            var tk_input_elastic_source_earliest = tokens.get("tk_input_elastic_source_earliest");
+            var tk_input_elastic_source_latest = tokens.get("tk_input_elastic_source_latest");
 
             // This is not a Splunk form
             var tk_input_elastic_source_search_constraint = document.getElementById("modal_input_elastic_source_search_constraint").value
@@ -20560,6 +20604,8 @@ require([
                 var tk_input_elastic_source_data_name = tokens.get("tk_input_elastic_source_data_name");
                 var tk_input_elastic_source_elastic_data_index = tokens.get("tk_input_elastic_source_elastic_data_index");
                 var tk_input_elastic_source_elastic_data_sourcetype = tokens.get("tk_input_elastic_source_elastic_data_sourcetype");
+                var tk_input_elastic_source_earliest = tokens.get("tk_input_elastic_source_earliest");
+                var tk_input_elastic_source_latest = tokens.get("tk_input_elastic_source_latest");
 
                 // This is not a Splunk form
                 var tk_input_elastic_source_search_constraint = document.getElementById("modal_input_elastic_source_search_constraint").value
@@ -20650,6 +20696,8 @@ require([
                 var tk_input_elastic_source_data_name = tokens.get("tk_input_elastic_source_data_name");
                 var tk_input_elastic_source_elastic_data_index = tokens.get("tk_input_elastic_source_elastic_data_index");
                 var tk_input_elastic_source_elastic_data_sourcetype = tokens.get("tk_input_elastic_source_elastic_data_sourcetype");
+                var tk_input_elastic_source_earliest = tokens.get("tk_input_elastic_source_earliest");
+                var tk_input_elastic_source_latest = tokens.get("tk_input_elastic_source_latest");
 
                 // This is not a Splunk form
                 var tk_input_elastic_source_search_constraint = document.getElementById("modal_input_elastic_source_search_constraint").value
@@ -20690,9 +20738,10 @@ require([
                     // Specify properties for the alert.
                     var alertOptions = {
                         name: tracker_name,
+                        description: "Dedicated elastic tracker for data source",
                         search: tk_elastic_alert_root_search,
-                        "dispatch.earliest_time": "-4h",
-                        "dispatch.latest_time": "+4h",
+                        "dispatch.earliest_time": tk_input_elastic_source_earliest,
+                        "dispatch.latest_time": tk_input_elastic_source_latest,
                         "is_scheduled": "1",
                         "cron_schedule": "*/5 * * * *"
                     };
