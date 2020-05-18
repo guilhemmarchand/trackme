@@ -1,6 +1,26 @@
 Release notes
 #############
 
+Version 1.2.1
+=============
+
+**CAUTION:**
+
+This is a new main release branch, TrackMe 1.2.x require the deployment of the following dependencies:
+
+- Semicircle Donut Chart Viz, Splunk Base: https://splunkbase.splunk.com/app/4378
+- Splunk Machine Learning Toolkit, Splunk Base: https://splunkbase.splunk.com/app/2890
+
+**release notes:**
+
+- Feature: TrackMe goes with a touch of Machine Learning! Automatically detect outliers in the event distribution based on the summary investigator, a new internal workflow that records and detects a suspicious decrease of events over time based in the outliers detection method.
+- Feature: Improved UI, Donuts charts completing the exposing of statuses, multi tabs in modal windows to navigate through the views, new outliers detection view, new message status view.
+- Feature: Elastic tracker concept introduction, create and manage any kind of virtual data sources depending on your needs and requirements using any of the main Splunk search commands available (raw, tstats, from, mstats).
+- Fix: collections monitoring are limited to 50K entries #80
+- Fix: Modification of objects via the UI do not preserve some fields during KVstore update #81
+- Change: fix app.py to avoid Readiness App warning, update Splunk Python SDK splunklib to very last version
+- Fix: red donut chart error in metric hosts, rounding not effective of ingestion lag (v1.2.0 introduced)
+
 Version 1.2.0
 =============
 

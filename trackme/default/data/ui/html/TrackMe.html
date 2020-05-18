@@ -6924,7 +6924,7 @@ require([
 
         var searchSingleMetricHostDonutAlerts = new PostProcessManager({
             "tokenDependencies": {},
-            "search": "search $inputMetricHostIndexes$ $inputMetricHostCategories$\n| where NOT metric_monitored_state=\"disabled\"\n| eval metric_host_state=if(metric_host_state=\"red\" AND priority=\"high\", \"red - high priority\", metric_host_state)\n| eval metric_host_state=if(data_host_state=\"red\" AND priority!=\"high\", \"red - other priority\", metric_host_state)\n| stats count by metric_host_state\n| `trackme_donut_alert_by_type(metric_host_state)`",
+            "search": "search $inputMetricHostIndexes$ $inputMetricHostCategories$\n| where NOT metric_monitored_state=\"disabled\"\n| eval metric_host_state=if(metric_host_state=\"red\" AND priority=\"high\", \"red - high priority\", metric_host_state)\n| eval metric_host_state=if(metric_host_state=\"red\" AND priority!=\"high\", \"red - other priority\", metric_host_state)\n| stats count by metric_host_state\n| `trackme_donut_alert_by_type(metric_host_state)`",
             "managerid": "searchMetricHostsMain",
             "id": "searchSingleMetricHostDonutAlerts"
         }, {
