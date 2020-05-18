@@ -148,6 +148,73 @@ The tracker uses the mstats command to retrieve the latest value and the accordi
 
 These information are merged with the existing (if any) information stored in the KVstore collection, to finally define a state for each metric category, and a state for each host.
 
+Elastic sources creation and usage
+==================================
+
+**When the default TrackMe monitoring concept does not full fill your requirements, because for you example you need to monitor a specific data flow that cannot be distinguished in the standard way, you can create and manage elastic sources definitions to match successfully any kind of requirements:**
+
+.. image:: img/elastic_sources1.png
+   :alt: elastic_sources1.png
+   :align: center
+
+**In a nutshell:**
+
+- You can declare an elastic source that is landing on the Elastic shared tracker
+- When an elastic source is part of the shared tracker, all searches from the tracker run at once when Splunk performs the execution of the tracker
+- You can as well via the UI create an Elastic dedicated tracker
+- An Elastic dedicated tracker is basically a new independent scheduled report monitoring your data source according to your needs, and reporting effectively to TrackMe in a way the application expects
+- All type of queries are supported, from tstats, regular raw events searches, searches relying on the from command and as well metric store indexes with the mstats command
+- For performance purposes, it is recommended that all searches stored in the shared Elastic tracker be as efficient as possible
+- Dedicated trackers on the other side are nothing more than Splunk scheduled reports generating summary events and feeding the KVstore collection properly, giving you all the latitude to modify and customize the searches
+
+Creating a new Elastic source
+-----------------------------
+
+**To create a new Elastic source, following the link on the main TrackMe UI:**
+
+.. image:: img/elastic_sources2.png
+   :alt: elastic_sources2.png
+   :align: center
+
+**Then use the guided schema to test and create the configuration:**
+
+.. image:: img/elastic_sources3.png
+   :alt: elastic_sources3.png
+   :align: center
+
+Creating a new shared or dedicated Elastic source
+-------------------------------------------------
+
+**Within the UI, full fill the requirements and save the new source if the simulation is successful:**
+
+*For a shared tracker:*
+
+.. image:: img/elastic_sources_shared1.png
+   :alt: elastic_sources_shared1.png
+   :align: center
+
+.. image:: img/elastic_sources_shared2.png
+   :alt: elastic_sources_shared2.png
+   :align: center
+
+*For a dedicated tracker:*
+
+.. image:: img/elastic_sources_dedicated1.png
+   :alt: elastic_sources_dedicated1.png
+   :align: center
+
+.. image:: img/elastic_sources_dedicated2.png
+   :alt: elastic_sources_dedicated2.png
+   :align: center
+
+How Elastic sources are taking in consideration
+-----------------------------------------------
+
+**Upon a few minutes following the creation of the Elastic source, it will be automatically added within TrackMe and monitoring starts immediately:**
+
+- Shared Elastic sources depend on the Shared tracker "TrackMe - Elastic sources shared tracker"
+- Dedicated Elastic sources depend on the execution of their own tracker, which name was provided in the UI during the creation
+
 Outliers detection and behaviour analytic
 =========================================
 
@@ -166,6 +233,23 @@ Outliers detection and behaviour analytic
 - Should outliers be detected based on the policy, which is customisable om a per source basis, the source will be reported in alert
 - Different options are provided to control the quality of the outliers calculation, as controlling lower and upper threshold multipliers, or even switching to a static lower bond definition
 - Builtin views provide the key feature to quickly investigate the source in alert and proceed to further investigations if required
+
+Behaviour Analytic Mode
+-----------------------
+
+**By default, the application operates in Production mode, which means that an outlier detection occurring over a data source or host will influence its state effectively.**
+
+**The behaviour analytic mode can be switched to the following status:**
+
+- production: affects objects status to the red state
+- training : affects objects status to the orange state
+- disabled: does nothing
+
+**The mode can be configured via UI in the "TrackMe manage and configure" link in the navigation bar:**
+
+.. image:: img/behaviour_analytic_mode.png
+   :alt: behaviour_analytic_mode.png
+   :align: center
 
 Using Outliers detection
 ------------------------
