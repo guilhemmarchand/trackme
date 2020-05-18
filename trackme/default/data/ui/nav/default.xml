@@ -14,6 +14,8 @@
   <collection label="Collections">
     <collection label="Data sources monitoring">
       <a href="search?q=%7C%20inputlookup%20trackme_data_source_monitoring%20%7C%20eval%20keyid%3D_key">Data sources collection</a>
+      <a href="search?q=%7C%20inputlookup%20trackme_elastic_sources%20%7C%20eval%20keyid%3D_key">Elastic Shared Data sources collection</a>
+      <a href="search?q=%7C%20inputlookup%20trackme_elastic_sources_dedicated%20%7C%20eval%20keyid%3D_key">Elastic Dedicated Data sources mapping collection</a>
       <collection label="Whitelist &amp; Blacklists">
         <a href="search?q=%7C%20inputlookup%20trackme_data_source_monitoring_whitelist_index%20%7C%20eval%20keyid%3D_key">Whitelist indexes</a>
         <a href="search?q=%7C%20inputlookup%20trackme_data_source_monitoring_blacklist_index%20%7C%20eval%20keyid%3D_key">Blacklist indexes</a>
@@ -45,6 +47,7 @@
     <a href="search?q=%7C%20inputlookup%20trackme_sources_knowledge%20%7C%20eval%20keyid%3D_key">Sources knowledge collection</a>
     <a href="search?q=%7C%20inputlookup%20trackme_alerts_ack%20%7C%20eval%20keyid%3D_key">Alerting acknowledgment collection</a>
     <a href="search?q=%7C%20inputlookup%20trackme_logical_group%20%7C%20eval%20keyid%3D_key">Logical group clustering collection</a>
+    <a href="search?q=%7C%20inputlookup%20trackme_summary_investigator%20%7C%20eval%20keyid%3D_key">Summary Investigator for behaviour analytic collection</a>
   </collection>
   <collection label="Audit">
     <a href="trackMe_internal_scheduling">Audit scheduling</a>

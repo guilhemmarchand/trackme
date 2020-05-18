@@ -48,6 +48,19 @@ If you are using Splunk 7.3.x or a later version, you can include the reduced bu
     definition = tstats include_reduced_buckets=t
     iseval = 0
 
+Summary index macro definition
+==============================
+
+Since TrackMe 1.2.0, the application generates summary data events which are indexed in a summary index defined within the following macro:
+
+::
+
+    [trackme_idx]
+    definition = index="summary"
+    iseval = 0
+
+By default, summary events are indexed in index=summary, customize this macro if you wish to change the index target.
+
 Indexers macro definition
 =========================
 
@@ -61,26 +74,6 @@ The builtin views "Ops: Indexes queues" and "Ops: Parsing issues" rely on the us
     iseval = 0
 
 Customise the macro definition to match your indexers host naming convention.
-
-Time format for human readable output
-=====================================
-
-The UI generates human readable time stamps in the following format:
-
-::
-
-    %d/%m/%Y %H:%M
-
-This is driven by the following macro definition:
-
-::
-
-    [trackme_date_format(1)]
-    args = input_field
-    definition = eval "$input_field$ (translated)"=strftime($input_field$, "%d/%m/%Y %H:%M")
-    iseval = 0
-
-If you prefer to have a different format, customise this macro definition.
 
 Whitelisting and blacklisting
 =============================

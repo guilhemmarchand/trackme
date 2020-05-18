@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <title>TrackMe - Data tracking system for Splunk administrators</title>
+    <title>TrackMe - Data tracking system</title>
     <link rel="shortcut icon" href="/en-US/static/@E0748683B67CEA4FEB581C608314742274902FE131518C73E0D443740659785A.7/img/favicon.ico" />
     <link rel="stylesheet" type="text/css" href="{{SPLUNKWEB_URL_PREFIX}}/static/build/css/bootstrap-enterprise.css" />
     <link rel="stylesheet" type="text/css" href="{{SPLUNKWEB_URL_PREFIX}}/static/css/build/pages/dashboard-simple-bootstrap.min.css" />
@@ -374,7 +374,7 @@ styles in <div> tags, similar to Bootstrap's grid system.
                         <div class="panel-body html">
                             <div style="text-align: center; border: 3px dashed #ccc;">
                                 <div style="display: inline-flex; align-items: center; margin-top: 5px;">
-                                    <span style="font-size: 22px; font-weight: bold; color: #999999; margin-top: 5px;">RESET COLLECTIONS</span>
+                                    <span style="font-size: 22px; font-weight: bold; color: #6495ed; margin-top: 5px;">RESET COLLECTIONS</span>
                                 </div>
                             </div>
                         </div>
@@ -442,6 +442,62 @@ styles in <div> tags, similar to Bootstrap's grid system.
         </div>
     </div>
 
+    <div id="rowManageBehaviourAnalytic" class="dashboard-row dashboard-rowManageResetInfo">
+        <div id="panelManageBehaviourAnalytic" class="dashboard-cell" style="width: 100%;">
+            <div class="dashboard-panel clearfix">
+                <div class="panel-element-row">
+                    <div id="elementManageBehaviourAnalytic" class="dashboard-element html" style="width: 100%">
+                        <div class="panel-body html">
+                            <div style="text-align: center; border: 3px dashed #ccc;">
+                                <div style="display: inline-flex; align-items: center; margin-top: 5px;">
+                                    <span style="font-size: 22px; font-weight: bold; color: #6495ed; margin-top: 5px;">BEHAVIOUR ANALYTIC MODE</span>
+                                </div>
+                                <div>
+                                    <h2>Manage the behaviour analytic mode, when the Production mode is enabled, true positive alerts will generate a red state, in training mode these will generate an orange state, in disabled mode these will not impact the state.</h2>
+                                </div>
+                            </div>
+                            <div class="boxnotify" id="boxnotify-behaviour-analytic-update">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="rowManageBehaviourAnalytic1" class="dashboard-row dashboard-row_maintenance">
+        <div id="panelManageBehaviourAnalytic1" class="dashboard-cell" style="width: 50%;">
+            <div class="dashboard-panel clearfix">
+                <h2 class="panel-title"></h2>
+                <div class="fieldset" style="text-align: center;">
+                    <div class="form-submit" id="btn_enable_production_mode">
+                        <button id="btn_enable_production_mode_confirm" class="btn btn-danger submit">Enable production mode</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="rowManageBehaviourAnalytic2" class="dashboard-cell" style="width: 50%;">
+            <div class="dashboard-panel clearfix">
+                <h2 class="panel-title"></h2>
+                <div class="fieldset" style="text-align: center;">
+                    <div class="form-submit" id="btn_enable_training_mode">
+                        <button id="btn_enable_training_mode_confirm" class="btn btn-primary submit">Enable training mode</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="rowManageBehaviourAnalytic3" class="dashboard-cell" style="width: 50%;">
+            <div class="dashboard-panel clearfix">
+                <h2 class="panel-title"></h2>
+                <div class="fieldset" style="text-align: center;">
+                    <div class="form-submit" id="btn_disabled_mode">
+                        <button id="btn_disabled_mode_confirm" class="btn btn-primary submit">Disable behaviour analytic</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <div id="rowManageEnrichmentMacrosInfo" class="dashboard-row dashboard-rowManageResetInfo">
         <div id="panelManageEnrichmentMacrosInfo" class="dashboard-cell" style="width: 100%;">
             <div class="dashboard-panel clearfix">
@@ -450,7 +506,7 @@ styles in <div> tags, similar to Bootstrap's grid system.
                         <div class="panel-body html">
                             <div style="text-align: center; border: 3px dashed #ccc;">
                                 <div style="display: inline-flex; align-items: center; margin-top: 5px;">
-                                    <span style="font-size: 22px; font-weight: bold; color: #999999; margin-top: 5px;">TAGS ENRICHMENT MACRO DEFINITIONS</span>
+                                    <span style="font-size: 22px; font-weight: bold; color: #6495ed; margin-top: 5px;">TAGS ENRICHMENT MACRO DEFINITIONS</span>
                                 </div>
                             </div>
                         </div>
@@ -539,7 +595,7 @@ styles in <div> tags, similar to Bootstrap's grid system.
                         <div class="panel-body html">
                             <div style="text-align: center; border: 3px dashed #ccc;">
                                 <div style="display: inline-flex; align-items: center; margin-top: 5px;">
-                                    <span style="font-size: 22px; font-weight: bold; color: #999999; margin-top: 5px;">MACROS DEFINITIONS</span>
+                                    <span style="font-size: 22px; font-weight: bold; color: #6495ed; margin-top: 5px;">MAIN MACROS DEFINITIONS</span>
                                 </div>
                             </div>
                         </div>
@@ -582,6 +638,107 @@ styles in <div> tags, similar to Bootstrap's grid system.
                 <div class="panel-element-row">
                     <div id="elementTable_trackme_idx_filter" class="dashboard-element table" style="width: 100%">
                         <div class="panel-body"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="ManageRowMacro3b" class="dashboard-row dashboard-rowDataSourcesTable" >
+        <div id="panelManage3b" class="dashboard-cell" style="width: 100%;">
+            <div class="dashboard-panel clearfix">
+                <h2 style="padding: 12px 55px 7px 12px;">trackme_idx: summary index for TrackMe</h2><h2 class="panel-title">The Summary Investigator tracker generates summary data to be indexed into a summary index which is defined in the following macro: (default to index=summary, click on the table bellow to edit the macro definition)</h2>
+                <div class="panel-element-row">
+                    <div id="elementTable_trackme_idx_summary" class="dashboard-element table" style="width: 100%">
+                        <div class="panel-body"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="rowManageMacrosInfoBehaviourAnalytic" class="dashboard-row dashboard-rowManageResetInfo">
+        <div id="panelManageMacrosInfoBehaviourAnalytic" class="dashboard-cell" style="width: 100%;">
+            <div class="dashboard-panel clearfix">
+                <div class="panel-element-row">
+                    <div id="elementManageMacrosInfoBehaviourAnalytic" class="dashboard-element html" style="width: 100%">
+                        <div class="panel-body html">
+                            <div style="text-align: center; border: 3px dashed #ccc;">
+                                <div style="display: inline-flex; align-items: center; margin-top: 5px;">
+                                    <span style="font-size: 22px; font-weight: bold; color: #6495ed; margin-top: 5px;">BEHAVIOUR ANALYTIC MACROS DEFINITIONS</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="ManageRowMacro4b" class="dashboard-row dashboard-rowDataSourcesTable" >
+        <div id="panelManage4b" class="dashboard-cell" style="width: 100%;">
+            <div class="dashboard-panel clearfix">
+                <h2 style="padding: 12px 55px 7px 12px;">trackme_default_enable_behaviour_analytic: default enabled status for behaviour analytic features (true is enabled, false is disabled)</h2><h2 class="panel-title">When an entity is added to the collection, a default status is defined for behaviour analytic features, default to enabled: (click on the table bellow to edit the macro definition)</h2>
+                <div class="panel-element-row">
+                    <div id="elementTable_trackme_default_enable_behaviour_analytic" class="dashboard-element table" style="width: 100%">
+                        <div class="panel-body"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="ManageRowMacro4c" class="dashboard-row dashboard-rowDataSourcesTable" >
+        <div id="panelManage4c" class="dashboard-cell" style="width: 100%;">
+            <div class="dashboard-panel clearfix">
+                <h2 style="padding: 12px 55px 7px 12px;">trackme_default_outlier_threshold_multiplier: default value for outlier threshold multiplier</h2><h2 class="panel-title">Event count outliers detection for behaviour analytics uses the default threshold multiplier for outliers calculations: (click on the table bellow to edit the macro definition)</h2>
+                <div class="panel-element-row">
+                    <div id="elementTable_trackme_default_outlier_threshold_multiplier" class="dashboard-element table" style="width: 100%">
+                        <div class="panel-body"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="ManageRowMacro4d" class="dashboard-row dashboard-rowDataSourcesTable" >
+        <div id="panelManage4d" class="dashboard-cell" style="width: 100%;">
+            <div class="dashboard-panel clearfix">
+                <h2 style="padding: 12px 55px 7px 12px;">trackme_default_outlier_alert_on_upper: default behaviour for alerting on outliers increase (true is enabled, false is disabled)</h2><h2 class="panel-title">Enable or disable impacting the entity status on upper outliers detection: (click on the table bellow to edit the macro definition)</h2>
+                <div class="panel-element-row">
+                    <div id="elementTable_trackme_default_outlier_alert_on_upper" class="dashboard-element table" style="width: 100%">
+                        <div class="panel-body"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="ManageRowMacro4e" class="dashboard-row dashboard-rowDataSourcesTable" >
+        <div id="panelManage4e" class="dashboard-cell" style="width: 100%;">
+            <div class="dashboard-panel clearfix">
+                <h2 style="padding: 12px 55px 7px 12px;">trackme_default_outlier_period: default period in relative days for outliers detection calculations</h2><h2 class="panel-title">define the period which is by default taken in consideration during outliers calculations: (click on the table bellow to edit the macro definition)</h2>
+                <div class="panel-element-row">
+                    <div id="elementTable_trackme_default_outlier_period" class="dashboard-element table" style="width: 100%">
+                        <div class="panel-body"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="rowManageMacrosInfoVarious" class="dashboard-row dashboard-rowManageResetInfo">
+        <div id="panelManageMacrosInfoVarious" class="dashboard-cell" style="width: 100%;">
+            <div class="dashboard-panel clearfix">
+                <div class="panel-element-row">
+                    <div id="elementManageMacrosInfoVarious" class="dashboard-element html" style="width: 100%">
+                        <div class="panel-body html">
+                            <div style="text-align: center; border: 3px dashed #ccc;">
+                                <div style="display: inline-flex; align-items: center; margin-top: 5px;">
+                                    <span style="font-size: 22px; font-weight: bold; color: #6495ed; margin-top: 5px;">OTHER MACROS DEFINITIONS</span>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -930,7 +1087,7 @@ require([
         // VARIOUS
         //
 
-        // console.log("Splunk version is " + $C.VERSION_LABEL);
+        //console.log("Splunk version is " + $C.VERSION_LABEL);
 
         //
         // SEARCH MANAGERS
@@ -971,6 +1128,56 @@ require([
             "search": "where title=\"trackme_idx_filter\" | table definition",
             "managerid": "searchGetMacrosDefinitions",
             "id": "searchGetMacro_trackme_idx_filter"
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        });
+
+        var searchGetMacro_trackme_idx_summary = new PostProcessManager({
+            "tokenDependencies": {},
+            "search": "where title=\"trackme_idx\" | table definition",
+            "managerid": "searchGetMacrosDefinitions",
+            "id": "searchGetMacro_trackme_idx_summary"
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        });
+
+        var searchGetMacro_trackme_default_outlier_threshold_multiplier = new PostProcessManager({
+            "tokenDependencies": {},
+            "search": "where title=\"trackme_default_outlier_threshold_multiplier\" | table definition",
+            "managerid": "searchGetMacrosDefinitions",
+            "id": "searchGetMacro_trackme_default_outlier_threshold_multiplier"
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        });
+
+        var searchGetMacro_trackme_default_outlier_period = new PostProcessManager({
+            "tokenDependencies": {},
+            "search": "where title=\"trackme_default_outlier_period\" | table definition",
+            "managerid": "searchGetMacrosDefinitions",
+            "id": "searchGetMacro_trackme_default_outlier_period"
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        });
+
+        var searchGetMacro_trackme_default_outlier_alert_on_upper = new PostProcessManager({
+            "tokenDependencies": {},
+            "search": "where title=\"trackme_default_outlier_alert_on_upper\" | table definition",
+            "managerid": "searchGetMacrosDefinitions",
+            "id": "searchGetMacro_trackme_default_outlier_alert_on_upper"
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        });
+
+        var searchGetMacro_trackme_default_enable_behaviour_analytic = new PostProcessManager({
+            "tokenDependencies": {},
+            "search": "where title=\"trackme_default_enable_behaviour_analytic\" | table definition",
+            "managerid": "searchGetMacrosDefinitions",
+            "id": "searchGetMacro_trackme_default_enable_behaviour_analytic"
         }, {
             tokens: true,
             tokenNamespace: "submitted"
@@ -1225,6 +1432,111 @@ require([
             if (e.field !== undefined) {
                 e.preventDefault();
                 var url = TokenUtils.replaceTokenNames("/en-GB/manager/trackme/admin/macros/trackme_idx_filter?action=edit", _.extend(submittedTokenModel.toJSON(), e.data), TokenUtils.getEscaper('url'), TokenUtils.getFilters(mvc.Components));
+                utils.redirect(url, false, "_blank");
+            }
+        });
+
+        var elementTable_trackme_idx_summary = new TableElement({
+            "id": "elementTable_trackme_idx_summary",
+            "count": 100,
+            "drilldown": "row",
+            "refresh.display": "none",
+            "wrap": "false",
+            "managerid": "searchGetMacro_trackme_idx_summary",
+            "el": $('#elementTable_trackme_idx_summary')
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        }).render();
+
+        elementTable_trackme_idx_summary.on("click", function(e) {
+            if (e.field !== undefined) {
+                e.preventDefault();
+                var url = TokenUtils.replaceTokenNames("/en-GB/manager/trackme/admin/macros/trackme_idx?action=edit", _.extend(submittedTokenModel.toJSON(), e.data), TokenUtils.getEscaper('url'), TokenUtils.getFilters(mvc.Components));
+                utils.redirect(url, false, "_blank");
+            }
+        });
+
+        var elementTable_trackme_default_outlier_threshold_multiplier = new TableElement({
+            "id": "elementTable_trackme_default_outlier_threshold_multiplier",
+            "count": 100,
+            "drilldown": "row",
+            "refresh.display": "none",
+            "wrap": "false",
+            "managerid": "searchGetMacro_trackme_default_outlier_threshold_multiplier",
+            "el": $('#elementTable_trackme_default_outlier_threshold_multiplier')
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        }).render();
+
+        elementTable_trackme_default_outlier_threshold_multiplier.on("click", function(e) {
+            if (e.field !== undefined) {
+                e.preventDefault();
+                var url = TokenUtils.replaceTokenNames("/en-GB/manager/trackme/admin/macros/trackme_default_outlier_threshold_multiplier?action=edit", _.extend(submittedTokenModel.toJSON(), e.data), TokenUtils.getEscaper('url'), TokenUtils.getFilters(mvc.Components));
+                utils.redirect(url, false, "_blank");
+            }
+        });
+
+        var elementTable_trackme_default_outlier_period = new TableElement({
+            "id": "elementTable_trackme_default_outlier_period",
+            "count": 100,
+            "drilldown": "row",
+            "refresh.display": "none",
+            "wrap": "false",
+            "managerid": "searchGetMacro_trackme_default_outlier_period",
+            "el": $('#elementTable_trackme_default_outlier_period')
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        }).render();
+
+        elementTable_trackme_default_outlier_period.on("click", function(e) {
+            if (e.field !== undefined) {
+                e.preventDefault();
+                var url = TokenUtils.replaceTokenNames("/en-GB/manager/trackme/admin/macros/trackme_default_outlier_period?action=edit", _.extend(submittedTokenModel.toJSON(), e.data), TokenUtils.getEscaper('url'), TokenUtils.getFilters(mvc.Components));
+                utils.redirect(url, false, "_blank");
+            }
+        });
+
+        var elementTable_trackme_default_outlier_alert_on_upper = new TableElement({
+            "id": "elementTable_trackme_default_outlier_alert_on_upper",
+            "count": 100,
+            "drilldown": "row",
+            "refresh.display": "none",
+            "wrap": "false",
+            "managerid": "searchGetMacro_trackme_default_outlier_alert_on_upper",
+            "el": $('#elementTable_trackme_default_outlier_alert_on_upper')
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        }).render();
+
+        elementTable_trackme_default_outlier_alert_on_upper.on("click", function(e) {
+            if (e.field !== undefined) {
+                e.preventDefault();
+                var url = TokenUtils.replaceTokenNames("/en-GB/manager/trackme/admin/macros/trackme_default_outlier_alert_on_upper?action=edit", _.extend(submittedTokenModel.toJSON(), e.data), TokenUtils.getEscaper('url'), TokenUtils.getFilters(mvc.Components));
+                utils.redirect(url, false, "_blank");
+            }
+        });
+
+        var elementTable_trackme_default_enable_behaviour_analytic = new TableElement({
+            "id": "elementTable_trackme_default_enable_behaviour_analytic",
+            "count": 100,
+            "drilldown": "row",
+            "refresh.display": "none",
+            "wrap": "false",
+            "managerid": "searchGetMacro_trackme_default_enable_behaviour_analytic",
+            "el": $('#elementTable_trackme_default_enable_behaviour_analytic')
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        }).render();
+
+        elementTable_trackme_default_enable_behaviour_analytic.on("click", function(e) {
+            if (e.field !== undefined) {
+                e.preventDefault();
+                var url = TokenUtils.replaceTokenNames("/en-GB/manager/trackme/admin/macros/trackme_default_enable_behaviour_analytic?action=edit", _.extend(submittedTokenModel.toJSON(), e.data), TokenUtils.getEscaper('url'), TokenUtils.getFilters(mvc.Components));
                 utils.redirect(url, false, "_blank");
             }
         });
@@ -1606,6 +1918,226 @@ require([
         tokens.set("currentUser", currentUser);
         var auditendpoint_URl = "/en-US/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_audit_changes/"
 
+        // Audit record
+        function auditRecord(action, change_type, object, object_category, object_attrs, result, comment) {
+
+            // Audit changes
+            var tokens = mvc.Components.get("default");
+            var currentUser = Splunk.util.getConfigValue("USERNAME");
+            tokens.set("currentUser", currentUser);
+            var auditendpoint_URl = "/en-US/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_audit_changes/"
+
+            var time = (new Date).getTime();
+            var audit_record = {
+                "time": time,
+                "action": action,
+                "user": currentUser,
+                "change_type": change_type,
+                "object": object,
+                "object_category": object_category,
+                "object_attrs": object_attrs,
+                "result": result,
+                "comment": comment
+            };
+            $.ajax({
+                url: auditendpoint_URl,
+                type: "POST",
+                async: true,
+                contentType: "application/json",
+                data: JSON.stringify(audit_record),
+                success: function(returneddata) {
+                    //console.log("Updated!", returneddata)
+                    // Run the search again to update the table
+                }
+            });
+
+        }
+
+        //
+        // BEHAVIOUR ANALYTIC MODE
+        //
+
+        function update_behaviour_analytic(value) {
+
+            var query_url = "/en-US/splunkd/__raw/servicesNS/nobody/trackme/configs/conf-macros/trackme_system_enable_behaviour_analytic_mode"
+            var value = value;
+
+            if (value == "enabled") {
+                change_type = "enable behaviour analytic production mode";
+            } else if (value == "training") {
+                change_type = "enable behaviour analytic training mode";
+            } else if (value == "disabled") {
+                change_type = "disabled behaviour analytic training mode";
+            }
+            else {
+                change_type = "unknown";
+            }
+
+            $.ajax({
+                url: query_url,
+                type: "POST",
+                async: true,
+                contentType: "application/json",
+                data: "definition=\"" + value + "\"",
+                success: function(returneddata) {
+                    //console.log("Updated!", returneddata)
+
+                    // Update the buttons
+                    if (value == "enabled") {
+                        document.getElementById('btn_enable_production_mode_confirm').disabled = true;
+                        document.getElementById('btn_enable_training_mode_confirm').disabled = false;
+                        document.getElementById('btn_disabled_mode_confirm').disabled = false;
+                    }
+                    else if (value == "training") {
+                        document.getElementById('btn_enable_production_mode_confirm').disabled = false;
+                        document.getElementById('btn_enable_training_mode_confirm').disabled = true;
+                        document.getElementById('btn_disabled_mode_confirm').disabled = false;
+                    }
+                    else if (value == "disabled") {
+                        document.getElementById('btn_enable_production_mode_confirm').disabled = false;
+                        document.getElementById('btn_enable_training_mode_confirm').disabled = false;
+                        document.getElementById('btn_disabled_mode_confirm').disabled = true;
+                    }
+                    else {
+                        document.getElementById('btn_enable_production_mode_confirm').disabled = false;
+                        document.getElementById('btn_enable_training_mode_confirm').disabled = false;
+                        document.getElementById('btn_disabled_mode_confirm').disabled = false;
+                    }
+
+                    // notify
+                    notification('Behaviour analytic mode has successfully been set to ' + value, 6000)
+
+                    // Audit
+                    action = "success";
+                    change_type = change_type;
+                    object = "all";
+                    object_category = "all";
+                    object_attrs = "definition=\"" + value + "\"";
+                    result = "N/A";
+                    comment = "N/A";
+                    auditRecord(action, change_type, object, object_category, object_attrs, result, comment);
+
+                },
+                error: function(xhr, textStatus, error) {
+                    message = "Error Updating!" + xhr + textStatus + error;
+
+                    // Audit
+                    action = "failure";
+                    change_type = change_type;
+                    object = "all";
+                    object_category = "all";
+                    object_attrs = "definition=\"" + value + "\"";
+                    result = message;
+                    comment = "N/A";
+                    auditRecord(action, change_type, object, object_category, object_attrs, result, comment);
+
+                    $("#modal_update_collection_failure_return").find('.modal-error-message p').text(message);
+                    $("#modal_update_collection_failure_return").modal()
+                }
+            });
+
+        }
+
+        function get_behaviour_analytic_mode() {
+
+        // Manage buttons states dynamically
+
+        submitTokens();
+
+        // When the Submit button is clicked, get all the form fields by accessing token values
+        var tokens = mvc.Components.get("default");
+
+        //
+        // Verify the current status
+        //
+
+        // Define the query
+        var searchQuery = "| makeresults | eval behaviour_analytic_mode=`trackme_system_enable_behaviour_analytic_mode` | fields - _time";
+
+        // Set the search parameters--specify a time range
+        var searchParams = {
+            earliest_time: "-5m",
+            latest_time: "now"
+        };
+
+        // Run a oneshot search that returns the job's results
+        service.oneshotSearch(
+            searchQuery,
+            searchParams,
+            function(err, results) {
+
+                // Display the results
+                var fields = results.fields;
+                var rows = results.rows;
+                var current_maintenance_mode;
+                var current_time_updated;
+
+                for (var i = 0; i < rows.length; i++) {
+                    var values = rows[i];
+                    //console.log("Row " + i + ": ");
+
+                    for (var j = 0; j < values.length; j++) {
+                        var field = fields[j];
+
+                        if (fields[j] == "behaviour_analytic_mode") {
+                            current_behaviour_analytic_mode_mode = values[j];
+                        }
+                    }
+                }
+
+                //console.log("current_behaviour_analytic_mode_mode: " + current_behaviour_analytic_mode_mode);
+
+                if (!current_behaviour_analytic_mode_mode) {
+                    document.getElementById('btn_enable_production_mode_confirm').disabled = false;
+                    document.getElementById('btn_enable_training_mode_confirm').disabled = false;
+                    document.getElementById('btn_disabled_mode_confirm').disabled = false;
+                    return;
+                }
+
+                // Dynamically manage buttons states
+                if (current_behaviour_analytic_mode_mode == "enabled") {
+                    document.getElementById('btn_enable_production_mode_confirm').disabled = true;
+                    document.getElementById('btn_enable_training_mode_confirm').disabled = false;
+                    document.getElementById('btn_disabled_mode_confirm').disabled = false;
+                }
+                else if (current_behaviour_analytic_mode_mode == "training") {
+                    document.getElementById('btn_enable_production_mode_confirm').disabled = false;
+                    document.getElementById('btn_enable_training_mode_confirm').disabled = true;
+                    document.getElementById('btn_disabled_mode_confirm').disabled = false;
+                }
+                else if (current_behaviour_analytic_mode_mode == "disabled") {
+                    document.getElementById('btn_enable_production_mode_confirm').disabled = false;
+                    document.getElementById('btn_enable_training_mode_confirm').disabled = false;
+                    document.getElementById('btn_disabled_mode_confirm').disabled = true;
+                }
+                else {
+                    document.getElementById('btn_enable_production_mode_confirm').disabled = false;
+                    document.getElementById('btn_enable_training_mode_confirm').disabled = false;
+                    document.getElementById('btn_disabled_mode_confirm').disabled = false;
+                }
+
+            });
+
+        }
+
+        // get current status
+        get_behaviour_analytic_mode();
+
+        // Enable production mode
+        $("#btn_enable_production_mode").click(function() {
+            update_behaviour_analytic("enabled");
+        });
+
+        // Enable training mode
+        $("#btn_enable_training_mode").click(function() {
+            update_behaviour_analytic("training");
+        });
+
+        // Disable
+        $("#btn_disabled_mode").click(function() {
+            update_behaviour_analytic("disabled");
+        });
+
         //
         // RESET COLLECTIONS
         //
@@ -1622,7 +2154,7 @@ require([
 
             $("#btn_modal_reset_data_source_confirmed").click(function() {
 
-                console.log("Reset of data source collection");
+                //console.log("Reset of data source collection");
 
                 // Define the query
                 var searchQuery = "| outputlookup trackme_data_source_monitoring";
@@ -1839,7 +2371,7 @@ require([
 
             $("#btn_modal_reset_data_host_confirmed").click(function() {
 
-                console.log("Reset of data source collection");
+                //console.log("Reset of data source collection");
 
                 // Define the query
                 var searchQuery = "| outputlookup trackme_host_monitoring";
@@ -2570,6 +3102,12 @@ function notification(s, time) {
   });
 
   $("<p>" + s + "</p>").appendTo('#boxnotify-modify_custom_lagging').fadeTo(time, 1, function() {
+    $(this).fadeTo(1000, 0, function() {
+      $(this).remove()
+    });
+  });
+
+  $("<p>" + s + "</p>").appendTo('#boxnotify-behaviour-analytic-update').fadeTo(time, 1, function() {
     $(this).fadeTo(1000, 0, function() {
       $(this).remove()
     });
