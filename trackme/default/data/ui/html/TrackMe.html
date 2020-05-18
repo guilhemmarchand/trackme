@@ -2308,7 +2308,7 @@ styles in <div> tags, similar to Bootstrap's grid system.
         </div>
     </div>
 
-    <!-- elastic source creation is successfull -->
+    <!-- elastic source creation is successful -->
     <div class="modal fade" id="modal_elastic_source_alert_creation_success" role="dialog">
         <div class="modal-dialog">
 
@@ -2798,29 +2798,20 @@ styles in <div> tags, similar to Bootstrap's grid system.
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h3 style="color: indianred;"><span class="glyphicon glyphicon-lock"></span> Elastic Sources </h3>
+                    <h3 style="color: indianred;"><span class="glyphicon glyphicon-lock"></span>New elastic source successfully added.</h3>
                 </div>
-
                 <div class="modal-body">
-
-                    <div>
-
-                        <div style="margin-bottom: 10px;">
-
-                            <div>
-                                <h4>The new elastic source was successfully added to the collection, run the tracker data source immediately or wait for its next scheduled execution.</h4>
-                            </div>
-
-                        </div>
-
+                    <p>Congratulations, the new elastic source was successfully added to the shared tracker collection.<br /><br />
+                        <b>The following new configuration was created:</b>
+                    </p>
+                    <div class="modal-error-message" style="margin: 10px 0; padding: 10px; border-radius: 3px 3px 3px 3px; color: #059; background-color: #BEF;">
+                        <p>success return message</p>
                     </div>
-
                 </div>
 
-                <div style="margin-top: 20px;" class="modal-footer">
-                    <button type="submit" class="btn btn-default btn-primary" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Ok </button>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-default btn-default pull-right" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Close</button>
                 </div>
-
             </div>
 
         </div>
@@ -20599,6 +20590,9 @@ require([
             $('#btn_modal_elastic_source_add_new').click(function(event) {
                 event.stopImmediatePropagation();
 
+                // Get status
+                var success_simulation_elastic_sources = tokens.get("start_simulation_elastic_sources");
+
                 // Get tokens
                 var tk_input_elastic_source_search_type = tokens.get("tk_input_elastic_source_search_type");
                 var tk_input_elastic_source_data_name = tokens.get("tk_input_elastic_source_data_name");
@@ -20618,7 +20612,7 @@ require([
                 // disable the button once clicked
                 document.getElementById('btn_modal_elastic_source_add_new').disabled = true;
 
-                if (start_simulation_elastic_sources && start_simulation_elastic_sources=='true') {
+                if (start_simulation_elastic_sources && start_simulation_elastic_sources == 'true') {
 
                     var myendpoint_URl = "/en-US/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_elastic_sources/"
 
@@ -20641,8 +20635,11 @@ require([
 
                             // Processed modal
                             //console.log("New elastic source added with data_name: " + tk_input_elastic_source_data_name);
-                            start_simulation_elastic_sources = undefined;
-                            delete(start_simulation_elastic_sources);
+                            // clean status
+                            unsetToken("start_simulation_elastic_sources");
+                            // Show message
+                            msg = "The new elastic source: " +  tk_input_elastic_source_data_name + " was successfully added to the collection, manually run the tracker report \"TrackMe - Elastic sources shared tracker\" or wait for its next execution."
+                            $("#add_elastic_source_processed").find('.modal-error-message p').text(msg);
                             $("#add_elastic_sources").modal('hide');
                             $("#add_elastic_source_processed").modal();
 
@@ -20690,6 +20687,9 @@ require([
 
             $('#btn_modal_elastic_source_dedicated_add_new').click(function(event) {
                 event.stopImmediatePropagation();
+
+                // Get status
+                var success_simulation_elastic_sources = tokens.get("start_simulation_elastic_sources");
 
                 // Get tokens
                 var tk_input_elastic_source_search_type = tokens.get("tk_input_elastic_source_search_type");
@@ -20787,6 +20787,9 @@ require([
                             done(err);
                             return;
                         }
+
+                        // clean status
+                        unsetToken("start_simulation_elastic_sources");
 
                         // Confirmation message.
 
