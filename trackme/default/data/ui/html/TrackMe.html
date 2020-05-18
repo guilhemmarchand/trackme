@@ -2285,7 +2285,7 @@ styles in <div> tags, similar to Bootstrap's grid system.
         </div>
     </div>
 
-    <!-- Error or failure during KVstore collection update -->
+    <!-- elastic source simulation -->
     <div class="modal fade" id="modal_generic_search_error" role="dialog">
         <div class="modal-dialog">
 
@@ -2303,6 +2303,59 @@ styles in <div> tags, similar to Bootstrap's grid system.
 
                 <div class="modal-footer">
                     <button type="submit" id="btn_modal_generic_search_error_back" class="btn btn-default btn-primary pull-right" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Back</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- elastic source creation is successfull -->
+    <div class="modal fade" id="modal_elastic_source_alert_creation_success" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h3 style="color: indianred;"><span class="glyphicon glyphicon-lock"></span>New tracker successfully created.</h3>
+                </div>
+                <div class="modal-body">
+                    <p>Congratulations, the new elastic source tracker was successfully created.<br /><br />
+                        <b>The following new tracker was created:</b>
+                    </p>
+                    <div class="modal-error-message" style="margin: 10px 0; padding: 10px; border-radius: 3px 3px 3px 3px; color: #059; background-color: #BEF;">
+                        <p>success return message</p>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-default btn-default pull-right" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Error or failure during elastic source creation -->
+    <div class="modal fade" id="modal_elastic_source_alert_creation_error" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h3 style="color: indianred;"><span class="glyphicon glyphicon-lock"></span>Oops!</h3>
+                </div>
+                <div class="modal-body">
+                    <p>Sorry but it looks like an error occurred while attempting to perform the creation of the new elastic source tracker.<br /><br />
+                        <b>You might not have the permission to perform this operation</b>, or an unexpected failure was encountered.<br /><br />
+                        <b>The server returned the following error message:</b>
+                    </p>
+                    <div class="modal-error-message" style="margin: 10px 0; padding: 10px; border-radius: 3px 3px 3px 3px; color: #D8000C; background-color: #FFBABA;">
+                        <p>error return message</p>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-default btn-default pull-right" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Close</button>
                 </div>
             </div>
         </div>
@@ -2529,11 +2582,25 @@ styles in <div> tags, similar to Bootstrap's grid system.
                     <br /><br />
 
                     <lu>
-                        <li>elastic sources are custom flexible data sources entities, which can be searches based on regular raw events searches, tstats searches, from command based searches and metric indexes using the mstats command</li>
-                        <li>elastic sources should be used when the default concept of trackMe (statement by index/sourcetype) does not comply with your requirements, or does provide the level of flexibility requested</li>
-                        <li>these searches need to be performing as much as possible, ideally relying on tstats and the usage of standard Meta data (source, etc), custom indexed fields or raw searches using TERM()</li>
-                        <li>search constraints are free and can contain filters of any kind, including time filters (earliest and latest, besides when using the from command)</li>
-                        <li>metric indexes do not record any indexing time information, as such the backend reports will record the ingestion as the latest metric available against now</li>
+                        <li>Elastic sources are custom flexible data sources entities, which can be searches based on regular raw events searches, tstats searches, from command based searches and metric indexes using the mstats command</li>
+                        <li>Elastic sources should be used when the default concept of trackMe (statement by index/sourcetype) does not comply with your requirements, or does provide the level of flexibility requested</li>
+                        <li>These searches need to be performing as much as possible, ideally relying on tstats and the usage of standard Meta data (source, etc), custom indexed fields or raw searches using TERM()</li>
+                        <li>Search constraints are free and can contain filters of any kind, including time filters (earliest and latest, besides when using the from command)</li>
+                        <li>Metric indexes do not record any indexing time information, as such the backend reports will record the ingestion as the latest metric available against now</li>
+                    </lu>
+
+                    <br />
+
+                    <b>Elastic sources can be added to the shared tracker "trackMe - Elastic Data sources tracker" or created as new and independent trackers:</b>
+
+                    <br /><br />
+
+                    <lu>
+                        <li>The shared elastic tracker loads the content of the lookup trackme_elastic_sources, and performs all the searches in a single execution</li>
+                        <li>A dedicated elastic tracker is a scheduled report created in the UI to manage a single data source in a integrated way with the application</li>
+                        <li>For large scale or low performing searches, the usage of dedicated elastic trackers is recommended</li>
+                        <li>The shared elastic tracker should be reserved to high performing searches</li>
+                        <li>Independent elastic trackers are as well stored in a lookup, trackme_elastic_sources_dedicated, which is used for mapping purposes in the UI</li>
                     </lu>
 
                     <br />
@@ -2590,7 +2657,7 @@ styles in <div> tags, similar to Bootstrap's grid system.
 
                                         <div style="margin-bottom: 10px;">
                                             <button id="btn_modal_elastic_sources_manage" type="submit" style="margin-right: 15px;" class="btn btn-default btn-primary" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Manage existing elastic sources</button>
-                                            <button id="btn_modal_elastic_sources_add" type="submit" class="btn btn-default btn-primary" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Create a new elastic sources</button>
+                                            <button id="btn_modal_elastic_sources_add" type="submit" class="btn btn-default btn-primary" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Create a new elastic source</button>
                                         </div>
                                     </div>
 
@@ -2612,7 +2679,7 @@ styles in <div> tags, similar to Bootstrap's grid system.
 
                 </div>
                 <div class="modal-footer">
-                    <button type="submit" class="btn btn-default btn-default pull-left" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Cancel</button>
+                    <button type="submit" class="btn btn-default btn-default pull-right" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Cancel</button>
                 </div>
             </div>
         </div>
@@ -2674,8 +2741,9 @@ styles in <div> tags, similar to Bootstrap's grid system.
                                     </div>
 
                                     <div style="margin-top: 15x;">
-                                        <button type="submit" id="btn_modal_elastic_source_add_simulate" class="btn btn-default btn-primary"><span class="glyphicon glyphicon-remove"></span> Simulate the search</button>
-                                        <button type="submit" id="btn_modal_elastic_source_add_new" class="btn btn-default btn-primary"><span class="glyphicon glyphicon-remove"></span> Add this new elastic source</button>
+                                        <button type="submit" id="btn_modal_elastic_source_add_simulate" style="margin-right: 15px;" class="btn btn-default btn-primary"><span class="glyphicon glyphicon-remove"></span> Simulate the search</button>
+                                        <button type="submit" id="btn_modal_elastic_source_add_new" style="margin-right: 15px;" class="btn btn-default btn-primary"><span class="glyphicon glyphicon-remove"></span> Add to the shared tracker</button>
+                                        <button type="submit" id="btn_modal_elastic_source_dedicated_add_new" style="margin-right: 15px;" class="btn btn-default btn-primary"><span class="glyphicon glyphicon-remove"></span> Add as a new dedicated tracker</button>
                                     </div>
 
                                 </div>
@@ -20326,6 +20394,7 @@ require([
         $('#btn_modal_elastic_sources_add').click(function() {
                 // Default disable button add state
                 document.getElementById('btn_modal_elastic_source_add_new').disabled = true;
+                document.getElementById('btn_modal_elastic_source_dedicated_add_new').disabled = true;
                 // Show input modal
                 $("#add_elastic_sources").modal();
         });
@@ -20384,6 +20453,7 @@ require([
                     if (!is_unique) {
                         var start_simulation_elastic_sources = "false";
                         document.getElementById('btn_modal_elastic_source_add_new').disabled = true;
+                        document.getElementById('btn_modal_elastic_source_dedicated_add_new').disabled = true;
                         setToken("start_simulation_elastic_sources", "false");
                         //console.log("result is undefined");
                     }
@@ -20391,12 +20461,14 @@ require([
                     if (is_unique == "true" && status == "true") {
                         var start_simulation_elastic_sources = "true";
                         document.getElementById('btn_modal_elastic_source_add_new').disabled = false;
+                        document.getElementById('btn_modal_elastic_dedicated_ource_add_new').disabled = false;
                         setToken("start_simulation_elastic_sources", "true");
                         //console.log("data source is unique");
                     }
                     else if (is_unique == "false") {
                         var start_simulation_elastic_sources = "false";
                         document.getElementById('btn_modal_elastic_source_add_new').disabled = true;
+                        document.getElementById('btn_modal_elastic_source_dedicated_add_new').disabled = true;
                         setToken("start_simulation_elastic_sources", "false");
                         //console.log("data source is not unique");
                     }
@@ -20419,6 +20491,7 @@ require([
 
             // disabled if enabled
             document.getElementById('btn_modal_elastic_source_add_new').disabled = true;
+            document.getElementById('btn_modal_elastic_source_dedicated_add_new').disabled = true;
 
             // Get tokens
             var tk_input_elastic_source_search_type = tokens.get("tk_input_elastic_source_search_type");
@@ -20448,6 +20521,7 @@ require([
                     var success_simulation_elastic_sources = "false";
                     setToken("start_simulation_elastic_sources", "false");
                     document.getElementById('btn_modal_elastic_source_add_new').disabled = true;
+                    document.getElementById('btn_modal_elastic_source_dedicated_add_new').disabled = true;
                     $("#add_elastic_sources").modal('hide');
                     $("#modal_generic_search_error").modal();
                 });
@@ -20457,6 +20531,7 @@ require([
                     var success_simulation_elastic_sources = "false";
                     setToken("start_simulation_elastic_sources", "false");
                     document.getElementById('btn_modal_elastic_source_add_new').disabled = true;
+                    document.getElementById('btn_modal_elastic_source_dedicated_add_new').disabled = true;
                     $("#add_elastic_sources").modal('hide');
                     $("#modal_generic_search_error").modal();
                 });
@@ -20465,6 +20540,7 @@ require([
                 searchElasticSourcesTest.on('search:done', function(properties) {
                     var start_simulation_elastic_sources = "true";
                     document.getElementById('btn_modal_elastic_source_add_new').disabled = false;
+                    document.getElementById('btn_modal_elastic_source_dedicated_add_new').disabled = false;
                     setToken("start_simulation_elastic_sources", "true");
                     // to do: this isn't stable enough yet
                     // elastic_sources_check_unique(tk_input_elastic_source_data_name, "true");
@@ -20478,6 +20554,20 @@ require([
             // add a new elastic source
             $('#btn_modal_elastic_source_add_new').click(function(event) {
                 event.stopImmediatePropagation();
+
+                // Get tokens
+                var tk_input_elastic_source_search_type = tokens.get("tk_input_elastic_source_search_type");
+                var tk_input_elastic_source_data_name = tokens.get("tk_input_elastic_source_data_name");
+                var tk_input_elastic_source_elastic_data_index = tokens.get("tk_input_elastic_source_elastic_data_index");
+                var tk_input_elastic_source_elastic_data_sourcetype = tokens.get("tk_input_elastic_source_elastic_data_sourcetype");
+
+                // This is not a Splunk form
+                var tk_input_elastic_source_search_constraint = document.getElementById("modal_input_elastic_source_search_constraint").value
+                // the token used by the search needs to have escaped double quotes, but not the value to be stored in the KV
+                var tk_raw_input_elastic_source_search_constraint = document.getElementById("modal_input_elastic_source_search_constraint").value
+                tk_input_elastic_source_search_constraint = escapeDoubleQuotes(tk_input_elastic_source_search_constraint);
+                setToken("tk_input_elastic_source_search_constraint", tk_input_elastic_source_search_constraint);
+                //console.log(tk_input_elastic_source_search_constraint);
 
                 // disable the button once clicked
                 document.getElementById('btn_modal_elastic_source_add_new').disabled = true;
@@ -20544,6 +20634,156 @@ require([
                             $("#modal_update_collection_failure_return").modal()
                         }
 
+                    });
+
+                } else {
+                    notification('ERROR: Please successfully run the simulation first.', 6000)
+                }
+
+            });
+
+            $('#btn_modal_elastic_source_dedicated_add_new').click(function(event) {
+                event.stopImmediatePropagation();
+
+                // Get tokens
+                var tk_input_elastic_source_search_type = tokens.get("tk_input_elastic_source_search_type");
+                var tk_input_elastic_source_data_name = tokens.get("tk_input_elastic_source_data_name");
+                var tk_input_elastic_source_elastic_data_index = tokens.get("tk_input_elastic_source_elastic_data_index");
+                var tk_input_elastic_source_elastic_data_sourcetype = tokens.get("tk_input_elastic_source_elastic_data_sourcetype");
+
+                // This is not a Splunk form
+                var tk_input_elastic_source_search_constraint = document.getElementById("modal_input_elastic_source_search_constraint").value
+                // the token used by the search needs to have escaped double quotes, but not the value to be stored in the KV
+                var tk_raw_input_elastic_source_search_constraint = document.getElementById("modal_input_elastic_source_search_constraint").value
+                tk_input_elastic_source_search_constraint = escapeDoubleQuotes(tk_input_elastic_source_search_constraint);
+                setToken("tk_input_elastic_source_search_constraint", tk_input_elastic_source_search_constraint);
+                //console.log(tk_input_elastic_source_search_constraint);
+
+                // disable the button once clicked
+                document.getElementById('btn_modal_elastic_source_dedicated_add_new').disabled = true;
+
+                if (start_simulation_elastic_sources && start_simulation_elastic_sources == 'true') {
+
+                    // Create a unique name for the tracker
+                    var tracker_name = "trackMe - " + tk_input_elastic_source_data_name + " elastic tracker " + uuid();
+
+                    // define the alert search
+                    if (tk_input_elastic_source_search_type == "tstats") {
+                        tk_elastic_alert_root_search = "| `tstats` max(_indextime) as data_last_ingest, min(_time) as data_first_time_seen, max(_time) as data_last_time_seen, count as data_eventcount where " + tk_raw_input_elastic_source_search_constraint + " | eval data_name=\"" + tk_input_elastic_source_data_name + "\", data_last_ingestion_lag_seen=data_last_ingest-data_last_time_seen | `trackme_elastic_dedicated_tracker` | stats c";
+
+                    } else if (tk_input_elastic_source_search_type == "raw") {
+                        tk_elastic_alert_root_search = tk_raw_input_elastic_source_search_constraint + " | stats max(_indextime) as data_last_ingest, min(_time) as data_first_time_seen, max(_time) as data_last_time_seen, count as data_eventcount | eval data_name=\"" + tk_input_elastic_source_data_name +"\", data_last_ingestion_lag_seen=data_last_ingest-data_last_time_seen | `trackme_elastic_dedicated_tracker` | stats c";
+
+                    } else if (tk_input_elastic_source_search_type == "from") {
+                        tk_elastic_alert_root_search = "| " + tk_input_elastic_source_search_type + " " + tk_raw_input_elastic_source_search_constraint + " | stats max(_indextime) as data_last_ingest, min(_time) as data_first_time_seen, max(_time) as data_last_time_seen, count as data_eventcount | eval data_name=\"" + tk_input_elastic_source_data_name + "\" | `trackme_elastic_dedicated_tracker` | stats c";
+
+                    } else if (tk_input_elastic_source_search_type == "mstats") {
+                        tk_elastic_alert_root_search = "| mstats latest(_value) as value where " + tk_raw_input_elastic_source_search_constraint + " by metric_name span=1s | stats min(_time) as data_first_time_seen, max(_time) as data_last_time_seen, dc(metric_name) as data_eventcount | eval data_name=\"" + tk_input_elastic_source_data_name + "\", data_last_ingest=data_last_time_seen, data_last_ingestion_lag_seen=now()-data_last_time_seen | `trackme_elastic_dedicated_tracker` | stats c" ;
+                    }
+
+                    //console.log("tk_elastic_alert_root_search is: " + tk_elastic_alert_root_search);
+
+                    function done(err) {
+                        //error handling logic here
+                    }
+
+                    // Specify properties for the alert.
+                    var alertOptions = {
+                        name: tracker_name,
+                        search: tk_elastic_alert_root_search,
+                        "dispatch.earliest_time": "-4h",
+                        "dispatch.latest_time": "+4h",
+                        "is_scheduled": "1",
+                        "cron_schedule": "*/5 * * * *"
+                    };
+
+                    // Create a saved search/report as an alert.
+                    service.savedSearches().create(alertOptions, function(err, alert) {
+                        // Error checking.
+                        if (err && err.status === 409) {
+                            msg = "ERROR: A saved search/report with the name " + alertOptions.name + " already exists";
+
+                            // Audit
+                            action = "failure";
+                            change_type = "add elastic source tracker";
+                            object = tracker_name;
+                            object_category = "elastic_sources_tracker";
+                            object_attrs = tk_elastic_alert_root_search;
+                            result = msg;
+                            comment = "N/A";
+                            auditRecord(action, change_type, object, object_category, object_attrs, result, comment);
+
+                            $("#modal_elastic_source_alert_creation_error").find('.modal-error-message p').text(msg);
+                            $("#add_elastic_sources").modal('hide');
+                            $("#modal_elastic_source_alert_creation_success").modal()
+                            done();
+                            return;
+                        }
+                        else if (err) {
+                            msg = "There was an error creating the saved search/report: " + err;
+
+                            // Audit
+                            action = "failure";
+                            change_type = "add elastic source tracker";
+                            object = tracker_name;
+                            object_category = "elastic_sources_tracker";
+                            object_attrs = tk_elastic_alert_root_search;
+                            result = msg;
+                            comment = "N/A";
+                            auditRecord(action, change_type, object, object_category, object_attrs, result, comment);
+
+                            $("#modal_elastic_source_alert_creation_error").find('.modal-error-message p').text(msg);
+                            $("#add_elastic_sources").modal('hide');
+                            $("#modal_elastic_source_alert_creation_success").modal()
+                            done(err);
+                            return;
+                        }
+
+                        // Confirmation message.
+
+                        // Audit
+                        action = "success";
+                        change_type = "add elastic source tracker";
+                        object = tracker_name;
+                        object_category = "elastic_sources_tracker";
+                        object_attrs = tk_elastic_alert_root_search;
+                        result = "N/A";
+                        comment = "N/A";
+                        auditRecord(action, change_type, object, object_category, object_attrs, result, comment);
+
+                        // Store in the KVstore for mapping purposes
+                            var myendpoint_URl = "/en-US/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_elastic_sources_dedicated/"
+
+                            // Create a dictionary to store the field names and values
+                            var record = {
+                                "data_name": tk_input_elastic_source_data_name,
+                                "search_constraint": tk_raw_input_elastic_source_search_constraint,
+                                "search_mode": tk_input_elastic_source_search_type,
+                                "elastic_data_index": tk_input_elastic_source_elastic_data_index,
+                                "elastic_data_sourcetype": tk_input_elastic_source_elastic_data_sourcetype
+                            };
+                            $.ajax({
+                                url: myendpoint_URl,
+                                type: "POST",
+                                async: true,
+                                contentType: "application/json",
+                                data: JSON.stringify(record),
+                                success: function(returneddata) {
+                                    // house cleaning
+                                    myendpoint_URl = undefined;
+                                    delete(myendpoint_URl);
+                                },
+                                error: function(xhr, textStatus, error) {
+                                    message = "Error Updating!" + xhr + textStatus + error;
+                                }
+                            });
+
+                        msg = "Created saved search/report as alert: " + alert.name;
+                        $("#modal_elastic_source_alert_creation_success").find('.modal-error-message p').text(msg);
+                        $("#add_elastic_sources").modal('hide');
+                        $("#modal_elastic_source_alert_creation_success").modal()
+
+                        done();
                     });
 
                 } else {
