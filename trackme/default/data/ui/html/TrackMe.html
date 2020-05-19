@@ -2328,7 +2328,8 @@ styles in <div> tags, similar to Bootstrap's grid system.
                 </div>
 
                 <div class="modal-footer">
-                    <button type="submit" class="btn btn-default btn-default pull-right" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Close</button>
+                    <button type="submit" id="modal_elastic_source_alert_creation_success_run_tracker" class="btn btn-default btn-default btn-primary"><span class="glyphicon glyphicon-remove"></span> Run this Elastic dedicated tracker now</button>
+                    <button type="submit" class="btn btn-default btn-default" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Close</button>
                 </div>
             </div>
         </div>
@@ -2591,7 +2592,7 @@ styles in <div> tags, similar to Bootstrap's grid system.
 
                     <br />
 
-                    <b>Elastic sources can be added to the shared tracker "trackMe - Elastic Data sources tracker" or created as new and independent trackers:</b>
+                    <b>Elastic sources can be added to the shared tracker, or created as new and independent trackers:</b>
 
                     <br /><br />
 
@@ -2601,6 +2602,7 @@ styles in <div> tags, similar to Bootstrap's grid system.
                         <li>For large scale or low performing searches, the usage of dedicated elastic trackers is recommended</li>
                         <li>The shared elastic tracker should be reserved to high performing searches</li>
                         <li>Independent elastic trackers are as well stored in a lookup, trackme_elastic_sources_dedicated, which is used for mapping purposes in the UI</li>
+                        <li>For advanced use cases, such as mapping results in a intermediate step for example, it is recommended to create a dedicated tracker, then edit and customise the tracker according to your needs</li>
                     </lu>
 
                     <br />
@@ -2628,11 +2630,11 @@ styles in <div> tags, similar to Bootstrap's grid system.
                         </tr>
                         <tr>
                             <td class="tg-p1nr"><span style="font-weight:bold">search_mode</span></td>
-                            <td class="tg-p1nr">The type of search, valid options are: <strong>tstats</strong> / <strong>raw</strong> / <strong>from</strong></td>
+                            <td class="tg-p1nr">The type of search, valid options are: <strong>tstats</strong> / <strong>raw</strong> / <strong>from</strong> / <strong>mstats</strong></td>
                         </tr>
                         <tr>
                             <td class="tg-p1nr"><span style="font-weight:bold">search_constraint</span></td>
-                            <td class="tg-p1nr">The constraint of the search:<br>- <strong>tstats</strong>: this represents the where part of a tstats search, as: <span><code>index=my_index source=my_source</code></span><br>- <strong>raw</strong>: Any filter that is before stats calculation, as: <span><code>index=my_index tag=authentication app=my_application</code></span><br>- <strong>from</strong>: a search using from is in 2 parts with a pipe separation, where the 1st segment is the object and the 2nd a search constraint, as: <span><code>datamodel:"Authentication" | user="*" action="success" app="my_application"</code></span> <br>- <strong>mstats</strong>: Allows monitoring metric indexes according to your constraints including dimensions, as: <span><code>index="k8s_metrics" metric_name="k8s.*" cluster_name="production"</code></span> <br />Filters can include a time range which will override the default 4 hours time range of the wrapper tracker, as: <span><code>earliest="-15m" latest="+15m"</code></span></td>
+                            <td class="tg-p1nr">The constraint of the search:<br>- <strong>tstats</strong>: this represents the where part of a tstats search, as: <span><code>index=my_index source=my_source</code></span><br>- <strong>raw</strong>: Any filter that is before stats calculation, as: <span><code>index=my_index tag=authentication app=my_application</code></span><br>- <strong>from</strong>: a search using from is in 2 parts with a pipe separation, where the 1st segment is the object and the 2nd a search constraint, as: <span><code>datamodel:"Authentication" | search user="*" action="success" app="my_application"</code></span> <br>- <strong>mstats</strong>: Allows monitoring metric indexes according to your constraints including dimensions, as: <span><code>index="k8s_metrics" metric_name="k8s.*" cluster_name="production"</code></span> <br />Filters can include a time range which will override the default 4 hours time range of the wrapper tracker, as: <span><code>earliest="-15m" latest="+15m"</code></span></td>
                         </tr>
                         <tr>
                             <td class="tg-p1nr"><span style="font-weight:bold">elastic _data_index</span></td>
@@ -2810,7 +2812,8 @@ styles in <div> tags, similar to Bootstrap's grid system.
                 </div>
 
                 <div class="modal-footer">
-                    <button type="submit" class="btn btn-default btn-default pull-right" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Close</button>
+                    <button type="submit" id="add_elastic_source_processed_run_tracker" class="btn btn-default btn-default btn-primary"><span class="glyphicon glyphicon-remove"></span> Run Elastic Shared tracker now</button>
+                    <button type="submit" class="btn btn-default btn-default" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Close</button>
                 </div>
             </div>
 
@@ -20714,6 +20717,7 @@ require([
 
                     // Create a unique name for the tracker
                     var tracker_name = "TrackMe - " + tk_input_elastic_source_data_name + " elastic tracker " + uuid();
+                    setToken("tk_tracker_name", tracker_name);
 
                     // define the alert search
                     if (tk_input_elastic_source_search_type == "tstats") {
@@ -20843,6 +20847,191 @@ require([
                 }
 
             });
+
+        });
+
+        // run elastic shared tracker now
+        $("#add_elastic_source_processed_run_tracker").click(function() {
+
+            //console.log("Button was pressed");
+            $("#add_elastic_source_processed").modal('hide');
+
+            submitTokens();
+
+            // When the Submit button is clicked, get all the form fields by accessing token values
+            var tokens = mvc.Components.get("default");
+
+            // Define the query
+            var searchQuery = "| savedsearch \"TrackMe - Elastic sources shared tracker\"";
+
+            // Set the search parameters--specify a time range
+            var searchParams = {
+                earliest_time: "-4h",
+                latest_time: "now"
+            };
+
+            // Run a normal search that immediately returns the job's SID
+            service.search(
+                searchQuery,
+                searchParams,
+                function(err, job) {
+
+                    $("#loadingGray").remove()
+                    $("body").append('<div id="loadingGray" style="background: #e9e9e9; display: block; position: fixed; z-index: 100; top: 0; right: 0; bottom: 0; left: 0; height: 100%; opacity: 0.8;"><div style="width: 100%; margin-top: 250px; padding-bottom: 50px; text-align: center;"><p style="font-size: 18pt; font-weight: bolder;">Running the Elastic Shared Tracker...</p></div><div id="spinner"></div></div>')
+
+                    require(["jquery",
+                            "/static/app/trackme/spin.js"
+                        ],
+                        function($,
+                            Spinner
+                        ) {
+                            new Spinner({
+                                lines: 12,
+                                position: "relative"
+                            }).spin(document.getElementById('spinner'));
+                        })
+
+                    // Shall the search fail before we can get properties
+                    if (job == null) {
+                        let errorStr = "Unknown Error!";
+                        if (err && err.data && err.data.messages && err.data.messages[0]['text']) {
+                            errorStr = err.data.messages[0]['text'];
+                        } else if (err && err.data && err.data.messages) {
+                            errorStr = JSON.stringify(err.data.messages);
+                        }
+                        $("#loadingGray").remove()
+                        $("#modal_update_collection_failure_return").find('.modal-error-message p').text(errorStr);
+                        $("#modal_update_collection_failure_return").modal()
+                    } else {
+
+                        // Poll the status of the search job
+                        job.track({
+                            period: 200
+                        }, {
+                            done: function(job) {
+                                //console.log("Done!");
+
+                                // Once the job is done, update all searches
+                                searchDataSourcesMain.startSearch();
+
+                                $("#loadingGray").remove()
+                                $("#modal_update_collection_done").modal()
+
+                            },
+                            failed: function(properties) {
+                                let errorStr = "Unknown Error!";
+                                if (properties && properties._properties && properties._properties.messages && properties._properties.messages[0]['text']) {
+                                    errorStr = properties._properties.messages[0]['text'];
+                                } else if (properties && properties._properties && properties._properties.messages) {
+                                    errorStr = JSON.stringify(properties._properties.messages);
+                                }
+                                $("#loadingGray").remove()
+                                $("#modal_update_collection_failure_return").find('.modal-error-message p').text(errorStr);
+                                $("#modal_update_collection_failure_return").modal()
+                            },
+                            error: function(err) {
+                                done(err);
+                                $("#loadingGray").remove()
+                                $("#modal_update_collection_failure").modal()
+                            }
+                        });
+                    }
+                }
+            );
+
+        });
+
+        // run elastic shared tracker now
+        $("#modal_elastic_source_alert_creation_success_run_tracker").click(function() {
+
+            //console.log("Button was pressed");
+            $("#modal_elastic_source_alert_creation_success").modal('hide');
+
+            submitTokens();
+
+            // When the Submit button is clicked, get all the form fields by accessing token values
+            var tokens = mvc.Components.get("default");
+
+            // Get the tracker name
+            var tk_tracker_name = tokens.get("tk_tracker_name");
+
+            // Define the query
+            var searchQuery = "| savedsearch \"" + tk_tracker_name + "\"";
+
+            // Set the search parameters--specify a time range
+            var searchParams = {
+                earliest_time: "-4h",
+                latest_time: "now"
+            };
+
+            // Run a normal search that immediately returns the job's SID
+            service.search(
+                searchQuery,
+                searchParams,
+                function(err, job) {
+
+                    $("#loadingGray").remove()
+                    $("body").append('<div id="loadingGray" style="background: #e9e9e9; display: block; position: fixed; z-index: 100; top: 0; right: 0; bottom: 0; left: 0; height: 100%; opacity: 0.8;"><div style="width: 100%; margin-top: 250px; padding-bottom: 50px; text-align: center;"><p style="font-size: 18pt; font-weight: bolder;">Running the dedicated elastic tracker' +  tk_tracker_name + '...</p></div><div id="spinner"></div></div>')
+
+                    require(["jquery",
+                            "/static/app/trackme/spin.js"
+                        ],
+                        function($,
+                            Spinner
+                        ) {
+                            new Spinner({
+                                lines: 12,
+                                position: "relative"
+                            }).spin(document.getElementById('spinner'));
+                        })
+
+                    // Shall the search fail before we can get properties
+                    if (job == null) {
+                        let errorStr = "Unknown Error!";
+                        if (err && err.data && err.data.messages && err.data.messages[0]['text']) {
+                            errorStr = err.data.messages[0]['text'];
+                        } else if (err && err.data && err.data.messages) {
+                            errorStr = JSON.stringify(err.data.messages);
+                        }
+                        $("#loadingGray").remove()
+                        $("#modal_update_collection_failure_return").find('.modal-error-message p').text(errorStr);
+                        $("#modal_update_collection_failure_return").modal()
+                    } else {
+
+                        // Poll the status of the search job
+                        job.track({
+                            period: 200
+                        }, {
+                            done: function(job) {
+                                //console.log("Done!");
+
+                                // Once the job is done, update all searches
+                                searchDataSourcesMain.startSearch();
+
+                                $("#loadingGray").remove()
+                                $("#modal_update_collection_done").modal()
+
+                            },
+                            failed: function(properties) {
+                                let errorStr = "Unknown Error!";
+                                if (properties && properties._properties && properties._properties.messages && properties._properties.messages[0]['text']) {
+                                    errorStr = properties._properties.messages[0]['text'];
+                                } else if (properties && properties._properties && properties._properties.messages) {
+                                    errorStr = JSON.stringify(properties._properties.messages);
+                                }
+                                $("#loadingGray").remove()
+                                $("#modal_update_collection_failure_return").find('.modal-error-message p').text(errorStr);
+                                $("#modal_update_collection_failure_return").modal()
+                            },
+                            error: function(err) {
+                                done(err);
+                                $("#loadingGray").remove()
+                                $("#modal_update_collection_failure").modal()
+                            }
+                        });
+                    }
+                }
+            );
 
         });
 
