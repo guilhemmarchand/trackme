@@ -1,6 +1,20 @@
 Release notes
 #############
 
+Version 1.2.4
+=============
+
+**CAUTION:**
+
+This is a new main release branch, TrackMe 1.2.x require the deployment of the following dependencies:
+
+- Semicircle Donut Chart Viz, Splunk Base: https://splunkbase.splunk.com/app/4378
+- Splunk Machine Learning Toolkit, Splunk Base: https://splunkbase.splunk.com/app/2890
+
+**release notes:**
+
+- Fix: Remove useless lookup call in the data hosts view which impacts search time performance in large scale environments
+
 Version 1.2.3
 =============
 
