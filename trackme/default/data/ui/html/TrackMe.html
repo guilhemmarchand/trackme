@@ -6173,7 +6173,7 @@ require([
             "cancelOnUnload": true,
             "sample_ratio": null,
             "latest_time": "$modalTimeWhiteListDataSource.latest$",
-            "search": "| `tstats` count where index=* by index | lookup trackme_data_source_monitoring_whitelist_index data_index as index OUTPUT data_index as FOUND | where isnull(FOUND) | sort limit=0 index | fields index",
+            "search": "| `trackme_tstats` count where index=* by index | lookup trackme_data_source_monitoring_whitelist_index data_index as index OUTPUT data_index as FOUND | where isnull(FOUND) | sort limit=0 index | fields index",
             "status_buckets": 0,
             "app": utils.getCurrentApp(),
             "auto_cancel": 90,
@@ -6219,7 +6219,7 @@ require([
             "cancelOnUnload": true,
             "sample_ratio": null,
             "latest_time": "$modalTimeWhiteListDataHost.latest$",
-            "search": "| `tstats` count where index=* by index | lookup trackme_data_host_monitoring_whitelist_index data_index as index OUTPUT data_index as FOUND | where isnull(FOUND) | sort limit=0 index | fields index",
+            "search": "| `trackme_tstats` count where index=* by index | lookup trackme_data_host_monitoring_whitelist_index data_index as index OUTPUT data_index as FOUND | where isnull(FOUND) | sort limit=0 index | fields index",
             "status_buckets": 0,
             "app": utils.getCurrentApp(),
             "auto_cancel": 90,
@@ -11646,9 +11646,9 @@ require([
                 var tk_elastic_source_from_part2 = tokens.get("tk_elastic_source_from_part2");
 
                 if (tk_elastic_source_search_mode == "null") {
-                    tk_data_source_overview_root_search = "| `tstats` count latest(_indextime) as indextime where index=\"" + tk_data_index + "\" sourcetype=\"" + tk_data_sourcetype + "\" by _time, index, sourcetype span=1s | eval delta=(indextime-_time)";
+                    tk_data_source_overview_root_search = "| `trackme_tstats` count latest(_indextime) as indextime where index=\"" + tk_data_index + "\" sourcetype=\"" + tk_data_sourcetype + "\" by _time, index, sourcetype span=1s | eval delta=(indextime-_time)";
                 } else if (tk_elastic_source_search_mode == "tstats") {
-                    tk_data_source_overview_root_search = "| `tstats` count latest(_indextime) as indextime where " + tk_elastic_source_search_constraint + " by _time, index, sourcetype span=1s | eval delta=(indextime-_time)";
+                    tk_data_source_overview_root_search = "| `trackme_tstats` count latest(_indextime) as indextime where " + tk_elastic_source_search_constraint + " by _time, index, sourcetype span=1s | eval delta=(indextime-_time)";
                 } else if (tk_elastic_source_search_mode == "raw") {
                     tk_data_source_overview_root_search = tk_elastic_source_search_constraint + " | eval delta=(_indextime-_time) | bucket _time span=1s | stats count, avg(delta) as delta by _time";
                 } else if (tk_elastic_source_search_mode == "from" && tk_elastic_source_from_part1 != "null" && tk_elastic_source_from_part2 != "null") {
@@ -11656,7 +11656,7 @@ require([
                 } else if (tk_elastic_source_search_mode == "mstats") {
                     tk_data_source_overview_root_search = "`trackme_idx` source=\"trackme_datasource_tracker_shorterm\" data_name=\"" + tk_data_name + "\" | bucket _time span=1m | stats latest(data_last_lag_seen) as delta, max(data_eventcount) as count by _time";
                 } else {
-                    tk_data_source_overview_root_search = "| `tstats` count latest(_indextime) as indextime where index=\"" + tk_data_index + "\" sourcetype=\"" + tk_data_sourcetype + "\" by _time, index, sourcetype span=1s | eval delta=(indextime-_time)";
+                    tk_data_source_overview_root_search = "| `trackme_tstats` count latest(_indextime) as indextime where index=\"" + tk_data_index + "\" sourcetype=\"" + tk_data_sourcetype + "\" by _time, index, sourcetype span=1s | eval delta=(indextime-_time)";
                 }
 
                 //console.log("tk_data_source_overview_root_search is: " + tk_data_source_overview_root_search);
@@ -20687,7 +20687,7 @@ require([
 
                     // define the alert search
                     if (tk_input_elastic_source_search_type == "tstats") {
-                        tk_elastic_alert_root_search = "| `tstats` max(_indextime) as data_last_ingest, min(_time) as data_first_time_seen, max(_time) as data_last_time_seen, count as data_eventcount where " + tk_raw_input_elastic_source_search_constraint + " | eval data_name=\"" + tk_input_elastic_source_data_name + "\", data_last_ingestion_lag_seen=data_last_ingest-data_last_time_seen | `trackme_elastic_dedicated_tracker` | stats c";
+                        tk_elastic_alert_root_search = "| `trackme_tstats` max(_indextime) as data_last_ingest, min(_time) as data_first_time_seen, max(_time) as data_last_time_seen, count as data_eventcount where " + tk_raw_input_elastic_source_search_constraint + " | eval data_name=\"" + tk_input_elastic_source_data_name + "\", data_last_ingestion_lag_seen=data_last_ingest-data_last_time_seen | `trackme_elastic_dedicated_tracker` | stats c";
 
                     } else if (tk_input_elastic_source_search_type == "raw") {
                         tk_elastic_alert_root_search = tk_raw_input_elastic_source_search_constraint + " | stats max(_indextime) as data_last_ingest, min(_time) as data_first_time_seen, max(_time) as data_last_time_seen, count as data_eventcount | eval data_name=\"" + tk_input_elastic_source_data_name +"\", data_last_ingestion_lag_seen=data_last_ingest-data_last_time_seen | `trackme_elastic_dedicated_tracker` | stats c";
@@ -23021,7 +23021,7 @@ require([
             //console.log("Start collection update");
 
             // Define the query
-            var searchQuery = "| `tstats` count latest(_indextime) as indextime where index=\"" + tk_data_index + "\" sourcetype=\"" + tk_data_sourcetype + "\"  by _time, index, sourcetype span=1s | eval delta=(indextime-_time) | stats perc95(delta) as value | eval data_name=\"" + tk_data_name + "\", data_override_lagging_class=\"" + tk_data_override_lagging_class + "\" | lookup trackme_data_source_monitoring data_name OUTPUT _key as keyid | lookup trackme_data_source_monitoring data_name | eval data_max_lag_allowed=if(value>0, round(value, 0), data_max_lag_allowed), value=round(value, 0) | outputlookup trackme_data_source_monitoring key_field=keyid";
+            var searchQuery = "| `trackme_tstats` count latest(_indextime) as indextime where index=\"" + tk_data_index + "\" sourcetype=\"" + tk_data_sourcetype + "\"  by _time, index, sourcetype span=1s | eval delta=(indextime-_time) | stats perc95(delta) as value | eval data_name=\"" + tk_data_name + "\", data_override_lagging_class=\"" + tk_data_override_lagging_class + "\" | lookup trackme_data_source_monitoring data_name OUTPUT _key as keyid | lookup trackme_data_source_monitoring data_name | eval data_max_lag_allowed=if(value>0, round(value, 0), data_max_lag_allowed), value=round(value, 0) | outputlookup trackme_data_source_monitoring key_field=keyid";
             //console.log(searchQuery);
 
             // Set the search parameters--specify a time range
@@ -23190,7 +23190,7 @@ require([
             //console.log("Start collection update");
 
             // Define the query
-            var searchQuery = "| `tstats` count latest(_indextime) as indextime where index=\"" + tk_data_index + "\" sourcetype=\"" + tk_data_sourcetype + "\"  by _time, index, sourcetype span=1s | eval delta=(indextime-_time) | stats avg(delta) as value | eval data_name=\"" + tk_data_name + "\", data_override_lagging_class=\"" + tk_data_override_lagging_class + "\" | lookup trackme_data_source_monitoring data_name OUTPUT _key as keyid | lookup trackme_data_source_monitoring data_name | eval data_max_lag_allowed=if(value>0, round(value, 0), data_max_lag_allowed), value=round(value, 0) | outputlookup trackme_data_source_monitoring key_field=keyid";
+            var searchQuery = "| `trackme_tstats` count latest(_indextime) as indextime where index=\"" + tk_data_index + "\" sourcetype=\"" + tk_data_sourcetype + "\"  by _time, index, sourcetype span=1s | eval delta=(indextime-_time) | stats avg(delta) as value | eval data_name=\"" + tk_data_name + "\", data_override_lagging_class=\"" + tk_data_override_lagging_class + "\" | lookup trackme_data_source_monitoring data_name OUTPUT _key as keyid | lookup trackme_data_source_monitoring data_name | eval data_max_lag_allowed=if(value>0, round(value, 0), data_max_lag_allowed), value=round(value, 0) | outputlookup trackme_data_source_monitoring key_field=keyid";
             //console.log(searchQuery);
 
             // Set the search parameters--specify a time range
@@ -23360,7 +23360,7 @@ require([
             //console.log("Start collection update");
 
             // Define the query
-            var searchQuery = "| `tstats` count latest(_indextime) as indextime where index=\"" + tk_data_index + "\" sourcetype=\"" + tk_data_sourcetype + "\"  by _time, index, sourcetype span=1s | eval delta=(indextime-_time) | stats perc95(delta) as value | eval data_name=\"" + tk_data_name + "\", data_override_lagging_class=\"" + tk_data_override_lagging_class + "\" | lookup trackme_data_source_monitoring data_name OUTPUT _key as keyid | lookup trackme_data_source_monitoring data_name | eval data_max_lag_allowed=if(value>0, round(value, 0), data_max_lag_allowed), value=round(value, 0) | outputlookup trackme_data_source_monitoring key_field=keyid";
+            var searchQuery = "| `trackme_tstats` count latest(_indextime) as indextime where index=\"" + tk_data_index + "\" sourcetype=\"" + tk_data_sourcetype + "\"  by _time, index, sourcetype span=1s | eval delta=(indextime-_time) | stats perc95(delta) as value | eval data_name=\"" + tk_data_name + "\", data_override_lagging_class=\"" + tk_data_override_lagging_class + "\" | lookup trackme_data_source_monitoring data_name OUTPUT _key as keyid | lookup trackme_data_source_monitoring data_name | eval data_max_lag_allowed=if(value>0, round(value, 0), data_max_lag_allowed), value=round(value, 0) | outputlookup trackme_data_source_monitoring key_field=keyid";
             //console.log(searchQuery);
 
             // Set the search parameters--specify a time range
@@ -23530,7 +23530,7 @@ require([
             //console.log("Start collection update");
 
             // Define the query
-            var searchQuery = "| `tstats` count latest(_indextime) as indextime where index=\"" + tk_data_index + "\" sourcetype=\"" + tk_data_sourcetype + "\"  by _time, index, sourcetype span=1s | eval delta=(indextime-_time) | stats avg(delta) as value | eval data_name=\"" + tk_data_name + "\", data_override_lagging_class=\"" + tk_data_override_lagging_class + "\" | lookup trackme_data_source_monitoring data_name OUTPUT _key as keyid | lookup trackme_data_source_monitoring data_name | eval data_max_lag_allowed=if(value>0, round(value, 0), data_max_lag_allowed), value=round(value, 0) | outputlookup trackme_data_source_monitoring key_field=keyid";
+            var searchQuery = "| `trackme_tstats` count latest(_indextime) as indextime where index=\"" + tk_data_index + "\" sourcetype=\"" + tk_data_sourcetype + "\"  by _time, index, sourcetype span=1s | eval delta=(indextime-_time) | stats avg(delta) as value | eval data_name=\"" + tk_data_name + "\", data_override_lagging_class=\"" + tk_data_override_lagging_class + "\" | lookup trackme_data_source_monitoring data_name OUTPUT _key as keyid | lookup trackme_data_source_monitoring data_name | eval data_max_lag_allowed=if(value>0, round(value, 0), data_max_lag_allowed), value=round(value, 0) | outputlookup trackme_data_source_monitoring key_field=keyid";
             //console.log(searchQuery);
 
             // Set the search parameters--specify a time range
@@ -24321,7 +24321,7 @@ require([
             //console.log("Start collection update");
 
             // Define the query
-            var searchQuery = "| `tstats` count latest(_indextime) as indextime where index=* host=\"" + tk_data_host + "\"  by _time, index, sourcetype span=1s | eval delta=(indextime-_time) | stats perc95(delta) as value | eval data_host=\"" + tk_data_host + "\", data_override_lagging_class=\"" + tk_data_override_lagging_class + "\" | lookup trackme_host_monitoring data_host OUTPUT _key as keyid | lookup trackme_host_monitoring data_host | eval data_max_lag_allowed=if(value>0, round(value, 0), data_max_lag_allowed), value=round(value, 0) | outputlookup trackme_host_monitoring key_field=keyid";
+            var searchQuery = "| `trackme_tstats` count latest(_indextime) as indextime where index=* host=\"" + tk_data_host + "\"  by _time, index, sourcetype span=1s | eval delta=(indextime-_time) | stats perc95(delta) as value | eval data_host=\"" + tk_data_host + "\", data_override_lagging_class=\"" + tk_data_override_lagging_class + "\" | lookup trackme_host_monitoring data_host OUTPUT _key as keyid | lookup trackme_host_monitoring data_host | eval data_max_lag_allowed=if(value>0, round(value, 0), data_max_lag_allowed), value=round(value, 0) | outputlookup trackme_host_monitoring key_field=keyid";
             //console.log(searchQuery);
 
             // Set the search parameters--specify a time range
@@ -24488,7 +24488,7 @@ require([
             //console.log("Start collection update");
 
             // Define the query
-            var searchQuery = "| `tstats` count latest(_indextime) as indextime where index=* host=\"" + tk_data_host + "\"  by _time, index, sourcetype span=1s | eval delta=(indextime-_time) | stats avg(delta) as value | eval data_host=\"" + tk_data_host + "\", data_override_lagging_class=\"" + tk_data_override_lagging_class + "\" | lookup trackme_host_monitoring data_host OUTPUT _key as keyid | lookup trackme_host_monitoring data_host | eval data_max_lag_allowed=if(value>0, round(value, 0), data_max_lag_allowed), value=round(value, 0) | outputlookup trackme_host_monitoring key_field=keyid";
+            var searchQuery = "| `trackme_tstats` count latest(_indextime) as indextime where index=* host=\"" + tk_data_host + "\"  by _time, index, sourcetype span=1s | eval delta=(indextime-_time) | stats avg(delta) as value | eval data_host=\"" + tk_data_host + "\", data_override_lagging_class=\"" + tk_data_override_lagging_class + "\" | lookup trackme_host_monitoring data_host OUTPUT _key as keyid | lookup trackme_host_monitoring data_host | eval data_max_lag_allowed=if(value>0, round(value, 0), data_max_lag_allowed), value=round(value, 0) | outputlookup trackme_host_monitoring key_field=keyid";
             //console.log(searchQuery);
 
             // Set the search parameters--specify a time range
@@ -24654,7 +24654,7 @@ require([
             //console.log("Start collection update");
 
             // Define the query
-            var searchQuery = "| `tstats` count latest(_indextime) as indextime where index=* host=\"" + tk_data_host + "\"  by _time, index, sourcetype span=1s | eval delta=(indextime-_time) | stats perc95(delta) as value | eval data_host=\"" + tk_data_host + "\", data_override_lagging_class=\"" + tk_data_override_lagging_class + "\" | lookup trackme_host_monitoring data_host OUTPUT _key as keyid | lookup trackme_host_monitoring data_host | eval data_max_lag_allowed=if(value>0, round(value, 0), data_max_lag_allowed), value=round(value, 0) | outputlookup trackme_host_monitoring key_field=keyid";
+            var searchQuery = "| `trackme_tstats` count latest(_indextime) as indextime where index=* host=\"" + tk_data_host + "\"  by _time, index, sourcetype span=1s | eval delta=(indextime-_time) | stats perc95(delta) as value | eval data_host=\"" + tk_data_host + "\", data_override_lagging_class=\"" + tk_data_override_lagging_class + "\" | lookup trackme_host_monitoring data_host OUTPUT _key as keyid | lookup trackme_host_monitoring data_host | eval data_max_lag_allowed=if(value>0, round(value, 0), data_max_lag_allowed), value=round(value, 0) | outputlookup trackme_host_monitoring key_field=keyid";
             //console.log(searchQuery);
 
             // Set the search parameters--specify a time range
@@ -24820,7 +24820,7 @@ require([
             //console.log("Start collection update");
 
             // Define the query
-            var searchQuery = "| `tstats` count latest(_indextime) as indextime where index=* host=\"" + tk_data_host + "\"  by _time, index, sourcetype span=1s | eval delta=(indextime-_time) | stats avg(delta) as value | eval data_host=\"" + tk_data_host + "\", data_override_lagging_class=\"" + tk_data_override_lagging_class + "\" | lookup trackme_host_monitoring data_host OUTPUT _key as keyid | lookup trackme_host_monitoring data_host | eval data_max_lag_allowed=if(value>0, round(value, 0), data_max_lag_allowed), value=round(value, 0) | outputlookup trackme_host_monitoring key_field=keyid";
+            var searchQuery = "| `trackme_tstats` count latest(_indextime) as indextime where index=* host=\"" + tk_data_host + "\"  by _time, index, sourcetype span=1s | eval delta=(indextime-_time) | stats avg(delta) as value | eval data_host=\"" + tk_data_host + "\", data_override_lagging_class=\"" + tk_data_override_lagging_class + "\" | lookup trackme_host_monitoring data_host OUTPUT _key as keyid | lookup trackme_host_monitoring data_host | eval data_max_lag_allowed=if(value>0, round(value, 0), data_max_lag_allowed), value=round(value, 0) | outputlookup trackme_host_monitoring key_field=keyid";
             //console.log(searchQuery);
 
             // Set the search parameters--specify a time range

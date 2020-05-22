@@ -1,6 +1,21 @@
 Release notes
 #############
 
+Version 1.2.5
+=============
+
+**CAUTION:**
+
+This is a new main release branch, TrackMe 1.2.x require the deployment of the following dependencies:
+
+- Semicircle Donut Chart Viz, Splunk Base: https://splunkbase.splunk.com/app/4378
+- Splunk Machine Learning Toolkit, Splunk Base: https://splunkbase.splunk.com/app/2890
+
+**release notes:**
+
+- Fix: conflict with Enterprise Security due to the tstats macro defined in TrackMe when co-located, macro renamed to avoid this issue
+- Fix: cancel button in Elastic sources main modal, review help content
+
 Version 1.2.4
 =============
 
