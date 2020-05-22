@@ -608,7 +608,7 @@ styles in <div> tags, similar to Bootstrap's grid system.
     <div id="ManageRowMacro1" class="dashboard-row dashboard-rowDataSourcesTable">
         <div id="panelManageMacro1" class="dashboard-cell" style="width: 100%;">
             <div class="dashboard-panel clearfix">
-                <h2 style="padding: 12px 55px 7px 12px;">tstats</h2><h2 class="panel-title">Macro definition for every call to the tstats command in the application: (click on the table bellow to edit the macro definition)</h2>
+                <h2 style="padding: 12px 55px 7px 12px;">trackme_tstats</h2><h2 class="panel-title">Macro definition for every call to the tstats command in the application: (click on the table bellow to edit the macro definition)</h2>
                 <div class="panel-element-row">
                     <div id="elementTable_tstats" class="dashboard-element table" style="width: 100%">
                         <div class="panel-body"></div>
@@ -1113,9 +1113,9 @@ require([
             tokenNamespace: "submitted"
         });
 
-        var searchGetMacro_tstats = new PostProcessManager({
+        var searchGetMacro_trackme_tstats = new PostProcessManager({
             "tokenDependencies": {},
-            "search": "where title=\"tstats\" | eval alternative_definition=\"tstats include_reduced_buckets=t\" | table definition, alternative_definition",
+            "search": "where title=\"trackme_tstats\" | eval alternative_definition=\"tstats include_reduced_buckets=t\" | table definition, alternative_definition",
             "managerid": "searchGetMacrosDefinitions",
             "id": "searchGetMacro_tstats"
         }, {
@@ -1410,7 +1410,7 @@ require([
         elementTable_tstats.on("click", function(e) {
             if (e.field !== undefined) {
                 e.preventDefault();
-                var url = TokenUtils.replaceTokenNames("/en-GB/manager/trackme/admin/macros/tstats?action=edit", _.extend(submittedTokenModel.toJSON(), e.data), TokenUtils.getEscaper('url'), TokenUtils.getFilters(mvc.Components));
+                var url = TokenUtils.replaceTokenNames("/en-GB/manager/trackme/admin/macros/trackme_tstats?action=edit", _.extend(submittedTokenModel.toJSON(), e.data), TokenUtils.getEscaper('url'), TokenUtils.getFilters(mvc.Components));
                 utils.redirect(url, false, "_blank");
             }
         });

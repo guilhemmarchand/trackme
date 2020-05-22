@@ -2576,7 +2576,7 @@ styles in <div> tags, similar to Bootstrap's grid system.
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h3 style="color: indianred;"><span class="glyphicon glyphicon-lock"></span> Elastic sources definition </h3>
+                    <h3 style="color: indianred;"><span class="glyphicon glyphicon-lock"></span> TrackMe Elastic sources - Manage and create</h3>
                 </div>
                 <div class="modal-body">
                     <b>Use this interface to create and manage elastic sources:</b>
@@ -2584,25 +2584,21 @@ styles in <div> tags, similar to Bootstrap's grid system.
 
                     <lu>
                         <li>Elastic sources are custom flexible data sources entities, which can be searches based on regular raw events searches, tstats searches, from command based searches and metric indexes using the mstats command</li>
-                        <li>Elastic sources should be used when the default concept of trackMe (statement by index/sourcetype) does not comply with your requirements, or does provide the level of flexibility requested</li>
-                        <li>These searches need to be performing as much as possible, ideally relying on tstats and the usage of standard Meta data (source, etc), custom indexed fields or raw searches using TERM()</li>
-                        <li>Search constraints are free and can contain filters of any kind, including time filters (earliest and latest, besides when using the from command)</li>
-                        <li>Metric indexes do not record any indexing time information, as such the backend reports will record the ingestion as the latest metric available against now</li>
+                        <li>Elastic sources should be used when the default concept of trackMe (statement by index/sourcetype) does not comply with your requirements, or does not provide the level of flexibility requested</li>
                     </lu>
 
                     <br />
 
-                    <b>Elastic sources can be added to the shared tracker, or created as new and independent trackers:</b>
+                    <b>Elastic sources can be added to the shared tracker, or created as dedicated trackers:</b>
 
                     <br /><br />
 
                     <lu>
                         <li>The shared elastic tracker loads the content of the lookup trackme_elastic_sources, and performs all the searches in a single execution</li>
-                        <li>A dedicated elastic tracker is a scheduled report created in the UI to manage a single data source in a integrated way with the application</li>
-                        <li>For large scale or low performing searches, the usage of dedicated elastic trackers is recommended</li>
-                        <li>The shared elastic tracker should be reserved to high performing searches</li>
-                        <li>Independent elastic trackers are as well stored in a lookup, trackme_elastic_sources_dedicated, which is used for mapping purposes in the UI</li>
-                        <li>For advanced use cases, such as mapping results in a intermediate step for example, it is recommended to create a dedicated tracker, then edit and customise the tracker according to your needs</li>
+                        <li>A dedicated elastic tracker is a scheduled report created in the UI to manage, automatically integrated with TrackMe workflow</li>
+                        <li>For large volume source or advanced use cases such as mapping with third party lookups, the usage of a dedicated elastic tracker is recommended and it can be edited in Splunk Web upon its creation</li>
+                        <li>The shared elastic tracker should be reserved for high performing searches, ideally tstats based searches relying on indexed fields</li>
+                        <li>Dedicated elastic trackers information are as well stored in the trackme_elastic_sources_dedicated lookup for mapping purposes in the UI</li>
                     </lu>
 
                     <br />
@@ -2646,41 +2642,11 @@ styles in <div> tags, similar to Bootstrap's grid system.
                         </tr>
                         </tbody>
                     </table>
-
-                    <div id="rowElasticSourcesMain1a" class="dashboard-row dashboard-row3">
-                        <div id="panelElasticSourcesMain1" class="dashboard-cell" style="width: 100%;">
-
-                            <div class="dashboard-panel clearfix">
-                                <div class="panel-element-row">
-
-                                    <div class="fieldset">
-
-                                        <br /><br />
-
-                                        <div style="margin-bottom: 10px;">
-                                            <button id="btn_modal_elastic_sources_manage" type="submit" style="margin-right: 15px;" class="btn btn-default btn-primary" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Manage existing shared elastic sources</button>
-                                            <button id="btn_modal_elastic_sources_add" type="submit" class="btn btn-default btn-primary" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Create a new elastic source</button>
-                                        </div>
-                                    </div>
-
-                                </div>
-                            </div>
-
-                        </div>
-
-                        <div id="rowElasticSourcesMain1b" class="dashboard-cell" style="width: 50%;">
-                            <div class="dashboard-panel clearfix">
-
-                                <div class="panel-element-row">
-
-                                </div>
-                            </div>
-                        </div>
-
-                    </div>
-
                 </div>
+
                 <div class="modal-footer">
+                    <button id="btn_modal_elastic_sources_manage" type="submit" style="margin-right: 15px;" class="btn btn-default btn-primary pull-left" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Manage existing shared elastic sources</button>
+                    <button id="btn_modal_elastic_sources_add" type="submit" class="btn btn-default btn-primary pull-left" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Create a new elastic source</button>
                     <button type="submit" class="btn btn-default btn-default pull-right" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Cancel</button>
                 </div>
             </div>
@@ -6207,7 +6173,7 @@ require([
             "cancelOnUnload": true,
             "sample_ratio": null,
             "latest_time": "$modalTimeWhiteListDataSource.latest$",
-            "search": "| `tstats` count where index=* by index | lookup trackme_data_source_monitoring_whitelist_index data_index as index OUTPUT data_index as FOUND | where isnull(FOUND) | sort limit=0 index | fields index",
+            "search": "| `trackme_tstats` count where index=* by index | lookup trackme_data_source_monitoring_whitelist_index data_index as index OUTPUT data_index as FOUND | where isnull(FOUND) | sort limit=0 index | fields index",
             "status_buckets": 0,
             "app": utils.getCurrentApp(),
             "auto_cancel": 90,
@@ -6253,7 +6219,7 @@ require([
             "cancelOnUnload": true,
             "sample_ratio": null,
             "latest_time": "$modalTimeWhiteListDataHost.latest$",
-            "search": "| `tstats` count where index=* by index | lookup trackme_data_host_monitoring_whitelist_index data_index as index OUTPUT data_index as FOUND | where isnull(FOUND) | sort limit=0 index | fields index",
+            "search": "| `trackme_tstats` count where index=* by index | lookup trackme_data_host_monitoring_whitelist_index data_index as index OUTPUT data_index as FOUND | where isnull(FOUND) | sort limit=0 index | fields index",
             "status_buckets": 0,
             "app": utils.getCurrentApp(),
             "auto_cancel": 90,
@@ -11680,9 +11646,9 @@ require([
                 var tk_elastic_source_from_part2 = tokens.get("tk_elastic_source_from_part2");
 
                 if (tk_elastic_source_search_mode == "null") {
-                    tk_data_source_overview_root_search = "| `tstats` count latest(_indextime) as indextime where index=\"" + tk_data_index + "\" sourcetype=\"" + tk_data_sourcetype + "\" by _time, index, sourcetype span=1s | eval delta=(indextime-_time)";
+                    tk_data_source_overview_root_search = "| `trackme_tstats` count latest(_indextime) as indextime where index=\"" + tk_data_index + "\" sourcetype=\"" + tk_data_sourcetype + "\" by _time, index, sourcetype span=1s | eval delta=(indextime-_time)";
                 } else if (tk_elastic_source_search_mode == "tstats") {
-                    tk_data_source_overview_root_search = "| `tstats` count latest(_indextime) as indextime where " + tk_elastic_source_search_constraint + " by _time, index, sourcetype span=1s | eval delta=(indextime-_time)";
+                    tk_data_source_overview_root_search = "| `trackme_tstats` count latest(_indextime) as indextime where " + tk_elastic_source_search_constraint + " by _time, index, sourcetype span=1s | eval delta=(indextime-_time)";
                 } else if (tk_elastic_source_search_mode == "raw") {
                     tk_data_source_overview_root_search = tk_elastic_source_search_constraint + " | eval delta=(_indextime-_time) | bucket _time span=1s | stats count, avg(delta) as delta by _time";
                 } else if (tk_elastic_source_search_mode == "from" && tk_elastic_source_from_part1 != "null" && tk_elastic_source_from_part2 != "null") {
@@ -11690,7 +11656,7 @@ require([
                 } else if (tk_elastic_source_search_mode == "mstats") {
                     tk_data_source_overview_root_search = "`trackme_idx` source=\"trackme_datasource_tracker_shorterm\" data_name=\"" + tk_data_name + "\" | bucket _time span=1m | stats latest(data_last_lag_seen) as delta, max(data_eventcount) as count by _time";
                 } else {
-                    tk_data_source_overview_root_search = "| `tstats` count latest(_indextime) as indextime where index=\"" + tk_data_index + "\" sourcetype=\"" + tk_data_sourcetype + "\" by _time, index, sourcetype span=1s | eval delta=(indextime-_time)";
+                    tk_data_source_overview_root_search = "| `trackme_tstats` count latest(_indextime) as indextime where index=\"" + tk_data_index + "\" sourcetype=\"" + tk_data_sourcetype + "\" by _time, index, sourcetype span=1s | eval delta=(indextime-_time)";
                 }
 
                 //console.log("tk_data_source_overview_root_search is: " + tk_data_source_overview_root_search);
@@ -20721,7 +20687,7 @@ require([
 
                     // define the alert search
                     if (tk_input_elastic_source_search_type == "tstats") {
-                        tk_elastic_alert_root_search = "| `tstats` max(_indextime) as data_last_ingest, min(_time) as data_first_time_seen, max(_time) as data_last_time_seen, count as data_eventcount where " + tk_raw_input_elastic_source_search_constraint + " | eval data_name=\"" + tk_input_elastic_source_data_name + "\", data_last_ingestion_lag_seen=data_last_ingest-data_last_time_seen | `trackme_elastic_dedicated_tracker` | stats c";
+                        tk_elastic_alert_root_search = "| `trackme_tstats` max(_indextime) as data_last_ingest, min(_time) as data_first_time_seen, max(_time) as data_last_time_seen, count as data_eventcount where " + tk_raw_input_elastic_source_search_constraint + " | eval data_name=\"" + tk_input_elastic_source_data_name + "\", data_last_ingestion_lag_seen=data_last_ingest-data_last_time_seen | `trackme_elastic_dedicated_tracker` | stats c";
 
                     } else if (tk_input_elastic_source_search_type == "raw") {
                         tk_elastic_alert_root_search = tk_raw_input_elastic_source_search_constraint + " | stats max(_indextime) as data_last_ingest, min(_time) as data_first_time_seen, max(_time) as data_last_time_seen, count as data_eventcount | eval data_name=\"" + tk_input_elastic_source_data_name +"\", data_last_ingestion_lag_seen=data_last_ingest-data_last_time_seen | `trackme_elastic_dedicated_tracker` | stats c";
@@ -23055,7 +23021,7 @@ require([
             //console.log("Start collection update");
 
             // Define the query
-            var searchQuery = "| `tstats` count latest(_indextime) as indextime where index=\"" + tk_data_index + "\" sourcetype=\"" + tk_data_sourcetype + "\"  by _time, index, sourcetype span=1s | eval delta=(indextime-_time) | stats perc95(delta) as value | eval data_name=\"" + tk_data_name + "\", data_override_lagging_class=\"" + tk_data_override_lagging_class + "\" | lookup trackme_data_source_monitoring data_name OUTPUT _key as keyid | lookup trackme_data_source_monitoring data_name | eval data_max_lag_allowed=if(value>0, round(value, 0), data_max_lag_allowed), value=round(value, 0) | outputlookup trackme_data_source_monitoring key_field=keyid";
+            var searchQuery = "| `trackme_tstats` count latest(_indextime) as indextime where index=\"" + tk_data_index + "\" sourcetype=\"" + tk_data_sourcetype + "\"  by _time, index, sourcetype span=1s | eval delta=(indextime-_time) | stats perc95(delta) as value | eval data_name=\"" + tk_data_name + "\", data_override_lagging_class=\"" + tk_data_override_lagging_class + "\" | lookup trackme_data_source_monitoring data_name OUTPUT _key as keyid | lookup trackme_data_source_monitoring data_name | eval data_max_lag_allowed=if(value>0, round(value, 0), data_max_lag_allowed), value=round(value, 0) | outputlookup trackme_data_source_monitoring key_field=keyid";
             //console.log(searchQuery);
 
             // Set the search parameters--specify a time range
@@ -23224,7 +23190,7 @@ require([
             //console.log("Start collection update");
 
             // Define the query
-            var searchQuery = "| `tstats` count latest(_indextime) as indextime where index=\"" + tk_data_index + "\" sourcetype=\"" + tk_data_sourcetype + "\"  by _time, index, sourcetype span=1s | eval delta=(indextime-_time) | stats avg(delta) as value | eval data_name=\"" + tk_data_name + "\", data_override_lagging_class=\"" + tk_data_override_lagging_class + "\" | lookup trackme_data_source_monitoring data_name OUTPUT _key as keyid | lookup trackme_data_source_monitoring data_name | eval data_max_lag_allowed=if(value>0, round(value, 0), data_max_lag_allowed), value=round(value, 0) | outputlookup trackme_data_source_monitoring key_field=keyid";
+            var searchQuery = "| `trackme_tstats` count latest(_indextime) as indextime where index=\"" + tk_data_index + "\" sourcetype=\"" + tk_data_sourcetype + "\"  by _time, index, sourcetype span=1s | eval delta=(indextime-_time) | stats avg(delta) as value | eval data_name=\"" + tk_data_name + "\", data_override_lagging_class=\"" + tk_data_override_lagging_class + "\" | lookup trackme_data_source_monitoring data_name OUTPUT _key as keyid | lookup trackme_data_source_monitoring data_name | eval data_max_lag_allowed=if(value>0, round(value, 0), data_max_lag_allowed), value=round(value, 0) | outputlookup trackme_data_source_monitoring key_field=keyid";
             //console.log(searchQuery);
 
             // Set the search parameters--specify a time range
@@ -23394,7 +23360,7 @@ require([
             //console.log("Start collection update");
 
             // Define the query
-            var searchQuery = "| `tstats` count latest(_indextime) as indextime where index=\"" + tk_data_index + "\" sourcetype=\"" + tk_data_sourcetype + "\"  by _time, index, sourcetype span=1s | eval delta=(indextime-_time) | stats perc95(delta) as value | eval data_name=\"" + tk_data_name + "\", data_override_lagging_class=\"" + tk_data_override_lagging_class + "\" | lookup trackme_data_source_monitoring data_name OUTPUT _key as keyid | lookup trackme_data_source_monitoring data_name | eval data_max_lag_allowed=if(value>0, round(value, 0), data_max_lag_allowed), value=round(value, 0) | outputlookup trackme_data_source_monitoring key_field=keyid";
+            var searchQuery = "| `trackme_tstats` count latest(_indextime) as indextime where index=\"" + tk_data_index + "\" sourcetype=\"" + tk_data_sourcetype + "\"  by _time, index, sourcetype span=1s | eval delta=(indextime-_time) | stats perc95(delta) as value | eval data_name=\"" + tk_data_name + "\", data_override_lagging_class=\"" + tk_data_override_lagging_class + "\" | lookup trackme_data_source_monitoring data_name OUTPUT _key as keyid | lookup trackme_data_source_monitoring data_name | eval data_max_lag_allowed=if(value>0, round(value, 0), data_max_lag_allowed), value=round(value, 0) | outputlookup trackme_data_source_monitoring key_field=keyid";
             //console.log(searchQuery);
 
             // Set the search parameters--specify a time range
@@ -23564,7 +23530,7 @@ require([
             //console.log("Start collection update");
 
             // Define the query
-            var searchQuery = "| `tstats` count latest(_indextime) as indextime where index=\"" + tk_data_index + "\" sourcetype=\"" + tk_data_sourcetype + "\"  by _time, index, sourcetype span=1s | eval delta=(indextime-_time) | stats avg(delta) as value | eval data_name=\"" + tk_data_name + "\", data_override_lagging_class=\"" + tk_data_override_lagging_class + "\" | lookup trackme_data_source_monitoring data_name OUTPUT _key as keyid | lookup trackme_data_source_monitoring data_name | eval data_max_lag_allowed=if(value>0, round(value, 0), data_max_lag_allowed), value=round(value, 0) | outputlookup trackme_data_source_monitoring key_field=keyid";
+            var searchQuery = "| `trackme_tstats` count latest(_indextime) as indextime where index=\"" + tk_data_index + "\" sourcetype=\"" + tk_data_sourcetype + "\"  by _time, index, sourcetype span=1s | eval delta=(indextime-_time) | stats avg(delta) as value | eval data_name=\"" + tk_data_name + "\", data_override_lagging_class=\"" + tk_data_override_lagging_class + "\" | lookup trackme_data_source_monitoring data_name OUTPUT _key as keyid | lookup trackme_data_source_monitoring data_name | eval data_max_lag_allowed=if(value>0, round(value, 0), data_max_lag_allowed), value=round(value, 0) | outputlookup trackme_data_source_monitoring key_field=keyid";
             //console.log(searchQuery);
 
             // Set the search parameters--specify a time range
@@ -24355,7 +24321,7 @@ require([
             //console.log("Start collection update");
 
             // Define the query
-            var searchQuery = "| `tstats` count latest(_indextime) as indextime where index=* host=\"" + tk_data_host + "\"  by _time, index, sourcetype span=1s | eval delta=(indextime-_time) | stats perc95(delta) as value | eval data_host=\"" + tk_data_host + "\", data_override_lagging_class=\"" + tk_data_override_lagging_class + "\" | lookup trackme_host_monitoring data_host OUTPUT _key as keyid | lookup trackme_host_monitoring data_host | eval data_max_lag_allowed=if(value>0, round(value, 0), data_max_lag_allowed), value=round(value, 0) | outputlookup trackme_host_monitoring key_field=keyid";
+            var searchQuery = "| `trackme_tstats` count latest(_indextime) as indextime where index=* host=\"" + tk_data_host + "\"  by _time, index, sourcetype span=1s | eval delta=(indextime-_time) | stats perc95(delta) as value | eval data_host=\"" + tk_data_host + "\", data_override_lagging_class=\"" + tk_data_override_lagging_class + "\" | lookup trackme_host_monitoring data_host OUTPUT _key as keyid | lookup trackme_host_monitoring data_host | eval data_max_lag_allowed=if(value>0, round(value, 0), data_max_lag_allowed), value=round(value, 0) | outputlookup trackme_host_monitoring key_field=keyid";
             //console.log(searchQuery);
 
             // Set the search parameters--specify a time range
@@ -24522,7 +24488,7 @@ require([
             //console.log("Start collection update");
 
             // Define the query
-            var searchQuery = "| `tstats` count latest(_indextime) as indextime where index=* host=\"" + tk_data_host + "\"  by _time, index, sourcetype span=1s | eval delta=(indextime-_time) | stats avg(delta) as value | eval data_host=\"" + tk_data_host + "\", data_override_lagging_class=\"" + tk_data_override_lagging_class + "\" | lookup trackme_host_monitoring data_host OUTPUT _key as keyid | lookup trackme_host_monitoring data_host | eval data_max_lag_allowed=if(value>0, round(value, 0), data_max_lag_allowed), value=round(value, 0) | outputlookup trackme_host_monitoring key_field=keyid";
+            var searchQuery = "| `trackme_tstats` count latest(_indextime) as indextime where index=* host=\"" + tk_data_host + "\"  by _time, index, sourcetype span=1s | eval delta=(indextime-_time) | stats avg(delta) as value | eval data_host=\"" + tk_data_host + "\", data_override_lagging_class=\"" + tk_data_override_lagging_class + "\" | lookup trackme_host_monitoring data_host OUTPUT _key as keyid | lookup trackme_host_monitoring data_host | eval data_max_lag_allowed=if(value>0, round(value, 0), data_max_lag_allowed), value=round(value, 0) | outputlookup trackme_host_monitoring key_field=keyid";
             //console.log(searchQuery);
 
             // Set the search parameters--specify a time range
@@ -24688,7 +24654,7 @@ require([
             //console.log("Start collection update");
 
             // Define the query
-            var searchQuery = "| `tstats` count latest(_indextime) as indextime where index=* host=\"" + tk_data_host + "\"  by _time, index, sourcetype span=1s | eval delta=(indextime-_time) | stats perc95(delta) as value | eval data_host=\"" + tk_data_host + "\", data_override_lagging_class=\"" + tk_data_override_lagging_class + "\" | lookup trackme_host_monitoring data_host OUTPUT _key as keyid | lookup trackme_host_monitoring data_host | eval data_max_lag_allowed=if(value>0, round(value, 0), data_max_lag_allowed), value=round(value, 0) | outputlookup trackme_host_monitoring key_field=keyid";
+            var searchQuery = "| `trackme_tstats` count latest(_indextime) as indextime where index=* host=\"" + tk_data_host + "\"  by _time, index, sourcetype span=1s | eval delta=(indextime-_time) | stats perc95(delta) as value | eval data_host=\"" + tk_data_host + "\", data_override_lagging_class=\"" + tk_data_override_lagging_class + "\" | lookup trackme_host_monitoring data_host OUTPUT _key as keyid | lookup trackme_host_monitoring data_host | eval data_max_lag_allowed=if(value>0, round(value, 0), data_max_lag_allowed), value=round(value, 0) | outputlookup trackme_host_monitoring key_field=keyid";
             //console.log(searchQuery);
 
             // Set the search parameters--specify a time range
@@ -24854,7 +24820,7 @@ require([
             //console.log("Start collection update");
 
             // Define the query
-            var searchQuery = "| `tstats` count latest(_indextime) as indextime where index=* host=\"" + tk_data_host + "\"  by _time, index, sourcetype span=1s | eval delta=(indextime-_time) | stats avg(delta) as value | eval data_host=\"" + tk_data_host + "\", data_override_lagging_class=\"" + tk_data_override_lagging_class + "\" | lookup trackme_host_monitoring data_host OUTPUT _key as keyid | lookup trackme_host_monitoring data_host | eval data_max_lag_allowed=if(value>0, round(value, 0), data_max_lag_allowed), value=round(value, 0) | outputlookup trackme_host_monitoring key_field=keyid";
+            var searchQuery = "| `trackme_tstats` count latest(_indextime) as indextime where index=* host=\"" + tk_data_host + "\"  by _time, index, sourcetype span=1s | eval delta=(indextime-_time) | stats avg(delta) as value | eval data_host=\"" + tk_data_host + "\", data_override_lagging_class=\"" + tk_data_override_lagging_class + "\" | lookup trackme_host_monitoring data_host OUTPUT _key as keyid | lookup trackme_host_monitoring data_host | eval data_max_lag_allowed=if(value>0, round(value, 0), data_max_lag_allowed), value=round(value, 0) | outputlookup trackme_host_monitoring key_field=keyid";
             //console.log(searchQuery);
 
             // Set the search parameters--specify a time range
