@@ -1367,7 +1367,7 @@ styles in <div> tags, similar to Bootstrap's grid system.
                                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                                 </div>
 
-                                <div style="margin-top:10px; margin-left: 20px;">
+                                <div style="line-height: 1.1; margin-left: 20px;">
                                     <div style="float:left;width:33%;">
                                         <p><b>data_index:</b> $tk_data_index$</p>
                                         <p><b>data_sourcetype:</b> $tk_data_sourcetype$</p>
@@ -1609,7 +1609,7 @@ styles in <div> tags, similar to Bootstrap's grid system.
                                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                                 </div>
 
-                                <div style="margin-top:10px; margin-left: 20px;">
+                                <div style="line-height: 1.1; margin-left: 20px;">
                                     <div style="float:left;width:33%;">
                                         <p><b>lag event / lag ingestion:</b> $tk_data_lag_summary$</p>
                                         <p><b>data_last_time_seen:</b> $tk_data_last_time_seen_human$</p>
@@ -1868,7 +1868,7 @@ styles in <div> tags, similar to Bootstrap's grid system.
                                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                                 </div>
 
-                                <div style="margin-top:10px; margin-left: 20px;">
+                                <div style="line-height: 1.1; margin-left: 20px;">
                                     <div style="float:left;width:25%;">
                                         <p><b>metric_last_lag_seen:</b> $tk_metric_last_lag_seen$</p>
                                         <p><b>metric_last_time_seen:</b> $tk_metric_last_time_seen_human$</p>
@@ -2182,43 +2182,6 @@ styles in <div> tags, similar to Bootstrap's grid system.
                             <a class="btn btn-primary" id="btn_search_parsing_issues_dateparser" target="_blank" href="search_data_source_url" role="button">Search date parser issues</a>
                         </div>
                     </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="modal custom-modal-50 fade" id="modal_time_to_configure" role="dialog">
-        <div class="modal-dialog">
-            <!-- Modal content-->
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal">&amp;times;</button>
-                    <h3 style="color: indianred; font-size: 20px;"><span class="glyphicon glyphicon-lock"></span>Oops! It's time for some configuration.</h3>
-                </div>
-                <div class="modal-body">
-
-                    <img style="float: left; margin: 0px 15px 15px 0px;" src="../../static/app/trackme/icons/sorry_poney.png"/>
-
-                    <p>It looks like this is your first visit here, the collection is currently empty as the tracker reports were not executed yet.<br /><br />
-                        <b>The tracker reports are automatically scheduled but you can request an execution immediately by clicking on the button bellow.</b>
-                        <br /><br />
-                        <b>Make sure the tracker reports are activated and scheduled:</b>
-                        <br />
-                        <lu>
-                            <li>TrackMe - Data sources availability short term tracker</li>
-                            <li>TrackMe - Data sources availability long term tracker</li>
-                            <li>TrackMe - Data hosts availability short term tracker</li>
-                            <li>TrackMe - Data hosts availability long term tracker</li>
-                        </lu>
-
-                        <b></b>
-
-                    </p>
-                </div>
-
-                <div class="modal-footer" style="margin-top: 300px;">
-                    <button type="submit" class="btn btn-default btn-default" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Close</button>
-                    <button id="btn_modal_update_collection" class="btn btn-default btn-primary" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Update collection now</button>
                 </div>
             </div>
         </div>
@@ -5333,7 +5296,7 @@ styles in <div> tags, similar to Bootstrap's grid system.
                 <div class="dashboard-panel clearfix">
 
                     <div class="panel-element-row">
-                        <div id="DonutDataSourcePriorities" class="dashboard-element single" style="width: 100%">
+                        <div id="DonutDataSourceCountByPriority" class="dashboard-element single" style="width: 100%">
                             <div class="panel-body"></div>
                             <div style="text-align: center;">
                                 <h3 style="font-size: 14px;">Monitored data sources count by priority</h3>
@@ -5346,7 +5309,7 @@ styles in <div> tags, similar to Bootstrap's grid system.
                 <div class="dashboard-panel clearfix">
 
                     <div class="panel-element-row">
-                        <div id="DonutDataSourceAlerts" class="dashboard-element single" style="width: 100%">
+                        <div id="DonutDataSourceCountByStateAndPriority" class="dashboard-element single" style="width: 100%">
                             <div class="panel-body"></div>
                             <div style="text-align: center;">
                                 <h3 style="font-size: 14px;">Monitored data sources count by state and priority</h3>
@@ -5409,7 +5372,7 @@ styles in <div> tags, similar to Bootstrap's grid system.
                 <div class="dashboard-panel clearfix">
 
                     <div class="panel-element-row">
-                        <div id="DonutDataHostPriorities" class="dashboard-element single" style="width: 100%">
+                        <div id="DonutDataHostCountByStateAndPriority" class="dashboard-element single" style="width: 100%">
                             <div class="panel-body"></div>
                             <div style="text-align: center;">
                                 <h3 style="font-size: 14px;">Monitored data hosts count by priority</h3>
@@ -5422,7 +5385,7 @@ styles in <div> tags, similar to Bootstrap's grid system.
                 <div class="dashboard-panel clearfix">
 
                     <div class="panel-element-row">
-                        <div id="DonutDataHostAlerts" class="dashboard-element single" style="width: 100%">
+                        <div id="DonutDataHostCountByPriority" class="dashboard-element single" style="width: 100%">
                             <div class="panel-body"></div>
                             <div style="text-align: center;">
                                 <h3 style="font-size: 14px;">Monitored data hosts count by state and priority</h3>
@@ -5485,7 +5448,7 @@ styles in <div> tags, similar to Bootstrap's grid system.
                 <div class="dashboard-panel clearfix">
 
                     <div class="panel-element-row">
-                        <div id="DonutMetricHostPriorities" class="dashboard-element single" style="width: 100%">
+                        <div id="DonutMetricHostCountByStateAndPriority" class="dashboard-element single" style="width: 100%">
                             <div class="panel-body"></div>
                             <div style="text-align: center;">
                                 <h3 style="font-size: 14px;">Monitored metric hosts count by priority</h3>
@@ -5498,7 +5461,7 @@ styles in <div> tags, similar to Bootstrap's grid system.
                 <div class="dashboard-panel clearfix">
 
                     <div class="panel-element-row">
-                        <div id="DonutMetricHostAlerts" class="dashboard-element single" style="width: 100%">
+                        <div id="DonutMetricHostCountByPriority" class="dashboard-element single" style="width: 100%">
                             <div class="panel-body"></div>
                             <div style="text-align: center;">
                                 <h3 style="font-size: 14px;">Monitored metric hosts count by state and priority</h3>
@@ -5563,23 +5526,26 @@ styles in <div> tags, similar to Bootstrap's grid system.
                     <div class="input input-dropdown" id="SearchModeSelectorDataSources">
                         <label>Search mode:</label>
                     </div>
+                    <div class="input input-text" id="inputDataNameFilter">
+                        <label>Keyword filter name:</label>
+                    </div>
                     <div class="input input-dropdown" id="inputDataName">
-                        <label>data_name:</label>
+                        <label>Name:</label>
                     </div>
                     <div class="input input-dropdown" id="inputDataIndex">
-                        <label>data_index:</label>
+                        <label>Index:</label>
                     </div>
                     <div class="input input-dropdown" id="inputDataSourcetype">
-                        <label>data_sourcetype:</label>
+                        <label>Sourcetype(s):</label>
                     </div>
                     <div class="input input-dropdown" id="inputDataSourceState">
-                        <label>filter state:</label>
+                        <label>Filter state:</label>
                     </div>
                     <div class="input input-dropdown" id="inputDataMonitoredState">
-                        <label>filter monitored_state:</label>
+                        <label>Filter monitored_state:</label>
                     </div>
                     <div class="input input-dropdown" id="inputDataPriority">
-                        <label>filter priority:</label>
+                        <label>Filter priority:</label>
                     </div>
                     <div class="input input-dropdown" id="refreshForm">
                         <label>Auto refresh:</label>
@@ -5598,22 +5564,25 @@ styles in <div> tags, similar to Bootstrap's grid system.
                         <label>Search mode:</label>
                     </div>
                     <div class="input input-dropdown" id="inputDataHostIndexes">
-                        <label>data_index:</label>
+                        <label>Index(es):</label>
                     </div>
                     <div class="input input-dropdown" id="inputDataHostSourcetypes">
-                        <label>data_sourcetype:</label>
+                        <label>Sourcetype(s):</label>
+                    </div>
+                    <div class="input input-text" id="inputDataHostFilter">
+                        <label>Keyword filter hosts:</label>
                     </div>
                     <div class="input input-dropdown" id="inputDataHost">
-                        <label>data_host:</label>
+                        <label>Host(s) (use keyword filter):</label>
                     </div>
                     <div class="input input-dropdown" id="inputDataHostState">
-                        <label>filter state:</label>
+                        <label>Filter state:</label>
                     </div>
                     <div class="input input-dropdown" id="inputDataHostMonitoredState">
-                        <label>filter monitored_state:</label>
+                        <label>Filter monitored_state:</label>
                     </div>
                     <div class="input input-dropdown" id="inputDataHostPriority">
-                        <label>filter priority:</label>
+                        <label>Filter priority:</label>
                     </div>
                     <div class="input input-dropdown" id="refreshHostForm">
                         <label>Auto refresh:</label>
@@ -5632,22 +5601,25 @@ styles in <div> tags, similar to Bootstrap's grid system.
                         <label>Search mode:</label>
                     </div>
                     <div class="input input-dropdown" id="inputMetricHostIndexes">
-                        <label>metric_index:</label>
+                        <label>Index(es):</label>
                     </div>
                     <div class="input input-dropdown" id="inputMetricHostCategories">
-                        <label>metric_category:</label>
+                        <label>Metic categorie(s):</label>
+                    </div>
+                    <div class="input input-dropdown" id="inputMetricHostFilter">
+                        <label>Keyword filter host:</label>
                     </div>
                     <div class="input input-dropdown" id="inputMetricHost">
-                        <label>metric_host:</label>
+                        <label>Host(s):</label>
                     </div>
                     <div class="input input-dropdown" id="inputMetricHostState">
-                        <label>filter state:</label>
+                        <label>Filter state:</label>
                     </div>
                     <div class="input input-dropdown" id="inputMetricHostMonitoredState">
-                        <label>filter monitored_state:</label>
+                        <label>Filter monitored_state:</label>
                     </div>
                     <div class="input input-dropdown" id="inputMetricHostPriority">
-                        <label>filter priority:</label>
+                        <label>Filter priority:</label>
                     </div>
                     <div class="input input-dropdown" id="refreshMetricHostForm">
                         <label>Auto refresh:</label>
@@ -6267,7 +6239,7 @@ require([
             "refreshType": "delay",
             "refresh": "$refresh$",
             "latest_time": "+5m",
-            "search": "$data_source_mainsearch$",
+            "search": "$data_source_mainsearch$ | search $inputDataNameFilter$ $inputDataName$ $inputDataIndex$ $inputDataSourcetype$\n| search `trackme_get_idx_whitelist_searchtime(trackme_data_source_monitoring_whitelist_index, data_index)`\n| `apply_data_source_blacklists`\n",
             "status_buckets": 0,
             "app": utils.getCurrentApp(),
             "auto_cancel": 90,
@@ -6283,7 +6255,7 @@ require([
 
         var searchDataSourcesPostTable = new PostProcessManager({
             "tokenDependencies": {},
-            "search": "search $data_source_state$\n| search $inputDataName$ $inputDataIndex$ $inputDataSourcetype$ $data_monitored_state$ $inputDataPriority$\n| fillnull data_last_lag_seen, data_last_ingestion_lag_seen\n| eval \"lag summary (lag event / lag ingestion)\" = data_last_lag_seen . \" sec / \" . data_last_ingestion_lag_seen . \" sec\"\n| search `trackme_get_idx_whitelist_searchtime(trackme_data_source_monitoring_whitelist_index, data_index)`\n| `apply_data_source_blacklists`\n| rename \"data_last_time_seen (translated)\" as \"last time\", \"data_last_ingest (translated)\" as \"last ingest\", \"data_last_time_seen_idx (translated)\" as \"last time idx\"\n| eval data_tracker_runtime=now()\n| `trackme_date_format(\"latest_flip_time\")`\n| fillnull value=\"N/A\" latest_flip_state, latest_flip_time, \"latest_flip_time (translated)\"\n| `trackme_get_identity_card(data_name)` | `trackme_lookup_elastic_sources`",
+            "search": "search $data_source_state$ $data_monitored_state$ $inputDataPriority$\n| fillnull data_last_lag_seen, data_last_ingestion_lag_seen\n| eval \"lag summary (lag event / lag ingestion)\" = data_last_lag_seen . \" sec / \" . data_last_ingestion_lag_seen . \" sec\"\n| rename \"data_last_time_seen (translated)\" as \"last time\", \"data_last_ingest (translated)\" as \"last ingest\", \"data_last_time_seen_idx (translated)\" as \"last time idx\"\n| eval data_tracker_runtime=now()\n| `trackme_date_format(\"latest_flip_time\")`\n| fillnull value=\"N/A\" latest_flip_state, latest_flip_time, \"latest_flip_time (translated)\"",
             "managerid": "searchDataSourcesMain",
             "id": "searchDataSourcesPostTable"
         }, {
@@ -6291,9 +6263,19 @@ require([
             tokenNamespace: "submitted"
         });
 
+        var searchDataSourcesMainStats = new PostProcessManager({
+            "tokenDependencies": {},
+            "search": "stats count as total, count(eval(data_monitored_state=\"disabled\")) as total_disabled, count(eval(data_source_state!=\"green\" AND data_source_state!=\"info\" AND data_monitored_state=\"enabled\")) as total_in_alert, count(eval(data_source_state=\"red\" AND priority=\"high\" AND data_monitored_state=\"enabled\")) as total_high_priority_red, count(eval(data_monitored_state=\"enabled\" AND priority=\"low\")) as low_enabled, count(eval(data_monitored_state=\"enabled\" AND priority=\"medium\")) as medium_enabled, count(eval(data_monitored_state=\"enabled\" AND priority=\"high\")) as high_enabled, count(eval(data_source_state=\"blue\" AND data_monitored_state=\"enabled\")) as \"blue\", count(eval(data_source_state=\"orange\" AND data_monitored_state=\"enabled\")) as \"orange\", count(eval(data_source_state=\"green\" AND data_monitored_state=\"enabled\")) as \"green\", count(eval(data_source_state=\"red\" AND data_monitored_state=\"enabled\" AND priority=\"high\")) as \"red - high priority\", count(eval(data_source_state=\"red\" AND data_monitored_state=\"enabled\" AND priority!=\"high\")) as \"red - other priority\"",
+            "managerid": "searchDataSourcesMain",
+            "id": "searchDataSourcesMainStats"
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        });
+
         var searchPopulateDataSources = new PostProcessManager({
             "tokenDependencies": {},
-            "search": "stats values(data_name) as data_name | mvexpand data_name | dedup data_name | sort limit=0 data_name",
+            "search": "stats values(data_name) as data_name | mvexpand data_name | dedup data_name | sort limit=1000 data_name",
             "managerid": "searchDataSourcesMain",
             "id": "searchPopulateDataSources"
         }, {
@@ -6313,7 +6295,7 @@ require([
 
         var searchPopulateDataSourcesSourcetypes = new PostProcessManager({
             "tokenDependencies": {},
-            "search": "search $inputDataName$ $inputDataIndex$ | stats values(data_sourcetype) as data_sourcetype | mvexpand data_sourcetype | dedup data_sourcetype | sort limit=0 data_sourcetype",
+            "search": "search $inputDataNameFilter$ $inputDataName$ $inputDataIndex$ | stats values(data_sourcetype) as data_sourcetype | mvexpand data_sourcetype | dedup data_sourcetype | sort limit=0 data_sourcetype",
             "managerid": "searchDataSourcesMain",
             "id": "searchPopulateDataSourcesSourcetypes"
         }, {
@@ -6532,7 +6514,7 @@ require([
             "refreshType": "delay",
             "refresh": "$refresh$",
             "latest_time": "now",
-            "search": "$metric_host_mainsearch$",
+            "search": "$metric_host_mainsearch$ | search $inputMetricHostIndexes$ $inputMetricHostCategories$ $inputMetricHostFilter$ $inputMetricHost$",
             "status_buckets": 0,
             "app": utils.getCurrentApp(),
             "auto_cancel": 90,
@@ -6548,9 +6530,19 @@ require([
 
         var searchMainTableMetricHost = new PostProcessManager({
             "tokenDependencies": {},
-            "search": "search $inputMetricHostIndexes$ $inputMetricHostCategories$ $inputMetricHost$ $inputMetricHostPriority$ $metric_host_state$ $metric_monitored_state$",
+            "search": "search $inputMetricHostPriority$ $metric_host_state$ $metric_monitored_state$ | sort limit=1000 metric_host",
             "managerid": "searchMetricHostsMain",
             "id": "searchMainTableMetricHost"
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        });
+
+        var searchMetricHostsMainStats = new PostProcessManager({
+            "tokenDependencies": {},
+            "search": "stats count as total, count(eval(metric_monitored_state=\"disabled\")) as total_disabled, count(eval(metric_host_state!=\"green\" AND metric_host_state!=\"info\" AND metric_monitored_state=\"enabled\")) as total_in_alert, count(eval(metric_host_state=\"red\" AND priority=\"high\" AND metric_monitored_state=\"enabled\")) as total_high_priority_red, count(eval(metric_monitored_state=\"enabled\" AND priority=\"low\")) as low_enabled, count(eval(metric_monitored_state=\"enabled\" AND priority=\"medium\")) as medium_enabled, count(eval(metric_monitored_state=\"enabled\" AND priority=\"high\")) as high_enabled, count(eval(metric_host_state=\"blue\" AND metric_monitored_state=\"enabled\")) as \"blue\", count(eval(metric_host_state=\"orange\" AND metric_monitored_state=\"enabled\")) as \"orange\", count(eval(metric_host_state=\"green\" AND metric_monitored_state=\"enabled\")) as \"green\", count(eval(metric_host_state=\"red\" AND metric_monitored_state=\"enabled\" AND priority=\"high\")) as \"red - high priority\", count(eval(metric_host_state=\"red\" AND metric_monitored_state=\"enabled\" AND priority!=\"high\")) as \"red - other priority\"",
+            "managerid": "searchMetricHostsMain",
+            "id": "searchMetricHostsMainStats"
         }, {
             tokens: true,
             tokenNamespace: "submitted"
@@ -6568,7 +6560,7 @@ require([
 
         var searchPopulateMetricHosts = new PostProcessManager({
             "tokenDependencies": {},
-            "search": "stats count by metric_host | sort limit=0 metric_host",
+            "search": "stats count by metric_host | sort limit=1000 metric_host",
             "managerid": "searchMetricHostsMain",
             "id": "searchPopulateMetricHosts"
         }, {
@@ -6658,7 +6650,7 @@ require([
             "refreshType": "delay",
             "refresh": "$refresh$",
             "latest_time": "+5m",
-            "search": "$data_host_mainsearch$",
+            "search": "$data_host_mainsearch$ | search $inputDataHostFilter$ $inputDataHost$ $inputDataHostIndexes$ $inputDataHostSourcetypes$",
             "status_buckets": 0,
             "app": utils.getCurrentApp(),
             "auto_cancel": 90,
@@ -6674,7 +6666,7 @@ require([
 
         var searchMainTableHost = new PostProcessManager({
             "tokenDependencies": {},
-            "search": "search $inputDataHost$ $data_host_state$ $data_monitored_state$ $inputDataHostIndexes$ $inputDataHostSourcetypes$ $inputDataHostPriority$ | fillnull data_last_lag_seen, data_last_ingestion_lag_seen | eval \"lag summary (lag event / lag ingestion)\" = data_last_lag_seen . \" sec / \" . data_last_ingestion_lag_seen . \" sec\"",
+            "search": "search $data_host_state$ $data_monitored_state$ $inputDataHostPriority$ | fillnull data_last_lag_seen, data_last_ingestion_lag_seen | eval \"lag summary (lag event / lag ingestion)\" = data_last_lag_seen . \" sec / \" . data_last_ingestion_lag_seen . \" sec\"",
             "managerid": "searchDataHostsMain",
             "id": "searchMainTableHost"
         }, {
@@ -6682,9 +6674,19 @@ require([
             tokenNamespace: "submitted"
         });
 
+        var searchDataHostsMainStats = new PostProcessManager({
+            "tokenDependencies": {},
+            "search": "stats count as total, count(eval(data_monitored_state=\"disabled\")) as total_disabled, count(eval(data_host_state!=\"green\" AND data_host_state!=\"info\" AND data_monitored_state=\"enabled\")) as total_in_alert, count(eval(data_host_state=\"red\" AND priority=\"high\" AND data_monitored_state=\"enabled\")) as total_high_priority_red, count(eval(data_monitored_state=\"enabled\" AND priority=\"low\")) as low_enabled, count(eval(data_monitored_state=\"enabled\" AND priority=\"medium\")) as medium_enabled, count(eval(data_monitored_state=\"enabled\" AND priority=\"high\")) as high_enabled, count(eval(data_host_state=\"blue\" AND data_monitored_state=\"enabled\")) as \"blue\", count(eval(data_host_state=\"orange\" AND data_monitored_state=\"enabled\")) as \"orange\", count(eval(data_host_state=\"green\" AND data_monitored_state=\"enabled\")) as \"green\", count(eval(data_host_state=\"red\" AND data_monitored_state=\"enabled\" AND priority=\"high\")) as \"red - high priority\", count(eval(data_host_state=\"red\" AND data_monitored_state=\"enabled\" AND priority!=\"high\")) as \"red - other priority\"",
+            "managerid": "searchDataHostsMain",
+            "id": "searchDataHostsMainStats"
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        });
+
         var searchPopulateDataHostsIndexes = new PostProcessManager({
             "tokenDependencies": {},
-            "search": "makemv data_index delim=\",\" | stats values(data_index) as data_index | mvexpand data_index | dedup data_index | sort limit=0 data_index",
+            "search": "makemv data_index delim=\",\" | stats values(data_index) as data_index | mvexpand data_index | dedup data_index | sort limit=1000 data_index",
             "managerid": "searchDataHostsMain",
             "id": "searchPopulateDataHostsIndexes"
         }, {
@@ -6694,7 +6696,7 @@ require([
 
         var searchPopulateDataHostsSourcetypes = new PostProcessManager({
             "tokenDependencies": {},
-            "search": "makemv data_index delim=\",\" | makemv data_sourcetype delim=\",\" | search $inputDataHostIndexes$ | stats values(data_sourcetype) as data_sourcetype | mvexpand data_sourcetype | dedup data_sourcetype | sort limit=0 data_sourcetype",
+            "search": "makemv data_index delim=\",\" | makemv data_sourcetype delim=\",\" | search $inputDataHostIndexes$ | stats values(data_sourcetype) as data_sourcetype | mvexpand data_sourcetype | dedup data_sourcetype | sort limit=1000 data_sourcetype",
             "managerid": "searchDataHostsMain",
             "id": "searchPopulateDataHostsSourcetypes"
         }, {
@@ -6704,7 +6706,7 @@ require([
 
         var searchPopulateDataHosts = new PostProcessManager({
             "tokenDependencies": {},
-            "search": "makemv data_index delim=\",\" | makemv data_sourcetype delim=\",\" | search $inputDataHostIndexes$ $inputDataHostSourcetypes$ | stats values(data_host) as data_host | mvexpand data_host | dedup data_host | sort limit=0 data_host",
+            "search": "makemv data_index delim=\",\" | makemv data_sourcetype delim=\",\" | search $inputDataHostIndexes$ $inputDataHostSourcetypes$ $inputDataHostFilter$ | stats values(data_host) as data_host | mvexpand data_host | dedup data_host | sort limit=1000 data_host",
             "managerid": "searchDataHostsMain",
             "id": "searchPopulateDataHosts"
         }, {
@@ -6754,8 +6756,8 @@ require([
 
         var searchSingleDataSourceDonutAlerts = new PostProcessManager({
             "tokenDependencies": {},
-            "search": "search $inputDataName$ $inputDataIndex$ $inputDataSourcetype$\n| where NOT data_monitored_state=\"disabled\"\n| eval data_source_state=if(data_source_state=\"red\" AND priority=\"high\", \"red - high priority\", data_source_state)\n| eval data_source_state=if(data_source_state=\"red\" AND priority!=\"high\", \"red - other priority\", data_source_state)\n| stats count by data_source_state\n| `trackme_donut_alert_by_type(data_source_state)`\n",
-            "managerid": "searchDataSourcesMain",
+            "search": "fields blue, orange, green, \"red - high priority\", \"red - other priority\"\n| transpose | rename column as state, \"row 1\" as count | `trackme_donut_alert_by_type(state)`",
+            "managerid": "searchDataSourcesMainStats",
             "id": "searchSingleDataSourceDonutAlerts"
         }, {
             tokens: true,
@@ -6764,8 +6766,8 @@ require([
 
         var searchSingleDataSourceDonutPriorities = new PostProcessManager({
             "tokenDependencies": {},
-            "search": "search $inputDataName$ $inputDataIndex$ $inputDataSourcetype$\n| where NOT data_monitored_state=\"disabled\"\n| stats count by priority\n| `trackme_donut_alert_by_priority`",
-            "managerid": "searchDataSourcesMain",
+            "search": "fields low_enabled, medium_enabled, high_enabled | rename low_enabled as low, medium_enabled as medium, high_enabled as high | transpose | rename column as priority, \"row 1\" as count | `trackme_donut_alert_by_priority`",
+            "managerid": "searchDataSourcesMainStats",
             "id": "searchSingleDataSourceDonutPriorities"
         }, {
             tokens: true,
@@ -6774,19 +6776,19 @@ require([
 
         var searchSingleDataSource1 = new PostProcessManager({
             "tokenDependencies": {},
-            "search": "search $inputDataName$ $inputDataIndex$ $inputDataSourcetype$ | stats count",
-            "managerid": "searchDataSourcesMain",
+            "search": "fields total",
+            "managerid": "searchDataSourcesMainStats",
             "id": "searchSingleDataSource1"
         }, {
             tokens: true,
             tokenNamespace: "submitted"
         });
 
-        var searchSingleDataSource2 = new PostProcessManager({
+        var searchSingleDataSourceInAlert = new PostProcessManager({
             "tokenDependencies": {},
-            "search": "search $inputDataName$ $inputDataIndex$ $inputDataSourcetype$ | where data_source_state=\"red\" | where NOT data_monitored_state=\"disabled\" | stats count",
-            "managerid": "searchDataSourcesPostTable",
-            "id": "searchSingleDataSource2"
+            "search": "fields total_in_alert",
+            "managerid": "searchDataSourcesMainStats",
+            "id": "searchSingleDataSourceInAlert"
         }, {
             tokens: true,
             tokenNamespace: "submitted"
@@ -6794,19 +6796,19 @@ require([
 
         var searchSingleDataSourceHighPriority = new PostProcessManager({
             "tokenDependencies": {},
-            "search": "search $inputDataName$ $inputDataIndex$ $inputDataSourcetype$ | where data_source_state=\"red\" AND priority=\"high\" | where NOT data_monitored_state=\"disabled\" | stats count",
-            "managerid": "searchDataSourcesPostTable",
+            "search": "fields total_high_priority_red",
+            "managerid": "searchDataSourcesMainStats",
             "id": "searchSingleDataSourceHighPriority"
         }, {
             tokens: true,
             tokenNamespace: "submitted"
         });
 
-        var searchSingleDataSource3 = new PostProcessManager({
+        var searchSingleDataSourceNotMonitored = new PostProcessManager({
             "tokenDependencies": {},
-            "search": "makemv data_index delim=\",\" | makemv data_sourcetype delim=\",\" | search $inputDataHostIndexes$ $inputDataHostSourcetypes$\n| where data_monitored_state=\"disabled\" | stats count",
-            "managerid": "searchDataSourcesMain",
-            "id": "searchSingleDataSource3"
+            "search": "fields total_disabled",
+            "managerid": "searchDataSourcesMainStats",
+            "id": "searchSingleDataSourceNotMonitored"
         }, {
             tokens: true,
             tokenNamespace: "submitted"
@@ -6814,8 +6816,8 @@ require([
 
         var searchSingleDataHostDonutAlerts = new PostProcessManager({
             "tokenDependencies": {},
-            "search": "makemv data_index delim=\",\" | makemv data_sourcetype delim=\",\" | search $inputDataHostIndexes$ $inputDataHostSourcetypes$\n| where NOT data_monitored_state=\"disabled\"\n| eval data_host_state=if(data_host_state=\"red\" AND priority=\"high\", \"red - high priority\", data_host_state)\n| eval data_host_state=if(data_host_state=\"red\" AND priority!=\"high\", \"red - other priority\", data_host_state)\n| stats count by data_host_state\n| `trackme_donut_alert_by_type(data_host_state)`",
-            "managerid": "searchDataHostsMain",
+            "search": "fields blue, orange, green, \"red - high priority\", \"red - other priority\"\n| transpose | rename column as state, \"row 1\" as count | `trackme_donut_alert_by_type(state)`",
+            "managerid": "searchDataHostsMainStats",
             "id": "searchSingleDataHostDonutAlerts"
         }, {
             tokens: true,
@@ -6824,8 +6826,8 @@ require([
 
         var searchSingleDataHostDonutPriorities = new PostProcessManager({
             "tokenDependencies": {},
-            "search": "makemv data_index delim=\",\" | makemv data_sourcetype delim=\",\" | search $inputDataHostIndexes$ $inputDataHostSourcetypes$\n| where NOT data_monitored_state=\"disabled\"\n| stats count by priority\n| `trackme_donut_alert_by_priority`",
-            "managerid": "searchDataHostsMain",
+            "search": "fields low_enabled, medium_enabled, high_enabled | rename low_enabled as low, medium_enabled as medium, high_enabled as high | transpose | rename column as priority, \"row 1\" as count | `trackme_donut_alert_by_priority`",
+            "managerid": "searchDataHostsMainStats",
             "id": "searchSingleDataHostDonutPriorities"
         }, {
             tokens: true,
@@ -6834,29 +6836,29 @@ require([
 
         var searchSingleDataHost1 = new PostProcessManager({
             "tokenDependencies": {},
-            "search": "makemv data_index delim=\",\" | makemv data_sourcetype delim=\",\" | search $inputDataHostIndexes$ $inputDataHostSourcetypes$ | stats dc(data_host) as count",
-            "managerid": "searchDataHostsMain",
+            "search": "fields total",
+            "managerid": "searchDataHostsMainStats",
             "id": "searchSingleDataHost1"
         }, {
             tokens: true,
             tokenNamespace: "submitted"
         });
 
-        var searchSingleDataHost2 = new PostProcessManager({
+        var searchSingleDataHostInAlert = new PostProcessManager({
             "tokenDependencies": {},
-            "search": "makemv data_index delim=\",\" | makemv data_sourcetype delim=\",\" | search $inputDataHostIndexes$ $inputDataHostSourcetypes$ | where data_host_state=\"red\" | where NOT data_monitored_state=\"disabled\" | stats count",
-            "managerid": "searchMainTableHost",
-            "id": "searchSingleDataHost2"
+            "search": "fields total_in_alert",
+            "managerid": "searchDataHostsMainStats",
+            "id": "searchSingleDataHostInAlert"
         }, {
             tokens: true,
             tokenNamespace: "submitted"
         });
 
-        var searchSingleDataHost3 = new PostProcessManager({
+        var searchSingleDataHostNotMonitored = new PostProcessManager({
             "tokenDependencies": {},
-            "search": "makemv data_index delim=\",\" | makemv data_sourcetype delim=\",\" | search $inputDataHostIndexes$ $inputDataHostSourcetypes$ | where data_monitored_state=\"disabled\" | stats count",
-            "managerid": "searchDataHostsMain",
-            "id": "searchSingleDataHost3"
+            "search": "fields total_disabled",
+            "managerid": "searchDataHostsMainStats",
+            "id": "searchSingleDataHostNotMonitored"
         }, {
             tokens: true,
             tokenNamespace: "submitted"
@@ -6864,8 +6866,8 @@ require([
 
         var searchSingleDataHostHighPriority = new PostProcessManager({
             "tokenDependencies": {},
-            "search": "makemv data_index delim=\",\" | makemv data_sourcetype delim=\",\" | search $inputDataHostIndexes$ $inputDataHostSourcetypes$ | where data_host_state=\"red\" AND priority=\"high\" | where NOT data_monitored_state=\"disabled\" | stats count",
-            "managerid": "searchMainTableHost",
+            "search": "fields total_high_priority_red",
+            "managerid": "searchDataHostsMainStats",
             "id": "searchSingleDataHostHighPriority"
         }, {
             tokens: true,
@@ -6893,8 +6895,8 @@ require([
 
         var searchSingleMetricHostDonutAlerts = new PostProcessManager({
             "tokenDependencies": {},
-            "search": "search $inputMetricHostIndexes$ $inputMetricHostCategories$\n| where NOT metric_monitored_state=\"disabled\"\n| eval metric_host_state=if(metric_host_state=\"red\" AND priority=\"high\", \"red - high priority\", metric_host_state)\n| eval metric_host_state=if(metric_host_state=\"red\" AND priority!=\"high\", \"red - other priority\", metric_host_state)\n| stats count by metric_host_state\n| `trackme_donut_alert_by_type(metric_host_state)`",
-            "managerid": "searchMetricHostsMain",
+            "search": "fields blue, orange, green, \"red - high priority\", \"red - other priority\"\n| transpose | rename column as state, \"row 1\" as count | `trackme_donut_alert_by_type(state)`",
+            "managerid": "searchMetricHostsMainStats",
             "id": "searchSingleMetricHostDonutAlerts"
         }, {
             tokens: true,
@@ -6903,30 +6905,29 @@ require([
 
         var searchSingleMetricHostDonutPriorities = new PostProcessManager({
             "tokenDependencies": {},
-            "search": "search $inputMetricHostIndexes$ $inputMetricHostCategories$\n| where NOT metric_monitored_state=\"disabled\"\n| stats count by priority\n| `trackme_donut_alert_by_priority`",
-            "managerid": "searchMetricHostsMain",
+            "search": "fields low_enabled, medium_enabled, high_enabled | rename low_enabled as low, medium_enabled as medium, high_enabled as high | transpose | rename column as priority, \"row 1\" as count | `trackme_donut_alert_by_priority`",
+            "managerid": "searchMetricHostsMainStats",
             "id": "searchSingleMetricHostDonutPriorities"
         }, {
             tokens: true,
             tokenNamespace: "submitted"
         });
 
-
         var searchSingleMetricHost1 = new PostProcessManager({
             "tokenDependencies": {},
-            "search": "search $inputMetricHostIndexes$ $inputMetricHostCategories$ | stats dc(metric_host) as count",
-            "managerid": "searchMetricHostsMain",
+            "search": "fields total",
+            "managerid": "searchMetricHostsMainStats",
             "id": "searchSingleMetricHost1"
         }, {
             tokens: true,
             tokenNamespace: "submitted"
         });
 
-        var searchSingleMetricHost2 = new PostProcessManager({
+        var searchSingleMetricHostInAlert = new PostProcessManager({
             "tokenDependencies": {},
-            "search": "search $inputMetricHostIndexes$ $inputMetricHostCategories$ | where metric_host_state=\"red\" | where NOT metric_monitored_state=\"disabled\" | stats count",
-            "managerid": "searchMainTableMetricHost",
-            "id": "searchSingleMetricHost2"
+            "search": "fields total_in_alert",
+            "managerid": "searchMetricHostsMainStats",
+            "id": "searchSingleMetricHostInAlert"
         }, {
             tokens: true,
             tokenNamespace: "submitted"
@@ -6934,19 +6935,19 @@ require([
 
         var searchSingleMetricHostHighPriority = new PostProcessManager({
             "tokenDependencies": {},
-            "search": "search $inputMetricHostIndexes$ $inputMetricHostCategories$ | where metric_host_state=\"red\" AND priority=\"high\" | where NOT metric_monitored_state=\"disabled\" | stats count",
-            "managerid": "searchMainTableMetricHost",
+            "search": "fields total_high_priority_red",
+            "managerid": "searchMetricHostsMainStats",
             "id": "searchSingleMetricHostHighPriority"
         }, {
             tokens: true,
             tokenNamespace: "submitted"
         });
 
-        var searchSingleMetricHost3 = new PostProcessManager({
+        var searchSingleMetricHostNotMonitored = new PostProcessManager({
             "tokenDependencies": {},
-            "search": "search $inputMetricHostIndexes$ $inputMetricHostCategories$ | where metric_monitored_state=\"disabled\" | stats count",
-            "managerid": "searchMetricHostsMain",
-            "id": "searchSingleMetricHost3"
+            "search": "fields total_disabled",
+            "managerid": "searchMetricHostsMainStats",
+            "id": "searchSingleMetricHostNotMonitored"
         }, {
             tokens: true,
             tokenNamespace: "submitted"
@@ -7010,7 +7011,7 @@ require([
         var searchOutlierDetectionChart = new SearchManager({
             "id": "searchOutlierDetectionChart",
             "sample_ratio": 1,
-            "search": "`trackme_outlier_chart(trackme_datasource_tracker_shorterm, data_source, \"$tk_data_name$\", data_name)`",
+            "search": "| `trackme_outlier_chart(data_source, \"$tk_data_name$\", data_name)`",
             "status_buckets": 0,
             "earliest_time": "$modalTime.earliest$",
             "cancelOnUnload": true,
@@ -7031,7 +7032,7 @@ require([
         var searchOutlierDetectionChartSimulation = new SearchManager({
             "id": "searchOutlierDetectionChartSimulation",
             "sample_ratio": 1,
-            "search": "`trackme_outlier_chart_simulate(trackme_datasource_tracker_shorterm, data_source, \"$tk_data_name$\", data_name, $tk_input_data_source_outlier_lower_threshold_multiplier$, $tk_input_data_source_outlier_upper_threshold_multiplier$, $tk_input_data_source_outlier_min_eventcount$)`",
+            "search": "| `trackme_outlier_chart_simulate(data_source, \"$tk_data_name$\", data_name, $tk_input_data_source_outlier_lower_threshold_multiplier$, $tk_input_data_source_outlier_upper_threshold_multiplier$, $tk_input_data_source_outlier_min_eventcount$)`",
             "status_buckets": 0,
             "earliest_time": "$tk_input_data_source_outlier_period$",
             "cancelOnUnload": true,
@@ -7053,7 +7054,7 @@ require([
         var searchOutlierDetectionTable = new SearchManager({
             "id": "searchOutlierDetectionTable",
             "sample_ratio": 1,
-            "search": "`trackme_outlier_table(trackme_datasource_tracker_shorterm, data_source, \"$tk_data_name$\", data_name)`",
+            "search": "| `trackme_outlier_table(trackme_data_source_monitoring, data_name, $tk_data_name$)`",
             "status_buckets": 0,
             "earliest_time": "-24h",
             "cancelOnUnload": true,
@@ -7136,7 +7137,7 @@ require([
         var searchOutlierDetectionChartDataHost = new SearchManager({
             "id": "searchOutlierDetectionChartDataHost",
             "sample_ratio": 1,
-            "search": "`trackme_outlier_chart(trackme_datahost_tracker_shorterm, data_host, \"$tk_data_host$\", data_host)`",
+            "search": "| `trackme_outlier_chart(data_host, \"$tk_data_host$\", data_host)`",
             "status_buckets": 0,
             "earliest_time": "$modalTimeHost.earliest$",
             "cancelOnUnload": true,
@@ -7157,7 +7158,7 @@ require([
         var searchOutlierDetectionChartSimulationDataHost = new SearchManager({
             "id": "searchOutlierDetectionChartSimulationDataHost",
             "sample_ratio": 1,
-            "search": "`trackme_outlier_chart_simulate(trackme_datahost_tracker_shorterm, data_host, \"$tk_data_host$\", data_host, $tk_input_data_host_outlier_lower_threshold_multiplier$, $tk_input_data_host_outlier_upper_threshold_multiplier$, $tk_input_data_host_outlier_min_eventcount$)`",
+            "search": "| `trackme_outlier_chart_simulate(data_host, \"$tk_data_host$\", data_host, $tk_input_data_host_outlier_lower_threshold_multiplier$, $tk_input_data_host_outlier_upper_threshold_multiplier$, $tk_input_data_host_outlier_min_eventcount$)`",
             "status_buckets": 0,
             "earliest_time": "$modalTimeHost.earliest$",
             "cancelOnUnload": true,
@@ -7179,7 +7180,7 @@ require([
         var searchOutlierDetectionTableDataHost = new SearchManager({
             "id": "searchOutlierDetectionTableDataHost",
             "sample_ratio": 1,
-            "search": "`trackme_outlier_table(trackme_datahost_tracker_shorterm, data_host, \"$tk_data_host$\", data_host)`",
+            "search": "| `trackme_outlier_table(trackme_host_monitoring, data_host, $tk_data_host$)`",
             "status_buckets": 0,
             "earliest_time": "-5m",
             "cancelOnUnload": true,
@@ -10463,8 +10464,8 @@ require([
         // VIEWS: VISUALIZATION ELEMENTS
         //
 
-        var DonutDataSourceAlerts = new VisualizationElement({
-            "id": "DonutDataSourceAlerts",
+        var DonutDataSourceCountByStateAndPriority = new VisualizationElement({
+            "id": "DonutDataSourceCountByStateAndPriority",
             "type": "semicircle_donut.semicircle_donut",
             "resizable": true,
             "drilldown": "none",
@@ -10478,11 +10479,11 @@ require([
             "trellis.scales.shared": "1",
             "trellis.size": "medium",
             "managerid": "searchSingleDataSourceDonutAlerts",
-            "el": $('#DonutDataSourceAlerts')
+            "el": $('#DonutDataSourceCountByStateAndPriority')
         }, {tokens: true, tokenNamespace: "submitted"}).render();
 
-        var DonutDataSourcePriorities = new VisualizationElement({
-            "id": "DonutDataSourcePriorities",
+        var DonutDataSourceCountByPriority = new VisualizationElement({
+            "id": "DonutDataSourceCountByPriority",
             "type": "semicircle_donut.semicircle_donut",
             "resizable": true,
             "drilldown": "all",
@@ -10496,10 +10497,10 @@ require([
             "trellis.scales.shared": "1",
             "trellis.size": "medium",
             "managerid": "searchSingleDataSourceDonutPriorities",
-            "el": $('#DonutDataSourcePriorities')
+            "el": $('#DonutDataSourceCountByPriority')
         }, {tokens: true, tokenNamespace: "submitted"}).render();
 
-        DonutDataSourcePriorities.on("click", function(e) {
+        DonutDataSourceCountByPriority.on("click", function(e) {
             if (e.field !== undefined) {
                 e.preventDefault();
                 setToken("form.inputDataPriority", TokenUtils.replaceTokenNames("$row.priority$", _.extend(submittedTokenModel.toJSON(), e.data)));
@@ -10564,7 +10565,7 @@ require([
             "rangeValues": "[0]",
             "rangeColors": "[\"0x779ecb\",\"0xffb347\"]",
             "underLabel": "ANY PRIORITY DATA SOURCES IN ALERT",
-            "managerid": "searchSingleDataSource2",
+            "managerid": "searchSingleDataSourceInAlert",
             "el": $('#singleFormTotalDataSourceAlerts')
         }, {
             tokens: true,
@@ -10636,7 +10637,7 @@ require([
             "rangeValues": "[0]",
             "rangeColors": "[\"0x779ecb\",\"0x779ecb\"]",
             "underLabel": "DATA SOURCES NOT MONITORED",
-            "managerid": "searchSingleDataSource3",
+            "managerid": "searchSingleDataSourceNotMonitored",
             "el": $('#singleFormTotalDataSourceDisabled')
         }, {
             tokens: true,
@@ -10652,8 +10653,8 @@ require([
             }
         });
 
-        var DonutDataHostAlerts = new VisualizationElement({
-            "id": "DonutDataHostAlerts",
+        var DonutDataHostCountByPriority = new VisualizationElement({
+            "id": "DonutDataHostCountByPriority",
             "type": "semicircle_donut.semicircle_donut",
             "resizable": true,
             "drilldown": "none",
@@ -10667,11 +10668,11 @@ require([
             "trellis.scales.shared": "1",
             "trellis.size": "medium",
             "managerid": "searchSingleDataHostDonutAlerts",
-            "el": $('#DonutDataHostAlerts')
+            "el": $('#DonutDataHostCountByPriority')
         }, {tokens: true, tokenNamespace: "submitted"}).render();
 
-        var DonutDataHostPriorities = new VisualizationElement({
-            "id": "DonutDataHostPriorities",
+        var DonutDataHostCountByStateAndPriority = new VisualizationElement({
+            "id": "DonutDataHostCountByStateAndPriority",
             "type": "semicircle_donut.semicircle_donut",
             "resizable": true,
             "drilldown": "all",
@@ -10685,10 +10686,10 @@ require([
             "trellis.scales.shared": "1",
             "trellis.size": "medium",
             "managerid": "searchSingleDataHostDonutPriorities",
-            "el": $('#DonutDataHostPriorities')
+            "el": $('#DonutDataHostCountByStateAndPriority')
         }, {tokens: true, tokenNamespace: "submitted"}).render();
 
-        DonutDataHostPriorities.on("click", function(e) {
+        DonutDataHostCountByStateAndPriority.on("click", function(e) {
             if (e.field !== undefined) {
                 e.preventDefault();
                 setToken("form.data_host_state", TokenUtils.replaceTokenNames("*", _.extend(submittedTokenModel.toJSON(), e.data)));
@@ -10753,7 +10754,7 @@ require([
             "rangeValues": "[0]",
             "rangeColors": "[\"0x779ecb\",\"0xffb347\"]",
             "underLabel": "ANY PRIORITY DATA HOSTS IN ALERT",
-            "managerid": "searchSingleDataHost2",
+            "managerid": "searchSingleDataHostInAlert",
             "el": $('#singleFormTotalDataHostAlerts')
         }, {
             tokens: true,
@@ -10825,7 +10826,7 @@ require([
             "rangeValues": "[0]",
             "rangeColors": "[\"0x779ecb\",\"0x779ecb\"]",
             "underLabel": "DATA HOSTS NOT MONITORED",
-            "managerid": "searchSingleDataHost3",
+            "managerid": "searchSingleDataHostNotMonitored",
             "el": $('#singleFormTotalDataHostDisabled')
         }, {
             tokens: true,
@@ -10841,8 +10842,8 @@ require([
             }
         });
 
-        var DonutMetricHostAlerts = new VisualizationElement({
-            "id": "DonutMetricHostAlerts",
+        var DonutMetricHostCountByPriority = new VisualizationElement({
+            "id": "DonutMetricHostCountByPriority",
             "type": "semicircle_donut.semicircle_donut",
             "resizable": true,
             "drilldown": "none",
@@ -10856,11 +10857,11 @@ require([
             "trellis.scales.shared": "1",
             "trellis.size": "medium",
             "managerid": "searchSingleMetricHostDonutAlerts",
-            "el": $('#DonutMetricHostAlerts')
+            "el": $('#DonutMetricHostCountByPriority')
         }, {tokens: true, tokenNamespace: "submitted"}).render();
 
-        var DonutMetricHostPriorities = new VisualizationElement({
-            "id": "DonutMetricHostPriorities",
+        var DonutMetricHostCountByStateAndPriority = new VisualizationElement({
+            "id": "DonutMetricHostCountByStateAndPriority",
             "type": "semicircle_donut.semicircle_donut",
             "resizable": true,
             "drilldown": "all",
@@ -10874,10 +10875,10 @@ require([
             "trellis.scales.shared": "1",
             "trellis.size": "medium",
             "managerid": "searchSingleMetricHostDonutPriorities",
-            "el": $('#DonutMetricHostPriorities')
+            "el": $('#DonutMetricHostCountByStateAndPriority')
         }, {tokens: true, tokenNamespace: "submitted"}).render();
 
-        DonutMetricHostPriorities.on("click", function(e) {
+        DonutMetricHostCountByStateAndPriority.on("click", function(e) {
             if (e.field !== undefined) {
                 e.preventDefault();
                 setToken("form.metric_host_state", TokenUtils.replaceTokenNames("*", _.extend(submittedTokenModel.toJSON(), e.data)));
@@ -10942,7 +10943,7 @@ require([
             "rangeValues": "[0]",
             "rangeColors": "[\"0x779ecb\",\"0xffb347\"]",
             "underLabel": "ANY PRIORITY METRIC HOSTS IN ALERT",
-            "managerid": "searchSingleMetricHost2",
+            "managerid": "searchSingleMetricHostInAlert",
             "el": $('#singleFormTotalMetricHostAlerts')
         }, {
             tokens: true,
@@ -11014,7 +11015,7 @@ require([
             "rangeValues": "[0]",
             "rangeColors": "[\"0x779ecb\",\"0x779ecb\"]",
             "underLabel": "METRIC HOSTS NOT MONITORED",
-            "managerid": "searchSingleMetricHost3",
+            "managerid": "searchSingleMetricHostNotMonitored",
             "el": $('#singleFormTotalMetricHostDisabled')
         }, {
             tokens: true,
@@ -11435,7 +11436,7 @@ require([
 
         var elementMainTable = new TableElement({
             "id": "elementMainTable",
-            "count": 100,
+            "count": 20,
             "drilldown": "row",
             "fields": "data_name, data_index, data_sourcetype, \"last time\", \"last ingest\", priority, state, \"lag summary (lag event / lag ingestion)\", \"last time idx\", data_last_lag_seen_idx, data_max_lag_allowed, monitoring, data_monitoring_level, data_monitoring_wdays",
             "refresh.display": "none",
@@ -11654,7 +11655,7 @@ require([
                 } else if (tk_elastic_source_search_mode == "from" && tk_elastic_source_from_part1 != "null" && tk_elastic_source_from_part2 != "null") {
                     tk_data_source_overview_root_search = "| " + tk_elastic_source_search_mode + " " + tk_elastic_source_from_part1 + " | " +  tk_elastic_source_from_part2 + " | eval delta=(_indextime-_time) | bucket _time span=1s | stats count, avg(delta) as delta by _time";
                 } else if (tk_elastic_source_search_mode == "mstats") {
-                    tk_data_source_overview_root_search = "`trackme_idx` source=\"trackme_datasource_tracker_shorterm\" data_name=\"" + tk_data_name + "\" | bucket _time span=1m | stats latest(data_last_lag_seen) as delta, max(data_eventcount) as count by _time";
+                    tk_data_source_overview_root_search = "| mstats latest(_value) as value where `trackme_metrics_idx` (metric_name=trackme.eventcount_4h OR metric_name=trackme.lag_event_sec) object_category=\"data_source\" object=\"" + tk_data_name + "\" by metric_name span=5m | eval {metric_name}=value | stats first(trackme.eventcount_4h) as eventcount, first(trackme.lag_event_sec) as delta by _time";
                 } else {
                     tk_data_source_overview_root_search = "| `trackme_tstats` count latest(_indextime) as indextime where index=\"" + tk_data_index + "\" sourcetype=\"" + tk_data_sourcetype + "\" by _time, index, sourcetype span=1s | eval delta=(indextime-_time)";
                 }
@@ -11914,7 +11915,7 @@ require([
 
         var elementMainTableHost = new TableElement({
             "id": "elementMainTableHost",
-            "count": 100,
+            "count": 20,
             "drilldown": "row",
             "fields": "data_host, data_index, data_sourcetype, \"last time\", \"last ingest\", priority, state, \"lag summary (lag event / lag ingestion)\", data_max_lag_allowed, monitoring, data_monitoring_wdays",
             "refresh.display": "none",
@@ -12088,7 +12089,7 @@ require([
 
         var elementMainTableMetricHost = new TableElement({
             "id": "elementMainTableMetricHost",
-            "count": 100,
+            "count": 20,
             "drilldown": "row",
             "fields": "metric_host, metric_index, metric_category, metric_details_human, \"last time\", priority, state, monitoring",
             "refresh.display": "none",
@@ -13061,6 +13062,7 @@ require([
             "drilldown": "none",
             "trellis.size": "medium",
             "trendColorInterpretation": "standard",
+            "height": "80",
             "useColors": "0",
             "colorBy": "value",
             "showTrendIndicator": "1",
@@ -13088,6 +13090,7 @@ require([
             "drilldown": "none",
             "trellis.size": "medium",
             "trendColorInterpretation": "standard",
+            "height": "80",
             "useColors": "0",
             "colorBy": "value",
             "showTrendIndicator": "1",
@@ -13115,6 +13118,7 @@ require([
             "drilldown": "all",
             "trellis.size": "medium",
             "trendColorInterpretation": "standard",
+            "height": "80",
             "useColors": "0",
             "colorBy": "value",
             "showTrendIndicator": "1",
@@ -13228,7 +13232,7 @@ require([
             "charting.axisY.abbreviation": "none",
             "charting.fieldColors": "{\"events_count\": 0xaec6cf, \"avg_lag_sec\": 0x8b0000}",
             "trellis.enabled": "0",
-            "height": "200",
+            "height": "160",
             "managerid": "searchChartLagHostOverTime",
             "el": $('#elementChartLagHostOverTime')
         }, {
@@ -13335,7 +13339,7 @@ require([
             "charting.drilldown": "all",
             "resizable": true,
             "charting.chart": "pie",
-            "height": "180",
+            "height": "160",
             "managerid": "searchChartHostIndexes",
             "el": $('#elementChartHostIndexes')
         }, {
@@ -13348,7 +13352,7 @@ require([
             "charting.drilldown": "all",
             "resizable": true,
             "charting.chart": "pie",
-            "height": "180",
+            "height": "160",
             "managerid": "searchChartHostSourcetypes",
             "el": $('#elementChartHostSourcetypes')
         }, {
@@ -14351,6 +14355,23 @@ require([
 
         //
 
+        var inputDataNameFilter = new TextInput({
+            "id": "inputDataNameFilter",
+            "searchWhenChanged": true,
+            "default": "*",
+            "prefix": "data_name=\"*",
+            "suffix": "*\"",
+            "initialValue": "*",
+            "value": "$form.inputDataNameFilter$",
+            "el": $('#inputDataNameFilter')
+        }, {
+            tokens: true
+        }).render();
+
+        inputDataNameFilter.on("change", function(newValue) {
+            FormUtils.handleValueChange(inputDataNameFilter);
+        });
+
         var inputDataName = new DropdownInput({
             "id": "inputDataName",
             "tokenDependencies": {
@@ -14493,6 +14514,23 @@ require([
 
         inputMetricHostCategories.on("change", function(newValue) {
             FormUtils.handleValueChange(inputMetricHostCategories);
+        });
+
+        var inputMetricHostFilter = new TextInput({
+            "id": "inputMetricHostFilter",
+            "searchWhenChanged": true,
+            "default": "*",
+            "prefix": "metric_host=\"*",
+            "suffix": "*\"",
+            "initialValue": "*",
+            "value": "$form.inputMetricHostFilter$",
+            "el": $('#inputMetricHostFilter')
+        }, {
+            tokens: true
+        }).render();
+
+        inputMetricHostFilter.on("change", function(newValue) {
+            FormUtils.handleValueChange(inputMetricHostFilter);
         });
 
         var inputMetricHost = new DropdownInput({
@@ -14720,6 +14758,23 @@ require([
 
         inputDataHostSourcetypes.on("change", function(newValue) {
             FormUtils.handleValueChange(inputDataHostSourcetypes);
+        });
+
+        var inputDataHostFilter = new TextInput({
+            "id": "inputDataHostFilter",
+            "searchWhenChanged": true,
+            "default": "*",
+            "prefix": "data_host=\"*",
+            "suffix": "*\"",
+            "initialValue": "*",
+            "value": "$form.inputDataHostFilter$",
+            "el": $('#inputDataHostFilter')
+        }, {
+            tokens: true
+        }).render();
+
+        inputDataHostFilter.on("change", function(newValue) {
+            FormUtils.handleValueChange(inputDataHostFilter);
         });
 
         var inputDataHost = new DropdownInput({
@@ -15090,37 +15145,6 @@ require([
         var currentUser = Splunk.util.getConfigValue("USERNAME");
         tokens.set("currentUser", currentUser);
         var auditendpoint_URl = "/en-US/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_audit_changes/"
-
-        //
-        // Verify if data collection is empty or ready
-        //
-
-        // Search everything and return the first 100 results
-        var searchQuery = "| inputlookup trackme_data_source_monitoring | inputlookup append=t trackme_host_monitoring | inputlookup append=t trackme_metric_host_monitoring";
-
-        // Set the search parameters
-        var searchParams = {
-            exec_mode: "blocking",
-            earliest_time: "-60m",
-            latest_time: "now"
-        };
-
-        // Create the search, wait for it to finish, and get back a job
-        service.search(
-            searchQuery,
-            searchParams,
-            function(err, job) {
-                // Get the job from the server to display more info
-                job.fetch(function(err) {
-                    var resultCount = job.properties().resultCount;
-                    if (resultCount == 0) {
-                        //console.log("Detected collection empty");
-                        // Show input modal
-                        $("#modal_time_to_configure").modal();
-                    }
-                });
-            }
-        );
 
         // FUNCTIONS
 
@@ -15564,12 +15588,12 @@ require([
 
         }
 
-        function updateSummaryInvestigatorDataSource(tk_summary_report, tk_data_name) {
+        function updateDataSourceEntity(tk_summary_report, tk_data_index, tk_data_sourcetype) {
 
             //console.log("Starting function");
 
             // Perform a target search to update key values
-            var searchQuery = "| savedsearch \"TrackMe - Summary investigator update for data_source per entity\" source=" + tk_summary_report + " data_name=" + tk_data_name;
+            var searchQuery = "| savedsearch \"TrackMe - Data source entity refresh\" index=" + tk_data_index + " sourcetype=" + tk_data_sourcetype;
             //console.log(searchQuery);
 
             // Set the search parameters
@@ -15616,12 +15640,12 @@ require([
 
         }
 
-        function updateSummaryInvestigatorDataHost(tk_summary_report, tk_data_host) {
+        function updateDataHostEntity(tk_summary_report, tk_data_host) {
 
             //console.log("Starting function");
 
             // Perform a target search to update key values
-            var searchQuery = "| savedsearch \"TrackMe - Summary investigator update for data_host per entity\" source=" + tk_summary_report + " data_host=" + tk_data_host;
+            var searchQuery = "| savedsearch \"TrackMe - Data host entity refresh\" host=" + tk_data_host;
             //console.log(searchQuery);
 
             // Set the search parameters
@@ -15989,7 +16013,9 @@ require([
             searchOutlierDetectionTable.startSearch();
             // call update summary investigator for that entity only
             var tk_data_name = tokens.get("tk_data_name");
-            updateSummaryInvestigatorDataSource("trackme_datasource_tracker_shorterm", tk_data_name);
+            var tk_data_index = tokens.get("tk_data_index");
+            var tk_data_sourcetype = tokens.get("tk_data_sourcetype");
+            updateDataSourceEntity("trackme_datasource_tracker_shorterm", tk_data_index, tk_data_sourcetype);
             // call update data source
             var tk_keyid = tokens.get("tk_keyid");
             updateDataSource(tk_keyid);
@@ -16007,7 +16033,7 @@ require([
             searchOutlierDetectionTableDataHost.startSearch();
             // call update summary investigator for that entity only
             var tk_data_host = tokens.get("tk_data_host");
-            updateSummaryInvestigatorDataHost("trackme_datahost_tracker_shorterm", tk_data_host);
+            updateDataHostEntity("trackme_datahost_tracker_shorterm", tk_data_host);
             // call update data host
             var tk_keyid = tokens.get("tk_keyid");
             updateDataHost(tk_keyid);
@@ -21955,172 +21981,6 @@ require([
 
         });
 
-        // Would be called at very first run if main page is opened before the first tracker ran
-
-        $("#btn_modal_update_collection").click(function() {
-            submitTokens();
-
-            // When the Submit button is clicked, get all the form fields by accessing token values
-            var tokens = mvc.Components.get("default");
-
-            //console.log("Start collection update");
-
-            // Define the query
-            var searchQuery = "| savedsearch \"TrackMe - Data sources availability long term tracker\"";
-
-            // Set the search parameters--specify a time range
-            var searchParams = {
-                earliest_time: "-48h",
-                latest_time: "now"
-            };
-
-            // Run a normal search that immediately returns the job's SID
-            service.search(
-                searchQuery,
-                searchParams,
-                function(err, job) {
-
-                    $("#loadingGray").remove()
-                    $("body").append('<div id="loadingGray" style="background: #e9e9e9; display: block; position: fixed; z-index: 100; top: 0; right: 0; bottom: 0; left: 0; height: 100%; opacity: 0.8;"><div style="width: 100%; margin-top: 250px; padding-bottom: 50px; text-align: center;"><p style="font-size: 18pt; font-weight: bolder;">Running the data sources tracker...</p></div><div id="spinner"></div></div>')
-
-                    require(["jquery",
-                            "/static/app/trackme/spin.js"
-                        ],
-                        function($,
-                            Spinner
-                        ) {
-                            new Spinner({
-                                lines: 12,
-                                position: "relative"
-                            }).spin(document.getElementById('spinner'));
-                        })
-
-                    // Shall the search fail before we can get properties
-                    if (job == null) {
-                        let errorStr = "Unknown Error!";
-                        if (err && err.data && err.data.messages && err.data.messages[0]['text']) {
-                            errorStr = err.data.messages[0]['text'];
-                        } else if (err && err.data && err.data.messages) {
-                            errorStr = JSON.stringify(err.data.messages);
-                        }
-                        $("#loadingGray").remove()
-                        $("#modal_update_collection_failure_return").find('.modal-error-message p').text(errorStr);
-                        $("#modal_update_collection_failure_return").modal()
-                    } else {
-
-                        // Poll the status of the search job
-                        job.track({
-                            period: 200
-                        }, {
-                            done: function(job) {
-                                //console.log("Done!");
-
-                                // Once the job is done, update all searches
-                                searchDataSourcesMain.startSearch();
-
-                                // Run second job!
-
-                                // Define the query
-                                var searchQuery = "| savedsearch \"TrackMe - hosts availability long term tracker\"";
-
-                                // Set the search parameters--specify a time range
-                                var searchParams = {
-                                    earliest_time: "-48h",
-                                    latest_time: "now"
-                                };
-
-                                // Run a normal search that immediately returns the job's SID
-                                service.search(
-                                    searchQuery,
-                                    searchParams,
-                                    function(err, job) {
-
-                                        $("#loadingGray").remove()
-                                        $("body").append('<div id="loadingGray" style="background: #e9e9e9; display: block; position: fixed; z-index: 100; top: 0; right: 0; bottom: 0; left: 0; height: 100%; opacity: 0.8;"><div style="width: 100%; margin-top: 250px; padding-bottom: 50px; text-align: center;"><p style="font-size: 18pt; font-weight: bolder;">Running the data hosts tracker...</p></div><div id="spinner"></div></div>')
-
-                                        require(["jquery",
-                                                "/static/app/trackme/spin.js"
-                                            ],
-                                            function($,
-                                                Spinner
-                                            ) {
-                                                new Spinner({
-                                                    lines: 12,
-                                                    position: "relative"
-                                                }).spin(document.getElementById('spinner'));
-                                            })
-
-                                        // Shall the search fail before we can get properties
-                                        if (job == null) {
-                                            let errorStr = "Unknown Error!";
-                                            if (err && err.data && err.data.messages && err.data.messages[0]['text']) {
-                                                errorStr = err.data.messages[0]['text'];
-                                            } else if (err && err.data && err.data.messages) {
-                                                errorStr = JSON.stringify(err.data.messages);
-                                            }
-                                            $("#loadingGray").remove()
-                                            $("#modal_update_collection_failure_return").find('.modal-error-message p').text(errorStr);
-                                            $("#modal_update_collection_failure_return").modal()
-                                        } else {
-
-                                            // Poll the status of the search job
-                                            job.track({
-                                                period: 200
-                                            }, {
-                                                done: function(job) {
-                                                    //console.log("Done!");
-
-                                                    // Once the job is done, update all searches
-                                                    searchDataHostsMain.startSearch();
-
-                                                    $("#loadingGray").remove()
-                                                    $("#modal_update_collection_done").modal()
-
-                                                },
-                                                failed: function(properties) {
-                                                    let errorStr = "Unknown Error!";
-                                                    if (properties && properties._properties && properties._properties.messages && properties._properties.messages[0]['text']) {
-                                                        errorStr = properties._properties.messages[0]['text'];
-                                                    } else if (properties && properties._properties && properties._properties.messages) {
-                                                        errorStr = JSON.stringify(properties._properties.messages);
-                                                    }
-                                                    $("#loadingGray").remove()
-                                                    $("#modal_update_collection_failure_return").find('.modal-error-message p').text(errorStr);
-                                                    $("#modal_update_collection_failure_return").modal()
-                                                },
-                                                error: function(err) {
-                                                    done(err);
-                                                    $("#loadingGray").remove()
-                                                    $("#modal_update_collection_failure").modal()
-                                                }
-                                            });
-                                        }
-                                    }
-                                );
-                            },
-                            failed: function(properties) {
-                                let errorStr = "Unknown Error!";
-                                if (properties && properties._properties && properties._properties.messages && properties._properties.messages[0]['text']) {
-                                    errorStr = properties._properties.messages[0]['text'];
-                                } else if (properties && properties._properties && properties._properties.messages) {
-                                    errorStr = JSON.stringify(properties._properties.messages);
-                                }
-                                $("#loadingGray").remove()
-                                $("#modal_update_collection_failure_return").find('.modal-error-message p').text(errorStr);
-                                $("#modal_update_collection_failure_return").modal()
-                            },
-                            error: function(err) {
-                                done(err);
-                                $("#loadingGray").remove()
-                                $("#modal_update_collection_failure").modal()
-                            }
-                        });
-                    }
-                }
-            );
-
-        });
-
         // Show main
 
         // for data sources
@@ -26399,7 +26259,7 @@ require([
             if (tk_input_data_source_outlier_min_eventcount_mode === "static" && isNumeric(tk_input_data_source_outlier_min_eventcount)) {
                 tk_outliermineventcount = tk_input_data_source_outlier_min_eventcount;
             } else {
-                tk_outliermineventcount = "NA";
+                tk_outliermineventcount = "-1";
                 tk_input_data_source_outlier_min_eventcount_mode = "dynamic";
             }
 
@@ -26457,15 +26317,22 @@ require([
                         //console.log("Updated!", returneddata)
 
                         // notify
+                        var tk_data_name = tokens.get("tk_data_name");
+                        var tk_data_index = tokens.get("tk_data_index");
+                        var tk_data_sourcetype = tokens.get("tk_data_sourcetype");
                         notification('Outliers configuration for data source ' + tk_data_name + ' has been successfully updated, behaviour analytic is set to ' + tk_enable_behaviour_analytic + ', Outliers detection mode is ' + tk_input_data_source_outlier_min_eventcount_mode + ', manually run the trackers or wait for their next execution for a full refresh of statuses.', 6000)
 
-                        // Update the Summary investigator lookup for this entry only
-                        updateSummaryInvestigatorDataSource("trackme_datasource_tracker_shorterm", tk_data_name);
+                        // call update summary investigator for that entity only
+                        updateDataSourceEntity("trackme_datasource_tracker_shorterm", tk_data_index, tk_data_sourcetype);
 
-                        // Run the search again to update the table
-                        searchDataSourcesMain.startSearch();
+                        searchSingleLag.startSearch();
+                        searchChartLag.startSearch();
+                        searchSingleSLApct.startSearch();
+                        searchOutlierDetectionChart.startSearch();
+                        searchOutlierDetectionTable.startSearch();
 
-                        // Refresh vignettes
+                        // call update data source
+                        var tk_keyid = tokens.get("tk_keyid");
                         updateDataSource(tk_keyid);
 
                         // Audit
@@ -26596,7 +26463,7 @@ require([
             if (tk_input_data_host_outlier_min_eventcount_mode === "static" && isNumeric(tk_input_data_host_outlier_min_eventcount)) {
                 tk_outliermineventcount = tk_input_data_host_outlier_min_eventcount;
             } else {
-                tk_outliermineventcount = "NA";
+                tk_outliermineventcount = "-1";
                 tk_input_data_host_outlier_min_eventcount_mode = "dynamic";
             }
 
@@ -26651,15 +26518,21 @@ require([
                         //console.log("Updated!", returneddata)
 
                         // notify
+                        var tk_data_host = tokens.get("tk_data_host");
                         notification('Outliers configuration for data host ' + tk_data_host + ' has been successfully updated, behaviour analytic is set to ' + tk_enable_behaviour_analytic + ', Outliers detection mode is ' + tk_input_data_host_outlier_min_eventcount_mode + ', manually run the trackers or wait for their next execution for a full refresh of statuses.', 6000)
 
-                        // Update the Summary investigator lookup for this entry only
-                        updateSummaryInvestigatorDataHost("trackme_datahost_tracker_shorterm", tk_data_host);
+                        // call update summary investigator for that entity only
+                        updateDataHostEntity("trackme_datahost_tracker_shorterm", tk_data_host);
 
-                        // Run the search again to update the table
-                        searchDataHostsMain.startSearch();
+                        searchSingleLagHost.startSearch();
+                        searchChartHostBaseSearch.startSearch();
+                        searchChartLagHostOverTime.startSearch();
+                        searchSingleSLAHostpct.startSearch();
+                        searchOutlierDetectionChartDataHost.startSearch();
+                        searchOutlierDetectionTableDataHost.startSearch();
 
-                        // Refresh vignettes
+                        // call update data host
+                        var tk_keyid = tokens.get("tk_keyid");
                         updateDataHost(tk_keyid);
 
                         // Audit

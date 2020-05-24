@@ -1,6 +1,23 @@
 Release notes
 #############
 
+Version 1.2.6
+=============
+
+**CAUTION:**
+
+This is a new main release branch, TrackMe 1.2.x require the deployment of the following dependencies:
+
+- Semicircle Donut Chart Viz, Splunk Base: https://splunkbase.splunk.com/app/4378
+- Splunk Machine Learning Toolkit, Splunk Base: https://splunkbase.splunk.com/app/2890
+
+This new release requires a metric index to be created, default to trackme_metrics which can be customised in the main metric macro (see Manage and configure UI)
+
+**release notes:**
+
+- Feature: Design and performances major improvements in the outlier detection workflow with metric based index and mcollect approach, to proper handle any high scale environments
+- Feature: Major improvements in UI performance and stability, specially designed and qualified for very high scale environments
+
 Version 1.2.5
 =============
 
