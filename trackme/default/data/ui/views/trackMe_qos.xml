@@ -3,7 +3,7 @@
   <description>The SLA percentage represents the percentage of time an object has spent in green state, which complies with monitoring rules and quality of service</description>
 
   <search id="baseSearch">
-    <query>| `trackme_get_sla($object_category$,$object$,$object_freetext$,$priority$)`</query>
+    <query>| `trackme_get_sla(trackme_get_sla_root,$object_category$,$object$,$object_freetext$,$priority$)`</query>
     <earliest>$timerange.earliest$</earliest>
     <latest>$timerange.latest$</latest>
   </search>

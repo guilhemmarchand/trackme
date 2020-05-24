@@ -6625,7 +6625,7 @@ require([
             "tokenDependencies": {
                 "depends": "$show_metric_host_tracker$"
             },
-            "search": "| `trackme_get_sla(metric_host,$tk_metric_host$,*,*)` | fields percent_sla",
+            "search": "| `trackme_get_sla_pct_per_entity(metric_host,$tk_metric_host$)`",
             "id": "searchSingleSLAMetricHostpct",
             "sample_ratio": 1,
             "status_buckets": 0,
@@ -7116,7 +7116,7 @@ require([
             "tokenDependencies": {
                 "depends": "$show_data_source_tracker$"
             },
-            "search": "| `trackme_get_sla(data_source,$tk_data_name$,*,*)` | fields percent_sla",
+            "search": "| `trackme_get_sla_pct_per_entity(data_source,$tk_data_name$)`",
             "id": "searchSingleSLApct",
             "sample_ratio": 1,
             "status_buckets": 0,
@@ -7242,7 +7242,7 @@ require([
             "tokenDependencies": {
                 "depends": "$show_data_host_tracker$"
             },
-            "search": "| `trackme_get_sla(data_host,$tk_data_host$,*,*)` | fields percent_sla",
+            "search": "| `trackme_get_sla_pct_per_entity(data_host,$tk_data_host$)`",
             "id": "searchSingleSLAHostpct",
             "sample_ratio": 1,
             "status_buckets": 0,
