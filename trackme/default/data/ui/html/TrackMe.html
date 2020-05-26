@@ -6168,7 +6168,7 @@ require([
             "cancelOnUnload": true,
             "sample_ratio": null,
             "latest_time": "$modalTimeBlackListMetricHost.latest$",
-            "search": "| mcatalog values(metric_name) as metric_name where index=* `trackme_mstats_main_filter` | mvexpand metric_name | rex field=metric_name \"(?<metric_category>[^\.]*)\.{0,1}\"  | stats count by metric_category | fields metric_category | lookup trackme_metric_host_monitoring_blacklist_metric_category metric_category | where isnull(metric_blacklist_state) | sort limit=0 metric_category",
+            "search": "| mcatalog values(metric_name) as metrics where index=* `trackme_mstats_main_filter` | rename metrics as metric_name | mvexpand metric_name | rex field=metric_name \"(?<metric_category>[^\.]*)\.{0,1}\"  | stats count by metric_category | fields metric_category | lookup trackme_metric_host_monitoring_blacklist_metric_category metric_category | where isnull(metric_blacklist_state) | sort limit=0 metric_category",
             "status_buckets": 0,
             "app": utils.getCurrentApp(),
             "auto_cancel": 90,
@@ -6214,7 +6214,7 @@ require([
             "cancelOnUnload": true,
             "sample_ratio": null,
             "latest_time": "$modalTimeWhiteListMetricHost.latest$",
-            "search": "| mcatalog values(metric_name) as metric_name where index=* by index | stats values(index) as index | mvexpand index | lookup trackme_metric_host_monitoring_whitelist_index metric_index as index OUTPUT metric_index as FOUND | where isnull(FOUND) | sort limit=0 index | fields index",
+            "search": "| mcatalog values(metric_name) as metrics where index=* by index | rename metrics as metric_name | stats values(index) as index | mvexpand index | lookup trackme_metric_host_monitoring_whitelist_index metric_index as index OUTPUT metric_index as FOUND | where isnull(FOUND) | sort limit=0 index | fields index",
             "status_buckets": 0,
             "app": utils.getCurrentApp(),
             "auto_cancel": 90,
@@ -11655,7 +11655,7 @@ require([
                 } else if (tk_elastic_source_search_mode == "from" && tk_elastic_source_from_part1 != "null" && tk_elastic_source_from_part2 != "null") {
                     tk_data_source_overview_root_search = "| " + tk_elastic_source_search_mode + " " + tk_elastic_source_from_part1 + " | " +  tk_elastic_source_from_part2 + " | eval delta=(_indextime-_time) | bucket _time span=1s | stats count, avg(delta) as delta by _time";
                 } else if (tk_elastic_source_search_mode == "mstats") {
-                    tk_data_source_overview_root_search = "| mstats latest(_value) as value where `trackme_metrics_idx` (metric_name=trackme.eventcount_4h OR metric_name=trackme.lag_event_sec) object_category=\"data_source\" object=\"" + tk_data_name + "\" by metric_name span=5m | eval {metric_name}=value | stats first(trackme.eventcount_4h) as eventcount, first(trackme.lag_event_sec) as delta by _time";
+                    tk_data_source_overview_root_search = "| mstats latest(_value) as value where `trackme_metrics_idx` (metric_name=trackme.eventcount_4h OR metric_name=trackme.lag_event_sec) object_category=\"data_source\" object=\"" + tk_data_name + "\" by metric_name span=5m | eval {metric_name}=value | stats first(trackme.eventcount_4h) as count, first(trackme.lag_event_sec) as delta by _time";
                 } else {
                     tk_data_source_overview_root_search = "| `trackme_tstats` count latest(_indextime) as indextime where index=\"" + tk_data_index + "\" sourcetype=\"" + tk_data_sourcetype + "\" by _time, index, sourcetype span=1s | eval delta=(indextime-_time)";
                 }
@@ -12159,7 +12159,7 @@ require([
 
                 // Define the history search
 
-                var search_metric_host = '| mcatalog values(metric_name) as metric_name, values(_dims) where index=* host=\"' + tk_metric_host + '\" by host'
+                var search_metric_host = '| mcatalog values(metric_name), values(_dims) where index=* host=\"' + tk_metric_host + '\" by host'
                 search_metric_host = location.protocol + '//' + location.hostname + (location.port ? ':' + location.port : '') + '//app/trackme/search' + "?q=" + encodeURI(search_metric_host) + '&earliest=-15m&latest=now'
 
                 // Define the URL target
