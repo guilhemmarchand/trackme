@@ -6530,7 +6530,7 @@ require([
 
         var searchMainTableMetricHost = new PostProcessManager({
             "tokenDependencies": {},
-            "search": "search $inputMetricHostPriority$ $metric_host_state$ $metric_monitored_state$ | sort limit=1000 metric_host",
+            "search": "search $inputMetricHostPriority$ $metric_host_state$ $metric_monitored_state$ | sort limit=0 metric_host",
             "managerid": "searchMetricHostsMain",
             "id": "searchMainTableMetricHost"
         }, {
