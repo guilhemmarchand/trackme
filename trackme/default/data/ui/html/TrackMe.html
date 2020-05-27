@@ -6310,7 +6310,7 @@ require([
             "cancelOnUnload": true,
             "sample_ratio": null,
             "latest_time": "$timerange_audit_flip.latest$",
-            "search": "| inputlookup trackme_audit_flip | sort limit=0 - time | eval _time=time | fields - time | addinfo | where _time>=info_min_time AND (_time<=info_max_time OR info_max_time=\"+Infinity\") | search $audit_flip_object_category$ $audit_flip_object$ | eval \" \" = \"-->\" | table _time object object_category object_previous_state \" \" object_state result | `trackme_eval_icons_flip`",
+            "search": "`trackme_idx` source=\"flip_state_change_tracking\" $audit_flip_object_category$ $audit_flip_object$ | eval separator = \"-->\" | table _time object object_category object_previous_state separator object_state result | rename separator as \" \" | `trackme_eval_icons_flip`",
             "status_buckets": 0,
             "app": utils.getCurrentApp(),
             "auto_cancel": 90,
@@ -6330,7 +6330,7 @@ require([
             "cancelOnUnload": true,
             "sample_ratio": null,
             "latest_time": "$timerange_audit_flip.latest$",
-            "search": "| inputlookup trackme_audit_flip | sort limit=0 - time | eval _time=time | addinfo | where _time>=info_min_time AND (_time<=info_max_time OR info_max_time=\"+Infinity\") | stats count by object_category, object",
+            "search": "`trackme_idx` source=\"flip_state_change_tracking\" | stats count by object_category, object",
             "status_buckets": 0,
             "app": utils.getCurrentApp(),
             "auto_cancel": 90,
@@ -6625,7 +6625,7 @@ require([
             "tokenDependencies": {
                 "depends": "$show_metric_host_tracker$"
             },
-            "search": "| `trackme_get_sla_pct_per_entity(metric_host,$tk_metric_host$)`",
+            "search": "`trackme_get_sla_pct_per_entity(metric_host,$tk_metric_host$)`",
             "id": "searchSingleSLAMetricHostpct",
             "sample_ratio": 1,
             "status_buckets": 0,
@@ -7116,7 +7116,7 @@ require([
             "tokenDependencies": {
                 "depends": "$show_data_source_tracker$"
             },
-            "search": "| `trackme_get_sla_pct_per_entity(data_source,$tk_data_name$)`",
+            "search": "`trackme_get_sla_pct_per_entity(data_source,$tk_data_name$)`",
             "id": "searchSingleSLApct",
             "sample_ratio": 1,
             "status_buckets": 0,
@@ -7242,7 +7242,7 @@ require([
             "tokenDependencies": {
                 "depends": "$show_data_host_tracker$"
             },
-            "search": "| `trackme_get_sla_pct_per_entity(data_host,$tk_data_host$)`",
+            "search": "`trackme_get_sla_pct_per_entity(data_host,$tk_data_host$)`",
             "id": "searchSingleSLAHostpct",
             "sample_ratio": 1,
             "status_buckets": 0,
