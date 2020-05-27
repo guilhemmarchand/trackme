@@ -2666,11 +2666,11 @@ styles in <div> tags, similar to Bootstrap's grid system.
                                     <div class="fieldset">
 
                                         <div class="input input-text" id="modal_input_elastic_source_elastic_data_index" style="margin-bottom: 10px; max-width: 300px;">
-                                            <label>Optional: The value for index visible in the UI</label>
+                                            <label>Optional: index value visible in the UI (white|blacklist applies)</label>
                                         </div>
 
                                         <div class="input input-text" id="modal_input_elastic_source_elastic_data_sourcetype" style="margin-bottom: 10px; max-width: 300px;">
-                                            <label>Optional: The value for sourcetype visible in the UI</label>
+                                            <label>Optional: sourcetype visible in the UI (white|blacklist applies)</label>
                                         </div>
 
                                         <div class="input input-text" id="modal_input_elastic_source_earliest" style="margin-bottom: 10px; max-width: 300px;">
@@ -2684,6 +2684,8 @@ styles in <div> tags, similar to Bootstrap's grid system.
                                     </div>
 
                                     <div style="margin-top: 15x;">
+                                        <h4 style="color: red;">Caution: whitelist indexes and blacklists apply to elastic trackers, make sure to configure these accordingly or use valid index and sourcetype values</h4>
+                                        <br />
                                         <button type="submit" id="btn_modal_elastic_source_add_simulate" style="margin-right: 15px;" class="btn btn-default btn-primary"><span class="glyphicon glyphicon-remove"></span> Simulate the search</button>
                                         <button type="submit" id="btn_modal_elastic_source_add_new" style="margin-right: 15px;" class="btn btn-default btn-primary"><span class="glyphicon glyphicon-remove"></span> Add to the shared tracker</button>
                                         <button type="submit" id="btn_modal_elastic_source_dedicated_add_new" style="margin-right: 15px;" class="btn btn-default btn-primary"><span class="glyphicon glyphicon-remove"></span> Add as a new dedicated tracker</button>
