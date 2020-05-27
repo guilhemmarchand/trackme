@@ -43,7 +43,7 @@
       </collection>
     </collection>
     <a href="search?q=%7C%20inputlookup%20trackme_audit_changes%20%7C%20eval%20keyid%3D_key">Audit changes collection</a>
-    <a href="search?q=%7C%20inputlookup%20trackme_audit_flip%20%7C%20eval%20keyid%3D_key">Audit flipping statuses collection</a>
+    <a href="search?q=%7C%20inputlookup%20trackme_audit_flip%20%7C%20eval%20keyid%3D_key">Audit flipping statuses collection (deprecated)</a>
     <a href="search?q=%7C%20inputlookup%20trackme_sources_knowledge%20%7C%20eval%20keyid%3D_key">Sources knowledge collection</a>
     <a href="search?q=%7C%20inputlookup%20trackme_alerts_ack%20%7C%20eval%20keyid%3D_key">Alerting acknowledgment collection</a>
     <a href="search?q=%7C%20inputlookup%20trackme_logical_group%20%7C%20eval%20keyid%3D_key">Logical group clustering collection</a>

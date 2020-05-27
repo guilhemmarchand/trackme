@@ -7,6 +7,12 @@ Configuration
    :alt: configure_ui_metrics_idx.png
    :align: center
 
+**Since the version 1.2.4, TrackMe requires the creation of a summary index, or the configuration of the summary index target if you wish to use an existing index:**
+
+.. image:: img/configure_ui_summary_idx.png
+   :alt: configure_ui_summary_idx.png
+   :align: center
+
 **All main configuration items are macro based, which are exposed in the configuration UI:**
 
 .. image:: img/configure_ui.png

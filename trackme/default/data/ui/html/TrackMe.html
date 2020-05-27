@@ -5610,7 +5610,7 @@ styles in <div> tags, similar to Bootstrap's grid system.
                         <label>Keyword filter host:</label>
                     </div>
                     <div class="input input-dropdown" id="inputMetricHost">
-                        <label>Host(s):</label>
+                        <label>Host(s) (use keyword filter):</label>
                     </div>
                     <div class="input input-dropdown" id="inputMetricHostState">
                         <label>Filter state:</label>
@@ -5856,11 +5856,14 @@ styles in <div> tags, similar to Bootstrap's grid system.
                     <div class="input input-timerangepicker" id="input_timerange_audit_flip">
                         <label>time period:</label>
                     </div>
+                    <div class="input input-text" id="inputAuditFlipObjectFilter">
+                        <label>Keyword filter object:</label>
+                    </div>
                     <div class="input input-dropdown" id="inputAuditFlipObjectCategory">
                         <label>object_category:</label>
                     </div>
                     <div class="input input-dropdown" id="inputAuditFlipObject">
-                        <label>object:</label>
+                        <label>object(s) (use keyword filter):</label>
                     </div>
                 </div>
             </div>
@@ -6255,7 +6258,7 @@ require([
 
         var searchDataSourcesPostTable = new PostProcessManager({
             "tokenDependencies": {},
-            "search": "search $data_source_state$ $data_monitored_state$ $inputDataPriority$\n| fillnull data_last_lag_seen, data_last_ingestion_lag_seen\n| eval data_last_lag_seen=round(data_last_lag_seen, 0) | eval data_last_ingestion_lag_seen=round(data_last_ingestion_lag_seen, 0) | fillnull value=\"N/A\" data_last_lag_seen, data_last_ingestion_lag_seen\n| eval \"lag summary (lag event / lag ingestion)\" = data_last_lag_seen . \" sec / \" . data_last_ingestion_lag_seen . \" sec\"\n| rename \"data_last_time_seen (translated)\" as \"last time\", \"data_last_ingest (translated)\" as \"last ingest\", \"data_last_time_seen_idx (translated)\" as \"last time idx\"\n| eval data_tracker_runtime=now()\n| `trackme_date_format(\"latest_flip_time\")`\n| fillnull value=\"N/A\" latest_flip_state, latest_flip_time, \"latest_flip_time (translated)\"\n| `trackme_get_identity_card(data_name)`\n| `trackme_lookup_elastic_sources`",
+            "search": "search $data_source_state$ $data_monitored_state$ $inputDataPriority$\n| fillnull data_last_lag_seen, data_last_ingestion_lag_seen\n| eval data_last_lag_seen=round(data_last_lag_seen, 0) | eval data_last_ingestion_lag_seen=round(data_last_ingestion_lag_seen, 0) | fillnull value=\"N/A\" data_last_lag_seen, data_last_ingestion_lag_seen\n| eval \"lag summary (lag event / lag ingestion)\" = data_last_lag_seen . \" sec / \" . data_last_ingestion_lag_seen . \" sec\"\n| rename \"data_last_time_seen (translated)\" as \"last time\", \"data_last_ingest (translated)\" as \"last ingest\", \"data_last_time_seen_idx (translated)\" as \"last time idx\"\n| eval data_tracker_runtime=now()\n| `trackme_date_format(\"latest_flip_time\")`\n| fillnull value=\"N/A\" latest_flip_state, latest_flip_time, \"latest_flip_time (translated)\"\n| `trackme_get_identity_card(data_name)`\n| `trackme_lookup_elastic_sources` | sort limit=10000 data_name",
             "managerid": "searchDataSourcesMain",
             "id": "searchDataSourcesPostTable"
         }, {
@@ -6310,7 +6313,7 @@ require([
             "cancelOnUnload": true,
             "sample_ratio": null,
             "latest_time": "$timerange_audit_flip.latest$",
-            "search": "`trackme_idx` source=\"flip_state_change_tracking\" $audit_flip_object_category$ $audit_flip_object$ | eval separator = \"-->\" | table _time object object_category object_previous_state separator object_state result | rename separator as \" \" | `trackme_eval_icons_flip`",
+            "search": "`trackme_idx` source=\"flip_state_change_tracking\" $audit_flip_object_category$ $audit_flip_object$ $inputAuditFlipObjectFilter$ | eval separator = \"-->\" | table _time object object_category object_previous_state separator object_state result | rename separator as \" \" | `trackme_eval_icons_flip`",
             "status_buckets": 0,
             "app": utils.getCurrentApp(),
             "auto_cancel": 90,
@@ -6319,6 +6322,16 @@ require([
                 "depends": "$show_audit_flip$"
             },
             "runWhenTimeIsUndefined": false
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        });
+
+        var searchMainAuditFlipTable = new PostProcessManager({
+            "tokenDependencies": {},
+            "search": "sort limit=10000 _time",
+            "managerid": "searchMainAuditFlip",
+            "id": "searchMainAuditFlipTable"
         }, {
             tokens: true,
             tokenNamespace: "submitted"
@@ -6356,7 +6369,7 @@ require([
 
         var searchAuditFlipObject = new PostProcessManager({
             "tokenDependencies": {},
-            "search": "search $audit_flip_object_category$ | stats count by object | sort limit=0 object",
+            "search": "search $audit_flip_object_category$ $inputAuditFlipObjectFilter$ | stats count by object | sort limit=1000 object",
             "managerid": "searchMainAuditFlipPopulate",
             "id": "searchAuditFlipObject"
         }, {
@@ -6530,7 +6543,7 @@ require([
 
         var searchMainTableMetricHost = new PostProcessManager({
             "tokenDependencies": {},
-            "search": "search $inputMetricHostPriority$ $metric_host_state$ $metric_monitored_state$ | sort limit=0 metric_host",
+            "search": "search $inputMetricHostPriority$ $metric_host_state$ $metric_monitored_state$ | sort limit=10000 metric_host",
             "managerid": "searchMetricHostsMain",
             "id": "searchMainTableMetricHost"
         }, {
@@ -6666,7 +6679,7 @@ require([
 
         var searchMainTableHost = new PostProcessManager({
             "tokenDependencies": {},
-            "search": "search $data_host_state$ $data_monitored_state$ $inputDataHostPriority$ | fillnull data_last_lag_seen, data_last_ingestion_lag_seen | eval data_last_lag_seen=round(data_last_lag_seen, 0) | eval data_last_ingestion_lag_seen=round(data_last_ingestion_lag_seen, 0) | fillnull value=\"N/A\" data_last_lag_seen, data_last_ingestion_lag_seen\n| eval \"lag summary (lag event / lag ingestion)\" = data_last_lag_seen . \" sec / \" . data_last_ingestion_lag_seen . \" sec\"",
+            "search": "search $data_host_state$ $data_monitored_state$ $inputDataHostPriority$ | fillnull data_last_lag_seen, data_last_ingestion_lag_seen | eval data_last_lag_seen=round(data_last_lag_seen, 0) | eval data_last_ingestion_lag_seen=round(data_last_ingestion_lag_seen, 0) | fillnull value=\"N/A\" data_last_lag_seen, data_last_ingestion_lag_seen\n| eval \"lag summary (lag event / lag ingestion)\" = data_last_lag_seen . \" sec / \" . data_last_ingestion_lag_seen . \" sec\" | sort limit=10000 data_host",
             "managerid": "searchDataHostsMain",
             "id": "searchMainTableHost"
         }, {
@@ -12278,7 +12291,7 @@ require([
         elementSingleSLAMetricHostpct.on("click", function(e) {
             if (e.field !== undefined) {
                 e.preventDefault();
-                var url = TokenUtils.replaceTokenNames("{{SPLUNKWEB_URL_PREFIX}}/app/trackme/search?q=%7C%20%60trackme_get_sla($tk_metric_host$,metric_host)%60&earliest=-90d@d&latest=now", _.extend(submittedTokenModel.toJSON(), e.data), TokenUtils.getEscaper('url'), TokenUtils.getFilters(mvc.Components));
+                var url = TokenUtils.replaceTokenNames("{{SPLUNKWEB_URL_PREFIX}}/app/trackme/search?q=%20%60trackme_get_sla($tk_metric_host$,metric_host)%60&earliest=-90d@d&latest=now", _.extend(submittedTokenModel.toJSON(), e.data), TokenUtils.getEscaper('url'), TokenUtils.getFilters(mvc.Components));
                 utils.redirect(url, false, "_blank");
             }
         });
@@ -13143,7 +13156,7 @@ require([
         elementSingleSLApct.on("click", function(e) {
             if (e.field !== undefined) {
                 e.preventDefault();
-                var url = TokenUtils.replaceTokenNames("{{SPLUNKWEB_URL_PREFIX}}/app/trackme/search?q=%7C%20%60trackme_get_sla($tk_data_name$,data_source)%60&earliest=-90d@d&latest=now", _.extend(submittedTokenModel.toJSON(), e.data), TokenUtils.getEscaper('url'), TokenUtils.getFilters(mvc.Components));
+                var url = TokenUtils.replaceTokenNames("{{SPLUNKWEB_URL_PREFIX}}/app/trackme/search?q=%20%60trackme_get_sla($tk_data_name$,data_source)%60&earliest=-90d@d&latest=now", _.extend(submittedTokenModel.toJSON(), e.data), TokenUtils.getEscaper('url'), TokenUtils.getFilters(mvc.Components));
                 utils.redirect(url, false, "_blank");
             }
         });
@@ -13329,7 +13342,7 @@ require([
         elementSingleSLAHostpct.on("click", function(e) {
             if (e.field !== undefined) {
                 e.preventDefault();
-                var url = TokenUtils.replaceTokenNames("{{SPLUNKWEB_URL_PREFIX}}/app/trackme/search?q=%7C%20%60trackme_get_sla($tk_data_host$,data_host)%60&earliest=-90d@d&latest=now", _.extend(submittedTokenModel.toJSON(), e.data), TokenUtils.getEscaper('url'), TokenUtils.getFilters(mvc.Components));
+                var url = TokenUtils.replaceTokenNames("{{SPLUNKWEB_URL_PREFIX}}/app/trackme/search?q=%20%60trackme_get_sla($tk_data_host$,data_host)%60&earliest=-90d@d&latest=now", _.extend(submittedTokenModel.toJSON(), e.data), TokenUtils.getEscaper('url'), TokenUtils.getFilters(mvc.Components));
                 utils.redirect(url, false, "_blank");
             }
         });
@@ -14138,6 +14151,23 @@ require([
 
         inputAuditFlipObjectCategory.on("change", function(newValue) {
             FormUtils.handleValueChange(inputAuditFlipObjectCategory);
+        });
+
+        var inputAuditFlipObjectFilter = new TextInput({
+            "id": "inputAuditFlipObjectFilter",
+            "searchWhenChanged": true,
+            "default": "*",
+            "prefix": "object=\"*",
+            "suffix": "*\"",
+            "initialValue": "*",
+            "value": "$form.inputAuditFlipObjectFilter$",
+            "el": $('#inputAuditFlipObjectFilter')
+        }, {
+            tokens: true
+        }).render();
+
+        inputAuditFlipObjectFilter.on("change", function(newValue) {
+            FormUtils.handleValueChange(inputAuditFlipObjectFilter);
         });
 
         var inputAuditFlipObject = new DropdownInput({
