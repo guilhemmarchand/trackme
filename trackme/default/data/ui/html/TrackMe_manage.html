@@ -647,9 +647,9 @@ styles in <div> tags, similar to Bootstrap's grid system.
     <div id="ManageRowMacro3b" class="dashboard-row dashboard-rowDataSourcesTable" >
         <div id="panelManage3b" class="dashboard-cell" style="width: 100%;">
             <div class="dashboard-panel clearfix">
-                <h2 style="padding: 12px 55px 7px 12px;">trackme_idx: summary index for TrackMe</h2><h2 class="panel-title">The Summary Investigator tracker generates summary data to be indexed into a summary index which is defined in the following macro: (default to index=summary, click on the table bellow to edit the macro definition)</h2>
+                <h2 style="padding: 12px 55px 7px 12px;">trackme_metrics_idx: metric index for TrackMe</h2><h2 class="panel-title">The Summary Investigator tracker generates metrics to be indexed into a metric index which is defined in the following macro: (default to index=trackme_metrics, click on the table bellow to edit the macro definition)</h2>
                 <div class="panel-element-row">
-                    <div id="elementTable_trackme_idx_summary" class="dashboard-element table" style="width: 100%">
+                    <div id="elementTable_trackme_metrics_idx" class="dashboard-element table" style="width: 100%">
                         <div class="panel-body"></div>
                     </div>
                 </div>
@@ -1133,11 +1133,11 @@ require([
             tokenNamespace: "submitted"
         });
 
-        var searchGetMacro_trackme_idx_summary = new PostProcessManager({
+        var searchGetMacro_trackme_metrics_idx = new PostProcessManager({
             "tokenDependencies": {},
-            "search": "where title=\"trackme_idx\" | table definition",
+            "search": "where title=\"trackme_metrics_idx\" | table definition",
             "managerid": "searchGetMacrosDefinitions",
-            "id": "searchGetMacro_trackme_idx_summary"
+            "id": "searchGetMacro_trackme_metrics_idx"
         }, {
             tokens: true,
             tokenNamespace: "submitted"
@@ -1436,23 +1436,23 @@ require([
             }
         });
 
-        var elementTable_trackme_idx_summary = new TableElement({
-            "id": "elementTable_trackme_idx_summary",
+        var elementTable_trackme_metrics_idx = new TableElement({
+            "id": "elementTable_trackme_metrics_idx",
             "count": 100,
             "drilldown": "row",
             "refresh.display": "none",
             "wrap": "false",
-            "managerid": "searchGetMacro_trackme_idx_summary",
-            "el": $('#elementTable_trackme_idx_summary')
+            "managerid": "searchGetMacro_trackme_metrics_idx",
+            "el": $('#elementTable_trackme_metrics_idx')
         }, {
             tokens: true,
             tokenNamespace: "submitted"
         }).render();
 
-        elementTable_trackme_idx_summary.on("click", function(e) {
+        elementTable_trackme_metrics_idx.on("click", function(e) {
             if (e.field !== undefined) {
                 e.preventDefault();
-                var url = TokenUtils.replaceTokenNames("/en-GB/manager/trackme/admin/macros/trackme_idx?action=edit", _.extend(submittedTokenModel.toJSON(), e.data), TokenUtils.getEscaper('url'), TokenUtils.getFilters(mvc.Components));
+                var url = TokenUtils.replaceTokenNames("/en-GB/manager/trackme/admin/macros/trackme_metrics_idx?action=edit", _.extend(submittedTokenModel.toJSON(), e.data), TokenUtils.getEscaper('url'), TokenUtils.getFilters(mvc.Components));
                 utils.redirect(url, false, "_blank");
             }
         });

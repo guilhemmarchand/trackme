@@ -1,7 +1,13 @@
 Configuration
 #############
 
-**TrackMe does not require any configuration and works out of the box after its installation, however there are some configuration items that can modified up to your needs, jump to the manage and configure tab in the application UI:**
+**Since the version 1.2.6, TrackMe requires the creation of a metric index, or the configuration of the metric index target if you wish to use an existing index:**
+
+.. image:: img/configure_ui_metrics_idx.png
+   :alt: configure_ui_metrics_idx.png
+   :align: center
+
+**All main configuration items are macro based, which are exposed in the configuration UI:**
 
 .. image:: img/configure_ui.png
    :alt: configure_ui.png

@@ -16,8 +16,8 @@ This new release requires a metric index to be created, default to trackme_metri
 **release notes:**
 
 - Feature: Design and performances major improvements in the outlier detection workflow with metric based index and mcollect approach, to proper handle any high scale environments
-- Feature: Major improvements in UI performance and stability, specially designed and qualified for very high scale environments and vey large numbers of entities
-- Fix: Version 1.2.x introduced failures in the management of metric hosts, where detection of entirely inactive entities was not behaving as expected
+- Feature: Major improvements in UI performance and stability, specially designed and qualified for very high scale environments and a high numbers of entities
+- Fix: Version 1.2.x introduced failures in the management of metric hosts, where detection of entirely inactive entities was not behaving as required
 
 Version 1.2.5
 =============
