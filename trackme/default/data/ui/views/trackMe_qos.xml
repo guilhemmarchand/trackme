@@ -3,7 +3,7 @@
   <description>The SLA percentage represents the percentage of time an object has spent in green state, which complies with monitoring rules and quality of service</description>
 
   <search id="baseSearch">
-    <query>| `trackme_get_sla($object_category$,$object$,$object_freetext$,$priority$)`</query>
+    <query>`trackme_get_sla($object_category$,$object$,$object_freetext$,$priority$)`</query>
     <earliest>$timerange.earliest$</earliest>
     <latest>$timerange.latest$</latest>
   </search>
@@ -119,8 +119,10 @@
         <fieldForLabel>object</fieldForLabel>
         <fieldForValue>object</fieldForValue>
         <search>
-          <query>| `trackme_get_sla_root`
-| where isnotnull(monitored_state) AND monitored_state="enabled" AND last_time_seen&gt;=relative_time(now(), "-15d@d")
+          <query>| inputlookup append=t trackme_data_source_monitoring where (data_monitored_state="enabled")
+| inputlookup append=t trackme_host_monitoring where (data_monitored_state="enabled")
+| inputlookup append=t trackme_metric_host_monitoring where (metric_monitored_state="enabled")
+| eval object=case(object_category="data_source" AND isnull(object), data_name, object_category="data_host" AND isnull(object), data_host, object_category="metric_host" AND isnull(object), metric_host, isnotnull(object), object)
 | search object_category=$object_category$ object=$object_freetext$
 | stats count by object
 | dedup object
@@ -152,7 +154,7 @@
         <drilldown>
           <link target="_blank">
   <![CDATA[
-/app/trackme/search?q=| `trackme_get_sla($row.object$,$row.object_category$)`&earliest=$timerange.earliest$&latest=$timerange.latest$
+/app/trackme/search?q=`trackme_get_sla($row.object$,$row.object_category$)`&earliest=$timerange.earliest$&latest=$timerange.latest$
   ]]>
           </link>
         </drilldown>

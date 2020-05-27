@@ -22,6 +22,11 @@ Dependencies
 - Semicircle Donut Chart Viz, Splunk Base: https://splunkbase.splunk.com/app/4378
 - Splunk Machine Learning Toolkit, Splunk Base: https://splunkbase.splunk.com/app/2890
 
+Indexes
+=======
+
+**Since the version 1.2.6**, TrackMe requires the creation of a **metric index (trackme_metrics)**, or the customisation of the **trackme_idx_metrics** macro if you wish to use an existing metric index.
+
 Initial deployment
 ==================
 
