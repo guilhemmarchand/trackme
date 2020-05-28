@@ -1,6 +1,24 @@
 Release notes
 #############
 
+Version 1.2.9
+=============
+
+**CAUTION:**
+
+This is a new main release branch, TrackMe 1.2.x require the deployment of the following dependencies:
+
+- Semicircle Donut Chart Viz, Splunk Base: https://splunkbase.splunk.com/app/4378
+- Splunk Machine Learning Toolkit, Splunk Base: https://splunkbase.splunk.com/app/2890
+
+TrackMe requires a summary index (defaults to trackme_summary) and a metric index (defaults to trackme_metrics):
+https://trackme.readthedocs.io/en/latest/configuration.html
+
+**release notes:**
+
+- Fix: mcollect syntax compatibility issues with Splunk 7.2.x/7.3.x
+- Fix: status_message fields shows N/A for translated last lagging value for data objects, and does not show up for metric objects
+
 Version 1.2.8
 =============
 
