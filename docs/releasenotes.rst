@@ -18,6 +18,7 @@ https://trackme.readthedocs.io/en/latest/configuration.html
 
 - Fix: mcollect syntax compatibility issues with Splunk 7.2.x/7.3.x
 - Fix: status_message fields shows N/A for translated last lagging value for data objects, and does not show up for metric objects
+- Fix: switch from latest to max for outliers over time calculation, graphical rendering side effects introduced in 1.2.8 with mcollect switch
 
 Version 1.2.8
 =============
