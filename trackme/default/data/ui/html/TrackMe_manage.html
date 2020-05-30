@@ -862,19 +862,6 @@ styles in <div> tags, similar to Bootstrap's grid system.
         </div>
     </div>
 
-    <div id="ManageRowMacro12" class="dashboard-row dashboard-rowDataSourcesTable" >
-        <div id="panelManage12" class="dashboard-cell" style="width: 100%;">
-            <div class="dashboard-panel clearfix">
-                <h2 style="padding: 12px 55px 7px 12px;">trackme_flip_state_retention</h2><h2 class="panel-title">Defines the retention to be used for entries stored in the flip state collection: (click on the table bellow to edit the macro definition)</h2>
-                <div class="panel-element-row">
-                    <div id="elementTable_trackme_flip_state_retention" class="dashboard-element table" style="width: 100%">
-                        <div class="panel-body"></div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
     <div id="ManageRowMacro13" class="dashboard-row dashboard-rowDataSourcesTable" >
         <div id="panelManage13" class="dashboard-cell" style="width: 100%;">
             <div class="dashboard-panel clearfix">
@@ -1291,16 +1278,6 @@ require([
             "search": "where title=\"trackme_audit_changes_retention\" | table definition",
             "managerid": "searchGetMacrosDefinitions",
             "id": "searchGetMacro_trackme_audit_changes_retention"
-        }, {
-            tokens: true,
-            tokenNamespace: "submitted"
-        });
-
-        var searchGetMacro_trackme_flip_state_retention = new PostProcessManager({
-            "tokenDependencies": {},
-            "search": "where title=\"trackme_flip_state_retention\" | table definition",
-            "managerid": "searchGetMacrosDefinitions",
-            "id": "searchGetMacro_trackme_flip_state_retention"
         }, {
             tokens: true,
             tokenNamespace: "submitted"
@@ -1791,27 +1768,6 @@ require([
             if (e.field !== undefined) {
                 e.preventDefault();
                 var url = TokenUtils.replaceTokenNames("/en-GB/manager/trackme/admin/macros/trackme_audit_changes_retention?action=edit", _.extend(submittedTokenModel.toJSON(), e.data), TokenUtils.getEscaper('url'), TokenUtils.getFilters(mvc.Components));
-                utils.redirect(url, false, "_blank");
-            }
-        });
-
-        var elementTable_trackme_flip_state_retention = new TableElement({
-            "id": "elementTable_trackme_flip_state_retention",
-            "count": 100,
-            "drilldown": "row",
-            "refresh.display": "none",
-            "wrap": "false",
-            "managerid": "searchGetMacro_trackme_flip_state_retention",
-            "el": $('#elementTable_trackme_flip_state_retention')
-        }, {
-            tokens: true,
-            tokenNamespace: "submitted"
-        }).render();
-
-        elementTable_trackme_flip_state_retention.on("click", function(e) {
-            if (e.field !== undefined) {
-                e.preventDefault();
-                var url = TokenUtils.replaceTokenNames("/en-GB/manager/trackme/admin/macros/trackme_flip_state_retention?action=edit", _.extend(submittedTokenModel.toJSON(), e.data), TokenUtils.getEscaper('url'), TokenUtils.getFilters(mvc.Components));
                 utils.redirect(url, false, "_blank");
             }
         });
