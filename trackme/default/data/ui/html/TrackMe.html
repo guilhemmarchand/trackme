@@ -6331,7 +6331,7 @@ require([
 
         var searchMainAuditFlipTable = new PostProcessManager({
             "tokenDependencies": {},
-            "search": "sort limit=10000 _time",
+            "search": "sort limit=10000 - _time",
             "managerid": "searchMainAuditFlip",
             "id": "searchMainAuditFlipTable"
         }, {
@@ -7503,7 +7503,7 @@ require([
             "cancelOnUnload": true,
             "sample_ratio": null,
             "latest_time": "$tk_input_elastic_source_latest$",
-            "search": "| savedsearch runSPL [ | makeresults | eval data_name=\"$tk_input_elastic_source_data_name$\", search_mode=\"$form.tk_input_elastic_source_search_type$\", search_constraint=\"$tk_input_elastic_source_search_constraint$\", elastic_data_index=\"$tk_input_elastic_source_elastic_data_index$\", elastic_data_sourcetype=\"$tk_input_elastic_source_elastic_data_sourcetype$\" | `trackme_elastic_sources_simulate`",
+            "search": "| savedsearch runSPL [ | makeresults | eval data_name=\"$tk_input_elastic_source_data_name$\", search_mode=\"$form.tk_input_elastic_source_search_type$\", search_constraint=\"$tk_input_elastic_source_search_constraint$\", elastic_data_index=\"$tk_input_elastic_source_elastic_data_index$\", elastic_data_sourcetype=\"$tk_input_elastic_source_elastic_data_sourcetype$\" | `trackme_elastic_sources_simulate(\"$tk_input_elastic_source_data_name$\")`",
             "status_buckets": 0,
             "app": utils.getCurrentApp(),
             "auto_cancel": 90,
@@ -11844,7 +11844,7 @@ require([
             "drilldown": "none",
             "refresh.display": "none",
             "wrap": "false",
-            "managerid": "searchMainAuditFlip",
+            "managerid": "searchMainAuditFlipTable",
             "el": $('#elementMainTableAuditFlip')
         }, {
             tokens: true,
@@ -20745,16 +20745,16 @@ require([
 
                     // define the alert search
                     if (tk_input_elastic_source_search_type == "tstats") {
-                        tk_elastic_alert_root_search = "| `trackme_tstats` max(_indextime) as data_last_ingest, min(_time) as data_first_time_seen, max(_time) as data_last_time_seen, count as data_eventcount where " + tk_raw_input_elastic_source_search_constraint + " | eval data_name=\"" + tk_input_elastic_source_data_name + "\", data_last_ingestion_lag_seen=data_last_ingest-data_last_time_seen | `trackme_elastic_dedicated_tracker(\"" + tk_input_elastic_source_data_name + "\")` | stats c";
+                        tk_elastic_alert_root_search = "| `trackme_tstats` max(_indextime) as data_last_ingest, min(_time) as data_first_time_seen, max(_time) as data_last_time_seen, count as data_eventcount where " + tk_raw_input_elastic_source_search_constraint + " | eval data_name=\"" + tk_input_elastic_source_data_name + "\", data_index=\"" + tk_input_elastic_source_elastic_data_index + "\", data_sourcetype=\"" + tk_input_elastic_source_elastic_data_sourcetype + "\", data_last_ingestion_lag_seen=data_last_ingest-data_last_time_seen | `trackme_elastic_dedicated_tracker(\"" + tk_input_elastic_source_data_name + "\")` | stats c";
 
                     } else if (tk_input_elastic_source_search_type == "raw") {
-                        tk_elastic_alert_root_search = tk_raw_input_elastic_source_search_constraint + " | stats max(_indextime) as data_last_ingest, min(_time) as data_first_time_seen, max(_time) as data_last_time_seen, count as data_eventcount | eval data_name=\"" + tk_input_elastic_source_data_name +"\", data_last_ingestion_lag_seen=data_last_ingest-data_last_time_seen | `trackme_elastic_dedicated_tracker(\"" + tk_input_elastic_source_data_name + "\")` | stats c";
+                        tk_elastic_alert_root_search = tk_raw_input_elastic_source_search_constraint + " | stats max(_indextime) as data_last_ingest, min(_time) as data_first_time_seen, max(_time) as data_last_time_seen, count as data_eventcount | eval data_name=\"" + tk_input_elastic_source_data_name +"\", data_index=\"" + tk_input_elastic_source_elastic_data_index + "\", data_sourcetype=\"" + tk_input_elastic_source_elastic_data_sourcetype + "\", data_last_ingestion_lag_seen=data_last_ingest-data_last_time_seen | `trackme_elastic_dedicated_tracker(\"" + tk_input_elastic_source_data_name + "\")` | stats c";
 
                     } else if (tk_input_elastic_source_search_type == "from") {
-                        tk_elastic_alert_root_search = "| " + tk_input_elastic_source_search_type + " " + tk_raw_input_elastic_source_search_constraint + " | stats max(_indextime) as data_last_ingest, min(_time) as data_first_time_seen, max(_time) as data_last_time_seen, count as data_eventcount | eval data_name=\"" + tk_input_elastic_source_data_name + "\" | `trackme_elastic_dedicated_tracker(\"" + tk_input_elastic_source_data_name + "\")` | stats c";
+                        tk_elastic_alert_root_search = "| " + tk_input_elastic_source_search_type + " " + tk_raw_input_elastic_source_search_constraint + " | stats max(_indextime) as data_last_ingest, min(_time) as data_first_time_seen, max(_time) as data_last_time_seen, count as data_eventcount | eval data_name=\"" + tk_input_elastic_source_data_name + "\", data_index=\"" + tk_input_elastic_source_elastic_data_index + "\", data_sourcetype=\"" + tk_input_elastic_source_elastic_data_sourcetype + "\" | `trackme_elastic_dedicated_tracker(\"" + tk_input_elastic_source_data_name + "\")` | stats c";
 
                     } else if (tk_input_elastic_source_search_type == "mstats") {
-                        tk_elastic_alert_root_search = "| mstats latest(_value) as value where " + tk_raw_input_elastic_source_search_constraint + " by metric_name span=1s | stats min(_time) as data_first_time_seen, max(_time) as data_last_time_seen, dc(metric_name) as data_eventcount | eval data_name=\"" + tk_input_elastic_source_data_name + "\", data_last_ingest=data_last_time_seen, data_last_ingestion_lag_seen=now()-data_last_time_seen | `trackme_elastic_dedicated_tracker(\"" + tk_input_elastic_source_data_name + "\")` | stats c" ;
+                        tk_elastic_alert_root_search = "| mstats latest(_value) as value where " + tk_raw_input_elastic_source_search_constraint + " by metric_name span=1s | stats min(_time) as data_first_time_seen, max(_time) as data_last_time_seen, dc(metric_name) as data_eventcount | eval data_name=\"" + tk_input_elastic_source_data_name + "\", data_index=\"" + tk_input_elastic_source_elastic_data_index + "\", data_sourcetype=\"" + tk_input_elastic_source_elastic_data_sourcetype + "\", data_last_ingest=data_last_time_seen, data_last_ingestion_lag_seen=now()-data_last_time_seen | `trackme_elastic_dedicated_tracker(\"" + tk_input_elastic_source_data_name + "\")` | stats c" ;
                     }
 
                     //console.log("tk_elastic_alert_root_search is: " + tk_elastic_alert_root_search);
