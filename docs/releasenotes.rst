@@ -1,6 +1,32 @@
 Release notes
 #############
 
+Version 1.2.10
+==============
+
+**CAUTION:**
+
+This is a new main release branch, TrackMe 1.2.x require the deployment of the following dependencies:
+
+- Semicircle Donut Chart Viz, Splunk Base: https://splunkbase.splunk.com/app/4378
+- Splunk Machine Learning Toolkit, Splunk Base: https://splunkbase.splunk.com/app/2890
+
+TrackMe requires a summary index (defaults to trackme_summary) and a metric index (defaults to trackme_metrics):
+https://trackme.readthedocs.io/en/latest/configuration.html
+
+**release notes:**
+
+- Feature: Improved flipping statuses detection workflow, with immediate detection and deprecation of the dedicated flipping statuses tracker and associated collections
+- Feature: UI improvements with change to multiselect form input for most of the selectors
+- Fix: Flipping statuses table in main UI is not ordered by latest events
+- Fix: Error in Elastic source simulation UI, in some conditions, a wrong data_name appears in the table which incorrectly claims that the data source already exists
+- Fix: Elastic sources do not honour data_index and data_sourcetype definition, this does not impact the reliability of the results but this impacts sources visibility in the UI when using whitelists / blacklists
+- Fix: For data hosts, several information are not properly preserved over tracker iterations, such a custom outliers configuration
+- Fix: For data hosts, outlier event count record is not properly aggregated and is summed continuously over time rather a 4 hours event count recording
+- Fix: Per entity refresh when outlier modification is saved should run over 4 hours period, and should filter results on the selected entity only
+- Fix: UI input selectors for metric hosts should not show content for non whitelisted indexes if whitelists are being used
+- Fix: Clean up of various objects which were deprecated in V1.2.x
+
 Version 1.2.9
 =============
 

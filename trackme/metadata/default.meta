@@ -147,20 +147,22 @@ access = read : [ * ], write : [ * ]
 # Audit status flipping
 #
 
-[transforms/trackme_audit_flip]
+[transforms/trackme_audit_flip_temp_data_source]
 access = read : [ * ], write : [ admin, trackme_admin ]
 
-[collections/kv_trackme_audit_flip]
+[collections/kv_trackme_audit_flip_temp_data_source]
 access = read : [ * ], write : [ admin, trackme_admin ]
 
-#
-# Audit status flipping latest records
-#
-
-[transforms/trackme_audit_flip_latest]
+[transforms/trackme_audit_flip_temp_data_host]
 access = read : [ * ], write : [ admin, trackme_admin ]
 
-[collections/kv_trackme_audit_flip_latest]
+[collections/kv_trackme_audit_flip_temp_data_host]
+access = read : [ * ], write : [ admin, trackme_admin ]
+
+[transforms/trackme_audit_flip_temp_metric_host]
+access = read : [ * ], write : [ admin, trackme_admin ]
+
+[collections/kv_trackme_audit_flip_temp_metric_host]
 access = read : [ * ], write : [ admin, trackme_admin ]
 
 ### MOBILES VIEWS
