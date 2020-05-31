@@ -5523,11 +5523,8 @@ styles in <div> tags, similar to Bootstrap's grid system.
     <div id="row2a" class="dashboard-row dashboard-row2" data-depends="$show_data_source_tracker$">
         <div id="panel2a" class="dashboard-cell" style="width: 100%;">
             <div class="dashboard-panel clearfix">
-                <h2 class="panel-title">Click on any entry of the table to open interactive actions for the data source:</h2>
+                <h2 class="panel-title">Click on any entry of the table to open interactive actions for this entity, use inputs to filter out the selection: (restricted to the first thousand results, use the key world filter input for large scale selections)</h2>
                 <div class="fieldset">
-                    <div class="input input-dropdown" id="SearchModeSelectorDataSources">
-                        <label>Search mode:</label>
-                    </div>
                     <div class="input input-text" id="inputDataNameFilter">
                         <label>Keyword filter name:</label>
                     </div>
@@ -5560,11 +5557,8 @@ styles in <div> tags, similar to Bootstrap's grid system.
     <div id="row2b" class="dashboard-row dashboard-row2" data-depends="$show_data_host_tracker$">
         <div id="panel2b" class="dashboard-cell" style="width: 100%;">
             <div class="dashboard-panel clearfix">
-                <h2 class="panel-title">Click on any entry of the table to open interactive actions for the host:</h2>
+                <h2 class="panel-title">Click on any entry of the table to open interactive actions for this entity, use inputs to filter out the selection: (restricted to the first thousand results, use the key world filter input for large scale selections)</h2>
                 <div class="fieldset">
-                    <div class="input input-dropdown" id="SearchModeSelectorDataHosts">
-                        <label>Search mode:</label>
-                    </div>
                     <div class="input input-dropdown" id="inputDataHostIndexes">
                         <label>Index(es):</label>
                     </div>
@@ -5597,11 +5591,8 @@ styles in <div> tags, similar to Bootstrap's grid system.
     <div id="row2c" class="dashboard-row dashboard-row2" data-depends="$show_metric_host_tracker$">
         <div id="panel2c" class="dashboard-cell" style="width: 100%;">
             <div class="dashboard-panel clearfix">
-                <h2 class="panel-title">Click on any entry of the table to open interactive actions for the host:</h2>
+                <h2 class="panel-title">Click on any entry of the table to open interactive actions for this entity, use inputs to filter out the selection: (restricted to the first thousand results, use the key world filter input for large scale selections):</h2>
                 <div class="fieldset">
-                    <div class="input input-dropdown" id="SearchModeSelectorMetricHosts">
-                        <label>Search mode:</label>
-                    </div>
                     <div class="input input-dropdown" id="inputMetricHostIndexes">
                         <label>Index(es):</label>
                     </div>
@@ -6244,7 +6235,7 @@ require([
             "refreshType": "delay",
             "refresh": "$refresh$",
             "latest_time": "+5m",
-            "search": "$data_source_mainsearch$ | search $inputDataNameFilter$ $inputDataName$ $inputDataIndex$ $inputDataSourcetype$\n| search `trackme_get_idx_whitelist_searchtime(trackme_data_source_monitoring_whitelist_index, data_index)`\n| `apply_data_source_blacklists`\n",
+            "search": "| inputlookup trackme_data_source_monitoring\n| eval keyid=_key\n| `apply_data_source_blacklists`\n| search `trackme_get_idx_whitelist_searchtime(trackme_data_source_monitoring_whitelist_index, data_index)`\n| `trackme_eval_data_source_state`\n| `trackme_default_priority`\n| `trackme_date_format(data_last_time_seen)`\n| `trackme_date_format(data_last_time_seen_idx)`\n| `trackme_date_format(data_last_ingest)`\n| fillnull value=\"red\" data_source_state\n| sort 0 data_source\n| `trackme_eval_icons`\n| search $inputDataNameFilter$\n| search `trackme_get_idx_whitelist_searchtime(trackme_data_source_monitoring_whitelist_index, data_index)`\n| `apply_data_source_blacklists`\n",
             "status_buckets": 0,
             "app": utils.getCurrentApp(),
             "auto_cancel": 90,
@@ -6260,7 +6251,7 @@ require([
 
         var searchDataSourcesPostTable = new PostProcessManager({
             "tokenDependencies": {},
-            "search": "search $data_source_state$ $data_monitored_state$ $inputDataPriority$\n| fillnull data_last_lag_seen, data_last_ingestion_lag_seen\n| eval data_last_lag_seen=round(data_last_lag_seen, 0) | eval data_last_ingestion_lag_seen=round(data_last_ingestion_lag_seen, 0) | fillnull value=\"N/A\" data_last_lag_seen, data_last_ingestion_lag_seen\n| eval \"lag summary (lag event / lag ingestion)\" = data_last_lag_seen . \" sec / \" . data_last_ingestion_lag_seen . \" sec\"\n| rename \"data_last_time_seen (translated)\" as \"last time\", \"data_last_ingest (translated)\" as \"last ingest\", \"data_last_time_seen_idx (translated)\" as \"last time idx\"\n| eval data_tracker_runtime=now()\n| `trackme_date_format(\"latest_flip_time\")`\n| fillnull value=\"N/A\" latest_flip_state, latest_flip_time, \"latest_flip_time (translated)\"\n| `trackme_get_identity_card(data_name)`\n| `trackme_lookup_elastic_sources` | sort limit=10000 data_name",
+            "search": "search $inputDataName$ $inputDataIndex$ $inputDataSourcetype$ $data_source_state$ $data_monitored_state$ $inputDataPriority$\n| fillnull data_last_lag_seen, data_last_ingestion_lag_seen\n| eval data_last_lag_seen=round(data_last_lag_seen, 0) | eval data_last_ingestion_lag_seen=round(data_last_ingestion_lag_seen, 0) | fillnull value=\"N/A\" data_last_lag_seen, data_last_ingestion_lag_seen\n| eval \"lag summary (lag event / lag ingestion)\" = data_last_lag_seen . \" sec / \" . data_last_ingestion_lag_seen . \" sec\"\n| rename \"data_last_time_seen (translated)\" as \"last time\", \"data_last_ingest (translated)\" as \"last ingest\", \"data_last_time_seen_idx (translated)\" as \"last time idx\"\n| eval data_tracker_runtime=now()\n| `trackme_date_format(\"latest_flip_time\")`\n| fillnull value=\"N/A\" latest_flip_state, latest_flip_time, \"latest_flip_time (translated)\"\n| `trackme_get_identity_card(data_name)`\n| `trackme_lookup_elastic_sources` | sort limit=10000 data_name",
             "managerid": "searchDataSourcesMain",
             "id": "searchDataSourcesPostTable"
         }, {
@@ -6270,7 +6261,7 @@ require([
 
         var searchDataSourcesMainStats = new PostProcessManager({
             "tokenDependencies": {},
-            "search": "stats count as total, count(eval(data_monitored_state=\"disabled\")) as total_disabled, count(eval(data_source_state!=\"green\" AND data_source_state!=\"info\" AND data_monitored_state=\"enabled\")) as total_in_alert, count(eval(data_source_state=\"red\" AND priority=\"high\" AND data_monitored_state=\"enabled\")) as total_high_priority_red, count(eval(data_monitored_state=\"enabled\" AND priority=\"low\")) as low_enabled, count(eval(data_monitored_state=\"enabled\" AND priority=\"medium\")) as medium_enabled, count(eval(data_monitored_state=\"enabled\" AND priority=\"high\")) as high_enabled, count(eval(data_source_state=\"blue\" AND data_monitored_state=\"enabled\")) as \"blue\", count(eval(data_source_state=\"orange\" AND data_monitored_state=\"enabled\")) as \"orange\", count(eval(data_source_state=\"green\" AND data_monitored_state=\"enabled\")) as \"green\", count(eval(data_source_state=\"red\" AND data_monitored_state=\"enabled\" AND priority=\"high\")) as \"red - high priority\", count(eval(data_source_state=\"red\" AND data_monitored_state=\"enabled\" AND priority!=\"high\")) as \"red - other priority\"",
+            "search": "search $inputDataName$ $inputDataIndex$ $inputDataSourcetype$ | stats count as total, count(eval(data_monitored_state=\"disabled\")) as total_disabled, count(eval(data_source_state!=\"green\" AND data_source_state!=\"info\" AND data_monitored_state=\"enabled\")) as total_in_alert, count(eval(data_source_state=\"red\" AND priority=\"high\" AND data_monitored_state=\"enabled\")) as total_high_priority_red, count(eval(data_monitored_state=\"enabled\" AND priority=\"low\")) as low_enabled, count(eval(data_monitored_state=\"enabled\" AND priority=\"medium\")) as medium_enabled, count(eval(data_monitored_state=\"enabled\" AND priority=\"high\")) as high_enabled, count(eval(data_source_state=\"blue\" AND data_monitored_state=\"enabled\")) as \"blue\", count(eval(data_source_state=\"orange\" AND data_monitored_state=\"enabled\")) as \"orange\", count(eval(data_source_state=\"green\" AND data_monitored_state=\"enabled\")) as \"green\", count(eval(data_source_state=\"red\" AND data_monitored_state=\"enabled\" AND priority=\"high\")) as \"red - high priority\", count(eval(data_source_state=\"red\" AND data_monitored_state=\"enabled\" AND priority!=\"high\")) as \"red - other priority\"",
             "managerid": "searchDataSourcesMain",
             "id": "searchDataSourcesMainStats"
         }, {
@@ -6280,7 +6271,7 @@ require([
 
         var searchPopulateDataSources = new PostProcessManager({
             "tokenDependencies": {},
-            "search": "stats values(data_name) as data_name | mvexpand data_name | dedup data_name | sort limit=1000 data_name",
+            "search": "search $inputDataIndex$ $inputDataSourcetype$ | stats values(data_name) as data_name | mvexpand data_name | dedup data_name | sort limit=1000 data_name",
             "managerid": "searchDataSourcesMain",
             "id": "searchPopulateDataSources"
         }, {
@@ -6290,7 +6281,7 @@ require([
 
         var searchPopulateDataSourcesIndexes = new PostProcessManager({
             "tokenDependencies": {},
-            "search": "stats values(data_index) as data_index | mvexpand data_index | dedup data_index | sort limit=0 data_index",
+            "search": "search $inputDataName$ $inputDataSourcetype$ | stats values(data_index) as data_index | mvexpand data_index | dedup data_index | sort limit=1000 data_index",
             "managerid": "searchDataSourcesMain",
             "id": "searchPopulateDataSourcesIndexes"
         }, {
@@ -6300,7 +6291,7 @@ require([
 
         var searchPopulateDataSourcesSourcetypes = new PostProcessManager({
             "tokenDependencies": {},
-            "search": "search $inputDataNameFilter$ $inputDataName$ $inputDataIndex$ | stats values(data_sourcetype) as data_sourcetype | mvexpand data_sourcetype | dedup data_sourcetype | sort limit=0 data_sourcetype",
+            "search": "search $inputDataName$ $inputDataIndex$ | stats values(data_sourcetype) as data_sourcetype | mvexpand data_sourcetype | dedup data_sourcetype | sort limit=1000 data_sourcetype",
             "managerid": "searchDataSourcesMain",
             "id": "searchPopulateDataSourcesSourcetypes"
         }, {
@@ -6529,7 +6520,7 @@ require([
             "refreshType": "delay",
             "refresh": "$refresh$",
             "latest_time": "now",
-            "search": "$metric_host_mainsearch$ | search $inputMetricHostIndexes$ $inputMetricHostCategories$ $inputMetricHostFilter$ $inputMetricHost$",
+            "search": "| savedsearch \"TrackMe - metric hosts collection based table report\"\n| `trackme_date_format(\"metric_last_time_seen\")`\n| rename \"metric_last_time_seen (translated)\" as \"last time\"\n| `trackme_eval_metric_host_state`\n| `trackme_metric_host_group_lookup`\n|`trackme_eval_icons_metric_host`\n|`trackme_date_format(\"latest_flip_time\")`\n| fillnull value=\"N/A\" latest_flip_state, latest_flip_time, \"latest_flip_time (translated)\"\n| search $inputMetricHostFilter$",
             "status_buckets": 0,
             "app": utils.getCurrentApp(),
             "auto_cancel": 90,
@@ -6545,7 +6536,7 @@ require([
 
         var searchMainTableMetricHost = new PostProcessManager({
             "tokenDependencies": {},
-            "search": "search $inputMetricHostPriority$ $metric_host_state$ $metric_monitored_state$ | sort limit=10000 metric_host",
+            "search": "search $inputMetricHostIndexes$ $inputMetricHostCategories$ $inputMetricHost$ $inputMetricHostPriority$ $metric_host_state$ $metric_monitored_state$ | sort limit=10000 metric_host",
             "managerid": "searchMetricHostsMain",
             "id": "searchMainTableMetricHost"
         }, {
@@ -6555,7 +6546,7 @@ require([
 
         var searchMetricHostsMainStats = new PostProcessManager({
             "tokenDependencies": {},
-            "search": "stats count as total, count(eval(metric_monitored_state=\"disabled\")) as total_disabled, count(eval(metric_host_state!=\"green\" AND metric_host_state!=\"info\" AND metric_monitored_state=\"enabled\")) as total_in_alert, count(eval(metric_host_state=\"red\" AND priority=\"high\" AND metric_monitored_state=\"enabled\")) as total_high_priority_red, count(eval(metric_monitored_state=\"enabled\" AND priority=\"low\")) as low_enabled, count(eval(metric_monitored_state=\"enabled\" AND priority=\"medium\")) as medium_enabled, count(eval(metric_monitored_state=\"enabled\" AND priority=\"high\")) as high_enabled, count(eval(metric_host_state=\"blue\" AND metric_monitored_state=\"enabled\")) as \"blue\", count(eval(metric_host_state=\"orange\" AND metric_monitored_state=\"enabled\")) as \"orange\", count(eval(metric_host_state=\"green\" AND metric_monitored_state=\"enabled\")) as \"green\", count(eval(metric_host_state=\"red\" AND metric_monitored_state=\"enabled\" AND priority=\"high\")) as \"red - high priority\", count(eval(metric_host_state=\"red\" AND metric_monitored_state=\"enabled\" AND priority!=\"high\")) as \"red - other priority\"",
+            "search": "search $inputMetricHostIndexes$ $inputMetricHostCategories$ $inputMetricHost$ | stats count as total, count(eval(metric_monitored_state=\"disabled\")) as total_disabled, count(eval(metric_host_state!=\"green\" AND metric_host_state!=\"info\" AND metric_monitored_state=\"enabled\")) as total_in_alert, count(eval(metric_host_state=\"red\" AND priority=\"high\" AND metric_monitored_state=\"enabled\")) as total_high_priority_red, count(eval(metric_monitored_state=\"enabled\" AND priority=\"low\")) as low_enabled, count(eval(metric_monitored_state=\"enabled\" AND priority=\"medium\")) as medium_enabled, count(eval(metric_monitored_state=\"enabled\" AND priority=\"high\")) as high_enabled, count(eval(metric_host_state=\"blue\" AND metric_monitored_state=\"enabled\")) as \"blue\", count(eval(metric_host_state=\"orange\" AND metric_monitored_state=\"enabled\")) as \"orange\", count(eval(metric_host_state=\"green\" AND metric_monitored_state=\"enabled\")) as \"green\", count(eval(metric_host_state=\"red\" AND metric_monitored_state=\"enabled\" AND priority=\"high\")) as \"red - high priority\", count(eval(metric_host_state=\"red\" AND metric_monitored_state=\"enabled\" AND priority!=\"high\")) as \"red - other priority\"",
             "managerid": "searchMetricHostsMain",
             "id": "searchMetricHostsMainStats"
         }, {
@@ -6565,7 +6556,7 @@ require([
 
         var searchPopulateMetricHostsIndexes = new PostProcessManager({
             "tokenDependencies": {},
-            "search": "stats values(metric_index) as metric_index | mvexpand metric_index | dedup metric_index | sort limit=0 metric_index",
+            "search": "search $inputMetricHostCategories$ $inputMetricHost$ | stats values(metric_index) as metric_index | mvexpand metric_index | dedup metric_index | sort limit=0 metric_index",
             "managerid": "searchMetricHostsMain",
             "id": "searchPopulateMetricHostsIndexes"
         }, {
@@ -6575,7 +6566,7 @@ require([
 
         var searchPopulateMetricHosts = new PostProcessManager({
             "tokenDependencies": {},
-            "search": "stats count by metric_host | sort limit=1000 metric_host",
+            "search": "search $inputMetricHostIndexes$ $inputMetricHostCategories$ | stats count by metric_host | sort limit=1000 metric_host",
             "managerid": "searchMetricHostsMain",
             "id": "searchPopulateMetricHosts"
         }, {
@@ -6585,7 +6576,7 @@ require([
 
         var searchPopulateMetricHostsCategories = new PostProcessManager({
             "tokenDependencies": {},
-            "search": "stats values(metric_category) as metric_category | mvexpand metric_category | dedup metric_category | search NOT [ | inputlookup trackme_metric_lagging_definition | table metric_category ] | sort limit=0 metric_category",
+            "search": "search $inputMetricHostIndexes$ $inputMetricHost$ | stats values(metric_category) as metric_category | mvexpand metric_category | dedup metric_category | search NOT [ | inputlookup trackme_metric_lagging_definition | table metric_category ] | sort limit=1000 metric_category",
             "managerid": "searchMetricHostsMain",
             "id": "searchPopulateMetricHostsCategories"
         }, {
@@ -6665,7 +6656,7 @@ require([
             "refreshType": "delay",
             "refresh": "$refresh$",
             "latest_time": "+5m",
-            "search": "$data_host_mainsearch$ | search $inputDataHostFilter$ $inputDataHost$ $inputDataHostIndexes$ $inputDataHostSourcetypes$",
+            "search": "| inputlookup trackme_host_monitoring\n| eval keyid=_key\n| sort limit=0 - data_last_time_seen\n| dedup data_host\n| eval data_index_raw=data_index, data_sourcetype_raw=data_sourcetype\n| makemv delim=\",\" data_index\n| makemv delim=\",\" data_sourcetype\n| `apply_data_host_blacklists`\n| search `trackme_get_idx_whitelist_searchtime(trackme_data_host_monitoring_whitelist_index, data_index)`\n| `trackme_eval_data_host_state`\n| `trackme_default_priority`\n| `trackme_data_host_group_lookup`\n| `trackme_date_format(data_last_time_seen)`\n| `trackme_date_format(data_last_time_seen_idx)`\n| `trackme_date_format(data_last_ingest)`\n| `trackme_eval_icons_host`\n| rename \"data_last_ingest (translated)\" as \"last ingest\", \"data_last_time_seen (translated)\" as \"last time\"\n| `trackme_date_format(\"latest_flip_time\")`\n| fillnull value=\"N/A\" latest_flip_state, latest_flip_time, \"latest_flip_time (translated)\"\n| sort limit=0 data_host\n| search $inputDataHostFilter$",
             "status_buckets": 0,
             "app": utils.getCurrentApp(),
             "auto_cancel": 90,
@@ -6681,7 +6672,7 @@ require([
 
         var searchMainTableHost = new PostProcessManager({
             "tokenDependencies": {},
-            "search": "search $data_host_state$ $data_monitored_state$ $inputDataHostPriority$ | fillnull data_last_lag_seen, data_last_ingestion_lag_seen | eval data_last_lag_seen=round(data_last_lag_seen, 0) | eval data_last_ingestion_lag_seen=round(data_last_ingestion_lag_seen, 0) | fillnull value=\"N/A\" data_last_lag_seen, data_last_ingestion_lag_seen\n| eval \"lag summary (lag event / lag ingestion)\" = data_last_lag_seen . \" sec / \" . data_last_ingestion_lag_seen . \" sec\" | sort limit=10000 data_host",
+            "search": "search $inputDataHostFilter$ $inputDataHost$ $inputDataHostIndexes$ $inputDataHostSourcetypes$ $data_host_state$ $data_monitored_state$ $inputDataHostPriority$ | fillnull data_last_lag_seen, data_last_ingestion_lag_seen | eval data_last_lag_seen=round(data_last_lag_seen, 0) | eval data_last_ingestion_lag_seen=round(data_last_ingestion_lag_seen, 0) | fillnull value=\"N/A\" data_last_lag_seen, data_last_ingestion_lag_seen\n| eval \"lag summary (lag event / lag ingestion)\" = data_last_lag_seen . \" sec / \" . data_last_ingestion_lag_seen . \" sec\" | sort limit=10000 data_host",
             "managerid": "searchDataHostsMain",
             "id": "searchMainTableHost"
         }, {
@@ -6691,7 +6682,7 @@ require([
 
         var searchDataHostsMainStats = new PostProcessManager({
             "tokenDependencies": {},
-            "search": "stats count as total, count(eval(data_monitored_state=\"disabled\")) as total_disabled, count(eval(data_host_state!=\"green\" AND data_host_state!=\"info\" AND data_monitored_state=\"enabled\")) as total_in_alert, count(eval(data_host_state=\"red\" AND priority=\"high\" AND data_monitored_state=\"enabled\")) as total_high_priority_red, count(eval(data_monitored_state=\"enabled\" AND priority=\"low\")) as low_enabled, count(eval(data_monitored_state=\"enabled\" AND priority=\"medium\")) as medium_enabled, count(eval(data_monitored_state=\"enabled\" AND priority=\"high\")) as high_enabled, count(eval(data_host_state=\"blue\" AND data_monitored_state=\"enabled\")) as \"blue\", count(eval(data_host_state=\"orange\" AND data_monitored_state=\"enabled\")) as \"orange\", count(eval(data_host_state=\"green\" AND data_monitored_state=\"enabled\")) as \"green\", count(eval(data_host_state=\"red\" AND data_monitored_state=\"enabled\" AND priority=\"high\")) as \"red - high priority\", count(eval(data_host_state=\"red\" AND data_monitored_state=\"enabled\" AND priority!=\"high\")) as \"red - other priority\"",
+            "search": "search $inputDataHost$ $inputDataHostIndexes$ $inputDataHostSourcetypes$ | stats count as total, count(eval(data_monitored_state=\"disabled\")) as total_disabled, count(eval(data_host_state!=\"green\" AND data_host_state!=\"info\" AND data_monitored_state=\"enabled\")) as total_in_alert, count(eval(data_host_state=\"red\" AND priority=\"high\" AND data_monitored_state=\"enabled\")) as total_high_priority_red, count(eval(data_monitored_state=\"enabled\" AND priority=\"low\")) as low_enabled, count(eval(data_monitored_state=\"enabled\" AND priority=\"medium\")) as medium_enabled, count(eval(data_monitored_state=\"enabled\" AND priority=\"high\")) as high_enabled, count(eval(data_host_state=\"blue\" AND data_monitored_state=\"enabled\")) as \"blue\", count(eval(data_host_state=\"orange\" AND data_monitored_state=\"enabled\")) as \"orange\", count(eval(data_host_state=\"green\" AND data_monitored_state=\"enabled\")) as \"green\", count(eval(data_host_state=\"red\" AND data_monitored_state=\"enabled\" AND priority=\"high\")) as \"red - high priority\", count(eval(data_host_state=\"red\" AND data_monitored_state=\"enabled\" AND priority!=\"high\")) as \"red - other priority\"",
             "managerid": "searchDataHostsMain",
             "id": "searchDataHostsMainStats"
         }, {
@@ -6701,7 +6692,7 @@ require([
 
         var searchPopulateDataHostsIndexes = new PostProcessManager({
             "tokenDependencies": {},
-            "search": "makemv data_index delim=\",\" | stats values(data_index) as data_index | mvexpand data_index | dedup data_index | sort limit=1000 data_index",
+            "search": "makemv data_index delim=\",\" | search $inputDataHost$ $inputDataHostSourcetypes$ | stats values(data_index) as data_index | mvexpand data_index | dedup data_index | sort limit=1000 data_index",
             "managerid": "searchDataHostsMain",
             "id": "searchPopulateDataHostsIndexes"
         }, {
@@ -6711,7 +6702,7 @@ require([
 
         var searchPopulateDataHostsSourcetypes = new PostProcessManager({
             "tokenDependencies": {},
-            "search": "makemv data_index delim=\",\" | makemv data_sourcetype delim=\",\" | search $inputDataHostIndexes$ | stats values(data_sourcetype) as data_sourcetype | mvexpand data_sourcetype | dedup data_sourcetype | sort limit=1000 data_sourcetype",
+            "search": "makemv data_index delim=\",\" | makemv data_sourcetype delim=\",\" | search $inputDataHost$ $inputDataHostIndexes$ | stats values(data_sourcetype) as data_sourcetype | mvexpand data_sourcetype | dedup data_sourcetype | sort limit=1000 data_sourcetype",
             "managerid": "searchDataHostsMain",
             "id": "searchPopulateDataHostsSourcetypes"
         }, {
@@ -6721,7 +6712,7 @@ require([
 
         var searchPopulateDataHosts = new PostProcessManager({
             "tokenDependencies": {},
-            "search": "makemv data_index delim=\",\" | makemv data_sourcetype delim=\",\" | search $inputDataHostIndexes$ $inputDataHostSourcetypes$ $inputDataHostFilter$ | stats values(data_host) as data_host | mvexpand data_host | dedup data_host | sort limit=1000 data_host",
+            "search": "makemv data_index delim=\",\" | makemv data_sourcetype delim=\",\" | search $inputDataHostIndexes$ $inputDataHostSourcetypes$ | stats values(data_host) as data_host | mvexpand data_host | dedup data_host | sort limit=1000 data_host",
             "managerid": "searchDataHostsMain",
             "id": "searchPopulateDataHosts"
         }, {
@@ -13942,87 +13933,6 @@ require([
         // VIEWS: FORM INPUTS
         //
 
-        var SearchModeSelectorDataSources = new DropdownInput({
-            "id": "SearchModeSelectorDataSources",
-            "choices": [
-                {"label": "Collection based", "value": "collection_based"},
-                {"label": "Search based", "value": "search_based"}
-            ],
-            "default": "collection_based",
-            "searchWhenChanged": true,
-            "selectFirstChoice": false,
-            "showClearButton": true,
-            "initialValue": "collection_based",
-            "value": "$form.SearchModeSelectorDataSources$",
-            "el": $('#SearchModeSelectorDataSources')
-        }, {tokens: true}).render();
-
-        SearchModeSelectorDataSources.on("change", function(newValue) {
-            FormUtils.handleValueChange(SearchModeSelectorDataSources);
-        });
-
-        SearchModeSelectorDataSources.on("valueChange", function(e) {
-            if (e.value === "search_based") {
-                EventHandler.setToken("data_source_mainsearch", "| savedsearch \"TrackMe - Data sources abstract root tracker\"\n| inputlookup append=t trackme_data_source_monitoring | eval lookup_key=_key | eval keyid=coalesce(key, lookup_key) | dedup keyid\n| `apply_data_source_blacklists`\n| search `trackme_get_idx_whitelist_searchtime(trackme_data_source_monitoring_whitelist_index, data_index)`\n| `trackme_eval_data_source_state`\n| `trackme_default_priority`\n| `trackme_date_format(data_last_time_seen)`\n| `trackme_date_format(data_last_time_seen_idx)`\n| `trackme_date_format(data_last_ingest)`\n| fillnull value=\"red\" data_source_state\n| sort 0 data_source\n| `trackme_eval_icons`", {}, e.data);
-            } else if (e.value === "collection_based") {
-                EventHandler.setToken("data_source_mainsearch", "| inputlookup trackme_data_source_monitoring\n| eval keyid=_key\n| `apply_data_source_blacklists`\n| search `trackme_get_idx_whitelist_searchtime(trackme_data_source_monitoring_whitelist_index, data_index)`\n| `trackme_eval_data_source_state`\n| `trackme_default_priority`\n| `trackme_date_format(data_last_time_seen)`\n| `trackme_date_format(data_last_time_seen_idx)`\n| `trackme_date_format(data_last_ingest)`\n| fillnull value=\"red\" data_source_state\n| sort 0 data_source\n| `trackme_eval_icons`", {}, e.data);
-            }
-        });
-
-        var SearchModeSelectorDataHosts = new DropdownInput({
-            "id": "SearchModeSelectorDataHosts",
-            "choices": [
-                {"label": "Collection based", "value": "collection_based"},
-                {"label": "Search based", "value": "search_based"}
-            ],
-            "default": "collection_based",
-            "searchWhenChanged": true,
-            "selectFirstChoice": false,
-            "showClearButton": true,
-            "initialValue": "collection_based",
-            "value": "$form.SearchModeSelectorDataHosts$",
-            "el": $('#SearchModeSelectorDataHosts')
-        }, {tokens: true}).render();
-
-        SearchModeSelectorDataHosts.on("change", function(newValue) {
-            FormUtils.handleValueChange(SearchModeSelectorDataHosts);
-        });
-
-        SearchModeSelectorDataHosts.on("valueChange", function(e) {
-            if (e.value === "search_based") {
-                EventHandler.setToken("data_host_mainsearch", "| savedsearch \"TrackMe - Data hosts abstract root tracker\" | inputlookup append=t trackme_host_monitoring | eval lookup_key=_key | eval keyid=coalesce(key, lookup_key) | dedup keyid\n| sort limit=0 - data_last_time_seen\n| dedup data_host\n| eval data_index_raw=data_index, data_sourcetype_raw=data_sourcetype\n| makemv delim=\",\" data_index\n| makemv delim=\",\" data_sourcetype\n| `apply_data_host_blacklists`\n| search `trackme_get_idx_whitelist_searchtime(trackme_data_host_monitoring_whitelist_index, data_index)`\n| `trackme_eval_data_host_state`\n| `trackme_default_priority`\n| `trackme_data_host_group_lookup`\n| `trackme_date_format(data_last_time_seen)`\n| `trackme_date_format(data_last_time_seen_idx)`\n| `trackme_date_format(data_last_ingest)`\n| `trackme_eval_icons_host`\n| rename \"data_last_ingest (translated)\" as \"last ingest\", \"data_last_time_seen (translated)\" as \"last time\"\n| `trackme_date_format(\"latest_flip_time\")`\n| fillnull value=\"N/A\" latest_flip_state, latest_flip_time, \"latest_flip_time (translated)\"\n| sort limit=0 data_host", {}, e.data);
-            } else if (e.value === "collection_based") {
-                EventHandler.setToken("data_host_mainsearch", "| inputlookup trackme_host_monitoring\n| eval keyid=_key\n| sort limit=0 - data_last_time_seen\n| dedup data_host\n| eval data_index_raw=data_index, data_sourcetype_raw=data_sourcetype\n| makemv delim=\",\" data_index\n| makemv delim=\",\" data_sourcetype\n| `apply_data_host_blacklists`\n| search `trackme_get_idx_whitelist_searchtime(trackme_data_host_monitoring_whitelist_index, data_index)`\n| `trackme_eval_data_host_state`\n| `trackme_default_priority`\n| `trackme_data_host_group_lookup`\n| `trackme_date_format(data_last_time_seen)`\n| `trackme_date_format(data_last_time_seen_idx)`\n| `trackme_date_format(data_last_ingest)`\n| `trackme_eval_icons_host`\n| rename \"data_last_ingest (translated)\" as \"last ingest\", \"data_last_time_seen (translated)\" as \"last time\"\n| `trackme_date_format(\"latest_flip_time\")`\n| fillnull value=\"N/A\" latest_flip_state, latest_flip_time, \"latest_flip_time (translated)\"\n| sort limit=0 data_host", {}, e.data);
-            }
-        });
-
-        var SearchModeSelectorMetricHosts = new DropdownInput({
-            "id": "SearchModeSelectorMetricHosts",
-            "choices": [
-                {"label": "Collection based", "value": "collection_based"},
-                {"label": "Search based", "value": "search_based"}
-            ],
-            "default": "collection_based",
-            "searchWhenChanged": true,
-            "selectFirstChoice": false,
-            "showClearButton": true,
-            "initialValue": "collection_based",
-            "value": "$form.SearchModeSelectorMetricHosts$",
-            "el": $('#SearchModeSelectorMetricHosts')
-        }, {tokens: true}).render();
-
-        SearchModeSelectorMetricHosts.on("change", function(newValue) {
-            FormUtils.handleValueChange(SearchModeSelectorMetricHosts);
-        });
-
-        SearchModeSelectorMetricHosts.on("valueChange", function(e) {
-            if (e.value === "search_based") {
-                EventHandler.setToken("metric_host_mainsearch", "| savedsearch \"trackMe - metric host table report\"\n| rename key as keyid\n| `trackme_eval_icons_metric_host`\n| eval metric_index_raw=metric_index, metric_category_raw=metric_category, metric_details_raw=metric_details | lookup local=t trackme_metric_host_monitoring metric_host OUTPUT metric_host_state as metric_previous_host_state, metric_tracker_runtime as metric_previous_tracker_runtime, latest_flip_state, latest_flip_time | where isnotnull(metric_previous_tracker_runtime) | `trackme_date_format(\"latest_flip_time\")` | fillnull value=\"N/A\" latest_flip_state, latest_flip_time, \"latest_flip_time (translated)\"", {}, e.data);
-            } else if (e.value === "collection_based") {
-                EventHandler.setToken("metric_host_mainsearch", "| savedsearch \"TrackMe - metric hosts collection based table report\"\n| `trackme_date_format(\"metric_last_time_seen\")`\n| rename \"metric_last_time_seen (translated)\" as \"last time\"\n| `trackme_eval_metric_host_state`\n| `trackme_metric_host_group_lookup`\n|`trackme_eval_icons_metric_host`\n|`trackme_date_format(\"latest_flip_time\")`\n| fillnull value=\"N/A\" latest_flip_state, latest_flip_time, \"latest_flip_time (translated)\"", {}, e.data);
-            }
-        });
-
         var link1 = new LinkListInput({
             "id": "link1",
             "choices": [{
@@ -14132,7 +14042,7 @@ require([
                 "depends": "$show_audit_flip$"
             },
             "choices": [{
-                "label": "ANY",
+                "label": "ALL",
                 "value": "*"
             }],
             "searchWhenChanged": true,
@@ -14178,7 +14088,7 @@ require([
                 "depends": "$show_audit_flip$"
             },
             "choices": [{
-                "label": "ANY",
+                "label": "ALL",
                 "value": "*"
             }],
             "searchWhenChanged": true,
@@ -14246,7 +14156,7 @@ require([
                 "depends": "$show_audit_changes$"
             },
             "choices": [{
-                "label": "ANY",
+                "label": "ALL",
                 "value": "*"
             }],
             "searchWhenChanged": true,
@@ -14275,7 +14185,7 @@ require([
                 "depends": "$show_audit_changes$"
             },
             "choices": [{
-                "label": "ANY",
+                "label": "ALL",
                 "value": "*"
             }],
             "searchWhenChanged": true,
@@ -14304,7 +14214,7 @@ require([
                 "depends": "$show_audit_changes$"
             },
             "choices": [{
-                "label": "ANY",
+                "label": "ALL",
                 "value": "*"
             }],
             "searchWhenChanged": true,
@@ -14333,7 +14243,7 @@ require([
                 "depends": "$show_audit_changes$"
             },
             "choices": [{
-                "label": "ANY",
+                "label": "ALL",
                 "value": "*"
             }],
             "searchWhenChanged": true,
@@ -14362,7 +14272,7 @@ require([
                 "depends": "$show_audit_changes$"
             },
             "choices": [{
-                "label": "ANY",
+                "label": "ALL",
                 "value": "*"
             }],
             "searchWhenChanged": true,
@@ -14404,21 +14314,21 @@ require([
             FormUtils.handleValueChange(inputDataNameFilter);
         });
 
-        var inputDataName = new DropdownInput({
+        var inputDataName = new MultiSelectInput({
             "id": "inputDataName",
             "tokenDependencies": {
                 "depends": "$show_data_source_tracker$"
             },
             "choices": [{
-                "label": "ANY",
+                "label": "ALL",
                 "value": "*"
             }],
             "searchWhenChanged": true,
-            "default": "*",
             "showClearButton": true,
             "labelField": "data_name",
-            "prefix": "data_name=\"",
-            "suffix": "\"",
+            "valuePrefix": "data_name=\"",
+            "valueSuffix": "\"",
+            "delimiter": " OR ",
             "initialValue": "*",
             "selectFirstChoice": false,
             "valueField": "data_name",
@@ -14433,21 +14343,21 @@ require([
             FormUtils.handleValueChange(inputDataName);
         });
 
-        var inputDataIndex = new DropdownInput({
+        var inputDataIndex = new MultiSelectInput({
             "id": "inputDataIndex",
             "tokenDependencies": {
                 "depends": "$show_data_source_tracker$"
             },
             "choices": [{
-                "label": "ANY",
+                "label": "ALL",
                 "value": "*"
             }],
             "searchWhenChanged": true,
-            "default": "*",
             "showClearButton": true,
             "labelField": "data_index",
-            "prefix": "data_index=\"",
-            "suffix": "\"",
+            "valuePrefix": "data_index=\"",
+            "valueSuffix": "\"",
+            "delimiter": " OR ",
             "initialValue": "*",
             "selectFirstChoice": false,
             "valueField": "data_index",
@@ -14462,18 +14372,18 @@ require([
             FormUtils.handleValueChange(inputDataIndex);
         });
 
-        var inputDataSourcetype = new DropdownInput({
+        var inputDataSourcetype = new MultiSelectInput({
             "id": "inputDataSourcetype",
             "choices": [{
-                "label": "ANY",
+                "label": "ALL",
                 "value": "*"
             }],
             "searchWhenChanged": true,
-            "default": "*",
             "showClearButton": true,
             "labelField": "data_sourcetype",
-            "prefix": "data_sourcetype=\"",
-            "suffix": "\"",
+            "valuePrefix": "data_sourcetype=\"",
+            "valueSuffix": "\"",
+            "delimiter": " OR ",
             "initialValue": "*",
             "selectFirstChoice": false,
             "valueField": "data_sourcetype",
@@ -14490,21 +14400,21 @@ require([
 
         // metric host monitoring
 
-        var inputMetricHostIndexes = new DropdownInput({
+        var inputMetricHostIndexes = new MultiSelectInput({
             "id": "inputMetricHostIndexes",
             "tokenDependencies": {
                 "depends": "$show_metric_host_tracker$"
             },
             "choices": [{
-                "label": "ANY",
+                "label": "ALL",
                 "value": "*"
             }],
             "searchWhenChanged": true,
-            "default": "*",
             "showClearButton": true,
             "labelField": "metric_index",
-            "prefix": "metric_index=\"",
-            "suffix": "\"",
+            "valuePrefix": "metric_index=\"",
+            "valueSuffix": "\"",
+            "delimiter": " OR ",
             "initialValue": "*",
             "selectFirstChoice": false,
             "valueField": "metric_index",
@@ -14519,21 +14429,21 @@ require([
             FormUtils.handleValueChange(inputMetricHostIndexes);
         });
 
-        var inputMetricHostCategories = new DropdownInput({
+        var inputMetricHostCategories = new MultiSelectInput({
             "id": "inputMetricHostCategories",
             "tokenDependencies": {
                 "depends": "$show_metric_host_tracker$"
             },
             "choices": [{
-                "label": "ANY",
+                "label": "ALL",
                 "value": "*"
             }],
             "searchWhenChanged": true,
-            "default": "*",
             "showClearButton": true,
             "labelField": "metric_category",
-            "prefix": "metric_category=\"",
-            "suffix": "\"",
+            "valuePrefix": "metric_category=\"",
+            "valueSuffix": "\"",
+            "delimiter": " OR ",
             "initialValue": "*",
             "selectFirstChoice": false,
             "valueField": "metric_category",
@@ -14565,21 +14475,21 @@ require([
             FormUtils.handleValueChange(inputMetricHostFilter);
         });
 
-        var inputMetricHost = new DropdownInput({
+        var inputMetricHost = new MultiSelectInput({
             "id": "inputMetricHost",
             "tokenDependencies": {
                 "depends": "$show_metric_host_tracker$"
             },
             "choices": [{
-                "label": "ANY",
+                "label": "ALL",
                 "value": "*"
             }],
             "searchWhenChanged": true,
-            "default": "*",
             "showClearButton": true,
             "labelField": "metric_host",
-            "prefix": "metric_host=\"",
-            "suffix": "\"",
+            "valuePrefix": "metric_host=\"",
+            "valueSuffix": "\"",
+            "delimiter": " OR ",
             "initialValue": "*",
             "selectFirstChoice": false,
             "valueField": "metric_host",
@@ -14594,41 +14504,23 @@ require([
             FormUtils.handleValueChange(inputMetricHost);
         });
 
-        var inputMetricHostState = new DropdownInput({
+        var inputMetricHostState = new MultiSelectInput({
             "id": "inputMetricHostState",
-            "choices": [{
-                    "label": "Any",
-                    "value": "*"
-                },
-                {
-                    "label": "Green",
-                    "value": "Green"
-                },
-                {
-                    "label": "Blue",
-                    "value": "Blue"
-                },
-                {
-                    "label": "Orange",
-                    "value": "Orange"
-                },
-                {
-                    "label": "Red",
-                    "value": "Red"
-                }
+            "choices": [
+                {"label": "ALL", "value": "*"},
+                {"label": "Green", "value": "green"},
+                {"label": "Blue", "value": "blue"},
+                {"label": "Orange", "value": "orange"},
+                {"label": "Red", "value": "red"}
             ],
+            "valuePrefix": "metric_host_state=\"",
+            "valueSuffix": "\"",
+            "delimiter": " OR ",
             "searchWhenChanged": true,
-            "default": "*",
-            "showClearButton": true,
-            "prefix": "metric_host_state=\"",
-            "suffix": "\"",
-            "initialValue": "*",
-            "selectFirstChoice": false,
+            "initialValue": ["*"],
             "value": "$form.metric_host_state$",
             "el": $('#inputMetricHostState')
-        }, {
-            tokens: true
-        }).render();
+        }, {tokens: true}).render();
 
         inputMetricHostState.on("change", function(newValue) {
             FormUtils.handleValueChange(inputMetricHostState);
@@ -14637,7 +14529,7 @@ require([
         var inputMetricHostMonitoredState = new DropdownInput({
             "id": "inputMetricHostMonitoredState",
             "choices": [{
-                    "label": "Any",
+                    "label": "ALL",
                     "value": "*"
                 },
                 {
@@ -14734,21 +14626,21 @@ require([
             FormUtils.handleValueChange(inputMetricPolicySLA_value);
         });
 
-        var inputDataHostIndexes = new DropdownInput({
+        var inputDataHostIndexes = new MultiSelectInput({
             "id": "inputDataHostIndexes",
             "tokenDependencies": {
                 "depends": "$show_data_host_tracker$"
             },
             "choices": [{
-                "label": "ANY",
+                "label": "ALL",
                 "value": "*"
             }],
             "searchWhenChanged": true,
-            "default": "*",
             "showClearButton": true,
             "labelField": "data_index",
-            "prefix": "data_index=\"",
-            "suffix": "\"",
+            "valuePrefix": "data_index=\"",
+            "valueSuffix": "\"",
+            "delimiter": " OR ",
             "initialValue": "*",
             "selectFirstChoice": false,
             "valueField": "data_index",
@@ -14763,21 +14655,21 @@ require([
             FormUtils.handleValueChange(inputDataHostIndexes);
         });
 
-        var inputDataHostSourcetypes = new DropdownInput({
+        var inputDataHostSourcetypes = new MultiSelectInput({
             "id": "inputDataHostSourcetypes",
             "tokenDependencies": {
                 "depends": "$show_data_host_tracker$"
             },
             "choices": [{
-                "label": "ANY",
+                "label": "ALL",
                 "value": "*"
             }],
             "searchWhenChanged": true,
-            "default": "*",
             "showClearButton": true,
             "labelField": "data_sourcetype",
-            "prefix": "data_sourcetype=\"",
-            "suffix": "\"",
+            "valuePrefix": "data_sourcetype=\"",
+            "valueSuffix": "\"",
+            "delimiter": " OR ",
             "initialValue": "*",
             "selectFirstChoice": false,
             "valueField": "data_sourcetype",
@@ -14809,21 +14701,21 @@ require([
             FormUtils.handleValueChange(inputDataHostFilter);
         });
 
-        var inputDataHost = new DropdownInput({
+        var inputDataHost = new MultiSelectInput({
             "id": "inputDataHost",
             "tokenDependencies": {
                 "depends": "$show_data_host_tracker$"
             },
             "choices": [{
-                "label": "ANY",
+                "label": "ALL",
                 "value": "*"
             }],
             "searchWhenChanged": true,
-            "default": "*",
             "showClearButton": true,
             "labelField": "data_host",
-            "prefix": "data_host=\"",
-            "suffix": "\"",
+            "valuePrefix": "data_host=\"",
+            "valueSuffix": "\"",
+            "delimiter": " OR ",
             "initialValue": "*",
             "selectFirstChoice": false,
             "valueField": "data_host",
@@ -14838,81 +14730,45 @@ require([
             FormUtils.handleValueChange(inputDataHost);
         });
 
-        var inputDataSourceState = new DropdownInput({
+        var inputDataSourceState = new MultiSelectInput({
             "id": "inputDataSourceState",
-            "choices": [{
-                    "label": "Any",
-                    "value": "*"
-                },
-                {
-                    "label": "Green",
-                    "value": "Green"
-                },
-                {
-                    "label": "Blue",
-                    "value": "Blue"
-                },
-                {
-                    "label": "Orange",
-                    "value": "Orange"
-                },
-                {
-                    "label": "Red",
-                    "value": "Red"
-                }
+            "choices": [
+                {"label": "ALL", "value": "*"},
+                {"label": "Green", "value": "green"},
+                {"label": "Blue", "value": "blue"},
+                {"label": "Orange", "value": "orange"},
+                {"label": "Red", "value": "red"}
             ],
+            "valuePrefix": "data_source_state=\"",
+            "valueSuffix": "\"",
+            "delimiter": " OR ",
             "searchWhenChanged": true,
-            "default": "*",
-            "showClearButton": true,
-            "prefix": "data_source_state=\"",
-            "suffix": "\"",
-            "initialValue": "*",
-            "selectFirstChoice": false,
+            "initialValue": ["*"],
             "value": "$form.data_source_state$",
             "el": $('#inputDataSourceState')
-        }, {
-            tokens: true
-        }).render();
+        }, {tokens: true}).render();
 
         inputDataSourceState.on("change", function(newValue) {
             FormUtils.handleValueChange(inputDataSourceState);
         });
 
-        var inputDataHostState = new DropdownInput({
+        var inputDataHostState = new MultiSelectInput({
             "id": "inputDataHostState",
-            "choices": [{
-                    "label": "Any",
-                    "value": "*"
-                },
-                {
-                    "label": "Green",
-                    "value": "Green"
-                },
-                {
-                    "label": "Blue",
-                    "value": "Blue"
-                },
-                {
-                    "label": "Orange",
-                    "value": "Orange"
-                },
-                {
-                    "label": "Red",
-                    "value": "Red"
-                }
+            "choices": [
+                {"label": "ALL", "value": "*"},
+                {"label": "Green", "value": "green"},
+                {"label": "Blue", "value": "blue"},
+                {"label": "Orange", "value": "orange"},
+                {"label": "Red", "value": "red"}
             ],
+            "valuePrefix": "data_host_state=\"",
+            "valueSuffix": "\"",
+            "delimiter": " OR ",
             "searchWhenChanged": true,
-            "default": "*",
-            "showClearButton": true,
-            "prefix": "data_host_state=\"",
-            "suffix": "\"",
-            "initialValue": "*",
-            "selectFirstChoice": false,
+            "initialValue": ["*"],
             "value": "$form.data_host_state$",
             "el": $('#inputDataHostState')
-        }, {
-            tokens: true
-        }).render();
+        }, {tokens: true}).render();
 
         inputDataHostState.on("change", function(newValue) {
             FormUtils.handleValueChange(inputDataHostState);
@@ -14921,7 +14777,7 @@ require([
         var inputDataMonitoredState = new DropdownInput({
             "id": "inputDataMonitoredState",
             "choices": [{
-                    "label": "Any",
+                    "label": "ALL",
                     "value": "*"
                 },
                 {
@@ -14950,37 +14806,22 @@ require([
             FormUtils.handleValueChange(inputDataMonitoredState);
         });
 
-        var inputDataPriority = new DropdownInput({
+        var inputDataPriority = new MultiSelectInput({
             "id": "inputDataPriority",
-            "choices": [{
-                    "label": "Any",
-                    "value": "*"
-                },
-                {
-                    "label": "low",
-                    "value": "low"
-                },
-                {
-                    "label": "medium",
-                    "value": "medium"
-                },
-                {
-                    "label": "high",
-                    "value": "high"
-                }
+            "choices": [
+                {"label": "ALL", "value": "*"},
+                {"label": "low", "value": "low"},
+                {"label": "medium", "value": "medium"},
+                {"label": "high", "value": "high"}
             ],
+            "valuePrefix": "priority=\"",
+            "valueSuffix": "\"",
+            "delimiter": " OR ",
             "searchWhenChanged": true,
-            "default": "*",
-            "showClearButton": true,
-            "prefix": "priority=\"",
-            "suffix": "\"",
-            "initialValue": "*",
-            "selectFirstChoice": false,
+            "initialValue": ["*"],
             "value": "$form.inputDataPriority$",
             "el": $('#inputDataPriority')
-        }, {
-            tokens: true
-        }).render();
+        }, {tokens: true}).render();
 
         inputDataPriority.on("change", function(newValue) {
             FormUtils.handleValueChange(inputDataPriority);
@@ -14989,7 +14830,7 @@ require([
         var inputDataHostMonitoredState = new DropdownInput({
             "id": "inputDataHostMonitoredState",
             "choices": [{
-                    "label": "Any",
+                    "label": "ALL",
                     "value": "*"
                 },
                 {
@@ -15018,73 +14859,43 @@ require([
             FormUtils.handleValueChange(inputDataHostMonitoredState);
         });
 
-        var inputDataHostPriority = new DropdownInput({
+        var inputDataHostPriority = new MultiSelectInput({
             "id": "inputDataHostPriority",
-            "choices": [{
-                    "label": "Any",
-                    "value": "*"
-                },
-                {
-                    "label": "low",
-                    "value": "low"
-                },
-                {
-                    "label": "medium",
-                    "value": "medium"
-                },
-                {
-                    "label": "high",
-                    "value": "high"
-                }
+            "choices": [
+                {"label": "ALL", "value": "*"},
+                {"label": "low", "value": "low"},
+                {"label": "medium", "value": "medium"},
+                {"label": "high", "value": "high"}
             ],
+            "valuePrefix": "priority=\"",
+            "valueSuffix": "\"",
+            "delimiter": " OR ",
             "searchWhenChanged": true,
-            "default": "*",
-            "showClearButton": true,
-            "prefix": "priority=\"",
-            "suffix": "\"",
-            "initialValue": "*",
-            "selectFirstChoice": false,
+            "initialValue": ["*"],
             "value": "$form.inputDataHostPriority$",
             "el": $('#inputDataHostPriority')
-        }, {
-            tokens: true
-        }).render();
+        }, {tokens: true}).render();
 
         inputDataHostPriority.on("change", function(newValue) {
             FormUtils.handleValueChange(inputDataHostPriority);
         });
 
-        var inputMetricHostPriority = new DropdownInput({
+        var inputMetricHostPriority = new MultiSelectInput({
             "id": "inputMetricHostPriority",
-            "choices": [{
-                    "label": "Any",
-                    "value": "*"
-                },
-                {
-                    "label": "low",
-                    "value": "low"
-                },
-                {
-                    "label": "medium",
-                    "value": "medium"
-                },
-                {
-                    "label": "high",
-                    "value": "high"
-                }
+            "choices": [
+                {"label": "ALL", "value": "*"},
+                {"label": "low", "value": "low"},
+                {"label": "medium", "value": "medium"},
+                {"label": "high", "value": "high"}
             ],
+            "valuePrefix": "priority=\"",
+            "valueSuffix": "\"",
+            "delimiter": " OR ",
             "searchWhenChanged": true,
-            "default": "*",
-            "showClearButton": true,
-            "prefix": "priority=\"",
-            "suffix": "\"",
-            "initialValue": "*",
-            "selectFirstChoice": false,
+            "initialValue": ["*"],
             "value": "$form.inputMetricHostPriority$",
             "el": $('#inputMetricHostPriority')
-        }, {
-            tokens: true
-        }).render();
+        }, {tokens: true}).render();
 
         inputMetricHostPriority.on("change", function(newValue) {
             FormUtils.handleValueChange(inputMetricHostPriority);
