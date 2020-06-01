@@ -17,6 +17,7 @@ https://trackme.readthedocs.io/en/latest/configuration.html
 **release notes:**
 
 - Feature: New data parsing quality tab in data sources and hosts views to provide easy visibility on indexing time parsing errors on a per entity level
+- Feature: Design improvements for the status message tab in modal windows which appears now with a new color scheme
 
 Version 1.2.10
 ==============

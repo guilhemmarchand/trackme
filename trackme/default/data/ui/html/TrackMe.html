@@ -220,6 +220,38 @@
             margin-left: 5px;
         }
 
+        .status_message_orange {
+            background-color: #ffd394;
+            margin: 30px 0;
+            padding: 10px;
+            border-radius: 3px 3px 3px 3px;
+            margin-bottom: 80px;
+        }
+
+        .status_message_blue {
+            background-color: #cfebf9;
+            margin: 30px 0;
+            padding: 10px;
+            border-radius: 3px 3px 3px 3px;
+            margin-bottom: 80px;
+        }
+
+        .status_message_green {
+            background-color: #b6edb6;
+            margin: 30px 0;
+            padding: 10px;
+            border-radius: 3px 3px 3px 3px;
+            margin-bottom: 80px;
+        }
+
+        .status_message_red {
+            background-color: #FFBABA;
+            margin: 30px 0;
+            padding: 10px;
+            border-radius: 3px 3px 3px 3px;
+            margin-bottom: 80px;
+        }
+
         .imgheader {
            margin-top: 10px;
            margin-bottom: 40px;
@@ -1554,10 +1586,10 @@ styles in <div> tags, similar to Bootstrap's grid system.
 
                                     <div class="panel-element-row">
                                         <div class="dashboard-element html" id="body_data_source_status_message" style="width: 100%">
-                                            <div class="panel-body html" style="margin-left: 40px; margin-right: 40px; min-height: 350px; margin-top: 30px;">
-                                                <hr width="100%" size="8" align="center" style="border-style: dashed;">
-                                                <h2 style="font-weight: bold;">$tk_status_message$</h2>
-                                                <hr width="100%" size="8" align="center" style="border-style: dashed;">
+                                            <div class="panel-body html">
+                                                <div class="$tk_data_source_status_message_class$">
+                                                    <h2 style="font-weight: bold;">$tk_status_message$</h2>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -1838,10 +1870,10 @@ styles in <div> tags, similar to Bootstrap's grid system.
 
                                     <div class="panel-element-row">
                                         <div class="dashboard-element html" id="body_data_host_status_message" style="width: 100%">
-                                            <div class="panel-body html" style="margin-left: 40px; margin-right: 40px; min-height: 350px; margin-top: 30px;">
-                                                <hr width="100%" size="8" align="center" style="border-style: dashed;">
-                                                <h2 style="font-weight: bold;">$tk_status_message$</h2>
-                                                <hr width="100%" size="8" align="center" style="border-style: dashed;">
+                                            <div class="panel-body html">
+                                                <div class="$tk_data_host_status_message_class$">
+                                                    <h2 style="font-weight: bold;">$tk_status_message$</h2>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -2016,10 +2048,10 @@ styles in <div> tags, similar to Bootstrap's grid system.
 
                                     <div class="panel-element-row">
                                         <div class="dashboard-element html" id="body_metric_host_status_message" style="width: 100%">
-                                            <div class="panel-body html" style="margin-left: 40px; margin-right: 40px; min-height: 350px; margin-top: 30px;">
-                                                <hr width="100%" size="8" align="center" style="border-style: dashed;">
-                                                <h2 style="font-weight: bold;">$tk_status_message$</h2>
-                                                <hr width="100%" size="8" align="center" style="border-style: dashed;">
+                                            <div class="panel-body html">
+                                                <div class="$tk_metric_host_status_message_class$">
+                                                    <h2 style="font-weight: bold;">$tk_status_message$</h2>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -11791,12 +11823,16 @@ require([
                 // Dynamically manage state color
                 if (tk_data_source_state == "green") {
                     setToken("tk_data_source_state_class", TokenUtils.replaceTokenNames("title_green", _.extend(submittedTokenModel.toJSON(), e.data)));
+                    setToken("tk_data_source_status_message_class", TokenUtils.replaceTokenNames("status_message_green", _.extend(submittedTokenModel.toJSON(), e.data)));
                 } else if (tk_data_source_state == "orange") {
                     setToken("tk_data_source_state_class", TokenUtils.replaceTokenNames("title_orange", _.extend(submittedTokenModel.toJSON(), e.data)));
+                    setToken("tk_data_source_status_message_class", TokenUtils.replaceTokenNames("status_message_orange", _.extend(submittedTokenModel.toJSON(), e.data)));
                 } else if (tk_data_source_state == "blue") {
                     setToken("tk_data_source_state_class", TokenUtils.replaceTokenNames("title_blue", _.extend(submittedTokenModel.toJSON(), e.data)));
+                    setToken("tk_data_source_status_message_class", TokenUtils.replaceTokenNames("status_message_blue", _.extend(submittedTokenModel.toJSON(), e.data)));
                 } else if (tk_data_source_state == "red") {
                     setToken("tk_data_source_state_class", TokenUtils.replaceTokenNames("title_red", _.extend(submittedTokenModel.toJSON(), e.data)));
+                    setToken("tk_data_source_status_message_class", TokenUtils.replaceTokenNames("status_message_red", _.extend(submittedTokenModel.toJSON(), e.data)));
                 }
 
                 // Dynamically manage priority color
@@ -12204,12 +12240,16 @@ require([
                 // Dynamically manage state color
                 if (tk_data_host_state == "green") {
                     setToken("tk_data_host_state_class", TokenUtils.replaceTokenNames("title_green", _.extend(submittedTokenModel.toJSON(), e.data)));
+                    setToken("tk_data_host_status_message_class", TokenUtils.replaceTokenNames("status_message_green", _.extend(submittedTokenModel.toJSON(), e.data)));
                 } else if (tk_data_host_state == "orange") {
                     setToken("tk_data_host_state_class", TokenUtils.replaceTokenNames("title_orange", _.extend(submittedTokenModel.toJSON(), e.data)));
+                    setToken("tk_data_host_status_message_class", TokenUtils.replaceTokenNames("status_message_orange", _.extend(submittedTokenModel.toJSON(), e.data)));
                 } else if (tk_data_host_state == "blue") {
                     setToken("tk_data_host_state_class", TokenUtils.replaceTokenNames("title_blue", _.extend(submittedTokenModel.toJSON(), e.data)));
+                    setToken("tk_data_host_status_message_class", TokenUtils.replaceTokenNames("status_message_blue", _.extend(submittedTokenModel.toJSON(), e.data)));
                 } else if (tk_data_host_state == "red") {
                     setToken("tk_data_host_state_class", TokenUtils.replaceTokenNames("title_red", _.extend(submittedTokenModel.toJSON(), e.data)));
+                    setToken("tk_data_host_status_message_class", TokenUtils.replaceTokenNames("status_message_red", _.extend(submittedTokenModel.toJSON(), e.data)));
                 }
 
                 // Dynamically manage priority color
@@ -12360,12 +12400,16 @@ require([
                 // Dynamically manage state color
                 if (tk_metric_host_state == "green") {
                     setToken("tk_metric_host_state_class", TokenUtils.replaceTokenNames("title_green", _.extend(submittedTokenModel.toJSON(), e.data)));
+                    setToken("tk_metric_host_status_message_class", TokenUtils.replaceTokenNames("status_message_green", _.extend(submittedTokenModel.toJSON(), e.data)));
                 } else if (tk_metric_host_state == "orange") {
                     setToken("tk_metric_host_state_class", TokenUtils.replaceTokenNames("title_orange", _.extend(submittedTokenModel.toJSON(), e.data)));
+                    setToken("tk_metric_host_status_message_class", TokenUtils.replaceTokenNames("status_message_orange", _.extend(submittedTokenModel.toJSON(), e.data)));
                 } else if (tk_metric_host_state == "blue") {
                     setToken("tk_metric_host_state_class", TokenUtils.replaceTokenNames("title_blue", _.extend(submittedTokenModel.toJSON(), e.data)));
+                    setToken("tk_metric_host_status_message_class", TokenUtils.replaceTokenNames("status_message_blue", _.extend(submittedTokenModel.toJSON(), e.data)));
                 } else if (tk_metric_host_state == "red") {
                     setToken("tk_metric_host_state_class", TokenUtils.replaceTokenNames("title_red", _.extend(submittedTokenModel.toJSON(), e.data)));
+                    setToken("tk_metric_host_status_message_class", TokenUtils.replaceTokenNames("status_message_red", _.extend(submittedTokenModel.toJSON(), e.data)));
                 }
 
                 // Dynamically manage priority color
@@ -15356,12 +15400,16 @@ require([
                                 // Dynamically manage state color
                                 if (tk_data_source_state == "green") {
                                     setToken("tk_data_source_state_class", "title_green");
+                                    setToken("tk_data_source_status_message_class", "status_message_green");
                                 } else if (tk_data_source_state == "orange") {
                                     setToken("tk_data_source_state_class", "title_orange");
+                                    setToken("tk_data_source_status_message_class", "status_message_orange");
                                 } else if (tk_data_source_state == "blue") {
                                     setToken("tk_data_source_state_class", "title_blue");
+                                    setToken("tk_data_source_status_message_class", "status_message_blue");
                                 } else if (tk_data_source_state == "red") {
                                     setToken("tk_data_source_state_class", "title_red");
+                                    setToken("tk_data_source_status_message_class", "status_message_red");
                                 }
                             }
 
@@ -15512,12 +15560,16 @@ require([
                                 // Dynamically manage state color
                                 if (tk_data_host_state == "green") {
                                     setToken("tk_data_host_state_class", "title_green");
+                                    setToken("tk_data_host_status_message_class", "status_message_green");
                                 } else if (tk_data_host_state == "orange") {
                                     setToken("tk_data_host_state_class", "title_orange");
+                                    setToken("tk_data_host_status_message_class", "status_message_orange");
                                 } else if (tk_data_host_state == "blue") {
                                     setToken("tk_data_host_state_class", "title_blue");
+                                    setToken("tk_data_host_status_message_class", "status_message_blue");
                                 } else if (tk_data_host_state == "red") {
                                     setToken("tk_data_host_state_class", "title_red");
+                                    setToken("tk_data_host_status_message_class", "status_message_red");
                                 }
                             }
 
@@ -15668,12 +15720,16 @@ require([
                                 // Dynamically manage state color
                                 if (tk_metric_host_state == "green") {
                                     setToken("tk_metric_host_state_class", "title_green");
+                                    setToken("tk_metric_host_status_message_class", "status_message_green");
                                 } else if (tk_metric_host_state == "orange") {
                                     setToken("tk_metric_host_state_class", "title_orange");
+                                    setToken("tk_metric_host_status_message_class", "status_message_orange");
                                 } else if (tk_metric_host_state == "blue") {
                                     setToken("tk_metric_host_state_class", "title_blue");
+                                    setToken("tk_metric_host_status_message_class", "status_message_blue");
                                 } else if (tk_metric_host_state == "red") {
                                     setToken("tk_metric_host_state_class", "title_red");
+                                    setToken("tk_metric_host_status_message_class", "status_message_red");
                                 }
                             }
 
