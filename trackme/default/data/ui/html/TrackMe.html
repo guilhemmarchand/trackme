@@ -1521,6 +1521,33 @@ styles in <div> tags, similar to Bootstrap's grid system.
                             </div>
                         </div>
 
+                        <div id="rowSingleParsingQuality" class="dashboard-row dashboard-row1" data-depends="$show_data_quality$">
+                            <div id="panelSingleParsingQuality" class="dashboard-cell" style="width: 100%;">
+                                <div class="dashboard-panel clearfix">
+                                    <div class="panel-element-row">
+                                        <div id="elementDataSourcesParsingQualitySingle" class="dashboard-element chart" style="width: 100%">
+                                            <div class="panel-body"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div id="rowChartParsingQuality" class="dashboard-row dashboard-row1" data-depends="$show_data_quality$">
+                            <div id="panelChartParsingQuality" class="dashboard-cell" style="width: 100%;">
+                                <div class="dashboard-panel clearfix">
+                                    <div class="panel-element-row">
+                                        <div class="panel-head">
+                                            <h3>CAUTION: Indexing time parsing errors happen on the sourcetype level, if this sourcetype is indexing to more than one index, these errors may not apply to this index / sourcetype combination</h3>
+                                        </div>
+                                        <div id="elementDataSourcesParsingQualityChart" class="dashboard-element chart" style="width: 100%">
+                                            <div class="panel-body"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
                         <div id="rowStatusMessageDataSource" class="dashboard-row dashboard-row2" data-depends="$show_data_source_status_message$">
                             <div id="panelStatusMessageDataSource" class="dashboard-cell" style="width: 100%;">
                                 <div class="dashboard-panel clearfix">
@@ -1779,6 +1806,31 @@ styles in <div> tags, similar to Bootstrap's grid system.
                             </div>
                         </div>
 
+                        <div id="rowSingleParsingQualityDataHost" class="dashboard-row dashboard-row1" data-depends="$show_data_host_quality$">
+                            <div id="panelSingleParsingQualityDataHost" class="dashboard-cell" style="width: 100%;">
+                                <div class="dashboard-panel clearfix">
+                                    <div class="panel-element-row">
+                                        <div id="elementDataHostsParsingQualitySingle" class="dashboard-element chart" style="width: 100%">
+                                            <div class="panel-body"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div id="rowChartParsingQualityDataHost" class="dashboard-row dashboard-row1" data-depends="$show_data_host_quality$">
+                            <div id="panelChartParsingQualityDataHost" class="dashboard-cell" style="width: 100%;">
+                                <div class="dashboard-panel clearfix">
+                                    <div class="panel-element-row">
+                                        <div class="panel-head">
+                                        </div>
+                                        <div id="elementDataHostsParsingQualityChart" class="dashboard-element chart" style="width: 100%">
+                                            <div class="panel-body"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
 
                         <div id="rowStatusMessageDataHost" class="dashboard-row dashboard-row2" data-depends="$show_data_host_status_message$">
                             <div id="panelStatusMessageDataHost" class="dashboard-cell" style="width: 100%;">
@@ -7013,6 +7065,47 @@ require([
 
         // data source monitoring
 
+        // Data parsing quality
+        var DataSourcesParsingQualityChart = new SearchManager({
+            "id": "DataSourcesParsingQualityChart",
+            "tokenDependencies": {
+                "depends": "$show_data_quality$"
+            },
+            "sample_ratio": 1,
+            "earliest_time": "$modalTime.earliest$",
+            "search": "index=_internal sourcetype=splunkd error OR warn `trackme_idx_filter` component=LineBreakingProcessor OR component=AggregatorMiningProcessor OR component=DateParserVerbose | `trackme_data_quality_parse` | search data_sourcetype=\"$tk_data_sourcetype$\" | timechart span=$modalTime.span$ count by component",
+            "latest_time": "$modalTime.latest$",
+            "cancelOnUnload": true,
+            "status_buckets": 0,
+            "app": utils.getCurrentApp(),
+            "auto_cancel": 90,
+            "preview": true,
+            "runWhenTimeIsUndefined": false
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        });
+
+        var DataSourcesParsingQualitySingle = new SearchManager({
+            "id": "DataSourcesParsingQualitySingle",
+            "tokenDependencies": {
+                "depends": "$show_data_quality$"
+            },
+            "sample_ratio": 1,
+            "earliest_time": "$modalTime.earliest$",
+            "search": "index=_internal sourcetype=splunkd error OR warn `trackme_idx_filter` (component=LineBreakingProcessor OR component=AggregatorMiningProcessor OR component=DateParserVerbose) | `trackme_data_quality_parse` | search data_sourcetype=\"$tk_data_sourcetype$\" | top limit=0 component | eval percent=round(percent, 2) | eval summary=component . \": \" . percent . \" %\" | fields summary | stats values(summary) as summary | append [ | makeresults | eval summary=\"No data quality parsing errors were found for this entity.\" | fields - _time ] | head 1",
+            "latest_time": "$modalTime.latest$",
+            "cancelOnUnload": true,
+            "status_buckets": 0,
+            "app": utils.getCurrentApp(),
+            "auto_cancel": 90,
+            "preview": true,
+            "runWhenTimeIsUndefined": false
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        });
+
         // Outlier detection
         var searchOutlierDetectionChart = new SearchManager({
             "id": "searchOutlierDetectionChart",
@@ -7138,6 +7231,47 @@ require([
         });
 
         // data host monitoring
+
+        // Data parsing quality
+        var DataHostsParsingQualityChart = new SearchManager({
+            "id": "DataHostsParsingQualityChart",
+            "tokenDependencies": {
+                "depends": "$show_data_host_quality$"
+            },
+            "sample_ratio": 1,
+            "earliest_time": "$modalTimeHost.earliest$",
+            "search": "index=_internal sourcetype=splunkd error OR warn `trackme_idx_filter` component=LineBreakingProcessor OR component=AggregatorMiningProcessor OR component=DateParserVerbose | `trackme_data_quality_parse` | search data_host=\"$tk_data_host$\" | timechart span=$modalTimeHost.span$ count by component",
+            "latest_time": "$modalTimeHost.latest$",
+            "cancelOnUnload": true,
+            "status_buckets": 0,
+            "app": utils.getCurrentApp(),
+            "auto_cancel": 90,
+            "preview": true,
+            "runWhenTimeIsUndefined": false
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        });
+
+        var DataHostsParsingQualitySingle = new SearchManager({
+            "id": "DataHostsParsingQualitySingle",
+            "tokenDependencies": {
+                "depends": "$show_data_host_quality$"
+            },
+            "sample_ratio": 1,
+            "earliest_time": "$modalTimeHost.earliest$",
+            "search": "index=_internal sourcetype=splunkd error OR warn `trackme_idx_filter` (component=LineBreakingProcessor OR component=AggregatorMiningProcessor OR component=DateParserVerbose) | `trackme_data_quality_parse` | search data_host=\"$tk_data_host$\" | top limit=0 component | eval percent=round(percent, 2) | eval summary=component . \": \" . percent . \" %\" | fields summary | stats values(summary) as summary | append [ | makeresults | eval summary=\"No data quality parsing errors were found for this entity.\" | fields - _time ] | head 1",
+            "latest_time": "$modalTimeHost.latest$",
+            "cancelOnUnload": true,
+            "status_buckets": 0,
+            "app": utils.getCurrentApp(),
+            "auto_cancel": 90,
+            "preview": true,
+            "runWhenTimeIsUndefined": false
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        });
 
         // Outlier detection
         var searchOutlierDetectionChartDataHost = new SearchManager({
@@ -8676,6 +8810,10 @@ require([
                     "label": "Outlier detection configuration"
                 },
                 {
+                    "value": "data_quality",
+                    "label": "Data parsing quality"
+                },
+                {
                     "value": "status_message",
                     "label": "Status message"
                 }
@@ -8700,21 +8838,31 @@ require([
                 EventHandler.unsetToken("show_data_source_outlier");
                 EventHandler.unsetToken("show_data_source_outlier_configuration");
                 EventHandler.unsetToken("show_data_source_status_message");
+                EventHandler.unsetToken("show_data_quality");
             } else if (e.value === "outlier") {
                 EventHandler.setToken("show_data_source_outlier", "true", {}, e.data);
                 EventHandler.unsetToken("show_data_source_overview");
                 EventHandler.unsetToken("show_data_source_outlier_configuration");
                 EventHandler.unsetToken("show_data_source_status_message");
+                EventHandler.unsetToken("show_data_quality");
             } else if (e.value === "outlier_configuration") {
                 EventHandler.setToken("show_data_source_outlier_configuration", "true", {}, e.data);
                 EventHandler.unsetToken("show_data_source_overview");
                 EventHandler.unsetToken("show_data_source_outlier");
+                EventHandler.unsetToken("show_data_source_status_message");
+                EventHandler.unsetToken("show_data_quality");
+            } else if (e.value === "data_quality") {
+                EventHandler.setToken("show_data_quality", "true", {}, e.data);
+                EventHandler.unsetToken("show_data_source_overview");
+                EventHandler.unsetToken("show_data_source_outlier");
+                EventHandler.unsetToken("show_data_source_outlier_configuration");
                 EventHandler.unsetToken("show_data_source_status_message");
             } else if (e.value === "status_message") {
                 EventHandler.setToken("show_data_source_status_message", "true", {}, e.data);
                 EventHandler.unsetToken("show_data_source_overview");
                 EventHandler.unsetToken("show_data_source_outlier_configuration");
                 EventHandler.unsetToken("show_data_source_outlier");
+                EventHandler.unsetToken("show_data_quality");
             }
         });
 
@@ -8868,6 +9016,10 @@ require([
                     "label": "Outlier detection configuration"
                 },
                 {
+                    "value": "data_quality",
+                    "label": "Data parsing quality"
+                },
+                {
                     "value": "status_message",
                     "label": "Status message"
                 }
@@ -8892,21 +9044,31 @@ require([
                 EventHandler.unsetToken("show_data_host_outlier");
                 EventHandler.unsetToken("show_data_host_outlier_configuration");
                 EventHandler.unsetToken("show_data_host_status_message");
+                EventHandler.unsetToken("show_data_host_quality");
             } else if (e.value === "outlier") {
                 EventHandler.setToken("show_data_host_outlier", "true", {}, e.data);
                 EventHandler.unsetToken("show_data_host_overview");
                 EventHandler.unsetToken("show_data_host_outlier_configuration");
                 EventHandler.unsetToken("show_data_host_status_message");
+                EventHandler.unsetToken("show_data_host_quality");
             } else if (e.value === "outlier_configuration") {
                 EventHandler.setToken("show_data_host_outlier_configuration", "true", {}, e.data);
                 EventHandler.unsetToken("show_data_host_overview");
                 EventHandler.unsetToken("show_data_host_outlier");
                 EventHandler.unsetToken("show_data_host_status_message");
+                EventHandler.unsetToken("show_data_host_quality");
+            } else if (e.value === "data_quality") {
+                EventHandler.setToken("show_data_host_quality", "true", {}, e.data);
+                EventHandler.unsetToken("show_data_host_overview");
+                EventHandler.unsetToken("show_data_host_outlier");
+                EventHandler.unsetToken("show_data_host_status_message");
+                EventHandler.unsetToken("show_data_host_outlier_configuration");
             } else if (e.value === "status_message") {
                 EventHandler.setToken("show_data_host_status_message", "true", {}, e.data);
                 EventHandler.unsetToken("show_data_host_overview");
                 EventHandler.unsetToken("show_data_host_outlier_configuration");
                 EventHandler.unsetToken("show_data_host_outlier");
+                EventHandler.unsetToken("show_data_host_quality");
             }
         });
 
@@ -13019,6 +13181,87 @@ require([
         }).render();
 
         // data source monitoring
+
+        // Data Parsing Quality
+        var elementDataSourcesParsingQualityChart = new ChartElement({
+            "id": "elementDataSourcesParsingQualityChart",
+            "charting.chart.nullValueMode": "gaps",
+            "resizable": true,
+            "trellis.enabled": "0",
+            "charting.axisTitleX.visibility": "collapsed",
+            "refresh.display": "progressbar",
+            "charting.chart.stackMode": "stacked",
+            "charting.axisLabelsX.majorLabelStyle.overflowMode": "ellipsisNone",
+            "charting.axisY.abbreviation": "none",
+            "charting.legend.placement": "bottom",
+            "charting.axisY2.abbreviation": "none",
+            "charting.legend.labelStyle.overflowMode": "ellipsisMiddle",
+            "charting.chart.showDataLabels": "none",
+            "charting.axisY2.enabled": "0",
+            "charting.chart.sliceCollapsingThreshold": "0.01",
+            "charting.chart.style": "shiny",
+            "charting.layout.splitSeries.allowIndependentYRanges": "0",
+            "charting.chart": "column",
+            "charting.axisX.scale": "linear",
+            "trellis.scales.shared": "1",
+            "charting.axisTitleY.visibility": "visible",
+            "charting.axisTitleY2.visibility": "visible",
+            "charting.chart.bubbleMinimumSize": "10",
+            "charting.drilldown": "none",
+            "charting.legend.mode": "standard",
+            "charting.chart.bubbleMaximumSize": "50",
+            "trellis.size": "medium",
+            "charting.axisY.scale": "linear",
+            "charting.chart.bubbleSizeBy": "area",
+            "charting.axisLabelsX.majorLabelStyle.rotation": "0",
+            "charting.axisX.abbreviation": "none",
+            "charting.layout.splitSeries": "0",
+            "charting.lineWidth": "2",
+            "charting.axisY2.scale": "inherit",
+            "managerid": "DataSourcesParsingQualityChart",
+            "el": $('#elementDataSourcesParsingQualityChart')
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        }).render();
+
+        var elementDataSourcesParsingQualitySingle = new SingleElement({
+            "id": "elementDataSourcesParsingQualitySingle",
+            "trendDisplayMode": "absolute",
+            "numberPrecision": "0.00",
+            "drilldown": "all",
+            "trellis.size": "medium",
+            "trendColorInterpretation": "standard",
+            "useColors": "0",
+            "colorBy": "value",
+            "showTrendIndicator": "1",
+            "showSparkline": "1",
+            "trellis.enabled": "0",
+            "height": "50",
+            "unit": "",
+            "rangeColors": "[\"0x53a051\",\"0x0877a6\",\"0xf8be34\",\"0xf1813f\",\"0xdc4e41\"]",
+            "colorMode": "none",
+            "rangeValues": "[0,30,70,100]",
+            "unitPosition": "after",
+            "trellis.scales.shared": "1",
+            "useThousandSeparators": "1",
+            "underLabel": "SUMMARY OF INDEXING TIME PARSING ERRORS (click to drilldown in a new tab)",
+            "managerid": "DataSourcesParsingQualitySingle",
+            "el": $('#elementDataSourcesParsingQualitySingle')
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        }).render();
+
+        elementDataSourcesParsingQualitySingle.on("click", function(e) {
+            if (e.field !== undefined) {
+                e.preventDefault();
+                var url = TokenUtils.replaceTokenNames("{{SPLUNKWEB_URL_PREFIX}}/app/trackme/search?q=index=_internal sourcetype=splunkd error OR warn `trackme_idx_filter` component=LineBreakingProcessor OR component=AggregatorMiningProcessor OR component=DateParserVerbose | `trackme_data_quality_parse` | search data_sourcetype=\"$tk_data_sourcetype$\"", _.extend(submittedTokenModel.toJSON(), e.data), TokenUtils.getEscaper('url'), TokenUtils.getFilters(mvc.Components));
+                utils.redirect(url, false, "_blank");
+            }
+        });
+
+        // Outliers
         var elementOutlier = new VisualizationElement({
             "id": "elementOutlier",
             "type": "Splunk_ML_Toolkit.OutliersViz",
@@ -13155,6 +13398,85 @@ require([
         });
 
         // data host monitoring
+
+        // Data Parsing Quality
+        var elementDataHostsParsingQualityChart = new ChartElement({
+            "id": "elementDataHostsParsingQualityChart",
+            "charting.chart.nullValueMode": "gaps",
+            "resizable": true,
+            "trellis.enabled": "0",
+            "charting.axisTitleX.visibility": "collapsed",
+            "refresh.display": "progressbar",
+            "charting.chart.stackMode": "stacked",
+            "charting.axisLabelsX.majorLabelStyle.overflowMode": "ellipsisNone",
+            "charting.axisY.abbreviation": "none",
+            "charting.legend.placement": "bottom",
+            "charting.axisY2.abbreviation": "none",
+            "charting.legend.labelStyle.overflowMode": "ellipsisMiddle",
+            "charting.chart.showDataLabels": "none",
+            "charting.axisY2.enabled": "0",
+            "charting.chart.sliceCollapsingThreshold": "0.01",
+            "charting.chart.style": "shiny",
+            "charting.layout.splitSeries.allowIndependentYRanges": "0",
+            "charting.chart": "column",
+            "charting.axisX.scale": "linear",
+            "trellis.scales.shared": "1",
+            "charting.axisTitleY.visibility": "visible",
+            "charting.axisTitleY2.visibility": "visible",
+            "charting.chart.bubbleMinimumSize": "10",
+            "charting.drilldown": "none",
+            "charting.legend.mode": "standard",
+            "charting.chart.bubbleMaximumSize": "50",
+            "trellis.size": "medium",
+            "charting.axisY.scale": "linear",
+            "charting.chart.bubbleSizeBy": "area",
+            "charting.axisLabelsX.majorLabelStyle.rotation": "0",
+            "charting.axisX.abbreviation": "none",
+            "charting.layout.splitSeries": "0",
+            "charting.lineWidth": "2",
+            "charting.axisY2.scale": "inherit",
+            "managerid": "DataHostsParsingQualityChart",
+            "el": $('#elementDataHostsParsingQualityChart')
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        }).render();
+
+        var elementDataHostsParsingQualitySingle = new SingleElement({
+            "id": "elementDataHostsParsingQualitySingle",
+            "trendDisplayMode": "absolute",
+            "numberPrecision": "0.00",
+            "drilldown": "all",
+            "trellis.size": "medium",
+            "trendColorInterpretation": "standard",
+            "useColors": "0",
+            "colorBy": "value",
+            "showTrendIndicator": "1",
+            "showSparkline": "1",
+            "trellis.enabled": "0",
+            "height": "50",
+            "unit": "",
+            "rangeColors": "[\"0x53a051\",\"0x0877a6\",\"0xf8be34\",\"0xf1813f\",\"0xdc4e41\"]",
+            "colorMode": "none",
+            "rangeValues": "[0,30,70,100]",
+            "unitPosition": "after",
+            "trellis.scales.shared": "1",
+            "useThousandSeparators": "1",
+            "underLabel": "SUMMARY OF INDEXING TIME PARSING ERRORS (click to drilldown in a new tab)",
+            "managerid": "DataHostsParsingQualitySingle",
+            "el": $('#elementDataHostsParsingQualitySingle')
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        }).render();
+
+        elementDataHostsParsingQualitySingle.on("click", function(e) {
+            if (e.field !== undefined) {
+                e.preventDefault();
+                var url = TokenUtils.replaceTokenNames("{{SPLUNKWEB_URL_PREFIX}}/app/trackme/search?q=index=_internal sourcetype=splunkd error OR warn `trackme_idx_filter` component=LineBreakingProcessor OR component=AggregatorMiningProcessor OR component=DateParserVerbose | `trackme_data_quality_parse` | search data_host=\"$tk_data_host$\"", _.extend(submittedTokenModel.toJSON(), e.data), TokenUtils.getEscaper('url'), TokenUtils.getFilters(mvc.Components));
+                utils.redirect(url, false, "_blank");
+            }
+        });
 
         // outlier chart
         var elementOutlierDataHost = new VisualizationElement({
