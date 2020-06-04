@@ -18,6 +18,9 @@ https://trackme.readthedocs.io/en/latest/configuration.html
 
 - Feature: New data parsing quality tab in data sources and hosts views to provide easy visibility on indexing time parsing errors on a per entity level
 - Feature: Design improvements for the status message tab in modal windows which appears now with a new color scheme
+- Feature: Provides Outliers span definition capability, the span value to be used for outliers rendering purposes can now be customised per entity
+- Fix Issue #96: "click save", but there is no "save"
+- Change: Provides and call a macro per builtin alert to allow customisation of the fields order in the alert results
 
 Version 1.2.10
 ==============

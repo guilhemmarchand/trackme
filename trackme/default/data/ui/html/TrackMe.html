@@ -1609,14 +1609,29 @@ styles in <div> tags, similar to Bootstrap's grid system.
                             </div>
                         </div>
 
-                        <div id="rowLinkTimeOutlierConfigurationDataSource" class="dashboard-row dashboard-row1" style="margin-left: 15px;" data-depends="$show_data_source_outlier_configuration$">
-                            <div id="panelLinkTimetOutlierConfigurationDataSource" class="dashboard-cell" style="width: 100%;">
+                        <div id="rowLinkInputsOutlierConfigurationDataSource" class="dashboard-row dashboard-row1" style="margin-left: 15px;" data-depends="$show_data_source_outlier_configuration$">
+                            <div id="panelLinkInputsOutlierConfigurationDataSource1" class="dashboard-cell" style="width: 50%;">
                                 <div class="dashboard-panel clearfix">
-                                    <div class="panel-element-row">
+                                    <div class="fieldset">
+
                                         <div class="input input-linklist" id="LinkTimeOutlierConfigurationDataSource">
                                             <label>Select the time period for outliers detection, this period will be saved and used to restrict the calculations</label>
                                         </div>
+
                                     </div>
+
+                                </div>
+                            </div>
+                            <div id="panelLinkInputsOutlierConfigurationDataSource2" class="dashboard-cell" style="width: 50%;">
+                                <div class="dashboard-panel clearfix">
+                                    <div class="fieldset">
+
+                                        <div class="input input-linklist" id="LinkTimeOutlierConfigurationDataSourceSpan">
+                                            <label>Select the span for outliers rendering, this value will be saved and used for rendering purposes</label>
+                                        </div>
+
+                                    </div>
+
                                 </div>
                             </div>
                         </div>
@@ -1893,14 +1908,29 @@ styles in <div> tags, similar to Bootstrap's grid system.
                             </div>
                         </div>
 
-                        <div id="rowLinkTimeOutlierConfigurationDataHost" class="dashboard-row dashboard-row1" style="margin-left: 15px;" data-depends="$show_data_host_outlier_configuration$">
-                            <div id="panelLinkTimetOutlierConfigurationDataHost" class="dashboard-cell" style="width: 100%;">
+                        <div id="rowLinkInputsOutlierConfigurationDataHost" class="dashboard-row dashboard-row1" style="margin-left: 15px;" data-depends="$show_data_host_outlier_configuration$">
+                            <div id="panelLinkInputsOutlierConfigurationDataHost1" class="dashboard-cell" style="width: 50%;">
                                 <div class="dashboard-panel clearfix">
-                                    <div class="panel-element-row">
+                                    <div class="fieldset">
+
                                         <div class="input input-linklist" id="LinkTimeOutlierConfigurationDataHost">
                                             <label>Select the time period for outliers detection, this period will be saved and used to restrict the calculations</label>
                                         </div>
+
                                     </div>
+
+                                </div>
+                            </div>
+                            <div id="panelLinkInputsOutlierConfigurationDataHost2" class="dashboard-cell" style="width: 50%;">
+                                <div class="dashboard-panel clearfix">
+                                    <div class="fieldset">
+
+                                        <div class="input input-linklist" id="LinkTimeOutlierConfigurationDataHostSpan">
+                                            <label>Select the span for outliers rendering, this value will be saved and used for rendering purposes</label>
+                                        </div>
+
+                                    </div>
+
                                 </div>
                             </div>
                         </div>
@@ -7142,7 +7172,7 @@ require([
         var searchOutlierDetectionChart = new SearchManager({
             "id": "searchOutlierDetectionChart",
             "sample_ratio": 1,
-            "search": "| `trackme_outlier_chart(data_source, \"$tk_data_name$\", data_name)`",
+            "search": "| `trackme_outlier_chart(data_source, \"$tk_data_name$\", data_name, $tk_outlier_span$)`",
             "status_buckets": 0,
             "earliest_time": "$modalTime.earliest$",
             "cancelOnUnload": true,
@@ -7163,7 +7193,7 @@ require([
         var searchOutlierDetectionChartSimulation = new SearchManager({
             "id": "searchOutlierDetectionChartSimulation",
             "sample_ratio": 1,
-            "search": "| `trackme_outlier_chart_simulate(data_source, \"$tk_data_name$\", data_name, $tk_input_data_source_outlier_lower_threshold_multiplier$, $tk_input_data_source_outlier_upper_threshold_multiplier$, $tk_input_data_source_outlier_min_eventcount$)`",
+            "search": "| `trackme_outlier_chart_simulate(data_source, \"$tk_data_name$\", data_name, $tk_input_data_source_outlier_lower_threshold_multiplier$, $tk_input_data_source_outlier_upper_threshold_multiplier$, $tk_input_data_source_outlier_min_eventcount$, $tk_input_data_source_outlier_span$)`",
             "status_buckets": 0,
             "earliest_time": "$tk_input_data_source_outlier_period$",
             "cancelOnUnload": true,
@@ -7309,7 +7339,7 @@ require([
         var searchOutlierDetectionChartDataHost = new SearchManager({
             "id": "searchOutlierDetectionChartDataHost",
             "sample_ratio": 1,
-            "search": "| `trackme_outlier_chart(data_host, \"$tk_data_host$\", data_host)`",
+            "search": "| `trackme_outlier_chart(data_host, \"$tk_data_host$\", data_host, $tk_outlier_span$)`",
             "status_buckets": 0,
             "earliest_time": "$modalTimeHost.earliest$",
             "cancelOnUnload": true,
@@ -7330,7 +7360,7 @@ require([
         var searchOutlierDetectionChartSimulationDataHost = new SearchManager({
             "id": "searchOutlierDetectionChartSimulationDataHost",
             "sample_ratio": 1,
-            "search": "| `trackme_outlier_chart_simulate(data_host, \"$tk_data_host$\", data_host, $tk_input_data_host_outlier_lower_threshold_multiplier$, $tk_input_data_host_outlier_upper_threshold_multiplier$, $tk_input_data_host_outlier_min_eventcount$)`",
+            "search": "| `trackme_outlier_chart_simulate(data_host, \"$tk_data_host$\", data_host, $tk_input_data_host_outlier_lower_threshold_multiplier$, $tk_input_data_host_outlier_upper_threshold_multiplier$, $tk_input_data_host_outlier_min_eventcount$, $tk_input_data_host_outlier_span$)`",
             "status_buckets": 0,
             "earliest_time": "$modalTimeHost.earliest$",
             "cancelOnUnload": true,
@@ -9030,6 +9060,57 @@ require([
             }
         });
 
+        var LinkTimeOutlierConfigurationDataSourceSpan = new LinkListInput({
+            "id": "LinkTimeOutlierConfigurationDataSourceSpan",
+            "choices": [{
+                    "value": "5m",
+                    "label": "5m"
+                },
+                {
+                    "value": "60m",
+                    "label": "60m"
+                },
+                {
+                    "value": "4h",
+                    "label": "4h"
+                },
+                {
+                    "value": "12h",
+                    "label": "12h"
+                },
+                {
+                    "value": "1d",
+                    "label": "1d"
+                }
+            ],
+            "default": "5m",
+            "searchWhenChanged": true,
+            "selectFirstChoice": false,
+            "initialValue": "5m",
+            "value": "$form.TimeOutlierConfigurationDataSourceSpan$",
+            "el": $('#LinkTimeOutlierConfigurationDataSourceSpan')
+        }, {
+            tokens: true
+        }).render();
+
+        LinkTimeOutlierConfigurationDataSourceSpan.on("change", function(newValue) {
+            FormUtils.handleValueChange(LinkTimeOutlierConfigurationDataSourceSpan);
+        });
+
+        LinkTimeOutlierConfigurationDataSourceSpan.on("valueChange", function(e) {
+			if (e.value === "5m") {
+                EventHandler.setToken("tk_input_data_source_outlier_span", "5m", {}, e.data);
+            } else if (e.value === "60m") {
+                EventHandler.setToken("tk_input_data_source_outlier_span", "60m", {}, e.data);
+            } else if (e.value === "4h") {
+                EventHandler.setToken("tk_input_data_source_outlier_span", "4h", {}, e.data);
+            } else if (e.value === "12h") {
+                EventHandler.setToken("tk_input_data_source_outlier_span", "12h", {}, e.data);
+            } else if (e.value === "1d") {
+                EventHandler.setToken("tk_input_data_source_outlier_span", "1d", {}, e.data);
+            }
+        });
+
         // data host monitoring
 
         // main data_host link input for modal window
@@ -9147,6 +9228,57 @@ require([
                 EventHandler.setToken("tk_input_data_host_outlier_period", "-7d", {}, e.data);
             } else if (e.value === "-30d") {
                 EventHandler.setToken("tk_input_data_host_outlier_period", "-30d", {}, e.data);
+            }
+        });
+
+        var LinkTimeOutlierConfigurationDataHostSpan = new LinkListInput({
+            "id": "LinkTimeOutlierConfigurationDataHostSpan",
+            "choices": [{
+                    "value": "5m",
+                    "label": "5m"
+                },
+                {
+                    "value": "60m",
+                    "label": "60m"
+                },
+                {
+                    "value": "4h",
+                    "label": "4h"
+                },
+                {
+                    "value": "12h",
+                    "label": "12h"
+                },
+                {
+                    "value": "1d",
+                    "label": "1d"
+                }
+            ],
+            "default": "5m",
+            "searchWhenChanged": true,
+            "selectFirstChoice": false,
+            "initialValue": "5m",
+            "value": "$form.TimeOutlierConfigurationDataHostSpan$",
+            "el": $('#LinkTimeOutlierConfigurationDataHostSpan')
+        }, {
+            tokens: true
+        }).render();
+
+        LinkTimeOutlierConfigurationDataHostSpan.on("change", function(newValue) {
+            FormUtils.handleValueChange(LinkTimeOutlierConfigurationDataHostSpan);
+        });
+
+        LinkTimeOutlierConfigurationDataHostSpan.on("valueChange", function(e) {
+			if (e.value === "5m") {
+                EventHandler.setToken("tk_input_data_host_outlier_span", "5m", {}, e.data);
+            } else if (e.value === "60m") {
+                EventHandler.setToken("tk_input_data_host_outlier_span", "60m", {}, e.data);
+            } else if (e.value === "4h") {
+                EventHandler.setToken("tk_input_data_host_outlier_span", "4h", {}, e.data);
+            } else if (e.value === "12h") {
+                EventHandler.setToken("tk_input_data_host_outlier_span", "12h", {}, e.data);
+            } else if (e.value === "1d") {
+                EventHandler.setToken("tk_input_data_host_outlier_span", "1d", {}, e.data);
             }
         });
 
@@ -11692,6 +11824,7 @@ require([
                 setToken("tk_outlierupperthresholdmultiplier", TokenUtils.replaceTokenNames("$row.OutlierUpperThresholdMultiplier$", _.extend(submittedTokenModel.toJSON(), e.data)));
                 setToken("tk_outlieralertonupper", TokenUtils.replaceTokenNames("$row.OutlierAlertOnUpper$", _.extend(submittedTokenModel.toJSON(), e.data)));
                 setToken("tk_outlier_period", TokenUtils.replaceTokenNames("$row.OutlierTimePeriod$", _.extend(submittedTokenModel.toJSON(), e.data)));
+                setToken("tk_outlier_span", TokenUtils.replaceTokenNames("$row.OutlierSpan$", _.extend(submittedTokenModel.toJSON(), e.data)));
                 setToken("tk_isoutlier", TokenUtils.replaceTokenNames("$row.isOutlier$", _.extend(submittedTokenModel.toJSON(), e.data)));
                 setToken("tk_enable_behaviour_analytic", TokenUtils.replaceTokenNames("$row.enable_behaviour_analytic$", _.extend(submittedTokenModel.toJSON(), e.data)));
 
@@ -11706,8 +11839,8 @@ require([
                 setToken("form.tk_input_data_source_enable_outlier", TokenUtils.replaceTokenNames("$row.enable_behaviour_analytic$", _.extend(submittedTokenModel.toJSON(), e.data)));
                 setToken("form.tk_input_data_source_outlier_lower_threshold_multiplier", TokenUtils.replaceTokenNames("$row.OutlierLowerThresholdMultiplier$", _.extend(submittedTokenModel.toJSON(), e.data)));
                 setToken("form.tk_input_data_source_outlier_upper_threshold_multiplier", TokenUtils.replaceTokenNames("$row.OutlierUpperThresholdMultiplier$", _.extend(submittedTokenModel.toJSON(), e.data)));
-                setToken("form.tk_input_data_source_outlier_alert_on_upper", TokenUtils.replaceTokenNames("$row.OutlierAlertOnUpper$", _.extend(submittedTokenModel.toJSON(), e.data)));
                 setToken("form.TimeOutlierConfigurationDataSource", TokenUtils.replaceTokenNames("$row.OutlierTimePeriod$", _.extend(submittedTokenModel.toJSON(), e.data)));
+                setToken("form.TimeOutlierConfigurationDataSourceSpan", TokenUtils.replaceTokenNames("$row.OutlierSpan$", _.extend(submittedTokenModel.toJSON(), e.data)));
 
                 // status message
                 setToken("tk_status_message", TokenUtils.replaceTokenNames("$row.status_message$", _.extend(submittedTokenModel.toJSON(), e.data)));
@@ -11747,6 +11880,7 @@ require([
                 var tk_outlierupperthresholdmultiplier = tokens.get("tk_outlierupperthresholdmultiplier");
                 var tk_outlieralertonupper = tokens.get("tk_outlieralertonupper");
                 var tk_isoutlier = tokens.get("tk_isoutlier");
+                var tk_outlier_span = tokens.get("tk_outlier_span");
 
                 if (tk_outliermineventcount = "null") {
                     setToken("tk_outliermineventcount", TokenUtils.replaceTokenNames("-1", _.extend(submittedTokenModel.toJSON(), e.data)));
@@ -12171,15 +12305,17 @@ require([
                 setToken("tk_outlierupperthresholdmultiplier", TokenUtils.replaceTokenNames("$row.OutlierUpperThresholdMultiplier$", _.extend(submittedTokenModel.toJSON(), e.data)));
                 setToken("tk_outlieralertonupper", TokenUtils.replaceTokenNames("$row.OutlierAlertOnUpper$", _.extend(submittedTokenModel.toJSON(), e.data)));
                 setToken("tk_outlier_period", TokenUtils.replaceTokenNames("$row.OutlierTimePeriod$", _.extend(submittedTokenModel.toJSON(), e.data)));
+                setToken("tk_outlier_span", TokenUtils.replaceTokenNames("$row.OutlierSpan$", _.extend(submittedTokenModel.toJSON(), e.data)));
                 setToken("tk_isoutlier", TokenUtils.replaceTokenNames("$row.isOutlier$", _.extend(submittedTokenModel.toJSON(), e.data)));
                 setToken("tk_enable_behaviour_analytic", TokenUtils.replaceTokenNames("$row.enable_behaviour_analytic$", _.extend(submittedTokenModel.toJSON(), e.data)));
 
                 // pre-fill current values for outlier modification window
+                setToken("form.tk_input_data_host_outlier_alert_on_upper", TokenUtils.replaceTokenNames("$row.OutlierAlertOnUpper$", _.extend(submittedTokenModel.toJSON(), e.data)));
                 setToken("form.tk_input_data_host_enable_outlier", TokenUtils.replaceTokenNames("$row.enable_behaviour_analytic$", _.extend(submittedTokenModel.toJSON(), e.data)));
                 setToken("form.tk_input_data_host_outlier_lower_threshold_multiplier", TokenUtils.replaceTokenNames("$row.OutlierLowerThresholdMultiplier$", _.extend(submittedTokenModel.toJSON(), e.data)));
                 setToken("form.tk_input_data_host_outlier_upper_threshold_multiplier", TokenUtils.replaceTokenNames("$row.OutlierUpperThresholdMultiplier$", _.extend(submittedTokenModel.toJSON(), e.data)));
-                setToken("form.tk_input_data_host_outlier_alert_on_upper", TokenUtils.replaceTokenNames("$row.OutlierAlertOnUpper$", _.extend(submittedTokenModel.toJSON(), e.data)));
                 setToken("form.TimeOutlierConfigurationDataHost", TokenUtils.replaceTokenNames("$row.OutlierTimePeriod$", _.extend(submittedTokenModel.toJSON(), e.data)));
+                setToken("form.TimeOutlierConfigurationDataHostSpan", TokenUtils.replaceTokenNames("$row.OutlierSpan$", _.extend(submittedTokenModel.toJSON(), e.data)));
 
                 // status message
                 setToken("tk_status_message", TokenUtils.replaceTokenNames("$row.status_message$", _.extend(submittedTokenModel.toJSON(), e.data)));
@@ -15954,6 +16090,7 @@ require([
             var tk_outlierupperthresholdmultiplier = tokens.get("tk_outlierupperthresholdmultiplier");
             var tk_outlieralertonupper = tokens.get("tk_outlieralertonupper");
             var tk_outlier_period = tokens.get("tk_outlier_period");
+            var tk_outlier_span = tokens.get("tk_outlier_span");
             var tk_isoutlier = tokens.get("tk_isoutlier");
             var tk_enable_behaviour_analytic = tokens.get("tk_enable_behaviour_analytic");
 
@@ -15988,6 +16125,7 @@ require([
                 "OutlierUpperThresholdMultiplier": tk_outlierupperthresholdmultiplier,
                 "OutlierAlertOnUpper": tk_outlieralertonupper,
                 "OutlierTimePeriod": tk_outlier_period,
+                "OutlierSpan": tk_outlier_span,
                 "isOutlier": tk_isoutlier,
                 "enable_behaviour_analytic" : tk_enable_behaviour_analytic,
                 "latest_flip_state": tk_latest_flip_state,
@@ -16108,6 +16246,7 @@ require([
             var tk_outlierupperthresholdmultiplier = tokens.get("tk_outlierupperthresholdmultiplier");
             var tk_outlieralertonupper = tokens.get("tk_outlieralertonupper");
             var tk_outlier_period = tokens.get("tk_outlier_period");
+            var tk_outlier_span = tokens.get("tk_outlier_span");
             var tk_isoutlier = tokens.get("tk_isoutlier");
             var tk_enable_behaviour_analytic = tokens.get("tk_enable_behaviour_analytic");
 
@@ -16139,6 +16278,7 @@ require([
                 "OutlierUpperThresholdMultiplier": tk_outlierupperthresholdmultiplier,
                 "OutlierAlertOnUpper": tk_outlieralertonupper,
                 "OutlierTimePeriod": tk_outlier_period,
+                "OutlierSpan": tk_outlier_span,
                 "isOutlier": tk_isoutlier,
                 "enable_behaviour_analytic" : tk_enable_behaviour_analytic,
                 "latest_flip_state": tk_latest_flip_state,
@@ -16559,6 +16699,7 @@ require([
             var tk_outlierupperthresholdmultiplier = tokens.get("tk_outlierupperthresholdmultiplier");
             var tk_outlieralertonupper = tokens.get("tk_outlieralertonupper");
             var tk_outlier_period = tokens.get("tk_outlier_period");
+            var tk_outlier_span = tokens.get("tk_outlier_span");
             var tk_isoutlier = tokens.get("tk_isoutlier");
             var tk_enable_behaviour_analytic = tokens.get("tk_enable_behaviour_analytic");
 
@@ -16593,6 +16734,7 @@ require([
                 "OutlierUpperThresholdMultiplier": tk_outlierupperthresholdmultiplier,
                 "OutlierAlertOnUpper": tk_outlieralertonupper,
                 "OutlierTimePeriod": tk_outlier_period,
+                "OutlierSpan": tk_outlier_span,
                 "isOutlier": tk_isoutlier,
                 "enable_behaviour_analytic" : tk_enable_behaviour_analytic,
                 "latest_flip_state": tk_latest_flip_state,
@@ -16713,6 +16855,7 @@ require([
             var tk_outlierupperthresholdmultiplier = tokens.get("tk_outlierupperthresholdmultiplier");
             var tk_outlieralertonupper = tokens.get("tk_outlieralertonupper");
             var tk_outlier_period = tokens.get("tk_outlier_period");
+            var tk_outlier_span = tokens.get("tk_outlier_span");
             var tk_isoutlier = tokens.get("tk_isoutlier");
             var tk_enable_behaviour_analytic = tokens.get("tk_enable_behaviour_analytic");
 
@@ -16744,6 +16887,7 @@ require([
                 "OutlierUpperThresholdMultiplier": tk_outlierupperthresholdmultiplier,
                 "OutlierAlertOnUpper": tk_outlieralertonupper,
                 "OutlierTimePeriod": tk_outlier_period,
+                "OutlierSpan": tk_outlier_span,
                 "isOutlier": tk_isoutlier,
                 "enable_behaviour_analytic" : tk_enable_behaviour_analytic,
                 "latest_flip_state": tk_latest_flip_state,
@@ -17212,6 +17356,7 @@ require([
             var tk_outlierupperthresholdmultiplier = tokens.get("tk_outlierupperthresholdmultiplier");
             var tk_outlieralertonupper = tokens.get("tk_outlieralertonupper");
             var tk_outlier_period = tokens.get("tk_outlier_period");
+            var tk_outlier_span = tokens.get("tk_outlier_span");
             var tk_isoutlier = tokens.get("tk_isoutlier");
             var tk_enable_behaviour_analytic = tokens.get("tk_enable_behaviour_analytic");
             var tk_latest_flip_state = tokens.get("tk_latest_flip_state");
@@ -17242,6 +17387,7 @@ require([
                 "OutlierUpperThresholdMultiplier": tk_outlierupperthresholdmultiplier,
                 "OutlierAlertOnUpper": tk_outlieralertonupper,
                 "OutlierTimePeriod": tk_outlier_period,
+                "OutlierSpan": tk_outlier_span,
                 "isOutlier": tk_isoutlier,
                 "enable_behaviour_analytic" : tk_enable_behaviour_analytic,
                 "latest_flip_state": tk_latest_flip_state,
@@ -17452,6 +17598,7 @@ require([
             var tk_outlierupperthresholdmultiplier = tokens.get("tk_outlierupperthresholdmultiplier");
             var tk_outlieralertonupper = tokens.get("tk_outlieralertonupper");
             var tk_outlier_period = tokens.get("tk_outlier_period");
+            var tk_outlier_span = tokens.get("tk_outlier_span");
             var tk_isoutlier = tokens.get("tk_isoutlier");
             var tk_enable_behaviour_analytic = tokens.get("tk_enable_behaviour_analytic");
             var tk_latest_flip_state = tokens.get("tk_latest_flip_state");
@@ -17479,6 +17626,7 @@ require([
                 "OutlierUpperThresholdMultiplier": tk_outlierupperthresholdmultiplier,
                 "OutlierAlertOnUpper": tk_outlieralertonupper,
                 "OutlierTimePeriod": tk_outlier_period,
+                "OutlierSpan": tk_outlier_span,
                 "isOutlier": tk_isoutlier,
                 "enable_behaviour_analytic" : tk_enable_behaviour_analytic,
                 "latest_flip_state": tk_latest_flip_state,
@@ -22357,6 +22505,7 @@ require([
             var tk_outlierupperthresholdmultiplier = tokens.get("tk_outlierupperthresholdmultiplier");
             var tk_outlieralertonupper = tokens.get("tk_outlieralertonupper");
             var tk_outlier_period = tokens.get("tk_outlier_period");
+            var tk_outlier_span = tokens.get("tk_outlier_span");
             var tk_isoutlier = tokens.get("tk_isoutlier");
             var tk_enable_behaviour_analytic = tokens.get("tk_enable_behaviour_analytic");
             var tk_latest_flip_state = tokens.get("tk_latest_flip_state");
@@ -22405,6 +22554,7 @@ require([
                     "OutlierUpperThresholdMultiplier": tk_outlierupperthresholdmultiplier,
                     "OutlierAlertOnUpper": tk_outlieralertonupper,
                     "OutlierTimePeriod": tk_outlier_period,
+                    "OutlierSpan": tk_outlier_span,
                     "isOutlier": tk_isoutlier,
                     "enable_behaviour_analytic" : tk_enable_behaviour_analytic,
                     "latest_flip_state": tk_latest_flip_state,
@@ -22504,6 +22654,7 @@ require([
             var tk_outlierupperthresholdmultiplier = tokens.get("tk_outlierupperthresholdmultiplier");
             var tk_outlieralertonupper = tokens.get("tk_outlieralertonupper");
             var tk_outlier_period = tokens.get("tk_outlier_period");
+            var tk_outlier_span = tokens.get("tk_outlier_span");
             var tk_isoutlier = tokens.get("tk_isoutlier");
             var tk_enable_behaviour_analytic = tokens.get("tk_enable_behaviour_analytic");
             var tk_latest_flip_state = tokens.get("tk_latest_flip_state");
@@ -22552,6 +22703,7 @@ require([
                     "OutlierUpperThresholdMultiplier": tk_outlierupperthresholdmultiplier,
                     "OutlierAlertOnUpper": tk_outlieralertonupper,
                     "OutlierTimePeriod": tk_outlier_period,
+                    "OutlierSpan": tk_outlier_span,
                     "isOutlier": tk_isoutlier,
                     "enable_behaviour_analytic" : tk_enable_behaviour_analytic,
                     "latest_flip_state": tk_latest_flip_state,
@@ -22657,6 +22809,7 @@ require([
             var tk_outlierupperthresholdmultiplier = tokens.get("tk_outlierupperthresholdmultiplier");
             var tk_outlieralertonupper = tokens.get("tk_outlieralertonupper");
             var tk_outlier_period = tokens.get("tk_outlier_period");
+            var tk_outlier_span = tokens.get("tk_outlier_span");
             var tk_isoutlier = tokens.get("tk_isoutlier");
             var tk_enable_behaviour_analytic = tokens.get("tk_enable_behaviour_analytic");
             var tk_latest_flip_state = tokens.get("tk_latest_flip_state");
@@ -22705,6 +22858,7 @@ require([
                     "OutlierUpperThresholdMultiplier": tk_outlierupperthresholdmultiplier,
                     "OutlierAlertOnUpper": tk_outlieralertonupper,
                     "OutlierTimePeriod": tk_outlier_period,
+                    "OutlierSpan": tk_outlier_span,
                     "isOutlier": tk_isoutlier,
                     "enable_behaviour_analytic" : tk_enable_behaviour_analytic,
                     "latest_flip_state": tk_latest_flip_state,
@@ -22822,6 +22976,7 @@ require([
             var tk_outlierupperthresholdmultiplier = tokens.get("tk_outlierupperthresholdmultiplier");
             var tk_outlieralertonupper = tokens.get("tk_outlieralertonupper");
             var tk_outlier_period = tokens.get("tk_outlier_period");
+            var tk_outlier_span = tokens.get("tk_outlier_span");
             var tk_isoutlier = tokens.get("tk_isoutlier");
             var tk_enable_behaviour_analytic = tokens.get("tk_enable_behaviour_analytic");
             var tk_latest_flip_state = tokens.get("tk_latest_flip_state");
@@ -22870,6 +23025,7 @@ require([
                     "OutlierUpperThresholdMultiplier": tk_outlierupperthresholdmultiplier,
                     "OutlierAlertOnUpper": tk_outlieralertonupper,
                     "OutlierTimePeriod": tk_outlier_period,
+                    "OutlierSpan": tk_outlier_span,
                     "isOutlier": tk_isoutlier,
                     "enable_behaviour_analytic" : tk_enable_behaviour_analytic,
                     "latest_flip_state": tk_latest_flip_state,
@@ -22976,6 +23132,7 @@ require([
             var tk_outlierupperthresholdmultiplier = tokens.get("tk_outlierupperthresholdmultiplier");
             var tk_outlieralertonupper = tokens.get("tk_outlieralertonupper");
             var tk_outlier_period = tokens.get("tk_outlier_period");
+            var tk_outlier_span = tokens.get("tk_outlier_span");
             var tk_isoutlier = tokens.get("tk_isoutlier");
             var tk_enable_behaviour_analytic = tokens.get("tk_enable_behaviour_analytic");
             var tk_latest_flip_state = tokens.get("tk_latest_flip_state");
@@ -23025,6 +23182,7 @@ require([
                     "OutlierUpperThresholdMultiplier": tk_outlierupperthresholdmultiplier,
                     "OutlierAlertOnUpper": tk_outlieralertonupper,
                     "OutlierTimePeriod": tk_outlier_period,
+                    "OutlierSpan": tk_outlier_span,
                     "isOutlier": tk_isoutlier,
                     "enable_behaviour_analytic" : tk_enable_behaviour_analytic,
                     "latest_flip_state": tk_latest_flip_state,
@@ -23837,6 +23995,7 @@ require([
             var tk_outlierupperthresholdmultiplier = tokens.get("tk_outlierupperthresholdmultiplier");
             var tk_outlieralertonupper = tokens.get("tk_outlieralertonupper");
             var tk_outlier_period = tokens.get("tk_outlier_period");
+            var tk_outlier_span = tokens.get("tk_outlier_span");
             var tk_isoutlier = tokens.get("tk_isoutlier");
             var tk_enable_behaviour_analytic = tokens.get("tk_enable_behaviour_analytic");
             var tk_latest_flip_state = tokens.get("tk_latest_flip_state");
@@ -23882,6 +24041,7 @@ require([
                     "OutlierUpperThresholdMultiplier": tk_outlierupperthresholdmultiplier,
                     "OutlierAlertOnUpper": tk_outlieralertonupper,
                     "OutlierTimePeriod": tk_outlier_period,
+                    "OutlierSpan": tk_outlier_span,
                     "enable_behaviour_analytic" : tk_enable_behaviour_analytic,
                     "isOutlier": tk_isoutlier,
                     "latest_flip_state": tk_latest_flip_state,
@@ -23974,6 +24134,7 @@ require([
             var tk_outlierupperthresholdmultiplier = tokens.get("tk_outlierupperthresholdmultiplier");
             var tk_outlieralertonupper = tokens.get("tk_outlieralertonupper");
             var tk_outlier_period = tokens.get("tk_outlier_period");
+            var tk_outlier_span = tokens.get("tk_outlier_span");
             var tk_isoutlier = tokens.get("tk_isoutlier");
             var tk_enable_behaviour_analytic = tokens.get("tk_enable_behaviour_analytic");
             var tk_latest_flip_state = tokens.get("tk_latest_flip_state");
@@ -24017,6 +24178,7 @@ require([
                     "OutlierUpperThresholdMultiplier": tk_outlierupperthresholdmultiplier,
                     "OutlierAlertOnUpper": tk_outlieralertonupper,
                     "OutlierTimePeriod": tk_outlier_period,
+                    "OutlierSpan": tk_outlier_span,
                     "isOutlier": tk_isoutlier,
                     "enable_behaviour_analytic" : tk_enable_behaviour_analytic,
                     "latest_flip_state": tk_latest_flip_state,
@@ -24117,6 +24279,7 @@ require([
             var tk_outlierupperthresholdmultiplier = tokens.get("tk_outlierupperthresholdmultiplier");
             var tk_outlieralertonupper = tokens.get("tk_outlieralertonupper");
             var tk_outlier_period = tokens.get("tk_outlier_period");
+            var tk_outlier_span = tokens.get("tk_outlier_span");
             var tk_isoutlier = tokens.get("tk_isoutlier");
             var tk_enable_behaviour_analytic = tokens.get("tk_enable_behaviour_analytic");
             var tk_latest_flip_state = tokens.get("tk_latest_flip_state");
@@ -24162,6 +24325,7 @@ require([
                     "OutlierUpperThresholdMultiplier": tk_outlierupperthresholdmultiplier,
                     "OutlierAlertOnUpper": tk_outlieralertonupper,
                     "OutlierTimePeriod": tk_outlier_period,
+                    "OutlierSpan": tk_outlier_span,
                     "isOutlier": tk_isoutlier,
                     "enable_behaviour_analytic" : tk_enable_behaviour_analytic,
                     "latest_flip_state": tk_latest_flip_state,
@@ -24279,6 +24443,7 @@ require([
             var tk_outlierupperthresholdmultiplier = tokens.get("tk_outlierupperthresholdmultiplier");
             var tk_outlieralertonupper = tokens.get("tk_outlieralertonupper");
             var tk_outlier_period = tokens.get("tk_outlier_period");
+            var tk_outlier_span = tokens.get("tk_outlier_span");
             var tk_isoutlier = tokens.get("tk_isoutlier");
             var tk_enable_behaviour_analytic = tokens.get("tk_enable_behaviour_analytic");
             var tk_latest_flip_state = tokens.get("tk_latest_flip_state");
@@ -24325,6 +24490,7 @@ require([
                     "OutlierUpperThresholdMultiplier": tk_outlierupperthresholdmultiplier,
                     "OutlierAlertOnUpper": tk_outlieralertonupper,
                     "OutlierTimePeriod": tk_outlier_period,
+                    "OutlierSpan": tk_outlier_span,
                     "isOutlier": tk_isoutlier,
                     "enable_behaviour_analytic" : tk_enable_behaviour_analytic,
                     "latest_flip_state": tk_latest_flip_state,
@@ -26441,6 +26607,7 @@ require([
             var tk_outlierupperthresholdmultiplier = tokens.get("tk_outlierupperthresholdmultiplier");
             var tk_outlieralertonupper = tokens.get("tk_outlieralertonupper");
             var tk_outlier_period = tokens.get("tk_outlier_period");
+            var tk_outlier_span = tokens.get("tk_outlier_span");
             var tk_isoutlier = tokens.get("tk_isoutlier");
             var tk_enable_behaviour_analytic = tokens.get("tk_enable_behaviour_analytic");
 
@@ -26452,6 +26619,7 @@ require([
             var tk_input_data_source_outlier_min_eventcount = tokens.get("tk_input_data_source_outlier_min_eventcount");
             var tk_input_data_source_outlier_lower_threshold_multiplier = tokens.get("tk_input_data_source_outlier_lower_threshold_multiplier");
             var tk_input_data_source_outlier_upper_threshold_multiplier = tokens.get("tk_input_data_source_outlier_upper_threshold_multiplier");
+            var tk_input_data_source_outlier_span = tokens.get("tk_input_data_source_outlier_span");
 
             // OutlierTimePeriod equals to the earliest LinkInput
             var tk_input_data_source_outlier_period = tokens.get("tk_input_data_source_outlier_period");
@@ -26467,6 +26635,12 @@ require([
 
             if (tk_outlier_period != tk_input_data_source_outlier_period) {
                 tk_outlier_period = tk_input_data_source_outlier_period;
+            }
+
+            if (tk_outlier_span != tk_input_data_source_outlier_span) {
+                tk_outlier_span = tk_input_data_source_outlier_span;
+                // refresh the token for current view usage
+                setToken("tk_outlier_span", tk_input_data_source_outlier_span);
             }
 
             if (tk_outlierlowerthresholdmultiplier != tk_input_data_source_outlier_lower_threshold_multiplier && isNumeric(tk_input_data_source_outlier_lower_threshold_multiplier)) {
@@ -26515,6 +26689,7 @@ require([
                 "OutlierUpperThresholdMultiplier": tk_outlierupperthresholdmultiplier,
                 "OutlierAlertOnUpper": tk_outlieralertonupper,
                 "OutlierTimePeriod": tk_outlier_period,
+                "OutlierSpan": tk_outlier_span,
                 "isOutlier": tk_isoutlier,
                 "enable_behaviour_analytic": tk_enable_behaviour_analytic,
                 "latest_flip_state": tk_latest_flip_state,
@@ -26644,6 +26819,7 @@ require([
             var tk_outlierupperthresholdmultiplier = tokens.get("tk_outlierupperthresholdmultiplier");
             var tk_outlieralertonupper = tokens.get("tk_outlieralertonupper");
             var tk_outlier_period = tokens.get("tk_outlier_period");
+            var tk_outlier_span = tokens.get("tk_outlier_span");
             var tk_isoutlier = tokens.get("tk_isoutlier");
             var tk_enable_behaviour_analytic = tokens.get("tk_enable_behaviour_analytic");
             var tk_latest_flip_state = tokens.get("tk_latest_flip_state");
@@ -26659,6 +26835,7 @@ require([
             var tk_input_data_host_outlier_lower_threshold_multiplier = tokens.get("tk_input_data_host_outlier_lower_threshold_multiplier");
             var tk_input_data_host_outlier_upper_threshold_multiplier = tokens.get("tk_input_data_host_outlier_upper_threshold_multiplier");
             var tk_input_data_host_outlier_period = tokens.get("tk_input_data_host_outlier_period");
+            var tk_input_data_host_outlier_span = tokens.get("tk_input_data_host_outlier_span");
 
             // Conditionally define record values for Outliers
             if (tk_enable_behaviour_analytic != tk_input_data_host_enable_outlier) {
@@ -26671,6 +26848,12 @@ require([
 
             if (tk_outlier_period != tk_input_data_host_outlier_period) {
                 tk_outlier_period = tk_input_data_host_outlier_period;
+            }
+
+            if (tk_outlier_span != tk_input_data_host_outlier_span) {
+                tk_outlier_span = tk_input_data_host_outlier_span;
+                // refresh the token for current view usage
+                setToken("tk_outlier_span", tk_input_data_host_outlier_span);
             }
 
             if (tk_outlierlowerthresholdmultiplier != tk_input_data_host_outlier_lower_threshold_multiplier && isNumeric(tk_input_data_host_outlier_lower_threshold_multiplier)) {
@@ -26716,6 +26899,7 @@ require([
                 "OutlierUpperThresholdMultiplier": tk_outlierupperthresholdmultiplier,
                 "OutlierAlertOnUpper": tk_outlieralertonupper,
                 "OutlierTimePeriod": tk_outlier_period,
+                "OutlierSpan": tk_outlier_span,
                 "isOutlier": tk_isoutlier,
                 "enable_behaviour_analytic" : tk_enable_behaviour_analytic,
                 "latest_flip_state": tk_latest_flip_state,
