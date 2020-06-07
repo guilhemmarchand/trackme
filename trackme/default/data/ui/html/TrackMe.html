@@ -1553,7 +1553,7 @@ styles in <div> tags, similar to Bootstrap's grid system.
                             </div>
                         </div>
 
-                        <div id="rowSingleParsingQuality" class="dashboard-row dashboard-row1" data-depends="$show_data_quality$">
+                        <div id="rowSingleParsingQuality" class="dashboard-row dashboard-row1" data-depends="$show_data_quality$,$show_data_quality_no_results$">
                             <div id="panelSingleParsingQuality" class="dashboard-cell" style="width: 100%;">
                                 <div class="dashboard-panel clearfix">
                                     <div class="panel-element-row">
@@ -1565,7 +1565,7 @@ styles in <div> tags, similar to Bootstrap's grid system.
                             </div>
                         </div>
 
-                        <div id="rowChartParsingQuality" class="dashboard-row dashboard-row1" data-depends="$show_data_quality$">
+                        <div id="rowChartParsingQuality" class="dashboard-row dashboard-row1" data-depends="$show_data_quality$,$show_data_quality_no_results$">
                             <div id="panelChartParsingQuality" class="dashboard-cell" style="width: 100%;">
                                 <div class="dashboard-panel clearfix">
                                     <div class="panel-element-row">
@@ -1574,6 +1574,68 @@ styles in <div> tags, similar to Bootstrap's grid system.
                                         </div>
                                         <div id="elementDataSourcesParsingQualityChart" class="dashboard-element chart" style="width: 100%">
                                             <div class="panel-body"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div id="rowChartParsingQualityNoResults" class="dashboard-row dashboard-rowDataSourcesTable" data-depends="$show_data_quality$" data-rejects="$show_data_quality_no_results$">
+                            <div id="panelChartParsingQualityNoResults" class="dashboard-cell" style="width: 100%;">
+                                <div class="dashboard-panel clearfix">
+                                    <div class="panel-element-row">
+
+                                        <div class="dashboard-element html" style="width: 100%">
+                                            <div class="panel-body html">
+                                                <div class="status_message_green">
+                                                    <h2 style="font-weight: bold;">No indexing parsing errors detected within the period</h2>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div id="rowAuditFlipDataSource" class="dashboard-row dashboard-row1" data-original-id="rowAuditFlipDataSourceTop" data-depends="$show_flipping_status$,$show_flipping_status_no_results$">
+                            <div id="panelAuditFlipDataSourceChart" class="dashboard-cell" style="width: 100%;">
+                                <div class="dashboard-panel clearfix">
+                                    <div class="panel-element-row">
+                                        <div id="chartAuditFlipDataSourceOverTime" class="dashboard-element chart" style="width: 100%">
+                                            <div class="panel-head">
+                                                <h3>Flip over time</h3>
+                                            </div>
+                                            <div class="panel-body"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div id="rowAuditFlipDataSourceTable" class="dashboard-row dashboard-rowDataSourcesTable" data-depends="$show_flipping_status$,$show_flipping_status_no_results$">
+                            <div id="panelAuditFlipDataSourceTable" class="dashboard-cell" style="width: 100%;">
+                                <div class="dashboard-panel clearfix">
+                                    <div class="panel-element-row">
+
+                                        <div id="elementMainTableAuditFlipDataSource" class="dashboard-element table" style="width: 100%">
+                                            <div class="panel-body"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div id="rowAuditFlipDataSourceNoResults" class="dashboard-row dashboard-rowDataSourcesTable" data-depends="$show_flipping_status$" data-rejects="$show_flipping_status_no_results$">
+                            <div id="panelAuditFlipDataSourceNoResults" class="dashboard-cell" style="width: 100%;">
+                                <div class="dashboard-panel clearfix">
+                                    <div class="panel-element-row">
+
+                                        <div class="dashboard-element html" style="width: 100%">
+                                            <div class="panel-body html">
+                                                <div class="status_message_green">
+                                                    <h2 style="font-weight: bold;">No flipping status detected within the period</h2>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -1853,7 +1915,7 @@ styles in <div> tags, similar to Bootstrap's grid system.
                             </div>
                         </div>
 
-                        <div id="rowSingleParsingQualityDataHost" class="dashboard-row dashboard-row1" data-depends="$show_data_host_quality$">
+                        <div id="rowSingleParsingQualityDataHost" class="dashboard-row dashboard-row1" data-depends="$show_data_host_quality$,$show_data_host_quality_no_results$">
                             <div id="panelSingleParsingQualityDataHost" class="dashboard-cell" style="width: 100%;">
                                 <div class="dashboard-panel clearfix">
                                     <div class="panel-element-row">
@@ -1865,7 +1927,7 @@ styles in <div> tags, similar to Bootstrap's grid system.
                             </div>
                         </div>
 
-                        <div id="rowChartParsingQualityDataHost" class="dashboard-row dashboard-row1" data-depends="$show_data_host_quality$">
+                        <div id="rowChartParsingQualityDataHost" class="dashboard-row dashboard-row1" data-depends="$show_data_host_quality$,$show_data_host_quality_no_results$">
                             <div id="panelChartParsingQualityDataHost" class="dashboard-cell" style="width: 100%;">
                                 <div class="dashboard-panel clearfix">
                                     <div class="panel-element-row">
@@ -1873,6 +1935,68 @@ styles in <div> tags, similar to Bootstrap's grid system.
                                         </div>
                                         <div id="elementDataHostsParsingQualityChart" class="dashboard-element chart" style="width: 100%">
                                             <div class="panel-body"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div id="rowChartParsingQualityDataHostNoResults" class="dashboard-row dashboard-rowDataSourcesTable" data-depends="$show_data_host_quality$" data-rejects="$show_data_host_quality_no_results$">
+                            <div id="panelChartParsingQualityDataHostNoResults" class="dashboard-cell" style="width: 100%;">
+                                <div class="dashboard-panel clearfix">
+                                    <div class="panel-element-row">
+
+                                        <div class="dashboard-element html" style="width: 100%">
+                                            <div class="panel-body html">
+                                                <div class="status_message_green">
+                                                    <h2 style="font-weight: bold;">No indexing parsing errors detected within the period</h2>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div id="rowAuditFlipDataHost" class="dashboard-row dashboard-row1" data-original-id="rowAuditFlipDataHostTop" data-depends="$show_data_host_flipping_status$,$show_data_host_flipping_status_no_results$">
+                            <div id="panelAuditFlipDataHostChart" class="dashboard-cell" style="width: 100%;">
+                                <div class="dashboard-panel clearfix">
+                                    <div class="panel-element-row">
+                                        <div id="chartAuditFlipDataHostOverTime" class="dashboard-element chart" style="width: 100%">
+                                            <div class="panel-head">
+                                                <h3>Flip over time</h3>
+                                            </div>
+                                            <div class="panel-body"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div id="rowAuditFlipDataHostTable" class="dashboard-row dashboard-rowDataHostsTable" data-depends="$show_data_host_flipping_status$,$show_data_host_flipping_status_no_results$">
+                            <div id="panelAuditFlipDataHostTable" class="dashboard-cell" style="width: 100%;">
+                                <div class="dashboard-panel clearfix">
+                                    <div class="panel-element-row">
+
+                                        <div id="elementMainTableAuditFlipDataHost" class="dashboard-element table" style="width: 100%">
+                                            <div class="panel-body"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div id="rowAuditFlipDataHostNoResults" class="dashboard-row dashboard-rowDataHostsTable" data-depends="$show_data_host_flipping_status$" data-rejects="$show_data_host_flipping_status_no_results$">
+                            <div id="panelAuditFlipDataHostNoResults" class="dashboard-cell" style="width: 100%;">
+                                <div class="dashboard-panel clearfix">
+                                    <div class="panel-element-row">
+
+                                        <div class="dashboard-element html" style="width: 100%">
+                                            <div class="panel-body html">
+                                                <div class="status_message_green">
+                                                    <h2 style="font-weight: bold;">No flipping status detected within the period</h2>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -2072,6 +2196,51 @@ styles in <div> tags, similar to Bootstrap's grid system.
                             </div>
                         </div>
 
+                        <div id="rowAuditFlipMetricHost" class="dashboard-row dashboard-row1" data-original-id="rowAuditFlipMetricHostTop" data-depends="$show_metric_host_flipping_status$,$show_metric_host_flipping_status_no_results$">
+                            <div id="panelAuditFlipMetricHostChart" class="dashboard-cell" style="width: 100%;">
+                                <div class="dashboard-panel clearfix">
+                                    <div class="panel-element-row">
+                                        <div id="chartAuditFlipMetricHostOverTime" class="dashboard-element chart" style="width: 100%">
+                                            <div class="panel-head">
+                                                <h3>Flip over time</h3>
+                                            </div>
+                                            <div class="panel-body"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div id="rowAuditFlipMetricHostTable" class="dashboard-row dashboard-rowMetricHostsTable" data-depends="$show_metric_host_flipping_status$,$show_metric_host_flipping_status_no_results$">
+                            <div id="panelAuditFlipMetricHostTable" class="dashboard-cell" style="width: 100%;">
+                                <div class="dashboard-panel clearfix">
+                                    <div class="panel-element-row">
+
+                                        <div id="elementMainTableAuditFlipMetricHost" class="dashboard-element table" style="width: 100%">
+                                            <div class="panel-body"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div id="rowAuditFlipMetricHostNoResults" class="dashboard-row dashboard-rowMetricHostsTable" data-depends="$show_metric_host_flipping_status$" data-rejects="$show_metric_host_flipping_status_no_results$">
+                            <div id="panelAuditFlipMetricHostNoResults" class="dashboard-cell" style="width: 100%;">
+                                <div class="dashboard-panel clearfix">
+                                    <div class="panel-element-row">
+
+                                        <div class="dashboard-element html" style="width: 100%">
+                                            <div class="panel-body html">
+                                                <div class="status_message_green">
+                                                    <h2 style="font-weight: bold;">No flipping status detected within the period</h2>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
                         <div id="rowStatusMessageMetricHost" class="dashboard-row dashboard-row2" data-depends="$show_metric_host_status_message$">
                             <div id="panelStatusMessageMetricHost" class="dashboard-cell" style="width: 100%;">
                                 <div class="dashboard-panel clearfix">
@@ -2083,6 +2252,18 @@ styles in <div> tags, similar to Bootstrap's grid system.
                                                     <h2 style="font-weight: bold;">$tk_status_message$</h2>
                                                 </div>
                                             </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div id="rowLinkTimeMetricHost" class="dashboard-row dashboard-row1" style="margin-left: 15px;" data-rejects="$show_metric_host_overview$,$show_metric_host_status_message$">
+                            <div id="panelLinkTimeMetricHost" class="dashboard-cell" style="width: 100%;">
+                                <div class="dashboard-panel clearfix">
+                                    <div class="panel-element-row">
+                                        <div class="input input-linklist" id="inputLinkTimeMetricHost">
+                                            <label>&nbsp;</label>
                                         </div>
                                     </div>
                                 </div>
@@ -6504,6 +6685,196 @@ require([
             tokenNamespace: "submitted"
         });
 
+        // Audit Flip
+        var searchdataSourceMainAuditFlip = new SearchManager({
+            "id": "searchdataSourceMainAuditFlip",
+            "earliest_time": "$modalTime.earliest$",
+            "cancelOnUnload": true,
+            "sample_ratio": null,
+            "latest_time": "$modalTime.latest$",
+            "search": "`trackme_idx` source=\"flip_state_change_tracking\" object_category=\"data_source\" object=\"$tk_data_name$\" | eval separator = \"-->\" | table _time object object_category object_previous_state separator object_state result",
+            "status_buckets": 0,
+            "app": utils.getCurrentApp(),
+            "auto_cancel": 90,
+            "preview": true,
+            "tokenDependencies": {
+                "depends": "$show_flipping_status$"
+            },
+            "runWhenTimeIsUndefined": false
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        });
+
+        new SearchEventHandler({
+            managerid: "searchdataSourceMainAuditFlip",
+            event: "progress",
+            conditions: [{
+                    attr: "match",
+                    value: "'job.resultCount' == 0",
+                    actions: [{
+                        "type": "unset",
+                        "token": "show_flipping_status_no_results"
+                    }]
+                },
+                {
+                    attr: "any",
+                    value: "*",
+                    actions: [{
+                        "type": "set",
+                        "token": "show_flipping_status_no_results",
+                        "value": "True"
+                    }]
+                }
+            ]
+        });
+
+        var searchMaindataSourceAuditFlipTable = new PostProcessManager({
+            "tokenDependencies": {},
+            "search": "rename separator as \" \" | `trackme_eval_icons_flip` | fields _time	object object_category object_previous_state \" \" object_state | sort limit=10000 _time",
+            "managerid": "searchdataSourceMainAuditFlip",
+            "id": "searchMaindataSourceAuditFlipTable"
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        });
+
+        var searchAuditdataSourceFlipOverTime = new PostProcessManager({
+            "tokenDependencies": {},
+            "search": "timechart limit=40 useother=t minspan=1h bins=1000 count by object_state",
+            "managerid": "searchdataSourceMainAuditFlip",
+            "id": "searchAuditdataSourceFlipOverTime"
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        });
+
+        var searchdataHostMainAuditFlip = new SearchManager({
+            "id": "searchdataHostMainAuditFlip",
+            "earliest_time": "$modalTimeHost.earliest$",
+            "cancelOnUnload": true,
+            "sample_ratio": null,
+            "latest_time": "$modalTimeHost.latest$",
+            "search": "`trackme_idx` source=\"flip_state_change_tracking\" object_category=\"data_host\" object=\"$tk_data_host$\" | eval separator = \"-->\" | table _time object object_category object_previous_state separator object_state result",
+            "status_buckets": 0,
+            "app": utils.getCurrentApp(),
+            "auto_cancel": 90,
+            "preview": true,
+            "tokenDependencies": {
+                "depends": "$show_data_host_flipping_status$"
+            },
+            "runWhenTimeIsUndefined": false
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        });
+
+        new SearchEventHandler({
+            managerid: "searchdataHostMainAuditFlip",
+            event: "progress",
+            conditions: [{
+                    attr: "match",
+                    value: "'job.resultCount' == 0",
+                    actions: [{
+                        "type": "unset",
+                        "token": "show_data_host_flipping_status_no_results"
+                    }]
+                },
+                {
+                    attr: "any",
+                    value: "*",
+                    actions: [{
+                        "type": "set",
+                        "token": "show_data_host_flipping_status_no_results",
+                        "value": "True"
+                    }]
+                }
+            ]
+        });
+
+        var searchMaindataHostAuditFlipTable = new PostProcessManager({
+            "tokenDependencies": {},
+            "search": "rename separator as \" \" | `trackme_eval_icons_flip` | fields _time	object object_category object_previous_state \" \" object_state | sort limit=10000 _time",
+            "managerid": "searchdataHostMainAuditFlip",
+            "id": "searchMaindataHostAuditFlipTable"
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        });
+
+        var searchAuditdataHostFlipOverTime = new PostProcessManager({
+            "tokenDependencies": {},
+            "search": "timechart limit=40 useother=t minspan=1h bins=1000 count by object_state",
+            "managerid": "searchdataHostMainAuditFlip",
+            "id": "searchAuditdataHostFlipOverTime"
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        });
+
+        var searchmetricHostMainAuditFlip = new SearchManager({
+            "id": "searchmetricHostMainAuditFlip",
+            "earliest_time": "$modalTimeMetricHost.earliest$",
+            "cancelOnUnload": true,
+            "sample_ratio": null,
+            "latest_time": "$modalTimeMetricHost.latest$",
+            "search": "`trackme_idx` source=\"flip_state_change_tracking\" object_category=\"metric_host\" object=\"$tk_metric_host$\" | eval separator = \"-->\" | table _time object object_category object_previous_state separator object_state result",
+            "status_buckets": 0,
+            "app": utils.getCurrentApp(),
+            "auto_cancel": 90,
+            "preview": true,
+            "tokenDependencies": {
+                "depends": "$show_metric_host_flipping_status$"
+            },
+            "runWhenTimeIsUndefined": false
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        });
+
+        new SearchEventHandler({
+            managerid: "searchmetricHostMainAuditFlip",
+            event: "progress",
+            conditions: [{
+                    attr: "match",
+                    value: "'job.resultCount' == 0",
+                    actions: [{
+                        "type": "unset",
+                        "token": "show_metric_host_flipping_status_no_results"
+                    }]
+                },
+                {
+                    attr: "any",
+                    value: "*",
+                    actions: [{
+                        "type": "set",
+                        "token": "show_metric_host_flipping_status_no_results",
+                        "value": "True"
+                    }]
+                }
+            ]
+        });
+
+        var searchMainmetricHostAuditFlipTable = new PostProcessManager({
+            "tokenDependencies": {},
+            "search": "rename separator as \" \" | `trackme_eval_icons_flip` | fields _time	object object_category object_previous_state \" \" object_state | sort limit=10000 _time",
+            "managerid": "searchmetricHostMainAuditFlip",
+            "id": "searchMainmetricHostAuditFlipTable"
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        });
+
+        var searchAuditmetricHostFlipOverTime = new PostProcessManager({
+            "tokenDependencies": {},
+            "search": "timechart limit=40 useother=t minspan=1h bins=1000 count by object_state",
+            "managerid": "searchmetricHostMainAuditFlip",
+            "id": "searchAuditmetricHostFlipOverTime"
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        });
+
         // Audit Changes
         var searchMainAuditChanges = new SearchManager({
             "id": "searchMainAuditChanges",
@@ -6745,7 +7116,7 @@ require([
             "tokenDependencies": {
                 "depends": "$show_metric_host_tracker$"
             },
-            "search": "`trackme_get_sla_pct_per_entity(metric_host,$tk_metric_host$)`",
+            "search": "`trackme_get_sla_pct_per_entity(metric_host,$tk_metric_host$,trackme_metric_host_monitoring,metric_host,metric_first_time_seen)`",
             "id": "searchSingleSLAMetricHostpct",
             "sample_ratio": 1,
             "status_buckets": 0,
@@ -7128,14 +7499,14 @@ require([
         // data source monitoring
 
         // Data parsing quality
-        var DataSourcesParsingQualityChart = new SearchManager({
-            "id": "DataSourcesParsingQualityChart",
+        var DataSourcesParsingQualityMain = new SearchManager({
+            "id": "DataSourcesParsingQualityMain",
             "tokenDependencies": {
                 "depends": "$show_data_quality$"
             },
             "sample_ratio": 1,
             "earliest_time": "$modalTime.earliest$",
-            "search": "index=_internal sourcetype=splunkd error OR warn `trackme_idx_filter` component=LineBreakingProcessor OR component=AggregatorMiningProcessor OR component=DateParserVerbose | `trackme_data_quality_parse` | search data_sourcetype=\"$tk_data_sourcetype$\" | timechart span=$modalTime.span$ count by component",
+            "search": "index=_internal sourcetype=splunkd error OR warn `trackme_idx_filter` (component=LineBreakingProcessor OR component=AggregatorMiningProcessor OR component=DateParserVerbose) | `trackme_data_quality_parse` | search data_sourcetype=\"$tk_data_sourcetype$\"",
             "latest_time": "$modalTime.latest$",
             "cancelOnUnload": true,
             "status_buckets": 0,
@@ -7148,21 +7519,44 @@ require([
             tokenNamespace: "submitted"
         });
 
-        var DataSourcesParsingQualitySingle = new SearchManager({
-            "id": "DataSourcesParsingQualitySingle",
-            "tokenDependencies": {
-                "depends": "$show_data_quality$"
-            },
-            "sample_ratio": 1,
-            "earliest_time": "$modalTime.earliest$",
-            "search": "index=_internal sourcetype=splunkd error OR warn `trackme_idx_filter` (component=LineBreakingProcessor OR component=AggregatorMiningProcessor OR component=DateParserVerbose) | `trackme_data_quality_parse` | search data_sourcetype=\"$tk_data_sourcetype$\" | top limit=0 component | eval percent=round(percent, 2) | eval summary=component . \": \" . percent . \" %\" | fields summary | stats values(summary) as summary | append [ | makeresults | eval summary=\"No data quality parsing errors were found for this entity.\" | fields - _time ] | head 1",
-            "latest_time": "$modalTime.latest$",
-            "cancelOnUnload": true,
-            "status_buckets": 0,
-            "app": utils.getCurrentApp(),
-            "auto_cancel": 90,
-            "preview": true,
-            "runWhenTimeIsUndefined": false
+        new SearchEventHandler({
+            managerid: "DataSourcesParsingQualityMain",
+            event: "progress",
+            conditions: [{
+                    attr: "match",
+                    value: "'job.resultCount' == 0",
+                    actions: [{
+                        "type": "unset",
+                        "token": "show_data_quality_no_results"
+                    }]
+                },
+                {
+                    attr: "any",
+                    value: "*",
+                    actions: [{
+                        "type": "set",
+                        "token": "show_data_quality_no_results",
+                        "value": "True"
+                    }]
+                }
+            ]
+        });
+
+        var DataSourcesParsingQualityChart = new PostProcessManager({
+            "tokenDependencies": {},
+            "search": "timechart span=$modalTime.span$ count by component",
+            "managerid": "DataSourcesParsingQualityMain",
+            "id": "DataSourcesParsingQualityChart"
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        });
+
+        var DataSourcesParsingQualitySingle = new PostProcessManager({
+            "tokenDependencies": {},
+            "search": "top limit=0 component | eval percent=round(percent, 2) | eval summary=component . \": \" . percent . \" %\" | fields summary | stats values(summary) as summary",
+            "managerid": "DataSourcesParsingQualityMain",
+            "id": "DataSourcesParsingQualitySingle"
         }, {
             tokens: true,
             tokenNamespace: "submitted"
@@ -7277,7 +7671,7 @@ require([
             "tokenDependencies": {
                 "depends": "$show_data_source_tracker$"
             },
-            "search": "`trackme_get_sla_pct_per_entity(data_source,$tk_data_name$)`",
+            "search": "`trackme_get_sla_pct_per_entity(data_source,$tk_data_name$,trackme_data_source_monitoring,data_name,data_first_time_seen)`",
             "id": "searchSingleSLApct",
             "sample_ratio": 1,
             "status_buckets": 0,
@@ -7295,14 +7689,14 @@ require([
         // data host monitoring
 
         // Data parsing quality
-        var DataHostsParsingQualityChart = new SearchManager({
-            "id": "DataHostsParsingQualityChart",
+        var DataHostsParsingQualityMain = new SearchManager({
+            "id": "DataHostsParsingQualityMain",
             "tokenDependencies": {
                 "depends": "$show_data_host_quality$"
             },
             "sample_ratio": 1,
             "earliest_time": "$modalTimeHost.earliest$",
-            "search": "index=_internal sourcetype=splunkd error OR warn `trackme_idx_filter` component=LineBreakingProcessor OR component=AggregatorMiningProcessor OR component=DateParserVerbose | `trackme_data_quality_parse` | search data_host=\"$tk_data_host$\" | timechart span=$modalTimeHost.span$ count by component",
+            "search": "index=_internal sourcetype=splunkd error OR warn `trackme_idx_filter` component=LineBreakingProcessor OR component=AggregatorMiningProcessor OR component=DateParserVerbose | `trackme_data_quality_parse` | search data_host=\"$tk_data_host$\"",
             "latest_time": "$modalTimeHost.latest$",
             "cancelOnUnload": true,
             "status_buckets": 0,
@@ -7315,21 +7709,44 @@ require([
             tokenNamespace: "submitted"
         });
 
-        var DataHostsParsingQualitySingle = new SearchManager({
-            "id": "DataHostsParsingQualitySingle",
-            "tokenDependencies": {
-                "depends": "$show_data_host_quality$"
-            },
-            "sample_ratio": 1,
-            "earliest_time": "$modalTimeHost.earliest$",
-            "search": "index=_internal sourcetype=splunkd error OR warn `trackme_idx_filter` (component=LineBreakingProcessor OR component=AggregatorMiningProcessor OR component=DateParserVerbose) | `trackme_data_quality_parse` | search data_host=\"$tk_data_host$\" | top limit=0 component | eval percent=round(percent, 2) | eval summary=component . \": \" . percent . \" %\" | fields summary | stats values(summary) as summary | append [ | makeresults | eval summary=\"No data quality parsing errors were found for this entity.\" | fields - _time ] | head 1",
-            "latest_time": "$modalTimeHost.latest$",
-            "cancelOnUnload": true,
-            "status_buckets": 0,
-            "app": utils.getCurrentApp(),
-            "auto_cancel": 90,
-            "preview": true,
-            "runWhenTimeIsUndefined": false
+        new SearchEventHandler({
+            managerid: "DataHostsParsingQualityMain",
+            event: "progress",
+            conditions: [{
+                    attr: "match",
+                    value: "'job.resultCount' == 0",
+                    actions: [{
+                        "type": "unset",
+                        "token": "show_data_host_quality_no_results"
+                    }]
+                },
+                {
+                    attr: "any",
+                    value: "*",
+                    actions: [{
+                        "type": "set",
+                        "token": "show_data_host_quality_no_results",
+                        "value": "True"
+                    }]
+                }
+            ]
+        });
+
+        var DataHostsParsingQualityChart = new PostProcessManager({
+            "tokenDependencies": {},
+            "search": "timechart span=$modalTimeHost.span$ count by component",
+            "managerid": "DataHostsParsingQualityMain",
+            "id": "DataHostsParsingQualityChart"
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        });
+
+        var DataHostsParsingQualitySingle = new PostProcessManager({
+            "tokenDependencies": {},
+            "search": "top limit=0 component | eval percent=round(percent, 2) | eval summary=component . \": \" . percent . \" %\" | fields summary | stats values(summary) as summary",
+            "managerid": "DataHostsParsingQualityMain",
+            "id": "DataHostsParsingQualitySingle"
         }, {
             tokens: true,
             tokenNamespace: "submitted"
@@ -7444,7 +7861,7 @@ require([
             "tokenDependencies": {
                 "depends": "$show_data_host_tracker$"
             },
-            "search": "`trackme_get_sla_pct_per_entity(data_host,$tk_data_host$)`",
+            "search": "`trackme_get_sla_pct_per_entity(data_host,$tk_data_host$,trackme_host_monitoring,data_host,data_first_time_seen)`",
             "id": "searchSingleSLAHostpct",
             "sample_ratio": 1,
             "status_buckets": 0,
@@ -8876,6 +9293,10 @@ require([
                     "label": "Data parsing quality"
                 },
                 {
+                    "value": "flipping_status",
+                    "label": "Status flipping"
+                },
+                {
                     "value": "status_message",
                     "label": "Status message"
                 }
@@ -8901,30 +9322,42 @@ require([
                 EventHandler.unsetToken("show_data_source_outlier_configuration");
                 EventHandler.unsetToken("show_data_source_status_message");
                 EventHandler.unsetToken("show_data_quality");
+                EventHandler.unsetToken("show_flipping_status");
             } else if (e.value === "outlier") {
                 EventHandler.setToken("show_data_source_outlier", "true", {}, e.data);
                 EventHandler.unsetToken("show_data_source_overview");
                 EventHandler.unsetToken("show_data_source_outlier_configuration");
                 EventHandler.unsetToken("show_data_source_status_message");
                 EventHandler.unsetToken("show_data_quality");
+                EventHandler.unsetToken("show_flipping_status");
             } else if (e.value === "outlier_configuration") {
                 EventHandler.setToken("show_data_source_outlier_configuration", "true", {}, e.data);
                 EventHandler.unsetToken("show_data_source_overview");
                 EventHandler.unsetToken("show_data_source_outlier");
                 EventHandler.unsetToken("show_data_source_status_message");
                 EventHandler.unsetToken("show_data_quality");
+                EventHandler.unsetToken("show_flipping_status");
             } else if (e.value === "data_quality") {
                 EventHandler.setToken("show_data_quality", "true", {}, e.data);
                 EventHandler.unsetToken("show_data_source_overview");
                 EventHandler.unsetToken("show_data_source_outlier");
                 EventHandler.unsetToken("show_data_source_outlier_configuration");
                 EventHandler.unsetToken("show_data_source_status_message");
+                EventHandler.unsetToken("show_flipping_status");
+            } else if (e.value === "flipping_status") {
+                EventHandler.setToken("show_flipping_status", "true", {}, e.data);
+                EventHandler.unsetToken("show_data_source_overview");
+                EventHandler.unsetToken("show_data_source_outlier");
+                EventHandler.unsetToken("show_data_source_outlier_configuration");
+                EventHandler.unsetToken("show_data_source_status_message");
+                EventHandler.unsetToken("show_data_quality");
             } else if (e.value === "status_message") {
                 EventHandler.setToken("show_data_source_status_message", "true", {}, e.data);
                 EventHandler.unsetToken("show_data_source_overview");
                 EventHandler.unsetToken("show_data_source_outlier_configuration");
                 EventHandler.unsetToken("show_data_source_outlier");
                 EventHandler.unsetToken("show_data_quality");
+                EventHandler.unsetToken("show_flipping_status");
             }
         });
 
@@ -9133,6 +9566,10 @@ require([
                     "label": "Data parsing quality"
                 },
                 {
+                    "value": "flipping_status",
+                    "label": "Status flipping"
+                },
+                {
                     "value": "status_message",
                     "label": "Status message"
                 }
@@ -9158,30 +9595,42 @@ require([
                 EventHandler.unsetToken("show_data_host_outlier_configuration");
                 EventHandler.unsetToken("show_data_host_status_message");
                 EventHandler.unsetToken("show_data_host_quality");
+                EventHandler.unsetToken("show_data_host_flipping_status");
             } else if (e.value === "outlier") {
                 EventHandler.setToken("show_data_host_outlier", "true", {}, e.data);
                 EventHandler.unsetToken("show_data_host_overview");
                 EventHandler.unsetToken("show_data_host_outlier_configuration");
                 EventHandler.unsetToken("show_data_host_status_message");
                 EventHandler.unsetToken("show_data_host_quality");
+                EventHandler.unsetToken("show_data_host_flipping_status");
             } else if (e.value === "outlier_configuration") {
                 EventHandler.setToken("show_data_host_outlier_configuration", "true", {}, e.data);
                 EventHandler.unsetToken("show_data_host_overview");
                 EventHandler.unsetToken("show_data_host_outlier");
                 EventHandler.unsetToken("show_data_host_status_message");
                 EventHandler.unsetToken("show_data_host_quality");
+                EventHandler.unsetToken("show_data_host_flipping_status");
             } else if (e.value === "data_quality") {
                 EventHandler.setToken("show_data_host_quality", "true", {}, e.data);
                 EventHandler.unsetToken("show_data_host_overview");
                 EventHandler.unsetToken("show_data_host_outlier");
                 EventHandler.unsetToken("show_data_host_status_message");
                 EventHandler.unsetToken("show_data_host_outlier_configuration");
+                EventHandler.unsetToken("show_data_host_flipping_status");
+            } else if (e.value === "flipping_status") {
+                EventHandler.setToken("show_data_host_flipping_status", "true", {}, e.data);
+                EventHandler.unsetToken("show_data_host_overview");
+                EventHandler.unsetToken("show_data_host_outlier");
+                EventHandler.unsetToken("show_data_host_status_message");
+                EventHandler.unsetToken("show_data_host_outlier_configuration");
+                EventHandler.unsetToken("show_data_host_quality");
             } else if (e.value === "status_message") {
                 EventHandler.setToken("show_data_host_status_message", "true", {}, e.data);
                 EventHandler.unsetToken("show_data_host_overview");
                 EventHandler.unsetToken("show_data_host_outlier_configuration");
                 EventHandler.unsetToken("show_data_host_outlier");
                 EventHandler.unsetToken("show_data_host_quality");
+                EventHandler.unsetToken("show_data_host_flipping_status");
             }
         });
 
@@ -9579,6 +10028,92 @@ require([
                 EventHandler.setToken("modalTimeHost.earliest", "-90d", {}, e.data);
                 EventHandler.setToken("modalTimeHost.latest", "now", {}, e.data);
                 EventHandler.setToken("modalTimeHost.span", "12h", {}, e.data);
+            }
+        });
+
+        // input link selection for modal window
+        var inputLinkTimeMetricHost = new LinkListInput({
+            "id": "inputLinkTimeMetricHost",
+            "choices": [{
+                    "value": "60m",
+                    "label": "60m"
+                },
+                {
+                    "value": "4h",
+                    "label": "4h"
+                },
+                {
+                    "value": "12h",
+                    "label": "12h"
+                },
+                {
+                    "value": "24h",
+                    "label": "24h"
+                },
+                {
+                    "value": "48h",
+                    "label": "48h"
+                },
+                {
+                    "value": "7d",
+                    "label": "7d"
+                },
+                {
+                    "value": "30d",
+                    "label": "30d"
+                },
+                {
+                    "value": "90d",
+                    "label": "90d"
+                }
+            ],
+            "default": "24h",
+            "searchWhenChanged": true,
+            "selectFirstChoice": false,
+            "initialValue": "24h",
+            "value": "$form.modalActionTimeMetricHost$",
+            "el": $('#inputLinkTimeMetricHost')
+        }, {
+            tokens: true
+        }).render();
+
+        inputLinkTimeMetricHost.on("change", function(newValue) {
+            FormUtils.handleValueChange(input1);
+        });
+
+        inputLinkTimeMetricHost.on("valueChange", function(e) {
+            if (e.value === "60m") {
+                EventHandler.setToken("modalTimeMetricHost.earliest", "-60m", {}, e.data);
+                EventHandler.setToken("modalTimeMetricHost.latest", "now", {}, e.data);
+                EventHandler.setToken("modalTimeMetricHost.span", "1m", {}, e.data);
+            } else if (e.value === "4h") {
+                EventHandler.setToken("modalTimeMetricHost.earliest", "-4h", {}, e.data);
+                EventHandler.setToken("modalTimeMetricHost.latest", "now", {}, e.data);
+                EventHandler.setToken("modalTimeMetricHost.span", "5m", {}, e.data);
+            } else if (e.value === "12h") {
+                EventHandler.setToken("modalTimeMetricHost.earliest", "-12h", {}, e.data);
+                EventHandler.setToken("modalTimeMetricHost.latest", "now", {}, e.data);
+                EventHandler.setToken("modalTimeMetricHost.span", "10m", {}, e.data);
+            } else if (e.value === "24h") {
+                EventHandler.setToken("modalTimeMetricHost.earliest", "-24h", {}, e.data);
+                EventHandler.setToken("modalTimeMetricHost.latest", "now", {}, e.data);
+                EventHandler.setToken("modalTimeMetricHost.span", "15m", {}, e.data);
+            } else if (e.value === "48h") {
+                EventHandler.setToken("modalTimeMetricHost.earliest", "-48h", {}, e.data);
+                EventHandler.setToken("modalTimeMetricHost.latest", "now", {}, e.data);
+                EventHandler.setToken("modalTimeMetricHost.span", "30m", {}, e.data);
+            } else if (e.value === "7d") {
+                EventHandler.setToken("modalTimeMetricHost.earliest", "-7d", {}, e.data);
+                EventHandler.setToken("modalTimeMetricHost.latest", "now", {}, e.data);
+                EventHandler.setToken("modalTimeMetricHost.span", "1h", {}, e.data);
+            } else if (e.value === "30d") {
+                EventHandler.setToken("modalTimeMetricHost.earliest", "-30d", {}, e.data);
+                EventHandler.setToken("modalTimeMetricHost.latest", "now", {}, e.data);
+                EventHandler.setToken("modalTimeMetricHost.span", "4h", {}, e.data);
+            } else if (e.value === "90d") {
+                EventHandler.setToken("modalTimeMetricHost.earliest", "-90d", {}, e.data);
+                EventHandler.setToken("modalTimeMetricHost.latest", "now", {}, e.data);
+                EventHandler.setToken("modalTimeMetricHost.span", "12h", {}, e.data);
             }
         });
 
@@ -10241,6 +10776,10 @@ require([
                     "label": "Overview metric host"
                 },
                 {
+                    "value": "flipping_status",
+                    "label": "Status flipping"
+                },
+                {
                     "value": "status_message",
                     "label": "Status message"
                 }
@@ -10263,9 +10802,15 @@ require([
             if (e.value === "overview") {
                 EventHandler.setToken("show_metric_host_overview", "true", {}, e.data);
                 EventHandler.unsetToken("show_metric_host_status_message");
+                EventHandler.unsetToken("show_metric_host_flipping_status");
+            } else if (e.value === "flipping_status") {
+                EventHandler.setToken("show_metric_host_flipping_status", "true", {}, e.data);
+                EventHandler.unsetToken("show_metric_host_overview");
+                EventHandler.unsetToken("show_metric_host_status_message");
             } else if (e.value === "status_message") {
                 EventHandler.setToken("show_metric_host_status_message", "true", {}, e.data);
                 EventHandler.unsetToken("show_metric_host_overview");
+                EventHandler.unsetToken("show_metric_host_flipping_status");
             }
         });
 
@@ -12194,6 +12739,96 @@ require([
             "resizable": true,
             "managerid": "searchAuditFlipTopObject",
             "el": $('#chartAuditFlipTopObject')
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        }).render();
+
+        // Audit Flip Data Source
+        var elementMainTableAuditFlipDataSource = new TableElement({
+            "id": "elementMainTableAuditFlipDataSource",
+            "count": 5,
+            "drilldown": "none",
+            "refresh.display": "none",
+            "wrap": "false",
+            "managerid": "searchMaindataSourceAuditFlipTable",
+            "el": $('#elementMainTableAuditFlipDataSource')
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        }).render();
+
+        var chartAuditFlipDataSourceOverTime = new ChartElement({
+            "id": "chartAuditFlipDataSourceOverTime",
+            "charting.chart.stackMode": "stacked",
+            "charting.chart": "column",
+            "charting.drilldown": "all",
+            "charting.axisLabelsY.majorUnit": "1",
+            "charting.fieldColors": "{\"orange\": 0xffd394, \"blue\": 0xcfebf9, \"green\": 0xb6edb6, \"red\": 0xFFBABA}",
+            "resizable": true,
+            "height": "150",
+            "managerid": "searchAuditdataSourceFlipOverTime",
+            "el": $('#chartAuditFlipDataSourceOverTime')
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        }).render();
+
+        // Audit Flip Data Host
+        var elementMainTableAuditFlipDataHost = new TableElement({
+            "id": "elementMainTableAuditFlipDataHost",
+            "count": 5,
+            "drilldown": "none",
+            "refresh.display": "none",
+            "wrap": "false",
+            "managerid": "searchMaindataHostAuditFlipTable",
+            "el": $('#elementMainTableAuditFlipDataHost')
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        }).render();
+
+        var chartAuditFlipDataHostOverTime = new ChartElement({
+            "id": "chartAuditFlipDataHostOverTime",
+            "charting.chart.stackMode": "stacked",
+            "charting.chart": "column",
+            "charting.drilldown": "all",
+            "charting.axisLabelsY.majorUnit": "1",
+            "charting.fieldColors": "{\"orange\": 0xffd394, \"blue\": 0xcfebf9, \"green\": 0xb6edb6, \"red\": 0xFFBABA}",
+            "resizable": true,
+            "height": "150",
+            "managerid": "searchAuditdataHostFlipOverTime",
+            "el": $('#chartAuditFlipDataHostOverTime')
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        }).render();
+
+        // Audit Flip Metric Host
+        var elementMainTableAuditFlipMetricHost = new TableElement({
+            "id": "elementMainTableAuditFlipMetricHost",
+            "count": 5,
+            "drilldown": "none",
+            "refresh.display": "none",
+            "wrap": "false",
+            "managerid": "searchMainmetricHostAuditFlipTable",
+            "el": $('#elementMainTableAuditFlipMetricHost')
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        }).render();
+
+        var chartAuditFlipMetricHostOverTime = new ChartElement({
+            "id": "chartAuditFlipMetricHostOverTime",
+            "charting.chart.stackMode": "stacked",
+            "charting.chart": "column",
+            "charting.drilldown": "all",
+            "charting.axisLabelsY.majorUnit": "1",
+            "charting.fieldColors": "{\"orange\": 0xffd394, \"blue\": 0xcfebf9, \"green\": 0xb6edb6, \"red\": 0xFFBABA}",
+            "resizable": true,
+            "height": "150",
+            "managerid": "searchAuditmetricHostFlipOverTime",
+            "el": $('#chartAuditFlipMetricHostOverTime')
         }, {
             tokens: true,
             tokenNamespace: "submitted"
@@ -16469,12 +17104,14 @@ require([
         // refresh data_source
         $("#btn_refresh_data_source").click(function(mode) {
             // notify
-            notification('Refresh of all information and statuses for that entity are being processed.', 6000)
+            notification('Refresh proceeded.', 6000)
             searchSingleLag.startSearch();
             searchChartLag.startSearch();
             searchSingleSLApct.startSearch();
             searchOutlierDetectionChart.startSearch();
             searchOutlierDetectionTable.startSearch();
+            searchdataSourceMainAuditFlip.startSearch();
+            DataSourcesParsingQualityMain.startSearch();
             // call update summary investigator for that entity only
             var tk_data_name = tokens.get("tk_data_name");
             var tk_data_index = tokens.get("tk_data_index");
@@ -16488,13 +17125,16 @@ require([
         // refresh data_host
         $("#btn_refresh_data_host").click(function(mode) {
             // notify
-            notification('Refresh of all information and statuses for that entity are being processed.', 6000)
+            notification('Refresh proceeded.', 6000)
             searchSingleLagHost.startSearch();
             searchChartHostBaseSearch.startSearch();
             searchChartLagHostOverTime.startSearch();
             searchSingleSLAHostpct.startSearch();
             searchOutlierDetectionChartDataHost.startSearch();
             searchOutlierDetectionTableDataHost.startSearch();
+            searchdataHostMainAuditFlip.startSearch();
+            DataHostsParsingQualityMain.startSearch();
+
             // call update summary investigator for that entity only
             var tk_data_host = tokens.get("tk_data_host");
             updateDataHostEntity("trackme_datahost_tracker_shorterm", tk_data_host);
@@ -16506,9 +17146,11 @@ require([
         // refresh metric_host
         $("#btn_refresh_metric_host").click(function(mode) {
             // notify
-            notification('Refresh of all information and statuses for that entity are being processed.', 6000)
+            notification('Refresh proceeded.', 6000)
             searchHostTableMetricHost.startSearch();
             searchSingleSLAMetricHostpct.startSearch();
+            searchmetricHostMainAuditFlip.startSearch();
+
             var tk_keyid = tokens.get("tk_keyid");
             // call update metric host
             updateMetricHost(tk_keyid);
