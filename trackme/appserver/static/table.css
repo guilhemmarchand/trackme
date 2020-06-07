@@ -3,6 +3,7 @@
 .ico_good,
 .ico_warn,
 .ico_error,
+.ico_ack,
 .ico_unknown {
     display:inline-block;
     text-align: center;
@@ -59,7 +60,7 @@
     width: 20px;
 }
 .ico_small.ico_ack {
-    font-size: 26px;
+    font-size: 35px;
     width: 20px;
 }
 .ico_small.ico_error {
