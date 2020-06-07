@@ -1557,7 +1557,7 @@ styles in <div> tags, similar to Bootstrap's grid system.
                             <div id="panelSingleParsingQuality" class="dashboard-cell" style="width: 100%;">
                                 <div class="dashboard-panel clearfix">
                                     <div class="panel-element-row">
-                                        <div id="elementDataSourcesParsingQualitySingle" class="dashboard-element chart" style="width: 100%">
+                                        <div id="elementSearchDataSourceParsingQualitySingle" class="dashboard-element chart" style="width: 100%">
                                             <div class="panel-body"></div>
                                         </div>
                                     </div>
@@ -1572,7 +1572,7 @@ styles in <div> tags, similar to Bootstrap's grid system.
                                         <div class="panel-head">
                                             <h3>CAUTION: Indexing time parsing errors happen on the sourcetype level, if this sourcetype is indexing to more than one index, these errors may not apply to this index / sourcetype combination</h3>
                                         </div>
-                                        <div id="elementDataSourcesParsingQualityChart" class="dashboard-element chart" style="width: 100%">
+                                        <div id="elementSearchDataSourceParsingQualityChart" class="dashboard-element chart" style="width: 100%">
                                             <div class="panel-body"></div>
                                         </div>
                                     </div>
@@ -1919,7 +1919,7 @@ styles in <div> tags, similar to Bootstrap's grid system.
                             <div id="panelSingleParsingQualityDataHost" class="dashboard-cell" style="width: 100%;">
                                 <div class="dashboard-panel clearfix">
                                     <div class="panel-element-row">
-                                        <div id="elementDataHostsParsingQualitySingle" class="dashboard-element chart" style="width: 100%">
+                                        <div id="elementSearchDataHostParsingQualitySingle" class="dashboard-element chart" style="width: 100%">
                                             <div class="panel-body"></div>
                                         </div>
                                     </div>
@@ -1933,7 +1933,7 @@ styles in <div> tags, similar to Bootstrap's grid system.
                                     <div class="panel-element-row">
                                         <div class="panel-head">
                                         </div>
-                                        <div id="elementDataHostsParsingQualityChart" class="dashboard-element chart" style="width: 100%">
+                                        <div id="elementSearchDataHostParsingQualityChart" class="dashboard-element chart" style="width: 100%">
                                             <div class="panel-body"></div>
                                         </div>
                                     </div>
@@ -6601,7 +6601,7 @@ require([
             "cancelOnUnload": true,
             "sample_ratio": null,
             "latest_time": "$timerange_audit_flip.latest$",
-            "search": "`trackme_idx` source=\"flip_state_change_tracking\" $audit_flip_object_category$ $audit_flip_object$ $inputAuditFlipObjectFilter$ | eval separator = \"-->\" | table _time object object_category object_previous_state separator object_state result | rename separator as \" \" | `trackme_eval_icons_flip`",
+            "search": "`trackme_idx` source=\"flip_state_change_tracking\" $audit_flip_object_category$ $audit_flip_object$ $inputAuditFlipObjectFilter$ | eval separator = \"-->\" | dedup _time object object_category object_previous_state object_state | table _time object object_category object_previous_state separator object_state result | rename separator as \" \" | `trackme_eval_icons_flip`",
             "status_buckets": 0,
             "app": utils.getCurrentApp(),
             "auto_cancel": 90,
@@ -6686,13 +6686,13 @@ require([
         });
 
         // Audit Flip
-        var searchdataSourceMainAuditFlip = new SearchManager({
-            "id": "searchdataSourceMainAuditFlip",
+        var searchDataSourceMainAuditFlip = new SearchManager({
+            "id": "searchDataSourceMainAuditFlip",
             "earliest_time": "$modalTime.earliest$",
             "cancelOnUnload": true,
             "sample_ratio": null,
             "latest_time": "$modalTime.latest$",
-            "search": "`trackme_idx` source=\"flip_state_change_tracking\" object_category=\"data_source\" object=\"$tk_data_name$\" | eval separator = \"-->\" | table _time object object_category object_previous_state separator object_state result",
+            "search": "`trackme_idx` source=\"flip_state_change_tracking\" object_category=\"data_source\" object=\"$tk_data_name$\" | eval separator = \"-->\" | dedup _time object object_category object_previous_state object_state | table _time object object_category object_previous_state separator object_state result",
             "status_buckets": 0,
             "app": utils.getCurrentApp(),
             "auto_cancel": 90,
@@ -6707,7 +6707,7 @@ require([
         });
 
         new SearchEventHandler({
-            managerid: "searchdataSourceMainAuditFlip",
+            managerid: "searchDataSourceMainAuditFlip",
             event: "progress",
             conditions: [{
                     attr: "match",
@@ -6729,11 +6729,11 @@ require([
             ]
         });
 
-        var searchMaindataSourceAuditFlipTable = new PostProcessManager({
+        var searchMainDataSourceAuditFlipTable = new PostProcessManager({
             "tokenDependencies": {},
             "search": "rename separator as \" \" | `trackme_eval_icons_flip` | fields _time	object object_category object_previous_state \" \" object_state | sort limit=10000 _time",
-            "managerid": "searchdataSourceMainAuditFlip",
-            "id": "searchMaindataSourceAuditFlipTable"
+            "managerid": "searchDataSourceMainAuditFlip",
+            "id": "searchMainDataSourceAuditFlipTable"
         }, {
             tokens: true,
             tokenNamespace: "submitted"
@@ -6742,20 +6742,20 @@ require([
         var searchAuditdataSourceFlipOverTime = new PostProcessManager({
             "tokenDependencies": {},
             "search": "timechart limit=40 useother=t minspan=1h bins=1000 count by object_state",
-            "managerid": "searchdataSourceMainAuditFlip",
+            "managerid": "searchDataSourceMainAuditFlip",
             "id": "searchAuditdataSourceFlipOverTime"
         }, {
             tokens: true,
             tokenNamespace: "submitted"
         });
 
-        var searchdataHostMainAuditFlip = new SearchManager({
-            "id": "searchdataHostMainAuditFlip",
+        var searchDataHostMainAuditFlip = new SearchManager({
+            "id": "searchDataHostMainAuditFlip",
             "earliest_time": "$modalTimeHost.earliest$",
             "cancelOnUnload": true,
             "sample_ratio": null,
             "latest_time": "$modalTimeHost.latest$",
-            "search": "`trackme_idx` source=\"flip_state_change_tracking\" object_category=\"data_host\" object=\"$tk_data_host$\" | eval separator = \"-->\" | table _time object object_category object_previous_state separator object_state result",
+            "search": "`trackme_idx` source=\"flip_state_change_tracking\" object_category=\"data_host\" object=\"$tk_data_host$\" | eval separator = \"-->\" | dedup _time object object_category object_previous_state object_state | table _time object object_category object_previous_state separator object_state result",
             "status_buckets": 0,
             "app": utils.getCurrentApp(),
             "auto_cancel": 90,
@@ -6770,7 +6770,7 @@ require([
         });
 
         new SearchEventHandler({
-            managerid: "searchdataHostMainAuditFlip",
+            managerid: "searchDataHostMainAuditFlip",
             event: "progress",
             conditions: [{
                     attr: "match",
@@ -6792,11 +6792,11 @@ require([
             ]
         });
 
-        var searchMaindataHostAuditFlipTable = new PostProcessManager({
+        var searchMainDataHostAuditFlipTable = new PostProcessManager({
             "tokenDependencies": {},
             "search": "rename separator as \" \" | `trackme_eval_icons_flip` | fields _time	object object_category object_previous_state \" \" object_state | sort limit=10000 _time",
-            "managerid": "searchdataHostMainAuditFlip",
-            "id": "searchMaindataHostAuditFlipTable"
+            "managerid": "searchDataHostMainAuditFlip",
+            "id": "searchMainDataHostAuditFlipTable"
         }, {
             tokens: true,
             tokenNamespace: "submitted"
@@ -6805,20 +6805,20 @@ require([
         var searchAuditdataHostFlipOverTime = new PostProcessManager({
             "tokenDependencies": {},
             "search": "timechart limit=40 useother=t minspan=1h bins=1000 count by object_state",
-            "managerid": "searchdataHostMainAuditFlip",
+            "managerid": "searchDataHostMainAuditFlip",
             "id": "searchAuditdataHostFlipOverTime"
         }, {
             tokens: true,
             tokenNamespace: "submitted"
         });
 
-        var searchmetricHostMainAuditFlip = new SearchManager({
-            "id": "searchmetricHostMainAuditFlip",
+        var searchMetricHostMainAuditFlip = new SearchManager({
+            "id": "searchMetricHostMainAuditFlip",
             "earliest_time": "$modalTimeMetricHost.earliest$",
             "cancelOnUnload": true,
             "sample_ratio": null,
             "latest_time": "$modalTimeMetricHost.latest$",
-            "search": "`trackme_idx` source=\"flip_state_change_tracking\" object_category=\"metric_host\" object=\"$tk_metric_host$\" | eval separator = \"-->\" | table _time object object_category object_previous_state separator object_state result",
+            "search": "`trackme_idx` source=\"flip_state_change_tracking\" object_category=\"metric_host\" object=\"$tk_metric_host$\" | eval separator = \"-->\" | dedup _time object object_category object_previous_state object_state | table _time object object_category object_previous_state separator object_state result",
             "status_buckets": 0,
             "app": utils.getCurrentApp(),
             "auto_cancel": 90,
@@ -6833,7 +6833,7 @@ require([
         });
 
         new SearchEventHandler({
-            managerid: "searchmetricHostMainAuditFlip",
+            managerid: "searchMetricHostMainAuditFlip",
             event: "progress",
             conditions: [{
                     attr: "match",
@@ -6855,11 +6855,11 @@ require([
             ]
         });
 
-        var searchMainmetricHostAuditFlipTable = new PostProcessManager({
+        var searchMainMetricHostAuditFlipTable = new PostProcessManager({
             "tokenDependencies": {},
             "search": "rename separator as \" \" | `trackme_eval_icons_flip` | fields _time	object object_category object_previous_state \" \" object_state | sort limit=10000 _time",
-            "managerid": "searchmetricHostMainAuditFlip",
-            "id": "searchMainmetricHostAuditFlipTable"
+            "managerid": "searchMetricHostMainAuditFlip",
+            "id": "searchMainMetricHostAuditFlipTable"
         }, {
             tokens: true,
             tokenNamespace: "submitted"
@@ -6868,7 +6868,7 @@ require([
         var searchAuditmetricHostFlipOverTime = new PostProcessManager({
             "tokenDependencies": {},
             "search": "timechart limit=40 useother=t minspan=1h bins=1000 count by object_state",
-            "managerid": "searchmetricHostMainAuditFlip",
+            "managerid": "searchMetricHostMainAuditFlip",
             "id": "searchAuditmetricHostFlipOverTime"
         }, {
             tokens: true,
@@ -7499,8 +7499,8 @@ require([
         // data source monitoring
 
         // Data parsing quality
-        var DataSourcesParsingQualityMain = new SearchManager({
-            "id": "DataSourcesParsingQualityMain",
+        var SearchDataSourceParsingQualityMain = new SearchManager({
+            "id": "SearchDataSourceParsingQualityMain",
             "tokenDependencies": {
                 "depends": "$show_data_quality$"
             },
@@ -7520,7 +7520,7 @@ require([
         });
 
         new SearchEventHandler({
-            managerid: "DataSourcesParsingQualityMain",
+            managerid: "SearchDataSourceParsingQualityMain",
             event: "progress",
             conditions: [{
                     attr: "match",
@@ -7542,21 +7542,21 @@ require([
             ]
         });
 
-        var DataSourcesParsingQualityChart = new PostProcessManager({
+        var SearchDataSourceParsingQualityChart = new PostProcessManager({
             "tokenDependencies": {},
             "search": "timechart span=$modalTime.span$ count by component",
-            "managerid": "DataSourcesParsingQualityMain",
-            "id": "DataSourcesParsingQualityChart"
+            "managerid": "SearchDataSourceParsingQualityMain",
+            "id": "SearchDataSourceParsingQualityChart"
         }, {
             tokens: true,
             tokenNamespace: "submitted"
         });
 
-        var DataSourcesParsingQualitySingle = new PostProcessManager({
+        var SearchDataSourceParsingQualitySingle = new PostProcessManager({
             "tokenDependencies": {},
             "search": "top limit=0 component | eval percent=round(percent, 2) | eval summary=component . \": \" . percent . \" %\" | fields summary | stats values(summary) as summary",
-            "managerid": "DataSourcesParsingQualityMain",
-            "id": "DataSourcesParsingQualitySingle"
+            "managerid": "SearchDataSourceParsingQualityMain",
+            "id": "SearchDataSourceParsingQualitySingle"
         }, {
             tokens: true,
             tokenNamespace: "submitted"
@@ -7689,8 +7689,8 @@ require([
         // data host monitoring
 
         // Data parsing quality
-        var DataHostsParsingQualityMain = new SearchManager({
-            "id": "DataHostsParsingQualityMain",
+        var SearchDataHostParsingQualityMain = new SearchManager({
+            "id": "SearchDataHostParsingQualityMain",
             "tokenDependencies": {
                 "depends": "$show_data_host_quality$"
             },
@@ -7710,7 +7710,7 @@ require([
         });
 
         new SearchEventHandler({
-            managerid: "DataHostsParsingQualityMain",
+            managerid: "SearchDataHostParsingQualityMain",
             event: "progress",
             conditions: [{
                     attr: "match",
@@ -7732,21 +7732,21 @@ require([
             ]
         });
 
-        var DataHostsParsingQualityChart = new PostProcessManager({
+        var SearchDataHostParsingQualityChart = new PostProcessManager({
             "tokenDependencies": {},
             "search": "timechart span=$modalTimeHost.span$ count by component",
-            "managerid": "DataHostsParsingQualityMain",
-            "id": "DataHostsParsingQualityChart"
+            "managerid": "SearchDataHostParsingQualityMain",
+            "id": "SearchDataHostParsingQualityChart"
         }, {
             tokens: true,
             tokenNamespace: "submitted"
         });
 
-        var DataHostsParsingQualitySingle = new PostProcessManager({
+        var SearchDataHostParsingQualitySingle = new PostProcessManager({
             "tokenDependencies": {},
             "search": "top limit=0 component | eval percent=round(percent, 2) | eval summary=component . \": \" . percent . \" %\" | fields summary | stats values(summary) as summary",
-            "managerid": "DataHostsParsingQualityMain",
-            "id": "DataHostsParsingQualitySingle"
+            "managerid": "SearchDataHostParsingQualityMain",
+            "id": "SearchDataHostParsingQualitySingle"
         }, {
             tokens: true,
             tokenNamespace: "submitted"
@@ -12751,7 +12751,7 @@ require([
             "drilldown": "none",
             "refresh.display": "none",
             "wrap": "false",
-            "managerid": "searchMaindataSourceAuditFlipTable",
+            "managerid": "searchMainDataSourceAuditFlipTable",
             "el": $('#elementMainTableAuditFlipDataSource')
         }, {
             tokens: true,
@@ -12781,7 +12781,7 @@ require([
             "drilldown": "none",
             "refresh.display": "none",
             "wrap": "false",
-            "managerid": "searchMaindataHostAuditFlipTable",
+            "managerid": "searchMainDataHostAuditFlipTable",
             "el": $('#elementMainTableAuditFlipDataHost')
         }, {
             tokens: true,
@@ -12811,7 +12811,7 @@ require([
             "drilldown": "none",
             "refresh.display": "none",
             "wrap": "false",
-            "managerid": "searchMainmetricHostAuditFlipTable",
+            "managerid": "searchMainMetricHostAuditFlipTable",
             "el": $('#elementMainTableAuditFlipMetricHost')
         }, {
             tokens: true,
@@ -13998,8 +13998,8 @@ require([
         // data source monitoring
 
         // Data Parsing Quality
-        var elementDataSourcesParsingQualityChart = new ChartElement({
-            "id": "elementDataSourcesParsingQualityChart",
+        var elementSearchDataSourceParsingQualityChart = new ChartElement({
+            "id": "elementSearchDataSourceParsingQualityChart",
             "charting.chart.nullValueMode": "gaps",
             "resizable": true,
             "trellis.enabled": "0",
@@ -14033,15 +14033,15 @@ require([
             "charting.layout.splitSeries": "0",
             "charting.lineWidth": "2",
             "charting.axisY2.scale": "inherit",
-            "managerid": "DataSourcesParsingQualityChart",
-            "el": $('#elementDataSourcesParsingQualityChart')
+            "managerid": "SearchDataSourceParsingQualityChart",
+            "el": $('#elementSearchDataSourceParsingQualityChart')
         }, {
             tokens: true,
             tokenNamespace: "submitted"
         }).render();
 
-        var elementDataSourcesParsingQualitySingle = new SingleElement({
-            "id": "elementDataSourcesParsingQualitySingle",
+        var elementSearchDataSourceParsingQualitySingle = new SingleElement({
+            "id": "elementSearchDataSourceParsingQualitySingle",
             "trendDisplayMode": "absolute",
             "numberPrecision": "0.00",
             "drilldown": "all",
@@ -14061,14 +14061,14 @@ require([
             "trellis.scales.shared": "1",
             "useThousandSeparators": "1",
             "underLabel": "SUMMARY OF INDEXING TIME PARSING ERRORS (click to drilldown in a new tab)",
-            "managerid": "DataSourcesParsingQualitySingle",
-            "el": $('#elementDataSourcesParsingQualitySingle')
+            "managerid": "SearchDataSourceParsingQualitySingle",
+            "el": $('#elementSearchDataSourceParsingQualitySingle')
         }, {
             tokens: true,
             tokenNamespace: "submitted"
         }).render();
 
-        elementDataSourcesParsingQualitySingle.on("click", function(e) {
+        elementSearchDataSourceParsingQualitySingle.on("click", function(e) {
             if (e.field !== undefined) {
                 e.preventDefault();
                 var url = TokenUtils.replaceTokenNames("{{SPLUNKWEB_URL_PREFIX}}/app/trackme/search?q=index=_internal sourcetype=splunkd error OR warn `trackme_idx_filter` component=LineBreakingProcessor OR component=AggregatorMiningProcessor OR component=DateParserVerbose | `trackme_data_quality_parse` | search data_sourcetype=\"$tk_data_sourcetype$\"", _.extend(submittedTokenModel.toJSON(), e.data), TokenUtils.getEscaper('url'), TokenUtils.getFilters(mvc.Components));
@@ -14215,8 +14215,8 @@ require([
         // data host monitoring
 
         // Data Parsing Quality
-        var elementDataHostsParsingQualityChart = new ChartElement({
-            "id": "elementDataHostsParsingQualityChart",
+        var elementSearchDataHostParsingQualityChart = new ChartElement({
+            "id": "elementSearchDataHostParsingQualityChart",
             "charting.chart.nullValueMode": "gaps",
             "resizable": true,
             "trellis.enabled": "0",
@@ -14250,15 +14250,15 @@ require([
             "charting.layout.splitSeries": "0",
             "charting.lineWidth": "2",
             "charting.axisY2.scale": "inherit",
-            "managerid": "DataHostsParsingQualityChart",
-            "el": $('#elementDataHostsParsingQualityChart')
+            "managerid": "SearchDataHostParsingQualityChart",
+            "el": $('#elementSearchDataHostParsingQualityChart')
         }, {
             tokens: true,
             tokenNamespace: "submitted"
         }).render();
 
-        var elementDataHostsParsingQualitySingle = new SingleElement({
-            "id": "elementDataHostsParsingQualitySingle",
+        var elementSearchDataHostParsingQualitySingle = new SingleElement({
+            "id": "elementSearchDataHostParsingQualitySingle",
             "trendDisplayMode": "absolute",
             "numberPrecision": "0.00",
             "drilldown": "all",
@@ -14278,14 +14278,14 @@ require([
             "trellis.scales.shared": "1",
             "useThousandSeparators": "1",
             "underLabel": "SUMMARY OF INDEXING TIME PARSING ERRORS (click to drilldown in a new tab)",
-            "managerid": "DataHostsParsingQualitySingle",
-            "el": $('#elementDataHostsParsingQualitySingle')
+            "managerid": "SearchDataHostParsingQualitySingle",
+            "el": $('#elementSearchDataHostParsingQualitySingle')
         }, {
             tokens: true,
             tokenNamespace: "submitted"
         }).render();
 
-        elementDataHostsParsingQualitySingle.on("click", function(e) {
+        elementSearchDataHostParsingQualitySingle.on("click", function(e) {
             if (e.field !== undefined) {
                 e.preventDefault();
                 var url = TokenUtils.replaceTokenNames("{{SPLUNKWEB_URL_PREFIX}}/app/trackme/search?q=index=_internal sourcetype=splunkd error OR warn `trackme_idx_filter` component=LineBreakingProcessor OR component=AggregatorMiningProcessor OR component=DateParserVerbose | `trackme_data_quality_parse` | search data_host=\"$tk_data_host$\"", _.extend(submittedTokenModel.toJSON(), e.data), TokenUtils.getEscaper('url'), TokenUtils.getFilters(mvc.Components));
@@ -17110,8 +17110,8 @@ require([
             searchSingleSLApct.startSearch();
             searchOutlierDetectionChart.startSearch();
             searchOutlierDetectionTable.startSearch();
-            searchdataSourceMainAuditFlip.startSearch();
-            DataSourcesParsingQualityMain.startSearch();
+            searchDataSourceMainAuditFlip.startSearch();
+            SearchDataSourceParsingQualityMain.startSearch();
             // call update summary investigator for that entity only
             var tk_data_name = tokens.get("tk_data_name");
             var tk_data_index = tokens.get("tk_data_index");
@@ -17132,8 +17132,8 @@ require([
             searchSingleSLAHostpct.startSearch();
             searchOutlierDetectionChartDataHost.startSearch();
             searchOutlierDetectionTableDataHost.startSearch();
-            searchdataHostMainAuditFlip.startSearch();
-            DataHostsParsingQualityMain.startSearch();
+            searchDataHostMainAuditFlip.startSearch();
+            SearchDataHostParsingQualityMain.startSearch();
 
             // call update summary investigator for that entity only
             var tk_data_host = tokens.get("tk_data_host");
@@ -17149,7 +17149,7 @@ require([
             notification('Refresh proceeded.', 6000)
             searchHostTableMetricHost.startSearch();
             searchSingleSLAMetricHostpct.startSearch();
-            searchmetricHostMainAuditFlip.startSearch();
+            searchMetricHostMainAuditFlip.startSearch();
 
             var tk_keyid = tokens.get("tk_keyid");
             // call update metric host
