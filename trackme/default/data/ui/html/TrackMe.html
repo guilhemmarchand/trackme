@@ -1659,6 +1659,51 @@ styles in <div> tags, similar to Bootstrap's grid system.
                             </div>
                         </div>
 
+                        <div id="rowAuditChangesDataSource" class="dashboard-row dashboard-row1" data-original-id="rowAuditChangesDataSourceTop" data-depends="$show_data_source_audit_changes$,$show_data_source_audit_changes_no_results$">
+                            <div id="panelAuditChangesDataSourceChart" class="dashboard-cell" style="width: 100%;">
+                                <div class="dashboard-panel clearfix">
+                                    <div class="panel-element-row">
+                                        <div id="chartAuditChangesDataSourceOverTime" class="dashboard-element chart" style="width: 100%">
+                                            <div class="panel-head">
+                                                <h3>Changes over time</h3>
+                                            </div>
+                                            <div class="panel-body"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div id="rowAuditChangesDataSourceTable" class="dashboard-row dashboard-rowDataSourcesTable" data-depends="$show_data_source_audit_changes$,$show_data_source_audit_changes_no_results$">
+                            <div id="panelAuditChangesDataSourceTable" class="dashboard-cell" style="width: 100%;">
+                                <div class="dashboard-panel clearfix">
+                                    <div class="panel-element-row">
+
+                                        <div id="elementMainTableAuditChangesDataSource" class="dashboard-element table" style="width: 100%">
+                                            <div class="panel-body"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div id="rowAuditChangesDataSourceNoResults" class="dashboard-row dashboard-rowDataSourcesTable" data-depends="$show_data_source_audit_changes$" data-rejects="$show_data_source_audit_changes_no_results$">
+                            <div id="panelAuditChangesDataSourceNoResults" class="dashboard-cell" style="width: 100%;">
+                                <div class="dashboard-panel clearfix">
+                                    <div class="panel-element-row">
+
+                                        <div class="dashboard-element html" style="width: 100%">
+                                            <div class="panel-body html">
+                                                <div class="status_message_green">
+                                                    <h2 style="font-weight: bold;">No audit changes detected within the period</h2>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
                         <div id="rowLinkLag" class="dashboard-row dashboard-row1" style="margin-left: 15px;" data-rejects="$show_data_source_status_message$,$show_data_source_outlier_configuration$">
                             <div id="panelLinktLag2" class="dashboard-cell" style="width: 100%;">
                                 <div class="dashboard-panel clearfix">
@@ -2020,6 +2065,51 @@ styles in <div> tags, similar to Bootstrap's grid system.
                             </div>
                         </div>
 
+                        <div id="rowAuditChangesDataHost" class="dashboard-row dashboard-row1" data-original-id="rowAuditChangesDataHostTop" data-depends="$show_data_host_audit_changes$,$show_data_host_audit_changes_no_results$">
+                            <div id="panelAuditChangesDataHostChart" class="dashboard-cell" style="width: 100%;">
+                                <div class="dashboard-panel clearfix">
+                                    <div class="panel-element-row">
+                                        <div id="chartAuditChangesDataHostOverTime" class="dashboard-element chart" style="width: 100%">
+                                            <div class="panel-head">
+                                                <h3>Changes over time</h3>
+                                            </div>
+                                            <div class="panel-body"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div id="rowAuditChangesDataHostTable" class="dashboard-row dashboard-rowDataHostsTable" data-depends="$show_data_host_audit_changes$,$show_data_host_audit_changes_no_results$">
+                            <div id="panelAuditChangesDataHostTable" class="dashboard-cell" style="width: 100%;">
+                                <div class="dashboard-panel clearfix">
+                                    <div class="panel-element-row">
+
+                                        <div id="elementMainTableAuditChangesDataHost" class="dashboard-element table" style="width: 100%">
+                                            <div class="panel-body"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div id="rowAuditChangesDataHostNoResults" class="dashboard-row dashboard-rowDataHostsTable" data-depends="$show_data_host_audit_changes$" data-rejects="$show_data_host_audit_changes_no_results$">
+                            <div id="panelAuditChangesDataHostNoResults" class="dashboard-cell" style="width: 100%;">
+                                <div class="dashboard-panel clearfix">
+                                    <div class="panel-element-row">
+
+                                        <div class="dashboard-element html" style="width: 100%">
+                                            <div class="panel-body html">
+                                                <div class="status_message_green">
+                                                    <h2 style="font-weight: bold;">No audit changes detected within the period</h2>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
                         <div id="rowLinkLagHost" class="dashboard-row dashboard-row1" style="margin-left: 15px;" data-rejects="$show_data_host_status_message$,$show_data_host_outlier_configuration$">
                             <div id="panelLinktLagHost2" class="dashboard-cell" style="width: 100%;">
                                 <div class="dashboard-panel clearfix">
@@ -2250,6 +2340,51 @@ styles in <div> tags, similar to Bootstrap's grid system.
                                             <div class="panel-body html">
                                                 <div class="$tk_metric_host_status_message_class$">
                                                     <h2 style="font-weight: bold;">$tk_status_message$</h2>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div id="rowAuditChangesMetricHost" class="dashboard-row dashboard-row1" data-original-id="rowAuditChangesMetricHostTop" data-depends="$show_metric_host_audit_changes$,$show_metric_host_audit_changes_no_results$">
+                            <div id="panelAuditChangesMetricHostChart" class="dashboard-cell" style="width: 100%;">
+                                <div class="dashboard-panel clearfix">
+                                    <div class="panel-element-row">
+                                        <div id="chartAuditChangesMetricHostOverTime" class="dashboard-element chart" style="width: 100%">
+                                            <div class="panel-head">
+                                                <h3>Changes over time</h3>
+                                            </div>
+                                            <div class="panel-body"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div id="rowAuditChangesMetricHostTable" class="dashboard-row dashboard-rowMetricHostsTable" data-depends="$show_metric_host_audit_changes$,$show_metric_host_audit_changes_no_results$">
+                            <div id="panelAuditChangesMetricHostTable" class="dashboard-cell" style="width: 100%;">
+                                <div class="dashboard-panel clearfix">
+                                    <div class="panel-element-row">
+
+                                        <div id="elementMainTableAuditChangesMetricHost" class="dashboard-element table" style="width: 100%">
+                                            <div class="panel-body"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div id="rowAuditChangesMetricHostNoResults" class="dashboard-row dashboard-rowMetricHostsTable" data-depends="$show_metric_host_audit_changes$" data-rejects="$show_metric_host_audit_changes_no_results$">
+                            <div id="panelAuditChangesMetricHostNoResults" class="dashboard-cell" style="width: 100%;">
+                                <div class="dashboard-panel clearfix">
+                                    <div class="panel-element-row">
+
+                                        <div class="dashboard-element html" style="width: 100%">
+                                            <div class="panel-body html">
+                                                <div class="status_message_green">
+                                                    <h2 style="font-weight: bold;">No audit changes detected within the period</h2>
                                                 </div>
                                             </div>
                                         </div>
@@ -6685,6 +6820,198 @@ require([
             tokenNamespace: "submitted"
         });
 
+        // Audit Changes Data Source
+        var searchDataSourceMainAuditChanges = new SearchManager({
+            "id": "searchDataSourceMainAuditChanges",
+            "earliest_time": "$modalTime.earliest$",
+            "cancelOnUnload": true,
+            "sample_ratio": null,
+            "latest_time": "$modalTime.latest$",
+            "search": "| inputlookup trackme_audit_changes where (object=\"$tk_data_name$\" AND object_category=\"data_source\") | sort limit=0 - time | eval _time=time/1000 | fields - time | addinfo | where _time>=info_min_time AND (_time<=info_max_time OR info_max_time=\"+Infinity\") | `trackme_eval_icons_audit_changes` | rename action_icon as \" \" | fields _time user action \" \" change_type comment",
+            "status_buckets": 0,
+            "app": utils.getCurrentApp(),
+            "auto_cancel": 90,
+            "preview": true,
+            "tokenDependencies": {
+                "depends": "$show_data_source_audit_changes$"
+            },
+            "runWhenTimeIsUndefined": false
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        });
+
+        new SearchEventHandler({
+            managerid: "searchDataSourceMainAuditChanges",
+            event: "progress",
+            conditions: [{
+                    attr: "match",
+                    value: "'job.resultCount' == 0",
+                    actions: [{
+                        "type": "unset",
+                        "token": "show_data_source_audit_changes_no_results"
+                    }]
+                },
+                {
+                    attr: "any",
+                    value: "*",
+                    actions: [{
+                        "type": "set",
+                        "token": "show_data_source_audit_changes_no_results",
+                        "value": "True"
+                    }]
+                }
+            ]
+        });
+
+        var searchMainDataSourceAuditChangesTable = new PostProcessManager({
+            "tokenDependencies": {},
+            "search": "sort limit=10000 _time",
+            "managerid": "searchDataSourceMainAuditChanges",
+            "id": "searchMainDataSourceAuditChangesTable"
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        });
+
+        var searchAuditDataSourceAuditChangesOverTime = new PostProcessManager({
+            "tokenDependencies": {},
+            "search": "timechart limit=40 useother=t minspan=1h bins=1000 count by action",
+            "managerid": "searchDataSourceMainAuditChanges",
+            "id": "searchAuditDataSourceAuditChangesOverTime"
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        });
+
+        // Audit Changes Data Host
+        var searchDataHostMainAuditChanges = new SearchManager({
+            "id": "searchDataHostMainAuditChanges",
+            "earliest_time": "$modalTime.earliest$",
+            "cancelOnUnload": true,
+            "sample_ratio": null,
+            "latest_time": "$modalTime.latest$",
+            "search": "| inputlookup trackme_audit_changes where (object=\"$tk_data_host$\" AND object_category=\"data_host\") | sort limit=0 - time | eval _time=time/1000 | fields - time | addinfo | where _time>=info_min_time AND (_time<=info_max_time OR info_max_time=\"+Infinity\") | `trackme_eval_icons_audit_changes` | rename action_icon as \" \" | fields _time user action \" \" change_type comment",
+            "status_buckets": 0,
+            "app": utils.getCurrentApp(),
+            "auto_cancel": 90,
+            "preview": true,
+            "tokenDependencies": {
+                "depends": "$show_data_host_audit_changes$"
+            },
+            "runWhenTimeIsUndefined": false
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        });
+
+        new SearchEventHandler({
+            managerid: "searchDataHostMainAuditChanges",
+            event: "progress",
+            conditions: [{
+                    attr: "match",
+                    value: "'job.resultCount' == 0",
+                    actions: [{
+                        "type": "unset",
+                        "token": "show_data_host_audit_changes_no_results"
+                    }]
+                },
+                {
+                    attr: "any",
+                    value: "*",
+                    actions: [{
+                        "type": "set",
+                        "token": "show_data_host_audit_changes_no_results",
+                        "value": "True"
+                    }]
+                }
+            ]
+        });
+
+        var searchMainDataHostAuditChangesTable = new PostProcessManager({
+            "tokenDependencies": {},
+            "search": "sort limit=10000 _time",
+            "managerid": "searchDataHostMainAuditChanges",
+            "id": "searchMainDataHostAuditChangesTable"
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        });
+
+        var searchAuditDataHostAuditChangesOverTime = new PostProcessManager({
+            "tokenDependencies": {},
+            "search": "timechart limit=40 useother=t minspan=1h bins=1000 count by action",
+            "managerid": "searchDataHostMainAuditChanges",
+            "id": "searchAuditDataHostAuditChangesOverTime"
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        });
+
+        // Audit Changes Metric Host
+        var searchMetricHostMainAuditChanges = new SearchManager({
+            "id": "searchMetricHostMainAuditChanges",
+            "earliest_time": "$modalTime.earliest$",
+            "cancelOnUnload": true,
+            "sample_ratio": null,
+            "latest_time": "$modalTime.latest$",
+            "search": "| inputlookup trackme_audit_changes where (object=\"$tk_metric_host$\" AND object_category=\"metric_host\") | sort limit=0 - time | eval _time=time/1000 | fields - time | addinfo | where _time>=info_min_time AND (_time<=info_max_time OR info_max_time=\"+Infinity\") | `trackme_eval_icons_audit_changes` | rename action_icon as \" \" | fields _time user action \" \" change_type comment",
+            "status_buckets": 0,
+            "app": utils.getCurrentApp(),
+            "auto_cancel": 90,
+            "preview": true,
+            "tokenDependencies": {
+                "depends": "$show_metric_host_audit_changes$"
+            },
+            "runWhenTimeIsUndefined": false
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        });
+
+        new SearchEventHandler({
+            managerid: "searchMetricHostMainAuditChanges",
+            event: "progress",
+            conditions: [{
+                    attr: "match",
+                    value: "'job.resultCount' == 0",
+                    actions: [{
+                        "type": "unset",
+                        "token": "show_metric_host_audit_changes_no_results"
+                    }]
+                },
+                {
+                    attr: "any",
+                    value: "*",
+                    actions: [{
+                        "type": "set",
+                        "token": "show_metric_host_audit_changes_no_results",
+                        "value": "True"
+                    }]
+                }
+            ]
+        });
+
+        var searchMainMetricHostAuditChangesTable = new PostProcessManager({
+            "tokenDependencies": {},
+            "search": "sort limit=10000 _time",
+            "managerid": "searchMetricHostMainAuditChanges",
+            "id": "searchMainMetricHostAuditChangesTable"
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        });
+
+        var searchAuditMetricHostAuditChangesOverTime = new PostProcessManager({
+            "tokenDependencies": {},
+            "search": "timechart limit=40 useother=t minspan=1h bins=1000 count by action",
+            "managerid": "searchMetricHostMainAuditChanges",
+            "id": "searchAuditMetricHostAuditChangesOverTime"
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        });
+
         // Audit Flip
         var searchDataSourceMainAuditFlip = new SearchManager({
             "id": "searchDataSourceMainAuditFlip",
@@ -6739,11 +7066,11 @@ require([
             tokenNamespace: "submitted"
         });
 
-        var searchAuditdataSourceFlipOverTime = new PostProcessManager({
+        var searchAuditDataSourceFlipOverTime = new PostProcessManager({
             "tokenDependencies": {},
             "search": "timechart limit=40 useother=t minspan=1h bins=1000 count by object_state",
             "managerid": "searchDataSourceMainAuditFlip",
-            "id": "searchAuditdataSourceFlipOverTime"
+            "id": "searchAuditDataSourceFlipOverTime"
         }, {
             tokens: true,
             tokenNamespace: "submitted"
@@ -6802,11 +7129,11 @@ require([
             tokenNamespace: "submitted"
         });
 
-        var searchAuditdataHostFlipOverTime = new PostProcessManager({
+        var searchAuditDataHostFlipOverTime = new PostProcessManager({
             "tokenDependencies": {},
             "search": "timechart limit=40 useother=t minspan=1h bins=1000 count by object_state",
             "managerid": "searchDataHostMainAuditFlip",
-            "id": "searchAuditdataHostFlipOverTime"
+            "id": "searchAuditDataHostFlipOverTime"
         }, {
             tokens: true,
             tokenNamespace: "submitted"
@@ -6882,7 +7209,7 @@ require([
             "cancelOnUnload": true,
             "sample_ratio": null,
             "latest_time": "$timerange_audit_changes.latest$",
-            "search": "| inputlookup trackme_audit_changes | sort limit=0 - time | eval _time=time/1000 | fields - time | addinfo | where _time>=info_min_time AND (_time<=info_max_time OR info_max_time=\"+Infinity\") | search $audit_changes_action$ $audit_changes_object_category$ $audit_changes_change_type$ $audit_changes_user$ $audit_changes_object$ | fields _time user action change_type object_category object object_attrs comment",
+            "search": "| inputlookup trackme_audit_changes | sort limit=0 - time | eval _time=time/1000 | fields - time | addinfo | where _time>=info_min_time AND (_time<=info_max_time OR info_max_time=\"+Infinity\") | search $audit_changes_action$ $audit_changes_object_category$ $audit_changes_change_type$ $audit_changes_user$ $audit_changes_object$ | `trackme_eval_icons_audit_changes` | rename action_icon as \" \" | fields _time user action \" \" change_type object_category object object_attrs comment",
             "status_buckets": 0,
             "app": utils.getCurrentApp(),
             "auto_cancel": 90,
@@ -9299,7 +9626,11 @@ require([
                 {
                     "value": "status_message",
                     "label": "Status message"
-                }
+                },
+                {
+                    "value": "data_source_audit_changes",
+                    "label": "Audit changes"
+                }                
             ],
             "default": "overview",
             "searchWhenChanged": true,
@@ -9323,6 +9654,7 @@ require([
                 EventHandler.unsetToken("show_data_source_status_message");
                 EventHandler.unsetToken("show_data_quality");
                 EventHandler.unsetToken("show_flipping_status");
+                EventHandler.unsetToken("show_data_source_audit_changes");
             } else if (e.value === "outlier") {
                 EventHandler.setToken("show_data_source_outlier", "true", {}, e.data);
                 EventHandler.unsetToken("show_data_source_overview");
@@ -9330,6 +9662,7 @@ require([
                 EventHandler.unsetToken("show_data_source_status_message");
                 EventHandler.unsetToken("show_data_quality");
                 EventHandler.unsetToken("show_flipping_status");
+                EventHandler.unsetToken("show_data_source_audit_changes");
             } else if (e.value === "outlier_configuration") {
                 EventHandler.setToken("show_data_source_outlier_configuration", "true", {}, e.data);
                 EventHandler.unsetToken("show_data_source_overview");
@@ -9337,6 +9670,7 @@ require([
                 EventHandler.unsetToken("show_data_source_status_message");
                 EventHandler.unsetToken("show_data_quality");
                 EventHandler.unsetToken("show_flipping_status");
+                EventHandler.unsetToken("show_data_source_audit_changes");
             } else if (e.value === "data_quality") {
                 EventHandler.setToken("show_data_quality", "true", {}, e.data);
                 EventHandler.unsetToken("show_data_source_overview");
@@ -9344,6 +9678,7 @@ require([
                 EventHandler.unsetToken("show_data_source_outlier_configuration");
                 EventHandler.unsetToken("show_data_source_status_message");
                 EventHandler.unsetToken("show_flipping_status");
+                EventHandler.unsetToken("show_data_source_audit_changes");
             } else if (e.value === "flipping_status") {
                 EventHandler.setToken("show_flipping_status", "true", {}, e.data);
                 EventHandler.unsetToken("show_data_source_overview");
@@ -9351,6 +9686,7 @@ require([
                 EventHandler.unsetToken("show_data_source_outlier_configuration");
                 EventHandler.unsetToken("show_data_source_status_message");
                 EventHandler.unsetToken("show_data_quality");
+                EventHandler.unsetToken("show_data_source_audit_changes");
             } else if (e.value === "status_message") {
                 EventHandler.setToken("show_data_source_status_message", "true", {}, e.data);
                 EventHandler.unsetToken("show_data_source_overview");
@@ -9358,7 +9694,16 @@ require([
                 EventHandler.unsetToken("show_data_source_outlier");
                 EventHandler.unsetToken("show_data_quality");
                 EventHandler.unsetToken("show_flipping_status");
-            }
+                EventHandler.unsetToken("show_data_source_audit_changes");
+            } else if (e.value === "data_source_audit_changes") {
+                EventHandler.setToken("show_data_source_audit_changes", "true", {}, e.data);
+                EventHandler.unsetToken("show_data_source_overview");
+                EventHandler.unsetToken("show_data_source_outlier_configuration");
+                EventHandler.unsetToken("show_data_source_outlier");
+                EventHandler.unsetToken("show_data_quality");
+                EventHandler.unsetToken("show_flipping_status");
+                EventHandler.unsetToken("show_data_source_status_message");
+            }            
         });
 
         // input link selection for modal window
@@ -9572,6 +9917,10 @@ require([
                 {
                     "value": "status_message",
                     "label": "Status message"
+                },
+                {
+                    "value": "audit_changes",
+                    "label": "Audit changes"
                 }
             ],
             "default": "overview",
@@ -9596,6 +9945,7 @@ require([
                 EventHandler.unsetToken("show_data_host_status_message");
                 EventHandler.unsetToken("show_data_host_quality");
                 EventHandler.unsetToken("show_data_host_flipping_status");
+                EventHandler.unsetToken("show_data_host_audit_changes");
             } else if (e.value === "outlier") {
                 EventHandler.setToken("show_data_host_outlier", "true", {}, e.data);
                 EventHandler.unsetToken("show_data_host_overview");
@@ -9603,6 +9953,7 @@ require([
                 EventHandler.unsetToken("show_data_host_status_message");
                 EventHandler.unsetToken("show_data_host_quality");
                 EventHandler.unsetToken("show_data_host_flipping_status");
+                EventHandler.unsetToken("show_data_host_audit_changes");
             } else if (e.value === "outlier_configuration") {
                 EventHandler.setToken("show_data_host_outlier_configuration", "true", {}, e.data);
                 EventHandler.unsetToken("show_data_host_overview");
@@ -9610,6 +9961,7 @@ require([
                 EventHandler.unsetToken("show_data_host_status_message");
                 EventHandler.unsetToken("show_data_host_quality");
                 EventHandler.unsetToken("show_data_host_flipping_status");
+                EventHandler.unsetToken("show_data_host_audit_changes");
             } else if (e.value === "data_quality") {
                 EventHandler.setToken("show_data_host_quality", "true", {}, e.data);
                 EventHandler.unsetToken("show_data_host_overview");
@@ -9617,6 +9969,7 @@ require([
                 EventHandler.unsetToken("show_data_host_status_message");
                 EventHandler.unsetToken("show_data_host_outlier_configuration");
                 EventHandler.unsetToken("show_data_host_flipping_status");
+                EventHandler.unsetToken("show_data_host_audit_changes");
             } else if (e.value === "flipping_status") {
                 EventHandler.setToken("show_data_host_flipping_status", "true", {}, e.data);
                 EventHandler.unsetToken("show_data_host_overview");
@@ -9624,6 +9977,7 @@ require([
                 EventHandler.unsetToken("show_data_host_status_message");
                 EventHandler.unsetToken("show_data_host_outlier_configuration");
                 EventHandler.unsetToken("show_data_host_quality");
+                EventHandler.unsetToken("show_data_host_audit_changes");
             } else if (e.value === "status_message") {
                 EventHandler.setToken("show_data_host_status_message", "true", {}, e.data);
                 EventHandler.unsetToken("show_data_host_overview");
@@ -9631,6 +9985,15 @@ require([
                 EventHandler.unsetToken("show_data_host_outlier");
                 EventHandler.unsetToken("show_data_host_quality");
                 EventHandler.unsetToken("show_data_host_flipping_status");
+                EventHandler.unsetToken("show_data_host_audit_changes");
+            } else if (e.value === "audit_changes") {
+                EventHandler.setToken("show_data_host_audit_changes", "true", {}, e.data);
+                EventHandler.unsetToken("show_data_host_overview");
+                EventHandler.unsetToken("show_data_host_outlier_configuration");
+                EventHandler.unsetToken("show_data_host_outlier");
+                EventHandler.unsetToken("show_data_host_quality");
+                EventHandler.unsetToken("show_data_host_flipping_status");
+                EventHandler.unsetToken("show_data_host_status_message");
             }
         });
 
@@ -10782,6 +11145,10 @@ require([
                 {
                     "value": "status_message",
                     "label": "Status message"
+                },
+                {
+                    "value": "audit_changes",
+                    "label": "Audit changes"
                 }
             ],
             "default": "overview",
@@ -10803,14 +11170,22 @@ require([
                 EventHandler.setToken("show_metric_host_overview", "true", {}, e.data);
                 EventHandler.unsetToken("show_metric_host_status_message");
                 EventHandler.unsetToken("show_metric_host_flipping_status");
+                EventHandler.unsetToken("show_metric_host_audit_changes");
             } else if (e.value === "flipping_status") {
                 EventHandler.setToken("show_metric_host_flipping_status", "true", {}, e.data);
                 EventHandler.unsetToken("show_metric_host_overview");
                 EventHandler.unsetToken("show_metric_host_status_message");
+                EventHandler.unsetToken("show_metric_host_audit_changes");
             } else if (e.value === "status_message") {
                 EventHandler.setToken("show_metric_host_status_message", "true", {}, e.data);
                 EventHandler.unsetToken("show_metric_host_overview");
                 EventHandler.unsetToken("show_metric_host_flipping_status");
+                EventHandler.unsetToken("show_metric_host_audit_changes");
+            } else if (e.value === "audit_changes") {
+                EventHandler.setToken("show_metric_host_audit_changes", "true", {}, e.data);
+                EventHandler.unsetToken("show_metric_host_overview");
+                EventHandler.unsetToken("show_metric_host_flipping_status");
+                EventHandler.unsetToken("show_metric_host_status_message");
             }
         });
 
@@ -12744,6 +13119,96 @@ require([
             tokenNamespace: "submitted"
         }).render();
 
+        // Audit Changes Data Source
+        var elementMainTableAuditChangesDataSource = new TableElement({
+            "id": "elementMainTableAuditChangesDataSource",
+            "count": 5,
+            "drilldown": "none",
+            "refresh.display": "none",
+            "wrap": "false",
+            "managerid": "searchMainDataSourceAuditChangesTable",
+            "el": $('#elementMainTableAuditChangesDataSource')
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        }).render();
+
+        var chartAuditChangesDataSourceOverTime = new ChartElement({
+            "id": "chartAuditChangesDataSourceOverTime",
+            "charting.chart.stackMode": "stacked",
+            "charting.chart": "column",
+            "charting.drilldown": "all",
+            "charting.axisLabelsY.majorUnit": "1",
+            "charting.fieldColors": "{\"success\": 0xb6edb6, \"failure\": 0xFFBABA}",
+            "resizable": true,
+            "height": "150",
+            "managerid": "searchAuditDataSourceAuditChangesOverTime",
+            "el": $('#chartAuditChangesDataSourceOverTime')
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        }).render();
+
+        // Audit Changes Data Host
+        var elementMainTableAuditChangesDataHost = new TableElement({
+            "id": "elementMainTableAuditChangesDataHost",
+            "count": 5,
+            "drilldown": "none",
+            "refresh.display": "none",
+            "wrap": "false",
+            "managerid": "searchMainDataHostAuditChangesTable",
+            "el": $('#elementMainTableAuditChangesDataHost')
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        }).render();
+
+        var chartAuditChangesDataHostOverTime = new ChartElement({
+            "id": "chartAuditChangesDataHostOverTime",
+            "charting.chart.stackMode": "stacked",
+            "charting.chart": "column",
+            "charting.drilldown": "all",
+            "charting.axisLabelsY.majorUnit": "1",
+            "charting.fieldColors": "{\"success\": 0xb6edb6, \"failure\": 0xFFBABA}",
+            "resizable": true,
+            "height": "150",
+            "managerid": "searchAuditDataHostAuditChangesOverTime",
+            "el": $('#chartAuditChangesDataHostOverTime')
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        }).render();
+
+        // Audit Changes Metric Host
+        var elementMainTableAuditChangesMetricHost = new TableElement({
+            "id": "elementMainTableAuditChangesMetricHost",
+            "count": 5,
+            "drilldown": "none",
+            "refresh.display": "none",
+            "wrap": "false",
+            "managerid": "searchMainMetricHostAuditChangesTable",
+            "el": $('#elementMainTableAuditChangesMetricHost')
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        }).render();
+
+        var chartAuditChangesMetricHostOverTime = new ChartElement({
+            "id": "chartAuditChangesMetricHostOverTime",
+            "charting.chart.stackMode": "stacked",
+            "charting.chart": "column",
+            "charting.drilldown": "all",
+            "charting.axisLabelsY.majorUnit": "1",
+            "charting.fieldColors": "{\"success\": 0xb6edb6, \"failure\": 0xFFBABA}",
+            "resizable": true,
+            "height": "150",
+            "managerid": "searchAuditMetricHostAuditChangesOverTime",
+            "el": $('#chartAuditChangesMetricHostOverTime')
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        }).render();
+
         // Audit Flip Data Source
         var elementMainTableAuditFlipDataSource = new TableElement({
             "id": "elementMainTableAuditFlipDataSource",
@@ -12767,7 +13232,7 @@ require([
             "charting.fieldColors": "{\"orange\": 0xffd394, \"blue\": 0xcfebf9, \"green\": 0xb6edb6, \"red\": 0xFFBABA}",
             "resizable": true,
             "height": "150",
-            "managerid": "searchAuditdataSourceFlipOverTime",
+            "managerid": "searchAuditDataSourceFlipOverTime",
             "el": $('#chartAuditFlipDataSourceOverTime')
         }, {
             tokens: true,
@@ -12797,7 +13262,7 @@ require([
             "charting.fieldColors": "{\"orange\": 0xffd394, \"blue\": 0xcfebf9, \"green\": 0xb6edb6, \"red\": 0xFFBABA}",
             "resizable": true,
             "height": "150",
-            "managerid": "searchAuditdataHostFlipOverTime",
+            "managerid": "searchAuditDataHostFlipOverTime",
             "el": $('#chartAuditFlipDataHostOverTime')
         }, {
             tokens: true,
@@ -15074,15 +15539,15 @@ require([
             "id": "link1",
             "choices": [{
                     "value": "show_data_source_tracker",
-                    "label": "DATA SOURCES AVAILABILITY TRACKING"
+                    "label": "DATA SOURCES TRACKING"
                 },
                 {
                     "value": "show_data_host_tracker",
-                    "label": "DATA HOSTS AVAILABILITY TRACKING"
+                    "label": "DATA HOSTS TRACKING"
                 },
                 {
                     "value": "show_metric_host_tracker",
-                    "label": "METRIC HOSTS AVAILABILITY TRACKING"
+                    "label": "METRIC HOSTS TRACKING"
                 },
                 {
                     "value": "show_audit_flip",
@@ -17111,6 +17576,7 @@ require([
             searchOutlierDetectionChart.startSearch();
             searchOutlierDetectionTable.startSearch();
             searchDataSourceMainAuditFlip.startSearch();
+            searchDataSourceMainAuditChanges.startSearch();
             SearchDataSourceParsingQualityMain.startSearch();
             // call update summary investigator for that entity only
             var tk_data_name = tokens.get("tk_data_name");
@@ -17133,6 +17599,7 @@ require([
             searchOutlierDetectionChartDataHost.startSearch();
             searchOutlierDetectionTableDataHost.startSearch();
             searchDataHostMainAuditFlip.startSearch();
+            searchDataHostMainAuditChanges.startSearch();
             SearchDataHostParsingQualityMain.startSearch();
 
             // call update summary investigator for that entity only
@@ -17150,6 +17617,7 @@ require([
             searchHostTableMetricHost.startSearch();
             searchSingleSLAMetricHostpct.startSearch();
             searchMetricHostMainAuditFlip.startSearch();
+            searchMetricHostMainAuditChanges.startSearch();
 
             var tk_keyid = tokens.get("tk_keyid");
             // call update metric host

@@ -16,8 +16,7 @@ https://trackme.readthedocs.io/en/latest/configuration.html
 
 **release notes:**
 
-- Feature: New data parsing quality tab in data sources and hosts views to provide easy visibility on indexing time parsing errors on a per entity level
-- Feature: New flipping status tab per entity
+- Feature: New data parsing quality tab, flipping status tab and audit changes tab per entity when applicable to provide quick and fast visibility on a per entity level
 - Feature: Design improvements for the status message tab in modal windows which appears now with a new color scheme
 - Feature: Provides Outliers span definition capability, the span value to be used for outliers rendering purposes can now be customised per entity
 - Feature: Automatically handle metrics re-generation when an entity outliers period calculation is changed
