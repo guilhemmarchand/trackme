@@ -27101,6 +27101,16 @@ require([
                                     period: 200
                                 }, {
                                     done: function(job) {
+
+                                        // Refresh the main search
+                                        if (input_object_category == "data_source") {
+                                            searchDataSourcesMain.startSearch();
+                                        } else if (input_object_category == "data_host") {
+                                            searchDataHostsMain.startSearch();
+                                        } else if (input_object_category == "metric_host") {
+                                            searchMetricHostsMain.startSearch();
+                                        }
+
                                         // show deleted modal
                                         $("#ack_achieved").modal()
 
@@ -27229,6 +27239,16 @@ require([
                                     period: 200
                                 }, {
                                     done: function(job) {
+
+                                        // Refresh the main search
+                                        if (input_object_category == "data_source") {
+                                            searchDataSourcesMain.startSearch();
+                                        } else if (input_object_category == "data_host") {
+                                            searchDataHostsMain.startSearch();
+                                        } else if (input_object_category == "metric_host") {
+                                            searchMetricHostsMain.startSearch();
+                                        }
+
                                         // show disabled modal
                                         $("#ack_disable_achieved").modal()
 
