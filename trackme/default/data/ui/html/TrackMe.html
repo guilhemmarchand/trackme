@@ -17221,12 +17221,12 @@ require([
 
         // This function generates outliers statistics and be called when the outliers period calculaton is changed
 
-        function metricOutliersGen(object_category, object, SourceOutlierTimePeriod, DestOutlierTimePeriod) {
+        function metricOutliersGen(object_category, object, TargetOutlierTimePeriod) {
 
             //console.log("Starting function");
 
             // Perform a target search to update key values
-            var searchQuery = "| `trackme_outliers_gen_metrics(" + object_category + "," + object + "," + SourceOutlierTimePeriod + "," + DestOutlierTimePeriod + ")`";
+            var searchQuery = "| `trackme_outliers_gen_metrics(" + object_category + "," + object + "," + TargetOutlierTimePeriod + ")`";
             //console.log(searchQuery);
 
             // Set the search parameters
@@ -28024,7 +28024,7 @@ require([
 
                         // Generate metrics if outlier period was changed
                         if (tk_source_outlier_period != tk_input_data_source_outlier_span) {
-                            metricOutliersGen("data_source", tk_data_name, tk_source_outlier_period, tk_input_data_source_outlier_period);
+                            metricOutliersGen("data_source", tk_data_name, tk_input_data_source_outlier_period);
                         }
 
                         // call update summary investigator for that entity only
@@ -28238,7 +28238,7 @@ require([
 
                         // Generate metrics if outlier period was changed
                         if (tk_source_outlier_period != tk_input_data_host_outlier_span) {
-                            metricOutliersGen("data_host", tk_data_host, tk_source_outlier_period, tk_input_data_host_outlier_period);
+                            metricOutliersGen("data_host", tk_data_host, tk_input_data_host_outlier_period);
                         }
 
                         // call update summary investigator for that entity only
