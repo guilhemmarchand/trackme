@@ -25,6 +25,7 @@ https://trackme.readthedocs.io/en/latest/configuration.html
 - Fix: SLA single calculation can show 0% if there are no previous records in audit flipping status and status has changed to non green
 - Fix: Remove useless stats call in metric report savedsearch which impacts its performance
 - Change: Provides and call a macro per builtin alert to allow customisation of the fields order in the alert results
+- Change: Add app.manifest from packaging toolkit to ease dependencies and target workloads deployment
 
 Version 1.2.10
 ==============
