@@ -9788,6 +9788,10 @@ require([
                     "label": "4h"
                 },
                 {
+                    "value": "8h",
+                    "label": "8h"
+                },
+                {
                     "value": "12h",
                     "label": "12h"
                 },
@@ -9804,8 +9808,16 @@ require([
                     "label": "7d"
                 },
                 {
+                    "value": "15d",
+                    "label": "15d"
+                },
+                {
                     "value": "30d",
                     "label": "30d"
+                },
+                {
+                    "value": "60d",
+                    "label": "60d"
                 },
                 {
                     "value": "90d",
@@ -9835,6 +9847,10 @@ require([
                 EventHandler.setToken("modalTime.earliest", "-4h", {}, e.data);
                 EventHandler.setToken("modalTime.latest", "now", {}, e.data);
                 EventHandler.setToken("modalTime.span", "5m", {}, e.data);
+            } else if (e.value === "8h") {
+                EventHandler.setToken("modalTime.earliest", "-8h", {}, e.data);
+                EventHandler.setToken("modalTime.latest", "now", {}, e.data);
+                EventHandler.setToken("modalTime.span", "5m", {}, e.data);
             } else if (e.value === "12h") {
                 EventHandler.setToken("modalTime.earliest", "-12h", {}, e.data);
                 EventHandler.setToken("modalTime.latest", "now", {}, e.data);
@@ -9851,10 +9867,18 @@ require([
                 EventHandler.setToken("modalTime.earliest", "-7d", {}, e.data);
                 EventHandler.setToken("modalTime.latest", "now", {}, e.data);
                 EventHandler.setToken("modalTime.span", "1h", {}, e.data);
+            } else if (e.value === "15d") {
+                EventHandler.setToken("modalTime.earliest", "-15d", {}, e.data);
+                EventHandler.setToken("modalTime.latest", "now", {}, e.data);
+                EventHandler.setToken("modalTime.span", "2h", {}, e.data);
             } else if (e.value === "30d") {
                 EventHandler.setToken("modalTime.earliest", "-30d", {}, e.data);
                 EventHandler.setToken("modalTime.latest", "now", {}, e.data);
                 EventHandler.setToken("modalTime.span", "4h", {}, e.data);
+            } else if (e.value === "60d") {
+                EventHandler.setToken("modalTime.earliest", "-60d", {}, e.data);
+                EventHandler.setToken("modalTime.latest", "now", {}, e.data);
+                EventHandler.setToken("modalTime.span", "8h", {}, e.data);
             } else if (e.value === "90d") {
                 EventHandler.setToken("modalTime.earliest", "-90d", {}, e.data);
                 EventHandler.setToken("modalTime.latest", "now", {}, e.data);
@@ -10390,6 +10414,10 @@ require([
                     "label": "4h"
                 },
                 {
+                    "value": "8h",
+                    "label": "8h"
+                },
+                {
                     "value": "12h",
                     "label": "12h"
                 },
@@ -10406,8 +10434,16 @@ require([
                     "label": "7d"
                 },
                 {
+                    "value": "15d",
+                    "label": "15d"
+                },
+                {
                     "value": "30d",
                     "label": "30d"
+                },
+                {
+                    "value": "60d",
+                    "label": "60d"
                 },
                 {
                     "value": "90d",
@@ -10437,6 +10473,10 @@ require([
                 EventHandler.setToken("modalTimeHost.earliest", "-4h", {}, e.data);
                 EventHandler.setToken("modalTimeHost.latest", "now", {}, e.data);
                 EventHandler.setToken("modalTimeHost.span", "5m", {}, e.data);
+            } else if (e.value === "8h") {
+                EventHandler.setToken("modalTimeHost.earliest", "-8h", {}, e.data);
+                EventHandler.setToken("modalTimeHost.latest", "now", {}, e.data);
+                EventHandler.setToken("modalTimeHost.span", "5m", {}, e.data);
             } else if (e.value === "12h") {
                 EventHandler.setToken("modalTimeHost.earliest", "-12h", {}, e.data);
                 EventHandler.setToken("modalTimeHost.latest", "now", {}, e.data);
@@ -10453,10 +10493,18 @@ require([
                 EventHandler.setToken("modalTimeHost.earliest", "-7d", {}, e.data);
                 EventHandler.setToken("modalTimeHost.latest", "now", {}, e.data);
                 EventHandler.setToken("modalTimeHost.span", "1h", {}, e.data);
+            } else if (e.value === "15d") {
+                EventHandler.setToken("modalTimeHost.earliest", "-15d", {}, e.data);
+                EventHandler.setToken("modalTimeHost.latest", "now", {}, e.data);
+                EventHandler.setToken("modalTimeHost.span", "2h", {}, e.data);
             } else if (e.value === "30d") {
                 EventHandler.setToken("modalTimeHost.earliest", "-30d", {}, e.data);
                 EventHandler.setToken("modalTimeHost.latest", "now", {}, e.data);
                 EventHandler.setToken("modalTimeHost.span", "4h", {}, e.data);
+            } else if (e.value === "60d") {
+                EventHandler.setToken("modalTimeHost.earliest", "-60d", {}, e.data);
+                EventHandler.setToken("modalTimeHost.latest", "now", {}, e.data);
+                EventHandler.setToken("modalTimeHost.span", "8h", {}, e.data);
             } else if (e.value === "90d") {
                 EventHandler.setToken("modalTimeHost.earliest", "-90d", {}, e.data);
                 EventHandler.setToken("modalTimeHost.latest", "now", {}, e.data);
@@ -10476,6 +10524,10 @@ require([
                     "label": "4h"
                 },
                 {
+                    "value": "8h",
+                    "label": "8h"
+                },
+                {
                     "value": "12h",
                     "label": "12h"
                 },
@@ -10492,8 +10544,16 @@ require([
                     "label": "7d"
                 },
                 {
+                    "value": "15d",
+                    "label": "15d"
+                },
+                {
                     "value": "30d",
                     "label": "30d"
+                },
+                {
+                    "value": "60d",
+                    "label": "60d"
                 },
                 {
                     "value": "90d",
@@ -10523,6 +10583,10 @@ require([
                 EventHandler.setToken("modalTimeMetricHost.earliest", "-4h", {}, e.data);
                 EventHandler.setToken("modalTimeMetricHost.latest", "now", {}, e.data);
                 EventHandler.setToken("modalTimeMetricHost.span", "5m", {}, e.data);
+            } else if (e.value === "8h") {
+                EventHandler.setToken("modalTimeMetricHost.earliest", "-8h", {}, e.data);
+                EventHandler.setToken("modalTimeMetricHost.latest", "now", {}, e.data);
+                EventHandler.setToken("modalTimeMetricHost.span", "5m", {}, e.data);
             } else if (e.value === "12h") {
                 EventHandler.setToken("modalTimeMetricHost.earliest", "-12h", {}, e.data);
                 EventHandler.setToken("modalTimeMetricHost.latest", "now", {}, e.data);
@@ -10539,10 +10603,18 @@ require([
                 EventHandler.setToken("modalTimeMetricHost.earliest", "-7d", {}, e.data);
                 EventHandler.setToken("modalTimeMetricHost.latest", "now", {}, e.data);
                 EventHandler.setToken("modalTimeMetricHost.span", "1h", {}, e.data);
+            } else if (e.value === "15d") {
+                EventHandler.setToken("modalTimeMetricHost.earliest", "-15d", {}, e.data);
+                EventHandler.setToken("modalTimeMetricHost.latest", "now", {}, e.data);
+                EventHandler.setToken("modalTimeMetricHost.span", "2h", {}, e.data);
             } else if (e.value === "30d") {
                 EventHandler.setToken("modalTimeMetricHost.earliest", "-30d", {}, e.data);
                 EventHandler.setToken("modalTimeMetricHost.latest", "now", {}, e.data);
                 EventHandler.setToken("modalTimeMetricHost.span", "4h", {}, e.data);
+            } else if (e.value === "60d") {
+                EventHandler.setToken("modalTimeMetricHost.earliest", "-60d", {}, e.data);
+                EventHandler.setToken("modalTimeMetricHost.latest", "now", {}, e.data);
+                EventHandler.setToken("modalTimeMetricHost.span", "8h", {}, e.data);
             } else if (e.value === "90d") {
                 EventHandler.setToken("modalTimeMetricHost.earliest", "-90d", {}, e.data);
                 EventHandler.setToken("modalTimeMetricHost.latest", "now", {}, e.data);
