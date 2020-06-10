@@ -1,0 +1,64 @@
+{
+  "schemaVersion": "2.0.0",
+  "info": {
+    "title": "TrackMe",
+    "id": {
+      "group": null,
+      "name": "trackme",
+      "version": "1.2.11"
+    },
+    "author": [
+      {
+        "name": "Guilhem Marchand",
+        "email": "guilhem.marchand@gmail.com",
+        "company": "Octamis"
+      }
+    ],
+    "releaseDate": null,
+    "description": "Data tracking system for Splunk",
+    "classification": {
+      "intendedAudience": "IT",
+      "categories": [
+        "IT Operations"
+      ],
+      "developmentStatus": "Production/Stable"
+    },
+    "commonInformationModels": null,
+    "license": {
+      "name": "Apache 2",
+      "text": null,
+      "uri": "http://www.opensource.org/licenses/Apache-2.0"
+    },
+    "privacyPolicy": {
+      "name": null,
+      "text": null,
+      "uri": null
+    },
+    "releaseNotes": {
+      "name": null,
+      "text": null,
+      "uri": "https://trackme.readthedocs.io/en/latest/releasenotes.html"
+    }
+  },
+  "dependencies": {
+    "Splunk_ML_Toolkit": {
+      "version": ">=4.5.0"
+    },
+    "semicircle_donut": {
+      "version": ">=1.0.1"
+    }
+  },
+  "tasks": null,
+  "inputGroups": null,
+  "incompatibleApps": null,
+  "platformRequirements": null,
+  "supportedDeployments": [
+    "_standalone",
+    "_distributed",
+    "_search_head_clustering"
+  ],
+  "targetWorkloads": [
+    "_search_heads",
+    "_indexers"
+  ]
+}

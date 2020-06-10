@@ -1,6 +1,32 @@
 Release notes
 #############
 
+Version 1.2.11
+==============
+
+**CAUTION:**
+
+This is a new main release branch, TrackMe 1.2.x require the deployment of the following dependencies:
+
+- Semicircle Donut Chart Viz, Splunk Base: https://splunkbase.splunk.com/app/4378
+- Splunk Machine Learning Toolkit, Splunk Base: https://splunkbase.splunk.com/app/2890
+
+TrackMe requires a summary index (defaults to trackme_summary) and a metric index (defaults to trackme_metrics):
+https://trackme.readthedocs.io/en/latest/configuration.html
+
+**release notes:**
+
+- Feature: New data parsing quality tab, flipping status tab and audit changes tab per entity when applicable to provide quick and fast visibility on a per entity level
+- Feature: Design improvements for the status message tab in modal windows which appears now with a new color scheme
+- Feature: Provides Outliers span definition capability, the span value to be used for outliers rendering purposes can now be customised per entity
+- Feature: Automatically handle metrics re-generation when an entity outliers period calculation is changed
+- Feature: Acknowledge icon scheme when Ack is active, improve Ack workflow
+- Fix Issue #96: "click save", but there is no "save"
+- Fix: SLA single calculation can show 0% if there are no previous records in audit flipping status and status has changed to non green
+- Fix: Remove useless stats call in metric report savedsearch which impacts its performance
+- Change: Provides and call a macro per builtin alert to allow customisation of the fields order in the alert results
+- Change: Add app.manifest from packaging toolkit to ease dependencies and target workloads deployment
+
 Version 1.2.10
 ==============
 

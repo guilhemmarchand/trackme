@@ -7,9 +7,7 @@
     <link rel="shortcut icon" href="/en-US/static/@E0748683B67CEA4FEB581C608314742274902FE131518C73E0D443740659785A.7/img/favicon.ico" />
     <link rel="stylesheet" type="text/css" href="{{SPLUNKWEB_URL_PREFIX}}/static/build/css/bootstrap-enterprise.css" />
     <link rel="stylesheet" type="text/css" href="{{SPLUNKWEB_URL_PREFIX}}/static/css/build/pages/dashboard-simple-bootstrap.min.css" />
-    <link rel="stylesheet" type="text/css" media="all" href="{{SPLUNKWEB_URL_PREFIX}}/static/app/trackme/table.css" />
     <link rel="stylesheet" type="text/css" media="all" href="{{SPLUNKWEB_URL_PREFIX}}/static/app/trackme/common.css" />
-
 
     <meta name="referrer" content="never" />
     <meta name="referrer" content="no-referrer" />
@@ -220,6 +218,38 @@
             margin-left: 5px;
         }
 
+        .status_message_orange {
+            background-color: #ffd394;
+            margin: 30px 0;
+            padding: 10px;
+            border-radius: 3px 3px 3px 3px;
+            margin-bottom: 80px;
+        }
+
+        .status_message_blue {
+            background-color: #cfebf9;
+            margin: 30px 0;
+            padding: 10px;
+            border-radius: 3px 3px 3px 3px;
+            margin-bottom: 80px;
+        }
+
+        .status_message_green {
+            background-color: #b6edb6;
+            margin: 30px 0;
+            padding: 10px;
+            border-radius: 3px 3px 3px 3px;
+            margin-bottom: 80px;
+        }
+
+        .status_message_red {
+            background-color: #FFBABA;
+            margin: 30px 0;
+            padding: 10px;
+            border-radius: 3px 3px 3px 3px;
+            margin-bottom: 80px;
+        }
+
         .imgheader {
            margin-top: 10px;
            margin-bottom: 40px;
@@ -273,6 +303,78 @@
         .imgminiheader img {
             position: relative;
             top: -4px;
+        }
+
+        /* Table icons */
+
+        .ico_good,
+        .ico_warn,
+        .ico_error,
+        .ico_ack,
+        .ico_unknown {
+            display:inline-block;
+            text-align: center;
+            width: 30px;
+            height: 30px;
+            line-height: 30px;
+            position:relative;
+        }
+
+        .ico_good {
+            color: white;
+            background-color: #39ba23;
+            border-radius: 50%;
+            font-size: 24px;
+        }
+        .ico_good .icon-check {
+            color: #ffffff !important;
+        }
+        .ico_warn {
+            color: #ffa500;
+            font-size: 39px;
+        }
+        .ico_error {
+            color: white;
+            background-color: #d54642;
+            border-radius: 10%;
+            font-size: 25px;
+        }
+        .ico_unknown  {
+            color: white;
+            background-color: rgb(26, 150, 240);
+            border-radius: 50%;
+            font-size: 24px;
+        }
+        .ico_ack {
+            color: #d54642;
+            font-size: 39px;
+        }
+
+        .ico_small.ico_good,
+        .ico_small.ico_warn,
+        .ico_small.ico_ack,
+        .ico_small.ico_error,
+        .ico_small.ico_unknown {
+            width: 18px;
+            height: 18px;
+            line-height: 18px;
+        }
+        .ico_small.ico_good {
+            font-size: 15px;
+        }
+        .ico_small.ico_warn {
+            font-size: 26px;
+            width: 20px;
+        }
+        .ico_small.ico_ack {
+            font-size: 35px;
+            width: 20px;
+        }
+        .ico_small.ico_error {
+            font-size: 15px;
+        }
+        .ico_small.ico_unknown  {
+            font-size: 15px;
         }
 
         </style>
@@ -1521,16 +1623,150 @@ styles in <div> tags, similar to Bootstrap's grid system.
                             </div>
                         </div>
 
+                        <div id="rowSingleParsingQuality" class="dashboard-row dashboard-row1" data-depends="$show_data_quality$,$show_data_quality_no_results$">
+                            <div id="panelSingleParsingQuality" class="dashboard-cell" style="width: 100%;">
+                                <div class="dashboard-panel clearfix">
+                                    <div class="panel-element-row">
+                                        <div id="elementSearchDataSourceParsingQualitySingle" class="dashboard-element chart" style="width: 100%">
+                                            <div class="panel-body"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div id="rowChartParsingQuality" class="dashboard-row dashboard-row1" data-depends="$show_data_quality$,$show_data_quality_no_results$">
+                            <div id="panelChartParsingQuality" class="dashboard-cell" style="width: 100%;">
+                                <div class="dashboard-panel clearfix">
+                                    <div class="panel-element-row">
+                                        <div class="panel-head">
+                                            <h3>CAUTION: Indexing time parsing errors happen on the sourcetype level, if this sourcetype is indexing to more than one index, these errors may not apply to this index / sourcetype combination</h3>
+                                        </div>
+                                        <div id="elementSearchDataSourceParsingQualityChart" class="dashboard-element chart" style="width: 100%">
+                                            <div class="panel-body"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div id="rowChartParsingQualityNoResults" class="dashboard-row dashboard-rowDataSourcesTable" data-depends="$show_data_quality$" data-rejects="$show_data_quality_no_results$">
+                            <div id="panelChartParsingQualityNoResults" class="dashboard-cell" style="width: 100%;">
+                                <div class="dashboard-panel clearfix">
+                                    <div class="panel-element-row">
+
+                                        <div class="dashboard-element html" style="width: 100%">
+                                            <div class="panel-body html">
+                                                <div class="status_message_green">
+                                                    <h2 style="font-weight: bold;">No indexing parsing errors detected within the period</h2>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div id="rowAuditFlipDataSource" class="dashboard-row dashboard-row1" data-original-id="rowAuditFlipDataSourceTop" data-depends="$show_flipping_status$,$show_flipping_status_no_results$">
+                            <div id="panelAuditFlipDataSourceChart" class="dashboard-cell" style="width: 100%;">
+                                <div class="dashboard-panel clearfix">
+                                    <div class="panel-element-row">
+                                        <div id="chartAuditFlipDataSourceOverTime" class="dashboard-element chart" style="width: 100%">
+                                            <div class="panel-head">
+                                                <h3>Flip over time</h3>
+                                            </div>
+                                            <div class="panel-body"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div id="rowAuditFlipDataSourceTable" class="dashboard-row dashboard-rowDataSourcesTable" data-depends="$show_flipping_status$,$show_flipping_status_no_results$">
+                            <div id="panelAuditFlipDataSourceTable" class="dashboard-cell" style="width: 100%;">
+                                <div class="dashboard-panel clearfix">
+                                    <div class="panel-element-row">
+
+                                        <div id="elementMainTableAuditFlipDataSource" class="dashboard-element table" style="width: 100%">
+                                            <div class="panel-body"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div id="rowAuditFlipDataSourceNoResults" class="dashboard-row dashboard-rowDataSourcesTable" data-depends="$show_flipping_status$" data-rejects="$show_flipping_status_no_results$">
+                            <div id="panelAuditFlipDataSourceNoResults" class="dashboard-cell" style="width: 100%;">
+                                <div class="dashboard-panel clearfix">
+                                    <div class="panel-element-row">
+
+                                        <div class="dashboard-element html" style="width: 100%">
+                                            <div class="panel-body html">
+                                                <div class="status_message_green">
+                                                    <h2 style="font-weight: bold;">No flipping status detected within the period</h2>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
                         <div id="rowStatusMessageDataSource" class="dashboard-row dashboard-row2" data-depends="$show_data_source_status_message$">
                             <div id="panelStatusMessageDataSource" class="dashboard-cell" style="width: 100%;">
                                 <div class="dashboard-panel clearfix">
 
                                     <div class="panel-element-row">
                                         <div class="dashboard-element html" id="body_data_source_status_message" style="width: 100%">
-                                            <div class="panel-body html" style="margin-left: 40px; margin-right: 40px; min-height: 350px; margin-top: 30px;">
-                                                <hr width="100%" size="8" align="center" style="border-style: dashed;">
-                                                <h2 style="font-weight: bold;">$tk_status_message$</h2>
-                                                <hr width="100%" size="8" align="center" style="border-style: dashed;">
+                                            <div class="panel-body html">
+                                                <div class="$tk_data_source_status_message_class$">
+                                                    <h2 style="font-weight: bold;">$tk_status_message$</h2>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div id="rowAuditChangesDataSource" class="dashboard-row dashboard-row1" data-original-id="rowAuditChangesDataSourceTop" data-depends="$show_data_source_audit_changes$,$show_data_source_audit_changes_no_results$">
+                            <div id="panelAuditChangesDataSourceChart" class="dashboard-cell" style="width: 100%;">
+                                <div class="dashboard-panel clearfix">
+                                    <div class="panel-element-row">
+                                        <div id="chartAuditChangesDataSourceOverTime" class="dashboard-element chart" style="width: 100%">
+                                            <div class="panel-head">
+                                                <h3>Changes over time</h3>
+                                            </div>
+                                            <div class="panel-body"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div id="rowAuditChangesDataSourceTable" class="dashboard-row dashboard-rowDataSourcesTable" data-depends="$show_data_source_audit_changes$,$show_data_source_audit_changes_no_results$">
+                            <div id="panelAuditChangesDataSourceTable" class="dashboard-cell" style="width: 100%;">
+                                <div class="dashboard-panel clearfix">
+                                    <div class="panel-element-row">
+
+                                        <div id="elementMainTableAuditChangesDataSource" class="dashboard-element table" style="width: 100%">
+                                            <div class="panel-body"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div id="rowAuditChangesDataSourceNoResults" class="dashboard-row dashboard-rowDataSourcesTable" data-depends="$show_data_source_audit_changes$" data-rejects="$show_data_source_audit_changes_no_results$">
+                            <div id="panelAuditChangesDataSourceNoResults" class="dashboard-cell" style="width: 100%;">
+                                <div class="dashboard-panel clearfix">
+                                    <div class="panel-element-row">
+
+                                        <div class="dashboard-element html" style="width: 100%">
+                                            <div class="panel-body html">
+                                                <div class="status_message_green">
+                                                    <h2 style="font-weight: bold;">No audit changes detected within the period</h2>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -1550,14 +1786,29 @@ styles in <div> tags, similar to Bootstrap's grid system.
                             </div>
                         </div>
 
-                        <div id="rowLinkTimeOutlierConfigurationDataSource" class="dashboard-row dashboard-row1" style="margin-left: 15px;" data-depends="$show_data_source_outlier_configuration$">
-                            <div id="panelLinkTimetOutlierConfigurationDataSource" class="dashboard-cell" style="width: 100%;">
+                        <div id="rowLinkInputsOutlierConfigurationDataSource" class="dashboard-row dashboard-row1" style="margin-left: 15px;" data-depends="$show_data_source_outlier_configuration$">
+                            <div id="panelLinkInputsOutlierConfigurationDataSource1" class="dashboard-cell" style="width: 50%;">
                                 <div class="dashboard-panel clearfix">
-                                    <div class="panel-element-row">
+                                    <div class="fieldset">
+
                                         <div class="input input-linklist" id="LinkTimeOutlierConfigurationDataSource">
                                             <label>Select the time period for outliers detection, this period will be saved and used to restrict the calculations</label>
                                         </div>
+
                                     </div>
+
+                                </div>
+                            </div>
+                            <div id="panelLinkInputsOutlierConfigurationDataSource2" class="dashboard-cell" style="width: 50%;">
+                                <div class="dashboard-panel clearfix">
+                                    <div class="fieldset">
+
+                                        <div class="input input-linklist" id="LinkTimeOutlierConfigurationDataSourceSpan">
+                                            <label>Select the span for outliers rendering, this value will be saved and used for rendering purposes</label>
+                                        </div>
+
+                                    </div>
+
                                 </div>
                             </div>
                         </div>
@@ -1779,6 +2030,93 @@ styles in <div> tags, similar to Bootstrap's grid system.
                             </div>
                         </div>
 
+                        <div id="rowSingleParsingQualityDataHost" class="dashboard-row dashboard-row1" data-depends="$show_data_host_quality$,$show_data_host_quality_no_results$">
+                            <div id="panelSingleParsingQualityDataHost" class="dashboard-cell" style="width: 100%;">
+                                <div class="dashboard-panel clearfix">
+                                    <div class="panel-element-row">
+                                        <div id="elementSearchDataHostParsingQualitySingle" class="dashboard-element chart" style="width: 100%">
+                                            <div class="panel-body"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div id="rowChartParsingQualityDataHost" class="dashboard-row dashboard-row1" data-depends="$show_data_host_quality$,$show_data_host_quality_no_results$">
+                            <div id="panelChartParsingQualityDataHost" class="dashboard-cell" style="width: 100%;">
+                                <div class="dashboard-panel clearfix">
+                                    <div class="panel-element-row">
+                                        <div class="panel-head">
+                                        </div>
+                                        <div id="elementSearchDataHostParsingQualityChart" class="dashboard-element chart" style="width: 100%">
+                                            <div class="panel-body"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div id="rowChartParsingQualityDataHostNoResults" class="dashboard-row dashboard-rowDataSourcesTable" data-depends="$show_data_host_quality$" data-rejects="$show_data_host_quality_no_results$">
+                            <div id="panelChartParsingQualityDataHostNoResults" class="dashboard-cell" style="width: 100%;">
+                                <div class="dashboard-panel clearfix">
+                                    <div class="panel-element-row">
+
+                                        <div class="dashboard-element html" style="width: 100%">
+                                            <div class="panel-body html">
+                                                <div class="status_message_green">
+                                                    <h2 style="font-weight: bold;">No indexing parsing errors detected within the period</h2>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div id="rowAuditFlipDataHost" class="dashboard-row dashboard-row1" data-original-id="rowAuditFlipDataHostTop" data-depends="$show_data_host_flipping_status$,$show_data_host_flipping_status_no_results$">
+                            <div id="panelAuditFlipDataHostChart" class="dashboard-cell" style="width: 100%;">
+                                <div class="dashboard-panel clearfix">
+                                    <div class="panel-element-row">
+                                        <div id="chartAuditFlipDataHostOverTime" class="dashboard-element chart" style="width: 100%">
+                                            <div class="panel-head">
+                                                <h3>Flip over time</h3>
+                                            </div>
+                                            <div class="panel-body"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div id="rowAuditFlipDataHostTable" class="dashboard-row dashboard-rowDataHostsTable" data-depends="$show_data_host_flipping_status$,$show_data_host_flipping_status_no_results$">
+                            <div id="panelAuditFlipDataHostTable" class="dashboard-cell" style="width: 100%;">
+                                <div class="dashboard-panel clearfix">
+                                    <div class="panel-element-row">
+
+                                        <div id="elementMainTableAuditFlipDataHost" class="dashboard-element table" style="width: 100%">
+                                            <div class="panel-body"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div id="rowAuditFlipDataHostNoResults" class="dashboard-row dashboard-rowDataHostsTable" data-depends="$show_data_host_flipping_status$" data-rejects="$show_data_host_flipping_status_no_results$">
+                            <div id="panelAuditFlipDataHostNoResults" class="dashboard-cell" style="width: 100%;">
+                                <div class="dashboard-panel clearfix">
+                                    <div class="panel-element-row">
+
+                                        <div class="dashboard-element html" style="width: 100%">
+                                            <div class="panel-body html">
+                                                <div class="status_message_green">
+                                                    <h2 style="font-weight: bold;">No flipping status detected within the period</h2>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
 
                         <div id="rowStatusMessageDataHost" class="dashboard-row dashboard-row2" data-depends="$show_data_host_status_message$">
                             <div id="panelStatusMessageDataHost" class="dashboard-cell" style="width: 100%;">
@@ -1786,10 +2124,55 @@ styles in <div> tags, similar to Bootstrap's grid system.
 
                                     <div class="panel-element-row">
                                         <div class="dashboard-element html" id="body_data_host_status_message" style="width: 100%">
-                                            <div class="panel-body html" style="margin-left: 40px; margin-right: 40px; min-height: 350px; margin-top: 30px;">
-                                                <hr width="100%" size="8" align="center" style="border-style: dashed;">
-                                                <h2 style="font-weight: bold;">$tk_status_message$</h2>
-                                                <hr width="100%" size="8" align="center" style="border-style: dashed;">
+                                            <div class="panel-body html">
+                                                <div class="$tk_data_host_status_message_class$">
+                                                    <h2 style="font-weight: bold;">$tk_status_message$</h2>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div id="rowAuditChangesDataHost" class="dashboard-row dashboard-row1" data-original-id="rowAuditChangesDataHostTop" data-depends="$show_data_host_audit_changes$,$show_data_host_audit_changes_no_results$">
+                            <div id="panelAuditChangesDataHostChart" class="dashboard-cell" style="width: 100%;">
+                                <div class="dashboard-panel clearfix">
+                                    <div class="panel-element-row">
+                                        <div id="chartAuditChangesDataHostOverTime" class="dashboard-element chart" style="width: 100%">
+                                            <div class="panel-head">
+                                                <h3>Changes over time</h3>
+                                            </div>
+                                            <div class="panel-body"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div id="rowAuditChangesDataHostTable" class="dashboard-row dashboard-rowDataHostsTable" data-depends="$show_data_host_audit_changes$,$show_data_host_audit_changes_no_results$">
+                            <div id="panelAuditChangesDataHostTable" class="dashboard-cell" style="width: 100%;">
+                                <div class="dashboard-panel clearfix">
+                                    <div class="panel-element-row">
+
+                                        <div id="elementMainTableAuditChangesDataHost" class="dashboard-element table" style="width: 100%">
+                                            <div class="panel-body"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div id="rowAuditChangesDataHostNoResults" class="dashboard-row dashboard-rowDataHostsTable" data-depends="$show_data_host_audit_changes$" data-rejects="$show_data_host_audit_changes_no_results$">
+                            <div id="panelAuditChangesDataHostNoResults" class="dashboard-cell" style="width: 100%;">
+                                <div class="dashboard-panel clearfix">
+                                    <div class="panel-element-row">
+
+                                        <div class="dashboard-element html" style="width: 100%">
+                                            <div class="panel-body html">
+                                                <div class="status_message_green">
+                                                    <h2 style="font-weight: bold;">No audit changes detected within the period</h2>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -1809,14 +2192,29 @@ styles in <div> tags, similar to Bootstrap's grid system.
                             </div>
                         </div>
 
-                        <div id="rowLinkTimeOutlierConfigurationDataHost" class="dashboard-row dashboard-row1" style="margin-left: 15px;" data-depends="$show_data_host_outlier_configuration$">
-                            <div id="panelLinkTimetOutlierConfigurationDataHost" class="dashboard-cell" style="width: 100%;">
+                        <div id="rowLinkInputsOutlierConfigurationDataHost" class="dashboard-row dashboard-row1" style="margin-left: 15px;" data-depends="$show_data_host_outlier_configuration$">
+                            <div id="panelLinkInputsOutlierConfigurationDataHost1" class="dashboard-cell" style="width: 50%;">
                                 <div class="dashboard-panel clearfix">
-                                    <div class="panel-element-row">
+                                    <div class="fieldset">
+
                                         <div class="input input-linklist" id="LinkTimeOutlierConfigurationDataHost">
                                             <label>Select the time period for outliers detection, this period will be saved and used to restrict the calculations</label>
                                         </div>
+
                                     </div>
+
+                                </div>
+                            </div>
+                            <div id="panelLinkInputsOutlierConfigurationDataHost2" class="dashboard-cell" style="width: 50%;">
+                                <div class="dashboard-panel clearfix">
+                                    <div class="fieldset">
+
+                                        <div class="input input-linklist" id="LinkTimeOutlierConfigurationDataHostSpan">
+                                            <label>Select the span for outliers rendering, this value will be saved and used for rendering purposes</label>
+                                        </div>
+
+                                    </div>
+
                                 </div>
                             </div>
                         </div>
@@ -1958,17 +2356,119 @@ styles in <div> tags, similar to Bootstrap's grid system.
                             </div>
                         </div>
 
+                        <div id="rowAuditFlipMetricHost" class="dashboard-row dashboard-row1" data-original-id="rowAuditFlipMetricHostTop" data-depends="$show_metric_host_flipping_status$,$show_metric_host_flipping_status_no_results$">
+                            <div id="panelAuditFlipMetricHostChart" class="dashboard-cell" style="width: 100%;">
+                                <div class="dashboard-panel clearfix">
+                                    <div class="panel-element-row">
+                                        <div id="chartAuditFlipMetricHostOverTime" class="dashboard-element chart" style="width: 100%">
+                                            <div class="panel-head">
+                                                <h3>Flip over time</h3>
+                                            </div>
+                                            <div class="panel-body"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div id="rowAuditFlipMetricHostTable" class="dashboard-row dashboard-rowMetricHostsTable" data-depends="$show_metric_host_flipping_status$,$show_metric_host_flipping_status_no_results$">
+                            <div id="panelAuditFlipMetricHostTable" class="dashboard-cell" style="width: 100%;">
+                                <div class="dashboard-panel clearfix">
+                                    <div class="panel-element-row">
+
+                                        <div id="elementMainTableAuditFlipMetricHost" class="dashboard-element table" style="width: 100%">
+                                            <div class="panel-body"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div id="rowAuditFlipMetricHostNoResults" class="dashboard-row dashboard-rowMetricHostsTable" data-depends="$show_metric_host_flipping_status$" data-rejects="$show_metric_host_flipping_status_no_results$">
+                            <div id="panelAuditFlipMetricHostNoResults" class="dashboard-cell" style="width: 100%;">
+                                <div class="dashboard-panel clearfix">
+                                    <div class="panel-element-row">
+
+                                        <div class="dashboard-element html" style="width: 100%">
+                                            <div class="panel-body html">
+                                                <div class="status_message_green">
+                                                    <h2 style="font-weight: bold;">No flipping status detected within the period</h2>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
                         <div id="rowStatusMessageMetricHost" class="dashboard-row dashboard-row2" data-depends="$show_metric_host_status_message$">
                             <div id="panelStatusMessageMetricHost" class="dashboard-cell" style="width: 100%;">
                                 <div class="dashboard-panel clearfix">
 
                                     <div class="panel-element-row">
                                         <div class="dashboard-element html" id="body_metric_host_status_message" style="width: 100%">
-                                            <div class="panel-body html" style="margin-left: 40px; margin-right: 40px; min-height: 350px; margin-top: 30px;">
-                                                <hr width="100%" size="8" align="center" style="border-style: dashed;">
-                                                <h2 style="font-weight: bold;">$tk_status_message$</h2>
-                                                <hr width="100%" size="8" align="center" style="border-style: dashed;">
+                                            <div class="panel-body html">
+                                                <div class="$tk_metric_host_status_message_class$">
+                                                    <h2 style="font-weight: bold;">$tk_status_message$</h2>
+                                                </div>
                                             </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div id="rowAuditChangesMetricHost" class="dashboard-row dashboard-row1" data-original-id="rowAuditChangesMetricHostTop" data-depends="$show_metric_host_audit_changes$,$show_metric_host_audit_changes_no_results$">
+                            <div id="panelAuditChangesMetricHostChart" class="dashboard-cell" style="width: 100%;">
+                                <div class="dashboard-panel clearfix">
+                                    <div class="panel-element-row">
+                                        <div id="chartAuditChangesMetricHostOverTime" class="dashboard-element chart" style="width: 100%">
+                                            <div class="panel-head">
+                                                <h3>Changes over time</h3>
+                                            </div>
+                                            <div class="panel-body"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div id="rowAuditChangesMetricHostTable" class="dashboard-row dashboard-rowMetricHostsTable" data-depends="$show_metric_host_audit_changes$,$show_metric_host_audit_changes_no_results$">
+                            <div id="panelAuditChangesMetricHostTable" class="dashboard-cell" style="width: 100%;">
+                                <div class="dashboard-panel clearfix">
+                                    <div class="panel-element-row">
+
+                                        <div id="elementMainTableAuditChangesMetricHost" class="dashboard-element table" style="width: 100%">
+                                            <div class="panel-body"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div id="rowAuditChangesMetricHostNoResults" class="dashboard-row dashboard-rowMetricHostsTable" data-depends="$show_metric_host_audit_changes$" data-rejects="$show_metric_host_audit_changes_no_results$">
+                            <div id="panelAuditChangesMetricHostNoResults" class="dashboard-cell" style="width: 100%;">
+                                <div class="dashboard-panel clearfix">
+                                    <div class="panel-element-row">
+
+                                        <div class="dashboard-element html" style="width: 100%">
+                                            <div class="panel-body html">
+                                                <div class="status_message_green">
+                                                    <h2 style="font-weight: bold;">No audit changes detected within the period</h2>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div id="rowLinkTimeMetricHost" class="dashboard-row dashboard-row1" style="margin-left: 15px;" data-rejects="$show_metric_host_overview$,$show_metric_host_status_message$">
+                            <div id="panelLinkTimeMetricHost" class="dashboard-cell" style="width: 100%;">
+                                <div class="dashboard-panel clearfix">
+                                    <div class="panel-element-row">
+                                        <div class="input input-linklist" id="inputLinkTimeMetricHost">
+                                            <label>&nbsp;</label>
                                         </div>
                                     </div>
                                 </div>
@@ -6251,7 +6751,7 @@ require([
 
         var searchDataSourcesPostTable = new PostProcessManager({
             "tokenDependencies": {},
-            "search": "search $inputDataName$ $inputDataIndex$ $inputDataSourcetype$ $data_source_state$ $data_monitored_state$ $inputDataPriority$\n| fillnull data_last_lag_seen, data_last_ingestion_lag_seen\n| eval data_last_lag_seen=round(data_last_lag_seen, 0) | eval data_last_ingestion_lag_seen=round(data_last_ingestion_lag_seen, 0) | fillnull value=\"N/A\" data_last_lag_seen, data_last_ingestion_lag_seen\n| eval \"lag summary (lag event / lag ingestion)\" = data_last_lag_seen . \" sec / \" . data_last_ingestion_lag_seen . \" sec\"\n| rename \"data_last_time_seen (translated)\" as \"last time\", \"data_last_ingest (translated)\" as \"last ingest\", \"data_last_time_seen_idx (translated)\" as \"last time idx\"\n| eval data_tracker_runtime=now()\n| `trackme_date_format(\"latest_flip_time\")`\n| fillnull value=\"N/A\" latest_flip_state, latest_flip_time, \"latest_flip_time (translated)\"\n| `trackme_get_identity_card(data_name)`\n| `trackme_lookup_elastic_sources` | sort limit=10000 data_name",
+            "search": "search $inputDataName$ $inputDataIndex$ $inputDataSourcetype$ $data_source_state$ $data_monitored_state$ $inputDataPriority$\n| fillnull data_last_lag_seen, data_last_ingestion_lag_seen\n| eval data_last_lag_seen=round(data_last_lag_seen, 0) | eval data_last_ingestion_lag_seen=round(data_last_ingestion_lag_seen, 0) | fillnull value=\"N/A\" data_last_lag_seen, data_last_ingestion_lag_seen\n| eval \"lag summary (lag event / lag ingestion)\" = data_last_lag_seen . \" sec / \" . data_last_ingestion_lag_seen . \" sec\"\n| rename \"data_last_time_seen (translated)\" as \"last time\", \"data_last_ingest (translated)\" as \"last ingest\", \"data_last_time_seen_idx (translated)\" as \"last time idx\"\n| eval data_tracker_runtime=now()\n| `trackme_date_format(\"latest_flip_time\")`\n| fillnull value=\"N/A\" latest_flip_state, latest_flip_time, \"latest_flip_time (translated)\"\n| `trackme_get_identity_card(data_name)`\n| `trackme_lookup_elastic_sources`\n|`trackme_ack_lookup_main(data_name)`\n| sort limit=10000 data_name",
             "managerid": "searchDataSourcesMain",
             "id": "searchDataSourcesPostTable"
         }, {
@@ -6306,7 +6806,7 @@ require([
             "cancelOnUnload": true,
             "sample_ratio": null,
             "latest_time": "$timerange_audit_flip.latest$",
-            "search": "`trackme_idx` source=\"flip_state_change_tracking\" $audit_flip_object_category$ $audit_flip_object$ $inputAuditFlipObjectFilter$ | eval separator = \"-->\" | table _time object object_category object_previous_state separator object_state result | rename separator as \" \" | `trackme_eval_icons_flip`",
+            "search": "`trackme_idx` source=\"flip_state_change_tracking\" $audit_flip_object_category$ $audit_flip_object$ $inputAuditFlipObjectFilter$ | eval separator = \"-->\" | dedup _time object object_category object_previous_state object_state | table _time object object_category object_previous_state separator object_state result | rename separator as \" \" | `trackme_eval_icons_flip`",
             "status_buckets": 0,
             "app": utils.getCurrentApp(),
             "auto_cancel": 90,
@@ -6390,6 +6890,388 @@ require([
             tokenNamespace: "submitted"
         });
 
+        // Audit Changes Data Source
+        var searchDataSourceMainAuditChanges = new SearchManager({
+            "id": "searchDataSourceMainAuditChanges",
+            "earliest_time": "$modalTime.earliest$",
+            "cancelOnUnload": true,
+            "sample_ratio": null,
+            "latest_time": "$modalTime.latest$",
+            "search": "| inputlookup trackme_audit_changes where (object=\"$tk_data_name$\" AND object_category=\"data_source\") | sort limit=0 - time | eval _time=time/1000 | fields - time | addinfo | where _time>=info_min_time AND (_time<=info_max_time OR info_max_time=\"+Infinity\") | `trackme_eval_icons_audit_changes` | rename action_icon as \" \" | fields _time user action \" \" change_type comment",
+            "status_buckets": 0,
+            "app": utils.getCurrentApp(),
+            "auto_cancel": 90,
+            "preview": true,
+            "tokenDependencies": {
+                "depends": "$show_data_source_audit_changes$"
+            },
+            "runWhenTimeIsUndefined": false
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        });
+
+        new SearchEventHandler({
+            managerid: "searchDataSourceMainAuditChanges",
+            event: "progress",
+            conditions: [{
+                    attr: "match",
+                    value: "'job.resultCount' == 0",
+                    actions: [{
+                        "type": "unset",
+                        "token": "show_data_source_audit_changes_no_results"
+                    }]
+                },
+                {
+                    attr: "any",
+                    value: "*",
+                    actions: [{
+                        "type": "set",
+                        "token": "show_data_source_audit_changes_no_results",
+                        "value": "True"
+                    }]
+                }
+            ]
+        });
+
+        var searchMainDataSourceAuditChangesTable = new PostProcessManager({
+            "tokenDependencies": {},
+            "search": "sort - limit=10000 _time",
+            "managerid": "searchDataSourceMainAuditChanges",
+            "id": "searchMainDataSourceAuditChangesTable"
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        });
+
+        var searchAuditDataSourceAuditChangesOverTime = new PostProcessManager({
+            "tokenDependencies": {},
+            "search": "timechart limit=40 useother=t minspan=1h bins=1000 count by action",
+            "managerid": "searchDataSourceMainAuditChanges",
+            "id": "searchAuditDataSourceAuditChangesOverTime"
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        });
+
+        // Audit Changes Data Host
+        var searchDataHostMainAuditChanges = new SearchManager({
+            "id": "searchDataHostMainAuditChanges",
+            "earliest_time": "$modalTime.earliest$",
+            "cancelOnUnload": true,
+            "sample_ratio": null,
+            "latest_time": "$modalTime.latest$",
+            "search": "| inputlookup trackme_audit_changes where (object=\"$tk_data_host$\" AND object_category=\"data_host\") | sort limit=0 - time | eval _time=time/1000 | fields - time | addinfo | where _time>=info_min_time AND (_time<=info_max_time OR info_max_time=\"+Infinity\") | `trackme_eval_icons_audit_changes` | rename action_icon as \" \" | fields _time user action \" \" change_type comment",
+            "status_buckets": 0,
+            "app": utils.getCurrentApp(),
+            "auto_cancel": 90,
+            "preview": true,
+            "tokenDependencies": {
+                "depends": "$show_data_host_audit_changes$"
+            },
+            "runWhenTimeIsUndefined": false
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        });
+
+        new SearchEventHandler({
+            managerid: "searchDataHostMainAuditChanges",
+            event: "progress",
+            conditions: [{
+                    attr: "match",
+                    value: "'job.resultCount' == 0",
+                    actions: [{
+                        "type": "unset",
+                        "token": "show_data_host_audit_changes_no_results"
+                    }]
+                },
+                {
+                    attr: "any",
+                    value: "*",
+                    actions: [{
+                        "type": "set",
+                        "token": "show_data_host_audit_changes_no_results",
+                        "value": "True"
+                    }]
+                }
+            ]
+        });
+
+        var searchMainDataHostAuditChangesTable = new PostProcessManager({
+            "tokenDependencies": {},
+            "search": "sort - limit=10000 _time",
+            "managerid": "searchDataHostMainAuditChanges",
+            "id": "searchMainDataHostAuditChangesTable"
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        });
+
+        var searchAuditDataHostAuditChangesOverTime = new PostProcessManager({
+            "tokenDependencies": {},
+            "search": "timechart limit=40 useother=t minspan=1h bins=1000 count by action",
+            "managerid": "searchDataHostMainAuditChanges",
+            "id": "searchAuditDataHostAuditChangesOverTime"
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        });
+
+        // Audit Changes Metric Host
+        var searchMetricHostMainAuditChanges = new SearchManager({
+            "id": "searchMetricHostMainAuditChanges",
+            "earliest_time": "$modalTime.earliest$",
+            "cancelOnUnload": true,
+            "sample_ratio": null,
+            "latest_time": "$modalTime.latest$",
+            "search": "| inputlookup trackme_audit_changes where (object=\"$tk_metric_host$\" AND object_category=\"metric_host\") | sort limit=0 - time | eval _time=time/1000 | fields - time | addinfo | where _time>=info_min_time AND (_time<=info_max_time OR info_max_time=\"+Infinity\") | `trackme_eval_icons_audit_changes` | rename action_icon as \" \" | fields _time user action \" \" change_type comment",
+            "status_buckets": 0,
+            "app": utils.getCurrentApp(),
+            "auto_cancel": 90,
+            "preview": true,
+            "tokenDependencies": {
+                "depends": "$show_metric_host_audit_changes$"
+            },
+            "runWhenTimeIsUndefined": false
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        });
+
+        new SearchEventHandler({
+            managerid: "searchMetricHostMainAuditChanges",
+            event: "progress",
+            conditions: [{
+                    attr: "match",
+                    value: "'job.resultCount' == 0",
+                    actions: [{
+                        "type": "unset",
+                        "token": "show_metric_host_audit_changes_no_results"
+                    }]
+                },
+                {
+                    attr: "any",
+                    value: "*",
+                    actions: [{
+                        "type": "set",
+                        "token": "show_metric_host_audit_changes_no_results",
+                        "value": "True"
+                    }]
+                }
+            ]
+        });
+
+        var searchMainMetricHostAuditChangesTable = new PostProcessManager({
+            "tokenDependencies": {},
+            "search": "sort - limit=10000 _time",
+            "managerid": "searchMetricHostMainAuditChanges",
+            "id": "searchMainMetricHostAuditChangesTable"
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        });
+
+        var searchAuditMetricHostAuditChangesOverTime = new PostProcessManager({
+            "tokenDependencies": {},
+            "search": "timechart limit=40 useother=t minspan=1h bins=1000 count by action",
+            "managerid": "searchMetricHostMainAuditChanges",
+            "id": "searchAuditMetricHostAuditChangesOverTime"
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        });
+
+        // Audit Flip
+        var searchDataSourceMainAuditFlip = new SearchManager({
+            "id": "searchDataSourceMainAuditFlip",
+            "earliest_time": "$modalTime.earliest$",
+            "cancelOnUnload": true,
+            "sample_ratio": null,
+            "latest_time": "$modalTime.latest$",
+            "search": "`trackme_idx` source=\"flip_state_change_tracking\" object_category=\"data_source\" object=\"$tk_data_name$\" | eval separator = \"-->\" | dedup _time object object_category object_previous_state object_state | table _time object object_category object_previous_state separator object_state result",
+            "status_buckets": 0,
+            "app": utils.getCurrentApp(),
+            "auto_cancel": 90,
+            "preview": true,
+            "tokenDependencies": {
+                "depends": "$show_flipping_status$"
+            },
+            "runWhenTimeIsUndefined": false
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        });
+
+        new SearchEventHandler({
+            managerid: "searchDataSourceMainAuditFlip",
+            event: "progress",
+            conditions: [{
+                    attr: "match",
+                    value: "'job.resultCount' == 0",
+                    actions: [{
+                        "type": "unset",
+                        "token": "show_flipping_status_no_results"
+                    }]
+                },
+                {
+                    attr: "any",
+                    value: "*",
+                    actions: [{
+                        "type": "set",
+                        "token": "show_flipping_status_no_results",
+                        "value": "True"
+                    }]
+                }
+            ]
+        });
+
+        var searchMainDataSourceAuditFlipTable = new PostProcessManager({
+            "tokenDependencies": {},
+            "search": "rename separator as \" \" | `trackme_eval_icons_flip` | fields _time	object object_category object_previous_state \" \" object_state | sort - limit=10000 _time",
+            "managerid": "searchDataSourceMainAuditFlip",
+            "id": "searchMainDataSourceAuditFlipTable"
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        });
+
+        var searchAuditDataSourceFlipOverTime = new PostProcessManager({
+            "tokenDependencies": {},
+            "search": "timechart limit=40 useother=t minspan=1h bins=1000 count by object_state",
+            "managerid": "searchDataSourceMainAuditFlip",
+            "id": "searchAuditDataSourceFlipOverTime"
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        });
+
+        var searchDataHostMainAuditFlip = new SearchManager({
+            "id": "searchDataHostMainAuditFlip",
+            "earliest_time": "$modalTimeHost.earliest$",
+            "cancelOnUnload": true,
+            "sample_ratio": null,
+            "latest_time": "$modalTimeHost.latest$",
+            "search": "`trackme_idx` source=\"flip_state_change_tracking\" object_category=\"data_host\" object=\"$tk_data_host$\" | eval separator = \"-->\" | dedup _time object object_category object_previous_state object_state | table _time object object_category object_previous_state separator object_state result",
+            "status_buckets": 0,
+            "app": utils.getCurrentApp(),
+            "auto_cancel": 90,
+            "preview": true,
+            "tokenDependencies": {
+                "depends": "$show_data_host_flipping_status$"
+            },
+            "runWhenTimeIsUndefined": false
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        });
+
+        new SearchEventHandler({
+            managerid: "searchDataHostMainAuditFlip",
+            event: "progress",
+            conditions: [{
+                    attr: "match",
+                    value: "'job.resultCount' == 0",
+                    actions: [{
+                        "type": "unset",
+                        "token": "show_data_host_flipping_status_no_results"
+                    }]
+                },
+                {
+                    attr: "any",
+                    value: "*",
+                    actions: [{
+                        "type": "set",
+                        "token": "show_data_host_flipping_status_no_results",
+                        "value": "True"
+                    }]
+                }
+            ]
+        });
+
+        var searchMainDataHostAuditFlipTable = new PostProcessManager({
+            "tokenDependencies": {},
+            "search": "rename separator as \" \" | `trackme_eval_icons_flip` | fields _time	object object_category object_previous_state \" \" object_state | sort - limit=10000 _time",
+            "managerid": "searchDataHostMainAuditFlip",
+            "id": "searchMainDataHostAuditFlipTable"
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        });
+
+        var searchAuditDataHostFlipOverTime = new PostProcessManager({
+            "tokenDependencies": {},
+            "search": "timechart limit=40 useother=t minspan=1h bins=1000 count by object_state",
+            "managerid": "searchDataHostMainAuditFlip",
+            "id": "searchAuditDataHostFlipOverTime"
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        });
+
+        var searchMetricHostMainAuditFlip = new SearchManager({
+            "id": "searchMetricHostMainAuditFlip",
+            "earliest_time": "$modalTimeMetricHost.earliest$",
+            "cancelOnUnload": true,
+            "sample_ratio": null,
+            "latest_time": "$modalTimeMetricHost.latest$",
+            "search": "`trackme_idx` source=\"flip_state_change_tracking\" object_category=\"metric_host\" object=\"$tk_metric_host$\" | eval separator = \"-->\" | dedup _time object object_category object_previous_state object_state | table _time object object_category object_previous_state separator object_state result",
+            "status_buckets": 0,
+            "app": utils.getCurrentApp(),
+            "auto_cancel": 90,
+            "preview": true,
+            "tokenDependencies": {
+                "depends": "$show_metric_host_flipping_status$"
+            },
+            "runWhenTimeIsUndefined": false
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        });
+
+        new SearchEventHandler({
+            managerid: "searchMetricHostMainAuditFlip",
+            event: "progress",
+            conditions: [{
+                    attr: "match",
+                    value: "'job.resultCount' == 0",
+                    actions: [{
+                        "type": "unset",
+                        "token": "show_metric_host_flipping_status_no_results"
+                    }]
+                },
+                {
+                    attr: "any",
+                    value: "*",
+                    actions: [{
+                        "type": "set",
+                        "token": "show_metric_host_flipping_status_no_results",
+                        "value": "True"
+                    }]
+                }
+            ]
+        });
+
+        var searchMainMetricHostAuditFlipTable = new PostProcessManager({
+            "tokenDependencies": {},
+            "search": "rename separator as \" \" | `trackme_eval_icons_flip` | fields _time	object object_category object_previous_state \" \" object_state | sort - limit=10000 _time",
+            "managerid": "searchMetricHostMainAuditFlip",
+            "id": "searchMainMetricHostAuditFlipTable"
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        });
+
+        var searchAuditmetricHostFlipOverTime = new PostProcessManager({
+            "tokenDependencies": {},
+            "search": "timechart limit=40 useother=t minspan=1h bins=1000 count by object_state",
+            "managerid": "searchMetricHostMainAuditFlip",
+            "id": "searchAuditmetricHostFlipOverTime"
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        });
+
         // Audit Changes
         var searchMainAuditChanges = new SearchManager({
             "id": "searchMainAuditChanges",
@@ -6397,7 +7279,7 @@ require([
             "cancelOnUnload": true,
             "sample_ratio": null,
             "latest_time": "$timerange_audit_changes.latest$",
-            "search": "| inputlookup trackme_audit_changes | sort limit=0 - time | eval _time=time/1000 | fields - time | addinfo | where _time>=info_min_time AND (_time<=info_max_time OR info_max_time=\"+Infinity\") | search $audit_changes_action$ $audit_changes_object_category$ $audit_changes_change_type$ $audit_changes_user$ $audit_changes_object$ | fields _time user action change_type object_category object object_attrs comment",
+            "search": "| inputlookup trackme_audit_changes | sort limit=0 - time | eval _time=time/1000 | fields - time | addinfo | where _time>=info_min_time AND (_time<=info_max_time OR info_max_time=\"+Infinity\") | search $audit_changes_action$ $audit_changes_object_category$ $audit_changes_change_type$ $audit_changes_user$ $audit_changes_object$ | `trackme_eval_icons_audit_changes` | rename action_icon as \" \" | fields _time user action \" \" change_type object_category object object_attrs comment",
             "status_buckets": 0,
             "app": utils.getCurrentApp(),
             "auto_cancel": 90,
@@ -6520,7 +7402,7 @@ require([
             "refreshType": "delay",
             "refresh": "$refresh$",
             "latest_time": "now",
-            "search": "| savedsearch \"TrackMe - metric hosts collection based table report\"\n| `trackme_date_format(\"metric_last_time_seen\")`\n| rename \"metric_last_time_seen (translated)\" as \"last time\"\n| `trackme_eval_metric_host_state`\n| `trackme_metric_host_group_lookup`\n|`trackme_eval_icons_metric_host`\n|`trackme_date_format(\"latest_flip_time\")`\n| fillnull value=\"N/A\" latest_flip_state, latest_flip_time, \"latest_flip_time (translated)\"\n| search $inputMetricHostFilter$",
+            "search": "| savedsearch \"TrackMe - metric hosts collection based table report\"\n| `trackme_date_format(\"metric_last_time_seen\")`\n| rename \"metric_last_time_seen (translated)\" as \"last time\"\n| `trackme_eval_metric_host_state`\n| `trackme_metric_host_group_lookup`\n|`trackme_eval_icons_metric_host`\n|`trackme_date_format(\"latest_flip_time\")`\n| fillnull value=\"N/A\" latest_flip_state, latest_flip_time, \"latest_flip_time (translated)\"\n| search $inputMetricHostFilter$\n|`trackme_ack_lookup_main(metric_host)`",
             "status_buckets": 0,
             "app": utils.getCurrentApp(),
             "auto_cancel": 90,
@@ -6631,7 +7513,7 @@ require([
             "tokenDependencies": {
                 "depends": "$show_metric_host_tracker$"
             },
-            "search": "`trackme_get_sla_pct_per_entity(metric_host,$tk_metric_host$)`",
+            "search": "`trackme_get_sla_pct_per_entity(metric_host,$tk_metric_host$,trackme_metric_host_monitoring,metric_host,metric_first_time_seen)`",
             "id": "searchSingleSLAMetricHostpct",
             "sample_ratio": 1,
             "status_buckets": 0,
@@ -6656,7 +7538,7 @@ require([
             "refreshType": "delay",
             "refresh": "$refresh$",
             "latest_time": "+5m",
-            "search": "| inputlookup trackme_host_monitoring\n| eval keyid=_key\n| sort limit=0 - data_last_time_seen\n| dedup data_host\n| eval data_index_raw=data_index, data_sourcetype_raw=data_sourcetype\n| makemv delim=\",\" data_index\n| makemv delim=\",\" data_sourcetype\n| `apply_data_host_blacklists`\n| search `trackme_get_idx_whitelist_searchtime(trackme_data_host_monitoring_whitelist_index, data_index)`\n| `trackme_eval_data_host_state`\n| `trackme_default_priority`\n| `trackme_data_host_group_lookup`\n| `trackme_date_format(data_last_time_seen)`\n| `trackme_date_format(data_last_time_seen_idx)`\n| `trackme_date_format(data_last_ingest)`\n| `trackme_eval_icons_host`\n| rename \"data_last_ingest (translated)\" as \"last ingest\", \"data_last_time_seen (translated)\" as \"last time\"\n| `trackme_date_format(\"latest_flip_time\")`\n| fillnull value=\"N/A\" latest_flip_state, latest_flip_time, \"latest_flip_time (translated)\"\n| sort limit=0 data_host\n| search $inputDataHostFilter$",
+            "search": "| inputlookup trackme_host_monitoring\n| eval keyid=_key\n| sort limit=0 - data_last_time_seen\n| dedup data_host\n| eval data_index_raw=data_index, data_sourcetype_raw=data_sourcetype\n| makemv delim=\",\" data_index\n| makemv delim=\",\" data_sourcetype\n| `apply_data_host_blacklists`\n| search `trackme_get_idx_whitelist_searchtime(trackme_data_host_monitoring_whitelist_index, data_index)`\n| `trackme_eval_data_host_state`\n| `trackme_default_priority`\n| `trackme_data_host_group_lookup`\n| `trackme_date_format(data_last_time_seen)`\n| `trackme_date_format(data_last_time_seen_idx)`\n| `trackme_date_format(data_last_ingest)`\n| `trackme_eval_icons_host`\n| rename \"data_last_ingest (translated)\" as \"last ingest\", \"data_last_time_seen (translated)\" as \"last time\"\n| `trackme_date_format(\"latest_flip_time\")`\n| fillnull value=\"N/A\" latest_flip_state, latest_flip_time, \"latest_flip_time (translated)\"\n| sort limit=0 data_host\n| search $inputDataHostFilter$\n|`trackme_ack_lookup_main(data_host)`",
             "status_buckets": 0,
             "app": utils.getCurrentApp(),
             "auto_cancel": 90,
@@ -7013,11 +7895,75 @@ require([
 
         // data source monitoring
 
+        // Data parsing quality
+        var SearchDataSourceParsingQualityMain = new SearchManager({
+            "id": "SearchDataSourceParsingQualityMain",
+            "tokenDependencies": {
+                "depends": "$show_data_quality$"
+            },
+            "sample_ratio": 1,
+            "earliest_time": "$modalTime.earliest$",
+            "search": "index=_internal sourcetype=splunkd error OR warn `trackme_idx_filter` (component=LineBreakingProcessor OR component=AggregatorMiningProcessor OR component=DateParserVerbose) | `trackme_data_quality_parse` | search data_sourcetype=\"$tk_data_sourcetype$\"",
+            "latest_time": "$modalTime.latest$",
+            "cancelOnUnload": true,
+            "status_buckets": 0,
+            "app": utils.getCurrentApp(),
+            "auto_cancel": 90,
+            "preview": true,
+            "runWhenTimeIsUndefined": false
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        });
+
+        new SearchEventHandler({
+            managerid: "SearchDataSourceParsingQualityMain",
+            event: "progress",
+            conditions: [{
+                    attr: "match",
+                    value: "'job.resultCount' == 0",
+                    actions: [{
+                        "type": "unset",
+                        "token": "show_data_quality_no_results"
+                    }]
+                },
+                {
+                    attr: "any",
+                    value: "*",
+                    actions: [{
+                        "type": "set",
+                        "token": "show_data_quality_no_results",
+                        "value": "True"
+                    }]
+                }
+            ]
+        });
+
+        var SearchDataSourceParsingQualityChart = new PostProcessManager({
+            "tokenDependencies": {},
+            "search": "timechart span=$modalTime.span$ count by component",
+            "managerid": "SearchDataSourceParsingQualityMain",
+            "id": "SearchDataSourceParsingQualityChart"
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        });
+
+        var SearchDataSourceParsingQualitySingle = new PostProcessManager({
+            "tokenDependencies": {},
+            "search": "top limit=0 component | eval percent=round(percent, 2) | eval summary=component . \": \" . percent . \" %\" | fields summary | stats values(summary) as summary",
+            "managerid": "SearchDataSourceParsingQualityMain",
+            "id": "SearchDataSourceParsingQualitySingle"
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        });
+
         // Outlier detection
         var searchOutlierDetectionChart = new SearchManager({
             "id": "searchOutlierDetectionChart",
             "sample_ratio": 1,
-            "search": "| `trackme_outlier_chart(data_source, \"$tk_data_name$\", data_name)`",
+            "search": "| `trackme_outlier_chart(data_source, \"$tk_data_name$\", data_name, $tk_outlier_span$)`",
             "status_buckets": 0,
             "earliest_time": "$modalTime.earliest$",
             "cancelOnUnload": true,
@@ -7038,7 +7984,7 @@ require([
         var searchOutlierDetectionChartSimulation = new SearchManager({
             "id": "searchOutlierDetectionChartSimulation",
             "sample_ratio": 1,
-            "search": "| `trackme_outlier_chart_simulate(data_source, \"$tk_data_name$\", data_name, $tk_input_data_source_outlier_lower_threshold_multiplier$, $tk_input_data_source_outlier_upper_threshold_multiplier$, $tk_input_data_source_outlier_min_eventcount$)`",
+            "search": "| `trackme_outlier_chart_simulate(data_source, \"$tk_data_name$\", data_name, $tk_input_data_source_outlier_lower_threshold_multiplier$, $tk_input_data_source_outlier_upper_threshold_multiplier$, $tk_input_data_source_outlier_min_eventcount$, $tk_input_data_source_outlier_span$)`",
             "status_buckets": 0,
             "earliest_time": "$tk_input_data_source_outlier_period$",
             "cancelOnUnload": true,
@@ -7122,7 +8068,7 @@ require([
             "tokenDependencies": {
                 "depends": "$show_data_source_tracker$"
             },
-            "search": "`trackme_get_sla_pct_per_entity(data_source,$tk_data_name$)`",
+            "search": "`trackme_get_sla_pct_per_entity(data_source,$tk_data_name$,trackme_data_source_monitoring,data_name,data_first_time_seen)`",
             "id": "searchSingleSLApct",
             "sample_ratio": 1,
             "status_buckets": 0,
@@ -7139,11 +8085,75 @@ require([
 
         // data host monitoring
 
+        // Data parsing quality
+        var SearchDataHostParsingQualityMain = new SearchManager({
+            "id": "SearchDataHostParsingQualityMain",
+            "tokenDependencies": {
+                "depends": "$show_data_host_quality$"
+            },
+            "sample_ratio": 1,
+            "earliest_time": "$modalTimeHost.earliest$",
+            "search": "index=_internal sourcetype=splunkd error OR warn `trackme_idx_filter` component=LineBreakingProcessor OR component=AggregatorMiningProcessor OR component=DateParserVerbose | `trackme_data_quality_parse` | search data_host=\"$tk_data_host$\"",
+            "latest_time": "$modalTimeHost.latest$",
+            "cancelOnUnload": true,
+            "status_buckets": 0,
+            "app": utils.getCurrentApp(),
+            "auto_cancel": 90,
+            "preview": true,
+            "runWhenTimeIsUndefined": false
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        });
+
+        new SearchEventHandler({
+            managerid: "SearchDataHostParsingQualityMain",
+            event: "progress",
+            conditions: [{
+                    attr: "match",
+                    value: "'job.resultCount' == 0",
+                    actions: [{
+                        "type": "unset",
+                        "token": "show_data_host_quality_no_results"
+                    }]
+                },
+                {
+                    attr: "any",
+                    value: "*",
+                    actions: [{
+                        "type": "set",
+                        "token": "show_data_host_quality_no_results",
+                        "value": "True"
+                    }]
+                }
+            ]
+        });
+
+        var SearchDataHostParsingQualityChart = new PostProcessManager({
+            "tokenDependencies": {},
+            "search": "timechart span=$modalTimeHost.span$ count by component",
+            "managerid": "SearchDataHostParsingQualityMain",
+            "id": "SearchDataHostParsingQualityChart"
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        });
+
+        var SearchDataHostParsingQualitySingle = new PostProcessManager({
+            "tokenDependencies": {},
+            "search": "top limit=0 component | eval percent=round(percent, 2) | eval summary=component . \": \" . percent . \" %\" | fields summary | stats values(summary) as summary",
+            "managerid": "SearchDataHostParsingQualityMain",
+            "id": "SearchDataHostParsingQualitySingle"
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        });
+
         // Outlier detection
         var searchOutlierDetectionChartDataHost = new SearchManager({
             "id": "searchOutlierDetectionChartDataHost",
             "sample_ratio": 1,
-            "search": "| `trackme_outlier_chart(data_host, \"$tk_data_host$\", data_host)`",
+            "search": "| `trackme_outlier_chart(data_host, \"$tk_data_host$\", data_host, $tk_outlier_span$)`",
             "status_buckets": 0,
             "earliest_time": "$modalTimeHost.earliest$",
             "cancelOnUnload": true,
@@ -7164,9 +8174,9 @@ require([
         var searchOutlierDetectionChartSimulationDataHost = new SearchManager({
             "id": "searchOutlierDetectionChartSimulationDataHost",
             "sample_ratio": 1,
-            "search": "| `trackme_outlier_chart_simulate(data_host, \"$tk_data_host$\", data_host, $tk_input_data_host_outlier_lower_threshold_multiplier$, $tk_input_data_host_outlier_upper_threshold_multiplier$, $tk_input_data_host_outlier_min_eventcount$)`",
+            "search": "| `trackme_outlier_chart_simulate(data_host, \"$tk_data_host$\", data_host, $tk_input_data_host_outlier_lower_threshold_multiplier$, $tk_input_data_host_outlier_upper_threshold_multiplier$, $tk_input_data_host_outlier_min_eventcount$, $tk_input_data_host_outlier_span$)`",
             "status_buckets": 0,
-            "earliest_time": "$modalTimeHost.earliest$",
+            "earliest_time": "$tk_input_data_host_outlier_period$",
             "cancelOnUnload": true,
             "latest_time": "now",
             "app": utils.getCurrentApp(),
@@ -7248,7 +8258,7 @@ require([
             "tokenDependencies": {
                 "depends": "$show_data_host_tracker$"
             },
-            "search": "`trackme_get_sla_pct_per_entity(data_host,$tk_data_host$)`",
+            "search": "`trackme_get_sla_pct_per_entity(data_host,$tk_data_host$,trackme_host_monitoring,data_host,data_first_time_seen)`",
             "id": "searchSingleSLAHostpct",
             "sample_ratio": 1,
             "status_buckets": 0,
@@ -8676,9 +9686,21 @@ require([
                     "label": "Outlier detection configuration"
                 },
                 {
+                    "value": "data_quality",
+                    "label": "Data parsing quality"
+                },
+                {
+                    "value": "flipping_status",
+                    "label": "Status flipping"
+                },
+                {
                     "value": "status_message",
                     "label": "Status message"
-                }
+                },
+                {
+                    "value": "data_source_audit_changes",
+                    "label": "Audit changes"
+                }                
             ],
             "default": "overview",
             "searchWhenChanged": true,
@@ -8700,22 +9722,58 @@ require([
                 EventHandler.unsetToken("show_data_source_outlier");
                 EventHandler.unsetToken("show_data_source_outlier_configuration");
                 EventHandler.unsetToken("show_data_source_status_message");
+                EventHandler.unsetToken("show_data_quality");
+                EventHandler.unsetToken("show_flipping_status");
+                EventHandler.unsetToken("show_data_source_audit_changes");
             } else if (e.value === "outlier") {
                 EventHandler.setToken("show_data_source_outlier", "true", {}, e.data);
                 EventHandler.unsetToken("show_data_source_overview");
                 EventHandler.unsetToken("show_data_source_outlier_configuration");
                 EventHandler.unsetToken("show_data_source_status_message");
+                EventHandler.unsetToken("show_data_quality");
+                EventHandler.unsetToken("show_flipping_status");
+                EventHandler.unsetToken("show_data_source_audit_changes");
             } else if (e.value === "outlier_configuration") {
                 EventHandler.setToken("show_data_source_outlier_configuration", "true", {}, e.data);
                 EventHandler.unsetToken("show_data_source_overview");
                 EventHandler.unsetToken("show_data_source_outlier");
                 EventHandler.unsetToken("show_data_source_status_message");
+                EventHandler.unsetToken("show_data_quality");
+                EventHandler.unsetToken("show_flipping_status");
+                EventHandler.unsetToken("show_data_source_audit_changes");
+            } else if (e.value === "data_quality") {
+                EventHandler.setToken("show_data_quality", "true", {}, e.data);
+                EventHandler.unsetToken("show_data_source_overview");
+                EventHandler.unsetToken("show_data_source_outlier");
+                EventHandler.unsetToken("show_data_source_outlier_configuration");
+                EventHandler.unsetToken("show_data_source_status_message");
+                EventHandler.unsetToken("show_flipping_status");
+                EventHandler.unsetToken("show_data_source_audit_changes");
+            } else if (e.value === "flipping_status") {
+                EventHandler.setToken("show_flipping_status", "true", {}, e.data);
+                EventHandler.unsetToken("show_data_source_overview");
+                EventHandler.unsetToken("show_data_source_outlier");
+                EventHandler.unsetToken("show_data_source_outlier_configuration");
+                EventHandler.unsetToken("show_data_source_status_message");
+                EventHandler.unsetToken("show_data_quality");
+                EventHandler.unsetToken("show_data_source_audit_changes");
             } else if (e.value === "status_message") {
                 EventHandler.setToken("show_data_source_status_message", "true", {}, e.data);
                 EventHandler.unsetToken("show_data_source_overview");
                 EventHandler.unsetToken("show_data_source_outlier_configuration");
                 EventHandler.unsetToken("show_data_source_outlier");
-            }
+                EventHandler.unsetToken("show_data_quality");
+                EventHandler.unsetToken("show_flipping_status");
+                EventHandler.unsetToken("show_data_source_audit_changes");
+            } else if (e.value === "data_source_audit_changes") {
+                EventHandler.setToken("show_data_source_audit_changes", "true", {}, e.data);
+                EventHandler.unsetToken("show_data_source_overview");
+                EventHandler.unsetToken("show_data_source_outlier_configuration");
+                EventHandler.unsetToken("show_data_source_outlier");
+                EventHandler.unsetToken("show_data_quality");
+                EventHandler.unsetToken("show_flipping_status");
+                EventHandler.unsetToken("show_data_source_status_message");
+            }            
         });
 
         // input link selection for modal window
@@ -8728,6 +9786,10 @@ require([
                 {
                     "value": "4h",
                     "label": "4h"
+                },
+                {
+                    "value": "8h",
+                    "label": "8h"
                 },
                 {
                     "value": "12h",
@@ -8746,8 +9808,16 @@ require([
                     "label": "7d"
                 },
                 {
+                    "value": "15d",
+                    "label": "15d"
+                },
+                {
                     "value": "30d",
                     "label": "30d"
+                },
+                {
+                    "value": "60d",
+                    "label": "60d"
                 },
                 {
                     "value": "90d",
@@ -8777,6 +9847,10 @@ require([
                 EventHandler.setToken("modalTime.earliest", "-4h", {}, e.data);
                 EventHandler.setToken("modalTime.latest", "now", {}, e.data);
                 EventHandler.setToken("modalTime.span", "5m", {}, e.data);
+            } else if (e.value === "8h") {
+                EventHandler.setToken("modalTime.earliest", "-8h", {}, e.data);
+                EventHandler.setToken("modalTime.latest", "now", {}, e.data);
+                EventHandler.setToken("modalTime.span", "5m", {}, e.data);
             } else if (e.value === "12h") {
                 EventHandler.setToken("modalTime.earliest", "-12h", {}, e.data);
                 EventHandler.setToken("modalTime.latest", "now", {}, e.data);
@@ -8793,10 +9867,18 @@ require([
                 EventHandler.setToken("modalTime.earliest", "-7d", {}, e.data);
                 EventHandler.setToken("modalTime.latest", "now", {}, e.data);
                 EventHandler.setToken("modalTime.span", "1h", {}, e.data);
+            } else if (e.value === "15d") {
+                EventHandler.setToken("modalTime.earliest", "-15d", {}, e.data);
+                EventHandler.setToken("modalTime.latest", "now", {}, e.data);
+                EventHandler.setToken("modalTime.span", "2h", {}, e.data);
             } else if (e.value === "30d") {
                 EventHandler.setToken("modalTime.earliest", "-30d", {}, e.data);
                 EventHandler.setToken("modalTime.latest", "now", {}, e.data);
                 EventHandler.setToken("modalTime.span", "4h", {}, e.data);
+            } else if (e.value === "60d") {
+                EventHandler.setToken("modalTime.earliest", "-60d", {}, e.data);
+                EventHandler.setToken("modalTime.latest", "now", {}, e.data);
+                EventHandler.setToken("modalTime.span", "8h", {}, e.data);
             } else if (e.value === "90d") {
                 EventHandler.setToken("modalTime.earliest", "-90d", {}, e.data);
                 EventHandler.setToken("modalTime.latest", "now", {}, e.data);
@@ -8850,6 +9932,57 @@ require([
             }
         });
 
+        var LinkTimeOutlierConfigurationDataSourceSpan = new LinkListInput({
+            "id": "LinkTimeOutlierConfigurationDataSourceSpan",
+            "choices": [{
+                    "value": "5m",
+                    "label": "5m"
+                },
+                {
+                    "value": "60m",
+                    "label": "60m"
+                },
+                {
+                    "value": "4h",
+                    "label": "4h"
+                },
+                {
+                    "value": "12h",
+                    "label": "12h"
+                },
+                {
+                    "value": "1d",
+                    "label": "1d"
+                }
+            ],
+            "default": "5m",
+            "searchWhenChanged": true,
+            "selectFirstChoice": false,
+            "initialValue": "5m",
+            "value": "$form.TimeOutlierConfigurationDataSourceSpan$",
+            "el": $('#LinkTimeOutlierConfigurationDataSourceSpan')
+        }, {
+            tokens: true
+        }).render();
+
+        LinkTimeOutlierConfigurationDataSourceSpan.on("change", function(newValue) {
+            FormUtils.handleValueChange(LinkTimeOutlierConfigurationDataSourceSpan);
+        });
+
+        LinkTimeOutlierConfigurationDataSourceSpan.on("valueChange", function(e) {
+			if (e.value === "5m") {
+                EventHandler.setToken("tk_input_data_source_outlier_span", "5m", {}, e.data);
+            } else if (e.value === "60m") {
+                EventHandler.setToken("tk_input_data_source_outlier_span", "60m", {}, e.data);
+            } else if (e.value === "4h") {
+                EventHandler.setToken("tk_input_data_source_outlier_span", "4h", {}, e.data);
+            } else if (e.value === "12h") {
+                EventHandler.setToken("tk_input_data_source_outlier_span", "12h", {}, e.data);
+            } else if (e.value === "1d") {
+                EventHandler.setToken("tk_input_data_source_outlier_span", "1d", {}, e.data);
+            }
+        });
+
         // data host monitoring
 
         // main data_host link input for modal window
@@ -8868,8 +10001,20 @@ require([
                     "label": "Outlier detection configuration"
                 },
                 {
+                    "value": "data_quality",
+                    "label": "Data parsing quality"
+                },
+                {
+                    "value": "flipping_status",
+                    "label": "Status flipping"
+                },
+                {
                     "value": "status_message",
                     "label": "Status message"
+                },
+                {
+                    "value": "audit_changes",
+                    "label": "Audit changes"
                 }
             ],
             "default": "overview",
@@ -8892,21 +10037,57 @@ require([
                 EventHandler.unsetToken("show_data_host_outlier");
                 EventHandler.unsetToken("show_data_host_outlier_configuration");
                 EventHandler.unsetToken("show_data_host_status_message");
+                EventHandler.unsetToken("show_data_host_quality");
+                EventHandler.unsetToken("show_data_host_flipping_status");
+                EventHandler.unsetToken("show_data_host_audit_changes");
             } else if (e.value === "outlier") {
                 EventHandler.setToken("show_data_host_outlier", "true", {}, e.data);
                 EventHandler.unsetToken("show_data_host_overview");
                 EventHandler.unsetToken("show_data_host_outlier_configuration");
                 EventHandler.unsetToken("show_data_host_status_message");
+                EventHandler.unsetToken("show_data_host_quality");
+                EventHandler.unsetToken("show_data_host_flipping_status");
+                EventHandler.unsetToken("show_data_host_audit_changes");
             } else if (e.value === "outlier_configuration") {
                 EventHandler.setToken("show_data_host_outlier_configuration", "true", {}, e.data);
                 EventHandler.unsetToken("show_data_host_overview");
                 EventHandler.unsetToken("show_data_host_outlier");
                 EventHandler.unsetToken("show_data_host_status_message");
+                EventHandler.unsetToken("show_data_host_quality");
+                EventHandler.unsetToken("show_data_host_flipping_status");
+                EventHandler.unsetToken("show_data_host_audit_changes");
+            } else if (e.value === "data_quality") {
+                EventHandler.setToken("show_data_host_quality", "true", {}, e.data);
+                EventHandler.unsetToken("show_data_host_overview");
+                EventHandler.unsetToken("show_data_host_outlier");
+                EventHandler.unsetToken("show_data_host_status_message");
+                EventHandler.unsetToken("show_data_host_outlier_configuration");
+                EventHandler.unsetToken("show_data_host_flipping_status");
+                EventHandler.unsetToken("show_data_host_audit_changes");
+            } else if (e.value === "flipping_status") {
+                EventHandler.setToken("show_data_host_flipping_status", "true", {}, e.data);
+                EventHandler.unsetToken("show_data_host_overview");
+                EventHandler.unsetToken("show_data_host_outlier");
+                EventHandler.unsetToken("show_data_host_status_message");
+                EventHandler.unsetToken("show_data_host_outlier_configuration");
+                EventHandler.unsetToken("show_data_host_quality");
+                EventHandler.unsetToken("show_data_host_audit_changes");
             } else if (e.value === "status_message") {
                 EventHandler.setToken("show_data_host_status_message", "true", {}, e.data);
                 EventHandler.unsetToken("show_data_host_overview");
                 EventHandler.unsetToken("show_data_host_outlier_configuration");
                 EventHandler.unsetToken("show_data_host_outlier");
+                EventHandler.unsetToken("show_data_host_quality");
+                EventHandler.unsetToken("show_data_host_flipping_status");
+                EventHandler.unsetToken("show_data_host_audit_changes");
+            } else if (e.value === "audit_changes") {
+                EventHandler.setToken("show_data_host_audit_changes", "true", {}, e.data);
+                EventHandler.unsetToken("show_data_host_overview");
+                EventHandler.unsetToken("show_data_host_outlier_configuration");
+                EventHandler.unsetToken("show_data_host_outlier");
+                EventHandler.unsetToken("show_data_host_quality");
+                EventHandler.unsetToken("show_data_host_flipping_status");
+                EventHandler.unsetToken("show_data_host_status_message");
             }
         });
 
@@ -8953,6 +10134,57 @@ require([
                 EventHandler.setToken("tk_input_data_host_outlier_period", "-7d", {}, e.data);
             } else if (e.value === "-30d") {
                 EventHandler.setToken("tk_input_data_host_outlier_period", "-30d", {}, e.data);
+            }
+        });
+
+        var LinkTimeOutlierConfigurationDataHostSpan = new LinkListInput({
+            "id": "LinkTimeOutlierConfigurationDataHostSpan",
+            "choices": [{
+                    "value": "5m",
+                    "label": "5m"
+                },
+                {
+                    "value": "60m",
+                    "label": "60m"
+                },
+                {
+                    "value": "4h",
+                    "label": "4h"
+                },
+                {
+                    "value": "12h",
+                    "label": "12h"
+                },
+                {
+                    "value": "1d",
+                    "label": "1d"
+                }
+            ],
+            "default": "5m",
+            "searchWhenChanged": true,
+            "selectFirstChoice": false,
+            "initialValue": "5m",
+            "value": "$form.TimeOutlierConfigurationDataHostSpan$",
+            "el": $('#LinkTimeOutlierConfigurationDataHostSpan')
+        }, {
+            tokens: true
+        }).render();
+
+        LinkTimeOutlierConfigurationDataHostSpan.on("change", function(newValue) {
+            FormUtils.handleValueChange(LinkTimeOutlierConfigurationDataHostSpan);
+        });
+
+        LinkTimeOutlierConfigurationDataHostSpan.on("valueChange", function(e) {
+			if (e.value === "5m") {
+                EventHandler.setToken("tk_input_data_host_outlier_span", "5m", {}, e.data);
+            } else if (e.value === "60m") {
+                EventHandler.setToken("tk_input_data_host_outlier_span", "60m", {}, e.data);
+            } else if (e.value === "4h") {
+                EventHandler.setToken("tk_input_data_host_outlier_span", "4h", {}, e.data);
+            } else if (e.value === "12h") {
+                EventHandler.setToken("tk_input_data_host_outlier_span", "12h", {}, e.data);
+            } else if (e.value === "1d") {
+                EventHandler.setToken("tk_input_data_host_outlier_span", "1d", {}, e.data);
             }
         });
 
@@ -9182,6 +10414,10 @@ require([
                     "label": "4h"
                 },
                 {
+                    "value": "8h",
+                    "label": "8h"
+                },
+                {
                     "value": "12h",
                     "label": "12h"
                 },
@@ -9198,8 +10434,16 @@ require([
                     "label": "7d"
                 },
                 {
+                    "value": "15d",
+                    "label": "15d"
+                },
+                {
                     "value": "30d",
                     "label": "30d"
+                },
+                {
+                    "value": "60d",
+                    "label": "60d"
                 },
                 {
                     "value": "90d",
@@ -9229,6 +10473,10 @@ require([
                 EventHandler.setToken("modalTimeHost.earliest", "-4h", {}, e.data);
                 EventHandler.setToken("modalTimeHost.latest", "now", {}, e.data);
                 EventHandler.setToken("modalTimeHost.span", "5m", {}, e.data);
+            } else if (e.value === "8h") {
+                EventHandler.setToken("modalTimeHost.earliest", "-8h", {}, e.data);
+                EventHandler.setToken("modalTimeHost.latest", "now", {}, e.data);
+                EventHandler.setToken("modalTimeHost.span", "5m", {}, e.data);
             } else if (e.value === "12h") {
                 EventHandler.setToken("modalTimeHost.earliest", "-12h", {}, e.data);
                 EventHandler.setToken("modalTimeHost.latest", "now", {}, e.data);
@@ -9245,14 +10493,132 @@ require([
                 EventHandler.setToken("modalTimeHost.earliest", "-7d", {}, e.data);
                 EventHandler.setToken("modalTimeHost.latest", "now", {}, e.data);
                 EventHandler.setToken("modalTimeHost.span", "1h", {}, e.data);
+            } else if (e.value === "15d") {
+                EventHandler.setToken("modalTimeHost.earliest", "-15d", {}, e.data);
+                EventHandler.setToken("modalTimeHost.latest", "now", {}, e.data);
+                EventHandler.setToken("modalTimeHost.span", "2h", {}, e.data);
             } else if (e.value === "30d") {
                 EventHandler.setToken("modalTimeHost.earliest", "-30d", {}, e.data);
                 EventHandler.setToken("modalTimeHost.latest", "now", {}, e.data);
                 EventHandler.setToken("modalTimeHost.span", "4h", {}, e.data);
+            } else if (e.value === "60d") {
+                EventHandler.setToken("modalTimeHost.earliest", "-60d", {}, e.data);
+                EventHandler.setToken("modalTimeHost.latest", "now", {}, e.data);
+                EventHandler.setToken("modalTimeHost.span", "8h", {}, e.data);
             } else if (e.value === "90d") {
                 EventHandler.setToken("modalTimeHost.earliest", "-90d", {}, e.data);
                 EventHandler.setToken("modalTimeHost.latest", "now", {}, e.data);
                 EventHandler.setToken("modalTimeHost.span", "12h", {}, e.data);
+            }
+        });
+
+        // input link selection for modal window
+        var inputLinkTimeMetricHost = new LinkListInput({
+            "id": "inputLinkTimeMetricHost",
+            "choices": [{
+                    "value": "60m",
+                    "label": "60m"
+                },
+                {
+                    "value": "4h",
+                    "label": "4h"
+                },
+                {
+                    "value": "8h",
+                    "label": "8h"
+                },
+                {
+                    "value": "12h",
+                    "label": "12h"
+                },
+                {
+                    "value": "24h",
+                    "label": "24h"
+                },
+                {
+                    "value": "48h",
+                    "label": "48h"
+                },
+                {
+                    "value": "7d",
+                    "label": "7d"
+                },
+                {
+                    "value": "15d",
+                    "label": "15d"
+                },
+                {
+                    "value": "30d",
+                    "label": "30d"
+                },
+                {
+                    "value": "60d",
+                    "label": "60d"
+                },
+                {
+                    "value": "90d",
+                    "label": "90d"
+                }
+            ],
+            "default": "24h",
+            "searchWhenChanged": true,
+            "selectFirstChoice": false,
+            "initialValue": "24h",
+            "value": "$form.modalActionTimeMetricHost$",
+            "el": $('#inputLinkTimeMetricHost')
+        }, {
+            tokens: true
+        }).render();
+
+        inputLinkTimeMetricHost.on("change", function(newValue) {
+            FormUtils.handleValueChange(input1);
+        });
+
+        inputLinkTimeMetricHost.on("valueChange", function(e) {
+            if (e.value === "60m") {
+                EventHandler.setToken("modalTimeMetricHost.earliest", "-60m", {}, e.data);
+                EventHandler.setToken("modalTimeMetricHost.latest", "now", {}, e.data);
+                EventHandler.setToken("modalTimeMetricHost.span", "1m", {}, e.data);
+            } else if (e.value === "4h") {
+                EventHandler.setToken("modalTimeMetricHost.earliest", "-4h", {}, e.data);
+                EventHandler.setToken("modalTimeMetricHost.latest", "now", {}, e.data);
+                EventHandler.setToken("modalTimeMetricHost.span", "5m", {}, e.data);
+            } else if (e.value === "8h") {
+                EventHandler.setToken("modalTimeMetricHost.earliest", "-8h", {}, e.data);
+                EventHandler.setToken("modalTimeMetricHost.latest", "now", {}, e.data);
+                EventHandler.setToken("modalTimeMetricHost.span", "5m", {}, e.data);
+            } else if (e.value === "12h") {
+                EventHandler.setToken("modalTimeMetricHost.earliest", "-12h", {}, e.data);
+                EventHandler.setToken("modalTimeMetricHost.latest", "now", {}, e.data);
+                EventHandler.setToken("modalTimeMetricHost.span", "10m", {}, e.data);
+            } else if (e.value === "24h") {
+                EventHandler.setToken("modalTimeMetricHost.earliest", "-24h", {}, e.data);
+                EventHandler.setToken("modalTimeMetricHost.latest", "now", {}, e.data);
+                EventHandler.setToken("modalTimeMetricHost.span", "15m", {}, e.data);
+            } else if (e.value === "48h") {
+                EventHandler.setToken("modalTimeMetricHost.earliest", "-48h", {}, e.data);
+                EventHandler.setToken("modalTimeMetricHost.latest", "now", {}, e.data);
+                EventHandler.setToken("modalTimeMetricHost.span", "30m", {}, e.data);
+            } else if (e.value === "7d") {
+                EventHandler.setToken("modalTimeMetricHost.earliest", "-7d", {}, e.data);
+                EventHandler.setToken("modalTimeMetricHost.latest", "now", {}, e.data);
+                EventHandler.setToken("modalTimeMetricHost.span", "1h", {}, e.data);
+            } else if (e.value === "15d") {
+                EventHandler.setToken("modalTimeMetricHost.earliest", "-15d", {}, e.data);
+                EventHandler.setToken("modalTimeMetricHost.latest", "now", {}, e.data);
+                EventHandler.setToken("modalTimeMetricHost.span", "2h", {}, e.data);
+            } else if (e.value === "30d") {
+                EventHandler.setToken("modalTimeMetricHost.earliest", "-30d", {}, e.data);
+                EventHandler.setToken("modalTimeMetricHost.latest", "now", {}, e.data);
+                EventHandler.setToken("modalTimeMetricHost.span", "4h", {}, e.data);
+            } else if (e.value === "60d") {
+                EventHandler.setToken("modalTimeMetricHost.earliest", "-60d", {}, e.data);
+                EventHandler.setToken("modalTimeMetricHost.latest", "now", {}, e.data);
+                EventHandler.setToken("modalTimeMetricHost.span", "8h", {}, e.data);
+            } else if (e.value === "90d") {
+                EventHandler.setToken("modalTimeMetricHost.earliest", "-90d", {}, e.data);
+                EventHandler.setToken("modalTimeMetricHost.latest", "now", {}, e.data);
+                EventHandler.setToken("modalTimeMetricHost.span", "12h", {}, e.data);
             }
         });
 
@@ -9915,8 +11281,16 @@ require([
                     "label": "Overview metric host"
                 },
                 {
+                    "value": "flipping_status",
+                    "label": "Status flipping"
+                },
+                {
                     "value": "status_message",
                     "label": "Status message"
+                },
+                {
+                    "value": "audit_changes",
+                    "label": "Audit changes"
                 }
             ],
             "default": "overview",
@@ -9937,9 +11311,23 @@ require([
             if (e.value === "overview") {
                 EventHandler.setToken("show_metric_host_overview", "true", {}, e.data);
                 EventHandler.unsetToken("show_metric_host_status_message");
+                EventHandler.unsetToken("show_metric_host_flipping_status");
+                EventHandler.unsetToken("show_metric_host_audit_changes");
+            } else if (e.value === "flipping_status") {
+                EventHandler.setToken("show_metric_host_flipping_status", "true", {}, e.data);
+                EventHandler.unsetToken("show_metric_host_overview");
+                EventHandler.unsetToken("show_metric_host_status_message");
+                EventHandler.unsetToken("show_metric_host_audit_changes");
             } else if (e.value === "status_message") {
                 EventHandler.setToken("show_metric_host_status_message", "true", {}, e.data);
                 EventHandler.unsetToken("show_metric_host_overview");
+                EventHandler.unsetToken("show_metric_host_flipping_status");
+                EventHandler.unsetToken("show_metric_host_audit_changes");
+            } else if (e.value === "audit_changes") {
+                EventHandler.setToken("show_metric_host_audit_changes", "true", {}, e.data);
+                EventHandler.unsetToken("show_metric_host_overview");
+                EventHandler.unsetToken("show_metric_host_flipping_status");
+                EventHandler.unsetToken("show_metric_host_status_message");
             }
         });
 
@@ -11498,6 +12886,7 @@ require([
                 setToken("tk_outlierupperthresholdmultiplier", TokenUtils.replaceTokenNames("$row.OutlierUpperThresholdMultiplier$", _.extend(submittedTokenModel.toJSON(), e.data)));
                 setToken("tk_outlieralertonupper", TokenUtils.replaceTokenNames("$row.OutlierAlertOnUpper$", _.extend(submittedTokenModel.toJSON(), e.data)));
                 setToken("tk_outlier_period", TokenUtils.replaceTokenNames("$row.OutlierTimePeriod$", _.extend(submittedTokenModel.toJSON(), e.data)));
+                setToken("tk_outlier_span", TokenUtils.replaceTokenNames("$row.OutlierSpan$", _.extend(submittedTokenModel.toJSON(), e.data)));
                 setToken("tk_isoutlier", TokenUtils.replaceTokenNames("$row.isOutlier$", _.extend(submittedTokenModel.toJSON(), e.data)));
                 setToken("tk_enable_behaviour_analytic", TokenUtils.replaceTokenNames("$row.enable_behaviour_analytic$", _.extend(submittedTokenModel.toJSON(), e.data)));
 
@@ -11512,8 +12901,8 @@ require([
                 setToken("form.tk_input_data_source_enable_outlier", TokenUtils.replaceTokenNames("$row.enable_behaviour_analytic$", _.extend(submittedTokenModel.toJSON(), e.data)));
                 setToken("form.tk_input_data_source_outlier_lower_threshold_multiplier", TokenUtils.replaceTokenNames("$row.OutlierLowerThresholdMultiplier$", _.extend(submittedTokenModel.toJSON(), e.data)));
                 setToken("form.tk_input_data_source_outlier_upper_threshold_multiplier", TokenUtils.replaceTokenNames("$row.OutlierUpperThresholdMultiplier$", _.extend(submittedTokenModel.toJSON(), e.data)));
-                setToken("form.tk_input_data_source_outlier_alert_on_upper", TokenUtils.replaceTokenNames("$row.OutlierAlertOnUpper$", _.extend(submittedTokenModel.toJSON(), e.data)));
                 setToken("form.TimeOutlierConfigurationDataSource", TokenUtils.replaceTokenNames("$row.OutlierTimePeriod$", _.extend(submittedTokenModel.toJSON(), e.data)));
+                setToken("form.TimeOutlierConfigurationDataSourceSpan", TokenUtils.replaceTokenNames("$row.OutlierSpan$", _.extend(submittedTokenModel.toJSON(), e.data)));
 
                 // status message
                 setToken("tk_status_message", TokenUtils.replaceTokenNames("$row.status_message$", _.extend(submittedTokenModel.toJSON(), e.data)));
@@ -11553,6 +12942,7 @@ require([
                 var tk_outlierupperthresholdmultiplier = tokens.get("tk_outlierupperthresholdmultiplier");
                 var tk_outlieralertonupper = tokens.get("tk_outlieralertonupper");
                 var tk_isoutlier = tokens.get("tk_isoutlier");
+                var tk_outlier_span = tokens.get("tk_outlier_span");
 
                 if (tk_outliermineventcount = "null") {
                     setToken("tk_outliermineventcount", TokenUtils.replaceTokenNames("-1", _.extend(submittedTokenModel.toJSON(), e.data)));
@@ -11629,12 +13019,16 @@ require([
                 // Dynamically manage state color
                 if (tk_data_source_state == "green") {
                     setToken("tk_data_source_state_class", TokenUtils.replaceTokenNames("title_green", _.extend(submittedTokenModel.toJSON(), e.data)));
+                    setToken("tk_data_source_status_message_class", TokenUtils.replaceTokenNames("status_message_green", _.extend(submittedTokenModel.toJSON(), e.data)));
                 } else if (tk_data_source_state == "orange") {
                     setToken("tk_data_source_state_class", TokenUtils.replaceTokenNames("title_orange", _.extend(submittedTokenModel.toJSON(), e.data)));
+                    setToken("tk_data_source_status_message_class", TokenUtils.replaceTokenNames("status_message_orange", _.extend(submittedTokenModel.toJSON(), e.data)));
                 } else if (tk_data_source_state == "blue") {
                     setToken("tk_data_source_state_class", TokenUtils.replaceTokenNames("title_blue", _.extend(submittedTokenModel.toJSON(), e.data)));
+                    setToken("tk_data_source_status_message_class", TokenUtils.replaceTokenNames("status_message_blue", _.extend(submittedTokenModel.toJSON(), e.data)));
                 } else if (tk_data_source_state == "red") {
                     setToken("tk_data_source_state_class", TokenUtils.replaceTokenNames("title_red", _.extend(submittedTokenModel.toJSON(), e.data)));
+                    setToken("tk_data_source_status_message_class", TokenUtils.replaceTokenNames("status_message_red", _.extend(submittedTokenModel.toJSON(), e.data)));
                 }
 
                 // Dynamically manage priority color
@@ -11867,6 +13261,186 @@ require([
             tokenNamespace: "submitted"
         }).render();
 
+        // Audit Changes Data Source
+        var elementMainTableAuditChangesDataSource = new TableElement({
+            "id": "elementMainTableAuditChangesDataSource",
+            "count": 5,
+            "drilldown": "none",
+            "refresh.display": "none",
+            "wrap": "false",
+            "managerid": "searchMainDataSourceAuditChangesTable",
+            "el": $('#elementMainTableAuditChangesDataSource')
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        }).render();
+
+        var chartAuditChangesDataSourceOverTime = new ChartElement({
+            "id": "chartAuditChangesDataSourceOverTime",
+            "charting.chart.stackMode": "stacked",
+            "charting.chart": "column",
+            "charting.drilldown": "all",
+            "charting.axisLabelsY.majorUnit": "1",
+            "charting.fieldColors": "{\"success\": 0xb6edb6, \"failure\": 0xFFBABA}",
+            "resizable": true,
+            "height": "150",
+            "managerid": "searchAuditDataSourceAuditChangesOverTime",
+            "el": $('#chartAuditChangesDataSourceOverTime')
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        }).render();
+
+        // Audit Changes Data Host
+        var elementMainTableAuditChangesDataHost = new TableElement({
+            "id": "elementMainTableAuditChangesDataHost",
+            "count": 5,
+            "drilldown": "none",
+            "refresh.display": "none",
+            "wrap": "false",
+            "managerid": "searchMainDataHostAuditChangesTable",
+            "el": $('#elementMainTableAuditChangesDataHost')
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        }).render();
+
+        var chartAuditChangesDataHostOverTime = new ChartElement({
+            "id": "chartAuditChangesDataHostOverTime",
+            "charting.chart.stackMode": "stacked",
+            "charting.chart": "column",
+            "charting.drilldown": "all",
+            "charting.axisLabelsY.majorUnit": "1",
+            "charting.fieldColors": "{\"success\": 0xb6edb6, \"failure\": 0xFFBABA}",
+            "resizable": true,
+            "height": "150",
+            "managerid": "searchAuditDataHostAuditChangesOverTime",
+            "el": $('#chartAuditChangesDataHostOverTime')
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        }).render();
+
+        // Audit Changes Metric Host
+        var elementMainTableAuditChangesMetricHost = new TableElement({
+            "id": "elementMainTableAuditChangesMetricHost",
+            "count": 5,
+            "drilldown": "none",
+            "refresh.display": "none",
+            "wrap": "false",
+            "managerid": "searchMainMetricHostAuditChangesTable",
+            "el": $('#elementMainTableAuditChangesMetricHost')
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        }).render();
+
+        var chartAuditChangesMetricHostOverTime = new ChartElement({
+            "id": "chartAuditChangesMetricHostOverTime",
+            "charting.chart.stackMode": "stacked",
+            "charting.chart": "column",
+            "charting.drilldown": "all",
+            "charting.axisLabelsY.majorUnit": "1",
+            "charting.fieldColors": "{\"success\": 0xb6edb6, \"failure\": 0xFFBABA}",
+            "resizable": true,
+            "height": "150",
+            "managerid": "searchAuditMetricHostAuditChangesOverTime",
+            "el": $('#chartAuditChangesMetricHostOverTime')
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        }).render();
+
+        // Audit Flip Data Source
+        var elementMainTableAuditFlipDataSource = new TableElement({
+            "id": "elementMainTableAuditFlipDataSource",
+            "count": 5,
+            "drilldown": "none",
+            "refresh.display": "none",
+            "wrap": "false",
+            "managerid": "searchMainDataSourceAuditFlipTable",
+            "el": $('#elementMainTableAuditFlipDataSource')
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        }).render();
+
+        var chartAuditFlipDataSourceOverTime = new ChartElement({
+            "id": "chartAuditFlipDataSourceOverTime",
+            "charting.chart.stackMode": "stacked",
+            "charting.chart": "column",
+            "charting.drilldown": "all",
+            "charting.axisLabelsY.majorUnit": "1",
+            "charting.fieldColors": "{\"orange\": 0xffd394, \"blue\": 0xcfebf9, \"green\": 0xb6edb6, \"red\": 0xFFBABA}",
+            "resizable": true,
+            "height": "150",
+            "managerid": "searchAuditDataSourceFlipOverTime",
+            "el": $('#chartAuditFlipDataSourceOverTime')
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        }).render();
+
+        // Audit Flip Data Host
+        var elementMainTableAuditFlipDataHost = new TableElement({
+            "id": "elementMainTableAuditFlipDataHost",
+            "count": 5,
+            "drilldown": "none",
+            "refresh.display": "none",
+            "wrap": "false",
+            "managerid": "searchMainDataHostAuditFlipTable",
+            "el": $('#elementMainTableAuditFlipDataHost')
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        }).render();
+
+        var chartAuditFlipDataHostOverTime = new ChartElement({
+            "id": "chartAuditFlipDataHostOverTime",
+            "charting.chart.stackMode": "stacked",
+            "charting.chart": "column",
+            "charting.drilldown": "all",
+            "charting.axisLabelsY.majorUnit": "1",
+            "charting.fieldColors": "{\"orange\": 0xffd394, \"blue\": 0xcfebf9, \"green\": 0xb6edb6, \"red\": 0xFFBABA}",
+            "resizable": true,
+            "height": "150",
+            "managerid": "searchAuditDataHostFlipOverTime",
+            "el": $('#chartAuditFlipDataHostOverTime')
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        }).render();
+
+        // Audit Flip Metric Host
+        var elementMainTableAuditFlipMetricHost = new TableElement({
+            "id": "elementMainTableAuditFlipMetricHost",
+            "count": 5,
+            "drilldown": "none",
+            "refresh.display": "none",
+            "wrap": "false",
+            "managerid": "searchMainMetricHostAuditFlipTable",
+            "el": $('#elementMainTableAuditFlipMetricHost')
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        }).render();
+
+        var chartAuditFlipMetricHostOverTime = new ChartElement({
+            "id": "chartAuditFlipMetricHostOverTime",
+            "charting.chart.stackMode": "stacked",
+            "charting.chart": "column",
+            "charting.drilldown": "all",
+            "charting.axisLabelsY.majorUnit": "1",
+            "charting.fieldColors": "{\"orange\": 0xffd394, \"blue\": 0xcfebf9, \"green\": 0xb6edb6, \"red\": 0xFFBABA}",
+            "resizable": true,
+            "height": "150",
+            "managerid": "searchAuditmetricHostFlipOverTime",
+            "el": $('#chartAuditFlipMetricHostOverTime')
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        }).render();
+
         // Audit Changes
         var elementMainTableAuditChanges = new TableElement({
             "id": "elementMainTableAuditChanges",
@@ -11973,15 +13547,17 @@ require([
                 setToken("tk_outlierupperthresholdmultiplier", TokenUtils.replaceTokenNames("$row.OutlierUpperThresholdMultiplier$", _.extend(submittedTokenModel.toJSON(), e.data)));
                 setToken("tk_outlieralertonupper", TokenUtils.replaceTokenNames("$row.OutlierAlertOnUpper$", _.extend(submittedTokenModel.toJSON(), e.data)));
                 setToken("tk_outlier_period", TokenUtils.replaceTokenNames("$row.OutlierTimePeriod$", _.extend(submittedTokenModel.toJSON(), e.data)));
+                setToken("tk_outlier_span", TokenUtils.replaceTokenNames("$row.OutlierSpan$", _.extend(submittedTokenModel.toJSON(), e.data)));
                 setToken("tk_isoutlier", TokenUtils.replaceTokenNames("$row.isOutlier$", _.extend(submittedTokenModel.toJSON(), e.data)));
                 setToken("tk_enable_behaviour_analytic", TokenUtils.replaceTokenNames("$row.enable_behaviour_analytic$", _.extend(submittedTokenModel.toJSON(), e.data)));
 
                 // pre-fill current values for outlier modification window
+                setToken("form.tk_input_data_host_outlier_alert_on_upper", TokenUtils.replaceTokenNames("$row.OutlierAlertOnUpper$", _.extend(submittedTokenModel.toJSON(), e.data)));
                 setToken("form.tk_input_data_host_enable_outlier", TokenUtils.replaceTokenNames("$row.enable_behaviour_analytic$", _.extend(submittedTokenModel.toJSON(), e.data)));
                 setToken("form.tk_input_data_host_outlier_lower_threshold_multiplier", TokenUtils.replaceTokenNames("$row.OutlierLowerThresholdMultiplier$", _.extend(submittedTokenModel.toJSON(), e.data)));
                 setToken("form.tk_input_data_host_outlier_upper_threshold_multiplier", TokenUtils.replaceTokenNames("$row.OutlierUpperThresholdMultiplier$", _.extend(submittedTokenModel.toJSON(), e.data)));
-                setToken("form.tk_input_data_host_outlier_alert_on_upper", TokenUtils.replaceTokenNames("$row.OutlierAlertOnUpper$", _.extend(submittedTokenModel.toJSON(), e.data)));
                 setToken("form.TimeOutlierConfigurationDataHost", TokenUtils.replaceTokenNames("$row.OutlierTimePeriod$", _.extend(submittedTokenModel.toJSON(), e.data)));
+                setToken("form.TimeOutlierConfigurationDataHostSpan", TokenUtils.replaceTokenNames("$row.OutlierSpan$", _.extend(submittedTokenModel.toJSON(), e.data)));
 
                 // status message
                 setToken("tk_status_message", TokenUtils.replaceTokenNames("$row.status_message$", _.extend(submittedTokenModel.toJSON(), e.data)));
@@ -12042,12 +13618,16 @@ require([
                 // Dynamically manage state color
                 if (tk_data_host_state == "green") {
                     setToken("tk_data_host_state_class", TokenUtils.replaceTokenNames("title_green", _.extend(submittedTokenModel.toJSON(), e.data)));
+                    setToken("tk_data_host_status_message_class", TokenUtils.replaceTokenNames("status_message_green", _.extend(submittedTokenModel.toJSON(), e.data)));
                 } else if (tk_data_host_state == "orange") {
                     setToken("tk_data_host_state_class", TokenUtils.replaceTokenNames("title_orange", _.extend(submittedTokenModel.toJSON(), e.data)));
+                    setToken("tk_data_host_status_message_class", TokenUtils.replaceTokenNames("status_message_orange", _.extend(submittedTokenModel.toJSON(), e.data)));
                 } else if (tk_data_host_state == "blue") {
                     setToken("tk_data_host_state_class", TokenUtils.replaceTokenNames("title_blue", _.extend(submittedTokenModel.toJSON(), e.data)));
+                    setToken("tk_data_host_status_message_class", TokenUtils.replaceTokenNames("status_message_blue", _.extend(submittedTokenModel.toJSON(), e.data)));
                 } else if (tk_data_host_state == "red") {
                     setToken("tk_data_host_state_class", TokenUtils.replaceTokenNames("title_red", _.extend(submittedTokenModel.toJSON(), e.data)));
+                    setToken("tk_data_host_status_message_class", TokenUtils.replaceTokenNames("status_message_red", _.extend(submittedTokenModel.toJSON(), e.data)));
                 }
 
                 // Dynamically manage priority color
@@ -12198,12 +13778,16 @@ require([
                 // Dynamically manage state color
                 if (tk_metric_host_state == "green") {
                     setToken("tk_metric_host_state_class", TokenUtils.replaceTokenNames("title_green", _.extend(submittedTokenModel.toJSON(), e.data)));
+                    setToken("tk_metric_host_status_message_class", TokenUtils.replaceTokenNames("status_message_green", _.extend(submittedTokenModel.toJSON(), e.data)));
                 } else if (tk_metric_host_state == "orange") {
                     setToken("tk_metric_host_state_class", TokenUtils.replaceTokenNames("title_orange", _.extend(submittedTokenModel.toJSON(), e.data)));
+                    setToken("tk_metric_host_status_message_class", TokenUtils.replaceTokenNames("status_message_orange", _.extend(submittedTokenModel.toJSON(), e.data)));
                 } else if (tk_metric_host_state == "blue") {
                     setToken("tk_metric_host_state_class", TokenUtils.replaceTokenNames("title_blue", _.extend(submittedTokenModel.toJSON(), e.data)));
+                    setToken("tk_metric_host_status_message_class", TokenUtils.replaceTokenNames("status_message_blue", _.extend(submittedTokenModel.toJSON(), e.data)));
                 } else if (tk_metric_host_state == "red") {
                     setToken("tk_metric_host_state_class", TokenUtils.replaceTokenNames("title_red", _.extend(submittedTokenModel.toJSON(), e.data)));
+                    setToken("tk_metric_host_status_message_class", TokenUtils.replaceTokenNames("status_message_red", _.extend(submittedTokenModel.toJSON(), e.data)));
                 }
 
                 // Dynamically manage priority color
@@ -13019,6 +14603,87 @@ require([
         }).render();
 
         // data source monitoring
+
+        // Data Parsing Quality
+        var elementSearchDataSourceParsingQualityChart = new ChartElement({
+            "id": "elementSearchDataSourceParsingQualityChart",
+            "charting.chart.nullValueMode": "gaps",
+            "resizable": true,
+            "trellis.enabled": "0",
+            "charting.axisTitleX.visibility": "collapsed",
+            "refresh.display": "progressbar",
+            "charting.chart.stackMode": "stacked",
+            "charting.axisLabelsX.majorLabelStyle.overflowMode": "ellipsisNone",
+            "charting.axisY.abbreviation": "none",
+            "charting.legend.placement": "bottom",
+            "charting.axisY2.abbreviation": "none",
+            "charting.legend.labelStyle.overflowMode": "ellipsisMiddle",
+            "charting.chart.showDataLabels": "none",
+            "charting.axisY2.enabled": "0",
+            "charting.chart.sliceCollapsingThreshold": "0.01",
+            "charting.chart.style": "shiny",
+            "charting.layout.splitSeries.allowIndependentYRanges": "0",
+            "charting.chart": "column",
+            "charting.axisX.scale": "linear",
+            "trellis.scales.shared": "1",
+            "charting.axisTitleY.visibility": "visible",
+            "charting.axisTitleY2.visibility": "visible",
+            "charting.chart.bubbleMinimumSize": "10",
+            "charting.drilldown": "none",
+            "charting.legend.mode": "standard",
+            "charting.chart.bubbleMaximumSize": "50",
+            "trellis.size": "medium",
+            "charting.axisY.scale": "linear",
+            "charting.chart.bubbleSizeBy": "area",
+            "charting.axisLabelsX.majorLabelStyle.rotation": "0",
+            "charting.axisX.abbreviation": "none",
+            "charting.layout.splitSeries": "0",
+            "charting.lineWidth": "2",
+            "charting.axisY2.scale": "inherit",
+            "managerid": "SearchDataSourceParsingQualityChart",
+            "el": $('#elementSearchDataSourceParsingQualityChart')
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        }).render();
+
+        var elementSearchDataSourceParsingQualitySingle = new SingleElement({
+            "id": "elementSearchDataSourceParsingQualitySingle",
+            "trendDisplayMode": "absolute",
+            "numberPrecision": "0.00",
+            "drilldown": "all",
+            "trellis.size": "medium",
+            "trendColorInterpretation": "standard",
+            "useColors": "0",
+            "colorBy": "value",
+            "showTrendIndicator": "1",
+            "showSparkline": "1",
+            "trellis.enabled": "0",
+            "height": "50",
+            "unit": "",
+            "rangeColors": "[\"0x53a051\",\"0x0877a6\",\"0xf8be34\",\"0xf1813f\",\"0xdc4e41\"]",
+            "colorMode": "none",
+            "rangeValues": "[0,30,70,100]",
+            "unitPosition": "after",
+            "trellis.scales.shared": "1",
+            "useThousandSeparators": "1",
+            "underLabel": "SUMMARY OF INDEXING TIME PARSING ERRORS (click to drilldown in a new tab)",
+            "managerid": "SearchDataSourceParsingQualitySingle",
+            "el": $('#elementSearchDataSourceParsingQualitySingle')
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        }).render();
+
+        elementSearchDataSourceParsingQualitySingle.on("click", function(e) {
+            if (e.field !== undefined) {
+                e.preventDefault();
+                var url = TokenUtils.replaceTokenNames("{{SPLUNKWEB_URL_PREFIX}}/app/trackme/search?q=index=_internal sourcetype=splunkd error OR warn `trackme_idx_filter` component=LineBreakingProcessor OR component=AggregatorMiningProcessor OR component=DateParserVerbose | `trackme_data_quality_parse` | search data_sourcetype=\"$tk_data_sourcetype$\"", _.extend(submittedTokenModel.toJSON(), e.data), TokenUtils.getEscaper('url'), TokenUtils.getFilters(mvc.Components));
+                utils.redirect(url, false, "_blank");
+            }
+        });
+
+        // Outliers
         var elementOutlier = new VisualizationElement({
             "id": "elementOutlier",
             "type": "Splunk_ML_Toolkit.OutliersViz",
@@ -13042,7 +14707,7 @@ require([
             "trellis.enabled": "0",
             "trellis.scales.shared": "1",
             "trellis.size": "medium",
-            "height": "350",
+            "height": "300",
             "managerid": "searchOutlierDetectionChartSimulation",
             "el": $('#elementOutlierSimulation')
         }, {tokens: true, tokenNamespace: "submitted"}).render();
@@ -13156,6 +14821,85 @@ require([
 
         // data host monitoring
 
+        // Data Parsing Quality
+        var elementSearchDataHostParsingQualityChart = new ChartElement({
+            "id": "elementSearchDataHostParsingQualityChart",
+            "charting.chart.nullValueMode": "gaps",
+            "resizable": true,
+            "trellis.enabled": "0",
+            "charting.axisTitleX.visibility": "collapsed",
+            "refresh.display": "progressbar",
+            "charting.chart.stackMode": "stacked",
+            "charting.axisLabelsX.majorLabelStyle.overflowMode": "ellipsisNone",
+            "charting.axisY.abbreviation": "none",
+            "charting.legend.placement": "bottom",
+            "charting.axisY2.abbreviation": "none",
+            "charting.legend.labelStyle.overflowMode": "ellipsisMiddle",
+            "charting.chart.showDataLabels": "none",
+            "charting.axisY2.enabled": "0",
+            "charting.chart.sliceCollapsingThreshold": "0.01",
+            "charting.chart.style": "shiny",
+            "charting.layout.splitSeries.allowIndependentYRanges": "0",
+            "charting.chart": "column",
+            "charting.axisX.scale": "linear",
+            "trellis.scales.shared": "1",
+            "charting.axisTitleY.visibility": "visible",
+            "charting.axisTitleY2.visibility": "visible",
+            "charting.chart.bubbleMinimumSize": "10",
+            "charting.drilldown": "none",
+            "charting.legend.mode": "standard",
+            "charting.chart.bubbleMaximumSize": "50",
+            "trellis.size": "medium",
+            "charting.axisY.scale": "linear",
+            "charting.chart.bubbleSizeBy": "area",
+            "charting.axisLabelsX.majorLabelStyle.rotation": "0",
+            "charting.axisX.abbreviation": "none",
+            "charting.layout.splitSeries": "0",
+            "charting.lineWidth": "2",
+            "charting.axisY2.scale": "inherit",
+            "managerid": "SearchDataHostParsingQualityChart",
+            "el": $('#elementSearchDataHostParsingQualityChart')
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        }).render();
+
+        var elementSearchDataHostParsingQualitySingle = new SingleElement({
+            "id": "elementSearchDataHostParsingQualitySingle",
+            "trendDisplayMode": "absolute",
+            "numberPrecision": "0.00",
+            "drilldown": "all",
+            "trellis.size": "medium",
+            "trendColorInterpretation": "standard",
+            "useColors": "0",
+            "colorBy": "value",
+            "showTrendIndicator": "1",
+            "showSparkline": "1",
+            "trellis.enabled": "0",
+            "height": "50",
+            "unit": "",
+            "rangeColors": "[\"0x53a051\",\"0x0877a6\",\"0xf8be34\",\"0xf1813f\",\"0xdc4e41\"]",
+            "colorMode": "none",
+            "rangeValues": "[0,30,70,100]",
+            "unitPosition": "after",
+            "trellis.scales.shared": "1",
+            "useThousandSeparators": "1",
+            "underLabel": "SUMMARY OF INDEXING TIME PARSING ERRORS (click to drilldown in a new tab)",
+            "managerid": "SearchDataHostParsingQualitySingle",
+            "el": $('#elementSearchDataHostParsingQualitySingle')
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        }).render();
+
+        elementSearchDataHostParsingQualitySingle.on("click", function(e) {
+            if (e.field !== undefined) {
+                e.preventDefault();
+                var url = TokenUtils.replaceTokenNames("{{SPLUNKWEB_URL_PREFIX}}/app/trackme/search?q=index=_internal sourcetype=splunkd error OR warn `trackme_idx_filter` component=LineBreakingProcessor OR component=AggregatorMiningProcessor OR component=DateParserVerbose | `trackme_data_quality_parse` | search data_host=\"$tk_data_host$\"", _.extend(submittedTokenModel.toJSON(), e.data), TokenUtils.getEscaper('url'), TokenUtils.getFilters(mvc.Components));
+                utils.redirect(url, false, "_blank");
+            }
+        });
+
         // outlier chart
         var elementOutlierDataHost = new VisualizationElement({
             "id": "elementOutlierDataHost",
@@ -13193,7 +14937,7 @@ require([
             "trellis.enabled": "0",
             "trellis.scales.shared": "1",
             "trellis.size": "medium",
-            "height": "350",
+            "height": "300",
             "managerid": "searchOutlierDetectionChartSimulationDataHost",
             "el": $('#elementOutlierSimulationDataHost')
         }, {tokens: true, tokenNamespace: "submitted"}).render();
@@ -13937,15 +15681,15 @@ require([
             "id": "link1",
             "choices": [{
                     "value": "show_data_source_tracker",
-                    "label": "DATA SOURCES AVAILABILITY TRACKING"
+                    "label": "DATA SOURCES TRACKING"
                 },
                 {
                     "value": "show_data_host_tracker",
-                    "label": "DATA HOSTS AVAILABILITY TRACKING"
+                    "label": "DATA HOSTS TRACKING"
                 },
                 {
                     "value": "show_metric_host_tracker",
-                    "label": "METRIC HOSTS AVAILABILITY TRACKING"
+                    "label": "METRIC HOSTS TRACKING"
                 },
                 {
                     "value": "show_audit_flip",
@@ -15034,12 +16778,16 @@ require([
                                 // Dynamically manage state color
                                 if (tk_data_source_state == "green") {
                                     setToken("tk_data_source_state_class", "title_green");
+                                    setToken("tk_data_source_status_message_class", "status_message_green");
                                 } else if (tk_data_source_state == "orange") {
                                     setToken("tk_data_source_state_class", "title_orange");
+                                    setToken("tk_data_source_status_message_class", "status_message_orange");
                                 } else if (tk_data_source_state == "blue") {
                                     setToken("tk_data_source_state_class", "title_blue");
+                                    setToken("tk_data_source_status_message_class", "status_message_blue");
                                 } else if (tk_data_source_state == "red") {
                                     setToken("tk_data_source_state_class", "title_red");
+                                    setToken("tk_data_source_status_message_class", "status_message_red");
                                 }
                             }
 
@@ -15190,12 +16938,16 @@ require([
                                 // Dynamically manage state color
                                 if (tk_data_host_state == "green") {
                                     setToken("tk_data_host_state_class", "title_green");
+                                    setToken("tk_data_host_status_message_class", "status_message_green");
                                 } else if (tk_data_host_state == "orange") {
                                     setToken("tk_data_host_state_class", "title_orange");
+                                    setToken("tk_data_host_status_message_class", "status_message_orange");
                                 } else if (tk_data_host_state == "blue") {
                                     setToken("tk_data_host_state_class", "title_blue");
+                                    setToken("tk_data_host_status_message_class", "status_message_blue");
                                 } else if (tk_data_host_state == "red") {
                                     setToken("tk_data_host_state_class", "title_red");
+                                    setToken("tk_data_host_status_message_class", "status_message_red");
                                 }
                             }
 
@@ -15346,12 +17098,16 @@ require([
                                 // Dynamically manage state color
                                 if (tk_metric_host_state == "green") {
                                     setToken("tk_metric_host_state_class", "title_green");
+                                    setToken("tk_metric_host_status_message_class", "status_message_green");
                                 } else if (tk_metric_host_state == "orange") {
                                     setToken("tk_metric_host_state_class", "title_orange");
+                                    setToken("tk_metric_host_status_message_class", "status_message_orange");
                                 } else if (tk_metric_host_state == "blue") {
                                     setToken("tk_metric_host_state_class", "title_blue");
+                                    setToken("tk_metric_host_status_message_class", "status_message_blue");
                                 } else if (tk_metric_host_state == "red") {
                                     setToken("tk_metric_host_state_class", "title_red");
+                                    setToken("tk_metric_host_status_message_class", "status_message_red");
                                 }
                             }
 
@@ -15535,6 +17291,109 @@ require([
 
         }
 
+        // This function generates outliers statistics and be called when the outliers period calculaton is changed
+
+        function metricOutliersGen(object_category, object, TargetOutlierTimePeriod) {
+
+            //console.log("Starting function");
+
+            // Perform a target search to update key values
+            var searchQuery = "| `trackme_outliers_gen_metrics(" + object_category + "," + object + "," + TargetOutlierTimePeriod + ")`";
+            //console.log(searchQuery);
+
+            // Set the search parameters
+            var searchParams = {
+                exec_mode: "normal",
+                earliest_time: "-30d"
+            };
+
+            service.search(
+                searchQuery,
+                searchParams,
+                function(err, job) {
+
+                    // Poll the status of the search job
+                    job.track({
+                        period: 200
+                    }, {
+                        done: function(job) {
+
+                            // Get the results and print them
+                            job.results({}, function(err, results, job) {
+                                var fields = results.fields;
+                                var rows = results.rows;
+                                for (var i = 0; i < rows.length; i++) {
+                                    var values = rows[i];
+                                    //console.log("Row " + i + ": ");
+                                    for (var j = 0; j < values.length; j++) {
+                                        var field = fields[j];
+                                        var value = values[j];
+                                        //console.log("  " + field + ": " + value);
+
+                                    }
+                                }
+
+                                // Perform a target search to update key values
+                                var searchQuery = "| `trackme_summary_investigator_mstats(" + object_category + "," + object + ")`" + " `trackme_summary_investigator_define_bound_abstract` | eval key = md5(object_category . \":\" . object) | `trackme_outputlookup(trackme_summary_investigator_volume_outliers, key)` | stats c";
+                                //console.log(searchQuery);
+
+                                // Set the search parameters
+                                var searchParams = {
+                                    exec_mode: "normal",
+                                    earliest_time: "-30d"
+                                };
+
+                                service.search(
+                                    searchQuery,
+                                    searchParams,
+                                    function(err, job) {
+
+                                        // Poll the status of the search job
+                                        job.track({
+                                            period: 200
+                                        }, {
+                                            done: function(job) {
+
+                                                // Get the results and print them
+                                                job.results({}, function(err, results, job) {
+                                                    var fields = results.fields;
+                                                    var rows = results.rows;
+                                                    for (var i = 0; i < rows.length; i++) {
+                                                        var values = rows[i];
+                                                        //console.log("Row " + i + ": ");
+                                                        for (var j = 0; j < values.length; j++) {
+                                                            var field = fields[j];
+                                                            var value = values[j];
+                                                            //console.log("  " + field + ": " + value);
+
+                                                        }
+                                                    }
+                                                });
+
+                                            },
+                                            failed: function(job) {},
+                                            error: function(err) {
+                                                done(err);
+                                            }
+                                        });
+
+                                    }
+                                );
+
+                            });
+
+                        },
+                        failed: function(job) {},
+                        error: function(err) {
+                            done(err);
+                        }
+                    });
+
+                }
+            );
+
+        }
+
         // enable monitoring
 
         $("#btn_enable_monitoring").click(function(mode) {
@@ -15576,6 +17435,7 @@ require([
             var tk_outlierupperthresholdmultiplier = tokens.get("tk_outlierupperthresholdmultiplier");
             var tk_outlieralertonupper = tokens.get("tk_outlieralertonupper");
             var tk_outlier_period = tokens.get("tk_outlier_period");
+            var tk_outlier_span = tokens.get("tk_outlier_span");
             var tk_isoutlier = tokens.get("tk_isoutlier");
             var tk_enable_behaviour_analytic = tokens.get("tk_enable_behaviour_analytic");
 
@@ -15610,6 +17470,7 @@ require([
                 "OutlierUpperThresholdMultiplier": tk_outlierupperthresholdmultiplier,
                 "OutlierAlertOnUpper": tk_outlieralertonupper,
                 "OutlierTimePeriod": tk_outlier_period,
+                "OutlierSpan": tk_outlier_span,
                 "isOutlier": tk_isoutlier,
                 "enable_behaviour_analytic" : tk_enable_behaviour_analytic,
                 "latest_flip_state": tk_latest_flip_state,
@@ -15730,6 +17591,7 @@ require([
             var tk_outlierupperthresholdmultiplier = tokens.get("tk_outlierupperthresholdmultiplier");
             var tk_outlieralertonupper = tokens.get("tk_outlieralertonupper");
             var tk_outlier_period = tokens.get("tk_outlier_period");
+            var tk_outlier_span = tokens.get("tk_outlier_span");
             var tk_isoutlier = tokens.get("tk_isoutlier");
             var tk_enable_behaviour_analytic = tokens.get("tk_enable_behaviour_analytic");
 
@@ -15761,6 +17623,7 @@ require([
                 "OutlierUpperThresholdMultiplier": tk_outlierupperthresholdmultiplier,
                 "OutlierAlertOnUpper": tk_outlieralertonupper,
                 "OutlierTimePeriod": tk_outlier_period,
+                "OutlierSpan": tk_outlier_span,
                 "isOutlier": tk_isoutlier,
                 "enable_behaviour_analytic" : tk_enable_behaviour_analytic,
                 "latest_flip_state": tk_latest_flip_state,
@@ -15848,12 +17711,15 @@ require([
         // refresh data_source
         $("#btn_refresh_data_source").click(function(mode) {
             // notify
-            notification('Refresh of all information and statuses for that entity are being processed.', 6000)
+            notification('Refresh proceeded.', 6000)
             searchSingleLag.startSearch();
             searchChartLag.startSearch();
             searchSingleSLApct.startSearch();
             searchOutlierDetectionChart.startSearch();
             searchOutlierDetectionTable.startSearch();
+            searchDataSourceMainAuditFlip.startSearch();
+            searchDataSourceMainAuditChanges.startSearch();
+            SearchDataSourceParsingQualityMain.startSearch();
             // call update summary investigator for that entity only
             var tk_data_name = tokens.get("tk_data_name");
             var tk_data_index = tokens.get("tk_data_index");
@@ -15867,13 +17733,17 @@ require([
         // refresh data_host
         $("#btn_refresh_data_host").click(function(mode) {
             // notify
-            notification('Refresh of all information and statuses for that entity are being processed.', 6000)
+            notification('Refresh proceeded.', 6000)
             searchSingleLagHost.startSearch();
             searchChartHostBaseSearch.startSearch();
             searchChartLagHostOverTime.startSearch();
             searchSingleSLAHostpct.startSearch();
             searchOutlierDetectionChartDataHost.startSearch();
             searchOutlierDetectionTableDataHost.startSearch();
+            searchDataHostMainAuditFlip.startSearch();
+            searchDataHostMainAuditChanges.startSearch();
+            SearchDataHostParsingQualityMain.startSearch();
+
             // call update summary investigator for that entity only
             var tk_data_host = tokens.get("tk_data_host");
             updateDataHostEntity("trackme_datahost_tracker_shorterm", tk_data_host);
@@ -15885,9 +17755,12 @@ require([
         // refresh metric_host
         $("#btn_refresh_metric_host").click(function(mode) {
             // notify
-            notification('Refresh of all information and statuses for that entity are being processed.', 6000)
+            notification('Refresh proceeded.', 6000)
             searchHostTableMetricHost.startSearch();
             searchSingleSLAMetricHostpct.startSearch();
+            searchMetricHostMainAuditFlip.startSearch();
+            searchMetricHostMainAuditChanges.startSearch();
+
             var tk_keyid = tokens.get("tk_keyid");
             // call update metric host
             updateMetricHost(tk_keyid);
@@ -16181,6 +18054,7 @@ require([
             var tk_outlierupperthresholdmultiplier = tokens.get("tk_outlierupperthresholdmultiplier");
             var tk_outlieralertonupper = tokens.get("tk_outlieralertonupper");
             var tk_outlier_period = tokens.get("tk_outlier_period");
+            var tk_outlier_span = tokens.get("tk_outlier_span");
             var tk_isoutlier = tokens.get("tk_isoutlier");
             var tk_enable_behaviour_analytic = tokens.get("tk_enable_behaviour_analytic");
 
@@ -16215,6 +18089,7 @@ require([
                 "OutlierUpperThresholdMultiplier": tk_outlierupperthresholdmultiplier,
                 "OutlierAlertOnUpper": tk_outlieralertonupper,
                 "OutlierTimePeriod": tk_outlier_period,
+                "OutlierSpan": tk_outlier_span,
                 "isOutlier": tk_isoutlier,
                 "enable_behaviour_analytic" : tk_enable_behaviour_analytic,
                 "latest_flip_state": tk_latest_flip_state,
@@ -16335,6 +18210,7 @@ require([
             var tk_outlierupperthresholdmultiplier = tokens.get("tk_outlierupperthresholdmultiplier");
             var tk_outlieralertonupper = tokens.get("tk_outlieralertonupper");
             var tk_outlier_period = tokens.get("tk_outlier_period");
+            var tk_outlier_span = tokens.get("tk_outlier_span");
             var tk_isoutlier = tokens.get("tk_isoutlier");
             var tk_enable_behaviour_analytic = tokens.get("tk_enable_behaviour_analytic");
 
@@ -16366,6 +18242,7 @@ require([
                 "OutlierUpperThresholdMultiplier": tk_outlierupperthresholdmultiplier,
                 "OutlierAlertOnUpper": tk_outlieralertonupper,
                 "OutlierTimePeriod": tk_outlier_period,
+                "OutlierSpan": tk_outlier_span,
                 "isOutlier": tk_isoutlier,
                 "enable_behaviour_analytic" : tk_enable_behaviour_analytic,
                 "latest_flip_state": tk_latest_flip_state,
@@ -16834,6 +18711,7 @@ require([
             var tk_outlierupperthresholdmultiplier = tokens.get("tk_outlierupperthresholdmultiplier");
             var tk_outlieralertonupper = tokens.get("tk_outlieralertonupper");
             var tk_outlier_period = tokens.get("tk_outlier_period");
+            var tk_outlier_span = tokens.get("tk_outlier_span");
             var tk_isoutlier = tokens.get("tk_isoutlier");
             var tk_enable_behaviour_analytic = tokens.get("tk_enable_behaviour_analytic");
             var tk_latest_flip_state = tokens.get("tk_latest_flip_state");
@@ -16864,6 +18742,7 @@ require([
                 "OutlierUpperThresholdMultiplier": tk_outlierupperthresholdmultiplier,
                 "OutlierAlertOnUpper": tk_outlieralertonupper,
                 "OutlierTimePeriod": tk_outlier_period,
+                "OutlierSpan": tk_outlier_span,
                 "isOutlier": tk_isoutlier,
                 "enable_behaviour_analytic" : tk_enable_behaviour_analytic,
                 "latest_flip_state": tk_latest_flip_state,
@@ -17074,6 +18953,7 @@ require([
             var tk_outlierupperthresholdmultiplier = tokens.get("tk_outlierupperthresholdmultiplier");
             var tk_outlieralertonupper = tokens.get("tk_outlieralertonupper");
             var tk_outlier_period = tokens.get("tk_outlier_period");
+            var tk_outlier_span = tokens.get("tk_outlier_span");
             var tk_isoutlier = tokens.get("tk_isoutlier");
             var tk_enable_behaviour_analytic = tokens.get("tk_enable_behaviour_analytic");
             var tk_latest_flip_state = tokens.get("tk_latest_flip_state");
@@ -17101,6 +18981,7 @@ require([
                 "OutlierUpperThresholdMultiplier": tk_outlierupperthresholdmultiplier,
                 "OutlierAlertOnUpper": tk_outlieralertonupper,
                 "OutlierTimePeriod": tk_outlier_period,
+                "OutlierSpan": tk_outlier_span,
                 "isOutlier": tk_isoutlier,
                 "enable_behaviour_analytic" : tk_enable_behaviour_analytic,
                 "latest_flip_state": tk_latest_flip_state,
@@ -21979,6 +23860,7 @@ require([
             var tk_outlierupperthresholdmultiplier = tokens.get("tk_outlierupperthresholdmultiplier");
             var tk_outlieralertonupper = tokens.get("tk_outlieralertonupper");
             var tk_outlier_period = tokens.get("tk_outlier_period");
+            var tk_outlier_span = tokens.get("tk_outlier_span");
             var tk_isoutlier = tokens.get("tk_isoutlier");
             var tk_enable_behaviour_analytic = tokens.get("tk_enable_behaviour_analytic");
             var tk_latest_flip_state = tokens.get("tk_latest_flip_state");
@@ -22027,6 +23909,7 @@ require([
                     "OutlierUpperThresholdMultiplier": tk_outlierupperthresholdmultiplier,
                     "OutlierAlertOnUpper": tk_outlieralertonupper,
                     "OutlierTimePeriod": tk_outlier_period,
+                    "OutlierSpan": tk_outlier_span,
                     "isOutlier": tk_isoutlier,
                     "enable_behaviour_analytic" : tk_enable_behaviour_analytic,
                     "latest_flip_state": tk_latest_flip_state,
@@ -22126,6 +24009,7 @@ require([
             var tk_outlierupperthresholdmultiplier = tokens.get("tk_outlierupperthresholdmultiplier");
             var tk_outlieralertonupper = tokens.get("tk_outlieralertonupper");
             var tk_outlier_period = tokens.get("tk_outlier_period");
+            var tk_outlier_span = tokens.get("tk_outlier_span");
             var tk_isoutlier = tokens.get("tk_isoutlier");
             var tk_enable_behaviour_analytic = tokens.get("tk_enable_behaviour_analytic");
             var tk_latest_flip_state = tokens.get("tk_latest_flip_state");
@@ -22174,6 +24058,7 @@ require([
                     "OutlierUpperThresholdMultiplier": tk_outlierupperthresholdmultiplier,
                     "OutlierAlertOnUpper": tk_outlieralertonupper,
                     "OutlierTimePeriod": tk_outlier_period,
+                    "OutlierSpan": tk_outlier_span,
                     "isOutlier": tk_isoutlier,
                     "enable_behaviour_analytic" : tk_enable_behaviour_analytic,
                     "latest_flip_state": tk_latest_flip_state,
@@ -22279,6 +24164,7 @@ require([
             var tk_outlierupperthresholdmultiplier = tokens.get("tk_outlierupperthresholdmultiplier");
             var tk_outlieralertonupper = tokens.get("tk_outlieralertonupper");
             var tk_outlier_period = tokens.get("tk_outlier_period");
+            var tk_outlier_span = tokens.get("tk_outlier_span");
             var tk_isoutlier = tokens.get("tk_isoutlier");
             var tk_enable_behaviour_analytic = tokens.get("tk_enable_behaviour_analytic");
             var tk_latest_flip_state = tokens.get("tk_latest_flip_state");
@@ -22327,6 +24213,7 @@ require([
                     "OutlierUpperThresholdMultiplier": tk_outlierupperthresholdmultiplier,
                     "OutlierAlertOnUpper": tk_outlieralertonupper,
                     "OutlierTimePeriod": tk_outlier_period,
+                    "OutlierSpan": tk_outlier_span,
                     "isOutlier": tk_isoutlier,
                     "enable_behaviour_analytic" : tk_enable_behaviour_analytic,
                     "latest_flip_state": tk_latest_flip_state,
@@ -22444,6 +24331,7 @@ require([
             var tk_outlierupperthresholdmultiplier = tokens.get("tk_outlierupperthresholdmultiplier");
             var tk_outlieralertonupper = tokens.get("tk_outlieralertonupper");
             var tk_outlier_period = tokens.get("tk_outlier_period");
+            var tk_outlier_span = tokens.get("tk_outlier_span");
             var tk_isoutlier = tokens.get("tk_isoutlier");
             var tk_enable_behaviour_analytic = tokens.get("tk_enable_behaviour_analytic");
             var tk_latest_flip_state = tokens.get("tk_latest_flip_state");
@@ -22492,6 +24380,7 @@ require([
                     "OutlierUpperThresholdMultiplier": tk_outlierupperthresholdmultiplier,
                     "OutlierAlertOnUpper": tk_outlieralertonupper,
                     "OutlierTimePeriod": tk_outlier_period,
+                    "OutlierSpan": tk_outlier_span,
                     "isOutlier": tk_isoutlier,
                     "enable_behaviour_analytic" : tk_enable_behaviour_analytic,
                     "latest_flip_state": tk_latest_flip_state,
@@ -22598,6 +24487,7 @@ require([
             var tk_outlierupperthresholdmultiplier = tokens.get("tk_outlierupperthresholdmultiplier");
             var tk_outlieralertonupper = tokens.get("tk_outlieralertonupper");
             var tk_outlier_period = tokens.get("tk_outlier_period");
+            var tk_outlier_span = tokens.get("tk_outlier_span");
             var tk_isoutlier = tokens.get("tk_isoutlier");
             var tk_enable_behaviour_analytic = tokens.get("tk_enable_behaviour_analytic");
             var tk_latest_flip_state = tokens.get("tk_latest_flip_state");
@@ -22647,6 +24537,7 @@ require([
                     "OutlierUpperThresholdMultiplier": tk_outlierupperthresholdmultiplier,
                     "OutlierAlertOnUpper": tk_outlieralertonupper,
                     "OutlierTimePeriod": tk_outlier_period,
+                    "OutlierSpan": tk_outlier_span,
                     "isOutlier": tk_isoutlier,
                     "enable_behaviour_analytic" : tk_enable_behaviour_analytic,
                     "latest_flip_state": tk_latest_flip_state,
@@ -23459,6 +25350,7 @@ require([
             var tk_outlierupperthresholdmultiplier = tokens.get("tk_outlierupperthresholdmultiplier");
             var tk_outlieralertonupper = tokens.get("tk_outlieralertonupper");
             var tk_outlier_period = tokens.get("tk_outlier_period");
+            var tk_outlier_span = tokens.get("tk_outlier_span");
             var tk_isoutlier = tokens.get("tk_isoutlier");
             var tk_enable_behaviour_analytic = tokens.get("tk_enable_behaviour_analytic");
             var tk_latest_flip_state = tokens.get("tk_latest_flip_state");
@@ -23504,6 +25396,7 @@ require([
                     "OutlierUpperThresholdMultiplier": tk_outlierupperthresholdmultiplier,
                     "OutlierAlertOnUpper": tk_outlieralertonupper,
                     "OutlierTimePeriod": tk_outlier_period,
+                    "OutlierSpan": tk_outlier_span,
                     "enable_behaviour_analytic" : tk_enable_behaviour_analytic,
                     "isOutlier": tk_isoutlier,
                     "latest_flip_state": tk_latest_flip_state,
@@ -23596,6 +25489,7 @@ require([
             var tk_outlierupperthresholdmultiplier = tokens.get("tk_outlierupperthresholdmultiplier");
             var tk_outlieralertonupper = tokens.get("tk_outlieralertonupper");
             var tk_outlier_period = tokens.get("tk_outlier_period");
+            var tk_outlier_span = tokens.get("tk_outlier_span");
             var tk_isoutlier = tokens.get("tk_isoutlier");
             var tk_enable_behaviour_analytic = tokens.get("tk_enable_behaviour_analytic");
             var tk_latest_flip_state = tokens.get("tk_latest_flip_state");
@@ -23639,6 +25533,7 @@ require([
                     "OutlierUpperThresholdMultiplier": tk_outlierupperthresholdmultiplier,
                     "OutlierAlertOnUpper": tk_outlieralertonupper,
                     "OutlierTimePeriod": tk_outlier_period,
+                    "OutlierSpan": tk_outlier_span,
                     "isOutlier": tk_isoutlier,
                     "enable_behaviour_analytic" : tk_enable_behaviour_analytic,
                     "latest_flip_state": tk_latest_flip_state,
@@ -23739,6 +25634,7 @@ require([
             var tk_outlierupperthresholdmultiplier = tokens.get("tk_outlierupperthresholdmultiplier");
             var tk_outlieralertonupper = tokens.get("tk_outlieralertonupper");
             var tk_outlier_period = tokens.get("tk_outlier_period");
+            var tk_outlier_span = tokens.get("tk_outlier_span");
             var tk_isoutlier = tokens.get("tk_isoutlier");
             var tk_enable_behaviour_analytic = tokens.get("tk_enable_behaviour_analytic");
             var tk_latest_flip_state = tokens.get("tk_latest_flip_state");
@@ -23784,6 +25680,7 @@ require([
                     "OutlierUpperThresholdMultiplier": tk_outlierupperthresholdmultiplier,
                     "OutlierAlertOnUpper": tk_outlieralertonupper,
                     "OutlierTimePeriod": tk_outlier_period,
+                    "OutlierSpan": tk_outlier_span,
                     "isOutlier": tk_isoutlier,
                     "enable_behaviour_analytic" : tk_enable_behaviour_analytic,
                     "latest_flip_state": tk_latest_flip_state,
@@ -23901,6 +25798,7 @@ require([
             var tk_outlierupperthresholdmultiplier = tokens.get("tk_outlierupperthresholdmultiplier");
             var tk_outlieralertonupper = tokens.get("tk_outlieralertonupper");
             var tk_outlier_period = tokens.get("tk_outlier_period");
+            var tk_outlier_span = tokens.get("tk_outlier_span");
             var tk_isoutlier = tokens.get("tk_isoutlier");
             var tk_enable_behaviour_analytic = tokens.get("tk_enable_behaviour_analytic");
             var tk_latest_flip_state = tokens.get("tk_latest_flip_state");
@@ -23947,6 +25845,7 @@ require([
                     "OutlierUpperThresholdMultiplier": tk_outlierupperthresholdmultiplier,
                     "OutlierAlertOnUpper": tk_outlieralertonupper,
                     "OutlierTimePeriod": tk_outlier_period,
+                    "OutlierSpan": tk_outlier_span,
                     "isOutlier": tk_isoutlier,
                     "enable_behaviour_analytic" : tk_enable_behaviour_analytic,
                     "latest_flip_state": tk_latest_flip_state,
@@ -25274,6 +27173,16 @@ require([
                                     period: 200
                                 }, {
                                     done: function(job) {
+
+                                        // Refresh the main search
+                                        if (input_object_category == "data_source") {
+                                            searchDataSourcesMain.startSearch();
+                                        } else if (input_object_category == "data_host") {
+                                            searchDataHostsMain.startSearch();
+                                        } else if (input_object_category == "metric_host") {
+                                            searchMetricHostsMain.startSearch();
+                                        }
+
                                         // show deleted modal
                                         $("#ack_achieved").modal()
 
@@ -25402,6 +27311,16 @@ require([
                                     period: 200
                                 }, {
                                     done: function(job) {
+
+                                        // Refresh the main search
+                                        if (input_object_category == "data_source") {
+                                            searchDataSourcesMain.startSearch();
+                                        } else if (input_object_category == "data_host") {
+                                            searchDataHostsMain.startSearch();
+                                        } else if (input_object_category == "metric_host") {
+                                            searchMetricHostsMain.startSearch();
+                                        }
+
                                         // show disabled modal
                                         $("#ack_disable_achieved").modal()
 
@@ -26063,6 +27982,7 @@ require([
             var tk_outlierupperthresholdmultiplier = tokens.get("tk_outlierupperthresholdmultiplier");
             var tk_outlieralertonupper = tokens.get("tk_outlieralertonupper");
             var tk_outlier_period = tokens.get("tk_outlier_period");
+            var tk_outlier_span = tokens.get("tk_outlier_span");
             var tk_isoutlier = tokens.get("tk_isoutlier");
             var tk_enable_behaviour_analytic = tokens.get("tk_enable_behaviour_analytic");
 
@@ -26074,6 +27994,7 @@ require([
             var tk_input_data_source_outlier_min_eventcount = tokens.get("tk_input_data_source_outlier_min_eventcount");
             var tk_input_data_source_outlier_lower_threshold_multiplier = tokens.get("tk_input_data_source_outlier_lower_threshold_multiplier");
             var tk_input_data_source_outlier_upper_threshold_multiplier = tokens.get("tk_input_data_source_outlier_upper_threshold_multiplier");
+            var tk_input_data_source_outlier_span = tokens.get("tk_input_data_source_outlier_span");
 
             // OutlierTimePeriod equals to the earliest LinkInput
             var tk_input_data_source_outlier_period = tokens.get("tk_input_data_source_outlier_period");
@@ -26087,8 +28008,15 @@ require([
                 tk_outlieralertonupper = tk_input_data_source_outlier_alert_on_upper;
             }
 
+            tk_source_outlier_period = tk_outlier_period;
             if (tk_outlier_period != tk_input_data_source_outlier_period) {
                 tk_outlier_period = tk_input_data_source_outlier_period;
+            }
+
+            if (tk_outlier_span != tk_input_data_source_outlier_span) {
+                tk_outlier_span = tk_input_data_source_outlier_span;
+                // refresh the token for current view usage
+                setToken("tk_outlier_span", tk_input_data_source_outlier_span);
             }
 
             if (tk_outlierlowerthresholdmultiplier != tk_input_data_source_outlier_lower_threshold_multiplier && isNumeric(tk_input_data_source_outlier_lower_threshold_multiplier)) {
@@ -26137,6 +28065,7 @@ require([
                 "OutlierUpperThresholdMultiplier": tk_outlierupperthresholdmultiplier,
                 "OutlierAlertOnUpper": tk_outlieralertonupper,
                 "OutlierTimePeriod": tk_outlier_period,
+                "OutlierSpan": tk_outlier_span,
                 "isOutlier": tk_isoutlier,
                 "enable_behaviour_analytic": tk_enable_behaviour_analytic,
                 "latest_flip_state": tk_latest_flip_state,
@@ -26164,6 +28093,11 @@ require([
                         var tk_data_index = tokens.get("tk_data_index");
                         var tk_data_sourcetype = tokens.get("tk_data_sourcetype");
                         notification('Outliers configuration for data source ' + tk_data_name + ' has been successfully updated, behaviour analytic is set to ' + tk_enable_behaviour_analytic + ', Outliers detection mode is ' + tk_input_data_source_outlier_min_eventcount_mode + ', manually run the trackers or wait for their next execution for a full refresh of statuses.', 6000)
+
+                        // Generate metrics if outlier period was changed
+                        if (tk_source_outlier_period != tk_input_data_source_outlier_span) {
+                            metricOutliersGen("data_source", tk_data_name, tk_input_data_source_outlier_period);
+                        }
 
                         // call update summary investigator for that entity only
                         updateDataSourceEntity("trackme_datasource_tracker_shorterm", tk_data_index, tk_data_sourcetype);
@@ -26266,6 +28200,7 @@ require([
             var tk_outlierupperthresholdmultiplier = tokens.get("tk_outlierupperthresholdmultiplier");
             var tk_outlieralertonupper = tokens.get("tk_outlieralertonupper");
             var tk_outlier_period = tokens.get("tk_outlier_period");
+            var tk_outlier_span = tokens.get("tk_outlier_span");
             var tk_isoutlier = tokens.get("tk_isoutlier");
             var tk_enable_behaviour_analytic = tokens.get("tk_enable_behaviour_analytic");
             var tk_latest_flip_state = tokens.get("tk_latest_flip_state");
@@ -26281,6 +28216,7 @@ require([
             var tk_input_data_host_outlier_lower_threshold_multiplier = tokens.get("tk_input_data_host_outlier_lower_threshold_multiplier");
             var tk_input_data_host_outlier_upper_threshold_multiplier = tokens.get("tk_input_data_host_outlier_upper_threshold_multiplier");
             var tk_input_data_host_outlier_period = tokens.get("tk_input_data_host_outlier_period");
+            var tk_input_data_host_outlier_span = tokens.get("tk_input_data_host_outlier_span");
 
             // Conditionally define record values for Outliers
             if (tk_enable_behaviour_analytic != tk_input_data_host_enable_outlier) {
@@ -26291,8 +28227,15 @@ require([
                 tk_outlieralertonupper = tk_input_data_host_outlier_alert_on_upper;
             }
 
+            tk_source_outlier_period = tk_outlier_period;
             if (tk_outlier_period != tk_input_data_host_outlier_period) {
                 tk_outlier_period = tk_input_data_host_outlier_period;
+            }
+
+            if (tk_outlier_span != tk_input_data_host_outlier_span) {
+                tk_outlier_span = tk_input_data_host_outlier_span;
+                // refresh the token for current view usage
+                setToken("tk_outlier_span", tk_input_data_host_outlier_span);
             }
 
             if (tk_outlierlowerthresholdmultiplier != tk_input_data_host_outlier_lower_threshold_multiplier && isNumeric(tk_input_data_host_outlier_lower_threshold_multiplier)) {
@@ -26338,6 +28281,7 @@ require([
                 "OutlierUpperThresholdMultiplier": tk_outlierupperthresholdmultiplier,
                 "OutlierAlertOnUpper": tk_outlieralertonupper,
                 "OutlierTimePeriod": tk_outlier_period,
+                "OutlierSpan": tk_outlier_span,
                 "isOutlier": tk_isoutlier,
                 "enable_behaviour_analytic" : tk_enable_behaviour_analytic,
                 "latest_flip_state": tk_latest_flip_state,
@@ -26363,6 +28307,11 @@ require([
                         // notify
                         var tk_data_host = tokens.get("tk_data_host");
                         notification('Outliers configuration for data host ' + tk_data_host + ' has been successfully updated, behaviour analytic is set to ' + tk_enable_behaviour_analytic + ', Outliers detection mode is ' + tk_input_data_host_outlier_min_eventcount_mode + ', manually run the trackers or wait for their next execution for a full refresh of statuses.', 6000)
+
+                        // Generate metrics if outlier period was changed
+                        if (tk_source_outlier_period != tk_input_data_host_outlier_span) {
+                            metricOutliersGen("data_host", tk_data_host, tk_input_data_host_outlier_period);
+                        }
 
                         // call update summary investigator for that entity only
                         updateDataHostEntity("trackme_datahost_tracker_shorterm", tk_data_host);

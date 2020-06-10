@@ -3,6 +3,7 @@
 .ico_good,
 .ico_warn,
 .ico_error,
+.ico_ack,
 .ico_unknown {
     display:inline-block;
     text-align: center;
@@ -37,10 +38,14 @@
     border-radius: 50%;
     font-size: 24px;
 }
-
+.ico_ack {
+    color: #d54642;
+    font-size: 39px;
+}
 
 .ico_small.ico_good,
 .ico_small.ico_warn,
+.ico_small.ico_ack,
 .ico_small.ico_error,
 .ico_small.ico_unknown {
     width: 18px;
@@ -52,6 +57,10 @@
 }
 .ico_small.ico_warn {
     font-size: 26px;
+    width: 20px;
+}
+.ico_small.ico_ack {
+    font-size: 35px;
     width: 20px;
 }
 .ico_small.ico_error {
