@@ -8176,7 +8176,7 @@ require([
             "sample_ratio": 1,
             "search": "| `trackme_outlier_chart_simulate(data_host, \"$tk_data_host$\", data_host, $tk_input_data_host_outlier_lower_threshold_multiplier$, $tk_input_data_host_outlier_upper_threshold_multiplier$, $tk_input_data_host_outlier_min_eventcount$, $tk_input_data_host_outlier_span$)`",
             "status_buckets": 0,
-            "earliest_time": "$modalTimeHost.earliest$",
+            "earliest_time": "$tk_input_data_host_outlier_period$",
             "cancelOnUnload": true,
             "latest_time": "now",
             "app": utils.getCurrentApp(),
