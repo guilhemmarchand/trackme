@@ -18,6 +18,7 @@ https://trackme.readthedocs.io/en/latest/configuration.html
 
 - Fix: Avoids conflicts between data handled in the short term and long term data trackers, by restricting the long term scope out of the short term scope in a improved fashion
 - Fix: Long term data trackers calls via the UI should respect the same earliest and latest definition than the scheduler does
+- Feature: Enhanced modal window for auto lagging definition for data sources and hosts
 
 Version 1.2.11
 ==============

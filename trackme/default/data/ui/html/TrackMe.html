@@ -4185,10 +4185,7 @@ styles in <div> tags, similar to Bootstrap's grid system.
                             </div>
 
                             <button id="btn_modal_modify_lag_confirm" type="submit" class="btn btn-default btn-primary"><span class="glyphicon glyphicon-remove"></span> Apply manual lagging rule</button>
-                            <button id="btn_modal_modify_lag_auto_perc95" type="submit" class="btn btn-default btn-primary"><span class="glyphicon glyphicon-remove"></span> Or Apply auto percentile lag (7d)</button>
-                            <button id="btn_modal_modify_lag_auto_perc95_30d" type="submit" class="btn btn-default btn-primary"><span class="glyphicon glyphicon-remove"></span> Or Apply auto percentile lag (30d)</button>
-                            <button id="btn_modal_modify_lag_auto_average" type="submit" class="btn btn-default btn-primary"><span class="glyphicon glyphicon-remove"></span> Or Apply auto average lag (7d)</button>
-                            <button id="btn_modal_modify_lag_auto_average_30d" type="submit" class="btn btn-default btn-primary"><span class="glyphicon glyphicon-remove"></span> Or Apply auto average lag (30d)</button>
+                            <button id="btn_modal_modify_lag_auto_main" type="submit" class="btn btn-default btn-primary"><span class="glyphicon glyphicon-remove"></span> Or choose an auto lagging</button>
 
                             <div class="boxnotify" id="boxnotify-unified-data-source">
                             </div>
@@ -4272,6 +4269,70 @@ styles in <div> tags, similar to Bootstrap's grid system.
         </div>
     </div>
 
+    <!-- Modal window for data source unified autolag -->
+    <div class="modal fade custom-modal-80" id="modal_modify_data_source_autolag" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h3 style="color: indianred;"><span class="glyphicon glyphicon-lock"></span> Data source unified update </h3>
+                </div>
+
+                <div class="modal-body">
+
+                    <div id="rowSingleLagAutoLagging" class="dashboard-row dashboard-row1">
+                        <div id="panelSingleLagAutoLagging" class="dashboard-cell" style="width: 100%;">
+                            <div class="dashboard-panel clearfix">
+                                <div class="panel-element-row">
+                                    <div id="elementDataSourceAutoLaggingDataSourceSingleLagPerc95" class="dashboard-element chart" style="width: 100%">
+                                        <div class="panel-body"></div>
+                                    </div>
+                                    <div id="elementDataSourceAutoLaggingDataSourceSingleLagAvg" class="dashboard-element chart" style="width: 100%">
+                                        <div class="panel-body"></div>
+                                    </div>
+                                    <div id="elementDataSourceAutoLaggingDataSourceSingleLagPerc95Last30d" class="dashboard-element chart" style="width: 100%">
+                                        <div class="panel-body"></div>
+                                    </div>
+                                    <div id="elementDataSourceAutoLaggingDataSourceSingleLagAvgLast30d" class="dashboard-element chart" style="width: 100%">
+                                        <div class="panel-body"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div>
+
+                        <div style="margin-bottom: 10px;">
+
+                            <h4>Choose one option to be applied:</h4>
+
+                            <button id="btn_modal_modify_lag_auto_perc95" type="submit" class="btn btn-default btn-primary"><span class="glyphicon glyphicon-remove"></span> Apply auto percentile lag (7d)</button>
+                            <button id="btn_modal_modify_lag_auto_perc95_30d" type="submit" class="btn btn-default btn-primary"><span class="glyphicon glyphicon-remove"></span> Or Apply auto percentile lag (30d)</button>
+                            <button id="btn_modal_modify_lag_auto_average" type="submit" class="btn btn-default btn-primary"><span class="glyphicon glyphicon-remove"></span> Or Apply auto average lag (7d)</button>
+                            <button id="btn_modal_modify_lag_auto_average_30d" type="submit" class="btn btn-default btn-primary"><span class="glyphicon glyphicon-remove"></span> Or Apply auto average lag (30d)</button>
+
+                            <div class="boxnotify" id="boxnotify-unified-data-source-autolag">
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div style="margin-top: 20px;" class="modal-footer">
+                    <button type="submit" id="btn_close_data_source_unified_autolag" class="btn btn-default btn-primary pull-left" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Back</button>
+                    <button type="submit" class="btn btn-default btn-right" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Close</button>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
     <!-- data host monitoring -->
 
     <!-- Modal window for data source unified -->
@@ -4311,10 +4372,7 @@ styles in <div> tags, similar to Bootstrap's grid system.
                     </div>
 
                     <button id="btn_modal_modify_lag_confirm_host" type="submit" class="btn btn-default btn-primary"><span class="glyphicon glyphicon-remove"></span> Apply manual lagging rule</button>
-                    <button id="btn_modal_modify_lag_auto_perc95_host" type="submit" class="btn btn-default btn-primary"><span class="glyphicon glyphicon-remove"></span> Or Apply auto percentile lag (7d)</button>
-                    <button id="btn_modal_modify_lag_auto_perc95_30d_host" type="submit" class="btn btn-default btn-primary"><span class="glyphicon glyphicon-remove"></span> Or Apply auto percentile lag (30d)</button>
-                    <button id="btn_modal_modify_lag_auto_average_host" type="submit" class="btn btn-default btn-primary"><span class="glyphicon glyphicon-remove"></span> Or Apply auto average lag (7d)</button>
-                    <button id="btn_modal_modify_lag_auto_average_30d_host" type="submit" class="btn btn-default btn-primary"><span class="glyphicon glyphicon-remove"></span> Or Apply auto average lag (30d)</button>
+                    <button id="btn_modal_modify_lag_auto_main_host" type="submit" class="btn btn-default btn-primary"><span class="glyphicon glyphicon-remove"></span> Or choose an auto lagging</button>
 
                     <div class="boxnotify" id="boxnotify-unified-data-host">
                     </div>
@@ -4390,6 +4448,70 @@ styles in <div> tags, similar to Bootstrap's grid system.
                     <button type="submit" id="btn_close_data_host_unified" class="btn btn-default btn-primary pull-left" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Back</button>
                     <button type="submit" class="btn btn-default btn-default" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Close</button>
                 </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Modal window for data source unified autolag -->
+    <div class="modal fade custom-modal-80" id="modal_modify_data_host_autolag" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h3 style="color: indianred;"><span class="glyphicon glyphicon-lock"></span> Data host unified update </h3>
+                </div>
+
+                <div class="modal-body">
+
+                    <div id="rowSingleLagAutoLaggingHost" class="dashboard-row dashboard-row1">
+                        <div id="panelSingleLagAutoLaggingHost" class="dashboard-cell" style="width: 100%;">
+                            <div class="dashboard-panel clearfix">
+                                <div class="panel-element-row">
+                                    <div id="elementDataHostAutoLaggingDataHostSingleLagPerc95" class="dashboard-element chart" style="width: 100%">
+                                        <div class="panel-body"></div>
+                                    </div>
+                                    <div id="elementDataHostAutoLaggingDataHostSingleLagAvg" class="dashboard-element chart" style="width: 100%">
+                                        <div class="panel-body"></div>
+                                    </div>
+                                    <div id="elementDataHostAutoLaggingDataHostSingleLagPerc95Last30d" class="dashboard-element chart" style="width: 100%">
+                                        <div class="panel-body"></div>
+                                    </div>
+                                    <div id="elementDataHostAutoLaggingDataHostSingleLagAvgLast30d" class="dashboard-element chart" style="width: 100%">
+                                        <div class="panel-body"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div>
+
+                        <div style="margin-bottom: 10px;">
+
+                            <h4>Choose one option to be applied:</h4>
+
+		                    <button id="btn_modal_modify_lag_auto_perc95_host" type="submit" class="btn btn-default btn-primary"><span class="glyphicon glyphicon-remove"></span> Apply auto percentile lag (7d)</button>
+		                    <button id="btn_modal_modify_lag_auto_perc95_30d_host" type="submit" class="btn btn-default btn-primary"><span class="glyphicon glyphicon-remove"></span> Or Apply auto percentile lag (30d)</button>
+		                    <button id="btn_modal_modify_lag_auto_average_host" type="submit" class="btn btn-default btn-primary"><span class="glyphicon glyphicon-remove"></span> Or Apply auto average lag (7d)</button>
+		                    <button id="btn_modal_modify_lag_auto_average_30d_host" type="submit" class="btn btn-default btn-primary"><span class="glyphicon glyphicon-remove"></span> Or Apply auto average lag (30d)</button>
+
+                            <div class="boxnotify" id="boxnotify-unified-data-host-autolag">
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div style="margin-top: 20px;" class="modal-footer">
+                    <button type="submit" id="btn_close_data_host_unified_autolag" class="btn btn-default btn-primary pull-left" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Back</button>
+                    <button type="submit" class="btn btn-default btn-right" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Close</button>
+                </div>
+
             </div>
 
         </div>
@@ -8019,6 +8141,166 @@ require([
                 "depends": "$show_data_source_outlier$"
             },
             "runWhenTimeIsUndefined": false
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        });
+
+        var searchSingleLagAutoLaggingDataSource7d = new SearchManager({
+            "id": "searchSingleLagAutoLaggingDataSource7d",
+            "sample_ratio": 1,
+            "search": "$tk_data_source_overview_root_search$ | stats perc95(delta) as perc95_lag, avg(delta) as avg_lag | eval perc95_lag=round(perc95_lag, 0), avg_lag=round(avg_lag, 0)",
+            "status_buckets": 0,
+            "earliest_time": "-7d",
+            "cancelOnUnload": true,
+            "latest_time": "now",
+            "app": utils.getCurrentApp(),
+            "auto_cancel": 90,
+            "preview": true,
+            "tokenDependencies": {
+                "depends": "$show_data_source_autolagging$"
+            },
+            "runWhenTimeIsUndefined": false
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        });
+
+        var searchSingleLagAutoLaggingDataSource7dSingleLagPerc95 = new PostProcessManager({
+            "tokenDependencies": {},
+            "search": "| fields perc95_lag | eval perc95_lag = round(perc95_lag, 0) . \" sec (\" . tostring(perc95_lag, \"duration\") . \")\"",
+            "managerid": "searchSingleLagAutoLaggingDataSource7d",
+            "id": "searchSingleLagAutoLaggingDataSource7dSingleLagPerc95"
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        });
+
+        var searchSingleLagAutoLaggingDataSource7dSingleLagAvg = new PostProcessManager({
+            "tokenDependencies": {},
+            "search": "| fields avg_lag | eval avg_lag = round(avg_lag, 0) . \" sec (\" . tostring(avg_lag, \"duration\") . \")\"",
+            "managerid": "searchSingleLagAutoLaggingDataSource7d",
+            "id": "searchSingleLagAutoLaggingDataSource7dSingleLagAvg"
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        });
+
+        var searchSingleLag30dAutoLagging = new SearchManager({
+            "id": "searchSingleLag30dAutoLagging",
+            "sample_ratio": 1,
+            "search": "$tk_data_source_overview_root_search$ | stats perc95(delta) as perc95_lag, avg(delta) as avg_lag | eval perc95_lag=round(perc95_lag, 0), avg_lag=round(avg_lag, 0)",
+            "status_buckets": 0,
+            "earliest_time": "-30d",
+            "cancelOnUnload": true,
+            "latest_time": "now",
+            "app": utils.getCurrentApp(),
+            "auto_cancel": 90,
+            "preview": true,
+            "tokenDependencies": {
+                "depends": "$show_data_source_autolagging$"
+            },
+            "runWhenTimeIsUndefined": false
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        });
+
+        var searchSingleLagAutoLaggingDataSource30dSingleLagPerc95 = new PostProcessManager({
+            "tokenDependencies": {},
+            "search": "| fields perc95_lag | eval perc95_lag = round(perc95_lag, 0) . \" sec (\" . tostring(perc95_lag, \"duration\") . \")\"",
+            "managerid": "searchSingleLag30dAutoLagging",
+            "id": "searchSingleLagAutoLaggingDataSource30dSingleLagPerc95"
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        });
+
+        var searchSingleLagAutoLaggingDataSource30dSingleLagAvg = new PostProcessManager({
+            "tokenDependencies": {},
+            "search": "| fields avg_lag | eval avg_lag = round(avg_lag, 0) . \" sec (\" . tostring(avg_lag, \"duration\") . \")\"",
+            "managerid": "searchSingleLag30dAutoLagging",
+            "id": "searchSingleLagAutoLaggingDataSource30dSingleLagAvg"
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        });
+
+        var searchSingleLagAutoLaggingDataHost7d = new SearchManager({
+            "id": "searchSingleLagAutoLaggingDataHost7d",
+            "sample_ratio": 1,
+            "search": "| tstats count latest(_indextime) as indextime where index=* host=\"$tk_data_host$\" `trackme_tstats_main_filter` `trackme_get_idx_whitelist(trackme_data_host_monitoring_whitelist_index, data_index)` `apply_data_host_blacklists_data_retrieve` by _time, index, sourcetype span=1s | eval delta=(indextime-_time) | stats perc95(delta) as perc95_lag, avg(delta) as avg_lag | eval perc95_lag=round(perc95_lag, 0), avg_lag=round(avg_lag, 0)",
+            "status_buckets": 0,
+            "earliest_time": "-7d",
+            "cancelOnUnload": true,
+            "latest_time": "now",
+            "app": utils.getCurrentApp(),
+            "auto_cancel": 90,
+            "preview": true,
+            "tokenDependencies": {
+                "depends": "$show_data_host_autolagging$"
+            },
+            "runWhenTimeIsUndefined": false
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        });
+
+        var searchSingleLagAutoLaggingDataHost7dSingleLagPerc95 = new PostProcessManager({
+            "tokenDependencies": {},
+            "search": "| fields perc95_lag | eval perc95_lag = round(perc95_lag, 0) . \" sec (\" . tostring(perc95_lag, \"duration\") . \")\"",
+            "managerid": "searchSingleLagAutoLaggingDataHost7d",
+            "id": "searchSingleLagAutoLaggingDataHost7dSingleLagPerc95"
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        });
+
+        var searchSingleLagAutoLaggingDataHost7dSingleLagAvg = new PostProcessManager({
+            "tokenDependencies": {},
+            "search": "| fields avg_lag | eval avg_lag = round(avg_lag, 0) . \" sec (\" . tostring(avg_lag, \"duration\") . \")\"",
+            "managerid": "searchSingleLagAutoLaggingDataHost7d",
+            "id": "searchSingleLagAutoLaggingDataHost7dSingleLagAvg"
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        });
+
+        var searchSingleLag30dAutoLaggingDataHost = new SearchManager({
+            "id": "searchSingleLag30dAutoLaggingDataHost",
+            "sample_ratio": 1,
+            "search": "| tstats count latest(_indextime) as indextime where index=* host=\"$tk_data_host$\" `trackme_tstats_main_filter` `trackme_get_idx_whitelist(trackme_data_host_monitoring_whitelist_index, data_index)` `apply_data_host_blacklists_data_retrieve` by _time, index, sourcetype span=1s | eval delta=(indextime-_time) | stats perc95(delta) as perc95_lag, avg(delta) as avg_lag | eval perc95_lag=round(perc95_lag, 0), avg_lag=round(avg_lag, 0)",
+            "status_buckets": 0,
+            "earliest_time": "-30d",
+            "cancelOnUnload": true,
+            "latest_time": "now",
+            "app": utils.getCurrentApp(),
+            "auto_cancel": 90,
+            "preview": true,
+            "tokenDependencies": {
+                "depends": "$show_data_host_autolagging$"
+            },
+            "runWhenTimeIsUndefined": false
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        });
+
+        var searchSingleLagAutoLaggingDataHost30dSingleLagPerc95 = new PostProcessManager({
+            "tokenDependencies": {},
+            "search": "| fields perc95_lag | eval perc95_lag = round(perc95_lag, 0) . \" sec (\" . tostring(perc95_lag, \"duration\") . \")\"",
+            "managerid": "searchSingleLag30dAutoLaggingDataHost",
+            "id": "searchSingleLagAutoLaggingDataHost30dSingleLagPerc95"
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        });
+
+        var searchSingleLagAutoLaggingDataHost30dSingleLagAvg = new PostProcessManager({
+            "tokenDependencies": {},
+            "search": "| fields avg_lag | eval avg_lag = round(avg_lag, 0) . \" sec (\" . tostring(avg_lag, \"duration\") . \")\"",
+            "managerid": "searchSingleLag30dAutoLaggingDataHost",
+            "id": "searchSingleLagAutoLaggingDataHost30dSingleLagAvg"
         }, {
             tokens: true,
             tokenNamespace: "submitted"
@@ -14725,11 +15007,229 @@ require([
             "el": $('#elementOutlierTable')
         }, {tokens: true, tokenNamespace: "submitted"}).render();
 
+        // modal Single AutoLag
+        var elementDataSourceAutoLaggingDataSourceSingleLagPerc95 = new SingleElement({
+            "id": "elementDataSourceAutoLaggingDataSourceSingleLagPerc95",
+            "trendDisplayMode": "absolute",
+            "numberPrecision": "0",
+            "drilldown": "none",
+            "trellis.size": "medium",
+            "trendColorInterpretation": "standard",
+            "height": "80",
+            "useColors": "0",
+            "colorBy": "value",
+            "showTrendIndicator": "1",
+            "showSparkline": "1",
+            "trellis.enabled": "0",
+            "rangeColors": "[\"0x53a051\",\"0x0877a6\",\"0xf8be34\",\"0xf1813f\",\"0xdc4e41\"]",
+            "colorMode": "none",
+            "rangeValues": "[0,30,70,100]",
+            "unitPosition": "after",
+            "trellis.scales.shared": "1",
+            "useThousandSeparators": "1",
+            "underLabel": "LAST 7 DAYS PERCENTILE 95 AUTO LAG",
+            "managerid": "searchSingleLagAutoLaggingDataSource7dSingleLagPerc95",
+            "el": $('#elementDataSourceAutoLaggingDataSourceSingleLagPerc95')
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        }).render();
+
+        var elementDataSourceAutoLaggingDataSourceSingleLagAvg = new SingleElement({
+            "id": "elementDataSourceAutoLaggingDataSourceSingleLagAvg",
+            "trendDisplayMode": "absolute",
+            "numberPrecision": "0",
+            "drilldown": "none",
+            "trellis.size": "medium",
+            "trendColorInterpretation": "standard",
+            "height": "80",
+            "useColors": "0",
+            "colorBy": "value",
+            "showTrendIndicator": "1",
+            "showSparkline": "1",
+            "trellis.enabled": "0",
+            "rangeColors": "[\"0x53a051\",\"0x0877a6\",\"0xf8be34\",\"0xf1813f\",\"0xdc4e41\"]",
+            "colorMode": "none",
+            "rangeValues": "[0,30,70,100]",
+            "unitPosition": "after",
+            "trellis.scales.shared": "1",
+            "useThousandSeparators": "1",
+            "underLabel": "LAST 7 DAYS AVERAGE AUTO LAG",
+            "managerid": "searchSingleLagAutoLaggingDataSource7dSingleLagAvg",
+            "el": $('#elementDataSourceAutoLaggingDataSourceSingleLagAvg')
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        }).render();
+
+        var elementDataSourceAutoLaggingDataSourceSingleLagPerc95Last30d = new SingleElement({
+            "id": "elementDataSourceAutoLaggingDataSourceSingleLagPerc95Last30d",
+            "trendDisplayMode": "absolute",
+            "numberPrecision": "0",
+            "drilldown": "none",
+            "trellis.size": "medium",
+            "trendColorInterpretation": "standard",
+            "height": "80",
+            "useColors": "0",
+            "colorBy": "value",
+            "showTrendIndicator": "1",
+            "showSparkline": "1",
+            "trellis.enabled": "0",
+            "rangeColors": "[\"0x53a051\",\"0x0877a6\",\"0xf8be34\",\"0xf1813f\",\"0xdc4e41\"]",
+            "colorMode": "none",
+            "rangeValues": "[0,30,70,100]",
+            "unitPosition": "after",
+            "trellis.scales.shared": "1",
+            "useThousandSeparators": "1",
+            "underLabel": "LAST 30 DAYS PERCENTILE 95 AUTO LAG",
+            "managerid": "searchSingleLagAutoLaggingDataSource30dSingleLagPerc95",
+            "el": $('#elementDataSourceAutoLaggingDataSourceSingleLagPerc95Last30d')
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        }).render();
+
+        var elementDataSourceAutoLaggingDataSourceSingleLagAvgLast30d = new SingleElement({
+            "id": "elementDataSourceAutoLaggingDataSourceSingleLagAvgLast30d",
+            "trendDisplayMode": "absolute",
+            "numberPrecision": "0",
+            "drilldown": "none",
+            "trellis.size": "medium",
+            "trendColorInterpretation": "standard",
+            "height": "80",
+            "useColors": "0",
+            "colorBy": "value",
+            "showTrendIndicator": "1",
+            "showSparkline": "1",
+            "trellis.enabled": "0",
+            "rangeColors": "[\"0x53a051\",\"0x0877a6\",\"0xf8be34\",\"0xf1813f\",\"0xdc4e41\"]",
+            "colorMode": "none",
+            "rangeValues": "[0,30,70,100]",
+            "unitPosition": "after",
+            "trellis.scales.shared": "1",
+            "useThousandSeparators": "1",
+            "underLabel": "LAST 30 DAYS AVERAGE AUTO LAG",
+            "managerid": "searchSingleLagAutoLaggingDataSource30dSingleLagAvg",
+            "el": $('#elementDataSourceAutoLaggingDataSourceSingleLagAvgLast30d')
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        }).render();
+
+        // modal Single AutoLag
+        var elementDataHostAutoLaggingDataHostSingleLagPerc95 = new SingleElement({
+            "id": "elementDataHostAutoLaggingDataHostSingleLagPerc95",
+            "trendDisplayMode": "absolute",
+            "numberPrecision": "0",
+            "drilldown": "none",
+            "trellis.size": "medium",
+            "trendColorInterpretation": "standard",
+            "height": "80",
+            "useColors": "0",
+            "colorBy": "value",
+            "showTrendIndicator": "1",
+            "showSparkline": "1",
+            "trellis.enabled": "0",
+            "rangeColors": "[\"0x53a051\",\"0x0877a6\",\"0xf8be34\",\"0xf1813f\",\"0xdc4e41\"]",
+            "colorMode": "none",
+            "rangeValues": "[0,30,70,100]",
+            "unitPosition": "after",
+            "trellis.scales.shared": "1",
+            "useThousandSeparators": "1",
+            "underLabel": "LAST 7 DAYS PERCENTILE 95 AUTO LAG",
+            "managerid": "searchSingleLagAutoLaggingDataHost7dSingleLagPerc95",
+            "el": $('#elementDataHostAutoLaggingDataHostSingleLagPerc95')
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        }).render();
+
+        var elementDataHostAutoLaggingDataHostSingleLagAvg = new SingleElement({
+            "id": "elementDataHostAutoLaggingDataHostSingleLagAvg",
+            "trendDisplayMode": "absolute",
+            "numberPrecision": "0",
+            "drilldown": "none",
+            "trellis.size": "medium",
+            "trendColorInterpretation": "standard",
+            "height": "80",
+            "useColors": "0",
+            "colorBy": "value",
+            "showTrendIndicator": "1",
+            "showSparkline": "1",
+            "trellis.enabled": "0",
+            "rangeColors": "[\"0x53a051\",\"0x0877a6\",\"0xf8be34\",\"0xf1813f\",\"0xdc4e41\"]",
+            "colorMode": "none",
+            "rangeValues": "[0,30,70,100]",
+            "unitPosition": "after",
+            "trellis.scales.shared": "1",
+            "useThousandSeparators": "1",
+            "underLabel": "LAST 7 DAYS AVERAGE AUTO LAG",
+            "managerid": "searchSingleLagAutoLaggingDataHost7dSingleLagAvg",
+            "el": $('#elementDataHostAutoLaggingDataHostSingleLagAvg')
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        }).render();
+
+        var elementDataHostAutoLaggingDataHostSingleLagPerc95Last30d = new SingleElement({
+            "id": "elementDataHostAutoLaggingDataHostSingleLagPerc95Last30d",
+            "trendDisplayMode": "absolute",
+            "numberPrecision": "0",
+            "drilldown": "none",
+            "trellis.size": "medium",
+            "trendColorInterpretation": "standard",
+            "height": "80",
+            "useColors": "0",
+            "colorBy": "value",
+            "showTrendIndicator": "1",
+            "showSparkline": "1",
+            "trellis.enabled": "0",
+            "rangeColors": "[\"0x53a051\",\"0x0877a6\",\"0xf8be34\",\"0xf1813f\",\"0xdc4e41\"]",
+            "colorMode": "none",
+            "rangeValues": "[0,30,70,100]",
+            "unitPosition": "after",
+            "trellis.scales.shared": "1",
+            "useThousandSeparators": "1",
+            "underLabel": "LAST 30 DAYS PERCENTILE 95 AUTO LAG",
+            "managerid": "searchSingleLagAutoLaggingDataHost30dSingleLagPerc95",
+            "el": $('#elementDataHostAutoLaggingDataHostSingleLagPerc95Last30d')
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        }).render();
+
+        var elementDataHostAutoLaggingDataHostSingleLagAvgLast30d = new SingleElement({
+            "id": "elementDataHostAutoLaggingDataHostSingleLagAvgLast30d",
+            "trendDisplayMode": "absolute",
+            "numberPrecision": "0",
+            "drilldown": "none",
+            "trellis.size": "medium",
+            "trendColorInterpretation": "standard",
+            "height": "80",
+            "useColors": "0",
+            "colorBy": "value",
+            "showTrendIndicator": "1",
+            "showSparkline": "1",
+            "trellis.enabled": "0",
+            "rangeColors": "[\"0x53a051\",\"0x0877a6\",\"0xf8be34\",\"0xf1813f\",\"0xdc4e41\"]",
+            "colorMode": "none",
+            "rangeValues": "[0,30,70,100]",
+            "unitPosition": "after",
+            "trellis.scales.shared": "1",
+            "useThousandSeparators": "1",
+            "underLabel": "LAST 30 DAYS AVERAGE AUTO LAG",
+            "managerid": "searchSingleLagAutoLaggingDataHost30dSingleLagAvg",
+            "el": $('#elementDataHostAutoLaggingDataHostSingleLagAvgLast30d')
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        }).render();
+
         // modal Single Lag
         var elementSingleLagPerc95 = new SingleElement({
             "id": "elementSingleLagPerc95",
             "trendDisplayMode": "absolute",
-            "numberPrecision": "0.00",
+            "numberPrecision": "0",
             "drilldown": "none",
             "trellis.size": "medium",
             "trendColorInterpretation": "standard",
@@ -24599,6 +25099,25 @@ require([
             }
         });
 
+        // Show main modal
+        $("#btn_modal_modify_lag_auto_main").click(function() {
+            submitTokens();
+
+            // When the Submit button is clicked, get all the form fields by accessing token values
+            var tokens = mvc.Components.get("default");
+
+            // Free the searches
+            setToken("show_data_source_autolagging", "true");
+
+            // Show modal
+            $("#modal_modify_data_source_autolag").modal();
+        });
+
+        // Show main modal back
+        $("#btn_close_data_source_unified_autolag").click(function() {
+            $("#modal_modify_data_source_unified").modal();
+        });
+
         $("#btn_modal_modify_lag_auto_perc95").click(function() {
             submitTokens();
 
@@ -25907,6 +26426,25 @@ require([
                 });
 
             }
+        });
+
+        // Show main modal
+        $("#btn_modal_modify_lag_auto_main_host").click(function() {
+            submitTokens();
+
+            // When the Submit button is clicked, get all the form fields by accessing token values
+            var tokens = mvc.Components.get("default");
+
+            // Free the searches
+            setToken("show_data_host_autolagging", "true");
+
+            // Show modal
+            $("#modal_modify_data_host_autolag").modal();
+        });
+
+        // Show main modal back
+        $("#btn_close_data_host_unified_autolag").click(function() {
+            $("#modal_modify_data_host_unified").modal();
         });
 
         $("#btn_modal_modify_lag_auto_perc95_host").click(function() {
@@ -28434,7 +28972,19 @@ function notification(s, time) {
     });
   });
 
+  $("<p>" + s + "</p>").appendTo('#boxnotify-unified-data-source-autolag').fadeTo(time, 1, function() {
+    $(this).fadeTo(1000, 0, function() {
+      $(this).remove()
+    });
+  });
+
   $("<p>" + s + "</p>").appendTo('#boxnotify-unified-data-host').fadeTo(time, 1, function() {
+    $(this).fadeTo(1000, 0, function() {
+      $(this).remove()
+    });
+  });
+
+  $("<p>" + s + "</p>").appendTo('#boxnotify-unified-data-host-autolag').fadeTo(time, 1, function() {
     $(this).fadeTo(1000, 0, function() {
       $(this).remove()
     });
