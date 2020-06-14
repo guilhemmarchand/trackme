@@ -6029,7 +6029,7 @@ styles in <div> tags, similar to Bootstrap's grid system.
                         <label>Keyword filter name:</label>
                     </div>
                     <div class="input input-dropdown" id="inputDataName">
-                        <label>Name:</label>
+                        <label>Name (use keyword filter):</label>
                     </div>
                     <div class="input input-dropdown" id="inputDataIndex">
                         <label>Index:</label>
@@ -17711,7 +17711,7 @@ require([
         // refresh data_source
         $("#btn_refresh_data_source").click(function(mode) {
             // notify
-            notification('Refresh proceeded.', 6000)
+            notification('Refresh completed.', 6000)
             searchSingleLag.startSearch();
             searchChartLag.startSearch();
             searchSingleSLApct.startSearch();
@@ -17733,7 +17733,7 @@ require([
         // refresh data_host
         $("#btn_refresh_data_host").click(function(mode) {
             // notify
-            notification('Refresh proceeded.', 6000)
+            notification('Refresh completed.', 6000)
             searchSingleLagHost.startSearch();
             searchChartHostBaseSearch.startSearch();
             searchChartLagHostOverTime.startSearch();
@@ -17755,7 +17755,7 @@ require([
         // refresh metric_host
         $("#btn_refresh_metric_host").click(function(mode) {
             // notify
-            notification('Refresh proceeded.', 6000)
+            notification('Refresh completed.', 6000)
             searchHostTableMetricHost.startSearch();
             searchSingleSLAMetricHostpct.startSearch();
             searchMetricHostMainAuditFlip.startSearch();
@@ -23451,8 +23451,8 @@ require([
 
             // Set the search parameters--specify a time range
             var searchParams = {
-                earliest_time: "-48h",
-                latest_time: "now"
+                earliest_time: "-7d",
+                latest_time: "+4h"
             };
 
             // Run a normal search that immediately returns the job's SID
@@ -23540,8 +23540,8 @@ require([
 
             // Set the search parameters--specify a time range
             var searchParams = {
-                earliest_time: "-48h",
-                latest_time: "now"
+                earliest_time: "-7d",
+                latest_time: "+4h"
             };
 
             // Run a normal search that immediately returns the job's SID
