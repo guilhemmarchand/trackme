@@ -17,25 +17,14 @@ https://trackme.readthedocs.io/en/latest/configuration.html
 **release notes:**
 
 - Fix: Flipping status detection should exclude the short term trackers time range for data sources and hosts
+- Fix: Avoids conflicts between data handled in the short term and long term data trackers, by restricting the long term scope out of the short term scope in a improved fashion
+- Fix: Long term data trackers calls via the UI should respect the same earliest and latest definition than the scheduler does
+- Feature: Enhanced modal window for auto lagging definition for data sources and hosts
 
 Version 1.2.12
 ==============
 
-**CAUTION:**
-
-This is a new main release branch, TrackMe 1.2.x require the deployment of the following dependencies:
-
-- Semicircle Donut Chart Viz, Splunk Base: https://splunkbase.splunk.com/app/4378
-- Splunk Machine Learning Toolkit, Splunk Base: https://splunkbase.splunk.com/app/2890
-
-TrackMe requires a summary index (defaults to trackme_summary) and a metric index (defaults to trackme_metrics):
-https://trackme.readthedocs.io/en/latest/configuration.html
-
-**release notes:**
-
-- Fix: Avoids conflicts between data handled in the short term and long term data trackers, by restricting the long term scope out of the short term scope in a improved fashion
-- Fix: Long term data trackers calls via the UI should respect the same earliest and latest definition than the scheduler does
-- Feature: Enhanced modal window for auto lagging definition for data sources and hosts
+- unpublished
 
 Version 1.2.11
 ==============
