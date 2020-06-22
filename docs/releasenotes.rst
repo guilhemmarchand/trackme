@@ -16,7 +16,9 @@ https://trackme.readthedocs.io/en/latest/configuration.html
 
 **release notes:**
 
+- Fix: Flipping state detection failure for Elastic shared and dedicated sources due to regression introduced in trackMe 1.2.13
 - Fix: Outliers table view might seem truncated with high volume sources, improve rendering by using thousands and millions units for high volume sources
+- Change: Switch lagging seconds rendering to duration formatting to improve readability
 
 Version 1.2.15
 ==============

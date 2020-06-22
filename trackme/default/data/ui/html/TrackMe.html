@@ -1473,7 +1473,7 @@ styles in <div> tags, similar to Bootstrap's grid system.
                                     <div style="float:left;width:33%;">
                                         <p><b>data_index:</b> $tk_data_index$</p>
                                         <p><b>data_sourcetype:</b> $tk_data_sourcetype$</p>
-                                        <p><b>lag event / lag ingestion:</b> $tk_data_lag_summary$</p>
+                                        <p><b>lag event / lag ingestion: ([D+]HH:MM:SS)</b> $tk_data_lag_summary$</p>
                                         <p><b>data_last_time_seen:</b> $tk_data_last_time_seen_human$</p>
                                     </div>
                                     <div style="float:left;width:33%;">
@@ -1862,7 +1862,7 @@ styles in <div> tags, similar to Bootstrap's grid system.
 
                                 <div style="line-height: 1.1; margin-left: 20px;">
                                     <div style="float:left;width:33%;">
-                                        <p><b>lag event / lag ingestion:</b> $tk_data_lag_summary$</p>
+                                        <p><b>lag event / lag ingestion: ([D+]HH:MM:SS)</b> $tk_data_lag_summary$</p>
                                         <p><b>data_last_time_seen:</b> $tk_data_last_time_seen_human$</p>
                                         <p><b>data_last_ingest:</b> $tk_data_last_ingest_human$</p>
                                     </div>
@@ -6873,7 +6873,7 @@ require([
 
         var searchDataSourcesPostTable = new PostProcessManager({
             "tokenDependencies": {},
-            "search": "search $inputDataName$ $inputDataIndex$ $inputDataSourcetype$ $data_source_state$ $data_monitored_state$ $inputDataPriority$\n| fillnull data_last_lag_seen, data_last_ingestion_lag_seen\n| eval data_last_lag_seen=round(data_last_lag_seen, 0) | eval data_last_ingestion_lag_seen=round(data_last_ingestion_lag_seen, 0) | fillnull value=\"N/A\" data_last_lag_seen, data_last_ingestion_lag_seen\n| eval \"lag summary (lag event / lag ingestion)\" = data_last_lag_seen . \" sec / \" . data_last_ingestion_lag_seen . \" sec\"\n| rename \"data_last_time_seen (translated)\" as \"last time\", \"data_last_ingest (translated)\" as \"last ingest\", \"data_last_time_seen_idx (translated)\" as \"last time idx\"\n| eval data_tracker_runtime=now()\n| `trackme_date_format(\"latest_flip_time\")`\n| fillnull value=\"N/A\" latest_flip_state, latest_flip_time, \"latest_flip_time (translated)\"\n| `trackme_get_identity_card(data_name)`\n| `trackme_lookup_elastic_sources`\n|`trackme_ack_lookup_main(data_name)`\n| sort limit=10000 data_name",
+            "search": "search $inputDataName$ $inputDataIndex$ $inputDataSourcetype$ $data_source_state$ $data_monitored_state$ $inputDataPriority$\n| fillnull data_last_lag_seen, data_last_ingestion_lag_seen\n| eval data_last_lag_seen=round(data_last_lag_seen, 0) | eval data_last_ingestion_lag_seen=round(data_last_ingestion_lag_seen, 0) | fillnull value=\"N/A\" data_last_lag_seen, data_last_ingestion_lag_seen\n| eval \"lag summary (lag event / lag ingestion)\" = if(data_last_lag_seen>60, tostring(data_last_lag_seen, \"duration\"), data_last_lag_seen . \" sec\") . \" / \" . if(data_last_ingestion_lag_seen>60, tostring(data_last_ingestion_lag_seen, \"duration\"), data_last_ingestion_lag_seen . \" sec\")\n| rename \"data_last_time_seen (translated)\" as \"last time\", \"data_last_ingest (translated)\" as \"last ingest\", \"data_last_time_seen_idx (translated)\" as \"last time idx\"\n| eval data_tracker_runtime=now()\n| `trackme_date_format(\"latest_flip_time\")`\n| fillnull value=\"N/A\" latest_flip_state, latest_flip_time, \"latest_flip_time (translated)\"\n| `trackme_get_identity_card(data_name)`\n| `trackme_lookup_elastic_sources`\n|`trackme_ack_lookup_main(data_name)`\n| sort limit=10000 data_name",
             "managerid": "searchDataSourcesMain",
             "id": "searchDataSourcesPostTable"
         }, {
@@ -7676,7 +7676,7 @@ require([
 
         var searchMainTableHost = new PostProcessManager({
             "tokenDependencies": {},
-            "search": "search $inputDataHostFilter$ $inputDataHost$ $inputDataHostIndexes$ $inputDataHostSourcetypes$ $data_host_state$ $data_monitored_state$ $inputDataHostPriority$ | fillnull data_last_lag_seen, data_last_ingestion_lag_seen | eval data_last_lag_seen=round(data_last_lag_seen, 0) | eval data_last_ingestion_lag_seen=round(data_last_ingestion_lag_seen, 0) | fillnull value=\"N/A\" data_last_lag_seen, data_last_ingestion_lag_seen\n| eval \"lag summary (lag event / lag ingestion)\" = data_last_lag_seen . \" sec / \" . data_last_ingestion_lag_seen . \" sec\" | sort limit=10000 data_host",
+            "search": "search $inputDataHostFilter$ $inputDataHost$ $inputDataHostIndexes$ $inputDataHostSourcetypes$ $data_host_state$ $data_monitored_state$ $inputDataHostPriority$ | fillnull data_last_lag_seen, data_last_ingestion_lag_seen | eval data_last_lag_seen=round(data_last_lag_seen, 0) | eval data_last_ingestion_lag_seen=round(data_last_ingestion_lag_seen, 0) | fillnull value=\"N/A\" data_last_lag_seen, data_last_ingestion_lag_seen\n| eval \"lag summary (lag event / lag ingestion)\" = if(data_last_lag_seen>60, tostring(data_last_lag_seen, \"duration\"), data_last_lag_seen . \" sec\") . \" / \" . if(data_last_ingestion_lag_seen>60, tostring(data_last_ingestion_lag_seen, \"duration\"), data_last_ingestion_lag_seen . \" sec\") | sort limit=10000 data_host",
             "managerid": "searchDataHostsMain",
             "id": "searchMainTableHost"
         }, {
@@ -14094,7 +14094,7 @@ require([
             "id": "elementHostTableMetricHost",
             "count": 8,
             "drilldown": "none",
-            "fields": "metric_category, metric_last_time, metric_max_lag_allowed, metric_current_lag_sec, state",
+            "fields": "metric_category, metric_last_time, metric_max_lag_allowed, metric_current_lag_sec, duration, state",
             "refresh.display": "none",
             "wrap": "false",
             "managerid": "searchHostTableMetricHost",
