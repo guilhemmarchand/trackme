@@ -28630,7 +28630,7 @@ require([
                         var tk_data_name = tokens.get("tk_data_name");
                         var tk_data_index = tokens.get("tk_data_index");
                         var tk_data_sourcetype = tokens.get("tk_data_sourcetype");
-                        notification('Outliers configuration for data source ' + tk_data_name + ' has been successfully updated, behaviour analytic is set to ' + tk_enable_behaviour_analytic + ', Outliers detection mode is ' + tk_input_data_source_outlier_min_eventcount_mode + ', manually run the trackers or wait for their next execution for a full refresh of statuses.', 6000)
+                        notification('Outliers configuration updated, please wait a few seconds while statistics are generated, click on refresh in the Outliers tab if statistics are not yet available.', 6000)
 
                         // Generate metrics if outlier period was changed
                         if (tk_source_outlier_period != tk_input_data_source_outlier_span) {
@@ -28844,7 +28844,7 @@ require([
 
                         // notify
                         var tk_data_host = tokens.get("tk_data_host");
-                        notification('Outliers configuration for data host ' + tk_data_host + ' has been successfully updated, behaviour analytic is set to ' + tk_enable_behaviour_analytic + ', Outliers detection mode is ' + tk_input_data_host_outlier_min_eventcount_mode + ', manually run the trackers or wait for their next execution for a full refresh of statuses.', 6000)
+                        notification('Outliers configuration updated, please wait a few seconds while statistics are generated, click on refresh in the Outliers tab if statistics are not yet available.', 6000)
 
                         // Generate metrics if outlier period was changed
                         if (tk_source_outlier_period != tk_input_data_host_outlier_span) {
