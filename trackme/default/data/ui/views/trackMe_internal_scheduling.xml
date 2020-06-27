@@ -119,7 +119,6 @@
     </row>
     <row>
         <panel>
-            <title>Statistics per scheduled report</title>
             <input type="time" token="timerange_scheduled" searchWhenChanged="true">
                 <label>Time Range:</label>
                 <default>
@@ -127,6 +126,73 @@
                     <latest>now</latest>
                 </default>
             </input>
+        </panel>
+    </row>
+    <row>
+        <panel>
+            <title>Count of Scheduler Executions</title>
+            <table>
+                <search>
+                    <query>(index=_internal sourcetype=scheduler app="trackme")
+| eval alert_actions=if((isnull(alert_actions) OR (alert_actions == "")),"none",alert_actions)
+| eval status=case(status=="success", "completed", status=="skipped", "skipped", status=="continued", "deferred")
+| search (status="completed" OR status="deferred" OR status="skipped")
+| stats count by status
+| sort - count
+| eventstats sum(count) AS total
+| eval percent=(round(((count / total) * 100),2) . " %")
+| fields - total
+| rename status as Status, app as App, user as User, savedsearch_name as "Report Name", alert_actions as "Alert Actions", count as Count, percent as "Percent of Total"</query>
+                    <earliest>$timerange_scheduled.earliest$</earliest>
+                    <latest>$timerange_scheduled.latest$</latest>
+                </search>
+            </table>
+        </panel>
+        <panel>
+            <title>Count of Scheduler Executions Over Time</title>
+            <chart>
+                <search>
+                    <query>(index=_internal sourcetype=scheduler app="trackme")
+| eval status=case(status=="success", "completed", status=="skipped", "skipped", status=="continued", "deferred")
+| eval alert_actions = if(isnull(alert_actions) OR alert_actions == "", "none", alert_actions)
+| search (status="completed" OR status="deferred" OR status="skipped")
+| timechart partial=f count by status</query>
+                    <earliest>$timerange_scheduled.earliest$</earliest>
+                    <latest>$timerange_scheduled.latest$</latest>
+                    <sampleRatio>1</sampleRatio>
+                </search>
+                <option name="charting.axisLabelsX.majorLabelStyle.overflowMode">ellipsisNone</option>
+                <option name="charting.axisLabelsX.majorLabelStyle.rotation">0</option>
+                <option name="charting.axisTitleX.visibility">collapsed</option>
+                <option name="charting.axisTitleY.visibility">visible</option>
+                <option name="charting.axisTitleY2.visibility">visible</option>
+                <option name="charting.axisX.abbreviation">none</option>
+                <option name="charting.axisX.scale">linear</option>
+                <option name="charting.axisY.abbreviation">none</option>
+                <option name="charting.axisY.scale">linear</option>
+                <option name="charting.axisY2.abbreviation">none</option>
+                <option name="charting.axisY2.enabled">0</option>
+                <option name="charting.axisY2.scale">inherit</option>
+                <option name="charting.chart">column</option>
+                <option name="charting.chart.bubbleMaximumSize">50</option>
+                <option name="charting.chart.bubbleMinimumSize">10</option>
+                <option name="charting.chart.bubbleSizeBy">area</option>
+                <option name="charting.chart.nullValueMode">gaps</option>
+                <option name="charting.chart.showDataLabels">none</option>
+                <option name="charting.chart.sliceCollapsingThreshold">0.01</option>
+                <option name="charting.chart.stackMode">stacked</option>
+                <option name="charting.chart.style">shiny</option>
+                <option name="charting.drilldown">none</option>
+                <option name="charting.layout.splitSeries">0</option>
+                <option name="charting.layout.splitSeries.allowIndependentYRanges">0</option>
+                <option name="charting.legend.labelStyle.overflowMode">ellipsisMiddle</option>
+                <option name="charting.legend.mode">standard</option>
+                <option name="charting.legend.placement">right</option>
+                <option name="charting.lineWidth">2</option>
+                <option name="trellis.enabled">0</option>
+                <option name="trellis.scales.shared">1</option>
+                <option name="trellis.size">medium</option>
+            </chart>
         </panel>
     </row>
     <row>
