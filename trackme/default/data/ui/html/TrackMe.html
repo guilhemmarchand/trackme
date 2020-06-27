@@ -2523,6 +2523,9 @@ styles in <div> tags, similar to Bootstrap's grid system.
                                 <a class="btn btn-primary" id="btn_search_metric_host" target="_blank" href="search_metric_source_url" role="button">Metrics mcatalog report</a>
                             </div>
                             <div style="margin-right: 15px; float: right;">
+                                <a class="btn btn-primary" id="btn_msearch_metric_host" target="_blank" href="search_data_source_url" role="button">Search (msearch)</a>
+                            </div>
+                            <div style="margin-right: 15px; float: right;">
                                 <button type="submit" id="btn_modify_metric_host" role="button" class="btn btn-primary btn-default"><span class="glyphicon glyphicon-remove"></span>Modify</button>
                             </div>
                             <div style="margin-right: 15px; float: right;">
@@ -14186,12 +14189,16 @@ require([
                 var tk_priority = tokens.get("tk_priority");
 
                 // Define the history search
-
                 var search_metric_host = '| mcatalog values(metric_name), values(_dims) where index=* host=\"' + tk_metric_host + '\" by host'
                 search_metric_host = location.protocol + '//' + location.hostname + (location.port ? ':' + location.port : '') + '//app/trackme/search' + "?q=" + encodeURI(search_metric_host) + '&earliest=-15m&latest=now'
 
+                // Define the history msearch
+                var msearch_metric_host = '| msearch index=* filter=\"host=\"' + tk_metric_host + '\"\"'
+                msearch_metric_host = location.protocol + '//' + location.hostname + (location.port ? ':' + location.port : '') + '//app/trackme/search' + "?q=" + encodeURI(msearch_metric_host) + '&earliest=-15m&latest=now'
+
                 // Define the URL target
                 document.getElementById("btn_search_metric_host").href = search_metric_host;
+                document.getElementById("btn_msearch_metric_host").href = msearch_metric_host;
 
                 var search_metric_host_live_report = '| savedsearch \"trackMe - metric host live report\" host=\"' + tk_metric_host + '"'
                 search_metric_host_live_report = location.protocol + '//' + location.hostname + (location.port ? ':' + location.port : '') + '//app/trackme/search' + "?q=" + encodeURI(search_metric_host_live_report) + '&earliest=-15m&latest=now'

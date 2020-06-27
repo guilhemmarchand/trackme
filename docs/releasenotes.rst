@@ -17,6 +17,8 @@ https://trackme.readthedocs.io/en/latest/configuration.html
 **release notes:**
 
 - Feature: New tab for data sources and hosts exposing recorded metrics in the metric index for ingestion lag and event lag performances
+- Feature: Provides metric host search capabilities with msearch button when clicking on a host metric (Splunk 8.x required), which is used as well for Elastic mstats sources
+- Feature: Improved readability of high lagging seconds records by using duration formatting rendering automatically
 - Fix: Flipping state detection failure for Elastic shared and dedicated sources due to regression introduced in trackMe 1.2.13
 - Fix: Outliers table view might seem truncated with high volume sources, improve rendering by using thousands and millions units for high volume sources
 - Fix: Outliers detection framework issues rendering current outliers accordingly to the outliers configuration for that entity
@@ -24,7 +26,6 @@ https://trackme.readthedocs.io/en/latest/configuration.html
 - Fix: Under some specific conditions, blacklist sub-searches at the tstats / mstats first pipeline levels end in error and generated high skipped scheduled rate, the root searches now use the same technique than whitelisting
 - Fix: For metric host monitoring, off line hosts are constantly generating flipping status detection while this should happen once and be properly preserved over iterations
 - Fix: UI does not honour search parameters and constraints for Elastic sources when clicking on the search button in modal windows
-- Change: Switch lagging seconds rendering to duration formatting to improve readability
 
 Version 1.2.15
 ==============
