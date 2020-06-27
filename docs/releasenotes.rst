@@ -16,6 +16,7 @@ https://trackme.readthedocs.io/en/latest/configuration.html
 
 **release notes:**
 
+- Feature: New tab for data sources and hosts exposing recorded metrics in the metric index for ingestion lag and event lag performances
 - Fix: Flipping state detection failure for Elastic shared and dedicated sources due to regression introduced in trackMe 1.2.13
 - Fix: Outliers table view might seem truncated with high volume sources, improve rendering by using thousands and millions units for high volume sources
 - Fix: Outliers detection framework issues rendering current outliers accordingly to the outliers configuration for that entity

@@ -1667,6 +1667,21 @@ styles in <div> tags, similar to Bootstrap's grid system.
                             </div>
                         </div>
 
+                        <div id="rowLaggingMetricsDataSource" class="dashboard-row dashboard-row1" data-original-id="rowAuditChangesDataSourceTop" data-depends="$show_data_source_lagging_metrics$">
+                            <div id="panelLaggingMetricsDataSourceChart" class="dashboard-cell" style="width: 100%;">
+                                <div class="dashboard-panel clearfix">
+                                    <div class="panel-element-row">
+                                        <div id="chartLaggingMetricDataSourceOverTime" class="dashboard-element chart" style="width: 100%">
+                                            <div class="panel-head">
+                                                <h3>lag_ingestion_sec: delta between index time and latest event timestamp, lag_event_sec: delta between now when the measure is taken, and the latest event timestamp</h3>
+                                            </div>
+                                            <div class="panel-body"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
                         <div id="rowAuditFlipDataSource" class="dashboard-row dashboard-row1" data-original-id="rowAuditFlipDataSourceTop" data-depends="$show_flipping_status$,$show_flipping_status_no_results$">
                             <div id="panelAuditFlipDataSourceChart" class="dashboard-cell" style="width: 100%;">
                                 <div class="dashboard-panel clearfix">
@@ -2067,6 +2082,21 @@ styles in <div> tags, similar to Bootstrap's grid system.
                                                     <h2 style="font-weight: bold;">No indexing parsing errors detected within the period</h2>
                                                 </div>
                                             </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div id="rowLaggingMetricsDataHost" class="dashboard-row dashboard-row1" data-original-id="rowLaggingMetricsDataHost" data-depends="$show_data_host_lagging_metrics$">
+                            <div id="panelLaggingMetricsDataHostChart" class="dashboard-cell" style="width: 100%;">
+                                <div class="dashboard-panel clearfix">
+                                    <div class="panel-element-row">
+                                        <div id="chartLaggingMetricDataHostOverTime" class="dashboard-element chart" style="width: 100%">
+                                            <div class="panel-head">
+                                                <h3>lag_ingestion_sec: delta between index time and latest event timestamp, lag_event_sec: delta between now when the measure is taken, and the latest event timestamp</h3>
+                                            </div>
+                                            <div class="panel-body"></div>
                                         </div>
                                     </div>
                                 </div>
@@ -7076,6 +7106,47 @@ require([
             tokenNamespace: "submitted"
         });
 
+        // Lagging performance metrics
+        var searchLaggingMetricDataSource = new SearchManager({
+            "id": "searchLaggingMetricDataSource",
+            "earliest_time": "$modalTime.earliest$",
+            "cancelOnUnload": true,
+            "sample_ratio": null,
+            "latest_time": "$modalTime.latest$",
+            "search": "| mstats max(trackme.lag_event_sec) as lag_event_sec, max(trackme.lag_ingestion_sec) as lag_ingestion_sec where `trackme_metrics_idx` object_category=\"data_source\" object=\"$tk_data_name$\" by object span=5m | timechart span=$modalTime.span$ avg(lag_event_sec) as lag_event_sec, avg(lag_ingestion_sec) as lag_ingestion_sec",
+            "status_buckets": 0,
+            "app": utils.getCurrentApp(),
+            "auto_cancel": 90,
+            "preview": true,
+            "tokenDependencies": {
+                "depends": "$show_data_source_lagging_metrics$"
+            },
+            "runWhenTimeIsUndefined": false
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        });
+
+        var searchLaggingMetricDataHost = new SearchManager({
+            "id": "searchLaggingMetricDataHost",
+            "earliest_time": "$modalTimeHost.earliest$",
+            "cancelOnUnload": true,
+            "sample_ratio": null,
+            "latest_time": "$modalTimeHost.latest$",
+            "search": "| mstats max(trackme.lag_event_sec) as lag_event_sec, max(trackme.lag_ingestion_sec) as lag_ingestion_sec where `trackme_metrics_idx` object_category=\"data_host\" object=\"$tk_data_host$\" by object span=5m | timechart span=$modalTimeHost.span$ avg(lag_event_sec) as lag_event_sec, avg(lag_ingestion_sec) as lag_ingestion_sec",
+            "status_buckets": 0,
+            "app": utils.getCurrentApp(),
+            "auto_cancel": 90,
+            "preview": true,
+            "tokenDependencies": {
+                "depends": "$show_data_host_lagging_metrics$"
+            },
+            "runWhenTimeIsUndefined": false
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        });
+
         // Audit Changes Data Host
         var searchDataHostMainAuditChanges = new SearchManager({
             "id": "searchDataHostMainAuditChanges",
@@ -9972,6 +10043,10 @@ require([
                     "label": "Data parsing quality"
                 },
                 {
+                    "value": "lagging_metrics",
+                    "label": "Lagging performances"
+                },
+                {
                     "value": "flipping_status",
                     "label": "Status flipping"
                 },
@@ -10007,6 +10082,7 @@ require([
                 EventHandler.unsetToken("show_data_quality");
                 EventHandler.unsetToken("show_flipping_status");
                 EventHandler.unsetToken("show_data_source_audit_changes");
+                EventHandler.unsetToken("show_data_source_lagging_metrics");
             } else if (e.value === "outlier") {
                 EventHandler.setToken("show_data_source_outlier", "true", {}, e.data);
                 EventHandler.unsetToken("show_data_source_overview");
@@ -10015,6 +10091,7 @@ require([
                 EventHandler.unsetToken("show_data_quality");
                 EventHandler.unsetToken("show_flipping_status");
                 EventHandler.unsetToken("show_data_source_audit_changes");
+                EventHandler.unsetToken("show_data_source_lagging_metrics");
             } else if (e.value === "outlier_configuration") {
                 EventHandler.setToken("show_data_source_outlier_configuration", "true", {}, e.data);
                 EventHandler.unsetToken("show_data_source_overview");
@@ -10023,6 +10100,7 @@ require([
                 EventHandler.unsetToken("show_data_quality");
                 EventHandler.unsetToken("show_flipping_status");
                 EventHandler.unsetToken("show_data_source_audit_changes");
+                EventHandler.unsetToken("show_data_source_lagging_metrics");
             } else if (e.value === "data_quality") {
                 EventHandler.setToken("show_data_quality", "true", {}, e.data);
                 EventHandler.unsetToken("show_data_source_overview");
@@ -10031,6 +10109,16 @@ require([
                 EventHandler.unsetToken("show_data_source_status_message");
                 EventHandler.unsetToken("show_flipping_status");
                 EventHandler.unsetToken("show_data_source_audit_changes");
+                EventHandler.unsetToken("show_data_source_lagging_metrics");
+            } else if (e.value === "lagging_metrics") {
+                EventHandler.setToken("show_data_source_lagging_metrics", "true", {}, e.data);
+                EventHandler.unsetToken("show_data_source_overview");
+                EventHandler.unsetToken("show_data_source_outlier");
+                EventHandler.unsetToken("show_data_source_outlier_configuration");
+                EventHandler.unsetToken("show_data_source_status_message");
+                EventHandler.unsetToken("show_flipping_status");
+                EventHandler.unsetToken("show_data_source_audit_changes");
+                EventHandler.unsetToken("show_data_quality");
             } else if (e.value === "flipping_status") {
                 EventHandler.setToken("show_flipping_status", "true", {}, e.data);
                 EventHandler.unsetToken("show_data_source_overview");
@@ -10039,6 +10127,7 @@ require([
                 EventHandler.unsetToken("show_data_source_status_message");
                 EventHandler.unsetToken("show_data_quality");
                 EventHandler.unsetToken("show_data_source_audit_changes");
+                EventHandler.unsetToken("show_data_source_lagging_metrics");
             } else if (e.value === "status_message") {
                 EventHandler.setToken("show_data_source_status_message", "true", {}, e.data);
                 EventHandler.unsetToken("show_data_source_overview");
@@ -10047,6 +10136,7 @@ require([
                 EventHandler.unsetToken("show_data_quality");
                 EventHandler.unsetToken("show_flipping_status");
                 EventHandler.unsetToken("show_data_source_audit_changes");
+                EventHandler.unsetToken("show_data_source_lagging_metrics");
             } else if (e.value === "data_source_audit_changes") {
                 EventHandler.setToken("show_data_source_audit_changes", "true", {}, e.data);
                 EventHandler.unsetToken("show_data_source_overview");
@@ -10055,6 +10145,7 @@ require([
                 EventHandler.unsetToken("show_data_quality");
                 EventHandler.unsetToken("show_flipping_status");
                 EventHandler.unsetToken("show_data_source_status_message");
+                EventHandler.unsetToken("show_data_source_lagging_metrics");
             }            
         });
 
@@ -10287,6 +10378,10 @@ require([
                     "label": "Data parsing quality"
                 },
                 {
+                    "value": "lagging_metrics",
+                    "label": "Lagging performances"
+                },
+                {
                     "value": "flipping_status",
                     "label": "Status flipping"
                 },
@@ -10322,6 +10417,7 @@ require([
                 EventHandler.unsetToken("show_data_host_quality");
                 EventHandler.unsetToken("show_data_host_flipping_status");
                 EventHandler.unsetToken("show_data_host_audit_changes");
+                EventHandler.unsetToken("show_data_host_lagging_metrics");
             } else if (e.value === "outlier") {
                 EventHandler.setToken("show_data_host_outlier", "true", {}, e.data);
                 EventHandler.unsetToken("show_data_host_overview");
@@ -10330,6 +10426,7 @@ require([
                 EventHandler.unsetToken("show_data_host_quality");
                 EventHandler.unsetToken("show_data_host_flipping_status");
                 EventHandler.unsetToken("show_data_host_audit_changes");
+                EventHandler.unsetToken("show_data_host_lagging_metrics");
             } else if (e.value === "outlier_configuration") {
                 EventHandler.setToken("show_data_host_outlier_configuration", "true", {}, e.data);
                 EventHandler.unsetToken("show_data_host_overview");
@@ -10338,6 +10435,7 @@ require([
                 EventHandler.unsetToken("show_data_host_quality");
                 EventHandler.unsetToken("show_data_host_flipping_status");
                 EventHandler.unsetToken("show_data_host_audit_changes");
+                EventHandler.unsetToken("show_data_host_lagging_metrics");
             } else if (e.value === "data_quality") {
                 EventHandler.setToken("show_data_host_quality", "true", {}, e.data);
                 EventHandler.unsetToken("show_data_host_overview");
@@ -10346,6 +10444,16 @@ require([
                 EventHandler.unsetToken("show_data_host_outlier_configuration");
                 EventHandler.unsetToken("show_data_host_flipping_status");
                 EventHandler.unsetToken("show_data_host_audit_changes");
+                EventHandler.unsetToken("show_data_host_lagging_metrics");
+            } else if (e.value === "lagging_metrics") {
+                EventHandler.setToken("show_data_host_lagging_metrics", "true", {}, e.data);
+                EventHandler.unsetToken("show_data_host_overview");
+                EventHandler.unsetToken("show_data_host_outlier");
+                EventHandler.unsetToken("show_data_host_status_message");
+                EventHandler.unsetToken("show_data_host_outlier_configuration");
+                EventHandler.unsetToken("show_data_host_flipping_status");
+                EventHandler.unsetToken("show_data_host_audit_changes");
+                EventHandler.unsetToken("show_data_host_quality");
             } else if (e.value === "flipping_status") {
                 EventHandler.setToken("show_data_host_flipping_status", "true", {}, e.data);
                 EventHandler.unsetToken("show_data_host_overview");
@@ -10354,6 +10462,7 @@ require([
                 EventHandler.unsetToken("show_data_host_outlier_configuration");
                 EventHandler.unsetToken("show_data_host_quality");
                 EventHandler.unsetToken("show_data_host_audit_changes");
+                EventHandler.unsetToken("show_data_host_lagging_metrics");
             } else if (e.value === "status_message") {
                 EventHandler.setToken("show_data_host_status_message", "true", {}, e.data);
                 EventHandler.unsetToken("show_data_host_overview");
@@ -10362,6 +10471,7 @@ require([
                 EventHandler.unsetToken("show_data_host_quality");
                 EventHandler.unsetToken("show_data_host_flipping_status");
                 EventHandler.unsetToken("show_data_host_audit_changes");
+                EventHandler.unsetToken("show_data_host_lagging_metrics");
             } else if (e.value === "audit_changes") {
                 EventHandler.setToken("show_data_host_audit_changes", "true", {}, e.data);
                 EventHandler.unsetToken("show_data_host_overview");
@@ -10370,6 +10480,7 @@ require([
                 EventHandler.unsetToken("show_data_host_quality");
                 EventHandler.unsetToken("show_data_host_flipping_status");
                 EventHandler.unsetToken("show_data_host_status_message");
+                EventHandler.unsetToken("show_data_host_lagging_metrics");
             }
         });
 
@@ -13568,6 +13679,35 @@ require([
             "height": "150",
             "managerid": "searchAuditDataSourceAuditChangesOverTime",
             "el": $('#chartAuditChangesDataSourceOverTime')
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        }).render();
+
+        // Lagging performance metrics
+        var chartLaggingMetricDataSourceOverTime = new ChartElement({
+            "id": "chartLaggingMetricDataSourceOverTime",
+            "charting.chart": "line",
+            "charting.drilldown": "all",
+            "charting.axisLabelsY.majorUnit": "1",
+            "resizable": true,
+            "height": "300",
+            "managerid": "searchLaggingMetricDataSource",
+            "el": $('#chartLaggingMetricDataSourceOverTime')
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        }).render();
+
+        var chartLaggingMetricDataHostOverTime = new ChartElement({
+            "id": "chartLaggingMetricDataHostOverTime",
+            "charting.chart": "line",
+            "charting.drilldown": "all",
+            "charting.axisLabelsY.majorUnit": "1",
+            "resizable": true,
+            "height": "300",
+            "managerid": "searchLaggingMetricDataHost",
+            "el": $('#chartLaggingMetricDataHostOverTime')
         }, {
             tokens: true,
             tokenNamespace: "submitted"
