@@ -13711,6 +13711,7 @@ require([
         var chartLaggingMetricDataSourceOverTime = new ChartElement({
             "id": "chartLaggingMetricDataSourceOverTime",
             "charting.chart": "line",
+            "charting.chart.nullValueMode": "connect",
             "charting.drilldown": "all",
             "charting.axisLabelsY.majorUnit": "1",
             "resizable": true,
@@ -13725,6 +13726,7 @@ require([
         var chartLaggingMetricDataHostOverTime = new ChartElement({
             "id": "chartLaggingMetricDataHostOverTime",
             "charting.chart": "line",
+            "charting.chart.nullValueMode": "connect",
             "charting.drilldown": "all",
             "charting.axisLabelsY.majorUnit": "1",
             "resizable": true,
@@ -18384,6 +18386,7 @@ require([
             searchSingleSLApct.startSearch();
             searchOutlierDetectionChart.startSearch();
             searchOutlierDetectionTable.startSearch();
+            searchLaggingMetricDataSource.startSearch();
             searchDataSourceMainAuditFlip.startSearch();
             searchDataSourceMainAuditChanges.startSearch();
             SearchDataSourceParsingQualityMain.startSearch();
@@ -18407,6 +18410,7 @@ require([
             searchSingleSLAHostpct.startSearch();
             searchOutlierDetectionChartDataHost.startSearch();
             searchOutlierDetectionTableDataHost.startSearch();
+            searchLaggingMetricDataHost.startSearch();
             searchDataHostMainAuditFlip.startSearch();
             searchDataHostMainAuditChanges.startSearch();
             SearchDataHostParsingQualityMain.startSearch();
