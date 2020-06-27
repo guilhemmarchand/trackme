@@ -23,6 +23,7 @@ https://trackme.readthedocs.io/en/latest/configuration.html
 - Fix: Outliers detection framework issues generating metrics for some periods and failing to render the expected results
 - Fix: Under some specific conditions, blacklist sub-searches at the tstats / mstats first pipeline levels end in error and generated high skipped scheduled rate, the root searches now use the same technique than whitelisting
 - Fix: For metric host monitoring, off line hosts are constantly generating flipping status detection while this should happen once and be properly preserved over iterations
+- Fix: UI does not honour search parameters and constraints for Elastic sources when clicking on the search button in modal windows
 - Change: Switch lagging seconds rendering to duration formatting to improve readability
 
 Version 1.2.15
