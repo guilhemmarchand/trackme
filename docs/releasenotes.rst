@@ -1,6 +1,32 @@
 Release notes
 #############
 
+Version 1.2.16
+==============
+
+**CAUTION:**
+
+This is a new main release branch, TrackMe 1.2.x require the deployment of the following dependencies:
+
+- Semicircle Donut Chart Viz, Splunk Base: https://splunkbase.splunk.com/app/4378
+- Splunk Machine Learning Toolkit, Splunk Base: https://splunkbase.splunk.com/app/2890
+
+TrackMe requires a summary index (defaults to trackme_summary) and a metric index (defaults to trackme_metrics):
+https://trackme.readthedocs.io/en/latest/configuration.html
+
+**release notes:**
+
+- Feature: New tab for data sources and hosts exposing recorded metrics in the metric index for ingestion lag and event lag performances
+- Feature: Provides metric host search capabilities with msearch button when clicking on a host metric (Splunk 8.x required), which is used as well for Elastic mstats sources
+- Feature: Improved readability of high lagging seconds records by using duration formatting rendering automatically
+- Fix: Flipping state detection failure for Elastic shared and dedicated sources due to regression introduced in trackMe 1.2.13
+- Fix: Outliers table view might seem truncated with high volume sources, improve rendering by using thousands and millions units for high volume sources
+- Fix: Outliers detection framework issues rendering current outliers accordingly to the outliers configuration for that entity
+- Fix: Outliers detection framework issues generating metrics for some periods and failing to render the expected results
+- Fix: Under some specific conditions, blacklist sub-searches at the tstats / mstats first pipeline levels end in error and generated high skipped scheduled rate, the root searches now use the same technique than whitelisting
+- Fix: For metric host monitoring, off line hosts are constantly generating flipping status detection while this should happen once and be properly preserved over iterations
+- Fix: UI does not honour search parameters and constraints for Elastic sources when clicking on the search button in modal windows
+
 Version 1.2.15
 ==============
 

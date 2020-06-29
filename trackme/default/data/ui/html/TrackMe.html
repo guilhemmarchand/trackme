@@ -1473,7 +1473,7 @@ styles in <div> tags, similar to Bootstrap's grid system.
                                     <div style="float:left;width:33%;">
                                         <p><b>data_index:</b> $tk_data_index$</p>
                                         <p><b>data_sourcetype:</b> $tk_data_sourcetype$</p>
-                                        <p><b>lag event / lag ingestion:</b> $tk_data_lag_summary$</p>
+                                        <p><b>lag event / lag ingestion: ([D+]HH:MM:SS)</b> $tk_data_lag_summary$</p>
                                         <p><b>data_last_time_seen:</b> $tk_data_last_time_seen_human$</p>
                                     </div>
                                     <div style="float:left;width:33%;">
@@ -1562,7 +1562,7 @@ styles in <div> tags, similar to Bootstrap's grid system.
                         </div>
 
                         <div id="rowTableOutlier" class="dashboard-row dashboard-row1" data-depends="$show_data_source_outlier$">
-                            <div id="panelTableOutlier2" class="dashboard-cell" style="width: 100%; max-height: 70px;">
+                            <div id="panelTableOutlier2" class="dashboard-cell" style="width: 100%; max-height: 90px;">
                                 <div class="dashboard-panel clearfix">
 
                                     <div class="panel-element-row">
@@ -1661,6 +1661,21 @@ styles in <div> tags, similar to Bootstrap's grid system.
                                                     <h2 style="font-weight: bold;">No indexing parsing errors detected within the period</h2>
                                                 </div>
                                             </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div id="rowLaggingMetricsDataSource" class="dashboard-row dashboard-row1" data-original-id="rowAuditChangesDataSourceTop" data-depends="$show_data_source_lagging_metrics$">
+                            <div id="panelLaggingMetricsDataSourceChart" class="dashboard-cell" style="width: 100%;">
+                                <div class="dashboard-panel clearfix">
+                                    <div class="panel-element-row">
+                                        <div id="chartLaggingMetricDataSourceOverTime" class="dashboard-element chart" style="width: 100%">
+                                            <div class="panel-head">
+                                                <h3>lag_ingestion_sec: delta between index time and latest event timestamp, lag_event_sec: delta between now when the measure is taken, and the latest event timestamp</h3>
+                                            </div>
+                                            <div class="panel-body"></div>
                                         </div>
                                     </div>
                                 </div>
@@ -1862,7 +1877,7 @@ styles in <div> tags, similar to Bootstrap's grid system.
 
                                 <div style="line-height: 1.1; margin-left: 20px;">
                                     <div style="float:left;width:33%;">
-                                        <p><b>lag event / lag ingestion:</b> $tk_data_lag_summary$</p>
+                                        <p><b>lag event / lag ingestion: ([D+]HH:MM:SS)</b> $tk_data_lag_summary$</p>
                                         <p><b>data_last_time_seen:</b> $tk_data_last_time_seen_human$</p>
                                         <p><b>data_last_ingest:</b> $tk_data_last_ingest_human$</p>
                                     </div>
@@ -1969,7 +1984,7 @@ styles in <div> tags, similar to Bootstrap's grid system.
                         </div>
 
                         <div id="rowTableOutlierDataHost" class="dashboard-row dashboard-row1" data-depends="$show_data_host_outlier$">
-                            <div id="panelTableOutlierDataHost2" class="dashboard-cell" style="width: 100%; max-height: 70px;">
+                            <div id="panelTableOutlierDataHost2" class="dashboard-cell" style="width: 100%; max-height: 90px;">
                                 <div class="dashboard-panel clearfix">
 
                                     <div class="panel-element-row">
@@ -2067,6 +2082,21 @@ styles in <div> tags, similar to Bootstrap's grid system.
                                                     <h2 style="font-weight: bold;">No indexing parsing errors detected within the period</h2>
                                                 </div>
                                             </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div id="rowLaggingMetricsDataHost" class="dashboard-row dashboard-row1" data-original-id="rowLaggingMetricsDataHost" data-depends="$show_data_host_lagging_metrics$">
+                            <div id="panelLaggingMetricsDataHostChart" class="dashboard-cell" style="width: 100%;">
+                                <div class="dashboard-panel clearfix">
+                                    <div class="panel-element-row">
+                                        <div id="chartLaggingMetricDataHostOverTime" class="dashboard-element chart" style="width: 100%">
+                                            <div class="panel-head">
+                                                <h3>lag_ingestion_sec: delta between index time and latest event timestamp, lag_event_sec: delta between now when the measure is taken, and the latest event timestamp</h3>
+                                            </div>
+                                            <div class="panel-body"></div>
                                         </div>
                                     </div>
                                 </div>
@@ -2491,6 +2521,9 @@ styles in <div> tags, similar to Bootstrap's grid system.
                             </div>
                             <div style="margin-right: 15px; float: right;">
                                 <a class="btn btn-primary" id="btn_search_metric_host" target="_blank" href="search_metric_source_url" role="button">Metrics mcatalog report</a>
+                            </div>
+                            <div style="margin-right: 15px; float: right;">
+                                <a class="btn btn-primary" id="btn_msearch_metric_host" target="_blank" href="search_data_source_url" role="button">Search (msearch)</a>
                             </div>
                             <div style="margin-right: 15px; float: right;">
                                 <button type="submit" id="btn_modify_metric_host" role="button" class="btn btn-primary btn-default"><span class="glyphicon glyphicon-remove"></span>Modify</button>
@@ -6873,7 +6906,7 @@ require([
 
         var searchDataSourcesPostTable = new PostProcessManager({
             "tokenDependencies": {},
-            "search": "search $inputDataName$ $inputDataIndex$ $inputDataSourcetype$ $data_source_state$ $data_monitored_state$ $inputDataPriority$\n| fillnull data_last_lag_seen, data_last_ingestion_lag_seen\n| eval data_last_lag_seen=round(data_last_lag_seen, 0) | eval data_last_ingestion_lag_seen=round(data_last_ingestion_lag_seen, 0) | fillnull value=\"N/A\" data_last_lag_seen, data_last_ingestion_lag_seen\n| eval \"lag summary (lag event / lag ingestion)\" = data_last_lag_seen . \" sec / \" . data_last_ingestion_lag_seen . \" sec\"\n| rename \"data_last_time_seen (translated)\" as \"last time\", \"data_last_ingest (translated)\" as \"last ingest\", \"data_last_time_seen_idx (translated)\" as \"last time idx\"\n| eval data_tracker_runtime=now()\n| `trackme_date_format(\"latest_flip_time\")`\n| fillnull value=\"N/A\" latest_flip_state, latest_flip_time, \"latest_flip_time (translated)\"\n| `trackme_get_identity_card(data_name)`\n| `trackme_lookup_elastic_sources`\n|`trackme_ack_lookup_main(data_name)`\n| sort limit=10000 data_name",
+            "search": "search $inputDataName$ $inputDataIndex$ $inputDataSourcetype$ $data_source_state$ $data_monitored_state$ $inputDataPriority$\n| fillnull data_last_lag_seen, data_last_ingestion_lag_seen\n| eval data_last_lag_seen=round(data_last_lag_seen, 0) | eval data_last_ingestion_lag_seen=round(data_last_ingestion_lag_seen, 0) | fillnull value=\"N/A\" data_last_lag_seen, data_last_ingestion_lag_seen\n| eval \"lag summary (lag event / lag ingestion)\" = if(data_last_lag_seen>60, tostring(data_last_lag_seen, \"duration\"), data_last_lag_seen . \" sec\") . \" / \" . if(data_last_ingestion_lag_seen>60, tostring(data_last_ingestion_lag_seen, \"duration\"), data_last_ingestion_lag_seen . \" sec\")\n| rename \"data_last_time_seen (translated)\" as \"last time\", \"data_last_ingest (translated)\" as \"last ingest\", \"data_last_time_seen_idx (translated)\" as \"last time idx\"\n| eval data_tracker_runtime=now()\n| `trackme_date_format(\"latest_flip_time\")`\n| fillnull value=\"N/A\" latest_flip_state, latest_flip_time, \"latest_flip_time (translated)\"\n| `trackme_get_identity_card(data_name)`\n| `trackme_lookup_elastic_sources`\n|`trackme_ack_lookup_main(data_name)`\n| sort limit=10000 data_name",
             "managerid": "searchDataSourcesMain",
             "id": "searchDataSourcesPostTable"
         }, {
@@ -7071,6 +7104,47 @@ require([
             "search": "timechart limit=40 useother=t minspan=1h bins=1000 count by action",
             "managerid": "searchDataSourceMainAuditChanges",
             "id": "searchAuditDataSourceAuditChangesOverTime"
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        });
+
+        // Lagging performance metrics
+        var searchLaggingMetricDataSource = new SearchManager({
+            "id": "searchLaggingMetricDataSource",
+            "earliest_time": "$modalTime.earliest$",
+            "cancelOnUnload": true,
+            "sample_ratio": null,
+            "latest_time": "$modalTime.latest$",
+            "search": "| mstats max(trackme.lag_event_sec) as lag_event_sec, max(trackme.lag_ingestion_sec) as lag_ingestion_sec where `trackme_metrics_idx` object_category=\"data_source\" object=\"$tk_data_name$\" by object span=5m | timechart span=$modalTime.span$ avg(lag_event_sec) as lag_event_sec, avg(lag_ingestion_sec) as lag_ingestion_sec",
+            "status_buckets": 0,
+            "app": utils.getCurrentApp(),
+            "auto_cancel": 90,
+            "preview": true,
+            "tokenDependencies": {
+                "depends": "$show_data_source_lagging_metrics$"
+            },
+            "runWhenTimeIsUndefined": false
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        });
+
+        var searchLaggingMetricDataHost = new SearchManager({
+            "id": "searchLaggingMetricDataHost",
+            "earliest_time": "$modalTimeHost.earliest$",
+            "cancelOnUnload": true,
+            "sample_ratio": null,
+            "latest_time": "$modalTimeHost.latest$",
+            "search": "| mstats max(trackme.lag_event_sec) as lag_event_sec, max(trackme.lag_ingestion_sec) as lag_ingestion_sec where `trackme_metrics_idx` object_category=\"data_host\" object=\"$tk_data_host$\" by object span=5m | timechart span=$modalTimeHost.span$ avg(lag_event_sec) as lag_event_sec, avg(lag_ingestion_sec) as lag_ingestion_sec",
+            "status_buckets": 0,
+            "app": utils.getCurrentApp(),
+            "auto_cancel": 90,
+            "preview": true,
+            "tokenDependencies": {
+                "depends": "$show_data_host_lagging_metrics$"
+            },
+            "runWhenTimeIsUndefined": false
         }, {
             tokens: true,
             tokenNamespace: "submitted"
@@ -7676,7 +7750,7 @@ require([
 
         var searchMainTableHost = new PostProcessManager({
             "tokenDependencies": {},
-            "search": "search $inputDataHostFilter$ $inputDataHost$ $inputDataHostIndexes$ $inputDataHostSourcetypes$ $data_host_state$ $data_monitored_state$ $inputDataHostPriority$ | fillnull data_last_lag_seen, data_last_ingestion_lag_seen | eval data_last_lag_seen=round(data_last_lag_seen, 0) | eval data_last_ingestion_lag_seen=round(data_last_ingestion_lag_seen, 0) | fillnull value=\"N/A\" data_last_lag_seen, data_last_ingestion_lag_seen\n| eval \"lag summary (lag event / lag ingestion)\" = data_last_lag_seen . \" sec / \" . data_last_ingestion_lag_seen . \" sec\" | sort limit=10000 data_host",
+            "search": "search $inputDataHostFilter$ $inputDataHost$ $inputDataHostIndexes$ $inputDataHostSourcetypes$ $data_host_state$ $data_monitored_state$ $inputDataHostPriority$ | fillnull data_last_lag_seen, data_last_ingestion_lag_seen | eval data_last_lag_seen=round(data_last_lag_seen, 0) | eval data_last_ingestion_lag_seen=round(data_last_ingestion_lag_seen, 0) | fillnull value=\"N/A\" data_last_lag_seen, data_last_ingestion_lag_seen\n| eval \"lag summary (lag event / lag ingestion)\" = if(data_last_lag_seen>60, tostring(data_last_lag_seen, \"duration\"), data_last_lag_seen . \" sec\") . \" / \" . if(data_last_ingestion_lag_seen>60, tostring(data_last_ingestion_lag_seen, \"duration\"), data_last_ingestion_lag_seen . \" sec\") | sort limit=10000 data_host",
             "managerid": "searchDataHostsMain",
             "id": "searchMainTableHost"
         }, {
@@ -9972,6 +10046,10 @@ require([
                     "label": "Data parsing quality"
                 },
                 {
+                    "value": "lagging_metrics",
+                    "label": "Lagging performances"
+                },
+                {
                     "value": "flipping_status",
                     "label": "Status flipping"
                 },
@@ -10007,6 +10085,7 @@ require([
                 EventHandler.unsetToken("show_data_quality");
                 EventHandler.unsetToken("show_flipping_status");
                 EventHandler.unsetToken("show_data_source_audit_changes");
+                EventHandler.unsetToken("show_data_source_lagging_metrics");
             } else if (e.value === "outlier") {
                 EventHandler.setToken("show_data_source_outlier", "true", {}, e.data);
                 EventHandler.unsetToken("show_data_source_overview");
@@ -10015,6 +10094,7 @@ require([
                 EventHandler.unsetToken("show_data_quality");
                 EventHandler.unsetToken("show_flipping_status");
                 EventHandler.unsetToken("show_data_source_audit_changes");
+                EventHandler.unsetToken("show_data_source_lagging_metrics");
             } else if (e.value === "outlier_configuration") {
                 EventHandler.setToken("show_data_source_outlier_configuration", "true", {}, e.data);
                 EventHandler.unsetToken("show_data_source_overview");
@@ -10023,6 +10103,7 @@ require([
                 EventHandler.unsetToken("show_data_quality");
                 EventHandler.unsetToken("show_flipping_status");
                 EventHandler.unsetToken("show_data_source_audit_changes");
+                EventHandler.unsetToken("show_data_source_lagging_metrics");
             } else if (e.value === "data_quality") {
                 EventHandler.setToken("show_data_quality", "true", {}, e.data);
                 EventHandler.unsetToken("show_data_source_overview");
@@ -10031,6 +10112,16 @@ require([
                 EventHandler.unsetToken("show_data_source_status_message");
                 EventHandler.unsetToken("show_flipping_status");
                 EventHandler.unsetToken("show_data_source_audit_changes");
+                EventHandler.unsetToken("show_data_source_lagging_metrics");
+            } else if (e.value === "lagging_metrics") {
+                EventHandler.setToken("show_data_source_lagging_metrics", "true", {}, e.data);
+                EventHandler.unsetToken("show_data_source_overview");
+                EventHandler.unsetToken("show_data_source_outlier");
+                EventHandler.unsetToken("show_data_source_outlier_configuration");
+                EventHandler.unsetToken("show_data_source_status_message");
+                EventHandler.unsetToken("show_flipping_status");
+                EventHandler.unsetToken("show_data_source_audit_changes");
+                EventHandler.unsetToken("show_data_quality");
             } else if (e.value === "flipping_status") {
                 EventHandler.setToken("show_flipping_status", "true", {}, e.data);
                 EventHandler.unsetToken("show_data_source_overview");
@@ -10039,6 +10130,7 @@ require([
                 EventHandler.unsetToken("show_data_source_status_message");
                 EventHandler.unsetToken("show_data_quality");
                 EventHandler.unsetToken("show_data_source_audit_changes");
+                EventHandler.unsetToken("show_data_source_lagging_metrics");
             } else if (e.value === "status_message") {
                 EventHandler.setToken("show_data_source_status_message", "true", {}, e.data);
                 EventHandler.unsetToken("show_data_source_overview");
@@ -10047,6 +10139,7 @@ require([
                 EventHandler.unsetToken("show_data_quality");
                 EventHandler.unsetToken("show_flipping_status");
                 EventHandler.unsetToken("show_data_source_audit_changes");
+                EventHandler.unsetToken("show_data_source_lagging_metrics");
             } else if (e.value === "data_source_audit_changes") {
                 EventHandler.setToken("show_data_source_audit_changes", "true", {}, e.data);
                 EventHandler.unsetToken("show_data_source_overview");
@@ -10055,6 +10148,7 @@ require([
                 EventHandler.unsetToken("show_data_quality");
                 EventHandler.unsetToken("show_flipping_status");
                 EventHandler.unsetToken("show_data_source_status_message");
+                EventHandler.unsetToken("show_data_source_lagging_metrics");
             }            
         });
 
@@ -10287,6 +10381,10 @@ require([
                     "label": "Data parsing quality"
                 },
                 {
+                    "value": "lagging_metrics",
+                    "label": "Lagging performances"
+                },
+                {
                     "value": "flipping_status",
                     "label": "Status flipping"
                 },
@@ -10322,6 +10420,7 @@ require([
                 EventHandler.unsetToken("show_data_host_quality");
                 EventHandler.unsetToken("show_data_host_flipping_status");
                 EventHandler.unsetToken("show_data_host_audit_changes");
+                EventHandler.unsetToken("show_data_host_lagging_metrics");
             } else if (e.value === "outlier") {
                 EventHandler.setToken("show_data_host_outlier", "true", {}, e.data);
                 EventHandler.unsetToken("show_data_host_overview");
@@ -10330,6 +10429,7 @@ require([
                 EventHandler.unsetToken("show_data_host_quality");
                 EventHandler.unsetToken("show_data_host_flipping_status");
                 EventHandler.unsetToken("show_data_host_audit_changes");
+                EventHandler.unsetToken("show_data_host_lagging_metrics");
             } else if (e.value === "outlier_configuration") {
                 EventHandler.setToken("show_data_host_outlier_configuration", "true", {}, e.data);
                 EventHandler.unsetToken("show_data_host_overview");
@@ -10338,6 +10438,7 @@ require([
                 EventHandler.unsetToken("show_data_host_quality");
                 EventHandler.unsetToken("show_data_host_flipping_status");
                 EventHandler.unsetToken("show_data_host_audit_changes");
+                EventHandler.unsetToken("show_data_host_lagging_metrics");
             } else if (e.value === "data_quality") {
                 EventHandler.setToken("show_data_host_quality", "true", {}, e.data);
                 EventHandler.unsetToken("show_data_host_overview");
@@ -10346,6 +10447,16 @@ require([
                 EventHandler.unsetToken("show_data_host_outlier_configuration");
                 EventHandler.unsetToken("show_data_host_flipping_status");
                 EventHandler.unsetToken("show_data_host_audit_changes");
+                EventHandler.unsetToken("show_data_host_lagging_metrics");
+            } else if (e.value === "lagging_metrics") {
+                EventHandler.setToken("show_data_host_lagging_metrics", "true", {}, e.data);
+                EventHandler.unsetToken("show_data_host_overview");
+                EventHandler.unsetToken("show_data_host_outlier");
+                EventHandler.unsetToken("show_data_host_status_message");
+                EventHandler.unsetToken("show_data_host_outlier_configuration");
+                EventHandler.unsetToken("show_data_host_flipping_status");
+                EventHandler.unsetToken("show_data_host_audit_changes");
+                EventHandler.unsetToken("show_data_host_quality");
             } else if (e.value === "flipping_status") {
                 EventHandler.setToken("show_data_host_flipping_status", "true", {}, e.data);
                 EventHandler.unsetToken("show_data_host_overview");
@@ -10354,6 +10465,7 @@ require([
                 EventHandler.unsetToken("show_data_host_outlier_configuration");
                 EventHandler.unsetToken("show_data_host_quality");
                 EventHandler.unsetToken("show_data_host_audit_changes");
+                EventHandler.unsetToken("show_data_host_lagging_metrics");
             } else if (e.value === "status_message") {
                 EventHandler.setToken("show_data_host_status_message", "true", {}, e.data);
                 EventHandler.unsetToken("show_data_host_overview");
@@ -10362,6 +10474,7 @@ require([
                 EventHandler.unsetToken("show_data_host_quality");
                 EventHandler.unsetToken("show_data_host_flipping_status");
                 EventHandler.unsetToken("show_data_host_audit_changes");
+                EventHandler.unsetToken("show_data_host_lagging_metrics");
             } else if (e.value === "audit_changes") {
                 EventHandler.setToken("show_data_host_audit_changes", "true", {}, e.data);
                 EventHandler.unsetToken("show_data_host_overview");
@@ -10370,6 +10483,7 @@ require([
                 EventHandler.unsetToken("show_data_host_quality");
                 EventHandler.unsetToken("show_data_host_flipping_status");
                 EventHandler.unsetToken("show_data_host_status_message");
+                EventHandler.unsetToken("show_data_host_lagging_metrics");
             }
         });
 
@@ -13177,6 +13291,8 @@ require([
                 setToken("tk_elastic_source_search_constraint", TokenUtils.replaceTokenNames("$row.elastic_source_search_constraint$", _.extend(submittedTokenModel.toJSON(), e.data)));
                 setToken("tk_elastic_source_from_part1", TokenUtils.replaceTokenNames("$row.elastic_source_from_part1$", _.extend(submittedTokenModel.toJSON(), e.data)));
                 setToken("tk_elastic_source_from_part2", TokenUtils.replaceTokenNames("$row.elastic_source_from_part2$", _.extend(submittedTokenModel.toJSON(), e.data)));
+                setToken("tk_elastic_mstats_idx", TokenUtils.replaceTokenNames("$row.elastic_mstats_idx$", _.extend(submittedTokenModel.toJSON(), e.data)));
+                setToken("tk_elastic_mstats_filters", TokenUtils.replaceTokenNames("$row.elastic_mstats_filters$", _.extend(submittedTokenModel.toJSON(), e.data)));
 
                 // pre-fill current values for outlier modification window
                 setToken("form.tk_input_data_source_outlier_alert_on_upper", TokenUtils.replaceTokenNames("$row.OutlierAlertOnUpper$", _.extend(submittedTokenModel.toJSON(), e.data)));
@@ -13268,8 +13384,50 @@ require([
                     document.getElementById("input_doc_note").value = tk_doc_note;
                 }
 
+                // Manage root search for overview, conditionally define the query depending on the search
+                var tk_elastic_source_search_mode = tokens.get("tk_elastic_source_search_mode");
+                var tk_elastic_source_search_constraint = tokens.get("tk_elastic_source_search_constraint");
+                var tk_elastic_source_from_part1 = tokens.get("tk_elastic_source_from_part1");
+                var tk_elastic_source_from_part2 = tokens.get("tk_elastic_source_from_part2");
+                var tk_elastic_mstats_idx = tokens.get("tk_elastic_mstats_idx");
+                var tk_elastic_mstats_filters = tokens.get("tk_elastic_mstats_filters");
+
+                if (tk_elastic_source_search_mode == "null") {
+                    tk_data_source_overview_root_search = "| `trackme_tstats` count latest(_indextime) as indextime where index=\"" + tk_data_index + "\" sourcetype=\"" + tk_data_sourcetype + "\" by _time, index, sourcetype span=1s | eval delta=(indextime-_time)";
+                    tk_data_source_raw_search = "null";
+                } else if (tk_elastic_source_search_mode == "tstats") {
+                    tk_data_source_overview_root_search = "| `trackme_tstats` count latest(_indextime) as indextime where " + tk_elastic_source_search_constraint + " by _time, index, sourcetype span=1s | eval delta=(indextime-_time)";
+                    tk_data_source_raw_search = "?q=search%20" + encodeURI(tk_elastic_source_search_constraint);
+                } else if (tk_elastic_source_search_mode == "raw") {
+                    tk_data_source_overview_root_search = tk_elastic_source_search_constraint + " | eval delta=(_indextime-_time) | bucket _time span=1s | stats count, avg(delta) as delta by _time";
+                    tk_data_source_raw_search = "?q=search%20" + encodeURI(tk_elastic_source_search_constraint);
+                } else if (tk_elastic_source_search_mode == "from" && tk_elastic_source_from_part1 != "null" && tk_elastic_source_from_part2 != "null") {
+                    tk_data_source_overview_root_search = "| " + tk_elastic_source_search_mode + " " + tk_elastic_source_from_part1 + " | " +  tk_elastic_source_from_part2 + " | eval delta=(_indextime-_time) | bucket _time span=1s | stats count, avg(delta) as delta by _time";
+                    tk_data_source_raw_search = "?q=" + encodeURI("| ") + encodeURI(tk_elastic_source_search_mode) + " " + encodeURI(tk_elastic_source_from_part1) + encodeURI("|") +  encodeURI(tk_elastic_source_from_part2);
+                } else if (tk_elastic_source_search_mode == "mstats" && tk_elastic_mstats_filters != "null") {
+                    tk_data_source_overview_root_search = "| mstats latest(_value) as value where `trackme_metrics_idx` (metric_name=trackme.eventcount_4h OR metric_name=trackme.lag_event_sec) object_category=\"data_source\" object=\"" + tk_data_name + "\" by metric_name span=5m | eval {metric_name}=value | stats first(trackme.eventcount_4h) as count, first(trackme.lag_event_sec) as delta by _time";
+                    if (tk_elastic_mstats_idx == "null") {
+                        tk_data_source_raw_search = "?q=" + encodeURI("| msearch ") + encodeURI("index=*") + " " + encodeURI("filter=\"" + tk_elastic_mstats_filters + "\"") + encodeURI(" earliest=\"-5m\" latest=now");
+                    } else {
+                        tk_data_source_raw_search = "?q=" + encodeURI("| msearch ") + encodeURI(tk_elastic_mstats_idx) + " " + encodeURI("filter=\"" + tk_elastic_mstats_filters + "\"") + encodeURI(" earliest=\"-5m\" latest=now");
+                    }
+                } else {
+                    tk_data_source_overview_root_search = "| `trackme_tstats` count latest(_indextime) as indextime where index=\"" + tk_data_index + "\" sourcetype=\"" + tk_data_sourcetype + "\" by _time, index, sourcetype span=1s | eval delta=(indextime-_time)";
+                }
+
+                //console.log("tk_data_source_overview_root_search is: " + tk_data_source_overview_root_search);
+                setToken("tk_data_source_overview_root_search", TokenUtils.replaceTokenNames(tk_data_source_overview_root_search, _.extend(submittedTokenModel.toJSON(), e.data)));
+
                 // Define the history search
-                var search_data_source = location.protocol + '//' + location.hostname + (location.port ? ':' + location.port : '') + '//app/trackme/search' + "?q=search%20index%3D\"" + encodeURI(tk_data_index) + "\"" + " sourcetype%3D\"" + encodeURI(tk_data_sourcetype) + "\""
+
+                // Honour elastic sources
+                //console.log("tk_data_source_raw_search is: " + tk_data_source_raw_search);
+
+                if (tk_elastic_source_search_mode == "null") {
+                    var search_data_source = location.protocol + '//' + location.hostname + (location.port ? ':' + location.port : '') + '//app/trackme/search' + "?q=search%20index%3D\"" + encodeURI(tk_data_index) + "\"" + " sourcetype%3D\"" + encodeURI(tk_data_sourcetype) + "\""
+                } else {
+                    var search_data_source = location.protocol + '//' + location.hostname + (location.port ? ':' + location.port : '') + '//app/trackme/search' + tk_data_source_raw_search
+                }
 
                 // state
                 var tk_data_source_state = tokens.get("tk_data_source_state");
@@ -13321,30 +13479,6 @@ require([
                 } else if (tk_priority == "high") {
                     setToken("tk_priority_class", TokenUtils.replaceTokenNames("title_high_priority", _.extend(submittedTokenModel.toJSON(), e.data)));
                 }
-
-                // Manage root search for overview, conditionally define the query depending on the search
-                var tk_elastic_source_search_mode = tokens.get("tk_elastic_source_search_mode");
-                var tk_elastic_source_search_constraint = tokens.get("tk_elastic_source_search_constraint");
-                var tk_elastic_source_from_part1 = tokens.get("tk_elastic_source_from_part1");
-                var tk_elastic_source_from_part2 = tokens.get("tk_elastic_source_from_part2");
-
-                if (tk_elastic_source_search_mode == "null") {
-                    tk_data_source_overview_root_search = "| `trackme_tstats` count latest(_indextime) as indextime where index=\"" + tk_data_index + "\" sourcetype=\"" + tk_data_sourcetype + "\" by _time, index, sourcetype span=1s | eval delta=(indextime-_time)";
-                } else if (tk_elastic_source_search_mode == "tstats") {
-                    tk_data_source_overview_root_search = "| `trackme_tstats` count latest(_indextime) as indextime where " + tk_elastic_source_search_constraint + " by _time, index, sourcetype span=1s | eval delta=(indextime-_time)";
-                } else if (tk_elastic_source_search_mode == "raw") {
-                    tk_data_source_overview_root_search = tk_elastic_source_search_constraint + " | eval delta=(_indextime-_time) | bucket _time span=1s | stats count, avg(delta) as delta by _time";
-                } else if (tk_elastic_source_search_mode == "from" && tk_elastic_source_from_part1 != "null" && tk_elastic_source_from_part2 != "null") {
-                    tk_data_source_overview_root_search = "| " + tk_elastic_source_search_mode + " " + tk_elastic_source_from_part1 + " | " +  tk_elastic_source_from_part2 + " | eval delta=(_indextime-_time) | bucket _time span=1s | stats count, avg(delta) as delta by _time";
-                } else if (tk_elastic_source_search_mode == "mstats") {
-                    tk_data_source_overview_root_search = "| mstats latest(_value) as value where `trackme_metrics_idx` (metric_name=trackme.eventcount_4h OR metric_name=trackme.lag_event_sec) object_category=\"data_source\" object=\"" + tk_data_name + "\" by metric_name span=5m | eval {metric_name}=value | stats first(trackme.eventcount_4h) as count, first(trackme.lag_event_sec) as delta by _time";
-                } else {
-                    tk_data_source_overview_root_search = "| `trackme_tstats` count latest(_indextime) as indextime where index=\"" + tk_data_index + "\" sourcetype=\"" + tk_data_sourcetype + "\" by _time, index, sourcetype span=1s | eval delta=(indextime-_time)";
-                }
-
-                //console.log("tk_data_source_overview_root_search is: " + tk_data_source_overview_root_search);
-                setToken("tk_data_source_overview_root_search", TokenUtils.replaceTokenNames(tk_data_source_overview_root_search, _.extend(submittedTokenModel.toJSON(), e.data)));
-
 
                 // Enable modal context
                 $("#modal_manage").modal();
@@ -13568,6 +13702,37 @@ require([
             "height": "150",
             "managerid": "searchAuditDataSourceAuditChangesOverTime",
             "el": $('#chartAuditChangesDataSourceOverTime')
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        }).render();
+
+        // Lagging performance metrics
+        var chartLaggingMetricDataSourceOverTime = new ChartElement({
+            "id": "chartLaggingMetricDataSourceOverTime",
+            "charting.chart": "line",
+            "charting.chart.nullValueMode": "connect",
+            "charting.axisTitleX.visibility": "collapsed",
+            "charting.drilldown": "all",
+            "resizable": true,
+            "height": "300",
+            "managerid": "searchLaggingMetricDataSource",
+            "el": $('#chartLaggingMetricDataSourceOverTime')
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        }).render();
+
+        var chartLaggingMetricDataHostOverTime = new ChartElement({
+            "id": "chartLaggingMetricDataHostOverTime",
+            "charting.chart": "line",
+            "charting.chart.nullValueMode": "connect",
+            "charting.axisTitleX.visibility": "collapsed",
+            "charting.drilldown": "all",
+            "resizable": true,
+            "height": "300",
+            "managerid": "searchLaggingMetricDataHost",
+            "el": $('#chartLaggingMetricDataHostOverTime')
         }, {
             tokens: true,
             tokenNamespace: "submitted"
@@ -14026,12 +14191,16 @@ require([
                 var tk_priority = tokens.get("tk_priority");
 
                 // Define the history search
-
                 var search_metric_host = '| mcatalog values(metric_name), values(_dims) where index=* host=\"' + tk_metric_host + '\" by host'
                 search_metric_host = location.protocol + '//' + location.hostname + (location.port ? ':' + location.port : '') + '//app/trackme/search' + "?q=" + encodeURI(search_metric_host) + '&earliest=-15m&latest=now'
 
+                // Define the history msearch
+                var msearch_metric_host = '| msearch index=* filter=\"host=\"' + tk_metric_host + '\"\"'
+                msearch_metric_host = location.protocol + '//' + location.hostname + (location.port ? ':' + location.port : '') + '//app/trackme/search' + "?q=" + encodeURI(msearch_metric_host) + '&earliest=-15m&latest=now'
+
                 // Define the URL target
                 document.getElementById("btn_search_metric_host").href = search_metric_host;
+                document.getElementById("btn_msearch_metric_host").href = msearch_metric_host;
 
                 var search_metric_host_live_report = '| savedsearch \"trackMe - metric host live report\" host=\"' + tk_metric_host + '"'
                 search_metric_host_live_report = location.protocol + '//' + location.hostname + (location.port ? ':' + location.port : '') + '//app/trackme/search' + "?q=" + encodeURI(search_metric_host_live_report) + '&earliest=-15m&latest=now'
@@ -14094,7 +14263,7 @@ require([
             "id": "elementHostTableMetricHost",
             "count": 8,
             "drilldown": "none",
-            "fields": "metric_category, metric_last_time, metric_max_lag_allowed, metric_current_lag_sec, state",
+            "fields": "metric_category, metric_last_time, metric_max_lag_allowed, metric_current_lag_sec, duration, state",
             "refresh.display": "none",
             "wrap": "false",
             "managerid": "searchHostTableMetricHost",
@@ -18217,6 +18386,7 @@ require([
             searchSingleSLApct.startSearch();
             searchOutlierDetectionChart.startSearch();
             searchOutlierDetectionTable.startSearch();
+            searchLaggingMetricDataSource.startSearch();
             searchDataSourceMainAuditFlip.startSearch();
             searchDataSourceMainAuditChanges.startSearch();
             SearchDataSourceParsingQualityMain.startSearch();
@@ -18240,6 +18410,7 @@ require([
             searchSingleSLAHostpct.startSearch();
             searchOutlierDetectionChartDataHost.startSearch();
             searchOutlierDetectionTableDataHost.startSearch();
+            searchLaggingMetricDataHost.startSearch();
             searchDataHostMainAuditFlip.startSearch();
             searchDataHostMainAuditChanges.startSearch();
             SearchDataHostParsingQualityMain.startSearch();
@@ -28630,7 +28801,7 @@ require([
                         var tk_data_name = tokens.get("tk_data_name");
                         var tk_data_index = tokens.get("tk_data_index");
                         var tk_data_sourcetype = tokens.get("tk_data_sourcetype");
-                        notification('Outliers configuration for data source ' + tk_data_name + ' has been successfully updated, behaviour analytic is set to ' + tk_enable_behaviour_analytic + ', Outliers detection mode is ' + tk_input_data_source_outlier_min_eventcount_mode + ', manually run the trackers or wait for their next execution for a full refresh of statuses.', 6000)
+                        notification('Outliers configuration updated, please wait a few seconds while statistics are generated, click on refresh in the Outliers tab if statistics are not yet available.', 6000)
 
                         // Generate metrics if outlier period was changed
                         if (tk_source_outlier_period != tk_input_data_source_outlier_span) {
@@ -28844,7 +29015,7 @@ require([
 
                         // notify
                         var tk_data_host = tokens.get("tk_data_host");
-                        notification('Outliers configuration for data host ' + tk_data_host + ' has been successfully updated, behaviour analytic is set to ' + tk_enable_behaviour_analytic + ', Outliers detection mode is ' + tk_input_data_host_outlier_min_eventcount_mode + ', manually run the trackers or wait for their next execution for a full refresh of statuses.', 6000)
+                        notification('Outliers configuration updated, please wait a few seconds while statistics are generated, click on refresh in the Outliers tab if statistics are not yet available.', 6000)
 
                         // Generate metrics if outlier period was changed
                         if (tk_source_outlier_period != tk_input_data_host_outlier_span) {
