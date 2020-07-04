@@ -17856,13 +17856,15 @@ require([
 
         }
 
-        function updateDataSourceEntity(tk_summary_report, tk_data_index, tk_data_sourcetype) {
+        function updateDataSourceEntity(tk_data_name, tk_data_index, tk_data_sourcetype) {
 
-            //console.log("Starting function");
+            // console.log("Starting function");
 
-            // Perform a target search to update key values
-            var searchQuery = "| savedsearch \"TrackMe - Data source entity refresh\" index=" + tk_data_index + " sourcetype=" + tk_data_sourcetype;
-            //console.log(searchQuery);
+            // First retrieve the name of the search to run depending on the context
+
+            // Define the query
+            var searchQuery = "| `trackme_get_tracker_data_source(\"" + tk_data_name + "\", \"" + tk_data_index + "\", \"" + tk_data_sourcetype + "\")`";
+            // console.log(searchQuery);
 
             // Set the search parameters
             var searchParams = {
@@ -17870,41 +17872,80 @@ require([
               earliest_time: "-4h"
             };
 
-            service.search(
-              searchQuery,
-              searchParams,
-              function(err, job) {
+            // Run a oneshot search that returns the job's results
+            service.oneshotSearch(
+                searchQuery,
+                searchParams,
+                function(err, results) {
 
-                // Poll the status of the search job
-                job.track({period: 200}, {
-                  done: function(job) {
+                    // Display the results
+                    var fields = results.fields;
+                    var rows = results.rows;
+                    var current_maintenance_mode;
+                    var current_time_updated;
 
-                    // Get the results and print them
-                    job.results({}, function(err, results, job) {
-                      var fields = results.fields;
-                      var rows = results.rows;
-                      for(var i = 0; i < rows.length; i++) {
+                    for (var i = 0; i < rows.length; i++) {
                         var values = rows[i];
                         //console.log("Row " + i + ": ");
-                        for(var j = 0; j < values.length; j++) {
-                          var field = fields[j];
-                          var value = values[j];
-                          //console.log("  " + field + ": " + value);
 
+                        for (var j = 0; j < values.length; j++) {
+                            var field = fields[j];
+
+                            if (fields[j] == "savedsearch_name") {
+                                savedsearch_name = values[j];
+                            }
                         }
+                    }
+
+                    // console.log("savedsearch_name: " + savedsearch_name);
+                    // console.log("Starting update entity");
+
+                    var searchQuery = "| savedsearch " + savedsearch_name;
+                    // console.log(searchQuery);
+
+                    // Set the search parameters
+                    var searchParams = {
+                      exec_mode: "normal",
+                      earliest_time: "-4h"
+                    };
+
+                    service.search(
+                      searchQuery,
+                      searchParams,
+                      function(err, job) {
+
+                        // Poll the status of the search job
+                        job.track({period: 200}, {
+                          done: function(job) {
+
+                            // Get the results and print them
+                            job.results({}, function(err, results, job) {
+                              var fields = results.fields;
+                              var rows = results.rows;
+                              for(var i = 0; i < rows.length; i++) {
+                                var values = rows[i];
+                                //console.log("Row " + i + ": ");
+                                for(var j = 0; j < values.length; j++) {
+                                  var field = fields[j];
+                                  var value = values[j];
+                                  //console.log("  " + field + ": " + value);
+
+                                }
+                              }
+                            });
+
+                          },
+                          failed: function(job) {
+                          },
+                          error: function(err) {
+                            done(err);
+                          }
+                        });
+
                       }
-                    });
+                    );
 
-                  },
-                  failed: function(job) {
-                  },
-                  error: function(err) {
-                    done(err);
-                  }
-                });
-
-              }
-            );
+            });
 
         }
 
@@ -18394,7 +18435,7 @@ require([
             var tk_data_name = tokens.get("tk_data_name");
             var tk_data_index = tokens.get("tk_data_index");
             var tk_data_sourcetype = tokens.get("tk_data_sourcetype");
-            updateDataSourceEntity("trackme_datasource_tracker_shorterm", tk_data_index, tk_data_sourcetype);
+            updateDataSourceEntity(tk_data_name, tk_data_index, tk_data_sourcetype);
             // call update data source
             var tk_keyid = tokens.get("tk_keyid");
             updateDataSource(tk_keyid);
@@ -28809,7 +28850,7 @@ require([
                         }
 
                         // call update summary investigator for that entity only
-                        updateDataSourceEntity("trackme_datasource_tracker_shorterm", tk_data_index, tk_data_sourcetype);
+                        updateDataSourceEntity(tk_data_name, tk_data_index, tk_data_sourcetype);
 
                         searchSingleLag.startSearch();
                         searchChartLag.startSearch();
