@@ -1,6 +1,26 @@
 Release notes
 #############
 
+Version 1.2.17
+==============
+
+**CAUTION:**
+
+This is a new main release branch, TrackMe 1.2.x require the deployment of the following dependencies:
+
+- Semicircle Donut Chart Viz, Splunk Base: https://splunkbase.splunk.com/app/4378
+- Splunk Machine Learning Toolkit, Splunk Base: https://splunkbase.splunk.com/app/2890
+
+TrackMe requires a summary index (defaults to trackme_summary) and a metric index (defaults to trackme_metrics):
+https://trackme.readthedocs.io/en/latest/configuration.html
+
+**release notes:**
+
+- Fix: Outliers detection framework issues (some parameters are not properly honoured due to regressions in prior versions)
+- Fix: When modifying outliers configuration on Elastic sources, entities could be temporary stated in red state due to entity refresh started as a background action, while for Elastic searches the combo index/sourcetype might not refer to real values depending on their configuration
+- Fix: Outliers simulation under some circumstances can show discrepancy in results regarding results which would be calculated once applied
+- Feature: Improved refresh capabilities for data sources and automatically define the best suitable search depending on the type of the data source (standard, shared or dedicated Elastic source)
+
 Version 1.2.16
 ==============
 
