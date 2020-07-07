@@ -1,7 +1,7 @@
 Release notes
 #############
 
-Version 1.2.19
+Version 1.2.18
 ==============
 
 **CAUTION:**
@@ -16,21 +16,6 @@ https://trackme.readthedocs.io/en/latest/configuration.html
 
 - Fix: Builtin alerts should do not honour index whitelisting
 - Change: In support with the elimination of long term used negative words in IT, whitelist and blacklist concepts are banished and replaced with allowlist and blocklist concepts
-
-Version 1.2.18
-==============
-
-**CAUTION:**
-
-This is a new main release branch, TrackMe 1.2.x require the deployment of the following dependencies:
-
-- Semicircle Donut Chart Viz, Splunk Base: https://splunkbase.splunk.com/app/4378
-- Splunk Machine Learning Toolkit, Splunk Base: https://splunkbase.splunk.com/app/2890
-
-TrackMe requires a summary index (defaults to trackme_summary) and a metric index (defaults to trackme_metrics):
-https://trackme.readthedocs.io/en/latest/configuration.html
-
-- Fix: SLIM failure for appinspect Splunk causing vetting failure
 
 Version 1.2.17
 ==============

@@ -3750,7 +3750,7 @@ styles in <div> tags, similar to Bootstrap's grid system.
                                         </div>
 
                                         <div id="tableWhiteListMetricHost" class="dashboard-element table" style="width: 100%">
-                                            <label>Click on the table for interactive actions:</label>
+                                            <label>Select entries and click on remove:</label>
                                             <div class="panel-body"></div>
                                         </div>
 
@@ -3765,7 +3765,7 @@ styles in <div> tags, similar to Bootstrap's grid system.
                 </div>
                 <div class="modal-footer">
                     <button type="submit" id="btn_modal_metric_host_whitelist_add_cancel" class="btn btn-default btn-primary pull-left" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Back</button>
-                    <button type="submit" class="btn btn-default btn-default pull-right" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Cancel</button>
+                    <button type="submit" id="btn_modal_metric_host_whitelist_add_delete" class="btn btn-default btn-danger pull-right" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Remove</button>
                 </div>
             </div>
         </div>
@@ -4846,15 +4846,23 @@ styles in <div> tags, similar to Bootstrap's grid system.
                         <div class="dashboard-element html" id="body_modal_manage_metric_host_whitelist">
                             <div class="panel-body html">
                                 <div class="modal-header">
-                                    <h3>Actions for index in whitelist: <span style="color: steelblue">$tk_metric_index$</span></h3>
+                                    <h3>Actions for index in whitelist: </h3>
                                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                                 </div>
-                                <div class="modal-body" style="display:grid;">
-                                    <p><b>metric_index:</b> $tk_metric_index$</p>
-                                    <br />
-                                    <b>This index is currently included in the data discovery.</b>
-                                    <br />
+                                <div class="modal-body">
+                                    <p><b>Confirm modification ?</b><br />
+                                    </p>
+                                    <p>
+                                        <label>Optional: enter a note of this update. <br />
+                                            This note will be logged and made available for notification.</label>
+                                        <textarea
+                                                id = "metric_host_whitelist_index_delete_comment"
+                                                rows = "6"
+                                                cols = "160" style="width: 500px;"
+                                                onfocus="if(this.value==this.defaultValue)this.value='';" onblur="if(this.value=='')this.value=this.defaultValue;">update note</textarea>
+                                    </p>
                                 </div>
+
                             </div>
                         </div>
                         <div class="modal-footer">
@@ -8959,7 +8967,7 @@ require([
             "cancelOnUnload": true,
             "sample_ratio": null,
             "latest_time": "now",
-            "search": "| inputlookup trackme_metric_host_monitoring_whitelist_index | eval keyid=_key | search metric_index=\"$form.tk_input_metric_host_whitelist_search$\" | sort limit=0 metric_index",
+            "search": "| inputlookup trackme_metric_host_monitoring_whitelist_index | eval keyid=_key | search metric_index=\"$form.tk_input_metric_host_whitelist_search$\" | eval select=keyid | sort limit=0 metric_index | fields metric_index, select",
             "status_buckets": 0,
             "app": utils.getCurrentApp(),
             "auto_cancel": 90,
@@ -14553,8 +14561,8 @@ require([
                 "depends": "$show_table_metric_host_whitelist$",
             },
             "count": 10,
-            "drilldown": "row",
-            "fields": "metric_index",
+            "drilldown": "none",
+            "fields": "metric_index, select",
             "refresh.display": "none",
             "wrap": "false",
             "managerid": "searchWhiteListMetricHost",
@@ -14563,30 +14571,6 @@ require([
             tokens: true,
             tokenNamespace: "submitted"
         }).render();
-
-        tableWhiteListMetricHost.on("click", function(e) {
-            if (e.field !== undefined) {
-                e.preventDefault();
-
-                setToken("tk_keyid", TokenUtils.replaceTokenNames("$row.keyid$", _.extend(submittedTokenModel.toJSON(), e.data)));
-                setToken("tk_metric_index", TokenUtils.replaceTokenNames("$row.metric_index$", _.extend(submittedTokenModel.toJSON(), e.data)));
-
-                submitTokens();
-
-                // When the Submit button is clicked, get all the form fields by accessing token values
-                var tokens = mvc.Components.get("default");
-
-                // When the Submit button is clicked, get all the form fields by accessing token values
-                var tokens = mvc.Components.get("default");
-
-                var tk_metric_index = tokens.get("tk_metric_index");
-
-                // Enable modal context
-                $("#modal_modify_metric_host_whitelist").modal('hide');
-                $("#modal_manage_metric_host_whitelist").modal();
-
-            }
-        });
 
         // blacklist
 
@@ -16164,21 +16148,6 @@ require([
         }).render();
 
         DashboardController.addReadyDep(body_manage_custom_lagging.contentLoaded());
-
-        // whitelist
-
-        // whitelist metric_host
-
-        var body_modal_manage_metric_host_whitelist = new HtmlElement({
-            "id": "body_modal_manage_metric_host_whitelist",
-            "useTokens": true,
-            "el": $('#body_modal_manage_metric_host_whitelist')
-        }, {
-            tokens: true,
-            tokenNamespace: "submitted"
-        }).render();
-
-        DashboardController.addReadyDep(body_modal_manage_metric_host_whitelist.contentLoaded());
 
         // blacklist
 
@@ -20397,7 +20366,7 @@ require([
                             contentType: "application/json",
                             success: function(returneddata) {
 
-                                console.log(returneddata);
+                                //console.log(returneddata);
 
                                 // Audit
                                 action = "success";
@@ -20455,7 +20424,7 @@ require([
             // Get the arrays of keys
             var tk_multi_table_array = tokens.get("removeWhitelistDataSource");
             tk_multi_table_array = tk_multi_table_array.split(',');
-            console.log("tk_multi_table_array is: " + tk_multi_table_array);
+            //console.log("tk_multi_table_array is: " + tk_multi_table_array);
 
             // Call the function for each value from the array
             tk_multi_table_array.forEach(foreachDeleteWhitelistDataSource);
@@ -20604,6 +20573,97 @@ require([
 
         // delete entry from whitelist
 
+        $("#btn_modal_metric_host_whitelist_add_delete").click(function() {
+                $("#modal_modify_metric_host_whitelist").modal('hide');
+                $("#modal_manage_metric_host_whitelist").modal();
+        });
+
+        function foreachDeleteWhitelistMetricHost(item) {
+          //console.log("removal of key :" + item);
+
+            // Create the endpoint URL
+            var myendpoint_URl = "/en-US/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_metric_host_monitoring_whitelist_index/" + item;
+
+            //console.log("Endpoint URL is: " + myendpoint_URl);
+
+            if (item && item.length) {
+
+                // Get the KV entry content first
+                $.ajax({
+                    url: myendpoint_URl,
+                    type: "GET",
+                    async: true,
+                    contentType: "application/json",
+                    success: function(returneddata) {
+
+                        removedObject = returneddata.metric_index;
+                        //console.log("removedObject is: " + removedObject);
+
+                        // Retrieve update comment if any
+                        var tk_comment = document.getElementById("metric_host_whitelist_index_delete_comment").value;
+
+                        // if is not defined, give it a value and override text box content
+                        if (tk_comment == "null") {
+                            setToken("tk_update_comment", TokenUtils.replaceTokenNames("No comments for update.", _.extend(submittedTokenModel.toJSON(), e.data)));
+                        }
+                        else if (tk_comment == "update note") {
+                            tk_comment = "No comment for update.";
+                        }
+
+                        // Proceed to delete call
+                        $.ajax({
+                            url: myendpoint_URl,
+                            type: "DELETE",
+                            async: true,
+                            contentType: "application/json",
+                            success: function(returneddata) {
+
+                                //console.log(returneddata);
+
+                                // Audit
+                                action = "success";
+                                change_type = "delete whitelist index";
+                                object = removedObject;
+                                object_category = "metric_host";
+                                object_attrs = "{" + "\"metric_index\": \"" + removedObject + "\", \"_key\": \"" + item + "\"}";
+                                result = "N/A";
+                                comment = tk_comment;
+                                auditRecord(action, change_type, object, object_category, object_attrs, result, comment);
+
+                                // house cleaning
+                                myendpoint_URl = undefined;
+                                delete(myendpoint_URl);
+                                tk_keyid = undefined;
+                                delete(tk_keyid);
+
+                                // Return to modal
+                                $("#modal_modify_metric_host_whitelist").modal();
+                            },
+                            error: function(xhr, textStatus, error) {
+                                message = "Error Updating!" + xhr + textStatus + error;
+
+                                // Audit
+                                action = "failure";
+                                change_type = "delete whitelist index";
+                                object = removedObject;
+                                object_category = "metric_host";
+                                object_attrs = "{" + "\"metric_index\": \"" + removedObject + "\", \"_key\": \"" + item + "\"}";
+                                result = message;
+                                comment = tk_comment;
+                                auditRecord(action, change_type, object, object_category, object_attrs, result, comment);
+
+                            }
+
+                        });
+
+                    }
+
+                });
+
+            }
+
+        }
+
         $("#btn_delete_metric_host_whitelist").click(function() {
 
             //console.log("Button was pressed");
@@ -20613,82 +20673,30 @@ require([
             // When the Submit button is clicked, get all the form fields by accessing token values
             var tokens = mvc.Components.get("default");
 
-            // When the Submit button is clicked, get all the form fields by accessing token values
-            var tk_keyid = tokens.get("tk_keyid");
+            // Get the arrays of keys
+            var tk_multi_table_array = tokens.get("removeWhitelistMetricHost");
+            tk_multi_table_array = tk_multi_table_array.split(',');
+            //console.log("tk_multi_table_array is: " + tk_multi_table_array);
 
-            // Get
-            var tk_metric_index = tokens.get("tk_metric_index");
+            // Call the function for each value from the array
+            tk_multi_table_array.forEach(foreachDeleteWhitelistMetricHost);
 
-            // Create the endpoint URL
-            var myendpoint_URl = "/en-US/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_metric_host_monitoring_whitelist_index/" + tk_keyid;
+            // Hide main modal
+            $("#modal_manage_metric_host_whitelist").modal('hide');
 
-            //console.log("Endpoint URL is: " + myendpoint_URl);
+            //console.log("Updated!", returneddata)
+            // Run the search again to update the table
+            searchWhiteListMetricHost.startSearch();
+            searchSingleWhiteListMetricHost.startSearch();
+            searchMetricHostsMain.startSearch();
+            searchPopulateIndexesForWhiteListMetricHost.startSearch();
+            unsetToken("form.tk_input_whitelist_metric_host");
 
-            if (tk_keyid && tk_keyid.length) {
+            // notify
+            notification('Modification has been registered successfully.', 2000)
 
-                $.ajax({
-                    url: myendpoint_URl,
-                    type: "DELETE",
-                    async: true,
-                    contentType: "application/json",
-                    success: function(returneddata) {
-
-                        // Hide main modal
-                        $("#modal_manage_metric_host_whitelist").modal('hide');
-
-                        //console.log("Updated!", returneddata)
-                        // Run the search again to update the table
-                        searchPopulateIndexesForWhiteListMetricHost.startSearch();
-                        searchWhiteListMetricHost.startSearch();
-                        searchSingleWhiteListMetricHost.startSearch();
-                        searchMetricHostsMain.startSearch();
-                        unsetToken("form.tk_input_whitelist_metric_host");
-
-                        // notify
-                        notification('Modification has been registered successfully.', 2000)
-
-                        // Audit
-                        action = "success";
-                        change_type = "delete whitelist index";
-                        object = tk_metric_index;
-                        object_category = "metric_host";
-                        object_attrs = "index:" + tk_metric_index;
-                        result = "N/A";
-                        comment = "N/A";
-                        auditRecord(action, change_type, object, object_category, object_attrs, result, comment);
-
-                        // house cleaning
-                        myendpoint_URl = undefined;
-                        delete(myendpoint_URl);
-                        tk_keyid = undefined;
-                        delete(tk_keyid);
-
-                        // Return to modal
-                        $("#modal_modify_metric_host_whitelist").modal();
-                    },
-                    error: function(xhr, textStatus, error) {
-                        message = "Error Updating!" + xhr + textStatus + error;
-
-                        // Audit
-                        action = "failure";
-                        change_type = "delete whitelist index";
-                        object = tk_metric_index;
-                        object_category = "metric_host";
-                        object_attrs = "index:" + tk_metric_index;
-                        result = message;
-                        comment = "N/A";
-                        auditRecord(action, change_type, object, object_category, object_attrs, result, comment);
-
-                        // Hide main modal
-                        $("#modal_manage_metric_host_whitelist").modal('hide');
-                        $("#modal_modify_metric_host_whitelist").modal('hide');
-                        $("#modal_update_collection_failure_return").find('.modal-error-message p').text(message);
-                        $("#modal_update_collection_failure_return").modal()
-                    }
-
-                });
-
-            }
+            // house cleaning
+            unsetToken("removeWhitelistMetricHost");
 
         });
 
@@ -20862,7 +20870,7 @@ require([
                             contentType: "application/json",
                             success: function(returneddata) {
 
-                                console.log(returneddata);
+                                //console.log(returneddata);
 
                                 // Audit
                                 action = "success";
@@ -20920,7 +20928,7 @@ require([
             // Get the arrays of keys
             var tk_multi_table_array = tokens.get("removeWhitelistDataHost");
             tk_multi_table_array = tk_multi_table_array.split(',');
-            console.log("tk_multi_table_array is: " + tk_multi_table_array);
+            //console.log("tk_multi_table_array is: " + tk_multi_table_array);
 
             // Call the function for each value from the array
             tk_multi_table_array.forEach(foreachDeleteWhitelistDataHost);
