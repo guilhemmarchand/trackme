@@ -87,22 +87,22 @@ The builtin views "Ops: Indexes queues" and "Ops: Parsing issues" rely on the us
 
 Customise the macro definition to match your indexers host naming convention.
 
-Whitelisting and blacklisting
+Allowlisting and blocklisting
 =============================
 
-TrackMe version 1.0.22 introduced builtin support for both whitelisting of indexes and blacklisting of indexes, sourcetypes and hosts.
+TrackMe version 1.0.22 introduced builtin support for both allowlisting of indexes and blocklisting of indexes, sourcetypes and hosts.
 
-.. image:: img/whitelist_and_blacklist.png
-   :alt: whitelist_and_blacklist.png
+.. image:: img/allowlist_and_blocklist.png
+   :alt: allowlist_and_blocklist.png
    :align: center
 
-The default behaviour of TrackMe is to track data available in all indexes, which changes if whitelisting has been defined:
+The default behaviour of TrackMe is to track data available in all indexes, which changes if allowlisting has been defined:
 
-.. image:: img/whitelisting.png
-   :alt: .png
+.. image:: img/allowlisting.png
+   :alt: allowlisting.png
    :align: center
 
-The same UI allows you to define blacklisted items, which are added as part of a "NOT" boolean syntax within the searches.
+The same UI allows you to define blocklisted items, which are added as part of a "NOT" boolean syntax within the searches.
 
 Finally, in addition the following macro is used within the searches, and can be customized if you need:
 
