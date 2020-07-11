@@ -3218,7 +3218,7 @@ styles in <div> tags, similar to Bootstrap's grid system.
                                     </div>
 
                                     <div style="margin-top: 15x;">
-                                        <h4 style="color: red;">Caution: whitelist indexes and blacklists apply to elastic trackers, make sure to configure these accordingly or use valid index and sourcetype values</h4>
+                                        <h4 style="color: red;">Caution: allowlist indexes and blocklists apply to elastic trackers, make sure to configure these accordingly or use valid index and sourcetype values</h4>
                                         <br />
                                         <button type="submit" id="btn_modal_elastic_source_add_simulate" style="margin-right: 15px;" class="btn btn-default btn-primary"><span class="glyphicon glyphicon-remove"></span> Simulate the search</button>
                                         <button type="submit" id="btn_modal_elastic_source_add_new" style="margin-right: 15px;" class="btn btn-default btn-primary"><span class="glyphicon glyphicon-remove"></span> Add to the shared tracker</button>
@@ -3536,7 +3536,7 @@ styles in <div> tags, similar to Bootstrap's grid system.
                                         </div>
 
                                         <div id="tableWhiteListDataSource" class="dashboard-element table" style="width: 100%">
-                                            <label>Click on the table for interactive actions:</label>
+                                            <label>Select entries and use the remove selected button:</label>
                                             <div class="panel-body"></div>
                                         </div>
 
@@ -3643,7 +3643,7 @@ styles in <div> tags, similar to Bootstrap's grid system.
                                         </div>
 
                                         <div id="tableWhiteListDataHost" class="dashboard-element table" style="width: 100%">
-                                            <label>Select entries and click on remove:</label>
+                                            <label>Select entries and use the remove selected button:</label>
                                             <div class="panel-body"></div>
                                         </div>
 
@@ -3750,7 +3750,7 @@ styles in <div> tags, similar to Bootstrap's grid system.
                                         </div>
 
                                         <div id="tableWhiteListMetricHost" class="dashboard-element table" style="width: 100%">
-                                            <label>Select entries and click on remove:</label>
+                                            <label>Select entries and use the remove selected button:</label>
                                             <div class="panel-body"></div>
                                         </div>
 
@@ -3785,7 +3785,7 @@ styles in <div> tags, similar to Bootstrap's grid system.
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h3 style="color: indianred;"><span class="glyphicon glyphicon-lock"></span> Modify host blacklisting</h3>
+                    <h3 style="color: indianred;"><span class="glyphicon glyphicon-lock"></span> Modify host blocklisting</h3>
                 </div>
                 <div class="modal-body">
                     <b>Hosts that have been blocklisted are excluded from the data discovery</b>
@@ -3794,7 +3794,7 @@ styles in <div> tags, similar to Bootstrap's grid system.
                     <div class="boxnotify" id="boxnotify-modal_modify_data_source_blacklist_host">
                     </div>
 
-                    <b>Blacklist entries support the following types:</b>
+                    <b>Blocklist entries support the following types:</b>
                     <br /><br />
 
                     <lu>
@@ -3849,7 +3849,7 @@ styles in <div> tags, similar to Bootstrap's grid system.
                                             <label>Search for host name:</label>
                                         </div>
                                         <div id="tableBlackListDataSourceHost" class="dashboard-element table" style="width: 100%">
-                                            <label>Click on the table for interactive actions:</label>
+                                            <label>Select entries and use the remove selected button:</label>
                                             <div class="panel-body"></div>
                                         </div>
                                     </div>
@@ -3875,7 +3875,7 @@ styles in <div> tags, similar to Bootstrap's grid system.
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h3 style="color: indianred;"><span class="glyphicon glyphicon-lock"></span> Modify index blacklisting</h3>
+                    <h3 style="color: indianred;"><span class="glyphicon glyphicon-lock"></span> Modify index blocklisting</h3>
                 </div>
                 <div class="modal-body">
                     <b>Indexes that have been blocklisted are excluded from the data discovery</b>
@@ -3884,7 +3884,7 @@ styles in <div> tags, similar to Bootstrap's grid system.
                     <div class="boxnotify" id="boxnotify-modal_modify_data_source_blacklist_index">
                     </div>
 
-                    <b>Blacklist entries support the following types:</b>
+                    <b>Blocklist entries support the following types:</b>
                     <br /><br />
 
                     <lu>
@@ -3942,7 +3942,7 @@ styles in <div> tags, similar to Bootstrap's grid system.
                                         </div>
 
                                         <div id="tableBlackListDataSourceIndex" class="dashboard-element table" style="width: 100%">
-                                            <label>Click on the table for interactive actions:</label>
+                                            <label>Select entries and use the remove selected button:</label>
                                             <div class="panel-body"></div>
                                         </div>
 
@@ -3971,7 +3971,7 @@ styles in <div> tags, similar to Bootstrap's grid system.
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h3 style="color: indianred;"><span class="glyphicon glyphicon-lock"></span> Modify sourcetype blacklisting</h3>
+                    <h3 style="color: indianred;"><span class="glyphicon glyphicon-lock"></span> Modify sourcetype blocklisting</h3>
                 </div>
                 <div class="modal-body">
                     <b>Sourcetypes that have been blocklisted are excluded from the data discovery</b>
@@ -3980,7 +3980,7 @@ styles in <div> tags, similar to Bootstrap's grid system.
                     <div class="boxnotify" id="boxnotify-modal_modify_data_source_blacklist_sourcetype">
                     </div>
 
-                    <b>Blacklist entries support the following types:</b>
+                    <b>Blocklist entries support the following types:</b>
                     <br /><br />
 
                     <lu>
@@ -4038,7 +4038,7 @@ styles in <div> tags, similar to Bootstrap's grid system.
                                         </div>
 
                                         <div id="tableBlackListDataSourceSourcetype" class="dashboard-element table" style="width: 100%">
-                                            <label>Click on the table for interactive actions:</label>
+                                            <label>Select entries and use the remove selected button:</label>
                                             <div class="panel-body"></div>
                                         </div>
 
@@ -4071,7 +4071,7 @@ styles in <div> tags, similar to Bootstrap's grid system.
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h3 style="color: indianred;"><span class="glyphicon glyphicon-lock"></span> Modify host blacklisting</h3>
+                    <h3 style="color: indianred;"><span class="glyphicon glyphicon-lock"></span> Modify host blocklisting</h3>
                 </div>
                 <div class="modal-body">
                     <b>Hosts that have been blocklisted are excluded from the data discovery</b>
@@ -4080,7 +4080,7 @@ styles in <div> tags, similar to Bootstrap's grid system.
                     <div class="boxnotify" id="boxnotify-modal_modify_data_host_blacklist_host">
                     </div>
 
-                    <b>Blacklist entries support the following types:</b>
+                    <b>Blocklist entries support the following types:</b>
                     <br /><br />
 
                     <lu>
@@ -4135,7 +4135,7 @@ styles in <div> tags, similar to Bootstrap's grid system.
                                             <label>Search for host name:</label>
                                         </div>
                                         <div id="tableBlackListDataHostHost" class="dashboard-element table" style="width: 100%">
-                                            <label>Click on the table for interactive actions:</label>
+                                            <label>Select entries and use the remove selected button:</label>
                                             <div class="panel-body"></div>
                                         </div>
                                     </div>
@@ -4804,7 +4804,7 @@ styles in <div> tags, similar to Bootstrap's grid system.
                         <div class="dashboard-element html" id="body_modal_manage_data_source_whitelist">
                             <div class="panel-body html">
                                 <div class="modal-header">
-                                    <h3>Actions for index in whitelist: </h3>
+                                    <h3>Actions for index in allowlist: </h3>
                                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                                 </div>
                                 <div class="modal-body">
@@ -4846,7 +4846,7 @@ styles in <div> tags, similar to Bootstrap's grid system.
                         <div class="dashboard-element html" id="body_modal_manage_metric_host_whitelist">
                             <div class="panel-body html">
                                 <div class="modal-header">
-                                    <h3>Actions for index in whitelist: </h3>
+                                    <h3>Actions for index in allowlist: </h3>
                                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                                 </div>
                                 <div class="modal-body">
@@ -4890,7 +4890,7 @@ styles in <div> tags, similar to Bootstrap's grid system.
                         <div class="dashboard-element html" id="body_modal_manage_data_host_whitelist">
                             <div class="panel-body html">
                                 <div class="modal-header">
-                                    <h3>Actions for index in whitelist: </h3>
+                                    <h3>Actions for index in allowlist: </h3>
                                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                                 </div>
                                 <div class="modal-body">
@@ -5465,7 +5465,7 @@ styles in <div> tags, similar to Bootstrap's grid system.
                         <div class="dashboard-element html" id="body_modal_manage_metric_host_blacklist_metric_category">
                             <div class="panel-body html">
                                 <div class="modal-header">
-                                    <h3>Actions for metric categories in blacklist: </h3>
+                                    <h3>Actions for metric categories in blocklist: </h3>
                                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                                 </div>
                                 <div class="modal-body">
@@ -5502,7 +5502,7 @@ styles in <div> tags, similar to Bootstrap's grid system.
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h3 style="color: indianred;"><span class="glyphicon glyphicon-lock"></span> Modify index blacklisting</h3>
+                    <h3 style="color: indianred;"><span class="glyphicon glyphicon-lock"></span> Modify index blocklisting</h3>
                 </div>
                 <div class="modal-body">
                     <b>Indexes that have been blocklisted are excluded from the data discovery</b>
@@ -5511,7 +5511,7 @@ styles in <div> tags, similar to Bootstrap's grid system.
                     <div class="boxnotify" id="boxnotify-modal_modify_data_host_blacklist_index">
                     </div>
 
-                    <b>Blacklist entries support the following types:</b>
+                    <b>Blocklist entries support the following types:</b>
                     <br /><br />
 
                     <lu>
@@ -5569,7 +5569,7 @@ styles in <div> tags, similar to Bootstrap's grid system.
                                         </div>
 
                                         <div id="tableBlackListDataHostIndex" class="dashboard-element table" style="width: 100%">
-                                            <label>Click on the table for interactive actions:</label>
+                                            <label>Select entries and use the remove selected button:</label>
                                             <div class="panel-body"></div>
                                         </div>
 
@@ -5598,7 +5598,7 @@ styles in <div> tags, similar to Bootstrap's grid system.
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h3 style="color: indianred;"><span class="glyphicon glyphicon-lock"></span> Modify index blacklisting</h3>
+                    <h3 style="color: indianred;"><span class="glyphicon glyphicon-lock"></span> Modify index blocklisting</h3>
                 </div>
                 <div class="modal-body">
                     <b>Indexes that have been blocklisted are excluded from the data discovery</b>
@@ -5607,7 +5607,7 @@ styles in <div> tags, similar to Bootstrap's grid system.
                     <div class="boxnotify" id="boxnotify-modal_modify_metric_host_blacklist_index">
                     </div>
 
-                    <b>Blacklist entries support the following types:</b>
+                    <b>Blocklist entries support the following types:</b>
                     <br /><br />
 
                     <lu>
@@ -5665,7 +5665,7 @@ styles in <div> tags, similar to Bootstrap's grid system.
                                         </div>
 
                                         <div id="tableBlackListMetricHostIndex" class="dashboard-element table" style="width: 100%">
-                                            <label>Click on the table for interactive actions:</label>
+                                            <label>Select entries and use the remove selected button:</label>
                                             <div class="panel-body"></div>
                                         </div>
 
@@ -5694,7 +5694,7 @@ styles in <div> tags, similar to Bootstrap's grid system.
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h3 style="color: indianred;"><span class="glyphicon glyphicon-lock"></span> Modify sourcetype blacklisting</h3>
+                    <h3 style="color: indianred;"><span class="glyphicon glyphicon-lock"></span> Modify sourcetype blocklisting</h3>
                 </div>
                 <div class="modal-body">
                     <b>Sourcetypes that have been blocklisted are excluded from the data discovery</b>
@@ -5703,7 +5703,7 @@ styles in <div> tags, similar to Bootstrap's grid system.
                     <div class="boxnotify" id="boxnotify-modal_modify_data_host_blacklist_sourcetype">
                     </div>
 
-                    <b>Blacklist entries support the following types:</b>
+                    <b>Blocklist entries support the following types:</b>
                     <br /><br />
 
                     <lu>
@@ -5761,7 +5761,7 @@ styles in <div> tags, similar to Bootstrap's grid system.
                                         </div>
 
                                         <div id="tableBlackListDataHostSourcetype" class="dashboard-element table" style="width: 100%">
-                                            <label>Click on the table for interactive actions:</label>
+                                            <label>Select entries and use the remove selected button:</label>
                                             <div class="panel-body"></div>
                                         </div>
 
@@ -5790,7 +5790,7 @@ styles in <div> tags, similar to Bootstrap's grid system.
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h3 style="color: indianred;"><span class="glyphicon glyphicon-lock"></span> Modify host blacklisting</h3>
+                    <h3 style="color: indianred;"><span class="glyphicon glyphicon-lock"></span> Modify host blocklisting</h3>
                 </div>
                 <div class="modal-body">
                     <b>Hosts that have been blocklisted are excluded from the data discovery</b>
@@ -5799,7 +5799,7 @@ styles in <div> tags, similar to Bootstrap's grid system.
                     <div class="boxnotify" id="boxnotify-modal_modify_metric_host_blacklist_host">
                     </div>
 
-                    <b>Blacklist entries support the following types:</b>
+                    <b>Blocklist entries support the following types:</b>
                     <br /><br />
 
                     <lu>
@@ -5854,7 +5854,7 @@ styles in <div> tags, similar to Bootstrap's grid system.
                                             <label>Search for host name:</label>
                                         </div>
                                         <div id="tableBlackListMetricHostHost" class="dashboard-element table" style="width: 100%">
-                                            <label>Click on the table for interactive actions:</label>
+                                            <label>Select entries and use the remove selected button:</label>
                                             <div class="panel-body"></div>
                                         </div>
                                     </div>
@@ -5880,7 +5880,7 @@ styles in <div> tags, similar to Bootstrap's grid system.
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h3 style="color: indianred;"><span class="glyphicon glyphicon-lock"></span> Modify metric category blacklisting</h3>
+                    <h3 style="color: indianred;"><span class="glyphicon glyphicon-lock"></span> Modify metric category blocklisting</h3>
                 </div>
                 <div class="modal-body">
                     <b>metric_category that have been blocklisted are excluded from the metric discovery</b>
@@ -17494,13 +17494,13 @@ require([
 
         function updateDataSourceEntity(tk_data_name, tk_data_index, tk_data_sourcetype) {
 
-            // console.log("Starting function");
+            //console.log("Starting function");
 
             // First retrieve the name of the search to run depending on the context
 
             // Define the query
             var searchQuery = "| `trackme_get_tracker_data_source(\"" + tk_data_name + "\", \"" + tk_data_index + "\", \"" + tk_data_sourcetype + "\")`";
-            // console.log(searchQuery);
+            //console.log(searchQuery);
 
             // Set the search parameters
             var searchParams = {
@@ -17533,11 +17533,11 @@ require([
                         }
                     }
 
-                    // console.log("savedsearch_name: " + savedsearch_name);
-                    // console.log("Starting update entity");
+                    //console.log("savedsearch_name: " + savedsearch_name);
+                    //console.log("Starting update entity");
 
                     var searchQuery = "| savedsearch " + savedsearch_name;
-                    // console.log(searchQuery);
+                    //console.log(searchQuery);
 
                     // Set the search parameters
                     var searchParams = {
@@ -19956,7 +19956,7 @@ require([
 
                             // Audit
                             action = "failure";
-                            change_type = "add whitelist index";
+                            change_type = "add allowlist index";
                             object = tk_input_whitelist_data_source;
                             object_category = "data_source";
                             object_attrs = "{" + "\"data_index\": \"" + tk_input_whitelist_data_source + "\"}";
@@ -19996,7 +19996,7 @@ require([
 
                                     // Audit
                                     action = "success";
-                                    change_type = "add whitelist index";
+                                    change_type = "add allowlist index";
                                     object = tk_input_whitelist_data_source;
                                     object_category = "data_source";
                                     object_attrs = "{" + "\"data_index\": \"" + tk_input_whitelist_data_source + "\"}";
@@ -20092,7 +20092,7 @@ require([
 
                                 // Audit
                                 action = "success";
-                                change_type = "delete whitelist index";
+                                change_type = "delete allowlist index";
                                 object = removedObject;
                                 object_category = "data_source";
                                 object_attrs = "{" + "\"data_index\": \"" + removedObject + "\", \"_key\": \"" + item + "\"}";
@@ -20114,7 +20114,7 @@ require([
 
                                 // Audit
                                 action = "failure";
-                                change_type = "delete whitelist index";
+                                change_type = "delete allowlist index";
                                 object = removedObject;
                                 object_category = "data_source";
                                 object_attrs = "{" + "\"data_index\": \"" + removedObject + "\", \"_key\": \"" + item + "\"}";
@@ -20208,7 +20208,7 @@ require([
 
                             // Audit
                             action = "failure";
-                            change_type = "add whitelist index";
+                            change_type = "add allowlist index";
                             object = tk_input_whitelist_metric_host;
                             object_category = "metric_host";
                             object_attrs = "{" + "\"metric_index\": \"" + tk_input_whitelist_metric_host + "\"}";
@@ -20248,7 +20248,7 @@ require([
 
                                     // Audit
                                     action = "success";
-                                    change_type = "add whitelist index";
+                                    change_type = "add allowlist index";
                                     object = tk_input_whitelist_metric_host;
                                     object_category = "metric_host";
                                     object_attrs = "{" + "\"metric_index\": \"" + tk_input_whitelist_metric_host + "\"}";
@@ -20344,7 +20344,7 @@ require([
 
                                 // Audit
                                 action = "success";
-                                change_type = "delete whitelist index";
+                                change_type = "delete allowlist index";
                                 object = removedObject;
                                 object_category = "metric_host";
                                 object_attrs = "{" + "\"metric_index\": \"" + removedObject + "\", \"_key\": \"" + item + "\"}";
@@ -20366,7 +20366,7 @@ require([
 
                                 // Audit
                                 action = "failure";
-                                change_type = "delete whitelist index";
+                                change_type = "delete allowlist index";
                                 object = removedObject;
                                 object_category = "metric_host";
                                 object_attrs = "{" + "\"metric_index\": \"" + removedObject + "\", \"_key\": \"" + item + "\"}";
@@ -20460,7 +20460,7 @@ require([
 
                             // Audit
                             action = "failure";
-                            change_type = "add whitelist host";
+                            change_type = "add allowlist host";
                             object = tk_input_whitelist_data_host;
                             object_category = "data_host";
                             object_attrs = "{" + "\"data_host\": \"" + tk_input_whitelist_data_host + "\"}";
@@ -20500,7 +20500,7 @@ require([
 
                                     // Audit
                                     action = "success";
-                                    change_type = "add whitelist host";
+                                    change_type = "add allowlist host";
                                     object = tk_input_whitelist_data_host;
                                     object_category = "data_host";
                                     object_attrs = "{" + "\"data_host\": \"" + tk_input_whitelist_data_host + "\"}";
@@ -20596,7 +20596,7 @@ require([
 
                                 // Audit
                                 action = "success";
-                                change_type = "delete whitelist index";
+                                change_type = "delete allowlist index";
                                 object = removedObject;
                                 object_category = "data_host";
                                 object_attrs = "{" + "\"data_index\": \"" + removedObject + "\", \"_key\": \"" + item + "\"}";
@@ -20618,7 +20618,7 @@ require([
 
                                 // Audit
                                 action = "failure";
-                                change_type = "delete whitelist index";
+                                change_type = "delete allowlist index";
                                 object = removedObject;
                                 object_category = "data_host";
                                 object_attrs = "{" + "\"data_index\": \"" + removedObject + "\", \"_key\": \"" + item + "\"}";
@@ -20716,7 +20716,7 @@ require([
 
                             // Audit
                             action = "failure";
-                            change_type = "add blacklist host";
+                            change_type = "add blocklist host";
                             object = tk_input_blacklist_host;
                             object_category = "data_source";
                             object_attrs = "{" + "\"data_host\": \"" + tk_input_blacklist_host + "\"}";
@@ -20753,7 +20753,7 @@ require([
 
                                     // Audit
                                     action = "success";
-                                    change_type = "add blacklist host";
+                                    change_type = "add blocklist host";
                                     object = tk_input_blacklist_host;
                                     object_category = "data_source";
                                     object_attrs = "{" + "\"data_host\": \"" + tk_input_blacklist_host + "\"}";
@@ -20849,7 +20849,7 @@ require([
 
                                 // Audit
                                 action = "success";
-                                change_type = "delete blacklist host";
+                                change_type = "delete blocklist host";
                                 object = removedObject;
                                 object_category = "data_source";
                                 object_attrs = "{" + "\"data_host\": \"" + removedObject + "\", \"_key\": \"" + item + "\"}";
@@ -20871,7 +20871,7 @@ require([
 
                                 // Audit
                                 action = "failure";
-                                change_type = "delete blacklist host";
+                                change_type = "delete blocklist host";
                                 object = removedObject;
                                 object_category = "data_source";
                                 object_attrs = "{" + "\"data_host\": \"" + removedObject + "\", \"_key\": \"" + item + "\"}";
@@ -20893,7 +20893,7 @@ require([
 
         $("#btn_delete_data_source_blacklist_host").click(function() {
 
-            console.log("Button was pressed");
+            //console.log("Button was pressed");
 
             submitTokens();
 
@@ -20902,9 +20902,9 @@ require([
 
             // Get the arrays of keys
             var tk_multi_table_array = tokens.get("removeBlacklistDataSourceHost");
-            console.log("tk_multi_table_array is: " + tk_multi_table_array);
+            //console.log("tk_multi_table_array is: " + tk_multi_table_array);
             tk_multi_table_array = tk_multi_table_array.split(',');
-            console.log("tk_multi_table_array is: " + tk_multi_table_array);
+            //console.log("tk_multi_table_array is: " + tk_multi_table_array);
 
             // Call the function for each value from the array
             tk_multi_table_array.forEach(foreachDeleteBlacklistDataSourceHost);
@@ -20964,7 +20964,7 @@ require([
 
                             // Audit
                             action = "failure";
-                            change_type = "add blacklist host";
+                            change_type = "add blocklist host";
                             object = tk_input_blacklist_host;
                             object_category = "data_host";
                             object_attrs = "{" + "\"data_host\": \"" + tk_input_blacklist_host + "\"}";
@@ -21002,7 +21002,7 @@ require([
 
                                     // Audit
                                     action = "success";
-                                    change_type = "add blacklist host";
+                                    change_type = "add blocklist host";
                                     object = tk_input_blacklist_host;
                                     object_category = "data_host";
                                     object_attrs = "{" + "\"data_host\": \"" + tk_input_blacklist_host + "\"}";
@@ -21087,7 +21087,7 @@ require([
 
                             // Audit
                             action = "failure";
-                            change_type = "add blacklist index";
+                            change_type = "add blocklist index";
                             object = tk_input_blacklist_index;
                             object_category = "data_source";
                             object_attrs = "{" + "\"data_index\": \"" + tk_input_blacklist_index + "\"}";
@@ -21125,7 +21125,7 @@ require([
 
                                     // Audit
                                     action = "success";
-                                    change_type = "add blacklist index";
+                                    change_type = "add blocklist index";
                                     object = tk_input_blacklist_index;
                                     object_category = "data_source";
                                     object_attrs = "{" + "\"data_index\": \"" + tk_input_blacklist_index + "\"}";
@@ -21221,7 +21221,7 @@ require([
 
                                 // Audit
                                 action = "success";
-                                change_type = "delete blacklist index";
+                                change_type = "delete blocklist index";
                                 object = removedObject;
                                 object_category = "data_source";
                                 object_attrs = "{" + "\"data_index\": \"" + removedObject + "\", \"_key\": \"" + item + "\"}";
@@ -21243,7 +21243,7 @@ require([
 
                                 // Audit
                                 action = "failure";
-                                change_type = "delete blacklist index";
+                                change_type = "delete blocklist index";
                                 object = removedObject;
                                 object_category = "data_source";
                                 object_attrs = "{" + "\"data_index\": \"" + removedObject + "\", \"_key\": \"" + item + "\"}";
@@ -21265,7 +21265,7 @@ require([
 
         $("#btn_delete_data_source_blacklist_index").click(function() {
 
-            console.log("Button was pressed");
+            //console.log("Button was pressed");
 
             submitTokens();
 
@@ -21274,9 +21274,9 @@ require([
 
             // Get the arrays of keys
             var tk_multi_table_array = tokens.get("removeBlacklistDataSourceIndex");
-            console.log("tk_multi_table_array is: " + tk_multi_table_array);
+            //console.log("tk_multi_table_array is: " + tk_multi_table_array);
             tk_multi_table_array = tk_multi_table_array.split(',');
-            console.log("tk_multi_table_array is: " + tk_multi_table_array);
+            //console.log("tk_multi_table_array is: " + tk_multi_table_array);
 
             // Call the function for each value from the array
             tk_multi_table_array.forEach(foreachDeleteBlacklistDataSourceIndex);
@@ -21349,7 +21349,7 @@ require([
 
                                 // Audit
                                 action = "success";
-                                change_type = "delete blacklist index";
+                                change_type = "delete blocklist index";
                                 object = removedObject;
                                 object_category = "data_host";
                                 object_attrs = "{" + "\"data_index\": \"" + removedObject + "\", \"_key\": \"" + item + "\"}";
@@ -21371,7 +21371,7 @@ require([
 
                                 // Audit
                                 action = "failure";
-                                change_type = "delete blacklist index";
+                                change_type = "delete blocklist index";
                                 object = removedObject;
                                 object_category = "data_host";
                                 object_attrs = "{" + "\"data_index\": \"" + removedObject + "\", \"_key\": \"" + item + "\"}";
@@ -21393,7 +21393,7 @@ require([
 
         $("#btn_delete_data_host_blacklist_index").click(function() {
 
-            console.log("Button was pressed");
+            //console.log("Button was pressed");
 
             submitTokens();
 
@@ -21402,9 +21402,9 @@ require([
 
             // Get the arrays of keys
             var tk_multi_table_array = tokens.get("removeBlacklistDataHostIndex");
-            console.log("tk_multi_table_array is: " + tk_multi_table_array);
+            //console.log("tk_multi_table_array is: " + tk_multi_table_array);
             tk_multi_table_array = tk_multi_table_array.split(',');
-            console.log("tk_multi_table_array is: " + tk_multi_table_array);
+            //console.log("tk_multi_table_array is: " + tk_multi_table_array);
 
             // Call the function for each value from the array
             tk_multi_table_array.forEach(foreachDeleteBlacklistDataHostIndex);
@@ -21464,7 +21464,7 @@ require([
 
                             // Audit
                             action = "failure";
-                            change_type = "add blacklist index";
+                            change_type = "add blocklist index";
                             object = tk_input_blacklist_index;
                             object_category = "data_host";
                             object_attrs = "{" + "\"data_index\": \"" + tk_input_blacklist_index + "\"}";
@@ -21502,7 +21502,7 @@ require([
 
                                     // Audit
                                     action = "success";
-                                    change_type = "add blacklist index";
+                                    change_type = "add blocklist index";
                                     object = tk_input_blacklist_index;
                                     object_category = "data_host";
                                     object_attrs = "{" + "\"data_index\": \"" + tk_input_blacklist_index + "\"}";
@@ -21598,7 +21598,7 @@ require([
 
                                 // Audit
                                 action = "success";
-                                change_type = "delete blacklist host";
+                                change_type = "delete blocklist host";
                                 object = removedObject;
                                 object_category = "data_host";
                                 object_attrs = "{" + "\"data_host\": \"" + removedObject + "\", \"_key\": \"" + item + "\"}";
@@ -21620,7 +21620,7 @@ require([
 
                                 // Audit
                                 action = "failure";
-                                change_type = "delete blacklist host";
+                                change_type = "delete blocklist host";
                                 object = removedObject;
                                 object_category = "data_host";
                                 object_attrs = "{" + "\"data_host\": \"" + removedObject + "\", \"_key\": \"" + item + "\"}";
@@ -21642,7 +21642,7 @@ require([
 
         $("#btn_delete_data_host_blacklist_host").click(function() {
 
-            console.log("Button was pressed");
+            //console.log("Button was pressed");
 
             submitTokens();
 
@@ -21651,9 +21651,9 @@ require([
 
             // Get the arrays of keys
             var tk_multi_table_array = tokens.get("removeBlacklistDataHostHost");
-            console.log("tk_multi_table_array is: " + tk_multi_table_array);
+            //console.log("tk_multi_table_array is: " + tk_multi_table_array);
             tk_multi_table_array = tk_multi_table_array.split(',');
-            console.log("tk_multi_table_array is: " + tk_multi_table_array);
+            //console.log("tk_multi_table_array is: " + tk_multi_table_array);
 
             // Call the function for each value from the array
             tk_multi_table_array.forEach(foreachDeleteBlacklistDataHostHost);
@@ -21713,7 +21713,7 @@ require([
 
                             // Audit
                             action = "failure";
-                            change_type = "add blacklist index";
+                            change_type = "add blocklist index";
                             object = tk_input_blacklist_index;
                             object_category = "metric_host";
                             object_attrs = "{" + "\"metric_index\": \"" + tk_input_blacklist_index + "\"}";
@@ -21751,7 +21751,7 @@ require([
 
                                     // Audit
                                     action = "success";
-                                    change_type = "add blacklist index";
+                                    change_type = "add blocklist index";
                                     object = tk_input_blacklist_index;
                                     object_category = "metric_host";
                                     object_attrs = "{" + "\"metric_index\": \"" + tk_input_blacklist_index + "\"}";
@@ -21847,7 +21847,7 @@ require([
 
                                 // Audit
                                 action = "success";
-                                change_type = "delete blacklist index";
+                                change_type = "delete blocklist index";
                                 object = removedObject;
                                 object_category = "metric_host";
                                 object_attrs = "{" + "\"metric_index\": \"" + removedObject + "\", \"_key\": \"" + item + "\"}";
@@ -21869,7 +21869,7 @@ require([
 
                                 // Audit
                                 action = "failure";
-                                change_type = "delete blacklist index";
+                                change_type = "delete blocklist index";
                                 object = removedObject;
                                 object_category = "metric_host";
                                 object_attrs = "{" + "\"metric_index\": \"" + removedObject + "\", \"_key\": \"" + item + "\"}";
@@ -21891,7 +21891,7 @@ require([
 
         $("#btn_delete_metric_host_blacklist_index").click(function() {
 
-            console.log("Button was pressed");
+            //console.log("Button was pressed");
 
             submitTokens();
 
@@ -21900,9 +21900,9 @@ require([
 
             // Get the arrays of keys
             var tk_multi_table_array = tokens.get("removeBlacklistMetricHostIndex");
-            console.log("tk_multi_table_array is: " + tk_multi_table_array);
+            //console.log("tk_multi_table_array is: " + tk_multi_table_array);
             tk_multi_table_array = tk_multi_table_array.split(',');
-            console.log("tk_multi_table_array is: " + tk_multi_table_array);
+            //console.log("tk_multi_table_array is: " + tk_multi_table_array);
 
             // Call the function for each value from the array
             tk_multi_table_array.forEach(foreachDeleteBlacklistMetricHostIndex);
@@ -21962,7 +21962,7 @@ require([
 
                             // Audit
                             action = "failure";
-                            change_type = "add blacklist sourcetype";
+                            change_type = "add blocklist sourcetype";
                             object = tk_input_blacklist_sourcetype;
                             object_category = "data_source";
                             object_attrs = "{" + "\"data_sourcetype\": \"" + tk_input_blacklist_sourcetype + "\"}";
@@ -22000,7 +22000,7 @@ require([
 
                                     // Audit
                                     action = "success";
-                                    change_type = "add blacklist sourcetype";
+                                    change_type = "add blocklist sourcetype";
                                     object = tk_input_blacklist_sourcetype;
                                     object_category = "data_source";
                                     object_attrs = "{" + "\"data_sourcetype\": \"" + tk_input_blacklist_sourcetype + "\"}";
@@ -22096,7 +22096,7 @@ require([
 
                                 // Audit
                                 action = "success";
-                                change_type = "delete blacklist sourcetype";
+                                change_type = "delete blocklist sourcetype";
                                 object = removedObject;
                                 object_category = "data_source";
                                 object_attrs = "{" + "\"data_sourcetype\": \"" + removedObject + "\", \"_key\": \"" + item + "\"}";
@@ -22118,7 +22118,7 @@ require([
 
                                 // Audit
                                 action = "failure";
-                                change_type = "delete blacklist sourcetype";
+                                change_type = "delete blocklist sourcetype";
                                 object = removedObject;
                                 object_category = "data_source";
                                 object_attrs = "{" + "\"data_sourcetype\": \"" + removedObject + "\", \"_key\": \"" + item + "\"}";
@@ -22140,7 +22140,7 @@ require([
 
         $("#btn_delete_data_source_blacklist_sourcetype").click(function() {
 
-            console.log("Button was pressed");
+            //console.log("Button was pressed");
 
             submitTokens();
 
@@ -22149,9 +22149,9 @@ require([
 
             // Get the arrays of keys
             var tk_multi_table_array = tokens.get("removeBlacklistDataSourceSourcetype");
-            console.log("tk_multi_table_array is: " + tk_multi_table_array);
+            //console.log("tk_multi_table_array is: " + tk_multi_table_array);
             tk_multi_table_array = tk_multi_table_array.split(',');
-            console.log("tk_multi_table_array is: " + tk_multi_table_array);
+            //console.log("tk_multi_table_array is: " + tk_multi_table_array);
 
             // Call the function for each value from the array
             tk_multi_table_array.forEach(foreachDeleteBlacklistDataSourceSourcetype);
@@ -22211,7 +22211,7 @@ require([
 
                             // Audit
                             action = "failure";
-                            change_type = "add blacklist sourcetype";
+                            change_type = "add blocklist sourcetype";
                             object = tk_input_blacklist_sourcetype;
                             object_category = "data_host";
                             object_attrs = "{" + "\"data_sourcetype\": \"" + tk_input_blacklist_sourcetype + "\"}";
@@ -22249,7 +22249,7 @@ require([
 
                                     // Audit
                                     action = "success";
-                                    change_type = "add blacklist sourcetype";
+                                    change_type = "add blocklist sourcetype";
                                     object = tk_input_blacklist_sourcetype;
                                     object_category = "data_host";
                                     object_attrs = "{" + "\"data_sourcetype\": \"" + tk_input_blacklist_sourcetype + "\"}";
@@ -22345,7 +22345,7 @@ require([
 
                                 // Audit
                                 action = "success";
-                                change_type = "delete blacklist sourcetype";
+                                change_type = "delete blocklist sourcetype";
                                 object = removedObject;
                                 object_category = "data_host";
                                 object_attrs = "{" + "\"data_sourcetype\": \"" + removedObject + "\", \"_key\": \"" + item + "\"}";
@@ -22367,7 +22367,7 @@ require([
 
                                 // Audit
                                 action = "failure";
-                                change_type = "delete blacklist sourcetype";
+                                change_type = "delete blocklist sourcetype";
                                 object = removedObject;
                                 object_category = "data_host";
                                 object_attrs = "{" + "\"data_sourcetype\": \"" + removedObject + "\", \"_key\": \"" + item + "\"}";
@@ -22389,7 +22389,7 @@ require([
 
         $("#btn_delete_data_host_blacklist_sourcetype").click(function() {
 
-            console.log("Button was pressed");
+            //console.log("Button was pressed");
 
             submitTokens();
 
@@ -22398,9 +22398,9 @@ require([
 
             // Get the arrays of keys
             var tk_multi_table_array = tokens.get("removeBlacklistDataHostSourcetype");
-            console.log("tk_multi_table_array is: " + tk_multi_table_array);
+            //console.log("tk_multi_table_array is: " + tk_multi_table_array);
             tk_multi_table_array = tk_multi_table_array.split(',');
-            console.log("tk_multi_table_array is: " + tk_multi_table_array);
+            //console.log("tk_multi_table_array is: " + tk_multi_table_array);
 
             // Call the function for each value from the array
             tk_multi_table_array.forEach(foreachDeleteBlacklistDataHostSourcetype);
@@ -22461,7 +22461,7 @@ require([
 
                             // Audit
                             action = "failure";
-                            change_type = "add blacklist host";
+                            change_type = "add blocklist host";
                             object = tk_input_blacklist_host;
                             object_category = "metric_host";
                             object_attrs = "{" + "\"metric_host\": \"" + tk_input_blacklist_host + "\"}";
@@ -22499,7 +22499,7 @@ require([
 
                                     // Audit
                                     action = "success";
-                                    change_type = "add blacklist host";
+                                    change_type = "add blocklist host";
                                     object = tk_input_blacklist_host;
                                     object_category = "metric_host";
                                     object_attrs = "{" + "\"metric_host\": \"" + tk_input_blacklist_host + "\"}";
@@ -22595,7 +22595,7 @@ require([
 
                                 // Audit
                                 action = "success";
-                                change_type = "delete blacklist host";
+                                change_type = "delete blocklist host";
                                 object = removedObject;
                                 object_category = "metric_host";
                                 object_attrs = "{" + "\"metric_host\": \"" + removedObject + "\", \"_key\": \"" + item + "\"}";
@@ -22617,7 +22617,7 @@ require([
 
                                 // Audit
                                 action = "failure";
-                                change_type = "delete blacklist host";
+                                change_type = "delete blocklist host";
                                 object = removedObject;
                                 object_category = "metric_host";
                                 object_attrs = "{" + "\"metric_host\": \"" + removedObject + "\", \"_key\": \"" + item + "\"}";
@@ -22639,7 +22639,7 @@ require([
 
         $("#btn_delete_metric_host_blacklist_host").click(function() {
 
-            console.log("Button was pressed");
+            //console.log("Button was pressed");
 
             submitTokens();
 
@@ -22648,9 +22648,9 @@ require([
 
             // Get the arrays of keys
             var tk_multi_table_array = tokens.get("removeBlacklistMetricHostHost");
-            console.log("tk_multi_table_array is: " + tk_multi_table_array);
+            //console.log("tk_multi_table_array is: " + tk_multi_table_array);
             tk_multi_table_array = tk_multi_table_array.split(',');
-            console.log("tk_multi_table_array is: " + tk_multi_table_array);
+            //console.log("tk_multi_table_array is: " + tk_multi_table_array);
 
             // Call the function for each value from the array
             tk_multi_table_array.forEach(foreachDeleteBlacklistMetricHostHost);
@@ -22710,7 +22710,7 @@ require([
 
                             // Audit
                             action = "failure";
-                            change_type = "add blacklist metric_category";
+                            change_type = "add blocklist metric_category";
                             object = tk_input_blacklist_metric_category;
                             object_category = "metric_host";
                             object_attrs = "{" + "\"metric_category\": \"" + tk_input_blacklist_metric_category + "\"}";
@@ -22749,7 +22749,7 @@ require([
 
                                     // Audit
                                     action = "success";
-                                    change_type = "add blacklist metric_category";
+                                    change_type = "add blocklist metric_category";
                                     object = tk_input_blacklist_metric_category;
                                     object_category = "metric_host";
                                     object_attrs = "{" + "\"metric_category\": \"" + tk_input_blacklist_metric_category + "\"}";
@@ -22844,7 +22844,7 @@ require([
 
                                 // Audit
                                 action = "success";
-                                change_type = "delete blacklist metric category";
+                                change_type = "delete blocklist metric category";
                                 object = removedObject;
                                 object_category = "metric_host";
                                 object_attrs = "{" + "\"metric_category\": \"" + removedObject + "\", \"_key\": \"" + item + "\"}";
@@ -22866,7 +22866,7 @@ require([
 
                                 // Audit
                                 action = "failure";
-                                change_type = "delete blacklist metric category";
+                                change_type = "delete blocklist metric category";
                                 object = removedObject;
                                 object_category = "metric_host";
                                 object_attrs = "{" + "\"metric_category\": \"" + removedObject + "\", \"_key\": \"" + item + "\"}";
@@ -22888,7 +22888,7 @@ require([
 
         $("#btn_delete_metric_host_blacklist_metric_category").click(function() {
 
-            console.log("Button was pressed");
+            //console.log("Button was pressed");
 
             submitTokens();
 
@@ -22897,9 +22897,9 @@ require([
 
             // Get the arrays of keys
             var tk_multi_table_array = tokens.get("removeBlacklistMetricHostMetricCategory");
-            console.log("tk_multi_table_array is: " + tk_multi_table_array);
+            //console.log("tk_multi_table_array is: " + tk_multi_table_array);
             tk_multi_table_array = tk_multi_table_array.split(',');
-            console.log("tk_multi_table_array is: " + tk_multi_table_array);
+            //console.log("tk_multi_table_array is: " + tk_multi_table_array);
 
             // Call the function for each value from the array
             tk_multi_table_array.forEach(foreachDeleteBlacklistMetricHostMetricCategory);
