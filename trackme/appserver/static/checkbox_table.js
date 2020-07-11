@@ -8,6 +8,17 @@ require([
      // Access the "default" token model
      var tokens = mvc.Components.get("default");
      var selected_values_array = [];
+     var selected_values_array2 = [];
+     var selected_values_array3 = [];
+     var selected_values_array4 = [];
+     var selected_values_array5 = [];
+     var selected_values_array6 = [];
+     var selected_values_array7 = [];
+     var selected_values_array8 = [];
+     var selected_values_array9 = [];
+     var selected_values_array10 = [];
+     var selected_values_array11 = [];
+     var selected_values_array12 = [];
      var submittedTokens = mvc.Components.get('submitted');
 
      // Table1
@@ -54,10 +65,10 @@ require([
          }
      }
 
-     // Table2
 
      var CustomRangeRenderer2 = TableView.BaseCellRenderer.extend({
          canRender: function(cell) {
+     // Table2
              return _(['select']).contains(cell.field);
          },
          render: function($td, cell) {
@@ -66,20 +77,21 @@ require([
                  // console.log("checked",$(this).attr('value'));
                  if($(this).attr('class')==="checkbox")
                  {
-                     selected_values_array.push($(this).attr('value'));
+                     selected_values_array2.push($(this).attr('value'));
                      $(this).removeClass();
                      $(this).addClass("checkbox checked");
                  }
                  else {
                      $(this).removeClass();
                      $(this).addClass("checkbox");
-                     var i = selected_values_array.indexOf($(this).attr('value'));
+                     var i = selected_values_array2.indexOf($(this).attr('value'));
                      if(i != -1) {
-                         selected_values_array.splice(i, 1);
+                         selected_values_array2.splice(i, 1);
                      }
                  }
-                 console.log(selected_values_array);
-                 tokens.set("removeWhitelistDataHost", selected_values_array.join());
+                 console.log(selected_values_array2);
+                 var selected_array = selected_values_array2;
+                 tokens.set("removeWhitelistDataHost", selected_values_array2.join());
                  submittedTokens.set(tokens.toJSON());
              }).appendTo($td);
          }
@@ -110,20 +122,20 @@ require([
                  // console.log("checked",$(this).attr('value'));
                  if($(this).attr('class')==="checkbox")
                  {
-                     selected_values_array.push($(this).attr('value'));
+                     selected_values_array3.push($(this).attr('value'));
                      $(this).removeClass();
                      $(this).addClass("checkbox checked");
                  }
                  else {
                      $(this).removeClass();
                      $(this).addClass("checkbox");
-                     var i = selected_values_array.indexOf($(this).attr('value'));
+                     var i = selected_values_array3.indexOf($(this).attr('value'));
                      if(i != -1) {
-                         selected_values_array.splice(i, 1);
+                         selected_values_array3.splice(i, 1);
                      }
                  }
-                 console.log(selected_values_array);
-                 tokens.set("removeWhitelistMetricHost", selected_values_array.join());
+                 console.log(selected_values_array3);
+                 tokens.set("removeWhitelistMetricHost", selected_values_array3.join());
                  submittedTokens.set(tokens.toJSON());
              }).appendTo($td);
          }
@@ -137,6 +149,402 @@ require([
              sh.getVisualization(function(tableView) {
                  // Add custom cell renderer and force re-render
                  tableView.table.addCellRenderer(new CustomRangeRenderer3());
+                 tableView.table.render();
+             });
+         }
+     }
+
+     // Table4
+
+     var CustomRangeRenderer4 = TableView.BaseCellRenderer.extend({
+         canRender: function(cell) {
+             return _(['select']).contains(cell.field);
+         },
+         render: function($td, cell) {
+             var a = $('<div>').attr({"id":"chk-blocklist-data-source-host"+cell.value,"value":cell.value}).addClass('checkbox').click(function() {
+                 // console.log("checked",$(this).attr('class'));
+                 // console.log("checked",$(this).attr('value'));
+                 if($(this).attr('class')==="checkbox")
+                 {
+                     selected_values_array4.push($(this).attr('value'));
+                     $(this).removeClass();
+                     $(this).addClass("checkbox checked");
+                 }
+                 else {
+                     $(this).removeClass();
+                     $(this).addClass("checkbox");
+                     var i = selected_values_array4.indexOf($(this).attr('value'));
+                     if(i != -1) {
+                         selected_values_array4.splice(i, 1);
+                     }
+                 }
+                 console.log(selected_values_array4);
+                 tokens.set("removeBlacklistDataSourceHost", selected_values_array4.join());
+                 submittedTokens.set(tokens.toJSON());
+             }).appendTo($td);
+         }
+     });
+
+     //List of table IDs
+     var tableIDs = ["tableBlackListDataSourceHost"];
+     for (i=0;i<tableIDs.length;i++) {
+         var sh = mvc.Components.get(tableIDs[i]);
+         if(typeof(sh)!="undefined") {
+             sh.getVisualization(function(tableView) {
+                 // Add custom cell renderer and force re-render
+                 tableView.table.addCellRenderer(new CustomRangeRenderer4());
+                 tableView.table.render();
+             });
+         }
+     }
+
+     // Table5
+
+     var CustomRangeRenderer5 = TableView.BaseCellRenderer.extend({
+         canRender: function(cell) {
+             return _(['select']).contains(cell.field);
+         },
+         render: function($td, cell) {
+             var a = $('<div>').attr({"id":"chk-blocklist-data-source-sourcetype"+cell.value,"value":cell.value}).addClass('checkbox').click(function() {
+                 // console.log("checked",$(this).attr('class'));
+                 // console.log("checked",$(this).attr('value'));
+                 if($(this).attr('class')==="checkbox")
+                 {
+                     selected_values_array5.push($(this).attr('value'));
+                     $(this).removeClass();
+                     $(this).addClass("checkbox checked");
+                 }
+                 else {
+                     $(this).removeClass();
+                     $(this).addClass("checkbox");
+                     var i = selected_values_array5.indexOf($(this).attr('value'));
+                     if(i != -1) {
+                         selected_values_array5.splice(i, 1);
+                     }
+                 }
+                 console.log(selected_values_array5);
+                 tokens.set("removeBlacklistDataSourceSourcetype", selected_values_array5.join());
+                 submittedTokens.set(tokens.toJSON());
+             }).appendTo($td);
+         }
+     });
+
+     //List of table IDs
+     var tableIDs = ["tableBlackListDataSourceSourcetype"];
+     for (i=0;i<tableIDs.length;i++) {
+         var sh = mvc.Components.get(tableIDs[i]);
+         if(typeof(sh)!="undefined") {
+             sh.getVisualization(function(tableView) {
+                 // Add custom cell renderer and force re-render
+                 tableView.table.addCellRenderer(new CustomRangeRenderer5());
+                 tableView.table.render();
+             });
+         }
+     }
+
+     // Table6
+
+     var CustomRangeRenderer6 = TableView.BaseCellRenderer.extend({
+         canRender: function(cell) {
+             return _(['select']).contains(cell.field);
+         },
+         render: function($td, cell) {
+             var a = $('<div>').attr({"id":"chk-blocklist-data-source-index"+cell.value,"value":cell.value}).addClass('checkbox').click(function() {
+                 // console.log("checked",$(this).attr('class'));
+                 // console.log("checked",$(this).attr('value'));
+                 if($(this).attr('class')==="checkbox")
+                 {
+                     selected_values_array6.push($(this).attr('value'));
+                     $(this).removeClass();
+                     $(this).addClass("checkbox checked");
+                 }
+                 else {
+                     $(this).removeClass();
+                     $(this).addClass("checkbox");
+                     var i = selected_values_array6.indexOf($(this).attr('value'));
+                     if(i != -1) {
+                         selected_values_array6.splice(i, 1);
+                     }
+                 }
+                 console.log(selected_values_array6);
+                 tokens.set("removeBlacklistDataSourceIndex", selected_values_array6.join());
+                 submittedTokens.set(tokens.toJSON());
+             }).appendTo($td);
+         }
+     });
+
+     //List of table IDs
+     var tableIDs = ["tableBlackListDataSourceIndex"];
+     for (i=0;i<tableIDs.length;i++) {
+         var sh = mvc.Components.get(tableIDs[i]);
+         if(typeof(sh)!="undefined") {
+             sh.getVisualization(function(tableView) {
+                 // Add custom cell renderer and force re-render
+                 tableView.table.addCellRenderer(new CustomRangeRenderer6());
+                 tableView.table.render();
+             });
+         }
+     }
+
+     // Table7
+
+     var CustomRangeRenderer7 = TableView.BaseCellRenderer.extend({
+         canRender: function(cell) {
+             return _(['select']).contains(cell.field);
+         },
+         render: function($td, cell) {
+             var a = $('<div>').attr({"id":"chk-blocklist-data-host-host"+cell.value,"value":cell.value}).addClass('checkbox').click(function() {
+                 // console.log("checked",$(this).attr('class'));
+                 // console.log("checked",$(this).attr('value'));
+                 if($(this).attr('class')==="checkbox")
+                 {
+                     selected_values_array7.push($(this).attr('value'));
+                     $(this).removeClass();
+                     $(this).addClass("checkbox checked");
+                 }
+                 else {
+                     $(this).removeClass();
+                     $(this).addClass("checkbox");
+                     var i = selected_values_array7.indexOf($(this).attr('value'));
+                     if(i != -1) {
+                         selected_values_array7.splice(i, 1);
+                     }
+                 }
+                 console.log(selected_values_array7);
+                 tokens.set("removeBlacklistDataHostHost", selected_values_array7.join());
+                 submittedTokens.set(tokens.toJSON());
+             }).appendTo($td);
+         }
+     });
+
+     //List of table IDs
+     var tableIDs = ["tableBlackListDataHostHost"];
+     for (i=0;i<tableIDs.length;i++) {
+         var sh = mvc.Components.get(tableIDs[i]);
+         if(typeof(sh)!="undefined") {
+             sh.getVisualization(function(tableView) {
+                 // Add custom cell renderer and force re-render
+                 tableView.table.addCellRenderer(new CustomRangeRenderer7());
+                 tableView.table.render();
+             });
+         }
+     }
+
+     // Table8
+
+     var CustomRangeRenderer8 = TableView.BaseCellRenderer.extend({
+         canRender: function(cell) {
+             return _(['select']).contains(cell.field);
+         },
+         render: function($td, cell) {
+             var a = $('<div>').attr({"id":"chk-blocklist-data-host-sourcetype"+cell.value,"value":cell.value}).addClass('checkbox').click(function() {
+                 // console.log("checked",$(this).attr('class'));
+                 // console.log("checked",$(this).attr('value'));
+                 if($(this).attr('class')==="checkbox")
+                 {
+                     selected_values_array8.push($(this).attr('value'));
+                     $(this).removeClass();
+                     $(this).addClass("checkbox checked");
+                 }
+                 else {
+                     $(this).removeClass();
+                     $(this).addClass("checkbox");
+                     var i = selected_values_array8.indexOf($(this).attr('value'));
+                     if(i != -1) {
+                         selected_values_array8.splice(i, 1);
+                     }
+                 }
+                 console.log(selected_values_array8);
+                 tokens.set("removeBlacklistDataHostSourcetype", selected_values_array8.join());
+                 submittedTokens.set(tokens.toJSON());
+             }).appendTo($td);
+         }
+     });
+
+     //List of table IDs
+     var tableIDs = ["tableBlackListDataHostSourcetype"];
+     for (i=0;i<tableIDs.length;i++) {
+         var sh = mvc.Components.get(tableIDs[i]);
+         if(typeof(sh)!="undefined") {
+             sh.getVisualization(function(tableView) {
+                 // Add custom cell renderer and force re-render
+                 tableView.table.addCellRenderer(new CustomRangeRenderer8());
+                 tableView.table.render();
+             });
+         }
+     }
+
+     // Table9
+
+     var CustomRangeRenderer9 = TableView.BaseCellRenderer.extend({
+         canRender: function(cell) {
+             return _(['select']).contains(cell.field);
+         },
+         render: function($td, cell) {
+             var a = $('<div>').attr({"id":"chk-blocklist-data-host-index"+cell.value,"value":cell.value}).addClass('checkbox').click(function() {
+                 // console.log("checked",$(this).attr('class'));
+                 // console.log("checked",$(this).attr('value'));
+                 if($(this).attr('class')==="checkbox")
+                 {
+                     selected_values_array9.push($(this).attr('value'));
+                     $(this).removeClass();
+                     $(this).addClass("checkbox checked");
+                 }
+                 else {
+                     $(this).removeClass();
+                     $(this).addClass("checkbox");
+                     var i = selected_values_array9.indexOf($(this).attr('value'));
+                     if(i != -1) {
+                         selected_values_array9.splice(i, 1);
+                     }
+                 }
+                 console.log(selected_values_array9);
+                 tokens.set("removeBlacklistDataHostIndex", selected_values_array9.join());
+                 submittedTokens.set(tokens.toJSON());
+             }).appendTo($td);
+         }
+     });
+
+     //List of table IDs
+     var tableIDs = ["tableBlackListDataHostIndex"];
+     for (i=0;i<tableIDs.length;i++) {
+         var sh = mvc.Components.get(tableIDs[i]);
+         if(typeof(sh)!="undefined") {
+             sh.getVisualization(function(tableView) {
+                 // Add custom cell renderer and force re-render
+                 tableView.table.addCellRenderer(new CustomRangeRenderer9());
+                 tableView.table.render();
+             });
+         }
+     }
+
+     // Table10
+
+     var CustomRangeRenderer10 = TableView.BaseCellRenderer.extend({
+         canRender: function(cell) {
+             return _(['select']).contains(cell.field);
+         },
+         render: function($td, cell) {
+             var a = $('<div>').attr({"id":"chk-blocklist-metric-host-host"+cell.value,"value":cell.value}).addClass('checkbox').click(function() {
+                 // console.log("checked",$(this).attr('class'));
+                 // console.log("checked",$(this).attr('value'));
+                 if($(this).attr('class')==="checkbox")
+                 {
+                     selected_values_array10.push($(this).attr('value'));
+                     $(this).removeClass();
+                     $(this).addClass("checkbox checked");
+                 }
+                 else {
+                     $(this).removeClass();
+                     $(this).addClass("checkbox");
+                     var i = selected_values_array10.indexOf($(this).attr('value'));
+                     if(i != -1) {
+                         selected_values_array10.splice(i, 1);
+                     }
+                 }
+                 console.log(selected_values_array10);
+                 tokens.set("removeBlacklistMetricHostHost", selected_values_array10.join());
+                 submittedTokens.set(tokens.toJSON());
+             }).appendTo($td);
+         }
+     });
+
+     //List of table IDs
+     var tableIDs = ["tableBlackListMetricHostHost"];
+     for (i=0;i<tableIDs.length;i++) {
+         var sh = mvc.Components.get(tableIDs[i]);
+         if(typeof(sh)!="undefined") {
+             sh.getVisualization(function(tableView) {
+                 // Add custom cell renderer and force re-render
+                 tableView.table.addCellRenderer(new CustomRangeRenderer10());
+                 tableView.table.render();
+             });
+         }
+     }
+
+     // Table11
+
+     var CustomRangeRenderer11 = TableView.BaseCellRenderer.extend({
+         canRender: function(cell) {
+             return _(['select']).contains(cell.field);
+         },
+         render: function($td, cell) {
+             var a = $('<div>').attr({"id":"chk-blocklist-metric-host-index"+cell.value,"value":cell.value}).addClass('checkbox').click(function() {
+                 // console.log("checked",$(this).attr('class'));
+                 // console.log("checked",$(this).attr('value'));
+                 if($(this).attr('class')==="checkbox")
+                 {
+                     selected_values_array11.push($(this).attr('value'));
+                     $(this).removeClass();
+                     $(this).addClass("checkbox checked");
+                 }
+                 else {
+                     $(this).removeClass();
+                     $(this).addClass("checkbox");
+                     var i = selected_values_array11.indexOf($(this).attr('value'));
+                     if(i != -1) {
+                         selected_values_array11.splice(i, 1);
+                     }
+                 }
+                 console.log(selected_values_array11);
+                 tokens.set("removeBlacklistMetricHostIndex", selected_values_array11.join());
+                 submittedTokens.set(tokens.toJSON());
+             }).appendTo($td);
+         }
+     });
+
+     //List of table IDs
+     var tableIDs = ["tableBlackListMetricHostIndex"];
+     for (i=0;i<tableIDs.length;i++) {
+         var sh = mvc.Components.get(tableIDs[i]);
+         if(typeof(sh)!="undefined") {
+             sh.getVisualization(function(tableView) {
+                 // Add custom cell renderer and force re-render
+                 tableView.table.addCellRenderer(new CustomRangeRenderer11());
+                 tableView.table.render();
+             });
+         }
+     }
+
+     // Table12
+
+     var CustomRangeRenderer12 = TableView.BaseCellRenderer.extend({
+         canRender: function(cell) {
+             return _(['select']).contains(cell.field);
+         },
+         render: function($td, cell) {
+             var a = $('<div>').attr({"id":"chk-blocklist-metric-category"+cell.value,"value":cell.value}).addClass('checkbox').click(function() {
+                 // console.log("checked",$(this).attr('class'));
+                 // console.log("checked",$(this).attr('value'));
+                 if($(this).attr('class')==="checkbox")
+                 {
+                     selected_values_array12.push($(this).attr('value'));
+                     $(this).removeClass();
+                     $(this).addClass("checkbox checked");
+                 }
+                 else {
+                     $(this).removeClass();
+                     $(this).addClass("checkbox");
+                     var i = selected_values_array12.indexOf($(this).attr('value'));
+                     if(i != -1) {
+                         selected_values_array12.splice(i, 1);
+                     }
+                 }
+                 console.log(selected_values_array12);
+                 tokens.set("removeBlacklistMetricHostMetricCategory", selected_values_array12.join());
+                 submittedTokens.set(tokens.toJSON());
+             }).appendTo($td);
+         }
+     });
+
+     //List of table IDs
+     var tableIDs = ["tableBlackListMetricHostMetricCategory"];
+     for (i=0;i<tableIDs.length;i++) {
+         var sh = mvc.Components.get(tableIDs[i]);
+         if(typeof(sh)!="undefined") {
+             sh.getVisualization(function(tableView) {
+                 // Add custom cell renderer and force re-render
+                 tableView.table.addCellRenderer(new CustomRangeRenderer12());
                  tableView.table.render();
              });
          }

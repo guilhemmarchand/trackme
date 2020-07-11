@@ -3658,7 +3658,7 @@ styles in <div> tags, similar to Bootstrap's grid system.
                 </div>
                 <div class="modal-footer">
                     <button type="submit" id="btn_modal_data_host_whitelist_add_cancel" class="btn btn-default btn-primary pull-left" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Back</button>
-                    <button type="submit" id="btn_modal_data_host_whitelist_add_delete" class="btn btn-default btn-danger pull-right" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Remove</button>
+                    <button type="submit" id="btn_modal_data_host_whitelist_add_delete" class="btn btn-default btn-danger pull-right" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Remove selected</button>
                 </div>
             </div>
         </div>
@@ -3765,7 +3765,7 @@ styles in <div> tags, similar to Bootstrap's grid system.
                 </div>
                 <div class="modal-footer">
                     <button type="submit" id="btn_modal_metric_host_whitelist_add_cancel" class="btn btn-default btn-primary pull-left" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Back</button>
-                    <button type="submit" id="btn_modal_metric_host_whitelist_add_delete" class="btn btn-default btn-danger pull-right" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Remove</button>
+                    <button type="submit" id="btn_modal_metric_host_whitelist_add_delete" class="btn btn-default btn-danger pull-right" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Remove selected</button>
                 </div>
             </div>
         </div>
@@ -3861,7 +3861,7 @@ styles in <div> tags, similar to Bootstrap's grid system.
                 </div>
                 <div class="modal-footer">
                     <button type="submit" id="btn_modal_data_source_blacklist_host_add_cancel" class="btn btn-default btn-primary pull-left" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Back</button>
-                    <button type="submit" class="btn btn-default btn-default pull-right" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Cancel</button>
+                    <button type="submit" id="btn_modal_data_source_blacklist_host_add_delete" class="btn btn-default btn-danger pull-right" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Remove selected</button>
                 </div>
             </div>
         </div>
@@ -3957,7 +3957,7 @@ styles in <div> tags, similar to Bootstrap's grid system.
                 </div>
                 <div class="modal-footer">
                     <button type="submit" id="btn_modal_data_source_blacklist_index_add_cancel" class="btn btn-default btn-primary pull-left" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Back</button>
-                    <button type="submit" class="btn btn-default btn-default pull-right" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Cancel</button>
+                    <button type="submit" id="btn_modal_data_source_blacklist_index_add_delete" class="btn btn-default btn-danger pull-right" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Remove selected</button>
                 </div>
             </div>
         </div>
@@ -4053,7 +4053,7 @@ styles in <div> tags, similar to Bootstrap's grid system.
                 </div>
                 <div class="modal-footer">
                     <button type="submit" id="btn_modal_data_source_blacklist_sourcetype_add_cancel" class="btn btn-default btn-primary pull-left" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Back</button>
-                    <button type="submit" class="btn btn-default btn-default pull-right" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Cancel</button>
+                    <button type="submit" id="btn_modal_data_source_blacklist_sourcetype_add_delete" class="btn btn-default btn-danger pull-right" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Remove selected</button>
                 </div>
             </div>
         </div>
@@ -4147,7 +4147,7 @@ styles in <div> tags, similar to Bootstrap's grid system.
                 </div>
                 <div class="modal-footer">
                     <button type="submit" id="btn_modal_data_host_blacklist_host_add_cancel" class="btn btn-default btn-primary pull-left" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Back</button>
-                    <button type="submit" class="btn btn-default btn-default pull-right" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Cancel</button>
+                    <button type="submit" id="btn_modal_data_host_blacklist_host_add_delete" class="btn btn-default btn-danger pull-right" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Remove selected</button>
                 </div>
             </div>
         </div>
@@ -4938,16 +4938,23 @@ styles in <div> tags, similar to Bootstrap's grid system.
                         <div class="dashboard-element html" id="body_modal_manage_data_source_blacklist_host">
                             <div class="panel-body html">
                                 <div class="modal-header">
-                                    <h3>Actions for host in blacklist: <span style="color: steelblue">$tk_data_host$</span></h3>
+                                    <h3>Actions for host in blocklist: </h3>
                                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                                 </div>
-                                <div class="modal-body" style="display:grid;">
-                                    <p><b>data_host:</b> $tk_data_host$</p>
-                                    <p><b>data_blacklist_state:</b> $tk_data_blacklist_state$</p>
-                                    <br />
-                                    <b>This host or expression is currently excluded from data discovery.</b>
-                                    <br />
+                                <div class="modal-body">
+                                    <p><b>Confirm modification ?</b><br />
+                                    </p>
+                                    <p>
+                                        <label>Optional: enter a note of this update. <br />
+                                            This note will be logged and made available for notification.</label>
+                                        <textarea
+                                                id = "data_source_blocklist_host_delete_comment"
+                                                rows = "6"
+                                                cols = "160" style="width: 500px;"
+                                                onfocus="if(this.value==this.defaultValue)this.value='';" onblur="if(this.value=='')this.value=this.defaultValue;">update note</textarea>
+                                    </p>
                                 </div>
+
                             </div>
                         </div>
                         <div class="modal-footer">
@@ -4973,16 +4980,23 @@ styles in <div> tags, similar to Bootstrap's grid system.
                         <div class="dashboard-element html" id="body_modal_manage_data_source_blacklist_index">
                             <div class="panel-body html">
                                 <div class="modal-header">
-                                    <h3>Actions for index in blacklist: <span style="color: steelblue">$tk_data_index$</span></h3>
+                                    <h3>Actions for host in blocklist: </h3>
                                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                                 </div>
-                                <div class="modal-body" style="display:grid;">
-                                    <p><b>data_index:</b> $tk_data_index$</p>
-                                    <p><b>data_blacklist_state:</b> $tk_data_blacklist_state$</p>
-                                    <br />
-                                    <b>This index or expression is currently excluded from data discovery and alerting.</b>
-                                    <br />
+                                <div class="modal-body">
+                                    <p><b>Confirm modification ?</b><br />
+                                    </p>
+                                    <p>
+                                        <label>Optional: enter a note of this update. <br />
+                                            This note will be logged and made available for notification.</label>
+                                        <textarea
+                                                id = "data_source_blocklist_index_delete_comment"
+                                                rows = "6"
+                                                cols = "160" style="width: 500px;"
+                                                onfocus="if(this.value==this.defaultValue)this.value='';" onblur="if(this.value=='')this.value=this.defaultValue;">update note</textarea>
+                                    </p>
                                 </div>
+
                             </div>
                         </div>
                         <div class="modal-footer">
@@ -5006,16 +5020,23 @@ styles in <div> tags, similar to Bootstrap's grid system.
                         <div class="dashboard-element html" id="body_modal_manage_data_source_blacklist_sourcetype">
                             <div class="panel-body html">
                                 <div class="modal-header">
-                                    <h3>Actions for sourcetype in blacklist: <span style="color: steelblue">$tk_data_sourcetype$</span></h3>
+                                    <h3>Actions for host in blocklist: </h3>
                                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                                 </div>
-                                <div class="modal-body" style="display:grid;">
-                                    <p><b>data_sourcetype:</b> $tk_data_sourcetype$</p>
-                                    <p><b>data_blacklist_state:</b> $tk_data_blacklist_state$</p>
-                                    <br />
-                                    <b>This sourcetype or expression is currently excluded from data discovery and alerting.</b>
-                                    <br />
+                                <div class="modal-body">
+                                    <p><b>Confirm modification ?</b><br />
+                                    </p>
+                                    <p>
+                                        <label>Optional: enter a note of this update. <br />
+                                            This note will be logged and made available for notification.</label>
+                                        <textarea
+                                                id = "data_source_blocklist_sourcetype_delete_comment"
+                                                rows = "6"
+                                                cols = "160" style="width: 500px;"
+                                                onfocus="if(this.value==this.defaultValue)this.value='';" onblur="if(this.value=='')this.value=this.defaultValue;">update note</textarea>
+                                    </p>
                                 </div>
+
                             </div>
                         </div>
                         <div class="modal-footer">
@@ -5041,16 +5062,23 @@ styles in <div> tags, similar to Bootstrap's grid system.
                         <div class="dashboard-element html" id="body_modal_manage_data_host_blacklist_host">
                             <div class="panel-body html">
                                 <div class="modal-header">
-                                    <h3>Actions for host in blacklist: <span style="color: steelblue">$tk_data_host$</span></h3>
+                                    <h3>Actions for host in blocklist: </h3>
                                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                                 </div>
-                                <div class="modal-body" style="display:grid;">
-                                    <p><b>data_host:</b> $tk_data_host$</p>
-                                    <p><b>data_blacklist_state:</b> $tk_data_blacklist_state$</p>
-                                    <br />
-                                    <b>This host or expression is currently excluded from data discovery.</b>
-                                    <br />
+                                <div class="modal-body">
+                                    <p><b>Confirm modification ?</b><br />
+                                    </p>
+                                    <p>
+                                        <label>Optional: enter a note of this update. <br />
+                                            This note will be logged and made available for notification.</label>
+                                        <textarea
+                                                id = "data_host_blocklist_host_delete_comment"
+                                                rows = "6"
+                                                cols = "160" style="width: 500px;"
+                                                onfocus="if(this.value==this.defaultValue)this.value='';" onblur="if(this.value=='')this.value=this.defaultValue;">update note</textarea>
+                                    </p>
                                 </div>
+
                             </div>
                         </div>
                         <div class="modal-footer">
@@ -5074,16 +5102,23 @@ styles in <div> tags, similar to Bootstrap's grid system.
                         <div class="dashboard-element html" id="body_modal_manage_metric_host_blacklist_host">
                             <div class="panel-body html">
                                 <div class="modal-header">
-                                    <h3>Actions for host in blacklist: <span style="color: steelblue">$tk_metric_host$</span></h3>
+                                    <h3>Actions for host in blocklist: </h3>
                                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                                 </div>
-                                <div class="modal-body" style="display:grid;">
-                                    <p><b>metric_host:</b> $tk_metric_host$</p>
-                                    <p><b>metric_blacklist_state:</b> $tk_metric_blacklist_state$</p>
-                                    <br />
-                                    <b>This host or expression is currently excluded from data discovery.</b>
-                                    <br />
+                                <div class="modal-body">
+                                    <p><b>Confirm modification ?</b><br />
+                                    </p>
+                                    <p>
+                                        <label>Optional: enter a note of this update. <br />
+                                            This note will be logged and made available for notification.</label>
+                                        <textarea
+                                                id = "metric_host_blocklist_host_delete_comment"
+                                                rows = "6"
+                                                cols = "160" style="width: 500px;"
+                                                onfocus="if(this.value==this.defaultValue)this.value='';" onblur="if(this.value=='')this.value=this.defaultValue;">update note</textarea>
+                                    </p>
                                 </div>
+
                             </div>
                         </div>
                         <div class="modal-footer">
@@ -5310,16 +5345,23 @@ styles in <div> tags, similar to Bootstrap's grid system.
                         <div class="dashboard-element html" id="body_modal_manage_data_host_blacklist_index">
                             <div class="panel-body html">
                                 <div class="modal-header">
-                                    <h3>Actions for index in blacklist: <span style="color: steelblue">$tk_data_index$</span></h3>
+                                    <h3>Actions for host in blocklist: </h3>
                                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                                 </div>
-                                <div class="modal-body" style="display:grid;">
-                                    <p><b>data_index:</b> $tk_data_index$</p>
-                                    <p><b>data_blacklist_state:</b> $tk_data_blacklist_state$</p>
-                                    <br />
-                                    <b>This index or expression is currently excluded from data discovery and alerting.</b>
-                                    <br />
+                                <div class="modal-body">
+                                    <p><b>Confirm modification ?</b><br />
+                                    </p>
+                                    <p>
+                                        <label>Optional: enter a note of this update. <br />
+                                            This note will be logged and made available for notification.</label>
+                                        <textarea
+                                                id = "data_host_blocklist_index_delete_comment"
+                                                rows = "6"
+                                                cols = "160" style="width: 500px;"
+                                                onfocus="if(this.value==this.defaultValue)this.value='';" onblur="if(this.value=='')this.value=this.defaultValue;">update note</textarea>
+                                    </p>
                                 </div>
+
                             </div>
                         </div>
                         <div class="modal-footer">
@@ -5343,16 +5385,23 @@ styles in <div> tags, similar to Bootstrap's grid system.
                         <div class="dashboard-element html" id="body_modal_manage_metric_host_blacklist_index">
                             <div class="panel-body html">
                                 <div class="modal-header">
-                                    <h3>Actions for index in blacklist: <span style="color: steelblue">$tk_metric_index$</span></h3>
+                                    <h3>Actions for host in blocklist: </h3>
                                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                                 </div>
-                                <div class="modal-body" style="display:grid;">
-                                    <p><b>metric_index:</b> $tk_metric_index$</p>
-                                    <p><b>metric_blacklist_state:</b> $tk_metric_blacklist_state$</p>
-                                    <br />
-                                    <b>This index or expression is currently excluded from data discovery and alerting.</b>
-                                    <br />
+                                <div class="modal-body">
+                                    <p><b>Confirm modification ?</b><br />
+                                    </p>
+                                    <p>
+                                        <label>Optional: enter a note of this update. <br />
+                                            This note will be logged and made available for notification.</label>
+                                        <textarea
+                                                id = "metric_host_blocklist_index_delete_comment"
+                                                rows = "6"
+                                                cols = "160" style="width: 500px;"
+                                                onfocus="if(this.value==this.defaultValue)this.value='';" onblur="if(this.value=='')this.value=this.defaultValue;">update note</textarea>
+                                    </p>
                                 </div>
+
                             </div>
                         </div>
                         <div class="modal-footer">
@@ -5376,16 +5425,23 @@ styles in <div> tags, similar to Bootstrap's grid system.
                         <div class="dashboard-element html" id="body_modal_manage_data_host_blacklist_sourcetype">
                             <div class="panel-body html">
                                 <div class="modal-header">
-                                    <h3>Actions for sourcetype in blacklist: <span style="color: steelblue">$tk_data_sourcetype$</span></h3>
+                                    <h3>Actions for host in blocklist: </h3>
                                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                                 </div>
-                                <div class="modal-body" style="display:grid;">
-                                    <p><b>data_sourcetype:</b> $tk_data_sourcetype$</p>
-                                    <p><b>data_blacklist_state:</b> $tk_data_blacklist_state$</p>
-                                    <br />
-                                    <b>This sourcetype or expression is currently excluded from data discovery and alerting.</b>
-                                    <br />
+                                <div class="modal-body">
+                                    <p><b>Confirm modification ?</b><br />
+                                    </p>
+                                    <p>
+                                        <label>Optional: enter a note of this update. <br />
+                                            This note will be logged and made available for notification.</label>
+                                        <textarea
+                                                id = "data_host_blocklist_sourcetype_delete_comment"
+                                                rows = "6"
+                                                cols = "160" style="width: 500px;"
+                                                onfocus="if(this.value==this.defaultValue)this.value='';" onblur="if(this.value=='')this.value=this.defaultValue;">update note</textarea>
+                                    </p>
                                 </div>
+
                             </div>
                         </div>
                         <div class="modal-footer">
@@ -5409,16 +5465,23 @@ styles in <div> tags, similar to Bootstrap's grid system.
                         <div class="dashboard-element html" id="body_modal_manage_metric_host_blacklist_metric_category">
                             <div class="panel-body html">
                                 <div class="modal-header">
-                                    <h3>Actions for metric categories in blacklist: <span style="color: steelblue">$tk_metric_category$</span></h3>
+                                    <h3>Actions for metric categories in blacklist: </h3>
                                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                                 </div>
-                                <div class="modal-body" style="display:grid;">
-                                    <p><b>metric_category:</b> $tk_metric_category$</p>
-                                    <p><b>blacklist_state:</b> $tk_metric_blacklist_state$</p>
-                                    <br />
-                                    <b>This metric_category is currently excluded from data discovery and alerting.</b>
-                                    <br />
+                                <div class="modal-body">
+                                    <p><b>Confirm modification ?</b><br />
+                                    </p>
+                                    <p>
+                                        <label>Optional: enter a note of this update. <br />
+                                            This note will be logged and made available for notification.</label>
+                                        <textarea
+                                                id = "metric_host_blocklist_metric_category_delete_comment"
+                                                rows = "6"
+                                                cols = "160" style="width: 500px;"
+                                                onfocus="if(this.value==this.defaultValue)this.value='';" onblur="if(this.value=='')this.value=this.defaultValue;">update note</textarea>
+                                    </p>
                                 </div>
+
                             </div>
                         </div>
                         <div class="modal-footer">
@@ -5521,7 +5584,7 @@ styles in <div> tags, similar to Bootstrap's grid system.
                 </div>
                 <div class="modal-footer">
                     <button type="submit" id="btn_modal_data_host_blacklist_index_add_cancel" class="btn btn-default btn-primary pull-left" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Back</button>
-                    <button type="submit" class="btn btn-default btn-default pull-right" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Cancel</button>
+                    <button type="submit" id="btn_modal_data_host_blacklist_index_add_delete" class="btn btn-default btn-danger pull-right" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Remove selected</button>
                 </div>
             </div>
         </div>
@@ -5617,7 +5680,7 @@ styles in <div> tags, similar to Bootstrap's grid system.
                 </div>
                 <div class="modal-footer">
                     <button type="submit" id="btn_modal_metric_host_blacklist_index_add_cancel" class="btn btn-default btn-primary pull-left" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Back</button>
-                    <button type="submit" class="btn btn-default btn-default pull-right" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Cancel</button>
+                    <button type="submit" id="btn_modal_metric_host_blacklist_index_add_delete" class="btn btn-default btn-danger pull-right" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Remove selected</button>
                 </div>
             </div>
         </div>
@@ -5713,7 +5776,7 @@ styles in <div> tags, similar to Bootstrap's grid system.
                 </div>
                 <div class="modal-footer">
                     <button type="submit" id="btn_modal_data_host_blacklist_sourcetype_add_cancel" class="btn btn-default btn-primary pull-left" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Back</button>
-                    <button type="submit" class="btn btn-default btn-default pull-right" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Cancel</button>
+                    <button type="submit" id="btn_modal_data_host_blacklist_sourcetype_add_delete" class="btn btn-default btn-danger pull-right" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Remove selected</button>
                 </div>
             </div>
         </div>
@@ -5803,7 +5866,7 @@ styles in <div> tags, similar to Bootstrap's grid system.
                 </div>
                 <div class="modal-footer">
                     <button type="submit" id="btn_modal_metric_host_blacklist_host_add_cancel" class="btn btn-default btn-primary pull-left" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Back</button>
-                    <button type="submit" class="btn btn-default btn-default pull-right" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Cancel</button>
+                    <button type="submit" id="btn_modal_metric_host_blacklist_host_add_delete" class="btn btn-default btn-danger pull-right" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Remove selected</button>
                 </div>
             </div>
         </div>
@@ -5899,7 +5962,7 @@ styles in <div> tags, similar to Bootstrap's grid system.
                 </div>
                 <div class="modal-footer">
                     <button type="submit" id="btn_modal_metric_host_blacklist_metric_category_add_cancel" class="btn btn-default btn-primary pull-left" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Back</button>
-                    <button type="submit" class="btn btn-default btn-default pull-right" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Close</button>
+                    <button type="submit" id="btn_modal_metric_host_blacklist_metric_category_add_delete" class="btn btn-default btn-danger pull-right" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Remove selected</button>
                 </div>
             </div>
         </div>
@@ -9081,7 +9144,7 @@ require([
             "cancelOnUnload": true,
             "sample_ratio": null,
             "latest_time": "now",
-            "search": "| inputlookup trackme_data_source_monitoring_blacklist_host | eval keyid=_key | `detect_rex(data_host)` | search data_host=\"$form.tk_input_data_source_blacklist_host_search$\"",
+            "search": "| inputlookup trackme_data_source_monitoring_blacklist_host | eval keyid=_key | `detect_rex(data_host)` | search data_host=\"$form.tk_input_data_source_blacklist_host_search$\" | eval select=keyid | fields data_host, data_blacklist_state, is_rex, select",
             "status_buckets": 0,
             "app": utils.getCurrentApp(),
             "auto_cancel": 90,
@@ -9137,7 +9200,7 @@ require([
             "cancelOnUnload": true,
             "sample_ratio": null,
             "latest_time": "now",
-            "search": "| inputlookup trackme_data_source_monitoring_blacklist_index | eval keyid=_key | `detect_rex(data_index)` | search data_index=\"$form.tk_input_data_source_blacklist_index_search$\"",
+            "search": "| inputlookup trackme_data_source_monitoring_blacklist_index | eval keyid=_key | `detect_rex(data_index)` | eval select=keyid | search data_index=\"$form.tk_input_data_source_blacklist_index_search$\" | fields keyid, data_index, data_blacklist_state, is_rex, select",
             "status_buckets": 0,
             "app": utils.getCurrentApp(),
             "auto_cancel": 90,
@@ -9192,7 +9255,7 @@ require([
             "cancelOnUnload": true,
             "sample_ratio": null,
             "latest_time": "now",
-            "search": "| inputlookup trackme_data_source_monitoring_blacklist_sourcetype | eval keyid=_key | `detect_rex(data_sourcetype)` | search data_sourcetype=\"$form.tk_input_data_source_blacklist_sourcetype_search$\"",
+            "search": "| inputlookup trackme_data_source_monitoring_blacklist_sourcetype | eval keyid=_key | `detect_rex(data_sourcetype)` | eval select=keyid | search data_sourcetype=\"$form.tk_input_data_source_blacklist_sourcetype_search$\" | fields keyid, data_sourcetype, data_blacklist_state, is_rex, select",
             "status_buckets": 0,
             "app": utils.getCurrentApp(),
             "auto_cancel": 90,
@@ -9237,7 +9300,7 @@ require([
             "cancelOnUnload": true,
             "sample_ratio": null,
             "latest_time": "now",
-            "search": "| inputlookup trackme_data_host_monitoring_blacklist_host | eval keyid=_key | `detect_rex(data_host)` | search data_host=\"$form.tk_input_data_host_blacklist_host_search$\"",
+            "search": "| inputlookup trackme_data_host_monitoring_blacklist_host | eval keyid=_key | `detect_rex(data_host)` | eval select=keyid | search data_host=\"$form.tk_input_data_host_blacklist_host_search$\" | fields data_host, data_blacklist_state, is_rex, select",
             "status_buckets": 0,
             "app": utils.getCurrentApp(),
             "auto_cancel": 90,
@@ -9292,7 +9355,7 @@ require([
             "cancelOnUnload": true,
             "sample_ratio": null,
             "latest_time": "now",
-            "search": "| inputlookup trackme_metric_host_monitoring_blacklist_host | eval keyid=_key | `detect_rex(metric_host)` | search metric_host=\"$form.tk_input_metric_host_blacklist_host_search$\"",
+            "search": "| inputlookup trackme_metric_host_monitoring_blacklist_host | eval keyid=_key | `detect_rex(metric_host)` | search metric_host=\"$form.tk_input_metric_host_blacklist_host_search$\" | eval select=keyid | fields keyid, metric_host, is_rex, select",
             "status_buckets": 0,
             "app": utils.getCurrentApp(),
             "auto_cancel": 90,
@@ -9347,7 +9410,7 @@ require([
             "cancelOnUnload": true,
             "sample_ratio": null,
             "latest_time": "now",
-            "search": "| inputlookup trackme_data_host_monitoring_blacklist_index | eval keyid=_key | `detect_rex(data_index)` | search data_index=\"$form.tk_input_data_host_blacklist_index_search$\"",
+            "search": "| inputlookup trackme_data_host_monitoring_blacklist_index | eval keyid=_key | `detect_rex(data_index)` | search data_index=\"$form.tk_input_data_host_blacklist_index_search$\" | eval select = keyid | fields keyid, data_index, is_rex, select",
             "status_buckets": 0,
             "app": utils.getCurrentApp(),
             "auto_cancel": 90,
@@ -9401,7 +9464,7 @@ require([
             "cancelOnUnload": true,
             "sample_ratio": null,
             "latest_time": "now",
-            "search": "| inputlookup trackme_metric_host_monitoring_blacklist_index | eval keyid=_key | `detect_rex(metric_index)` | search metric_index=\"$form.tk_input_metric_host_blacklist_index_search$\"",
+            "search": "| inputlookup trackme_metric_host_monitoring_blacklist_index | eval keyid=_key | `detect_rex(metric_index)` | search metric_index=\"$form.tk_input_metric_host_blacklist_index_search$\" | eval select = keyid | fields keyid, metric_index, is_rex, select",
             "status_buckets": 0,
             "app": utils.getCurrentApp(),
             "auto_cancel": 90,
@@ -9456,7 +9519,7 @@ require([
             "cancelOnUnload": true,
             "sample_ratio": null,
             "latest_time": "now",
-            "search": "| inputlookup trackme_data_host_monitoring_blacklist_sourcetype | eval keyid=_key | `detect_rex(data_sourcetype)` | search data_sourcetype=\"$form.tk_input_data_host_blacklist_sourcetype_search$\"",
+            "search": "| inputlookup trackme_data_host_monitoring_blacklist_sourcetype | eval keyid=_key | `detect_rex(data_sourcetype)` | search data_sourcetype=\"$form.tk_input_data_host_blacklist_sourcetype_search$\" | eval select = keyid | fields keyid, data_sourcetype, is_rex, select",
             "status_buckets": 0,
             "app": utils.getCurrentApp(),
             "auto_cancel": 90,
@@ -9501,7 +9564,7 @@ require([
             "cancelOnUnload": true,
             "sample_ratio": null,
             "latest_time": "now",
-            "search": "| inputlookup trackme_metric_host_monitoring_blacklist_metric_category | eval keyid=_key | `detect_rex(metric_category)` | search metric_category=\"$form.tk_input_metric_host_blacklist_metric_category_search$\"",
+            "search": "| inputlookup trackme_metric_host_monitoring_blacklist_metric_category | eval keyid=_key | `detect_rex(metric_category)` | search metric_category=\"$form.tk_input_metric_host_blacklist_metric_category_search$\" | eval select = keyid | fields keyid, metric_category, is_rex, select",
             "status_buckets": 0,
             "app": utils.getCurrentApp(),
             "auto_cancel": 90,
@@ -14580,8 +14643,8 @@ require([
                 "depends": "$show_table_data_source_blacklist_host$"
             },
             "count": 5,
-            "drilldown": "row",
-            "fields": "data_host, data_blacklist_state, is_rex",
+            "drilldown": "none",
+            "fields": "data_host, is_rex, select",
             "refresh.display": "none",
             "wrap": "false",
             "managerid": "searchBlackListDataSourceHost",
@@ -14591,40 +14654,14 @@ require([
             tokenNamespace: "submitted"
         }).render();
 
-        tableBlackListDataSourceHost.on("click", function(e) {
-            if (e.field !== undefined) {
-                e.preventDefault();
-
-                setToken("tk_keyid", TokenUtils.replaceTokenNames("$row.keyid$", _.extend(submittedTokenModel.toJSON(), e.data)));
-                setToken("tk_data_host", TokenUtils.replaceTokenNames("$row.data_host$", _.extend(submittedTokenModel.toJSON(), e.data)));
-                setToken("tk_data_blacklist_state", TokenUtils.replaceTokenNames("$row.data_blacklist_state$", _.extend(submittedTokenModel.toJSON(), e.data)));
-
-                submitTokens();
-
-                // When the Submit button is clicked, get all the form fields by accessing token values
-                var tokens = mvc.Components.get("default");
-
-                // When the Submit button is clicked, get all the form fields by accessing token values
-                var tokens = mvc.Components.get("default");
-
-                var tk_data_host = tokens.get("tk_data_host");
-                var tk_data_blacklist_state = tokens.get("tk_data_blacklist_state");
-
-                // Enable modal context
-                $("#modal_modify_data_source_blacklist_host").modal('hide');
-                $("#modal_manage_data_source_blacklist_host").modal();
-
-            }
-        });
-
         var tableBlackListDataSourceIndex = new TableElement({
             "id": "tableBlackListDataSourceIndex",
             "tokenDependencies": {
                 "depends": "$show_table_data_source_blacklist_index$",
             },
             "count": 5,
-            "drilldown": "row",
-            "fields": "data_index, data_blacklist_state, is_rex",
+            "drilldown": "none",
+            "fields": "data_index, is_rex, select",
             "refresh.display": "none",
             "wrap": "false",
             "managerid": "searchBlackListDataSourceIndex",
@@ -14634,40 +14671,14 @@ require([
             tokenNamespace: "submitted"
         }).render();
 
-        tableBlackListDataSourceIndex.on("click", function(e) {
-            if (e.field !== undefined) {
-                e.preventDefault();
-
-                setToken("tk_keyid", TokenUtils.replaceTokenNames("$row.keyid$", _.extend(submittedTokenModel.toJSON(), e.data)));
-                setToken("tk_data_index", TokenUtils.replaceTokenNames("$row.data_index$", _.extend(submittedTokenModel.toJSON(), e.data)));
-                setToken("tk_data_blacklist_state", TokenUtils.replaceTokenNames("$row.data_blacklist_state$", _.extend(submittedTokenModel.toJSON(), e.data)));
-
-                submitTokens();
-
-                // When the Submit button is clicked, get all the form fields by accessing token values
-                var tokens = mvc.Components.get("default");
-
-                // When the Submit button is clicked, get all the form fields by accessing token values
-                var tokens = mvc.Components.get("default");
-
-                var tk_data_index = tokens.get("tk_data_index");
-                var tk_data_blacklist_state = tokens.get("tk_data_blacklist_state");
-
-                // Enable modal context
-                $("#modal_modify_data_source_blacklist_index").modal('hide');
-                $("#modal_manage_data_source_blacklist_index").modal();
-
-            }
-        });
-
         var tableBlackListDataSourceSourcetype = new TableElement({
             "id": "tableBlackListDataSourceSourcetype",
             "tokenDependencies": {
                 "depends": "$show_table_data_source_blacklist_sourcetype$"
             },
             "count": 5,
-            "drilldown": "row",
-            "fields": "data_sourcetype, data_blacklist_state, is_rex",
+            "drilldown": "none",
+            "fields": "data_sourcetype, is_rex, select",
             "refresh.display": "none",
             "wrap": "false",
             "managerid": "searchBlackListDataSourceSourcetype",
@@ -14677,40 +14688,14 @@ require([
             tokenNamespace: "submitted"
         }).render();
 
-        tableBlackListDataSourceSourcetype.on("click", function(e) {
-            if (e.field !== undefined) {
-                e.preventDefault();
-
-                setToken("tk_keyid", TokenUtils.replaceTokenNames("$row.keyid$", _.extend(submittedTokenModel.toJSON(), e.data)));
-                setToken("tk_data_sourcetype", TokenUtils.replaceTokenNames("$row.data_sourcetype$", _.extend(submittedTokenModel.toJSON(), e.data)));
-                setToken("tk_data_blacklist_state", TokenUtils.replaceTokenNames("$row.data_blacklist_state$", _.extend(submittedTokenModel.toJSON(), e.data)));
-
-                submitTokens();
-
-                // When the Submit button is clicked, get all the form fields by accessing token values
-                var tokens = mvc.Components.get("default");
-
-                // When the Submit button is clicked, get all the form fields by accessing token values
-                var tokens = mvc.Components.get("default");
-
-                var tk_data_sourcetype = tokens.get("tk_data_sourcetype");
-                var tk_data_blacklist_state = tokens.get("tk_data_blacklist_state");
-
-                // Enable modal context
-                $("#modal_modify_data_source_blacklist_sourcetype").modal('hide');
-                $("#modal_manage_data_source_blacklist_sourcetype").modal();
-
-            }
-        });
-
         var tableBlackListDataHostHost = new TableElement({
             "id": "tableBlackListDataHostHost",
             "tokenDependencies": {
                 "depends": "$show_table_data_host_blacklist_host$"
             },
             "count": 5,
-            "drilldown": "row",
-            "fields": "data_host, data_blacklist_state, is_rex",
+            "drilldown": "none",
+            "fields": "data_host, is_rex, select",
             "refresh.display": "none",
             "wrap": "false",
             "managerid": "searchBlackListDataHostHost",
@@ -14720,40 +14705,14 @@ require([
             tokenNamespace: "submitted"
         }).render();
 
-        tableBlackListDataHostHost.on("click", function(e) {
-            if (e.field !== undefined) {
-                e.preventDefault();
-
-                setToken("tk_keyid", TokenUtils.replaceTokenNames("$row.keyid$", _.extend(submittedTokenModel.toJSON(), e.data)));
-                setToken("tk_data_host", TokenUtils.replaceTokenNames("$row.data_host$", _.extend(submittedTokenModel.toJSON(), e.data)));
-                setToken("tk_data_blacklist_state", TokenUtils.replaceTokenNames("$row.data_blacklist_state$", _.extend(submittedTokenModel.toJSON(), e.data)));
-
-                submitTokens();
-
-                // When the Submit button is clicked, get all the form fields by accessing token values
-                var tokens = mvc.Components.get("default");
-
-                // When the Submit button is clicked, get all the form fields by accessing token values
-                var tokens = mvc.Components.get("default");
-
-                var tk_data_host = tokens.get("tk_data_host");
-                var tk_data_blacklist_state = tokens.get("tk_data_blacklist_state");
-
-                // Enable modal context
-                $("#modal_modify_data_host_blacklist_host").modal('hide');
-                $("#modal_manage_data_host_blacklist_host").modal();
-
-            }
-        });
-
         var tableBlackListDataHostIndex = new TableElement({
             "id": "tableBlackListDataHostIndex",
             "tokenDependencies": {
                 "depends": "$show_table_data_host_blacklist_index$"
             },
             "count": 5,
-            "drilldown": "row",
-            "fields": "data_index, data_blacklist_state, is_rex",
+            "drilldown": "none",
+            "fields": "data_index, is_rex, select",
             "refresh.display": "none",
             "wrap": "false",
             "managerid": "searchBlackListDataHostIndex",
@@ -14763,40 +14722,14 @@ require([
             tokenNamespace: "submitted"
         }).render();
 
-        tableBlackListDataHostIndex.on("click", function(e) {
-            if (e.field !== undefined) {
-                e.preventDefault();
-
-                setToken("tk_keyid", TokenUtils.replaceTokenNames("$row.keyid$", _.extend(submittedTokenModel.toJSON(), e.data)));
-                setToken("tk_data_index", TokenUtils.replaceTokenNames("$row.data_index$", _.extend(submittedTokenModel.toJSON(), e.data)));
-                setToken("tk_data_blacklist_state", TokenUtils.replaceTokenNames("$row.data_blacklist_state$", _.extend(submittedTokenModel.toJSON(), e.data)));
-
-                submitTokens();
-
-                // When the Submit button is clicked, get all the form fields by accessing token values
-                var tokens = mvc.Components.get("default");
-
-                // When the Submit button is clicked, get all the form fields by accessing token values
-                var tokens = mvc.Components.get("default");
-
-                var tk_data_index = tokens.get("tk_data_index");
-                var tk_data_blacklist_state = tokens.get("tk_data_blacklist_state");
-
-                // Enable modal context
-                $("#modal_modify_data_host_blacklist_index").modal('hide');
-                $("#modal_manage_data_host_blacklist_index").modal();
-
-            }
-        });
-
         var tableBlackListMetricHostIndex = new TableElement({
             "id": "tableBlackListMetricHostIndex",
             "tokenDependencies": {
                 "depends": "$show_table_metric_host_blacklist_index$"
             },
             "count": 5,
-            "drilldown": "row",
-            "fields": "metric_index, metric_blacklist_state, is_rex",
+            "drilldown": "none",
+            "fields": "metric_index, is_rex, select",
             "refresh.display": "none",
             "wrap": "false",
             "managerid": "searchBlackListMetricHostIndex",
@@ -14806,40 +14739,14 @@ require([
             tokenNamespace: "submitted"
         }).render();
 
-        tableBlackListMetricHostIndex.on("click", function(e) {
-            if (e.field !== undefined) {
-                e.preventDefault();
-
-                setToken("tk_keyid", TokenUtils.replaceTokenNames("$row.keyid$", _.extend(submittedTokenModel.toJSON(), e.data)));
-                setToken("tk_metric_index", TokenUtils.replaceTokenNames("$row.metric_index$", _.extend(submittedTokenModel.toJSON(), e.data)));
-                setToken("tk_metric_blacklist_state", TokenUtils.replaceTokenNames("$row.metric_blacklist_state$", _.extend(submittedTokenModel.toJSON(), e.data)));
-
-                submitTokens();
-
-                // When the Submit button is clicked, get all the form fields by accessing token values
-                var tokens = mvc.Components.get("default");
-
-                // When the Submit button is clicked, get all the form fields by accessing token values
-                var tokens = mvc.Components.get("default");
-
-                var tk_metric_index = tokens.get("tk_metric_index");
-                var tk_metric_blacklist_state = tokens.get("tk_metric_blacklist_state");
-
-                // Enable modal context
-                $("#modal_modify_metric_host_blacklist_index").modal('hide');
-                $("#modal_manage_metric_host_blacklist_index").modal();
-
-            }
-        });
-
         var tableBlackListDataHostSourcetype = new TableElement({
             "id": "tableBlackListDataHostSourcetype",
             "tokenDependencies": {
                 "depends": "$show_table_data_host_blacklist_sourcetype$"
             },
             "count": 5,
-            "drilldown": "row",
-            "fields": "data_sourcetype, data_blacklist_state, is_rex",
+            "drilldown": "none",
+            "fields": "data_sourcetype, is_rex, select",
             "refresh.display": "none",
             "wrap": "false",
             "managerid": "searchBlackListDataHostSourcetype",
@@ -14849,40 +14756,14 @@ require([
             tokenNamespace: "submitted"
         }).render();
 
-        tableBlackListDataHostSourcetype.on("click", function(e) {
-            if (e.field !== undefined) {
-                e.preventDefault();
-
-                setToken("tk_keyid", TokenUtils.replaceTokenNames("$row.keyid$", _.extend(submittedTokenModel.toJSON(), e.data)));
-                setToken("tk_data_sourcetype", TokenUtils.replaceTokenNames("$row.data_sourcetype$", _.extend(submittedTokenModel.toJSON(), e.data)));
-                setToken("tk_data_blacklist_state", TokenUtils.replaceTokenNames("$row.data_blacklist_state$", _.extend(submittedTokenModel.toJSON(), e.data)));
-
-                submitTokens();
-
-                // When the Submit button is clicked, get all the form fields by accessing token values
-                var tokens = mvc.Components.get("default");
-
-                // When the Submit button is clicked, get all the form fields by accessing token values
-                var tokens = mvc.Components.get("default");
-
-                var tk_data_sourcetype = tokens.get("tk_data_sourcetype");
-                var tk_data_blacklist_state = tokens.get("tk_data_blacklist_state");
-
-                // Enable modal context
-                $("#modal_modify_data_host_blacklist_sourcetype").modal('hide');
-                $("#modal_manage_data_host_blacklist_sourcetype").modal();
-
-            }
-        });
-
         var tableBlackListMetricHostHost = new TableElement({
             "id": "tableBlackListMetricHostHost",
             "tokenDependencies": {
                 "depends": "$show_table_metric_host_blacklist_host$"
             },
             "count": 5,
-            "drilldown": "row",
-            "fields": "metric_host, metric_blacklist_state, is_rex",
+            "drilldown": "none",
+            "fields": "metric_host, is_rex, select",
             "refresh.display": "none",
             "wrap": "false",
             "managerid": "searchBlackListMetricHostHost",
@@ -14892,40 +14773,14 @@ require([
             tokenNamespace: "submitted"
         }).render();
 
-        tableBlackListMetricHostHost.on("click", function(e) {
-            if (e.field !== undefined) {
-                e.preventDefault();
-
-                setToken("tk_keyid", TokenUtils.replaceTokenNames("$row.keyid$", _.extend(submittedTokenModel.toJSON(), e.data)));
-                setToken("tk_metric_host", TokenUtils.replaceTokenNames("$row.metric_host$", _.extend(submittedTokenModel.toJSON(), e.data)));
-                setToken("tk_metric_blacklist_state", TokenUtils.replaceTokenNames("$row.metric_blacklist_state$", _.extend(submittedTokenModel.toJSON(), e.data)));
-
-                submitTokens();
-
-                // When the Submit button is clicked, get all the form fields by accessing token values
-                var tokens = mvc.Components.get("default");
-
-                // When the Submit button is clicked, get all the form fields by accessing token values
-                var tokens = mvc.Components.get("default");
-
-                var tk_metric_host = tokens.get("tk_metric_host");
-                var tk_metric_blacklist_state = tokens.get("tk_metric_blacklist_state");
-
-                // Enable modal context
-                $("#modal_modify_metric_host_blacklist_host").modal('hide');
-                $("#modal_manage_metric_host_blacklist_host").modal();
-
-            }
-        });
-
         var tableBlackListMetricHostMetricCategory = new TableElement({
             "id": "tableBlackListMetricHostMetricCategory",
             "tokenDependencies": {
                 "depends": "$show_table_metric_host_blacklist_metric_category$"
             },
             "count": 5,
-            "drilldown": "row",
-            "fields": "metric_category, metric_blacklist_state, is_rex",
+            "drilldown": "none",
+            "fields": "metric_category, is_rex, select",
             "refresh.display": "none",
             "wrap": "false",
             "managerid": "searchBlackListMetricHostMetricCategory",
@@ -14934,32 +14789,6 @@ require([
             tokens: true,
             tokenNamespace: "submitted"
         }).render();
-
-        tableBlackListMetricHostMetricCategory.on("click", function(e) {
-            if (e.field !== undefined) {
-                e.preventDefault();
-
-                setToken("tk_keyid", TokenUtils.replaceTokenNames("$row.keyid$", _.extend(submittedTokenModel.toJSON(), e.data)));
-                setToken("tk_metric_category", TokenUtils.replaceTokenNames("$row.metric_category$", _.extend(submittedTokenModel.toJSON(), e.data)));
-                setToken("tk_metric_blacklist_state", TokenUtils.replaceTokenNames("$row.metric_blacklist_state$", _.extend(submittedTokenModel.toJSON(), e.data)));
-
-                submitTokens();
-
-                // When the Submit button is clicked, get all the form fields by accessing token values
-                var tokens = mvc.Components.get("default");
-
-                // When the Submit button is clicked, get all the form fields by accessing token values
-                var tokens = mvc.Components.get("default");
-
-                var tk_metric_category = tokens.get("tk_metric_category");
-                var tk_metric_blacklist_state = tokens.get("tk_metric_blacklist_state");
-
-                // Enable modal context
-                $("#modal_modify_metric_host_blacklist_metric_category").modal('hide');
-                $("#modal_manage_metric_host_blacklist_metric_category").modal();
-
-            }
-        });
 
         // modal window chart
         var elementChartLag = new ChartElement({
@@ -16148,113 +15977,6 @@ require([
         }).render();
 
         DashboardController.addReadyDep(body_manage_custom_lagging.contentLoaded());
-
-        // blacklist
-
-        // blacklist host
-
-        var body_modal_manage_data_source_blacklist_host = new HtmlElement({
-            "id": "body_modal_manage_data_source_blacklist_host",
-            "useTokens": true,
-            "el": $('#body_modal_manage_data_source_blacklist_host')
-        }, {
-            tokens: true,
-            tokenNamespace: "submitted"
-        }).render();
-
-        DashboardController.addReadyDep(body_modal_manage_data_source_blacklist_host.contentLoaded());
-
-        var body_modal_manage_data_host_blacklist_host = new HtmlElement({
-            "id": "body_modal_manage_data_host_blacklist_host",
-            "useTokens": true,
-            "el": $('#body_modal_manage_data_host_blacklist_host')
-        }, {
-            tokens: true,
-            tokenNamespace: "submitted"
-        }).render();
-
-        DashboardController.addReadyDep(body_modal_manage_data_host_blacklist_host.contentLoaded());
-
-        var body_modal_manage_metric_host_blacklist_host = new HtmlElement({
-            "id": "body_modal_manage_metric_host_blacklist_host",
-            "useTokens": true,
-            "el": $('#body_modal_manage_metric_host_blacklist_host')
-        }, {
-            tokens: true,
-            tokenNamespace: "submitted"
-        }).render();
-
-        DashboardController.addReadyDep(body_modal_manage_metric_host_blacklist_host.contentLoaded());
-
-        // blacklist index
-
-        var body_modal_manage_data_source_blacklist_index = new HtmlElement({
-            "id": "body_modal_manage_data_source_blacklist_index",
-            "useTokens": true,
-            "el": $('#body_modal_manage_data_source_blacklist_index')
-        }, {
-            tokens: true,
-            tokenNamespace: "submitted"
-        }).render();
-
-        DashboardController.addReadyDep(body_modal_manage_data_source_blacklist_index.contentLoaded());
-
-        var body_modal_manage_data_host_blacklist_index = new HtmlElement({
-            "id": "body_modal_manage_data_host_blacklist_index",
-            "useTokens": true,
-            "el": $('#body_modal_manage_data_host_blacklist_index')
-        }, {
-            tokens: true,
-            tokenNamespace: "submitted"
-        }).render();
-
-        DashboardController.addReadyDep(body_modal_manage_data_host_blacklist_index.contentLoaded());
-
-        var body_modal_manage_metric_host_blacklist_index = new HtmlElement({
-            "id": "body_modal_manage_metric_host_blacklist_index",
-            "useTokens": true,
-            "el": $('#body_modal_manage_metric_host_blacklist_index')
-        }, {
-            tokens: true,
-            tokenNamespace: "submitted"
-        }).render();
-
-        DashboardController.addReadyDep(body_modal_manage_metric_host_blacklist_index.contentLoaded());
-
-        // blacklist host
-
-        var body_modal_manage_data_source_blacklist_sourcetype = new HtmlElement({
-            "id": "body_modal_manage_data_source_blacklist_sourcetype",
-            "useTokens": true,
-            "el": $('#body_modal_manage_data_source_blacklist_sourcetype')
-        }, {
-            tokens: true,
-            tokenNamespace: "submitted"
-        }).render();
-
-        DashboardController.addReadyDep(body_modal_manage_data_source_blacklist_sourcetype.contentLoaded());
-
-        var body_modal_manage_data_host_blacklist_sourcetype = new HtmlElement({
-            "id": "body_modal_manage_data_host_blacklist_sourcetype",
-            "useTokens": true,
-            "el": $('#body_modal_manage_data_host_blacklist_sourcetype')
-        }, {
-            tokens: true,
-            tokenNamespace: "submitted"
-        }).render();
-
-        DashboardController.addReadyDep(body_modal_manage_data_host_blacklist_sourcetype.contentLoaded());
-
-        var body_modal_manage_metric_host_blacklist_metric_category = new HtmlElement({
-            "id": "body_modal_manage_metric_host_blacklist_metric_category",
-            "useTokens": true,
-            "el": $('#body_modal_manage_metric_host_blacklist_metric_category')
-        }, {
-            tokens: true,
-            tokenNamespace: "submitted"
-        }).render();
-
-        DashboardController.addReadyDep(body_modal_manage_metric_host_blacklist_metric_category.contentLoaded());
 
         //
         // VIEWS: FORM INPUTS
@@ -20237,7 +19959,7 @@ require([
                             change_type = "add whitelist index";
                             object = tk_input_whitelist_data_source;
                             object_category = "data_source";
-                            object_attrs = "index:" + tk_input_whitelist_data_source;
+                            object_attrs = "{" + "\"data_index\": \"" + tk_input_whitelist_data_source + "\"}";
                             result = "N/A";
                             comment = "N/A";
                             auditRecord(action, change_type, object, object_category, object_attrs, result, comment);
@@ -20277,7 +19999,7 @@ require([
                                     change_type = "add whitelist index";
                                     object = tk_input_whitelist_data_source;
                                     object_category = "data_source";
-                                    object_attrs = "index:" + tk_input_whitelist_data_source;
+                                    object_attrs = "{" + "\"data_index\": \"" + tk_input_whitelist_data_source + "\"}";
                                     result = "N/A";
                                     comment = "N/A";
                                     auditRecord(action, change_type, object, object_category, object_attrs, result, comment);
@@ -20489,7 +20211,7 @@ require([
                             change_type = "add whitelist index";
                             object = tk_input_whitelist_metric_host;
                             object_category = "metric_host";
-                            object_attrs = "index:" + tk_input_whitelist_metric_host;
+                            object_attrs = "{" + "\"metric_index\": \"" + tk_input_whitelist_metric_host + "\"}";
                             result = "N/A";
                             comment = "N/A";
                             auditRecord(action, change_type, object, object_category, object_attrs, result, comment);
@@ -20529,7 +20251,7 @@ require([
                                     change_type = "add whitelist index";
                                     object = tk_input_whitelist_metric_host;
                                     object_category = "metric_host";
-                                    object_attrs = "index:" + tk_input_whitelist_metric_host;
+                                    object_attrs = "{" + "\"metric_index\": \"" + tk_input_whitelist_metric_host + "\"}";
                                     result = "N/A";
                                     comment = "N/A";
                                     auditRecord(action, change_type, object, object_category, object_attrs, result, comment);
@@ -20738,10 +20460,10 @@ require([
 
                             // Audit
                             action = "failure";
-                            change_type = "add whitelist index";
+                            change_type = "add whitelist host";
                             object = tk_input_whitelist_data_host;
                             object_category = "data_host";
-                            object_attrs = "index:" + tk_input_whitelist_data_host;
+                            object_attrs = "{" + "\"data_host\": \"" + tk_input_whitelist_data_host + "\"}";
                             result = "N/A";
                             comment = "N/A";
                             auditRecord(action, change_type, object, object_category, object_attrs, result, comment);
@@ -20778,10 +20500,10 @@ require([
 
                                     // Audit
                                     action = "success";
-                                    change_type = "add whitelist index";
+                                    change_type = "add whitelist host";
                                     object = tk_input_whitelist_data_host;
                                     object_category = "data_host";
-                                    object_attrs = "index:" + tk_input_whitelist_data_host;
+                                    object_attrs = "{" + "\"data_host\": \"" + tk_input_whitelist_data_host + "\"}";
                                     result = "N/A";
                                     comment = "N/A";
                                     auditRecord(action, change_type, object, object_category, object_attrs, result, comment);
@@ -20997,7 +20719,7 @@ require([
                             change_type = "add blacklist host";
                             object = tk_input_blacklist_host;
                             object_category = "data_source";
-                            object_attrs = "host:" + tk_input_blacklist_host;
+                            object_attrs = "{" + "\"data_host\": \"" + tk_input_blacklist_host + "\"}";
                             result = "N/A";
                             comment = "N/A";
                             auditRecord(action, change_type, object, object_category, object_attrs, result, comment);
@@ -21034,7 +20756,7 @@ require([
                                     change_type = "add blacklist host";
                                     object = tk_input_blacklist_host;
                                     object_category = "data_source";
-                                    object_attrs = "host:" + tk_input_blacklist_host;
+                                    object_attrs = "{" + "\"data_host\": \"" + tk_input_blacklist_host + "\"}";
                                     result = "N/A";
                                     comment = "N/A";
                                     auditRecord(action, change_type, object, object_category, object_attrs, result, comment);
@@ -21078,89 +20800,129 @@ require([
 
         // delete entry from blacklist
 
+        $("#btn_modal_data_source_blacklist_host_add_delete").click(function() {
+                $("#modal_modify_data_source_blacklist_host").modal('hide');
+                $("#modal_manage_data_source_blacklist_host").modal();
+        });
+
+        function foreachDeleteBlacklistDataSourceHost(item) {
+        //console.log("removal of key :" + item);
+
+            // Create the endpoint URL
+            var myendpoint_URl = "/en-US/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_data_source_monitoring_blacklist_host/" + item;
+
+            //console.log("Endpoint URL is: " + myendpoint_URl);
+
+            if (item && item.length) {
+
+                // Get the KV entry content first
+                $.ajax({
+                    url: myendpoint_URl,
+                    type: "GET",
+                    async: true,
+                    contentType: "application/json",
+                    success: function(returneddata) {
+
+                        removedObject = returneddata.data_host;
+                        //console.log("removedObject is: " + removedObject);
+
+                        // Retrieve update comment if any
+                        var tk_comment = document.getElementById("data_source_blocklist_host_delete_comment").value;
+
+                        // if is not defined, give it a value and override text box content
+                        if (tk_comment == "null") {
+                            setToken("tk_update_comment", TokenUtils.replaceTokenNames("No comments for update.", _.extend(submittedTokenModel.toJSON(), e.data)));
+                        }
+                        else if (tk_comment == "update note") {
+                            tk_comment = "No comment for update.";
+                        }
+
+                        // Proceed to delete call
+                        $.ajax({
+                            url: myendpoint_URl,
+                            type: "DELETE",
+                            async: true,
+                            contentType: "application/json",
+                            success: function(returneddata) {
+
+                                //console.log(returneddata);
+
+                                // Audit
+                                action = "success";
+                                change_type = "delete blacklist host";
+                                object = removedObject;
+                                object_category = "data_source";
+                                object_attrs = "{" + "\"data_host\": \"" + removedObject + "\", \"_key\": \"" + item + "\"}";
+                                result = "N/A";
+                                comment = tk_comment;
+                                auditRecord(action, change_type, object, object_category, object_attrs, result, comment);
+
+                                // house cleaning
+                                myendpoint_URl = undefined;
+                                delete(myendpoint_URl);
+                                tk_keyid = undefined;
+                                delete(tk_keyid);
+
+                                // Return to modal
+                                $("#modal_modify_data_source_blacklist_host").modal();
+                            },
+                            error: function(xhr, textStatus, error) {
+                                message = "Error Updating!" + xhr + textStatus + error;
+
+                                // Audit
+                                action = "failure";
+                                change_type = "delete blacklist host";
+                                object = removedObject;
+                                object_category = "data_source";
+                                object_attrs = "{" + "\"data_host\": \"" + removedObject + "\", \"_key\": \"" + item + "\"}";
+                                result = message;
+                                comment = tk_comment;
+                                auditRecord(action, change_type, object, object_category, object_attrs, result, comment);
+
+                            }
+
+                        });
+
+                    }
+
+                });
+
+            }
+
+        }
+
         $("#btn_delete_data_source_blacklist_host").click(function() {
 
-            //console.log("Button was pressed");
+            console.log("Button was pressed");
 
             submitTokens();
 
             // When the Submit button is clicked, get all the form fields by accessing token values
             var tokens = mvc.Components.get("default");
 
-            // When the Submit button is clicked, get all the form fields by accessing token values
-            var tk_keyid = tokens.get("tk_keyid");
+            // Get the arrays of keys
+            var tk_multi_table_array = tokens.get("removeBlacklistDataSourceHost");
+            console.log("tk_multi_table_array is: " + tk_multi_table_array);
+            tk_multi_table_array = tk_multi_table_array.split(',');
+            console.log("tk_multi_table_array is: " + tk_multi_table_array);
 
-            // Get
-            var tk_data_host = tokens.get("tk_data_host");
+            // Call the function for each value from the array
+            tk_multi_table_array.forEach(foreachDeleteBlacklistDataSourceHost);
 
-            // Create the endpoint URL
-            var myendpoint_URl = "/en-US/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_data_source_monitoring_blacklist_host/" + tk_keyid;
+            // Hide main modal
+            $("#modal_manage_data_host_whitelist").modal('hide');
 
-            //console.log("Endpoint URL is: " + myendpoint_URl);
+            //console.log("Updated!", returneddata)
+            // Run the search again to update the table
+            searchBlackListDataSourceHost.startSearch();
+            searchSingleBlackListDataSourceHost.startSearch();
+            searchDataSourcesMain.startSearch();
 
-            if (tk_keyid && tk_keyid.length) {
+            // notify
+            notification('Modification has been registered successfully.', 2000)
 
-                $.ajax({
-                    url: myendpoint_URl,
-                    type: "DELETE",
-                    async: true,
-                    contentType: "application/json",
-                    success: function(returneddata) {
-
-                        // Hide main modal
-                        $("#modal_manage_data_source_blacklist_host").modal('hide');
-
-                        //console.log("Updated!", returneddata)
-                        // Run the search again to update the table
-                        searchBlackListDataSourceHost.startSearch();
-                        searchSingleBlackListDataSourceHost.startSearch();
-                        searchDataSourcesMain.startSearch();
-
-                        // notify
-                        notification('Modification has been registered successfully.', 2000)
-
-                        // Audit
-                        action = "success";
-                        change_type = "delete blacklist host";
-                        object = tk_data_host;
-                        object_category = "data_source";
-                        object_attrs = "host:" + tk_data_host;
-                        result = "N/A";
-                        comment = "N/A";
-                        auditRecord(action, change_type, object, object_category, object_attrs, result, comment);
-
-                        // house cleaning
-                        myendpoint_URl = undefined;
-                        delete(myendpoint_URl);
-                        tk_keyid = undefined;
-                        delete(tk_keyid);
-
-                        // Return to modal
-                        $("#modal_modify_data_source_blacklist_host").modal();
-                    },
-                    error: function(xhr, textStatus, error) {
-                        message = "Error Updating!" + xhr + textStatus + error;
-
-                        // Audit
-                        action = "failure";
-                        change_type = "delete blacklist host";
-                        object = tk_data_host;
-                        object_category = "data_source";
-                        object_attrs = "host:" + tk_data_host;
-                        result = "N/A";
-                        comment = "N/A";
-                        auditRecord(action, change_type, object, object_category, object_attrs, result, comment);
-
-                        // Hide main modal
-                        $("#modal_manage_data_source_blacklist_host").modal('hide');
-                        $("#modal_modify_data_source_blacklist_host").modal('hide');
-                        $("#modal_update_collection_failure_return").find('.modal-error-message p').text(message);
-                        $("#modal_update_collection_failure_return").modal()
-                    }
-
-                });
-
-            }
+            // house cleaning
+            unsetToken("removeBlacklistDataSourceHost");
 
         });
 
@@ -21205,7 +20967,7 @@ require([
                             change_type = "add blacklist host";
                             object = tk_input_blacklist_host;
                             object_category = "data_host";
-                            object_attrs = "host:" + tk_input_blacklist_host;
+                            object_attrs = "{" + "\"data_host\": \"" + tk_input_blacklist_host + "\"}";
                             result = "N/A";
                             comment = "N/A";
                             auditRecord(action, change_type, object, object_category, object_attrs, result, comment);
@@ -21243,7 +21005,7 @@ require([
                                     change_type = "add blacklist host";
                                     object = tk_input_blacklist_host;
                                     object_category = "data_host";
-                                    object_attrs = "host:" + tk_input_blacklist_host;
+                                    object_attrs = "{" + "\"data_host\": \"" + tk_input_blacklist_host + "\"}";
                                     result = "N/A";
                                     comment = "N/A";
                                     auditRecord(action, change_type, object, object_category, object_attrs, result, comment);
@@ -21281,94 +21043,6 @@ require([
             } else {
                 $("#modal_entry_update_invalid").modal()
                 return;
-            }
-
-        });
-
-        // delete entry from blacklist
-
-        $("#btn_delete_data_host_blacklist_host").click(function() {
-
-            //console.log("Button was pressed");
-
-            submitTokens();
-
-            // When the Submit button is clicked, get all the form fields by accessing token values
-            var tokens = mvc.Components.get("default");
-
-            // When the Submit button is clicked, get all the form fields by accessing token values
-            var tk_keyid = tokens.get("tk_keyid");
-
-            // Get
-            var tk_data_host = tokens.get("tk_data_host");
-
-            // Create the endpoint URL
-            var myendpoint_URl = "/en-US/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_data_host_monitoring_blacklist_host/" + tk_keyid;
-
-            //console.log("Endpoint URL is: " + myendpoint_URl);
-
-            if (tk_keyid && tk_keyid.length) {
-
-                $.ajax({
-                    url: myendpoint_URl,
-                    type: "DELETE",
-                    async: true,
-                    contentType: "application/json",
-                    success: function(returneddata) {
-
-                        // Hide main modal
-                        $("#modal_manage_data_host_blacklist_host").modal('hide');
-
-                        //console.log("Updated!", returneddata)
-                        // Run the search again to update the table
-                        searchBlackListDataHostHost.startSearch();
-                        searchSingleBlackListDataHostHost.startSearch();
-                        searchDataHostsMain.startSearch();
-
-                        // notify
-                        notification('Modification has been registered successfully.', 2000)
-
-                        // Audit
-                        action = "success";
-                        change_type = "delete blacklist host";
-                        object = tk_data_host;
-                        object_category = "data_host";
-                        object_attrs = "host:" + tk_data_host;
-                        result = "N/A";
-                        comment = "N/A";
-                        auditRecord(action, change_type, object, object_category, object_attrs, result, comment);
-
-                        // house cleaning
-                        myendpoint_URl = undefined;
-                        delete(myendpoint_URl);
-                        tk_keyid = undefined;
-                        delete(tk_keyid);
-
-                        // Return to modal
-                        $("#modal_modify_data_host_blacklist_host").modal();
-                    },
-                    error: function(xhr, textStatus, error) {
-                        message = "Error Updating!" + xhr + textStatus + error;
-
-                        // Audit
-                        action = "failure";
-                        change_type = "delete blacklist host";
-                        object = tk_data_host;
-                        object_category = "data_host";
-                        object_attrs = "host:" + tk_data_host;
-                        result = message;
-                        comment = "N/A";
-                        auditRecord(action, change_type, object, object_category, object_attrs, result, comment);
-
-                        // Hide main modal
-                        $("#modal_manage_data_host_blacklist_host").modal('hide');
-                        $("#modal_modify_data_host_blacklist_host").modal('hide');
-                        $("#modal_update_collection_failure_return").find('.modal-error-message p').text(message);
-                        $("#modal_update_collection_failure_return").modal()
-                    }
-
-                });
-
             }
 
         });
@@ -21416,7 +21090,7 @@ require([
                             change_type = "add blacklist index";
                             object = tk_input_blacklist_index;
                             object_category = "data_source";
-                            object_attrs = "index:" + tk_input_blacklist_index;
+                            object_attrs = "{" + "\"data_index\": \"" + tk_input_blacklist_index + "\"}";
                             result = "N/A";
                             comment = "N/A";
                             auditRecord(action, change_type, object, object_category, object_attrs, result, comment);
@@ -21454,7 +21128,7 @@ require([
                                     change_type = "add blacklist index";
                                     object = tk_input_blacklist_index;
                                     object_category = "data_source";
-                                    object_attrs = "index:" + tk_input_blacklist_index;
+                                    object_attrs = "{" + "\"data_index\": \"" + tk_input_blacklist_index + "\"}";
                                     result = "N/A";
                                     comment = "N/A";
                                     auditRecord(action, change_type, object, object_category, object_attrs, result, comment);
@@ -21498,89 +21172,257 @@ require([
 
         // delete entry from blacklist
 
+        $("#btn_modal_data_source_blacklist_index_add_delete").click(function() {
+                $("#modal_modify_data_source_blacklist_index").modal('hide');
+                $("#modal_manage_data_source_blacklist_index").modal();
+        });
+
+        function foreachDeleteBlacklistDataSourceIndex(item) {
+        //console.log("removal of key :" + item);
+
+            // Create the endpoint URL
+            var myendpoint_URl = "/en-US/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_data_source_monitoring_blacklist_index/" + item;
+
+            //console.log("Endpoint URL is: " + myendpoint_URl);
+
+            if (item && item.length) {
+
+                // Get the KV entry content first
+                $.ajax({
+                    url: myendpoint_URl,
+                    type: "GET",
+                    async: true,
+                    contentType: "application/json",
+                    success: function(returneddata) {
+
+                        removedObject = returneddata.data_index;
+                        //console.log("removedObject is: " + removedObject);
+
+                        // Retrieve update comment if any
+                        var tk_comment = document.getElementById("data_source_blocklist_host_delete_comment").value;
+
+                        // if is not defined, give it a value and override text box content
+                        if (tk_comment == "null") {
+                            setToken("tk_update_comment", TokenUtils.replaceTokenNames("No comments for update.", _.extend(submittedTokenModel.toJSON(), e.data)));
+                        }
+                        else if (tk_comment == "update note") {
+                            tk_comment = "No comment for update.";
+                        }
+
+                        // Proceed to delete call
+                        $.ajax({
+                            url: myendpoint_URl,
+                            type: "DELETE",
+                            async: true,
+                            contentType: "application/json",
+                            success: function(returneddata) {
+
+                                //console.log(returneddata);
+
+                                // Audit
+                                action = "success";
+                                change_type = "delete blacklist index";
+                                object = removedObject;
+                                object_category = "data_source";
+                                object_attrs = "{" + "\"data_index\": \"" + removedObject + "\", \"_key\": \"" + item + "\"}";
+                                result = "N/A";
+                                comment = tk_comment;
+                                auditRecord(action, change_type, object, object_category, object_attrs, result, comment);
+
+                                // house cleaning
+                                myendpoint_URl = undefined;
+                                delete(myendpoint_URl);
+                                tk_keyid = undefined;
+                                delete(tk_keyid);
+
+                                // Return to modal
+                                $("#modal_modify_data_source_blacklist_index").modal();
+                            },
+                            error: function(xhr, textStatus, error) {
+                                message = "Error Updating!" + xhr + textStatus + error;
+
+                                // Audit
+                                action = "failure";
+                                change_type = "delete blacklist index";
+                                object = removedObject;
+                                object_category = "data_source";
+                                object_attrs = "{" + "\"data_index\": \"" + removedObject + "\", \"_key\": \"" + item + "\"}";
+                                result = message;
+                                comment = tk_comment;
+                                auditRecord(action, change_type, object, object_category, object_attrs, result, comment);
+
+                            }
+
+                        });
+
+                    }
+
+                });
+
+            }
+
+        }
+
         $("#btn_delete_data_source_blacklist_index").click(function() {
 
-            //console.log("Button was pressed");
+            console.log("Button was pressed");
 
             submitTokens();
 
             // When the Submit button is clicked, get all the form fields by accessing token values
             var tokens = mvc.Components.get("default");
 
-            // When the Submit button is clicked, get all the form fields by accessing token values
-            var tk_keyid = tokens.get("tk_keyid");
+            // Get the arrays of keys
+            var tk_multi_table_array = tokens.get("removeBlacklistDataSourceIndex");
+            console.log("tk_multi_table_array is: " + tk_multi_table_array);
+            tk_multi_table_array = tk_multi_table_array.split(',');
+            console.log("tk_multi_table_array is: " + tk_multi_table_array);
 
-            // Get
-            var tk_data_index = tokens.get("tk_data_index");
+            // Call the function for each value from the array
+            tk_multi_table_array.forEach(foreachDeleteBlacklistDataSourceIndex);
+
+            // Hide main modal
+            $("#modal_manage_data_host_whitelist").modal('hide');
+
+            //console.log("Updated!", returneddata)
+            // Run the search again to update the table
+            searchBlackListDataSourceIndex.startSearch();
+            searchSingleBlackListDataSourceIndex.startSearch();
+            searchDataSourcesMain.startSearch();
+
+            // notify
+            notification('Modification has been registered successfully.', 2000)
+
+            // house cleaning
+            unsetToken("removeBlacklistDataSourceIndex");
+
+        });
+
+        // delete entry from blacklist
+
+        $("#btn_modal_data_host_blacklist_index_add_delete").click(function() {
+                $("#modal_modify_data_host_blacklist_index").modal('hide');
+                $("#modal_manage_data_host_blacklist_index").modal();
+        });
+
+        function foreachDeleteBlacklistDataHostIndex(item) {
+        //console.log("removal of key :" + item);
 
             // Create the endpoint URL
-            var myendpoint_URl = "/en-US/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_data_source_monitoring_blacklist_index/" + tk_keyid;
+            var myendpoint_URl = "/en-US/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_data_host_monitoring_blacklist_index/" + item;
 
             //console.log("Endpoint URL is: " + myendpoint_URl);
 
-            if (tk_keyid && tk_keyid.length) {
+            if (item && item.length) {
 
+                // Get the KV entry content first
                 $.ajax({
                     url: myendpoint_URl,
-                    type: "DELETE",
+                    type: "GET",
                     async: true,
                     contentType: "application/json",
                     success: function(returneddata) {
 
-                        // Hide main modal
-                        $("#modal_manage_data_source_blacklist_index").modal('hide');
+                        removedObject = returneddata.data_index;
+                        //console.log("removedObject is: " + removedObject);
 
-                        //console.log("Updated!", returneddata)
-                        // Run the search again to update the table
-                        searchBlackListDataSourceIndex.startSearch();
-                        searchSingleBlackListDataSourceIndex.startSearch();
-                        searchDataSourcesMain.startSearch();
+                        // Retrieve update comment if any
+                        var tk_comment = document.getElementById("data_host_blocklist_host_delete_comment").value;
 
-                        // notify
-                        notification('Modification has been registered successfully.', 2000)
+                        // if is not defined, give it a value and override text box content
+                        if (tk_comment == "null") {
+                            setToken("tk_update_comment", TokenUtils.replaceTokenNames("No comments for update.", _.extend(submittedTokenModel.toJSON(), e.data)));
+                        }
+                        else if (tk_comment == "update note") {
+                            tk_comment = "No comment for update.";
+                        }
 
-                        // Audit
-                        action = "success";
-                        change_type = "delete blacklist index";
-                        object = tk_data_index;
-                        object_category = "data_source";
-                        object_attrs = "index:" + tk_data_index;
-                        result = "N/A";
-                        comment = "N/A";
-                        auditRecord(action, change_type, object, object_category, object_attrs, result, comment);
+                        // Proceed to delete call
+                        $.ajax({
+                            url: myendpoint_URl,
+                            type: "DELETE",
+                            async: true,
+                            contentType: "application/json",
+                            success: function(returneddata) {
 
-                        // house cleaning
-                        myendpoint_URl = undefined;
-                        delete(myendpoint_URl);
-                        tk_keyid = undefined;
-                        delete(tk_keyid);
+                                //console.log(returneddata);
 
-                        // Return to modal
-                        $("#modal_modify_data_source_blacklist_index").modal();
-                    },
-                    error: function(xhr, textStatus, error) {
-                        message = "Error Updating!" + xhr + textStatus + error;
+                                // Audit
+                                action = "success";
+                                change_type = "delete blacklist index";
+                                object = removedObject;
+                                object_category = "data_host";
+                                object_attrs = "{" + "\"data_index\": \"" + removedObject + "\", \"_key\": \"" + item + "\"}";
+                                result = "N/A";
+                                comment = tk_comment;
+                                auditRecord(action, change_type, object, object_category, object_attrs, result, comment);
 
-                        // Audit
-                        action = "failure";
-                        change_type = "delete blacklist index";
-                        object = tk_data_index;
-                        object_category = "data_source";
-                        object_attrs = "index:" + tk_data_index;
-                        result = "N/A";
-                        comment = "N/A";
-                        auditRecord(action, change_type, object, object_category, object_attrs, result, comment);
+                                // house cleaning
+                                myendpoint_URl = undefined;
+                                delete(myendpoint_URl);
+                                tk_keyid = undefined;
+                                delete(tk_keyid);
 
-                        // Hide main modal
-                        $("#modal_manage_data_source_blacklist_index").modal('hide');
-                        $("#modal_modify_data_source_blacklist_index").modal('hide');
-                        $("#modal_update_collection_failure_return").find('.modal-error-message p').text(message);
-                        $("#modal_update_collection_failure_return").modal()
+                                // Return to modal
+                                $("#modal_modify_data_host_blacklist_index").modal();
+                            },
+                            error: function(xhr, textStatus, error) {
+                                message = "Error Updating!" + xhr + textStatus + error;
+
+                                // Audit
+                                action = "failure";
+                                change_type = "delete blacklist index";
+                                object = removedObject;
+                                object_category = "data_host";
+                                object_attrs = "{" + "\"data_index\": \"" + removedObject + "\", \"_key\": \"" + item + "\"}";
+                                result = message;
+                                comment = tk_comment;
+                                auditRecord(action, change_type, object, object_category, object_attrs, result, comment);
+
+                            }
+
+                        });
+
                     }
 
                 });
 
             }
+
+        }
+
+        $("#btn_delete_data_host_blacklist_index").click(function() {
+
+            console.log("Button was pressed");
+
+            submitTokens();
+
+            // When the Submit button is clicked, get all the form fields by accessing token values
+            var tokens = mvc.Components.get("default");
+
+            // Get the arrays of keys
+            var tk_multi_table_array = tokens.get("removeBlacklistDataHostIndex");
+            console.log("tk_multi_table_array is: " + tk_multi_table_array);
+            tk_multi_table_array = tk_multi_table_array.split(',');
+            console.log("tk_multi_table_array is: " + tk_multi_table_array);
+
+            // Call the function for each value from the array
+            tk_multi_table_array.forEach(foreachDeleteBlacklistDataHostIndex);
+
+            // Hide main modal
+            $("#modal_manage_data_host_whitelist").modal('hide');
+
+            //console.log("Updated!", returneddata)
+            // Run the search again to update the table
+            searchBlackListDataHostIndex.startSearch();
+            searchSingleBlackListDataHostIndex.startSearch();
+            searchDataSourcesMain.startSearch();
+
+            // notify
+            notification('Modification has been registered successfully.', 2000)
+
+            // house cleaning
+            unsetToken("removeBlacklistDataHostIndex");
 
         });
 
@@ -21597,7 +21439,7 @@ require([
             var tk_input_blacklist_index = tokens.get("tk_input_data_host_blacklist_index");
 
             // Create the endpoint URL
-            var myendpoint_URl = "/en-US/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_data_source_monitoring_blacklist_index";
+            var myendpoint_URl = "/en-US/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_data_host_monitoring_blacklist_index";
 
             //console.log("Endpoint URL is: " + myendpoint_URl);
 
@@ -21625,7 +21467,7 @@ require([
                             change_type = "add blacklist index";
                             object = tk_input_blacklist_index;
                             object_category = "data_host";
-                            object_attrs = "index:" + tk_input_blacklist_index;
+                            object_attrs = "{" + "\"data_index\": \"" + tk_input_blacklist_index + "\"}";
                             result = "N/A";
                             comment = "N/A";
                             auditRecord(action, change_type, object, object_category, object_attrs, result, comment);
@@ -21663,7 +21505,7 @@ require([
                                     change_type = "add blacklist index";
                                     object = tk_input_blacklist_index;
                                     object_category = "data_host";
-                                    object_attrs = "index:" + tk_input_blacklist_index;
+                                    object_attrs = "{" + "\"data_index\": \"" + tk_input_blacklist_index + "\"}";
                                     result = "N/A";
                                     comment = "N/A";
                                     auditRecord(action, change_type, object, object_category, object_attrs, result, comment);
@@ -21707,89 +21549,129 @@ require([
 
         // delete entry from blacklist
 
-        $("#btn_delete_data_host_blacklist_index").click(function() {
+        $("#btn_modal_data_host_blacklist_host_add_delete").click(function() {
+                $("#modal_modify_data_host_blacklist_host").modal('hide');
+                $("#modal_manage_data_host_blacklist_host").modal();
+        });
 
-            //console.log("Button was pressed");
+        function foreachDeleteBlacklistDataHostHost(item) {
+        //console.log("removal of key :" + item);
+
+            // Create the endpoint URL
+            var myendpoint_URl = "/en-US/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_data_host_monitoring_blacklist_host/" + item;
+
+            //console.log("Endpoint URL is: " + myendpoint_URl);
+
+            if (item && item.length) {
+
+                // Get the KV entry content first
+                $.ajax({
+                    url: myendpoint_URl,
+                    type: "GET",
+                    async: true,
+                    contentType: "application/json",
+                    success: function(returneddata) {
+
+                        removedObject = returneddata.data_host;
+                        //console.log("removedObject is: " + removedObject);
+
+                        // Retrieve update comment if any
+                        var tk_comment = document.getElementById("data_host_blocklist_host_delete_comment").value;
+
+                        // if is not defined, give it a value and override text box content
+                        if (tk_comment == "null") {
+                            setToken("tk_update_comment", TokenUtils.replaceTokenNames("No comments for update.", _.extend(submittedTokenModel.toJSON(), e.data)));
+                        }
+                        else if (tk_comment == "update note") {
+                            tk_comment = "No comment for update.";
+                        }
+
+                        // Proceed to delete call
+                        $.ajax({
+                            url: myendpoint_URl,
+                            type: "DELETE",
+                            async: true,
+                            contentType: "application/json",
+                            success: function(returneddata) {
+
+                                //console.log(returneddata);
+
+                                // Audit
+                                action = "success";
+                                change_type = "delete blacklist host";
+                                object = removedObject;
+                                object_category = "data_host";
+                                object_attrs = "{" + "\"data_host\": \"" + removedObject + "\", \"_key\": \"" + item + "\"}";
+                                result = "N/A";
+                                comment = tk_comment;
+                                auditRecord(action, change_type, object, object_category, object_attrs, result, comment);
+
+                                // house cleaning
+                                myendpoint_URl = undefined;
+                                delete(myendpoint_URl);
+                                tk_keyid = undefined;
+                                delete(tk_keyid);
+
+                                // Return to modal
+                                $("#modal_modify_data_host_blacklist_host").modal();
+                            },
+                            error: function(xhr, textStatus, error) {
+                                message = "Error Updating!" + xhr + textStatus + error;
+
+                                // Audit
+                                action = "failure";
+                                change_type = "delete blacklist host";
+                                object = removedObject;
+                                object_category = "data_host";
+                                object_attrs = "{" + "\"data_host\": \"" + removedObject + "\", \"_key\": \"" + item + "\"}";
+                                result = message;
+                                comment = tk_comment;
+                                auditRecord(action, change_type, object, object_category, object_attrs, result, comment);
+
+                            }
+
+                        });
+
+                    }
+
+                });
+
+            }
+
+        }
+
+        $("#btn_delete_data_host_blacklist_host").click(function() {
+
+            console.log("Button was pressed");
 
             submitTokens();
 
             // When the Submit button is clicked, get all the form fields by accessing token values
             var tokens = mvc.Components.get("default");
 
-            // When the Submit button is clicked, get all the form fields by accessing token values
-            var tk_keyid = tokens.get("tk_keyid");
+            // Get the arrays of keys
+            var tk_multi_table_array = tokens.get("removeBlacklistDataHostHost");
+            console.log("tk_multi_table_array is: " + tk_multi_table_array);
+            tk_multi_table_array = tk_multi_table_array.split(',');
+            console.log("tk_multi_table_array is: " + tk_multi_table_array);
 
-            // When the Submit button is clicked, get all the form fields by accessing token values
-            var tk_data_index = tokens.get("tk_data_index");
+            // Call the function for each value from the array
+            tk_multi_table_array.forEach(foreachDeleteBlacklistDataHostHost);
 
-            // Create the endpoint URL
-            var myendpoint_URl = "/en-US/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_data_host_monitoring_blacklist_index/" + tk_keyid;
+            // Hide main modal
+            $("#modal_manage_data_host_whitelist").modal('hide');
 
-            //console.log("Endpoint URL is: " + myendpoint_URl);
+            //console.log("Updated!", returneddata)
+            // Run the search again to update the table
+            searchBlackListDataHostHost.startSearch();
+            searchSingleBlackListDataHostHost.startSearch();
+            searchDataHostsMain.startSearch();
 
-            if (tk_keyid && tk_keyid.length) {
+            // notify
+            notification('Modification has been registered successfully.', 2000)
 
-                $.ajax({
-                    url: myendpoint_URl,
-                    type: "DELETE",
-                    async: true,
-                    contentType: "application/json",
-                    success: function(returneddata) {
-
-                        // Hide main modal
-                        $("#modal_manage_data_host_blacklist_index").modal('hide');
-
-                        //console.log("Updated!", returneddata)
-                        // Run the search again to update the table
-                        searchBlackListDataHostIndex.startSearch();
-                        searchSingleBlackListDataHostIndex.startSearch();
-                        searchDataHostsMain.startSearch();
-
-                        // notify
-                        notification('Modification has been registered successfully.', 2000)
-
-                        // Audit
-                        action = "success";
-                        change_type = "delete blacklist index";
-                        object = tk_data_index;
-                        object_category = "data_host";
-                        object_attrs = "index:" + tk_data_index;
-                        result = "N/A";
-                        comment = "N/A";
-                        auditRecord(action, change_type, object, object_category, object_attrs, result, comment);
-
-                        // house cleaning
-                        myendpoint_URl = undefined;
-                        delete(myendpoint_URl);
-                        tk_keyid = undefined;
-                        delete(tk_keyid);
-
-                        // Return to modal
-                        $("#modal_modify_data_host_blacklist_index").modal();
-                    },
-                    error: function(xhr, textStatus, error) {
-                        message = "Error Updating!" + xhr + textStatus + error;
-
-                        // Audit
-                        action = "failure";
-                        change_type = "delete blacklist index";
-                        object = tk_data_index;
-                        object_category = "data_host";
-                        object_attrs = "index:" + tk_data_index;
-                        result = message;
-                        comment = "N/A";
-                        auditRecord(action, change_type, object, object_category, object_attrs, result, comment);
-
-                        // Hide main modal
-                        $("#modal_manage_data_host_blacklist_index").modal('hide');
-                        $("#modal_modify_data_host_blacklist_index").modal('hide');
-                        $("#modal_update_collection_failure_return").find('.modal-error-message p').text(message);
-                        $("#modal_update_collection_failure_return").modal()
-                    }
-
-                });
-
-            }
+            // house cleaning
+            unsetToken("removeBlacklistDataHostHost");
 
         });
 
@@ -21834,7 +21716,7 @@ require([
                             change_type = "add blacklist index";
                             object = tk_input_blacklist_index;
                             object_category = "metric_host";
-                            object_attrs = "index:" + tk_input_blacklist_index;
+                            object_attrs = "{" + "\"metric_index\": \"" + tk_input_blacklist_index + "\"}";
                             result = "N/A";
                             comment = "N/A";
                             auditRecord(action, change_type, object, object_category, object_attrs, result, comment);
@@ -21872,7 +21754,7 @@ require([
                                     change_type = "add blacklist index";
                                     object = tk_input_blacklist_index;
                                     object_category = "metric_host";
-                                    object_attrs = "index:" + tk_input_blacklist_index;
+                                    object_attrs = "{" + "\"metric_index\": \"" + tk_input_blacklist_index + "\"}";
                                     result = "N/A";
                                     comment = "N/A";
                                     auditRecord(action, change_type, object, object_category, object_attrs, result, comment);
@@ -21916,89 +21798,129 @@ require([
 
         // delete entry from blacklist
 
+        $("#btn_modal_metric_host_blacklist_index_add_delete").click(function() {
+                $("#modal_modify_metric_host_blacklist_index").modal('hide');
+                $("#modal_manage_metric_host_blacklist_index").modal();
+        });
+
+        function foreachDeleteBlacklistMetricHostIndex(item) {
+        //console.log("removal of key :" + item);
+
+            // Create the endpoint URL
+            var myendpoint_URl = "/en-US/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_metric_host_monitoring_blacklist_index/" + item;
+
+            //console.log("Endpoint URL is: " + myendpoint_URl);
+
+            if (item && item.length) {
+
+                // Get the KV entry content first
+                $.ajax({
+                    url: myendpoint_URl,
+                    type: "GET",
+                    async: true,
+                    contentType: "application/json",
+                    success: function(returneddata) {
+
+                        removedObject = returneddata.metric_index;
+                        //console.log("removedObject is: " + removedObject);
+
+                        // Retrieve update comment if any
+                        var tk_comment = document.getElementById("metric_host_blocklist_host_delete_comment").value;
+
+                        // if is not defined, give it a value and override text box content
+                        if (tk_comment == "null") {
+                            setToken("tk_update_comment", TokenUtils.replaceTokenNames("No comments for update.", _.extend(submittedTokenModel.toJSON(), e.data)));
+                        }
+                        else if (tk_comment == "update note") {
+                            tk_comment = "No comment for update.";
+                        }
+
+                        // Proceed to delete call
+                        $.ajax({
+                            url: myendpoint_URl,
+                            type: "DELETE",
+                            async: true,
+                            contentType: "application/json",
+                            success: function(returneddata) {
+
+                                //console.log(returneddata);
+
+                                // Audit
+                                action = "success";
+                                change_type = "delete blacklist index";
+                                object = removedObject;
+                                object_category = "metric_host";
+                                object_attrs = "{" + "\"metric_index\": \"" + removedObject + "\", \"_key\": \"" + item + "\"}";
+                                result = "N/A";
+                                comment = tk_comment;
+                                auditRecord(action, change_type, object, object_category, object_attrs, result, comment);
+
+                                // house cleaning
+                                myendpoint_URl = undefined;
+                                delete(myendpoint_URl);
+                                tk_keyid = undefined;
+                                delete(tk_keyid);
+
+                                // Return to modal
+                                $("#modal_modify_metric_host_blacklist_index").modal();
+                            },
+                            error: function(xhr, textStatus, error) {
+                                message = "Error Updating!" + xhr + textStatus + error;
+
+                                // Audit
+                                action = "failure";
+                                change_type = "delete blacklist index";
+                                object = removedObject;
+                                object_category = "metric_host";
+                                object_attrs = "{" + "\"metric_index\": \"" + removedObject + "\", \"_key\": \"" + item + "\"}";
+                                result = message;
+                                comment = tk_comment;
+                                auditRecord(action, change_type, object, object_category, object_attrs, result, comment);
+
+                            }
+
+                        });
+
+                    }
+
+                });
+
+            }
+
+        }
+
         $("#btn_delete_metric_host_blacklist_index").click(function() {
 
-            //console.log("Button was pressed");
+            console.log("Button was pressed");
 
             submitTokens();
 
             // When the Submit button is clicked, get all the form fields by accessing token values
             var tokens = mvc.Components.get("default");
 
-            // When the Submit button is clicked, get all the form fields by accessing token values
-            var tk_keyid = tokens.get("tk_keyid");
+            // Get the arrays of keys
+            var tk_multi_table_array = tokens.get("removeBlacklistMetricHostIndex");
+            console.log("tk_multi_table_array is: " + tk_multi_table_array);
+            tk_multi_table_array = tk_multi_table_array.split(',');
+            console.log("tk_multi_table_array is: " + tk_multi_table_array);
 
-            // When the Submit button is clicked, get all the form fields by accessing token values
-            var tk_metric_index = tokens.get("tk_metric_index");
+            // Call the function for each value from the array
+            tk_multi_table_array.forEach(foreachDeleteBlacklistMetricHostIndex);
 
-            // Create the endpoint URL
-            var myendpoint_URl = "/en-US/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_metric_host_monitoring_blacklist_index/" + tk_keyid;
+            // Hide main modal
+            $("#modal_manage_metric_host_whitelist").modal('hide');
 
-            //console.log("Endpoint URL is: " + myendpoint_URl);
+            //console.log("Updated!", returneddata)
+            // Run the search again to update the table
+            searchBlackListMetricHostIndex.startSearch();
+            searchSingleBlackListMetricHostIndex.startSearch();
+            searchMetricHostsMain.startSearch();
 
-            if (tk_keyid && tk_keyid.length) {
+            // notify
+            notification('Modification has been registered successfully.', 2000)
 
-                $.ajax({
-                    url: myendpoint_URl,
-                    type: "DELETE",
-                    async: true,
-                    contentType: "application/json",
-                    success: function(returneddata) {
-
-                        // Hide main modal
-                        $("#modal_manage_metric_host_blacklist_index").modal('hide');
-
-                        //console.log("Updated!", returneddata)
-                        // Run the search again to update the table
-                        searchBlackListMetricHostIndex.startSearch();
-                        searchSingleBlackListMetricHostIndex.startSearch();
-                        searchMetricHostsMain.startSearch();
-
-                        // notify
-                        notification('Modification has been registered successfully.', 2000)
-
-                        // Audit
-                        action = "success";
-                        change_type = "delete blacklist index";
-                        object = tk_metric_index;
-                        object_category = "metric_host";
-                        object_attrs = "index:" + tk_metric_index;
-                        result = "N/A";
-                        comment = "N/A";
-                        auditRecord(action, change_type, object, object_category, object_attrs, result, comment);
-
-                        // house cleaning
-                        myendpoint_URl = undefined;
-                        delete(myendpoint_URl);
-                        tk_keyid = undefined;
-                        delete(tk_keyid);
-
-                        // Return to modal
-                        $("#modal_modify_metric_host_blacklist_index").modal();
-                    },
-                    error: function(xhr, textStatus, error) {
-                        message = "Error Updating!" + xhr + textStatus + error;
-
-                        // Audit
-                        action = "failure";
-                        change_type = "delete blacklist index";
-                        object = tk_metric_index;
-                        object_category = "metric_host";
-                        object_attrs = "index:" + tk_metric_index;
-                        result = message;
-                        comment = "N/A";
-                        auditRecord(action, change_type, object, object_category, object_attrs, result, comment);
-
-                        // Hide main modal
-                        $("#modal_manage_metric_host_blacklist_index").modal('hide');
-                        $("#modal_modify_metric_host_blacklist_index").modal('hide');
-                        $("#modal_update_collection_failure_return").find('.modal-error-message p').text(message);
-                        $("#modal_update_collection_failure_return").modal()
-                    }
-
-                });
-
-            }
+            // house cleaning
+            unsetToken("removeBlacklistMetricHostIndex");
 
         });
 
@@ -22043,7 +21965,7 @@ require([
                             change_type = "add blacklist sourcetype";
                             object = tk_input_blacklist_sourcetype;
                             object_category = "data_source";
-                            object_attrs = "sourcetype:" + tk_input_blacklist_sourcetype;
+                            object_attrs = "{" + "\"data_sourcetype\": \"" + tk_input_blacklist_sourcetype + "\"}";
                             result = "N/A";
                             comment = "N/A";
                             auditRecord(action, change_type, object, object_category, object_attrs, result, comment);
@@ -22081,7 +22003,7 @@ require([
                                     change_type = "add blacklist sourcetype";
                                     object = tk_input_blacklist_sourcetype;
                                     object_category = "data_source";
-                                    object_attrs = "sourcetype:" + tk_input_blacklist_sourcetype;
+                                    object_attrs = "{" + "\"data_sourcetype\": \"" + tk_input_blacklist_sourcetype + "\"}";
                                     result = "N/A";
                                     comment = "N/A";
                                     auditRecord(action, change_type, object, object_category, object_attrs, result, comment);
@@ -22125,89 +22047,129 @@ require([
 
         // delete entry from blacklist
 
+        $("#btn_modal_data_source_blacklist_sourcetype_add_delete").click(function() {
+                $("#modal_modify_data_source_blacklist_sourcetype").modal('hide');
+                $("#modal_manage_data_source_blacklist_sourcetype").modal();
+        });
+
+        function foreachDeleteBlacklistDataSourceSourcetype(item) {
+        //console.log("removal of key :" + item);
+
+            // Create the endpoint URL
+            var myendpoint_URl = "/en-US/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_data_source_monitoring_blacklist_sourcetype/" + item;
+
+            //console.log("Endpoint URL is: " + myendpoint_URl);
+
+            if (item && item.length) {
+
+                // Get the KV entry content first
+                $.ajax({
+                    url: myendpoint_URl,
+                    type: "GET",
+                    async: true,
+                    contentType: "application/json",
+                    success: function(returneddata) {
+
+                        removedObject = returneddata.data_sourcetype;
+                        //console.log("removedObject is: " + removedObject);
+
+                        // Retrieve update comment if any
+                        var tk_comment = document.getElementById("data_source_blocklist_host_delete_comment").value;
+
+                        // if is not defined, give it a value and override text box content
+                        if (tk_comment == "null") {
+                            setToken("tk_update_comment", TokenUtils.replaceTokenNames("No comments for update.", _.extend(submittedTokenModel.toJSON(), e.data)));
+                        }
+                        else if (tk_comment == "update note") {
+                            tk_comment = "No comment for update.";
+                        }
+
+                        // Proceed to delete call
+                        $.ajax({
+                            url: myendpoint_URl,
+                            type: "DELETE",
+                            async: true,
+                            contentType: "application/json",
+                            success: function(returneddata) {
+
+                                //console.log(returneddata);
+
+                                // Audit
+                                action = "success";
+                                change_type = "delete blacklist sourcetype";
+                                object = removedObject;
+                                object_category = "data_source";
+                                object_attrs = "{" + "\"data_sourcetype\": \"" + removedObject + "\", \"_key\": \"" + item + "\"}";
+                                result = "N/A";
+                                comment = tk_comment;
+                                auditRecord(action, change_type, object, object_category, object_attrs, result, comment);
+
+                                // house cleaning
+                                myendpoint_URl = undefined;
+                                delete(myendpoint_URl);
+                                tk_keyid = undefined;
+                                delete(tk_keyid);
+
+                                // Return to modal
+                                $("#modal_modify_data_source_blacklist_sourcetype").modal();
+                            },
+                            error: function(xhr, textStatus, error) {
+                                message = "Error Updating!" + xhr + textStatus + error;
+
+                                // Audit
+                                action = "failure";
+                                change_type = "delete blacklist sourcetype";
+                                object = removedObject;
+                                object_category = "data_source";
+                                object_attrs = "{" + "\"data_sourcetype\": \"" + removedObject + "\", \"_key\": \"" + item + "\"}";
+                                result = message;
+                                comment = tk_comment;
+                                auditRecord(action, change_type, object, object_category, object_attrs, result, comment);
+
+                            }
+
+                        });
+
+                    }
+
+                });
+
+            }
+
+        }
+
         $("#btn_delete_data_source_blacklist_sourcetype").click(function() {
 
-            //console.log("Button was pressed");
+            console.log("Button was pressed");
 
             submitTokens();
 
             // When the Submit button is clicked, get all the form fields by accessing token values
             var tokens = mvc.Components.get("default");
 
-            // When the Submit button is clicked, get all the form fields by accessing token values
-            var tk_keyid = tokens.get("tk_keyid");
+            // Get the arrays of keys
+            var tk_multi_table_array = tokens.get("removeBlacklistDataSourceSourcetype");
+            console.log("tk_multi_table_array is: " + tk_multi_table_array);
+            tk_multi_table_array = tk_multi_table_array.split(',');
+            console.log("tk_multi_table_array is: " + tk_multi_table_array);
 
-            // Get
-            var tk_data_sourcetype = tokens.get("tk_data_sourcetype");
+            // Call the function for each value from the array
+            tk_multi_table_array.forEach(foreachDeleteBlacklistDataSourceSourcetype);
 
-            // Create the endpoint URL
-            var myendpoint_URl = "/en-US/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_data_source_monitoring_blacklist_sourcetype/" + tk_keyid;
+            // Hide main modal
+            $("#modal_manage_data_host_whitelist").modal('hide');
 
-            //console.log("Endpoint URL is: " + myendpoint_URl);
+            //console.log("Updated!", returneddata)
+            // Run the search again to update the table
+            searchBlackListDataSourceSourcetype.startSearch();
+            searchSingleBlackListDataSourceSourcetype.startSearch();
+            searchDataSourcesMain.startSearch();
 
-            if (tk_keyid && tk_keyid.length) {
+            // notify
+            notification('Modification has been registered successfully.', 2000)
 
-                $.ajax({
-                    url: myendpoint_URl,
-                    type: "DELETE",
-                    async: true,
-                    contentType: "application/json",
-                    success: function(returneddata) {
-
-                        // Hide main modal
-                        $("#modal_manage_data_source_blacklist_sourcetype").modal('hide');
-
-                        //console.log("Updated!", returneddata)
-                        // Run the search again to update the table
-                        searchBlackListDataSourceSourcetype.startSearch();
-                        searchSingleBlackListDataSourceSourcetype.startSearch();
-                        searchDataSourcesMain.startSearch();
-
-                        // notify
-                        notification('Modification has been registered successfully.', 2000)
-
-                        // Audit
-                        action = "success";
-                        change_type = "delete blacklist sourcetype";
-                        object = tk_data_sourcetype;
-                        object_category = "data_source";
-                        object_attrs = "sourcetype:" + tk_data_sourcetype;
-                        result = "N/A";
-                        comment = "N/A";
-                        auditRecord(action, change_type, object, object_category, object_attrs, result, comment);
-
-                        // house cleaning
-                        myendpoint_URl = undefined;
-                        delete(myendpoint_URl);
-                        tk_keyid = undefined;
-                        delete(tk_keyid);
-
-                        // Return to modal
-                        $("#modal_modify_data_source_blacklist_sourcetype").modal();
-                    },
-                    error: function(xhr, textStatus, error) {
-                        message = "Error Updating!" + xhr + textStatus + error;
-
-                        // Audit
-                        action = "failure";
-                        change_type = "delete blacklist sourcetype";
-                        object = tk_data_sourcetype;
-                        object_category = "data_source";
-                        object_attrs = "sourcetype:" + tk_data_sourcetype;
-                        result = message;
-                        comment = "N/A";
-                        auditRecord(action, change_type, object, object_category, object_attrs, result, comment);
-
-                        // Hide main modal
-                        $("#modal_manage_data_source_blacklist_sourcetype").modal('hide');
-                        $("#modal_modify_data_source_blacklist_sourcetype").modal('hide');
-                        $("#modal_update_collection_failure_return").find('.modal-error-message p').text(message);
-                        $("#modal_update_collection_failure_return").modal()
-                    }
-
-                });
-
-            }
+            // house cleaning
+            unsetToken("removeBlacklistDataSourceSourcetype");
 
         });
 
@@ -22249,10 +22211,10 @@ require([
 
                             // Audit
                             action = "failure";
-                            change_type = "add blacklist sourcetypeg";
+                            change_type = "add blacklist sourcetype";
                             object = tk_input_blacklist_sourcetype;
                             object_category = "data_host";
-                            object_attrs = "sourcetype:" + tk_input_blacklist_sourcetype;
+                            object_attrs = "{" + "\"data_sourcetype\": \"" + tk_input_blacklist_sourcetype + "\"}";
                             result = "N/A";
                             comment = "N/A";
                             auditRecord(action, change_type, object, object_category, object_attrs, result, comment);
@@ -22287,10 +22249,10 @@ require([
 
                                     // Audit
                                     action = "success";
-                                    change_type = "add blacklist sourcetypeg";
+                                    change_type = "add blacklist sourcetype";
                                     object = tk_input_blacklist_sourcetype;
                                     object_category = "data_host";
-                                    object_attrs = "sourcetype:" + tk_input_blacklist_sourcetype;
+                                    object_attrs = "{" + "\"data_sourcetype\": \"" + tk_input_blacklist_sourcetype + "\"}";
                                     result = "N/A";
                                     comment = "N/A";
                                     auditRecord(action, change_type, object, object_category, object_attrs, result, comment);
@@ -22334,89 +22296,129 @@ require([
 
         // delete entry from blacklist
 
+        $("#btn_modal_data_host_blacklist_sourcetype_add_delete").click(function() {
+                $("#modal_modify_data_host_blacklist_sourcetype").modal('hide');
+                $("#modal_manage_data_host_blacklist_sourcetype").modal();
+        });
+
+        function foreachDeleteBlacklistDataHostSourcetype(item) {
+        //console.log("removal of key :" + item);
+
+            // Create the endpoint URL
+            var myendpoint_URl = "/en-US/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_data_host_monitoring_blacklist_sourcetype/" + item;
+
+            //console.log("Endpoint URL is: " + myendpoint_URl);
+
+            if (item && item.length) {
+
+                // Get the KV entry content first
+                $.ajax({
+                    url: myendpoint_URl,
+                    type: "GET",
+                    async: true,
+                    contentType: "application/json",
+                    success: function(returneddata) {
+
+                        removedObject = returneddata.data_sourcetype;
+                        //console.log("removedObject is: " + removedObject);
+
+                        // Retrieve update comment if any
+                        var tk_comment = document.getElementById("data_host_blocklist_host_delete_comment").value;
+
+                        // if is not defined, give it a value and override text box content
+                        if (tk_comment == "null") {
+                            setToken("tk_update_comment", TokenUtils.replaceTokenNames("No comments for update.", _.extend(submittedTokenModel.toJSON(), e.data)));
+                        }
+                        else if (tk_comment == "update note") {
+                            tk_comment = "No comment for update.";
+                        }
+
+                        // Proceed to delete call
+                        $.ajax({
+                            url: myendpoint_URl,
+                            type: "DELETE",
+                            async: true,
+                            contentType: "application/json",
+                            success: function(returneddata) {
+
+                                //console.log(returneddata);
+
+                                // Audit
+                                action = "success";
+                                change_type = "delete blacklist sourcetype";
+                                object = removedObject;
+                                object_category = "data_host";
+                                object_attrs = "{" + "\"data_sourcetype\": \"" + removedObject + "\", \"_key\": \"" + item + "\"}";
+                                result = "N/A";
+                                comment = tk_comment;
+                                auditRecord(action, change_type, object, object_category, object_attrs, result, comment);
+
+                                // house cleaning
+                                myendpoint_URl = undefined;
+                                delete(myendpoint_URl);
+                                tk_keyid = undefined;
+                                delete(tk_keyid);
+
+                                // Return to modal
+                                $("#modal_modify_data_host_blacklist_sourcetype").modal();
+                            },
+                            error: function(xhr, textStatus, error) {
+                                message = "Error Updating!" + xhr + textStatus + error;
+
+                                // Audit
+                                action = "failure";
+                                change_type = "delete blacklist sourcetype";
+                                object = removedObject;
+                                object_category = "data_host";
+                                object_attrs = "{" + "\"data_sourcetype\": \"" + removedObject + "\", \"_key\": \"" + item + "\"}";
+                                result = message;
+                                comment = tk_comment;
+                                auditRecord(action, change_type, object, object_category, object_attrs, result, comment);
+
+                            }
+
+                        });
+
+                    }
+
+                });
+
+            }
+
+        }
+
         $("#btn_delete_data_host_blacklist_sourcetype").click(function() {
 
-            //console.log("Button was pressed");
+            console.log("Button was pressed");
 
             submitTokens();
 
             // When the Submit button is clicked, get all the form fields by accessing token values
             var tokens = mvc.Components.get("default");
 
-            // When the Submit button is clicked, get all the form fields by accessing token values
-            var tk_keyid = tokens.get("tk_keyid");
+            // Get the arrays of keys
+            var tk_multi_table_array = tokens.get("removeBlacklistDataHostSourcetype");
+            console.log("tk_multi_table_array is: " + tk_multi_table_array);
+            tk_multi_table_array = tk_multi_table_array.split(',');
+            console.log("tk_multi_table_array is: " + tk_multi_table_array);
 
-            // When the Submit button is clicked, get all the form fields by accessing token values
-            var tk_data_sourcetype = tokens.get("tk_data_sourcetype");
+            // Call the function for each value from the array
+            tk_multi_table_array.forEach(foreachDeleteBlacklistDataHostSourcetype);
 
-            // Create the endpoint URL
-            var myendpoint_URl = "/en-US/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_data_host_monitoring_blacklist_sourcetype/" + tk_keyid;
+            // Hide main modal
+            $("#modal_manage_data_host_whitelist").modal('hide');
 
-            //console.log("Endpoint URL is: " + myendpoint_URl);
+            //console.log("Updated!", returneddata)
+            // Run the search again to update the table
+            searchBlackListDataHostSourcetype.startSearch();
+            searchSingleBlackListDataHostSourcetype.startSearch();
+            searchDataSourcesMain.startSearch();
 
-            if (tk_keyid && tk_keyid.length) {
+            // notify
+            notification('Modification has been registered successfully.', 2000)
 
-                $.ajax({
-                    url: myendpoint_URl,
-                    type: "DELETE",
-                    async: true,
-                    contentType: "application/json",
-                    success: function(returneddata) {
-
-                        // Hide main modal
-                        $("#modal_manage_data_host_blacklist_sourcetype").modal('hide');
-
-                        // Audit
-                        action = "success";
-                        change_type = "delete blacklist sourcetype";
-                        object = tk_data_sourcetype;
-                        object_category = "data_host";
-                        object_attrs = "sourcetype:" + tk_data_sourcetype;
-                        result = "N/A";
-                        comment = "N/A";
-                        auditRecord(action, change_type, object, object_category, object_attrs, result, comment);
-
-                        //console.log("Updated!", returneddata)
-                        // Run the search again to update the table
-                        searchBlackListDataHostSourcetype.startSearch();
-                        searchSingleBlackListDataHostSourcetype.startSearch();
-                        searchDataHostsMain.startSearch();
-
-                        // notify
-                        notification('Modification has been registered successfully.', 2000)
-
-                        // house cleaning
-                        myendpoint_URl = undefined;
-                        delete(myendpoint_URl);
-                        tk_keyid = undefined;
-                        delete(tk_keyid);
-
-                        // Return to modal
-                        $("#modal_modify_data_host_blacklist_sourcetype").modal();
-                    },
-                    error: function(xhr, textStatus, error) {
-                        message = "Error Updating!" + xhr + textStatus + error;
-
-                        // Audit
-                        action = "failure";
-                        change_type = "delete blacklist sourcetype";
-                        object = tk_data_sourcetype;
-                        object_category = "data_host";
-                        object_attrs = "sourcetype:" + tk_data_sourcetype;
-                        result = message;
-                        comment = "N/A";
-                        auditRecord(action, change_type, object, object_category, object_attrs, result, comment);
-
-                        // Hide main modal
-                        $("#modal_manage_data_host_blacklist_sourcetype").modal('hide');
-                        $("#modal_modify_data_host_blacklist_sourcetype").modal('hide');
-                        $("#modal_update_collection_failure_return").find('.modal-error-message p').text(message);
-                        $("#modal_update_collection_failure_return").modal()
-                    }
-
-                });
-
-            }
+            // house cleaning
+            unsetToken("removeBlacklistDataHostSourcetype");
 
         });
 
@@ -22462,7 +22464,7 @@ require([
                             change_type = "add blacklist host";
                             object = tk_input_blacklist_host;
                             object_category = "metric_host";
-                            object_attrs = "host:" + tk_input_blacklist_host;
+                            object_attrs = "{" + "\"metric_host\": \"" + tk_input_blacklist_host + "\"}";
                             result = "N/A";
                             comment = "N/A";
                             auditRecord(action, change_type, object, object_category, object_attrs, result, comment);
@@ -22500,7 +22502,7 @@ require([
                                     change_type = "add blacklist host";
                                     object = tk_input_blacklist_host;
                                     object_category = "metric_host";
-                                    object_attrs = "host:" + tk_input_blacklist_host;
+                                    object_attrs = "{" + "\"metric_host\": \"" + tk_input_blacklist_host + "\"}";
                                     result = "N/A";
                                     comment = "N/A";
                                     auditRecord(action, change_type, object, object_category, object_attrs, result, comment);
@@ -22544,89 +22546,129 @@ require([
 
         // delete entry from blacklist
 
+        $("#btn_modal_metric_host_blacklist_host_add_delete").click(function() {
+                $("#modal_modify_metric_host_blacklist_host").modal('hide');
+                $("#modal_manage_metric_host_blacklist_host").modal();
+        });
+
+        function foreachDeleteBlacklistMetricHostHost(item) {
+        //console.log("removal of key :" + item);
+
+            // Create the endpoint URL
+            var myendpoint_URl = "/en-US/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_metric_host_monitoring_blacklist_host/" + item;
+
+            //console.log("Endpoint URL is: " + myendpoint_URl);
+
+            if (item && item.length) {
+
+                // Get the KV entry content first
+                $.ajax({
+                    url: myendpoint_URl,
+                    type: "GET",
+                    async: true,
+                    contentType: "application/json",
+                    success: function(returneddata) {
+
+                        removedObject = returneddata.metric_host;
+                        //console.log("removedObject is: " + removedObject);
+
+                        // Retrieve update comment if any
+                        var tk_comment = document.getElementById("metric_host_blocklist_host_delete_comment").value;
+
+                        // if is not defined, give it a value and override text box content
+                        if (tk_comment == "null") {
+                            setToken("tk_update_comment", TokenUtils.replaceTokenNames("No comments for update.", _.extend(submittedTokenModel.toJSON(), e.data)));
+                        }
+                        else if (tk_comment == "update note") {
+                            tk_comment = "No comment for update.";
+                        }
+
+                        // Proceed to delete call
+                        $.ajax({
+                            url: myendpoint_URl,
+                            type: "DELETE",
+                            async: true,
+                            contentType: "application/json",
+                            success: function(returneddata) {
+
+                                //console.log(returneddata);
+
+                                // Audit
+                                action = "success";
+                                change_type = "delete blacklist host";
+                                object = removedObject;
+                                object_category = "metric_host";
+                                object_attrs = "{" + "\"metric_host\": \"" + removedObject + "\", \"_key\": \"" + item + "\"}";
+                                result = "N/A";
+                                comment = tk_comment;
+                                auditRecord(action, change_type, object, object_category, object_attrs, result, comment);
+
+                                // house cleaning
+                                myendpoint_URl = undefined;
+                                delete(myendpoint_URl);
+                                tk_keyid = undefined;
+                                delete(tk_keyid);
+
+                                // Return to modal
+                                $("#modal_modify_metric_host_blacklist_host").modal();
+                            },
+                            error: function(xhr, textStatus, error) {
+                                message = "Error Updating!" + xhr + textStatus + error;
+
+                                // Audit
+                                action = "failure";
+                                change_type = "delete blacklist host";
+                                object = removedObject;
+                                object_category = "metric_host";
+                                object_attrs = "{" + "\"metric_host\": \"" + removedObject + "\", \"_key\": \"" + item + "\"}";
+                                result = message;
+                                comment = tk_comment;
+                                auditRecord(action, change_type, object, object_category, object_attrs, result, comment);
+
+                            }
+
+                        });
+
+                    }
+
+                });
+
+            }
+
+        }
+
         $("#btn_delete_metric_host_blacklist_host").click(function() {
 
-            //console.log("Button was pressed");
+            console.log("Button was pressed");
 
             submitTokens();
 
             // When the Submit button is clicked, get all the form fields by accessing token values
             var tokens = mvc.Components.get("default");
 
-            // When the Submit button is clicked, get all the form fields by accessing token values
-            var tk_keyid = tokens.get("tk_keyid");
+            // Get the arrays of keys
+            var tk_multi_table_array = tokens.get("removeBlacklistMetricHostHost");
+            console.log("tk_multi_table_array is: " + tk_multi_table_array);
+            tk_multi_table_array = tk_multi_table_array.split(',');
+            console.log("tk_multi_table_array is: " + tk_multi_table_array);
 
-            // Get
-            var tk_metric_host = tokens.get("tk_metric_host");
+            // Call the function for each value from the array
+            tk_multi_table_array.forEach(foreachDeleteBlacklistMetricHostHost);
 
-            // Create the endpoint URL
-            var myendpoint_URl = "/en-US/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_metric_host_monitoring_blacklist_host/" + tk_keyid;
+            // Hide main modal
+            $("#modal_manage_metric_host_whitelist").modal('hide');
 
-            //console.log("Endpoint URL is: " + myendpoint_URl);
+            //console.log("Updated!", returneddata)
+            // Run the search again to update the table
+            searchBlackListMetricHostHost.startSearch();
+            searchSingleBlackListMetricHostHost.startSearch();
+            searchMetricHostsMain.startSearch();
 
-            if (tk_keyid && tk_keyid.length) {
+            // notify
+            notification('Modification has been registered successfully.', 2000)
 
-                $.ajax({
-                    url: myendpoint_URl,
-                    type: "DELETE",
-                    async: true,
-                    contentType: "application/json",
-                    success: function(returneddata) {
-
-                        // Hide main modal
-                        $("#modal_manage_metric_host_blacklist_host").modal('hide');
-
-                        //console.log("Updated!", returneddata)
-                        // Run the search again to update the table
-                        searchBlackListMetricHostHost.startSearch();
-                        searchSingleBlackListMetricHostHost.startSearch();
-                        searchMetricHostsMain.startSearch();
-
-                        // notify
-                        notification('Modification has been registered successfully.', 2000)
-
-                        // Audit
-                        action = "success";
-                        change_type = "delete blacklist host";
-                        object = tk_metric_host;
-                        object_category = "metric_host";
-                        object_attrs = "host:" + tk_metric_host;
-                        result = "N/A";
-                        comment = "N/A";
-                        auditRecord(action, change_type, object, object_category, object_attrs, result, comment);
-
-                        // house cleaning
-                        myendpoint_URl = undefined;
-                        delete(myendpoint_URl);
-                        tk_keyid = undefined;
-                        delete(tk_keyid);
-
-                        // Return to modal
-                        $("#modal_modify_metric_host_blacklist_host").modal();
-                    },
-                    error: function(xhr, textStatus, error) {
-                        message = "Error Updating!" + xhr + textStatus + error;
-
-                        // Audit
-                        action = "failure";
-                        change_type = "delete blacklist host";
-                        object = tk_metric_host;
-                        object_category = "metric_host";
-                        object_attrs = "host:" + tk_metric_host;
-                        result = "N/A";
-                        comment = "N/A";
-                        auditRecord(action, change_type, object, object_category, object_attrs, result, comment);
-
-                        // Hide main modal
-                        $("#modal_manage_metric_host_blacklist_host").modal('hide');
-                        $("#modal_modify_metric_host_blacklist_host").modal('hide');
-                        $("#modal_update_collection_failure_return").find('.modal-error-message p').text(message);
-                        $("#modal_update_collection_failure_return").modal()
-                    }
-
-                });
-
-            }
+            // house cleaning
+            unsetToken("removeBlacklistMetricHostHost");
 
         });
 
@@ -22670,8 +22712,8 @@ require([
                             action = "failure";
                             change_type = "add blacklist metric_category";
                             object = tk_input_blacklist_metric_category;
-                            object_category = "metric_category";
-                            object_attrs = "metric_category:" + tk_input_blacklist_metric_category;
+                            object_category = "metric_host";
+                            object_attrs = "{" + "\"metric_category\": \"" + tk_input_blacklist_metric_category + "\"}";
                             result = "N/A";
                             comment = "N/A";
                             auditRecord(action, change_type, object, object_category, object_attrs, result, comment);
@@ -22709,8 +22751,8 @@ require([
                                     action = "success";
                                     change_type = "add blacklist metric_category";
                                     object = tk_input_blacklist_metric_category;
-                                    object_category = "metric_category";
-                                    object_attrs = "metric_category:" + tk_input_blacklist_metric_category;
+                                    object_category = "metric_host";
+                                    object_attrs = "{" + "\"metric_category\": \"" + tk_input_blacklist_metric_category + "\"}";
                                     result = "N/A";
                                     comment = "N/A";
                                     auditRecord(action, change_type, object, object_category, object_attrs, result, comment);
@@ -22753,91 +22795,129 @@ require([
         });
 
         // delete entry from blacklist
+        $("#btn_modal_metric_host_blacklist_metric_category_add_delete").click(function() {
+                $("#modal_modify_metric_host_blacklist_metric_category").modal('hide');
+                $("#modal_manage_metric_host_blacklist_metric_category").modal();
+        });
+
+        function foreachDeleteBlacklistMetricHostMetricCategory(item) {
+        //console.log("removal of key :" + item);
+
+            // Create the endpoint URL
+            var myendpoint_URl = "/en-US/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_metric_host_monitoring_blacklist_metric_category/" + item;
+
+            //console.log("Endpoint URL is: " + myendpoint_URl);
+
+            if (item && item.length) {
+
+                // Get the KV entry content first
+                $.ajax({
+                    url: myendpoint_URl,
+                    type: "GET",
+                    async: true,
+                    contentType: "application/json",
+                    success: function(returneddata) {
+
+                        removedObject = returneddata.metric_category;
+                        //console.log("removedObject is: " + removedObject);
+
+                        // Retrieve update comment if any
+                        var tk_comment = document.getElementById("metric_host_blocklist_metric_category_delete_comment").value;
+
+                        // if is not defined, give it a value and override text box content
+                        if (tk_comment == "null") {
+                            setToken("tk_update_comment", TokenUtils.replaceTokenNames("No comments for update.", _.extend(submittedTokenModel.toJSON(), e.data)));
+                        }
+                        else if (tk_comment == "update note") {
+                            tk_comment = "No comment for update.";
+                        }
+
+                        // Proceed to delete call
+                        $.ajax({
+                            url: myendpoint_URl,
+                            type: "DELETE",
+                            async: true,
+                            contentType: "application/json",
+                            success: function(returneddata) {
+
+                                //console.log(returneddata);
+
+                                // Audit
+                                action = "success";
+                                change_type = "delete blacklist metric category";
+                                object = removedObject;
+                                object_category = "metric_host";
+                                object_attrs = "{" + "\"metric_category\": \"" + removedObject + "\", \"_key\": \"" + item + "\"}";
+                                result = "N/A";
+                                comment = tk_comment;
+                                auditRecord(action, change_type, object, object_category, object_attrs, result, comment);
+
+                                // house cleaning
+                                myendpoint_URl = undefined;
+                                delete(myendpoint_URl);
+                                tk_keyid = undefined;
+                                delete(tk_keyid);
+
+                                // Return to modal
+                                $("#modal_modify_metric_host_blacklist_metric_category").modal();
+                            },
+                            error: function(xhr, textStatus, error) {
+                                message = "Error Updating!" + xhr + textStatus + error;
+
+                                // Audit
+                                action = "failure";
+                                change_type = "delete blacklist metric category";
+                                object = removedObject;
+                                object_category = "metric_host";
+                                object_attrs = "{" + "\"metric_category\": \"" + removedObject + "\", \"_key\": \"" + item + "\"}";
+                                result = message;
+                                comment = tk_comment;
+                                auditRecord(action, change_type, object, object_category, object_attrs, result, comment);
+
+                            }
+
+                        });
+
+                    }
+
+                });
+
+            }
+
+        }
 
         $("#btn_delete_metric_host_blacklist_metric_category").click(function() {
 
-            //console.log("Button was pressed");
+            console.log("Button was pressed");
 
             submitTokens();
 
             // When the Submit button is clicked, get all the form fields by accessing token values
             var tokens = mvc.Components.get("default");
 
-            // When the Submit button is clicked, get all the form fields by accessing token values
-            var tk_keyid = tokens.get("tk_keyid");
+            // Get the arrays of keys
+            var tk_multi_table_array = tokens.get("removeBlacklistMetricHostMetricCategory");
+            console.log("tk_multi_table_array is: " + tk_multi_table_array);
+            tk_multi_table_array = tk_multi_table_array.split(',');
+            console.log("tk_multi_table_array is: " + tk_multi_table_array);
 
-            // When the Submit button is clicked, get all the form fields by accessing token values
-            var tk_metric_category = tokens.get("tk_metric_category");
+            // Call the function for each value from the array
+            tk_multi_table_array.forEach(foreachDeleteBlacklistMetricHostMetricCategory);
 
-            // Create the endpoint URL
-            var myendpoint_URl = "/en-US/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_metric_host_monitoring_blacklist_metric_category/" + tk_keyid;
+            // Hide main modal
+            $("#modal_manage_data_host_whitelist").modal('hide');
 
-            //console.log("Endpoint URL is: " + myendpoint_URl);
+            //console.log("Updated!", returneddata)
+            // Run the search again to update the table
+            searchBlackListMetricHostMetricCategory.startSearch();
+            searchSingleBlackListMetricHostMetricCategory.startSearch();
+            searchDataSourcesMain.startSearch();
 
-            if (tk_keyid && tk_keyid.length) {
+            // notify
+            notification('Modification has been registered successfully.', 2000)
 
-                $.ajax({
-                    url: myendpoint_URl,
-                    type: "DELETE",
-                    async: true,
-                    contentType: "application/json",
-                    success: function(returneddata) {
-
-                        // Hide main modal
-                        $("#modal_manage_metric_host_blacklist_metric_category").modal('hide');
-
-                        // Audit
-                        action = "success";
-                        change_type = "delete blacklist metric_category";
-                        object = tk_metric_category;
-                        object_category = "metric_category";
-                        object_attrs = "metric_category:" + tk_metric_category;
-                        result = "N/A";
-                        comment = "N/A";
-                        auditRecord(action, change_type, object, object_category, object_attrs, result, comment);
-
-                        //console.log("Updated!", returneddata)
-                        // Run the search again to update the table
-                        searchBlackListMetricHostMetricCategory.startSearch();
-                        searchPopulateMetricCategoriesForBlackListMetricHost.startSearch();
-                        searchMetricHostsMain.startSearch();
-                        unsetToken("form.tk_input_metric_host_blacklist_metric_category");
-
-                        // notify
-                        notification('Modification has been registered successfully.', 2000)
-
-                        // house cleaning
-                        myendpoint_URl = undefined;
-                        delete(myendpoint_URl);
-                        tk_keyid = undefined;
-                        delete(tk_keyid);
-
-                        // Return to modal
-                        $("#modal_modify_metric_host_blacklist_metric_category").modal();
-                    },
-                    error: function(xhr, textStatus, error) {
-                        message = "Error Updating!" + xhr + textStatus + error;
-
-                        // Audit
-                        action = "failure";
-                        change_type = "delete blacklist metric_category";
-                        object = tk_metric_category;
-                        object_category = "metric_category";
-                        object_attrs = "metric_category:" + tk_metric_category;
-                        result = message;
-                        comment = "N/A";
-                        auditRecord(action, change_type, object, object_category, object_attrs, result, comment);
-
-                        // Hide main modal
-                        $("#modal_manage_metric_host_blacklist_metric_category").modal('hide');
-                        $("#modal_modify_metric_host_blacklist_metric_category").modal('hide');
-                        $("#modal_update_collection_failure_return").find('.modal-error-message p').text(message);
-                        $("#modal_update_collection_failure_return").modal()
-                    }
-
-                });
-
-            }
+            // house cleaning
+            unsetToken("removeBlacklistMetricHostMetricCategory");
 
         });
 
