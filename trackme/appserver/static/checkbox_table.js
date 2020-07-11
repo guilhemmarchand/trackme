@@ -19,6 +19,7 @@ require([
      var selected_values_array10 = [];
      var selected_values_array11 = [];
      var selected_values_array12 = [];
+     var selected_values_array13 = [];
      var submittedTokens = mvc.Components.get('submitted');
 
      // Table1
@@ -545,6 +546,50 @@ require([
              sh.getVisualization(function(tableView) {
                  // Add custom cell renderer and force re-render
                  tableView.table.addCellRenderer(new CustomRangeRenderer12());
+                 tableView.table.render();
+             });
+         }
+     }
+
+     // Table13
+
+     var CustomRangeRenderer13 = TableView.BaseCellRenderer.extend({
+         canRender: function(cell) {
+             return _(['select']).contains(cell.field);
+         },
+         render: function($td, cell) {
+             var a = $('<div>').attr({"id":"chk-metric-policy"+cell.value,"value":cell.value}).addClass('checkbox').click(function() {
+                 // console.log("checked",$(this).attr('class'));
+                 // console.log("checked",$(this).attr('value'));
+                 if($(this).attr('class')==="checkbox")
+                 {
+                     selected_values_array13.push($(this).attr('value'));
+                     $(this).removeClass();
+                     $(this).addClass("checkbox checked");
+                 }
+                 else {
+                     $(this).removeClass();
+                     $(this).addClass("checkbox");
+                     var i = selected_values_array13.indexOf($(this).attr('value'));
+                     if(i != -1) {
+                         selected_values_array13.splice(i, 1);
+                     }
+                 }
+                 console.log(selected_values_array13);
+                 tokens.set("removeMetricPolicies", selected_values_array13.join());
+                 submittedTokens.set(tokens.toJSON());
+             }).appendTo($td);
+         }
+     });
+
+     //List of table IDs
+     var tableIDs = ["tableMetricPolicies"];
+     for (i=0;i<tableIDs.length;i++) {
+         var sh = mvc.Components.get(tableIDs[i]);
+         if(typeof(sh)!="undefined") {
+             sh.getVisualization(function(tableView) {
+                 // Add custom cell renderer and force re-render
+                 tableView.table.addCellRenderer(new CustomRangeRenderer13());
                  tableView.table.render();
              });
          }

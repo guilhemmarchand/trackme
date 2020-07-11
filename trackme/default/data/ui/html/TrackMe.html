@@ -3424,19 +3424,27 @@ styles in <div> tags, similar to Bootstrap's grid system.
                         <div class="dashboard-element html" id="body_manage_metric_sla_policy">
                             <div class="panel-body html">
                                 <div class="modal-header">
-                                    <h3>Actions for metric category: <span style="color: steelblue">$tk_input_metric_policy_metric_category$</span></h3>
+                                    <h3>Actions for metric category: </h3>
                                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                                 </div>
-                                <div class="modal-body" style="display:grid;">
-                                    <p><b>metric_category:</b> $tk_input_metric_policy_metric_category$</p>
-                                    <p><b>metric_max_lag_allowed:</b> $tk_input_metric_max_lag_allowed$</p>
-                                    <br />
+                                <div class="modal-body">
+                                    <p><b>Confirm modification ?</b><br />
+                                    </p>
+                                    <p>
+                                        <label>Optional: enter a note of this update. <br />
+                                            This note will be logged and made available for notification.</label>
+                                        <textarea
+                                                id = "metric_host_sla_policy_delete_comment"
+                                                rows = "6"
+                                                cols = "160" style="width: 500px;"
+                                                onfocus="if(this.value==this.defaultValue)this.value='';" onblur="if(this.value=='')this.value=this.defaultValue;">update note</textarea>
+                                    </p>
                                 </div>
                             </div>
                         </div>
                         <div class="modal-footer">
                             <button type="submit" id="btn_delete_metric_sla_policy_cancel" role="button" class="btn btn-default btn-default" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span>Cancel</button>
-                            <button type="submit" id="btn_delete_metric_sla_policy" role="button" class="btn btn-danger btn-default"><span class="glyphicon glyphicon-remove"></span>Delete</button>
+                            <button type="submit" id="btn_delete_metric_sla_policy_level2" role="button" class="btn btn-danger btn-default"><span class="glyphicon glyphicon-remove"></span>Delete</button>
                         </div>
                     </div>
                 </div>
@@ -4696,7 +4704,7 @@ styles in <div> tags, similar to Bootstrap's grid system.
 
     -->
 
-    <div class="modal fade custom-modal-80" id="modal_metric_sla_policies" role="dialog">
+    <div class="modal fade custom-modal-60" id="modal_metric_sla_policies" role="dialog">
         <div class="modal-dialog">
 
             <!-- Modal content-->
@@ -4706,10 +4714,10 @@ styles in <div> tags, similar to Bootstrap's grid system.
                     <h3 style="color: indianred;"><span class="glyphicon glyphicon-lock"></span> Metrics SLA policies editor </h3>
                 </div>
                 <div class="modal-body">
-                    <b>Use this interface to SLA policies for metric categories:</b>
+                    <b>Use this interface to manage SLA policies for metric categories:</b>
                     <lu>
                         <li>A metric category is extracted automatically from the first segment of the metric path (ex: cpu for cpu.cpu_idle)</li>
-                        <li>A default value is defined as above if the metric category is not listed here</li>
+                        <li>If a metric category is not listed in the policies, a default value is applied automatically</li>
                         <li>Each metric category is taken in consideration individually based on these rules</li>
                     </lu>
                     <br />
@@ -4780,6 +4788,7 @@ styles in <div> tags, similar to Bootstrap's grid system.
                 </div>
                 <div class="modal-footer">
                     <button type="submit" class="btn btn-default btn-default pull-left" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Cancel</button>
+                    <button type="submit" id="btn_delete_metric_sla_policy_level1" class="btn btn-default btn-danger pull-right" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Remove selected</button>
                 </div>
             </div>
         </div>
@@ -8787,7 +8796,7 @@ require([
             "cancelOnUnload": true,
             "sample_ratio": null,
             "latest_time": "now",
-            "search": "| inputlookup trackme_metric_lagging_definition | eval keyid=_key",
+            "search": "| inputlookup trackme_metric_lagging_definition | eval keyid=_key, select=keyid",
             "status_buckets": 0,
             "app": utils.getCurrentApp(),
             "auto_cancel": 90,
@@ -14422,8 +14431,8 @@ require([
                 "depends": "$show_table_metric_policies$"
             },
             "count": 10,
-            "drilldown": "row",
-            "fields": "metric_category, metric_max_lag_allowed",
+            "drilldown": "none",
+            "fields": "metric_category, metric_max_lag_allowed, select",
             "refresh.display": "none",
             "wrap": "false",
             "managerid": "searchMetricPolicies",
@@ -14432,32 +14441,6 @@ require([
             tokens: true,
             tokenNamespace: "submitted"
         }).render();
-
-        tableMetricPolicies.on("click", function(e) {
-            if (e.field !== undefined) {
-                e.preventDefault();
-
-                setToken("tk_keyid", TokenUtils.replaceTokenNames("$row.keyid$", _.extend(submittedTokenModel.toJSON(), e.data)));
-                setToken("tk_input_metric_policy_metric_category", TokenUtils.replaceTokenNames("$row.metric_category$", _.extend(submittedTokenModel.toJSON(), e.data)));
-                setToken("tk_input_metric_max_lag_allowed", TokenUtils.replaceTokenNames("$row.metric_max_lag_allowed$", _.extend(submittedTokenModel.toJSON(), e.data)));
-
-                submitTokens();
-
-                // When the Submit button is clicked, get all the form fields by accessing token values
-                var tokens = mvc.Components.get("default");
-
-                // When the Submit button is clicked, get all the form fields by accessing token values
-                var tokens = mvc.Components.get("default");
-
-                var tk_input_metric_policy_metric_category = tokens.get("tk_input_metric_policy_metric_category");
-                var tk_input_metric_max_lag_allowed = tokens.get("tk_input_metric_max_lag_allowed");
-
-                // Enable modal context
-                $("#modal_metric_sla_policies").modal('hide');
-                $("#manage_metric_sla_policy").modal();
-
-            }
-        });
 
         var elementHostSingleMetricHost = new SingleElement({
             "id": "elementHostSingleMetricHost",
@@ -15931,16 +15914,6 @@ require([
             "id": "body_modal_manage_metric_host",
             "useTokens": true,
             "el": $('#body_modal_manage_metric_host')
-        }, {
-            tokens: true,
-            tokenNamespace: "submitted"
-        }).render();
-
-        // Metric SLA policies
-        var body_manage_metric_sla_policy = new HtmlElement({
-            "id": "body_manage_metric_sla_policy",
-            "useTokens": true,
-            "el": $('#body_manage_metric_sla_policy')
         }, {
             tokens: true,
             tokenNamespace: "submitted"
@@ -19626,7 +19599,99 @@ require([
 
         // delete policy
 
-        $("#btn_delete_metric_sla_policy").click(function() {
+        $("#btn_delete_metric_sla_policy_level1").click(function() {
+                $("#modal_metric_sla_policies").modal('hide');
+                $("#manage_metric_sla_policy").modal();
+        });
+
+        function foreachDeleteMetricSlaPolicy(item) {
+        //console.log("removal of key :" + item);
+
+            // Create the endpoint URL
+            var myendpoint_URl = "/en-US/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_metric_lagging_definition/" + item;
+
+            //console.log("Endpoint URL is: " + myendpoint_URl);
+
+            if (item && item.length) {
+
+                // Get the KV entry content first
+                $.ajax({
+                    url: myendpoint_URl,
+                    type: "GET",
+                    async: true,
+                    contentType: "application/json",
+                    success: function(returneddata) {
+
+                        removedObject = returneddata.metric_category;
+                        removedObjectAttr = returneddata.metric_max_lag_allowed;
+                        //console.log("removedObject is: " + removedObject);
+
+                        // Retrieve update comment if any
+                        var tk_comment = document.getElementById("metric_host_sla_policy_delete_comment").value;
+
+                        // if is not defined, give it a value and override text box content
+                        if (tk_comment == "null") {
+                            setToken("tk_update_comment", TokenUtils.replaceTokenNames("No comments for update.", _.extend(submittedTokenModel.toJSON(), e.data)));
+                        }
+                        else if (tk_comment == "update note") {
+                            tk_comment = "No comment for update.";
+                        }
+
+                        // Proceed to delete call
+                        $.ajax({
+                            url: myendpoint_URl,
+                            type: "DELETE",
+                            async: true,
+                            contentType: "application/json",
+                            success: function(returneddata) {
+
+                                //console.log(returneddata);
+
+                                // Audit
+                                action = "success";
+                                change_type = "delete metric sla policy";
+                                object = removedObject;
+                                object_category = "metric_host";
+                                object_attrs = "{" + "\"metric_category\": \"" + removedObject + "\", \"metric_max_lag_allowed\": \"" + removedObjectAttr + "\", \"_key\": \"" + item + "\"}";
+                                result = "N/A";
+                                comment = tk_comment;
+                                auditRecord(action, change_type, object, object_category, object_attrs, result, comment);
+
+                                // house cleaning
+                                myendpoint_URl = undefined;
+                                delete(myendpoint_URl);
+                                tk_keyid = undefined;
+                                delete(tk_keyid);
+
+                                // Return to modal
+                                $("#modal_metric_sla_policies").modal();
+                            },
+                            error: function(xhr, textStatus, error) {
+                                message = "Error Updating!" + xhr + textStatus + error;
+
+                                // Audit
+                                action = "failure";
+                                change_type = "delete metric sla policy";
+                                object = removedObject;
+                                object_category = "metric_host";
+                                object_attrs = "{" + "\"metric_category\": \"" + removedObject + "\", \"metric_max_lag_allowed\": \"" + removedObjectAttr + "\", \"_key\": \"" + item + "\"}";
+                                result = message;
+                                comment = tk_comment;
+                                auditRecord(action, change_type, object, object_category, object_attrs, result, comment);
+
+                            }
+
+                        });
+
+                    }
+
+                });
+
+            }
+
+        }
+
+        $("#btn_delete_metric_sla_policy_level2").click(function() {
 
             //console.log("Button was pressed");
 
@@ -19635,81 +19700,28 @@ require([
             // When the Submit button is clicked, get all the form fields by accessing token values
             var tokens = mvc.Components.get("default");
 
-            // When the Submit button is clicked, get all the form fields by accessing token values
-            var tk_keyid = tokens.get("tk_keyid");
+            // Get the arrays of keys
+            var tk_multi_table_array = tokens.get("removeMetricPolicies");
+            //console.log("tk_multi_table_array is: " + tk_multi_table_array);
+            tk_multi_table_array = tk_multi_table_array.split(',');
+            //console.log("tk_multi_table_array is: " + tk_multi_table_array);
 
-            // When the Submit button is clicked, get all the form fields by accessing token values
-            var tk_input_metric_policy_metric_category = tokens.get("tk_input_metric_policy_metric_category");
-            var tk_input_metric_policy_metric_value = tokens.get("tk_input_metric_policy_metric_value");
+            // Call the function for each value from the array
+            tk_multi_table_array.forEach(foreachDeleteMetricSlaPolicy);
 
-            // Create the endpoint URL
-            var myendpoint_URl = "/en-US/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_metric_lagging_definition/" + tk_keyid;
+            // Hide main modal
+            $("#manage_metric_sla_policy").modal('hide');
 
-            //console.log("Endpoint URL is: " + myendpoint_URl);
+            //console.log("Updated!", returneddata)
+            // Run the search again to update the table
+            searchMetricHostsMain.startSearch();
+            searchMetricPolicies.startSearch();
 
-            if (tk_keyid && tk_keyid.length) {
+            // notify
+            notification('Modification has been registered successfully.', 2000)
 
-                $.ajax({
-                    url: myendpoint_URl,
-                    type: "DELETE",
-                    async: true,
-                    contentType: "application/json",
-                    success: function(returneddata) {
-
-                        // Hide main modal
-                        $("#manage_metric_sla_policy").modal('hide');
-
-                        // Audit
-                        action = "success";
-                        change_type = "delete metric sla policy";
-                        object = tk_input_metric_policy_metric_category;
-                        object_category = "metric_sla_policy";
-                        object_attrs = "SLA policy was removed for metric_category:" + tk_input_metric_policy_metric_category + ", metric_max_lag_allowed:" + tk_input_metric_policy_metric_value;
-                        result = "N/A";
-                        comment = "N/A";
-                        auditRecord(action, change_type, object, object_category, object_attrs, result, comment);
-
-                        //console.log("Updated!", returneddata)
-                        // Run the search again to update the table
-                        unsetToken("form.tk_input_metric_policy_metric_category");
-                        searchMetricHostsMain.startSearch();
-                        searchMetricPolicies.startSearch();
-
-                        // notify
-                        notification('Modification has been registered successfully.', 2000)
-
-                        // house cleaning
-                        myendpoint_URl = undefined;
-                        delete(myendpoint_URl);
-                        tk_keyid = undefined;
-                        delete(tk_keyid);
-
-                        // Return to modal
-                        $("#modal_metric_sla_policies").modal();
-                    },
-                    error: function(xhr, textStatus, error) {
-                        message = "Error Updating!" + xhr + textStatus + error;
-
-                        // Audit
-                        action = "failure";
-                        change_type = "delete metric sla policy";
-                        object = tk_input_metric_policy_metric_category;
-                        object_category = "metric_sla_policy";
-                        object_attrs = "SLA policy was removed for metric_category:" + tk_input_metric_policy_metric_category + ", metric_max_lag_allowed:" + tk_input_metric_policy_metric_value;
-                        result = message;
-                        comment = "N/A";
-                        auditRecord(action, change_type, object, object_category, object_attrs, result, comment);
-
-                        // Hide main modal
-                        $("#manage_metric_sla_policy").modal('hide');
-                        $("#modal_metric_sla_policies").modal('hide');
-                        $("#modal_update_collection_failure_return").find('.modal-error-message p').text(message);
-                        $("#modal_update_collection_failure_return").modal()
-                    }
-
-                });
-
-            }
+            // house cleaning
+            unsetToken("removeMetricPolicies");
 
         });
 
