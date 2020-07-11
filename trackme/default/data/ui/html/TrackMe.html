@@ -3337,8 +3337,8 @@ styles in <div> tags, similar to Bootstrap's grid system.
 
                 </div>
                 <div class="modal-footer">
-                    <button type="submit" class="btn btn-default btn-default pull-left" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Cancel</button>
-                    <button type="submit" id="btn_modal_elastic_sources_add_back" class="btn btn-default btn-primary pull-right" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Back</button>
+                    <button type="submit" id="btn_modal_elastic_sources_add_back" class="btn btn-default btn-primary pull-left" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Back</button>
+                    <button type="submit" id="btn_modal_elastic_sources_add_delete" class="btn btn-default btn-danger pull-right" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Remove selected</button>
                 </div>
             </div>
         </div>
@@ -3355,21 +3355,22 @@ styles in <div> tags, similar to Bootstrap's grid system.
                         <div class="dashboard-element html" id="body_delete_elastic_source">
                             <div class="panel-body html">
                                 <div class="modal-header">
-                                    <h3>Actions for elastic source: <span style="color: steelblue">$tk_elastic_source_data_name$</span></h3>
+                                    <h3>Actions for shared Elastic Source: </h3>
                                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                                 </div>
-                                <div class="modal-body" style="display:grid;">
-                                    <p><b>data_name:</b> $tk_elastic_source_data_name$</p>
-                                    <p><b>search_mode:</b> $tk_elastic_source_search_mode$</p>
-                                    <p><b>search_constraint:</b> $tk_elastic_source_search_constraint$</p>
-                                    <p><b>elastic_data_index:</b> $tk_elastic_source_elastic_data_index$</p>
-                                    <p><b>elastic_data_sourcetype:</b> $tk_elastic_source_elastic_data_sourcetype$</p>
-                                    <br />
-                                    <br />
-                                    <p>Deleting a elastic source from the elastic source does not delete the data source from the data sources collection.</p>
+                                <div class="modal-body">
+                                    <p><b>Confirm modification ?</b><br />
+                                    </p>
+                                    <p>
+                                        <label>Optional: enter a note of this update. <br />
+                                            This note will be logged and made available for notification.</label>
+                                        <textarea
+                                                id = "elastic_source_shared_delete_comment"
+                                                rows = "6"
+                                                cols = "160" style="width: 500px;"
+                                                onfocus="if(this.value==this.defaultValue)this.value='';" onblur="if(this.value=='')this.value=this.defaultValue;">update note</textarea>
+                                    </p>
                                 </div>
-
-
                             </div>
                         </div>
                         <div class="modal-footer">
@@ -8911,7 +8912,7 @@ require([
             "cancelOnUnload": true,
             "sample_ratio": null,
             "latest_time": "now",
-            "search": "| inputlookup trackme_elastic_sources | eval keyid=_key | search data_name=$tk_input_elastic_sources_search$",
+            "search": "| inputlookup trackme_elastic_sources | eval keyid=_key | search data_name=$tk_input_elastic_sources_search$ | eval select=keyid | fields keyid, data_name, search_mode, search_constraint, elastic_data_index, elastic_data_sourcetype, select",
             "status_buckets": 0,
             "app": utils.getCurrentApp(),
             "auto_cancel": 90,
@@ -14501,8 +14502,8 @@ require([
                 "depends": "$show_table_elastic_sources$"
             },
             "count": 10,
-            "drilldown": "row",
-            "fields": "data_name, search_mode, search_constraint, elastic_data_index, elastic_data_sourcetype",
+            "drilldown": "none",
+            "fields": "data_name, search_mode, search_constraint, elastic_data_index, elastic_data_sourcetype, select",
             "refresh.display": "none",
             "wrap": "false",
             "managerid": "searchElasticSources",
@@ -14511,25 +14512,6 @@ require([
             tokens: true,
             tokenNamespace: "submitted"
         }).render();
-
-        tableElasticSources.on("click", function(e) {
-            if (e.field !== undefined) {
-                e.preventDefault();
-
-                // get tokens
-                setToken("tk_keyid", TokenUtils.replaceTokenNames("$row.keyid$", _.extend(submittedTokenModel.toJSON(), e.data)));
-                setToken("tk_elastic_source_data_name", TokenUtils.replaceTokenNames("$row.data_name$", _.extend(submittedTokenModel.toJSON(), e.data)));
-                setToken("tk_elastic_source_search_mode", TokenUtils.replaceTokenNames("$row.search_mode$", _.extend(submittedTokenModel.toJSON(), e.data)));
-                setToken("tk_elastic_source_search_constraint", TokenUtils.replaceTokenNames("$row.search_constraint$", _.extend(submittedTokenModel.toJSON(), e.data)));
-                setToken("tk_elastic_source_elastic_data_index", TokenUtils.replaceTokenNames("$row.elastic_data_index$", _.extend(submittedTokenModel.toJSON(), e.data)));
-                setToken("tk_elastic_source_elastic_data_sourcetype", TokenUtils.replaceTokenNames("$row.elastic_data_sourcetype$", _.extend(submittedTokenModel.toJSON(), e.data)));
-
-                // Enable modal context
-                $("#modify_elastic_sources").modal('hide');
-                $("#delete_elastic_source_main").modal();
-
-            }
-        });
 
         // Simulation
         var tableElasticSourcesTest = new TableElement({
@@ -15903,16 +15885,6 @@ require([
             "id": "body_modal_manage_metric_host",
             "useTokens": true,
             "el": $('#body_modal_manage_metric_host')
-        }, {
-            tokens: true,
-            tokenNamespace: "submitted"
-        }).render();
-
-        // Custom lagging
-        var body_delete_elastic_source = new HtmlElement({
-            "id": "body_delete_elastic_source",
-            "useTokens": true,
-            "el": $('#body_delete_elastic_source')
         }, {
             tokens: true,
             tokenNamespace: "submitted"
@@ -23695,6 +23667,101 @@ require([
 
         // delete elastic source
 
+        $("#btn_modal_elastic_sources_add_delete").click(function() {
+                $("#modify_elastic_sources").modal('hide');
+                $("#delete_elastic_source_main").modal();
+        });
+
+        function foreachDeleteSharedElasticSource(item) {
+        //console.log("removal of key :" + item);
+
+            // Create the endpoint URL
+            var myendpoint_URl = "/en-US/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_elastic_sources/" + item;
+
+            //console.log("Endpoint URL is: " + myendpoint_URl);
+
+            if (item && item.length) {
+
+                // Get the KV entry content first
+                $.ajax({
+                    url: myendpoint_URl,
+                    type: "GET",
+                    async: true,
+                    contentType: "application/json",
+                    success: function(returneddata) {
+
+                        removedObject = returneddata.data_name;
+                        removedObjectAttr1 = returneddata.search_mode;
+                        removedObjectAttr2 = returneddata.search_constraint;
+                        removedObjectAttr3 = returneddata.elastic_data_index;
+                        removedObjectAttr4 = returneddata.elastic_data_sourcetype;
+                        //console.log("removedObject is: " + removedObject);
+
+                        // Retrieve update comment if any
+                        var tk_comment = document.getElementById("elastic_source_shared_delete_comment").value;
+
+                        // if is not defined, give it a value and override text box content
+                        if (tk_comment == "null") {
+                            setToken("tk_update_comment", TokenUtils.replaceTokenNames("No comments for update.", _.extend(submittedTokenModel.toJSON(), e.data)));
+                        }
+                        else if (tk_comment == "update note") {
+                            tk_comment = "No comment for update.";
+                        }
+
+                        // Proceed to delete call
+                        $.ajax({
+                            url: myendpoint_URl,
+                            type: "DELETE",
+                            async: true,
+                            contentType: "application/json",
+                            success: function(returneddata) {
+
+                                //console.log(returneddata);
+
+                                // Audit
+                                action = "success";
+                                change_type = "delete elastic source";
+                                object = removedObject;
+                                object_category = "elastic_sources";
+                                object_attrs = "{" + "\"data_name\": \"" + removedObject + "\", \"search_mode\": \"" + removedObjectAttr1 + "\", \"search_constraint\": \"" + removedObjectAttr2 + "\", \"elastic_data_index\": \"" + removedObjectAttr3 + "\", \"elastic_data_sourcetype\": \"" + removedObjectAttr4 + "\", \"_key\": \"" + item + "\"}";
+                                result = "N/A";
+                                comment = tk_comment;
+                                auditRecord(action, change_type, object, object_category, object_attrs, result, comment);
+
+                                // house cleaning
+                                myendpoint_URl = undefined;
+                                delete(myendpoint_URl);
+                                tk_keyid = undefined;
+                                delete(tk_keyid);
+
+                                // Return to modal
+                                $("#modify_elastic_sources").modal();
+                            },
+                            error: function(xhr, textStatus, error) {
+                                message = "Error Updating!" + xhr + textStatus + error;
+
+                                // Audit
+                                action = "failure";
+                                change_type = "delete elastic source";
+                                object = removedObject;
+                                object_category = "elastic_sources";
+                                object_attrs = "{" + "\"data_name\": \"" + removedObject + "\", \"search_mode\": \"" + removedObjectAttr1 + "\", \"search_constraint\": \"" + removedObjectAttr2 + "\", \"elastic_data_index\": \"" + removedObjectAttr3 + "\", \"elastic_data_sourcetype\": \"" + removedObjectAttr4 + "\", \"_key\": \"" + item + "\"}";
+                                result = message;
+                                comment = tk_comment;
+                                auditRecord(action, change_type, object, object_category, object_attrs, result, comment);
+
+                            }
+
+                        });
+
+                    }
+
+                });
+
+            }
+
+        }
+
         $("#btn_delete_elastic_source_confirm").click(function() {
 
             //console.log("Button was pressed");
@@ -23704,79 +23771,27 @@ require([
             // When the Submit button is clicked, get all the form fields by accessing token values
             var tokens = mvc.Components.get("default");
 
-            // When the Submit button is clicked, get all the form fields by accessing token values
-            var tk_keyid = tokens.get("tk_keyid");
+            // Get the arrays of keys
+            var tk_multi_table_array = tokens.get("removeElasticSourceShared");
+            //console.log("tk_multi_table_array is: " + tk_multi_table_array);
+            tk_multi_table_array = tk_multi_table_array.split(',');
+            //console.log("tk_multi_table_array is: " + tk_multi_table_array);
 
-            // Create the endpoint URL
-            var myendpoint_URl = "/en-US/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_elastic_sources/" + tk_keyid;
+            // Call the function for each value from the array
+            tk_multi_table_array.forEach(foreachDeleteSharedElasticSource);
 
-            // Get tokens
-            var tk_keyid = tokens.get("tk_keyid");
-            var tk_elastic_source_data_name = tokens.get("tk_elastic_source_data_name");
-            var tk_elastic_source_search_mode = tokens.get("tk_elastic_source_search_mode");
-            var tk_elastic_source_search_constraint = tokens.get("tk_elastic_source_search_constraint");
-            var tk_elastic_source_elastic_data_index = tokens.get("tk_elastic_source_elastic_data_index");
-            var tk_elastic_source_elastic_data_sourcetype = tokens.get("tk_elastic_source_elastic_data_sourcetype");
+            // Hide main modal
+            $("#delete_elastic_source_main").modal('hide');
 
-            //console.log("Endpoint URL is: " + myendpoint_URl);
+            //console.log("Updated!", returneddata)
+            // Run the search again to update the table
+            searchElasticSources.startSearch();
 
-            if (tk_keyid && tk_keyid.length) {
+            // notify
+            notification('Modification has been registered successfully.', 2000)
 
-                $.ajax({
-                    url: myendpoint_URl,
-                    type: "DELETE",
-                    async: true,
-                    contentType: "application/json",
-                    success: function(returneddata) {
-
-                        // Hide main modal
-                        $("#btn_delete_elastic_source_confirm").modal('hide');
-
-                        //console.log("Updated!", returneddata)
-                        // Run the search again to update the table
-                        searchElasticSources.startSearch();
-
-                        // Audit
-                        action = "success";
-                        change_type = "delete elastic source";
-                        object = tk_elastic_source_data_name;
-                        object_category = "elastic_sources";
-                        object_attrs = "search_mode:" + tk_elastic_source_search_mode + ", search_constraint:" + tk_elastic_source_search_constraint + ", elastic_data_index:" + tk_elastic_source_elastic_data_index + ", elastic_data_sourcetype:" + tk_elastic_source_elastic_data_sourcetype;;
-                        result = "N/A";
-                        comment = "N/A";
-                        auditRecord(action, change_type, object, object_category, object_attrs, result, comment);
-
-                        // house cleaning
-                        myendpoint_URl = undefined;
-                        delete(myendpoint_URl);
-                        tk_keyid = undefined;
-                        delete(tk_keyid);
-
-                        // Return to modal
-                        $("#modify_elastic_sources").modal();
-                    },
-                    error: function(xhr, textStatus, error) {
-                        message = "Error Updating!" + xhr + textStatus + error;
-
-                        // Audit
-                        action = "failure";
-                        change_type = "delete elastic source";
-                        object = tk_elastic_source_data_name;
-                        object_category = "elastic_sources";
-                        object_attrs = "search_mode:" + tk_elastic_source_search_mode + ", search_constraint:" + tk_elastic_source_search_constraint + ", elastic_data_index:" + tk_elastic_source_elastic_data_index + ", elastic_data_sourcetype:" + tk_elastic_source_elastic_data_sourcetype;;
-                        result = "N/A";
-                        comment = "N/A";
-                        auditRecord(action, change_type, object, object_category, object_attrs, result, comment);
-
-                        // back tp main modal
-                        $("#btn_delete_elastic_source_confirm").modal('hide');
-                        $("#modal_update_collection_failure_return").find('.modal-error-message p').text(message);
-                        $("#modal_update_collection_failure_return").modal()
-                    }
-
-                });
-
-            }
+            // house cleaning
+            unsetToken("removeElasticSourceShared");
 
         });
 
