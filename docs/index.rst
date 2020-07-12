@@ -88,6 +88,7 @@ User guide:
    :maxdepth: 2
 
    userguide
+   itsi_integration
 
 Troubleshoot:
 =============
