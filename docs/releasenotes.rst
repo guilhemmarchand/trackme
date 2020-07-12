@@ -18,6 +18,7 @@ https://trackme.readthedocs.io/en/latest/configuration.html
 - Change: In support with the elimination of long term used negative words in IT, whitelist and blacklist concepts are replaced with allowlist and blocklist concepts
 - Fix/Feature: UI improvement with a checkbox in table approach to provide deletion capabilities on the different screens such as allowlist and blocklist, in some circumstances the drilldown approach was causing trouble with unexpected closure of the modal window
 - Fix: Outliers generation with mstats and the append=true mode fails in some distributed architecture
+- Fix: Active links such as opening in a search a data source can get broken when using a custom Splunk URI path (root_endpoint in web.conf)
 
 Version 1.2.17
 ==============

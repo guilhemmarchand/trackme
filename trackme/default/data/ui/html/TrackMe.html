@@ -13529,9 +13529,10 @@ require([
                 //console.log("tk_data_source_raw_search is: " + tk_data_source_raw_search);
 
                 if (tk_elastic_source_search_mode == "null") {
-                    var search_data_source = location.protocol + '//' + location.hostname + (location.port ? ':' + location.port : '') + '//app/trackme/search' + "?q=search%20index%3D\"" + encodeURI(tk_data_index) + "\"" + " sourcetype%3D\"" + encodeURI(tk_data_sourcetype) + "\""
+                    var search_data_source = 'search' + "?q=search%20index%3D\"" + encodeURI(tk_data_index) + "\"" + " sourcetype%3D\"" + encodeURI(tk_data_sourcetype) + "\""
+                    console.log(search_data_source);
                 } else {
-                    var search_data_source = location.protocol + '//' + location.hostname + (location.port ? ':' + location.port : '') + '//app/trackme/search' + tk_data_source_raw_search
+                    var search_data_source = 'search' + tk_data_source_raw_search
                 }
 
                 // state
@@ -14144,7 +14145,7 @@ require([
                 var tk_priority = tokens.get("tk_priority");
 
                 // Define the history search
-                var search_data_host = location.protocol + '//' + location.hostname + (location.port ? ':' + location.port : '') + '//app/trackme/search' + "?q=search%20index%3D\"*\" " + "host=\"" + encodeURI(tk_data_host) + "\""
+                var search_data_host = 'search' + "?q=search%20index%3D\"*\" " + "host=\"" + encodeURI(tk_data_host) + "\""
 
                 // Define the URL target
                 document.getElementById("btn_search_data_host").href = search_data_host;
@@ -14297,18 +14298,18 @@ require([
 
                 // Define the history search
                 var search_metric_host = '| mcatalog values(metric_name), values(_dims) where index=* host=\"' + tk_metric_host + '\" by host'
-                search_metric_host = location.protocol + '//' + location.hostname + (location.port ? ':' + location.port : '') + '//app/trackme/search' + "?q=" + encodeURI(search_metric_host) + '&earliest=-15m&latest=now'
+                search_metric_host = 'search' + "?q=" + encodeURI(search_metric_host) + '&earliest=-15m&latest=now'
 
                 // Define the history msearch
                 var msearch_metric_host = '| msearch index=* filter=\"host=\"' + tk_metric_host + '\"\"'
-                msearch_metric_host = location.protocol + '//' + location.hostname + (location.port ? ':' + location.port : '') + '//app/trackme/search' + "?q=" + encodeURI(msearch_metric_host) + '&earliest=-15m&latest=now'
+                msearch_metric_host = 'search' + "?q=" + encodeURI(msearch_metric_host) + '&earliest=-15m&latest=now'
 
                 // Define the URL target
                 document.getElementById("btn_search_metric_host").href = search_metric_host;
                 document.getElementById("btn_msearch_metric_host").href = msearch_metric_host;
 
                 var search_metric_host_live_report = '| savedsearch \"trackMe - metric host live report\" host=\"' + tk_metric_host + '"'
-                search_metric_host_live_report = location.protocol + '//' + location.hostname + (location.port ? ':' + location.port : '') + '//app/trackme/search' + "?q=" + encodeURI(search_metric_host_live_report) + '&earliest=-15m&latest=now'
+                search_metric_host_live_report = 'search' + "?q=" + encodeURI(search_metric_host_live_report) + '&earliest=-15m&latest=now'
 
                 // Define the URL target
                 document.getElementById("btn_search_metric_host_live_report").href = search_metric_host_live_report;
@@ -24175,19 +24176,19 @@ require([
                 // Manage search button URLs
 
                 // Define the history search
-                var search_parsing_issues_linebreaking = location.protocol + '//' + location.hostname + (location.port ? ':' + location.port : '') + '//app/trackme/search' + "?q=search%20" + encodeURI("index=_internal sourcetype=splunkd error OR warn `trackme_idx_filter` component=LineBreakingProcessor")
+                var search_parsing_issues_linebreaking = 'search' + "?q=search%20" + encodeURI("index=_internal sourcetype=splunkd error OR warn `trackme_idx_filter` component=LineBreakingProcessor")
 
                 // Define the URL target
                 document.getElementById("btn_search_parsing_issues_linebreaking").href = search_parsing_issues_linebreaking;
 
                 // Define the history search
-                var search_parsing_issues_aggregator = location.protocol + '//' + location.hostname + (location.port ? ':' + location.port : '') + '//app/trackme/search' + "?q=search%20" + encodeURI("index=_internal sourcetype=splunkd error OR warn `trackme_idx_filter` component=AggregatorMiningProcessor")
+                var search_parsing_issues_aggregator = 'search' + "?q=search%20" + encodeURI("index=_internal sourcetype=splunkd error OR warn `trackme_idx_filter` component=AggregatorMiningProcessor")
 
                 // Define the URL target
                 document.getElementById("btn_search_parsing_issues_aggregator").href = search_parsing_issues_aggregator;
 
                 // Define the history search
-                var search_parsing_issues_dateparser = location.protocol + '//' + location.hostname + (location.port ? ':' + location.port : '') + '//app/trackme/search' + "?q=search%20" + encodeURI("index=_internal sourcetype=splunkd error OR warn `trackme_idx_filter` component=DateParserVerbose")
+                var search_parsing_issues_dateparser = 'search' + "?q=search%20" + encodeURI("index=_internal sourcetype=splunkd error OR warn `trackme_idx_filter` component=DateParserVerbose")
 
                 // Define the URL target
                 document.getElementById("btn_search_parsing_issues_dateparser").href = search_parsing_issues_dateparser;
