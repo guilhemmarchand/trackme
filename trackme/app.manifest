@@ -40,14 +40,7 @@
       "uri": "https://trackme.readthedocs.io/en/latest/releasenotes.html"
     }
   },
-  "dependencies": {
-    "Splunk_ML_Toolkit": {
-      "version": ">=4.5.0"
-    },
-    "semicircle_donut": {
-      "version": ">=1.0.1"
-    }
-  },
+  "dependencies": null,
   "tasks": null,
   "inputGroups": null,
   "incompatibleApps": null,
