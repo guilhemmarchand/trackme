@@ -32,8 +32,8 @@ require([
          },
          render: function($td, cell) {
              var a = $('<div>').attr({"id":"chk-allowlist-data-source"+cell.value,"value":cell.value}).addClass('checkbox').click(function() {
-                 // console.log("checked",$(this).attr('class'));
-                 // console.log("checked",$(this).attr('value'));
+                 //console.log("checked",$(this).attr('class'));
+                 //console.log("checked",$(this).attr('value'));
                  if($(this).attr('class')==="checkbox")
                  {
                      selected_values_array.push($(this).attr('value'));
@@ -48,7 +48,7 @@ require([
                          selected_values_array.splice(i, 1);
                      }
                  }
-                 console.log(selected_values_array);
+                 //console.log(selected_values_array);
                  tokens.set("removeWhitelistDataSource", selected_values_array.join());
                  submittedTokens.set(tokens.toJSON());
              }).appendTo($td);
@@ -76,8 +76,8 @@ require([
          },
          render: function($td, cell) {
              var a = $('<div>').attr({"id":"chk-allowlist-data-host"+cell.value,"value":cell.value}).addClass('checkbox').click(function() {
-                 // console.log("checked",$(this).attr('class'));
-                 // console.log("checked",$(this).attr('value'));
+                 //console.log("checked",$(this).attr('class'));
+                 //console.log("checked",$(this).attr('value'));
                  if($(this).attr('class')==="checkbox")
                  {
                      selected_values_array2.push($(this).attr('value'));
@@ -92,7 +92,7 @@ require([
                          selected_values_array2.splice(i, 1);
                      }
                  }
-                 console.log(selected_values_array2);
+                 //console.log(selected_values_array2);
                  var selected_array = selected_values_array2;
                  tokens.set("removeWhitelistDataHost", selected_values_array2.join());
                  submittedTokens.set(tokens.toJSON());
@@ -121,8 +121,8 @@ require([
          },
          render: function($td, cell) {
              var a = $('<div>').attr({"id":"chk-allowlist-metric-host"+cell.value,"value":cell.value}).addClass('checkbox').click(function() {
-                 // console.log("checked",$(this).attr('class'));
-                 // console.log("checked",$(this).attr('value'));
+                 //console.log("checked",$(this).attr('class'));
+                 //console.log("checked",$(this).attr('value'));
                  if($(this).attr('class')==="checkbox")
                  {
                      selected_values_array3.push($(this).attr('value'));
@@ -137,7 +137,7 @@ require([
                          selected_values_array3.splice(i, 1);
                      }
                  }
-                 console.log(selected_values_array3);
+                 //console.log(selected_values_array3);
                  tokens.set("removeWhitelistMetricHost", selected_values_array3.join());
                  submittedTokens.set(tokens.toJSON());
              }).appendTo($td);
@@ -165,8 +165,8 @@ require([
          },
          render: function($td, cell) {
              var a = $('<div>').attr({"id":"chk-blocklist-data-source-host"+cell.value,"value":cell.value}).addClass('checkbox').click(function() {
-                 // console.log("checked",$(this).attr('class'));
-                 // console.log("checked",$(this).attr('value'));
+                 //console.log("checked",$(this).attr('class'));
+                 //console.log("checked",$(this).attr('value'));
                  if($(this).attr('class')==="checkbox")
                  {
                      selected_values_array4.push($(this).attr('value'));
@@ -181,7 +181,7 @@ require([
                          selected_values_array4.splice(i, 1);
                      }
                  }
-                 console.log(selected_values_array4);
+                 //console.log(selected_values_array4);
                  tokens.set("removeBlacklistDataSourceHost", selected_values_array4.join());
                  submittedTokens.set(tokens.toJSON());
              }).appendTo($td);
@@ -209,8 +209,8 @@ require([
          },
          render: function($td, cell) {
              var a = $('<div>').attr({"id":"chk-blocklist-data-source-sourcetype"+cell.value,"value":cell.value}).addClass('checkbox').click(function() {
-                 // console.log("checked",$(this).attr('class'));
-                 // console.log("checked",$(this).attr('value'));
+                 //console.log("checked",$(this).attr('class'));
+                 //console.log("checked",$(this).attr('value'));
                  if($(this).attr('class')==="checkbox")
                  {
                      selected_values_array5.push($(this).attr('value'));
@@ -225,7 +225,7 @@ require([
                          selected_values_array5.splice(i, 1);
                      }
                  }
-                 console.log(selected_values_array5);
+                 //console.log(selected_values_array5);
                  tokens.set("removeBlacklistDataSourceSourcetype", selected_values_array5.join());
                  submittedTokens.set(tokens.toJSON());
              }).appendTo($td);
@@ -253,8 +253,8 @@ require([
          },
          render: function($td, cell) {
              var a = $('<div>').attr({"id":"chk-blocklist-data-source-index"+cell.value,"value":cell.value}).addClass('checkbox').click(function() {
-                 // console.log("checked",$(this).attr('class'));
-                 // console.log("checked",$(this).attr('value'));
+                 //console.log("checked",$(this).attr('class'));
+                 //console.log("checked",$(this).attr('value'));
                  if($(this).attr('class')==="checkbox")
                  {
                      selected_values_array6.push($(this).attr('value'));
@@ -269,7 +269,7 @@ require([
                          selected_values_array6.splice(i, 1);
                      }
                  }
-                 console.log(selected_values_array6);
+                 //console.log(selected_values_array6);
                  tokens.set("removeBlacklistDataSourceIndex", selected_values_array6.join());
                  submittedTokens.set(tokens.toJSON());
              }).appendTo($td);
@@ -297,8 +297,8 @@ require([
          },
          render: function($td, cell) {
              var a = $('<div>').attr({"id":"chk-blocklist-data-host-host"+cell.value,"value":cell.value}).addClass('checkbox').click(function() {
-                 // console.log("checked",$(this).attr('class'));
-                 // console.log("checked",$(this).attr('value'));
+                 //console.log("checked",$(this).attr('class'));
+                 //console.log("checked",$(this).attr('value'));
                  if($(this).attr('class')==="checkbox")
                  {
                      selected_values_array7.push($(this).attr('value'));
@@ -313,7 +313,7 @@ require([
                          selected_values_array7.splice(i, 1);
                      }
                  }
-                 console.log(selected_values_array7);
+                 //console.log(selected_values_array7);
                  tokens.set("removeBlacklistDataHostHost", selected_values_array7.join());
                  submittedTokens.set(tokens.toJSON());
              }).appendTo($td);
@@ -341,8 +341,8 @@ require([
          },
          render: function($td, cell) {
              var a = $('<div>').attr({"id":"chk-blocklist-data-host-sourcetype"+cell.value,"value":cell.value}).addClass('checkbox').click(function() {
-                 // console.log("checked",$(this).attr('class'));
-                 // console.log("checked",$(this).attr('value'));
+                 //console.log("checked",$(this).attr('class'));
+                 //console.log("checked",$(this).attr('value'));
                  if($(this).attr('class')==="checkbox")
                  {
                      selected_values_array8.push($(this).attr('value'));
@@ -357,7 +357,7 @@ require([
                          selected_values_array8.splice(i, 1);
                      }
                  }
-                 console.log(selected_values_array8);
+                 //console.log(selected_values_array8);
                  tokens.set("removeBlacklistDataHostSourcetype", selected_values_array8.join());
                  submittedTokens.set(tokens.toJSON());
              }).appendTo($td);
@@ -385,8 +385,8 @@ require([
          },
          render: function($td, cell) {
              var a = $('<div>').attr({"id":"chk-blocklist-data-host-index"+cell.value,"value":cell.value}).addClass('checkbox').click(function() {
-                 // console.log("checked",$(this).attr('class'));
-                 // console.log("checked",$(this).attr('value'));
+                 //console.log("checked",$(this).attr('class'));
+                 //console.log("checked",$(this).attr('value'));
                  if($(this).attr('class')==="checkbox")
                  {
                      selected_values_array9.push($(this).attr('value'));
@@ -401,7 +401,7 @@ require([
                          selected_values_array9.splice(i, 1);
                      }
                  }
-                 console.log(selected_values_array9);
+                 //console.log(selected_values_array9);
                  tokens.set("removeBlacklistDataHostIndex", selected_values_array9.join());
                  submittedTokens.set(tokens.toJSON());
              }).appendTo($td);
@@ -429,8 +429,8 @@ require([
          },
          render: function($td, cell) {
              var a = $('<div>').attr({"id":"chk-blocklist-metric-host-host"+cell.value,"value":cell.value}).addClass('checkbox').click(function() {
-                 // console.log("checked",$(this).attr('class'));
-                 // console.log("checked",$(this).attr('value'));
+                 //console.log("checked",$(this).attr('class'));
+                 //console.log("checked",$(this).attr('value'));
                  if($(this).attr('class')==="checkbox")
                  {
                      selected_values_array10.push($(this).attr('value'));
@@ -445,7 +445,7 @@ require([
                          selected_values_array10.splice(i, 1);
                      }
                  }
-                 console.log(selected_values_array10);
+                 //console.log(selected_values_array10);
                  tokens.set("removeBlacklistMetricHostHost", selected_values_array10.join());
                  submittedTokens.set(tokens.toJSON());
              }).appendTo($td);
@@ -473,8 +473,8 @@ require([
          },
          render: function($td, cell) {
              var a = $('<div>').attr({"id":"chk-blocklist-metric-host-index"+cell.value,"value":cell.value}).addClass('checkbox').click(function() {
-                 // console.log("checked",$(this).attr('class'));
-                 // console.log("checked",$(this).attr('value'));
+                 //console.log("checked",$(this).attr('class'));
+                 //console.log("checked",$(this).attr('value'));
                  if($(this).attr('class')==="checkbox")
                  {
                      selected_values_array11.push($(this).attr('value'));
@@ -489,7 +489,7 @@ require([
                          selected_values_array11.splice(i, 1);
                      }
                  }
-                 console.log(selected_values_array11);
+                 //console.log(selected_values_array11);
                  tokens.set("removeBlacklistMetricHostIndex", selected_values_array11.join());
                  submittedTokens.set(tokens.toJSON());
              }).appendTo($td);
@@ -517,8 +517,8 @@ require([
          },
          render: function($td, cell) {
              var a = $('<div>').attr({"id":"chk-blocklist-metric-category"+cell.value,"value":cell.value}).addClass('checkbox').click(function() {
-                 // console.log("checked",$(this).attr('class'));
-                 // console.log("checked",$(this).attr('value'));
+                 //console.log("checked",$(this).attr('class'));
+                 //console.log("checked",$(this).attr('value'));
                  if($(this).attr('class')==="checkbox")
                  {
                      selected_values_array12.push($(this).attr('value'));
@@ -533,7 +533,7 @@ require([
                          selected_values_array12.splice(i, 1);
                      }
                  }
-                 console.log(selected_values_array12);
+                 //console.log(selected_values_array12);
                  tokens.set("removeBlacklistMetricHostMetricCategory", selected_values_array12.join());
                  submittedTokens.set(tokens.toJSON());
              }).appendTo($td);
@@ -561,8 +561,8 @@ require([
          },
          render: function($td, cell) {
              var a = $('<div>').attr({"id":"chk-metric-policy"+cell.value,"value":cell.value}).addClass('checkbox').click(function() {
-                 // console.log("checked",$(this).attr('class'));
-                 // console.log("checked",$(this).attr('value'));
+                 //console.log("checked",$(this).attr('class'));
+                 //console.log("checked",$(this).attr('value'));
                  if($(this).attr('class')==="checkbox")
                  {
                      selected_values_array13.push($(this).attr('value'));
@@ -577,7 +577,7 @@ require([
                          selected_values_array13.splice(i, 1);
                      }
                  }
-                 console.log(selected_values_array13);
+                 //console.log(selected_values_array13);
                  tokens.set("removeMetricPolicies", selected_values_array13.join());
                  submittedTokens.set(tokens.toJSON());
              }).appendTo($td);
@@ -605,8 +605,8 @@ require([
          },
          render: function($td, cell) {
              var a = $('<div>').attr({"id":"chk-lagging-data-source-policy"+cell.value,"value":cell.value}).addClass('checkbox').click(function() {
-                 // console.log("checked",$(this).attr('class'));
-                 // console.log("checked",$(this).attr('value'));
+                 //console.log("checked",$(this).attr('class'));
+                 //console.log("checked",$(this).attr('value'));
                  if($(this).attr('class')==="checkbox")
                  {
                      selected_values_array14.push($(this).attr('value'));
@@ -621,7 +621,7 @@ require([
                          selected_values_array14.splice(i, 1);
                      }
                  }
-                 console.log(selected_values_array14);
+                 //console.log(selected_values_array14);
                  tokens.set("removeDataSourceLaggingPolicy", selected_values_array14.join());
                  submittedTokens.set(tokens.toJSON());
              }).appendTo($td);
@@ -649,8 +649,8 @@ require([
          },
          render: function($td, cell) {
              var a = $('<div>').attr({"id":"chk-elastic-source-shared-policy"+cell.value,"value":cell.value}).addClass('checkbox').click(function() {
-                 // console.log("checked",$(this).attr('class'));
-                 // console.log("checked",$(this).attr('value'));
+                 //console.log("checked",$(this).attr('class'));
+                 //console.log("checked",$(this).attr('value'));
                  if($(this).attr('class')==="checkbox")
                  {
                      selected_values_array15.push($(this).attr('value'));
@@ -665,7 +665,7 @@ require([
                          selected_values_array15.splice(i, 1);
                      }
                  }
-                 console.log(selected_values_array15);
+                 //console.log(selected_values_array15);
                  tokens.set("removeElasticSourceShared", selected_values_array15.join());
                  submittedTokens.set(tokens.toJSON());
              }).appendTo($td);

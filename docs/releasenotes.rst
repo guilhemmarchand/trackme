@@ -14,11 +14,11 @@ This is a new main release branch, TrackMe 1.2.x require the deployment of the f
 TrackMe requires a summary index (defaults to trackme_summary) and a metric index (defaults to trackme_metrics):
 https://trackme.readthedocs.io/en/latest/configuration.html
 
-- Fix: Builtin alerts should do not honour index whitelisting
+- Fix: Builtin alerts should do not honour index allowlisting (for entities created before allowlists were configured)
 - Change: In support with the elimination of long term used negative words in IT, whitelist and blacklist concepts are replaced with allowlist and blocklist concepts
 - Fix/Feature: UI improvement with a checkbox in table approach to provide deletion capabilities on the different screens such as allowlist and blocklist, in some circumstances the drilldown approach was causing trouble with unexpected closure of the modal window
-- Fix: Outliers generation with mstats and the append=true mode fails in some distributed architecture
-- Fix: Active links such as opening in a search a data source can get broken when using a custom Splunk URI path (root_endpoint in web.conf)
+- Fix: Outliers generation with mstats and the append=true mode fails in some distributed architecture, the single schedule report is replaced with a scheduled per potential period configured for entities, in a high performing fashion and capable of dealing with any number of entities
+- Fix: Active links such as opening in a search a data source might get broken in some environments when using a custom Splunk URI path (root_endpoint in web.conf)
 
 Version 1.2.17
 ==============
