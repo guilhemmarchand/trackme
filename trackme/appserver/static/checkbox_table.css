@@ -1,0 +1,24 @@
+/* The standalone checkbox square*/
+ .checkbox {
+   width:20px;
+   height:20px;
+   border: 1px solid #000;
+   display: inline-block;
+ }
+
+ /* This is what simulates a checkmark icon */
+ .checkbox.checked:after {
+   content: '';
+   display: block;
+   width: 4px;
+   height: 7px;
+
+   /* "Center" the checkmark */
+   position:relative;
+   top:4px;
+   left:7px;
+
+   border: solid #000;
+   border-width: 0 2px 2px 0;
+   transform: rotate(45deg);
+ }

@@ -483,28 +483,24 @@ When a lagging class is defined and is matched for a data source or a data host,
 
 Finally, when a custom lagging value is defined for an object, a value of "true" is created for the field named "data_override_lagging_class", which value is used to determine the actual value for that object.
 
-Whitelisting & Blacklisting features
+Allowlisting & Blocklisting features
 ====================================
 
-**TrackMe version 1.0.22 introduced builtin support for both whitelisting of indexes and blacklisting of indexes, sourcetypes and hosts.**
+**TrackMe version 1.0.22 introduced builtin support for both allowlisting of indexes and blocklisting of indexes, sourcetypes and hosts.**
 
-.. image:: img/whitelist_and_blacklist.png
-   :alt: whitelist_and_blacklist.png
+.. image:: img/allowlist_and_blocklist.png
+   :alt: allowlist_and_blocklist.png
    :align: center
 
-**The default behaviour of TrackMe is to track data available in all indexes, which changes if whitelisting has been defined:**
+**The default behaviour of TrackMe is to track data available in all indexes, which changes if allowlisting has been defined:**
 
-.. image:: img/whitelisting.png
+.. image:: img/allowlisting.png
    :alt: .png
    :align: center
 
-**Different level of blacklisting features are provided out of the box, which features can be used to avoid taking in consideration indexes, sourcetypes and hosts.**
+Different level of blocklisting features are provided out of the box, which features can be used to avoid taking in consideration indexes, sourcetypes and hosts.
 
-.. image:: img/blacklist_btns.png
-   :alt: blacklist_btns.png
-   :align: center
-
-*The following type of blacklisting entries are supported:**
+*The following type of blocklisting entries are supported:**
 
 - explicit names, example: ``dev001``
 - wildcards, example: ``dev-*``
@@ -512,12 +508,12 @@ Whitelisting & Blacklisting features
 
 *regular expressions are supported starting version 1.1.6.*
 
-*metric_category blacklisting for metric hosts supports explicit blacklist only.*
+*metric_category blocklisting for metric hosts supports explicit blacklist only.*
 
-**Adding or removing a blacklist item if performed entirely and easily within the UI:**
+**Adding or removing a blocklist item if performed entirely and easily within the UI:**
 
-.. image:: img/blacklist_example.png
-   :alt: blacklist_example.png
+.. image:: img/blocklist_example.png
+   :alt: blocklist_example.png
    :align: center
 
 Manual run of the trackers
