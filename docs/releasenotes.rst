@@ -14,6 +14,8 @@ This is a new main release branch, TrackMe 1.2.x require the deployment of the f
 TrackMe requires a summary index (defaults to trackme_summary) and a metric index (defaults to trackme_metrics):
 https://trackme.readthedocs.io/en/latest/configuration.html
 
+- Feature: Better expose ingestion lag and event lag metrics in data sources and hosts modal windows (new single for event lag, expose as duration automatically)
+- Feature: Improved look and feel of modal windows with a header color scheme based on the action performed
 
 Version 1.2.18
 ==============
