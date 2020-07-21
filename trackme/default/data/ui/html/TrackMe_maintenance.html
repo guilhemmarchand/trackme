@@ -37,10 +37,23 @@
             background-color: #337ab7;
             opacity: .40;
         }
+
         /* Manage modal hidden properly */
         .modal {
             display: none;
+            border-radius: 6px !important;
+            padding: 0 !important;
         }
+
+        /* modal body margin */
+        .modal-body {
+            margin-top: 15px;
+        }
+
+        .modal-header .close {
+           margin-top: -12px;
+        }
+
         /* Increase modal width */
         .custom-modal-50 {
             width: 50%;
@@ -88,6 +101,67 @@
         /* fix some issues with long modals within Splunk 7.0.x */
         .modal-body {
             max-height: 700px !important;
+        }
+
+        .modal-header-success {
+            color:#fff;
+            padding:9px 15px;
+            border-bottom:1px solid #eee;
+            background-color: #5cb85c;
+            -webkit-border-top-left-radius: 5px;
+            -webkit-border-top-right-radius: 5px;
+            -moz-border-radius-topleft: 5px;
+            -moz-border-radius-topright: 5px;
+            border-top-left-radius: 5px;
+            border-top-right-radius: 5px;
+        }
+        .modal-header-warning {
+            color:#fff;
+            padding:9px 15px;
+            border-bottom:1px solid #eee;
+            background-color: #f0ad4e;
+            -webkit-border-top-left-radius: 5px;
+            -webkit-border-top-right-radius: 5px;
+            -moz-border-radius-topleft: 5px;
+            -moz-border-radius-topright: 5px;
+            border-top-left-radius: 5px;
+            border-top-right-radius: 5px;
+        }
+        .modal-header-danger {
+            color:#fff;
+            padding:9px 15px;
+            border-bottom:1px solid #eee;
+            background-color: #d9534f;
+            -webkit-border-top-left-radius: 5px;
+            -webkit-border-top-right-radius: 5px;
+            -moz-border-radius-topleft: 5px;
+            -moz-border-radius-topright: 5px;
+            border-top-left-radius: 5px;
+            border-top-right-radius: 5px;
+        }
+        .modal-header-info {
+            color:#fff;
+            padding:9px 15px;
+            border-bottom:1px solid #eee;
+            background-color: #5bc0de;
+            -webkit-border-top-left-radius: 5px;
+            -webkit-border-top-right-radius: 5px;
+            -moz-border-radius-topleft: 5px;
+            -moz-border-radius-topright: 5px;
+            border-top-left-radius: 5px;
+            border-top-right-radius: 5px;
+        }
+        .modal-header-primary {
+            color:#fff !important;
+            padding:9px 15px !important;
+            border-bottom:1px solid #eee !important;
+            background-color: #428bca !important;
+            -webkit-border-top-left-radius: 5px !important;
+            -webkit-border-top-right-radius: 5px !important;
+            -moz-border-radius-topleft: 5px !important;
+            -moz-border-radius-topright: 5px !important;
+            border-top-left-radius: 5px !important;
+            border-top-right-radius: 5px !important;
         }
 
         /* Fix link input object align */
@@ -233,9 +307,9 @@ styles in <div> tags, similar to Bootstrap's grid system.
 
             <!-- Modal content-->
             <div class="modal-content">
-                <div class="modal-header">
+                <div class="modal-header modal-header-danger">
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h3 style="color: indianred;"><span class="glyphicon glyphicon-lock"></span>Oops!</h3>
+                    <h3 style="color: white;"><span class="glyphicon glyphicon-lock"></span>Oops!</h3>
                 </div>
                 <div class="modal-body">
                     <p>Sorry but it looks like an error occurred while attempting to perform the KVstore collection update.<br /><br />
@@ -260,9 +334,9 @@ styles in <div> tags, similar to Bootstrap's grid system.
 
             <!-- Modal content-->
             <div class="modal-content">
-                <div class="modal-header">
+                <div class="modal-header modal-header-danger">
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h3 style="color: indianred;"><span class="glyphicon glyphicon-lock"></span> Enabling the maintenance mode</h3>
+                    <h3 style="color: white;"><span class="glyphicon glyphicon-lock"></span> Enabling the maintenance mode</h3>
                 </div>
                 <div class="modal-body">
 
@@ -314,9 +388,9 @@ styles in <div> tags, similar to Bootstrap's grid system.
 
             <!-- Modal content-->
             <div class="modal-content">
-                <div class="modal-header">
+                <div class="modal-header modal-header-danger">
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h3 style="color: indianred;"><span class="glyphicon glyphicon-lock"></span> Disabling the maintenance mode</h3>
+                    <h3 style="color: white;"><span class="glyphicon glyphicon-lock"></span> Disabling the maintenance mode</h3>
                 </div>
                 <div class="modal-body">
 
@@ -353,9 +427,9 @@ styles in <div> tags, similar to Bootstrap's grid system.
 
             <!-- Modal content-->
             <div class="modal-content">
-                <div class="modal-header">
+                <div class="modal-header modal-header-danger">
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h3 style="color: indianred;"><span class="glyphicon glyphicon-lock"></span>Oops!</h3>
+                    <h3 style="color: white;"><span class="glyphicon glyphicon-lock"></span>Oops!</h3>
                 </div>
                 <div class="modal-body">
                     <p><b>Invalid entry:</b> the selected date time is in the past or your start / end time selection is invalid, please correct your selection.
@@ -397,9 +471,9 @@ styles in <div> tags, similar to Bootstrap's grid system.
 
             <!-- Modal content-->
             <div class="modal-content">
-                <div class="modal-header">
+                <div class="modal-header modal-header-success">
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h3 style="color: steelblue;"><span class="glyphicon glyphicon-lock"></span>Maintenance mode has been disabled</h3>
+                    <h3 style="color: white;"><span class="glyphicon glyphicon-lock"></span>Maintenance mode has been disabled</h3>
                 </div>
                 <div class="modal-body">
                     <p><b>The maintenance mode has been successfully disabled.</b><br /><br />
@@ -420,9 +494,9 @@ styles in <div> tags, similar to Bootstrap's grid system.
 
             <!-- Modal content-->
             <div class="modal-content">
-                <div class="modal-header">
+                <div class="modal-header modal-header-success">
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h3 style="color: indianred;"><span class="glyphicon glyphicon-lock"></span>Maintenance mode has been enabled</h3>
+                    <h3 style="color: white;"><span class="glyphicon glyphicon-lock"></span>Maintenance mode has been enabled</h3>
                 </div>
                 <div class="modal-body">
                     <p><b>The maintenance mode has been successfully enabled.</b><br /><br />
@@ -444,9 +518,9 @@ styles in <div> tags, similar to Bootstrap's grid system.
 
             <!-- Modal content-->
             <div class="modal-content">
-                <div class="modal-header">
+                <div class="modal-header modal-header-success">
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h3 style="color: indianred;"><span class="glyphicon glyphicon-lock"></span>Maintenance mode scheduled</h3>
+                    <h3 style="color: white;"><span class="glyphicon glyphicon-lock"></span>Maintenance mode scheduled</h3>
                 </div>
                 <div class="modal-body">
                     <p><b>The maintenance mode has been successfully scheduled.</b><br /><br />
@@ -468,9 +542,9 @@ styles in <div> tags, similar to Bootstrap's grid system.
 
             <!-- Modal content-->
             <div class="modal-content">
-                <div class="modal-header">
+                <div class="modal-header modal-header-success">
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h3 style="color: indianred;"><span class="glyphicon glyphicon-lock"></span>Oops!</h3>
+                    <h3 style="color: white;"><span class="glyphicon glyphicon-lock"></span>Oops!</h3>
                 </div>
                 <div class="modal-body">
                     <p>Sorry but it looks like an error occurred while attempting to modify the maintenance mode.<br /><br />
@@ -491,9 +565,9 @@ styles in <div> tags, similar to Bootstrap's grid system.
 
             <!-- Modal content-->
             <div class="modal-content">
-                <div class="modal-header">
+                <div class="modal-header modal-header-success">
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h3 style="color: indianred;"><span class="glyphicon glyphicon-lock"></span>Oops!</h3>
+                    <h3 style="color: white;"><span class="glyphicon glyphicon-lock"></span>Oops!</h3>
                 </div>
                 <div class="modal-body">
                     <p>Sorry but it looks like an error occurred while loading the current maintenance mode status.
