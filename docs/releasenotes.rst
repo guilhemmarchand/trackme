@@ -16,6 +16,7 @@ https://trackme.readthedocs.io/en/latest/configuration.html
 
 - Feature: Better expose ingestion lag and event lag metrics in data sources and hosts modal windows (new single for event lag, expose as duration automatically)
 - Feature: Improved look and feel of modal windows with a header color scheme based on the action performed
+- Fix: In table checkbox CSS code fix to get square shape instead of a rectangle
 
 Version 1.2.18
 ==============
