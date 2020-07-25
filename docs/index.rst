@@ -96,6 +96,8 @@ Troubleshoot:
 .. toctree::
    :maxdepth: 1
 
+   FAQ
+
 Versioniong and build history:
 ==============================
 

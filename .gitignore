@@ -32,3 +32,6 @@ backups
 
 # Mac OS X cached files
 .DS_Store
+
+# Visual Basic Code
+.vscode
