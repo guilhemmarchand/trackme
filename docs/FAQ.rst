@@ -3,7 +3,10 @@ FAQ
 
 *You will find in this page different smart and understandable questions, which are made available for everyone's value, thank you so much for asking!*
 
-**What is the "data name" useful for?**
+What is the "data name" useful for?
+-----------------------------------
+
+See :ref:`Data Sources tracking concept and features`
 
 In the context of data source, the field **"data_name"** represents the unique identifier of the data source.
 
@@ -13,6 +16,8 @@ In the context of data source, the field **"data_name"** represents the unique i
 The data_name unique identifier is used in different parts of the application, such as the search trackers which rely on it to idenfity the data source.
 
 **What are the numbers in the "lag summary" column?**
+
+See :ref:`Data Sources tracking concept and features`
 
 The field **"lag summary (lag event / lag ingestion)"** is exposed within the UI to summarise the two key metrics handled by TrackMe to monitor the Splunk data.
 
@@ -32,7 +37,10 @@ For continuous data flow, you need to know that the data is being indexed with t
 
 On the other side, you need as well to be able to detect if the data flow is somehow broken, and the ingestion stopped unexpectly, this is where the lag_event_sec matters.
 
-**Is the "priority" a configurable value? If yes how do you configure it, if not how does the app derives it?**
+Is the "priority" a configurable value? If yes how do you configure it, if not how does the app derives it?
+-----------------------------------------------------------------------------------------------------------
+
+See :ref:`Priority management`
 
 The **"priority"** field is configurable within the UI, when you click on any entity and enter the modification space (``Modify`` bytton).
 
@@ -52,7 +60,10 @@ Another option would be to define everything to low besides what you qualify and
 
 The purpose of the priority field is to provide a granularity in which entities should be generating alerts, while all information remains easily visible and summarised in the UI.
 
-**Can the priority be externally managed?**
+Can the priority be externally managed?
+---------------------------------------
+
+See :ref:`Priority management`
 
 In some use cases you may want to retrieve and/or define the value of the priority field from an external source such as a CMDB lookup stored in Splunk. (specially for data hosts)
 
@@ -69,7 +80,8 @@ Some logic similar to:
 
 This search would take input the content of the lookup, perform a mapping to retrieve the priority value from the CMDB, run a simplistic evaluation and finally updates the KVstore entries.
 
-**Why do we need both short and long term trackers?**
+Why do we need both short and long term trackers?
+-------------------------------------------------
 
 This is required to cover most of the use cases, in the most performing manner, at the lowest cost for the environment.
 
@@ -82,7 +94,8 @@ There are different scenarios where the short term tracker would not be able to 
 
 For these reasons and for performance considerations, the search workload is split into two main trackers which each cover a specific time frame.
 
-**How the app determines what's a good status and what's a bad status?**
+How the app determines what's a good status and what's a bad status?
+--------------------------------------------------------------------
 
 This depends on different factors, and depends on the configuration of the entity too, but in short:
 
@@ -103,7 +116,8 @@ Example:
 
     Alert: data source status is red, monitoring conditions are not met due to lagging or interruption in the data flow, latest data available is 24/07/2020 19:30 (7149 seconds from now) and ingestion latency is approximately 30 seconds, max lag configured is 125 seconds.
 
-**How can you see a list of deleted entries? Can you undelete an entry?**
+How can you see a list of deleted entries? Can you undelete an entry?
+---------------------------------------------------------------------
 
 A user can delete an entity stored in the KVstore, assuming the user has write permissions over the KVstores and other objects. (admin, part of trackme_admin role or custom allowed)
 
@@ -119,22 +133,18 @@ While it is not supported at the moment to undo the deletion, the audit record c
 
 Finally, the audit changes tab provides the relevant filters to allow accessing to all deletion events, including answers to when / who / how and why if an update note was added filled during the operation. 
 
-**What are Elastic Sources and what are they useful for?**
+What are Elastic Sources and what are they useful for?
+------------------------------------------------------
 
-Elastic Sources concept is a powerful feature that allows covering all use cases that cannot comply with the default TrackMe concepts regarding data sources, hosts and metrics.
+The Elastic source concept is covered in deep in the :ref:`Elastic sources` documentation, wich includes comprehensive examples.
 
-*For reference:*
+How to deal with sourcetypes that are emitting data occasionally or sporadically? Does TrackMe automatically detects this?
+--------------------------------------------------------------------------------------------------------------------------
 
-- data_source: each entity covers the couple ``index + sourcetype``
-- data_host: each entity refers to all ``data coming from a given host``
-- metric_host: each entity refers to all ``metrics stored in the metric store from a given host``
+There are no easy answers to this question, however:
 
-So what kind of use cases exactly? There are various of them, most of these will be extremely custom for each customer, fortunately the concept allows any kind of combinations, using all of the available Splunk languahes.
-
-Some examples:
-
-- You want to break and/or monitor using the source field, for example if you use the source field to match a specific data pipeline rather than the usual file path (Kafka / HEC, TCP/UDP inputs, etc)
-- You need to use and/or break / and/or monitor using custom fields, ideally custom indexed fields representing an internal company, business unit, etc
-- You want to deal with any use case that isn't possible by default, monitoring Datamodel acceleration availability, summary reports, etc... well ok anything right ?
-
-Elastic sources are covered in details here:
+- From a data source perspective, what matters is monitoring the data from a pipeline point of view, which translated in TrackMe means making sure you have a data source that corresponds to this unique data flow
+- From a data host perspective, there wouldn't be the value one could expcet in having a strict monitoring of every single sourcetype linked to a given host, specially because many of them can be generating data in a sporadic fashion depending on the circumstances
+- On the opposite, what matters and provides value is being able to detect global failures of hosts (endpoints, whatever you call these) in a way that is not generating noises and alert fatigue
+- This is why the data host design takes in consideration the data globally sent on a per host basis, TrackMe provides many different features (allowlist / blocklist, etc) to manage use cases with the level of granularity required 
+- Finally, from the data host perspective, the outliers detection is a powerful feature that would provide the capability of detecting a siginificant change in the event distrubution, for example when a major sourcetype has stopped to be emitted 
