@@ -1,6 +1,27 @@
 Release notes
 #############
 
+Version 1.2.19
+==============
+
+**CAUTION:**
+
+This is a new main release branch, TrackMe 1.2.x require the deployment of the following dependencies:
+
+- Semicircle Donut Chart Viz, Splunk Base: https://splunkbase.splunk.com/app/4378
+- Splunk Machine Learning Toolkit, Splunk Base: https://splunkbase.splunk.com/app/2890
+
+TrackMe requires a summary index (defaults to trackme_summary) and a metric index (defaults to trackme_metrics):
+https://trackme.readthedocs.io/en/latest/configuration.html
+
+- Feature: Improved rendering of the ingestion lag and event lag metrics for data sources and hosts modal windows (new single for event lag, automatically converted to a duration format)
+- Feature: over KPI alerting option, this new feature allows for data sources and data hosts entities to choose which KPI to be alerting against, between all KPIS, lag ingestion KPI only or lag event KPI only.
+- Feature: Improved look and feel of modal windows with a header color scheme based on the action performed
+- Fix: In table checkbox CSS code fix to get square shape instead of a rectangle
+- Fix: In auto lagging definition modal windows, the current modal window should be hidden automatically when the action is executed
+- Fix: Minor fix of input forms spacing in the main UI related to the keyword search text input box
+- Change: Remove data_index and data_sourcetype in the table output for data sources as the data_name field itself summarises these information
+
 Version 1.2.18
 ==============
 
