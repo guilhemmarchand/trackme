@@ -149,7 +149,7 @@ Outlier detection overview
    :alt: img/first_steps/img011
    :align: center
 
-**This screen exposes the events outliers detection results over time, the purpose of the outliers detection is provide advanced capabilities to detect when the amount of events produced in the scope of an entity goes bellow or above a certain level, which level gets automatically defined upon the historical behavour of the data.**
+**This screen exposes the events outliers detection results over time, the purpose of the outliers detection is provide advanced capabilities to detect when the amount of events produced in the scope of an entity goes below or above a certain level, which level gets automatically defined upon the historical behavour of the data.**
 
 For this purpose, every time the short term tracker runs, it records different metrics which includes the number of events on per 4 hours time window. (which matches the time frame scope of the short term tracker)
 
@@ -167,7 +167,7 @@ Assuming the outliers detection is enabled, if the workflow detects a significan
 - ``lower multiplier`` is a multiplier that is used for the automatic definition of the lower bound, decreasing or increasing will impact the value of the lower bound definition
 - ``upper multiplier`` is a multiplier that is used for the automatic definition of the upper bound, decreasing or increasing will impact the value of the upper bound definition
 - ``alert on upper`` defines if an upper outliers detected should be taken into account, basically should we alert if there is an abnormal anount of events coming in, default is false
-- ``lowerBound`` is the lower threshold, an event count bellow this value will be considered as outliers
+- ``lowerBound`` is the lower threshold, an event count below this value will be considered as outliers
 - ``upperBound`` is the upper threshold, an event count abive this value will be considered as outlier, but will only impact the state if the alert on upper is true
 - ``stdev`` is the standard deviation calculated by the workflow for this entity, and is used as the reference for the lower and upper bound calculation associated with the lower and upper multipliers
 - ``avg`` representes the average 4 hours amount of event count for this entity
@@ -489,7 +489,7 @@ We will address some easily undestandable examples in this documentation.
 - The search language can be based on ``| tstats``, ``raw`` searches, ``| from`` and ``| mstats`` commands
 - The shared tracker is a specific scheduled report named ``TrackMe - Elastic sources shared tracker`` that tracks in a single schedule execution all the entities that have been declared as shared Elastic sources via the UI
 - Because the ``shared tracker`` performs a ``single execution``, there are performance considerations to take into account and the shared tracker should be restricted to very effiscient searches in term of run time
-- In addition, ``Elastic sources shared`` have time frame restrictions which are the earliest and latest values of the tracker, you can restrict a shared entity time scope bellow these values but not beyond 
+- In addition, ``Elastic sources shared`` have time frame restrictions which are the earliest and latest values of the tracker, you can restrict a shared entity time scope below these values but not beyond 
 - A ``dedicated Elastic source`` is created via the UI which generates a new tracker especially for it
 - As the dedicated Elastic source has its ``own schedule report``, this provides more capabilites to handle less performing searches and as well more freedom to address basically any kind of customisation
 - ``Dedicated Elastic sources`` can be configured to address any time scope you need, and any search that is required including any advanced customisation you would need
