@@ -20,6 +20,7 @@ https://trackme.readthedocs.io/en/latest/configuration.html
 - Fix: In table checkbox CSS code fix to get square shape instead of a rectangle
 - Fix: In auto lagging definition modal windows, the current modal window should be hidden automatically when the action is executed
 - Fix: Minor fix of input forms spacing in the main UI related to the keyword search text input box
+- Fix: Alignment of header separator issues with Firefox for the main modal Windows
 - Change: Remove data_index and data_sourcetype in the table output for data sources as the data_name field itself summarises these information
 
 Version 1.2.18
