@@ -22,7 +22,7 @@
 
 ![screenshot3](./docs/img/screenshot3.png)
 
-![screenshot4](./docs/img/screenshot4.png)
+![screenshot4](./docs/img/first_steps/img002)
 
 ## Why this application?
 
