@@ -26,8 +26,8 @@ Welcome to the Splunk TrackMe application documentation
    :alt: screenshot.png
    :align: center
 
-.. image:: img/screenshot2.png
-   :alt: screenshot2.png
+.. image:: img/screenshot_outliers1.png
+   :alt: screenshot_outliers1.png
    :align: center
 
 .. image:: img/screenshot3.png
@@ -95,6 +95,8 @@ Troubleshoot:
 
 .. toctree::
    :maxdepth: 1
+
+   FAQ
 
 Versioniong and build history:
 ==============================

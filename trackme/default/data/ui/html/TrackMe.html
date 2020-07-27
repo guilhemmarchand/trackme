@@ -36,10 +36,23 @@
             background-color: #337ab7;
             opacity: .40;
         }
+
         /* Manage modal hidden properly */
         .modal {
             display: none;
+            border-radius: 6px !important;
+            padding: 0 !important;
         }
+
+        /* modal body margin */
+        .modal-body {
+            margin-top: 15px;
+        }
+
+        .modal-header .close {
+           margin-top: -12px;
+        }
+
         /* Increase modal width */
         .custom-modal-50 {
             width: 50%;
@@ -87,6 +100,67 @@
         /* fix some issues with long modals within Splunk 7.0.x */
         .modal-body {
             max-height: 700px !important;
+        }
+
+        .modal-header-success {
+            color:#fff;
+            padding:9px 15px;
+            border-bottom:1px solid #eee;
+            background-color: #5cb85c;
+            -webkit-border-top-left-radius: 5px;
+            -webkit-border-top-right-radius: 5px;
+            -moz-border-radius-topleft: 5px;
+            -moz-border-radius-topright: 5px;
+            border-top-left-radius: 5px;
+            border-top-right-radius: 5px;
+        }
+        .modal-header-warning {
+            color:#fff;
+            padding:9px 15px;
+            border-bottom:1px solid #eee;
+            background-color: #f0ad4e;
+            -webkit-border-top-left-radius: 5px;
+            -webkit-border-top-right-radius: 5px;
+            -moz-border-radius-topleft: 5px;
+            -moz-border-radius-topright: 5px;
+            border-top-left-radius: 5px;
+            border-top-right-radius: 5px;
+        }
+        .modal-header-danger {
+            color:#fff;
+            padding:9px 15px;
+            border-bottom:1px solid #eee;
+            background-color: #d9534f;
+            -webkit-border-top-left-radius: 5px;
+            -webkit-border-top-right-radius: 5px;
+            -moz-border-radius-topleft: 5px;
+            -moz-border-radius-topright: 5px;
+            border-top-left-radius: 5px;
+            border-top-right-radius: 5px;
+        }
+        .modal-header-info {
+            color:#fff;
+            padding:9px 15px;
+            border-bottom:1px solid #eee;
+            background-color: #5bc0de;
+            -webkit-border-top-left-radius: 5px;
+            -webkit-border-top-right-radius: 5px;
+            -moz-border-radius-topleft: 5px;
+            -moz-border-radius-topright: 5px;
+            border-top-left-radius: 5px;
+            border-top-right-radius: 5px;
+        }
+        .modal-header-primary {
+            color:#fff !important;
+            padding:9px 15px !important;
+            border-bottom:1px solid #eee !important;
+            background-color: #428bca !important;
+            -webkit-border-top-left-radius: 5px !important;
+            -webkit-border-top-right-radius: 5px !important;
+            -moz-border-radius-topleft: 5px !important;
+            -moz-border-radius-topright: 5px !important;
+            border-top-left-radius: 5px !important;
+            border-top-right-radius: 5px !important;
         }
 
         /* Fix link input object align */
@@ -419,8 +493,8 @@ styles in <div> tags, similar to Bootstrap's grid system.
                 <div class="dashboard-element html" id="body_data_host_tags">
                     <div class="panel-body html">
 
-                        <div class="modal-header">
-                            <h3 style="font-size: 18px;">Enrichment tags: <span style="color: steelblue">$tk_data_host$</span></h3>
+                        <div class="modal-header modal-header-info">
+                            <h1 style="font-size: 18px; color: white;">Enrichment tags: $tk_data_host$</h1>
                             <button type="button" class="close" data-dismiss="modal">&times;</button>
                         </div>
                     </div>
@@ -464,8 +538,8 @@ styles in <div> tags, similar to Bootstrap's grid system.
                 <div class="dashboard-element html" id="body_metric_host_tags">
                     <div class="panel-body html">
 
-                        <div class="modal-header">
-                            <h3 style="font-size: 18px;">Enrichment tags: <span style="color: steelblue">$tk_metric_host$</span></h3>
+                        <div class="modal-header modal-header-info">
+                            <h1 style="font-size: 18px; color: white;">Enrichment tags: $tk_metric_host$</h1>
                             <button type="button" class="close" data-dismiss="modal">&times;</button>
                         </div>
                     </div>
@@ -513,8 +587,8 @@ styles in <div> tags, similar to Bootstrap's grid system.
                         <!-- This is required to get the token substitutions without affecting the buttons actions in js -->
                         <div class="dashboard-element html" id="body_manage_identity_card">
                             <div class="panel-body html">
-                                <div class="modal-header">
-                                    <h3 style="font-size: 18px;">Identity card for data source: <span style="color: steelblue">$tk_data_name$</span></h3>
+                                <div class="modal-header modal-header-info">
+                                    <h1 style="font-size: 18px; color: white;">Identity card for data source: $tk_data_name$</h1>
                                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                                 </div>
 
@@ -555,9 +629,9 @@ styles in <div> tags, similar to Bootstrap's grid system.
 
             <!-- Modal content-->
             <div class="modal-content">
-                <div class="modal-header">
+                <div class="modal-header modal-header-danger">
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h3 style="color: indianred;"><span class="glyphicon glyphicon-lock"></span> Documentation identity card </h3>
+                    <h1 style="color: white;"><span class="glyphicon glyphicon-lock"></span> Documentation identity card </h1>
                 </div>
 
                 <div class="modal-body">
@@ -624,9 +698,9 @@ styles in <div> tags, similar to Bootstrap's grid system.
 
             <!-- Modal content-->
             <div class="modal-content">
-                <div class="modal-header">
+                <div class="modal-header modal-header-danger">
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h3 style="color: indianred;"><span class="glyphicon glyphicon-lock"></span> Documentation identity card </h3>
+                    <h1 style="color: white;"><span class="glyphicon glyphicon-lock"></span> Documentation identity card </h1>
                 </div>
                 <div class="modal-body">
                     <b>Associate with an existing identity card:</b>
@@ -672,9 +746,9 @@ styles in <div> tags, similar to Bootstrap's grid system.
 
             <!-- Modal content-->
             <div class="modal-content">
-                <div class="modal-header">
+                <div class="modal-header modal-header-danger">
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h3 style="color: indianred;"><span class="glyphicon glyphicon-lock"></span> Documentation identity card </h3>
+                    <h1 style="color: white;"><span class="glyphicon glyphicon-lock"></span> Documentation identity card </h1>
                 </div>
 
                 <div class="modal-body">
@@ -709,9 +783,9 @@ styles in <div> tags, similar to Bootstrap's grid system.
 
             <!-- Modal content-->
             <div class="modal-content">
-                <div class="modal-header">
+                <div class="modal-header modal-header-danger">
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h3 style="color: indianred;"><span class="glyphicon glyphicon-lock"></span> Documentation identity card </h3>
+                    <h1 style="color: white;"><span class="glyphicon glyphicon-lock"></span> Documentation identity card </h1>
                 </div>
 
                 <div class="modal-body">
@@ -747,9 +821,9 @@ styles in <div> tags, similar to Bootstrap's grid system.
 
             <!-- Modal content-->
             <div class="modal-content">
-                <div class="modal-header">
+                <div class="modal-header modal-header-success">
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h3 style="color: indianred;"><span class="glyphicon glyphicon-lock"></span> Documentation identity card </h3>
+                    <h1 style="color: white;"><span class="glyphicon glyphicon-lock"></span> Documentation identity card </h1>
                 </div>
 
                 <div class="modal-body">
@@ -783,9 +857,9 @@ styles in <div> tags, similar to Bootstrap's grid system.
 
             <!-- Modal content-->
             <div class="modal-content">
-                <div class="modal-header">
+                <div class="modal-header modal-header-success">
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h3 style="color: indianred;"><span class="glyphicon glyphicon-lock"></span> Documentation identity card </h3>
+                    <h1 style="color: white;"><span class="glyphicon glyphicon-lock"></span> Documentation identity card </h1>
                 </div>
 
                 <div class="modal-body">
@@ -819,9 +893,9 @@ styles in <div> tags, similar to Bootstrap's grid system.
 
             <!-- Modal content-->
             <div class="modal-content">
-                <div class="modal-header">
+                <div class="modal-header modal-header-success">
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h3 style="color: indianred;"><span class="glyphicon glyphicon-lock"></span> Documentation identity card </h3>
+                    <h1 style="color: white;"><span class="glyphicon glyphicon-lock"></span> Documentation identity card </h1>
                 </div>
 
                 <div class="modal-body">
@@ -855,9 +929,9 @@ styles in <div> tags, similar to Bootstrap's grid system.
 
             <!-- Modal content-->
             <div class="modal-content">
-                <div class="modal-header">
+                <div class="modal-header modal-header-danger">
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h3 style="color: indianred;"><span class="glyphicon glyphicon-lock"></span> Acknowledge active alert </h3>
+                    <h1 style="color: white;"><span class="glyphicon glyphicon-lock"></span> Acknowledge active alert </h1>
                 </div>
 
                 <div class="modal-body">
@@ -944,9 +1018,9 @@ styles in <div> tags, similar to Bootstrap's grid system.
 
             <!-- Modal content-->
             <div class="modal-content">
-                <div class="modal-header">
+                <div class="modal-header modal-header-success">
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h3 style="color: indianred;"><span class="glyphicon glyphicon-lock"></span> Acknowledge active alert </h3>
+                    <h1 style="color: white;"><span class="glyphicon glyphicon-lock"></span> Acknowledge active alert </h1>
                 </div>
 
                 <div class="modal-body">
@@ -979,9 +1053,9 @@ styles in <div> tags, similar to Bootstrap's grid system.
 
             <!-- Modal content-->
             <div class="modal-content">
-                <div class="modal-header">
+                <div class="modal-header modal-header-success">
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h3 style="color: indianred;"><span class="glyphicon glyphicon-lock"></span> Acknowledge active alert </h3>
+                    <h1 style="color: white;"><span class="glyphicon glyphicon-lock"></span> Acknowledge active alert </h1>
                 </div>
 
                 <div class="modal-body">
@@ -1014,9 +1088,9 @@ styles in <div> tags, similar to Bootstrap's grid system.
 
             <!-- Modal content-->
             <div class="modal-content">
-                <div class="modal-header">
+                <div class="modal-header modal-header-info">
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h3 style="color: indianred;"><span class="glyphicon glyphicon-lock"></span> Acknowledge active alert </h3>
+                    <h1 style="color: white;"><span class="glyphicon glyphicon-lock"></span> Acknowledge active alert </h1>
                 </div>
 
                 <div class="modal-body">
@@ -1050,9 +1124,9 @@ styles in <div> tags, similar to Bootstrap's grid system.
 
             <!-- Modal content-->
             <div class="modal-content">
-                <div class="modal-header">
+                <div class="modal-header modal-header-danger">
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h3 style="color: indianred;"><span class="glyphicon glyphicon-lock"></span> Acknowledge active alert </h3>
+                    <h1 style="color: white;"><span class="glyphicon glyphicon-lock"></span> Acknowledge active alert </h1>
                 </div>
 
                 <div class="modal-body">
@@ -1095,9 +1169,9 @@ styles in <div> tags, similar to Bootstrap's grid system.
 
             <!-- Modal content-->
             <div class="modal-content">
-                <div class="modal-header">
+                <div class="modal-header modal-header-danger">
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h3 style="color: indianred;"><span class="glyphicon glyphicon-lock"></span> Logical group </h3>
+                    <h1 style="color: white;"><span class="glyphicon glyphicon-lock"></span> Logical group </h1>
                 </div>
                 <div class="modal-body">
                     <b>Entities logical group management</b>
@@ -1170,9 +1244,9 @@ styles in <div> tags, similar to Bootstrap's grid system.
 
             <!-- Modal content-->
             <div class="modal-content">
-                <div class="modal-header">
+                <div class="modal-header modal-header-danger">
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h3 style="color: indianred;"><span class="glyphicon glyphicon-lock"></span> Logical group </h3>
+                    <h1 style="color: white;"><span class="glyphicon glyphicon-lock"></span> Logical group </h1>
                 </div>
                 <div class="modal-body">
                     <b>Entities logical group management</b>
@@ -1223,9 +1297,9 @@ styles in <div> tags, similar to Bootstrap's grid system.
 
             <!-- Modal content-->
             <div class="modal-content">
-                <div class="modal-header">
+                <div class="modal-header modal-header-danger">
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h3 style="color: indianred;"><span class="glyphicon glyphicon-lock"></span> Logical group </h3>
+                    <h1 style="color: white;"><span class="glyphicon glyphicon-lock"></span> Logical group </h1>
                 </div>
                 <div class="modal-body">
                     <b>Entities logical group management</b>
@@ -1282,9 +1356,9 @@ styles in <div> tags, similar to Bootstrap's grid system.
 
             <!-- Modal content-->
             <div class="modal-content">
-                <div class="modal-header">
+                <div class="modal-header modal-header-danger">
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h3 style="color: indianred;"><span class="glyphicon glyphicon-lock"></span> Logical group </h3>
+                    <h1 style="color: white;"><span class="glyphicon glyphicon-lock"></span> Logical group </h1>
                 </div>
 
                 <div class="modal-body">
@@ -1318,9 +1392,9 @@ styles in <div> tags, similar to Bootstrap's grid system.
 
             <!-- Modal content-->
             <div class="modal-content">
-                <div class="modal-header">
+                <div class="modal-header modal-header-success">
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h3 style="color: indianred;"><span class="glyphicon glyphicon-lock"></span> Logical group </h3>
+                    <h1 style="color: white;"><span class="glyphicon glyphicon-lock"></span> Logical group </h1>
                 </div>
 
                 <div class="modal-body">
@@ -1354,9 +1428,9 @@ styles in <div> tags, similar to Bootstrap's grid system.
 
             <!-- Modal content-->
             <div class="modal-content">
-                <div class="modal-header">
+                <div class="modal-header modal-header-danger">
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h3 style="color: indianred;"><span class="glyphicon glyphicon-lock"></span> Logical group </h3>
+                    <h1 style="color: white;"><span class="glyphicon glyphicon-lock"></span> Logical group </h1>
                 </div>
 
                 <div class="modal-body">
@@ -1390,9 +1464,9 @@ styles in <div> tags, similar to Bootstrap's grid system.
 
             <!-- Modal content-->
             <div class="modal-content">
-                <div class="modal-header">
+                <div class="modal-header modal-header-success">
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h3 style="color: indianred;"><span class="glyphicon glyphicon-lock"></span> Logical group </h3>
+                    <h1 style="color: white;"><span class="glyphicon glyphicon-lock"></span> Logical group </h1>
                 </div>
 
                 <div class="modal-body">
@@ -1425,9 +1499,9 @@ styles in <div> tags, similar to Bootstrap's grid system.
 
             <!-- Modal content-->
             <div class="modal-content">
-                <div class="modal-header">
+                <div class="modal-header modal-header-success">
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h3 style="color: indianred;"><span class="glyphicon glyphicon-lock"></span> Logical group </h3>
+                    <h1 style="color: white;"><span class="glyphicon glyphicon-lock"></span> Logical group </h1>
                 </div>
 
                 <div class="modal-body">
@@ -1465,46 +1539,49 @@ styles in <div> tags, similar to Bootstrap's grid system.
                         <!-- This is required to get the token substitutions without affecting the buttons actions in js -->
                         <div class="dashboard-element html" id="body_modal_manage">
                             <div class="panel-body html">
-                                <div class="modal-header">
-                                    <h3 style="font-size: 18px;">Actions for data source: <span style="color: steelblue">$tk_data_name$</span></h3>
-                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                <div class="modal-header modal-header-primary">                                    
+                                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                                    <h1 style="color: white;">Actions for data source: $tk_data_name$</h1>                                                                     
                                 </div>
 
-                                <div style="line-height: 1.1; margin-left: 20px;">
-                                    <div style="float:left;width:33%;">
-                                        <p><b>data_index:</b> $tk_data_index$</p>
-                                        <p><b>data_sourcetype:</b> $tk_data_sourcetype$</p>
-                                        <p><b>lag event / lag ingestion: ([D+]HH:MM:SS)</b> $tk_data_lag_summary$</p>
-                                        <p><b>data_last_time_seen:</b> $tk_data_last_time_seen_human$</p>
-                                    </div>
-                                    <div style="float:left;width:33%;">
-                                        <p><b>data_last_ingest:</b> $tk_data_last_ingest_human$</p>
-                                        <p><b>data_max_lag_allowed:</b> $tk_data_max_lag_allowed$</p>
-                                        <p><b>data_monitored_state:</b> <span class="$tk_data_monitored_state_class$">$tk_data_monitored_state$</span></p>
-                                        <p><b>data_monitoring_level:</b> $tk_data_monitoring_level$</p>
-                                    </div>
-                                    <div style="float:left;width:33%;">
-                                        <p><b>latest_flip_time:</b> $tk_latest_flip_time_human$</p>
-                                        <p><b>latest_flip_state:</b> $tk_latest_flip_state$</p>
-                                        <p><b>state:</b> <span class="$tk_data_source_state_class$">$tk_data_source_state$</span></p>
-                                        <p><b>priority:</b> <span class="$tk_priority_class$">$tk_priority$</span></p>
-                                    </div>
-                                </div>
+                                <div class="modal-body">
 
-                                <div style="margin-left: 10px;">
-                                    <div class="imgheader">
-                                        <img style="float: left; margin: 0px 15px 15px 0px;" src="../../static/app/trackme/icons/identity_card.png"/>
-                                        <h3><a id="doc_link_data_source" data-toggle="modal" data-target="#$tk_doc_modal_target$">$tk_doc_link_main$</a></h3>
+                                    <div style="line-height: 1.1; margin-left: 20px;">
+                                        <div style="float:left;width:33%;">
+                                            <p><b>data_index:</b> $tk_data_index$</p>
+                                            <p><b>data_sourcetype:</b> $tk_data_sourcetype$</p>
+                                            <p><b>lag event / lag ingestion: ([D+]HH:MM:SS)</b> $tk_data_lag_summary$</p>
+                                            <p><b>data_last_time_seen:</b> $tk_data_last_time_seen_human$</p>
+                                        </div>
+                                        <div style="float:left;width:33%;">
+                                            <p><b>data_last_ingest:</b> $tk_data_last_ingest_human$</p>
+                                            <p><b>data_max_lag_allowed:</b> $tk_data_max_lag_allowed$</p>
+                                            <p><b>data_monitored_state:</b> <span class="$tk_data_monitored_state_class$">$tk_data_monitored_state$</span></p>
+                                            <p><b>data_monitoring_level:</b> $tk_data_monitoring_level$</p>
+                                        </div>
+                                        <div style="float:left;width:33%;">
+                                            <p><b>latest_flip_time:</b> $tk_latest_flip_time_human$</p>
+                                            <p><b>latest_flip_state:</b> $tk_latest_flip_state$</p>
+                                            <p><b>state:</b> <span class="$tk_data_source_state_class$">$tk_data_source_state$</span></p>
+                                            <p><b>priority:</b> <span class="$tk_priority_class$">$tk_priority$</span></p>
+                                        </div>
                                     </div>
+
+                                    <div style="margin-left: 10px;">
+                                        <div class="imgheader">
+                                            <img style="float: left; margin: 0px 15px 15px 0px;" src="../../static/app/trackme/icons/identity_card.png"/>
+                                            <h3><a id="doc_link_data_source" data-toggle="modal" data-target="#$tk_doc_modal_target$">$tk_doc_link_main$</a></h3>
+                                        </div>
+                                    </div>
+
                                 </div>
 
                             </div>
                         </div>
 
-                        <div>
-                            <hr width="100%" size="8" align="center">
-                        </div>
-
+                        <br />
+                        <hr style="margin-top: -10px;">
+                        
                         <div class="boxnotify" id="boxnotify-data-source">
                         </div>
 
@@ -1528,6 +1605,9 @@ styles in <div> tags, similar to Bootstrap's grid system.
                                             <div class="panel-body"></div>
                                         </div>
                                         <div id="elementSingleLagAvg" class="dashboard-element chart" style="width: 100%">
+                                            <div class="panel-body"></div>
+                                        </div>
+                                        <div id="elementSingleEventLag" class="dashboard-element chart" style="width: 100%">
                                             <div class="panel-body"></div>
                                         </div>
                                         <div id="elementSingleSLApct" class="dashboard-element chart" style="width: 100%">
@@ -1871,40 +1951,40 @@ styles in <div> tags, similar to Bootstrap's grid system.
                         <!-- This is required to get the token substitutions without affecting the buttons actions in js -->
                         <div class="dashboard-element html" id="body_modal_manage_host">
                             <div class="panel-body html">
-                                <div class="modal-header">
-                                    <h3 style="font-size: 18px;">Actions for data host: <span style="color: steelblue">$tk_data_host$</span></h3>
+                                <div class="modal-header modal-header-primary">
+                                    <h1 style="font-size: 18px; color: white;">Actions for data host: $tk_data_host$</h1>
                                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                                 </div>
-
-                                <div style="line-height: 1.1; margin-left: 20px;">
-                                    <div style="float:left;width:33%;">
-                                        <p><b>lag event / lag ingestion: ([D+]HH:MM:SS)</b> $tk_data_lag_summary$</p>
-                                        <p><b>data_last_time_seen:</b> $tk_data_last_time_seen_human$</p>
-                                        <p><b>data_last_ingest:</b> $tk_data_last_ingest_human$</p>
+                                <div class="modal-body">
+                                    <div style="line-height: 1.1; margin-left: 20px;">
+                                        <div style="float:left;width:33%;">
+                                            <p><b>lag event / lag ingestion: ([D+]HH:MM:SS)</b> $tk_data_lag_summary$</p>
+                                            <p><b>data_last_time_seen:</b> $tk_data_last_time_seen_human$</p>
+                                            <p><b>data_last_ingest:</b> $tk_data_last_ingest_human$</p>
+                                        </div>
+                                        <div style="float:left;width:33%;">
+                                            <p><b>data_max_lag_allowed:</b> $tk_data_max_lag_allowed$</p>
+                                            <p><b>data_monitored_state:</b> <span class="$tk_data_monitored_state_class$">$tk_data_monitored_state$</span></p>
+                                            <p><b>data_host_state:</b> <span class="$tk_data_host_state_class$">$tk_data_host_state$</span></p>
+                                        </div>
+                                        <div style="float:left;width:33%;">
+                                            <p><b>latest_flip_time:</b> $tk_latest_flip_time_human$</p>
+                                            <p><b>latest_flip_state:</b> $tk_latest_flip_state$</p>
+                                            <p><b>priority:</b> <span class="$tk_priority_class$">$tk_priority$</span></p>
+                                        </div>
                                     </div>
-                                    <div style="float:left;width:33%;">
-                                        <p><b>data_max_lag_allowed:</b> $tk_data_max_lag_allowed$</p>
-                                        <p><b>data_monitored_state:</b> <span class="$tk_data_monitored_state_class$">$tk_data_monitored_state$</span></p>
-                                        <p><b>data_host_state:</b> <span class="$tk_data_host_state_class$">$tk_data_host_state$</span></p>
-                                    </div>
-                                    <div style="float:left;width:33%;">
-                                        <p><b>latest_flip_time:</b> $tk_latest_flip_time_human$</p>
-                                        <p><b>latest_flip_state:</b> $tk_latest_flip_state$</p>
-                                        <p><b>priority:</b> <span class="$tk_priority_class$">$tk_priority$</span></p>
-                                    </div>
-                                </div>
-                                <div style="margin-left: 10px;">
-                                    <div class="imgheader36">
-                                        <img style="float: left; margin: 0px 15px 15px 0px;" src="../../static/app/trackme/icons/tags.png"/>
-                                        <h3><a id="link_data_host_tags" data-toggle="modal" data-target="#modal_data_host_tags">Show object tags</a></h3>
+                                    <div style="margin-left: 10px; margin-bottom: 10px;">
+                                        <div class="imgheader36">
+                                            <img style="float: left; margin: 0px 15px 15px 0px;" src="../../static/app/trackme/icons/tags.png"/>
+                                            <h3><a id="link_data_host_tags" data-toggle="modal" data-target="#modal_data_host_tags">Show object tags</a></h3>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
 
-                        <div>
-                            <hr width="100%" size="8" align="center">
-                        </div>
+                        <br />
+                        <hr>
 
                         <div class="boxnotify" id="boxnotify-data-host">
                         </div>
@@ -1929,6 +2009,9 @@ styles in <div> tags, similar to Bootstrap's grid system.
                                             <div class="panel-body"></div>
                                         </div>
                                         <div id="elementSingleLagHostAvg" class="dashboard-element chart" style="width: 100%">
+                                            <div class="panel-body"></div>
+                                        </div>
+                                        <div id="elementSingleLagHostEventLag" class="dashboard-element chart" style="width: 100%">
                                             <div class="panel-body"></div>
                                         </div>
                                         <div id="elementSingleSLAHostpct" class="dashboard-element chart" style="width: 100%">
@@ -2292,40 +2375,40 @@ styles in <div> tags, similar to Bootstrap's grid system.
                         <!-- This is required to get the token substitutions without affecting the buttons actions in js -->
                         <div class="dashboard-element html" id="body_modal_manage_metric_host">
                             <div class="panel-body html">
-                                <div class="modal-header">
-                                    <h3 style="font-size: 18px;">Actions for metric host: <span style="color: steelblue">$tk_metric_host$</span></h3>
+                                <div class="modal-header modal-header-primary">
+                                    <h1 style="font-size: 18px; color: white;">Actions for metric host: $tk_metric_host$</h1>
                                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                                 </div>
-
-                                <div style="line-height: 1.1; margin-left: 20px;">
-                                    <div style="float:left;width:25%;">
-                                        <p><b>metric_last_lag_seen:</b> $tk_metric_last_lag_seen$</p>
-                                        <p><b>metric_last_time_seen:</b> $tk_metric_last_time_seen_human$</p>
+                                <div class="modal-body">
+                                    <div style="line-height: 1.1; margin-left: 20px;">
+                                        <div style="float:left;width:25%;">
+                                            <p><b>metric_last_lag_seen:</b> $tk_metric_last_lag_seen$</p>
+                                            <p><b>metric_last_time_seen:</b> $tk_metric_last_time_seen_human$</p>
+                                        </div>
+                                        <div style="float:left;width:25%;">
+                                            <p><b>metric_monitored_state:</b> <span class="$tk_metric_monitored_state_class$">$tk_metric_monitored_state$</span></p>
+                                            <p><b>metric_host_state:</b> <span class="$tk_metric_host_state_class$">$tk_metric_host_state$</span></p>
+                                        </div>
+                                        <div style="float:left;width:25%;">
+                                            <p><b>latest_flip_time:</b> $tk_latest_flip_time_human$</p>
+                                            <p><b>latest_flip_state:</b> $tk_latest_flip_state$</p>
+                                        </div>
+                                        <div style="float:left;width:25%;">
+                                            <p><b>priority:</b> <span class="$tk_priority_class$">$tk_priority$</span></p>
+                                        </div>
                                     </div>
-                                    <div style="float:left;width:25%;">
-                                        <p><b>metric_monitored_state:</b> <span class="$tk_metric_monitored_state_class$">$tk_metric_monitored_state$</span></p>
-                                        <p><b>metric_host_state:</b> <span class="$tk_metric_host_state_class$">$tk_metric_host_state$</span></p>
-                                    </div>
-                                    <div style="float:left;width:25%;">
-                                        <p><b>latest_flip_time:</b> $tk_latest_flip_time_human$</p>
-                                        <p><b>latest_flip_state:</b> $tk_latest_flip_state$</p>
-                                    </div>
-                                    <div style="float:left;width:25%;">
-                                        <p><b>priority:</b> <span class="$tk_priority_class$">$tk_priority$</span></p>
-                                    </div>
-                                </div>
-                                <div style="margin-left: 10px;">
-                                    <div class="imgheader36">
-                                        <img style="float: left; margin: 0px 15px 15px 0px;" src="../../static/app/trackme/icons/tags.png"/>
-                                        <h3><a id="link_metric_host_tags" data-toggle="modal" data-target="#modal_metric_host_tags">Show object tags</a></h3>
+                                    <div style="margin-left: 10px; margin-bottom: 10px;">
+                                        <div class="imgheader36">
+                                            <img style="float: left; margin: 0px 15px 15px 0px;" src="../../static/app/trackme/icons/tags.png"/>
+                                            <h3><a id="link_metric_host_tags" data-toggle="modal" data-target="#modal_metric_host_tags">Show object tags</a></h3>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
 
-                        <div>
-                            <hr width="100%" size="8" align="center">
-                        </div>
+                        <br />
+                        <hr>
 
                         <div class="boxnotify" id="boxnotify-metric-host">
                         </div>
@@ -2559,8 +2642,8 @@ styles in <div> tags, similar to Bootstrap's grid system.
                         <!-- This is required to get the token substitutions without affecting the buttons actions in js -->
                         <div class="dashboard-element html" id="body_modal_queues">
                             <div class="panel-body html">
-                                <div class="modal-header">
-                                    <h3 style="font-size: 18px;">Splunk indexers queues:</h3>
+                                <div class="modal-header modal-header-info">
+                                    <h1 style="font-size: 18px; color: white;">Splunk indexers queues:</h1>
                                     <button type="button" id="btn_ops_index_queue_close" class="close" data-dismiss="modal">&times;</button>
                                 </div>
                             </div>
@@ -2667,8 +2750,8 @@ styles in <div> tags, similar to Bootstrap's grid system.
                         <!-- This is required to get the token substitutions without affecting the buttons actions in js -->
                         <div class="dashboard-element html" id="body_modal_parsing_issues">
                             <div class="panel-body html">
-                                <div class="modal-header">
-                                    <h3 style="font-size: 18px;">Splunk indexing time failures and warnings:</h3>
+                                <div class="modal-header modal-header-info">
+                                    <h1 style="font-size: 18px; color: white;">Splunk indexing time failures and warnings:</h1>
                                     <button type="button" id="btn_ops_parsing_issues_close" class="close" data-dismiss="modal">&times;</button>
                                 </div>
                             </div>
@@ -2727,9 +2810,9 @@ styles in <div> tags, similar to Bootstrap's grid system.
 
             <!-- Modal content-->
             <div class="modal-content">
-                <div class="modal-header">
+                <div class="modal-header modal-header-danger">
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h3 style="color: indianred;"><span class="glyphicon glyphicon-lock"></span>KVstore entry deletion</h3>
+                    <h1 style="color: white;"><span class="glyphicon glyphicon-lock"></span>KVstore entry deletion</h1>
                 </div>
                 <div class="modal-body">
                     <p><b>Confirm deletion of this entry?</b><br /><br />
@@ -2761,9 +2844,9 @@ styles in <div> tags, similar to Bootstrap's grid system.
 
             <!-- Modal content-->
             <div class="modal-content">
-                <div class="modal-header">
+                <div class="modal-header modal-header-danger">
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h3 style="color: indianred;"><span class="glyphicon glyphicon-lock"></span>Oops!</h3>
+                    <h1 style="color: white;"><span class="glyphicon glyphicon-lock"></span>Oops!</h1>
                 </div>
                 <div class="modal-body">
                     <p>Sorry but it looks like an error occurred while attempting to perform the KVstore collection update.<br /><br />
@@ -2788,9 +2871,9 @@ styles in <div> tags, similar to Bootstrap's grid system.
 
             <!-- Modal content-->
             <div class="modal-content">
-                <div class="modal-header">
+                <div class="modal-header modal-header-danger">
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h3 style="color: indianred;"><span class="glyphicon glyphicon-lock"></span>Oops!</h3>
+                    <h1 style="color: white;"><span class="glyphicon glyphicon-lock"></span>Oops!</h1>
                 </div>
                 <div class="modal-body">
                     <p>Sorry but the simulation of the search has failed due to a syntax error or another failure.<br /><br />
@@ -2811,9 +2894,9 @@ styles in <div> tags, similar to Bootstrap's grid system.
 
             <!-- Modal content-->
             <div class="modal-content">
-                <div class="modal-header">
+                <div class="modal-header modal-header-success">
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h3 style="color: indianred;"><span class="glyphicon glyphicon-lock"></span>New tracker successfully created.</h3>
+                    <h1 style="color: white;"><span class="glyphicon glyphicon-lock"></span>New tracker successfully created.</h1>
                 </div>
                 <div class="modal-body">
                     <p>Congratulations, the new elastic source tracker was successfully created.<br /><br />
@@ -2838,9 +2921,9 @@ styles in <div> tags, similar to Bootstrap's grid system.
 
             <!-- Modal content-->
             <div class="modal-content">
-                <div class="modal-header">
+                <div class="modal-header modal-header-danger">
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h3 style="color: indianred;"><span class="glyphicon glyphicon-lock"></span>Oops!</h3>
+                    <h1 style="color: white;"><span class="glyphicon glyphicon-lock"></span>Oops!</h1>
                 </div>
                 <div class="modal-body">
                     <p>Sorry but it looks like an error occurred while attempting to perform the creation of the new elastic source tracker.<br /><br />
@@ -2868,9 +2951,9 @@ styles in <div> tags, similar to Bootstrap's grid system.
 
             <!-- Modal content-->
             <div class="modal-content">
-                <div class="modal-header">
+                <div class="modal-header modal-header-danger">
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h3 style="color: indianred;"><span class="glyphicon glyphicon-lock"></span> Modify data source monitoring</h3>
+                    <h1 style="color: white;"><span class="glyphicon glyphicon-lock"></span> Modify data source monitoring</h1>
                 </div>
                 <div class="modal-body">
                     <p>You can modify different parameters regarding the monitoring of this data source:</p>
@@ -2924,9 +3007,9 @@ styles in <div> tags, similar to Bootstrap's grid system.
 
             <!-- Modal content-->
             <div class="modal-content">
-                <div class="modal-header">
+                <div class="modal-header modal-header-danger">
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h3 style="color: indianred;"><span class="glyphicon glyphicon-lock"></span> Modify data host monitoring</h3>
+                    <h1 style="color: white;"><span class="glyphicon glyphicon-lock"></span> Modify data host monitoring</h1>
                 </div>
                 <div class="modal-body">
                     <p>You can modify different parameters regarding the monitoring of this data host:</p>
@@ -2971,9 +3054,9 @@ styles in <div> tags, similar to Bootstrap's grid system.
 
             <!-- Modal content-->
             <div class="modal-content">
-                <div class="modal-header">
+                <div class="modal-header modal-header-danger">
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h3 style="color: indianred;"><span class="glyphicon glyphicon-lock"></span> Lagging classes definition </h3>
+                    <h1 style="color: white;"><span class="glyphicon glyphicon-lock"></span> Lagging classes definition </h1>
                 </div>
                 <div class="modal-body">
                     <b>Use this interface to define a default lagging value per class:</b>
@@ -3072,9 +3155,9 @@ styles in <div> tags, similar to Bootstrap's grid system.
 
             <!-- Modal content-->
             <div class="modal-content">
-                <div class="modal-header">
+                <div class="modal-header modal-header-info">
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h3 style="color: indianred;"><span class="glyphicon glyphicon-lock"></span> TrackMe Elastic sources - Manage and create</h3>
+                    <h1 style="color: white;"><span class="glyphicon glyphicon-lock"></span> TrackMe Elastic sources - Manage and create</h1>
                 </div>
                 <div class="modal-body">
                     <b>Use this interface to create and manage elastic sources:</b>
@@ -3094,7 +3177,7 @@ styles in <div> tags, similar to Bootstrap's grid system.
                     <lu>
                         <li>The shared elastic tracker loads the content of the lookup trackme_elastic_sources, and performs all the searches in a single execution</li>
                         <li>A dedicated elastic tracker is a scheduled report created in the UI to manage, automatically integrated with TrackMe workflow</li>
-                        <li>For large volume source or advanced use cases such as mapping with third party lookups, the usage of a dedicated elastic tracker is recommended and it can be edited in Splunk Web upon its creation</li>
+                        <li>For large volume sources or advanced use cases such as mapping additional lookups, the usage of a dedicated elastic tracker is recommended (the search can be cutomised after its creation)</li>
                         <li>The shared elastic tracker should be reserved for high performing searches, ideally tstats based searches relying on indexed fields</li>
                         <li>Dedicated elastic trackers information are as well stored in the trackme_elastic_sources_dedicated lookup for mapping purposes in the UI</li>
                     </lu>
@@ -3156,9 +3239,9 @@ styles in <div> tags, similar to Bootstrap's grid system.
 
             <!-- Modal content-->
             <div class="modal-content">
-                <div class="modal-header">
+                <div class="modal-header modal-header-danger">
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h3 style="color: indianred;"><span class="glyphicon glyphicon-lock"></span> Elastic sources definition </h3>
+                    <h1 style="color: white;"><span class="glyphicon glyphicon-lock"></span> Elastic sources definition </h1>
                 </div>
                 <div class="modal-body">
                     <b>Use this interface to create and manage elastic sources:</b>
@@ -3264,9 +3347,9 @@ styles in <div> tags, similar to Bootstrap's grid system.
 
             <!-- Modal content-->
             <div class="modal-content">
-                <div class="modal-header">
+                <div class="modal-header modal-header-success">
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h3 style="color: indianred;"><span class="glyphicon glyphicon-lock"></span>New elastic source successfully added.</h3>
+                    <h1 style="color: white;"><span class="glyphicon glyphicon-lock"></span>New elastic source successfully added.</h1>
                 </div>
                 <div class="modal-body">
                     <p>Congratulations, the new elastic source was successfully added to the shared tracker collection.<br /><br />
@@ -3291,9 +3374,9 @@ styles in <div> tags, similar to Bootstrap's grid system.
 
             <!-- Modal content-->
             <div class="modal-content">
-                <div class="modal-header">
+                <div class="modal-header modal-header-danger">
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h3 style="color: indianred;"><span class="glyphicon glyphicon-lock"></span> Elastic sources definition </h3>
+                    <h1 style="color: white;"><span class="glyphicon glyphicon-lock"></span> Elastic sources definition </h1>
                 </div>
                 <div class="modal-body">
                     <b>Use this interface to create and manage elastic sources:</b>
@@ -3354,8 +3437,8 @@ styles in <div> tags, similar to Bootstrap's grid system.
                         <!-- This is required to get the token substitutions without affecting the buttons actions in js -->
                         <div class="dashboard-element html" id="body_delete_elastic_source">
                             <div class="panel-body html">
-                                <div class="modal-header">
-                                    <h3>Actions for shared Elastic Source: </h3>
+                                <div class="modal-header modal-header-danger">
+                                    <h1 style="color: white;">Actions for shared Elastic Source: </h1>
                                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                                 </div>
                                 <div class="modal-body">
@@ -3393,8 +3476,8 @@ styles in <div> tags, similar to Bootstrap's grid system.
                         <!-- This is required to get the token substitutions without affecting the buttons actions in js -->
                         <div class="dashboard-element html" id="body_manage_custom_lagging">
                             <div class="panel-body html">
-                                <div class="modal-header">
-                                    <h3>Actions for lagging classes: </h3>
+                                <div class="modal-header modal-header-danger">
+                                    <h1 style="color: white;">Actions for lagging classes: </h1>
                                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                                 </div>
                                 <div class="modal-body">
@@ -3432,8 +3515,8 @@ styles in <div> tags, similar to Bootstrap's grid system.
                         <!-- This is required to get the token substitutions without affecting the buttons actions in js -->
                         <div class="dashboard-element html" id="body_manage_metric_sla_policy">
                             <div class="panel-body html">
-                                <div class="modal-header">
-                                    <h3>Actions for metric category: </h3>
+                                <div class="modal-header modal-header-danger">
+                                    <h1 style="color: white;">Actions for metric category: </h1>
                                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                                 </div>
                                 <div class="modal-body">
@@ -3473,9 +3556,9 @@ styles in <div> tags, similar to Bootstrap's grid system.
 
             <!-- Modal content-->
             <div class="modal-content">
-                <div class="modal-header">
+                <div class="modal-header modal-header-danger">
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h3 style="color: indianred;"><span class="glyphicon glyphicon-lock"></span> Modify index allowlisting</h3>
+                    <h1 style="color: white;"><span class="glyphicon glyphicon-lock"></span> Modify index allowlisting</h1>
                 </div>
                 <div class="modal-body">
                     <b>If no indexes are in allowlist, TrackMe will use all available indexes, otherwise only the indexes in allowlist will be taken in charge</b>
@@ -3580,9 +3663,9 @@ styles in <div> tags, similar to Bootstrap's grid system.
 
             <!-- Modal content-->
             <div class="modal-content">
-                <div class="modal-header">
+                <div class="modal-header modal-header-danger">
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h3 style="color: indianred;"><span class="glyphicon glyphicon-lock"></span> Modify index allowlisting</h3>
+                    <h1 style="color: white;"><span class="glyphicon glyphicon-lock"></span> Modify index allowlisting</h1>
                 </div>
                 <div class="modal-body">
                     <b>If no indexes are in allowlist, TrackMe will use all available indexes, otherwise only the indexes in allowlist will be taken in charge</b>
@@ -3687,9 +3770,9 @@ styles in <div> tags, similar to Bootstrap's grid system.
 
             <!-- Modal content-->
             <div class="modal-content">
-                <div class="modal-header">
+                <div class="modal-header modal-header-danger">
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h3 style="color: indianred;"><span class="glyphicon glyphicon-lock"></span> Modify index allowlisting</h3>
+                    <h1 style="color: white;"><span class="glyphicon glyphicon-lock"></span> Modify index allowlisting</h1>
                 </div>
                 <div class="modal-body">
                     <b>If no indexes are in allowlist, TrackMe will use all available indexes, otherwise only the indexes in allowlist will be taken in charge</b>
@@ -3800,9 +3883,9 @@ styles in <div> tags, similar to Bootstrap's grid system.
 
             <!-- Modal content-->
             <div class="modal-content">
-                <div class="modal-header">
+                <div class="modal-header modal-header-danger">
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h3 style="color: indianred;"><span class="glyphicon glyphicon-lock"></span> Modify host blocklisting</h3>
+                    <h1 style="color: white;"><span class="glyphicon glyphicon-lock"></span> Modify host blocklisting</h1>
                 </div>
                 <div class="modal-body">
                     <b>Hosts that have been blocklisted are excluded from the data discovery</b>
@@ -3890,9 +3973,9 @@ styles in <div> tags, similar to Bootstrap's grid system.
 
             <!-- Modal content-->
             <div class="modal-content">
-                <div class="modal-header">
+                <div class="modal-header modal-header-danger">
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h3 style="color: indianred;"><span class="glyphicon glyphicon-lock"></span> Modify index blocklisting</h3>
+                    <h1 style="color: white;"><span class="glyphicon glyphicon-lock"></span> Modify index blocklisting</h1>
                 </div>
                 <div class="modal-body">
                     <b>Indexes that have been blocklisted are excluded from the data discovery</b>
@@ -3986,9 +4069,9 @@ styles in <div> tags, similar to Bootstrap's grid system.
 
             <!-- Modal content-->
             <div class="modal-content">
-                <div class="modal-header">
+                <div class="modal-header modal-header-danger">
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h3 style="color: indianred;"><span class="glyphicon glyphicon-lock"></span> Modify sourcetype blocklisting</h3>
+                    <h1 style="color: white;"><span class="glyphicon glyphicon-lock"></span> Modify sourcetype blocklisting</h1>
                 </div>
                 <div class="modal-body">
                     <b>Sourcetypes that have been blocklisted are excluded from the data discovery</b>
@@ -4086,9 +4169,9 @@ styles in <div> tags, similar to Bootstrap's grid system.
 
             <!-- Modal content-->
             <div class="modal-content">
-                <div class="modal-header">
+                <div class="modal-header modal-header-danger">
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h3 style="color: indianred;"><span class="glyphicon glyphicon-lock"></span> Modify host blocklisting</h3>
+                    <h1 style="color: white;"><span class="glyphicon glyphicon-lock"></span> Modify host blocklisting</h1>
                 </div>
                 <div class="modal-body">
                     <b>Hosts that have been blocklisted are excluded from the data discovery</b>
@@ -4176,9 +4259,9 @@ styles in <div> tags, similar to Bootstrap's grid system.
 
             <!-- Modal content-->
             <div class="modal-content">
-                <div class="modal-header">
+                <div class="modal-header modal-header-success">
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h3 style="color: steelblue;"><span class="glyphicon glyphicon-lock"></span>Black list host updated</h3>
+                    <h1 style="color: white;"><span class="glyphicon glyphicon-lock"></span>Black list host updated</h1>
                 </div>
                 <div class="modal-body">
                     <p><b>The host was successfully added to the blacklist host collection. the host will be permanently excluded from the data sources discovery.</b><br /><br />
@@ -4201,9 +4284,9 @@ styles in <div> tags, similar to Bootstrap's grid system.
 
             <!-- Modal content-->
             <div class="modal-content">
-                <div class="modal-header">
+                <div class="modal-header modal-header-danger">
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h3 style="color: indianred;"><span class="glyphicon glyphicon-lock"></span> Data source unified update </h3>
+                    <h1 style="color: white;"><span class="glyphicon glyphicon-lock"></span> Data source unified update </h1>
                 </div>
 
                 <div class="modal-body">
@@ -4212,7 +4295,7 @@ styles in <div> tags, similar to Bootstrap's grid system.
 
                         <div style="margin-bottom: 10px;">
 
-                            <h4>Data source lagging value:</h4>
+                            <h4>Lag monitoring policy:</h4>
 
                             <div style="margin-left: 15px;">
                                 <lu>
@@ -4224,14 +4307,21 @@ styles in <div> tags, similar to Bootstrap's grid system.
 
                             <br />
 
-                            <div class="fieldset">
-                                <div class="input input-text" id="modal_input_lag">
-                                    <label>Maximal allowed lagging value:</label>
-                                </div>
-                            </div>
-                            <div class="fieldset">
-                                <div class="input input-dropdown" id="modal_input_lag_override_class">
-                                    <label>Override lagging classes:</label>
+                            <div id="rowDataSourceModifyMain" class="dashboard-row dashboard-row1">
+                                <div id="panel1" class="dashboard-cell" style="width: 100%;">
+                                    <div class="dashboard-panel clearfix">          
+                                        <div class="fieldset">
+                                            <div style="margin-right: 28px;" class="input input-text" id="modal_input_lag">
+                                                <label>Maximal allowed lagging value:</label>
+                                            </div>
+                                            <div class="input input-dropdown" id="modal_input_lag_override_class">
+                                                <label>Override lagging classes:</label>
+                                            </div>
+                                            <div class="input input-dropdown" id="modal_input_lag_alert_over">
+                                                <label>Alert over KPIs:</label>
+                                            </div>
+                                        </div>                                        
+                                    </div>
                                 </div>
                             </div>
 
@@ -4247,7 +4337,7 @@ styles in <div> tags, similar to Bootstrap's grid system.
 
                         <div style="margin-bottom: 10px; width: 50%; float:left">
 
-                            <h4>Data source priority:</h4>
+                            <h4>Priority:</h4>
 
                             <p>Define the priority of the data source for granular level of SLA alerting:</p>
 
@@ -4257,9 +4347,15 @@ styles in <div> tags, similar to Bootstrap's grid system.
                                 <span class="title_high_priority">high</span>
                             </p>
 
-                            <div class="fieldset">
-                                <div class="input input-text" id="modal_input_priority">
-                                    <label></label>
+                            <div id="rowDataSourceModifyMain2" class="dashboard-row dashboard-row1">
+                                <div id="panel1" class="dashboard-cell" style="width: 100%;">
+                                    <div class="dashboard-panel clearfix">          
+                                        <div class="fieldset">
+                                            <div class="input input-text" id="modal_input_priority">
+                                                <label></label>
+                                            </div>
+                                        </div>                                        
+                                    </div>
                                 </div>
                             </div>
 
@@ -4271,13 +4367,19 @@ styles in <div> tags, similar to Bootstrap's grid system.
 
                         <div style="margin-bottom: 10px; width: 50%; float:right">
 
-                            <h4>Data source week days monitoring:</h4>
+                            <h4>Week days monitoring:</h4>
 
                             <p>Monitor source on a all days basis, apply a builtin rule, or explicitly select week days:</p>
 
-                            <div class="fieldset">
-                                <div class="input input-text" id="modal_input_wdays">
-                                    <label></label>
+                            <div id="rowDataSourceModifyMain3" class="dashboard-row dashboard-row1">
+                                <div id="panel1" class="dashboard-cell" style="width: 100%;">
+                                    <div class="dashboard-panel clearfix">          
+                                        <div class="fieldset">
+                                            <div class="input input-text" id="modal_input_wdays">
+                                                <label></label>
+                                            </div>
+                                        </div>                                        
+                                    </div>
                                 </div>
                             </div>
 
@@ -4292,13 +4394,19 @@ styles in <div> tags, similar to Bootstrap's grid system.
 
                             <hr>
 
-                            <h4>Data source monitoring level:</h4>
+                            <h4>Monitoring level:</h4>
 
                             <p>Choose to monitor the data source based on the index and sourcetype association (default), or based on the latest data available in the index where the data source is stored:</p>
 
-                            <div class="fieldset">
-                                <div class="input input-text" id="modal_input_level">
-                                    <label></label>
+                            <div id="rowDataSourceModifyMain4" class="dashboard-row dashboard-row1">
+                                <div id="panel1" class="dashboard-cell" style="width: 100%;">
+                                    <div class="dashboard-panel clearfix">          
+                                        <div class="fieldset">
+                                            <div class="input input-text" id="modal_input_level">
+                                                <label></label>
+                                            </div>
+                                        </div>                                        
+                                    </div>
                                 </div>
                             </div>
 
@@ -4326,12 +4434,16 @@ styles in <div> tags, similar to Bootstrap's grid system.
 
             <!-- Modal content-->
             <div class="modal-content">
-                <div class="modal-header">
+                <div class="modal-header modal-header-danger">
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h3 style="color: indianred;"><span class="glyphicon glyphicon-lock"></span> Data source unified update </h3>
+                    <h1 style="color: white;"><span class="glyphicon glyphicon-lock"></span> Data source unified update </h1>
                 </div>
 
                 <div class="modal-body">
+
+                    <div style="margin-bottom: 30px;">
+                        <h3>The following calculations reppresent different options that could be used to define an appropriate value for the max lagging value allowed. </br>Note that these calculations are performed against the lag at ingestion time only.</h3>
+                    </div>
 
                     <div id="rowSingleLagAutoLagging" class="dashboard-row dashboard-row1">
                         <div id="panelSingleLagAutoLagging" class="dashboard-cell" style="width: 100%;">
@@ -4392,14 +4504,14 @@ styles in <div> tags, similar to Bootstrap's grid system.
 
             <!-- Modal content-->
             <div class="modal-content">
-                <div class="modal-header">
+                <div class="modal-header modal-header-danger">
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h3 style="color: indianred;"><span class="glyphicon glyphicon-lock"></span> Data host unified update </h3>
+                    <h1 style="color: white;"><span class="glyphicon glyphicon-lock"></span> Data host unified update </h1>
                 </div>
 
                 <div class="modal-body">
 
-                    <h4>Data host lagging value:</h4>
+                    <h4>Lag monitoring policy:</h4>
 
                     <div style="margin-left: 15px;">
                         <lu>
@@ -4411,14 +4523,21 @@ styles in <div> tags, similar to Bootstrap's grid system.
 
                     <br />
 
-                    <div class="fieldset">
-                        <div class="input input-text" id="modal_input_lag_host">
-                            <label>Maximal allowed lagging value:</label>
-                        </div>
-                    </div>
-                    <div class="fieldset">
-                        <div class="input input-dropdown" id="modal_input_lag_override_class_host">
-                            <label>Override lagging classes:</label>
+                    <div id="rowDataHostModifyMain" class="dashboard-row dashboard-row1">
+                        <div id="panel1" class="dashboard-cell" style="width: 100%;">
+                            <div class="dashboard-panel clearfix">          
+                                <div class="fieldset">
+                                    <div style="margin-right: 28px;" class="input input-text" id="modal_input_lag_host">
+                                        <label>Maximal allowed lagging value:</label>
+                                    </div>
+                                    <div class="input input-dropdown" id="modal_input_lag_override_class_host">
+                                        <label>Override lagging classes:</label>
+                                    </div>
+                                    <div class="input input-dropdown" id="modal_input_lag_alert_over_host">
+                                        <label>Alert over KPIs:</label>
+                                    </div>
+                                </div>                                        
+                            </div>
                         </div>
                     </div>
 
@@ -4432,7 +4551,7 @@ styles in <div> tags, similar to Bootstrap's grid system.
 
                     <div style="margin-bottom: 10px; width: 50%; float:left">
 
-                        <h4>Data host priority:</h4>
+                        <h4>Priority:</h4>
 
                         <p>Define the priority of the data host for granular level of SLA alerting:</p>
 
@@ -4442,9 +4561,15 @@ styles in <div> tags, similar to Bootstrap's grid system.
                             <span class="title_high_priority">high</span>
                         </p>
 
-                        <div class="fieldset">
-                            <div class="input input-text" id="modal_input_host_priority">
-                                <label></label>
+                        <div id="rowDataHostModifyMain2" class="dashboard-row dashboard-row1">
+                            <div id="panel1" class="dashboard-cell" style="width: 100%;">
+                                <div class="dashboard-panel clearfix">          
+                                    <div class="fieldset">
+                                        <div class="input input-text" id="modal_input_host_priority">
+                                            <label></label>
+                                        </div>
+                                    </div>                                        
+                                </div>
                             </div>
                         </div>
 
@@ -4476,13 +4601,19 @@ styles in <div> tags, similar to Bootstrap's grid system.
 
                         <hr>
                         
-                        <h4>Data host week days monitoring:</h4>
+                        <h4>Week days monitoring:</h4>
 
                         <p>Monitor source on a all days basis, apply a builtin rule, or explicitly select week days:</p>
 
-                        <div class="fieldset">
-                            <div class="input input-text" id="modal_input_wdays_host">
-                                <label></label>
+                        <div id="rowDataSourceModifyMain3" class="dashboard-row dashboard-row1">
+                            <div id="panel1" class="dashboard-cell" style="width: 100%;">
+                                <div class="dashboard-panel clearfix">          
+                                    <div class="fieldset">
+                                        <div class="input input-text" id="modal_input_wdays_host">
+                                            <label></label>
+                                        </div>
+                                    </div>                                        
+                                </div>
                             </div>
                         </div>
 
@@ -4510,12 +4641,16 @@ styles in <div> tags, similar to Bootstrap's grid system.
 
             <!-- Modal content-->
             <div class="modal-content">
-                <div class="modal-header">
+                <div class="modal-header modal-header-danger">
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h3 style="color: indianred;"><span class="glyphicon glyphicon-lock"></span> Data host unified update </h3>
+                    <h1 style="color: white;"><span class="glyphicon glyphicon-lock"></span> Data host unified update </h1>
                 </div>
-
+                
                 <div class="modal-body">
+
+                    <div style="margin-bottom: 30px;">
+                        <h3>The following calculations reppresent different options that could be used to define an appropriate value for the max lagging value allowed. </br>Note that these calculations are performed against the lag at ingestion time only.</h3>
+                    </div>
 
                     <div id="rowSingleLagAutoLaggingHost" class="dashboard-row dashboard-row1">
                         <div id="panelSingleLagAutoLaggingHost" class="dashboard-cell" style="width: 100%;">
@@ -4576,9 +4711,9 @@ styles in <div> tags, similar to Bootstrap's grid system.
 
             <!-- Modal content-->
             <div class="modal-content">
-                <div class="modal-header">
+                <div class="modal-header modal-header-danger">
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h3 style="color: indianred;"><span class="glyphicon glyphicon-lock"></span> Metric host unified update </h3>
+                    <h1 style="color: white;"><span class="glyphicon glyphicon-lock"></span> Metric host unified update </h1>
                 </div>
 
                 <div class="modal-body">
@@ -4645,9 +4780,9 @@ styles in <div> tags, similar to Bootstrap's grid system.
 
             <!-- Modal content-->
             <div class="modal-content">
-                <div class="modal-header">
+                <div class="modal-header modal-header-danger">
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h3 style="color: indianred;"><span class="glyphicon glyphicon-lock"></span> Monitoring week days update </h3>
+                    <h1 style="color: white;"><span class="glyphicon glyphicon-lock"></span> Monitoring week days update </h1>
                 </div>
                 <div class="modal-body">
                     <p>
@@ -4680,9 +4815,9 @@ styles in <div> tags, similar to Bootstrap's grid system.
 
             <!-- Modal content-->
             <div class="modal-content">
-                <div class="modal-header">
+                <div class="modal-header modal-header-danger">
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h3 style="color: indianred;"><span class="glyphicon glyphicon-lock"></span> Monitoring week days update </h3>
+                    <h1 style="color: white;"><span class="glyphicon glyphicon-lock"></span> Monitoring week days update </h1>
                 </div>
                 <div class="modal-body">
                     <p>
@@ -4718,9 +4853,9 @@ styles in <div> tags, similar to Bootstrap's grid system.
 
             <!-- Modal content-->
             <div class="modal-content">
-                <div class="modal-header">
+                <div class="modal-header modal-header-danger">
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h3 style="color: indianred;"><span class="glyphicon glyphicon-lock"></span> Metrics SLA policies editor </h3>
+                    <h1 style="color: white;"><span class="glyphicon glyphicon-lock"></span> Metrics SLA policies editor </h1>
                 </div>
                 <div class="modal-body">
                     <b>Use this interface to manage SLA policies for metric categories:</b>
@@ -4818,8 +4953,8 @@ styles in <div> tags, similar to Bootstrap's grid system.
                         <!-- This is required to get the token substitutions without affecting the buttons actions in js -->
                         <div class="dashboard-element html" id="body_modal_manage_data_source_whitelist">
                             <div class="panel-body html">
-                                <div class="modal-header">
-                                    <h3>Actions for index in allowlist: </h3>
+                                <div class="modal-header modal-header-danger">
+                                    <h1 style="color: white;">Actions for index in allowlist: </h1>
                                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                                 </div>
                                 <div class="modal-body">
@@ -4860,8 +4995,8 @@ styles in <div> tags, similar to Bootstrap's grid system.
                         <!-- This is required to get the token substitutions without affecting the buttons actions in js -->
                         <div class="dashboard-element html" id="body_modal_manage_metric_host_whitelist">
                             <div class="panel-body html">
-                                <div class="modal-header">
-                                    <h3>Actions for index in allowlist: </h3>
+                                <div class="modal-header modal-header-danger">
+                                    <h1 style="color: white;">Actions for index in allowlist: </h1>
                                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                                 </div>
                                 <div class="modal-body">
@@ -4904,8 +5039,8 @@ styles in <div> tags, similar to Bootstrap's grid system.
                         <!-- This is required to get the token substitutions without affecting the buttons actions in js -->
                         <div class="dashboard-element html" id="body_modal_manage_data_host_whitelist">
                             <div class="panel-body html">
-                                <div class="modal-header">
-                                    <h3>Actions for index in allowlist: </h3>
+                                <div class="modal-header modal-header-danger">
+                                    <h1 style="color: white;">Actions for index in allowlist: </h1>
                                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                                 </div>
                                 <div class="modal-body">
@@ -4952,8 +5087,8 @@ styles in <div> tags, similar to Bootstrap's grid system.
                         <!-- This is required to get the token substitutions without affecting the buttons actions in js -->
                         <div class="dashboard-element html" id="body_modal_manage_data_source_blacklist_host">
                             <div class="panel-body html">
-                                <div class="modal-header">
-                                    <h3>Actions for host in blocklist: </h3>
+                                <div class="modal-header modal-header-danger">
+                                    <h1 style="color: white;">Actions for host in blocklist: </h1>
                                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                                 </div>
                                 <div class="modal-body">
@@ -4994,8 +5129,8 @@ styles in <div> tags, similar to Bootstrap's grid system.
                         <!-- This is required to get the token substitutions without affecting the buttons actions in js -->
                         <div class="dashboard-element html" id="body_modal_manage_data_source_blacklist_index">
                             <div class="panel-body html">
-                                <div class="modal-header">
-                                    <h3>Actions for host in blocklist: </h3>
+                                <div class="modal-header modal-header-danger">
+                                    <h1 style="color: white;">Actions for host in blocklist: </h1>
                                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                                 </div>
                                 <div class="modal-body">
@@ -5034,8 +5169,8 @@ styles in <div> tags, similar to Bootstrap's grid system.
                         <!-- This is required to get the token substitutions without affecting the buttons actions in js -->
                         <div class="dashboard-element html" id="body_modal_manage_data_source_blacklist_sourcetype">
                             <div class="panel-body html">
-                                <div class="modal-header">
-                                    <h3>Actions for host in blocklist: </h3>
+                                <div class="modal-header modal-header-danger">
+                                    <h1 style="color: white;">Actions for host in blocklist: </h1>
                                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                                 </div>
                                 <div class="modal-body">
@@ -5076,8 +5211,8 @@ styles in <div> tags, similar to Bootstrap's grid system.
                         <!-- This is required to get the token substitutions without affecting the buttons actions in js -->
                         <div class="dashboard-element html" id="body_modal_manage_data_host_blacklist_host">
                             <div class="panel-body html">
-                                <div class="modal-header">
-                                    <h3>Actions for host in blocklist: </h3>
+                                <div class="modal-header modal-header-danger">
+                                    <h1 style="color: white;">Actions for host in blocklist: </h1>
                                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                                 </div>
                                 <div class="modal-body">
@@ -5116,8 +5251,8 @@ styles in <div> tags, similar to Bootstrap's grid system.
                         <!-- This is required to get the token substitutions without affecting the buttons actions in js -->
                         <div class="dashboard-element html" id="body_modal_manage_metric_host_blacklist_host">
                             <div class="panel-body html">
-                                <div class="modal-header">
-                                    <h3>Actions for host in blocklist: </h3>
+                                <div class="modal-header modal-header-danger">
+                                    <h1 style="color: white;">Actions for host in blocklist: </h1>
                                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                                 </div>
                                 <div class="modal-body">
@@ -5158,8 +5293,8 @@ styles in <div> tags, similar to Bootstrap's grid system.
                         <!-- This is required to get the token substitutions without affecting the buttons actions in js -->
                         <div class="dashboard-element html" id="body_modal_manage_data_source_blacklists">
                             <div class="panel-body html">
-                                <div class="modal-header">
-                                    <h3>Manage allowlists & blocklists for: <span style="color: steelblue">data sources</span></h3>
+                                <div class="modal-header modal-header-danger">
+                                    <h1 style="color: white;">Manage allowlists & blocklists for data sources</h1>
                                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                                 </div>
 
@@ -5225,8 +5360,8 @@ styles in <div> tags, similar to Bootstrap's grid system.
                         <!-- This is required to get the token substitutions without affecting the buttons actions in js -->
                         <div class="dashboard-element html" id="body_modal_manage_data_host_blacklists">
                             <div class="panel-body html">
-                                <div class="modal-header">
-                                    <h3>Manage allowlists & blocklists for: <span style="color: steelblue">data hosts</span></h3>
+                                <div class="modal-header modal-header-danger">
+                                    <h1 style="color: white;">Manage allowlists & blocklists for data hosts</h1>
                                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                                 </div>
 
@@ -5292,8 +5427,8 @@ styles in <div> tags, similar to Bootstrap's grid system.
                         <!-- This is required to get the token substitutions without affecting the buttons actions in js -->
                         <div class="dashboard-element html" id="body_modal_manage_metric_host_blacklists">
                             <div class="panel-body html">
-                                <div class="modal-header">
-                                    <h3>Manage allowlists & blocklists for: <span style="color: steelblue">metric hosts</span></h3>
+                                <div class="modal-header modal-header-danger">
+                                    <h1 style="color: white;">Manage allowlists & blocklists for metric hosts</h1>
                                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                                 </div>
 
@@ -5359,8 +5494,8 @@ styles in <div> tags, similar to Bootstrap's grid system.
                         <!-- This is required to get the token substitutions without affecting the buttons actions in js -->
                         <div class="dashboard-element html" id="body_modal_manage_data_host_blacklist_index">
                             <div class="panel-body html">
-                                <div class="modal-header">
-                                    <h3>Actions for host in blocklist: </h3>
+                                <div class="modal-header modal-header-danger">
+                                    <h1 style="color: white;">Actions for host in blocklist: </h1>
                                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                                 </div>
                                 <div class="modal-body">
@@ -5399,8 +5534,8 @@ styles in <div> tags, similar to Bootstrap's grid system.
                         <!-- This is required to get the token substitutions without affecting the buttons actions in js -->
                         <div class="dashboard-element html" id="body_modal_manage_metric_host_blacklist_index">
                             <div class="panel-body html">
-                                <div class="modal-header">
-                                    <h3>Actions for host in blocklist: </h3>
+                                <div class="modal-header modal-header-danger">
+                                    <h1 style="color: white;">Actions for host in blocklist: </h1>
                                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                                 </div>
                                 <div class="modal-body">
@@ -5439,8 +5574,8 @@ styles in <div> tags, similar to Bootstrap's grid system.
                         <!-- This is required to get the token substitutions without affecting the buttons actions in js -->
                         <div class="dashboard-element html" id="body_modal_manage_data_host_blacklist_sourcetype">
                             <div class="panel-body html">
-                                <div class="modal-header">
-                                    <h3>Actions for host in blocklist: </h3>
+                                <div class="modal-header modal-header-danger">
+                                    <h1 style="color: white;">Actions for host in blocklist: </h1>
                                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                                 </div>
                                 <div class="modal-body">
@@ -5479,8 +5614,8 @@ styles in <div> tags, similar to Bootstrap's grid system.
                         <!-- This is required to get the token substitutions without affecting the buttons actions in js -->
                         <div class="dashboard-element html" id="body_modal_manage_metric_host_blacklist_metric_category">
                             <div class="panel-body html">
-                                <div class="modal-header">
-                                    <h3>Actions for metric categories in blocklist: </h3>
+                                <div class="modal-header modal-header-danger">
+                                    <h1 style="color: white;">Actions for metric categories in blocklist: </h1>
                                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                                 </div>
                                 <div class="modal-body">
@@ -5515,9 +5650,9 @@ styles in <div> tags, similar to Bootstrap's grid system.
 
             <!-- Modal content-->
             <div class="modal-content">
-                <div class="modal-header">
+                <div class="modal-header modal-header-danger">
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h3 style="color: indianred;"><span class="glyphicon glyphicon-lock"></span> Modify index blocklisting</h3>
+                    <h1 style="color: white;"><span class="glyphicon glyphicon-lock"></span> Modify index blocklisting</h1>
                 </div>
                 <div class="modal-body">
                     <b>Indexes that have been blocklisted are excluded from the data discovery</b>
@@ -5611,9 +5746,9 @@ styles in <div> tags, similar to Bootstrap's grid system.
 
             <!-- Modal content-->
             <div class="modal-content">
-                <div class="modal-header">
+                <div class="modal-header modal-header-danger">
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h3 style="color: indianred;"><span class="glyphicon glyphicon-lock"></span> Modify index blocklisting</h3>
+                    <h1 style="color: white;"><span class="glyphicon glyphicon-lock"></span> Modify index blocklisting</h1>
                 </div>
                 <div class="modal-body">
                     <b>Indexes that have been blocklisted are excluded from the data discovery</b>
@@ -5707,9 +5842,9 @@ styles in <div> tags, similar to Bootstrap's grid system.
 
             <!-- Modal content-->
             <div class="modal-content">
-                <div class="modal-header">
+                <div class="modal-header modal-header-danger">
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h3 style="color: indianred;"><span class="glyphicon glyphicon-lock"></span> Modify sourcetype blocklisting</h3>
+                    <h1 style="color: white;"><span class="glyphicon glyphicon-lock"></span> Modify sourcetype blocklisting</h1>
                 </div>
                 <div class="modal-body">
                     <b>Sourcetypes that have been blocklisted are excluded from the data discovery</b>
@@ -5803,9 +5938,9 @@ styles in <div> tags, similar to Bootstrap's grid system.
 
             <!-- Modal content-->
             <div class="modal-content">
-                <div class="modal-header">
+                <div class="modal-header modal-header-danger">
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h3 style="color: indianred;"><span class="glyphicon glyphicon-lock"></span> Modify host blocklisting</h3>
+                    <h1 style="color: white;"><span class="glyphicon glyphicon-lock"></span> Modify host blocklisting</h1>
                 </div>
                 <div class="modal-body">
                     <b>Hosts that have been blocklisted are excluded from the data discovery</b>
@@ -5893,9 +6028,9 @@ styles in <div> tags, similar to Bootstrap's grid system.
 
             <!-- Modal content-->
             <div class="modal-content">
-                <div class="modal-header">
+                <div class="modal-header modal-header-danger">
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h3 style="color: indianred;"><span class="glyphicon glyphicon-lock"></span> Modify metric category blocklisting</h3>
+                    <h1 style="color: white;"><span class="glyphicon glyphicon-lock"></span> Modify metric category blocklisting</h1>
                 </div>
                 <div class="modal-body">
                     <b>metric_category that have been blocklisted are excluded from the metric discovery</b>
@@ -5989,9 +6124,9 @@ styles in <div> tags, similar to Bootstrap's grid system.
 
             <!-- Modal content-->
             <div class="modal-content">
-                <div class="modal-header">
+                <div class="modal-header modal-header-danger">
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h3 style="color: indianred;"><span class="glyphicon glyphicon-lock"></span>KVstore entry selection is invalid</h3>
+                    <h1 style="color: white;"><span class="glyphicon glyphicon-lock"></span>KVstore entry selection is invalid</h1>
                 </div>
                 <div class="modal-body">
                     <p>The selection you have made or the modification you have requested is invalid.<br /><br />
@@ -6011,9 +6146,9 @@ styles in <div> tags, similar to Bootstrap's grid system.
 
             <!-- Modal content-->
             <div class="modal-content">
-                <div class="modal-header">
+                <div class="modal-header modal-header-danger">
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h3 style="color: indianred;"><span class="glyphicon glyphicon-lock"></span>KVstore entry update</h3>
+                    <h1 style="color: white;"><span class="glyphicon glyphicon-lock"></span>KVstore entry update</h1>
                 </div>
                 <div class="modal-body">
                     <p><b>Confirm modification for this entry?</b><br />
@@ -6285,7 +6420,7 @@ styles in <div> tags, similar to Bootstrap's grid system.
             <div class="dashboard-panel clearfix">
                 <h2 class="panel-title">Click on any entry of the table to open interactive actions for this entity, use inputs to filter out the selection: (restricted to the first thousand results, use the key world filter input for large scale selections)</h2>
                 <div class="fieldset">
-                    <div class="input input-text" id="inputDataNameFilter">
+                    <div style="margin-right: 28px;" class="input input-text" id="inputDataNameFilter">
                         <label>Keyword filter name:</label>
                     </div>
                     <div class="input input-dropdown" id="inputDataName">
@@ -6325,7 +6460,7 @@ styles in <div> tags, similar to Bootstrap's grid system.
                     <div class="input input-dropdown" id="inputDataHostSourcetypes">
                         <label>Sourcetype(s):</label>
                     </div>
-                    <div class="input input-text" id="inputDataHostFilter">
+                    <div style="margin-right: 28px;" class="input input-text" id="inputDataHostFilter">
                         <label>Keyword filter hosts:</label>
                     </div>
                     <div class="input input-dropdown" id="inputDataHost">
@@ -6359,7 +6494,7 @@ styles in <div> tags, similar to Bootstrap's grid system.
                     <div class="input input-dropdown" id="inputMetricHostCategories">
                         <label>Metic categorie(s):</label>
                     </div>
-                    <div class="input input-dropdown" id="inputMetricHostFilter">
+                    <div style="margin-right: 28px;" class="input input-dropdown" id="inputMetricHostFilter">
                         <label>Keyword filter host:</label>
                     </div>
                     <div class="input input-dropdown" id="inputMetricHost">
@@ -6606,10 +6741,10 @@ styles in <div> tags, similar to Bootstrap's grid system.
             <div class="dashboard-panel clearfix">
                 <h2 class="panel-title">Search for alert state flipping:</h2>
                 <div class="fieldset">
-                    <div class="input input-timerangepicker" id="input_timerange_audit_flip">
+                    <div style="margin-right: 28px;" class="input input-timerangepicker" id="input_timerange_audit_flip">
                         <label>time period:</label>
                     </div>
-                    <div class="input input-text" id="inputAuditFlipObjectFilter">
+                    <div style="margin-right: 28px;" class="input input-text" id="inputAuditFlipObjectFilter">
                         <label>Keyword filter object:</label>
                     </div>
                     <div class="input input-dropdown" id="inputAuditFlipObjectCategory">
@@ -6641,7 +6776,7 @@ styles in <div> tags, similar to Bootstrap's grid system.
             <div class="dashboard-panel clearfix">
                 <h2 class="panel-title">Search for audit changes:</h2>
                 <div class="fieldset">
-                    <div class="input input-timerangepicker" id="input_timerange_audit_changes">
+                    <div style="margin-right: 28px;" class="input input-timerangepicker" id="input_timerange_audit_changes">
                         <label>time period:</label>
                     </div>
                     <div class="input input-dropdown" id="inputAuditChangesAction">
@@ -8488,7 +8623,7 @@ require([
         var searchSingleLag = new SearchManager({
             "id": "searchSingleLag",
             "sample_ratio": 1,
-            "search": "$tk_data_source_overview_root_search$ | stats perc95(delta) as perc95_lag, avg(delta) as avg_lag",
+            "search": "$tk_data_source_overview_root_search$ | stats perc95(delta) as perc95_lag, avg(delta) as avg_lag, latest(event_lag) as event_lag",
             "status_buckets": 0,
             "earliest_time": "$modalTime.earliest$",
             "cancelOnUnload": true,
@@ -8507,7 +8642,7 @@ require([
 
         var searchSingleLagPerc95 = new PostProcessManager({
             "tokenDependencies": {},
-            "search": "| fields perc95_lag",
+            "search": "| fields perc95_lag | `trackme_parse_duration(perc95_lag, 60)`",
             "managerid": "searchSingleLag",
             "id": "searchSingleLagPerc95"
         }, {
@@ -8517,9 +8652,19 @@ require([
 
         var searchSingleLagAvg = new PostProcessManager({
             "tokenDependencies": {},
-            "search": "| fields avg_lag",
+            "search": "| fields avg_lag | `trackme_parse_duration(avg_lag, 60)`",
             "managerid": "searchSingleLag",
             "id": "searchSingleLagAvg"
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        });
+
+        var searchSingleEventLag = new PostProcessManager({
+            "tokenDependencies": {},
+            "search": "| fields event_lag | `trackme_parse_duration(event_lag, 60)`",
+            "managerid": "searchSingleLag",
+            "id": "searchSingleEventLag"
         }, {
             tokens: true,
             tokenNamespace: "submitted"
@@ -8678,7 +8823,7 @@ require([
         var searchSingleLagHost = new SearchManager({
             "id": "searchSingleLagHost",
             "sample_ratio": 1,
-            "search": "| tstats count latest(_indextime) as indextime where index=* host=\"$tk_data_host$\" `trackme_tstats_main_filter` `trackme_get_idx_whitelist(trackme_data_host_monitoring_whitelist_index, data_index)` `apply_data_host_blacklists_data_retrieve` by _time, index, sourcetype span=1s | eval delta=(indextime-_time) | stats perc95(delta) as perc95_lag, avg(delta) as avg_lag",
+            "search": "| tstats count latest(_indextime) as indextime max(_time) as maxtime where index=* host=\"$tk_data_host$\" `trackme_tstats_main_filter` `trackme_get_idx_whitelist(trackme_data_host_monitoring_whitelist_index, data_index)` `apply_data_host_blacklists_data_retrieve` by _time, index, sourcetype span=1s | eval delta=(indextime-_time), event_lag=(now() - maxtime) | stats perc95(delta) as perc95_lag, avg(delta) as avg_lag, latest(event_lag) as event_lag",
             "status_buckets": 0,
             "earliest_time": "$modalTimeHost.earliest$",
             "cancelOnUnload": true,
@@ -8697,7 +8842,7 @@ require([
 
         var searchSingleLagHostPerc95 = new PostProcessManager({
             "tokenDependencies": {},
-            "search": "| fields perc95_lag",
+            "search": "| fields perc95_lag | `trackme_parse_duration(perc95_lag, 60)`",
             "managerid": "searchSingleLagHost",
             "id": "searchSingleLagHostPerc95"
         }, {
@@ -8707,9 +8852,19 @@ require([
 
         var searchSingleLagHostAvg = new PostProcessManager({
             "tokenDependencies": {},
-            "search": "| fields avg_lag",
+            "search": "| fields avg_lag | `trackme_parse_duration(avg_lag, 60)`",
             "managerid": "searchSingleLagHost",
             "id": "searchSingleLagHostAvg"
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        });
+
+        var searchSingleLagHostEventLag = new PostProcessManager({
+            "tokenDependencies": {},
+            "search": "| fields event_lag | `trackme_parse_duration(event_lag, 60)`",
+            "managerid": "searchSingleLagHost",
+            "id": "searchSingleLagHostEventLag"
         }, {
             tokens: true,
             tokenNamespace: "submitted"
@@ -11274,6 +11429,36 @@ require([
             FormUtils.handleValueChange(modal_input_lag_override_class);
         });
 
+        var modal_input_lag_alert_over = new DropdownInput({
+            "id": "modal_input_lag_alert_over",
+            "choices": [{
+                    "label": "lag event / lag ingestion",
+                    "value": "all_kpis"
+                },
+                {
+                    "label": "lag ingestion only",
+                    "value": "lag_ingestion_kpi"
+                },
+                {
+                    "label": "lag event only",
+                    "value": "lag_event_kpi"
+                }                
+            ],
+            "searchWhenChanged": true,
+            "default": "all_kpis",
+            "showClearButton": true,
+            "initialValue": "true",
+            "selectFirstChoice": false,
+            "value": "$form.tk_input_data_lag_alert_kpis$",
+            "el": $('#modal_input_lag_alert_over')
+        }, {
+            tokens: true
+        }).render();
+
+        modal_input_lag_alert_over.on("change", function(newValue) {
+            FormUtils.handleValueChange(modal_input_lag_alert_over);
+        });
+
         var modal_input_lag_override_class_host = new DropdownInput({
             "id": "modal_input_lag_override_class_host",
             "choices": [{
@@ -11478,6 +11663,36 @@ require([
 
         modal_input_lag_host.on("change", function(newValue) {
             FormUtils.handleValueChange(modal_input_lag_host);
+        });
+
+        var modal_input_lag_alert_over_host = new DropdownInput({
+            "id": "modal_input_lag_alert_over_host",
+            "choices": [{
+                    "label": "lag event / lag ingestion",
+                    "value": "all_kpis"
+                },
+                {
+                    "label": "lag ingestion only",
+                    "value": "lag_ingestion_kpi"
+                },
+                {
+                    "label": "lag event only",
+                    "value": "lag_event_kpi"
+                }                
+            ],
+            "searchWhenChanged": true,
+            "default": "all_kpis",
+            "showClearButton": true,
+            "initialValue": "all_kpis",
+            "selectFirstChoice": false,
+            "value": "$form.tk_input_data_lag_alert_kpis_host$",
+            "el": $('#modal_input_lag_alert_over_host')
+        }, {
+            tokens: true
+        }).render();
+
+        modal_input_lag_alert_over_host.on("change", function(newValue) {
+            FormUtils.handleValueChange(modal_input_lag_alert_over_host);
         });
 
         // metric host priority
@@ -13333,7 +13548,7 @@ require([
             "id": "elementMainTable",
             "count": 20,
             "drilldown": "row",
-            "fields": "data_name, data_index, data_sourcetype, \"last time\", \"last ingest\", priority, state, \"lag summary (lag event / lag ingestion)\", \"last time idx\", data_last_lag_seen_idx, data_max_lag_allowed, monitoring, data_monitoring_level, data_monitoring_wdays",
+            "fields": "data_name, \"last time\", \"last ingest\", priority, state, \"lag summary (lag event / lag ingestion)\", \"last time idx\", data_last_lag_seen_idx, data_max_lag_allowed, monitoring, data_monitoring_level, data_monitoring_wdays",
             "refresh.display": "none",
             "wrap": "false",
             "managerid": "searchDataSourcesPostTable",
@@ -13368,6 +13583,7 @@ require([
                 setToken("tk_data_last_time_seen_idx", TokenUtils.replaceTokenNames("$row.data_last_time_seen_idx$", _.extend(submittedTokenModel.toJSON(), e.data)));
                 setToken("tk_data_last_time_seen_idx_human", TokenUtils.replaceTokenNames("$row.data_last_time_seen_idx (translated)$", _.extend(submittedTokenModel.toJSON(), e.data)));
                 setToken("tk_data_max_lag_allowed", TokenUtils.replaceTokenNames("$row.data_max_lag_allowed$", _.extend(submittedTokenModel.toJSON(), e.data)));
+                setToken("tk_data_lag_alert_kpis", TokenUtils.replaceTokenNames("$row.data_lag_alert_kpis$", _.extend(submittedTokenModel.toJSON(), e.data)));
                 setToken("tk_data_monitored_state", TokenUtils.replaceTokenNames("$row.data_monitored_state$", _.extend(submittedTokenModel.toJSON(), e.data)));
                 setToken("tk_data_monitoring_level", TokenUtils.replaceTokenNames("$row.data_monitoring_level$", _.extend(submittedTokenModel.toJSON(), e.data)));
                 setToken("tk_data_monitoring_wdays", TokenUtils.replaceTokenNames("$row.data_monitoring_wdays$", _.extend(submittedTokenModel.toJSON(), e.data)));
@@ -13425,6 +13641,9 @@ require([
 
                 // pre-fill current priority
                 setToken("form.tk_input_priority", TokenUtils.replaceTokenNames("$row.priority$", _.extend(submittedTokenModel.toJSON(), e.data)));
+
+                // pre-fill alert over kpis
+                setToken("form.tk_input_data_lag_alert_kpis", TokenUtils.replaceTokenNames("$row.data_lag_alert_kpis$", _.extend(submittedTokenModel.toJSON(), e.data)));
 
                 submitTokens();
 
@@ -13498,26 +13717,26 @@ require([
                 var tk_elastic_mstats_filters = tokens.get("tk_elastic_mstats_filters");
 
                 if (tk_elastic_source_search_mode == "null") {
-                    tk_data_source_overview_root_search = "| `trackme_tstats` count latest(_indextime) as indextime where index=\"" + tk_data_index + "\" sourcetype=\"" + tk_data_sourcetype + "\" by _time, index, sourcetype span=1s | eval delta=(indextime-_time)";
+                    tk_data_source_overview_root_search = "| `trackme_tstats` count latest(_indextime) as indextime max(_time) as maxtime where index=\"" + tk_data_index + "\" sourcetype=\"" + tk_data_sourcetype + "\" by _time, index, sourcetype span=1s | eval delta=(indextime-_time), event_lag=(now() - maxtime)";
                     tk_data_source_raw_search = "null";
                 } else if (tk_elastic_source_search_mode == "tstats") {
-                    tk_data_source_overview_root_search = "| `trackme_tstats` count latest(_indextime) as indextime where " + tk_elastic_source_search_constraint + " by _time, index, sourcetype span=1s | eval delta=(indextime-_time)";
+                    tk_data_source_overview_root_search = "| `trackme_tstats` count latest(_indextime) as indextime max(_time) as maxtime where " + tk_elastic_source_search_constraint + " by _time, index, sourcetype span=1s | eval delta=(indextime-_time), event_lag=(now() - maxtime)";
                     tk_data_source_raw_search = "?q=search%20" + encodeURI(tk_elastic_source_search_constraint);
                 } else if (tk_elastic_source_search_mode == "raw") {
-                    tk_data_source_overview_root_search = tk_elastic_source_search_constraint + " | eval delta=(_indextime-_time) | bucket _time span=1s | stats count, avg(delta) as delta by _time";
+                    tk_data_source_overview_root_search = tk_elastic_source_search_constraint + " | eval delta=(_indextime-_time), event_lag=(now() - _time) | bucket _time span=1s | stats count, avg(delta) as delta, latest(event_lag) as event_lag by _time";
                     tk_data_source_raw_search = "?q=search%20" + encodeURI(tk_elastic_source_search_constraint);
                 } else if (tk_elastic_source_search_mode == "from" && tk_elastic_source_from_part1 != "null" && tk_elastic_source_from_part2 != "null") {
-                    tk_data_source_overview_root_search = "| " + tk_elastic_source_search_mode + " " + tk_elastic_source_from_part1 + " | " +  tk_elastic_source_from_part2 + " | eval delta=(_indextime-_time) | bucket _time span=1s | stats count, avg(delta) as delta by _time";
+                    tk_data_source_overview_root_search = "| " + tk_elastic_source_search_mode + " " + tk_elastic_source_from_part1 + " | " +  tk_elastic_source_from_part2 + " | eval delta=(_indextime-_time), event_lag=(now() - maxtime) | bucket _time span=1s | stats count, avg(delta) as delta, latest(event_lag) as event_lag by _time";
                     tk_data_source_raw_search = "?q=" + encodeURI("| ") + encodeURI(tk_elastic_source_search_mode) + " " + encodeURI(tk_elastic_source_from_part1) + encodeURI("|") +  encodeURI(tk_elastic_source_from_part2);
                 } else if (tk_elastic_source_search_mode == "mstats" && tk_elastic_mstats_filters != "null") {
-                    tk_data_source_overview_root_search = "| mstats latest(_value) as value where `trackme_metrics_idx` (metric_name=trackme.eventcount_4h OR metric_name=trackme.lag_event_sec) object_category=\"data_source\" object=\"" + tk_data_name + "\" by metric_name span=5m | eval {metric_name}=value | stats first(trackme.eventcount_4h) as count, first(trackme.lag_event_sec) as delta by _time";
+                    tk_data_source_overview_root_search = "| mstats latest(_value) as value where `trackme_metrics_idx` (metric_name=trackme.eventcount_4h OR metric_name=trackme.lag_event_sec) object_category=\"data_source\" object=\"" + tk_data_name + "\" by metric_name span=5m | eval {metric_name}=value | stats first(trackme.eventcount_4h) as count, first(trackme.lag_event_sec) as delta by _time | eval event_lag=delta";
                     if (tk_elastic_mstats_idx == "null") {
                         tk_data_source_raw_search = "?q=" + encodeURI("| msearch ") + encodeURI("index=*") + " " + encodeURI("filter=\"" + tk_elastic_mstats_filters + "\"") + encodeURI(" earliest=\"-5m\" latest=now");
                     } else {
                         tk_data_source_raw_search = "?q=" + encodeURI("| msearch ") + encodeURI(tk_elastic_mstats_idx) + " " + encodeURI("filter=\"" + tk_elastic_mstats_filters + "\"") + encodeURI(" earliest=\"-5m\" latest=now");
                     }
                 } else {
-                    tk_data_source_overview_root_search = "| `trackme_tstats` count latest(_indextime) as indextime where index=\"" + tk_data_index + "\" sourcetype=\"" + tk_data_sourcetype + "\" by _time, index, sourcetype span=1s | eval delta=(indextime-_time)";
+                    tk_data_source_overview_root_search = "| `trackme_tstats` count latest(_indextime) as indextime max(_time) as maxtime where index=\"" + tk_data_index + "\" sourcetype=\"" + tk_data_sourcetype + "\" by _time, index, sourcetype span=1s | eval delta=(indextime-_time), event_lag=(now() - maxtime)";
                 }
 
                 //console.log("tk_data_source_overview_root_search is: " + tk_data_source_overview_root_search);
@@ -14082,6 +14301,7 @@ require([
                 setToken("tk_data_last_ingest", TokenUtils.replaceTokenNames("$row.data_last_ingest$", _.extend(submittedTokenModel.toJSON(), e.data)));
                 setToken("tk_data_last_ingest_human", TokenUtils.replaceTokenNames("$row.last ingest$", _.extend(submittedTokenModel.toJSON(), e.data)));
                 setToken("tk_data_max_lag_allowed", TokenUtils.replaceTokenNames("$row.data_max_lag_allowed$", _.extend(submittedTokenModel.toJSON(), e.data)));
+                setToken("tk_data_lag_alert_kpis", TokenUtils.replaceTokenNames("$row.data_lag_alert_kpis$", _.extend(submittedTokenModel.toJSON(), e.data)));
                 setToken("tk_data_monitored_state", TokenUtils.replaceTokenNames("$row.data_monitored_state$", _.extend(submittedTokenModel.toJSON(), e.data)));
                 setToken("tk_data_monitoring_wdays", TokenUtils.replaceTokenNames("$row.data_monitoring_wdays$", _.extend(submittedTokenModel.toJSON(), e.data)));
                 setToken("tk_data_override_lagging_class", TokenUtils.replaceTokenNames("$row.data_override_lagging_class$", _.extend(submittedTokenModel.toJSON(), e.data)));
@@ -14126,6 +14346,9 @@ require([
 
                 // pre-fill current priority
                 setToken("form.tk_input_host_priority", TokenUtils.replaceTokenNames("$row.priority$", _.extend(submittedTokenModel.toJSON(), e.data)));
+
+                // pre-fill alert over kpis
+                setToken("form.tk_input_data_lag_alert_kpis_host", TokenUtils.replaceTokenNames("$row.data_lag_alert_kpis$", _.extend(submittedTokenModel.toJSON(), e.data)));
 
                 submitTokens();
 
@@ -15147,14 +15370,14 @@ require([
             "showTrendIndicator": "1",
             "showSparkline": "1",
             "trellis.enabled": "0",
-            "unit": "sec",
+            "unit": "",
             "rangeColors": "[\"0x53a051\",\"0x0877a6\",\"0xf8be34\",\"0xf1813f\",\"0xdc4e41\"]",
             "colorMode": "none",
             "rangeValues": "[0,30,70,100]",
             "unitPosition": "after",
             "trellis.scales.shared": "1",
             "useThousandSeparators": "1",
-            "underLabel": "PERCENTILE 95 DATA SOURCE LAG",
+            "underLabel": "PERC95 INGESTION LAG (sec or [D+]HH:MM:SS)",
             "managerid": "searchSingleLagPerc95",
             "el": $('#elementSingleLagPerc95')
         }, {
@@ -15175,16 +15398,44 @@ require([
             "showTrendIndicator": "1",
             "showSparkline": "1",
             "trellis.enabled": "0",
-            "unit": "sec",
+            "unit": "",
             "rangeColors": "[\"0x53a051\",\"0x0877a6\",\"0xf8be34\",\"0xf1813f\",\"0xdc4e41\"]",
             "colorMode": "none",
             "rangeValues": "[0,30,70,100]",
             "unitPosition": "after",
             "trellis.scales.shared": "1",
             "useThousandSeparators": "1",
-            "underLabel": "AVERAGE DATA SOURCE LAG",
+            "underLabel": "AVG INGESTION LAG (sec or [D+]HH:MM:SS)",
             "managerid": "searchSingleLagAvg",
             "el": $('#elementSingleLagAvg')
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        }).render();
+
+        var elementSingleEventLag = new SingleElement({
+            "id": "elementSingleEventLag",
+            "trendDisplayMode": "absolute",
+            "numberPrecision": "0.00",
+            "drilldown": "none",
+            "trellis.size": "medium",
+            "trendColorInterpretation": "standard",
+            "height": "80",
+            "useColors": "0",
+            "colorBy": "value",
+            "showTrendIndicator": "1",
+            "showSparkline": "1",
+            "trellis.enabled": "0",
+            "unit": "",
+            "rangeColors": "[\"0x53a051\",\"0x0877a6\",\"0xf8be34\",\"0xf1813f\",\"0xdc4e41\"]",
+            "colorMode": "none",
+            "rangeValues": "[0,30,70,100]",
+            "unitPosition": "after",
+            "trellis.scales.shared": "1",
+            "useThousandSeparators": "1",
+            "underLabel": "CURRENT EVENT LAG (sec or [D+]HH:MM:SS)",
+            "managerid": "searchSingleEventLag",
+            "el": $('#elementSingleEventLag')
         }, {
             tokens: true,
             tokenNamespace: "submitted"
@@ -15211,7 +15462,7 @@ require([
             "trellis.scales.shared": "1",
             "useColors": "1",
             "useThousandSeparators": "1",
-            "underLabel": "SLA COMPLIANCE PERCENTAGE (% of time spent in green/blue mode in the last 90d)",
+            "underLabel": "SLA PCT (% time spent in green/blue over 90d)",
             "managerid": "searchSingleSLApct",
             "el": $('#elementSingleSLApct')
         }, {
@@ -15412,14 +15663,14 @@ require([
             "showTrendIndicator": "1",
             "showSparkline": "1",
             "trellis.enabled": "0",
-            "unit": "sec",
+            "unit": "",
             "rangeColors": "[\"0x53a051\",\"0x0877a6\",\"0xf8be34\",\"0xf1813f\",\"0xdc4e41\"]",
             "colorMode": "none",
             "rangeValues": "[0,30,70,100]",
             "unitPosition": "after",
             "trellis.scales.shared": "1",
             "useThousandSeparators": "1",
-            "underLabel": "PERCENTILE 95 DATA HOST LAG",
+            "underLabel": "PERC95 INGESTION LAG (sec or [D+]HH:MM:SS)",
             "managerid": "searchSingleLagHostPerc95",
             "el": $('#elementSingleLagHostPerc95')
         }, {
@@ -15440,16 +15691,44 @@ require([
             "showTrendIndicator": "1",
             "showSparkline": "1",
             "trellis.enabled": "0",
-            "unit": "sec",
+            "unit": "",
             "rangeColors": "[\"0x53a051\",\"0x0877a6\",\"0xf8be34\",\"0xf1813f\",\"0xdc4e41\"]",
             "colorMode": "none",
             "rangeValues": "[0,30,70,100]",
             "unitPosition": "after",
             "trellis.scales.shared": "1",
             "useThousandSeparators": "1",
-            "underLabel": "AVERAGE DATA HOST LAG",
+            "underLabel": "AVG INGESTION LAG (sec or [D+]HH:MM:SS)",
             "managerid": "searchSingleLagHostAvg",
             "el": $('#elementSingleLagHostAvg')
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        }).render();
+
+        var elementSingleLagHostEventLag = new SingleElement({
+            "id": "elementSingleLagHostEventLag",
+            "trendDisplayMode": "absolute",
+            "numberPrecision": "0.00",
+            "drilldown": "none",
+            "height": "80",
+            "trellis.size": "medium",
+            "trendColorInterpretation": "standard",
+            "useColors": "0",
+            "colorBy": "value",
+            "showTrendIndicator": "1",
+            "showSparkline": "1",
+            "trellis.enabled": "0",
+            "unit": "",
+            "rangeColors": "[\"0x53a051\",\"0x0877a6\",\"0xf8be34\",\"0xf1813f\",\"0xdc4e41\"]",
+            "colorMode": "none",
+            "rangeValues": "[0,30,70,100]",
+            "unitPosition": "after",
+            "trellis.scales.shared": "1",
+            "useThousandSeparators": "1",
+            "underLabel": "CURRENT EVENT LAG (sec or [D+]HH:MM:SS)",
+            "managerid": "searchSingleLagHostEventLag",
+            "el": $('#elementSingleLagHostEventLag')
         }, {
             tokens: true,
             tokenNamespace: "submitted"
@@ -15476,7 +15755,7 @@ require([
             "trellis.scales.shared": "1",
             "useColors": "1",
             "useThousandSeparators": "1",
-            "underLabel": "SLA COMPLIANCE PERCENTAGE (% of time spent in green/blue mode in the last 90d)",
+            "underLabel": "SLA PCT (% time spent in green/blue mode last 90d)",
             "managerid": "searchSingleSLAHostpct",
             "el": $('#elementSingleSLAHostpct')
         }, {
@@ -17688,6 +17967,7 @@ require([
             var tk_data_last_lag_seen_idx = tokens.get("tk_data_last_lag_seen_idx");
             var tk_data_last_time_seen_idx = tokens.get("tk_data_last_time_seen_idx");
             var tk_data_max_lag_allowed = tokens.get("tk_data_max_lag_allowed");
+            var tk_data_lag_alert_kpis = tokens.get("tkdata_lag_alert_kpis");
             var tk_data_monitoring_level = tokens.get("tk_data_monitoring_level");
             var tk_data_monitoring_wdays = tokens.get("tk_data_monitoring_wdays");
             var tk_data_override_lagging_class = tokens.get("tk_data_override_lagging_class");
@@ -17726,6 +18006,7 @@ require([
                 "data_last_lag_seen_idx": tk_data_last_lag_seen_idx,
                 "data_last_time_seen_idx": tk_data_last_time_seen_idx,
                 "data_max_lag_allowed": tk_data_max_lag_allowed,
+                "data_lag_alert_kpis": tk_data_lag_alert_kpis,
                 "data_monitored_state": tk_data_monitored_state,
                 "data_monitoring_level": tk_data_monitoring_level,
                 "data_monitoring_wdays": tk_data_monitoring_wdays,
@@ -17845,6 +18126,7 @@ require([
             var tk_data_last_time_seen = tokens.get("tk_data_last_time_seen");
             var tk_data_last_ingest = tokens.get("tk_data_last_ingest");
             var tk_data_max_lag_allowed = tokens.get("tk_data_max_lag_allowed");
+            var tk_data_lag_alert_kpis = tokens.get("tk_data_lag_alert_kpis");
             var tk_data_monitoring_wdays = tokens.get("tk_data_monitoring_wdays");
             var tk_data_override_lagging_class = tokens.get("tk_data_override_lagging_class");
             var tk_data_host_state = tokens.get("tk_data_host_state");
@@ -17880,6 +18162,7 @@ require([
                 "data_last_time_seen": tk_data_last_time_seen,
                 "data_last_ingest": tk_data_last_ingest,
                 "data_max_lag_allowed": tk_data_max_lag_allowed,
+                "data_lag_alert_kpis": tk_data_lag_alert_kpis,
                 "data_monitored_state": tk_data_monitored_state,
                 "data_monitoring_wdays": tk_data_monitoring_wdays,
                 "data_override_lagging_class": tk_data_override_lagging_class,
@@ -18309,6 +18592,7 @@ require([
             var tk_data_last_lag_seen_idx = tokens.get("tk_data_last_lag_seen_idx");
             var tk_data_last_time_seen_idx = tokens.get("tk_data_last_time_seen_idx");
             var tk_data_max_lag_allowed = tokens.get("tk_data_max_lag_allowed");
+            var tk_data_lag_alert_kpis = tokens.get("tk_data_lag_alert_kpis");
             var tk_data_monitoring_level = tokens.get("tk_data_monitoring_level");
             var tk_data_monitoring_wdays = tokens.get("tk_data_monitoring_wdays");
             var tk_data_override_lagging_class = tokens.get("tk_data_override_lagging_class");
@@ -18347,6 +18631,7 @@ require([
                 "data_last_lag_seen_idx": tk_data_last_lag_seen_idx,
                 "data_last_time_seen_idx": tk_data_last_time_seen_idx,
                 "data_max_lag_allowed": tk_data_max_lag_allowed,
+                "data_lag_alert_kpis": tk_data_lag_alert_kpis,
                 "data_monitored_state": tk_data_monitored_state,
                 "data_monitoring_level": tk_data_monitoring_level,
                 "data_monitoring_wdays": tk_data_monitoring_wdays,
@@ -18466,6 +18751,7 @@ require([
             var tk_data_last_time_seen = tokens.get("tk_data_last_time_seen");
             var tk_data_last_ingest = tokens.get("tk_data_last_ingest");
             var tk_data_max_lag_allowed = tokens.get("tk_data_max_lag_allowed");
+            var tk_data_lag_alert_kpis = tokens.get("tk_data_lag_alert_kpis");
             var tk_data_monitoring_wdays = tokens.get("tk_data_monitoring_wdays");
             var tk_data_override_lagging_class = tokens.get("tk_data_override_lagging_class");
             var tk_data_host_state = tokens.get("tk_data_host_state");
@@ -18501,6 +18787,7 @@ require([
                 "data_last_time_seen": tk_data_last_time_seen,
                 "data_last_ingest": tk_data_last_ingest,
                 "data_max_lag_allowed": tk_data_max_lag_allowed,
+                "data_lag_alert_kpis": tk_data_lag_alert_kpis,
                 "data_monitored_state": tk_data_monitored_state,
                 "data_monitoring_wdays": tk_data_monitoring_wdays,
                 "data_override_lagging_class": tk_data_override_lagging_class,
@@ -18973,6 +19260,7 @@ require([
             var tk_data_last_lag_seen_idx = tokens.get("tk_data_last_lag_seen_idx");
             var tk_data_last_time_seen_idx = tokens.get("tk_data_last_time_seen_idx");
             var tk_data_max_lag_allowed = tokens.get("tk_data_max_lag_allowed");
+            var tk_data_lag_alert_kpis = tokens.get("tk_data_lag_alert_kpis");
             var tk_data_monitored_state = tokens.get("tk_data_monitored_state");
             var tk_data_monitoring_level = tokens.get("tk_data_monitoring_level");
             var tk_data_monitoring_wdays = tokens.get("tk_data_monitoring_wdays");
@@ -19004,6 +19292,7 @@ require([
                 "data_last_lag_seen_idx": tk_data_last_lag_seen_idx,
                 "data_last_time_seen_idx": tk_data_last_time_seen_idx,
                 "data_max_lag_allowed": tk_data_max_lag_allowed,
+                "data_lag_alert_kpis": tk_data_lag_alert_kpis,
                 "data_monitored_state": tk_data_monitored_state,
                 "data_monitoring_level": tk_data_monitoring_level,
                 "data_monitoring_wdays": tk_data_monitoring_wdays,
@@ -19216,6 +19505,7 @@ require([
             var tk_data_last_time_seen = tokens.get("tk_data_last_time_seen");
             var tk_data_last_ingest = tokens.get("tk_data_last_ingest");
             var tk_data_max_lag_allowed = tokens.get("tk_data_max_lag_allowed");
+            var tk_data_lag_alert_kpis = tokens.get("tk_data_lag_alert_kpis");
             var tk_data_monitoring_wdays = tokens.get("tk_data_monitoring_wdays");
             var tk_data_monitored_state = tokens.get("tk_data_monitored_state");
             var tk_data_override_lagging_class = tokens.get("tk_data_override_lagging_class");
@@ -19244,6 +19534,7 @@ require([
                 "data_last_time_seen": tk_data_last_time_seen,
                 "data_last_ingest": tk_data_last_ingest,
                 "data_max_lag_allowed": tk_data_max_lag_allowed,
+                "data_lag_alert_kpis": tk_data_lag_alert_kpis,
                 "data_monitored_state": tk_data_monitored_state,
                 "data_monitoring_wdays": tk_data_monitoring_wdays,
                 "data_override_lagging_class": tk_data_override_lagging_class,
@@ -24805,6 +25096,7 @@ require([
             var tk_data_last_lag_seen_idx = tokens.get("tk_data_last_lag_seen_idx");
             var tk_data_last_time_seen_idx = tokens.get("tk_data_last_time_seen_idx");
             var tk_data_max_lag_allowed = tokens.get("tk_data_max_lag_allowed");
+            var tk_data_lag_alert_kpis = tokens.get("tk_data_lag_alert_kpis");
             var tk_data_monitored_state = tokens.get("tk_data_monitored_state");
             var tk_data_monitoring_level = tokens.get("tk_data_monitoring_level");
             var tk_data_monitoring_wdays = tokens.get("tk_data_monitoring_wdays");
@@ -24854,6 +25146,7 @@ require([
                     "data_last_lag_seen_idx": tk_data_last_lag_seen_idx,
                     "data_last_time_seen_idx": tk_data_last_time_seen_idx,
                     "data_max_lag_allowed": tk_data_max_lag_allowed,
+                    "data_lag_alert_kpis": tk_data_lag_alert_kpis,
                     "data_monitored_state": tk_data_monitored_state,
                     "data_monitoring_level": tk_data_monitoring_level,
                     "data_monitoring_wdays": tk_data_monitoring_wdays,
@@ -24954,6 +25247,7 @@ require([
             var tk_data_last_lag_seen_idx = tokens.get("tk_data_last_lag_seen_idx");
             var tk_data_last_time_seen_idx = tokens.get("tk_data_last_time_seen_idx");
             var tk_data_max_lag_allowed = tokens.get("tk_data_max_lag_allowed");
+            var tk_data_lag_alert_kpis = tokens.get("tk_data_lag_alert_kpis");
             var tk_data_monitored_state = tokens.get("tk_data_monitored_state");
             var tk_data_monitoring_level = tokens.get("tk_data_monitoring_level");
             var tk_data_monitoring_wdays = tokens.get("tk_data_monitoring_wdays");
@@ -25003,6 +25297,7 @@ require([
                     "data_last_lag_seen_idx": tk_data_last_lag_seen_idx,
                     "data_last_time_seen_idx": tk_data_last_time_seen_idx,
                     "data_max_lag_allowed": tk_data_max_lag_allowed,
+                    "data_lag_alert_kpis": tk_data_lag_alert_kpis,
                     "data_monitored_state": tk_data_monitored_state,
                     "data_monitoring_level": tk_data_monitoring_level,
                     "data_monitoring_wdays": tk_data_monitoring_wdays,
@@ -25109,6 +25404,7 @@ require([
             var tk_data_last_lag_seen_idx = tokens.get("tk_data_last_lag_seen_idx");
             var tk_data_last_time_seen_idx = tokens.get("tk_data_last_time_seen_idx");
             var tk_data_max_lag_allowed = tokens.get("tk_data_max_lag_allowed");
+            var tk_data_lag_alert_kpis = tokens.get("tk_data_lag_alert_kpis");
             var tk_data_monitored_state = tokens.get("tk_data_monitored_state");
             var tk_data_monitoring_level = tokens.get("tk_data_monitoring_level");
             var tk_data_monitoring_wdays = tokens.get("tk_data_monitoring_wdays");
@@ -25158,6 +25454,7 @@ require([
                     "data_last_lag_seen_idx": tk_data_last_lag_seen_idx,
                     "data_last_time_seen_idx": tk_data_last_time_seen_idx,
                     "data_max_lag_allowed": tk_data_max_lag_allowed,
+                    "data_lag_alert_kpis": tk_data_lag_alert_kpis,
                     "data_monitored_state": tk_data_monitored_state,
                     "data_monitoring_level": tk_data_monitoring_level,
                     "data_monitoring_wdays": tk_data_monitoring_wdays_no,
@@ -25276,6 +25573,7 @@ require([
             var tk_data_last_lag_seen_idx = tokens.get("tk_data_last_lag_seen_idx");
             var tk_data_last_time_seen_idx = tokens.get("tk_data_last_time_seen_idx");
             var tk_data_max_lag_allowed = tokens.get("tk_data_max_lag_allowed");
+            var tk_data_lag_alert_kpis = tokens.get("tk_data_lag_alert_kpis");
             var tk_data_monitored_state = tokens.get("tk_data_monitored_state");
             var tk_data_monitoring_level = tokens.get("tk_data_monitoring_level");
             var tk_data_monitoring_wdays = tokens.get("tk_data_monitoring_wdays");
@@ -25325,6 +25623,7 @@ require([
                     "data_last_lag_seen_idx": tk_data_last_lag_seen_idx,
                     "data_last_time_seen_idx": tk_data_last_time_seen_idx,
                     "data_max_lag_allowed": tk_data_max_lag_allowed,
+                    "data_lag_alert_kpis": tk_data_lag_alert_kpis,
                     "data_monitored_state": tk_data_monitored_state,
                     "data_monitoring_level": tk_data_monitoring_level,
                     "data_monitoring_wdays": tk_data_monitoring_wdays,
@@ -25433,6 +25732,7 @@ require([
             var tk_data_last_lag_seen_idx = tokens.get("tk_data_last_lag_seen_idx");
             var tk_data_last_time_seen_idx = tokens.get("tk_data_last_time_seen_idx");
             var tk_data_max_lag_allowed = tokens.get("tk_data_max_lag_allowed");
+            var tk_data_lag_alert_kpis = tokens.get("tk_data_lag_alert_kpis");
             var tk_data_monitored_state = tokens.get("tk_data_monitored_state");
             var tk_data_monitoring_level = tokens.get("tk_data_monitoring_level");
             var tk_data_monitoring_wdays = tokens.get("tk_data_monitoring_wdays");
@@ -25457,8 +25757,13 @@ require([
             // Create the endpoint URL
             var myendpoint_URl = "/en-US/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_data_source_monitoring/" + tk_keyid;
 
+            // max lag allowed
             var tk_data_max_lag_allowed = tokens.get("tk_input_lag");
-            var tk_origin_data_max_lag_allowed = tokens.get("tk_data_max_lag_allowed");
+
+            // alert over kpis
+            var tk_data_lag_alert_kpis = tokens.get("tk_input_data_lag_alert_kpis");
+
+            // lagging class override
             var tk_data_override_lagging_class = tokens.get("modal_input_lag_override_class");
 
             if (!tk_data_max_lag_allowed || !tk_data_max_lag_allowed.length || !isNumeric(tk_data_max_lag_allowed)) {
@@ -25482,6 +25787,7 @@ require([
                     "data_last_lag_seen_idx": tk_data_last_lag_seen_idx,
                     "data_last_time_seen_idx": tk_data_last_time_seen_idx,
                     "data_max_lag_allowed": tk_data_max_lag_allowed,
+                    "data_lag_alert_kpis": tk_data_lag_alert_kpis,
                     "data_monitored_state": tk_data_monitored_state,
                     "data_monitoring_level": tk_data_monitoring_level,
                     "data_monitoring_wdays": tk_data_monitoring_wdays,
@@ -25520,10 +25826,10 @@ require([
 
                         // Audit
                         action = "success";
-                        change_type = "modify monitoring lag";
+                        change_type = "modify monitoring lag policy";
                         object = tk_data_name;
                         object_category = "data_source";
-                        object_attrs = "data_max_lag_allowed changed from:" + tk_origin_data_max_lag_allowed + " to:" + tk_data_max_lag_allowed + " with data_override_lagging_class:" + tk_data_override_lagging_class;
+                        object_attrs = "{\"data_max_lag_allowed\": \"" + tk_data_max_lag_allowed + "\", \"data_override_lagging_class\": \"" + tk_data_override_lagging_class + "\", \"data_lag_alert_kpis\": \"" + tk_data_lag_alert_kpis + "\"}";
                         result = "N/A";
                         comment = "N/A";
                         auditRecord(action, change_type, object, object_category, object_attrs, result, comment);
@@ -25541,10 +25847,10 @@ require([
 
                         // Audit
                         action = "failure";
-                        change_type = "modify monitoring lag";
+                        change_type = "modify monitoring lag policy";
                         object = tk_data_name;
                         object_category = "data_source";
-                        object_attrs = "data_max_lag_allowed changed from:" + tk_origin_data_max_lag_allowed + " to:" + tk_data_max_lag_allowed + " with data_override_lagging_class:" + tk_data_override_lagging_class;
+                        object_attrs = "{\"data_max_lag_allowed\": \"" + tk_data_max_lag_allowed + "\", \"data_override_lagging_class\": \"" + tk_data_override_lagging_class + "\", \"data_lag_alert_kpis\": \"" + tk_data_lag_alert_kpis + "\"}";
                         result = message;
                         comment = "N/A";
                         auditRecord(action, change_type, object, object_category, object_attrs, result, comment);
@@ -25608,7 +25914,7 @@ require([
                 function(err, job) {
 
                     // hide the current modal
-                    $("#modal_modify_data_source_unified").modal('hide');
+                    $("#modal_modify_data_source_autolag").modal('hide');
 
                     $("#loadingGray").remove()
                     $("body").append('<div id="loadingGray" style="background: #e9e9e9; display: block; position: fixed; z-index: 100; top: 0; right: 0; bottom: 0; left: 0; height: 100%; opacity: 0.8;"><div style="width: 100%; margin-top: 250px; padding-bottom: 50px; text-align: center;"><p style="font-size: 18pt; font-weight: bolder;">Please wait while determining the entity lagging value...</p></div><div id="spinner"></div></div>')
@@ -25684,7 +25990,7 @@ require([
                                                     change_type = "apply auto defined monitoring lag";
                                                     object = tk_data_name;
                                                     object_category = "data_source";
-                                                    object_attrs = "data_max_lag_allowed changed from:" + tk_origin_data_max_lag_allowed + " to:" + tk_data_max_lag_allowed + " with data_override_lagging_class:" + tk_data_override_lagging_class;
+                                                    object_attrs = "{\"data_max_lag_allowed\": \"" + value + "\", \"data_override_lagging_class\": \"" + tk_data_override_lagging_class + "\"}";
                                                     result = "N/A";
                                                     comment = "N/A";
                                                     auditRecord(action, change_type, object, object_category, object_attrs, result, comment);
@@ -25777,7 +26083,7 @@ require([
                 function(err, job) {
 
                     // hide the current modal
-                    $("#modal_modify_data_source_unified").modal('hide');
+                    $("#modal_modify_data_source_autolag").modal('hide');
 
                     $("#loadingGray").remove()
                     $("body").append('<div id="loadingGray" style="background: #e9e9e9; display: block; position: fixed; z-index: 100; top: 0; right: 0; bottom: 0; left: 0; height: 100%; opacity: 0.8;"><div style="width: 100%; margin-top: 250px; padding-bottom: 50px; text-align: center;"><p style="font-size: 18pt; font-weight: bolder;">Please wait while determining the entity lagging value...</p></div><div id="spinner"></div></div>')
@@ -25853,7 +26159,7 @@ require([
                                                     change_type = "apply auto defined monitoring lag";
                                                     object = tk_data_name;
                                                     object_category = "data_source";
-                                                    object_attrs = "data_max_lag_allowed changed from:" + tk_origin_data_max_lag_allowed + " to:" + tk_data_max_lag_allowed + " with data_override_lagging_class:" + tk_data_override_lagging_class;
+                                                    object_attrs = "{\"data_max_lag_allowed\": \"" + value + "\", \"data_override_lagging_class\": \"" + tk_data_override_lagging_class + "\"}";
                                                     result = "N/A";
                                                     comment = "N/A";
                                                     auditRecord(action, change_type, object, object_category, object_attrs, result, comment);
@@ -25947,7 +26253,7 @@ require([
                 function(err, job) {
 
                     // hide the current modal
-                    $("#modal_modify_data_source_unified").modal('hide');
+                    $("#modal_modify_data_source_autolag").modal('hide');
 
                     $("#loadingGray").remove()
                     $("body").append('<div id="loadingGray" style="background: #e9e9e9; display: block; position: fixed; z-index: 100; top: 0; right: 0; bottom: 0; left: 0; height: 100%; opacity: 0.8;"><div style="width: 100%; margin-top: 250px; padding-bottom: 50px; text-align: center;"><p style="font-size: 18pt; font-weight: bolder;">Please wait while determining the entity lagging value...</p></div><div id="spinner"></div></div>')
@@ -26023,7 +26329,7 @@ require([
                                                     change_type = "apply auto defined monitoring lag";
                                                     object = tk_data_name;
                                                     object_category = "data_source";
-                                                    object_attrs = "data_max_lag_allowed changed from:" + tk_origin_data_max_lag_allowed + " to:" + tk_data_max_lag_allowed + " with data_override_lagging_class:" + tk_data_override_lagging_class;
+                                                    object_attrs = "{\"data_max_lag_allowed\": \"" + value + "\", \"data_override_lagging_class\": \"" + tk_data_override_lagging_class + "\"}";
                                                     result = "N/A";
                                                     comment = "N/A";
                                                     auditRecord(action, change_type, object, object_category, object_attrs, result, comment);
@@ -26117,7 +26423,7 @@ require([
                 function(err, job) {
 
                     // hide the current modal
-                    $("#modal_modify_data_source_unified").modal('hide');
+                    $("#modal_modify_data_source_autolag").modal('hide');
 
                     $("#loadingGray").remove()
                     $("body").append('<div id="loadingGray" style="background: #e9e9e9; display: block; position: fixed; z-index: 100; top: 0; right: 0; bottom: 0; left: 0; height: 100%; opacity: 0.8;"><div style="width: 100%; margin-top: 250px; padding-bottom: 50px; text-align: center;"><p style="font-size: 18pt; font-weight: bolder;">Please wait while determining the entity lagging value...</p></div><div id="spinner"></div></div>')
@@ -26193,7 +26499,7 @@ require([
                                                     change_type = "apply auto defined monitoring lag";
                                                     object = tk_data_name;
                                                     object_category = "data_source";
-                                                    object_attrs = "data_max_lag_allowed changed from:" + tk_origin_data_max_lag_allowed + " to:" + tk_data_max_lag_allowed + " with data_override_lagging_class:" + tk_data_override_lagging_class;
+                                                    object_attrs = "{\"data_max_lag_allowed\": \"" + value + "\", \"data_override_lagging_class\": \"" + tk_data_override_lagging_class + "\"}";
                                                     result = "N/A";
                                                     comment = "N/A";
                                                     auditRecord(action, change_type, object, object_category, object_attrs, result, comment);
@@ -26315,6 +26621,7 @@ require([
             var tk_data_last_time_seen = tokens.get("tk_data_last_time_seen");
             var tk_data_last_ingest = tokens.get("tk_data_last_ingest");
             var tk_data_max_lag_allowed = tokens.get("tk_data_max_lag_allowed");
+            var tk_data_lag_alert_kpis = tokens.get("tk_data_lag_alert_kpis");
             var tk_data_monitoring_wdays = tokens.get("tk_data_monitoring_wdays");
             var tk_data_monitored_state = tokens.get("tk_data_monitored_state");
             var tk_data_override_lagging_class = tokens.get("tk_data_override_lagging_class");
@@ -26361,6 +26668,7 @@ require([
                     "data_last_time_seen": tk_data_last_time_seen,
                     "data_last_ingest": tk_data_last_ingest,
                     "data_max_lag_allowed": tk_data_max_lag_allowed,
+                    "data_lag_alert_kpis": tk_data_lag_alert_kpis,
                     "data_monitored_state": tk_data_monitored_state,
                     "data_monitoring_wdays": tk_data_monitoring_wdays,
                     "data_override_lagging_class": tk_data_override_lagging_class,
@@ -26454,6 +26762,7 @@ require([
             var tk_data_last_time_seen = tokens.get("tk_data_last_time_seen");
             var tk_data_last_ingest = tokens.get("tk_data_last_ingest");
             var tk_data_max_lag_allowed = tokens.get("tk_data_max_lag_allowed");
+            var tk_data_lag_alert_kpis = tokens.get("tk_data_lag_alert_kpis");
             var tk_data_monitoring_wdays = tokens.get("tk_data_monitoring_wdays");
             var tk_data_monitored_state = tokens.get("tk_data_monitored_state");
             var tk_data_override_lagging_class = tokens.get("tk_data_override_lagging_class");
@@ -26497,6 +26806,7 @@ require([
                     "data_first_time_seen": tk_data_first_time_seen,
                     "data_last_time_seen": tk_data_last_time_seen,
                     "data_last_ingest": tk_data_last_ingest,
+                    "data_lag_alert_kpis": tk_data_lag_alert_kpis,
                     "data_max_lag_allowed": tk_data_max_lag_allowed,
                     "data_monitored_state": tk_data_monitored_state,
                     "data_monitoring_wdays": tk_data_monitoring_wdays,
@@ -26599,6 +26909,7 @@ require([
             var tk_data_last_time_seen = tokens.get("tk_data_last_time_seen");
             var tk_data_last_ingest = tokens.get("tk_data_last_ingest");
             var tk_data_max_lag_allowed = tokens.get("tk_data_max_lag_allowed");
+            var tk_data_lag_alert_kpis = tokens.get("tk_data_lag_alert_kpis");
             var tk_data_monitoring_wdays = tokens.get("tk_data_monitoring_wdays");
             var tk_data_monitored_state = tokens.get("tk_data_monitored_state");
             var tk_data_override_lagging_class = tokens.get("tk_data_override_lagging_class");
@@ -26645,6 +26956,7 @@ require([
                     "data_last_time_seen": tk_data_last_time_seen,
                     "data_last_ingest": tk_data_last_ingest,
                     "data_max_lag_allowed": tk_data_max_lag_allowed,
+                    "data_lag_alert_kpis": tk_data_lag_alert_kpis,
                     "data_monitored_state": tk_data_monitored_state,
                     "data_monitoring_wdays": tk_data_monitoring_wdays_no,
                     "data_override_lagging_class": tk_data_override_lagging_class,
@@ -26763,6 +27075,7 @@ require([
             var tk_data_last_time_seen = tokens.get("tk_data_last_time_seen");
             var tk_data_last_ingest = tokens.get("tk_data_last_ingest");
             var tk_data_max_lag_allowed = tokens.get("tk_data_max_lag_allowed");
+            var tk_data_lag_alert_kpis = tokens.get("tk_data_lag_alert_kpis");
             var tk_data_monitoring_wdays = tokens.get("tk_data_monitoring_wdays");
             var tk_data_monitored_state = tokens.get("tk_data_monitored_state");
             var tk_data_override_lagging_class = tokens.get("tk_data_override_lagging_class");
@@ -26787,8 +27100,13 @@ require([
             // Create the endpoint URL
             var myendpoint_URl = "/en-US/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_host_monitoring/" + tk_keyid;
 
+            // max lag allowed
             var tk_data_max_lag_allowed = tokens.get("tk_input_lag_host");
-            var tk_origin_data_max_lag_allowed = tokens.get("tk_data_max_lag_allowed");
+
+            // alert over kpis
+            var tk_data_lag_alert_kpis = tokens.get("tk_input_data_lag_alert_kpis_host");
+
+            // lagging class override
             var tk_data_override_lagging_class = tokens.get("modal_input_lag_override_class_host");
 
             if (!tk_data_max_lag_allowed || !tk_data_max_lag_allowed.length || !isNumeric(tk_data_max_lag_allowed)) {
@@ -26810,6 +27128,7 @@ require([
                     "data_last_time_seen": tk_data_last_time_seen,
                     "data_last_ingest": tk_data_last_ingest,
                     "data_max_lag_allowed": tk_data_max_lag_allowed,
+                    "data_lag_alert_kpis": tk_data_lag_alert_kpis,
                     "data_monitored_state": tk_data_monitored_state,
                     "data_monitoring_wdays": tk_data_monitoring_wdays,
                     "data_override_lagging_class": tk_data_override_lagging_class,
@@ -26849,10 +27168,10 @@ require([
 
                         // Audit
                         action = "success";
-                        change_type = "modify monitoring lag";
+                        change_type = "modify monitoring lag policy";
                         object = tk_data_host;
                         object_category = "data_host";
-                        object_attrs = "data_max_lag_allowed changed from:" + tk_origin_data_max_lag_allowed + " to:" + tk_data_max_lag_allowed + " with data_override_lagging_class:" + tk_data_override_lagging_class;
+                        object_attrs = "{\"data_max_lag_allowed\": \"" + tk_data_max_lag_allowed + "\", \"data_override_lagging_class\": \"" + tk_data_override_lagging_class + "\", \"data_lag_alert_kpis\": \"" + tk_data_lag_alert_kpis + "\"}";
                         result = "N/A";
                         comment = "N/A";
                         auditRecord(action, change_type, object, object_category, object_attrs, result, comment);
@@ -26870,10 +27189,10 @@ require([
 
                         // Audit
                         action = "failure";
-                        change_type = "modify monitoring lag";
+                        change_type = "modify monitoring lag policy";
                         object = tk_data_host;
                         object_category = "data_host";
-                        object_attrs = "data_max_lag_allowed changed from:" + tk_origin_data_max_lag_allowed + " to:" + tk_data_max_lag_allowed + " with data_override_lagging_class:" + tk_data_override_lagging_class;
+                        object_attrs = "{\"data_max_lag_allowed\": \"" + tk_data_max_lag_allowed + "\", \"data_override_lagging_class\": \"" + tk_data_override_lagging_class + "\", \"data_lag_alert_kpis\": " + tk_data_lag_alert_kpis + "\"}";
                         result = message;
                         comment = "N/A";
                         auditRecord(action, change_type, object, object_category, object_attrs, result, comment);
@@ -26935,7 +27254,7 @@ require([
                 function(err, job) {
 
                     // hide the current modal
-                    $("#modal_modify_data_host_unified").modal('hide');
+                    $("#modal_modify_data_host_autolag").modal('hide');
 
                     $("#loadingGray").remove()
                     $("body").append('<div id="loadingGray" style="background: #e9e9e9; display: block; position: fixed; z-index: 100; top: 0; right: 0; bottom: 0; left: 0; height: 100%; opacity: 0.8;"><div style="width: 100%; margin-top: 250px; padding-bottom: 50px; text-align: center;"><p style="font-size: 18pt; font-weight: bolder;">Please wait while determining the entity lagging value...</p></div><div id="spinner"></div></div>')
@@ -27011,7 +27330,7 @@ require([
                                                     change_type = "apply auto defined monitoring lag";
                                                     object = tk_data_host;
                                                     object_category = "data_host";
-                                                    object_attrs = "data_max_lag_allowed changed from:" + tk_origin_data_max_lag_allowed + " to:" + tk_data_max_lag_allowed + " with data_override_lagging_class:" + tk_data_override_lagging_class;
+                                                    object_attrs = "{\"data_max_lag_allowed\": \"" + value + "\", \"data_override_lagging_class\": \"" + tk_data_override_lagging_class + "\"}";
                                                     result = "N/A";
                                                     comment = "N/A";
                                                     auditRecord(action, change_type, object, object_category, object_attrs, result, comment);
@@ -27102,7 +27421,7 @@ require([
                 function(err, job) {
 
                     // hide the current modal
-                    $("#modal_modify_data_host_unified").modal('hide');
+                    $("#modal_modify_data_host_autolag").modal('hide');
 
                     $("#loadingGray").remove()
                     $("body").append('<div id="loadingGray" style="background: #e9e9e9; display: block; position: fixed; z-index: 100; top: 0; right: 0; bottom: 0; left: 0; height: 100%; opacity: 0.8;"><div style="width: 100%; margin-top: 250px; padding-bottom: 50px; text-align: center;"><p style="font-size: 18pt; font-weight: bolder;">Please wait while determining the entity lagging value...</p></div><div id="spinner"></div></div>')
@@ -27177,7 +27496,7 @@ require([
                                                     change_type = "apply auto defined monitoring lag";
                                                     object = tk_data_host;
                                                     object_category = "data_host";
-                                                    object_attrs = "data_max_lag_allowed changed from:" + tk_origin_data_max_lag_allowed + " to:" + tk_data_max_lag_allowed + " with data_override_lagging_class:" + tk_data_override_lagging_class;
+                                                    object_attrs = "{\"data_max_lag_allowed\": \"" + value + "\", \"data_override_lagging_class\": \"" + tk_data_override_lagging_class + "\"}";
                                                     result = "N/A";
                                                     comment = "N/A";
                                                     auditRecord(action, change_type, object, object_category, object_attrs, result, comment);
@@ -27268,7 +27587,7 @@ require([
                 function(err, job) {
 
                     // hide the current modal
-                    $("#modal_modify_data_host_unified").modal('hide');
+                    $("#modal_modify_data_host_autolag").modal('hide');
 
                     $("#loadingGray").remove()
                     $("body").append('<div id="loadingGray" style="background: #e9e9e9; display: block; position: fixed; z-index: 100; top: 0; right: 0; bottom: 0; left: 0; height: 100%; opacity: 0.8;"><div style="width: 100%; margin-top: 250px; padding-bottom: 50px; text-align: center;"><p style="font-size: 18pt; font-weight: bolder;">Please wait while determining the entity lagging value...</p></div><div id="spinner"></div></div>')
@@ -27343,7 +27662,7 @@ require([
                                                     change_type = "apply auto defined monitoring lag";
                                                     object = tk_data_host;
                                                     object_category = "data_host";
-                                                    object_attrs = "data_max_lag_allowed changed from:" + tk_origin_data_max_lag_allowed + " to:" + tk_data_max_lag_allowed + " with data_override_lagging_class:" + tk_data_override_lagging_class;
+                                                    object_attrs = "{\"data_max_lag_allowed\": \"" + value + "\", \"data_override_lagging_class\": \"" + tk_data_override_lagging_class + "\"}";
                                                     result = "N/A";
                                                     comment = "N/A";
                                                     auditRecord(action, change_type, object, object_category, object_attrs, result, comment);
@@ -27434,7 +27753,7 @@ require([
                 function(err, job) {
 
                     // hide the current modal
-                    $("#modal_modify_data_host_unified").modal('hide');
+                    $("#modal_modify_data_host_autolag").modal('hide');
 
                     $("#loadingGray").remove()
                     $("body").append('<div id="loadingGray" style="background: #e9e9e9; display: block; position: fixed; z-index: 100; top: 0; right: 0; bottom: 0; left: 0; height: 100%; opacity: 0.8;"><div style="width: 100%; margin-top: 250px; padding-bottom: 50px; text-align: center;"><p style="font-size: 18pt; font-weight: bolder;">Please wait while determining the entity lagging value...</p></div><div id="spinner"></div></div>')
@@ -27509,7 +27828,7 @@ require([
                                                     change_type = "apply auto defined monitoring lag";
                                                     object = tk_data_host;
                                                     object_category = "data_host";
-                                                    object_attrs = "data_max_lag_allowed changed from:" + tk_origin_data_max_lag_allowed + " to:" + tk_data_max_lag_allowed + " with data_override_lagging_class:" + tk_data_override_lagging_class;
+                                                    object_attrs = "{\"data_max_lag_allowed\": \"" + value + "\", \"data_override_lagging_class\": \"" + tk_data_override_lagging_class + "\"}";
                                                     result = "N/A";
                                                     comment = "N/A";
                                                     auditRecord(action, change_type, object, object_category, object_attrs, result, comment);
@@ -28962,6 +29281,7 @@ require([
             var tk_data_last_lag_seen_idx = tokens.get("tk_data_last_lag_seen_idx");
             var tk_data_last_time_seen_idx = tokens.get("tk_data_last_time_seen_idx");
             var tk_data_max_lag_allowed = tokens.get("tk_data_max_lag_allowed");
+            var tk_data_lag_alert_kpis = tokens.get("tk_data_lag_alert_kpis");
             var tk_data_monitoring_level = tokens.get("tk_data_monitoring_level");
             var tk_data_monitoring_wdays = tokens.get("tk_data_monitoring_wdays");
             var tk_data_override_lagging_class = tokens.get("tk_data_override_lagging_class");
@@ -29048,6 +29368,7 @@ require([
                 "data_last_lag_seen_idx": tk_data_last_lag_seen_idx,
                 "data_last_time_seen_idx": tk_data_last_time_seen_idx,
                 "data_max_lag_allowed": tk_data_max_lag_allowed,
+                "data_lag_alert_kpis": tk_data_lag_alert_kpis,
                 "data_monitored_state": tk_data_monitored_state,
                 "data_monitoring_level": tk_data_monitoring_level,
                 "data_monitoring_wdays": tk_data_monitoring_wdays,
@@ -29184,6 +29505,7 @@ require([
             var tk_data_last_time_seen = tokens.get("tk_data_last_time_seen");
             var tk_data_last_ingest = tokens.get("tk_data_last_ingest");
             var tk_data_max_lag_allowed = tokens.get("tk_data_max_lag_allowed");
+            var tk_data_lag_alert_kpis = tokens.get("tk_data_lag_alert_kpis");
             var tk_data_monitoring_wdays = tokens.get("tk_data_monitoring_wdays");
             var tk_data_monitored_state = tokens.get("tk_data_monitored_state");
             var tk_data_override_lagging_class = tokens.get("tk_data_override_lagging_class");
@@ -29265,6 +29587,7 @@ require([
                 "data_last_time_seen": tk_data_last_time_seen,
                 "data_last_ingest": tk_data_last_ingest,
                 "data_max_lag_allowed": tk_data_max_lag_allowed,
+                "data_lag_alert_kpis": tk_data_lag_alert_kpis,
                 "data_monitored_state": tk_data_monitored_state,
                 "data_monitoring_wdays": tk_data_monitoring_wdays,
                 "data_override_lagging_class": tk_data_override_lagging_class,
