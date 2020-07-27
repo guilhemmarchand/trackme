@@ -18,7 +18,7 @@
 
 ![screenshot](./docs/img/screenshot.png)
 
-![screenshot2](./docs/img/images/screenshot_outliers1.png)
+![screenshot2](./docs/img/screenshot_outliers1.png)
 
 ![screenshot3](./docs/img/screenshot3.png)
 
