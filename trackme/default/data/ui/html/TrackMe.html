@@ -2426,15 +2426,6 @@ styles in <div> tags, similar to Bootstrap's grid system.
                         </div>
 
                         <div id="rowHostMetricChart" class="dashboard-row dashboard-row1" data-depends="$show_metric_host_overview$">
-                            <div id="panelHostMetricSingle" class="dashboard-cell" style="width: 100%;">
-                                <div class="dashboard-panel clearfix">
-                                    <div class="panel-element-row">
-                                        <div id="elementHostSingleMetricHost" class="dashboard-element chart" style="width: 100%">
-                                            <div class="panel-body"></div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
                             <div id="panelHostMetricChart" class="dashboard-cell" style="width: 100%;" data-depends="$show_metric_host_overview$">
                                 <div class="dashboard-panel clearfix">
                                     <div class="panel-element-row">
@@ -7925,16 +7916,6 @@ require([
             tokenNamespace: "submitted"
         });
 
-        var searchHostSingleMetricHost = new PostProcessManager({
-            "tokenDependencies": {},
-            "search": "stats count as count_metric_category, count(eval(metric_host_state=\"green\")) as count_green, count(eval(metric_host_state!=\"green\")) as count_non_green | eval summary=\" metric categories: \" . count_metric_category .  \", \" . \"green state: \" . count_green . \", \" . \"red state: \" . count_non_green | fields summary",
-            "managerid": "searchHostTableMetricHost",
-            "id": "searchHostSingleMetricHost"
-        }, {
-            tokens: true,
-            tokenNamespace: "submitted"
-        });
-
         var searchHostChartMetricHost = new PostProcessManager({
             "tokenDependencies": {},
             "search": "top metric_host_state",
@@ -13156,7 +13137,7 @@ require([
             "showSparkline": "1",
             "trellis.enabled": "0",
             "numberPrecision": "0",
-            "rangeColors": "[\"0x53a051\",\"0x0877a6\",\"0xf8be34\",\"0xf1813f\",\"0xdc4e41\"]",
+            "rangeColors": "[\"0x77dd77\",\"0x0877a6\",\"0xf8be34\",\"0xf1813f\",\"0xdc4e41\"]",
             "trellis.size": "medium",
             "colorMode": "none",
             "rangeValues": "[0,30,70,100]",
@@ -13184,7 +13165,7 @@ require([
             "showSparkline": "1",
             "trellis.enabled": "0",
             "numberPrecision": "0",
-            "rangeColors": "[\"0x53a051\",\"0x0877a6\",\"0xf8be34\",\"0xf1813f\",\"0xdc4e41\"]",
+            "rangeColors": "[\"0x77dd77\",\"0x0877a6\",\"0xf8be34\",\"0xf1813f\",\"0xdc4e41\"]",
             "trellis.size": "medium",
             "colorMode": "none",
             "rangeValues": "[0,30,70,100]",
@@ -13212,7 +13193,7 @@ require([
             "showSparkline": "1",
             "trellis.enabled": "0",
             "numberPrecision": "0",
-            "rangeColors": "[\"0x53a051\",\"0x0877a6\",\"0xf8be34\",\"0xf1813f\",\"0xdc4e41\"]",
+            "rangeColors": "[\"0x77dd77\",\"0x0877a6\",\"0xf8be34\",\"0xf1813f\",\"0xdc4e41\"]",
             "trellis.size": "medium",
             "colorMode": "none",
             "rangeValues": "[0,30,70,100]",
@@ -13238,7 +13219,7 @@ require([
             "showSparkline": "1",
             "trellis.enabled": "0",
             "numberPrecision": "0",
-            "rangeColors": "[\"0x53a051\",\"0x0877a6\",\"0xf8be34\",\"0xf1813f\",\"0xdc4e41\"]",
+            "rangeColors": "[\"0x77dd77\",\"0x0877a6\",\"0xf8be34\",\"0xf1813f\",\"0xdc4e41\"]",
             "trellis.size": "medium",
             "colorMode": "none",
             "rangeValues": "[0,30,70,100]",
@@ -13264,7 +13245,7 @@ require([
             "showSparkline": "1",
             "trellis.enabled": "0",
             "numberPrecision": "0",
-            "rangeColors": "[\"0x53a051\",\"0x0877a6\",\"0xf8be34\",\"0xf1813f\",\"0xdc4e41\"]",
+            "rangeColors": "[\"0x77dd77\",\"0x0877a6\",\"0xf8be34\",\"0xf1813f\",\"0xdc4e41\"]",
             "trellis.size": "medium",
             "colorMode": "none",
             "rangeValues": "[0,30,70,100]",
@@ -13290,7 +13271,7 @@ require([
             "showSparkline": "1",
             "trellis.enabled": "0",
             "numberPrecision": "0",
-            "rangeColors": "[\"0x53a051\",\"0x0877a6\",\"0xf8be34\",\"0xf1813f\",\"0xdc4e41\"]",
+            "rangeColors": "[\"0x77dd77\",\"0x0877a6\",\"0xf8be34\",\"0xf1813f\",\"0xdc4e41\"]",
             "trellis.size": "medium",
             "colorMode": "none",
             "rangeValues": "[0,30,70,100]",
@@ -13316,7 +13297,7 @@ require([
             "showSparkline": "1",
             "trellis.enabled": "0",
             "numberPrecision": "0",
-            "rangeColors": "[\"0x53a051\",\"0x0877a6\",\"0xf8be34\",\"0xf1813f\",\"0xdc4e41\"]",
+            "rangeColors": "[\"0x77dd77\",\"0x0877a6\",\"0xf8be34\",\"0xf1813f\",\"0xdc4e41\"]",
             "trellis.size": "medium",
             "colorMode": "none",
             "rangeValues": "[0,30,70,100]",
@@ -13342,7 +13323,7 @@ require([
             "showSparkline": "1",
             "trellis.enabled": "0",
             "numberPrecision": "0",
-            "rangeColors": "[\"0x53a051\",\"0x0877a6\",\"0xf8be34\",\"0xf1813f\",\"0xdc4e41\"]",
+            "rangeColors": "[\"0x77dd77\",\"0x0877a6\",\"0xf8be34\",\"0xf1813f\",\"0xdc4e41\"]",
             "trellis.size": "medium",
             "colorMode": "none",
             "rangeValues": "[0,30,70,100]",
@@ -13368,7 +13349,7 @@ require([
             "showSparkline": "1",
             "trellis.enabled": "0",
             "numberPrecision": "0",
-            "rangeColors": "[\"0x53a051\",\"0x0877a6\",\"0xf8be34\",\"0xf1813f\",\"0xdc4e41\"]",
+            "rangeColors": "[\"0x77dd77\",\"0x0877a6\",\"0xf8be34\",\"0xf1813f\",\"0xdc4e41\"]",
             "trellis.size": "medium",
             "colorMode": "none",
             "rangeValues": "[0,30,70,100]",
@@ -13394,7 +13375,7 @@ require([
             "showSparkline": "1",
             "trellis.enabled": "0",
             "numberPrecision": "0",
-            "rangeColors": "[\"0x53a051\",\"0x0877a6\",\"0xf8be34\",\"0xf1813f\",\"0xdc4e41\"]",
+            "rangeColors": "[\"0x77dd77\",\"0x0877a6\",\"0xf8be34\",\"0xf1813f\",\"0xdc4e41\"]",
             "trellis.size": "medium",
             "colorMode": "none",
             "rangeValues": "[0,30,70,100]",
@@ -13421,7 +13402,7 @@ require([
             "showSparkline": "1",
             "trellis.enabled": "0",
             "numberPrecision": "0",
-            "rangeColors": "[\"0x53a051\",\"0x0877a6\",\"0xf8be34\",\"0xf1813f\",\"0xdc4e41\"]",
+            "rangeColors": "[\"0x77dd77\",\"0x0877a6\",\"0xf8be34\",\"0xf1813f\",\"0xdc4e41\"]",
             "trellis.size": "medium",
             "colorMode": "none",
             "rangeValues": "[0,30,70,100]",
@@ -13448,7 +13429,7 @@ require([
             "showSparkline": "1",
             "trellis.enabled": "0",
             "numberPrecision": "0",
-            "rangeColors": "[\"0x53a051\",\"0x0877a6\",\"0xf8be34\",\"0xf1813f\",\"0xdc4e41\"]",
+            "rangeColors": "[\"0x77dd77\",\"0x0877a6\",\"0xf8be34\",\"0xf1813f\",\"0xdc4e41\"]",
             "trellis.size": "medium",
             "colorMode": "none",
             "rangeValues": "[0,30,70,100]",
@@ -13475,7 +13456,7 @@ require([
             "showSparkline": "1",
             "trellis.enabled": "0",
             "numberPrecision": "0",
-            "rangeColors": "[\"0x53a051\",\"0x0877a6\",\"0xf8be34\",\"0xf1813f\",\"0xdc4e41\"]",
+            "rangeColors": "[\"0x77dd77\",\"0x0877a6\",\"0xf8be34\",\"0xf1813f\",\"0xdc4e41\"]",
             "trellis.size": "medium",
             "colorMode": "none",
             "rangeValues": "[0,30,70,100]",
@@ -13502,7 +13483,7 @@ require([
             "showSparkline": "1",
             "trellis.enabled": "0",
             "numberPrecision": "0",
-            "rangeColors": "[\"0x53a051\",\"0x0877a6\",\"0xf8be34\",\"0xf1813f\",\"0xdc4e41\"]",
+            "rangeColors": "[\"0x77dd77\",\"0x0877a6\",\"0xf8be34\",\"0xf1813f\",\"0xdc4e41\"]",
             "trellis.size": "medium",
             "colorMode": "none",
             "rangeValues": "[0,30,70,100]",
@@ -13529,7 +13510,7 @@ require([
             "showSparkline": "1",
             "trellis.enabled": "0",
             "numberPrecision": "0",
-            "rangeColors": "[\"0x53a051\",\"0x0877a6\",\"0xf8be34\",\"0xf1813f\",\"0xdc4e41\"]",
+            "rangeColors": "[\"0x77dd77\",\"0x0877a6\",\"0xf8be34\",\"0xf1813f\",\"0xdc4e41\"]",
             "trellis.size": "medium",
             "colorMode": "none",
             "rangeValues": "[0,30,70,100]",
@@ -14630,7 +14611,7 @@ require([
             "showSparkline": "1",
             "trellis.enabled": "0",
             "unit": "%",
-            "rangeColors": "[\"0xdc4e41\",\"0xf1813f\",\"0x53a051\"]",
+            "rangeColors": "[\"0xdc4e41\",\"0xf1813f\",\"0x77dd77\"]",
             "colorMode": "none",
             "rangeValues": "[50,90]",
             "unitPosition": "after",
@@ -14667,33 +14648,6 @@ require([
             "wrap": "false",
             "managerid": "searchMetricPolicies",
             "el": $('#tableMetricPolicies')
-        }, {
-            tokens: true,
-            tokenNamespace: "submitted"
-        }).render();
-
-        var elementHostSingleMetricHost = new SingleElement({
-            "id": "elementHostSingleMetricHost",
-            "trendDisplayMode": "absolute",
-            "numberPrecision": "0.00",
-            "drilldown": "none",
-            "height": "80",
-            "trellis.size": "medium",
-            "trendColorInterpretation": "standard",
-            "useColors": "0",
-            "colorBy": "value",
-            "showTrendIndicator": "1",
-            "showSparkline": "1",
-            "trellis.enabled": "0",
-            "rangeColors": "[\"0x53a051\",\"0x0877a6\",\"0xf8be34\",\"0xf1813f\",\"0xdc4e41\"]",
-            "colorMode": "none",
-            "rangeValues": "[0,30,70,100]",
-            "unitPosition": "after",
-            "trellis.scales.shared": "1",
-            "useThousandSeparators": "1",
-            "underLabel": "SUMMARY",
-            "managerid": "searchHostSingleMetricHost",
-            "el": $('#elementHostSingleMetricHost')
         }, {
             tokens: true,
             tokenNamespace: "submitted"
@@ -15074,7 +15028,7 @@ require([
             "trellis.enabled": "0",
             "height": "50",
             "unit": "",
-            "rangeColors": "[\"0x53a051\",\"0x0877a6\",\"0xf8be34\",\"0xf1813f\",\"0xdc4e41\"]",
+            "rangeColors": "[\"0x77dd77\",\"0x0877a6\",\"0xf8be34\",\"0xf1813f\",\"0xdc4e41\"]",
             "colorMode": "none",
             "rangeValues": "[0,30,70,100]",
             "unitPosition": "after",
@@ -15152,7 +15106,7 @@ require([
             "showTrendIndicator": "1",
             "showSparkline": "1",
             "trellis.enabled": "0",
-            "rangeColors": "[\"0x53a051\",\"0x0877a6\",\"0xf8be34\",\"0xf1813f\",\"0xdc4e41\"]",
+            "rangeColors": "[\"0x77dd77\",\"0x0877a6\",\"0xf8be34\",\"0xf1813f\",\"0xdc4e41\"]",
             "colorMode": "none",
             "rangeValues": "[0,30,70,100]",
             "unitPosition": "after",
@@ -15179,7 +15133,7 @@ require([
             "showTrendIndicator": "1",
             "showSparkline": "1",
             "trellis.enabled": "0",
-            "rangeColors": "[\"0x53a051\",\"0x0877a6\",\"0xf8be34\",\"0xf1813f\",\"0xdc4e41\"]",
+            "rangeColors": "[\"0x77dd77\",\"0x0877a6\",\"0xf8be34\",\"0xf1813f\",\"0xdc4e41\"]",
             "colorMode": "none",
             "rangeValues": "[0,30,70,100]",
             "unitPosition": "after",
@@ -15206,7 +15160,7 @@ require([
             "showTrendIndicator": "1",
             "showSparkline": "1",
             "trellis.enabled": "0",
-            "rangeColors": "[\"0x53a051\",\"0x0877a6\",\"0xf8be34\",\"0xf1813f\",\"0xdc4e41\"]",
+            "rangeColors": "[\"0x77dd77\",\"0x0877a6\",\"0xf8be34\",\"0xf1813f\",\"0xdc4e41\"]",
             "colorMode": "none",
             "rangeValues": "[0,30,70,100]",
             "unitPosition": "after",
@@ -15233,7 +15187,7 @@ require([
             "showTrendIndicator": "1",
             "showSparkline": "1",
             "trellis.enabled": "0",
-            "rangeColors": "[\"0x53a051\",\"0x0877a6\",\"0xf8be34\",\"0xf1813f\",\"0xdc4e41\"]",
+            "rangeColors": "[\"0x77dd77\",\"0x0877a6\",\"0xf8be34\",\"0xf1813f\",\"0xdc4e41\"]",
             "colorMode": "none",
             "rangeValues": "[0,30,70,100]",
             "unitPosition": "after",
@@ -15261,7 +15215,7 @@ require([
             "showTrendIndicator": "1",
             "showSparkline": "1",
             "trellis.enabled": "0",
-            "rangeColors": "[\"0x53a051\",\"0x0877a6\",\"0xf8be34\",\"0xf1813f\",\"0xdc4e41\"]",
+            "rangeColors": "[\"0x77dd77\",\"0x0877a6\",\"0xf8be34\",\"0xf1813f\",\"0xdc4e41\"]",
             "colorMode": "none",
             "rangeValues": "[0,30,70,100]",
             "unitPosition": "after",
@@ -15288,7 +15242,7 @@ require([
             "showTrendIndicator": "1",
             "showSparkline": "1",
             "trellis.enabled": "0",
-            "rangeColors": "[\"0x53a051\",\"0x0877a6\",\"0xf8be34\",\"0xf1813f\",\"0xdc4e41\"]",
+            "rangeColors": "[\"0x77dd77\",\"0x0877a6\",\"0xf8be34\",\"0xf1813f\",\"0xdc4e41\"]",
             "colorMode": "none",
             "rangeValues": "[0,30,70,100]",
             "unitPosition": "after",
@@ -15315,7 +15269,7 @@ require([
             "showTrendIndicator": "1",
             "showSparkline": "1",
             "trellis.enabled": "0",
-            "rangeColors": "[\"0x53a051\",\"0x0877a6\",\"0xf8be34\",\"0xf1813f\",\"0xdc4e41\"]",
+            "rangeColors": "[\"0x77dd77\",\"0x0877a6\",\"0xf8be34\",\"0xf1813f\",\"0xdc4e41\"]",
             "colorMode": "none",
             "rangeValues": "[0,30,70,100]",
             "unitPosition": "after",
@@ -15342,7 +15296,7 @@ require([
             "showTrendIndicator": "1",
             "showSparkline": "1",
             "trellis.enabled": "0",
-            "rangeColors": "[\"0x53a051\",\"0x0877a6\",\"0xf8be34\",\"0xf1813f\",\"0xdc4e41\"]",
+            "rangeColors": "[\"0x77dd77\",\"0x0877a6\",\"0xf8be34\",\"0xf1813f\",\"0xdc4e41\"]",
             "colorMode": "none",
             "rangeValues": "[0,30,70,100]",
             "unitPosition": "after",
@@ -15371,7 +15325,7 @@ require([
             "showSparkline": "1",
             "trellis.enabled": "0",
             "unit": "",
-            "rangeColors": "[\"0x53a051\",\"0x0877a6\",\"0xf8be34\",\"0xf1813f\",\"0xdc4e41\"]",
+            "rangeColors": "[\"0x77dd77\",\"0x0877a6\",\"0xf8be34\",\"0xf1813f\",\"0xdc4e41\"]",
             "colorMode": "none",
             "rangeValues": "[0,30,70,100]",
             "unitPosition": "after",
@@ -15399,7 +15353,7 @@ require([
             "showSparkline": "1",
             "trellis.enabled": "0",
             "unit": "",
-            "rangeColors": "[\"0x53a051\",\"0x0877a6\",\"0xf8be34\",\"0xf1813f\",\"0xdc4e41\"]",
+            "rangeColors": "[\"0x77dd77\",\"0x0877a6\",\"0xf8be34\",\"0xf1813f\",\"0xdc4e41\"]",
             "colorMode": "none",
             "rangeValues": "[0,30,70,100]",
             "unitPosition": "after",
@@ -15427,7 +15381,7 @@ require([
             "showSparkline": "1",
             "trellis.enabled": "0",
             "unit": "",
-            "rangeColors": "[\"0x53a051\",\"0x0877a6\",\"0xf8be34\",\"0xf1813f\",\"0xdc4e41\"]",
+            "rangeColors": "[\"0x77dd77\",\"0x0877a6\",\"0xf8be34\",\"0xf1813f\",\"0xdc4e41\"]",
             "colorMode": "none",
             "rangeValues": "[0,30,70,100]",
             "unitPosition": "after",
@@ -15455,7 +15409,7 @@ require([
             "showSparkline": "1",
             "trellis.enabled": "0",
             "unit": "%",
-            "rangeColors": "[\"0xdc4e41\",\"0xf1813f\",\"0x53a051\"]",
+            "rangeColors": "[\"0xdc4e41\",\"0xf1813f\",\"0x77dd77\"]",
             "colorMode": "none",
             "rangeValues": "[50,90]",
             "unitPosition": "after",
@@ -15537,7 +15491,7 @@ require([
             "trellis.enabled": "0",
             "height": "50",
             "unit": "",
-            "rangeColors": "[\"0x53a051\",\"0x0877a6\",\"0xf8be34\",\"0xf1813f\",\"0xdc4e41\"]",
+            "rangeColors": "[\"0x77dd77\",\"0x0877a6\",\"0xf8be34\",\"0xf1813f\",\"0xdc4e41\"]",
             "colorMode": "none",
             "rangeValues": "[0,30,70,100]",
             "unitPosition": "after",
@@ -15664,7 +15618,7 @@ require([
             "showSparkline": "1",
             "trellis.enabled": "0",
             "unit": "",
-            "rangeColors": "[\"0x53a051\",\"0x0877a6\",\"0xf8be34\",\"0xf1813f\",\"0xdc4e41\"]",
+            "rangeColors": "[\"0x77dd77\",\"0x0877a6\",\"0xf8be34\",\"0xf1813f\",\"0xdc4e41\"]",
             "colorMode": "none",
             "rangeValues": "[0,30,70,100]",
             "unitPosition": "after",
@@ -15692,7 +15646,7 @@ require([
             "showSparkline": "1",
             "trellis.enabled": "0",
             "unit": "",
-            "rangeColors": "[\"0x53a051\",\"0x0877a6\",\"0xf8be34\",\"0xf1813f\",\"0xdc4e41\"]",
+            "rangeColors": "[\"0x77dd77\",\"0x0877a6\",\"0xf8be34\",\"0xf1813f\",\"0xdc4e41\"]",
             "colorMode": "none",
             "rangeValues": "[0,30,70,100]",
             "unitPosition": "after",
@@ -15720,7 +15674,7 @@ require([
             "showSparkline": "1",
             "trellis.enabled": "0",
             "unit": "",
-            "rangeColors": "[\"0x53a051\",\"0x0877a6\",\"0xf8be34\",\"0xf1813f\",\"0xdc4e41\"]",
+            "rangeColors": "[\"0x77dd77\",\"0x0877a6\",\"0xf8be34\",\"0xf1813f\",\"0xdc4e41\"]",
             "colorMode": "none",
             "rangeValues": "[0,30,70,100]",
             "unitPosition": "after",
@@ -15748,7 +15702,7 @@ require([
             "showSparkline": "1",
             "trellis.enabled": "0",
             "unit": "%",
-            "rangeColors": "[\"0xdc4e41\",\"0xf1813f\",\"0x53a051\"]",
+            "rangeColors": "[\"0xdc4e41\",\"0xf1813f\",\"0x77dd77\"]",
             "colorMode": "none",
             "rangeValues": "[50,90]",
             "unitPosition": "after",
@@ -16074,7 +16028,7 @@ require([
             "showSparkline": "1",
             "trellis.enabled": "0",
             "unit": "",
-            "rangeColors": "[\"0x53a051\",\"0x0877a6\",\"0xf8be34\",\"0xf1813f\",\"0xdc4e41\"]",
+            "rangeColors": "[\"0x77dd77\",\"0x0877a6\",\"0xf8be34\",\"0xf1813f\",\"0xdc4e41\"]",
             "colorMode": "none",
             "rangeValues": "[0,30,70,100]",
             "unitPosition": "after",
@@ -20539,9 +20493,8 @@ require([
 
             //console.log("Updated!", returneddata)
             // Run the search again to update the table
-            searchWhiteListDataSource.startSearch();
-            searchSingleWhiteListDataSource.startSearch();
             searchDataSourcesMain.startSearch();
+            searchWhiteListDataSource.startSearch();
             searchPopulateIndexesForWhiteListDataSource.startSearch();
             unsetToken("form.tk_input_whitelist_data_source");
 
@@ -20791,9 +20744,8 @@ require([
 
             //console.log("Updated!", returneddata)
             // Run the search again to update the table
-            searchWhiteListMetricHost.startSearch();
-            searchSingleWhiteListMetricHost.startSearch();
             searchMetricHostsMain.startSearch();
+            searchWhiteListMetricHost.startSearch();
             searchPopulateIndexesForWhiteListMetricHost.startSearch();
             unsetToken("form.tk_input_whitelist_metric_host");
 
@@ -21043,9 +20995,8 @@ require([
 
             //console.log("Updated!", returneddata)
             // Run the search again to update the table
-            searchWhiteListDataHost.startSearch();
-            searchSingleWhiteListDataHost.startSearch();
             searchDataHostsMain.startSearch();
+            searchWhiteListDataHost.startSearch();
             searchPopulateIndexesForWhiteListDataHost.startSearch();
             unsetToken("form.tk_input_whitelist_data_host");
 
@@ -21297,9 +21248,8 @@ require([
 
             //console.log("Updated!", returneddata)
             // Run the search again to update the table
-            searchBlackListDataSourceHost.startSearch();
-            searchSingleBlackListDataSourceHost.startSearch();
             searchDataSourcesMain.startSearch();
+            searchBlackListDataSourceHost.startSearch();
 
             // notify
             notification('Modification has been registered successfully.', 2000)
@@ -21669,9 +21619,8 @@ require([
 
             //console.log("Updated!", returneddata)
             // Run the search again to update the table
-            searchBlackListDataSourceIndex.startSearch();
-            searchSingleBlackListDataSourceIndex.startSearch();
             searchDataSourcesMain.startSearch();
+            searchBlackListDataSourceIndex.startSearch();
 
             // notify
             notification('Modification has been registered successfully.', 2000)
@@ -21797,9 +21746,8 @@ require([
 
             //console.log("Updated!", returneddata)
             // Run the search again to update the table
-            searchBlackListDataHostIndex.startSearch();
-            searchSingleBlackListDataHostIndex.startSearch();
             searchDataSourcesMain.startSearch();
+            searchBlackListDataHostIndex.startSearch();
 
             // notify
             notification('Modification has been registered successfully.', 2000)
@@ -22046,9 +21994,8 @@ require([
 
             //console.log("Updated!", returneddata)
             // Run the search again to update the table
-            searchBlackListDataHostHost.startSearch();
-            searchSingleBlackListDataHostHost.startSearch();
             searchDataHostsMain.startSearch();
+            searchBlackListDataHostHost.startSearch();
 
             // notify
             notification('Modification has been registered successfully.', 2000)
@@ -22295,9 +22242,8 @@ require([
 
             //console.log("Updated!", returneddata)
             // Run the search again to update the table
-            searchBlackListMetricHostIndex.startSearch();
-            searchSingleBlackListMetricHostIndex.startSearch();
             searchMetricHostsMain.startSearch();
+            searchBlackListMetricHostIndex.startSearch();
 
             // notify
             notification('Modification has been registered successfully.', 2000)
@@ -22544,9 +22490,8 @@ require([
 
             //console.log("Updated!", returneddata)
             // Run the search again to update the table
-            searchBlackListDataSourceSourcetype.startSearch();
-            searchSingleBlackListDataSourceSourcetype.startSearch();
             searchDataSourcesMain.startSearch();
+            searchBlackListDataSourceSourcetype.startSearch();
 
             // notify
             notification('Modification has been registered successfully.', 2000)
@@ -22793,9 +22738,8 @@ require([
 
             //console.log("Updated!", returneddata)
             // Run the search again to update the table
-            searchBlackListDataHostSourcetype.startSearch();
-            searchSingleBlackListDataHostSourcetype.startSearch();
             searchDataSourcesMain.startSearch();
+            searchBlackListDataHostSourcetype.startSearch();
 
             // notify
             notification('Modification has been registered successfully.', 2000)
@@ -23043,9 +22987,8 @@ require([
 
             //console.log("Updated!", returneddata)
             // Run the search again to update the table
-            searchBlackListMetricHostHost.startSearch();
-            searchSingleBlackListMetricHostHost.startSearch();
             searchMetricHostsMain.startSearch();
+            searchBlackListMetricHostHost.startSearch();
 
             // notify
             notification('Modification has been registered successfully.', 2000)
@@ -23292,9 +23235,8 @@ require([
 
             //console.log("Updated!", returneddata)
             // Run the search again to update the table
-            searchBlackListMetricHostMetricCategory.startSearch();
-            searchSingleBlackListMetricHostMetricCategory.startSearch();
             searchDataSourcesMain.startSearch();
+            searchBlackListMetricHostMetricCategory.startSearch();
 
             // notify
             notification('Modification has been registered successfully.', 2000)
