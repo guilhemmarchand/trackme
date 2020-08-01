@@ -12,7 +12,7 @@ Welcome to the Splunk TrackMe application documentation
 - Provides a powerful user interface to manage activation states, configuration and quickly trouble availability failure detection
 - Analyse and detect lack of data and performance lagging of data sources and hosts within your Splunk deployment
 - Behaviour analytic with outlier detection based on machine learning outliers calculations
-- Create elastic sources for any kind of custom monitoring requirements based on tstats / raw / mstats / from searches to full fill any requirements
+- Create elastic sources for any kind of custom monitoring requirements based on tstats / raw / mstats / from searches to fullfill any requirements
 - Record and investigate historical changes of statuses, as well as administrators changes (audit flipping and changes)
 - Easy administration via graphical human interface from A to Z
 - No matters the purpose of your Splunk deployment, trackMe will easily become an essential and easy piece of your deployment, and even providing efficient answers to PCI and compliance requirements
@@ -44,7 +44,7 @@ Splunk administrators and engineers have to spend a good amount of time and ener
 
 However, it is very frequent to realise after math that something went wrong, for some reason the sender stopped sending, an upgrade broke a configuration, a network rule was lost…
 
-No administrator should be informed of an issue in the data flow by the customer or end users, this is why you need pro-activity and cost less availability monitoring.
+No administrator should be informed of an issue in the data flow by the customer or end users, this is why you need pro-activity and costless availability monitoring.
 
 with the massive amount of data sources, this becomes easily a painful and time consuming activity, this application aims to drastically help you in these tasks.
 

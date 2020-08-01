@@ -25,7 +25,7 @@ Dependencies
 Indexes
 =======
 
-**Since the version 1.2.6 TracKme requires the creation of an event index and a metric index:**
+**Since the version 1.2.6 TrackMe requires the creation of an event index and a metric index:**
 
 - summary event index defaults to ``trackme_summary``, handled by the macro ``trackme_idx``
 - metric index defaults to ``trackme_metrics``, handled by the macro ``trackme_metrics_idx``

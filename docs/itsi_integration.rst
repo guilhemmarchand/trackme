@@ -51,7 +51,7 @@ Note: make sure to edit the permission of the report and shared at the global le
 
     | savedsearch "TrackMe - Entities gen report"
 
-*Make sure you select a time range that makes sense, TrackMe generate metrics potentially evey 5 minutes but less frequent data sources might not appear if the time range is too short.*
+*Make sure you select a time range that makes sense, TrackMe generate metrics potentially every 5 minutes but less frequent data sources might not appear if the time range is too short.*
 
 .. image:: img/itsi_entities.png
    :alt: itsi_entities.png
@@ -186,7 +186,7 @@ Step 4: create a service that will be used for the service template definition
    :alt: itsi_service5.png
    :align: center
 
-**Finally, save but DO NOT activate the pseudo service, this service was required temporarily for the purposes of the service templace creation in the next step:**
+**Finally, save but DO NOT activate the pseudo service, this service was required temporarily for the purposes of the service template creation in the next step:**
 
 .. image:: img/itsi_service6.png
    :alt: itsi_service6.png
