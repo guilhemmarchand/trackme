@@ -36,7 +36,7 @@ If Enterprise Security is running on a different search head, one option is to d
 
 **Any kind of CMDB data available in Splunk:**
 
-Similarly you can use any lookup available in the Splunk instance which provides Assets context looking up a key which in most cases would be host name, dns name or IP address.
+Similarly, you can use any lookup available in the Splunk instance which provides Assets context looking up a key which in most cases would be host name, dns name or IP address.
 
 Make sure your asset lookup definition is exported to the system, is case insensitive and contains the relevant information, then customize the macros depending on your configuration, example: ``lookup name_of_lookup key as data_hosts`` for data hosts, ``lookup name_of_lookup key as metric_hosts`` for metric hosts.
 
@@ -76,7 +76,7 @@ By default, summary events are indexed in index=summary, customize this macro if
 Indexers macro definition
 =========================
 
-The builtin views "Ops: Indexes queues" and "Ops: Parsing issues" rely on the usage of the following macro:
+The built-in views "Ops: Indexes queues" and "Ops: Parsing issues" rely on the usage of the following macro:
 
 ::
 
@@ -90,7 +90,7 @@ Customise the macro definition to match your indexers host naming convention.
 Allowlisting and blocklisting
 =============================
 
-TrackMe version 1.0.22 introduced builtin support for both allowlisting of indexes and blocklisting of indexes, sourcetypes and hosts.
+TrackMe version 1.0.22 introduced built-in support for both allowlisting of indexes and blocklisting of indexes, sourcetypes and hosts.
 
 .. image:: img/allowlist_and_blocklist.png
    :alt: allowlist_and_blocklist.png
@@ -113,7 +113,7 @@ Finally, in addition the following macro is used within the searches, and can be
     definition = sourcetype!="stash" sourcetype!="*too_small"
     iseval = 0
 
-Activation of builtin alerts
+Activation of built-in alerts
 ============================
 
 **TrackMe provides out of the box alerts that can be used to deliver alerting when a monitored component reaches a red state:**
@@ -129,7 +129,7 @@ Activation of builtin alerts
 trackme_admin role for granular access
 ======================================
 
-**The application contains a builtin role that can be used for granular permissions:**
+**The application contains a built-in role that can be used for granular permissions:**
 
 - trackme_admin
 

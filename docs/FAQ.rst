@@ -11,9 +11,9 @@ See :ref:`Data Sources tracking concept and features`
 In the context of data source, the field **"data_name"** represents the unique identifier of the data source.
 
 - for regular data sources created by TrackMe, this is equal to combination of <index>:<sourcetype>.
-- for Elastic Sources, the definition choosen when the entity is created
+- for Elastic Sources, the definition defined when the entity is created
 
-The data_name unique identifier is used in different parts of the application, such as the search trackers which rely on it to idenfity the data source.
+The data_name unique identifier is used in different parts of the application, such as the search trackers which rely on it to identify the data source.
 
 **What are the numbers in the "lag summary" column?**
 
@@ -31,7 +31,7 @@ In this context:
 - event time stamp is the _time field, which is the time stamp that Splunk affected for a given event when it was indexed on disk
 - index time is the _indextime field, which is the epoch time corresponding to the moment when Splunk indexed the event on disk
 
-Depending on the use cases, both key performance metrics might be very important, or potienally one will matter more than the other.
+Depending on the use cases, both key performance metrics might be very important, or potentially one will matter more than the other.
 
 For continuous data flow, you need to know that the data is being indexed with the expected performance, and that you are not running late due to some underneath performance issues, this is where the lag_ingestion_sec matters.
 
@@ -44,7 +44,7 @@ See :ref:`Priority management`
 
 The **"priority"** field is configurable within the UI, when you click on any entity and enter the modification space (``Modify`` bytton).
 
-Its value is defined automically when the entity is discovered, stored in the KVstores, its default value is defined by the following macro:
+Its value is defined automatically when the entity is discovered, stored in the KVstores, its default value is defined by the following macro:
 
 ``[trackme_default_priority]``
 
@@ -55,7 +55,7 @@ As well, the OOTB alerts are filtering by default on a given list of priorities,
 
 ``[trackme_alerts_priority]``
 
-By default all entities are added as “medium”, one option can be to update the macro to be looking at high only, such that you qualify for each entity is you want to be alerted on it and define it to high priority.
+By default, all entities are added as “medium”, one option can be to update the macro to be looking at high only, such that you qualify for each entity is you want to be alerted on it and define it to high priority.
 Another option would be to define everything to low besides what you qualify and want to be monitoring and get alerted.
 
 The purpose of the priority field is to provide a granularity in which entities should be generating alerts, while all information remains easily visible and summarised in the UI.
@@ -121,15 +121,15 @@ How can you see a list of deleted entries? Can you undelete an entry?
 
 A user can delete an entity stored in the KVstore, assuming the user has write permissions over the KVstores and other objects. (admin, part of trackme_admin role or custom allowed)
 
-The deletion feature is provided natively via the UI, when an entity is deleted the following worklow happens:
+The deletion feature is provided natively via the UI, when an entity is deleted the following workflow happens:
 
 - The UI retrieves the key id of the record in the KVstore and performs a DELETE rest call over the KVstore endpoint
 - In addition, the full entity record is logged to the audit KVstore, and exposed via the UI within the audit changes tab
 - When the user deletes an entity, it can be delete temporary or permanently
 - If the deletion is temporary, the entity will be recreated automatically if it is still actively sending data to Splunk, and the conditions (allow lists, block lists...) permit it
-- If the deletion is permanent, an additional flag is added to the record in the audit, this flag allow the trackers to exclude creating an entitiy that was permanently deleted
+- If the deletion is permanent, an additional flag is added to the record in the audit, this flag allow the trackers to exclude creating an entitythat was permanently deleted
 
-While it is not supported at the moment to undo the deletion, the audit record contains all the information related to the entitiy previously deleted.
+While it is not supported at the moment to undo the deletion, the audit record contains all the information related to the entitypreviously deleted.
 
 Finally, the audit changes tab provides the relevant filters to allow accessing to all deletion events, including answers to when / who / how and why if an update note was added filled during the operation. 
 
@@ -144,7 +144,7 @@ How to deal with sourcetypes that are emitting data occasionally or sporadically
 There are no easy answers to this question, however:
 
 - From a data source perspective, what matters is monitoring the data from a pipeline point of view, which translated in TrackMe means making sure you have a data source that corresponds to this unique data flow
-- From a data host perspective, there wouldn't be the value one could expcet in having a strict monitoring of every single sourcetype linked to a given host, specially because many of them can be generating data in a sporadic fashion depending on the circumstances
+- From a data host perspective, there wouldn't be the value one could be expecting in having a strict monitoring of every single sourcetype linked to a given host, especially because many of them can be generating data in a sporadic fashion depending on the circumstances
 - On the opposite, what matters and provides value is being able to detect global failures of hosts (endpoints, whatever you call these) in a way that is not generating noises and alert fatigue
 - This is why the data host design takes in consideration the data globally sent on a per host basis, TrackMe provides many different features (allowlist / blocklist, etc) to manage use cases with the level of granularity required 
-- Finally, from the data host perspective, the outliers detection is a powerful feature that would provide the capability of detecting a siginificant change in the event distrubution, for example when a major sourcetype has stopped to be emitted 
+- Finally, from the data host perspective, the outliers detection is a powerful feature that would provide the capability to detect a significant change in the data volume, for example when a major sourcetype has stopped to be emitted 

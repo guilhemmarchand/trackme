@@ -7,7 +7,7 @@ Your first steps with TrackMe
 Access TrackMe main interface
 -----------------------------
 
-**When you open the application, you will access by default to the main TrackMe UI and especially to the data sources tracking tab, if the tracker report have already been executed at least once, the application will expose the data that was discovered in your environment:**
+**When you open the application, you access by default to the main TrackMe UI and especially to the data sources tracking tab, if the tracker reports have already been executed at least once, the application will expose the data that was discovered in your environment:**
 
 .. image:: img/first_steps/img001.png
    :alt: img/first_steps/img001
@@ -15,8 +15,8 @@ Access TrackMe main interface
 
 **If the UI is empty and no data sources are showing up:**
 
-- Either wait for the short term trackers execution, the trackers are scheduled to run every 5 minutes
-- Manually run the data sources tracker by clicking on the button "Manage: run short term tracker now" (we will come back to the tracker concept later in this guide)
+- You can wait for the short term trackers execution which are scheduled to run every 5 minutes
+- Or manually run the data sources tracker by clicking on the button "Manage: run short term tracker now" (we will come back to the tracker concept later in this guide)
 
 Main concept and main tabs
 --------------------------
@@ -39,15 +39,15 @@ Data Sources tracking concept and features
 Data Source main screen
 ^^^^^^^^^^^^^^^^^^^^^^^
 
-**Let's click on any entry in the table and see what we get:**
+**Let's click on any entry in the table:**
 
 .. image:: img/first_steps/img002.png
    :alt: img/first_steps/img002
    :align: center
 
-*Note: if you do not see the full window (called modal window), review your screen resolution settings, TrackMe requires a minimal high enough resolution when navigating trhough the app*
+*Note: if you do not see the full window (called modal window), review your screen resolution settings, TrackMe requires a minimal high enough resolution when navigating through the app*
 
-The modal window "open-up" is the user main interraction with TrackMe, depending on the context different information, charts, calculations and options are provided.
+The modal window "open-up" is the user main interaction with TrackMe, depending on the context different information, charts, calculations and options are provided.
 
 **In the context of the data sources tracking, let's have a deeper look at top part of the window:**
 
@@ -55,7 +55,7 @@ The modal window "open-up" is the user main interraction with TrackMe, depending
    :alt: img/first_steps/img003
    :align: center
 
-**There are some very interesting information there, let's review each of these:**
+**Let's review these information:**
 
 *group 1 left screen*
 
@@ -65,7 +65,7 @@ The modal window "open-up" is the user main interraction with TrackMe, depending
 
 - ``data_index`` is the name of the Splunk index where the data resides
 - ``data_sourcetype`` is the Splunk sourcetype that identities the data for this entity
-- ``lag event / lag ingestion: ([D+]HH:MM:SS)`` exposes the two main lagging metrics handle by TrackMe, the lag from the event point of view, and the lag from the ingestion point of view, we will come back to that very soon
+- ``lag event / lag ingestion: ([D+]HH:MM:SS)`` exposes the two main lagging metrics handled by TrackMe, the lag from the event point of view, and the lag from the ingestion point of view, we will come back to that very soon
 - ``data_last_time_seen`` is the last date time TrackMe has detected data available for this data source, from the event time stamp point of view
 
 *group 2 middle screen*
@@ -76,7 +76,7 @@ The modal window "open-up" is the user main interraction with TrackMe, depending
 
 - ``data_last_ingest`` is the last date time TrackMe has detected data ingested by Splunk for the data source, this can differ from the very last event available in the data source (more after)
 - ``data_max_lag_allowed`` is the value in seconds that TrackMe will use as the main information to define the status of the data source, by default it is defined to 1 hour (3600 seconds)
-- ``data_monitored_state`` is a flag which tells TrackMe that this data source should be actively monitored, this is "enabled" by default and be defined within the UI to "disabled" (the red "Disable" button in the entitity window)
+- ``data_monitored_state`` is a flag which tells TrackMe that this data source should be actively monitored, this is "enabled" by default and be defined within the UI to "disabled" (the red "Disable" button in the entity window)
 - ``data_monitoring_level`` is a flag which tells TrackMe how to take into account other sourcetypes available in that same index when defining the current status of the entity
 
 *group 3 right screen*
@@ -96,9 +96,9 @@ The modal window "open-up" is the user main interraction with TrackMe, depending
    :alt: img/first_steps/img007
    :align: center
 
-- ``Identity documentation card`` is a feature that allows you create a card, which is composed by an hyper link and a text note, and link that card to a given number of data sources.
-- By default there are not idenfity card defined, which is what the message exposes, if an idenfity card is created and linked to the entity, the message will turn into a link that once clicked exposes in a new window the context of the card
-- Use this feature to quickly reference the main information for someone accessing to TrackMe and when there is an issue on the data source, which would provide a link to whatever you want (your Confluence, etc) and a quick help text. (both are optionals)
+- ``Identity documentation card`` is a feature that allows you create an information card (hyperlink and a text note), and link that card to any number of data sources.
+- By default, no identity card is defined which is exposed by this message, if an identity card is created and linked to the entity, the message will turn into a link that once clicked exposes in a new window the context of the card
+- Use this feature to quickly reference the main information for someone accessing to TrackMe and when there is an issue on the data source, which would provide a link to whatever you want (your Confluence, etc) and a quick help text. (at least a hyperlink or a text note must be defined)
 
 See :ref:`Data identity card` for more details about the feature.
 
@@ -149,28 +149,28 @@ Outlier detection overview
    :alt: img/first_steps/img011
    :align: center
 
-**This screen exposes the events outliers detection results over time, the purpose of the outliers detection is provide advanced capabilities to detect when the amount of events produced in the scope of an entity goes below or above a certain level, which level gets automatically defined upon the historical behavour of the data.**
+**This screen exposes the events outliers detection results over time, the purpose of the outliers detection is to provide advanced capabilities to detect when the number of events produced in the scope of an entity goes below or above a certain level, which level gets automatically defined upon the historical behaviour of the data.**
 
 For this purpose, every time the short term tracker runs, it records different metrics which includes the number of events on per 4 hours time window. (which matches the time frame scope of the short term tracker)
 
 Then in short, a scheduled report runs every hour to perform lower bound and upper bound calculations depending on different configurable factors.
 
-Assuming the outliers detection is enabled, if the workflow detects a significant gaps in the event count, and optionnally a slight increse too, this will impact the state definition and potentiall lead the data source state to become red.
+Assuming the outliers detection is enabled, if the workflow detects a significant gap in the event count, and optionally an increase too, the state of the entity will be affected and potentially turn red.
 
 **The table at the bottom of the screen provides additional information:**
 
 - ``enable outlier`` can be true or false and defines if the outliers detection is taken into account for the state definition of that entity
-- ``OutlierTimePeriod`` is a time frame period between a list of restricted values, which defines the time period the backend will be looking at during for the lower bound, upper bound and standard deviation calculatiion
-- ``OutlierSpan`` is span bucket value that is used for the over time rendering purposes only (for example if a data source emits data every 30 minutes you will want to apply a more relevant value for a better rendering)
+- ``OutlierTimePeriod`` is a time frame period between a list of restricted values, which defines the time period the backend will be looking at during for the lower bound, upper bound and standard deviation calculation
+- ``OutlierSpan`` is used when rendering the outliers over time chart and does not influence the detection (for example if a data source emits data every 30 minutes you will want to apply a more relevant value for a better rendering)
 - ``isOutlier`` is the current status, a value of 0 indicates that no outliers are currently active for this entity, a value of 1 indicates TrackMe detected outliers currently
 - ``OutlierMinEventCount`` is an optional static value that can be defined for the lower bound, this is useful if you want to statically specific the minimal per 4 hours event count to be accepted
 - ``lower multiplier`` is a multiplier that is used for the automatic definition of the lower bound, decreasing or increasing will impact the value of the lower bound definition
 - ``upper multiplier`` is a multiplier that is used for the automatic definition of the upper bound, decreasing or increasing will impact the value of the upper bound definition
-- ``alert on upper`` defines if an upper outliers detected should be taken into account, basically should we alert if there is an abnormal anount of events coming in, default is false
+- ``alert on upper`` defines if upper outliers should be taken into account and affect the state if an abnormal number of events is coming in, default is false
 - ``lowerBound`` is the lower threshold, an event count below this value will be considered as outliers
-- ``upperBound`` is the upper threshold, an event count abive this value will be considered as outlier, but will only impact the state if the alert on upper is true
+- ``upperBound`` is the upper threshold, an event count above this value will be considered as outlier, but will only impact the state if the alert on upper is true
 - ``stdev`` is the standard deviation calculated by the workflow for this entity, and is used as the reference for the lower and upper bound calculation associated with the lower and upper multipliers
-- ``avg`` representes the average 4 hours amount of event count for this entity
+- ``avg`` represents the average 4 hours amount of event count for this entity
 
 See :ref:`Outliers detection and behaviour analytic` for more details about the feature.
 
@@ -183,22 +183,22 @@ Outlier detection configuration
 
 **This is the screen provided to configure the outliers detection for a given entity, which exposes a simulation of the results over time, allowing you to train your settings before they are applied.**
 
-**On the top part of the screen you will interract with the settings exposes in the previous section:**
+**On the top part of the screen you will interact with the settings exposes in the previous section:**
 
 - ``Enable Outlier Detection:`` you can choose to disable the Outliers detection for a given entity, default is enabled
 - ``Enable alert on upper Outlier:`` you can choose to alert on upper outliers detection, default is false
 - ``OutlierMinEventCount mode:`` you can choose to let the workflow defining dynamically the lower bound value, or define yourself a static threshold if you need it
-- ``OutlierMinEventCount:`` if you choosed to use s static lower bound threshold, this is where you will provide its value
+- ``OutlierMinEventCount:`` static lower bound value if static threshold is used
 - ``Lower threshold multiplier:`` the multiplier for the lower band calculation, must be a numerical value which will impact the lower bound calculation (the lower the multiplier is, the closer to the actual standard deviation the calculation will be) 
 - ``Upper threshold multiplier:`` the multiplier for the upper band calculation, must be a numerical value which will impact the upper bound calculation (the lower the multiplier is, the closer to the actual standard deviation the calculation will be)
 
-**Finally, there are two time related settings to interract with:**
+**Finally, there are two time related settings to interact with:**
 
 .. image:: img/first_steps/img013.png
    :alt: img/first_steps/img013
    :align: center
 
-- ``time period for outliers detection`` defines the time frame TrackMe will be looking at for the outliers calculations (lower/upper bands etc) which is using the recorded metrics everytime the short term trackers ran
+- ``time period for outliers detection`` defines the time frame TrackMe will be looking at for the outliers calculations (lower/upper bands etc) which is using the recorded metrics every time the short term trackers ran
 - ``span for outliers rendering`` is an additional setting which impact the graphical rendering within the outliers screen, but not the results of the outliers detection itself
 
 See :ref:`Outliers detection and behaviour analytic` for more details about the feature.
@@ -212,9 +212,9 @@ Data parsing quality
    :alt: img/first_steps/img014
    :align: center
 
-*Note: for data sources, the scope of indeximg time parsing issues happens on the sourcetype level from a Splunk point of view, this means that if there are any parsing issues found for this sourcetype, this can be linked to this data source but as well with any other data source that looks at the same sourcetype.*
+*Note: for data sources, the scope of indexing time parsing issues happens on the sourcetype level from a Splunk point of view, this means that if there are any parsing issues found for this sourcetype, this can be linked to this data source but as well with any other data source that looks at the same sourcetype.*
 
-**Under normal circoumstances, this screen should not show any parsing errors, if there are any, these should be fixed.**
+**Under normal conditions, this screen should not show any parsing errors, if there are any, these should be fixed.**
 
 Lagging performances
 ^^^^^^^^^^^^^^^^^^^^
@@ -258,7 +258,7 @@ Status flipping
 Status message
 ^^^^^^^^^^^^^^
 
-**This screen exposes a human reable message describing the current state of the entity, depending on the conditions the message will appear as green, red, orange or blue:**
+**This screen exposes a human friendly message describing the current state of the entity, depending on the conditions the message will appear as green, red, orange or blue:**
 
 *example of a green state:*
 
@@ -310,8 +310,8 @@ Action buttons
 - ``Acknowledge alert`` can only be clicked if the data source is effectively in a red state, acknowledging an alert prevent the out of the box alerts from triggering a new alert for this entity until the acknowledgment expires.
 - ``Enable`` can only be clicked if the monitoring state is disabled, if clicked and confirmed, the value of the field ``data_monitored_state`` will switch from disabled to enabled
 - ``Disable`` opposite of the previous
-- ``Modify`` provides access to the unified modification window which allows interracting with different settings related to this entity
-- ``Search`` opens a search window in a new tab for that entitity
+- ``Modify`` provides access to the unified modification window which allows interacting with different settings related to this entity
+- ``Search`` opens a search window in a new tab for that entity
 
 See :ref:`Alerts acknowledgment` for more details about the acknowledgment feature
 
@@ -333,15 +333,15 @@ In a very simplistic form, the concept is similar to performing a search looking
 
    | tstats count, values(sourcetype) where index=* by host
 
-Specifities of data hosts monitoring
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Particularities of data hosts monitoring
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 **The features are almost equivalents between data sources and data hosts, with a few exceptions:**
 
 - ``state condition:`` the data host entity is considered active as long as at least one sourcetype continues to be indexed
 - Using ``allowlists and blocklists`` provide additional granularity to define what data has to be included or is excluded during the searches
 - ``Outliers detection`` is available for data hosts too and would help detecting significant changes such as a major sourcetype that is not ingested anymore
-- ``logical group``: a data host can be part of a logical group, this feature is specially useful for example to handle a couple of active / passive entities (example with firewalls) where the passive entitiy will not be generating any data actively
+- ``logical group``: a data host can be part of a logical group, this feature is useful for example to handle a couple of active / passive entities (example with firewalls) where the passive entity will not be generating any data actively
 - ``object tags``: this is an additional feature to data hosts and metric hosts that allows looking against a third party lookup, such as your CMDB data stored in Splunk, or the Splunk Enterprise Security assets knowledge, to provide an active link and access quickly these enrichment information
 - Unlike data sources, the ``default max lag allowed`` for data hosts is defined to ``24 hours`` (86400 seconds), which means that a host that has completely stopped sending data will appear red 24 hours later, unless the outliers detection detects the behaviour change before that
 
@@ -352,12 +352,12 @@ See :ref:`Enrichment tags` for more details om this feature
 Metric Hosts tracking concept and features
 ------------------------------------------
 
-Metric hosts is the third main concept in TRackMe and addresses tracking hosts sending metrics to the Splunk metric store, let's expose the concept specifities.
+Metric hosts tracking is the third main concept in TrackMe and addresses tracking hosts sending metrics to the Splunk metric store, let's expose the concept particularities.
 
 Concept of metric host monitoring
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Similary to the data hosts concept, the metric hosts concept tracks all metrics being emitted to Splunk on per host basis.
+The metric hosts concept tracks all metrics emitted to Splunk on per host basis.
 
 In a very simplistic form, the concept is similar to performing a search looking at all metrics with mstats on a per host basis and within a short time frame:
 
@@ -367,19 +367,19 @@ In a very simplistic form, the concept is similar to performing a search looking
 
 Then, the application groups all metrics on per metric metric category (the first metric name segment) and a per host basis.
 
-Specifities of metric hosts monitoring
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Particularities of metric hosts monitoring
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 **Opposed to data sources and data hosts tracking, the concept provides a similar level of features, with a few exceptions:**
 
-- ``state condition:`` the metric host state is conditionned by the availability of each metric category that was discovered for that entity
+- ``state condition:`` the metric host state is conditioned by the availability of each metric category that was discovered for that entity
 - Shall a metric category stop from being emitted, the state will be affected accordingly
 - Using ``allowlists and blocklists`` provide additional granularity to define the include and exclude conditions of the metric discovery
 - ``Outliers detection`` is not available for metrics hosts
-- ``logical group``: a metric host can be part of a logical group, this feature is specially useful for example to handle a couple of active / passive entities (example with firewalls) where the passive entitiy will not be generating any metrics actively
+- ``logical group``: a metric host can be part of a logical group, this feature is useful for example to handle a couple of active / passive entities (example with firewalls) where the passive entity will not be generating any metrics actively
 - ``object tags``: this is an additional feature to data hosts and metric hosts that allows looking against a third party lookup, such as your CMDB data stored in Splunk, or the Splunk Enterprise Security assets knowledge, to provide an active link and access quickly these enrichment information
-- Metric hosts tracking rely on the ``default max lag allowed`` per ``metric category`` which is defined by default to 5 minutes (300 seconds) and can be managed by creating ``metric SLA policies``
-- The entity screen provides some metric specific search options to provide insights against this specific entities and its metrics
+- Metric hosts tracking relies on the ``default max lag allowed`` per ``metric category`` which is defined by default to 5 minutes (300 seconds) and can be managed by creating ``metric SLA policies``
+- The entity screen provides some metric specific search options to provide insights against these specific entities and their metrics
 
 See :ref:`Logical groups (clusters)` for more details on this feature
 
@@ -422,8 +422,8 @@ Unified update interface features
 
 In this part of the screen you will define:
 
-- the ``max lag allowed`` value that conditions the state definition of the entity depending on the circoumstances
-- This value is in ``seconds`` and will be taken into account by the trackers to determine the color of the state
+- the ``max lag allowed`` value that conditions the state definition of the entity depending on the circumstances
+- This value is in ``seconds`` and will be taken into account by the trackers to determine the colour of the state
 - ``Override lagging classes`` allows bypassing any lagging class that would have defined and could be matching the conditions (index, sourcetype) of this entity
 - Starting version 1.2.19, you can choose which ``KPIs`` will be taken into account to determine the state regarding the ``max lag allowed`` and the two main lagging performance indicators
 
@@ -438,13 +438,13 @@ The priority is by default set to medium can by any of:
 - ``medium``
 - ``high``
 
-Using the priority allows granular alerting and improves the global situation visibility of the environent within the main screens.
+Using the priority allows granular alerting and improves the global situation visibility of the environment within the main screens.
 
 See :ref:`Priority management` for more details about this feature
 
 **Week days monitoring:**
 
-Week days monitoring allow using specific rules for data sources and data hosts regarding the day of the week, by default monitoring rules are always applied, therefore using week days rules allow influencing the ``red`` state depending on the current day of the week. (which would switch to ``orange`` accordlingy)
+Week days monitoring allows using specific rules for data sources and data hosts regarding the day of the week, by default monitoring rules are always applied, therefore using week days rules allow influencing the ``red`` state depending on the current day of the week. (which would switch to ``orange`` accordingly)
 
 See :ref:`Week days monitoring` for more details about this feature
 
@@ -456,7 +456,7 @@ This influences the state definition:
 
 - If a data source or host is set to ``sourcetype``, what conditions the state is meeting the monitoring rules for that sourcetype only (default behaviour)
 - If it is set to ``index``, instead of defining a red state because the monitoring conditions are not met, we will consider if there are events available at the index level according to the monitoring rules
-- The purpose of this feature is to allow interracting with this data source (in that context let's talk about sourcetypes) without generating an alert as long as data is actively sent to that index
+- The purpose of this feature is to allow interacting with this data source (in that context let's talk about sourcetypes) without generating an alert as long as data is actively sent to that index
 
 **Associate to a logical group:**
 
@@ -474,12 +474,12 @@ As we have exposed the main concepts of TrackMe data discovery and tracking in :
 
 - You have a data flow that relies on the ``source`` Metadata, which means that more than one data flow to be monitored ``individually`` are indexed into the same combination of ``index`` and ``sourcetype``
 - With the default concept of ``data sources``, this data flow will appear as one main entity and you cannot ``distinguish`` if one specific part of your data flow is failing by relying on the default concepts
-- Similary you are creating specific ``custom indexed fields`` which provide ``knowledge`` of the data in your context, such a specific ``company``, ``business unit`` etc and these pipelines cannot be distinguished by relying on the ``index`` and ``sourcetype`` only
+- Specific ``custom indexed fields`` provide ``knowledge`` of the data in your context, such as ``company``, ``business unit`` etc and these pipelines cannot be distinguished by relying on the ``index`` and ``sourcetype`` only
 - You need address any use case that the default concepts do not allow you to
 
-The Elastic source feature is provided to allow you to address ``any use case`` in term of data idenfitication and search which requirements are not answered by the default concepts.
+The Elastic source feature allows to address ``any use case`` in term of data identification and search which requirements are not answered by the default concepts.
 
-We will address some easily undestandable examples in this documentation.
+We will address some easily understandable examples in this documentation.
 
 **The name of notion and name of "Elastic Sources" is proper to TrackMe, and is linked to the complete level of flexibility the feature provides you to address any kind of use cases you might need to deal with.**
 
@@ -488,10 +488,10 @@ We will address some easily undestandable examples in this documentation.
 - An Elastic source can be added to the ``shared tracker``, or created as an ``independent tracker``
 - The search language can be based on ``| tstats``, ``raw`` searches, ``| from`` and ``| mstats`` commands
 - The shared tracker is a specific scheduled report named ``TrackMe - Elastic sources shared tracker`` that tracks in a single schedule execution all the entities that have been declared as shared Elastic sources via the UI
-- Because the ``shared tracker`` performs a ``single execution``, there are performance considerations to take into account and the shared tracker should be restricted to very effiscient searches in term of run time
+- Because the ``shared tracker`` performs a ``single execution``, there are performance considerations to take into account and the shared tracker should be restricted to very efficient searches in term of run time
 - In addition, ``Elastic sources shared`` have time frame restrictions which are the earliest and latest values of the tracker, you can restrict a shared entity time scope below these values but not beyond 
 - A ``dedicated Elastic source`` is created via the UI which generates a new tracker especially for it
-- As the dedicated Elastic source has its ``own schedule report``, this provides more capabilites to handle less performing searches and as well more freedom to address basically any kind of customisation
+- As the dedicated Elastic source has its ``own schedule report``, this provides more capabilities to handle fewer performing searches and as well more freedom to address basically any kind of customisation
 - ``Dedicated Elastic sources`` can be configured to address any time scope you need, and any search that is required including any advanced customisation you would need
 
 Accessing the Elastic source creation UI
@@ -572,7 +572,7 @@ Where ``[region]`` and ``[company]`` are the values to be extracted and defined 
    index="firewall" sourcetype="pan:traffic" region::emea company::design
    index="firewall" sourcetype="pan:traffic" region::emea company::retail
 
-*Note the usage of "::" rather than "=" which incidates to Splunk that we are explicitly looking at an indexed field rather a field potentially extracted at search time.*
+*Note the usage of "::" rather than "=" which indicates to Splunk that we are explicitly looking at an indexed field rather a field potentially extracted at search time.*
 
 It is easy to understand that the default concept does not provide me with the answer I need:
 
@@ -588,7 +588,7 @@ Rather than one data source, I need to have 6 data sources which cover individua
    :alt: img/first_steps/img033
    :align: center
 
-Again the default concept while powerful does not cover my need, but ok there we go and let's extend it easily with Elastic sources!
+The default concept while powerful does not cover my need, but ok there we go and let's extend it easily with Elastic sources!
 
 Elastic source example 1: creation
 ----------------------------------
@@ -609,11 +609,11 @@ Elastic source example 1: creation
 
 - Define a name for the entity, this name is the value of the field ``data_name`` and needs to be unique in TrackMe
 - Shall that name you provide not be unique, a little red cross and a message will indicate the issue when we run the simulation
-- We choose a ``search language``, because the source field is a Metadata, this is an indexed field and we can use the tstats command which is very effiscient by looking at the tsdidx files rather than the raw events
+- We choose a ``search language``, because the source field is a Metadata, this is an indexed field and we can use the tstats command which is very efficient by looking at the tsdidx files rather than the raw events
 - We define our search constraint for the first entity, in our case ``index=network sourcetype=pan:traffic source=network:pan:emea``
-- We choose a value for the index, this is has ``no impacts`` on the search itself and its result but determines how the entity is classified and filtered in the main UI
-- Same for the sourcetype, which agains does ``not influence`` the search results
-- Finally we can optionnally decide to define the earliest and latest time range, in our example we can leave that empty and rely on the default behaviour
+- We choose a value for the index, this is having ``no influence`` on the search itself and its result but determines how the entity is classified and filtered in the main UI
+- Same for the sourcetype, which does ``not influence`` the search results
+- Finally, we can optionally decide to define the earliest and latest time range, in our example we can leave that empty and rely on the default behaviour
 
 .. image:: img/first_steps/img036.png
    :alt: img/first_steps/img036
@@ -627,18 +627,14 @@ Elastic source example 1: creation
 
 This looks good isn't it?
 
-**Life is a matter of choice:**
+**Shared tracker versus dedicated tracker:**
 
-Ok, now you will ask me the question shall I create a shared tracker or a dedicated tracker? 
+In this context:
 
-*Note: Don't ask me what the difference is, this means you haven't read the previous lines and we ain't gonna be friends anymore*
-
-So:
-
-- Because this is a very effiscient search that relies on tstats, creating it as a shared tracker is perfectly fair
+- Because this is a very efficient search that relies on tstats, creating it as a shared tracker is perfectly fair
 - Shall I want to increase the earliest or the latest values beyond the shared tracker default of -4h / +4h, this would be reason to create a dedicated tracker
-- If even with tstats this remains an heavy search because I am ingesting TB of data that matches this constraint, you may want to create a dedicated tracker too
-- If you have the done to perfom any additional work, like sub filtering or third party lookup enrichment then filtering, this would be a reason to create a dedicated tracker too
+- While tstats searches are very efficient, a very high volume of events might mean a certain run time for the search, in such a case a dedicated tracker shall be used
+- If you have to achieve any additional work, such as third party lookup enrichment, this would be a reason to create a dedicated tracker too
 
 **Fine? Let's cover both, and let's click on "Add to the shared tracker" button:**
 
@@ -656,15 +652,15 @@ Ok that's cool!
 
 *Note: if you disagree with this statement, you are free to leave this site, free to uninstall TrackMe and create all of your own things we are not friends anymore that's it.*
 
-**Once you have repeated this operation for the next two regions in our example, we end up with 3 new entities in TrackMe, one for each region:**
+**repeat the operation, which results in 3 new entities in TrackMe, one for each region:**
 
 .. image:: img/first_steps/img040.png
    :alt: img/first_steps/img040
    :align: center
 
-Now that we agrred together that this was one the cooliest experiences you had in Splunk, you will ask me the question "What about the original data source that created automatically?".
+"What about the original data source that created automatically?".
 
-And this is a fair question, technically we do not really care about it, the answer is just disable its monitoring state via the disable button et voila!
+We can simply disable the monitoring state via the disable button et voila!
 
 .. image:: img/first_steps/img041.png
    :alt: img/first_steps/img041
@@ -687,15 +683,14 @@ For the purposes of the demonstration, we will this time create Elastic dedicate
 
 - Define a name for the entity, this name is the value of the field ``data_name`` and needs to be unique in TrackMe
 - Shall that name you provide not be unique, a little red cross and a message will indicate the issue when we run the simulation
-- We choose a ``search language``, because the source field is a Metadata, this is an indexed field and we can use the tstats command which is very effiscient by looking at the tsdidx files rather than the raw events
+- We choose a ``search language``, because the source field is a Metadata, this is an indexed field and we can use the tstats command which is very efficient by looking at the tsdidx files rather than the raw events
 - We define our search constraint for the first entity, in our case ``index=firewall sourcetype=pan:traffic region::emea company::retail``
-- We choose a value for the index, this is has ``no impacts`` on the search itself and its result but determines how the entity is classified and filtered in the main UI
-- Same for the sourcetype, which agains does ``not influence`` the search results
-- Finally we can optionnally decide to define the earliest and latest time range, in our example we can leave that empty and rely on the default behaviour
+- We choose a value for the index and the sourcetype, this is having ``no impacts`` on the search itself and its result but determines how the entity is classified and filtered in the main UI
+- Finally, we can optionally decide to define the earliest and latest time range, in our example we can leave that empty and rely on the default behaviour
 
 **Note about the search syntax:**
 
-- We use ``"::"`` as the delimitor rather than ``"="`` because these are indexed fields, and this indicates Splunk to treat them as such
+- We use ``"::"`` as the delimiter rather than ``"="`` because these are indexed fields, and this indicates Splunk to treat them as such
 
 **Let's create our first entity:**
 
@@ -717,7 +712,7 @@ For the purposes of the demonstration, we will this time create Elastic dedicate
    :alt: img/first_steps/img044
    :align: center
 
-As we did ealier in the example 1, we will simply disable the original data source which is not required anymore.
+As we did earlier in the example 1, we will simply disable the original data source which is not required anymore.
 
 **Finally, because we created dedicated trackers, let's have a look at the reports:**
 
@@ -762,7 +757,7 @@ Finally, it calls different shared knowledge objects that are commonly used by t
 - Apply the TrackMe technical concepts of how calculate the lagging KPIs, etc
 - Calls all knowledge objects from TrackMe which insert and update the KVstore lookup, generate flipping status events, generate and records the metrics in the metric store
 
-Besides the fact that Elastic sources appears in the data sources tab, there are no interractions between the data source trackers and the shared Elastic source trackers, there are independents.
+Besides the fact that Elastic sources appears in the data sources tab, there are no interactions between the data source trackers and the shared Elastic source trackers, there are independents.
 
 In addition, the collection is used automatically by the main interface if you click on the ``Search`` button to generate the relevant search to access the events related to that entity.
 
@@ -786,7 +781,7 @@ When the dedicated Elastic source tracker runs, the following applies:
 - The report contains the structured search syntax that was automatically built by the UI when it was created
 - The report calls different knowledge objects that are common to the trackers to insert and update records in the KVstore, generate flipping status records if any and generate the lagging metrics to be stored into the metric store
 
-Besides the fact that Elastic sources appears in the data sources tab, there are no interractions between the data source trackers and the dedicated Elastic source trackers, there are independents.
+Besides the fact that Elastic sources appears in the data sources tab, there are no interactions between the data source trackers and the dedicated Elastic source trackers, there are independents.
 
 In addition, the collection is used automatically by the main interface if you click on the ``Search`` button to generate the relevant search to access the events related to that entity.
 
@@ -807,7 +802,7 @@ Outliers detection and behaviour analytic
 - The Summary Investigator maintains a KVstore lookup which content is used as a source of enrichment by the trackers to define essentially an "isOutlier" flag
 - Should outliers be detected based on the policy, which is customisable om a per source basis, the source will be reported in alert
 - Different options are provided to control the quality of the outliers calculation, as controlling lower and upper threshold multipliers, or even switching to a static lower bond definition
-- Builtin views provide the key feature to quickly investigate the source in alert and proceed to further investigations if required
+- Built-in views provide the key feature to quickly investigate the source in alert and proceed to further investigations if required
 
 Behaviour Analytic Mode
 -----------------------
@@ -829,7 +824,7 @@ Behaviour Analytic Mode
 Using Outliers detection
 ------------------------
 
-**By default the outlier detection is automatically activated for each data source and host, use the Outliers Overview tab to visualize the status of the Outliers detection:**
+**By default, the outlier detection is automatically activated for each data source and host, use the Outliers Overview tab to visualize the status of the Outliers detection:**
 
 .. image:: img/outliers_zoom1.png
    :alt: outliers_zoom1.png
@@ -868,13 +863,13 @@ Simulating and adjusting Outliers detection
    :alt: outliers_config1.png
    :align: center
 
-**For example you can increase the value of the threshold multiplier to improve the outliers detection in regard with your knowledge of this data, or how its distribution behaves over time:**
+**For example, you can increase the value of the threshold multiplier to improve the outliers detection in regard with your knowledge of this data, or how its distribution behaves over time:**
 
 .. image:: img/outliers_config2.png
    :alt: outliers_config2.png
    :align: center
 
-**As well, in some cases you may wish to use a static lower bound value, if you use the static mode, then the outlier detection for the lower band is not used anymore and replaced by this static value as the minimal amount of events:**
+**As well, in some cases you may wish to use a static lower bound value, if you use the static mode, then the outlier detection for the lower band is not used anymore and replaced by this static value as the minimal number of events:**
 
 .. image:: img/outliers_config3.png
    :alt: outliers_config3.png
@@ -899,7 +894,7 @@ Priority management
 Priority levels
 ---------------
 
-**TrackMe has a concept of priority for each entity, you can view the priority value in any of the tables from the main interface, in the header when you click on a given entity, and you can modify it via the unifed modification UI:**
+**TrackMe has a concept of priority for each entity, you can view the priority value in any of the tables from the main interface, in the header when you click on a given entity, and you can modify it via the unified modification UI:**
 
 There 3 level of priorities that can be applied:
 
@@ -930,7 +925,7 @@ The priority is visible in the table too:
    :alt: img003.png
    :align: center
 
-When clicking on an entity, the priority is shown on top with a blue color scheme that starts from light blue for low, blue for medium and darker blue for high:
+When clicking on an entity, the priority is shown on top with a blue colour scheme that starts from light blue for low, blue for medium and darker blue for high:
 
 .. image:: img/priority/img004.png
    :alt: img004.png
@@ -992,7 +987,7 @@ Week days monitoring
    :alt: week_days1.png
    :align: center
 
-**Several builtin rules are available:**
+**Several built-in rules are available:**
 
 * manual:all_days
 * manual:monday-to-friday
@@ -1021,12 +1016,12 @@ Monitoring level
 
 When the monitoring of the data source applies on the sourcetype level, if that combination of index / sourcetype data does not respect the monitoring rule, it will trigger.
 
-When the monitoring ot the data source applies on the index level, we take in consideration what the latest data available is in this index, not matter what the sourcetype is.
+When the monitoring of the data source applies on the index level, we take in consideration what the latest data available is in this index, not matter what the sourcetype is.
 
 Maximum lagging value
 =====================
 
-**The maximal lagging value defines the threshold to be used for alerting when a given entity goes beyond a certain value in seconds, against both lagging KPIs, or since the version 1.2.19 you can choose betwen different options.**
+**The maximal lagging value defines the threshold to be used for alerting when a given entity goes beyond a certain value in seconds, against both lagging KPIs, or since the version 1.2.19 you can choose between different options.**
 
 .. image:: img/max_lagging.png
    :alt: .. image:: img/max_lagging.png
@@ -1122,7 +1117,7 @@ Once the collection has been cleared, you can simply wait for the trackers next 
 Deletion of entities
 ====================
 
-**You can delete a data source or a data host that was discovered automatically by using the builtin delete function:**
+**You can delete a data source or a data host that was discovered automatically by using the built-in delete function:**
 
 .. image:: img/delete1.png
    :alt: delete1.png
@@ -1147,7 +1142,7 @@ When an entity is deleted via the UI, the audit record exposes the full content 
    :alt: delete4.png
    :align: center
 
-It is not possible at the moment to ``restore`` an entity that was previsouly deleted, however an active entity can be recreated automatically depending on the scope of the data discovery (the data must be available to TrackMe), and with the help of the audit record you could easily re-apply any settings that would be required.
+It is not possible at the moment to ``restore`` an entity that was previously deleted, however an active entity can be recreated automatically depending on the scope of the data discovery (the data must be available to TrackMe), and with the help of the audit record you could easily re-apply any settings that would be required.
 
 If an entity was ``deleted permanently`` and you wish to get it recreated, the entity must first be actively sending data, TrackMe must be able to see the data (``allowlist`` and ``blocklist``) and you would need to remove the audit record in the following collection:
 
@@ -1257,7 +1252,7 @@ The status message tab would expose clearly the reason of the ``red`` status:
 Create a new logical group
 --------------------------
 
-To create a new logical group and associate a first member, enter the unified modification window (click on a entity and modify button), then click on the "Manage in a Logical group" button:
+To create a new logical group and associate a first member, enter the unified modification window (click on an entity and modify button), then click on the "Manage in a Logical group" button:
 
 .. image:: img/logical_group1.png
    :alt: logical_group1.png
@@ -1275,7 +1270,7 @@ Click on the button "Create a new group" which opens the following configuration
    :alt: logical_group4.png
    :align: center
 
-- Enter a name for the logical group (names do not need to be uniques and can accept any ascii characters)
+- Enter a name for the logical group (names do not need to be unique and can accept any ascii characters)
 
 - Choose a minimal green percentage for the group, this defines the alerting factor for that group, for example when using 50% (default), a minimal 50% or more of the members need to be green for the logical group status to be green
 
@@ -1422,14 +1417,14 @@ Out of the box alerts
 - ``TrackMe - Alert on data host availability``
 - ``TrackMe - Alert on metric host availability``
 
-**The builtin alerts are disabled by default.**
+**The built-in alerts are disabled by default.**
 
-Builtin alerts are Splunk alerts which can be extended to be integrated in many powerful ways, such as your ticketing system (Service Now, JIRA...) or even mobile notifications with Splunk Cloud Gateway.
+Built-in alerts are Splunk alerts which can be extended to be integrated in many powerful ways, such as your ticketing system (Service Now, JIRA...) or even mobile notifications with Splunk Cloud Gateway.
 
 Alerts acknowledgment
 =====================
 
-**When using builtin alerts, you can leverage alert acknowledgments within the UI to silent an active alert during a given period.**
+**When using built-in alerts, you can leverage alert acknowledgments within the UI to silent an active alert during a given period.**
 
 .. image:: img/ack1.png
    :alt: ack1.png
@@ -1540,7 +1535,7 @@ Shall the maintenance be enabled by an administrator, Splunk will continue to ru
 
 When the end of maintenance time window is reached, its state will be automatically disabled and alerts will be able to trigger again.
 
-A maintenance time window can start immediately, or be automatically automatically scheduled according to your selection.
+A maintenance time window can start immediately, or be can be scheduled according to your selection.
 
 Enabling or extending the maintenance mode
 ------------------------------------------
