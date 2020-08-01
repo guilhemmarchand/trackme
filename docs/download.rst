@@ -1,7 +1,7 @@
 Download
 ========
 
-**The Splunk application can be downloaded from:**
+**The application can be downloaded from:**
 
 Splunk base
 ###########
