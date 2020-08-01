@@ -9,6 +9,7 @@
 - Discover and store key states information of data sources, data hosts and metric hosts availability
 - Provides a powerful user interface to manage activation states, configuration and quickly trouble availability failure detection
 - Analyse and detect lack of data and performance lagging of data sources and hosts within your Splunk deployment
+- Behaviour analytic with outlier detection based on machine learning outliers calculations
 - Record and investigate historical changes of statuses, as well as administrators changes (audit flipping and changes)
 - Easy administration via graphical human interface from A to Z
 - No matters the purpose of your Splunk deployment, trackMe will easily become an essential and easy piece of your deployment, and even providing efficient answers to PCI and compliance requirements
@@ -18,13 +19,11 @@
 
 ![screenshot](./docs/img/screenshot.png)
 
-![screenshot2](./docs/img/screenshot2.png)
+![screenshot2](./docs/img/screenshot_outliers1.png)
 
 ![screenshot3](./docs/img/screenshot3.png)
 
-![screenshot4](./docs/img/screenshot4.png)
-
-![incomplete_installation.png](./docs/img/incomplete_installation.png)
+![screenshot4](./docs/img/first_steps/img002.png)
 
 ## Why this application?
 
