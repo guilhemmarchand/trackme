@@ -19860,6 +19860,10 @@ require([
 
                                 // Return to modal
                                 $("#modal_metric_sla_policies").modal();
+
+                                // Refresh the search
+                                searchMetricPolicies.startSearch();
+
                             },
                             error: function(xhr, textStatus, error) {
                                 message = "Error Updating!" + xhr + textStatus + error;
@@ -19910,7 +19914,6 @@ require([
             //console.log("Updated!", returneddata)
             // Run the search again to update the table
             searchMetricHostsMain.startSearch();
-            searchMetricPolicies.startSearch();
 
             // notify
             notification('Modification has been registered successfully.', 2000)
@@ -20109,6 +20112,10 @@ require([
 
                                 // Return to modal
                                 $("#modify_custom_lagging").modal();
+
+                                // Refresh the search
+                                searchCustomLagging.startSearch();
+
                             },
                             error: function(xhr, textStatus, error) {
                                 message = "Error Updating!" + xhr + textStatus + error;
@@ -20155,10 +20162,6 @@ require([
 
             // Hide main modal
             $("#manage_custom_lagging").modal('hide');
-
-            //console.log("Updated!", returneddata)
-            // Run the search again to update the table
-            searchCustomLagging.startSearch();
 
             // notify
             notification('Modification has been registered successfully.', 2000)
@@ -20445,6 +20448,11 @@ require([
 
                                 // Return to modal
                                 $("#modal_modify_data_source_whitelist").modal();
+
+                                // Refresh the searches
+                                searchWhiteListDataSource.startSearch();
+                                searchPopulateIndexesForWhiteListDataSource.startSearch();
+
                             },
                             error: function(xhr, textStatus, error) {
                                 message = "Error Updating!" + xhr + textStatus + error;
@@ -20494,8 +20502,6 @@ require([
             //console.log("Updated!", returneddata)
             // Run the search again to update the table
             searchDataSourcesMain.startSearch();
-            searchWhiteListDataSource.startSearch();
-            searchPopulateIndexesForWhiteListDataSource.startSearch();
             unsetToken("form.tk_input_whitelist_data_source");
 
             // notify
@@ -20696,6 +20702,11 @@ require([
 
                                 // Return to modal
                                 $("#modal_modify_metric_host_whitelist").modal();
+
+                                // Refresh the searches
+                                searchWhiteListMetricHost.startSearch();
+                                searchPopulateIndexesForWhiteListMetricHost.startSearch();
+
                             },
                             error: function(xhr, textStatus, error) {
                                 message = "Error Updating!" + xhr + textStatus + error;
@@ -20745,8 +20756,6 @@ require([
             //console.log("Updated!", returneddata)
             // Run the search again to update the table
             searchMetricHostsMain.startSearch();
-            searchWhiteListMetricHost.startSearch();
-            searchPopulateIndexesForWhiteListMetricHost.startSearch();
             unsetToken("form.tk_input_whitelist_metric_host");
 
             // notify
@@ -20947,6 +20956,11 @@ require([
 
                                 // Return to modal
                                 $("#modal_modify_data_host_whitelist").modal();
+
+                                // Refresh the searches
+                                searchWhiteListDataHost.startSearch();
+                                searchPopulateIndexesForWhiteListDataHost.startSearch();
+
                             },
                             error: function(xhr, textStatus, error) {
                                 message = "Error Updating!" + xhr + textStatus + error;
@@ -20996,8 +21010,6 @@ require([
             //console.log("Updated!", returneddata)
             // Run the search again to update the table
             searchDataHostsMain.startSearch();
-            searchWhiteListDataHost.startSearch();
-            searchPopulateIndexesForWhiteListDataHost.startSearch();
             unsetToken("form.tk_input_whitelist_data_host");
 
             // notify
@@ -21199,6 +21211,10 @@ require([
 
                                 // Return to modal
                                 $("#modal_modify_data_source_blacklist_host").modal();
+
+                                // Refresh the search
+                                searchBlackListDataSourceHost.startSearch();
+
                             },
                             error: function(xhr, textStatus, error) {
                                 message = "Error Updating!" + xhr + textStatus + error;
@@ -21249,7 +21265,6 @@ require([
             //console.log("Updated!", returneddata)
             // Run the search again to update the table
             searchDataSourcesMain.startSearch();
-            searchBlackListDataSourceHost.startSearch();
 
             // notify
             notification('Modification has been registered successfully.', 2000)
@@ -21570,6 +21585,10 @@ require([
 
                                 // Return to modal
                                 $("#modal_modify_data_source_blacklist_index").modal();
+
+                                // Refresh the searches
+                                searchBlackListDataSourceIndex.startSearch();
+
                             },
                             error: function(xhr, textStatus, error) {
                                 message = "Error Updating!" + xhr + textStatus + error;
@@ -21620,7 +21639,6 @@ require([
             //console.log("Updated!", returneddata)
             // Run the search again to update the table
             searchDataSourcesMain.startSearch();
-            searchBlackListDataSourceIndex.startSearch();
 
             // notify
             notification('Modification has been registered successfully.', 2000)
@@ -21697,6 +21715,10 @@ require([
 
                                 // Return to modal
                                 $("#modal_modify_data_host_blacklist_index").modal();
+
+                                // Refresh the search
+                                searchBlackListDataHostIndex.startSearch();
+
                             },
                             error: function(xhr, textStatus, error) {
                                 message = "Error Updating!" + xhr + textStatus + error;
@@ -21747,7 +21769,6 @@ require([
             //console.log("Updated!", returneddata)
             // Run the search again to update the table
             searchDataSourcesMain.startSearch();
-            searchBlackListDataHostIndex.startSearch();
 
             // notify
             notification('Modification has been registered successfully.', 2000)
@@ -21945,6 +21966,10 @@ require([
 
                                 // Return to modal
                                 $("#modal_modify_data_host_blacklist_host").modal();
+
+                                // Refresh the search
+                                searchBlackListDataHostHost.startSearch();                                
+
                             },
                             error: function(xhr, textStatus, error) {
                                 message = "Error Updating!" + xhr + textStatus + error;
@@ -21994,8 +22019,7 @@ require([
 
             //console.log("Updated!", returneddata)
             // Run the search again to update the table
-            searchDataHostsMain.startSearch();
-            searchBlackListDataHostHost.startSearch();
+            searchDataHostsMain.startSearch();            
 
             // notify
             notification('Modification has been registered successfully.', 2000)
@@ -22193,6 +22217,10 @@ require([
 
                                 // Return to modal
                                 $("#modal_modify_metric_host_blacklist_index").modal();
+
+                                // Refresh the search
+                                searchBlackListMetricHostIndex.startSearch();                                
+
                             },
                             error: function(xhr, textStatus, error) {
                                 message = "Error Updating!" + xhr + textStatus + error;
@@ -22242,8 +22270,7 @@ require([
 
             //console.log("Updated!", returneddata)
             // Run the search again to update the table
-            searchMetricHostsMain.startSearch();
-            searchBlackListMetricHostIndex.startSearch();
+            searchMetricHostsMain.startSearch();            
 
             // notify
             notification('Modification has been registered successfully.', 2000)
@@ -22441,6 +22468,10 @@ require([
 
                                 // Return to modal
                                 $("#modal_modify_data_source_blacklist_sourcetype").modal();
+
+                                // Refresh the search
+                                searchBlackListDataSourceSourcetype.startSearch();
+
                             },
                             error: function(xhr, textStatus, error) {
                                 message = "Error Updating!" + xhr + textStatus + error;
@@ -22491,7 +22522,6 @@ require([
             //console.log("Updated!", returneddata)
             // Run the search again to update the table
             searchDataSourcesMain.startSearch();
-            searchBlackListDataSourceSourcetype.startSearch();
 
             // notify
             notification('Modification has been registered successfully.', 2000)
@@ -22689,6 +22719,10 @@ require([
 
                                 // Return to modal
                                 $("#modal_modify_data_host_blacklist_sourcetype").modal();
+
+                                // Refresh the search
+                                searchBlackListDataHostSourcetype.startSearch();
+
                             },
                             error: function(xhr, textStatus, error) {
                                 message = "Error Updating!" + xhr + textStatus + error;
@@ -22739,7 +22773,6 @@ require([
             //console.log("Updated!", returneddata)
             // Run the search again to update the table
             searchDataSourcesMain.startSearch();
-            searchBlackListDataHostSourcetype.startSearch();
 
             // notify
             notification('Modification has been registered successfully.', 2000)
@@ -22938,6 +22971,10 @@ require([
 
                                 // Return to modal
                                 $("#modal_modify_metric_host_blacklist_host").modal();
+
+                                // Refresh the search
+                                searchBlackListMetricHostHost.startSearch();
+
                             },
                             error: function(xhr, textStatus, error) {
                                 message = "Error Updating!" + xhr + textStatus + error;
@@ -22988,7 +23025,6 @@ require([
             //console.log("Updated!", returneddata)
             // Run the search again to update the table
             searchMetricHostsMain.startSearch();
-            searchBlackListMetricHostHost.startSearch();
 
             // notify
             notification('Modification has been registered successfully.', 2000)
@@ -23186,6 +23222,10 @@ require([
 
                                 // Return to modal
                                 $("#modal_modify_metric_host_blacklist_metric_category").modal();
+
+                                // Refresh the search
+                                searchBlackListMetricHostMetricCategory.startSearch();
+
                             },
                             error: function(xhr, textStatus, error) {
                                 message = "Error Updating!" + xhr + textStatus + error;
@@ -23236,7 +23276,6 @@ require([
             //console.log("Updated!", returneddata)
             // Run the search again to update the table
             searchDataSourcesMain.startSearch();
-            searchBlackListMetricHostMetricCategory.startSearch();
 
             // notify
             notification('Modification has been registered successfully.', 2000)
@@ -23970,6 +24009,10 @@ require([
 
                                 // Return to modal
                                 $("#modify_elastic_sources").modal();
+
+                                // Refresh the search
+                                searchElasticSources.startSearch();
+
                             },
                             error: function(xhr, textStatus, error) {
                                 message = "Error Updating!" + xhr + textStatus + error;
@@ -24016,10 +24059,6 @@ require([
 
             // Hide main modal
             $("#delete_elastic_source_main").modal('hide');
-
-            //console.log("Updated!", returneddata)
-            // Run the search again to update the table
-            searchElasticSources.startSearch();
 
             // notify
             notification('Modification has been registered successfully.', 2000)
