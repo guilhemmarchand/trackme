@@ -16,7 +16,7 @@ https://trackme.readthedocs.io/en/latest/configuration.html
 
 - Fix: getlistdef.py custom command fails with a Python decode error if running in a Python3 only instance
 - Fix: Allowlist / Blacklist and similar deletion checkbox may fail to refresh the window content properly upon record(s) deletion
-- Change: Minor UI changes and improvements
+- Change: UI rendering improvements
 
 Version 1.2.19
 ==============
