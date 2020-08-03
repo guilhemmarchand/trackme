@@ -17,6 +17,8 @@ https://trackme.readthedocs.io/en/latest/configuration.html
 - Fix: getlistdef.py custom command fails with a Python decode error if running in a Python3 only instance
 - Fix: Allowlist / Blacklist and similar deletion checkbox may fail to refresh the window content properly upon record(s) deletion
 - Change: UI rendering improvements
+- Fix: For metric hosts, logical group mapping generates false positive status flipping events, blue hosts should not appear in single count of hosts in alert, refresh button should respect the current blue status 
+- Fix: For data hosts, logical group mapping (blue hosts) should not appear in single count of hosts in alert, refresh button should respect the current blue status
 
 Version 1.2.19
 ==============
