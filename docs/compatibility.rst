@@ -8,6 +8,23 @@ This application is compatible with Splunk 7.2.x and later.
 
 The previous main branch of TrackMe (V1.1.x) was compatible with Splunk versions starting from Splunk 7.0.x, which changed from 7.2.x due to the usage of the mcollect command.
 
+Splunk Cloud compatibility
+##########################
+
+**TracMe is vetted for Splunk Cloud deployment.**
+
+*Splunk Cloud notes:*
+
+- When a new release of TrackMe is published, there is a certain amount of time required for the vetting process to be performed
+- As such, in Splunk Base the current release might appear as not vetted yet
+- To get TrackMe deployed in Splunk Cloud, you can submit a case to Cloud Ops, if the latest release is not vetted yet, you can request its deployment and vetting will be performed, or you can check what the latest version is in Splunk Base and request its deployment
+- TrackMe currently requires an "assisted" deployment, which means that it is not currently deployable by Splunk Cloud Self Services and you need to submit a request
+
+*Checkout the latest vetted version in Splunk Base:*
+
+- In Splunk Base, if the latest version is not yet vetted the following message is displayed "This version is not yet available for Splunk Cloud."
+- Use the version dropdown to select an earlier version to see "Splunk Cloud" listed in the Products, which confirms that this version has been vetted
+
 Web Browser compatibility
 #########################
 
