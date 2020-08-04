@@ -16,7 +16,7 @@ Access TrackMe main interface
 **If the UI is empty and no data sources are showing up:**
 
 - You can wait for the short term trackers execution which are scheduled to run every 5 minutes
-- Or manually run the data sources tracker by clicking on the button "Manage: run short term tracker now" (we will come back to the tracker concept later in this guide)
+- Or manually run the data sources tracker by clicking on the button "Run: short term tracker now" (we will come back to the tracker concept later in this guide)
 
 Main concept and main tabs
 --------------------------
@@ -283,6 +283,13 @@ Status message
 .. image:: img/first_steps/img020_blue.png
    :alt: img/first_steps/img020_blue
    :align: center
+
+*example of an orange state due to data indexed in the future:*
+
+.. image:: img/first_steps/img020_orange.png
+   :alt: img/first_steps/img020_orange
+   :align: center
+
 
 Audit changes
 ^^^^^^^^^^^^^

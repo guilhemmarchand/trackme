@@ -6,7 +6,7 @@ Version 1.2.20
 
 **CAUTION:**
 
-This is a new main release branch, TrackMe 1.2.x require the deployment of the following dependencies:
+This is a new main release branch, TrackMe 1.2.x requires the deployment of the following dependencies:
 
 - Semicircle Donut Chart Viz, Splunk Base: https://splunkbase.splunk.com/app/4378
 - Splunk Machine Learning Toolkit, Splunk Base: https://splunkbase.splunk.com/app/2890
@@ -25,7 +25,7 @@ Version 1.2.19
 
 **CAUTION:**
 
-This is a new main release branch, TrackMe 1.2.x require the deployment of the following dependencies:
+This is a new main release branch, TrackMe 1.2.x requires the deployment of the following dependencies:
 
 - Semicircle Donut Chart Viz, Splunk Base: https://splunkbase.splunk.com/app/4378
 - Splunk Machine Learning Toolkit, Splunk Base: https://splunkbase.splunk.com/app/2890
@@ -47,7 +47,7 @@ Version 1.2.18
 
 **CAUTION:**
 
-This is a new main release branch, TrackMe 1.2.x require the deployment of the following dependencies:
+This is a new main release branch, TrackMe 1.2.x requires the deployment of the following dependencies:
 
 - Semicircle Donut Chart Viz, Splunk Base: https://splunkbase.splunk.com/app/4378
 - Splunk Machine Learning Toolkit, Splunk Base: https://splunkbase.splunk.com/app/2890
@@ -66,7 +66,7 @@ Version 1.2.17
 
 **CAUTION:**
 
-This is a new main release branch, TrackMe 1.2.x require the deployment of the following dependencies:
+This is a new main release branch, TrackMe 1.2.x requires the deployment of the following dependencies:
 
 - Semicircle Donut Chart Viz, Splunk Base: https://splunkbase.splunk.com/app/4378
 - Splunk Machine Learning Toolkit, Splunk Base: https://splunkbase.splunk.com/app/2890
@@ -86,7 +86,7 @@ Version 1.2.16
 
 **CAUTION:**
 
-This is a new main release branch, TrackMe 1.2.x require the deployment of the following dependencies:
+This is a new main release branch, TrackMe 1.2.x requires the deployment of the following dependencies:
 
 - Semicircle Donut Chart Viz, Splunk Base: https://splunkbase.splunk.com/app/4378
 - Splunk Machine Learning Toolkit, Splunk Base: https://splunkbase.splunk.com/app/2890
@@ -112,7 +112,7 @@ Version 1.2.15
 
 **CAUTION:**
 
-This is a new main release branch, TrackMe 1.2.x require the deployment of the following dependencies:
+This is a new main release branch, TrackMe 1.2.x requires the deployment of the following dependencies:
 
 - Semicircle Donut Chart Viz, Splunk Base: https://splunkbase.splunk.com/app/4378
 - Splunk Machine Learning Toolkit, Splunk Base: https://splunkbase.splunk.com/app/2890
@@ -129,7 +129,7 @@ Version 1.2.14
 
 **CAUTION:**
 
-This is a new main release branch, TrackMe 1.2.x require the deployment of the following dependencies:
+This is a new main release branch, TrackMe 1.2.x requires the deployment of the following dependencies:
 
 - Semicircle Donut Chart Viz, Splunk Base: https://splunkbase.splunk.com/app/4378
 - Splunk Machine Learning Toolkit, Splunk Base: https://splunkbase.splunk.com/app/2890
@@ -146,7 +146,7 @@ Version 1.2.13
 
 **CAUTION:**
 
-This is a new main release branch, TrackMe 1.2.x require the deployment of the following dependencies:
+This is a new main release branch, TrackMe 1.2.x requires the deployment of the following dependencies:
 
 - Semicircle Donut Chart Viz, Splunk Base: https://splunkbase.splunk.com/app/4378
 - Splunk Machine Learning Toolkit, Splunk Base: https://splunkbase.splunk.com/app/2890
@@ -171,7 +171,7 @@ Version 1.2.11
 
 **CAUTION:**
 
-This is a new main release branch, TrackMe 1.2.x require the deployment of the following dependencies:
+This is a new main release branch, TrackMe 1.2.x requires the deployment of the following dependencies:
 
 - Semicircle Donut Chart Viz, Splunk Base: https://splunkbase.splunk.com/app/4378
 - Splunk Machine Learning Toolkit, Splunk Base: https://splunkbase.splunk.com/app/2890
@@ -197,7 +197,7 @@ Version 1.2.10
 
 **CAUTION:**
 
-This is a new main release branch, TrackMe 1.2.x require the deployment of the following dependencies:
+This is a new main release branch, TrackMe 1.2.x requires the deployment of the following dependencies:
 
 - Semicircle Donut Chart Viz, Splunk Base: https://splunkbase.splunk.com/app/4378
 - Splunk Machine Learning Toolkit, Splunk Base: https://splunkbase.splunk.com/app/2890
@@ -223,7 +223,7 @@ Version 1.2.9
 
 **CAUTION:**
 
-This is a new main release branch, TrackMe 1.2.x require the deployment of the following dependencies:
+This is a new main release branch, TrackMe 1.2.x requires the deployment of the following dependencies:
 
 - Semicircle Donut Chart Viz, Splunk Base: https://splunkbase.splunk.com/app/4378
 - Splunk Machine Learning Toolkit, Splunk Base: https://splunkbase.splunk.com/app/2890
@@ -242,7 +242,7 @@ Version 1.2.8
 
 **CAUTION:**
 
-This is a new main release branch, TrackMe 1.2.x require the deployment of the following dependencies:
+This is a new main release branch, TrackMe 1.2.x requires the deployment of the following dependencies:
 
 - Semicircle Donut Chart Viz, Splunk Base: https://splunkbase.splunk.com/app/4378
 - Splunk Machine Learning Toolkit, Splunk Base: https://splunkbase.splunk.com/app/2890
@@ -264,7 +264,7 @@ Version 1.2.7
 
 **CAUTION:**
 
-This is a new main release branch, TrackMe 1.2.x require the deployment of the following dependencies:
+This is a new main release branch, TrackMe 1.2.x requires the deployment of the following dependencies:
 
 - Semicircle Donut Chart Viz, Splunk Base: https://splunkbase.splunk.com/app/4378
 - Splunk Machine Learning Toolkit, Splunk Base: https://splunkbase.splunk.com/app/2890
@@ -285,7 +285,7 @@ Version 1.2.5
 
 **CAUTION:**
 
-This is a new main release branch, TrackMe 1.2.x require the deployment of the following dependencies:
+This is a new main release branch, TrackMe 1.2.x requires the deployment of the following dependencies:
 
 - Semicircle Donut Chart Viz, Splunk Base: https://splunkbase.splunk.com/app/4378
 - Splunk Machine Learning Toolkit, Splunk Base: https://splunkbase.splunk.com/app/2890
@@ -300,7 +300,7 @@ Version 1.2.4
 
 **CAUTION:**
 
-This is a new main release branch, TrackMe 1.2.x require the deployment of the following dependencies:
+This is a new main release branch, TrackMe 1.2.x requires the deployment of the following dependencies:
 
 - Semicircle Donut Chart Viz, Splunk Base: https://splunkbase.splunk.com/app/4378
 - Splunk Machine Learning Toolkit, Splunk Base: https://splunkbase.splunk.com/app/2890
@@ -314,7 +314,7 @@ Version 1.2.3
 
 **CAUTION:**
 
-This is a new main release branch, TrackMe 1.2.x require the deployment of the following dependencies:
+This is a new main release branch, TrackMe 1.2.x requires the deployment of the following dependencies:
 
 - Semicircle Donut Chart Viz, Splunk Base: https://splunkbase.splunk.com/app/4378
 - Splunk Machine Learning Toolkit, Splunk Base: https://splunkbase.splunk.com/app/2890
@@ -328,7 +328,7 @@ Version 1.2.2
 
 **CAUTION:**
 
-This is a new main release branch, TrackMe 1.2.x require the deployment of the following dependencies:
+This is a new main release branch, TrackMe 1.2.x requires the deployment of the following dependencies:
 
 - Semicircle Donut Chart Viz, Splunk Base: https://splunkbase.splunk.com/app/4378
 - Splunk Machine Learning Toolkit, Splunk Base: https://splunkbase.splunk.com/app/2890
@@ -348,7 +348,7 @@ Version 1.2.1
 
 **CAUTION:**
 
-This is a new main release branch, TrackMe 1.2.x require the deployment of the following dependencies:
+This is a new main release branch, TrackMe 1.2.x requires the deployment of the following dependencies:
 
 - Semicircle Donut Chart Viz, Splunk Base: https://splunkbase.splunk.com/app/4378
 - Splunk Machine Learning Toolkit, Splunk Base: https://splunkbase.splunk.com/app/2890
@@ -368,7 +368,7 @@ Version 1.2.0
 
 **CAUTION:**
 
-This is a new main release branch, TrackMe 1.2.x require the deployment of the following dependencies:
+This is a new main release branch, TrackMe 1.2.x requires the deployment of the following dependencies:
 
 - Semicircle Donut Chart Viz, Splunk Base: https://splunkbase.splunk.com/app/4378
 - Splunk Machine Learning Toolkit, Splunk Base: https://splunkbase.splunk.com/app/2890
