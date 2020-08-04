@@ -18,24 +18,24 @@ Welcome to the Splunk TrackMe application documentation
 - No matters the purpose of your Splunk deployment, trackMe will easily become an essential and easy piece of your deployment, and even providing efficient answers to PCI and compliance requirements
 - Never let again your team be the last to discover what empty and no results found mean!
 
-.. image:: img/screenshot_home.png
-   :alt: screenshot_home.png
+.. image:: img/screenshots_main/img001.png
+   :alt: img001.png
    :align: center
 
-.. image:: img/screenshot.png
-   :alt: screenshot.png
+.. image:: img/screenshots_main/img002.png
+   :alt: img002.png
    :align: center
 
-.. image:: img/screenshot_outliers1.png
-   :alt: screenshot_outliers1.png
+.. image:: img/screenshots_main/img003.png
+   :alt: img003.png
    :align: center
 
-.. image:: img/screenshot3.png
-   :alt: screenshot3.png
+.. image:: img/screenshots_main/img004.png
+   :alt: img004.png
    :align: center
 
-.. image:: img/screenshot4.png
-   :alt: screenshot4.png
+.. image:: img/screenshots_main/img005.png
+   :alt: img005.png
    :align: center
 
 **Why this application?**
