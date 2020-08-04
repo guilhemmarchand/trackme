@@ -20,22 +20,577 @@
         }
     </script>
     <style>
+        
         /* Bootstrap btns */
-        .btn-primary{color:#fff;background-color:#337ab7;border-color:#2e6da4}.btn-primary.focus,.btn-primary:focus{color:#fff;background-color:#286090;border-color:#122b40}.btn-primary:hover{color:#fff;background-color:#286090;border-color:#204d74}.btn-primary.active,.btn-primary:active,.open>.dropdown-toggle.btn-primary{color:#fff;background-color:#286090;border-color:#204d74}.btn-primary.active.focus,.btn-primary.active:focus,.btn-primary.active:hover,.btn-primary:active.focus,.btn-primary:active:focus,.btn-primary:active:hover,.open>.dropdown-toggle.btn-primary.focus,.open>.dropdown-toggle.btn-primary:focus,.open>.dropdown-toggle.btn-primary:hover{color:#fff;background-color:#204d74;border-color:#122b40}.btn-primary.active,.btn-primary:active,.open>.dropdown-toggle.btn-primary{background-image:none}.btn-primary.disabled.focus,.btn-primary.disabled:focus,.btn-primary.disabled:hover,.btn-primary[disabled].focus,.btn-primary[disabled]:focus,.btn-primary[disabled]:hover,fieldset[disabled] .btn-primary.focus,fieldset[disabled] .btn-primary:focus,fieldset[disabled] .btn-primary:hover{background-color:#337ab7;border-color:#2e6da4}.btn-primary .badge{color:#337ab7;background-color:#fff}
+        .btn-primary {
+        color: #fff;
+        background-color: #007bff;
+        border-color: #007bff;
+        }
 
-        .btn-danger{color:#fff;background-color:#d9534f;border-color:#d43f3a}.btn-danger.focus,.btn-danger:focus{color:#fff;background-color:#c9302c;border-color:#761c19}.btn-danger:hover{color:#fff;background-color:#c9302c;border-color:#ac2925}.btn-danger.active,.btn-danger:active,.open>.dropdown-toggle.btn-danger{color:#fff;background-color:#c9302c;border-color:#ac2925}.btn-danger.active.focus,.btn-danger.active:focus,.btn-danger.active:hover,.btn-danger:active.focus,.btn-danger:active:focus,.btn-danger:active:hover,.open>.dropdown-toggle.btn-danger.focus,.open>.dropdown-toggle.btn-danger:focus,.open>.dropdown-toggle.btn-danger:hover{color:#fff;background-color:#ac2925;border-color:#761c19}.btn-danger.active,.btn-danger:active,.open>.dropdown-toggle.btn-danger{background-image:none}.btn-danger.disabled.focus,.btn-danger.disabled:focus,.btn-danger.disabled:hover,.btn-danger[disabled].focus,.btn-danger[disabled]:focus,.btn-danger[disabled]:hover,fieldset[disabled] .btn-danger.focus,fieldset[disabled] .btn-danger:focus,fieldset[disabled] .btn-danger:hover{background-color:#d9534f;border-color:#d43f3a}.btn-danger .badge{color:#d9534f;background-color:#fff}
+        .btn-primary:hover {
+        color: #fff;
+        background-color: #0069d9;
+        border-color: #0062cc;
+        }
 
-        .btn-info{color:#fff;background-color:#5bc0de;border-color:#46b8da}.btn-info.focus,.btn-info:focus{color:#fff;background-color:#31b0d5;border-color:#1b6d85}.btn-info:hover{color:#fff;background-color:#31b0d5;border-color:#269abc}.btn-info.active,.btn-info:active,.open>.dropdown-toggle.btn-info{color:#fff;background-color:#31b0d5;border-color:#269abc}.btn-info.active.focus,.btn-info.active:focus,.btn-info.active:hover,.btn-info:active.focus,.btn-info:active:focus,.btn-info:active:hover,.open>.dropdown-toggle.btn-info.focus,.open>.dropdown-toggle.btn-info:focus,.open>.dropdown-toggle.btn-info:hover{color:#fff;background-color:#269abc;border-color:#1b6d85}.btn-info.active,.btn-info:active,.open>.dropdown-toggle.btn-info{background-image:none}.btn-info.disabled.focus,.btn-info.disabled:focus,.btn-info.disabled:hover,.btn-info[disabled].focus,.btn-info[disabled]:focus,.btn-info[disabled]:hover,fieldset[disabled] .btn-info.focus,fieldset[disabled] .btn-info:focus,fieldset[disabled] .btn-info:hover{background-color:#5bc0de;border-color:#46b8da}.btn-info .badge{color:#5bc0de;background-color:#fff}
+        .btn-primary:focus, .btn-primary.focus {
+        color: #fff;
+        background-color: #0069d9;
+        border-color: #0062cc;
+        box-shadow: 0 0 0 0.2rem rgba(38, 143, 255, 0.5);
+        }
 
-        .btn-warning{color:#fff;background-color:#f0ad4e;border-color:#eea236}.btn-warning.focus,.btn-warning:focus{color:#fff;background-color:#ec971f;border-color:#985f0d}.btn-warning:hover{color:#fff;background-color:#ec971f;border-color:#d58512}.btn-warning.active,.btn-warning:active,.open>.dropdown-toggle.btn-warning{color:#fff;background-color:#ec971f;border-color:#d58512}.btn-warning.active.focus,.btn-warning.active:focus,.btn-warning.active:hover,.btn-warning:active.focus,.btn-warning:active:focus,.btn-warning:active:hover,.open>.dropdown-toggle.btn-warning.focus,.open>.dropdown-toggle.btn-warning:focus,.open>.dropdown-toggle.btn-warning:hover{color:#fff;background-color:#d58512;border-color:#985f0d}.btn-warning.active,.btn-warning:active,.open>.dropdown-toggle.btn-warning{background-image:none}.btn-warning.disabled.focus,.btn-warning.disabled:focus,.btn-warning.disabled:hover,.btn-warning[disabled].focus,.btn-warning[disabled]:focus,.btn-warning[disabled]:hover,fieldset[disabled] .btn-warning.focus,fieldset[disabled] .btn-warning:focus,fieldset[disabled] .btn-warning:hover{background-color:#f0ad4e;border-color:#eea236}.btn-warning .badge{color:#f0ad4e;background-color:#fff}
+        .btn-primary.disabled, .btn-primary:disabled {
+        color: #fff;
+        background-color: #007bff;
+        border-color: #007bff;
+        }
 
-        .btn-success{color:#fff;background-color:#5cb85c;border-color:#4cae4c}.btn-success.focus,.btn-success:focus{color:#fff;background-color:#449d44;border-color:#255625}.btn-success:hover{color:#fff;background-color:#449d44;border-color:#398439}.btn-success.active,.btn-success:active,.open>.dropdown-toggle.btn-success{color:#fff;background-color:#449d44;border-color:#398439}.btn-success.active.focus,.btn-success.active:focus,.btn-success.active:hover,.btn-success:active.focus,.btn-success:active:focus,.btn-success:active:hover,.open>.dropdown-toggle.btn-success.focus,.open>.dropdown-toggle.btn-success:focus,.open>.dropdown-toggle.btn-success:hover{color:#fff;background-color:#398439;border-color:#255625}.btn-success.active,.btn-success:active,.open>.dropdown-toggle.btn-success{background-image:none}.btn-success.disabled.focus,.btn-success.disabled:focus,.btn-success.disabled:hover,.btn-success[disabled].focus,.btn-success[disabled]:focus,.btn-success[disabled]:hover,fieldset[disabled] .btn-success.focus,fieldset[disabled] .btn-success:focus,fieldset[disabled] .btn-success:hover{background-color:#5cb85c;border-color:#4cae4c}.btn-success .badge{color:#5cb85c;background-color:#fff}
+        .btn-primary:not(:disabled):not(.disabled):active, .btn-primary:not(:disabled):not(.disabled).active,
+        .show > .btn-primary.dropdown-toggle {
+        color: #fff;
+        background-color: #0062cc;
+        border-color: #005cbf;
+        }
+
+        .btn-primary:not(:disabled):not(.disabled):active:focus, .btn-primary:not(:disabled):not(.disabled).active:focus,
+        .show > .btn-primary.dropdown-toggle:focus {
+        box-shadow: 0 0 0 0.2rem rgba(38, 143, 255, 0.5);
+        }
+
+        .btn-danger {
+        color: #fff;
+        background-color: #dc3545;
+        border-color: #dc3545;
+        }
+
+        .btn-danger:hover {
+        color: #fff;
+        background-color: #c82333;
+        border-color: #bd2130;
+        }
+
+        .btn-danger:focus, .btn-danger.focus {
+        color: #fff;
+        background-color: #c82333;
+        border-color: #bd2130;
+        box-shadow: 0 0 0 0.2rem rgba(225, 83, 97, 0.5);
+        }
+
+        .btn-danger.disabled, .btn-danger:disabled {
+        color: #fff;
+        background-color: #dc3545;
+        border-color: #dc3545;
+        }
+
+        .btn-danger:not(:disabled):not(.disabled):active, .btn-danger:not(:disabled):not(.disabled).active,
+        .show > .btn-danger.dropdown-toggle {
+        color: #fff;
+        background-color: #bd2130;
+        border-color: #b21f2d;
+        }
+
+        .btn-danger:not(:disabled):not(.disabled):active:focus, .btn-danger:not(:disabled):not(.disabled).active:focus,
+        .show > .btn-danger.dropdown-toggle:focus {
+        box-shadow: 0 0 0 0.2rem rgba(225, 83, 97, 0.5);
+        }
+
+        .btn-info {
+        color: #fff;
+        background-color: #17a2b8;
+        border-color: #17a2b8;
+        }
+
+        .btn-info:hover {
+        color: #fff;
+        background-color: #138496;
+        border-color: #117a8b;
+        }
+
+        .btn-info:focus, .btn-info.focus {
+        color: #fff;
+        background-color: #138496;
+        border-color: #117a8b;
+        box-shadow: 0 0 0 0.2rem rgba(58, 176, 195, 0.5);
+        }
+
+        .btn-info.disabled, .btn-info:disabled {
+        color: #fff;
+        background-color: #17a2b8;
+        border-color: #17a2b8;
+        }
+
+        .btn-info:not(:disabled):not(.disabled):active, .btn-info:not(:disabled):not(.disabled).active,
+        .show > .btn-info.dropdown-toggle {
+        color: #fff;
+        background-color: #117a8b;
+        border-color: #10707f;
+        }
+
+        .btn-info:not(:disabled):not(.disabled):active:focus, .btn-info:not(:disabled):not(.disabled).active:focus,
+        .show > .btn-info.dropdown-toggle:focus {
+        box-shadow: 0 0 0 0.2rem rgba(58, 176, 195, 0.5);
+        }
+
+        .btn-warning {
+        color: #212529;
+        background-color: #ffc107;
+        border-color: #ffc107;
+        }
+
+        .btn-warning:hover {
+        color: #212529;
+        background-color: #e0a800;
+        border-color: #d39e00;
+        }
+
+        .btn-warning:focus, .btn-warning.focus {
+        color: #212529;
+        background-color: #e0a800;
+        border-color: #d39e00;
+        box-shadow: 0 0 0 0.2rem rgba(222, 170, 12, 0.5);
+        }
+
+        .btn-warning.disabled, .btn-warning:disabled {
+        color: #212529;
+        background-color: #ffc107;
+        border-color: #ffc107;
+        }
+
+        .btn-warning:not(:disabled):not(.disabled):active, .btn-warning:not(:disabled):not(.disabled).active,
+        .show > .btn-warning.dropdown-toggle {
+        color: #212529;
+        background-color: #d39e00;
+        border-color: #c69500;
+        }
+
+        .btn-warning:not(:disabled):not(.disabled):active:focus, .btn-warning:not(:disabled):not(.disabled).active:focus,
+        .show > .btn-warning.dropdown-toggle:focus {
+        box-shadow: 0 0 0 0.2rem rgba(222, 170, 12, 0.5);
+        }
+
+        .btn-success {
+        color: #fff;
+        background-color: #28a745;
+        border-color: #28a745;
+        }
+
+        .btn-success:hover {
+        color: #fff;
+        background-color: #218838;
+        border-color: #1e7e34;
+        }
+
+        .btn-success:focus, .btn-success.focus {
+        color: #fff;
+        background-color: #218838;
+        border-color: #1e7e34;
+        box-shadow: 0 0 0 0.2rem rgba(72, 180, 97, 0.5);
+        }
+
+        .btn-success.disabled, .btn-success:disabled {
+        color: #fff;
+        background-color: #28a745;
+        border-color: #28a745;
+        }
+
+        .btn-success:not(:disabled):not(.disabled):active, .btn-success:not(:disabled):not(.disabled).active,
+        .show > .btn-success.dropdown-toggle {
+        color: #fff;
+        background-color: #1e7e34;
+        border-color: #1c7430;
+        }
+
+        .btn-success:not(:disabled):not(.disabled):active:focus, .btn-success:not(:disabled):not(.disabled).active:focus,
+        .show > .btn-success.dropdown-toggle:focus {
+        box-shadow: 0 0 0 0.2rem rgba(72, 180, 97, 0.5);
+        }
+
+        .btn-light {
+        color: #212529;
+        background-color: #f8f9fa;
+        border-color: #f8f9fa;
+        }
+
+        .btn-light:hover {
+        color: #212529;
+        background-color: #e2e6ea;
+        border-color: #dae0e5;
+        }
+
+        .btn-light:focus, .btn-light.focus {
+        color: #212529;
+        background-color: #e2e6ea;
+        border-color: #dae0e5;
+        box-shadow: 0 0 0 0.2rem rgba(216, 217, 219, 0.5);
+        }
+
+        .btn-light.disabled, .btn-light:disabled {
+        color: #212529;
+        background-color: #f8f9fa;
+        border-color: #f8f9fa;
+        }
+
+        .btn-light:not(:disabled):not(.disabled):active, .btn-light:not(:disabled):not(.disabled).active,
+        .show > .btn-light.dropdown-toggle {
+        color: #212529;
+        background-color: #dae0e5;
+        border-color: #d3d9df;
+        }
+
+        .btn-light:not(:disabled):not(.disabled):active:focus, .btn-light:not(:disabled):not(.disabled).active:focus,
+        .show > .btn-light.dropdown-toggle:focus {
+        box-shadow: 0 0 0 0.2rem rgba(216, 217, 219, 0.5);
+        }
+
+        .btn-dark {
+        color: #fff;
+        background-color: #343a40;
+        border-color: #343a40;
+        }
+
+        .btn-dark:hover {
+        color: #fff;
+        background-color: #23272b;
+        border-color: #1d2124;
+        }
+
+        .btn-dark:focus, .btn-dark.focus {
+        color: #fff;
+        background-color: #23272b;
+        border-color: #1d2124;
+        box-shadow: 0 0 0 0.2rem rgba(82, 88, 93, 0.5);
+        }
+
+        .btn-dark.disabled, .btn-dark:disabled {
+        color: #fff;
+        background-color: #343a40;
+        border-color: #343a40;
+        }
+
+        .btn-dark:not(:disabled):not(.disabled):active, .btn-dark:not(:disabled):not(.disabled).active,
+        .show > .btn-dark.dropdown-toggle {
+        color: #fff;
+        background-color: #1d2124;
+        border-color: #171a1d;
+        }
+
+        .btn-dark:not(:disabled):not(.disabled):active:focus, .btn-dark:not(:disabled):not(.disabled).active:focus,
+        .show > .btn-dark.dropdown-toggle:focus {
+        box-shadow: 0 0 0 0.2rem rgba(82, 88, 93, 0.5);
+        }
+
+        .btn-outline-primary {
+        color: #007bff;
+        border-color: #007bff;
+        }
+
+        .btn-outline-primary:hover {
+        color: #fff;
+        background-color: #007bff;
+        border-color: #007bff;
+        }
+
+        .btn-outline-primary:focus, .btn-outline-primary.focus {
+        box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.5);
+        }
+
+        .btn-outline-primary.disabled, .btn-outline-primary:disabled {
+        color: #007bff;
+        background-color: transparent;
+        }
+
+        .btn-outline-primary:not(:disabled):not(.disabled):active, .btn-outline-primary:not(:disabled):not(.disabled).active,
+        .show > .btn-outline-primary.dropdown-toggle {
+        color: #fff;
+        background-color: #007bff;
+        border-color: #007bff;
+        }
+
+        .btn-outline-primary:not(:disabled):not(.disabled):active:focus, .btn-outline-primary:not(:disabled):not(.disabled).active:focus,
+        .show > .btn-outline-primary.dropdown-toggle:focus {
+        box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.5);
+        }
+
+        .btn-outline-secondary {
+        color: #6c757d;
+        border-color: #6c757d;
+        }
+
+        .btn-outline-secondary:hover {
+        color: #fff;
+        background-color: #6c757d;
+        border-color: #6c757d;
+        }
+
+        .btn-outline-secondary:focus, .btn-outline-secondary.focus {
+        box-shadow: 0 0 0 0.2rem rgba(108, 117, 125, 0.5);
+        }
+
+        .btn-outline-secondary.disabled, .btn-outline-secondary:disabled {
+        color: #6c757d;
+        background-color: transparent;
+        }
+
+        .btn-outline-secondary:not(:disabled):not(.disabled):active, .btn-outline-secondary:not(:disabled):not(.disabled).active,
+        .show > .btn-outline-secondary.dropdown-toggle {
+        color: #fff;
+        background-color: #6c757d;
+        border-color: #6c757d;
+        }
+
+        .btn-outline-secondary:not(:disabled):not(.disabled):active:focus, .btn-outline-secondary:not(:disabled):not(.disabled).active:focus,
+        .show > .btn-outline-secondary.dropdown-toggle:focus {
+        box-shadow: 0 0 0 0.2rem rgba(108, 117, 125, 0.5);
+        }
+
+        .btn-outline-success {
+        color: #28a745;
+        border-color: #28a745;
+        }
+
+        .btn-outline-success:hover {
+        color: #fff;
+        background-color: #28a745;
+        border-color: #28a745;
+        }
+
+        .btn-outline-success:focus, .btn-outline-success.focus {
+        box-shadow: 0 0 0 0.2rem rgba(40, 167, 69, 0.5);
+        }
+
+        .btn-outline-success.disabled, .btn-outline-success:disabled {
+        color: #28a745;
+        background-color: transparent;
+        }
+
+        .btn-outline-success:not(:disabled):not(.disabled):active, .btn-outline-success:not(:disabled):not(.disabled).active,
+        .show > .btn-outline-success.dropdown-toggle {
+        color: #fff;
+        background-color: #28a745;
+        border-color: #28a745;
+        }
+
+        .btn-outline-success:not(:disabled):not(.disabled):active:focus, .btn-outline-success:not(:disabled):not(.disabled).active:focus,
+        .show > .btn-outline-success.dropdown-toggle:focus {
+        box-shadow: 0 0 0 0.2rem rgba(40, 167, 69, 0.5);
+        }
+
+        .btn-outline-info {
+        color: #17a2b8;
+        border-color: #17a2b8;
+        }
+
+        .btn-outline-info:hover {
+        color: #fff;
+        background-color: #17a2b8;
+        border-color: #17a2b8;
+        }
+
+        .btn-outline-info:focus, .btn-outline-info.focus {
+        box-shadow: 0 0 0 0.2rem rgba(23, 162, 184, 0.5);
+        }
+
+        .btn-outline-info.disabled, .btn-outline-info:disabled {
+        color: #17a2b8;
+        background-color: transparent;
+        }
+
+        .btn-outline-info:not(:disabled):not(.disabled):active, .btn-outline-info:not(:disabled):not(.disabled).active,
+        .show > .btn-outline-info.dropdown-toggle {
+        color: #fff;
+        background-color: #17a2b8;
+        border-color: #17a2b8;
+        }
+
+        .btn-outline-info:not(:disabled):not(.disabled):active:focus, .btn-outline-info:not(:disabled):not(.disabled).active:focus,
+        .show > .btn-outline-info.dropdown-toggle:focus {
+        box-shadow: 0 0 0 0.2rem rgba(23, 162, 184, 0.5);
+        }
+
+        .btn-outline-warning {
+        color: #ffc107;
+        border-color: #ffc107;
+        }
+
+        .btn-outline-warning:hover {
+        color: #212529;
+        background-color: #ffc107;
+        border-color: #ffc107;
+        }
+
+        .btn-outline-warning:focus, .btn-outline-warning.focus {
+        box-shadow: 0 0 0 0.2rem rgba(255, 193, 7, 0.5);
+        }
+
+        .btn-outline-warning.disabled, .btn-outline-warning:disabled {
+        color: #ffc107;
+        background-color: transparent;
+        }
+
+        .btn-outline-warning:not(:disabled):not(.disabled):active, .btn-outline-warning:not(:disabled):not(.disabled).active,
+        .show > .btn-outline-warning.dropdown-toggle {
+        color: #212529;
+        background-color: #ffc107;
+        border-color: #ffc107;
+        }
+
+        .btn-outline-warning:not(:disabled):not(.disabled):active:focus, .btn-outline-warning:not(:disabled):not(.disabled).active:focus,
+        .show > .btn-outline-warning.dropdown-toggle:focus {
+        box-shadow: 0 0 0 0.2rem rgba(255, 193, 7, 0.5);
+        }
+
+        .btn-outline-danger {
+        color: #dc3545;
+        border-color: #dc3545;
+        }
+
+        .btn-outline-danger:hover {
+        color: #fff;
+        background-color: #dc3545;
+        border-color: #dc3545;
+        }
+
+        .btn-outline-danger:focus, .btn-outline-danger.focus {
+        box-shadow: 0 0 0 0.2rem rgba(220, 53, 69, 0.5);
+        }
+
+        .btn-outline-danger.disabled, .btn-outline-danger:disabled {
+        color: #dc3545;
+        background-color: transparent;
+        }
+
+        .btn-outline-danger:not(:disabled):not(.disabled):active, .btn-outline-danger:not(:disabled):not(.disabled).active,
+        .show > .btn-outline-danger.dropdown-toggle {
+        color: #fff;
+        background-color: #dc3545;
+        border-color: #dc3545;
+        }
+
+        .btn-outline-danger:not(:disabled):not(.disabled):active:focus, .btn-outline-danger:not(:disabled):not(.disabled).active:focus,
+        .show > .btn-outline-danger.dropdown-toggle:focus {
+        box-shadow: 0 0 0 0.2rem rgba(220, 53, 69, 0.5);
+        }
+
+        .btn-outline-light {
+        color: #f8f9fa;
+        border-color: #f8f9fa;
+        }
+
+        .btn-outline-light:hover {
+        color: #212529;
+        background-color: #f8f9fa;
+        border-color: #f8f9fa;
+        }
+
+        .btn-outline-light:focus, .btn-outline-light.focus {
+        box-shadow: 0 0 0 0.2rem rgba(248, 249, 250, 0.5);
+        }
+
+        .btn-outline-light.disabled, .btn-outline-light:disabled {
+        color: #f8f9fa;
+        background-color: transparent;
+        }
+
+        .btn-outline-light:not(:disabled):not(.disabled):active, .btn-outline-light:not(:disabled):not(.disabled).active,
+        .show > .btn-outline-light.dropdown-toggle {
+        color: #212529;
+        background-color: #f8f9fa;
+        border-color: #f8f9fa;
+        }
+
+        .btn-outline-light:not(:disabled):not(.disabled):active:focus, .btn-outline-light:not(:disabled):not(.disabled).active:focus,
+        .show > .btn-outline-light.dropdown-toggle:focus {
+        box-shadow: 0 0 0 0.2rem rgba(248, 249, 250, 0.5);
+        }
+
+        .btn-outline-dark {
+        color: #343a40;
+        border-color: #343a40;
+        }
+
+        .btn-outline-dark:hover {
+        color: #fff;
+        background-color: #343a40;
+        border-color: #343a40;
+        }
+
+        .btn-outline-dark:focus, .btn-outline-dark.focus {
+        box-shadow: 0 0 0 0.2rem rgba(52, 58, 64, 0.5);
+        }
+
+        .btn-outline-dark.disabled, .btn-outline-dark:disabled {
+        color: #343a40;
+        background-color: transparent;
+        }
+
+        .btn-outline-dark:not(:disabled):not(.disabled):active, .btn-outline-dark:not(:disabled):not(.disabled).active,
+        .show > .btn-outline-dark.dropdown-toggle {
+        color: #fff;
+        background-color: #343a40;
+        border-color: #343a40;
+        }
+
+        .btn-outline-dark:not(:disabled):not(.disabled):active:focus, .btn-outline-dark:not(:disabled):not(.disabled).active:focus,
+        .show > .btn-outline-dark.dropdown-toggle:focus {
+        box-shadow: 0 0 0 0.2rem rgba(52, 58, 64, 0.5);
+        }
+
+        .btn-link {
+        font-weight: 400;
+        color: #007bff;
+        text-decoration: none;
+        }
+
+        .btn-link:hover {
+        color: #0056b3;
+        text-decoration: underline;
+        }
+
+        .btn-link:focus, .btn-link.focus {
+        text-decoration: underline;
+        }
+
+        .btn-link:disabled, .btn-link.disabled {
+        color: #6c757d;
+        pointer-events: none;
+        }
+
+        .btn-lg, .btn-group-lg > .btn {
+        padding: 0.5rem 1rem;
+        font-size: 1.25rem;
+        line-height: 1.5;
+        border-radius: 0.3rem;
+        }
+
+        .btn-sm, .btn-group-sm > .btn {
+        padding: 0.25rem 0.5rem;
+        font-size: 0.875rem;
+        line-height: 1.5;
+        border-radius: 0.2rem;
+        }
+
+        .btn-block {
+        display: block;
+        width: 100%;
+        }
+
+        .btn-block + .btn-block {
+        margin-top: 0.5rem;
+        }
 
         /* Prevents green disabled button */
         .btn-primary[disabled] {
-            background-color: #337ab7;
+            background-color: #007bff !important;
             opacity: .40;
         }
+
+        /* Manage disabled red */
+        .btn-danger[disabled] {
+            background-color: #dc3545 !important;
+            opacity: .40;
+        }        
 
         /* Manage modal hidden properly */
         .modal {
@@ -2426,15 +2981,6 @@ styles in <div> tags, similar to Bootstrap's grid system.
                         </div>
 
                         <div id="rowHostMetricChart" class="dashboard-row dashboard-row1" data-depends="$show_metric_host_overview$">
-                            <div id="panelHostMetricSingle" class="dashboard-cell" style="width: 100%;">
-                                <div class="dashboard-panel clearfix">
-                                    <div class="panel-element-row">
-                                        <div id="elementHostSingleMetricHost" class="dashboard-element chart" style="width: 100%">
-                                            <div class="panel-body"></div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
                             <div id="panelHostMetricChart" class="dashboard-cell" style="width: 100%;" data-depends="$show_metric_host_overview$">
                                 <div class="dashboard-panel clearfix">
                                     <div class="panel-element-row">
@@ -6526,27 +7072,27 @@ styles in <div> tags, similar to Bootstrap's grid system.
                         <div class="panel-body html">
                             <div>
                                 <div class="btn_modify_elastic_sources_main custom-btn">
-                                    <button type="submit" style="margin-right: 15px;" class="btn btn-default btn-primary" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Manage: elastic sources</button>
+                                    <button type="submit" style="margin-right: 15px;" class="btn btn-outline-primary" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Manage: elastic sources</button>
                                 </div>
                                 <div class="custom-btn">
-                                    <button type="submit" id="btn_modify_data_source_blacklist_main" style="margin-right: 15px;" class="btn btn-default btn-primary" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Manage: allowlists &amp; blocklists</button>
+                                    <button type="submit" id="btn_modify_data_source_blacklist_main" style="margin-right: 15px;" class="btn btn-outline-primary" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Manage: allowlists &amp; blocklists</button>
                                 </div>
                                 <div class="btn_modify_custom_lagging custom-btn">
-                                    <button type="submit" style="margin-right: 15px;" class="btn btn-default btn-primary" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Manage: define lagging classes</button>
+                                    <button type="submit" style="margin-right: 15px;" class="btn btn-outline-primary" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Manage: define lagging classes</button>
                                 </div>
                                 <div class="custom-btn">
-                                    <button type="submit" id="btn_run_tracker" style="margin-right: 15px;" class="btn btn-default btn-primary"><span class="glyphicon glyphicon-remove"></span> Manage: run short term tracker now</button>
+                                    <button type="submit" id="btn_run_tracker" style="margin-right: 15px;" class="btn btn-outline-secondary"><span class="glyphicon glyphicon-remove"></span> Run: short term tracker now</button>
                                 </div>
                                 <div class="custom-btn">
-                                    <button type="submit" id="btn_run_tracker_longterm" style="margin-right: 15px;" class="btn btn-default btn-primary"><span class="glyphicon glyphicon-remove"></span> Manage: run long term tracker now</button>
+                                    <button type="submit" id="btn_run_tracker_longterm" style="margin-right: 15px;" class="btn btn-outline-secondary"><span class="glyphicon glyphicon-remove"></span> Run: long term tracker now</button>
                                 </div>
                             </div>
                             <div style="float: left;">
                                 <div class="btn_ops_index_queue custom-btn">
-                                    <button type="submit" style="margin-right: 15px;" class="btn btn-default btn-primary" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Ops: Indexers queues</button>
+                                    <button type="submit" style="margin-right: 15px;" class="btn btn-outline-info" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Ops: Indexers queues</button>
                                 </div>
                                 <div class="btn_ops_parsing_issues custom-btn">
-                                    <button type="submit" style="margin-right: 15px;" class="btn btn-default btn-primary" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Ops: Parsing issues</button>
+                                    <button type="submit" style="margin-right: 15px;" class="btn btn-outline-info" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Ops: Parsing issues</button>
                                 </div>
                             </div>
                         </div>
@@ -6566,21 +7112,21 @@ styles in <div> tags, similar to Bootstrap's grid system.
                         <div class="panel-body html">
                             <div>
                                 <div class="custom-btn">
-                                    <button type="submit" id="btn_modify_metric_host_blacklist_main" style="margin-right: 15px;" class="btn btn-default btn-primary" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Manage: allowlists &amp; blocklists</button>
+                                    <button type="submit" id="btn_modify_metric_host_blacklist_main" style="margin-right: 15px;" class="btn btn-outline-primary" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Manage: allowlists &amp; blocklists</button>
                                 </div>
                                 <div class="btn_modify_metric_sla_policies custom-btn">
-                                    <button type="submit" style="margin-right: 15px;" class="btn btn-default btn-primary" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Manage: metric SLA policies</button>
+                                    <button type="submit" style="margin-right: 15px;" class="btn btn-outline-primary" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Manage: metric SLA policies</button>
                                 </div>
                                 <div class="custom-btn">
-                                    <button type="submit" id="btn_run_tracker_metric_host" style="margin-right: 15px;" class="btn btn-default btn-primary"><span class="glyphicon glyphicon-remove"></span> Manage: run metric tracker now</button>
+                                    <button type="submit" id="btn_run_tracker_metric_host" style="margin-right: 15px;" class="btn btn-outline-secondary"><span class="glyphicon glyphicon-remove"></span> Run: metric tracker now</button>
                                 </div>
                             </div>
                             <div style="float: left;">
                                 <div class="btn_ops_index_queue custom-btn">
-                                    <button type="submit" style="margin-right: 15px;" class="btn btn-default btn-primary" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Ops: Indexers queues</button>
+                                    <button type="submit" style="margin-right: 15px;" class="btn btn-outline-info" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Ops: Indexers queues</button>
                                 </div>
                                 <div class="btn_ops_parsing_issues custom-btn">
-                                    <button type="submit" style="margin-right: 15px;" class="btn btn-default btn-primary" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Ops: Parsing issues</button>
+                                    <button type="submit" style="margin-right: 15px;" class="btn btn-outline-info" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Ops: Parsing issues</button>
                                 </div>
                             </div>
                         </div>
@@ -6613,24 +7159,24 @@ styles in <div> tags, similar to Bootstrap's grid system.
                         <div class="panel-body html">
                             <div>
                                 <div class="custom-btn">
-                                    <button type="submit" id="btn_modify_data_host_blacklist_main" style="margin-right: 15px;" class="btn btn-default btn-primary" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Manage: allowlists &amp; blocklists</button>
+                                    <button type="submit" id="btn_modify_data_host_blacklist_main" style="margin-right: 15px;" class="btn btn-default btn-outline-primary" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Manage: allowlists &amp; blocklists</button>
                                 </div>
                                 <div class="btn_modify_custom_lagging custom-btn">
-                                    <button type="submit" style="margin-right: 15px;" class="btn btn-default btn-primary" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Manage: define lagging classes</button>
+                                    <button type="submit" style="margin-right: 15px;" class="btn btn-outline-primary" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Manage: define lagging classes</button>
                                 </div>
                                 <div class="custom-btn">
-                                    <button type="submit" id="btn_run_tracker_host" style="margin-right: 15px;" class="btn btn-default btn-primary"><span class="glyphicon glyphicon-remove"></span> Manage: run short term tracker now</button>
+                                    <button type="submit" id="btn_run_tracker_host" style="margin-right: 15px;" class="btn btn-outline-secondary"><span class="glyphicon glyphicon-remove"></span> Run: short term tracker now</button>
                                 </div>
                                 <div class="custom-btn">
-                                    <button type="submit" id="btn_run_tracker_host_longterm" style="margin-right: 15px;" class="btn btn-default btn-primary"><span class="glyphicon glyphicon-remove"></span> Manage: run long term tracker now</button>
+                                    <button type="submit" id="btn_run_tracker_host_longterm" style="margin-right: 15px;" class="btn btn-outline-secondary"><span class="glyphicon glyphicon-remove"></span> Run: long term tracker now</button>
                                 </div>
                             </div>
                             <div style="float: left;">
                                 <div class="btn_ops_index_queue custom-btn">
-                                    <button type="submit" style="margin-right: 15px;" class="btn btn-default btn-primary" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Ops: Indexers queues</button>
+                                    <button type="submit" style="margin-right: 15px;" class="btn btn-outline-info" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Ops: Indexers queues</button>
                                 </div>
                                 <div class="btn_ops_parsing_issues custom-btn">
-                                    <button type="submit" style="margin-right: 15px;" class="btn btn-default btn-primary" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Ops: Parsing issues</button>
+                                    <button type="submit" style="margin-right: 15px;" class="btn btn-outline-info" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Ops: Parsing issues</button>
                                 </div>
                             </div>
                         </div>
@@ -7864,7 +8410,7 @@ require([
 
         var searchMetricHostsMainStats = new PostProcessManager({
             "tokenDependencies": {},
-            "search": "search $inputMetricHostIndexes$ $inputMetricHostCategories$ $inputMetricHost$ | stats count as total, count(eval(metric_monitored_state=\"disabled\")) as total_disabled, count(eval(metric_host_state!=\"green\" AND metric_host_state!=\"info\" AND metric_monitored_state=\"enabled\")) as total_in_alert, count(eval(metric_host_state=\"red\" AND priority=\"high\" AND metric_monitored_state=\"enabled\")) as total_high_priority_red, count(eval(metric_monitored_state=\"enabled\" AND priority=\"low\")) as low_enabled, count(eval(metric_monitored_state=\"enabled\" AND priority=\"medium\")) as medium_enabled, count(eval(metric_monitored_state=\"enabled\" AND priority=\"high\")) as high_enabled, count(eval(metric_host_state=\"blue\" AND metric_monitored_state=\"enabled\")) as \"blue\", count(eval(metric_host_state=\"orange\" AND metric_monitored_state=\"enabled\")) as \"orange\", count(eval(metric_host_state=\"green\" AND metric_monitored_state=\"enabled\")) as \"green\", count(eval(metric_host_state=\"red\" AND metric_monitored_state=\"enabled\" AND priority=\"high\")) as \"red - high priority\", count(eval(metric_host_state=\"red\" AND metric_monitored_state=\"enabled\" AND priority!=\"high\")) as \"red - other priority\"",
+            "search": "search $inputMetricHostIndexes$ $inputMetricHostCategories$ $inputMetricHost$ | stats count as total, count(eval(metric_monitored_state=\"disabled\")) as total_disabled, count(eval(metric_host_state!=\"green\" AND metric_host_state!=\"blue\" AND metric_monitored_state=\"enabled\")) as total_in_alert, count(eval(metric_host_state=\"red\" AND priority=\"high\" AND metric_monitored_state=\"enabled\")) as total_high_priority_red, count(eval(metric_monitored_state=\"enabled\" AND priority=\"low\")) as low_enabled, count(eval(metric_monitored_state=\"enabled\" AND priority=\"medium\")) as medium_enabled, count(eval(metric_monitored_state=\"enabled\" AND priority=\"high\")) as high_enabled, count(eval(metric_host_state=\"blue\" AND metric_monitored_state=\"enabled\")) as \"blue\", count(eval(metric_host_state=\"orange\" AND metric_monitored_state=\"enabled\")) as \"orange\", count(eval(metric_host_state=\"green\" AND metric_monitored_state=\"enabled\")) as \"green\", count(eval(metric_host_state=\"red\" AND metric_monitored_state=\"enabled\" AND priority=\"high\")) as \"red - high priority\", count(eval(metric_host_state=\"red\" AND metric_monitored_state=\"enabled\" AND priority!=\"high\")) as \"red - other priority\"",
             "managerid": "searchMetricHostsMain",
             "id": "searchMetricHostsMainStats"
         }, {
@@ -7920,16 +8466,6 @@ require([
                 "depends": "$tk_metric_host$"
             },
             "runWhenTimeIsUndefined": false
-        }, {
-            tokens: true,
-            tokenNamespace: "submitted"
-        });
-
-        var searchHostSingleMetricHost = new PostProcessManager({
-            "tokenDependencies": {},
-            "search": "stats count as count_metric_category, count(eval(metric_host_state=\"green\")) as count_green, count(eval(metric_host_state!=\"green\")) as count_non_green | eval summary=\" metric categories: \" . count_metric_category .  \", \" . \"green state: \" . count_green . \", \" . \"red state: \" . count_non_green | fields summary",
-            "managerid": "searchHostTableMetricHost",
-            "id": "searchHostSingleMetricHost"
         }, {
             tokens: true,
             tokenNamespace: "submitted"
@@ -8000,7 +8536,7 @@ require([
 
         var searchDataHostsMainStats = new PostProcessManager({
             "tokenDependencies": {},
-            "search": "search $inputDataHost$ $inputDataHostIndexes$ $inputDataHostSourcetypes$ | stats count as total, count(eval(data_monitored_state=\"disabled\")) as total_disabled, count(eval(data_host_state!=\"green\" AND data_host_state!=\"info\" AND data_monitored_state=\"enabled\")) as total_in_alert, count(eval(data_host_state=\"red\" AND priority=\"high\" AND data_monitored_state=\"enabled\")) as total_high_priority_red, count(eval(data_monitored_state=\"enabled\" AND priority=\"low\")) as low_enabled, count(eval(data_monitored_state=\"enabled\" AND priority=\"medium\")) as medium_enabled, count(eval(data_monitored_state=\"enabled\" AND priority=\"high\")) as high_enabled, count(eval(data_host_state=\"blue\" AND data_monitored_state=\"enabled\")) as \"blue\", count(eval(data_host_state=\"orange\" AND data_monitored_state=\"enabled\")) as \"orange\", count(eval(data_host_state=\"green\" AND data_monitored_state=\"enabled\")) as \"green\", count(eval(data_host_state=\"red\" AND data_monitored_state=\"enabled\" AND priority=\"high\")) as \"red - high priority\", count(eval(data_host_state=\"red\" AND data_monitored_state=\"enabled\" AND priority!=\"high\")) as \"red - other priority\"",
+            "search": "search $inputDataHost$ $inputDataHostIndexes$ $inputDataHostSourcetypes$ | stats count as total, count(eval(data_monitored_state=\"disabled\")) as total_disabled, count(eval(data_host_state!=\"green\" AND data_host_state!=\"blue\" AND data_monitored_state=\"enabled\")) as total_in_alert, count(eval(data_host_state=\"red\" AND priority=\"high\" AND data_monitored_state=\"enabled\")) as total_high_priority_red, count(eval(data_monitored_state=\"enabled\" AND priority=\"low\")) as low_enabled, count(eval(data_monitored_state=\"enabled\" AND priority=\"medium\")) as medium_enabled, count(eval(data_monitored_state=\"enabled\" AND priority=\"high\")) as high_enabled, count(eval(data_host_state=\"blue\" AND data_monitored_state=\"enabled\")) as \"blue\", count(eval(data_host_state=\"orange\" AND data_monitored_state=\"enabled\")) as \"orange\", count(eval(data_host_state=\"green\" AND data_monitored_state=\"enabled\")) as \"green\", count(eval(data_host_state=\"red\" AND data_monitored_state=\"enabled\" AND priority=\"high\")) as \"red - high priority\", count(eval(data_host_state=\"red\" AND data_monitored_state=\"enabled\" AND priority!=\"high\")) as \"red - other priority\"",
             "managerid": "searchDataHostsMain",
             "id": "searchDataHostsMainStats"
         }, {
@@ -12637,7 +13173,7 @@ require([
             "trendColorInterpretation": "standard",
             "trellis.size": "medium",
             "rangeValues": "[0]",
-            "rangeColors": "[\"0x779ecb\",\"0x779ecb\"]",
+            "rangeColors": "[\"0x7fbfff\",\"0x7fbfff\"]",
             "underLabel": "DATA SOURCES",
             "managerid": "searchSingleDataSource1",
             "el": $('#singleFormTotalDataSource')
@@ -12673,7 +13209,7 @@ require([
             "trendColorInterpretation": "standard",
             "trellis.size": "medium",
             "rangeValues": "[0]",
-            "rangeColors": "[\"0x779ecb\",\"0xffb347\"]",
+            "rangeColors": "[\"0x7fbfff\",\"0xffb347\"]",
             "underLabel": "ANY PRIORITY DATA SOURCES IN ALERT",
             "managerid": "searchSingleDataSourceInAlert",
             "el": $('#singleFormTotalDataSourceAlerts')
@@ -12709,7 +13245,7 @@ require([
             "trendColorInterpretation": "standard",
             "trellis.size": "medium",
             "rangeValues": "[0]",
-            "rangeColors": "[\"0x779ecb\",\"0xff6961\"]",
+            "rangeColors": "[\"0x7fbfff\",\"0xff6961\"]",
             "underLabel": "HIGH PRIORITY DATA SOURCES IN ALERT",
             "managerid": "searchSingleDataSourceHighPriority",
             "el": $('#singleFormTotalDataSourceAlertsHighPriority')
@@ -12745,7 +13281,7 @@ require([
             "trendColorInterpretation": "standard",
             "trellis.size": "medium",
             "rangeValues": "[0]",
-            "rangeColors": "[\"0x779ecb\",\"0x779ecb\"]",
+            "rangeColors": "[\"0x7fbfff\",\"0x7fbfff\"]",
             "underLabel": "DATA SOURCES NOT MONITORED",
             "managerid": "searchSingleDataSourceNotMonitored",
             "el": $('#singleFormTotalDataSourceDisabled')
@@ -12826,7 +13362,7 @@ require([
             "trendColorInterpretation": "standard",
             "trellis.size": "medium",
             "rangeValues": "[0]",
-            "rangeColors": "[\"0x779ecb\",\"0x779ecb\"]",
+            "rangeColors": "[\"0x7fbfff\",\"0x7fbfff\"]",
             "underLabel": "DATA HOSTS",
             "managerid": "searchSingleDataHost1",
             "el": $('#singleFormTotalDataHost')
@@ -12862,7 +13398,7 @@ require([
             "trendColorInterpretation": "standard",
             "trellis.size": "medium",
             "rangeValues": "[0]",
-            "rangeColors": "[\"0x779ecb\",\"0xffb347\"]",
+            "rangeColors": "[\"0x7fbfff\",\"0xffb347\"]",
             "underLabel": "ANY PRIORITY DATA HOSTS IN ALERT",
             "managerid": "searchSingleDataHostInAlert",
             "el": $('#singleFormTotalDataHostAlerts')
@@ -12898,7 +13434,7 @@ require([
             "trendColorInterpretation": "standard",
             "trellis.size": "medium",
             "rangeValues": "[0]",
-            "rangeColors": "[\"0x779ecb\",\"0xff6961\"]",
+            "rangeColors": "[\"0x7fbfff\",\"0xff6961\"]",
             "underLabel": "HIGH PRIORITY DATA HOSTS IN ALERT",
             "managerid": "searchSingleDataHostHighPriority",
             "el": $('#singleFormTotalDataHostAlertsHighPriority')
@@ -12934,7 +13470,7 @@ require([
             "trendColorInterpretation": "standard",
             "trellis.size": "medium",
             "rangeValues": "[0]",
-            "rangeColors": "[\"0x779ecb\",\"0x779ecb\"]",
+            "rangeColors": "[\"0x7fbfff\",\"0x7fbfff\"]",
             "underLabel": "DATA HOSTS NOT MONITORED",
             "managerid": "searchSingleDataHostNotMonitored",
             "el": $('#singleFormTotalDataHostDisabled')
@@ -13015,7 +13551,7 @@ require([
             "trendColorInterpretation": "standard",
             "trellis.size": "medium",
             "rangeValues": "[0]",
-            "rangeColors": "[\"0x779ecb\",\"0x779ecb\"]",
+            "rangeColors": "[\"0x7fbfff\",\"0x7fbfff\"]",
             "underLabel": "METRIC HOSTS",
             "managerid": "searchSingleMetricHost1",
             "el": $('#singleFormTotalMetricHost')
@@ -13051,7 +13587,7 @@ require([
             "trendColorInterpretation": "standard",
             "trellis.size": "medium",
             "rangeValues": "[0]",
-            "rangeColors": "[\"0x779ecb\",\"0xffb347\"]",
+            "rangeColors": "[\"0x7fbfff\",\"0xffb347\"]",
             "underLabel": "ANY PRIORITY METRIC HOSTS IN ALERT",
             "managerid": "searchSingleMetricHostInAlert",
             "el": $('#singleFormTotalMetricHostAlerts')
@@ -13087,7 +13623,7 @@ require([
             "trendColorInterpretation": "standard",
             "trellis.size": "medium",
             "rangeValues": "[0]",
-            "rangeColors": "[\"0x779ecb\",\"0xff6961\"]",
+            "rangeColors": "[\"0x7fbfff\",\"0xff6961\"]",
             "underLabel": "HIGH PRIORITY METRIC HOSTS IN ALERT",
             "managerid": "searchSingleMetricHostHighPriority",
             "el": $('#singleFormTotalMetricHostAlertsHighPriority')
@@ -13123,7 +13659,7 @@ require([
             "trendColorInterpretation": "standard",
             "trellis.size": "medium",
             "rangeValues": "[0]",
-            "rangeColors": "[\"0x779ecb\",\"0x779ecb\"]",
+            "rangeColors": "[\"0x7fbfff\",\"0x7fbfff\"]",
             "underLabel": "METRIC HOSTS NOT MONITORED",
             "managerid": "searchSingleMetricHostNotMonitored",
             "el": $('#singleFormTotalMetricHostDisabled')
@@ -13156,7 +13692,7 @@ require([
             "showSparkline": "1",
             "trellis.enabled": "0",
             "numberPrecision": "0",
-            "rangeColors": "[\"0x53a051\",\"0x0877a6\",\"0xf8be34\",\"0xf1813f\",\"0xdc4e41\"]",
+            "rangeColors": "[\"0x77dd77\",\"0x0877a6\",\"0xf8be34\",\"0xf1813f\",\"0xdc4e41\"]",
             "trellis.size": "medium",
             "colorMode": "none",
             "rangeValues": "[0,30,70,100]",
@@ -13184,7 +13720,7 @@ require([
             "showSparkline": "1",
             "trellis.enabled": "0",
             "numberPrecision": "0",
-            "rangeColors": "[\"0x53a051\",\"0x0877a6\",\"0xf8be34\",\"0xf1813f\",\"0xdc4e41\"]",
+            "rangeColors": "[\"0x77dd77\",\"0x0877a6\",\"0xf8be34\",\"0xf1813f\",\"0xdc4e41\"]",
             "trellis.size": "medium",
             "colorMode": "none",
             "rangeValues": "[0,30,70,100]",
@@ -13212,7 +13748,7 @@ require([
             "showSparkline": "1",
             "trellis.enabled": "0",
             "numberPrecision": "0",
-            "rangeColors": "[\"0x53a051\",\"0x0877a6\",\"0xf8be34\",\"0xf1813f\",\"0xdc4e41\"]",
+            "rangeColors": "[\"0x77dd77\",\"0x0877a6\",\"0xf8be34\",\"0xf1813f\",\"0xdc4e41\"]",
             "trellis.size": "medium",
             "colorMode": "none",
             "rangeValues": "[0,30,70,100]",
@@ -13238,7 +13774,7 @@ require([
             "showSparkline": "1",
             "trellis.enabled": "0",
             "numberPrecision": "0",
-            "rangeColors": "[\"0x53a051\",\"0x0877a6\",\"0xf8be34\",\"0xf1813f\",\"0xdc4e41\"]",
+            "rangeColors": "[\"0x77dd77\",\"0x0877a6\",\"0xf8be34\",\"0xf1813f\",\"0xdc4e41\"]",
             "trellis.size": "medium",
             "colorMode": "none",
             "rangeValues": "[0,30,70,100]",
@@ -13264,7 +13800,7 @@ require([
             "showSparkline": "1",
             "trellis.enabled": "0",
             "numberPrecision": "0",
-            "rangeColors": "[\"0x53a051\",\"0x0877a6\",\"0xf8be34\",\"0xf1813f\",\"0xdc4e41\"]",
+            "rangeColors": "[\"0x77dd77\",\"0x0877a6\",\"0xf8be34\",\"0xf1813f\",\"0xdc4e41\"]",
             "trellis.size": "medium",
             "colorMode": "none",
             "rangeValues": "[0,30,70,100]",
@@ -13290,7 +13826,7 @@ require([
             "showSparkline": "1",
             "trellis.enabled": "0",
             "numberPrecision": "0",
-            "rangeColors": "[\"0x53a051\",\"0x0877a6\",\"0xf8be34\",\"0xf1813f\",\"0xdc4e41\"]",
+            "rangeColors": "[\"0x77dd77\",\"0x0877a6\",\"0xf8be34\",\"0xf1813f\",\"0xdc4e41\"]",
             "trellis.size": "medium",
             "colorMode": "none",
             "rangeValues": "[0,30,70,100]",
@@ -13316,7 +13852,7 @@ require([
             "showSparkline": "1",
             "trellis.enabled": "0",
             "numberPrecision": "0",
-            "rangeColors": "[\"0x53a051\",\"0x0877a6\",\"0xf8be34\",\"0xf1813f\",\"0xdc4e41\"]",
+            "rangeColors": "[\"0x77dd77\",\"0x0877a6\",\"0xf8be34\",\"0xf1813f\",\"0xdc4e41\"]",
             "trellis.size": "medium",
             "colorMode": "none",
             "rangeValues": "[0,30,70,100]",
@@ -13342,7 +13878,7 @@ require([
             "showSparkline": "1",
             "trellis.enabled": "0",
             "numberPrecision": "0",
-            "rangeColors": "[\"0x53a051\",\"0x0877a6\",\"0xf8be34\",\"0xf1813f\",\"0xdc4e41\"]",
+            "rangeColors": "[\"0x77dd77\",\"0x0877a6\",\"0xf8be34\",\"0xf1813f\",\"0xdc4e41\"]",
             "trellis.size": "medium",
             "colorMode": "none",
             "rangeValues": "[0,30,70,100]",
@@ -13368,7 +13904,7 @@ require([
             "showSparkline": "1",
             "trellis.enabled": "0",
             "numberPrecision": "0",
-            "rangeColors": "[\"0x53a051\",\"0x0877a6\",\"0xf8be34\",\"0xf1813f\",\"0xdc4e41\"]",
+            "rangeColors": "[\"0x77dd77\",\"0x0877a6\",\"0xf8be34\",\"0xf1813f\",\"0xdc4e41\"]",
             "trellis.size": "medium",
             "colorMode": "none",
             "rangeValues": "[0,30,70,100]",
@@ -13394,7 +13930,7 @@ require([
             "showSparkline": "1",
             "trellis.enabled": "0",
             "numberPrecision": "0",
-            "rangeColors": "[\"0x53a051\",\"0x0877a6\",\"0xf8be34\",\"0xf1813f\",\"0xdc4e41\"]",
+            "rangeColors": "[\"0x77dd77\",\"0x0877a6\",\"0xf8be34\",\"0xf1813f\",\"0xdc4e41\"]",
             "trellis.size": "medium",
             "colorMode": "none",
             "rangeValues": "[0,30,70,100]",
@@ -13421,7 +13957,7 @@ require([
             "showSparkline": "1",
             "trellis.enabled": "0",
             "numberPrecision": "0",
-            "rangeColors": "[\"0x53a051\",\"0x0877a6\",\"0xf8be34\",\"0xf1813f\",\"0xdc4e41\"]",
+            "rangeColors": "[\"0x77dd77\",\"0x0877a6\",\"0xf8be34\",\"0xf1813f\",\"0xdc4e41\"]",
             "trellis.size": "medium",
             "colorMode": "none",
             "rangeValues": "[0,30,70,100]",
@@ -13448,7 +13984,7 @@ require([
             "showSparkline": "1",
             "trellis.enabled": "0",
             "numberPrecision": "0",
-            "rangeColors": "[\"0x53a051\",\"0x0877a6\",\"0xf8be34\",\"0xf1813f\",\"0xdc4e41\"]",
+            "rangeColors": "[\"0x77dd77\",\"0x0877a6\",\"0xf8be34\",\"0xf1813f\",\"0xdc4e41\"]",
             "trellis.size": "medium",
             "colorMode": "none",
             "rangeValues": "[0,30,70,100]",
@@ -13475,7 +14011,7 @@ require([
             "showSparkline": "1",
             "trellis.enabled": "0",
             "numberPrecision": "0",
-            "rangeColors": "[\"0x53a051\",\"0x0877a6\",\"0xf8be34\",\"0xf1813f\",\"0xdc4e41\"]",
+            "rangeColors": "[\"0x77dd77\",\"0x0877a6\",\"0xf8be34\",\"0xf1813f\",\"0xdc4e41\"]",
             "trellis.size": "medium",
             "colorMode": "none",
             "rangeValues": "[0,30,70,100]",
@@ -13502,7 +14038,7 @@ require([
             "showSparkline": "1",
             "trellis.enabled": "0",
             "numberPrecision": "0",
-            "rangeColors": "[\"0x53a051\",\"0x0877a6\",\"0xf8be34\",\"0xf1813f\",\"0xdc4e41\"]",
+            "rangeColors": "[\"0x77dd77\",\"0x0877a6\",\"0xf8be34\",\"0xf1813f\",\"0xdc4e41\"]",
             "trellis.size": "medium",
             "colorMode": "none",
             "rangeValues": "[0,30,70,100]",
@@ -13529,7 +14065,7 @@ require([
             "showSparkline": "1",
             "trellis.enabled": "0",
             "numberPrecision": "0",
-            "rangeColors": "[\"0x53a051\",\"0x0877a6\",\"0xf8be34\",\"0xf1813f\",\"0xdc4e41\"]",
+            "rangeColors": "[\"0x77dd77\",\"0x0877a6\",\"0xf8be34\",\"0xf1813f\",\"0xdc4e41\"]",
             "trellis.size": "medium",
             "colorMode": "none",
             "rangeValues": "[0,30,70,100]",
@@ -14630,7 +15166,7 @@ require([
             "showSparkline": "1",
             "trellis.enabled": "0",
             "unit": "%",
-            "rangeColors": "[\"0xdc4e41\",\"0xf1813f\",\"0x53a051\"]",
+            "rangeColors": "[\"0xdc4e41\",\"0xf1813f\",\"0x77dd77\"]",
             "colorMode": "none",
             "rangeValues": "[50,90]",
             "unitPosition": "after",
@@ -14667,33 +15203,6 @@ require([
             "wrap": "false",
             "managerid": "searchMetricPolicies",
             "el": $('#tableMetricPolicies')
-        }, {
-            tokens: true,
-            tokenNamespace: "submitted"
-        }).render();
-
-        var elementHostSingleMetricHost = new SingleElement({
-            "id": "elementHostSingleMetricHost",
-            "trendDisplayMode": "absolute",
-            "numberPrecision": "0.00",
-            "drilldown": "none",
-            "height": "80",
-            "trellis.size": "medium",
-            "trendColorInterpretation": "standard",
-            "useColors": "0",
-            "colorBy": "value",
-            "showTrendIndicator": "1",
-            "showSparkline": "1",
-            "trellis.enabled": "0",
-            "rangeColors": "[\"0x53a051\",\"0x0877a6\",\"0xf8be34\",\"0xf1813f\",\"0xdc4e41\"]",
-            "colorMode": "none",
-            "rangeValues": "[0,30,70,100]",
-            "unitPosition": "after",
-            "trellis.scales.shared": "1",
-            "useThousandSeparators": "1",
-            "underLabel": "SUMMARY",
-            "managerid": "searchHostSingleMetricHost",
-            "el": $('#elementHostSingleMetricHost')
         }, {
             tokens: true,
             tokenNamespace: "submitted"
@@ -15074,7 +15583,7 @@ require([
             "trellis.enabled": "0",
             "height": "50",
             "unit": "",
-            "rangeColors": "[\"0x53a051\",\"0x0877a6\",\"0xf8be34\",\"0xf1813f\",\"0xdc4e41\"]",
+            "rangeColors": "[\"0x77dd77\",\"0x0877a6\",\"0xf8be34\",\"0xf1813f\",\"0xdc4e41\"]",
             "colorMode": "none",
             "rangeValues": "[0,30,70,100]",
             "unitPosition": "after",
@@ -15152,7 +15661,7 @@ require([
             "showTrendIndicator": "1",
             "showSparkline": "1",
             "trellis.enabled": "0",
-            "rangeColors": "[\"0x53a051\",\"0x0877a6\",\"0xf8be34\",\"0xf1813f\",\"0xdc4e41\"]",
+            "rangeColors": "[\"0x77dd77\",\"0x0877a6\",\"0xf8be34\",\"0xf1813f\",\"0xdc4e41\"]",
             "colorMode": "none",
             "rangeValues": "[0,30,70,100]",
             "unitPosition": "after",
@@ -15179,7 +15688,7 @@ require([
             "showTrendIndicator": "1",
             "showSparkline": "1",
             "trellis.enabled": "0",
-            "rangeColors": "[\"0x53a051\",\"0x0877a6\",\"0xf8be34\",\"0xf1813f\",\"0xdc4e41\"]",
+            "rangeColors": "[\"0x77dd77\",\"0x0877a6\",\"0xf8be34\",\"0xf1813f\",\"0xdc4e41\"]",
             "colorMode": "none",
             "rangeValues": "[0,30,70,100]",
             "unitPosition": "after",
@@ -15206,7 +15715,7 @@ require([
             "showTrendIndicator": "1",
             "showSparkline": "1",
             "trellis.enabled": "0",
-            "rangeColors": "[\"0x53a051\",\"0x0877a6\",\"0xf8be34\",\"0xf1813f\",\"0xdc4e41\"]",
+            "rangeColors": "[\"0x77dd77\",\"0x0877a6\",\"0xf8be34\",\"0xf1813f\",\"0xdc4e41\"]",
             "colorMode": "none",
             "rangeValues": "[0,30,70,100]",
             "unitPosition": "after",
@@ -15233,7 +15742,7 @@ require([
             "showTrendIndicator": "1",
             "showSparkline": "1",
             "trellis.enabled": "0",
-            "rangeColors": "[\"0x53a051\",\"0x0877a6\",\"0xf8be34\",\"0xf1813f\",\"0xdc4e41\"]",
+            "rangeColors": "[\"0x77dd77\",\"0x0877a6\",\"0xf8be34\",\"0xf1813f\",\"0xdc4e41\"]",
             "colorMode": "none",
             "rangeValues": "[0,30,70,100]",
             "unitPosition": "after",
@@ -15261,7 +15770,7 @@ require([
             "showTrendIndicator": "1",
             "showSparkline": "1",
             "trellis.enabled": "0",
-            "rangeColors": "[\"0x53a051\",\"0x0877a6\",\"0xf8be34\",\"0xf1813f\",\"0xdc4e41\"]",
+            "rangeColors": "[\"0x77dd77\",\"0x0877a6\",\"0xf8be34\",\"0xf1813f\",\"0xdc4e41\"]",
             "colorMode": "none",
             "rangeValues": "[0,30,70,100]",
             "unitPosition": "after",
@@ -15288,7 +15797,7 @@ require([
             "showTrendIndicator": "1",
             "showSparkline": "1",
             "trellis.enabled": "0",
-            "rangeColors": "[\"0x53a051\",\"0x0877a6\",\"0xf8be34\",\"0xf1813f\",\"0xdc4e41\"]",
+            "rangeColors": "[\"0x77dd77\",\"0x0877a6\",\"0xf8be34\",\"0xf1813f\",\"0xdc4e41\"]",
             "colorMode": "none",
             "rangeValues": "[0,30,70,100]",
             "unitPosition": "after",
@@ -15315,7 +15824,7 @@ require([
             "showTrendIndicator": "1",
             "showSparkline": "1",
             "trellis.enabled": "0",
-            "rangeColors": "[\"0x53a051\",\"0x0877a6\",\"0xf8be34\",\"0xf1813f\",\"0xdc4e41\"]",
+            "rangeColors": "[\"0x77dd77\",\"0x0877a6\",\"0xf8be34\",\"0xf1813f\",\"0xdc4e41\"]",
             "colorMode": "none",
             "rangeValues": "[0,30,70,100]",
             "unitPosition": "after",
@@ -15342,7 +15851,7 @@ require([
             "showTrendIndicator": "1",
             "showSparkline": "1",
             "trellis.enabled": "0",
-            "rangeColors": "[\"0x53a051\",\"0x0877a6\",\"0xf8be34\",\"0xf1813f\",\"0xdc4e41\"]",
+            "rangeColors": "[\"0x77dd77\",\"0x0877a6\",\"0xf8be34\",\"0xf1813f\",\"0xdc4e41\"]",
             "colorMode": "none",
             "rangeValues": "[0,30,70,100]",
             "unitPosition": "after",
@@ -15371,7 +15880,7 @@ require([
             "showSparkline": "1",
             "trellis.enabled": "0",
             "unit": "",
-            "rangeColors": "[\"0x53a051\",\"0x0877a6\",\"0xf8be34\",\"0xf1813f\",\"0xdc4e41\"]",
+            "rangeColors": "[\"0x77dd77\",\"0x0877a6\",\"0xf8be34\",\"0xf1813f\",\"0xdc4e41\"]",
             "colorMode": "none",
             "rangeValues": "[0,30,70,100]",
             "unitPosition": "after",
@@ -15399,7 +15908,7 @@ require([
             "showSparkline": "1",
             "trellis.enabled": "0",
             "unit": "",
-            "rangeColors": "[\"0x53a051\",\"0x0877a6\",\"0xf8be34\",\"0xf1813f\",\"0xdc4e41\"]",
+            "rangeColors": "[\"0x77dd77\",\"0x0877a6\",\"0xf8be34\",\"0xf1813f\",\"0xdc4e41\"]",
             "colorMode": "none",
             "rangeValues": "[0,30,70,100]",
             "unitPosition": "after",
@@ -15427,7 +15936,7 @@ require([
             "showSparkline": "1",
             "trellis.enabled": "0",
             "unit": "",
-            "rangeColors": "[\"0x53a051\",\"0x0877a6\",\"0xf8be34\",\"0xf1813f\",\"0xdc4e41\"]",
+            "rangeColors": "[\"0x77dd77\",\"0x0877a6\",\"0xf8be34\",\"0xf1813f\",\"0xdc4e41\"]",
             "colorMode": "none",
             "rangeValues": "[0,30,70,100]",
             "unitPosition": "after",
@@ -15455,7 +15964,7 @@ require([
             "showSparkline": "1",
             "trellis.enabled": "0",
             "unit": "%",
-            "rangeColors": "[\"0xdc4e41\",\"0xf1813f\",\"0x53a051\"]",
+            "rangeColors": "[\"0xdc4e41\",\"0xf1813f\",\"0x77dd77\"]",
             "colorMode": "none",
             "rangeValues": "[50,90]",
             "unitPosition": "after",
@@ -15537,7 +16046,7 @@ require([
             "trellis.enabled": "0",
             "height": "50",
             "unit": "",
-            "rangeColors": "[\"0x53a051\",\"0x0877a6\",\"0xf8be34\",\"0xf1813f\",\"0xdc4e41\"]",
+            "rangeColors": "[\"0x77dd77\",\"0x0877a6\",\"0xf8be34\",\"0xf1813f\",\"0xdc4e41\"]",
             "colorMode": "none",
             "rangeValues": "[0,30,70,100]",
             "unitPosition": "after",
@@ -15664,7 +16173,7 @@ require([
             "showSparkline": "1",
             "trellis.enabled": "0",
             "unit": "",
-            "rangeColors": "[\"0x53a051\",\"0x0877a6\",\"0xf8be34\",\"0xf1813f\",\"0xdc4e41\"]",
+            "rangeColors": "[\"0x77dd77\",\"0x0877a6\",\"0xf8be34\",\"0xf1813f\",\"0xdc4e41\"]",
             "colorMode": "none",
             "rangeValues": "[0,30,70,100]",
             "unitPosition": "after",
@@ -15692,7 +16201,7 @@ require([
             "showSparkline": "1",
             "trellis.enabled": "0",
             "unit": "",
-            "rangeColors": "[\"0x53a051\",\"0x0877a6\",\"0xf8be34\",\"0xf1813f\",\"0xdc4e41\"]",
+            "rangeColors": "[\"0x77dd77\",\"0x0877a6\",\"0xf8be34\",\"0xf1813f\",\"0xdc4e41\"]",
             "colorMode": "none",
             "rangeValues": "[0,30,70,100]",
             "unitPosition": "after",
@@ -15720,7 +16229,7 @@ require([
             "showSparkline": "1",
             "trellis.enabled": "0",
             "unit": "",
-            "rangeColors": "[\"0x53a051\",\"0x0877a6\",\"0xf8be34\",\"0xf1813f\",\"0xdc4e41\"]",
+            "rangeColors": "[\"0x77dd77\",\"0x0877a6\",\"0xf8be34\",\"0xf1813f\",\"0xdc4e41\"]",
             "colorMode": "none",
             "rangeValues": "[0,30,70,100]",
             "unitPosition": "after",
@@ -15748,7 +16257,7 @@ require([
             "showSparkline": "1",
             "trellis.enabled": "0",
             "unit": "%",
-            "rangeColors": "[\"0xdc4e41\",\"0xf1813f\",\"0x53a051\"]",
+            "rangeColors": "[\"0xdc4e41\",\"0xf1813f\",\"0x77dd77\"]",
             "colorMode": "none",
             "rangeValues": "[50,90]",
             "unitPosition": "after",
@@ -16074,7 +16583,7 @@ require([
             "showSparkline": "1",
             "trellis.enabled": "0",
             "unit": "",
-            "rangeColors": "[\"0x53a051\",\"0x0877a6\",\"0xf8be34\",\"0xf1813f\",\"0xdc4e41\"]",
+            "rangeColors": "[\"0x77dd77\",\"0x0877a6\",\"0xf8be34\",\"0xf1813f\",\"0xdc4e41\"]",
             "colorMode": "none",
             "rangeValues": "[0,30,70,100]",
             "unitPosition": "after",
@@ -19906,6 +20415,10 @@ require([
 
                                 // Return to modal
                                 $("#modal_metric_sla_policies").modal();
+
+                                // Refresh the search
+                                searchMetricPolicies.startSearch();
+
                             },
                             error: function(xhr, textStatus, error) {
                                 message = "Error Updating!" + xhr + textStatus + error;
@@ -19956,7 +20469,6 @@ require([
             //console.log("Updated!", returneddata)
             // Run the search again to update the table
             searchMetricHostsMain.startSearch();
-            searchMetricPolicies.startSearch();
 
             // notify
             notification('Modification has been registered successfully.', 2000)
@@ -20155,6 +20667,10 @@ require([
 
                                 // Return to modal
                                 $("#modify_custom_lagging").modal();
+
+                                // Refresh the search
+                                searchCustomLagging.startSearch();
+
                             },
                             error: function(xhr, textStatus, error) {
                                 message = "Error Updating!" + xhr + textStatus + error;
@@ -20201,10 +20717,6 @@ require([
 
             // Hide main modal
             $("#manage_custom_lagging").modal('hide');
-
-            //console.log("Updated!", returneddata)
-            // Run the search again to update the table
-            searchCustomLagging.startSearch();
 
             // notify
             notification('Modification has been registered successfully.', 2000)
@@ -20491,6 +21003,11 @@ require([
 
                                 // Return to modal
                                 $("#modal_modify_data_source_whitelist").modal();
+
+                                // Refresh the searches
+                                searchWhiteListDataSource.startSearch();
+                                searchPopulateIndexesForWhiteListDataSource.startSearch();
+
                             },
                             error: function(xhr, textStatus, error) {
                                 message = "Error Updating!" + xhr + textStatus + error;
@@ -20539,10 +21056,7 @@ require([
 
             //console.log("Updated!", returneddata)
             // Run the search again to update the table
-            searchWhiteListDataSource.startSearch();
-            searchSingleWhiteListDataSource.startSearch();
             searchDataSourcesMain.startSearch();
-            searchPopulateIndexesForWhiteListDataSource.startSearch();
             unsetToken("form.tk_input_whitelist_data_source");
 
             // notify
@@ -20743,6 +21257,11 @@ require([
 
                                 // Return to modal
                                 $("#modal_modify_metric_host_whitelist").modal();
+
+                                // Refresh the searches
+                                searchWhiteListMetricHost.startSearch();
+                                searchPopulateIndexesForWhiteListMetricHost.startSearch();
+
                             },
                             error: function(xhr, textStatus, error) {
                                 message = "Error Updating!" + xhr + textStatus + error;
@@ -20791,10 +21310,7 @@ require([
 
             //console.log("Updated!", returneddata)
             // Run the search again to update the table
-            searchWhiteListMetricHost.startSearch();
-            searchSingleWhiteListMetricHost.startSearch();
             searchMetricHostsMain.startSearch();
-            searchPopulateIndexesForWhiteListMetricHost.startSearch();
             unsetToken("form.tk_input_whitelist_metric_host");
 
             // notify
@@ -20995,6 +21511,11 @@ require([
 
                                 // Return to modal
                                 $("#modal_modify_data_host_whitelist").modal();
+
+                                // Refresh the searches
+                                searchWhiteListDataHost.startSearch();
+                                searchPopulateIndexesForWhiteListDataHost.startSearch();
+
                             },
                             error: function(xhr, textStatus, error) {
                                 message = "Error Updating!" + xhr + textStatus + error;
@@ -21043,10 +21564,7 @@ require([
 
             //console.log("Updated!", returneddata)
             // Run the search again to update the table
-            searchWhiteListDataHost.startSearch();
-            searchSingleWhiteListDataHost.startSearch();
             searchDataHostsMain.startSearch();
-            searchPopulateIndexesForWhiteListDataHost.startSearch();
             unsetToken("form.tk_input_whitelist_data_host");
 
             // notify
@@ -21248,6 +21766,10 @@ require([
 
                                 // Return to modal
                                 $("#modal_modify_data_source_blacklist_host").modal();
+
+                                // Refresh the search
+                                searchBlackListDataSourceHost.startSearch();
+
                             },
                             error: function(xhr, textStatus, error) {
                                 message = "Error Updating!" + xhr + textStatus + error;
@@ -21297,8 +21819,6 @@ require([
 
             //console.log("Updated!", returneddata)
             // Run the search again to update the table
-            searchBlackListDataSourceHost.startSearch();
-            searchSingleBlackListDataSourceHost.startSearch();
             searchDataSourcesMain.startSearch();
 
             // notify
@@ -21620,6 +22140,10 @@ require([
 
                                 // Return to modal
                                 $("#modal_modify_data_source_blacklist_index").modal();
+
+                                // Refresh the searches
+                                searchBlackListDataSourceIndex.startSearch();
+
                             },
                             error: function(xhr, textStatus, error) {
                                 message = "Error Updating!" + xhr + textStatus + error;
@@ -21669,8 +22193,6 @@ require([
 
             //console.log("Updated!", returneddata)
             // Run the search again to update the table
-            searchBlackListDataSourceIndex.startSearch();
-            searchSingleBlackListDataSourceIndex.startSearch();
             searchDataSourcesMain.startSearch();
 
             // notify
@@ -21748,6 +22270,10 @@ require([
 
                                 // Return to modal
                                 $("#modal_modify_data_host_blacklist_index").modal();
+
+                                // Refresh the search
+                                searchBlackListDataHostIndex.startSearch();
+
                             },
                             error: function(xhr, textStatus, error) {
                                 message = "Error Updating!" + xhr + textStatus + error;
@@ -21797,8 +22323,6 @@ require([
 
             //console.log("Updated!", returneddata)
             // Run the search again to update the table
-            searchBlackListDataHostIndex.startSearch();
-            searchSingleBlackListDataHostIndex.startSearch();
             searchDataSourcesMain.startSearch();
 
             // notify
@@ -21997,6 +22521,10 @@ require([
 
                                 // Return to modal
                                 $("#modal_modify_data_host_blacklist_host").modal();
+
+                                // Refresh the search
+                                searchBlackListDataHostHost.startSearch();                                
+
                             },
                             error: function(xhr, textStatus, error) {
                                 message = "Error Updating!" + xhr + textStatus + error;
@@ -22046,9 +22574,7 @@ require([
 
             //console.log("Updated!", returneddata)
             // Run the search again to update the table
-            searchBlackListDataHostHost.startSearch();
-            searchSingleBlackListDataHostHost.startSearch();
-            searchDataHostsMain.startSearch();
+            searchDataHostsMain.startSearch();            
 
             // notify
             notification('Modification has been registered successfully.', 2000)
@@ -22246,6 +22772,10 @@ require([
 
                                 // Return to modal
                                 $("#modal_modify_metric_host_blacklist_index").modal();
+
+                                // Refresh the search
+                                searchBlackListMetricHostIndex.startSearch();                                
+
                             },
                             error: function(xhr, textStatus, error) {
                                 message = "Error Updating!" + xhr + textStatus + error;
@@ -22295,9 +22825,7 @@ require([
 
             //console.log("Updated!", returneddata)
             // Run the search again to update the table
-            searchBlackListMetricHostIndex.startSearch();
-            searchSingleBlackListMetricHostIndex.startSearch();
-            searchMetricHostsMain.startSearch();
+            searchMetricHostsMain.startSearch();            
 
             // notify
             notification('Modification has been registered successfully.', 2000)
@@ -22495,6 +23023,10 @@ require([
 
                                 // Return to modal
                                 $("#modal_modify_data_source_blacklist_sourcetype").modal();
+
+                                // Refresh the search
+                                searchBlackListDataSourceSourcetype.startSearch();
+
                             },
                             error: function(xhr, textStatus, error) {
                                 message = "Error Updating!" + xhr + textStatus + error;
@@ -22544,8 +23076,6 @@ require([
 
             //console.log("Updated!", returneddata)
             // Run the search again to update the table
-            searchBlackListDataSourceSourcetype.startSearch();
-            searchSingleBlackListDataSourceSourcetype.startSearch();
             searchDataSourcesMain.startSearch();
 
             // notify
@@ -22744,6 +23274,10 @@ require([
 
                                 // Return to modal
                                 $("#modal_modify_data_host_blacklist_sourcetype").modal();
+
+                                // Refresh the search
+                                searchBlackListDataHostSourcetype.startSearch();
+
                             },
                             error: function(xhr, textStatus, error) {
                                 message = "Error Updating!" + xhr + textStatus + error;
@@ -22793,8 +23327,6 @@ require([
 
             //console.log("Updated!", returneddata)
             // Run the search again to update the table
-            searchBlackListDataHostSourcetype.startSearch();
-            searchSingleBlackListDataHostSourcetype.startSearch();
             searchDataSourcesMain.startSearch();
 
             // notify
@@ -22994,6 +23526,10 @@ require([
 
                                 // Return to modal
                                 $("#modal_modify_metric_host_blacklist_host").modal();
+
+                                // Refresh the search
+                                searchBlackListMetricHostHost.startSearch();
+
                             },
                             error: function(xhr, textStatus, error) {
                                 message = "Error Updating!" + xhr + textStatus + error;
@@ -23043,8 +23579,6 @@ require([
 
             //console.log("Updated!", returneddata)
             // Run the search again to update the table
-            searchBlackListMetricHostHost.startSearch();
-            searchSingleBlackListMetricHostHost.startSearch();
             searchMetricHostsMain.startSearch();
 
             // notify
@@ -23243,6 +23777,10 @@ require([
 
                                 // Return to modal
                                 $("#modal_modify_metric_host_blacklist_metric_category").modal();
+
+                                // Refresh the search
+                                searchBlackListMetricHostMetricCategory.startSearch();
+
                             },
                             error: function(xhr, textStatus, error) {
                                 message = "Error Updating!" + xhr + textStatus + error;
@@ -23292,8 +23830,6 @@ require([
 
             //console.log("Updated!", returneddata)
             // Run the search again to update the table
-            searchBlackListMetricHostMetricCategory.startSearch();
-            searchSingleBlackListMetricHostMetricCategory.startSearch();
             searchDataSourcesMain.startSearch();
 
             // notify
@@ -24028,6 +24564,10 @@ require([
 
                                 // Return to modal
                                 $("#modify_elastic_sources").modal();
+
+                                // Refresh the search
+                                searchElasticSources.startSearch();
+
                             },
                             error: function(xhr, textStatus, error) {
                                 message = "Error Updating!" + xhr + textStatus + error;
@@ -24074,10 +24614,6 @@ require([
 
             // Hide main modal
             $("#delete_elastic_source_main").modal('hide');
-
-            //console.log("Updated!", returneddata)
-            // Run the search again to update the table
-            searchElasticSources.startSearch();
 
             // notify
             notification('Modification has been registered successfully.', 2000)

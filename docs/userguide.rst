@@ -16,7 +16,7 @@ Access TrackMe main interface
 **If the UI is empty and no data sources are showing up:**
 
 - You can wait for the short term trackers execution which are scheduled to run every 5 minutes
-- Or manually run the data sources tracker by clicking on the button "Manage: run short term tracker now" (we will come back to the tracker concept later in this guide)
+- Or manually run the data sources tracker by clicking on the button "Run: short term tracker now" (we will come back to the tracker concept later in this guide)
 
 Main concept and main tabs
 --------------------------
@@ -64,7 +64,7 @@ The modal window "open-up" is the user main interaction with TrackMe, depending 
    :align: center
 
 - ``data_index`` is the name of the Splunk index where the data resides
-- ``data_sourcetype`` is the Splunk sourcetype that identities the data for this entity
+- ``data_sourcetype`` is the Splunk sourcetype for this entity
 - ``lag event / lag ingestion: ([D+]HH:MM:SS)`` exposes the two main lagging metrics handled by TrackMe, the lag from the event point of view, and the lag from the ingestion point of view, we will come back to that very soon
 - ``data_last_time_seen`` is the last date time TrackMe has detected data available for this data source, from the event time stamp point of view
 
@@ -283,6 +283,13 @@ Status message
 .. image:: img/first_steps/img020_blue.png
    :alt: img/first_steps/img020_blue
    :align: center
+
+*example of an orange state due to data indexed in the future:*
+
+.. image:: img/first_steps/img020_orange.png
+   :alt: img/first_steps/img020_orange
+   :align: center
+
 
 Audit changes
 ^^^^^^^^^^^^^

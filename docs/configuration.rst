@@ -114,7 +114,7 @@ Finally, in addition the following macro is used within the searches, and can be
     iseval = 0
 
 Activation of built-in alerts
-============================
+=============================
 
 **TrackMe provides out of the box alerts that can be used to deliver alerting when a monitored component reaches a red state:**
 
