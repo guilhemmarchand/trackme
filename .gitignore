@@ -35,3 +35,6 @@ backups
 
 # Visual Basic Code
 .vscode
+
+# appinspect reports
+appinspect_report*.html
