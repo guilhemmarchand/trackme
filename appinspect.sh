@@ -12,11 +12,14 @@ export appinspect_token=$(curl -X GET \
      -u ${username} \
      --url "https://api.splunk.com/2.0/rest/login/splunk" -s | sed 's/%//g' | jq -r .data.token)
 
-if [ $? -ne 0 ]; then
-    echo "ERROR: login to appinspect API has failed, an authentication could be not be generated."; exit 1
-else
+case "$appinspect_token" in
+"null")
+    echo "ERROR: login to appinspect API has failed, an authentication token could be not be generated."; exit 1
+    ;;
+*)
     echo "SUCCESS: Authentication was successful and we got a token."
-fi
+    ;;
+esac
 
 for app in $(ls *.tgz); do
 
