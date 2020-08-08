@@ -2271,6 +2271,27 @@ styles in <div> tags, similar to Bootstrap's grid system.
                             </div>
                         </div>
 
+                        <div id="rowDataSampling" class="dashboard-row dashboard-row2" data-depends="$show_data_sampling$">
+                            <div id="panelDataSampling" class="dashboard-cell" style="width: 100%;">
+                                <div class="dashboard-panel clearfix">
+
+                                    <div class="panel-element-row">
+                                        <div class="dashboard-element html" id="body_data_source_data_sampling" style="width: 100%">
+                                            <div class="panel-body html">
+                                                <div class="$tk_data_sampling_status_message_class$">
+                                                    <h2 style="font-weight: bold;">$tk_data_sampling_status_message$</h2>
+                                                </div>
+                                                <div style="margin-left: 42px; margin-right: 42px;">
+                                                    <button type="submit" id="btn_data_sampling_manage" role="button" style="margin-right: 15px;" class="btn btn-outline-primary pull-right"><span class="glyphicon glyphicon-remove"></span>Manage data sampling</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+
                         <div id="rowChartParsingQuality" class="dashboard-row dashboard-row1" data-depends="$show_data_quality$,$show_data_quality_no_results$">
                             <div id="panelChartParsingQuality" class="dashboard-cell" style="width: 100%;">
                                 <div class="dashboard-panel clearfix">
@@ -7692,7 +7713,7 @@ require([
 
         var searchDataSourcesPostTable = new PostProcessManager({
             "tokenDependencies": {},
-            "search": "search $inputDataName$ $inputDataIndex$ $inputDataSourcetype$ $data_source_state$ $data_monitored_state$ $inputDataPriority$\n| fillnull data_last_lag_seen, data_last_ingestion_lag_seen\n| eval data_last_lag_seen=round(data_last_lag_seen, 0) | eval data_last_ingestion_lag_seen=round(data_last_ingestion_lag_seen, 0) | fillnull value=\"N/A\" data_last_lag_seen, data_last_ingestion_lag_seen\n| eval \"lag summary (lag event / lag ingestion)\" = if(data_last_lag_seen>60, tostring(data_last_lag_seen, \"duration\"), data_last_lag_seen . \" sec\") . \" / \" . if(data_last_ingestion_lag_seen>60, tostring(data_last_ingestion_lag_seen, \"duration\"), data_last_ingestion_lag_seen . \" sec\")\n| rename \"data_last_time_seen (translated)\" as \"last time\", \"data_last_ingest (translated)\" as \"last ingest\", \"data_last_time_seen_idx (translated)\" as \"last time idx\"\n| eval data_tracker_runtime=now()\n| `trackme_date_format(\"latest_flip_time\")`\n| fillnull value=\"N/A\" latest_flip_state, latest_flip_time, \"latest_flip_time (translated)\"\n| `trackme_get_identity_card(data_name)`\n| `trackme_lookup_elastic_sources`\n|`trackme_ack_lookup_main(data_name)`\n| sort limit=10000 data_name",
+            "search": "search $inputDataName$ $inputDataIndex$ $inputDataSourcetype$ $data_source_state$ $data_monitored_state$ $inputDataPriority$\n| fillnull data_last_lag_seen, data_last_ingestion_lag_seen\n| eval data_last_lag_seen=round(data_last_lag_seen, 0) | eval data_last_ingestion_lag_seen=round(data_last_ingestion_lag_seen, 0) | fillnull value=\"N/A\" data_last_lag_seen, data_last_ingestion_lag_seen\n| eval \"lag summary (lag event / lag ingestion)\" = if(data_last_lag_seen>60, tostring(data_last_lag_seen, \"duration\"), data_last_lag_seen . \" sec\") . \" / \" . if(data_last_ingestion_lag_seen>60, tostring(data_last_ingestion_lag_seen, \"duration\"), data_last_ingestion_lag_seen . \" sec\")\n| rename \"data_last_time_seen (translated)\" as \"last time\", \"data_last_ingest (translated)\" as \"last ingest\", \"data_last_time_seen_idx (translated)\" as \"last time idx\"\n| eval data_tracker_runtime=now()\n| `trackme_date_format(\"latest_flip_time\")`\n| fillnull value=\"N/A\" latest_flip_state, latest_flip_time, \"latest_flip_time (translated)\"\n| `trackme_get_identity_card(data_name)`\n| `trackme_lookup_elastic_sources`\n| `trackme_ack_lookup_main(data_name)`\n| `trackme_lookup_data_sampling`\n| sort limit=10000 data_name",
             "managerid": "searchDataSourcesMain",
             "id": "searchDataSourcesPostTable"
         }, {
@@ -10838,6 +10859,10 @@ require([
                     "label": "Outlier detection configuration"
                 },
                 {
+                    "value": "data_sampling",
+                    "label": "Data sampling"
+                },
+                {
                     "value": "data_quality",
                     "label": "Data parsing quality"
                 },
@@ -10882,6 +10907,7 @@ require([
                 EventHandler.unsetToken("show_flipping_status");
                 EventHandler.unsetToken("show_data_source_audit_changes");
                 EventHandler.unsetToken("show_data_source_lagging_metrics");
+                EventHandler.unsetToken("show_data_sampling");
             } else if (e.value === "outlier") {
                 EventHandler.setToken("show_data_source_outlier", "true", {}, e.data);
                 EventHandler.unsetToken("show_data_source_overview");
@@ -10891,6 +10917,7 @@ require([
                 EventHandler.unsetToken("show_flipping_status");
                 EventHandler.unsetToken("show_data_source_audit_changes");
                 EventHandler.unsetToken("show_data_source_lagging_metrics");
+                EventHandler.unsetToken("show_data_sampling");
             } else if (e.value === "outlier_configuration") {
                 EventHandler.setToken("show_data_source_outlier_configuration", "true", {}, e.data);
                 EventHandler.unsetToken("show_data_source_overview");
@@ -10900,6 +10927,17 @@ require([
                 EventHandler.unsetToken("show_flipping_status");
                 EventHandler.unsetToken("show_data_source_audit_changes");
                 EventHandler.unsetToken("show_data_source_lagging_metrics");
+                EventHandler.unsetToken("show_data_sampling");
+            } else if (e.value === "data_sampling") {
+                EventHandler.setToken("show_data_sampling", "true", {}, e.data);
+                EventHandler.unsetToken("show_data_source_overview");
+                EventHandler.unsetToken("show_data_source_outlier");
+                EventHandler.unsetToken("show_data_source_outlier_configuration");
+                EventHandler.unsetToken("show_data_source_status_message");
+                EventHandler.unsetToken("show_flipping_status");
+                EventHandler.unsetToken("show_data_source_audit_changes");
+                EventHandler.unsetToken("show_data_source_lagging_metrics");
+                EventHandler.unsetToken("show_data_quality");
             } else if (e.value === "data_quality") {
                 EventHandler.setToken("show_data_quality", "true", {}, e.data);
                 EventHandler.unsetToken("show_data_source_overview");
@@ -10909,6 +10947,7 @@ require([
                 EventHandler.unsetToken("show_flipping_status");
                 EventHandler.unsetToken("show_data_source_audit_changes");
                 EventHandler.unsetToken("show_data_source_lagging_metrics");
+                EventHandler.unsetToken("show_data_sampling");
             } else if (e.value === "lagging_metrics") {
                 EventHandler.setToken("show_data_source_lagging_metrics", "true", {}, e.data);
                 EventHandler.unsetToken("show_data_source_overview");
@@ -10918,6 +10957,7 @@ require([
                 EventHandler.unsetToken("show_flipping_status");
                 EventHandler.unsetToken("show_data_source_audit_changes");
                 EventHandler.unsetToken("show_data_quality");
+                EventHandler.unsetToken("show_data_sampling");
             } else if (e.value === "flipping_status") {
                 EventHandler.setToken("show_flipping_status", "true", {}, e.data);
                 EventHandler.unsetToken("show_data_source_overview");
@@ -10927,6 +10967,7 @@ require([
                 EventHandler.unsetToken("show_data_quality");
                 EventHandler.unsetToken("show_data_source_audit_changes");
                 EventHandler.unsetToken("show_data_source_lagging_metrics");
+                EventHandler.unsetToken("show_data_sampling");
             } else if (e.value === "status_message") {
                 EventHandler.setToken("show_data_source_status_message", "true", {}, e.data);
                 EventHandler.unsetToken("show_data_source_overview");
@@ -10936,6 +10977,7 @@ require([
                 EventHandler.unsetToken("show_flipping_status");
                 EventHandler.unsetToken("show_data_source_audit_changes");
                 EventHandler.unsetToken("show_data_source_lagging_metrics");
+                EventHandler.unsetToken("show_data_sampling");
             } else if (e.value === "data_source_audit_changes") {
                 EventHandler.setToken("show_data_source_audit_changes", "true", {}, e.data);
                 EventHandler.unsetToken("show_data_source_overview");
@@ -10945,6 +10987,7 @@ require([
                 EventHandler.unsetToken("show_flipping_status");
                 EventHandler.unsetToken("show_data_source_status_message");
                 EventHandler.unsetToken("show_data_source_lagging_metrics");
+                EventHandler.unsetToken("show_data_sampling");
             }            
         });
 
@@ -14159,6 +14202,10 @@ require([
                 setToken("form.TimeOutlierConfigurationDataSource", TokenUtils.replaceTokenNames("$row.OutlierTimePeriod$", _.extend(submittedTokenModel.toJSON(), e.data)));
                 setToken("form.TimeOutlierConfigurationDataSourceSpan", TokenUtils.replaceTokenNames("$row.OutlierSpan$", _.extend(submittedTokenModel.toJSON(), e.data)));
 
+                // data sampling
+                setToken("tk_data_sampling_status_message", TokenUtils.replaceTokenNames("$row.data_sample_status_message$", _.extend(submittedTokenModel.toJSON(), e.data)));
+                setToken("tk_data_sampling_status_colour", TokenUtils.replaceTokenNames("$row.data_sample_status_colour$", _.extend(submittedTokenModel.toJSON(), e.data)));
+
                 // status message
                 setToken("tk_status_message", TokenUtils.replaceTokenNames("$row.status_message$", _.extend(submittedTokenModel.toJSON(), e.data)));
 
@@ -14339,6 +14386,20 @@ require([
                     setToken("tk_priority_class", TokenUtils.replaceTokenNames("title_medium_priority", _.extend(submittedTokenModel.toJSON(), e.data)));
                 } else if (tk_priority == "high") {
                     setToken("tk_priority_class", TokenUtils.replaceTokenNames("title_high_priority", _.extend(submittedTokenModel.toJSON(), e.data)));
+                }
+
+                // Data sampling
+
+                var tk_data_sampling_status_colour = tokens.get("tk_data_sampling_status_colour");
+
+                if (tk_data_sampling_status_colour == "green") {
+                    setToken("tk_data_sampling_status_message_class", TokenUtils.replaceTokenNames("status_message_green", _.extend(submittedTokenModel.toJSON(), e.data)));
+                } else if (tk_data_sampling_status_colour == "orange") {
+                    setToken("tk_data_sampling_status_message_class", TokenUtils.replaceTokenNames("status_message_orange", _.extend(submittedTokenModel.toJSON(), e.data)));
+                } else if (tk_data_sampling_status_colour == "blue") {
+                    setToken("tk_data_sampling_status_message_class", TokenUtils.replaceTokenNames("status_message_blue", _.extend(submittedTokenModel.toJSON(), e.data)));
+                } else if (tk_data_sampling_status_colour == "red") {
+                    setToken("tk_data_sampling_status_message_class", TokenUtils.replaceTokenNames("status_message_red", _.extend(submittedTokenModel.toJSON(), e.data)));
                 }
 
                 // Enable modal context
@@ -16636,6 +16697,15 @@ require([
             "id": "body_modal_manage_host",
             "useTokens": true,
             "el": $('#body_modal_manage_host')
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        }).render();
+
+        var body_data_source_data_sampling = new HtmlElement({
+            "id": "body_data_source_data_sampling",
+            "useTokens": true,
+            "el": $('#body_data_source_data_sampling')
         }, {
             tokens: true,
             tokenNamespace: "submitted"
