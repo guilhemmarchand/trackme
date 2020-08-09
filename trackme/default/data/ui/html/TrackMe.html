@@ -1567,6 +1567,148 @@ styles in <div> tags, similar to Bootstrap's grid system.
         </div>
     </div>
 
+    <!-- Modal window for Data Sampling -->
+    <div class="modal fade custom-modal-80" id="data_sampling_manage" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header modal-header-info">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h1 style="color: white;"><span class="glyphicon glyphicon-lock"></span> Data sampling &amp; events format recognition </h1>
+                </div>
+
+                <div class="modal-body">
+
+                    <div>
+
+                        <div style="margin-bottom: 10px;">
+                            <div>
+                                <h3>The data sampling and events format recognition feature tracks the raw events format behaviour by achieving analysis based on the following workflow:</h3>
+                                <lu>
+                                    <li>On a scheduled basis, a sample of the latest data source raw events is taken and investigated</li>
+                                    <li>Events format recognition is performed against a list of builtin regular expression rules to identify a unique event pattern</li>
+                                    <li>Builtin rules can optionnally be completed by custom regular expression rules to handle event formats that could not be managed by builtin rules</li>
+                                    <li>Depending on the conditions, such as a change detected in the format of the raw events, a data sampling status is defined and taken into account for the global data source state</li>
+                                </lu>
+                            </div>
+                        </div>
+
+                        <div style="margin-bottom: 10px;">
+                            <div>
+                                <h3>Acting on a data sampling and events format recognition anomaly detection:</h3>
+                                <lu>
+                                    <li>If during the first inspection for the source type, more than one type of events are detected, the data sampling feature is automatically disabled to avoid leading to false positive alerts as events recognition would not be reliable in this context</li>
+                                    <li>If a given format was previously identified, say the events are ingested as json structured data, then during the next iteration TrackMe discovered any other type of format, an anomaly state will be raised</li>
+                                    <li>In the same manner, if during a new iteration of the inspection multiple events formats are discovered in a sourcetype where previoulsy a given format was idenfitied, an anomaly state will be raised</li>
+                                    <li>Once an anomaly was raised due to inspection, the status will not be cleared until a manual action is performed in this interface by clicking on the button "Clear state and run sampling"</li>
+                                    <li>When the clear state action is performed, all previously identified information for that sourcetype are cleared and the inspection starts over</li> 
+                                </lu>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div id="rowDataSamplingSummary" class="dashboard-row dashboard-row1">
+                        <div id="panelDataSamplingSummary" class="dashboard-cell" style="width: 100%;">
+                            <div class="dashboard-panel clearfix">
+                                <div class="panel-element-row">
+                                    <div class="fieldset">
+                                        <div id="tableDataSamplingSummary" class="dashboard-element table" style="width: 100%">
+                                            <label>Data sampling summary for this data source:</label>
+                                            <div class="panel-body"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div style="margin-top: 20px;" class="modal-footer">
+                        <div class="btn_data_sampling_back" style="margin-right: 15px; float: left;">
+                            <button type="submit" class="btn btn-default btn-primary" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Back</button>
+                        </div>
+                        <div class="btn_data_sampling_clear_now" style="margin-right: 15px; float: right;">
+                            <button type="submit" class="btn btn-default btn-danger" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Clear state and run sampling</button>
+                        </div>
+                        <div class="btn_data_sampling_custom_rules" style="margin-right: 15px; float: right;">
+                            <button type="submit" class="btn btn-default btn-primary" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Manage custom rules </button>
+                        </div>
+                        <div style="margin-right: 15px; float: right;">
+                            <a class="btn btn-info" id="btn_data_sampling_latest_sample" target="_blank" href="search" role="button">View latest sample events</a>
+                        </div>
+                        <div class="btn_data_sampling_builtin_rules" style="margin-right: 15px; float: right;">
+                            <button type="submit" class="btn btn-default btn-info" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> View builtin rules </button>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Modal window for Data Sampling -->
+    <div class="modal fade custom-modal-80" id="data_sampling_show_builtin_rules" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header modal-header-info">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h1 style="color: white;"><span class="glyphicon glyphicon-lock"></span> Data sampling &amp; events format recognition </h1>
+                </div>
+
+                <div class="modal-body">
+
+                    <div>
+
+                        <div style="margin-bottom: 10px;">
+
+                            <div>
+                                <h3>Events format recognition builtin regex rules:</h3>
+                                <lu>
+                                    <li>Builtin rules are applied <b>after</b> custom rules (if any)</li>
+                                    <li>Builtin rules are regular expressions used to identify the type of event based on its structure format (json, xml...) or the timestamp format</li>
+                                    <li>These rules cover most common use cases, and can easily be extended by adding your own custom models</li>
+                                    <li>Shall none of the rules be matching the events formats, the event will be tagged as "raw_not_identified" (last rule applied in process order)</li>
+                                </lu>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <div id="rowDataSamplingSummary" class="dashboard-row dashboard-row1">
+                        <div id="panelDataSamplingSummary" class="dashboard-cell" style="width: 100%;">
+                            <div class="dashboard-panel clearfix">
+                                <div class="panel-element-row">
+                                    <div class="fieldset">
+                                        <div id="tableDataSamplingShowBuiltinRules" class="dashboard-element table" style="width: 100%">
+                                            <label>Data sampling event recognition builtin rules:</label>
+                                            <div class="panel-body"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div style="margin-top: 20px;" class="modal-footer">
+                        <div class="btn_data_sampling_builtin_rules_back" style="margin-right: 15px; float: right;">
+                            <button type="submit" class="btn btn-default btn-primary" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Back</button>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
     <!-- Modal window confirmation of association for identity card -->
     <div class="modal fade" id="ack_achieved" role="dialog">
         <div class="modal-dialog">
@@ -2281,8 +2423,15 @@ styles in <div> tags, similar to Bootstrap's grid system.
                                                 <div class="$tk_data_sampling_status_message_class$">
                                                     <h2 style="font-weight: bold;">$tk_data_sampling_status_message$</h2>
                                                 </div>
-                                                <div style="margin-left: 42px; margin-right: 42px;">
-                                                    <button type="submit" id="btn_data_sampling_manage" role="button" style="margin-right: 15px;" class="btn btn-outline-primary pull-right"><span class="glyphicon glyphicon-remove"></span>Manage data sampling</button>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="panel-element-row">
+                                        <div class="dashboard-element html" style="width: 100%">
+                                            <div class="panel-body html">
+                                                <div class="btn_data_sampling_manage" style="margin-left: 42px; margin-right: 42px;">
+                                                    <button type="submit" role="button" style="margin-right: 15px;" class="btn btn-outline-primary pull-right"><span class="glyphicon glyphicon-remove"></span>Manage data sampling</button>
                                                 </div>
                                             </div>
                                         </div>
@@ -9561,6 +9710,58 @@ require([
             tokenNamespace: "submitted"
         });
 
+        // Data sampling
+
+        var searchDataSamplingMain = new SearchManager({
+            "id": "searchDataSamplingMain",
+            "earliest_time": "-15m",
+            "cancelOnUnload": true,
+            "sample_ratio": null,
+            "latest_time": "now",
+            "search": "| inputlookup trackme_data_sampling where data_name=\"$tk_data_name$\"",
+            "status_buckets": 0,
+            "app": utils.getCurrentApp(),
+            "auto_cancel": 90,
+            "preview": true,
+            "tokenDependencies": {
+                "depends": "$show_data_sampling$",
+            },
+            "runWhenTimeIsUndefined": false
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        });
+
+        var searchDataSamplingTable1 = new PostProcessManager({
+	        "tokenDependencies": {},
+            "search": "| fields data_sample_status_colour, data_sample_status_message, data_sample_feature, current_detected_format, previous_detected_format, data_sample_anomaly_detected, data_sample_anomaly_reason, multiformat_detected, mtime | eval mtime=strftime(mtime, \"%c\") | `trackme_eval_icons_data_sampling_enablement` | `trackme_eval_icons_data_sampling_summary` | fillnull value=\"N/A\"",
+            "managerid": "searchDataSamplingMain",
+            "id": "searchDataSamplingTable1"
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        });
+
+        var searchDataSamplingShowBuiltinRules = new SearchManager({
+            "id": "searchDataSamplingShowBuiltinRules",
+            "earliest_time": "-15m",
+            "cancelOnUnload": true,
+            "sample_ratio": null,
+            "latest_time": "now",
+            "search": "| `trackme_show_builtin_model_rules`",
+            "status_buckets": 0,
+            "app": utils.getCurrentApp(),
+            "auto_cancel": 90,
+            "preview": true,
+            "tokenDependencies": {
+                "depends": "$show_data_sampling$",
+            },
+            "runWhenTimeIsUndefined": false
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        });
+
         // Custom lagging
 
         var searchCustomLagging = new SearchManager({
@@ -15250,6 +15451,41 @@ require([
             }
         });
 
+        // Data Sampling
+
+        var tableDataSamplingSummary = new TableElement({
+            "id": "tableDataSamplingSummary",
+            "tokenDependencies": {
+                "depends": "$show_data_sampling$"
+            },
+            "count": 10,
+            "drilldown": "none",
+            "fields": "data_sample_feature, current_detected_format, previous_detected_format, state, data_sample_anomaly_reason, multiformat_detected, mtime",
+            "refresh.display": "none",
+            "wrap": "false",
+            "managerid": "searchDataSamplingTable1",
+            "el": $('#tableDataSamplingSummary')
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        }).render();
+
+        var tableDataSamplingShowBuiltinRules = new TableElement({
+            "id": "tableDataSamplingShowBuiltinRules",
+            "tokenDependencies": {
+                "depends": "$show_data_sampling$"
+            },
+            "count": 10,
+            "drilldown": "none",
+            "refresh.display": "none",
+            "wrap": "false",
+            "managerid": "searchDataSamplingShowBuiltinRules",
+            "el": $('#tableDataSamplingShowBuiltinRules')
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        }).render();
+
         // Metric SLA policies
 
         var tableMetricPolicies = new TableElement({
@@ -17962,6 +18198,30 @@ require([
                                 //console.log("  " + field + ": " + value);
                                 setToken("tk_status_message", value);
                                 tk_status_message = value
+                            }
+
+                            // update data sampling
+                            if (field == "data_sample_status_message") {
+                                setToken("$tk_data_sampling_status_message", value);
+                                tk_data_sampling_status_message = value
+                                console.log("  " + field + ": " + value);
+                            }
+
+                            // update state color
+                            if (field == "data_sample_status_colour") {
+                                //console.log("  " + field + ": " + value);
+                                setToken("tk_data_sampling_status_message_class", value);
+                                tk_data_sampling_status_message_class = value
+                                // Dynamically manage state color
+                                if (tk_data_sampling_status_message_class == "green") {
+                                    setToken("tk_data_sampling_status_message_class", "status_message_green");
+                                } else if (tk_data_sampling_status_message_class == "orange") {
+                                    setToken("tk_data_sampling_status_message_class", "status_message_orange");
+                                } else if (tk_data_sampling_status_message_class == "blue") {
+                                    setToken("tk_data_sampling_status_message_class", "status_message_blue");
+                                } else if (tk_data_sampling_status_message_class == "red") {
+                                    setToken("tk_data_sampling_status_message_class", "status_message_red");
+                                }
                             }
 
                         }
@@ -30066,6 +30326,59 @@ require([
 
             }
 
+        });
+
+        // Data sampling
+        $('.btn_data_sampling_manage').each(function() {
+            var $btn_group = $(this);
+            $btn_group.find('button').on('click', function() {
+                var $btn = $(this);
+                console.log("Button was clicked");
+
+                submitTokens();
+
+                // When the Submit button is clicked, get all the form fields by accessing token values
+                var tokens = mvc.Components.get("default");
+
+                // Built the search URI
+                var tk_data_name = tokens.get("tk_data_name");
+                var search_latest_sample = 'search' + "?q=" + encodeURI("| inputlookup trackme_data_sampling where data_name=\"" + tk_data_name + "\" | fields raw_sample | mvexpand raw_sample | `trackme_data_sampling_abstract_detect_events_format`");
+                // Define the URL target
+                document.getElementById("btn_data_sampling_latest_sample").href = search_latest_sample;
+
+                $("#modal_manage").modal('hide')
+                $("#data_sampling_manage").modal()
+            });
+        });
+
+        // Back button
+        $('.btn_data_sampling_back').each(function() {
+            var $btn_group = $(this);
+            $btn_group.find('button').on('click', function() {
+                var $btn = $(this);
+                console.log("Button was clicked");
+                $("#modal_manage").modal()
+            });
+        });
+
+        // Show builtin rules
+        $('.btn_data_sampling_builtin_rules').each(function() {
+            var $btn_group = $(this);
+            $btn_group.find('button').on('click', function() {
+                var $btn = $(this);
+                console.log("Button was clicked");
+                $("#data_sampling_show_builtin_rules").modal()
+            });
+        });
+
+        // Back button
+        $('.btn_data_sampling_builtin_rules_back').each(function() {
+            var $btn_group = $(this);
+            $btn_group.find('button').on('click', function() {
+                var $btn = $(this);
+                console.log("Button was clicked");
+                $("#data_sampling_manage").modal()
+            });
         });
 
         // Outliers simulation
