@@ -7698,7 +7698,7 @@ require([
             var tokens = mvc.Components.get("default");
             var currentUser = Splunk.util.getConfigValue("USERNAME");
             tokens.set("currentUser", currentUser);
-            var auditendpoint_URl = "/en-US/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_audit_changes/"
+            var auditendpoint_URl = "{{SPLUNKWEB_URL_PREFIX}}/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_audit_changes/"
 
             var time = (new Date).getTime();
             var audit_record = {
@@ -18081,7 +18081,7 @@ require([
         var tokens = mvc.Components.get("default");
         var currentUser = Splunk.util.getConfigValue("USERNAME");
         tokens.set("currentUser", currentUser);
-        var auditendpoint_URl = "/en-US/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_audit_changes/"
+        var auditendpoint_URl = "{{SPLUNKWEB_URL_PREFIX}}/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_audit_changes/"
 
         // FUNCTIONS
 
@@ -18856,7 +18856,7 @@ require([
             var tk_enable_behaviour_analytic = tokens.get("tk_enable_behaviour_analytic");
 
             // Create the endpoint URL
-            var myendpoint_URl = "/en-US/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_data_source_monitoring/" + tk_keyid;
+            var myendpoint_URl = "{{SPLUNKWEB_URL_PREFIX}}/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_data_source_monitoring/" + tk_keyid;
 
             // Create a dictionary to store the field names and values
             var record = {
@@ -19014,7 +19014,7 @@ require([
             var tk_enable_behaviour_analytic = tokens.get("tk_enable_behaviour_analytic");
 
             // Create the endpoint URL
-            var myendpoint_URl = "/en-US/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_host_monitoring/" + tk_keyid;
+            var myendpoint_URl = "{{SPLUNKWEB_URL_PREFIX}}/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_host_monitoring/" + tk_keyid;
 
             // Create a dictionary to store the field names and values
             var record = {
@@ -19215,7 +19215,7 @@ require([
             var tk_priority = tokens.get("tk_priority");
 
             // Create the endpoint URL
-            var myendpoint_URl = "/en-US/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_metric_host_monitoring/" + tk_keyid;
+            var myendpoint_URl = "{{SPLUNKWEB_URL_PREFIX}}/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_metric_host_monitoring/" + tk_keyid;
 
             // Create a dictionary to store the field names and values
             var record = {
@@ -19347,7 +19347,7 @@ require([
             var tk_priority = tokens.get("tk_priority");
 
             // Create the endpoint URL
-            var myendpoint_URl = "/en-US/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_metric_host_monitoring/" + tk_keyid;
+            var myendpoint_URl = "{{SPLUNKWEB_URL_PREFIX}}/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_metric_host_monitoring/" + tk_keyid;
 
             var tk_origin_priority = tk_priority;
             var tk_new_priority = tokens.get("tk_input_metric_host_priority");
@@ -19481,7 +19481,7 @@ require([
             var tk_enable_behaviour_analytic = tokens.get("tk_enable_behaviour_analytic");
 
             // Create the endpoint URL
-            var myendpoint_URl = "/en-US/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_data_source_monitoring/" + tk_keyid;
+            var myendpoint_URl = "{{SPLUNKWEB_URL_PREFIX}}/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_data_source_monitoring/" + tk_keyid;
 
             // Create a dictionary to store the field names and values
             var record = {
@@ -19639,7 +19639,7 @@ require([
             var tk_enable_behaviour_analytic = tokens.get("tk_enable_behaviour_analytic");
 
             // Create the endpoint URL
-            var myendpoint_URl = "/en-US/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_host_monitoring/" + tk_keyid;
+            var myendpoint_URl = "{{SPLUNKWEB_URL_PREFIX}}/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_host_monitoring/" + tk_keyid;
 
             // Create a dictionary to store the field names and values
             var record = {
@@ -19780,7 +19780,7 @@ require([
             var tk_priority = tokens.get("tk_priority");
 
             // Create the endpoint URL
-            var myendpoint_URl = "/en-US/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_metric_host_monitoring/" + tk_keyid;
+            var myendpoint_URl = "{{SPLUNKWEB_URL_PREFIX}}/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_metric_host_monitoring/" + tk_keyid;
 
             // Create a dictionary to store the field names and values
             var record = {
@@ -19931,7 +19931,7 @@ require([
             };
 
             // Create the endpoint URL
-            var myendpoint_URl = "/en-US/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_metric_host_monitoring/" + tk_keyid;
+            var myendpoint_URl = "{{SPLUNKWEB_URL_PREFIX}}/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_metric_host_monitoring/" + tk_keyid;
 
             if (tk_keyid && tk_keyid.length) {
 
@@ -20178,7 +20178,7 @@ require([
             };
 
             // Create the endpoint URL
-            var myendpoint_URl = "/en-US/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_data_source_monitoring/" + tk_keyid;
+            var myendpoint_URl = "{{SPLUNKWEB_URL_PREFIX}}/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_data_source_monitoring/" + tk_keyid;
 
             if (tk_keyid && tk_keyid.length) {
 
@@ -20419,7 +20419,7 @@ require([
             };
 
             // Create the endpoint URL
-            var myendpoint_URl = "/en-US/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_host_monitoring/" + tk_keyid;
+            var myendpoint_URl = "{{SPLUNKWEB_URL_PREFIX}}/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_host_monitoring/" + tk_keyid;
 
             if (tk_keyid && tk_keyid.length) {
 
@@ -20716,7 +20716,7 @@ require([
         //console.log("removal of key :" + item);
 
             // Create the endpoint URL
-            var myendpoint_URl = "/en-US/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_metric_lagging_definition/" + item;
+            var myendpoint_URl = "{{SPLUNKWEB_URL_PREFIX}}/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_metric_lagging_definition/" + item;
 
             //console.log("Endpoint URL is: " + myendpoint_URl);
 
@@ -20851,7 +20851,7 @@ require([
             var tk_input_custom_lagging_value = tokens.get("tk_input_custom_lagging_value");
 
             // Create the endpoint URL
-            var myendpoint_URl = "/en-US/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_custom_lagging_definition";
+            var myendpoint_URl = "{{SPLUNKWEB_URL_PREFIX}}/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_custom_lagging_definition";
 
             //console.log("Endpoint URL is: " + myendpoint_URl);
 
@@ -20965,7 +20965,7 @@ require([
         //console.log("removal of key :" + item);
 
             // Create the endpoint URL
-            var myendpoint_URl = "/en-US/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_custom_lagging_definition/" + item;
+            var myendpoint_URl = "{{SPLUNKWEB_URL_PREFIX}}/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_custom_lagging_definition/" + item;
 
             //console.log("Endpoint URL is: " + myendpoint_URl);
 
@@ -21099,7 +21099,7 @@ require([
             var tk_keyid = tokens.get("tk_keyid");
 
             // Create the endpoint URL
-            var myendpoint_URl = "/en-US/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_custom_lagging_definition/" + tk_keyid;
+            var myendpoint_URl = "{{SPLUNKWEB_URL_PREFIX}}/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_custom_lagging_definition/" + tk_keyid;
 
             // Get tokens
             var tk_input_custom_lagging_type = tokens.get("tk_input_custom_lagging_type");
@@ -21184,7 +21184,7 @@ require([
             var tk_input_whitelist_data_source = tokens.get("tk_input_whitelist_data_source");
 
             // Create the endpoint URL
-            var myendpoint_URl = "/en-US/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_data_source_monitoring_whitelist_index";
+            var myendpoint_URl = "{{SPLUNKWEB_URL_PREFIX}}/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_data_source_monitoring_whitelist_index";
 
             //console.log("Endpoint URL is: " + myendpoint_URl);
 
@@ -21305,7 +21305,7 @@ require([
           //console.log("removal of key :" + item);
 
             // Create the endpoint URL
-            var myendpoint_URl = "/en-US/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_data_source_monitoring_whitelist_index/" + item;
+            var myendpoint_URl = "{{SPLUNKWEB_URL_PREFIX}}/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_data_source_monitoring_whitelist_index/" + item;
 
             //console.log("Endpoint URL is: " + myendpoint_URl);
 
@@ -21438,7 +21438,7 @@ require([
             var tk_input_whitelist_metric_host = tokens.get("tk_input_whitelist_metric_host");
 
             // Create the endpoint URL
-            var myendpoint_URl = "/en-US/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_metric_host_monitoring_whitelist_index";
+            var myendpoint_URl = "{{SPLUNKWEB_URL_PREFIX}}/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_metric_host_monitoring_whitelist_index";
 
             //console.log("Endpoint URL is: " + myendpoint_URl);
 
@@ -21559,7 +21559,7 @@ require([
           //console.log("removal of key :" + item);
 
             // Create the endpoint URL
-            var myendpoint_URl = "/en-US/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_metric_host_monitoring_whitelist_index/" + item;
+            var myendpoint_URl = "{{SPLUNKWEB_URL_PREFIX}}/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_metric_host_monitoring_whitelist_index/" + item;
 
             //console.log("Endpoint URL is: " + myendpoint_URl);
 
@@ -21692,7 +21692,7 @@ require([
             var tk_input_whitelist_data_host = tokens.get("tk_input_whitelist_data_host");
 
             // Create the endpoint URL
-            var myendpoint_URl = "/en-US/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_data_host_monitoring_whitelist_index";
+            var myendpoint_URl = "{{SPLUNKWEB_URL_PREFIX}}/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_data_host_monitoring_whitelist_index";
 
             //console.log("Endpoint URL is: " + myendpoint_URl);
 
@@ -21813,7 +21813,7 @@ require([
           //console.log("removal of key :" + item);
 
             // Create the endpoint URL
-            var myendpoint_URl = "/en-US/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_data_host_monitoring_whitelist_index/" + item;
+            var myendpoint_URl = "{{SPLUNKWEB_URL_PREFIX}}/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_data_host_monitoring_whitelist_index/" + item;
 
             //console.log("Endpoint URL is: " + myendpoint_URl);
 
@@ -21950,7 +21950,7 @@ require([
             var tk_input_blacklist_host = tokens.get("tk_input_data_source_blacklist_host");
 
             // Create the endpoint URL
-            var myendpoint_URl = "/en-US/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_data_source_monitoring_blacklist_host";
+            var myendpoint_URl = "{{SPLUNKWEB_URL_PREFIX}}/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_data_source_monitoring_blacklist_host";
 
             //console.log("Endpoint URL is: " + myendpoint_URl);
 
@@ -22068,7 +22068,7 @@ require([
         //console.log("removal of key :" + item);
 
             // Create the endpoint URL
-            var myendpoint_URl = "/en-US/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_data_source_monitoring_blacklist_host/" + item;
+            var myendpoint_URl = "{{SPLUNKWEB_URL_PREFIX}}/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_data_source_monitoring_blacklist_host/" + item;
 
             //console.log("Endpoint URL is: " + myendpoint_URl);
 
@@ -22200,7 +22200,7 @@ require([
             var tk_input_blacklist_host = tokens.get("tk_input_data_host_blacklist_host");
 
             // Create the endpoint URL
-            var myendpoint_URl = "/en-US/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_data_host_monitoring_blacklist_host";
+            var myendpoint_URl = "{{SPLUNKWEB_URL_PREFIX}}/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_data_host_monitoring_blacklist_host";
 
             //console.log("Endpoint URL is: " + myendpoint_URl);
 
@@ -22323,7 +22323,7 @@ require([
             var tk_input_blacklist_index = tokens.get("tk_input_blacklist_index");
 
             // Create the endpoint URL
-            var myendpoint_URl = "/en-US/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_data_source_monitoring_blacklist_index";
+            var myendpoint_URl = "{{SPLUNKWEB_URL_PREFIX}}/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_data_source_monitoring_blacklist_index";
 
             //console.log("Endpoint URL is: " + myendpoint_URl);
 
@@ -22442,7 +22442,7 @@ require([
         //console.log("removal of key :" + item);
 
             // Create the endpoint URL
-            var myendpoint_URl = "/en-US/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_data_source_monitoring_blacklist_index/" + item;
+            var myendpoint_URl = "{{SPLUNKWEB_URL_PREFIX}}/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_data_source_monitoring_blacklist_index/" + item;
 
             //console.log("Endpoint URL is: " + myendpoint_URl);
 
@@ -22572,7 +22572,7 @@ require([
         //console.log("removal of key :" + item);
 
             // Create the endpoint URL
-            var myendpoint_URl = "/en-US/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_data_host_monitoring_blacklist_index/" + item;
+            var myendpoint_URl = "{{SPLUNKWEB_URL_PREFIX}}/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_data_host_monitoring_blacklist_index/" + item;
 
             //console.log("Endpoint URL is: " + myendpoint_URl);
 
@@ -22704,7 +22704,7 @@ require([
             var tk_input_blacklist_index = tokens.get("tk_input_data_host_blacklist_index");
 
             // Create the endpoint URL
-            var myendpoint_URl = "/en-US/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_data_host_monitoring_blacklist_index";
+            var myendpoint_URl = "{{SPLUNKWEB_URL_PREFIX}}/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_data_host_monitoring_blacklist_index";
 
             //console.log("Endpoint URL is: " + myendpoint_URl);
 
@@ -22823,7 +22823,7 @@ require([
         //console.log("removal of key :" + item);
 
             // Create the endpoint URL
-            var myendpoint_URl = "/en-US/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_data_host_monitoring_blacklist_host/" + item;
+            var myendpoint_URl = "{{SPLUNKWEB_URL_PREFIX}}/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_data_host_monitoring_blacklist_host/" + item;
 
             //console.log("Endpoint URL is: " + myendpoint_URl);
 
@@ -22955,7 +22955,7 @@ require([
             var tk_input_blacklist_index = tokens.get("tk_input_metric_host_blacklist_index");
 
             // Create the endpoint URL
-            var myendpoint_URl = "/en-US/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_data_source_monitoring_blacklist_index";
+            var myendpoint_URl = "{{SPLUNKWEB_URL_PREFIX}}/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_data_source_monitoring_blacklist_index";
 
             //console.log("Endpoint URL is: " + myendpoint_URl);
 
@@ -23074,7 +23074,7 @@ require([
         //console.log("removal of key :" + item);
 
             // Create the endpoint URL
-            var myendpoint_URl = "/en-US/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_metric_host_monitoring_blacklist_index/" + item;
+            var myendpoint_URl = "{{SPLUNKWEB_URL_PREFIX}}/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_metric_host_monitoring_blacklist_index/" + item;
 
             //console.log("Endpoint URL is: " + myendpoint_URl);
 
@@ -23206,7 +23206,7 @@ require([
             var tk_input_blacklist_sourcetype = tokens.get("tk_input_data_source_blacklist_sourcetype");
 
             // Create the endpoint URL
-            var myendpoint_URl = "/en-US/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_data_source_monitoring_blacklist_sourcetype";
+            var myendpoint_URl = "{{SPLUNKWEB_URL_PREFIX}}/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_data_source_monitoring_blacklist_sourcetype";
 
             //console.log("Endpoint URL is: " + myendpoint_URl);
 
@@ -23325,7 +23325,7 @@ require([
         //console.log("removal of key :" + item);
 
             // Create the endpoint URL
-            var myendpoint_URl = "/en-US/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_data_source_monitoring_blacklist_sourcetype/" + item;
+            var myendpoint_URl = "{{SPLUNKWEB_URL_PREFIX}}/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_data_source_monitoring_blacklist_sourcetype/" + item;
 
             //console.log("Endpoint URL is: " + myendpoint_URl);
 
@@ -23457,7 +23457,7 @@ require([
             var tk_input_blacklist_sourcetype = tokens.get("tk_input_data_host_blacklist_sourcetype");
 
             // Create the endpoint URL
-            var myendpoint_URl = "/en-US/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_data_host_monitoring_blacklist_sourcetype";
+            var myendpoint_URl = "{{SPLUNKWEB_URL_PREFIX}}/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_data_host_monitoring_blacklist_sourcetype";
 
             //console.log("Endpoint URL is: " + myendpoint_URl);
 
@@ -23576,7 +23576,7 @@ require([
         //console.log("removal of key :" + item);
 
             // Create the endpoint URL
-            var myendpoint_URl = "/en-US/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_data_host_monitoring_blacklist_sourcetype/" + item;
+            var myendpoint_URl = "{{SPLUNKWEB_URL_PREFIX}}/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_data_host_monitoring_blacklist_sourcetype/" + item;
 
             //console.log("Endpoint URL is: " + myendpoint_URl);
 
@@ -23709,7 +23709,7 @@ require([
             var tk_input_blacklist_host = tokens.get("tk_input_metric_host_blacklist_host");
 
             // Create the endpoint URL
-            var myendpoint_URl = "/en-US/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_metric_host_monitoring_blacklist_host";
+            var myendpoint_URl = "{{SPLUNKWEB_URL_PREFIX}}/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_metric_host_monitoring_blacklist_host";
 
             //console.log("Endpoint URL is: " + myendpoint_URl);
 
@@ -23828,7 +23828,7 @@ require([
         //console.log("removal of key :" + item);
 
             // Create the endpoint URL
-            var myendpoint_URl = "/en-US/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_metric_host_monitoring_blacklist_host/" + item;
+            var myendpoint_URl = "{{SPLUNKWEB_URL_PREFIX}}/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_metric_host_monitoring_blacklist_host/" + item;
 
             //console.log("Endpoint URL is: " + myendpoint_URl);
 
@@ -23960,7 +23960,7 @@ require([
             var tk_input_blacklist_metric_category = tokens.get("tk_input_metric_host_blacklist_metric_category");
 
             // Create the endpoint URL
-            var myendpoint_URl = "/en-US/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_metric_host_monitoring_blacklist_metric_category";
+            var myendpoint_URl = "{{SPLUNKWEB_URL_PREFIX}}/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_metric_host_monitoring_blacklist_metric_category";
 
             //console.log("Endpoint URL is: " + myendpoint_URl);
 
@@ -24079,7 +24079,7 @@ require([
         //console.log("removal of key :" + item);
 
             // Create the endpoint URL
-            var myendpoint_URl = "/en-US/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_metric_host_monitoring_blacklist_metric_category/" + item;
+            var myendpoint_URl = "{{SPLUNKWEB_URL_PREFIX}}/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_metric_host_monitoring_blacklist_metric_category/" + item;
 
             //console.log("Endpoint URL is: " + myendpoint_URl);
 
@@ -24433,7 +24433,7 @@ require([
 
                 if (start_simulation_elastic_sources && start_simulation_elastic_sources == 'true') {
 
-                    var myendpoint_URl = "/en-US/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_elastic_sources/"
+                    var myendpoint_URl = "{{SPLUNKWEB_URL_PREFIX}}/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_elastic_sources/"
 
                     // Create a dictionary to store the field names and values
                     var record = {
@@ -24624,7 +24624,7 @@ require([
                         auditRecord(action, change_type, object, object_category, object_attrs, result, comment);
 
                         // Store in the KVstore for mapping purposes
-                            var myendpoint_URl = "/en-US/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_elastic_sources_dedicated/"
+                            var myendpoint_URl = "{{SPLUNKWEB_URL_PREFIX}}/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_elastic_sources_dedicated/"
 
                             // Create a dictionary to store the field names and values
                             var record = {
@@ -24862,7 +24862,7 @@ require([
         //console.log("removal of key :" + item);
 
             // Create the endpoint URL
-            var myendpoint_URl = "/en-US/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_elastic_sources/" + item;
+            var myendpoint_URl = "{{SPLUNKWEB_URL_PREFIX}}/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_elastic_sources/" + item;
 
             //console.log("Endpoint URL is: " + myendpoint_URl);
 
@@ -26014,7 +26014,7 @@ require([
             //console.log("Value of modal_input_grace_period is: " + tk_kafka_infra_grace_period);
 
             // Create the endpoint URL
-            var myendpoint_URl = "/en-US/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_data_source_monitoring/" + tk_keyid;
+            var myendpoint_URl = "{{SPLUNKWEB_URL_PREFIX}}/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_data_source_monitoring/" + tk_keyid;
 
             var tk_origin_data_monitoring_wdays = tokens.get("tk_data_monitoring_wdays");
             var tk_data_monitoring_wdays = tokens.get("tk_input_wdays");
@@ -26165,7 +26165,7 @@ require([
             //console.log("Value of modal_input_grace_period is: " + tk_kafka_infra_grace_period);
 
             // Create the endpoint URL
-            var myendpoint_URl = "/en-US/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_data_source_monitoring/" + tk_keyid;
+            var myendpoint_URl = "{{SPLUNKWEB_URL_PREFIX}}/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_data_source_monitoring/" + tk_keyid;
 
             var tk_origin_priority = tk_priority;
             var tk_new_priority = tokens.get("tk_input_priority");
@@ -26322,7 +26322,7 @@ require([
             //console.log("Value of modal_input_grace_period is: " + tk_kafka_infra_grace_period);
 
             // Create the endpoint URL
-            var myendpoint_URl = "/en-US/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_data_source_monitoring/" + tk_keyid;
+            var myendpoint_URl = "{{SPLUNKWEB_URL_PREFIX}}/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_data_source_monitoring/" + tk_keyid;
 
             var tk_origin_data_monitoring_wdays = tokens.get("tk_data_monitoring_wdays");
             var tk_data_monitoring_wdays_no = tokens.get("tk_input_wdays_no");
@@ -26491,7 +26491,7 @@ require([
             //console.log("Value of modal_input_grace_period is: " + tk_kafka_infra_grace_period);
 
             // Create the endpoint URL
-            var myendpoint_URl = "/en-US/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_data_source_monitoring/" + tk_keyid;
+            var myendpoint_URl = "{{SPLUNKWEB_URL_PREFIX}}/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_data_source_monitoring/" + tk_keyid;
 
             var tk_data_monitoring_level = tokens.get("tk_input_level");
             var tk_origin_data_monitoring_level = tokens.get("tk_data_monitoring_level");
@@ -26649,7 +26649,7 @@ require([
             //console.log("Value of modal_input_grace_period is: " + tk_kafka_infra_grace_period);
 
             // Create the endpoint URL
-            var myendpoint_URl = "/en-US/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_data_source_monitoring/" + tk_keyid;
+            var myendpoint_URl = "{{SPLUNKWEB_URL_PREFIX}}/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_data_source_monitoring/" + tk_keyid;
 
             // max lag allowed
             var tk_data_max_lag_allowed = tokens.get("tk_input_lag");
@@ -27538,7 +27538,7 @@ require([
             //console.log("Value of modal_input_grace_period is: " + tk_kafka_infra_grace_period);
 
             // Create the endpoint URL
-            var myendpoint_URl = "/en-US/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_host_monitoring/" + tk_keyid;
+            var myendpoint_URl = "{{SPLUNKWEB_URL_PREFIX}}/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_host_monitoring/" + tk_keyid;
 
             var tk_origin_data_monitoring_wdays = tokens.get("tk_data_monitoring_wdays");
             var tk_data_monitoring_wdays = tokens.get("tk_input_wdays_host");
@@ -27677,7 +27677,7 @@ require([
             var tk_priority = tokens.get("tk_priority");
 
             // Create the endpoint URL
-            var myendpoint_URl = "/en-US/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_host_monitoring/" + tk_keyid;
+            var myendpoint_URl = "{{SPLUNKWEB_URL_PREFIX}}/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_host_monitoring/" + tk_keyid;
 
             var tk_origin_priority = tk_priority;
             var tk_new_priority = tokens.get("tk_input_host_priority");
@@ -27826,7 +27826,7 @@ require([
             //console.log("Value of modal_input_grace_period is: " + tk_kafka_infra_grace_period);
 
             // Create the endpoint URL
-            var myendpoint_URl = "/en-US/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_host_monitoring/" + tk_keyid;
+            var myendpoint_URl = "{{SPLUNKWEB_URL_PREFIX}}/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_host_monitoring/" + tk_keyid;
 
             var tk_origin_data_monitoring_wdays = tokens.get("tk_data_monitoring_wdays");
             var tk_data_monitoring_wdays_no = tokens.get("tk_input_wdays_host_no");
@@ -27992,7 +27992,7 @@ require([
             //console.log("Value of modal_input_grace_period is: " + tk_kafka_infra_grace_period);
 
             // Create the endpoint URL
-            var myendpoint_URl = "/en-US/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_host_monitoring/" + tk_keyid;
+            var myendpoint_URl = "{{SPLUNKWEB_URL_PREFIX}}/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_host_monitoring/" + tk_keyid;
 
             // max lag allowed
             var tk_data_max_lag_allowed = tokens.get("tk_input_lag_host");
@@ -30245,7 +30245,7 @@ require([
             }
 
             // Create the endpoint URL
-            var myendpoint_URl = "/en-US/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_data_source_monitoring/" + tk_keyid;
+            var myendpoint_URl = "{{SPLUNKWEB_URL_PREFIX}}/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_data_source_monitoring/" + tk_keyid;
 
             // Create a dictionary to store the field names and values
             var record = {
@@ -30544,7 +30544,7 @@ require([
             var tk_keyid = tokens.get("tk_keyid");            
 
             // Endpoint URI
-            var myendpoint_URl = "/en-US/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_data_sampling/" + tk_keyid;
+            var myendpoint_URl = "{{SPLUNKWEB_URL_PREFIX}}/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_data_sampling/" + tk_keyid;
             console.log(myendpoint_URl);
 
             // Retrieve update comment if any
@@ -30851,7 +30851,7 @@ require([
             }
 
             // Create the endpoint URL
-            var myendpoint_URl = "/en-US/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_host_monitoring/" + tk_keyid;
+            var myendpoint_URl = "{{SPLUNKWEB_URL_PREFIX}}/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_host_monitoring/" + tk_keyid;
 
             // Create a dictionary to store the field names and values
             var record = {

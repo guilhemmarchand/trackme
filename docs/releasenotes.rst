@@ -14,6 +14,7 @@ This is a new main release branch, TrackMe 1.2.x requires the deployment of the 
 TrackMe requires a summary index (defaults to trackme_summary) and a metric index (defaults to trackme_metrics):
 https://trackme.readthedocs.io/en/latest/configuration.html
 
+- Fix: When using a custom Splunk URI path (root_endpoint in web.conf), internal calls to splunkd made the UI can fail if splunkd does not accept the root context and only accepts the custom root context
 
 Version 1.2.20
 ==============
