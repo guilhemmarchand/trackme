@@ -1631,6 +1631,9 @@ styles in <div> tags, similar to Bootstrap's grid system.
                         <div style="margin-right: 15px; float: right;">
                             <button id="btn_data_sampling_clear_now" type="submit" class="btn btn-default btn-danger" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Clear state and run sampling</button>
                         </div>
+                        <div style="margin-right: 15px; float: right;">
+                            <button id="btn_run_data_sampling" type="submit" class="btn btn-default btn-primary" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Run sampling engine now</button>
+                        </div>
                         <div class="btn_data_sampling_custom_rules" style="margin-right: 15px; float: right;">
                             <button type="submit" class="btn btn-default btn-primary" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Manage custom rules </button>
                         </div>
@@ -14430,6 +14433,7 @@ require([
                 // data sampling
                 setToken("tk_data_sampling_status_message", TokenUtils.replaceTokenNames("$row.data_sample_status_message$", _.extend(submittedTokenModel.toJSON(), e.data)));
                 setToken("tk_data_sampling_status_colour", TokenUtils.replaceTokenNames("$row.data_sample_status_colour$", _.extend(submittedTokenModel.toJSON(), e.data)));
+                setToken("tk_data_sample_anomaly_reason", TokenUtils.replaceTokenNames("$row.data_sample_anomaly_reason$", _.extend(submittedTokenModel.toJSON(), e.data)));
 
                 // status message
                 setToken("tk_status_message", TokenUtils.replaceTokenNames("$row.status_message$", _.extend(submittedTokenModel.toJSON(), e.data)));
@@ -30381,6 +30385,15 @@ require([
                     document.getElementById('btn_data_sampling_clear_now').disabled = false;
                 }
 
+                // Run engine should not be granted when an anomaly was found at first discovery
+                var data_sample_anomaly_reason = tokens.get("tk_data_sample_anomaly_reason");
+                console.log("data_sample_anomaly_reason is: " + data_sample_anomaly_reason);
+                if (data_sample_anomaly_reason == "multiformat_at_discovery") {
+                    document.getElementById('btn_run_data_sampling').disabled = true;
+                } else {
+                    document.getElementById('btn_run_data_sampling').disabled = false;
+                }
+
                 $("#modal_manage").modal('hide')
                 $("#data_sampling_manage").modal()
             });
@@ -30416,6 +30429,99 @@ require([
             });
         });
 
+        // Run data sampling engine
+        $("#btn_run_data_sampling").click(function() {            
+            console.log("Button was clicked");
+
+            submitTokens();
+
+            // When the Submit button is clicked, get all the form fields by accessing token values
+            var tokens = mvc.Components.get("default");
+
+            // Built the search URI
+            var tk_keyid = tokens.get("tk_keyid");            
+
+            // Define the query
+            var searchQuery = "| savedsearch \"TrackMe - Data sampling engine for target\" key=\"" + tk_keyid + "\"";
+            console.log(searchQuery);
+
+            // Set the search parameters--specify a time range
+            var searchParams = {
+                earliest_time: "-4h",
+                latest_time: "now"
+            };
+
+            // Run a normal search that immediately returns the job's SID
+            service.search(
+                searchQuery,
+                searchParams,
+                function(err, job) {
+
+                    $("#loadingGray").remove()
+                    $("body").append('<div id="loadingGray" style="background: #e9e9e9; display: block; position: fixed; z-index: 100; top: 0; right: 0; bottom: 0; left: 0; height: 100%; opacity: 0.8;"><div style="width: 100%; margin-top: 250px; padding-bottom: 50px; text-align: center;"><p style="font-size: 18pt; font-weight: bolder;">Running the data sampling and format recognition engine...</p></div><div id="spinner"></div></div>')
+
+                    require(["jquery",
+                            "/static/app/trackme/spin.js"
+                        ],
+                        function($,
+                            Spinner
+                        ) {
+                            new Spinner({
+                                lines: 12,
+                                position: "relative"
+                            }).spin(document.getElementById('spinner'));
+                        })
+
+                    // Shall the search fail before we can get properties
+                    if (job == null) {
+                        let errorStr = "Unknown Error!";
+                        if (err && err.data && err.data.messages && err.data.messages[0]['text']) {
+                            errorStr = err.data.messages[0]['text'];
+                        } else if (err && err.data && err.data.messages) {
+                            errorStr = JSON.stringify(err.data.messages);
+                        }
+                        $("#loadingGray").remove()
+                        $("#modal_update_collection_failure_return").find('.modal-error-message p').text(errorStr);
+                        $("#modal_update_collection_failure_return").modal()
+                    } else {
+
+                        // Poll the status of the search job
+                        job.track({
+                            period: 200
+                        }, {
+                            done: function(job) {
+                                //console.log("Done!");
+
+                                // Once the job is done, update all searches
+                                searchDataSamplingTable1.startSearch();
+
+                                $("#loadingGray").remove()
+                                $("#data_sampling_manage").modal();
+
+                            },
+                            failed: function(properties) {
+                                let errorStr = "Unknown Error!";
+                                if (properties && properties._properties && properties._properties.messages && properties._properties.messages[0]['text']) {
+                                    errorStr = properties._properties.messages[0]['text'];
+                                } else if (properties && properties._properties && properties._properties.messages) {
+                                    errorStr = JSON.stringify(properties._properties.messages);
+                                }
+                                $("#loadingGray").remove()
+                                $("#modal_update_collection_failure_return").find('.modal-error-message p').text(errorStr);
+                                $("#modal_update_collection_failure_return").modal()
+                            },
+                            error: function(err) {
+                                done(err);
+                                $("#loadingGray").remove()
+                                $("#modal_update_collection_failure").modal()
+                            }
+                        });
+                    }
+                }
+            );
+
+        });
+
         // Clear state action
         $("#btn_data_sampling_clear_now").click(function() {
             console.log("Button was clicked");
@@ -30425,8 +30531,8 @@ require([
         // Clear state action button is confirmed
         $("#btn_modal_clear_state_confirm").click(function() {
 
-            var that = $(this);
-            that.off('click'); // remove handler
+            //var that = $(this);
+            //that.off('click'); // remove handler
 
             submitTokens();
 
@@ -30526,17 +30632,86 @@ require([
                             comment = tk_comment;
                             auditRecord(action, change_type, object, object_category, object_attrs, result, comment);
 
-                            // house cleaning
-                            myendpoint_URl = undefined;
-                            delete(myendpoint_URl);
-                            tk_keyid = undefined;
-                            delete(tk_keyid);
+                            //console.log("Start collection update");
 
-                            // Return to modal
-                            $("#data_sampling_manage").modal();
+                            // Define the query
+                            var searchQuery = "| savedsearch \"TrackMe - Data sampling engine for target\" key=\"" + tk_keyid + "\"";
+                            console.log(searchQuery);
 
-                            // Refresh the search
-                            searchDataSamplingTable1.startSearch();
+                            // Set the search parameters--specify a time range
+                            var searchParams = {
+                                earliest_time: "-4h",
+                                latest_time: "now"
+                            };
+
+                            // Run a normal search that immediately returns the job's SID
+                            service.search(
+                                searchQuery,
+                                searchParams,
+                                function(err, job) {
+
+                                    $("#loadingGray").remove()
+                                    $("body").append('<div id="loadingGray" style="background: #e9e9e9; display: block; position: fixed; z-index: 100; top: 0; right: 0; bottom: 0; left: 0; height: 100%; opacity: 0.8;"><div style="width: 100%; margin-top: 250px; padding-bottom: 50px; text-align: center;"><p style="font-size: 18pt; font-weight: bolder;">Running the data sampling and format recognition engine...</p></div><div id="spinner"></div></div>')
+
+                                    require(["jquery",
+                                            "/static/app/trackme/spin.js"
+                                        ],
+                                        function($,
+                                            Spinner
+                                        ) {
+                                            new Spinner({
+                                                lines: 12,
+                                                position: "relative"
+                                            }).spin(document.getElementById('spinner'));
+                                        })
+
+                                    // Shall the search fail before we can get properties
+                                    if (job == null) {
+                                        let errorStr = "Unknown Error!";
+                                        if (err && err.data && err.data.messages && err.data.messages[0]['text']) {
+                                            errorStr = err.data.messages[0]['text'];
+                                        } else if (err && err.data && err.data.messages) {
+                                            errorStr = JSON.stringify(err.data.messages);
+                                        }
+                                        $("#loadingGray").remove()
+                                        $("#modal_update_collection_failure_return").find('.modal-error-message p').text(errorStr);
+                                        $("#modal_update_collection_failure_return").modal()
+                                    } else {
+
+                                        // Poll the status of the search job
+                                        job.track({
+                                            period: 200
+                                        }, {
+                                            done: function(job) {
+                                                //console.log("Done!");
+
+                                                // Once the job is done, update all searches
+                                                searchDataSamplingTable1.startSearch();
+
+                                                $("#loadingGray").remove()
+                                                $("#data_sampling_manage").modal();
+
+                                            },
+                                            failed: function(properties) {
+                                                let errorStr = "Unknown Error!";
+                                                if (properties && properties._properties && properties._properties.messages && properties._properties.messages[0]['text']) {
+                                                    errorStr = properties._properties.messages[0]['text'];
+                                                } else if (properties && properties._properties && properties._properties.messages) {
+                                                    errorStr = JSON.stringify(properties._properties.messages);
+                                                }
+                                                $("#loadingGray").remove()
+                                                $("#modal_update_collection_failure_return").find('.modal-error-message p').text(errorStr);
+                                                $("#modal_update_collection_failure_return").modal()
+                                            },
+                                            error: function(err) {
+                                                done(err);
+                                                $("#loadingGray").remove()
+                                                $("#modal_update_collection_failure").modal()
+                                            }
+                                        });
+                                    }
+                                }
+                            );
 
                         },
                         error: function(xhr, textStatus, error) {
@@ -30561,6 +30736,10 @@ require([
             });
 
         });
+
+
+
+
 
         // Outliers simulation
 
