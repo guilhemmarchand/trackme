@@ -1756,9 +1756,15 @@ styles in <div> tags, similar to Bootstrap's grid system.
                                     </form>
 
                                     <div style="margin-top: 15x;">
-                                        <button type="submit" id="btn_modal_data_sampling_custom_rule_simulate" style="margin-right: 15px;" class="btn btn-default btn-primary"><span class="glyphicon glyphicon-remove"></span> Run model simulation</button>
-                                        <button type="submit" id="btn_modal_data_sampling_custom_rule_simulate_show_details" style="margin-right: 15px;" class="btn btn-default btn-primary"><span class="glyphicon glyphicon-remove"></span> Show simulation detailed results</button>
-                                        <button type="submit" id="btn_data_sampling_custom_rule_add" style="margin-right: 15px;" class="btn btn-default btn-primary"><span class="glyphicon glyphicon-remove"></span> Add this new custom rule</button>
+                                        <div style="margin-right: 15px; float: left;">
+                                            <button type="submit" id="btn_modal_data_sampling_custom_rule_simulate" class="btn btn-default btn-primary"><span class="glyphicon glyphicon-remove"></span> Run model simulation</button>
+                                        </div>
+                                        <div style="margin-right: 15px; float: left;">
+                                            <a class="btn btn-default btn-primary" id="btn_modal_data_sampling_custom_rule_simulate_show_details" target="_blank" href="search" role="button">Show simulation detailed results</a>
+                                        </div>
+                                        <div style="margin-right: 15px; float: left;">
+                                            <button type="submit" id="btn_data_sampling_custom_rule_add" class="btn btn-default btn-primary"><span class="glyphicon glyphicon-remove"></span> Add this new custom rule</button>
+                                        </div>
                                     </div>
 
                                 </div>
@@ -30874,6 +30880,12 @@ require([
         // Data sampling custom rules
         $("#btn_data_sampling_custom_rules").click(function() {
             console.log("Button was clicked");
+
+            // Disable the button results
+            $('#btn_modal_data_sampling_custom_rule_simulate_show_details').removeAttr('href');
+            document.getElementById('btn_data_sampling_custom_rule_add').disabled = true;            
+
+            // Open modal
             $("#data_sampling_create_custom_rules").modal()
         });
 
@@ -30892,17 +30904,28 @@ require([
             // When the Submit button is clicked, get all the form fields by accessing token values
             var tokens = mvc.Components.get("default");
 
-            // Retrieve update comment if any
+            // Retrieve the regex rule
             var tk_data_sampling_custom_rule_regex = document.getElementById("modal_input_data_sampling_custom_rule_regex").value;
+            console.log("tk_data_sampling_custom_rule_regex is:" + tk_data_sampling_custom_rule_regex);
+
+            // Retrieve the rule name
+            var tk_data_sampling_custom_rule_name = tokens.get("tk_data_sampling_custom_rule_name");
+            console.log("tk_data_sampling_custom_rule_name is: " + tk_data_sampling_custom_rule_name);
+
+            // Retriebe the key id
+            var tk_keyid = tokens.get("tk_keyid");
+            console.log("tk_keyid is: " + tk_keyid);
 
             // if is not defined, give it a value and override text box content
-            if (tk_data_sampling_custom_rule_regex == "null") {
-                console.log("Entry is incorrect");
-                notification('ERROR: Entries are either incorrect or incomplete, please correct and try again.', 6000)
-            }
-            else if (tk_data_sampling_custom_rule_regex == "Enter a valid regular expression and click on the button \"Run model simulation\".") {
+            if (tk_data_sampling_custom_rule_regex == "Enter a valid regular expression and click on the button \"Run model simulation\"." || !tk_data_sampling_custom_rule_name || !tk_data_sampling_custom_rule_name.length) {
+
+                // Show an error notification
                 console.log("Entry is incorrect, no expression was provided");
                 notification('ERROR: Entries are either incorrect or incomplete, please correct and try again.', 6000)
+
+                // Disable the add button
+                document.getElementById('btn_data_sampling_custom_rule_add').disabled = true; 
+
             }
             else {
                 // replace the textarea for modification requests
@@ -30913,14 +30936,22 @@ require([
                 // Free the simulation search
                 setToken("start_simulation_data_sampling_custom_rule", "true");
                 console.log("starts the search");
+
+                // Built the search URI
+                var similation_events_detail = 'search' + "?q=" + encodeURI("| inputlookup trackme_data_sampling where _key=\"" + tk_keyid + "\" | fields raw_sample | mvexpand raw_sample | eval detected_format = case(match(raw_sample, \"" + tk_data_sampling_custom_rule_regex + "\"), \"" + tk_data_sampling_custom_rule_name + "\") | eval detected_format_id=md5(detected_format)");
+
+                // Define the URL target
+                document.getElementById("btn_modal_data_sampling_custom_rule_simulate_show_details").href = similation_events_detail;
+
+                // Enable the button results
+                document.getElementById('btn_modal_data_sampling_custom_rule_simulate_show_details').disabled = false;
+
+                // Disable the add button
+                document.getElementById('btn_data_sampling_custom_rule_add').disabled = false;
+
             }
-
-
-
+            
         });
-
-        
-        
 
         // Outliers simulation
 
