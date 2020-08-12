@@ -24670,7 +24670,7 @@ require([
                 if (start_simulation_elastic_sources && start_simulation_elastic_sources == 'true') {
 
                     // Create a unique name for the tracker
-                    var tracker_name = "TrackMe - " + tk_input_elastic_source_data_name + " elastic tracker " + uuid();
+                    var tracker_name = "TrackMe - " + tk_input_elastic_source_data_name + " tracker " + uuid();
                     // Splunk limits report names to max 100 chars, and will refuse otherwise
                     tracker_name = tracker_name.substring(0, 100);
                     setToken("tk_tracker_name", tracker_name);
