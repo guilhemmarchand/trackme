@@ -1617,7 +1617,7 @@ styles in <div> tags, similar to Bootstrap's grid system.
                     </div>
 
                     <div id="rowDataSamplingSummary" class="dashboard-row dashboard-row1">
-                        <div id="panelDataSamplingSummary" class="dashboard-cell" style="width: 100%;">
+                        <div id="panelDataSamplingSummary" class="dashboard-cell" style="width: 100%; max-height: 90px;">
                             <div class="dashboard-panel clearfix">
                                 <div class="panel-element-row">
                                     <div class="fieldset">
@@ -1631,7 +1631,7 @@ styles in <div> tags, similar to Bootstrap's grid system.
                         </div>
                     </div>
 
-                    <div style="margin-top: 20px;" class="modal-footer">
+                    <div style="margin-top: 40px;" class="modal-footer">
                         <div class="btn_data_sampling_back" style="margin-right: 15px; float: left;">
                             <button type="submit" class="btn btn-default btn-primary" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Back</button>
                         </div>
@@ -1642,7 +1642,7 @@ styles in <div> tags, similar to Bootstrap's grid system.
                             <button id="btn_run_data_sampling" type="submit" class="btn btn-default btn-primary" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Run sampling engine now</button>
                         </div>
                         <div style="margin-right: 15px; float: right;">
-                            <button id="btn_data_sampling_custom_rules" type="submit" class="btn btn-default btn-primary" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Manage custom rules </button>
+                            <button id="btn_data_sampling_custom_rules" type="submit" class="btn btn-default btn-primary" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Create custom rules </button>
                         </div>
                         <div class="btn_data_sampling_custom_rules_view" style="margin-right: 15px; float: right;">
                             <button type="submit" class="btn btn-default btn-info" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> View custom rules </button>
@@ -7083,6 +7083,40 @@ styles in <div> tags, similar to Bootstrap's grid system.
         </div>
     </div>
 
+    <!-- Data sampling add custom rule -->
+    <div class="modal fade" id="modal_add_custom_rule_data_sampling" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header modal-header-danger">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h1 style="color: white;"><span class="glyphicon glyphicon-lock"></span>Data sampling &amp; events format recognition</h1>
+                </div>
+                <div class="modal-body">
+                    <p><b>Confirm custom rule addition action?</b><br />
+                    </p>
+
+                    <p>
+                        <label>Optional: enter a note of this update. <br />
+                            This note will be logged and made available for notification.</label>
+                        <textarea
+                                id = "input_add_custom_rule_data_sampling_comment"
+                                rows = "6"
+                                cols = "160" style="width: 500px;"
+                                onfocus="if(this.value==this.defaultValue)this.value='';" onblur="if(this.value=='')this.value=this.defaultValue;">update note</textarea>
+                    </p>
+
+                </div>
+
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-default btn-default pull-left" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Cancel</button>
+                    <button type="submit" id="btn_modal_add_custom_rule_confirm" class="btn btn-default btn-primary pull-right" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Ok</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Generic modification -->
     <div class="modal fade" id="modal_entry_modification" role="dialog">
         <div class="modal-dialog">
@@ -9965,7 +9999,7 @@ require([
             "cancelOnUnload": true,
             "sample_ratio": null,
             "latest_time": "now",
-            "search": "| inputlookup trackme_data_sampling_custom_models | eval keyid=_key | streamstats count as model_order | fields model_order, model_id, model_name, model_regex",
+            "search": "| `trackme_show_custom_model_rules`",
             "status_buckets": 0,
             "app": utils.getCurrentApp(),
             "auto_cancel": 90,
@@ -30774,6 +30808,15 @@ require([
             $btn_group.find('button').on('click', function() {
                 var $btn = $(this);
                 console.log("Button was clicked");
+
+                submitTokens();
+
+                // When the Submit button is clicked, get all the form fields by accessing token values
+                var tokens = mvc.Components.get("default");
+
+                // force re-run the search each time the button is clicked
+                searchDataSamplingShowCustomRules.startSearch();
+
                 $("#data_sampling_show_custom_rules").modal()
             });
         });
@@ -31188,6 +31231,157 @@ require([
 
                 // Disable the add button
                 document.getElementById('btn_data_sampling_custom_rule_add').disabled = false;
+
+            }
+            
+        });
+
+        // Data sampling add custom rule
+        $("#btn_data_sampling_custom_rule_add").click(function() {
+            console.log("Button was clicked");
+            $("#modal_add_custom_rule_data_sampling").modal();
+        });
+
+        // Data sampling add custom rule
+        $("#btn_modal_add_custom_rule_confirm").click(function() {
+            console.log("Button was clicked");
+
+            submitTokens();
+
+            // When the Submit button is clicked, get all the form fields by accessing token values
+            var tokens = mvc.Components.get("default");
+
+            // Retrieve the regex rule
+            var tk_data_sampling_custom_rule_regex = document.getElementById("modal_input_data_sampling_custom_rule_regex").value;
+            console.log("tk_data_sampling_custom_rule_regex is:" + tk_data_sampling_custom_rule_regex);
+
+            // Retrieve the rule name
+            var tk_data_sampling_custom_rule_name = tokens.get("tk_data_sampling_custom_rule_name");
+            console.log("tk_data_sampling_custom_rule_name is: " + tk_data_sampling_custom_rule_name);
+
+            // if is not defined, give it a value and override text box content - We should never reach this for the add function
+            if (tk_data_sampling_custom_rule_regex == "Enter a valid regular expression and click on the button \"Run model simulation\"." || !tk_data_sampling_custom_rule_name || !tk_data_sampling_custom_rule_name.length) {
+
+                // Show an error notification
+                console.log("Entry is incorrect, no expression was provided");
+                notification('ERROR: Entries are either incorrect or incomplete, please correct and try again.', 6000)
+
+                // Disable the add button
+                document.getElementById('btn_data_sampling_custom_rule_add').disabled = true; 
+
+            }
+            else {
+
+                console.log("Adding to the custom rules")
+
+                // Retrieve update comment if any
+                var tk_comment = document.getElementById("input_add_custom_rule_data_sampling_comment").value;
+
+                // if is not defined, give it a value and override text box content
+                if (tk_comment == "null") {
+                    setToken("tk_update_comment", TokenUtils.replaceTokenNames("No comments for update.", _.extend(submittedTokenModel.toJSON(), e.data)));
+                    // replace the textarea for modification requests
+                    document.getElementById("input_add_custom_rule_data_sampling_comment").value = "update note";
+                }
+                else if (tk_comment == "update note") {
+                    tk_comment = "No comment for update.";
+                    document.getElementById("input_add_custom_rule_data_sampling_comment").value = "update note";
+                }
+                else {
+                    // replace the textarea for modification requests
+                    document.getElementById("input_add_custom_rule_data_sampling_comment").value = "update note";
+                }
+
+                // Define the query
+                var searchQuery = "| makeresults | eval model_name=\"" + tk_data_sampling_custom_rule_name + "\", model_regex=\"" + tk_data_sampling_custom_rule_regex + "\" | eval _key=md5(model_name), model_id=md5(model_name), mtime=now() | outputlookup trackme_data_sampling_custom_models append=t key_field=_key";
+                console.log("searchQuery is: " + searchQuery);
+
+                // Set the search parameters--specify a time range
+                var searchParams = {
+                    earliest_time: "-60m",
+                    latest_time: "now"
+                };
+
+                // Run a blocking search and get back a job
+                service.search(
+                    searchQuery,
+                    searchParams,
+                    function(err, job) {
+
+                        function audit_failure() {
+
+                            // Audit
+                            action = "failure";
+                            change_type = "add data parsing custom rule";
+                            object = tk_data_sampling_custom_rule_name;
+                            object_category = "data_source";
+                            object_attrs = "{" + "model_name\": " + tk_data_sampling_custom_rule_name + "\", model_regex\": " + tk_data_sampling_custom_rule_regex + "\"}";
+                            result = "N/A";
+                            comment = "N/A";
+                            auditRecord(action, change_type, object, object_category, object_attrs, result, comment);
+
+                        }
+
+                        // Shall the search fail before we can get properties
+                        if (job == null) {
+                            let errorStr = "Unknown Error!";
+                            if (err && err.data && err.data.messages && err.data.messages[0]['text']) {
+                                errorStr = err.data.messages[0]['text'];
+                            } else if (err && err.data && err.data.messages) {
+                                errorStr = JSON.stringify(err.data.messages);
+                            }
+                            audit_failure();
+                            $("#modal_update_collection_failure_return").find('.modal-error-message p').text(errorStr);
+                            $("#modal_update_collection_failure_return").modal()
+                        } else {
+
+                            // Poll the status of the search job
+                            job.track({
+                                period: 200
+                            }, {
+                                done: function(job) {
+                                    // Once the job is done, update all searches
+                                    searchBlackListDataSourceHost.startSearch();
+                                    searchSingleBlackListDataSourceHost.startSearch();
+                                    searchDataSourcesMain.startSearch();
+                                    // notify
+                                    notification('Modification has been registered successfully.', 2000)
+
+                                    // Audit
+                                    action = "success";
+                                    change_type = "add data parsing custom rule";
+                                    object = tk_data_sampling_custom_rule_name;
+                                    object_category = "data_source";
+                                    object_attrs = "{" + "model_name\": " + tk_data_sampling_custom_rule_name + "\", model_regex\": " + tk_data_sampling_custom_rule_regex + "\"}";
+                                    result = "N/A";
+                                    comment = "N/A";
+                                    auditRecord(action, change_type, object, object_category, object_attrs, result, comment);
+
+                                    $("#data_sampling_manage").modal();
+                                },
+                                failed: function(properties) {
+                                    let errorStr = "Unknown Error!";
+                                    if (properties && properties._properties && properties._properties.messages && properties._properties.messages[0]['text']) {
+                                        errorStr = properties._properties.messages[0]['text'];
+                                    } else if (properties && properties._properties && properties._properties.messages) {
+                                        errorStr = JSON.stringify(properties._properties.messages);
+                                    }
+                                    audit_failure();
+                                    $("#modal_update_collection_failure_return").find('.modal-error-message p').text(errorStr);
+                                    $("#modal_update_collection_failure_return").modal()
+                                },
+                                error: function(err) {
+                                    done(err);
+                                    audit_failure();
+                                    $("#modal_update_collection_failure_flush").modal()
+                                }
+                            });
+
+                        }
+
+                    }
+
+                );
 
             }
             
