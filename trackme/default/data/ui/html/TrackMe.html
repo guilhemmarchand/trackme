@@ -10022,7 +10022,7 @@ require([
             "cancelOnUnload": true,
             "sample_ratio": null,
             "latest_time": "now",
-            "search": "| inputlookup trackme_data_sampling where data_name=\"$tk_data_name$\" | eval \" \" = \"<--\" | fields data_sample_status_colour, data_sample_status_message, data_sample_feature, current_detected_format, \" \", previous_detected_format, data_sample_anomaly_detected, data_sample_anomaly_reason, multiformat_detected, mtime | eval mtime=strftime(mtime, \"%c\") | `trackme_eval_icons_data_sampling_enablement` | `trackme_eval_icons_data_sampling_summary` | rename data_sample_anomaly_reason as anomaly_reason, multiformat_detected as multiformat | eval previous_detected_format=if(isnull(previous_detected_format), \"N/A\", previous_detected_format)",
+            "search": "| inputlookup trackme_data_sampling where data_name=\"$tk_data_name$\" | eval \" \" = \"<--\" | fields data_sample_status_colour, data_sample_status_message, data_sample_feature, current_detected_format, \" \", previous_detected_format, data_sample_anomaly_detected, data_sample_anomaly_reason, multiformat_detected, data_sample_mtime | eval mtime=strftime(data_sample_mtime, \"%c\") | `trackme_eval_icons_data_sampling_enablement` | `trackme_eval_icons_data_sampling_summary` | rename data_sample_anomaly_reason as anomaly_reason, multiformat_detected as multiformat | eval previous_detected_format=if(isnull(previous_detected_format), \"N/A\", previous_detected_format)",
             "status_buckets": 0,
             "app": utils.getCurrentApp(),
             "auto_cancel": 90,
@@ -14798,6 +14798,8 @@ require([
                 setToken("tk_data_sampling_status_message", TokenUtils.replaceTokenNames("$row.data_sample_status_message$", _.extend(submittedTokenModel.toJSON(), e.data)));
                 setToken("tk_data_sampling_status_colour", TokenUtils.replaceTokenNames("$row.data_sample_status_colour$", _.extend(submittedTokenModel.toJSON(), e.data)));
                 setToken("tk_data_sample_anomaly_reason", TokenUtils.replaceTokenNames("$row.data_sample_anomaly_reason$", _.extend(submittedTokenModel.toJSON(), e.data)));
+                setToken("tk_isanomaly", TokenUtils.replaceTokenNames("$row.isAnomaly$", _.extend(submittedTokenModel.toJSON(), e.data)));
+                setToken("tk_data_sample_lastrun", TokenUtils.replaceTokenNames("$row.data_sample_lastrun$", _.extend(submittedTokenModel.toJSON(), e.data)));
 
                 // status message
                 setToken("tk_status_message", TokenUtils.replaceTokenNames("$row.status_message$", _.extend(submittedTokenModel.toJSON(), e.data)));
@@ -19268,6 +19270,8 @@ require([
             var tk_outlier_span = tokens.get("tk_outlier_span");
             var tk_isoutlier = tokens.get("tk_isoutlier");
             var tk_enable_behaviour_analytic = tokens.get("tk_enable_behaviour_analytic");
+            var tk_isanomaly = tokens.get("tk_isanomaly");
+            var tk_data_sample_lastrun = tokens.get("tk_data_sample_lastrun");
 
             // Create the endpoint URL
             var myendpoint_URl = "{{SPLUNKWEB_URL_PREFIX}}/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_data_source_monitoring/" + tk_keyid;
@@ -19304,6 +19308,8 @@ require([
                 "OutlierSpan": tk_outlier_span,
                 "isOutlier": tk_isoutlier,
                 "enable_behaviour_analytic" : tk_enable_behaviour_analytic,
+                "isAnomaly": tk_isanomaly,
+                "data_sample_lastrun": tk_data_sample_lastrun,
                 "latest_flip_state": tk_latest_flip_state,
                 "latest_flip_time": tk_latest_flip_time,
                 "priority": tk_priority
@@ -19893,6 +19899,8 @@ require([
             var tk_outlier_span = tokens.get("tk_outlier_span");
             var tk_isoutlier = tokens.get("tk_isoutlier");
             var tk_enable_behaviour_analytic = tokens.get("tk_enable_behaviour_analytic");
+            var tk_isanomaly = tokens.get("tk_isanomaly");
+            var tk_data_sample_lastrun = tokens.get("tk_data_sample_lastrun");
 
             // Create the endpoint URL
             var myendpoint_URl = "{{SPLUNKWEB_URL_PREFIX}}/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_data_source_monitoring/" + tk_keyid;
@@ -19929,6 +19937,8 @@ require([
                 "OutlierSpan": tk_outlier_span,
                 "isOutlier": tk_isoutlier,
                 "enable_behaviour_analytic" : tk_enable_behaviour_analytic,
+                "isAnomaly": tk_isanomaly,
+                "data_sample_lastrun": tk_data_sample_lastrun,
                 "latest_flip_state": tk_latest_flip_state,
                 "latest_flip_time": tk_latest_flip_time,
                 "priority": tk_priority
@@ -20554,6 +20564,8 @@ require([
             var tk_outlier_span = tokens.get("tk_outlier_span");
             var tk_isoutlier = tokens.get("tk_isoutlier");
             var tk_enable_behaviour_analytic = tokens.get("tk_enable_behaviour_analytic");
+            var tk_isanomaly = tokens.get("tk_isanomaly");
+            var tk_data_sample_lastrun = tokens.get("tk_data_sample_lastrun");
             var tk_latest_flip_state = tokens.get("tk_latest_flip_state");
             var tk_latest_flip_time = tokens.get("tk_latest_flip_time");
             var tk_priority = tokens.get("tk_priority");
@@ -20586,6 +20598,8 @@ require([
                 "OutlierSpan": tk_outlier_span,
                 "isOutlier": tk_isoutlier,
                 "enable_behaviour_analytic" : tk_enable_behaviour_analytic,
+                "isAnomaly": tk_isanomaly,
+                "data_sample_lastrun": tk_data_sample_lastrun,
                 "latest_flip_state": tk_latest_flip_state,
                 "latest_flip_time": tk_latest_flip_time,
                 "priority": tk_priority
@@ -26423,6 +26437,8 @@ require([
             var tk_outlier_span = tokens.get("tk_outlier_span");
             var tk_isoutlier = tokens.get("tk_isoutlier");
             var tk_enable_behaviour_analytic = tokens.get("tk_enable_behaviour_analytic");
+            var tk_isanomaly = tokens.get("tk_isanomaly");
+            var tk_data_sample_lastrun = tokens.get("tk_data_sample_lastrun");
             var tk_latest_flip_state = tokens.get("tk_latest_flip_state");
             var tk_latest_flip_time = tokens.get("tk_latest_flip_time");
             var tk_priority = tokens.get("tk_priority");
@@ -26473,6 +26489,8 @@ require([
                     "OutlierSpan": tk_outlier_span,
                     "isOutlier": tk_isoutlier,
                     "enable_behaviour_analytic" : tk_enable_behaviour_analytic,
+                    "isAnomaly": tk_isanomaly,
+                    "data_sample_lastrun": tk_data_sample_lastrun,
                     "latest_flip_state": tk_latest_flip_state,
                     "latest_flip_time": tk_latest_flip_time,
                     "priority": tk_priority
@@ -26574,6 +26592,8 @@ require([
             var tk_outlier_span = tokens.get("tk_outlier_span");
             var tk_isoutlier = tokens.get("tk_isoutlier");
             var tk_enable_behaviour_analytic = tokens.get("tk_enable_behaviour_analytic");
+            var tk_isanomaly = tokens.get("tk_isanomaly");
+            var tk_data_sample_lastrun = tokens.get("tk_data_sample_lastrun");
             var tk_latest_flip_state = tokens.get("tk_latest_flip_state");
             var tk_latest_flip_time = tokens.get("tk_latest_flip_time");
             var tk_priority = tokens.get("tk_priority");
@@ -26624,6 +26644,8 @@ require([
                     "OutlierSpan": tk_outlier_span,
                     "isOutlier": tk_isoutlier,
                     "enable_behaviour_analytic" : tk_enable_behaviour_analytic,
+                    "isAnomaly": tk_isanomaly,
+                    "data_sample_lastrun": tk_data_sample_lastrun,
                     "latest_flip_state": tk_latest_flip_state,
                     "latest_flip_time": tk_latest_flip_time,
                     "priority": tk_new_priority
@@ -26731,6 +26753,8 @@ require([
             var tk_outlier_span = tokens.get("tk_outlier_span");
             var tk_isoutlier = tokens.get("tk_isoutlier");
             var tk_enable_behaviour_analytic = tokens.get("tk_enable_behaviour_analytic");
+            var tk_isanomaly = tokens.get("tk_isanomaly");
+            var tk_data_sample_lastrun = tokens.get("tk_data_sample_lastrun");
             var tk_latest_flip_state = tokens.get("tk_latest_flip_state");
             var tk_latest_flip_time = tokens.get("tk_latest_flip_time");
             var tk_priority = tokens.get("tk_priority");
@@ -26781,6 +26805,8 @@ require([
                     "OutlierSpan": tk_outlier_span,
                     "isOutlier": tk_isoutlier,
                     "enable_behaviour_analytic" : tk_enable_behaviour_analytic,
+                    "isAnomaly": tk_isanomaly,
+                    "data_sample_lastrun": tk_data_sample_lastrun,
                     "latest_flip_state": tk_latest_flip_state,
                     "latest_flip_time": tk_latest_flip_time,
                     "priority": tk_priority
@@ -26900,6 +26926,8 @@ require([
             var tk_outlier_span = tokens.get("tk_outlier_span");
             var tk_isoutlier = tokens.get("tk_isoutlier");
             var tk_enable_behaviour_analytic = tokens.get("tk_enable_behaviour_analytic");
+            var tk_isanomaly = tokens.get("tk_isanomaly");
+            var tk_data_sample_lastrun = tokens.get("tk_data_sample_lastrun");
             var tk_latest_flip_state = tokens.get("tk_latest_flip_state");
             var tk_latest_flip_time = tokens.get("tk_latest_flip_time");
             var tk_priority = tokens.get("tk_priority");
@@ -26950,6 +26978,8 @@ require([
                     "OutlierSpan": tk_outlier_span,
                     "isOutlier": tk_isoutlier,
                     "enable_behaviour_analytic" : tk_enable_behaviour_analytic,
+                    "isAnomaly": tk_isanomaly,
+                    "data_sample_lastrun": tk_data_sample_lastrun,
                     "latest_flip_state": tk_latest_flip_state,
                     "latest_flip_time": tk_latest_flip_time,
                     "priority": tk_priority
@@ -27058,6 +27088,8 @@ require([
             var tk_outlier_span = tokens.get("tk_outlier_span");
             var tk_isoutlier = tokens.get("tk_isoutlier");
             var tk_enable_behaviour_analytic = tokens.get("tk_enable_behaviour_analytic");
+            var tk_isanomaly = tokens.get("tk_isanomaly");
+            var tk_data_sample_lastrun = tokens.get("tk_data_sample_lastrun");
             var tk_latest_flip_state = tokens.get("tk_latest_flip_state");
             var tk_latest_flip_time = tokens.get("tk_latest_flip_time");
             var tk_priority = tokens.get("tk_priority");
@@ -27114,6 +27146,8 @@ require([
                     "OutlierSpan": tk_outlier_span,
                     "isOutlier": tk_isoutlier,
                     "enable_behaviour_analytic" : tk_enable_behaviour_analytic,
+                    "isAnomaly": tk_isanomaly,
+                    "data_sample_lastrun": tk_data_sample_lastrun,
                     "latest_flip_state": tk_latest_flip_state,
                     "latest_flip_time": tk_latest_flip_time,
                     "priority": tk_priority
@@ -30611,6 +30645,8 @@ require([
             var tk_outlier_span = tokens.get("tk_outlier_span");
             var tk_isoutlier = tokens.get("tk_isoutlier");
             var tk_enable_behaviour_analytic = tokens.get("tk_enable_behaviour_analytic");
+            var tk_isanomaly = tokens.get("tk_isanomaly");
+            var tk_data_sample_lastrun = tokens.get("tk_data_sample_lastrun");
 
             // get inputs tokens
 
@@ -30695,6 +30731,8 @@ require([
                 "OutlierSpan": tk_outlier_span,
                 "isOutlier": tk_isoutlier,
                 "enable_behaviour_analytic": tk_enable_behaviour_analytic,
+                "isAnomaly": tk_isanomaly,
+                "data_sample_lastrun": tk_data_sample_lastrun,
                 "latest_flip_state": tk_latest_flip_state,
                 "latest_flip_time": tk_latest_flip_time,
                 "priority": tk_priority
@@ -31145,7 +31183,7 @@ require([
                     var removedObject = returneddata;
                     //console.log(returneddata);
 
-                    var mtime = returneddata.mtime;
+                    var data_sample_mtime = returneddata.data_sample_mtime;
                     var data_sample_feature = returneddata.data_sample_feature;
                     var data_sample_iteration = returneddata.data_sample_iteration;
                     var data_sample_anomaly_reason = returneddata.data_sample_anomaly_reason;
@@ -31163,7 +31201,7 @@ require([
                     var previous_detected_format_dcount = returneddata.previous_detected_format_dcount;
 
                     var record = {
-                        "mtime": mtime,
+                        "data_sample_mtime": data_sample_mtime,
                         "data_sample_feature": data_sample_feature,
                         "data_sample_iteration": data_sample_iteration,
                         "data_sample_anomaly_reason": data_sample_anomaly_reason,
