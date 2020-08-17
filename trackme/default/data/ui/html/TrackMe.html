@@ -11179,7 +11179,7 @@ require([
                 "depends": "$tk_start_ack_get$"
             },
             "sample_ratio": 1,
-            "search": "| `trackme_ack_get(\"$input_object$\", \"$input_object_category$\")`",
+            "search": "| `trackme_ack_get(\"$input_object$\", \"$input_object_category$\")` | `trackme_ack_join_comment(\"$input_object$\", \"$input_object_category$\")`",
             "cancelOnUnload": true,
             "status_buckets": 0,
             "app": utils.getCurrentApp(),
@@ -15035,7 +15035,7 @@ require([
             "id": "elementAckGet",
             "count": 100,
             "drilldown": "row",
-            "fields": "object, object_category, ack_mtime, ack_expiration, ack_state",
+            "fields": "object, ack_mtime, ack_expiration, ack_state, comment",
             "refresh.display": "none",
             "wrap": "false",
             "managerid": "searchAckGet",
