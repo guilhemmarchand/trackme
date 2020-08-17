@@ -965,6 +965,12 @@ Summary statuses
    :alt: img_data_sampling_state_green.png
    :align: center
 
+*Blue state: data sampling engine did not processed this data source yet*
+
+.. image:: img/first_steps/img_data_sampling_state_blue.png
+   :alt: img_data_sampling_state_blue.png
+   :align: center
+
 *Orange state: data sampling was disabled due to events format recognition conditions that would not allow to manage this data properly (multiformat, no event formats identification possible)*
 
 .. image:: img/first_steps/img_data_sampling_state_orange1.png
