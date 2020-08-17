@@ -16,25 +16,25 @@ Access TrackMe main interface
 **If the UI is empty and no data sources are showing up:**
 
 - You can wait for the short term trackers execution which are scheduled to run every 5 minutes
-- Or manually run the data sources tracker by clicking on the button "Run: short term tracker now" (we will come back to the tracker concept later in this guide)
+- Or manually run the data sources tracker by clicking on the button "Run: short term tracker now" (we will come back to the tracker notion later in this guide)
 
-Main concept and main tabs
+Main navigation tabs
 --------------------------
 
-**Now that TrackMe is deployed and discovered the data available in your environment, let's review the main first concepts:**
+**Now that TrackMe is deployed, and it discovered the data available in your environment, let's review the main tabs provided in the UI:**
 
 .. image:: img/first_steps/img001_tabs.png
    :alt: img/first_steps/img001_tabs
    :align: center
 
-- ``DATA SOURCES TRACKING`` exposes the tracking of the data source concept, which as its default represents the association of an ``index + ":" + sourcetype``
+- ``DATA SOURCES TRACKING`` exposes the tracking of data sources, in its default this represents the association of an ``index + ":" + sourcetype``
 - ``DATA HOSTS TRACKING`` exposes all the data discovered for each ``host sending events`` to Splunk
 - ``METRIC HOSTS TRACKING`` exposes all the metrics discovered for each ``host sending metrics`` to Splunk
 - ``INVESTIGATE STATUS FLIPPING`` exposes the detection of an entity switching from a state, example green, to another state like red
 - ``INVESITAGE AUDIT CHANGES`` exposes all changes performed within the UI for auditing and review purposes
 
-Data Sources tracking concept and features
-------------------------------------------
+Data Sources tracking and features
+----------------------------------
 
 Data Source main screen
 ^^^^^^^^^^^^^^^^^^^^^^^
@@ -87,7 +87,7 @@ The modal window "open-up" is the user main interaction with TrackMe, depending 
 
 - ``latest_flip_time`` is the latest date time a change was detected in the state of the entity
 - ``latest_flip_states`` is the state to which it moved at that time
-- ``state`` is the current state, there are different states in the concept: green / orange / blue / grey / red (more explanations to come)
+- ``state`` is the current state, there are different states: green / orange / blue / grey / red (more explanations to come)
 - ``priority`` represents the priority of the entity, by default all entities are added as "medium", priority is used in different parts of the app and alerts, there are 3 level of priority: low / medium / high
 
 *group 4 bottom*
@@ -311,6 +311,12 @@ Status message
    :alt: img/first_steps/img020
    :align: center
 
+*example of a red state due to data sampling anomalies detected:*
+
+.. image:: img/first_steps/img020_data_sampling.png
+   :alt: img/first_steps/img020_data_sampling
+   :align: center
+
 *example of a blue state due to logical groups monitoring conditions not met (applies to data hosts and metrics hosts only):*
 
 .. image:: img/first_steps/img020_blue.png
@@ -357,17 +363,17 @@ See :ref:`Alerts acknowledgment` for more details about the acknowledgment featu
 
 See :ref:`Data source unified update` for more details about the unified update UI for data sources
 
-Data Hosts tracking concept and features
-----------------------------------------
+Data Hosts tracking and features
+--------------------------------
 
 Rather than duplicating all the previous explanations, let's expose the differences between the data sources and data hosts tracking.
 
-Concept of data host monitoring
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Data host monitoring
+^^^^^^^^^^^^^^^^^^^^
 
-The concept is quite simple, when data sources are looking at a combination of ``index + ":" + sourcetype``, data hosts concept takes into account all the events on ``per host basis``.
+The concept is quite simple, when data sources are looking at a combination of ``index + ":" + sourcetype``, data hosts tracking takes into account all events on a ``per host basis``.
 
-In a very simplistic form, the concept is similar to performing a search looking at all events with tstats on a per host basis:
+In a very simplistic form, the notion is similar to performing a search looking at all events with tstats on a per host basis:
 
 ::
 
@@ -389,17 +395,17 @@ See :ref:`Logical groups (clusters)` for more details on this feature
 
 See :ref:`Enrichment tags` for more details om this feature
 
-Metric Hosts tracking concept and features
-------------------------------------------
+Metric Hosts tracking and features
+----------------------------------
 
-Metric hosts tracking is the third main concept in TrackMe and addresses tracking hosts sending metrics to the Splunk metric store, let's expose the concept particularities.
+Metric hosts tracking is the third main notion in TrackMe, and deals with tracking hosts sending metrics to the Splunk metric store, let's expose the feature particularities.
 
-Concept of metric host monitoring
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Metric host monitoring
+^^^^^^^^^^^^^^^^^^^^^^
 
-The metric hosts concept tracks all metrics emitted to Splunk on per host basis.
+The metric hosts feature tracks all metrics send to the Splunk metric store on a per host basis.
 
-In a very simplistic form, the concept is similar to performing a search looking at all metrics with mstats on a per host basis and within a short time frame:
+In a very simplistic form, the notion is similar to performing a search looking at all metrics with mstats on a per host basis and within a short time frame:
 
 ::
 
@@ -410,7 +416,7 @@ Then, the application groups all metrics on per metric metric category (the firs
 Particularities of metric hosts monitoring
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-**Opposed to data sources and data hosts tracking, the concept provides a similar level of features, with a few exceptions:**
+**Compared to data sources and data hosts tracking, metric hosts tracking provides a similar level of features, with a few exceptions:**
 
 - ``state condition:`` the metric host state is conditioned by the availability of each metric category that was discovered for that entity
 - Shall a metric category stop from being emitted, the state will be affected accordingly
@@ -428,7 +434,7 @@ See :ref:`Enrichment tags` for more details om this feature
 Unified update interface
 ========================
 
-**For each concept, a unified update screen is available by clicking on the modify button when looking at a specific entity:**
+**For each type of tracking, a unified update screen is available by clicking on the modify button when looking at a specific entity:**
 
 .. image:: img/first_steps/img023.png
    :alt: img/first_steps/img023
@@ -507,17 +513,17 @@ See :ref:`Logical groups (clusters)` for more details about this feature.
 Elastic sources
 ===============
 
-Elastic sources concept
+Elastic sources feature
 -----------------------
 
-As we have exposed the main concepts of TrackMe data discovery and tracking in :ref:`Main concept and main tabs`, there can be various use cases that these concepts do not address properly, some examples:
+As we have exposed the main notions of TrackMe data discovery and tracking in :ref:`Main navigation tabs`, there can be various use cases that these concepts do not address properly, some examples:
 
 - You have a data flow that relies on the ``source`` Metadata, which means that more than one data flow to be monitored ``individually`` are indexed into the same combination of ``index`` and ``sourcetype``
-- With the default concept of ``data sources``, this data flow will appear as one main entity and you cannot ``distinguish`` if one specific part of your data flow is failing by relying on the default concepts
+- With the default ``data sources`` tracking, this data flow will appear as one main entity and you cannot ``distinguish`` a specific part of your data covered by the standard data source feature
 - Specific ``custom indexed fields`` provide ``knowledge`` of the data in your context, such as ``company``, ``business unit`` etc and these pipelines cannot be distinguished by relying on the ``index`` and ``sourcetype`` only
-- You need address any use case that the default concepts do not allow you to
+- You need address any use case that the default main features do not allow you to
 
-The Elastic source feature allows to address ``any use case`` in term of data identification and search which requirements are not answered by the default concepts.
+The Elastic source feature allows you to fulfil any type of requirements from the data identification and search perspective, and transparenly integrate these virtual entities in the normal TrackMe workflow with the exact same features.
 
 We will address some easily understandable examples in this documentation.
 
@@ -572,7 +578,7 @@ Elastic source example 1: source Metadata
 
    index="network" sourcetype="pan:traffic" source="network:pan:emea"
 
-It is easy to understand that the default concept of the data source ``index + ":" + sourcetype`` does not allow us to distinguish which region is generating events properly, and which region would not:
+It is easy to understand that the default standard for data source ``index + ":" + sourcetype`` does not allow us to distinguish which region is generating events properly, and which region would not:
 
 .. image:: img/first_steps/img029.png
    :alt: img/first_steps/img029
@@ -586,7 +592,7 @@ In TrackMe data sources, this would appear as one entity and this is not helping
 
 What if I want to be monitoring the fact that the EMEA region continues to be indexed properly ? and other regions ?
 
-This is where using Elastic Sources allows you to extend the default concept in way that allows you to address any kind of requirement, in a way that is totally integrated within TrackMe.
+Elastic Sources is the TrackMe answer which allows you to extend the default features with agility and address easily any kind of requirement transparently in TrackMe.
 
 Elastic source example 2: custom indexed fields
 -----------------------------------------------
@@ -614,7 +620,7 @@ Where ``[region]`` and ``[company]`` are the values to be extracted and defined 
 
 *Note the usage of "::" rather than "=" which indicates to Splunk that we are explicitly looking at an indexed field rather a field potentially extracted at search time.*
 
-It is easy to understand that the default concept does not provide me with the answer I need:
+Indeed, it is clear enough that the default data source feature does not me with the answer I need for this use case:
 
 .. image:: img/first_steps/img032.png
    :alt: img/first_steps/img032
@@ -794,7 +800,7 @@ The tracker loads each record stored in the collection, and uses different evalu
 
 Finally, it calls different shared knowledge objects that are commonly used by the trackers:
 
-- Apply the TrackMe technical concepts of how calculate the lagging KPIs, etc
+- Apply the TrackMe different macros and functions to calculate things like the lagging metrics, etc
 - Calls all knowledge objects from TrackMe which insert and update the KVstore lookup, generate flipping status events, generate and records the metrics in the metric store
 
 Besides the fact that Elastic sources appears in the data sources tab, there are no interactions between the data source trackers and the shared Elastic source trackers, there are independents.
@@ -1101,7 +1107,7 @@ Priority management
 Priority levels
 ---------------
 
-**TrackMe has a concept of priority for each entity, you can view the priority value in any of the tables from the main interface, in the header when you click on a given entity, and you can modify it via the unified modification UI:**
+**TrackMe has a notion of priority for each entity, you can view the priority value in any of the tables from the main interface, in the header when you click on a given entity, and you can modify it via the unified modification UI:**
 
 There 3 level of priorities that can be applied:
 
@@ -1109,7 +1115,7 @@ There 3 level of priorities that can be applied:
 - ``medium``
 - ``high``
 
-Priority concept
+Priority feature
 ----------------
 
 The purpose of the priority is to provide more granularity in the way you can manage entities.
@@ -1234,7 +1240,7 @@ Maximum lagging value
    :alt: .. image:: img/max_lagging.png
    :align: center
 
-This topic is covered in details in first steps guide :ref:`Main concept and main tabs` and :ref:`Unified update interface`.
+This topic is covered in details in first steps guide :ref:`Main navigation tabs` and :ref:`Unified update interface`.
 
 Custom Lagging classes
 ======================
@@ -1379,7 +1385,7 @@ To access to the dynamic message, simply focus over the icon in the relevant tab
 Logical groups (clusters)
 =========================
 
-Logical groups concept
+Logical groups feature
 ----------------------
 
 **Logical groups are groups of entities that will be considered as an ensemble for monitoring purposes.**
