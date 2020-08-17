@@ -120,6 +120,7 @@ Data source screen tabs
 - ``Overview data source`` is the current view that exposes the main information and metrics for this entity
 - ``Outlier detection overview`` exposes the event outliers detection chart
 - ``Outlier detection configuration`` provides different options to configure the outliers detection
+- ``Data sampling`` shows the results from the data sampling & event format recognition engine
 - ``Data parsing quality`` exposes indexing time parsing issues such as truncation issues for this sourcetype, if any.
 - ``Lagging performances`` exposes the event lag and ingestion lag recorded metrics in the metric index
 - ``Status flipping`` exposes all status flipping events that were stored in the summary index
@@ -202,6 +203,38 @@ Outlier detection configuration
 - ``span for outliers rendering`` is an additional setting which impact the graphical rendering within the outliers screen, but not the results of the outliers detection itself
 
 See :ref:`Outliers detection and behaviour analytic` for more details about the feature.
+
+Data sampling
+^^^^^^^^^^^^^
+
+**The data sampling tab exposes the status of the data sampling and format recognition engine:**
+
+.. image:: img/first_steps/img_data_sampling001.png
+   :alt: img/first_steps/img_data_sampling001.png
+   :align: center
+
+The data sampling message can be:
+
+- ``green:`` if no anomalies were detected
+- ``blue:`` if the data sampling did not handle this data source yet
+- ``orange:`` if conditions do not allow to handle this data source, which can be multi-format detected at discovery, or no identifiable event formats (data sampling will be deactivated automatically)
+- ``red:`` if anomalies were detected by the data engine, anomalies can be due to a change in the event format, or multiple events formats detected post discovery
+
+The button **Manage data sampling** provides summary information about the data samping status and access to data sampling related features:
+
+.. image:: img/first_steps/img_data_sampling002.png
+   :alt: img/first_steps/img_data_sampling002.png
+   :align: center
+
+**Quick button access:**
+
+- ``View latest sample events:`` open in search access to the last sample of raw events that were processed (raw events and identified format)
+- ``View builtin rules:`` view the builtin rules (builtin rules are regular expressions rules provided by default)
+- ``Manage custom rules:`` view, create and delete custom rules to handle any format that would not be recognized by the builtin rules
+- ``Run sampling engine now:`` runs the sampling engine now for this data source
+- ``Clear state and run sampling:`` clears the previously known states and run the sampling engine as it was the first time the engine handles this data source
+
+See :ref:`Data sampling and event formats recognition` for more details about the feature.
 
 Data parsing quality
 ^^^^^^^^^^^^^^^^^^^^
@@ -894,6 +927,167 @@ Saving the configuration
 **Once you have validated the results from the simulation, click on the save button to immediately record the values to the KVstore collection.**
 
 When the save action is executed, you might need to wait a few minutes for it to be reported during the next execution of the Summary Investigator report.
+
+Data sampling and event formats recognition
+===========================================
+
+**Data sampling and event format recognition is a powerful automated workflow that provides the capabilities to monitor the raw events formats and detect anomalies and misbehaviour.**
+
+**You access to the data sample feature on a per data source basis via the data sample tab:**
+
+.. image:: img/img_data_sampling_main_red.png
+   :alt: img_data_sampling_main_red.png
+   :align: center
+
+**How things work:**
+
+- The scheduled report named ``TrackMe - Data sampling and format detection tracker`` runs by default every 15 minutes
+- The report uses a builtin function to determine an ideal number of data sources to be processed according to the total number of data sources to be processed, and the historical performance of the search (generates a rate per second extrapolated to limit the number of sources to be processed)
+- For each data source to be processed, a given number of raw events is sampled and stored in a KVstore collection named ``trackme_data_sampling``
+- The number of raw events to be sampled depends on wether the data source is handled for the first time (discovery), or if it is a normal run
+- On each sample per data source, the engine processes the events and applies custom rules if any, then builtin rules are processed
+- Depending on the conditions, a status and additional informations are determined and stored in the lookup collection
+- The status stored as the field ``isAnomaly`` is loaded by the data sources trackers and taken into account for the global data source state analysis
+
+Summary statuses
+----------------
+
+**The data sampling message can be:**
+
+- ``green:`` if no anomalies were detected
+- ``blue:`` if the data sampling did not handle this data source yet
+- ``orange:`` if conditions do not allow to handle this data source, which can be multi-format detected at discovery, or no identifiable event formats (data sampling will be deactivated automatically)
+- ``red:`` if anomalies were detected by the data engine, anomalies can be due to a change in the event format, or multiple events formats detected post discovery
+
+*Green state: no anomalies were detected, data sampling ran and is enabled*
+
+.. image:: img/first_steps/img_data_sampling_state_green.png
+   :alt: img_data_sampling_state_green.png
+   :align: center
+
+*Orange state: data sampling was disabled due to events format recognition conditions that would not allow to manage this data properly (multiformat, no event formats identification possible)*
+
+.. image:: img/first_steps/img_data_sampling_state_orange1.png
+   :alt: img_data_sampling_state_orange1.png
+   :align: center
+
+.. image:: img/first_steps/img_data_sampling_state_orange2.png
+   :alt: img_data_sampling_state_orange2.png
+   :align: center
+
+*Red state: anomalies were detected*
+
+.. image:: img/first_steps/img_data_sampling_state_red.png
+   :alt: img_data_sampling_state_red.png
+   :align: center
+
+Manage data sampling
+--------------------
+
+**The Manage data sampling button provides access to functions to review and configure the feature:**
+
+.. image:: img/first_steps/img_data_sampling002.png
+   :alt: img_data_sampling002.png
+   :align: center
+
+**The summary table exposes different key informations:**
+
+- ``data_sample_feature:`` is the data sampling feature enabled or disabled for that data source as rendered  as an icon
+- ``current_detected_format:`` the event format that has been detected during the last sampling
+- ``previous_detected_format:`` the event format that was detected in the previous sampling
+- ``state:`` the state of the data sampling rendered as an icon
+- ``anomaly_reason:`` the reason why an anomaly is raised, or "normal" if there are no anomalies
+- ``multiformat:`` shall more than one format of events be detected (true / false)
+- ``mtime:`` the latest time data sampling was processed for this data source
+
+View latest sample events
+^^^^^^^^^^^^^^^^^^^^^^^^^
+
+This button opens in the search UI the last sample of raw events that were processed for this data source, the search calls a macro which runs the events format recognitions rules as:
+
+::
+
+   | inputlookup trackme_data_sampling where data_name="<data_name>" | fields raw_sample | mvexpand raw_sample | `trackme_data_sampling_abstract_detect_events_format`
+
+This view can be useful for trouble shooting purposes to determine why an anomaly was raised for a given data source.
+
+View builtin rules
+^^^^^^^^^^^^^^^^^^
+
+This button opens a new view that exposes the builtin rules used by TrackMe, and the order in which rules are processed:
+
+.. image:: img/first_steps/img_data_sampling_show_builtin.png
+   :alt: img_data_sampling_show_builtin.png
+   :align: center
+
+Builtin rules should not be modified, instead use custom rules to handle event formats that would not be properly identified by the builtin regular expression rules.
+
+Manage custom rules
+^^^^^^^^^^^^^^^^^^^
+
+Custom rules provides a workflow to handle any custom sourcetypes and event formats that would not be identified by TrackMe, by default there are no custom rules and the following screen would appear:
+
+.. image:: img/first_steps/img_data_sampling_show_custom1.png
+   :alt: img_data_sampling_show_custom1.png
+   :align: center
+
+This view allows you to create a new custom rule (button Create custom rules) or remove any existing custom rules that would not be required anymore. (button Remove selected)
+
+**Create custom rules**
+
+This screen alows to test and create a new custom rule based on the current data source:
+
+*Note: While you create a new custom rule via a specific data source, custom rules are applied to all data sources*
+
+.. image:: img/first_steps/img_data_sampling_create_custom1.png
+   :alt: img_data_sampling_create_custom1.png
+   :align: center
+
+To create a new custom rule:
+
+- Enter a name for the format, this name ia string of your choice that will be used to idenfity the format, it needs to be unique for the entire custom source collection and will be converted into an md5 sum
+- Enter a valid regular expression that uniquely identifies the events format
+- Click on "Run model simulation" to simulate the exectution of the new models
+- Optionnaly click on "Show sample events" to view a mini sample of the events within the screen
+- Optionnaly click on ""Open simulation results in search" to open the details of the rules processing per event in the search UI
+- Finally if the status of the simulation is valid, click on "Add this new custom rule" to permanently add this new custom rule
+
+*Example:*
+
+.. image:: img/first_steps/img_data_sampling_create_custom2.png
+   :alt: img_data_sampling_create_custom2.png
+   :align: center
+
+Once you have created a new custom rule, this rule will be applied automatically to future executions of the data sampling engine:
+
+- If the format switches from a format idenfitied by the the builtin rules to a format identified by a custom rule, it will not appear in anomaly
+- You can optionally clear the state of the data sampling for that data source to clean any previous states and force a new discovery
+
+**Remove custom rules**
+
+Once there is at least one custom rule defined, the list of custom rules appears in the table and can be selected for suppression:
+
+.. image:: img/first_steps/img_data_sampling_delete_custom.png
+   :alt: img_data_sampling_delete_custom.png
+   :align: center
+
+When a custom rule is removed, future executions of the data sampling engine will not consider the rule deleted anymore, optionally you can run the data sampling engine now or clear the state for a data source.
+
+Custom rules are stored in a KVstore collection which can as well be manually edited if you need to update an exising rule, or modify the order in which rules are processed:
+
+::
+
+   trackme_data_sampling_custom_models
+
+Run sampling engine now
+^^^^^^^^^^^^^^^^^^^^^^^
+
+Use this function to force running the data sampling engine now against this data source, this will not force a new discovery and will run the data sampling engine normally. (the current status is preserved)
+
+Clear state and run sampling
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Use this function to clear any state previously determined, this forces the data source to be considered as it was the first time it was investigated by the data sampling engine. (a full sampling is processed and there are no prior status taken into account)
 
 Priority management
 ===================

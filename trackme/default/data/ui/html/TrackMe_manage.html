@@ -1126,6 +1126,70 @@ styles in <div> tags, similar to Bootstrap's grid system.
         </div>
     </div>
 
+    <div id="rowManageDataSampling" class="dashboard-row dashboard-rowManageResetInfo">
+        <div id="panelManageDataSampling" class="dashboard-cell" style="width: 100%;">
+            <div class="dashboard-panel clearfix">
+                <div class="panel-element-row">
+                    <div id="elementManageDataSampling" class="dashboard-element html" style="width: 100%">
+                        <div class="panel-body html">
+                            <div style="text-align: center; border: 3px dashed #ccc;">
+                                <div style="display: inline-flex; align-items: center; margin-top: 5px;">
+                                    <span style="font-size: 22px; font-weight: bold; color: #6495ed; margin-top: 5px;">DATA SAMPLING &amp; EVENTS FORMAT RECOGNITION</span>
+                                </div>
+                                <div>
+                                    <h2>The data sampling &amp; format recognition allows to automatically monitor raw events formats changes and misbehaviour. These macros can be customised to adjust some of the feature configuration:</h2>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="ManageRow_trackme_data_sampling_max_allowed_runtime_sec" class="dashboard-row dashboard-rowDataSourcesTable" >
+        <div id="panel_trackme_data_sampling_max_allowed_runtime_sec" class="dashboard-cell" style="width: 100%;">
+            <div class="dashboard-panel clearfix">
+                <h2 style="padding: 12px 55px 7px 12px;">trackme_data_sampling_max_allowed_runtime_sec</h2><h2 class="panel-title">This defines the maximal amount of time in seconds to allow for the run time of the data sampling and event format recognition tracker, this value is
+                    used to automatically calculate the number of data sources to be processed per iteration based on the previous schedule run time performance. Increasing this value would allow processing more data sources in a single execution, and perform sampling and event format reconigition more often. 
+                </h2>
+                <div class="panel-element-row">
+                    <div id="elementTable_trackme_data_sampling_max_allowed_runtime_sec" class="dashboard-element table" style="width: 100%">
+                        <div class="panel-body"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="ManageRow_trackme_data_sampling_default_sample_record_at_discovery" class="dashboard-row dashboard-rowDataSourcesTable" >
+        <div id="panel_trackme_data_sampling_default_sample_record_at_discovery" class="dashboard-cell" style="width: 100%;">
+            <div class="dashboard-panel clearfix">
+                <h2 style="padding: 12px 55px 7px 12px;">trackme_data_sampling_default_sample_record_at_discovery</h2><h2 class="panel-title">This defines the number of events to sample the very first time the data sample engine runs against this data source, this bigger this value is, the more accurate the event format reconigition will be. (defaults to 100 events per data source)
+                </h2>
+                <div class="panel-element-row">
+                    <div id="elementTable_trackme_data_sampling_default_sample_record_at_discovery" class="dashboard-element table" style="width: 100%">
+                        <div class="panel-body"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="ManageRow_trackme_data_sampling_default_sample_record_at_run" class="dashboard-row dashboard-rowDataSourcesTable" >
+        <div id="panel_trackme_data_sampling_default_sample_record_at_run" class="dashboard-cell" style="width: 100%;">
+            <div class="dashboard-panel clearfix">
+                <h2 style="padding: 12px 55px 7px 12px;">trackme_data_sampling_default_sample_record_at_run</h2><h2 class="panel-title">This defines the number of events to sample during every new execution of the data sample engine runs against this data source post discovery, this bigger this value is, the more accurate the event format reconigition will be. (defaults to 50 events per data source)
+                </h2>
+                <div class="panel-element-row">
+                    <div id="elementTable_trackme_data_sampling_default_sample_record_at_run" class="dashboard-element table" style="width: 100%">
+                        <div class="panel-body"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <div id="rowManageEnrichmentMacrosInfo" class="dashboard-row dashboard-rowManageResetInfo">
         <div id="panelManageEnrichmentMacrosInfo" class="dashboard-cell" style="width: 100%;">
             <div class="dashboard-panel clearfix">
@@ -1961,6 +2025,36 @@ require([
             tokenNamespace: "submitted"
         });
 
+        var searchGetMacro_trackme_data_sampling_max_allowed_runtime_sec = new PostProcessManager({
+            "tokenDependencies": {},
+            "search": "where title=\"trackme_data_sampling_max_allowed_runtime_sec\" | table definition",
+            "managerid": "searchGetMacrosDefinitions",
+            "id": "searchGetMacro_trackme_data_sampling_max_allowed_runtime_sec"
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        });
+
+        var searchGetMacro_trackme_data_sampling_default_sample_record_at_discovery = new PostProcessManager({
+            "tokenDependencies": {},
+            "search": "where title=\"trackme_data_sampling_default_sample_record_at_discovery\" | table definition",
+            "managerid": "searchGetMacrosDefinitions",
+            "id": "searchGetMacro_trackme_data_sampling_default_sample_record_at_discovery"
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        });
+
+        var searchGetMacro_trackme_data_sampling_default_sample_record_at_run = new PostProcessManager({
+            "tokenDependencies": {},
+            "search": "where title=\"trackme_data_sampling_default_sample_record_at_run\" | table definition",
+            "managerid": "searchGetMacrosDefinitions",
+            "id": "searchGetMacro_trackme_data_sampling_default_sample_record_at_run"
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        });
+
         var searchGetMacro_trackme_get_metric_host_tags = new PostProcessManager({
             "tokenDependencies": {},
             "search": "where title=\"trackme_get_metric_host_tags\" | eval alternative_definition_es=\"`get_asset(metric_host)` | rename \\\"metric_host_*\\\" as \\\"*\\\" | fields tags\", alternative_definition_cmdb=\"lookup name_of_lookup key_name_field as metric_host | fields tags\" | table definition, alternative_definition_es, alternative_definition_cmdb",
@@ -2480,6 +2574,69 @@ require([
             if (e.field !== undefined) {
                 e.preventDefault();
                 var url = TokenUtils.replaceTokenNames("/en-GB/manager/trackme/admin/macros/trackme_get_data_host_tags?action=edit", _.extend(submittedTokenModel.toJSON(), e.data), TokenUtils.getEscaper('url'), TokenUtils.getFilters(mvc.Components));
+                utils.redirect(url, false, "_blank");
+            }
+        });
+
+        var elementTable_trackme_data_sampling_max_allowed_runtime_sec = new TableElement({
+            "id": "elementTable_trackme_data_sampling_max_allowed_runtime_sec",
+            "count": 100,
+            "drilldown": "row",
+            "refresh.display": "none",
+            "wrap": "false",
+            "managerid": "searchGetMacro_trackme_data_sampling_max_allowed_runtime_sec",
+            "el": $('#elementTable_trackme_data_sampling_max_allowed_runtime_sec')
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        }).render();
+
+        elementTable_trackme_data_sampling_max_allowed_runtime_sec.on("click", function(e) {
+            if (e.field !== undefined) {
+                e.preventDefault();
+                var url = TokenUtils.replaceTokenNames("/en-GB/manager/trackme/admin/macros/trackme_data_sampling_max_allowed_runtime_sec?action=edit", _.extend(submittedTokenModel.toJSON(), e.data), TokenUtils.getEscaper('url'), TokenUtils.getFilters(mvc.Components));
+                utils.redirect(url, false, "_blank");
+            }
+        });
+
+        var elementTable_trackme_data_sampling_default_sample_record_at_discovery = new TableElement({
+            "id": "elementTable_trackme_data_sampling_default_sample_record_at_discovery",
+            "count": 100,
+            "drilldown": "row",
+            "refresh.display": "none",
+            "wrap": "false",
+            "managerid": "searchGetMacro_trackme_data_sampling_default_sample_record_at_discovery",
+            "el": $('#elementTable_trackme_data_sampling_default_sample_record_at_discovery')
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        }).render();
+
+        elementTable_trackme_data_sampling_default_sample_record_at_discovery.on("click", function(e) {
+            if (e.field !== undefined) {
+                e.preventDefault();
+                var url = TokenUtils.replaceTokenNames("/en-GB/manager/trackme/admin/macros/trackme_data_sampling_default_sample_record_at_discovery?action=edit", _.extend(submittedTokenModel.toJSON(), e.data), TokenUtils.getEscaper('url'), TokenUtils.getFilters(mvc.Components));
+                utils.redirect(url, false, "_blank");
+            }
+        });
+
+        var elementTable_trackme_data_sampling_default_sample_record_at_run = new TableElement({
+            "id": "elementTable_trackme_data_sampling_default_sample_record_at_run",
+            "count": 100,
+            "drilldown": "row",
+            "refresh.display": "none",
+            "wrap": "false",
+            "managerid": "searchGetMacro_trackme_data_sampling_default_sample_record_at_run",
+            "el": $('#elementTable_trackme_data_sampling_default_sample_record_at_run')
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        }).render();
+
+        elementTable_trackme_data_sampling_default_sample_record_at_run.on("click", function(e) {
+            if (e.field !== undefined) {
+                e.preventDefault();
+                var url = TokenUtils.replaceTokenNames("/en-GB/manager/trackme/admin/macros/trackme_data_sampling_default_sample_record_at_run?action=edit", _.extend(submittedTokenModel.toJSON(), e.data), TokenUtils.getEscaper('url'), TokenUtils.getFilters(mvc.Components));
                 utils.redirect(url, false, "_blank");
             }
         });

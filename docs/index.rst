@@ -12,6 +12,7 @@ Welcome to the Splunk TrackMe application documentation
 - Provides a powerful user interface to manage activation states, configuration and quickly trouble availability failure detection
 - Analyse and detect lack of data and performance lagging of data sources and hosts within your Splunk deployment
 - Behaviour analytic with outlier detection based on machine learning outliers calculations
+- Behaviour analytic with data sampling and event format recognition, monitor and detect anomalies in raw events to detect event format changes or misbehaviour
 - Create elastic sources for any kind of custom monitoring requirements based on tstats / raw / mstats / from searches to fullfill any requirements
 - Record and investigate historical changes of statuses, as well as administrators changes (audit flipping and changes)
 - Easy administration via graphical human interface from A to Z
