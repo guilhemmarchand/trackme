@@ -18,7 +18,7 @@ https://trackme.readthedocs.io/en/latest/configuration.html
 - Fix: When using a custom Splunk URI path (root_endpoint in web.conf), internal calls to splunkd made the UI can fail if splunkd does not accept the root context and only accepts the custom root context
 - Fix: When creating new dedicated elastic sources, if the search result name exceeds 100 characters, this results in a silent failure to create the new source 
 - Fix: Shorten default naming convention used for new Elastic Sources tracker names
-- Fix: Limitation of stats list function causes for Elastic shared data sources limits the number of sources to 99 sources maximum
+- Fix: Limitation of the list function used in stats limits the number for Elastic shared data sources to 99 sources maximum, fixed by alternative improved syntax
 - Change: Automatically join the acknowledgement comment in the acknowledgement screen
 
 Version 1.2.20
