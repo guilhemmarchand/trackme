@@ -19,6 +19,7 @@ https://trackme.readthedocs.io/en/latest/configuration.html
 - Fix: When creating new dedicated elastic sources, if the search result name exceeds 100 characters, this results in a silent failure to create the new source 
 - Fix: Shorten default naming convention used for new Elastic Sources tracker names
 - Fix: Limitation of the list function used in stats limits the number for Elastic shared data sources to 99 sources maximum, fixed by alternative improved syntax
+- Fix: For Elastic shared sources, if the first source is a raw search, the addition of the "search" key word in the first pipeline fails under some conditions
 - Change: Automatically join the acknowledgement comment in the acknowledgement screen
 
 Version 1.2.20
