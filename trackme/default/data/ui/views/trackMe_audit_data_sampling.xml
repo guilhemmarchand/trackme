@@ -1,5 +1,6 @@
-<dashboard>
+<form>
   <label>TrackMe - Data sampling and events formats recognition audit</label>
+  <fieldset submitButton="false"></fieldset>
   <row>
     <panel>
       <title>Number of monitored and active data sources during the last 24 hours</title>
@@ -12,11 +13,11 @@
           <sampleRatio>1</sampleRatio>
         </search>
         <option name="colorBy">value</option>
-        <option name="colorMode">none</option>
+        <option name="colorMode">block</option>
         <option name="drilldown">none</option>
         <option name="numberPrecision">0</option>
-        <option name="rangeColors">["0x53a051","0x0877a6","0xf8be34","0xf1813f","0xdc4e41"]</option>
-        <option name="rangeValues">[0,30,70,100]</option>
+        <option name="rangeColors">["0x779ecb","0x779ecb"]</option>
+        <option name="rangeValues">[0]</option>
         <option name="showSparkline">1</option>
         <option name="showTrendIndicator">1</option>
         <option name="trellis.enabled">0</option>
@@ -26,7 +27,7 @@
         <option name="trendDisplayMode">absolute</option>
         <option name="underLabel">DATA SOURCES</option>
         <option name="unitPosition">after</option>
-        <option name="useColors">0</option>
+        <option name="useColors">1</option>
         <option name="useThousandSeparators">1</option>
       </single>
     </panel>
@@ -41,11 +42,11 @@
           <sampleRatio>1</sampleRatio>
         </search>
         <option name="colorBy">value</option>
-        <option name="colorMode">none</option>
+        <option name="colorMode">block</option>
         <option name="drilldown">none</option>
         <option name="numberPrecision">0</option>
-        <option name="rangeColors">["0x53a051","0x0877a6","0xf8be34","0xf1813f","0xdc4e41"]</option>
-        <option name="rangeValues">[0,30,70,100]</option>
+        <option name="rangeColors">["0x779ecb","0x779ecb"]</option>
+        <option name="rangeValues">[0]</option>
         <option name="showSparkline">1</option>
         <option name="showTrendIndicator">1</option>
         <option name="trellis.enabled">0</option>
@@ -55,17 +56,25 @@
         <option name="trendDisplayMode">absolute</option>
         <option name="underLabel">DATA SOURCES</option>
         <option name="unitPosition">after</option>
-        <option name="useColors">0</option>
+        <option name="useColors">1</option>
         <option name="useThousandSeparators">1</option>
       </single>
     </panel>
   </row>
   <row>
     <panel>
+      <input type="dropdown" token="tk_is_anomaly" searchWhenChanged="true">
+        <label>isAnomaly:</label>
+        <choice value="*">ANY</choice>
+        <choice value="1">true</choice>
+        <choice value="0">false</choice>
+        <initialValue>*</initialValue>
+      </input>
       <table>
-        <title>Data sources and data sampling status table</title>
+        <title>Data sources and data sampling status table - this is the consolidated view from the data source collection as presented within the UI, a value of 0 indicates no anomalies, while a value of 1 indicates anomalies detected by the data sampling engine</title>
         <search>
           <query>| inputlookup trackme_data_source_monitoring | eval keyid=_key
+| search isAnomaly=$tk_is_anomaly$
 | fields keyid, data_name, data_sample_lastrun, isAnomaly
 | eval data_sample_lastrun=if(data_sample_lastrun!=0, strftime(data_sample_lastrun, "%c"), "N/A (no successful run yet)")</query>
           <earliest>-24h@h</earliest>
@@ -75,10 +84,10 @@
         <option name="drilldown">none</option>
         <option name="refresh.display">progressbar</option>
         <format type="color" field="data_sample_lastrun">
-          <colorPalette type="map">{"N/A (no successful run yet)":#FF6961}</colorPalette>
+          <colorPalette type="map">{"N/A (no successful run yet)":#ff6961}</colorPalette>
         </format>
         <format type="color" field="isAnomaly">
-          <colorPalette type="map">{"1":#FF6961}</colorPalette>
+          <colorPalette type="map">{"0":#77dd77,"1":#ff6961}</colorPalette>
         </format>
       </table>
     </panel>
@@ -86,9 +95,10 @@
   <row>
     <panel>
       <table>
-        <title>Data sampling records details</title>
+        <title>Data sampling records details - this is the raw view from the collection trackme_data_sampling, except the raw events samples (fields raw_sample and latest_raw)</title>
         <search>
           <query>| inputlookup trackme_data_sampling | eval keyid=_key
+| search data_sample_anomaly_detected=$tk_is_anomaly$
 | fields keyid, data_name, *
 | fields - raw_*
 | fields keyid, data_name, data_sample_anomaly_detected, data_sample_anomaly_reason, data_sample_feature, *</query>
@@ -98,7 +108,10 @@
         <option name="drilldown">none</option>
         <option name="refresh.display">progressbar</option>
         <format type="color" field="data_sample_anomaly_detected">
-          <colorPalette type="map">{"1":#FF6961}</colorPalette>
+          <colorPalette type="map">{"0":#77dd77,"1":#ff6961}</colorPalette>
+        </format>
+        <format type="color" field="data_sample_feature">
+          <colorPalette type="map">{"enabled":#77dd77,"disabled":#ffb347}</colorPalette>
         </format>
       </table>
     </panel>
@@ -106,7 +119,7 @@
   <row>
     <panel>
       <table>
-        <title>Tracker scheduler execution metrics</title>
+        <title>Tracker scheduler execution metrics - this view exposes some key information from the scheduling perspective such maximal number of entities that are to be processed in a single execution</title>
         <search>
           <query>index=_internal sourcetype=scheduler earliest=-4h latest=now status="*" AND status!="continued" trackme app="trackme" savedsearch_name="TrackMe - Data sampling and format detection tracker"
 | stats avg(run_time) AS avg_run_time, max(run_time) AS max_run_time, latest(run_time) AS latest_run_time, latest(result_count) as last_processed_no_entities by savedsearch_name
@@ -120,7 +133,7 @@
         </search>
         <option name="drilldown">none</option>
         <format type="color" field="last_processed_no_entities">
-          <colorPalette type="map">{"0":#FF6961}</colorPalette>
+          <colorPalette type="map">{"0":#ff6961}</colorPalette>
         </format>
       </table>
     </panel>
@@ -128,7 +141,7 @@
   <row>
     <panel>
       <table>
-        <title>Scheduler executions over time</title>
+        <title>Scheduler executions over time - this reports the details over time from the scheduling point of view, a key informatom is the number of entities that were processed during the execution of the tracker</title>
         <search>
           <query>index=_internal sourcetype=scheduler earliest=-4h latest=now status="*" AND status!="continued" trackme app="trackme" savedsearch_name="TrackMe - Data sampling and format detection tracker"
 | stats latest(run_time) AS run_time, latest(result_count) as last_processed_no_entities by _time, savedsearch_name
@@ -147,4 +160,4 @@
       </table>
     </panel>
   </row>
-</dashboard>
+</form>

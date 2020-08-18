@@ -17,7 +17,7 @@ Welcome to the Splunk TrackMe application documentation
 - Record and investigate historical changes of statuses, as well as administrators changes (audit flipping and changes)
 - Easy administration via graphical human interface from A to Z
 - No matters the purpose of your Splunk deployment, trackMe will easily become an essential and easy piece of your deployment, and even providing efficient answers to PCI and compliance requirements
-- Never let again your team be the last to discover what empty and no results found mean!
+- Keep things under your control and be the first to know when data is not available, get alerted before your users get back to you!
 
 .. image:: img/screenshots_main/img001.png
    :alt: img001.png

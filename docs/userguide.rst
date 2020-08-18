@@ -1096,10 +1096,31 @@ Run sampling engine now
 
 Use this function to force running the data sampling engine now against this data source, this will not force a new discovery and will run the data sampling engine normally. (the current status is preserved)
 
+*When to use the run sampling engine now?*
+
+- You can can run this action at anytime and as often as you need, the action runs the data sampling engine for that data source only
+- This action will have no effect if an anomaly was raised for the data source already, when an anomaly is detected the status is frozen (see Clear state and run sampling)
+
 Clear state and run sampling
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 Use this function to clear any state previously determined, this forces the data source to be considered as it was the first time it was investigated by the data sampling engine. (a full sampling is processed and there are no prior status taken into account)
+
+*When to use the clear state and run sampling?*
+
+- Use this action to clear any known states for this data source and run the inspection from zero, just as if it was discovered for the first time
+- You can use this action to clear an anomaly that was raised, when an alert is raised by the data sampling, the state is frozen until this anomaly is reviewed, once the issue is understood and fixed, run the action to clear the state and restart the inspection workflow for this data source
+
+Data sampling Audit dashboard
+-----------------------------
+
+An audit dashboard is provided in the audit navigation menu, this dashboard provides insight related to the data sampling feature and workflow:
+
+*Menu Audit / TrackMe - Data sampling and events formats recognition audit*
+
+.. image:: img/first_steps/img_data_sampling_audit.png
+   :alt: img_data_sampling_audit.png
+   :align: center
 
 Priority management
 ===================
