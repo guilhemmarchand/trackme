@@ -1594,12 +1594,12 @@ styles in <div> tags, similar to Bootstrap's grid system.
 
                         <div style="margin-bottom: 10px;">
                             <div>
-                                <h3 style="color: steelblue;">The data sampling and events format recognition feature tracks the raw events format behaviour by achieving analysis based on the following workflow:</h3>
+                                <h3 style="color: steelblue;">The data sampling and events format recognition tracks the raw events format behaviour based on the following workflow:</h3>
                                 <lu>
-                                    <li>On a scheduled basis, a sample of the latest data source raw events is taken and investigated</li>
+                                    <li>On a regular basis, a sample of the latest data source raw events is taken and investigated</li>
                                     <li>Events format recognition is performed against a list of builtin regular expression rules to identify a unique event pattern</li>
-                                    <li>Builtin rules can optionnally be completed by custom regular expression rules to handle event formats that could not be managed by builtin rules</li>
-                                    <li>Depending on the conditions, such as a change detected in the format of the raw events, a data sampling status is defined and taken into account for the global data source state</li>
+                                    <li>Builtin rules can optionally be completed by custom regular expression rules to handle unknown or custom formats</li>
+                                    <li>Depending on the conditions, such as a change detected in the format of the raw events, a status is determined and taken into account by the data sources trackers</li>
                                 </lu>
                             </div>
                         </div>
@@ -1608,11 +1608,11 @@ styles in <div> tags, similar to Bootstrap's grid system.
                             <div>
                                 <h3 style="color: steelblue;">Acting on a data sampling and events format recognition anomaly detection:</h3>
                                 <lu>
-                                    <li>If during the first inspection for the source type, more than one type of events are detected, the data sampling feature is automatically disabled to avoid leading to false positive alerts as events recognition would not be reliable in this context</li>
-                                    <li>If a given format was previously identified, say the events are ingested as json structured data, then during the next iteration TrackMe discovered any other type of format, an anomaly state will be raised</li>
-                                    <li>In the same manner, if during a new iteration of the inspection multiple events formats are discovered in a sourcetype where previoulsy a given format was idenfitied, an anomaly state will be raised</li>
-                                    <li>Once an anomaly was raised due to inspection, the status will not be cleared until a manual action is performed in this interface by clicking on the button "Clear state and run sampling"</li>
-                                    <li>When the clear state action is performed, all previously identified information for that sourcetype are cleared and the inspection starts over</li> 
+                                    <li>If during the first inspection of the data source more than one type of events are detected, the data sampling feature is automatically disabled to avoid generating false positive alerts as events format recognition would not be reliable in this context</li>
+                                    <li>If a certain format was previously identified and during the next iteration a different type of format is detected, an anomaly state will be raised</li>
+                                    <li>As well, if during a new iteration of the inspection multiple events formats are discovered where previoulsy a specific format was identified, an anomaly state will be raised</li>
+                                    <li>Once an anomaly was raised, the anomaly status is frozen and will not be cleared until a manual action is performed by running the "Clear state and run sampling" action</li>
+                                    <li>When the clear state action is performed, previously identified information for that data source are cleared, and the data sampling inspection starts over</li>
                                 </lu>
                             </div>
                         </div>
@@ -1683,9 +1683,9 @@ styles in <div> tags, similar to Bootstrap's grid system.
                                 <h3>Events format recognition builtin regex rules:</h3>
                                 <lu>
                                     <li>Builtin rules are applied <b>after</b> custom rules (if any)</li>
-                                    <li>Builtin rules are regular expressions used to identify the type of event based on its structure format (json, xml...) or the timestamp format</li>
-                                    <li>These rules cover most common use cases, and can easily be extended by adding your own custom models</li>
-                                    <li>Shall none of the rules be matching the events formats, the event will be tagged as "raw_not_identified" (last rule applied in process order)</li>
+                                    <li>Builtin rules are regular expressions used to identify the type of events based on a structure (json, xml...), an expected timestamp format or a unique pattern</li>
+                                    <li>These rules cover most common valuable use cases and can be easily extended by the addition of custom rules</li>
+                                    <li>Shall none of the rules be matching the events formats, events will be tagged as "raw_not_identified" and the data sampling feature will be disabled automatically for that data source</li>
                                 </lu>
 
                             </div>
@@ -1746,8 +1746,8 @@ styles in <div> tags, similar to Bootstrap's grid system.
                                 <h3>Events format recognition custom regex rules:</h3>
                                 <lu>
                                     <li>Custom rules, if any, are applied <b>before</b> builtin rules</li>
-                                    <li>Rules are regular expressions used to identify the type of event based on its structure format (json, xml...) or the timestamp format</li>
-                                    <li>You can create as many custom rules as you need</li>
+                                    <li>Rules are regular expressions used to identify the type of event based on a structure (json, xml...), a timestamp format or a unique pattern</li>
+                                    <li>You can create as many custom rules as you need and these rules will be processed automatically during the execution of the data sampling engine</li>
                                 </lu>
 
                             </div>
