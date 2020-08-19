@@ -36,7 +36,7 @@ No administrator should be informed of an issue in the data flow by the customer
 
 with the massive amount of data sources, this becomes easily a painful and time consuming activity, this application aims to drastically help you in these tasks.
 
-This tiny application provides a handy user interface associated with a simple but efficient data discovery, state and alerting workflow.
+TrackMe provides a handy user interface associated with an efficient data discovery, state and alerting workflow.
 
 Made by Splunk admins for Splunk admins, the TrackMe application provides builtin powerful features to monitor and administer you data source monitoring the easy way!
 
