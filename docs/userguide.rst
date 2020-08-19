@@ -955,6 +955,10 @@ Data sampling and event formats recognition
 - Depending on the conditions, a status and additional informations are determined and stored in the lookup collection
 - The status stored as the field ``isAnomaly`` is loaded by the data sources trackers and taken into account for the global data source state analysis
 
+.. image:: img/mindmaps/data_sampling_main.png
+   :alt: data_sampling_main.png
+   :align: center
+
 Summary statuses
 ----------------
 
