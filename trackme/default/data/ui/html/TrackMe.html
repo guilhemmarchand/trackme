@@ -1634,7 +1634,7 @@ styles in <div> tags, similar to Bootstrap's grid system.
                         </div>
                     </div>
 
-                    <div style="margin-top: 60px;" class="modal-footer">
+                    <div style="margin-top: 20px;" class="modal-footer">
                         <div class="btn_data_sampling_back" style="margin-right: 15px; float: left;">
                             <button type="submit" class="btn btn-default btn-primary" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Back</button>
                         </div>
@@ -24993,7 +24993,8 @@ require([
                         "dispatch.earliest_time": tk_input_elastic_source_earliest,
                         "dispatch.latest_time": tk_input_elastic_source_latest,
                         "is_scheduled": "1",
-                        "cron_schedule": "*/5 * * * *"
+                        "cron_schedule": "*/5 * * * *",
+                        "schedule_window": "1"
                     };
 
                     // Create a saved search/report as an alert.

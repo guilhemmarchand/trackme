@@ -21,6 +21,8 @@ https://trackme.readthedocs.io/en/latest/configuration.html
 - Fix: Limitation of the list function used in stats limits the number for Elastic shared data sources to 99 sources maximum, fixed by alternative improved syntax
 - Fix: For Elastic shared sources, if the first source is a raw search, the addition of the "search" key word in the first pipeline fails under some conditions
 - Change: Automatically join the acknowledgement comment in the acknowledgement screen
+- Change: Time to live definition for scheduled reports (dispatch.ttl) to reduce overhead in the dispatch directory
+- Change: Automatically affect a 1 minute time window when creating Elastic dedicated trackers
 
 Version 1.2.20
 ==============
