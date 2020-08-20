@@ -57,5 +57,8 @@
     <a href="trackMe_kvstore">KVstore collections</a>
     <a href="trackMe_audit_data_sampling">Data sampling audit dashboard</a>
   </collection>
+  <collection label="Help">
+      <a href="https://trackme.readthedocs.io/">Documentation on readthedocs.org</a>
+  </collection>  
   <a href="search">Run a search</a>
 </nav>

@@ -1604,17 +1604,20 @@ styles in <div> tags, similar to Bootstrap's grid system.
                             </div>
                         </div>
 
-                        <div style="margin-left: 30px; margin-bottom: 10px;">
+                        <div style="margin-bottom: 20px;">
                             <img src="../../static/app/trackme/mindmaps/data_sampling_main.png" alt="data_sampling_main.png">
                         </div>
 
-                        <div style="margin-top: 20px; margin-bottom: 10px;">
+                        <div style="margin-bottom: 10px;">
+                            <span><a target="_blank" href="https://trackme.readthedocs.io/en/latest/userguide.html#data-sampling-and-event-formats-recognition">Link to documentation</a></span> / <span><a target="_blank" href="trackMe_audit_data_sampling">Link to data sampling audit dashboard</a></span>
+                        </div>
+                        
+                        <div style="margin-bottom: 10px;">
                             <div>
                                 <h3 style="color: steelblue;">Acting on a data sampling and events format recognition anomaly detection:</h3>
                                 <lu>
-                                    <li>If during the first inspection of the data source more than one type of events are detected, the data sampling feature is automatically disabled to avoid generating false positive alerts as events format recognition would not be reliable in this context</li>
-                                    <li>If a certain format was previously identified and during the next iteration a different type of format is detected, an anomaly state will be raised</li>
-                                    <li>As well, if during a new iteration of the inspection multiple events formats are discovered where previoulsy a specific format was identified, an anomaly state will be raised</li>
+                                    <li>If during the discovery multiple events formats are detected, the feature is automatically disabled to avoid generating false positive alerts</li>
+                                    <li>If a certain format was previously identified and during the next iteration a format change is detected, an anomaly state will be raised</li>
                                     <li>Once an anomaly was raised, the anomaly status is frozen and will not be cleared until a manual action is performed by running the "Clear state and run sampling" action</li>
                                     <li>When the clear state action is performed, previously identified information for that data source are cleared, and the data sampling inspection starts over</li>
                                 </lu>
