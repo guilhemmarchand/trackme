@@ -53,7 +53,7 @@ TrackMe provides a handy user interface associated with an efficient data discov
 
 Made by Splunk admins for Splunk admins, the TrackMe application provides builtin powerful features to monitor and administer you data source monitoring the easy way!
 
-**Use case for TrackMe?**
+**Use cases for TrackMe?**
 
 No matters the purpose of your Splunk deployment, trackMe will easily become an essential and positive piece of your Splunk journey:
 
