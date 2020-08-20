@@ -21,7 +21,7 @@ Access TrackMe main interface
 Main navigation tabs
 --------------------------
 
-**Now that TrackMe is deployed, and it discovered the data available in your environment, let's review the main tabs provided in the UI:**
+**Now that TrackMe is deployed, and it discovered data available in your environment, let's review the main tabs provided in the UI:**
 
 .. image:: img/first_steps/img001_tabs.png
    :alt: img/first_steps/img001_tabs
@@ -506,7 +506,7 @@ This influences the state definition:
 
 **Associate to a logical group:**
 
-This option allows grouping data hosts and metric hosts into logical groups which are taken in consideration by groups rather than individually.
+This option allows grouping data hosts and metric hosts into logical groups which are taken in consideration by groups rather than per entity.
 
 See :ref:`Logical groups (clusters)` for more details about this feature.
 
@@ -516,9 +516,10 @@ Elastic sources
 Elastic sources feature
 -----------------------
 
-As we have exposed the main notions of TrackMe data discovery and tracking in :ref:`Main navigation tabs`, there can be various use cases that these concepts do not address properly, some examples:
+As we have exposed the main notions of TrackMe data discovery and tracking in :ref:`Main navigation tabs`, there can be various use cases that these concepts do not address properly, considering some facts:
 
-- You have a data flow that relies on the ``source`` Metadata, which means that more than one data flow to be monitored ``individually`` are indexed into the same combination of ``index`` and ``sourcetype``
+- Breaking by index and sourcetype is not enough, for instance your data pipeline can be distinguished in the same sourcetype by breaking on the ``Splunk source Metadata``
+- In a similar context, enrichment is performed either at indexing time (ideally indexed fields which allow the usage of tstats) or search time fields (evaluations, lookups, etc), these fields represent the keys you need to break on to address your requirements 
 - With the default ``data sources`` tracking, this data flow will appear as one main entity and you cannot ``distinguish`` a specific part of your data covered by the standard data source feature
 - Specific ``custom indexed fields`` provide ``knowledge`` of the data in your context, such as ``company``, ``business unit`` etc and these pipelines cannot be distinguished by relying on the ``index`` and ``sourcetype`` only
 - You need address any use case that the default main features do not allow you to
@@ -599,13 +600,11 @@ Elastic source example 2: custom indexed fields
 
 **Let's extend a bit more the first example, and this time in addition with the region we have a company notion.**
 
-At indexing time Splunk creates a region indexed field and a company index field that is extracted from the source Metadata using a regular expression:
+At indexing time, two custom indexed fields are created representing the "region" and the "company".
 
-::
+Custon indexed fields can be created in many ways in Splunk, it is a great and powerful feature as long as it is properly implemented and restricted to the right use cases.
 
-   source="network:pan:[region]:[company]"
-
-Where ``[region]`` and ``[company]`` are the values to be extracted and defined as my indexed fields.
+This example of excellence allows our virtual customer to work at scale with performing searches against their two major enrichment fields.
 
 **Assuming we have 3 regions (AMER / EMEA / APAC) and per region we have two companies (design / retail), to get the data of each region / company I need several searches:**
 
@@ -626,7 +625,10 @@ Indeed, it is clear enough that the default data source feature does not me with
    :alt: img/first_steps/img032
    :align: center
 
-Rather than one data source, I need to have 6 data sources which cover individually each of my region / company couples, because each of them can fail individually and I need to be able to distinguish that fact.
+Rather than one data source that covers the index/sourcetype, the requirement is to have 6 data sources that cover each couple of region/company.
+
+Any failure on the flow level which is represented by these new data sources will be detected.
+On the opposite, the default data source breaking on on the sourcetype would need a total failure of all pipelines to be detected.
 
 **By default, the data source would show up with a unique entity which is not filling my requirements:**
 
@@ -1252,9 +1254,22 @@ Monitoring level
    :alt: monitoring_level.png
    :align: center
 
-When the monitoring of the data source applies on the sourcetype level, if that combination of index / sourcetype data does not respect the monitoring rule, it will trigger.
+Feature behaviour:
 
-When the monitoring of the data source applies on the index level, we take in consideration what the latest data available is in this index, not matter what the sourcetype is.
+- When the monitoring of the data source applies on the sourcetype level, if that combination of index / sourcetype data does not respect the monitoring rule, it will trigger.
+- When the monitoring of the data source applies on the index level, we take in consideration what the latest data available is in this index, no matter what the sourcetype is.
+
+This option is useful for instance if you have multiple sourcetypes in a single index, however some of these sourcetypes are not critical enough to justify raising any alert on their own but these need to remain visible in Trackme for context and troubleshooting purposes.
+
+For example:
+
+- An index contains the sourcetype "mybusiness:critical" and the sourcetype "mybusiness:informational"
+- "mybusiness:critical" is set to sourcetype level
+- "mybusiness:informational" is set to index level
+- "mybusiness:critical" will generate an alert if lagging conditions are not met for that data source 
+- "mybusiness:informational" will generate an alert **only** if "mybusiness:critical" monitoring conditions are not met either
+- The fact the informational data is not available in the same time than "mybusiness:critical" is a useful information that lets the engineer know that the problem is global for that specific data flow
+- Using the index monitoring level for "mybusiness:informational" allows it to be visible in TrackMe without generating alerts on its own as long as "mybusiness:critical" meets the monitoring conditions
 
 Maximum lagging value
 =====================
@@ -1426,7 +1441,7 @@ Logical group example
 
 **Let's have a look at a simple example of an active / passive firewall, we have two entities which form together a cluster.**
 
-Because the passive node might not generate data, we only want to alert if both the active and the passive are actively sending data.
+Because the passive node might not generate data, we only want to alert if both the active and the passive are not actively sending data.
 
 .. image:: img/logical_groups_example1.png
    :alt: logical_groups_example1.png

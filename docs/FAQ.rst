@@ -6,7 +6,7 @@ FAQ
 What is the "data name" useful for?
 -----------------------------------
 
-See :ref:`Data Sources tracking concept and features`
+See :ref:`data sources tracking and features`
 
 In the context of data source, the field **"data_name"** represents the unique identifier of the data source.
 
@@ -17,7 +17,7 @@ The data_name unique identifier is used in different parts of the application, s
 
 **What are the numbers in the "lag summary" column?**
 
-See :ref:`Data Sources tracking concept and features`
+See :ref:`data sources tracking and features`
 
 The field **"lag summary (lag event / lag ingestion)"** is exposed within the UI to summarise the two key metrics handled by TrackMe to monitor the Splunk data.
 
@@ -148,3 +148,19 @@ There are no easy answers to this question, however:
 - On the opposite, what matters and provides value is being able to detect global failures of hosts (endpoints, whatever you call these) in a way that is not generating noises and alert fatigue
 - This is why the data host design takes in consideration the data globally sent on a per host basis, TrackMe provides many different features (allowlist / blocklist, etc) to manage use cases with the level of granularity required 
 - Finally, from the data host perspective, the outliers detection is a powerful feature that would provide the capability to detect a significant change in the data volume, for example when a major sourcetype has stopped to be emitted 
+
+What is the purpose of the enable / disable button?
+---------------------------------------------------
+
+The purpose of the enable / disable button is to provide a way to disable the monitoring of an entity, without removing it from the collections entirely.
+
+There are different aspects to consider:
+
+- Sometimes you have some sourcetypes you do not care about really, you can use allowlisting / blocklisting, or disable it
+- When an entity is disabled, the value of the field "data_monitored_state" is set to false (default is true when it is discovered initially)
+- The UI by default filters on entities which are being monitored effectively, you can show disabled entities by using the "Filter monitored_state:" filter form, or looking at the lookup content manually
+- Out of the box alerts do not take in consideration disabled entities
+- Various other parts of the application will as well stop considering these disabled entities, for instance there will not be metrics generated anymore, etc.
+- When an entity is disabled, all information are preserved, if you re-enable a disabled entity, TrackMe will simply start to consider it again and refresh its state and other actions automatically
+- You should consider disabling entities rather than deleting entities if these are actively generating data to Splunk and cannot be excluded easily by allow listing / block listing
+- The reason is that if you delete an active entity, in temporary deletion mode it will be re-added very quickly (when the trackers will capture activity for it), and permanent mode it would re-added after a certain period of time
