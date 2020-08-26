@@ -143,11 +143,13 @@ How to deal with sourcetypes that are emitting data occasionally or sporadically
 
 There are no easy answers to this question, however:
 
-- From a data source perspective, what matters is monitoring the data from a pipeline point of view, which translated in TrackMe means making sure you have a data source that corresponds to this unique data flow
-- From a data host perspective, there wouldn't be the value one could be expecting in having a strict monitoring of every single sourcetype linked to a given host, especially because many of them can be generating data in a sporadic fashion depending on the circumstances
-- On the opposite, what matters and provides value is being able to detect global failures of hosts (endpoints, whatever you call these) in a way that is not generating noises and alert fatigue
-- This is why the data host design takes in consideration the data globally sent on a per host basis, TrackMe provides many different features (allowlist / blocklist, etc) to manage use cases with the level of granularity required 
-- Finally, from the data host perspective, the outliers detection is a powerful feature that would provide the capability to detect a significant change in the data volume, for example when a major sourcetype has stopped to be emitted 
+- The default concept of data sources tracking relies on entities broken per index and sourcetype, this can be extended easily using the Elastic sources feature to fullfil any kind of requirements and make sure that a data source represents the data pipeline
+- The data hosts tracking feature provides the vision broken on a per host basis (using the Splunk host Metadata) 
+- TrackMe does not replace the knowledge you have regarding the way you are ingesting data into Splunk, instead it provides various features and options you can use to configure what should raise an alert or not, and how
+- The basic configuration for data tracking are related to the latency and the delta in seconds between the latest time data was indexed in Splunk and now
+- In addition, the volume Outliers feature allows detecting automatically behaviour changes in the volume of data indexed in Splunk for a given sourcetype
+- In most cases, you should focus on the most valuable and important sourcetypes, TrackMe provides different levels of features (allowlists / blocklists) to exclude automatically data of low interest, and the priority feature allows granular definition of the importance of an entity
+- A sourcetype that comes very occasionally in Splunk might be something that you need to track carefully, however if it does you need to define the tresholds accordlingy and TrackMe provides different options to do so on a per data source basis for instance
 
 What is the purpose of the enable / disable button?
 ---------------------------------------------------
@@ -164,3 +166,16 @@ There are different aspects to consider:
 - When an entity is disabled, all information are preserved, if you re-enable a disabled entity, TrackMe will simply start to consider it again and refresh its state and other actions automatically
 - You should consider disabling entities rather than deleting entities if these are actively generating data to Splunk and cannot be excluded easily by allow listing / block listing
 - The reason is that if you delete an active entity, in temporary deletion mode it will be re-added very quickly (when the trackers will capture activity for it), and permanent mode it would re-added after a certain period of time
+
+What's the difference between disabled and (permanently) deleted?
+-----------------------------------------------------------------
+
+The deletion of entities is explained in details in :ref:`Deletion of entities`.
+
+In short, the purpose of the permanent deletion is to prevent an entity from being disovered again after it is deleted.
+
+To achieve this, when an entity is permanently deleted the value of the field "change_type" is defined to "delete permanent", when the entity is temporarily deleted, the value is set to "delete tempoary".
+
+Then, Trackers reports wich perform discovery of the data use a filter to exclude entities that have been permanently deleted, such that even if the entity is still actively sending data to Splunk, TrackMe will ignore it automatically as long as the audit record is available. (by default audit records are purged after 90 days)
+
+The UI does not provide a function to undo a permanent deletion, however updating or purging the audit record manually would allow to re-create an entity after it was permanently deleted.

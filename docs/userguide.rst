@@ -27,11 +27,11 @@ Main navigation tabs
    :alt: img/first_steps/img001_tabs
    :align: center
 
-- ``DATA SOURCES TRACKING`` exposes the tracking of data sources, in its default this represents the association of an ``index + ":" + sourcetype``
-- ``DATA HOSTS TRACKING`` exposes all the data discovered for each ``host sending events`` to Splunk
-- ``METRIC HOSTS TRACKING`` exposes all the metrics discovered for each ``host sending metrics`` to Splunk
-- ``INVESTIGATE STATUS FLIPPING`` exposes the detection of an entity switching from a state, example green, to another state like red
-- ``INVESITAGE AUDIT CHANGES`` exposes all changes performed within the UI for auditing and review purposes
+- ``DATA SOURCES TRACKING`` shows the tracking of data sources, by default a data source is a breakdown of your data on a per ``index + ":" + sourcetype``
+- ``DATA HOSTS TRACKING`` shows data discovered for each ``host sending events`` to Splunk
+- ``METRIC HOSTS TRACKING`` shows metrics discovered for each ``host sending metrics`` to Splunk
+- ``INVESTIGATE STATUS FLIPPING`` shows the detection of an entity switching from a state, example green, to another state like red
+- ``INVESITAGE AUDIT CHANGES`` shows all changes performed within the UI for auditing and review purposes
 
 Data Sources tracking and features
 ----------------------------------
@@ -371,9 +371,9 @@ Rather than duplicating all the previous explanations, let's expose the differen
 Data host monitoring
 ^^^^^^^^^^^^^^^^^^^^
 
-The concept is quite simple, when data sources are looking at a combination of ``index + ":" + sourcetype``, data hosts tracking takes into account all events on a ``per host basis``.
+Data hosts monitoring does data discovery on a per host basis, relying on the ``Splunk host Metadata``.
 
-In a very simplistic form, the notion is similar to performing a search looking at all events with tstats on a per host basis:
+To achieve this, TrackMe uses tstats based queries to retrieve and record valuable Metadata information, in a simplistic form this is very similar to the following query:
 
 ::
 
@@ -439,6 +439,8 @@ Unified update interface
 .. image:: img/first_steps/img023.png
    :alt: img/first_steps/img023
    :align: center
+
+These interfaces are called unified as their main purpose is to provide a central place in the UI where the modification of the main key parameters would be achieved.
 
 Data source unified update
 --------------------------
