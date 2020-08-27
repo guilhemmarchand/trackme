@@ -1596,9 +1596,8 @@ styles in <div> tags, similar to Bootstrap's grid system.
                             <div>
                                 <h3 style="color: steelblue;">The data sampling and events format recognition tracks the raw events format behaviour based on the following workflow:</h3>
                                 <lu>
-                                    <li>On a regular basis, a sample of the latest data source raw events is taken and investigated</li>
-                                    <li>Events format recognition is performed against a list of builtin regular expression rules to identify a unique event pattern</li>
-                                    <li>Builtin rules can optionally be completed by custom regular expression rules to handle unknown or custom formats</li>
+                                    <li>On a regular basis, a sample of the latest data source raw events is taken and investigated by the Data sampling and format detection tracker</li>
+                                    <li>Events format recognition is performed against builtin regular expression rules to identify a unique event pattern, which can be extended with custom rules to hande unknown or custom formats</li>
                                     <li>Depending on the conditions, such as a change detected in the format of the raw events, a status is determined and taken into account by the data sources trackers</li>
                                 </lu>
                             </div>
