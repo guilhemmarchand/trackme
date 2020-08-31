@@ -15079,9 +15079,9 @@ require([
                 //console.log("tk_tags is: " + tk_tags);
 
                 // define the href depending on the tags
-                if (tk_tags == "null") {
+                if (tk_tags == "No tags defined /  click on Update tags to define one or more tags to be associated with this data source.") {
                     setToken("tk_tags_link_main", TokenUtils.replaceTokenNames("Click here to define tags", _.extend(submittedTokenModel.toJSON(), e.data)));
-                    setToken("tk_tags_modal_target", TokenUtils.replaceTokenNames("create_tags", _.extend(submittedTokenModel.toJSON(), e.data)));
+                    setToken("tk_tags_modal_target", TokenUtils.replaceTokenNames("manage_tags", _.extend(submittedTokenModel.toJSON(), e.data)));
                 } else {
                     setToken("tk_tags_link_main", TokenUtils.replaceTokenNames("Show tags", _.extend(submittedTokenModel.toJSON(), e.data)));
                     setToken("tk_tags_modal_target", TokenUtils.replaceTokenNames("manage_tags", _.extend(submittedTokenModel.toJSON(), e.data)));
@@ -29520,6 +29520,19 @@ require([
 
         // update button
         $("#btn_modify_manage_tags").click(function() {
+
+            submitTokens();
+
+            // When the Submit button is clicked, get all the form fields by accessing token values
+            var tokens = mvc.Components.get("default");
+
+            // Refresh the multiselect
+            unsetToken("form.modal_input_tags_update");
+            unsetToken("modal_input_tags_update");
+
+            // Refresh the main search
+            searchShowTags.startSearch();
+
             // Show input modal
             $("#update_tags").modal();
         });
@@ -29533,26 +29546,26 @@ require([
             var tokens = mvc.Components.get("default");
 
             // Retrieve input values
-
             var tk_tags_new = tokens.get("modal_input_tags_new");
-            var tk_tags_list = tokens.get("modal_input_tags_update");
+            var tk_tags = tokens.get("tk_tags");
+            var tk_tags_csv;
+            //console.log("tk_tags is: " + tk_tags);
+
+            // Combine current and new tag if relevant
+            if (tk_tags !== "No tags defined /  click on Update tags to define one or more tags to be associated with this data source.") {                    
+                // form a csv tags list
+                tk_tags_csv = tk_tags.replace(/ \/ /g, ",");
+                tk_tags_new = tk_tags_csv + "," + tk_tags_new;
+                //console.log("tk_tags_csv is: " + tk_tags_csv);            
+            }           
             //console.log("tk_tags_new is: " + tk_tags_new);
-            //console.log("tk_tags_list is: " + tk_tags_list);
 
-            // Combine current and new tag
-            if (tk_tags_list == null) {
-                tk_tags_list = tk_tags_new;                
-            }
-            else {
-                tk_tags_list = tk_tags_list + "," + tk_tags_new;
-            }            
-            //console.log("tk_tags_list is: " + tk_tags_list);
-
+            // Get tk mains
             var tk_data_name = tokens.get("tk_data_name");
             var tk_keyid = tokens.get("tk_keyid");
             
             // Define the query
-            var searchQuery = "| inputlookup trackme_data_source_monitoring where _key=\"" + tk_keyid + "\" | eval keyid=_key, tags=\"" + tk_tags_list + "\" | outputlookup trackme_data_source_monitoring append=t key_field=keyid";
+            var searchQuery = "| inputlookup trackme_data_source_monitoring where _key=\"" + tk_keyid + "\" | eval keyid=_key, tags=\"" + tk_tags_new + "\" | outputlookup trackme_data_source_monitoring append=t key_field=keyid";
             //console.log(searchQuery);
 
             // Set the search parameters--specify a time range
@@ -29604,8 +29617,8 @@ require([
                                 notification('New tag successfully added.', 6000)
 
                                 // Update the tags token
-                                tk_tags_list = tk_tags_list.replace(/,/g, " / ");
-                                setToken("tk_tags", tk_tags_list);
+                                tk_tags_new = tk_tags_new.replace(/,/g, " / ");
+                                setToken("tk_tags", tk_tags_new);
 
                                 // Refresh the multiselect
                                 unsetToken("form.modal_input_tags_update");
@@ -29638,6 +29651,9 @@ require([
                                     idSelectTags.settings.set("default",uniqueNames);
                                     });
                                 });
+
+                                // Make sure the link exposes Show tags
+                                setToken("tk_tags_link_main", "Show tags");
 
                                 // Audit
                                 action = "success";
@@ -29784,6 +29800,9 @@ require([
                                     idSelectTags.settings.set("default",uniqueNames);
                                     });
                                 });
+
+                                // Make sure the link exposes Show tags
+                                setToken("tk_tags_link_main", "Show tags");
 
                             },
                             failed: function(properties) {
