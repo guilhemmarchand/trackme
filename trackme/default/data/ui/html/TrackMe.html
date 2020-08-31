@@ -880,6 +880,13 @@
             margin-bottom: 80px;
         }
 
+        .generic_message_blue {
+            background-color: #cfebf9;
+            margin: 30px 0;
+            padding: 10px;
+            border-radius: 3px 3px 3px 3px;
+        }
+
         .imgheader {
            margin-top: 10px;
            margin-bottom: 40px;
@@ -1136,6 +1143,140 @@ styles in <div> tags, similar to Bootstrap's grid system.
     </div>
 
     <!--
+    tags
+    -->
+
+    <!-- Modal drilldown context for tags -->
+    <div id="main_manage_tags" class="dashboard-element html" style="width: 100%">
+        <div class="panel-body html">
+            <div class="modal fade custom-modal-50" id="manage_tags" role="dialog">
+                <div class="modal-dialog">
+                    <!-- Modal content-->
+                    <div class="modal-content">
+                        <!-- This is required to get the token substitutions without affecting the buttons actions in js -->
+                        <div class="dashboard-element html" id="body_manage_tags">
+                            <div class="panel-body html">
+                                <div class="modal-header modal-header-info">
+                                    <h1 style="font-size: 18px; color: white;">Tags for data source: $tk_data_name$</h1>
+                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                </div>
+
+                                <div style="margin-top:10px; margin-left: 20px;">
+
+                                    <div class="imgheader">
+                                        <img style="float: left; margin: 0px 15px 15px 0px;" src="../../static/app/trackme/icons/identity_card.png"/></span>
+                                        <h3>Tags:</h3>
+                                        <br />
+                                    </div>
+
+                                    <div class="generic_message_blue" style="max-width: 95%;">
+                                      <h2 style="font-weight: bold;">$tk_tags$</h2>
+                                    </div>
+
+                                </div>
+
+                            </div>
+                        </div>
+                    <div class="modal-footer">
+                        <button type="submit" id="btn_modify_manage_tags" class="btn btn-default btn-primary" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Update tags</button>
+                        <button type="submit" id="btn_back_manage_tags" class="btn btn-default btn-primary pull-left" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Back</button>
+                        <button type="submit" id="btn_close_manage_tags" class="btn btn-default btn-default pull-right" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Close</button>
+                    </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal drilldown context for tags -->
+    <div id="main_manage_tags" class="dashboard-element html" style="width: 100%">
+        <div class="panel-body html">
+            <div class="modal fade custom-modal-50" id="update_tags" role="dialog">
+                <div class="modal-dialog">
+                    <!-- Modal content-->
+                    <div class="modal-content">
+                        <!-- This is required to get the token substitutions without affecting the buttons actions in js -->
+                        <div class="dashboard-element html" id="body_update_tags">
+                            <div class="panel-body html">
+                                <div class="modal-header modal-header-info">
+                                    <h1 style="font-size: 18px; color: white;">Update tags</h1>
+                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                </div>
+
+                                <div class="boxnotify" id="boxnotify-manage_tags">
+                                </div>
+            
+                                <div style="margin-top:10px; margin-left: 20px;">
+
+                                    <div id="rowUpdateTags1a" class="dashboard-row dashboard-row3">
+                                        <div id="panelUpdateTags1" class="dashboard-cell" style="width: 100%;">
+                
+                                            <div class="dashboard-panel clearfix">
+                                                <div class="panel-element-row">
+                                                    <div class="fieldset">
+                                                        <div class="input input-text" id="modal_input_tags_new" style="margin-bottom: 10px;">
+                                                            <label>Enter a new tag to be added to this data source:</label>
+                                                        </div>
+                                                        <div style="margin-bottom: 10px;">
+                                                            <button id="btn_modal_tags_add" type="submit" class="btn btn-default btn-primary"><span class="glyphicon glyphicon-remove"></span> Add this tag</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                
+                                        </div>
+                
+                                    </div>
+                
+                                    <div id="rowUpdateTags2" class="dashboard-row dashboard-row3">
+                                        <div id="panelUpdateTags2" class="dashboard-cell" style="width: 100%;">
+                                            <div class="dashboard-panel clearfix">
+                                                <div class="panel-element-row">
+                                                    <div class="fieldset">
+                                                        <div class="input input-dropdown" id="modal_input_tags_update" style="margin-bottom: 10px;">
+                                                            <label>List of current tags for this data source, unselect a tag to remove it and click on the save button:</label>
+                                                        </div>
+                                                        <div style="margin-bottom: 10px;">
+                                                            <button id="btn_modal_tags_save" type="submit" class="btn btn-default btn-primary"><span class="glyphicon glyphicon-remove"></span> Save tags</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div id="rowUpdateTags3" class="dashboard-row dashboard-row3">
+                                        <div id="panelUpdateTags2" class="dashboard-cell" style="width: 100%;">
+                                            <div class="dashboard-panel clearfix">
+                                                <div class="panel-element-row">
+                                                    <div class="fieldset">
+                                                        <p>To remove all current tags, click on the following button:</p>
+                                                        <div style="margin-bottom: 10px;">
+                                                            <button id="btn_modal_tags_clear" type="submit" class="btn btn-default btn-danger"><span class="glyphicon glyphicon-remove"></span> Clear all tags</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>                                    
+
+                                </div>
+
+                            </div>
+
+                            <div class="modal-footer">
+                                <button type="submit" id="btn_back_update_tags" class="btn btn-default btn-primary pull-left" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Back</button>
+                                <button type="submit" class="btn btn-default btn-default pull-right" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Close</button>
+                            </div>        
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--
     identity card
     -->
 
@@ -1162,9 +1303,9 @@ styles in <div> tags, similar to Bootstrap's grid system.
                                         <br />
                                     </div>
 
-                                    <div>
-                                      $tk_doc_note$
-                                    </div>
+                                    <div class="generic_message_blue" style="max-width: 95%;">
+                                        <h2 style="font-weight: bold;">$tk_doc_note$</h2>
+                                    </div>  
 
                                     <div style="margin-bottom: 20px;">
                                         <h3>Link to documentation: </h3><a target="_blank" href="$tk_doc_link$">$tk_doc_link$</a>
@@ -2475,7 +2616,11 @@ styles in <div> tags, similar to Bootstrap's grid system.
                                     <div style="margin-left: 10px;">
                                         <div class="imgheader">
                                             <img style="float: left; margin: 0px 15px 15px 0px;" src="../../static/app/trackme/icons/identity_card.png"/>
-                                            <h3><a id="doc_link_data_source" data-toggle="modal" data-target="#$tk_doc_modal_target$">$tk_doc_link_main$</a></h3>
+                                            <h3><span><a id="doc_link_data_source" data-toggle="modal" data-target="#$tk_doc_modal_target$">$tk_doc_link_main$</a>
+                                                 / 
+                                                <a id="tags_data_source" data-toggle="modal" data-target="#$tk_tags_modal_target$">$tk_tags_link_main$</a>
+                                                </span>
+                                            </h3>
                                         </div>
                                     </div>
 
@@ -7449,6 +7594,9 @@ styles in <div> tags, similar to Bootstrap's grid system.
                     <div style="margin-right: 28px;" class="input input-text" id="inputDataNameFilter">
                         <label>Keyword filter name:</label>
                     </div>
+                    <div class="input input-dropdown" id="inputTags">
+                        <label>Tags:</label>
+                    </div>
                     <div class="input input-dropdown" id="inputDataName">
                         <label>Name (use keyword filter):</label>
                     </div>
@@ -8156,7 +8304,7 @@ require([
             "refreshType": "delay",
             "refresh": "$refresh$",
             "latest_time": "+5m",
-            "search": "| inputlookup trackme_data_source_monitoring\n| eval keyid=_key\n| `apply_data_source_blacklists`\n| search `trackme_get_idx_whitelist_searchtime(trackme_data_source_monitoring_whitelist_index, data_index)`\n| `trackme_eval_data_source_state`\n| `trackme_default_priority`\n| `trackme_date_format(data_last_time_seen)`\n| `trackme_date_format(data_last_time_seen_idx)`\n| `trackme_date_format(data_last_ingest)`\n| fillnull value=\"red\" data_source_state\n| sort 0 data_source\n| `trackme_eval_icons`\n| search $inputDataNameFilter$\n| search `trackme_get_idx_whitelist_searchtime(trackme_data_source_monitoring_whitelist_index, data_index)`\n| `apply_data_source_blacklists`\n",
+            "search": "| inputlookup trackme_data_source_monitoring\n| eval keyid=_key\n| `apply_data_source_blacklists`\n| search `trackme_get_idx_whitelist_searchtime(trackme_data_source_monitoring_whitelist_index, data_index)`\n| `trackme_eval_data_source_state`\n| `trackme_default_priority`\n| `trackme_date_format(data_last_time_seen)`\n| `trackme_date_format(data_last_time_seen_idx)`\n| `trackme_date_format(data_last_ingest)`\n| fillnull value=\"red\" data_source_state\n| sort 0 data_source\n| `trackme_eval_icons`\n| search $inputDataNameFilter$\n| search `trackme_get_idx_whitelist_searchtime(trackme_data_source_monitoring_whitelist_index, data_index)`\n| `apply_data_source_blacklists`\n| rex field=tags mode=sed \"s/,/ \\\/ /g\"\n| fillnull value=\"No tags defined, click on Update tags to define one or more tags to be associated with this data source.\" tags",
             "status_buckets": 0,
             "app": utils.getCurrentApp(),
             "auto_cancel": 90,
@@ -8172,7 +8320,7 @@ require([
 
         var searchDataSourcesPostTable = new PostProcessManager({
             "tokenDependencies": {},
-            "search": "search $inputDataName$ $inputDataIndex$ $inputDataSourcetype$ $data_source_state$ $data_monitored_state$ $inputDataPriority$\n| fillnull data_last_lag_seen, data_last_ingestion_lag_seen\n| eval data_last_lag_seen=round(data_last_lag_seen, 0) | eval data_last_ingestion_lag_seen=round(data_last_ingestion_lag_seen, 0) | fillnull value=\"N/A\" data_last_lag_seen, data_last_ingestion_lag_seen\n| eval \"lag summary (lag event / lag ingestion)\" = if(data_last_lag_seen>60, tostring(data_last_lag_seen, \"duration\"), data_last_lag_seen . \" sec\") . \" / \" . if(data_last_ingestion_lag_seen>60, tostring(data_last_ingestion_lag_seen, \"duration\"), data_last_ingestion_lag_seen . \" sec\")\n| rename \"data_last_time_seen (translated)\" as \"last time\", \"data_last_ingest (translated)\" as \"last ingest\", \"data_last_time_seen_idx (translated)\" as \"last time idx\"\n| eval data_tracker_runtime=now()\n| `trackme_date_format(\"latest_flip_time\")`\n| fillnull value=\"N/A\" latest_flip_state, latest_flip_time, \"latest_flip_time (translated)\"\n| `trackme_get_identity_card(data_name)`\n| `trackme_lookup_elastic_sources`\n| `trackme_ack_lookup_main(data_name)`\n| `trackme_lookup_data_sampling`\n| sort limit=10000 data_name",
+            "search": "rex field=tags mode=sed \"s/,/ \\\/ /g\"\n| makemv delim=\" / \" tags | search $inputDataName$ $inputDataIndex$ $inputDataSourcetype$ $inputTags$ $data_source_state$ $data_monitored_state$ $inputDataPriority$\n| fillnull data_last_lag_seen, data_last_ingestion_lag_seen\n| eval data_last_lag_seen=round(data_last_lag_seen, 0) | eval data_last_ingestion_lag_seen=round(data_last_ingestion_lag_seen, 0) | fillnull value=\"N/A\" data_last_lag_seen, data_last_ingestion_lag_seen\n| eval \"lag summary (lag event / lag ingestion)\" = if(data_last_lag_seen>60, tostring(data_last_lag_seen, \"duration\"), data_last_lag_seen . \" sec\") . \" / \" . if(data_last_ingestion_lag_seen>60, tostring(data_last_ingestion_lag_seen, \"duration\"), data_last_ingestion_lag_seen . \" sec\")\n| rename \"data_last_time_seen (translated)\" as \"last time\", \"data_last_ingest (translated)\" as \"last ingest\", \"data_last_time_seen_idx (translated)\" as \"last time idx\"\n| eval data_tracker_runtime=now()\n| `trackme_date_format(\"latest_flip_time\")`\n| fillnull value=\"N/A\" latest_flip_state, latest_flip_time, \"latest_flip_time (translated)\"\n| `trackme_get_identity_card(data_name)`\n| `trackme_lookup_elastic_sources`\n| `trackme_ack_lookup_main(data_name)`\n| `trackme_lookup_data_sampling`\n| nomv tags\n| sort limit=10000 data_name",
             "managerid": "searchDataSourcesMain",
             "id": "searchDataSourcesPostTable"
         }, {
@@ -8200,6 +8348,16 @@ require([
             tokenNamespace: "submitted"
         });
 
+        var searchPopulateDataSourcesTags = new PostProcessManager({
+            "tokenDependencies": {},
+            "search": "eval tags=if(tags=\"No tags defined, click on Update tags to define one or more tags to be associated with this data source.\", \"\", tags) | makemv delim=\" / \" tags | search $inputDataIndex$ $inputDataSourcetype$ | mvexpand tags | stats values(tags) as tags | mvexpand tags | dedup tags | sort limit=1000 tags",
+            "managerid": "searchDataSourcesMain",
+            "id": "searchPopulateDataSourcesTags"
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        });
+
         var searchPopulateDataSourcesIndexes = new PostProcessManager({
             "tokenDependencies": {},
             "search": "search $inputDataName$ $inputDataSourcetype$ | stats values(data_index) as data_index | mvexpand data_index | dedup data_index | sort limit=1000 data_index",
@@ -8215,6 +8373,27 @@ require([
             "search": "search $inputDataName$ $inputDataIndex$ | stats values(data_sourcetype) as data_sourcetype | mvexpand data_sourcetype | dedup data_sourcetype | sort limit=1000 data_sourcetype",
             "managerid": "searchDataSourcesMain",
             "id": "searchPopulateDataSourcesSourcetypes"
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        });
+
+        // tags
+        var searchShowTags = new SearchManager({
+            "id": "searchShowTags",
+            "earliest_time": "-5m",
+            "cancelOnUnload": true,
+            "sample_ratio": null,
+            "latest_time": "now",
+            "search": "| inputlookup trackme_data_source_monitoring where data_name=\"$tk_data_name$\" | fields tags | makemv delim=\",\" tags | mvexpand tags | dedup tags | sort tags",
+            "status_buckets": 0,
+            "app": utils.getCurrentApp(),
+            "auto_cancel": 90,
+            "preview": true,
+            "tokenDependencies": {
+                "depends": "$show_data_source_tracker$"
+            },
+            "runWhenTimeIsUndefined": false
         }, {
             tokens: true,
             tokenNamespace: "submitted"
@@ -14814,6 +14993,9 @@ require([
                 setToken("tk_doc_link", TokenUtils.replaceTokenNames("$row.doc_link$", _.extend(submittedTokenModel.toJSON(), e.data)));
                 setToken("tk_doc_note", TokenUtils.replaceTokenNames("$row.doc_note$", _.extend(submittedTokenModel.toJSON(), e.data)));
 
+                // tags
+                setToken("tk_tags", TokenUtils.replaceTokenNames("$row.tags$", _.extend(submittedTokenModel.toJSON(), e.data)));
+
                 // pref-fill current lagging input
                 setToken("form.tk_input_lag", TokenUtils.replaceTokenNames("$row.data_max_lag_allowed$", _.extend(submittedTokenModel.toJSON(), e.data)));
 
@@ -14872,12 +15054,12 @@ require([
 
                 // If the documentation reference has not been set, define the href format
                 if (tk_doc_link == "null") {
-                    setToken("tk_doc_link_main", TokenUtils.replaceTokenNames("No identity documentation has been defined, click here to define a documentation reference", _.extend(submittedTokenModel.toJSON(), e.data)));
+                    setToken("tk_doc_link_main", TokenUtils.replaceTokenNames("Click here to define a documentation reference", _.extend(submittedTokenModel.toJSON(), e.data)));
                     setToken("tk_doc_modal_target", TokenUtils.replaceTokenNames("define_identity_card", _.extend(submittedTokenModel.toJSON(), e.data)));
                     // replace the textinput for modification requests
                     document.getElementById("input_doc_link").value = "link to documentation";
                 } else {
-                    setToken("tk_doc_link_main", TokenUtils.replaceTokenNames("Click here to access data source identity card", _.extend(submittedTokenModel.toJSON(), e.data)));
+                    setToken("tk_doc_link_main", TokenUtils.replaceTokenNames("Show data source identity card", _.extend(submittedTokenModel.toJSON(), e.data)));
                     setToken("tk_doc_modal_target", TokenUtils.replaceTokenNames("manage_identity_card", _.extend(submittedTokenModel.toJSON(), e.data)));
                     // replace the textinput for modification requests
                     document.getElementById("input_doc_link").value = tk_doc_link;
@@ -14890,6 +15072,19 @@ require([
                 } else {
                     // replace the textarea for modification requests
                     document.getElementById("input_doc_note").value = tk_doc_note;
+                }
+
+                // tags
+                var tk_tags = tokens.get("tk_tags");
+                //console.log("tk_tags is: " + tk_tags);
+
+                // define the href depending on the tags
+                if (tk_tags == "null") {
+                    setToken("tk_tags_link_main", TokenUtils.replaceTokenNames("Click here to define tags", _.extend(submittedTokenModel.toJSON(), e.data)));
+                    setToken("tk_tags_modal_target", TokenUtils.replaceTokenNames("create_tags", _.extend(submittedTokenModel.toJSON(), e.data)));
+                } else {
+                    setToken("tk_tags_link_main", TokenUtils.replaceTokenNames("Show tags", _.extend(submittedTokenModel.toJSON(), e.data)));
+                    setToken("tk_tags_modal_target", TokenUtils.replaceTokenNames("manage_tags", _.extend(submittedTokenModel.toJSON(), e.data)));
                 }
 
                 // Manage root search for overview, conditionally define the query depending on the search
@@ -17445,6 +17640,16 @@ require([
             tokenNamespace: "submitted"
         }).render();
 
+        // tags
+        var body_manage_tags = new HtmlElement({
+            "id": "body_manage_tags",
+            "useTokens": true,
+            "el": $('#body_manage_tags')
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        }).render();
+
         //
         // VIEWS: FORM INPUTS
         //
@@ -17859,6 +18064,35 @@ require([
             FormUtils.handleValueChange(inputDataName);
         });
 
+        var inputTags = new MultiSelectInput({
+            "id": "inputTags",
+            "tokenDependencies": {
+                "depends": "$show_data_source_tracker$"
+            },
+            "choices": [{
+                "label": "ALL",
+                "value": "*"
+            }],
+            "searchWhenChanged": true,
+            "showClearButton": true,
+            "labelField": "tags",
+            "valuePrefix": "tags=\"",
+            "valueSuffix": "\"",
+            "delimiter": " OR ",
+            "initialValue": "*",
+            "selectFirstChoice": false,
+            "valueField": "tags",
+            "value": "$form.inputTags$",
+            "managerid": "searchPopulateDataSourcesTags",
+            "el": $('#inputTags')
+        }, {
+            tokens: true
+        }).render();
+
+        inputTags.on("change", function(newValue) {
+            FormUtils.handleValueChange(inputTags);
+        });
+
         var inputDataIndex = new MultiSelectInput({
             "id": "inputDataIndex",
             "tokenDependencies": {
@@ -17912,6 +18146,36 @@ require([
 
         inputDataSourcetype.on("change", function(newValue) {
             FormUtils.handleValueChange(inputDataSourcetype);
+        });
+
+        // tags
+        var modal_input_tags_new = new TextInput({
+            "id": "modal_input_tags_new",
+            "searchWhenChanged": true,
+            "value": "$form.modal_input_tags_new$",
+            "el": $('#modal_input_tags_new')
+        }, {
+            tokens: true
+        }).render();
+
+        modal_input_tags_new.on("change", function(newValue) {
+            FormUtils.handleValueChange(modal_input_tags_new);
+        });
+
+        var modal_input_tags_update = new MultiSelectInput({
+            "id": "modal_input_tags_update",
+            "choices": [],
+            "searchWhenChanged": true,
+            "labelField": "tags",
+            "valueField": "tags",
+            "delimiter": ",",
+            "value": "$form.modal_input_tags_update$",
+            "managerid": "searchShowTags",
+            "el": $('#modal_input_tags_update')
+        }, {tokens: true}).render();
+
+        modal_input_tags_update.on("change", function(newValue) {
+            FormUtils.handleValueChange(modal_input_tags_update);
         });
 
         // metric host monitoring
@@ -29240,6 +29504,429 @@ require([
 
         });
 
+        // tags
+
+        // back button
+        $("#btn_back_manage_tags").click(function() {
+            // Show input modal
+            $("#modal_manage").modal();
+        });
+
+        // back button
+        $("#btn_back_update_tags").click(function() {
+            // Show input modal
+            $("#manage_tags").modal();
+        });
+
+        // update button
+        $("#btn_modify_manage_tags").click(function() {
+            // Show input modal
+            $("#update_tags").modal();
+        });
+
+        // add button
+        $("#btn_modal_tags_add").click(function() {
+
+            submitTokens();
+
+            // When the Submit button is clicked, get all the form fields by accessing token values
+            var tokens = mvc.Components.get("default");
+
+            // Retrieve input values
+
+            var tk_tags_new = tokens.get("modal_input_tags_new");
+            var tk_tags_list = tokens.get("modal_input_tags_update");
+            //console.log("tk_tags_new is: " + tk_tags_new);
+            //console.log("tk_tags_list is: " + tk_tags_list);
+
+            // Combine current and new tag
+            if (tk_tags_list == null) {
+                tk_tags_list = tk_tags_new;                
+            }
+            else {
+                tk_tags_list = tk_tags_list + "," + tk_tags_new;
+            }            
+            //console.log("tk_tags_list is: " + tk_tags_list);
+
+            var tk_data_name = tokens.get("tk_data_name");
+            var tk_keyid = tokens.get("tk_keyid");
+            
+            // Define the query
+            var searchQuery = "| inputlookup trackme_data_source_monitoring where _key=\"" + tk_keyid + "\" | eval keyid=_key, tags=\"" + tk_tags_list + "\" | outputlookup trackme_data_source_monitoring append=t key_field=keyid";
+            //console.log(searchQuery);
+
+            // Set the search parameters--specify a time range
+            var searchParams = {
+                earliest_time: "-60m",
+                latest_time: "now"
+            };
+
+            // Run a blocking search and get back a job
+            service.search(
+                searchQuery,
+                searchParams,
+                function(err, job) {
+
+                    function audit_failure() {
+
+                        // Audit
+                        action = "failure";
+                        change_type = "add tags";
+                        object = tk_data_name;
+                        object_category = "data_source";
+                        object_attrs = tk_tags_new;
+                        result = "N/A";
+                        comment = "N/A";
+                        auditRecord(action, change_type, object, object_category, object_attrs, result, comment);
+
+                    }
+
+                    // Shall the search fail before we can get properties
+                    if (job == null) {
+                        let errorStr = "Unknown Error!";
+                        if (err && err.data && err.data.messages && err.data.messages[0]['text']) {
+                            errorStr = err.data.messages[0]['text'];
+                        } else if (err && err.data && err.data.messages) {
+                            errorStr = JSON.stringify(err.data.messages);
+                        }
+                        audit_failure();
+                        $("#modal_update_collection_failure_return").find('.modal-error-message p').text(errorStr);
+                        $("#modal_update_collection_failure_return").modal()
+                    } else {
+
+                        // Poll the status of the search job
+                        job.track({
+                            period: 200
+                        }, {
+                            done: function(job) {
+
+                                // show notify
+                                notification('New tag successfully added.', 6000)
+
+                                // Update the tags token
+                                tk_tags_list = tk_tags_list.replace(/,/g, " / ");
+                                setToken("tk_tags", tk_tags_list);
+
+                                // Refresh the multiselect
+                                unsetToken("form.modal_input_tags_update");
+                                unsetToken("modal_input_tags_update");
+
+                                // Refresh the main search
+                                searchShowTags.startSearch();
+                                searchDataSourcesMain.startSearch();
+
+                                var deps = [
+                                    "splunkjs/ready!"
+                                ];
+                                require(deps, function(mvc) {
+
+                                    var idSelectTags = mvc.Components.get('modal_input_tags_update');
+                                    allValues = [];
+                                    uniqueNames = [];
+
+                                    var idSearchSelectTags = mvc.Components.get("searchShowTags");
+                                    var idSearchSelectTags_results = idSearchSelectTags.data("preview");
+                                    idSearchSelectTags_results.on("data", function() {
+                                        $.each(idSearchSelectTags_results.data().rows, function( index, value ) {
+                                            allValues.push(value[0]);
+                                        });
+                                        $.each(allValues, function(i, el){
+                                        if($.inArray(el, uniqueNames) === -1) uniqueNames.push(el);
+                                        });
+                                    //console.log("allValues is: " + allValues);
+                                    //console.log("uniqueNames is " + uniqueNames);
+                                    idSelectTags.settings.set("default",uniqueNames);
+                                    });
+                                });
+
+                                // Audit
+                                action = "success";
+                                change_type = "add tags";
+                                object = tk_data_name;
+                                object_category = "data_source";
+                                object_attrs = tk_tags_new;
+                                result = "N/A";
+                                comment = "N/A";
+                                auditRecord(action, change_type, object, object_category, object_attrs, result, comment);
+
+                            },
+                            failed: function(properties) {
+                                let errorStr = "Unknown Error!";
+                                if (properties && properties._properties && properties._properties.messages && properties._properties.messages[0]['text']) {
+                                    errorStr = properties._properties.messages[0]['text'];
+                                } else if (properties && properties._properties && properties._properties.messages) {
+                                    errorStr = JSON.stringify(properties._properties.messages);
+                                }
+                                audit_failure();
+                                $("#modal_update_collection_failure_return").find('.modal-error-message p').text(errorStr);
+                                $("#modal_update_collection_failure_return").modal()
+                            },
+                            error: function(err) {
+                                done(err);
+                                audit_failure();
+                                $("#modal_update_collection_failure_flush").modal()
+                            }
+                        });
+
+                    }
+
+                }
+            );
+
+        });
+
+        // modify button
+        $("#btn_modal_tags_save").click(function() {
+
+            submitTokens();
+
+            // When the Submit button is clicked, get all the form fields by accessing token values
+            var tokens = mvc.Components.get("default");
+
+            // Retrieve input values
+
+            var tk_tags_list = tokens.get("modal_input_tags_update");
+            //console.log("tk_tags_list is: " + tk_tags_list);
+
+            var tk_data_name = tokens.get("tk_data_name");
+            var tk_keyid = tokens.get("tk_keyid");
+            
+            // Define the query
+            var searchQuery = "| inputlookup trackme_data_source_monitoring where _key=\"" + tk_keyid + "\" | eval keyid=_key, tags=\"" + tk_tags_list + "\" | outputlookup trackme_data_source_monitoring append=t key_field=keyid";
+            //console.log(searchQuery);
+
+            // Set the search parameters--specify a time range
+            var searchParams = {
+                earliest_time: "-60m",
+                latest_time: "now"
+            };
+
+            // Run a blocking search and get back a job
+            service.search(
+                searchQuery,
+                searchParams,
+                function(err, job) {
+
+                    function audit_failure() {
+
+                        // Audit
+                        action = "failure";
+                        change_type = "update tags";
+                        object = tk_data_name;
+                        object_category = "data_source";
+                        object_attrs = tk_tags_list;
+                        result = "N/A";
+                        comment = "N/A";
+                        auditRecord(action, change_type, object, object_category, object_attrs, result, comment);
+
+                    }
+
+                    // Shall the search fail before we can get properties
+                    if (job == null) {
+                        let errorStr = "Unknown Error!";
+                        if (err && err.data && err.data.messages && err.data.messages[0]['text']) {
+                            errorStr = err.data.messages[0]['text'];
+                        } else if (err && err.data && err.data.messages) {
+                            errorStr = JSON.stringify(err.data.messages);
+                        }
+                        audit_failure();
+                        $("#modal_update_collection_failure_return").find('.modal-error-message p').text(errorStr);
+                        $("#modal_update_collection_failure_return").modal()
+                    } else {
+
+                        // Poll the status of the search job
+                        job.track({
+                            period: 200
+                        }, {
+                            done: function(job) {
+
+                                // show notify
+                                notification('Tags list updated.', 6000)
+
+                                // Audit
+                                action = "success";
+                                change_type = "update tags";
+                                object = tk_data_name;
+                                object_category = "data_source";
+                                object_attrs = tk_tags_list;
+                                result = "N/A";
+                                comment = "N/A";
+                                auditRecord(action, change_type, object, object_category, object_attrs, result, comment);
+
+                                // Update the tags token
+                                tk_tags_list = tk_tags_list.replace(/,/g, " / ");
+                                setToken("tk_tags", tk_tags_list);
+
+                                // Refresh the main search
+                                searchShowTags.startSearch();
+                                searchDataSourcesMain.startSearch();
+
+                                var deps = [
+                                    "splunkjs/ready!"
+                                ];
+                                require(deps, function(mvc) {
+
+                                    var idSelectTags = mvc.Components.get('modal_input_tags_update');
+                                    allValues = [];
+                                    uniqueNames = [];
+
+                                    var idSearchSelectTags = mvc.Components.get("searchShowTags");
+                                    var idSearchSelectTags_results = idSearchSelectTags.data("preview");
+                                    idSearchSelectTags_results.on("data", function() {
+                                        $.each(idSearchSelectTags_results.data().rows, function( index, value ) {
+                                            allValues.push(value[0]);
+                                        });
+                                        $.each(allValues, function(i, el){
+                                        if($.inArray(el, uniqueNames) === -1) uniqueNames.push(el);
+                                        });
+                                    //console.log("allValues is: " + allValues);
+                                    //console.log("uniqueNames is " + uniqueNames);
+                                    idSelectTags.settings.set("default",uniqueNames);
+                                    });
+                                });
+
+                            },
+                            failed: function(properties) {
+                                let errorStr = "Unknown Error!";
+                                if (properties && properties._properties && properties._properties.messages && properties._properties.messages[0]['text']) {
+                                    errorStr = properties._properties.messages[0]['text'];
+                                } else if (properties && properties._properties && properties._properties.messages) {
+                                    errorStr = JSON.stringify(properties._properties.messages);
+                                }
+                                audit_failure();
+                                $("#modal_update_collection_failure_return").find('.modal-error-message p').text(errorStr);
+                                $("#modal_update_collection_failure_return").modal()
+                            },
+                            error: function(err) {
+                                done(err);
+                                audit_failure();
+                                $("#modal_update_collection_failure_flush").modal()
+                            }
+                        });
+
+                    }
+
+                }
+            );
+
+        });
+
+        // clear button
+        $("#btn_modal_tags_clear").click(function() {
+
+            submitTokens();
+
+            // When the Submit button is clicked, get all the form fields by accessing token values
+            var tokens = mvc.Components.get("default");
+
+            // Retrieve input values
+
+            var tk_tags_list = tokens.get("modal_input_tags_update");
+            //console.log("tk_tags_list is: " + tk_tags_list);
+
+            var tk_data_name = tokens.get("tk_data_name");
+            var tk_keyid = tokens.get("tk_keyid");
+
+            // Define the query
+            var searchQuery = "| inputlookup trackme_data_source_monitoring where _key=\"" + tk_keyid + "\" | eval keyid=_key | fields - tags | outputlookup trackme_data_source_monitoring append=t key_field=keyid";
+            //console.log(searchQuery);
+
+            // Set the search parameters--specify a time range
+            var searchParams = {
+                earliest_time: "-60m",
+                latest_time: "now"
+            };
+
+            // Run a blocking search and get back a job
+            service.search(
+                searchQuery,
+                searchParams,
+                function(err, job) {
+
+                    function audit_failure() {
+
+                        // Audit
+                        action = "failure";
+                        change_type = "clear tags";
+                        object = tk_data_name;
+                        object_category = "data_source";
+                        object_attrs = tk_tags_list;
+                        result = "N/A";
+                        comment = "N/A";
+                        auditRecord(action, change_type, object, object_category, object_attrs, result, comment);
+
+                    }
+
+                    // Shall the search fail before we can get properties
+                    if (job == null) {
+                        let errorStr = "Unknown Error!";
+                        if (err && err.data && err.data.messages && err.data.messages[0]['text']) {
+                            errorStr = err.data.messages[0]['text'];
+                        } else if (err && err.data && err.data.messages) {
+                            errorStr = JSON.stringify(err.data.messages);
+                        }
+                        audit_failure();
+                        $("#modal_update_collection_failure_return").find('.modal-error-message p').text(errorStr);
+                        $("#modal_update_collection_failure_return").modal()
+                    } else {
+
+                        // Poll the status of the search job
+                        job.track({
+                            period: 200
+                        }, {
+                            done: function(job) {
+
+                                // show notify
+                                notification('Tags list was cleared successfully.', 6000)
+
+                                // Update the tags token
+                                setToken("tk_tags", "No tags defined / click on Update tags to define one or more tags to be associated with this data source.");
+
+                                // Refresh the multiselect
+                                unsetToken("form.modal_input_tags_update");
+                                unsetToken("modal_input_tags_update");
+                                unsetToken("form.modal_input_tags_new");
+
+                                // Refresh the main search
+                                searchShowTags.startSearch();
+                                searchDataSourcesMain.startSearch();
+
+                                // Audit
+                                action = "success";
+                                change_type = "clear tags";
+                                object = tk_data_name;
+                                object_category = "data_source";
+                                object_attrs = tk_tags_list;
+                                result = "N/A";
+                                comment = "N/A";
+                                auditRecord(action, change_type, object, object_category, object_attrs, result, comment);
+
+                            },
+                            failed: function(properties) {
+                                let errorStr = "Unknown Error!";
+                                if (properties && properties._properties && properties._properties.messages && properties._properties.messages[0]['text']) {
+                                    errorStr = properties._properties.messages[0]['text'];
+                                } else if (properties && properties._properties && properties._properties.messages) {
+                                    errorStr = JSON.stringify(properties._properties.messages);
+                                }
+                                audit_failure();
+                                $("#modal_update_collection_failure_return").find('.modal-error-message p').text(errorStr);
+                                $("#modal_update_collection_failure_return").modal()
+                            },
+                            error: function(err) {
+                                done(err);
+                                audit_failure();
+                                $("#modal_update_collection_failure_flush").modal()
+                            }
+                        });
+
+                    }
+
+                }
+            );
+
+        });
+
         // data source identity documentation
 
         // back button
@@ -31883,6 +32570,31 @@ require([
 <script src="{{SPLUNKWEB_URL_PREFIX}}/static/app/trackme/checkbox_table_data_sampling.js" type="text/javascript"></script>
 <script src="{{SPLUNKWEB_URL_PREFIX}}/static/app/trackme/table_raw.js" type="text/javascript"></script>
 <script>
+var deps = [
+    "splunkjs/ready!"
+];
+require(deps, function(mvc) {
+
+    var idSelectTags = mvc.Components.get('modal_input_tags_update');
+    var allValues = [];
+    var uniqueNames = [];
+
+    var idSearchSelectTags = mvc.Components.get("searchShowTags");
+    var idSearchSelectTags_results = idSearchSelectTags.data("preview");
+    idSearchSelectTags_results.on("data", function() {
+         $.each(idSearchSelectTags_results.data().rows, function( index, value ) {
+            allValues.push(value[0]);
+        });
+        $.each(allValues, function(i, el){
+          if($.inArray(el, uniqueNames) === -1) uniqueNames.push(el);
+        });
+    //console.log("allValues is: " + allValues);
+    //console.log("uniqueNames is " + uniqueNames);
+    idSelectTags.settings.set("default",uniqueNames);
+    });
+});
+</script>
+<script>
 $(".btn").mouseup(function(){
     $(this).blur();
 })
@@ -32054,6 +32766,12 @@ function notification(s, time) {
   });
 
   $("<p>" + s + "</p>").appendTo('#boxnotify-manage_data_sampling').fadeTo(time, 1, function() {
+    $(this).fadeTo(1000, 0, function() {
+      $(this).remove()
+    });
+  });
+
+  $("<p>" + s + "</p>").appendTo('#boxnotify-manage_tags').fadeTo(time, 1, function() {
     $(this).fadeTo(1000, 0, function() {
       $(this).remove()
     });

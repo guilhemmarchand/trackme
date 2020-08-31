@@ -15,6 +15,7 @@ TrackMe requires a summary index (defaults to trackme_summary) and a metric inde
 https://trackme.readthedocs.io/en/latest/configuration.html
 
 - Feature: Introducing a new very hot feature! Data sampling and event format recognition is a new workflow that allows monitoring the event formats behaviour by processing automated sampling of the data sources and monitoring their behaviour over time, builtin rules are provided and can be extended with custom rules to handle any custom data format
+- Feature: Introducing the new tags capability, you can now add tags to data sources, tags are keywords which can be set per data source to provide new filtering capabilities
 - Fix: When using a custom Splunk URI path (root_endpoint in web.conf), internal calls to splunkd made the UI can fail if splunkd does not accept the root context and only accepts the custom root context
 - Fix: When creating new dedicated elastic sources, if the search result name exceeds 100 characters, this results in a silent failure to create the new source 
 - Fix: Shorten default naming convention used for new Elastic Sources tracker names
