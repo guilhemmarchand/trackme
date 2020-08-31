@@ -1578,6 +1578,72 @@ To remove an association from a logical group, click on the entry table in the i
 
 Once the action is confirmed, the association is immediately removed and the entity acts as any other independent entities.
 
+Tags
+====
+
+**Tags are available for data sources monitoring only.**
+
+**Tags are keywords which can be defined per data source, tags provide filtering options to group multiple data sources based on custom criterias.**
+
+.. image:: img/tags_img001.png
+   :alt: tags_img001.png
+   :align: center
+
+**Tags can be useful to group data sources based on your custom criterias, for instance you may want to tag data sources containing PII data such that data sources matching this criteria can be filtered on easily:**
+
+.. image:: img/tags_filter.png
+   :alt: tags_filter.png
+   :align: center
+
+**When no tags have been defined yet for a data source, the following screen would appear:**
+
+.. image:: img/tags_img002.png
+   :alt: tags_img002.png
+   :align: center
+
+**When tags have been defined for a data source, the following screen would appear:**
+
+.. image:: img/tags_img002bis.png
+   :alt: tags_img002bis.png
+   :align: center
+
+**You can click on the Update tags button to define one or more tags for a given data source:**
+
+.. image:: img/tags_img003.png
+   :alt: tags_img003.png
+   :align: center
+
+*Tags are stored in the data sources KVstore collection in a field called "tags", when multiple tags are defined, the list of tags is defined as comma seperated list of values.*
+
+Adding new tags
+---------------
+
+**You can add a new tag by using the Add tag input and button, the tag format is free and can be whatever keywords suit your own use case.**
+
+.. image:: img/tags_img004.png
+   :alt: tags_img004.png
+   :align: center
+
+Once a new tag is added, it is made available automatically in the tag filter from the main Trackme data source screen.
+
+Updating tags
+-------------
+
+**You can update tags using the multi-select dropdown input, by update we mean that you can clear one or more tags that are currently affected to a given data source, which updates immediatly the list of tags that can be filtered in the main screen.**
+
+.. image:: img/tags_img005.png
+   :alt: tags_img005.png
+   :align: center
+
+Clearing tags
+-------------
+
+**You can clear all tags that are currently affected to a data source, by clicking on the Clear tags button, you remove all tags information for this data source, which gets reflected immediatly in the tags filter form of the main data sources screen.**
+
+.. image:: img/tags_img006.png
+   :alt: tags_img006.png
+   :align: center
+
 Data identity card
 ==================
 
@@ -1619,10 +1685,6 @@ In addition, the fields "doc_link" and "doc_note" are part of the default output
 
 .. image:: img/identity_card6.png
    :alt: identity_card6.png
-   :align: center
-
-.. image:: img/identity_card7.png
-   :alt: identity_card7.png
    :align: center
 
 Auditing changes
