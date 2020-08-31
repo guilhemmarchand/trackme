@@ -1583,13 +1583,13 @@ Tags
 
 **Tags are available for data sources monitoring only.**
 
-**Tags are keywords which can be defined per data source, tags provide filtering options to group multiple data sources based on custom criterias.**
+**Tags are keywords that can be defined per data source, this feature provides additional filtering options to group multiple data sources based on any custom criterias.**
 
 .. image:: img/tags_img001.png
    :alt: tags_img001.png
    :align: center
 
-**Tags can be useful to group data sources based on your custom criterias, for instance you may want to tag data sources containing PII data such that data sources matching this criteria can be filtered on easily:**
+**For instance, you may want to tag data sources containing PII data, such that data sources matching this criteria can be filtered on easily in the main TrackMe UI:**
 
 .. image:: img/tags_filter.png
    :alt: tags_filter.png
@@ -1613,12 +1613,12 @@ Tags
    :alt: tags_img003.png
    :align: center
 
-*Tags are stored in the data sources KVstore collection in a field called "tags", when multiple tags are defined, the list of tags is defined as comma seperated list of values.*
+*Tags are stored in the data sources KVstore collection in a field called "tags", when multiple tags are defined, the list of tags is defined as a comma seperated list of values.*
 
 Adding new tags
 ---------------
 
-**You can add a new tag by using the Add tag input and button, the tag format is free and can be whatever keywords suit your own use case.**
+**You can add a new tag by using the Add tag input and button, the tag format is free, can contain spaces or special characters, however for reliability purposes you should keep things clear and simple.**
 
 .. image:: img/tags_img004.png
    :alt: tags_img004.png
@@ -1629,7 +1629,7 @@ Once a new tag is added, it is made available automatically in the tag filter fr
 Updating tags
 -------------
 
-**You can update tags using the multi-select dropdown input, by update we mean that you can clear one or more tags that are currently affected to a given data source, which updates immediatly the list of tags that can be filtered in the main screen.**
+**You can update tags using the multi-select dropdown input, by update we mean that you can clear one or more tags that are currently affected to a given data source, which updates immediately the list of tags in the main screen tags filter form.**
 
 .. image:: img/tags_img005.png
    :alt: tags_img005.png
@@ -1638,7 +1638,7 @@ Updating tags
 Clearing tags
 -------------
 
-**You can clear all tags that are currently affected to a data source, by clicking on the Clear tags button, you remove all tags information for this data source, which gets reflected immediatly in the tags filter form of the main data sources screen.**
+**You can clear all tags that are currently affected to a data source, by clicking on the Clear tags button, you remove all tags for this data source.**
 
 .. image:: img/tags_img006.png
    :alt: tags_img006.png
