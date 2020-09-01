@@ -956,7 +956,7 @@ Data sampling and event formats recognition
 - For each data source to be processed, a given number of raw events is sampled and stored in a KVstore collection named ``trackme_data_sampling``
 - The number of raw events to be sampled depends on wether the data source is handled for the first time (discovery), or if it is a normal run
 - On each sample per data source, the engine processes the events and applies custom rules if any, then builtin rules are processed
-- Depending on the conditions, a status and additional informations are determined and stored in the lookup collection
+- Depending on the conditions, a status and additional informational fields are determined and stored in the lookup collection
 - The status stored as the field ``isAnomaly`` is loaded by the data sources trackers and taken into account for the global data source state analysis
 
 .. image:: img/mindmaps/data_sampling_main.png
@@ -1010,7 +1010,7 @@ Manage data sampling
    :alt: img_data_sampling002.png
    :align: center
 
-**The summary table exposes different key informations:**
+**The summary table shows the main key information:**
 
 - ``data_sample_feature:`` is the data sampling feature enabled or disabled for that data source as rendered  as an icon
 - ``current_detected_format:`` the event format that has been detected during the last sampling
