@@ -29910,6 +29910,9 @@ require([
                                 searchShowTags.startSearch();
                                 searchDataSourcesMain.startSearch();
 
+                                // Make sure the link exposes "Click here to define tags"
+                                setToken("tk_tags_link_main", "Click here to define tags");
+
                                 // Audit
                                 action = "success";
                                 change_type = "clear tags";
