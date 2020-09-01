@@ -8320,7 +8320,7 @@ require([
 
         var searchDataSourcesPostTable = new PostProcessManager({
             "tokenDependencies": {},
-            "search": "rex field=tags mode=sed \"s/,/ \\\/ /g\"\n| makemv delim=\" / \" tags | search $inputDataName$ $inputDataIndex$ $inputDataSourcetype$ $inputTags$ $data_source_state$ $data_monitored_state$ $inputDataPriority$\n| fillnull data_last_lag_seen, data_last_ingestion_lag_seen\n| eval data_last_lag_seen=round(data_last_lag_seen, 0) | eval data_last_ingestion_lag_seen=round(data_last_ingestion_lag_seen, 0) | fillnull value=\"N/A\" data_last_lag_seen, data_last_ingestion_lag_seen\n| eval \"lag summary (lag event / lag ingestion)\" = if(data_last_lag_seen>60, tostring(data_last_lag_seen, \"duration\"), data_last_lag_seen . \" sec\") . \" / \" . if(data_last_ingestion_lag_seen>60, tostring(data_last_ingestion_lag_seen, \"duration\"), data_last_ingestion_lag_seen . \" sec\")\n| rename \"data_last_time_seen (translated)\" as \"last time\", \"data_last_ingest (translated)\" as \"last ingest\", \"data_last_time_seen_idx (translated)\" as \"last time idx\"\n| eval data_tracker_runtime=now()\n| `trackme_date_format(\"latest_flip_time\")`\n| fillnull value=\"N/A\" latest_flip_state, latest_flip_time, \"latest_flip_time (translated)\"\n| `trackme_get_identity_card(data_name)`\n| `trackme_lookup_elastic_sources`\n| `trackme_ack_lookup_main(data_name)`\n| `trackme_lookup_data_sampling`\n| nomv tags\n| sort limit=10000 data_name",
+            "search": "makemv delim=\" / \" tags | search $inputDataName$ $inputDataIndex$ $inputDataSourcetype$ $inputTags$ $data_source_state$ $data_monitored_state$ $inputDataPriority$\n| fillnull data_last_lag_seen, data_last_ingestion_lag_seen\n| eval data_last_lag_seen=round(data_last_lag_seen, 0) | eval data_last_ingestion_lag_seen=round(data_last_ingestion_lag_seen, 0) | fillnull value=\"N/A\" data_last_lag_seen, data_last_ingestion_lag_seen\n| eval \"lag summary (lag event / lag ingestion)\" = if(data_last_lag_seen>60, tostring(data_last_lag_seen, \"duration\"), data_last_lag_seen . \" sec\") . \" / \" . if(data_last_ingestion_lag_seen>60, tostring(data_last_ingestion_lag_seen, \"duration\"), data_last_ingestion_lag_seen . \" sec\")\n| rename \"data_last_time_seen (translated)\" as \"last time\", \"data_last_ingest (translated)\" as \"last ingest\", \"data_last_time_seen_idx (translated)\" as \"last time idx\"\n| eval data_tracker_runtime=now()\n| `trackme_date_format(\"latest_flip_time\")`\n| fillnull value=\"N/A\" latest_flip_state, latest_flip_time, \"latest_flip_time (translated)\"\n| `trackme_get_identity_card(data_name)`\n| `trackme_lookup_elastic_sources`\n| `trackme_ack_lookup_main(data_name)`\n| `trackme_lookup_data_sampling`\n| nomv tags\n| sort limit=10000 data_name",
             "managerid": "searchDataSourcesMain",
             "id": "searchDataSourcesPostTable"
         }, {
@@ -15079,7 +15079,7 @@ require([
                 //console.log("tk_tags is: " + tk_tags);
 
                 // define the href depending on the tags
-                if (tk_tags == "No tags defined /  click on Update tags to define one or more tags to be associated with this data source.") {
+                if (tk_tags == "No tags defined, click on Update tags to define one or more tags to be associated with this data source.") {
                     setToken("tk_tags_link_main", TokenUtils.replaceTokenNames("Click here to define tags", _.extend(submittedTokenModel.toJSON(), e.data)));
                     setToken("tk_tags_modal_target", TokenUtils.replaceTokenNames("manage_tags", _.extend(submittedTokenModel.toJSON(), e.data)));
                 } else {
@@ -29552,7 +29552,7 @@ require([
             //console.log("tk_tags is: " + tk_tags);
 
             // Combine current and new tag if relevant
-            if (tk_tags !== "No tags defined /  click on Update tags to define one or more tags to be associated with this data source.") {                    
+            if (tk_tags !== "No tags defined, click on Update tags to define one or more tags to be associated with this data source.") {                    
                 // form a csv tags list
                 tk_tags_csv = tk_tags.replace(/ \/ /g, ",");
                 tk_tags_new = tk_tags_csv + "," + tk_tags_new;
@@ -29899,7 +29899,7 @@ require([
                                 notification('Tags list was cleared successfully.', 6000)
 
                                 // Update the tags token
-                                setToken("tk_tags", "No tags defined / click on Update tags to define one or more tags to be associated with this data source.");
+                                setToken("tk_tags", "No tags defined, click on Update tags to define one or more tags to be associated with this data source.");
 
                                 // Refresh the multiselect
                                 unsetToken("form.modal_input_tags_update");
