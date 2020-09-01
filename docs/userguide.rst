@@ -16,25 +16,25 @@ Access TrackMe main interface
 **If the UI is empty and no data sources are showing up:**
 
 - You can wait for the short term trackers execution which are scheduled to run every 5 minutes
-- Or manually run the data sources tracker by clicking on the button "Run: short term tracker now" (we will come back to the tracker concept later in this guide)
+- Or manually run the data sources tracker by clicking on the button "Run: short term tracker now" (we will come back to the tracker notion later in this guide)
 
-Main concept and main tabs
+Main navigation tabs
 --------------------------
 
-**Now that TrackMe is deployed and discovered the data available in your environment, let's review the main first concepts:**
+**Now that TrackMe is deployed, and it discovered data available in your environment, let's review the main tabs provided in the UI:**
 
 .. image:: img/first_steps/img001_tabs.png
    :alt: img/first_steps/img001_tabs
    :align: center
 
-- ``DATA SOURCES TRACKING`` exposes the tracking of the data source concept, which as its default represents the association of an ``index + ":" + sourcetype``
-- ``DATA HOSTS TRACKING`` exposes all the data discovered for each ``host sending events`` to Splunk
-- ``METRIC HOSTS TRACKING`` exposes all the metrics discovered for each ``host sending metrics`` to Splunk
-- ``INVESTIGATE STATUS FLIPPING`` exposes the detection of an entity switching from a state, example green, to another state like red
-- ``INVESITAGE AUDIT CHANGES`` exposes all changes performed within the UI for auditing and review purposes
+- ``DATA SOURCES TRACKING`` shows the tracking of data sources, by default a data source is a breakdown of your data on a per ``index + ":" + sourcetype``
+- ``DATA HOSTS TRACKING`` shows data discovered for each ``host sending events`` to Splunk
+- ``METRIC HOSTS TRACKING`` shows metrics discovered for each ``host sending metrics`` to Splunk
+- ``INVESTIGATE STATUS FLIPPING`` shows the detection of an entity switching from a state, example green, to another state like red
+- ``INVESITAGE AUDIT CHANGES`` shows all changes performed within the UI for auditing and review purposes
 
-Data Sources tracking concept and features
-------------------------------------------
+Data Sources tracking and features
+----------------------------------
 
 Data Source main screen
 ^^^^^^^^^^^^^^^^^^^^^^^
@@ -87,7 +87,7 @@ The modal window "open-up" is the user main interaction with TrackMe, depending 
 
 - ``latest_flip_time`` is the latest date time a change was detected in the state of the entity
 - ``latest_flip_states`` is the state to which it moved at that time
-- ``state`` is the current state, there are different states in the concept: green / orange / blue / grey / red (more explanations to come)
+- ``state`` is the current state, there are different states: green / orange / blue / grey / red (more explanations to come)
 - ``priority`` represents the priority of the entity, by default all entities are added as "medium", priority is used in different parts of the app and alerts, there are 3 level of priority: low / medium / high
 
 *group 4 bottom*
@@ -120,6 +120,7 @@ Data source screen tabs
 - ``Overview data source`` is the current view that exposes the main information and metrics for this entity
 - ``Outlier detection overview`` exposes the event outliers detection chart
 - ``Outlier detection configuration`` provides different options to configure the outliers detection
+- ``Data sampling`` shows the results from the data sampling & event format recognition engine
 - ``Data parsing quality`` exposes indexing time parsing issues such as truncation issues for this sourcetype, if any.
 - ``Lagging performances`` exposes the event lag and ingestion lag recorded metrics in the metric index
 - ``Status flipping`` exposes all status flipping events that were stored in the summary index
@@ -203,6 +204,38 @@ Outlier detection configuration
 
 See :ref:`Outliers detection and behaviour analytic` for more details about the feature.
 
+Data sampling
+^^^^^^^^^^^^^
+
+**The data sampling tab exposes the status of the data sampling and format recognition engine:**
+
+.. image:: img/first_steps/img_data_sampling001.png
+   :alt: img/first_steps/img_data_sampling001.png
+   :align: center
+
+The data sampling message can be:
+
+- ``green:`` if no anomalies were detected
+- ``blue:`` if the data sampling did not handle this data source yet
+- ``orange:`` if conditions do not allow to handle this data source, which can be multi-format detected at discovery, or no identifiable event formats (data sampling will be deactivated automatically)
+- ``red:`` if anomalies were detected by the data engine, anomalies can be due to a change in the event format, or multiple events formats detected post discovery
+
+The button **Manage data sampling** provides summary information about the data samping status and access to data sampling related features:
+
+.. image:: img/first_steps/img_data_sampling002.png
+   :alt: img/first_steps/img_data_sampling002.png
+   :align: center
+
+**Quick button access:**
+
+- ``View latest sample events:`` open in search access to the last sample of raw events that were processed (raw events and identified format)
+- ``View builtin rules:`` view the builtin rules (builtin rules are regular expressions rules provided by default)
+- ``Manage custom rules:`` view, create and delete custom rules to handle any format that would not be recognized by the builtin rules
+- ``Run sampling engine now:`` runs the sampling engine now for this data source
+- ``Clear state and run sampling:`` clears the previously known states and run the sampling engine as it was the first time the engine handles this data source
+
+See :ref:`Data sampling and event formats recognition` for more details about the feature.
+
 Data parsing quality
 ^^^^^^^^^^^^^^^^^^^^
 
@@ -278,6 +311,12 @@ Status message
    :alt: img/first_steps/img020
    :align: center
 
+*example of a red state due to data sampling anomalies detected:*
+
+.. image:: img/first_steps/img020_data_sampling.png
+   :alt: img/first_steps/img020_data_sampling
+   :align: center
+
 *example of a blue state due to logical groups monitoring conditions not met (applies to data hosts and metrics hosts only):*
 
 .. image:: img/first_steps/img020_blue.png
@@ -324,17 +363,17 @@ See :ref:`Alerts acknowledgment` for more details about the acknowledgment featu
 
 See :ref:`Data source unified update` for more details about the unified update UI for data sources
 
-Data Hosts tracking concept and features
-----------------------------------------
+Data Hosts tracking and features
+--------------------------------
 
 Rather than duplicating all the previous explanations, let's expose the differences between the data sources and data hosts tracking.
 
-Concept of data host monitoring
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Data host monitoring
+^^^^^^^^^^^^^^^^^^^^
 
-The concept is quite simple, when data sources are looking at a combination of ``index + ":" + sourcetype``, data hosts concept takes into account all the events on ``per host basis``.
+Data hosts monitoring does data discovery on a per host basis, relying on the ``Splunk host Metadata``.
 
-In a very simplistic form, the concept is similar to performing a search looking at all events with tstats on a per host basis:
+To achieve this, TrackMe uses tstats based queries to retrieve and record valuable Metadata information, in a simplistic form this is very similar to the following query:
 
 ::
 
@@ -356,17 +395,17 @@ See :ref:`Logical groups (clusters)` for more details on this feature
 
 See :ref:`Enrichment tags` for more details om this feature
 
-Metric Hosts tracking concept and features
-------------------------------------------
+Metric Hosts tracking and features
+----------------------------------
 
-Metric hosts tracking is the third main concept in TrackMe and addresses tracking hosts sending metrics to the Splunk metric store, let's expose the concept particularities.
+Metric hosts tracking is the third main notion in TrackMe, and deals with tracking hosts sending metrics to the Splunk metric store, let's expose the feature particularities.
 
-Concept of metric host monitoring
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Metric host monitoring
+^^^^^^^^^^^^^^^^^^^^^^
 
-The metric hosts concept tracks all metrics emitted to Splunk on per host basis.
+The metric hosts feature tracks all metrics send to the Splunk metric store on a per host basis.
 
-In a very simplistic form, the concept is similar to performing a search looking at all metrics with mstats on a per host basis and within a short time frame:
+In a very simplistic form, the notion is similar to performing a search looking at all metrics with mstats on a per host basis and within a short time frame:
 
 ::
 
@@ -377,7 +416,7 @@ Then, the application groups all metrics on per metric metric category (the firs
 Particularities of metric hosts monitoring
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-**Opposed to data sources and data hosts tracking, the concept provides a similar level of features, with a few exceptions:**
+**Compared to data sources and data hosts tracking, metric hosts tracking provides a similar level of features, with a few exceptions:**
 
 - ``state condition:`` the metric host state is conditioned by the availability of each metric category that was discovered for that entity
 - Shall a metric category stop from being emitted, the state will be affected accordingly
@@ -395,11 +434,13 @@ See :ref:`Enrichment tags` for more details om this feature
 Unified update interface
 ========================
 
-**For each concept, a unified update screen is available by clicking on the modify button when looking at a specific entity:**
+**For each type of tracking, a unified update screen is available by clicking on the modify button when looking at a specific entity:**
 
 .. image:: img/first_steps/img023.png
    :alt: img/first_steps/img023
    :align: center
+
+These interfaces are called unified as their main purpose is to provide a central place in the UI where the modification of the main key parameters would be achieved.
 
 Data source unified update
 --------------------------
@@ -467,24 +508,25 @@ This influences the state definition:
 
 **Associate to a logical group:**
 
-This option allows grouping data hosts and metric hosts into logical groups which are taken in consideration by groups rather than individually.
+This option allows grouping data hosts and metric hosts into logical groups which are taken in consideration by groups rather than per entity.
 
 See :ref:`Logical groups (clusters)` for more details about this feature.
 
 Elastic sources
 ===============
 
-Elastic sources concept
+Elastic sources feature
 -----------------------
 
-As we have exposed the main concepts of TrackMe data discovery and tracking in :ref:`Main concept and main tabs`, there can be various use cases that these concepts do not address properly, some examples:
+As we have exposed the main notions of TrackMe data discovery and tracking in :ref:`Main navigation tabs`, there can be various use cases that these concepts do not address properly, considering some facts:
 
-- You have a data flow that relies on the ``source`` Metadata, which means that more than one data flow to be monitored ``individually`` are indexed into the same combination of ``index`` and ``sourcetype``
-- With the default concept of ``data sources``, this data flow will appear as one main entity and you cannot ``distinguish`` if one specific part of your data flow is failing by relying on the default concepts
+- Breaking by index and sourcetype is not enough, for instance your data pipeline can be distinguished in the same sourcetype by breaking on the ``Splunk source Metadata``
+- In a similar context, enrichment is performed either at indexing time (ideally indexed fields which allow the usage of tstats) or search time fields (evaluations, lookups, etc), these fields represent the keys you need to break on to address your requirements 
+- With the default ``data sources`` tracking, this data flow will appear as one main entity and you cannot ``distinguish`` a specific part of your data covered by the standard data source feature
 - Specific ``custom indexed fields`` provide ``knowledge`` of the data in your context, such as ``company``, ``business unit`` etc and these pipelines cannot be distinguished by relying on the ``index`` and ``sourcetype`` only
-- You need address any use case that the default concepts do not allow you to
+- You need address any use case that the default main features do not allow you to
 
-The Elastic source feature allows to address ``any use case`` in term of data identification and search which requirements are not answered by the default concepts.
+The Elastic source feature allows you to fulfil any type of requirements from the data identification and search perspective, and transparenly integrate these virtual entities in the normal TrackMe workflow with the exact same features.
 
 We will address some easily understandable examples in this documentation.
 
@@ -539,7 +581,7 @@ Elastic source example 1: source Metadata
 
    index="network" sourcetype="pan:traffic" source="network:pan:emea"
 
-It is easy to understand that the default concept of the data source ``index + ":" + sourcetype`` does not allow us to distinguish which region is generating events properly, and which region would not:
+It is easy to understand that the default standard for data source ``index + ":" + sourcetype`` does not allow us to distinguish which region is generating events properly, and which region would not:
 
 .. image:: img/first_steps/img029.png
    :alt: img/first_steps/img029
@@ -553,20 +595,18 @@ In TrackMe data sources, this would appear as one entity and this is not helping
 
 What if I want to be monitoring the fact that the EMEA region continues to be indexed properly ? and other regions ?
 
-This is where using Elastic Sources allows you to extend the default concept in way that allows you to address any kind of requirement, in a way that is totally integrated within TrackMe.
+Elastic Sources is the TrackMe answer which allows you to extend the default features with agility and address easily any kind of requirement transparently in TrackMe.
 
 Elastic source example 2: custom indexed fields
 -----------------------------------------------
 
 **Let's extend a bit more the first example, and this time in addition with the region we have a company notion.**
 
-At indexing time Splunk creates a region indexed field and a company index field that is extracted from the source Metadata using a regular expression:
+At indexing time, two custom indexed fields are created representing the "region" and the "company".
 
-::
+Custon indexed fields can be created in many ways in Splunk, it is a great and powerful feature as long as it is properly implemented and restricted to the right use cases.
 
-   source="network:pan:[region]:[company]"
-
-Where ``[region]`` and ``[company]`` are the values to be extracted and defined as my indexed fields.
+This example of excellence allows our virtual customer to work at scale with performing searches against their two major enrichment fields.
 
 **Assuming we have 3 regions (AMER / EMEA / APAC) and per region we have two companies (design / retail), to get the data of each region / company I need several searches:**
 
@@ -581,13 +621,16 @@ Where ``[region]`` and ``[company]`` are the values to be extracted and defined 
 
 *Note the usage of "::" rather than "=" which indicates to Splunk that we are explicitly looking at an indexed field rather a field potentially extracted at search time.*
 
-It is easy to understand that the default concept does not provide me with the answer I need:
+Indeed, it is clear enough that the default data source feature does not me with the answer I need for this use case:
 
 .. image:: img/first_steps/img032.png
    :alt: img/first_steps/img032
    :align: center
 
-Rather than one data source, I need to have 6 data sources which cover individually each of my region / company couples, because each of them can fail individually and I need to be able to distinguish that fact.
+Rather than one data source that covers the index/sourcetype, the requirement is to have 6 data sources that cover each couple of region/company.
+
+Any failure on the flow level which is represented by these new data sources will be detected.
+On the opposite, the default data source breaking on on the sourcetype would need a total failure of all pipelines to be detected.
 
 **By default, the data source would show up with a unique entity which is not filling my requirements:**
 
@@ -761,7 +804,7 @@ The tracker loads each record stored in the collection, and uses different evalu
 
 Finally, it calls different shared knowledge objects that are commonly used by the trackers:
 
-- Apply the TrackMe technical concepts of how calculate the lagging KPIs, etc
+- Apply the TrackMe different macros and functions to calculate things like the lagging metrics, etc
 - Calls all knowledge objects from TrackMe which insert and update the KVstore lookup, generate flipping status events, generate and records the metrics in the metric store
 
 Besides the fact that Elastic sources appears in the data sources tab, there are no interactions between the data source trackers and the shared Elastic source trackers, there are independents.
@@ -895,13 +938,205 @@ Saving the configuration
 
 When the save action is executed, you might need to wait a few minutes for it to be reported during the next execution of the Summary Investigator report.
 
+Data sampling and event formats recognition
+===========================================
+
+**Data sampling and event format recognition is a powerful automated workflow that provides the capabilities to monitor the raw events formats and detect anomalies and misbehaviour.**
+
+**You access to the data sample feature on a per data source basis via the data sample tab:**
+
+.. image:: img/img_data_sampling_main_red.png
+   :alt: img_data_sampling_main_red.png
+   :align: center
+
+**How things work:**
+
+- The scheduled report named ``TrackMe - Data sampling and format detection tracker`` runs by default every 15 minutes
+- The report uses a builtin function to determine an ideal number of data sources to be processed according to the total number of data sources to be processed, and the historical performance of the search (generates a rate per second extrapolated to limit the number of sources to be processed)
+- For each data source to be processed, a given number of raw events is sampled and stored in a KVstore collection named ``trackme_data_sampling``
+- The number of raw events to be sampled depends on wether the data source is handled for the first time (discovery), or if it is a normal run
+- On each sample per data source, the engine processes the events and applies custom rules if any, then builtin rules are processed
+- Depending on the conditions, a status and additional informational fields are determined and stored in the lookup collection
+- The status stored as the field ``isAnomaly`` is loaded by the data sources trackers and taken into account for the global data source state analysis
+
+.. image:: img/mindmaps/data_sampling_main.png
+   :alt: data_sampling_main.png
+   :align: center
+
+Summary statuses
+----------------
+
+**The data sampling message can be:**
+
+- ``green:`` if no anomalies were detected
+- ``blue:`` if the data sampling did not handle this data source yet
+- ``orange:`` if conditions do not allow to handle this data source, which can be multi-format detected at discovery, or no identifiable event formats (data sampling will be deactivated automatically)
+- ``red:`` if anomalies were detected by the data engine, anomalies can be due to a change in the event format, or multiple events formats detected post discovery
+
+*Green state: no anomalies were detected, data sampling ran and is enabled*
+
+.. image:: img/first_steps/img_data_sampling_state_green.png
+   :alt: img_data_sampling_state_green.png
+   :align: center
+
+*Blue state: data sampling engine did not processed this data source yet*
+
+.. image:: img/first_steps/img_data_sampling_state_blue.png
+   :alt: img_data_sampling_state_blue.png
+   :align: center
+
+*Orange state: data sampling was disabled due to events format recognition conditions that would not allow to manage this data properly (multiformat, no event formats identification possible)*
+
+.. image:: img/first_steps/img_data_sampling_state_orange1.png
+   :alt: img_data_sampling_state_orange1.png
+   :align: center
+
+.. image:: img/first_steps/img_data_sampling_state_orange2.png
+   :alt: img_data_sampling_state_orange2.png
+   :align: center
+
+*Red state: anomalies were detected*
+
+.. image:: img/first_steps/img_data_sampling_state_red.png
+   :alt: img_data_sampling_state_red.png
+   :align: center
+
+Manage data sampling
+--------------------
+
+**The Manage data sampling button provides access to functions to review and configure the feature:**
+
+.. image:: img/first_steps/img_data_sampling002.png
+   :alt: img_data_sampling002.png
+   :align: center
+
+**The summary table shows the main key information:**
+
+- ``data_sample_feature:`` is the data sampling feature enabled or disabled for that data source as rendered  as an icon
+- ``current_detected_format:`` the event format that has been detected during the last sampling
+- ``previous_detected_format:`` the event format that was detected in the previous sampling
+- ``state:`` the state of the data sampling rendered as an icon
+- ``anomaly_reason:`` the reason why an anomaly is raised, or "normal" if there are no anomalies
+- ``multiformat:`` shall more than one format of events be detected (true / false)
+- ``mtime:`` the latest time data sampling was processed for this data source
+
+View latest sample events
+^^^^^^^^^^^^^^^^^^^^^^^^^
+
+This button opens in the search UI the last sample of raw events that were processed for this data source, the search calls a macro which runs the events format recognitions rules as:
+
+::
+
+   | inputlookup trackme_data_sampling where data_name="<data_name>" | fields raw_sample | mvexpand raw_sample | `trackme_data_sampling_abstract_detect_events_format`
+
+This view can be useful for trouble shooting purposes to determine why an anomaly was raised for a given data source.
+
+View builtin rules
+^^^^^^^^^^^^^^^^^^
+
+This button opens a new view that exposes the builtin rules used by TrackMe, and the order in which rules are processed:
+
+.. image:: img/first_steps/img_data_sampling_show_builtin.png
+   :alt: img_data_sampling_show_builtin.png
+   :align: center
+
+Builtin rules should not be modified, instead use custom rules to handle event formats that would not be properly identified by the builtin regular expression rules.
+
+Manage custom rules
+^^^^^^^^^^^^^^^^^^^
+
+Custom rules provides a workflow to handle any custom sourcetypes and event formats that would not be identified by TrackMe, by default there are no custom rules and the following screen would appear:
+
+.. image:: img/first_steps/img_data_sampling_show_custom1.png
+   :alt: img_data_sampling_show_custom1.png
+   :align: center
+
+This view allows you to create a new custom rule (button Create custom rules) or remove any existing custom rules that would not be required anymore. (button Remove selected)
+
+**Create custom rules**
+
+This screen alows to test and create a new custom rule based on the current data source:
+
+*Note: While you create a new custom rule via a specific data source, custom rules are applied to all data sources*
+
+.. image:: img/first_steps/img_data_sampling_create_custom1.png
+   :alt: img_data_sampling_create_custom1.png
+   :align: center
+
+To create a new custom rule:
+
+- Enter a name for the format, this name ia string of your choice that will be used to idenfity the format, it needs to be unique for the entire custom source collection and will be converted into an md5 sum
+- Enter a valid regular expression that uniquely identifies the events format
+- Click on "Run model simulation" to simulate the exectution of the new models
+- Optionnaly click on "Show sample events" to view a mini sample of the events within the screen
+- Optionnaly click on ""Open simulation results in search" to open the details of the rules processing per event in the search UI
+- Finally if the status of the simulation is valid, click on "Add this new custom rule" to permanently add this new custom rule
+
+*Example:*
+
+.. image:: img/first_steps/img_data_sampling_create_custom2.png
+   :alt: img_data_sampling_create_custom2.png
+   :align: center
+
+Once you have created a new custom rule, this rule will be applied automatically to future executions of the data sampling engine:
+
+- If the format switches from a format idenfitied by the the builtin rules to a format identified by a custom rule, it will not appear in anomaly
+- You can optionally clear the state of the data sampling for that data source to clean any previous states and force a new discovery
+
+**Remove custom rules**
+
+Once there is at least one custom rule defined, the list of custom rules appears in the table and can be selected for suppression:
+
+.. image:: img/first_steps/img_data_sampling_delete_custom.png
+   :alt: img_data_sampling_delete_custom.png
+   :align: center
+
+When a custom rule is removed, future executions of the data sampling engine will not consider the rule deleted anymore, optionally you can run the data sampling engine now or clear the state for a data source.
+
+Custom rules are stored in a KVstore collection which can as well be manually edited if you need to update an exising rule, or modify the order in which rules are processed:
+
+::
+
+   trackme_data_sampling_custom_models
+
+Run sampling engine now
+^^^^^^^^^^^^^^^^^^^^^^^
+
+Use this function to force running the data sampling engine now against this data source, this will not force a new discovery and will run the data sampling engine normally. (the current status is preserved)
+
+*When to use the run sampling engine now?*
+
+- You can can run this action at anytime and as often as you need, the action runs the data sampling engine for that data source only
+- This action will have no effect if an anomaly was raised for the data source already, when an anomaly is detected the status is frozen (see Clear state and run sampling)
+
+Clear state and run sampling
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Use this function to clear any state previously determined, this forces the data source to be considered as it was the first time it was investigated by the data sampling engine. (a full sampling is processed and there are no prior status taken into account)
+
+*When to use the clear state and run sampling?*
+
+- Use this action to clear any known states for this data source and run the inspection from zero, just as if it was discovered for the first time
+- You can use this action to clear an anomaly that was raised, when an alert is raised by the data sampling, the state is frozen until this anomaly is reviewed, once the issue is understood and fixed, run the action to clear the state and restart the inspection workflow for this data source
+
+Data sampling Audit dashboard
+-----------------------------
+
+An audit dashboard is provided in the audit navigation menu, this dashboard provides insight related to the data sampling feature and workflow:
+
+*Menu Audit / TrackMe - Data sampling and events formats recognition audit*
+
+.. image:: img/first_steps/img_data_sampling_audit.png
+   :alt: img_data_sampling_audit.png
+   :align: center
+
 Priority management
 ===================
 
 Priority levels
 ---------------
 
-**TrackMe has a concept of priority for each entity, you can view the priority value in any of the tables from the main interface, in the header when you click on a given entity, and you can modify it via the unified modification UI:**
+**TrackMe has a notion of priority for each entity, you can view the priority value in any of the tables from the main interface, in the header when you click on a given entity, and you can modify it via the unified modification UI:**
 
 There 3 level of priorities that can be applied:
 
@@ -909,7 +1144,7 @@ There 3 level of priorities that can be applied:
 - ``medium``
 - ``high``
 
-Priority concept
+Priority feature
 ----------------
 
 The purpose of the priority is to provide more granularity in the way you can manage entities.
@@ -1021,9 +1256,22 @@ Monitoring level
    :alt: monitoring_level.png
    :align: center
 
-When the monitoring of the data source applies on the sourcetype level, if that combination of index / sourcetype data does not respect the monitoring rule, it will trigger.
+Feature behaviour:
 
-When the monitoring of the data source applies on the index level, we take in consideration what the latest data available is in this index, not matter what the sourcetype is.
+- When the monitoring of the data source applies on the sourcetype level, if that combination of index / sourcetype data does not respect the monitoring rule, it will trigger.
+- When the monitoring of the data source applies on the index level, we take in consideration what the latest data available is in this index, no matter what the sourcetype is.
+
+This option is useful for instance if you have multiple sourcetypes in a single index, however some of these sourcetypes are not critical enough to justify raising any alert on their own but these need to remain visible in Trackme for context and troubleshooting purposes.
+
+For example:
+
+- An index contains the sourcetype "mybusiness:critical" and the sourcetype "mybusiness:informational"
+- "mybusiness:critical" is set to sourcetype level
+- "mybusiness:informational" is set to index level
+- "mybusiness:critical" will generate an alert if lagging conditions are not met for that data source 
+- "mybusiness:informational" will generate an alert **only** if "mybusiness:critical" monitoring conditions are not met either
+- The fact the informational data is not available in the same time than "mybusiness:critical" is a useful information that lets the engineer know that the problem is global for that specific data flow
+- Using the index monitoring level for "mybusiness:informational" allows it to be visible in TrackMe without generating alerts on its own as long as "mybusiness:critical" meets the monitoring conditions
 
 Maximum lagging value
 =====================
@@ -1034,7 +1282,7 @@ Maximum lagging value
    :alt: .. image:: img/max_lagging.png
    :align: center
 
-This topic is covered in details in first steps guide :ref:`Main concept and main tabs` and :ref:`Unified update interface`.
+This topic is covered in details in first steps guide :ref:`Main navigation tabs` and :ref:`Unified update interface`.
 
 Custom Lagging classes
 ======================
@@ -1179,7 +1427,7 @@ To access to the dynamic message, simply focus over the icon in the relevant tab
 Logical groups (clusters)
 =========================
 
-Logical groups concept
+Logical groups feature
 ----------------------
 
 **Logical groups are groups of entities that will be considered as an ensemble for monitoring purposes.**
@@ -1195,7 +1443,7 @@ Logical group example
 
 **Let's have a look at a simple example of an active / passive firewall, we have two entities which form together a cluster.**
 
-Because the passive node might not generate data, we only want to alert if both the active and the passive are actively sending data.
+Because the passive node might not generate data, we only want to alert if both the active and the passive are not actively sending data.
 
 .. image:: img/logical_groups_example1.png
    :alt: logical_groups_example1.png
@@ -1330,6 +1578,72 @@ To remove an association from a logical group, click on the entry table in the i
 
 Once the action is confirmed, the association is immediately removed and the entity acts as any other independent entities.
 
+Tags
+====
+
+**Tags are available for data sources monitoring only.**
+
+**Tags are keywords that can be defined per data source, this feature provides additional filtering options to group multiple data sources based on any custom criterias.**
+
+.. image:: img/tags_img001.png
+   :alt: tags_img001.png
+   :align: center
+
+**For instance, you may want to tag data sources containing PII data, such that data sources matching this criteria can be filtered on easily in the main TrackMe UI:**
+
+.. image:: img/tags_filter.png
+   :alt: tags_filter.png
+   :align: center
+
+**When no tags have been defined yet for a data source, the following screen would appear:**
+
+.. image:: img/tags_img002.png
+   :alt: tags_img002.png
+   :align: center
+
+**When tags have been defined for a data source, the following screen would appear:**
+
+.. image:: img/tags_img002bis.png
+   :alt: tags_img002bis.png
+   :align: center
+
+**You can click on the Update tags button to define one or more tags for a given data source:**
+
+.. image:: img/tags_img003.png
+   :alt: tags_img003.png
+   :align: center
+
+*Tags are stored in the data sources KVstore collection in a field called "tags", when multiple tags are defined, the list of tags is defined as a comma seperated list of values.*
+
+Adding new tags
+---------------
+
+**You can add a new tag by using the Add tag input and button, the tag format is free, can contain spaces or special characters, however for reliability purposes you should keep things clear and simple.**
+
+.. image:: img/tags_img004.png
+   :alt: tags_img004.png
+   :align: center
+
+Once a new tag is added, it is made available automatically in the tag filter from the main Trackme data source screen.
+
+Updating tags
+-------------
+
+**You can update tags using the multi-select dropdown input, by update we mean that you can clear one or more tags that are currently affected to a given data source, which updates immediately the list of tags in the main screen tags filter form.**
+
+.. image:: img/tags_img005.png
+   :alt: tags_img005.png
+   :align: center
+
+Clearing tags
+-------------
+
+**You can clear all tags that are currently affected to a data source, by clicking on the Clear tags button, you remove all tags for this data source.**
+
+.. image:: img/tags_img006.png
+   :alt: tags_img006.png
+   :align: center
+
 Data identity card
 ==================
 
@@ -1371,10 +1685,6 @@ In addition, the fields "doc_link" and "doc_note" are part of the default output
 
 .. image:: img/identity_card6.png
    :alt: identity_card6.png
-   :align: center
-
-.. image:: img/identity_card7.png
-   :alt: identity_card7.png
    :align: center
 
 Auditing changes

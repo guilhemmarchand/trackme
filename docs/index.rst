@@ -12,11 +12,12 @@ Welcome to the Splunk TrackMe application documentation
 - Provides a powerful user interface to manage activation states, configuration and quickly trouble availability failure detection
 - Analyse and detect lack of data and performance lagging of data sources and hosts within your Splunk deployment
 - Behaviour analytic with outlier detection based on machine learning outliers calculations
+- Behaviour analytic with data sampling and event format recognition, monitor and detect anomalies in raw events to detect event format changes or misbehaviour
 - Create elastic sources for any kind of custom monitoring requirements based on tstats / raw / mstats / from searches to fullfill any requirements
 - Record and investigate historical changes of statuses, as well as administrators changes (audit flipping and changes)
 - Easy administration via graphical human interface from A to Z
 - No matters the purpose of your Splunk deployment, trackMe will easily become an essential and easy piece of your deployment, and even providing efficient answers to PCI and compliance requirements
-- Never let again your team be the last to discover what empty and no results found mean!
+- Keep things under your control and be the first to know when data is not available, get alerted before your users get back to you!
 
 .. image:: img/screenshots_main/img001.png
    :alt: img001.png
@@ -48,11 +49,11 @@ No administrator should be informed of an issue in the data flow by the customer
 
 with the massive amount of data sources, this becomes easily a painful and time consuming activity, this application aims to drastically help you in these tasks.
 
-This tiny application provides a handy user interface associated with a simple but efficient data discovery, state and alerting workflow.
+TrackMe provides a handy user interface associated with an efficient data discovery, state and alerting workflow.
 
 Made by Splunk admins for Splunk admins, the TrackMe application provides builtin powerful features to monitor and administer you data source monitoring the easy way!
 
-**Use case for TrackMe?**
+**Use cases for TrackMe?**
 
 No matters the purpose of your Splunk deployment, trackMe will easily become an essential and positive piece of your Splunk journey:
 

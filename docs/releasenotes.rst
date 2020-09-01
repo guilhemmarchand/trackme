@@ -1,6 +1,30 @@
 Release notes
 #############
 
+Version 1.2.21
+==============
+
+**CAUTION:**
+
+This is a new main release branch, TrackMe 1.2.x requires the deployment of the following dependencies:
+
+- Semicircle Donut Chart Viz, Splunk Base: https://splunkbase.splunk.com/app/4378
+- Splunk Machine Learning Toolkit, Splunk Base: https://splunkbase.splunk.com/app/2890
+
+TrackMe requires a summary index (defaults to trackme_summary) and a metric index (defaults to trackme_metrics):
+https://trackme.readthedocs.io/en/latest/configuration.html
+
+- Feature: Introducing a new very hot feature! Data sampling and event format recognition is a new workflow that allows monitoring the event formats behaviour by processing automated sampling of the data sources and monitoring their behaviour over time, builtin rules are provided and can be extended with custom rules to handle any custom data format
+- Feature: Introducing the new tags capability, you can now add tags to data sources, tags are keywords which can be set per data source to provide new filtering capabilities
+- Fix: When using a custom Splunk URI path (root_endpoint in web.conf), internal calls to splunkd made the UI can fail if splunkd does not accept the root context and only accepts the custom root context
+- Fix: When creating new dedicated elastic sources, if the search result name exceeds 100 characters, this results in a silent failure to create the new source 
+- Fix: Shorten default naming convention used for new Elastic Sources tracker names
+- Fix: Limitation of the list function used in stats limits the number for Elastic shared data sources to 99 sources maximum, fixed by alternative improved syntax
+- Fix: For Elastic shared sources, if the first source is a raw search, the addition of the "search" key word in the first pipeline fails under some conditions
+- Change: Automatically join the acknowledgement comment in the acknowledgement screen
+- Change: Time to live definition for scheduled reports (dispatch.ttl) to reduce overhead in the dispatch directory
+- Change: Automatically affect a 1 minute time window when creating Elastic dedicated trackers
+
 Version 1.2.20
 ==============
 

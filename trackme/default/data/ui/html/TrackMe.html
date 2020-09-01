@@ -880,6 +880,13 @@
             margin-bottom: 80px;
         }
 
+        .generic_message_blue {
+            background-color: #cfebf9;
+            margin: 30px 0;
+            padding: 10px;
+            border-radius: 3px 3px 3px 3px;
+        }
+
         .imgheader {
            margin-top: 10px;
            margin-bottom: 40px;
@@ -1007,6 +1014,13 @@
             font-size: 15px;
         }
 
+        .tooltip-inner {
+            max-width: 1600px;
+            text-align: left;
+            font-size: 14px;
+            font-weight: normal;
+        }
+
         </style>
 </head>
 <body class="simplexml preload locale-en" data-splunk-version="" data-splunk-product="enterprise">
@@ -1129,6 +1143,140 @@ styles in <div> tags, similar to Bootstrap's grid system.
     </div>
 
     <!--
+    tags
+    -->
+
+    <!-- Modal drilldown context for tags -->
+    <div id="main_manage_tags" class="dashboard-element html" style="width: 100%">
+        <div class="panel-body html">
+            <div class="modal fade custom-modal-50" id="manage_tags" role="dialog">
+                <div class="modal-dialog">
+                    <!-- Modal content-->
+                    <div class="modal-content">
+                        <!-- This is required to get the token substitutions without affecting the buttons actions in js -->
+                        <div class="dashboard-element html" id="body_manage_tags">
+                            <div class="panel-body html">
+                                <div class="modal-header modal-header-info">
+                                    <h1 style="font-size: 18px; color: white;">Tags for data source: $tk_data_name$</h1>
+                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                </div>
+
+                                <div style="margin-top:10px; margin-left: 20px;">
+
+                                    <div class="imgheader">
+                                        <img style="float: left; margin: 0px 15px 15px 0px;" src="../../static/app/trackme/icons/identity_card.png"/></span>
+                                        <h3>Tags:</h3>
+                                        <br />
+                                    </div>
+
+                                    <div class="generic_message_blue" style="max-width: 95%;">
+                                      <h2 style="font-weight: bold;">$tk_tags$</h2>
+                                    </div>
+
+                                </div>
+
+                            </div>
+                        </div>
+                    <div class="modal-footer">
+                        <button type="submit" id="btn_modify_manage_tags" class="btn btn-default btn-primary" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Update tags</button>
+                        <button type="submit" id="btn_back_manage_tags" class="btn btn-default btn-primary pull-left" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Back</button>
+                        <button type="submit" id="btn_close_manage_tags" class="btn btn-default btn-default pull-right" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Close</button>
+                    </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal drilldown context for tags -->
+    <div id="main_manage_tags" class="dashboard-element html" style="width: 100%">
+        <div class="panel-body html">
+            <div class="modal fade custom-modal-50" id="update_tags" role="dialog">
+                <div class="modal-dialog">
+                    <!-- Modal content-->
+                    <div class="modal-content">
+                        <!-- This is required to get the token substitutions without affecting the buttons actions in js -->
+                        <div class="dashboard-element html" id="body_update_tags">
+                            <div class="panel-body html">
+                                <div class="modal-header modal-header-info">
+                                    <h1 style="font-size: 18px; color: white;">Update tags</h1>
+                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                </div>
+
+                                <div class="boxnotify" id="boxnotify-manage_tags">
+                                </div>
+            
+                                <div style="margin-top:10px; margin-left: 20px;">
+
+                                    <div id="rowUpdateTags1a" class="dashboard-row dashboard-row3">
+                                        <div id="panelUpdateTags1" class="dashboard-cell" style="width: 100%;">
+                
+                                            <div class="dashboard-panel clearfix">
+                                                <div class="panel-element-row">
+                                                    <div class="fieldset">
+                                                        <div class="input input-text" id="modal_input_tags_new" style="margin-bottom: 10px;">
+                                                            <label>Enter a new tag to be added to this data source:</label>
+                                                        </div>
+                                                        <div style="margin-bottom: 10px;">
+                                                            <button id="btn_modal_tags_add" type="submit" class="btn btn-default btn-primary"><span class="glyphicon glyphicon-remove"></span> Add this tag</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                
+                                        </div>
+                
+                                    </div>
+                
+                                    <div id="rowUpdateTags2" class="dashboard-row dashboard-row3">
+                                        <div id="panelUpdateTags2" class="dashboard-cell" style="width: 100%;">
+                                            <div class="dashboard-panel clearfix">
+                                                <div class="panel-element-row">
+                                                    <div class="fieldset">
+                                                        <div class="input input-dropdown" id="modal_input_tags_update" style="margin-bottom: 10px;">
+                                                            <label>List of current tags for this data source, unselect a tag to remove it and click on the save button:</label>
+                                                        </div>
+                                                        <div style="margin-bottom: 10px;">
+                                                            <button id="btn_modal_tags_save" type="submit" class="btn btn-default btn-primary"><span class="glyphicon glyphicon-remove"></span> Save tags</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div id="rowUpdateTags3" class="dashboard-row dashboard-row3">
+                                        <div id="panelUpdateTags2" class="dashboard-cell" style="width: 100%;">
+                                            <div class="dashboard-panel clearfix">
+                                                <div class="panel-element-row">
+                                                    <div class="fieldset">
+                                                        <p>To remove all current tags, click on the following button:</p>
+                                                        <div style="margin-bottom: 10px;">
+                                                            <button id="btn_modal_tags_clear" type="submit" class="btn btn-default btn-danger"><span class="glyphicon glyphicon-remove"></span> Clear all tags</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>                                    
+
+                                </div>
+
+                            </div>
+
+                            <div class="modal-footer">
+                                <button type="submit" id="btn_back_update_tags" class="btn btn-default btn-primary pull-left" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Back</button>
+                                <button type="submit" class="btn btn-default btn-default pull-right" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Close</button>
+                            </div>        
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--
     identity card
     -->
 
@@ -1155,9 +1303,9 @@ styles in <div> tags, similar to Bootstrap's grid system.
                                         <br />
                                     </div>
 
-                                    <div>
-                                      $tk_doc_note$
-                                    </div>
+                                    <div class="generic_message_blue" style="max-width: 95%;">
+                                        <h2 style="font-weight: bold;">$tk_doc_note$</h2>
+                                    </div>  
 
                                     <div style="margin-bottom: 20px;">
                                         <h3>Link to documentation: </h3><a target="_blank" href="$tk_doc_link$">$tk_doc_link$</a>
@@ -1564,6 +1712,349 @@ styles in <div> tags, similar to Bootstrap's grid system.
 
             </div>
 
+        </div>
+    </div>
+
+    <!-- Modal window for Data Sampling -->
+    <div class="modal fade custom-modal-80" id="data_sampling_manage" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header modal-header-info">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h1 style="color: white;"><span class="glyphicon glyphicon-lock"></span> Data sampling &amp; events format recognition </h1>
+                </div>
+
+                <div class="modal-body">
+
+                    <div class="boxnotify" id="boxnotify-manage_data_sampling">
+                    </div>
+
+                    <div>
+
+                        <div style="margin-bottom: 10px;">
+                            <div>
+                                <h3 style="color: steelblue;">The data sampling and events format recognition tracks the raw events format behaviour based on the following workflow:</h3>
+                                <lu>
+                                    <li>On a regular basis, a sample of the latest data source raw events is taken and investigated by the Data sampling and format detection tracker</li>
+                                    <li>Events format recognition is performed against builtin regular expression rules to identify a unique event pattern, which can be extended with custom rules to hande unknown or custom formats</li>
+                                    <li>Depending on the conditions, such as a change detected in the format of the raw events, a status is determined and taken into account by the data sources trackers</li>
+                                </lu>
+                            </div>
+                        </div>
+
+                        <div style="margin-bottom: 20px;">
+                            <img src="../../static/app/trackme/mindmaps/data_sampling_main.png" alt="data_sampling_main.png">
+                        </div>
+
+                        <div style="margin-bottom: 10px;">
+                            <span><a target="_blank" href="https://trackme.readthedocs.io/en/latest/userguide.html#data-sampling-and-event-formats-recognition">Link to documentation</a></span> / <span><a target="_blank" href="trackMe_audit_data_sampling">Link to data sampling audit dashboard</a></span>
+                        </div>
+                        
+                        <div style="margin-bottom: 10px;">
+                            <div>
+                                <h3 style="color: steelblue;">Acting on a data sampling and events format recognition anomaly detection:</h3>
+                                <lu>
+                                    <li>If during the discovery multiple events formats are detected, the feature is automatically disabled to avoid generating false positive alerts</li>
+                                    <li>If a certain format was previously identified and during the next iteration a format change is detected, an anomaly state will be raised</li>
+                                    <li>Once an anomaly was raised, the anomaly status is frozen and will not be cleared until a manual action is performed by running the "Clear state and run sampling" action</li>
+                                    <li>When the clear state action is performed, previously identified information for that data source are cleared, and the data sampling inspection starts over</li>
+                                </lu>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div id="rowDataSamplingSummary" class="dashboard-row dashboard-row1">
+                        <div id="panelDataSamplingSummary" class="dashboard-cell" style="width: 100%;">
+                            <div class="dashboard-panel clearfix">
+                                <div class="panel-element-row">
+                                    <div class="fieldset">
+                                        <div id="tableDataSamplingSummary" class="dashboard-element table" style="width: 100%;">
+                                            <label>Data sampling summary for this data source:</label>
+                                            <div class="panel-body"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div style="margin-top: 20px;" class="modal-footer">
+                        <div class="btn_data_sampling_back" style="margin-right: 15px; float: left;">
+                            <button type="submit" class="btn btn-default btn-primary" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Back</button>
+                        </div>
+                        <div style="margin-right: 15px; float: right;">
+                            <button id="btn_data_sampling_clear_now" type="submit" class="btn btn-default btn-danger" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Clear state and run sampling</button>
+                        </div>
+                        <div style="margin-right: 15px; float: right;">
+                            <button id="btn_run_data_sampling" type="submit" class="btn btn-default btn-primary" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Run sampling engine now</button>
+                        </div>
+                        <div class="btn_data_sampling_custom_rules_view" style="margin-right: 15px; float: right;">
+                            <button type="submit" class="btn btn-default btn-primary" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Manage custom rules </button>
+                        </div>
+                        <div class="btn_data_sampling_builtin_rules" style="margin-right: 15px; float: right;">
+                            <button type="submit" class="btn btn-default btn-info" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> View builtin rules </button>
+                        </div>
+                        <div style="margin-right: 15px; float: right;">
+                            <a class="btn btn-info" id="btn_data_sampling_latest_sample" target="_blank" href="search" role="button">View latest sample events</a>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Modal window for Data Sampling -->
+    <div class="modal fade custom-modal-80" id="data_sampling_show_builtin_rules" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header modal-header-info">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h1 style="color: white;"><span class="glyphicon glyphicon-lock"></span> Data sampling &amp; events format recognition </h1>
+                </div>
+
+                <div class="modal-body">
+
+                    <div>
+
+                        <div style="margin-bottom: 10px;">
+
+                            <div>
+                                <h3>Events format recognition builtin regex rules:</h3>
+                                <lu>
+                                    <li>Builtin rules are applied <b>after</b> custom rules (if any)</li>
+                                    <li>Builtin rules are regular expressions used to identify the type of events based on a structure (json, xml...), an expected timestamp format or a unique pattern</li>
+                                    <li>These rules cover most common valuable use cases and can be easily extended by the addition of custom rules</li>
+                                    <li>Shall none of the rules be matching the events formats, events will be tagged as "raw_not_identified" and the data sampling feature will be disabled automatically for that data source</li>
+                                </lu>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <div id="rowDataSamplingSummary" class="dashboard-row dashboard-row1">
+                        <div id="panelDataSamplingSummary" class="dashboard-cell" style="width: 100%;">
+                            <div class="dashboard-panel clearfix">
+                                <div class="panel-element-row">
+                                    <div class="fieldset">
+                                        <div id="tableDataSamplingShowBuiltinRules" class="dashboard-element table" style="width: 100%">
+                                            <label>Data sampling event recognition builtin rules:</label>
+                                            <div class="panel-body"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div style="margin-top: 20px;" class="modal-footer">
+                        <div class="btn_data_sampling_builtin_rules_back" style="margin-right: 15px; float: right;">
+                            <button type="submit" class="btn btn-default btn-primary" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Back</button>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Modal window for Data Sampling -->
+    <div class="modal fade custom-modal-80" id="data_sampling_show_custom_rules" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header modal-header-info">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h1 style="color: white;"><span class="glyphicon glyphicon-lock"></span> Data sampling &amp; events format recognition </h1>
+                </div>
+
+                <div class="modal-body">
+
+                    <div class="boxnotify" id="boxnotify-view_data_sampling_custom_rule">
+                    </div>
+
+                    <div>
+
+                        <div style="margin-bottom: 10px;">
+
+                            <div>
+                                <h3>Events format recognition custom regex rules:</h3>
+                                <lu>
+                                    <li>Custom rules, if any, are applied <b>before</b> builtin rules</li>
+                                    <li>Rules are regular expressions used to identify the type of event based on a structure (json, xml...), a timestamp format or a unique pattern</li>
+                                    <li>You can create as many custom rules as you need and these rules will be processed automatically during the execution of the data sampling engine</li>
+                                </lu>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <div id="rowDataSamplingSummaryCustomRules" class="dashboard-row dashboard-row1">
+                        <div id="panelDataSamplingSummaryCustomRules" class="dashboard-cell" style="width: 100%;">
+                            <div class="dashboard-panel clearfix">
+                                <div class="panel-element-row">
+                                    <div class="fieldset">
+                                        <div id="tableDataSamplingShowCustomRules" class="dashboard-element table" style="width: 100%">
+                                            <label>Data sampling event recognition custom rules:</label>
+                                            <div class="panel-body"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="rowDataSamplingSummaryCustomRulesEmpty" class="dashboard-row dashboard-row" data-rejects="$show_table_data_sampling_custom_rules$">
+                        <div id="panelDataSamplingSummaryCustomRulesEmpty" class="dashboard-cell" style="width: 100%;">
+
+                            <div class="dashboard-panel clearfix">
+                                <div class="panel-element-row">
+
+                                    <div style="text-align: center; margin-top: 50px;" class="modal-body">
+                                        <h3 style="color: lightslategray;">There are no custom rules currently defined.</h3>
+                                        <br /><br />
+                                    </div>
+
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div style="margin-top: 20px;" class="modal-footer">
+                        <div class="btn_data_sampling_custom_rules_back" style="margin-right: 15px; float: left;">
+                            <button type="submit" class="btn btn-default btn-primary" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Back</button>
+                        </div>
+                        <div class="btn_data_sampling_custom_rules_delete" style="margin-right: 15px; float: right;">
+                            <button type="submit" id="btn_modal_data_sampling_custom_rule_delete" class="btn btn-default btn-danger" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Remove selected</button>
+                        </div>
+                        <div style="margin-right: 15px; float: right;">
+                            <button id="btn_data_sampling_custom_rules" type="submit" class="btn btn-default btn-primary" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Create custom rules </button>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+    <div class="modal fade custom-modal-80" id="data_sampling_create_custom_rules" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header modal-header-danger">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h1 style="color: white;"><span class="glyphicon glyphicon-lock"></span> Data sampling &amp; events format recognition: create custom rules </h1>
+                </div>
+                <div class="modal-body">
+                    <b>Use this interface to create and manage custom rules for events format recognition:</b>
+                    <br /><br />
+
+                    <div class="boxnotify" id="boxnotify-add_data_sampling_custom_rule">
+                    </div>
+
+                    <div id="rowDataSamplingRulesAdd1a" class="dashboard-row dashboard-row3">
+
+                        <div id="rowDataSamplingRulesAdd1b" class="dashboard-cell" style="width: 100%;">
+
+                            <div class="dashboard-panel clearfix">
+
+                                <div class="panel-element-row">
+
+                                    <div class="input input-text" id="modal_input_data_sampling_custom_rule_name" style="margin-bottom: 10px; max-width: 300px;">
+                                        <label>Enter the unique identifier of the events format recognition custom rule:</label>
+                                    </div>
+
+                                    <form>
+                                        <fieldset>
+                                            <legend>Regular expression rule:</legend>
+                                            <p>                                                
+                                                <label>Example: <code>^\w{3}\s*\d{1,2}\s*\d{1,2}\:\d{1,2}\:\d{1,2}</code> </br />would match events in the following format: <code>Mar  1 00:01:51.047: %LINK-3-UPDOWN: Interface FastEthernet0/0, changed state to up</code><br /></label>
+                                                <textarea
+                                                        id = "modal_input_data_sampling_custom_rule_regex"
+                                                        rows = "3"
+                                                        cols = "80" style="width: 1100px;"
+                                                        onfocus="if(this.value==this.defaultValue)this.value='';" onblur="if(this.value=='')this.value=this.defaultValue;">Enter a valid regular expression and click on the button "Run model simulation".</textarea>
+                                            </p>
+
+                                        </fieldset>
+                                    </form>
+
+                                    <div style="margin-top: 15x;">
+                                        <div style="margin-right: 15px; float: left;">
+                                            <button type="submit" id="btn_modal_data_sampling_custom_rule_show_sample" class="btn btn-default btn-primary"><span class="glyphicon glyphicon-remove"></span> Show sample events</button>
+                                        </div>
+                                        <div style="margin-right: 15px; float: left;">
+                                            <button type="submit" id="btn_modal_data_sampling_custom_rule_simulate" class="btn btn-default btn-primary"><span class="glyphicon glyphicon-remove"></span> Run model simulation</button>
+                                        </div>
+                                        <div style="margin-right: 15px; float: left;">
+                                            <button type="submit" id="btn_modal_data_sampling_custom_rule_simulate_show_details" class="btn btn-default btn-primary"><span class="glyphicon glyphicon-remove"></span> Open simulation results in search</button>
+                                        </div>
+                                        <div style="margin-right: 15px; float: left;">
+                                            <button type="submit" id="btn_data_sampling_custom_rule_add" class="btn btn-default btn-danger"><span class="glyphicon glyphicon-remove"></span> Add this new custom rule</button>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                                <br />
+                                <br />
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <div id="rowDataSamplingRulesAdd1c" class="dashboard-row dashboard-row1" data-depends="$start_simulation_data_sampling_custom_rule$">
+                        <div id="panelDataSamplingRulesAdd1c" class="dashboard-cell" style="width: 100%;">
+                            <div class="dashboard-panel clearfix">
+                                <div class="panel-element-row">
+                                    <div id="tableDataSamplingSimulateCustomRule" class="dashboard-element table" style="width: 100%;">
+                                        <div class="panel-body"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="rowDataSamplingRulesAdd1d" class="dashboard-row dashboard-row1" data-depends="$start_simulation_data_sampling_custom_rule_show_events$">
+                        <div id="panelDataSamplingRulesAdd1d" class="dashboard-cell" style="width: 100%;">
+                            <div class="dashboard-panel clearfix">
+                                <div class="panel-element-row">
+                                    <div id="tableDataSamplingSimulateCustomRuleLatestEvent" class="dashboard-element table" style="width: 100%;">
+                                        <div class="panel-body"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-default btn-default pull-left" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Cancel</button>
+                    <button type="submit" id="btn_modal_data_sampling_custom_rule_add_new_back" class="btn btn-default btn-primary pull-right" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Back</button>
+                </div>
+
+            </div>
         </div>
     </div>
 
@@ -2125,7 +2616,11 @@ styles in <div> tags, similar to Bootstrap's grid system.
                                     <div style="margin-left: 10px;">
                                         <div class="imgheader">
                                             <img style="float: left; margin: 0px 15px 15px 0px;" src="../../static/app/trackme/icons/identity_card.png"/>
-                                            <h3><a id="doc_link_data_source" data-toggle="modal" data-target="#$tk_doc_modal_target$">$tk_doc_link_main$</a></h3>
+                                            <h3><span><a id="doc_link_data_source" data-toggle="modal" data-target="#$tk_doc_modal_target$">$tk_doc_link_main$</a>
+                                                 / 
+                                                <a id="tags_data_source" data-toggle="modal" data-target="#$tk_tags_modal_target$">$tk_tags_link_main$</a>
+                                                </span>
+                                            </h3>
                                         </div>
                                     </div>
 
@@ -2267,6 +2762,34 @@ styles in <div> tags, similar to Bootstrap's grid system.
                                             <div class="panel-body"></div>
                                         </div>
                                     </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div id="rowDataSampling" class="dashboard-row dashboard-row2" data-depends="$show_data_sampling$">
+                            <div id="panelDataSampling" class="dashboard-cell" style="width: 100%;">
+                                <div class="dashboard-panel clearfix">
+
+                                    <div class="panel-element-row">
+                                        <div class="dashboard-element html" id="body_data_source_data_sampling" style="width: 100%">
+                                            <div class="panel-body html">
+                                                <div class="$tk_data_sampling_status_message_class$">
+                                                    <h2 style="font-weight: bold;">$tk_data_sampling_status_message$</h2>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="panel-element-row">
+                                        <div class="dashboard-element html" style="width: 100%">
+                                            <div class="panel-body html">
+                                                <div class="btn_data_sampling_manage" style="margin-left: 42px; margin-right: 42px;">
+                                                    <button id="btn_data_sampling_manage" type="submit" role="button" style="margin-right: 15px;" class="btn btn-outline-primary pull-right"><span class="glyphicon glyphicon-remove"></span>Manage data sampling</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
                                 </div>
                             </div>
                         </div>
@@ -6686,6 +7209,108 @@ styles in <div> tags, similar to Bootstrap's grid system.
         </div>
     </div>
 
+    <!-- Data sampling clear state -->
+    <div class="modal fade" id="modal_clear_state_data_sampling" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header modal-header-danger">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h1 style="color: white;"><span class="glyphicon glyphicon-lock"></span>Data sampling &amp; events format recognition</h1>
+                </div>
+                <div class="modal-body">
+                    <p><b>Confirm clear state action?</b><br />
+                    </p>
+
+                    <p>
+                        <label>Optional: enter a note of this update. <br />
+                            This note will be logged and made available for notification.</label>
+                        <textarea
+                                id = "input_clear_state_data_sampling_comment"
+                                rows = "6"
+                                cols = "160" style="width: 500px;"
+                                onfocus="if(this.value==this.defaultValue)this.value='';" onblur="if(this.value=='')this.value=this.defaultValue;">update note</textarea>
+                    </p>
+
+                </div>
+
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-default btn-default pull-left" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Cancel</button>
+                    <button type="submit" id="btn_modal_clear_state_confirm" class="btn btn-default btn-primary pull-right" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Ok</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Data sampling remove custom rule -->
+    <div class="modal fade" id="modal_remove_custom_rule_data_sampling" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header modal-header-danger">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h1 style="color: white;"><span class="glyphicon glyphicon-lock"></span>Data sampling &amp; events format recognition</h1>
+                </div>
+                <div class="modal-body">
+                    <p><b>Confirm custom rule deletion action?</b><br />
+                    </p>
+
+                    <p>
+                        <label>Optional: enter a note of this update. <br />
+                            This note will be logged and made available for notification.</label>
+                        <textarea
+                                id = "input_remove_custom_rule_data_sampling_comment"
+                                rows = "6"
+                                cols = "160" style="width: 500px;"
+                                onfocus="if(this.value==this.defaultValue)this.value='';" onblur="if(this.value=='')this.value=this.defaultValue;">update note</textarea>
+                    </p>
+
+                </div>
+
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-default btn-default pull-left" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Cancel</button>
+                    <button type="submit" id="btn_modal_remove_custom_rule_confirm" class="btn btn-default btn-primary pull-right" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Ok</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Data sampling add custom rule -->
+    <div class="modal fade" id="modal_add_custom_rule_data_sampling" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header modal-header-danger">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h1 style="color: white;"><span class="glyphicon glyphicon-lock"></span>Data sampling &amp; events format recognition</h1>
+                </div>
+                <div class="modal-body">
+                    <p><b>Confirm custom rule addition action?</b><br />
+                    </p>
+
+                    <p>
+                        <label>Optional: enter a note of this update. <br />
+                            This note will be logged and made available for notification.</label>
+                        <textarea
+                                id = "input_add_custom_rule_data_sampling_comment"
+                                rows = "6"
+                                cols = "160" style="width: 500px;"
+                                onfocus="if(this.value==this.defaultValue)this.value='';" onblur="if(this.value=='')this.value=this.defaultValue;">update note</textarea>
+                    </p>
+
+                </div>
+
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-default btn-default pull-left" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Cancel</button>
+                    <button type="submit" id="btn_modal_add_custom_rule_confirm" class="btn btn-default btn-primary pull-right" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Ok</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Generic modification -->
     <div class="modal fade" id="modal_entry_modification" role="dialog">
         <div class="modal-dialog">
@@ -6968,6 +7593,9 @@ styles in <div> tags, similar to Bootstrap's grid system.
                 <div class="fieldset">
                     <div style="margin-right: 28px;" class="input input-text" id="inputDataNameFilter">
                         <label>Keyword filter name:</label>
+                    </div>
+                    <div class="input input-dropdown" id="inputTags">
+                        <label>Tags:</label>
                     </div>
                     <div class="input input-dropdown" id="inputDataName">
                         <label>Name (use keyword filter):</label>
@@ -7491,7 +8119,7 @@ require([
             var tokens = mvc.Components.get("default");
             var currentUser = Splunk.util.getConfigValue("USERNAME");
             tokens.set("currentUser", currentUser);
-            var auditendpoint_URl = "/en-US/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_audit_changes/"
+            var auditendpoint_URl = "{{SPLUNKWEB_URL_PREFIX}}/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_audit_changes/"
 
             var time = (new Date).getTime();
             var audit_record = {
@@ -7676,7 +8304,7 @@ require([
             "refreshType": "delay",
             "refresh": "$refresh$",
             "latest_time": "+5m",
-            "search": "| inputlookup trackme_data_source_monitoring\n| eval keyid=_key\n| `apply_data_source_blacklists`\n| search `trackme_get_idx_whitelist_searchtime(trackme_data_source_monitoring_whitelist_index, data_index)`\n| `trackme_eval_data_source_state`\n| `trackme_default_priority`\n| `trackme_date_format(data_last_time_seen)`\n| `trackme_date_format(data_last_time_seen_idx)`\n| `trackme_date_format(data_last_ingest)`\n| fillnull value=\"red\" data_source_state\n| sort 0 data_source\n| `trackme_eval_icons`\n| search $inputDataNameFilter$\n| search `trackme_get_idx_whitelist_searchtime(trackme_data_source_monitoring_whitelist_index, data_index)`\n| `apply_data_source_blacklists`\n",
+            "search": "| inputlookup trackme_data_source_monitoring\n| eval keyid=_key\n| `apply_data_source_blacklists`\n| search `trackme_get_idx_whitelist_searchtime(trackme_data_source_monitoring_whitelist_index, data_index)`\n| `trackme_eval_data_source_state`\n| `trackme_default_priority`\n| `trackme_date_format(data_last_time_seen)`\n| `trackme_date_format(data_last_time_seen_idx)`\n| `trackme_date_format(data_last_ingest)`\n| fillnull value=\"red\" data_source_state\n| sort 0 data_source\n| `trackme_eval_icons`\n| search $inputDataNameFilter$\n| search `trackme_get_idx_whitelist_searchtime(trackme_data_source_monitoring_whitelist_index, data_index)`\n| `apply_data_source_blacklists`\n| rex field=tags mode=sed \"s/,/ \\\/ /g\"\n| fillnull value=\"No tags defined, click on Update tags to define one or more tags to be associated with this data source.\" tags",
             "status_buckets": 0,
             "app": utils.getCurrentApp(),
             "auto_cancel": 90,
@@ -7692,7 +8320,7 @@ require([
 
         var searchDataSourcesPostTable = new PostProcessManager({
             "tokenDependencies": {},
-            "search": "search $inputDataName$ $inputDataIndex$ $inputDataSourcetype$ $data_source_state$ $data_monitored_state$ $inputDataPriority$\n| fillnull data_last_lag_seen, data_last_ingestion_lag_seen\n| eval data_last_lag_seen=round(data_last_lag_seen, 0) | eval data_last_ingestion_lag_seen=round(data_last_ingestion_lag_seen, 0) | fillnull value=\"N/A\" data_last_lag_seen, data_last_ingestion_lag_seen\n| eval \"lag summary (lag event / lag ingestion)\" = if(data_last_lag_seen>60, tostring(data_last_lag_seen, \"duration\"), data_last_lag_seen . \" sec\") . \" / \" . if(data_last_ingestion_lag_seen>60, tostring(data_last_ingestion_lag_seen, \"duration\"), data_last_ingestion_lag_seen . \" sec\")\n| rename \"data_last_time_seen (translated)\" as \"last time\", \"data_last_ingest (translated)\" as \"last ingest\", \"data_last_time_seen_idx (translated)\" as \"last time idx\"\n| eval data_tracker_runtime=now()\n| `trackme_date_format(\"latest_flip_time\")`\n| fillnull value=\"N/A\" latest_flip_state, latest_flip_time, \"latest_flip_time (translated)\"\n| `trackme_get_identity_card(data_name)`\n| `trackme_lookup_elastic_sources`\n|`trackme_ack_lookup_main(data_name)`\n| sort limit=10000 data_name",
+            "search": "makemv delim=\" / \" tags | search $inputDataName$ $inputDataIndex$ $inputDataSourcetype$ $inputTags$ $data_source_state$ $data_monitored_state$ $inputDataPriority$\n| fillnull data_last_lag_seen, data_last_ingestion_lag_seen\n| eval data_last_lag_seen=round(data_last_lag_seen, 0) | eval data_last_ingestion_lag_seen=round(data_last_ingestion_lag_seen, 0) | fillnull value=\"N/A\" data_last_lag_seen, data_last_ingestion_lag_seen\n| eval \"lag summary (lag event / lag ingestion)\" = if(data_last_lag_seen>60, tostring(data_last_lag_seen, \"duration\"), data_last_lag_seen . \" sec\") . \" / \" . if(data_last_ingestion_lag_seen>60, tostring(data_last_ingestion_lag_seen, \"duration\"), data_last_ingestion_lag_seen . \" sec\")\n| rename \"data_last_time_seen (translated)\" as \"last time\", \"data_last_ingest (translated)\" as \"last ingest\", \"data_last_time_seen_idx (translated)\" as \"last time idx\"\n| eval data_tracker_runtime=now()\n| `trackme_date_format(\"latest_flip_time\")`\n| fillnull value=\"N/A\" latest_flip_state, latest_flip_time, \"latest_flip_time (translated)\"\n| `trackme_get_identity_card(data_name)`\n| `trackme_lookup_elastic_sources`\n| `trackme_ack_lookup_main(data_name)`\n| `trackme_lookup_data_sampling`\n| nomv tags\n| sort limit=10000 data_name",
             "managerid": "searchDataSourcesMain",
             "id": "searchDataSourcesPostTable"
         }, {
@@ -7720,6 +8348,16 @@ require([
             tokenNamespace: "submitted"
         });
 
+        var searchPopulateDataSourcesTags = new PostProcessManager({
+            "tokenDependencies": {},
+            "search": "eval tags=if(tags=\"No tags defined, click on Update tags to define one or more tags to be associated with this data source.\", \"\", tags) | makemv delim=\" / \" tags | search $inputDataIndex$ $inputDataSourcetype$ | mvexpand tags | stats values(tags) as tags | mvexpand tags | dedup tags | sort limit=1000 tags",
+            "managerid": "searchDataSourcesMain",
+            "id": "searchPopulateDataSourcesTags"
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        });
+
         var searchPopulateDataSourcesIndexes = new PostProcessManager({
             "tokenDependencies": {},
             "search": "search $inputDataName$ $inputDataSourcetype$ | stats values(data_index) as data_index | mvexpand data_index | dedup data_index | sort limit=1000 data_index",
@@ -7735,6 +8373,27 @@ require([
             "search": "search $inputDataName$ $inputDataIndex$ | stats values(data_sourcetype) as data_sourcetype | mvexpand data_sourcetype | dedup data_sourcetype | sort limit=1000 data_sourcetype",
             "managerid": "searchDataSourcesMain",
             "id": "searchPopulateDataSourcesSourcetypes"
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        });
+
+        // tags
+        var searchShowTags = new SearchManager({
+            "id": "searchShowTags",
+            "earliest_time": "-5m",
+            "cancelOnUnload": true,
+            "sample_ratio": null,
+            "latest_time": "now",
+            "search": "| inputlookup trackme_data_source_monitoring where data_name=\"$tk_data_name$\" | fields tags | makemv delim=\",\" tags | mvexpand tags | dedup tags | sort tags",
+            "status_buckets": 0,
+            "app": utils.getCurrentApp(),
+            "auto_cancel": 90,
+            "preview": true,
+            "tokenDependencies": {
+                "depends": "$show_data_source_tracker$"
+            },
+            "runWhenTimeIsUndefined": false
         }, {
             tokens: true,
             tokenNamespace: "submitted"
@@ -9540,6 +10199,131 @@ require([
             tokenNamespace: "submitted"
         });
 
+        // Data sampling
+
+        var searchDataSamplingTable1 = new SearchManager({
+            "id": "searchDataSamplingTable1",
+            "earliest_time": "-15m",
+            "cancelOnUnload": true,
+            "sample_ratio": null,
+            "latest_time": "now",
+            "search": "| inputlookup trackme_data_sampling where data_name=\"$tk_data_name$\" | eval \" \" = \"<--\" | fields data_sample_status_colour, data_sample_status_message, data_sample_feature, current_detected_format, \" \", previous_detected_format, data_sample_anomaly_detected, data_sample_anomaly_reason, multiformat_detected, data_sample_mtime | eval mtime=strftime(data_sample_mtime, \"%c\") | `trackme_eval_icons_data_sampling_enablement` | `trackme_eval_icons_data_sampling_summary` | rename data_sample_anomaly_reason as anomaly_reason, multiformat_detected as multiformat | eval previous_detected_format=if(isnull(previous_detected_format), \"N/A\", previous_detected_format) | append [ | makeresults | eval data_sample_feature=\"N/A\", current_detected_format=\"N/A\", previous_detected_format=\"N/A\", state=\"N/A\", anomaly_reason=\"N/A\", multiformat=\"N/A\", mtime=\"N/A\" ] | head 1",
+            "status_buckets": 0,
+            "app": utils.getCurrentApp(),
+            "auto_cancel": 90,
+            "preview": true,
+            "tokenDependencies": {
+                "depends": "$show_data_sampling$",
+            },
+            "runWhenTimeIsUndefined": false
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        });
+
+        var searchDataSamplingShowCustomRules = new SearchManager({
+            "id": "searchDataSamplingShowCustomRules",
+            "earliest_time": "-15m",
+            "cancelOnUnload": true,
+            "sample_ratio": null,
+            "latest_time": "now",
+            "search": "| `trackme_show_custom_model_rules`",
+            "status_buckets": 0,
+            "app": utils.getCurrentApp(),
+            "auto_cancel": 90,
+            "preview": true,
+            "tokenDependencies": {
+                "depends": "$show_data_sampling$",
+            },
+            "runWhenTimeIsUndefined": false
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        });
+
+        new SearchEventHandler({
+            managerid: "searchDataSamplingShowCustomRules",
+            event: "progress",
+            conditions: [{
+                    attr: "match",
+                    value: "'job.resultCount' == 0",
+                    actions: [{
+                        "type": "unset",
+                        "token": "show_table_data_sampling_custom_rules"
+                    }]
+                },
+                {
+                    attr: "any",
+                    value: "*",
+                    actions: [{
+                        "type": "set",
+                        "token": "show_table_data_sampling_custom_rules",
+                        "value": "True"
+                    }]
+                }
+            ]
+        });
+
+        var searchDataSamplingShowBuiltinRules = new SearchManager({
+            "id": "searchDataSamplingShowBuiltinRules",
+            "earliest_time": "-15m",
+            "cancelOnUnload": true,
+            "sample_ratio": null,
+            "latest_time": "now",
+            "search": "| `trackme_show_builtin_model_rules`",
+            "status_buckets": 0,
+            "app": utils.getCurrentApp(),
+            "auto_cancel": 90,
+            "preview": true,
+            "tokenDependencies": {
+                "depends": "$show_data_sampling$",
+            },
+            "runWhenTimeIsUndefined": false
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        });
+
+        var searchDataSamplingSimulateCustomRule = new SearchManager({
+            "id": "searchDataSamplingSimulateCustomRule",
+            "earliest_time": "-15m",
+            "cancelOnUnload": true,
+            "sample_ratio": null,
+            "latest_time": "now",
+            "search": "| inputlookup trackme_data_sampling where _key=\"$tk_keyid$\" | fields raw_sample | mvexpand raw_sample | eval detected_format = case(match(raw_sample, \"$tk_data_sampling_custom_rule_regex$\"), \"$tk_data_sampling_custom_rule_name$\") | `trackme_data_sampling_simulate_custom_rule`",
+            "status_buckets": 0,
+            "app": utils.getCurrentApp(),
+            "auto_cancel": 90,
+            "preview": true,
+            "tokenDependencies": {
+                "depends": "$start_simulation_data_sampling_custom_rule$",
+            },
+            "runWhenTimeIsUndefined": false
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        });
+
+        var searchDataSamplingSimulateCustomRuleLatestEvent = new SearchManager({
+            "id": "searchDataSamplingSimulateCustomRuleLatestEvent",
+            "earliest_time": "-15m",
+            "cancelOnUnload": true,
+            "sample_ratio": null,
+            "latest_time": "now",
+            "search": "| inputlookup trackme_data_sampling where _key=\"$tk_keyid$\" | fields raw_sample | mvexpand raw_sample",
+            "status_buckets": 0,
+            "app": utils.getCurrentApp(),
+            "auto_cancel": 90,
+            "preview": true,
+            "tokenDependencies": {
+                "depends": "$start_simulation_data_sampling_custom_rule_show_events$",
+            },
+            "runWhenTimeIsUndefined": false
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        });
+
         // Custom lagging
 
         var searchCustomLagging = new SearchManager({
@@ -10580,7 +11364,7 @@ require([
                 "depends": "$tk_start_ack_get$"
             },
             "sample_ratio": 1,
-            "search": "| `trackme_ack_get(\"$input_object$\", \"$input_object_category$\")`",
+            "search": "| `trackme_ack_get(\"$input_object$\", \"$input_object_category$\")` | `trackme_ack_join_comment(\"$input_object$\", \"$input_object_category$\")`",
             "cancelOnUnload": true,
             "status_buckets": 0,
             "app": utils.getCurrentApp(),
@@ -10838,6 +11622,10 @@ require([
                     "label": "Outlier detection configuration"
                 },
                 {
+                    "value": "data_sampling",
+                    "label": "Data sampling"
+                },
+                {
                     "value": "data_quality",
                     "label": "Data parsing quality"
                 },
@@ -10882,6 +11670,7 @@ require([
                 EventHandler.unsetToken("show_flipping_status");
                 EventHandler.unsetToken("show_data_source_audit_changes");
                 EventHandler.unsetToken("show_data_source_lagging_metrics");
+                EventHandler.unsetToken("show_data_sampling");
             } else if (e.value === "outlier") {
                 EventHandler.setToken("show_data_source_outlier", "true", {}, e.data);
                 EventHandler.unsetToken("show_data_source_overview");
@@ -10891,6 +11680,7 @@ require([
                 EventHandler.unsetToken("show_flipping_status");
                 EventHandler.unsetToken("show_data_source_audit_changes");
                 EventHandler.unsetToken("show_data_source_lagging_metrics");
+                EventHandler.unsetToken("show_data_sampling");
             } else if (e.value === "outlier_configuration") {
                 EventHandler.setToken("show_data_source_outlier_configuration", "true", {}, e.data);
                 EventHandler.unsetToken("show_data_source_overview");
@@ -10900,6 +11690,17 @@ require([
                 EventHandler.unsetToken("show_flipping_status");
                 EventHandler.unsetToken("show_data_source_audit_changes");
                 EventHandler.unsetToken("show_data_source_lagging_metrics");
+                EventHandler.unsetToken("show_data_sampling");
+            } else if (e.value === "data_sampling") {
+                EventHandler.setToken("show_data_sampling", "true", {}, e.data);
+                EventHandler.unsetToken("show_data_source_overview");
+                EventHandler.unsetToken("show_data_source_outlier");
+                EventHandler.unsetToken("show_data_source_outlier_configuration");
+                EventHandler.unsetToken("show_data_source_status_message");
+                EventHandler.unsetToken("show_flipping_status");
+                EventHandler.unsetToken("show_data_source_audit_changes");
+                EventHandler.unsetToken("show_data_source_lagging_metrics");
+                EventHandler.unsetToken("show_data_quality");
             } else if (e.value === "data_quality") {
                 EventHandler.setToken("show_data_quality", "true", {}, e.data);
                 EventHandler.unsetToken("show_data_source_overview");
@@ -10909,6 +11710,7 @@ require([
                 EventHandler.unsetToken("show_flipping_status");
                 EventHandler.unsetToken("show_data_source_audit_changes");
                 EventHandler.unsetToken("show_data_source_lagging_metrics");
+                EventHandler.unsetToken("show_data_sampling");
             } else if (e.value === "lagging_metrics") {
                 EventHandler.setToken("show_data_source_lagging_metrics", "true", {}, e.data);
                 EventHandler.unsetToken("show_data_source_overview");
@@ -10918,6 +11720,7 @@ require([
                 EventHandler.unsetToken("show_flipping_status");
                 EventHandler.unsetToken("show_data_source_audit_changes");
                 EventHandler.unsetToken("show_data_quality");
+                EventHandler.unsetToken("show_data_sampling");
             } else if (e.value === "flipping_status") {
                 EventHandler.setToken("show_flipping_status", "true", {}, e.data);
                 EventHandler.unsetToken("show_data_source_overview");
@@ -10927,6 +11730,7 @@ require([
                 EventHandler.unsetToken("show_data_quality");
                 EventHandler.unsetToken("show_data_source_audit_changes");
                 EventHandler.unsetToken("show_data_source_lagging_metrics");
+                EventHandler.unsetToken("show_data_sampling");
             } else if (e.value === "status_message") {
                 EventHandler.setToken("show_data_source_status_message", "true", {}, e.data);
                 EventHandler.unsetToken("show_data_source_overview");
@@ -10936,6 +11740,7 @@ require([
                 EventHandler.unsetToken("show_flipping_status");
                 EventHandler.unsetToken("show_data_source_audit_changes");
                 EventHandler.unsetToken("show_data_source_lagging_metrics");
+                EventHandler.unsetToken("show_data_sampling");
             } else if (e.value === "data_source_audit_changes") {
                 EventHandler.setToken("show_data_source_audit_changes", "true", {}, e.data);
                 EventHandler.unsetToken("show_data_source_overview");
@@ -10945,6 +11750,7 @@ require([
                 EventHandler.unsetToken("show_flipping_status");
                 EventHandler.unsetToken("show_data_source_status_message");
                 EventHandler.unsetToken("show_data_source_lagging_metrics");
+                EventHandler.unsetToken("show_data_sampling");
             }            
         });
 
@@ -12128,6 +12934,20 @@ require([
 
         modal_input_elastic_source_latest.on("change", function(newValue) {
             FormUtils.handleValueChange(modal_input_elastic_source_latest);
+        });
+
+        // Data sampling
+        var modal_input_data_sampling_custom_rule_name = new TextInput({
+            "id": "modal_input_data_sampling_custom_rule_name",
+            "searchWhenChanged": false,
+            "value": "$form.tk_data_sampling_custom_rule_name$",
+            "el": $('#modal_input_data_sampling_custom_rule_name')
+        }, {
+            tokens: true
+        }).render();
+
+        modal_input_data_sampling_custom_rule_name.on("change", function(newValue) {
+            FormUtils.handleValueChange(modal_input_data_sampling_custom_rule_name);
         });
 
         // Custom lagging
@@ -14159,12 +14979,22 @@ require([
                 setToken("form.TimeOutlierConfigurationDataSource", TokenUtils.replaceTokenNames("$row.OutlierTimePeriod$", _.extend(submittedTokenModel.toJSON(), e.data)));
                 setToken("form.TimeOutlierConfigurationDataSourceSpan", TokenUtils.replaceTokenNames("$row.OutlierSpan$", _.extend(submittedTokenModel.toJSON(), e.data)));
 
+                // data sampling
+                setToken("tk_data_sampling_status_message", TokenUtils.replaceTokenNames("$row.data_sample_status_message$", _.extend(submittedTokenModel.toJSON(), e.data)));
+                setToken("tk_data_sampling_status_colour", TokenUtils.replaceTokenNames("$row.data_sample_status_colour$", _.extend(submittedTokenModel.toJSON(), e.data)));
+                setToken("tk_data_sample_anomaly_reason", TokenUtils.replaceTokenNames("$row.data_sample_anomaly_reason$", _.extend(submittedTokenModel.toJSON(), e.data)));
+                setToken("tk_isanomaly", TokenUtils.replaceTokenNames("$row.isAnomaly$", _.extend(submittedTokenModel.toJSON(), e.data)));
+                setToken("tk_data_sample_lastrun", TokenUtils.replaceTokenNames("$row.data_sample_lastrun$", _.extend(submittedTokenModel.toJSON(), e.data)));
+
                 // status message
                 setToken("tk_status_message", TokenUtils.replaceTokenNames("$row.status_message$", _.extend(submittedTokenModel.toJSON(), e.data)));
 
                 // doc href
                 setToken("tk_doc_link", TokenUtils.replaceTokenNames("$row.doc_link$", _.extend(submittedTokenModel.toJSON(), e.data)));
                 setToken("tk_doc_note", TokenUtils.replaceTokenNames("$row.doc_note$", _.extend(submittedTokenModel.toJSON(), e.data)));
+
+                // tags
+                setToken("tk_tags", TokenUtils.replaceTokenNames("$row.tags$", _.extend(submittedTokenModel.toJSON(), e.data)));
 
                 // pref-fill current lagging input
                 setToken("form.tk_input_lag", TokenUtils.replaceTokenNames("$row.data_max_lag_allowed$", _.extend(submittedTokenModel.toJSON(), e.data)));
@@ -14224,12 +15054,12 @@ require([
 
                 // If the documentation reference has not been set, define the href format
                 if (tk_doc_link == "null") {
-                    setToken("tk_doc_link_main", TokenUtils.replaceTokenNames("No identity documentation has been defined, click here to define a documentation reference", _.extend(submittedTokenModel.toJSON(), e.data)));
+                    setToken("tk_doc_link_main", TokenUtils.replaceTokenNames("Click here to define a documentation reference", _.extend(submittedTokenModel.toJSON(), e.data)));
                     setToken("tk_doc_modal_target", TokenUtils.replaceTokenNames("define_identity_card", _.extend(submittedTokenModel.toJSON(), e.data)));
                     // replace the textinput for modification requests
                     document.getElementById("input_doc_link").value = "link to documentation";
                 } else {
-                    setToken("tk_doc_link_main", TokenUtils.replaceTokenNames("Click here to access data source identity card", _.extend(submittedTokenModel.toJSON(), e.data)));
+                    setToken("tk_doc_link_main", TokenUtils.replaceTokenNames("Show data source identity card", _.extend(submittedTokenModel.toJSON(), e.data)));
                     setToken("tk_doc_modal_target", TokenUtils.replaceTokenNames("manage_identity_card", _.extend(submittedTokenModel.toJSON(), e.data)));
                     // replace the textinput for modification requests
                     document.getElementById("input_doc_link").value = tk_doc_link;
@@ -14242,6 +15072,19 @@ require([
                 } else {
                     // replace the textarea for modification requests
                     document.getElementById("input_doc_note").value = tk_doc_note;
+                }
+
+                // tags
+                var tk_tags = tokens.get("tk_tags");
+                //console.log("tk_tags is: " + tk_tags);
+
+                // define the href depending on the tags
+                if (tk_tags == "No tags defined, click on Update tags to define one or more tags to be associated with this data source.") {
+                    setToken("tk_tags_link_main", TokenUtils.replaceTokenNames("Click here to define tags", _.extend(submittedTokenModel.toJSON(), e.data)));
+                    setToken("tk_tags_modal_target", TokenUtils.replaceTokenNames("manage_tags", _.extend(submittedTokenModel.toJSON(), e.data)));
+                } else {
+                    setToken("tk_tags_link_main", TokenUtils.replaceTokenNames("Show tags", _.extend(submittedTokenModel.toJSON(), e.data)));
+                    setToken("tk_tags_modal_target", TokenUtils.replaceTokenNames("manage_tags", _.extend(submittedTokenModel.toJSON(), e.data)));
                 }
 
                 // Manage root search for overview, conditionally define the query depending on the search
@@ -14341,6 +15184,20 @@ require([
                     setToken("tk_priority_class", TokenUtils.replaceTokenNames("title_high_priority", _.extend(submittedTokenModel.toJSON(), e.data)));
                 }
 
+                // Data sampling
+
+                var tk_data_sampling_status_colour = tokens.get("tk_data_sampling_status_colour");
+
+                if (tk_data_sampling_status_colour == "green") {
+                    setToken("tk_data_sampling_status_message_class", TokenUtils.replaceTokenNames("status_message_green", _.extend(submittedTokenModel.toJSON(), e.data)));
+                } else if (tk_data_sampling_status_colour == "orange") {
+                    setToken("tk_data_sampling_status_message_class", TokenUtils.replaceTokenNames("status_message_orange", _.extend(submittedTokenModel.toJSON(), e.data)));
+                } else if (tk_data_sampling_status_colour == "blue") {
+                    setToken("tk_data_sampling_status_message_class", TokenUtils.replaceTokenNames("status_message_blue", _.extend(submittedTokenModel.toJSON(), e.data)));
+                } else if (tk_data_sampling_status_colour == "red") {
+                    setToken("tk_data_sampling_status_message_class", TokenUtils.replaceTokenNames("status_message_red", _.extend(submittedTokenModel.toJSON(), e.data)));
+                }
+
                 // Enable modal context
                 $("#modal_manage").modal();
 
@@ -14379,7 +15236,7 @@ require([
             "id": "elementAckGet",
             "count": 100,
             "drilldown": "row",
-            "fields": "object, object_category, ack_mtime, ack_expiration, ack_state",
+            "fields": "object, ack_mtime, ack_expiration, ack_state, comment",
             "refresh.display": "none",
             "wrap": "false",
             "managerid": "searchAckGet",
@@ -15188,6 +16045,91 @@ require([
                 utils.redirect(url, false, "_blank");
             }
         });
+
+        // Data Sampling
+
+        var tableDataSamplingSummary = new TableElement({
+            "id": "tableDataSamplingSummary",
+            "tokenDependencies": {
+                "depends": "$show_data_sampling$"
+            },
+            "count": 10,
+            "drilldown": "none",
+            "fields": "data_sample_feature, current_detected_format, \" \", previous_detected_format, state, anomaly_reason, multiformat, mtime",
+            "refresh.display": "none",
+            "wrap": "false",
+            "managerid": "searchDataSamplingTable1",
+            "el": $('#tableDataSamplingSummary')
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        }).render();
+
+        var tableDataSamplingShowBuiltinRules = new TableElement({
+            "id": "tableDataSamplingShowBuiltinRules",
+            "tokenDependencies": {
+                "depends": "$show_data_sampling$"
+            },
+            "count": 10,
+            "drilldown": "none",
+            "refresh.display": "none",
+            "wrap": "false",
+            "managerid": "searchDataSamplingShowBuiltinRules",
+            "el": $('#tableDataSamplingShowBuiltinRules')
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        }).render();
+
+        var tableDataSamplingShowCustomRules = new TableElement({
+            "id": "tableDataSamplingShowCustomRules",
+            "tokenDependencies": {
+                "depends": "$show_data_sampling$",
+                "depends": "$show_table_data_sampling_custom_rules$"
+            },
+            "count": 10,
+            "drilldown": "none",
+            "refresh.display": "none",
+            "wrap": "false",
+            "managerid": "searchDataSamplingShowCustomRules",
+            "el": $('#tableDataSamplingShowCustomRules')
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        }).render();
+
+        // Simulation
+        var tableDataSamplingSimulateCustomRule = new TableElement({
+            "id": "tableDataSamplingSimulateCustomRule",
+            "tokenDependencies": {
+                "depends": "$start_simulation_data_sampling_custom_rule$"
+            },
+            "count": 1,
+            "drilldown": "row",
+            "refresh.display": "none",
+            "wrap": "false",
+            "managerid": "searchDataSamplingSimulateCustomRule",
+            "el": $('#tableDataSamplingSimulateCustomRule')
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        }).render();
+
+        var tableDataSamplingSimulateCustomRuleLatestEvent = new TableElement({
+            "id": "tableDataSamplingSimulateCustomRuleLatestEvent",
+            "tokenDependencies": {
+                "depends": "$start_simulation_data_sampling_custom_rule_show_events$"
+            },
+            "count": 5,
+            "drilldown": "row",
+            "refresh.display": "none",
+            "wrap": "false",
+            "managerid": "searchDataSamplingSimulateCustomRuleLatestEvent",
+            "el": $('#tableDataSamplingSimulateCustomRuleLatestEvent')
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        }).render();
 
         // Metric SLA policies
 
@@ -16641,6 +17583,15 @@ require([
             tokenNamespace: "submitted"
         }).render();
 
+        var body_data_source_data_sampling = new HtmlElement({
+            "id": "body_data_source_data_sampling",
+            "useTokens": true,
+            "el": $('#body_data_source_data_sampling')
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        }).render();
+
         var body_data_source_status_message = new HtmlElement({
             "id": "body_data_source_status_message",
             "useTokens": true,
@@ -16684,6 +17635,16 @@ require([
             "id": "body_manage_identity_card",
             "useTokens": true,
             "el": $('#body_manage_identity_card')
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        }).render();
+
+        // tags
+        var body_manage_tags = new HtmlElement({
+            "id": "body_manage_tags",
+            "useTokens": true,
+            "el": $('#body_manage_tags')
         }, {
             tokens: true,
             tokenNamespace: "submitted"
@@ -17103,6 +18064,35 @@ require([
             FormUtils.handleValueChange(inputDataName);
         });
 
+        var inputTags = new MultiSelectInput({
+            "id": "inputTags",
+            "tokenDependencies": {
+                "depends": "$show_data_source_tracker$"
+            },
+            "choices": [{
+                "label": "ALL",
+                "value": "*"
+            }],
+            "searchWhenChanged": true,
+            "showClearButton": true,
+            "labelField": "tags",
+            "valuePrefix": "tags=\"",
+            "valueSuffix": "\"",
+            "delimiter": " OR ",
+            "initialValue": "*",
+            "selectFirstChoice": false,
+            "valueField": "tags",
+            "value": "$form.inputTags$",
+            "managerid": "searchPopulateDataSourcesTags",
+            "el": $('#inputTags')
+        }, {
+            tokens: true
+        }).render();
+
+        inputTags.on("change", function(newValue) {
+            FormUtils.handleValueChange(inputTags);
+        });
+
         var inputDataIndex = new MultiSelectInput({
             "id": "inputDataIndex",
             "tokenDependencies": {
@@ -17156,6 +18146,36 @@ require([
 
         inputDataSourcetype.on("change", function(newValue) {
             FormUtils.handleValueChange(inputDataSourcetype);
+        });
+
+        // tags
+        var modal_input_tags_new = new TextInput({
+            "id": "modal_input_tags_new",
+            "searchWhenChanged": true,
+            "value": "$form.modal_input_tags_new$",
+            "el": $('#modal_input_tags_new')
+        }, {
+            tokens: true
+        }).render();
+
+        modal_input_tags_new.on("change", function(newValue) {
+            FormUtils.handleValueChange(modal_input_tags_new);
+        });
+
+        var modal_input_tags_update = new MultiSelectInput({
+            "id": "modal_input_tags_update",
+            "choices": [],
+            "searchWhenChanged": true,
+            "labelField": "tags",
+            "valueField": "tags",
+            "delimiter": ",",
+            "value": "$form.modal_input_tags_update$",
+            "managerid": "searchShowTags",
+            "el": $('#modal_input_tags_update')
+        }, {tokens: true}).render();
+
+        modal_input_tags_update.on("change", function(newValue) {
+            FormUtils.handleValueChange(modal_input_tags_update);
         });
 
         // metric host monitoring
@@ -17747,7 +18767,7 @@ require([
         var tokens = mvc.Components.get("default");
         var currentUser = Splunk.util.getConfigValue("USERNAME");
         tokens.set("currentUser", currentUser);
-        var auditendpoint_URl = "/en-US/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_audit_changes/"
+        var auditendpoint_URl = "{{SPLUNKWEB_URL_PREFIX}}/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_audit_changes/"
 
         // FUNCTIONS
 
@@ -17892,6 +18912,30 @@ require([
                                 //console.log("  " + field + ": " + value);
                                 setToken("tk_status_message", value);
                                 tk_status_message = value
+                            }
+
+                            // update data sampling
+                            if (field == "data_sample_status_message") {
+                                setToken("tk_data_sampling_status_message", value);
+                                tk_data_sampling_status_message = value
+                                //console.log("  " + field + ": " + value);
+                            }
+
+                            // update state color
+                            if (field == "data_sample_status_colour") {
+                                //console.log("  " + field + ": " + value);
+                                setToken("tk_data_sampling_status_message_class", value);
+                                tk_data_sampling_status_message_class = value
+                                // Dynamically manage state color
+                                if (tk_data_sampling_status_message_class == "green") {
+                                    setToken("tk_data_sampling_status_message_class", "status_message_green");
+                                } else if (tk_data_sampling_status_message_class == "orange") {
+                                    setToken("tk_data_sampling_status_message_class", "status_message_orange");
+                                } else if (tk_data_sampling_status_message_class == "blue") {
+                                    setToken("tk_data_sampling_status_message_class", "status_message_blue");
+                                } else if (tk_data_sampling_status_message_class == "red") {
+                                    setToken("tk_data_sampling_status_message_class", "status_message_red");
+                                }
                             }
 
                         }
@@ -18496,9 +19540,11 @@ require([
             var tk_outlier_span = tokens.get("tk_outlier_span");
             var tk_isoutlier = tokens.get("tk_isoutlier");
             var tk_enable_behaviour_analytic = tokens.get("tk_enable_behaviour_analytic");
+            var tk_isanomaly = tokens.get("tk_isanomaly");
+            var tk_data_sample_lastrun = tokens.get("tk_data_sample_lastrun");
 
             // Create the endpoint URL
-            var myendpoint_URl = "/en-US/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_data_source_monitoring/" + tk_keyid;
+            var myendpoint_URl = "{{SPLUNKWEB_URL_PREFIX}}/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_data_source_monitoring/" + tk_keyid;
 
             // Create a dictionary to store the field names and values
             var record = {
@@ -18532,6 +19578,8 @@ require([
                 "OutlierSpan": tk_outlier_span,
                 "isOutlier": tk_isoutlier,
                 "enable_behaviour_analytic" : tk_enable_behaviour_analytic,
+                "isAnomaly": tk_isanomaly,
+                "data_sample_lastrun": tk_data_sample_lastrun,
                 "latest_flip_state": tk_latest_flip_state,
                 "latest_flip_time": tk_latest_flip_time,
                 "priority": tk_priority
@@ -18656,7 +19704,7 @@ require([
             var tk_enable_behaviour_analytic = tokens.get("tk_enable_behaviour_analytic");
 
             // Create the endpoint URL
-            var myendpoint_URl = "/en-US/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_host_monitoring/" + tk_keyid;
+            var myendpoint_URl = "{{SPLUNKWEB_URL_PREFIX}}/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_host_monitoring/" + tk_keyid;
 
             // Create a dictionary to store the field names and values
             var record = {
@@ -18857,7 +19905,7 @@ require([
             var tk_priority = tokens.get("tk_priority");
 
             // Create the endpoint URL
-            var myendpoint_URl = "/en-US/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_metric_host_monitoring/" + tk_keyid;
+            var myendpoint_URl = "{{SPLUNKWEB_URL_PREFIX}}/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_metric_host_monitoring/" + tk_keyid;
 
             // Create a dictionary to store the field names and values
             var record = {
@@ -18989,7 +20037,7 @@ require([
             var tk_priority = tokens.get("tk_priority");
 
             // Create the endpoint URL
-            var myendpoint_URl = "/en-US/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_metric_host_monitoring/" + tk_keyid;
+            var myendpoint_URl = "{{SPLUNKWEB_URL_PREFIX}}/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_metric_host_monitoring/" + tk_keyid;
 
             var tk_origin_priority = tk_priority;
             var tk_new_priority = tokens.get("tk_input_metric_host_priority");
@@ -19121,9 +20169,11 @@ require([
             var tk_outlier_span = tokens.get("tk_outlier_span");
             var tk_isoutlier = tokens.get("tk_isoutlier");
             var tk_enable_behaviour_analytic = tokens.get("tk_enable_behaviour_analytic");
+            var tk_isanomaly = tokens.get("tk_isanomaly");
+            var tk_data_sample_lastrun = tokens.get("tk_data_sample_lastrun");
 
             // Create the endpoint URL
-            var myendpoint_URl = "/en-US/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_data_source_monitoring/" + tk_keyid;
+            var myendpoint_URl = "{{SPLUNKWEB_URL_PREFIX}}/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_data_source_monitoring/" + tk_keyid;
 
             // Create a dictionary to store the field names and values
             var record = {
@@ -19157,6 +20207,8 @@ require([
                 "OutlierSpan": tk_outlier_span,
                 "isOutlier": tk_isoutlier,
                 "enable_behaviour_analytic" : tk_enable_behaviour_analytic,
+                "isAnomaly": tk_isanomaly,
+                "data_sample_lastrun": tk_data_sample_lastrun,
                 "latest_flip_state": tk_latest_flip_state,
                 "latest_flip_time": tk_latest_flip_time,
                 "priority": tk_priority
@@ -19281,7 +20333,7 @@ require([
             var tk_enable_behaviour_analytic = tokens.get("tk_enable_behaviour_analytic");
 
             // Create the endpoint URL
-            var myendpoint_URl = "/en-US/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_host_monitoring/" + tk_keyid;
+            var myendpoint_URl = "{{SPLUNKWEB_URL_PREFIX}}/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_host_monitoring/" + tk_keyid;
 
             // Create a dictionary to store the field names and values
             var record = {
@@ -19422,7 +20474,7 @@ require([
             var tk_priority = tokens.get("tk_priority");
 
             // Create the endpoint URL
-            var myendpoint_URl = "/en-US/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_metric_host_monitoring/" + tk_keyid;
+            var myendpoint_URl = "{{SPLUNKWEB_URL_PREFIX}}/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_metric_host_monitoring/" + tk_keyid;
 
             // Create a dictionary to store the field names and values
             var record = {
@@ -19573,7 +20625,7 @@ require([
             };
 
             // Create the endpoint URL
-            var myendpoint_URl = "/en-US/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_metric_host_monitoring/" + tk_keyid;
+            var myendpoint_URl = "{{SPLUNKWEB_URL_PREFIX}}/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_metric_host_monitoring/" + tk_keyid;
 
             if (tk_keyid && tk_keyid.length) {
 
@@ -19782,6 +20834,8 @@ require([
             var tk_outlier_span = tokens.get("tk_outlier_span");
             var tk_isoutlier = tokens.get("tk_isoutlier");
             var tk_enable_behaviour_analytic = tokens.get("tk_enable_behaviour_analytic");
+            var tk_isanomaly = tokens.get("tk_isanomaly");
+            var tk_data_sample_lastrun = tokens.get("tk_data_sample_lastrun");
             var tk_latest_flip_state = tokens.get("tk_latest_flip_state");
             var tk_latest_flip_time = tokens.get("tk_latest_flip_time");
             var tk_priority = tokens.get("tk_priority");
@@ -19814,13 +20868,15 @@ require([
                 "OutlierSpan": tk_outlier_span,
                 "isOutlier": tk_isoutlier,
                 "enable_behaviour_analytic" : tk_enable_behaviour_analytic,
+                "isAnomaly": tk_isanomaly,
+                "data_sample_lastrun": tk_data_sample_lastrun,
                 "latest_flip_state": tk_latest_flip_state,
                 "latest_flip_time": tk_latest_flip_time,
                 "priority": tk_priority
             };
 
             // Create the endpoint URL
-            var myendpoint_URl = "/en-US/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_data_source_monitoring/" + tk_keyid;
+            var myendpoint_URl = "{{SPLUNKWEB_URL_PREFIX}}/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_data_source_monitoring/" + tk_keyid;
 
             if (tk_keyid && tk_keyid.length) {
 
@@ -20061,7 +21117,7 @@ require([
             };
 
             // Create the endpoint URL
-            var myendpoint_URl = "/en-US/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_host_monitoring/" + tk_keyid;
+            var myendpoint_URl = "{{SPLUNKWEB_URL_PREFIX}}/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_host_monitoring/" + tk_keyid;
 
             if (tk_keyid && tk_keyid.length) {
 
@@ -20358,7 +21414,7 @@ require([
         //console.log("removal of key :" + item);
 
             // Create the endpoint URL
-            var myendpoint_URl = "/en-US/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_metric_lagging_definition/" + item;
+            var myendpoint_URl = "{{SPLUNKWEB_URL_PREFIX}}/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_metric_lagging_definition/" + item;
 
             //console.log("Endpoint URL is: " + myendpoint_URl);
 
@@ -20493,7 +21549,7 @@ require([
             var tk_input_custom_lagging_value = tokens.get("tk_input_custom_lagging_value");
 
             // Create the endpoint URL
-            var myendpoint_URl = "/en-US/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_custom_lagging_definition";
+            var myendpoint_URl = "{{SPLUNKWEB_URL_PREFIX}}/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_custom_lagging_definition";
 
             //console.log("Endpoint URL is: " + myendpoint_URl);
 
@@ -20607,7 +21663,7 @@ require([
         //console.log("removal of key :" + item);
 
             // Create the endpoint URL
-            var myendpoint_URl = "/en-US/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_custom_lagging_definition/" + item;
+            var myendpoint_URl = "{{SPLUNKWEB_URL_PREFIX}}/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_custom_lagging_definition/" + item;
 
             //console.log("Endpoint URL is: " + myendpoint_URl);
 
@@ -20741,7 +21797,7 @@ require([
             var tk_keyid = tokens.get("tk_keyid");
 
             // Create the endpoint URL
-            var myendpoint_URl = "/en-US/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_custom_lagging_definition/" + tk_keyid;
+            var myendpoint_URl = "{{SPLUNKWEB_URL_PREFIX}}/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_custom_lagging_definition/" + tk_keyid;
 
             // Get tokens
             var tk_input_custom_lagging_type = tokens.get("tk_input_custom_lagging_type");
@@ -20826,7 +21882,7 @@ require([
             var tk_input_whitelist_data_source = tokens.get("tk_input_whitelist_data_source");
 
             // Create the endpoint URL
-            var myendpoint_URl = "/en-US/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_data_source_monitoring_whitelist_index";
+            var myendpoint_URl = "{{SPLUNKWEB_URL_PREFIX}}/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_data_source_monitoring_whitelist_index";
 
             //console.log("Endpoint URL is: " + myendpoint_URl);
 
@@ -20947,7 +22003,7 @@ require([
           //console.log("removal of key :" + item);
 
             // Create the endpoint URL
-            var myendpoint_URl = "/en-US/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_data_source_monitoring_whitelist_index/" + item;
+            var myendpoint_URl = "{{SPLUNKWEB_URL_PREFIX}}/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_data_source_monitoring_whitelist_index/" + item;
 
             //console.log("Endpoint URL is: " + myendpoint_URl);
 
@@ -21080,7 +22136,7 @@ require([
             var tk_input_whitelist_metric_host = tokens.get("tk_input_whitelist_metric_host");
 
             // Create the endpoint URL
-            var myendpoint_URl = "/en-US/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_metric_host_monitoring_whitelist_index";
+            var myendpoint_URl = "{{SPLUNKWEB_URL_PREFIX}}/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_metric_host_monitoring_whitelist_index";
 
             //console.log("Endpoint URL is: " + myendpoint_URl);
 
@@ -21201,7 +22257,7 @@ require([
           //console.log("removal of key :" + item);
 
             // Create the endpoint URL
-            var myendpoint_URl = "/en-US/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_metric_host_monitoring_whitelist_index/" + item;
+            var myendpoint_URl = "{{SPLUNKWEB_URL_PREFIX}}/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_metric_host_monitoring_whitelist_index/" + item;
 
             //console.log("Endpoint URL is: " + myendpoint_URl);
 
@@ -21334,7 +22390,7 @@ require([
             var tk_input_whitelist_data_host = tokens.get("tk_input_whitelist_data_host");
 
             // Create the endpoint URL
-            var myendpoint_URl = "/en-US/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_data_host_monitoring_whitelist_index";
+            var myendpoint_URl = "{{SPLUNKWEB_URL_PREFIX}}/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_data_host_monitoring_whitelist_index";
 
             //console.log("Endpoint URL is: " + myendpoint_URl);
 
@@ -21455,7 +22511,7 @@ require([
           //console.log("removal of key :" + item);
 
             // Create the endpoint URL
-            var myendpoint_URl = "/en-US/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_data_host_monitoring_whitelist_index/" + item;
+            var myendpoint_URl = "{{SPLUNKWEB_URL_PREFIX}}/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_data_host_monitoring_whitelist_index/" + item;
 
             //console.log("Endpoint URL is: " + myendpoint_URl);
 
@@ -21592,7 +22648,7 @@ require([
             var tk_input_blacklist_host = tokens.get("tk_input_data_source_blacklist_host");
 
             // Create the endpoint URL
-            var myendpoint_URl = "/en-US/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_data_source_monitoring_blacklist_host";
+            var myendpoint_URl = "{{SPLUNKWEB_URL_PREFIX}}/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_data_source_monitoring_blacklist_host";
 
             //console.log("Endpoint URL is: " + myendpoint_URl);
 
@@ -21710,7 +22766,7 @@ require([
         //console.log("removal of key :" + item);
 
             // Create the endpoint URL
-            var myendpoint_URl = "/en-US/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_data_source_monitoring_blacklist_host/" + item;
+            var myendpoint_URl = "{{SPLUNKWEB_URL_PREFIX}}/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_data_source_monitoring_blacklist_host/" + item;
 
             //console.log("Endpoint URL is: " + myendpoint_URl);
 
@@ -21842,7 +22898,7 @@ require([
             var tk_input_blacklist_host = tokens.get("tk_input_data_host_blacklist_host");
 
             // Create the endpoint URL
-            var myendpoint_URl = "/en-US/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_data_host_monitoring_blacklist_host";
+            var myendpoint_URl = "{{SPLUNKWEB_URL_PREFIX}}/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_data_host_monitoring_blacklist_host";
 
             //console.log("Endpoint URL is: " + myendpoint_URl);
 
@@ -21965,7 +23021,7 @@ require([
             var tk_input_blacklist_index = tokens.get("tk_input_blacklist_index");
 
             // Create the endpoint URL
-            var myendpoint_URl = "/en-US/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_data_source_monitoring_blacklist_index";
+            var myendpoint_URl = "{{SPLUNKWEB_URL_PREFIX}}/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_data_source_monitoring_blacklist_index";
 
             //console.log("Endpoint URL is: " + myendpoint_URl);
 
@@ -22084,7 +23140,7 @@ require([
         //console.log("removal of key :" + item);
 
             // Create the endpoint URL
-            var myendpoint_URl = "/en-US/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_data_source_monitoring_blacklist_index/" + item;
+            var myendpoint_URl = "{{SPLUNKWEB_URL_PREFIX}}/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_data_source_monitoring_blacklist_index/" + item;
 
             //console.log("Endpoint URL is: " + myendpoint_URl);
 
@@ -22214,7 +23270,7 @@ require([
         //console.log("removal of key :" + item);
 
             // Create the endpoint URL
-            var myendpoint_URl = "/en-US/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_data_host_monitoring_blacklist_index/" + item;
+            var myendpoint_URl = "{{SPLUNKWEB_URL_PREFIX}}/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_data_host_monitoring_blacklist_index/" + item;
 
             //console.log("Endpoint URL is: " + myendpoint_URl);
 
@@ -22346,7 +23402,7 @@ require([
             var tk_input_blacklist_index = tokens.get("tk_input_data_host_blacklist_index");
 
             // Create the endpoint URL
-            var myendpoint_URl = "/en-US/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_data_host_monitoring_blacklist_index";
+            var myendpoint_URl = "{{SPLUNKWEB_URL_PREFIX}}/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_data_host_monitoring_blacklist_index";
 
             //console.log("Endpoint URL is: " + myendpoint_URl);
 
@@ -22465,7 +23521,7 @@ require([
         //console.log("removal of key :" + item);
 
             // Create the endpoint URL
-            var myendpoint_URl = "/en-US/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_data_host_monitoring_blacklist_host/" + item;
+            var myendpoint_URl = "{{SPLUNKWEB_URL_PREFIX}}/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_data_host_monitoring_blacklist_host/" + item;
 
             //console.log("Endpoint URL is: " + myendpoint_URl);
 
@@ -22597,7 +23653,7 @@ require([
             var tk_input_blacklist_index = tokens.get("tk_input_metric_host_blacklist_index");
 
             // Create the endpoint URL
-            var myendpoint_URl = "/en-US/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_data_source_monitoring_blacklist_index";
+            var myendpoint_URl = "{{SPLUNKWEB_URL_PREFIX}}/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_data_source_monitoring_blacklist_index";
 
             //console.log("Endpoint URL is: " + myendpoint_URl);
 
@@ -22716,7 +23772,7 @@ require([
         //console.log("removal of key :" + item);
 
             // Create the endpoint URL
-            var myendpoint_URl = "/en-US/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_metric_host_monitoring_blacklist_index/" + item;
+            var myendpoint_URl = "{{SPLUNKWEB_URL_PREFIX}}/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_metric_host_monitoring_blacklist_index/" + item;
 
             //console.log("Endpoint URL is: " + myendpoint_URl);
 
@@ -22848,7 +23904,7 @@ require([
             var tk_input_blacklist_sourcetype = tokens.get("tk_input_data_source_blacklist_sourcetype");
 
             // Create the endpoint URL
-            var myendpoint_URl = "/en-US/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_data_source_monitoring_blacklist_sourcetype";
+            var myendpoint_URl = "{{SPLUNKWEB_URL_PREFIX}}/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_data_source_monitoring_blacklist_sourcetype";
 
             //console.log("Endpoint URL is: " + myendpoint_URl);
 
@@ -22967,7 +24023,7 @@ require([
         //console.log("removal of key :" + item);
 
             // Create the endpoint URL
-            var myendpoint_URl = "/en-US/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_data_source_monitoring_blacklist_sourcetype/" + item;
+            var myendpoint_URl = "{{SPLUNKWEB_URL_PREFIX}}/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_data_source_monitoring_blacklist_sourcetype/" + item;
 
             //console.log("Endpoint URL is: " + myendpoint_URl);
 
@@ -23099,7 +24155,7 @@ require([
             var tk_input_blacklist_sourcetype = tokens.get("tk_input_data_host_blacklist_sourcetype");
 
             // Create the endpoint URL
-            var myendpoint_URl = "/en-US/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_data_host_monitoring_blacklist_sourcetype";
+            var myendpoint_URl = "{{SPLUNKWEB_URL_PREFIX}}/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_data_host_monitoring_blacklist_sourcetype";
 
             //console.log("Endpoint URL is: " + myendpoint_URl);
 
@@ -23218,7 +24274,7 @@ require([
         //console.log("removal of key :" + item);
 
             // Create the endpoint URL
-            var myendpoint_URl = "/en-US/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_data_host_monitoring_blacklist_sourcetype/" + item;
+            var myendpoint_URl = "{{SPLUNKWEB_URL_PREFIX}}/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_data_host_monitoring_blacklist_sourcetype/" + item;
 
             //console.log("Endpoint URL is: " + myendpoint_URl);
 
@@ -23351,7 +24407,7 @@ require([
             var tk_input_blacklist_host = tokens.get("tk_input_metric_host_blacklist_host");
 
             // Create the endpoint URL
-            var myendpoint_URl = "/en-US/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_metric_host_monitoring_blacklist_host";
+            var myendpoint_URl = "{{SPLUNKWEB_URL_PREFIX}}/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_metric_host_monitoring_blacklist_host";
 
             //console.log("Endpoint URL is: " + myendpoint_URl);
 
@@ -23470,7 +24526,7 @@ require([
         //console.log("removal of key :" + item);
 
             // Create the endpoint URL
-            var myendpoint_URl = "/en-US/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_metric_host_monitoring_blacklist_host/" + item;
+            var myendpoint_URl = "{{SPLUNKWEB_URL_PREFIX}}/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_metric_host_monitoring_blacklist_host/" + item;
 
             //console.log("Endpoint URL is: " + myendpoint_URl);
 
@@ -23602,7 +24658,7 @@ require([
             var tk_input_blacklist_metric_category = tokens.get("tk_input_metric_host_blacklist_metric_category");
 
             // Create the endpoint URL
-            var myendpoint_URl = "/en-US/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_metric_host_monitoring_blacklist_metric_category";
+            var myendpoint_URl = "{{SPLUNKWEB_URL_PREFIX}}/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_metric_host_monitoring_blacklist_metric_category";
 
             //console.log("Endpoint URL is: " + myendpoint_URl);
 
@@ -23721,7 +24777,7 @@ require([
         //console.log("removal of key :" + item);
 
             // Create the endpoint URL
-            var myendpoint_URl = "/en-US/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_metric_host_monitoring_blacklist_metric_category/" + item;
+            var myendpoint_URl = "{{SPLUNKWEB_URL_PREFIX}}/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_metric_host_monitoring_blacklist_metric_category/" + item;
 
             //console.log("Endpoint URL is: " + myendpoint_URl);
 
@@ -24075,7 +25131,7 @@ require([
 
                 if (start_simulation_elastic_sources && start_simulation_elastic_sources == 'true') {
 
-                    var myendpoint_URl = "/en-US/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_elastic_sources/"
+                    var myendpoint_URl = "{{SPLUNKWEB_URL_PREFIX}}/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_elastic_sources/"
 
                     // Create a dictionary to store the field names and values
                     var record = {
@@ -24174,7 +25230,9 @@ require([
                 if (start_simulation_elastic_sources && start_simulation_elastic_sources == 'true') {
 
                     // Create a unique name for the tracker
-                    var tracker_name = "TrackMe - " + tk_input_elastic_source_data_name + " elastic tracker " + uuid();
+                    var tracker_name = "TrackMe - " + tk_input_elastic_source_data_name + " tracker " + uuid();
+                    // Splunk limits report names to max 100 chars, and will refuse otherwise
+                    tracker_name = tracker_name.substring(0, 100);
                     setToken("tk_tracker_name", tracker_name);
 
                     // define the alert search
@@ -24205,7 +25263,8 @@ require([
                         "dispatch.earliest_time": tk_input_elastic_source_earliest,
                         "dispatch.latest_time": tk_input_elastic_source_latest,
                         "is_scheduled": "1",
-                        "cron_schedule": "*/5 * * * *"
+                        "cron_schedule": "*/5 * * * *",
+                        "schedule_window": "1"
                     };
 
                     // Create a saved search/report as an alert.
@@ -24266,7 +25325,7 @@ require([
                         auditRecord(action, change_type, object, object_category, object_attrs, result, comment);
 
                         // Store in the KVstore for mapping purposes
-                            var myendpoint_URl = "/en-US/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_elastic_sources_dedicated/"
+                            var myendpoint_URl = "{{SPLUNKWEB_URL_PREFIX}}/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_elastic_sources_dedicated/"
 
                             // Create a dictionary to store the field names and values
                             var record = {
@@ -24504,7 +25563,7 @@ require([
         //console.log("removal of key :" + item);
 
             // Create the endpoint URL
-            var myendpoint_URl = "/en-US/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_elastic_sources/" + item;
+            var myendpoint_URl = "{{SPLUNKWEB_URL_PREFIX}}/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_elastic_sources/" + item;
 
             //console.log("Endpoint URL is: " + myendpoint_URl);
 
@@ -25649,6 +26708,8 @@ require([
             var tk_outlier_span = tokens.get("tk_outlier_span");
             var tk_isoutlier = tokens.get("tk_isoutlier");
             var tk_enable_behaviour_analytic = tokens.get("tk_enable_behaviour_analytic");
+            var tk_isanomaly = tokens.get("tk_isanomaly");
+            var tk_data_sample_lastrun = tokens.get("tk_data_sample_lastrun");
             var tk_latest_flip_state = tokens.get("tk_latest_flip_state");
             var tk_latest_flip_time = tokens.get("tk_latest_flip_time");
             var tk_priority = tokens.get("tk_priority");
@@ -25656,7 +26717,7 @@ require([
             //console.log("Value of modal_input_grace_period is: " + tk_kafka_infra_grace_period);
 
             // Create the endpoint URL
-            var myendpoint_URl = "/en-US/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_data_source_monitoring/" + tk_keyid;
+            var myendpoint_URl = "{{SPLUNKWEB_URL_PREFIX}}/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_data_source_monitoring/" + tk_keyid;
 
             var tk_origin_data_monitoring_wdays = tokens.get("tk_data_monitoring_wdays");
             var tk_data_monitoring_wdays = tokens.get("tk_input_wdays");
@@ -25699,6 +26760,8 @@ require([
                     "OutlierSpan": tk_outlier_span,
                     "isOutlier": tk_isoutlier,
                     "enable_behaviour_analytic" : tk_enable_behaviour_analytic,
+                    "isAnomaly": tk_isanomaly,
+                    "data_sample_lastrun": tk_data_sample_lastrun,
                     "latest_flip_state": tk_latest_flip_state,
                     "latest_flip_time": tk_latest_flip_time,
                     "priority": tk_priority
@@ -25800,6 +26863,8 @@ require([
             var tk_outlier_span = tokens.get("tk_outlier_span");
             var tk_isoutlier = tokens.get("tk_isoutlier");
             var tk_enable_behaviour_analytic = tokens.get("tk_enable_behaviour_analytic");
+            var tk_isanomaly = tokens.get("tk_isanomaly");
+            var tk_data_sample_lastrun = tokens.get("tk_data_sample_lastrun");
             var tk_latest_flip_state = tokens.get("tk_latest_flip_state");
             var tk_latest_flip_time = tokens.get("tk_latest_flip_time");
             var tk_priority = tokens.get("tk_priority");
@@ -25807,7 +26872,7 @@ require([
             //console.log("Value of modal_input_grace_period is: " + tk_kafka_infra_grace_period);
 
             // Create the endpoint URL
-            var myendpoint_URl = "/en-US/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_data_source_monitoring/" + tk_keyid;
+            var myendpoint_URl = "{{SPLUNKWEB_URL_PREFIX}}/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_data_source_monitoring/" + tk_keyid;
 
             var tk_origin_priority = tk_priority;
             var tk_new_priority = tokens.get("tk_input_priority");
@@ -25850,6 +26915,8 @@ require([
                     "OutlierSpan": tk_outlier_span,
                     "isOutlier": tk_isoutlier,
                     "enable_behaviour_analytic" : tk_enable_behaviour_analytic,
+                    "isAnomaly": tk_isanomaly,
+                    "data_sample_lastrun": tk_data_sample_lastrun,
                     "latest_flip_state": tk_latest_flip_state,
                     "latest_flip_time": tk_latest_flip_time,
                     "priority": tk_new_priority
@@ -25957,6 +27024,8 @@ require([
             var tk_outlier_span = tokens.get("tk_outlier_span");
             var tk_isoutlier = tokens.get("tk_isoutlier");
             var tk_enable_behaviour_analytic = tokens.get("tk_enable_behaviour_analytic");
+            var tk_isanomaly = tokens.get("tk_isanomaly");
+            var tk_data_sample_lastrun = tokens.get("tk_data_sample_lastrun");
             var tk_latest_flip_state = tokens.get("tk_latest_flip_state");
             var tk_latest_flip_time = tokens.get("tk_latest_flip_time");
             var tk_priority = tokens.get("tk_priority");
@@ -25964,7 +27033,7 @@ require([
             //console.log("Value of modal_input_grace_period is: " + tk_kafka_infra_grace_period);
 
             // Create the endpoint URL
-            var myendpoint_URl = "/en-US/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_data_source_monitoring/" + tk_keyid;
+            var myendpoint_URl = "{{SPLUNKWEB_URL_PREFIX}}/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_data_source_monitoring/" + tk_keyid;
 
             var tk_origin_data_monitoring_wdays = tokens.get("tk_data_monitoring_wdays");
             var tk_data_monitoring_wdays_no = tokens.get("tk_input_wdays_no");
@@ -26007,6 +27076,8 @@ require([
                     "OutlierSpan": tk_outlier_span,
                     "isOutlier": tk_isoutlier,
                     "enable_behaviour_analytic" : tk_enable_behaviour_analytic,
+                    "isAnomaly": tk_isanomaly,
+                    "data_sample_lastrun": tk_data_sample_lastrun,
                     "latest_flip_state": tk_latest_flip_state,
                     "latest_flip_time": tk_latest_flip_time,
                     "priority": tk_priority
@@ -26126,6 +27197,8 @@ require([
             var tk_outlier_span = tokens.get("tk_outlier_span");
             var tk_isoutlier = tokens.get("tk_isoutlier");
             var tk_enable_behaviour_analytic = tokens.get("tk_enable_behaviour_analytic");
+            var tk_isanomaly = tokens.get("tk_isanomaly");
+            var tk_data_sample_lastrun = tokens.get("tk_data_sample_lastrun");
             var tk_latest_flip_state = tokens.get("tk_latest_flip_state");
             var tk_latest_flip_time = tokens.get("tk_latest_flip_time");
             var tk_priority = tokens.get("tk_priority");
@@ -26133,7 +27206,7 @@ require([
             //console.log("Value of modal_input_grace_period is: " + tk_kafka_infra_grace_period);
 
             // Create the endpoint URL
-            var myendpoint_URl = "/en-US/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_data_source_monitoring/" + tk_keyid;
+            var myendpoint_URl = "{{SPLUNKWEB_URL_PREFIX}}/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_data_source_monitoring/" + tk_keyid;
 
             var tk_data_monitoring_level = tokens.get("tk_input_level");
             var tk_origin_data_monitoring_level = tokens.get("tk_data_monitoring_level");
@@ -26176,6 +27249,8 @@ require([
                     "OutlierSpan": tk_outlier_span,
                     "isOutlier": tk_isoutlier,
                     "enable_behaviour_analytic" : tk_enable_behaviour_analytic,
+                    "isAnomaly": tk_isanomaly,
+                    "data_sample_lastrun": tk_data_sample_lastrun,
                     "latest_flip_state": tk_latest_flip_state,
                     "latest_flip_time": tk_latest_flip_time,
                     "priority": tk_priority
@@ -26284,6 +27359,8 @@ require([
             var tk_outlier_span = tokens.get("tk_outlier_span");
             var tk_isoutlier = tokens.get("tk_isoutlier");
             var tk_enable_behaviour_analytic = tokens.get("tk_enable_behaviour_analytic");
+            var tk_isanomaly = tokens.get("tk_isanomaly");
+            var tk_data_sample_lastrun = tokens.get("tk_data_sample_lastrun");
             var tk_latest_flip_state = tokens.get("tk_latest_flip_state");
             var tk_latest_flip_time = tokens.get("tk_latest_flip_time");
             var tk_priority = tokens.get("tk_priority");
@@ -26291,7 +27368,7 @@ require([
             //console.log("Value of modal_input_grace_period is: " + tk_kafka_infra_grace_period);
 
             // Create the endpoint URL
-            var myendpoint_URl = "/en-US/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_data_source_monitoring/" + tk_keyid;
+            var myendpoint_URl = "{{SPLUNKWEB_URL_PREFIX}}/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_data_source_monitoring/" + tk_keyid;
 
             // max lag allowed
             var tk_data_max_lag_allowed = tokens.get("tk_input_lag");
@@ -26340,6 +27417,8 @@ require([
                     "OutlierSpan": tk_outlier_span,
                     "isOutlier": tk_isoutlier,
                     "enable_behaviour_analytic" : tk_enable_behaviour_analytic,
+                    "isAnomaly": tk_isanomaly,
+                    "data_sample_lastrun": tk_data_sample_lastrun,
                     "latest_flip_state": tk_latest_flip_state,
                     "latest_flip_time": tk_latest_flip_time,
                     "priority": tk_priority
@@ -27180,7 +28259,7 @@ require([
             //console.log("Value of modal_input_grace_period is: " + tk_kafka_infra_grace_period);
 
             // Create the endpoint URL
-            var myendpoint_URl = "/en-US/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_host_monitoring/" + tk_keyid;
+            var myendpoint_URl = "{{SPLUNKWEB_URL_PREFIX}}/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_host_monitoring/" + tk_keyid;
 
             var tk_origin_data_monitoring_wdays = tokens.get("tk_data_monitoring_wdays");
             var tk_data_monitoring_wdays = tokens.get("tk_input_wdays_host");
@@ -27319,7 +28398,7 @@ require([
             var tk_priority = tokens.get("tk_priority");
 
             // Create the endpoint URL
-            var myendpoint_URl = "/en-US/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_host_monitoring/" + tk_keyid;
+            var myendpoint_URl = "{{SPLUNKWEB_URL_PREFIX}}/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_host_monitoring/" + tk_keyid;
 
             var tk_origin_priority = tk_priority;
             var tk_new_priority = tokens.get("tk_input_host_priority");
@@ -27468,7 +28547,7 @@ require([
             //console.log("Value of modal_input_grace_period is: " + tk_kafka_infra_grace_period);
 
             // Create the endpoint URL
-            var myendpoint_URl = "/en-US/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_host_monitoring/" + tk_keyid;
+            var myendpoint_URl = "{{SPLUNKWEB_URL_PREFIX}}/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_host_monitoring/" + tk_keyid;
 
             var tk_origin_data_monitoring_wdays = tokens.get("tk_data_monitoring_wdays");
             var tk_data_monitoring_wdays_no = tokens.get("tk_input_wdays_host_no");
@@ -27634,7 +28713,7 @@ require([
             //console.log("Value of modal_input_grace_period is: " + tk_kafka_infra_grace_period);
 
             // Create the endpoint URL
-            var myendpoint_URl = "/en-US/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_host_monitoring/" + tk_keyid;
+            var myendpoint_URl = "{{SPLUNKWEB_URL_PREFIX}}/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_host_monitoring/" + tk_keyid;
 
             // max lag allowed
             var tk_data_max_lag_allowed = tokens.get("tk_input_lag_host");
@@ -28420,6 +29499,452 @@ require([
                             }
                         });
                     }
+                }
+            );
+
+        });
+
+        // tags
+
+        // back button
+        $("#btn_back_manage_tags").click(function() {
+            // Show input modal
+            $("#modal_manage").modal();
+        });
+
+        // back button
+        $("#btn_back_update_tags").click(function() {
+            // Show input modal
+            $("#manage_tags").modal();
+        });
+
+        // update button
+        $("#btn_modify_manage_tags").click(function() {
+
+            submitTokens();
+
+            // When the Submit button is clicked, get all the form fields by accessing token values
+            var tokens = mvc.Components.get("default");
+
+            // Refresh the multiselect
+            unsetToken("form.modal_input_tags_update");
+            unsetToken("modal_input_tags_update");
+
+            // Refresh the main search
+            searchShowTags.startSearch();
+
+            // Show input modal
+            $("#update_tags").modal();
+        });
+
+        // add button
+        $("#btn_modal_tags_add").click(function() {
+
+            submitTokens();
+
+            // When the Submit button is clicked, get all the form fields by accessing token values
+            var tokens = mvc.Components.get("default");
+
+            // Retrieve input values
+            var tk_tags_new = tokens.get("modal_input_tags_new");
+            var tk_tags = tokens.get("tk_tags");
+            var tk_tags_csv;
+            //console.log("tk_tags is: " + tk_tags);
+
+            // Combine current and new tag if relevant
+            if (tk_tags !== "No tags defined, click on Update tags to define one or more tags to be associated with this data source.") {                    
+                // form a csv tags list
+                tk_tags_csv = tk_tags.replace(/ \/ /g, ",");
+                tk_tags_new = tk_tags_csv + "," + tk_tags_new;
+                //console.log("tk_tags_csv is: " + tk_tags_csv);            
+            }           
+            //console.log("tk_tags_new is: " + tk_tags_new);
+
+            // Get tk mains
+            var tk_data_name = tokens.get("tk_data_name");
+            var tk_keyid = tokens.get("tk_keyid");
+            
+            // Define the query
+            var searchQuery = "| inputlookup trackme_data_source_monitoring where _key=\"" + tk_keyid + "\" | eval keyid=_key, tags=\"" + tk_tags_new + "\" | outputlookup trackme_data_source_monitoring append=t key_field=keyid";
+            //console.log(searchQuery);
+
+            // Set the search parameters--specify a time range
+            var searchParams = {
+                earliest_time: "-60m",
+                latest_time: "now"
+            };
+
+            // Run a blocking search and get back a job
+            service.search(
+                searchQuery,
+                searchParams,
+                function(err, job) {
+
+                    function audit_failure() {
+
+                        // Audit
+                        action = "failure";
+                        change_type = "add tags";
+                        object = tk_data_name;
+                        object_category = "data_source";
+                        object_attrs = tk_tags_new;
+                        result = "N/A";
+                        comment = "N/A";
+                        auditRecord(action, change_type, object, object_category, object_attrs, result, comment);
+
+                    }
+
+                    // Shall the search fail before we can get properties
+                    if (job == null) {
+                        let errorStr = "Unknown Error!";
+                        if (err && err.data && err.data.messages && err.data.messages[0]['text']) {
+                            errorStr = err.data.messages[0]['text'];
+                        } else if (err && err.data && err.data.messages) {
+                            errorStr = JSON.stringify(err.data.messages);
+                        }
+                        audit_failure();
+                        $("#modal_update_collection_failure_return").find('.modal-error-message p').text(errorStr);
+                        $("#modal_update_collection_failure_return").modal()
+                    } else {
+
+                        // Poll the status of the search job
+                        job.track({
+                            period: 200
+                        }, {
+                            done: function(job) {
+
+                                // show notify
+                                notification('New tag successfully added.', 6000)
+
+                                // Update the tags token
+                                tk_tags_audit = tk_tags_new
+                                tk_tags_new = tk_tags_new.replace(/,/g, " / ");
+                                setToken("tk_tags", tk_tags_new);
+
+                                // Refresh the multiselect
+                                unsetToken("form.modal_input_tags_update");
+                                unsetToken("modal_input_tags_update");
+
+                                // Refresh the main search
+                                searchShowTags.startSearch();
+                                searchDataSourcesMain.startSearch();
+
+                                var deps = [
+                                    "splunkjs/ready!"
+                                ];
+                                require(deps, function(mvc) {
+
+                                    var idSelectTags = mvc.Components.get('modal_input_tags_update');
+                                    allValues = [];
+                                    uniqueNames = [];
+
+                                    var idSearchSelectTags = mvc.Components.get("searchShowTags");
+                                    var idSearchSelectTags_results = idSearchSelectTags.data("preview");
+                                    idSearchSelectTags_results.on("data", function() {
+                                        $.each(idSearchSelectTags_results.data().rows, function( index, value ) {
+                                            allValues.push(value[0]);
+                                        });
+                                        $.each(allValues, function(i, el){
+                                        if($.inArray(el, uniqueNames) === -1) uniqueNames.push(el);
+                                        });
+                                    //console.log("allValues is: " + allValues);
+                                    //console.log("uniqueNames is " + uniqueNames);
+                                    idSelectTags.settings.set("default",uniqueNames);
+                                    });
+                                });
+
+                                // Make sure the link exposes Show tags
+                                setToken("tk_tags_link_main", "Show tags");
+
+                                // Audit
+                                action = "success";
+                                change_type = "add tags";
+                                object = tk_data_name;
+                                object_category = "data_source";
+                                object_attrs = tk_tags_audit;
+                                result = "N/A";
+                                comment = "N/A";
+                                auditRecord(action, change_type, object, object_category, object_attrs, result, comment);
+
+                            },
+                            failed: function(properties) {
+                                let errorStr = "Unknown Error!";
+                                if (properties && properties._properties && properties._properties.messages && properties._properties.messages[0]['text']) {
+                                    errorStr = properties._properties.messages[0]['text'];
+                                } else if (properties && properties._properties && properties._properties.messages) {
+                                    errorStr = JSON.stringify(properties._properties.messages);
+                                }
+                                audit_failure();
+                                $("#modal_update_collection_failure_return").find('.modal-error-message p').text(errorStr);
+                                $("#modal_update_collection_failure_return").modal()
+                            },
+                            error: function(err) {
+                                done(err);
+                                audit_failure();
+                                $("#modal_update_collection_failure_flush").modal()
+                            }
+                        });
+
+                    }
+
+                }
+            );
+
+        });
+
+        // modify button
+        $("#btn_modal_tags_save").click(function() {
+
+            submitTokens();
+
+            // When the Submit button is clicked, get all the form fields by accessing token values
+            var tokens = mvc.Components.get("default");
+
+            // Retrieve input values
+
+            var tk_tags_list = tokens.get("modal_input_tags_update");
+            //console.log("tk_tags_list is: " + tk_tags_list);
+
+            var tk_data_name = tokens.get("tk_data_name");
+            var tk_keyid = tokens.get("tk_keyid");
+            
+            // Define the query
+            var searchQuery = "| inputlookup trackme_data_source_monitoring where _key=\"" + tk_keyid + "\" | eval keyid=_key, tags=\"" + tk_tags_list + "\" | outputlookup trackme_data_source_monitoring append=t key_field=keyid";
+            //console.log(searchQuery);
+
+            // Set the search parameters--specify a time range
+            var searchParams = {
+                earliest_time: "-60m",
+                latest_time: "now"
+            };
+
+            // Run a blocking search and get back a job
+            service.search(
+                searchQuery,
+                searchParams,
+                function(err, job) {
+
+                    function audit_failure() {
+
+                        // Audit
+                        action = "failure";
+                        change_type = "update tags";
+                        object = tk_data_name;
+                        object_category = "data_source";
+                        object_attrs = tk_tags_list;
+                        result = "N/A";
+                        comment = "N/A";
+                        auditRecord(action, change_type, object, object_category, object_attrs, result, comment);
+
+                    }
+
+                    // Shall the search fail before we can get properties
+                    if (job == null) {
+                        let errorStr = "Unknown Error!";
+                        if (err && err.data && err.data.messages && err.data.messages[0]['text']) {
+                            errorStr = err.data.messages[0]['text'];
+                        } else if (err && err.data && err.data.messages) {
+                            errorStr = JSON.stringify(err.data.messages);
+                        }
+                        audit_failure();
+                        $("#modal_update_collection_failure_return").find('.modal-error-message p').text(errorStr);
+                        $("#modal_update_collection_failure_return").modal()
+                    } else {
+
+                        // Poll the status of the search job
+                        job.track({
+                            period: 200
+                        }, {
+                            done: function(job) {
+
+                                // show notify
+                                notification('Tags list updated.', 6000)
+
+                                // Audit
+                                action = "success";
+                                change_type = "update tags";
+                                object = tk_data_name;
+                                object_category = "data_source";
+                                object_attrs = tk_tags_list;
+                                result = "N/A";
+                                comment = "N/A";
+                                auditRecord(action, change_type, object, object_category, object_attrs, result, comment);
+
+                                // Update the tags token
+                                tk_tags_list = tk_tags_list.replace(/,/g, " / ");
+                                setToken("tk_tags", tk_tags_list);
+
+                                // Refresh the main search
+                                searchShowTags.startSearch();
+                                searchDataSourcesMain.startSearch();
+
+                                var deps = [
+                                    "splunkjs/ready!"
+                                ];
+                                require(deps, function(mvc) {
+
+                                    var idSelectTags = mvc.Components.get('modal_input_tags_update');
+                                    allValues = [];
+                                    uniqueNames = [];
+
+                                    var idSearchSelectTags = mvc.Components.get("searchShowTags");
+                                    var idSearchSelectTags_results = idSearchSelectTags.data("preview");
+                                    idSearchSelectTags_results.on("data", function() {
+                                        $.each(idSearchSelectTags_results.data().rows, function( index, value ) {
+                                            allValues.push(value[0]);
+                                        });
+                                        $.each(allValues, function(i, el){
+                                        if($.inArray(el, uniqueNames) === -1) uniqueNames.push(el);
+                                        });
+                                    //console.log("allValues is: " + allValues);
+                                    //console.log("uniqueNames is " + uniqueNames);
+                                    idSelectTags.settings.set("default",uniqueNames);
+                                    });
+                                });
+
+                                // Make sure the link exposes Show tags
+                                setToken("tk_tags_link_main", "Show tags");
+
+                            },
+                            failed: function(properties) {
+                                let errorStr = "Unknown Error!";
+                                if (properties && properties._properties && properties._properties.messages && properties._properties.messages[0]['text']) {
+                                    errorStr = properties._properties.messages[0]['text'];
+                                } else if (properties && properties._properties && properties._properties.messages) {
+                                    errorStr = JSON.stringify(properties._properties.messages);
+                                }
+                                audit_failure();
+                                $("#modal_update_collection_failure_return").find('.modal-error-message p').text(errorStr);
+                                $("#modal_update_collection_failure_return").modal()
+                            },
+                            error: function(err) {
+                                done(err);
+                                audit_failure();
+                                $("#modal_update_collection_failure_flush").modal()
+                            }
+                        });
+
+                    }
+
+                }
+            );
+
+        });
+
+        // clear button
+        $("#btn_modal_tags_clear").click(function() {
+
+            submitTokens();
+
+            // When the Submit button is clicked, get all the form fields by accessing token values
+            var tokens = mvc.Components.get("default");
+
+            // Retrieve input values
+
+            var tk_tags_list = tokens.get("modal_input_tags_update");
+            //console.log("tk_tags_list is: " + tk_tags_list);
+
+            var tk_data_name = tokens.get("tk_data_name");
+            var tk_keyid = tokens.get("tk_keyid");
+
+            // Define the query
+            var searchQuery = "| inputlookup trackme_data_source_monitoring where _key=\"" + tk_keyid + "\" | eval keyid=_key | fields - tags | outputlookup trackme_data_source_monitoring append=t key_field=keyid";
+            //console.log(searchQuery);
+
+            // Set the search parameters--specify a time range
+            var searchParams = {
+                earliest_time: "-60m",
+                latest_time: "now"
+            };
+
+            // Run a blocking search and get back a job
+            service.search(
+                searchQuery,
+                searchParams,
+                function(err, job) {
+
+                    function audit_failure() {
+
+                        // Audit
+                        action = "failure";
+                        change_type = "clear tags";
+                        object = tk_data_name;
+                        object_category = "data_source";
+                        object_attrs = tk_tags_list;
+                        result = "N/A";
+                        comment = "N/A";
+                        auditRecord(action, change_type, object, object_category, object_attrs, result, comment);
+
+                    }
+
+                    // Shall the search fail before we can get properties
+                    if (job == null) {
+                        let errorStr = "Unknown Error!";
+                        if (err && err.data && err.data.messages && err.data.messages[0]['text']) {
+                            errorStr = err.data.messages[0]['text'];
+                        } else if (err && err.data && err.data.messages) {
+                            errorStr = JSON.stringify(err.data.messages);
+                        }
+                        audit_failure();
+                        $("#modal_update_collection_failure_return").find('.modal-error-message p').text(errorStr);
+                        $("#modal_update_collection_failure_return").modal()
+                    } else {
+
+                        // Poll the status of the search job
+                        job.track({
+                            period: 200
+                        }, {
+                            done: function(job) {
+
+                                // show notify
+                                notification('Tags list was cleared successfully.', 6000)
+
+                                // Update the tags token
+                                setToken("tk_tags", "No tags defined, click on Update tags to define one or more tags to be associated with this data source.");
+
+                                // Refresh the multiselect
+                                unsetToken("form.modal_input_tags_update");
+                                unsetToken("modal_input_tags_update");
+                                unsetToken("form.modal_input_tags_new");
+
+                                // Refresh the main search
+                                searchShowTags.startSearch();
+                                searchDataSourcesMain.startSearch();
+
+                                // Make sure the link exposes "Click here to define tags"
+                                setToken("tk_tags_link_main", "Click here to define tags");
+
+                                // Audit
+                                action = "success";
+                                change_type = "clear tags";
+                                object = tk_data_name;
+                                object_category = "data_source";
+                                object_attrs = tk_tags_list;
+                                result = "N/A";
+                                comment = "N/A";
+                                auditRecord(action, change_type, object, object_category, object_attrs, result, comment);
+
+                            },
+                            failed: function(properties) {
+                                let errorStr = "Unknown Error!";
+                                if (properties && properties._properties && properties._properties.messages && properties._properties.messages[0]['text']) {
+                                    errorStr = properties._properties.messages[0]['text'];
+                                } else if (properties && properties._properties && properties._properties.messages) {
+                                    errorStr = JSON.stringify(properties._properties.messages);
+                                }
+                                audit_failure();
+                                $("#modal_update_collection_failure_return").find('.modal-error-message p').text(errorStr);
+                                $("#modal_update_collection_failure_return").modal()
+                            },
+                            error: function(err) {
+                                done(err);
+                                audit_failure();
+                                $("#modal_update_collection_failure_flush").modal()
+                            }
+                        });
+
+                    }
+
                 }
             );
 
@@ -29837,6 +31362,8 @@ require([
             var tk_outlier_span = tokens.get("tk_outlier_span");
             var tk_isoutlier = tokens.get("tk_isoutlier");
             var tk_enable_behaviour_analytic = tokens.get("tk_enable_behaviour_analytic");
+            var tk_isanomaly = tokens.get("tk_isanomaly");
+            var tk_data_sample_lastrun = tokens.get("tk_data_sample_lastrun");
 
             // get inputs tokens
 
@@ -29887,7 +31414,7 @@ require([
             }
 
             // Create the endpoint URL
-            var myendpoint_URl = "/en-US/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_data_source_monitoring/" + tk_keyid;
+            var myendpoint_URl = "{{SPLUNKWEB_URL_PREFIX}}/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_data_source_monitoring/" + tk_keyid;
 
             // Create a dictionary to store the field names and values
             var record = {
@@ -29921,6 +31448,8 @@ require([
                 "OutlierSpan": tk_outlier_span,
                 "isOutlier": tk_isoutlier,
                 "enable_behaviour_analytic": tk_enable_behaviour_analytic,
+                "isAnomaly": tk_isanomaly,
+                "data_sample_lastrun": tk_data_sample_lastrun,
                 "latest_flip_state": tk_latest_flip_state,
                 "latest_flip_time": tk_latest_flip_time,
                 "priority": tk_priority
@@ -29995,6 +31524,816 @@ require([
                 });
 
             }
+
+        });
+
+        // Data sampling
+        $('.btn_data_sampling_manage').each(function() {
+            var $btn_group = $(this);
+            $btn_group.find('button').on('click', function() {
+                var $btn = $(this);
+                //console.log("Button was clicked");
+
+                submitTokens();
+
+                // When the Submit button is clicked, get all the form fields by accessing token values
+                var tokens = mvc.Components.get("default");
+
+                // Built the search URI
+                var tk_data_name = tokens.get("tk_data_name");
+                var search_latest_sample = 'search' + "?q=" + encodeURI("| inputlookup trackme_data_sampling where data_name=\"" + tk_data_name + "\" | fields raw_sample | mvexpand raw_sample | `trackme_data_sampling_abstract_detect_events_format`");
+                // Define the URL target
+                document.getElementById("btn_data_sampling_latest_sample").href = search_latest_sample;
+
+                // Run engine should not be granted when an anomaly was found at first discovery
+                var data_sample_anomaly_reason = tokens.get("tk_data_sample_anomaly_reason");
+                //console.log("data_sample_anomaly_reason is: " + data_sample_anomaly_reason);
+                if (data_sample_anomaly_reason == "multiformat_at_discovery") {
+                    document.getElementById('btn_run_data_sampling').disabled = true;
+                } else {
+                    document.getElementById('btn_run_data_sampling').disabled = false;
+                }
+
+                $("#modal_manage").modal('hide')
+                $("#data_sampling_manage").modal()
+            });
+        });
+
+        // Back button
+        $('.btn_data_sampling_back').each(function() {
+            var $btn_group = $(this);
+            $btn_group.find('button').on('click', function() {
+                var $btn = $(this);
+                //console.log("Button was clicked");
+                $("#modal_manage").modal()
+            });
+        });
+
+        // Show builtin rules
+        $('.btn_data_sampling_builtin_rules').each(function() {
+            var $btn_group = $(this);
+            $btn_group.find('button').on('click', function() {
+                var $btn = $(this);
+                //console.log("Button was clicked");
+                $("#data_sampling_show_builtin_rules").modal()
+            });
+        });
+
+        // Back button
+        $('.btn_data_sampling_builtin_rules_back').each(function() {
+            var $btn_group = $(this);
+            $btn_group.find('button').on('click', function() {
+                var $btn = $(this);
+                //console.log("Button was clicked");
+                $("#data_sampling_manage").modal()
+            });
+        });
+
+        // Show custom rules
+        $('.btn_data_sampling_custom_rules_view').each(function() {
+            var $btn_group = $(this);
+            $btn_group.find('button').on('click', function() {
+                var $btn = $(this);
+                //console.log("Button was clicked");
+
+                submitTokens();
+
+                // When the Submit button is clicked, get all the form fields by accessing token values
+                var tokens = mvc.Components.get("default");
+
+                // force re-run the search each time the button is clicked
+                searchDataSamplingShowCustomRules.startSearch();
+
+                $("#data_sampling_show_custom_rules").modal()
+            });
+        });
+
+        // Back button
+        $('.btn_data_sampling_custom_rules_back').each(function() {
+            var $btn_group = $(this);
+            $btn_group.find('button').on('click', function() {
+                var $btn = $(this);
+                //console.log("Button was clicked");
+                $("#data_sampling_manage").modal()
+            });
+        });
+
+        // Remove custom rule
+        $("#btn_modal_data_sampling_custom_rule_delete").click(function() {
+                $("#data_sampling_show_custom_rules").modal('hide');
+                $("#modal_remove_custom_rule_data_sampling").modal();
+        });
+
+        function foreachRemoveDataSamplingCustomRule(item) {
+        //console.log("removal of key :" + item);
+
+            // Create the endpoint URL
+            var myendpoint_URl = "{{SPLUNKWEB_URL_PREFIX}}/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_data_sampling_custom_models/" + item;
+
+            //console.log("Endpoint URL is: " + myendpoint_URl);
+
+            if (item && item.length) {
+
+                // Get the KV entry content first
+                $.ajax({
+                    url: myendpoint_URl,
+                    type: "GET",
+                    async: true,
+                    contentType: "application/json",
+                    success: function(returneddata) {
+
+                        var model_name = returneddata.model_name;
+                        var model_id = returneddata.model_id;
+                        var model_regex = returneddata.model_regex;
+                        var mtime = returneddata.mtime;
+                        var record = {
+                        "model_name": model_name,
+                        "model_id": model_id,
+                        "model_regex": model_regex,
+                        "mtime": mtime,
+                        "_key": item
+                        };
+                        //console.log("record is: " + record);
+
+                        // Retrieve update comment if any
+                        var tk_comment = document.getElementById("input_remove_custom_rule_data_sampling_comment").value;
+
+                        // if is not defined, give it a value and override text box content
+                        if (tk_comment == "null") {
+                            setToken("tk_update_comment", TokenUtils.replaceTokenNames("No comments for update.", _.extend(submittedTokenModel.toJSON(), e.data)));
+                        }
+                        else if (tk_comment == "update note") {
+                            tk_comment = "No comment for update.";
+                        }
+
+                        // Proceed to delete call
+                        $.ajax({
+                            url: myendpoint_URl,
+                            type: "DELETE",
+                            async: true,
+                            contentType: "application/json",
+                            success: function(returneddata) {
+
+                                //console.log(returneddata);
+
+                                // Audit
+                                action = "success";
+                                change_type = "delete data parsing custom rule";
+                                object = model_name;
+                                object_category = "data_source";
+                                object_attrs = JSON.stringify(record,null,'\t');
+                                result = "N/A";
+                                comment = tk_comment;
+                                auditRecord(action, change_type, object, object_category, object_attrs, result, comment);
+
+                                // house cleaning
+                                myendpoint_URl = undefined;
+                                delete(myendpoint_URl);
+                                tk_keyid = undefined;
+                                delete(tk_keyid);
+
+                                // Return to modal
+                                $("#data_sampling_show_custom_rules").modal();
+
+                                // Refresh the search
+                                searchDataSamplingShowCustomRules.startSearch();
+
+                            },
+                            error: function(xhr, textStatus, error) {
+                                message = "Error Updating!" + xhr + textStatus + error;
+
+                                // Audit
+                                action = "failure";
+                                change_type = "delete data parsing custom rule";
+                                object = model_name;
+                                object_category = "data_source";
+                                object_attrs = JSON.stringify(record,null,'\t');
+                                result = message;
+                                comment = tk_comment;
+                                auditRecord(action, change_type, object, object_category, object_attrs, result, comment);
+
+                            }
+
+                        });
+
+                    }
+
+                });
+
+            }
+
+        }
+
+        $("#btn_modal_remove_custom_rule_confirm").click(function() {
+
+            //console.log("Button was pressed");
+
+            submitTokens();
+
+            // When the Submit button is clicked, get all the form fields by accessing token values
+            var tokens = mvc.Components.get("default");
+
+            // Get the arrays of keys
+            var tk_multi_table_array = tokens.get("removeDataSamplingCustomRule");
+            //console.log("tk_multi_table_array is: " + tk_multi_table_array);
+            tk_multi_table_array = tk_multi_table_array.split(',');
+            //console.log("tk_multi_table_array is: " + tk_multi_table_array);
+
+            // Call the function for each value from the array
+            tk_multi_table_array.forEach(foreachRemoveDataSamplingCustomRule);
+
+            // Hide main modal
+            $("#modal_remove_custom_rule_data_sampling").modal('hide');
+
+            // notify
+            notification('Modification has been registered successfully.', 2000)
+
+            // house cleaning
+            unsetToken("removeDataSamplingCustomRule");
+
+        });
+
+        // Run data sampling engine
+        $("#btn_run_data_sampling").click(function() {            
+            //console.log("Button was clicked");
+
+            submitTokens();
+
+            // When the Submit button is clicked, get all the form fields by accessing token values
+            var tokens = mvc.Components.get("default");
+
+            // Built the search URI
+            var tk_keyid = tokens.get("tk_keyid");            
+
+            // Define the query
+            var searchQuery = "| savedsearch \"TrackMe - Data sampling engine for target\" key=\"" + tk_keyid + "\"";
+            //console.log(searchQuery);
+
+            // Set the search parameters--specify a time range
+            var searchParams = {
+                earliest_time: "-4h",
+                latest_time: "now"
+            };
+
+            // Run a normal search that immediately returns the job's SID
+            service.search(
+                searchQuery,
+                searchParams,
+                function(err, job) {
+
+                    $("#loadingGray").remove()
+                    $("body").append('<div id="loadingGray" style="background: #e9e9e9; display: block; position: fixed; z-index: 100; top: 0; right: 0; bottom: 0; left: 0; height: 100%; opacity: 0.8;"><div style="width: 100%; margin-top: 250px; padding-bottom: 50px; text-align: center;"><p style="font-size: 18pt; font-weight: bolder;">Running the data sampling and format recognition engine...</p></div><div id="spinner"></div></div>')
+
+                    require(["jquery",
+                            "/static/app/trackme/spin.js"
+                        ],
+                        function($,
+                            Spinner
+                        ) {
+                            new Spinner({
+                                lines: 12,
+                                position: "relative"
+                            }).spin(document.getElementById('spinner'));
+                        })
+
+                    // Shall the search fail before we can get properties
+                    if (job == null) {
+                        let errorStr = "Unknown Error!";
+                        if (err && err.data && err.data.messages && err.data.messages[0]['text']) {
+                            errorStr = err.data.messages[0]['text'];
+                        } else if (err && err.data && err.data.messages) {
+                            errorStr = JSON.stringify(err.data.messages);
+                        }
+                        $("#loadingGray").remove()
+                        $("#modal_update_collection_failure_return").find('.modal-error-message p').text(errorStr);
+                        $("#modal_update_collection_failure_return").modal()
+                    } else {
+
+                        // Poll the status of the search job
+                        job.track({
+                            period: 200
+                        }, {
+                            done: function(job) {
+                                //console.log("Done!");
+
+                                // Once the job is done, update all searches
+                                searchDataSamplingTable1.startSearch();
+
+                                $("#loadingGray").remove()
+                                $("#data_sampling_manage").modal();
+
+                            },
+                            failed: function(properties) {
+                                let errorStr = "Unknown Error!";
+                                if (properties && properties._properties && properties._properties.messages && properties._properties.messages[0]['text']) {
+                                    errorStr = properties._properties.messages[0]['text'];
+                                } else if (properties && properties._properties && properties._properties.messages) {
+                                    errorStr = JSON.stringify(properties._properties.messages);
+                                }
+                                $("#loadingGray").remove()
+                                $("#modal_update_collection_failure_return").find('.modal-error-message p').text(errorStr);
+                                $("#modal_update_collection_failure_return").modal()
+                            },
+                            error: function(err) {
+                                done(err);
+                                $("#loadingGray").remove()
+                                $("#modal_update_collection_failure").modal()
+                            }
+                        });
+                    }
+                }
+            );
+
+        });
+
+        // Clear state action
+        $("#btn_data_sampling_clear_now").click(function() {
+            //console.log("Button was clicked");
+            $("#modal_clear_state_data_sampling").modal()
+        });
+
+        // Clear state action button is confirmed
+        $("#btn_modal_clear_state_confirm").click(function() {
+
+            //var that = $(this);
+            //that.off('click'); // remove handler
+
+            submitTokens();
+
+            // When the Submit button is clicked, get all the form fields by accessing token values
+            var tokens = mvc.Components.get("default");
+
+            // Built the search URI
+            var tk_data_name = tokens.get("tk_data_name");
+            var tk_keyid = tokens.get("tk_keyid");            
+
+            // Endpoint URI
+            var myendpoint_URl = "{{SPLUNKWEB_URL_PREFIX}}/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_data_sampling/" + tk_keyid;
+            //console.log(myendpoint_URl);
+
+            // Retrieve update comment if any
+            var tk_comment = document.getElementById("input_clear_state_data_sampling_comment").value;
+
+            // if is not defined, give it a value and override text box content
+            if (tk_comment == "null") {
+                setToken("tk_update_comment", TokenUtils.replaceTokenNames("No comments for update.", _.extend(submittedTokenModel.toJSON(), e.data)));
+                // replace the textarea for modification requests
+                document.getElementById("input_clear_state_data_sampling_comment").value = "update note";
+            }
+            else if (tk_comment == "update note") {
+                tk_comment = "No comment for update.";
+                document.getElementById("input_clear_state_data_sampling_comment").value = "update note";
+            }
+            else {
+                // replace the textarea for modification requests
+                document.getElementById("input_clear_state_data_sampling_comment").value = "update note";
+            }
+
+            // Get the KV entry content first
+            $.ajax({
+                url: myendpoint_URl,
+                type: "GET",
+                async: true,
+                contentType: "application/json",
+                success: function(returneddata) {
+
+                    var removedObject = returneddata;
+                    //console.log(returneddata);
+
+                    var data_sample_mtime = returneddata.data_sample_mtime;
+                    var data_sample_feature = returneddata.data_sample_feature;
+                    var data_sample_iteration = returneddata.data_sample_iteration;
+                    var data_sample_anomaly_reason = returneddata.data_sample_anomaly_reason;
+                    var data_sample_status_colour = returneddata.data_sample_status_colour;
+                    var data_sample_anomaly_ack_status = returneddata.data_sample_anomaly_ack_status;
+                    var data_sample_anomaly_ack_mtime = returneddata.data_sample_anomaly_ack_mtime;
+                    var data_sample_anomaly_detected = returneddata.data_sample_anomaly_detected;
+                    var data_sample_status_message = returneddata.data_sample_status_message;
+                    var multiformat_detected = returneddata.multiformat_detected;
+                    var current_detected_format = returneddata.current_detected_format;
+                    var current_detected_format_id = returneddata.current_detected_format_id;
+                    var current_detected_format_dcount = returneddata.current_detected_format_dcount;
+                    var previous_detected_format = returneddata.previous_detected_format;
+                    var previous_detected_format_id = returneddata.previous_detected_format_id;
+                    var previous_detected_format_dcount = returneddata.previous_detected_format_dcount;
+
+                    var record = {
+                        "data_sample_mtime": data_sample_mtime,
+                        "data_sample_feature": data_sample_feature,
+                        "data_sample_iteration": data_sample_iteration,
+                        "data_sample_anomaly_reason": data_sample_anomaly_reason,
+                        "data_sample_status_colour": data_sample_status_colour,
+                        "data_sample_anomaly_ack_status": data_sample_anomaly_ack_status,
+                        "data_sample_anomaly_ack_mtime": data_sample_anomaly_ack_mtime,
+                        "data_sample_anomaly_detected": data_sample_anomaly_detected,
+                        "data_sample_status_message": data_sample_status_message,
+                        "multiformat_detected": multiformat_detected,
+                        "current_detected_format": current_detected_format,
+                        "current_detected_format_id": current_detected_format_id,
+                        "current_detected_format_dcount": current_detected_format_dcount,
+                        "previous_detected_format": previous_detected_format,
+                        "previous_detected_format_id": previous_detected_format_id,
+                        "previous_detected_format_dcount": previous_detected_format_dcount
+                    };
+
+                    // Proceed to delete call
+                    $.ajax({
+                        url: myendpoint_URl,
+                        type: "DELETE",
+                        async: true,
+                        contentType: "application/json",
+                        success: function(returneddata) {
+
+                            //console.log(returneddata);
+
+                            // Audit
+                            action = "success";
+                            change_type = "data sampling clear state";
+                            object = tk_data_name;
+                            object_category = "data_source";
+                            object_attrs = JSON.stringify(record,null,'\t');
+                            result = "N/A";
+                            comment = tk_comment;
+                            auditRecord(action, change_type, object, object_category, object_attrs, result, comment);
+
+                            //console.log("Start collection update");
+
+                            // Define the query
+                            var searchQuery = "| savedsearch \"TrackMe - Data sampling engine for target\" key=\"" + tk_keyid + "\"";
+                            //console.log(searchQuery);
+
+                            // Set the search parameters--specify a time range
+                            var searchParams = {
+                                earliest_time: "-4h",
+                                latest_time: "now"
+                            };
+
+                            // Run a normal search that immediately returns the job's SID
+                            service.search(
+                                searchQuery,
+                                searchParams,
+                                function(err, job) {
+
+                                    $("#loadingGray").remove()
+                                    $("body").append('<div id="loadingGray" style="background: #e9e9e9; display: block; position: fixed; z-index: 100; top: 0; right: 0; bottom: 0; left: 0; height: 100%; opacity: 0.8;"><div style="width: 100%; margin-top: 250px; padding-bottom: 50px; text-align: center;"><p style="font-size: 18pt; font-weight: bolder;">Clearing the data source state and running the data sampling and format recognition engine...</p></div><div id="spinner"></div></div>')
+
+                                    require(["jquery",
+                                            "/static/app/trackme/spin.js"
+                                        ],
+                                        function($,
+                                            Spinner
+                                        ) {
+                                            new Spinner({
+                                                lines: 12,
+                                                position: "relative"
+                                            }).spin(document.getElementById('spinner'));
+                                        })
+
+                                    // Shall the search fail before we can get properties
+                                    if (job == null) {
+                                        let errorStr = "Unknown Error!";
+                                        if (err && err.data && err.data.messages && err.data.messages[0]['text']) {
+                                            errorStr = err.data.messages[0]['text'];
+                                        } else if (err && err.data && err.data.messages) {
+                                            errorStr = JSON.stringify(err.data.messages);
+                                        }
+                                        $("#loadingGray").remove()
+                                        $("#modal_update_collection_failure_return").find('.modal-error-message p').text(errorStr);
+                                        $("#modal_update_collection_failure_return").modal()
+                                    } else {
+
+                                        // Poll the status of the search job
+                                        job.track({
+                                            period: 200
+                                        }, {
+                                            done: function(job) {
+                                                //console.log("Done!");
+
+                                                // Once the job is done, update all searches
+                                                searchDataSamplingTable1.startSearch();
+
+                                                $("#loadingGray").remove()
+                                                $("#data_sampling_manage").modal();
+
+                                            },
+                                            failed: function(properties) {
+                                                let errorStr = "Unknown Error!";
+                                                if (properties && properties._properties && properties._properties.messages && properties._properties.messages[0]['text']) {
+                                                    errorStr = properties._properties.messages[0]['text'];
+                                                } else if (properties && properties._properties && properties._properties.messages) {
+                                                    errorStr = JSON.stringify(properties._properties.messages);
+                                                }
+                                                $("#loadingGray").remove()
+                                                $("#modal_update_collection_failure_return").find('.modal-error-message p').text(errorStr);
+                                                $("#modal_update_collection_failure_return").modal()
+                                            },
+                                            error: function(err) {
+                                                done(err);
+                                                $("#loadingGray").remove()
+                                                $("#modal_update_collection_failure").modal()
+                                            }
+                                        });
+                                    }
+                                }
+                            );
+
+                        },
+                        error: function(xhr, textStatus, error) {
+                            message = "Error Updating!" + xhr + textStatus + error;
+
+                            // Audit
+                            action = "failure";
+                            change_type = "data sampling clear state";
+                            object = tk_data_name;
+                            object_category = "data_source";
+                            object_attrs = JSON.stringify(record,null,'\t');
+                            result = message;
+                            comment = tk_comment;
+                            auditRecord(action, change_type, object, object_category, object_attrs, result, comment);
+
+                        }
+
+                    });
+
+                }
+
+            });
+
+        });
+
+        // Data sampling custom rules
+        $("#btn_data_sampling_custom_rules").click(function() {
+            //console.log("Button was clicked");
+
+            submitTokens();
+
+            // When the Submit button is clicked, get all the form fields by accessing token values
+            var tokens = mvc.Components.get("default");
+
+            // Unset action tokens
+            unsetToken("start_simulation_data_sampling_custom_rule_show_events");
+            unsetToken("start_simulation_data_sampling_custom_rule");
+
+            // Disable the button results
+            document.getElementById('btn_modal_data_sampling_custom_rule_simulate_show_details').disabled = true;
+            document.getElementById('btn_data_sampling_custom_rule_add').disabled = true;            
+
+            // Open modal
+            $("#data_sampling_create_custom_rules").modal()
+        });
+
+        // Back button
+        $("#btn_modal_data_sampling_custom_rule_add_new_back").click(function() {
+            //console.log("Button was clicked");
+            $("#data_sampling_show_custom_rules").modal()
+        });
+
+        // Data sampling custom rule simulation
+        $("#btn_modal_data_sampling_custom_rule_show_sample").click(function() {
+            //console.log("Button was clicked");
+
+            submitTokens();
+
+            // When the Submit button is clicked, get all the form fields by accessing token values
+            var tokens = mvc.Components.get("default");
+
+            // Unset the token and set to free the search
+            unsetToken("start_simulation_data_sampling_custom_rule_show_events");
+            setToken("start_simulation_data_sampling_custom_rule_show_events", "true");
+
+        });
+
+        // Data sampling custom rule simulation
+        $("#btn_modal_data_sampling_custom_rule_simulate").click(function() {
+            //console.log("Button was clicked");
+
+            submitTokens();
+
+            // When the Submit button is clicked, get all the form fields by accessing token values
+            var tokens = mvc.Components.get("default");
+
+            // Retrieve the regex rule
+            var tk_data_sampling_custom_rule_regex = document.getElementById("modal_input_data_sampling_custom_rule_regex").value;
+            //console.log("tk_data_sampling_custom_rule_regex is:" + tk_data_sampling_custom_rule_regex);
+
+            // Retrieve the rule name
+            var tk_data_sampling_custom_rule_name = tokens.get("tk_data_sampling_custom_rule_name");
+            //console.log("tk_data_sampling_custom_rule_name is: " + tk_data_sampling_custom_rule_name);
+
+            // Retriebe the key id
+            var tk_keyid = tokens.get("tk_keyid");
+            //console.log("tk_keyid is: " + tk_keyid);
+
+            // if is not defined, give it a value and override text box content
+            if (tk_data_sampling_custom_rule_regex == "Enter a valid regular expression and click on the button \"Run model simulation\"." || !tk_data_sampling_custom_rule_name || !tk_data_sampling_custom_rule_name.length) {
+
+                // Show an error notification
+                //console.log("Entry is incorrect, no expression was provided");
+                notification('ERROR: Entries are either incorrect or incomplete, please correct and try again.', 6000)
+
+                // Disable the add button
+                document.getElementById('btn_data_sampling_custom_rule_add').disabled = true; 
+
+            }
+            else {
+                // replace the textarea for modification requests
+                notification('INFO: running new data sampling model...', 6000)
+                unsetToken("tk_data_sampling_custom_rule_regex");
+                setToken("tk_data_sampling_custom_rule_regex", tk_data_sampling_custom_rule_regex);
+                //console.log("tk_data_sampling_custom_rule_regex is:", tk_data_sampling_custom_rule_regex)
+                // Free the simulation search
+                setToken("start_simulation_data_sampling_custom_rule", "true");
+                //console.log("starts the search");
+
+                // Define the URL target
+                document.getElementById('btn_modal_data_sampling_custom_rule_simulate_show_details').disabled = false;
+
+                // Enable the button results
+                document.getElementById('btn_modal_data_sampling_custom_rule_simulate_show_details').disabled = false;
+
+                // Disable the add button
+                document.getElementById('btn_data_sampling_custom_rule_add').disabled = false;
+
+            }
+            
+        });
+
+        // Data sampling add custom rule
+        $("#btn_data_sampling_custom_rule_add").click(function() {
+            //console.log("Button was clicked");
+            $("#modal_add_custom_rule_data_sampling").modal();
+        });
+
+        // Data sampling add custom rule
+        $("#btn_modal_add_custom_rule_confirm").click(function() {
+            //console.log("Button was clicked");
+
+            submitTokens();
+
+            // When the Submit button is clicked, get all the form fields by accessing token values
+            var tokens = mvc.Components.get("default");
+
+            // Retrieve the regex rule
+            var tk_data_sampling_custom_rule_regex = document.getElementById("modal_input_data_sampling_custom_rule_regex").value;
+            //console.log("tk_data_sampling_custom_rule_regex is:" + tk_data_sampling_custom_rule_regex);
+
+            // Retrieve the rule name
+            var tk_data_sampling_custom_rule_name = tokens.get("tk_data_sampling_custom_rule_name");
+            //console.log("tk_data_sampling_custom_rule_name is: " + tk_data_sampling_custom_rule_name);
+
+            // if is not defined, give it a value and override text box content - We should never reach this for the add function
+            if (tk_data_sampling_custom_rule_regex == "Enter a valid regular expression and click on the button \"Run model simulation\"." || !tk_data_sampling_custom_rule_name || !tk_data_sampling_custom_rule_name.length) {
+
+                // Show an error notification
+                //console.log("Entry is incorrect, no expression was provided");
+                notification('ERROR: Entries are either incorrect or incomplete, please correct and try again.', 6000)
+
+                // Disable the add button
+                document.getElementById('btn_data_sampling_custom_rule_add').disabled = true; 
+
+            }
+            else {
+
+                //console.log("Adding to the custom rules")
+
+                // Retrieve update comment if any
+                var tk_comment = document.getElementById("input_add_custom_rule_data_sampling_comment").value;
+
+                // if is not defined, give it a value and override text box content
+                if (tk_comment == "null") {
+                    setToken("tk_update_comment", TokenUtils.replaceTokenNames("No comments for update.", _.extend(submittedTokenModel.toJSON(), e.data)));
+                    // replace the textarea for modification requests
+                    document.getElementById("input_add_custom_rule_data_sampling_comment").value = "update note";
+                }
+                else if (tk_comment == "update note") {
+                    tk_comment = "No comment for update.";
+                    document.getElementById("input_add_custom_rule_data_sampling_comment").value = "update note";
+                }
+                else {
+                    // replace the textarea for modification requests
+                    document.getElementById("input_add_custom_rule_data_sampling_comment").value = "update note";
+                }
+
+                // Define the query
+                var searchQuery = "| makeresults | eval model_name=\"" + tk_data_sampling_custom_rule_name + "\", model_regex=\"" + tk_data_sampling_custom_rule_regex + "\" | eval _key=md5(model_name), model_id=md5(model_name), mtime=now() | outputlookup trackme_data_sampling_custom_models append=t key_field=_key";
+                //console.log("searchQuery is: " + searchQuery);
+
+                // Set the search parameters--specify a time range
+                var searchParams = {
+                    earliest_time: "-60m",
+                    latest_time: "now"
+                };
+
+                // Run a blocking search and get back a job
+                service.search(
+                    searchQuery,
+                    searchParams,
+                    function(err, job) {
+
+                        function audit_failure() {
+
+                            // Audit
+                            action = "failure";
+                            change_type = "add data parsing custom rule";
+                            object = tk_data_sampling_custom_rule_name;
+                            object_category = "data_source";
+                            object_attrs = "{\n" + "\t\"model_name\": \"" + tk_data_sampling_custom_rule_name + "\",\n\t\"model_regex\": \"" + tk_data_sampling_custom_rule_regex + "\"\n}";
+                            result = "N/A";
+                            comment = tk_comment;
+                            auditRecord(action, change_type, object, object_category, object_attrs, result, comment);
+
+                        }
+
+                        // Shall the search fail before we can get properties
+                        if (job == null) {
+                            let errorStr = "Unknown Error!";
+                            if (err && err.data && err.data.messages && err.data.messages[0]['text']) {
+                                errorStr = err.data.messages[0]['text'];
+                            } else if (err && err.data && err.data.messages) {
+                                errorStr = JSON.stringify(err.data.messages);
+                            }
+                            audit_failure();
+                            $("#modal_update_collection_failure_return").find('.modal-error-message p').text(errorStr);
+                            $("#modal_update_collection_failure_return").modal()
+                        } else {
+
+                            // Poll the status of the search job
+                            job.track({
+                                period: 200
+                            }, {
+                                done: function(job) {
+                                    // Once the job is done, update all searches
+                                    searchBlackListDataSourceHost.startSearch();
+                                    searchSingleBlackListDataSourceHost.startSearch();
+                                    searchDataSourcesMain.startSearch();
+                                    // notify
+                                    notification('Modification has been registered successfully.', 2000)
+
+                                    // Audit
+                                    action = "success";
+                                    change_type = "add data parsing custom rule";
+                                    object = tk_data_sampling_custom_rule_name;
+                                    object_category = "data_source";
+                                    object_attrs = "{\n" + "\t\"model_name\": \"" + tk_data_sampling_custom_rule_name + "\",\n\t\"model_regex\": \"" + tk_data_sampling_custom_rule_regex + "\"\n}";
+                                    result = "N/A";
+                                    comment = tk_comment;
+                                    auditRecord(action, change_type, object, object_category, object_attrs, result, comment);
+
+                                    $("#data_sampling_manage").modal();
+                                },
+                                failed: function(properties) {
+                                    let errorStr = "Unknown Error!";
+                                    if (properties && properties._properties && properties._properties.messages && properties._properties.messages[0]['text']) {
+                                        errorStr = properties._properties.messages[0]['text'];
+                                    } else if (properties && properties._properties && properties._properties.messages) {
+                                        errorStr = JSON.stringify(properties._properties.messages);
+                                    }
+                                    audit_failure();
+                                    $("#modal_update_collection_failure_return").find('.modal-error-message p').text(errorStr);
+                                    $("#modal_update_collection_failure_return").modal()
+                                },
+                                error: function(err) {
+                                    done(err);
+                                    audit_failure();
+                                    $("#modal_update_collection_failure_flush").modal()
+                                }
+                            });
+
+                        }
+
+                    }
+
+                );
+
+            }
+            
+        });
+
+        $("#btn_modal_data_sampling_custom_rule_simulate_show_details").click(function() {
+            //console.log("Button was clicked");
+
+            submitTokens();
+
+            // When the Submit button is clicked, get all the form fields by accessing token values
+            var tokens = mvc.Components.get("default");
+
+            // Retrieve the regex rule
+            var tk_data_sampling_custom_rule_regex = document.getElementById("modal_input_data_sampling_custom_rule_regex").value;
+            //console.log("tk_data_sampling_custom_rule_regex is:" + tk_data_sampling_custom_rule_regex);
+
+            // Retrieve the rule name
+            var tk_data_sampling_custom_rule_name = tokens.get("tk_data_sampling_custom_rule_name");
+            //console.log("tk_data_sampling_custom_rule_name is: " + tk_data_sampling_custom_rule_name);
+
+            // Retriebe the key id
+            var tk_keyid = tokens.get("tk_keyid");
+            //console.log("tk_keyid is: " + tk_keyid);        
+
+            // Built the search URI
+            var similation_events_detail = 'search' + "?q=" + encodeURI("| inputlookup trackme_data_sampling where _key=\"" + tk_keyid + "\" | fields raw_sample | mvexpand raw_sample | eval detected_format = case(match(raw_sample, \"" + tk_data_sampling_custom_rule_regex + "\"), \"" + tk_data_sampling_custom_rule_name + "\") | eval detected_format_id=md5(detected_format)");
+
+            // Open
+            window.open(similation_events_detail,'_blank');
 
         });
 
@@ -30108,7 +32447,7 @@ require([
             }
 
             // Create the endpoint URL
-            var myendpoint_URl = "/en-US/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_host_monitoring/" + tk_keyid;
+            var myendpoint_URl = "{{SPLUNKWEB_URL_PREFIX}}/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_host_monitoring/" + tk_keyid;
 
             // Create a dictionary to store the field names and values
             var record = {
@@ -30251,6 +32590,33 @@ require([
 </script>
 <script src="{{SPLUNKWEB_URL_PREFIX}}/static/app/trackme/table.js" type="text/javascript"></script>
 <script src="{{SPLUNKWEB_URL_PREFIX}}/static/app/trackme/checkbox_table.js" type="text/javascript"></script>
+<script src="{{SPLUNKWEB_URL_PREFIX}}/static/app/trackme/checkbox_table_data_sampling.js" type="text/javascript"></script>
+<script src="{{SPLUNKWEB_URL_PREFIX}}/static/app/trackme/table_raw.js" type="text/javascript"></script>
+<script>
+var deps = [
+    "splunkjs/ready!"
+];
+require(deps, function(mvc) {
+
+    var idSelectTags = mvc.Components.get('modal_input_tags_update');
+    var allValues = [];
+    var uniqueNames = [];
+
+    var idSearchSelectTags = mvc.Components.get("searchShowTags");
+    var idSearchSelectTags_results = idSearchSelectTags.data("preview");
+    idSearchSelectTags_results.on("data", function() {
+         $.each(idSearchSelectTags_results.data().rows, function( index, value ) {
+            allValues.push(value[0]);
+        });
+        $.each(allValues, function(i, el){
+          if($.inArray(el, uniqueNames) === -1) uniqueNames.push(el);
+        });
+    //console.log("allValues is: " + allValues);
+    //console.log("uniqueNames is " + uniqueNames);
+    idSelectTags.settings.set("default",uniqueNames);
+    });
+});
+</script>
 <script>
 $(".btn").mouseup(function(){
     $(this).blur();
@@ -30405,6 +32771,30 @@ function notification(s, time) {
   });
 
   $("<p>" + s + "</p>").appendTo('#boxnotify-add_elastic_source').fadeTo(time, 1, function() {
+    $(this).fadeTo(1000, 0, function() {
+      $(this).remove()
+    });
+  });
+
+  $("<p>" + s + "</p>").appendTo('#boxnotify-add_data_sampling_custom_rule').fadeTo(time, 1, function() {
+    $(this).fadeTo(1000, 0, function() {
+      $(this).remove()
+    });
+  });  
+
+  $("<p>" + s + "</p>").appendTo('#boxnotify-view_data_sampling_custom_rule').fadeTo(time, 1, function() {
+    $(this).fadeTo(1000, 0, function() {
+      $(this).remove()
+    });
+  });
+
+  $("<p>" + s + "</p>").appendTo('#boxnotify-manage_data_sampling').fadeTo(time, 1, function() {
+    $(this).fadeTo(1000, 0, function() {
+      $(this).remove()
+    });
+  });
+
+  $("<p>" + s + "</p>").appendTo('#boxnotify-manage_tags').fadeTo(time, 1, function() {
     $(this).fadeTo(1000, 0, function() {
       $(this).remove()
     });

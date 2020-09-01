@@ -22,6 +22,10 @@
         <a href="search?q=%7C%20inputlookup%20trackme_data_source_monitoring_blacklist_host%20%7C%20eval%20keyid%3D_key">Blocklist hosts</a>
         <a href="search?q=%7C%20inputlookup%20trackme_data_source_monitoring_blacklist_sourcetype%20%7C%20eval%20keyid%3D_key">Blocklist sourcetypes</a>
       </collection>
+      <collection label="Data sampling &amp; event format detection">
+        <a href="search?q=%7C%20inputlookup%20trackme_data_sampling%20%7C%20eval%20keyid%3D_key">Data sampling and event format detection collection</a>
+        <a href="search?q=%7C%20inputlookup%20trackme_data_sampling_custom_models%20%7C%20eval%20keyid%3D_key">Data sampling and event format detection custom models collection</a>
+      </collection>
     </collection>
     <collection label="Data hosts monitoring">
     <a href="search?q=%7C%20inputlookup%20trackme_host_monitoring%20%7C%20eval%20keyid%3D_key">Data Hosts collection</a>
@@ -51,6 +55,10 @@
   <collection label="Audit">
     <a href="trackMe_internal_scheduling">Audit scheduling</a>
     <a href="trackMe_kvstore">KVstore collections</a>
+    <a href="trackMe_audit_data_sampling">Data sampling audit dashboard</a>
   </collection>
+  <collection label="Help">
+      <a href="https://trackme.readthedocs.io/">Documentation on readthedocs.org</a>
+  </collection>  
   <a href="search">Run a search</a>
 </nav>
