@@ -29617,6 +29617,7 @@ require([
                                 notification('New tag successfully added.', 6000)
 
                                 // Update the tags token
+                                tk_tags_audit = tk_tags_new
                                 tk_tags_new = tk_tags_new.replace(/,/g, " / ");
                                 setToken("tk_tags", tk_tags_new);
 
@@ -29660,7 +29661,7 @@ require([
                                 change_type = "add tags";
                                 object = tk_data_name;
                                 object_category = "data_source";
-                                object_attrs = tk_tags_new;
+                                object_attrs = tk_tags_audit;
                                 result = "N/A";
                                 comment = "N/A";
                                 auditRecord(action, change_type, object, object_category, object_attrs, result, comment);
