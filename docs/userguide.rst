@@ -1012,7 +1012,7 @@ Manage data sampling
 
 **The summary table shows the main key information:**
 
-- ``data_sample_feature:`` is the data sampling feature enabled or disabled for that data source as rendered  as an icon
+- ``data_sample_feature:`` is the data sampling feature enabled or disabled for that data source, rendered as an icon
 - ``current_detected_format:`` the event format that has been detected during the last sampling
 - ``previous_detected_format:`` the event format that was detected in the previous sampling
 - ``state:`` the state of the data sampling rendered as an icon
@@ -1613,7 +1613,7 @@ Tags
    :alt: tags_img003.png
    :align: center
 
-*Tags are stored in the data sources KVstore collection in a field called "tags", when multiple tags are defined, the list of tags is defined as a comma seperated list of values.*
+*Tags are stored in the data sources KVstore collection in a field called "tags", when multiple tags are defined, the list of tags is defined as a comma separated list of values.*
 
 Adding new tags
 ---------------
