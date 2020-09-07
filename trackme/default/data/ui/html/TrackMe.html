@@ -29923,21 +29923,21 @@ require([
 
             // Retrieve the policy id
             var tk_tags_policies_policy_id = tokens.get("tk_tags_policies_policy_id");
-            console.log("tk_tags_policies_policy_id is: " + tk_tags_policies_policy_id);
+            //console.log("tk_tags_policies_policy_id is: " + tk_tags_policies_policy_id);
 
             // Retrieve the regex rule
             var tk_tags_policies_regex = document.getElementById("modal_input_tags_policies_regex").value;
-            console.log("tk_tags_policies_regex is: " + tk_tags_policies_regex);
+            //console.log("tk_tags_policies_regex is: " + tk_tags_policies_regex);
 
             // Retrieve the tags list
             var tk_tags_policies_tags = document.getElementById("modal_input_tags_policies_values").value;
-            console.log("tk_tags_policies_tags is: " + tk_tags_policies_tags);
+            //console.log("tk_tags_policies_tags is: " + tk_tags_policies_tags);
 
             // if is not defined, give it a value and override text box content
             if (!tk_tags_policies_policy_id || !tk_tags_policies_policy_id.length || tk_tags_policies_regex == "Enter a valid regular expression to match data source names." || !tk_tags_policies_regex || !tk_tags_policies_regex.length || tk_tags_policies_tags == "Enter a list of tags to applied separeted by commas to specify multiple tags and click on \"Run policy simulation\"." || !tk_tags_policies_tags || !tk_tags_policies_tags.length) {
 
                 // Show an error notification
-                console.log("Entry is incorrect, no expression was provided");
+                //console.log("Entry is incorrect, no expression was provided");
                 notification('ERROR: Entries are either incorrect or incomplete, please correct and try again.', 6000)
 
                 // Disable the add button
@@ -29976,7 +29976,7 @@ require([
 
         // add button
         $("#btn_modal_tags_policies_add").click(function() {
-            console.log("button was clicked");
+            //console.log("button was clicked");
             // Show input modal
             $("#tags_policies_create_policy_confirm").modal();
         });
@@ -29992,15 +29992,15 @@ require([
 
             // Retrieve the policy id
             var tk_tags_policies_policy_id = tokens.get("tk_tags_policies_policy_id");
-            console.log("tk_tags_policies_policy_id is: " + tk_tags_policies_policy_id);
+            //console.log("tk_tags_policies_policy_id is: " + tk_tags_policies_policy_id);
 
             // Retrieve the regex rule
             var tk_tags_policies_regex = document.getElementById("modal_input_tags_policies_regex").value;
-            console.log("tk_tags_policies_regex is:" + tk_tags_policies_regex);
+            //console.log("tk_tags_policies_regex is:" + tk_tags_policies_regex);
 
             // Retrieve the tags list
             var tk_tags_policies_tags = document.getElementById("modal_input_tags_policies_values").value;
-            console.log("tk_tags_policies_tags is: " + tk_tags_policies_tags);
+            //console.log("tk_tags_policies_tags is: " + tk_tags_policies_tags);
 
             // if is not defined, give it a value and override text box content - We should never reach this for the add function
             if (!tk_tags_policies_policy_id || !tk_tags_policies_policy_id.length || tk_tags_policies_regex == "Enter a valid regular expression to match data source names." || !tk_tags_policies_regex || !tk_tags_policies_regex.length || tk_tags_policies_tags == "Enter a list of tags to applied separeted by commas to specify multiple tags and click on \"Run policy simulation\"." || !tk_tags_policies_tags || !tk_tags_policies_tags.length) {
@@ -30083,7 +30083,7 @@ require([
                                 done: function(job) {
 
                                     // Refresh the search
-                                    console.log("Refresh the search");
+                                    //console.log("Refresh the search");
                                     setToken("show_tags_policies", "true");
                                     searchShowTagsPolicies.startSearch();
 
@@ -30167,7 +30167,7 @@ require([
                         "mtime": mtime,
                         "_key": item
                         };
-                        console.log("record is: " + record);
+                        //console.log("record is: " + record);
 
                         // Retrieve update comment if any
                         var tk_comment = document.getElementById("input_delete_tags_policy_sampling_comment").value;
@@ -30240,7 +30240,7 @@ require([
 
         // delete tags policies confirm
         $("#btn_modal_delete_tags_policy_confirm").click(function() {
-            console.log("Button was clicked");
+            //console.log("Button was clicked");
 
             submitTokens();
 
@@ -30249,9 +30249,9 @@ require([
 
             // Get the arrays of keys
             var tk_multi_table_array = tokens.get("removeTagsPolicy");
-            console.log("tk_multi_table_array is: " + tk_multi_table_array);
+            //console.log("tk_multi_table_array is: " + tk_multi_table_array);
             tk_multi_table_array = tk_multi_table_array.split(',');
-            console.log("tk_multi_table_array is: " + tk_multi_table_array);
+            //console.log("tk_multi_table_array is: " + tk_multi_table_array);
 
             // Call the function for each value from the array
             tk_multi_table_array.forEach(foreachRemoveTagsPolicies);
