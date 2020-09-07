@@ -1,6 +1,22 @@
 Release notes
 #############
 
+Version 1.2.22
+==============
+
+**CAUTION:**
+
+This is a new main release branch, TrackMe 1.2.x requires the deployment of the following dependencies:
+
+- Semicircle Donut Chart Viz, Splunk Base: https://splunkbase.splunk.com/app/4378
+- Splunk Machine Learning Toolkit, Splunk Base: https://splunkbase.splunk.com/app/2890
+
+TrackMe requires a summary index (defaults to trackme_summary) and a metric index (defaults to trackme_metrics):
+https://trackme.readthedocs.io/en/latest/configuration.html
+
+- Feature: Extending the Tags features with a the tags policies concept which allows to automatically define tags using regular expressions rules matching the data_name and its naming convention
+- Change: Include the priority value when generating the flipping status summary events
+
 Version 1.2.21
 ==============
 
