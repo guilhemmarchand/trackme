@@ -16,6 +16,7 @@ https://trackme.readthedocs.io/en/latest/configuration.html
 
 - Feature: Extending the Tags features with a the tags policies concept which allows to automatically define tags using regular expressions rules matching the data_name and its naming convention
 - Change: Include the priority value when generating the flipping status summary events
+- Fix: Issue #131 - Enable data source action does not preserve the current value of data_lag_alert_kpis in the collection
 
 Version 1.2.21
 ==============
