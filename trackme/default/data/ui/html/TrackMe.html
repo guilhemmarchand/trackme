@@ -3983,12 +3983,34 @@ styles in <div> tags, similar to Bootstrap's grid system.
                         <div class="dashboard-element html" id="body_modal_queues">
                             <div class="panel-body html">
                                 <div class="modal-header modal-header-info">
-                                    <h1 style="font-size: 18px; color: white;">Splunk indexers queues:</h1>
+                                    <h1 style="font-size: 18px; color: white;">Ops: Queues center</h1>
                                     <button type="button" id="btn_ops_index_queue_close" class="close" data-dismiss="modal">&times;</button>
                                 </div>
                             </div>
                         </div>
                         <div class="modal-guts">
+                            <div id="rowQueuesInfo" class="dashboard-row dashboard-row1">
+                                <div id="panelQueuesInfo" class="dashboard-cell" style="width: 100%;">
+                                    <div class="dashboard-panel clearfix">
+                                        
+                                        <div class="panel-element-row">
+                                            <div id="rowInfoQueues" class="dashboard-element html" style="width: 100%">
+                                                <div class="panel-body html">
+                                                        <h1>Splunk indexing queues:</h1>
+                                                        <lu>
+                                                            <li>Update the macro <a target="_blank" href="/en-GB/manager/trackme/admin/macros/trackme_idx_filter?action=edit">trackme_idx_filter</a> to match indexers and other instances such as heavy forwarders that should be included</li>
+                                                            <li>Use the break down dropdown to select a break down option for detailed queue charts rendering</li>
+                                                            <li>For more information about Splunk queues: <a target="_blank" href="https://wiki.splunk.com/Community:HowIndexingWorks">https://wiki.splunk.com/Community:HowIndexingWorks</a></li>
+                                                            <li>Conf slides, How Splunkd works: <a target="_blank" href="https://conf.splunk.com/files/2017/slides/how-splunkd-works.pdf">https://conf.splunk.com/files/2017/slides/how-splunkd-works.pdf</a></li>
+                                                            <li>Conf slides, How to Troubleshoot Blocked Ingestion Pipeline Queues with Indexers and Forwarders: <a target="_blank" href="https://conf.splunk.com/files/2019/slides/FN1570.pdf">https://conf.splunk.com/files/2019/slides/FN1570.pdf</a></li>                                                            
+                                                        </lu>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
                             <div id="rowLinkQueues" class="dashboard-row dashboard-row1" style="margin-left: 15px;">
                                 <div id="panelLinkQueues" class="dashboard-cell" style="width: 100%;">
                                     <div class="dashboard-panel clearfix">
@@ -3996,17 +4018,20 @@ styles in <div> tags, similar to Bootstrap's grid system.
                                             <div class="input input-linklist" id="inputLinkQueuesTime">
                                                 <label>&nbsp;</label>
                                             </div>
+                                            <div class="input input-dropdown" id="inputHostQueues">
+                                                <label>Host(s):</label>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            <div id="rowChartQueues1" class="dashboard-row dashboard-row1">
+                            <div id="rowChartQueuesAll" class="dashboard-row dashboard-row1">
                                 <div id="panelChartQueues1" class="dashboard-cell" style="width: 100%;">
                                     <div class="dashboard-panel clearfix">
                                         <div class="panel-element-row">
-                                            <div id="elementChartQueue1" class="dashboard-element chart" style="width: 100%">
+                                            <div id="elementChartQueueAll" class="dashboard-element chart" style="width: 100%">
                                                 <div class="panel-head">
-                                                    <h3>1 - Splunk Tcpin Queue</h3>
+                                                    <h3>All queues - Blocking queues (more than 0% means queues filling)</h3>
                                                 </div>
                                                 <div class="panel-body"></div>
                                             </div>
@@ -4014,27 +4039,24 @@ styles in <div> tags, similar to Bootstrap's grid system.
                                     </div>
                                 </div>
                             </div>
-                            <div id="rowChartQueues2" class="dashboard-row dashboard-row1">
-                                <div id="panelChartQueues2" class="dashboard-cell" style="width: 100%;">
+                            <div id="rowQueuesBreakBy" class="dashboard-row dashboard-row1" style="margin-left: 15px;">
+                                <div id="panelQueuesBreakBy" class="dashboard-cell" style="width: 100%;">
                                     <div class="dashboard-panel clearfix">
                                         <div class="panel-element-row">
-                                            <div id="elementChartQueue2" class="dashboard-element chart" style="width: 100%">
-                                                <div class="panel-head">
-                                                    <h3>2 - Parsing Queue</h3>
-                                                </div>
-                                                <div class="panel-body"></div>
-                                            </div>
+                                            <div class="input input-dropdown" id="inputHostQueuesBreak">
+                                                <label>Break by:</label>
+                                            </div>                                            
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            <div id="rowChartQueues3" class="dashboard-row dashboard-row1">
-                                <div id="panelChartQueues3" class="dashboard-cell" style="width: 100%;">
+                            <div id="rowChartQueuesTreillis" class="dashboard-row dashboard-row1">
+                                <div id="panelChartQueues1" class="dashboard-cell" style="width: 100%;">
                                     <div class="dashboard-panel clearfix">
                                         <div class="panel-element-row">
-                                            <div id="elementChartQueue3" class="dashboard-element chart" style="width: 100%">
+                                            <div id="elementChartQueuesTreillis" class="dashboard-element chart" style="width: 100%">
                                                 <div class="panel-head">
-                                                    <h3>3 - Aggregation Queue</h3>
+                                                    <h3>Queues details</h3>
                                                 </div>
                                                 <div class="panel-body"></div>
                                             </div>
@@ -4042,36 +4064,7 @@ styles in <div> tags, similar to Bootstrap's grid system.
                                     </div>
                                 </div>
                             </div>
-                            <div id="rowChartQueues4" class="dashboard-row dashboard-row1">
-                                <div id="panelChartQueues4" class="dashboard-cell" style="width: 100%;">
-                                    <div class="dashboard-panel clearfix">
-                                        <div class="panel-element-row">
-                                            <div id="elementChartQueue4" class="dashboard-element chart" style="width: 100%">
-                                                <div class="panel-head">
-                                                    <h3>4 - Typing Queue</h3>
-                                                </div>
-                                                <div class="panel-body"></div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div id="rowChartQueues5" class="dashboard-row dashboard-row1">
-                                <div id="panelChartQueues5" class="dashboard-cell" style="width: 100%;">
-                                    <div class="dashboard-panel clearfix">
-                                        <div class="panel-element-row">
-                                            <div id="elementChartQueue5" class="dashboard-element chart" style="width: 100%">
-                                                <div class="panel-head">
-                                                    <h3>5 - Indexing Queue</h3>
-                                                </div>
-                                                <div class="panel-body"></div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="modal-footer" style="margin-top: 700px;">
+                        <div class="modal-footer">
                             <button type="submit" class="btn btn-default btn-default pull-left" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Close</button>
                         </div>
                     </div>
@@ -4091,19 +4084,34 @@ styles in <div> tags, similar to Bootstrap's grid system.
                         <div class="dashboard-element html" id="body_modal_parsing_issues">
                             <div class="panel-body html">
                                 <div class="modal-header modal-header-info">
-                                    <h1 style="font-size: 18px; color: white;">Splunk indexing time failures and warnings:</h1>
+                                    <h1 style="font-size: 18px; color: white;">Ops: Parsing issues</h1>
                                     <button type="button" id="btn_ops_parsing_issues_close" class="close" data-dismiss="modal">&times;</button>
                                 </div>
                             </div>
                         </div>
 
                         <div class="modal-guts">
+
+                            <div class="panel-element-row">
+                                <div id="rowLinkParsingInfo" class="dashboard-element html" style="width: 100%">
+                                    <div class="panel-body html">
+                                            <h1>Splunk indexing time parsing issues:</h1>
+                                            <lu>
+                                                <li>Update the macro <a target="_blank" href="/en-GB/manager/trackme/admin/macros/trackme_idx_filter?action=edit">trackme_idx_filter</a> to match indexers and other instances such as heavy forwarders that should be included</li>
+                                                <li>The splunk&gt; magic 8 need to be configured in your <a target="_blank" href="http://docs.splunk.com/Documentation/Splunk/latest/Admin/propsconf">props.conf</a>, see: <a target="_blank" href="https://trackme.readthedocs.io/en/latest/userguide.html#ops-parsing-view">TrackMe documentation page</a></li>
+                                            </lu>
+                                    </div>
+                                </div>
+                            </div>
                             <div id="rowLinkParsingIssues" class="dashboard-row dashboard-row1" style="margin-left: 15px;">
                                 <div id="panelLinkParsingIssues" class="dashboard-cell" style="width: 100%;">
                                     <div class="dashboard-panel clearfix">
                                         <div class="panel-element-row">
                                             <div class="input input-linklist" id="inputLinkParsingIssuesTime">
                                                 <label>&nbsp;</label>
+                                            </div>
+                                            <div class="input input-dropdown" id="inputHostParsing">
+                                                <label>Host(s):</label>
                                             </div>
                                         </div>
                                     </div>
@@ -7991,7 +7999,7 @@ styles in <div> tags, similar to Bootstrap's grid system.
                             </div>
                             <div style="float: left;">
                                 <div class="btn_ops_index_queue custom-btn">
-                                    <button type="submit" style="margin-right: 15px;" class="btn btn-outline-info" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Ops: Indexers queues</button>
+                                    <button type="submit" style="margin-right: 15px;" class="btn btn-outline-info" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Ops: Queues center</button>
                                 </div>
                                 <div class="btn_ops_parsing_issues custom-btn">
                                     <button type="submit" style="margin-right: 15px;" class="btn btn-outline-info" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Ops: Parsing issues</button>
@@ -8025,7 +8033,7 @@ styles in <div> tags, similar to Bootstrap's grid system.
                             </div>
                             <div style="float: left;">
                                 <div class="btn_ops_index_queue custom-btn">
-                                    <button type="submit" style="margin-right: 15px;" class="btn btn-outline-info" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Ops: Indexers queues</button>
+                                    <button type="submit" style="margin-right: 15px;" class="btn btn-outline-info" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Ops: Queues center</button>
                                 </div>
                                 <div class="btn_ops_parsing_issues custom-btn">
                                     <button type="submit" style="margin-right: 15px;" class="btn btn-outline-info" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Ops: Parsing issues</button>
@@ -8075,7 +8083,7 @@ styles in <div> tags, similar to Bootstrap's grid system.
                             </div>
                             <div style="float: left;">
                                 <div class="btn_ops_index_queue custom-btn">
-                                    <button type="submit" style="margin-right: 15px;" class="btn btn-outline-info" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Ops: Indexers queues</button>
+                                    <button type="submit" style="margin-right: 15px;" class="btn btn-outline-info" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Ops: Queues center</button>
                                 </div>
                                 <div class="btn_ops_parsing_issues custom-btn">
                                     <button type="submit" style="margin-right: 15px;" class="btn btn-outline-info" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Ops: Parsing issues</button>
@@ -11459,14 +11467,36 @@ require([
         });
 
         // Indexer queues
-        var searchQueue1 = new SearchManager({
-            "id": "searchQueue1",
+
+        var searchPopulateHostQueues = new SearchManager({
+            "id": "searchPopulateHostQueues",
+            "earliest_time": "$inputLinkQueuesTime.earliest$",
+            "cancelOnUnload": true,
+            "sample_ratio": null,
+            "refreshType": "delay",
+            "latest_time": "$inputLinkQueuesTime.latest$",
+            "search": "| tstats count where (index=_internal `trackme_idx_filter` source=*metrics.log sourcetype=splunkd) by host | sort 0 host | fields host",
+            "status_buckets": 0,
+            "app": utils.getCurrentApp(),
+            "auto_cancel": 90,
+            "preview": true,
+            "tokenDependencies": {
+                "depends": "$tk_start_indexers_queues_searches$"
+            },
+            "runWhenTimeIsUndefined": false
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        });
+
+        var searchQueueAll = new SearchManager({
+            "id": "searchQueueAll",
             "tokenDependencies": {
                 "depends": "$tk_start_indexers_queues_searches$"
             },
             "sample_ratio": 1,
             "earliest_time": "$inputLinkQueuesTime.earliest$",
-            "search": "(index=_internal `trackme_idx_filter` source=*metrics.log sourcetype=splunkd group=queue name IN(\"splunktcpin\")) | eval nhost=replace(host,\"\\\\..*\",\"\")  | eval ingest_pipe=if(isnotnull(ingest_pipe),ingest_pipe,\"none\")  | search ingest_pipe=* | eval max=coalesce(max_size_kb, max_size) | eval curr=coalesce(current_size_kb, current_size) | eval fill_perc=round(((curr / max) * 100), 2) | timechart span=$inputLinkQueuesTime.span$ max(fill_perc) as avg_fill by nhost useother=false limit=0",
+            "search": "(index=_internal `trackme_idx_filter` source=*metrics.log sourcetype=splunkd $inputHostQueues$ group=queue) | eval max=if(isnotnull(max_size_kb),max_size_kb,max_size) | eval curr=if(isnotnull(current_size_kb),current_size_kb,current_size) | eval fill_perc=round((curr/max)*100,2) | bucket _time span=1m | stats Median(fill_perc) AS \"fill_percentage\" by host, _time, name | timechart limit=0 useother=f span=2m avg(fill_percentage) as \"pct_fill_indexqueue\" by name",
             "latest_time": "$inputLinkQueuesTime.latest$",
             "cancelOnUnload": true,
             "status_buckets": 0,
@@ -11479,87 +11509,46 @@ require([
             tokenNamespace: "submitted"
         });
 
-        var searchQueue2 = new SearchManager({
-            "id": "searchQueue2",
-            "tokenDependencies": {
-                "depends": "$tk_start_indexers_queues_searches$"
-            },
-            "sample_ratio": 1,
+        var searchQueueTreillis = new SearchManager({
+            "id": "searchQueueTreillis",
             "earliest_time": "$inputLinkQueuesTime.earliest$",
-            "search": "(index=_internal `trackme_idx_filter` source=*metrics.log sourcetype=splunkd group=queue name IN(\"parsingqueue\")) | eval nhost=replace(host,\"\\\\..*\",\"\")  | eval ingest_pipe=if(isnotnull(ingest_pipe),ingest_pipe,\"none\")  | search ingest_pipe=* | eval max=coalesce(max_size_kb, max_size) | eval curr=coalesce(current_size_kb, current_size) | eval fill_perc=round(((curr / max) * 100), 2) | timechart span=$inputLinkQueuesTime.span$ max(fill_perc) as avg_fill by nhost useother=false limit=0",
             "latest_time": "$inputLinkQueuesTime.latest$",
-            "cancelOnUnload": true,
+            "sample_ratio": 1,
+            "search": "(index=_internal `trackme_idx_filter` source=*metrics.log sourcetype=splunkd $inputHostQueues$ group=queue) | eval max=if(isnotnull(max_size_kb),max_size_kb,max_size) | eval curr=if(isnotnull(current_size_kb),current_size_kb,current_size) | eval fill_perc=round((curr/max)*100,2) | bucket _time span=1m | eval ingest_pipe=if(isnull(ingest_pipe), 0, ingest_pipe) | eval key = $inputHostQueuesBreak$ | stats Median(fill_perc) AS \"fill_percentage\" by key, _time | timechart limit=0 useother=f span=2m avg(fill_percentage) as \"pct_fill_indexqueue\" by key",
             "status_buckets": 0,
+            "cancelOnUnload": true,
             "app": utils.getCurrentApp(),
             "auto_cancel": 90,
             "preview": true,
-            "runWhenTimeIsUndefined": false
-        }, {
-            tokens: true,
-            tokenNamespace: "submitted"
-        });
-
-        var searchQueue3 = new SearchManager({
-            "id": "searchQueue3",
             "tokenDependencies": {
                 "depends": "$tk_start_indexers_queues_searches$"
             },
-            "sample_ratio": 1,
-            "earliest_time": "$inputLinkQueuesTime.earliest$",
-            "search": "(index=_internal `trackme_idx_filter` source=*metrics.log sourcetype=splunkd group=queue name IN(\"aggqueue\")) | eval nhost=replace(host,\"\\\\..*\",\"\")  | eval ingest_pipe=if(isnotnull(ingest_pipe),ingest_pipe,\"none\")  | search ingest_pipe=* | eval max=coalesce(max_size_kb, max_size) | eval curr=coalesce(current_size_kb, current_size) | eval fill_perc=round(((curr / max) * 100), 2) | timechart span=$inputLinkQueuesTime.span$ max(fill_perc) as avg_fill by nhost useother=false limit=0",
-            "latest_time": "$inputLinkQueuesTime.latest$",
-            "cancelOnUnload": true,
-            "status_buckets": 0,
-            "app": utils.getCurrentApp(),
-            "auto_cancel": 90,
-            "preview": true,
             "runWhenTimeIsUndefined": false
-        }, {
-            tokens: true,
-            tokenNamespace: "submitted"
-        });
-
-        var searchQueue4 = new SearchManager({
-            "id": "searchQueue4",
-            "tokenDependencies": {
-                "depends": "$tk_start_indexers_queues_searches$"
-            },
-            "sample_ratio": 1,
-            "earliest_time": "$inputLinkQueuesTime.earliest$",
-            "search": "(index=_internal `trackme_idx_filter` source=*metrics.log sourcetype=splunkd group=queue name IN(\"typingqueue\")) | eval nhost=replace(host,\"\\\\..*\",\"\")  | eval ingest_pipe=if(isnotnull(ingest_pipe),ingest_pipe,\"none\")  | search ingest_pipe=* | eval max=coalesce(max_size_kb, max_size) | eval curr=coalesce(current_size_kb, current_size) | eval fill_perc=round(((curr / max) * 100), 2) | timechart span=$inputLinkQueuesTime.span$ max(fill_perc) as avg_fill by nhost useother=false limit=0",
-            "latest_time": "$inputLinkQueuesTime.latest$",
-            "cancelOnUnload": true,
-            "status_buckets": 0,
-            "app": utils.getCurrentApp(),
-            "auto_cancel": 90,
-            "preview": true,
-            "runWhenTimeIsUndefined": false
-        }, {
-            tokens: true,
-            tokenNamespace: "submitted"
-        });
-
-        var searchQueue5 = new SearchManager({
-            "id": "searchQueue5",
-            "tokenDependencies": {
-                "depends": "$tk_start_indexers_queues_searches$"
-            },
-            "sample_ratio": 1,
-            "earliest_time": "$inputLinkQueuesTime.earliest$",
-            "search": "(index=_internal `trackme_idx_filter` source=*metrics.log sourcetype=splunkd group=queue name IN(\"indexqueue\")) | eval nhost=replace(host,\"\\\\..*\",\"\")  | eval ingest_pipe=if(isnotnull(ingest_pipe),ingest_pipe,\"none\")  | search ingest_pipe=* | eval max=coalesce(max_size_kb, max_size) | eval curr=coalesce(current_size_kb, current_size) | eval fill_perc=round(((curr / max) * 100), 2) | timechart span=$inputLinkQueuesTime.span$ max(fill_perc) as avg_fill by nhost useother=false limit=0",
-            "latest_time": "$inputLinkQueuesTime.latest$",
-            "cancelOnUnload": true,
-            "status_buckets": 0,
-            "app": utils.getCurrentApp(),
-            "auto_cancel": 90,
-            "preview": true,
-            "runWhenTimeIsUndefined": false
-        }, {
-            tokens: true,
-            tokenNamespace: "submitted"
-        });
+        }, {tokens: true, tokenNamespace: "submitted"});
 
         // Parsing issues
+
+        var searchPopulateHostParsing = new SearchManager({
+            "id": "searchPopulateHostParsing",
+            "earliest_time": "$inputLinkParsingIssuesTime.earliest$",
+            "cancelOnUnload": true,
+            "sample_ratio": null,
+            "refreshType": "delay",
+            "latest_time": "$inputLinkParsingIssuesTime.latest$",
+            "search": "| tstats count where (index=_internal `trackme_idx_filter` source=*metrics.log sourcetype=splunkd) by host | sort 0 host | fields host",
+            "status_buckets": 0,
+            "app": utils.getCurrentApp(),
+            "auto_cancel": 90,
+            "preview": true,
+            "tokenDependencies": {
+                "depends": "$tk_start_parsing_issues_searches$"
+            },
+            "runWhenTimeIsUndefined": false
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        });
+        
         var searchParsingIssuesChart = new SearchManager({
             "id": "searchParsingIssuesChart",
             "tokenDependencies": {
@@ -11567,7 +11556,7 @@ require([
             },
             "sample_ratio": 1,
             "earliest_time": "$inputLinkParsingIssuesTime.earliest$",
-            "search": "index=_internal sourcetype=splunkd error OR warn `trackme_idx_filter` component=LineBreakingProcessor OR component=AggregatorMiningProcessor OR component=DateParserVerbose | timechart span=$inputLinkParsingIssuesTime.span$ count by component",
+            "search": "index=_internal sourcetype=splunkd error OR warn `trackme_idx_filter` $inputHostParsing$ component=LineBreakingProcessor OR component=AggregatorMiningProcessor OR component=DateParserVerbose | timechart span=$inputLinkParsingIssuesTime.span$ count by component",
             "latest_time": "$inputLinkParsingIssuesTime.latest$",
             "cancelOnUnload": true,
             "status_buckets": 0,
@@ -11587,7 +11576,7 @@ require([
             },
             "sample_ratio": 1,
             "earliest_time": "$inputLinkParsingIssuesTime.earliest$",
-            "search": "index=_internal sourcetype=splunkd error OR warn `trackme_idx_filter` component=LineBreakingProcessor OR component=AggregatorMiningProcessor OR component=DateParserVerbose | top limit=0 component | eval percent=round(percent, 2) | eval summary=component . \": \" . percent . \" %\" | fields summary | stats values(summary) as summary",
+            "search": "index=_internal sourcetype=splunkd error OR warn `trackme_idx_filter` $inputHostParsing$ component=LineBreakingProcessor OR component=AggregatorMiningProcessor OR component=DateParserVerbose | top limit=0 component | eval percent=round(percent, 2) | eval summary=component . \": \" . percent . \" %\" | fields summary | stats values(summary) as summary",
             "latest_time": "$inputLinkParsingIssuesTime.latest$",
             "cancelOnUnload": true,
             "status_buckets": 0,
@@ -12735,6 +12724,86 @@ require([
             if (!submittedTokenModel.has('earliest') && !submittedTokenModel.has('latest')) {
                 submittedTokenModel.set({ earliest: '0', latest: '' });
             }
+        });
+
+        // input multiselect for queues
+        var inputHostQueues = new MultiSelectInput({
+            "id": "inputHostQueues",
+            "tokenDependencies": {
+                "depends": "$tk_start_indexers_queues_searches$"
+            },
+            "choices": [{
+                "label": "ALL",
+                "value": "*"
+            }],
+            "searchWhenChanged": true,
+            "showClearButton": true,
+            "labelField": "host",
+            "valuePrefix": "host=\"",
+            "valueSuffix": "\"",
+            "delimiter": " OR ",
+            "initialValue": "*",
+            "selectFirstChoice": false,
+            "valueField": "host",
+            "value": "$form.inputHostQueues$",
+            "managerid": "searchPopulateHostQueues",
+            "el": $('#inputHostQueues')
+        }, {
+            tokens: true
+        }).render();
+
+        inputHostQueues.on("change", function(newValue) {
+            FormUtils.handleValueChange(inputHostQueues);
+        });
+
+        var inputHostQueuesBreak = new DropdownInput({
+            "id": "inputHostQueuesBreak",
+            "choices": [
+                {"label": "Queue", "value": "name"},
+                {"label": "Queue, Ingest pipe", "value": "name . \":\" . ingest_pipe"},
+                {"label": "Queue, Ingest pipe, host", "value": "host . \":\" . name . \":\" . ingest_pipe"}
+            ],
+            "default": "name",
+            "searchWhenChanged": true,
+            "selectFirstChoice": false,
+            "showClearButton": true,
+            "initialValue": "name",
+            "value": "$form.inputHostQueuesBreak$",
+            "el": $('#inputHostQueuesBreak')
+        }, {tokens: true}).render();
+
+        inputHostQueuesBreak.on("change", function(newValue) {
+            FormUtils.handleValueChange(inputHostQueuesBreak);
+        });
+
+        // input multiselect for parsing
+        var inputHostParsing = new MultiSelectInput({
+            "id": "inputHostParsing",
+            "tokenDependencies": {
+                "depends": "$tk_start_parsing_issues_searches$"
+            },
+            "choices": [{
+                "label": "ALL",
+                "value": "*"
+            }],
+            "searchWhenChanged": true,
+            "showClearButton": true,
+            "labelField": "host",
+            "valuePrefix": "host=\"",
+            "valueSuffix": "\"",
+            "delimiter": " OR ",
+            "initialValue": "*",
+            "selectFirstChoice": false,
+            "valueField": "host",
+            "value": "$form.inputHostParsing$",
+            "managerid": "searchPopulateHostParsing",
+            "el": $('#inputHostParsing')
+        }, {
+            tokens: true
+        }).render();
+
+        inputHostParsing.on("change", function(newValue) {
+            FormUtils.handleValueChange(inputHostParsing);
         });
 
         // input link selection for modal window
@@ -17635,8 +17704,8 @@ require([
         }).render();
 
         // Ops: Indexer Queues
-        var elementChartQueue1 = new ChartElement({
-            "id": "elementChartQueue1",
+        var elementChartQueueAll = new ChartElement({
+            "id": "elementChartQueueAll",
             "charting.chart.nullValueMode": "gaps",
             "resizable": true,
             "trellis.enabled": "0",
@@ -17671,187 +17740,51 @@ require([
             "charting.layout.splitSeries": "0",
             "charting.lineWidth": "2",
             "charting.axisY2.scale": "inherit",
-            "managerid": "searchQueue1",
-            "el": $('#elementChartQueue1')
+            "managerid": "searchQueueAll",
+            "el": $('#elementChartQueueAll')
         }, {
             tokens: true,
             tokenNamespace: "submitted"
         }).render();
 
-        var elementChartQueue2 = new ChartElement({
-            "id": "elementChartQueue2",
-            "charting.chart.nullValueMode": "gaps",
+        var elementChartQueuesTreillis = new ChartElement({
+            "id": "elementChartQueuesTreillis",
             "resizable": true,
-            "trellis.enabled": "0",
-            "charting.axisTitleX.visibility": "collapsed",
-            "refresh.display": "progressbar",
-            "charting.chart.stackMode": "stacked",
             "charting.axisLabelsX.majorLabelStyle.overflowMode": "ellipsisNone",
-            "charting.axisY.abbreviation": "none",
-            "charting.legend.placement": "bottom",
-            "charting.axisY2.abbreviation": "none",
-            "charting.legend.labelStyle.overflowMode": "ellipsisMiddle",
-            "charting.chart.showDataLabels": "none",
-            "charting.axisY2.enabled": "0",
-            "charting.chart.sliceCollapsingThreshold": "0.01",
-            "charting.chart.style": "shiny",
-            "charting.layout.splitSeries.allowIndependentYRanges": "0",
-            "charting.chart": "line",
-            "charting.axisX.scale": "linear",
-            "trellis.scales.shared": "1",
+            "charting.axisLabelsX.majorLabelStyle.rotation": "0",
+            "charting.axisTitleX.visibility": "collapsed",
             "charting.axisTitleY.visibility": "visible",
             "charting.axisTitleY2.visibility": "visible",
-            "height": "350",
-            "charting.chart.bubbleMinimumSize": "10",
-            "charting.drilldown": "none",
-            "charting.legend.mode": "standard",
-            "charting.chart.bubbleMaximumSize": "50",
-            "trellis.size": "medium",
-            "charting.axisY.scale": "linear",
-            "charting.chart.bubbleSizeBy": "area",
-            "charting.axisLabelsX.majorLabelStyle.rotation": "0",
             "charting.axisX.abbreviation": "none",
-            "charting.layout.splitSeries": "0",
-            "charting.lineWidth": "2",
-            "charting.axisY2.scale": "inherit",
-            "managerid": "searchQueue2",
-            "el": $('#elementChartQueue2')
-        }, {
-            tokens: true,
-            tokenNamespace: "submitted"
-        }).render();
-
-
-        var elementChartQueue3 = new ChartElement({
-            "id": "elementChartQueue3",
-            "charting.chart.nullValueMode": "gaps",
-            "resizable": true,
-            "trellis.enabled": "0",
-            "charting.axisTitleX.visibility": "collapsed",
-            "refresh.display": "progressbar",
-            "charting.chart.stackMode": "stacked",
-            "charting.axisLabelsX.majorLabelStyle.overflowMode": "ellipsisNone",
-            "charting.axisY.abbreviation": "none",
-            "charting.legend.placement": "bottom",
-            "charting.axisY2.abbreviation": "none",
-            "charting.legend.labelStyle.overflowMode": "ellipsisMiddle",
-            "charting.chart.showDataLabels": "none",
-            "charting.axisY2.enabled": "0",
-            "charting.chart.sliceCollapsingThreshold": "0.01",
-            "charting.chart.style": "shiny",
-            "charting.layout.splitSeries.allowIndependentYRanges": "0",
-            "charting.chart": "line",
             "charting.axisX.scale": "linear",
-            "trellis.scales.shared": "1",
-            "charting.axisTitleY.visibility": "visible",
-            "charting.axisTitleY2.visibility": "visible",
-            "height": "350",
-            "charting.chart.bubbleMinimumSize": "10",
-            "charting.drilldown": "none",
-            "charting.legend.mode": "standard",
-            "charting.chart.bubbleMaximumSize": "50",
-            "trellis.size": "medium",
-            "charting.axisY.scale": "linear",
-            "charting.chart.bubbleSizeBy": "area",
-            "charting.axisLabelsX.majorLabelStyle.rotation": "0",
-            "charting.axisX.abbreviation": "none",
-            "charting.layout.splitSeries": "0",
-            "charting.lineWidth": "2",
-            "charting.axisY2.scale": "inherit",
-            "managerid": "searchQueue3",
-            "el": $('#elementChartQueue3')
-        }, {
-            tokens: true,
-            tokenNamespace: "submitted"
-        }).render();
-
-
-        var elementChartQueue4 = new ChartElement({
-            "id": "elementChartQueue4",
-            "charting.chart.nullValueMode": "gaps",
-            "resizable": true,
-            "trellis.enabled": "0",
-            "charting.axisTitleX.visibility": "collapsed",
-            "refresh.display": "progressbar",
-            "charting.chart.stackMode": "stacked",
-            "charting.axisLabelsX.majorLabelStyle.overflowMode": "ellipsisNone",
             "charting.axisY.abbreviation": "none",
-            "charting.legend.placement": "bottom",
-            "charting.axisY2.abbreviation": "none",
-            "charting.legend.labelStyle.overflowMode": "ellipsisMiddle",
-            "charting.chart.showDataLabels": "none",
-            "charting.axisY2.enabled": "0",
-            "charting.chart.sliceCollapsingThreshold": "0.01",
-            "charting.chart.style": "shiny",
-            "charting.layout.splitSeries.allowIndependentYRanges": "0",
-            "charting.chart": "line",
-            "charting.axisX.scale": "linear",
-            "trellis.scales.shared": "1",
-            "charting.axisTitleY.visibility": "visible",
-            "charting.axisTitleY2.visibility": "visible",
-            "height": "350",
-            "charting.chart.bubbleMinimumSize": "10",
-            "charting.drilldown": "none",
-            "charting.legend.mode": "standard",
-            "charting.chart.bubbleMaximumSize": "50",
-            "trellis.size": "medium",
             "charting.axisY.scale": "linear",
-            "charting.chart.bubbleSizeBy": "area",
-            "charting.axisLabelsX.majorLabelStyle.rotation": "0",
-            "charting.axisX.abbreviation": "none",
-            "charting.layout.splitSeries": "0",
-            "charting.lineWidth": "2",
+            "charting.axisY2.abbreviation": "none",
+            "charting.axisY2.enabled": "0",
             "charting.axisY2.scale": "inherit",
-            "managerid": "searchQueue4",
-            "el": $('#elementChartQueue4')
-        }, {
-            tokens: true,
-            tokenNamespace: "submitted"
-        }).render();
-
-
-        var elementChartQueue5 = new ChartElement({
-            "id": "elementChartQueue5",
+            "charting.chart": "line",
+            "charting.chart.bubbleMaximumSize": "50",
+            "charting.chart.bubbleMinimumSize": "10",
+            "charting.chart.bubbleSizeBy": "area",
             "charting.chart.nullValueMode": "gaps",
-            "resizable": true,
-            "trellis.enabled": "0",
-            "charting.axisTitleX.visibility": "collapsed",
-            "refresh.display": "progressbar",
-            "charting.chart.stackMode": "stacked",
-            "charting.axisLabelsX.majorLabelStyle.overflowMode": "ellipsisNone",
-            "charting.axisY.abbreviation": "none",
-            "charting.legend.placement": "bottom",
-            "charting.axisY2.abbreviation": "none",
-            "charting.legend.labelStyle.overflowMode": "ellipsisMiddle",
             "charting.chart.showDataLabels": "none",
-            "charting.axisY2.enabled": "0",
             "charting.chart.sliceCollapsingThreshold": "0.01",
+            "charting.chart.stackMode": "default",
             "charting.chart.style": "shiny",
-            "charting.layout.splitSeries.allowIndependentYRanges": "0",
-            "charting.chart": "line",
-            "charting.axisX.scale": "linear",
-            "trellis.scales.shared": "1",
-            "charting.axisTitleY.visibility": "visible",
-            "charting.axisTitleY2.visibility": "visible",
-            "height": "350",
-            "charting.chart.bubbleMinimumSize": "10",
             "charting.drilldown": "none",
-            "charting.legend.mode": "standard",
-            "charting.chart.bubbleMaximumSize": "50",
-            "trellis.size": "medium",
-            "charting.axisY.scale": "linear",
-            "charting.chart.bubbleSizeBy": "area",
-            "charting.axisLabelsX.majorLabelStyle.rotation": "0",
-            "charting.axisX.abbreviation": "none",
             "charting.layout.splitSeries": "0",
+            "charting.layout.splitSeries.allowIndependentYRanges": "0",
+            "charting.legend.labelStyle.overflowMode": "ellipsisMiddle",
+            "charting.legend.mode": "standard",
+            "charting.legend.placement": "right",
             "charting.lineWidth": "2",
-            "charting.axisY2.scale": "inherit",
-            "managerid": "searchQueue5",
-            "el": $('#elementChartQueue5')
-        }, {
-            tokens: true,
-            tokenNamespace: "submitted"
-        }).render();
+            "trellis.enabled": "1",
+            "trellis.scales.shared": "0",
+            "trellis.size": "large",
+            "height": "1200",
+            "managerid": "searchQueueTreillis",
+            "el": $('#elementChartQueuesTreillis')
+        }, {tokens: true, tokenNamespace: "submitted"}).render();
 
         // Ops: Parsing Issues
         var elementChartParsingIssues = new ChartElement({
