@@ -11880,7 +11880,7 @@ require([
             },
             "sample_ratio": 1,
             "earliest_time": "$inputLinkParsingIssuesTime.earliest$",
-            "search": "index=_internal sourcetype=splunkd error OR warn `trackme_idx_filter` $inputHostParsing$ component=LineBreakingProcessor OR component=AggregatorMiningProcessor OR component=DateParserVerbose | top limit=0 component | eval percent=round(percent, 2) | eval summary=component . \": \" . percent . \" %\" | fields summary | stats values(summary) as summary",
+            "search": "index=_internal sourcetype=splunkd error OR warn `trackme_idx_filter` $inputHostParsing$ component=LineBreakingProcessor OR component=AggregatorMiningProcessor OR component=DateParserVerbose | top limit=0 component | eval percent=round(percent, 2) | eval summary=component . \": \" . percent . \" %\" | fields summary | stats values(summary) as summary | append [ | makeresults | eval summary=\"No parsing issues detected (bravo!?), review the trackme_idx_filter macro to target indexing instances.\" | fields - _time ] | head 1",
             "latest_time": "$inputLinkParsingIssuesTime.latest$",
             "cancelOnUnload": true,
             "status_buckets": 0,
