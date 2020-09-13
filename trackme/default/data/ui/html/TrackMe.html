@@ -632,7 +632,7 @@
         .modal-guts {
 
           /* For Splunk 7.0.x */
-          margin-top: 30px;
+          /* margin-top: 30px; */
 
           /* other stuff we already covered */
 
@@ -641,7 +641,7 @@
 
           width: 90%;
           min-height: 50px;
-          max-height: 600px;
+          max-height: 650px;
           height: 100%;
 
           /* spacing as needed */
@@ -4012,14 +4012,20 @@ styles in <div> tags, similar to Bootstrap's grid system.
                                 </div>
                             </div>
                             <div id="rowLinkQueues" class="dashboard-row dashboard-row1" style="margin-left: 15px;">
-                                <div id="panelLinkQueues" class="dashboard-cell" style="width: 100%;">
+                                <div id="panelLinkQueues" class="dashboard-cell" style="width: 50%;">
+                                    <div class="dashboard-panel clearfix">
+                                        <div class="panel-element-row">
+                                            <div class="input input-dropdown" id="inputHostQueues">
+                                                <label>Host(s):</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div id="panelLinkQueues2" class="dashboard-cell" style="width: 50%;">
                                     <div class="dashboard-panel clearfix">
                                         <div class="panel-element-row">
                                             <div class="input input-linklist" id="inputLinkQueuesTime">
                                                 <label>&nbsp;</label>
-                                            </div>
-                                            <div class="input input-dropdown" id="inputHostQueues">
-                                                <label>Host(s):</label>
                                             </div>
                                         </div>
                                     </div>
@@ -4098,20 +4104,27 @@ styles in <div> tags, similar to Bootstrap's grid system.
                                             <h1>Splunk indexing time parsing issues:</h1>
                                             <lu>
                                                 <li>Update the macro <a target="_blank" href="/en-GB/manager/trackme/admin/macros/trackme_idx_filter?action=edit">trackme_idx_filter</a> to match indexers and other instances such as heavy forwarders that should be included</li>
-                                                <li>The splunk&gt; magic 8 need to be configured in your <a target="_blank" href="http://docs.splunk.com/Documentation/Splunk/latest/Admin/propsconf">props.conf</a>, see: <a target="_blank" href="https://trackme.readthedocs.io/en/latest/userguide.html#ops-parsing-view">TrackMe documentation page</a></li>
+                                                <li>Target the best ingestion practices with the splunk&gt; magic 8 to be configured in your <a target="_blank" href="http://docs.splunk.com/Documentation/Splunk/latest/Admin/propsconf">props.conf</a>, see: <a target="_blank" href="https://trackme.readthedocs.io/en/latest/userguide.html#splunk-8-magic-props-configuration">TrackMe documentation page</a></li>
                                             </lu>
+                                            <br />
                                     </div>
                                 </div>
                             </div>
                             <div id="rowLinkParsingIssues" class="dashboard-row dashboard-row1" style="margin-left: 15px;">
-                                <div id="panelLinkParsingIssues" class="dashboard-cell" style="width: 100%;">
+                                <div id="panelLinkParsingIssues" class="dashboard-cell" style="width: 50%;">
+                                    <div class="dashboard-panel clearfix">
+                                        <div class="panel-element-row">
+                                            <div class="input input-dropdown" id="inputHostParsing">
+                                                <label>Host(s):</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div id="panelLinkParsingIssues2" class="dashboard-cell" style="width: 50%;">
                                     <div class="dashboard-panel clearfix">
                                         <div class="panel-element-row">
                                             <div class="input input-linklist" id="inputLinkParsingIssuesTime">
                                                 <label>&nbsp;</label>
-                                            </div>
-                                            <div class="input input-dropdown" id="inputHostParsing">
-                                                <label>Host(s):</label>
                                             </div>
                                         </div>
                                     </div>
@@ -4139,12 +4152,303 @@ styles in <div> tags, similar to Bootstrap's grid system.
                                     </div>
                                 </div>
                             </div>
+                            <div id="rowParsingButtons" class="dashboard-row dashboard-row1">
+                                <div id="panelParsingButtons" class="dashboard-cell" style="width: 100%;">
+                                    <div class="dashboard-panel clearfix">                                        
+                                        <div class="panel-element-row">
+                                            <div id="element1" class="dashboard-element html" style="width: 100%">
+                                                <div class="panel-body html">
+                                                    <button type="submit" id="btn_search_parsing_issues_linebreaking" role="button" class="btn btn-primary btn-default"><span class="glyphicon glyphicon-remove"></span>Search line breaking issues</button>
+                                                    <button type="submit" id="btn_search_parsing_issues_aggregator" role="button" class="btn btn-primary btn-default"><span class="glyphicon glyphicon-remove"></span>Search aggregator mining issues</button>
+                                                    <button type="submit" id="btn_search_parsing_issues_dateparser" role="button" class="btn btn-primary btn-default"><span class="glyphicon glyphicon-remove"></span>Search date parser issues</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="rowLineBreakingProcessorInfo" class="dashboard-row dashboard-row1" data-original-id="rowLineBreakingProcessorInfo">
+                                <div id="panelLineBreakingProcessorInfo" class="dashboard-cell" style="width: 100%;" data-original-id="panelLineBreakingProcessorInfo">
+                                    <div class="dashboard-panel clearfix">
+                                        
+                                        <div class="panel-element-row">
+                                            <div id="elementInfoLineBreakingProcessor" class="dashboard-element html" style="width: 100%">
+                                                <div class="panel-body html">
+                                                        <h1>LineBreakingProcessor</h1>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="rowLineBreakingProcessorTop" class="dashboard-row dashboard-row2" data-original-id="rowLineBreakingProcessorTop">
+                                <div id="panelLineBreakingProcessorTopSource" class="dashboard-cell" style="width: 33.33%;" data-original-id="panelLineBreakingProcessorTopSource">
+                                    <div class="dashboard-panel clearfix">
+                                        <h2 class="panel-title">LineBreakingProcessor issues - top source</h2>
+                                        
+                                        <div class="panel-element-row">
+                                            <div id="chartLineBreakingProcessorTopSource" class="dashboard-element chart" style="width: 100%">
+                                                <div class="panel-body"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div id="panelLineBreakingProcessorTopHost" class="dashboard-cell" style="width: 33.33%;" data-original-id="panelLineBreakingProcessorTopHost">
+                                    <div class="dashboard-panel clearfix">
+                                        <h2 class="panel-title">LineBreakingProcessor - top host</h2>
+                                        
+                                        <div class="panel-element-row">
+                                            <div id="chartLineBreakingProcessorTopHost" class="dashboard-element chart" style="width: 100%">
+                                                <div class="panel-body"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div id="panel1" class="dashboard-cell" style="width: 33.33%;">
+                                    <div class="dashboard-panel clearfix">
+                                        <h2 class="panel-title">LineBreakingProcessor issues - top sourcetype</h2>
+                                        
+                                        <div class="panel-element-row">
+                                            <div id="chartLineBreakingProcessorTopSourcetype" class="dashboard-element chart" style="width: 100%">
+                                                <div class="panel-body"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="rowLineBreakingProcessorTopTable" class="dashboard-row dashboard-row3">
+                                <div id="panelLineBreakingProcessorTopTableSource" class="dashboard-cell" style="width: 33.33%;">
+                                    <div class="dashboard-panel clearfix">
+                                        
+                                        <div class="panel-element-row">
+                                            <div id="tableLineBreakingProcessorTopSource" class="dashboard-element table" style="width: 100%">
+                                                <div class="panel-body"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div id="panelLineBreakingProcessorTopTableHost" class="dashboard-cell" style="width: 33.33%;">
+                                    <div class="dashboard-panel clearfix">
+                                        
+                                        <div class="panel-element-row">
+                                            <div id="tableLineBreakingProcessorTopHost" class="dashboard-element table" style="width: 100%">
+                                                <div class="panel-body"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div id="panelLineBreakingProcessorTopTableSourcetype" class="dashboard-cell" style="width: 33.33%;">
+                                    <div class="dashboard-panel clearfix">
+                                        
+                                        <div class="panel-element-row">
+                                            <div id="tableLineBreakingProcessorTopSourcetype" class="dashboard-element table" style="width: 100%">
+                                                <div class="panel-body"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="rowLineBreakingProcessorEvent" class="dashboard-row dashboard-row3" data-original-id="rowLineBreakingProcessorEvent">
+                                <div id="panelLineBreakingProcessorEvent" class="dashboard-cell" style="width: 100%;" data-original-id="panelLineBreakingProcessorEvent">
+                                    <div class="dashboard-panel clearfix">
+                                        
+                                        <div class="panel-element-row">
+                                            <div id="EventLineBreakingProcessorEvent" class="dashboard-element event" style="width: 100%">
+                                                <div class="panel-body"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="rowAggregatorMiningProcessorInfo" class="dashboard-row dashboard-row3" data-original-id="rowAggregatorMiningProcessorInfo">
+                                <div id="panelAggregatorMiningProcessorInfo" class="dashboard-cell" style="width: 100%;" data-original-id="panelAggregatorMiningProcessorInfo">
+                                    <div class="dashboard-panel clearfix">
+                                        
+                                        <div class="panel-element-row">
+                                            <div id="elementAggregatorMiningProcessor" class="dashboard-element html" style="width: 100%">
+                                                <div class="panel-body html">
+                                                        <h1>AggregatorMiningProcessor</h1>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="rowAggregatorMiningProcessorTop" class="dashboard-row dashboard-row4" data-original-id="rowAggregatorMiningProcessorTop">
+                                <div id="panelAggregatorMiningProcessorTopSource" class="dashboard-cell" style="width: 33.33%;" data-original-id="panelAggregatorMiningProcessorTopSource">
+                                    <div class="dashboard-panel clearfix">
+                                        <h2 class="panel-title">AggregatorMiningProcessor issues - top source</h2>
+                                        
+                                        <div class="panel-element-row">
+                                            <div id="chartAggregatorMiningProcessorTopSource" class="dashboard-element chart" style="width: 100%">
+                                                <div class="panel-body"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div id="panelAggregatorMiningProcessorTopHost" class="dashboard-cell" style="width: 33.33%;" data-original-id="panelAggregatorMiningProcessorTopHost">
+                                    <div class="dashboard-panel clearfix">
+                                        <h2 class="panel-title">AggregatorMiningProcessor - top host</h2>
+                                        
+                                        <div class="panel-element-row">
+                                            <div id="chartAggregatorMiningProcessorTopHost" class="dashboard-element chart" style="width: 100%">
+                                                <div class="panel-body"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div id="panelAggregatorMiningProcessorTopSourcetype" class="dashboard-cell" style="width: 33.33%;" data-original-id="panelAggregatorMiningProcessorTopSourcetype">
+                                    <div class="dashboard-panel clearfix">
+                                        <h2 class="panel-title">AggregatorMiningProcessor issues - top sourcetype</h2>
+                                        
+                                        <div class="panel-element-row">
+                                            <div id="chartAggregatorMiningProcessorTopSourcetype" class="dashboard-element chart" style="width: 100%">
+                                                <div class="panel-body"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="rowAggregatorMiningProcessorTopTable" class="dashboard-row dashboard-row3">
+                                <div id="panelAggregatorMiningProcessorTopTableSource" class="dashboard-cell" style="width: 33.33%;">
+                                    <div class="dashboard-panel clearfix">
+                                        
+                                        <div class="panel-element-row">
+                                            <div id="tableAggregatorMiningProcessorTopSource" class="dashboard-element table" style="width: 100%">
+                                                <div class="panel-body"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div id="panelAggregatorMiningProcessorTopTableHost" class="dashboard-cell" style="width: 33.33%;">
+                                    <div class="dashboard-panel clearfix">
+                                        
+                                        <div class="panel-element-row">
+                                            <div id="tableAggregatorMiningProcessorTopHost" class="dashboard-element table" style="width: 100%">
+                                                <div class="panel-body"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div id="panelAggregatorMiningProcessorTopTableSourcetype" class="dashboard-cell" style="width: 33.33%;">
+                                    <div class="dashboard-panel clearfix">
+                                        
+                                        <div class="panel-element-row">
+                                            <div id="tableAggregatorMiningProcessorTopSourcetype" class="dashboard-element table" style="width: 100%">
+                                                <div class="panel-body"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>                            
+                            <div id="rowAggregatorMiningProcessorEvent" class="dashboard-row dashboard-row6" data-original-id="rowAggregatorMiningProcessorEvent">
+                                <div id="panelAggregatorMiningProcessorEvent" class="dashboard-cell" style="width: 100%;" data-original-id="panelAggregatorMiningProcessorEvent">
+                                    <div class="dashboard-panel clearfix">
+                                        
+                                        <div class="panel-element-row">
+                                            <div id="EventAggregatorMiningProcessorEvent" class="dashboard-element event" style="width: 100%">
+                                                <div class="panel-body"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="rowDateParserVerboseInfo" class="dashboard-row dashboard-row5" data-original-id="rowDateParserVerboseInfo">
+                                <div id="panelDateParserVerboseInfo" class="dashboard-cell" style="width: 100%;" data-original-id="panelDateParserVerboseInfo">
+                                    <div class="dashboard-panel clearfix">
+                                        
+                                        <div class="panel-element-row">
+                                            <div id="elementDateParserVerbose" class="dashboard-element html" style="width: 100%">
+                                                <div class="panel-body html">
+                                                        <h1>DateParserVerbose</h1>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="rowDateParserVerboseTop" class="dashboard-row dashboard-row6" data-original-id="rowDateParserVerboseTop">
+                                <div id="panelDateParserVerboseTopSource" class="dashboard-cell" style="width: 33.33%;" data-original-id="panelDateParserVerboseTopSource">
+                                    <div class="dashboard-panel clearfix">
+                                        <h2 class="panel-title">Datetime parsing issues - top source</h2>
+                                        
+                                        <div class="panel-element-row">
+                                            <div id="chartDateParserVerboseTopSource" class="dashboard-element chart" style="width: 100%">
+                                                <div class="panel-body"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div id="panelDateParserVerboseTopHost" class="dashboard-cell" style="width: 33.33%;" data-original-id="panelDateParserVerboseTopHost">
+                                    <div class="dashboard-panel clearfix">
+                                        <h2 class="panel-title">Datetime parsing issues - top host</h2>
+                                        
+                                        <div class="panel-element-row">
+                                            <div id="chartDateParserVerboseTopHost" class="dashboard-element chart" style="width: 100%">
+                                                <div class="panel-body"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div id="panelDateParserVerboseTopSourcetype" class="dashboard-cell" style="width: 33.33%;" data-original-id="panelDateParserVerboseTopSourcetype">
+                                    <div class="dashboard-panel clearfix">
+                                        <h2 class="panel-title">Datetime parsing issues - top sourcetype</h2>
+                                        
+                                        <div class="panel-element-row">
+                                            <div id="chartDateParserVerboseTopSourcetype" class="dashboard-element chart" style="width: 100%">
+                                                <div class="panel-body"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="rowDateParserVerboseTopTable" class="dashboard-row dashboard-row3">
+                                <div id="panelDateParserVerboseTopTableSource" class="dashboard-cell" style="width: 33.33%;">
+                                    <div class="dashboard-panel clearfix">
+                                        
+                                        <div class="panel-element-row">
+                                            <div id="tableDateParserVerboseTopSource" class="dashboard-element table" style="width: 100%">
+                                                <div class="panel-body"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div id="panelDateParserVerboseTopTableHost" class="dashboard-cell" style="width: 33.33%;">
+                                    <div class="dashboard-panel clearfix">
+                                        
+                                        <div class="panel-element-row">
+                                            <div id="tableDateParserVerboseTopHost" class="dashboard-element table" style="width: 100%">
+                                                <div class="panel-body"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div id="panelDateParserVerboseTopTableSourcetype" class="dashboard-cell" style="width: 33.33%;">
+                                    <div class="dashboard-panel clearfix">
+                                        
+                                        <div class="panel-element-row">
+                                            <div id="tableDateParserVerboseTopSourcetype" class="dashboard-element table" style="width: 100%">
+                                                <div class="panel-body"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="rowDateParserVerboseEvent" class="dashboard-row dashboard-row9" data-original-id="rowDateParserVerboseEvent">
+                                <div id="panelDateParserVerboseEvent" class="dashboard-cell" style="width: 100%;" data-original-id="panelDateParserVerboseEvent">
+                                    <div class="dashboard-panel clearfix">
+                                        
+                                        <div class="panel-element-row">
+                                            <div id="EventDateParserVerboseEvent" class="dashboard-element event" style="width: 100%">
+                                                <div class="panel-body"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                         <div class="modal-footer" style="margin-top: 700px;">
                             <button type="submit" class="btn btn-default btn-default pull-left" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Close</button>
-                            <a class="btn btn-primary" id="btn_search_parsing_issues_linebreaking" target="_blank" href="search_data_source_url" role="button">Search line breaking issues</a>
-                            <a class="btn btn-primary" id="btn_search_parsing_issues_aggregator" target="_blank" href="search_data_source_url" role="button">Search aggregator mining issues</a>
-                            <a class="btn btn-primary" id="btn_search_parsing_issues_dateparser" target="_blank" href="search_data_source_url" role="button">Search date parser issues</a>
                         </div>
                     </div>
                 </div>
@@ -11589,6 +11893,216 @@ require([
             tokenNamespace: "submitted"
         });
 
+        var searchLineBreakingProcessorTopSource = new SearchManager({
+            "id": "searchLineBreakingProcessorTopSource",
+            "earliest_time": "$inputLinkParsingIssuesTime.earliest$",
+            "latest_time": "$inputLinkParsingIssuesTime.latest$",
+            "sample_ratio": 1,
+            "search": "index=_internal sourcetype=splunkd error OR warn `trackme_idx_filter` component=LineBreakingProcessor | top limit=50 data_source | eval percent=round(percent, 2)",
+            "status_buckets": 0,
+            "cancelOnUnload": true,
+            "app": utils.getCurrentApp(),
+            "auto_cancel": 90,
+            "preview": true,
+            "tokenDependencies": {
+                "depends": "$tk_start_parsing_issues_searches$",
+                "rejects": ""
+            },
+            "runWhenTimeIsUndefined": false
+        }, {tokens: true, tokenNamespace: "submitted"});
+        
+        var searchLineBreakingProcessorTopHost = new SearchManager({
+            "id": "searchLineBreakingProcessorTopHost",
+            "earliest_time": "$inputLinkParsingIssuesTime.earliest$",
+            "latest_time": "$inputLinkParsingIssuesTime.latest$",
+            "sample_ratio": 1,
+            "search": "index=_internal sourcetype=splunkd error OR warn `trackme_idx_filter` component=LineBreakingProcessor | top limit=50 data_host | eval percent=round(percent, 2)",
+            "status_buckets": 0,
+            "cancelOnUnload": true,
+            "app": utils.getCurrentApp(),
+            "auto_cancel": 90,
+            "preview": true,
+            "tokenDependencies": {
+                "depends": "$tk_start_parsing_issues_searches$",
+                "rejects": ""
+            },
+            "runWhenTimeIsUndefined": false
+        }, {tokens: true, tokenNamespace: "submitted"});
+        
+        var searchLineBreakingProcessorTopSourcetype = new SearchManager({
+            "id": "searchLineBreakingProcessorTopSourcetype",
+            "earliest_time": "$inputLinkParsingIssuesTime.earliest$",
+            "latest_time": "$inputLinkParsingIssuesTime.latest$",
+            "sample_ratio": 1,
+            "search": "index=_internal sourcetype=splunkd error OR warn `trackme_idx_filter` component=LineBreakingProcessor | top limit=50 data_sourcetype | eval percent=round(percent, 2)",
+            "status_buckets": 0,
+            "cancelOnUnload": true,
+            "app": utils.getCurrentApp(),
+            "auto_cancel": 90,
+            "preview": true,
+            "tokenDependencies": {
+                "depends": "$tk_start_parsing_issues_searches$",
+                "rejects": ""
+            },
+            "runWhenTimeIsUndefined": false
+        }, {tokens: true, tokenNamespace: "submitted"});
+        
+        var searchAggregatorMiningProcessorTopSource = new SearchManager({
+            "id": "searchAggregatorMiningProcessorTopSource",
+            "earliest_time": "$inputLinkParsingIssuesTime.earliest$",
+            "latest_time": "$inputLinkParsingIssuesTime.latest$",
+            "sample_ratio": 1,
+            "search": "index=_internal sourcetype=splunkd error OR warn `trackme_idx_filter` component=AggregatorMiningProcessor | top limit=50 data_source | eval percent=round(percent, 2)",
+            "status_buckets": 0,
+            "cancelOnUnload": true,
+            "app": utils.getCurrentApp(),
+            "auto_cancel": 90,
+            "preview": true,
+            "tokenDependencies": {
+                "depends": "$tk_start_parsing_issues_searches$",
+                "rejects": ""
+            },
+            "runWhenTimeIsUndefined": false
+        }, {tokens: true, tokenNamespace: "submitted"});
+        
+        var searchAggregatorMiningProcessorTopHost = new SearchManager({
+            "id": "searchAggregatorMiningProcessorTopHost",
+            "earliest_time": "$inputLinkParsingIssuesTime.earliest$",
+            "latest_time": "$inputLinkParsingIssuesTime.latest$",
+            "sample_ratio": 1,
+            "search": "index=_internal sourcetype=splunkd error OR warn `trackme_idx_filter` component=AggregatorMiningProcessor | top limit=50 data_host | eval percent=round(percent, 2)",
+            "status_buckets": 0,
+            "cancelOnUnload": true,
+            "app": utils.getCurrentApp(),
+            "auto_cancel": 90,
+            "preview": true,
+            "tokenDependencies": {
+                "depends": "$tk_start_parsing_issues_searches$",
+                "rejects": ""
+            },
+            "runWhenTimeIsUndefined": false
+        }, {tokens: true, tokenNamespace: "submitted"});
+        
+        var searchAggregatorMiningProcessorTopSourcetype = new SearchManager({
+            "id": "searchAggregatorMiningProcessorTopSourcetype",
+            "earliest_time": "$inputLinkParsingIssuesTime.earliest$",
+            "latest_time": "$inputLinkParsingIssuesTime.latest$",
+            "sample_ratio": 1,
+            "search": "index=_internal sourcetype=splunkd error OR warn `trackme_idx_filter` component=AggregatorMiningProcessor | top limit=50 data_sourcetype | eval percent=round(percent, 2)",
+            "status_buckets": 0,
+            "cancelOnUnload": true,
+            "app": utils.getCurrentApp(),
+            "auto_cancel": 90,
+            "preview": true,
+            "tokenDependencies": {
+                "depends": "$tk_start_parsing_issues_searches$",
+                "rejects": ""
+            },
+            "runWhenTimeIsUndefined": false
+        }, {tokens: true, tokenNamespace: "submitted"});
+        
+        var searchDateParserVerboseTopSource = new SearchManager({
+            "id": "searchDateParserVerboseTopSource",
+            "earliest_time": "$inputLinkParsingIssuesTime.earliest$",
+            "latest_time": "$inputLinkParsingIssuesTime.latest$",
+            "sample_ratio": 1,
+            "search": "index=_internal sourcetype=splunkd error OR warn `trackme_idx_filter` component=DateParserVerbose | `trackme_rex_dateparserverbose` | top limit=50 data_source | eval percent=round(percent, 2)",
+            "status_buckets": 0,
+            "cancelOnUnload": true,
+            "app": utils.getCurrentApp(),
+            "auto_cancel": 90,
+            "preview": true,
+            "tokenDependencies": {
+                "depends": "$tk_start_parsing_issues_searches$",
+                "rejects": ""
+            },
+            "runWhenTimeIsUndefined": false
+        }, {tokens: true, tokenNamespace: "submitted"});
+        
+        var searchDateParserVerboseTopHost = new SearchManager({
+            "id": "searchDateParserVerboseTopHost",
+            "earliest_time": "$inputLinkParsingIssuesTime.earliest$",
+            "latest_time": "$inputLinkParsingIssuesTime.latest$",
+            "sample_ratio": 1,
+            "search": "index=_internal sourcetype=splunkd error OR warn `trackme_idx_filter` component=DateParserVerbose | `trackme_rex_dateparserverbose` | top limit=50 data_host | eval percent=round(percent, 2)",
+            "status_buckets": 0,
+            "cancelOnUnload": true,
+            "app": utils.getCurrentApp(),
+            "auto_cancel": 90,
+            "preview": true,
+            "tokenDependencies": {
+                "depends": "$tk_start_parsing_issues_searches$",
+                "rejects": ""
+            },
+            "runWhenTimeIsUndefined": false
+        }, {tokens: true, tokenNamespace: "submitted"});
+        
+        var searchDateParserVerboseTopSourcetype = new SearchManager({
+            "id": "searchDateParserVerboseTopSourcetype",
+            "earliest_time": "$inputLinkParsingIssuesTime.earliest$",
+            "latest_time": "$inputLinkParsingIssuesTime.latest$",
+            "sample_ratio": 1,
+            "search": "index=_internal sourcetype=splunkd error OR warn `trackme_idx_filter` component=DateParserVerbose | `trackme_rex_dateparserverbose` | top limit=50 data_sourcetype | eval percent=round(percent, 2)",
+            "status_buckets": 0,
+            "cancelOnUnload": true,
+            "app": utils.getCurrentApp(),
+            "auto_cancel": 90,
+            "preview": true,
+            "tokenDependencies": {
+                "depends": "$tk_start_parsing_issues_searches$",
+                "rejects": ""
+            },
+            "runWhenTimeIsUndefined": false
+        }, {tokens: true, tokenNamespace: "submitted"});
+
+        var searchLineBreakingProcessorEvent = new SearchManager({
+            "id": "searchLineBreakingProcessorEvent",
+            "earliest_time": "$inputLinkParsingIssuesTime.earliest$",
+            "latest_time": "$inputLinkParsingIssuesTime.latest$",
+            "sample_ratio": null,
+            "search": "index=_internal sourcetype=splunkd error OR warn `trackme_idx_filter` component=LineBreakingProcessor | head 100",
+            "status_buckets": 300,
+            "cancelOnUnload": true,
+            "app": utils.getCurrentApp(),
+            "auto_cancel": 90,
+            "preview": true,
+            "tokenDependencies": {
+            },
+            "runWhenTimeIsUndefined": false
+        }, {tokens: true, tokenNamespace: "submitted"});
+
+        var searchAggregatorMiningProcessorEvent = new SearchManager({
+            "id": "searchAggregatorMiningProcessorEvent",
+            "earliest_time": "$inputLinkParsingIssuesTime.earliest$",
+            "latest_time": "$inputLinkParsingIssuesTime.latest$",
+            "sample_ratio": null,
+            "search": "index=_internal sourcetype=splunkd error OR warn `trackme_idx_filter` component=aggregatorMiningProcessor | head 100",
+            "status_buckets": 300,
+            "cancelOnUnload": true,
+            "app": utils.getCurrentApp(),
+            "auto_cancel": 90,
+            "preview": true,
+            "tokenDependencies": {
+            },
+            "runWhenTimeIsUndefined": false
+        }, {tokens: true, tokenNamespace: "submitted"});
+
+        var searchDateParserVerboseEvent = new SearchManager({
+            "id": "searchDateParserVerboseEvent",
+            "earliest_time": "$inputLinkParsingIssuesTime.earliest$",
+            "latest_time": "$inputLinkParsingIssuesTime.latest$",
+            "sample_ratio": null,
+            "search": "index=_internal sourcetype=splunkd error OR warn `trackme_idx_filter` component=DateParserVerbose | head 100",
+            "status_buckets": 300,
+            "cancelOnUnload": true,
+            "app": utils.getCurrentApp(),
+            "auto_cancel": 90,
+            "preview": true,
+            "tokenDependencies": {
+            },
+            "runWhenTimeIsUndefined": false
+        }, {tokens: true, tokenNamespace: "submitted"});
+
         // Identity card
 
         var searchIdentityCardTable = new SearchManager({
@@ -17810,7 +18324,7 @@ require([
             "trellis.scales.shared": "1",
             "charting.axisTitleY.visibility": "visible",
             "charting.axisTitleY2.visibility": "visible",
-            "height": "350",
+            "height": "300",
             "charting.chart.bubbleMinimumSize": "10",
             "charting.drilldown": "none",
             "charting.legend.mode": "standard",
@@ -17829,6 +18343,487 @@ require([
             tokens: true,
             tokenNamespace: "submitted"
         }).render();
+
+        var chartLineBreakingProcessorTopSource = new ChartElement({
+            "id": "chartLineBreakingProcessorTopSource",
+            "resizable": true,
+            "charting.axisLabelsX.majorLabelStyle.overflowMode": "ellipsisNone",
+            "charting.axisLabelsX.majorLabelStyle.rotation": "0",
+            "charting.axisTitleX.visibility": "visible",
+            "charting.axisTitleY.visibility": "visible",
+            "charting.axisTitleY2.visibility": "visible",
+            "charting.axisX.abbreviation": "none",
+            "charting.axisX.scale": "linear",
+            "charting.axisY.abbreviation": "none",
+            "charting.axisY.scale": "linear",
+            "charting.axisY2.abbreviation": "none",
+            "charting.axisY2.enabled": "0",
+            "charting.axisY2.scale": "inherit",
+            "charting.chart": "pie",
+            "charting.chart.bubbleMaximumSize": "50",
+            "charting.chart.bubbleMinimumSize": "10",
+            "charting.chart.bubbleSizeBy": "area",
+            "charting.chart.nullValueMode": "gaps",
+            "charting.chart.showDataLabels": "none",
+            "charting.chart.sliceCollapsingThreshold": "0.01",
+            "charting.chart.stackMode": "default",
+            "charting.chart.style": "shiny",
+            "charting.drilldown": "none",
+            "charting.layout.splitSeries": "0",
+            "charting.layout.splitSeries.allowIndependentYRanges": "0",
+            "charting.legend.labelStyle.overflowMode": "ellipsisMiddle",
+            "charting.legend.mode": "standard",
+            "charting.legend.placement": "right",
+            "charting.lineWidth": "2",
+            "refresh.display": "progressbar",
+            "trellis.enabled": "0",
+            "trellis.scales.shared": "1",
+            "trellis.size": "medium",
+            "managerid": "searchLineBreakingProcessorTopSource",
+            "el": $('#chartLineBreakingProcessorTopSource')
+        }, {tokens: true, tokenNamespace: "submitted"}).render();
+
+        var tableLineBreakingProcessorTopSource = new TableElement({
+            "id": "tableLineBreakingProcessorTopSource",
+            "drilldown": "none",
+            "count": "5",
+            "refresh.display": "progressbar",
+            "managerid": "searchLineBreakingProcessorTopSource",
+            "el": $('#tableLineBreakingProcessorTopSource')
+        }, {tokens: true, tokenNamespace: "submitted"}).render();
+
+        var chartLineBreakingProcessorTopHost = new ChartElement({
+            "id": "chartLineBreakingProcessorTopHost",
+            "resizable": true,
+            "charting.axisLabelsX.majorLabelStyle.overflowMode": "ellipsisNone",
+            "charting.axisLabelsX.majorLabelStyle.rotation": "0",
+            "charting.axisTitleX.visibility": "visible",
+            "charting.axisTitleY.visibility": "visible",
+            "charting.axisTitleY2.visibility": "visible",
+            "charting.axisX.abbreviation": "none",
+            "charting.axisX.scale": "linear",
+            "charting.axisY.abbreviation": "none",
+            "charting.axisY.scale": "linear",
+            "charting.axisY2.abbreviation": "none",
+            "charting.axisY2.enabled": "0",
+            "charting.axisY2.scale": "inherit",
+            "charting.chart": "pie",
+            "charting.chart.bubbleMaximumSize": "50",
+            "charting.chart.bubbleMinimumSize": "10",
+            "charting.chart.bubbleSizeBy": "area",
+            "charting.chart.nullValueMode": "gaps",
+            "charting.chart.showDataLabels": "none",
+            "charting.chart.sliceCollapsingThreshold": "0.01",
+            "charting.chart.stackMode": "default",
+            "charting.chart.style": "shiny",
+            "charting.drilldown": "none",
+            "charting.layout.splitSeries": "0",
+            "charting.layout.splitSeries.allowIndependentYRanges": "0",
+            "charting.legend.labelStyle.overflowMode": "ellipsisMiddle",
+            "charting.legend.mode": "standard",
+            "charting.legend.placement": "right",
+            "charting.lineWidth": "2",
+            "refresh.display": "progressbar",
+            "trellis.enabled": "0",
+            "trellis.scales.shared": "1",
+            "trellis.size": "medium",
+            "managerid": "searchLineBreakingProcessorTopHost",
+            "el": $('#chartLineBreakingProcessorTopHost')
+        }, {tokens: true, tokenNamespace: "submitted"}).render();
+
+        var tableLineBreakingProcessorTopHost = new TableElement({
+            "id": "tableLineBreakingProcessorTopHost",
+            "drilldown": "none",
+            "count": "5",
+            "refresh.display": "progressbar",
+            "managerid": "searchLineBreakingProcessorTopHost",
+            "el": $('#tableLineBreakingProcessorTopHost')
+        }, {tokens: true, tokenNamespace: "submitted"}).render();
+
+        var chartLineBreakingProcessorTopSourcetype = new ChartElement({
+            "id": "chartLineBreakingProcessorTopSourcetype",
+            "resizable": true,
+            "charting.axisLabelsX.majorLabelStyle.overflowMode": "ellipsisNone",
+            "charting.axisLabelsX.majorLabelStyle.rotation": "0",
+            "charting.axisTitleX.visibility": "visible",
+            "charting.axisTitleY.visibility": "visible",
+            "charting.axisTitleY2.visibility": "visible",
+            "charting.axisX.abbreviation": "none",
+            "charting.axisX.scale": "linear",
+            "charting.axisY.abbreviation": "none",
+            "charting.axisY.scale": "linear",
+            "charting.axisY2.abbreviation": "none",
+            "charting.axisY2.enabled": "0",
+            "charting.axisY2.scale": "inherit",
+            "charting.chart": "pie",
+            "charting.chart.bubbleMaximumSize": "50",
+            "charting.chart.bubbleMinimumSize": "10",
+            "charting.chart.bubbleSizeBy": "area",
+            "charting.chart.nullValueMode": "gaps",
+            "charting.chart.showDataLabels": "none",
+            "charting.chart.sliceCollapsingThreshold": "0.01",
+            "charting.chart.stackMode": "default",
+            "charting.chart.style": "shiny",
+            "charting.drilldown": "none",
+            "charting.layout.splitSeries": "0",
+            "charting.layout.splitSeries.allowIndependentYRanges": "0",
+            "charting.legend.labelStyle.overflowMode": "ellipsisMiddle",
+            "charting.legend.mode": "standard",
+            "charting.legend.placement": "right",
+            "charting.lineWidth": "2",
+            "refresh.display": "progressbar",
+            "trellis.enabled": "0",
+            "trellis.scales.shared": "1",
+            "trellis.size": "medium",
+            "managerid": "searchLineBreakingProcessorTopSourcetype",
+            "el": $('#chartLineBreakingProcessorTopSourcetype')
+        }, {tokens: true, tokenNamespace: "submitted"}).render();
+
+        var tableLineBreakingProcessorTopSourcetype = new TableElement({
+            "id": "tableLineBreakingProcessorTopSourcetype",
+            "drilldown": "none",
+            "count": "5",
+            "refresh.display": "progressbar",
+            "managerid": "searchLineBreakingProcessorTopSourcetype",
+            "el": $('#tableLineBreakingProcessorTopSourcetype')
+        }, {tokens: true, tokenNamespace: "submitted"}).render();
+
+        var elementAggregatorMiningProcessor = new HtmlElement({
+            "id": "elementAggregatorMiningProcessor",
+            "useTokens": true,
+            "el": $('#elementAggregatorMiningProcessor')
+        }, {tokens: true, tokenNamespace: "submitted"}).render();
+
+        DashboardController.addReadyDep(elementAggregatorMiningProcessor.contentLoaded());
+        
+        var chartAggregatorMiningProcessorTopSource = new ChartElement({
+            "id": "chartAggregatorMiningProcessorTopSource",
+            "resizable": true,
+            "charting.axisLabelsX.majorLabelStyle.overflowMode": "ellipsisNone",
+            "charting.axisLabelsX.majorLabelStyle.rotation": "0",
+            "charting.axisTitleX.visibility": "visible",
+            "charting.axisTitleY.visibility": "visible",
+            "charting.axisTitleY2.visibility": "visible",
+            "charting.axisX.abbreviation": "none",
+            "charting.axisX.scale": "linear",
+            "charting.axisY.abbreviation": "none",
+            "charting.axisY.scale": "linear",
+            "charting.axisY2.abbreviation": "none",
+            "charting.axisY2.enabled": "0",
+            "charting.axisY2.scale": "inherit",
+            "charting.chart": "pie",
+            "charting.chart.bubbleMaximumSize": "50",
+            "charting.chart.bubbleMinimumSize": "10",
+            "charting.chart.bubbleSizeBy": "area",
+            "charting.chart.nullValueMode": "gaps",
+            "charting.chart.showDataLabels": "none",
+            "charting.chart.sliceCollapsingThreshold": "0.01",
+            "charting.chart.stackMode": "default",
+            "charting.chart.style": "shiny",
+            "charting.drilldown": "none",
+            "charting.layout.splitSeries": "0",
+            "charting.layout.splitSeries.allowIndependentYRanges": "0",
+            "charting.legend.labelStyle.overflowMode": "ellipsisMiddle",
+            "charting.legend.mode": "standard",
+            "charting.legend.placement": "right",
+            "charting.lineWidth": "2",
+            "refresh.display": "progressbar",
+            "trellis.enabled": "0",
+            "trellis.scales.shared": "1",
+            "trellis.size": "medium",
+            "managerid": "searchAggregatorMiningProcessorTopSource",
+            "el": $('#chartAggregatorMiningProcessorTopSource')
+        }, {tokens: true, tokenNamespace: "submitted"}).render();
+
+        var tableAggregatorMiningProcessorTopSource = new TableElement({
+            "id": "tableAggregatorMiningProcessorTopSource",
+            "drilldown": "none",
+            "count": "5",
+            "refresh.display": "progressbar",
+            "managerid": "searchAggregatorMiningProcessorTopSource",
+            "el": $('#tableAggregatorMiningProcessorTopSource')
+        }, {tokens: true, tokenNamespace: "submitted"}).render();
+
+        var chartAggregatorMiningProcessorTopHost = new ChartElement({
+            "id": "chartAggregatorMiningProcessorTopHost",
+            "resizable": true,
+            "charting.axisLabelsX.majorLabelStyle.overflowMode": "ellipsisNone",
+            "charting.axisLabelsX.majorLabelStyle.rotation": "0",
+            "charting.axisTitleX.visibility": "visible",
+            "charting.axisTitleY.visibility": "visible",
+            "charting.axisTitleY2.visibility": "visible",
+            "charting.axisX.abbreviation": "none",
+            "charting.axisX.scale": "linear",
+            "charting.axisY.abbreviation": "none",
+            "charting.axisY.scale": "linear",
+            "charting.axisY2.abbreviation": "none",
+            "charting.axisY2.enabled": "0",
+            "charting.axisY2.scale": "inherit",
+            "charting.chart": "pie",
+            "charting.chart.bubbleMaximumSize": "50",
+            "charting.chart.bubbleMinimumSize": "10",
+            "charting.chart.bubbleSizeBy": "area",
+            "charting.chart.nullValueMode": "gaps",
+            "charting.chart.showDataLabels": "none",
+            "charting.chart.sliceCollapsingThreshold": "0.01",
+            "charting.chart.stackMode": "default",
+            "charting.chart.style": "shiny",
+            "charting.drilldown": "none",
+            "charting.layout.splitSeries": "0",
+            "charting.layout.splitSeries.allowIndependentYRanges": "0",
+            "charting.legend.labelStyle.overflowMode": "ellipsisMiddle",
+            "charting.legend.mode": "standard",
+            "charting.legend.placement": "right",
+            "charting.lineWidth": "2",
+            "refresh.display": "progressbar",
+            "trellis.enabled": "0",
+            "trellis.scales.shared": "1",
+            "trellis.size": "medium",
+            "managerid": "searchAggregatorMiningProcessorTopHost",
+            "el": $('#chartAggregatorMiningProcessorTopHost')
+        }, {tokens: true, tokenNamespace: "submitted"}).render();
+
+        var tableAggregatorMiningProcessorTopHost = new TableElement({
+            "id": "tableAggregatorMiningProcessorTopHost",
+            "drilldown": "none",
+            "count": "5",
+            "refresh.display": "progressbar",
+            "managerid": "searchAggregatorMiningProcessorTopHost",
+            "el": $('#tableAggregatorMiningProcessorTopHost')
+        }, {tokens: true, tokenNamespace: "submitted"}).render();
+
+        var chartAggregatorMiningProcessorTopSourcetype = new ChartElement({
+            "id": "chartAggregatorMiningProcessorTopSourcetype",
+            "resizable": true,
+            "charting.axisLabelsX.majorLabelStyle.overflowMode": "ellipsisNone",
+            "charting.axisLabelsX.majorLabelStyle.rotation": "0",
+            "charting.axisTitleX.visibility": "visible",
+            "charting.axisTitleY.visibility": "visible",
+            "charting.axisTitleY2.visibility": "visible",
+            "charting.axisX.abbreviation": "none",
+            "charting.axisX.scale": "linear",
+            "charting.axisY.abbreviation": "none",
+            "charting.axisY.scale": "linear",
+            "charting.axisY2.abbreviation": "none",
+            "charting.axisY2.enabled": "0",
+            "charting.axisY2.scale": "inherit",
+            "charting.chart": "pie",
+            "charting.chart.bubbleMaximumSize": "50",
+            "charting.chart.bubbleMinimumSize": "10",
+            "charting.chart.bubbleSizeBy": "area",
+            "charting.chart.nullValueMode": "gaps",
+            "charting.chart.showDataLabels": "none",
+            "charting.chart.sliceCollapsingThreshold": "0.01",
+            "charting.chart.stackMode": "default",
+            "charting.chart.style": "shiny",
+            "charting.drilldown": "none",
+            "charting.layout.splitSeries": "0",
+            "charting.layout.splitSeries.allowIndependentYRanges": "0",
+            "charting.legend.labelStyle.overflowMode": "ellipsisMiddle",
+            "charting.legend.mode": "standard",
+            "charting.legend.placement": "right",
+            "charting.lineWidth": "2",
+            "refresh.display": "progressbar",
+            "trellis.enabled": "0",
+            "trellis.scales.shared": "1",
+            "trellis.size": "medium",
+            "managerid": "searchAggregatorMiningProcessorTopSourcetype",
+            "el": $('#chartAggregatorMiningProcessorTopSourcetype')
+        }, {tokens: true, tokenNamespace: "submitted"}).render();
+
+        var tableAggregatorMiningProcessorTopSourcetype = new TableElement({
+            "id": "tableAggregatorMiningProcessorTopSourcetype",
+            "drilldown": "none",
+            "count": "5",
+            "refresh.display": "progressbar",
+            "managerid": "searchAggregatorMiningProcessorTopSourcetype",
+            "el": $('#tableAggregatorMiningProcessorTopSourcetype')
+        }, {tokens: true, tokenNamespace: "submitted"}).render();
+
+        var elementDateParserVerbose = new HtmlElement({
+            "id": "elementDateParserVerbose",
+            "useTokens": true,
+            "el": $('#elementDateParserVerbose')
+        }, {tokens: true, tokenNamespace: "submitted"}).render();
+
+        DashboardController.addReadyDep(elementDateParserVerbose.contentLoaded());
+        
+        var chartDateParserVerboseTopSource = new ChartElement({
+            "id": "chartDateParserVerboseTopSource",
+            "resizable": true,
+            "charting.axisLabelsX.majorLabelStyle.overflowMode": "ellipsisNone",
+            "charting.axisLabelsX.majorLabelStyle.rotation": "0",
+            "charting.axisTitleX.visibility": "visible",
+            "charting.axisTitleY.visibility": "visible",
+            "charting.axisTitleY2.visibility": "visible",
+            "charting.axisX.abbreviation": "none",
+            "charting.axisX.scale": "linear",
+            "charting.axisY.abbreviation": "none",
+            "charting.axisY.scale": "linear",
+            "charting.axisY2.abbreviation": "none",
+            "charting.axisY2.enabled": "0",
+            "charting.axisY2.scale": "inherit",
+            "charting.chart": "pie",
+            "charting.chart.bubbleMaximumSize": "50",
+            "charting.chart.bubbleMinimumSize": "10",
+            "charting.chart.bubbleSizeBy": "area",
+            "charting.chart.nullValueMode": "gaps",
+            "charting.chart.showDataLabels": "none",
+            "charting.chart.sliceCollapsingThreshold": "0.01",
+            "charting.chart.stackMode": "default",
+            "charting.chart.style": "shiny",
+            "charting.drilldown": "none",
+            "charting.layout.splitSeries": "0",
+            "charting.layout.splitSeries.allowIndependentYRanges": "0",
+            "charting.legend.labelStyle.overflowMode": "ellipsisMiddle",
+            "charting.legend.mode": "standard",
+            "charting.legend.placement": "right",
+            "charting.lineWidth": "2",
+            "refresh.display": "progressbar",
+            "trellis.enabled": "0",
+            "trellis.scales.shared": "1",
+            "trellis.size": "medium",
+            "managerid": "searchDateParserVerboseTopSource",
+            "el": $('#chartDateParserVerboseTopSource')
+        }, {tokens: true, tokenNamespace: "submitted"}).render();
+
+        var tableDateParserVerboseTopSource = new TableElement({
+            "id": "tableDateParserVerboseTopSource",
+            "drilldown": "none",
+            "count": "5",
+            "refresh.display": "progressbar",
+            "managerid": "searchDateParserVerboseTopSource",
+            "el": $('#tableDateParserVerboseTopSource')
+        }, {tokens: true, tokenNamespace: "submitted"}).render();
+
+        var chartDateParserVerboseTopHost = new ChartElement({
+            "id": "chartDateParserVerboseTopHost",
+            "resizable": true,
+            "charting.axisLabelsX.majorLabelStyle.overflowMode": "ellipsisNone",
+            "charting.axisLabelsX.majorLabelStyle.rotation": "0",
+            "charting.axisTitleX.visibility": "visible",
+            "charting.axisTitleY.visibility": "visible",
+            "charting.axisTitleY2.visibility": "visible",
+            "charting.axisX.abbreviation": "none",
+            "charting.axisX.scale": "linear",
+            "charting.axisY.abbreviation": "none",
+            "charting.axisY.scale": "linear",
+            "charting.axisY2.abbreviation": "none",
+            "charting.axisY2.enabled": "0",
+            "charting.axisY2.scale": "inherit",
+            "charting.chart": "pie",
+            "charting.chart.bubbleMaximumSize": "50",
+            "charting.chart.bubbleMinimumSize": "10",
+            "charting.chart.bubbleSizeBy": "area",
+            "charting.chart.nullValueMode": "gaps",
+            "charting.chart.showDataLabels": "none",
+            "charting.chart.sliceCollapsingThreshold": "0.01",
+            "charting.chart.stackMode": "default",
+            "charting.chart.style": "shiny",
+            "charting.drilldown": "none",
+            "charting.layout.splitSeries": "0",
+            "charting.layout.splitSeries.allowIndependentYRanges": "0",
+            "charting.legend.labelStyle.overflowMode": "ellipsisMiddle",
+            "charting.legend.mode": "standard",
+            "charting.legend.placement": "right",
+            "charting.lineWidth": "2",
+            "refresh.display": "progressbar",
+            "trellis.enabled": "0",
+            "trellis.scales.shared": "1",
+            "trellis.size": "medium",
+            "managerid": "searchDateParserVerboseTopHost",
+            "el": $('#chartDateParserVerboseTopHost')
+        }, {tokens: true, tokenNamespace: "submitted"}).render();
+
+        var tableDateParserVerboseTopHost = new TableElement({
+            "id": "tableDateParserVerboseTopHost",
+            "drilldown": "none",
+            "count": "5",
+            "refresh.display": "progressbar",
+            "managerid": "searchDateParserVerboseTopHost",
+            "el": $('#tableDateParserVerboseTopHost')
+        }, {tokens: true, tokenNamespace: "submitted"}).render();
+
+        var chartDateParserVerboseTopSourcetype = new ChartElement({
+            "id": "chartDateParserVerboseTopSourcetype",
+            "resizable": true,
+            "charting.axisLabelsX.majorLabelStyle.overflowMode": "ellipsisNone",
+            "charting.axisLabelsX.majorLabelStyle.rotation": "0",
+            "charting.axisTitleX.visibility": "visible",
+            "charting.axisTitleY.visibility": "visible",
+            "charting.axisTitleY2.visibility": "visible",
+            "charting.axisX.abbreviation": "none",
+            "charting.axisX.scale": "linear",
+            "charting.axisY.abbreviation": "none",
+            "charting.axisY.scale": "linear",
+            "charting.axisY2.abbreviation": "none",
+            "charting.axisY2.enabled": "0",
+            "charting.axisY2.scale": "inherit",
+            "charting.chart": "pie",
+            "charting.chart.bubbleMaximumSize": "50",
+            "charting.chart.bubbleMinimumSize": "10",
+            "charting.chart.bubbleSizeBy": "area",
+            "charting.chart.nullValueMode": "gaps",
+            "charting.chart.showDataLabels": "none",
+            "charting.chart.sliceCollapsingThreshold": "0.01",
+            "charting.chart.stackMode": "default",
+            "charting.chart.style": "shiny",
+            "charting.drilldown": "none",
+            "charting.layout.splitSeries": "0",
+            "charting.layout.splitSeries.allowIndependentYRanges": "0",
+            "charting.legend.labelStyle.overflowMode": "ellipsisMiddle",
+            "charting.legend.mode": "standard",
+            "charting.legend.placement": "right",
+            "charting.lineWidth": "2",
+            "refresh.display": "progressbar",
+            "trellis.enabled": "0",
+            "trellis.scales.shared": "1",
+            "trellis.size": "medium",
+            "managerid": "searchDateParserVerboseTopSourcetype",
+            "el": $('#chartDateParserVerboseTopSourcetype')
+        }, {tokens: true, tokenNamespace: "submitted"}).render();
+
+        var tableDateParserVerboseTopSourcetype = new TableElement({
+            "id": "tableDateParserVerboseTopSourcetype",
+            "drilldown": "none",
+            "count": "5",
+            "refresh.display": "progressbar",
+            "managerid": "searchDateParserVerboseTopSourcetype",
+            "el": $('#tableDateParserVerboseTopSourcetype')
+        }, {tokens: true, tokenNamespace: "submitted"}).render();
+
+        var EventLineBreakingProcessorEvent = new EventElement({
+            "id": "EventLineBreakingProcessorEvent",
+            "count": 5,
+            "list.drilldown": "none",
+            "raw.drilldown": "none",
+            "table.drilldown": "none",
+            "type": "raw",
+            "managerid": "searchLineBreakingProcessorEvent",
+            "el": $('#EventLineBreakingProcessorEvent')
+        }, {tokens: true, tokenNamespace: "submitted"}).render();
+
+        var EventAggregatorMiningProcessorEvent = new EventElement({
+            "id": "EventAggregatorMiningProcessorEvent",
+            "count": 5,
+            "list.drilldown": "none",
+            "raw.drilldown": "none",
+            "table.drilldown": "none",
+            "type": "raw",
+            "managerid": "searchAggregatorMiningProcessorEvent",
+            "el": $('#EventAggregatorMiningProcessorEvent')
+        }, {tokens: true, tokenNamespace: "submitted"}).render();
+
+        var EventDateParserVerboseEvent = new EventElement({
+            "id": "EventDateParserVerboseEvent",
+            "count": 5,
+            "list.drilldown": "none",
+            "raw.drilldown": "none",
+            "table.drilldown": "none",
+            "type": "raw",
+            "managerid": "searchDateParserVerboseEvent",
+            "el": $('#EventDateParserVerboseEvent')
+        }, {tokens: true, tokenNamespace: "submitted"}).render();
 
         // modal Single Lag
         var elementSingleParsingIssues = new SingleElement({
@@ -26377,30 +27372,59 @@ require([
 
                 submitTokens();
                 setToken("tk_start_parsing_issues_searches", "true");
-
-                // Manage search button URLs
-
-                // Define the history search
-                var search_parsing_issues_linebreaking = 'search' + "?q=search%20" + encodeURI("index=_internal sourcetype=splunkd error OR warn `trackme_idx_filter` component=LineBreakingProcessor")
-
-                // Define the URL target
-                document.getElementById("btn_search_parsing_issues_linebreaking").href = search_parsing_issues_linebreaking;
-
-                // Define the history search
-                var search_parsing_issues_aggregator = 'search' + "?q=search%20" + encodeURI("index=_internal sourcetype=splunkd error OR warn `trackme_idx_filter` component=AggregatorMiningProcessor")
-
-                // Define the URL target
-                document.getElementById("btn_search_parsing_issues_aggregator").href = search_parsing_issues_aggregator;
-
-                // Define the history search
-                var search_parsing_issues_dateparser = 'search' + "?q=search%20" + encodeURI("index=_internal sourcetype=splunkd error OR warn `trackme_idx_filter` component=DateParserVerbose")
-
-                // Define the URL target
-                document.getElementById("btn_search_parsing_issues_dateparser").href = search_parsing_issues_dateparser;
+                var tk_hosts = tokens.get("inputHostParsing");
 
                 // Show input modal
                 $("#modal_parsing_issues").modal();
             });
+
+        });
+
+        $("#btn_search_parsing_issues_linebreaking").click(function() {
+
+            submitTokens();
+            setToken("tk_start_parsing_issues_searches", "true");
+            var tk_earliest = tokens.get("inputLinkParsingIssuesTime.earliest");
+            var tk_latest = tokens.get("inputLinkParsingIssuesTime.latest");
+            var tk_hosts = tokens.get("inputHostParsing");
+
+            // Define the history search
+            var search_parsing_issues_linebreaking = 'search' + "?q=search%20" + encodeURI("index=_internal sourcetype=splunkd error OR warn `trackme_idx_filter` component=LineBreakingProcessor ") + encodeURI(tk_hosts) + "&earliest=" + encodeURI(tk_earliest) + "&latest=" + encodeURI(tk_latest);
+
+            // Open
+            window.open(search_parsing_issues_linebreaking,'_blank');
+
+        });
+
+        $("#btn_search_parsing_issues_aggregator").click(function() {
+
+            submitTokens();
+            setToken("tk_start_parsing_issues_searches", "true");
+            var tk_earliest = tokens.get("inputLinkParsingIssuesTime.earliest");
+            var tk_latest = tokens.get("inputLinkParsingIssuesTime.latest");
+            var tk_hosts = tokens.get("inputHostParsing");
+
+            // Define the history search
+            var search_parsing_issues_aggregator = 'search' + "?q=search%20" + encodeURI("index=_internal sourcetype=splunkd error OR warn `trackme_idx_filter` component=AggregatorMiningProcessor ") + encodeURI(tk_hosts) + "&earliest=" + encodeURI(tk_earliest) + "&latest=" + encodeURI(tk_latest);
+
+            // Open
+            window.open(search_parsing_issues_aggregator,'_blank');
+
+        });
+
+        $("#btn_search_parsing_issues_dateparser").click(function() {
+            
+            submitTokens();
+            setToken("tk_start_parsing_issues_searches", "true");
+            var tk_earliest = tokens.get("inputLinkParsingIssuesTime.earliest");
+            var tk_latest = tokens.get("inputLinkParsingIssuesTime.latest");
+            var tk_hosts = tokens.get("inputHostParsing");
+
+            // Define the history search
+            var search_parsing_issues_dateparser = 'search' + "?q=search%20" + encodeURI("index=_internal sourcetype=splunkd error OR warn `trackme_idx_filter` component=DateParserVerbose ") + encodeURI(tk_hosts) + encodeURI(" | `trackme_rex_dateparserverbose`") + "&earliest=" + encodeURI(tk_earliest) + "&latest=" + encodeURI(tk_latest);
+
+            // Open
+            window.open(search_parsing_issues_dateparser,'_blank');
 
         });
 
