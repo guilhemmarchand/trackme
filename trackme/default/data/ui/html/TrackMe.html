@@ -10231,7 +10231,7 @@ require([
 
         var SearchDataSourceParsingQualitySingle = new PostProcessManager({
             "tokenDependencies": {},
-            "search": "top limit=0 component | eval percent=round(percent, 2) | eval summary=component . \": \" . percent . \" %\" | fields summary | stats values(summary) as summary",
+            "search": "top limit=0 component | eval percent=round(percent, 2) | eval summary=component . \": \" . percent . \" %\" | fields summary | stats values(summary) as summary | append [ | makeresults | eval summary=\"No parsing issues detected (bravo!?), review the trackme_idx_filter macro to target indexing instances.\" | fields - _time ] | head 1",
             "managerid": "SearchDataSourceParsingQualityMain",
             "id": "SearchDataSourceParsingQualitySingle"
         }, {
