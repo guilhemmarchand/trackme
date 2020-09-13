@@ -14,11 +14,11 @@ This is a new main release branch, TrackMe 1.2.x requires the deployment of the 
 TrackMe requires a summary index (defaults to trackme_summary) and a metric index (defaults to trackme_metrics):
 https://trackme.readthedocs.io/en/latest/configuration.html
 
-- Feature: Extending the Tags features with a the tags policies concept which allows to automatically define tags using regular expressions rules matching the data_name and its naming convention
+- Feature: Extending the Tags features with tags policies, this feature provides a workflow to automatically define tags using regular expressions rules matching the data_name value and its naming convention
 - Feature: Improved views for Ops queues (renamed to Ops: Queues center) and Ops parsing, multi hosts selector, improved analytics
-- Fix: Issue #131 - Enable data source action does not preserve the current value of data_lag_alert_kpis in the collection
+- Fix: Issue #131 - The enable data source action does not preserve the current value of data_lag_alert_kpis in the collection, which ends as a null value
 - Change: Include the priority value when generating the flipping status summary events
-- Change: Do not inlude the raw_sample field with loading the data sample collection in during the data sources tracker execution for optimization purposes
+- Change: Do not load the raw_sample field when during the execution of data sources tracker execution for optimization purposes
 
 Version 1.2.21
 ==============
