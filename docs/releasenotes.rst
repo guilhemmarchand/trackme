@@ -17,6 +17,8 @@ https://trackme.readthedocs.io/en/latest/configuration.html
 - Feature: Extending the Tags features with tags policies, this feature provides a workflow to automatically define tags using regular expressions rules matching the data_name value and its naming convention
 - Feature: Improved views for Ops queues (renamed to Ops: Queues center) and Ops parsing, multi hosts selector, improved analytics
 - Fix: Issue #131 - The enable data source action does not preserve the current value of data_lag_alert_kpis in the collection, which ends as a null value
+- Fix: Issue #138 - Typo in the metrics screen, Metrics categories was mispelled
+- Fix: TrackMe metrics should be excluded out of the box from the metrics tracking
 - Change: Include the priority value when generating the flipping status summary events
 - Change: Do not load the raw_sample field when during the execution of data sources tracker execution for optimization purposes
 
