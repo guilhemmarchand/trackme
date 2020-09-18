@@ -1585,14 +1585,88 @@ Tags
 
 **Tags are keywords that can be defined per data source, this feature provides additional filtering options to group multiple data sources based on any custom criterias.**
 
-.. image:: img/tags_img001.png
-   :alt: tags_img001.png
-   :align: center
+**Tags can be defined using:**
 
-**For instance, you may want to tag data sources containing PII data, such that data sources matching this criteria can be filtered on easily in the main TrackMe UI:**
+- Tags policies, which are regular expressions rules that you can define to automatically apply tags conditionally
+- Manual tags, which you can define manually via the Tags UI on a per data source basis 
+
+**Tags feature purpose:**
+
+*For instance, you may want to tag data sources containing PII data, such that data sources matching this criteria can be filtered on easily in the main TrackMe UI:*
 
 .. image:: img/tags_filter.png
    :alt: tags_filter.png
+   :align: center
+
+Tags policies
+-------------
+
+**The tags policies editor can be opened via the data sources main screen tab, and the button Tags policies:**
+
+.. image:: img/tags_policies_img001.png
+   :alt: tags_policies_img001.png
+   :align: center
+
+.. image:: img/tags_policies_img002.png
+   :alt: tags_policies_img002.png
+   :align: center
+
+Create a new tags policy
+^^^^^^^^^^^^^^^^^^^^^^^^
+
+**To create a new tags policy, click on the Create policy button:**
+
+.. image:: img/tags_policies_img003.png
+   :alt: tags_policies_img003.png
+   :align: center
+
+**Fill the UI with the required information:**
+
+- **Enter a unique name for this policy:** this id will be used and stored as the value for the field tags_policy_id in the KVstore collection
+- **Regular expression rule:** this is the regular expression that will be used to conditionally apply the tags against the data_name field for every data source
+- **List of tags:** the tags to be applied when the regular expression matches, multiple tags can be specified in a comma separated fashion 
+
+Tags policies are applied sequentially in the order the entries are stored in the KVstore collection, should a regular expression match, the execution for this specific data source stops at the first match. 
+
+*Example:*
+
+- Assuming you have a naming convention for indexes, where all indexes starting by "linux\_" contain OS logs of Linux based OS
+- Automatically, the following tags will be defined for every data source that matches the regular expression rule, "OS,Linux,Non-PII"
+
+*The following policy would be defined:*
+
+.. image:: img/tags_policies_img004.png
+   :alt: tags_policies_img004.png
+   :align: center
+
+*Once the simulation was executed, click on the red button "Add this new policy":*
+
+.. image:: img/tags_policies_img005.png
+   :alt: tags_policies_img005.png
+   :align: center
+
+*Tags policies are applied automatically by the data source trackers, you can wait for scheduled executions or manually run the tracker (short term or long term, or both) to immediately assign the tags:*
+
+.. image:: img/tags_policies_img006.png
+   :alt: tags_policies_img006.png
+   :align: center
+
+Update and delete tags policies
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+**You cannot update tags policies via the UI, if you need to change a tags policy, you have to delete and re-create the policy using the UI:**
+
+.. image:: img/tags_policies_img007.png
+   :alt: tags_policies_img007.png
+   :align: center
+
+Manual tags
+-----------
+
+**Manual tags are available per data source, and allows manually defining a list of tags via the UI:**
+
+.. image:: img/tags_img001.png
+   :alt: tags_img001.png
    :align: center
 
 **When no tags have been defined yet for a data source, the following screen would appear:**
@@ -1607,7 +1681,7 @@ Tags
    :alt: tags_img002bis.png
    :align: center
 
-**You can click on the Update tags button to define one or more tags for a given data source:**
+**You can click on the "Manage: manual tags" button to define one or more tags for a given data source:**
 
 .. image:: img/tags_img003.png
    :alt: tags_img003.png
@@ -1616,7 +1690,7 @@ Tags
 *Tags are stored in the data sources KVstore collection in a field called "tags", when multiple tags are defined, the list of tags is defined as a comma separated list of values.*
 
 Adding new tags
----------------
+^^^^^^^^^^^^^^^
 
 **You can add a new tag by using the Add tag input and button, the tag format is free, can contain spaces or special characters, however for reliability purposes you should keep things clear and simple.**
 
@@ -1627,7 +1701,9 @@ Adding new tags
 Once a new tag is added, it is made available automatically in the tag filter from the main Trackme data source screen.
 
 Updating tags
--------------
+^^^^^^^^^^^^^
+
+**Note: Tags that have been defined by a tags policies will be defined again as long as the policy applies, to update tags applied by policies, the policy has to be updated**
 
 **You can update tags using the multi-select dropdown input, by update we mean that you can clear one or more tags that are currently affected to a given data source, which updates immediately the list of tags in the main screen tags filter form.**
 
@@ -1636,7 +1712,9 @@ Updating tags
    :align: center
 
 Clearing tags
--------------
+^^^^^^^^^^^^^
+
+**Note: Tags that have been defined by a tags policies will be defined again as long as the policy applies, to update tags applied by policies, the policy has to be updated**
 
 **You can clear all tags that are currently affected to a data source, by clicking on the Clear tags button, you remove all tags for this data source.**
 
@@ -1724,6 +1802,91 @@ Using the UI, you can easily monitor and investigate the historical changes of a
    :align: center
 
 These events are automatically generated by the tracker reports, and are as well used for SLA calculation purposes.
+
+Ops: Queues center
+==================
+
+**The Ops view for Splunk indexing queues is accessible from the "Ops: Queues center" button in the main Trackme screen:**
+
+.. image:: img/ops_queues_001.png
+   :alt: ops_queues_001.png
+   :align: center
+
+**This view shows Splunk pipeline queues usage in your environment, using the filtering results from the macro trackme_idx_filter, make sure this macro is configured to filter on indexers and heavy forwarders:**
+
+.. image:: img/ops_queues_002.png
+   :alt: ops_queues_001.png
+   :align: center
+
+.. image:: img/ops_queues_003.png
+   :alt: ops_queues_001.png
+   :align: center
+
+**Options in the view:**
+
+- You can use the multiselect form to choose instances to be considered
+- You can select a time range between the provided options
+- Scroll down within the window, and choose different break down options in the detailed queue usage treillis charts dependending on your needs
+
+Ops Parsing view
+================
+
+**The Ops view for Splunk indexing time parsing failures and warnings is available from the TrackMe main screen via the "Ops: Parsing view" button:**
+
+.. image:: img/ops_parsing_001.png
+   :alt: ops_parsing_001.png
+   :align: center
+
+**This view shows parsing errors happening in your environment, using the filtering results from the macro trackme_idx_filter, make sure this macro is configured to filter on indexers and heavy forwarders:**
+
+.. image:: img/ops_parsing_002.png
+   :alt: ops_parsing_002.png
+   :align: center
+
+.. image:: img/ops_parsing_003.png
+   :alt: ops_parsing_003.png
+   :align: center
+
+**Options in the view:**
+
+- You can use the multiselect form to choose instances to be considered
+- You can select a time range between the provided options
+- Scroll down within the window to review the top root causes of the parsing issues
+
+Splunk 8 magic props configuration
+----------------------------------
+
+**The splunk> magic 8 are good practice configuration items to be configured in your props.conf for the best performing and the best quality sourcetype definition:**
+
+::
+
+   [mySourcetype]
+
+   TIME_PREFIX = regex of the text that leads up to the timestamp
+
+   MAX_TIMESTAMP_LOOKAHEAD = how many characters for the timestamp
+
+   TIME_FORMAT = strftime format of the timestamp
+   # for multiline events: SHOULD_LINEMERGE should always be set to false as LINE_BREAKER will speed up multiline events
+
+   SHOULD_LINEMERGE = false
+   # Wherever the LINE_BREAKER regex matches, Splunk considers the start
+   # of the first capturing group to be the end of the previous event
+   # and considers the end of the first capturing group to be the start of the next event.
+   # Defaults to ([\r\n]+), meaning data is broken into an event for each line
+
+   LINE_BREAKER = regular expression for event breaks
+
+   TRUNCATE = 0
+   # Use the following attributes to handle better load balancing from UF.
+   # Please note the EVENT_BREAKER properties are applicable for Splunk Universal
+   # Forwarder instances only. Valid with forwarders > 6.5.0
+
+   EVENT_BREAKER_ENABLE = true
+
+   EVENT_BREAKER = regular expression for event breaks
+
+**This configuration represents the perfect sourcetype definition for Splunk, combining an explicit and controled definition for a reliable event breaking and time stamp recognition, as much as it is possible you should always target this configuration.**
 
 Out of the box alerts
 =====================

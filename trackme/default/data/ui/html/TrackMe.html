@@ -632,7 +632,7 @@
         .modal-guts {
 
           /* For Splunk 7.0.x */
-          margin-top: 30px;
+          /* margin-top: 30px; */
 
           /* other stuff we already covered */
 
@@ -641,7 +641,7 @@
 
           width: 90%;
           min-height: 50px;
-          max-height: 600px;
+          max-height: 650px;
           height: 100%;
 
           /* spacing as needed */
@@ -1146,6 +1146,261 @@ styles in <div> tags, similar to Bootstrap's grid system.
     tags
     -->
 
+    <!-- Modal window for tags policies -->
+    <div class="modal fade custom-modal-80" id="manage_tags_policies" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header modal-header-info">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h1 style="color: white;"><span class="glyphicon glyphicon-lock"></span> Tags policies </h1>
+                </div>
+
+                <div class="modal-body">
+
+                    <div class="boxnotify" id="boxnotify-manage-tags-policies">
+                    </div>
+
+                    <div>
+
+                        <div style="margin-bottom: 10px;">
+
+                            <div>
+                                <h3>Tags policies:</h3>
+                                <lu>
+                                    <li>Tags can be automatically defined by creating tags policies, if defined tags policies are automatically applied by the data source trackers</li>
+                                    <li>Tags policies use regular expression rules to match the data source naming convention (field data_name), and apply one or more tags automatically</li>
+                                    <li>If there are any tags that were manually applied on a data source, tags will be merged automatically</li>
+                                    <li>After you create new tags policies, run the data source tracker to apply immediately, or wait for scheduled executions</li>
+                                </lu>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <div id="rowTagsPolicies" class="dashboard-row dashboard-row1">
+                        <div id="panelTagsPolicies" class="dashboard-cell" style="width: 100%;">
+                            <div class="dashboard-panel clearfix">
+                                <div class="panel-element-row">
+                                    <div class="fieldset">
+                                        <div id="tableTagsPolicies" class="dashboard-element table" style="width: 100%">
+                                            <label>Tags policies currently defined:</label>
+                                            <div class="panel-body"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="rowTagsPoliciesEmpty" class="dashboard-row dashboard-row" data-rejects="$show_tags_policies$">
+                        <div id="panelTagsPoliciesEmpty" class="dashboard-cell" style="width: 100%;">
+
+                            <div class="dashboard-panel clearfix">
+                                <div class="panel-element-row">
+
+                                    <div style="text-align: center; margin-top: 50px;" class="modal-body">
+                                        <h3 style="color: lightslategray;">There are no tags policies currently defined.</h3>
+                                        <br /><br />
+                                    </div>
+
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div style="margin-top: 20px;" class="modal-footer">
+                        <div style="margin-right: 15px; float: left;">
+                            <button type="submit" class="btn btn-default btn-default pull-left" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Close</button>
+                        </div>
+                        <div class="btn_data_sampling_custom_rules_delete" style="margin-right: 15px; float: right;">
+                            <button type="submit" id="btn_modal_tags_policies_delete" class="btn btn-default btn-danger" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Remove selected</button>
+                        </div>
+                        <div style="margin-right: 15px; float: right;">
+                            <button id="btn_tags_policies_create" type="submit" class="btn btn-default btn-primary" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Create policy </button>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+    <div class="modal fade custom-modal-80" id="tags_policies_create_policy" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header modal-header-danger">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h1 style="color: white;"><span class="glyphicon glyphicon-lock"></span> Tags policies: create new policy </h1>
+                </div>
+                <div class="modal-body">
+                    <b>Use this interface to create and manage tags policies:</b>
+                    <br /><br />
+
+                    <div class="boxnotify" id="boxnotify-add_tags_policies">
+                    </div>
+
+                    <div id="rowTagsPoliciesNewAdd1a" class="dashboard-row dashboard-row3">
+
+                        <div id="rowTagsPoliciesNewAdd1b" class="dashboard-cell" style="width: 100%;">
+
+                            <div class="dashboard-panel clearfix">
+
+                                <div class="panel-element-row">
+
+                                    <div class="input input-text" id="modal_input_tags_policies_policy_id" style="margin-bottom: 10px; max-width: 300px;">
+                                        <label>Enter a unique name for this policy:</label>
+                                    </div>
+
+                                    <form style="margin: 0 0 0px;">
+                                        <fieldset>
+                                            <legend style="margin-bottom: 5px;">Regular expression rule:</legend>
+                                            <p>                                                
+                                                <label>Example: <code>^network_amer:.*</code> </br />would match all data sources related to an index starting by network_* such as: <code>network_amer:pan:traffic</code><br /></label>
+                                                <textarea
+                                                        id = "modal_input_tags_policies_regex"
+                                                        rows = "3"
+                                                        cols = "80" style="width: 1100px;"
+                                                        onfocus="if(this.value==this.defaultValue)this.value='';" onblur="if(this.value=='')this.value=this.defaultValue;">Enter a valid regular expression to match data source names.</textarea>
+                                            </p>
+
+                                        </fieldset>
+                                    </form>
+
+                                    <form style="margin: 0 0 0px;">
+                                        <fieldset>
+                                            <legend style="margin-bottom: 5px;">List of tags:</legend>
+                                            <p>                                                
+                                                <label>Example: <code>network,PII,AMER</code> </br />would apply these tags to every data source was matched by the regular expression policy<br /></label>
+                                                <textarea
+                                                        id = "modal_input_tags_policies_values"
+                                                        rows = "3"
+                                                        cols = "80" style="width: 1100px;"
+                                                        onfocus="if(this.value==this.defaultValue)this.value='';" onblur="if(this.value=='')this.value=this.defaultValue;">Enter a list of tags to applied separeted by commas to specify multiple tags and click on "Run policy simulation".</textarea>
+                                            </p>
+
+                                        </fieldset>
+                                    </form>
+
+                                    <div style="margin-top: 15x;">
+                                        <div style="margin-right: 15px; float: left;">
+                                            <button type="submit" id="btn_modal_tags_policies_simulate" class="btn btn-default btn-primary"><span class="glyphicon glyphicon-remove"></span> Run policy simulation</button>
+                                        </div>
+                                        <div style="margin-right: 15px; float: left;">
+                                            <button type="submit" id="btn_modal_tags_policies_add" class="btn btn-default btn-danger"><span class="glyphicon glyphicon-remove"></span> Add this new policy</button>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                                <br />
+                                <br />
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <div id="rowTagsPoliciesNewAdd1c" class="dashboard-row dashboard-row1" data-depends="$start_simulation_tags_policies$">
+                        <div id="panelTagsPoliciesNewAdd1c" class="dashboard-cell" style="width: 100%;">
+                            <div class="dashboard-panel clearfix">
+                                <div class="panel-element-row">
+                                    <div id="tableTagsPoliciesSimulate" class="dashboard-element table" style="width: 100%;">
+                                        <div class="panel-body"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-default btn-default pull-left" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Cancel</button>
+                    <button type="submit" id="btn_modal_tags_policies_add_back" class="btn btn-default btn-primary pull-right" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Back</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- Tags policy confirm add -->
+    <div class="modal fade" id="tags_policies_create_policy_confirm" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header modal-header-danger">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h1 style="color: white;"><span class="glyphicon glyphicon-lock"></span>Tags policies</h1>
+                </div>
+                <div class="modal-body">
+                    <p><b>Confirm tag policy addition action?</b><br />
+                    </p>
+
+                    <p>
+                        <label>Optional: enter a note of this update. <br />
+                            This note will be logged and made available for notification.</label>
+                        <textarea
+                                id = "input_add_tags_policy_sampling_comment"
+                                rows = "6"
+                                cols = "160" style="width: 500px;"
+                                onfocus="if(this.value==this.defaultValue)this.value='';" onblur="if(this.value=='')this.value=this.defaultValue;">update note</textarea>
+                    </p>
+
+                </div>
+
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-default btn-default pull-left" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Cancel</button>
+                    <button type="submit" id="btn_modal_add_tags_policy_confirm" class="btn btn-default btn-primary pull-right" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Ok</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Tags policy confirm delete -->
+    <div class="modal fade" id="tags_policies_delete_policy_confirm" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header modal-header-danger">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h1 style="color: white;"><span class="glyphicon glyphicon-lock"></span>Tags policies</h1>
+                </div>
+                <div class="modal-body">
+                    <p><b>Confirm tag policy deletion action?</b><br />
+                    </p>
+
+                    <p>
+                        <label>Optional: enter a note of this update. <br />
+                            This note will be logged and made available for notification.</label>
+                        <textarea
+                                id = "input_delete_tags_policy_sampling_comment"
+                                rows = "6"
+                                cols = "160" style="width: 500px;"
+                                onfocus="if(this.value==this.defaultValue)this.value='';" onblur="if(this.value=='')this.value=this.defaultValue;">update note</textarea>
+                    </p>
+
+                </div>
+
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-default btn-default pull-left" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Cancel</button>
+                    <button type="submit" id="btn_modal_delete_tags_policy_confirm" class="btn btn-default btn-primary pull-right" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Ok</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Modal drilldown context for tags -->
     <div id="main_manage_tags" class="dashboard-element html" style="width: 100%">
         <div class="panel-body html">
@@ -1178,9 +1433,18 @@ styles in <div> tags, similar to Bootstrap's grid system.
                             </div>
                         </div>
                     <div class="modal-footer">
-                        <button type="submit" id="btn_modify_manage_tags" class="btn btn-default btn-primary" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Update tags</button>
-                        <button type="submit" id="btn_back_manage_tags" class="btn btn-default btn-primary pull-left" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Back</button>
-                        <button type="submit" id="btn_close_manage_tags" class="btn btn-default btn-default pull-right" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Close</button>
+                        <div style="float: left;" class="custom-btn">
+                            <button type="submit" style="margin-right: 15px;" id="btn_back_manage_tags" class="btn btn-default btn-primary pull-left" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Back</button>
+                        </div>
+                        <div style="float: right;" class="custom-btn">
+                            <button type="submit" style="margin-right: 15px;" id="btn_close_manage_tags" class="btn btn-default btn-default pull-right" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Close</button>
+                        </div>
+                        <div style="float: right;" class="custom-btn">
+                            <button type="submit" style="margin-right: 15px;" id="btn_modify_manage_tags" class="btn btn-default btn-primary" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Manage: manual tags</button>
+                        </div>
+                        <div style="float: right;" class="btn_modify_tags_policies custom-btn">
+                            <button type="submit" style="margin-right: 15px;" class="btn btn-primary" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Manage: tags policies</button>
+                        </div>
                     </div>
                     </div>
                 </div>
@@ -1214,6 +1478,13 @@ styles in <div> tags, similar to Bootstrap's grid system.
                                             <div class="dashboard-panel clearfix">
                                                 <div class="panel-element-row">
                                                     <div class="fieldset">
+                                                        <div style="margin-bottom: 20px;">
+                                                            <h3>
+                                                            This interface allows to manually define tags per data source, to define tags based on policies, use the tags policies instead.
+                                                            <br />
+                                                            When both policies and manual tags are applied, the tags are automatically merged.
+                                                            </h3>
+                                                        </div>
                                                         <div class="input input-text" id="modal_input_tags_new" style="margin-bottom: 10px;">
                                                             <label>Enter a new tag to be added to this data source:</label>
                                                         </div>
@@ -3712,14 +3983,45 @@ styles in <div> tags, similar to Bootstrap's grid system.
                         <div class="dashboard-element html" id="body_modal_queues">
                             <div class="panel-body html">
                                 <div class="modal-header modal-header-info">
-                                    <h1 style="font-size: 18px; color: white;">Splunk indexers queues:</h1>
+                                    <h1 style="font-size: 18px; color: white;">Ops: Queues center</h1>
                                     <button type="button" id="btn_ops_index_queue_close" class="close" data-dismiss="modal">&times;</button>
                                 </div>
                             </div>
                         </div>
                         <div class="modal-guts">
+                            <div id="rowQueuesInfo" class="dashboard-row dashboard-row1">
+                                <div id="panelQueuesInfo" class="dashboard-cell" style="width: 100%;">
+                                    <div class="dashboard-panel clearfix">
+                                        
+                                        <div class="panel-element-row">
+                                            <div id="rowInfoQueues" class="dashboard-element html" style="width: 100%">
+                                                <div class="panel-body html">
+                                                        <h1>Splunk indexing queues:</h1>
+                                                        <lu>
+                                                            <li>Update the macro <a target="_blank" href="/en-GB/manager/trackme/admin/macros/trackme_idx_filter?action=edit">trackme_idx_filter</a> to match indexers and other instances such as heavy forwarders that should be included</li>
+                                                            <li>Use the break down dropdown to select a break down option for detailed queue charts rendering</li>
+                                                            <li>For more information about Splunk queues: <a target="_blank" href="https://wiki.splunk.com/Community:HowIndexingWorks">https://wiki.splunk.com/Community:HowIndexingWorks</a></li>
+                                                            <li>Conf slides, How Splunkd works: <a target="_blank" href="https://conf.splunk.com/files/2017/slides/how-splunkd-works.pdf">https://conf.splunk.com/files/2017/slides/how-splunkd-works.pdf</a></li>
+                                                            <li>Conf slides, How to Troubleshoot Blocked Ingestion Pipeline Queues with Indexers and Forwarders: <a target="_blank" href="https://conf.splunk.com/files/2019/slides/FN1570.pdf">https://conf.splunk.com/files/2019/slides/FN1570.pdf</a></li>                                                            
+                                                        </lu>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
                             <div id="rowLinkQueues" class="dashboard-row dashboard-row1" style="margin-left: 15px;">
-                                <div id="panelLinkQueues" class="dashboard-cell" style="width: 100%;">
+                                <div id="panelLinkQueues" class="dashboard-cell" style="width: 50%;">
+                                    <div class="dashboard-panel clearfix">
+                                        <div class="panel-element-row">
+                                            <div class="input input-dropdown" id="inputHostQueues">
+                                                <label>Host(s):</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div id="panelLinkQueues2" class="dashboard-cell" style="width: 50%;">
                                     <div class="dashboard-panel clearfix">
                                         <div class="panel-element-row">
                                             <div class="input input-linklist" id="inputLinkQueuesTime">
@@ -3729,13 +4031,13 @@ styles in <div> tags, similar to Bootstrap's grid system.
                                     </div>
                                 </div>
                             </div>
-                            <div id="rowChartQueues1" class="dashboard-row dashboard-row1">
+                            <div id="rowChartQueuesAll" class="dashboard-row dashboard-row1">
                                 <div id="panelChartQueues1" class="dashboard-cell" style="width: 100%;">
                                     <div class="dashboard-panel clearfix">
                                         <div class="panel-element-row">
-                                            <div id="elementChartQueue1" class="dashboard-element chart" style="width: 100%">
+                                            <div id="elementChartQueueAll" class="dashboard-element chart" style="width: 100%">
                                                 <div class="panel-head">
-                                                    <h3>1 - Splunk Tcpin Queue</h3>
+                                                    <h3>All queues - Blocking queues (more than 0% means queues filling)</h3>
                                                 </div>
                                                 <div class="panel-body"></div>
                                             </div>
@@ -3743,27 +4045,24 @@ styles in <div> tags, similar to Bootstrap's grid system.
                                     </div>
                                 </div>
                             </div>
-                            <div id="rowChartQueues2" class="dashboard-row dashboard-row1">
-                                <div id="panelChartQueues2" class="dashboard-cell" style="width: 100%;">
+                            <div id="rowQueuesBreakBy" class="dashboard-row dashboard-row1" style="margin-left: 15px;">
+                                <div id="panelQueuesBreakBy" class="dashboard-cell" style="width: 100%;">
                                     <div class="dashboard-panel clearfix">
                                         <div class="panel-element-row">
-                                            <div id="elementChartQueue2" class="dashboard-element chart" style="width: 100%">
-                                                <div class="panel-head">
-                                                    <h3>2 - Parsing Queue</h3>
-                                                </div>
-                                                <div class="panel-body"></div>
-                                            </div>
+                                            <div class="input input-dropdown" id="inputHostQueuesBreak">
+                                                <label>Break by:</label>
+                                            </div>                                            
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            <div id="rowChartQueues3" class="dashboard-row dashboard-row1">
-                                <div id="panelChartQueues3" class="dashboard-cell" style="width: 100%;">
+                            <div id="rowChartQueuesTreillis" class="dashboard-row dashboard-row1">
+                                <div id="panelChartQueues1" class="dashboard-cell" style="width: 100%;">
                                     <div class="dashboard-panel clearfix">
                                         <div class="panel-element-row">
-                                            <div id="elementChartQueue3" class="dashboard-element chart" style="width: 100%">
+                                            <div id="elementChartQueuesTreillis" class="dashboard-element chart" style="width: 100%">
                                                 <div class="panel-head">
-                                                    <h3>3 - Aggregation Queue</h3>
+                                                    <h3>Queues details</h3>
                                                 </div>
                                                 <div class="panel-body"></div>
                                             </div>
@@ -3771,36 +4070,7 @@ styles in <div> tags, similar to Bootstrap's grid system.
                                     </div>
                                 </div>
                             </div>
-                            <div id="rowChartQueues4" class="dashboard-row dashboard-row1">
-                                <div id="panelChartQueues4" class="dashboard-cell" style="width: 100%;">
-                                    <div class="dashboard-panel clearfix">
-                                        <div class="panel-element-row">
-                                            <div id="elementChartQueue4" class="dashboard-element chart" style="width: 100%">
-                                                <div class="panel-head">
-                                                    <h3>4 - Typing Queue</h3>
-                                                </div>
-                                                <div class="panel-body"></div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div id="rowChartQueues5" class="dashboard-row dashboard-row1">
-                                <div id="panelChartQueues5" class="dashboard-cell" style="width: 100%;">
-                                    <div class="dashboard-panel clearfix">
-                                        <div class="panel-element-row">
-                                            <div id="elementChartQueue5" class="dashboard-element chart" style="width: 100%">
-                                                <div class="panel-head">
-                                                    <h3>5 - Indexing Queue</h3>
-                                                </div>
-                                                <div class="panel-body"></div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="modal-footer" style="margin-top: 700px;">
+                        <div class="modal-footer">
                             <button type="submit" class="btn btn-default btn-default pull-left" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Close</button>
                         </div>
                     </div>
@@ -3820,15 +4090,37 @@ styles in <div> tags, similar to Bootstrap's grid system.
                         <div class="dashboard-element html" id="body_modal_parsing_issues">
                             <div class="panel-body html">
                                 <div class="modal-header modal-header-info">
-                                    <h1 style="font-size: 18px; color: white;">Splunk indexing time failures and warnings:</h1>
+                                    <h1 style="font-size: 18px; color: white;">Ops: Parsing issues</h1>
                                     <button type="button" id="btn_ops_parsing_issues_close" class="close" data-dismiss="modal">&times;</button>
                                 </div>
                             </div>
                         </div>
 
                         <div class="modal-guts">
+
+                            <div class="panel-element-row">
+                                <div id="rowLinkParsingInfo" class="dashboard-element html" style="width: 100%">
+                                    <div class="panel-body html">
+                                            <h1>Splunk indexing time parsing issues:</h1>
+                                            <lu>
+                                                <li>Update the macro <a target="_blank" href="/en-GB/manager/trackme/admin/macros/trackme_idx_filter?action=edit">trackme_idx_filter</a> to match indexers and other instances such as heavy forwarders that should be included</li>
+                                                <li>Target the best ingestion practices with the splunk&gt; magic 8 to be configured in your <a target="_blank" href="http://docs.splunk.com/Documentation/Splunk/latest/Admin/propsconf">props.conf</a>, see: <a target="_blank" href="https://trackme.readthedocs.io/en/latest/userguide.html#splunk-8-magic-props-configuration">TrackMe documentation page</a></li>
+                                            </lu>
+                                            <br />
+                                    </div>
+                                </div>
+                            </div>
                             <div id="rowLinkParsingIssues" class="dashboard-row dashboard-row1" style="margin-left: 15px;">
-                                <div id="panelLinkParsingIssues" class="dashboard-cell" style="width: 100%;">
+                                <div id="panelLinkParsingIssues" class="dashboard-cell" style="width: 50%;">
+                                    <div class="dashboard-panel clearfix">
+                                        <div class="panel-element-row">
+                                            <div class="input input-dropdown" id="inputHostParsing">
+                                                <label>Host(s):</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div id="panelLinkParsingIssues2" class="dashboard-cell" style="width: 50%;">
                                     <div class="dashboard-panel clearfix">
                                         <div class="panel-element-row">
                                             <div class="input input-linklist" id="inputLinkParsingIssuesTime">
@@ -3860,12 +4152,303 @@ styles in <div> tags, similar to Bootstrap's grid system.
                                     </div>
                                 </div>
                             </div>
+                            <div id="rowParsingButtons" class="dashboard-row dashboard-row1">
+                                <div id="panelParsingButtons" class="dashboard-cell" style="width: 100%;">
+                                    <div class="dashboard-panel clearfix">                                        
+                                        <div class="panel-element-row">
+                                            <div id="element1" class="dashboard-element html" style="width: 100%">
+                                                <div class="panel-body html">
+                                                    <button type="submit" id="btn_search_parsing_issues_linebreaking" role="button" class="btn btn-primary btn-default"><span class="glyphicon glyphicon-remove"></span>Search line breaking issues</button>
+                                                    <button type="submit" id="btn_search_parsing_issues_aggregator" role="button" class="btn btn-primary btn-default"><span class="glyphicon glyphicon-remove"></span>Search aggregator mining issues</button>
+                                                    <button type="submit" id="btn_search_parsing_issues_dateparser" role="button" class="btn btn-primary btn-default"><span class="glyphicon glyphicon-remove"></span>Search date parser issues</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="rowLineBreakingProcessorInfo" class="dashboard-row dashboard-row1" data-original-id="rowLineBreakingProcessorInfo">
+                                <div id="panelLineBreakingProcessorInfo" class="dashboard-cell" style="width: 100%;" data-original-id="panelLineBreakingProcessorInfo">
+                                    <div class="dashboard-panel clearfix">
+                                        
+                                        <div class="panel-element-row">
+                                            <div id="elementInfoLineBreakingProcessor" class="dashboard-element html" style="width: 100%">
+                                                <div class="panel-body html">
+                                                        <h1>LineBreakingProcessor</h1>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="rowLineBreakingProcessorTop" class="dashboard-row dashboard-row2" data-original-id="rowLineBreakingProcessorTop">
+                                <div id="panelLineBreakingProcessorTopSource" class="dashboard-cell" style="width: 33.33%;" data-original-id="panelLineBreakingProcessorTopSource">
+                                    <div class="dashboard-panel clearfix">
+                                        <h2 class="panel-title">LineBreakingProcessor issues - top source</h2>
+                                        
+                                        <div class="panel-element-row">
+                                            <div id="chartLineBreakingProcessorTopSource" class="dashboard-element chart" style="width: 100%">
+                                                <div class="panel-body"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div id="panelLineBreakingProcessorTopHost" class="dashboard-cell" style="width: 33.33%;" data-original-id="panelLineBreakingProcessorTopHost">
+                                    <div class="dashboard-panel clearfix">
+                                        <h2 class="panel-title">LineBreakingProcessor - top host</h2>
+                                        
+                                        <div class="panel-element-row">
+                                            <div id="chartLineBreakingProcessorTopHost" class="dashboard-element chart" style="width: 100%">
+                                                <div class="panel-body"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div id="panel1" class="dashboard-cell" style="width: 33.33%;">
+                                    <div class="dashboard-panel clearfix">
+                                        <h2 class="panel-title">LineBreakingProcessor issues - top sourcetype</h2>
+                                        
+                                        <div class="panel-element-row">
+                                            <div id="chartLineBreakingProcessorTopSourcetype" class="dashboard-element chart" style="width: 100%">
+                                                <div class="panel-body"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="rowLineBreakingProcessorTopTable" class="dashboard-row dashboard-row3">
+                                <div id="panelLineBreakingProcessorTopTableSource" class="dashboard-cell" style="width: 33.33%;">
+                                    <div class="dashboard-panel clearfix">
+                                        
+                                        <div class="panel-element-row">
+                                            <div id="tableLineBreakingProcessorTopSource" class="dashboard-element table" style="width: 100%">
+                                                <div class="panel-body"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div id="panelLineBreakingProcessorTopTableHost" class="dashboard-cell" style="width: 33.33%;">
+                                    <div class="dashboard-panel clearfix">
+                                        
+                                        <div class="panel-element-row">
+                                            <div id="tableLineBreakingProcessorTopHost" class="dashboard-element table" style="width: 100%">
+                                                <div class="panel-body"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div id="panelLineBreakingProcessorTopTableSourcetype" class="dashboard-cell" style="width: 33.33%;">
+                                    <div class="dashboard-panel clearfix">
+                                        
+                                        <div class="panel-element-row">
+                                            <div id="tableLineBreakingProcessorTopSourcetype" class="dashboard-element table" style="width: 100%">
+                                                <div class="panel-body"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="rowLineBreakingProcessorEvent" class="dashboard-row dashboard-row3" data-original-id="rowLineBreakingProcessorEvent">
+                                <div id="panelLineBreakingProcessorEvent" class="dashboard-cell" style="width: 100%;" data-original-id="panelLineBreakingProcessorEvent">
+                                    <div class="dashboard-panel clearfix">
+                                        
+                                        <div class="panel-element-row">
+                                            <div id="EventLineBreakingProcessorEvent" class="dashboard-element event" style="width: 100%">
+                                                <div class="panel-body"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="rowAggregatorMiningProcessorInfo" class="dashboard-row dashboard-row3" data-original-id="rowAggregatorMiningProcessorInfo">
+                                <div id="panelAggregatorMiningProcessorInfo" class="dashboard-cell" style="width: 100%;" data-original-id="panelAggregatorMiningProcessorInfo">
+                                    <div class="dashboard-panel clearfix">
+                                        
+                                        <div class="panel-element-row">
+                                            <div id="elementAggregatorMiningProcessor" class="dashboard-element html" style="width: 100%">
+                                                <div class="panel-body html">
+                                                        <h1>AggregatorMiningProcessor</h1>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="rowAggregatorMiningProcessorTop" class="dashboard-row dashboard-row4" data-original-id="rowAggregatorMiningProcessorTop">
+                                <div id="panelAggregatorMiningProcessorTopSource" class="dashboard-cell" style="width: 33.33%;" data-original-id="panelAggregatorMiningProcessorTopSource">
+                                    <div class="dashboard-panel clearfix">
+                                        <h2 class="panel-title">AggregatorMiningProcessor issues - top source</h2>
+                                        
+                                        <div class="panel-element-row">
+                                            <div id="chartAggregatorMiningProcessorTopSource" class="dashboard-element chart" style="width: 100%">
+                                                <div class="panel-body"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div id="panelAggregatorMiningProcessorTopHost" class="dashboard-cell" style="width: 33.33%;" data-original-id="panelAggregatorMiningProcessorTopHost">
+                                    <div class="dashboard-panel clearfix">
+                                        <h2 class="panel-title">AggregatorMiningProcessor - top host</h2>
+                                        
+                                        <div class="panel-element-row">
+                                            <div id="chartAggregatorMiningProcessorTopHost" class="dashboard-element chart" style="width: 100%">
+                                                <div class="panel-body"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div id="panelAggregatorMiningProcessorTopSourcetype" class="dashboard-cell" style="width: 33.33%;" data-original-id="panelAggregatorMiningProcessorTopSourcetype">
+                                    <div class="dashboard-panel clearfix">
+                                        <h2 class="panel-title">AggregatorMiningProcessor issues - top sourcetype</h2>
+                                        
+                                        <div class="panel-element-row">
+                                            <div id="chartAggregatorMiningProcessorTopSourcetype" class="dashboard-element chart" style="width: 100%">
+                                                <div class="panel-body"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="rowAggregatorMiningProcessorTopTable" class="dashboard-row dashboard-row3">
+                                <div id="panelAggregatorMiningProcessorTopTableSource" class="dashboard-cell" style="width: 33.33%;">
+                                    <div class="dashboard-panel clearfix">
+                                        
+                                        <div class="panel-element-row">
+                                            <div id="tableAggregatorMiningProcessorTopSource" class="dashboard-element table" style="width: 100%">
+                                                <div class="panel-body"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div id="panelAggregatorMiningProcessorTopTableHost" class="dashboard-cell" style="width: 33.33%;">
+                                    <div class="dashboard-panel clearfix">
+                                        
+                                        <div class="panel-element-row">
+                                            <div id="tableAggregatorMiningProcessorTopHost" class="dashboard-element table" style="width: 100%">
+                                                <div class="panel-body"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div id="panelAggregatorMiningProcessorTopTableSourcetype" class="dashboard-cell" style="width: 33.33%;">
+                                    <div class="dashboard-panel clearfix">
+                                        
+                                        <div class="panel-element-row">
+                                            <div id="tableAggregatorMiningProcessorTopSourcetype" class="dashboard-element table" style="width: 100%">
+                                                <div class="panel-body"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>                            
+                            <div id="rowAggregatorMiningProcessorEvent" class="dashboard-row dashboard-row6" data-original-id="rowAggregatorMiningProcessorEvent">
+                                <div id="panelAggregatorMiningProcessorEvent" class="dashboard-cell" style="width: 100%;" data-original-id="panelAggregatorMiningProcessorEvent">
+                                    <div class="dashboard-panel clearfix">
+                                        
+                                        <div class="panel-element-row">
+                                            <div id="EventAggregatorMiningProcessorEvent" class="dashboard-element event" style="width: 100%">
+                                                <div class="panel-body"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="rowDateParserVerboseInfo" class="dashboard-row dashboard-row5" data-original-id="rowDateParserVerboseInfo">
+                                <div id="panelDateParserVerboseInfo" class="dashboard-cell" style="width: 100%;" data-original-id="panelDateParserVerboseInfo">
+                                    <div class="dashboard-panel clearfix">
+                                        
+                                        <div class="panel-element-row">
+                                            <div id="elementDateParserVerbose" class="dashboard-element html" style="width: 100%">
+                                                <div class="panel-body html">
+                                                        <h1>DateParserVerbose</h1>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="rowDateParserVerboseTop" class="dashboard-row dashboard-row6" data-original-id="rowDateParserVerboseTop">
+                                <div id="panelDateParserVerboseTopSource" class="dashboard-cell" style="width: 33.33%;" data-original-id="panelDateParserVerboseTopSource">
+                                    <div class="dashboard-panel clearfix">
+                                        <h2 class="panel-title">Datetime parsing issues - top source</h2>
+                                        
+                                        <div class="panel-element-row">
+                                            <div id="chartDateParserVerboseTopSource" class="dashboard-element chart" style="width: 100%">
+                                                <div class="panel-body"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div id="panelDateParserVerboseTopHost" class="dashboard-cell" style="width: 33.33%;" data-original-id="panelDateParserVerboseTopHost">
+                                    <div class="dashboard-panel clearfix">
+                                        <h2 class="panel-title">Datetime parsing issues - top host</h2>
+                                        
+                                        <div class="panel-element-row">
+                                            <div id="chartDateParserVerboseTopHost" class="dashboard-element chart" style="width: 100%">
+                                                <div class="panel-body"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div id="panelDateParserVerboseTopSourcetype" class="dashboard-cell" style="width: 33.33%;" data-original-id="panelDateParserVerboseTopSourcetype">
+                                    <div class="dashboard-panel clearfix">
+                                        <h2 class="panel-title">Datetime parsing issues - top sourcetype</h2>
+                                        
+                                        <div class="panel-element-row">
+                                            <div id="chartDateParserVerboseTopSourcetype" class="dashboard-element chart" style="width: 100%">
+                                                <div class="panel-body"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="rowDateParserVerboseTopTable" class="dashboard-row dashboard-row3">
+                                <div id="panelDateParserVerboseTopTableSource" class="dashboard-cell" style="width: 33.33%;">
+                                    <div class="dashboard-panel clearfix">
+                                        
+                                        <div class="panel-element-row">
+                                            <div id="tableDateParserVerboseTopSource" class="dashboard-element table" style="width: 100%">
+                                                <div class="panel-body"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div id="panelDateParserVerboseTopTableHost" class="dashboard-cell" style="width: 33.33%;">
+                                    <div class="dashboard-panel clearfix">
+                                        
+                                        <div class="panel-element-row">
+                                            <div id="tableDateParserVerboseTopHost" class="dashboard-element table" style="width: 100%">
+                                                <div class="panel-body"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div id="panelDateParserVerboseTopTableSourcetype" class="dashboard-cell" style="width: 33.33%;">
+                                    <div class="dashboard-panel clearfix">
+                                        
+                                        <div class="panel-element-row">
+                                            <div id="tableDateParserVerboseTopSourcetype" class="dashboard-element table" style="width: 100%">
+                                                <div class="panel-body"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="rowDateParserVerboseEvent" class="dashboard-row dashboard-row9" data-original-id="rowDateParserVerboseEvent">
+                                <div id="panelDateParserVerboseEvent" class="dashboard-cell" style="width: 100%;" data-original-id="panelDateParserVerboseEvent">
+                                    <div class="dashboard-panel clearfix">
+                                        
+                                        <div class="panel-element-row">
+                                            <div id="EventDateParserVerboseEvent" class="dashboard-element event" style="width: 100%">
+                                                <div class="panel-body"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                         <div class="modal-footer" style="margin-top: 700px;">
                             <button type="submit" class="btn btn-default btn-default pull-left" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Close</button>
-                            <a class="btn btn-primary" id="btn_search_parsing_issues_linebreaking" target="_blank" href="search_data_source_url" role="button">Search line breaking issues</a>
-                            <a class="btn btn-primary" id="btn_search_parsing_issues_aggregator" target="_blank" href="search_data_source_url" role="button">Search aggregator mining issues</a>
-                            <a class="btn btn-primary" id="btn_search_parsing_issues_dateparser" target="_blank" href="search_data_source_url" role="button">Search date parser issues</a>
                         </div>
                     </div>
                 </div>
@@ -7666,7 +8249,7 @@ styles in <div> tags, similar to Bootstrap's grid system.
                         <label>Index(es):</label>
                     </div>
                     <div class="input input-dropdown" id="inputMetricHostCategories">
-                        <label>Metic categorie(s):</label>
+                        <label>Metric categorie(s):</label>
                     </div>
                     <div style="margin-right: 28px;" class="input input-dropdown" id="inputMetricHostFilter">
                         <label>Keyword filter host:</label>
@@ -7708,6 +8291,9 @@ styles in <div> tags, similar to Bootstrap's grid system.
                                 <div class="btn_modify_custom_lagging custom-btn">
                                     <button type="submit" style="margin-right: 15px;" class="btn btn-outline-primary" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Manage: define lagging classes</button>
                                 </div>
+                                <div class="btn_modify_tags_policies custom-btn">
+                                    <button type="submit" style="margin-right: 15px;" class="btn btn-outline-primary" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Manage: tags policies</button>
+                                </div>
                                 <div class="custom-btn">
                                     <button type="submit" id="btn_run_tracker" style="margin-right: 15px;" class="btn btn-outline-secondary"><span class="glyphicon glyphicon-remove"></span> Run: short term tracker now</button>
                                 </div>
@@ -7717,7 +8303,7 @@ styles in <div> tags, similar to Bootstrap's grid system.
                             </div>
                             <div style="float: left;">
                                 <div class="btn_ops_index_queue custom-btn">
-                                    <button type="submit" style="margin-right: 15px;" class="btn btn-outline-info" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Ops: Indexers queues</button>
+                                    <button type="submit" style="margin-right: 15px;" class="btn btn-outline-info" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Ops: Queues center</button>
                                 </div>
                                 <div class="btn_ops_parsing_issues custom-btn">
                                     <button type="submit" style="margin-right: 15px;" class="btn btn-outline-info" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Ops: Parsing issues</button>
@@ -7751,7 +8337,7 @@ styles in <div> tags, similar to Bootstrap's grid system.
                             </div>
                             <div style="float: left;">
                                 <div class="btn_ops_index_queue custom-btn">
-                                    <button type="submit" style="margin-right: 15px;" class="btn btn-outline-info" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Ops: Indexers queues</button>
+                                    <button type="submit" style="margin-right: 15px;" class="btn btn-outline-info" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Ops: Queues center</button>
                                 </div>
                                 <div class="btn_ops_parsing_issues custom-btn">
                                     <button type="submit" style="margin-right: 15px;" class="btn btn-outline-info" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Ops: Parsing issues</button>
@@ -7801,7 +8387,7 @@ styles in <div> tags, similar to Bootstrap's grid system.
                             </div>
                             <div style="float: left;">
                                 <div class="btn_ops_index_queue custom-btn">
-                                    <button type="submit" style="margin-right: 15px;" class="btn btn-outline-info" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Ops: Indexers queues</button>
+                                    <button type="submit" style="margin-right: 15px;" class="btn btn-outline-info" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Ops: Queues center</button>
                                 </div>
                                 <div class="btn_ops_parsing_issues custom-btn">
                                     <button type="submit" style="margin-right: 15px;" class="btn btn-outline-info" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Ops: Parsing issues</button>
@@ -8392,6 +8978,69 @@ require([
             "preview": true,
             "tokenDependencies": {
                 "depends": "$show_data_source_tracker$"
+            },
+            "runWhenTimeIsUndefined": false
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        });
+
+        var searchShowTagsPolicies = new SearchManager({
+            "id": "searchShowTagsPolicies",
+            "earliest_time": "-5m",
+            "cancelOnUnload": true,
+            "sample_ratio": null,
+            "latest_time": "now",
+            "search": "| inputlookup trackme_tags_policies | eval keyid=_key | eval select=keyid, mtime=strftime(mtime, \"%c\") | fields tags_policy_id, tags_policy_regex, tags_policy_value, mtime, select",
+            "status_buckets": 0,
+            "app": utils.getCurrentApp(),
+            "auto_cancel": 90,
+            "preview": true,
+            "tokenDependencies": {
+                "depends": "$show_tags_policies$"
+            },
+            "runWhenTimeIsUndefined": false
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        });
+
+        new SearchEventHandler({
+            managerid: "searchShowTagsPolicies",
+            event: "progress",
+            conditions: [{
+                    attr: "match",
+                    value: "'job.resultCount' == 0",
+                    actions: [{
+                        "type": "unset",
+                        "token": "show_tags_policies"
+                    }]
+                },
+                {
+                    attr: "any",
+                    value: "*",
+                    actions: [{
+                        "type": "set",
+                        "token": "show_tags_policies",
+                        "value": "True"
+                    }]
+                }
+            ]
+        });
+
+        var searchTagsPoliciesSimulate = new SearchManager({
+            "id": "searchTagsPoliciesSimulate",
+            "earliest_time": "-5m",
+            "cancelOnUnload": true,
+            "sample_ratio": null,
+            "latest_time": "now",
+            "search": "| `trackme_tags_policies_run_simulation(\"$tk_tags_policies_policy_id$\", \"$tk_tags_policies_tags$\", \"$tk_tags_policies_regex$\")`",
+            "status_buckets": 0,
+            "app": utils.getCurrentApp(),
+            "auto_cancel": 90,
+            "preview": true,
+            "tokenDependencies": {
+                "depends": "$start_simulation_tags_policies$"
             },
             "runWhenTimeIsUndefined": false
         }, {
@@ -9582,7 +10231,7 @@ require([
 
         var SearchDataSourceParsingQualitySingle = new PostProcessManager({
             "tokenDependencies": {},
-            "search": "top limit=0 component | eval percent=round(percent, 2) | eval summary=component . \": \" . percent . \" %\" | fields summary | stats values(summary) as summary",
+            "search": "top limit=0 component | eval percent=round(percent, 2) | eval summary=component . \": \" . percent . \" %\" | fields summary | stats values(summary) as summary | append [ | makeresults | eval summary=\"No parsing issues detected (bravo!?), review the trackme_idx_filter macro to target indexing instances.\" | fields - _time ] | head 1",
             "managerid": "SearchDataSourceParsingQualityMain",
             "id": "SearchDataSourceParsingQualitySingle"
         }, {
@@ -11122,14 +11771,36 @@ require([
         });
 
         // Indexer queues
-        var searchQueue1 = new SearchManager({
-            "id": "searchQueue1",
+
+        var searchPopulateHostQueues = new SearchManager({
+            "id": "searchPopulateHostQueues",
+            "earliest_time": "$inputLinkQueuesTime.earliest$",
+            "cancelOnUnload": true,
+            "sample_ratio": null,
+            "refreshType": "delay",
+            "latest_time": "$inputLinkQueuesTime.latest$",
+            "search": "| tstats count where (index=_internal `trackme_idx_filter` source=*metrics.log sourcetype=splunkd) by host | sort 0 host | fields host",
+            "status_buckets": 0,
+            "app": utils.getCurrentApp(),
+            "auto_cancel": 90,
+            "preview": true,
+            "tokenDependencies": {
+                "depends": "$tk_start_indexers_queues_searches$"
+            },
+            "runWhenTimeIsUndefined": false
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        });
+
+        var searchQueueAll = new SearchManager({
+            "id": "searchQueueAll",
             "tokenDependencies": {
                 "depends": "$tk_start_indexers_queues_searches$"
             },
             "sample_ratio": 1,
             "earliest_time": "$inputLinkQueuesTime.earliest$",
-            "search": "(index=_internal `trackme_idx_filter` source=*metrics.log sourcetype=splunkd group=queue name IN(\"splunktcpin\")) | eval nhost=replace(host,\"\\\\..*\",\"\")  | eval ingest_pipe=if(isnotnull(ingest_pipe),ingest_pipe,\"none\")  | search ingest_pipe=* | eval max=coalesce(max_size_kb, max_size) | eval curr=coalesce(current_size_kb, current_size) | eval fill_perc=round(((curr / max) * 100), 2) | timechart span=$inputLinkQueuesTime.span$ max(fill_perc) as avg_fill by nhost useother=false limit=0",
+            "search": "(index=_internal `trackme_idx_filter` source=*metrics.log sourcetype=splunkd $inputHostQueues$ group=queue) | eval max=if(isnotnull(max_size_kb),max_size_kb,max_size) | eval curr=if(isnotnull(current_size_kb),current_size_kb,current_size) | eval fill_perc=round((curr/max)*100,2) | bucket _time span=1m | stats Median(fill_perc) AS \"fill_percentage\" by host, _time, name | timechart limit=0 useother=f span=2m avg(fill_percentage) as \"pct_fill_indexqueue\" by name",
             "latest_time": "$inputLinkQueuesTime.latest$",
             "cancelOnUnload": true,
             "status_buckets": 0,
@@ -11142,87 +11813,46 @@ require([
             tokenNamespace: "submitted"
         });
 
-        var searchQueue2 = new SearchManager({
-            "id": "searchQueue2",
-            "tokenDependencies": {
-                "depends": "$tk_start_indexers_queues_searches$"
-            },
-            "sample_ratio": 1,
+        var searchQueueTreillis = new SearchManager({
+            "id": "searchQueueTreillis",
             "earliest_time": "$inputLinkQueuesTime.earliest$",
-            "search": "(index=_internal `trackme_idx_filter` source=*metrics.log sourcetype=splunkd group=queue name IN(\"parsingqueue\")) | eval nhost=replace(host,\"\\\\..*\",\"\")  | eval ingest_pipe=if(isnotnull(ingest_pipe),ingest_pipe,\"none\")  | search ingest_pipe=* | eval max=coalesce(max_size_kb, max_size) | eval curr=coalesce(current_size_kb, current_size) | eval fill_perc=round(((curr / max) * 100), 2) | timechart span=$inputLinkQueuesTime.span$ max(fill_perc) as avg_fill by nhost useother=false limit=0",
             "latest_time": "$inputLinkQueuesTime.latest$",
-            "cancelOnUnload": true,
+            "sample_ratio": 1,
+            "search": "(index=_internal `trackme_idx_filter` source=*metrics.log sourcetype=splunkd $inputHostQueues$ group=queue) | eval max=if(isnotnull(max_size_kb),max_size_kb,max_size) | eval curr=if(isnotnull(current_size_kb),current_size_kb,current_size) | eval fill_perc=round((curr/max)*100,2) | bucket _time span=1m | eval ingest_pipe=if(isnull(ingest_pipe), 0, ingest_pipe) | eval key = $inputHostQueuesBreak$ | stats Median(fill_perc) AS \"fill_percentage\" by key, _time | timechart limit=0 useother=f span=2m avg(fill_percentage) as \"pct_fill_indexqueue\" by key",
             "status_buckets": 0,
+            "cancelOnUnload": true,
             "app": utils.getCurrentApp(),
             "auto_cancel": 90,
             "preview": true,
-            "runWhenTimeIsUndefined": false
-        }, {
-            tokens: true,
-            tokenNamespace: "submitted"
-        });
-
-        var searchQueue3 = new SearchManager({
-            "id": "searchQueue3",
             "tokenDependencies": {
                 "depends": "$tk_start_indexers_queues_searches$"
             },
-            "sample_ratio": 1,
-            "earliest_time": "$inputLinkQueuesTime.earliest$",
-            "search": "(index=_internal `trackme_idx_filter` source=*metrics.log sourcetype=splunkd group=queue name IN(\"aggqueue\")) | eval nhost=replace(host,\"\\\\..*\",\"\")  | eval ingest_pipe=if(isnotnull(ingest_pipe),ingest_pipe,\"none\")  | search ingest_pipe=* | eval max=coalesce(max_size_kb, max_size) | eval curr=coalesce(current_size_kb, current_size) | eval fill_perc=round(((curr / max) * 100), 2) | timechart span=$inputLinkQueuesTime.span$ max(fill_perc) as avg_fill by nhost useother=false limit=0",
-            "latest_time": "$inputLinkQueuesTime.latest$",
-            "cancelOnUnload": true,
-            "status_buckets": 0,
-            "app": utils.getCurrentApp(),
-            "auto_cancel": 90,
-            "preview": true,
             "runWhenTimeIsUndefined": false
-        }, {
-            tokens: true,
-            tokenNamespace: "submitted"
-        });
-
-        var searchQueue4 = new SearchManager({
-            "id": "searchQueue4",
-            "tokenDependencies": {
-                "depends": "$tk_start_indexers_queues_searches$"
-            },
-            "sample_ratio": 1,
-            "earliest_time": "$inputLinkQueuesTime.earliest$",
-            "search": "(index=_internal `trackme_idx_filter` source=*metrics.log sourcetype=splunkd group=queue name IN(\"typingqueue\")) | eval nhost=replace(host,\"\\\\..*\",\"\")  | eval ingest_pipe=if(isnotnull(ingest_pipe),ingest_pipe,\"none\")  | search ingest_pipe=* | eval max=coalesce(max_size_kb, max_size) | eval curr=coalesce(current_size_kb, current_size) | eval fill_perc=round(((curr / max) * 100), 2) | timechart span=$inputLinkQueuesTime.span$ max(fill_perc) as avg_fill by nhost useother=false limit=0",
-            "latest_time": "$inputLinkQueuesTime.latest$",
-            "cancelOnUnload": true,
-            "status_buckets": 0,
-            "app": utils.getCurrentApp(),
-            "auto_cancel": 90,
-            "preview": true,
-            "runWhenTimeIsUndefined": false
-        }, {
-            tokens: true,
-            tokenNamespace: "submitted"
-        });
-
-        var searchQueue5 = new SearchManager({
-            "id": "searchQueue5",
-            "tokenDependencies": {
-                "depends": "$tk_start_indexers_queues_searches$"
-            },
-            "sample_ratio": 1,
-            "earliest_time": "$inputLinkQueuesTime.earliest$",
-            "search": "(index=_internal `trackme_idx_filter` source=*metrics.log sourcetype=splunkd group=queue name IN(\"indexqueue\")) | eval nhost=replace(host,\"\\\\..*\",\"\")  | eval ingest_pipe=if(isnotnull(ingest_pipe),ingest_pipe,\"none\")  | search ingest_pipe=* | eval max=coalesce(max_size_kb, max_size) | eval curr=coalesce(current_size_kb, current_size) | eval fill_perc=round(((curr / max) * 100), 2) | timechart span=$inputLinkQueuesTime.span$ max(fill_perc) as avg_fill by nhost useother=false limit=0",
-            "latest_time": "$inputLinkQueuesTime.latest$",
-            "cancelOnUnload": true,
-            "status_buckets": 0,
-            "app": utils.getCurrentApp(),
-            "auto_cancel": 90,
-            "preview": true,
-            "runWhenTimeIsUndefined": false
-        }, {
-            tokens: true,
-            tokenNamespace: "submitted"
-        });
+        }, {tokens: true, tokenNamespace: "submitted"});
 
         // Parsing issues
+
+        var searchPopulateHostParsing = new SearchManager({
+            "id": "searchPopulateHostParsing",
+            "earliest_time": "$inputLinkParsingIssuesTime.earliest$",
+            "cancelOnUnload": true,
+            "sample_ratio": null,
+            "refreshType": "delay",
+            "latest_time": "$inputLinkParsingIssuesTime.latest$",
+            "search": "| tstats count where (index=_internal `trackme_idx_filter` source=*metrics.log sourcetype=splunkd) by host | sort 0 host | fields host",
+            "status_buckets": 0,
+            "app": utils.getCurrentApp(),
+            "auto_cancel": 90,
+            "preview": true,
+            "tokenDependencies": {
+                "depends": "$tk_start_parsing_issues_searches$"
+            },
+            "runWhenTimeIsUndefined": false
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        });
+        
         var searchParsingIssuesChart = new SearchManager({
             "id": "searchParsingIssuesChart",
             "tokenDependencies": {
@@ -11230,7 +11860,7 @@ require([
             },
             "sample_ratio": 1,
             "earliest_time": "$inputLinkParsingIssuesTime.earliest$",
-            "search": "index=_internal sourcetype=splunkd error OR warn `trackme_idx_filter` component=LineBreakingProcessor OR component=AggregatorMiningProcessor OR component=DateParserVerbose | timechart span=$inputLinkParsingIssuesTime.span$ count by component",
+            "search": "index=_internal sourcetype=splunkd error OR warn `trackme_idx_filter` $inputHostParsing$ component=LineBreakingProcessor OR component=AggregatorMiningProcessor OR component=DateParserVerbose | timechart span=$inputLinkParsingIssuesTime.span$ count by component",
             "latest_time": "$inputLinkParsingIssuesTime.latest$",
             "cancelOnUnload": true,
             "status_buckets": 0,
@@ -11250,7 +11880,7 @@ require([
             },
             "sample_ratio": 1,
             "earliest_time": "$inputLinkParsingIssuesTime.earliest$",
-            "search": "index=_internal sourcetype=splunkd error OR warn `trackme_idx_filter` component=LineBreakingProcessor OR component=AggregatorMiningProcessor OR component=DateParserVerbose | top limit=0 component | eval percent=round(percent, 2) | eval summary=component . \": \" . percent . \" %\" | fields summary | stats values(summary) as summary",
+            "search": "index=_internal sourcetype=splunkd error OR warn `trackme_idx_filter` $inputHostParsing$ component=LineBreakingProcessor OR component=AggregatorMiningProcessor OR component=DateParserVerbose | top limit=0 component | eval percent=round(percent, 2) | eval summary=component . \": \" . percent . \" %\" | fields summary | stats values(summary) as summary | append [ | makeresults | eval summary=\"No parsing issues detected (bravo!?), review the trackme_idx_filter macro to target indexing instances.\" | fields - _time ] | head 1",
             "latest_time": "$inputLinkParsingIssuesTime.latest$",
             "cancelOnUnload": true,
             "status_buckets": 0,
@@ -11262,6 +11892,216 @@ require([
             tokens: true,
             tokenNamespace: "submitted"
         });
+
+        var searchLineBreakingProcessorTopSource = new SearchManager({
+            "id": "searchLineBreakingProcessorTopSource",
+            "earliest_time": "$inputLinkParsingIssuesTime.earliest$",
+            "latest_time": "$inputLinkParsingIssuesTime.latest$",
+            "sample_ratio": 1,
+            "search": "index=_internal sourcetype=splunkd error OR warn `trackme_idx_filter` component=LineBreakingProcessor | top limit=50 data_source | eval percent=round(percent, 2)",
+            "status_buckets": 0,
+            "cancelOnUnload": true,
+            "app": utils.getCurrentApp(),
+            "auto_cancel": 90,
+            "preview": true,
+            "tokenDependencies": {
+                "depends": "$tk_start_parsing_issues_searches$",
+                "rejects": ""
+            },
+            "runWhenTimeIsUndefined": false
+        }, {tokens: true, tokenNamespace: "submitted"});
+        
+        var searchLineBreakingProcessorTopHost = new SearchManager({
+            "id": "searchLineBreakingProcessorTopHost",
+            "earliest_time": "$inputLinkParsingIssuesTime.earliest$",
+            "latest_time": "$inputLinkParsingIssuesTime.latest$",
+            "sample_ratio": 1,
+            "search": "index=_internal sourcetype=splunkd error OR warn `trackme_idx_filter` component=LineBreakingProcessor | top limit=50 data_host | eval percent=round(percent, 2)",
+            "status_buckets": 0,
+            "cancelOnUnload": true,
+            "app": utils.getCurrentApp(),
+            "auto_cancel": 90,
+            "preview": true,
+            "tokenDependencies": {
+                "depends": "$tk_start_parsing_issues_searches$",
+                "rejects": ""
+            },
+            "runWhenTimeIsUndefined": false
+        }, {tokens: true, tokenNamespace: "submitted"});
+        
+        var searchLineBreakingProcessorTopSourcetype = new SearchManager({
+            "id": "searchLineBreakingProcessorTopSourcetype",
+            "earliest_time": "$inputLinkParsingIssuesTime.earliest$",
+            "latest_time": "$inputLinkParsingIssuesTime.latest$",
+            "sample_ratio": 1,
+            "search": "index=_internal sourcetype=splunkd error OR warn `trackme_idx_filter` component=LineBreakingProcessor | top limit=50 data_sourcetype | eval percent=round(percent, 2)",
+            "status_buckets": 0,
+            "cancelOnUnload": true,
+            "app": utils.getCurrentApp(),
+            "auto_cancel": 90,
+            "preview": true,
+            "tokenDependencies": {
+                "depends": "$tk_start_parsing_issues_searches$",
+                "rejects": ""
+            },
+            "runWhenTimeIsUndefined": false
+        }, {tokens: true, tokenNamespace: "submitted"});
+        
+        var searchAggregatorMiningProcessorTopSource = new SearchManager({
+            "id": "searchAggregatorMiningProcessorTopSource",
+            "earliest_time": "$inputLinkParsingIssuesTime.earliest$",
+            "latest_time": "$inputLinkParsingIssuesTime.latest$",
+            "sample_ratio": 1,
+            "search": "index=_internal sourcetype=splunkd error OR warn `trackme_idx_filter` component=AggregatorMiningProcessor | top limit=50 data_source | eval percent=round(percent, 2)",
+            "status_buckets": 0,
+            "cancelOnUnload": true,
+            "app": utils.getCurrentApp(),
+            "auto_cancel": 90,
+            "preview": true,
+            "tokenDependencies": {
+                "depends": "$tk_start_parsing_issues_searches$",
+                "rejects": ""
+            },
+            "runWhenTimeIsUndefined": false
+        }, {tokens: true, tokenNamespace: "submitted"});
+        
+        var searchAggregatorMiningProcessorTopHost = new SearchManager({
+            "id": "searchAggregatorMiningProcessorTopHost",
+            "earliest_time": "$inputLinkParsingIssuesTime.earliest$",
+            "latest_time": "$inputLinkParsingIssuesTime.latest$",
+            "sample_ratio": 1,
+            "search": "index=_internal sourcetype=splunkd error OR warn `trackme_idx_filter` component=AggregatorMiningProcessor | top limit=50 data_host | eval percent=round(percent, 2)",
+            "status_buckets": 0,
+            "cancelOnUnload": true,
+            "app": utils.getCurrentApp(),
+            "auto_cancel": 90,
+            "preview": true,
+            "tokenDependencies": {
+                "depends": "$tk_start_parsing_issues_searches$",
+                "rejects": ""
+            },
+            "runWhenTimeIsUndefined": false
+        }, {tokens: true, tokenNamespace: "submitted"});
+        
+        var searchAggregatorMiningProcessorTopSourcetype = new SearchManager({
+            "id": "searchAggregatorMiningProcessorTopSourcetype",
+            "earliest_time": "$inputLinkParsingIssuesTime.earliest$",
+            "latest_time": "$inputLinkParsingIssuesTime.latest$",
+            "sample_ratio": 1,
+            "search": "index=_internal sourcetype=splunkd error OR warn `trackme_idx_filter` component=AggregatorMiningProcessor | top limit=50 data_sourcetype | eval percent=round(percent, 2)",
+            "status_buckets": 0,
+            "cancelOnUnload": true,
+            "app": utils.getCurrentApp(),
+            "auto_cancel": 90,
+            "preview": true,
+            "tokenDependencies": {
+                "depends": "$tk_start_parsing_issues_searches$",
+                "rejects": ""
+            },
+            "runWhenTimeIsUndefined": false
+        }, {tokens: true, tokenNamespace: "submitted"});
+        
+        var searchDateParserVerboseTopSource = new SearchManager({
+            "id": "searchDateParserVerboseTopSource",
+            "earliest_time": "$inputLinkParsingIssuesTime.earliest$",
+            "latest_time": "$inputLinkParsingIssuesTime.latest$",
+            "sample_ratio": 1,
+            "search": "index=_internal sourcetype=splunkd error OR warn `trackme_idx_filter` component=DateParserVerbose | `trackme_rex_dateparserverbose` | top limit=50 data_source | eval percent=round(percent, 2)",
+            "status_buckets": 0,
+            "cancelOnUnload": true,
+            "app": utils.getCurrentApp(),
+            "auto_cancel": 90,
+            "preview": true,
+            "tokenDependencies": {
+                "depends": "$tk_start_parsing_issues_searches$",
+                "rejects": ""
+            },
+            "runWhenTimeIsUndefined": false
+        }, {tokens: true, tokenNamespace: "submitted"});
+        
+        var searchDateParserVerboseTopHost = new SearchManager({
+            "id": "searchDateParserVerboseTopHost",
+            "earliest_time": "$inputLinkParsingIssuesTime.earliest$",
+            "latest_time": "$inputLinkParsingIssuesTime.latest$",
+            "sample_ratio": 1,
+            "search": "index=_internal sourcetype=splunkd error OR warn `trackme_idx_filter` component=DateParserVerbose | `trackme_rex_dateparserverbose` | top limit=50 data_host | eval percent=round(percent, 2)",
+            "status_buckets": 0,
+            "cancelOnUnload": true,
+            "app": utils.getCurrentApp(),
+            "auto_cancel": 90,
+            "preview": true,
+            "tokenDependencies": {
+                "depends": "$tk_start_parsing_issues_searches$",
+                "rejects": ""
+            },
+            "runWhenTimeIsUndefined": false
+        }, {tokens: true, tokenNamespace: "submitted"});
+        
+        var searchDateParserVerboseTopSourcetype = new SearchManager({
+            "id": "searchDateParserVerboseTopSourcetype",
+            "earliest_time": "$inputLinkParsingIssuesTime.earliest$",
+            "latest_time": "$inputLinkParsingIssuesTime.latest$",
+            "sample_ratio": 1,
+            "search": "index=_internal sourcetype=splunkd error OR warn `trackme_idx_filter` component=DateParserVerbose | `trackme_rex_dateparserverbose` | top limit=50 data_sourcetype | eval percent=round(percent, 2)",
+            "status_buckets": 0,
+            "cancelOnUnload": true,
+            "app": utils.getCurrentApp(),
+            "auto_cancel": 90,
+            "preview": true,
+            "tokenDependencies": {
+                "depends": "$tk_start_parsing_issues_searches$",
+                "rejects": ""
+            },
+            "runWhenTimeIsUndefined": false
+        }, {tokens: true, tokenNamespace: "submitted"});
+
+        var searchLineBreakingProcessorEvent = new SearchManager({
+            "id": "searchLineBreakingProcessorEvent",
+            "earliest_time": "$inputLinkParsingIssuesTime.earliest$",
+            "latest_time": "$inputLinkParsingIssuesTime.latest$",
+            "sample_ratio": null,
+            "search": "index=_internal sourcetype=splunkd error OR warn `trackme_idx_filter` component=LineBreakingProcessor | head 100",
+            "status_buckets": 300,
+            "cancelOnUnload": true,
+            "app": utils.getCurrentApp(),
+            "auto_cancel": 90,
+            "preview": true,
+            "tokenDependencies": {
+            },
+            "runWhenTimeIsUndefined": false
+        }, {tokens: true, tokenNamespace: "submitted"});
+
+        var searchAggregatorMiningProcessorEvent = new SearchManager({
+            "id": "searchAggregatorMiningProcessorEvent",
+            "earliest_time": "$inputLinkParsingIssuesTime.earliest$",
+            "latest_time": "$inputLinkParsingIssuesTime.latest$",
+            "sample_ratio": null,
+            "search": "index=_internal sourcetype=splunkd error OR warn `trackme_idx_filter` component=aggregatorMiningProcessor | head 100",
+            "status_buckets": 300,
+            "cancelOnUnload": true,
+            "app": utils.getCurrentApp(),
+            "auto_cancel": 90,
+            "preview": true,
+            "tokenDependencies": {
+            },
+            "runWhenTimeIsUndefined": false
+        }, {tokens: true, tokenNamespace: "submitted"});
+
+        var searchDateParserVerboseEvent = new SearchManager({
+            "id": "searchDateParserVerboseEvent",
+            "earliest_time": "$inputLinkParsingIssuesTime.earliest$",
+            "latest_time": "$inputLinkParsingIssuesTime.latest$",
+            "sample_ratio": null,
+            "search": "index=_internal sourcetype=splunkd error OR warn `trackme_idx_filter` component=DateParserVerbose | head 100",
+            "status_buckets": 300,
+            "cancelOnUnload": true,
+            "app": utils.getCurrentApp(),
+            "auto_cancel": 90,
+            "preview": true,
+            "tokenDependencies": {
+            },
+            "runWhenTimeIsUndefined": false
+        }, {tokens: true, tokenNamespace: "submitted"});
 
         // Identity card
 
@@ -12398,6 +13238,86 @@ require([
             if (!submittedTokenModel.has('earliest') && !submittedTokenModel.has('latest')) {
                 submittedTokenModel.set({ earliest: '0', latest: '' });
             }
+        });
+
+        // input multiselect for queues
+        var inputHostQueues = new MultiSelectInput({
+            "id": "inputHostQueues",
+            "tokenDependencies": {
+                "depends": "$tk_start_indexers_queues_searches$"
+            },
+            "choices": [{
+                "label": "ALL",
+                "value": "*"
+            }],
+            "searchWhenChanged": true,
+            "showClearButton": true,
+            "labelField": "host",
+            "valuePrefix": "host=\"",
+            "valueSuffix": "\"",
+            "delimiter": " OR ",
+            "initialValue": "*",
+            "selectFirstChoice": false,
+            "valueField": "host",
+            "value": "$form.inputHostQueues$",
+            "managerid": "searchPopulateHostQueues",
+            "el": $('#inputHostQueues')
+        }, {
+            tokens: true
+        }).render();
+
+        inputHostQueues.on("change", function(newValue) {
+            FormUtils.handleValueChange(inputHostQueues);
+        });
+
+        var inputHostQueuesBreak = new DropdownInput({
+            "id": "inputHostQueuesBreak",
+            "choices": [
+                {"label": "Queue", "value": "name"},
+                {"label": "Queue, Ingest pipe", "value": "name . \":\" . ingest_pipe"},
+                {"label": "Queue, Ingest pipe, host", "value": "host . \":\" . name . \":\" . ingest_pipe"}
+            ],
+            "default": "name",
+            "searchWhenChanged": true,
+            "selectFirstChoice": false,
+            "showClearButton": true,
+            "initialValue": "name",
+            "value": "$form.inputHostQueuesBreak$",
+            "el": $('#inputHostQueuesBreak')
+        }, {tokens: true}).render();
+
+        inputHostQueuesBreak.on("change", function(newValue) {
+            FormUtils.handleValueChange(inputHostQueuesBreak);
+        });
+
+        // input multiselect for parsing
+        var inputHostParsing = new MultiSelectInput({
+            "id": "inputHostParsing",
+            "tokenDependencies": {
+                "depends": "$tk_start_parsing_issues_searches$"
+            },
+            "choices": [{
+                "label": "ALL",
+                "value": "*"
+            }],
+            "searchWhenChanged": true,
+            "showClearButton": true,
+            "labelField": "host",
+            "valuePrefix": "host=\"",
+            "valueSuffix": "\"",
+            "delimiter": " OR ",
+            "initialValue": "*",
+            "selectFirstChoice": false,
+            "valueField": "host",
+            "value": "$form.inputHostParsing$",
+            "managerid": "searchPopulateHostParsing",
+            "el": $('#inputHostParsing')
+        }, {
+            tokens: true
+        }).render();
+
+        inputHostParsing.on("change", function(newValue) {
+            FormUtils.handleValueChange(inputHostParsing);
         });
 
         // input link selection for modal window
@@ -16098,6 +17018,55 @@ require([
             tokenNamespace: "submitted"
         }).render();
 
+        // tags policies
+        var tableTagsPolicies = new TableElement({
+            "id": "tableTagsPolicies",
+            "tokenDependencies": {
+                "depends": "$show_tags_policies$"
+            },
+            "count": 10,
+            "drilldown": "none",
+            "refresh.display": "none",
+            "wrap": "false",
+            "managerid": "searchShowTagsPolicies",
+            "el": $('#tableTagsPolicies')
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        }).render();
+
+        var modal_input_tags_policies_policy_id = new TextInput({
+            "id": "modal_input_tags_policies_id",
+            "searchWhenChanged": false,
+            "value": "$form.tk_tags_policies_policy_id$",
+            "el": $('#modal_input_tags_policies_policy_id')
+        }, {
+            tokens: true
+        }).render();
+
+        modal_input_tags_policies_policy_id.on("change", function(newValue) {
+            FormUtils.handleValueChange(modal_input_tags_policies_policy_id);
+        });
+
+       // Simulation
+       var tableTagsPoliciesSimulate = new TableElement({
+            "id": "tableTagsPoliciesSimulate",
+            "tokenDependencies": {
+                "depends": "$start_simulation_tags_policies$"
+            },
+            "count": 1,
+            "drilldown": "row",
+            "refresh.display": "none",
+            "wrap": "false",
+            "managerid": "searchTagsPoliciesSimulate",
+            "el": $('#tableTagsPoliciesSimulate')
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        }).render();
+
+        // Data sampling
+
         // Simulation
         var tableDataSamplingSimulateCustomRule = new TableElement({
             "id": "tableDataSamplingSimulateCustomRule",
@@ -17249,8 +18218,8 @@ require([
         }).render();
 
         // Ops: Indexer Queues
-        var elementChartQueue1 = new ChartElement({
-            "id": "elementChartQueue1",
+        var elementChartQueueAll = new ChartElement({
+            "id": "elementChartQueueAll",
             "charting.chart.nullValueMode": "gaps",
             "resizable": true,
             "trellis.enabled": "0",
@@ -17285,187 +18254,51 @@ require([
             "charting.layout.splitSeries": "0",
             "charting.lineWidth": "2",
             "charting.axisY2.scale": "inherit",
-            "managerid": "searchQueue1",
-            "el": $('#elementChartQueue1')
+            "managerid": "searchQueueAll",
+            "el": $('#elementChartQueueAll')
         }, {
             tokens: true,
             tokenNamespace: "submitted"
         }).render();
 
-        var elementChartQueue2 = new ChartElement({
-            "id": "elementChartQueue2",
-            "charting.chart.nullValueMode": "gaps",
+        var elementChartQueuesTreillis = new ChartElement({
+            "id": "elementChartQueuesTreillis",
             "resizable": true,
-            "trellis.enabled": "0",
-            "charting.axisTitleX.visibility": "collapsed",
-            "refresh.display": "progressbar",
-            "charting.chart.stackMode": "stacked",
             "charting.axisLabelsX.majorLabelStyle.overflowMode": "ellipsisNone",
-            "charting.axisY.abbreviation": "none",
-            "charting.legend.placement": "bottom",
-            "charting.axisY2.abbreviation": "none",
-            "charting.legend.labelStyle.overflowMode": "ellipsisMiddle",
-            "charting.chart.showDataLabels": "none",
-            "charting.axisY2.enabled": "0",
-            "charting.chart.sliceCollapsingThreshold": "0.01",
-            "charting.chart.style": "shiny",
-            "charting.layout.splitSeries.allowIndependentYRanges": "0",
-            "charting.chart": "line",
-            "charting.axisX.scale": "linear",
-            "trellis.scales.shared": "1",
+            "charting.axisLabelsX.majorLabelStyle.rotation": "0",
+            "charting.axisTitleX.visibility": "collapsed",
             "charting.axisTitleY.visibility": "visible",
             "charting.axisTitleY2.visibility": "visible",
-            "height": "350",
-            "charting.chart.bubbleMinimumSize": "10",
-            "charting.drilldown": "none",
-            "charting.legend.mode": "standard",
-            "charting.chart.bubbleMaximumSize": "50",
-            "trellis.size": "medium",
-            "charting.axisY.scale": "linear",
-            "charting.chart.bubbleSizeBy": "area",
-            "charting.axisLabelsX.majorLabelStyle.rotation": "0",
             "charting.axisX.abbreviation": "none",
-            "charting.layout.splitSeries": "0",
-            "charting.lineWidth": "2",
-            "charting.axisY2.scale": "inherit",
-            "managerid": "searchQueue2",
-            "el": $('#elementChartQueue2')
-        }, {
-            tokens: true,
-            tokenNamespace: "submitted"
-        }).render();
-
-
-        var elementChartQueue3 = new ChartElement({
-            "id": "elementChartQueue3",
-            "charting.chart.nullValueMode": "gaps",
-            "resizable": true,
-            "trellis.enabled": "0",
-            "charting.axisTitleX.visibility": "collapsed",
-            "refresh.display": "progressbar",
-            "charting.chart.stackMode": "stacked",
-            "charting.axisLabelsX.majorLabelStyle.overflowMode": "ellipsisNone",
-            "charting.axisY.abbreviation": "none",
-            "charting.legend.placement": "bottom",
-            "charting.axisY2.abbreviation": "none",
-            "charting.legend.labelStyle.overflowMode": "ellipsisMiddle",
-            "charting.chart.showDataLabels": "none",
-            "charting.axisY2.enabled": "0",
-            "charting.chart.sliceCollapsingThreshold": "0.01",
-            "charting.chart.style": "shiny",
-            "charting.layout.splitSeries.allowIndependentYRanges": "0",
-            "charting.chart": "line",
             "charting.axisX.scale": "linear",
-            "trellis.scales.shared": "1",
-            "charting.axisTitleY.visibility": "visible",
-            "charting.axisTitleY2.visibility": "visible",
-            "height": "350",
-            "charting.chart.bubbleMinimumSize": "10",
-            "charting.drilldown": "none",
-            "charting.legend.mode": "standard",
-            "charting.chart.bubbleMaximumSize": "50",
-            "trellis.size": "medium",
-            "charting.axisY.scale": "linear",
-            "charting.chart.bubbleSizeBy": "area",
-            "charting.axisLabelsX.majorLabelStyle.rotation": "0",
-            "charting.axisX.abbreviation": "none",
-            "charting.layout.splitSeries": "0",
-            "charting.lineWidth": "2",
-            "charting.axisY2.scale": "inherit",
-            "managerid": "searchQueue3",
-            "el": $('#elementChartQueue3')
-        }, {
-            tokens: true,
-            tokenNamespace: "submitted"
-        }).render();
-
-
-        var elementChartQueue4 = new ChartElement({
-            "id": "elementChartQueue4",
-            "charting.chart.nullValueMode": "gaps",
-            "resizable": true,
-            "trellis.enabled": "0",
-            "charting.axisTitleX.visibility": "collapsed",
-            "refresh.display": "progressbar",
-            "charting.chart.stackMode": "stacked",
-            "charting.axisLabelsX.majorLabelStyle.overflowMode": "ellipsisNone",
             "charting.axisY.abbreviation": "none",
-            "charting.legend.placement": "bottom",
-            "charting.axisY2.abbreviation": "none",
-            "charting.legend.labelStyle.overflowMode": "ellipsisMiddle",
-            "charting.chart.showDataLabels": "none",
-            "charting.axisY2.enabled": "0",
-            "charting.chart.sliceCollapsingThreshold": "0.01",
-            "charting.chart.style": "shiny",
-            "charting.layout.splitSeries.allowIndependentYRanges": "0",
-            "charting.chart": "line",
-            "charting.axisX.scale": "linear",
-            "trellis.scales.shared": "1",
-            "charting.axisTitleY.visibility": "visible",
-            "charting.axisTitleY2.visibility": "visible",
-            "height": "350",
-            "charting.chart.bubbleMinimumSize": "10",
-            "charting.drilldown": "none",
-            "charting.legend.mode": "standard",
-            "charting.chart.bubbleMaximumSize": "50",
-            "trellis.size": "medium",
             "charting.axisY.scale": "linear",
-            "charting.chart.bubbleSizeBy": "area",
-            "charting.axisLabelsX.majorLabelStyle.rotation": "0",
-            "charting.axisX.abbreviation": "none",
-            "charting.layout.splitSeries": "0",
-            "charting.lineWidth": "2",
+            "charting.axisY2.abbreviation": "none",
+            "charting.axisY2.enabled": "0",
             "charting.axisY2.scale": "inherit",
-            "managerid": "searchQueue4",
-            "el": $('#elementChartQueue4')
-        }, {
-            tokens: true,
-            tokenNamespace: "submitted"
-        }).render();
-
-
-        var elementChartQueue5 = new ChartElement({
-            "id": "elementChartQueue5",
+            "charting.chart": "line",
+            "charting.chart.bubbleMaximumSize": "50",
+            "charting.chart.bubbleMinimumSize": "10",
+            "charting.chart.bubbleSizeBy": "area",
             "charting.chart.nullValueMode": "gaps",
-            "resizable": true,
-            "trellis.enabled": "0",
-            "charting.axisTitleX.visibility": "collapsed",
-            "refresh.display": "progressbar",
-            "charting.chart.stackMode": "stacked",
-            "charting.axisLabelsX.majorLabelStyle.overflowMode": "ellipsisNone",
-            "charting.axisY.abbreviation": "none",
-            "charting.legend.placement": "bottom",
-            "charting.axisY2.abbreviation": "none",
-            "charting.legend.labelStyle.overflowMode": "ellipsisMiddle",
             "charting.chart.showDataLabels": "none",
-            "charting.axisY2.enabled": "0",
             "charting.chart.sliceCollapsingThreshold": "0.01",
+            "charting.chart.stackMode": "default",
             "charting.chart.style": "shiny",
-            "charting.layout.splitSeries.allowIndependentYRanges": "0",
-            "charting.chart": "line",
-            "charting.axisX.scale": "linear",
-            "trellis.scales.shared": "1",
-            "charting.axisTitleY.visibility": "visible",
-            "charting.axisTitleY2.visibility": "visible",
-            "height": "350",
-            "charting.chart.bubbleMinimumSize": "10",
             "charting.drilldown": "none",
-            "charting.legend.mode": "standard",
-            "charting.chart.bubbleMaximumSize": "50",
-            "trellis.size": "medium",
-            "charting.axisY.scale": "linear",
-            "charting.chart.bubbleSizeBy": "area",
-            "charting.axisLabelsX.majorLabelStyle.rotation": "0",
-            "charting.axisX.abbreviation": "none",
             "charting.layout.splitSeries": "0",
+            "charting.layout.splitSeries.allowIndependentYRanges": "0",
+            "charting.legend.labelStyle.overflowMode": "ellipsisMiddle",
+            "charting.legend.mode": "standard",
+            "charting.legend.placement": "right",
             "charting.lineWidth": "2",
-            "charting.axisY2.scale": "inherit",
-            "managerid": "searchQueue5",
-            "el": $('#elementChartQueue5')
-        }, {
-            tokens: true,
-            tokenNamespace: "submitted"
-        }).render();
+            "trellis.enabled": "1",
+            "trellis.scales.shared": "0",
+            "trellis.size": "large",
+            "height": "1200",
+            "managerid": "searchQueueTreillis",
+            "el": $('#elementChartQueuesTreillis')
+        }, {tokens: true, tokenNamespace: "submitted"}).render();
 
         // Ops: Parsing Issues
         var elementChartParsingIssues = new ChartElement({
@@ -17491,7 +18324,7 @@ require([
             "trellis.scales.shared": "1",
             "charting.axisTitleY.visibility": "visible",
             "charting.axisTitleY2.visibility": "visible",
-            "height": "350",
+            "height": "300",
             "charting.chart.bubbleMinimumSize": "10",
             "charting.drilldown": "none",
             "charting.legend.mode": "standard",
@@ -17510,6 +18343,487 @@ require([
             tokens: true,
             tokenNamespace: "submitted"
         }).render();
+
+        var chartLineBreakingProcessorTopSource = new ChartElement({
+            "id": "chartLineBreakingProcessorTopSource",
+            "resizable": true,
+            "charting.axisLabelsX.majorLabelStyle.overflowMode": "ellipsisNone",
+            "charting.axisLabelsX.majorLabelStyle.rotation": "0",
+            "charting.axisTitleX.visibility": "visible",
+            "charting.axisTitleY.visibility": "visible",
+            "charting.axisTitleY2.visibility": "visible",
+            "charting.axisX.abbreviation": "none",
+            "charting.axisX.scale": "linear",
+            "charting.axisY.abbreviation": "none",
+            "charting.axisY.scale": "linear",
+            "charting.axisY2.abbreviation": "none",
+            "charting.axisY2.enabled": "0",
+            "charting.axisY2.scale": "inherit",
+            "charting.chart": "pie",
+            "charting.chart.bubbleMaximumSize": "50",
+            "charting.chart.bubbleMinimumSize": "10",
+            "charting.chart.bubbleSizeBy": "area",
+            "charting.chart.nullValueMode": "gaps",
+            "charting.chart.showDataLabels": "none",
+            "charting.chart.sliceCollapsingThreshold": "0.01",
+            "charting.chart.stackMode": "default",
+            "charting.chart.style": "shiny",
+            "charting.drilldown": "none",
+            "charting.layout.splitSeries": "0",
+            "charting.layout.splitSeries.allowIndependentYRanges": "0",
+            "charting.legend.labelStyle.overflowMode": "ellipsisMiddle",
+            "charting.legend.mode": "standard",
+            "charting.legend.placement": "right",
+            "charting.lineWidth": "2",
+            "refresh.display": "progressbar",
+            "trellis.enabled": "0",
+            "trellis.scales.shared": "1",
+            "trellis.size": "medium",
+            "managerid": "searchLineBreakingProcessorTopSource",
+            "el": $('#chartLineBreakingProcessorTopSource')
+        }, {tokens: true, tokenNamespace: "submitted"}).render();
+
+        var tableLineBreakingProcessorTopSource = new TableElement({
+            "id": "tableLineBreakingProcessorTopSource",
+            "drilldown": "none",
+            "count": "5",
+            "refresh.display": "progressbar",
+            "managerid": "searchLineBreakingProcessorTopSource",
+            "el": $('#tableLineBreakingProcessorTopSource')
+        }, {tokens: true, tokenNamespace: "submitted"}).render();
+
+        var chartLineBreakingProcessorTopHost = new ChartElement({
+            "id": "chartLineBreakingProcessorTopHost",
+            "resizable": true,
+            "charting.axisLabelsX.majorLabelStyle.overflowMode": "ellipsisNone",
+            "charting.axisLabelsX.majorLabelStyle.rotation": "0",
+            "charting.axisTitleX.visibility": "visible",
+            "charting.axisTitleY.visibility": "visible",
+            "charting.axisTitleY2.visibility": "visible",
+            "charting.axisX.abbreviation": "none",
+            "charting.axisX.scale": "linear",
+            "charting.axisY.abbreviation": "none",
+            "charting.axisY.scale": "linear",
+            "charting.axisY2.abbreviation": "none",
+            "charting.axisY2.enabled": "0",
+            "charting.axisY2.scale": "inherit",
+            "charting.chart": "pie",
+            "charting.chart.bubbleMaximumSize": "50",
+            "charting.chart.bubbleMinimumSize": "10",
+            "charting.chart.bubbleSizeBy": "area",
+            "charting.chart.nullValueMode": "gaps",
+            "charting.chart.showDataLabels": "none",
+            "charting.chart.sliceCollapsingThreshold": "0.01",
+            "charting.chart.stackMode": "default",
+            "charting.chart.style": "shiny",
+            "charting.drilldown": "none",
+            "charting.layout.splitSeries": "0",
+            "charting.layout.splitSeries.allowIndependentYRanges": "0",
+            "charting.legend.labelStyle.overflowMode": "ellipsisMiddle",
+            "charting.legend.mode": "standard",
+            "charting.legend.placement": "right",
+            "charting.lineWidth": "2",
+            "refresh.display": "progressbar",
+            "trellis.enabled": "0",
+            "trellis.scales.shared": "1",
+            "trellis.size": "medium",
+            "managerid": "searchLineBreakingProcessorTopHost",
+            "el": $('#chartLineBreakingProcessorTopHost')
+        }, {tokens: true, tokenNamespace: "submitted"}).render();
+
+        var tableLineBreakingProcessorTopHost = new TableElement({
+            "id": "tableLineBreakingProcessorTopHost",
+            "drilldown": "none",
+            "count": "5",
+            "refresh.display": "progressbar",
+            "managerid": "searchLineBreakingProcessorTopHost",
+            "el": $('#tableLineBreakingProcessorTopHost')
+        }, {tokens: true, tokenNamespace: "submitted"}).render();
+
+        var chartLineBreakingProcessorTopSourcetype = new ChartElement({
+            "id": "chartLineBreakingProcessorTopSourcetype",
+            "resizable": true,
+            "charting.axisLabelsX.majorLabelStyle.overflowMode": "ellipsisNone",
+            "charting.axisLabelsX.majorLabelStyle.rotation": "0",
+            "charting.axisTitleX.visibility": "visible",
+            "charting.axisTitleY.visibility": "visible",
+            "charting.axisTitleY2.visibility": "visible",
+            "charting.axisX.abbreviation": "none",
+            "charting.axisX.scale": "linear",
+            "charting.axisY.abbreviation": "none",
+            "charting.axisY.scale": "linear",
+            "charting.axisY2.abbreviation": "none",
+            "charting.axisY2.enabled": "0",
+            "charting.axisY2.scale": "inherit",
+            "charting.chart": "pie",
+            "charting.chart.bubbleMaximumSize": "50",
+            "charting.chart.bubbleMinimumSize": "10",
+            "charting.chart.bubbleSizeBy": "area",
+            "charting.chart.nullValueMode": "gaps",
+            "charting.chart.showDataLabels": "none",
+            "charting.chart.sliceCollapsingThreshold": "0.01",
+            "charting.chart.stackMode": "default",
+            "charting.chart.style": "shiny",
+            "charting.drilldown": "none",
+            "charting.layout.splitSeries": "0",
+            "charting.layout.splitSeries.allowIndependentYRanges": "0",
+            "charting.legend.labelStyle.overflowMode": "ellipsisMiddle",
+            "charting.legend.mode": "standard",
+            "charting.legend.placement": "right",
+            "charting.lineWidth": "2",
+            "refresh.display": "progressbar",
+            "trellis.enabled": "0",
+            "trellis.scales.shared": "1",
+            "trellis.size": "medium",
+            "managerid": "searchLineBreakingProcessorTopSourcetype",
+            "el": $('#chartLineBreakingProcessorTopSourcetype')
+        }, {tokens: true, tokenNamespace: "submitted"}).render();
+
+        var tableLineBreakingProcessorTopSourcetype = new TableElement({
+            "id": "tableLineBreakingProcessorTopSourcetype",
+            "drilldown": "none",
+            "count": "5",
+            "refresh.display": "progressbar",
+            "managerid": "searchLineBreakingProcessorTopSourcetype",
+            "el": $('#tableLineBreakingProcessorTopSourcetype')
+        }, {tokens: true, tokenNamespace: "submitted"}).render();
+
+        var elementAggregatorMiningProcessor = new HtmlElement({
+            "id": "elementAggregatorMiningProcessor",
+            "useTokens": true,
+            "el": $('#elementAggregatorMiningProcessor')
+        }, {tokens: true, tokenNamespace: "submitted"}).render();
+
+        DashboardController.addReadyDep(elementAggregatorMiningProcessor.contentLoaded());
+        
+        var chartAggregatorMiningProcessorTopSource = new ChartElement({
+            "id": "chartAggregatorMiningProcessorTopSource",
+            "resizable": true,
+            "charting.axisLabelsX.majorLabelStyle.overflowMode": "ellipsisNone",
+            "charting.axisLabelsX.majorLabelStyle.rotation": "0",
+            "charting.axisTitleX.visibility": "visible",
+            "charting.axisTitleY.visibility": "visible",
+            "charting.axisTitleY2.visibility": "visible",
+            "charting.axisX.abbreviation": "none",
+            "charting.axisX.scale": "linear",
+            "charting.axisY.abbreviation": "none",
+            "charting.axisY.scale": "linear",
+            "charting.axisY2.abbreviation": "none",
+            "charting.axisY2.enabled": "0",
+            "charting.axisY2.scale": "inherit",
+            "charting.chart": "pie",
+            "charting.chart.bubbleMaximumSize": "50",
+            "charting.chart.bubbleMinimumSize": "10",
+            "charting.chart.bubbleSizeBy": "area",
+            "charting.chart.nullValueMode": "gaps",
+            "charting.chart.showDataLabels": "none",
+            "charting.chart.sliceCollapsingThreshold": "0.01",
+            "charting.chart.stackMode": "default",
+            "charting.chart.style": "shiny",
+            "charting.drilldown": "none",
+            "charting.layout.splitSeries": "0",
+            "charting.layout.splitSeries.allowIndependentYRanges": "0",
+            "charting.legend.labelStyle.overflowMode": "ellipsisMiddle",
+            "charting.legend.mode": "standard",
+            "charting.legend.placement": "right",
+            "charting.lineWidth": "2",
+            "refresh.display": "progressbar",
+            "trellis.enabled": "0",
+            "trellis.scales.shared": "1",
+            "trellis.size": "medium",
+            "managerid": "searchAggregatorMiningProcessorTopSource",
+            "el": $('#chartAggregatorMiningProcessorTopSource')
+        }, {tokens: true, tokenNamespace: "submitted"}).render();
+
+        var tableAggregatorMiningProcessorTopSource = new TableElement({
+            "id": "tableAggregatorMiningProcessorTopSource",
+            "drilldown": "none",
+            "count": "5",
+            "refresh.display": "progressbar",
+            "managerid": "searchAggregatorMiningProcessorTopSource",
+            "el": $('#tableAggregatorMiningProcessorTopSource')
+        }, {tokens: true, tokenNamespace: "submitted"}).render();
+
+        var chartAggregatorMiningProcessorTopHost = new ChartElement({
+            "id": "chartAggregatorMiningProcessorTopHost",
+            "resizable": true,
+            "charting.axisLabelsX.majorLabelStyle.overflowMode": "ellipsisNone",
+            "charting.axisLabelsX.majorLabelStyle.rotation": "0",
+            "charting.axisTitleX.visibility": "visible",
+            "charting.axisTitleY.visibility": "visible",
+            "charting.axisTitleY2.visibility": "visible",
+            "charting.axisX.abbreviation": "none",
+            "charting.axisX.scale": "linear",
+            "charting.axisY.abbreviation": "none",
+            "charting.axisY.scale": "linear",
+            "charting.axisY2.abbreviation": "none",
+            "charting.axisY2.enabled": "0",
+            "charting.axisY2.scale": "inherit",
+            "charting.chart": "pie",
+            "charting.chart.bubbleMaximumSize": "50",
+            "charting.chart.bubbleMinimumSize": "10",
+            "charting.chart.bubbleSizeBy": "area",
+            "charting.chart.nullValueMode": "gaps",
+            "charting.chart.showDataLabels": "none",
+            "charting.chart.sliceCollapsingThreshold": "0.01",
+            "charting.chart.stackMode": "default",
+            "charting.chart.style": "shiny",
+            "charting.drilldown": "none",
+            "charting.layout.splitSeries": "0",
+            "charting.layout.splitSeries.allowIndependentYRanges": "0",
+            "charting.legend.labelStyle.overflowMode": "ellipsisMiddle",
+            "charting.legend.mode": "standard",
+            "charting.legend.placement": "right",
+            "charting.lineWidth": "2",
+            "refresh.display": "progressbar",
+            "trellis.enabled": "0",
+            "trellis.scales.shared": "1",
+            "trellis.size": "medium",
+            "managerid": "searchAggregatorMiningProcessorTopHost",
+            "el": $('#chartAggregatorMiningProcessorTopHost')
+        }, {tokens: true, tokenNamespace: "submitted"}).render();
+
+        var tableAggregatorMiningProcessorTopHost = new TableElement({
+            "id": "tableAggregatorMiningProcessorTopHost",
+            "drilldown": "none",
+            "count": "5",
+            "refresh.display": "progressbar",
+            "managerid": "searchAggregatorMiningProcessorTopHost",
+            "el": $('#tableAggregatorMiningProcessorTopHost')
+        }, {tokens: true, tokenNamespace: "submitted"}).render();
+
+        var chartAggregatorMiningProcessorTopSourcetype = new ChartElement({
+            "id": "chartAggregatorMiningProcessorTopSourcetype",
+            "resizable": true,
+            "charting.axisLabelsX.majorLabelStyle.overflowMode": "ellipsisNone",
+            "charting.axisLabelsX.majorLabelStyle.rotation": "0",
+            "charting.axisTitleX.visibility": "visible",
+            "charting.axisTitleY.visibility": "visible",
+            "charting.axisTitleY2.visibility": "visible",
+            "charting.axisX.abbreviation": "none",
+            "charting.axisX.scale": "linear",
+            "charting.axisY.abbreviation": "none",
+            "charting.axisY.scale": "linear",
+            "charting.axisY2.abbreviation": "none",
+            "charting.axisY2.enabled": "0",
+            "charting.axisY2.scale": "inherit",
+            "charting.chart": "pie",
+            "charting.chart.bubbleMaximumSize": "50",
+            "charting.chart.bubbleMinimumSize": "10",
+            "charting.chart.bubbleSizeBy": "area",
+            "charting.chart.nullValueMode": "gaps",
+            "charting.chart.showDataLabels": "none",
+            "charting.chart.sliceCollapsingThreshold": "0.01",
+            "charting.chart.stackMode": "default",
+            "charting.chart.style": "shiny",
+            "charting.drilldown": "none",
+            "charting.layout.splitSeries": "0",
+            "charting.layout.splitSeries.allowIndependentYRanges": "0",
+            "charting.legend.labelStyle.overflowMode": "ellipsisMiddle",
+            "charting.legend.mode": "standard",
+            "charting.legend.placement": "right",
+            "charting.lineWidth": "2",
+            "refresh.display": "progressbar",
+            "trellis.enabled": "0",
+            "trellis.scales.shared": "1",
+            "trellis.size": "medium",
+            "managerid": "searchAggregatorMiningProcessorTopSourcetype",
+            "el": $('#chartAggregatorMiningProcessorTopSourcetype')
+        }, {tokens: true, tokenNamespace: "submitted"}).render();
+
+        var tableAggregatorMiningProcessorTopSourcetype = new TableElement({
+            "id": "tableAggregatorMiningProcessorTopSourcetype",
+            "drilldown": "none",
+            "count": "5",
+            "refresh.display": "progressbar",
+            "managerid": "searchAggregatorMiningProcessorTopSourcetype",
+            "el": $('#tableAggregatorMiningProcessorTopSourcetype')
+        }, {tokens: true, tokenNamespace: "submitted"}).render();
+
+        var elementDateParserVerbose = new HtmlElement({
+            "id": "elementDateParserVerbose",
+            "useTokens": true,
+            "el": $('#elementDateParserVerbose')
+        }, {tokens: true, tokenNamespace: "submitted"}).render();
+
+        DashboardController.addReadyDep(elementDateParserVerbose.contentLoaded());
+        
+        var chartDateParserVerboseTopSource = new ChartElement({
+            "id": "chartDateParserVerboseTopSource",
+            "resizable": true,
+            "charting.axisLabelsX.majorLabelStyle.overflowMode": "ellipsisNone",
+            "charting.axisLabelsX.majorLabelStyle.rotation": "0",
+            "charting.axisTitleX.visibility": "visible",
+            "charting.axisTitleY.visibility": "visible",
+            "charting.axisTitleY2.visibility": "visible",
+            "charting.axisX.abbreviation": "none",
+            "charting.axisX.scale": "linear",
+            "charting.axisY.abbreviation": "none",
+            "charting.axisY.scale": "linear",
+            "charting.axisY2.abbreviation": "none",
+            "charting.axisY2.enabled": "0",
+            "charting.axisY2.scale": "inherit",
+            "charting.chart": "pie",
+            "charting.chart.bubbleMaximumSize": "50",
+            "charting.chart.bubbleMinimumSize": "10",
+            "charting.chart.bubbleSizeBy": "area",
+            "charting.chart.nullValueMode": "gaps",
+            "charting.chart.showDataLabels": "none",
+            "charting.chart.sliceCollapsingThreshold": "0.01",
+            "charting.chart.stackMode": "default",
+            "charting.chart.style": "shiny",
+            "charting.drilldown": "none",
+            "charting.layout.splitSeries": "0",
+            "charting.layout.splitSeries.allowIndependentYRanges": "0",
+            "charting.legend.labelStyle.overflowMode": "ellipsisMiddle",
+            "charting.legend.mode": "standard",
+            "charting.legend.placement": "right",
+            "charting.lineWidth": "2",
+            "refresh.display": "progressbar",
+            "trellis.enabled": "0",
+            "trellis.scales.shared": "1",
+            "trellis.size": "medium",
+            "managerid": "searchDateParserVerboseTopSource",
+            "el": $('#chartDateParserVerboseTopSource')
+        }, {tokens: true, tokenNamespace: "submitted"}).render();
+
+        var tableDateParserVerboseTopSource = new TableElement({
+            "id": "tableDateParserVerboseTopSource",
+            "drilldown": "none",
+            "count": "5",
+            "refresh.display": "progressbar",
+            "managerid": "searchDateParserVerboseTopSource",
+            "el": $('#tableDateParserVerboseTopSource')
+        }, {tokens: true, tokenNamespace: "submitted"}).render();
+
+        var chartDateParserVerboseTopHost = new ChartElement({
+            "id": "chartDateParserVerboseTopHost",
+            "resizable": true,
+            "charting.axisLabelsX.majorLabelStyle.overflowMode": "ellipsisNone",
+            "charting.axisLabelsX.majorLabelStyle.rotation": "0",
+            "charting.axisTitleX.visibility": "visible",
+            "charting.axisTitleY.visibility": "visible",
+            "charting.axisTitleY2.visibility": "visible",
+            "charting.axisX.abbreviation": "none",
+            "charting.axisX.scale": "linear",
+            "charting.axisY.abbreviation": "none",
+            "charting.axisY.scale": "linear",
+            "charting.axisY2.abbreviation": "none",
+            "charting.axisY2.enabled": "0",
+            "charting.axisY2.scale": "inherit",
+            "charting.chart": "pie",
+            "charting.chart.bubbleMaximumSize": "50",
+            "charting.chart.bubbleMinimumSize": "10",
+            "charting.chart.bubbleSizeBy": "area",
+            "charting.chart.nullValueMode": "gaps",
+            "charting.chart.showDataLabels": "none",
+            "charting.chart.sliceCollapsingThreshold": "0.01",
+            "charting.chart.stackMode": "default",
+            "charting.chart.style": "shiny",
+            "charting.drilldown": "none",
+            "charting.layout.splitSeries": "0",
+            "charting.layout.splitSeries.allowIndependentYRanges": "0",
+            "charting.legend.labelStyle.overflowMode": "ellipsisMiddle",
+            "charting.legend.mode": "standard",
+            "charting.legend.placement": "right",
+            "charting.lineWidth": "2",
+            "refresh.display": "progressbar",
+            "trellis.enabled": "0",
+            "trellis.scales.shared": "1",
+            "trellis.size": "medium",
+            "managerid": "searchDateParserVerboseTopHost",
+            "el": $('#chartDateParserVerboseTopHost')
+        }, {tokens: true, tokenNamespace: "submitted"}).render();
+
+        var tableDateParserVerboseTopHost = new TableElement({
+            "id": "tableDateParserVerboseTopHost",
+            "drilldown": "none",
+            "count": "5",
+            "refresh.display": "progressbar",
+            "managerid": "searchDateParserVerboseTopHost",
+            "el": $('#tableDateParserVerboseTopHost')
+        }, {tokens: true, tokenNamespace: "submitted"}).render();
+
+        var chartDateParserVerboseTopSourcetype = new ChartElement({
+            "id": "chartDateParserVerboseTopSourcetype",
+            "resizable": true,
+            "charting.axisLabelsX.majorLabelStyle.overflowMode": "ellipsisNone",
+            "charting.axisLabelsX.majorLabelStyle.rotation": "0",
+            "charting.axisTitleX.visibility": "visible",
+            "charting.axisTitleY.visibility": "visible",
+            "charting.axisTitleY2.visibility": "visible",
+            "charting.axisX.abbreviation": "none",
+            "charting.axisX.scale": "linear",
+            "charting.axisY.abbreviation": "none",
+            "charting.axisY.scale": "linear",
+            "charting.axisY2.abbreviation": "none",
+            "charting.axisY2.enabled": "0",
+            "charting.axisY2.scale": "inherit",
+            "charting.chart": "pie",
+            "charting.chart.bubbleMaximumSize": "50",
+            "charting.chart.bubbleMinimumSize": "10",
+            "charting.chart.bubbleSizeBy": "area",
+            "charting.chart.nullValueMode": "gaps",
+            "charting.chart.showDataLabels": "none",
+            "charting.chart.sliceCollapsingThreshold": "0.01",
+            "charting.chart.stackMode": "default",
+            "charting.chart.style": "shiny",
+            "charting.drilldown": "none",
+            "charting.layout.splitSeries": "0",
+            "charting.layout.splitSeries.allowIndependentYRanges": "0",
+            "charting.legend.labelStyle.overflowMode": "ellipsisMiddle",
+            "charting.legend.mode": "standard",
+            "charting.legend.placement": "right",
+            "charting.lineWidth": "2",
+            "refresh.display": "progressbar",
+            "trellis.enabled": "0",
+            "trellis.scales.shared": "1",
+            "trellis.size": "medium",
+            "managerid": "searchDateParserVerboseTopSourcetype",
+            "el": $('#chartDateParserVerboseTopSourcetype')
+        }, {tokens: true, tokenNamespace: "submitted"}).render();
+
+        var tableDateParserVerboseTopSourcetype = new TableElement({
+            "id": "tableDateParserVerboseTopSourcetype",
+            "drilldown": "none",
+            "count": "5",
+            "refresh.display": "progressbar",
+            "managerid": "searchDateParserVerboseTopSourcetype",
+            "el": $('#tableDateParserVerboseTopSourcetype')
+        }, {tokens: true, tokenNamespace: "submitted"}).render();
+
+        var EventLineBreakingProcessorEvent = new EventElement({
+            "id": "EventLineBreakingProcessorEvent",
+            "count": 5,
+            "list.drilldown": "none",
+            "raw.drilldown": "none",
+            "table.drilldown": "none",
+            "type": "raw",
+            "managerid": "searchLineBreakingProcessorEvent",
+            "el": $('#EventLineBreakingProcessorEvent')
+        }, {tokens: true, tokenNamespace: "submitted"}).render();
+
+        var EventAggregatorMiningProcessorEvent = new EventElement({
+            "id": "EventAggregatorMiningProcessorEvent",
+            "count": 5,
+            "list.drilldown": "none",
+            "raw.drilldown": "none",
+            "table.drilldown": "none",
+            "type": "raw",
+            "managerid": "searchAggregatorMiningProcessorEvent",
+            "el": $('#EventAggregatorMiningProcessorEvent')
+        }, {tokens: true, tokenNamespace: "submitted"}).render();
+
+        var EventDateParserVerboseEvent = new EventElement({
+            "id": "EventDateParserVerboseEvent",
+            "count": 5,
+            "list.drilldown": "none",
+            "raw.drilldown": "none",
+            "table.drilldown": "none",
+            "type": "raw",
+            "managerid": "searchDateParserVerboseEvent",
+            "el": $('#EventDateParserVerboseEvent')
+        }, {tokens: true, tokenNamespace: "submitted"}).render();
 
         // modal Single Lag
         var elementSingleParsingIssues = new SingleElement({
@@ -19520,7 +20834,7 @@ require([
             var tk_data_last_lag_seen_idx = tokens.get("tk_data_last_lag_seen_idx");
             var tk_data_last_time_seen_idx = tokens.get("tk_data_last_time_seen_idx");
             var tk_data_max_lag_allowed = tokens.get("tk_data_max_lag_allowed");
-            var tk_data_lag_alert_kpis = tokens.get("tkdata_lag_alert_kpis");
+            var tk_data_lag_alert_kpis = tokens.get("tk_data_lag_alert_kpis");
             var tk_data_monitoring_level = tokens.get("tk_data_monitoring_level");
             var tk_data_monitoring_wdays = tokens.get("tk_data_monitoring_wdays");
             var tk_data_override_lagging_class = tokens.get("tk_data_override_lagging_class");
@@ -26058,30 +27372,59 @@ require([
 
                 submitTokens();
                 setToken("tk_start_parsing_issues_searches", "true");
-
-                // Manage search button URLs
-
-                // Define the history search
-                var search_parsing_issues_linebreaking = 'search' + "?q=search%20" + encodeURI("index=_internal sourcetype=splunkd error OR warn `trackme_idx_filter` component=LineBreakingProcessor")
-
-                // Define the URL target
-                document.getElementById("btn_search_parsing_issues_linebreaking").href = search_parsing_issues_linebreaking;
-
-                // Define the history search
-                var search_parsing_issues_aggregator = 'search' + "?q=search%20" + encodeURI("index=_internal sourcetype=splunkd error OR warn `trackme_idx_filter` component=AggregatorMiningProcessor")
-
-                // Define the URL target
-                document.getElementById("btn_search_parsing_issues_aggregator").href = search_parsing_issues_aggregator;
-
-                // Define the history search
-                var search_parsing_issues_dateparser = 'search' + "?q=search%20" + encodeURI("index=_internal sourcetype=splunkd error OR warn `trackme_idx_filter` component=DateParserVerbose")
-
-                // Define the URL target
-                document.getElementById("btn_search_parsing_issues_dateparser").href = search_parsing_issues_dateparser;
+                var tk_hosts = tokens.get("inputHostParsing");
 
                 // Show input modal
                 $("#modal_parsing_issues").modal();
             });
+
+        });
+
+        $("#btn_search_parsing_issues_linebreaking").click(function() {
+
+            submitTokens();
+            setToken("tk_start_parsing_issues_searches", "true");
+            var tk_earliest = tokens.get("inputLinkParsingIssuesTime.earliest");
+            var tk_latest = tokens.get("inputLinkParsingIssuesTime.latest");
+            var tk_hosts = tokens.get("inputHostParsing");
+
+            // Define the history search
+            var search_parsing_issues_linebreaking = 'search' + "?q=search%20" + encodeURI("index=_internal sourcetype=splunkd error OR warn `trackme_idx_filter` component=LineBreakingProcessor ") + encodeURI(tk_hosts) + "&earliest=" + encodeURI(tk_earliest) + "&latest=" + encodeURI(tk_latest);
+
+            // Open
+            window.open(search_parsing_issues_linebreaking,'_blank');
+
+        });
+
+        $("#btn_search_parsing_issues_aggregator").click(function() {
+
+            submitTokens();
+            setToken("tk_start_parsing_issues_searches", "true");
+            var tk_earliest = tokens.get("inputLinkParsingIssuesTime.earliest");
+            var tk_latest = tokens.get("inputLinkParsingIssuesTime.latest");
+            var tk_hosts = tokens.get("inputHostParsing");
+
+            // Define the history search
+            var search_parsing_issues_aggregator = 'search' + "?q=search%20" + encodeURI("index=_internal sourcetype=splunkd error OR warn `trackme_idx_filter` component=AggregatorMiningProcessor ") + encodeURI(tk_hosts) + "&earliest=" + encodeURI(tk_earliest) + "&latest=" + encodeURI(tk_latest);
+
+            // Open
+            window.open(search_parsing_issues_aggregator,'_blank');
+
+        });
+
+        $("#btn_search_parsing_issues_dateparser").click(function() {
+            
+            submitTokens();
+            setToken("tk_start_parsing_issues_searches", "true");
+            var tk_earliest = tokens.get("inputLinkParsingIssuesTime.earliest");
+            var tk_latest = tokens.get("inputLinkParsingIssuesTime.latest");
+            var tk_hosts = tokens.get("inputHostParsing");
+
+            // Define the history search
+            var search_parsing_issues_dateparser = 'search' + "?q=search%20" + encodeURI("index=_internal sourcetype=splunkd error OR warn `trackme_idx_filter` component=DateParserVerbose ") + encodeURI(tk_hosts) + encodeURI(" | `trackme_rex_dateparserverbose`") + "&earliest=" + encodeURI(tk_earliest) + "&latest=" + encodeURI(tk_latest);
+
+            // Open
+            window.open(search_parsing_issues_dateparser,'_blank');
 
         });
 
@@ -29506,6 +30849,389 @@ require([
 
         // tags
 
+        // tags policies main
+        $('.btn_modify_tags_policies').each(function() {
+            var $btn_group = $(this);
+            $btn_group.find('button').on('click', function() {
+                var $btn = $(this);
+
+                submitTokens();
+
+                // When the Submit button is clicked, get all the form fields by accessing token values
+                var tokens = mvc.Components.get("default");
+
+                // Disable the add button for now
+                document.getElementById('btn_modal_tags_policies_add').disabled = true; 
+                // Free the search
+                setToken("show_tags_policies", "true");
+
+                // Show input modal
+                $("#manage_tags_policies").modal();
+            });
+
+        });
+
+        $("#btn_modal_tags_policies_simulate").click(function() {
+
+            submitTokens();
+
+            // When the Submit button is clicked, get all the form fields by accessing token values
+            var tokens = mvc.Components.get("default");
+
+            // Retrieve the policy id
+            var tk_tags_policies_policy_id = tokens.get("tk_tags_policies_policy_id");
+            //console.log("tk_tags_policies_policy_id is: " + tk_tags_policies_policy_id);
+
+            // Retrieve the regex rule
+            var tk_tags_policies_regex = document.getElementById("modal_input_tags_policies_regex").value;
+            //console.log("tk_tags_policies_regex is: " + tk_tags_policies_regex);
+
+            // Retrieve the tags list
+            var tk_tags_policies_tags = document.getElementById("modal_input_tags_policies_values").value;
+            //console.log("tk_tags_policies_tags is: " + tk_tags_policies_tags);
+
+            // if is not defined, give it a value and override text box content
+            if (!tk_tags_policies_policy_id || !tk_tags_policies_policy_id.length || tk_tags_policies_regex == "Enter a valid regular expression to match data source names." || !tk_tags_policies_regex || !tk_tags_policies_regex.length || tk_tags_policies_tags == "Enter a list of tags to applied separeted by commas to specify multiple tags and click on \"Run policy simulation\"." || !tk_tags_policies_tags || !tk_tags_policies_tags.length) {
+
+                // Show an error notification
+                //console.log("Entry is incorrect, no expression was provided");
+                notification('ERROR: Entries are either incorrect or incomplete, please correct and try again.', 6000)
+
+                // Disable the add button
+                document.getElementById('btn_modal_tags_policies_add').disabled = true; 
+
+            } else {
+
+                notification('INFO: Starting tags policy simulation...', 6000)
+
+                // Set the tokens
+                setToken("tk_tags_policies_regex", tk_tags_policies_regex);
+                setToken("tk_tags_policies_tags", tk_tags_policies_tags);
+
+                // Unset the token and set to free the search
+                unsetToken("start_simulation_tags_policies");
+                setToken("start_simulation_tags_policies", "true");
+
+                // Disable the add button
+                document.getElementById('btn_modal_tags_policies_add').disabled = false;
+
+            }
+
+        });
+
+        // add policy
+        $("#btn_tags_policies_create").click(function() {
+            // Show input modal
+            $("#tags_policies_create_policy").modal();
+        });
+
+        // back button
+        $("#btn_modal_tags_policies_add_back").click(function() {
+            // Show input modal
+            $("#manage_tags_policies").modal();
+        });
+
+        // add button
+        $("#btn_modal_tags_policies_add").click(function() {
+            //console.log("button was clicked");
+            // Show input modal
+            $("#tags_policies_create_policy_confirm").modal();
+        });
+
+        // add policy
+        $("#btn_modal_add_tags_policy_confirm").click(function() {
+            //console.log("Button was clicked");
+
+            submitTokens();
+
+            // When the Submit button is clicked, get all the form fields by accessing token values
+            var tokens = mvc.Components.get("default");
+
+            // Retrieve the policy id
+            var tk_tags_policies_policy_id = tokens.get("tk_tags_policies_policy_id");
+            //console.log("tk_tags_policies_policy_id is: " + tk_tags_policies_policy_id);
+
+            // Retrieve the regex rule
+            var tk_tags_policies_regex = document.getElementById("modal_input_tags_policies_regex").value;
+            //console.log("tk_tags_policies_regex is:" + tk_tags_policies_regex);
+
+            // Retrieve the tags list
+            var tk_tags_policies_tags = document.getElementById("modal_input_tags_policies_values").value;
+            //console.log("tk_tags_policies_tags is: " + tk_tags_policies_tags);
+
+            // if is not defined, give it a value and override text box content - We should never reach this for the add function
+            if (!tk_tags_policies_policy_id || !tk_tags_policies_policy_id.length || tk_tags_policies_regex == "Enter a valid regular expression to match data source names." || !tk_tags_policies_regex || !tk_tags_policies_regex.length || tk_tags_policies_tags == "Enter a list of tags to applied separeted by commas to specify multiple tags and click on \"Run policy simulation\"." || !tk_tags_policies_tags || !tk_tags_policies_tags.length) {
+
+                // Show an error notification
+                //console.log("Entry is incorrect, no expression was provided");
+                notification('ERROR: Entries are either incorrect or incomplete, please correct and try again.', 6000)
+
+                // Disable the add button
+                document.getElementById('btn_modal_tags_policies_add').disabled = true; 
+
+            }
+            else {
+
+                // Retrieve update comment if any
+                var tk_comment = document.getElementById("input_add_tags_policy_sampling_comment").value;
+
+                // if is not defined, give it a value and override text box content
+                if (tk_comment == "null") {
+                    setToken("tk_update_comment", TokenUtils.replaceTokenNames("No comments for update.", _.extend(submittedTokenModel.toJSON(), e.data)));
+                    // replace the textarea for modification requests
+                    document.getElementById("input_add_tags_policy_sampling_comment").value = "update note";
+                }
+                else if (tk_comment == "update note") {
+                    tk_comment = "No comment for update.";
+                    document.getElementById("input_add_tags_policy_sampling_comment").value = "update note";
+                }
+                else {
+                    // replace the textarea for modification requests
+                    document.getElementById("input_add_tags_policy_sampling_comment").value = "update note";
+                }
+
+                // Define the query
+                var searchQuery = "| makeresults | eval tags_policy_id=\"" + tk_tags_policies_policy_id + "\", tags_policy_value=\"" + tk_tags_policies_tags + "\", tags_policy_regex=\"" + tk_tags_policies_regex + "\" | eval mtime=now() | outputlookup append=t trackme_tags_policies";
+                //console.log("searchQuery is: " + searchQuery);
+
+                // Set the search parameters--specify a time range
+                var searchParams = {
+                    earliest_time: "-60m",
+                    latest_time: "now"
+                };
+
+                // Run a blocking search and get back a job
+                service.search(
+                    searchQuery,
+                    searchParams,
+                    function(err, job) {
+
+                        function audit_failure() {
+
+                            // Audit
+                            action = "failure";
+                            change_type = "add tags policy";
+                            object = tk_tags_policies_policy_id;
+                            object_category = "data_source";
+                            object_attrs = "{\n" + "\t\"tags_policy_id\": \"" + tk_tags_policies_policy_id + "\",\n\t\"tags_policy_value\": \"" + tk_tags_policies_tags + "\",\n\t\"tags_policy_regex\": \"" + tk_tags_policies_regex + "\"\n}";
+                            result = "N/A";
+                            comment = tk_comment;
+                            auditRecord(action, change_type, object, object_category, object_attrs, result, comment);
+
+                        }
+
+                        // Shall the search fail before we can get properties
+                        if (job == null) {
+                            let errorStr = "Unknown Error!";
+                            if (err && err.data && err.data.messages && err.data.messages[0]['text']) {
+                                errorStr = err.data.messages[0]['text'];
+                            } else if (err && err.data && err.data.messages) {
+                                errorStr = JSON.stringify(err.data.messages);
+                            }
+                            audit_failure();
+                            $("#modal_update_collection_failure_return").find('.modal-error-message p').text(errorStr);
+                            $("#modal_update_collection_failure_return").modal()
+                        } else {
+
+                            // Poll the status of the search job
+                            job.track({
+                                period: 200
+                            }, {
+                                done: function(job) {
+
+                                    // Refresh the search
+                                    //console.log("Refresh the search");
+                                    setToken("show_tags_policies", "true");
+                                    searchShowTagsPolicies.startSearch();
+
+                                    // Return to modal
+                                    $("#manage_tags_policies").modal();
+
+                                    // notify
+                                    notification('Modification has been registered successfully.', 2000)
+
+                                    // Audit
+                                    action = "success";
+                                    change_type = "add tags policy";
+                                    object = tk_tags_policies_policy_id;
+                                    object_category = "data_source";
+                                    object_attrs = "{\n" + "\t\"tags_policy_id\": \"" + tk_tags_policies_policy_id + "\",\n\t\"tags_policy_value\": \"" + tk_tags_policies_tags + "\",\n\t\"tags_policy_regex\": \"" + tk_tags_policies_regex + "\"\n}";
+                                    result = "N/A";
+                                    comment = tk_comment;
+                                    auditRecord(action, change_type, object, object_category, object_attrs, result, comment);
+
+                                },
+                                failed: function(properties) {
+                                    let errorStr = "Unknown Error!";
+                                    if (properties && properties._properties && properties._properties.messages && properties._properties.messages[0]['text']) {
+                                        errorStr = properties._properties.messages[0]['text'];
+                                    } else if (properties && properties._properties && properties._properties.messages) {
+                                        errorStr = JSON.stringify(properties._properties.messages);
+                                    }
+                                    audit_failure();
+                                    $("#modal_update_collection_failure_return").find('.modal-error-message p').text(errorStr);
+                                    $("#modal_update_collection_failure_return").modal()
+                                },
+                                error: function(err) {
+                                    done(err);
+                                    audit_failure();
+                                    $("#modal_update_collection_failure_flush").modal()
+                                }
+                            });
+
+                        }
+
+                    }
+
+                );
+
+            }
+            
+        });
+
+        // delete tags policies
+        $("#btn_modal_tags_policies_delete").click(function() {
+            // Show input modal
+            $("#tags_policies_delete_policy_confirm").modal();
+        });
+
+        function foreachRemoveTagsPolicies(item) {
+        //console.log("removal of key :" + item);
+
+            // Create the endpoint URL
+            var myendpoint_URl = "{{SPLUNKWEB_URL_PREFIX}}/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_tags_policies/" + item;
+
+            //console.log("Endpoint URL is: " + myendpoint_URl);
+
+            if (item && item.length) {
+
+                // Get the KV entry content first
+                $.ajax({
+                    url: myendpoint_URl,
+                    type: "GET",
+                    async: true,
+                    contentType: "application/json",
+                    success: function(returneddata) {
+
+                        var tags_policy_value = returneddata.tags_policy_value;
+                        var tags_policy_regex = returneddata.tags_policy_regex;
+                        var tags_policy_id = returneddata.tags_policy_id;
+                        var mtime = returneddata.mtime;
+                        var record = {
+                        "tags_policy_value": tags_policy_value,
+                        "tags_policy_regex": tags_policy_regex,
+                        "tags_policy_id": tags_policy_id,
+                        "mtime": mtime,
+                        "_key": item
+                        };
+                        //console.log("record is: " + record);
+
+                        // Retrieve update comment if any
+                        var tk_comment = document.getElementById("input_delete_tags_policy_sampling_comment").value;
+
+                        // if is not defined, give it a value and override text box content
+                        if (tk_comment == "null") {
+                            setToken("tk_update_comment", TokenUtils.replaceTokenNames("No comments for update.", _.extend(submittedTokenModel.toJSON(), e.data)));
+                        }
+                        else if (tk_comment == "update note") {
+                            tk_comment = "No comment for update.";
+                        }
+
+                        // Proceed to delete call
+                        $.ajax({
+                            url: myendpoint_URl,
+                            type: "DELETE",
+                            async: true,
+                            contentType: "application/json",
+                            success: function(returneddata) {
+
+                                //console.log(returneddata);
+
+                                // Audit
+                                action = "success";
+                                change_type = "delete tags policies";
+                                object = tags_policy_id;
+                                object_category = "data_source";
+                                object_attrs = JSON.stringify(record,null,'\t');
+                                result = "N/A";
+                                comment = tk_comment;
+                                auditRecord(action, change_type, object, object_category, object_attrs, result, comment);
+
+                                // house cleaning
+                                myendpoint_URl = undefined;
+                                delete(myendpoint_URl);
+                                tk_keyid = undefined;
+                                delete(tk_keyid);
+
+                                // Return to modal
+                                $("#manage_tags_policies").modal();
+
+                                // Refresh the search
+                                searchShowTagsPolicies.startSearch();
+
+                            },
+                            error: function(xhr, textStatus, error) {
+                                message = "Error Updating!" + xhr + textStatus + error;
+
+                                // Audit
+                                action = "failure";
+                                change_type = "delete tags policies";
+                                object = tags_policy_id;
+                                object_category = "data_source";
+                                object_attrs = JSON.stringify(record,null,'\t');
+                                result = message;
+                                comment = tk_comment;
+                                auditRecord(action, change_type, object, object_category, object_attrs, result, comment);
+
+                            }
+
+                        });
+
+                    }
+
+                });
+
+            }
+
+        }
+
+        // delete tags policies confirm
+        $("#btn_modal_delete_tags_policy_confirm").click(function() {
+            //console.log("Button was clicked");
+
+            submitTokens();
+
+            // When the Submit button is clicked, get all the form fields by accessing token values
+            var tokens = mvc.Components.get("default");
+
+            // Get the arrays of keys
+            var tk_multi_table_array = tokens.get("removeTagsPolicy");
+            //console.log("tk_multi_table_array is: " + tk_multi_table_array);
+            tk_multi_table_array = tk_multi_table_array.split(',');
+            //console.log("tk_multi_table_array is: " + tk_multi_table_array);
+
+            // Call the function for each value from the array
+            tk_multi_table_array.forEach(foreachRemoveTagsPolicies);
+
+            // Hide main modal
+            $("#tags_policies_delete_policy_confirm").modal('hide');
+
+            // notify
+            notification('Modification has been registered successfully.', 2000)
+
+            // house cleaning
+            unsetToken("removeTagsPolicy");
+
+        });
+
+        // tags
+
+        // back button
+        $("#btn_back_manage_tags").click(function() {
+            // Show input modal
+            $("#modal_manage").modal();
+        });
+
         // back button
         $("#btn_back_manage_tags").click(function() {
             // Show input modal
@@ -30636,6 +32362,24 @@ require([
                 //console.log(keyid);
                 //console.log(searchQuery);
 
+                // Retrieve update comment if any
+                var tk_comment = document.getElementById("input_ack_comment").value;
+
+                // if is not defined, give it a value and override text box content
+                if (tk_comment == "null") {
+                    setToken("tk_update_comment", TokenUtils.replaceTokenNames("No comments for update.", _.extend(submittedTokenModel.toJSON(), e.data)));
+                    // replace the textarea for modification requests
+                    document.getElementById("input_ack_comment").value = "update note";
+                }
+                else if (tk_comment == "update note") {
+                    tk_comment = "No comment for update.";
+                    document.getElementById("input_ack_comment").value = "update note";
+                }
+                else {
+                    // replace the textarea for modification requests
+                    document.getElementById("input_ack_comment").value = "update note";
+                }
+
                 // Set the search parameters--specify a time range
                 var searchParams = {
                     earliest_time: "-60m",
@@ -30664,7 +32408,7 @@ require([
                                 object_category = input_object_category;
                                 object_attrs = "object:" + input_object + " acknowledge has been disabled (ack_expiration was: " + ack_expiration + "), alerts will be generated depending on state and rules. ";
                                 result = "N/A";
-                                comment = "N/A";
+                                comment = tk_comment;
                                 auditRecord(action, change_type, object, object_category, object_attrs, result, comment);
 
                             }
@@ -30707,7 +32451,7 @@ require([
                                         object_category = input_object_category;
                                         object_attrs = "object:" + input_object + " acknowledge has been disabled (ack_expiration was: " + ack_expiration + "), alerts will be generated depending on state and rules. ";
                                         result = "N/A";
-                                        comment = "N/A";
+                                        comment = tk_comment;
                                         auditRecord(action, change_type, object, object_category, object_attrs, result, comment);
 
                                     },
@@ -32591,6 +34335,7 @@ require([
 <script src="{{SPLUNKWEB_URL_PREFIX}}/static/app/trackme/table.js" type="text/javascript"></script>
 <script src="{{SPLUNKWEB_URL_PREFIX}}/static/app/trackme/checkbox_table.js" type="text/javascript"></script>
 <script src="{{SPLUNKWEB_URL_PREFIX}}/static/app/trackme/checkbox_table_data_sampling.js" type="text/javascript"></script>
+<script src="{{SPLUNKWEB_URL_PREFIX}}/static/app/trackme/checkbox_table_tags_policies.js" type="text/javascript"></script>
 <script src="{{SPLUNKWEB_URL_PREFIX}}/static/app/trackme/table_raw.js" type="text/javascript"></script>
 <script>
 var deps = [
@@ -32795,6 +34540,12 @@ function notification(s, time) {
   });
 
   $("<p>" + s + "</p>").appendTo('#boxnotify-manage_tags').fadeTo(time, 1, function() {
+    $(this).fadeTo(1000, 0, function() {
+      $(this).remove()
+    });
+  });
+
+  $("<p>" + s + "</p>").appendTo('#boxnotify-add_tags_policies').fadeTo(time, 1, function() {
     $(this).fadeTo(1000, 0, function() {
       $(this).remove()
     });

@@ -1,6 +1,29 @@
 Release notes
 #############
 
+Version 1.2.22
+==============
+
+**CAUTION:**
+
+This is a new main release branch, TrackMe 1.2.x requires the deployment of the following dependencies:
+
+- Semicircle Donut Chart Viz, Splunk Base: https://splunkbase.splunk.com/app/4378
+- Splunk Machine Learning Toolkit, Splunk Base: https://splunkbase.splunk.com/app/2890
+
+TrackMe requires a summary index (defaults to trackme_summary) and a metric index (defaults to trackme_metrics):
+https://trackme.readthedocs.io/en/latest/configuration.html
+
+- Feature: Extending the Tags features with tags policies, this feature provides a workflow to automatically define tags using regular expressions rules matching the data_name value and its naming convention
+- Feature: Improved views for Ops queues (renamed to Ops: Queues center) and Ops parsing, multi hosts selector, improved analytics
+- Fix: Issue #131 - The enable data source action does not preserve the current value of data_lag_alert_kpis in the collection, which ends as a null value
+- Fix: Issue #138 - Typo in the metrics screen, Metrics categories was mispelled
+- Fix: Issue #139 - TrackMe metrics should be excluded out of the box from the metrics tracking
+- Fix: Issue #142 - Disabing Acknowledment is broken due to the add comment feature introduction
+- Fix: Issue #144 - Ack disable should use the comment for update if any #144
+- Change: Include the priority value when generating the flipping status summary events
+- Change: Do not load the raw_sample field when during the execution of data sources tracker execution for optimization purposes
+
 Version 1.2.21
 ==============
 
