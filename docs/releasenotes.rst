@@ -19,6 +19,7 @@ https://trackme.readthedocs.io/en/latest/configuration.html
 - Fix: Issue #131 - The enable data source action does not preserve the current value of data_lag_alert_kpis in the collection, which ends as a null value
 - Fix: Issue #138 - Typo in the metrics screen, Metrics categories was mispelled
 - Fix: Issue #139 - TrackMe metrics should be excluded out of the box from the metrics tracking
+- Fix: Issue #142 - Disabing Acknowledment is broken due to the add comment feature introduction
 - Change: Include the priority value when generating the flipping status summary events
 - Change: Do not load the raw_sample field when during the execution of data sources tracker execution for optimization purposes
 
