@@ -124,7 +124,7 @@ Step 3: create the KPI base search for summary flipping statuses events
 
 ::
 
-    index="trackme_summary" source="flip_state_change_tracking" object_state!="info" object_state!="green"
+    index="trackme_summary" source="flip_state_change_tracking" (object_state="red" OR object_state="orange")
     | stats count as trackme.flipping_status by object_category, object
 
 Note: the same object_category / object model is made available between metrics and events
