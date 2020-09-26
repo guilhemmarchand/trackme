@@ -15,6 +15,7 @@ TrackMe requires a summary index (defaults to trackme_summary) and a metric inde
 https://trackme.readthedocs.io/en/latest/configuration.html
 
 - Feature: Issue #153 - For ITSI integration purposes, generate and store last states information as summary events #153
+- Feature: Issue #141 - Enhancement - ability to search for hosts in Data Hosts Tracking by Logical Group Name #141
 
 Version 1.2.23
 ==============
