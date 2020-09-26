@@ -26577,8 +26577,7 @@ require([
                         "dispatch.earliest_time": tk_input_elastic_source_earliest,
                         "dispatch.latest_time": tk_input_elastic_source_latest,
                         "is_scheduled": "1",
-                        "cron_schedule": "*/5 * * * *",
-                        "schedule_window": "1"
+                        "cron_schedule": "*/5 * * * *"
                     };
 
                     // Create a saved search/report as an alert.
@@ -26599,12 +26598,19 @@ require([
 
                             $("#modal_elastic_source_alert_creation_error").find('.modal-error-message p').text(msg);
                             $("#add_elastic_sources").modal('hide');
-                            $("#modal_elastic_source_alert_creation_success").modal()
+                            $("#modal_elastic_source_alert_creation_error").modal()
                             done();
                             return;
                         }
                         else if (err) {
-                            msg = "There was an error creating the saved search/report: " + err;
+                            msg = "There was an error creating the saved search/report: error code " + err.status;
+
+                            let errorStr = "Unknown Error!";
+                            if (err && err.data && err.data.messages && err.data.messages[0]['text']) {
+                                errorStr = "error code: " + err.status + " - " + err.data.messages[0]['text'];
+                            } else if (err && err.data && err.data.messages) {
+                                errorStr = JSON.stringify( "error code: " + err.status + " - " + err.data.messages);
+                            }
 
                             // Audit
                             action = "failure";
@@ -26612,33 +26618,35 @@ require([
                             object = tracker_name;
                             object_category = "elastic_sources_tracker";
                             object_attrs = tk_elastic_alert_root_search;
-                            result = msg;
+                            result = errorStr;
                             comment = "N/A";
                             auditRecord(action, change_type, object, object_category, object_attrs, result, comment);
 
-                            $("#modal_elastic_source_alert_creation_error").find('.modal-error-message p').text(msg);
+                            $("#modal_elastic_source_alert_creation_error").find('.modal-error-message p').text(errorStr);
                             $("#add_elastic_sources").modal('hide');
-                            $("#modal_elastic_source_alert_creation_success").modal()
+                            $("#modal_elastic_source_alert_creation_error").modal()
                             done(err);
                             return;
                         }
 
-                        // clean status
-                        unsetToken("start_simulation_elastic_sources");
+                        else {
 
-                        // Confirmation message.
+                            // clean status
+                            unsetToken("start_simulation_elastic_sources");
 
-                        // Audit
-                        action = "success";
-                        change_type = "add elastic source tracker";
-                        object = tracker_name;
-                        object_category = "elastic_sources_tracker";
-                        object_attrs = tk_elastic_alert_root_search;
-                        result = "N/A";
-                        comment = "N/A";
-                        auditRecord(action, change_type, object, object_category, object_attrs, result, comment);
+                            // Confirmation message.
 
-                        // Store in the KVstore for mapping purposes
+                            // Audit
+                            action = "success";
+                            change_type = "add elastic source tracker";
+                            object = tracker_name;
+                            object_category = "elastic_sources_tracker";
+                            object_attrs = tk_elastic_alert_root_search;
+                            result = "N/A";
+                            comment = "N/A";
+                            auditRecord(action, change_type, object, object_category, object_attrs, result, comment);
+
+                            // Store in the KVstore for mapping purposes
                             var myendpoint_URl = "{{SPLUNKWEB_URL_PREFIX}}/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_elastic_sources_dedicated/"
 
                             // Create a dictionary to store the field names and values
@@ -26665,12 +26673,15 @@ require([
                                 }
                             });
 
-                        msg = "Created saved search/report as alert: " + alert.name;
-                        $("#modal_elastic_source_alert_creation_success").find('.modal-error-message p').text(msg);
-                        $("#add_elastic_sources").modal('hide');
-                        $("#modal_elastic_source_alert_creation_success").modal()
+                            msg = "Created saved search/report as alert: " + alert.name;
+                            $("#modal_elastic_source_alert_creation_success").find('.modal-error-message p').text(msg);
+                            $("#add_elastic_sources").modal('hide');
+                            $("#modal_elastic_source_alert_creation_success").modal()
 
-                        done();
+                            done();
+
+                        }
+
                     });
 
                 } else {
