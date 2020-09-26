@@ -8174,6 +8174,9 @@ styles in <div> tags, similar to Bootstrap's grid system.
             <div class="dashboard-panel clearfix">
                 <h2 class="panel-title">Click on any entry of the table to open interactive actions for this entity, use inputs to filter out the selection: (restricted to the first thousand results, use the key world filter input for large scale selections)</h2>
                 <div class="fieldset">
+                    <div class="input input-dropdown" id="inputDataNameFilterMode">
+                        <label>Keyword filter mode:</label>
+                    </div>
                     <div style="margin-right: 28px;" class="input input-text" id="inputDataNameFilter">
                         <label>Keyword filter name:</label>
                     </div>
@@ -8217,6 +8220,9 @@ styles in <div> tags, similar to Bootstrap's grid system.
                     <div class="input input-dropdown" id="inputDataHostSourcetypes">
                         <label>Sourcetype(s):</label>
                     </div>
+                    <div class="input input-dropdown" id="inputDataHostFilterMode">
+                        <label>Keyword filter mode:</label>
+                    </div>
                     <div style="margin-right: 28px;" class="input input-text" id="inputDataHostFilter">
                         <label>Keyword filter hosts:</label>
                     </div>
@@ -8251,8 +8257,11 @@ styles in <div> tags, similar to Bootstrap's grid system.
                     <div class="input input-dropdown" id="inputMetricHostCategories">
                         <label>Metric categorie(s):</label>
                     </div>
+                    <div class="input input-dropdown" id="inputMetricHostFilterMode">
+                        <label>Keyword filter mode:</label>
+                    </div>
                     <div style="margin-right: 28px;" class="input input-dropdown" id="inputMetricHostFilter">
-                        <label>Keyword filter host:</label>
+                        <label>Keyword filter hosts:</label>
                     </div>
                     <div class="input input-dropdown" id="inputMetricHost">
                         <label>Host(s) (use keyword filter):</label>
@@ -8890,7 +8899,7 @@ require([
             "refreshType": "delay",
             "refresh": "$refresh$",
             "latest_time": "+5m",
-            "search": "| inputlookup trackme_data_source_monitoring\n| eval keyid=_key\n| `apply_data_source_blacklists`\n| search `trackme_get_idx_whitelist_searchtime(trackme_data_source_monitoring_whitelist_index, data_index)`\n| `trackme_eval_data_source_state`\n| `trackme_default_priority`\n| `trackme_date_format(data_last_time_seen)`\n| `trackme_date_format(data_last_time_seen_idx)`\n| `trackme_date_format(data_last_ingest)`\n| fillnull value=\"red\" data_source_state\n| sort 0 data_source\n| `trackme_eval_icons`\n| search $inputDataNameFilter$\n| search `trackme_get_idx_whitelist_searchtime(trackme_data_source_monitoring_whitelist_index, data_index)`\n| `apply_data_source_blacklists`\n| rex field=tags mode=sed \"s/,/ \\\/ /g\"\n| fillnull value=\"No tags defined, click on Update tags to define one or more tags to be associated with this data source.\" tags",
+            "search": "| inputlookup trackme_data_source_monitoring\n| eval keyid=_key\n| `apply_data_source_blacklists`\n| search `trackme_get_idx_whitelist_searchtime(trackme_data_source_monitoring_whitelist_index, data_index)`\n| `trackme_eval_data_source_state`\n| `trackme_default_priority`\n| `trackme_date_format(data_last_time_seen)`\n| `trackme_date_format(data_last_time_seen_idx)`\n| `trackme_date_format(data_last_ingest)`\n| fillnull value=\"red\" data_source_state\n| sort 0 data_source\n| `trackme_eval_icons`\n| search $inputDataNameFilterMode$ ($inputDataNameFilter$)\n| search `trackme_get_idx_whitelist_searchtime(trackme_data_source_monitoring_whitelist_index, data_index)`\n| `apply_data_source_blacklists`\n| rex field=tags mode=sed \"s/,/ \\\/ /g\"\n| fillnull value=\"No tags defined, click on Update tags to define one or more tags to be associated with this data source.\" tags",
             "status_buckets": 0,
             "app": utils.getCurrentApp(),
             "auto_cancel": 90,
@@ -9692,7 +9701,7 @@ require([
             "refreshType": "delay",
             "refresh": "$refresh$",
             "latest_time": "now",
-            "search": "| savedsearch \"TrackMe - metric hosts collection based table report\"\n| `trackme_date_format(\"metric_last_time_seen\")`\n| rename \"metric_last_time_seen (translated)\" as \"last time\"\n| `trackme_eval_metric_host_state`\n| `trackme_metric_host_group_lookup`\n|`trackme_eval_icons_metric_host`\n|`trackme_date_format(\"latest_flip_time\")`\n| fillnull value=\"N/A\" latest_flip_state, latest_flip_time, \"latest_flip_time (translated)\"\n| search $inputMetricHostFilter$\n|`trackme_ack_lookup_main(metric_host)`",
+            "search": "| savedsearch \"TrackMe - metric hosts collection based table report\"\n| `trackme_date_format(\"metric_last_time_seen\")`\n| rename \"metric_last_time_seen (translated)\" as \"last time\"\n| `trackme_eval_metric_host_state`\n| `trackme_metric_host_group_lookup`\n|`trackme_eval_icons_metric_host`\n|`trackme_date_format(\"latest_flip_time\")`\n| fillnull value=\"N/A\" latest_flip_state, latest_flip_time, \"latest_flip_time (translated)\"\n| search $inputMetricHostFilterMode$ (metric_host=$inputMetricHostFilter$ OR object_group_name=$inputMetricHostFilter$)\n|`trackme_ack_lookup_main(metric_host)`",
             "status_buckets": 0,
             "app": utils.getCurrentApp(),
             "auto_cancel": 90,
@@ -9818,7 +9827,7 @@ require([
             "refreshType": "delay",
             "refresh": "$refresh$",
             "latest_time": "+5m",
-            "search": "| inputlookup trackme_host_monitoring\n| eval keyid=_key\n| sort limit=0 - data_last_time_seen\n| dedup data_host\n| eval data_index_raw=data_index, data_sourcetype_raw=data_sourcetype\n| makemv delim=\",\" data_index\n| makemv delim=\",\" data_sourcetype\n| `apply_data_host_blacklists`\n| search `trackme_get_idx_whitelist_searchtime(trackme_data_host_monitoring_whitelist_index, data_index)`\n| `trackme_eval_data_host_state`\n| `trackme_default_priority`\n| `trackme_data_host_group_lookup`\n| `trackme_date_format(data_last_time_seen)`\n| `trackme_date_format(data_last_time_seen_idx)`\n| `trackme_date_format(data_last_ingest)`\n| `trackme_eval_icons_host`\n| rename \"data_last_ingest (translated)\" as \"last ingest\", \"data_last_time_seen (translated)\" as \"last time\"\n| `trackme_date_format(\"latest_flip_time\")`\n| fillnull value=\"N/A\" latest_flip_state, latest_flip_time, \"latest_flip_time (translated)\"\n| sort limit=0 data_host\n| search $inputDataHostFilter$\n|`trackme_ack_lookup_main(data_host)`",
+            "search": "| inputlookup trackme_host_monitoring\n| eval keyid=_key\n| sort limit=0 - data_last_time_seen\n| dedup data_host\n| eval data_index_raw=data_index, data_sourcetype_raw=data_sourcetype\n| makemv delim=\",\" data_index\n| makemv delim=\",\" data_sourcetype\n| `apply_data_host_blacklists`\n| search `trackme_get_idx_whitelist_searchtime(trackme_data_host_monitoring_whitelist_index, data_index)`\n| `trackme_eval_data_host_state`\n| `trackme_default_priority`\n| `trackme_data_host_group_lookup`\n| `trackme_date_format(data_last_time_seen)`\n| `trackme_date_format(data_last_time_seen_idx)`\n| `trackme_date_format(data_last_ingest)`\n| `trackme_eval_icons_host`\n| rename \"data_last_ingest (translated)\" as \"last ingest\", \"data_last_time_seen (translated)\" as \"last time\"\n| `trackme_date_format(\"latest_flip_time\")`\n| fillnull value=\"N/A\" latest_flip_state, latest_flip_time, \"latest_flip_time (translated)\"\n| sort limit=0 data_host\n| search $inputDataHostFilterMode$ (data_host=$inputDataHostFilter$ OR object_group_name=$inputDataHostFilter$)\n|`trackme_ack_lookup_main(data_host)`",
             "status_buckets": 0,
             "app": utils.getCurrentApp(),
             "auto_cancel": 90,
@@ -9834,7 +9843,7 @@ require([
 
         var searchMainTableHost = new PostProcessManager({
             "tokenDependencies": {},
-            "search": "search $inputDataHostFilter$ $inputDataHost$ $inputDataHostIndexes$ $inputDataHostSourcetypes$ $data_host_state$ $data_monitored_state$ $inputDataHostPriority$ | fillnull data_last_lag_seen, data_last_ingestion_lag_seen | eval data_last_lag_seen=round(data_last_lag_seen, 0) | eval data_last_ingestion_lag_seen=round(data_last_ingestion_lag_seen, 0) | fillnull value=\"N/A\" data_last_lag_seen, data_last_ingestion_lag_seen\n| eval \"lag summary (lag event / lag ingestion)\" = if(data_last_lag_seen>60, tostring(data_last_lag_seen, \"duration\"), data_last_lag_seen . \" sec\") . \" / \" . if(data_last_ingestion_lag_seen>60, tostring(data_last_ingestion_lag_seen, \"duration\"), data_last_ingestion_lag_seen . \" sec\") | sort limit=10000 data_host",
+            "search": "search $inputDataHostFilterMode$ (data_host=$inputDataHostFilter$ OR object_group_name= $inputDataHostFilter$) | search $inputDataHost$ $inputDataHostIndexes$ $inputDataHostSourcetypes$ $data_host_state$ $data_monitored_state$ $inputDataHostPriority$ | fillnull data_last_lag_seen, data_last_ingestion_lag_seen | eval data_last_lag_seen=round(data_last_lag_seen, 0) | eval data_last_ingestion_lag_seen=round(data_last_ingestion_lag_seen, 0) | fillnull value=\"N/A\" data_last_lag_seen, data_last_ingestion_lag_seen\n| eval \"lag summary (lag event / lag ingestion)\" = if(data_last_lag_seen>60, tostring(data_last_lag_seen, \"duration\"), data_last_lag_seen . \" sec\") . \" / \" . if(data_last_ingestion_lag_seen>60, tostring(data_last_ingestion_lag_seen, \"duration\"), data_last_ingestion_lag_seen . \" sec\") | sort limit=10000 data_host",
             "managerid": "searchDataHostsMain",
             "id": "searchMainTableHost"
         }, {
@@ -9844,7 +9853,7 @@ require([
 
         var searchDataHostsMainStats = new PostProcessManager({
             "tokenDependencies": {},
-            "search": "search $inputDataHost$ $inputDataHostIndexes$ $inputDataHostSourcetypes$ | stats count as total, count(eval(data_monitored_state=\"disabled\")) as total_disabled, count(eval(data_host_state!=\"green\" AND data_host_state!=\"blue\" AND data_monitored_state=\"enabled\")) as total_in_alert, count(eval(data_host_state=\"red\" AND priority=\"high\" AND data_monitored_state=\"enabled\")) as total_high_priority_red, count(eval(data_monitored_state=\"enabled\" AND priority=\"low\")) as low_enabled, count(eval(data_monitored_state=\"enabled\" AND priority=\"medium\")) as medium_enabled, count(eval(data_monitored_state=\"enabled\" AND priority=\"high\")) as high_enabled, count(eval(data_host_state=\"blue\" AND data_monitored_state=\"enabled\")) as \"blue\", count(eval(data_host_state=\"orange\" AND data_monitored_state=\"enabled\")) as \"orange\", count(eval(data_host_state=\"green\" AND data_monitored_state=\"enabled\")) as \"green\", count(eval(data_host_state=\"red\" AND data_monitored_state=\"enabled\" AND priority=\"high\")) as \"red - high priority\", count(eval(data_host_state=\"red\" AND data_monitored_state=\"enabled\" AND priority!=\"high\")) as \"red - other priority\"",
+            "search": "search $inputDataHostFilterMode$ (data_host=$inputDataHostFilter$ OR object_group_name= $inputDataHostFilter$) | search $inputDataHostIndexes$ $inputDataHostSourcetypes$ | stats count as total, count(eval(data_monitored_state=\"disabled\")) as total_disabled, count(eval(data_host_state!=\"green\" AND data_host_state!=\"blue\" AND data_monitored_state=\"enabled\")) as total_in_alert, count(eval(data_host_state=\"red\" AND priority=\"high\" AND data_monitored_state=\"enabled\")) as total_high_priority_red, count(eval(data_monitored_state=\"enabled\" AND priority=\"low\")) as low_enabled, count(eval(data_monitored_state=\"enabled\" AND priority=\"medium\")) as medium_enabled, count(eval(data_monitored_state=\"enabled\" AND priority=\"high\")) as high_enabled, count(eval(data_host_state=\"blue\" AND data_monitored_state=\"enabled\")) as \"blue\", count(eval(data_host_state=\"orange\" AND data_monitored_state=\"enabled\")) as \"orange\", count(eval(data_host_state=\"green\" AND data_monitored_state=\"enabled\")) as \"green\", count(eval(data_host_state=\"red\" AND data_monitored_state=\"enabled\" AND priority=\"high\")) as \"red - high priority\", count(eval(data_host_state=\"red\" AND data_monitored_state=\"enabled\" AND priority!=\"high\")) as \"red - other priority\"",
             "managerid": "searchDataHostsMain",
             "id": "searchDataHostsMainStats"
         }, {
@@ -9854,7 +9863,7 @@ require([
 
         var searchPopulateDataHostsIndexes = new PostProcessManager({
             "tokenDependencies": {},
-            "search": "makemv data_index delim=\",\" | search $inputDataHost$ $inputDataHostSourcetypes$ | stats values(data_index) as data_index | mvexpand data_index | dedup data_index | sort limit=1000 data_index",
+            "search": "makemv data_index delim=\",\" | search $inputDataHostFilterMode$ (data_host=$inputDataHostFilter$ OR object_group_name= $inputDataHostFilter$) | search $inputDataHostSourcetypes$ | stats values(data_index) as data_index | mvexpand data_index | dedup data_index | sort limit=1000 data_index",
             "managerid": "searchDataHostsMain",
             "id": "searchPopulateDataHostsIndexes"
         }, {
@@ -9864,7 +9873,7 @@ require([
 
         var searchPopulateDataHostsSourcetypes = new PostProcessManager({
             "tokenDependencies": {},
-            "search": "makemv data_index delim=\",\" | makemv data_sourcetype delim=\",\" | search $inputDataHost$ $inputDataHostIndexes$ | stats values(data_sourcetype) as data_sourcetype | mvexpand data_sourcetype | dedup data_sourcetype | sort limit=1000 data_sourcetype",
+            "search": "makemv data_index delim=\",\" | makemv data_sourcetype delim=\",\" | search $inputDataHostFilterMode$ (data_host=$inputDataHostFilter$ OR object_group_name= $inputDataHostFilter$) | search $inputDataHostIndexes$ | stats values(data_sourcetype) as data_sourcetype | mvexpand data_sourcetype | dedup data_sourcetype | sort limit=1000 data_sourcetype",
             "managerid": "searchDataHostsMain",
             "id": "searchPopulateDataHostsSourcetypes"
         }, {
@@ -19332,10 +19341,42 @@ require([
 
         //
 
+        var inputDataNameFilterMode = new DropdownInput({
+            "id": "inputDataNameFilterMode",
+            "choices": [
+                {
+                    "label": "Inclusive",
+                    "value": ""
+                },
+                {
+                    "label": "Exclusive",
+                    "value": "NOT"
+                }
+            ],
+            "searchWhenChanged": true,
+            "default": "",
+            "showClearButton": true,
+            "initialValue": "",
+            "selectFirstChoice": false,
+            "value": "$form.inputDataNameFilterMode$",
+            "el": $('#inputDataNameFilterMode')
+        }, {
+            tokens: true
+        }).render();
+
+        inputDataNameFilterMode.on("change", function(newValue) {
+            FormUtils.handleValueChange(inputDataNameFilterMode);
+        });
+
+        inputDataNameFilterMode.on("valueChange", function(e) {
+            if (e.value === "NOT") {
+                EventHandler.unsetToken("form.inputDataNameFilter");
+            }
+        });
+
         var inputDataNameFilter = new TextInput({
             "id": "inputDataNameFilter",
             "searchWhenChanged": true,
-            "default": "*",
             "prefix": "data_name=\"*",
             "suffix": "*\"",
             "initialValue": "*",
@@ -19552,11 +19593,43 @@ require([
             FormUtils.handleValueChange(inputMetricHostCategories);
         });
 
+        var inputMetricHostFilterMode = new DropdownInput({
+            "id": "inputMetricHostFilterMode",
+            "choices": [
+                {
+                    "label": "Inclusive",
+                    "value": ""
+                },
+                {
+                    "label": "Exclusive",
+                    "value": "NOT"
+                }
+            ],
+            "searchWhenChanged": true,
+            "default": "",
+            "showClearButton": true,
+            "initialValue": "",
+            "selectFirstChoice": false,
+            "value": "$form.inputMetricHostFilterMode$",
+            "el": $('#inputMetricHostFilterMode')
+        }, {
+            tokens: true
+        }).render();
+
+        inputMetricHostFilterMode.on("change", function(newValue) {
+            FormUtils.handleValueChange(inputMetricHostFilterMode);
+        });
+
+        inputMetricHostFilterMode.on("valueChange", function(e) {
+            if (e.value === "NOT") {
+                EventHandler.unsetToken("form.inputMetricHostFilter");
+            }
+        });
+
         var inputMetricHostFilter = new TextInput({
             "id": "inputMetricHostFilter",
             "searchWhenChanged": true,
-            "default": "*",
-            "prefix": "metric_host=\"*",
+            "prefix": "\"*",
             "suffix": "*\"",
             "initialValue": "*",
             "value": "$form.inputMetricHostFilter$",
@@ -19778,11 +19851,43 @@ require([
             FormUtils.handleValueChange(inputDataHostSourcetypes);
         });
 
+        var inputDataHostFilterMode = new DropdownInput({
+            "id": "inputDataHostFilterMode",
+            "choices": [
+                {
+                    "label": "Inclusive",
+                    "value": ""
+                },
+                {
+                    "label": "Exclusive",
+                    "value": "NOT"
+                }
+            ],
+            "searchWhenChanged": true,
+            "default": "",
+            "showClearButton": true,
+            "initialValue": "",
+            "selectFirstChoice": false,
+            "value": "$form.inputDataHostFilterMode$",
+            "el": $('#inputDataHostFilterMode')
+        }, {
+            tokens: true
+        }).render();
+
+        inputDataHostFilterMode.on("change", function(newValue) {
+            FormUtils.handleValueChange(inputDataHostFilterMode);
+        });
+
+        inputDataHostFilterMode.on("valueChange", function(e) {
+            if (e.value === "NOT") {
+                EventHandler.unsetToken("form.inputDataHostFilter");
+            }
+        });
+
         var inputDataHostFilter = new TextInput({
             "id": "inputDataHostFilter",
             "searchWhenChanged": true,
-            "default": "*",
-            "prefix": "data_host=\"*",
+            "prefix": "\"*",
             "suffix": "*\"",
             "initialValue": "*",
             "value": "$form.inputDataHostFilter$",
