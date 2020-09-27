@@ -17,6 +17,7 @@ https://trackme.readthedocs.io/en/latest/configuration.html
 - Feature: Issue #153 - For ITSI integration purposes, generate and store last states information as summary events #153
 - Feature: Issue #141 - Enhancement - ability to search for hosts in Data Hosts Tracking by Logical Group Name #141
 - Feature: Issue #148 - Enhancement: Allow 'NOT' filter for Keyword filter name: #148
+- Fix: Issue #147 / Issue #161 Outliers management and configuration - fixes and improvements
 
 Version 1.2.23
 ==============
