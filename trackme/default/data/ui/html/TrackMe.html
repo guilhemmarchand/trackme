@@ -15883,6 +15883,7 @@ require([
                 setToken("tk_priority", TokenUtils.replaceTokenNames("$row.priority$", _.extend(submittedTokenModel.toJSON(), e.data)));
 
                 // outlier
+                setToken("tk_outlierenabledstatus", TokenUtils.replaceTokenNames("$row.enable_behaviour_analytic$", _.extend(submittedTokenModel.toJSON(), e.data)));
                 setToken("tk_outliermineventcount", TokenUtils.replaceTokenNames("$row.OutlierMinEventCount$", _.extend(submittedTokenModel.toJSON(), e.data)));
                 setToken("tk_outlierlowerthresholdmultiplier", TokenUtils.replaceTokenNames("$row.OutlierLowerThresholdMultiplier$", _.extend(submittedTokenModel.toJSON(), e.data)));
                 setToken("tk_outlierupperthresholdmultiplier", TokenUtils.replaceTokenNames("$row.OutlierUpperThresholdMultiplier$", _.extend(submittedTokenModel.toJSON(), e.data)));
@@ -15899,14 +15900,6 @@ require([
                 setToken("tk_elastic_source_from_part2", TokenUtils.replaceTokenNames("$row.elastic_source_from_part2$", _.extend(submittedTokenModel.toJSON(), e.data)));
                 setToken("tk_elastic_mstats_idx", TokenUtils.replaceTokenNames("$row.elastic_mstats_idx$", _.extend(submittedTokenModel.toJSON(), e.data)));
                 setToken("tk_elastic_mstats_filters", TokenUtils.replaceTokenNames("$row.elastic_mstats_filters$", _.extend(submittedTokenModel.toJSON(), e.data)));
-
-                // pre-fill current values for outlier modification window
-                setToken("form.tk_input_data_source_outlier_alert_on_upper", TokenUtils.replaceTokenNames("$row.OutlierAlertOnUpper$", _.extend(submittedTokenModel.toJSON(), e.data)));
-                setToken("form.tk_input_data_source_enable_outlier", TokenUtils.replaceTokenNames("$row.enable_behaviour_analytic$", _.extend(submittedTokenModel.toJSON(), e.data)));
-                setToken("form.tk_input_data_source_outlier_lower_threshold_multiplier", TokenUtils.replaceTokenNames("$row.OutlierLowerThresholdMultiplier$", _.extend(submittedTokenModel.toJSON(), e.data)));
-                setToken("form.tk_input_data_source_outlier_upper_threshold_multiplier", TokenUtils.replaceTokenNames("$row.OutlierUpperThresholdMultiplier$", _.extend(submittedTokenModel.toJSON(), e.data)));
-                setToken("form.TimeOutlierConfigurationDataSource", TokenUtils.replaceTokenNames("$row.OutlierTimePeriod$", _.extend(submittedTokenModel.toJSON(), e.data)));
-                setToken("form.TimeOutlierConfigurationDataSourceSpan", TokenUtils.replaceTokenNames("$row.OutlierSpan$", _.extend(submittedTokenModel.toJSON(), e.data)));
 
                 // data sampling
                 setToken("tk_data_sampling_status_message", TokenUtils.replaceTokenNames("$row.data_sample_status_message$", _.extend(submittedTokenModel.toJSON(), e.data)));
@@ -15953,28 +15946,70 @@ require([
                 var tk_data_index = tokens.get("tk_data_index");
                 var tk_data_sourcetype = tokens.get("tk_data_sourcetype");
 
-                // define some NA values for outlier
+                // Manage Outliers
+                var tk_outlierenabledstatus = tokens.get("tk_outlierenabledstatus");
                 var tk_outliermineventcount = tokens.get("tk_outliermineventcount");
                 var tk_outlierlowerthresholdmultiplier = tokens.get("tk_outlierlowerthresholdmultiplier");
                 var tk_outlierupperthresholdmultiplier = tokens.get("tk_outlierupperthresholdmultiplier");
                 var tk_outlieralertonupper = tokens.get("tk_outlieralertonupper");
                 var tk_isoutlier = tokens.get("tk_isoutlier");
                 var tk_outlier_span = tokens.get("tk_outlier_span");
+                var tk_outlier_period = tokens.get("tk_outlier_period");
 
-                if (tk_outliermineventcount = "null") {
-                    setToken("tk_outliermineventcount", TokenUtils.replaceTokenNames("-1", _.extend(submittedTokenModel.toJSON(), e.data)));
+                // Outliers configuration
+
+                // prefill the current status
+                //console.log("tk_outlierenabledstatus is: " + tk_outlierenabledstatus);
+                if (tk_outlierenabledstatus && tk_outlierenabledstatus == "true") {
+                    setToken("form.tk_input_data_source_enable_outlier", TokenUtils.replaceTokenNames("true", _.extend(submittedTokenModel.toJSON(), e.data)));
+                } else {
+                    setToken("form.tk_input_data_source_enable_outlier", TokenUtils.replaceTokenNames("false", _.extend(submittedTokenModel.toJSON(), e.data)));
                 }
-                if (tk_outlierlowerthresholdmultiplier = "null") {
-                    setToken("tk_outlierlowerthresholdmultiplier", TokenUtils.replaceTokenNames("4", _.extend(submittedTokenModel.toJSON(), e.data)));
+
+                // prefill the current lower multiplier
+                //console.log("tk_outlierlowerthresholdmultiplier is: " + tk_outlierlowerthresholdmultiplier);
+                if (tk_outlierlowerthresholdmultiplier && isNumeric(tk_outlierlowerthresholdmultiplier)) {
+                    setToken("form.tk_input_data_source_outlier_lower_threshold_multiplier", TokenUtils.replaceTokenNames(tk_outlierlowerthresholdmultiplier, _.extend(submittedTokenModel.toJSON(), e.data)));
                 }
-                if (tk_outlierupperthresholdmultiplier = "null") {
-                    setToken("tk_outlierupperthresholdmultiplier", TokenUtils.replaceTokenNames("4", _.extend(submittedTokenModel.toJSON(), e.data)));
+
+                // prefill the current upper multiplier
+                //console.log("tk_outlierupperthresholdmultiplier is: " + tk_outlierupperthresholdmultiplier);
+                if (tk_outlierupperthresholdmultiplier && isNumeric(tk_outlierupperthresholdmultiplier)) {
+                    setToken("form.tk_input_data_source_outlier_upper_threshold_multiplier", TokenUtils.replaceTokenNames(tk_outlierupperthresholdmultiplier, _.extend(submittedTokenModel.toJSON(), e.data)));
                 }
-                if (tk_isoutlier = "null") {
-                    setToken("tk_isoutlier", TokenUtils.replaceTokenNames("0", _.extend(submittedTokenModel.toJSON(), e.data)));
+
+                // Define the Outliers lowerbound mode
+                //console.log("tk_outliermineventcount is: " + tk_outliermineventcount);
+                if (tk_outliermineventcount && isNumeric(tk_outliermineventcount) && tk_outliermineventcount > 0) {
+                    //console.log("tk_outliermineventcount is: " + tk_outliermineventcount);
+                    //console.log("Outliers is configured in static mode");
+                    setToken("form.tk_input_data_source_outlier_min_eventcount_mode", TokenUtils.replaceTokenNames("static", _.extend(submittedTokenModel.toJSON(), e.data)));
+                    setToken("form.tk_input_data_source_outlier_min_eventcount", TokenUtils.replaceTokenNames(tk_outliermineventcount, _.extend(submittedTokenModel.toJSON(), e.data)));
                 }
-                if (tk_isoutlier = "null") {
-                    setToken("tk_isoutlier", TokenUtils.replaceTokenNames("0", _.extend(submittedTokenModel.toJSON(), e.data)));
+                else {
+                    //console.log("Outliers is not configured or configured in dynamic mode");
+                    setToken("form.tk_input_data_source_outlier_min_eventcount_mode", TokenUtils.replaceTokenNames("dynamic", _.extend(submittedTokenModel.toJSON(), e.data)));
+                    setToken("form.tk_input_data_source_outlier_min_eventcount", TokenUtils.replaceTokenNames("disabled", _.extend(submittedTokenModel.toJSON(), e.data)));
+                }
+
+                // prefill the current status
+                //console.log("tk_outlieralertonupper is: " + tk_outlieralertonupper);
+                if (tk_outlieralertonupper && tk_outlieralertonupper == "true") {
+                    setToken("form.tk_input_data_host_outlier_alert_on_upper", TokenUtils.replaceTokenNames("true", _.extend(submittedTokenModel.toJSON(), e.data)));
+                } else {
+                    setToken("form.tk_input_data_host_outlier_alert_on_upper", TokenUtils.replaceTokenNames("false", _.extend(submittedTokenModel.toJSON(), e.data)));
+                }
+
+                // prefill the outlier span
+                //console.log("tk_outlier_span is: " + tk_outlier_span);
+                if (tk_outlier_span && tk_outlier_span != "null") {
+                    setToken("form.TimeOutlierConfigurationDataSourceSpan", TokenUtils.replaceTokenNames(tk_outlier_span, _.extend(submittedTokenModel.toJSON(), e.data)));
+                }
+
+                // prefill the outlier period
+                //console.log("tk_outlier_period is: " + tk_outlier_period);
+                if (tk_outlier_period && tk_outlier_period != "null") {
+                    setToken("form.TimeOutlierConfigurationDataSource", TokenUtils.replaceTokenNames(tk_outlier_period, _.extend(submittedTokenModel.toJSON(), e.data)));
                 }
 
                 // href docs
@@ -16637,6 +16672,7 @@ require([
                 setToken("tk_priority", TokenUtils.replaceTokenNames("$row.priority$", _.extend(submittedTokenModel.toJSON(), e.data)));
 
                 // outlier
+                setToken("tk_outlierenabledstatus", TokenUtils.replaceTokenNames("$row.enable_behaviour_analytic$", _.extend(submittedTokenModel.toJSON(), e.data)));
                 setToken("tk_outliermineventcount", TokenUtils.replaceTokenNames("$row.OutlierMinEventCount$", _.extend(submittedTokenModel.toJSON(), e.data)));
                 setToken("tk_outlierlowerthresholdmultiplier", TokenUtils.replaceTokenNames("$row.OutlierLowerThresholdMultiplier$", _.extend(submittedTokenModel.toJSON(), e.data)));
                 setToken("tk_outlierupperthresholdmultiplier", TokenUtils.replaceTokenNames("$row.OutlierUpperThresholdMultiplier$", _.extend(submittedTokenModel.toJSON(), e.data)));
@@ -16644,15 +16680,6 @@ require([
                 setToken("tk_outlier_period", TokenUtils.replaceTokenNames("$row.OutlierTimePeriod$", _.extend(submittedTokenModel.toJSON(), e.data)));
                 setToken("tk_outlier_span", TokenUtils.replaceTokenNames("$row.OutlierSpan$", _.extend(submittedTokenModel.toJSON(), e.data)));
                 setToken("tk_isoutlier", TokenUtils.replaceTokenNames("$row.isOutlier$", _.extend(submittedTokenModel.toJSON(), e.data)));
-                setToken("tk_enable_behaviour_analytic", TokenUtils.replaceTokenNames("$row.enable_behaviour_analytic$", _.extend(submittedTokenModel.toJSON(), e.data)));
-
-                // pre-fill current values for outlier modification window
-                setToken("form.tk_input_data_host_outlier_alert_on_upper", TokenUtils.replaceTokenNames("$row.OutlierAlertOnUpper$", _.extend(submittedTokenModel.toJSON(), e.data)));
-                setToken("form.tk_input_data_host_enable_outlier", TokenUtils.replaceTokenNames("$row.enable_behaviour_analytic$", _.extend(submittedTokenModel.toJSON(), e.data)));
-                setToken("form.tk_input_data_host_outlier_lower_threshold_multiplier", TokenUtils.replaceTokenNames("$row.OutlierLowerThresholdMultiplier$", _.extend(submittedTokenModel.toJSON(), e.data)));
-                setToken("form.tk_input_data_host_outlier_upper_threshold_multiplier", TokenUtils.replaceTokenNames("$row.OutlierUpperThresholdMultiplier$", _.extend(submittedTokenModel.toJSON(), e.data)));
-                setToken("form.TimeOutlierConfigurationDataHost", TokenUtils.replaceTokenNames("$row.OutlierTimePeriod$", _.extend(submittedTokenModel.toJSON(), e.data)));
-                setToken("form.TimeOutlierConfigurationDataHostSpan", TokenUtils.replaceTokenNames("$row.OutlierSpan$", _.extend(submittedTokenModel.toJSON(), e.data)));
 
                 // status message
                 setToken("tk_status_message", TokenUtils.replaceTokenNames("$row.status_message$", _.extend(submittedTokenModel.toJSON(), e.data)));
@@ -16737,27 +16764,62 @@ require([
                     setToken("tk_priority_class", TokenUtils.replaceTokenNames("title_high_priority", _.extend(submittedTokenModel.toJSON(), e.data)));
                 }
 
-                // define some NA values for outlier
+                // Manage Outliers
+                var tk_outlierenabledstatus = tokens.get("tk_outlierenabledstatus");
                 var tk_outliermineventcount = tokens.get("tk_outliermineventcount");
                 var tk_outlierlowerthresholdmultiplier = tokens.get("tk_outlierlowerthresholdmultiplier");
                 var tk_outlierupperthresholdmultiplier = tokens.get("tk_outlierupperthresholdmultiplier");
                 var tk_outlieralertonupper = tokens.get("tk_outlieralertonupper");
                 var tk_isoutlier = tokens.get("tk_isoutlier");
+                var tk_outlier_span = tokens.get("tk_outlier_span");
+                var tk_outlier_period = tokens.get("tk_outlier_period");
 
-                if (tk_outliermineventcount = "null") {
-                    setToken("tk_outliermineventcount", TokenUtils.replaceTokenNames("-1", _.extend(submittedTokenModel.toJSON(), e.data)));
+                // Outliers configuration
+
+                // prefill the current status
+                //console.log("tk_outlierenabledstatus is: " + tk_outlierenabledstatus);
+                if (tk_outlierenabledstatus && tk_outlierenabledstatus == "true") {
+                    setToken("form.tk_input_data_host_enable_outlier", TokenUtils.replaceTokenNames("true", _.extend(submittedTokenModel.toJSON(), e.data)));
+                } else {
+                    setToken("form.tk_input_data_host_enable_outlier", TokenUtils.replaceTokenNames("false", _.extend(submittedTokenModel.toJSON(), e.data)));
                 }
-                if (tk_outlierlowerthresholdmultiplier = "null") {
-                    setToken("tk_outlierlowerthresholdmultiplier", TokenUtils.replaceTokenNames("4", _.extend(submittedTokenModel.toJSON(), e.data)));
+
+                // prefill the current lower multiplier
+                //console.log("tk_outlierlowerthresholdmultiplier is: " + tk_outlierlowerthresholdmultiplier);
+                if (tk_outlierlowerthresholdmultiplier && isNumeric(tk_outlierlowerthresholdmultiplier)) {
+                    setToken("form.tk_input_data_host_outlier_lower_threshold_multiplier", TokenUtils.replaceTokenNames(tk_outlierlowerthresholdmultiplier, _.extend(submittedTokenModel.toJSON(), e.data)));
                 }
-                if (tk_outlierupperthresholdmultiplier = "null") {
-                    setToken("tk_outlierupperthresholdmultiplier", TokenUtils.replaceTokenNames("4", _.extend(submittedTokenModel.toJSON(), e.data)));
+
+                // prefill the current upper multiplier
+                //console.log("tk_outlierupperthresholdmultiplier is: " + tk_outlierupperthresholdmultiplier);
+                if (tk_outlierupperthresholdmultiplier && isNumeric(tk_outlierupperthresholdmultiplier)) {
+                    setToken("form.tk_input_data_host_outlier_upper_threshold_multiplier", TokenUtils.replaceTokenNames(tk_outlierupperthresholdmultiplier, _.extend(submittedTokenModel.toJSON(), e.data)));
                 }
-                if (tk_isoutlier = "null") {
-                    setToken("tk_isoutlier", TokenUtils.replaceTokenNames("0", _.extend(submittedTokenModel.toJSON(), e.data)));
+
+                // Define the Outliers lowerbound mode
+                //console.log("tk_outliermineventcount is: " + tk_outliermineventcount);
+                if (tk_outliermineventcount && isNumeric(tk_outliermineventcount) && tk_outliermineventcount > 0) {
+                    //console.log("tk_outliermineventcount is: " + tk_outliermineventcount);
+                    //console.log("Outliers is configured in static mode");
+                    setToken("form.tk_input_data_host_outlier_min_eventcount_mode", TokenUtils.replaceTokenNames("static", _.extend(submittedTokenModel.toJSON(), e.data)));
+                    setToken("form.tk_input_data_host_outlier_min_eventcount", TokenUtils.replaceTokenNames(tk_outliermineventcount, _.extend(submittedTokenModel.toJSON(), e.data)));
                 }
-                if (tk_isoutlier = "null") {
-                    setToken("tk_isoutlier", TokenUtils.replaceTokenNames("0", _.extend(submittedTokenModel.toJSON(), e.data)));
+                else {
+                    //console.log("Outliers is not configured or configured in dynamic mode");
+                    setToken("form.tk_input_data_host_outlier_min_eventcount_mode", TokenUtils.replaceTokenNames("dynamic", _.extend(submittedTokenModel.toJSON(), e.data)));
+                    setToken("form.tk_input_data_host_outlier_min_eventcount", TokenUtils.replaceTokenNames("disabled", _.extend(submittedTokenModel.toJSON(), e.data)));
+                }
+
+                // prefill the outlier span
+                //console.log("tk_outlier_span is: " + tk_outlier_span);
+                if (tk_outlier_span && tk_outlier_span != "null") {
+                    setToken("form.TimeOutlierConfigurationDataHostSpan", TokenUtils.replaceTokenNames(tk_outlier_span, _.extend(submittedTokenModel.toJSON(), e.data)));
+                }
+
+                // prefill the outlier period
+                //console.log("tk_outlier_period is: " + tk_outlier_period);
+                if (tk_outlier_period && tk_outlier_period != "null") {
+                    setToken("form.TimeOutlierConfigurationDataHost", TokenUtils.replaceTokenNames(tk_outlier_period, _.extend(submittedTokenModel.toJSON(), e.data)));
                 }
 
                 // Explicitly refresh the get tags search
@@ -33266,10 +33328,10 @@ require([
                 tk_outlierupperthresholdmultiplier = tk_input_data_source_outlier_upper_threshold_multiplier;
             }
 
-            if (tk_input_data_source_outlier_min_eventcount_mode === "static" && isNumeric(tk_input_data_source_outlier_min_eventcount)) {
+            if (tk_input_data_source_outlier_min_eventcount_mode === "static" && isNumeric(tk_input_data_source_outlier_min_eventcount) && tk_input_data_source_outlier_min_eventcount > 0) {
                 tk_outliermineventcount = tk_input_data_source_outlier_min_eventcount;
             } else {
-                tk_outliermineventcount = "-1";
+                tk_outliermineventcount = "0";
                 tk_input_data_source_outlier_min_eventcount_mode = "dynamic";
             }
 
@@ -33353,6 +33415,9 @@ require([
                         // call update data source
                         var tk_keyid = tokens.get("tk_keyid");
                         updateDataSource(tk_keyid);
+
+                        // Run the search again to update the table
+                        searchDataSourcesMain.startSearch();
 
                         // Audit
                         action = "success";
@@ -34299,10 +34364,10 @@ require([
                 tk_outlierupperthresholdmultiplier = tk_input_data_host_outlier_upper_threshold_multiplier;
             }
 
-            if (tk_input_data_host_outlier_min_eventcount_mode === "static" && isNumeric(tk_input_data_host_outlier_min_eventcount)) {
+            if (tk_input_data_host_outlier_min_eventcount_mode === "static" && isNumeric(tk_input_data_host_outlier_min_eventcount) && tk_input_data_host_outlier_min_eventcount > 0) {
                 tk_outliermineventcount = tk_input_data_host_outlier_min_eventcount;
             } else {
-                tk_outliermineventcount = "-1";
+                tk_outliermineventcount = "0";
                 tk_input_data_host_outlier_min_eventcount_mode = "dynamic";
             }
 
@@ -34380,6 +34445,9 @@ require([
                         // call update data host
                         var tk_keyid = tokens.get("tk_keyid");
                         updateDataHost(tk_keyid);
+
+                        // Run the search again to update the table
+                        searchDataHostsMain.startSearch();
 
                         // Audit
                         action = "success";
