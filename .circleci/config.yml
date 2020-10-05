@@ -20,7 +20,7 @@ version: 2.1
 executors:
   content-executor:
     docker:
-      - image: circleci/python:3.7.2
+      - image: circleci/python:latest
         auth:
           username: $DOCKERHUB_LOGIN  # can specify string literal values
           password: $DOCKERHUB_TOKEN  # or project environment variable reference
@@ -83,7 +83,7 @@ jobs:
               - trackme.tar.gz
   publish-github-release:
     docker:
-      - image: cibuilds/github:0.10
+      - image: cibuilds/github:latest
         auth:
           username: $DOCKERHUB_LOGIN  # can specify string literal values
           password: $DOCKERHUB_TOKEN  # or project environment variable reference
