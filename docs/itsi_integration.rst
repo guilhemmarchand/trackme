@@ -8,7 +8,9 @@ Splunk ITSI and TrackMe integration
 - TrackMe generates metrics in the metric index which can directly be turned into KPIs in a KPI base search
 - Dimensions are indexed within the metrics which describe the entity and provide the by statement keys required to compute the KPIs
 - Additionally, if TrackMe is running on the same search header layer than ITSI, search time lookups can be used to enrich the entities
-- Finally, summary events contain filliping statuses records which that be also turned as a valuable information into a KPI for ITSI
+- Tracker reports automatically generate summary events   
+
+Finally, summary events contain filliping statuses records which that be also turned as a valuable information into a KPI for ITSI
 
 Step 1: entity search and creation
 ----------------------------------

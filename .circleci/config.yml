@@ -21,6 +21,9 @@ executors:
   content-executor:
     docker:
       - image: circleci/python:3.7.2
+        auth:
+          username: $DOCKERHUB_LOGIN  # can specify string literal values
+          password: $DOCKERHUB_TOKEN  # or project environment variable reference
     working_directory: ~/repo
 
 jobs:
@@ -81,6 +84,9 @@ jobs:
   publish-github-release:
     docker:
       - image: cibuilds/github:0.10
+        auth:
+          username: $DOCKERHUB_LOGIN  # can specify string literal values
+          password: $DOCKERHUB_TOKEN  # or project environment variable reference
     steps:
       - attach_workspace:
           at: ~/trackme/dist/trackme.tar.gz
@@ -93,10 +99,12 @@ workflows:
   validate-and-build:
     jobs:
       - validate-content:
+          context: docker-hub-creds
           filters:
             tags:
               only: /.*/
       - publish-github-release:
+          context: docker-hub-creds
           requires:
             - validate-content
           filters:
