@@ -21654,6 +21654,7 @@ require([
             searchDataSourceMainAuditFlip.startSearch();
             searchDataSourceMainAuditChanges.startSearch();
             SearchDataSourceParsingQualityMain.startSearch();
+            searchDataSourceTimeline.startSearch();
             // call update summary investigator for that entity only
             var tk_data_name = tokens.get("tk_data_name");
             var tk_data_index = tokens.get("tk_data_index");
@@ -21678,6 +21679,7 @@ require([
             searchDataHostMainAuditFlip.startSearch();
             searchDataHostMainAuditChanges.startSearch();
             SearchDataHostParsingQualityMain.startSearch();
+            searchDataHostTimeline.startSearch();
 
             // call update summary investigator for that entity only
             var tk_data_host = tokens.get("tk_data_host");
@@ -21695,6 +21697,7 @@ require([
             searchSingleSLAMetricHostpct.startSearch();
             searchMetricHostMainAuditFlip.startSearch();
             searchMetricHostMainAuditChanges.startSearch();
+            searchMetricHostTimeline.startSearch();
 
             var tk_keyid = tokens.get("tk_keyid");
             // call update metric host
