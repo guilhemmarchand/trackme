@@ -1499,7 +1499,7 @@ styles in <div> tags, similar to Bootstrap's grid system.
                 
                                     </div>
                 
-                                    <div id="rowUpdateTags2" class="dashboard-row dashboard-row3">
+                                    <div id="rowUpdateTags2" class="dashboard-row dashboard-row3" data-depends="$show_tags_multiselect$">
                                         <div id="panelUpdateTags2" class="dashboard-cell" style="width: 100%;">
                                             <div class="dashboard-panel clearfix">
                                                 <div class="panel-element-row">
@@ -8995,6 +8995,29 @@ require([
         }, {
             tokens: true,
             tokenNamespace: "submitted"
+        });
+
+        new SearchEventHandler({
+            managerid: "searchShowTags",
+            event: "progress",
+            conditions: [{
+                    attr: "match",
+                    value: "'job.resultCount' == 0",
+                    actions: [{
+                        "type": "unset",
+                        "token": "show_tags_multiselect"
+                    }]
+                },
+                {
+                    attr: "any",
+                    value: "*",
+                    actions: [{
+                        "type": "set",
+                        "token": "show_tags_multiselect",
+                        "value": "True"
+                    }]
+                }
+            ]
         });
 
         var searchShowTagsPolicies = new SearchManager({
@@ -19584,6 +19607,9 @@ require([
 
         var modal_input_tags_update = new MultiSelectInput({
             "id": "modal_input_tags_update",
+            "tokenDependencies": {
+                "depends": "$show_tags_multiselect$"
+            },
             "choices": [],
             "searchWhenChanged": true,
             "labelField": "tags",
@@ -31643,6 +31669,7 @@ require([
 
             // Show input modal
             $("#update_tags").modal();
+
         });
 
         // add button
