@@ -18,6 +18,7 @@ https://trackme.readthedocs.io/en/latest/configuration.html
 - Feature: Issue #141 - Enhancement - ability to search for hosts in Data Hosts Tracking by Logical Group Name #141
 - Feature: Issue #148 - Enhancement: Allow 'NOT' filter for Keyword filter name: #148
 - Feature: Issue #166 - Enhancement - Provides a UI feature to allow reseting the list of metrics known for a given metric host
+- Feature: Issue #174 - Enhancement - Adding the timeline viz view in the status tabs #174
 - Fix: Issue #147 / Issue #161 Outliers management and configuration - fixes and improvements
 - Fix: Issue #167 - Issue - Pressing "Manage: manual tags" displays dialog with ALL tags in "List of current tags for this data source" field #167
 - Fix: Issue #170 - install_source_checksum should not be in app.conf (appinspect warning) #170
