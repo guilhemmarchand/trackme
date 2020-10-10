@@ -1021,6 +1021,37 @@
             font-weight: normal;
         }
 
+        /* Timeline viz */
+        .ccat-green {
+             fill: #77dd77 !important;
+             stroke: #77dd77 !important;
+        }
+  
+        .ccat-red {
+             fill: #ff6961 !important;
+             stroke: #ff6961 !important;
+        }
+
+        .ccat-blue {
+             fill: #89cff0 !important;
+             stroke: #89cff0 !important;
+        }
+
+        .ccat-orange {
+             fill: #ffb347 !important;
+             stroke: #ffb347 !important;
+        }
+
+        .ccat-yellow {
+             fill: #ffd700 !important;
+             stroke: #ffd700 !important;
+        }
+           
+        .ccat-grey {
+             fill: #808080 !important;
+             stroke: #808080 !important;
+        }
+
         </style>
 </head>
 <body class="simplexml preload locale-en" data-splunk-version="" data-splunk-product="enterprise">
@@ -3170,6 +3201,23 @@ styles in <div> tags, similar to Bootstrap's grid system.
                                             </div>
                                         </div>
                                     </div>
+
+                                    <div id="row_data_source_timeline" style="margin-top: -80px; max-height:200px !important" class="dashboard-row dashboard-row2">
+                                        <div id="panel_data_source_timeline" class="dashboard-cell" style="width: 100%;">
+                                            <div class="dashboard-panel clearfix">
+                                                
+                                                <div class="panel-element-row">
+                                                    <div id="TimelineDataSource" class="dashboard-element viz" style="width: 100%">
+                                                        <div class="panel-head">
+                                                            <h3>Last 7 days timeline</h3>
+                                                        </div>
+                                                        <div class="panel-body"></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
                                 </div>
                             </div>
                         </div>
@@ -3594,6 +3642,23 @@ styles in <div> tags, similar to Bootstrap's grid system.
                                             </div>
                                         </div>
                                     </div>
+
+                                    <div id="row_data_host_timeline" style="margin-top: -80px; max-height:200px !important" class="dashboard-row dashboard-row2">
+                                        <div id="panel_data_host_timeline" class="dashboard-cell" style="width: 100%;">
+                                            <div class="dashboard-panel clearfix">
+                                                
+                                                <div class="panel-element-row">
+                                                    <div id="TimelineDataHost" class="dashboard-element viz" style="width: 100%">
+                                                        <div class="panel-head">
+                                                            <h3>Last 7 days timeline</h3>
+                                                        </div>
+                                                        <div class="panel-body"></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
                                 </div>
                             </div>
                         </div>
@@ -3868,6 +3933,23 @@ styles in <div> tags, similar to Bootstrap's grid system.
                                             </div>
                                         </div>
                                     </div>
+
+                                    <div id="row_metric_host_timeline" style="margin-top: -80px; max-height:200px !important" class="dashboard-row dashboard-row2">
+                                        <div id="panel_metric_host_timeline" class="dashboard-cell" style="width: 100%;">
+                                            <div class="dashboard-panel clearfix">
+                                                
+                                                <div class="panel-element-row">
+                                                    <div id="TimelineMetricHost" class="dashboard-element viz" style="width: 100%">
+                                                        <div class="panel-head">
+                                                            <h3>Last 7 days timeline</h3>
+                                                        </div>
+                                                        <div class="panel-body"></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
                                 </div>
                             </div>
                         </div>
@@ -9471,6 +9553,57 @@ require([
             tokenNamespace: "submitted"
         });
 
+        var searchDataSourceTimeline = new SearchManager({
+            "id": "searchDataSourceTimeline",
+            "earliest_time": "-7d@d",
+            "latest_time": "now",
+            "sample_ratio": null,
+            "search": "`trackme_idx` object_category=\"data_source\" object=\"$tk_data_name$\" source=\"current_state_tracking:data_source\" | sort limit=0 _time | table _time, object, current_state | streamstats first(_time) as previous_time current=f by object | eventstats count as total | streamstats count as record_count | eval duration=_time-previous_time | eval previous_time=strftime(previous_time, \"%c\") | fields _time, object, current_state, duration",
+            "status_buckets": 0,
+            "cancelOnUnload": true,
+            "app": utils.getCurrentApp(),
+            "auto_cancel": 90,
+            "preview": true,
+            "tokenDependencies": {
+                "depends": "$show_data_source_status_message$"
+            },
+            "runWhenTimeIsUndefined": false
+        }, {tokens: true, tokenNamespace: "submitted"});
+
+        var searchDataHostTimeline = new SearchManager({
+            "id": "searchDataHostTimeline",
+            "earliest_time": "-7d@d",
+            "latest_time": "now",
+            "sample_ratio": null,
+            "search": "`trackme_idx` object_category=\"data_host\" object=\"$tk_data_host$\" source=\"current_state_tracking:data_host\" | sort limit=0 _time | table _time, object, current_state | streamstats first(_time) as previous_time current=f by object | eventstats count as total | streamstats count as record_count | eval duration=_time-previous_time | eval previous_time=strftime(previous_time, \"%c\") | fields _time, object, current_state, duration",
+            "status_buckets": 0,
+            "cancelOnUnload": true,
+            "app": utils.getCurrentApp(),
+            "auto_cancel": 90,
+            "preview": true,
+            "tokenDependencies": {
+                "depends": "$show_data_host_status_message$"
+            },
+            "runWhenTimeIsUndefined": false
+        }, {tokens: true, tokenNamespace: "submitted"});
+
+        var searchMetricHostTimeline = new SearchManager({
+            "id": "searchMetricHostTimeline",
+            "earliest_time": "-7d@d",
+            "latest_time": "now",
+            "sample_ratio": null,
+            "search": "`trackme_idx` object_category=\"metric_host\" object=\"$tk_metric_host$\" source=\"current_state_tracking:metric_host\" | sort limit=0 _time | table _time, object, current_state | streamstats first(_time) as previous_time current=f by object | eventstats count as total | streamstats count as record_count | eval duration=_time-previous_time | eval previous_time=strftime(previous_time, \"%c\") | fields _time, object, current_state, duration",
+            "status_buckets": 0,
+            "cancelOnUnload": true,
+            "app": utils.getCurrentApp(),
+            "auto_cancel": 90,
+            "preview": true,
+            "tokenDependencies": {
+                "depends": "$show_metric_host_status_message$"
+            },
+            "runWhenTimeIsUndefined": false
+        }, {tokens: true, tokenNamespace: "submitted"});
+
         var searchDataHostMainAuditFlip = new SearchManager({
             "id": "searchDataHostMainAuditFlip",
             "earliest_time": "$modalTimeHost.earliest$",
@@ -14884,6 +15017,57 @@ require([
         //
         // VIEWS: VISUALIZATION ELEMENTS
         //
+
+        var TimelineDataSource = new VisualizationElement({
+            "id": "TimelineDataSource",
+            "type": "timeline_app.timeline",
+            "resizable": true,
+            "drilldown": "none",
+            "timeline_app.timeline.axisTimeFormat": "DAYS",
+            "timeline_app.timeline.colorMode": "categorical",
+            "timeline_app.timeline.maxColor": "#DA5C5C",
+            "timeline_app.timeline.minColor": "#FFE8E8",
+            "timeline_app.timeline.numOfBins": "6",
+            "timeline_app.timeline.tooltipTimeFormat": "DAYS",
+            "timeline_app.timeline.useColors": "1",
+            "height": "100",
+            "managerid": "searchDataSourceTimeline",
+            "el": $('#TimelineDataSource')
+        }, {tokens: true, tokenNamespace: "submitted"}).render();
+
+        var TimelineDataHost = new VisualizationElement({
+            "id": "TimelineDataHost",
+            "type": "timeline_app.timeline",
+            "resizable": true,
+            "drilldown": "none",
+            "timeline_app.timeline.axisTimeFormat": "DAYS",
+            "timeline_app.timeline.colorMode": "categorical",
+            "timeline_app.timeline.maxColor": "#DA5C5C",
+            "timeline_app.timeline.minColor": "#FFE8E8",
+            "timeline_app.timeline.numOfBins": "6",
+            "timeline_app.timeline.tooltipTimeFormat": "DAYS",
+            "timeline_app.timeline.useColors": "1",
+            "height": "100",
+            "managerid": "searchDataHostTimeline",
+            "el": $('#TimelineDataHost')
+        }, {tokens: true, tokenNamespace: "submitted"}).render();
+
+        var TimelineMetricHost = new VisualizationElement({
+            "id": "TimelineMetricHost",
+            "type": "timeline_app.timeline",
+            "resizable": true,
+            "drilldown": "none",
+            "timeline_app.timeline.axisTimeFormat": "DAYS",
+            "timeline_app.timeline.colorMode": "categorical",
+            "timeline_app.timeline.maxColor": "#DA5C5C",
+            "timeline_app.timeline.minColor": "#FFE8E8",
+            "timeline_app.timeline.numOfBins": "6",
+            "timeline_app.timeline.tooltipTimeFormat": "DAYS",
+            "timeline_app.timeline.useColors": "1",
+            "height": "100",
+            "managerid": "searchMetricHostTimeline",
+            "el": $('#TimelineMetricHost')
+        }, {tokens: true, tokenNamespace: "submitted"}).render();
 
         var DonutDataSourceCountByStateAndPriority = new VisualizationElement({
             "id": "DonutDataSourceCountByStateAndPriority",

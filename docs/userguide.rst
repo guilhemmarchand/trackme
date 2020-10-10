@@ -329,6 +329,11 @@ Status message
    :alt: img/first_steps/img020_orange
    :align: center
 
+*In addition, an integration using the timeline custom view provides an enhanced overview of the entity status over time:*
+
+.. image:: img/first_steps/timeline.png
+   :alt: img/first_steps/timeline
+   :align: center
 
 Audit changes
 ^^^^^^^^^^^^^
