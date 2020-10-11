@@ -329,6 +329,11 @@ Status message
    :alt: img/first_steps/img020_orange
    :align: center
 
+*In addition, an integration using the timeline custom view provides an enhanced overview of the entity status over time:*
+
+.. image:: img/first_steps/timeline.png
+   :alt: img/first_steps/timeline
+   :align: center
 
 Audit changes
 ^^^^^^^^^^^^^
@@ -426,6 +431,14 @@ Particularities of metric hosts monitoring
 - ``object tags``: this is an additional feature to data hosts and metric hosts that allows looking against a third party lookup, such as your CMDB data stored in Splunk, or the Splunk Enterprise Security assets knowledge, to provide an active link and access quickly these enrichment information
 - Metric hosts tracking relies on the ``default max lag allowed`` per ``metric category`` which is defined by default to 5 minutes (300 seconds) and can be managed by creating ``metric SLA policies``
 - The entity screen provides some metric specific search options to provide insights against these specific entities and their metrics
+
+**Additionally, if a metric category stops being emitted this affects the global status of the entity, if these metrics are decomissioned you can reset the host metrics knowledge:**
+
+.. image:: img/first_steps/metric_host_reset.png
+   :alt: img/first_steps/metric_host_reset
+   :align: center
+
+Triggering this action will remove the current knowledge of metric categories for this entity only and trigger a fresh discovery without losing additional settings like the priority.
 
 See :ref:`Logical groups (clusters)` for more details on this feature
 

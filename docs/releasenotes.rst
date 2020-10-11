@@ -1,6 +1,29 @@
 Release notes
 #############
 
+Version 1.2.24
+==============
+
+**CAUTION:**
+
+This is a new main release branch, TrackMe 1.2.x requires the deployment of the following dependencies:
+
+- Semicircle Donut Chart Viz, Splunk Base: https://splunkbase.splunk.com/app/4378
+- Splunk Machine Learning Toolkit, Splunk Base: https://splunkbase.splunk.com/app/2890
+- Splunk Timeline - Custom Visualization, Splunk Base: https://splunkbase.splunk.com/app/3120
+
+TrackMe requires a summary index (defaults to trackme_summary) and a metric index (defaults to trackme_metrics):
+https://trackme.readthedocs.io/en/latest/configuration.html
+
+- Feature: Issue #153 - For ITSI and timeline integration purposes, generate and store last states information as summary events #153
+- Feature: Issue #141 - Enhancement - ability to search for hosts in Data Hosts Tracking by Logical Group Name #141
+- Feature: Issue #148 - Enhancement: Allow 'NOT' filter for Keyword filter name: #148
+- Feature: Issue #166 - Enhancement - Provides a UI feature to allow reseting the list of metrics known for a given metric host
+- Feature: Issue #174 - Enhancement - Adding the timeline viz view in the status tabs #174
+- Fix: Issue #147 / Issue #161 Outliers management and configuration - fixes and improvements
+- Fix: Issue #167 - Issue - Pressing "Manage: manual tags" displays dialog with ALL tags in "List of current tags for this data source" field #167
+- Fix: Issue #170 - install_source_checksum should not be in app.conf (appinspect warning) #170
+
 Version 1.2.23
 ==============
 
