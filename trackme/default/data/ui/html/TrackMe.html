@@ -2088,6 +2088,9 @@ styles in <div> tags, similar to Bootstrap's grid system.
                             <button type="submit" class="btn btn-default btn-primary" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Back</button>
                         </div>
                         <div style="margin-right: 15px; float: right;">
+                            <button id="btn_data_sampling_disable" type="submit" class="btn btn-default btn-danger" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Disable</button>
+                        </div>
+                        <div style="margin-right: 15px; float: right;">
                             <button id="btn_data_sampling_clear_now" type="submit" class="btn btn-default btn-danger" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Clear state and run sampling</button>
                         </div>
                         <div style="margin-right: 15px; float: right;">
@@ -7906,6 +7909,40 @@ styles in <div> tags, similar to Bootstrap's grid system.
                 <div class="modal-footer">
                     <button type="submit" class="btn btn-default btn-default pull-left" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Cancel</button>
                     <button type="submit" id="btn_modal_clear_state_confirm" class="btn btn-default btn-primary pull-right" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Ok</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Data sampling disable -->
+    <div class="modal fade" id="modal_disable_data_sampling" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header modal-header-danger">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h1 style="color: white;"><span class="glyphicon glyphicon-lock"></span>Data sampling &amp; events format recognition</h1>
+                </div>
+                <div class="modal-body">
+                    <p><b>Confirm disable action?</b><br />
+                    </p>
+
+                    <p>
+                        <label>Optional: enter a note of this update. <br />
+                            This note will be logged and made available for notification.</label>
+                        <textarea
+                                id = "input_disable_data_sampling_comment"
+                                rows = "6"
+                                cols = "160" style="width: 500px;"
+                                onfocus="if(this.value==this.defaultValue)this.value='';" onblur="if(this.value=='')this.value=this.defaultValue;">update note</textarea>
+                    </p>
+
+                </div>
+
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-default btn-default pull-left" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Cancel</button>
+                    <button type="submit" id="btn_modal_data_sampling_disable_confirm" class="btn btn-default btn-primary pull-right" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Ok</button>
                 </div>
             </div>
         </div>
@@ -34186,6 +34223,180 @@ require([
                     }
                 }
             );
+
+        });
+
+        // Disable action
+        $("#btn_data_sampling_disable").click(function() {
+            //console.log("Button was clicked");
+            $("#modal_disable_data_sampling").modal()
+        });
+
+        $("#btn_modal_data_sampling_disable_confirm").click(function() {
+            //console.log("Button was clicked");
+
+            submitTokens();
+
+            // When the Submit button is clicked, get all the form fields by accessing token values
+            var tokens = mvc.Components.get("default");
+
+            // Built the search URI
+            var tk_data_name = tokens.get("tk_data_name");
+            var tk_keyid = tokens.get("tk_keyid");            
+
+            // Endpoint URI
+            var myendpoint_URl = "{{SPLUNKWEB_URL_PREFIX}}/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_data_sampling/" + tk_keyid;
+            //console.log(myendpoint_URl);
+
+            // Retrieve update comment if any
+            var tk_comment = document.getElementById("input_clear_state_data_sampling_comment").value;
+
+            // if is not defined, give it a value and override text box content
+            if (tk_comment == "null") {
+                setToken("tk_update_comment", TokenUtils.replaceTokenNames("No comments for update.", _.extend(submittedTokenModel.toJSON(), e.data)));
+                // replace the textarea for modification requests
+                document.getElementById("input_clear_state_data_sampling_comment").value = "update note";
+            }
+            else if (tk_comment == "update note") {
+                tk_comment = "No comment for update.";
+                document.getElementById("input_clear_state_data_sampling_comment").value = "update note";
+            }
+            else {
+                // replace the textarea for modification requests
+                document.getElementById("input_clear_state_data_sampling_comment").value = "update note";
+            }
+
+            // Get the KV entry content first
+            $.ajax({
+                url: myendpoint_URl,
+                type: "GET",
+                async: true,
+                contentType: "application/json",
+                success: function(returneddata) {
+
+                    var removedObject = returneddata;
+                    //console.log(returneddata);
+
+                    var data_sample_mtime = returneddata.data_sample_mtime;
+                    var data_sample_feature = returneddata.data_sample_feature;
+                    var data_sample_iteration = returneddata.data_sample_iteration;
+                    var data_sample_anomaly_reason = returneddata.data_sample_anomaly_reason;
+                    var data_sample_status_colour = returneddata.data_sample_status_colour;
+                    var data_sample_anomaly_ack_status = returneddata.data_sample_anomaly_ack_status;
+                    var data_sample_anomaly_ack_mtime = returneddata.data_sample_anomaly_ack_mtime;
+                    var data_sample_anomaly_detected = returneddata.data_sample_anomaly_detected;
+                    var data_sample_status_message = returneddata.data_sample_status_message;
+                    var multiformat_detected = returneddata.multiformat_detected;
+                    var current_detected_format = returneddata.current_detected_format;
+                    var current_detected_format_id = returneddata.current_detected_format_id;
+                    var current_detected_format_dcount = returneddata.current_detected_format_dcount;
+                    var previous_detected_format = returneddata.previous_detected_format;
+                    var previous_detected_format_id = returneddata.previous_detected_format_id;
+                    var previous_detected_format_dcount = returneddata.previous_detected_format_dcount;
+
+                    var record = {
+                        "data_sample_mtime": data_sample_mtime,
+                        "data_sample_feature": data_sample_feature,
+                        "data_sample_iteration": data_sample_iteration,
+                        "data_sample_anomaly_reason": data_sample_anomaly_reason,
+                        "data_sample_status_colour": data_sample_status_colour,
+                        "data_sample_anomaly_ack_status": data_sample_anomaly_ack_status,
+                        "data_sample_anomaly_ack_mtime": data_sample_anomaly_ack_mtime,
+                        "data_sample_anomaly_detected": data_sample_anomaly_detected,
+                        "data_sample_status_message": data_sample_status_message,
+                        "multiformat_detected": multiformat_detected,
+                        "current_detected_format": current_detected_format,
+                        "current_detected_format_id": current_detected_format_id,
+                        "current_detected_format_dcount": current_detected_format_dcount,
+                        "previous_detected_format": previous_detected_format,
+                        "previous_detected_format_id": previous_detected_format_id,
+                        "previous_detected_format_dcount": previous_detected_format_dcount
+                    };
+
+                    //console.log("Start collection update");
+
+                    // Define the query
+                    var searchQuery = "| inputlookup trackme_data_sampling where _key=\"" + tk_keyid + "\" | eval keyid=_key | eval data_sample_feature=\"disabled\", data_sample_mtime=now(), data_sample_status_message=\"WARNING: The data sample feature was manually disabled, to re-enable the feature, click on the button Manage data sampling then Clear state and run sampling.\", data_sample_status_colour=\"orange\" | foreach current_detected_format, current_detected_format_dcount, current_detected_format_id, data_sample_anomaly_ack_mtime, data_sample_anomaly_ack_status, data_sample_anomaly_detected, data_sample_anomaly_reason, data_sample_iteration, multiformat_detected, previous_detected_format, previous_detected_format_dcount, previous_detected_format_id, raw_sample [ eval <<FIELD>> = \"N/A\" ] | outputlookup append=t key_field=keyid trackme_data_sampling";
+                    //console.log(searchQuery);
+
+                    // Set the search parameters--specify a time range
+                    var searchParams = {
+                        earliest_time: "-4h",
+                        latest_time: "now"
+                    };
+
+                    // Run a normal search that immediately returns the job's SID
+                    service.search(
+                        searchQuery,
+                        searchParams,
+                        function(err, job) {
+
+                            $("#loadingGray").remove()
+                            $("body").append('<div id="loadingGray" style="background: #e9e9e9; display: block; position: fixed; z-index: 100; top: 0; right: 0; bottom: 0; left: 0; height: 100%; opacity: 0.8;"><div style="width: 100%; margin-top: 250px; padding-bottom: 50px; text-align: center;"><p style="font-size: 18pt; font-weight: bolder;">Clearing the data source state and disabling the data sampling feature...</p></div><div id="spinner"></div></div>')
+
+                            require(["jquery",
+                                    "/static/app/trackme/spin.js"
+                                ],
+                                function($,
+                                    Spinner
+                                ) {
+                                    new Spinner({
+                                        lines: 12,
+                                        position: "relative"
+                                    }).spin(document.getElementById('spinner'));
+                                })
+
+                            // Shall the search fail before we can get properties
+                            if (job == null) {
+                                let errorStr = "Unknown Error!";
+                                if (err && err.data && err.data.messages && err.data.messages[0]['text']) {
+                                    errorStr = err.data.messages[0]['text'];
+                                } else if (err && err.data && err.data.messages) {
+                                    errorStr = JSON.stringify(err.data.messages);
+                                }
+                                $("#loadingGray").remove()
+                                $("#modal_update_collection_failure_return").find('.modal-error-message p').text(errorStr);
+                                $("#modal_update_collection_failure_return").modal()
+                            } else {
+
+                                // Poll the status of the search job
+                                job.track({
+                                    period: 200
+                                }, {
+                                    done: function(job) {
+                                        //console.log("Done!");
+
+                                        // Once the job is done, update all searches
+                                        searchDataSamplingTable1.startSearch();
+
+                                        $("#loadingGray").remove()
+                                        $("#data_sampling_manage").modal();
+
+                                    },
+                                    failed: function(properties) {
+                                        let errorStr = "Unknown Error!";
+                                        if (properties && properties._properties && properties._properties.messages && properties._properties.messages[0]['text']) {
+                                            errorStr = properties._properties.messages[0]['text'];
+                                        } else if (properties && properties._properties && properties._properties.messages) {
+                                            errorStr = JSON.stringify(properties._properties.messages);
+                                        }
+                                        $("#loadingGray").remove()
+                                        $("#modal_update_collection_failure_return").find('.modal-error-message p').text(errorStr);
+                                        $("#modal_update_collection_failure_return").modal()
+                                    },
+                                    error: function(err) {
+                                        done(err);
+                                        $("#loadingGray").remove()
+                                        $("#modal_update_collection_failure").modal()
+                                    }
+                                });
+                            }
+                        }
+                    );
+
+                }
+
+            });
 
         });
 

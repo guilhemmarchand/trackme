@@ -15,6 +15,7 @@ This is a new main release branch, TrackMe 1.2.x requires the deployment of the 
 TrackMe requires a summary index (defaults to trackme_summary) and a metric index (defaults to trackme_metrics):
 https://trackme.readthedocs.io/en/latest/configuration.html
 
+- Feature: Issue #181 - Disable data sampling on demande via the UI #181
 - Fix: Issue #180 - Outliers detection impacts offline data such as low frequency batched data sources #180
 
 Version 1.2.24
