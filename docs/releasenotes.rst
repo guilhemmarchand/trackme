@@ -1,6 +1,25 @@
 Release notes
 #############
 
+Version 1.2.25
+==============
+
+**CAUTION:**
+
+This is a new main release branch, TrackMe 1.2.x requires the deployment of the following dependencies:
+
+- Semicircle Donut Chart Viz, Splunk Base: https://splunkbase.splunk.com/app/4378
+- Splunk Machine Learning Toolkit, Splunk Base: https://splunkbase.splunk.com/app/2890
+- Splunk Timeline - Custom Visualization, Splunk Base: https://splunkbase.splunk.com/app/3120
+
+TrackMe requires a summary index (defaults to trackme_summary) and a metric index (defaults to trackme_metrics):
+https://trackme.readthedocs.io/en/latest/configuration.html
+
+- Feature: Issue #181 - Disable data sampling on demande via the UI #181
+- Fix: Issue #180 - Outliers detection impacts offline data such as low frequency batched data sources #180
+- Fix: Issue #182 - Data sampling - Manual run, Clear state and run sampling UI period constraint is too short for cold data sources #182
+- FIx: Issue #183 - Data Sampling - number of entities to process calculation can lead to no entities being processes #183
+
 Version 1.2.24
 ==============
 
