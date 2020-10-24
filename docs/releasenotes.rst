@@ -18,6 +18,7 @@ https://trackme.readthedocs.io/en/latest/configuration.html
 - Feature: Issue #181 - Disable data sampling on demande via the UI #181
 - Fix: Issue #180 - Outliers detection impacts offline data such as low frequency batched data sources #180
 - Fix: Issue #182 - Data sampling - Manual run, Clear state and run sampling UI period constraint is too short for cold data sources #182
+- FIx: Issue #183 - Data Sampling - number of entities to process calculation can lead to no entities being processes #183
 
 Version 1.2.24
 ==============
