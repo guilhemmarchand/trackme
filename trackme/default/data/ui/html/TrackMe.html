@@ -2302,8 +2302,8 @@ styles in <div> tags, similar to Bootstrap's grid system.
                                         </fieldset>
                                     </form>
 
-                                    <div class="input input-text" id="modal_input_data_sampling_custom_sourcetype_scope" style="margin-top: -25px; margin-bottom: 20px; max-width: 300px;">
-                                        <label>Sourcetype scope, to restrict this custom rule to a specific sourcetype, enter its value:</label>
+                                    <div class="input input-text" id="modal_input_data_sampling_custom_sourcetype_scope" style="margin-top: -25px; margin-bottom: 20px; max-width: 1100px;">
+                                        <label>Sourcetype scope: to restrict this custom rule, enter the value of the sourcetype scope, you can enter a list of sourcetypes as a comma separated list of values (wilcards and spaces are not accepted)</label>
                                     </div>
 
                                     <div style="margin-top: 15x;">
@@ -11148,7 +11148,7 @@ require([
             "cancelOnUnload": true,
             "sample_ratio": null,
             "latest_time": "now",
-            "search": "| inputlookup trackme_data_sampling where _key=\"$tk_keyid$\" | fields raw_sample | mvexpand raw_sample | eval sourcetype=\"$tk_data_sourcetype$\", sourcetype_scope=\"$tk_data_sampling_custom_sourcetype_scope$\" | eval detected_format = case((sourcetype_scope==\"ANY\" OR isnull(sourcetype_scope) OR sourcetype_scope=\"\"), case(match(raw_sample, \"$tk_data_sampling_custom_rule_regex$\"), \"$tk_data_sampling_custom_rule_name$\"), sourcetype=sourcetype_scope, case(match(raw_sample, \"$tk_data_sampling_custom_rule_regex$\") AND sourcetype=sourcetype_scope, \"$tk_data_sampling_custom_rule_name$\")) | `trackme_data_sampling_simulate_custom_rule`",
+            "search": "| inputlookup trackme_data_sampling where _key=\"$tk_keyid$\" | fields raw_sample | mvexpand raw_sample | eval sourcetype=\"$tk_data_sourcetype$\", sourcetype_scope=\"$tk_data_sampling_custom_sourcetype_scope$\" | eval detected_format = case((sourcetype_scope==\"*\"), case(match(raw_sample, \"$tk_data_sampling_custom_rule_regex$\"), \"$tk_data_sampling_custom_rule_name$\"), in(sourcetype, `trackme_data_sampling_custom_models_simulate_genlist(\"$tk_data_sampling_custom_sourcetype_scope$\")`), case(match(raw_sample, \"$tk_data_sampling_custom_rule_regex$\"), \"$tk_data_sampling_custom_rule_name$\")) | `trackme_data_sampling_simulate_custom_rule`",
             "status_buckets": 0,
             "app": utils.getCurrentApp(),
             "auto_cancel": 90,
@@ -14083,8 +14083,8 @@ require([
         var modal_input_data_sampling_custom_sourcetype_scope = new TextInput({
             "id": "modal_input_data_sampling_custom_sourcetype_scope",
             "searchWhenChanged": false,
-            "initialValue": "ANY",
-            "default": "ANY",
+            "initialValue": "*",
+            "default": "*",
             "value": "$form.tk_data_sampling_custom_sourcetype_scope$",
             "el": $('#modal_input_data_sampling_custom_sourcetype_scope')
         }, {
@@ -34913,8 +34913,12 @@ require([
             var tk_keyid = tokens.get("tk_keyid");
             //console.log("tk_keyid is: " + tk_keyid);
 
+            // Retrieve the key id
+            var tk_data_sourcetype = tokens.get("tk_data_sourcetype");
+            //console.log("tk_data_sourcetype is: " + tk_data_sourcetype);
+
             // Built the search URI
-            var similation_events_detail = 'search' + "?q=" + encodeURI("| inputlookup trackme_data_sampling where _key=\"" + tk_keyid + "\" | fields raw_sample | mvexpand raw_sample | eval detected_format = case((sourcetype_scope==\"ANY\" OR isnull(sourcetype_scope) OR sourcetype_scope=\"\"), case(match(raw_sample, \"" + tk_data_sampling_custom_rule_regex + "\"), \"" + tk_data_sampling_custom_rule_name + "\"), sourcetype=sourcetype_scope, case(match(raw_sample, \"" + tk_data_sampling_custom_rule_regex + "\") AND sourcetype=sourcetype_scope, \"" + tk_data_sampling_custom_rule_name + "\")) | eval detected_format_id=md5(detected_format)");
+            var similation_events_detail = 'search' + "?q=" + encodeURI("| inputlookup trackme_data_sampling where _key=\"" + tk_keyid + "\" | fields raw_sample | mvexpand raw_sample | eval sourcetype=\"" + tk_data_sourcetype + "\", sourcetype_scope=\"" + tk_data_sampling_custom_sourcetype_scope + "\" | eval detected_format = case((sourcetype_scope==\"*\"), case(match(raw_sample, \"" + tk_data_sampling_custom_rule_regex + "\"), \"" + tk_data_sampling_custom_rule_name + "\"), in(sourcetype, `trackme_data_sampling_custom_models_simulate_genlist(\"" + tk_data_sampling_custom_sourcetype_scope + "\")`), case(match(raw_sample, \"" + tk_data_sampling_custom_rule_regex + "\"), \"" + tk_data_sampling_custom_rule_name + "\")) | eval detected_format_id=md5(detected_format)");
 
             // Open
             window.open(similation_events_detail,'_blank');
