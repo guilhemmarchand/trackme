@@ -31,7 +31,7 @@
         <search base="percent_main">
           <query>where object_category="data_source" | fields average_percent_sla</query>
         </search>
-        <option name="colorMode">none</option>
+        <option name="colorMode">block</option>
         <option name="drilldown">none</option>
         <option name="numberPrecision">0.00</option>
         <option name="rangeColors">["0xdc4e41","0xf1813f","0x53a051"]</option>
@@ -47,7 +47,7 @@
         <search base="percent_main">
           <query>where object_category="data_host" | fields average_percent_sla</query>
         </search>
-        <option name="colorMode">none</option>
+        <option name="colorMode">block</option>
         <option name="drilldown">none</option>
         <option name="numberPrecision">0.00</option>
         <option name="rangeColors">["0xdc4e41","0xf1813f","0x53a051"]</option>
@@ -63,7 +63,7 @@
         <search base="percent_main">
           <query>where object_category="metric_host" | fields average_percent_sla</query>
         </search>
-        <option name="colorMode">none</option>
+        <option name="colorMode">block</option>
         <option name="drilldown">none</option>
         <option name="numberPrecision">0.00</option>
         <option name="rangeColors">["0xdc4e41","0xf1813f","0x53a051"]</option>
@@ -154,7 +154,7 @@
         <drilldown>
           <link target="_blank">
   <![CDATA[
-/app/trackme/search?q=`trackme_get_sla($row.object$,$row.object_category$)`&earliest=$timerange.earliest$&latest=$timerange.latest$
+/app/trackme/search?q=`trackme_get_sla_details($row.object$,$row.object_category$)`&earliest=$timerange.earliest$&latest=$timerange.latest$
   ]]>
           </link>
         </drilldown>
