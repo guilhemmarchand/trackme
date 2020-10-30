@@ -10002,7 +10002,7 @@ require([
             "tokenDependencies": {
                 "depends": "$show_metric_host_tracker$"
             },
-            "search": "`trackme_get_sla_pct_per_entity(metric_host,$tk_metric_host$,trackme_metric_host_monitoring,metric_host,metric_first_time_seen)`",
+            "search": "`trackme_get_sla_pct_per_entity(metric_host,$tk_metric_host$)`",
             "id": "searchSingleSLAMetricHostpct",
             "sample_ratio": 1,
             "status_buckets": 0,
@@ -10727,7 +10727,7 @@ require([
             "tokenDependencies": {
                 "depends": "$show_data_source_tracker$"
             },
-            "search": "`trackme_get_sla_pct_per_entity(data_source,$tk_data_name$,trackme_data_source_monitoring,data_name,data_first_time_seen)`",
+            "search": "`trackme_get_sla_pct_per_entity(data_source,$tk_data_name$)`",
             "id": "searchSingleSLApct",
             "sample_ratio": 1,
             "status_buckets": 0,
@@ -10927,7 +10927,7 @@ require([
             "tokenDependencies": {
                 "depends": "$show_data_host_tracker$"
             },
-            "search": "`trackme_get_sla_pct_per_entity(data_host,$tk_data_host$,trackme_host_monitoring,data_host,data_first_time_seen)`",
+            "search": "`trackme_get_sla_pct_per_entity(data_host,$tk_data_host$)`",
             "id": "searchSingleSLAHostpct",
             "sample_ratio": 1,
             "status_buckets": 0,

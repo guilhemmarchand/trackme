@@ -154,7 +154,7 @@
         <drilldown>
           <link target="_blank">
   <![CDATA[
-/app/trackme/search?q=`trackme_get_sla($row.object$,$row.object_category$)`&earliest=$timerange.earliest$&latest=$timerange.latest$
+/app/trackme/search?q=`trackme_get_sla_details($row.object$,$row.object_category$)`&earliest=$timerange.earliest$&latest=$timerange.latest$
   ]]>
           </link>
         </drilldown>
