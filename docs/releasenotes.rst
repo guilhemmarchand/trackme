@@ -16,7 +16,7 @@ TrackMe requires a summary index (defaults to trackme_summary) and a metric inde
 https://trackme.readthedocs.io/en/latest/configuration.html
 
 - Feature: Issue #186 - Data sampling - during the creation of a custom rule, its scope can now be restricted to a list of specific sourcetypes #186
-- Feature: Issue #188 - SLA - migrate calculation from flipping state events to current states events
+- Feature: Issue #188 - SLA - migrate calculation from flipping state events to current states events / minor improvements to the SLA dashboard
 
 Version 1.2.25
 ==============
