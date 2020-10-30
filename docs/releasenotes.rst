@@ -16,6 +16,8 @@ TrackMe requires a summary index (defaults to trackme_summary) and a metric inde
 https://trackme.readthedocs.io/en/latest/configuration.html
 
 
+- Feature: Data sampling - during the creation of a custom rule, its scope can now be restricted to a list of specific sourcetypes #186
+
 Version 1.2.25
 ==============
 

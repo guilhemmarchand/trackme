@@ -1066,6 +1066,8 @@ Custom rules provides a workflow to handle any custom sourcetypes and event form
 
 This view allows you to create a new custom rule (button Create custom rules) or remove any existing custom rules that would not be required anymore. (button Remove selected)
 
+Since the version 1.2.26, it is possible to restrict the scope of custom rules to a list of explicit sourcetypes.
+
 **Create custom rules**
 
 This screen alows to test and create a new custom rule based on the current data source:
@@ -1078,8 +1080,9 @@ This screen alows to test and create a new custom rule based on the current data
 
 To create a new custom rule:
 
-- Enter a name for the format, this name ia string of your choice that will be used to idenfity the format, it needs to be unique for the entire custom source collection and will be converted into an md5 sum
+- Enter a name for the format, this name is a string of your choice that will be used to idenfity the format, it needs to be unique for the entire custom source collection and will be converted into an md5 hash automatically
 - Enter a valid regular expression that uniquely identifies the events format
+- Optionally restrict the scope of application by sourcetype, you can specify one or more sourcetypes under the form of a comma separated list of values
 - Click on "Run model simulation" to simulate the exectution of the new models
 - Optionnaly click on "Show sample events" to view a mini sample of the events within the screen
 - Optionnaly click on ""Open simulation results in search" to open the details of the rules processing per event in the search UI

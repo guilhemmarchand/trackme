@@ -34918,7 +34918,8 @@ require([
             //console.log("tk_data_sourcetype is: " + tk_data_sourcetype);
 
             // Built the search URI
-            var similation_events_detail = 'search' + "?q=" + encodeURI("| inputlookup trackme_data_sampling where _key=\"" + tk_keyid + "\" | fields raw_sample | mvexpand raw_sample | eval sourcetype=\"" + tk_data_sourcetype + "\", sourcetype_scope=\"" + tk_data_sampling_custom_sourcetype_scope + "\" | eval detected_format = case((sourcetype_scope==\"*\"), case(match(raw_sample, \"" + tk_data_sampling_custom_rule_regex + "\"), \"" + tk_data_sampling_custom_rule_name + "\"), in(sourcetype, `trackme_data_sampling_custom_models_simulate_genlist(\"" + tk_data_sampling_custom_sourcetype_scope + "\")`), case(match(raw_sample, \"" + tk_data_sampling_custom_rule_regex + "\"), \"" + tk_data_sampling_custom_rule_name + "\")) | eval detected_format_id=md5(detected_format)");
+            var similation_events_detail = 'search' + "?q=" + encodeURIComponent("| inputlookup trackme_data_sampling where _key=\"" + tk_keyid + "\" | fields raw_sample | mvexpand raw_sample | eval sourcetype=\"" + tk_data_sourcetype + "\", sourcetype_scope=\"" + tk_data_sampling_custom_sourcetype_scope + "\" | eval detected_format = case((sourcetype_scope==\"*\"), case(match(raw_sample, \"" + tk_data_sampling_custom_rule_regex + "\"), \"" + tk_data_sampling_custom_rule_name + "\"), in(sourcetype, `trackme_data_sampling_custom_models_simulate_genlist(\"" + tk_data_sampling_custom_sourcetype_scope + "\")`), case(match(raw_sample, \"" + tk_data_sampling_custom_rule_regex + "\"), \"" + tk_data_sampling_custom_rule_name + "\")) | eval detected_format_id=md5(detected_format)");
+            console.log("similation_events_detail is: " + similation_events_detail);
 
             // Open
             window.open(similation_events_detail,'_blank');
