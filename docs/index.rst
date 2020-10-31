@@ -67,6 +67,7 @@ Overview:
 
 .. toctree::
    :maxdepth: 2
+   :caption: Overview
 
    about
    compatibility
@@ -78,6 +79,7 @@ Deployment and configuration:
 
 .. toctree::
    :maxdepth: 2
+   :caption: Deployment and configuration
 
    deployment
    configuration
@@ -87,6 +89,7 @@ User guide:
 
 .. toctree::
    :maxdepth: 2
+   :caption: Usage
 
    userguide
    itsi_integration
@@ -96,13 +99,15 @@ Troubleshoot:
 
 .. toctree::
    :maxdepth: 1
+   :caption: Troubleshoot
 
    FAQ
 
-Versioniong and build history:
-==============================
+Versioning and build history:
+=============================
 
 .. toctree::
    :maxdepth: 1
+   :caption: Versioning
 
    releasenotes.rst
