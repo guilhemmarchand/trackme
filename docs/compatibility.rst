@@ -4,14 +4,20 @@ Compatibility
 Splunk compatibility
 ####################
 
-This application is compatible with Splunk 7.2.x and later.
+.. admonition:: Splunk core
+
+    - TrackMe is compatible with Splunk 7.2.x and later.
 
 The previous main branch of TrackMe (V1.1.x) was compatible with Splunk versions starting from Splunk 7.0.x, which changed from 7.2.x due to the usage of the mcollect command.
 
 Splunk Cloud compatibility
 ##########################
 
-**TracMe is vetted for Splunk Cloud deployment.**
+.. admonition:: Splunk Cloud vetting
+
+    - TrackMe is vetted for Splunk Cloud deployments
+    - When a new release is pubished, there can be some time before the last release is vetted
+    - Even if the latest release would not be vetted yet, open a request to Cloud Ops and the vetting process will be achieved
 
 *Splunk Cloud notes:*
 
