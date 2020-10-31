@@ -7025,6 +7025,118 @@ styles in <div> tags, similar to Bootstrap's grid system.
         </div>
     </div>
 
+    <!-- RUN TRACKERS -->
+
+    <!-- data_sources -->
+
+    <div id="main_modal_run_data_source_trackers" class="dashboard-element html" style="width: 100%">
+        <div class="panel-body html">
+            <div class="modal custom-modal-50 fade" id="modal_run_data_source_trackers" role="dialog">
+                <div class="modal-dialog">
+                    <!-- Modal content-->
+                    <div class="modal-content">
+                        <div class="dashboard-element html">
+                            <div class="panel-body html">
+                                <div class="modal-header modal-header-info">
+                                    <h1 style="color: white;">Trackers: data sources</h1>
+                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                </div>
+
+                                <br />
+
+                                <div class="modal-body" style="margin-top: 20px;">
+                                    <span class="title_green">Main tracker reports:</span>
+                                </div>
+
+                                <div class="modal-body" style="display:grid;">
+                                    <lu>
+                                        <li>Use "Run: short term tracker now" button to run the regular data sources tracker for short term period (-24h / +4h)</li>
+                                        <li>Use "Run: long term tracker now" button to run the regular data sources tracker for long term period (-7d / +4h)</li>
+                                        <li>Use "Run: Elastic shared tracker now" button to run the tracker report for shared Elastic sources (-4h / +4h)</li>
+                                    </lu>
+                                </div>
+
+                                <div class="modal-body" style="margin-top: 20px;">
+                                    <span class="title_green">Data sampling &amp; events format recognition</span>
+                                </div>
+
+                                <div class="modal-body" style="display:grid;">
+                                    <lu>
+                                        <li>Use "Run: data sampling now" button to run the data sampling and format recognition tracker (-24h / +4h)</li>
+                                    </lu>
+                                </div>
+
+                                <br />
+
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <div class="custom-btn">
+                                <button type="submit" id="btn_run_tracker" style="margin-right: 15px;" class="btn btn-outline-secondary"><span class="glyphicon glyphicon-remove"></span> Run: short term tracker now</button>
+                            </div>
+                            <div class="custom-btn">
+                                <button type="submit" id="btn_run_tracker_longterm" style="margin-right: 15px;" class="btn btn-outline-secondary"><span class="glyphicon glyphicon-remove"></span> Run: long term tracker now</button>
+                            </div>
+                            <div class="custom-btn">
+                                <button type="submit" id="btn_run_tracker_shared_elastic" style="margin-right: 15px;" class="btn btn-outline-secondary"><span class="glyphicon glyphicon-remove"></span> Run: Elastic shared tracker now</button>
+                            </div>
+                            <div class="custom-btn">
+                                <button type="submit" id="btn_run_tracker_data_sampling" style="margin-right: 15px;" class="btn btn-outline-secondary"><span class="glyphicon glyphicon-remove"></span> Run: Data Sampling now</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- data_hosts -->
+
+    <div id="main_modal_run_data_host_trackers" class="dashboard-element html" style="width: 100%">
+        <div class="panel-body html">
+            <div class="modal custom-modal-50 fade" id="modal_run_data_host_trackers" role="dialog">
+                <div class="modal-dialog">
+                    <!-- Modal content-->
+                    <div class="modal-content">
+                        <div class="dashboard-element html">
+                            <div class="panel-body html">
+                                <div class="modal-header modal-header-info">
+                                    <h1 style="color: white;">Trackers: data hosts</h1>
+                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                </div>
+
+                                <br />
+
+                                <div class="modal-body" style="margin-top: 20px;">
+                                    <span class="title_green">Main tracker reports:</span>
+                                </div>
+
+                                <div class="modal-body" style="display:grid;">
+                                    <br />
+                                    <lu>
+                                        <li>Use "Run: short term tracker now" button to run the regular data hosts tracker for short term period (-24h / +4h)</li>
+                                        <li>Use "Run: long term tracker now" button to run the regular data hosts tracker for long term period (-7d / +4h)</li>
+                                    </lu>
+                                </div>
+
+                                <br />
+
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <div class="custom-btn">
+                                <button type="submit" id="btn_run_tracker_host" style="margin-right: 15px;" class="btn btn-outline-secondary"><span class="glyphicon glyphicon-remove"></span> Run: short term tracker now</button>
+                            </div>
+                            <div class="custom-btn">
+                                <button type="submit" id="btn_run_tracker_host_longterm" style="margin-right: 15px;" class="btn btn-outline-secondary"><span class="glyphicon glyphicon-remove"></span> Run: long term tracker now</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- whitelist & blacklist -->
 
     <!-- Modal main -->
@@ -8429,11 +8541,11 @@ styles in <div> tags, similar to Bootstrap's grid system.
                                 <div class="btn_modify_tags_policies custom-btn">
                                     <button type="submit" style="margin-right: 15px;" class="btn btn-outline-primary" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Manage: tags policies</button>
                                 </div>
-                                <div class="custom-btn">
-                                    <button type="submit" id="btn_run_tracker" style="margin-right: 15px;" class="btn btn-outline-secondary"><span class="glyphicon glyphicon-remove"></span> Run: short term tracker now</button>
+                                <div class="btn_modify_data_sampling_rules custom-btn">
+                                    <button type="submit" style="margin-right: 15px;" class="btn btn-outline-primary" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Manage: data sampling</button>
                                 </div>
                                 <div class="custom-btn">
-                                    <button type="submit" id="btn_run_tracker_longterm" style="margin-right: 15px;" class="btn btn-outline-secondary"><span class="glyphicon glyphicon-remove"></span> Run: long term tracker now</button>
+                                    <button type="submit" id="btn_run_trackers" style="margin-right: 15px;" class="btn btn-outline-secondary"><span class="glyphicon glyphicon-remove"></span> Run: Trackers reports</button>
                                 </div>
                             </div>
                             <div style="float: left;">
@@ -8514,10 +8626,7 @@ styles in <div> tags, similar to Bootstrap's grid system.
                                     <button type="submit" style="margin-right: 15px;" class="btn btn-outline-primary" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Manage: define lagging classes</button>
                                 </div>
                                 <div class="custom-btn">
-                                    <button type="submit" id="btn_run_tracker_host" style="margin-right: 15px;" class="btn btn-outline-secondary"><span class="glyphicon glyphicon-remove"></span> Run: short term tracker now</button>
-                                </div>
-                                <div class="custom-btn">
-                                    <button type="submit" id="btn_run_tracker_host_longterm" style="margin-right: 15px;" class="btn btn-outline-secondary"><span class="glyphicon glyphicon-remove"></span> Run: long term tracker now</button>
+                                    <button type="submit" id="btn_run_data_host_trackers" style="margin-right: 15px;" class="btn btn-outline-secondary"><span class="glyphicon glyphicon-remove"></span> Run: Trackers reports</button>
                                 </div>
                             </div>
                             <div style="float: left;">
@@ -28092,6 +28201,16 @@ require([
         // RUN TRACKERS
         //
 
+        $("#btn_run_trackers").click(function() {
+                // Show input modal
+                $("#modal_run_data_source_trackers").modal();
+        });
+
+        $("#btn_run_data_host_trackers").click(function() {
+                // Show input modal
+                $("#modal_run_data_host_trackers").modal();
+        });
+
         //
         // UPDATE COLLECTION
         //
@@ -28100,6 +28219,8 @@ require([
 
         $("#btn_run_tracker").click(function() {
             submitTokens();
+
+            $("#modal_run_data_source_trackers").modal('hide');
 
             // When the Submit button is clicked, get all the form fields by accessing token values
             var tokens = mvc.Components.get("default");
@@ -28188,6 +28309,8 @@ require([
 
         $("#btn_run_tracker_host").click(function() {
             submitTokens();
+
+            $("#modal_run_data_host_trackers").modal('hide');
 
             // When the Submit button is clicked, get all the form fields by accessing token values
             var tokens = mvc.Components.get("default");
@@ -28279,9 +28402,10 @@ require([
         $("#btn_run_tracker_longterm").click(function() {
             submitTokens();
 
+            $("#modal_run_data_source_trackers").modal('hide');
+
             // When the Submit button is clicked, get all the form fields by accessing token values
             var tokens = mvc.Components.get("default");
-
 
             //console.log("Start collection update");
 
@@ -28368,9 +28492,10 @@ require([
         $("#btn_run_tracker_host_longterm").click(function() {
             submitTokens();
 
+            $("#modal_run_data_host_trackers").modal('hide');
+
             // When the Submit button is clicked, get all the form fields by accessing token values
             var tokens = mvc.Components.get("default");
-
 
             //console.log("Start collection update");
 
@@ -28426,6 +28551,190 @@ require([
 
                                 // Once the job is done, update all searches
                                 searchDataHostsMain.startSearch();
+
+                                $("#loadingGray").remove()
+                                $("#modal_update_collection_done").modal()
+
+                            },
+                            failed: function(properties) {
+                                let errorStr = "Unknown Error!";
+                                if (properties && properties._properties && properties._properties.messages && properties._properties.messages[0]['text']) {
+                                    errorStr = properties._properties.messages[0]['text'];
+                                } else if (properties && properties._properties && properties._properties.messages) {
+                                    errorStr = JSON.stringify(properties._properties.messages);
+                                }
+                                $("#loadingGray").remove()
+                                $("#modal_update_collection_failure_return").find('.modal-error-message p').text(errorStr);
+                                $("#modal_update_collection_failure_return").modal()
+                            },
+                            error: function(err) {
+                                done(err);
+                                $("#loadingGray").remove()
+                                $("#modal_update_collection_failure").modal()
+                            }
+                        });
+                    }
+                }
+            );
+
+        });
+
+        // Elastic shared tracker
+
+        $("#btn_run_tracker_shared_elastic").click(function() {
+            submitTokens();
+
+            $("#modal_run_data_source_trackers").modal('hide');
+
+            // When the Submit button is clicked, get all the form fields by accessing token values
+            var tokens = mvc.Components.get("default");
+
+            //console.log("Start collection update");
+
+            // Define the query
+            var searchQuery = "| savedsearch \"TrackMe - Elastic sources shared tracker\"";
+
+            // Set the search parameters--specify a time range
+            var searchParams = {
+                earliest_time: "-4h",
+                latest_time: "+4h"
+            };
+
+            // Run a normal search that immediately returns the job's SID
+            service.search(
+                searchQuery,
+                searchParams,
+                function(err, job) {
+
+                    $("#loadingGray").remove()
+                    $("body").append('<div id="loadingGray" style="background: #e9e9e9; display: block; position: fixed; z-index: 100; top: 0; right: 0; bottom: 0; left: 0; height: 100%; opacity: 0.8;"><div style="width: 100%; margin-top: 250px; padding-bottom: 50px; text-align: center;"><p style="font-size: 18pt; font-weight: bolder;">Running the Elastic sources Shared tracker...</p></div><div id="spinner"></div></div>')
+
+                    require(["jquery",
+                            "/static/app/trackme/spin.js"
+                        ],
+                        function($,
+                            Spinner
+                        ) {
+                            new Spinner({
+                                lines: 12,
+                                position: "relative"
+                            }).spin(document.getElementById('spinner'));
+                        })
+
+                    // Shall the search fail before we can get properties
+                    if (job == null) {
+                        let errorStr = "Unknown Error!";
+                        if (err && err.data && err.data.messages && err.data.messages[0]['text']) {
+                            errorStr = err.data.messages[0]['text'];
+                        } else if (err && err.data && err.data.messages) {
+                            errorStr = JSON.stringify(err.data.messages);
+                        }
+                        $("#loadingGray").remove()
+                        $("#modal_update_collection_failure_return").find('.modal-error-message p').text(errorStr);
+                        $("#modal_update_collection_failure_return").modal()
+                    } else {
+
+                        // Poll the status of the search job
+                        job.track({
+                            period: 200
+                        }, {
+                            done: function(job) {
+                                //console.log("Done!");
+
+                                // Once the job is done, update all searches
+                                searchDataSourcesMain.startSearch();
+
+                                $("#loadingGray").remove()
+                                $("#modal_update_collection_done").modal()
+
+                            },
+                            failed: function(properties) {
+                                let errorStr = "Unknown Error!";
+                                if (properties && properties._properties && properties._properties.messages && properties._properties.messages[0]['text']) {
+                                    errorStr = properties._properties.messages[0]['text'];
+                                } else if (properties && properties._properties && properties._properties.messages) {
+                                    errorStr = JSON.stringify(properties._properties.messages);
+                                }
+                                $("#loadingGray").remove()
+                                $("#modal_update_collection_failure_return").find('.modal-error-message p').text(errorStr);
+                                $("#modal_update_collection_failure_return").modal()
+                            },
+                            error: function(err) {
+                                done(err);
+                                $("#loadingGray").remove()
+                                $("#modal_update_collection_failure").modal()
+                            }
+                        });
+                    }
+                }
+            );
+
+        });
+
+        // Data Sampling tracker
+
+        $("#btn_run_tracker_data_sampling").click(function() {
+            submitTokens();
+
+            $("#modal_run_data_source_trackers").modal('hide');
+
+            // When the Submit button is clicked, get all the form fields by accessing token values
+            var tokens = mvc.Components.get("default");
+
+            //console.log("Start collection update");
+
+            // Define the query
+            var searchQuery = "| savedsearch \"TrackMe - Data sampling and format detection tracker\"";
+
+            // Set the search parameters--specify a time range
+            var searchParams = {
+                earliest_time: "-24h",
+                latest_time: "+4h"
+            };
+
+            // Run a normal search that immediately returns the job's SID
+            service.search(
+                searchQuery,
+                searchParams,
+                function(err, job) {
+
+                    $("#loadingGray").remove()
+                    $("body").append('<div id="loadingGray" style="background: #e9e9e9; display: block; position: fixed; z-index: 100; top: 0; right: 0; bottom: 0; left: 0; height: 100%; opacity: 0.8;"><div style="width: 100%; margin-top: 250px; padding-bottom: 50px; text-align: center;"><p style="font-size: 18pt; font-weight: bolder;">Running the Data sampling & events format recognition tracker...</p></div><div id="spinner"></div></div>')
+
+                    require(["jquery",
+                            "/static/app/trackme/spin.js"
+                        ],
+                        function($,
+                            Spinner
+                        ) {
+                            new Spinner({
+                                lines: 12,
+                                position: "relative"
+                            }).spin(document.getElementById('spinner'));
+                        })
+
+                    // Shall the search fail before we can get properties
+                    if (job == null) {
+                        let errorStr = "Unknown Error!";
+                        if (err && err.data && err.data.messages && err.data.messages[0]['text']) {
+                            errorStr = err.data.messages[0]['text'];
+                        } else if (err && err.data && err.data.messages) {
+                            errorStr = JSON.stringify(err.data.messages);
+                        }
+                        $("#loadingGray").remove()
+                        $("#modal_update_collection_failure_return").find('.modal-error-message p').text(errorStr);
+                        $("#modal_update_collection_failure_return").modal()
+                    } else {
+
+                        // Poll the status of the search job
+                        job.track({
+                            period: 200
+                        }, {
+                            done: function(job) {
+                                //console.log("Done!");
+
+                                // Once the job is done, update all searches
+                                searchDataSourcesMain.startSearch();
 
                                 $("#loadingGray").remove()
                                 $("#modal_update_collection_done").modal()
@@ -33965,7 +34274,18 @@ require([
             $btn_group.find('button').on('click', function() {
                 var $btn = $(this);
                 //console.log("Button was clicked");
-                $("#modal_manage").modal()
+
+                var tk_data_sampling_custom_rule_back_btn_target = tokens.get("tk_data_sampling_custom_rule_back_btn_target");
+                //console.log("tk_data_sampling_custom_rule_back_btn_target is: " + tk_data_sampling_custom_rule_back_btn_target);
+
+                // define the back button target action
+                if (tk_data_sampling_custom_rule_back_btn_target === "from_data_source") {
+                    $("#modal_manage").modal()
+                }
+                else if (tk_data_sampling_custom_rule_back_btn_target === "from_main") {
+                    $("data_sampling_create_custom_rules").modal("hide")
+                }
+
             });
         });
 
@@ -33989,7 +34309,7 @@ require([
             });
         });
 
-        // Show custom rules
+        // Show custom rules from data source
         $('.btn_data_sampling_custom_rules_view').each(function() {
             var $btn_group = $(this);
             $btn_group.find('button').on('click', function() {
@@ -34000,6 +34320,31 @@ require([
 
                 // When the Submit button is clicked, get all the form fields by accessing token values
                 var tokens = mvc.Components.get("default");
+
+                // Create a token used to decide the back button target
+                setToken("tk_data_sampling_custom_rule_back_btn_target", "from_data_source");
+
+                // force re-run the search each time the button is clicked
+                searchDataSamplingShowCustomRules.startSearch();
+
+                $("#data_sampling_show_custom_rules").modal()
+            });
+        });
+
+        // Show custom rules from main
+        $('.btn_modify_data_sampling_rules').each(function() {
+            var $btn_group = $(this);
+            $btn_group.find('button').on('click', function() {
+                var $btn = $(this);
+                //console.log("Button was clicked");
+
+                submitTokens();
+
+                // When the Submit button is clicked, get all the form fields by accessing token values
+                var tokens = mvc.Components.get("default");
+
+                // Create a token used to decide the back button target
+                setToken("tk_data_sampling_custom_rule_back_btn_target", "from_main");
 
                 // force re-run the search each time the button is clicked
                 searchDataSamplingShowCustomRules.startSearch();
@@ -34014,7 +34359,18 @@ require([
             $btn_group.find('button').on('click', function() {
                 var $btn = $(this);
                 //console.log("Button was clicked");
-                $("#data_sampling_manage").modal()
+
+                var tk_data_sampling_custom_rule_back_btn_target = tokens.get("tk_data_sampling_custom_rule_back_btn_target");
+                //console.log("tk_data_sampling_custom_rule_back_btn_target is: " + tk_data_sampling_custom_rule_back_btn_target);
+
+                // define the back button target action
+                if (tk_data_sampling_custom_rule_back_btn_target === "from_data_source") {
+                    $("#data_sampling_manage").modal()
+                }
+                else if (tk_data_sampling_custom_rule_back_btn_target === "from_main") {
+                    $("data_sampling_create_custom_rules").modal("hide")
+                }
+                
             });
         });
 
@@ -34919,7 +35275,7 @@ require([
 
             // Built the search URI
             var similation_events_detail = 'search' + "?q=" + encodeURIComponent("| inputlookup trackme_data_sampling where _key=\"" + tk_keyid + "\" | fields raw_sample | mvexpand raw_sample | eval sourcetype=\"" + tk_data_sourcetype + "\", sourcetype_scope=\"" + tk_data_sampling_custom_sourcetype_scope + "\" | eval detected_format = case((sourcetype_scope==\"*\"), case(match(raw_sample, \"" + tk_data_sampling_custom_rule_regex + "\"), \"" + tk_data_sampling_custom_rule_name + "\"), in(sourcetype, `trackme_data_sampling_custom_models_simulate_genlist(\"" + tk_data_sampling_custom_sourcetype_scope + "\")`), case(match(raw_sample, \"" + tk_data_sampling_custom_rule_regex + "\"), \"" + tk_data_sampling_custom_rule_name + "\")) | eval detected_format_id=md5(detected_format)");
-            console.log("similation_events_detail is: " + similation_events_detail);
+            //console.log("similation_events_detail is: " + similation_events_detail);
 
             // Open
             window.open(similation_events_detail,'_blank');
