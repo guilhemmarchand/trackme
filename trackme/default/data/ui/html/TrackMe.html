@@ -17299,7 +17299,7 @@ require([
         elementSingleSLAMetricHostpct.on("click", function(e) {
             if (e.field !== undefined) {
                 e.preventDefault();
-                var url = TokenUtils.replaceTokenNames("{{SPLUNKWEB_URL_PREFIX}}/app/trackme/search?q=%20%60trackme_get_sla($tk_metric_host$,metric_host)%60&earliest=-90d@d&latest=now", _.extend(submittedTokenModel.toJSON(), e.data), TokenUtils.getEscaper('url'), TokenUtils.getFilters(mvc.Components));
+                var url = TokenUtils.replaceTokenNames("{{SPLUNKWEB_URL_PREFIX}}/app/trackme/trackMe_qos?form.timerange.earliest=-90d%40d&form.timerange.latest=now&form.object_category=metric_host&form.object_freetext=*&form.object=$tk_metric_host$&form.priority=*", _.extend(submittedTokenModel.toJSON(), e.data), TokenUtils.getEscaper('url'), TokenUtils.getFilters(mvc.Components));
                 utils.redirect(url, false, "_blank");
             }
         });
@@ -18231,7 +18231,7 @@ require([
         elementSingleSLApct.on("click", function(e) {
             if (e.field !== undefined) {
                 e.preventDefault();
-                var url = TokenUtils.replaceTokenNames("{{SPLUNKWEB_URL_PREFIX}}/app/trackme/search?q=%20%60trackme_get_sla($tk_data_name$,data_source)%60&earliest=-90d@d&latest=now", _.extend(submittedTokenModel.toJSON(), e.data), TokenUtils.getEscaper('url'), TokenUtils.getFilters(mvc.Components));
+                var url = TokenUtils.replaceTokenNames("{{SPLUNKWEB_URL_PREFIX}}/app/trackme/trackMe_qos?form.timerange.earliest=-90d%40d&form.timerange.latest=now&form.object_category=data_source&form.object_freetext=*&form.object=$tk_data_name$&form.priority=*", _.extend(submittedTokenModel.toJSON(), e.data), TokenUtils.getEscaper('url'), TokenUtils.getFilters(mvc.Components));
                 utils.redirect(url, false, "_blank");
             }
         });
@@ -18524,7 +18524,7 @@ require([
         elementSingleSLAHostpct.on("click", function(e) {
             if (e.field !== undefined) {
                 e.preventDefault();
-                var url = TokenUtils.replaceTokenNames("{{SPLUNKWEB_URL_PREFIX}}/app/trackme/search?q=%20%60trackme_get_sla($tk_data_host$,data_host)%60&earliest=-90d@d&latest=now", _.extend(submittedTokenModel.toJSON(), e.data), TokenUtils.getEscaper('url'), TokenUtils.getFilters(mvc.Components));
+                var url = TokenUtils.replaceTokenNames("{{SPLUNKWEB_URL_PREFIX}}/app/trackme/trackMe_qos?form.timerange.earliest=-90d%40d&form.timerange.latest=now&form.object_category=data_host&form.object_freetext=*&form.object=$tk_data_host$&form.priority=*", _.extend(submittedTokenModel.toJSON(), e.data), TokenUtils.getEscaper('url'), TokenUtils.getFilters(mvc.Components));
                 utils.redirect(url, false, "_blank");
             }
         });
