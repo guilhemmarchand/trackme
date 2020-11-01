@@ -9356,6 +9356,11 @@ require([
             tokenNamespace: "submitted"
         });
 
+        searchMainAuditFlip.on("search:done", function () {
+            // function here
+            $("#loadingGrayInitial").remove()
+        })
+
         var searchMainAuditFlipTable = new PostProcessManager({
             "tokenDependencies": {},
             "search": "sort limit=10000 - _time",
@@ -9921,6 +9926,11 @@ require([
             tokenNamespace: "submitted"
         });
 
+        searchMainAuditChanges.on("search:done", function () {
+            // function here
+            $("#loadingGrayInitial").remove()
+        })
+
         var searchMainAuditChangesPopulate = new SearchManager({
             "id": "searchMainAuditChangesPopulate",
             "earliest_time": "$timerange_audit_changes.earliest$",
@@ -10043,6 +10053,11 @@ require([
             tokens: true,
             tokenNamespace: "submitted"
         });
+
+        searchMetricHostsMain.on("search:done", function () {
+            // function here
+            $("#loadingGrayInitial").remove()
+        })
 
         var searchMainTableMetricHost = new PostProcessManager({
             "tokenDependencies": {},
@@ -10169,6 +10184,11 @@ require([
             tokens: true,
             tokenNamespace: "submitted"
         });
+
+        searchDataHostsMain.on("search:done", function () {
+            // function here
+            $("#loadingGrayInitial").remove()
+        })
 
         var searchMainTableHost = new PostProcessManager({
             "tokenDependencies": {},
