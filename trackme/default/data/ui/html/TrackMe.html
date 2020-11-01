@@ -2302,6 +2302,10 @@ styles in <div> tags, similar to Bootstrap's grid system.
                                         </fieldset>
                                     </form>
 
+                                    <div class="input input-text" id="modal_input_data_sampling_custom_sourcetype_scope" style="margin-top: -25px; margin-bottom: 20px; max-width: 1100px;">
+                                        <label>Sourcetype scope: to restrict this custom rule, enter the value of the sourcetype scope, you can enter a list of sourcetypes as a comma separated list of values (wilcards and spaces are not accepted)</label>
+                                    </div>
+
                                     <div style="margin-top: 15x;">
                                         <div style="margin-right: 15px; float: left;">
                                             <button type="submit" id="btn_modal_data_sampling_custom_rule_show_sample" class="btn btn-default btn-primary"><span class="glyphicon glyphicon-remove"></span> Show sample events</button>
@@ -7021,6 +7025,118 @@ styles in <div> tags, similar to Bootstrap's grid system.
         </div>
     </div>
 
+    <!-- RUN TRACKERS -->
+
+    <!-- data_sources -->
+
+    <div id="main_modal_run_data_source_trackers" class="dashboard-element html" style="width: 100%">
+        <div class="panel-body html">
+            <div class="modal custom-modal-50 fade" id="modal_run_data_source_trackers" role="dialog">
+                <div class="modal-dialog">
+                    <!-- Modal content-->
+                    <div class="modal-content">
+                        <div class="dashboard-element html">
+                            <div class="panel-body html">
+                                <div class="modal-header modal-header-info">
+                                    <h1 style="color: white;">Trackers: data sources</h1>
+                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                </div>
+
+                                <br />
+
+                                <div class="modal-body" style="margin-top: 20px;">
+                                    <span class="title_blue">Main tracker reports:</span>
+                                </div>
+
+                                <div class="modal-body" style="display:grid;">
+                                    <lu>
+                                        <li>Use "Run: short term tracker now" button to run the regular data sources tracker for short term period (-24h / +4h)</li>
+                                        <li>Use "Run: long term tracker now" button to run the regular data sources tracker for long term period (-7d / +4h)</li>
+                                        <li>Use "Run: Elastic shared tracker now" button to run the tracker report for shared Elastic sources (-4h / +4h)</li>
+                                    </lu>
+                                </div>
+
+                                <div class="modal-body" style="margin-top: 20px;">
+                                    <span class="title_blue">Data sampling &amp; events format recognition</span>
+                                </div>
+
+                                <div class="modal-body" style="display:grid;">
+                                    <lu>
+                                        <li>Use "Run: data sampling now" button to run the data sampling and format recognition tracker (-24h / +4h)</li>
+                                    </lu>
+                                </div>
+
+                                <br />
+
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <div class="custom-btn">
+                                <button type="submit" id="btn_run_tracker" style="margin-right: 15px;" class="btn btn-outline-secondary"><span class="glyphicon glyphicon-remove"></span> Run: short term tracker now</button>
+                            </div>
+                            <div class="custom-btn">
+                                <button type="submit" id="btn_run_tracker_longterm" style="margin-right: 15px;" class="btn btn-outline-secondary"><span class="glyphicon glyphicon-remove"></span> Run: long term tracker now</button>
+                            </div>
+                            <div class="custom-btn">
+                                <button type="submit" id="btn_run_tracker_shared_elastic" style="margin-right: 15px;" class="btn btn-outline-secondary"><span class="glyphicon glyphicon-remove"></span> Run: Elastic shared tracker now</button>
+                            </div>
+                            <div class="custom-btn">
+                                <button type="submit" id="btn_run_tracker_data_sampling" style="margin-right: 15px;" class="btn btn-outline-secondary"><span class="glyphicon glyphicon-remove"></span> Run: Data Sampling now</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- data_hosts -->
+
+    <div id="main_modal_run_data_host_trackers" class="dashboard-element html" style="width: 100%">
+        <div class="panel-body html">
+            <div class="modal custom-modal-50 fade" id="modal_run_data_host_trackers" role="dialog">
+                <div class="modal-dialog">
+                    <!-- Modal content-->
+                    <div class="modal-content">
+                        <div class="dashboard-element html">
+                            <div class="panel-body html">
+                                <div class="modal-header modal-header-info">
+                                    <h1 style="color: white;">Trackers: data hosts</h1>
+                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                </div>
+
+                                <br />
+
+                                <div class="modal-body" style="margin-top: 20px;">
+                                    <span class="title_blue">Main tracker reports:</span>
+                                </div>
+
+                                <div class="modal-body" style="display:grid;">
+                                    <br />
+                                    <lu>
+                                        <li>Use "Run: short term tracker now" button to run the regular data hosts tracker for short term period (-24h / +4h)</li>
+                                        <li>Use "Run: long term tracker now" button to run the regular data hosts tracker for long term period (-7d / +4h)</li>
+                                    </lu>
+                                </div>
+
+                                <br />
+
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <div class="custom-btn">
+                                <button type="submit" id="btn_run_tracker_host" style="margin-right: 15px;" class="btn btn-outline-secondary"><span class="glyphicon glyphicon-remove"></span> Run: short term tracker now</button>
+                            </div>
+                            <div class="custom-btn">
+                                <button type="submit" id="btn_run_tracker_host_longterm" style="margin-right: 15px;" class="btn btn-outline-secondary"><span class="glyphicon glyphicon-remove"></span> Run: long term tracker now</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- whitelist & blacklist -->
 
     <!-- Modal main -->
@@ -8425,11 +8541,11 @@ styles in <div> tags, similar to Bootstrap's grid system.
                                 <div class="btn_modify_tags_policies custom-btn">
                                     <button type="submit" style="margin-right: 15px;" class="btn btn-outline-primary" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Manage: tags policies</button>
                                 </div>
-                                <div class="custom-btn">
-                                    <button type="submit" id="btn_run_tracker" style="margin-right: 15px;" class="btn btn-outline-secondary"><span class="glyphicon glyphicon-remove"></span> Run: short term tracker now</button>
+                                <div class="btn_modify_data_sampling_rules custom-btn">
+                                    <button type="submit" style="margin-right: 15px;" class="btn btn-outline-primary" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Manage: data sampling</button>
                                 </div>
                                 <div class="custom-btn">
-                                    <button type="submit" id="btn_run_tracker_longterm" style="margin-right: 15px;" class="btn btn-outline-secondary"><span class="glyphicon glyphicon-remove"></span> Run: long term tracker now</button>
+                                    <button type="submit" id="btn_run_trackers" style="margin-right: 15px;" class="btn btn-outline-secondary"><span class="glyphicon glyphicon-remove"></span> Run: Trackers reports</button>
                                 </div>
                             </div>
                             <div style="float: left;">
@@ -8510,10 +8626,7 @@ styles in <div> tags, similar to Bootstrap's grid system.
                                     <button type="submit" style="margin-right: 15px;" class="btn btn-outline-primary" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Manage: define lagging classes</button>
                                 </div>
                                 <div class="custom-btn">
-                                    <button type="submit" id="btn_run_tracker_host" style="margin-right: 15px;" class="btn btn-outline-secondary"><span class="glyphicon glyphicon-remove"></span> Run: short term tracker now</button>
-                                </div>
-                                <div class="custom-btn">
-                                    <button type="submit" id="btn_run_tracker_host_longterm" style="margin-right: 15px;" class="btn btn-outline-secondary"><span class="glyphicon glyphicon-remove"></span> Run: long term tracker now</button>
+                                    <button type="submit" id="btn_run_data_host_trackers" style="margin-right: 15px;" class="btn btn-outline-secondary"><span class="glyphicon glyphicon-remove"></span> Run: Trackers reports</button>
                                 </div>
                             </div>
                             <div style="float: left;">
@@ -8807,6 +8920,21 @@ require([
 
         var pageLoading = true;
 
+        // Run initial spinner, gets removed once the main search from data sources is done
+        $("body").append('<div id="loadingGrayInitial" style="background: #e9e9e9; display: block; position: fixed; z-index: 100; top: 0; right: 0; bottom: 0; left: 0; height: 100%; opacity: 0.8;"><div style="width: 100%; margin-top: 250px; padding-bottom: 50px; text-align: center;"><p style="font-size: 18pt; font-weight: bolder; color: #003b59;">TrackMe is loading, please wait...</p></div><div id="spinner"></div></div>')
+
+        require(["jquery",
+                "/static/app/trackme/spin.js"
+            ],
+            function($,
+                Spinner
+            ) {
+                new Spinner({
+                    lines: 12, length: 18,
+                    position: "relative", color: "#003b59"
+                }).spin(document.getElementById('spinner'));
+            })
+
         //
         // FUNCTIONS
         //
@@ -9035,6 +9163,11 @@ require([
             tokenNamespace: "submitted"
         });
 
+        searchDataSourcesMain.on("search:done", function () {
+            // function here
+            $("#loadingGrayInitial").remove()
+        })
+
         var searchDataSourcesPostTable = new PostProcessManager({
             "tokenDependencies": {},
             "search": "makemv delim=\" / \" tags | search $inputDataName$ $inputDataIndex$ $inputDataSourcetype$ $inputTags$ $data_source_state$ $data_monitored_state$ $inputDataPriority$\n| fillnull data_last_lag_seen, data_last_ingestion_lag_seen\n| eval data_last_lag_seen=round(data_last_lag_seen, 0) | eval data_last_ingestion_lag_seen=round(data_last_ingestion_lag_seen, 0) | fillnull value=\"N/A\" data_last_lag_seen, data_last_ingestion_lag_seen\n| eval \"lag summary (lag event / lag ingestion)\" = if(data_last_lag_seen>60, tostring(data_last_lag_seen, \"duration\"), data_last_lag_seen . \" sec\") . \" / \" . if(data_last_ingestion_lag_seen>60, tostring(data_last_ingestion_lag_seen, \"duration\"), data_last_ingestion_lag_seen . \" sec\")\n| rename \"data_last_time_seen (translated)\" as \"last time\", \"data_last_ingest (translated)\" as \"last ingest\", \"data_last_time_seen_idx (translated)\" as \"last time idx\"\n| eval data_tracker_runtime=now()\n| `trackme_date_format(\"latest_flip_time\")`\n| fillnull value=\"N/A\" latest_flip_state, latest_flip_time, \"latest_flip_time (translated)\"\n| `trackme_get_identity_card(data_name)`\n| `trackme_lookup_elastic_sources`\n| `trackme_ack_lookup_main(data_name)`\n| `trackme_lookup_data_sampling`\n| nomv tags\n| sort limit=10000 data_name",
@@ -9222,6 +9355,11 @@ require([
             tokens: true,
             tokenNamespace: "submitted"
         });
+
+        searchMainAuditFlip.on("search:done", function () {
+            // function here
+            $("#loadingGrayInitial").remove()
+        })
 
         var searchMainAuditFlipTable = new PostProcessManager({
             "tokenDependencies": {},
@@ -9788,6 +9926,11 @@ require([
             tokenNamespace: "submitted"
         });
 
+        searchMainAuditChanges.on("search:done", function () {
+            // function here
+            $("#loadingGrayInitial").remove()
+        })
+
         var searchMainAuditChangesPopulate = new SearchManager({
             "id": "searchMainAuditChangesPopulate",
             "earliest_time": "$timerange_audit_changes.earliest$",
@@ -9911,6 +10054,11 @@ require([
             tokenNamespace: "submitted"
         });
 
+        searchMetricHostsMain.on("search:done", function () {
+            // function here
+            $("#loadingGrayInitial").remove()
+        })
+
         var searchMainTableMetricHost = new PostProcessManager({
             "tokenDependencies": {},
             "search": "search $inputMetricHostIndexes$ $inputMetricHostCategories$ $inputMetricHost$ $inputMetricHostPriority$ $metric_host_state$ $metric_monitored_state$ | sort limit=10000 metric_host",
@@ -9998,7 +10146,7 @@ require([
             "tokenDependencies": {
                 "depends": "$show_metric_host_tracker$"
             },
-            "search": "`trackme_get_sla_pct_per_entity(metric_host,$tk_metric_host$,trackme_metric_host_monitoring,metric_host,metric_first_time_seen)`",
+            "search": "`trackme_get_sla_pct_per_entity(metric_host,$tk_metric_host$)`",
             "id": "searchSingleSLAMetricHostpct",
             "sample_ratio": 1,
             "status_buckets": 0,
@@ -10036,6 +10184,11 @@ require([
             tokens: true,
             tokenNamespace: "submitted"
         });
+
+        searchDataHostsMain.on("search:done", function () {
+            // function here
+            $("#loadingGrayInitial").remove()
+        })
 
         var searchMainTableHost = new PostProcessManager({
             "tokenDependencies": {},
@@ -10723,7 +10876,7 @@ require([
             "tokenDependencies": {
                 "depends": "$show_data_source_tracker$"
             },
-            "search": "`trackme_get_sla_pct_per_entity(data_source,$tk_data_name$,trackme_data_source_monitoring,data_name,data_first_time_seen)`",
+            "search": "`trackme_get_sla_pct_per_entity(data_source,$tk_data_name$)`",
             "id": "searchSingleSLApct",
             "sample_ratio": 1,
             "status_buckets": 0,
@@ -10923,7 +11076,7 @@ require([
             "tokenDependencies": {
                 "depends": "$show_data_host_tracker$"
             },
-            "search": "`trackme_get_sla_pct_per_entity(data_host,$tk_data_host$,trackme_host_monitoring,data_host,data_first_time_seen)`",
+            "search": "`trackme_get_sla_pct_per_entity(data_host,$tk_data_host$)`",
             "id": "searchSingleSLAHostpct",
             "sample_ratio": 1,
             "status_buckets": 0,
@@ -11081,7 +11234,7 @@ require([
             "cancelOnUnload": true,
             "sample_ratio": null,
             "latest_time": "now",
-            "search": "| `trackme_show_custom_model_rules`",
+            "search": "| `trackme_show_custom_model_rules` | fillnull value=\"ANY\" sourcetype_scope",
             "status_buckets": 0,
             "app": utils.getCurrentApp(),
             "auto_cancel": 90,
@@ -11144,7 +11297,7 @@ require([
             "cancelOnUnload": true,
             "sample_ratio": null,
             "latest_time": "now",
-            "search": "| inputlookup trackme_data_sampling where _key=\"$tk_keyid$\" | fields raw_sample | mvexpand raw_sample | eval detected_format = case(match(raw_sample, \"$tk_data_sampling_custom_rule_regex$\"), \"$tk_data_sampling_custom_rule_name$\") | `trackme_data_sampling_simulate_custom_rule`",
+            "search": "| inputlookup trackme_data_sampling where _key=\"$tk_keyid$\" | fields raw_sample | mvexpand raw_sample | eval sourcetype=\"$tk_data_sourcetype$\", sourcetype_scope=\"$tk_data_sampling_custom_sourcetype_scope$\" | eval detected_format = case((sourcetype_scope==\"*\"), case(match(raw_sample, \"$tk_data_sampling_custom_rule_regex$\"), \"$tk_data_sampling_custom_rule_name$\"), in(sourcetype, `trackme_data_sampling_custom_models_simulate_genlist(\"$tk_data_sampling_custom_sourcetype_scope$\")`), case(match(raw_sample, \"$tk_data_sampling_custom_rule_regex$\"), \"$tk_data_sampling_custom_rule_name$\")) | `trackme_data_sampling_simulate_custom_rule`",
             "status_buckets": 0,
             "app": utils.getCurrentApp(),
             "auto_cancel": 90,
@@ -14073,6 +14226,22 @@ require([
 
         modal_input_data_sampling_custom_rule_name.on("change", function(newValue) {
             FormUtils.handleValueChange(modal_input_data_sampling_custom_rule_name);
+        });
+
+        // Data sampling scope
+        var modal_input_data_sampling_custom_sourcetype_scope = new TextInput({
+            "id": "modal_input_data_sampling_custom_sourcetype_scope",
+            "searchWhenChanged": false,
+            "initialValue": "*",
+            "default": "*",
+            "value": "$form.tk_data_sampling_custom_sourcetype_scope$",
+            "el": $('#modal_input_data_sampling_custom_sourcetype_scope')
+        }, {
+            tokens: true
+        }).render();
+
+        modal_input_data_sampling_custom_sourcetype_scope.on("change", function(newValue) {
+            FormUtils.handleValueChange(modal_input_data_sampling_custom_sourcetype_scope);
         });
 
         // Custom lagging
@@ -17268,7 +17437,7 @@ require([
             "trellis.scales.shared": "1",
             "useColors": "1",
             "useThousandSeparators": "1",
-            "underLabel": "SLA COMPLIANCE PERCENTAGE (% of time spent in green/blue mode in the last 90d)",
+            "underLabel": "SLA PCT (% time spent in green/blue over 90d)",
             "managerid": "searchSingleSLAMetricHostpct",
             "el": $('#elementSingleSLAMetricHostpct')
         }, {
@@ -17279,7 +17448,7 @@ require([
         elementSingleSLAMetricHostpct.on("click", function(e) {
             if (e.field !== undefined) {
                 e.preventDefault();
-                var url = TokenUtils.replaceTokenNames("{{SPLUNKWEB_URL_PREFIX}}/app/trackme/search?q=%20%60trackme_get_sla($tk_metric_host$,metric_host)%60&earliest=-90d@d&latest=now", _.extend(submittedTokenModel.toJSON(), e.data), TokenUtils.getEscaper('url'), TokenUtils.getFilters(mvc.Components));
+                var url = TokenUtils.replaceTokenNames("{{SPLUNKWEB_URL_PREFIX}}/app/trackme/trackMe_qos?form.timerange.earliest=-90d%40d&form.timerange.latest=now&form.object_category=metric_host&form.object_freetext=*&form.object=$tk_metric_host$&form.priority=*", _.extend(submittedTokenModel.toJSON(), e.data), TokenUtils.getEscaper('url'), TokenUtils.getFilters(mvc.Components));
                 utils.redirect(url, false, "_blank");
             }
         });
@@ -18211,7 +18380,7 @@ require([
         elementSingleSLApct.on("click", function(e) {
             if (e.field !== undefined) {
                 e.preventDefault();
-                var url = TokenUtils.replaceTokenNames("{{SPLUNKWEB_URL_PREFIX}}/app/trackme/search?q=%20%60trackme_get_sla($tk_data_name$,data_source)%60&earliest=-90d@d&latest=now", _.extend(submittedTokenModel.toJSON(), e.data), TokenUtils.getEscaper('url'), TokenUtils.getFilters(mvc.Components));
+                var url = TokenUtils.replaceTokenNames("{{SPLUNKWEB_URL_PREFIX}}/app/trackme/trackMe_qos?form.timerange.earliest=-90d%40d&form.timerange.latest=now&form.object_category=data_source&form.object_freetext=*&form.object=$tk_data_name$&form.priority=*", _.extend(submittedTokenModel.toJSON(), e.data), TokenUtils.getEscaper('url'), TokenUtils.getFilters(mvc.Components));
                 utils.redirect(url, false, "_blank");
             }
         });
@@ -18504,7 +18673,7 @@ require([
         elementSingleSLAHostpct.on("click", function(e) {
             if (e.field !== undefined) {
                 e.preventDefault();
-                var url = TokenUtils.replaceTokenNames("{{SPLUNKWEB_URL_PREFIX}}/app/trackme/search?q=%20%60trackme_get_sla($tk_data_host$,data_host)%60&earliest=-90d@d&latest=now", _.extend(submittedTokenModel.toJSON(), e.data), TokenUtils.getEscaper('url'), TokenUtils.getFilters(mvc.Components));
+                var url = TokenUtils.replaceTokenNames("{{SPLUNKWEB_URL_PREFIX}}/app/trackme/trackMe_qos?form.timerange.earliest=-90d%40d&form.timerange.latest=now&form.object_category=data_host&form.object_freetext=*&form.object=$tk_data_host$&form.priority=*", _.extend(submittedTokenModel.toJSON(), e.data), TokenUtils.getEscaper('url'), TokenUtils.getFilters(mvc.Components));
                 utils.redirect(url, false, "_blank");
             }
         });
@@ -27340,7 +27509,7 @@ require([
                 function(err, job) {
 
                     $("#loadingGray").remove()
-                    $("body").append('<div id="loadingGray" style="background: #e9e9e9; display: block; position: fixed; z-index: 100; top: 0; right: 0; bottom: 0; left: 0; height: 100%; opacity: 0.8;"><div style="width: 100%; margin-top: 250px; padding-bottom: 50px; text-align: center;"><p style="font-size: 18pt; font-weight: bolder;">Running the Elastic Shared Tracker...</p></div><div id="spinner"></div></div>')
+                    $("body").append('<div id="loadingGray" style="background: #e9e9e9; display: block; position: fixed; z-index: 100; top: 0; right: 0; bottom: 0; left: 0; height: 100%; opacity: 0.8;"><div style="width: 100%; margin-top: 250px; padding-bottom: 50px; text-align: center;"><p style="font-size: 18pt; font-weight: bolder; color: #003b59;">Running the Elastic Shared Tracker...</p></div><div id="spinner"></div></div>')
 
                     require(["jquery",
                             "/static/app/trackme/spin.js"
@@ -27349,8 +27518,8 @@ require([
                             Spinner
                         ) {
                             new Spinner({
-                                lines: 12,
-                                position: "relative"
+                                lines: 12, length: 18,
+                                position: "relative", color: "#003b59"
                             }).spin(document.getElementById('spinner'));
                         })
 
@@ -27434,7 +27603,7 @@ require([
                 function(err, job) {
 
                     $("#loadingGray").remove()
-                    $("body").append('<div id="loadingGray" style="background: #e9e9e9; display: block; position: fixed; z-index: 100; top: 0; right: 0; bottom: 0; left: 0; height: 100%; opacity: 0.8;"><div style="width: 100%; margin-top: 250px; padding-bottom: 50px; text-align: center;"><p style="font-size: 18pt; font-weight: bolder;">Running the dedicated elastic tracker' +  tk_tracker_name + '...</p></div><div id="spinner"></div></div>')
+                    $("body").append('<div id="loadingGray" style="background: #e9e9e9; display: block; position: fixed; z-index: 100; top: 0; right: 0; bottom: 0; left: 0; height: 100%; opacity: 0.8;"><div style="width: 100%; margin-top: 250px; padding-bottom: 50px; text-align: center;"><p style="font-size: 18pt; font-weight: bolder; color: #003b59;">Running the dedicated elastic tracker' +  tk_tracker_name + '...</p></div><div id="spinner"></div></div>')
 
                     require(["jquery",
                             "/static/app/trackme/spin.js"
@@ -27443,8 +27612,8 @@ require([
                             Spinner
                         ) {
                             new Spinner({
-                                lines: 12,
-                                position: "relative"
+                                lines: 12, length: 18,
+                                position: "relative", color: "#003b59"
                             }).spin(document.getElementById('spinner'));
                         })
 
@@ -28072,6 +28241,16 @@ require([
         // RUN TRACKERS
         //
 
+        $("#btn_run_trackers").click(function() {
+                // Show input modal
+                $("#modal_run_data_source_trackers").modal();
+        });
+
+        $("#btn_run_data_host_trackers").click(function() {
+                // Show input modal
+                $("#modal_run_data_host_trackers").modal();
+        });
+
         //
         // UPDATE COLLECTION
         //
@@ -28080,6 +28259,8 @@ require([
 
         $("#btn_run_tracker").click(function() {
             submitTokens();
+
+            $("#modal_run_data_source_trackers").modal('hide');
 
             // When the Submit button is clicked, get all the form fields by accessing token values
             var tokens = mvc.Components.get("default");
@@ -28102,7 +28283,7 @@ require([
                 function(err, job) {
 
                     $("#loadingGray").remove()
-                    $("body").append('<div id="loadingGray" style="background: #e9e9e9; display: block; position: fixed; z-index: 100; top: 0; right: 0; bottom: 0; left: 0; height: 100%; opacity: 0.8;"><div style="width: 100%; margin-top: 250px; padding-bottom: 50px; text-align: center;"><p style="font-size: 18pt; font-weight: bolder;">Running the data sources short term tracker...</p></div><div id="spinner"></div></div>')
+                    $("body").append('<div id="loadingGray" style="background: #e9e9e9; display: block; position: fixed; z-index: 100; top: 0; right: 0; bottom: 0; left: 0; height: 100%; opacity: 0.8;"><div style="width: 100%; margin-top: 250px; padding-bottom: 50px; text-align: center;"><p style="font-size: 18pt; font-weight: bolder; color: #003b59;">Running the data sources short term tracker...</p></div><div id="spinner"></div></div>')
 
                     require(["jquery",
                             "/static/app/trackme/spin.js"
@@ -28111,8 +28292,8 @@ require([
                             Spinner
                         ) {
                             new Spinner({
-                                lines: 12,
-                                position: "relative"
+                                lines: 12, length: 18,
+                                position: "relative", color: "#003b59"
                             }).spin(document.getElementById('spinner'));
                         })
 
@@ -28169,6 +28350,8 @@ require([
         $("#btn_run_tracker_host").click(function() {
             submitTokens();
 
+            $("#modal_run_data_host_trackers").modal('hide');
+
             // When the Submit button is clicked, get all the form fields by accessing token values
             var tokens = mvc.Components.get("default");
 
@@ -28190,7 +28373,7 @@ require([
                 function(err, job) {
 
                     $("#loadingGray").remove()
-                    $("body").append('<div id="loadingGray" style="background: #e9e9e9; display: block; position: fixed; z-index: 100; top: 0; right: 0; bottom: 0; left: 0; height: 100%; opacity: 0.8;"><div style="width: 100%; margin-top: 250px; padding-bottom: 50px; text-align: center;"><p style="font-size: 18pt; font-weight: bolder;">Running the host short term tracker...</p></div><div id="spinner"></div></div>')
+                    $("body").append('<div id="loadingGray" style="background: #e9e9e9; display: block; position: fixed; z-index: 100; top: 0; right: 0; bottom: 0; left: 0; height: 100%; opacity: 0.8;"><div style="width: 100%; margin-top: 250px; padding-bottom: 50px; text-align: center;"><p style="font-size: 18pt; font-weight: bolder; color: #003b59;">Running the host short term tracker...</p></div><div id="spinner"></div></div>')
 
                     require(["jquery",
                             "/static/app/trackme/spin.js"
@@ -28199,8 +28382,8 @@ require([
                             Spinner
                         ) {
                             new Spinner({
-                                lines: 12,
-                                position: "relative"
+                                lines: 12, length: 18,
+                                position: "relative", color: "#003b59"
                             }).spin(document.getElementById('spinner'));
                         })
 
@@ -28259,9 +28442,10 @@ require([
         $("#btn_run_tracker_longterm").click(function() {
             submitTokens();
 
+            $("#modal_run_data_source_trackers").modal('hide');
+
             // When the Submit button is clicked, get all the form fields by accessing token values
             var tokens = mvc.Components.get("default");
-
 
             //console.log("Start collection update");
 
@@ -28281,7 +28465,7 @@ require([
                 function(err, job) {
 
                     $("#loadingGray").remove()
-                    $("body").append('<div id="loadingGray" style="background: #e9e9e9; display: block; position: fixed; z-index: 100; top: 0; right: 0; bottom: 0; left: 0; height: 100%; opacity: 0.8;"><div style="width: 100%; margin-top: 250px; padding-bottom: 50px; text-align: center;"><p style="font-size: 18pt; font-weight: bolder;">Running the data sources long term tracker...</p></div><div id="spinner"></div></div>')
+                    $("body").append('<div id="loadingGray" style="background: #e9e9e9; display: block; position: fixed; z-index: 100; top: 0; right: 0; bottom: 0; left: 0; height: 100%; opacity: 0.8;"><div style="width: 100%; margin-top: 250px; padding-bottom: 50px; text-align: center;"><p style="font-size: 18pt; font-weight: bolder; color: #003b59;">Running the data sources long term tracker...</p></div><div id="spinner"></div></div>')
 
                     require(["jquery",
                             "/static/app/trackme/spin.js"
@@ -28290,8 +28474,8 @@ require([
                             Spinner
                         ) {
                             new Spinner({
-                                lines: 12,
-                                position: "relative"
+                                lines: 12, length: 18,
+                                position: "relative", color: "#003b59"
                             }).spin(document.getElementById('spinner'));
                         })
 
@@ -28348,9 +28532,10 @@ require([
         $("#btn_run_tracker_host_longterm").click(function() {
             submitTokens();
 
+            $("#modal_run_data_host_trackers").modal('hide');
+
             // When the Submit button is clicked, get all the form fields by accessing token values
             var tokens = mvc.Components.get("default");
-
 
             //console.log("Start collection update");
 
@@ -28370,7 +28555,7 @@ require([
                 function(err, job) {
 
                     $("#loadingGray").remove()
-                    $("body").append('<div id="loadingGray" style="background: #e9e9e9; display: block; position: fixed; z-index: 100; top: 0; right: 0; bottom: 0; left: 0; height: 100%; opacity: 0.8;"><div style="width: 100%; margin-top: 250px; padding-bottom: 50px; text-align: center;"><p style="font-size: 18pt; font-weight: bolder;">Running the host long term tracker...</p></div><div id="spinner"></div></div>')
+                    $("body").append('<div id="loadingGray" style="background: #e9e9e9; display: block; position: fixed; z-index: 100; top: 0; right: 0; bottom: 0; left: 0; height: 100%; opacity: 0.8;"><div style="width: 100%; margin-top: 250px; padding-bottom: 50px; text-align: center;"><p style="font-size: 18pt; font-weight: bolder; color: #003b59;">Running the host long term tracker...</p></div><div id="spinner"></div></div>')
 
                     require(["jquery",
                             "/static/app/trackme/spin.js"
@@ -28379,8 +28564,8 @@ require([
                             Spinner
                         ) {
                             new Spinner({
-                                lines: 12,
-                                position: "relative"
+                                lines: 12, length: 18,
+                                position: "relative", color: "#003b59"
                             }).spin(document.getElementById('spinner'));
                         })
 
@@ -28406,6 +28591,190 @@ require([
 
                                 // Once the job is done, update all searches
                                 searchDataHostsMain.startSearch();
+
+                                $("#loadingGray").remove()
+                                $("#modal_update_collection_done").modal()
+
+                            },
+                            failed: function(properties) {
+                                let errorStr = "Unknown Error!";
+                                if (properties && properties._properties && properties._properties.messages && properties._properties.messages[0]['text']) {
+                                    errorStr = properties._properties.messages[0]['text'];
+                                } else if (properties && properties._properties && properties._properties.messages) {
+                                    errorStr = JSON.stringify(properties._properties.messages);
+                                }
+                                $("#loadingGray").remove()
+                                $("#modal_update_collection_failure_return").find('.modal-error-message p').text(errorStr);
+                                $("#modal_update_collection_failure_return").modal()
+                            },
+                            error: function(err) {
+                                done(err);
+                                $("#loadingGray").remove()
+                                $("#modal_update_collection_failure").modal()
+                            }
+                        });
+                    }
+                }
+            );
+
+        });
+
+        // Elastic shared tracker
+
+        $("#btn_run_tracker_shared_elastic").click(function() {
+            submitTokens();
+
+            $("#modal_run_data_source_trackers").modal('hide');
+
+            // When the Submit button is clicked, get all the form fields by accessing token values
+            var tokens = mvc.Components.get("default");
+
+            //console.log("Start collection update");
+
+            // Define the query
+            var searchQuery = "| savedsearch \"TrackMe - Elastic sources shared tracker\"";
+
+            // Set the search parameters--specify a time range
+            var searchParams = {
+                earliest_time: "-4h",
+                latest_time: "+4h"
+            };
+
+            // Run a normal search that immediately returns the job's SID
+            service.search(
+                searchQuery,
+                searchParams,
+                function(err, job) {
+
+                    $("#loadingGray").remove()
+                    $("body").append('<div id="loadingGray" style="background: #e9e9e9; display: block; position: fixed; z-index: 100; top: 0; right: 0; bottom: 0; left: 0; height: 100%; opacity: 0.8;"><div style="width: 100%; margin-top: 250px; padding-bottom: 50px; text-align: center;"><p style="font-size: 18pt; font-weight: bolder; color: #003b59;">Running the Elastic sources Shared tracker...</p></div><div id="spinner"></div></div>')
+
+                    require(["jquery",
+                            "/static/app/trackme/spin.js"
+                        ],
+                        function($,
+                            Spinner
+                        ) {
+                            new Spinner({
+                                lines: 12, length: 18,
+                                position: "relative", color: "#003b59"
+                            }).spin(document.getElementById('spinner'));
+                        })
+
+                    // Shall the search fail before we can get properties
+                    if (job == null) {
+                        let errorStr = "Unknown Error!";
+                        if (err && err.data && err.data.messages && err.data.messages[0]['text']) {
+                            errorStr = err.data.messages[0]['text'];
+                        } else if (err && err.data && err.data.messages) {
+                            errorStr = JSON.stringify(err.data.messages);
+                        }
+                        $("#loadingGray").remove()
+                        $("#modal_update_collection_failure_return").find('.modal-error-message p').text(errorStr);
+                        $("#modal_update_collection_failure_return").modal()
+                    } else {
+
+                        // Poll the status of the search job
+                        job.track({
+                            period: 200
+                        }, {
+                            done: function(job) {
+                                //console.log("Done!");
+
+                                // Once the job is done, update all searches
+                                searchDataSourcesMain.startSearch();
+
+                                $("#loadingGray").remove()
+                                $("#modal_update_collection_done").modal()
+
+                            },
+                            failed: function(properties) {
+                                let errorStr = "Unknown Error!";
+                                if (properties && properties._properties && properties._properties.messages && properties._properties.messages[0]['text']) {
+                                    errorStr = properties._properties.messages[0]['text'];
+                                } else if (properties && properties._properties && properties._properties.messages) {
+                                    errorStr = JSON.stringify(properties._properties.messages);
+                                }
+                                $("#loadingGray").remove()
+                                $("#modal_update_collection_failure_return").find('.modal-error-message p').text(errorStr);
+                                $("#modal_update_collection_failure_return").modal()
+                            },
+                            error: function(err) {
+                                done(err);
+                                $("#loadingGray").remove()
+                                $("#modal_update_collection_failure").modal()
+                            }
+                        });
+                    }
+                }
+            );
+
+        });
+
+        // Data Sampling tracker
+
+        $("#btn_run_tracker_data_sampling").click(function() {
+            submitTokens();
+
+            $("#modal_run_data_source_trackers").modal('hide');
+
+            // When the Submit button is clicked, get all the form fields by accessing token values
+            var tokens = mvc.Components.get("default");
+
+            //console.log("Start collection update");
+
+            // Define the query
+            var searchQuery = "| savedsearch \"TrackMe - Data sampling and format detection tracker\"";
+
+            // Set the search parameters--specify a time range
+            var searchParams = {
+                earliest_time: "-24h",
+                latest_time: "+4h"
+            };
+
+            // Run a normal search that immediately returns the job's SID
+            service.search(
+                searchQuery,
+                searchParams,
+                function(err, job) {
+
+                    $("#loadingGray").remove()
+                    $("body").append('<div id="loadingGray" style="background: #e9e9e9; display: block; position: fixed; z-index: 100; top: 0; right: 0; bottom: 0; left: 0; height: 100%; opacity: 0.8;"><div style="width: 100%; margin-top: 250px; padding-bottom: 50px; text-align: center;"><p style="font-size: 18pt; font-weight: bolder; color: #003b59;">Running the Data sampling & events format recognition tracker...</p></div><div id="spinner"></div></div>')
+
+                    require(["jquery",
+                            "/static/app/trackme/spin.js"
+                        ],
+                        function($,
+                            Spinner
+                        ) {
+                            new Spinner({
+                                lines: 12, length: 18,
+                                position: "relative", color: "#003b59"
+                            }).spin(document.getElementById('spinner'));
+                        })
+
+                    // Shall the search fail before we can get properties
+                    if (job == null) {
+                        let errorStr = "Unknown Error!";
+                        if (err && err.data && err.data.messages && err.data.messages[0]['text']) {
+                            errorStr = err.data.messages[0]['text'];
+                        } else if (err && err.data && err.data.messages) {
+                            errorStr = JSON.stringify(err.data.messages);
+                        }
+                        $("#loadingGray").remove()
+                        $("#modal_update_collection_failure_return").find('.modal-error-message p').text(errorStr);
+                        $("#modal_update_collection_failure_return").modal()
+                    } else {
+
+                        // Poll the status of the search job
+                        job.track({
+                            period: 200
+                        }, {
+                            done: function(job) {
+                                //console.log("Done!");
+
+                                // Once the job is done, update all searches
+                                searchDataSourcesMain.startSearch();
 
                                 $("#loadingGray").remove()
                                 $("#modal_update_collection_done").modal()
@@ -28460,7 +28829,7 @@ require([
                 function(err, job) {
 
                     $("#loadingGray").remove()
-                    $("body").append('<div id="loadingGray" style="background: #e9e9e9; display: block; position: fixed; z-index: 100; top: 0; right: 0; bottom: 0; left: 0; height: 100%; opacity: 0.8;"><div style="width: 100%; margin-top: 250px; padding-bottom: 50px; text-align: center;"><p style="font-size: 18pt; font-weight: bolder;">Running the metric tracker...</p></div><div id="spinner"></div></div>')
+                    $("body").append('<div id="loadingGray" style="background: #e9e9e9; display: block; position: fixed; z-index: 100; top: 0; right: 0; bottom: 0; left: 0; height: 100%; opacity: 0.8;"><div style="width: 100%; margin-top: 250px; padding-bottom: 50px; text-align: center;"><p style="font-size: 18pt; font-weight: bolder; color: #003b59;">Running the metric tracker...</p></div><div id="spinner"></div></div>')
 
                     require(["jquery",
                             "/static/app/trackme/spin.js"
@@ -28469,8 +28838,8 @@ require([
                             Spinner
                         ) {
                             new Spinner({
-                                lines: 12,
-                                position: "relative"
+                                lines: 12, length: 18,
+                                position: "relative", color: "#003b59"
                             }).spin(document.getElementById('spinner'));
                         })
 
@@ -29507,7 +29876,7 @@ require([
                     $("#modal_modify_data_source_autolag").modal('hide');
 
                     $("#loadingGray").remove()
-                    $("body").append('<div id="loadingGray" style="background: #e9e9e9; display: block; position: fixed; z-index: 100; top: 0; right: 0; bottom: 0; left: 0; height: 100%; opacity: 0.8;"><div style="width: 100%; margin-top: 250px; padding-bottom: 50px; text-align: center;"><p style="font-size: 18pt; font-weight: bolder;">Please wait while determining the entity lagging value...</p></div><div id="spinner"></div></div>')
+                    $("body").append('<div id="loadingGray" style="background: #e9e9e9; display: block; position: fixed; z-index: 100; top: 0; right: 0; bottom: 0; left: 0; height: 100%; opacity: 0.8;"><div style="width: 100%; margin-top: 250px; padding-bottom: 50px; text-align: center;"><p style="font-size: 18pt; font-weight: bolder; color: #003b59;">Please wait while determining the entity lagging value...</p></div><div id="spinner"></div></div>')
 
                     require(["jquery",
                             "/static/app/trackme/spin.js"
@@ -29516,8 +29885,8 @@ require([
                             Spinner
                         ) {
                             new Spinner({
-                                lines: 12,
-                                position: "relative"
+                                lines: 12, length: 18,
+                                position: "relative", color: "#003b59"
                             }).spin(document.getElementById('spinner'));
                         })
 
@@ -29676,7 +30045,7 @@ require([
                     $("#modal_modify_data_source_autolag").modal('hide');
 
                     $("#loadingGray").remove()
-                    $("body").append('<div id="loadingGray" style="background: #e9e9e9; display: block; position: fixed; z-index: 100; top: 0; right: 0; bottom: 0; left: 0; height: 100%; opacity: 0.8;"><div style="width: 100%; margin-top: 250px; padding-bottom: 50px; text-align: center;"><p style="font-size: 18pt; font-weight: bolder;">Please wait while determining the entity lagging value...</p></div><div id="spinner"></div></div>')
+                    $("body").append('<div id="loadingGray" style="background: #e9e9e9; display: block; position: fixed; z-index: 100; top: 0; right: 0; bottom: 0; left: 0; height: 100%; opacity: 0.8;"><div style="width: 100%; margin-top: 250px; padding-bottom: 50px; text-align: center;"><p style="font-size: 18pt; font-weight: bolder; color: #003b59;">Please wait while determining the entity lagging value...</p></div><div id="spinner"></div></div>')
 
                     require(["jquery",
                             "/static/app/trackme/spin.js"
@@ -29685,8 +30054,8 @@ require([
                             Spinner
                         ) {
                             new Spinner({
-                                lines: 12,
-                                position: "relative"
+                                lines: 12, length: 18,
+                                position: "relative", color: "#003b59"
                             }).spin(document.getElementById('spinner'));
                         })
 
@@ -29846,7 +30215,7 @@ require([
                     $("#modal_modify_data_source_autolag").modal('hide');
 
                     $("#loadingGray").remove()
-                    $("body").append('<div id="loadingGray" style="background: #e9e9e9; display: block; position: fixed; z-index: 100; top: 0; right: 0; bottom: 0; left: 0; height: 100%; opacity: 0.8;"><div style="width: 100%; margin-top: 250px; padding-bottom: 50px; text-align: center;"><p style="font-size: 18pt; font-weight: bolder;">Please wait while determining the entity lagging value...</p></div><div id="spinner"></div></div>')
+                    $("body").append('<div id="loadingGray" style="background: #e9e9e9; display: block; position: fixed; z-index: 100; top: 0; right: 0; bottom: 0; left: 0; height: 100%; opacity: 0.8;"><div style="width: 100%; margin-top: 250px; padding-bottom: 50px; text-align: center;"><p style="font-size: 18pt; font-weight: bolder; color: #003b59;">Please wait while determining the entity lagging value...</p></div><div id="spinner"></div></div>')
 
                     require(["jquery",
                             "/static/app/trackme/spin.js"
@@ -29855,8 +30224,8 @@ require([
                             Spinner
                         ) {
                             new Spinner({
-                                lines: 12,
-                                position: "relative"
+                                lines: 12, length: 18,
+                                position: "relative", color: "#003b59"
                             }).spin(document.getElementById('spinner'));
                         })
 
@@ -30016,7 +30385,7 @@ require([
                     $("#modal_modify_data_source_autolag").modal('hide');
 
                     $("#loadingGray").remove()
-                    $("body").append('<div id="loadingGray" style="background: #e9e9e9; display: block; position: fixed; z-index: 100; top: 0; right: 0; bottom: 0; left: 0; height: 100%; opacity: 0.8;"><div style="width: 100%; margin-top: 250px; padding-bottom: 50px; text-align: center;"><p style="font-size: 18pt; font-weight: bolder;">Please wait while determining the entity lagging value...</p></div><div id="spinner"></div></div>')
+                    $("body").append('<div id="loadingGray" style="background: #e9e9e9; display: block; position: fixed; z-index: 100; top: 0; right: 0; bottom: 0; left: 0; height: 100%; opacity: 0.8;"><div style="width: 100%; margin-top: 250px; padding-bottom: 50px; text-align: center;"><p style="font-size: 18pt; font-weight: bolder; color: #003b59;">Please wait while determining the entity lagging value...</p></div><div id="spinner"></div></div>')
 
                     require(["jquery",
                             "/static/app/trackme/spin.js"
@@ -30025,8 +30394,8 @@ require([
                             Spinner
                         ) {
                             new Spinner({
-                                lines: 12,
-                                position: "relative"
+                                lines: 12, length: 18,
+                                position: "relative", color: "#003b59"
                             }).spin(document.getElementById('spinner'));
                         })
 
@@ -30847,7 +31216,7 @@ require([
                     $("#modal_modify_data_host_autolag").modal('hide');
 
                     $("#loadingGray").remove()
-                    $("body").append('<div id="loadingGray" style="background: #e9e9e9; display: block; position: fixed; z-index: 100; top: 0; right: 0; bottom: 0; left: 0; height: 100%; opacity: 0.8;"><div style="width: 100%; margin-top: 250px; padding-bottom: 50px; text-align: center;"><p style="font-size: 18pt; font-weight: bolder;">Please wait while determining the entity lagging value...</p></div><div id="spinner"></div></div>')
+                    $("body").append('<div id="loadingGray" style="background: #e9e9e9; display: block; position: fixed; z-index: 100; top: 0; right: 0; bottom: 0; left: 0; height: 100%; opacity: 0.8;"><div style="width: 100%; margin-top: 250px; padding-bottom: 50px; text-align: center;"><p style="font-size: 18pt; font-weight: bolder; color: #003b59;">Please wait while determining the entity lagging value...</p></div><div id="spinner"></div></div>')
 
                     require(["jquery",
                             "/static/app/trackme/spin.js"
@@ -30856,8 +31225,8 @@ require([
                             Spinner
                         ) {
                             new Spinner({
-                                lines: 12,
-                                position: "relative"
+                                lines: 12, length: 18,
+                                position: "relative", color: "#003b59"
                             }).spin(document.getElementById('spinner'));
                         })
 
@@ -31014,7 +31383,7 @@ require([
                     $("#modal_modify_data_host_autolag").modal('hide');
 
                     $("#loadingGray").remove()
-                    $("body").append('<div id="loadingGray" style="background: #e9e9e9; display: block; position: fixed; z-index: 100; top: 0; right: 0; bottom: 0; left: 0; height: 100%; opacity: 0.8;"><div style="width: 100%; margin-top: 250px; padding-bottom: 50px; text-align: center;"><p style="font-size: 18pt; font-weight: bolder;">Please wait while determining the entity lagging value...</p></div><div id="spinner"></div></div>')
+                    $("body").append('<div id="loadingGray" style="background: #e9e9e9; display: block; position: fixed; z-index: 100; top: 0; right: 0; bottom: 0; left: 0; height: 100%; opacity: 0.8;"><div style="width: 100%; margin-top: 250px; padding-bottom: 50px; text-align: center;"><p style="font-size: 18pt; font-weight: bolder; color: #003b59;">Please wait while determining the entity lagging value...</p></div><div id="spinner"></div></div>')
 
                     require(["jquery",
                             "/static/app/trackme/spin.js"
@@ -31023,8 +31392,8 @@ require([
                             Spinner
                         ) {
                             new Spinner({
-                                lines: 12,
-                                position: "relative"
+                                lines: 12, length: 18,
+                                position: "relative", color: "#003b59"
                             }).spin(document.getElementById('spinner'));
                         })
 
@@ -31180,7 +31549,7 @@ require([
                     $("#modal_modify_data_host_autolag").modal('hide');
 
                     $("#loadingGray").remove()
-                    $("body").append('<div id="loadingGray" style="background: #e9e9e9; display: block; position: fixed; z-index: 100; top: 0; right: 0; bottom: 0; left: 0; height: 100%; opacity: 0.8;"><div style="width: 100%; margin-top: 250px; padding-bottom: 50px; text-align: center;"><p style="font-size: 18pt; font-weight: bolder;">Please wait while determining the entity lagging value...</p></div><div id="spinner"></div></div>')
+                    $("body").append('<div id="loadingGray" style="background: #e9e9e9; display: block; position: fixed; z-index: 100; top: 0; right: 0; bottom: 0; left: 0; height: 100%; opacity: 0.8;"><div style="width: 100%; margin-top: 250px; padding-bottom: 50px; text-align: center;"><p style="font-size: 18pt; font-weight: bolder; color: #003b59;">Please wait while determining the entity lagging value...</p></div><div id="spinner"></div></div>')
 
                     require(["jquery",
                             "/static/app/trackme/spin.js"
@@ -31189,8 +31558,8 @@ require([
                             Spinner
                         ) {
                             new Spinner({
-                                lines: 12,
-                                position: "relative"
+                                lines: 12, length: 18,
+                                position: "relative", color: "#003b59"
                             }).spin(document.getElementById('spinner'));
                         })
 
@@ -31346,7 +31715,7 @@ require([
                     $("#modal_modify_data_host_autolag").modal('hide');
 
                     $("#loadingGray").remove()
-                    $("body").append('<div id="loadingGray" style="background: #e9e9e9; display: block; position: fixed; z-index: 100; top: 0; right: 0; bottom: 0; left: 0; height: 100%; opacity: 0.8;"><div style="width: 100%; margin-top: 250px; padding-bottom: 50px; text-align: center;"><p style="font-size: 18pt; font-weight: bolder;">Please wait while determining the entity lagging value...</p></div><div id="spinner"></div></div>')
+                    $("body").append('<div id="loadingGray" style="background: #e9e9e9; display: block; position: fixed; z-index: 100; top: 0; right: 0; bottom: 0; left: 0; height: 100%; opacity: 0.8;"><div style="width: 100%; margin-top: 250px; padding-bottom: 50px; text-align: center;"><p style="font-size: 18pt; font-weight: bolder; color: #003b59;">Please wait while determining the entity lagging value...</p></div><div id="spinner"></div></div>')
 
                     require(["jquery",
                             "/static/app/trackme/spin.js"
@@ -31355,8 +31724,8 @@ require([
                             Spinner
                         ) {
                             new Spinner({
-                                lines: 12,
-                                position: "relative"
+                                lines: 12, length: 18,
+                                position: "relative", color: "#003b59"
                             }).spin(document.getElementById('spinner'));
                         })
 
@@ -33945,7 +34314,18 @@ require([
             $btn_group.find('button').on('click', function() {
                 var $btn = $(this);
                 //console.log("Button was clicked");
-                $("#modal_manage").modal()
+
+                var tk_data_sampling_custom_rule_back_btn_target = tokens.get("tk_data_sampling_custom_rule_back_btn_target");
+                //console.log("tk_data_sampling_custom_rule_back_btn_target is: " + tk_data_sampling_custom_rule_back_btn_target);
+
+                // define the back button target action
+                if (tk_data_sampling_custom_rule_back_btn_target === "from_data_source") {
+                    $("#modal_manage").modal()
+                }
+                else if (tk_data_sampling_custom_rule_back_btn_target === "from_main") {
+                    $("data_sampling_create_custom_rules").modal("hide")
+                }
+
             });
         });
 
@@ -33969,7 +34349,7 @@ require([
             });
         });
 
-        // Show custom rules
+        // Show custom rules from data source
         $('.btn_data_sampling_custom_rules_view').each(function() {
             var $btn_group = $(this);
             $btn_group.find('button').on('click', function() {
@@ -33980,6 +34360,31 @@ require([
 
                 // When the Submit button is clicked, get all the form fields by accessing token values
                 var tokens = mvc.Components.get("default");
+
+                // Create a token used to decide the back button target
+                setToken("tk_data_sampling_custom_rule_back_btn_target", "from_data_source");
+
+                // force re-run the search each time the button is clicked
+                searchDataSamplingShowCustomRules.startSearch();
+
+                $("#data_sampling_show_custom_rules").modal()
+            });
+        });
+
+        // Show custom rules from main
+        $('.btn_modify_data_sampling_rules').each(function() {
+            var $btn_group = $(this);
+            $btn_group.find('button').on('click', function() {
+                var $btn = $(this);
+                //console.log("Button was clicked");
+
+                submitTokens();
+
+                // When the Submit button is clicked, get all the form fields by accessing token values
+                var tokens = mvc.Components.get("default");
+
+                // Create a token used to decide the back button target
+                setToken("tk_data_sampling_custom_rule_back_btn_target", "from_main");
 
                 // force re-run the search each time the button is clicked
                 searchDataSamplingShowCustomRules.startSearch();
@@ -33994,7 +34399,18 @@ require([
             $btn_group.find('button').on('click', function() {
                 var $btn = $(this);
                 //console.log("Button was clicked");
-                $("#data_sampling_manage").modal()
+
+                var tk_data_sampling_custom_rule_back_btn_target = tokens.get("tk_data_sampling_custom_rule_back_btn_target");
+                //console.log("tk_data_sampling_custom_rule_back_btn_target is: " + tk_data_sampling_custom_rule_back_btn_target);
+
+                // define the back button target action
+                if (tk_data_sampling_custom_rule_back_btn_target === "from_data_source") {
+                    $("#data_sampling_manage").modal()
+                }
+                else if (tk_data_sampling_custom_rule_back_btn_target === "from_main") {
+                    $("data_sampling_create_custom_rules").modal("hide")
+                }
+                
             });
         });
 
@@ -34025,11 +34441,13 @@ require([
                         var model_name = returneddata.model_name;
                         var model_id = returneddata.model_id;
                         var model_regex = returneddata.model_regex;
+                        var sourcetype_scope = returneddata.sourcetype_scope
                         var mtime = returneddata.mtime;
                         var record = {
                         "model_name": model_name,
                         "model_id": model_id,
                         "model_regex": model_regex,
+                        "sourcetype_scope": sourcetype_scope,
                         "mtime": mtime,
                         "_key": item
                         };
@@ -34162,7 +34580,7 @@ require([
                 function(err, job) {
 
                     $("#loadingGray").remove()
-                    $("body").append('<div id="loadingGray" style="background: #e9e9e9; display: block; position: fixed; z-index: 100; top: 0; right: 0; bottom: 0; left: 0; height: 100%; opacity: 0.8;"><div style="width: 100%; margin-top: 250px; padding-bottom: 50px; text-align: center;"><p style="font-size: 18pt; font-weight: bolder;">Running the data sampling and format recognition engine...</p></div><div id="spinner"></div></div>')
+                    $("body").append('<div id="loadingGray" style="background: #e9e9e9; display: block; position: fixed; z-index: 100; top: 0; right: 0; bottom: 0; left: 0; height: 100%; opacity: 0.8;"><div style="width: 100%; margin-top: 250px; padding-bottom: 50px; text-align: center;"><p style="font-size: 18pt; font-weight: bolder; color: #003b59;">Running the data sampling and format recognition engine...</p></div><div id="spinner"></div></div>')
 
                     require(["jquery",
                             "/static/app/trackme/spin.js"
@@ -34171,8 +34589,8 @@ require([
                             Spinner
                         ) {
                             new Spinner({
-                                lines: 12,
-                                position: "relative"
+                                lines: 12, length: 18,
+                                position: "relative", color: "#003b59"
                             }).spin(document.getElementById('spinner'));
                         })
 
@@ -34332,7 +34750,7 @@ require([
                         function(err, job) {
 
                             $("#loadingGray").remove()
-                            $("body").append('<div id="loadingGray" style="background: #e9e9e9; display: block; position: fixed; z-index: 100; top: 0; right: 0; bottom: 0; left: 0; height: 100%; opacity: 0.8;"><div style="width: 100%; margin-top: 250px; padding-bottom: 50px; text-align: center;"><p style="font-size: 18pt; font-weight: bolder;">Clearing the data source state and disabling the data sampling feature...</p></div><div id="spinner"></div></div>')
+                            $("body").append('<div id="loadingGray" style="background: #e9e9e9; display: block; position: fixed; z-index: 100; top: 0; right: 0; bottom: 0; left: 0; height: 100%; opacity: 0.8;"><div style="width: 100%; margin-top: 250px; padding-bottom: 50px; text-align: center;"><p style="font-size: 18pt; font-weight: bolder; color: #003b59;">Clearing the data source state and disabling the data sampling feature...</p></div><div id="spinner"></div></div>')
 
                             require(["jquery",
                                     "/static/app/trackme/spin.js"
@@ -34341,8 +34759,8 @@ require([
                                     Spinner
                                 ) {
                                     new Spinner({
-                                        lines: 12,
-                                        position: "relative"
+                                        lines: 12, length: 18,
+                                        position: "relative", color: "#003b59"
                                     }).spin(document.getElementById('spinner'));
                                 })
 
@@ -34529,7 +34947,7 @@ require([
                                 function(err, job) {
 
                                     $("#loadingGray").remove()
-                                    $("body").append('<div id="loadingGray" style="background: #e9e9e9; display: block; position: fixed; z-index: 100; top: 0; right: 0; bottom: 0; left: 0; height: 100%; opacity: 0.8;"><div style="width: 100%; margin-top: 250px; padding-bottom: 50px; text-align: center;"><p style="font-size: 18pt; font-weight: bolder;">Clearing the data source state and running the data sampling and format recognition engine...</p></div><div id="spinner"></div></div>')
+                                    $("body").append('<div id="loadingGray" style="background: #e9e9e9; display: block; position: fixed; z-index: 100; top: 0; right: 0; bottom: 0; left: 0; height: 100%; opacity: 0.8;"><div style="width: 100%; margin-top: 250px; padding-bottom: 50px; text-align: center;"><p style="font-size: 18pt; font-weight: bolder; color: #003b59;">Clearing the data source state and running the data sampling and format recognition engine...</p></div><div id="spinner"></div></div>')
 
                                     require(["jquery",
                                             "/static/app/trackme/spin.js"
@@ -34538,8 +34956,8 @@ require([
                                             Spinner
                                         ) {
                                             new Spinner({
-                                                lines: 12,
-                                                position: "relative"
+                                                lines: 12, length: 18,
+                                                position: "relative", color: "#003b59"
                                             }).spin(document.getElementById('spinner'));
                                         })
 
@@ -34735,6 +35153,10 @@ require([
             var tk_data_sampling_custom_rule_name = tokens.get("tk_data_sampling_custom_rule_name");
             //console.log("tk_data_sampling_custom_rule_name is: " + tk_data_sampling_custom_rule_name);
 
+            // Retrieve the sourcetype scope
+            var tk_data_sampling_custom_sourcetype_scope = tokens.get("tk_data_sampling_custom_sourcetype_scope");
+            //console.log("tk_data_sampling_custom_sourcetype_scope is: " + tk_data_sampling_custom_sourcetype_scope);
+
             // if is not defined, give it a value and override text box content - We should never reach this for the add function
             if (tk_data_sampling_custom_rule_regex == "Enter a valid regular expression and click on the button \"Run model simulation\"." || !tk_data_sampling_custom_rule_name || !tk_data_sampling_custom_rule_name.length) {
 
@@ -34769,7 +35191,7 @@ require([
                 }
 
                 // Define the query
-                var searchQuery = "| makeresults | eval model_name=\"" + tk_data_sampling_custom_rule_name + "\", model_regex=\"" + tk_data_sampling_custom_rule_regex + "\" | eval _key=md5(model_name), model_id=md5(model_name), mtime=now() | outputlookup trackme_data_sampling_custom_models append=t key_field=_key";
+                var searchQuery = "| makeresults | eval model_name=\"" + tk_data_sampling_custom_rule_name + "\", model_regex=\"" + tk_data_sampling_custom_rule_regex + "\", sourcetype_scope=\"" + tk_data_sampling_custom_sourcetype_scope + "\" | eval _key=md5(model_name), model_id=md5(model_name), mtime=now() | outputlookup trackme_data_sampling_custom_models append=t key_field=_key";
                 //console.log("searchQuery is: " + searchQuery);
 
                 // Set the search parameters--specify a time range
@@ -34791,7 +35213,7 @@ require([
                             change_type = "add data parsing custom rule";
                             object = tk_data_sampling_custom_rule_name;
                             object_category = "data_source";
-                            object_attrs = "{\n" + "\t\"model_name\": \"" + tk_data_sampling_custom_rule_name + "\",\n\t\"model_regex\": \"" + tk_data_sampling_custom_rule_regex + "\"\n}";
+                            object_attrs = "{\n" + "\t\"model_name\": \"" + tk_data_sampling_custom_rule_name + "\",\n\t\"model_regex\": \"" + tk_data_sampling_custom_rule_regex + "\",\n\t\"sourcetype_scope\": \"" + tk_data_sampling_custom_sourcetype_scope + "\"\n}";
                             result = "N/A";
                             comment = tk_comment;
                             auditRecord(action, change_type, object, object_category, object_attrs, result, comment);
@@ -34828,7 +35250,7 @@ require([
                                     change_type = "add data parsing custom rule";
                                     object = tk_data_sampling_custom_rule_name;
                                     object_category = "data_source";
-                                    object_attrs = "{\n" + "\t\"model_name\": \"" + tk_data_sampling_custom_rule_name + "\",\n\t\"model_regex\": \"" + tk_data_sampling_custom_rule_regex + "\"\n}";
+                                    object_attrs = "{\n" + "\t\"model_name\": \"" + tk_data_sampling_custom_rule_name + "\",\n\t\"model_regex\": \"" + tk_data_sampling_custom_rule_regex + "\",\n\t\"sourcetype_scope\": \"" + tk_data_sampling_custom_sourcetype_scope + "\"\n}";
                                     result = "N/A";
                                     comment = tk_comment;
                                     auditRecord(action, change_type, object, object_category, object_attrs, result, comment);
@@ -34879,12 +35301,21 @@ require([
             var tk_data_sampling_custom_rule_name = tokens.get("tk_data_sampling_custom_rule_name");
             //console.log("tk_data_sampling_custom_rule_name is: " + tk_data_sampling_custom_rule_name);
 
-            // Retriebe the key id
+            // Retrieve the sourcetype scope
+            var tk_data_sampling_custom_sourcetype_scope = tokens.get("tk_data_sampling_custom_sourcetype_scope");
+            //console.log("tk_data_sampling_custom_sourcetype_scope is: " + tk_data_sampling_custom_sourcetype_scope);
+
+            // Retrieve the key id
             var tk_keyid = tokens.get("tk_keyid");
-            //console.log("tk_keyid is: " + tk_keyid);        
+            //console.log("tk_keyid is: " + tk_keyid);
+
+            // Retrieve the key id
+            var tk_data_sourcetype = tokens.get("tk_data_sourcetype");
+            //console.log("tk_data_sourcetype is: " + tk_data_sourcetype);
 
             // Built the search URI
-            var similation_events_detail = 'search' + "?q=" + encodeURI("| inputlookup trackme_data_sampling where _key=\"" + tk_keyid + "\" | fields raw_sample | mvexpand raw_sample | eval detected_format = case(match(raw_sample, \"" + tk_data_sampling_custom_rule_regex + "\"), \"" + tk_data_sampling_custom_rule_name + "\") | eval detected_format_id=md5(detected_format)");
+            var similation_events_detail = 'search' + "?q=" + encodeURIComponent("| inputlookup trackme_data_sampling where _key=\"" + tk_keyid + "\" | fields raw_sample | mvexpand raw_sample | eval sourcetype=\"" + tk_data_sourcetype + "\", sourcetype_scope=\"" + tk_data_sampling_custom_sourcetype_scope + "\" | eval detected_format = case((sourcetype_scope==\"*\"), case(match(raw_sample, \"" + tk_data_sampling_custom_rule_regex + "\"), \"" + tk_data_sampling_custom_rule_name + "\"), in(sourcetype, `trackme_data_sampling_custom_models_simulate_genlist(\"" + tk_data_sampling_custom_sourcetype_scope + "\")`), case(match(raw_sample, \"" + tk_data_sampling_custom_rule_regex + "\"), \"" + tk_data_sampling_custom_rule_name + "\")) | eval detected_format_id=md5(detected_format)");
+            //console.log("similation_events_detail is: " + similation_events_detail);
 
             // Open
             window.open(similation_events_detail,'_blank');

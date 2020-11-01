@@ -1,19 +1,19 @@
 Configuration
 #############
 
-**Since the version 1.2.6, TrackMe requires the creation of a metric index, or the configuration of the metric index target if you wish to use an existing index:**
+.. hint:: Since TrackMe 1.2.6, the application requires the creation of a metric index
 
 .. image:: img/configure_ui_metrics_idx.png
    :alt: configure_ui_metrics_idx.png
    :align: center
 
-**Since the version 1.2.4, TrackMe requires the creation of a summary index, or the configuration of the summary index target if you wish to use an existing index:**
+.. hint:: Since TrackMe 1.2.4, the application requires the creation of an event index
 
 .. image:: img/configure_ui_summary_idx.png
    :alt: configure_ui_summary_idx.png
    :align: center
 
-**All main configuration items are macro based, which are exposed in the configuration UI:**
+.. tip:: In TrackMe, all main items are macro based such that these can be customised if required, an easy access is provided via the configuration UI
 
 .. image:: img/configure_ui.png
    :alt: configure_ui.png
@@ -22,11 +22,13 @@ Configuration
 Tags enrichment macro definitions
 =================================
 
+.. admonition:: Tags enrichment feature
+
+   Tags enrichment is made available when investigating a data or metric host within the user interface, to provide valuable context and get benefit from assets information available in the Splunk deployment.
+
 .. image:: img/macro_tags.png
    :alt: macro_tags.png
    :align: center
-
-**Tags enrichment is made available when investigating a data or metric host within the user interface, to provide valuable context and get benefit from assets information available in the Splunk deployment.**
 
 **Splunk Enterprise Security assets usage:**
 
@@ -124,7 +126,7 @@ Activation of built-in alerts
 
 - TrackMe - Alert on metric host availability
 
-**These alerts are disabled by default, and need to be manually enabled if you wish to use them in your global alerting workflow.**
+.. warning:: These alerts are disabled by default, and need to be manually enabled if you wish to use them in your global alerting workflow.
 
 trackme_admin role for granular access
 ======================================
