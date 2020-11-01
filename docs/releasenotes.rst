@@ -15,10 +15,10 @@ This is a new main release branch, TrackMe 1.2.x requires the deployment of the 
 TrackMe requires a summary index (defaults to trackme_summary) and a metric index (defaults to trackme_metrics):
 https://trackme.readthedocs.io/en/latest/configuration.html
 
-- Feature: Issue #186 - Data sampling - during the creation of a custom rule, its scope can now be restricted to a list of specific sourcetypes #186
-- Feature: Issue #188 - SLA - migrate calculation from flipping state events to current states events / minor improvements to the SLA dashboard
-- Feature: Issue #190 - UI improvements - provide quick access to data sampling custom rules, unify trackers manual run for data sources and hosts #190
-- Feature: Issue #191 - UI improvements - Load spinner at TrackMe loading stage, Spinner design refresh #191
+- Feature: Issue #186 - Data sampling - during the creation of a custom rule, its scope can now be restricted to a list of specific sourcetypes to dedicate custom rules and avoid rules overlapping issues
+- Feature: Issue #188 - SLA calculation migration from flipping statuses events to current statuses events for reliable results / SLA dashboard improvements / Drilldown from SLA single percentage in TrackMe main UI to SLA dashboard
+- Feature: Issue #190 - UI improvements - provide quick access to data sampling custom rules in the main data sources tab, unify trackers manual run for data sources and hosts in a single button and window
+- Feature: Issue #191 - UI improvements - Load spinner at TrackMe loading stage, Spinner design refresh globally in TrackMe
 
 Version 1.2.25
 ==============
