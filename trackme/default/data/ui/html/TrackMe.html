@@ -8920,6 +8920,21 @@ require([
 
         var pageLoading = true;
 
+        // Run initial spinner, gets removed once the main search from data sources is done
+        $("body").append('<div id="loadingGrayInitial" style="background: #e9e9e9; display: block; position: fixed; z-index: 100; top: 0; right: 0; bottom: 0; left: 0; height: 100%; opacity: 0.8;"><div style="width: 100%; margin-top: 250px; padding-bottom: 50px; text-align: center;"><p style="font-size: 18pt; font-weight: bolder; color: #003b59;">TrackMe is loading, please wait...</p></div><div id="spinner"></div></div>')
+
+        require(["jquery",
+                "/static/app/trackme/spin.js"
+            ],
+            function($,
+                Spinner
+            ) {
+                new Spinner({
+                    lines: 12, length: 18,
+                    position: "relative", color: "#003b59"
+                }).spin(document.getElementById('spinner'));
+            })
+
         //
         // FUNCTIONS
         //
@@ -9147,6 +9162,11 @@ require([
             tokens: true,
             tokenNamespace: "submitted"
         });
+
+        searchDataSourcesMain.on("search:done", function () {
+            // function here
+            $("#loadingGrayInitial").remove()
+        })
 
         var searchDataSourcesPostTable = new PostProcessManager({
             "tokenDependencies": {},
@@ -27469,7 +27489,7 @@ require([
                 function(err, job) {
 
                     $("#loadingGray").remove()
-                    $("body").append('<div id="loadingGray" style="background: #e9e9e9; display: block; position: fixed; z-index: 100; top: 0; right: 0; bottom: 0; left: 0; height: 100%; opacity: 0.8;"><div style="width: 100%; margin-top: 250px; padding-bottom: 50px; text-align: center;"><p style="font-size: 18pt; font-weight: bolder;">Running the Elastic Shared Tracker...</p></div><div id="spinner"></div></div>')
+                    $("body").append('<div id="loadingGray" style="background: #e9e9e9; display: block; position: fixed; z-index: 100; top: 0; right: 0; bottom: 0; left: 0; height: 100%; opacity: 0.8;"><div style="width: 100%; margin-top: 250px; padding-bottom: 50px; text-align: center;"><p style="font-size: 18pt; font-weight: bolder; color: #003b59;">Running the Elastic Shared Tracker...</p></div><div id="spinner"></div></div>')
 
                     require(["jquery",
                             "/static/app/trackme/spin.js"
@@ -27478,8 +27498,8 @@ require([
                             Spinner
                         ) {
                             new Spinner({
-                                lines: 12,
-                                position: "relative"
+                                lines: 12, length: 18,
+                                position: "relative", color: "#003b59"
                             }).spin(document.getElementById('spinner'));
                         })
 
@@ -27563,7 +27583,7 @@ require([
                 function(err, job) {
 
                     $("#loadingGray").remove()
-                    $("body").append('<div id="loadingGray" style="background: #e9e9e9; display: block; position: fixed; z-index: 100; top: 0; right: 0; bottom: 0; left: 0; height: 100%; opacity: 0.8;"><div style="width: 100%; margin-top: 250px; padding-bottom: 50px; text-align: center;"><p style="font-size: 18pt; font-weight: bolder;">Running the dedicated elastic tracker' +  tk_tracker_name + '...</p></div><div id="spinner"></div></div>')
+                    $("body").append('<div id="loadingGray" style="background: #e9e9e9; display: block; position: fixed; z-index: 100; top: 0; right: 0; bottom: 0; left: 0; height: 100%; opacity: 0.8;"><div style="width: 100%; margin-top: 250px; padding-bottom: 50px; text-align: center;"><p style="font-size: 18pt; font-weight: bolder; color: #003b59;">Running the dedicated elastic tracker' +  tk_tracker_name + '...</p></div><div id="spinner"></div></div>')
 
                     require(["jquery",
                             "/static/app/trackme/spin.js"
@@ -27572,8 +27592,8 @@ require([
                             Spinner
                         ) {
                             new Spinner({
-                                lines: 12,
-                                position: "relative"
+                                lines: 12, length: 18,
+                                position: "relative", color: "#003b59"
                             }).spin(document.getElementById('spinner'));
                         })
 
@@ -28243,7 +28263,7 @@ require([
                 function(err, job) {
 
                     $("#loadingGray").remove()
-                    $("body").append('<div id="loadingGray" style="background: #e9e9e9; display: block; position: fixed; z-index: 100; top: 0; right: 0; bottom: 0; left: 0; height: 100%; opacity: 0.8;"><div style="width: 100%; margin-top: 250px; padding-bottom: 50px; text-align: center;"><p style="font-size: 18pt; font-weight: bolder;">Running the data sources short term tracker...</p></div><div id="spinner"></div></div>')
+                    $("body").append('<div id="loadingGray" style="background: #e9e9e9; display: block; position: fixed; z-index: 100; top: 0; right: 0; bottom: 0; left: 0; height: 100%; opacity: 0.8;"><div style="width: 100%; margin-top: 250px; padding-bottom: 50px; text-align: center;"><p style="font-size: 18pt; font-weight: bolder; color: #003b59;">Running the data sources short term tracker...</p></div><div id="spinner"></div></div>')
 
                     require(["jquery",
                             "/static/app/trackme/spin.js"
@@ -28252,8 +28272,8 @@ require([
                             Spinner
                         ) {
                             new Spinner({
-                                lines: 12,
-                                position: "relative"
+                                lines: 12, length: 18,
+                                position: "relative", color: "#003b59"
                             }).spin(document.getElementById('spinner'));
                         })
 
@@ -28333,7 +28353,7 @@ require([
                 function(err, job) {
 
                     $("#loadingGray").remove()
-                    $("body").append('<div id="loadingGray" style="background: #e9e9e9; display: block; position: fixed; z-index: 100; top: 0; right: 0; bottom: 0; left: 0; height: 100%; opacity: 0.8;"><div style="width: 100%; margin-top: 250px; padding-bottom: 50px; text-align: center;"><p style="font-size: 18pt; font-weight: bolder;">Running the host short term tracker...</p></div><div id="spinner"></div></div>')
+                    $("body").append('<div id="loadingGray" style="background: #e9e9e9; display: block; position: fixed; z-index: 100; top: 0; right: 0; bottom: 0; left: 0; height: 100%; opacity: 0.8;"><div style="width: 100%; margin-top: 250px; padding-bottom: 50px; text-align: center;"><p style="font-size: 18pt; font-weight: bolder; color: #003b59;">Running the host short term tracker...</p></div><div id="spinner"></div></div>')
 
                     require(["jquery",
                             "/static/app/trackme/spin.js"
@@ -28342,8 +28362,8 @@ require([
                             Spinner
                         ) {
                             new Spinner({
-                                lines: 12,
-                                position: "relative"
+                                lines: 12, length: 18,
+                                position: "relative", color: "#003b59"
                             }).spin(document.getElementById('spinner'));
                         })
 
@@ -28425,7 +28445,7 @@ require([
                 function(err, job) {
 
                     $("#loadingGray").remove()
-                    $("body").append('<div id="loadingGray" style="background: #e9e9e9; display: block; position: fixed; z-index: 100; top: 0; right: 0; bottom: 0; left: 0; height: 100%; opacity: 0.8;"><div style="width: 100%; margin-top: 250px; padding-bottom: 50px; text-align: center;"><p style="font-size: 18pt; font-weight: bolder;">Running the data sources long term tracker...</p></div><div id="spinner"></div></div>')
+                    $("body").append('<div id="loadingGray" style="background: #e9e9e9; display: block; position: fixed; z-index: 100; top: 0; right: 0; bottom: 0; left: 0; height: 100%; opacity: 0.8;"><div style="width: 100%; margin-top: 250px; padding-bottom: 50px; text-align: center;"><p style="font-size: 18pt; font-weight: bolder; color: #003b59;">Running the data sources long term tracker...</p></div><div id="spinner"></div></div>')
 
                     require(["jquery",
                             "/static/app/trackme/spin.js"
@@ -28434,8 +28454,8 @@ require([
                             Spinner
                         ) {
                             new Spinner({
-                                lines: 12,
-                                position: "relative"
+                                lines: 12, length: 18,
+                                position: "relative", color: "#003b59"
                             }).spin(document.getElementById('spinner'));
                         })
 
@@ -28515,7 +28535,7 @@ require([
                 function(err, job) {
 
                     $("#loadingGray").remove()
-                    $("body").append('<div id="loadingGray" style="background: #e9e9e9; display: block; position: fixed; z-index: 100; top: 0; right: 0; bottom: 0; left: 0; height: 100%; opacity: 0.8;"><div style="width: 100%; margin-top: 250px; padding-bottom: 50px; text-align: center;"><p style="font-size: 18pt; font-weight: bolder;">Running the host long term tracker...</p></div><div id="spinner"></div></div>')
+                    $("body").append('<div id="loadingGray" style="background: #e9e9e9; display: block; position: fixed; z-index: 100; top: 0; right: 0; bottom: 0; left: 0; height: 100%; opacity: 0.8;"><div style="width: 100%; margin-top: 250px; padding-bottom: 50px; text-align: center;"><p style="font-size: 18pt; font-weight: bolder; color: #003b59;">Running the host long term tracker...</p></div><div id="spinner"></div></div>')
 
                     require(["jquery",
                             "/static/app/trackme/spin.js"
@@ -28524,8 +28544,8 @@ require([
                             Spinner
                         ) {
                             new Spinner({
-                                lines: 12,
-                                position: "relative"
+                                lines: 12, length: 18,
+                                position: "relative", color: "#003b59"
                             }).spin(document.getElementById('spinner'));
                         })
 
@@ -28607,7 +28627,7 @@ require([
                 function(err, job) {
 
                     $("#loadingGray").remove()
-                    $("body").append('<div id="loadingGray" style="background: #e9e9e9; display: block; position: fixed; z-index: 100; top: 0; right: 0; bottom: 0; left: 0; height: 100%; opacity: 0.8;"><div style="width: 100%; margin-top: 250px; padding-bottom: 50px; text-align: center;"><p style="font-size: 18pt; font-weight: bolder;">Running the Elastic sources Shared tracker...</p></div><div id="spinner"></div></div>')
+                    $("body").append('<div id="loadingGray" style="background: #e9e9e9; display: block; position: fixed; z-index: 100; top: 0; right: 0; bottom: 0; left: 0; height: 100%; opacity: 0.8;"><div style="width: 100%; margin-top: 250px; padding-bottom: 50px; text-align: center;"><p style="font-size: 18pt; font-weight: bolder; color: #003b59;">Running the Elastic sources Shared tracker...</p></div><div id="spinner"></div></div>')
 
                     require(["jquery",
                             "/static/app/trackme/spin.js"
@@ -28616,8 +28636,8 @@ require([
                             Spinner
                         ) {
                             new Spinner({
-                                lines: 12,
-                                position: "relative"
+                                lines: 12, length: 18,
+                                position: "relative", color: "#003b59"
                             }).spin(document.getElementById('spinner'));
                         })
 
@@ -28699,7 +28719,7 @@ require([
                 function(err, job) {
 
                     $("#loadingGray").remove()
-                    $("body").append('<div id="loadingGray" style="background: #e9e9e9; display: block; position: fixed; z-index: 100; top: 0; right: 0; bottom: 0; left: 0; height: 100%; opacity: 0.8;"><div style="width: 100%; margin-top: 250px; padding-bottom: 50px; text-align: center;"><p style="font-size: 18pt; font-weight: bolder;">Running the Data sampling & events format recognition tracker...</p></div><div id="spinner"></div></div>')
+                    $("body").append('<div id="loadingGray" style="background: #e9e9e9; display: block; position: fixed; z-index: 100; top: 0; right: 0; bottom: 0; left: 0; height: 100%; opacity: 0.8;"><div style="width: 100%; margin-top: 250px; padding-bottom: 50px; text-align: center;"><p style="font-size: 18pt; font-weight: bolder; color: #003b59;">Running the Data sampling & events format recognition tracker...</p></div><div id="spinner"></div></div>')
 
                     require(["jquery",
                             "/static/app/trackme/spin.js"
@@ -28708,8 +28728,8 @@ require([
                             Spinner
                         ) {
                             new Spinner({
-                                lines: 12,
-                                position: "relative"
+                                lines: 12, length: 18,
+                                position: "relative", color: "#003b59"
                             }).spin(document.getElementById('spinner'));
                         })
 
@@ -28789,7 +28809,7 @@ require([
                 function(err, job) {
 
                     $("#loadingGray").remove()
-                    $("body").append('<div id="loadingGray" style="background: #e9e9e9; display: block; position: fixed; z-index: 100; top: 0; right: 0; bottom: 0; left: 0; height: 100%; opacity: 0.8;"><div style="width: 100%; margin-top: 250px; padding-bottom: 50px; text-align: center;"><p style="font-size: 18pt; font-weight: bolder;">Running the metric tracker...</p></div><div id="spinner"></div></div>')
+                    $("body").append('<div id="loadingGray" style="background: #e9e9e9; display: block; position: fixed; z-index: 100; top: 0; right: 0; bottom: 0; left: 0; height: 100%; opacity: 0.8;"><div style="width: 100%; margin-top: 250px; padding-bottom: 50px; text-align: center;"><p style="font-size: 18pt; font-weight: bolder; color: #003b59;">Running the metric tracker...</p></div><div id="spinner"></div></div>')
 
                     require(["jquery",
                             "/static/app/trackme/spin.js"
@@ -28798,8 +28818,8 @@ require([
                             Spinner
                         ) {
                             new Spinner({
-                                lines: 12,
-                                position: "relative"
+                                lines: 12, length: 18,
+                                position: "relative", color: "#003b59"
                             }).spin(document.getElementById('spinner'));
                         })
 
@@ -29836,7 +29856,7 @@ require([
                     $("#modal_modify_data_source_autolag").modal('hide');
 
                     $("#loadingGray").remove()
-                    $("body").append('<div id="loadingGray" style="background: #e9e9e9; display: block; position: fixed; z-index: 100; top: 0; right: 0; bottom: 0; left: 0; height: 100%; opacity: 0.8;"><div style="width: 100%; margin-top: 250px; padding-bottom: 50px; text-align: center;"><p style="font-size: 18pt; font-weight: bolder;">Please wait while determining the entity lagging value...</p></div><div id="spinner"></div></div>')
+                    $("body").append('<div id="loadingGray" style="background: #e9e9e9; display: block; position: fixed; z-index: 100; top: 0; right: 0; bottom: 0; left: 0; height: 100%; opacity: 0.8;"><div style="width: 100%; margin-top: 250px; padding-bottom: 50px; text-align: center;"><p style="font-size: 18pt; font-weight: bolder; color: #003b59;">Please wait while determining the entity lagging value...</p></div><div id="spinner"></div></div>')
 
                     require(["jquery",
                             "/static/app/trackme/spin.js"
@@ -29845,8 +29865,8 @@ require([
                             Spinner
                         ) {
                             new Spinner({
-                                lines: 12,
-                                position: "relative"
+                                lines: 12, length: 18,
+                                position: "relative", color: "#003b59"
                             }).spin(document.getElementById('spinner'));
                         })
 
@@ -30005,7 +30025,7 @@ require([
                     $("#modal_modify_data_source_autolag").modal('hide');
 
                     $("#loadingGray").remove()
-                    $("body").append('<div id="loadingGray" style="background: #e9e9e9; display: block; position: fixed; z-index: 100; top: 0; right: 0; bottom: 0; left: 0; height: 100%; opacity: 0.8;"><div style="width: 100%; margin-top: 250px; padding-bottom: 50px; text-align: center;"><p style="font-size: 18pt; font-weight: bolder;">Please wait while determining the entity lagging value...</p></div><div id="spinner"></div></div>')
+                    $("body").append('<div id="loadingGray" style="background: #e9e9e9; display: block; position: fixed; z-index: 100; top: 0; right: 0; bottom: 0; left: 0; height: 100%; opacity: 0.8;"><div style="width: 100%; margin-top: 250px; padding-bottom: 50px; text-align: center;"><p style="font-size: 18pt; font-weight: bolder; color: #003b59;">Please wait while determining the entity lagging value...</p></div><div id="spinner"></div></div>')
 
                     require(["jquery",
                             "/static/app/trackme/spin.js"
@@ -30014,8 +30034,8 @@ require([
                             Spinner
                         ) {
                             new Spinner({
-                                lines: 12,
-                                position: "relative"
+                                lines: 12, length: 18,
+                                position: "relative", color: "#003b59"
                             }).spin(document.getElementById('spinner'));
                         })
 
@@ -30175,7 +30195,7 @@ require([
                     $("#modal_modify_data_source_autolag").modal('hide');
 
                     $("#loadingGray").remove()
-                    $("body").append('<div id="loadingGray" style="background: #e9e9e9; display: block; position: fixed; z-index: 100; top: 0; right: 0; bottom: 0; left: 0; height: 100%; opacity: 0.8;"><div style="width: 100%; margin-top: 250px; padding-bottom: 50px; text-align: center;"><p style="font-size: 18pt; font-weight: bolder;">Please wait while determining the entity lagging value...</p></div><div id="spinner"></div></div>')
+                    $("body").append('<div id="loadingGray" style="background: #e9e9e9; display: block; position: fixed; z-index: 100; top: 0; right: 0; bottom: 0; left: 0; height: 100%; opacity: 0.8;"><div style="width: 100%; margin-top: 250px; padding-bottom: 50px; text-align: center;"><p style="font-size: 18pt; font-weight: bolder; color: #003b59;">Please wait while determining the entity lagging value...</p></div><div id="spinner"></div></div>')
 
                     require(["jquery",
                             "/static/app/trackme/spin.js"
@@ -30184,8 +30204,8 @@ require([
                             Spinner
                         ) {
                             new Spinner({
-                                lines: 12,
-                                position: "relative"
+                                lines: 12, length: 18,
+                                position: "relative", color: "#003b59"
                             }).spin(document.getElementById('spinner'));
                         })
 
@@ -30345,7 +30365,7 @@ require([
                     $("#modal_modify_data_source_autolag").modal('hide');
 
                     $("#loadingGray").remove()
-                    $("body").append('<div id="loadingGray" style="background: #e9e9e9; display: block; position: fixed; z-index: 100; top: 0; right: 0; bottom: 0; left: 0; height: 100%; opacity: 0.8;"><div style="width: 100%; margin-top: 250px; padding-bottom: 50px; text-align: center;"><p style="font-size: 18pt; font-weight: bolder;">Please wait while determining the entity lagging value...</p></div><div id="spinner"></div></div>')
+                    $("body").append('<div id="loadingGray" style="background: #e9e9e9; display: block; position: fixed; z-index: 100; top: 0; right: 0; bottom: 0; left: 0; height: 100%; opacity: 0.8;"><div style="width: 100%; margin-top: 250px; padding-bottom: 50px; text-align: center;"><p style="font-size: 18pt; font-weight: bolder; color: #003b59;">Please wait while determining the entity lagging value...</p></div><div id="spinner"></div></div>')
 
                     require(["jquery",
                             "/static/app/trackme/spin.js"
@@ -30354,8 +30374,8 @@ require([
                             Spinner
                         ) {
                             new Spinner({
-                                lines: 12,
-                                position: "relative"
+                                lines: 12, length: 18,
+                                position: "relative", color: "#003b59"
                             }).spin(document.getElementById('spinner'));
                         })
 
@@ -31176,7 +31196,7 @@ require([
                     $("#modal_modify_data_host_autolag").modal('hide');
 
                     $("#loadingGray").remove()
-                    $("body").append('<div id="loadingGray" style="background: #e9e9e9; display: block; position: fixed; z-index: 100; top: 0; right: 0; bottom: 0; left: 0; height: 100%; opacity: 0.8;"><div style="width: 100%; margin-top: 250px; padding-bottom: 50px; text-align: center;"><p style="font-size: 18pt; font-weight: bolder;">Please wait while determining the entity lagging value...</p></div><div id="spinner"></div></div>')
+                    $("body").append('<div id="loadingGray" style="background: #e9e9e9; display: block; position: fixed; z-index: 100; top: 0; right: 0; bottom: 0; left: 0; height: 100%; opacity: 0.8;"><div style="width: 100%; margin-top: 250px; padding-bottom: 50px; text-align: center;"><p style="font-size: 18pt; font-weight: bolder; color: #003b59;">Please wait while determining the entity lagging value...</p></div><div id="spinner"></div></div>')
 
                     require(["jquery",
                             "/static/app/trackme/spin.js"
@@ -31185,8 +31205,8 @@ require([
                             Spinner
                         ) {
                             new Spinner({
-                                lines: 12,
-                                position: "relative"
+                                lines: 12, length: 18,
+                                position: "relative", color: "#003b59"
                             }).spin(document.getElementById('spinner'));
                         })
 
@@ -31343,7 +31363,7 @@ require([
                     $("#modal_modify_data_host_autolag").modal('hide');
 
                     $("#loadingGray").remove()
-                    $("body").append('<div id="loadingGray" style="background: #e9e9e9; display: block; position: fixed; z-index: 100; top: 0; right: 0; bottom: 0; left: 0; height: 100%; opacity: 0.8;"><div style="width: 100%; margin-top: 250px; padding-bottom: 50px; text-align: center;"><p style="font-size: 18pt; font-weight: bolder;">Please wait while determining the entity lagging value...</p></div><div id="spinner"></div></div>')
+                    $("body").append('<div id="loadingGray" style="background: #e9e9e9; display: block; position: fixed; z-index: 100; top: 0; right: 0; bottom: 0; left: 0; height: 100%; opacity: 0.8;"><div style="width: 100%; margin-top: 250px; padding-bottom: 50px; text-align: center;"><p style="font-size: 18pt; font-weight: bolder; color: #003b59;">Please wait while determining the entity lagging value...</p></div><div id="spinner"></div></div>')
 
                     require(["jquery",
                             "/static/app/trackme/spin.js"
@@ -31352,8 +31372,8 @@ require([
                             Spinner
                         ) {
                             new Spinner({
-                                lines: 12,
-                                position: "relative"
+                                lines: 12, length: 18,
+                                position: "relative", color: "#003b59"
                             }).spin(document.getElementById('spinner'));
                         })
 
@@ -31509,7 +31529,7 @@ require([
                     $("#modal_modify_data_host_autolag").modal('hide');
 
                     $("#loadingGray").remove()
-                    $("body").append('<div id="loadingGray" style="background: #e9e9e9; display: block; position: fixed; z-index: 100; top: 0; right: 0; bottom: 0; left: 0; height: 100%; opacity: 0.8;"><div style="width: 100%; margin-top: 250px; padding-bottom: 50px; text-align: center;"><p style="font-size: 18pt; font-weight: bolder;">Please wait while determining the entity lagging value...</p></div><div id="spinner"></div></div>')
+                    $("body").append('<div id="loadingGray" style="background: #e9e9e9; display: block; position: fixed; z-index: 100; top: 0; right: 0; bottom: 0; left: 0; height: 100%; opacity: 0.8;"><div style="width: 100%; margin-top: 250px; padding-bottom: 50px; text-align: center;"><p style="font-size: 18pt; font-weight: bolder; color: #003b59;">Please wait while determining the entity lagging value...</p></div><div id="spinner"></div></div>')
 
                     require(["jquery",
                             "/static/app/trackme/spin.js"
@@ -31518,8 +31538,8 @@ require([
                             Spinner
                         ) {
                             new Spinner({
-                                lines: 12,
-                                position: "relative"
+                                lines: 12, length: 18,
+                                position: "relative", color: "#003b59"
                             }).spin(document.getElementById('spinner'));
                         })
 
@@ -31675,7 +31695,7 @@ require([
                     $("#modal_modify_data_host_autolag").modal('hide');
 
                     $("#loadingGray").remove()
-                    $("body").append('<div id="loadingGray" style="background: #e9e9e9; display: block; position: fixed; z-index: 100; top: 0; right: 0; bottom: 0; left: 0; height: 100%; opacity: 0.8;"><div style="width: 100%; margin-top: 250px; padding-bottom: 50px; text-align: center;"><p style="font-size: 18pt; font-weight: bolder;">Please wait while determining the entity lagging value...</p></div><div id="spinner"></div></div>')
+                    $("body").append('<div id="loadingGray" style="background: #e9e9e9; display: block; position: fixed; z-index: 100; top: 0; right: 0; bottom: 0; left: 0; height: 100%; opacity: 0.8;"><div style="width: 100%; margin-top: 250px; padding-bottom: 50px; text-align: center;"><p style="font-size: 18pt; font-weight: bolder; color: #003b59;">Please wait while determining the entity lagging value...</p></div><div id="spinner"></div></div>')
 
                     require(["jquery",
                             "/static/app/trackme/spin.js"
@@ -31684,8 +31704,8 @@ require([
                             Spinner
                         ) {
                             new Spinner({
-                                lines: 12,
-                                position: "relative"
+                                lines: 12, length: 18,
+                                position: "relative", color: "#003b59"
                             }).spin(document.getElementById('spinner'));
                         })
 
@@ -34540,7 +34560,7 @@ require([
                 function(err, job) {
 
                     $("#loadingGray").remove()
-                    $("body").append('<div id="loadingGray" style="background: #e9e9e9; display: block; position: fixed; z-index: 100; top: 0; right: 0; bottom: 0; left: 0; height: 100%; opacity: 0.8;"><div style="width: 100%; margin-top: 250px; padding-bottom: 50px; text-align: center;"><p style="font-size: 18pt; font-weight: bolder;">Running the data sampling and format recognition engine...</p></div><div id="spinner"></div></div>')
+                    $("body").append('<div id="loadingGray" style="background: #e9e9e9; display: block; position: fixed; z-index: 100; top: 0; right: 0; bottom: 0; left: 0; height: 100%; opacity: 0.8;"><div style="width: 100%; margin-top: 250px; padding-bottom: 50px; text-align: center;"><p style="font-size: 18pt; font-weight: bolder; color: #003b59;">Running the data sampling and format recognition engine...</p></div><div id="spinner"></div></div>')
 
                     require(["jquery",
                             "/static/app/trackme/spin.js"
@@ -34549,8 +34569,8 @@ require([
                             Spinner
                         ) {
                             new Spinner({
-                                lines: 12,
-                                position: "relative"
+                                lines: 12, length: 18,
+                                position: "relative", color: "#003b59"
                             }).spin(document.getElementById('spinner'));
                         })
 
@@ -34710,7 +34730,7 @@ require([
                         function(err, job) {
 
                             $("#loadingGray").remove()
-                            $("body").append('<div id="loadingGray" style="background: #e9e9e9; display: block; position: fixed; z-index: 100; top: 0; right: 0; bottom: 0; left: 0; height: 100%; opacity: 0.8;"><div style="width: 100%; margin-top: 250px; padding-bottom: 50px; text-align: center;"><p style="font-size: 18pt; font-weight: bolder;">Clearing the data source state and disabling the data sampling feature...</p></div><div id="spinner"></div></div>')
+                            $("body").append('<div id="loadingGray" style="background: #e9e9e9; display: block; position: fixed; z-index: 100; top: 0; right: 0; bottom: 0; left: 0; height: 100%; opacity: 0.8;"><div style="width: 100%; margin-top: 250px; padding-bottom: 50px; text-align: center;"><p style="font-size: 18pt; font-weight: bolder; color: #003b59;">Clearing the data source state and disabling the data sampling feature...</p></div><div id="spinner"></div></div>')
 
                             require(["jquery",
                                     "/static/app/trackme/spin.js"
@@ -34719,8 +34739,8 @@ require([
                                     Spinner
                                 ) {
                                     new Spinner({
-                                        lines: 12,
-                                        position: "relative"
+                                        lines: 12, length: 18,
+                                        position: "relative", color: "#003b59"
                                     }).spin(document.getElementById('spinner'));
                                 })
 
@@ -34907,7 +34927,7 @@ require([
                                 function(err, job) {
 
                                     $("#loadingGray").remove()
-                                    $("body").append('<div id="loadingGray" style="background: #e9e9e9; display: block; position: fixed; z-index: 100; top: 0; right: 0; bottom: 0; left: 0; height: 100%; opacity: 0.8;"><div style="width: 100%; margin-top: 250px; padding-bottom: 50px; text-align: center;"><p style="font-size: 18pt; font-weight: bolder;">Clearing the data source state and running the data sampling and format recognition engine...</p></div><div id="spinner"></div></div>')
+                                    $("body").append('<div id="loadingGray" style="background: #e9e9e9; display: block; position: fixed; z-index: 100; top: 0; right: 0; bottom: 0; left: 0; height: 100%; opacity: 0.8;"><div style="width: 100%; margin-top: 250px; padding-bottom: 50px; text-align: center;"><p style="font-size: 18pt; font-weight: bolder; color: #003b59;">Clearing the data source state and running the data sampling and format recognition engine...</p></div><div id="spinner"></div></div>')
 
                                     require(["jquery",
                                             "/static/app/trackme/spin.js"
@@ -34916,8 +34936,8 @@ require([
                                             Spinner
                                         ) {
                                             new Spinner({
-                                                lines: 12,
-                                                position: "relative"
+                                                lines: 12, length: 18,
+                                                position: "relative", color: "#003b59"
                                             }).spin(document.getElementById('spinner'));
                                         })
 

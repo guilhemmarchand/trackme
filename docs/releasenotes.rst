@@ -18,6 +18,7 @@ https://trackme.readthedocs.io/en/latest/configuration.html
 - Feature: Issue #186 - Data sampling - during the creation of a custom rule, its scope can now be restricted to a list of specific sourcetypes #186
 - Feature: Issue #188 - SLA - migrate calculation from flipping state events to current states events / minor improvements to the SLA dashboard
 - Feature: Issue #190 - UI improvements - provide quick access to data sampling custom rules, unify trackers manual run for data sources and hosts #190
+- Feature: Issue #191 - UI improvements - Load spinner at TrackMe loading stage, Spinner design refresh #191
 
 Version 1.2.25
 ==============
