@@ -1889,8 +1889,8 @@ Ops: Queues center
 - You can select a time range between the provided options
 - Scroll down within the window, and choose different break down options in the detailed queue usage treillis charts dependending on your needs
 
-Ops Parsing view
-================
+Ops: Parsing view
+=================
 
 .. admonition:: Splunk parsing errors
 
@@ -1920,7 +1920,7 @@ Ops Parsing view
 Splunk 8 magic props configuration
 ----------------------------------
 
-**The splunk> magic 8 are good practice configuration items to be configured in your props.conf for the best performing and the best quality sourcetype definition:**
+**The "Splunk> magic 8" are good practice configuration items to be configured in your props.conf for the best performing and the best quality sourcetype definition:**
 
 ::
 
@@ -1950,7 +1950,7 @@ Splunk 8 magic props configuration
 
    EVENT_BREAKER = regular expression for event breaks
 
-**This configuration represents the perfect sourcetype definition for Splunk, combining an explicit and controled definition for a reliable event breaking and time stamp recognition, as much as it is possible you should always target this configuration.**
+**This configuration represents the ideal sourcetype definition for Splunk, combining an explicit and controled definition for a reliable event breaking and time stamp recognition, as much as it is possible you should always target this configuration.**
 
 Out of the box alerts
 =====================
