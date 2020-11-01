@@ -6,17 +6,17 @@
 Welcome to the Splunk TrackMe application documentation
 ========================================================
 
-**The Splunk TrackMe application provides automated monitoring and visibility insight of your data sources availability, with a powerful user interface and workflow for Splunk product owners to detect and alert on failures or abnormal latency:**
+**TrackMe provides automated monitoring and visibility insight of your data sources, with a powerful user interface and workflow for Splunk product owners to detect and alert on lack of availability, abnormal latency, volume outliers detection and quality issues:**
 
 - Discover and store key states information of data sources, data hosts and metric hosts availability
-- Provides a powerful user interface to manage activation states, configuration and quickly trouble availability failure detection
+- Provides a powerful user interface to manage activation states, configuration and quickly identify data availability failures
 - Analyse and detect lack of data and performance lagging of data sources and hosts within your Splunk deployment
 - Behaviour analytic with outlier detection based on machine learning outliers calculations
-- Behaviour analytic with data sampling and event format recognition, monitor and detect anomalies in raw events to detect event format changes or misbehaviour
+- Behaviour analytic with data sampling and event format recognition, monitor and detect anomalies in raw events to detect event format changes or misbehaviour based on builtin rules and extended with your own custom rules
 - Create elastic sources for any kind of custom monitoring requirements based on tstats / raw / mstats / from searches to fullfill any requirements
 - Record and investigate historical changes of statuses, as well as administrators changes (audit flipping and changes)
 - Easy administration via graphical human interface from A to Z
-- No matters the purpose of your Splunk deployment, trackMe will easily become an essential and easy piece of your deployment, and even providing efficient answers to PCI and compliance requirements
+- No matters the purpose of your Splunk deployment, trackMe will become an essential piece of your deployment, providing key value for PCI or compliance requirements
 - Keep things under your control and be the first to know when data is not available, get alerted before your users get back to you!
 
 .. image:: img/screenshots_main/img001.png
@@ -41,13 +41,13 @@ Welcome to the Splunk TrackMe application documentation
 
 **Why this application?**
 
-Splunk administrators and engineers have to spend a good amount of time and energy to on-board new data sources, another data source after another data source.
+Splunk administrators and engineers have to spend a good amount of time and energy to on-board and monitor data sources, which becomes more and more complex and time consuming with the explosion of volume and variety of data.
 
-However, it is very frequent to realise after math that something went wrong, for some reason the sender stopped sending, an upgrade broke a configuration, a network rule was lost…
+However, it is very frequent to realise after math that something went wrong, for some reason the sender stopped sending, an upgrade broke a configuration, a network rule was lost, an unexpected side effect of a change occurred, parsing issues are not detected...
 
-No administrator should be informed of an issue in the data flow by the customer or end users, this is why you need pro-activity and costless availability monitoring.
+No administrator should be informed of an issue in the data flow by the customer or the end users, this is why you need pro-activity, costless and scalable availability monitoring.
 
-with the massive amount of data sources, this becomes easily a painful and time consuming activity, this application aims to drastically help you in these tasks.
+with the massive amount and variety of data sources, this becomes easily a painful and problematic activity, this application aims to drastically help you in these daily tasks.
 
 TrackMe provides a handy user interface associated with an efficient data discovery, state and alerting workflow.
 
@@ -61,6 +61,7 @@ No matters the purpose of your Splunk deployment, trackMe will easily become an 
 - PCI and compliance: deliver, alert and action
 - Monitoring and insight visibility about your indexes, sourcetypes, events and metrics
 - General data activity monitoring and detection of Zombie data
+- Continous and automated data quality assessment
 
 Overview:
 =========

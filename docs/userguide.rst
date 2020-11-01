@@ -2013,7 +2013,13 @@ Alerts acknowledgment
    :alt: ack4.png
    :align: center
 
-**All acknowledge related actions are recorded in the audit collection and report.**
+**All acknowledgement related actions are recorded in the audit collection and report.**
+
+.. tip:: When an acknowledgment is active, a specific icon replaces the red state icon which easily indicates that an acknowledgement is currently active for that object.
+
+.. image:: img/ack5.png
+   :alt: ack5.png
+   :align: center
 
 Connected experience dashboard for Splunk Mobile & Apple TV
 ===========================================================
