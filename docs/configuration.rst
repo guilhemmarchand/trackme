@@ -22,11 +22,13 @@ Configuration
 Tags enrichment macro definitions
 =================================
 
+.. admonition:: Tags enrichment feature
+
+   Tags enrichment is made available when investigating a data or metric host within the user interface, to provide valuable context and get benefit from assets information available in the Splunk deployment.
+
 .. image:: img/macro_tags.png
    :alt: macro_tags.png
    :align: center
-
-**Tags enrichment is made available when investigating a data or metric host within the user interface, to provide valuable context and get benefit from assets information available in the Splunk deployment.**
 
 **Splunk Enterprise Security assets usage:**
 
