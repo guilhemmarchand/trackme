@@ -1,6 +1,23 @@
 Release notes
 #############
 
+Version 1.2.27
+==============
+
+**CAUTION:**
+
+This is a new main release branch, TrackMe 1.2.x requires the deployment of the following dependencies:
+
+- Semicircle Donut Chart Viz, Splunk Base: https://splunkbase.splunk.com/app/4378
+- Splunk Machine Learning Toolkit, Splunk Base: https://splunkbase.splunk.com/app/2890
+- Splunk Timeline - Custom Visualization, Splunk Base: https://splunkbase.splunk.com/app/3120
+
+TrackMe requires a summary index (defaults to trackme_summary) and a metric index (defaults to trackme_metrics):
+https://trackme.readthedocs.io/en/latest/configuration.html
+
+- Feature: Issue #192 - Lagging classes - Allow a lagging class to be defined based on the priority level #192
+- Fix #193 - Fix - data hosts - the refresh button does not refresh the host screen header (priority, etc) #193
+
 Version 1.2.26
 ==============
 

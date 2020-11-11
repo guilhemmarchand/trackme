@@ -1331,7 +1331,7 @@ Custom Lagging classes
 
 .. admonition:: Lagging classes
 
-   Custom lagging classes allows defining custom default values of maximal lagging allowed based on index or sourcetype.
+   Custom lagging classes allows defining custom default values of maximal lagging allowed based on index, sourcetype and priority.
 
 .. image:: img/lagging_class_main.png
    :alt: lagging_class_main.png
@@ -1339,14 +1339,12 @@ Custom Lagging classes
 
 **A custom lagging class can apply to both data sources and hosts monitoring, based on the following rules:**
 
-- For data sources: index based lagging class wins over sourcetype based lagging class
+- For data sources: lagging classes are applied in the following order: index, sourcetype, priority
 - For data hosts: if multiple lagging class match, the highest lagging value wins
 
-.. image:: img/lagging_class_selection.png
-   :alt: lagging_class_selection.png
-   :align: center
+.. admonition:: Lagging classes override
 
-When a lagging class is defined and is matched for a data source or a data host, you can still override this lagging value by defining a lagging value on the object within the UI.
+   When a lagging class is defined and is matched for a data source or a data host, you can as well override this policy based lagging value by defining a lagging value on the object within the UI and enabling the override option.
 
 **An override option can be activated on per entity basis:**
 
@@ -1358,10 +1356,9 @@ When a lagging class is defined and is matched for a data source or a data host,
 
 - The maximal allowed lagging value defines the maximal value in seconds before a data source / host would be considered as red
 - Override lagging classes allows bypassing any lagging classes configuration that would apply to this data source or host
-- If you define a custom lagging value for a specific data source or host, use this option to avoid conflicts with lagging classes
-- If a lagging class matches index(es) or sourcetype(es) for this data source or host and the option is unchecked, it will bypass this value
+- If you define a custom lagging value for a specific data source or host, use this option to avoid conflicts with lagging classes and force a value for this entity
 
-Finally, when a custom lagging value is defined for an object, a value of "true" is created for the field named "data_override_lagging_class", which value is used to determine the actual value for that object.
+Finally, when a custom lagging value is defined for an object, a value of "true" is pre-selected for the field named "data_override_lagging_class", this option if set to true will allow overriding any policy based lagging value.
 
 Allowlisting & Blocklisting
 ===========================
