@@ -6282,7 +6282,7 @@ styles in <div> tags, similar to Bootstrap's grid system.
                                         <label>Alert over KPIs:</label>
                                     </div>
                                     <div class="input input-dropdown" id="modal_input_host_alerting_policy">
-                                        <label>Host alerting policy:</label>
+                                        <label>Alerting policy:</label>
                                     </div>
                                 </div>                                        
                             </div>
@@ -10175,7 +10175,7 @@ require([
             "refreshType": "delay",
             "refresh": "$refresh$",
             "latest_time": "+5m",
-            "search": "| inputlookup trackme_host_monitoring\n| eval keyid=_key\n| sort limit=0 - data_last_time_seen\n| dedup data_host\n| eval data_index_raw=data_index, data_sourcetype_raw=data_sourcetype, data_host_st_summary_raw=data_host_st_summary\n| makemv delim=\",\" data_index\n| makemv delim=\",\" data_sourcetype\n| makemv delim=\",\" data_host_st_summary\n| `apply_data_host_blacklists`\n| search `trackme_get_idx_whitelist_searchtime(trackme_data_host_monitoring_whitelist_index, data_index)`\n| `trackme_eval_data_host_state`\n| `trackme_default_priority`\n| `trackme_data_host_group_lookup`\n| `trackme_date_format(data_last_time_seen)`\n| `trackme_date_format(data_last_time_seen_idx)`\n| `trackme_date_format(data_last_ingest)`\n| `trackme_eval_icons_host`\n| rename \"data_last_ingest (translated)\" as \"last ingest\", \"data_last_time_seen (translated)\" as \"last time\"\n| `trackme_date_format(\"latest_flip_time\")`\n| fillnull value=\"N/A\" latest_flip_state, latest_flip_time, \"latest_flip_time (translated)\"\n| `trackme_data_host_extract_mvstsummary`\n| sort limit=0 data_host\n| search $inputDataHostFilterMode$ (data_host=$inputDataHostFilter$ OR object_group_name=$inputDataHostFilter$)\n|`trackme_ack_lookup_main(data_host)`",
+            "search": "| inputlookup trackme_host_monitoring\n| eval keyid=_key\n| sort limit=0 - data_last_time_seen\n| dedup data_host\n| eval data_index_raw=data_index, data_sourcetype_raw=data_sourcetype, data_host_st_summary_raw=data_host_st_summary\n| makemv delim=\",\" data_index\n| makemv delim=\",\" data_sourcetype\n| makemv delim=\",\" data_host_st_summary\n| `apply_data_host_blacklists`\n| search `trackme_get_idx_whitelist_searchtime(trackme_data_host_monitoring_whitelist_index, data_index)`\n| `trackme_eval_data_host_state`\n| `trackme_default_priority`\n| `trackme_default_data_host_alert_global_policy`\n| `trackme_data_host_group_lookup`\n| `trackme_date_format(data_last_time_seen)`\n| `trackme_date_format(data_last_time_seen_idx)`\n| `trackme_date_format(data_last_ingest)`\n| `trackme_eval_icons_host`\n| rename \"data_last_ingest (translated)\" as \"last ingest\", \"data_last_time_seen (translated)\" as \"last time\"\n| `trackme_date_format(\"latest_flip_time\")`\n| fillnull value=\"N/A\" latest_flip_state, latest_flip_time, \"latest_flip_time (translated)\"\n| `trackme_data_host_extract_mvstsummary`\n| sort limit=0 data_host\n| search $inputDataHostFilterMode$ (data_host=$inputDataHostFilter$ OR object_group_name=$inputDataHostFilter$)\n|`trackme_ack_lookup_main(data_host)`",
             "status_buckets": 0,
             "app": utils.getCurrentApp(),
             "auto_cancel": 90,
@@ -14361,11 +14361,11 @@ require([
                 },
                 {
                     "label": "red if at least one sourcetype is red",
-                    "value": "granular_per_st"
+                    "value": "granular_per_sourcetype"
                 },
                 {
                     "label": "red only if all sourcetypes are red",
-                    "value": "granular_per_h"
+                    "value": "granular_per_host"
                 }                
             ],
             "searchWhenChanged": true,
@@ -16384,6 +16384,9 @@ require([
                 // pre-fill current priority
                 setToken("form.tk_input_priority", TokenUtils.replaceTokenNames("$row.priority$", _.extend(submittedTokenModel.toJSON(), e.data)));
 
+                // pre-fill lagging class override
+                setToken("form.modal_input_lag_override_class", TokenUtils.replaceTokenNames("$row.data_override_lagging_class$", _.extend(submittedTokenModel.toJSON(), e.data)));
+
                 // pre-fill alert over kpis
                 setToken("form.tk_input_data_lag_alert_kpis", TokenUtils.replaceTokenNames("$row.data_lag_alert_kpis$", _.extend(submittedTokenModel.toJSON(), e.data)));
 
@@ -17103,6 +17106,7 @@ require([
                 setToken("tk_data_index", TokenUtils.replaceTokenNames("$row.data_index_raw$", _.extend(submittedTokenModel.toJSON(), e.data)));
                 setToken("tk_data_sourcetype", TokenUtils.replaceTokenNames("$row.data_sourcetype_raw$", _.extend(submittedTokenModel.toJSON(), e.data)));
                 setToken("tk_data_host_st_summary", TokenUtils.replaceTokenNames("$row.data_host_st_summary_raw$", _.extend(submittedTokenModel.toJSON(), e.data)));
+                setToken("tk_data_host_alerting_policy", TokenUtils.replaceTokenNames("$row.data_host_alerting_policy$", _.extend(submittedTokenModel.toJSON(), e.data)));
                 setToken("tk_data_last_lag_seen", TokenUtils.replaceTokenNames("$row.data_last_lag_seen$", _.extend(submittedTokenModel.toJSON(), e.data)));
                 setToken("tk_data_last_ingestion_lag_seen", TokenUtils.replaceTokenNames("$row.data_last_ingestion_lag_seen$", _.extend(submittedTokenModel.toJSON(), e.data)));
                 setToken("tk_data_lag_summary", TokenUtils.replaceTokenNames("$row.lag (event / ingestion)$", _.extend(submittedTokenModel.toJSON(), e.data)));
@@ -17151,8 +17155,14 @@ require([
                 // pre-fill current priority
                 setToken("form.tk_input_host_priority", TokenUtils.replaceTokenNames("$row.priority$", _.extend(submittedTokenModel.toJSON(), e.data)));
 
+                // pre-fill lagging class override
+                setToken("form.modal_input_lag_override_class_host", TokenUtils.replaceTokenNames("$row.data_override_lagging_class$", _.extend(submittedTokenModel.toJSON(), e.data)));
+
                 // pre-fill alert over kpis
                 setToken("form.tk_input_data_lag_alert_kpis_host", TokenUtils.replaceTokenNames("$row.data_lag_alert_kpis$", _.extend(submittedTokenModel.toJSON(), e.data)));
+
+                // pre-fill alerting policy
+                setToken("form.tk_input_host_alerting_policy", TokenUtils.replaceTokenNames("$row.data_host_alerting_policy$", _.extend(submittedTokenModel.toJSON(), e.data)));
 
                 submitTokens();
 
@@ -21746,6 +21756,7 @@ require([
             var tk_data_index = tokens.get("tk_data_index");
             var tk_data_sourcetype = tokens.get("tk_data_sourcetype");
             var tk_data_host_st_summary = tokens.get("tk_data_host_st_summary");
+            var tk_data_host_alerting_policy = tokens.get("tk_data_host_alerting_policy");
             var tk_data_last_lag_seen = tokens.get("tk_data_last_lag_seen");
             var tk_data_last_ingestion_lag_seen = tokens.get("tk_data_last_ingestion_lag_seen");
             var tk_data_eventcount = tokens.get("tk_data_eventcount");
@@ -21783,6 +21794,7 @@ require([
                 "data_index": tk_data_index,
                 "data_sourcetype": tk_data_sourcetype,
                 "data_host_st_summary" : tk_data_host_st_summary,
+                "data_host_alerting_policy": tk_data_host_alerting_policy,
                 "data_last_lag_seen": tk_data_last_lag_seen,
                 "data_last_ingestion_lag_seen": tk_data_last_ingestion_lag_seen,
                 "data_eventcount": tk_data_eventcount,
@@ -22213,7 +22225,6 @@ require([
             var tk_keyid = tokens.get("tk_keyid");
             var tk_data_name = tokens.get("tk_data_name");
             var tk_data_index = tokens.get("tk_data_index");
-            var tk_data_host_st_summary = tokens.get("tk_data_host_st_summary");
             var tk_data_last_lag_seen = tokens.get("tk_data_last_lag_seen");
             var tk_data_last_ingestion_lag_seen = tokens.get("tk_data_last_ingestion_lag_seen");
             var tk_data_eventcount = tokens.get("tk_data_eventcount");
@@ -22380,6 +22391,7 @@ require([
             var tk_data_index = tokens.get("tk_data_index");
             var tk_data_sourcetype = tokens.get("tk_data_sourcetype");
             var tk_data_host_st_summary = tokens.get("tk_data_host_st_summary");
+            var tk_data_host_alerting_policy = tokens.get("tk_data_host_alerting_policy");
             var tk_data_last_lag_seen = tokens.get("tk_data_last_lag_seen");
             var tk_data_last_ingestion_lag_seen = tokens.get("tk_data_last_ingestion_lag_seen");
             var tk_data_eventcount = tokens.get("tk_data_eventcount");
@@ -22417,6 +22429,7 @@ require([
                 "data_index": tk_data_index,
                 "data_sourcetype": tk_data_sourcetype,
                 "data_host_st_summary" : tk_data_host_st_summary,
+                "data_host_alerting_policy": tk_data_host_alerting_policy,
                 "data_last_lag_seen": tk_data_last_lag_seen,
                 "data_last_ingestion_lag_seen": tk_data_last_ingestion_lag_seen,
                 "data_eventcount": tk_data_eventcount,
@@ -23211,6 +23224,7 @@ require([
             var tk_data_index = tokens.get("tk_data_index");
             var tk_data_sourcetype = tokens.get("tk_data_sourcetype");
             var tk_data_host_st_summary = tokens.get("tk_data_host_st_summary");
+            var tk_data_host_alerting_policy = tokens.get("tk_data_host_alerting_policy");
             var tk_data_last_lag_seen = tokens.get("tk_data_last_lag_seen");
             var tk_data_last_ingestion_lag_seen = tokens.get("tk_data_last_ingestion_lag_seen");
             var tk_data_eventcount = tokens.get("tk_data_eventcount");
@@ -23241,6 +23255,7 @@ require([
                 "data_index": tk_data_index,
                 "data_sourcetype": tk_data_sourcetype,
                 "data_host_st_summary" : tk_data_host_st_summary,
+                "data_host_alerting_policy": tk_data_host_alerting_policy,
                 "data_last_lag_seen": tk_data_last_lag_seen,
                 "data_last_ingestion_lag_seen": tk_data_last_ingestion_lag_seen,
                 "data_eventcount": tk_data_eventcount,
@@ -30619,6 +30634,7 @@ require([
             var tk_data_index = tokens.get("tk_data_index");
             var tk_data_sourcetype = tokens.get("tk_data_sourcetype");
             var tk_data_host_st_summary = tokens.get("tk_data_host_st_summary");
+            var tk_data_host_alerting_policy = tokens.get("tk_data_host_alerting_policy");
             var tk_data_last_lag_seen = tokens.get("tk_data_last_lag_seen");
             var tk_data_last_ingestion_lag_seen = tokens.get("tk_data_last_ingestion_lag_seen");
             var tk_data_eventcount = tokens.get("tk_data_eventcount");
@@ -30667,6 +30683,7 @@ require([
                     "data_index": tk_data_index,
                     "data_sourcetype": tk_data_sourcetype,
                     "data_host_st_summary" : tk_data_host_st_summary,
+                    "data_host_alerting_policy": tk_data_host_alerting_policy,
                     "data_last_lag_seen": tk_data_last_lag_seen,
                     "data_last_ingestion_lag_seen": tk_data_last_ingestion_lag_seen,
                     "data_eventcount": tk_data_eventcount,
@@ -30762,6 +30779,7 @@ require([
             var tk_data_index = tokens.get("tk_data_index");
             var tk_data_sourcetype = tokens.get("tk_data_sourcetype");
             var tk_data_host_st_summary = tokens.get("tk_data_host_st_summary");
+            var tk_data_host_alerting_policy = tokens.get("tk_data_host_alerting_policy");
             var tk_data_last_lag_seen = tokens.get("tk_data_last_lag_seen");
             var tk_data_last_ingestion_lag_seen = tokens.get("tk_data_last_ingestion_lag_seen");
             var tk_data_eventcount = tokens.get("tk_data_eventcount");
@@ -30808,6 +30826,7 @@ require([
                     "data_index": tk_data_index,
                     "data_sourcetype": tk_data_sourcetype,
                     "data_host_st_summary" : tk_data_host_st_summary,
+                    "data_host_alerting_policy": tk_data_host_alerting_policy,
                     "data_last_lag_seen": tk_data_last_lag_seen,
                     "data_last_ingestion_lag_seen": tk_data_last_ingestion_lag_seen,
                     "data_eventcount": tk_data_eventcount,
@@ -30911,6 +30930,7 @@ require([
             var tk_data_index = tokens.get("tk_data_index");
             var tk_data_sourcetype = tokens.get("tk_data_sourcetype");
             var tk_data_host_st_summary = tokens.get("tk_data_host_st_summary");
+            var tk_data_host_alerting_policy = tokens.get("tk_data_host_alerting_policy");
             var tk_data_last_lag_seen = tokens.get("tk_data_last_lag_seen");
             var tk_data_last_ingestion_lag_seen = tokens.get("tk_data_last_ingestion_lag_seen");
             var tk_data_eventcount = tokens.get("tk_data_eventcount");
@@ -30959,6 +30979,7 @@ require([
                     "data_index": tk_data_index,
                     "data_sourcetype": tk_data_sourcetype,
                     "data_host_st_summary" : tk_data_host_st_summary,
+                    "data_host_alerting_policy": tk_data_host_alerting_policy,
                     "data_last_lag_seen": tk_data_last_lag_seen,
                     "data_last_ingestion_lag_seen": tk_data_last_ingestion_lag_seen,
                     "data_eventcount": tk_data_eventcount,
@@ -31079,6 +31100,7 @@ require([
             var tk_data_index = tokens.get("tk_data_index");
             var tk_data_sourcetype = tokens.get("tk_data_sourcetype");
             var tk_data_host_st_summary = tokens.get("tk_data_host_st_summary");
+            var tk_data_host_alerting_policy = tokens.get("tk_data_host_alerting_policy");
             var tk_data_last_lag_seen = tokens.get("tk_data_last_lag_seen");
             var tk_data_last_ingestion_lag_seen = tokens.get("tk_data_last_ingestion_lag_seen");
             var tk_data_eventcount = tokens.get("tk_data_eventcount");
@@ -31117,6 +31139,9 @@ require([
             // alert over kpis
             var tk_data_lag_alert_kpis = tokens.get("tk_input_data_lag_alert_kpis_host");
 
+            // alerting policy
+            var tk_data_host_alerting_policy = tokens.get("tk_input_host_alerting_policy");
+
             // lagging class override
             var tk_data_override_lagging_class = tokens.get("modal_input_lag_override_class_host");
 
@@ -31133,6 +31158,7 @@ require([
                     "data_index": tk_data_index,
                     "data_sourcetype": tk_data_sourcetype,
                     "data_host_st_summary" : tk_data_host_st_summary,
+                    "data_host_alerting_policy": tk_data_host_alerting_policy,
                     "data_last_lag_seen": tk_data_last_lag_seen,
                     "data_last_ingestion_lag_seen": tk_data_last_ingestion_lag_seen,
                     "data_eventcount": tk_data_eventcount,
@@ -35412,6 +35438,7 @@ require([
             var tk_data_index = tokens.get("tk_data_index");
             var tk_data_sourcetype = tokens.get("tk_data_sourcetype");
             var tk_data_host_st_summary = tokens.get("tk_data_host_st_summary");
+            var tk_data_host_alerting_policy = tokens.get("tk_data_host_alerting_policy");
             var tk_data_last_lag_seen = tokens.get("tk_data_last_lag_seen");
             var tk_data_last_ingestion_lag_seen = tokens.get("tk_data_last_ingestion_lag_seen");
             var tk_data_eventcount = tokens.get("tk_data_eventcount");
@@ -35495,6 +35522,7 @@ require([
                 "data_index": tk_data_index,
                 "data_sourcetype": tk_data_sourcetype,
                 "data_host_st_summary" : tk_data_host_st_summary,
+                "data_host_alerting_policy": tk_data_host_alerting_policy,
                 "data_last_lag_seen": tk_data_last_lag_seen,
                 "data_last_ingestion_lag_seen": tk_data_last_ingestion_lag_seen,
                 "data_eventcount": tk_data_eventcount,
