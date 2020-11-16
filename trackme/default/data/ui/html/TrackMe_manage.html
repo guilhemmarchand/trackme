@@ -1126,6 +1126,55 @@ styles in <div> tags, similar to Bootstrap's grid system.
         </div>
     </div>
 
+    <div id="rowManageDataHostAlertPolicy" class="dashboard-row dashboard-rowManageResetInfo">
+        <div id="panelManageDDataHostAlertPolicy" class="dashboard-cell" style="width: 100%;">
+            <div class="dashboard-panel clearfix">
+                <div class="panel-element-row">
+                    <div id="elementDataHostAlertPolicyg" class="dashboard-element html" style="width: 100%">
+                        <div class="panel-body html">
+                            <div style="text-align: center; border: 3px dashed #ccc;">
+                                <div style="display: inline-flex; align-items: center; margin-top: 5px;">
+                                    <span style="font-size: 22px; font-weight: bold; color: #6495ed; margin-top: 5px;">DATA HOST GLOBAL ALERTING POLICY</span>
+                                </div>
+                                <div>
+                                    <h2>The default behaviour for data hosts monitoring is to turn host states in red mode when all of the known sourcetypes have stopped emitting data in a way that monitoring conditions are not met. (if any sourcetype continues to be indexed and monitoring conditions are met, the host is green)
+                                        You can change the global policy to the "granular per sourcetype" mode which configures TrackMe to turn an host status to red if at least one sourcetypes is actually red. (to be green, all sourcetypes must be green)
+                                        This policy can defined widely in this configuration screen, and on a per data host basis in the data host configuration screen. 
+                                    </h2>
+                                </div>
+                            </div>
+                            <div class="boxnotify" id="boxnotify-data-host-alerting-policy">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="rowManageDataHostAlertPolicy1" class="dashboard-row dashboard-row_maintenance">
+        <div id="rowManageDataHostAlertPolicy2" class="dashboard-cell" style="width: 50%;">
+            <div class="dashboard-panel clearfix">
+                <h2 class="panel-title"></h2>
+                <div class="fieldset" style="text-align: center;">
+                    <div class="form-submit" id="btn_host_policy_granular_per_host">
+                        <button id="btn_enable_data_host_policy_per_host" class="btn btn-primary submit">Enable global policy per host</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="rowManageDataHostAlertPolicy3" class="dashboard-cell" style="width: 50%;">
+            <div class="dashboard-panel clearfix">
+                <h2 class="panel-title"></h2>
+                <div class="fieldset" style="text-align: center;">
+                    <div class="form-submit" id="btn_host_policy_granular_per_sourcetype">
+                        <button id="btn_enable_data_host_policy_per_sourcetype" class="btn btn-primary submit">Enable global policy per sourcetype</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <div id="rowManageDataSampling" class="dashboard-row dashboard-rowManageResetInfo">
         <div id="panelManageDataSampling" class="dashboard-cell" style="width: 100%;">
             <div class="dashboard-panel clearfix">
@@ -2823,6 +2872,162 @@ require([
 
         }
 
+        function get_data_host_alerting_policy() {
+
+            // Manage buttons states dynamically
+
+            submitTokens();
+
+            // When the Submit button is clicked, get all the form fields by accessing token values
+            var tokens = mvc.Components.get("default");
+
+            //
+            // Verify the current status
+            //
+
+            // Define the query
+            var searchQuery = "| makeresults | eval data_host_alerting_policy=`trackme_default_data_host_alert_policy` | fields - _time";
+
+            // Set the search parameters--specify a time range
+            var searchParams = {
+                earliest_time: "-5m",
+                latest_time: "now"
+            };
+
+            // Run a oneshot search that returns the job's results
+            service.oneshotSearch(
+                searchQuery,
+                searchParams,
+                function(err, results) {
+
+                    // Display the results
+                    var fields = results.fields;
+                    var rows = results.rows;
+                    var current_data_host_alerting_policy;
+
+                    for (var i = 0; i < rows.length; i++) {
+                        var values = rows[i];
+                        //console.log("Row " + i + ": ");
+
+                        for (var j = 0; j < values.length; j++) {
+                            var field = fields[j];
+
+                            if (fields[j] == "data_host_alerting_policy") {
+                                current_data_host_alerting_policy = values[j];
+                            }
+                        }
+                    }
+
+                    //console.log("current_data_host_alerting_policy: " + current_data_host_alerting_policy);
+
+                    if (!current_data_host_alerting_policy) {
+                        document.getElementById('btn_enable_data_host_policy_per_host').disabled = false;
+                        document.getElementById('btn_enable_data_host_policy_per_sourcetype').disabled = false;
+                        return;
+                    }
+
+                    // Dynamically manage buttons states
+                    if (current_data_host_alerting_policy == "granular_per_host") {
+                        document.getElementById('btn_enable_data_host_policy_per_host').disabled = true;
+                        document.getElementById('btn_enable_data_host_policy_per_sourcetype').disabled = false;
+                    }
+                    else if (current_data_host_alerting_policy == "granular_per_sourcetype") {
+                        document.getElementById('btn_enable_data_host_policy_per_host').disabled = false;
+                        document.getElementById('btn_enable_data_host_policy_per_sourcetype').disabled = true;
+                    }
+                    else {
+                        document.getElementById('btn_enable_data_host_policy_per_host').disabled = false;
+                        document.getElementById('btn_enable_data_host_policy_per_sourcetype').disabled = false;
+                    }
+
+            });
+
+        }
+
+        // get current status
+        get_data_host_alerting_policy();
+
+        // Enable production mode
+        $("#btn_enable_data_host_policy_per_host").click(function() {
+            update_data_host_alerting_policy("granular_per_host");
+        });
+
+        // Enable training mode
+        $("#btn_enable_data_host_policy_per_sourcetype").click(function() {
+            update_data_host_alerting_policy("granular_per_sourcetype");
+        });
+
+        function update_data_host_alerting_policy(value) {
+
+            var query_url = "/en-US/splunkd/__raw/servicesNS/nobody/trackme/configs/conf-macros/trackme_default_data_host_alert_policy"
+            var value = value;
+
+            if (value == "granular_per_host") {
+                change_type = "enable data host policy granular per host";
+            } else if (value == "granular_per_sourcetype") {
+                change_type = "enable data host policy granular per sourcetype";
+            }
+            else {
+                change_type = "unknown";
+            }
+
+            $.ajax({
+                url: query_url,
+                type: "POST",
+                async: true,
+                contentType: "application/json",
+                data: "definition=\"" + value + "\"",
+                success: function(returneddata) {
+                    //console.log("Updated!", returneddata)
+
+                    // Update the buttons
+                    if (value == "granular_per_host") {
+                        document.getElementById('btn_enable_data_host_policy_per_host').disabled = true;
+                        document.getElementById('btn_enable_data_host_policy_per_sourcetype').disabled = false;
+                    }
+                    else if (value == "granular_per_sourcetype") {
+                        document.getElementById('btn_enable_data_host_policy_per_host').disabled = false;
+                        document.getElementById('btn_enable_data_host_policy_per_sourcetype').disabled = true;
+                    }
+                    else {
+                        document.getElementById('btn_enable_data_host_policy_per_host').disabled = false;
+                        document.getElementById('btn_enable_data_host_policy_per_sourcetype').disabled = false;
+                    }
+
+                    // notify
+                    notification('Data host alerting policy has been successfully set to ' + value, 6000)
+
+                    // Audit
+                    action = "success";
+                    change_type = change_type;
+                    object = "all";
+                    object_category = "all";
+                    object_attrs = "definition=\"" + value + "\"";
+                    result = "N/A";
+                    comment = "N/A";
+                    auditRecord(action, change_type, object, object_category, object_attrs, result, comment);
+
+                },
+                error: function(xhr, textStatus, error) {
+                    message = "Error Updating!" + xhr + textStatus + error;
+
+                    // Audit
+                    action = "failure";
+                    change_type = change_type;
+                    object = "all";
+                    object_category = "all";
+                    object_attrs = "definition=\"" + value + "\"";
+                    result = message;
+                    comment = "N/A";
+                    auditRecord(action, change_type, object, object_category, object_attrs, result, comment);
+
+                    $("#modal_update_collection_failure_return").find('.modal-error-message p').text(message);
+                    $("#modal_update_collection_failure_return").modal()
+                }
+            });
+
+        }
+
         function get_behaviour_analytic_mode() {
 
         // Manage buttons states dynamically
@@ -3893,6 +4098,12 @@ function notification(s, time) {
   });
 
   $("<p>" + s + "</p>").appendTo('#boxnotify-behaviour-analytic-update').fadeTo(time, 1, function() {
+    $(this).fadeTo(1000, 0, function() {
+      $(this).remove()
+    });
+  });
+
+  $("<p>" + s + "</p>").appendTo('#boxnotify-data-host-alerting-policy').fadeTo(time, 1, function() {
     $(this).fadeTo(1000, 0, function() {
       $(this).remove()
     });

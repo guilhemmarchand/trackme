@@ -6281,6 +6281,9 @@ styles in <div> tags, similar to Bootstrap's grid system.
                                     <div class="input input-dropdown" id="modal_input_lag_alert_over_host">
                                         <label>Alert over KPIs:</label>
                                     </div>
+                                    <div class="input input-dropdown" id="modal_input_host_alerting_policy">
+                                        <label>Host alerting policy:</label>
+                                    </div>
                                 </div>                                        
                             </div>
                         </div>
@@ -14348,6 +14351,36 @@ require([
 
         modal_input_lag_alert_over_host.on("change", function(newValue) {
             FormUtils.handleValueChange(modal_input_lag_alert_over_host);
+        });
+
+        var modal_input_host_alerting_policy = new DropdownInput({
+            "id": "modal_input_host_alerting_policy",
+            "choices": [{
+                    "label": "global policy",
+                    "value": "global_policy"
+                },
+                {
+                    "label": "red if at least one sourcetype is red",
+                    "value": "granular_per_st"
+                },
+                {
+                    "label": "red only if all sourcetypes are red",
+                    "value": "granular_per_h"
+                }                
+            ],
+            "searchWhenChanged": true,
+            "default": "global_policy",
+            "showClearButton": true,
+            "initialValue": "global_policy",
+            "selectFirstChoice": false,
+            "value": "$form.tk_input_host_alerting_policy$",
+            "el": $('#modal_input_host_alerting_policy')
+        }, {
+            tokens: true
+        }).render();
+
+        modal_input_host_alerting_policy.on("change", function(newValue) {
+            FormUtils.handleValueChange(modal_input_host_alerting_policy);
         });
 
         // metric host priority
