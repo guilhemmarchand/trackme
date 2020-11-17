@@ -17,6 +17,7 @@ https://trackme.readthedocs.io/en/latest/configuration.html
 
 - Feature: Issue #192 - Lagging classes - Allow a lagging class to be defined based on the priority level #192
 - Feature: Issue #194 - Data hosts monitoring workflow improvement with alerting policy #194
+- Feature: For data and metric hosts, render sub-status with mini in table emoji icons for better readability
 - Fix: Issue #193 - data hosts - the refresh button does not refresh the host screen header (priority, etc) #193
 
 Version 1.2.26
