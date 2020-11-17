@@ -10047,7 +10047,7 @@ require([
             "refreshType": "delay",
             "refresh": "$refresh$",
             "latest_time": "now",
-            "search": "| savedsearch \"TrackMe - metric hosts collection based table report\"\n| `trackme_date_format(\"metric_last_time_seen\")`\n| rename \"metric_last_time_seen (translated)\" as \"last time\"\n| `trackme_eval_metric_host_state`\n| `trackme_metric_host_group_lookup`\n|`trackme_eval_icons_metric_host`\n|`trackme_date_format(\"latest_flip_time\")`\n| fillnull value=\"N/A\" latest_flip_state, latest_flip_time, \"latest_flip_time (translated)\"\n| search $inputMetricHostFilterMode$ (metric_host=$inputMetricHostFilter$ OR object_group_name=$inputMetricHostFilter$)\n|`trackme_ack_lookup_main(metric_host)`\n|`trackme_data_host_extract_mvstsummary`",
+            "search": "| savedsearch \"TrackMe - metric hosts collection based table report\"\n| `trackme_date_format(\"metric_last_time_seen\")`\n| rename \"metric_last_time_seen (translated)\" as \"last time\"\n| `trackme_eval_metric_host_state`\n| `trackme_metric_host_group_lookup`\n|`trackme_eval_icons_metric_host`\n|`trackme_date_format(\"latest_flip_time\")`\n| fillnull value=\"N/A\" latest_flip_state, latest_flip_time, \"latest_flip_time (translated)\"\n| search $inputMetricHostFilterMode$ (metric_host=$inputMetricHostFilter$ OR object_group_name=$inputMetricHostFilter$)\n|`trackme_ack_lookup_main(metric_host)`\n|`trackme_metric_host_extract_mvstsummary`",
             "status_buckets": 0,
             "app": utils.getCurrentApp(),
             "auto_cancel": 90,
