@@ -16,7 +16,8 @@ TrackMe requires a summary index (defaults to trackme_summary) and a metric inde
 https://trackme.readthedocs.io/en/latest/configuration.html
 
 - Feature: Issue #192 - Lagging classes - Allow a lagging class to be defined based on the priority level #192
-- Fix #193 - Fix - data hosts - the refresh button does not refresh the host screen header (priority, etc) #193
+- Feature: Issue #194 - Data hosts monitoring workflow improvement with alerting policy #194
+- Fix: Issue #193 - data hosts - the refresh button does not refresh the host screen header (priority, etc) #193
 
 Version 1.2.26
 ==============
