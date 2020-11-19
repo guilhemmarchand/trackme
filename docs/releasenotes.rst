@@ -18,7 +18,7 @@ https://trackme.readthedocs.io/en/latest/configuration.html
 Major improvements in data host monitoring capabilities:
 - Feature: Issue #192 - Lagging classes - Allow a lagging class to be defined based on the priority level #192
 - Feature: Issue #194 - Data hosts monitoring workflow improvement with alerting policy #194
-- Feature: Better management of allow lists / blocking lists for data hosts
+- Feature: Better management of allow lists / blocking lists for data hosts monitoring
 - Feature: For data and metric hosts, render sub-status with mini in table emoji icons for better readability
 - Fix: Issue #193 - data hosts - the refresh button does not refresh the host screen header (priority, etc) #193
 
