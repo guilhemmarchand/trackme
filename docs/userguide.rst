@@ -389,7 +389,8 @@ Particularities of data hosts monitoring
 
 **The features are almost equivalents between data sources and data hosts, with a few exceptions:**
 
-- ``state condition:`` the data host entity is considered active as long as at least one sourcetype continues to be indexed
+- ``state condition:`` the data host entity state depends on the global data host alerting policy and eventually its own configuration
+- Depending on the data ``hosts alerting policy``, an host will be red if no more sourcetypes are emitting data for it, or individually by sourcetype if at least one sourcetype does not respect monitoring rules
 - Using ``allowlists and blocklists`` provide additional granularity to define what data has to be included or is excluded during the searches
 - ``Outliers detection`` is available for data hosts too and would help detecting significant changes such as a major sourcetype that is not ingested anymore
 - ``logical group``: a data host can be part of a logical group, this feature is useful for example to handle a couple of active / passive entities (example with firewalls) where the passive entity will not be generating any data actively
@@ -399,6 +400,12 @@ Particularities of data hosts monitoring
 See :ref:`Logical groups (clusters)` for more details on this feature
 
 See :ref:`Enrichment tags` for more details om this feature
+
+**Additionally, if there has been indexes migrations, or if one or more sourcetypes have been decomissioned, this will affect the state of a given host if the alert policy is defined to granular per sourcetype, you can reset the knowledge of indexes and sourcetypes on a per host basis via the reset button:**
+
+.. image:: img/first_steps/data_host_reset.png
+   :alt: img/first_steps/data_host_reset
+   :align: center
 
 Metric Hosts tracking and features
 ----------------------------------
@@ -524,6 +531,12 @@ This influences the state definition:
 This option allows grouping data hosts and metric hosts into logical groups which are taken in consideration by groups rather than per entity.
 
 See :ref:`Logical groups (clusters)` for more details about this feature.
+
+**Alerting policy: (data hosts only)**
+
+This option allows controlling on a per host basis the behaviour regarding the sourcetypes monitoring per host.
+
+See :ref:`Alerting policy for data hosts` for more details about this feature.
 
 Elastic sources
 ===============
@@ -1626,6 +1639,69 @@ To remove an association from a logical group, click on the entry table in the i
    :align: center
 
 Once the action is confirmed, the association is immediately removed and the entity acts as any other independent entities.
+
+Alerting policy for data hosts
+==============================
+
+.. admonition:: Data hosts alerting policy management
+
+   - The alerting policy controls how the state of a data host gets defined depending on the sourcetypes that are emitting data
+   - The global default mode named "granular per host" instructs TrackMe to turn an host to red only if no sourcetypes are being indexed and respecting monitoring rules
+   - The global alternative mode named "granular per sourcetype" instructs TrackMe to consider sourcetypes and their monitoring rules individually on a per host basis, to finally define the overall state of the host
+   - This global mode can optionally be overriden on a per host basis via the configuration screen of the data host
+
+See :ref:`Data hosts global alerting policy` to control the global policy settings.
+
+**An host emitting multiple sourcetypes will appear in the UI with a multi value summary field describing the state and main information of sourcetypes:**
+
+.. image:: img/data_hosts_alerting_policy1.png
+   :alt: data_hosts_alerting_policy1.png
+   :align: center
+
+**Zooming on the summary sourcetype field:**
+
+.. image:: img/data_hosts_alerting_policy2.png
+   :alt: data_hosts_alerting_policy2.png
+   :align: center
+
+**The field provides visibility against each sourcetype known to the host, a main state (red / green) represented by an ASCII emoji and the KPI main information about the sourcetypes:**
+
+- ``max_allowed``: the maximal laggging value allowed for this sourcetype according to the monitoring rules (lagging classes, default lagging)
+- ``last_time``: A human readable format of the latest events available for that host from the event timestamp point of view (_time)
+- ``last_event_lag``: The current event lag value in seconds (difference between now and the latest _time available for this host/sourcetype)
+- ``last_ingest_lag``: The current indexing lag value in seconds (difference between the event timestamp and the indexing time)
+- ``state``: for readability purposes, the state green/red is represented as an ASCII emoji
+
+**Should any sourcetype not being indexed or not respecting the monitoring rules, the state icon will turn red:**
+
+.. image:: img/data_hosts_alerting_policy3.png
+   :alt: data_hosts_alerting_policy3.png
+   :align: center
+
+.. hint::
+
+   If a sourcetypes turns ``red``, this will NOT impact the state of the host unless the global policy is set to granular per sourcetype, or the host policy is defined for that host especially
+
+**To configure sourcetypes to be taken into account individually, you can either:**
+
+- Define the global policy accordingly (note: this applies by default to all hosts), See :ref:`Data hosts global alerting policy`
+- Define the alerting policy for that host especially in the data host configuration screen
+
+**Defining a policy per host:**
+
+*In the data host UI, click on the modify button to access to the alerting policy dropdown:*
+
+.. image:: img/data_hosts_alerting_policy4.png
+   :alt: data_hosts_alerting_policy4.png
+   :align: center
+
+**Three options are available:**
+
+- ``global policy``: instructs the data host settings to rely on the global alerting policy
+- ``red if at least one sourcetype is red``: instructs TrackMe to turn the host red if at least one sourcetype is in a red state (granular per sourcetype)
+- ``red only if all sourcetypes are red``: instructs TrackMe to turn the host red only if none of the sourcetypes are respecting monitoring rules (granular per host)
+
+*When a mode is defined for a given host that is not equal to the global policy, then the global alerting policy is ignored and replaced by the setting defined for that host.*
 
 Tags
 ====
