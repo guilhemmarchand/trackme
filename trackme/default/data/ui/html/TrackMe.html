@@ -4808,16 +4808,16 @@ styles in <div> tags, similar to Bootstrap's grid system.
                 <div class="modal-body">
                     <b>Lagging classes are applied automatically during the trackers execution, use this interface to define a default lagging value with a policy based on different conditions:</b>
                     <lu>
-                        <li>Based on the index hosting the data</li>
+                        <li>Based on the index</li>
                         <li>Based on the sourcetype</li>
-                        <li>Based on the priority level defined</li>
+                        <li>Based on the priority level defined for the entity</li>
                     </lu>
                     <br />
 
-                    <b>Conflict resolution:</b>
+                    <b>Conflict resolution and behaviour:</b>
                     <lu>
-                        <li><b>For data sources:</b> lagging classes are applied in the following order: index, sourcetype, priority</li>
-                        <li><b>For data hosts:</b> if multiple lagging class match, the highest lagging value takes precedence</li>
+                        <li><b>For data sources:</b> lagging classes are applied in the following order: index, sourcetype, priority (first match takes precedence)</li>
+                        <li><b>For data hosts:</b> The highest lagging value takes precedence, if multiple sourcetypes, the host global max lag cannot be lower than the highest value between all sourcetypes</li>
                     </lu>
 
                     <div class="boxnotify" id="boxnotify-modify_custom_lagging">
@@ -4840,6 +4840,10 @@ styles in <div> tags, similar to Bootstrap's grid system.
 
                                         <div class="input input-text" id="modal_input_custom_lagging_value" style="margin-bottom: 10px;">
                                             <label>Lagging value:</label>
+                                        </div>
+
+                                        <div class="input input-dropdown" id="modal_input_custom_lagging_object" style="margin-bottom: 10px;">
+                                            <label>object: (data sources/hosts)</label>
                                         </div>
 
                                         <br /><br />
@@ -6263,9 +6267,11 @@ styles in <div> tags, similar to Bootstrap's grid system.
 
                     <div style="margin-left: 15px;">
                         <lu>
-                            <li>The maximal allowed lagging value defines the maximal value in seconds before a data source / host would be considered as red</li>
-                            <li>Override lagging classes allows bypassing any lagging classes configuration that would apply to this data source or host</li>
-                            <li>If a lagging class matches index(es) or sourcetype(es) for this data source or host and the option is unchecked, it will bypass this value unless override is true</li>
+                            <li>The maximal allowed lagging value defines the threshold in seconds for green/red assignment (depending on Alerts over KPIs). Ideally defined by policies, this value can as well be defined per host.</li>
+                            <li>Override lagging classes allows bypassing any lagging classes configuration, for data hosts and if defined to true, this applies to all sourcetypes for the host.</li>
+                            <li>Alerting policy defines the global behaviour when multiple sourcetypes are monitored for a same host, alerting can be based on the overall host indexing or by considering each sourcetype individually.</li>
+                            <li>To define a manual lagging value for this host, enter the value in seconds and set lagging class override to true (otherwise this value will not be saved), optionally define Alert over KPIs and Alerting policy.</li>
+                            <li>Alert over KPIs and Alerting policy can be configured independantly from the max lagging value/lagging class override.</li>
                         </lu>
                     </div>
 
@@ -11346,7 +11352,7 @@ require([
             "cancelOnUnload": true,
             "sample_ratio": null,
             "latest_time": "now",
-            "search": "| inputlookup trackme_custom_lagging_definition | eval keyid=_key | search name=$tk_input_custom_lagging_search$ | eval select=keyid | fields keyid, level, name, value, select",
+            "search": "| inputlookup trackme_custom_lagging_definition | eval keyid=_key | search name=$tk_input_custom_lagging_search$ | eval select=keyid, object=if(isnull(object), \"all\", object) | fields keyid, level, name, object, value, select",
             "status_buckets": 0,
             "app": utils.getCurrentApp(),
             "auto_cancel": 90,
@@ -14307,6 +14313,36 @@ require([
 
         modal_input_custom_lagging_value.on("change", function(newValue) {
             FormUtils.handleValueChange(modal_input_custom_lagging_value);
+        });
+
+        var modal_input_custom_lagging_object = new DropdownInput({
+            "id": "modal_input_custom_lagging_object",
+            "choices": [{
+                    "label": "data_source",
+                    "value": "data_source"
+                },
+                {
+                    "label": "data_host",
+                    "value": "data_host"
+                },
+                {
+                    "label": "all (data_source/data_host)",
+                    "value": "all"
+                }                
+            ],
+            "searchWhenChanged": true,
+            "default": "all",
+            "showClearButton": true,
+            "initialValue": "all",
+            "selectFirstChoice": false,
+            "value": "$form.tk_input_custom_lagging_object$",
+            "el": $('#modal_input_custom_lagging_object')
+        }, {
+            tokens: true
+        }).render();
+
+        modal_input_custom_lagging_object.on("change", function(newValue) {
+            FormUtils.handleValueChange(modal_input_custom_lagging_object);
         });
 
         // data host monitoring
@@ -17667,7 +17703,7 @@ require([
             },
             "count": 10,
             "drilldown": "none",
-            "fields": "level, name, value, select",
+            "fields": "level, name, object, value, select",
             "refresh.display": "none",
             "wrap": "false",
             "managerid": "searchCustomLagging",
@@ -23932,6 +23968,7 @@ require([
             var tk_input_custom_lagging_type = tokens.get("tk_input_custom_lagging_type");
             var tk_input_custom_lagging_name = tokens.get("tk_input_custom_lagging_name");
             var tk_input_custom_lagging_value = tokens.get("tk_input_custom_lagging_value");
+            var tk_input_custom_lagging_object = tokens.get("tk_input_custom_lagging_object");
 
             // Create the endpoint URL
             var myendpoint_URl = "{{SPLUNKWEB_URL_PREFIX}}/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_custom_lagging_definition";
@@ -23939,7 +23976,7 @@ require([
             //console.log("Endpoint URL is: " + myendpoint_URl);
 
             // Define the query
-            var searchQuery = "| inputlookup trackme_custom_lagging_definition | append [ | makeresults | eval level=\"" + tk_input_custom_lagging_type + "\", name=\"" + tk_input_custom_lagging_name + "\", value=\"" + tk_input_custom_lagging_value + "\" ] | dedup level, name, value | sort limit=0 level, name | outputlookup trackme_custom_lagging_definition";
+            var searchQuery = "| inputlookup trackme_custom_lagging_definition | append [ | makeresults | eval level=\"" + tk_input_custom_lagging_type + "\", name=\"" + tk_input_custom_lagging_name + "\", object=\"" + tk_input_custom_lagging_object + "\", value=\"" + tk_input_custom_lagging_value + "\" ] | dedup level, name, object, value | sort limit=0 level, name | outputlookup trackme_custom_lagging_definition";
 
             // Set the search parameters--specify a time range
             var searchParams = {
@@ -23962,7 +23999,7 @@ require([
                             change_type = "create lagging class";
                             object = tk_input_custom_lagging_name;
                             object_category = "lagging_class";
-                            object_attrs = "type:" + tk_input_custom_lagging_type + ", name:" + tk_input_custom_lagging_name + ", value:" + tk_input_custom_lagging_value;
+                            object_attrs = "{" + "\"type\": \"" + tk_input_custom_lagging_type + "\", \"name\": \"" + tk_input_custom_lagging_name + "\", \"object\": \"" + tk_input_custom_lagging_object + "\", \"value\": \"" + tk_input_custom_lagging_value + "\"}";
                             result = "N/A";
                             comment = "N/A";
                             auditRecord(action, change_type, object, object_category, object_attrs, result, comment);
@@ -23995,7 +24032,7 @@ require([
                                     change_type = "create lagging class";
                                     object = tk_input_custom_lagging_name;
                                     object_category = "lagging_class";
-                                    object_attrs = "type:" + tk_input_custom_lagging_type + ", name:" + tk_input_custom_lagging_name + ", value:" + tk_input_custom_lagging_value;
+                                    object_attrs = "{" + "\"type\": \"" + tk_input_custom_lagging_type + "\", \"name\": \"" + tk_input_custom_lagging_name + "\", \"object\": \"" + tk_input_custom_lagging_object + "\", \"value\": \"" + tk_input_custom_lagging_value + "\"}";
                                     result = "N/A";
                                     comment = "N/A";
                                     auditRecord(action, change_type, object, object_category, object_attrs, result, comment);
@@ -24065,9 +24102,11 @@ require([
                         var removedObject = returneddata.name;
                         var removedObjectAttr1 = returneddata.level;
                         var removedObjectAttr2 = returneddata.value;
+                        var removedObjectAttr3 = returneddata.object;
                         //console.log("removedObject is: " + removedObject);
                         //console.log("removedObjectAttr1 is: " + removedObjectAttr1);
                         //console.log("removedObjectAttr2 is: " + removedObjectAttr2);
+                        //console.log("removedObjectAttr3 is: " + removedObjectAttr3);
 
                         // Retrieve update comment if any
                         var tk_comment = document.getElementById("data_source_lagging_policy_delete_comment").value;
@@ -24095,7 +24134,7 @@ require([
                                 change_type = "delete lagging class";
                                 object = removedObject;
                                 object_category = "lagging_class";
-                                object_attrs = "{" + "\"name\": \"" + removedObject + "\", \"level\": \"" + removedObjectAttr1 + "\", \"value\": \"" + removedObjectAttr2 + "\", \"_key\": \"" + item + "\"}";
+                                object_attrs = "{" + "\"name\": \"" + removedObject + "\", \"level\": \"" + removedObjectAttr1 + "\", \"value\": \"" + removedObjectAttr2 + "\", \"object\": \"" + removedObjectAttr3 + "\", \"_key\": \"" + item + "\"}";
                                 result = "N/A";
                                 comment = tk_comment;
                                 auditRecord(action, change_type, object, object_category, object_attrs, result, comment);
@@ -24121,7 +24160,7 @@ require([
                                 change_type = "delete lagging class";
                                 object = removedObject;
                                 object_category = "lagging_class";
-                                object_attrs = "{" + "\"name\": \"" + removedObject + "\", \"level\": \"" + removedObjectAttr1 + "\", \"value\": \"" + removedObjectAttr2 + "\", \"_key\": \"" + item + "\"}";
+                                object_attrs = "{" + "\"name\": \"" + removedObject + "\", \"level\": \"" + removedObjectAttr1 + "\", \"value\": \"" + removedObjectAttr2 + "\", \"object\": \"" + removedObjectAttr3 + "\", \"_key\": \"" + item + "\"}";
                                 result = message;
                                 comment = tk_comment;
                                 auditRecord(action, change_type, object, object_category, object_attrs, result, comment);
