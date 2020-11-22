@@ -1157,7 +1157,7 @@ styles in <div> tags, similar to Bootstrap's grid system.
             <div class="dashboard-panel clearfix">
                 <h2 class="panel-title"></h2>
                 <div class="fieldset" style="text-align: center;">
-                    <div class="form-submit" id="btn_host_policy_granular_per_host">
+                    <div class="form-submit" id="btn_host_policy_track_per_host">
                         <button id="btn_enable_data_host_policy_per_host" class="btn btn-primary submit">Enable global policy per host</button>
                     </div>
                 </div>
@@ -1167,7 +1167,7 @@ styles in <div> tags, similar to Bootstrap's grid system.
             <div class="dashboard-panel clearfix">
                 <h2 class="panel-title"></h2>
                 <div class="fieldset" style="text-align: center;">
-                    <div class="form-submit" id="btn_host_policy_granular_per_sourcetype">
+                    <div class="form-submit" id="btn_host_policy_track_per_sourcetype">
                         <button id="btn_enable_data_host_policy_per_sourcetype" class="btn btn-primary submit">Enable global policy per sourcetype</button>
                     </div>
                 </div>
@@ -2927,11 +2927,11 @@ require([
                     }
 
                     // Dynamically manage buttons states
-                    if (current_data_host_alerting_policy == "granular_per_host") {
+                    if (current_data_host_alerting_policy == "track_per_host") {
                         document.getElementById('btn_enable_data_host_policy_per_host').disabled = true;
                         document.getElementById('btn_enable_data_host_policy_per_sourcetype').disabled = false;
                     }
-                    else if (current_data_host_alerting_policy == "granular_per_sourcetype") {
+                    else if (current_data_host_alerting_policy == "track_per_sourcetype") {
                         document.getElementById('btn_enable_data_host_policy_per_host').disabled = false;
                         document.getElementById('btn_enable_data_host_policy_per_sourcetype').disabled = true;
                     }
@@ -2949,12 +2949,12 @@ require([
 
         // Enable production mode
         $("#btn_enable_data_host_policy_per_host").click(function() {
-            update_data_host_alerting_policy("granular_per_host");
+            update_data_host_alerting_policy("track_per_host");
         });
 
         // Enable training mode
         $("#btn_enable_data_host_policy_per_sourcetype").click(function() {
-            update_data_host_alerting_policy("granular_per_sourcetype");
+            update_data_host_alerting_policy("track_per_sourcetype");
         });
 
         function update_data_host_alerting_policy(value) {
@@ -2962,9 +2962,9 @@ require([
             var query_url = "/en-US/splunkd/__raw/servicesNS/nobody/trackme/configs/conf-macros/trackme_default_data_host_alert_policy"
             var value = value;
 
-            if (value == "granular_per_host") {
+            if (value == "track_per_host") {
                 change_type = "enable data host policy granular per host";
-            } else if (value == "granular_per_sourcetype") {
+            } else if (value == "track_per_sourcetype") {
                 change_type = "enable data host policy granular per sourcetype";
             }
             else {
@@ -2981,11 +2981,11 @@ require([
                     //console.log("Updated!", returneddata)
 
                     // Update the buttons
-                    if (value == "granular_per_host") {
+                    if (value == "track_per_host") {
                         document.getElementById('btn_enable_data_host_policy_per_host').disabled = true;
                         document.getElementById('btn_enable_data_host_policy_per_sourcetype').disabled = false;
                     }
-                    else if (value == "granular_per_sourcetype") {
+                    else if (value == "track_per_sourcetype") {
                         document.getElementById('btn_enable_data_host_policy_per_host').disabled = false;
                         document.getElementById('btn_enable_data_host_policy_per_sourcetype').disabled = true;
                     }

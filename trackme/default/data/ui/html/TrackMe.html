@@ -14400,11 +14400,11 @@ require([
                 },
                 {
                     "label": "red if at least one sourcetype is red",
-                    "value": "granular_per_sourcetype"
+                    "value": "track_per_sourcetype"
                 },
                 {
                     "label": "red only if all sourcetypes are red",
-                    "value": "granular_per_host"
+                    "value": "track_per_host"
                 }                
             ],
             "searchWhenChanged": true,
@@ -17701,7 +17701,7 @@ require([
             "tokenDependencies": {
                 "depends": "$show_table_custom_lagging$"
             },
-            "count": 10,
+            "count": 5,
             "drilldown": "none",
             "fields": "level, name, object, value, select",
             "refresh.display": "none",

@@ -16,10 +16,11 @@ TrackMe requires a summary index (defaults to trackme_summary) and a metric inde
 https://trackme.readthedocs.io/en/latest/configuration.html
 
 Major improvements in data host monitoring capabilities:
-- Feature: Issue #192 - Lagging classes - Allow a lagging class to be defined based on the priority level #192
-- Feature: Issue #194 - Data hosts monitoring workflow improvement with alerting policy #194
+
+- Feature: Data hosts - monitoring workflow improvement with alerting policy, monitor hosts with sourcetype level granularity at scale
+- Feature: Lagging classes - policies can now be defined against the priority, in addition policies can be set for all objects, data sources or hosts only
 - Feature: Better management of allow lists / blocking lists for data hosts monitoring
-- Feature: For data and metric hosts, render sub-status with mini in table emoji icons for better readability
+- Feature: Data hosts and metric hosts rendering improvements in multi-value field structure with state rendered as emoji icons for better readability
 - Fix: Issue #193 - data hosts - the refresh button does not refresh the host screen header (priority, etc) #193
 
 Version 1.2.26

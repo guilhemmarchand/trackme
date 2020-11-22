@@ -389,7 +389,7 @@ Particularities of data hosts monitoring
 
 **The features are almost equivalents between data sources and data hosts, with a few exceptions:**
 
-- ``state condition:`` the data host entity state depends on the global data host alerting policy and eventually its own configuration
+- ``state condition:`` the data host entity state depends on the global data host alerting policy (which is defined globally and can be overriden on a per host basis)
 - Depending on the data ``hosts alerting policy``, an host will be red if no more sourcetypes are emitting data for it, or individually by sourcetype if at least one sourcetype does not respect monitoring rules
 - Using ``allowlists and blocklists`` provide additional granularity to define what data has to be included or is excluded during the searches
 - ``Outliers detection`` is available for data hosts too and would help detecting significant changes such as a major sourcetype that is not ingested anymore
@@ -401,7 +401,7 @@ See :ref:`Logical groups (clusters)` for more details on this feature
 
 See :ref:`Enrichment tags` for more details om this feature
 
-**Additionally, if there has been indexes migrations, or if one or more sourcetypes have been decomissioned, this will affect the state of a given host if the alert policy is defined to granular per sourcetype, you can reset the knowledge of indexes and sourcetypes on a per host basis via the reset button:**
+**Additionally, if there has been indexes migrations, or if one or more sourcetypes have been decomissioned, this will affect the state of a given host if the alert policy is defined to track per sourcetype, you can reset the knowledge of indexes and sourcetypes on a per host basis via the reset button:**
 
 .. image:: img/first_steps/data_host_reset.png
    :alt: img/first_steps/data_host_reset
@@ -462,6 +462,8 @@ Unified update interface
 
 These interfaces are called unified as their main purpose is to provide a central place in the UI where the modification of the main key parameters would be achieved.
 
+In this screens, you will define the priority level assignment, modify the lagging policy, manage logical groups, etc.
+
 Data source unified update
 --------------------------
 
@@ -490,12 +492,15 @@ Unified update interface features
 
 In this part of the screen you will define:
 
-- the ``max lag allowed`` value that conditions the state definition of the entity depending on the circumstances
+- The ``max lag allowed`` value that conditions the state definition of the entity depending on the circumstances
 - This value is in ``seconds`` and will be taken into account by the trackers to determine the colour of the state
 - ``Override lagging classes`` allows bypassing any lagging class that would have defined and could be matching the conditions (index, sourcetype) of this entity
-- Starting version 1.2.19, you can choose which ``KPIs`` will be taken into account to determine the state regarding the ``max lag allowed`` and the two main lagging performance indicators
+- You can choose which ``KPIs`` will be taken into account to determine the state regarding the ``max lag allowed`` and the two main lagging performance indicators
+- For data hosts, the ``alerting policy`` allows controlling how to consider the green/red state assignment in regards with the state of each sourcetype indexed by the host
 
-See :ref:`Custom Lagging classes` for more details about this feature
+See :ref:`Lagging classes` for more details about the lagging classes feature.
+
+See :ref:`Alerting policy for data hosts` for more details about the alerting policy feature.
 
 **Priority:**
 
@@ -1339,39 +1344,104 @@ Maximal lagging value
 
 This topic is covered in details in first steps guide :ref:`Main navigation tabs` and :ref:`Unified update interface`.
 
-Custom Lagging classes
+Lagging classes
 ======================
 
 .. admonition:: Lagging classes
 
-   Custom lagging classes allows defining custom default values of maximal lagging allowed based on index, sourcetype and priority.
+   - The Lagging classes feature provides capabilities to manage and configure the maximal lagging values allowed in a centralised and automated fashion, based on different factors.
+   - A lagging class can be configured based on index names, sourcetype values and the entities priority level.
+   - Lagging classes apply on data sources and hosts, and classes can be created matching either both types of object, data sources or data hosts only.
 
 .. image:: img/lagging_class_main.png
    :alt: lagging_class_main.png
    :align: center
 
-**A custom lagging class can apply to both data sources and hosts monitoring, based on the following rules:**
+**Lagging classes are controlled by the following main rules:**
 
-- For data sources: lagging classes are applied in the following order: index, sourcetype, priority
-- For data hosts: if multiple lagging class match, the highest lagging value wins
+- For data sources: lagging classes are applied in the following order: index, sourcetype, priority (first match takes precedence)
+- For data hosts: The highest lagging value takes precedence, if multiple sourcetypes, the host global max lag cannot be lower than the highest value between all sourcetypes
 
 .. admonition:: Lagging classes override
 
    When a lagging class is defined and is matched for a data source or a data host, you can as well override this policy based lagging value by defining a lagging value on the object within the UI and enabling the override option.
 
-**An override option can be activated on per entity basis:**
+Lagging classes behaviour for data sources
+------------------------------------------
+
+When a lagging class is configured and defined to apply on data sources (or all), the tracker reports retrieve the lagging class information via enrichment (lookup) and proceed to different conditional operations.
+
+These operations in the case of data sources are proceeded in a specific order as follows:
+
+- 1. index
+- 2. sourcetype
+- 3. priority
+
+The first operation that matches a value takes precedence over any other value.
+
+For instance, if a lagging class matches the index "network", every data source linked to this index will retrieve the maximal lagging value from the lagging class no matters if any other lagging classes would have matched. (priority for example)
+
+As well, it is possible to override this behaviour and manually control the maximal lagging value for a given data source independently from any lagging class matching, this is configurable by modifying the data source configuration: (Modify button)
 
 .. image:: img/lagging_class_override.png
    :alt: lagging_class_override.png
    :align: center
 
-**As explained within the UI:**
 
-- The maximal allowed lagging value defines the maximal value in seconds before a data source / host would be considered as red
-- Override lagging classes allows bypassing any lagging classes configuration that would apply to this data source or host
-- If you define a custom lagging value for a specific data source or host, use this option to avoid conflicts with lagging classes and force a value for this entity
+Lagging classes behaviour for data hosts
+------------------------------------------
 
-Finally, when a custom lagging value is defined for an object, a value of "true" is pre-selected for the field named "data_override_lagging_class", this option if set to true will allow overriding any policy based lagging value.
+By definition, the data hosts monitoring is a more complex task which involves for a given entity (host) the monitoring of potentially numbers of sub-entities (sourcetypes).
+
+**Main rules for data hosts lagging classes:**
+
+- A first level of lagging classes matching happens at the sourcetype level per host
+- In this first lagging class matching operations, index and sourcetype level lagging classes are taken into account
+- At this stage of sourcetype max lagging value definition, the higher value of any match takes precedence
+- After this first level, the tracker reports will attempt matching against any lagging class based on the priority
+- Finally, a value for the overall host max lagging is defined, as the higher value from all values
+
+**Let's take the following example:**
+
+- host: winsrv1.acme.com
+- 3 sourcetypes indexed: XmlWinEventLog, Script:ListeningPorts, WinHostMon
+
+.. image:: img/lagging_class_override_data_hosts_ex1.png
+   :alt: lagging_class_override_data_hosts_ex1.png
+   :align: center
+
+|:arrow_right:| by default, TrackMe applies a 3600 max lagging value per sourcetype and for the overall host
+
+- A new lagging class is created to match the sourcetype ``WinHostMon`` and assign a max lagging value of 86400 seconds
+
+|:arrow_right:| Once the tracker report has been executed, the sourcetype has the expected assignment, and the overall max lagging value of the host is set to the highest value between all sourcetypes monitored:
+
+.. image:: img/lagging_class_override_data_hosts_ex2.png
+   :alt: lagging_class_override_data_hosts_ex2.png
+   :align: center
+
+- Now let's create a new lagging class matching the sourcetype ``Script:ListeningPorts`` with a short max lagging class of 300 seconds
+- The provider is stopped for the demonstration purposes
+- After 5 minutes, the sourcetype appears in anomaly
+- If the data hosts alerting policy is defined to track per sourcetype, the host turns red
+- If the data hosts alerting policy is defined to track per host, the host remains green until none of the sourcetype have been indexing for at least the overall max lag of the host
+
+**Alerting policy track per sourcetype:**
+
+.. image:: img/lagging_class_override_data_hosts_ex3.png
+   :alt: lagging_class_override_data_hosts_ex3.png
+   :align: center
+
+**Alerting policy track per host:**
+
+.. image:: img/lagging_class_override_data_hosts_ex4.png
+   :alt: lagging_class_override_data_hosts_ex4.png
+   :align: center
+
+.. admonition:: Lagging classes override
+
+   - TrackMe will use the higher value between all sourcetypes to define the max overall lagging value of the host
+   - This value can as well be overriden on a per host basis in the host modification screen, but should ideally be controlled by automated policies
 
 Allowlisting & Blocklisting
 ===========================
@@ -1646,8 +1716,8 @@ Alerting policy for data hosts
 .. admonition:: Data hosts alerting policy management
 
    - The alerting policy controls how the state of a data host gets defined depending on the sourcetypes that are emitting data
-   - The global default mode named "granular per host" instructs TrackMe to turn an host to red only if no sourcetypes are being indexed and respecting monitoring rules
-   - The global alternative mode named "granular per sourcetype" instructs TrackMe to consider sourcetypes and their monitoring rules individually on a per host basis, to finally define the overall state of the host
+   - The global default mode named "track per host" instructs TrackMe to turn an host to red only if no sourcetypes are being indexed and respecting monitoring rules
+   - The global alternative mode named "track per sourcetype" instructs TrackMe to consider sourcetypes and their monitoring rules individually on a per host basis, to finally define the overall state of the host
    - This global mode can optionally be overriden on a per host basis via the configuration screen of the data host
 
 See :ref:`Data hosts global alerting policy` to control the global policy settings.
@@ -1680,7 +1750,7 @@ See :ref:`Data hosts global alerting policy` to control the global policy settin
 
 .. hint::
 
-   If a sourcetypes turns ``red``, this will NOT impact the state of the host unless the global policy is set to granular per sourcetype, or the host policy is defined for that host especially
+   If a sourcetypes turns ``red``, this will NOT impact the state of the host unless the global policy is set to ``track per sourcetype``, or the host policy is defined for that host especially
 
 **To configure sourcetypes to be taken into account individually, you can either:**
 
@@ -1698,10 +1768,24 @@ See :ref:`Data hosts global alerting policy` to control the global policy settin
 **Three options are available:**
 
 - ``global policy``: instructs the data host settings to rely on the global alerting policy
-- ``red if at least one sourcetype is red``: instructs TrackMe to turn the host red if at least one sourcetype is in a red state (granular per sourcetype)
-- ``red only if all sourcetypes are red``: instructs TrackMe to turn the host red only if none of the sourcetypes are respecting monitoring rules (granular per host)
+- ``red if at least one sourcetype is red``: instructs TrackMe to turn the host red if at least one sourcetype is in a red state (track per sourcetype)
+- ``red only if all sourcetypes are red``: instructs TrackMe to turn the host red only if none of the sourcetypes are respecting monitoring rules (track per host)
 
 *When a mode is defined for a given host that is not equal to the global policy, then the global alerting policy is ignored and replaced by the setting defined for that host.*
+
+**Behaviour examples:**
+
+*Alerting policy track per sourcetype:*
+
+.. image:: img/lagging_class_override_data_hosts_ex3.png
+   :alt: lagging_class_override_data_hosts_ex3.png
+   :align: center
+
+*Alerting policy track per host:*
+
+.. image:: img/lagging_class_override_data_hosts_ex4.png
+   :alt: lagging_class_override_data_hosts_ex4.png
+   :align: center
 
 Tags
 ====
