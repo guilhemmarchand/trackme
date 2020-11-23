@@ -1138,7 +1138,7 @@ styles in <div> tags, similar to Bootstrap's grid system.
                                 </div>
                                 <div>
                                     <h2>The default behaviour for data hosts monitoring is to turn host states in red mode when all of the known sourcetypes have stopped emitting data in a way that monitoring conditions are not met. (if any sourcetype continues to be indexed and monitoring conditions are met, the host is green)
-                                        You can change the global policy to the "granular per sourcetype" mode which configures TrackMe to turn an host status to red if at least one sourcetypes is actually red. (to be green, all sourcetypes must be green)
+                                        You can change the global policy to the "track per sourcetype" mode which configures TrackMe to turn an host status to red if at least one sourcetypes is actually red. (to be green, all sourcetypes must be green)
                                         This policy can defined widely in this configuration screen, and on a per data host basis in the data host configuration screen. 
                                     </h2>
                                 </div>
@@ -2963,12 +2963,13 @@ require([
             var value = value;
 
             if (value == "track_per_host") {
-                change_type = "enable data host policy granular per host";
+                change_type = "enable data host policy track per host";
             } else if (value == "track_per_sourcetype") {
-                change_type = "enable data host policy granular per sourcetype";
+                change_type = "enable data host policy track per sourcetype";
             }
             else {
-                change_type = "unknown";
+                // default if unset
+                change_type = "track_per_host";
             }
 
             $.ajax({
