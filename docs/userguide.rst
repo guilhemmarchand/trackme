@@ -395,7 +395,6 @@ Particularities of data hosts monitoring
 - ``Outliers detection`` is available for data hosts too and would help detecting significant changes such as a major sourcetype that is not ingested anymore
 - ``logical group``: a data host can be part of a logical group, this feature is useful for example to handle a couple of active / passive entities (example with firewalls) where the passive entity will not be generating any data actively
 - ``object tags``: this is an additional feature to data hosts and metric hosts that allows looking against a third party lookup, such as your CMDB data stored in Splunk, or the Splunk Enterprise Security assets knowledge, to provide an active link and access quickly these enrichment information
-- Unlike data sources, the ``default max lag allowed`` for data hosts is defined to ``24 hours`` (86400 seconds), which means that a host that has completely stopped sending data will appear red 24 hours later, unless the outliers detection detects the behaviour change before that
 
 See :ref:`Logical groups (clusters)` for more details on this feature
 
