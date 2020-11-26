@@ -4810,7 +4810,7 @@ styles in <div> tags, similar to Bootstrap's grid system.
                     <lu>
                         <li>Based on the index</li>
                         <li>Based on the sourcetype</li>
-                        <li>Based on the priority level defined for the entity</li>
+                        <li>Based on the priority level defined for the entity (for data sources only)</li>
                     </lu>
                     <br />
 
@@ -14287,7 +14287,7 @@ require([
 
         modal_input_custom_lagging_type.on("change", function(newValue) {
             FormUtils.handleValueChange(modal_input_custom_lagging_type);
-        });
+        });       
 
         var modal_input_custom_lagging_name = new TextInput({
             "id": "modal_input_custom_lagging_name",
@@ -14326,7 +14326,7 @@ require([
                     "value": "data_host"
                 },
                 {
-                    "label": "all (data_source/data_host)",
+                    "label": "all applicable",
                     "value": "all"
                 }                
             ],

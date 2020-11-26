@@ -390,7 +390,7 @@ Particularities of data hosts monitoring
 **The features are almost equivalents between data sources and data hosts, with a few exceptions:**
 
 - ``state condition:`` the data host entity state depends on the global data host alerting policy (which is defined globally and can be overriden on a per host basis)
-- Depending on the data ``hosts alerting policy``, an host will be red if no more sourcetypes are emitting data for it, or individually by sourcetype if at least one sourcetype does not respect monitoring rules
+- Depending on the policy, he host state will turn red if either no more sourcetypes are generating data (track per host policy), or any of the sourcetypes monitored for the host has turned red (track per sourcetype policy)
 - Using ``allowlists and blocklists`` provide additional granularity to define what data has to be included or is excluded during the searches
 - ``Outliers detection`` is available for data hosts too and would help detecting significant changes such as a major sourcetype that is not ingested anymore
 - ``logical group``: a data host can be part of a logical group, this feature is useful for example to handle a couple of active / passive entities (example with firewalls) where the passive entity will not be generating any data actively
