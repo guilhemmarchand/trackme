@@ -22,6 +22,11 @@ Major improvements in data host monitoring capabilities:
 - Feature: Better management of allow lists / blocking lists for data hosts monitoring
 - Feature: Data hosts and metric hosts rendering improvements in multi-value field structure with state rendered as emoji icons for better readability
 - Change: Data hosts monitoring uses same default lagging than data sources (3600 sec)
+
+Data sources changes:
+- Feature: Issue #196 Data sources - Provides distinct count threshold capabilities to turn a data source red if the number of hosts goes beyond a static threshold, provides chart visibility in Overview screen of the data source
+
+Others:
 - Fix: Issue #193 - data hosts - the refresh button does not refresh the host screen header (priority, etc) #193
 
 Version 1.2.26

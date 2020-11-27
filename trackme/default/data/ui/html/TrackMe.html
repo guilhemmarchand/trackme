@@ -2980,6 +2980,11 @@ styles in <div> tags, similar to Bootstrap's grid system.
                         <div id="rowChartLag" class="dashboard-row dashboard-row1" data-depends="$show_data_source_overview$">
                             <div id="panelChartLag2" class="dashboard-cell" style="width: 100%;">
                                 <div class="dashboard-panel clearfix">
+                                    <div style="margin-left: 30px;" class="fieldset">
+                                        <div class="input input-dropdown" id="inputDataSourceOverviewChartSeries">
+                                            <label></label>
+                                        </div>
+                                    </div>
                                     <div class="panel-element-row">
                                         <div id="elementChartLag" class="dashboard-element chart" style="width: 100%">
                                             <div class="panel-body"></div>
@@ -10554,7 +10559,7 @@ require([
         var searchChartLag = new SearchManager({
             "id": "searchChartLag",
             "sample_ratio": 1,
-            "search": "$tk_data_source_overview_root_search$ | timechart span=$modalTime.span$ sum(count) as events_count, avg(delta) as avg_lag_sec",
+            "search": "$tk_data_source_overview_root_search$ | timechart span=$modalTime.span$ sum(count) as events_count, avg(delta) as avg_lag_sec, max(dcount_host) as dcount_host | fields _time, $tk_input_data_source_overview_chart_series$",
             "status_buckets": 0,
             "earliest_time": "$modalTime.earliest$",
             "cancelOnUnload": true,
@@ -11177,7 +11182,7 @@ require([
             "cancelOnUnload": true,
             "latest_time": "$modalTimeHost.latest$",
             "sample_ratio": 1,
-            "search": "| tstats count max(_indextime) as indextime where index=* host=\"$tk_data_host$\" `trackme_tstats_main_filter` `trackme_get_idx_whitelist(trackme_data_host_monitoring_whitelist_index, data_index)` `apply_data_host_blacklists_data_retrieve` by _time, index, sourcetype span=1s | eval delta=(indextime-_time) | timechart span=$modalTimeHost.span$ sum(count) as events_count, avg(delta) as avg_lag_sec",
+            "search": "| tstats count, max(_indextime) as indextime where index=* host=\"$tk_data_host$\" `trackme_tstats_main_filter` `trackme_get_idx_whitelist(trackme_data_host_monitoring_whitelist_index, data_index)` `apply_data_host_blacklists_data_retrieve` by _time, index, sourcetype span=1s | eval delta=(indextime-_time) | timechart span=$modalTimeHost.span$ sum(count) as events_count, max(dcount_host) as dcount_host, avg(delta) as avg_lag_sec",
             "status_buckets": 0,
             "app": utils.getCurrentApp(),
             "auto_cancel": 90,
@@ -12843,6 +12848,34 @@ require([
         });
 
         // data source monitoring
+
+        // data host outlier configuration
+        var inputDataSourceOverviewChartSeries = new DropdownInput({
+            "id": "inputDataSourceOverviewChartSeries",
+            "choices": [
+                {"label": "events / lag", "value": "events_count, avg_lag_sec"},
+                {"label": "events / host dcount", "value": "events_count, dcount_host"}
+            ],
+            "default": "events_count, avg_lag_sec",
+            "searchWhenChanged": true,
+            "selectFirstChoice": false,
+            "showClearButton": true,
+            "initialValue": "events_count, avg_lag_sec",
+            "value": "$form.tk_input_data_source_overview_chart_series$",
+            "el": $('#inputDataSourceOverviewChartSeries')
+        }, {tokens: true}).render();
+
+        inputDataSourceOverviewChartSeries.on("change", function(newValue) {
+            FormUtils.handleValueChange(inputDataSourceOverviewChartSeries);
+        });
+
+        inputDataSourceOverviewChartSeries.on("valueChange", function(e) {
+            if (e.value === "events_count, avg_lag_sec") {
+                EventHandler.setToken("data_source_overview_chart1_axis", "lagging (sec)", {}, e.data);
+            } else if (e.value === "events_count, dcount_host") {
+                EventHandler.setToken("data_source_overview_chart1_axis", "hosts distinct count", {}, e.data);
+            }
+        });
 
         // main data_source link input for modal window
         var inputLinkDataSource = new LinkListInput({
@@ -16604,16 +16637,16 @@ require([
                 var tk_elastic_mstats_filters = tokens.get("tk_elastic_mstats_filters");
 
                 if (tk_elastic_source_search_mode == "null") {
-                    tk_data_source_overview_root_search = "| `trackme_tstats` count latest(_indextime) as indextime max(_time) as maxtime where index=\"" + tk_data_index + "\" sourcetype=\"" + tk_data_sourcetype + "\" by _time, index, sourcetype span=1s | eval delta=(indextime-_time), event_lag=(now() - maxtime)";
+                    tk_data_source_overview_root_search = "| `trackme_tstats` dc(host) as dcount_host count latest(_indextime) as indextime max(_time) as maxtime where index=\"" + tk_data_index + "\" sourcetype=\"" + tk_data_sourcetype + "\" by _time, index, sourcetype span=1s | eval delta=(indextime-_time), event_lag=(now() - maxtime)";
                     tk_data_source_raw_search = "null";
                 } else if (tk_elastic_source_search_mode == "tstats") {
-                    tk_data_source_overview_root_search = "| `trackme_tstats` count latest(_indextime) as indextime max(_time) as maxtime where " + tk_elastic_source_search_constraint + " by _time, index, sourcetype span=1s | eval delta=(indextime-_time), event_lag=(now() - maxtime)";
+                    tk_data_source_overview_root_search = "| `trackme_tstats` dc(host) as dcount_host count latest(_indextime) as indextime max(_time) as maxtime where " + tk_elastic_source_search_constraint + " by _time, index, sourcetype span=1s | eval delta=(indextime-_time), event_lag=(now() - maxtime)";
                     tk_data_source_raw_search = "?q=search%20" + encodeURI(tk_elastic_source_search_constraint);
                 } else if (tk_elastic_source_search_mode == "raw") {
-                    tk_data_source_overview_root_search = tk_elastic_source_search_constraint + " | eval delta=(_indextime-_time), event_lag=(now() - _time) | bucket _time span=1s | stats count, avg(delta) as delta, latest(event_lag) as event_lag by _time";
+                    tk_data_source_overview_root_search = tk_elastic_source_search_constraint + " | eval delta=(_indextime-_time), event_lag=(now() - _time) | bucket _time span=1s | stats count, avg(delta) as delta, latest(event_lag) as event_lag, dc(host) as dcount_host by _time";
                     tk_data_source_raw_search = "?q=search%20" + encodeURI(tk_elastic_source_search_constraint);
                 } else if (tk_elastic_source_search_mode == "from" && tk_elastic_source_from_part1 != "null" && tk_elastic_source_from_part2 != "null") {
-                    tk_data_source_overview_root_search = "| " + tk_elastic_source_search_mode + " " + tk_elastic_source_from_part1 + " | " +  tk_elastic_source_from_part2 + " | eval delta=(_indextime-_time), event_lag=(now() - maxtime) | bucket _time span=1s | stats count, avg(delta) as delta, latest(event_lag) as event_lag by _time";
+                    tk_data_source_overview_root_search = "| " + tk_elastic_source_search_mode + " " + tk_elastic_source_from_part1 + " | " +  tk_elastic_source_from_part2 + " | eval delta=(_indextime-_time), event_lag=(now() - maxtime) | bucket _time span=1s | stats count, avg(delta) as delta, latest(event_lag) as event_lag, dc(host) as dcount_host by _time";
                     tk_data_source_raw_search = "?q=" + encodeURI("| ") + encodeURI(tk_elastic_source_search_mode) + " " + encodeURI(tk_elastic_source_from_part1) + encodeURI("|") +  encodeURI(tk_elastic_source_from_part2);
                 } else if (tk_elastic_source_search_mode == "mstats" && tk_elastic_mstats_filters != "null") {
                     tk_data_source_overview_root_search = "| mstats latest(_value) as value where `trackme_metrics_idx` (metric_name=trackme.eventcount_4h OR metric_name=trackme.lag_event_sec) object_category=\"data_source\" object=\"" + tk_data_name + "\" by metric_name span=5m | eval {metric_name}=value | stats first(trackme.eventcount_4h) as count, first(trackme.lag_event_sec) as delta by _time | eval event_lag=delta";
@@ -16623,7 +16656,7 @@ require([
                         tk_data_source_raw_search = "?q=" + encodeURI("| msearch ") + encodeURI(tk_elastic_mstats_idx) + " " + encodeURI("filter=\"" + tk_elastic_mstats_filters + "\"") + encodeURI(" earliest=\"-5m\" latest=now");
                     }
                 } else {
-                    tk_data_source_overview_root_search = "| `trackme_tstats` count latest(_indextime) as indextime max(_time) as maxtime where index=\"" + tk_data_index + "\" sourcetype=\"" + tk_data_sourcetype + "\" by _time, index, sourcetype span=1s | eval delta=(indextime-_time), event_lag=(now() - maxtime)";
+                    tk_data_source_overview_root_search = "| `trackme_tstats` dc(host) as dcount_host count latest(_indextime) as indextime max(_time) as maxtime where index=\"" + tk_data_index + "\" sourcetype=\"" + tk_data_sourcetype + "\" by _time, index, sourcetype span=1s | eval delta=(indextime-_time), event_lag=(now() - maxtime)";
                 }
 
                 //console.log("tk_data_source_overview_root_search is: " + tk_data_source_overview_root_search);
@@ -18022,11 +18055,11 @@ require([
             "refresh.display": "progressbar",
             "charting.chart.nullValueMode": "gaps",
             "charting.axisTitleX.visibility": "collapsed",
-            "charting.axisTitleY2.text": "lag in seconds",
+            "charting.axisTitleY2.text": "$data_source_overview_chart1_axis$",
             "charting.axisX.scale": "linear",
             "charting.drilldown": "none",
             "charting.axisLabelsX.majorLabelStyle.overflowMode": "ellipsisNone",
-            "charting.chart.overlayFields": "avg_lag_sec",
+            "charting.chart.overlayFields": "avg_lag_sec,dcount_host",
             "charting.chart.showDataLabels": "none",
             "charting.axisTitleY2.visibility": "visible",
             "charting.axisY2.enabled": "1",
@@ -18038,7 +18071,7 @@ require([
             "charting.chart.style": "shiny",
             "charting.axisY.scale": "linear",
             "charting.layout.splitSeries": "0",
-            "charting.fieldColors": "{\"events_count\": 0xaec6cf, \"avg_lag_sec\": 0x8b0000}",
+            "charting.fieldColors": "{\"events_count\": 0xaec6cf, \"avg_lag_sec\": 0x8b0000, \"dcount_host\": 0x8b0000}",
             "resizable": true,
             "charting.legend.labelStyle.overflowMode": "ellipsisMiddle",
             "charting.lineWidth": "2",
@@ -30080,8 +30113,8 @@ require([
             var tk_origin_dcount_host = tokens.get("tk_min_dcount_host");
 
             if (!tk_input_data_source_dcount_host || !tk_input_data_source_dcount_host.length) {
-                // Show an error message
-                $("#modal_entry_update_invalid").modal()
+                // Show an error notification
+                notification('ERROR: the minimal distinct host count value needs to be a positive integer, or the string "any" to define any value.', 6000)
                 return;
             } else {
 
@@ -30145,7 +30178,7 @@ require([
 
                         // Audit
                         action = "success";
-                        change_type = "modify monitoring level";
+                        change_type = "modify minimal hosts distinct count number";
                         object = tk_data_name;
                         object_category = "data_source";
                         object_attrs = "min_dcount_host changed from:" + tk_origin_dcount_host + " to:" + tk_input_data_source_dcount_host;
@@ -30166,7 +30199,7 @@ require([
 
                         // Audit
                         action = "failure";
-                        change_type = "modify monitoring level";
+                        change_type = "modify minimal hosts distinct count number";
                         object = tk_data_name;
                         object_category = "data_source";
                         object_attrs = "min_dcount_host changed from:" + tk_origin_dcount_host + " to:" + tk_input_data_source_dcount_host;

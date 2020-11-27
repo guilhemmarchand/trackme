@@ -542,6 +542,15 @@ This option allows controlling on a per host basis the behaviour regarding the s
 
 See :ref:`Alerting policy for data hosts` for more details about this feature.
 
+**Host distinct count threshold: (data sources only)**
+
+In some cases, you may want to be alerted when the number of distinct count hosts underneath a data source goes bellow a certain threshold.
+
+*Expected values are:*
+
+- "any" (default) which disables any verification against the hosts distinct count number
+- A positive integer representing the minimal threshold for the dcount of hosts, if the current dcount goes bellow this value, the data source turns red
+
 Elastic sources
 ===============
 
