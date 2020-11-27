@@ -1349,7 +1349,7 @@ Lagging classes
 .. admonition:: Lagging classes
 
    - The Lagging classes feature provides capabilities to manage and configure the maximal lagging values allowed in a centralised and automated fashion, based on different factors.
-   - A lagging class can be configured based on index names, sourcetype values and the entities priority level.
+   - A lagging class can be configured based on index names, sourcetype values and the entities priority level. (priority based policies applied to data sources only)
    - Lagging classes apply on data sources and hosts, and classes can be created matching either both types of object, data sources or data hosts only.
 
 .. image:: img/lagging_class_main.png
@@ -1394,11 +1394,9 @@ By definition, the data hosts monitoring is a more complex task which involves f
 
 **Main rules for data hosts lagging classes:**
 
-- A first level of lagging classes matching happens at the sourcetype level per host
-- In this first lagging class matching operations, index and sourcetype level lagging classes are taken into account
-- At this stage of sourcetype max lagging value definition, the higher value of any match takes precedence
-- After this first level, the tracker reports will attempt matching against any lagging class based on the priority
-- Finally, a value for the overall host max lagging is defined, as the higher value from all values
+- At first, TrackMe attempts to perform lagging class matching per host and per sourcetype
+- For a given sourcetype, the higest lagging value between index based policies and sourcetype based policies is recorded per sourcetype
+- Finally, the highest lagging value between all sourcetypes for the host is saved as the general maximal lagging value for the host
 
 **Let's take the following example:**
 
@@ -1411,9 +1409,9 @@ By definition, the data hosts monitoring is a more complex task which involves f
 
 |:arrow_right:| by default, TrackMe applies a 3600 max lagging value per sourcetype and for the overall host
 
-- A new lagging class is created to match the sourcetype ``WinHostMon`` and assign a max lagging value of 86400 seconds
+- A new lagging class is created to match the sourcetype ``WinHostMon`` to define a max lagging value of 86400 seconds
 
-|:arrow_right:| Once the tracker report has been executed, the sourcetype has the expected assignment, and the overall max lagging value of the host is set to the highest value between all sourcetypes monitored:
+|:arrow_right:| Once the tracker report has been executed, the sourcetype maximal laggging value is defined accordingly, and the overall max lagging value of the host is set to the highest value between all sourcetypes monitored:
 
 .. image:: img/lagging_class_override_data_hosts_ex2.png
    :alt: lagging_class_override_data_hosts_ex2.png
@@ -1440,7 +1438,7 @@ By definition, the data hosts monitoring is a more complex task which involves f
 .. admonition:: Lagging classes override
 
    - TrackMe will use the higher value between all sourcetypes to define the max overall lagging value of the host
-   - This value can as well be overriden on a per host basis in the host modification screen, but should ideally be controlled by automated policies
+   - This value can as well be overriden on a per host basis in the host modification screen, but should ideally be controlled by automated policies based on indexes or sourcetypes
 
 Allowlisting & Blocklisting
 ===========================
