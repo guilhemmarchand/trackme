@@ -6142,13 +6142,15 @@ styles in <div> tags, similar to Bootstrap's grid system.
 
                         </div>
 
-                        <div style="margin-top: 240px; margin-bottom: 10px;">
+                        <hr>
+
+                        <div style="margin-top: 190px; margin-bottom: 10px; width: 50%;">
 
                             <hr>
 
                             <b>Monitoring level:</b>
 
-                            <p>Choose to monitor the data source based on the index and sourcetype association (default), or based on the latest data available in the index where the data source is stored:</p>
+                            <p>Monitor based on index/sourcetype (default), or based on the latest data available in the index:</p>
 
                             <div id="rowDataSourceModifyMain4" class="dashboard-row dashboard-row1">
                                 <div id="panel1" class="dashboard-cell" style="width: 100%;">
@@ -6165,6 +6167,31 @@ styles in <div> tags, similar to Bootstrap's grid system.
                             <button id="btn_modal_modify_monitoring_level_confirm" type="submit" class="btn btn-default btn-primary"><span class="glyphicon glyphicon-remove"></span> Apply monitoring level rule</button>
 
                         </div>
+
+                        <div style="margin-top: -196px; margin-bottom: 10px; width: 50%; float: right;">
+
+                            <hr>
+
+                            <b>Hosts disctinct count:</b>
+
+                            <p>Enter the minimal hosts dcount value for the data source (turns red if condition is not met):</p>
+
+                            <div id="rowDataSourceModifyMain5" class="dashboard-row dashboard-row1">
+                                <div id="panel1" class="dashboard-cell" style="width: 100%;">
+                                    <div class="dashboard-panel clearfix">          
+                                        <div class="fieldset">
+                                            <div class="input input-text" id="modal_input_dcount_host">
+                                                <label></label>
+                                            </div>
+                                        </div>                                        
+                                    </div>
+                                </div>
+                            </div>
+
+                            <button id="btn_modal_modify_dcount_host_confirm" type="submit" class="btn btn-default btn-primary"><span class="glyphicon glyphicon-remove"></span> Apply host dcount rule</button>
+
+                        </div>
+
 
                     </div>
 
@@ -14118,6 +14145,22 @@ require([
             FormUtils.handleValueChange(modal_input_lag_override_class_host);
         });
 
+        // distinct count hosts
+        var modal_input_dcount_host = new TextInput({
+            "id": "modal_input_dcount_host",
+            "searchWhenChanged": true,
+            "default": "any",
+            "initialValue": "any",            
+            "value": "$form.tk_input_data_source_dcount_host$",
+            "el": $('#modal_input_dcount_host')
+        }, {
+            tokens: true
+        }).render();
+
+        modal_input_dcount_host.on("change", function(newValue) {
+            FormUtils.handleValueChange(modal_input_dcount_host);
+        });
+
         // elastic sources
 
         var modal_input_elastic_source_search_type = new DropdownInput({
@@ -16374,6 +16417,11 @@ require([
                 setToken("tk_latest_flip_time", TokenUtils.replaceTokenNames("$row.latest_flip_time$", _.extend(submittedTokenModel.toJSON(), e.data)));
                 setToken("tk_latest_flip_time_human", TokenUtils.replaceTokenNames("$row.latest_flip_time (translated)$", _.extend(submittedTokenModel.toJSON(), e.data)));
                 setToken("tk_priority", TokenUtils.replaceTokenNames("$row.priority$", _.extend(submittedTokenModel.toJSON(), e.data)));
+
+                // dcount hosts
+                setToken("tk_dcount_host", TokenUtils.replaceTokenNames("$row.dcount_host$", _.extend(submittedTokenModel.toJSON(), e.data)));
+                setToken("tk_min_dcount_host", TokenUtils.replaceTokenNames("$row.min_dcount_host$", _.extend(submittedTokenModel.toJSON(), e.data)));
+                setToken("form.tk_input_data_source_dcount_host", TokenUtils.replaceTokenNames("$row.min_dcount_host$", _.extend(submittedTokenModel.toJSON(), e.data)));                                                
 
                 // outlier
                 setToken("tk_outlierenabledstatus", TokenUtils.replaceTokenNames("$row.enable_behaviour_analytic$", _.extend(submittedTokenModel.toJSON(), e.data)));
@@ -27661,13 +27709,13 @@ require([
 
                     // define the alert search
                     if (tk_input_elastic_source_search_type == "tstats") {
-                        tk_elastic_alert_root_search = "| `trackme_tstats` max(_indextime) as data_last_ingest, min(_time) as data_first_time_seen, max(_time) as data_last_time_seen, count as data_eventcount where " + tk_raw_input_elastic_source_search_constraint + " | eval data_name=\"" + tk_input_elastic_source_data_name + "\", data_index=\"" + tk_input_elastic_source_elastic_data_index + "\", data_sourcetype=\"" + tk_input_elastic_source_elastic_data_sourcetype + "\", data_last_ingestion_lag_seen=data_last_ingest-data_last_time_seen | `trackme_elastic_dedicated_tracker(\"" + tk_input_elastic_source_data_name + "\")` | stats c";
+                        tk_elastic_alert_root_search = "| `trackme_tstats` max(_indextime) as data_last_ingest, min(_time) as data_first_time_seen, max(_time) as data_last_time_seen, count as data_eventcount, dc(host) as dcount_host where " + tk_raw_input_elastic_source_search_constraint + " | eval data_name=\"" + tk_input_elastic_source_data_name + "\", data_index=\"" + tk_input_elastic_source_elastic_data_index + "\", data_sourcetype=\"" + tk_input_elastic_source_elastic_data_sourcetype + "\", data_last_ingestion_lag_seen=data_last_ingest-data_last_time_seen | `trackme_elastic_dedicated_tracker(\"" + tk_input_elastic_source_data_name + "\")` | stats c";
 
                     } else if (tk_input_elastic_source_search_type == "raw") {
-                        tk_elastic_alert_root_search = tk_raw_input_elastic_source_search_constraint + " | stats max(_indextime) as data_last_ingest, min(_time) as data_first_time_seen, max(_time) as data_last_time_seen, count as data_eventcount | eval data_name=\"" + tk_input_elastic_source_data_name +"\", data_index=\"" + tk_input_elastic_source_elastic_data_index + "\", data_sourcetype=\"" + tk_input_elastic_source_elastic_data_sourcetype + "\", data_last_ingestion_lag_seen=data_last_ingest-data_last_time_seen | `trackme_elastic_dedicated_tracker(\"" + tk_input_elastic_source_data_name + "\")` | stats c";
+                        tk_elastic_alert_root_search = tk_raw_input_elastic_source_search_constraint + " | stats max(_indextime) as data_last_ingest, min(_time) as data_first_time_seen, max(_time) as data_last_time_seen, count as data_eventcount, dc(host) as dcount_host | eval data_name=\"" + tk_input_elastic_source_data_name +"\", data_index=\"" + tk_input_elastic_source_elastic_data_index + "\", data_sourcetype=\"" + tk_input_elastic_source_elastic_data_sourcetype + "\", data_last_ingestion_lag_seen=data_last_ingest-data_last_time_seen | `trackme_elastic_dedicated_tracker(\"" + tk_input_elastic_source_data_name + "\")` | stats c";
 
                     } else if (tk_input_elastic_source_search_type == "from") {
-                        tk_elastic_alert_root_search = "| " + tk_input_elastic_source_search_type + " " + tk_raw_input_elastic_source_search_constraint + " | stats max(_indextime) as data_last_ingest, min(_time) as data_first_time_seen, max(_time) as data_last_time_seen, count as data_eventcount | eval data_name=\"" + tk_input_elastic_source_data_name + "\", data_index=\"" + tk_input_elastic_source_elastic_data_index + "\", data_sourcetype=\"" + tk_input_elastic_source_elastic_data_sourcetype + "\" | `trackme_elastic_dedicated_tracker(\"" + tk_input_elastic_source_data_name + "\")` | stats c";
+                        tk_elastic_alert_root_search = "| " + tk_input_elastic_source_search_type + " " + tk_raw_input_elastic_source_search_constraint + " | stats max(_indextime) as data_last_ingest, min(_time) as data_first_time_seen, max(_time) as data_last_time_seen, count as data_eventcount, dc(host) as dcount_host | eval data_name=\"" + tk_input_elastic_source_data_name + "\", data_index=\"" + tk_input_elastic_source_elastic_data_index + "\", data_sourcetype=\"" + tk_input_elastic_source_elastic_data_sourcetype + "\" | `trackme_elastic_dedicated_tracker(\"" + tk_input_elastic_source_data_name + "\")` | stats c";
 
                     } else if (tk_input_elastic_source_search_type == "mstats") {
                         tk_elastic_alert_root_search = "| mstats latest(_value) as value where " + tk_raw_input_elastic_source_search_constraint + " by metric_name span=1s | stats min(_time) as data_first_time_seen, max(_time) as data_last_time_seen, dc(metric_name) as data_eventcount | eval data_name=\"" + tk_input_elastic_source_data_name + "\", data_index=\"" + tk_input_elastic_source_elastic_data_index + "\", data_sourcetype=\"" + tk_input_elastic_source_elastic_data_sourcetype + "\", data_last_ingest=data_last_time_seen, data_last_ingestion_lag_seen=now()-data_last_time_seen | `trackme_elastic_dedicated_tracker(\"" + tk_input_elastic_source_data_name + "\")` | stats c" ;
@@ -29964,6 +30012,164 @@ require([
                         object = tk_data_name;
                         object_category = "data_source";
                         object_attrs = "data_monitoring_level changed from:" + tk_origin_data_monitoring_level + " to:" + tk_data_monitoring_level;
+                        result = message;
+                        comment = "N/A";
+                        auditRecord(action, change_type, object, object_category, object_attrs, result, comment);
+
+                        $("#modal_update_collection_failure_return").find('.modal-error-message p').text(message);
+                        $("#modal_update_collection_failure_return").modal()
+                    }
+                });
+
+            }
+        });
+
+        //
+        // dcount host
+        //
+
+        $("#btn_modal_modify_dcount_host_confirm").click(function() {
+
+            submitTokens();
+
+            // When the Submit button is clicked, get all the form fields by accessing token values
+            var tokens = mvc.Components.get("default");
+
+            var tk_keyid = tokens.get("tk_keyid");
+            var tk_data_name = tokens.get("tk_data_name");
+            var tk_data_index = tokens.get("tk_data_index");
+            var tk_data_sourcetype = tokens.get("tk_data_sourcetype");
+            var tk_data_last_lag_seen = tokens.get("tk_data_last_lag_seen");
+            var tk_data_last_ingestion_lag_seen = tokens.get("tk_data_last_ingestion_lag_seen");
+            var tk_data_eventcount = tokens.get("tk_data_eventcount");
+            var tk_data_first_time_seen = tokens.get("tk_data_first_time_seen");
+            var tk_data_last_time_seen = tokens.get("tk_data_last_time_seen");
+            var tk_data_last_ingest = tokens.get("tk_data_last_ingest");
+            var tk_data_last_lag_seen_idx = tokens.get("tk_data_last_lag_seen_idx");
+            var tk_data_last_time_seen_idx = tokens.get("tk_data_last_time_seen_idx");
+            var tk_data_max_lag_allowed = tokens.get("tk_data_max_lag_allowed");
+            var tk_data_lag_alert_kpis = tokens.get("tk_data_lag_alert_kpis");
+            var tk_data_monitored_state = tokens.get("tk_data_monitored_state");
+            var tk_data_monitoring_level = tokens.get("tk_data_monitoring_level");
+            var tk_data_monitoring_wdays = tokens.get("tk_data_monitoring_wdays");
+            var tk_data_override_lagging_class = tokens.get("tk_data_override_lagging_class");
+            var tk_data_source_state = tokens.get("tk_data_source_state");
+            var tk_data_tracker_runtime = tokens.get("tk_data_tracker_runtime");
+            var tk_data_previous_source_state = tokens.get("tk_data_previous_source_state");
+            var tk_data_previous_tracker_runtime = tokens.get("tk_data_previous_tracker_runtime");
+            var tk_outliermineventcount = tokens.get("tk_outliermineventcount");
+            var tk_outlierlowerthresholdmultiplier = tokens.get("tk_outlierlowerthresholdmultiplier");
+            var tk_outlierupperthresholdmultiplier = tokens.get("tk_outlierupperthresholdmultiplier");
+            var tk_outlieralertonupper = tokens.get("tk_outlieralertonupper");
+            var tk_outlier_period = tokens.get("tk_outlier_period");
+            var tk_outlier_span = tokens.get("tk_outlier_span");
+            var tk_isoutlier = tokens.get("tk_isoutlier");
+            var tk_enable_behaviour_analytic = tokens.get("tk_enable_behaviour_analytic");
+            var tk_isanomaly = tokens.get("tk_isanomaly");
+            var tk_data_sample_lastrun = tokens.get("tk_data_sample_lastrun");
+            var tk_latest_flip_state = tokens.get("tk_latest_flip_state");
+            var tk_latest_flip_time = tokens.get("tk_latest_flip_time");
+            var tk_priority = tokens.get("tk_priority");
+            var tk_dcount_host = tokens.get("tk_dcount_host");
+            var tk_min_dcount_host = tokens.get("tk_min_dcount_host");
+
+            // Create the endpoint URL
+            var myendpoint_URl = "{{SPLUNKWEB_URL_PREFIX}}/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_data_source_monitoring/" + tk_keyid;
+
+            var tk_input_data_source_dcount_host = tokens.get("tk_input_data_source_dcount_host");
+            var tk_origin_dcount_host = tokens.get("tk_min_dcount_host");
+
+            if (!tk_input_data_source_dcount_host || !tk_input_data_source_dcount_host.length) {
+                // Show an error message
+                $("#modal_entry_update_invalid").modal()
+                return;
+            } else {
+
+                // Create a dictionary to store the field names and values
+                var record = {
+                    "object_category": "data_source",
+                    "data_name": tk_data_name,
+                    "data_index": tk_data_index,
+                    "data_sourcetype": tk_data_sourcetype,
+                    "data_last_lag_seen": tk_data_last_lag_seen,
+                    "data_last_ingestion_lag_seen": tk_data_last_ingestion_lag_seen,
+                    "data_eventcount": tk_data_eventcount,
+                    "data_first_time_seen": tk_data_first_time_seen,
+                    "data_last_time_seen": tk_data_last_time_seen,
+                    "data_last_ingest": tk_data_last_ingest,
+                    "data_last_lag_seen_idx": tk_data_last_lag_seen_idx,
+                    "data_last_time_seen_idx": tk_data_last_time_seen_idx,
+                    "data_max_lag_allowed": tk_data_max_lag_allowed,
+                    "data_lag_alert_kpis": tk_data_lag_alert_kpis,
+                    "data_monitored_state": tk_data_monitored_state,
+                    "data_monitoring_level": tk_data_monitoring_level,
+                    "data_monitoring_wdays": tk_data_monitoring_wdays,
+                    "data_override_lagging_class": tk_data_override_lagging_class,
+                    "data_source_state": tk_data_source_state,
+                    "data_tracker_runtime": tk_data_tracker_runtime,
+                    "data_previous_source_state": tk_data_previous_source_state,
+                    "data_previous_tracker_runtime": tk_data_previous_tracker_runtime,
+                    "OutlierMinEventCount": tk_outliermineventcount,
+                    "OutlierLowerThresholdMultiplier": tk_outlierlowerthresholdmultiplier,
+                    "OutlierUpperThresholdMultiplier": tk_outlierupperthresholdmultiplier,
+                    "OutlierAlertOnUpper": tk_outlieralertonupper,
+                    "OutlierTimePeriod": tk_outlier_period,
+                    "OutlierSpan": tk_outlier_span,
+                    "isOutlier": tk_isoutlier,
+                    "enable_behaviour_analytic" : tk_enable_behaviour_analytic,
+                    "isAnomaly": tk_isanomaly,
+                    "data_sample_lastrun": tk_data_sample_lastrun,
+                    "latest_flip_state": tk_latest_flip_state,
+                    "latest_flip_time": tk_latest_flip_time,
+                    "priority": tk_priority,
+                    "dcount_host": tk_dcount_host,
+                    "min_dcount_host": tk_input_data_source_dcount_host
+                };
+
+                $.ajax({
+                    url: myendpoint_URl,
+                    type: "POST",
+                    async: true,
+                    contentType: "application/json",
+                    data: JSON.stringify(record),
+                    success: function(returneddata) {
+                        //console.log("Updated!", returneddata)
+                        // Run the search again to update the table
+                        searchDataSourcesMain.startSearch();
+
+                        // call update data source
+                        updateDataSource(tk_keyid);
+
+                        // notify
+                        notification('Modification has been registered successfully.', 2000)
+
+                        // Audit
+                        action = "success";
+                        change_type = "modify monitoring level";
+                        object = tk_data_name;
+                        object_category = "data_source";
+                        object_attrs = "min_dcount_host changed from:" + tk_origin_dcount_host + " to:" + tk_input_data_source_dcount_host;
+                        result = "N/A";
+                        comment = "N/A";
+                        auditRecord(action, change_type, object, object_category, object_attrs, result, comment);
+
+                        // house cleaning
+                        myendpoint_URl = undefined;
+                        delete(myendpoint_URl);
+                        tk_keyid = undefined;
+                        delete(tk_keyid);
+                        return;
+
+                    },
+                    error: function(xhr, textStatus, error) {
+                        message = "Error Updating!" + xhr + textStatus + error;
+
+                        // Audit
+                        action = "failure";
+                        change_type = "modify monitoring level";
+                        object = tk_data_name;
+                        object_category = "data_source";
+                        object_attrs = "min_dcount_host changed from:" + tk_origin_dcount_host + " to:" + tk_input_data_source_dcount_host;
                         result = message;
                         comment = "N/A";
                         auditRecord(action, change_type, object, object_category, object_attrs, result, comment);
