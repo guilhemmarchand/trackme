@@ -21871,6 +21871,8 @@ require([
             var tk_enable_behaviour_analytic = tokens.get("tk_enable_behaviour_analytic");
             var tk_isanomaly = tokens.get("tk_isanomaly");
             var tk_data_sample_lastrun = tokens.get("tk_data_sample_lastrun");
+            var tk_dcount_host = tokens.get("tk_dcount_host");
+            var tk_min_dcount_host = tokens.get("tk_min_dcount_host");
 
             // Create the endpoint URL
             var myendpoint_URl = "{{SPLUNKWEB_URL_PREFIX}}/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_data_source_monitoring/" + tk_keyid;
@@ -21911,7 +21913,9 @@ require([
                 "data_sample_lastrun": tk_data_sample_lastrun,
                 "latest_flip_state": tk_latest_flip_state,
                 "latest_flip_time": tk_latest_flip_time,
-                "priority": tk_priority
+                "priority": tk_priority,
+                "dcount_host": tk_dcount_host,
+                "min_dcount_host": tk_min_dcount_host
             };
 
             if (!tk_keyid || !tk_keyid.length) {
@@ -22506,6 +22510,8 @@ require([
             var tk_enable_behaviour_analytic = tokens.get("tk_enable_behaviour_analytic");
             var tk_isanomaly = tokens.get("tk_isanomaly");
             var tk_data_sample_lastrun = tokens.get("tk_data_sample_lastrun");
+            var tk_dcount_host = tokens.get("tk_dcount_host");
+            var tk_min_dcount_host = tokens.get("tk_min_dcount_host");
 
             // Create the endpoint URL
             var myendpoint_URl = "{{SPLUNKWEB_URL_PREFIX}}/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_data_source_monitoring/" + tk_keyid;
@@ -22546,7 +22552,9 @@ require([
                 "data_sample_lastrun": tk_data_sample_lastrun,
                 "latest_flip_state": tk_latest_flip_state,
                 "latest_flip_time": tk_latest_flip_time,
-                "priority": tk_priority
+                "priority": tk_priority,
+                "dcount_host": tk_dcount_host,
+                "min_dcount_host": tk_min_dcount_host
             };
 
             if (!tk_keyid || !tk_keyid.length) {
@@ -23249,6 +23257,8 @@ require([
             var tk_latest_flip_state = tokens.get("tk_latest_flip_state");
             var tk_latest_flip_time = tokens.get("tk_latest_flip_time");
             var tk_priority = tokens.get("tk_priority");
+            var tk_dcount_host = tokens.get("tk_dcount_host");
+            var tk_min_dcount_host = tokens.get("tk_min_dcount_host");
 
             // Create a dictionary to store the field names and values
             var record = {
@@ -23282,7 +23292,9 @@ require([
                 "data_sample_lastrun": tk_data_sample_lastrun,
                 "latest_flip_state": tk_latest_flip_state,
                 "latest_flip_time": tk_latest_flip_time,
-                "priority": tk_priority
+                "priority": tk_priority,
+                "dcount_host": tk_dcount_host,
+                "min_dcount_host": tk_min_dcount_host
             };
 
             // Create the endpoint URL
@@ -29458,6 +29470,8 @@ require([
             var tk_latest_flip_state = tokens.get("tk_latest_flip_state");
             var tk_latest_flip_time = tokens.get("tk_latest_flip_time");
             var tk_priority = tokens.get("tk_priority");
+            var tk_dcount_host = tokens.get("tk_dcount_host");
+            var tk_min_dcount_host = tokens.get("tk_min_dcount_host");
 
             //console.log("Value of modal_input_grace_period is: " + tk_kafka_infra_grace_period);
 
@@ -29509,7 +29523,9 @@ require([
                     "data_sample_lastrun": tk_data_sample_lastrun,
                     "latest_flip_state": tk_latest_flip_state,
                     "latest_flip_time": tk_latest_flip_time,
-                    "priority": tk_priority
+                    "priority": tk_priority,
+                    "dcount_host": tk_dcount_host,
+                    "min_dcount_host": tk_min_dcount_host
                 };
 
                 $.ajax({
@@ -29613,6 +29629,8 @@ require([
             var tk_latest_flip_state = tokens.get("tk_latest_flip_state");
             var tk_latest_flip_time = tokens.get("tk_latest_flip_time");
             var tk_priority = tokens.get("tk_priority");
+            var tk_dcount_host = tokens.get("tk_dcount_host");
+            var tk_min_dcount_host = tokens.get("tk_min_dcount_host");
 
             //console.log("Value of modal_input_grace_period is: " + tk_kafka_infra_grace_period);
 
@@ -29664,7 +29682,9 @@ require([
                     "data_sample_lastrun": tk_data_sample_lastrun,
                     "latest_flip_state": tk_latest_flip_state,
                     "latest_flip_time": tk_latest_flip_time,
-                    "priority": tk_new_priority
+                    "priority": tk_new_priority,
+                    "dcount_host": tk_dcount_host,
+                    "min_dcount_host": tk_min_dcount_host
                 };
 
                 $.ajax({
@@ -29774,6 +29794,8 @@ require([
             var tk_latest_flip_state = tokens.get("tk_latest_flip_state");
             var tk_latest_flip_time = tokens.get("tk_latest_flip_time");
             var tk_priority = tokens.get("tk_priority");
+            var tk_dcount_host = tokens.get("tk_dcount_host");
+            var tk_min_dcount_host = tokens.get("tk_min_dcount_host");
 
             //console.log("Value of modal_input_grace_period is: " + tk_kafka_infra_grace_period);
 
@@ -29825,7 +29847,9 @@ require([
                     "data_sample_lastrun": tk_data_sample_lastrun,
                     "latest_flip_state": tk_latest_flip_state,
                     "latest_flip_time": tk_latest_flip_time,
-                    "priority": tk_priority
+                    "priority": tk_priority,
+                    "dcount_host": tk_dcount_host,
+                    "min_dcount_host": tk_min_dcount_host
                 };
 
                 $.ajax({
@@ -29947,6 +29971,8 @@ require([
             var tk_latest_flip_state = tokens.get("tk_latest_flip_state");
             var tk_latest_flip_time = tokens.get("tk_latest_flip_time");
             var tk_priority = tokens.get("tk_priority");
+            var tk_dcount_host = tokens.get("tk_dcount_host");
+            var tk_min_dcount_host = tokens.get("tk_min_dcount_host");
 
             //console.log("Value of modal_input_grace_period is: " + tk_kafka_infra_grace_period);
 
@@ -29998,7 +30024,9 @@ require([
                     "data_sample_lastrun": tk_data_sample_lastrun,
                     "latest_flip_state": tk_latest_flip_state,
                     "latest_flip_time": tk_latest_flip_time,
-                    "priority": tk_priority
+                    "priority": tk_priority,
+                    "dcount_host": tk_dcount_host,
+                    "min_dcount_host": tk_min_dcount_host
                 };
 
                 $.ajax({
@@ -30267,6 +30295,8 @@ require([
             var tk_latest_flip_state = tokens.get("tk_latest_flip_state");
             var tk_latest_flip_time = tokens.get("tk_latest_flip_time");
             var tk_priority = tokens.get("tk_priority");
+            var tk_dcount_host = tokens.get("tk_dcount_host");
+            var tk_min_dcount_host = tokens.get("tk_min_dcount_host");
 
             //console.log("Value of modal_input_grace_period is: " + tk_kafka_infra_grace_period);
 
@@ -30324,7 +30354,9 @@ require([
                     "data_sample_lastrun": tk_data_sample_lastrun,
                     "latest_flip_state": tk_latest_flip_state,
                     "latest_flip_time": tk_latest_flip_time,
-                    "priority": tk_priority
+                    "priority": tk_priority,
+                    "dcount_host": tk_dcount_host,
+                    "min_dcount_host": tk_min_dcount_host                    
                 };
 
                 $.ajax({
@@ -34688,6 +34720,8 @@ require([
             var tk_enable_behaviour_analytic = tokens.get("tk_enable_behaviour_analytic");
             var tk_isanomaly = tokens.get("tk_isanomaly");
             var tk_data_sample_lastrun = tokens.get("tk_data_sample_lastrun");
+            var tk_dcount_host = tokens.get("tk_dcount_host");
+            var tk_min_dcount_host = tokens.get("tk_min_dcount_host");
 
             // get inputs tokens
 
@@ -34776,7 +34810,9 @@ require([
                 "data_sample_lastrun": tk_data_sample_lastrun,
                 "latest_flip_state": tk_latest_flip_state,
                 "latest_flip_time": tk_latest_flip_time,
-                "priority": tk_priority
+                "priority": tk_priority,
+                "dcount_host": tk_dcount_host,
+                "min_dcount_host": tk_min_dcount_host
             };
 
             if (!tk_keyid || !tk_keyid.length) {
