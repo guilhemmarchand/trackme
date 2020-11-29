@@ -317,6 +317,12 @@ Status message
    :alt: img/first_steps/img020_data_sampling
    :align: center
 
+*example of a red state due to hosts dcount threshold not reached:*
+
+.. image:: img/first_steps/img020_data_sampling_dcount.png
+   :alt: img/first_steps/img020_data_sampling_dcount
+   :align: center
+
 *example of a blue state due to logical groups monitoring conditions not met (applies to data hosts and metrics hosts only):*
 
 .. image:: img/first_steps/img020_blue.png
