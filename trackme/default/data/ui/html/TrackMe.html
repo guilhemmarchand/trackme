@@ -12872,8 +12872,10 @@ require([
         inputDataSourceOverviewChartSeries.on("valueChange", function(e) {
             if (e.value === "events_count, avg_lag_sec") {
                 EventHandler.setToken("data_source_overview_chart1_axis", "lagging (sec)", {}, e.data);
+                EventHandler.setToken("data_source_overview_chart1_axisUnit", "0.1", {}, e.data);
             } else if (e.value === "events_count, dcount_host") {
                 EventHandler.setToken("data_source_overview_chart1_axis", "hosts distinct count", {}, e.data);
+                EventHandler.setToken("data_source_overview_chart1_axisUnit", "1", {}, e.data);
             }
         });
 
@@ -18056,6 +18058,7 @@ require([
             "charting.chart.nullValueMode": "gaps",
             "charting.axisTitleX.visibility": "collapsed",
             "charting.axisTitleY2.text": "$data_source_overview_chart1_axis$",
+            "charting.axisLabelsY2.majorUnit": "$data_source_overview_chart1_axisUnit$",
             "charting.axisX.scale": "linear",
             "charting.drilldown": "none",
             "charting.axisLabelsX.majorLabelStyle.overflowMode": "ellipsisNone",
