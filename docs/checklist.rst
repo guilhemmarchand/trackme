@@ -23,13 +23,13 @@ elastic sources specific
    :class: longtable
    :widths: 1 1 1 1 1
 
-data hosts specific
-===================
+lagging classes specific
+========================
 
 .. tabularcolumns:: |p{1cm}|p{1cm}|p{1cm}|p{1cm}|
 
-.. csv-table:: data hosts unit tests
-   :file: data_hosts_unit_tests.csv
+.. csv-table:: lagging classes unit tests
+   :file: lagging_classes_unit_tests.csv
    :header-rows: 1
    :class: longtable
    :widths: 1 1 1 1 1

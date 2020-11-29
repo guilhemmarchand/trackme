@@ -11182,7 +11182,7 @@ require([
             "cancelOnUnload": true,
             "latest_time": "$modalTimeHost.latest$",
             "sample_ratio": 1,
-            "search": "| tstats count, max(_indextime) as indextime where index=* host=\"$tk_data_host$\" `trackme_tstats_main_filter` `trackme_get_idx_whitelist(trackme_data_host_monitoring_whitelist_index, data_index)` `apply_data_host_blacklists_data_retrieve` by _time, index, sourcetype span=1s | eval delta=(indextime-_time) | timechart span=$modalTimeHost.span$ sum(count) as events_count, max(dcount_host) as dcount_host, avg(delta) as avg_lag_sec",
+            "search": "| tstats count, max(_indextime) as indextime where index=* host=\"$tk_data_host$\" `trackme_tstats_main_filter` `trackme_get_idx_whitelist(trackme_data_host_monitoring_whitelist_index, data_index)` `apply_data_host_blacklists_data_retrieve` by _time, index, sourcetype span=1s | eval delta=(indextime-_time) | timechart span=$modalTimeHost.span$ sum(count) as events_count, avg(delta) as avg_lag_sec",
             "status_buckets": 0,
             "app": utils.getCurrentApp(),
             "auto_cancel": 90,
