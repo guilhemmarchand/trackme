@@ -30,7 +30,8 @@ https://trackme.readthedocs.io/en/latest/configuration.html
 *Others:*
 
 - Fix: Issue #193 - data hosts - the refresh button does not refresh the host screen header (priority, etc) #193
-- Fix - Elastic Sources - When creating a from based source, if there are no additional search constraints after the data model name, no results will be returned #198
+- Fix: Issue #198 - Elastic Sources - When creating a from based source, if there are no additional search constraints after the data model name, no results will be returned
+- Fix: Issue #199 - Data sampling - some builtin rules are too restrictive regarding multiple spaces
 
 Version 1.2.26
 ==============
