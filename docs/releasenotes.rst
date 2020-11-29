@@ -18,7 +18,7 @@ https://trackme.readthedocs.io/en/latest/configuration.html
 *Major improvements in data host monitoring capabilities:*
 
 - Feature: Data hosts - monitoring workflow improvement with alerting policy, monitor hosts with sourcetype level granularity at scale
-- Feature: Lagging classes - policies can now be defined against the priority (data souces only), in addition policies can be set for all objects, data sources or hosts only
+- Feature: Lagging classes - policies can now be defined against the priority (data sources only), in addition policies can be set for all objects, data sources or hosts only
 - Feature: Better management of allow lists / blocking lists for data hosts monitoring
 - Feature: Data hosts and metric hosts rendering improvements in multi-value field structure with state rendered as emoji icons for better readability
 - Change: Data hosts monitoring uses same default lagging than data sources (3600 sec)
