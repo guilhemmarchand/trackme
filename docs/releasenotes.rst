@@ -32,7 +32,7 @@ https://trackme.readthedocs.io/en/latest/configuration.html
 - Fix: Issue #193 - data hosts - the refresh button does not refresh the host screen header (priority, etc) #193
 - Fix: Issue #198 - Elastic Sources - When creating a from based source, if there are no additional search constraints after the data model name, no results will be returned
 - Fix: Issue #199 - Data sampling - some builtin rules are too restrictive regarding multiple spaces
-- Change: Increase max height for timeline chart in Status message tab (current max hieght might be too low when multiple statuses)
+- Change: Increase max height for timeline chart in Status message tab (current max height might be too low when multiple statuses)
 
 Version 1.2.26
 ==============
