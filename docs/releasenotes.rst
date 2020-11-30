@@ -25,7 +25,7 @@ https://trackme.readthedocs.io/en/latest/configuration.html
 
 *Data sources changes:*
 
-- Feature: Issue #196 Data sources - Provides distinct count threshold capabilities to turn a data source red if the number of hosts goes beyond a static threshold, provides chart visibility in Overview screen of the data source
+- Feature: Issue #196 Data sources - Provides distinct count threshold capabilities to turn a data source red if the number of hosts goes bellow a static threshold, provides chart visibility in Overview screen of the data source
 
 *Others:*
 
