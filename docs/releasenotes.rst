@@ -15,7 +15,7 @@ This is a new main release branch, TrackMe 1.2.x requires the deployment of the 
 TrackMe requires a summary index (defaults to trackme_summary) and a metric index (defaults to trackme_metrics):
 https://trackme.readthedocs.io/en/latest/configuration.html
 
-
+- Feature Issue #201 - Elastic Sources - Support for lookup tracking with from commands
 
 Version 1.2.27
 ==============
