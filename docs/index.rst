@@ -112,3 +112,4 @@ Versioning and build history:
    :caption: Versioning
 
    releasenotes.rst
+   checklist.rst

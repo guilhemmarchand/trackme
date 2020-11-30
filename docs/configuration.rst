@@ -151,3 +151,20 @@ Default priority for data discovery
 - high
 
 *Notes: the high value is designed by default to be the highest SLA failure, which should ideally refer to an alert in your ticketing system.*
+
+Data hosts global alerting policy
+=================================
+
+.. admonition:: Altering policy
+
+   - Data hosts monitoring global policy is controlled via a macro configurable in the management UI for TrackMe.
+   - There are two different modes available which define how the monitoring behaves for data hosts and when to declare that a host is having availability issues or not.
+   - The default mode "granular by host" instructs TrackMe to consider turning an host red only if there are no more sourcetypes emitting data for that hosts according to the various configuration items.
+   - The mode "granular by sourcetype" instructs TrackMe to consider each sourcetype individually by host, including their own max lagging rules, to determine if an host is having issues or not
+   - The global policy can be overriden on a per host basis via the host configuration management screen
+
+*Configuration of the global policy mode in the managment UI:*
+
+.. image:: img/data_hosts_allerting_policy_config.png
+   :alt: data_hosts_allerting_policy_config.png
+   :align: center

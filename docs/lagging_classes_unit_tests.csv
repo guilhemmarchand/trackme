@@ -1,0 +1,4 @@
+Order,Item,LastTested,Type,Instructions
+1,Create index based lagging class,,UI,"Create a new lagging class based on the index, name: Network, value: network, max lag: 900 secs, make sure related entities are updated after tracker executions"
+2,Create sourcetype based lagging class,,UI,"Create a new lagging class based on the sourcetype, name: PAN, value: pan:traffic, max lag: 600 secs, make sure related entities are updated after tracker executions"
+3,Create priority based lagging class,,UI,"Create a new lagging class based on the priority, name: high priority data sources, value: high, max lag: 300 secs, update at least one entity as high priority, make sure related entities are updated after tracker executions"

@@ -1,6 +1,39 @@
 Release notes
 #############
 
+Version 1.2.27
+==============
+
+**CAUTION:**
+
+This is a new main release branch, TrackMe 1.2.x requires the deployment of the following dependencies:
+
+- Semicircle Donut Chart Viz, Splunk Base: https://splunkbase.splunk.com/app/4378
+- Splunk Machine Learning Toolkit, Splunk Base: https://splunkbase.splunk.com/app/2890
+- Splunk Timeline - Custom Visualization, Splunk Base: https://splunkbase.splunk.com/app/3120
+
+TrackMe requires a summary index (defaults to trackme_summary) and a metric index (defaults to trackme_metrics):
+https://trackme.readthedocs.io/en/latest/configuration.html
+
+*Major improvements in data host monitoring capabilities:*
+
+- Feature: Data hosts - monitoring workflow improvement with alerting policy, monitor hosts with sourcetype level granularity at scale
+- Feature: Lagging classes - policies can now be defined against the priority (data sources only), in addition policies can be set for all objects, data sources or hosts only
+- Feature: Better management of allow lists / blocking lists for data hosts monitoring
+- Feature: Data hosts and metric hosts rendering improvements in multi-value field structure with state rendered as emoji icons for better readability
+- Change: Data hosts monitoring uses same default lagging than data sources (3600 sec)
+
+*Data sources changes:*
+
+- Feature: Issue #196 Data sources - Provides distinct count threshold capabilities to turn a data source red if the number of hosts goes beyond a static threshold, provides chart visibility in Overview screen of the data source
+
+*Others:*
+
+- Fix: Issue #193 - data hosts - the refresh button does not refresh the host screen header (priority, etc) #193
+- Fix: Issue #198 - Elastic Sources - When creating a from based source, if there are no additional search constraints after the data model name, no results will be returned
+- Fix: Issue #199 - Data sampling - some builtin rules are too restrictive regarding multiple spaces
+- Change: Increase max height for timeline chart in Status message tab (current max height might be too low when multiple statuses)
+
 Version 1.2.26
 ==============
 
