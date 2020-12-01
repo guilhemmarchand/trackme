@@ -568,6 +568,7 @@ Introduction to Elastic sources
 
    - The Elastic sources feature provides a builtin workflow to create virtual data sources based on any constraints and any Splunk language
    - This extends TrackMe builtin features to allow dealing with any use case that the default data source concept does not cover by design
+   - Elastic Sources can be based on ``tstats``, ``raw``, ``from (datamodel and lookup)`` and ``mstats`` searches
 
 As we have exposed the main notions of TrackMe data discovery and tracking in :ref:`Main navigation tabs`, there can be various use cases that these concepts do not address properly, considering some facts:
 
@@ -575,7 +576,7 @@ As we have exposed the main notions of TrackMe data discovery and tracking in :r
 - In a similar context, enrichment is performed either at indexing time (ideally indexed fields which allow the usage of tstats) or search time fields (evaluations, lookups, etc), these fields represent the keys you need to break on to address your requirements 
 - With the default ``data sources`` tracking, this data flow will appear as one main entity and you cannot ``distinguish`` a specific part of your data covered by the standard data source feature
 - Specific ``custom indexed fields`` provide ``knowledge`` of the data in your context, such as ``company``, ``business unit`` etc and these pipelines cannot be distinguished by relying on the ``index`` and ``sourcetype`` only
-- You need address any use case that the default main features do not allow you to
+- You need to address any use case that the default main features do not allow you to
 
 .. hint:: 
 
@@ -692,6 +693,27 @@ On the opposite, the default data source breaking on on the sourcetype would nee
    :align: center
 
 The default concept while powerful does not cover my need, but ok there we go and let's extend it easily with Elastic sources!
+
+Elastic source example 3: tracking lookups update
+-------------------------------------------------
+
+It is a very common and powerful practice to generate and maintain lookups in Splunk for numbers of purposes, which can be file based lookups (CSV files) or KVstore based lookups.
+
+Starting with TrackMe 1.2.28, it is possible to define an Elastic Source and monitor if the lookup is being updated as expected.
+
+A common caveheat with lookups is that their update is driven by Splunk searches, there are plenty of reasons why a lookup could stop being populated and maintained, such as scheduling issues, permissions, related knowledge objects updates, lack or changes in the data, and many more.
+
+The purpose of this example is to provide a builtin and effiscient way of tracking Splunk lookup updates at scale in the easy way, and get alerted if an update issue is detected in the lookup according to the policies defined in TrackMe.
+
+*Let's consider the simplistic following example, the lookup acme_assets_cmdb contains our ACME assets and is updated every day, we record in the field "lookupLastUpdated" the date and time of the execution of the Lookup gen report in Splunk. (in epoch time format)*
+
+.. image:: img/first_steps/img-lookup-tracking1.png
+   :alt: img/first_steps/img-lookup-tracking1
+   :align: center
+
+The unique requirement for TrackMe to be able to monitor a lookup is to have a time concept which can use to define as the ``_time`` field which TrackMe will rely on.
+
+Lookups have no such thing of a concept of ``_indextime`` (time of ingestion in Splunk), therefore TrackMe will by default make the index time equivalent to the latest _time from the lookup, unless the Splunk search that will be set in the Elastic Source defines a value based on information from the lookup.
 
 Elastic source example 1: creation
 ----------------------------------
@@ -826,6 +848,59 @@ As we did earlier in the example 1, we will simply disable the original data sou
 We can see that TrackMe has created a new scheduled report for each entity we created, it is perfectly possible to edit these reports up to your needs.
 
 Voila, we have now covered two complete examples of how and why creating Elastic Sources, there are many more use cases obviously and each can be very specific to your context, therefore we covered the essential part of the feature.
+
+Elastic source example 3: creation
+----------------------------------
+
+*Let's create our lookup based Elastic Source, for this we rely on the Splunk from search command capabilities to handle lookup, and we potentially define additional statements to set the _time and _indextime (if any)*
+
+Litteraly, we are going to use the following SPL search to achieve our target:
+
+::
+
+   | from lookup:acme_assets_cmdb | eval _time=strftime(lookupLastUpdated, "%s")
+
+If our lookupLastUpdated would have been in a human readable format, we could have used the stptime function to convert it into an epoch time, for example:
+
+::
+
+   | from lookup:acme_assets_cmdb | eval _time=strptime(lookupLastUpdated, "%d/%m/%Y %H:%M:%S")
+
+*Applied to TrackMe in the Elastic Sources UI creation:*
+
+.. image:: img/first_steps/img-lookup-tracking2.png
+   :alt: img/first_steps/img-lookup-tracking2
+   :align: center
+
+Notes:
+
+- The "from " key word is not required and will be subsititued by TrackMe automatically (once you selected from in the dropdown)
+- earliest and latest do not matter for a lookup, so you can leave these with their default values
+- The index and sourcetype are only used for UI filtering purposes, so you can define the values up to your preference
+- Depending on the volume of records in the lookup and the time taken by Splunk to load its content, you may consider using the shared tracker mode, or a dedicated tracker for longer execution run times
+
+*Once the Elastic Source has been created, and we ran the tracker:*
+
+.. image:: img/first_steps/img-lookup-tracking3.png
+   :alt: img/first_steps/img-lookup-tracking3
+   :align: center
+
+As we can see in the screen above, the data source appears in red state because it has more than an hour since the update of the lookup, and we haven't yet defined a policy.
+
+This however validates that TrackMe is able to define a state based on our criterias very easily, and track the latest update from the lookup.
+
+Finally, we would define a proper setting for the maximal lagging value, as our lookup example is updated once daily, we could define 90000 seconds to allow 1 day and 1 hour before triggering an alert:
+
+.. image:: img/first_steps/img-lookup-tracking4.png
+   :alt: img/first_steps/img-lookup-tracking4
+   :align: center
+
+As we can see, the current lagging corresponds to the difference between now and the latest update of the lookup, TrackMe will immediately starts to compute all metrics, the event count corresponds to the number of records (which allows the usage of outliers detection too), etc.
+
+.. image:: img/first_steps/img-lookup-tracking5.png
+   :alt: img/first_steps/img-lookup-tracking5
+   :align: center
+
 
 Elastic sources under the hood
 ------------------------------
