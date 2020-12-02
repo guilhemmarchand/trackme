@@ -11492,7 +11492,7 @@ require([
             "cancelOnUnload": true,
             "sample_ratio": null,
             "latest_time": "$tk_input_elastic_source_latest$",
-            "search": "| savedsearch runSPL [ | makeresults | eval data_name=\"$tk_input_elastic_source_data_name$\", search_mode=\"$form.tk_input_elastic_source_search_type$\", search_constraint=\"$tk_input_elastic_source_search_constraint$\", elastic_data_index=\"$tk_input_elastic_source_elastic_data_index$\", elastic_data_sourcetype=\"$tk_input_elastic_source_elastic_data_sourcetype$\" | `trackme_elastic_sources_simulate(\"$tk_input_elastic_source_data_name$\")`",
+            "search": "| savedsearch runSPL [ | makeresults | eval data_name=\"$tk_input_elastic_source_data_name$\", search_mode=\"$form.tk_input_elastic_source_search_type$\", search_constraint=\"$tk_input_elastic_source_search_constraint$\", elastic_data_index=\"$tk_input_elastic_source_elastic_data_index$\", elastic_data_sourcetype=\"$tk_input_elastic_source_elastic_data_sourcetype$\" | `trackme_elastic_sources_simulate(\"$tk_input_elastic_source_data_name$\", \"$tk_input_elastic_source_earliest$\", \"$tk_input_elastic_source_latest$\")`",
             "status_buckets": 0,
             "app": utils.getCurrentApp(),
             "auto_cancel": 90,
@@ -14215,7 +14215,23 @@ require([
                 {
                     "label": "mstats",
                     "value": "mstats"
-                }
+                },
+                {
+                    "label": "rest (tstats)",
+                    "value": "rest_tstats"
+                },
+                {
+                    "label": "rest (raw)",
+                    "value": "rest_raw"
+                },
+                {
+                    "label": "rest (from)",
+                    "value": "rest_from"
+                },
+                {
+                    "label": "rest (mstats)",
+                    "value": "rest_mstats"
+                },
             ],
             "searchWhenChanged": false,
             "default": "tstats",
@@ -27743,7 +27759,7 @@ require([
                 var tk_raw_input_elastic_source_search_constraint = document.getElementById("modal_input_elastic_source_search_constraint").value
                 tk_input_elastic_source_search_constraint = escapeDoubleQuotes(tk_input_elastic_source_search_constraint);
                 setToken("tk_input_elastic_source_search_constraint", tk_input_elastic_source_search_constraint);
-                //console.log(tk_input_elastic_source_search_constraint);
+                console.log(tk_input_elastic_source_search_constraint);
 
                 // disable the button once clicked
                 document.getElementById('btn_modal_elastic_source_dedicated_add_new').disabled = true;
@@ -27756,14 +27772,20 @@ require([
                     tracker_name = tracker_name.substring(0, 100);
                     setToken("tk_tracker_name", tracker_name);
 
+                    console.log("tk_input_elastic_source_search_type is: " + tk_input_elastic_source_search_type);
+
                     // define the alert search
                     if (tk_input_elastic_source_search_type == "tstats") {
                         tk_elastic_alert_root_search = "| `trackme_tstats` max(_indextime) as data_last_ingest, min(_time) as data_first_time_seen, max(_time) as data_last_time_seen, count as data_eventcount, dc(host) as dcount_host where " + tk_raw_input_elastic_source_search_constraint + " | eval data_name=\"" + tk_input_elastic_source_data_name + "\", data_index=\"" + tk_input_elastic_source_elastic_data_index + "\", data_sourcetype=\"" + tk_input_elastic_source_elastic_data_sourcetype + "\", data_last_ingestion_lag_seen=data_last_ingest-data_last_time_seen | `trackme_elastic_dedicated_tracker(\"" + tk_input_elastic_source_data_name + "\")` | stats c";
 
-                    } else if (tk_input_elastic_source_search_type == "raw") {
+                    }
+                    
+                    else if (tk_input_elastic_source_search_type == "raw") {
                         tk_elastic_alert_root_search = tk_raw_input_elastic_source_search_constraint + " | stats max(_indextime) as data_last_ingest, min(_time) as data_first_time_seen, max(_time) as data_last_time_seen, count as data_eventcount, dc(host) as dcount_host | eval data_name=\"" + tk_input_elastic_source_data_name +"\", data_index=\"" + tk_input_elastic_source_elastic_data_index + "\", data_sourcetype=\"" + tk_input_elastic_source_elastic_data_sourcetype + "\", data_last_ingestion_lag_seen=data_last_ingest-data_last_time_seen | `trackme_elastic_dedicated_tracker(\"" + tk_input_elastic_source_data_name + "\")` | stats c";
 
-                    } else if (tk_input_elastic_source_search_type == "from") {
+                    } 
+                    
+                    else if (tk_input_elastic_source_search_type == "from") {
                         if (/datamodel:/i.test(tk_raw_input_elastic_source_search_constraint)) {
                             tk_elastic_alert_root_search = "| " + tk_input_elastic_source_search_type + " " + tk_raw_input_elastic_source_search_constraint + " | stats max(_indextime) as data_last_ingest, min(_time) as data_first_time_seen, max(_time) as data_last_time_seen, count as data_eventcount, dc(host) as dcount_host | eval data_name=\"" + tk_input_elastic_source_data_name + "\", data_index=\"" + tk_input_elastic_source_elastic_data_index + "\", data_sourcetype=\"" + tk_input_elastic_source_elastic_data_sourcetype + "\" | `trackme_elastic_dedicated_tracker(\"" + tk_input_elastic_source_data_name + "\")` | stats c";
                         }
@@ -27774,9 +27796,62 @@ require([
                             notification('ERROR: This from query is not supported, only datamodel and lookup based from queries are accepted.', 6000);
                             return;
                         }
-                    } else if (tk_input_elastic_source_search_type == "mstats") {
+                    }
+
+                    else if (tk_input_elastic_source_search_type == "rest_from") {
+                        if (/datamodel:/i.test(tk_raw_input_elastic_source_search_constraint)) {
+
+                            console.log("search is rest from datamodel");
+
+                            // Extract amd replace
+                            rest_matches = tk_raw_input_elastic_source_search_constraint.match(/((?:splunk_server|splunk_server_group)\=[^\s]*)\s{0,}\|\s{0,}(.*)/);
+                            rest_target = rest_matches[1];
+                            rest_constraint = rest_matches[2];
+
+                            rest_constraint = rest_constraint.replace(/\"/g, "\\\"");
+
+                            console.log("rest_target is: " + rest_target);
+                            console.log("rest_constraint is: " + rest_constraint);
+
+                            tk_elastic_alert_root_search = "| rest " + rest_target + " /servicesNS/admin/search/search/jobs/export search=\"| from " + rest_constraint + " | stats max(_indextime) as data_last_ingest, min(_time) as data_first_time_seen, max(_time) as data_last_time_seen, count as data_eventcount, dc(host) as dcount_host | eval data_name=\\\"" + tk_input_elastic_source_data_name + "\\\", data_index=\\\"" + tk_input_elastic_source_elastic_data_index + "\\\", data_sourcetype=\\\"" + tk_input_elastic_source_elastic_data_sourcetype + "\\\", data_last_ingestion_lag_seen=data_last_ingest-data_last_time_seen\"" + " output_mode=\"csv\" " + " earliest_time=\"" + tk_input_elastic_source_earliest + "\"" + " latest_time=\"" + tk_input_elastic_source_latest + "\"" + " | restextract " + " | `trackme_elastic_dedicated_tracker(\"" + tk_input_elastic_source_data_name + "\")` | stats c";
+                        
+                            console.log("tk_elastic_alert_root_search is: " + tk_elastic_alert_root_search);
+
+                        }
+                        else if (/lookup:/i.test(tk_raw_input_elastic_source_search_constraint)) {
+
+                            console.log("search is rest from datamodel");
+
+                            // Extract amd replace
+                            rest_matches = tk_raw_input_elastic_source_search_constraint.match(/((?:splunk_server|splunk_server_group)\=[^\s]*)\s{0,}\|\s{0,}(.*)/);
+                            rest_target = rest_matches[1];
+                            rest_constraint = rest_matches[2];
+
+                            rest_constraint = rest_constraint.replace(/\"/g, "\\\"");
+
+                            console.log("rest_target is: " + rest_target);
+                            console.log("rest_constraint is: " + rest_constraint);
+
+                            tk_elastic_alert_root_search = "| rest " + rest_target + " /servicesNS/admin/search/search/jobs/export search=\"| from " + rest_constraint + " | eventstats max(_time) as indextime | eval _indextime=if(isnum(_indextime), _indextime, indextime) | fields - indextime | eval host=if(isnull(host), \\\"none\\\", host) | stats max(_indextime) as data_last_ingest, min(_time) as data_first_time_seen, max(_time) as data_last_time_seen, count as data_eventcount, dc(host) as dcount_host | eval data_name=\\\"" + tk_input_elastic_source_data_name + "\\\", data_index=\\\"" + tk_input_elastic_source_elastic_data_index + "\\\", data_sourcetype=\\\"" + tk_input_elastic_source_elastic_data_sourcetype + "\\\", data_last_ingestion_lag_seen=data_last_ingest-data_last_time_seen\"" + " output_mode=\"csv\" " + " earliest_time=\"" + tk_input_elastic_source_earliest + "\"" + " latest_time=\"" + tk_input_elastic_source_latest + "\"" + " | restextract " + " | `trackme_elastic_dedicated_tracker(\"" + tk_input_elastic_source_data_name + "\")` | stats c";
+                        
+                            console.log("tk_elastic_alert_root_search is: " + tk_elastic_alert_root_search);
+
+                        }
+                        else {
+                            notification('ERROR: This from query is not supported, only datamodel and lookup based from queries are accepted.', 6000);
+                            return;
+                        }
+                    }
+
+                    else if (tk_input_elastic_source_search_type == "mstats") {
                         tk_elastic_alert_root_search = "| mstats latest(_value) as value where " + tk_raw_input_elastic_source_search_constraint + " by host, metric_name span=1s | stats min(_time) as data_first_time_seen, max(_time) as data_last_time_seen, dc(metric_name) as data_eventcount, dc(host) as dcount_host | eval data_name=\"" + tk_input_elastic_source_data_name + "\", data_index=\"" + tk_input_elastic_source_elastic_data_index + "\", data_sourcetype=\"" + tk_input_elastic_source_elastic_data_sourcetype + "\", data_last_ingest=data_last_time_seen, data_last_ingestion_lag_seen=now()-data_last_time_seen | `trackme_elastic_dedicated_tracker(\"" + tk_input_elastic_source_data_name + "\")` | stats c" ;
                     }
+
+
+
+                    
+
+
 
                     //console.log("tk_elastic_alert_root_search is: " + tk_elastic_alert_root_search);
 
