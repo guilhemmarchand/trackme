@@ -16,6 +16,7 @@ TrackMe requires a summary index (defaults to trackme_summary) and a metric inde
 https://trackme.readthedocs.io/en/latest/configuration.html
 
 - Feature Issue #201 - Elastic Sources - Support for lookup tracking with from commands
+- Feature Issue #202 - Elastic Sources - Support for remote searches using rest
 
 Version 1.2.27
 ==============
