@@ -10559,7 +10559,7 @@ require([
         var searchChartLag = new SearchManager({
             "id": "searchChartLag",
             "sample_ratio": 1,
-            "search": "$tk_data_source_overview_root_search$ | timechart span=$modalTime.span$ sum(count) as events_count, avg(delta) as avg_lag_sec, max(dcount_host) as dcount_host | fields _time, $tk_input_data_source_overview_chart_series$",
+            "search": "$tk_data_source_overview_root_search$ | timechart span=$modalTime.span$ $tk_data_source_timechart_count_aggreg$(count) as events_count, avg(delta) as avg_lag_sec, max(dcount_host) as dcount_host | fields _time, $tk_input_data_source_overview_chart_series$",
             "status_buckets": 0,
             "earliest_time": "$modalTime.earliest$",
             "cancelOnUnload": true,
@@ -16661,20 +16661,35 @@ require([
                 if (tk_elastic_source_search_mode == "null") {
                     tk_data_source_overview_root_search = "| `trackme_tstats` dc(host) as dcount_host count latest(_indextime) as indextime max(_time) as maxtime where index=\"" + tk_data_index + "\" sourcetype=\"" + tk_data_sourcetype + "\" by _time, index, sourcetype span=1s | eval delta=(indextime-_time), event_lag=(now() - maxtime)";
                     tk_data_source_raw_search = "null";
+                    setToken("tk_data_source_timechart_count_aggreg", TokenUtils.replaceTokenNames("sum", _.extend(submittedTokenModel.toJSON(), e.data)));
                 }
 
                 else if (tk_elastic_source_search_mode == "tstats") {
                     tk_data_source_overview_root_search = "| `trackme_tstats` dc(host) as dcount_host count latest(_indextime) as indextime max(_time) as maxtime where " + tk_elastic_source_search_constraint + " by _time, index, sourcetype span=1s | eval delta=(indextime-_time), event_lag=(now() - maxtime)";
                     tk_data_source_raw_search = "?q=search%20" + encodeURI(tk_elastic_source_search_constraint);
+                    setToken("tk_data_source_timechart_count_aggreg", TokenUtils.replaceTokenNames("sum", _.extend(submittedTokenModel.toJSON(), e.data)));
                 }
 
                 else if (tk_elastic_source_search_mode == "raw") {
                     tk_data_source_overview_root_search = tk_elastic_source_search_constraint + " | eval delta=(_indextime-_time), event_lag=(now() - _time) | bucket _time span=1s | stats count, avg(delta) as delta, latest(event_lag) as event_lag, dc(host) as dcount_host by _time";
                     tk_data_source_raw_search = "?q=search%20" + encodeURI(tk_elastic_source_search_constraint);
+                    setToken("tk_data_source_timechart_count_aggreg", TokenUtils.replaceTokenNames("sum", _.extend(submittedTokenModel.toJSON(), e.data)));
                 }
 
                 else if (tk_elastic_source_search_mode == "from" && tk_elastic_source_from_part1 != "null" && tk_elastic_source_from_part2 != "null") {
-                    tk_data_source_overview_root_search = "| " + tk_elastic_source_search_mode + " " + tk_elastic_source_from_part1 + " | " +  tk_elastic_source_from_part2 + " | eventstats max(_time) as maxtime | eval delta=(_indextime-_time), event_lag=(now() - maxtime) | bucket _time span=1s | stats count, avg(delta) as delta, latest(event_lag) as event_lag, dc(host) as dcount_host by _time";
+
+                    if (/datamodel:/i.test(tk_elastic_source_search_constraint)) {
+                        // rest search needs special handling
+                        tk_data_source_overview_root_search = "| " + tk_elastic_source_search_mode + " " + tk_elastic_source_from_part1 + " | " +  tk_elastic_source_from_part2 + " | eventstats max(_time) as maxtime | eval delta=(_indextime-_time), event_lag=(now() - maxtime) | bucket _time span=1s | stats count, avg(delta) as delta, latest(event_lag) as event_lag, dc(host) as dcount_host by _time";
+                        setToken("tk_data_source_timechart_count_aggreg", TokenUtils.replaceTokenNames("sum", _.extend(submittedTokenModel.toJSON(), e.data)));
+                    }
+
+                    else if (/lookup:/i.test(tk_elastic_source_search_constraint)) {
+                        // rest search needs special handling
+                        tk_data_source_overview_root_search = "| mstats latest(_value) as value where `trackme_metrics_idx` (metric_name=trackme.eventcount_4h OR metric_name=trackme.lag_event_sec OR metric_name=trackme.hostcount_4h) object_category=\"data_source\" object=\"" + tk_data_name + "\" by metric_name span=5m | eval {metric_name}=value | stats first(trackme.eventcount_4h) as count, first(trackme.lag_event_sec) as delta, max(trackme.hostcount_4h) as dcount_host by _time | eval event_lag=delta";
+                        setToken("tk_data_source_timechart_count_aggreg", TokenUtils.replaceTokenNames("latest", _.extend(submittedTokenModel.toJSON(), e.data)));
+                    }
+
                     tk_data_source_raw_search = "?q=" + encodeURI("| ") + encodeURI(tk_elastic_source_search_mode) + " " + encodeURI(tk_elastic_source_from_part1) + encodeURI("|") +  encodeURI(tk_elastic_source_from_part2);
                 }
 
@@ -16688,12 +16703,14 @@ require([
                         // rest search needs special handling
                         tk_data_source_overview_root_search = "| rest " + tk_elastic_source_from_part1 + " /servicesNS/admin/search/search/jobs/export search=\"" + "| from " + tk_elastic_source_from_part2 + "| eventstats max(_time) as maxtime | eval delta=(_indextime-_time), event_lag=(now() - maxtime) | bucket _time span=1s | stats count, avg(delta) as delta, latest(event_lag) as event_lag, dc(host) as dcount_host by _time" + " | eval data_name=\\\"" + tk_data_name + "\\\", data_index=\\\"" + tk_data_index + "\\\", data_sourcetype=\\\"" + tk_data_sourcetype + "\\\", data_last_ingestion_lag_seen=data_last_ingest-data_last_time_seen\"" + " output_mode=\"csv\"" + " earliest_time=\"" + tk_earliest + "\"" + " latest_time=\"" + tk_latest + "\"" + "| head 1 | restextractforstats" + " | eval _time=strptime(_time, \"%Y-%m-%d %H:%M:%S.%3N %Z\")";
                         tk_data_source_raw_search = "?q=" + encodeURI("| rest " + tk_elastic_source_from_part1 + " /servicesNS/admin/search/search/jobs/export search=\"" + "| from " + tk_elastic_source_from_part2 + "| head 100 | fields _time _raw\"" + " output_mode=\"csv\"" + " earliest_time=\"" + tk_earliest + "\"" + " latest_time=\"" + tk_latest + "\"" + " | head 1 | restextractraw" + " | eval _time=strptime(_time, \"%Y-%m-%d %H:%M:%S.%3N %Z\")");
+                        setToken("tk_data_source_timechart_count_aggreg", TokenUtils.replaceTokenNames("sum", _.extend(submittedTokenModel.toJSON(), e.data)));
                     }
 
                     else if (/lookup:/i.test(tk_elastic_source_search_constraint)) {
                         // rest search needs special handling
-                        tk_data_source_overview_root_search = "| rest " + tk_elastic_source_from_part1 + " /servicesNS/admin/search/search/jobs/export search=\"" + "| from " + tk_elastic_source_from_part2 + "| stats max(_indextime) as data_last_ingest, min(_time) as data_first_time_seen, max(_time) as data_last_time_seen, count as data_eventcount, dc(host) as dcount_host" + " | eval data_name=\\\"" + tk_data_name + "\\\", data_index=\\\"" + tk_data_index + "\\\", data_sourcetype=\\\"" + tk_data_sourcetype + "\\\", data_last_ingestion_lag_seen=data_last_ingest-data_last_time_seen\"" + " output_mode=\"csv\"" + "| head 1 | restextract" + " | eval _time=data_last_time_seen, count=data_eventcount, delta=(_indextime-_time), event_lag=(now() - data_last_time_seen)";
+                        tk_data_source_overview_root_search = "| mstats latest(_value) as value where `trackme_metrics_idx` (metric_name=trackme.eventcount_4h OR metric_name=trackme.lag_event_sec OR metric_name=trackme.hostcount_4h) object_category=\"data_source\" object=\"" + tk_data_name + "\" by metric_name span=5m | eval {metric_name}=value | stats first(trackme.eventcount_4h) as count, first(trackme.lag_event_sec) as delta, max(trackme.hostcount_4h) as dcount_host by _time | eval event_lag=delta";
                         tk_data_source_raw_search = "?q=" + encodeURI("| rest " + tk_elastic_source_from_part1 + " /servicesNS/admin/search/search/jobs/export search=\"" + "| from " + tk_elastic_source_from_part2 + "\" output_mode=\"csv\"" + "| head 1");
+                        setToken("tk_data_source_timechart_count_aggreg", TokenUtils.replaceTokenNames("latest", _.extend(submittedTokenModel.toJSON(), e.data)));
                     }
 
                 }
@@ -16705,6 +16722,7 @@ require([
                     } else {
                         tk_data_source_raw_search = "?q=" + encodeURI("| msearch ") + encodeURI(tk_elastic_mstats_idx) + " " + encodeURI("filter=\"" + tk_elastic_mstats_filters + "\"") + encodeURI(" earliest=\"-5m\" latest=now");
                     }
+                    setToken("tk_data_source_timechart_count_aggreg", TokenUtils.replaceTokenNames("latest", _.extend(submittedTokenModel.toJSON(), e.data)));
                 }
 
                 // tstats over rest
@@ -16715,6 +16733,7 @@ require([
                     // rest search needs special handling
                     tk_data_source_overview_root_search = "| rest count=0 " + tk_elastic_source_from_part1 + " /servicesNS/admin/search/search/jobs/export search=\"" + "| tstats dc(host) as dcount_host count latest(_indextime) as indextime max(_time) as maxtime where " + tk_elastic_source_from_part2 + " by _time, index, sourcetype span=1s | eval delta=(indextime-_time), event_lag=(now() - maxtime) | fields _time count delta event_lag dcount_host\"" + " output_mode=\"csv\"" + " earliest_time=\"" + tk_earliest + "\"" + " latest_time=\"" + tk_latest + "\"" + " | restextractforstats" + " | eval _time=strptime(_time, \"%Y-%m-%d %H:%M:%S.%3N %Z\")";
                     tk_data_source_raw_search = "?q=" + encodeURI("| rest count=0 " + tk_elastic_source_from_part1 + " /servicesNS/admin/search/search/jobs/export search=\"" + "search " + tk_elastic_source_from_part2 + " | head 100 | fields _time _raw\"" + " output_mode=\"csv\"" + " earliest_time=\"" + tk_earliest + "\"" + " latest_time=\"" + tk_latest + "\"" + " | head 1 | restextractraw" + " | eval _time=strptime(_time, \"%Y-%m-%d %H:%M:%S.%3N %Z\")");
+                    setToken("tk_data_source_timechart_count_aggreg", TokenUtils.replaceTokenNames("sum", _.extend(submittedTokenModel.toJSON(), e.data)));
                 }
 
                 // raw over rest
@@ -16725,6 +16744,7 @@ require([
                     // rest search needs special handling
                     tk_data_source_overview_root_search = "| rest count=0 " + tk_elastic_source_from_part1 + " /servicesNS/admin/search/search/jobs/export search=\"" + "search " + tk_elastic_source_from_part2 + " | eval delta=(_indextime-_time), event_lag=(now() - _time) | bucket _time span=1s | stats count, avg(delta) as delta, latest(event_lag) as event_lag, dc(host) as dcount_host by _time\"" + " output_mode=\"csv\"" + " earliest_time=\"" + tk_earliest + "\"" + " latest_time=\"" + tk_latest + "\"" + " | restextractforstats" + " | eval _time=strptime(_time, \"%Y-%m-%d %H:%M:%S.%3N %Z\")";
                     tk_data_source_raw_search = "?q=" + encodeURI("| rest count=0 " + tk_elastic_source_from_part1 + " /servicesNS/admin/search/search/jobs/export search=\"" + "search " + tk_elastic_source_from_part2 + " | head 100 | fields _time _raw\"" + " output_mode=\"csv\"" + " earliest_time=\"" + tk_earliest + "\"" + " latest_time=\"" + tk_latest + "\"" + " | head 1 | restextractraw" + " | eval _time=strptime(_time, \"%Y-%m-%d %H:%M:%S.%3N %Z\")");
+                    setToken("tk_data_source_timechart_count_aggreg", TokenUtils.replaceTokenNames("sum", _.extend(submittedTokenModel.toJSON(), e.data)));
                 }
 
                 // mstats over rest (uses summary data)
@@ -16735,11 +16755,13 @@ require([
                     } else {
                         tk_data_source_raw_search = "?q=" + encodeURI("| msearch ") + encodeURI(tk_elastic_mstats_idx) + " " + encodeURI("filter=\"" + tk_elastic_mstats_filters + "\"") + encodeURI(" earliest=\"-5m\" latest=now");
                     }
+                    setToken("tk_data_source_timechart_count_aggreg", TokenUtils.replaceTokenNames("latest", _.extend(submittedTokenModel.toJSON(), e.data)));
                 }
 
                 else
                 {
                     tk_data_source_overview_root_search = "| `trackme_tstats` dc(host) as dcount_host count latest(_indextime) as indextime max(_time) as maxtime where index=\"" + tk_data_index + "\" sourcetype=\"" + tk_data_sourcetype + "\" by _time, index, sourcetype span=1s | eval delta=(indextime-_time), event_lag=(now() - maxtime)";
+                    setToken("tk_data_source_timechart_count_aggreg", TokenUtils.replaceTokenNames("sum", _.extend(submittedTokenModel.toJSON(), e.data)));
                 }
 
                 //console.log("tk_data_source_overview_root_search is: " + tk_data_source_overview_root_search);
