@@ -560,7 +560,6 @@ In some cases, you may want to be alerted when the number of distinct count host
 Elastic sources
 ===============
 
-
 Introduction to Elastic sources
 -------------------------------
 
@@ -569,6 +568,7 @@ Introduction to Elastic sources
    - The Elastic sources feature provides a builtin workflow to create virtual data sources based on any constraints and any Splunk language
    - This extends TrackMe builtin features to allow dealing with any use case that the default data source concept does not cover by design
    - Elastic Sources can be based on ``tstats``, ``raw``, ``from (datamodel and lookup)`` and ``mstats`` searches
+   - In addition, Elastic Sources can be executed over a ``rest`` remote query which allows tracking data that the search head(s) hosting TrackMe cannot access otherwise (such as a lookup that is only available to a Search Head Cluster while you run TrackMe on a monitoring utility search head)
 
 As we have exposed the main notions of TrackMe data discovery and tracking in :ref:`Main navigation tabs`, there can be various use cases that these concepts do not address properly, considering some facts:
 
@@ -714,6 +714,48 @@ The purpose of this example is to provide a builtin and effiscient way of tracki
 The unique requirement for TrackMe to be able to monitor a lookup is to have a time concept which can use to define as the ``_time`` field which TrackMe will rely on.
 
 Lookups have no such thing of a concept of ``_indextime`` (time of ingestion in Splunk), therefore TrackMe will by default make the index time equivalent to the latest _time from the lookup, unless the Splunk search that will be set in the Elastic Source defines a value based on information from the lookup.
+
+Elastic source example 4: rest searches
+---------------------------------------
+
+**In some cases, the Splunk instance that hosts the TrackMe application may not not be able to access to a data you wish to monitor.**
+
+**A very simple to understand use case would be:**
+
+- You have a Splunk Search Head Cluster, hosting for example your premium application for ITSI or Enterprise Security
+- In addition, you either use your monitoring console host or a dedicated standalone search head for your Splunk environment monitoring, which is where TrackMe is deployed
+- A lookup exists in the SHC which is the object you need to monitor, this lookup is only available to the SHC members and TrackMe cannot access to its content transparently
+
+Using a ``rest`` command, you can hit a Splunk API search endpoint remotely, and use the builtin Elastic Source feature to monitor and track the lookup just as if it was available directly on the TrackMe search head.
+
+*In short, on the SHC you can run:*
+
+::
+
+   | inputlookup acme_assets_cmdb
+
+*On the TrackMe Splunk instance, we will use a search looking like:*
+
+::
+
+   | rest splunk_server_group="dmc_searchheadclustergroup_shc1" /servicesNS/admin/search/search/jobs/export search="| from lookup:acme_assets_cmdb | eval _time=strftime(lookupLastUpdated, \"%s\") | eventstats max(_time) as indextime | eval _indextime=if(isnum(_indextime), _indextime, indextime) | fields - indextime | eval host=if(isnull(host), \"none\", host) | stats max(_indextime) as data_last_ingest, min(_time) as data_first_time_seen, max(_time) as data_last_time_seen, count as data_eventcount, dc(host) as dcount_host | eval data_name=\"rest:from:lookup:example\", data_index=\"pseudo_index\", data_sourcetype=\"lookup:acme_assets_cmdb\", data_last_ingestion_lag_seen=data_last_ingest-data_last_time_seen" output_mode="csv"
+
+*Notes and technical details:*
+
+- See https://docs.splunk.com/Documentation/Splunk/latest/RESTTUT/RESTsearches for more information about running searches over rest
+- See https://docs.splunk.com/Documentation/Splunk/latest/SearchReference/Rest for more information about the rest search command
+- ``rest`` based searches support all forms of searches supported by Elastic Sources: ``tstats``, ``raw``, ``from:datamodel``, ``from:lookup``, ``mstats`` 
+- Search Heads you wish to target need to be configured as distributed search peers in Splunk, same requirement as for the Splunk Monitoring Console host (MC, previously named DMC)
+- Most of the calculation part is executed on the target search head size, TrackMe will not attempt to retrieve the raw data first before performing the calculation for obvious performance gain purposes
+- You can target a search head explicity using the ``splunk_server`` argument, or you can target a group of search heads (such as your SHC) using the ``splunk_server_group`` argument
+- When targeting a group of search heads, the query is executed on every search that is matched by the splunk_server_group, as such you should limit using a target group to very effiscient and low searches such as a from lookup for example
+- TrackMe in anycase will only consider the first result from the rest command (so only one search head answer during the rest execution), and will discard replies from any search heads
+- The search needs to be properly performing, and should complete in a acceptable time window (use timeout argument which defaults to 60 seconds)
+- Each result fron the rest command, being within the tracker execution or the UI, goes through a Python based custoom command to parse the CSV structure resulting from the rest command and create the Splunk events during the search time execution
+- Besides for lookup rest searches, other types of searches automatically happen the configured earliest and latest as arguments to the rest command (earliest_time, latest_time)
+- Earliest and Latest are configurable for dedicated trackers only, shared trackers will use earliest:"-4h" and latest:"+4h" statically
+
+As a conclusion, using the rest based searches features successfully completes the Elastic Sources level of features, such that every single use case can be handled in TrackMe, whenever the Splunk instance cam access or not to the data you need to track!
 
 Elastic source example 1: creation
 ----------------------------------
