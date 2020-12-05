@@ -756,6 +756,40 @@ Using a ``rest`` command, you can hit a Splunk API search endpoint remotely, and
 - Earliest and Latest arguments are configurable for dedicated trackers only, shared trackers will use earliest:"-4h" and latest:"+4h" statically
 - Additional parameters to the rest command can be added within the first pipe of the search constraint during the Elastic Source creation (such as timeout, count etc)
 
+.. warning:: Currently the rest command generates a warning message "Unable to determine response format from HTTP Header", this message can be safety ignored as it does not impact the results in anyway, but cannot unfortunately be removed at the moment, until it is fixed by Splunk. 
+
+**Examples for each type of search:**
+
+*tstats over rest:*
+
+::
+
+   splunk_server="my_search_head" | index=* sourcetype=pan:traffic
+
+*raw search over rest:*
+
+::
+
+   splunk_server="my_search_head" | index=* sourcetype=pan:traffic
+
+*from datamodel over rest:*
+
+::
+
+   splunk_server="my_search_head" | datamodel:"Authentication" action=*
+
+*from lookup over rest:*
+
+::
+
+   splunk_server="my_search_head" | from lookup:acme_assets_cmdb | eval _time=strftime(lookupLastUpdated, "%s")
+
+*mstats over rest:*
+
+::
+
+   splunk_server="my_search_head" | index=* metric_name=docker*
+
 As a conclusion, using the rest based searches features successfully completes the Elastic Sources level of features, such that every single use case can be handled in TrackMe, whenever the Splunk instance cam access or not to the data you need to track!
 
 Elastic source example 1: creation
@@ -944,6 +978,48 @@ As we can see, the current lagging corresponds to the difference between now and
    :alt: img/first_steps/img-lookup-tracking5
    :align: center
 
+Elastic source example 4: creation
+----------------------------------
+
+As explained in the example 4 description, we can use a rest based search to monitor any data that is not available to the search head host TrackMe, let's consider the example a lookup hosted on a different search head.
+
+On the search head that owns the lookup, we can use the following query:
+
+::
+
+   | from lookup:acme_assets_cmdb | eval _time=strftime(lookupLastUpdated, "%s")
+
+Using a rest search, we will achieve the same job but this time remotely via a rest call to a search endpoint of the Splunk API using the rest command, the Elastic Source search syntax will be the following:
+
+::
+
+   splunk_server="my_search_head" | from lookup:acme_assets_cmdb | eval _time=strftime(lookupLastUpdated, "%s")
+
+The first pipe needs to contain the arguments passed to the rest command, the only mandatory argument is either ``splunk_server`` to target a unique Splunk instance, or ``splunk_server_group`` to target a group of search heads.
+As well, any additional agrument can be given to the rest command by ading these in the first pipe of the search constraint. (timeout, count, etc)
+
+.. tip:: 
+
+   - The Splunk server name needs to be between double quotes, ex: splunk_server="my_search_head"
+   - In this example of a lookup, the knowledge objects needs to be shared properly such that it is available to be accessed via the rest API
+
+.. image:: img/first_steps/img-rest-elastic1.png
+   :alt: img/first_steps/img-rest-elastic1
+   :align: center
+
+.. warning:: Currently the rest command generates a warning message "Unable to determine response format from HTTP Header", this message can be safety ignored as it does not impact the results in anyway, but cannot unfortunately be removed at the moment, until it is fixed by Splunk. 
+
+Once the Elastic Source has been created, it will appear as for any other sources, example:
+
+.. image:: img/first_steps/img-rest-elastic2.png
+   :alt: img/first_steps/img-rest-elastic2
+   :align: center
+
+In the example of a lookup, the Search button would result in the following:
+
+.. image:: img/first_steps/img-rest-elastic3.png
+   :alt: img/first_steps/img-rest-elastic3
+   :align: center
 
 Elastic sources under the hood
 ------------------------------
