@@ -17,6 +17,7 @@ https://trackme.readthedocs.io/en/latest/configuration.html
 
 - Feature Issue #201 - Elastic Sources - Support for lookup tracking with from commands
 - Feature Issue #202 - Elastic Sources - Support for remote searches using rest
+- Fix Issue #203 - Provides a macro based definition for first level span of Metrics trackers
 
 Version 1.2.27
 ==============
