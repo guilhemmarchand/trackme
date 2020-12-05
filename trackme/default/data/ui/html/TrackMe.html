@@ -27866,7 +27866,7 @@ require([
                     else if (tk_input_elastic_source_search_type == "rest_tstats") {
 
                         // Extract amd replace
-                        rest_matches = tk_raw_input_elastic_source_search_constraint.match(/((?:splunk_server|splunk_server_group)\=[^\s]*)\s{0,}\|\s{0,}(.*)/);
+                        rest_matches = tk_raw_input_elastic_source_search_constraint.match(/((?:splunk_server|splunk_server_group)\=[^\|]*)\s{0,}\|\s{0,}(.*)/);
                         rest_target = rest_matches[1];
                         rest_constraint = rest_matches[2];
                         rest_constraint = rest_constraint.replace(/\"/g, "\\\"");
@@ -27877,7 +27877,7 @@ require([
                     else if (tk_input_elastic_source_search_type == "rest_mstats") {
 
                         // Extract amd replace
-                        rest_matches = tk_raw_input_elastic_source_search_constraint.match(/((?:splunk_server|splunk_server_group)\=[^\s]*)\s{0,}\|\s{0,}(.*)/);
+                        rest_matches = tk_raw_input_elastic_source_search_constraint.match(/((?:splunk_server|splunk_server_group)\=[^\|]*)\s{0,}\|\s{0,}(.*)/);
                         rest_target = rest_matches[1];
                         rest_constraint = rest_matches[2];
                         rest_constraint = rest_constraint.replace(/\"/g, "\\\"");
@@ -27888,7 +27888,7 @@ require([
                     else if (tk_input_elastic_source_search_type == "rest_raw") {
 
                         // Extract amd replace
-                        rest_matches = tk_raw_input_elastic_source_search_constraint.match(/((?:splunk_server|splunk_server_group)\=[^\s]*)\s{0,}\|\s{0,}(.*)/);
+                        rest_matches = tk_raw_input_elastic_source_search_constraint.match(/((?:splunk_server|splunk_server_group)\=[^\|]*)\s{0,}\|\s{0,}(.*)/);
                         rest_target = rest_matches[1];
                         rest_constraint = rest_matches[2];
                         rest_constraint = rest_constraint.replace(/\"/g, "\\\"");
@@ -27901,7 +27901,7 @@ require([
                         if (/datamodel:/i.test(tk_raw_input_elastic_source_search_constraint)) {
 
                             // Extract amd replace
-                            rest_matches = tk_raw_input_elastic_source_search_constraint.match(/((?:splunk_server|splunk_server_group)\=[^\s]*)\s{0,}\|\s{0,}(.*)/);
+                            rest_matches = tk_raw_input_elastic_source_search_constraint.match(/((?:splunk_server|splunk_server_group)\=[^\|]*)\s{0,}\|\s{0,}(.*)/);
                             rest_target = rest_matches[1];
                             rest_constraint = rest_matches[2];
                             rest_constraint = rest_constraint.replace(/\"/g, "\\\"");
@@ -27911,7 +27911,7 @@ require([
                         else if (/lookup:/i.test(tk_raw_input_elastic_source_search_constraint)) {
 
                             // Extract amd replace
-                            rest_matches = tk_raw_input_elastic_source_search_constraint.match(/((?:splunk_server|splunk_server_group)\=[^\s]*)\s{0,}\|\s{0,}(.*)/);
+                            rest_matches = tk_raw_input_elastic_source_search_constraint.match(/((?:splunk_server|splunk_server_group)\=[^\|]*)\s{0,}\|\s{0,}(.*)/);
                             rest_target = rest_matches[1];
                             rest_constraint = rest_matches[2];
                             rest_constraint = rest_constraint.replace(/\"/g, "\\\"");

@@ -748,12 +748,13 @@ Using a ``rest`` command, you can hit a Splunk API search endpoint remotely, and
 - Search Heads you wish to target need to be configured as distributed search peers in Splunk, same requirement as for the Splunk Monitoring Console host (MC, previously named DMC)
 - Most of the calculation part is executed on the target search head size, TrackMe will not attempt to retrieve the raw data first before performing the calculation for obvious performance gain purposes
 - You can target a search head explicity using the ``splunk_server`` argument, or you can target a group of search heads (such as your SHC) using the ``splunk_server_group`` argument
-- When targeting a group of search heads, the query is executed on every search that is matched by the splunk_server_group, as such you should limit using a target group to very effiscient and low searches such as a from lookup for example
-- TrackMe in anycase will only consider the first result from the rest command (so only one search head answer during the rest execution), and will discard replies from any search heads
+- When targeting a group of search heads, the query is executed on every search that is matched by the splunk_server_group, therefore you should limit using a target group to very effiscient and low cost searches such as a from lookup for example
+- TrackMe in anycase will only consider the first result from the rest command (so only one search head answer during the rest execution, assuming search heads from the same group have the same data access), and will discard other search head replies
 - The search needs to be properly performing, and should complete in a acceptable time window (use timeout argument which defaults to 60 seconds)
-- Each result fron the rest command, being within the tracker execution or the UI, goes through a Python based custoom command to parse the CSV structure resulting from the rest command and create the Splunk events during the search time execution
-- Besides for lookup rest searches, other types of searches automatically happen the configured earliest and latest as arguments to the rest command (earliest_time, latest_time)
-- Earliest and Latest are configurable for dedicated trackers only, shared trackers will use earliest:"-4h" and latest:"+4h" statically
+- Each result from the rest command, during the tracker execution or within the UI, passes through a Python based custom command to parse the CSV structure resulting from the rest command, to finally create the Splunk events during the search time execution
+- Except for ``| from lookup:`` rest searches, other types of searches automatically append the configured earliest and latest as arguments to the rest command (earliest_time, latest_time)
+- Earliest and Latest arguments are configurable for dedicated trackers only, shared trackers will use earliest:"-4h" and latest:"+4h" statically
+- Additional parameters to the rest command can be added within the first pipe of the search constraint during the Elastic Source creation (such as timeout, count etc)
 
 As a conclusion, using the rest based searches features successfully completes the Elastic Sources level of features, such that every single use case can be handled in TrackMe, whenever the Splunk instance cam access or not to the data you need to track!
 
