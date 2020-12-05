@@ -951,28 +951,20 @@ If our lookupLastUpdated would have been in a human readable format, we could ha
 
 Notes:
 
-- The "from " key word is not required and will be subsititued by TrackMe automatically (once you selected from in the dropdown)
+- The "from " key word is not required and will be substituted by TrackMe automatically (once you selected from in the dropdown)
 - earliest and latest do not matter for a lookup, so you can leave these with their default values
 - The index and sourcetype are only used for UI filtering purposes, so you can define the values up to your preference
 - Depending on the volume of records in the lookup and the time taken by Splunk to load its content, you may consider using the shared tracker mode, or a dedicated tracker for longer execution run times
 
 *Once the Elastic Source has been created, and we ran the tracker:*
 
-.. image:: img/first_steps/img-lookup-tracking3.png
-   :alt: img/first_steps/img-lookup-tracking3
-   :align: center
-
-As we can see in the screen above, the data source appears in red state because it has more than an hour since the update of the lookup, and we haven't yet defined a policy.
-
-This however validates that TrackMe is able to define a state based on our criterias very easily, and track the latest update from the lookup.
-
-Finally, we would define a proper setting for the maximal lagging value, as our lookup example is updated once daily, we could define 90000 seconds to allow 1 day and 1 hour before triggering an alert:
-
-.. image:: img/first_steps/img-lookup-tracking4.png
-   :alt: img/first_steps/img-lookup-tracking4
+.. image:: img/first_steps/img-rest-elastic2.png
+   :alt: img/first_steps/img-rest-elastic2
    :align: center
 
 As we can see, the current lagging corresponds to the difference between now and the latest update of the lookup, TrackMe will immediately starts to compute all metrics, the event count corresponds to the number of records (which allows the usage of outliers detection too), etc.
+
+When TrackMe detects that the data source is a based on a lookup, the statistics are returned from the trackme metrics automatically.
 
 .. image:: img/first_steps/img-lookup-tracking5.png
    :alt: img/first_steps/img-lookup-tracking5
