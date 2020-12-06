@@ -582,14 +582,13 @@ As we have exposed the main notions of TrackMe data discovery and tracking in :r
 
    The Elastic source feature allows you to fulfil any type of requirements from the data identification and search perspective, and transparenly integrate these virtual entities in the normal TrackMe workflow with the exact same features.
 
-We will address some easily understandable examples in this documentation.
-
-**The name of notion and name of "Elastic Sources" is proper to TrackMe, and is linked to the complete level of flexibility the feature provides you to address any kind of use cases you might need to deal with.**
+**The concept of "Elastic Sources" is proper to TrackMe, and is linked to the complete level of flexibility the feature provides you to address any kind of use cases you might need to deal with.**
 
 **In a nutshell:**
 
 - An Elastic source can be added to the ``shared tracker``, or created as an ``independent tracker``
 - The search language can be based on ``| tstats``, ``raw`` searches, ``| from`` and ``| mstats`` commands
+- Additionally, these searches can be run remotely over the Splunk rest API to address use cases where the data is not accessible to the search head(s) hosting TrackMe
 - The shared tracker is a specific scheduled report named ``TrackMe - Elastic sources shared tracker`` that tracks in a single schedule execution all the entities that have been declared as shared Elastic sources via the UI
 - Because the ``shared tracker`` performs a ``single execution``, there are performance considerations to take into account and the shared tracker should be restricted to very efficient searches in term of run time
 - In addition, ``Elastic sources shared`` have time frame restrictions which are the earliest and latest values of the tracker, you can restrict a shared entity time scope below these values but not beyond 
