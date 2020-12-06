@@ -16696,7 +16696,6 @@ require([
                 else if (tk_elastic_source_search_mode == "rest_from" && tk_elastic_source_from_part1 != "null" && tk_elastic_source_from_part2 != "null") {                    
 
                     // rest seach requires escaping
-                    tk_elastic_source_from_part1 = tk_elastic_source_from_part1.replace(/\"/g, "\\\"");
                     tk_elastic_source_from_part2 = tk_elastic_source_from_part2.replace(/\"/g, "\\\"");
 
                     if (/datamodel:/i.test(tk_elastic_source_search_constraint)) {
@@ -16709,7 +16708,7 @@ require([
                     else if (/lookup:/i.test(tk_elastic_source_search_constraint)) {
                         // rest search needs special handling
                         tk_data_source_overview_root_search = "| mstats latest(_value) as value where `trackme_metrics_idx` (metric_name=trackme.eventcount_4h OR metric_name=trackme.lag_event_sec OR metric_name=trackme.hostcount_4h) object_category=\"data_source\" object=\"" + tk_data_name + "\" by metric_name span=5m | eval {metric_name}=value | stats first(trackme.eventcount_4h) as count, first(trackme.lag_event_sec) as delta, max(trackme.hostcount_4h) as dcount_host by _time | eval event_lag=delta";
-                        tk_data_source_raw_search = "?q=" + encodeURI("| rest " + tk_elastic_source_from_part1 + " /servicesNS/admin/search/search/jobs/export search=\"" + "| from " + tk_elastic_source_from_part2 + "\" output_mode=\"csv\"" + "| head 1");
+                        tk_data_source_raw_search = "?q=" + encodeURI("| rest " + tk_elastic_source_from_part1 + " /servicesNS/admin/search/search/jobs/export search=\"" + "| from " + tk_elastic_source_from_part2 + "| head 100" + "\" output_mode=\"csv\"" + "| head 1");
                         setToken("tk_data_source_timechart_count_aggreg", TokenUtils.replaceTokenNames("latest", _.extend(submittedTokenModel.toJSON(), e.data)));
                     }
 
@@ -16728,7 +16727,6 @@ require([
                 // tstats over rest
                 else if (tk_elastic_source_search_mode == "rest_tstats" && tk_elastic_source_from_part1 != "null" && tk_elastic_source_from_part2 != "null") {                    
                     // rest seach requires escaping
-                    tk_elastic_source_from_part1 = tk_elastic_source_from_part1.replace(/\"/g, "\\\"");
                     tk_elastic_source_from_part2 = tk_elastic_source_from_part2.replace(/\"/g, "\\\"");
                     // rest search needs special handling
                     tk_data_source_overview_root_search = "| rest count=0 " + tk_elastic_source_from_part1 + " /servicesNS/admin/search/search/jobs/export search=\"" + "| tstats dc(host) as dcount_host count latest(_indextime) as indextime max(_time) as maxtime where " + tk_elastic_source_from_part2 + " by _time, index, sourcetype span=1s | eval delta=(indextime-_time), event_lag=(now() - maxtime) | fields _time count delta event_lag dcount_host\"" + " output_mode=\"csv\"" + " earliest_time=\"" + tk_earliest + "\"" + " latest_time=\"" + tk_latest + "\"" + " | table value | restextractforstats" + " | eval _time=strptime(_time, \"%Y-%m-%d %H:%M:%S.%3N %Z\")";
@@ -16739,7 +16737,6 @@ require([
                 // raw over rest
                 else if (tk_elastic_source_search_mode == "rest_raw" && tk_elastic_source_from_part1 != "null" && tk_elastic_source_from_part2 != "null") {                    
                     // rest seach requires escaping
-                    tk_elastic_source_from_part1 = tk_elastic_source_from_part1.replace(/\"/g, "\\\"");
                     tk_elastic_source_from_part2 = tk_elastic_source_from_part2.replace(/\"/g, "\\\"");
                     // rest search needs special handling
                     tk_data_source_overview_root_search = "| rest count=0 " + tk_elastic_source_from_part1 + " /servicesNS/admin/search/search/jobs/export search=\"" + "search " + tk_elastic_source_from_part2 + " | eval delta=(_indextime-_time), event_lag=(now() - _time) | bucket _time span=1s | stats count, avg(delta) as delta, latest(event_lag) as event_lag, dc(host) as dcount_host by _time\"" + " output_mode=\"csv\"" + " earliest_time=\"" + tk_earliest + "\"" + " latest_time=\"" + tk_latest + "\"" + " | table value | restextractforstats" + " | eval _time=strptime(_time, \"%Y-%m-%d %H:%M:%S.%3N %Z\")";
