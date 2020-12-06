@@ -693,8 +693,8 @@ On the opposite, the default data source breaking on on the sourcetype would nee
 
 The default concept while powerful does not cover my need, but ok there we go and let's extend it easily with Elastic sources!
 
-Elastic source example 3: tracking lookups update
--------------------------------------------------
+Elastic source example 3: tracking lookups update and number of records
+-----------------------------------------------------------------------
 
 It is a very common and powerful practice to generate and maintain lookups in Splunk for numbers of purposes, which can be file based lookups (CSV files) or KVstore based lookups.
 
@@ -713,6 +713,27 @@ The purpose of this example is to provide a builtin and effiscient way of tracki
 The unique requirement for TrackMe to be able to monitor a lookup is to have a time concept which can use to define as the ``_time`` field which TrackMe will rely on.
 
 Lookups have no such thing of a concept of ``_indextime`` (time of ingestion in Splunk), therefore TrackMe will by default make the index time equivalent to the latest _time from the lookup, unless the Splunk search that will be set in the Elastic Source defines a value based on information from the lookup.
+
+Monitoring lookups with TrackMe allow you to:
+
+- Get automatically alerted when the last update of the lookup is older than a given amount of time (which could indicate an issue on the execution side, such as an error introduced in the SPL code maintaining the lookup, a knowledge object that is missing, etc)
+- Monitor and track the number of records, the outliers detection will automatically monitor the number of records in the lookup (which outliers settings can be fine tuned up to your needs, you could even gets alerted if the number of records goes beyond a certain limit)
+
+The following example shows the behaviour with a lookup that is updated every 30 minutes:
+
+.. image:: img/first_steps/img-rest-elastic2.png
+   :alt: img/first_steps/img-rest-elastic2
+   :align: center
+
+Number of records are monitored automatically by the outliers detection, setting can be fined tuned to alert if the number of records goes bellow, and/or beyond a certain amount of records:
+
+.. image:: img/first_steps/img-rest-elastic-outliers.png
+   :alt: img/first_steps/img-rest-elastic-outliers
+   :align: center
+
+.. image:: img/first_steps/img-rest-elastic-outliers2.png
+   :alt: img/first_steps/img-rest-elastic-outliers2
+   :align: center
 
 Elastic source example 4: rest searches
 ---------------------------------------
@@ -1000,7 +1021,7 @@ As well, any additional agrument can be given to the rest command by ading these
 
 .. warning:: Currently the rest command generates a warning message "Unable to determine response format from HTTP Header", this message can be safety ignored as it does not impact the results in anyway, but cannot unfortunately be removed at the moment, until it is fixed by Splunk. 
 
-Once the Elastic Source has been created, it will appear as for any other sources, example:
+Once created, the new data source appears in the UI automatically, the following example shows the behaviour with a lookup that is updated every 30 minutes:
 
 .. image:: img/first_steps/img-rest-elastic2.png
    :alt: img/first_steps/img-rest-elastic2
