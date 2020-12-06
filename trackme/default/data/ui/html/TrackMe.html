@@ -16690,7 +16690,7 @@ require([
                         setToken("tk_data_source_timechart_count_aggreg", TokenUtils.replaceTokenNames("latest", _.extend(submittedTokenModel.toJSON(), e.data)));
                     }
 
-                    tk_data_source_raw_search = "?q=" + encodeURI("| ") + encodeURI(tk_elastic_source_search_mode) + " " + encodeURI(tk_elastic_source_from_part1) + encodeURI("|") +  encodeURI(tk_elastic_source_from_part2);
+                    tk_data_source_raw_search = "?q=" + encodeURI("| ") + encodeURI(tk_elastic_source_search_mode) + " " + encodeURI(tk_elastic_source_from_part1) + encodeURI(" | ") +  encodeURI(tk_elastic_source_from_part2);
                 }
 
                 else if (tk_elastic_source_search_mode == "rest_from" && tk_elastic_source_from_part1 != "null" && tk_elastic_source_from_part2 != "null") {                    
