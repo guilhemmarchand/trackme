@@ -16,15 +16,6 @@ class TrackMeHandlerAck_v1(rest_handler.RESTHandler):
         super(TrackMeHandlerAck_v1, self).__init__(command_line, command_arg, logger)
 
     # Get Ack by _key
-
-    # This endpoint will retrieve an acknowledgeent, it expects a GET call with the following information:
-    
-    # {
-    # "_key": "<KVstore unique identifier for this record"   
-    # }
-
-    # curl -k -u <creds> -X POST https://acme.splunk.com:8089/services/trackme/v1/ack/ack_by_key -d '{"object_category": "data_source", "object": "docker_logs:httpevent"}
-
     def get_ack_by_key(self, request_info, **kwargs):
 
         # By object_category and object
@@ -66,17 +57,7 @@ class TrackMeHandlerAck_v1(rest_handler.RESTHandler):
                 'payload': 'Warn: exception encountered: ' + str(e) # Payload of the request.
             }
 
-    # Get Ack by object
-
-    # This endpoint will enable the acknowledgeent, it expects a GET call with the following information:
-    
-    # {
-    # "object_category": "<type of object (data_source / data_host / metric_host)>", 
-    # "object": "<name of the object (data source / data host / metric host)>",   
-    # }
-
-    # curl -k -u <creds> -X POST https://acme.splunk.com:8089/services/trackme/v1/ack/ack_by_object -d '{"object_category": "data_source", "object": "docker_logs:httpevent"}
-
+    # Get Ack by object name
     def get_ack_by_object(self, request_info, **kwargs):
 
         # By object_category and object
@@ -124,18 +105,7 @@ class TrackMeHandlerAck_v1(rest_handler.RESTHandler):
                 'payload': 'Warn: exception encountered: ' + str(e) # Payload of the request.
             }
 
-    # Enable Ack
-
-    # This endpoint will enable the acknowledgeent, it expects a POST call with the following information:
-    
-    # {
-    # "object_category": "<type of object (data_source / data_host / metric_host)>", 
-    # "object": "<name of the object (data source / data host / metric host)>",   
-    # "ack_period": "86400"
-    # }
-
-    # curl -k -u <creds> -X POST https://acme.splunk.com:8089/services/trackme/v1/ack/ack_enable_by_object -d '{"object_category": "data_source", "object": "docker_logs:httpevent", "ack_period": "86400"}
-
+    # Enable Ack by object name
     def post_ack_enable_by_object(self, request_info, **kwargs):
 
         # By object_category and object
@@ -220,16 +190,6 @@ class TrackMeHandlerAck_v1(rest_handler.RESTHandler):
 
 
     # Disable Ack
-
-    # This endpoint will disable an acknowledgeent, it expects a POST call with the following information:
-    
-    # {
-    # "object_category": "<type of object (data_source / data_host / metric_host)>", 
-    # "object": "<name of the object (data source / data host / metric host)>"
-    # }
-
-    # curl -k -u <creds> -X POST https://acme.splunk.com:8089/services/trackme/v1/ack/ack_disable_by_object -d '{"object_category": "data_source", "object": "docker_logs:httpevent"}
-
     def post_ack_disable_by_object(self, request_info, **kwargs):
 
         # By object_category and object
