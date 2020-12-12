@@ -119,7 +119,7 @@ class TrackMeHandlerDataSources_v1(rest_handler.RESTHandler):
             }
 
     # Disable monitoring by object name
-    def post_ds_disable_monitoring_by_name(self, request_info, **kwargs):
+    def post_ds_disable_monitoring(self, request_info, **kwargs):
 
         # By data_name
         data_name = None
@@ -265,7 +265,7 @@ class TrackMeHandlerDataSources_v1(rest_handler.RESTHandler):
             }
 
     # Enable monitoring by object name
-    def post_ds_enable_monitoring_by_name(self, request_info, **kwargs):
+    def post_ds_enable_monitoring(self, request_info, **kwargs):
 
         # By data_name
         data_name = None
@@ -411,7 +411,7 @@ class TrackMeHandlerDataSources_v1(rest_handler.RESTHandler):
             }
 
     # Update priority by object name
-    def post_ds_update_priority_by_name(self, request_info, **kwargs):
+    def post_ds_update_priority(self, request_info, **kwargs):
 
         # By data_name
         data_name = None
@@ -556,7 +556,7 @@ class TrackMeHandlerDataSources_v1(rest_handler.RESTHandler):
 
 
     # Update lagging policy by object name
-    def post_ds_update_lag_policy_by_name(self, request_info, **kwargs):
+    def post_ds_update_lag_policy(self, request_info, **kwargs):
 
         # By data_name
         data_name = None
@@ -702,7 +702,7 @@ class TrackMeHandlerDataSources_v1(rest_handler.RESTHandler):
             }
 
     # Update min dcount host by object name
-    def post_ds_update_min_dcount_host_by_name(self, request_info, **kwargs):
+    def post_ds_update_min_dcount_host(self, request_info, **kwargs):
 
         # By data_name
         data_name = None
@@ -846,7 +846,7 @@ class TrackMeHandlerDataSources_v1(rest_handler.RESTHandler):
             }
 
     # Update monitoring week days by object name
-    def post_ds_update_wdays_by_name(self, request_info, **kwargs):
+    def post_ds_update_wdays(self, request_info, **kwargs):
 
         # By data_name
         data_name = None
@@ -993,7 +993,7 @@ class TrackMeHandlerDataSources_v1(rest_handler.RESTHandler):
             }
 
     # Update monitoring level by object name
-    def post_ds_update_monitoring_level_by_name(self, request_info, **kwargs):
+    def post_ds_update_monitoring_level(self, request_info, **kwargs):
 
         # By data_name
         data_name = None
@@ -1137,7 +1137,7 @@ class TrackMeHandlerDataSources_v1(rest_handler.RESTHandler):
             }
 
     # Update monitoring level by object name
-    def post_ds_update_outliers_by_name(self, request_info, **kwargs):
+    def post_ds_update_outliers(self, request_info, **kwargs):
 
         # By data_name
         data_name = None
@@ -1287,7 +1287,7 @@ class TrackMeHandlerDataSources_v1(rest_handler.RESTHandler):
             }
 
     # Remove data source temporary by object name
-    def delete_ds_delete_temporary_by_name(self, request_info, **kwargs):
+    def delete_ds_delete_temporary(self, request_info, **kwargs):
 
         # By data_name
         data_name = None
@@ -1394,7 +1394,7 @@ class TrackMeHandlerDataSources_v1(rest_handler.RESTHandler):
             }
 
     # Remove data source permanent by object name
-    def delete_ds_delete_permanent_by_name(self, request_info, **kwargs):
+    def delete_ds_delete_permanent(self, request_info, **kwargs):
 
         # By data_name
         data_name = None
@@ -1493,6 +1493,280 @@ class TrackMeHandlerDataSources_v1(rest_handler.RESTHandler):
                 return {
                     "payload": 'Warn: resource not found or request is incorrect ' + str(query_string),
                     'status': 404 # HTTP status code
+                }
+
+        except Exception as e:
+            return {
+                'payload': 'Warn: exception encountered: ' + str(e) # Payload of the request.
+            }
+
+    # Enable Data Sampling by object name
+    def post_ds_enable_data_sampling(self, request_info, **kwargs):
+
+        # By data_name
+        data_name = None
+        query_string = None
+
+        # Retrieve from data
+        resp_dict = json.loads(str(request_info.raw_args['payload']))
+        data_name = resp_dict['data_name']
+
+        # Static
+        data_sample_feature = "enabled"
+
+        # Update comment is optional and used for audit changes
+        try:
+            update_comment = resp_dict['update_comment']
+        except Exception as e:
+            update_comment = "API update"
+
+        # Define the KV query
+        query_string = '{ "data_name' + '": "' + data_name + '" }'
+        
+        # Get splunkd port
+        entity = splunk.entity.getEntity('/server', 'settings',
+                                            namespace='trackme', sessionKey=request_info.session_key, owner='-')
+        splunkd_port = entity['mgmtHostPort']
+
+        try:
+
+            collection_name = "kv_trackme_data_sampling"            
+            service = client.connect(
+                owner="nobody",
+                app="trackme",
+                port=splunkd_port,
+                token=request_info.session_key
+            )
+            collection = service.kvstore[collection_name]
+
+            # Audit collection
+            collection_name_audit = "kv_trackme_audit_changes"            
+            service_audit = client.connect(
+                owner="nobody",
+                app="trackme",
+                port=splunkd_port,
+                token=request_info.session_key
+            )
+            collection_audit = service_audit.kvstore[collection_name_audit]
+
+            # Get the current record
+            # Notes: the record is returned as an array, as we search for a specific record, we expect one record only
+            
+            try:
+                record = collection.data.query(query=str(query_string))
+                key = record[0].get('_key')
+
+            except Exception as e:
+                key = None
+
+            # Render result
+            if key is not None and len(key)>2:
+
+                # Update the record
+                collection.data.update(str(key), json.dumps({"data_name": str(data_name),
+                    "data_sample_feature": str(data_sample_feature)}))
+
+                # Record an audit change
+                import time
+                current_time = int(round(time.time() * 1000))
+                user = "nobody"
+
+                try:
+
+                    # Insert the record
+                    collection_audit.data.insert(json.dumps({                        
+                        "time": str(current_time),
+                        "user": str(user),
+                        "action": "success",
+                        "change_type": "enable data sampling",
+                        "object": str(data_name),
+                        "object_category": "data_source",
+                        "object_attrs": str(json.dumps(collection.data.query_by_id(key), indent=1)),
+                        "result": "N/A",
+                        "comment": str(update_comment)
+                        }))
+
+                except Exception as e:
+                    return {
+                        'payload': 'Warn: exception encountered: ' + str(e) # Payload of the request.
+                    }
+
+                return {
+                    "payload": json.dumps(collection.data.query_by_id(key), indent=1),
+                    'status': 200 # HTTP status code
+                }
+
+            else:
+
+                # Insert the record
+                collection.data.insert(json.dumps({"data_name": str(data_name),
+                    "data_sample_feature": str(data_sample_feature)}))
+
+                # Record an audit change
+                import time
+                current_time = int(round(time.time() * 1000))
+                user = "nobody"
+
+                try:
+
+                    # Insert the record
+                    collection_audit.data.insert(json.dumps({                        
+                        "time": str(current_time),
+                        "user": str(user),
+                        "action": "success",
+                        "change_type": "enable ack",
+                        "object": str(data_name),
+                        "object_category": "data_source",
+                        "object_attrs": json.dumps({"object": str(data_name), "data_sample_feature": str(data_sample_feature)}, index=1),
+                        "result": "N/A",
+                        "comment": str(update_comment)
+                        }))
+
+                except Exception as e:
+                    return {
+                        'payload': 'Warn: exception encountered: ' + str(e) # Payload of the request.
+                    }
+
+                return {
+                    "payload": json.dumps(collection.data.query(query=str(query_string)), indent=1),
+                    'status': 200 # HTTP status code
+                }
+
+        except Exception as e:
+            return {
+                'payload': 'Warn: exception encountered: ' + str(e) # Payload of the request.
+            }
+
+    # Disable Data Sampling by object name
+    def post_ds_disable_data_sampling(self, request_info, **kwargs):
+
+        # By data_name
+        data_name = None
+        query_string = None
+
+        # Retrieve from data
+        resp_dict = json.loads(str(request_info.raw_args['payload']))
+        data_name = resp_dict['data_name']
+
+        # Static
+        data_sample_feature = "disabled"
+
+        # Update comment is optional and used for audit changes
+        try:
+            update_comment = resp_dict['update_comment']
+        except Exception as e:
+            update_comment = "API update"
+
+        # Define the KV query
+        query_string = '{ "data_name' + '": "' + data_name + '" }'
+        
+        # Get splunkd port
+        entity = splunk.entity.getEntity('/server', 'settings',
+                                            namespace='trackme', sessionKey=request_info.session_key, owner='-')
+        splunkd_port = entity['mgmtHostPort']
+
+        try:
+
+            collection_name = "kv_trackme_data_sampling"            
+            service = client.connect(
+                owner="nobody",
+                app="trackme",
+                port=splunkd_port,
+                token=request_info.session_key
+            )
+            collection = service.kvstore[collection_name]
+
+            # Audit collection
+            collection_name_audit = "kv_trackme_audit_changes"            
+            service_audit = client.connect(
+                owner="nobody",
+                app="trackme",
+                port=splunkd_port,
+                token=request_info.session_key
+            )
+            collection_audit = service_audit.kvstore[collection_name_audit]
+
+            # Get the current record
+            # Notes: the record is returned as an array, as we search for a specific record, we expect one record only
+            
+            try:
+                record = collection.data.query(query=str(query_string))
+                key = record[0].get('_key')
+
+            except Exception as e:
+                key = None
+
+            # Render result
+            if key is not None and len(key)>2:
+
+                # Update the record
+                collection.data.update(str(key), json.dumps({"data_name": str(data_name),
+                    "data_sample_feature": str(data_sample_feature)}))
+
+                # Record an audit change
+                import time
+                current_time = int(round(time.time() * 1000))
+                user = "nobody"
+
+                try:
+
+                    # Insert the record
+                    collection_audit.data.insert(json.dumps({                        
+                        "time": str(current_time),
+                        "user": str(user),
+                        "action": "success",
+                        "change_type": "disable data sampling",
+                        "object": str(data_name),
+                        "object_category": "data_source",
+                        "object_attrs": str(json.dumps(collection.data.query_by_id(key), indent=1)),
+                        "result": "N/A",
+                        "comment": str(update_comment)
+                        }))
+
+                except Exception as e:
+                    return {
+                        'payload': 'Warn: exception encountered: ' + str(e) # Payload of the request.
+                    }
+
+                return {
+                    "payload": json.dumps(collection.data.query_by_id(key), indent=1),
+                    'status': 200 # HTTP status code
+                }
+
+            else:
+
+                # Insert the record
+                collection.data.insert(json.dumps({"data_name": str(data_name),
+                    "data_sample_feature": str(data_sample_feature)}))
+
+                # Record an audit change
+                import time
+                current_time = int(round(time.time() * 1000))
+                user = "nobody"
+
+                try:
+
+                    # Insert the record
+                    collection_audit.data.insert(json.dumps({                        
+                        "time": str(current_time),
+                        "user": str(user),
+                        "action": "success",
+                        "change_type": "enable ack",
+                        "object": str(data_name),
+                        "object_category": "data_source",
+                        "object_attrs": json.dumps({"object": str(data_name), "data_sample_feature": str(data_sample_feature)}, index=1),
+                        "result": "N/A",
+                        "comment": str(update_comment)
+                        }))
+
+                except Exception as e:
+                    return {
+                        'payload': 'Warn: exception encountered: ' + str(e) # Payload of the request.
+                    }
+
+                return {
+                    "payload": json.dumps(collection.data.query(query=str(query_string)), indent=1),
+                    'status': 200 # HTTP status code
                 }
 
         except Exception as e:

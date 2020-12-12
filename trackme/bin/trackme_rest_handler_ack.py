@@ -120,7 +120,7 @@ class TrackMeHandlerAck_v1(rest_handler.RESTHandler):
             }
 
     # Enable Ack by object name
-    def post_ack_enable_by_object(self, request_info, **kwargs):
+    def post_ack_enable(self, request_info, **kwargs):
 
         # By object_category and object
         object_category_value = None
@@ -276,7 +276,7 @@ class TrackMeHandlerAck_v1(rest_handler.RESTHandler):
 
 
     # Disable Ack
-    def post_ack_disable_by_object(self, request_info, **kwargs):
+    def post_ack_disable(self, request_info, **kwargs):
 
         # By object_category and object
         object_category_value = None
