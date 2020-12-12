@@ -566,7 +566,7 @@ class TrackMeHandlerDataSources_v1(rest_handler.RESTHandler):
         resp_dict = json.loads(str(request_info.raw_args['payload']))
         data_name = resp_dict['data_name']
         data_lag_alert_kpis = resp_dict['data_lag_alert_kpis'] # all_kpis / lag_ingestion_kpi / lag_event_kpi
-        data_max_lag_allowed = resp_dict['data_max_lag_allowed'] # seconds
+        data_max_lag_allowed = int(resp_dict['data_max_lag_allowed']) # seconds
         data_override_lagging_class = resp_dict['data_override_lagging_class'] # true / false
 
         # Update comment is optional and used for audit changes
