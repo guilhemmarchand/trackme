@@ -1,6 +1,8 @@
 import logging
 import os, sys
 import splunk
+import splunk.entity
+import splunk.Intersplunk
 import json
 
 logger = logging.getLogger(__name__)
@@ -25,12 +27,18 @@ class TrackMeHandlerAck_v1(rest_handler.RESTHandler):
         resp_dict = json.loads(str(request_info.raw_args['payload']))
         key = resp_dict['_key']
         
+        # Get splunkd port
+        entity = splunk.entity.getEntity('/server', 'settings',
+                                            namespace='trackme', sessionKey=request_info.session_key, owner='-')
+        splunkd_port = entity['mgmtHostPort']
+
         try:
 
             collection_name = "kv_trackme_alerts_ack"            
             service = client.connect(
                 owner="nobody",
                 app="trackme",
+                port=splunkd_port,
                 token=request_info.session_key
             )
             collection = service.kvstore[collection_name]
@@ -73,12 +81,18 @@ class TrackMeHandlerAck_v1(rest_handler.RESTHandler):
         # Define the KV query
         query_string = '{ "$and": [ { "object_category": "' + object_category_value + '" }, { "object' + '": "' + object_value + '" } ] }'
         
+        # Get splunkd port
+        entity = splunk.entity.getEntity('/server', 'settings',
+                                            namespace='trackme', sessionKey=request_info.session_key, owner='-')
+        splunkd_port = entity['mgmtHostPort']
+
         try:
 
             collection_name = "kv_trackme_alerts_ack"            
             service = client.connect(
                 owner="nobody",
                 app="trackme",
+                port=splunkd_port,
                 token=request_info.session_key
             )
             collection = service.kvstore[collection_name]
@@ -135,12 +149,18 @@ class TrackMeHandlerAck_v1(rest_handler.RESTHandler):
         # Define the KV query
         query_string = '{ "$and": [ { "object_category": "' + object_category_value + '" }, { "object' + '": "' + object_value + '" } ] }'
         
+        # Get splunkd port
+        entity = splunk.entity.getEntity('/server', 'settings',
+                                            namespace='trackme', sessionKey=request_info.session_key, owner='-')
+        splunkd_port = entity['mgmtHostPort']
+
         try:
 
             collection_name = "kv_trackme_alerts_ack"            
             service = client.connect(
                 owner="nobody",
                 app="trackme",
+                port=splunkd_port,
                 token=request_info.session_key
             )
             collection = service.kvstore[collection_name]
@@ -150,6 +170,7 @@ class TrackMeHandlerAck_v1(rest_handler.RESTHandler):
             service_audit = client.connect(
                 owner="nobody",
                 app="trackme",
+                port=splunkd_port,
                 token=request_info.session_key
             )
             collection_audit = service_audit.kvstore[collection_name_audit]
@@ -281,12 +302,18 @@ class TrackMeHandlerAck_v1(rest_handler.RESTHandler):
         # Define the KV query
         query_string = '{ "$and": [ { "object_category": "' + object_category_value + '" }, { "object' + '": "' + object_value + '" } ] }'
         
+        # Get splunkd port
+        entity = splunk.entity.getEntity('/server', 'settings',
+                                            namespace='trackme', sessionKey=request_info.session_key, owner='-')
+        splunkd_port = entity['mgmtHostPort']
+
         try:
 
             collection_name = "kv_trackme_alerts_ack"            
             service = client.connect(
                 owner="nobody",
                 app="trackme",
+                port=splunkd_port,
                 token=request_info.session_key
             )
             collection = service.kvstore[collection_name]
@@ -296,6 +323,7 @@ class TrackMeHandlerAck_v1(rest_handler.RESTHandler):
             service_audit = client.connect(
                 owner="nobody",
                 app="trackme",
+                port=splunkd_port,
                 token=request_info.session_key
             )
             collection_audit = service_audit.kvstore[collection_name_audit]
