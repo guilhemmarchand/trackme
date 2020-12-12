@@ -115,6 +115,12 @@ class TrackMeHandlerDataSources_v1(rest_handler.RESTHandler):
         resp_dict = json.loads(str(request_info.raw_args['payload']))
         data_name = resp_dict['data_name']
 
+        # Update comment is optional and used for audit changes
+        try:
+            update_comment = resp_dict['update_comment']
+        except Exception as e:
+            update_comment = "API update"
+
         # Define the KV query
         query_string = '{ "data_name": "' + data_name + '" }'
         
@@ -213,7 +219,7 @@ class TrackMeHandlerDataSources_v1(rest_handler.RESTHandler):
                         "object_category": "data_source",
                         "object_attrs": str(json.dumps(collection.data.query_by_id(key), indent=1)),
                         "result": "N/A",
-                        "comment": "API update"
+                        "comment": str(update_comment)
                         }))
 
                 except Exception as e:
@@ -247,6 +253,12 @@ class TrackMeHandlerDataSources_v1(rest_handler.RESTHandler):
         # Retrieve from data
         resp_dict = json.loads(str(request_info.raw_args['payload']))
         data_name = resp_dict['data_name']
+
+        # Update comment is optional and used for audit changes
+        try:
+            update_comment = resp_dict['update_comment']
+        except Exception as e:
+            update_comment = "API update"
 
         # Define the KV query
         query_string = '{ "data_name": "' + data_name + '" }'
@@ -346,7 +358,7 @@ class TrackMeHandlerDataSources_v1(rest_handler.RESTHandler):
                         "object_category": "data_source",
                         "object_attrs": str(json.dumps(collection.data.query_by_id(key), indent=1)),
                         "result": "N/A",
-                        "comment": "API update"
+                        "comment": str(update_comment)
                         }))
 
                 except Exception as e:
