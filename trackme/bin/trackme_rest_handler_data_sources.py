@@ -1286,3 +1286,217 @@ class TrackMeHandlerDataSources_v1(rest_handler.RESTHandler):
                 'payload': 'Warn: exception encountered: ' + str(e) # Payload of the request.
             }
 
+    # Remove data source temporary by object name
+    def delete_ds_delete_temporary_by_name(self, request_info, **kwargs):
+
+        # By data_name
+        data_name = None
+        query_string = None
+
+        # Retrieve from data
+        resp_dict = json.loads(str(request_info.raw_args['payload']))
+        data_name = resp_dict['data_name']
+
+        # Update comment is optional and used for audit changes
+        try:
+            update_comment = resp_dict['update_comment']
+        except Exception as e:
+            update_comment = "API update"
+
+        # Define the KV query
+        query_string = '{ "data_name": "' + data_name + '" }'
+        
+        # Get splunkd port
+        entity = splunk.entity.getEntity('/server', 'settings',
+                                            namespace='trackme', sessionKey=request_info.session_key, owner='-')
+        splunkd_port = entity['mgmtHostPort']
+
+        try:
+
+            # Data collection
+            collection_name = "kv_trackme_data_source_monitoring"            
+            service = client.connect(
+                owner="nobody",
+                app="trackme",
+                port=splunkd_port,
+                token=request_info.session_key
+            )
+            collection = service.kvstore[collection_name]
+
+            # Audit collection
+            collection_name_audit = "kv_trackme_audit_changes"            
+            service_audit = client.connect(
+                owner="nobody",
+                app="trackme",
+                port=splunkd_port,
+                token=request_info.session_key
+            )
+            collection_audit = service_audit.kvstore[collection_name_audit]
+
+            # Get the current record
+            # Notes: the record is returned as an array, as we search for a specific record, we expect one record only
+            
+            try:
+                record = collection.data.query(query=str(query_string))
+                key = record[0].get('_key')
+
+            except Exception as e:
+                key = None
+                
+            # Render result
+            if key is not None and len(key)>2:
+
+                # Store the record for audit purposes
+                json_data = str(json.dumps(collection.data.query_by_id(key), indent=1))
+
+                # Remove the record
+                collection.data.delete(json.dumps({"_key":key}))
+
+                # Record an audit change
+                import time
+                current_time = int(round(time.time() * 1000))
+                user = "nobody"
+
+                try:
+
+                    # Insert the record
+                    collection_audit.data.insert(json.dumps({                        
+                        "time": str(current_time),
+                        "user": str(user),
+                        "action": "success",
+                        "change_type": "delete temporary",
+                        "object": str(data_name),
+                        "object_category": "data_source",
+                        "object_attrs": str(json_data),
+                        "result": "N/A",
+                        "comment": str(update_comment)
+                        }))
+
+                except Exception as e:
+                    return {
+                        'payload': 'Warn: exception encountered: ' + str(e) # Payload of the request.
+                    }
+
+                return {
+                    "payload": "Record with _key " + str(key) + " was temporarily deleted from the collection.",
+                    'status': 200 # HTTP status code
+                }
+
+            else:
+                return {
+                    "payload": 'Warn: resource not found or request is incorrect ' + str(query_string),
+                    'status': 404 # HTTP status code
+                }
+
+        except Exception as e:
+            return {
+                'payload': 'Warn: exception encountered: ' + str(e) # Payload of the request.
+            }
+
+    # Remove data source permanent by object name
+    def delete_ds_delete_permanent_by_name(self, request_info, **kwargs):
+
+        # By data_name
+        data_name = None
+        query_string = None
+
+        # Retrieve from data
+        resp_dict = json.loads(str(request_info.raw_args['payload']))
+        data_name = resp_dict['data_name']
+
+        # Update comment is optional and used for audit changes
+        try:
+            update_comment = resp_dict['update_comment']
+        except Exception as e:
+            update_comment = "API update"
+
+        # Define the KV query
+        query_string = '{ "data_name": "' + data_name + '" }'
+        
+        # Get splunkd port
+        entity = splunk.entity.getEntity('/server', 'settings',
+                                            namespace='trackme', sessionKey=request_info.session_key, owner='-')
+        splunkd_port = entity['mgmtHostPort']
+
+        try:
+
+            # Data collection
+            collection_name = "kv_trackme_data_source_monitoring"            
+            service = client.connect(
+                owner="nobody",
+                app="trackme",
+                port=splunkd_port,
+                token=request_info.session_key
+            )
+            collection = service.kvstore[collection_name]
+
+            # Audit collection
+            collection_name_audit = "kv_trackme_audit_changes"            
+            service_audit = client.connect(
+                owner="nobody",
+                app="trackme",
+                port=splunkd_port,
+                token=request_info.session_key
+            )
+            collection_audit = service_audit.kvstore[collection_name_audit]
+
+            # Get the current record
+            # Notes: the record is returned as an array, as we search for a specific record, we expect one record only
+            
+            try:
+                record = collection.data.query(query=str(query_string))
+                key = record[0].get('_key')
+
+            except Exception as e:
+                key = None
+                
+            # Render result
+            if key is not None and len(key)>2:
+
+                # Store the record for audit purposes
+                json_data = str(json.dumps(collection.data.query_by_id(key), indent=1))
+
+                # Remove the record
+                collection.data.delete(json.dumps({"_key":key}))
+
+                # Record an audit change
+                import time
+                current_time = int(round(time.time() * 1000))
+                user = "nobody"
+
+                try:
+
+                    # Insert the record
+                    collection_audit.data.insert(json.dumps({                        
+                        "time": str(current_time),
+                        "user": str(user),
+                        "action": "success",
+                        "change_type": "delete permanent",
+                        "object": str(data_name),
+                        "object_category": "data_source",
+                        "object_attrs": str(json_data),
+                        "result": "N/A",
+                        "comment": str(update_comment)
+                        }))
+
+                except Exception as e:
+                    return {
+                        'payload': 'Warn: exception encountered: ' + str(e) # Payload of the request.
+                    }
+
+                return {
+                    "payload": "Record with _key " + str(key) + " was permanently deleted from the collection.",
+                    'status': 200 # HTTP status code
+                }
+
+            else:
+                return {
+                    "payload": 'Warn: resource not found or request is incorrect ' + str(query_string),
+                    'status': 404 # HTTP status code
+                }
+
+        except Exception as e:
+            return {
+                'payload': 'Warn: exception encountered: ' + str(e) # Payload of the request.
+            }
+
