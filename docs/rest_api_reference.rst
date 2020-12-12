@@ -1,8 +1,103 @@
 REST API Reference Manual
 =========================
 
+Introduction
+------------
+
+TrackMe hosts Python based custom API endpoints, serviced by the Splunk API, and categorized by resource groups.
+
+These resource groups are accessible over specific endpoint paths as following:
+
++--------------------------------------+-----------------------------------+
+| Resource group                       | API Path                          |
++======================================+===================================+
+| :ref:`Acknowledgment endpoints`      | /services/trackme/v1/ack          |
++--------------------------------------+-----------------------------------+
+| :ref:`Data Sources endpoints`        | /services/trackme/v1/data_sources |
++--------------------------------------+-----------------------------------+
+| :ref:`Data Hosts endpoints`          | /services/trackme/v1/data_hosts   |
++--------------------------------------+-----------------------------------+
+| :ref:`Metric Hosts endpoints`        | /services/trackme/v1/metric_hosts |
++--------------------------------------+-----------------------------------+
+
+Authentication
+--------------
+
+User and roles
+^^^^^^^^^^^^^^
+
+You can use any combination of user and roles depending on your preferences, technically, using the TrackMe API endpoint requires read and write permissions to various objects all hosted in the TrackMe namespace.
+
+TrackMe contains a builtin role ``trackme_admin`` which defines required accesses to these objects, you can use this role and make sure the user that will be achieving the rest calls is member of this role, or inherits from it.
+
+Prior Splunk 7.3.0
+^^^^^^^^^^^^^^^^^^
+
+Prior to Splunk Splunk 7.3.0, the easiest is to used a standard login / password approach to authenticate against Splunk API, similary to:
+
+::
+
+    curl -k -u admin:'ch@ngeM3'
+
+Alternatively, it is possible to perform a first authentication, retrieve a temporary token to be used within the REST calls:
+
+Official documentation: `Splunk docs API token <https://docs.splunk.com/Documentation/Splunk/latest/RESTUM/RESTusing#Authentication_and_authorization>`_.
+
+*Example authenticating with a user called svc_kafka that is member of the kafka_admin role:*
+
+::
+
+    curl -k https://localhost:8089/services/auth/login --data-urlencode username=svc_splunk --data-urlencode password=pass
+
+    <response>
+      <sessionKey>DWGNbGpJgSj30w0GxTAxMj8t0dZKjvjxLYaP^yphdluFN_FGz4gz^NhcgPCLDkjWH3BUQa1Vewt8FTF8KXyyfI09HqjOicIthMuBIB70dVJA8Jg</sessionKey>
+      <messages>
+        <msg code=""></msg>
+      </messages>
+    </response>
+
+    export token="DWGNbGpJgSj30w0GxTAxMj8t0dZKjvjxLYaP^yphdluFN_FGz4gz^NhcgPCLDkjWH3BUQa1Vewt8FTF8KXyyfI09HqjOicIthMuBIB70dVJA8Jg"
+
+A token remains valid for the time of a session, which is by default valid for 1 hour.
+
+The token would be used as following:
+
+::
+
+    curl -k -H "Authorization: Splunk $token"
+
+For Splunk 7.3.0 and later
+^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Splunk 7.3.0 introduced the usage of proper authentication tokens, which is the recommended way to authenticate against splunkd API:
+
+Official documentation: `Splunk docs JSON authentication token <https://docs.splunk.com/Documentation/Splunk/latest/Security/UseAuthTokens>`_.
+
+Once you have created an authentication token for the user to be used as the service account, using curl specify the bearer token:
+
+::
+
+    curl -k –H "Authorization: Bearer <token>"
+
+
 Acknowledgment endpoints
 ------------------------
+
+**Resources summary:**
+
++-------------------------------------------------------+--------------------------------------------------+
+| Resource                                              | API Path                                         |
++=======================================================+==================================================+
+| :ref:`ack_collection / Get full Ack collection`       | /services/trackme/v1/ack/ack_collection          |
++-------------------------------------------------------+--------------------------------------------------+
+| :ref:`ack_by_key / Get Ack by _key`                   | /services/trackme/v1/ack/ack_by_key              |
++-------------------------------------------------------+--------------------------------------------------+
+| :ref:`ack_by_object / Get Ack by object`              | /services/trackme/v1/ack/ack_by_object           |
++-------------------------------------------------------+--------------------------------------------------+
+| :ref:`ack_enable / Enable Ack`                        | /services/trackme/v1/ack/ack_enable              |
++-------------------------------------------------------+--------------------------------------------------+
+| :ref:`ack_disable / Disable Ack`                      | /services/trackme/v1/ack/ack_disable             |
++-------------------------------------------------------+--------------------------------------------------+
 
 ack_collection / Get full Ack collection
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -105,7 +200,7 @@ ack_by_object / Get Ack by object
     ]
 
 ack_enable / Enable Ack
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+^^^^^^^^^^^^^^^^^^^^^^^
 
 **This endpoint will enable an acknowledgment by the object name, it requires a POST call with the following information:**
 
@@ -133,7 +228,7 @@ ack_enable / Enable Ack
     }
 
 ack_disable / Disable Ack
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+^^^^^^^^^^^^^^^^^^^^^^^^^
 
 **This endpoint will disable an acknowledgment by the object name, it requires a POST call with the following information:**
 
@@ -159,8 +254,40 @@ ack_disable / Disable Ack
      "_key": "5fd3fe737b1bef735d3f3532"
     }
 
-Data sources endpoints
+Data Sources endpoints
 ----------------------
+
+**Resources summary:**
+
++---------------------------------------------------------------------+-----------------------------------------------------------------+
+| Resource                                                            | API Path                                                        | 
++=====================================================================+=================================================================+
+| :ref:`ds_collection / Get full Data Sources collection`             | /services/trackme/v1/data_sources/ds_collection                 |
++---------------------------------------------------------------------+-----------------------------------------------------------------+
+| :ref:`ds_by_key / Get Data Source by _key`                          | /services/trackme/v1/data_sources/ds_by_key                     |
++---------------------------------------------------------------------+-----------------------------------------------------------------+
+| :ref:`ds_by_name / Get Data Source by name`                         | /services/trackme/v1/data_sources/ds_by_name                    |
++---------------------------------------------------------------------+-----------------------------------------------------------------+
+| :ref:`ds_enable_monitoring / Enable monitoring`                     | /services/trackme/v1/data_sources/ds_enable_monitoring          |
++---------------------------------------------------------------------+-----------------------------------------------------------------+
+| :ref:`ds_disable_monitoring / Disable monitoring`                   | /services/trackme/v1/data_sources/ds_disable_monitoring         |
++---------------------------------------------------------------------+-----------------------------------------------------------------+
+| :ref:`ds_update_lag_policy / Update lagging policy`                 | /services/trackme/v1/data_sources/ds_update_lag_policy          |
++---------------------------------------------------------------------+-----------------------------------------------------------------+
+| :ref:`ds_update_min_dcount_host / Update minimal host dcount`       | /services/trackme/v1/data_sources/ds_update_min_dcount_host     |
++---------------------------------------------------------------------+-----------------------------------------------------------------+
+| :ref:`ds_update_wdays_by_name / Update week days monitoring`        | /services/trackme/v1/data_sources/ds_update_wdays               |
++---------------------------------------------------------------------+-----------------------------------------------------------------+
+| :ref:`ds_update_outliers / Update outliers detection configuration` | /services/trackme/v1/data_sources/ds_update_outliers            |
++---------------------------------------------------------------------+-----------------------------------------------------------------+
+| :ref:`ds_delete_temporary / Delete temporary`                       | /services/trackme/v1/data_sources/ds_delete_temporary           |
++---------------------------------------------------------------------+-----------------------------------------------------------------+
+| :ref:`ds_delete_permanent / Delete permanently`                     | /services/trackme/v1/data_sources/ds_delete_permanent           |
++---------------------------------------------------------------------+-----------------------------------------------------------------+
+| :ref:`ds_enable_data_sampling / Enable data sampling`               | /services/trackme/v1/data_sources/ds_enable_data_sampling       |
++---------------------------------------------------------------------+-----------------------------------------------------------------+
+| :ref:`ds_disable_data_sampling / Disable data sampling`             | /services/trackme/v1/data_sources/ds_disable_data_sampling      |
++---------------------------------------------------------------------+-----------------------------------------------------------------+
 
 ds_collection / Get full Data Sources collection
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -498,11 +625,37 @@ ds_disable_data_sampling / Disable data sampling
      "_key": "7e8670878a9ad91844f18655f1819c06"
     }
 
-Data hosts endpoints
+Data Hosts endpoints
 --------------------
 
-dh_collection / Get full Data Sources collection
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+**Resources summary:**
+
++---------------------------------------------------------------------+-----------------------------------------------------------------+
+| Resource                                                            | API Path                                                        | 
++=====================================================================+=================================================================+
+| :ref:`dh_collection / Get full Data Hosts collection`               | /services/trackme/v1/data_hosts/dh_collection                   |
++---------------------------------------------------------------------+-----------------------------------------------------------------+
+| :ref:`dh_by_key / Get Data host by _key`                            | /services/trackme/v1/data_hosts/dh_by_key                       |
++---------------------------------------------------------------------+-----------------------------------------------------------------+
+| :ref:`dh_by_name / Get Data host by name`                           | /services/trackme/v1/data_hosts/dh_by_name                      |
++---------------------------------------------------------------------+-----------------------------------------------------------------+
+| :ref:`dh_enable_monitoring / Enable monitoring`                     | /services/trackme/v1/data_hosts/dh_enable_monitoring            |
++---------------------------------------------------------------------+-----------------------------------------------------------------+
+| :ref:`dh_disable_monitoring / Disable monitoring`                   | /services/trackme/v1/data_hosts/dh_disable_monitoring           |
++---------------------------------------------------------------------+-----------------------------------------------------------------+
+| :ref:`dh_update_lag_policy / Update lagging policy`                 | /services/trackme/v1/data_hosts/dh_update_lag_policy            |
++---------------------------------------------------------------------+-----------------------------------------------------------------+
+| :ref:`dh_update_wdays_by_name / Update week days monitoring`        | /services/trackme/v1/data_hosts/dh_update_wdays                 |
++---------------------------------------------------------------------+-----------------------------------------------------------------+
+| :ref:`dh_update_outliers / Update outliers detection configuration` | /services/trackme/v1/data_hosts/dh_update_outliers              |
++---------------------------------------------------------------------+-----------------------------------------------------------------+
+| :ref:`dh_delete_temporary / Delete temporary`                       | /services/trackme/v1/data_hosts/dh_delete_temporary             |
++---------------------------------------------------------------------+-----------------------------------------------------------------+
+| :ref:`dh_delete_permanent / Delete permanently`                     | /services/trackme/v1/data_hosts/dh_delete_permanent             |
++---------------------------------------------------------------------+-----------------------------------------------------------------+
+
+dh_collection / Get full Data Hosts collection
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 **This endpoint retrieves the entire data hosts collection and renders as a JSON array, its requires a GET call with no data required:**
 
@@ -776,3 +929,190 @@ Note: A permanent deletion removes the entity and its configuration, in addition
 ::
 
     Record with _key 7e8670878a9ad91844f18655f1819c06 was permanently deleted from the collection.% 
+
+Metric Hosts endpoints
+----------------------
+
+**Resources summary:**
+
++---------------------------------------------------------------------+-----------------------------------------------------------------+
+| Resource                                                            | API Path                                                        | 
++=====================================================================+=================================================================+
+| :ref:`mh_collection / Get full Metric Hosts collection`             | /services/trackme/v1/metric_hosts/mh_collection                 |
++---------------------------------------------------------------------+-----------------------------------------------------------------+
+| :ref:`mh_by_key / Get Metric host by _key`                          | /services/trackme/v1/metric_hosts/mh_by_key                     |
++---------------------------------------------------------------------+-----------------------------------------------------------------+
+| :ref:`mh_by_name / Get Metric host by name`                         | /services/trackme/v1/metric_hosts/mh_by_name                    |
++---------------------------------------------------------------------+-----------------------------------------------------------------+
+| :ref:`mh_enable_monitoring / Enable monitoring`                     | /services/trackme/v1/metric_hosts/mh_enable_monitoring          |
++---------------------------------------------------------------------+-----------------------------------------------------------------+
+| :ref:`mh_disable_monitoring / Disable monitoring`                   | /services/trackme/v1/metric_hosts/mh_disable_monitoring         |
++---------------------------------------------------------------------+-----------------------------------------------------------------+
+| :ref:`mh_delete_temporary / Delete temporary`                       | /services/trackme/v1/metric_hosts/mh_delete_temporary           |
++---------------------------------------------------------------------+-----------------------------------------------------------------+
+| :ref:`mh_delete_permanent / Delete permanently`                     | /services/trackme/v1/metric_hosts/mh_delete_permanent           |
++---------------------------------------------------------------------+-----------------------------------------------------------------+
+
+mh_collection / Get full Metric Hosts collection
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+**This endpoint retrieves the entire metric hosts collection and renders as a JSON array, its requires a GET call with no data required:**
+
+::
+
+    curl -k -u admin:'ch@ngeM3' -X GET https://localhost:8089/services/trackme/v1/metric_hosts/mh_collection
+
+*JSON response: (full collection)*
+
+::
+
+    [
+     {
+      "_time": "1607815039",
+      "current_state": "green",
+      "info_max_time": "1607815039.000",
+      "info_min_time": "1607814739.000",
+      "info_search_time": "1607815039.524",
+      "info_sid": "1607815039.126",
+      "latest_flip_state": "green",
+      "latest_flip_time": "1607815039",
+      ...
+
+mh_by_key / Get metric host by _key
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+**This endpoint retrieves an existing metric host record by the Kvstore key, it requires a GET call with the following information:**
+
+- ``"_key": "<KVstore unique identifier for this record>"``
+
+::
+
+    curl -k -u admin:'ch@ngeM3' -X GET https://localhost:8089/services/trackme/v1/metric_hosts/mh_by_key -d '{"_key": "afb0c5fc92f20c8011ecac371b04f77e"}'
+
+*JSON response: (full record)*
+
+::
+
+    {
+     "_time": "1607815039",
+     "current_state": "green",
+     "info_max_time": "1607815039.000",
+     "info_min_time": "1607814739.000",
+     "info_search_time": "1607815039.524",
+     "info_sid": "1607815039.126",
+     "latest_flip_state": "green",
+     "latest_flip_time": "1607815039",
+     ...
+
+mh_by_name / Get metric host by name
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+**This endpoint retrieves an existing metric host record by the metric host name (metric_host), it requires a GET call with the following information:**
+
+- ``"metric_host": "<name of the metric host>"``
+
+::
+
+    curl -k -u admin:'ch@ngeM3' -X GET https://localhost:8089/services/trackme/v1/metric_hosts/mh_by_name -d '{"metric_host": "telegraf-node1"}'
+
+*JSON response: (full record)*
+
+::
+
+    [
+     {
+      "_time": "1607815200",
+      "current_state": "green",
+      "info_max_time": "1607815200.000",
+      "info_min_time": "1607814900.000",
+      "info_search_time": "1607815201.133",
+      "info_sid": "scheduler__admin__trackme__RMD56299d9dc7b583db4_at_1607815200_6",
+      "latest_flip_state": "green",
+      "latest_flip_time": "1607815039",
+
+mh_enable_monitoring / Enable monitoring
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+**This endpoint enables data monitoring for an existing metric host by the metric host name (metric_host), it requires a POST call with the following information:**
+
+- ``"metric_host": "<name of the metric host>"``
+- ``"update_comment": "<OPTIONAL: a comment for the update, comments are added to the audit record, if unset will be defined to: API update>``
+
+::
+
+    curl -k -u admin:'ch@ngeM3' -X POST https://localhost:8089/services/trackme/v1/metric_hosts/mh_enable_monitoring -d '{"metric_host": "telegraf-node1", "update_comment": "Updated by automation."}'
+
+*JSON response: (full record)*
+
+::
+
+    {
+     "object_category": "metric_host",
+     "metric_host": "telegraf-node1",
+     "metric_index": "telegraf",
+     "metric_category": "docker,docker_container_blkio,docker_container_cpu,docker_container_health,docker_container_mem,docker_container_net,docker_container_status",
+    ...
+
+mh_disable_monitoring / Disable monitoring
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+**This endpoint disables data monitoring for an existing metric host by the metric host name (metric_host), it requires a POST call with the following information:**
+
+- ``"metric_host": "<name of the metric host>"``
+- ``"update_comment": "<OPTIONAL: a comment for the update, comments are added to the audit record, if unset will be defined to: API update>``
+
+::
+
+    curl -k -u admin:'ch@ngeM3' -X POST https://localhost:8089/services/trackme/v1/metric_hosts/mh_disable_monitoring -d '{"metric_host": "telegraf-node1", "update_comment": "Updated by automation."}'
+
+*JSON response: (full record)*
+
+::
+
+    {
+     "object_category": "metric_host",
+     "metric_host": "telegraf-node1",
+     "metric_index": "telegraf",
+     "metric_category": "docker,docker_container_blkio,docker_container_cpu,docker_container_health,docker_container_mem,docker_container_net,docker_container_status",
+     ...
+
+mh_delete_temporary / Delete temporary
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+**This endpoint performs a temporary deletion of an existing metric host, it requires a DELETE call with the following information:**
+
+- ``"metric_host": "<name of the metric host>"``
+- ``"update_comment": "<OPTIONAL: a comment for the update, comments are added to the audit record, if unset will be defined to: API update>``
+
+Note: A temporary deletion removes the entity and its configuration, if search conditions such as data avaibility allow it, the same entitiy will be re-created automatically by the Trackers.
+
+::
+
+    curl -k -u admin:'ch@ngeM3' -X DELETE https://localhost:8089/services/trackme/v1/metric_hosts/mh_delete_temporary -d '{"metric_host": "telegraf-node1"}'
+
+*JSON response: (full record)*
+
+::
+
+    Record with _key afb0c5fc92f20c8011ecac371b04f77e was temporarily deleted from the collection.%
+
+mh_delete_permanent / Delete permanently
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+**This endpoint performs a permanent deletion of an existing metric host, it requires a DELETE call with the following information:**
+
+- ``"metric_host": "<name of the metric host>"``
+- ``"update_comment": "<OPTIONAL: a comment for the update, comments are added to the audit record, if unset will be defined to: API update>``
+
+Note: A permanent deletion removes the entity and its configuration, in addition its a specific audit record to prevent the entity from being created as long as the audit record is not purged. if the audit record is purged and the search conditions such as data avaibility allow it, the same entitiy will be re-created automatically by the Trackers.
+
+::
+
+    curl -k -u admin:'ch@ngeM3' -X DELETE https://localhost:8089/services/trackme/v1/metric_hosts/mh_delete_permanent -d '{"metric_host": "telegraf-node1"}'
+
+*JSON response: (full record)*
+
+::
+
+    Record with _key afb0c5fc92f20c8011ecac371b04f77e was permanently deleted from the collection.%
+
