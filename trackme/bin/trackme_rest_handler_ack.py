@@ -17,6 +17,37 @@ class TrackMeHandlerAck_v1(rest_handler.RESTHandler):
     def __init__(self, command_line, command_arg):
         super(TrackMeHandlerAck_v1, self).__init__(command_line, command_arg, logger)
 
+    # Get the entire data sources collection as a Python array
+    def get_ack_collection(self, request_info, **kwargs):
+
+        # Get splunkd port
+        entity = splunk.entity.getEntity('/server', 'settings',
+                                            namespace='trackme', sessionKey=request_info.session_key, owner='-')
+        splunkd_port = entity['mgmtHostPort']
+
+        try:
+
+            collection_name = "kv_trackme_alerts_ack"            
+            service = client.connect(
+                owner="nobody",
+                app="trackme",
+                port=splunkd_port,
+                token=request_info.session_key
+            )
+            collection = service.kvstore[collection_name]
+
+            # Render
+            return {
+                "payload": json.dumps(collection.data.query(), indent=1),
+                'status': 200 # HTTP status code
+            }
+
+        except Exception as e:
+            return {
+                'payload': 'Warn: exception encountered: ' + str(e) # Payload of the request.
+            }
+
+
     # Get Ack by _key
     def get_ack_by_key(self, request_info, **kwargs):
 

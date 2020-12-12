@@ -4,6 +4,46 @@ REST API Reference Manual
 Acknowledgment endpoints
 ------------------------
 
+ack_collection / Get full Ack collection
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+**This endpoint retrieves the entire acknowledgment collection and renders as a JSON array, its requires a GET call with no data required:**
+
+::
+
+    curl -k -u admin:'ch@ngeM3' -X GET https://localhost:8089/services/trackme/v1/ack/ack_collection
+
+*JSON response: (full collection)*
+
+::
+
+    [
+     {
+      "ack_expiration": "1607796255.2581134",
+      "ack_mtime": "1607709855.2581134",
+      "ack_state": "active",
+      "keyid": "5fd3b49f5cfa0d7b797c6181",
+      "limit_expiration": "1607795955.2581134",
+      "object": "pan:traffic",
+      "object_category": "data_source",
+      "_user": "nobody",
+      "_key": "5fd3b49f5cfa0d7b797c6181"
+     },
+     {
+      "ack_expiration": "1607848092.4875946",
+      "ack_mtime": "1607761692.4875946",
+      "ack_state": "active",
+      "keyid": "5fd47f165cfa0d7b797c8e8f",
+      "limit_expiration": "1607847792.4875946",
+      "object": "docker_logs:httpevent",
+      "object_category": "data_source",
+      "object_current_state": "red",
+      "_user": "nobody",
+      "_key": "5fd47f165cfa0d7b797c8e8f"
+     }
+    ]
+    ...
+
 ack_by_key / Get Ack by _key
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
@@ -121,6 +161,30 @@ ack_disable / Disable Ack
 
 Data sources endpoints
 ----------------------
+
+ds_collection / Get full Data Sources collection
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+**This endpoint retrieves the entire data sources collection and renders as a JSON array, its requires a GET call with no data required:**
+
+::
+
+    curl -k -u admin:'ch@ngeM3' -X GET https://localhost:8089/services/trackme/v1/data_sources/ds_collection
+
+*JSON response: (full collection)*
+
+::
+
+    [
+     {
+      "OutlierAlertOnUpper": "false",
+      "OutlierLowerThresholdMultiplier": "4",
+      "OutlierMinEventCount": "0",
+      "OutlierSpan": "5m",
+      "OutlierTimePeriod": "-7d",
+      "OutlierUpperThresholdMultiplier": "4",
+      "_time": "1607779500",
+      ...
 
 ds_by_key / Get Data Source by _key
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -434,3 +498,281 @@ ds_disable_data_sampling / Disable data sampling
      "_key": "7e8670878a9ad91844f18655f1819c06"
     }
 
+Data hosts endpoints
+--------------------
+
+dh_collection / Get full Data Sources collection
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+**This endpoint retrieves the entire data hosts collection and renders as a JSON array, its requires a GET call with no data required:**
+
+::
+
+    curl -k -u admin:'ch@ngeM3' -X GET https://localhost:8089/services/trackme/v1/data_hosts/dh_collection
+
+*JSON response: (full collection)*
+
+::
+
+    [
+     {
+     "OutlierAlertOnUpper": "false",
+     "OutlierLowerThresholdMultiplier": "4",
+     "OutlierMinEventCount": "0",
+     "OutlierSpan": "5m",
+     "OutlierTimePeriod": "-7d",
+     "OutlierUpperThresholdMultiplier": "4",
+     "_time": "1607781900",
+     "current_state": "green",
+     "data_custom_max_lag_allowed": "0",
+     "data_eventcount": "60",
+     "data_first_time_seen": "1607781871",
+     "data_host": "FIREWALL.PAN.AMER.DESIGN.NODE1",
+     "data_host_alerting_policy": "global_policy",
+    ...
+
+dh_by_key / Get data host by _key
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+**This endpoint retrieves an existing data host record by the Kvstore key, it requires a GET call with the following information:**
+
+- ``"_key": "<KVstore unique identifier for this record>"``
+
+::
+
+    curl -k -u admin:'ch@ngeM3' -X GET https://localhost:8089/services/trackme/v1/data_hosts/dh_by_key -d '{"_key": "14781cf495c76f1373382197f071c5d6"}'
+
+*JSON response: (full record)*
+
+::
+
+    {
+     "OutlierAlertOnUpper": "false",
+     "OutlierLowerThresholdMultiplier": "4",
+     "OutlierMinEventCount": "0",
+     "OutlierSpan": "5m",
+     "OutlierTimePeriod": "-7d",
+     "OutlierUpperThresholdMultiplier": "4",
+     "_time": "1607781900",
+     "current_state": "green",
+     "data_custom_max_lag_allowed": "0",
+     "data_eventcount": "60",
+     "data_first_time_seen": "1607781871",
+     "data_host": "FIREWALL.PAN.AMER.DESIGN.NODE1",
+     ...
+
+dh_by_name / Get data host by name
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+**This endpoint retrieves an existing data host record by the data host name (data_host), it requires a GET call with the following information:**
+
+- ``"data_host": "<name of the data host>"``
+
+::
+
+    curl -k -u admin:'ch@ngeM3' -X GET https://localhost:8089/services/trackme/v1/data_hosts/dh_by_name -d '{"data_host": "FIREWALL.PAN.AMER.DESIGN.NODE1"}'
+
+*JSON response: (full record)*
+
+::
+
+    [
+     {
+      "OutlierAlertOnUpper": "false",
+      "OutlierLowerThresholdMultiplier": "4",
+      "OutlierMinEventCount": "0",
+      "OutlierSpan": "5m",
+      "OutlierTimePeriod": "-7d",
+      "OutlierUpperThresholdMultiplier": "4",
+      "_time": "1607782200",
+      "current_state": "green",
+      "data_custom_max_lag_allowed": "0",
+      "data_eventcount": "338",
+      "data_first_time_seen": "1607781871",
+      "data_host": "FIREWALL.PAN.AMER.DESIGN.NODE1",
+
+dh_enable_monitoring / Enable monitoring
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+**This endpoint enables data monitoring for an existing data host by the data host name (data_host), it requires a POST call with the following information:**
+
+- ``"data_host": "<name of the data host>"``
+- ``"update_comment": "<OPTIONAL: a comment for the update, comments are added to the audit record, if unset will be defined to: API update>``
+
+::
+
+    curl -k -u admin:'ch@ngeM3' -X POST https://localhost:8089/services/trackme/v1/data_hosts/dh_enable_monitoring -d '{"data_host": "FIREWALL.PAN.AMER.DESIGN.NODE1", "update_comment": "Updated by automation."}'
+
+*JSON response: (full record)*
+
+::
+
+    {
+     "object_category": "data_host",
+     "data_host": "FIREWALL.PAN.AMER.DESIGN.NODE1",
+     "data_index": "firewall",
+     "data_sourcetype": "pan:traffic",
+     "data_last_lag_seen": "-5",
+     "data_last_ingestion_lag_seen": "0",
+     "data_eventcount": "338",
+     "data_first_time_seen": "1607781871",
+     ...
+
+dh_disable_monitoring / Disable monitoring
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+**This endpoint disables data monitoring for an existing data host by the data host name (data_host), it requires a POST call with the following information:**
+
+- ``"data_host": "<name of the data host>"``
+- ``"update_comment": "<OPTIONAL: a comment for the update, comments are added to the audit record, if unset will be defined to: API update>``
+
+::
+
+    curl -k -u admin:'ch@ngeM3' -X POST https://localhost:8089/services/trackme/v1/data_hosts/dh_disable_monitoring -d '{"data_host": "FIREWALL.PAN.AMER.DESIGN.NODE1", "update_comment": "Updated by automation."}'
+
+*JSON response: (full record)*
+
+::
+
+    {
+     "object_category": "data_host",
+     "data_host": "FIREWALL.PAN.AMER.DESIGN.NODE1",
+     "data_index": "firewall",
+     "data_sourcetype": "pan:traffic",
+     "data_last_lag_seen": "-5",
+     "data_last_ingestion_lag_seen": "0",
+     "data_eventcount": "338",
+     "data_first_time_seen": "1607781871",
+     ...
+
+dh_update_lag_policy / Update lagging policy
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+**This endpoint configures the lagging policy for an existing data host, it requires a POST call with the following information:**
+
+- ``"data_host": "<name of the data host>"``
+- ``"data_lag_alert_kpis": "<KPIs policy to be applied, valid options are all_kpis / lag_ingestion_kpi / lag_event_kpi>"``
+- ``"data_max_lag_allowed": "<maximal accepted lagging value in seconds, must be an integer>"``
+- ``"data_override_lagging_class": "<overrides lagging classes, valid options are true / false>``
+- ``"data_host_alerting_policy": "<policy alerting, valid options are global_policy / track_per_sourcetype / track_per_host>``
+- ``"update_comment": "<OPTIONAL: a comment for the update, comments are added to the audit record, if unset will be defined to: API update>``
+
+::
+
+    curl -k -u admin:'ch@ngeM3' -X POST https://localhost:8089/services/trackme/v1/data_hosts/dh_update_lag_policy -d '{"data_host": "FIREWALL.PAN.AMER.DESIGN.NODE1", "update_comment": "Updated by automation.", "data_lag_alert_kpis": "lag_ingestion_kpi", "data_max_lag_allowed": "300", "data_override_lagging_class": "true", "data_host_alerting_policy": "track_per_sourcetype"}'
+
+*JSON response: (full record)*
+
+::
+
+    {
+     "object_category": "data_host",
+     "data_host": "FIREWALL.PAN.AMER.DESIGN.NODE1",
+     "data_index": "firewall",
+     "data_sourcetype": "pan:traffic",
+     "data_last_lag_seen": "-4",
+     "data_last_ingestion_lag_seen": "0",
+     "data_eventcount": "5756",
+     "data_first_time_seen": "1607205117",
+     ...
+
+dh_update_wdays_by_name / Update week days monitoring
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+**This endpoint configures the week days monitoring rule for an existing data host, it requires a POST call with the following information:**
+
+- ``"data_host": "<name of the data host>"``
+- ``"data_monitoring_wdays": "< the week days rule, valid options are manual:all_days / manual:monday-to-friday / manual:monday-to-saturday / [ 0, 1, 2, 3, 4, 5, 6 ] where Sunday is 0>"``
+- ``"update_comment": "<OPTIONAL: a comment for the update, comments are added to the audit record, if unset will be defined to: API update>``
+
+::
+
+    curl -k -u admin:'ch@ngeM3' -X POST https://localhost:8089/services/trackme/v1/data_hosts/dh_update_wdays -d '{"data_host": "FIREWALL.PAN.AMER.DESIGN.NODE1", "update_comment": "Updated by automation.", "data_monitoring_wdays": "manual:monday-to-friday"}'
+
+*JSON response: (full record)*
+
+::
+
+    {
+     "object_category": "data_host",
+     "data_host": "FIREWALL.PAN.AMER.DESIGN.NODE1",
+     "data_index": "firewall",
+     "data_sourcetype": "pan:traffic",
+     "data_last_lag_seen": "-7",
+     "data_last_ingestion_lag_seen": "0",
+     "data_eventcount": "938",
+     "data_first_time_seen": "1607781871",
+     ...
+
+dh_update_outliers / Update outliers detection configuration
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+**This endpoint configures the week days monitoring rule for an existing data host, it requires a POST call with the following information:**
+
+- ``"data_host": "<name of the data host>"``
+- ``"OutlierMinEventCount": "<the minimal number of events, if set to anything bigger than 0, the lower bound becomes a static value, needs to be an integer, default to 0 (disabled)>"``
+- ``"OutlierLowerThresholdMultiplier": "<The lower bound threshold multiplier, must be an integer, defaults to 4>"``
+- ``"OutlierUpperThresholdMultiplier": "<The upper bound threshold multiplier, must be integer, defaults to 4>"``
+- ``"OutlierAlertOnUpper": "Enables / Disables alerting on upper outliers detection, valid options are true / false, defaults to false>"``
+- ``"OutlierTimePeriod": "<relative time period for outliers calculation, default to -7d>"``
+- ``"OutlierSpan": "<span period Splunk notation for outliers UI rendering, defaults to 5m>"``
+- ``"enable_behaviour_analytic": "Enables / Disables outliers detection for that object, valid options are true / false, defaults to true>"``
+- ``"update_comment": "<OPTIONAL: a comment for the update, comments are added to the audit record, if unset will be defined to: API update>``
+
+::
+
+    curl -k -u admin:'ch@ngeM3' -X POST https://localhost:8089/services/trackme/v1/data_hosts/dh_update_outliers -d '{"data_host": "FIREWALL.PAN.AMER.DESIGN.NODE1", "update_comment": "Updated by automation.", "OutlierMinEventCount": "0", "OutlierLowerThresholdMultiplier": "6", "OutlierUpperThresholdMultiplier": "6", "OutlierAlertOnUpper": "false", "OutlierTimePeriod": "7d", "OutlierSpan": "5m", "enable_behaviour_analytic": "true"}'
+
+*JSON response: (full record)*
+
+::
+
+    {
+     "object_category": "data_host",
+     "data_host": "FIREWALL.PAN.AMER.DESIGN.NODE1",
+     "data_index": "firewall",
+     "data_sourcetype": "pan:traffic",
+     "data_last_lag_seen": "-7",
+     "data_last_ingestion_lag_seen": "0",
+     "data_eventcount": "938",
+     ...
+
+dh_delete_temporary / Delete temporary
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+**This endpoint performs a temporary deletion of an existing data host, it requires a DELETE call with the following information:**
+
+- ``"data_host": "<name of the data host>"``
+- ``"update_comment": "<OPTIONAL: a comment for the update, comments are added to the audit record, if unset will be defined to: API update>``
+
+Note: A temporary deletion removes the entity and its configuration, if search conditions such as data avaibility allow it, the same entitiy will be re-created automatically by the Trackers.
+
+::
+
+    curl -k -u admin:'ch@ngeM3' -X DELETE https://localhost:8089/services/trackme/v1/data_hosts/dh_delete_temporary -d '{"data_host": "FIREWALL.PAN.AMER.DESIGN.NODE1"}'
+
+*JSON response: (full record)*
+
+::
+
+    Record with _key 7e8670878a9ad91844f18655f1819c06 was temporarily deleted from the collection.%
+
+dh_delete_permanent / Delete permanently
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+**This endpoint performs a permanent deletion of an existing data host, it requires a DELETE call with the following information:**
+
+- ``"data_host": "<name of the data host>"``
+- ``"update_comment": "<OPTIONAL: a comment for the update, comments are added to the audit record, if unset will be defined to: API update>``
+
+Note: A permanent deletion removes the entity and its configuration, in addition its a specific audit record to prevent the entity from being created as long as the audit record is not purged. if the audit record is purged and the search conditions such as data avaibility allow it, the same entitiy will be re-created automatically by the Trackers.
+
+::
+
+    curl -k -u admin:'ch@ngeM3' -X DELETE https://localhost:8089/services/trackme/v1/data_hosts/dh_delete_permanent -d '{"data_host": "FIREWALL.PAN.AMER.DESIGN.NODE1"}'
+
+*JSON response: (full record)*
+
+::
+
+    Record with _key 7e8670878a9ad91844f18655f1819c06 was permanently deleted from the collection.% 
