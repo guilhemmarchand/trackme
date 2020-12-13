@@ -21,6 +21,8 @@ These resource groups are accessible by specific endpoint paths as following:
 +--------------------------------------+-----------------------------------+
 | :ref:`Maintenance mode endpoints`    | /services/trackme/v1/maintenance  |
 +--------------------------------------+-----------------------------------+
+| :ref:`Allow list endpoints`          | /services/trackme/v1/allowlist    |
++--------------------------------------+-----------------------------------+
 
 Using these endpoints provide the capabilities to interract with TrackMe in a programmatic fashion, which allow for instance to implement any kind of automation task.
 
@@ -1239,3 +1241,221 @@ maintenance_disable / Disable maintenance mode
      }
     ]
 
+Allow list endpoints
+--------------------
+
+**Resources summary:**
+
++---------------------------------------------------------------------+-----------------------------------------------------------------+
+| Resource                                                            | API Path                                                        | 
++=====================================================================+=================================================================+
+| :ref:`allowlist_ds / Get current allow list for data sources`       | /services/trackme/v1/allowlist/allowlist_ds                     |
++---------------------------------------------------------------------+-----------------------------------------------------------------+
+| :ref:`allowlist_dh / Get current allow list for data hosts`         | /services/trackme/v1/allowlist/allowlist_dh                     |
++---------------------------------------------------------------------+-----------------------------------------------------------------+
+| :ref:`allowlist_mh / Get current allow list for metric hosts`       | /services/trackme/v1/allowlist/allowlist_mh                     |
++---------------------------------------------------------------------+-----------------------------------------------------------------+
+| :ref:`allowlist_ds_add / Add index allow list for data sources`     | /services/trackme/v1/allowlist/allowlist_ds_add                 |
++---------------------------------------------------------------------+-----------------------------------------------------------------+
+| :ref:`allowlist_ds_del / Remove index allow list for data sources`  | /services/trackme/v1/allowlist/allowlist_ds_del                 |
++---------------------------------------------------------------------+-----------------------------------------------------------------+
+| :ref:`allowlist_dh_add / Add index allow list for data hosts`       | /services/trackme/v1/allowlist/allowlist_dh_add                 |
++---------------------------------------------------------------------+-----------------------------------------------------------------+
+| :ref:`allowlist_dh_del / Remove index allow list for data hosts`    | /services/trackme/v1/allowlist/allowlist_dh_del                 |
++---------------------------------------------------------------------+-----------------------------------------------------------------+
+| :ref:`allowlist_mh_add / Add index allow list for metric hosts`     | /services/trackme/v1/allowlist/allowlist_mh_add                 |
++---------------------------------------------------------------------+-----------------------------------------------------------------+
+| :ref:`allowlist_mh_del / Remove index allow list for metric hosts`  | /services/trackme/v1/allowlist/allowlist_mh_del                 |
++---------------------------------------------------------------------+-----------------------------------------------------------------+
+
+allowlist_ds / Get current allow list for data sources
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+**This endpoint retrieves the current allow list collection and renders as a JSON array, its requires a GET call with no data required::**
+
+::
+
+    curl -k -u admin:'ch@ngeM3' -X GET https://localhost:8089/services/trackme/v1/allowlist/allowlist_ds
+
+*JSON response: (full collection)*
+
+::
+
+    [
+     {
+      "_user": "nobody", 
+      "_key": "5fd6378bba5afb0b0c37b5a1", 
+      "_time": "1607874443", 
+      "data_index": "network"
+     }
+    ]
+
+allowlist_dh / Get current allow list for data hosts
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+**This endpoint retrieves the current allow list collection and renders as a JSON array, its requires a GET call with no data required::**
+
+::
+
+    curl -k -u admin:'ch@ngeM3' -X GET https://localhost:8089/services/trackme/v1/allowlist/allowlist_dh
+
+*JSON response: (full collection)*
+
+::
+
+    [
+     {
+      "_user": "nobody", 
+      "_key": "5fd637a6ba5afb0bbe206350", 
+      "_time": "1607874470", 
+      "data_index": "network"
+     }
+    ]
+
+allowlist_mh / Get current allow list for metric hosts
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+**This endpoint retrieves the current allow list collection and renders as a JSON array, its requires a GET call with no data required::**
+
+::
+
+    curl -k -u admin:'ch@ngeM3' -X GET https://localhost:8089/services/trackme/v1/allowlist/allowlist_mh
+
+*JSON response: (full collection)*
+
+::
+
+    [
+     {
+      "_user": "nobody", 
+      "_key": "5fd637b1ba5afb12790c7261", 
+      "_time": "1607874481", 
+      "metric_index": "telegraf"
+     }
+    ]
+
+allowlist_ds_add / Add index allow list for data sources
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+**This endpoint adds a new allow list record for data sources, it requires a POST call with the following information:**
+
+- ``"data_index": "<name of the index to be allowed, wildcards are accepted>"``
+- ``"update_comment": "<OPTIONAL: a comment for the update, comments are added to the audit record, if unset will be defined to: API update>``
+
+::
+
+    curl -k -u admin:'ch@ngeM3' -X POST https://localhost:8089/services/trackme/v1/allowlist/allowlist_ds_add -d '{"data_index": "network*"}'
+
+*JSON response:*
+
+::
+
+    [
+     {
+      "_key": "5fd638beba5afb01ff1cfd97", 
+      "data_index": "network*", 
+      "_user": "nobody"
+     }
+    ]
+
+allowlist_ds_del / Remove index allow list for data sources
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+**This endpoint deletes an allow list record for data sources, it requires a DELETE call with the following information:**
+
+- ``"data_index": "<name of the index to be allowed, wildcards are accepted>"``
+- ``"update_comment": "<OPTIONAL: a comment for the update, comments are added to the audit record, if unset will be defined to: API update>``
+
+::
+
+    curl -k -u admin:'ch@ngeM3' -X DELETE https://localhost:8089/services/trackme/v1/allowlist/allowlist_ds_del -d '{"data_index": "network*"}'
+
+*response:*
+
+::
+
+    Record with _key 5fd66c07ba5afb01ff00d595 was deleted from the collection.
+
+allowlist_dh_add / Add index allow list for data hosts
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+**This endpoint adds a new allow list record for data hosts, it requires a POST call with the following information:**
+
+- ``"data_index": "<name of the index to be allowed, wildcards are accepted>"``
+- ``"update_comment": "<OPTIONAL: a comment for the update, comments are added to the audit record, if unset will be defined to: API update>``
+
+::
+
+    curl -k -u admin:'ch@ngeM3' -X POST https://localhost:8089/services/trackme/v1/allowlist/allowlist_dh_add -d '{"data_index": "network*"}'
+
+*response:*
+
+::
+
+    [
+     {
+      "_key": "5fd6685eba5afb01ff1cfd99", 
+      "_user": "nobody", 
+      "data_index": "network*"
+     }
+    ]
+
+allowlist_dh_del / Remove index allow list for data hosts
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+**This endpoint deletes an allow list record for data hosts, it requires a DELETE call with the following information:**
+
+- ``"data_index": "<name of the index to be allowed, wildcards are accepted>"``
+- ``"update_comment": "<OPTIONAL: a comment for the update, comments are added to the audit record, if unset will be defined to: API update>``
+
+::
+
+    curl -k -u admin:'ch@ngeM3' -X DELETE https://localhost:8089/services/trackme/v1/allowlist/allowlist_dh_del -d '{"data_index": "network*"}'
+
+*response:*
+
+::
+
+    Record with _key 5fd66c3cba5afb01ff00d598 was deleted from the collection.
+
+allowlist_mh_add / Add index allow list for metric hosts
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+**This endpoint adds a new allow list record for metric hosts, it requires a POST call with the following information:**
+
+- ``"metric_index": "<name of the index to be allowed, wildcards are accepted>"``
+- ``"update_comment": "<OPTIONAL: a comment for the update, comments are added to the audit record, if unset will be defined to: API update>``
+
+::
+
+    curl -k -u admin:'ch@ngeM3' -X POST https://localhost:8089/services/trackme/v1/allowlist/allowlist_mh_add -d '{"metric_index": "telegraf"}'
+
+*JSON response:*
+
+::
+
+    [
+     {
+      "_user": "nobody", 
+      "metric_index": "telegraf", 
+      "_key": "5fd66877ba5afb01ff1cfd9b"
+     }
+    ]
+
+allowlist_mh_del / Remove index allow list for metric hosts
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+**This endpoint deletes an allow list record for metric hosts, it requires a DELETE call with the following information:**
+
+- ``"metric_index": "<name of the index to be allowed, wildcards are accepted>"``
+- ``"update_comment": "<OPTIONAL: a comment for the update, comments are added to the audit record, if unset will be defined to: API update>``
+
+::
+
+    curl -k -u admin:'ch@ngeM3' -X DELETE https://localhost:8089/services/trackme/v1/allowlist/allowlist_mh_del -d '{"metric_index": "telegraf"}'
+
+*response:*
+
+::
+
+    Record with _key 5fd66c55ba5afb01ff00d59b was deleted from the collection.
