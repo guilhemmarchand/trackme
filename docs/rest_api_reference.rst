@@ -4,9 +4,9 @@ REST API Reference Manual
 Introduction
 ------------
 
-TrackMe hosts Python based custom API endpoints, serviced by the Splunk API, and categorized by resource groups.
+TrackMe provides a builtin Python based API, serviced by the Splunk API, and categorized by resource groups.
 
-These resource groups are accessible over specific endpoint paths as following:
+These resource groups are accessible by specific endpoint paths as following:
 
 +--------------------------------------+-----------------------------------+
 | Resource group                       | API Path                          |
@@ -19,6 +19,10 @@ These resource groups are accessible over specific endpoint paths as following:
 +--------------------------------------+-----------------------------------+
 | :ref:`Metric Hosts endpoints`        | /services/trackme/v1/metric_hosts |
 +--------------------------------------+-----------------------------------+
+| :ref:`Maintenance mode endpoints`    | /services/trackme/v1/maintenance  |
++--------------------------------------+-----------------------------------+
+
+Using these endpoints provide the capabilities to interract with TrackMe in a programmatic fashion, which allow for instance to implement any kind of automation task.
 
 Authentication
 --------------
@@ -102,7 +106,7 @@ Acknowledgment endpoints
 ack_collection / Get full Ack collection
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-**This endpoint retrieves the entire acknowledgment collection and renders as a JSON array, its requires a GET call with no data required:**
+**This endpoint retrieves the entire acknowledgment collection and renders as a JSON array, it requires a GET call with no data required:**
 
 ::
 
@@ -292,7 +296,7 @@ Data Sources endpoints
 ds_collection / Get full Data Sources collection
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-**This endpoint retrieves the entire data sources collection and renders as a JSON array, its requires a GET call with no data required:**
+**This endpoint retrieves the entire data sources collection and renders as a JSON array, it requires a GET call with no data required:**
 
 ::
 
@@ -657,7 +661,7 @@ Data Hosts endpoints
 dh_collection / Get full Data Hosts collection
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-**This endpoint retrieves the entire data hosts collection and renders as a JSON array, its requires a GET call with no data required:**
+**This endpoint retrieves the entire data hosts collection and renders as a JSON array, it requires a GET call with no data required:**
 
 ::
 
@@ -956,7 +960,7 @@ Metric Hosts endpoints
 mh_collection / Get full Metric Hosts collection
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-**This endpoint retrieves the entire metric hosts collection and renders as a JSON array, its requires a GET call with no data required:**
+**This endpoint retrieves the entire metric hosts collection and renders as a JSON array, it requires a GET call with no data required:**
 
 ::
 
@@ -1115,4 +1119,123 @@ Note: A permanent deletion removes the entity and its configuration, in addition
 ::
 
     Record with _key afb0c5fc92f20c8011ecac371b04f77e was permanently deleted from the collection.%
+
+Maintenance mode endpoints
+--------------------------
+
+**Resources summary:**
+
++---------------------------------------------------------------------+-----------------------------------------------------------------+
+| Resource                                                            | API Path                                                        | 
++=====================================================================+=================================================================+
+| :ref:`maintenance_status / Get maintenance mode`                    | /services/trackme/v1/maintenance/maintenance_status             |
++---------------------------------------------------------------------+-----------------------------------------------------------------+
+| :ref:`maintenance_enable / Enable maintenance mode`                 | /services/trackme/v1/maintenance/maintenance_enable             |
++---------------------------------------------------------------------+-----------------------------------------------------------------+
+| :ref:`maintenance_disable / Disable maintenance mode`               | /services/trackme/v1/maintenance/maintenance_disable            |
++---------------------------------------------------------------------+-----------------------------------------------------------------+
+
+maintenance_status / Get maintenance mode
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+**This endpoint retrieves the current maintenance mode collection and renders as a JSON array, its requires a GET call with no data required::**
+
+::
+
+    curl -k -u admin:'ch@ngeM3' -X GET https://localhost:8089/services/trackme/v1/maintenance/maintenance_status
+
+*JSON response: (full collection)*
+
+::
+
+    [
+     {
+      "maintenance_mode": "disabled",
+      "time_updated": "1607859191",
+      "_user": "nobody",
+      "_key": "5fd5fd92b21b3338341e63c1"
+     }
+    ]
+
+maintenance_enable / Enable maintenance mode
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+**This endpoint enables the maintenance mode, it requires a POST call with the following information:**
+
+- ``"maintenance_duration": "<integer>"``
+
+OPTIONAL: the duration of the maintenance window in seconds, if unspecified and maintenance_mode_end is not specified either, defaults to now plus 24 hours
+
+- ``"maintenance_mode_end": "<integer>"``
+
+OPTIONAL: the date time in epochtime format for the end of the maintenance window, it is overriden by maintenance_duration if specified, defaults to now plus 24 hours if not specified and maintenance_duration is not specified
+
+- ``"maintenance_mode_start": "<integer>"``
+
+OPTIONAL: the date time in epochtime format for the start of the maintennce window, defaults to now if not specified
+
+- ``"update_comment": "<string>"``
+
+OPTIONAL: a comment for the update, comments are added to the audit record, if unset will be defined to: API update
+
+*Immediately start a maintenance window for 24 hours:*
+
+::
+
+    curl -k -u admin:'ch@ngeM3' -X POST https://localhost:8089/services/trackme/v1/maintenance/maintenance_enable -d '{"updated_comment": "Beginning a 24 hours maintenance window."}'
+
+*Immediately start a maintenance window for 1 hour:*
+
+::
+
+    curl -k -u admin:'ch@ngeM3' -X POST https://localhost:8089/services/trackme/v1/maintenance/maintenance_enable -d '{"updated_comment": "Beginning maintenance window for 1 hour.", "maintenance_duration": "3600"}'
+
+*Create a scheduled maintenance window with an explicit start and end in epochtime:*
+
+::
+
+    curl -k -u admin:'ch@ngeM3' -X POST https://localhost:8089/services/trackme/v1/maintenance/maintenance_enable -d '{"updated_comment": "Beginning maintenance window for 1 hour.", "maintenance_mode_start": "1607878800", "maintenance_mode_end": "1607904000"}'
+
+*JSON response:*
+
+::
+
+    [
+     {
+      "maintenance_mode": "enabled",
+      "time_updated": "1607859834",
+      "maintenance_mode_start": "1607859834",
+      "maintenance_mode_end": "1607946234",
+      "_user": "nobody",
+      "_key": "5fd5fd92b21b3338341e63c1"
+     }
+    ]
+
+maintenance_disable / Disable maintenance mode
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+**This endpoint disables the maintenance mode, it requires a POST call with the following information:**
+
+- ``"update_comment": "<OPTIONAL: a comment for the update, comments are added to the audit record, if unset will be defined to: API update>``
+
+*Immediately stops the maintenance window:*
+
+::
+
+    curl -k -u admin:'ch@ngeM3' -X POST https://localhost:8089/services/trackme/v1/maintenance/maintenance_disable -d '{"updated_comment": "Terminating the maintenance window."}'
+
+*JSON response:*
+
+::
+
+    [
+     {
+      "maintenance_mode": "disabled",
+      "time_updated": "1607860485",
+      "maintenance_mode_start": "N/A",
+      "maintenance_mode_end": "N/A",
+      "_user": "nobody",
+      "_key": "5fd600aec14381564521b181"
+     }
+    ]
 
