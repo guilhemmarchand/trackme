@@ -15,7 +15,7 @@ This is a new main release branch, TrackMe 1.2.x requires the deployment of the 
 TrackMe requires a summary index (defaults to trackme_summary) and a metric index (defaults to trackme_metrics):
 https://trackme.readthedocs.io/en/latest/configuration.html
 
-- Feature Issue #205 - Introducting TrackMe REST API endpoints for automation integration
+- Feature Issue #205 - Introducting TrackMe REST API endpoints for automation integration and future UI evolutions (https://trackme.readthedocs.io/en/latest/rest_api_reference.html)
 
 Version 1.2.28
 ==============
