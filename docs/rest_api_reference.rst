@@ -23,8 +23,10 @@ These resource groups are accessible by specific endpoint paths as following:
 +--------------------------------------+-----------------------------------+
 | :ref:`Allow list endpoints`          | /services/trackme/v1/allowlist    |
 +--------------------------------------+-----------------------------------+
+| :ref:`Block list endpoints`          | /services/trackme/v1/blocklist    |
++--------------------------------------+-----------------------------------+
 
-Using these endpoints provide the capabilities to interract with TrackMe in a programmatic fashion, which allow for instance to implement any kind of automation task.
+These endpoints can be used to interract with TrackMe in a programmatic fashion, for instance to perform integration tasks with automation systems.
 
 Authentication
 --------------
@@ -32,7 +34,7 @@ Authentication
 User and roles
 ^^^^^^^^^^^^^^
 
-You can use any combination of user and roles depending on your preferences, technically, using the TrackMe API endpoint requires read and write permissions to various objects all hosted in the TrackMe namespace.
+You can use any combination of user and roles depending on your preferences, technically, using the TrackMe API endpoint requires read and write permissions to various objects hosted in the TrackMe namespace.
 
 TrackMe contains a builtin role ``trackme_admin`` which defines required accesses to these objects, you can use this role and make sure the user that will be achieving the rest calls is member of this role, or inherits from it.
 
@@ -45,11 +47,11 @@ Prior to Splunk Splunk 7.3.0, the easiest is to used a standard login / password
 
     curl -k -u admin:'ch@ngeM3'
 
-Alternatively, it is possible to perform a first authentication, retrieve a temporary token to be used within the REST calls:
+Alternatively, it is possible to perform first the authentication and retrieve a temporary token to be used for the REST calls:
 
-Official documentation: `Splunk docs API token <https://docs.splunk.com/Documentation/Splunk/latest/RESTUM/RESTusing#Authentication_and_authorization>`_.
+See: `Splunk docs API token <https://docs.splunk.com/Documentation/Splunk/latest/RESTUM/RESTusing#Authentication_and_authorization>`_
 
-*Example authenticating with a user called svc_kafka that is member of the kafka_admin role:*
+*Example:*
 
 ::
 
@@ -64,7 +66,7 @@ Official documentation: `Splunk docs API token <https://docs.splunk.com/Document
 
     export token="DWGNbGpJgSj30w0GxTAxMj8t0dZKjvjxLYaP^yphdluFN_FGz4gz^NhcgPCLDkjWH3BUQa1Vewt8FTF8KXyyfI09HqjOicIthMuBIB70dVJA8Jg"
 
-A token remains valid for the time of a session, which is by default valid for 1 hour.
+A token remains valid for the time of a session. (1 hour by default)
 
 The token would be used as following:
 
@@ -77,7 +79,7 @@ For Splunk 7.3.0 and later
 
 Splunk 7.3.0 introduced the usage of proper authentication tokens, which is the recommended way to authenticate against splunkd API:
 
-Official documentation: `Splunk docs JSON authentication token <https://docs.splunk.com/Documentation/Splunk/latest/Security/UseAuthTokens>`_.
+See: `Splunk docs JSON authentication token <https://docs.splunk.com/Documentation/Splunk/latest/Security/UseAuthTokens>`_
 
 Once you have created an authentication token for the user to be used as the service account, using curl specify the bearer token:
 
@@ -108,7 +110,7 @@ Acknowledgment endpoints
 ack_collection / Get full Ack collection
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-**This endpoint retrieves the entire acknowledgment collection and renders as a JSON array, it requires a GET call with no data required:**
+**This endpoint retrieves the entire acknowledgment collection returned as a JSON array, it requires a GET call with no data required:**
 
 ::
 
@@ -298,7 +300,7 @@ Data Sources endpoints
 ds_collection / Get full Data Sources collection
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-**This endpoint retrieves the entire data sources collection and renders as a JSON array, it requires a GET call with no data required:**
+**This endpoint retrieves the entire data sources collection returned as a JSON array, it requires a GET call with no data required:**
 
 ::
 
@@ -663,7 +665,7 @@ Data Hosts endpoints
 dh_collection / Get full Data Hosts collection
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-**This endpoint retrieves the entire data hosts collection and renders as a JSON array, it requires a GET call with no data required:**
+**This endpoint retrieves the entire data hosts collection returned as a JSON array, it requires a GET call with no data required:**
 
 ::
 
@@ -962,7 +964,7 @@ Metric Hosts endpoints
 mh_collection / Get full Metric Hosts collection
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-**This endpoint retrieves the entire metric hosts collection and renders as a JSON array, it requires a GET call with no data required:**
+**This endpoint retrieves the entire metric hosts collection returned as a JSON array, it requires a GET call with no data required:**
 
 ::
 
@@ -1140,7 +1142,7 @@ Maintenance mode endpoints
 maintenance_status / Get maintenance mode
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-**This endpoint retrieves the current maintenance mode collection and renders as a JSON array, its requires a GET call with no data required::**
+**This endpoint retrieves the current maintenance mode collection returned as a JSON array, its requires a GET call with no data required:**
 
 ::
 
@@ -1271,7 +1273,7 @@ Allow list endpoints
 allowlist_ds / Get current allow list for data sources
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-**This endpoint retrieves the current allow list collection and renders as a JSON array, its requires a GET call with no data required::**
+**This endpoint retrieves the current allow list collection returned as a JSON array, its requires a GET call with no data required:**
 
 ::
 
@@ -1293,7 +1295,7 @@ allowlist_ds / Get current allow list for data sources
 allowlist_dh / Get current allow list for data hosts
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-**This endpoint retrieves the current allow list collection and renders as a JSON array, its requires a GET call with no data required::**
+**This endpoint retrieves the current allow list collection returned as a JSON array, its requires a GET call with no data required:**
 
 ::
 
@@ -1315,7 +1317,7 @@ allowlist_dh / Get current allow list for data hosts
 allowlist_mh / Get current allow list for metric hosts
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-**This endpoint retrieves the current allow list collection and renders as a JSON array, its requires a GET call with no data required::**
+**This endpoint retrieves the current allow list collection returned as a JSON array, its requires a GET call with no data required:**
 
 ::
 
@@ -1459,3 +1461,660 @@ allowlist_mh_del / Remove index allow list for metric hosts
 ::
 
     Record with _key 5fd66c55ba5afb01ff00d59b was deleted from the collection.
+
+Block list endpoints
+--------------------
+
+**Resources summary:**
+
++---------------------------------------------------------------------------------------------------+-----------------------------------------------------------------+
+| Resource                                                                                          | API Path                                                        | 
++===================================================================================================+=================================================================+
+| :ref:`blocklist_ds_host / Get current block list for data sources (hosts)`                        | /services/trackme/v1/blocklist/blocklist_ds_host                |
++---------------------------------------------------------------------------------------------------+-----------------------------------------------------------------+
+| :ref:`blocklist_ds_index / Get current block list for data sources (index)`                       | /services/trackme/v1/blocklist/blocklist_ds_index               |
++---------------------------------------------------------------------------------------------------+-----------------------------------------------------------------+
+| :ref:`blocklist_ds_sourcetype / Get current block list for data sources (sourcetype)`             | /services/trackme/v1/blocklist/blocklist_ds_sourcetype          |
++---------------------------------------------------------------------------------------------------+-----------------------------------------------------------------+
+| :ref:`blocklist_dh_host / Get current block list for data hosts (hosts)`                          | /services/trackme/v1/blocklist/blocklist_dh_host                |
++---------------------------------------------------------------------------------------------------+-----------------------------------------------------------------+
+| :ref:`blocklist_dh_index / Get current block list for data hosts (index)`                         | /services/trackme/v1/blocklist/blocklist_dh_index               |
++---------------------------------------------------------------------------------------------------+-----------------------------------------------------------------+
+| :ref:`blocklist_dh_sourcetype / Get current block list for data hosts (sourcetype)`               | /services/trackme/v1/blocklist/blocklist_dh_sourcetype          |
++---------------------------------------------------------------------------------------------------+-----------------------------------------------------------------+
+| :ref:`blocklist_mh_host / Get current block list for metric hosts (host)`                         | /services/trackme/v1/blocklist/blocklist_mh_host                |
++---------------------------------------------------------------------------------------------------+-----------------------------------------------------------------+
+| :ref:`blocklist_mh_index / Get current block list for metric hosts (index)`                       | /services/trackme/v1/blocklist/blocklist_mh_index               |
++---------------------------------------------------------------------------------------------------+-----------------------------------------------------------------+
+| :ref:`blocklist_mh_metric_category / Get current block list for metric hosts (metric_category)`   | /services/trackme/v1/blocklist/blocklist_mh_metric_category     |
++---------------------------------------------------------------------------------------------------+-----------------------------------------------------------------+
+| :ref:`blocklist_ds_host_add / Add host in block list for data sources`                            | /services/trackme/v1/blocklist/blocklist_ds_host_add            |
++---------------------------------------------------------------------------------------------------+-----------------------------------------------------------------+
+| :ref:`blocklist_ds_index_add / Add index in block list for data sources`                          | /services/trackme/v1/blocklist/blocklist_ds_index_add           |
++---------------------------------------------------------------------------------------------------+-----------------------------------------------------------------+
+| :ref:`blocklist_ds_index_add / Add sourcetype in block list for data sources`                     | /services/trackme/v1/blocklist/blocklist_ds_sourcetype_add      |
++---------------------------------------------------------------------------------------------------+-----------------------------------------------------------------+
+| :ref:`blocklist_dh_host_add / Add host in block list for data hosts`                              | /services/trackme/v1/blocklist/blocklist_dh_host_add            |
++---------------------------------------------------------------------------------------------------+-----------------------------------------------------------------+
+| :ref:`blocklist_dh_index_add / Add index in block list for data hosts`                            | /services/trackme/v1/blocklist/blocklist_dh_index_add           |
++---------------------------------------------------------------------------------------------------+-----------------------------------------------------------------+
+| :ref:`blocklist_dh_sourcetype_add / Add sourcetype in block list for data hosts`                  | /services/trackme/v1/blocklist/blocklist_dh_sourcetype_add      |
++---------------------------------------------------------------------------------------------------+-----------------------------------------------------------------+
+| :ref:`blocklist_mh_host_add / Add host in block list for metric hosts`                            | /services/trackme/v1/blocklist/blocklist_mh_host_add            |
++---------------------------------------------------------------------------------------------------+-----------------------------------------------------------------+
+| :ref:`blocklist_mh_index_add / Add index in block list for metric hosts`                          | /services/trackme/v1/blocklist/blocklist_mh_index_add           |
++---------------------------------------------------------------------------------------------------+-----------------------------------------------------------------+
+| :ref:`blocklist_mh_metric_category_add / Add metric_category in block list for metric hosts`      | /services/trackme/v1/blocklist/blocklist_mh_metric_category_add |
++---------------------------------------------------------------------------------------------------+-----------------------------------------------------------------+
+| :ref:`blocklist_ds_host_del / Delete host in block list for data sources`                         | /services/trackme/v1/blocklist/blocklist_ds_host_del            |
++---------------------------------------------------------------------------------------------------+-----------------------------------------------------------------+
+| :ref:`blocklist_ds_index_del / Delete index in block list for data sources`                       | /services/trackme/v1/blocklist/blocklist_ds_index_del           |
++---------------------------------------------------------------------------------------------------+-----------------------------------------------------------------+
+| :ref:`blocklist_ds_sourcetype_del / Delete sourcetype in block list for data sources`             | /services/trackme/v1/blocklist/blocklist_ds_sourcetype_del      |
++---------------------------------------------------------------------------------------------------+-----------------------------------------------------------------+
+| :ref:`blocklist_dh_host_del / Delete host in block list for data hosts`                           | /services/trackme/v1/blocklist/blocklist_dh_host_del            |
++---------------------------------------------------------------------------------------------------+-----------------------------------------------------------------+
+| :ref:`blocklist_dh_index_del / Delete index in block list for data hosts`                         | /services/trackme/v1/blocklist/blocklist_dh_index_del           |
++---------------------------------------------------------------------------------------------------+-----------------------------------------------------------------+
+| :ref:`blocklist_dh_sourcetype_del / Delete sourcetype in block list for data hosts`               | /services/trackme/v1/blocklist/blocklist_dh_sourcetype_del      |
++---------------------------------------------------------------------------------------------------+-----------------------------------------------------------------+
+| :ref:`blocklist_mh_host_del / Delete host in block list for metric hosts`                         | /services/trackme/v1/blocklist/blocklist_mh_host_del            |
++---------------------------------------------------------------------------------------------------+-----------------------------------------------------------------+
+| :ref:`blocklist_mh_index_del / Delete index in block list for metric hosts`                       | /services/trackme/v1/blocklist/blocklist_mh_index_del           |
++---------------------------------------------------------------------------------------------------+-----------------------------------------------------------------+
+| :ref:`blocklist_mh_metric_category_del / Delete metric_category in block list for metric hosts`   | /services/trackme/v1/blocklist/blocklist_mh_metric_category_del |
++---------------------------------------------------------------------------------------------------+-----------------------------------------------------------------+
+
+blocklist_ds_host / Get current block list for data sources (hosts)
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+**This endpoint retrieves the current block list collection returned as a JSON array, its requires a GET call with no data required:**
+
+::
+
+    curl -k -u admin:'ch@ngeM3' -X GET https://localhost:8089/services/trackme/v1/blocklist/blocklist_ds_host
+
+*JSON response: (full collection)*
+
+::
+
+    [
+     {
+      "data_host": "bad_host", 
+      "_user": "nobody", 
+      "data_blacklist_state": "true", 
+      "_time": "1607890641", 
+      "_key": "5fd676d1ba5afb1f305fe551"
+     }
+    ]
+
+blocklist_ds_index / Get current block list for data sources (index)
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+**This endpoint retrieves the current block list collection returned as a JSON array, its requires a GET call with no data required:**
+
+::
+
+    curl -k -u admin:'ch@ngeM3' -X GET https://localhost:8089/services/trackme/v1/blocklist/blocklist_ds_index
+
+*JSON response: (full collection)*
+
+::
+
+    [
+     {
+      "_time": "1607898808",
+      "data_blacklist_state": "true",
+      "data_index": "bad_index",
+      "_user": "nobody",
+      "_key": "5fd696b8d2b7c008be57cb71"
+     }
+    ]
+
+blocklist_ds_sourcetype / Get current block list for data sources (sourcetype)
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+**This endpoint retrieves the current block list collection returned as a JSON array, its requires a GET call with no data required:**
+
+::
+
+    curl -k -u admin:'ch@ngeM3' -X GET https://localhost:8089/services/trackme/v1/blocklist/blocklist_ds_sourcetype
+
+*JSON response: (full collection)*
+
+::
+
+    [
+     {
+      "data_sourcetype": "bad_sourcetype", 
+      "_user": "nobody", 
+      "data_blacklist_state": "true", 
+      "_time": "1607890661", 
+      "_key": "5fd676e5ba5afb1f305fe552"
+     }
+    ]
+
+blocklist_dh_host / Get current block list for data hosts (hosts)
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+**This endpoint retrieves the current block list collection returned as a JSON array, its requires a GET call with no data required:**
+
+::
+
+    curl -k -u admin:'ch@ngeM3' -X GET https://localhost:8089/services/trackme/v1/blocklist/blocklist_dh_host
+
+*JSON response:*
+
+::
+
+    [
+     {
+      "data_blacklist_state": "true", 
+      "_user": "nobody", 
+      "_key": "5fd67e17ba5afb743339de21", 
+      "_time": "1607892503", 
+      "data_host": "bad_host"
+     }
+    ]
+
+blocklist_dh_index / Get current block list for data hosts (index)
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+**This endpoint retrieves the current block list collection returned as a JSON array, its requires a GET call with no data required:**
+
+::
+
+    curl -k -u admin:'ch@ngeM3' -X GET https://localhost:8089/services/trackme/v1/blocklist/blocklist_dh_index
+
+*JSON response:*
+
+::
+
+    [
+     {
+      "data_blacklist_state": "true", 
+      "data_index": "bad_index", 
+      "_key": "5fd67e1fba5afb77831e3d51", 
+      "_time": "1607892511", 
+      "_user": "nobody"
+     }
+    ]
+
+blocklist_dh_sourcetype / Get current block list for data hosts (sourcetype)
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+**This endpoint retrieves the current block list collection returned as a JSON array, its requires a GET call with no data required:**
+
+::
+
+    curl -k -u admin:'ch@ngeM3' -X GET https://localhost:8089/services/trackme/v1/blocklist/blocklist_dh_sourcetype
+
+*JSON response:*
+
+::
+
+    [
+     {
+      "data_blacklist_state": "true", 
+      "_user": "nobody", 
+      "_key": "5fd67e2dba5afb743339de22", 
+      "_time": "1607892525", 
+      "data_sourcetype": "bad_sourcetype"
+     }
+    ]
+
+blocklist_mh_host / Get current block list for metric hosts (host)
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+**This endpoint retrieves the current block list collection returned as a JSON array, its requires a GET call with no data required:**
+
+::
+
+    curl -k -u admin:'ch@ngeM3' -X GET https://localhost:8089/services/trackme/v1/blocklist/blocklist_mh_host
+
+*JSON response:*
+
+::
+
+    [
+     {
+      "metric_blacklist_state": "true", 
+      "_key": "5fd67f35ba5afb8386035111", 
+      "_time": "1607892789", 
+      "metric_host": "bad_host", 
+      "_user": "nobody"
+     }
+    ]
+
+blocklist_mh_index / Get current block list for metric hosts (index)
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+**This endpoint retrieves the current block list collection returned as a JSON array, its requires a GET call with no data required:**
+
+::
+
+    curl -k -u admin:'ch@ngeM3' -X GET https://localhost:8089/services/trackme/v1/blocklist/blocklist_mh_index
+
+*JSON response:*
+
+::
+
+    [
+     {
+      "metric_blacklist_state": "true", 
+      "_user": "nobody", 
+      "_key": "5fd67f3dba5afb8b17532b11", 
+      "_time": "1607892797", 
+      "metric_index": "bad_index"
+     }
+    ]
+
+blocklist_mh_metric_category / Get current block list for metric hosts (metric_category)
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+**This endpoint retrieves the current block list collection returned as a JSON array, its requires a GET call with no data required:**
+
+::
+
+    curl -k -u admin:'ch@ngeM3' -X GET https://localhost:8089/services/trackme/v1/blocklist/blocklist_mh_metric_category
+
+*JSON response:*
+
+::
+
+    [
+     {
+      "metric_blacklist_state": "true", 
+      "_key": "5fd67f48ba5afb8386035112", 
+      "metric_category": "docker_container_status", 
+      "_time": "1607892808", 
+      "_user": "nobody"
+     }
+    ]
+
+blocklist_ds_host_add / Add host in block list for data sources
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+**This endpoint adds a new recordreturned as a JSON array, its requires a POST call with no data required:**
+
+- ``"data_host": "<value to be added to the blocklist, accepts wildcards and regular expressions>``
+- ``"update_comment": "<OPTIONAL: a comment for the update, comments are added to the audit record, if unset will be defined to: API update>``
+
+::
+
+    curl -k -u admin:'ch@ngeM3' -X POST https://localhost:8089/services/trackme/v1/blocklist/blocklist_ds_host_add -d '{"data_host": "bad_host2", "update_comment": "Updated by automation."}'
+
+*JSON response:*
+
+::
+
+    [
+     {
+      "data_host": "bad_host2",
+      "data_blacklist_state": "true",
+      "_user": "nobody",
+      "_key": "5fd6997291a48072a339d0bb"
+     }
+    ]
+
+blocklist_ds_index_add / Add index in block list for data sources
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+**This endpoint adds a new recordreturned as a JSON array, its requires a POST call with no data required:**
+
+- ``"data_index": "<value to be added to the blocklist, accepts wildcards and regular expressions>``
+- ``"update_comment": "<OPTIONAL: a comment for the update, comments are added to the audit record, if unset will be defined to: API update>``
+
+::
+
+    curl -k -u admin:'ch@ngeM3' -X POST https://localhost:8089/services/trackme/v1/blocklist/blocklist_ds_index_add -d '{"data_index": "bad_index2", "update_comment": "Updated by automation."}'
+
+*JSON response:*
+
+::
+
+    [
+     {
+      "data_index": "bad_index2",
+      "data_blacklist_state": "true",
+      "_user": "nobody",
+      "_key": "5fd699b991a48072a339d0bd"
+     }
+    ]
+
+blocklist_ds_index_add / Add sourcetype in block list for data sources
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+**This endpoint adds a new recordreturned as a JSON array, its requires a POST call with no data required:**
+
+- ``"data_sourcetype": "<value to be added to the blocklist, accepts wildcards and regular expressions>``
+- ``"update_comment": "<OPTIONAL: a comment for the update, comments are added to the audit record, if unset will be defined to: API update>``
+
+::
+
+    curl -k -u admin:'ch@ngeM3' -X POST https://localhost:8089/services/trackme/v1/blocklist/blocklist_ds_sourcetype_add -d '{"data_sourcetype": "bad_sourcetype2", "update_comment": "Updated by automation."}'
+
+*JSON response:*
+
+::
+
+    [
+     {
+      "data_sourcetype": "bad_sourcetype2",
+      "data_blacklist_state": "true",
+      "_user": "nobody",
+      "_key": "5fd69d8b91a48072a339d0bf"
+     }
+    ]
+
+blocklist_dh_host_add / Add host in block list for data hosts
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+**This endpoint adds a new recordreturned as a JSON array, its requires a POST call with no data required:**
+
+- ``"data_host": "<value to be added to the blocklist, accepts wildcards and regular expressions>``
+- ``"update_comment": "<OPTIONAL: a comment for the update, comments are added to the audit record, if unset will be defined to: API update>``
+
+::
+
+    curl -k -u admin:'ch@ngeM3' -X POST https://localhost:8089/services/trackme/v1/blocklist/blocklist_dh_host_add -d '{"data_host": "bad_host2", "update_comment": "Updated by automation."}'
+
+*JSON response:*
+
+::
+
+    [
+     {
+      "data_host": "bad_host2",
+      "data_blacklist_state": "true",
+      "_user": "nobody",
+      "_key": "5fd69def91a48072a339d0c1"
+     }
+    ]
+
+blocklist_dh_index_add / Add index in block list for data hosts
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+**This endpoint adds a new recordreturned as a JSON array, its requires a POST call with no data required:**
+
+- ``"data_index": "<value to be added to the blocklist, accepts wildcards and regular expressions>``
+- ``"update_comment": "<OPTIONAL: a comment for the update, comments are added to the audit record, if unset will be defined to: API update>``
+
+::
+
+    curl -k -u admin:'ch@ngeM3' -X POST https://localhost:8089/services/trackme/v1/blocklist/blocklist_dh_index_add -d '{"data_index": "bad_index2", "update_comment": "Updated by automation."}'
+
+*JSON response:*
+
+::
+
+    [
+     {
+      "data_index": "bad_index2",
+      "data_blacklist_state": "true",
+      "_user": "nobody",
+      "_key": "5fd69e2d91a48072a339d0c3"
+     }
+    ]
+
+blocklist_dh_sourcetype_add / Add sourcetype in block list for data hosts
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+**This endpoint adds a new recordreturned as a JSON array, its requires a POST call with no data required:**
+
+- ``"data_sourcetype": "<value to be added to the blocklist, accepts wildcards and regular expressions>``
+- ``"update_comment": "<OPTIONAL: a comment for the update, comments are added to the audit record, if unset will be defined to: API update>``
+
+::
+
+    curl -k -u admin:'ch@ngeM3' -X POST https://localhost:8089/services/trackme/v1/blocklist/blocklist_dh_sourcetype_add -d '{"data_sourcetype": "bad_sourcetype2", "update_comment": "Updated by automation."}'
+
+*JSON response:*
+
+::
+
+    [
+     {
+      "data_sourcetype": "bad_sourcetype2",
+      "data_blacklist_state": "true",
+      "_user": "nobody",
+      "_key": "5fd69ee291a48072a339d0c5"
+     }
+    ]
+
+blocklist_mh_host_add / Add host in block list for metric hosts
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+**This endpoint adds a new recordreturned as a JSON array, its requires a POST call with no data required:**
+
+- ``"metric_host": "<value to be added to the blocklist, accepts wildcards and regular expressions>``
+- ``"update_comment": "<OPTIONAL: a comment for the update, comments are added to the audit record, if unset will be defined to: API update>``
+
+::
+
+    curl -k -u admin:'ch@ngeM3' -X POST https://localhost:8089/services/trackme/v1/blocklist/blocklist_mh_host_add -d '{"metric_host": "bad_host2", "update_comment": "Updated by automation."}'
+
+*JSON response:*
+
+::
+
+    [
+     {
+      "metric_host": "bad_host2",
+      "data_blacklist_state": "true",
+      "_user": "nobody",
+      "_key": "5fd69f4a91a48072a339d0c7"
+     }
+    ]
+
+blocklist_mh_index_add / Add index in block list for metric hosts
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+**This endpoint adds a new recordreturned as a JSON array, its requires a POST call with no data required:**
+
+- ``"metric_index": "<value to be added to the blocklist, accepts wildcards and regular expressions>``
+- ``"update_comment": "<OPTIONAL: a comment for the update, comments are added to the audit record, if unset will be defined to: API update>``
+
+::
+
+    curl -k -u admin:'ch@ngeM3' -X POST https://localhost:8089/services/trackme/v1/blocklist/blocklist_mh_index_add -d '{"metric_index": "bad_index2", "update_comment": "Updated by automation."}'
+
+*JSON response:*
+
+::
+
+    [
+     {
+      "metric_index": "bad_index2",
+      "data_blacklist_state": "true",
+      "_user": "nobody",
+      "_key": "5fd6a34c91a48072a339d0c9"
+     }
+    ]
+
+blocklist_mh_metric_category_add / Add metric_category in block list for metric hosts
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+**This endpoint adds a new recordreturned as a JSON array, its requires a POST call with no data required:**
+
+- ``"metric_category": "<value to be added to the blocklist, accepts wildcards and regular expressions>``
+- ``"update_comment": "<OPTIONAL: a comment for the update, comments are added to the audit record, if unset will be defined to: API update>``
+
+::
+
+    curl -k -u admin:'ch@ngeM3' -X POST https://localhost:8089/services/trackme/v1/blocklist/blocklist_mh_metric_category_add -d '{"metric_category": "bad_metric", "update_comment": "Updated by automation."}'
+
+*JSON response:*
+
+::
+
+    [
+     {
+      "metric_category": "bad_metric",
+      "data_blacklist_state": "true",
+      "_user": "nobody",
+      "_key": "5fd6a3e091a48072a339d0cc"
+     }
+    ]
+
+blocklist_ds_host_del / Delete host in block list for data sources
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+**This endpoint deletes an existing recordreturned as a JSON array, its requires a DELETE call with no data required:**
+
+- ``"data_host": "<value to be added to the blocklist, accepts wildcards and regular expressions>``
+- ``"update_comment": "<OPTIONAL: a comment for the update, comments are added to the audit record, if unset will be defined to: API update>``
+
+::
+
+    curl -k -u admin:'ch@ngeM3' -X DELETE https://localhost:8089/services/trackme/v1/blocklist/blocklist_ds_host_del -d '{"data_host": "bad_host2", "update_comment": "Updated by automation."}'
+
+*response:*
+
+::
+
+    Record with _key 5fd6997291a48072a339d0bb was deleted from the collection.
+
+blocklist_ds_index_del / Delete index in block list for data sources
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+**This endpoint deletes an existing recordreturned as a JSON array, its requires a DELETE call with no data required:**
+
+- ``"data_index": "<value to be added to the blocklist, accepts wildcards and regular expressions>``
+- ``"update_comment": "<OPTIONAL: a comment for the update, comments are added to the audit record, if unset will be defined to: API update>``
+
+::
+
+    curl -k -u admin:'ch@ngeM3' -X DELETE https://localhost:8089/services/trackme/v1/blocklist/blocklist_ds_index_del -d '{"data_index": "bad_index2", "update_comment": "Updated by automation."}'
+
+*response:*
+
+::
+
+    Record with _key 5fd699b991a48072a339d0bd was deleted from the collection.
+
+blocklist_ds_sourcetype_del / Delete sourcetype in block list for data sources
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+**This endpoint deletes an existing recordreturned as a JSON array, its requires a DELETE call with no data required:**
+
+- ``"data_sourcetype": "<value to be added to the blocklist, accepts wildcards and regular expressions>``
+- ``"update_comment": "<OPTIONAL: a comment for the update, comments are added to the audit record, if unset will be defined to: API update>``
+
+::
+
+    curl -k -u admin:'ch@ngeM3' -X DELETE https://localhost:8089/services/trackme/v1/blocklist/blocklist_ds_sourcetype_del -d '{"data_sourcetype": "bad_sourcetype2", "update_comment": "Updated by automation."}'
+
+*response:*
+
+::
+
+    Record with _key 5fd69d8b91a48072a339d0bf was deleted from the collection.
+
+blocklist_dh_host_del / Delete host in block list for data hosts
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+**This endpoint deletes an existing recordreturned as a JSON array, its requires a DELETE call with no data required:**
+
+- ``"data_host": "<value to be added to the blocklist, accepts wildcards and regular expressions>``
+- ``"update_comment": "<OPTIONAL: a comment for the update, comments are added to the audit record, if unset will be defined to: API update>``
+
+::
+
+    curl -k -u admin:'ch@ngeM3' -X DELETE https://localhost:8089/services/trackme/v1/blocklist/blocklist_dh_host_del -d '{"data_host": "bad_host2", "update_comment": "Updated by automation."}'
+
+*response:*
+
+::
+
+    Record with _key 5fd69def91a48072a339d0c1 was deleted from the collection.
+
+blocklist_dh_index_del / Delete index in block list for data hosts
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+**This endpoint deletes an existing recordreturned as a JSON array, its requires a DELETE call with no data required:**
+
+- ``"data_index": "<value to be added to the blocklist, accepts wildcards and regular expressions>``
+- ``"update_comment": "<OPTIONAL: a comment for the update, comments are added to the audit record, if unset will be defined to: API update>``
+
+::
+
+    curl -k -u admin:'ch@ngeM3' -X DELETE https://localhost:8089/services/trackme/v1/blocklist/blocklist_dh_index_del -d '{"data_index": "bad_index2", "update_comment": "Updated by automation."}'
+
+*response:*
+
+::
+
+    Record with _key 5fd69e2d91a48072a339d0c3 was deleted from the collection.
+
+blocklist_dh_sourcetype_del / Delete sourcetype in block list for data hosts
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+**This endpoint deletes an existing recordreturned as a JSON array, its requires a DELETE call with no data required:**
+
+- ``"data_sourcetype": "<value to be added to the blocklist, accepts wildcards and regular expressions>``
+- ``"update_comment": "<OPTIONAL: a comment for the update, comments are added to the audit record, if unset will be defined to: API update>``
+
+::
+
+    curl -k -u admin:'ch@ngeM3' -X DELETE https://localhost:8089/services/trackme/v1/blocklist/blocklist_dh_sourcetype_del -d '{"data_sourcetype": "bad_sourcetype2", "update_comment": "Updated by automation."}'
+
+*response:*
+
+::
+
+    Record with _key 5fd69ee291a48072a339d0c5 was deleted from the collection.
+
+blocklist_mh_host_del / Delete host in block list for metric hosts
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+**This endpoint deletes an existing recordreturned as a JSON array, its requires a DELETE call with no data required:**
+
+- ``"metric_host": "<value to be added to the blocklist, accepts wildcards and regular expressions>``
+- ``"update_comment": "<OPTIONAL: a comment for the update, comments are added to the audit record, if unset will be defined to: API update>``
+
+::
+
+    curl -k -u admin:'ch@ngeM3' -X DELETE https://localhost:8089/services/trackme/v1/blocklist/blocklist_mh_host_del -d '{"metric_host": "bad_host2", "update_comment": "Updated by automation."}'
+
+*response:*
+
+::
+
+    Record with _key 5fd69f4a91a48072a339d0c7 was deleted from the collection.
+
+blocklist_mh_index_del / Delete index in block list for metric hosts
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+**This endpoint deletes an existing recordreturned as a JSON array, its requires a DELETE call with no data required:**
+
+- ``"metric_index": "<value to be added to the blocklist, accepts wildcards and regular expressions>``
+- ``"update_comment": "<OPTIONAL: a comment for the update, comments are added to the audit record, if unset will be defined to: API update>``
+
+::
+
+    curl -k -u admin:'ch@ngeM3' -X DELETE https://localhost:8089/services/trackme/v1/blocklist/blocklist_mh_index_del -d '{"metric_index": "bad_index2", "update_comment": "Updated by automation."}'
+
+*response:*
+
+::
+
+    Record with _key 5fd6ae4c1814da1e704d47a3 was deleted from the collection.
+
+blocklist_mh_metric_category_del / Delete metric_category in block list for metric hosts
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+**This endpoint deletes an existing recordreturned as a JSON array, its requires a DELETE call with no data required:**
+
+- ``"metric_category": "<value to be added to the blocklist, accepts wildcards and regular expressions>``
+- ``"update_comment": "<OPTIONAL: a comment for the update, comments are added to the audit record, if unset will be defined to: API update>``
+
+::
+
+    curl -k -u admin:'ch@ngeM3' -X DELETE https://localhost:8089/services/trackme/v1/blocklist/blocklist_mh_metric_category_del -d '{"metric_category": "bad_metric", "update_comment": "Updated by automation."}'
+
+*response:*
+
+::
+
+    Record with _key 5fd6afee8c70e663460209c5 was deleted from the collection.
