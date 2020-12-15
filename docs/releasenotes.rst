@@ -16,6 +16,7 @@ TrackMe requires a summary index (defaults to trackme_summary) and a metric inde
 https://trackme.readthedocs.io/en/latest/configuration.html
 
 - Feature Issue #205 - Introducting TrackMe REST API endpoints for automation integration and future UI evolutions (https://trackme.readthedocs.io/en/latest/rest_api_reference.html)
+- Feature Issue #209 - Feature - Provides a new mode for data sources to allow by index level analysis
 - Fix Issue #208 - Fix - creating a rest based search causes regression in the data sampling and event recognition engine
 
 Version 1.2.28
