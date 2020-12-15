@@ -89,6 +89,22 @@ The built-in views "Ops: Indexes queues" and "Ops: Parsing issues" rely on the u
 
 Customise the macro definition to match your indexers host naming convention.
 
+Data source mode
+================
+
+.. admonition:: Data source mode
+
+   - The default behaviour for data sources is to create entities based on the combination of index + ":" + sourcetype (split mode)
+   - In some cases, you may want to change this behaviour and create entities based on the indexes only, whatever the sourcetypes are (merged mode)
+   - When TrackMe is configured in merged mode, data sources entities represent the index and all its sourcetypes, allow list and block list still apply and can be configured
+   - Use the UI to switch from a mode to another, once the mode is defined, reset the data sources collection to cleanup previously created entities
+
+*Configuration of the data source mode in the managment UI:*
+
+.. image:: img/data_source_mode.png
+   :alt: data_source_mode.png
+   :align: center
+
 Allowlisting and blocklisting
 =============================
 

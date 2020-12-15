@@ -1,6 +1,24 @@
 Release notes
 #############
 
+Version 1.2.29
+==============
+
+**CAUTION:**
+
+This is a new main release branch, TrackMe 1.2.x requires the deployment of the following dependencies:
+
+- Semicircle Donut Chart Viz, Splunk Base: https://splunkbase.splunk.com/app/4378
+- Splunk Machine Learning Toolkit, Splunk Base: https://splunkbase.splunk.com/app/2890
+- Splunk Timeline - Custom Visualization, Splunk Base: https://splunkbase.splunk.com/app/3120
+
+TrackMe requires a summary index (defaults to trackme_summary) and a metric index (defaults to trackme_metrics):
+https://trackme.readthedocs.io/en/latest/configuration.html
+
+- Feature Issue #205 - Introducting TrackMe REST API endpoints for automation integration and future UI evolutions (https://trackme.readthedocs.io/en/latest/rest_api_reference.html)
+- Feature Issue #209 - Feature - Provides a new mode for data sources to allow by index level analysis
+- Fix Issue #208 - Fix - creating a rest based search causes regression in the data sampling and event recognition engine
+
 Version 1.2.28
 ==============
 

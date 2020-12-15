@@ -1126,6 +1126,57 @@ styles in <div> tags, similar to Bootstrap's grid system.
         </div>
     </div>
 
+    <div id="rowManageDataSourceMode" class="dashboard-row dashboard-rowManageResetInfo">
+        <div id="panelManageDataSourceMode" class="dashboard-cell" style="width: 100%;">
+            <div class="dashboard-panel clearfix">
+                <div class="panel-element-row">
+                    <div id="elementDataSourceMode" class="dashboard-element html" style="width: 100%">
+                        <div class="panel-body html">
+                            <div style="text-align: center; border: 3px dashed #ccc;">
+                                <div style="display: inline-flex; align-items: center; margin-top: 5px;">
+                                    <span style="font-size: 22px; font-weight: bold; color: #6495ed; margin-top: 5px;">DATA SOURCE MODE</span>
+                                </div>
+                                <div>
+                                    <h2>The default behaviour for data sources monitoring is to create entities based on the index and the sourcetype. (split mode)
+                                        <br />
+                                        In some cases, you may want to use the merged mode which is applied widely for all data sources, and creates entities based on any sourcetype available in each index.
+                                        <br />
+                                        If you decide to switch from split mode to merged mode, you should first enable the merged mode and then proceed to a reset of the data sources collection. (button Manage: reset collection for data sources)
+                                    </h2>
+                                </div>
+                            </div>
+                            <div class="boxnotify" id="boxnotify-data-source-mode">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="rowManageDataSourceMode1" class="dashboard-row dashboard-row_maintenance">
+        <div id="rowManageDataSourceMode2" class="dashboard-cell" style="width: 50%;">
+            <div class="dashboard-panel clearfix">
+                <h2 class="panel-title"></h2>
+                <div class="fieldset" style="text-align: center;">
+                    <div class="form-submit" id="btn_data_source_split_mode">
+                        <button id="btn_enable_data_source_split_mode" class="btn btn-primary submit">Enable split mode</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="rowManageDataSourceMode3" class="dashboard-cell" style="width: 50%;">
+            <div class="dashboard-panel clearfix">
+                <h2 class="panel-title"></h2>
+                <div class="fieldset" style="text-align: center;">
+                    <div class="form-submit" id="btn_data_source_merged_mode">
+                        <button id="btn_enable_data_source_merged_mode" class="btn btn-primary submit">Enable merged mode</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <div id="rowManageDataHostAlertPolicy" class="dashboard-row dashboard-rowManageResetInfo">
         <div id="panelManageDDataHostAlertPolicy" class="dashboard-cell" style="width: 100%;">
             <div class="dashboard-panel clearfix">
@@ -2947,6 +2998,167 @@ require([
         // get current status
         get_data_host_alerting_policy();
 
+        // Get current data sources mode
+        function get_data_source_mode() {
+
+            // Manage buttons states dynamically
+
+            submitTokens();
+
+            // When the Submit button is clicked, get all the form fields by accessing token values
+            var tokens = mvc.Components.get("default");
+
+            //
+            // Verify the current status
+            //
+
+            // Define the query
+            var searchQuery = "| rest /servicesNS/-/-/admin/macros splunk_server=local | search title=\"trackme_default_data_source_mode\" | fields definition | rex field=definition mode=sed \"s/\`//g\" | rename definition as current_data_source_mode";
+
+            // Set the search parameters--specify a time range
+            var searchParams = {
+                earliest_time: "-5m",
+                latest_time: "now"
+            };
+
+            // Run a oneshot search that returns the job's results
+            service.oneshotSearch(
+                searchQuery,
+                searchParams,
+                function(err, results) {
+
+                    // Display the results
+                    var fields = results.fields;
+                    var rows = results.rows;
+                    var current_data_source_mode;
+
+                    for (var i = 0; i < rows.length; i++) {
+                        var values = rows[i];
+                        //console.log("Row " + i + ": ");
+
+                        for (var j = 0; j < values.length; j++) {
+                            var field = fields[j];
+
+                            if (fields[j] == "current_data_source_mode") {
+                                current_data_source_mode = values[j];
+                            }
+                        }
+                    }
+
+                    //console.log("current_data_source_mode: " + current_data_source_mode);
+
+                    if (!current_data_source_mode) {
+                        document.getElementById('btn_enable_data_source_split_mode').disabled = false;
+                        document.getElementById('btn_enable_data_source_merged_mode').disabled = false;
+                        return;
+                    }
+
+                    // Dynamically manage buttons states
+                    if (current_data_source_mode == "trackme_data_source_split_mode") {
+                        document.getElementById('btn_enable_data_source_split_mode').disabled = true;
+                        document.getElementById('btn_enable_data_source_merged_mode').disabled = false;
+                    }
+                    else if (current_data_source_mode == "trackme_data_source_merged_mode") {
+                        document.getElementById('btn_enable_data_source_split_mode').disabled = false;
+                        document.getElementById('btn_enable_data_source_merged_mode').disabled = true;
+                    }
+                    else {
+                        document.getElementById('btn_enable_data_source_split_mode').disabled = false;
+                        document.getElementById('btn_enable_data_source_merged_mode').disabled = false;
+                    }
+
+            });
+
+        }
+
+        // get current status
+        get_data_source_mode();
+
+        // Update the data sources mode
+        function update_data_source_mode(value) {
+
+            var query_url = "/en-US/splunkd/__raw/servicesNS/nobody/trackme/configs/conf-macros/trackme_default_data_source_mode"
+            var value = value;
+
+            if (value == "trackme_data_source_split_mode") {
+                change_type = "enable data source split mode";
+            } else if (value == "trackme_data_source_merged_mode") {
+                change_type = "enable data source merged mode";
+            }
+            else {
+                // default if unset
+                change_type = "trackme_data_source_split_mode";
+            }
+
+            $.ajax({
+                url: query_url,
+                type: "POST",
+                async: true,
+                contentType: "application/json",
+                data: "definition=`" + value + "`",
+                success: function(returneddata) {
+                    //console.log("Updated!", returneddata)
+
+                    // Update the buttons
+                    if (value == "trackme_data_source_split_mode") {
+                        document.getElementById('btn_enable_data_source_split_mode').disabled = true;
+                        document.getElementById('btn_enable_data_source_merged_mode').disabled = false;
+                    }
+                    else if (value == "trackme_data_source_merged_mode") {
+                        document.getElementById('btn_enable_data_source_split_mode').disabled = false;
+                        document.getElementById('btn_enable_data_source_merged_mode').disabled = true;
+                    }
+                    else {
+                        document.getElementById('btn_enable_data_source_split_mode').disabled = false;
+                        document.getElementById('btn_enable_data_source_merged_mode').disabled = false;
+                    }
+
+                    // notify
+                    notification('Data source mode has been successfully set ' + value, 6000)
+
+                    // Audit
+                    action = "success";
+                    change_type = change_type;
+                    object = "all";
+                    object_category = "data_source";
+                    object_attrs = "definition=\"" + value + "\"";
+                    result = "N/A";
+                    comment = "N/A";
+                    auditRecord(action, change_type, object, object_category, object_attrs, result, comment);
+
+                },
+                error: function(xhr, textStatus, error) {
+                    message = "Error Updating!" + xhr + textStatus + error;
+
+                    // Audit
+                    action = "failure";
+                    change_type = change_type;
+                    object = "all";
+                    object_category = "data_source";
+                    object_attrs = "definition=\"" + value + "\"";
+                    result = message;
+                    comment = "N/A";
+                    auditRecord(action, change_type, object, object_category, object_attrs, result, comment);
+
+                    $("#modal_update_collection_failure_return").find('.modal-error-message p').text(message);
+                    $("#modal_update_collection_failure_return").modal()
+                }
+            });
+
+        }
+
+        // Enable data source split mode
+        $("#btn_enable_data_source_split_mode").click(function() {
+            update_data_source_mode("trackme_data_source_split_mode");
+        });
+
+        // Enable data source merged mode
+        $("#btn_enable_data_source_merged_mode").click(function() {
+            update_data_source_mode("trackme_data_source_merged_mode");
+        });
+
+        // Outliers Production / Training mode
+
         // Enable production mode
         $("#btn_enable_data_host_policy_per_host").click(function() {
             update_data_host_alerting_policy("track_per_host");
@@ -4105,6 +4317,12 @@ function notification(s, time) {
   });
 
   $("<p>" + s + "</p>").appendTo('#boxnotify-data-host-alerting-policy').fadeTo(time, 1, function() {
+    $(this).fadeTo(1000, 0, function() {
+      $(this).remove()
+    });
+  });
+
+  $("<p>" + s + "</p>").appendTo('#boxnotify-data-source-mode').fadeTo(time, 1, function() {
     $(this).fadeTo(1000, 0, function() {
       $(this).remove()
     });

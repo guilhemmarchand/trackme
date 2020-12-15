@@ -94,6 +94,7 @@ User guide:
 
    userguide
    itsi_integration
+   rest_api_reference
 
 Troubleshoot:
 =============
