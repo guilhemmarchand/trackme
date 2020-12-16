@@ -1573,6 +1573,14 @@ Lagging classes
    - A lagging class can be configured based on index names, sourcetype values and the entities priority level. (priority based policies applied to data sources only)
    - Lagging classes apply on data sources and hosts, and classes can be created matching either both types of object, data sources or data hosts only.
 
+**Lagging classes are configurable in the main TrackMe UI:**
+
+.. image:: img/lagging_class_access.png
+   :alt: lagging_class_access.png
+   :align: center
+
+**Which lets you access to the following UI:**
+
 .. image:: img/lagging_class_main.png
    :alt: lagging_class_main.png
    :align: center
