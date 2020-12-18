@@ -8,23 +8,25 @@ TrackMe provides a builtin Python based API, serviced by the Splunk API, and cat
 
 These resource groups are accessible by specific endpoint paths as following:
 
-+--------------------------------------+-----------------------------------+
-| Resource group                       | API Path                          |
-+======================================+===================================+
-| :ref:`Acknowledgment endpoints`      | /services/trackme/v1/ack          |
-+--------------------------------------+-----------------------------------+
-| :ref:`Data Sources endpoints`        | /services/trackme/v1/data_sources |
-+--------------------------------------+-----------------------------------+
-| :ref:`Data Hosts endpoints`          | /services/trackme/v1/data_hosts   |
-+--------------------------------------+-----------------------------------+
-| :ref:`Metric Hosts endpoints`        | /services/trackme/v1/metric_hosts |
-+--------------------------------------+-----------------------------------+
-| :ref:`Maintenance mode endpoints`    | /services/trackme/v1/maintenance  |
-+--------------------------------------+-----------------------------------+
-| :ref:`Allow list endpoints`          | /services/trackme/v1/allowlist    |
-+--------------------------------------+-----------------------------------+
-| :ref:`Block list endpoints`          | /services/trackme/v1/blocklist    |
-+--------------------------------------+-----------------------------------+
++--------------------------------------+--------------------------------------+
+| Resource group                       | API Path                             |
++======================================+======================================+
+| :ref:`Acknowledgment endpoints`      | /services/trackme/v1/ack             |
++--------------------------------------+--------------------------------------+
+| :ref:`Data Sources endpoints`        | /services/trackme/v1/data_sources    |
++--------------------------------------+--------------------------------------+
+| :ref:`Data Hosts endpoints`          | /services/trackme/v1/data_hosts      |
++--------------------------------------+--------------------------------------+
+| :ref:`Metric Hosts endpoints`        | /services/trackme/v1/metric_hosts    |
++--------------------------------------+--------------------------------------+
+| :ref:`Elastic Sources endpoints`     | /services/trackme/v1/elastic_sources |
++--------------------------------------+--------------------------------------+
+| :ref:`Maintenance mode endpoints`    | /services/trackme/v1/maintenance     |
++--------------------------------------+--------------------------------------+
+| :ref:`Allow list endpoints`          | /services/trackme/v1/allowlist       |
++--------------------------------------+--------------------------------------+
+| :ref:`Block list endpoints`          | /services/trackme/v1/blocklist       |
++--------------------------------------+--------------------------------------+
 
 These endpoints can be used to interract with TrackMe in a programmatic fashion, for instance to perform integration tasks with automation systems.
 
@@ -1123,6 +1125,287 @@ Note: A permanent deletion removes the entity and its configuration, in addition
 ::
 
     Record with _key afb0c5fc92f20c8011ecac371b04f77e was permanently deleted from the collection.%
+
+Elastic Sources endpoints
+-------------------------
+
+**Resources summary:**
+
++-------------------------------------------------------------------------------+-------------------------------------------------------------------+
+| Resource                                                                      | API Path                                                          | 
++===============================================================================+===================================================================+
+| :ref:`elastic_shared / Get shared Elastic Sources collection`                 | /services/trackme/v1/elastic_sources/elastic_shared               |
++-------------------------------------------------------------------------------+-------------------------------------------------------------------+
+| :ref:`elastic_dedicated / Get dedicated Elastic Sources collection`           | /services/trackme/v1/elastic_sources/elastic_dedicated            |
++-------------------------------------------------------------------------------+-------------------------------------------------------------------+
+| :ref:`elastic_shared_by_name / Get shared Elastic Source by name`             | /services/trackme/v1/elastic_sources/elastic_shared_by_name       |
++-------------------------------------------------------------------------------+-------------------------------------------------------------------+
+| :ref:`elastic_dedicated_by_name / Get shared Elastic Source by name`          | /services/trackme/v1/elastic_sources/elastic_dedicated_by_name    |
++-------------------------------------------------------------------------------+-------------------------------------------------------------------+
+| :ref:`elastic_shared_add / Add or update a new shared Elastic Source`         | /services/trackme/v1/elastic_sources/elastic_shared_add           |
++-------------------------------------------------------------------------------+-------------------------------------------------------------------+
+| :ref:`elastic_dedicated_add / Add or update a new shared Elastic Source`      | /services/trackme/v1/elastic_sources/elastic_dedicated_add        |
++-------------------------------------------------------------------------------+-------------------------------------------------------------------+
+| :ref:`elastic_shared_del / Delete a new shared Elastic Source`                | /services/trackme/v1/elastic_sources/elastic_shared_del           |
++-------------------------------------------------------------------------------+-------------------------------------------------------------------+
+| :ref:`elastic_dedicated_del / Delete a new shared Elastic Source`             | /services/trackme/v1/elastic_sources/elastic_dedicated_del        |
++-------------------------------------------------------------------------------+-------------------------------------------------------------------+
+
+elastic_shared / Get shared Elastic Sources collection
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+**This endpoint retrieves the entired shared Elastic Sources collection returned as a JSON array, its requires a GET call with no data required:**
+
+::
+
+    curl -k -u admin:'ch@ngeM3' -X GET https://localhost:8089/services/trackme/v1/elastic_sources/elastic_shared -d '{"data_name": "elastic:shared:example"}'
+
+*JSON response:*
+
+::
+
+    [
+     {
+      "data_name": "elastic:shared:example",
+      "search_constraint": "index=\"network\" sourcetype=\"pan:traffic\" source=\"network:pan:amer\"",
+      "search_mode": "tstats",
+      "elastic_data_index": "network",
+      "elastic_data_sourcetype": "pan:traffic",
+      "_user": "nobody",
+      "_key": "5fdbc1a4a507cc26ee02af61"
+     }
+    ]
+
+elastic_dedicated / Get dedicated Elastic Sources collection
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+**This endpoint retrieves the entired dedicated Elastic Sources collection returned as a JSON array, its requires a GET call with no data required:**
+
+::
+
+    curl -k -u admin:'ch@ngeM3' -X GET https://localhost:8089/services/trackme/v1/elastic_sources/elastic_shared -d '{"data_name": "elastic:dedicated:example"}'
+
+*JSON response:*
+
+::
+
+    [
+     {
+      "data_name": "elastic:shared:example",
+      "search_constraint": "index=\"network\" sourcetype=\"pan:traffic\" source=\"network:pan:amer\"",
+      "search_mode": "tstats",
+      "elastic_data_index": "network",
+      "elastic_data_sourcetype": "pan:traffic",
+      "_user": "nobody",
+      "_key": "5fdbc1a4a507cc26ee02af61"
+     }
+    ]
+
+elastic_shared_by_name / Get shared Elastic Source by name
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+**This endpoint retrieves a shared Elastic Source configuration stored in the collection returned as a JSON array, its requires a GET call with the following information:**
+
+- ``"data_name": "<name of the Elastic Source>"``
+
+::
+
+    curl -k -u admin:'ch@ngeM3' -X GET https://localhost:8089/services/trackme/v1/elastic_sources/elastic_shared -d '{"data_name": "elastic:shared:example"}'
+
+*JSON response:*
+
+::
+
+    [
+     {
+      "data_name": "elastic:shared:example",
+      "search_constraint": "index=\"network\" sourcetype=\"pan:traffic\" source=\"network:pan:amer\"",
+      "search_mode": "tstats",
+      "elastic_data_index": "network",
+      "elastic_data_sourcetype": "pan:traffic",
+      "_user": "nobody",
+      "_key": "5fdbc1a4a507cc26ee02af61"
+     }
+    ]
+
+elastic_dedicated_by_name / Get shared Elastic Source by name
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+**This endpoint retrieves a dedicated Elastic Source configuration stored in the collection returned as a JSON array, its requires a GET call with the following information:**
+
+- ``"data_name": "<name of the Elastic Source>"``
+
+::
+
+    curl -k -u admin:'ch@ngeM3' -X GET https://localhost:8089/services/trackme/v1/elastic_sources/elastic_shared -d '{"data_name": "elastic:dedicated:example"}'
+
+*JSON response:*
+
+::
+
+    [
+     {
+      "data_name": "elastic:shared:example",
+      "search_constraint": "index=\"network\" sourcetype=\"pan:traffic\" source=\"network:pan:amer\"",
+      "search_mode": "tstats",
+      "elastic_data_index": "network",
+      "elastic_data_sourcetype": "pan:traffic",
+      "_user": "nobody",
+      "_key": "5fdbc1a4a507cc26ee02af61"
+     }
+    ]
+
+elastic_shared_add / Add or update a new shared Elastic Source
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+**This endpoint create a new shared Elastic Source, if the entity already exists it will be updated using the data provided, it requires a POST call with the following information:**
+
+- ``"data_name": "<name of the Elastic Source>"``
+- ``"search_constraint": "<the SPL code for this entity, double quotes need to be escaped>"``
+- ``"search_mode": "<the search mode, valid options are tstats / raw / from / mstats / rest_tstats / rest_raw / rest_from / rest_mstats>"``
+- ``"elastic_index": "<pseudo index value, this value will be used in the UI but has no impacts on the search>"``
+- ``"elastic_sourcetype": "<pseudo sourcetype value name, this value will be used in the UI but has no impacts on the search>"``
+- ``"update_comment": "<OPTIONAL: a comment for the update, comments are added to the audit record, if unset will be defined to: API update>``
+
+**Defining the search constraint:**
+
+- **tstats**: this represents the where part of a tstats search, as: ``index=my_index source=my_source``
+- **raw**: Any filter that is before stats calculation, as: ``index=my_index tag=authentication app=my_application``
+- **from (datamodel)**: a search using from is in 2 parts with a pipe separation, where the 1st segment is the object and the 2nd a search constraint, as: ``datamodel:"Authentication" | search user="*" action="success" app="my_application"``
+- **from (lookup)**: A lookup can be monitored with the from command, it requires the lookup to have a time field concept, and a field _time in epoch time format needs to be created using an eval function with strftime/strptime, such as: ``lookup:"my_lookup" | eval _time=strptime(lastUpdated, "%d/%m/%Y %H:%M:%S")``
+- **mstats**: Allows monitoring metric indexes according to your constraints including dimensions, as: ``index="k8s_metrics" metric_name="k8s.*" cluster_name="production"``
+- **rest**: these are special remote searches performed against the Splunk API using the SPL rest command. This allows tracking data that is not available to the search head(s) hosting TrackMe.
+
+*Syntax examples for rest searches, the first part before the pipe needs to contain the rest target:*
+
+``splunk_server="my_search_head" | index=my_index source=my_source``
+
+``splunk_server_group="dmc_searchheadclustergroup_shc1" | lookup:asset_cmdb_lookup | eval _time=strptime(lastUpdated, "%d/%m/%Y %H:%M:%S")``
+
+*Filters can include a time range which will override the default 4 hours time range of the wrapper tracker, as: earliest="-15m" latest="+15m"*
+
+::
+
+    curl -k -u admin:'ch@ngeM3' -X POST https://localhost:8089/services/trackme/v1/elastic_sources/elastic_shared_add -d '{"data_name": "elastic:shared:example", "search_constraint": "index=\"network\" sourcetype=\"pan:traffic\" source=\"network:pan:amer\"", "search_mode": "tstats", "elastic_data_index": "network", "elastic_data_sourcetype": "pan:traffic"}'
+
+*JSON response:*
+
+::
+
+    [
+     {
+      "data_name": "elastic:shared:example",
+      "search_constraint": "index=\"network\" sourcetype=\"pan:traffic\" source=\"network:pan:amer\"",
+      "search_mode": "tstats",
+      "elastic_data_index": "network",
+      "elastic_data_sourcetype": "pan:traffic",
+      "_user": "nobody",
+      "_key": "5fdbc1a4a507cc26ee02af61"
+     }
+    ]
+
+elastic_dedicated_add / Add or update a new shared Elastic Source
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+**This endpoint create a new shared Elastic Source, if the entity already exists it will be updated using the data provided, it requires a POST call with the following information:**
+
+*Note: if the entity exists already, both the collection and the scheduled report (including the search constraint) will be updated*
+
+- ``"data_name": "<name of the Elastic Source>"``
+- ``"search_constraint": "<the SPL code for this entity, double quotes need to be escaped>"``
+- ``"search_mode": "<the search mode, valid options are tstats / raw / from / mstats / rest_tstats / rest_raw / rest_from / rest_mstats>"``
+- ``"elastic_index": "<pseudo index value, this value will be used in the UI but has no impacts on the search>"``
+- ``"elastic_sourcetype": "<pseudo sourcetype value name, this value will be used in the UI but has no impacts on the search>"``
+- ``"earliest_time": "<OPTIONAL: earliest time for the scheduled report definition, if unset will be defined to -4h>"``
+- ``"latest_time": "<OPTIONAL: latest time for the scheduled report definition, if unset will be defined to -4h>"``
+- ``"update_comment": "<OPTIONAL: a comment for the update, comments are added to the audit record, if unset will be defined to: API update>``
+
+**Defining the search constraint:**
+
+- **tstats**: this represents the where part of a tstats search, as: ``index=my_index source=my_source``
+- **raw**: Any filter that is before stats calculation, as: ``index=my_index tag=authentication app=my_application``
+- **from (datamodel)**: a search using from is in 2 parts with a pipe separation, where the 1st segment is the object and the 2nd a search constraint, as: ``datamodel:"Authentication" | search user="*" action="success" app="my_application"``
+- **from (lookup)**: A lookup can be monitored with the from command, it requires the lookup to have a time field concept, and a field _time in epoch time format needs to be created using an eval function with strftime/strptime, such as: ``lookup:"my_lookup" | eval _time=strptime(lastUpdated, "%d/%m/%Y %H:%M:%S")``
+- **mstats**: Allows monitoring metric indexes according to your constraints including dimensions, as: ``index="k8s_metrics" metric_name="k8s.*" cluster_name="production"``
+- **rest**: these are special remote searches performed against the Splunk API using the SPL rest command. This allows tracking data that is not available to the search head(s) hosting TrackMe.
+
+*Syntax examples for rest searches, the first part before the pipe needs to contain the rest target:*
+
+``splunk_server="my_search_head" | index=my_index source=my_source``
+
+``splunk_server_group="dmc_searchheadclustergroup_shc1" | lookup:asset_cmdb_lookup | eval _time=strptime(lastUpdated, "%d/%m/%Y %H:%M:%S")``
+
+*Filters can include a time range which will override the default 4 hours time range of the wrapper tracker, as: earliest="-15m" latest="+15m"*
+
+::
+
+    curl -k -u admin:'ch@ngeM3' -X POST https://localhost:8089/services/trackme/v1/elastic_sources/elastic_dedicated_add -d '{"data_name": "elastic:dedicated:example", "search_constraint": "index=\"network\" sourcetype=\"pan:traffic\" source=\"network:pan:amer\"", "search_mode": "tstats", "elastic_data_index": "network", "elastic_data_sourcetype": "pan:traffic", "earliest_time": "-4h", "latest_time": "+4h"}'
+
+*JSON response:*
+
+::
+
+    [
+     {
+      "data_name": "elastic:dedicated:example",
+      "search_constraint": "index=\"network\" sourcetype=\"pan:traffic\" source=\"network:pan:amer\"",
+      "search_mode": "tstats",
+      "elastic_data_index": "network",
+      "elastic_data_sourcetype": "pan:traffic",
+      "elastic_report": "TrackMe - elastic:dedicated:example tracker 0e9ec926-b179-4e30-8295-3b2283efbbc6",
+      "_user": "nobody",
+      "_key": "5fdbc3b5a507cc26ee02af63"
+     }
+    ]
+
+elastic_shared_del / Delete a new shared Elastic Source
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+**This endpoint deletes a shared Elastic Source, its requires a DELETE call with the following information:**
+
+- ``"data_name": "<name of the Elastic Source>"``
+- ``"update_comment": "<OPTIONAL: a comment for the update, comments are added to the audit record, if unset will be defined to: API update>``
+
+**Notes:**
+
+- The elastic source record is deleted from the shared Elastic Sources collection
+- The associated record in the data sources collection is deleted
+- All settings related to these objects will be lost (but their content is audited for the major part of it)
+
+::
+
+    curl -k -u admin:'ch@ngeM3' -X DELETE https://localhost:8089/services/trackme/v1/elastic_sources/elastic_shared_del -d '{"data_name": "elastic:shared:example"}'
+
+*response:*
+
+::
+
+    Record with _key 5fdd373e19456602e57e3a38 was deleted from the Elastic source collection, record with _key 221edfe4bec95befadc820fd36cbbfba was deleted from the data sources collection.
+
+elastic_dedicated_del / Delete a new shared Elastic Source
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+**This endpoint deletes a dedicated Elastic Source, its requires a DELETE call with the following information:**
+
+- ``"data_name": "<name of the Elastic Source>"``
+- ``"update_comment": "<OPTIONAL: a comment for the update, comments are added to the audit record, if unset will be defined to: API update>``
+
+**Notes:**
+
+- The elastic source record is deleted from the shared Elastic Sources collection
+- The associated scheduled report is deleted
+- The associated record in the data sources collection is deleted
+- All settings related to these objects will be lost (but their content is audited for the major part of it)
+
+::
+
+    curl -k -u admin:'ch@ngeM3' -X DELETE https://localhost:8089/services/trackme/v1/elastic_sources/elastic_dedicated_del -d '{"data_name": "elastic:dedicated:example"}'
+
+*response:*
+
+::
+
+    Record with _key 5fdd366719456602e57e3a34 was deleted from the Elastic source collection, report with name TrackMe - elastic:test:dedicated tracker 64b23aa6-5445-4512-94e8-1130361c3cea was deleted, record with _key e903269a757dbdf1a8e4d26feee96d2a was deleted from the data sources collection.
 
 Maintenance mode endpoints
 --------------------------

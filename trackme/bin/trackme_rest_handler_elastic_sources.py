@@ -78,6 +78,112 @@ class TrackMeHandlerElasticSources_v1(rest_handler.RESTHandler):
                 'payload': 'Warn: exception encountered: ' + str(e) # Payload of the request.
             }
 
+    # Get a target by name
+    def get_elastic_shared_by_name(self, request_info, **kwargs):
+
+        # By data_name
+        data_name = None
+        query_string = None
+
+        # Retrieve from data
+        resp_dict = json.loads(str(request_info.raw_args['payload']))
+        data_name = resp_dict['data_name']
+
+        # Define the KV query
+        query_string = '{ "data_name": "' + data_name + '" }'
+
+        # Get splunkd port
+        entity = splunk.entity.getEntity('/server', 'settings',
+                                            namespace='trackme', sessionKey=request_info.session_key, owner='-')
+        splunkd_port = entity['mgmtHostPort']
+
+        try:
+
+            collection_name = "kv_trackme_elastic_sources"            
+            service = client.connect(
+                owner="nobody",
+                app="trackme",
+                port=splunkd_port,
+                token=request_info.session_key
+            )
+            collection = service.kvstore[collection_name]
+
+            # Get the record
+            record = json.dumps(collection.data.query(query=str(query_string)), indent=1)
+
+            # Render result
+            if record is not None and len(record)>2:
+                return {
+                    "payload": str(record),
+                    'status': 200 # HTTP status code
+                }
+
+            else:
+                return {
+                    "payload": 'Warn: resource not found ' + str(query_string),
+                    'status': 404 # HTTP status code
+                }
+
+
+        except Exception as e:
+            return {
+                'payload': 'Warn: exception encountered: ' + str(e) # Payload of the request.
+            }
+
+
+    # Get a target by name
+    def get_elastic_dedicated_by_name(self, request_info, **kwargs):
+
+        # By data_name
+        data_name = None
+        query_string = None
+
+        # Retrieve from data
+        resp_dict = json.loads(str(request_info.raw_args['payload']))
+        data_name = resp_dict['data_name']
+
+        # Define the KV query
+        query_string = '{ "data_name": "' + data_name + '" }'
+
+        # Get splunkd port
+        entity = splunk.entity.getEntity('/server', 'settings',
+                                            namespace='trackme', sessionKey=request_info.session_key, owner='-')
+        splunkd_port = entity['mgmtHostPort']
+
+        try:
+
+            collection_name = "kv_trackme_elastic_sources"            
+            service = client.connect(
+                owner="nobody",
+                app="trackme",
+                port=splunkd_port,
+                token=request_info.session_key
+            )
+            collection = service.kvstore[collection_name]
+
+            # Get the record
+            record = json.dumps(collection.data.query(query=str(query_string)), indent=1)
+
+            # Render result
+            if record is not None and len(record)>2:
+                return {
+                    "payload": str(record),
+                    'status': 200 # HTTP status code
+                }
+
+            else:
+                return {
+                    "payload": 'Warn: resource not found ' + str(query_string),
+                    'status': 404 # HTTP status code
+                }
+
+
+        except Exception as e:
+            return {
+                'payload': 'Warn: exception encountered: ' + str(e) # Payload of the request.
+            }
+
+
     # Add new shared Elastic Source if does not exist yet
     def post_elastic_shared_add(self, request_info, **kwargs):
 
@@ -406,7 +512,7 @@ class TrackMeHandlerElasticSources_v1(rest_handler.RESTHandler):
                 # This Elastic Source exists already, the report and record will be updated with the POST data
 
                 # Get the tracker name from the record
-                tracker_name = record[0].get('tracker_name')
+                tracker_name = record[0].get('elastic_report')
 
                 # update the properties
                 newtracker_update = service.saved_searches[str(tracker_name)]
@@ -496,7 +602,7 @@ class TrackMeHandlerElasticSources_v1(rest_handler.RESTHandler):
                     newtracker_update.update(**kwargs).refresh()
 
                     # Insert the record
-                    collection.data.insert(json.dumps({"data_name": str(data_name), "search_constraint": str(search_constraint), "search_mode": str(search_mode), "elastic_data_index": str(elastic_data_index), "elastic_data_sourcetype": str(elastic_data_sourcetype), "tracker_name": str(tracker_name)}))
+                    collection.data.insert(json.dumps({"data_name": str(data_name), "search_constraint": str(search_constraint), "search_mode": str(search_mode), "elastic_data_index": str(elastic_data_index), "elastic_data_sourcetype": str(elastic_data_sourcetype), "elastic_report": str(tracker_name)}))
 
                     # Get record
                     record = json.dumps(collection.data.query(query=str(query_string)), indent=1)
@@ -568,25 +674,25 @@ class TrackMeHandlerElasticSources_v1(rest_handler.RESTHandler):
 
         try:
 
-            # Data collection
-            collection_name = "kv_trackme_elastic_sources"            
+            # service
             service = client.connect(
                 owner="nobody",
                 app="trackme",
                 port=splunkd_port,
                 token=request_info.session_key
             )
+
+            # Elastic sources collection
+            collection_name = "kv_trackme_elastic_sources"
             collection = service.kvstore[collection_name]
+
+            # Data sources collection
+            collection_name_data_sources = "kv_trackme_data_source_monitoring"
+            collection_data_sources = service.kvstore[collection_name_data_sources]
 
             # Audit collection
             collection_name_audit = "kv_trackme_audit_changes"            
-            service_audit = client.connect(
-                owner="nobody",
-                app="trackme",
-                port=splunkd_port,
-                token=request_info.session_key
-            )
-            collection_audit = service_audit.kvstore[collection_name_audit]
+            collection_audit = service.kvstore[collection_name_audit]
 
             # Get the current record
             # Notes: the record is returned as an array, as we search for a specific record, we expect one record only
@@ -597,26 +703,40 @@ class TrackMeHandlerElasticSources_v1(rest_handler.RESTHandler):
 
             except Exception as e:
                 key = None
+
+            # Get the data sources record
+
+            try:
+                record2 = collection_data_sources.data.query(query=str(query_string))
+                key2 = record2[0].get('_key')
+
+            except Exception as e:
+                key2 = None
                 
             # Render result
             if key is not None and len(key)>2:
 
                 # This record exists already
 
-                # Store the record for audit purposes
+                # Store the records for audit purposes
                 record = str(json.dumps(collection.data.query_by_id(key), indent=1))
+
+                # Store the data source record, it might not exist if not yet created
+                if key2 is not None and len(key2)>2:
+                    record2 = str(json.dumps(collection_data_sources.data.query_by_id(key2), indent=1))
 
                 # Record an audit change
                 import time
                 current_time = int(round(time.time() * 1000))
                 user = "nobody"
 
+                # Handle the Elastic Source record
                 try:
 
                     # Remove the record
                     collection.data.delete(json.dumps({"_key":key}))
 
-                    # Insert the record
+                    # Insert the audit record
                     collection_audit.data.insert(json.dumps({    
                         "time": str(current_time),
                         "user": str(user),
@@ -634,10 +754,43 @@ class TrackMeHandlerElasticSources_v1(rest_handler.RESTHandler):
                         'payload': 'Warn: exception encountered: ' + str(e) # Payload of the request.
                     }
 
-                return {
-                    "payload": "Record with _key " + str(key) + " was deleted from the collection.",
-                    'status': 200 # HTTP status code
-                }
+                # Handle the data source record, might not exist yet or anymore if deleted in between
+                if key2 is not None and len(key2)>2:
+
+                    try:
+
+                        # Remove the record
+                        collection_data_sources.data.delete(json.dumps({"_key":key2}))
+
+                        # Insert the audit record
+                        collection_audit.data.insert(json.dumps({    
+                            "time": str(current_time),
+                            "user": str(user),
+                            "action": "success",
+                            "change_type": "delete temporary",
+                            "object": str(data_name),
+                            "object_category": "data_source",
+                            "object_attrs": str(record2),
+                            "result": "N/A",
+                            "comment": str(update_comment)
+                            }))
+
+                    except Exception as e:
+                        return {
+                            'payload': 'Warn: exception encountered: ' + str(e) # Payload of the request.
+                        }
+
+                if key is not None and len(key)>2 and key2 is not None and len(key2)>2:
+                    return {
+                        "payload": "Record with _key " + str(key) + " was deleted from the Elastic source collection, record with _key " + str(key2) + " was deleted from the data sources collection.",
+                        'status': 200 # HTTP status code
+                    }
+                
+                else:
+                    return {
+                        "payload": "Record with _key " + str(key) + " was deleted from the Elastic source collection.",
+                        'status': 200 # HTTP status code
+                    }
 
             else:
 
@@ -681,25 +834,25 @@ class TrackMeHandlerElasticSources_v1(rest_handler.RESTHandler):
 
         try:
 
-            # Data collection
-            collection_name = "kv_trackme_elastic_sources_dedicated"            
+            # service
             service = client.connect(
                 owner="nobody",
                 app="trackme",
                 port=splunkd_port,
                 token=request_info.session_key
             )
+
+            # Elastic sources collection
+            collection_name = "kv_trackme_elastic_sources_dedicated"
             collection = service.kvstore[collection_name]
+
+            # Data sources collection
+            collection_name_data_sources = "kv_trackme_data_source_monitoring"
+            collection_data_sources = service.kvstore[collection_name_data_sources]
 
             # Audit collection
             collection_name_audit = "kv_trackme_audit_changes"            
-            service_audit = client.connect(
-                owner="nobody",
-                app="trackme",
-                port=splunkd_port,
-                token=request_info.session_key
-            )
-            collection_audit = service_audit.kvstore[collection_name_audit]
+            collection_audit = service.kvstore[collection_name_audit]
 
             # Get the current record
             # Notes: the record is returned as an array, as we search for a specific record, we expect one record only
@@ -709,11 +862,20 @@ class TrackMeHandlerElasticSources_v1(rest_handler.RESTHandler):
                 key = record[0].get('_key')
 
                 # Get the tracker name
-                tracker_name = record[0].get('tracker_name')
+                tracker_name = record[0].get('elastic_report')
 
             except Exception as e:
                 key = None
                 
+            # Get the data sources record
+
+            try:
+                record2 = collection_data_sources.data.query(query=str(query_string))
+                key2 = record2[0].get('_key')
+
+            except Exception as e:
+                key2 = None
+
             # Render result
             if key is not None and len(key)>2:
 
@@ -721,6 +883,10 @@ class TrackMeHandlerElasticSources_v1(rest_handler.RESTHandler):
 
                 # Store the record for audit purposes
                 record = str(json.dumps(collection.data.query_by_id(key), indent=1))
+
+                # Store the data source record, it might not exist if not yet created
+                if key2 is not None and len(key2)>2:
+                    record2 = str(json.dumps(collection_data_sources.data.query_by_id(key2), indent=1))
 
                 # Record an audit change
                 import time
@@ -733,7 +899,13 @@ class TrackMeHandlerElasticSources_v1(rest_handler.RESTHandler):
                     collection.data.delete(json.dumps({"_key":key}))
 
                     # Renove the tracker
-                    service.saved_searches.delete(str(tracker_name))
+                    tracker_was_removed = False
+                    try:
+                        service.saved_searches.delete(str(tracker_name))
+                        tracker_was_removed = True
+
+                    except Exception as e:
+                        tracker_was_removed = False
 
                     # Insert the record
                     collection_audit.data.insert(json.dumps({    
@@ -753,10 +925,49 @@ class TrackMeHandlerElasticSources_v1(rest_handler.RESTHandler):
                         'payload': 'Warn: exception encountered: ' + str(e) # Payload of the request.
                     }
 
-                return {
-                    "payload": "Record with _key " + str(key) + " was deleted from the collection.",
-                    'status': 200 # HTTP status code
-                }
+                # Handle the data source record, might not exist yet or anymore if deleted in between
+                if key2 is not None and len(key2)>2:
+
+                    try:
+
+                        # Remove the record
+                        collection_data_sources.data.delete(json.dumps({"_key":key2}))
+
+                        # Insert the audit record
+                        collection_audit.data.insert(json.dumps({    
+                            "time": str(current_time),
+                            "user": str(user),
+                            "action": "success",
+                            "change_type": "delete temporary",
+                            "object": str(data_name),
+                            "object_category": "data_source",
+                            "object_attrs": str(record2),
+                            "result": "N/A",
+                            "comment": str(update_comment)
+                            }))
+
+                    except Exception as e:
+                        return {
+                            'payload': 'Warn: exception encountered: ' + str(e) # Payload of the request.
+                        }
+
+                if key is not None and len(key)>2 and key2 is not None and len(key2)>2 and tracker_was_removed:
+                    return {
+                        "payload": "Record with _key " + str(key) + " was deleted from the Elastic source collection, report with name " + str(tracker_name) + " was deleted, record with _key " + str(key2) + " was deleted from the data sources collection.",
+                        'status': 200 # HTTP status code
+                    }
+
+                elif key is not None and len(key)>2 and key2 is not None and len(key2)>2:
+                    return {
+                        "payload": "Record with _key " + str(key) + " was deleted from the Elastic source collection, record with _key " + str(key2) + " was deleted from the data sources collection.",
+                        'status': 200 # HTTP status code
+                    }
+
+                else:
+                    return {
+                        "payload": "Record with _key " + str(key) + " was deleted from the Elastic source collection.",
+                        'status': 200 # HTTP status code
+                    }
 
             else:
 
