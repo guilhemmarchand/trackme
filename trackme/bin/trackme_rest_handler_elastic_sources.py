@@ -898,7 +898,24 @@ class TrackMeHandlerElasticSources_v1(rest_handler.RESTHandler):
                     # Remove the record
                     collection.data.delete(json.dumps({"_key":key}))
 
-                    # Renove the tracker
+                    # Get the current tracker for audit purposes
+                    try:
+                        tracker_service = service.saved_searches[str(tracker_name)]
+                        tracker_audit = '{' \
+                            + '"name": "' + tracker_service["name"] \
+                            + '", description": "' + tracker_service["description"] \
+                            + '", "is_scheduled": "' + tracker_service["is_scheduled"] \
+                            + '", "search": "' + tracker_service["search"].replace('"', '\\"') \
+                            + '", "cron_schedule": "' + tracker_service["cron_schedule"] \
+                            + '", "dispatch.earliest_time": "' + tracker_service["dispatch.earliest_time"] \
+                            + '", "dispatch.latest_time": "' + tracker_service["dispatch.latest_time"] \
+                            + '"}'
+                        tracker_audit = json.loads(json.dumps(tracker_audit, indent=1))
+
+                    except Exception as e:
+                        tracker_audit = None
+
+                    # Remove the tracker
                     tracker_was_removed = False
                     try:
                         service.saved_searches.delete(str(tracker_name))
@@ -906,6 +923,21 @@ class TrackMeHandlerElasticSources_v1(rest_handler.RESTHandler):
 
                     except Exception as e:
                         tracker_was_removed = False
+
+                    # audit
+                    if tracker_was_removed:
+                        # Insert the record
+                        collection_audit.data.insert(json.dumps({    
+                            "time": str(current_time),
+                            "user": str(user),
+                            "action": "success",
+                            "change_type": "delete elastic tracker savedsearch",
+                            "object": str(data_name),
+                            "object_category": "elastic_sources_tracker",
+                            "object_attrs": str(tracker_audit),
+                            "result": "N/A",
+                            "comment": str(update_comment)
+                            }))
 
                     # Insert the record
                     collection_audit.data.insert(json.dumps({    
@@ -960,6 +992,12 @@ class TrackMeHandlerElasticSources_v1(rest_handler.RESTHandler):
                 elif key is not None and len(key)>2 and key2 is not None and len(key2)>2:
                     return {
                         "payload": "Record with _key " + str(key) + " was deleted from the Elastic source collection, record with _key " + str(key2) + " was deleted from the data sources collection.",
+                        'status': 200 # HTTP status code
+                    }
+
+                elif key is not None and len(key)>2 and tracker_was_removed:
+                    return {
+                        "payload": "Record with _key " + str(key) + " was deleted from the Elastic source collection, report with name " + str(tracker_name) + " was deleted.",
                         'status': 200 # HTTP status code
                     }
 

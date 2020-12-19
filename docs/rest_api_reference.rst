@@ -1370,7 +1370,7 @@ elastic_shared_del / Delete a new shared Elastic Source
 
 - The elastic source record is deleted from the shared Elastic Sources collection
 - The associated record in the data sources collection is deleted
-- All settings related to these objects will be lost (but their content is audited for the major part of it)
+- All settings related to these objects will be removed permanently after being audited
 
 ::
 
@@ -1395,7 +1395,7 @@ elastic_dedicated_del / Delete a new shared Elastic Source
 - The elastic source record is deleted from the shared Elastic Sources collection
 - The associated scheduled report is deleted
 - The associated record in the data sources collection is deleted
-- All settings related to these objects will be lost (but their content is audited for the major part of it)
+- All settings related to these objects will be removed permanently after being audited
 
 ::
 
