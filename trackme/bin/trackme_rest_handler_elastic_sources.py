@@ -152,7 +152,7 @@ class TrackMeHandlerElasticSources_v1(rest_handler.RESTHandler):
 
         try:
 
-            collection_name = "kv_trackme_elastic_sources"            
+            collection_name = "kv_trackme_elastic_sources_dedicated"            
             service = client.connect(
                 owner="nobody",
                 app="trackme",
@@ -397,9 +397,9 @@ class TrackMeHandlerElasticSources_v1(rest_handler.RESTHandler):
             elastic_report_root_search = str(search_constraint) + " | stats max(_indextime) as data_last_ingest, min(_time) as data_first_time_seen, max(_time) as data_last_time_seen, count as data_eventcount, dc(host) as dcount_host | eval data_name=\"" + str(data_name) +"\", data_index=\"" + str(elastic_data_sourcetype) + "\", data_sourcetype=\"" + str(elastic_data_sourcetype) + "\", data_last_ingestion_lag_seen=data_last_ingest-data_last_time_seen | `trackme_elastic_dedicated_tracker(\"" + str(data_name) + "\")` | stats c"
 
         elif search_mode in ("from"):
-            if re.match("datamodel:", str(search_mode)):
+            if re.match("datamodel:", str(search_constraint)):
                 elastic_report_root_search = "| " + str(search_mode) + " " + str(search_constraint) + " | stats max(_indextime) as data_last_ingest, min(_time) as data_first_time_seen, max(_time) as data_last_time_seen, count as data_eventcount, dc(host) as dcount_host | eval data_name=\"" + str(data_name) + "\", data_index=\"" + str(elastic_data_index) + "\", data_sourcetype=\"" + str(elastic_data_sourcetype) + "\" | `trackme_elastic_dedicated_tracker(\"" + str(data_name) + "\")` | stats c"
-            if re.match("lookup:", str(search_mode)):
+            if re.match("lookup:", str(search_constraint)):
                 elastic_report_root_search = "| " + str(search_mode) + " " + str(search_constraint) + " | eventstats max(_time) as indextime | eval _indextime=if(isnum(_indextime), _indextime, indextime) | fields - indextime | eval host=if(isnull(host), \"none\", host) | stats max(_indextime) as data_last_ingest, min(_time) as data_first_time_seen, max(_time) as data_last_time_seen, count as data_eventcount, dc(host) as dcount_host | eval data_name=\"" + str(data_name) + "\", data_index=\"" + str(elastic_data_index) + "\", data_sourcetype=\"" + str(elastic_data_sourcetype) + "\" | `trackme_elastic_dedicated_tracker(\"" + str(data_name) + "\")` | stats c"
 
         elif search_mode in ("mstats"):

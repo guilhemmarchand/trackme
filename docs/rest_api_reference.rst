@@ -1144,7 +1144,7 @@ Elastic Sources endpoints
 +-------------------------------------------------------------------------------+-------------------------------------------------------------------+
 | :ref:`elastic_shared_add / Add or update a new shared Elastic Source`         | /services/trackme/v1/elastic_sources/elastic_shared_add           |
 +-------------------------------------------------------------------------------+-------------------------------------------------------------------+
-| :ref:`elastic_dedicated_add / Add or update a new shared Elastic Source`      | /services/trackme/v1/elastic_sources/elastic_dedicated_add        |
+| :ref:`elastic_dedicated_add / Add or update a new dedicated Elastic Source`   | /services/trackme/v1/elastic_sources/elastic_dedicated_add        |
 +-------------------------------------------------------------------------------+-------------------------------------------------------------------+
 | :ref:`elastic_shared_del / Delete a new shared Elastic Source`                | /services/trackme/v1/elastic_sources/elastic_shared_del           |
 +-------------------------------------------------------------------------------+-------------------------------------------------------------------+
@@ -1158,7 +1158,7 @@ elastic_shared / Get shared Elastic Sources collection
 
 ::
 
-    curl -k -u admin:'ch@ngeM3' -X GET https://localhost:8089/services/trackme/v1/elastic_sources/elastic_shared -d '{"data_name": "elastic:shared:example"}'
+    curl -k -u admin:'ch@ngeM3' -X GET https://localhost:8089/services/trackme/v1/elastic_sources/elastic_shared -d '{"data_name": "elastic:shared:example:tstats"}'
 
 *JSON response:*
 
@@ -1166,7 +1166,7 @@ elastic_shared / Get shared Elastic Sources collection
 
     [
      {
-      "data_name": "elastic:shared:example",
+      "data_name": "elastic:shared:example:tstats",
       "search_constraint": "index=\"network\" sourcetype=\"pan:traffic\" source=\"network:pan:amer\"",
       "search_mode": "tstats",
       "elastic_data_index": "network",
@@ -1183,7 +1183,7 @@ elastic_dedicated / Get dedicated Elastic Sources collection
 
 ::
 
-    curl -k -u admin:'ch@ngeM3' -X GET https://localhost:8089/services/trackme/v1/elastic_sources/elastic_shared -d '{"data_name": "elastic:dedicated:example"}'
+    curl -k -u admin:'ch@ngeM3' -X GET https://localhost:8089/services/trackme/v1/elastic_sources/elastic_shared -d '{"data_name": "elastic:dedicated:example:tstats"}'
 
 *JSON response:*
 
@@ -1191,7 +1191,7 @@ elastic_dedicated / Get dedicated Elastic Sources collection
 
     [
      {
-      "data_name": "elastic:shared:example",
+      "data_name": "elastic:shared:example:tstats",
       "search_constraint": "index=\"network\" sourcetype=\"pan:traffic\" source=\"network:pan:amer\"",
       "search_mode": "tstats",
       "elastic_data_index": "network",
@@ -1210,7 +1210,7 @@ elastic_shared_by_name / Get shared Elastic Source by name
 
 ::
 
-    curl -k -u admin:'ch@ngeM3' -X GET https://localhost:8089/services/trackme/v1/elastic_sources/elastic_shared -d '{"data_name": "elastic:shared:example"}'
+    curl -k -u admin:'ch@ngeM3' -X GET https://localhost:8089/services/trackme/v1/elastic_sources/elastic_shared_by_name -d '{"data_name": "elastic:shared:example:tstats"}'
 
 *JSON response:*
 
@@ -1218,7 +1218,7 @@ elastic_shared_by_name / Get shared Elastic Source by name
 
     [
      {
-      "data_name": "elastic:shared:example",
+      "data_name": "elastic:shared:example:tstats",
       "search_constraint": "index=\"network\" sourcetype=\"pan:traffic\" source=\"network:pan:amer\"",
       "search_mode": "tstats",
       "elastic_data_index": "network",
@@ -1237,7 +1237,7 @@ elastic_dedicated_by_name / Get shared Elastic Source by name
 
 ::
 
-    curl -k -u admin:'ch@ngeM3' -X GET https://localhost:8089/services/trackme/v1/elastic_sources/elastic_shared -d '{"data_name": "elastic:dedicated:example"}'
+    curl -k -u admin:'ch@ngeM3' -X GET https://localhost:8089/services/trackme/v1/elastic_sources/elastic_dedicated_by_name -d '{"data_name": "elastic:dedicated:example:tstats"}'
 
 *JSON response:*
 
@@ -1245,7 +1245,7 @@ elastic_dedicated_by_name / Get shared Elastic Source by name
 
     [
      {
-      "data_name": "elastic:shared:example",
+      "data_name": "elastic:shared:example:tstats",
       "search_constraint": "index=\"network\" sourcetype=\"pan:traffic\" source=\"network:pan:amer\"",
       "search_mode": "tstats",
       "elastic_data_index": "network",
@@ -1284,9 +1284,11 @@ elastic_shared_add / Add or update a new shared Elastic Source
 
 *Filters can include a time range which will override the default 4 hours time range of the wrapper tracker, as: earliest="-15m" latest="+15m"*
 
+*tstats based example:*
+
 ::
 
-    curl -k -u admin:'ch@ngeM3' -X POST https://localhost:8089/services/trackme/v1/elastic_sources/elastic_shared_add -d '{"data_name": "elastic:shared:example", "search_constraint": "index=\"network\" sourcetype=\"pan:traffic\" source=\"network:pan:amer\"", "search_mode": "tstats", "elastic_data_index": "network", "elastic_data_sourcetype": "pan:traffic"}'
+    curl -k -u admin:'ch@ngeM3' -X POST https://localhost:8089/services/trackme/v1/elastic_sources/elastic_shared_add -d '{"data_name": "elastic:shared:example:tstats", "search_constraint": "index=\"network\" sourcetype=\"pan:traffic\" source=\"network:pan:amer\"", "search_mode": "tstats", "elastic_data_index": "network", "elastic_data_sourcetype": "pan:traffic"}'
 
 *JSON response:*
 
@@ -1294,7 +1296,7 @@ elastic_shared_add / Add or update a new shared Elastic Source
 
     [
      {
-      "data_name": "elastic:shared:example",
+      "data_name": "elastic:shared:example:tstats",
       "search_constraint": "index=\"network\" sourcetype=\"pan:traffic\" source=\"network:pan:amer\"",
       "search_mode": "tstats",
       "elastic_data_index": "network",
@@ -1304,8 +1306,33 @@ elastic_shared_add / Add or update a new shared Elastic Source
      }
     ]
 
-elastic_dedicated_add / Add or update a new shared Elastic Source
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+*raw based example:*
+
+::
+
+    curl -k -u admin:'ch@ngeM3' -X POST https://localhost:8089/services/trackme/v1/elastic_sources/elastic_shared_add -d '{"data_name": "elastic:shared:example:raw", "search_constraint": "index=\"network\" sourcetype=\"pan:traffic\" source=\"network:pan:amer\" earliest=\"-30m\"", "search_mode": "raw", "elastic_data_index": "network", "elastic_data_sourcetype": "pan:traffic"}'
+
+*from datamodel based example:*
+
+::
+
+    curl -k -u admin:'ch@ngeM3' -X POST https://localhost:8089/services/trackme/v1/elastic_sources/elastic_shared_add -d '{"data_name": "elastic:shared:from:datamodel:example", "search_constraint": "datamodel:\"Authentication\" | search user=* action=*", "search_mode": "from", "elastic_data_index": "datamodel", "elastic_data_sourcetype": "auth:example"}'
+
+*from lookup based example:*
+
+::
+
+    curl -k -u admin:'ch@ngeM3' -X POST https://localhost:8089/services/trackme/v1/elastic_sources/elastic_shared_add -d '{"data_name": "elastic:shared:from:lookup:example", "search_constraint": "lookup:\"acme_cmdb_lookup\"", "search_mode": "from", "elastic_data_index": "lookup", "elastic_data_sourcetype": "cmdb:example"}'
+
+*mstats based example:*
+
+::
+
+    curl -k -u admin:'ch@ngeM3' -X POST https://localhost:8089/services/trackme/v1/elastic_sources/elastic_shared_add -d '{"data_name": "elastic:shared:mstats:example", "search_constraint": "index=* metric_name=\"docker_container_cpu*\" earliest=\"-5m\" latest=now", "search_mode": "mstats", "elastic_data_index": "metrics", "elastic_data_sourcetype": "metrics:docker"}'
+
+
+elastic_dedicated_add / Add or update a new dedicated Elastic Source
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 **This endpoint create a new shared Elastic Source, if the entity already exists it will be updated using the data provided, it requires a POST call with the following information:**
 
@@ -1339,7 +1366,7 @@ elastic_dedicated_add / Add or update a new shared Elastic Source
 
 ::
 
-    curl -k -u admin:'ch@ngeM3' -X POST https://localhost:8089/services/trackme/v1/elastic_sources/elastic_dedicated_add -d '{"data_name": "elastic:dedicated:example", "search_constraint": "index=\"network\" sourcetype=\"pan:traffic\" source=\"network:pan:amer\"", "search_mode": "tstats", "elastic_data_index": "network", "elastic_data_sourcetype": "pan:traffic", "earliest_time": "-4h", "latest_time": "+4h"}'
+    curl -k -u admin:'ch@ngeM3' -X POST https://localhost:8089/services/trackme/v1/elastic_sources/elastic_dedicated_add -d '{"data_name": "elastic:dedicated:example:tstats", "search_constraint": "index=\"network\" sourcetype=\"pan:traffic\" source=\"network:pan:amer\"", "search_mode": "tstats", "elastic_data_index": "network", "elastic_data_sourcetype": "pan:traffic", "earliest_time": "-4h", "latest_time": "+4h"}'
 
 *JSON response:*
 
@@ -1347,7 +1374,7 @@ elastic_dedicated_add / Add or update a new shared Elastic Source
 
     [
      {
-      "data_name": "elastic:dedicated:example",
+      "data_name": "elastic:dedicated:example:tstats",
       "search_constraint": "index=\"network\" sourcetype=\"pan:traffic\" source=\"network:pan:amer\"",
       "search_mode": "tstats",
       "elastic_data_index": "network",
@@ -1357,6 +1384,30 @@ elastic_dedicated_add / Add or update a new shared Elastic Source
       "_key": "5fdbc3b5a507cc26ee02af63"
      }
     ]
+
+*raw based example:*
+
+::
+
+    curl -k -u admin:'ch@ngeM3' -X POST https://localhost:8089/services/trackme/v1/elastic_sources/elastic_dedicated_add -d '{"data_name": "elastic:dedicated:example:raw", "search_constraint": "index=\"network\" sourcetype=\"pan:traffic\" source=\"network:pan:amer\"", "search_mode": "raw", "elastic_data_index": "network", "elastic_data_sourcetype": "pan:traffic", "earliest": "-30m", "latest": "now"}'
+
+*from datamodel based example:*
+
+::
+
+    curl -k -u admin:'ch@ngeM3' -X POST https://localhost:8089/services/trackme/v1/elastic_sources/elastic_dedicated_add -d '{"data_name": "elastic:dedicated:from:datamodel:example", "search_constraint": "datamodel:\"Authentication\" | search user=* action=*", "search_mode": "from", "elastic_data_index": "datamodel", "elastic_data_sourcetype": "auth:example", "earliest": "-30m", "latest": "now"}'
+
+*from lookup based example:*
+
+::
+
+    curl -k -u admin:'ch@ngeM3' -X POST https://localhost:8089/services/trackme/v1/elastic_sources/elastic_dedicated_add -d '{"data_name": "elastic:dedicated:from:lookup:example", "search_constraint": "lookup:\"acme_cmdb_lookup\"", "search_mode": "from", "elastic_data_index": "lookup", "elastic_data_sourcetype": "cmdb:example"}'
+
+*mstats based example:*
+
+::
+
+    curl -k -u admin:'ch@ngeM3' -X POST https://localhost:8089/services/trackme/v1/elastic_sources/elastic_dedicated_add -d '{"data_name": "elastic:dedicated:mstats:example", "search_constraint": "index=* metric_name=\"docker_container_cpu*\"", "search_mode": "mstats", "elastic_data_index": "metrics", "elastic_data_sourcetype": "metrics:docker", "earliest": "-5m", "latest": "now"}'
 
 elastic_shared_del / Delete a new shared Elastic Source
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -1374,7 +1425,7 @@ elastic_shared_del / Delete a new shared Elastic Source
 
 ::
 
-    curl -k -u admin:'ch@ngeM3' -X DELETE https://localhost:8089/services/trackme/v1/elastic_sources/elastic_shared_del -d '{"data_name": "elastic:shared:example"}'
+    curl -k -u admin:'ch@ngeM3' -X DELETE https://localhost:8089/services/trackme/v1/elastic_sources/elastic_shared_del -d '{"data_name": "elastic:shared:example:tstats"}'
 
 *response:*
 
@@ -1399,7 +1450,7 @@ elastic_dedicated_del / Delete a new shared Elastic Source
 
 ::
 
-    curl -k -u admin:'ch@ngeM3' -X DELETE https://localhost:8089/services/trackme/v1/elastic_sources/elastic_dedicated_del -d '{"data_name": "elastic:dedicated:example"}'
+    curl -k -u admin:'ch@ngeM3' -X DELETE https://localhost:8089/services/trackme/v1/elastic_sources/elastic_dedicated_del -d '{"data_name": "elastic:dedicated:example:tstats"}'
 
 *response:*
 
