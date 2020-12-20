@@ -27,6 +27,8 @@ These resource groups are accessible by specific endpoint paths as following:
 +--------------------------------------+--------------------------------------+
 | :ref:`Block list endpoints`          | /services/trackme/v1/blocklist       |
 +--------------------------------------+--------------------------------------+
+| :ref:`Logical Groups endpoints`      | /services/trackme/v1/logical_groups  |
++--------------------------------------+--------------------------------------+
 
 These endpoints can be used to interract with TrackMe in a programmatic fashion, for instance to perform integration tasks with automation systems.
 
@@ -1154,7 +1156,7 @@ Elastic Sources endpoints
 elastic_shared / Get shared Elastic Sources collection
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-**This endpoint retrieves the entired shared Elastic Sources collection returned as a JSON array, its requires a GET call with no data required:**
+**This endpoint retrieves the entired shared Elastic Sources collection returned as a JSON array, it requires a GET call with no data required:**
 
 ::
 
@@ -1179,7 +1181,7 @@ elastic_shared / Get shared Elastic Sources collection
 elastic_dedicated / Get dedicated Elastic Sources collection
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-**This endpoint retrieves the entired dedicated Elastic Sources collection returned as a JSON array, its requires a GET call with no data required:**
+**This endpoint retrieves the entired dedicated Elastic Sources collection returned as a JSON array, it requires a GET call with no data required:**
 
 ::
 
@@ -1204,7 +1206,7 @@ elastic_dedicated / Get dedicated Elastic Sources collection
 elastic_shared_by_name / Get shared Elastic Source by name
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-**This endpoint retrieves a shared Elastic Source configuration stored in the collection returned as a JSON array, its requires a GET call with the following information:**
+**This endpoint retrieves a shared Elastic Source configuration stored in the collection returned as a JSON array, it requires a GET call with the following information:**
 
 - ``"data_name": "<name of the Elastic Source>"``
 
@@ -1231,7 +1233,7 @@ elastic_shared_by_name / Get shared Elastic Source by name
 elastic_dedicated_by_name / Get shared Elastic Source by name
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-**This endpoint retrieves a dedicated Elastic Source configuration stored in the collection returned as a JSON array, its requires a GET call with the following information:**
+**This endpoint retrieves a dedicated Elastic Source configuration stored in the collection returned as a JSON array, it requires a GET call with the following information:**
 
 - ``"data_name": "<name of the Elastic Source>"``
 
@@ -1412,7 +1414,7 @@ elastic_dedicated_add / Add or update a new dedicated Elastic Source
 elastic_shared_del / Delete a new shared Elastic Source
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-**This endpoint deletes a shared Elastic Source, its requires a DELETE call with the following information:**
+**This endpoint deletes a shared Elastic Source, it requires a DELETE call with the following information:**
 
 - ``"data_name": "<name of the Elastic Source>"``
 - ``"update_comment": "<OPTIONAL: a comment for the update, comments are added to the audit record, if unset will be defined to: API update>``
@@ -1436,7 +1438,7 @@ elastic_shared_del / Delete a new shared Elastic Source
 elastic_dedicated_del / Delete a new shared Elastic Source
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-**This endpoint deletes a dedicated Elastic Source, its requires a DELETE call with the following information:**
+**This endpoint deletes a dedicated Elastic Source, it requires a DELETE call with the following information:**
 
 - ``"data_name": "<name of the Elastic Source>"``
 - ``"update_comment": "<OPTIONAL: a comment for the update, comments are added to the audit record, if unset will be defined to: API update>``
@@ -1476,7 +1478,7 @@ Maintenance mode endpoints
 maintenance_status / Get maintenance mode
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-**This endpoint retrieves the current maintenance mode collection returned as a JSON array, its requires a GET call with no data required:**
+**This endpoint retrieves the current maintenance mode collection returned as a JSON array, it requires a GET call with no data required:**
 
 ::
 
@@ -1607,7 +1609,7 @@ Allow list endpoints
 allowlist_ds / Get current allow list for data sources
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-**This endpoint retrieves the current allow list collection returned as a JSON array, its requires a GET call with no data required:**
+**This endpoint retrieves the current allow list collection returned as a JSON array, it requires a GET call with no data required:**
 
 ::
 
@@ -1629,7 +1631,7 @@ allowlist_ds / Get current allow list for data sources
 allowlist_dh / Get current allow list for data hosts
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-**This endpoint retrieves the current allow list collection returned as a JSON array, its requires a GET call with no data required:**
+**This endpoint retrieves the current allow list collection returned as a JSON array, it requires a GET call with no data required:**
 
 ::
 
@@ -1651,7 +1653,7 @@ allowlist_dh / Get current allow list for data hosts
 allowlist_mh / Get current allow list for metric hosts
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-**This endpoint retrieves the current allow list collection returned as a JSON array, its requires a GET call with no data required:**
+**This endpoint retrieves the current allow list collection returned as a JSON array, it requires a GET call with no data required:**
 
 ::
 
@@ -1862,7 +1864,7 @@ Block list endpoints
 blocklist_ds_host / Get current block list for data sources (hosts)
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-**This endpoint retrieves the current block list collection returned as a JSON array, its requires a GET call with no data required:**
+**This endpoint retrieves the current block list collection returned as a JSON array, it requires a GET call with no data required:**
 
 ::
 
@@ -1885,7 +1887,7 @@ blocklist_ds_host / Get current block list for data sources (hosts)
 blocklist_ds_index / Get current block list for data sources (index)
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-**This endpoint retrieves the current block list collection returned as a JSON array, its requires a GET call with no data required:**
+**This endpoint retrieves the current block list collection returned as a JSON array, it requires a GET call with no data required:**
 
 ::
 
@@ -1908,7 +1910,7 @@ blocklist_ds_index / Get current block list for data sources (index)
 blocklist_ds_sourcetype / Get current block list for data sources (sourcetype)
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-**This endpoint retrieves the current block list collection returned as a JSON array, its requires a GET call with no data required:**
+**This endpoint retrieves the current block list collection returned as a JSON array, it requires a GET call with no data required:**
 
 ::
 
@@ -1931,7 +1933,7 @@ blocklist_ds_sourcetype / Get current block list for data sources (sourcetype)
 blocklist_dh_host / Get current block list for data hosts (hosts)
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-**This endpoint retrieves the current block list collection returned as a JSON array, its requires a GET call with no data required:**
+**This endpoint retrieves the current block list collection returned as a JSON array, it requires a GET call with no data required:**
 
 ::
 
@@ -1954,7 +1956,7 @@ blocklist_dh_host / Get current block list for data hosts (hosts)
 blocklist_dh_index / Get current block list for data hosts (index)
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-**This endpoint retrieves the current block list collection returned as a JSON array, its requires a GET call with no data required:**
+**This endpoint retrieves the current block list collection returned as a JSON array, it requires a GET call with no data required:**
 
 ::
 
@@ -1977,7 +1979,7 @@ blocklist_dh_index / Get current block list for data hosts (index)
 blocklist_dh_sourcetype / Get current block list for data hosts (sourcetype)
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-**This endpoint retrieves the current block list collection returned as a JSON array, its requires a GET call with no data required:**
+**This endpoint retrieves the current block list collection returned as a JSON array, it requires a GET call with no data required:**
 
 ::
 
@@ -2000,7 +2002,7 @@ blocklist_dh_sourcetype / Get current block list for data hosts (sourcetype)
 blocklist_mh_host / Get current block list for metric hosts (host)
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-**This endpoint retrieves the current block list collection returned as a JSON array, its requires a GET call with no data required:**
+**This endpoint retrieves the current block list collection returned as a JSON array, it requires a GET call with no data required:**
 
 ::
 
@@ -2023,7 +2025,7 @@ blocklist_mh_host / Get current block list for metric hosts (host)
 blocklist_mh_index / Get current block list for metric hosts (index)
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-**This endpoint retrieves the current block list collection returned as a JSON array, its requires a GET call with no data required:**
+**This endpoint retrieves the current block list collection returned as a JSON array, it requires a GET call with no data required:**
 
 ::
 
@@ -2046,7 +2048,7 @@ blocklist_mh_index / Get current block list for metric hosts (index)
 blocklist_mh_metric_category / Get current block list for metric hosts (metric_category)
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-**This endpoint retrieves the current block list collection returned as a JSON array, its requires a GET call with no data required:**
+**This endpoint retrieves the current block list collection returned as a JSON array, it requires a GET call with no data required:**
 
 ::
 
@@ -2069,7 +2071,7 @@ blocklist_mh_metric_category / Get current block list for metric hosts (metric_c
 blocklist_ds_host_add / Add host in block list for data sources
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-**This endpoint adds a new recordreturned as a JSON array, its requires a POST call with no data required:**
+**This endpoint adds a new record returned as a JSON array, it requires a POST call with no data required:**
 
 - ``"data_host": "<value to be added to the blocklist, accepts wildcards and regular expressions>``
 - ``"update_comment": "<OPTIONAL: a comment for the update, comments are added to the audit record, if unset will be defined to: API update>``
@@ -2094,7 +2096,7 @@ blocklist_ds_host_add / Add host in block list for data sources
 blocklist_ds_index_add / Add index in block list for data sources
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-**This endpoint adds a new recordreturned as a JSON array, its requires a POST call with no data required:**
+**This endpoint adds a new record returned as a JSON array, it requires a POST call with no data required:**
 
 - ``"data_index": "<value to be added to the blocklist, accepts wildcards and regular expressions>``
 - ``"update_comment": "<OPTIONAL: a comment for the update, comments are added to the audit record, if unset will be defined to: API update>``
@@ -2119,7 +2121,7 @@ blocklist_ds_index_add / Add index in block list for data sources
 blocklist_ds_index_add / Add sourcetype in block list for data sources
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-**This endpoint adds a new recordreturned as a JSON array, its requires a POST call with no data required:**
+**This endpoint adds a new record returned as a JSON array, it requires a POST call with no data required:**
 
 - ``"data_sourcetype": "<value to be added to the blocklist, accepts wildcards and regular expressions>``
 - ``"update_comment": "<OPTIONAL: a comment for the update, comments are added to the audit record, if unset will be defined to: API update>``
@@ -2144,7 +2146,7 @@ blocklist_ds_index_add / Add sourcetype in block list for data sources
 blocklist_dh_host_add / Add host in block list for data hosts
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-**This endpoint adds a new recordreturned as a JSON array, its requires a POST call with no data required:**
+**This endpoint adds a new record returned as a JSON array, it requires a POST call with no data required:**
 
 - ``"data_host": "<value to be added to the blocklist, accepts wildcards and regular expressions>``
 - ``"update_comment": "<OPTIONAL: a comment for the update, comments are added to the audit record, if unset will be defined to: API update>``
@@ -2169,7 +2171,7 @@ blocklist_dh_host_add / Add host in block list for data hosts
 blocklist_dh_index_add / Add index in block list for data hosts
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-**This endpoint adds a new recordreturned as a JSON array, its requires a POST call with no data required:**
+**This endpoint adds a new record returned as a JSON array, it requires a POST call with no data required:**
 
 - ``"data_index": "<value to be added to the blocklist, accepts wildcards and regular expressions>``
 - ``"update_comment": "<OPTIONAL: a comment for the update, comments are added to the audit record, if unset will be defined to: API update>``
@@ -2194,7 +2196,7 @@ blocklist_dh_index_add / Add index in block list for data hosts
 blocklist_dh_sourcetype_add / Add sourcetype in block list for data hosts
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-**This endpoint adds a new recordreturned as a JSON array, its requires a POST call with no data required:**
+**This endpoint adds a new record returned as a JSON array, it requires a POST call with no data required:**
 
 - ``"data_sourcetype": "<value to be added to the blocklist, accepts wildcards and regular expressions>``
 - ``"update_comment": "<OPTIONAL: a comment for the update, comments are added to the audit record, if unset will be defined to: API update>``
@@ -2219,7 +2221,7 @@ blocklist_dh_sourcetype_add / Add sourcetype in block list for data hosts
 blocklist_mh_host_add / Add host in block list for metric hosts
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-**This endpoint adds a new recordreturned as a JSON array, its requires a POST call with no data required:**
+**This endpoint adds a new record returned as a JSON array, it requires a POST call with no data required:**
 
 - ``"metric_host": "<value to be added to the blocklist, accepts wildcards and regular expressions>``
 - ``"update_comment": "<OPTIONAL: a comment for the update, comments are added to the audit record, if unset will be defined to: API update>``
@@ -2244,7 +2246,7 @@ blocklist_mh_host_add / Add host in block list for metric hosts
 blocklist_mh_index_add / Add index in block list for metric hosts
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-**This endpoint adds a new recordreturned as a JSON array, its requires a POST call with no data required:**
+**This endpoint adds a new record returned as a JSON array, it requires a POST call with no data required:**
 
 - ``"metric_index": "<value to be added to the blocklist, accepts wildcards and regular expressions>``
 - ``"update_comment": "<OPTIONAL: a comment for the update, comments are added to the audit record, if unset will be defined to: API update>``
@@ -2269,7 +2271,7 @@ blocklist_mh_index_add / Add index in block list for metric hosts
 blocklist_mh_metric_category_add / Add metric_category in block list for metric hosts
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-**This endpoint adds a new recordreturned as a JSON array, its requires a POST call with no data required:**
+**This endpoint adds a new record returned as a JSON array, it requires a POST call with no data required:**
 
 - ``"metric_category": "<value to be added to the blocklist, accepts wildcards and regular expressions>``
 - ``"update_comment": "<OPTIONAL: a comment for the update, comments are added to the audit record, if unset will be defined to: API update>``
@@ -2294,7 +2296,7 @@ blocklist_mh_metric_category_add / Add metric_category in block list for metric 
 blocklist_ds_host_del / Delete host in block list for data sources
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-**This endpoint deletes an existing recordreturned as a JSON array, its requires a DELETE call with no data required:**
+**This endpoint deletes an existing record returned as a JSON array, it requires a DELETE call with the following arguments:**
 
 - ``"data_host": "<value to be added to the blocklist, accepts wildcards and regular expressions>``
 - ``"update_comment": "<OPTIONAL: a comment for the update, comments are added to the audit record, if unset will be defined to: API update>``
@@ -2312,7 +2314,7 @@ blocklist_ds_host_del / Delete host in block list for data sources
 blocklist_ds_index_del / Delete index in block list for data sources
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-**This endpoint deletes an existing recordreturned as a JSON array, its requires a DELETE call with no data required:**
+**This endpoint deletes an existing record returned as a JSON array, it requires a DELETE call with the following arguments:**
 
 - ``"data_index": "<value to be added to the blocklist, accepts wildcards and regular expressions>``
 - ``"update_comment": "<OPTIONAL: a comment for the update, comments are added to the audit record, if unset will be defined to: API update>``
@@ -2330,7 +2332,7 @@ blocklist_ds_index_del / Delete index in block list for data sources
 blocklist_ds_sourcetype_del / Delete sourcetype in block list for data sources
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-**This endpoint deletes an existing recordreturned as a JSON array, its requires a DELETE call with no data required:**
+**This endpoint deletes an existing record returned as a JSON array, it requires a DELETE call with the following arguments:**
 
 - ``"data_sourcetype": "<value to be added to the blocklist, accepts wildcards and regular expressions>``
 - ``"update_comment": "<OPTIONAL: a comment for the update, comments are added to the audit record, if unset will be defined to: API update>``
@@ -2348,7 +2350,7 @@ blocklist_ds_sourcetype_del / Delete sourcetype in block list for data sources
 blocklist_dh_host_del / Delete host in block list for data hosts
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-**This endpoint deletes an existing recordreturned as a JSON array, its requires a DELETE call with no data required:**
+**This endpoint deletes an existing record returned as a JSON array, it requires a DELETE call with the following arguments:**
 
 - ``"data_host": "<value to be added to the blocklist, accepts wildcards and regular expressions>``
 - ``"update_comment": "<OPTIONAL: a comment for the update, comments are added to the audit record, if unset will be defined to: API update>``
@@ -2366,7 +2368,7 @@ blocklist_dh_host_del / Delete host in block list for data hosts
 blocklist_dh_index_del / Delete index in block list for data hosts
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-**This endpoint deletes an existing recordreturned as a JSON array, its requires a DELETE call with no data required:**
+**This endpoint deletes an existing record returned as a JSON array, it requires a DELETE call with the following arguments:**
 
 - ``"data_index": "<value to be added to the blocklist, accepts wildcards and regular expressions>``
 - ``"update_comment": "<OPTIONAL: a comment for the update, comments are added to the audit record, if unset will be defined to: API update>``
@@ -2384,7 +2386,7 @@ blocklist_dh_index_del / Delete index in block list for data hosts
 blocklist_dh_sourcetype_del / Delete sourcetype in block list for data hosts
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-**This endpoint deletes an existing recordreturned as a JSON array, its requires a DELETE call with no data required:**
+**This endpoint deletes an existing record returned as a JSON array, it requires a DELETE call with the following arguments:**
 
 - ``"data_sourcetype": "<value to be added to the blocklist, accepts wildcards and regular expressions>``
 - ``"update_comment": "<OPTIONAL: a comment for the update, comments are added to the audit record, if unset will be defined to: API update>``
@@ -2402,7 +2404,7 @@ blocklist_dh_sourcetype_del / Delete sourcetype in block list for data hosts
 blocklist_mh_host_del / Delete host in block list for metric hosts
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-**This endpoint deletes an existing recordreturned as a JSON array, its requires a DELETE call with no data required:**
+**This endpoint deletes an existing record returned as a JSON array, it requires a DELETE call with the following arguments:**
 
 - ``"metric_host": "<value to be added to the blocklist, accepts wildcards and regular expressions>``
 - ``"update_comment": "<OPTIONAL: a comment for the update, comments are added to the audit record, if unset will be defined to: API update>``
@@ -2420,7 +2422,7 @@ blocklist_mh_host_del / Delete host in block list for metric hosts
 blocklist_mh_index_del / Delete index in block list for metric hosts
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-**This endpoint deletes an existing recordreturned as a JSON array, its requires a DELETE call with no data required:**
+**This endpoint deletes an existing record returned as a JSON array, it requires a DELETE call with the following arguments:**
 
 - ``"metric_index": "<value to be added to the blocklist, accepts wildcards and regular expressions>``
 - ``"update_comment": "<OPTIONAL: a comment for the update, comments are added to the audit record, if unset will be defined to: API update>``
@@ -2438,7 +2440,7 @@ blocklist_mh_index_del / Delete index in block list for metric hosts
 blocklist_mh_metric_category_del / Delete metric_category in block list for metric hosts
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-**This endpoint deletes an existing recordreturned as a JSON array, its requires a DELETE call with no data required:**
+**This endpoint deletes an existing record returned as a JSON array, it requires a DELETE call with the following arguments:**
 
 - ``"metric_category": "<value to be added to the blocklist, accepts wildcards and regular expressions>``
 - ``"update_comment": "<OPTIONAL: a comment for the update, comments are added to the audit record, if unset will be defined to: API update>``
@@ -2452,3 +2454,137 @@ blocklist_mh_metric_category_del / Delete metric_category in block list for metr
 ::
 
     Record with _key 5fd6afee8c70e663460209c5 was deleted from the collection.
+
+
+
+Logical Groups endpoints
+------------------------
+
+**Resources summary:**
+
++---------------------------------------------------------------------------------------------------+-----------------------------------------------------------------+
+| Resource                                                                                          | API Path                                                        | 
++===================================================================================================+=================================================================+
+| :ref:`logical_groups_collection / Get entire logical groups collection`                           | /services/trackme/v1/logical_groups/logical_groups_collection   |
++---------------------------------------------------------------------------------------------------+-----------------------------------------------------------------+
+| :ref:`logical_groups_get_grp / Get a logical group`                                               | /services/trackme/v1/logical_groups/logical_groups_get_grp      |
++---------------------------------------------------------------------------------------------------+-----------------------------------------------------------------+
+| :ref:`logical_groups_add_grp / Add a new or update a logical group`                               | /services/trackme/v1/logical_groups/logical_groups_add_grp      |
++---------------------------------------------------------------------------------------------------+-----------------------------------------------------------------+
+| :ref:`logical_groups_del_grp / Delete a logical group`                                            | /services/trackme/v1/logical_groups/logical_groups_del_grp      |
++---------------------------------------------------------------------------------------------------+-----------------------------------------------------------------+
+
+logical_groups_collection / Get entire logical groups collection
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+**This endpoint retrieves the entire Logical Groups collection returned as a JSON array, it requires a GET call with no data required:**
+
+::
+
+    curl -k -u admin:'ch@ngeM3' -X GET https://localhost:8089/services/trackme/v1/logical_groups/logical_groups_collection
+
+*JSON response:*
+
+::
+
+    [
+     {
+      "object_group_name": "logical group example",
+      "object_group_members": [
+      [
+          "telegraf-node1",
+          "telegraf-node2"
+      ]
+     ],
+     "object_group_min_green_percent": "50",
+     "object_group_mtime": "1608481445.3048441",
+     "_user": "nobody",
+     "_key": "5fdf7aa55af72855ab693b47"
+     }
+    ]
+
+logical_groups_get_grp / Get a logical group
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+**This endpoint retrieve a specific logial group record, it requires a GET call with the following information:**
+
+- ``"object_group_name": "<name of the logical group be allowed>"``
+
+::
+
+    curl -k -u admin:'ch@ngeM3' -X GET https://localhost:8089/services/trackme/v1/logical_groups/logical_groups_get_grp -d '{"object_group_name": "logical group example"}'
+
+*JSON response:*
+
+::
+
+    [
+     {
+      "object_group_name": "logical group example",
+      "object_group_members": [
+      [
+          "telegraf-node1",
+          "telegraf-node2"
+      ]
+     ],
+     "object_group_min_green_percent": "50",
+     "object_group_mtime": "1608481445.3048441",
+     "_user": "nobody",
+     "_key": "5fdf7aa55af72855ab693b47"
+     }
+    ]
+
+logical_groups_add_grp / Add a new or update a logical group
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+**This endpoint creates a new logical group, it requires a POST call with the following data required:**
+
+- ``"object_group_name": "<name of the logical group be allowed>"``
+- ``"object_group_members": "<comma separated list of the group members>"``
+- ``"object_group_min_green_percent": "<OPTIONAL: minimal percentage of hosts that need to be green for the logical group to be green, if unset defaults to 50. Recommended options for this value: 12.5 / 33.33 / 50>"``
+- ``"update_comment": "<OPTIONAL: a comment for the update, comments are added to the audit record, if unset will be defined to: API update>``
+
+*If the logical group exists already, it will be updated with the information provided.*
+
+::
+
+    curl -k -u admin:'ch@ngeM3' -X POST https://localhost:8089/services/trackme/v1/logical_groups/logical_groups_add_grp -d '{"object_group_name": "logical group example", "object_group_members": "telegraf-node1, telegraf-node2", "object_group_min_green_percent": "50", "comment_update": "Automated API driven logical group creation."}'
+
+
+*JSON response:*
+
+::
+
+    [
+     {
+      "object_group_name": "logical group example",
+      "object_group_members": [
+     [
+         "telegraf-node1",
+         "telegraf-node2"
+     ]
+     ],
+     "object_group_min_green_percent": "50",
+     "object_group_mtime": "1608481445.3048441",
+     "_user": "nobody",
+     "_key": "5fdf7aa55af72855ab693b47"
+     }
+    ]
+
+logical_groups_del_grp / Delete a logical group
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+**This endpoint deletes a logical group, it requires a DELETE call with the following data required:**
+
+- ``"object_group_name": "<name of the logical group be allowed>"``
+- ``"update_comment": "<OPTIONAL: a comment for the update, comments are added to the audit record, if unset will be defined to: API update>``
+
+::
+
+    curl -k -u admin:'ch@ngeM3' -X DELETE https://localhost:8089/services/trackme/v1/logical_groups/logical_groups_del_grp -d '{"object_group_name": "logical group example", "comment_update": "Automated API driven logical group deletion."}'
+
+*response:*
+
+::
+
+    Record with _key 5fdf7aa55af72855ab693b47 was deleted from the logical groups collection.
