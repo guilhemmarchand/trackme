@@ -17,6 +17,7 @@ https://trackme.readthedocs.io/en/latest/configuration.html
 
 - Feature - new REST API endpoints for Elastic Sources management
 - Feature - new REST API endpoints for Logical Groups management
+- Feature - new REST API endpoints for Data samplig custom models management
 
 Version 1.2.29
 ==============

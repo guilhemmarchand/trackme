@@ -2588,3 +2588,134 @@ logical_groups_del_grp / Delete a logical group
 ::
 
     Record with _key 5fdf7aa55af72855ab693b47 was deleted from the logical groups collection.
+
+Data sampling endpoints
+-----------------------
+
+**Resources summary:**
+
++---------------------------------------------------------------------------------------------------+-----------------------------------------------------------------+
+| Resource                                                                                          | API Path                                                        | 
++===================================================================================================+=================================================================+
+| :ref:`data_sampling_models / Get data sampling custom models`                                     | /services/trackme/v1/data_sampling/data_sampling_models         |
++---------------------------------------------------------------------------------------------------+-----------------------------------------------------------------+
+| :ref:`data_sampling_models_by_name / Get data sampling custom model by name`                      | /services/trackme/v1/data_sampling/data_sampling_models_by_name |
++---------------------------------------------------------------------------------------------------+-----------------------------------------------------------------+
+| :ref:`data_sampling_models_add / Add a new custom model or update`                                | /services/trackme/v1/data_sampling/data_sampling_models_add     |
++---------------------------------------------------------------------------------------------------+-----------------------------------------------------------------+
+| :ref:`data_sampling_models_del / Delete new custom model`                                         | /services/trackme/v1/data_sampling/data_sampling_models_del     |
++---------------------------------------------------------------------------------------------------+-----------------------------------------------------------------+
+
+data_sampling_models / Get data sampling custom models
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+**This endpoint retrieves the data sampling custom models collection, it requires a GET call with no options required:**
+
+::
+
+    curl -k -u admin:'ch@ngeM3' -X GET https://localhost:8089/services/trackme/v1/data_sampling/data_sampling_models
+
+*JSON response:*
+
+::
+
+    [
+     {
+      "_time": "1608499441",
+      "model_id": "4c46a2fe5f07006e456bf9b659c7ce7d",
+      "model_name": "Example format",
+      "model_regex": "^\\{\"extraData\":",
+      "mtime": "1608499441",
+      "sourcetype_scope": "sample9-customformat",
+      "_user": "nobody",
+      "_key": "4c46a2fe5f07006e456bf9b659c7ce7d"
+     }
+    ]
+
+data_sampling_models_by_name / Get data sampling custom model by name
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+**This endpoint retrieves a data sampling custom model collection, it requires a GET call with the following data:**
+
+- ``"model_name": "<name of the custom model>"``
+
+::
+
+    curl -k -u admin:'ch@ngeM3' -X GET https://localhost:8089/services/trackme/v1/data_sampling/data_sampling_models_by_name -d '{"model_name": "Example format"}'
+
+*JSON response:*
+
+::
+
+    [
+     {
+      "_time": "1608499441",
+      "model_id": "4c46a2fe5f07006e456bf9b659c7ce7d",
+      "model_name": "Example format",
+      "model_regex": "^\\{\"extraData\":",
+      "mtime": "1608499441",
+      "sourcetype_scope": "sample9-customformat",
+      "_user": "nobody",
+      "_key": "4c46a2fe5f07006e456bf9b659c7ce7d"
+     }
+    ]
+
+data_sampling_models_add / Add a new custom model or update
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+**This endpoint creates a new logical group, it requires a POST call with the following data:**
+
+- ``"model_name": "<name of the custom model>"``
+- ``"model_regex":``
+
+The regular expression to be used by the custom model, special characters should be escaped.
+
+- ``"sourcetype_scope":``
+
+OPTIONAL: value of the sourcetype to match, if unset defaults to "*".
+You can enter a list of sourcetypes as a comma separated list of values, wilcards and spaces should not be used.
+
+- ``"update_comment": "<OPTIONAL: a comment for the update, comments are added to the audit record, if unset will be defined to: API update>``
+
+*Note: if a custom model referenced under the same name exists already, it will be updated using the information provided.*
+
+::
+
+    curl -k -u admin:'ch@ngeM3' -X POST https://localhost:8089/services/trackme/v1/data_sampling/data_sampling_models_add -d '{"model_name": "Example format", "model_regex": "^\\{\"extraData\":", "sourcetype_scope": "sample9-customformat", "comment_update": "Automated API driven deletion."}'
+
+*JSON response:*
+
+::
+
+    [
+     {
+      "_time": "1608499441",
+      "model_id": "4c46a2fe5f07006e456bf9b659c7ce7d",
+      "model_name": "Example format",
+      "model_regex": "^\\{\"extraData\":",
+      "mtime": "1608499441",
+      "sourcetype_scope": "sample9-customformat",
+      "_user": "nobody",
+      "_key": "4c46a2fe5f07006e456bf9b659c7ce7d"
+     }
+    ]
+
+data_sampling_models_del / Delete new custom model
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+**This endpoint deletes a custom data sampling model, it requires a DELETE call with the following data:**
+
+- ``"model_name": "<name of the custom model>"``
+- ``"update_comment": "<OPTIONAL: a comment for the update, comments are added to the audit record, if unset will be defined to: API update>``
+
+*Note: if a custom model referenced under the same name exists already, it will be updated using the information provided.*
+
+::
+
+    curl -k -u admin:'ch@ngeM3' -X DELETE https://localhost:8089/services/trackme/v1/data_sampling/data_sampling_models_del -d '{"model_name": "Example format", "comment_update": "Automated API driven deletion."}'
+
+*response:*
+
+::
+
+    Record with _key 4c46a2fe5f07006e456bf9b659c7ce7d was deleted from the collection.
