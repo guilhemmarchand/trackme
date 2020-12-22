@@ -13,12 +13,12 @@ sys.path.append(os.path.join(splunkhome, 'etc', 'apps', 'trackme', 'lib'))
 import rest_handler
 import splunklib.client as client
 
-class TrackMeHandlerDataSampling_v1(rest_handler.RESTHandler):
+class TrackMeHandlerTagPolicies_v1(rest_handler.RESTHandler):
     def __init__(self, command_line, command_arg):
-        super(TrackMeHandlerDataSampling_v1, self).__init__(command_line, command_arg, logger)
+        super(TrackMeHandlerTagPolicies_v1, self).__init__(command_line, command_arg, logger)
 
     # Get the entire collection as a Python array
-    def get_data_sampling_models(self, request_info, **kwargs):
+    def get_tag_policies(self, request_info, **kwargs):
 
         # Get splunkd port
         entity = splunk.entity.getEntity('/server', 'settings',
@@ -27,7 +27,7 @@ class TrackMeHandlerDataSampling_v1(rest_handler.RESTHandler):
 
         try:
 
-            collection_name = "kv_trackme_data_sampling_custom_models"            
+            collection_name = "kv_trackme_tags_policies"            
             service = client.connect(
                 owner="nobody",
                 app="trackme",
@@ -49,20 +49,20 @@ class TrackMeHandlerDataSampling_v1(rest_handler.RESTHandler):
 
 
     # Get model
-    def get_data_sampling_models_by_name(self, request_info, **kwargs):
+    def get_tag_policies_by_id(self, request_info, **kwargs):
 
-        # By model_name
-        model_name = None
+        # By id
+        tags_policy_id = None
 
         # query_string to find records
         query_string = None
 
         # Retrieve from data
         resp_dict = json.loads(str(request_info.raw_args['payload']))
-        model_name = resp_dict['model_name']
+        tags_policy_id = resp_dict['tags_policy_id']
 
         # Define the KV query
-        query_string = '{ "model_name": "' + model_name + '" }'
+        query_string = '{ "tags_policy_id": "' + tags_policy_id + '" }'
         
         # Get splunkd port
         entity = splunk.entity.getEntity('/server', 'settings',
@@ -71,7 +71,7 @@ class TrackMeHandlerDataSampling_v1(rest_handler.RESTHandler):
 
         try:
 
-            collection_name = "kv_trackme_data_sampling_custom_models"            
+            collection_name = "kv_trackme_tags_policies"            
             service = client.connect(
                 owner="nobody",
                 app="trackme",
@@ -111,19 +111,21 @@ class TrackMeHandlerDataSampling_v1(rest_handler.RESTHandler):
             }
 
 
-    # Add new allowlist index if does not exist yet
-    def post_data_sampling_models_add(self, request_info, **kwargs):
+    # Add new policy
+    def post_tag_policies_add(self, request_info, **kwargs):
 
         # Declare
-        model_name = None
-        model_regex = None
+        tags_policy_id = None
+        tags_policy_value = None
+        tags_policy_regex = None
 
         query_string = None
 
         # Retrieve from data
         resp_dict = json.loads(str(request_info.raw_args['payload']))
-        model_name = resp_dict['model_name']
-        model_regex = resp_dict['model_regex']
+        tags_policy_id = resp_dict['tags_policy_id']
+        tags_policy_value = resp_dict['tags_policy_value']
+        tags_policy_regex = resp_dict['tags_policy_regex']
 
         # Update comment is optional and used for audit changes
         try:
@@ -131,14 +133,8 @@ class TrackMeHandlerDataSampling_v1(rest_handler.RESTHandler):
         except Exception as e:
             update_comment = "API update"
 
-        # sourcetype_scope is optional, if unset it will be defined to * (any)
-        try:
-            sourcetype_scope = resp_dict['sourcetype_scope']
-        except Exception as e:
-            sourcetype_scope = "*"
-
         # Define the KV query
-        query_string = '{ "model_name": "' + model_name + '" }'
+        query_string = '{ "tags_policy_id": "' + tags_policy_id + '" }'
 
         # Get splunkd port
         entity = splunk.entity.getEntity('/server', 'settings',
@@ -148,7 +144,7 @@ class TrackMeHandlerDataSampling_v1(rest_handler.RESTHandler):
         try:
 
             # Data collection
-            collection_name = "kv_trackme_data_sampling_custom_models"            
+            collection_name = "kv_trackme_tags_policies"            
             service = client.connect(
                 owner="nobody",
                 app="trackme",
@@ -181,7 +177,7 @@ class TrackMeHandlerDataSampling_v1(rest_handler.RESTHandler):
             if key is not None and len(key)>2:
 
                 # This record exists already
-                model_id = record[0].get('model_id')
+                tags_policy_id = record[0].get('tags_policy_id')
 
                 # Record an audit change
                 import time
@@ -189,7 +185,7 @@ class TrackMeHandlerDataSampling_v1(rest_handler.RESTHandler):
                 user = "nobody"
 
                 # Update the record
-                collection.data.update(str(key), json.dumps({"model_name": model_name, "model_regex": model_regex, "model_id": model_id, "sourcetype_scope": sourcetype_scope, "mtime": current_time}))
+                collection.data.update(str(key), json.dumps({"tags_policy_id": tags_policy_id, "tags_policy_value": tags_policy_value, "tags_policy_regex": tags_policy_regex, "mtime": current_time}))
 
                 # Store the record for audit purposes
                 record = str(json.dumps(collection.data.query_by_id(key), indent=1))
@@ -201,8 +197,8 @@ class TrackMeHandlerDataSampling_v1(rest_handler.RESTHandler):
                         "time": str(current_time),
                         "user": str(user),
                         "action": "success",
-                        "change_type": "add data parsing custom rule",
-                        "object": str(model_name),
+                        "change_type": "add tags policy",
+                        "object": str(tags_policy_id),
                         "object_category": "data_source",
                         "object_attrs": str(record),
                         "result": "N/A",
@@ -223,16 +219,13 @@ class TrackMeHandlerDataSampling_v1(rest_handler.RESTHandler):
 
                 # This record does not exist yet
 
-                import hashlib
-                model_id = hashlib.md5(model_name.encode('utf-8')).hexdigest()
-
                 # Record an audit change
                 import time
                 current_time = int(round(time.time() * 1000))
                 user = "nobody"
 
                 # Insert the record
-                collection.data.insert(json.dumps({"model_name": model_name, "model_regex": model_regex, "model_id": model_id, "sourcetype_scope": sourcetype_scope, "mtime": current_time}))
+                collection.data.insert(json.dumps({"tags_policy_id": tags_policy_id, "tags_policy_value": tags_policy_value, "tags_policy_regex": tags_policy_regex, "mtime": current_time}))
 
                 # Get record
                 record = json.dumps(collection.data.query(query=str(query_string)), indent=1)
@@ -244,8 +237,8 @@ class TrackMeHandlerDataSampling_v1(rest_handler.RESTHandler):
                         "time": str(current_time),
                         "user": str(user),
                         "action": "success",
-                        "change_type": "add data parsing custom rule",
-                        "object": str(model_name),
+                        "change_type": "add tags policy",
+                        "object": str(tags_policy_id),
                         "object_category": "data_source",
                         "object_attrs": str(record),
                         "result": "N/A",
@@ -269,15 +262,15 @@ class TrackMeHandlerDataSampling_v1(rest_handler.RESTHandler):
 
 
     # Delete a custom model
-    def delete_data_sampling_models_del(self, request_info, **kwargs):
+    def delete_tag_policies_del(self, request_info, **kwargs):
 
         # Declare
-        model_name = None
+        tags_policy_id = None
         query_string = None
 
         # Retrieve from data
         resp_dict = json.loads(str(request_info.raw_args['payload']))
-        model_name = resp_dict['model_name']
+        tags_policy_id = resp_dict['tags_policy_id']
 
         # Update comment is optional and used for audit changes
         try:
@@ -286,7 +279,7 @@ class TrackMeHandlerDataSampling_v1(rest_handler.RESTHandler):
             update_comment = "API update"
 
         # Define the KV query
-        query_string = '{ "model_name": "' + model_name + '" }'
+        query_string = '{ "tags_policy_id": "' + tags_policy_id + '" }'
 
         # Get splunkd port
         entity = splunk.entity.getEntity('/server', 'settings',
@@ -296,7 +289,7 @@ class TrackMeHandlerDataSampling_v1(rest_handler.RESTHandler):
         try:
 
             # Data collection
-            collection_name = "kv_trackme_data_sampling_custom_models"            
+            collection_name = "kv_trackme_tags_policies"            
             service = client.connect(
                 owner="nobody",
                 app="trackme",
@@ -348,8 +341,8 @@ class TrackMeHandlerDataSampling_v1(rest_handler.RESTHandler):
                         "time": str(current_time),
                         "user": str(user),
                         "action": "success",
-                        "change_type": "delete data parsing custom rule",
-                        "object": str(model_name),
+                        "change_type": "delete tags policy",
+                        "object": str(tags_policy_id),
                         "object_category": "data_source",
                         "object_attrs": str(record),
                         "result": "N/A",

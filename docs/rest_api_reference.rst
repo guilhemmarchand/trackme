@@ -29,6 +29,8 @@ These resource groups are accessible by specific endpoint paths as following:
 +--------------------------------------+--------------------------------------+
 | :ref:`Logical Groups endpoints`      | /services/trackme/v1/logical_groups  |
 +--------------------------------------+--------------------------------------+
+| :ref:`Tag policies endpoints`        | /services/trackme/v1/tag_policies    |
++--------------------------------------+--------------------------------------+
 
 These endpoints can be used to interract with TrackMe in a programmatic fashion, for instance to perform integration tasks with automation systems.
 
@@ -2603,7 +2605,7 @@ Data sampling endpoints
 +---------------------------------------------------------------------------------------------------+-----------------------------------------------------------------+
 | :ref:`data_sampling_models_add / Add a new custom model or update`                                | /services/trackme/v1/data_sampling/data_sampling_models_add     |
 +---------------------------------------------------------------------------------------------------+-----------------------------------------------------------------+
-| :ref:`data_sampling_models_del / Delete new custom model`                                         | /services/trackme/v1/data_sampling/data_sampling_models_del     |
+| :ref:`data_sampling_models_del / Delete a custom model`                                           | /services/trackme/v1/data_sampling/data_sampling_models_del     |
 +---------------------------------------------------------------------------------------------------+-----------------------------------------------------------------+
 
 data_sampling_models / Get data sampling custom models
@@ -2663,7 +2665,7 @@ data_sampling_models_by_name / Get data sampling custom model by name
 data_sampling_models_add / Add a new custom model or update
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-**This endpoint creates a new logical group, it requires a POST call with the following data:**
+**This endpoint creates a new data sampling custom model, it requires a POST call with the following data:**
 
 - ``"model_name": "<name of the custom model>"``
 - ``"model_regex":``
@@ -2681,7 +2683,7 @@ You can enter a list of sourcetypes as a comma separated list of values, wilcard
 
 ::
 
-    curl -k -u admin:'ch@ngeM3' -X POST https://localhost:8089/services/trackme/v1/data_sampling/data_sampling_models_add -d '{"model_name": "Example format", "model_regex": "^\\{\"extraData\":", "sourcetype_scope": "sample9-customformat", "comment_update": "Automated API driven deletion."}'
+    curl -k -u admin:'ch@ngeM3' -X POST https://localhost:8089/services/trackme/v1/data_sampling/data_sampling_models_add -d '{"model_name": "Example format", "model_regex": "^\\{\"extraData\":", "sourcetype_scope": "sample9-customformat", "comment_update": "Automated API driven creation."}'
 
 *JSON response:*
 
@@ -2700,7 +2702,7 @@ You can enter a list of sourcetypes as a comma separated list of values, wilcard
      }
     ]
 
-data_sampling_models_del / Delete new custom model
+data_sampling_models_del / Delete a custom model
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 **This endpoint deletes a custom data sampling model, it requires a DELETE call with the following data:**
@@ -2719,3 +2721,119 @@ data_sampling_models_del / Delete new custom model
 ::
 
     Record with _key 4c46a2fe5f07006e456bf9b659c7ce7d was deleted from the collection.
+
+Tag policies endpoints
+----------------------
+
+**Resources summary:**
+
++---------------------------------------------------------------------------------------------------+-----------------------------------------------------------------+
+| Resource                                                                                          | API Path                                                        | 
++===================================================================================================+=================================================================+
+| :ref:`tag_policies / Get tag policies`                                                            | /services/trackme/v1/tag_policies/tag_policies                  |
++---------------------------------------------------------------------------------------------------+-----------------------------------------------------------------+
+| :ref:`tag_policies_by_id / Get tag policy by id`                                                  | /services/trackme/v1/tag_policies/tag_policies_by_id            |
++---------------------------------------------------------------------------------------------------+-----------------------------------------------------------------+
+| :ref:`tag_policies_add / Add a new tag policy or update`                                          | /services/trackme/v1/tag_policies/tag_policies_add              |
++---------------------------------------------------------------------------------------------------+-----------------------------------------------------------------+
+| :ref:`tag_policies_del / Delete a tag policy`                                                     | /services/trackme/v1/tag_policies/tag_policies_del              |
++---------------------------------------------------------------------------------------------------+-----------------------------------------------------------------+
+
+tag_policies / Get tag policies
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+**This endpoint retrieves the tag policies collection, it requires a GET call with no options required:**
+
+::
+
+    curl -k -u admin:'ch@ngeM3' -X GET https://localhost:8089/services/trackme/v1/tag_policies/tag_policies
+
+*JSON response:*
+
+::
+
+    [
+     {
+      "_time": "1608597719",
+      "mtime": "1608597718",
+      "tags_policy_id": "Example policy",
+      "tags_policy_regex": "linux_*",
+      "tags_policy_value": "OS,Linux",
+      "_user": "nobody",
+      "_key": "5fe140d77f1e835045091651"
+     }
+    ]
+
+tag_policies_by_id / Get tag policy by id
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+**This endpoint retrieves a tag policy by its id, it requires a GET call with the following data:**
+
+- ``"tags_policy_id": "<ID of the tags policy>"``
+
+::
+
+    curl -k -u admin:'ch@ngeM3' -X GET https://localhost:8089/services/trackme/v1/tag_policies/tag_policies_by_id -d '{"tags_policy_id": "Example policy"}'
+
+*JSON response:*
+
+::
+
+    {
+     "_time": "1608597719",
+     "mtime": "1608597718",
+     "tags_policy_id": "Example policy",
+     "tags_policy_regex": "linux_*",
+     "tags_policy_value": "OS,Linux",
+     "_user": "nobody",
+     "_key": "5fe140d77f1e835045091651"
+    }
+
+tag_policies_add / Add a new tag policy or update
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+**This endpoint creates a new tag policy, it requires a POST call with the following data:**
+
+- ``"tags_policy_id": "<ID of the tag policy>"``
+- ``"tags_policy_regex": "<The regular expression to be used by the tags policy, special characters should be escaped.>``
+- ``"tags_policy_value": "<List of tags to be applied as a comma separated list of values>"``
+- ``"update_comment": "<OPTIONAL: a comment for the update, comments are added to the audit record, if unset will be defined to: API update>``
+
+*Note: if a tag policy referenced with the same ID exists already, it will be updated using the information provided.*
+
+::
+
+    curl -k -u admin:'ch@ngeM3' -X POST https://localhost:8089/services/trackme/v1/tag_policies/tag_policies_add -d '{"tags_policy_id": "Example policy", "tags_policy_regex": "linux_*", "tags_policy_value": "OS,Linux", "comment_update": "Automated API driven creation."}'
+
+*JSON response:*
+
+::
+
+    {
+     "tags_policy_id": "Example policy",
+     "tags_policy_value": "OS,Linux",
+     "tags_policy_regex": "linux_*",
+     "mtime": 1608598325220,
+     "_user": "nobody",
+     "_key": "5fe140d77f1e835045091651"
+    }
+
+tag_policies_del / Delete a tag policy
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+**This endpoint deletes a tag policy, it requires a DELETE call with the following data:**
+
+- ``"tags_policy_id": "<ID of the tag policy>"``
+- ``"update_comment": "<OPTIONAL: a comment for the update, comments are added to the audit record, if unset will be defined to: API update>``
+
+*Note: if a custom model referenced under the same name exists already, it will be updated using the information provided.*
+
+::
+
+    curl -k -u admin:'ch@ngeM3' -X DELETE https://localhost:8089/services/trackme/v1/tag_policies/tag_policies_del -d '{"tags_policy_id": "Example policy", "comment_update": "Automated API driven deletion."}'
+
+*response:*
+
+::
+
+    Record with _key 5fe140d77f1e835045091651 was deleted from the collection.
