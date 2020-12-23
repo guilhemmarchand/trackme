@@ -8,29 +8,33 @@ TrackMe provides a builtin Python based API, serviced by the Splunk API, and cat
 
 These resource groups are accessible by specific endpoint paths as following:
 
-+--------------------------------------+--------------------------------------+
-| Resource group                       | API Path                             |
-+======================================+======================================+
-| :ref:`Acknowledgment endpoints`      | /services/trackme/v1/ack             |
-+--------------------------------------+--------------------------------------+
-| :ref:`Data Sources endpoints`        | /services/trackme/v1/data_sources    |
-+--------------------------------------+--------------------------------------+
-| :ref:`Data Hosts endpoints`          | /services/trackme/v1/data_hosts      |
-+--------------------------------------+--------------------------------------+
-| :ref:`Metric Hosts endpoints`        | /services/trackme/v1/metric_hosts    |
-+--------------------------------------+--------------------------------------+
-| :ref:`Elastic Sources endpoints`     | /services/trackme/v1/elastic_sources |
-+--------------------------------------+--------------------------------------+
-| :ref:`Maintenance mode endpoints`    | /services/trackme/v1/maintenance     |
-+--------------------------------------+--------------------------------------+
-| :ref:`Allow list endpoints`          | /services/trackme/v1/allowlist       |
-+--------------------------------------+--------------------------------------+
-| :ref:`Block list endpoints`          | /services/trackme/v1/blocklist       |
-+--------------------------------------+--------------------------------------+
-| :ref:`Logical Groups endpoints`      | /services/trackme/v1/logical_groups  |
-+--------------------------------------+--------------------------------------+
-| :ref:`Tag policies endpoints`        | /services/trackme/v1/tag_policies    |
-+--------------------------------------+--------------------------------------+
++----------------------------------------------+----------------------------------------------+
+| Resource group                               | API Path                                     |
++==============================================+==============================================+
+| :ref:`Acknowledgment endpoints`              | /services/trackme/v1/ack                     |
++----------------------------------------------+----------------------------------------------+
+| :ref:`Data Sources endpoints`                | /services/trackme/v1/data_sources            |
++----------------------------------------------+----------------------------------------------+
+| :ref:`Data Hosts endpoints`                  | /services/trackme/v1/data_hosts              |
++----------------------------------------------+----------------------------------------------+
+| :ref:`Metric Hosts endpoints`                | /services/trackme/v1/metric_hosts            |
++----------------------------------------------+----------------------------------------------+
+| :ref:`Elastic Sources endpoints`             | /services/trackme/v1/elastic_sources         |
++----------------------------------------------+----------------------------------------------+
+| :ref:`Maintenance mode endpoints`            | /services/trackme/v1/maintenance             |
++----------------------------------------------+----------------------------------------------+
+| :ref:`Allow list endpoints`                  | /services/trackme/v1/allowlist               |
++----------------------------------------------+----------------------------------------------+
+| :ref:`Block list endpoints`                  | /services/trackme/v1/blocklist               |
++----------------------------------------------+----------------------------------------------+
+| :ref:`Logical Groups endpoints`              | /services/trackme/v1/logical_groups          |
++----------------------------------------------+----------------------------------------------+
+| :ref:`Tag policies endpoints`                | /services/trackme/v1/tag_policies            |
++----------------------------------------------+----------------------------------------------+
+| :ref:`Lagging classes endpoints`             | /services/trackme/v1/lagging_classes         |
++----------------------------------------------+----------------------------------------------+
+| :ref:`Lagging classes metrics endpoints`     | /services/trackme/v1/lagging_classes_metrics |
++----------------------------------------------+----------------------------------------------+
 
 These endpoints can be used to interract with TrackMe in a programmatic fashion, for instance to perform integration tasks with automation systems.
 
@@ -2837,3 +2841,229 @@ tag_policies_del / Delete a tag policy
 ::
 
     Record with _key 5fe140d77f1e835045091651 was deleted from the collection.
+
+Lagging classes endpoints
+-------------------------
+
+**Resources summary:**
+
++---------------------------------------------------------------------------------------------------+--------------------------------------------------------------------+
+| Resource                                                                                          | API Path                                                           | 
++===================================================================================================+====================================================================+
+| :ref:`lagging_classes / Get lagging classes`                                                      | /services/trackme/v1/lagging_classes/lagging_classes               |
++---------------------------------------------------------------------------------------------------+--------------------------------------------------------------------+
+| :ref:`lagging_classes_by_name / Get lagging class by name`                                        | /services/trackme/v1/lagging_classes/lagging_classes_by_name       |
++---------------------------------------------------------------------------------------------------+--------------------------------------------------------------------+
+| :ref:`lagging_classes_add / Add a new lagging class or update`                                    | /services/trackme/v1/lagging_classes/lagging_classes_add           |
++---------------------------------------------------------------------------------------------------+--------------------------------------------------------------------+
+| :ref:`lagging_classes_del / Delete a lagging class`                                               | /services/trackme/v1/lagging_classes/lagging_classes_del           |
++---------------------------------------------------------------------------------------------------+--------------------------------------------------------------------+
+
+lagging_classes / Get lagging classes
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+**This endpoint retrieves the lagging classes collection, it requires a GET call with no options required:**
+
+::
+
+    curl -k -u admin:'ch@ngeM3' -X GET https://localhost:8089/services/trackme/v1/lagging_classes/lagging_classes
+
+*JSON response:*
+
+::
+
+    [
+     {
+      "name": "Firewall PAN data",
+      "level": "sourcetype",
+      "object": "data_source",
+      "value": "900",
+      "_user": "nobody",
+      "_key": "5fe2936d1a568f12a114995a"
+     }
+    ]
+
+lagging_classes_by_name / Get lagging class by name
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+**This endpoint retrieves a lagging class by its name, it requires a GET call with the following data:**
+
+- ``"name": "<name of the lagging class>"``
+
+::
+
+    curl -k -u admin:'ch@ngeM3' -X GET https://localhost:8089/services/trackme/v1/lagging_classes/lagging_classes_by_name -d '{"name": "Firewall PAN data"}'
+
+*JSON response:*
+
+::
+
+    {
+     "name": "Firewall PAN data",
+     "level": "sourcetype",
+     "object": "data_source",
+     "value": "900",
+     "_user": "nobody",
+     "_key": "5fe2936d1a568f12a114995a"
+    }
+
+lagging_classes_add / Add a new lagging class or update
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+**This endpoint creates a new tag policy, it requires a POST call with the following data:**
+
+- ``"name": "<name of the lagging class>"``
+- ``"level": "<which level the lagging class is based on, valid otions are: sourcetype / index / priority>``
+- ``"object": "<which type of objects the lagging class is applied to, valid options are: data_source / data_host / all>"``
+- ``"value": "<the lagging value in seconds, an integer is expected>"``
+- ``"update_comment": "<OPTIONAL: a comment for the update, comments are added to the audit record, if unset will be defined to: API update>``
+
+*Note: if a lagging class referenced under the same name exists already, it will be updated using the information provided.*
+
+::
+
+    curl -k -u admin:'ch@ngeM3' -X POST https://localhost:8089/services/trackme/v1/lagging_classes/lagging_classes_add -d '{"name": "Firewall PAN data", "level": "sourcetype", "object": "data_source", "value": "900", "comment_update": "Automated API driven creation."}'
+
+*JSON response:*
+
+::
+
+    [
+     {
+      "name": "Firewall PAN data",
+      "level": "sourcetype",
+      "object": "data_source",
+      "value": "900",
+      "_user": "nobody",
+      "_key": "5fe2936d1a568f12a114995a"
+     }
+    ]
+
+lagging_classes_del / Delete a lagging class
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+**This endpoint deletes a tag policy, it requires a DELETE call with the following data:**
+
+- ``"name": "<name of the lagging class>"``
+- ``"update_comment": "<OPTIONAL: a comment for the update, comments are added to the audit record, if unset will be defined to: API update>``
+
+*Note: if a custom model referenced under the same name exists already, it will be updated using the information provided.*
+
+::
+
+    curl -k -u admin:'ch@ngeM3' -X DELETE https://localhost:8089/services/trackme/v1/lagging_classes/lagging_classes_del -d '{"name": "Firewall PAN data", "comment_update": "Automated API driven deletion."}'
+
+*response:*
+
+::
+
+    Record with _key 5fe28130efc3a55870259041 was deleted from the collection.
+
+Lagging classes metrics endpoints
+---------------------------------
+
+**Resources summary:**
+
++---------------------------------------------------------------------------------------------------+------------------------------------------------------------------------------+
+| Resource                                                                                          | API Path                                                                     | 
++===================================================================================================+==============================================================================+
+| :ref:`lagging_classes_metrics / Get lagging classes`                                              | /services/trackme/v1/lagging_classes_metrics/lagging_classes_metrics         |
++---------------------------------------------------------------------------------------------------+------------------------------------------------------------------------------+
+| :ref:`lagging_classes_metrics_by_name / Get lagging class by name`                                | /services/trackme/v1/lagging_classes_metrics/lagging_classes_metrics_by_name |
++---------------------------------------------------------------------------------------------------+------------------------------------------------------------------------------+
+| :ref:`lagging_classes_metrics_add / Add a new lagging class or update`                            | /services/trackme/v1/lagging_classes_metrics/lagging_classes_metrics_add     |
++---------------------------------------------------------------------------------------------------+------------------------------------------------------------------------------+
+| :ref:`lagging_classes_metrics_del / Delete a lagging class`                                       | /services/trackme/v1/lagging_classes_metrics/lagging_classes_metrics_del     |
++---------------------------------------------------------------------------------------------------+------------------------------------------------------------------------------+
+
+lagging_classes_metrics / Get lagging classes
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+**This endpoint retrieves the lagging classes collection, it requires a GET call with no options required:**
+
+::
+
+    curl -k -u admin:'ch@ngeM3' -X GET https://localhost:8089/services/trackme/v1/lagging_classes_metrics/lagging_classes_metrics
+
+*JSON response:*
+
+::
+
+    [
+     {
+      "metric_category": "docker",
+      "metric_max_lag_allowed": "900",
+      "_user": "nobody",
+      "_key": "5fe2928b1a568f12a1149957"
+     }
+    ]
+
+lagging_classes_metrics_by_name / Get lagging class by name
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+**This endpoint retrieves a lagging class by its name, it requires a GET call with the following data:**
+
+- ``"metric_category": "<name of the metric category>"``
+
+::
+
+    curl -k -u admin:'ch@ngeM3' -X GET https://localhost:8089/services/trackme/v1/lagging_classes_metrics/lagging_classes_metrics_by_name -d '{"metric_category": "docker"}'
+
+*JSON response:*
+
+::
+
+    {
+     "metric_category": "docker",
+     "metric_max_lag_allowed": "900",
+     "_user": "nobody",
+     "_key": "5fe2928b1a568f12a1149957"
+    }
+
+lagging_classes_metrics_add / Add a new lagging class or update
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+**This endpoint creates a new tag policy, it requires a POST call with the following data:**
+
+- ``"metric_category": "<name of the metric category>"``
+- ``"metric_max_lag_allowed": "<the lagging value in seconds, an integer is expected>"``
+- ``"update_comment": "<OPTIONAL: a comment for the update, comments are added to the audit record, if unset will be defined to: API update>``
+
+*Note: if a lagging class referenced under the same name exists already, it will be updated using the information provided.*
+
+::
+
+    curl -k -u admin:'ch@ngeM3' -X POST https://localhost:8089/services/trackme/v1/lagging_classes_metrics/lagging_classes_metrics_add -d '{"metric_category": "docker", "metric_max_lag_allowed": "900", "comment_update": "Automated API driven creation."}'
+
+*JSON response:*
+
+::
+
+    [
+     {
+      "metric_category": "docker",
+      "metric_max_lag_allowed": "900",
+      "_user": "nobody",
+      "_key": "5fe2928b1a568f12a1149957"
+     }
+    ]
+
+lagging_classes_metrics_del / Delete a lagging class
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+**This endpoint deletes a tag policy, it requires a DELETE call with the following data:**
+
+- ``"metric_category": "<name of the metric category>"``
+- ``"update_comment": "<OPTIONAL: a comment for the update, comments are added to the audit record, if unset will be defined to: API update>``
+
+*Note: if a custom model referenced under the same name exists already, it will be updated using the information provided.*
+
+::
+
+    curl -k -u admin:'ch@ngeM3' -X DELETE https://localhost:8089/services/trackme/v1/lagging_classes_metrics/lagging_classes_metrics_del -d '{"metric_category": "docker", "comment_update": "Automated API driven deletion."}'
+
+*response:*
+
+::
+
+    Record with _key 5fe2928b1a568f12a1149957 was deleted from the collection.
