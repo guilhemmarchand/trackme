@@ -2874,7 +2874,7 @@ lagging_classes / Get lagging classes
 
     [
      {
-      "name": "Firewall PAN data",
+      "name": "pan:traffic",
       "level": "sourcetype",
       "object": "data_source",
       "value": "900",
@@ -2892,14 +2892,14 @@ lagging_classes_by_name / Get lagging class by name
 
 ::
 
-    curl -k -u admin:'ch@ngeM3' -X GET https://localhost:8089/services/trackme/v1/lagging_classes/lagging_classes_by_name -d '{"name": "Firewall PAN data"}'
+    curl -k -u admin:'ch@ngeM3' -X GET https://localhost:8089/services/trackme/v1/lagging_classes/lagging_classes_by_name -d '{"name": "pan:traffic"}'
 
 *JSON response:*
 
 ::
 
     {
-     "name": "Firewall PAN data",
+     "name": "pan:traffic",
      "level": "sourcetype",
      "object": "data_source",
      "value": "900",
@@ -2922,7 +2922,7 @@ lagging_classes_add / Add a new lagging class or update
 
 ::
 
-    curl -k -u admin:'ch@ngeM3' -X POST https://localhost:8089/services/trackme/v1/lagging_classes/lagging_classes_add -d '{"name": "Firewall PAN data", "level": "sourcetype", "object": "data_source", "value": "900", "comment_update": "Automated API driven creation."}'
+    curl -k -u admin:'ch@ngeM3' -X POST https://localhost:8089/services/trackme/v1/lagging_classes/lagging_classes_add -d '{"name": "pan:traffic", "level": "sourcetype", "object": "data_source", "value": "900", "comment_update": "Automated API driven creation."}'
 
 *JSON response:*
 
@@ -2930,7 +2930,7 @@ lagging_classes_add / Add a new lagging class or update
 
     [
      {
-      "name": "Firewall PAN data",
+      "name": "pan:traffic",
       "level": "sourcetype",
       "object": "data_source",
       "value": "900",
@@ -2951,7 +2951,7 @@ lagging_classes_del / Delete a lagging class
 
 ::
 
-    curl -k -u admin:'ch@ngeM3' -X DELETE https://localhost:8089/services/trackme/v1/lagging_classes/lagging_classes_del -d '{"name": "Firewall PAN data", "comment_update": "Automated API driven deletion."}'
+    curl -k -u admin:'ch@ngeM3' -X DELETE https://localhost:8089/services/trackme/v1/lagging_classes/lagging_classes_del -d '{"name": "pan:traffic", "comment_update": "Automated API driven deletion."}'
 
 *response:*
 
