@@ -1204,9 +1204,16 @@ Data sampling and event formats recognition
 
 .. admonition:: Data sampling and event format recognition
 
-   The Data sampling and event format recognition feature is a powerful automated workflow that provides the capabilities to monitor the raw events formats to automatically detect anomalies and misbehaviour at scale.
+   The Data sampling and event format recognition feature is a powerful automated workflow that provides the capabilities to monitor the raw events formats to automatically detect anomalies and misbehaviour at scale:
+   
+   - TrackMe automatically picks a small events sample from every data source on a scheduled basis, and runs regular expression based rules to find "good" and "bad" things
+   - builtin rules are provided to identify commonly used formats of data, such as syslog, json, xml, and so forth
+   - custom rules can be created to extend the feature up to your needs
+   - rules can be created as rules that need to be matched (looking for a format or specific patterns), or as rules that must not be matched (for example looking for PII data)
+   - rules that must not match (exclusive rules) are always proceeded before rules that must match (inclusive), this guarantes that if any a same data source would match multiple rules, any first rule matching "bad" things will proceed before a rule matching "good" things (as the engine will stop at the first match for a given event)
+   - checkout custom rule example creation in the present documentation
 
-**You access to the data sample feature on a per data source basis via the data sample tab:**
+**You access to the data sample feature on a per data source basis via the data sample tab when looking at a specific data source:**
 
 .. image:: img/img_data_sampling_main_red.png
    :alt: img_data_sampling_main_red.png
@@ -1308,7 +1315,7 @@ Builtin rules should not be modified, instead use custom rules to handle event f
 Manage custom rules
 ^^^^^^^^^^^^^^^^^^^
 
-Custom rules provides a workflow to handle any custom sourcetypes and event formats that would not be identified by TrackMe, by default there are no custom rules and the following screen would appear:
+Custom rules provides a workflow to handle any custom sourcetypes and event formats that would not be identified by TrackMe, or patterns that must not be matched, by default there are no custom rules and the following screen would appear:
 
 .. image:: img/first_steps/img_data_sampling_show_custom1.png
    :alt: img_data_sampling_show_custom1.png
@@ -1330,7 +1337,8 @@ This screen alows to test and create a new custom rule based on the current data
 
 To create a new custom rule:
 
-- Enter a name for the format, this name is a string of your choice that will be used to idenfity the format, it needs to be unique for the entire custom source collection and will be converted into an md5 hash automatically
+- Enter a name for the rule, this value is a string of your choice that will be used to idenfity the match, it needs to be unique for the entire custom source collection and will be converted into an md5 hash automatically
+- Choose if the rule is a "rule must match" or "rule must not match" type of rule, this will drive the match behaviour to define the state of the data sampling results
 - Enter a valid regular expression that uniquely identifies the events format
 - Optionally restrict the scope of application by sourcetype, you can specify one or more sourcetypes under the form of a comma separated list of values
 - Click on "Run model simulation" to simulate the exectution of the new models
@@ -1395,6 +1403,114 @@ An audit dashboard is provided in the audit navigation menu, this dashboard prov
 .. image:: img/first_steps/img_data_sampling_audit.png
    :alt: img_data_sampling_audit.png
    :align: center
+
+Data sampling example 1: monitor a specific format
+--------------------------------------------------
+
+Let's assume the following use case, we are ingesting Palo Alto firewall data and we want to monitor that our data is stricly respecting a specific expected format, any event that would not match this format would most likely be resulting from malformed events or issues in our ingestion pipeline:
+
+Within the custom rules UI, we proceed to the creation of a new custom rule, in short our events look like:
+
+::
+
+   Dec 26 12:15:01 1,2012/26/20 12:15:01,01606001116,TRAFFIC,start,1,2012/26/20 12:15:01,192.168.0.2,204.232.231.46,0.0.0.0,0.0.0.0,
+   Dec 26 12:15:02 1,2012/26/20 12:15:02,01606001116,THREAT,url,1,2012/26/20 12:15:02,192.168.0.2,204.232.231.46,0.0.0.0,0.0.0.0,
+
+We could use the following regular expression to stricly match the format, the data sampling is similar to a where match SPL statement:
+
+::
+
+   ^\w{3}\s*\d{1,2}\s*\d{1,2}:\d{1,2}:\d{1,2}\s*\d\,\d{4}\/\d{1,2}\/\d{1,2}\s*\d{1,2}:\d{1,2}:\d{1,2}\,\d+\,(?:TRAFFIC|THREAT)\,
+
+Note: the regular expression doesn't have to be complex, it is up to your decide how strict it should be depending on your use case
+
+As we create a ``rule must match`` type of custom rule, a **green** means matching this regex, while a **red** status would mean events not matching our rule
+
+Once the rule has been created:
+
+.. image:: img/first_steps/img_data_sampling_create_custom2.png
+   :alt: img_data_sampling_create_custom2.png
+   :align: center
+
+The next execution of the data sampling will report the name of the rule for each data source that is matching our conditions:
+
+.. image:: img/first_steps/img_data_sampling_create_custom3.png
+   :alt: img_data_sampling_create_custom3.png
+   :align: center
+
+Should a change in the events format happen, such as malformed events happening for any reason, the data sampling rule would match these exceptions and render a status error to be reviewed.
+
+.. image:: img/first_steps/img_data_sampling_create_custom4.png
+   :alt: img_data_sampling_create_custom4.png
+   :align: center
+
+Review of the latest events sample would clearly show the root cause of the issue: (button **View latest sample events**):
+
+.. image:: img/first_steps/img_data_sampling_create_custom5.png
+   :alt: img_data_sampling_create_custom5.png
+   :align: center
+
+As the data sampling engine stops proceeding a data source as soon as an issue was detected, these events are the exact events that have caused the anomaly exception at the exact time it happened.
+
+Once investigations have been performed, the root cause was identified and ideally fixed, a TrackMe admin would clear the data sampling state to free the current state and allow the workflow to proceed again in further executions.
+
+Data sampling example 2: track PII data card holders
+----------------------------------------------------
+
+Let's consider the following use case, we ingest retail transaction logs which are not supposed to contain PII data (Personally Identifiable Information) because the events are anonymised during the indexing phase. (this obviously is a simplitic example for the demonstration purposes)
+
+In our example, we will consider credit card references which are replaced by the according number of "X" characters:
+
+::
+
+   Thu 24 Dec 2020 13:12:12 GMT, transaction with user="jbar@acme.com", cardref="XXXXXXXXXXXXXX", status="completed"
+   Thu 24 Dec 2020 13:34:24 GMT, transaction with user="jfoo@acme.com", cardref="XXXXXXXXXXXXXX", status="failed"
+   Thu 24 Dec 2020 13:11:45 GMT, transaction with user="robert@acme.com", cardref="XXXXXXXXXXXXXX", status="completed"
+   Thu 24 Dec 2020 13:24:22 GMT, transaction with user="padington@acme.com", cardref="XXXXXXXXXXXXXX", status="failed"
+
+To track for an anomaly in the process that normally anonymises the data, we could rely on a regular expression that targets valid credit card numbers:
+
+*See:* https://www.regextester.com/93608
+
+::
+
+   4[0-9]{12}(?:[0-9]{3})?|5[1-5][0-9]{14}|3[47][0-9]{13}|3(?:0[0-5]|[68][0-9])[0-9]{11}|6(?:011|5[0-9]{2})[0-9]{12}|(?:2131|1800|35\d{3})\d{11}
+
+Should any event be matching this regular expression, we would most likely face a situation where we have indexed a clear text information that is very problematic, let's create a new custom rule of a ``rule must not match`` type to track this use case automatically, to avoid false positive detection we will restrict this custom rule to a given list of sourcetypes:
+
+.. image:: img/first_steps/img_data_sampling_create_custom6.png
+   :alt: img_data_sampling_create_custom6.png
+   :align: center
+
+Our data uses a format that is recognized automatically by builtin rules, and would appears as following in normal circumstances:
+
+.. image:: img/first_steps/img_data_sampling_create_custom7.png
+   :alt: img_data_sampling_create_custom7.png
+   :align: center
+
+After some time, we introduce events containing real clear text credit card numbers, eventually our custom rule will automatically detect it and state an alert on the data source:
+
+.. image:: img/first_steps/img_data_sampling_create_custom8.png
+   :alt: img_data_sampling_create_custom8.png
+   :align: center
+
+.. image:: img/first_steps/img_data_sampling_create_custom9.png
+   :alt: img_data_sampling_create_custom9.png
+   :align: center
+
+.. image:: img/first_steps/img_data_sampling_create_custom10.png
+   :alt: img_data_sampling_create_custom10.png
+   :align: center
+
+We can clearly understand the root cause of the issue reported by TrackMe, shall we investigate further (button **View latest sample events**):
+
+.. image:: img/first_steps/img_data_sampling_create_custom11.png
+   :alt: img_data_sampling_create_custom11.png
+   :align: center
+
+Thanks to the data sampling feature, we are able to get an automated tracking that is working at any scale, keep in mind that TrackMe will proceed by picking up samples, which means a very rare condition will potentially not be detected.
+
+However, there is statistically a very high level of chance that if this is happening on a regular basis, this will be detected without having to generate very expensive searches that would look at the entire subset of data. (which is in true not even doable at large data scale)
 
 Priority management
 ===================
