@@ -16545,6 +16545,9 @@ require([
                 unsetToken("tk_data_host");
                 unsetToken("tk_metric_host");
 
+                // if the manage data sampling button was clicked earlier, the token would be set and unexpectly show the current sampling result
+                unsetToken("show_data_sampling");
+
                 setToken("tk_keyid", TokenUtils.replaceTokenNames("$row.keyid$", _.extend(submittedTokenModel.toJSON(), e.data)));
                 setToken("tk_data_name", TokenUtils.replaceTokenNames("$row.data_name$", _.extend(submittedTokenModel.toJSON(), e.data)));
                 setToken("tk_data_index", TokenUtils.replaceTokenNames("$row.data_index$", _.extend(submittedTokenModel.toJSON(), e.data)));
