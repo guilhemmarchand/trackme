@@ -2096,8 +2096,8 @@ styles in <div> tags, similar to Bootstrap's grid system.
                         <div style="margin-right: 15px; float: right;">
                             <button id="btn_run_data_sampling" type="submit" class="btn btn-default btn-primary" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Run sampling engine now</button>
                         </div>
-                        <div class="btn_data_sampling_custom_rules_view" style="margin-right: 15px; float: right;">
-                            <button type="submit" class="btn btn-default btn-primary" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Manage custom rules </button>
+                        <div style="margin-right: 15px; float: right;">
+                            <button type="submit" id="btn_data_sampling_custom_rules_view" class="btn btn-default btn-primary" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Manage custom rules </button>
                         </div>
                         <div class="btn_data_sampling_builtin_rules" style="margin-right: 15px; float: right;">
                             <button type="submit" class="btn btn-default btn-info" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> View builtin rules </button>
@@ -2242,7 +2242,7 @@ styles in <div> tags, similar to Bootstrap's grid system.
 
                     <div style="margin-top: 20px;" class="modal-footer">
                         <div class="btn_data_sampling_custom_rules_back" style="margin-right: 15px; float: left;">
-                            <button type="submit" class="btn btn-default btn-primary" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Back</button>
+                            <button type="submit" id="btn_data_sampling_custom_rules_back" class="btn btn-default btn-primary" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Back</button>
                         </div>
                         <div class="btn_data_sampling_custom_rules_delete" style="margin-right: 15px; float: right;">
                             <button type="submit" id="btn_modal_data_sampling_custom_rule_delete" class="btn btn-default btn-danger" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Remove selected</button>
@@ -8607,8 +8607,8 @@ styles in <div> tags, similar to Bootstrap's grid system.
                                 <div class="btn_modify_tags_policies custom-btn">
                                     <button type="submit" style="margin-right: 15px;" class="btn btn-outline-primary" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Manage: tags policies</button>
                                 </div>
-                                <div class="btn_modify_data_sampling_rules custom-btn">
-                                    <button type="submit" style="margin-right: 15px;" class="btn btn-outline-primary" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Manage: data sampling</button>
+                                <div class="custom-btn">
+                                    <button type="submit" id="btn_modify_data_sampling_rules" style="margin-right: 15px;" class="btn btn-outline-primary" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Manage: data sampling</button>
                                 </div>
                                 <div class="custom-btn">
                                     <button type="submit" id="btn_run_trackers" style="margin-right: 15px;" class="btn btn-outline-secondary"><span class="glyphicon glyphicon-remove"></span> Run: Trackers reports</button>
@@ -35216,18 +35216,7 @@ require([
             $btn_group.find('button').on('click', function() {
                 var $btn = $(this);
                 //console.log("Button was clicked");
-
-                var tk_data_sampling_custom_rule_back_btn_target = tokens.get("tk_data_sampling_custom_rule_back_btn_target");
-                //console.log("tk_data_sampling_custom_rule_back_btn_target is: " + tk_data_sampling_custom_rule_back_btn_target);
-
-                // define the back button target action
-                if (tk_data_sampling_custom_rule_back_btn_target === "from_data_source") {
-                    $("#modal_manage").modal()
-                }
-                else if (tk_data_sampling_custom_rule_back_btn_target === "from_main") {
-                    $("data_sampling_create_custom_rules").modal("hide")
-                }
-
+                $("#modal_manage").modal()
             });
         });
 
@@ -35252,53 +35241,47 @@ require([
         });
 
         // Show custom rules from data source
-        $('.btn_data_sampling_custom_rules_view').each(function() {
-            var $btn_group = $(this);
-            $btn_group.find('button').on('click', function() {
-                var $btn = $(this);
-                //console.log("Button was clicked");
+        $("#btn_data_sampling_custom_rules_view").unbind('click').click(function() {
 
-                submitTokens();
+            // Hide the back button
+            var btn_back = document.getElementById("btn_data_sampling_custom_rules_back");
+            btn_back.style.display = "inline-block"
 
-                // When the Submit button is clicked, get all the form fields by accessing token values
-                var tokens = mvc.Components.get("default");
+            submitTokens();
 
-                // free searches
-                setToken("show_data_sampling_custom_rules", "true");
+            // When the Submit button is clicked, get all the form fields by accessing token values
+            var tokens = mvc.Components.get("default");
 
-                // Create a token used to decide the back button target
-                setToken("tk_data_sampling_custom_rule_back_btn_target", "from_data_source");
+            // free searches
+            setToken("show_data_sampling_custom_rules", "true");
 
-                // force re-run the search each time the button is clicked
-                searchDataSamplingShowCustomRules.startSearch();
+            // force re-run the search each time the button is clicked
+            searchDataSamplingShowCustomRules.startSearch();
 
-                $("#data_sampling_show_custom_rules").modal()
-            });
+            $("#data_sampling_show_custom_rules").modal()
+
         });
 
         // Show custom rules from main
-        $('.btn_modify_data_sampling_rules').each(function() {
-            var $btn_group = $(this);
-            $btn_group.find('button').on('click', function() {
-                var $btn = $(this);
-                //console.log("Button was clicked");
+        $("#btn_modify_data_sampling_rules").unbind('click').click(function() {
 
-                submitTokens();
+            // Hide the back button
+            var btn_back = document.getElementById("btn_data_sampling_custom_rules_back");
+            btn_back.style.display = "none"
 
-                // When the Submit button is clicked, get all the form fields by accessing token values
-                var tokens = mvc.Components.get("default");
+            submitTokens();
 
-                // free searches
-                setToken("show_data_sampling_custom_rules", "true");
-                
-                // Create a token used to decide the back button target
-                setToken("tk_data_sampling_custom_rule_back_btn_target", "from_main");
+            // When the Submit button is clicked, get all the form fields by accessing token values
+            var tokens = mvc.Components.get("default");
 
-                // force re-run the search each time the button is clicked
-                searchDataSamplingShowCustomRules.startSearch();
+            // free searches
+            setToken("show_data_sampling_custom_rules", "true");
+            
+            // force re-run the search each time the button is clicked
+            searchDataSamplingShowCustomRules.startSearch();
 
-                $("#data_sampling_show_custom_rules").modal()
-            });
+            $("#data_sampling_show_custom_rules").modal()
+
         });
 
         // Back button
@@ -35308,16 +35291,8 @@ require([
                 var $btn = $(this);
                 //console.log("Button was clicked");
 
-                var tk_data_sampling_custom_rule_back_btn_target = tokens.get("tk_data_sampling_custom_rule_back_btn_target");
-                //console.log("tk_data_sampling_custom_rule_back_btn_target is: " + tk_data_sampling_custom_rule_back_btn_target);
-
-                // define the back button target action
-                if (tk_data_sampling_custom_rule_back_btn_target === "from_data_source") {
-                    $("#data_sampling_manage").modal()
-                }
-                else if (tk_data_sampling_custom_rule_back_btn_target === "from_main") {
-                    $("data_sampling_create_custom_rules").modal("hide")
-                }
+                // target
+                $("#data_sampling_manage").modal()
                 
             });
         });
