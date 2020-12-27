@@ -1249,7 +1249,7 @@ Summary statuses
    :alt: img_data_sampling_state_green.png
    :align: center
 
-*Blue state: data sampling engine did not processed this data source yet*
+*Blue state: data sampling engine did not inspect this data source yet*
 
 .. image:: img/first_steps/img_data_sampling_state_blue.png
    :alt: img_data_sampling_state_blue.png
@@ -1323,7 +1323,7 @@ Custom rules provides a workflow to handle any custom sourcetypes and event form
 
 This view allows you to create a new custom rule (button Create custom rules) or remove any existing custom rules that would not be required anymore. (button Remove selected)
 
-.. tip:: Since the version 1.2.26, it is possible to restrict the scope of custom rules to a list of explicit sourcetypes.
+.. tip:: Each custom rule can be restricted to a given list of explicit sourcetypes, or applied against any sourcetype. (default)
 
 **Create custom rules**
 
@@ -1424,7 +1424,9 @@ We could use the following regular expression to stricly match the format, the d
 
 Note: the regular expression doesn't have to be complex, it is up to your decide how strict it should be depending on your use case
 
-As we create a ``rule must match`` type of custom rule, a **green** means matching this regex, while a **red** status would mean events not matching our rule
+.. tip:: The data sampling engine will stop at the first regular expression match, to handle advanced or more complex configuration, use the sourcetype scope to restrict the custom rule to sourcetypes that should be considered
+
+We create a ``rule must match`` type of rule, which means that in normal circumstances we expect all events to be matched by our custom rule, otherwise this would be considered as an anomaly.
 
 Once the rule has been created:
 
@@ -1510,7 +1512,7 @@ We can clearly understand the root cause of the issue reported by TrackMe, shall
 
 Thanks to the data sampling feature, we are able to get an automated tracking that is working at any scale, keep in mind that TrackMe will proceed by picking up samples, which means a very rare condition will potentially not be detected.
 
-However, there is statistically a very high level of chance that if this is happening on a regular basis, this will be detected without having to generate very expensive searches that would look at the entire subset of data. (which is in true not even doable at large data scale)
+However, there is statistically a very high level of chance that if this is happening on a regular basis, this will be detected without having to generate very expensive searches that would look at the entire subset of data. (which would be very expensive and potentially not doable at scale)
 
 Priority management
 ===================

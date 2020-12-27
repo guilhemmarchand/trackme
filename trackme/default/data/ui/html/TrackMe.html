@@ -9124,7 +9124,8 @@ require([
             "auto_cancel": 90,
             "preview": true,
             "tokenDependencies": {
-                "depends": "$show_data_source_tracker$"
+                "depends": "$show_data_source_tracker$",
+                "depends": "$start_search_input_data_sampling_dropdown$"
             },
             "runWhenTimeIsUndefined": false
         }, {
@@ -35191,7 +35192,7 @@ require([
                 // Built the search URI
                 var tk_data_name = tokens.get("tk_data_name");
                 var tk_data_sourcetype = tokens.get("tk_data_sourcetype");
-                var search_latest_sample = 'search' + "?q=" + encodeURI("| inputlookup trackme_data_sampling where data_name=\"" + tk_data_name + "\" | fields raw_sample | mvexpand raw_sample | eval data_sourcetype=\"" + tk_data_sourcetype + "\" | `trackme_data_sampling_abstract_detect_events_format`");
+                var search_latest_sample = 'search' + "?q=" + encodeURI("| inputlookup trackme_data_sampling where data_name=\"" + tk_data_name + "\" | fields raw_sample | mvexpand raw_sample | eval data_sourcetype=\"" + tk_data_sourcetype + "\" | `trackme_data_sampling_abstract_detect_events_format` | lookup trackme_data_sampling_custom_models model_name as current_detected_format output model_type | eval model_type=if(isnull(model_type) AND isnotnull(current_detected_format), \"inclusive\", model_type)");
                 // Define the URL target
                 document.getElementById("btn_data_sampling_latest_sample").href = search_latest_sample;
 
@@ -36041,7 +36042,13 @@ require([
 
             // Disable the button results
             document.getElementById('btn_modal_data_sampling_custom_rule_simulate_show_details').disabled = true;
-            document.getElementById('btn_data_sampling_custom_rule_add').disabled = true;            
+            document.getElementById('btn_data_sampling_custom_rule_add').disabled = true;
+
+            // Free the dropdown populating search
+            setToken("start_search_input_data_sampling_dropdown", "true");
+
+            // force re-run the search each time the button is clicked
+            searchPopulateDataSampling.startSearch();
 
             // Open modal
             $("#data_sampling_create_custom_rules").modal()
