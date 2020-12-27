@@ -27,6 +27,10 @@ These resource groups are accessible by specific endpoint paths as following:
 +----------------------------------------------+----------------------------------------------+
 | :ref:`Block list endpoints`                  | /services/trackme/v1/blocklist               |
 +----------------------------------------------+----------------------------------------------+
+| :ref:`Data Sampling endpoints`               | /services/trackme/v1/data_sampling           |
++----------------------------------------------+----------------------------------------------+
+| :ref:`Data Sampling models endpoints`        | /services/trackme/v1/data_sampling_models    |
++----------------------------------------------+----------------------------------------------+
 | :ref:`Logical Groups endpoints`              | /services/trackme/v1/logical_groups          |
 +----------------------------------------------+----------------------------------------------+
 | :ref:`Tag policies endpoints`                | /services/trackme/v1/tag_policies            |
@@ -2595,8 +2599,90 @@ logical_groups_del_grp / Delete a logical group
 
     Record with _key 5fdf7aa55af72855ab693b47 was deleted from the logical groups collection.
 
-Data sampling endpoints
+Data Sampling endpoints
 -----------------------
+
+**Resources summary:**
+
++---------------------------------------------------------------------------------------------------+------------------------------------------------------------------------------+
+| Resource                                                                                          | API Path                                                                     | 
++===================================================================================================+==============================================================================+
+| :ref:`data_sampling_collection / Get Data sampling collection`                                    | /services/trackme/v1/data_sampling/data_sampling_collection                  |
++---------------------------------------------------------------------------------------------------+------------------------------------------------------------------------------+
+| :ref:`data_sampling_by_name / Get Data sampling record by data source`                            | /services/trackme/v1/data_sampling/data_sampling_by_name                     |
++---------------------------------------------------------------------------------------------------+------------------------------------------------------------------------------+
+| :ref:`data_sampling_del / Delete a data sampling record for a given data source`                  | /services/trackme/v1/data_sampling/data_sampling_del                         |
++---------------------------------------------------------------------------------------------------+------------------------------------------------------------------------------+
+
+data_sampling_collection / Get Data sampling collection
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+**This endpoint retrieves the data sampling collection, it requires a GET call with no options required:**
+
+::
+
+    curl -k -u admin:'ch@ngeM3' -X GET https://localhost:8089/services/trackme/v1/data_sampling/data_sampling_collection
+
+*JSON response:*
+
+::
+
+    [
+     {
+      "current_detected_format": "syslog_no_timestamp",
+      "current_detected_format_dcount": "1",
+      "current_detected_format_id": "d01bcd8d79beb285c118872c7c039bd6",
+      "data_name": "linux_emea:linux_secure",
+      "data_sample_anomaly_ack_mtime": "N/A",
+      ...
+
+data_sampling_by_name / Get Data sampling record by data source
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+**This endpoint retrieves a data sampling record, it requires a GET call with the following data:**
+
+- ``"data_name": "<name of the data source>"``
+
+::
+
+    curl -k -u admin:'ch@ngeM3' -X GET https://localhost:8089/services/trackme/v1/data_sampling/data_sampling_by_name -d '{"data_name": "main:retail_transaction"}'
+
+*JSON response:*
+
+::
+
+    {
+     "current_detected_format": [
+      "PII",
+      "raw_start_by_timestamp %a %d %b %Y %H:%M:%S"
+      ],
+     "current_detected_format_dcount": "2",
+     "current_detected_format_id": [
+     "7b5eb471694ac78273e516b7e3fb78c9",
+     "84fb236745d5ed942ed495037b8187e8"
+     ],
+     ...
+
+data_sampling_del / Delete a data sampling record for a given data source
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+**This endpoint deletes a data sampling record for a given data source, it requires a DELETE call with the following data:**
+
+- ``"data_name": "<name of the data source>"``
+- ``"update_comment": "<OPTIONAL: a comment for the update, comments are added to the audit record, if unset will be defined to: API update>``
+
+::
+
+    curl -k -u admin:'ch@ngeM3' -X DELETE https://localhost:8089/services/trackme/v1/data_sampling/data_sampling_del -d '{"data_name": "main:retail_transaction", "comment_update": "Automated API driven deletion."}'
+
+*response:*
+
+::
+
+    Record with _key ab994e3b00751d45591c7abc2b7a1061 was deleted from the collection.
+
+Data Sampling models endpoints
+------------------------------
 
 **Resources summary:**
 
@@ -2627,14 +2713,14 @@ data_sampling_models / Get data sampling custom models
 
     [
      {
-      "_time": "1608499441",
-      "model_id": "4c46a2fe5f07006e456bf9b659c7ce7d",
       "model_name": "Example format",
       "model_regex": "^\\{\"extraData\":",
-      "mtime": "1608499441",
+      "model_type": "inclusive",
+      "model_id": "4c46a2fe5f07006e456bf9b659c7ce7d",
       "sourcetype_scope": "sample9-customformat",
+      "mtime": 1609073607143,
       "_user": "nobody",
-      "_key": "4c46a2fe5f07006e456bf9b659c7ce7d"
+      "_key": "5fe883c7fdf8f9160636c132"
      }
     ]
 
@@ -2653,18 +2739,16 @@ data_sampling_models_by_name / Get data sampling custom model by name
 
 ::
 
-    [
-     {
-      "_time": "1608499441",
-      "model_id": "4c46a2fe5f07006e456bf9b659c7ce7d",
-      "model_name": "Example format",
-      "model_regex": "^\\{\"extraData\":",
-      "mtime": "1608499441",
-      "sourcetype_scope": "sample9-customformat",
-      "_user": "nobody",
-      "_key": "4c46a2fe5f07006e456bf9b659c7ce7d"
-     }
-    ]
+    {
+     "model_name": "Example format",
+     "model_regex": "^\\{\"extraData\":",
+     "model_type": "inclusive",
+     "model_id": "4c46a2fe5f07006e456bf9b659c7ce7d",
+     "sourcetype_scope": "sample9-customformat",
+     "mtime": 1609073607143,
+     "_user": "nobody",
+     "_key": "5fe883c7fdf8f9160636c132"
+    }
 
 data_sampling_models_add / Add a new custom model or update
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -2675,6 +2759,10 @@ data_sampling_models_add / Add a new custom model or update
 - ``"model_regex":``
 
 The regular expression to be used by the custom model, special characters should be escaped.
+
+- ``"model_type":``
+
+The type of match for this model, valid options are "inclusive" (rule must match) and "exclusive" (rule must not match)
 
 - ``"sourcetype_scope":``
 
@@ -2687,7 +2775,7 @@ You can enter a list of sourcetypes as a comma separated list of values, wilcard
 
 ::
 
-    curl -k -u admin:'ch@ngeM3' -X POST https://localhost:8089/services/trackme/v1/data_sampling/data_sampling_models_add -d '{"model_name": "Example format", "model_regex": "^\\{\"extraData\":", "sourcetype_scope": "sample9-customformat", "comment_update": "Automated API driven creation."}'
+    curl -k -u admin:'ch@ngeM3' -X POST https://localhost:8089/services/trackme/v1/data_sampling/data_sampling_models_add -d '{"model_name": "Example format", "model_type": "inclusive", "model_regex": "^\\{\"extraData\":", "sourcetype_scope": "sample9-customformat", "comment_update": "Automated API driven creation."}'
 
 *JSON response:*
 
@@ -2695,19 +2783,19 @@ You can enter a list of sourcetypes as a comma separated list of values, wilcard
 
     [
      {
-      "_time": "1608499441",
-      "model_id": "4c46a2fe5f07006e456bf9b659c7ce7d",
       "model_name": "Example format",
       "model_regex": "^\\{\"extraData\":",
-      "mtime": "1608499441",
+      "model_type": "inclusive",
+      "model_id": "4c46a2fe5f07006e456bf9b659c7ce7d",
       "sourcetype_scope": "sample9-customformat",
+      "mtime": 1609073607143,
       "_user": "nobody",
-      "_key": "4c46a2fe5f07006e456bf9b659c7ce7d"
+      "_key": "5fe883c7fdf8f9160636c132"
      }
     ]
 
 data_sampling_models_del / Delete a custom model
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 **This endpoint deletes a custom data sampling model, it requires a DELETE call with the following data:**
 
@@ -2724,7 +2812,7 @@ data_sampling_models_del / Delete a custom model
 
 ::
 
-    Record with _key 4c46a2fe5f07006e456bf9b659c7ce7d was deleted from the collection.
+    Record with _key 5fe883c7fdf8f9160636c132 was deleted from the collection.
 
 Tag policies endpoints
 ----------------------
@@ -3067,3 +3155,5 @@ lagging_classes_metrics_del / Delete a lagging class
 ::
 
     Record with _key 5fe2928b1a568f12a1149957 was deleted from the collection.
+
+

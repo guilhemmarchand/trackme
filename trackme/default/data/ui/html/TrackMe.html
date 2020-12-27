@@ -35285,6 +35285,9 @@ require([
                 // When the Submit button is clicked, get all the form fields by accessing token values
                 var tokens = mvc.Components.get("default");
 
+                // free searches
+                setToken("show_data_sampling", "true");
+                
                 // Create a token used to decide the back button target
                 setToken("tk_data_sampling_custom_rule_back_btn_target", "from_main");
 
