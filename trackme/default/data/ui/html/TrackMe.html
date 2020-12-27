@@ -11328,7 +11328,7 @@ require([
             "auto_cancel": 90,
             "preview": true,
             "tokenDependencies": {
-                "depends": "$show_data_sampling$",
+                "depends": "$show_data_sampling_custom_rules$",
             },
             "runWhenTimeIsUndefined": false
         }, {
@@ -16545,9 +16545,6 @@ require([
                 unsetToken("tk_data_host");
                 unsetToken("tk_metric_host");
 
-                // if the manage data sampling button was clicked earlier, the token would be set and unexpectly show the current sampling result
-                unsetToken("show_data_sampling");
-
                 setToken("tk_keyid", TokenUtils.replaceTokenNames("$row.keyid$", _.extend(submittedTokenModel.toJSON(), e.data)));
                 setToken("tk_data_name", TokenUtils.replaceTokenNames("$row.data_name$", _.extend(submittedTokenModel.toJSON(), e.data)));
                 setToken("tk_data_index", TokenUtils.replaceTokenNames("$row.data_index$", _.extend(submittedTokenModel.toJSON(), e.data)));
@@ -17872,7 +17869,7 @@ require([
         var tableDataSamplingShowCustomRules = new TableElement({
             "id": "tableDataSamplingShowCustomRules",
             "tokenDependencies": {
-                "depends": "$show_data_sampling$",
+                "depends": "$show_data_sampling_custom_rules$",
                 "depends": "$show_table_data_sampling_custom_rules$"
             },
             "count": 10,
@@ -35266,6 +35263,9 @@ require([
                 // When the Submit button is clicked, get all the form fields by accessing token values
                 var tokens = mvc.Components.get("default");
 
+                // free searches
+                setToken("show_data_sampling_custom_rules", "true");
+
                 // Create a token used to decide the back button target
                 setToken("tk_data_sampling_custom_rule_back_btn_target", "from_data_source");
 
@@ -35289,7 +35289,7 @@ require([
                 var tokens = mvc.Components.get("default");
 
                 // free searches
-                setToken("show_data_sampling", "true");
+                setToken("show_data_sampling_custom_rules", "true");
                 
                 // Create a token used to decide the back button target
                 setToken("tk_data_sampling_custom_rule_back_btn_target", "from_main");
