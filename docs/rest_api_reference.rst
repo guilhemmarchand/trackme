@@ -281,35 +281,37 @@ Data Sources endpoints
 
 **Resources summary:**
 
-+---------------------------------------------------------------------+-----------------------------------------------------------------+
-| Resource                                                            | API Path                                                        | 
-+=====================================================================+=================================================================+
-| :ref:`ds_collection / Get full Data Sources collection`             | /services/trackme/v1/data_sources/ds_collection                 |
-+---------------------------------------------------------------------+-----------------------------------------------------------------+
-| :ref:`ds_by_key / Get Data Source by _key`                          | /services/trackme/v1/data_sources/ds_by_key                     |
-+---------------------------------------------------------------------+-----------------------------------------------------------------+
-| :ref:`ds_by_name / Get Data Source by name`                         | /services/trackme/v1/data_sources/ds_by_name                    |
-+---------------------------------------------------------------------+-----------------------------------------------------------------+
-| :ref:`ds_enable_monitoring / Enable monitoring`                     | /services/trackme/v1/data_sources/ds_enable_monitoring          |
-+---------------------------------------------------------------------+-----------------------------------------------------------------+
-| :ref:`ds_disable_monitoring / Disable monitoring`                   | /services/trackme/v1/data_sources/ds_disable_monitoring         |
-+---------------------------------------------------------------------+-----------------------------------------------------------------+
-| :ref:`ds_update_lag_policy / Update lagging policy`                 | /services/trackme/v1/data_sources/ds_update_lag_policy          |
-+---------------------------------------------------------------------+-----------------------------------------------------------------+
-| :ref:`ds_update_min_dcount_host / Update minimal host dcount`       | /services/trackme/v1/data_sources/ds_update_min_dcount_host     |
-+---------------------------------------------------------------------+-----------------------------------------------------------------+
-| :ref:`ds_update_wdays_by_name / Update week days monitoring`        | /services/trackme/v1/data_sources/ds_update_wdays               |
-+---------------------------------------------------------------------+-----------------------------------------------------------------+
-| :ref:`ds_update_outliers / Update outliers detection configuration` | /services/trackme/v1/data_sources/ds_update_outliers            |
-+---------------------------------------------------------------------+-----------------------------------------------------------------+
-| :ref:`ds_delete_temporary / Delete temporary`                       | /services/trackme/v1/data_sources/ds_delete_temporary           |
-+---------------------------------------------------------------------+-----------------------------------------------------------------+
-| :ref:`ds_delete_permanent / Delete permanently`                     | /services/trackme/v1/data_sources/ds_delete_permanent           |
-+---------------------------------------------------------------------+-----------------------------------------------------------------+
-| :ref:`ds_enable_data_sampling / Enable data sampling`               | /services/trackme/v1/data_sources/ds_enable_data_sampling       |
-+---------------------------------------------------------------------+-----------------------------------------------------------------+
-| :ref:`ds_disable_data_sampling / Disable data sampling`             | /services/trackme/v1/data_sources/ds_disable_data_sampling      |
-+---------------------------------------------------------------------+-----------------------------------------------------------------+
++----------------------------------------------------------------------------+---------------------------------------------------------------------------+
+| Resource                                                                   | API Path                                                                  |
++============================================================================+===========================================================================+
+| :ref:`ds_collection / Get full Data Sources collection`                    | /services/trackme/v1/data_sources/ds_collection                           |
++----------------------------------------------------------------------------+---------------------------------------------------------------------------+
+| :ref:`ds_by_key / Get Data Source by _key`                                 | /services/trackme/v1/data_sources/ds_by_key                               |
++----------------------------------------------------------------------------+---------------------------------------------------------------------------+
+| :ref:`ds_by_name / Get Data Source by name`                                | /services/trackme/v1/data_sources/ds_by_name                              |
++----------------------------------------------------------------------------+---------------------------------------------------------------------------+
+| :ref:`ds_enable_monitoring / Enable monitoring`                            | /services/trackme/v1/data_sources/ds_enable_monitoring                    |
++----------------------------------------------------------------------------+---------------------------------------------------------------------------+
+| :ref:`ds_disable_monitoring / Disable monitoring`                          | /services/trackme/v1/data_sources/ds_disable_monitoring                   |
++----------------------------------------------------------------------------+---------------------------------------------------------------------------+
+| :ref:`ds_update_lag_policy / Update lagging policy`                        | /services/trackme/v1/data_sources/ds_update_lag_policy                    |
++----------------------------------------------------------------------------+---------------------------------------------------------------------------+
+| :ref:`ds_update_min_dcount_host / Update minimal host dcount`              | /services/trackme/v1/data_sources/ds_update_min_dcount_host               |
++----------------------------------------------------------------------------+---------------------------------------------------------------------------+
+| :ref:`ds_update_wdays_by_name / Update week days monitoring`               | /services/trackme/v1/data_sources/ds_update_wdays                         |
++----------------------------------------------------------------------------+---------------------------------------------------------------------------+
+| :ref:`ds_update_outliers / Update outliers detection configuration`        | /services/trackme/v1/data_sources/ds_update_outliers                      |
++----------------------------------------------------------------------------+---------------------------------------------------------------------------+
+| :ref:`ds_delete_temporary / Delete temporary`                              | /services/trackme/v1/data_sources/ds_delete_temporary                     |
++----------------------------------------------------------------------------+---------------------------------------------------------------------------+
+| :ref:`ds_delete_permanent / Delete permanently`                            | /services/trackme/v1/data_sources/ds_delete_permanent                     |
++----------------------------------------------------------------------------+---------------------------------------------------------------------------+
+| :ref:`ds_enable_data_sampling / Enable data sampling`                      | /services/trackme/v1/data_sources/ds_enable_data_sampling                 |
++----------------------------------------------------------------------------+---------------------------------------------------------------------------+
+| :ref:`ds_disable_data_sampling / Disable data sampling`                    | /services/trackme/v1/data_sources/ds_disable_data_sampling                |
++----------------------------------------------------------------------------+---------------------------------------------------------------------------+
+| :ref:`ds_update_data_sampling_records_nr / Update sampling no of records`  | /services/trackme/v1/data_sources/ds_update_data_sampling_records_nr      |
++----------------------------------------------------------------------------+---------------------------------------------------------------------------+
 
 ds_collection / Get full Data Sources collection
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -646,6 +648,29 @@ ds_disable_data_sampling / Disable data sampling
      "_user": "nobody",
      "_key": "7e8670878a9ad91844f18655f1819c06"
     }
+
+ds_update_data_sampling_records_nr / Update sampling no of records
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+**This endpoint enables the data sampling feature for an existing data source by the data source name (data_name), it requires a POST call with the following information:**
+
+- ``"data_name": "<name of the data source>"``
+- ``"data_sampling_nr": "<number of records to be sampled per data source and data sampling execution (defaults to 100 at first sampling, then 50)>"``
+- ``"update_comment": "<OPTIONAL: a comment for the update, comments are added to the audit record, if unset will be defined to: API update>``
+
+::
+
+    curl -k -u admin:'ch@ngeM3' -X POST https://localhost:8089/services/trackme/v1/data_sources/ds_update_data_sampling_records_nr -d '{"data_name": "network:pan:traffic", "data_sampling_nr": "200", "update_comment": "Updated by automation."}'
+
+*JSON response:*
+
+::
+
+    {
+     "data_name": "network:pan:traffic",
+     "data_sampling_nr": "200",
+     "raw_sample": [
+     ...
 
 Data Hosts endpoints
 --------------------

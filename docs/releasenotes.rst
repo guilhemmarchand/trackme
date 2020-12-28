@@ -17,6 +17,7 @@ https://trackme.readthedocs.io/en/latest/configuration.html
 
 - Feature - Issue #210 - new REST API endpoints for Elastic Sources / Logical Groups / Data Sampling / Tags Policies / Lagging Classes / Lagging Classes Metrics
 - Feature - Issue #212 - Data sampling - Allows defining exclusive rules for data sampling custom models, this can be used when a regex must not be matched, such as detecting PII data automatically
+- Feature - Issue #214 - Data sampling - Allows defining a custom number of records to be sampled on a per data source basis
 - Fix - Data sampling - Clear state and run sampling action would fail if actioned on a data source which data sampling has not run yet at least once, fixes and UI improvements for Data sampling
 - Change - Issue #213 - knowledge objects default permissions - Review of the app related KVstores default permissions, fixing missing collections and transforms
 

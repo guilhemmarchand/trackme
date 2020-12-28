@@ -1206,11 +1206,12 @@ Data sampling and event formats recognition
 
    The Data sampling and event format recognition feature is a powerful automated workflow that provides the capabilities to monitor the raw events formats to automatically detect anomalies and misbehaviour at scale:
    
-   - TrackMe automatically picks a small events sample from every data source on a scheduled basis, and runs regular expression based rules to find "good" and "bad" things
+   - TrackMe automatically picks a sample of from every data source on a scheduled basis, and runs regular expression based rules to find "good" and "bad" things
    - builtin rules are provided to identify commonly used formats of data, such as syslog, json, xml, and so forth
    - custom rules can be created to extend the feature up to your needs
    - rules can be created as rules that need to be matched (looking for a format or specific patterns), or as rules that must not be matched (for example looking for PII data)
    - rules that must not match (exclusive rules) are always proceeded before rules that must match (inclusive), this guarantes that if any a same data source would match multiple rules, any first rule matching "bad" things will proceed before a rule matching "good" things (as the engine will stop at the first match for a given event)
+   - The number of events sampled during each execution can be configured per data source, and otherwise defaults to 100 events at the first sampling, and 50 events for each new execution
    - checkout custom rule example creation in the present documentation
 
 **You access to the data sample feature on a per data source basis via the data sample tab when looking at a specific data source:**
@@ -1289,6 +1290,7 @@ Manage data sampling
 - ``anomaly_reason:`` the reason why an anomaly is raised, or "normal" if there are no anomalies
 - ``multiformat:`` shall more than one format of events be detected (true / false)
 - ``mtime:`` the latest time data sampling was processed for this data source
+- ``data_sampling_nr:`` the number of events taken per sampling operation, defaults to 100 events at discovery then 50 events for each new sampling (can be configured via the action Update records/sample)
 
 View latest sample events
 ^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -1383,6 +1385,27 @@ Use this function to force running the data sampling engine now against this dat
 - You can can run this action at anytime and as often as you need, the action runs the data sampling engine for that data source only
 - This action will have no effect if an anomaly was raised for the data source already, when an anomaly is detected the status is frozen (see Clear state and run sampling)
 
+Update records/sample
+^^^^^^^^^^^^^^^^^^^^^
+
+You can define a custom number of events to be taken per sample using this action button within the UI.
+
+By default, the Data sampling proceeds as following:
+
+- When the first iteration for a given data source is processed, TrackMe picks a sample of 100 events
+- During every new iteration, a sample of 50 events is taken
+
+In addition, these values are defined globally for the application via the following macros:
+
+- trackme_data_sampling_default_sample_record_at_discovery
+- trackme_data_sampling_default_sample_record_at_run
+
+Use this UI to choose a different value, increasing the number of events per sample improves the sampling process accuracy, at the cost of more processing and more memory and storage costs for the KVstore collection:
+
+.. image:: img/first_steps/img_data_sampling_records_nr.png
+   :alt: img_data_sampling_records_nr.png
+   :align: center
+
 Clear state and run sampling
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
@@ -1392,6 +1415,19 @@ Use this function to clear any state previously determined, this forces the data
 
 - Use this action to clear any known states for this data source and run the inspection from zero, just as if it was discovered for the first time
 - You can use this action to clear an anomaly that was raised, when an alert is raised by the data sampling, the state is frozen until this anomaly is reviewed, once the issue is understood and fixed, run the action to clear the state and restart the inspection workflow for this data source
+
+Disable Data sampling for a give data source
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Use this function to disable data sampling for a given data source, there can be cases where you would need to disable this feature if for example there is a lack of quality which cannot be fixed, and some random formats are introduced out of your control.
+
+Disabling the feature means defining the value of the field **data_sample_feature** to **disabled** in the collection trackme_data_sampling, once disabled the UI would show:
+
+.. image:: img/first_steps/img_data_sampling_disable.png
+   :alt: img_data_sampling_disable.png
+   :align: center
+
+The Data sampling feature can be enabled / disabled at any point in time, as soon as a data source is disabled, TrackMe stops considering it during the sampling operations.
 
 Data sampling Audit dashboard
 -----------------------------

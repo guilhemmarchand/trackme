@@ -1595,7 +1595,25 @@ class TrackMeHandlerDataSources_v1(rest_handler.RESTHandler):
 
                 # Update the record
                 collection.data.update(str(key), json.dumps({"data_name": str(data_name),
-                    "data_sample_feature": str(data_sample_feature)}))
+                    "data_sampling_nr": record[0].get('data_sampling_nr'),
+                    "raw_sample": record[0].get('raw_sample'),
+                    "data_sample_mtime": record[0].get('data_sample_mtime'),
+                    "data_sample_feature": str(data_sample_feature),
+                    "data_sample_iteration": record[0].get('data_sample_iteration'),
+                    "data_sample_anomaly_reason": record[0].get('data_sample_anomaly_reason'),
+                    "data_sample_status_colour": record[0].get('data_sample_status_colour'),
+                    "data_sample_anomaly_ack_status": record[0].get('data_sample_anomaly_ack_status'),
+                    "data_sample_anomaly_ack_mtime": record[0].get('data_sample_anomaly_ack_mtime'),
+                    "data_sample_anomaly_detected": record[0].get('data_sample_anomaly_detected'),
+                    "data_sample_status_message": record[0].get('data_sample_status_message'),
+                    "multiformat_detected": record[0].get('multiformat_detected'),
+                    "current_detected_format": record[0].get('current_detected_format'),
+                    "current_detected_format_id": record[0].get('current_detected_format_id'),
+                    "current_detected_format_dcount": record[0].get('current_detected_format_dcount'),
+                    "previous_detected_format": record[0].get('previous_detected_format'),
+                    "previous_detected_format_id": record[0].get('previous_detected_format_id'),
+                    "previous_detected_format_dcount": record[0].get('previous_detected_format_dcount')
+                }))
 
                 # Record an audit change
                 import time
@@ -1603,6 +1621,8 @@ class TrackMeHandlerDataSources_v1(rest_handler.RESTHandler):
                 user = "nobody"
 
                 try:
+
+                    record = "{" + "object:" + str(data_name) + ", " +  "data_sample_feature:" + str(data_sample_feature) + "}"
 
                     # Insert the record
                     collection_audit.data.insert(json.dumps({    
@@ -1612,7 +1632,7 @@ class TrackMeHandlerDataSources_v1(rest_handler.RESTHandler):
                         "change_type": "enable data sampling",
                         "object": str(data_name),
                         "object_category": "data_source",
-                        "object_attrs": str(json.dumps(collection.data.query_by_id(key), indent=1)),
+                        "object_attrs": str(record),
                         "result": "N/A",
                         "comment": str(update_comment)
                         }))
@@ -1629,44 +1649,16 @@ class TrackMeHandlerDataSources_v1(rest_handler.RESTHandler):
 
             else:
 
-                # Insert the record
-                collection.data.insert(json.dumps({"data_name": str(data_name),
-                    "data_sample_feature": str(data_sample_feature)}))
-
-                # Record an audit change
-                import time
-                current_time = int(round(time.time() * 1000))
-                user = "nobody"
-
-                try:
-
-                    # Insert the record
-                    collection_audit.data.insert(json.dumps({    
-                        "time": str(current_time),
-                        "user": str(user),
-                        "action": "success",
-                        "change_type": "enable ack",
-                        "object": str(data_name),
-                        "object_category": "data_source",
-                        "object_attrs": json.dumps({"object": str(data_name), "data_sample_feature": str(data_sample_feature)}, index=1),
-                        "result": "N/A",
-                        "comment": str(update_comment)
-                        }))
-
-                except Exception as e:
-                    return {
-                        'payload': 'Warn: exception encountered: ' + str(e) # Payload of the request.
-                    }
-
                 return {
-                    "payload": json.dumps(collection.data.query(query=str(query_string)), indent=1),
-                    'status': 200 # HTTP status code
+                    "payload": 'Warn: resource not found ' + str(key),
+                    'status': 404 # HTTP status code
                 }
 
         except Exception as e:
             return {
                 'payload': 'Warn: exception encountered: ' + str(e) # Payload of the request.
             }
+
 
     # Disable Data Sampling by object name
     def post_ds_disable_data_sampling(self, request_info, **kwargs):
@@ -1732,7 +1724,25 @@ class TrackMeHandlerDataSources_v1(rest_handler.RESTHandler):
 
                 # Update the record
                 collection.data.update(str(key), json.dumps({"data_name": str(data_name),
-                    "data_sample_feature": str(data_sample_feature)}))
+                    "data_sampling_nr": record[0].get('data_sampling_nr'),
+                    "raw_sample": record[0].get('raw_sample'),
+                    "data_sample_mtime": record[0].get('data_sample_mtime'),
+                    "data_sample_feature": str(data_sample_feature),
+                    "data_sample_iteration": record[0].get('data_sample_iteration'),
+                    "data_sample_anomaly_reason": record[0].get('data_sample_anomaly_reason'),
+                    "data_sample_status_colour": record[0].get('data_sample_status_colour'),
+                    "data_sample_anomaly_ack_status": record[0].get('data_sample_anomaly_ack_status'),
+                    "data_sample_anomaly_ack_mtime": record[0].get('data_sample_anomaly_ack_mtime'),
+                    "data_sample_anomaly_detected": record[0].get('data_sample_anomaly_detected'),
+                    "data_sample_status_message": record[0].get('data_sample_status_message'),
+                    "multiformat_detected": record[0].get('multiformat_detected'),
+                    "current_detected_format": record[0].get('current_detected_format'),
+                    "current_detected_format_id": record[0].get('current_detected_format_id'),
+                    "current_detected_format_dcount": record[0].get('current_detected_format_dcount'),
+                    "previous_detected_format": record[0].get('previous_detected_format'),
+                    "previous_detected_format_id": record[0].get('previous_detected_format_id'),
+                    "previous_detected_format_dcount": record[0].get('previous_detected_format_dcount')
+                }))
 
                 # Record an audit change
                 import time
@@ -1740,6 +1750,8 @@ class TrackMeHandlerDataSources_v1(rest_handler.RESTHandler):
                 user = "nobody"
 
                 try:
+
+                    record = "{" + "object:" + str(data_name) + ", " +  "data_sample_feature:" + str(data_sample_feature) + "}"
 
                     # Insert the record
                     collection_audit.data.insert(json.dumps({    
@@ -1749,7 +1761,7 @@ class TrackMeHandlerDataSources_v1(rest_handler.RESTHandler):
                         "change_type": "disable data sampling",
                         "object": str(data_name),
                         "object_category": "data_source",
-                        "object_attrs": str(json.dumps(collection.data.query_by_id(key), indent=1)),
+                        "object_attrs": str(record),
                         "result": "N/A",
                         "comment": str(update_comment)
                         }))
@@ -1766,9 +1778,98 @@ class TrackMeHandlerDataSources_v1(rest_handler.RESTHandler):
 
             else:
 
-                # Insert the record
-                collection.data.insert(json.dumps({"data_name": str(data_name),
-                    "data_sample_feature": str(data_sample_feature)}))
+                return {
+                    "payload": 'Warn: resource not found ' + str(key),
+                    'status': 404 # HTTP status code
+                }
+
+        except Exception as e:
+            return {
+                'payload': 'Warn: exception encountered: ' + str(e) # Payload of the request.
+            }
+
+    # Update number of records per sample by object name
+    def post_ds_update_data_sampling_records_nr(self, request_info, **kwargs):
+
+        # By data_name
+        data_name = None
+        data_sampling_nr = None
+        query_string = None
+
+        # Retrieve from data
+        resp_dict = json.loads(str(request_info.raw_args['payload']))
+        data_name = resp_dict['data_name']
+        data_sampling_nr = resp_dict['data_sampling_nr']
+
+        # Update comment is optional and used for audit changes
+        try:
+            update_comment = resp_dict['update_comment']
+        except Exception as e:
+            update_comment = "API update"
+
+        # Define the KV query
+        query_string = '{ "data_name' + '": "' + data_name + '" }'
+        
+        # Get splunkd port
+        entity = splunk.entity.getEntity('/server', 'settings',
+                                            namespace='trackme', sessionKey=request_info.session_key, owner='-')
+        splunkd_port = entity['mgmtHostPort']
+
+        try:
+
+            collection_name = "kv_trackme_data_sampling"            
+            service = client.connect(
+                owner="nobody",
+                app="trackme",
+                port=splunkd_port,
+                token=request_info.session_key
+            )
+            collection = service.kvstore[collection_name]
+
+            # Audit collection
+            collection_name_audit = "kv_trackme_audit_changes"            
+            service_audit = client.connect(
+                owner="nobody",
+                app="trackme",
+                port=splunkd_port,
+                token=request_info.session_key
+            )
+            collection_audit = service_audit.kvstore[collection_name_audit]
+
+            # Get the current record
+            # Notes: the record is returned as an array, as we search for a specific record, we expect one record only
+            
+            try:
+                record = collection.data.query(query=str(query_string))
+                key = record[0].get('_key')
+
+            except Exception as e:
+                key = None
+
+            # Render result
+            if key is not None and len(key)>2:
+
+                # Update the record
+                collection.data.update(str(key), json.dumps({"data_name": str(data_name),
+                    "data_sampling_nr": str(data_sampling_nr),
+                    "raw_sample": record[0].get('raw_sample'),
+                    "data_sample_mtime": record[0].get('data_sample_mtime'),
+                    "data_sample_feature": record[0].get('data_sample_feature'),
+                    "data_sample_iteration": record[0].get('data_sample_iteration'),
+                    "data_sample_anomaly_reason": record[0].get('data_sample_anomaly_reason'),
+                    "data_sample_status_colour": record[0].get('data_sample_status_colour'),
+                    "data_sample_anomaly_ack_status": record[0].get('data_sample_anomaly_ack_status'),
+                    "data_sample_anomaly_ack_mtime": record[0].get('data_sample_anomaly_ack_mtime'),
+                    "data_sample_anomaly_detected": record[0].get('data_sample_anomaly_detected'),
+                    "data_sample_status_message": record[0].get('data_sample_status_message'),
+                    "multiformat_detected": record[0].get('multiformat_detected'),
+                    "current_detected_format": record[0].get('current_detected_format'),
+                    "current_detected_format_id": record[0].get('current_detected_format_id'),
+                    "current_detected_format_dcount": record[0].get('current_detected_format_dcount'),
+                    "previous_detected_format": record[0].get('previous_detected_format'),
+                    "previous_detected_format_id": record[0].get('previous_detected_format_id'),
+                    "previous_detected_format_dcount": record[0].get('previous_detected_format_dcount')
+                }))
 
                 # Record an audit change
                 import time
@@ -1777,15 +1878,17 @@ class TrackMeHandlerDataSources_v1(rest_handler.RESTHandler):
 
                 try:
 
+                    record = "{" + "object:" + str(data_name) + ", " +  "data_sampling_nr:" + str(data_sampling_nr) + "}"
+
                     # Insert the record
                     collection_audit.data.insert(json.dumps({    
                         "time": str(current_time),
                         "user": str(user),
                         "action": "success",
-                        "change_type": "enable ack",
+                        "change_type": "update data sampling records_nr",
                         "object": str(data_name),
                         "object_category": "data_source",
-                        "object_attrs": json.dumps({"object": str(data_name), "data_sample_feature": str(data_sample_feature)}, index=1),
+                        "object_attrs": str(record),
                         "result": "N/A",
                         "comment": str(update_comment)
                         }))
@@ -1796,12 +1899,18 @@ class TrackMeHandlerDataSources_v1(rest_handler.RESTHandler):
                     }
 
                 return {
-                    "payload": json.dumps(collection.data.query(query=str(query_string)), indent=1),
+                    "payload": json.dumps(collection.data.query_by_id(key), indent=1),
                     'status': 200 # HTTP status code
+                }
+
+            else:
+
+                return {
+                    "payload": 'Warn: resource not found ' + str(key),
+                    'status': 404 # HTTP status code
                 }
 
         except Exception as e:
             return {
                 'payload': 'Warn: exception encountered: ' + str(e) # Payload of the request.
             }
-
