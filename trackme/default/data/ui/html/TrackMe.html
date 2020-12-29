@@ -8077,7 +8077,7 @@ styles in <div> tags, similar to Bootstrap's grid system.
                 </div>
                 <div class="modal-body">
 
-                    <b>Number of records per sample:</b>
+                    <b>Number of records per sample:</b><br />
 
                     <p>Enter the maximal number of events to be extracted per data source during the data sampling operation: (default: 50)</p>
 
@@ -8109,7 +8109,7 @@ styles in <div> tags, similar to Bootstrap's grid system.
                 </div>
 
                 <div class="modal-footer">
-                    <button type="submit" class="btn btn-default btn-default pull-left" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Cancel</button>
+                    <button type="submit" id="btn_update_records_nr_confirm_back" class="btn btn-default btn-default pull-left" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Cancel</button>
                     <button type="submit" id="btn_update_records_nr_confirm" class="btn btn-default btn-primary pull-right" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Ok</button>
                 </div>
             </div>
@@ -8143,7 +8143,7 @@ styles in <div> tags, similar to Bootstrap's grid system.
                 </div>
 
                 <div class="modal-footer">
-                    <button type="submit" class="btn btn-default btn-default pull-left" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Cancel</button>
+                    <button type="submit" id="btn_modal_clear_state_confirm_back" class="btn btn-default btn-default pull-left" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Cancel</button>
                     <button type="submit" id="btn_modal_clear_state_confirm" class="btn btn-default btn-primary pull-right" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Ok</button>
                 </div>
             </div>
@@ -8177,7 +8177,7 @@ styles in <div> tags, similar to Bootstrap's grid system.
                 </div>
 
                 <div class="modal-footer">
-                    <button type="submit" class="btn btn-default btn-default pull-left" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Cancel</button>
+                    <button type="submit" id="btn_modal_data_sampling_disable_confirm_back" class="btn btn-default btn-default pull-left" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Cancel</button>
                     <button type="submit" id="btn_modal_data_sampling_disable_confirm" class="btn btn-default btn-primary pull-right" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Ok</button>
                 </div>
             </div>
@@ -35910,10 +35910,21 @@ require([
 
         });
 
+        $("#btn_update_records_nr_confirm_back").click(function() {
+            // Return to modal
+            $("#data_sampling_manage").modal()
+        });
+
         // Clear state action
         $("#btn_data_sampling_clear_now").click(function() {
             //console.log("Button was clicked");
             $("#modal_clear_state_data_sampling").modal()
+        });
+
+        // Back button
+        $("#btn_modal_clear_state_confirm_back").click(function() {
+            // Return to modal
+            $("#data_sampling_manage").modal()
         });
 
         // Clear state action button is confirmed
@@ -36207,6 +36218,12 @@ require([
 
             });
 
+        });
+
+        // Back button
+        $("#btn_modal_data_sampling_disable_confirm_back").click(function() {
+            // Return to modal
+            $("#data_sampling_manage").modal()
         });
 
         // Data sampling custom rules
