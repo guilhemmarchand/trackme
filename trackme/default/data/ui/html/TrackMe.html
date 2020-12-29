@@ -35791,7 +35791,7 @@ require([
 
             // Define the query
             var searchQuery = "| inputlookup trackme_data_sampling where data_name=\"" + tk_data_name + "\" | eval keyid=_key | eval data_sampling_nr=\"" + tk_data_sampling_nr + "\" | outputlookup append=t key_field=keyid trackme_data_sampling";
-            console.log(searchQuery);
+            //console.log(searchQuery);
 
             // record for auditing
             var record = {
@@ -35965,7 +35965,7 @@ require([
             }
 
             // Get the KV entry content first
-            console.log("Run ajax query");
+            //console.log("Run ajax query");
             $.ajax({
                 url: myendpoint_URl,
                 type: "GET",
@@ -35974,7 +35974,7 @@ require([
                 success: function(returneddata) {
 
                     var removedObject = returneddata;
-                    console.log(returneddata);
+                    //console.log(returneddata);
 
                     var data_sample_mtime = returneddata.data_sample_mtime;
                     var data_sample_feature = returneddata.data_sample_feature;
@@ -35985,6 +35985,7 @@ require([
                     var data_sample_anomaly_ack_mtime = returneddata.data_sample_anomaly_ack_mtime;
                     var data_sample_anomaly_detected = returneddata.data_sample_anomaly_detected;
                     var data_sample_status_message = returneddata.data_sample_status_message;
+                    var data_sampling_nr = returneddata.data_sampling_nr;
                     var multiformat_detected = returneddata.multiformat_detected;
                     var current_detected_format = returneddata.current_detected_format;
                     var current_detected_format_id = returneddata.current_detected_format_id;
@@ -36003,6 +36004,7 @@ require([
                         "data_sample_anomaly_ack_mtime": data_sample_anomaly_ack_mtime,
                         "data_sample_anomaly_detected": data_sample_anomaly_detected,
                         "data_sample_status_message": data_sample_status_message,
+                        "data_sampling_nr": data_sampling_nr,
                         "multiformat_detected": multiformat_detected,
                         "current_detected_format": current_detected_format,
                         "current_detected_format_id": current_detected_format_id,
@@ -36012,11 +36014,17 @@ require([
                         "previous_detected_format_dcount": previous_detected_format_dcount
                     };
 
-                    // Proceed to delete call
+                    // create a new record and preserve information that need to be preserved
+                    var new_record = {
+                        "data_sampling_nr": data_sampling_nr
+                    };
+
+                    // Proceed to post call
                     $.ajax({
                         url: myendpoint_URl,
-                        type: "DELETE",
+                        type: "POST",
                         async: true,
+                        data: JSON.stringify(new_record),
                         contentType: "application/json",
                         success: function(returneddata) {
 
