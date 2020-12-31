@@ -1826,13 +1826,30 @@ By definition, the data hosts monitoring is a more complex task which involves f
 Lagging classes example based on the priority
 ---------------------------------------------
 
-**A common use case for data hosts especially will be to define lagging values based on the priority.**
+**A common use case, especially for data hosts, is to define lagging values based on the priority.**
 
 Let's assume the following use case:
 
 - if the priority is ``low``, assign a lagging value of ``432000`` seconds (5 days)
 - if the priority is ``medium``, assign a lagging value of ``86400`` seconds (1 day)
 - if the priority is ``high``, assign a lagging value of ``14400`` seconds (4 hours)
+
+.. admonition:: Updating priority from third party sources
+
+   - In KVstore context, it is easy enough to update and maintain specific information such as the priority using third party sources such as any CMDB data that is available to Splunk
+   - To achieve this, you can simply create your own custom scheduled report that loads the TrackMe collection, enriches with the third party source, and finally updates the values in the TrackMe collection
+   - The priority value is preserved automatically when the tracker run, as soon as the value has been updated between low / medium / high, it will be preserved
+
+*example: assuming your CMDB data is available in the lookup acme_assets_cmdb:*
+
+::
+
+   | inputlookup trackme_host_monitoring | eval key=_key
+   | lookup acme_assets_cmdb.csv nt_host as data_host OUTPUTNEW priority as cmdb_priority
+   | eval priority=if(isnotnull(cmdb_priority), cmdb_priority, priority)
+   | outputlookup append=t key_field=key trackme_host_monitoring
+
+*This report would be scheduled, daily for instance, any existing host having a match in the CMDB lookup will get the priority from the CMDB, newly discovered hosts would get the priority updated as soon as the job runs.*
 
 **Before we apply any lagging classes, our assignment uses the default values:**
 
@@ -1851,6 +1868,8 @@ Let's assume the following use case:
 .. image:: img/img_lagging_classes_example_priority3.png
    :alt: img_lagging_classes_example_priority3.png
    :align: center
+
+*Note: The lagging value that will be inherited from the policy cannot be lower than the highest lagging value between the sourcetypes of a given host, shall this be the case, TrackMe will automatically use the highest lagging value between all sourcetypes linked to that host.*
 
 Allowlisting & Blocklisting
 ===========================
