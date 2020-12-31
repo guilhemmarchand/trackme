@@ -1724,7 +1724,7 @@ Lagging classes
 .. admonition:: Lagging classes
 
    - The Lagging classes feature provides capabilities to manage and configure the maximal lagging values allowed in a centralised and automated fashion, based on different factors.
-   - A lagging class can be configured based on index names, sourcetype values and the entities priority level. (priority based policies applied to data sources only)
+   - A lagging class can be configured based on index names, sourcetype values and the entities priority level.
    - Lagging classes apply on data sources and hosts, and classes can be created matching either both types of object, data sources or data hosts only.
 
 **Lagging classes are configurable in the main TrackMe UI:**
@@ -1822,6 +1822,35 @@ By definition, the data hosts monitoring is a more complex task which involves f
 
    - TrackMe will use the higher value between all sourcetypes to define the max overall lagging value of the host
    - This value can as well be overriden on a per host basis in the host modification screen, but should ideally be controlled by automated policies based on indexes or sourcetypes
+
+Lagging classes example based on the priority
+---------------------------------------------
+
+**A common use case for data hosts especially will be to define lagging values based on the priority.**
+
+Let's assume the following use case:
+
+- if the priority is ``low``, assign a lagging value of ``432000`` seconds (5 days)
+- if the priority is ``medium``, assign a lagging value of ``86400`` seconds (1 day)
+- if the priority is ``high``, assign a lagging value of ``14400`` seconds (4 hours)
+
+**Before we apply any lagging classes, our assignment uses the default values:**
+
+.. image:: img/img_lagging_classes_example_priority1.png
+   :alt: img_lagging_classes_example_priority1.png
+   :align: center
+
+**Let's create our 3 lagging classes via the UI, in our example we will want to apply these policies to data hosts only:**
+
+.. image:: img/img_lagging_classes_example_priority2.png
+   :alt: img_lagging_classes_example_priority2.png
+   :align: center
+
+**Once the policies have been created, we can run the Data hosts trackers manually or wait for the next automatic execution, policies are applied successfully:**
+
+.. image:: img/img_lagging_classes_example_priority3.png
+   :alt: img_lagging_classes_example_priority3.png
+   :align: center
 
 Allowlisting & Blocklisting
 ===========================

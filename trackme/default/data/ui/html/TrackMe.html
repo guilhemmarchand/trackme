@@ -4839,7 +4839,7 @@ styles in <div> tags, similar to Bootstrap's grid system.
                     <lu>
                         <li>Based on the index</li>
                         <li>Based on the sourcetype</li>
-                        <li>Based on the priority level defined for the entity (for data sources only)</li>
+                        <li>Based on the priority level defined for the entity</li>
                     </lu>
                     <br />
 
@@ -4847,6 +4847,7 @@ styles in <div> tags, similar to Bootstrap's grid system.
                     <lu>
                         <li><b>For data sources:</b> lagging classes are applied in the following order: index, sourcetype, priority (first match takes precedence)</li>
                         <li><b>For data hosts:</b> The highest lagging value takes precedence, if multiple sourcetypes, the host global max lag cannot be lower than the highest value between all sourcetypes</li>
+                        <li><b>For all:</b> A given entity can override every lagging classes and apply a wanted value if data_override_lagging_class is set to true via the Override lagging classes dropdown</li>
                     </lu>
 
                     <div class="boxnotify" id="boxnotify-modify_custom_lagging">
@@ -14575,7 +14576,7 @@ require([
                     "value": "data_host"
                 },
                 {
-                    "label": "all applicable",
+                    "label": "all",
                     "value": "all"
                 }                
             ],
