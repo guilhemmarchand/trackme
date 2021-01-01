@@ -690,6 +690,8 @@ Data Hosts endpoints
 +---------------------------------------------------------------------+-----------------------------------------------------------------+
 | :ref:`dh_disable_monitoring / Disable monitoring`                   | /services/trackme/v1/data_hosts/dh_disable_monitoring           |
 +---------------------------------------------------------------------+-----------------------------------------------------------------+
+| :ref:`dh_reset / Reset data host`                                   | /services/trackme/v1/data_hosts/dh_reset                        |
++---------------------------------------------------------------------+-----------------------------------------------------------------+
 | :ref:`dh_update_lag_policy / Update lagging policy`                 | /services/trackme/v1/data_hosts/dh_update_lag_policy            |
 +---------------------------------------------------------------------+-----------------------------------------------------------------+
 | :ref:`dh_update_wdays_by_name / Update week days monitoring`        | /services/trackme/v1/data_hosts/dh_update_wdays                 |
@@ -729,7 +731,7 @@ dh_collection / Get full Data Hosts collection
      "data_first_time_seen": "1607781871",
      "data_host": "FIREWALL.PAN.AMER.DESIGN.NODE1",
      "data_host_alerting_policy": "global_policy",
-    ...
+     ...
 
 dh_by_key / Get data host by _key
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -790,6 +792,7 @@ dh_by_name / Get data host by name
       "data_eventcount": "338",
       "data_first_time_seen": "1607781871",
       "data_host": "FIREWALL.PAN.AMER.DESIGN.NODE1",
+      ...
 
 dh_enable_monitoring / Enable monitoring
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -844,6 +847,32 @@ dh_disable_monitoring / Disable monitoring
      "data_eventcount": "338",
      "data_first_time_seen": "1607781871",
      ...
+
+
+dh_reset / Reset data host
+^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+**This endpoint resets (removal of index and sourcetype knowledge) an existing data host by the data host name (data_host), it requires a POST call with the following information:**
+
+- ``"data_host": "<name of the data host>"``
+- ``"update_comment": "<OPTIONAL: a comment for the update, comments are added to the audit record, if unset will be defined to: API update>``
+
+::
+
+    curl -k -u admin:'ch@ngeM3' -X POST https://localhost:8089/services/trackme/v1/data_hosts/dh_reset -d '{"data_host": "FIREWALL.PAN.AMER.DESIGN.NODE1", "update_comment": "Updated by automation."}'
+
+*JSON response: (full record)*
+
+::
+
+    {
+     "object_category": "data_host",
+     "data_host": "FIREWALL.PAN.AMER.DESIGN.NODE1",
+     "data_last_lag_seen": "-2",
+     "data_last_ingestion_lag_seen": "0",
+     "data_eventcount": "2585",
+     ...
+
 
 dh_update_lag_policy / Update lagging policy
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -995,6 +1024,8 @@ Metric Hosts endpoints
 +---------------------------------------------------------------------+-----------------------------------------------------------------+
 | :ref:`mh_disable_monitoring / Disable monitoring`                   | /services/trackme/v1/metric_hosts/mh_disable_monitoring         |
 +---------------------------------------------------------------------+-----------------------------------------------------------------+
+| :ref:`mh_reset / Reset metrics`                                     | /services/trackme/v1/metric_hosts/mh_reset                      |
++---------------------------------------------------------------------+-----------------------------------------------------------------+
 | :ref:`mh_delete_temporary / Delete temporary`                       | /services/trackme/v1/metric_hosts/mh_delete_temporary           |
 +---------------------------------------------------------------------+-----------------------------------------------------------------+
 | :ref:`mh_delete_permanent / Delete permanently`                     | /services/trackme/v1/metric_hosts/mh_delete_permanent           |
@@ -1076,6 +1107,7 @@ mh_by_name / Get metric host by name
       "info_sid": "scheduler__admin__trackme__RMD56299d9dc7b583db4_at_1607815200_6",
       "latest_flip_state": "green",
       "latest_flip_time": "1607815039",
+      ...
 
 mh_enable_monitoring / Enable monitoring
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -1098,7 +1130,7 @@ mh_enable_monitoring / Enable monitoring
      "metric_host": "telegraf-node1",
      "metric_index": "telegraf",
      "metric_category": "docker,docker_container_blkio,docker_container_cpu,docker_container_health,docker_container_mem,docker_container_net,docker_container_status",
-    ...
+     ...
 
 mh_disable_monitoring / Disable monitoring
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -1121,6 +1153,29 @@ mh_disable_monitoring / Disable monitoring
      "metric_host": "telegraf-node1",
      "metric_index": "telegraf",
      "metric_category": "docker,docker_container_blkio,docker_container_cpu,docker_container_health,docker_container_mem,docker_container_net,docker_container_status",
+     ...
+
+mh_reset / Reset metrics
+^^^^^^^^^^^^^^^^^^^^^^^^
+
+**This endpoint resets (removal of indexes and metrics knowledge) an existing metric host by the metric host name (metric_host), it requires a POST call with the following information:**
+
+- ``"metric_host": "<name of the metric host>"``
+- ``"update_comment": "<OPTIONAL: a comment for the update, comments are added to the audit record, if unset will be defined to: API update>``
+
+::
+
+    curl -k -u admin:'ch@ngeM3' -X POST https://localhost:8089/services/trackme/v1/metric_hosts/mh_reset -d '{"metric_host": "telegraf-node1", "update_comment": "Updated by automation."}'
+
+*JSON response: (full record)*
+
+::
+
+    {
+     "object_category": "metric_host",
+     "metric_host": "telegraf-node1",
+     "metric_index": "telegraf",
+     "metric_last_lag_seen": "8",
      ...
 
 mh_delete_temporary / Delete temporary
