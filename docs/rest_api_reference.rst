@@ -1275,7 +1275,7 @@ elastic_dedicated / Get dedicated Elastic Sources collection
 
 ::
 
-    curl -k -u admin:'ch@ngeM3' -X GET https://localhost:8089/services/trackme/v1/elastic_sources/elastic_shared -d '{"data_name": "elastic:dedicated:example:tstats"}'
+    curl -k -u admin:'ch@ngeM3' -X GET https://localhost:8089/services/trackme/v1/elastic_sources/elastic_dedicated -d '{"data_name": "elastic:dedicated:example:tstats"}'
 
 *JSON response:*
 

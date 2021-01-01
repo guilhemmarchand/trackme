@@ -251,7 +251,7 @@ class TrackMeHandlerLogicalGroups_v1(rest_handler.RESTHandler):
                         "action": "success",
                         "change_type": "Logical group add",
                         "object": str(object_group_name),
-                        "object_category": "data_source",
+                        "object_category": "logical_group",
                         "object_attrs": str(record),
                         "result": "N/A",
                         "comment": str(update_comment)
@@ -333,6 +333,9 @@ class TrackMeHandlerLogicalGroups_v1(rest_handler.RESTHandler):
             # Render result
             if key is not None and len(key)>2:
 
+                # Store the record for audit purposes
+                record = json.dumps(collection.data.query_by_id(key), indent=1)
+
                 # Remove the record
                 collection.data.delete(json.dumps({"_key":key}))
 
@@ -351,7 +354,7 @@ class TrackMeHandlerLogicalGroups_v1(rest_handler.RESTHandler):
                         "change_type": "Logical group delete",
                         "object": str(object_group_name),
                         "object_category": "logical_group",
-                        "object_attrs": str(json.dumps(collection.data.query_by_id(key), indent=1)),
+                        "object_attrs": str(record),
                         "result": "N/A",
                         "comment": str(update_comment)
                         }))
@@ -375,5 +378,5 @@ class TrackMeHandlerLogicalGroups_v1(rest_handler.RESTHandler):
 
         except Exception as e:
             return {
-                'payload': 'Warn: exception encountered: ' + str(e) # Payload of the request.
+                'payload': 'Warn: exception2 encountered: ' + str(e) # Payload of the request.
             }
