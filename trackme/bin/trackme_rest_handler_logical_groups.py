@@ -186,7 +186,7 @@ class TrackMeHandlerLogicalGroups_v1(rest_handler.RESTHandler):
             except Exception as e:
                 key = None
                 record = json.dumps({"object_group_name": object_group_name,
-                    "object_group_members": [ object_group_members ],
+                    "object_group_members": object_group_members,
                     "object_group_min_green_percent": str(object_group_min_green_percent),
                     "object_group_mtime": str(object_group_mtime)})
 
@@ -195,7 +195,7 @@ class TrackMeHandlerLogicalGroups_v1(rest_handler.RESTHandler):
 
                 # Update the record
                 collection.data.update(str(key), json.dumps({"object_group_name": object_group_name,
-                    "object_group_members": [ object_group_members ],
+                    "object_group_members": object_group_members,
                     "object_group_min_green_percent": str(object_group_min_green_percent),
                     "object_group_mtime": str(object_group_mtime)}))
 
@@ -233,7 +233,7 @@ class TrackMeHandlerLogicalGroups_v1(rest_handler.RESTHandler):
 
                 # Insert the record
                 collection.data.insert(json.dumps({"object_group_name": object_group_name,
-                    "object_group_members": [ object_group_members ],
+                    "object_group_members": object_group_members,
                     "object_group_min_green_percent": str(object_group_min_green_percent),
                     "object_group_mtime": str(object_group_mtime)}))
 
