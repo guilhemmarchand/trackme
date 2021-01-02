@@ -1204,9 +1204,17 @@ Data sampling and event formats recognition
 
 .. admonition:: Data sampling and event format recognition
 
-   The Data sampling and event format recognition feature is a powerful automated workflow that provides the capabilities to monitor the raw events formats to automatically detect anomalies and misbehaviour at scale.
+   The Data sampling and event format recognition feature is a powerful automated workflow that provides the capabilities to monitor the raw events formats to automatically detect anomalies and misbehaviour at scale:
+   
+   - TrackMe automatically picks a sample of from every data source on a scheduled basis, and runs regular expression based rules to find "good" and "bad" things
+   - builtin rules are provided to identify commonly used formats of data, such as syslog, json, xml, and so forth
+   - custom rules can be created to extend the feature up to your needs
+   - rules can be created as rules that need to be matched (looking for a format or specific patterns), or as rules that must not be matched (for example looking for PII data)
+   - rules that must not match (exclusive rules) are always proceeded before rules that must match (inclusive), this guarantes that if any a same data source would match multiple rules, any first rule matching "bad" things will proceed before a rule matching "good" things (as the engine will stop at the first match for a given event)
+   - The number of events sampled during each execution can be configured per data source, and otherwise defaults to 100 events at the first sampling, and 50 events for each new execution
+   - checkout custom rule example creation in the present documentation
 
-**You access to the data sample feature on a per data source basis via the data sample tab:**
+**You access to the data sample feature on a per data source basis via the data sample tab when looking at a specific data source:**
 
 .. image:: img/img_data_sampling_main_red.png
    :alt: img_data_sampling_main_red.png
@@ -1242,7 +1250,7 @@ Summary statuses
    :alt: img_data_sampling_state_green.png
    :align: center
 
-*Blue state: data sampling engine did not processed this data source yet*
+*Blue state: data sampling engine did not inspect this data source yet*
 
 .. image:: img/first_steps/img_data_sampling_state_blue.png
    :alt: img_data_sampling_state_blue.png
@@ -1282,6 +1290,7 @@ Manage data sampling
 - ``anomaly_reason:`` the reason why an anomaly is raised, or "normal" if there are no anomalies
 - ``multiformat:`` shall more than one format of events be detected (true / false)
 - ``mtime:`` the latest time data sampling was processed for this data source
+- ``data_sampling_nr:`` the number of events taken per sampling operation, defaults to 100 events at discovery then 50 events for each new sampling (can be configured via the action Update records/sample)
 
 View latest sample events
 ^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -1308,7 +1317,7 @@ Builtin rules should not be modified, instead use custom rules to handle event f
 Manage custom rules
 ^^^^^^^^^^^^^^^^^^^
 
-Custom rules provides a workflow to handle any custom sourcetypes and event formats that would not be identified by TrackMe, by default there are no custom rules and the following screen would appear:
+Custom rules provides a workflow to handle any custom sourcetypes and event formats that would not be identified by TrackMe, or patterns that must not be matched, by default there are no custom rules and the following screen would appear:
 
 .. image:: img/first_steps/img_data_sampling_show_custom1.png
    :alt: img_data_sampling_show_custom1.png
@@ -1316,7 +1325,7 @@ Custom rules provides a workflow to handle any custom sourcetypes and event form
 
 This view allows you to create a new custom rule (button Create custom rules) or remove any existing custom rules that would not be required anymore. (button Remove selected)
 
-.. tip:: Since the version 1.2.26, it is possible to restrict the scope of custom rules to a list of explicit sourcetypes.
+.. tip:: Each custom rule can be restricted to a given list of explicit sourcetypes, or applied against any sourcetype. (default)
 
 **Create custom rules**
 
@@ -1330,7 +1339,8 @@ This screen alows to test and create a new custom rule based on the current data
 
 To create a new custom rule:
 
-- Enter a name for the format, this name is a string of your choice that will be used to idenfity the format, it needs to be unique for the entire custom source collection and will be converted into an md5 hash automatically
+- Enter a name for the rule, this value is a string of your choice that will be used to idenfity the match, it needs to be unique for the entire custom source collection and will be converted into an md5 hash automatically
+- Choose if the rule is a "rule must match" or "rule must not match" type of rule, this will drive the match behaviour to define the state of the data sampling results
 - Enter a valid regular expression that uniquely identifies the events format
 - Optionally restrict the scope of application by sourcetype, you can specify one or more sourcetypes under the form of a comma separated list of values
 - Click on "Run model simulation" to simulate the exectution of the new models
@@ -1375,6 +1385,27 @@ Use this function to force running the data sampling engine now against this dat
 - You can can run this action at anytime and as often as you need, the action runs the data sampling engine for that data source only
 - This action will have no effect if an anomaly was raised for the data source already, when an anomaly is detected the status is frozen (see Clear state and run sampling)
 
+Update records/sample
+^^^^^^^^^^^^^^^^^^^^^
+
+You can define a custom number of events to be taken per sample using this action button within the UI.
+
+By default, the Data sampling proceeds as following:
+
+- When the first iteration for a given data source is processed, TrackMe picks a sample of 100 events
+- During every new iteration, a sample of 50 events is taken
+
+In addition, these values are defined globally for the application via the following macros:
+
+- trackme_data_sampling_default_sample_record_at_discovery
+- trackme_data_sampling_default_sample_record_at_run
+
+Use this UI to choose a different value, increasing the number of events per sample improves the sampling process accuracy, at the cost of more processing and more memory and storage costs for the KVstore collection:
+
+.. image:: img/first_steps/img_data_sampling_records_nr.png
+   :alt: img_data_sampling_records_nr.png
+   :align: center
+
 Clear state and run sampling
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
@@ -1384,6 +1415,19 @@ Use this function to clear any state previously determined, this forces the data
 
 - Use this action to clear any known states for this data source and run the inspection from zero, just as if it was discovered for the first time
 - You can use this action to clear an anomaly that was raised, when an alert is raised by the data sampling, the state is frozen until this anomaly is reviewed, once the issue is understood and fixed, run the action to clear the state and restart the inspection workflow for this data source
+
+Disable Data sampling for a give data source
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Use this function to disable data sampling for a given data source, there can be cases where you would need to disable this feature if for example there is a lack of quality which cannot be fixed, and some random formats are introduced out of your control.
+
+Disabling the feature means defining the value of the field **data_sample_feature** to **disabled** in the collection trackme_data_sampling, once disabled the UI would show:
+
+.. image:: img/first_steps/img_data_sampling_disable.png
+   :alt: img_data_sampling_disable.png
+   :align: center
+
+The Data sampling feature can be enabled / disabled at any point in time, as soon as a data source is disabled, TrackMe stops considering it during the sampling operations.
 
 Data sampling Audit dashboard
 -----------------------------
@@ -1395,6 +1439,116 @@ An audit dashboard is provided in the audit navigation menu, this dashboard prov
 .. image:: img/first_steps/img_data_sampling_audit.png
    :alt: img_data_sampling_audit.png
    :align: center
+
+Data sampling example 1: monitor a specific format
+--------------------------------------------------
+
+Let's assume the following use case, we are ingesting Palo Alto firewall data and we want to monitor that our data is stricly respecting a specific expected format, any event that would not match this format would most likely be resulting from malformed events or issues in our ingestion pipeline:
+
+Within the custom rules UI, we proceed to the creation of a new custom rule, in short our events look like:
+
+::
+
+   Dec 26 12:15:01 1,2012/26/20 12:15:01,01606001116,TRAFFIC,start,1,2012/26/20 12:15:01,192.168.0.2,204.232.231.46,0.0.0.0,0.0.0.0,
+   Dec 26 12:15:02 1,2012/26/20 12:15:02,01606001116,THREAT,url,1,2012/26/20 12:15:02,192.168.0.2,204.232.231.46,0.0.0.0,0.0.0.0,
+
+We could use the following regular expression to stricly match the format, the data sampling is similar to a where match SPL statement:
+
+::
+
+   ^\w{3}\s*\d{1,2}\s*\d{1,2}:\d{1,2}:\d{1,2}\s*\d\,\d{4}\/\d{1,2}\/\d{1,2}\s*\d{1,2}:\d{1,2}:\d{1,2}\,\d+\,(?:TRAFFIC|THREAT)\,
+
+Note: the regular expression doesn't have to be complex, it is up to your decide how strict it should be depending on your use case
+
+.. tip:: The data sampling engine will stop at the first regular expression match, to handle advanced or more complex configuration, use the sourcetype scope to restrict the custom rule to sourcetypes that should be considered
+
+We create a ``rule must match`` type of rule, which means that in normal circumstances we expect all events to be matched by our custom rule, otherwise this would be considered as an anomaly.
+
+Once the rule has been created:
+
+.. image:: img/first_steps/img_data_sampling_create_custom2.png
+   :alt: img_data_sampling_create_custom2.png
+   :align: center
+
+The next execution of the data sampling will report the name of the rule for each data source that is matching our conditions:
+
+.. image:: img/first_steps/img_data_sampling_create_custom3.png
+   :alt: img_data_sampling_create_custom3.png
+   :align: center
+
+Should a change in the events format happen, such as malformed events happening for any reason, the data sampling rule would match these exceptions and render a status error to be reviewed.
+
+.. image:: img/first_steps/img_data_sampling_create_custom4.png
+   :alt: img_data_sampling_create_custom4.png
+   :align: center
+
+Review of the latest events sample would clearly show the root cause of the issue: (button **View latest sample events**):
+
+.. image:: img/first_steps/img_data_sampling_create_custom5.png
+   :alt: img_data_sampling_create_custom5.png
+   :align: center
+
+As the data sampling engine stops proceeding a data source as soon as an issue was detected, these events are the exact events that have caused the anomaly exception at the exact time it happened.
+
+Once investigations have been performed, the root cause was identified and ideally fixed, a TrackMe admin would clear the data sampling state to free the current state and allow the workflow to proceed again in further executions.
+
+Data sampling example 2: track PII data card holders
+----------------------------------------------------
+
+Let's consider the following use case, we ingest retail transaction logs which are not supposed to contain PII data (Personally Identifiable Information) because the events are anonymised during the indexing phase. (this obviously is a simplitic example for the demonstration purposes)
+
+In our example, we will consider credit card references which are replaced by the according number of "X" characters:
+
+::
+
+   Thu 24 Dec 2020 13:12:12 GMT, transaction with user="jbar@acme.com", cardref="XXXXXXXXXXXXXX", status="completed"
+   Thu 24 Dec 2020 13:34:24 GMT, transaction with user="jfoo@acme.com", cardref="XXXXXXXXXXXXXX", status="failed"
+   Thu 24 Dec 2020 13:11:45 GMT, transaction with user="robert@acme.com", cardref="XXXXXXXXXXXXXX", status="completed"
+   Thu 24 Dec 2020 13:24:22 GMT, transaction with user="padington@acme.com", cardref="XXXXXXXXXXXXXX", status="failed"
+
+To track for an anomaly in the process that normally anonymises the data, we could rely on a regular expression that targets valid credit card numbers:
+
+*See:* https://www.regextester.com/93608
+
+::
+
+   4[0-9]{12}(?:[0-9]{3})?|5[1-5][0-9]{14}|3[47][0-9]{13}|3(?:0[0-5]|[68][0-9])[0-9]{11}|6(?:011|5[0-9]{2})[0-9]{12}|(?:2131|1800|35\d{3})\d{11}
+
+Should any event be matching this regular expression, we would most likely face a situation where we have indexed a clear text information that is very problematic, let's create a new custom rule of a ``rule must not match`` type to track this use case automatically, to avoid false positive detection we will restrict this custom rule to a given list of sourcetypes:
+
+.. image:: img/first_steps/img_data_sampling_create_custom6.png
+   :alt: img_data_sampling_create_custom6.png
+   :align: center
+
+Our data uses a format that is recognized automatically by builtin rules, and would appears as following in normal circumstances:
+
+.. image:: img/first_steps/img_data_sampling_create_custom7.png
+   :alt: img_data_sampling_create_custom7.png
+   :align: center
+
+After some time, we introduce events containing real clear text credit card numbers, eventually our custom rule will automatically detect it and state an alert on the data source:
+
+.. image:: img/first_steps/img_data_sampling_create_custom8.png
+   :alt: img_data_sampling_create_custom8.png
+   :align: center
+
+.. image:: img/first_steps/img_data_sampling_create_custom9.png
+   :alt: img_data_sampling_create_custom9.png
+   :align: center
+
+.. image:: img/first_steps/img_data_sampling_create_custom10.png
+   :alt: img_data_sampling_create_custom10.png
+   :align: center
+
+We can clearly understand the root cause of the issue reported by TrackMe, shall we investigate further (button **View latest sample events**):
+
+.. image:: img/first_steps/img_data_sampling_create_custom11.png
+   :alt: img_data_sampling_create_custom11.png
+   :align: center
+
+Thanks to the data sampling feature, we are able to get an automated tracking that is working at any scale, keep in mind that TrackMe will proceed by picking up samples, which means a very rare condition will potentially not be detected.
+
+However, there is statistically a very high level of chance that if this is happening on a regular basis, this will be detected without having to generate very expensive searches that would look at the entire subset of data. (which would be very expensive and potentially not doable at scale)
 
 Priority management
 ===================
@@ -1570,7 +1724,7 @@ Lagging classes
 .. admonition:: Lagging classes
 
    - The Lagging classes feature provides capabilities to manage and configure the maximal lagging values allowed in a centralised and automated fashion, based on different factors.
-   - A lagging class can be configured based on index names, sourcetype values and the entities priority level. (priority based policies applied to data sources only)
+   - A lagging class can be configured based on index names, sourcetype values and the entities priority level.
    - Lagging classes apply on data sources and hosts, and classes can be created matching either both types of object, data sources or data hosts only.
 
 **Lagging classes are configurable in the main TrackMe UI:**
@@ -1668,6 +1822,54 @@ By definition, the data hosts monitoring is a more complex task which involves f
 
    - TrackMe will use the higher value between all sourcetypes to define the max overall lagging value of the host
    - This value can as well be overriden on a per host basis in the host modification screen, but should ideally be controlled by automated policies based on indexes or sourcetypes
+
+Lagging classes example based on the priority
+---------------------------------------------
+
+**A common use case, especially for data hosts, is to define lagging values based on the priority.**
+
+Let's assume the following use case:
+
+- if the priority is ``low``, assign a lagging value of ``432000`` seconds (5 days)
+- if the priority is ``medium``, assign a lagging value of ``86400`` seconds (1 day)
+- if the priority is ``high``, assign a lagging value of ``14400`` seconds (4 hours)
+
+.. admonition:: Updating priority from third party sources
+
+   - In KVstore context, it is easy enough to update and maintain specific information such as the priority using third party sources such as any CMDB data that is available to Splunk
+   - To achieve this, you can simply create your own custom scheduled report that loads the TrackMe collection, enriches with the third party source, and finally updates the values in the TrackMe collection
+   - The priority value is preserved automatically when the tracker run, as soon as the value has been updated between low / medium / high, it will be preserved
+
+*example: assuming your CMDB data is available in the lookup acme_assets_cmdb:*
+
+::
+
+   | inputlookup trackme_host_monitoring | eval key=_key
+   | lookup acme_assets_cmdb.csv nt_host as data_host OUTPUTNEW priority as cmdb_priority
+   | eval priority=if(isnotnull(cmdb_priority), cmdb_priority, priority)
+   | outputlookup append=t key_field=key trackme_host_monitoring
+
+*This report would be scheduled, daily for instance, any existing host having a match in the CMDB lookup will get the priority from the CMDB, newly discovered hosts would get the priority updated as soon as the job runs.*
+
+**Before we apply any lagging classes, our assignment uses the default values:**
+
+.. image:: img/img_lagging_classes_example_priority1.png
+   :alt: img_lagging_classes_example_priority1.png
+   :align: center
+
+**Let's create our 3 lagging classes via the UI, in our example we will want to apply these policies to data hosts only:**
+
+.. image:: img/img_lagging_classes_example_priority2.png
+   :alt: img_lagging_classes_example_priority2.png
+   :align: center
+
+**Once the policies have been created, we can run the Data hosts trackers manually or wait for the next automatic execution, policies are applied successfully:**
+
+.. image:: img/img_lagging_classes_example_priority3.png
+   :alt: img_lagging_classes_example_priority3.png
+   :align: center
+
+*Note: The lagging value that will be inherited from the policy cannot be lower than the highest lagging value between the sourcetypes of a given host, shall this be the case, TrackMe will automatically use the highest lagging value between all sourcetypes linked to that host.*
 
 Allowlisting & Blocklisting
 ===========================

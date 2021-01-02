@@ -2091,13 +2091,16 @@ styles in <div> tags, similar to Bootstrap's grid system.
                             <button id="btn_data_sampling_disable" type="submit" class="btn btn-default btn-danger" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Disable</button>
                         </div>
                         <div style="margin-right: 15px; float: right;">
-                            <button id="btn_data_sampling_clear_now" type="submit" class="btn btn-default btn-danger" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Clear state and run sampling</button>
+                            <button id="btn_data_sampling_clear_now" type="submit" class="btn btn-default btn-danger" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Clear state & run sampling</button>
+                        </div>
+                        <div style="margin-right: 15px; float: right;">
+                            <button id="btn_data_sampling_edit_records_nr" type="submit" class="btn btn-default btn-danger" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Update records/sample</button>
                         </div>
                         <div style="margin-right: 15px; float: right;">
                             <button id="btn_run_data_sampling" type="submit" class="btn btn-default btn-primary" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Run sampling engine now</button>
                         </div>
-                        <div class="btn_data_sampling_custom_rules_view" style="margin-right: 15px; float: right;">
-                            <button type="submit" class="btn btn-default btn-primary" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Manage custom rules </button>
+                        <div style="margin-right: 15px; float: right;">
+                            <button type="submit" id="btn_data_sampling_custom_rules_view" class="btn btn-default btn-primary" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Manage custom rules </button>
                         </div>
                         <div class="btn_data_sampling_builtin_rules" style="margin-right: 15px; float: right;">
                             <button type="submit" class="btn btn-default btn-info" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> View builtin rules </button>
@@ -2242,7 +2245,7 @@ styles in <div> tags, similar to Bootstrap's grid system.
 
                     <div style="margin-top: 20px;" class="modal-footer">
                         <div class="btn_data_sampling_custom_rules_back" style="margin-right: 15px; float: left;">
-                            <button type="submit" class="btn btn-default btn-primary" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Back</button>
+                            <button type="submit" id="btn_data_sampling_custom_rules_back" class="btn btn-default btn-primary" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Back</button>
                         </div>
                         <div class="btn_data_sampling_custom_rules_delete" style="margin-right: 15px; float: right;">
                             <button type="submit" id="btn_modal_data_sampling_custom_rule_delete" class="btn btn-default btn-danger" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Remove selected</button>
@@ -2275,18 +2278,25 @@ styles in <div> tags, similar to Bootstrap's grid system.
                     <div class="boxnotify" id="boxnotify-add_data_sampling_custom_rule">
                     </div>
 
-                    <div id="rowDataSamplingRulesAdd1a" class="dashboard-row dashboard-row3">
-
-                        <div id="rowDataSamplingRulesAdd1b" class="dashboard-cell" style="width: 100%;">
-
+                    <div id="rowDataSamplingRulesAdd1a" class="dashboard-row dashboard-row1">
+                        <div id="panelDataSamplingRulesAdd1a" class="dashboard-cell" style="width: 100%;">
                             <div class="dashboard-panel clearfix">
-
-                                <div class="panel-element-row">
-
-                                    <div class="input input-text" id="modal_input_data_sampling_custom_rule_name" style="margin-bottom: 10px; max-width: 300px;">
+                                <div class="fieldset">
+                                    <div class="input input-text" id="modal_input_data_sampling_custom_rule_name" style="margin-bottom: 10px; max-width: 300px; width: 300px; margin-right: 30px;">
                                         <label>Enter the unique identifier of the events format recognition custom rule:</label>
                                     </div>
+                                    <div class="input input-dropdown" id="modal_input_data_sampling_custom_rule_type" style="margin-bottom: 10px; width: 300px; margin-right: 30px;">
+                                        <label>Choose a rule behaviour mode: (inclusive rule must match / exclusive rule must not match)</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
 
+                    <div id="rowDataSamplingRulesAdd1b" class="dashboard-row dashboard-row1">
+                        <div id="panelDataSamplingRulesAdd1b" class="dashboard-cell" style="width: 100%;">
+                            <div class="dashboard-panel clearfix">
+                                <div class="panel-element-row">
                                     <form>
                                         <fieldset>
                                             <legend>Regular expression rule:</legend>
@@ -2294,18 +2304,39 @@ styles in <div> tags, similar to Bootstrap's grid system.
                                                 <label>Example: <code>^\w{3}\s*\d{1,2}\s*\d{1,2}\:\d{1,2}\:\d{1,2}</code> </br />would match events in the following format: <code>Mar  1 00:01:51.047: %LINK-3-UPDOWN: Interface FastEthernet0/0, changed state to up</code><br /></label>
                                                 <textarea
                                                         id = "modal_input_data_sampling_custom_rule_regex"
-                                                        rows = "3"
+                                                        rows = "2"
                                                         cols = "80" style="width: 1100px;"
                                                         onfocus="if(this.value==this.defaultValue)this.value='';" onblur="if(this.value=='')this.value=this.defaultValue;">Enter a valid regular expression and click on the button "Run model simulation".</textarea>
                                             </p>
-
                                         </fieldset>
                                     </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
 
-                                    <div class="input input-text" id="modal_input_data_sampling_custom_sourcetype_scope" style="margin-top: -25px; margin-bottom: 20px; max-width: 1100px;">
-                                        <label>Sourcetype scope: to restrict this custom rule, enter the value of the sourcetype scope, you can enter a list of sourcetypes as a comma separated list of values (wilcards and spaces are not accepted)</label>
+                    <div id="rowDataSamplingRulesAdd1c" class="dashboard-row dashboard-row1">
+                        <div id="panelDataSamplingRulesAdd1c" class="dashboard-cell" style="width: 100%;">
+                            <div class="dashboard-panel clearfix">
+                                <div class="fieldset">
+                                    <div class="input input-text" id="modal_input_data_sampling_custom_sourcetype_scope" style="margin-top: -25px; margin-bottom: 20px; max-width: 500px; width: 500px; margin-right: 30px;">
+                                        <label>Sourcetype scope: comma separated list of sourcetypes restricting application of this rule (wilcards and spaces not accepted)</label>
                                     </div>
+                                    <div class="input input-dropdown" id="modal_input_data_sampling_dropdown" style="margin-top: -25px; margin-bottom: 20px; margin-right: 30px;">
+                                        <label>Data source for show sample events action:</label>
+                                    </div>
+                                    <div class="input input-dropdown" id="modal_input_data_sampling_custom_st_value" style="margin-top: -25px; margin-bottom: 20px; margin-right: 30px;">
+                                        <label>Sourcetype name: (for simulation only)</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
 
+                    <div id="rowDataSamplingRulesAdd1d" class="dashboard-row dashboard-row1">
+                        <div id="panelDataSamplingRulesAdd1d" class="dashboard-cell" style="width: 100%;">
+                            <div class="dashboard-panel clearfix">
+                                <div class="panel-element-row">
                                     <div style="margin-top: 15x;">
                                         <div style="margin-right: 15px; float: left;">
                                             <button type="submit" id="btn_modal_data_sampling_custom_rule_show_sample" class="btn btn-default btn-primary"><span class="glyphicon glyphicon-remove"></span> Show sample events</button>
@@ -2320,20 +2351,13 @@ styles in <div> tags, similar to Bootstrap's grid system.
                                             <button type="submit" id="btn_data_sampling_custom_rule_add" class="btn btn-default btn-danger"><span class="glyphicon glyphicon-remove"></span> Add this new custom rule</button>
                                         </div>
                                     </div>
-
                                 </div>
-
-                                <br />
-                                <br />
-
                             </div>
-
                         </div>
-
                     </div>
 
-                    <div id="rowDataSamplingRulesAdd1c" class="dashboard-row dashboard-row1" data-depends="$start_simulation_data_sampling_custom_rule$">
-                        <div id="panelDataSamplingRulesAdd1c" class="dashboard-cell" style="width: 100%;">
+                    <div id="rowDataSamplingRulesAdd1e" class="dashboard-row dashboard-row1" data-depends="$start_simulation_data_sampling_custom_rule$">
+                        <div id="panelDataSamplingRulesAdd1e" class="dashboard-cell" style="width: 100%;">
                             <div class="dashboard-panel clearfix">
                                 <div class="panel-element-row">
                                     <div id="tableDataSamplingSimulateCustomRule" class="dashboard-element table" style="width: 100%;">
@@ -2344,8 +2368,8 @@ styles in <div> tags, similar to Bootstrap's grid system.
                         </div>
                     </div>
 
-                    <div id="rowDataSamplingRulesAdd1d" class="dashboard-row dashboard-row1" data-depends="$start_simulation_data_sampling_custom_rule_show_events$">
-                        <div id="panelDataSamplingRulesAdd1d" class="dashboard-cell" style="width: 100%;">
+                    <div id="rowDataSamplingRulesAdd1f" class="dashboard-row dashboard-row1" data-depends="$start_simulation_data_sampling_custom_rule_show_events$">
+                        <div id="panelDataSamplingRulesAdd1f" class="dashboard-cell" style="width: 100%;">
                             <div class="dashboard-panel clearfix">
                                 <div class="panel-element-row">
                                     <div id="tableDataSamplingSimulateCustomRuleLatestEvent" class="dashboard-element table" style="width: 100%;">
@@ -4815,7 +4839,7 @@ styles in <div> tags, similar to Bootstrap's grid system.
                     <lu>
                         <li>Based on the index</li>
                         <li>Based on the sourcetype</li>
-                        <li>Based on the priority level defined for the entity (for data sources only)</li>
+                        <li>Based on the priority level defined for the entity</li>
                     </lu>
                     <br />
 
@@ -4823,6 +4847,7 @@ styles in <div> tags, similar to Bootstrap's grid system.
                     <lu>
                         <li><b>For data sources:</b> lagging classes are applied in the following order: index, sourcetype, priority (first match takes precedence)</li>
                         <li><b>For data hosts:</b> The highest lagging value takes precedence, if multiple sourcetypes, the host global max lag cannot be lower than the highest value between all sourcetypes</li>
+                        <li><b>For all:</b> A given entity can override every lagging classes and apply a wanted value if data_override_lagging_class is set to true via the Override lagging classes dropdown</li>
                     </lu>
 
                     <div class="boxnotify" id="boxnotify-modify_custom_lagging">
@@ -8041,6 +8066,57 @@ styles in <div> tags, similar to Bootstrap's grid system.
         </div>
     </div>
 
+    <!-- Data sampling update number of records per sample -->
+    <div class="modal fade" id="modal_update_records_nr_data_sampling" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header modal-header-danger">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h1 style="color: white;"><span class="glyphicon glyphicon-lock"></span>Data sampling &amp; events format recognition</h1>
+                </div>
+                <div class="modal-body">
+
+                    <b>Number of records per sample:</b><br />
+
+                    <p>Enter the maximal number of events to be extracted per data source during the data sampling operation: (default: 50)</p>
+
+                    <div id="rowDataSampling" class="dashboard-row dashboard-row1">
+                        <div id="panel1" class="dashboard-cell" style="width: 100%;">
+                            <div class="dashboard-panel clearfix">          
+                                <div class="fieldset">
+                                    <div class="input input-text" id="modal_input_data_sampling_records_nr">
+                                        <label></label>
+                                    </div>
+                                </div>                                        
+                            </div>
+                        </div>
+                    </div>
+
+                    <p><b>Confirm update?</b><br />
+                    </p>
+
+                    <p>
+                        <label>Optional: enter a note of this update. <br />
+                            This note will be logged and made available for notification.</label>
+                        <textarea
+                                id = "input_update_records_nr_data_sampling_comment"
+                                rows = "6"
+                                cols = "160" style="width: 500px;"
+                                onfocus="if(this.value==this.defaultValue)this.value='';" onblur="if(this.value=='')this.value=this.defaultValue;">update note</textarea>
+                    </p>
+
+                </div>
+
+                <div class="modal-footer">
+                    <button type="submit" id="btn_update_records_nr_confirm_back" class="btn btn-default btn-default pull-left" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Cancel</button>
+                    <button type="submit" id="btn_update_records_nr_confirm" class="btn btn-default btn-primary pull-right" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Ok</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Data sampling clear state -->
     <div class="modal fade" id="modal_clear_state_data_sampling" role="dialog">
         <div class="modal-dialog">
@@ -8068,7 +8144,7 @@ styles in <div> tags, similar to Bootstrap's grid system.
                 </div>
 
                 <div class="modal-footer">
-                    <button type="submit" class="btn btn-default btn-default pull-left" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Cancel</button>
+                    <button type="submit" id="btn_modal_clear_state_confirm_back" class="btn btn-default btn-default pull-left" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Cancel</button>
                     <button type="submit" id="btn_modal_clear_state_confirm" class="btn btn-default btn-primary pull-right" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Ok</button>
                 </div>
             </div>
@@ -8102,7 +8178,7 @@ styles in <div> tags, similar to Bootstrap's grid system.
                 </div>
 
                 <div class="modal-footer">
-                    <button type="submit" class="btn btn-default btn-default pull-left" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Cancel</button>
+                    <button type="submit" id="btn_modal_data_sampling_disable_confirm_back" class="btn btn-default btn-default pull-left" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Cancel</button>
                     <button type="submit" id="btn_modal_data_sampling_disable_confirm" class="btn btn-default btn-primary pull-right" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Ok</button>
                 </div>
             </div>
@@ -8586,8 +8662,8 @@ styles in <div> tags, similar to Bootstrap's grid system.
                                 <div class="btn_modify_tags_policies custom-btn">
                                     <button type="submit" style="margin-right: 15px;" class="btn btn-outline-primary" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Manage: tags policies</button>
                                 </div>
-                                <div class="btn_modify_data_sampling_rules custom-btn">
-                                    <button type="submit" style="margin-right: 15px;" class="btn btn-outline-primary" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Manage: data sampling</button>
+                                <div class="custom-btn">
+                                    <button type="submit" id="btn_modify_data_sampling_rules" style="margin-right: 15px;" class="btn btn-outline-primary" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Manage: data sampling</button>
                                 </div>
                                 <div class="custom-btn">
                                     <button type="submit" id="btn_run_trackers" style="margin-right: 15px;" class="btn btn-outline-secondary"><span class="glyphicon glyphicon-remove"></span> Run: Trackers reports</button>
@@ -9089,6 +9165,28 @@ require([
         //
         // SEARCH MANAGERS
         //
+
+        // data sampling dropdown
+        var searchPopulateDataSampling = new SearchManager({
+            "id": "searchPopulateDataSampling",
+            "earliest_time": "-5m",
+            "cancelOnUnload": true,
+            "sample_ratio": null,
+            "latest_time": "now",
+            "search": "| inputlookup trackme_data_sampling | eval key=_key | fields key, data_name | sort 0 data_name",
+            "status_buckets": 0,
+            "app": utils.getCurrentApp(),
+            "auto_cancel": 90,
+            "preview": true,
+            "tokenDependencies": {
+                "depends": "$show_data_source_tracker$",
+                "depends": "$start_search_input_data_sampling_dropdown$"
+            },
+            "runWhenTimeIsUndefined": false
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        });
 
         // whitelist
 
@@ -11259,7 +11357,7 @@ require([
             "cancelOnUnload": true,
             "sample_ratio": null,
             "latest_time": "now",
-            "search": "| inputlookup trackme_data_sampling where data_name=\"$tk_data_name$\" | eval \" \" = \"<--\" | fields data_sample_status_colour, data_sample_status_message, data_sample_feature, current_detected_format, \" \", previous_detected_format, data_sample_anomaly_detected, data_sample_anomaly_reason, multiformat_detected, data_sample_mtime | eval mtime=strftime(data_sample_mtime, \"%c\") | `trackme_eval_icons_data_sampling_enablement` | `trackme_eval_icons_data_sampling_summary` | rename data_sample_anomaly_reason as anomaly_reason, multiformat_detected as multiformat | eval previous_detected_format=if(isnull(previous_detected_format), \"N/A\", previous_detected_format) | append [ | makeresults | eval data_sample_feature=\"N/A\", current_detected_format=\"N/A\", previous_detected_format=\"N/A\", state=\"N/A\", anomaly_reason=\"N/A\", multiformat=\"N/A\", mtime=\"N/A\" ] | head 1",
+            "search": "| inputlookup trackme_data_sampling where data_name=\"$tk_data_name$\" | eval \" \" = \"<--\" | fields data_sample_status_colour, data_sample_status_message, data_sample_feature, data_sampling_nr, current_detected_format, \" \", previous_detected_format, data_sample_anomaly_detected, data_sample_anomaly_reason, multiformat_detected, data_sample_mtime | eval mtime=strftime(data_sample_mtime, \"%c\") | `trackme_eval_icons_data_sampling_enablement` | `trackme_eval_icons_data_sampling_summary` | rename data_sample_anomaly_reason as anomaly_reason, multiformat_detected as multiformat | eval previous_detected_format=if(isnull(previous_detected_format), \"N/A\", previous_detected_format) | append [ | makeresults | eval data_sample_feature=\"N/A\", current_detected_format=\"N/A\", previous_detected_format=\"N/A\", state=\"N/A\", anomaly_reason=\"N/A\", multiformat=\"N/A\", mtime=\"N/A\" ] | eval data_sampling_nr=if(isnum(data_sampling_nr), data_sampling_nr, `trackme_data_sampling_default_sample_record_at_run`) | fields - data_name | rename data_sample_feature as feature | head 1",
             "status_buckets": 0,
             "app": utils.getCurrentApp(),
             "auto_cancel": 90,
@@ -11285,7 +11383,7 @@ require([
             "auto_cancel": 90,
             "preview": true,
             "tokenDependencies": {
-                "depends": "$show_data_sampling$",
+                "depends": "$show_data_sampling_custom_rules$",
             },
             "runWhenTimeIsUndefined": false
         }, {
@@ -11342,7 +11440,7 @@ require([
             "cancelOnUnload": true,
             "sample_ratio": null,
             "latest_time": "now",
-            "search": "| inputlookup trackme_data_sampling where _key=\"$tk_keyid$\" | fields raw_sample | mvexpand raw_sample | eval sourcetype=\"$tk_data_sourcetype$\", sourcetype_scope=\"$tk_data_sampling_custom_sourcetype_scope$\" | eval detected_format = case((sourcetype_scope==\"*\"), case(match(raw_sample, \"$tk_data_sampling_custom_rule_regex$\"), \"$tk_data_sampling_custom_rule_name$\"), in(sourcetype, `trackme_data_sampling_custom_models_simulate_genlist(\"$tk_data_sampling_custom_sourcetype_scope$\")`), case(match(raw_sample, \"$tk_data_sampling_custom_rule_regex$\"), \"$tk_data_sampling_custom_rule_name$\")) | `trackme_data_sampling_simulate_custom_rule`",
+            "search": "| inputlookup trackme_data_sampling where (_key=\"$tk_input_data_sampling_dropdown$\" OR data_name=\"$tk_input_data_sampling_dropdown$\") | fields raw_sample | mvexpand raw_sample | eval sourcetype=\"$tk_data_sampling_custom_st_value$\", sourcetype_scope=\"$tk_data_sampling_custom_sourcetype_scope$\", model_type=\"$tk_data_sampling_custom_rule_type$\" | eval detected_format = case((sourcetype_scope==\"*\"), case(match(raw_sample, \"$tk_data_sampling_custom_rule_regex$\"), \"$tk_data_sampling_custom_rule_name$\"), in(sourcetype, `trackme_data_sampling_custom_models_simulate_genlist(\"$tk_data_sampling_custom_sourcetype_scope$\")`), case(match(raw_sample, \"$tk_data_sampling_custom_rule_regex$\"), \"$tk_data_sampling_custom_rule_name$\")) | `trackme_data_sampling_simulate_custom_rule`",
             "status_buckets": 0,
             "app": utils.getCurrentApp(),
             "auto_cancel": 90,
@@ -11362,7 +11460,7 @@ require([
             "cancelOnUnload": true,
             "sample_ratio": null,
             "latest_time": "now",
-            "search": "| inputlookup trackme_data_sampling where _key=\"$tk_keyid$\" | fields raw_sample | mvexpand raw_sample",
+            "search": "| inputlookup trackme_data_sampling where (_key=\"$tk_input_data_sampling_dropdown$\" OR data_name=\"$tk_input_data_sampling_dropdown$\") | fields raw_sample | mvexpand raw_sample",
             "status_buckets": 0,
             "app": utils.getCurrentApp(),
             "auto_cancel": 90,
@@ -14335,6 +14433,48 @@ require([
             FormUtils.handleValueChange(modal_input_data_sampling_custom_rule_name);
         });
 
+        var modal_input_data_sampling_custom_rule_type = new DropdownInput({
+            "id": "modal_input_data_sampling_custom_rule_type",
+            "choices": [{
+                    "label": "rule must match",
+                    "value": "inclusive"
+                },
+                {
+                    "label": "rule must not match",
+                    "value": "exclusive"
+                }
+            ],
+            "searchWhenChanged": true,
+            "default": "inclusive",
+            "showClearButton": true,
+            "initialValue": "inclusive",
+            "selectFirstChoice": false,
+            "value": "$form.tk_data_sampling_custom_rule_type$",
+            "el": $('#modal_input_data_sampling_custom_rule_type')
+        }, {
+            tokens: true
+        }).render();
+
+        modal_input_data_sampling_custom_rule_type.on("change", function(newValue) {
+            FormUtils.handleValueChange(modal_input_data_sampling_custom_rule_type);
+        });
+
+        // Data sampling sourcetype value
+        var modal_input_data_sampling_custom_st_value = new TextInput({
+            "id": "modal_input_data_sampling_custom_st_value",
+            "searchWhenChanged": false,
+            "default": "simulation:test_sourcetype",
+            "initialValue": "simulation:test_sourcetype",
+            "value": "$form.tk_data_sampling_custom_st_value$",
+            "el": $('#modal_input_data_sampling_custom_st_value')
+        }, {
+            tokens: true
+        }).render();
+
+        modal_input_data_sampling_custom_st_value.on("change", function(newValue) {
+            FormUtils.handleValueChange(modal_input_data_sampling_custom_st_value);
+        });
+
         // Data sampling scope
         var modal_input_data_sampling_custom_sourcetype_scope = new TextInput({
             "id": "modal_input_data_sampling_custom_sourcetype_scope",
@@ -14349,6 +14489,22 @@ require([
 
         modal_input_data_sampling_custom_sourcetype_scope.on("change", function(newValue) {
             FormUtils.handleValueChange(modal_input_data_sampling_custom_sourcetype_scope);
+        });
+
+        // Data sampling number of records per sample
+        var modal_input_data_sampling_records_nr = new TextInput({
+            "id": "modal_input_data_sampling_records_nr",
+            "searchWhenChanged": true,
+            "default": "50",
+            "initialValue": "50",            
+            "value": "$form.tk_input_data_sampling_records_nr$",
+            "el": $('#modal_input_data_sampling_records_nr')
+        }, {
+            tokens: true
+        }).render();
+
+        modal_input_data_sampling_records_nr.on("change", function(newValue) {
+            FormUtils.handleValueChange(modal_input_data_sampling_records_nr);
         });
 
         // Custom lagging
@@ -14420,7 +14576,7 @@ require([
                     "value": "data_host"
                 },
                 {
-                    "label": "all applicable",
+                    "label": "all",
                     "value": "all"
                 }                
             ],
@@ -14866,6 +15022,28 @@ require([
                 EventHandler.unsetToken("show_metric_host_flipping_status");
                 EventHandler.unsetToken("show_metric_host_status_message");
             }
+        });
+
+        // data sampling dropdown
+        var modal_input_data_sampling_dropdown = new DropdownInput({
+            "id": "modal_input_data_sampling_dropdown",
+            "tokenDependencies": {
+                "depends": "$show_data_source_tracker$"
+            },
+            "searchWhenChanged": true,
+            "showClearButton": true,
+            "labelField": "data_name",
+            "selectFirstChoice": false,
+            "valueField": "key",
+            "value": "$form.tk_input_data_sampling_dropdown$",
+            "managerid": "searchPopulateDataSampling",
+            "el": $('#modal_input_data_sampling_dropdown')
+        }, {
+            tokens: true
+        }).render();
+
+        modal_input_data_sampling_dropdown.on("change", function(newValue) {
+            FormUtils.handleValueChange(modal_input_data_sampling_dropdown);
         });
 
         // whitelist
@@ -17733,7 +17911,7 @@ require([
             },
             "count": 10,
             "drilldown": "none",
-            "fields": "data_sample_feature, current_detected_format, \" \", previous_detected_format, state, anomaly_reason, multiformat, mtime",
+            "fields": "feature, current_detected_format, \" \", previous_detected_format, state, anomaly_reason, multiformat, mtime, data_sampling_nr",
             "refresh.display": "none",
             "wrap": "false",
             "managerid": "searchDataSamplingTable1",
@@ -17762,7 +17940,7 @@ require([
         var tableDataSamplingShowCustomRules = new TableElement({
             "id": "tableDataSamplingShowCustomRules",
             "tokenDependencies": {
-                "depends": "$show_data_sampling$",
+                "depends": "$show_data_sampling_custom_rules$",
                 "depends": "$show_table_data_sampling_custom_rules$"
             },
             "count": 10,
@@ -28037,7 +28215,8 @@ require([
                                 "search_constraint": tk_raw_input_elastic_source_search_constraint,
                                 "search_mode": tk_input_elastic_source_search_type,
                                 "elastic_data_index": tk_input_elastic_source_elastic_data_index,
-                                "elastic_data_sourcetype": tk_input_elastic_source_elastic_data_sourcetype
+                                "elastic_data_sourcetype": tk_input_elastic_source_elastic_data_sourcetype,
+                                "elastic_report": tracker_name
                             };
                             $.ajax({
                                 url: myendpoint_URl,
@@ -35083,7 +35262,8 @@ require([
 
                 // Built the search URI
                 var tk_data_name = tokens.get("tk_data_name");
-                var search_latest_sample = 'search' + "?q=" + encodeURI("| inputlookup trackme_data_sampling where data_name=\"" + tk_data_name + "\" | fields raw_sample | mvexpand raw_sample | `trackme_data_sampling_abstract_detect_events_format`");
+                var tk_data_sourcetype = tokens.get("tk_data_sourcetype");
+                var search_latest_sample = 'search' + "?q=" + encodeURI("| inputlookup trackme_data_sampling where data_name=\"" + tk_data_name + "\" | fields raw_sample | mvexpand raw_sample | eval data_sourcetype=\"" + tk_data_sourcetype + "\" | `trackme_data_sampling_abstract_detect_events_format` | lookup trackme_data_sampling_custom_models model_name as current_detected_format output model_type | eval model_type=if(isnull(model_type) AND isnotnull(current_detected_format), \"inclusive\", model_type)");
                 // Define the URL target
                 document.getElementById("btn_data_sampling_latest_sample").href = search_latest_sample;
 
@@ -35107,18 +35287,7 @@ require([
             $btn_group.find('button').on('click', function() {
                 var $btn = $(this);
                 //console.log("Button was clicked");
-
-                var tk_data_sampling_custom_rule_back_btn_target = tokens.get("tk_data_sampling_custom_rule_back_btn_target");
-                //console.log("tk_data_sampling_custom_rule_back_btn_target is: " + tk_data_sampling_custom_rule_back_btn_target);
-
-                // define the back button target action
-                if (tk_data_sampling_custom_rule_back_btn_target === "from_data_source") {
-                    $("#modal_manage").modal()
-                }
-                else if (tk_data_sampling_custom_rule_back_btn_target === "from_main") {
-                    $("data_sampling_create_custom_rules").modal("hide")
-                }
-
+                $("#modal_manage").modal()
             });
         });
 
@@ -35143,47 +35312,47 @@ require([
         });
 
         // Show custom rules from data source
-        $('.btn_data_sampling_custom_rules_view').each(function() {
-            var $btn_group = $(this);
-            $btn_group.find('button').on('click', function() {
-                var $btn = $(this);
-                //console.log("Button was clicked");
+        $("#btn_data_sampling_custom_rules_view").unbind('click').click(function() {
 
-                submitTokens();
+            // Hide the back button
+            var btn_back = document.getElementById("btn_data_sampling_custom_rules_back");
+            btn_back.style.display = "inline-block"
 
-                // When the Submit button is clicked, get all the form fields by accessing token values
-                var tokens = mvc.Components.get("default");
+            submitTokens();
 
-                // Create a token used to decide the back button target
-                setToken("tk_data_sampling_custom_rule_back_btn_target", "from_data_source");
+            // When the Submit button is clicked, get all the form fields by accessing token values
+            var tokens = mvc.Components.get("default");
 
-                // force re-run the search each time the button is clicked
-                searchDataSamplingShowCustomRules.startSearch();
+            // free searches
+            setToken("show_data_sampling_custom_rules", "true");
 
-                $("#data_sampling_show_custom_rules").modal()
-            });
+            // force re-run the search each time the button is clicked
+            searchDataSamplingShowCustomRules.startSearch();
+
+            $("#data_sampling_show_custom_rules").modal()
+
         });
 
         // Show custom rules from main
-        $('.btn_modify_data_sampling_rules').each(function() {
-            var $btn_group = $(this);
-            $btn_group.find('button').on('click', function() {
-                var $btn = $(this);
-                //console.log("Button was clicked");
+        $("#btn_modify_data_sampling_rules").unbind('click').click(function() {
 
-                submitTokens();
+            // Hide the back button
+            var btn_back = document.getElementById("btn_data_sampling_custom_rules_back");
+            btn_back.style.display = "none"
 
-                // When the Submit button is clicked, get all the form fields by accessing token values
-                var tokens = mvc.Components.get("default");
+            submitTokens();
 
-                // Create a token used to decide the back button target
-                setToken("tk_data_sampling_custom_rule_back_btn_target", "from_main");
+            // When the Submit button is clicked, get all the form fields by accessing token values
+            var tokens = mvc.Components.get("default");
 
-                // force re-run the search each time the button is clicked
-                searchDataSamplingShowCustomRules.startSearch();
+            // free searches
+            setToken("show_data_sampling_custom_rules", "true");
+            
+            // force re-run the search each time the button is clicked
+            searchDataSamplingShowCustomRules.startSearch();
 
-                $("#data_sampling_show_custom_rules").modal()
-            });
+            $("#data_sampling_show_custom_rules").modal()
+
         });
 
         // Back button
@@ -35193,16 +35362,8 @@ require([
                 var $btn = $(this);
                 //console.log("Button was clicked");
 
-                var tk_data_sampling_custom_rule_back_btn_target = tokens.get("tk_data_sampling_custom_rule_back_btn_target");
-                //console.log("tk_data_sampling_custom_rule_back_btn_target is: " + tk_data_sampling_custom_rule_back_btn_target);
-
-                // define the back button target action
-                if (tk_data_sampling_custom_rule_back_btn_target === "from_data_source") {
-                    $("#data_sampling_manage").modal()
-                }
-                else if (tk_data_sampling_custom_rule_back_btn_target === "from_main") {
-                    $("data_sampling_create_custom_rules").modal("hide")
-                }
+                // target
+                $("#data_sampling_manage").modal()
                 
             });
         });
@@ -35611,10 +35772,160 @@ require([
 
         });
 
+        // Update number of records per sample
+        $("#btn_data_sampling_edit_records_nr").click(function() {
+            //console.log("Button was clicked");
+            $("#modal_update_records_nr_data_sampling").modal()
+        });
+
+        $("#btn_update_records_nr_confirm").click(function() {
+            //console.log("Button was clicked");
+
+            submitTokens();
+
+            // When the Submit button is clicked, get all the form fields by accessing token values
+            var tokens = mvc.Components.get("default");
+
+            // Get tokens
+            var tk_data_name = tokens.get("tk_data_name");
+            var tk_data_sampling_nr = tokens.get("tk_input_data_sampling_records_nr");
+
+            // Define the query
+            var searchQuery = "| inputlookup trackme_data_sampling where data_name=\"" + tk_data_name + "\" | eval keyid=_key | eval data_sampling_nr=\"" + tk_data_sampling_nr + "\" | outputlookup append=t key_field=keyid trackme_data_sampling";
+            //console.log(searchQuery);
+
+            // record for auditing
+            var record = {
+                        "data_name": tk_data_name,
+                        "data_sampling_nr": tk_data_sampling_nr
+                        };
+
+            // Retrieve update comment if any
+            var tk_comment = document.getElementById("input_update_records_nr_data_sampling_comment").value;
+
+            // if is not defined, give it a value and override text box content
+            if (tk_comment == "null") {
+                setToken("tk_update_comment", TokenUtils.replaceTokenNames("No comments for update.", _.extend(submittedTokenModel.toJSON(), e.data)));
+                // replace the textarea for modification requests
+                document.getElementById("input_clear_state_data_sampling_comment").value = "update note";
+            }
+            else if (tk_comment == "update note") {
+                tk_comment = "No comment for update.";
+                document.getElementById("input_clear_state_data_sampling_comment").value = "update note";
+            }
+            else {
+                // replace the textarea for modification requests
+                document.getElementById("input_clear_state_data_sampling_comment").value = "update note";
+            }
+
+            // Set the search parameters--specify a time range
+            var searchParams = {
+                earliest_time: "-5m",
+                latest_time: "now"
+            };
+
+            // Run a normal search that immediately returns the job's SID
+            service.search(
+                searchQuery,
+                searchParams,
+                function(err, job) {
+
+                    // Shall the search fail before we can get properties
+                    if (job == null) {
+                        let errorStr = "Unknown Error!";
+                        if (err && err.data && err.data.messages && err.data.messages[0]['text']) {
+                            errorStr = err.data.messages[0]['text'];
+                        } else if (err && err.data && err.data.messages) {
+                            errorStr = JSON.stringify(err.data.messages);
+                        }
+                        $("#modal_update_collection_failure_return").find('.modal-error-message p').text(errorStr);
+                        $("#modal_update_collection_failure_return").modal()
+                    } else {
+
+                        // Poll the status of the search job
+                        job.track({
+                            period: 200
+                        }, {
+                            done: function(job) {
+
+                                // Audit
+                                action = "success";
+                                change_type = "update data sampling records_nr";
+                                object = tk_data_name;
+                                object_category = "data_source";
+                                object_attrs = JSON.stringify(record, null, '\t');
+                                result = "N/A";
+                                comment = tk_comment;
+                                auditRecord(action, change_type, object, object_category, object_attrs, result, comment);
+
+                                //console.log("Done!");
+                                notification('Update was successful.', 6000)
+
+                                // Update search
+                                searchDataSamplingTable1.startSearch();
+
+                                // Return to modal
+                                $("#data_sampling_manage").modal()
+
+                            },
+                            failed: function(properties) {
+                                let errorStr = "Unknown Error!";
+                                if (properties && properties._properties && properties._properties.messages && properties._properties.messages[0]['text']) {
+                                    errorStr = properties._properties.messages[0]['text'];
+                                } else if (properties && properties._properties && properties._properties.messages) {
+                                    errorStr = JSON.stringify(properties._properties.messages);
+                                }
+
+                                // Audit
+                                action = "failure";
+                                change_type = "update data sampling records_nr";
+                                object = tk_data_name;
+                                object_category = "data_source";
+                                object_attrs = JSON.stringify(record, null, '\t');
+                                result = errorStr;
+                                comment = tk_comment;
+                                auditRecord(action, change_type, object, object_category, object_attrs, result, comment);
+
+                                $("#modal_update_collection_failure_return").find('.modal-error-message p').text(errorStr);
+                                $("#modal_update_collection_failure_return").modal()
+                            },
+                            error: function(err) {
+                                done(err);
+
+                                // Audit
+                                action = "failure";
+                                change_type = "update data sampling records_nr";
+                                object = tk_data_name;
+                                object_category = "data_source";
+                                object_attrs = JSON.stringify(record, null, '\t');
+                                result = "N/A";
+                                comment = tk_comment;
+                                auditRecord(action, change_type, object, object_category, object_attrs, result, comment);
+
+                                $("#modal_update_collection_failure").modal()
+                            }
+                        });
+                    }
+                }
+            );
+
+        });
+
+        $("#btn_update_records_nr_confirm_back").click(function() {
+            // Return to modal
+            $("#data_sampling_manage").modal()
+        });
+
         // Clear state action
         $("#btn_data_sampling_clear_now").click(function() {
             //console.log("Button was clicked");
             $("#modal_clear_state_data_sampling").modal()
+        });
+
+        // Back button
+        $("#btn_modal_clear_state_confirm_back").click(function() {
+            // Return to modal
+            $("#data_sampling_manage").modal()
         });
 
         // Clear state action button is confirmed
@@ -35655,6 +35966,7 @@ require([
             }
 
             // Get the KV entry content first
+            //console.log("Run ajax query");
             $.ajax({
                 url: myendpoint_URl,
                 type: "GET",
@@ -35674,6 +35986,7 @@ require([
                     var data_sample_anomaly_ack_mtime = returneddata.data_sample_anomaly_ack_mtime;
                     var data_sample_anomaly_detected = returneddata.data_sample_anomaly_detected;
                     var data_sample_status_message = returneddata.data_sample_status_message;
+                    var data_sampling_nr = returneddata.data_sampling_nr;
                     var multiformat_detected = returneddata.multiformat_detected;
                     var current_detected_format = returneddata.current_detected_format;
                     var current_detected_format_id = returneddata.current_detected_format_id;
@@ -35692,6 +36005,7 @@ require([
                         "data_sample_anomaly_ack_mtime": data_sample_anomaly_ack_mtime,
                         "data_sample_anomaly_detected": data_sample_anomaly_detected,
                         "data_sample_status_message": data_sample_status_message,
+                        "data_sampling_nr": data_sampling_nr,
                         "multiformat_detected": multiformat_detected,
                         "current_detected_format": current_detected_format,
                         "current_detected_format_id": current_detected_format_id,
@@ -35701,11 +36015,17 @@ require([
                         "previous_detected_format_dcount": previous_detected_format_dcount
                     };
 
-                    // Proceed to delete call
+                    // create a new record and preserve information that need to be preserved
+                    var new_record = {
+                        "data_sampling_nr": data_sampling_nr
+                    };
+
+                    // Proceed to post call
                     $.ajax({
                         url: myendpoint_URl,
-                        type: "DELETE",
+                        type: "POST",
                         async: true,
+                        data: JSON.stringify(new_record),
                         contentType: "application/json",
                         success: function(returneddata) {
 
@@ -35820,10 +36140,99 @@ require([
 
                     });
 
+                },
+
+                error: function(xhr, textStatus, error) {
+
+                    // Define the query
+                    var searchQuery = "| savedsearch \"TrackMe - Data sampling engine for target\" key=\"" + tk_keyid + "\"";
+                    //console.log(searchQuery);
+
+                    // Set the search parameters--specify a time range
+                    var searchParams = {
+                        earliest_time: "-7d",
+                        latest_time: "now"
+                    };
+
+                    // Run a normal search that immediately returns the job's SID
+                    service.search(
+                        searchQuery,
+                        searchParams,
+                        function(err, job) {
+
+                            $("#loadingGray").remove()
+                            $("body").append('<div id="loadingGray" style="background: #e9e9e9; display: block; position: fixed; z-index: 100; top: 0; right: 0; bottom: 0; left: 0; height: 100%; opacity: 0.8;"><div style="width: 100%; margin-top: 250px; padding-bottom: 50px; text-align: center;"><p style="font-size: 18pt; font-weight: bolder; color: #003b59;">Clearing the data source state and running the data sampling and format recognition engine...</p></div><div id="spinner"></div></div>')
+
+                            require(["jquery",
+                                    "/static/app/trackme/spin.js"
+                                ],
+                                function($,
+                                    Spinner
+                                ) {
+                                    new Spinner({
+                                        lines: 12, length: 18,
+                                        position: "relative", color: "#003b59"
+                                    }).spin(document.getElementById('spinner'));
+                                })
+
+                            // Shall the search fail before we can get properties
+                            if (job == null) {
+                                let errorStr = "Unknown Error!";
+                                if (err && err.data && err.data.messages && err.data.messages[0]['text']) {
+                                    errorStr = err.data.messages[0]['text'];
+                                } else if (err && err.data && err.data.messages) {
+                                    errorStr = JSON.stringify(err.data.messages);
+                                }
+                                $("#loadingGray").remove()
+                                $("#modal_update_collection_failure_return").find('.modal-error-message p').text(errorStr);
+                                $("#modal_update_collection_failure_return").modal()
+                            } else {
+
+                                // Poll the status of the search job
+                                job.track({
+                                    period: 200
+                                }, {
+                                    done: function(job) {
+                                        //console.log("Done!");
+
+                                        // Once the job is done, update all searches
+                                        searchDataSamplingTable1.startSearch();
+
+                                        $("#loadingGray").remove()
+                                        $("#data_sampling_manage").modal();
+
+                                    },
+                                    failed: function(properties) {
+                                        let errorStr = "Unknown Error!";
+                                        if (properties && properties._properties && properties._properties.messages && properties._properties.messages[0]['text']) {
+                                            errorStr = properties._properties.messages[0]['text'];
+                                        } else if (properties && properties._properties && properties._properties.messages) {
+                                            errorStr = JSON.stringify(properties._properties.messages);
+                                        }
+                                        $("#loadingGray").remove()
+                                        $("#modal_update_collection_failure_return").find('.modal-error-message p').text(errorStr);
+                                        $("#modal_update_collection_failure_return").modal()
+                                    },
+                                    error: function(err) {
+                                        done(err);
+                                        $("#loadingGray").remove()
+                                        $("#modal_update_collection_failure").modal()
+                                    }
+                                });
+                            }
+                        }
+                    );
+
                 }
 
             });
 
+        });
+
+        // Back button
+        $("#btn_modal_data_sampling_disable_confirm_back").click(function() {
+            // Return to modal
+            $("#data_sampling_manage").modal()
         });
 
         // Data sampling custom rules
@@ -35835,13 +36244,27 @@ require([
             // When the Submit button is clicked, get all the form fields by accessing token values
             var tokens = mvc.Components.get("default");
 
+            // Get the current data source
+            var tk_data_name = tokens.get("tk_data_name");
+            var tk_data_sourcetype = tokens.get("tk_data_sourcetype");
+
+            // Apply to the form inputs
+            setToken("form.tk_input_data_sampling_dropdown", tk_data_name);
+            setToken("form.tk_data_sampling_custom_st_value", tk_data_sourcetype);
+
             // Unset action tokens
             unsetToken("start_simulation_data_sampling_custom_rule_show_events");
             unsetToken("start_simulation_data_sampling_custom_rule");
 
             // Disable the button results
             document.getElementById('btn_modal_data_sampling_custom_rule_simulate_show_details').disabled = true;
-            document.getElementById('btn_data_sampling_custom_rule_add').disabled = true;            
+            document.getElementById('btn_data_sampling_custom_rule_add').disabled = true;
+
+            // Free the dropdown populating search
+            setToken("start_search_input_data_sampling_dropdown", "true");
+
+            // force re-run the search each time the button is clicked
+            searchPopulateDataSampling.startSearch();
 
             // Open modal
             $("#data_sampling_create_custom_rules").modal()
@@ -35946,6 +36369,10 @@ require([
             var tk_data_sampling_custom_rule_name = tokens.get("tk_data_sampling_custom_rule_name");
             //console.log("tk_data_sampling_custom_rule_name is: " + tk_data_sampling_custom_rule_name);
 
+            // Retrieve the rule type
+            var tk_data_sampling_custom_rule_type = tokens.get("tk_data_sampling_custom_rule_type");
+            //console.log("tk_data_sampling_custom_rule_type is: " + tk_data_sampling_custom_rule_type);
+
             // Retrieve the sourcetype scope
             var tk_data_sampling_custom_sourcetype_scope = tokens.get("tk_data_sampling_custom_sourcetype_scope");
             //console.log("tk_data_sampling_custom_sourcetype_scope is: " + tk_data_sampling_custom_sourcetype_scope);
@@ -35984,7 +36411,7 @@ require([
                 }
 
                 // Define the query
-                var searchQuery = "| makeresults | eval model_name=\"" + tk_data_sampling_custom_rule_name + "\", model_regex=\"" + tk_data_sampling_custom_rule_regex + "\", sourcetype_scope=\"" + tk_data_sampling_custom_sourcetype_scope + "\" | eval _key=md5(model_name), model_id=md5(model_name), mtime=now() | outputlookup trackme_data_sampling_custom_models append=t key_field=_key";
+                var searchQuery = "| makeresults | eval model_name=\"" + tk_data_sampling_custom_rule_name + "\", model_type=\"" + tk_data_sampling_custom_rule_type + "\", model_regex=\"" + tk_data_sampling_custom_rule_regex + "\", sourcetype_scope=\"" + tk_data_sampling_custom_sourcetype_scope + "\" | eval _key=md5(model_name), model_id=md5(model_name), mtime=now() | outputlookup trackme_data_sampling_custom_models append=t key_field=_key";
                 //console.log("searchQuery is: " + searchQuery);
 
                 // Set the search parameters--specify a time range

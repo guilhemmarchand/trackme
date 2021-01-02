@@ -62,6 +62,8 @@ No matters the purpose of your Splunk deployment, trackMe will easily become an 
 - Monitoring and insight visibility about your indexes, sourcetypes, events and metrics
 - General data activity monitoring and detection of Zombie data
 - Continous and automated data quality assessment
+- PII data detection with custom regular expression based rules and data sampling
+- many more!
 
 Overview:
 =========
