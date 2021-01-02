@@ -102,6 +102,23 @@ Once you have created an authentication token for the user to be used as the ser
     curl -k –H "Authorization: Bearer <token>"
 
 
+Postman - API referential and development
+-----------------------------------------
+
+**TrackMe API endpoints are described in a Postman format at the following public URL:**
+
+- https://documenter.getpostman.com/view/7845664/TVt2c3a9#105ff830-5834-4c95-b928-75ab553f5020
+
+If you use Postman, you can consult the API documentation link above and easily import the entire API reference for your testing and development purposes.
+
+.. image:: img/postman_screen.png
+   :alt: postman_screen.png
+   :align: center
+
+.. image:: img/postman_screen2.png
+   :alt: postman_screen2.png
+   :align: center
+
 Acknowledgment endpoints
 ------------------------
 
@@ -166,7 +183,7 @@ ack_by_key / Get Ack by _key
 
 **This endpoint retrieves an existing acknowledgment record by the Kvstore key, it requires a GET call with the following information:**
 
-- ``"_key": "<KVstore unique identifier for this record>"``
+- ``"_key": KVstore unique identifier for this record``
 
 ::
 
@@ -195,8 +212,8 @@ ack_by_object / Get Ack by object
 **This endpoint retrieves an existing acknowledgment record by the object name, it requires a GET call with the following information:**
 
 
-- ``"object_category": "<type of object (data_source / data_host / metric_host)>"`` 
-- ``"object": "<name of the object (data source / data host / metric host)>"``
+- ``"object_category": type of object (data_source / data_host / metric_host)>"`` 
+- ``"object": name of the object (data source / data host / metric host)``
 
 ::
 
@@ -226,10 +243,10 @@ ack_enable / Enable Ack
 
 **This endpoint will enable an acknowledgment by the object name, it requires a POST call with the following information:**
 
-- ``"object_category": "<type of object (data_source / data_host / metric_host)>"``
-- ``"object": "<name of the object (data source / data host / metric host)>"``
-- ``"ack_period": "<period for the acknowledgment in seconds>"``
-- ``"update_comment": "<OPTIONAL: a comment for the update, comments are added to the audit record, if unset will be defined to: API update>``
+- ``"object_category": type of object (data_source / data_host / metric_host)``
+- ``"object": name of the object (data source / data host / metric host)``
+- ``"ack_period": period for the acknowledgment in seconds``
+- ``"update_comment": OPTIONAL: a comment for the update, comments are added to the audit record, if unset will be defined to: API update``
 
 ::
 
@@ -254,9 +271,9 @@ ack_disable / Disable Ack
 
 **This endpoint will disable an acknowledgment by the object name, it requires a POST call with the following information:**
 
-- ``"object_category": "<type of object (data_source / data_host / metric_host)>"`` 
-- ``"object": "<name of the object (data source / data host / metric host)>"``
-- ``"update_comment": "<OPTIONAL: a comment for the update, comments are added to the audit record, if unset will be defined to: API update>``
+- ``"object_category": type of object (data_source / data_host / metric_host)>"`` 
+- ``"object": name of the object (data source / data host / metric host)``
+- ``"update_comment": OPTIONAL: a comment for the update, comments are added to the audit record, if unset will be defined to: API update``
 
 ::
 
@@ -342,7 +359,7 @@ ds_by_key / Get Data Source by _key
 
 **This endpoint retrieves an existing data source record by the Kvstore key, it requires a GET call with the following information:**
 
-- ``"_key": "<KVstore unique identifier for this record>"``
+- ``"_key": KVstore unique identifier for this record``
 
 ::
 
@@ -368,7 +385,7 @@ ds_by_name / Get Data Source by name
 
 **This endpoint retrieves an existing data source record by the data source name (data_name), it requires a GET call with the following information:**
 
-- ``"data_name": "<name of the data source>"``
+- ``"data_name": name of the data source``
 
 ::
 
@@ -394,8 +411,8 @@ ds_enable_monitoring / Enable monitoring
 
 **This endpoint enables data monitoring for an existing data source by the data source name (data_name), it requires a POST call with the following information:**
 
-- ``"data_name": "<name of the data source>"``
-- ``"update_comment": "<OPTIONAL: a comment for the update, comments are added to the audit record, if unset will be defined to: API update>``
+- ``"data_name": name of the data source``
+- ``"update_comment": OPTIONAL: a comment for the update, comments are added to the audit record, if unset will be defined to: API update``
 
 ::
 
@@ -421,8 +438,8 @@ ds_disable_monitoring / Disable monitoring
 
 **This endpoint disables data monitoring for an existing data source by the data source name (data_name), it requires a POST call with the following information:**
 
-- ``"data_name": "<name of the data source>"``
-- ``"update_comment": "<OPTIONAL: a comment for the update, comments are added to the audit record, if unset will be defined to: API update>``
+- ``"data_name": name of the data source``
+- ``"update_comment": OPTIONAL: a comment for the update, comments are added to the audit record, if unset will be defined to: API update``
 
 ::
 
@@ -448,11 +465,11 @@ ds_update_lag_policy / Update lagging policy
 
 **This endpoint configures the lagging policy for an existing data source, it requires a POST call with the following information:**
 
-- ``"data_name": "<name of the data source>"``
-- ``"data_lag_alert_kpis": "<KPIs policy to be applied, valid options are all_kpis / lag_ingestion_kpi / lag_event_kpi>"``
-- ``"data_max_lag_allowed": "<maximal accepted lagging value in seconds, must be an integer>"``
-- ``"data_override_lagging_class": "<overrides lagging classes, valid options are true / false>``
-- ``"update_comment": "<OPTIONAL: a comment for the update, comments are added to the audit record, if unset will be defined to: API update>``
+- ``"data_name": name of the data source``
+- ``"data_lag_alert_kpis": KPIs policy to be applied, valid options are all_kpis / lag_ingestion_kpi / lag_event_kpi``
+- ``"data_max_lag_allowed": maximal accepted lagging value in seconds, must be an integer``
+- ``"data_override_lagging_class": overrides lagging classes, valid options are true / false``
+- ``"update_comment": OPTIONAL: a comment for the update, comments are added to the audit record, if unset will be defined to: API update``
 
 ::
 
@@ -478,9 +495,9 @@ ds_update_min_dcount_host / Update minimal host dcount
 
 **This endpoint configures the minimal number of distinct hosts count for an existing data source, it requires a POST call with the following information:**
 
-- ``"data_name": "<name of the data source>"``
-- ``"data_max_lag_allowed": "<minimal accepted number of distinct count hosts, must be an integer>"``
-- ``"update_comment": "<OPTIONAL: a comment for the update, comments are added to the audit record, if unset will be defined to: API update>``
+- ``"data_name": name of the data source``
+- ``"data_max_lag_allowed": minimal accepted number of distinct count hosts, must be an integer``
+- ``"update_comment": OPTIONAL: a comment for the update, comments are added to the audit record, if unset will be defined to: API update``
 
 ::
 
@@ -506,9 +523,9 @@ ds_update_wdays_by_name / Update week days monitoring
 
 **This endpoint configures the week days monitoring rule for an existing data source, it requires a POST call with the following information:**
 
-- ``"data_name": "<name of the data source>"``
-- ``"data_monitoring_wdays": "< the week days rule, valid options are manual:all_days / manual:monday-to-friday / manual:monday-to-saturday / [ 0, 1, 2, 3, 4, 5, 6 ] where Sunday is 0>"``
-- ``"update_comment": "<OPTIONAL: a comment for the update, comments are added to the audit record, if unset will be defined to: API update>``
+- ``"data_name": name of the data source``
+- ``"data_monitoring_wdays":  the week days rule, valid options are manual:all_days / manual:monday-to-friday / manual:monday-to-saturday / [ 0, 1, 2, 3, 4, 5, 6 ] where Sunday is 0``
+- ``"update_comment": OPTIONAL: a comment for the update, comments are added to the audit record, if unset will be defined to: API update``
 
 ::
 
@@ -534,15 +551,15 @@ ds_update_outliers / Update outliers detection configuration
 
 **This endpoint configures the week days monitoring rule for an existing data source, it requires a POST call with the following information:**
 
-- ``"data_name": "<name of the data source>"``
-- ``"OutlierMinEventCount": "<the minimal number of events, if set to anything bigger than 0, the lower bound becomes a static value, needs to be an integer, default to 0 (disabled)>"``
-- ``"OutlierLowerThresholdMultiplier": "<The lower bound threshold multiplier, must be an integer, defaults to 4>"``
-- ``"OutlierUpperThresholdMultiplier": "<The upper bound threshold multiplier, must be integer, defaults to 4>"``
-- ``"OutlierAlertOnUpper": "Enables / Disables alerting on upper outliers detection, valid options are true / false, defaults to false>"``
-- ``"OutlierTimePeriod": "<relative time period for outliers calculation, default to -7d>"``
-- ``"OutlierSpan": "<span period Splunk notation for outliers UI rendering, defaults to 5m>"``
-- ``"enable_behaviour_analytic": "Enables / Disables outliers detection for that object, valid options are true / false, defaults to true>"``
-- ``"update_comment": "<OPTIONAL: a comment for the update, comments are added to the audit record, if unset will be defined to: API update>``
+- ``"data_name": name of the data source``
+- ``"OutlierMinEventCount": the minimal number of events, if set to anything bigger than 0, the lower bound becomes a static value, needs to be an integer, default to 0 (disabled)``
+- ``"OutlierLowerThresholdMultiplier": The lower bound threshold multiplier, must be an integer, defaults to 4``
+- ``"OutlierUpperThresholdMultiplier": The upper bound threshold multiplier, must be integer, defaults to 4``
+- ``"OutlierAlertOnUpper": "Enables / Disables alerting on upper outliers detection, valid options are true / false, defaults to false``
+- ``"OutlierTimePeriod": relative time period for outliers calculation, default to -7d``
+- ``"OutlierSpan": span period Splunk notation for outliers UI rendering, defaults to 5m``
+- ``"enable_behaviour_analytic": "Enables / Disables outliers detection for that object, valid options are true / false, defaults to true``
+- ``"update_comment": OPTIONAL: a comment for the update, comments are added to the audit record, if unset will be defined to: API update``
 
 ::
 
@@ -568,8 +585,8 @@ ds_delete_temporary / Delete temporary
 
 **This endpoint performs a temporary deletion of an existing data source, it requires a DELETE call with the following information:**
 
-- ``"data_name": "<name of the data source>"``
-- ``"update_comment": "<OPTIONAL: a comment for the update, comments are added to the audit record, if unset will be defined to: API update>``
+- ``"data_name": name of the data source``
+- ``"update_comment": OPTIONAL: a comment for the update, comments are added to the audit record, if unset will be defined to: API update``
 
 Note: A temporary deletion removes the entity and its configuration, if search conditions such as data avaibility allow it, the same entitiy will be re-created automatically by the Trackers.
 
@@ -588,8 +605,8 @@ ds_delete_permanent / Delete permanently
 
 **This endpoint performs a permanent deletion of an existing data source, it requires a DELETE call with the following information:**
 
-- ``"data_name": "<name of the data source>"``
-- ``"update_comment": "<OPTIONAL: a comment for the update, comments are added to the audit record, if unset will be defined to: API update>``
+- ``"data_name": name of the data source``
+- ``"update_comment": OPTIONAL: a comment for the update, comments are added to the audit record, if unset will be defined to: API update``
 
 Note: A permanent deletion removes the entity and its configuration, in addition its a specific audit record to prevent the entity from being created as long as the audit record is not purged. if the audit record is purged and the search conditions such as data avaibility allow it, the same entitiy will be re-created automatically by the Trackers.
 
@@ -608,8 +625,8 @@ ds_enable_data_sampling / Enable data sampling
 
 **This endpoint enables the data sampling feature for an existing data source by the data source name (data_name), it requires a POST call with the following information:**
 
-- ``"data_name": "<name of the data source>"``
-- ``"update_comment": "<OPTIONAL: a comment for the update, comments are added to the audit record, if unset will be defined to: API update>``
+- ``"data_name": name of the data source``
+- ``"update_comment": OPTIONAL: a comment for the update, comments are added to the audit record, if unset will be defined to: API update``
 
 ::
 
@@ -631,8 +648,8 @@ ds_disable_data_sampling / Disable data sampling
 
 **This endpoint disables the data sampling feature for an existing data source by the data source name (data_name), it requires a POST call with the following information:**
 
-- ``"data_name": "<name of the data source>"``
-- ``"update_comment": "<OPTIONAL: a comment for the update, comments are added to the audit record, if unset will be defined to: API update>``
+- ``"data_name": name of the data source``
+- ``"update_comment": OPTIONAL: a comment for the update, comments are added to the audit record, if unset will be defined to: API update``
 
 ::
 
@@ -654,9 +671,9 @@ ds_update_data_sampling_records_nr / Update sampling no of records
 
 **This endpoint enables the data sampling feature for an existing data source by the data source name (data_name), it requires a POST call with the following information:**
 
-- ``"data_name": "<name of the data source>"``
-- ``"data_sampling_nr": "<number of records to be sampled per data source and data sampling execution (defaults to 100 at first sampling, then 50)>"``
-- ``"update_comment": "<OPTIONAL: a comment for the update, comments are added to the audit record, if unset will be defined to: API update>``
+- ``"data_name": name of the data source``
+- ``"data_sampling_nr": number of records to be sampled per data source and data sampling execution (defaults to 100 at first sampling, then 50)``
+- ``"update_comment": OPTIONAL: a comment for the update, comments are added to the audit record, if unset will be defined to: API update``
 
 ::
 
@@ -738,7 +755,7 @@ dh_by_key / Get data host by _key
 
 **This endpoint retrieves an existing data host record by the Kvstore key, it requires a GET call with the following information:**
 
-- ``"_key": "<KVstore unique identifier for this record>"``
+- ``"_key": KVstore unique identifier for this record``
 
 ::
 
@@ -768,7 +785,7 @@ dh_by_name / Get data host by name
 
 **This endpoint retrieves an existing data host record by the data host name (data_host), it requires a GET call with the following information:**
 
-- ``"data_host": "<name of the data host>"``
+- ``"data_host": name of the data host``
 
 ::
 
@@ -799,8 +816,8 @@ dh_enable_monitoring / Enable monitoring
 
 **This endpoint enables data monitoring for an existing data host by the data host name (data_host), it requires a POST call with the following information:**
 
-- ``"data_host": "<name of the data host>"``
-- ``"update_comment": "<OPTIONAL: a comment for the update, comments are added to the audit record, if unset will be defined to: API update>``
+- ``"data_host": name of the data host``
+- ``"update_comment": OPTIONAL: a comment for the update, comments are added to the audit record, if unset will be defined to: API update``
 
 ::
 
@@ -826,8 +843,8 @@ dh_disable_monitoring / Disable monitoring
 
 **This endpoint disables data monitoring for an existing data host by the data host name (data_host), it requires a POST call with the following information:**
 
-- ``"data_host": "<name of the data host>"``
-- ``"update_comment": "<OPTIONAL: a comment for the update, comments are added to the audit record, if unset will be defined to: API update>``
+- ``"data_host": name of the data host``
+- ``"update_comment": OPTIONAL: a comment for the update, comments are added to the audit record, if unset will be defined to: API update``
 
 ::
 
@@ -854,8 +871,8 @@ dh_reset / Reset data host
 
 **This endpoint resets (removal of index and sourcetype knowledge) an existing data host by the data host name (data_host), it requires a POST call with the following information:**
 
-- ``"data_host": "<name of the data host>"``
-- ``"update_comment": "<OPTIONAL: a comment for the update, comments are added to the audit record, if unset will be defined to: API update>``
+- ``"data_host": name of the data host``
+- ``"update_comment": OPTIONAL: a comment for the update, comments are added to the audit record, if unset will be defined to: API update``
 
 ::
 
@@ -879,12 +896,12 @@ dh_update_lag_policy / Update lagging policy
 
 **This endpoint configures the lagging policy for an existing data host, it requires a POST call with the following information:**
 
-- ``"data_host": "<name of the data host>"``
-- ``"data_lag_alert_kpis": "<KPIs policy to be applied, valid options are all_kpis / lag_ingestion_kpi / lag_event_kpi>"``
-- ``"data_max_lag_allowed": "<maximal accepted lagging value in seconds, must be an integer>"``
-- ``"data_override_lagging_class": "<overrides lagging classes, valid options are true / false>``
-- ``"data_host_alerting_policy": "<policy alerting, valid options are global_policy / track_per_sourcetype / track_per_host>``
-- ``"update_comment": "<OPTIONAL: a comment for the update, comments are added to the audit record, if unset will be defined to: API update>``
+- ``"data_host": name of the data host``
+- ``"data_lag_alert_kpis": KPIs policy to be applied, valid options are all_kpis / lag_ingestion_kpi / lag_event_kpi``
+- ``"data_max_lag_allowed": maximal accepted lagging value in seconds, must be an integer``
+- ``"data_override_lagging_class": overrides lagging classes, valid options are true / false``
+- ``"data_host_alerting_policy": policy alerting, valid options are global_policy / track_per_sourcetype / track_per_host``
+- ``"update_comment": OPTIONAL: a comment for the update, comments are added to the audit record, if unset will be defined to: API update``
 
 ::
 
@@ -910,9 +927,9 @@ dh_update_wdays_by_name / Update week days monitoring
 
 **This endpoint configures the week days monitoring rule for an existing data host, it requires a POST call with the following information:**
 
-- ``"data_host": "<name of the data host>"``
-- ``"data_monitoring_wdays": "< the week days rule, valid options are manual:all_days / manual:monday-to-friday / manual:monday-to-saturday / [ 0, 1, 2, 3, 4, 5, 6 ] where Sunday is 0>"``
-- ``"update_comment": "<OPTIONAL: a comment for the update, comments are added to the audit record, if unset will be defined to: API update>``
+- ``"data_host": name of the data host``
+- ``"data_monitoring_wdays":  the week days rule, valid options are manual:all_days / manual:monday-to-friday / manual:monday-to-saturday / [ 0, 1, 2, 3, 4, 5, 6 ] where Sunday is 0``
+- ``"update_comment": OPTIONAL: a comment for the update, comments are added to the audit record, if unset will be defined to: API update``
 
 ::
 
@@ -938,15 +955,15 @@ dh_update_outliers / Update outliers detection configuration
 
 **This endpoint configures the week days monitoring rule for an existing data host, it requires a POST call with the following information:**
 
-- ``"data_host": "<name of the data host>"``
-- ``"OutlierMinEventCount": "<the minimal number of events, if set to anything bigger than 0, the lower bound becomes a static value, needs to be an integer, default to 0 (disabled)>"``
-- ``"OutlierLowerThresholdMultiplier": "<The lower bound threshold multiplier, must be an integer, defaults to 4>"``
-- ``"OutlierUpperThresholdMultiplier": "<The upper bound threshold multiplier, must be integer, defaults to 4>"``
-- ``"OutlierAlertOnUpper": "Enables / Disables alerting on upper outliers detection, valid options are true / false, defaults to false>"``
-- ``"OutlierTimePeriod": "<relative time period for outliers calculation, default to -7d>"``
-- ``"OutlierSpan": "<span period Splunk notation for outliers UI rendering, defaults to 5m>"``
-- ``"enable_behaviour_analytic": "Enables / Disables outliers detection for that object, valid options are true / false, defaults to true>"``
-- ``"update_comment": "<OPTIONAL: a comment for the update, comments are added to the audit record, if unset will be defined to: API update>``
+- ``"data_host": name of the data host``
+- ``"OutlierMinEventCount": the minimal number of events, if set to anything bigger than 0, the lower bound becomes a static value, needs to be an integer, default to 0 (disabled)``
+- ``"OutlierLowerThresholdMultiplier": The lower bound threshold multiplier, must be an integer, defaults to 4``
+- ``"OutlierUpperThresholdMultiplier": The upper bound threshold multiplier, must be integer, defaults to 4``
+- ``"OutlierAlertOnUpper": "Enables / Disables alerting on upper outliers detection, valid options are true / false, defaults to false``
+- ``"OutlierTimePeriod": relative time period for outliers calculation, default to -7d``
+- ``"OutlierSpan": span period Splunk notation for outliers UI rendering, defaults to 5m``
+- ``"enable_behaviour_analytic": "Enables / Disables outliers detection for that object, valid options are true / false, defaults to true``
+- ``"update_comment": OPTIONAL: a comment for the update, comments are added to the audit record, if unset will be defined to: API update``
 
 ::
 
@@ -971,8 +988,8 @@ dh_delete_temporary / Delete temporary
 
 **This endpoint performs a temporary deletion of an existing data host, it requires a DELETE call with the following information:**
 
-- ``"data_host": "<name of the data host>"``
-- ``"update_comment": "<OPTIONAL: a comment for the update, comments are added to the audit record, if unset will be defined to: API update>``
+- ``"data_host": name of the data host``
+- ``"update_comment": OPTIONAL: a comment for the update, comments are added to the audit record, if unset will be defined to: API update``
 
 Note: A temporary deletion removes the entity and its configuration, if search conditions such as data avaibility allow it, the same entitiy will be re-created automatically by the Trackers.
 
@@ -991,8 +1008,8 @@ dh_delete_permanent / Delete permanently
 
 **This endpoint performs a permanent deletion of an existing data host, it requires a DELETE call with the following information:**
 
-- ``"data_host": "<name of the data host>"``
-- ``"update_comment": "<OPTIONAL: a comment for the update, comments are added to the audit record, if unset will be defined to: API update>``
+- ``"data_host": name of the data host``
+- ``"update_comment": OPTIONAL: a comment for the update, comments are added to the audit record, if unset will be defined to: API update``
 
 Note: A permanent deletion removes the entity and its configuration, in addition its a specific audit record to prevent the entity from being created as long as the audit record is not purged. if the audit record is purged and the search conditions such as data avaibility allow it, the same entitiy will be re-created automatically by the Trackers.
 
@@ -1061,7 +1078,7 @@ mh_by_key / Get metric host by _key
 
 **This endpoint retrieves an existing metric host record by the Kvstore key, it requires a GET call with the following information:**
 
-- ``"_key": "<KVstore unique identifier for this record>"``
+- ``"_key": KVstore unique identifier for this record``
 
 ::
 
@@ -1087,7 +1104,7 @@ mh_by_name / Get metric host by name
 
 **This endpoint retrieves an existing metric host record by the metric host name (metric_host), it requires a GET call with the following information:**
 
-- ``"metric_host": "<name of the metric host>"``
+- ``"metric_host": name of the metric host``
 
 ::
 
@@ -1114,8 +1131,8 @@ mh_enable_monitoring / Enable monitoring
 
 **This endpoint enables data monitoring for an existing metric host by the metric host name (metric_host), it requires a POST call with the following information:**
 
-- ``"metric_host": "<name of the metric host>"``
-- ``"update_comment": "<OPTIONAL: a comment for the update, comments are added to the audit record, if unset will be defined to: API update>``
+- ``"metric_host": name of the metric host``
+- ``"update_comment": OPTIONAL: a comment for the update, comments are added to the audit record, if unset will be defined to: API update``
 
 ::
 
@@ -1137,8 +1154,8 @@ mh_disable_monitoring / Disable monitoring
 
 **This endpoint disables data monitoring for an existing metric host by the metric host name (metric_host), it requires a POST call with the following information:**
 
-- ``"metric_host": "<name of the metric host>"``
-- ``"update_comment": "<OPTIONAL: a comment for the update, comments are added to the audit record, if unset will be defined to: API update>``
+- ``"metric_host": name of the metric host``
+- ``"update_comment": OPTIONAL: a comment for the update, comments are added to the audit record, if unset will be defined to: API update``
 
 ::
 
@@ -1160,8 +1177,8 @@ mh_reset / Reset metrics
 
 **This endpoint resets (removal of indexes and metrics knowledge) an existing metric host by the metric host name (metric_host), it requires a POST call with the following information:**
 
-- ``"metric_host": "<name of the metric host>"``
-- ``"update_comment": "<OPTIONAL: a comment for the update, comments are added to the audit record, if unset will be defined to: API update>``
+- ``"metric_host": name of the metric host``
+- ``"update_comment": OPTIONAL: a comment for the update, comments are added to the audit record, if unset will be defined to: API update``
 
 ::
 
@@ -1183,8 +1200,8 @@ mh_delete_temporary / Delete temporary
 
 **This endpoint performs a temporary deletion of an existing metric host, it requires a DELETE call with the following information:**
 
-- ``"metric_host": "<name of the metric host>"``
-- ``"update_comment": "<OPTIONAL: a comment for the update, comments are added to the audit record, if unset will be defined to: API update>``
+- ``"metric_host": name of the metric host``
+- ``"update_comment": OPTIONAL: a comment for the update, comments are added to the audit record, if unset will be defined to: API update``
 
 Note: A temporary deletion removes the entity and its configuration, if search conditions such as data avaibility allow it, the same entitiy will be re-created automatically by the Trackers.
 
@@ -1203,8 +1220,8 @@ mh_delete_permanent / Delete permanently
 
 **This endpoint performs a permanent deletion of an existing metric host, it requires a DELETE call with the following information:**
 
-- ``"metric_host": "<name of the metric host>"``
-- ``"update_comment": "<OPTIONAL: a comment for the update, comments are added to the audit record, if unset will be defined to: API update>``
+- ``"metric_host": name of the metric host``
+- ``"update_comment": OPTIONAL: a comment for the update, comments are added to the audit record, if unset will be defined to: API update``
 
 Note: A permanent deletion removes the entity and its configuration, in addition its a specific audit record to prevent the entity from being created as long as the audit record is not purged. if the audit record is purged and the search conditions such as data avaibility allow it, the same entitiy will be re-created automatically by the Trackers.
 
@@ -1298,7 +1315,7 @@ elastic_shared_by_name / Get shared Elastic Source by name
 
 **This endpoint retrieves a shared Elastic Source configuration stored in the collection returned as a JSON array, it requires a GET call with the following information:**
 
-- ``"data_name": "<name of the Elastic Source>"``
+- ``"data_name": name of the Elastic Source``
 
 ::
 
@@ -1325,7 +1342,7 @@ elastic_dedicated_by_name / Get shared Elastic Source by name
 
 **This endpoint retrieves a dedicated Elastic Source configuration stored in the collection returned as a JSON array, it requires a GET call with the following information:**
 
-- ``"data_name": "<name of the Elastic Source>"``
+- ``"data_name": name of the Elastic Source``
 
 ::
 
@@ -1352,12 +1369,12 @@ elastic_shared_add / Add or update a new shared Elastic Source
 
 **This endpoint create a new shared Elastic Source, if the entity already exists it will be updated using the data provided, it requires a POST call with the following information:**
 
-- ``"data_name": "<name of the Elastic Source>"``
-- ``"search_constraint": "<the SPL code for this entity, double quotes need to be escaped>"``
-- ``"search_mode": "<the search mode, valid options are tstats / raw / from / mstats / rest_tstats / rest_raw / rest_from / rest_mstats>"``
-- ``"elastic_index": "<pseudo index value, this value will be used in the UI but has no impacts on the search>"``
-- ``"elastic_sourcetype": "<pseudo sourcetype value name, this value will be used in the UI but has no impacts on the search>"``
-- ``"update_comment": "<OPTIONAL: a comment for the update, comments are added to the audit record, if unset will be defined to: API update>``
+- ``"data_name": name of the Elastic Source``
+- ``"search_constraint": the SPL code for this entity, double quotes need to be escaped``
+- ``"search_mode": the search mode, valid options are tstats / raw / from / mstats / rest_tstats / rest_raw / rest_from / rest_mstats``
+- ``"elastic_index": pseudo index value, this value will be used in the UI but has no impacts on the search``
+- ``"elastic_sourcetype": pseudo sourcetype value name, this value will be used in the UI but has no impacts on the search``
+- ``"update_comment": OPTIONAL: a comment for the update, comments are added to the audit record, if unset will be defined to: API update``
 
 **Defining the search constraint:**
 
@@ -1430,14 +1447,14 @@ elastic_dedicated_add / Add or update a new dedicated Elastic Source
 
 *Note: if the entity exists already, both the collection and the scheduled report (including the search constraint) will be updated*
 
-- ``"data_name": "<name of the Elastic Source>"``
-- ``"search_constraint": "<the SPL code for this entity, double quotes need to be escaped>"``
-- ``"search_mode": "<the search mode, valid options are tstats / raw / from / mstats / rest_tstats / rest_raw / rest_from / rest_mstats>"``
-- ``"elastic_index": "<pseudo index value, this value will be used in the UI but has no impacts on the search>"``
-- ``"elastic_sourcetype": "<pseudo sourcetype value name, this value will be used in the UI but has no impacts on the search>"``
-- ``"earliest_time": "<OPTIONAL: earliest time for the scheduled report definition, if unset will be defined to -4h>"``
-- ``"latest_time": "<OPTIONAL: latest time for the scheduled report definition, if unset will be defined to -4h>"``
-- ``"update_comment": "<OPTIONAL: a comment for the update, comments are added to the audit record, if unset will be defined to: API update>``
+- ``"data_name": name of the Elastic Source``
+- ``"search_constraint": the SPL code for this entity, double quotes need to be escaped``
+- ``"search_mode": the search mode, valid options are tstats / raw / from / mstats / rest_tstats / rest_raw / rest_from / rest_mstats``
+- ``"elastic_index": pseudo index value, this value will be used in the UI but has no impacts on the search``
+- ``"elastic_sourcetype": pseudo sourcetype value name, this value will be used in the UI but has no impacts on the search``
+- ``"earliest_time": OPTIONAL: earliest time for the scheduled report definition, if unset will be defined to -4h``
+- ``"latest_time": OPTIONAL: latest time for the scheduled report definition, if unset will be defined to -4h``
+- ``"update_comment": OPTIONAL: a comment for the update, comments are added to the audit record, if unset will be defined to: API update``
 
 **Defining the search constraint:**
 
@@ -1506,8 +1523,8 @@ elastic_shared_del / Delete a new shared Elastic Source
 
 **This endpoint deletes a shared Elastic Source, it requires a DELETE call with the following information:**
 
-- ``"data_name": "<name of the Elastic Source>"``
-- ``"update_comment": "<OPTIONAL: a comment for the update, comments are added to the audit record, if unset will be defined to: API update>``
+- ``"data_name": name of the Elastic Source``
+- ``"update_comment": OPTIONAL: a comment for the update, comments are added to the audit record, if unset will be defined to: API update``
 
 **Notes:**
 
@@ -1530,8 +1547,8 @@ elastic_dedicated_del / Delete a new shared Elastic Source
 
 **This endpoint deletes a dedicated Elastic Source, it requires a DELETE call with the following information:**
 
-- ``"data_name": "<name of the Elastic Source>"``
-- ``"update_comment": "<OPTIONAL: a comment for the update, comments are added to the audit record, if unset will be defined to: API update>``
+- ``"data_name": name of the Elastic Source``
+- ``"update_comment": OPTIONAL: a comment for the update, comments are added to the audit record, if unset will be defined to: API update``
 
 **Notes:**
 
@@ -1592,19 +1609,19 @@ maintenance_enable / Enable maintenance mode
 
 **This endpoint enables the maintenance mode, it requires a POST call with the following information:**
 
-- ``"maintenance_duration": "<integer>"``
+- ``"maintenance_duration": integer``
 
 OPTIONAL: the duration of the maintenance window in seconds, if unspecified and maintenance_mode_end is not specified either, defaults to now plus 24 hours
 
-- ``"maintenance_mode_end": "<integer>"``
+- ``"maintenance_mode_end": integer``
 
 OPTIONAL: the date time in epochtime format for the end of the maintenance window, it is overriden by maintenance_duration if specified, defaults to now plus 24 hours if not specified and maintenance_duration is not specified
 
-- ``"maintenance_mode_start": "<integer>"``
+- ``"maintenance_mode_start": integer``
 
 OPTIONAL: the date time in epochtime format for the start of the maintennce window, defaults to now if not specified
 
-- ``"update_comment": "<string>"``
+- ``"update_comment": string``
 
 OPTIONAL: a comment for the update, comments are added to the audit record, if unset will be defined to: API update
 
@@ -1646,7 +1663,7 @@ maintenance_disable / Disable maintenance mode
 
 **This endpoint disables the maintenance mode, it requires a POST call with the following information:**
 
-- ``"update_comment": "<OPTIONAL: a comment for the update, comments are added to the audit record, if unset will be defined to: API update>``
+- ``"update_comment": OPTIONAL: a comment for the update, comments are added to the audit record, if unset will be defined to: API update``
 
 *Immediately stops the maintenance window:*
 
@@ -1767,8 +1784,8 @@ allowlist_ds_add / Add index allow list for data sources
 
 **This endpoint adds a new allow list record for data sources, it requires a POST call with the following information:**
 
-- ``"data_index": "<name of the index to be allowed, wildcards are accepted>"``
-- ``"update_comment": "<OPTIONAL: a comment for the update, comments are added to the audit record, if unset will be defined to: API update>``
+- ``"data_index": name of the index to be allowed, wildcards are accepted``
+- ``"update_comment": OPTIONAL: a comment for the update, comments are added to the audit record, if unset will be defined to: API update``
 
 ::
 
@@ -1791,8 +1808,8 @@ allowlist_ds_del / Remove index allow list for data sources
 
 **This endpoint deletes an allow list record for data sources, it requires a DELETE call with the following information:**
 
-- ``"data_index": "<name of the index to be allowed, wildcards are accepted>"``
-- ``"update_comment": "<OPTIONAL: a comment for the update, comments are added to the audit record, if unset will be defined to: API update>``
+- ``"data_index": name of the index to be allowed, wildcards are accepted``
+- ``"update_comment": OPTIONAL: a comment for the update, comments are added to the audit record, if unset will be defined to: API update``
 
 ::
 
@@ -1809,8 +1826,8 @@ allowlist_dh_add / Add index allow list for data hosts
 
 **This endpoint adds a new allow list record for data hosts, it requires a POST call with the following information:**
 
-- ``"data_index": "<name of the index to be allowed, wildcards are accepted>"``
-- ``"update_comment": "<OPTIONAL: a comment for the update, comments are added to the audit record, if unset will be defined to: API update>``
+- ``"data_index": name of the index to be allowed, wildcards are accepted``
+- ``"update_comment": OPTIONAL: a comment for the update, comments are added to the audit record, if unset will be defined to: API update``
 
 ::
 
@@ -1833,8 +1850,8 @@ allowlist_dh_del / Remove index allow list for data hosts
 
 **This endpoint deletes an allow list record for data hosts, it requires a DELETE call with the following information:**
 
-- ``"data_index": "<name of the index to be allowed, wildcards are accepted>"``
-- ``"update_comment": "<OPTIONAL: a comment for the update, comments are added to the audit record, if unset will be defined to: API update>``
+- ``"data_index": name of the index to be allowed, wildcards are accepted``
+- ``"update_comment": OPTIONAL: a comment for the update, comments are added to the audit record, if unset will be defined to: API update``
 
 ::
 
@@ -1851,8 +1868,8 @@ allowlist_mh_add / Add index allow list for metric hosts
 
 **This endpoint adds a new allow list record for metric hosts, it requires a POST call with the following information:**
 
-- ``"metric_index": "<name of the index to be allowed, wildcards are accepted>"``
-- ``"update_comment": "<OPTIONAL: a comment for the update, comments are added to the audit record, if unset will be defined to: API update>``
+- ``"metric_index": name of the index to be allowed, wildcards are accepted``
+- ``"update_comment": OPTIONAL: a comment for the update, comments are added to the audit record, if unset will be defined to: API update``
 
 ::
 
@@ -1875,8 +1892,8 @@ allowlist_mh_del / Remove index allow list for metric hosts
 
 **This endpoint deletes an allow list record for metric hosts, it requires a DELETE call with the following information:**
 
-- ``"metric_index": "<name of the index to be allowed, wildcards are accepted>"``
-- ``"update_comment": "<OPTIONAL: a comment for the update, comments are added to the audit record, if unset will be defined to: API update>``
+- ``"metric_index": name of the index to be allowed, wildcards are accepted``
+- ``"update_comment": OPTIONAL: a comment for the update, comments are added to the audit record, if unset will be defined to: API update``
 
 ::
 
@@ -2163,8 +2180,8 @@ blocklist_ds_host_add / Add host in block list for data sources
 
 **This endpoint adds a new record returned as a JSON array, it requires a POST call with no data required:**
 
-- ``"data_host": "<value to be added to the blocklist, accepts wildcards and regular expressions>``
-- ``"update_comment": "<OPTIONAL: a comment for the update, comments are added to the audit record, if unset will be defined to: API update>``
+- ``"data_host": value to be added to the blocklist, accepts wildcards and regular expressions``
+- ``"update_comment": OPTIONAL: a comment for the update, comments are added to the audit record, if unset will be defined to: API update``
 
 ::
 
@@ -2188,8 +2205,8 @@ blocklist_ds_index_add / Add index in block list for data sources
 
 **This endpoint adds a new record returned as a JSON array, it requires a POST call with no data required:**
 
-- ``"data_index": "<value to be added to the blocklist, accepts wildcards and regular expressions>``
-- ``"update_comment": "<OPTIONAL: a comment for the update, comments are added to the audit record, if unset will be defined to: API update>``
+- ``"data_index": value to be added to the blocklist, accepts wildcards and regular expressions``
+- ``"update_comment": OPTIONAL: a comment for the update, comments are added to the audit record, if unset will be defined to: API update``
 
 ::
 
@@ -2213,8 +2230,8 @@ blocklist_ds_index_add / Add sourcetype in block list for data sources
 
 **This endpoint adds a new record returned as a JSON array, it requires a POST call with no data required:**
 
-- ``"data_sourcetype": "<value to be added to the blocklist, accepts wildcards and regular expressions>``
-- ``"update_comment": "<OPTIONAL: a comment for the update, comments are added to the audit record, if unset will be defined to: API update>``
+- ``"data_sourcetype": value to be added to the blocklist, accepts wildcards and regular expressions``
+- ``"update_comment": OPTIONAL: a comment for the update, comments are added to the audit record, if unset will be defined to: API update``
 
 ::
 
@@ -2238,8 +2255,8 @@ blocklist_dh_host_add / Add host in block list for data hosts
 
 **This endpoint adds a new record returned as a JSON array, it requires a POST call with no data required:**
 
-- ``"data_host": "<value to be added to the blocklist, accepts wildcards and regular expressions>``
-- ``"update_comment": "<OPTIONAL: a comment for the update, comments are added to the audit record, if unset will be defined to: API update>``
+- ``"data_host": value to be added to the blocklist, accepts wildcards and regular expressions``
+- ``"update_comment": OPTIONAL: a comment for the update, comments are added to the audit record, if unset will be defined to: API update``
 
 ::
 
@@ -2263,8 +2280,8 @@ blocklist_dh_index_add / Add index in block list for data hosts
 
 **This endpoint adds a new record returned as a JSON array, it requires a POST call with no data required:**
 
-- ``"data_index": "<value to be added to the blocklist, accepts wildcards and regular expressions>``
-- ``"update_comment": "<OPTIONAL: a comment for the update, comments are added to the audit record, if unset will be defined to: API update>``
+- ``"data_index": value to be added to the blocklist, accepts wildcards and regular expressions``
+- ``"update_comment": OPTIONAL: a comment for the update, comments are added to the audit record, if unset will be defined to: API update``
 
 ::
 
@@ -2288,8 +2305,8 @@ blocklist_dh_sourcetype_add / Add sourcetype in block list for data hosts
 
 **This endpoint adds a new record returned as a JSON array, it requires a POST call with no data required:**
 
-- ``"data_sourcetype": "<value to be added to the blocklist, accepts wildcards and regular expressions>``
-- ``"update_comment": "<OPTIONAL: a comment for the update, comments are added to the audit record, if unset will be defined to: API update>``
+- ``"data_sourcetype": value to be added to the blocklist, accepts wildcards and regular expressions``
+- ``"update_comment": OPTIONAL: a comment for the update, comments are added to the audit record, if unset will be defined to: API update``
 
 ::
 
@@ -2313,8 +2330,8 @@ blocklist_mh_host_add / Add host in block list for metric hosts
 
 **This endpoint adds a new record returned as a JSON array, it requires a POST call with no data required:**
 
-- ``"metric_host": "<value to be added to the blocklist, accepts wildcards and regular expressions>``
-- ``"update_comment": "<OPTIONAL: a comment for the update, comments are added to the audit record, if unset will be defined to: API update>``
+- ``"metric_host": value to be added to the blocklist, accepts wildcards and regular expressions``
+- ``"update_comment": OPTIONAL: a comment for the update, comments are added to the audit record, if unset will be defined to: API update``
 
 ::
 
@@ -2338,8 +2355,8 @@ blocklist_mh_index_add / Add index in block list for metric hosts
 
 **This endpoint adds a new record returned as a JSON array, it requires a POST call with no data required:**
 
-- ``"metric_index": "<value to be added to the blocklist, accepts wildcards and regular expressions>``
-- ``"update_comment": "<OPTIONAL: a comment for the update, comments are added to the audit record, if unset will be defined to: API update>``
+- ``"metric_index": value to be added to the blocklist, accepts wildcards and regular expressions``
+- ``"update_comment": OPTIONAL: a comment for the update, comments are added to the audit record, if unset will be defined to: API update``
 
 ::
 
@@ -2363,8 +2380,8 @@ blocklist_mh_metric_category_add / Add metric_category in block list for metric 
 
 **This endpoint adds a new record returned as a JSON array, it requires a POST call with no data required:**
 
-- ``"metric_category": "<value to be added to the blocklist, accepts wildcards and regular expressions>``
-- ``"update_comment": "<OPTIONAL: a comment for the update, comments are added to the audit record, if unset will be defined to: API update>``
+- ``"metric_category": value to be added to the blocklist, accepts wildcards and regular expressions``
+- ``"update_comment": OPTIONAL: a comment for the update, comments are added to the audit record, if unset will be defined to: API update``
 
 ::
 
@@ -2388,8 +2405,8 @@ blocklist_ds_host_del / Delete host in block list for data sources
 
 **This endpoint deletes an existing record returned as a JSON array, it requires a DELETE call with the following arguments:**
 
-- ``"data_host": "<value to be added to the blocklist, accepts wildcards and regular expressions>``
-- ``"update_comment": "<OPTIONAL: a comment for the update, comments are added to the audit record, if unset will be defined to: API update>``
+- ``"data_host": value to be added to the blocklist, accepts wildcards and regular expressions``
+- ``"update_comment": OPTIONAL: a comment for the update, comments are added to the audit record, if unset will be defined to: API update``
 
 ::
 
@@ -2406,8 +2423,8 @@ blocklist_ds_index_del / Delete index in block list for data sources
 
 **This endpoint deletes an existing record returned as a JSON array, it requires a DELETE call with the following arguments:**
 
-- ``"data_index": "<value to be added to the blocklist, accepts wildcards and regular expressions>``
-- ``"update_comment": "<OPTIONAL: a comment for the update, comments are added to the audit record, if unset will be defined to: API update>``
+- ``"data_index": value to be added to the blocklist, accepts wildcards and regular expressions``
+- ``"update_comment": OPTIONAL: a comment for the update, comments are added to the audit record, if unset will be defined to: API update``
 
 ::
 
@@ -2424,8 +2441,8 @@ blocklist_ds_sourcetype_del / Delete sourcetype in block list for data sources
 
 **This endpoint deletes an existing record returned as a JSON array, it requires a DELETE call with the following arguments:**
 
-- ``"data_sourcetype": "<value to be added to the blocklist, accepts wildcards and regular expressions>``
-- ``"update_comment": "<OPTIONAL: a comment for the update, comments are added to the audit record, if unset will be defined to: API update>``
+- ``"data_sourcetype": value to be added to the blocklist, accepts wildcards and regular expressions``
+- ``"update_comment": OPTIONAL: a comment for the update, comments are added to the audit record, if unset will be defined to: API update``
 
 ::
 
@@ -2442,8 +2459,8 @@ blocklist_dh_host_del / Delete host in block list for data hosts
 
 **This endpoint deletes an existing record returned as a JSON array, it requires a DELETE call with the following arguments:**
 
-- ``"data_host": "<value to be added to the blocklist, accepts wildcards and regular expressions>``
-- ``"update_comment": "<OPTIONAL: a comment for the update, comments are added to the audit record, if unset will be defined to: API update>``
+- ``"data_host": value to be added to the blocklist, accepts wildcards and regular expressions``
+- ``"update_comment": OPTIONAL: a comment for the update, comments are added to the audit record, if unset will be defined to: API update``
 
 ::
 
@@ -2460,8 +2477,8 @@ blocklist_dh_index_del / Delete index in block list for data hosts
 
 **This endpoint deletes an existing record returned as a JSON array, it requires a DELETE call with the following arguments:**
 
-- ``"data_index": "<value to be added to the blocklist, accepts wildcards and regular expressions>``
-- ``"update_comment": "<OPTIONAL: a comment for the update, comments are added to the audit record, if unset will be defined to: API update>``
+- ``"data_index": value to be added to the blocklist, accepts wildcards and regular expressions``
+- ``"update_comment": OPTIONAL: a comment for the update, comments are added to the audit record, if unset will be defined to: API update``
 
 ::
 
@@ -2478,8 +2495,8 @@ blocklist_dh_sourcetype_del / Delete sourcetype in block list for data hosts
 
 **This endpoint deletes an existing record returned as a JSON array, it requires a DELETE call with the following arguments:**
 
-- ``"data_sourcetype": "<value to be added to the blocklist, accepts wildcards and regular expressions>``
-- ``"update_comment": "<OPTIONAL: a comment for the update, comments are added to the audit record, if unset will be defined to: API update>``
+- ``"data_sourcetype": value to be added to the blocklist, accepts wildcards and regular expressions``
+- ``"update_comment": OPTIONAL: a comment for the update, comments are added to the audit record, if unset will be defined to: API update``
 
 ::
 
@@ -2496,8 +2513,8 @@ blocklist_mh_host_del / Delete host in block list for metric hosts
 
 **This endpoint deletes an existing record returned as a JSON array, it requires a DELETE call with the following arguments:**
 
-- ``"metric_host": "<value to be added to the blocklist, accepts wildcards and regular expressions>``
-- ``"update_comment": "<OPTIONAL: a comment for the update, comments are added to the audit record, if unset will be defined to: API update>``
+- ``"metric_host": value to be added to the blocklist, accepts wildcards and regular expressions``
+- ``"update_comment": OPTIONAL: a comment for the update, comments are added to the audit record, if unset will be defined to: API update``
 
 ::
 
@@ -2514,8 +2531,8 @@ blocklist_mh_index_del / Delete index in block list for metric hosts
 
 **This endpoint deletes an existing record returned as a JSON array, it requires a DELETE call with the following arguments:**
 
-- ``"metric_index": "<value to be added to the blocklist, accepts wildcards and regular expressions>``
-- ``"update_comment": "<OPTIONAL: a comment for the update, comments are added to the audit record, if unset will be defined to: API update>``
+- ``"metric_index": value to be added to the blocklist, accepts wildcards and regular expressions``
+- ``"update_comment": OPTIONAL: a comment for the update, comments are added to the audit record, if unset will be defined to: API update``
 
 ::
 
@@ -2532,8 +2549,8 @@ blocklist_mh_metric_category_del / Delete metric_category in block list for metr
 
 **This endpoint deletes an existing record returned as a JSON array, it requires a DELETE call with the following arguments:**
 
-- ``"metric_category": "<value to be added to the blocklist, accepts wildcards and regular expressions>``
-- ``"update_comment": "<OPTIONAL: a comment for the update, comments are added to the audit record, if unset will be defined to: API update>``
+- ``"metric_category": value to be added to the blocklist, accepts wildcards and regular expressions``
+- ``"update_comment": OPTIONAL: a comment for the update, comments are added to the audit record, if unset will be defined to: API update``
 
 ::
 
@@ -2598,7 +2615,7 @@ logical_groups_get_grp / Get a logical group
 
 **This endpoint retrieve a specific logial group record, it requires a GET call with the following information:**
 
-- ``"object_group_name": "<name of the logical group be allowed>"``
+- ``"object_group_name": name of the logical group``
 
 ::
 
@@ -2629,10 +2646,10 @@ logical_groups_add_grp / Add a new or update a logical group
 
 **This endpoint creates a new logical group, it requires a POST call with the following data required:**
 
-- ``"object_group_name": "<name of the logical group be allowed>"``
-- ``"object_group_members": "<comma separated list of the group members>"``
-- ``"object_group_min_green_percent": "<OPTIONAL: minimal percentage of hosts that need to be green for the logical group to be green, if unset defaults to 50. Recommended options for this value: 12.5 / 33.33 / 50>"``
-- ``"update_comment": "<OPTIONAL: a comment for the update, comments are added to the audit record, if unset will be defined to: API update>``
+- ``"object_group_name": name of the logical group to be created``
+- ``"object_group_members": comma separated list of the group members``
+- ``"object_group_min_green_percent": OPTIONAL: minimal percentage of hosts that need to be green for the logical group to be green, if unset defaults to 50. Recommended options for this value: 12.5 / 33.33 / 50``
+- ``"update_comment": OPTIONAL: a comment for the update, comments are added to the audit record, if unset will be defined to: API update``
 
 *If the logical group exists already, it will be updated with the information provided.*
 
@@ -2666,8 +2683,8 @@ logical_groups_del_grp / Delete a logical group
 
 **This endpoint deletes a logical group, it requires a DELETE call with the following data required:**
 
-- ``"object_group_name": "<name of the logical group be allowed>"``
-- ``"update_comment": "<OPTIONAL: a comment for the update, comments are added to the audit record, if unset will be defined to: API update>``
+- ``"object_group_name": name of the logical group to be removed``
+- ``"update_comment": OPTIONAL: a comment for the update, comments are added to the audit record, if unset will be defined to: API update``
 
 ::
 
@@ -2721,7 +2738,7 @@ data_sampling_by_name / Get Data sampling record by data source
 
 **This endpoint retrieves a data sampling record, it requires a GET call with the following data:**
 
-- ``"data_name": "<name of the data source>"``
+- ``"data_name": name of the data source``
 
 ::
 
@@ -2748,8 +2765,8 @@ data_sampling_del / Delete a data sampling record for a given data source
 
 **This endpoint deletes a data sampling record for a given data source, it requires a DELETE call with the following data:**
 
-- ``"data_name": "<name of the data source>"``
-- ``"update_comment": "<OPTIONAL: a comment for the update, comments are added to the audit record, if unset will be defined to: API update>``
+- ``"data_name": name of the data source``
+- ``"update_comment": OPTIONAL: a comment for the update, comments are added to the audit record, if unset will be defined to: API update``
 
 ::
 
@@ -2809,7 +2826,7 @@ data_sampling_models_by_name / Get data sampling custom model by name
 
 **This endpoint retrieves a data sampling custom model collection, it requires a GET call with the following data:**
 
-- ``"model_name": "<name of the custom model>"``
+- ``"model_name": name of the custom model``
 
 ::
 
@@ -2835,7 +2852,7 @@ data_sampling_models_add / Add a new custom model or update
 
 **This endpoint creates a new data sampling custom model, it requires a POST call with the following data:**
 
-- ``"model_name": "<name of the custom model>"``
+- ``"model_name": name of the custom model``
 - ``"model_regex":``
 
 The regular expression to be used by the custom model, special characters should be escaped.
@@ -2849,7 +2866,7 @@ The type of match for this model, valid options are "inclusive" (rule must match
 OPTIONAL: value of the sourcetype to match, if unset defaults to "*".
 You can enter a list of sourcetypes as a comma separated list of values, wilcards and spaces should not be used.
 
-- ``"update_comment": "<OPTIONAL: a comment for the update, comments are added to the audit record, if unset will be defined to: API update>``
+- ``"update_comment": OPTIONAL: a comment for the update, comments are added to the audit record, if unset will be defined to: API update``
 
 *Note: if a custom model referenced under the same name exists already, it will be updated using the information provided.*
 
@@ -2879,10 +2896,8 @@ data_sampling_models_del / Delete a custom model
 
 **This endpoint deletes a custom data sampling model, it requires a DELETE call with the following data:**
 
-- ``"model_name": "<name of the custom model>"``
-- ``"update_comment": "<OPTIONAL: a comment for the update, comments are added to the audit record, if unset will be defined to: API update>``
-
-*Note: if a custom model referenced under the same name exists already, it will be updated using the information provided.*
+- ``"model_name": name of the custom model``
+- ``"update_comment": OPTIONAL: a comment for the update, comments are added to the audit record, if unset will be defined to: API update``
 
 ::
 
@@ -2941,7 +2956,7 @@ tag_policies_by_id / Get tag policy by id
 
 **This endpoint retrieves a tag policy by its id, it requires a GET call with the following data:**
 
-- ``"tags_policy_id": "<ID of the tags policy>"``
+- ``"tags_policy_id": ID of the tags policy``
 
 ::
 
@@ -2966,10 +2981,10 @@ tag_policies_add / Add a new tag policy or update
 
 **This endpoint creates a new tag policy, it requires a POST call with the following data:**
 
-- ``"tags_policy_id": "<ID of the tag policy>"``
-- ``"tags_policy_regex": "<The regular expression to be used by the tags policy, special characters should be escaped.>``
-- ``"tags_policy_value": "<List of tags to be applied as a comma separated list of values>"``
-- ``"update_comment": "<OPTIONAL: a comment for the update, comments are added to the audit record, if unset will be defined to: API update>``
+- ``"tags_policy_id": ID of the tag policy``
+- ``"tags_policy_regex": The regular expression to be used by the tags policy, special characters should be escaped.``
+- ``"tags_policy_value": List of tags to be applied as a comma separated list of values``
+- ``"update_comment": OPTIONAL: a comment for the update, comments are added to the audit record, if unset will be defined to: API update``
 
 *Note: if a tag policy referenced with the same ID exists already, it will be updated using the information provided.*
 
@@ -2995,10 +3010,8 @@ tag_policies_del / Delete a tag policy
 
 **This endpoint deletes a tag policy, it requires a DELETE call with the following data:**
 
-- ``"tags_policy_id": "<ID of the tag policy>"``
-- ``"update_comment": "<OPTIONAL: a comment for the update, comments are added to the audit record, if unset will be defined to: API update>``
-
-*Note: if a custom model referenced under the same name exists already, it will be updated using the information provided.*
+- ``"tags_policy_id": ID of the tag policy``
+- ``"update_comment": OPTIONAL: a comment for the update, comments are added to the audit record, if unset will be defined to: API update``
 
 ::
 
@@ -3056,7 +3069,7 @@ lagging_classes_by_name / Get lagging class by name
 
 **This endpoint retrieves a lagging class by its name, it requires a GET call with the following data:**
 
-- ``"name": "<name of the lagging class>"``
+- ``"name": name of the lagging class``
 
 ::
 
@@ -3080,11 +3093,11 @@ lagging_classes_add / Add a new lagging class or update
 
 **This endpoint creates a new tag policy, it requires a POST call with the following data:**
 
-- ``"name": "<name of the lagging class>"``
-- ``"level": "<which level the lagging class is based on, valid otions are: sourcetype / index / priority>``
-- ``"object": "<which type of objects the lagging class is applied to, valid options are: data_source / data_host / all>"``
-- ``"value": "<the lagging value in seconds, an integer is expected>"``
-- ``"update_comment": "<OPTIONAL: a comment for the update, comments are added to the audit record, if unset will be defined to: API update>``
+- ``"name": name of the lagging class``
+- ``"level": which level the lagging class is based on, valid otions are: sourcetype / index / priority``
+- ``"object": which type of objects the lagging class is applied to, valid options are: data_source / data_host / all``
+- ``"value": the lagging value in seconds, an integer is expected``
+- ``"update_comment": OPTIONAL: a comment for the update, comments are added to the audit record, if unset will be defined to: API update``
 
 *Note: if a lagging class referenced under the same name exists already, it will be updated using the information provided.*
 
@@ -3112,10 +3125,8 @@ lagging_classes_del / Delete a lagging class
 
 **This endpoint deletes a tag policy, it requires a DELETE call with the following data:**
 
-- ``"name": "<name of the lagging class>"``
-- ``"update_comment": "<OPTIONAL: a comment for the update, comments are added to the audit record, if unset will be defined to: API update>``
-
-*Note: if a custom model referenced under the same name exists already, it will be updated using the information provided.*
+- ``"name": name of the lagging class``
+- ``"update_comment": OPTIONAL: a comment for the update, comments are added to the audit record, if unset will be defined to: API update``
 
 ::
 
@@ -3171,7 +3182,7 @@ lagging_classes_metrics_by_name / Get lagging class by name
 
 **This endpoint retrieves a lagging class by its name, it requires a GET call with the following data:**
 
-- ``"metric_category": "<name of the metric category>"``
+- ``"metric_category": name of the metric category``
 
 ::
 
@@ -3193,9 +3204,9 @@ lagging_classes_metrics_add / Add a new lagging class or update
 
 **This endpoint creates a new tag policy, it requires a POST call with the following data:**
 
-- ``"metric_category": "<name of the metric category>"``
-- ``"metric_max_lag_allowed": "<the lagging value in seconds, an integer is expected>"``
-- ``"update_comment": "<OPTIONAL: a comment for the update, comments are added to the audit record, if unset will be defined to: API update>``
+- ``"metric_category": name of the metric category``
+- ``"metric_max_lag_allowed": the lagging value in seconds, an integer is expected``
+- ``"update_comment": OPTIONAL: a comment for the update, comments are added to the audit record, if unset will be defined to: API update``
 
 *Note: if a lagging class referenced under the same name exists already, it will be updated using the information provided.*
 
@@ -3221,10 +3232,8 @@ lagging_classes_metrics_del / Delete a lagging class
 
 **This endpoint deletes a tag policy, it requires a DELETE call with the following data:**
 
-- ``"metric_category": "<name of the metric category>"``
-- ``"update_comment": "<OPTIONAL: a comment for the update, comments are added to the audit record, if unset will be defined to: API update>``
-
-*Note: if a custom model referenced under the same name exists already, it will be updated using the information provided.*
+- ``"metric_category": name of the metric category``
+- ``"update_comment": OPTIONAL: a comment for the update, comments are added to the audit record, if unset will be defined to: API update``
 
 ::
 
