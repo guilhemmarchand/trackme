@@ -277,6 +277,9 @@ class TrackMeHandlerAck_v1(rest_handler.RESTHandler):
 
                 try:
 
+                    # create a record
+                    record = '{"object": "' + object_value + '", "object_category": "' + object_category_value + '", "ack_expiration": "' + str(ack_expiration) + '", "ack_state": "' + str(ack_state) + '", "ack_mtime": "' + str(ack_mtime) + '"}'
+
                     # Insert the record
                     collection_audit.data.insert(json.dumps({                        
                         "time": str(current_time),
@@ -285,7 +288,7 @@ class TrackMeHandlerAck_v1(rest_handler.RESTHandler):
                         "change_type": "enable ack",
                         "object": str(object_value),
                         "object_category": "data_source",
-                        "object_attrs": json.dumps({"object": object_value, "object_category": object_category_value, "ack_expiration": str(ack_expiration), "ack_state": str(ack_state), "ack_mtime": str(ack_mtime)}, index=1),
+                        "object_attrs": json.dumps(json.loads(record), indent=1),
                         "result": "N/A",
                         "comment": str(update_comment)
                         }))
@@ -296,7 +299,7 @@ class TrackMeHandlerAck_v1(rest_handler.RESTHandler):
                     }
 
                 return {
-                    "payload": json.dumps(collection.data.query(query=str(query_string)), indent=1),
+                    "payload": json.dumps(json.loads(record), indent=1),
                     'status': 200 # HTTP status code
                 }
 
@@ -415,40 +418,9 @@ class TrackMeHandlerAck_v1(rest_handler.RESTHandler):
 
             else:
 
-                # Insert the record
-                collection.data.insert(json.dumps({"object": object_value,
-                    "object_category": object_category_value,
-                    "ack_expiration": str(ack_expiration),
-                    "ack_state": str(ack_state),
-                    "ack_mtime": str(ack_mtime)}))
-
-                # Record an audit change
-                import time
-                current_time = int(round(time.time() * 1000))
-                user = "nobody"
-
-                try:
-
-                    # Insert the record
-                    collection_audit.data.insert(json.dumps({                        
-                        "time": str(current_time),
-                        "user": str(user),
-                        "action": "success",
-                        "change_type": "disable ack",
-                        "object": str(object_value),
-                        "object_category": "data_source",
-                        "object_attrs": json.dumps({"object": object_value, "object_category": object_category_value, "ack_expiration": str(ack_expiration), "ack_state": str(ack_state), "ack_mtime": str(ack_mtime)}, index=1),
-                        "result": "N/A",
-                        "comment": str(update_comment)
-                        }))
-
-                except Exception as e:
-                    return {
-                        'payload': 'Warn: exception encountered: ' + str(e) # Payload of the request.
-                    }
-
+                # There no ack currently for this object, return http 200 with message
                 return {
-                    "payload": json.dumps(collection.data.query(query=str(query_string)), indent=1),
+                    "payload": "There are no active acknowledgment for the entity object: " + str(object_value) + ", object_category: " + str(object_category_value),
                     'status': 200 # HTTP status code
                 }
 
