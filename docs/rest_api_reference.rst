@@ -212,8 +212,8 @@ ack_by_object / Get Ack by object
 **This endpoint retrieves an existing acknowledgment record by the object name, it requires a GET call with the following information:**
 
 
-- ``"object_category": type of object (data_source / data_host / metric_host)>"`` 
-- ``"object": name of the object (data source / data host / metric host)``
+- ``"object_category": type of object (data_source / data_host / metric_host)"`` 
+- ``"object": name of the entity``
 
 ::
 
@@ -244,7 +244,7 @@ ack_enable / Enable Ack
 **This endpoint will enable an acknowledgment by the object name, it requires a POST call with the following information:**
 
 - ``"object_category": type of object (data_source / data_host / metric_host)``
-- ``"object": name of the object (data source / data host / metric host)``
+- ``"object": name of the entity``
 - ``"ack_period": period for the acknowledgment in seconds``
 - ``"update_comment": OPTIONAL: a comment for the update, comments are added to the audit record, if unset will be defined to: API update``
 
@@ -271,8 +271,8 @@ ack_disable / Disable Ack
 
 **This endpoint will disable an acknowledgment by the object name, it requires a POST call with the following information:**
 
-- ``"object_category": type of object (data_source / data_host / metric_host)>"`` 
-- ``"object": name of the object (data source / data host / metric host)``
+- ``"object_category": type of object (data_source / data_host / metric_host)"`` 
+- ``"object": name of the entity``
 - ``"update_comment": OPTIONAL: a comment for the update, comments are added to the audit record, if unset will be defined to: API update``
 
 ::
