@@ -219,6 +219,137 @@ class TrackMeHandlerDataSampling_v1(rest_handler.RESTHandler):
                 'payload': 'Warn: exception encountered: ' + str(e) # Payload of the request.
             }
 
+    # Reset and run sampling
+    def post_data_sampling_reset(self, request_info, **kwargs):
+
+        # Declare
+        data_name = None
+        query_string = None
+
+        # Retrieve from data
+        resp_dict = json.loads(str(request_info.raw_args['payload']))
+        data_name = resp_dict['data_name']
+
+        # Update comment is optional and used for audit changes
+        try:
+            update_comment = resp_dict['update_comment']
+        except Exception as e:
+            update_comment = "API update"
+
+        # Define the KV query
+        query_string = '{ "data_name": "' + data_name + '" }'
+
+        # Get splunkd port
+        entity = splunk.entity.getEntity('/server', 'settings',
+                                            namespace='trackme', sessionKey=request_info.session_key, owner='-')
+        splunkd_port = entity['mgmtHostPort']
+
+        try:
+
+            # Data collection
+            collection_name = "kv_trackme_data_sampling"
+            service = client.connect(
+                owner="nobody",
+                app="trackme",
+                port=splunkd_port,
+                token=request_info.session_key
+            )
+            collection = service.kvstore[collection_name]
+
+            # Audit collection
+            collection_name_audit = "kv_trackme_audit_changes"
+            service_audit = client.connect(
+                owner="nobody",
+                app="trackme",
+                port=splunkd_port,
+                token=request_info.session_key
+            )
+            collection_audit = service_audit.kvstore[collection_name_audit]
+
+            # Get the current record
+            # Notes: the record is returned as an array, as we search for a specific record, we expect one record only
+
+            try:
+                record = collection.data.query(query=str(query_string))
+                key = record[0].get('_key')
+
+            except Exception as e:
+                key = None
+
+            # Render result
+            if key is not None and len(key)>2:
+
+                # This record exists already
+
+                # Store the record for audit purposes
+                record = str(json.dumps(collection.data.query_by_id(key), indent=1))
+
+                # Record an audit change
+                import time
+                current_time = int(round(time.time() * 1000))
+                user = "nobody"
+
+                try:
+
+                    # Remove the record
+                    collection.data.delete(json.dumps({"_key":key}))
+
+                    # Insert the record
+                    collection_audit.data.insert(json.dumps({
+                        "time": str(current_time),
+                        "user": str(user),
+                        "action": "success",
+                        "change_type": "data sampling clear state",
+                        "object": str(data_name),
+                        "object_category": "data_source",
+                        "object_attrs": str(record),
+                        "result": "N/A",
+                        "comment": str(update_comment)
+                        }))
+
+                except Exception as e:
+                    return {
+                        'payload': 'Warn: exception encountered: ' + str(e) # Payload of the request.
+                    }
+
+                # Run and update sampling
+                data_sample_status_colour = "unknown"
+
+                import splunklib.results as results
+
+                kwargs_search = {"app": "trackme", "earliest_time": "-7d", "latest_time": "now"}
+                searchquery = "| savedsearch \"TrackMe - Data sampling engine for target\" key=\"" + str(key) + "\""
+
+                # spawn the search and get the results
+                searchresults = service.jobs.oneshot(searchquery, **kwargs_search)
+
+                # Get the results and display them using the ResultsReader
+                try:
+                    reader = results.ResultsReader(searchresults)
+                    for item in reader:
+                        query_result = item
+                    data_sample_status_colour = query_result["data_sample_status_colour"]
+
+                except Exception as e:
+                    data_sample_status_colour = "unknown"
+
+                return {
+                    "payload": "Data sampling state for: " + str(data_name) + " was cleared and sampling operation ran, data sampling state is: " + str(data_sample_status_colour),
+                    'status': 200 # HTTP status code
+                }
+
+            else:
+
+                return {
+                    "payload": 'Warn: resource not found ' + str(key),
+                    'status': 404 # HTTP status code
+                }
+
+        except Exception as e:
+            return {
+                'payload': 'Warn: exception encountered: ' + str(e) # Payload of the request.
+            }
+
     # Get the entire collection as a Python array
     def get_data_sampling_models(self, request_info, **kwargs):
 
