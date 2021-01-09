@@ -81,13 +81,54 @@ class TrackMeHandlerSmartStatus_v1(rest_handler.RESTHandler):
                 if min_dcount_host in ("any"):
                     min_dcount_host = 0
 
+                #
+                # Flipping status correlation
+                #
+
+                flipping_count = 0
+                flipping_stdev = 0
+                flipping_perc95 = 0
+                flipping_sum = 0
+
+                # retrieve the number of time this entity has flipped during the last 24 hours, multiple back and forth movements is suspicious
+                # and indicates either a misconfiguration (lagging values not adapted) or something very wrong happening
+                import splunklib.results as results
+
+                kwargs_search = {"app": "trackme", "earliest_time": "-24h", "latest_time": "now"}
+                searchquery = "search `trackme_idx` source=\"flip_state_change_tracking\" object_category=\"data_source\" object=\"" + str(data_name) + "\" | bucket _time span=4h | stats count by _time | stats stdev(count) as stdev perc95(count) as perc95 max(count) as max latest(count) as count sum(count) as sum"
+
+                # spawn the search and get the results
+                searchresults = service.jobs.oneshot(searchquery, **kwargs_search)
+
+                # Get the results and display them using the ResultsReader
+                try:
+                    reader = results.ResultsReader(searchresults)
+                    for item in reader:
+                        query_result = item
+                    flipping_count = query_result["count"]
+                    flipping_stdev = query_result["stdev"]
+                    flipping_perc95 = query_result["perc95"]
+                    flipping_sum = query_result["sum"]
+
+                except Exception as e:
+                    flipping_count = 0
+
+                # round flipping_stdev
+                flipping_stdev = round(float(flipping_stdev), 2)
+
+                if int(flipping_count)>float(flipping_perc95) or int(flipping_count)>float(flipping_stdev):
+                    flipping_correlation_msg = 'The amount of flipping events is abnormally high (last 24h count: ' + str(flipping_sum) + ', perc95: ' + str(flipping_perc95) + ', stdev: ' + str(flipping_stdev) + ', last 4h count: ' + str(flipping_count) + '), review the flipping state history to determine if the the maximal allowed lagging value needs to be adapted, or if a global issue is causing the data flow to flip abnormally.'
+                else:
+                    flipping_correlation_msg = 'Normal, no fliiping state events were detected during the last 24 hours.'
+
                 if data_source_state is None or data_source_state in ("green", "blue"):
 
                     results = '{' \
                     + '"data_name": "' + data_name + '", '\
                     + '"data_source_state": "' + data_source_state + '", '\
                     + '"smart_result": "The data source is currently in a normal state, therefore further investigations are not required at this stage, good bye.", '\
-                    + '"smart_code": "0"' \
+                    + '"smart_code": "0", '\
+                    + '"flipping_correlation": "' + str(flipping_correlation_msg) + '"'\
                     + '}'
 
                     return {
@@ -102,26 +143,6 @@ class TrackMeHandlerSmartStatus_v1(rest_handler.RESTHandler):
                     # case: latest data is out of the acceptable window (lag event)
 
                     if data_lag_alert_kpis in ("all_kpis", "lag_event_kpi") and int(data_last_lag_seen)>int(data_max_lag_allowed):
-
-                        import splunklib.results as results
-
-                        # retrieve the number of time this entity has flipped during the last 24 hours, multiple back and forth movements is suspicious
-                        # and indicates either a misconfiguration (lagging values not adapted) or something very wrong happening
-                        kwargs_search = {"app": "trackme", "earliest_time": "-24h", "latest_time": "now"}
-                        searchquery = "`trackme_idx` source=\"flip_state_change_tracking\" object_category=\"data_source\" object=\"" + str(data_name) + "\" | stats count"
-
-                        # spawn the search and get the results
-                        searchresults = service.jobs.oneshot(searchquery, **kwargs_search)
-
-                        # Get the results and display them using the ResultsReader
-                        try:
-                            reader = results.ResultsReader(searchresults)
-                            for item in reader:
-                                query_result = item
-                            flipping_count = query_result["count"]
-
-                        except Exception as e:
-                            flipping_count = 0
 
                         # Get lagging statistics from live data
                         kwargs_search = {"app": "trackme", "earliest_time": "-4h", "latest_time": "+4h"}
@@ -166,7 +187,8 @@ class TrackMeHandlerSmartStatus_v1(rest_handler.RESTHandler):
                         + '"data_source_state": "' + str(data_source_state)  + '", '\
                         + '"smart_result": "TrackMe triggered an alert due to the latest data available that is out of the acceptable window, the maximal event lag allowed is: ' + str(data_max_lag_allowed) + ' seconds, while the latest data available is: ' + str(human_last_datetime) + ', the data is late by: ' + str(current_delay) + ' (days, HH:MM:SS)", '\
                         + '"hosts_report": "' + str(summary) + '", '\
-                        + '"smart_code": "1"' \
+                        + '"smart_code": "1", ' \
+                        + '"flipping_correlation": "' + str(flipping_correlation_msg) + '"'\
                         + '}'
 
                         return {
@@ -215,7 +237,8 @@ class TrackMeHandlerSmartStatus_v1(rest_handler.RESTHandler):
                         + '"data_source_state": "' + str(data_source_state) + '", '\
                         + '"smart_result": "TrackMe triggered an alert due to indexing lag detected out of the acceptable window, the maximal ingestion lag allowed is: ' + str(data_max_lag_allowed) + ' seconds, while an ingestion lag of ' + str(datetime.timedelta(seconds=int(data_last_ingestion_lag_seen))) + ' (days, HH:MM:SS) was detected, review the hosts attached to this report to investigate the root cause.", '\
                         + '"host_report": "' + str(summary) + '", '\
-                        + '"smart_code": "1"' \
+                        + '"smart_code": "1", ' \
+                        + '"flipping_correlation": "' + str(flipping_correlation_msg) + '"'\
                         + '}'
 
                         return {
@@ -256,10 +279,72 @@ class TrackMeHandlerSmartStatus_v1(rest_handler.RESTHandler):
 
                     elif isAnomaly in ("1"):
 
+                        #
+                        # case: data sampling has detected an anomaly
+                        #
+
+                        anomaly_reason = None
+                        data_sampling_correlation = None
+
+                        # Get the current anomaly reason
+                        import splunklib.results as results
+                        import time, datetime
+
+                        kwargs_search = {"app": "trackme", "earliest_time": "-5m", "latest_time": "now"}
+                        searchquery = "| inputlookup trackme_data_sampling where data_name=\"" + str(data_name) + "\" | head 1"
+
+                        # spawn the search and get the results
+                        searchresults = service.jobs.oneshot(searchquery, **kwargs_search)
+
+                        # Get the results and display them using the ResultsReader
+                        try:
+                            reader = results.ResultsReader(searchresults)
+                            for item in reader:
+                                query_result = item
+                            anomaly_reason = query_result["data_sample_anomaly_reason"]
+                            anomaly_mtime = query_result["data_sample_anomaly_ack_mtime"]
+                            # convert to human readable format
+                            anomaly_mtime = datetime.datetime.fromtimestamp(int(anomaly_mtime)).strftime('%c')
+
+                        except Exception as e:
+                            anomaly_reason = None
+                            anomaly_mtime = None
+
+                        if anomaly_reason in ("exclusive_rule_match"):
+
+                            kwargs_search = {"app": "trackme", "earliest_time": "-5m", "latest_time": "now"}
+                            searchquery = "| inputlookup trackme_data_sampling where data_name=\"" + str(data_name) + "\" | mvexpand raw_sample" \
+                            "| lookup trackme_data_sampling_custom_models model_name as current_detected_format output model_type" \
+                            "| eval model_type=if(isnull(model_type) AND isnotnull(current_detected_format), \"inclusive\", model_type) | where model_type=\"exclusive\"" \
+                            "| stats count, values(current_detected_format) as rules  | mvexpand rules | lookup trackme_data_sampling_custom_models model_name as rules output model_type" \
+                            "| where model_type=\"exclusive\" | stats first(count) as count, values(rules) as rules | eval rules=mvjoin(rules, \"; \")"
+
+                            # spawn the search and get the results
+                            searchresults = service.jobs.oneshot(searchquery, **kwargs_search)
+
+                            # Get the results and display them using the ResultsReader
+                            try:
+                                reader = results.ResultsReader(searchresults)
+                                for item in reader:
+                                    query_result = item
+                                exclusive_rules_count = query_result["count"]
+                                rules_match = query_result["rules"]
+
+                            except Exception as e:
+                                exclusive_rules_count = 0
+                                rules_match = None
+
+                            # correlation message
+                            data_sampling_correlation = "Exclusive type of rule match alert: " + str(exclusive_rules_count) + " events were matched during the latest sampling operation (rules matched: " + str(rules_match) + "), exclusive rules shall not be matched under normal circumstances and are configured to track for patterns and conditions that must NOT be found in the data such as PII data. Review these events accordingly, once the root cause is identified and fixed, proceed to clear state and run sampling."
+
+                        # Result
+
                         results = '{' \
                         + '"data_name": "' + data_name  + '", '\
                         + '"data_source_state": "' + data_source_state  + '", '\
-                        + '"smart_result": "Data sampling anomaly.", "smart_code": "1"' \
+                        + '"smart_result": "TrackMe triggered an alert due to anomaly detection in the data sampling worfklow (reason: ' + str(anomaly_reason) + ' detected on ' + str(anomaly_mtime) + ')", '\
+                        + '"smart_code": "1", ' \
+                        + '"smart_correlation": "' + str(data_sampling_correlation) + '"' \
                         + '}'
 
                         return {
@@ -267,7 +352,6 @@ class TrackMeHandlerSmartStatus_v1(rest_handler.RESTHandler):
                             'status': 200 # HTTP status code
                         }
 
-                    # case: data sampling has detected an anomaly
 
                     else:
 
