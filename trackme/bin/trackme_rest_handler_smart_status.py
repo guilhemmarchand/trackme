@@ -71,7 +71,6 @@ class TrackMeHandlerSmartStatus_v1(rest_handler.RESTHandler):
                 data_max_lag_allowed = record[0].get('data_max_lag_allowed')
                 data_last_time_seen = record[0].get('data_last_time_seen')
                 enable_behaviour_analytic = record[0].get('enable_behaviour_analytic')
-                system_behaviour_analytic_mode = record[0].get('system_behaviour_analytic_mode')
                 dcount_host = record[0].get('dcount_host')
                 min_dcount_host = record[0].get('min_dcount_host')
                 isOutlier = record[0].get('isOutlier')
@@ -116,10 +115,10 @@ class TrackMeHandlerSmartStatus_v1(rest_handler.RESTHandler):
                 # round flipping_stdev
                 flipping_stdev = round(float(flipping_stdev), 2)
 
-                if int(flipping_count)>float(flipping_perc95) or int(flipping_count)>float(flipping_stdev):
+                if (int(flipping_count)>float(flipping_perc95) or int(flipping_count)>float(flipping_stdev)) and int(flipping_count)>1:
                     flipping_correlation_msg = 'The amount of flipping events is abnormally high (last 24h count: ' + str(flipping_sum) + ', perc95: ' + str(flipping_perc95) + ', stdev: ' + str(flipping_stdev) + ', last 4h count: ' + str(flipping_count) + '), review the flipping state history to determine if the the maximal allowed lagging value needs to be adapted, or if a global issue is causing the data flow to flip abnormally.'
                 else:
-                    flipping_correlation_msg = 'Normal, no fliiping state events were detected during the last 24 hours.'
+                    flipping_correlation_msg = 'Normal, there were no anomalies detected in the flipping state activity threshold.'
 
                 if data_source_state is None or data_source_state in ("green", "blue"):
 
@@ -316,7 +315,7 @@ class TrackMeHandlerSmartStatus_v1(rest_handler.RESTHandler):
                             searchquery = "| inputlookup trackme_data_sampling where data_name=\"" + str(data_name) + "\" | mvexpand raw_sample" \
                             "| lookup trackme_data_sampling_custom_models model_name as current_detected_format output model_type" \
                             "| eval model_type=if(isnull(model_type) AND isnotnull(current_detected_format), \"inclusive\", model_type) | where model_type=\"exclusive\"" \
-                            "| stats count, values(current_detected_format) as rules  | mvexpand rules | lookup trackme_data_sampling_custom_models model_name as rules output model_type" \
+                            "| stats count, values(current_detected_format) as rules | mvexpand rules | lookup trackme_data_sampling_custom_models model_name as rules output model_type" \
                             "| where model_type=\"exclusive\" | stats first(count) as count, values(rules) as rules | eval rules=mvjoin(rules, \"; \")"
 
                             # spawn the search and get the results
@@ -336,6 +335,27 @@ class TrackMeHandlerSmartStatus_v1(rest_handler.RESTHandler):
 
                             # correlation message
                             data_sampling_correlation = "Exclusive type of rule match alert: " + str(exclusive_rules_count) + " events were matched during the latest sampling operation (rules matched: " + str(rules_match) + "), exclusive rules shall not be matched under normal circumstances and are configured to track for patterns and conditions that must NOT be found in the data such as PII data. Review these events accordingly, once the root cause is identified and fixed, proceed to clear state and run sampling."
+
+                        elif anomaly_reason in ("multiformat_detected"):
+
+                            kwargs_search = {"app": "trackme", "earliest_time": "-5m", "latest_time": "now"}
+                            searchquery = "| inputlookup trackme_data_sampling where data_name=\"" + str(data_name) + "\" | stats values(current_detected_format) as rules | eval rules=mvjoin(rules, \"; \")"
+
+                            # spawn the search and get the results
+                            searchresults = service.jobs.oneshot(searchquery, **kwargs_search)
+
+                            # Get the results and display them using the ResultsReader
+                            try:
+                                reader = results.ResultsReader(searchresults)
+                                for item in reader:
+                                    query_result = item
+                                rules_match = query_result["rules"]
+
+                            except Exception as e:
+                                rules_match = None
+
+                            # correlation message
+                            data_sampling_correlation = "Multi-format match alert: during the last sampling operation, multiple rules were matched (rules matched: " + str(rules_match) + "), this likely indicates a quality issue in the indexing process (index time parsing failures leading to incomplete or malformed events, producer failures, etc). Review these events accordingly, once the root cause is identified and fixed, proceed to clear state and run sampling action."
 
                         # Result
 
