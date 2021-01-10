@@ -61,20 +61,65 @@ class TrackMeHandlerSmartStatus_v1(rest_handler.RESTHandler):
             # Render result
             if key is not None and len(key)>2:
 
-                # Get the data source state, and start from there
-                data_index = record[0].get('data_index')
-                data_sourcetype = record[0].get('data_sourcetype')
-                data_source_state = record[0].get('data_source_state')
-                data_lag_alert_kpis = record[0].get('data_lag_alert_kpis')
-                data_last_lag_seen = record[0].get('data_last_lag_seen')
-                data_last_ingestion_lag_seen = record[0].get('data_last_ingestion_lag_seen')
-                data_max_lag_allowed = record[0].get('data_max_lag_allowed')
-                data_last_time_seen = record[0].get('data_last_time_seen')
-                enable_behaviour_analytic = record[0].get('enable_behaviour_analytic')
-                dcount_host = record[0].get('dcount_host')
-                min_dcount_host = record[0].get('min_dcount_host')
-                isOutlier = record[0].get('isOutlier')
-                isAnomaly = record[0].get('isAnomaly')
+                import splunklib.results as results
+
+                # Spawn a new search
+                # Get lagging statistics from live data
+                kwargs_search = {"app": "trackme", "earliest_time": "-5m", "latest_time": "now"}
+                searchquery = "| inputlookup trackme_data_source_monitoring where _key=\"" + str(key) + "\""\
+                + "| eval keyid=_key"\
+                + "| `trackme_get_identity_card(data_name)`"\
+                + "| `trackme_lookup_elastic_sources`"\
+                + "| `trackme_ack_lookup_main(data_name)`"\
+                + "| `trackme_lookup_data_sampling`"\
+                + "| nomv tags"\
+                + "| fillnull value=\"null\" data_name data_index data_sourcetype data_source_state data_lag_alert_kpis"\
+                + "data_last_lag_seen data_last_ingestion_lag_seen data_max_lag_allowed data_last_time_seen enable_behaviour_analytic dcount_host"\
+                + "min_dcount_host isOutlier isAnomaly data_sample_anomaly_reason data_sample_status_colour data_sample_status_message"
+
+                # spawn the search and get the results
+                searchresults = service.jobs.oneshot(searchquery, **kwargs_search)
+
+                # Get the results and display them using the ResultsReader
+                try:
+                    reader = results.ResultsReader(searchresults)
+                    for item in reader:
+                        query_result = item
+
+                    data_index = query_result["data_index"]
+                    data_sourcetype = query_result["data_sourcetype"]
+                    data_source_state = query_result["data_source_state"]
+                    data_lag_alert_kpis = query_result["data_lag_alert_kpis"]
+                    data_last_lag_seen = query_result["data_last_lag_seen"]
+                    data_last_ingestion_lag_seen = query_result["data_last_ingestion_lag_seen"]
+                    data_max_lag_allowed = query_result["data_max_lag_allowed"]
+                    data_last_time_seen = query_result["data_last_time_seen"]
+                    enable_behaviour_analytic = query_result["enable_behaviour_analytic"]
+                    dcount_host = query_result["dcount_host"]
+                    min_dcount_host = query_result["min_dcount_host"]
+                    isOutlier = query_result["isOutlier"]
+                    isAnomaly = query_result["isAnomaly"]
+                    data_sample_anomaly_reason = query_result["data_sample_anomaly_reason"]
+                    data_sample_status_colour = query_result["data_sample_status_colour"]
+                    data_sample_status_message = query_result["data_sample_status_message"]
+
+                except Exception as e:
+                    data_index = None
+                    data_sourcetype = None
+                    data_source_state = None
+                    data_lag_alert_kpis = None
+                    data_last_lag_seen = None
+                    data_last_ingestion_lag_seen = None
+                    data_max_lag_allowed = None
+                    data_last_time_seen = None
+                    enable_behaviour_analytic = None
+                    dcount_host = None
+                    min_dcount_host = None
+                    isOutlier = None
+                    isAnomaly = None
+                    data_sample_anomaly_reason = None
+                    data_sample_status_colour = None
+                    data_sample_status_message = None
 
                 # min_dcount_host defaults to str any, for ease of code, comvert to 0
                 if min_dcount_host in ("any"):
@@ -116,9 +161,17 @@ class TrackMeHandlerSmartStatus_v1(rest_handler.RESTHandler):
                 flipping_stdev = round(float(flipping_stdev), 2)
 
                 if (int(flipping_count)>float(flipping_perc95) or int(flipping_count)>float(flipping_stdev)) and int(flipping_count)>1:
-                    flipping_correlation_msg = 'The amount of flipping events is abnormally high (last 24h count: ' + str(flipping_sum) + ', perc95: ' + str(flipping_perc95) + ', stdev: ' + str(flipping_stdev) + ', last 4h count: ' + str(flipping_count) + '), review the flipping state history to determine if the the maximal allowed lagging value needs to be adapted, or if a global issue is causing the data flow to flip abnormally.'
+                    flipping_correlation_msg = 'state: [ orange ], message: [ ' + 'The amount of flipping events is abnormally high (last 24h count: ' + str(flipping_sum) + ', perc95: ' + str(flipping_perc95) + ', stdev: ' + str(flipping_stdev) + ', last 4h count: ' + str(flipping_count) + '), review the data source activity to determine potential root causes leading the data flow to flip abnormally. ]'
                 else:
-                    flipping_correlation_msg = 'Normal, there were no anomalies detected in the flipping state activity threshold.'
+                    flipping_correlation_msg = 'state: [ green ], message: [ There were no anomalies detected in the flipping state activity threshold. ]'
+
+                # data sampling state
+
+                data_sampling_state = "state: [ " + str(data_sample_status_colour) + " ], message: [ " + str(data_sample_status_message) + " ]"
+
+                #
+                # Proceed
+                #
 
                 if data_source_state is None or data_source_state in ("green", "blue"):
 
@@ -127,7 +180,8 @@ class TrackMeHandlerSmartStatus_v1(rest_handler.RESTHandler):
                     + '"data_source_state": "' + data_source_state + '", '\
                     + '"smart_result": "The data source is currently in a normal state, therefore further investigations are not required at this stage, good bye.", '\
                     + '"smart_code": "0", '\
-                    + '"flipping_correlation": "' + str(flipping_correlation_msg) + '"'\
+                    + '"correlation_filliping_state": "' + str(flipping_correlation_msg) + '", '\
+                    + '"correlation_data_sampling": "' + str(data_sampling_state) + '"'\
                     + '}'
 
                     return {
@@ -245,14 +299,22 @@ class TrackMeHandlerSmartStatus_v1(rest_handler.RESTHandler):
                             'status': 200 # HTTP status code
                         }
 
-                    # case: dcount 
+                    # case: dcount host threshold unmet
 
                     elif int(min_dcount_host)>0 and int(dcount_host)<int(min_dcount_host):
+
+                        # define the message
+                        smart_result_msg = 'TrackMe triggered an alert due to the minimal distinct count of hosts configured for this data source (threshold: '\
+                            + str(min_dcount_host) + ' hosts) which condition is not met as only ' + str(dcount_host) \
+                            + ' hosts are detected currently. Review this threshold and the current data source activity accordingly.'
 
                         results = '{' \
                         + '"data_name": "' + data_name  + '", '\
                         + '"data_source_state": "' + data_source_state  + '", '\
-                        + '"smart_result": "dcoun thost detection.", "smart_code": "1"' \
+                        + '"smart_result": "' + str(smart_result_msg) + '", '\
+                        + '"smart_code": "1", ' \
+                        + '"correlation_filliping_state": "' + str(flipping_correlation_msg) + '", '\
+                        + '"correlation_data_sampling": "' + str(data_sampling_state) + '"'\
                         + '}'
 
                         return {
