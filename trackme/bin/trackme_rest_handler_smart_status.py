@@ -345,6 +345,7 @@ class TrackMeHandlerSmartStatus_v1(rest_handler.RESTHandler):
                         #
 
                         anomaly_reason = None
+                        smart_correlation = None
                         data_sampling_correlation = None
 
                         # Get the current anomaly reason
@@ -396,12 +397,17 @@ class TrackMeHandlerSmartStatus_v1(rest_handler.RESTHandler):
                                 rules_match = None
 
                             # correlation message
-                            data_sampling_correlation = "Exclusive type of rule match alert: " + str(exclusive_rules_count) + " events were matched during the latest sampling operation (rules matched: " + str(rules_match) + "), exclusive rules shall not be matched under normal circumstances and are configured to track for patterns and conditions that must NOT be found in the data such as PII data. Review these events accordingly, once the root cause is identified and fixed, proceed to clear state and run sampling."
+                            smart_correlation = "Exclusive type of rule match alert: " + str(exclusive_rules_count)\
+                            + " events were matched during the latest sampling operation (rules matched: "\
+                            + str(rules_match) + "), exclusive rules shall not be matched under normal circumstances and are configured"\
+                            + " to track for patterns and conditions that must NOT be found in the data such as PII data. Review these events accordingly,"\
+                            + "once the root cause is identified and fixed, proceed to clear state and run sampling."
 
                         elif anomaly_reason in ("multiformat_detected"):
 
                             kwargs_search = {"app": "trackme", "earliest_time": "-5m", "latest_time": "now"}
-                            searchquery = "| inputlookup trackme_data_sampling where data_name=\"" + str(data_name) + "\" | stats values(current_detected_format) as rules | eval rules=mvjoin(rules, \"; \")"
+                            searchquery = "| inputlookup trackme_data_sampling where data_name=\"" + str(data_name)\
+                            + "\" | stats values(current_detected_format) as rules | eval rules_match=mvjoin(rules, \"; \"), rules_csv=mvjoin(mvmap(rules, \"\\\"\" . rules . \"\\\"\"), \",\")"
 
                             # spawn the search and get the results
                             searchresults = service.jobs.oneshot(searchquery, **kwargs_search)
@@ -411,13 +417,107 @@ class TrackMeHandlerSmartStatus_v1(rest_handler.RESTHandler):
                                 reader = results.ResultsReader(searchresults)
                                 for item in reader:
                                     query_result = item
-                                rules_match = query_result["rules"]
+                                rules_match = query_result["rules_match"]
+                                rules_csv = query_result["rules_csv"]
+
+                            except Exception as e:
+                                rules_match = None
+                                rules_csv = None
+
+                            # correlation message
+                            smart_correlation = "Multi-format match alert: during the last sampling operation, multiple rules were matched (rules matched: ["\
+                            + str(rules_match) + "]), this likely indicates a quality issue in the indexing process (index time parsing failures leading to incomplete"\
+                            + " or malformed events, producer failures, etc). Review these events accordingly, once the root cause has been identified and fixed, proceed"\
+                            + " to a clear state and run sampling action."
+
+                            # Perform an additional correlation: run a search for the past 4 hours over raw events and calculate proportion of events found for every model matched by the engine
+                            kwargs_search = {"app": "trackme", "earliest_time": "-4h", "latest_time": "now"}
+                            searchquery = "search index=\"" + str(data_index) + "\" sourcetype=\"" + str(data_sourcetype) + "\""\
+                            + "| eval [ | inputlookup trackme_data_sampling_custom_models | where model_name in (" + str(rules_csv) + ")"\
+                            + "| fields model_name, model_regex"\
+                            + "| eval model_regex=\"match(raw_sample, \\\"\" . model_regex . \"\\\")\""\
+                            + "| append ["\
+                            + "| `trackme_show_builtin_model_rules`"\
+                            + "| where model_name in (" + str(rules_csv) + ")"\
+                            + "| fields model_name, model_regex ]"\
+                            + "| dedup model_name"\
+                            + "| eval spl=model_regex . \", \\\"\" . model_name . \"\\\"\""\
+                            + "| fields spl"\
+                            + "| streamstats count | eventstats count as total"\
+                            + "| eval spl = if(count!=total, spl . \",\", spl)"\
+                            + "| fields spl"\
+                            + "| stats list(spl) as spl"\
+                            + "| mvcombine spl"\
+                            + "| eval spl = \"model_match = case(\" . spl . \")\""\
+                            + "| rex field=spl mode=sed \"s/match\(raw_sample/match(_raw/g\""\
+                            + "| return $spl ]"\
+                            + "| top model_match | eval summary = \"model: [ \" . model_match . \" ], count: [ \" . count . \" ], percent: [ \" . round(percent, 2) . \" % ]\""\
+                            + "| stats values(summary) as summary"\
+                            + "| eval summary=mvjoin(summary, \", \")"
+
+                            # spawn the search and get the results
+                            searchresults = service.jobs.oneshot(searchquery, **kwargs_search)
+
+                            # Get the results and display them using the ResultsReader
+                            try:
+                                reader = results.ResultsReader(searchresults)
+                                for item in reader:
+                                    query_result = item
+                                data_sampling_correlation = query_result["summary"]
+
+                            except Exception as e:
+                                data_sampling_correlation = None
+
+                        elif anomaly_reason in ("format_change"):
+
+                            kwargs_search = {"app": "trackme", "earliest_time": "-5m", "latest_time": "now"}
+                            searchquery = "| inputlookup trackme_data_sampling where data_name=\"" + str(data_name)\
+                            + "\" | eval \" \" = \"<--\""\
+                            + "| fields data_sample_status_colour, data_sample_status_message, data_sample_feature, data_sampling_nr, current_detected_format, " ","\
+                            + " previous_detected_format, data_sample_anomaly_detected, data_sample_anomaly_reason, multiformat_detected, data_sample_mtime"\
+                            + "| eval mtime=strftime(data_sample_mtime, \"%c\") | `trackme_eval_icons_data_sampling_enablement` | `trackme_eval_icons_data_sampling_summary`"\
+                            + "| rename data_sample_anomaly_reason as anomaly_reason, multiformat_detected as multiformat"\
+                            + "| eval previous_detected_format=if(isnull(previous_detected_format), \"N/A\", previous_detected_format)"\
+                            + "| append [ | makeresults | eval data_sample_feature=\"N/A\", current_detected_format=\"N/A\", previous_detected_format=\"N/A\", state=\"N/A\", anomaly_reason=\"N/A\", multiformat=\"N/A\", mtime=\"N/A\" ]"\
+                            + "| eval data_sampling_nr=if(isnum(data_sampling_nr), data_sampling_nr, `trackme_data_sampling_default_sample_record_at_run`) | fields - data_name | rename data_sample_feature as feature | head 1"
+
+                            # spawn the search and get the results
+                            searchresults = service.jobs.oneshot(searchquery, **kwargs_search)
+
+                            # Get the results and display them using the ResultsReader
+                            try:
+                                reader = results.ResultsReader(searchresults)
+                                for item in reader:
+                                    query_result = item
+                                previous_detected_format = query_result["previous_detected_format"]
+                                current_detected_format = query_result["current_detected_format"]
 
                             except Exception as e:
                                 rules_match = None
 
                             # correlation message
-                            data_sampling_correlation = "Multi-format match alert: during the last sampling operation, multiple rules were matched (rules matched: " + str(rules_match) + "), this likely indicates a quality issue in the indexing process (index time parsing failures leading to incomplete or malformed events, producer failures, etc). Review these events accordingly, once the root cause is identified and fixed, proceed to clear state and run sampling action."
+                            smart_correlation = "Format change alert: during the last sampling operation, a change was detected in the recognized event format (previous format: ["\
+                            + str(previous_detected_format) + "], new format detected: [" + str(current_detected_format)\
+                            + "]), the format of a sourcetype properly defined is not supposed to change unexpectly and could indicate a quality issue"\
+                            + " in the indexing process. Review these events accordingly, once the root cause has been identified and fixed, proceed to a clear state and run sampling action."
+
+                            # Perform an additional correlation: run a search for the past 4 hours over raw events and calculate proportion of events found with both models
+                            kwargs_search = {"app": "trackme", "earliest_time": "-4h", "latest_time": "now"}
+                            searchquery = "search index=\"" + str(data_index) + "\" sourcetype=\"" + str(data_sourcetype) + "\""\
+                            + "| `trackme_data_sampling_correlate_format_change(\"" + str(previous_detected_format) + "\", \"" + str(current_detected_format) + "\")`"
+
+                            # spawn the search and get the results
+                            searchresults = service.jobs.oneshot(searchquery, **kwargs_search)
+
+                            # Get the results and display them using the ResultsReader
+                            try:
+                                reader = results.ResultsReader(searchresults)
+                                for item in reader:
+                                    query_result = item
+                                data_sampling_correlation = query_result["summary"]
+
+                            except Exception as e:
+                                data_sampling_correlation = None
 
                         # Result
 
@@ -426,7 +526,8 @@ class TrackMeHandlerSmartStatus_v1(rest_handler.RESTHandler):
                         + '"data_source_state": "' + data_source_state  + '", '\
                         + '"smart_result": "TrackMe triggered an alert due to anomaly detection in the data sampling worfklow (reason: ' + str(anomaly_reason) + ' detected on ' + str(anomaly_mtime) + ')", '\
                         + '"smart_code": "1", ' \
-                        + '"smart_correlation": "' + str(data_sampling_correlation) + '"' \
+                        + '"smart_correlation": "' + str(smart_correlation) + '", ' \
+                        + '"correlation_data_sampling": "description: [ last 4h top events stats per model of interest ], ' + str(data_sampling_correlation) + '"' \
                         + '}'
 
                         return {
