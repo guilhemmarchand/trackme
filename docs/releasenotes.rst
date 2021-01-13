@@ -15,7 +15,9 @@ This is a new main release branch, TrackMe 1.2.x requires the deployment of the 
 TrackMe requires a summary index (defaults to trackme_summary) and a metric index (defaults to trackme_metrics):
 https://trackme.readthedocs.io/en/latest/configuration.html
 
+- Feature: REST API endpoint for Data Sampling - allow rest and run sampling
 - Fix - Issue #217 - Activity alerts view results link would result to 404 page not found for out of the box alerts
+- Change: Icons change
 
 Version 1.2.30
 ==============
