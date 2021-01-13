@@ -333,10 +333,81 @@ class TrackMeHandlerSmartStatus_v1(rest_handler.RESTHandler):
 
                     elif isOutlier in ("1") and enable_behaviour_analytic in ("true"):
 
+                        # first, retrieve different information we need to investigate the outliers
+                        OutlierSpan = None
+
+                        kwargs_search = {"app": "trackme", "earliest_time": "-5m", "latest_time": "now"}
+                        searchquery = "| `trackme_outlier_table(trackme_data_source_monitoring, data_name, " + str(data_name) + ")` | fields OutlierSpan"
+
+                        # spawn the search and get the results
+                        searchresults = service.jobs.oneshot(searchquery, **kwargs_search)
+
+                        # Get the results and display them using the ResultsReader
+                        try:
+                            reader = results.ResultsReader(searchresults)
+                            for item in reader:
+                                query_result = item
+                            OutlierSpan = query_result["OutlierSpan"]
+
+                        except Exception as e:
+                            OutlierSpan = None
+
+                        # Then, investigate current outliers
+                        countOutliers = None
+                        lastOutlier = None
+                        latest4hcount = None
+                        lowerBound = None
+                        upperBound = None
+
+                        kwargs_search = {"app": "trackme", "earliest_time": "-24h", "latest_time": "now"}
+                        searchquery = "| `trackme_outlier_chart(data_source, " + str(data_name) + ", data_name, " + str(OutlierSpan) + ")`"\
+                        + "| eval object_category=\"data_name\", object=\"" + str(data_name) + "\""\
+                        + "| lookup trackme_data_source_monitoring data_name as object OUTPUT OutlierAlertOnUpper"\
+                        + "| eval isOutlier=case("\
+                        + "OutlierAlertOnUpper=\"false\", if(eventcount_4h_span<lowerBound, \"true\", \"false\"),"\
+                        + "OutlierAlertOnUpper=\"true\", if(eventcount_4h_span<lowerBound OR eventcount_4h_span>upperBound, \"true\", \"false\")"\
+                        + ")"\
+                        + "| eventstats count(eval(isOutlier=\"true\")) as countOutliers"\
+                        + "| where isOutlier=\"true\""\
+                        + "| stats count as countOutliers, max(_time) as lastOutlier, latest(eventcount_4h_span) as latest4hcount, latest(lowerBound) as lowerBound, latest(upperBound) as upperBound, latest(OutlierAlertOnUpper) as OutlierAlertOnUpper"\
+                        + "| eval lastOutlier=strftime(lastOutlier, \"%c\") | foreach lowerBound upperBound latest4hcount [ eval <<FIELD>> = round('<<FIELD>>', 2) ]"
+
+                        # spawn the search and get the results
+                        searchresults = service.jobs.oneshot(searchquery, **kwargs_search)
+
+                        # Get the results and display them using the ResultsReader
+                        try:
+                            reader = results.ResultsReader(searchresults)
+                            for item in reader:
+                                query_result = item
+                            countOutliers = query_result["countOutliers"]
+                            lastOutlier = query_result["lastOutlier"]
+                            latest4hcount = query_result["latest4hcount"]
+                            lowerBound = query_result["lowerBound"]
+                            upperBound = query_result["upperBound"]
+                            OutlierAlertOnUpper = query_result["OutlierAlertOnUpper"]
+
+                        except Exception as e:
+                            countOutliers = None
+                            lastOutlier = None
+                            latest4hcount = None
+                            lowerBound = None
+                            upperBound = None
+                            OutlierAlertOnUpper = None
+
                         results = '{' \
                         + '"data_name": "' + data_name  + '", '\
                         + '"data_source_state": "' + data_source_state  + '", '\
-                        + '"smart_result": "Outlier anomaly detection.", "smart_code": "1"' \
+                        + '"smart_result": "TrackMe triggered an alert on this data source due to outliers detection in the '\
+                        + 'event count, outliers are based on the calculation of a lower and upper bound (if alerting on upper) determined '\
+                        + 'against the data source usual behaviour and outliers parameters. Review the correlation results to determine '\
+                        + 'if the behaviour is expected or symptomatic of an issue happening on the data source (lost of '\
+                        + 'sources or hosts, etc.) and proceed to any outliers configuration fine tuning if necessary.", '\
+                        + '"smart_code": "1", ' \
+                        + '"correlation_outliers": "[ description: Last 24h outliers detection ], [ OutliersCount: ' \
+                        + str(countOutliers) + ' ], [ latest4hcount: ' + str(latest4hcount) + ' ], [ lowerBound: ' \
+                        + str(lowerBound) + ' ], [ upperBound: ' + str(upperBound) + ' ], [ lastOutlier: ' \
+                        + str(lastOutlier) + ' ], [ OutlierAlertOnUpper: ' + str(OutlierAlertOnUpper) + ' ]"'\
                         + '}'
 
                         return {
