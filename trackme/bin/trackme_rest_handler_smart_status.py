@@ -193,7 +193,9 @@ class TrackMeHandlerSmartStatus_v1(rest_handler.RESTHandler):
 
                     # This data source exist, runs investigations
 
+                    #
                     # case: latest data is out of the acceptable window (lag event)
+                    #
 
                     if data_lag_alert_kpis in ("all_kpis", "lag_event_kpi") and int(data_last_lag_seen)>int(data_max_lag_allowed):
 
@@ -249,7 +251,9 @@ class TrackMeHandlerSmartStatus_v1(rest_handler.RESTHandler):
                             'status': 200 # HTTP status code
                         }
 
+                    #
                     # case: ingestion lag is out of acceptable values
+                    #
 
                     elif data_lag_alert_kpis in ("all_kpis", "lag_ingestion_kpi") and int(data_last_ingestion_lag_seen)>int(data_max_lag_allowed):
 
@@ -299,7 +303,9 @@ class TrackMeHandlerSmartStatus_v1(rest_handler.RESTHandler):
                             'status': 200 # HTTP status code
                         }
 
+                    #
                     # case: dcount host threshold unmet
+                    #
 
                     elif int(min_dcount_host)>0 and int(dcount_host)<int(min_dcount_host):
 
@@ -379,7 +385,7 @@ class TrackMeHandlerSmartStatus_v1(rest_handler.RESTHandler):
                             "| lookup trackme_data_sampling_custom_models model_name as current_detected_format output model_type" \
                             "| eval model_type=if(isnull(model_type) AND isnotnull(current_detected_format), \"inclusive\", model_type) | where model_type=\"exclusive\"" \
                             "| stats count, values(current_detected_format) as rules | mvexpand rules | lookup trackme_data_sampling_custom_models model_name as rules output model_type" \
-                            "| where model_type=\"exclusive\" | stats first(count) as count, values(rules) as rules | eval rules=mvjoin(rules, \"; \")"
+                            "| where model_type=\"exclusive\" | stats first(count) as count, values(rules) as rules | eval rules_match=mvjoin(rules, \"; \"), rules_csv=mvjoin(mvmap(rules, \"\\\"\" . rules . \"\\\"\"), \",\")"
 
                             # spawn the search and get the results
                             searchresults = service.jobs.oneshot(searchquery, **kwargs_search)
@@ -390,11 +396,13 @@ class TrackMeHandlerSmartStatus_v1(rest_handler.RESTHandler):
                                 for item in reader:
                                     query_result = item
                                 exclusive_rules_count = query_result["count"]
-                                rules_match = query_result["rules"]
+                                rules_match = query_result["rules_match"]
+                                rules_csv = query_result["rules_csv"]
 
                             except Exception as e:
                                 exclusive_rules_count = 0
                                 rules_match = None
+                                rules_csv = None
 
                             # correlation message
                             smart_correlation = "Exclusive type of rule match alert: " + str(exclusive_rules_count)\
@@ -402,6 +410,45 @@ class TrackMeHandlerSmartStatus_v1(rest_handler.RESTHandler):
                             + str(rules_match) + "), exclusive rules shall not be matched under normal circumstances and are configured"\
                             + " to track for patterns and conditions that must NOT be found in the data such as PII data. Review these events accordingly,"\
                             + "once the root cause is identified and fixed, proceed to clear state and run sampling."
+
+                            # Perform an additional correlation: run a search for the past 4 hours over raw events and calculate proportion of events found for every model matched by the engine
+                            kwargs_search = {"app": "trackme", "earliest_time": "-4h", "latest_time": "now"}
+                            searchquery = "search index=\"" + str(data_index) + "\" sourcetype=\"" + str(data_sourcetype) + "\""\
+                            + "| eval [ | inputlookup trackme_data_sampling_custom_models | where model_name in (" + str(rules_csv) + ")"\
+                            + "| fields model_name, model_regex"\
+                            + "| eval model_regex=\"match(raw_sample, \\\"\" . model_regex . \"\\\")\""\
+                            + "| append ["\
+                            + "| `trackme_show_builtin_model_rules`"\
+                            + "| where model_name in (" + str(rules_csv) + ")"\
+                            + "| fields model_name, model_regex ]"\
+                            + "| dedup model_name"\
+                            + "| eval spl=model_regex . \", \\\"\" . model_name . \"\\\"\""\
+                            + "| fields spl"\
+                            + "| streamstats count | eventstats count as total"\
+                            + "| eval spl = if(count!=total, spl . \",\", spl)"\
+                            + "| fields spl"\
+                            + "| stats list(spl) as spl"\
+                            + "| mvcombine spl"\
+                            + "| eval spl = \"model_match = case(\" . spl . \")\""\
+                            + "| rex field=spl mode=sed \"s/match\(raw_sample/match(_raw/g\""\
+                            + "| return $spl ]"\
+                            + "| eval model_match = if(isnull(model_match), \"Other types of events\", model_match)"\
+                            + "| top model_match | eval summary = \"model: [ \" . model_match . \" ], count: [ \" . count . \" ], percent: [ \" . round(percent, 2) . \" % ]\""\
+                            + "| stats values(summary) as summary"\
+                            + "| eval summary=mvjoin(summary, \", \")"
+
+                            # spawn the search and get the results
+                            searchresults = service.jobs.oneshot(searchquery, **kwargs_search)
+
+                            # Get the results and display them using the ResultsReader
+                            try:
+                                reader = results.ResultsReader(searchresults)
+                                for item in reader:
+                                    query_result = item
+                                data_sampling_correlation = query_result["summary"]
+
+                            except Exception as e:
+                                data_sampling_correlation = None
 
                         elif anomaly_reason in ("multiformat_detected"):
 
@@ -527,7 +574,7 @@ class TrackMeHandlerSmartStatus_v1(rest_handler.RESTHandler):
                         + '"smart_result": "TrackMe triggered an alert due to anomaly detection in the data sampling worfklow (reason: ' + str(anomaly_reason) + ' detected on ' + str(anomaly_mtime) + ')", '\
                         + '"smart_code": "1", ' \
                         + '"smart_correlation": "' + str(smart_correlation) + '", ' \
-                        + '"correlation_data_sampling": "description: [ last 4h top events stats per model of interest ], ' + str(data_sampling_correlation) + '"' \
+                        + '"correlation_data_sampling": "description: [ Last 4h top event count/model ], ' + str(data_sampling_correlation) + '"' \
                         + '}'
 
                         return {
