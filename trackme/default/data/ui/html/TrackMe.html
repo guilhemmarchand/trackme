@@ -16771,10 +16771,8 @@ require([
 
                 // prefill the current status
                 //console.log("tk_outlieralertonupper is: " + tk_outlieralertonupper);
-                if (tk_outlieralertonupper && tk_outlieralertonupper == "true") {
-                    setToken("form.tk_input_data_host_outlier_alert_on_upper", TokenUtils.replaceTokenNames("true", _.extend(submittedTokenModel.toJSON(), e.data)));
-                } else {
-                    setToken("form.tk_input_data_host_outlier_alert_on_upper", TokenUtils.replaceTokenNames("false", _.extend(submittedTokenModel.toJSON(), e.data)));
+                if (tk_outlieralertonupper && tk_outlieralertonupper != "null") {
+                    setToken("form.tk_input_data_source_outlier_alert_on_upper", TokenUtils.replaceTokenNames(tk_outlieralertonupper, _.extend(submittedTokenModel.toJSON(), e.data)));
                 }
 
                 // prefill the outlier span
@@ -17673,6 +17671,12 @@ require([
                     //console.log("Outliers is not configured or configured in dynamic mode");
                     setToken("form.tk_input_data_host_outlier_min_eventcount_mode", TokenUtils.replaceTokenNames("dynamic", _.extend(submittedTokenModel.toJSON(), e.data)));
                     setToken("form.tk_input_data_host_outlier_min_eventcount", TokenUtils.replaceTokenNames("disabled", _.extend(submittedTokenModel.toJSON(), e.data)));
+                }
+
+                // prefill the current status
+                // console.log("tk_outlieralertonupper is: " + tk_outlieralertonupper);
+                if (tk_outlieralertonupper && tk_outlieralertonupper != "null") {
+                    setToken("form.tk_input_data_host_outlier_alert_on_upper", TokenUtils.replaceTokenNames(tk_outlieralertonupper, _.extend(submittedTokenModel.toJSON(), e.data)));
                 }
 
                 // prefill the outlier span
