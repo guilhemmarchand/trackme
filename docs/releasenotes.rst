@@ -17,6 +17,7 @@ https://trackme.readthedocs.io/en/latest/configuration.html
 
 - Feature: REST API endpoint for Data Sampling - allow rest and run sampling
 - Fix - Issue #217 - Activity alerts view results link would result to 404 page not found for out of the box alerts
+- Fix - Issue #218 - Data sampling - creating custom rule from main then clicking on back leads to wrong window
 - Change: Icons change
 
 Version 1.2.30

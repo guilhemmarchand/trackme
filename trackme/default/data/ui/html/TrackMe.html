@@ -35347,7 +35347,10 @@ require([
 
             // free searches
             setToken("show_data_sampling_custom_rules", "true");
-            
+
+            // define a token that will be used to determine where in the UI we came from
+            setToken("show_data_sampling_custom_rules_from_home", "true");
+
             // force re-run the search each time the button is clicked
             searchDataSamplingShowCustomRules.startSearch();
 
@@ -36475,7 +36478,16 @@ require([
                                     comment = tk_comment;
                                     auditRecord(action, change_type, object, object_category, object_attrs, result, comment);
 
-                                    $("#data_sampling_manage").modal();
+                                    // Take a decision depending on where we come from
+                                    var tk_data_sampling_custom_rule_name = tokens.get("show_data_sampling_custom_rules_from_home");
+
+                                    if ( tk_data_sampling_custom_rule_name == "true") {
+                                        $("#data_sampling_show_custom_rules").modal();
+                                    }
+                                    else {
+                                        $("#data_sampling_manage").modal();
+                                    }
+
                                 },
                                 failed: function(properties) {
                                     let errorStr = "Unknown Error!";
