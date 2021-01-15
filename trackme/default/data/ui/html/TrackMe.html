@@ -22158,6 +22158,7 @@ require([
             var tk_data_sample_lastrun = tokens.get("tk_data_sample_lastrun");
             var tk_dcount_host = tokens.get("tk_dcount_host");
             var tk_min_dcount_host = tokens.get("tk_min_dcount_host");
+            var tk_tags = tokens.get("tk_tags");
 
             // Create the endpoint URL
             var myendpoint_URl = "{{SPLUNKWEB_URL_PREFIX}}/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_data_source_monitoring/" + tk_keyid;
@@ -22200,7 +22201,8 @@ require([
                 "latest_flip_time": tk_latest_flip_time,
                 "priority": tk_priority,
                 "dcount_host": tk_dcount_host,
-                "min_dcount_host": tk_min_dcount_host
+                "min_dcount_host": tk_min_dcount_host,
+                "tags": tk_tags
             };
 
             if (!tk_keyid || !tk_keyid.length) {
@@ -22798,6 +22800,7 @@ require([
             var tk_data_sample_lastrun = tokens.get("tk_data_sample_lastrun");
             var tk_dcount_host = tokens.get("tk_dcount_host");
             var tk_min_dcount_host = tokens.get("tk_min_dcount_host");
+            var tk_tags = tokens.get("tk_tags");
 
             // Create the endpoint URL
             var myendpoint_URl = "{{SPLUNKWEB_URL_PREFIX}}/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_data_source_monitoring/" + tk_keyid;
@@ -22840,7 +22843,8 @@ require([
                 "latest_flip_time": tk_latest_flip_time,
                 "priority": tk_priority,
                 "dcount_host": tk_dcount_host,
-                "min_dcount_host": tk_min_dcount_host
+                "min_dcount_host": tk_min_dcount_host,
+                "tags": tk_tags
             };
 
             if (!tk_keyid || !tk_keyid.length) {
@@ -23545,6 +23549,7 @@ require([
             var tk_priority = tokens.get("tk_priority");
             var tk_dcount_host = tokens.get("tk_dcount_host");
             var tk_min_dcount_host = tokens.get("tk_min_dcount_host");
+            var tk_tags = tokens.get("tk_tags");
 
             // Create a dictionary to store the field names and values
             var record = {
@@ -23580,7 +23585,8 @@ require([
                 "latest_flip_time": tk_latest_flip_time,
                 "priority": tk_priority,
                 "dcount_host": tk_dcount_host,
-                "min_dcount_host": tk_min_dcount_host
+                "min_dcount_host": tk_min_dcount_host,
+                "tags": tk_tags
             };
 
             // Create the endpoint URL
@@ -29834,6 +29840,7 @@ require([
             var tk_priority = tokens.get("tk_priority");
             var tk_dcount_host = tokens.get("tk_dcount_host");
             var tk_min_dcount_host = tokens.get("tk_min_dcount_host");
+            var tk_tags = tokens.get("tk_tags");
 
             //console.log("Value of modal_input_grace_period is: " + tk_kafka_infra_grace_period);
 
@@ -29887,7 +29894,8 @@ require([
                     "latest_flip_time": tk_latest_flip_time,
                     "priority": tk_priority,
                     "dcount_host": tk_dcount_host,
-                    "min_dcount_host": tk_min_dcount_host
+                    "min_dcount_host": tk_min_dcount_host,
+                    "tags": tk_tags
                 };
 
                 $.ajax({
@@ -29993,6 +30001,7 @@ require([
             var tk_priority = tokens.get("tk_priority");
             var tk_dcount_host = tokens.get("tk_dcount_host");
             var tk_min_dcount_host = tokens.get("tk_min_dcount_host");
+            var tk_tags = tokens.get("tk_tags");
 
             //console.log("Value of modal_input_grace_period is: " + tk_kafka_infra_grace_period);
 
@@ -30046,7 +30055,8 @@ require([
                     "latest_flip_time": tk_latest_flip_time,
                     "priority": tk_new_priority,
                     "dcount_host": tk_dcount_host,
-                    "min_dcount_host": tk_min_dcount_host
+                    "min_dcount_host": tk_min_dcount_host,
+                    "tags": tk_tags
                 };
 
                 $.ajax({
@@ -30158,6 +30168,7 @@ require([
             var tk_priority = tokens.get("tk_priority");
             var tk_dcount_host = tokens.get("tk_dcount_host");
             var tk_min_dcount_host = tokens.get("tk_min_dcount_host");
+            var tk_tags = tokens.get("tk_tags");
 
             //console.log("Value of modal_input_grace_period is: " + tk_kafka_infra_grace_period);
 
@@ -30211,7 +30222,8 @@ require([
                     "latest_flip_time": tk_latest_flip_time,
                     "priority": tk_priority,
                     "dcount_host": tk_dcount_host,
-                    "min_dcount_host": tk_min_dcount_host
+                    "min_dcount_host": tk_min_dcount_host,
+                    "tags": tk_tags
                 };
 
                 $.ajax({
@@ -30335,6 +30347,7 @@ require([
             var tk_priority = tokens.get("tk_priority");
             var tk_dcount_host = tokens.get("tk_dcount_host");
             var tk_min_dcount_host = tokens.get("tk_min_dcount_host");
+            var tk_tags = tokens.get("tk_tags");
 
             //console.log("Value of modal_input_grace_period is: " + tk_kafka_infra_grace_period);
 
@@ -30388,7 +30401,8 @@ require([
                     "latest_flip_time": tk_latest_flip_time,
                     "priority": tk_priority,
                     "dcount_host": tk_dcount_host,
-                    "min_dcount_host": tk_min_dcount_host
+                    "min_dcount_host": tk_min_dcount_host,
+                    "tags": tk_tags
                 };
 
                 $.ajax({
@@ -30495,6 +30509,7 @@ require([
             var tk_priority = tokens.get("tk_priority");
             var tk_dcount_host = tokens.get("tk_dcount_host");
             var tk_min_dcount_host = tokens.get("tk_min_dcount_host");
+            var tk_tags = tokens.get("tk_tags");
 
             // Create the endpoint URL
             var myendpoint_URl = "{{SPLUNKWEB_URL_PREFIX}}/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_data_source_monitoring/" + tk_keyid;
@@ -30546,7 +30561,8 @@ require([
                     "latest_flip_time": tk_latest_flip_time,
                     "priority": tk_priority,
                     "dcount_host": tk_dcount_host,
-                    "min_dcount_host": tk_input_data_source_dcount_host
+                    "min_dcount_host": tk_input_data_source_dcount_host,
+                    "tags": tk_tags
                 };
 
                 $.ajax({
@@ -30659,6 +30675,7 @@ require([
             var tk_priority = tokens.get("tk_priority");
             var tk_dcount_host = tokens.get("tk_dcount_host");
             var tk_min_dcount_host = tokens.get("tk_min_dcount_host");
+            var tk_tags = tokens.get("tk_tags");
 
             //console.log("Value of modal_input_grace_period is: " + tk_kafka_infra_grace_period);
 
@@ -30718,7 +30735,8 @@ require([
                     "latest_flip_time": tk_latest_flip_time,
                     "priority": tk_priority,
                     "dcount_host": tk_dcount_host,
-                    "min_dcount_host": tk_min_dcount_host                    
+                    "min_dcount_host": tk_min_dcount_host,
+                    "tags": tk_tags
                 };
 
                 $.ajax({
@@ -35084,6 +35102,7 @@ require([
             var tk_data_sample_lastrun = tokens.get("tk_data_sample_lastrun");
             var tk_dcount_host = tokens.get("tk_dcount_host");
             var tk_min_dcount_host = tokens.get("tk_min_dcount_host");
+            var tk_tags = tokens.get("tk_tags");
 
             // get inputs tokens
 
@@ -35174,7 +35193,8 @@ require([
                 "latest_flip_time": tk_latest_flip_time,
                 "priority": tk_priority,
                 "dcount_host": tk_dcount_host,
-                "min_dcount_host": tk_min_dcount_host
+                "min_dcount_host": tk_min_dcount_host,
+                "tags": tk_tags
             };
 
             if (!tk_keyid || !tk_keyid.length) {
