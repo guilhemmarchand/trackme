@@ -61,6 +61,11 @@ class TrackMeHandlerSmartStatus_v1(rest_handler.RESTHandler):
             # Render result
             if key is not None and len(key)>2:
 
+                # inititate the smart_code status, we start at 0 then increment using the following rules:
+                # - TBD
+
+                smart_code = 0
+
                 import splunklib.results as results
 
                 # Spawn a new search
@@ -162,6 +167,8 @@ class TrackMeHandlerSmartStatus_v1(rest_handler.RESTHandler):
 
                 if (int(flipping_count)>float(flipping_perc95) or int(flipping_count)>float(flipping_stdev)) and int(flipping_count)>1:
                     flipping_correlation_msg = 'state: [ orange ], message: [ ' + 'The amount of flipping events is abnormally high (last 24h count: ' + str(flipping_sum) + ', perc95: ' + str(flipping_perc95) + ', stdev: ' + str(flipping_stdev) + ', last 4h count: ' + str(flipping_count) + '), review the data source activity to determine potential root causes leading the data flow to flip abnormally. ]'
+                    # increment the smart_code by 1
+                    smart_code += 1
                 else:
                     flipping_correlation_msg = 'state: [ green ], message: [ There were no anomalies detected in the flipping state activity threshold. ]'
 
@@ -178,9 +185,9 @@ class TrackMeHandlerSmartStatus_v1(rest_handler.RESTHandler):
                     results = '{' \
                     + '"data_name": "' + data_name + '", '\
                     + '"data_source_state": "' + data_source_state + '", '\
-                    + '"smart_result": "The data source is currently in a normal state, therefore further investigations are not required at this stage, good bye.", '\
-                    + '"smart_code": "0", '\
-                    + '"correlation_filliping_state": "' + str(flipping_correlation_msg) + '", '\
+                    + '"smart_result": "The data source is currently in a normal state, therefore further investigations are not required at this stage.", '\
+                    + '"smart_code": "' + str(smart_code) + '", '\
+                    + '"correlation_flipping_state": "' + str(flipping_correlation_msg) + '", '\
                     + '"correlation_data_sampling": "' + str(data_sampling_state) + '"'\
                     + '}'
 
@@ -237,13 +244,17 @@ class TrackMeHandlerSmartStatus_v1(rest_handler.RESTHandler):
                         # convert the current delay to a human friendly format
                         current_delay = str(datetime.timedelta(seconds=int(current_delay)))
 
+                        # increment the smart_code by 10
+                        smart_code += 10
+
                         results_message = '{' \
                         + '"data_name": "' + str(data_name)  + '", '\
                         + '"data_source_state": "' + str(data_source_state)  + '", '\
                         + '"smart_result": "TrackMe triggered an alert due to the latest data available that is out of the acceptable window, the maximal event lag allowed is: ' + str(data_max_lag_allowed) + ' seconds, while the latest data available is: ' + str(human_last_datetime) + ', the data is late by: ' + str(current_delay) + ' (days, HH:MM:SS)", '\
                         + '"hosts_report": "' + str(summary) + '", '\
-                        + '"smart_code": "1", ' \
-                        + '"flipping_correlation": "' + str(flipping_correlation_msg) + '"'\
+                        + '"smart_code": "' + str(smart_code) + '", ' \
+                        + '"correlation_flipping_state": "' + str(flipping_correlation_msg) + '", '\
+                        + '"correlation_data_sampling": "' + str(data_sampling_state) + '"'\
                         + '}'
 
                         return {
@@ -289,13 +300,17 @@ class TrackMeHandlerSmartStatus_v1(rest_handler.RESTHandler):
 
                         import datetime, time
 
+                        # increment the smart_code by 20
+                        smart_code += 20
+
                         results_message = '{' \
                         + '"data_name": "' + str(data_name) + '", '\
                         + '"data_source_state": "' + str(data_source_state) + '", '\
                         + '"smart_result": "TrackMe triggered an alert due to indexing lag detected out of the acceptable window, the maximal ingestion lag allowed is: ' + str(data_max_lag_allowed) + ' seconds, while an ingestion lag of ' + str(datetime.timedelta(seconds=int(data_last_ingestion_lag_seen))) + ' (days, HH:MM:SS) was detected, review the hosts attached to this report to investigate the root cause.", '\
                         + '"host_report": "' + str(summary) + '", '\
-                        + '"smart_code": "1", ' \
-                        + '"flipping_correlation": "' + str(flipping_correlation_msg) + '"'\
+                        + '"smart_code": "' + str(smart_code) + '", ' \
+                        + '"correlation_flipping_state": "' + str(flipping_correlation_msg) + '", '\
+                        + '"correlation_data_sampling": "' + str(data_sampling_state) + '"'\
                         + '}'
 
                         return {
@@ -314,12 +329,15 @@ class TrackMeHandlerSmartStatus_v1(rest_handler.RESTHandler):
                             + str(min_dcount_host) + ' hosts) which condition is not met as only ' + str(dcount_host) \
                             + ' hosts are detected currently. Review this threshold and the current data source activity accordingly.'
 
+                        # increment the smart_code by 30
+                        smart_code += 30
+
                         results = '{' \
                         + '"data_name": "' + data_name  + '", '\
                         + '"data_source_state": "' + data_source_state  + '", '\
                         + '"smart_result": "' + str(smart_result_msg) + '", '\
-                        + '"smart_code": "1", ' \
-                        + '"correlation_filliping_state": "' + str(flipping_correlation_msg) + '", '\
+                        + '"smart_code": "' + str(smart_code) + '", ' \
+                        + '"correlation_flipping_state": "' + str(flipping_correlation_msg) + '", '\
                         + '"correlation_data_sampling": "' + str(data_sampling_state) + '"'\
                         + '}'
 
@@ -395,6 +413,9 @@ class TrackMeHandlerSmartStatus_v1(rest_handler.RESTHandler):
                             upperBound = None
                             OutlierAlertOnUpper = None
 
+                        # increment the smart_code by 40
+                        smart_code += 40
+
                         results = '{' \
                         + '"data_name": "' + data_name  + '", '\
                         + '"data_source_state": "' + data_source_state  + '", '\
@@ -403,11 +424,13 @@ class TrackMeHandlerSmartStatus_v1(rest_handler.RESTHandler):
                         + 'against the data source usual behaviour and outliers parameters. Review the correlation results to determine '\
                         + 'if the behaviour is expected or symptomatic of an issue happening on the data source (lost of '\
                         + 'sources or hosts, etc.) and proceed to any outliers configuration fine tuning if necessary.", '\
-                        + '"smart_code": "1", ' \
+                        + '"smart_code": "' + str(smart_code) + '", ' \
                         + '"correlation_outliers": "[ description: Last 24h outliers detection ], [ OutliersCount: ' \
                         + str(countOutliers) + ' ], [ latest4hcount: ' + str(latest4hcount) + ' ], [ lowerBound: ' \
                         + str(lowerBound) + ' ], [ upperBound: ' + str(upperBound) + ' ], [ lastOutlier: ' \
-                        + str(lastOutlier) + ' ], [ OutlierAlertOnUpper: ' + str(OutlierAlertOnUpper) + ' ]"'\
+                        + str(lastOutlier) + ' ], [ OutlierAlertOnUpper: ' + str(OutlierAlertOnUpper) + ' ]", '\
+                        + '"correlation_flipping_state": "' + str(flipping_correlation_msg) + '", '\
+                        + '"correlation_data_sampling": "' + str(data_sampling_state) + '"'\
                         + '}'
 
                         return {
@@ -451,6 +474,9 @@ class TrackMeHandlerSmartStatus_v1(rest_handler.RESTHandler):
 
                         if anomaly_reason in ("exclusive_rule_match"):
 
+                            # increment the smart_code by 50
+                            smart_code += 50
+
                             kwargs_search = {"app": "trackme", "earliest_time": "-5m", "latest_time": "now"}
                             searchquery = "| inputlookup trackme_data_sampling where data_name=\"" + str(data_name) + "\" | mvexpand raw_sample" \
                             "| lookup trackme_data_sampling_custom_models model_name as current_detected_format output model_type" \
@@ -480,7 +506,7 @@ class TrackMeHandlerSmartStatus_v1(rest_handler.RESTHandler):
                             + " events were matched during the latest sampling operation (rules matched: "\
                             + str(rules_match) + "), exclusive rules shall not be matched under normal circumstances and are configured"\
                             + " to track for patterns and conditions that must NOT be found in the data such as PII data. Review these events accordingly,"\
-                            + "once the root cause is identified and fixed, proceed to clear state and run sampling."
+                            + " once the root cause is identified and fixed, proceed to clear state and run sampling."
 
                             # Perform an additional correlation: run a search for the past 4 hours over raw events and calculate proportion of events found for every model matched by the engine
                             kwargs_search = {"app": "trackme", "earliest_time": "-4h", "latest_time": "now"}
@@ -522,6 +548,9 @@ class TrackMeHandlerSmartStatus_v1(rest_handler.RESTHandler):
                                 data_sampling_correlation = None
 
                         elif anomaly_reason in ("multiformat_detected"):
+
+                            # increment the smart_code by 51
+                            smart_code += 51
 
                             kwargs_search = {"app": "trackme", "earliest_time": "-5m", "latest_time": "now"}
                             searchquery = "| inputlookup trackme_data_sampling where data_name=\"" + str(data_name)\
@@ -588,6 +617,9 @@ class TrackMeHandlerSmartStatus_v1(rest_handler.RESTHandler):
 
                         elif anomaly_reason in ("format_change"):
 
+                            # increment the smart_code by 52
+                            smart_code += 52
+
                             kwargs_search = {"app": "trackme", "earliest_time": "-5m", "latest_time": "now"}
                             searchquery = "| inputlookup trackme_data_sampling where data_name=\"" + str(data_name)\
                             + "\" | eval \" \" = \"<--\""\
@@ -642,10 +674,11 @@ class TrackMeHandlerSmartStatus_v1(rest_handler.RESTHandler):
                         results = '{' \
                         + '"data_name": "' + data_name  + '", '\
                         + '"data_source_state": "' + data_source_state  + '", '\
-                        + '"smart_result": "TrackMe triggered an alert due to anomaly detection in the data sampling worfklow (reason: ' + str(anomaly_reason) + ' detected on ' + str(anomaly_mtime) + ')", '\
-                        + '"smart_code": "1", ' \
-                        + '"smart_correlation": "' + str(smart_correlation) + '", ' \
-                        + '"correlation_data_sampling": "description: [ Last 4h top event count/model ], ' + str(data_sampling_correlation) + '"' \
+                        + '"smart_result": "TrackMe triggered an alert due to anomaly detection in the data sampling worfklow (reason: ' + str(anomaly_reason) \
+                        + ' detected on ' + str(anomaly_mtime) + '), [ message: ' + str(smart_correlation) + ' ]", '\
+                        + '"smart_code": "' + str(smart_code) + '", ' \
+                        + '"correlation_data_sampling": "description: [ Last 4h top event count/model ], ' + str(data_sampling_correlation) + '", ' \
+                        + '"correlation_flipping_state": "' + str(flipping_correlation_msg) + '"'\
                         + '}'
 
                         return {
