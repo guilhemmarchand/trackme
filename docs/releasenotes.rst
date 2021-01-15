@@ -19,6 +19,7 @@ https://trackme.readthedocs.io/en/latest/configuration.html
 - Fix - Issue #217 - Activity alerts view results link would result to 404 page not found for out of the box alerts
 - Fix - Issue #218 - Data sampling - creating custom rule from main then clicking on back leads to wrong window
 - Fix - Issue #219 - Outliers detection - dropdown for alert on upper is not pref-filled with the actual setting of the entity
+- Fix - Issue #220 - Audit scheduling - in some environments, status=success is replaced it search time by completed (internal scheduler) which is not expected by the searches
 - Change: Icons change
 
 Version 1.2.30
