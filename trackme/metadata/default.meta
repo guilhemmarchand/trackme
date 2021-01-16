@@ -336,3 +336,13 @@ access = read : [ * ], write : [ admin, trackme_admin ]
 
 [collections/kv_trackme_tags_policies]
 access = read : [ * ], write : [ admin, trackme_admin ]
+
+### TrackMe custom commands
+
+# required for online help
+[searchbnf]
+export=system
+
+# Share the trackme REST API custom command at the system level
+[commands/trackme]
+export=system
