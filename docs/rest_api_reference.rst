@@ -42,6 +42,46 @@ These resource groups are accessible by specific endpoint paths as following:
 
 These endpoints can be used to interract with TrackMe in a programmatic fashion, for instance to perform integration tasks with automation systems.
 
+REST API trackme SPL command
+----------------------------
+
+Interracting with the REST API in SPL queries
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+TrackMe provides a Python based custom command ``trackme`` that acts as a REST API wrapper to interract with the API endpoints.
+
+.. image:: img/img_rest_api_wrapper1.png
+   :alt: img_rest_api_wrapper1.png
+   :align: center
+
+Syntax
+''''''
+
+::
+
+    | trackme url=<API endpoint> mode=<HTTP method: get/post/delete> body=<Optional: provides the HTTP body in a json format>
+
+**Arguments:**
+
+- ``url``: (required) describes the API endpoint url, such as ``/services/trackme/v1/smart_status/ds_smart_status``
+- ``mode``: (required) the HTTP mode, valid options are ``get``, ``post``, ``delete``
+- ``body``: the http body, optional for a get query depending on the endpoint, required for post and delete calls
+
+Example
+'''''''
+
+*This example calls the smart_status endpoint for a target data_source:*
+
+::
+
+    | trackme url=/services/trackme/v1/smart_status/ds_smart_status mode=get body="{'data_name': 'firewall:pan:traffic'}"
+
+.. image:: img/img_rest_api_wrapper2.png
+   :alt: img_rest_api_wrapper2.png
+   :align: center
+
+Every endpoint described in the present REST API reference documentation can be actioned via the trackme custom command, authentication and capabilities are transparently inherited from the user environment running the SPL query.
+
 Authentication
 --------------
 
