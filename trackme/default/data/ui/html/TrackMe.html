@@ -1174,6 +1174,64 @@ styles in <div> tags, similar to Bootstrap's grid system.
     </div>
 
     <!--
+    Smart Status
+    -->
+
+    <!-- Modal window for tags policies -->
+    <div class="modal fade custom-modal-80" id="smart_status_data_source" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header modal-header-info">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h1 style="color: white;"><span class="glyphicon glyphicon-lock"></span> Smart Status </h1>
+                </div>
+
+                <div class="modal-body">
+
+                    <div>
+
+                        <div style="margin-bottom: 10px;">
+
+                            <div>
+                                <h3>The Smart Status performs advanced investigations and correlations dynamically depending on the state of the data source and the conditions:</h3>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <div id="rowSmartStatusDatatSource" class="dashboard-row dashboard-row1" data-original-id="rowSmartStatusDatatSource">
+                        <div id="panelSmartStatusDatatSource" class="dashboard-cell" style="width: 100%;" data-original-id="panelSmartStatusDatatSource">
+                            <div class="dashboard-panel clearfix">
+                                
+                                <div class="panel-element-row">
+                                    <div id="eventSmartStatusDataSource" class="dashboard-element event" style="width: 100%">
+                                        <div class="panel-body"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div style="margin-top: 20px;" class="modal-footer">
+                        <div style="margin-right: 15px; float: left;">
+                            <button type="submit" class="btn btn-default btn-default pull-left" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Close</button>
+                        </div>
+                        <div style="margin-right: 15px; float: right;">
+                            <button id="btn_smart_status_back" type="submit" class="btn btn-default btn-primary" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Back </button>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+    <!--
     tags
     -->
 
@@ -3366,6 +3424,9 @@ styles in <div> tags, similar to Bootstrap's grid system.
                             </div>
                             <div class="btn_ack" style="margin-right: 15px; float: right;">
                                 <button type="submit" id="btn_ack_data_source" role="button" class="btn btn-primary btn-default"><span class="glyphicon glyphicon-remove"></span>Acknowledge alert</button>
+                            </div>
+                            <div class="btn_smart_status_data_source" style="margin-right: 15px; float: right;">
+                                <button type="submit" id="btn_smart_status_data_source" role="button" class="btn btn-primary btn-default"><span class="glyphicon glyphicon-remove"></span>Smart Status</button>
                             </div>
                         </div>
                     </div>
@@ -9413,6 +9474,27 @@ require([
                     }]
                 }
             ]
+        });
+
+        // Smart Status
+        var searchSmartStatusDataSource = new SearchManager({
+            "id": "searchSmartStatusDataSource",
+            "earliest_time": "-5m",
+            "cancelOnUnload": true,
+            "sample_ratio": null,
+            "latest_time": "now",
+            "search": "| trackme url=/services/trackme/v1/smart_status/ds_smart_status mode=get body=\"{'data_name': '$tk_data_name$'}\" | `trackme_smart_status_emoji`",
+            "status_buckets": 0,
+            "app": utils.getCurrentApp(),
+            "auto_cancel": 90,
+            "preview": true,
+            "tokenDependencies": {
+                "depends": "$show_smart_status_data_source$"
+            },
+            "runWhenTimeIsUndefined": false
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
         });
 
         var searchShowTagsPolicies = new SearchManager({
@@ -17957,6 +18039,24 @@ require([
             tokens: true,
             tokenNamespace: "submitted"
         }).render();
+
+        // Smart Status
+
+        var eventSmartStatusDataSource = new EventElement({
+            "id": "eventSmartStatusDataSource",
+            "list.drilldown": "none",
+            "table.drilldown": "all",
+            "list.wrap": "1",
+            "table.wrap": "1",
+            "rowNumbers": "0",
+            "table.sortDirection": "asc",
+            "count": 20,
+            "raw.drilldown": "full",
+            "type": "list",
+            "maxLines": 5,
+            "managerid": "searchSmartStatusDataSource",
+            "el": $('#eventSmartStatusDataSource')
+        }, {tokens: true, tokenNamespace: "submitted"}).render();
 
         // tags policies
         var tableTagsPolicies = new TableElement({
@@ -32835,6 +32935,35 @@ require([
                     }
                 }
             );
+
+        });
+
+        // Smart Status
+
+        // Smart Status data source
+        $("#btn_smart_status_data_source").click(function() {
+
+            submitTokens();
+
+            // When the Submit button is clicked, get all the form fields by accessing token values
+            var tokens = mvc.Components.get("default");
+
+            // Free the search
+            setToken("show_smart_status_data_source", "true");
+
+            // Force search run every time the button is clicked
+            searchSmartStatusDataSource.startSearch();
+
+            // Show input modal
+            $("#smart_status_data_source").modal();
+
+        });
+
+        // back
+        $("#btn_smart_status_back").click(function() {
+
+            // Show modal
+            $("#modal_manage").modal();
 
         });
 

@@ -4,6 +4,7 @@ import splunk
 import splunk.entity
 import splunk.Intersplunk
 import json
+import re
 
 logger = logging.getLogger(__name__)
 
@@ -78,9 +79,11 @@ class TrackMeHandlerSmartStatus_v1(rest_handler.RESTHandler):
                 + "| `trackme_ack_lookup_main(data_name)`"\
                 + "| `trackme_lookup_data_sampling`"\
                 + "| nomv tags"\
+                + "| eval data_last_lag_seen=round(data_last_lag_seen, 0), data_last_time_seen=round(data_last_time_seen, 0)"\
                 + "| fillnull value=\"null\" data_name data_index data_sourcetype data_source_state data_lag_alert_kpis"\
-                + "data_last_lag_seen data_last_ingestion_lag_seen data_max_lag_allowed data_last_time_seen enable_behaviour_analytic dcount_host"\
-                + "min_dcount_host isOutlier isAnomaly data_sample_anomaly_reason data_sample_status_colour data_sample_status_message"
+                + "data_last_lag_seen data_last_ingestion_lag_seen data_max_lag_allowed data_last_time_seen enable_behaviour_analytic dcount_host "\
+                + "min_dcount_host isOutlier isAnomaly data_sample_anomaly_reason data_sample_status_colour data_sample_status_message "\
+                + "elastic_source_from_part1 elastic_source_from_part2 elastic_source_search_constraint elastic_source_search_mode"
 
                 # spawn the search and get the results
                 searchresults = service.jobs.oneshot(searchquery, **kwargs_search)
@@ -107,6 +110,10 @@ class TrackMeHandlerSmartStatus_v1(rest_handler.RESTHandler):
                     data_sample_anomaly_reason = query_result["data_sample_anomaly_reason"]
                     data_sample_status_colour = query_result["data_sample_status_colour"]
                     data_sample_status_message = query_result["data_sample_status_message"]
+                    elastic_source_search_constraint = query_result["elastic_source_search_constraint"]
+                    elastic_source_search_mode = query_result["elastic_source_search_mode"]
+                    elastic_source_from_part1 = query_result["elastic_source_from_part1"]
+                    elastic_source_from_part2 = query_result["elastic_source_from_part2"]
 
                 except Exception as e:
                     data_index = None
@@ -125,6 +132,10 @@ class TrackMeHandlerSmartStatus_v1(rest_handler.RESTHandler):
                     data_sample_anomaly_reason = None
                     data_sample_status_colour = None
                     data_sample_status_message = None
+                    elastic_source_search_constraint = None
+                    elastic_source_search_mode = None
+                    elastic_source_from_part1 = None
+                    elastic_source_from_part2 = None
 
                 # min_dcount_host defaults to str any, for ease of code, comvert to 0
                 if min_dcount_host in ("any"):
@@ -164,6 +175,7 @@ class TrackMeHandlerSmartStatus_v1(rest_handler.RESTHandler):
 
                 # round flipping_stdev
                 flipping_stdev = round(float(flipping_stdev), 2)
+                flipping_perc95 = round(float(flipping_perc95), 2)
 
                 if (int(flipping_count)>float(flipping_perc95) or int(flipping_count)>float(flipping_stdev)) and int(flipping_count)>1:
                     flipping_correlation_msg = 'state: [ orange ], message: [ ' + 'The amount of flipping events is abnormally high (last 24h count: ' + str(flipping_sum) + ', perc95: ' + str(flipping_perc95) + ', stdev: ' + str(flipping_stdev) + ', last 4h count: ' + str(flipping_count) + '), review the data source activity to determine potential root causes leading the data flow to flip abnormally. ]'
@@ -204,19 +216,218 @@ class TrackMeHandlerSmartStatus_v1(rest_handler.RESTHandler):
                     # case: latest data is out of the acceptable window (lag event)
                     #
 
+                    report_name = None
+                    report_desc = None
+
                     if data_lag_alert_kpis in ("all_kpis", "lag_event_kpi") and int(data_last_lag_seen)>int(data_max_lag_allowed):
 
                         # Get lagging statistics from live data
-                        kwargs_search = {"app": "trackme", "earliest_time": "-4h", "latest_time": "+4h"}
-                        searchquery = "| tstats max(_time) as data_last_time_seen "\
-                        + "where (index=" + str(data_index) + " sourcetype=" + str(data_sourcetype) + ") by host"\
-                        + "| eval event_lag=now()-data_last_time_seen"\
-                        + "| where (event_lag>" + str(data_max_lag_allowed) + ")"\
-                        + "| sort - limit=10 event_lag"\
-                        + "| foreach event_lag [ eval <<FIELD>> = if('<<FIELD>>'>60, tostring(round('<<FIELD>>',0),\"duration\"), round('<<FIELD>>', 0)) ]"\
-                        + '| eval summary = host . " (event_lag: " . event_lag . ")"'\
-                        + "| fields summary"\
-                        + "| stats values(summary) as summary | eval summary=mvjoin(summary, \", \")"
+
+                        # To define the search, we need to know if the data source is a normal data source or an Elastic source
+                        isElastic = False
+                        if elastic_source_search_mode in ("null"):
+                            isElastic = False
+                        else:
+                            isElastic = True
+
+                        # Define the query
+                        # For normal data sources, use tstats
+                        
+                        # data source is regular
+                        if (not isElastic):
+
+                            kwargs_search = {"app": "trackme", "earliest_time": "-4h", "latest_time": "now"}
+                            searchquery = "| tstats max(_time) as data_last_time_seen "\
+                            + "where (index=" + str(data_index) + " sourcetype=" + str(data_sourcetype) + ") by host"\
+                            + " | eval event_lag=now()-data_last_time_seen"\
+                            + " | where (event_lag>" + str(data_max_lag_allowed) + ")"\
+                            + " | sort - limit=10 event_lag"\
+                            + " | foreach event_lag [ eval <<FIELD>> = if('<<FIELD>>'>60, tostring(round('<<FIELD>>',0),\"duration\"), round('<<FIELD>>', 0)) ]"\
+                            + ' | eval summary = host . " (event_lag: " . event_lag . ")"'\
+                            + " | fields summary"\
+                            + " | stats values(summary) as summary | eval summary=mvjoin(summary, \", \")"
+
+                            report_desc = "[ description: last 4 hours hosts report ], "
+                            report_name = "hosts_report"
+
+                        # data source is Elastic and tstats
+                        elif isElastic and elastic_source_search_mode in("tstats"):
+
+                            kwargs_search = {"app": "trackme", "earliest_time": "-4h", "latest_time": "now"}
+                            searchquery = "| tstats max(_time) as data_last_time_seen "\
+                            + "where (" + str(elastic_source_search_constraint) + ") by host"\
+                            + " | eval event_lag=now()-data_last_time_seen"\
+                            + " | where (event_lag>" + str(data_max_lag_allowed) + ")"\
+                            + " | sort - limit=10 event_lag"\
+                            + " | foreach event_lag [ eval <<FIELD>> = if('<<FIELD>>'>60, tostring(round('<<FIELD>>',0),\"duration\"), round('<<FIELD>>', 0)) ]"\
+                            + ' | eval summary = host . " (event_lag: " . event_lag . ")"'\
+                            + " | fields summary"\
+                            + " | stats values(summary) as summary | eval summary=mvjoin(summary, \", \")"
+
+                            report_desc = "[ description: last 4 hours hosts report ], "
+                            report_name = "hosts_report"
+
+                        # data source is Elastic and raw
+                        elif isElastic and elastic_source_search_mode in("raw"):
+
+                            kwargs_search = {"app": "trackme", "earliest_time": "-4h", "latest_time": "now"}
+                            searchquery = "search " + str(elastic_source_search_constraint)\
+                            + " | stats max(_time) as data_last_time_seen by host"\
+                            + " | eval event_lag=now()-data_last_time_seen"\
+                            + " | where (event_lag>" + str(data_max_lag_allowed) + ")"\
+                            + " | sort - limit=10 event_lag"\
+                            + " | foreach event_lag [ eval <<FIELD>> = if('<<FIELD>>'>60, tostring(round('<<FIELD>>',0),\"duration\"), round('<<FIELD>>', 0)) ]"\
+                            + ' | eval summary = host . " (event_lag: " . event_lag . ")"'\
+                            + " | fields summary"\
+                            + " | stats values(summary) as summary | eval summary=mvjoin(summary, \", \")"
+
+                            report_desc = "[ description: last 4 hours hosts report ], "
+                            report_name = "hosts_report"
+
+                        # data source is Elastic and mstats
+                        elif isElastic and elastic_source_search_mode in("mstats"):
+
+                            kwargs_search = {"app": "trackme", "earliest_time": "-4h", "latest_time": "now"}
+                            searchquery = "| mstats latest(_value) as value where " + str(elastic_source_search_constraint) + " by host, metric_name span=1s"\
+                            + " | stats max(_time) as lastTime by metric_name"\
+                            + " | eval metric_lag=now()-lastTime"\
+                            + " | where (metric_lag>" + str(data_max_lag_allowed) + ")"\
+                            + " | sort - limit=10 metric_lag"\
+                            + " | foreach metric_lag [ eval <<FIELD>> = if('<<FIELD>>'>60, tostring(round('<<FIELD>>',0),\"duration\"), round('<<FIELD>>', 0)) ]"\
+                            + " | fields metric_name, metric_lag"\
+                            + " | eval summary = \"[ metric_name:\" . metric_name . \", metric_lag:\" . metric_lag . \" ]\""\
+                            + " | stats values(summary) as summary"\
+                            + " | fields summary | eval summary=mvjoin(mvsort(summary), \", \")"
+                            
+                            report_desc = "[ description: top 10 metric_name out of accepted lag window ], "
+                            report_name = "hosts_report"
+
+                        # data source is Elastic, from
+                        elif isElastic and elastic_source_search_mode in ("from"):
+
+                            # if datamodel based
+                            if re.search("datamodel:", str(elastic_source_search_constraint)):
+
+                                # from datamodel searches are likely to be very slow, shorter the time range to the last 60 minutes
+                                kwargs_search = {"app": "trackme", "earliest_time": "-1h", "latest_time": "now"}
+                                searchquery = "| from " + str(elastic_source_search_constraint)\
+                                + " | stats max(_time) as data_last_time_seen by host"\
+                                + " | eval event_lag=now()-data_last_time_seen"\
+                                + " | where (event_lag>" + str(data_max_lag_allowed) + ")"\
+                                + " | sort - limit=10 event_lag"\
+                                + " | foreach event_lag [ eval <<FIELD>> = if('<<FIELD>>'>60, tostring(round('<<FIELD>>',0),\"duration\"), round('<<FIELD>>', 0)) ]"\
+                                + ' | eval summary = host . " (event_lag: " . event_lag . ")"'\
+                                + " | fields summary"\
+                                + " | stats values(summary) as summary | eval summary=mvjoin(summary, \", \")"
+
+                                report_desc = "[ description: last 60 minutes hosts report ], "
+                                report_name = "hosts_report"
+
+                            # if lookup based
+                            elif re.search("lookup:", str(elastic_source_search_constraint)):
+
+                                kwargs_search = {"app": "trackme", "earliest_time": "-5m", "latest_time": "now"}
+                                searchquery = "| from " + str(elastic_source_search_constraint)\
+                                + " | " + str(elastic_source_from_part2)\
+                                + " | stats max(_indextime) as lastIngest, min(_time) as earliestRecord, max(_time) as latestRecord, count as numberRecords, dc(host) as numberHost"\
+                                + " | eval summary=\"[ lastIngest: \" . strftime(lastIngest, \"%c\") . \", latestRecord: \" . strftime(latestRecord, \"%c\") . \", earliestRecord: \" . strftime(earliestRecord, \"%c\") . \", numberRecords: \" . numberRecords . \", numberHosts: \" . numberHost . \" ]\" | fields summary"
+
+                                report_desc = "[ description: Investigate lookup based data source ], "
+                                report_name = "lookup_report"
+
+                        # data source is Elastic, rest tstats
+                        elif isElastic and elastic_source_search_mode in ("rest_tstats"):
+
+                            kwargs_search = {"app": "trackme", "earliest_time": "-5m", "latest_time": "now"}
+                            searchquery = "| rest " + str(elastic_source_from_part1) + " /servicesNS/admin/search/search/jobs/export search=\""\
+                            + "| tstats max(_time) as data_last_time_seen "\
+                            + "where (" + str(elastic_source_from_part2) + ") by host"\
+                            + " | eval event_lag=now()-data_last_time_seen"\
+                            + " | where (event_lag>" + str(data_max_lag_allowed) + ")"\
+                            + " | sort - limit=10 event_lag"\
+                            + " | foreach event_lag [ eval <<FIELD>> = if('<<FIELD>>'>60, tostring(round('<<FIELD>>',0),\\\"duration\\\"), round('<<FIELD>>', 0)) ]"\
+                            + ' | eval summary = host . \\" (event_lag: \\" . event_lag . \\")\\"'\
+                            + " | fields summary"\
+                            + " | stats values(summary) as summary | eval summary=mvjoin(summary, \\\", \\\")"\
+                            + " \" output_mode=\"csv\" earliest_time=\"-4h\" latest_time=\"+4h\" | table value | restextractsummary"
+
+                            report_desc = "[ description: last 4 hours hosts report ], "
+                            report_name = "hosts_report"
+
+                        # data source is Elastic, rest raw
+                        elif isElastic and elastic_source_search_mode in ("rest_raw"):
+
+                            kwargs_search = {"app": "trackme", "earliest_time": "-5m", "latest_time": "now"}
+                            searchquery = "| rest " + str(elastic_source_from_part1) + " /servicesNS/admin/search/search/jobs/export search=\""\
+                            + " search " + str(elastic_source_from_part2)\
+                            + " | stats max(_time) as data_last_time_seen by host"\
+                            + " | eval event_lag=now()-data_last_time_seen"\
+                            + " | where (event_lag>" + str(data_max_lag_allowed) + ")"\
+                            + " | sort - limit=10 event_lag"\
+                            + " | foreach event_lag [ eval <<FIELD>> = if('<<FIELD>>'>60, tostring(round('<<FIELD>>',0),\\\"duration\\\"), round('<<FIELD>>', 0)) ]"\
+                            + ' | eval summary = host . \\" (event_lag: \\" . event_lag . \\")\\"'\
+                            + " | fields summary"\
+                            + " | stats values(summary) as summary | eval summary=mvjoin(summary, \\\", \\\")"\
+                            + " \" output_mode=\"csv\" earliest_time=\"-4h\" latest_time=\"+4h\" | table value | restextractsummary"
+
+                            report_desc = "[ description: last 4 hours hosts report ], "
+                            report_name = "hosts_report"
+
+                        # data source is Elastic, from
+                        elif isElastic and elastic_source_search_mode in ("rest_from"):
+
+                            # if datamodel based
+                            if re.search("datamodel:", str(elastic_source_search_constraint)):
+
+                                # from datamodel searches are likely to be very slow, shorter the time range to the last 60 minutes
+                                kwargs_search = {"app": "trackme", "earliest_time": "-1h", "latest_time": "now"}
+                                searchquery = "| rest " + str(elastic_source_from_part1) + " /servicesNS/admin/search/search/jobs/export search=\""\
+                                + " | from " + str(elastic_source_search_constraint)\
+                                + " | stats max(_time) as data_last_time_seen by host"\
+                                + " | eval event_lag=now()-data_last_time_seen"\
+                                + " | where (event_lag>" + str(data_max_lag_allowed) + ")"\
+                                + " | sort - limit=10 event_lag"\
+                                + " | foreach event_lag [ eval <<FIELD>> = if('<<FIELD>>'>60, tostring(round('<<FIELD>>',0),\\\"duration\\\"), round('<<FIELD>>', 0)) ]"\
+                                + ' | eval summary = host . \\" (event_lag: \\" . event_lag . \\")"'\
+                                + " | fields summary"\
+                                + " | stats values(summary) as summary | eval summary=mvjoin(summary, \", \")"\
+                                + " \" output_mode=\"csv\" earliest_time=\"-4h\" latest_time=\"+4h\" | table value | restextractsummary"
+
+                                report_desc = "[ description: last 60 minutes hosts report ], "
+                                report_name = "hosts_report"
+
+                            # if lookup based
+                            elif re.search("lookup:", str(elastic_source_search_constraint)):
+
+                                kwargs_search = {"app": "trackme", "earliest_time": "-5m", "latest_time": "now"}
+                                searchquery = "| rest " + str(elastic_source_from_part1) + " /servicesNS/admin/search/search/jobs/export search=\""\
+                                + " | from " + str(elastic_source_from_part2)\
+                                + " | stats max(_indextime) as lastIngest, min(_time) as earliestRecord, max(_time) as latestRecord, count as numberRecords, dc(host) as numberHost"\
+                                + " | eval summary=\\\"[ lastIngest: \\\" . strftime(lastIngest, \\\"%c\\\") . \\\", latestRecord: \\\" . strftime(latestRecord, \\\"%c\\\") . \\\", earliestRecord: \\\" . strftime(earliestRecord, \\\"%c\\\") . \\\", numberRecords: \\\" . numberRecords . \\\", numberHosts: \\\" . numberHost . \\\" ]\\\" | fields summary"\
+                                + " \" output_mode=\"csv\" earliest_time=\"-4h\" latest_time=\"+4h\" | table value | restextractsummary"
+
+                                report_desc = "[ description: Investigate lookup based data source ], "
+                                report_name = "lookup_report"
+
+                        # data source is Elastic, mstats
+                        elif isElastic and elastic_source_search_mode in ("rest_mstats"):
+
+                            kwargs_search = {"app": "trackme", "earliest_time": "-4h", "latest_time": "now"}
+                            searchquery = "| rest " + str(elastic_source_from_part1) + " /servicesNS/admin/search/search/jobs/export search=\""\
+                            + " | mstats latest(_value) as value where " + str(elastic_source_from_part2) + " by host, metric_name span=1s"\
+                            + " | stats max(_time) as lastTime by metric_name"\
+                            + " | eval metric_lag=now()-lastTime"\
+                            + " | where (metric_lag>" + str(data_max_lag_allowed) + ")"\
+                            + " | sort - limit=10 metric_lag"\
+                            + " | foreach metric_lag [ eval <<FIELD>> = if('<<FIELD>>'>60, tostring(round('<<FIELD>>',0),\\\"duration\\\"), round('<<FIELD>>', 0)) ]"\
+                            + " | fields metric_name, metric_lag"\
+                            + " | eval summary = \\\"[ metric_name:\\\" . metric_name . \\\", metric_lag:\\\" . metric_lag . \\\" ]\\\""\
+                            + " | stats values(summary) as summary"\
+                            + " | fields summary | eval summary=mvjoin(mvsort(summary), \\\", \\\")"\
+                            + " \" output_mode=\"csv\" earliest_time=\"-4h\" latest_time=\"+4h\" | table value | restextractsummary"
+                            
+                            report_desc = "[ description: top 10 metric_name out of accepted lag window ], "
+                            report_name = "hosts_report"
 
                         # spawn the search and get the results
                         searchresults = service.jobs.oneshot(searchquery, **kwargs_search)
@@ -251,7 +462,7 @@ class TrackMeHandlerSmartStatus_v1(rest_handler.RESTHandler):
                         + '"data_name": "' + str(data_name)  + '", '\
                         + '"data_source_state": "' + str(data_source_state)  + '", '\
                         + '"smart_result": "TrackMe triggered an alert due to the latest data available that is out of the acceptable window, the maximal event lag allowed is: ' + str(data_max_lag_allowed) + ' seconds, while the latest data available is: ' + str(human_last_datetime) + ', the data is late by: ' + str(current_delay) + ' (days, HH:MM:SS)", '\
-                        + '"hosts_report": "' + str(summary) + '", '\
+                        + '"' + str(report_name) + '": "' + str(report_desc) + str(summary) + '", '\
                         + '"smart_code": "' + str(smart_code) + '", ' \
                         + '"correlation_flipping_state": "' + str(flipping_correlation_msg) + '", '\
                         + '"correlation_data_sampling": "' + str(data_sampling_state) + '"'\

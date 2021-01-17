@@ -39,6 +39,8 @@ These resource groups are accessible by specific endpoint paths as following:
 +----------------------------------------------+----------------------------------------------+
 | :ref:`Lagging classes metrics endpoints`     | /services/trackme/v1/lagging_classes_metrics |
 +----------------------------------------------+----------------------------------------------+
+| :ref:`Smart Status endpoints`                | /services/trackme/v1/smart_status            |
++----------------------------------------------+----------------------------------------------+
 
 These endpoints can be used to interract with TrackMe in a programmatic fashion, for instance to perform integration tasks with automation systems.
 
@@ -3285,4 +3287,40 @@ lagging_classes_metrics_del / Delete a lagging class
 
     Record with _key 5fe2928b1a568f12a1149957 was deleted from the collection.
 
+Smart Status endpoints
+----------------------
 
+**Resources summary:**
+
++---------------------------------------------------------------------------------------------------+------------------------------------------------------------------------------+
+| Resource                                                                                          | API Path                                                                     | 
++===================================================================================================+==============================================================================+
+| :ref:`ds_smart_status / Run Smart Status for a data source`                                       | /services/trackme/v1/smart_status/ds_smart_status                            |
++---------------------------------------------------------------------------------------------------+------------------------------------------------------------------------------+
+
+ds_smart_status / Run Smart Status for a data source
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+**This endpoints runs the smart status for a given data source, it requires a GET call with the following options:**
+
+- ``"data_name": name of the data source``
+
+::
+
+    curl -k -u admin:'ch@ngeM3' -X GET https://localhost:8089/services/trackme/v1/smart_status/ds_smart_status -d '{"data_name": "network:pan:traffic"}'
+
+*JSON response:*
+
+::
+
+    {
+      "data_name": "network:pan:traffic",
+      "data_source_state": "red",
+      "smart_result": "TrackMe triggered an alert on this data source due to outliers detection in the event count, outliers are based on the calculation of a lower and upper bound (if alerting on upper) determined against the data source usual behaviour and outliers parameters. Review the correlation results to determine if the behaviour is expected or symptomatic of an issue happening on the data source (lost of sources or hosts, etc.) and proceed to any outliers configuration fine tuning if necessary.",
+      "smart_code": "40",
+      "correlation_outliers": "[ description: Last 24h outliers detection ], [ OutliersCount: 288 ], [ latest4hcount: 34560.00 ], [ lowerBound: 120000.00 ], [ upperBound: 92858.16 ], [ lastOutlier: Sat Jan 16 20:40:00 2021 ], [ OutlierAlertOnUpper: true ]",
+      "correlation_flipping_state": "state: [ green ], message: [ There were no anomalies detected in the flipping state activity threshold. ]",
+      "correlation_data_sampling": "state: [ red ], message: [ WARNING: Anomalies were detected in data sampling, a change with multiple event formats was detected on Fri Jan 15 08:30:00 2021, review the format of the events and acknowledge the data sampling alert if this format change was expected. Click on the button Manage data sampling for more details. ]"
+    }
+
+*The API response depends on the smart status results.*
