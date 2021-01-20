@@ -75,14 +75,21 @@ class TrackMeRestHandler(GeneratingCommand):
             # yield data
 
             # parse if response is a proper json, otherwise returns as string
-            try:
-                response_data = json.loads(json.dumps(response.json(), indent=1))
-            except Exception as e:
-                # Response is not json, let's parse and make it a json answer
-                response_data = str(response.content)
-                response_data = re.sub('^b\'', '', response_data)
-                response_data = re.sub('\'$', '', response_data)
-                response_data = "{\"response\": \"" + str(response_data.replace("\"", "\\\"")) + "\"}"
+            response_data = None
+
+            # if is an array containing multiple json, return as response.text
+            if re.search(r"^\[", response.text) and re.search(r"\}\,", response.text) and re.search(r"\]$", response.text):
+                response_data = response.text
+
+            # otherwise attempts json format
+            else:
+
+                try:
+                    response_data = json.loads(json.dumps(response.json(), indent=1))
+                except Exception as e:
+                    # Response is not json, let's parse and make it a json answer
+                    response_data = str(response.text)
+                    response_data = "{\"response\": \"" + str(response_data.replace("\"", "\\\"")) + "\"}"
 
             # yield
             data = {'_time': time.time(), '_raw': response_data}
