@@ -756,14 +756,246 @@ class TrackMeHandlerSmartStatus_v1(rest_handler.RESTHandler):
                             'status': 200 # HTTP status code
                         }
 
-                    #
+                    ###################################
                     # case: dcount host threshold unmet
-                    #
+                    ###################################
 
                     elif int(min_dcount_host)>0 and int(dcount_host)<int(min_dcount_host):
 
+                        # Retrieve latest flip state
+
+                        # calculate a 4h time range relative to the latest time seen in the data source
+                        earliest_time = int(data_last_time_seen) - (24*3600)
+                        latest_time = "now"
+
+                        kwargs_search = {"app": "trackme", "earliest_time": str(earliest_time), "latest_time": str(latest_time)}
+                        searchquery = " search `trackme_idx` source=\"flip_state_change_tracking\" object_category=\"data_source\" object=\"" + str(data_name) + "\" object_state=\"red\""\
+                        + " | stats max(_time) as flipping_time | eval flipping_time=strftime(flipping_time, \"%c\")"
+
+                        # spawn the search and get the results
+                        searchresults = service.jobs.oneshot(searchquery, **kwargs_search)
+
+                        # Get the results and display them using the ResultsReader
+                        try:
+                            reader = results.ResultsReader(searchresults)
+                            for item in reader:
+                                query_result = item
+                            flipping_time = query_result["flipping_time"]
+
+                        except Exception as e:
+                            flipping_time = None
+
+                        # data source is regular
+                        if (not isElastic):
+
+                            # calculate a 24h time range relative to the latest time seen in the data source
+                            earliest_time = int(data_last_time_seen) - (24*3600)
+                            latest_time = "now"
+
+                            kwargs_search = {"app": "trackme", "earliest_time": str(earliest_time), "latest_time": str(latest_time)}
+                            searchquery = "| tstats dc(host) as dcount_host where index=\"" + str(data_index) + "\" sourcetype=\"" + str(data_sourcetype) + "\" by _time span=1h"\
+                            + " | timechart span=1h first(dcount_host) as dcount_host"\
+                            + " | eval time=strftime(_time, \"%m/%d %H\")"\
+                            + " | eval summary = time . \"h: \" . dcount_host . if(dcount_host>1, \" hosts\", \" host\")"\
+                            + " | stats list(summary) as summary | eval summary=mvjoin(summary, \", \")"
+
+                            report_desc = "[ description: report hourly distinct count hosts last 24 hours ], "
+                            report_name = "distinct_count_hosts_report"
+
+                        # data source is Elastic and tstats
+                        elif isElastic and elastic_source_search_mode in("tstats"):
+
+                            # calculate a 24h time range relative to the latest time seen in the data source
+                            earliest_time = int(data_last_time_seen) - (24*3600)
+                            latest_time = "now"
+
+                            kwargs_search = {"app": "trackme", "earliest_time": str(earliest_time), "latest_time": str(latest_time)}
+                            searchquery = "| tstats dc(host) as dcount_host where (" + str(elastic_source_search_constraint) + ") by _time span=1h"\
+                            + " | timechart span=1h first(dcount_host) as dcount_host"\
+                            + " | eval time=strftime(_time, \"%m/%d %H\")"\
+                            + " | eval summary = time . \"h: \" . dcount_host . if(dcount_host>1, \" hosts\", \" host\")"\
+                            + " | stats list(summary) as summary | eval summary=mvjoin(summary, \", \")"
+
+                            report_desc = "[ description: report hourly distinct count hosts last 24 hours ], "
+                            report_name = "distinct_count_hosts_report"
+
+                        # data source is Elastic and raw
+                        elif isElastic and elastic_source_search_mode in("raw"):
+
+                            # calculate a 24h time range relative to the latest time seen in the data source
+                            earliest_time = int(data_last_time_seen) - (24*3600)
+                            latest_time = "now"
+
+                            kwargs_search = {"app": "trackme", "earliest_time": earliest_time, "latest_time": latest_time}
+                            searchquery = "search " + str(elastic_source_search_constraint)\
+                            + " | timechart span=1h dc(host) as dcount_host"\
+                            + " | eval time=strftime(_time, \"%m/%d %H\")"\
+                            + " | eval summary = time . \"h: \" . dcount_host . if(dcount_host>1, \" hosts\", \" host\")"\
+                            + " | stats list(summary) as summary | eval summary=mvjoin(summary, \", \")"
+
+                            report_desc = "[ description: report hourly distinct count hosts last 24 hours ], "
+                            report_name = "hosts_report"
+
+                        # data source is Elastic and mstats
+                        elif isElastic and elastic_source_search_mode in("mstats"):
+
+                            # calculate a 24h time range relative to the latest time seen in the data source
+                            earliest_time = int(data_last_time_seen) - (24*3600)
+                            latest_time = "now"
+
+                            kwargs_search = {"app": "trackme", "earliest_time": earliest_time, "latest_time": latest_time}
+                            searchquery = "| mstats max(_value) where " + str(elastic_source_search_constraint) + " by host span=1h"\
+                            + " | stats dc(host) as dcount_host by _time" \
+                            + " | eval time=strftime(_time, \"%m/%d %H\")"\
+                            + " | eval summary = time . \"h: \" . dcount_host . if(dcount_host>1, \" hosts\", \" host\")"\
+                            + " | stats list(summary) as summary | eval summary=mvjoin(summary, \", \")"
+
+                            report_desc = "[ description: report hourly distinct count hosts last 24 hours ], "
+                            report_name = "hosts_report"
+
+                        # data source is Elastic, from
+                        elif isElastic and elastic_source_search_mode in ("from"):
+
+                            # if datamodel based
+                            if re.search("datamodel:", str(elastic_source_search_constraint)):
+
+                                # calculate a 1h time range relative to the latest time seen in the data source
+                                earliest_time = int(data_last_time_seen) - (3600)
+                                latest_time = "now"
+
+                                # from datamodel searches are likely to be very slow, shorter the time range to the last 60 minutes
+                                kwargs_search = {"app": "trackme", "earliest_time": earliest_time, "latest_time": latest_time}
+                                searchquery = "| from " + str(elastic_source_search_constraint)\
+                                + " | timechart span=10m dc(host) as dcount_host"\
+                                + " | eval time=strftime(_time, \"%m/%d %H:%M\")"\
+                                + " | eval summary = time . \": \" . dcount_host . if(dcount_host>1, \" hosts\", \" host\")"\
+                                + " | stats list(summary) as summary | eval summary=mvjoin(summary, \", \")"
+
+                                report_desc = "[ description: report last relative hour distinct count hosts ], "
+                                report_name = "hosts_report"
+
+                            # if lookup based
+                            elif re.search("lookup:", str(elastic_source_search_constraint)):
+
+                                kwargs_search = {"app": "trackme", "earliest_time": "-5m", "latest_time": "now"}
+                                searchquery = "| from " + str(elastic_source_search_constraint)\
+                                + " | " + str(elastic_source_from_part2)\
+                                + " | stats max(_indextime) as lastIngest, min(_time) as earliestRecord, max(_time) as latestRecord, count as numberRecords, dc(host) as numberHost"\
+                                + " | eval summary=\"[ lastIngest: \" . strftime(lastIngest, \"%c\") . \", latestRecord: \" . strftime(latestRecord, \"%c\") . \", earliestRecord: \" . strftime(earliestRecord, \"%c\") . \", numberRecords: \" . numberRecords . \", numberHosts: \" . numberHost . \" ]\" | fields summary"
+
+                                report_desc = "[ description: Investigate lookup based data source (duration days, HH:MM:SS) ], "
+                                report_name = "lookup_report"
+
+                        # data source is Elastic, rest tstats
+                        elif isElastic and elastic_source_search_mode in ("rest_tstats"):
+
+                            # calculate a 4h time range relative to the latest time seen in the data source
+                            earliest_time = int(data_last_time_seen) - (4*3600)
+                            latest_time = "now"
+
+                            kwargs_search = {"app": "trackme", "earliest_time": "-5m", "latest_time": "now"}
+                            searchquery = "| rest " + str(elastic_source_from_part1) + " /servicesNS/admin/search/search/jobs/export search=\""\
+                            + " | tstats dc(host) as dcount_host where (" + str(elastic_source_from_part2) + ") by _time span=1h"\
+                            + " | timechart span=1h first(dcount_host) as dcount_host"\
+                            + " | eval time=strftime(_time, \\\"%m/%d %H\\\")"\
+                            + " | eval summary = time . \\\"h: \\\" . dcount_host . if(dcount_host>1, \\\" hosts\\\", \\\" host\\\")"\
+                            + " | stats list(summary) as summary | eval summary=mvjoin(summary, \\\", \\\")"\
+                            + " \" output_mode=\"csv\" earliest_time=\"" + str(earliest_time) + "\" latest_time=\"" + str(latest_time) + "\" | table value | restextractsummary"
+
+                            report_desc = "[ description: report last relative hour distinct count hosts ], "
+                            report_name = "hosts_report"
+
+                        # data source is Elastic, rest raw
+                        elif isElastic and elastic_source_search_mode in ("rest_raw"):
+
+                            # calculate a 4h time range relative to the latest time seen in the data source
+                            earliest_time = int(data_last_time_seen) - (4*3600)
+                            latest_time = "now"
+
+                            kwargs_search = {"app": "trackme", "earliest_time": "-5m", "latest_time": "now"}
+                            searchquery = "| rest " + str(elastic_source_from_part1) + " /servicesNS/admin/search/search/jobs/export search=\""\
+                            + " search " + str(elastic_source_from_part2)\
+                            + " | timechart span=1h dc(host) as dcount_host"\
+                            + " | eval time=strftime(_time, \\\"%m/%d %H\\\")"\
+                            + " | eval summary = time . \\\"h: \\\" . dcount_host . if(dcount_host>1, \\\" hosts\\\", \\\" host\\\")"\
+                            + " | stats list(summary) as summary | eval summary=mvjoin(summary, \\\", \\\")"\
+                            + " \" output_mode=\"csv\" earliest_time=\"" + str(earliest_time) + "\" latest_time=\"" + str(latest_time) + "\" | table value | restextractsummary"                            
+                            
+                            report_desc = "[ description: report last relative hour distinct count hosts ], "
+                            report_name = "hosts_report"
+
+                        # data source is Elastic, from
+                        elif isElastic and elastic_source_search_mode in ("rest_from"):
+
+                            # if datamodel based
+                            if re.search("datamodel:", str(elastic_source_search_constraint)):
+
+                                # calculate a 1h time range relative to the latest time seen in the data source
+                                earliest_time = int(data_last_time_seen) - (3600)
+                                latest_time = "now"
+
+                                # from datamodel searches are likely to be very slow, shorter the time range to the last 60 minutes
+                                kwargs_search = {"app": "trackme", "earliest_time": earliest_time, "latest_time": latest_time}
+                                searchquery = "| rest " + str(elastic_source_from_part1) + " /servicesNS/admin/search/search/jobs/export search=\""\
+                                + " | from " + str(elastic_source_from_part2)\
+                                + " | timechart span=10m dc(host) as dcount_host"\
+                                + " | eval time=strftime(_time, \\\"%m/%d %H:%M\\\")"\
+                                + " | eval summary = time . \\\": \\\" . dcount_host . if(dcount_host>1, \\\" hosts\\\", \\\" host\\\")"\
+                                + " | stats list(summary) as summary | eval summary=mvjoin(summary, \\\", \\\")"\
+                                + " \" output_mode=\"csv\" earliest_time=\"" + str(earliest_time) + "\" latest_time=\"" + str(latest_time) + "\" | table value | restextractsummary"
+
+                                report_desc = "[ description: report last relative hour distinct count hosts ], "
+                                report_name = "hosts_report"
+
+                            # if lookup based
+                            elif re.search("lookup:", str(elastic_source_search_constraint)):
+
+                                kwargs_search = {"app": "trackme", "earliest_time": "-5m", "latest_time": "now"}
+                                searchquery = "| rest " + str(elastic_source_from_part1) + " /servicesNS/admin/search/search/jobs/export search=\""\
+                                + " | from " + str(elastic_source_from_part2)\
+                                + " | stats max(_indextime) as lastIngest, min(_time) as earliestRecord, max(_time) as latestRecord, count as numberRecords, dc(host) as numberHost"\
+                                + " | eval summary=\\\"[ lastIngest: \\\" . strftime(lastIngest, \\\"%c\\\") . \\\", latestRecord: \\\" . strftime(latestRecord, \\\"%c\\\") . \\\", earliestRecord: \\\" . strftime(earliestRecord, \\\"%c\\\") . \\\", numberRecords: \\\" . numberRecords . \\\", numberHosts: \\\" . numberHost . \\\" ]\\\" | fields summary"\
+                                + " \" output_mode=\"csv\" earliest_time=\"-4h\" latest_time=\"+4h\" | table value | restextractsummary"
+
+                                report_desc = "[ description: Investigate lookup based data source ], "
+                                report_name = "lookup_report"
+
+                        # data source is Elastic, mstats
+                        elif isElastic and elastic_source_search_mode in ("rest_mstats"):
+
+                            # calculate a 24h time range relative to the latest time seen in the data source
+                            earliest_time = int(data_last_time_seen) - (24*3600)
+                            latest_time = "now"
+
+                            kwargs_search = {"app": "trackme", "earliest_time": earliest_time, "latest_time": latest_time}
+                            searchquery = "| rest " + str(elastic_source_from_part1) + " /servicesNS/admin/search/search/jobs/export search=\""\
+                            + " | mstats max(_value) where " + str(elastic_source_from_part2) + " by host span=1h"\
+                            + " | stats dc(host) as dcount_host by _time" \
+                            + " | eval time=strftime(_time, \\\"%m/%d %H\\\")"\
+                            + " | eval summary = time . \\\"h: \\\" . dcount_host . if(dcount_host>1, \\\" hosts\\\", \\\" host\\\")"\
+                            + " | stats list(summary) as summary | eval summary=mvjoin(summary, \\\", \\\")"\
+                            + " \" output_mode=\"csv\" earliest_time=\"-4h\" latest_time=\"+4h\" | table value | restextractsummary"
+
+                            report_desc = "[ description: report hourly distinct count hosts last 24 hours ], "
+                            report_name = "hosts_report"
+
+                        # spawn the search and get the results
+                        searchresults = service.jobs.oneshot(searchquery, **kwargs_search)
+
+                        # Get the results and display them using the ResultsReader
+                        try:
+                            reader = results.ResultsReader(searchresults)
+                            for item in reader:
+                                query_result = item
+                            summary = query_result["summary"]
+                            summary = summary.replace(", ", ",")
+                            summary = summary.split(",")
+
+                        except Exception as e:
+                            summary = None
+
                         # define the message
-                        smart_result_msg = 'TrackMe triggered an alert due to the minimal distinct count of hosts configured for this data source (threshold: '\
+                        smart_result_msg = 'TrackMe triggered an alert on ' + str(flipping_time) + ' due to the minimal distinct count of hosts configured for this data source (threshold: '\
                             + str(min_dcount_host) + ' hosts) which condition is not met as only ' + str(dcount_host) \
                             + ' hosts are detected currently. Review this threshold and the current data source activity accordingly.'
 
@@ -774,6 +1006,7 @@ class TrackMeHandlerSmartStatus_v1(rest_handler.RESTHandler):
                         + '"data_name": "' + data_name  + '", '\
                         + '"data_source_state": "' + data_source_state  + '", '\
                         + '"smart_result": "' + str(smart_result_msg) + '", '\
+                        + '"' + str(report_name) + '": "' + str(report_desc) + str(summary) + '", '\
                         + '"smart_code": "' + str(smart_code) + '", ' \
                         + '"correlation_flipping_state": "' + str(flipping_correlation_msg) + '", '\
                         + '"correlation_data_sampling": "' + str(data_sampling_state) + '"'\
@@ -783,7 +1016,6 @@ class TrackMeHandlerSmartStatus_v1(rest_handler.RESTHandler):
                             "payload": json.dumps(json.loads(results), indent=1),
                             'status': 200 # HTTP status code
                         }
-
 
                     # case: outliers anomaly detection
 
