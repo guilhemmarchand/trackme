@@ -1017,7 +1017,9 @@ class TrackMeHandlerSmartStatus_v1(rest_handler.RESTHandler):
                             'status': 200 # HTTP status code
                         }
 
+                    ##################################
                     # case: outliers anomaly detection
+                    ##################################
 
                     elif isOutlier in ("1") and enable_behaviour_analytic in ("true"):
 
@@ -1110,9 +1112,9 @@ class TrackMeHandlerSmartStatus_v1(rest_handler.RESTHandler):
 
                     elif isAnomaly in ("1"):
 
-                        #
+                        #############################################
                         # case: data sampling has detected an anomaly
-                        #
+                        #############################################
 
                         anomaly_reason = None
                         smart_correlation = None
@@ -1179,8 +1181,17 @@ class TrackMeHandlerSmartStatus_v1(rest_handler.RESTHandler):
                             + " once the root cause is identified and fixed, proceed to clear state and run sampling."
 
                             # Perform an additional correlation: run a search for the past 4 hours over raw events and calculate proportion of events found for every model matched by the engine
+                            # About type of sources: not every type of data source is eligible to data sampling, only tstats and raw based (non rest) can reach that stage
+
                             kwargs_search = {"app": "trackme", "earliest_time": "-4h", "latest_time": "now"}
-                            searchquery = "search index=\"" + str(data_index) + "\" sourcetype=\"" + str(data_sourcetype) + "\""\
+                            search_root = None
+
+                            if not isElastic:
+                                search_root = "search index=\"" + str(data_index) + "\" sourcetype=\"" + str(data_sourcetype) + "\""
+                            elif isElastic and elastic_source_search_mode in("tstats", "raw"):
+                                search_root = "search " + str(elastic_source_search_constraint)
+
+                            searchquery = str(search_root)\
                             + "| eval [ | inputlookup trackme_data_sampling_custom_models | where model_name in (" + str(rules_csv) + ")"\
                             + "| fields model_name, model_regex"\
                             + "| eval model_regex=\"match(raw_sample, \\\"\" . model_regex . \"\\\")\""\
@@ -1203,7 +1214,7 @@ class TrackMeHandlerSmartStatus_v1(rest_handler.RESTHandler):
                             + "| top model_match | eval summary = \"model: [ \" . model_match . \" ], count: [ \" . count . \" ], percent: [ \" . round(percent, 2) . \" % ]\""\
                             + "| stats values(summary) as summary"\
                             + "| eval summary=mvjoin(summary, \", \")"
-
+                            
                             # spawn the search and get the results
                             searchresults = service.jobs.oneshot(searchquery, **kwargs_search)
 
@@ -1377,4 +1388,3 @@ class TrackMeHandlerSmartStatus_v1(rest_handler.RESTHandler):
                 'payload': 'Warn: exception encountered: ' + str(e), # Payload of the request.
                 'status': 500 # HTTP status code
             }
-
