@@ -35,7 +35,7 @@ class TrackMeRestHandler(GeneratingCommand):
 
     def generate(self, **kwargs):
 
-        if self.url and self.mode in ("get", "post", "delete"):
+        if (self.url and re.search(r"services\/trackme", self.url)) and self.mode in ("get", "post", "delete"):
 
             # Get the session key
             session_key = self._metadata.searchinfo.session_key
@@ -93,6 +93,12 @@ class TrackMeRestHandler(GeneratingCommand):
 
             # yield
             data = {'_time': time.time(), '_raw': response_data}
+            yield data
+
+        else:
+
+            # yield
+            data = {'_time': time.time(), '_raw': "{\"response\": \"" + "Error: bad request, URL must match /services/trackme/v1/<endpoint> and accepted HTTP modes are get / post / delete\"}"}
             yield data
 
 dispatch(TrackMeRestHandler, sys.argv, sys.stdin, sys.stdout, __name__)
