@@ -392,6 +392,8 @@ Data Sources endpoints
 +----------------------------------------------------------------------------+---------------------------------------------------------------------------+
 | :ref:`ds_disable_monitoring / Disable monitoring`                          | /services/trackme/v1/data_sources/ds_disable_monitoring                   |
 +----------------------------------------------------------------------------+---------------------------------------------------------------------------+
+| :ref:`ds_update_priority / Update priority`                                | /services/trackme/v1/data_sources/ds_update_priority                      |
++----------------------------------------------------------------------------+---------------------------------------------------------------------------+
 | :ref:`ds_update_lag_policy / Update lagging policy`                        | /services/trackme/v1/data_sources/ds_update_lag_policy                    |
 +----------------------------------------------------------------------------+---------------------------------------------------------------------------+
 | :ref:`ds_update_min_dcount_host / Update minimal host dcount`              | /services/trackme/v1/data_sources/ds_update_min_dcount_host               |
@@ -399,6 +401,8 @@ Data Sources endpoints
 | :ref:`ds_update_wdays_by_name / Update week days monitoring`               | /services/trackme/v1/data_sources/ds_update_wdays                         |
 +----------------------------------------------------------------------------+---------------------------------------------------------------------------+
 | :ref:`ds_update_outliers / Update outliers detection configuration`        | /services/trackme/v1/data_sources/ds_update_outliers                      |
++----------------------------------------------------------------------------+---------------------------------------------------------------------------+
+| :ref:`ds_update_monitoring_level / Update monitoring level`                | /services/trackme/v1/data_sources/ds_update_monitoring_level              |
 +----------------------------------------------------------------------------+---------------------------------------------------------------------------+
 | :ref:`ds_delete_temporary / Delete temporary`                              | /services/trackme/v1/data_sources/ds_delete_temporary                     |
 +----------------------------------------------------------------------------+---------------------------------------------------------------------------+
@@ -582,6 +586,42 @@ ds_disable_monitoring / Disable monitoring
     "current_state": "green",
     ...
 
+ds_update_priority / Update priority
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+**This endpoint updates the priority definition for an existing data source by the data source name (data_name), it requires a POST call with the following information:**
+
+- ``"data_name": name of the data source``
+- ``"priority": priority value, valid options are low / medium / high``
+- ``"update_comment": OPTIONAL: a comment for the update, comments are added to the audit record, if unset will be defined to: API update``
+
+*External:*
+
+::
+
+    curl -k -u admin:'ch@ngeM3' -X POST https://localhost:8089/services/trackme/v1/data_sources/ds_update_priority -d '{"data_name": "network:pan:traffic", "priority": "high", "update_comment": "Updated by automation."}'
+
+*SPL query:*
+
+::
+
+    | trackme url="/services/trackme/v1/data_sources/ds_update_priority" mode="post" body="{\"data_name\": \"network:pan:traffic\", \"priority\": \"high\", \"update_comment\": \"Updated by automation.\"}"
+
+*JSON response: (full record)*
+
+::
+
+    {
+    "OutlierAlertOnUpper": "false",
+    "OutlierLowerThresholdMultiplier": "4",
+    "OutlierMinEventCount": "0",
+    "OutlierSpan": "5m",
+    "OutlierTimePeriod": "-7d",
+    "OutlierUpperThresholdMultiplier": "4",
+    "_time": "1607770500",
+    "current_state": "green",
+    ...
+
 ds_update_lag_policy / Update lagging policy
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
@@ -626,7 +666,7 @@ ds_update_min_dcount_host / Update minimal host dcount
 **This endpoint configures the minimal number of distinct hosts count for an existing data source, it requires a POST call with the following information:**
 
 - ``"data_name": name of the data source``
-- ``"data_max_lag_allowed": minimal accepted number of distinct count hosts, must be an integer``
+- ``"min_dcount_host": minimal accepted number of distinct count hosts, must be an integer``
 - ``"update_comment": OPTIONAL: a comment for the update, comments are added to the audit record, if unset will be defined to: API update``
 
 *External:*
@@ -718,6 +758,42 @@ ds_update_outliers / Update outliers detection configuration
 ::
 
     | trackme url="/services/trackme/v1/data_sources/ds_update_outliers" mode="post" body="{\"data_name\": \"network:pan:traffic\", \"update_comment\": \"Updated by automation.\", \"OutlierMinEventCount\": \"0\", \"OutlierLowerThresholdMultiplier\": \"6\", \"OutlierUpperThresholdMultiplier\": \"6\", \"OutlierAlertOnUpper\": \"false\", \"OutlierTimePeriod\": \"7d\", \"OutlierSpan\": \"5m\", \"enable_behaviour_analytic\": \"true\"}"
+
+*JSON response: (full record)*
+
+::
+
+    {
+    "OutlierAlertOnUpper": "false",
+    "OutlierLowerThresholdMultiplier": "4",
+    "OutlierMinEventCount": "0",
+    "OutlierSpan": "5m",
+    "OutlierTimePeriod": "-7d",
+    "OutlierUpperThresholdMultiplier": "4",
+    "_time": "1607770500",
+    "current_state": "green",
+    ...
+
+ds_update_monitoring_level / Update monitoring level
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+**This endpoint updates the monitoring level for an existing data source, it requires a POST call with the following information:**
+
+- ``"data_name": name of the data source``
+- ``"data_monitoring_level": the monitoring level definition, valid options are index / sourcetype``
+- ``"update_comment": OPTIONAL: a comment for the update, comments are added to the audit record, if unset will be defined to: API update``
+
+*External:*
+
+::
+
+    curl -k -u admin:'ch@ngeM3' -X POST https://localhost:8089/services/trackme/v1/data_sources/ds_update_monitoring_level -d '{"data_name": "network:pan:traffic", "update_comment": "Updated by automation.", "data_monitoring_level": "sourcetype"}'
+
+*SPL query:*
+
+::
+
+    | trackme url="/services/trackme/v1/data_sources/ds_update_monitoring_level" mode="post" body="{\"data_name\": \"network:pan:traffic\", \"update_comment\": \"Updated by automation.\", \"data_monitoring_level\": \"sourcetype\"}"
 
 *JSON response: (full record)*
 
@@ -901,11 +977,13 @@ Data Hosts endpoints
 +---------------------------------------------------------------------+-----------------------------------------------------------------+
 | :ref:`dh_disable_monitoring / Disable monitoring`                   | /services/trackme/v1/data_hosts/dh_disable_monitoring           |
 +---------------------------------------------------------------------+-----------------------------------------------------------------+
+| :ref:`dh_update_priority / Update priority`                         | /services/trackme/v1/data_hosts/dh_update_priority              |
++---------------------------------------------------------------------+-----------------------------------------------------------------+
 | :ref:`dh_reset / Reset data host`                                   | /services/trackme/v1/data_hosts/dh_reset                        |
 +---------------------------------------------------------------------+-----------------------------------------------------------------+
 | :ref:`dh_update_lag_policy / Update lagging policy`                 | /services/trackme/v1/data_hosts/dh_update_lag_policy            |
 +---------------------------------------------------------------------+-----------------------------------------------------------------+
-| :ref:`dh_update_wdays_by_name / Update week days monitoring`        | /services/trackme/v1/data_hosts/dh_update_wdays                 |
+| :ref:`dh_update_wdays / Update week days monitoring`                | /services/trackme/v1/data_hosts/dh_update_wdays                 |
 +---------------------------------------------------------------------+-----------------------------------------------------------------+
 | :ref:`dh_update_outliers / Update outliers detection configuration` | /services/trackme/v1/data_hosts/dh_update_outliers              |
 +---------------------------------------------------------------------+-----------------------------------------------------------------+
@@ -1099,6 +1177,39 @@ dh_disable_monitoring / Disable monitoring
      "data_first_time_seen": "1607781871",
      ...
 
+dh_update_priority / Update priority
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+**This endpoint updates the priority definition for an existing data host by the data host name (data_host), it requires a POST call with the following information:**
+
+- ``"data_host": name of the data host``
+- ``"priority": priority value, valid options are low / medium / high``
+- ``"update_comment": OPTIONAL: a comment for the update, comments are added to the audit record, if unset will be defined to: API update``
+
+*External:*
+
+::
+
+    curl -k -u admin:'ch@ngeM3' -X POST https://localhost:8089/services/trackme/v1/data_hosts/dh_update_priority -d '{"data_host": "FIREWALL.PAN.AMER.DESIGN.NODE1", "priority": "high", "update_comment": "Updated by automation."}'
+
+*SPL query:*
+
+::
+
+    | trackme url="/services/trackme/v1/data_hosts/dh_update_priority" mode="post" body="{\"data_host\": \"FIREWALL.PAN.AMER.DESIGN.NODE1\", \"priority\": \"high\", \"update_comment\": \"Updated by automation.\"}"
+
+*JSON response: (full record)*
+
+::
+
+    {
+     "object_category": "data_host",
+     "data_host": "FIREWALL.PAN.AMER.DESIGN.NODE1",
+     "data_last_lag_seen": "-2",
+     "data_last_ingestion_lag_seen": "0",
+     "data_eventcount": "2585",
+     ...
+
 
 dh_reset / Reset data host
 ^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -1172,8 +1283,8 @@ dh_update_lag_policy / Update lagging policy
      "data_first_time_seen": "1607205117",
      ...
 
-dh_update_wdays_by_name / Update week days monitoring
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+dh_update_wdays / Update week days monitoring
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 **This endpoint configures the week days monitoring rule for an existing data host, it requires a POST call with the following information:**
 
@@ -1322,6 +1433,8 @@ Metric Hosts endpoints
 | :ref:`mh_enable_monitoring / Enable monitoring`                     | /services/trackme/v1/metric_hosts/mh_enable_monitoring          |
 +---------------------------------------------------------------------+-----------------------------------------------------------------+
 | :ref:`mh_disable_monitoring / Disable monitoring`                   | /services/trackme/v1/metric_hosts/mh_disable_monitoring         |
++---------------------------------------------------------------------+-----------------------------------------------------------------+
+| :ref:`mh_update_priority / Update priority`                         | /services/trackme/v1/metric_hosts/mh_update_priority            |
 +---------------------------------------------------------------------+-----------------------------------------------------------------+
 | :ref:`mh_reset / Reset metrics`                                     | /services/trackme/v1/metric_hosts/mh_reset                      |
 +---------------------------------------------------------------------+-----------------------------------------------------------------+
@@ -1493,6 +1606,38 @@ mh_disable_monitoring / Disable monitoring
      "metric_host": "telegraf-node1",
      "metric_index": "telegraf",
      "metric_category": "docker,docker_container_blkio,docker_container_cpu,docker_container_health,docker_container_mem,docker_container_net,docker_container_status",
+     ...
+
+mh_update_priority / Update priority
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+**This endpoint updates the priority definition for an existing metric host, it requires a POST call with the following information:**
+
+- ``"metric_host": name of the metric host``
+- ``"priority": priority value, valid options are low / medium / high``
+- ``"update_comment": OPTIONAL: a comment for the update, comments are added to the audit record, if unset will be defined to: API update``
+
+*External:*
+
+::
+
+    curl -k -u admin:'ch@ngeM3' -X POST https://localhost:8089/services/trackme/v1/metric_hosts/mh_update_priority -d '{"metric_host": "telegraf-node1", "priority": "high", "update_comment": "Updated by automation."}'
+
+*SPL query:*
+
+::
+
+    | trackme url="/services/trackme/v1/metric_hosts/mh_update_priority" mode="post" body="{\"metric_host\": \"telegraf-node1\", \"priority\": \"high\", \"update_comment\": \"Updated by automation.\"}"
+
+*JSON response: (full record)*
+
+::
+
+    {
+     "object_category": "metric_host",
+     "metric_host": "telegraf-node1",
+     "metric_index": "telegraf",
+     "metric_last_lag_seen": "8",
      ...
 
 mh_reset / Reset metrics
@@ -3135,7 +3280,7 @@ blocklist_ds_host_del / Delete host in block list for data sources
 
 **This endpoint deletes an existing record returned as a JSON array, it requires a DELETE call with the following arguments:**
 
-- ``"data_host": value to be added to the blocklist, accepts wildcards and regular expressions``
+- ``"data_host": value to be removed from the collection``
 - ``"update_comment": OPTIONAL: a comment for the update, comments are added to the audit record, if unset will be defined to: API update``
 
 *External:*
@@ -3161,7 +3306,7 @@ blocklist_ds_index_del / Delete index in block list for data sources
 
 **This endpoint deletes an existing record returned as a JSON array, it requires a DELETE call with the following arguments:**
 
-- ``"data_index": value to be added to the blocklist, accepts wildcards and regular expressions``
+- ``"data_index": value to be removed from the collection``
 - ``"update_comment": OPTIONAL: a comment for the update, comments are added to the audit record, if unset will be defined to: API update``
 
 *External:*
@@ -3187,7 +3332,7 @@ blocklist_ds_sourcetype_del / Delete sourcetype in block list for data sources
 
 **This endpoint deletes an existing record returned as a JSON array, it requires a DELETE call with the following arguments:**
 
-- ``"data_sourcetype": value to be added to the blocklist, accepts wildcards and regular expressions``
+- ``"data_sourcetype": value to be removed from the collection``
 - ``"update_comment": OPTIONAL: a comment for the update, comments are added to the audit record, if unset will be defined to: API update``
 
 *External:*
@@ -3213,7 +3358,7 @@ blocklist_dh_host_del / Delete host in block list for data hosts
 
 **This endpoint deletes an existing record returned as a JSON array, it requires a DELETE call with the following arguments:**
 
-- ``"data_host": value to be added to the blocklist, accepts wildcards and regular expressions``
+- ``"data_host": value to be removed from the collection``
 - ``"update_comment": OPTIONAL: a comment for the update, comments are added to the audit record, if unset will be defined to: API update``
 
 *External:*
@@ -3239,7 +3384,7 @@ blocklist_dh_index_del / Delete index in block list for data hosts
 
 **This endpoint deletes an existing record returned as a JSON array, it requires a DELETE call with the following arguments:**
 
-- ``"data_index": value to be added to the blocklist, accepts wildcards and regular expressions``
+- ``"data_index": value to be removed from the collection``
 - ``"update_comment": OPTIONAL: a comment for the update, comments are added to the audit record, if unset will be defined to: API update``
 
 *External:*
@@ -3265,7 +3410,7 @@ blocklist_dh_sourcetype_del / Delete sourcetype in block list for data hosts
 
 **This endpoint deletes an existing record returned as a JSON array, it requires a DELETE call with the following arguments:**
 
-- ``"data_sourcetype": value to be added to the blocklist, accepts wildcards and regular expressions``
+- ``"data_sourcetype": value to be removed from the collection``
 - ``"update_comment": OPTIONAL: a comment for the update, comments are added to the audit record, if unset will be defined to: API update``
 
 *External:*
@@ -3291,7 +3436,7 @@ blocklist_mh_host_del / Delete host in block list for metric hosts
 
 **This endpoint deletes an existing record returned as a JSON array, it requires a DELETE call with the following arguments:**
 
-- ``"metric_host": value to be added to the blocklist, accepts wildcards and regular expressions``
+- ``"metric_host": value to be removed from the collection``
 - ``"update_comment": OPTIONAL: a comment for the update, comments are added to the audit record, if unset will be defined to: API update``
 
 *External:*
@@ -3317,7 +3462,7 @@ blocklist_mh_index_del / Delete index in block list for metric hosts
 
 **This endpoint deletes an existing record returned as a JSON array, it requires a DELETE call with the following arguments:**
 
-- ``"metric_index": value to be added to the blocklist, accepts wildcards and regular expressions``
+- ``"metric_index": value to be removed from the collection``
 - ``"update_comment": OPTIONAL: a comment for the update, comments are added to the audit record, if unset will be defined to: API update``
 
 *External:*
@@ -3343,7 +3488,7 @@ blocklist_mh_metric_category_del / Delete metric_category in block list for metr
 
 **This endpoint deletes an existing record returned as a JSON array, it requires a DELETE call with the following arguments:**
 
-- ``"metric_category": value to be added to the blocklist, accepts wildcards and regular expressions``
+- ``"metric_category": value to be removed from the collection``
 - ``"update_comment": OPTIONAL: a comment for the update, comments are added to the audit record, if unset will be defined to: API update``
 
 *External:*
@@ -3466,8 +3611,13 @@ logical_groups_add_grp / Add a new or update a logical group
 
 - ``"object_group_name": name of the logical group to be created``
 - ``"object_group_members": comma separated list of the group members``
-- ``"object_group_min_green_percent": OPTIONAL: minimal percentage of hosts that need to be green for the logical group to be green, if unset defaults to 50. Recommended options for this value: 12.5 / 33.33 / 50``
-- ``"update_comment": OPTIONAL: a comment for the update, comments are added to the audit record, if unset will be defined to: API update``
+- ``"object_group_min_green_percent"``: 
+
+OPTIONAL: minimal percentage of hosts that need to be green for the logical group to be green, if unset defaults to 50. Recommended options for this value: 12.5 / 33.33 / 50
+
+- ``"update_comment"``: 
+
+OPTIONAL: a comment for the update, comments are added to the audit record, if unset will be defined to: API update
 
 *If the logical group exists already, it will be updated with the information provided.*
 
@@ -3542,6 +3692,8 @@ Data Sampling endpoints
 | :ref:`data_sampling_by_name / Get Data sampling record by data source`                            | /services/trackme/v1/data_sampling/data_sampling_by_name                     |
 +---------------------------------------------------------------------------------------------------+------------------------------------------------------------------------------+
 | :ref:`data_sampling_del / Delete a data sampling record for a given data source`                  | /services/trackme/v1/data_sampling/data_sampling_del                         |
++---------------------------------------------------------------------------------------------------+------------------------------------------------------------------------------+
+| :ref:`data_sampling_reset / Reset and run data sampling for a given data source`                  | /services/trackme/v1/data_sampling/data_sampling_reset                       |
 +---------------------------------------------------------------------------------------------------+------------------------------------------------------------------------------+
 
 data_sampling_collection / Get Data sampling collection
@@ -3634,6 +3786,32 @@ data_sampling_del / Delete a data sampling record for a given data source
 ::
 
     Record with _key ab994e3b00751d45591c7abc2b7a1061 was deleted from the collection.
+
+data_sampling_reset / Reset and run data sampling for a given data source
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+**This endpoint clears the data sampling record state and runs the sampling operation for a given data source, it requires a POST call with the following data:**
+
+- ``"data_name": name of the data source``
+- ``"update_comment": OPTIONAL: a comment for the update, comments are added to the audit record, if unset will be defined to: API update``
+
+*External:*
+
+::
+
+    curl -k -u admin:'ch@ngeM3' -X POST https://localhost:8089/services/trackme/v1/data_sampling/data_sampling_reset -d '{"data_name": "main:retail_transaction", "comment_update": "Automated API driven deletion."}'
+
+*SPL query:*
+
+::
+
+    | trackme url="/services/trackme/v1/data_sampling/data_sampling_reset" mode="post" body="{\"data_name\": \"main:retail_transaction\", \"comment_update\": \"Automated API driven deletion.\"}"
+
+*response:*
+
+::
+
+    Data sampling state for: main:sample9-customformat was cleared and sampling operation ran, data sampling state is: green
 
 Data Sampling models endpoints
 ------------------------------

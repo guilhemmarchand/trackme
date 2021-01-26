@@ -20,6 +20,35 @@ class TrackMeHandlerMaintenance_v1(rest_handler.RESTHandler):
     # Get the entire data sources collection as a Python array
     def get_maintenance_status(self, request_info, **kwargs):
 
+        describe = False
+
+        # Retrieve from data
+        try:
+            resp_dict = json.loads(str(request_info.raw_args['payload']))
+        except Exception as e:
+            resp_dict = None
+
+        if resp_dict is not None:
+            try:
+                describe = resp_dict['describe']
+                if describe in ("true", "True"):
+                    describe = True
+            except Exception as e:
+                describe = False
+
+        else:
+            # body is not required in this endpoint, if not submitted do not describe the usage
+            describe = False
+
+        if describe:
+
+            response = "{\"describe\": \"This endpoint retrieves the current maintenance mode collection returned as a JSON array, it requires a GET call with no data required\"}"\
+
+            return {
+                "payload": json.dumps(json.loads(str(response)), indent=1),
+                'status': 200 # HTTP status code
+            }
+
         # Get splunkd port
         entity = splunk.entity.getEntity('/server', 'settings',
                                             namespace='trackme', sessionKey=request_info.session_key, owner='-')
@@ -56,40 +85,76 @@ class TrackMeHandlerMaintenance_v1(rest_handler.RESTHandler):
         maintenance_mode_end = None
         maintenance_duration = None
         maintenance_mode = "enabled"
+        update_comment = "API update"
 
         import time
+
+        describe = False
 
         # Retrieve from data
         try:
             resp_dict = json.loads(str(request_info.raw_args['payload']))
         except Exception as e:
-            resp_dict = []
+            resp_dict = None
 
-        # Get start and end maintenance, both are optionals
+        if resp_dict is not None:
+            try:
+                describe = resp_dict['describe']
+                if describe in ("true", "True"):
+                    describe = True
+            except Exception as e:
+                describe = False
+            if not describe:
 
-        # maintenance_mode_start
-        try:
-            maintenance_mode_start = int(resp_dict['maintenance_mode_start'])
-        except Exception as e:
-            maintenance_mode_start = 0
+                try:
+                    resp_dict = json.loads(str(request_info.raw_args['payload']))
+                except Exception as e:
+                    resp_dict = []
 
-        # maintenance_mode_end
-        try:
-            maintenance_mode_end = int(resp_dict['maintenance_mode_end'])
-        except Exception as e:
-            maintenance_mode_end = 0
+                # Get start and end maintenance, both are optionals
 
-        # maintenance_duration
-        try:
-            maintenance_duration = int(resp_dict['maintenance_duration'])
-        except Exception as e:
-            maintenance_duration = 0
+                # maintenance_mode_start
+                try:
+                    maintenance_mode_start = int(resp_dict['maintenance_mode_start'])
+                except Exception as e:
+                    maintenance_mode_start = 0
 
-        # Update comment is optional and used for audit changes
-        try:
-            update_comment = resp_dict['update_comment']
-        except Exception as e:
-            update_comment = "API update"
+                # maintenance_mode_end
+                try:
+                    maintenance_mode_end = int(resp_dict['maintenance_mode_end'])
+                except Exception as e:
+                    maintenance_mode_end = 0
+
+                # maintenance_duration
+                try:
+                    maintenance_duration = int(resp_dict['maintenance_duration'])
+                except Exception as e:
+                    maintenance_duration = 0
+
+                # Update comment is optional and used for audit changes
+                try:
+                    update_comment = resp_dict['update_comment']
+                except Exception as e:
+                    update_comment = "API update"
+
+        else:
+            # body is not required in this endpoint
+            describe = False
+
+        if describe:
+
+            response = "{\"describe\": \"This endpoint enables the maintenance mode, it requires a POST call with the following information:\""\
+                + ", \"options\" : [ { "\
+                + "\"maintenance_duration\": \"(integer) OPTIONAL: the duration of the maintenance window in seconds, if unspecified and maintenance_mode_end is not specified either, defaults to now plus 24 hours\", "\
+                + "\"maintenance_mode_end\": \"(integer) OPTIONAL: the date time in epochtime format for the end of the maintenance window, it is overriden by maintenance_duration if specified, defaults to now plus 24 hours if not specified and maintenance_duration is not specified\", "\
+                + "\"maintenance_mode_start\": \"(integer) OPTIONAL: the date time in epochtime format for the start of the maintennce window, defaults to now if not specified\", "\
+                + "\"update_comment\": \"OPTIONAL: a comment for the update, comments are added to the audit record, if unset will be defined to: API update\""\
+                + " } ] }"
+
+            return {
+                "payload": json.dumps(json.loads(str(response)), indent=1),
+                'status': 200 # HTTP status code
+            }
 
         # Calculates start and end
         time_updated = round(time.time())
@@ -233,18 +298,51 @@ class TrackMeHandlerMaintenance_v1(rest_handler.RESTHandler):
         maintenance_mode_start = "N/A"
         maintenance_mode_end = "N/A"
         maintenance_mode = "disabled"
+        update_comment = "API update"
+
+        describe = False
 
         # Retrieve from data
         try:
             resp_dict = json.loads(str(request_info.raw_args['payload']))
         except Exception as e:
-            resp_dict = []
+            resp_dict = None
 
-        # Update comment is optional and used for audit changes
-        try:
-            update_comment = resp_dict['update_comment']
-        except Exception as e:
-            update_comment = "API update"
+        if resp_dict is not None:
+            try:
+                describe = resp_dict['describe']
+                if describe in ("true", "True"):
+                    describe = True
+            except Exception as e:
+                describe = False
+            if not describe:
+
+                try:
+                    resp_dict = json.loads(str(request_info.raw_args['payload']))
+                except Exception as e:
+                    resp_dict = []
+
+                # Update comment is optional and used for audit changes
+                try:
+                    update_comment = resp_dict['update_comment']
+                except Exception as e:
+                    update_comment = "API update"
+
+        else:
+            # body is not required in this endpoint
+            describe = False
+
+        if describe:
+
+            response = "{\"describe\": \"This endpoint disables the maintenance mode, it requires a POST call with the following information:\""\
+                + ", \"options\" : [ { "\
+                + "\"update_comment\": \"OPTIONAL: a comment for the update, comments are added to the audit record, if unset will be defined to: API update\""\
+                + " } ] }"
+
+            return {
+                "payload": json.dumps(json.loads(str(response)), indent=1),
+                'status': 200 # HTTP status code
+            }
 
         # Get splunkd port
         entity = splunk.entity.getEntity('/server', 'settings',

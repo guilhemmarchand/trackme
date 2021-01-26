@@ -20,6 +20,35 @@ class TrackMeHandlerLaggingClassesMetrics_v1(rest_handler.RESTHandler):
     # Get the entire collection as a Python array
     def get_lagging_classes_metrics(self, request_info, **kwargs):
 
+        describe = False
+
+        # Retrieve from data
+        try:
+            resp_dict = json.loads(str(request_info.raw_args['payload']))
+        except Exception as e:
+            resp_dict = None
+
+        if resp_dict is not None:
+            try:
+                describe = resp_dict['describe']
+                if describe in ("true", "True"):
+                    describe = True
+            except Exception as e:
+                describe = False
+
+        else:
+            # body is not required in this endpoint, if not submitted do not describe the usage
+            describe = False
+
+        if describe:
+
+            response = "{\"describe\": \"This endpoint retrieves the lagging classes collection, it requires a GET call with no options required\"}"\
+
+            return {
+                "payload": json.dumps(json.loads(str(response)), indent=1),
+                'status': 200 # HTTP status code
+            }
+
         # Get splunkd port
         entity = splunk.entity.getEntity('/server', 'settings',
                                             namespace='trackme', sessionKey=request_info.session_key, owner='-')
@@ -57,9 +86,39 @@ class TrackMeHandlerLaggingClassesMetrics_v1(rest_handler.RESTHandler):
         # query_string to find records
         query_string = None
 
+        describe = False
+
         # Retrieve from data
-        resp_dict = json.loads(str(request_info.raw_args['payload']))
-        metric_category = resp_dict['metric_category']
+        try:
+            resp_dict = json.loads(str(request_info.raw_args['payload']))
+        except Exception as e:
+            resp_dict = None
+
+        if resp_dict is not None:
+            try:
+                describe = resp_dict['describe']
+                if describe in ("true", "True"):
+                    describe = True
+            except Exception as e:
+                describe = False
+            if not describe:
+                metric_category = resp_dict['metric_category']
+
+        else:
+            # body is required in this endpoint, if not submitted describe the usage
+            describe = True
+
+        if describe:
+
+            response = "{\"describe\": \"This endpoint adds a new record returned as a JSON array, it requires a POST call with no data required:\""\
+                + ", \"options\" : [ { "\
+                + "\"metric_category\": \"name of the metric category\""\
+                + " } ] }"
+
+            return {
+                "payload": json.dumps(json.loads(str(response)), indent=1),
+                'status': 200 # HTTP status code
+            }
 
         # Define the KV query
         query_string = '{ "metric_category": "' + metric_category + '" }'
@@ -120,10 +179,42 @@ class TrackMeHandlerLaggingClassesMetrics_v1(rest_handler.RESTHandler):
 
         query_string = None
 
+        describe = False
+
         # Retrieve from data
-        resp_dict = json.loads(str(request_info.raw_args['payload']))
-        metric_category = resp_dict['metric_category']
-        metric_max_lag_allowed = resp_dict['metric_max_lag_allowed']
+        try:
+            resp_dict = json.loads(str(request_info.raw_args['payload']))
+        except Exception as e:
+            resp_dict = None
+
+        if resp_dict is not None:
+            try:
+                describe = resp_dict['describe']
+                if describe in ("true", "True"):
+                    describe = True
+            except Exception as e:
+                describe = False
+            if not describe:
+                metric_category = resp_dict['metric_category']
+                metric_max_lag_allowed = resp_dict['metric_max_lag_allowed']
+
+        else:
+            # body is required in this endpoint, if not submitted describe the usage
+            describe = True
+
+        if describe:
+
+            response = "{\"describe\": \"This endpoint creates a new tag policy, it requires a POST call with the following data:\""\
+                + ", \"options\" : [ { "\
+                + "\"metric_category\": \"name of the metric category\", "\
+                + "\"metric_max_lag_allowed\": \"the lagging value in seconds, an integer is expected\", "\
+                + "\"update_comment\": \"OPTIONAL: a comment for the update, comments are added to the audit record, if unset will be defined to: API update\""\
+                + " } ] }"
+
+            return {
+                "payload": json.dumps(json.loads(str(response)), indent=1),
+                'status': 200 # HTTP status code
+            }
 
         # Update comment is optional and used for audit changes
         try:
@@ -263,12 +354,44 @@ class TrackMeHandlerLaggingClassesMetrics_v1(rest_handler.RESTHandler):
     def delete_lagging_classes_metrics_del(self, request_info, **kwargs):
 
         # Declare
-        name = None
+        metric_category = None
         query_string = None
 
+        describe = False
+
         # Retrieve from data
-        resp_dict = json.loads(str(request_info.raw_args['payload']))
-        metric_category = resp_dict['metric_category']
+        try:
+            resp_dict = json.loads(str(request_info.raw_args['payload']))
+        except Exception as e:
+            resp_dict = None
+
+        if resp_dict is not None:
+            try:
+                describe = resp_dict['describe']
+                if describe in ("true", "True"):
+                    describe = True
+            except Exception as e:
+                describe = False
+            if not describe:
+                metric_category = resp_dict['metric_category']
+
+        else:
+            # body is required in this endpoint, if not submitted describe the usage
+            describe = True
+
+        if describe:
+
+            response = "{\"describe\": \"This endpoint adds a new record returned as a JSON array, it requires a POST call with no data required:\""\
+                + ", \"options\" : [ { "\
+                + "\"metric_category\": \"name of the metric category\", "\
+                + "\"metric_max_lag_allowed\": \"the lagging value in seconds, an integer is expected\", "\
+                + "\"update_comment\": \"OPTIONAL: a comment for the update, comments are added to the audit record, if unset will be defined to: API update\""\
+                + " } ] }"
+
+            return {
+                "payload": json.dumps(json.loads(str(response)), indent=1),
+                'status': 200 # HTTP status code
+            }
 
         # Update comment is optional and used for audit changes
         try:

@@ -27,9 +27,39 @@ class TrackMeHandlerSmartStatus_v1(rest_handler.RESTHandler):
         data_name = None
         query_string = None
 
+        describe = False
+
         # Retrieve from data
-        resp_dict = json.loads(str(request_info.raw_args['payload']))
-        data_name = resp_dict['data_name']
+        try:
+            resp_dict = json.loads(str(request_info.raw_args['payload']))
+        except Exception as e:
+            resp_dict = None
+
+        if resp_dict is not None:
+            try:
+                describe = resp_dict['describe']
+                if describe in ("true", "True"):
+                    describe = True
+            except Exception as e:
+                describe = False
+            if not describe:
+                data_name = resp_dict['data_name']
+
+        else:
+            # body is required in this endpoint, if not submitted describe the usage
+            describe = True
+
+        if describe:
+
+            response = "{\"describe\": \"This endpoints runs the smart status for a given data source, it requires a GET call with the following options:\""\
+                + ", \"options\" : [ { "\
+                + "\"data_name\": \"name of the data source\""\
+                + " } ] }"
+
+            return {
+                "payload": json.dumps(json.loads(str(response)), indent=1),
+                'status': 200 # HTTP status code
+            }
 
         # Define the KV query
         query_string = '{ "data_name": "' + data_name + '" }'

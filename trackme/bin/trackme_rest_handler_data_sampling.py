@@ -20,6 +20,35 @@ class TrackMeHandlerDataSampling_v1(rest_handler.RESTHandler):
     # Get the entire collection as a Python array
     def get_data_sampling_collection(self, request_info, **kwargs):
 
+        describe = False
+
+        # Retrieve from data
+        try:
+            resp_dict = json.loads(str(request_info.raw_args['payload']))
+        except Exception as e:
+            resp_dict = None
+
+        if resp_dict is not None:
+            try:
+                describe = resp_dict['describe']
+                if describe in ("true", "True"):
+                    describe = True
+            except Exception as e:
+                describe = False
+
+        else:
+            # body is not required in this endpoint, if not submitted do not describe the usage
+            describe = False
+
+        if describe:
+
+            response = "{\"describe\": \"This endpoint retrieves the data sampling collection, it requires a GET call with no options required\"}"\
+
+            return {
+                "payload": json.dumps(json.loads(str(response)), indent=1),
+                'status': 200 # HTTP status code
+            }
+
         # Get splunkd port
         entity = splunk.entity.getEntity('/server', 'settings',
                                             namespace='trackme', sessionKey=request_info.session_key, owner='-')
@@ -52,13 +81,41 @@ class TrackMeHandlerDataSampling_v1(rest_handler.RESTHandler):
 
         # By data_name
         data_name = None
-
-        # query_string to find records
         query_string = None
 
+        describe = False
+
         # Retrieve from data
-        resp_dict = json.loads(str(request_info.raw_args['payload']))
-        data_name = resp_dict['data_name']
+        try:
+            resp_dict = json.loads(str(request_info.raw_args['payload']))
+        except Exception as e:
+            resp_dict = None
+
+        if resp_dict is not None:
+            try:
+                describe = resp_dict['describe']
+                if describe in ("true", "True"):
+                    describe = True
+            except Exception as e:
+                describe = False
+            if not describe:
+                data_name = resp_dict['data_name']
+
+        else:
+            # body is required in this endpoint, if not submitted describe the usage
+            describe = True
+
+        if describe:
+
+            response = "{\"describe\": \"This endpoint retrieves a data sampling record, it requires a GET call with the following data:\""\
+                + ", \"options\" : [ { "\
+                + "\"data_name\": \"name of the data source\""\
+                + " } ] }"
+
+            return {
+                "payload": json.dumps(json.loads(str(response)), indent=1),
+                'status': 200 # HTTP status code
+            }
 
         # Define the KV query
         query_string = '{ "data_name": "' + data_name + '" }'
@@ -116,9 +173,40 @@ class TrackMeHandlerDataSampling_v1(rest_handler.RESTHandler):
         data_name = None
         query_string = None
 
+        describe = False
+
         # Retrieve from data
-        resp_dict = json.loads(str(request_info.raw_args['payload']))
-        data_name = resp_dict['data_name']
+        try:
+            resp_dict = json.loads(str(request_info.raw_args['payload']))
+        except Exception as e:
+            resp_dict = None
+
+        if resp_dict is not None:
+            try:
+                describe = resp_dict['describe']
+                if describe in ("true", "True"):
+                    describe = True
+            except Exception as e:
+                describe = False
+            if not describe:
+                data_name = resp_dict['data_name']
+
+        else:
+            # body is required in this endpoint, if not submitted describe the usage
+            describe = True
+
+        if describe:
+
+            response = "{\"describe\": \"This endpoint deletes a data sampling record for a given data source, it requires a DELETE call with the following data:\""\
+                + ", \"options\" : [ { "\
+                + "\"data_name\": \"name of the data source\", "\
+                + "\"update_comment\": \"OPTIONAL: a comment for the update, comments are added to the audit record, if unset will be defined to: API update\""\
+                + " } ] }"
+
+            return {
+                "payload": json.dumps(json.loads(str(response)), indent=1),
+                'status': 200 # HTTP status code
+            }
 
         # Update comment is optional and used for audit changes
         try:
@@ -226,9 +314,40 @@ class TrackMeHandlerDataSampling_v1(rest_handler.RESTHandler):
         data_name = None
         query_string = None
 
+        describe = False
+
         # Retrieve from data
-        resp_dict = json.loads(str(request_info.raw_args['payload']))
-        data_name = resp_dict['data_name']
+        try:
+            resp_dict = json.loads(str(request_info.raw_args['payload']))
+        except Exception as e:
+            resp_dict = None
+
+        if resp_dict is not None:
+            try:
+                describe = resp_dict['describe']
+                if describe in ("true", "True"):
+                    describe = True
+            except Exception as e:
+                describe = False
+            if not describe:
+                data_name = resp_dict['data_name']
+
+        else:
+            # body is required in this endpoint, if not submitted describe the usage
+            describe = True
+
+        if describe:
+
+            response = "{\"describe\": \"This endpoint clears the data sampling record state and runs the sampling operation for a given data source, it requires a POST call with the following data:\""\
+                + ", \"options\" : [ { "\
+                + "\"data_name\": \"name of the data source\", "\
+                + "\"update_comment\": \"OPTIONAL: a comment for the update, comments are added to the audit record, if unset will be defined to: API update\""\
+                + " } ] }"
+
+            return {
+                "payload": json.dumps(json.loads(str(response)), indent=1),
+                'status': 200 # HTTP status code
+            }
 
         # Update comment is optional and used for audit changes
         try:
@@ -353,6 +472,35 @@ class TrackMeHandlerDataSampling_v1(rest_handler.RESTHandler):
     # Get the entire collection as a Python array
     def get_data_sampling_models(self, request_info, **kwargs):
 
+        describe = False
+
+        # Retrieve from data
+        try:
+            resp_dict = json.loads(str(request_info.raw_args['payload']))
+        except Exception as e:
+            resp_dict = None
+
+        if resp_dict is not None:
+            try:
+                describe = resp_dict['describe']
+                if describe in ("true", "True"):
+                    describe = True
+            except Exception as e:
+                describe = False
+
+        else:
+            # body is not required in this endpoint, if not submitted do not describe the usage
+            describe = False
+
+        if describe:
+
+            response = "{\"describe\": \"This endpoint retrieves the data sampling custom models collection, it requires a GET call with no options required\"}"\
+
+            return {
+                "payload": json.dumps(json.loads(str(response)), indent=1),
+                'status': 200 # HTTP status code
+            }
+
         # Get splunkd port
         entity = splunk.entity.getEntity('/server', 'settings',
                                             namespace='trackme', sessionKey=request_info.session_key, owner='-')
@@ -390,9 +538,39 @@ class TrackMeHandlerDataSampling_v1(rest_handler.RESTHandler):
         # query_string to find records
         query_string = None
 
+        describe = False
+
         # Retrieve from data
-        resp_dict = json.loads(str(request_info.raw_args['payload']))
-        model_name = resp_dict['model_name']
+        try:
+            resp_dict = json.loads(str(request_info.raw_args['payload']))
+        except Exception as e:
+            resp_dict = None
+
+        if resp_dict is not None:
+            try:
+                describe = resp_dict['describe']
+                if describe in ("true", "True"):
+                    describe = True
+            except Exception as e:
+                describe = False
+            if not describe:
+                model_name = resp_dict['model_name']
+
+        else:
+            # body is required in this endpoint, if not submitted describe the usage
+            describe = True
+
+        if describe:
+
+            response = "{\"describe\": \"This endpoint retrieves a data sampling custom model collection, it requires a GET call with the following data:\""\
+                + ", \"options\" : [ { "\
+                + "\"model_name\": \"name of the custom modeld\""\
+                + " } ] }"
+
+            return {
+                "payload": json.dumps(json.loads(str(response)), indent=1),
+                'status': 200 # HTTP status code
+            }
 
         # Define the KV query
         query_string = '{ "model_name": "' + model_name + '" }'
@@ -454,23 +632,57 @@ class TrackMeHandlerDataSampling_v1(rest_handler.RESTHandler):
 
         query_string = None
 
+        describe = False
+
         # Retrieve from data
-        resp_dict = json.loads(str(request_info.raw_args['payload']))
-        model_name = resp_dict['model_name']
-        model_regex = resp_dict['model_regex']
-        model_type = resp_dict['model_type']
-
-        # Update comment is optional and used for audit changes
         try:
-            update_comment = resp_dict['update_comment']
+            resp_dict = json.loads(str(request_info.raw_args['payload']))
         except Exception as e:
-            update_comment = "API update"
+            resp_dict = None
 
-        # sourcetype_scope is optional, if unset it will be defined to * (any)
-        try:
-            sourcetype_scope = resp_dict['sourcetype_scope']
-        except Exception as e:
-            sourcetype_scope = "*"
+        if resp_dict is not None:
+            try:
+                describe = resp_dict['describe']
+                if describe in ("true", "True"):
+                    describe = True
+            except Exception as e:
+                describe = False
+            if not describe:
+                model_name = resp_dict['model_name']
+                model_regex = resp_dict['model_regex']
+                model_type = resp_dict['model_type']
+
+                # Update comment is optional and used for audit changes
+                try:
+                    update_comment = resp_dict['update_comment']
+                except Exception as e:
+                    update_comment = "API update"
+
+                # sourcetype_scope is optional, if unset it will be defined to * (any)
+                try:
+                    sourcetype_scope = resp_dict['sourcetype_scope']
+                except Exception as e:
+                    sourcetype_scope = "*"
+
+        else:
+            # body is required in this endpoint, if not submitted describe the usage
+            describe = True
+
+        if describe:
+
+            response = "{\"describe\": \"This endpoint creates a new data sampling custom model, it requires a POST call with the following data:\""\
+                + ", \"options\" : [ { "\
+                + "\"model_name\": \"v name of the custom model\", "\
+                + "\"model_regex\": \"The regular expression to be used by the custom model, special characters should be escaped.\", "\
+                + "\"model_type\": \"The type of match for this model, valid options are “inclusive” (rule must match) and “exclusive” (rule must not match).\", "\
+                + "\"sourcetype_scope\": \"OPTIONAL: value of the sourcetype to match, if unset defaults to “*”. You can enter a list of sourcetypes as a comma separated list of values, wilcards and spaces should not be used.\", "\
+                + "\"update_comment\": \"OPTIONAL: a comment for the update, comments are added to the audit record, if unset will be defined to: API update.\""\
+                + " } ] }"
+
+            return {
+                "payload": json.dumps(json.loads(str(response)), indent=1),
+                'status': 200 # HTTP status code
+            }
 
         # Define the KV query
         query_string = '{ "model_name": "' + model_name + '" }'
@@ -617,9 +829,40 @@ class TrackMeHandlerDataSampling_v1(rest_handler.RESTHandler):
         model_name = None
         query_string = None
 
+        describe = False
+
         # Retrieve from data
-        resp_dict = json.loads(str(request_info.raw_args['payload']))
-        model_name = resp_dict['model_name']
+        try:
+            resp_dict = json.loads(str(request_info.raw_args['payload']))
+        except Exception as e:
+            resp_dict = None
+
+        if resp_dict is not None:
+            try:
+                describe = resp_dict['describe']
+                if describe in ("true", "True"):
+                    describe = True
+            except Exception as e:
+                describe = False
+            if not describe:
+                model_name = resp_dict['model_name']
+
+        else:
+            # body is required in this endpoint, if not submitted describe the usage
+            describe = True
+
+        if describe:
+
+            response = "{\"describe\": \"This endpoint deletes a custom data sampling model, it requires a DELETE call with the following data:\""\
+                + ", \"options\" : [ { "\
+                + "\"model_name\": \"name of the custom model\", "\
+                + "\"update_comment\": \"OPTIONAL: a comment for the update, comments are added to the audit record, if unset will be defined to: API update\""\
+                + " } ] }"
+
+            return {
+                "payload": json.dumps(json.loads(str(response)), indent=1),
+                'status': 200 # HTTP status code
+            }
 
         # Update comment is optional and used for audit changes
         try:

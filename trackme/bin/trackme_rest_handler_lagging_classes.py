@@ -20,6 +20,35 @@ class TrackMeHandlerLaggingClasses_v1(rest_handler.RESTHandler):
     # Get the entire collection as a Python array
     def get_lagging_classes(self, request_info, **kwargs):
 
+        describe = False
+
+        # Retrieve from data
+        try:
+            resp_dict = json.loads(str(request_info.raw_args['payload']))
+        except Exception as e:
+            resp_dict = None
+
+        if resp_dict is not None:
+            try:
+                describe = resp_dict['describe']
+                if describe in ("true", "True"):
+                    describe = True
+            except Exception as e:
+                describe = False
+
+        else:
+            # body is not required in this endpoint, if not submitted do not describe the usage
+            describe = False
+
+        if describe:
+
+            response = "{\"describe\": \"This endpoint retrieves the lagging classes collection, it requires a GET call with no options required\"}"\
+
+            return {
+                "payload": json.dumps(json.loads(str(response)), indent=1),
+                'status': 200 # HTTP status code
+            }
+
         # Get splunkd port
         entity = splunk.entity.getEntity('/server', 'settings',
                                             namespace='trackme', sessionKey=request_info.session_key, owner='-')
@@ -57,9 +86,39 @@ class TrackMeHandlerLaggingClasses_v1(rest_handler.RESTHandler):
         # query_string to find records
         query_string = None
 
+        describe = False
+
         # Retrieve from data
-        resp_dict = json.loads(str(request_info.raw_args['payload']))
-        name = resp_dict['name']
+        try:
+            resp_dict = json.loads(str(request_info.raw_args['payload']))
+        except Exception as e:
+            resp_dict = None
+
+        if resp_dict is not None:
+            try:
+                describe = resp_dict['describe']
+                if describe in ("true", "True"):
+                    describe = True
+            except Exception as e:
+                describe = False
+            if not describe:
+                name = resp_dict['name']
+
+        else:
+            # body is required in this endpoint, if not submitted describe the usage
+            describe = True
+
+        if describe:
+
+            response = "{\"describe\": \"This endpoint retrieves a lagging class by its name, it requires a GET call with the following data:\""\
+                + ", \"options\" : [ { "\
+                + "\"name\": \"name of the lagging class\""\
+                + " } ] }"
+
+            return {
+                "payload": json.dumps(json.loads(str(response)), indent=1),
+                'status': 200 # HTTP status code
+            }
 
         # Define the KV query
         query_string = '{ "name": "' + name + '" }'
@@ -122,12 +181,46 @@ class TrackMeHandlerLaggingClasses_v1(rest_handler.RESTHandler):
 
         query_string = None
 
+        describe = False
+
         # Retrieve from data
-        resp_dict = json.loads(str(request_info.raw_args['payload']))
-        name = resp_dict['name']
-        level = resp_dict['level']
-        object_value = resp_dict['object']
-        value = resp_dict['value']
+        try:
+            resp_dict = json.loads(str(request_info.raw_args['payload']))
+        except Exception as e:
+            resp_dict = None
+
+        if resp_dict is not None:
+            try:
+                describe = resp_dict['describe']
+                if describe in ("true", "True"):
+                    describe = True
+            except Exception as e:
+                describe = False
+            if not describe:
+                name = resp_dict['name']
+                level = resp_dict['level']
+                object_value = resp_dict['object']
+                value = resp_dict['value']
+
+        else:
+            # body is required in this endpoint, if not submitted describe the usage
+            describe = True
+
+        if describe:
+
+            response = "{\"describe\": \"This endpoint creates a new tag policy, it requires a POST call with the following data:\""\
+                + ", \"options\" : [ { "\
+                + "\"name\": \"name of the lagging class\", "\
+                + "\"level\": \"which level the lagging class is based on, valid otions are: sourcetype / index / priority\", "\
+                + "\"object\": \"which type of objects the lagging class is applied to, valid options are: data_source / data_host / all\", "\
+                + "\"value\": \"the lagging value in seconds, an integer is expected\", "\
+                + "\"update_comment\": \"OPTIONAL: a comment for the update, comments are added to the audit record, if unset will be defined to: API update\""\
+                + " } ] }"
+
+            return {
+                "payload": json.dumps(json.loads(str(response)), indent=1),
+                'status': 200 # HTTP status code
+            }
 
         # Update comment is optional and used for audit changes
         try:
@@ -277,9 +370,40 @@ class TrackMeHandlerLaggingClasses_v1(rest_handler.RESTHandler):
         name = None
         query_string = None
 
+        describe = False
+
         # Retrieve from data
-        resp_dict = json.loads(str(request_info.raw_args['payload']))
-        name = resp_dict['name']
+        try:
+            resp_dict = json.loads(str(request_info.raw_args['payload']))
+        except Exception as e:
+            resp_dict = None
+
+        if resp_dict is not None:
+            try:
+                describe = resp_dict['describe']
+                if describe in ("true", "True"):
+                    describe = True
+            except Exception as e:
+                describe = False
+            if not describe:
+                name = resp_dict['name']
+
+        else:
+            # body is required in this endpoint, if not submitted describe the usage
+            describe = True
+
+        if describe:
+
+            response = "{\"describe\": \"This endpoint adds a new record returned as a JSON array, it requires a POST call with no data required:\""\
+                + ", \"options\" : [ { "\
+                + "\"name\": \"name of the lagging class\", "\
+                + "\"update_comment\": \"OPTIONAL: a comment for the update, comments are added to the audit record, if unset will be defined to: API update\""\
+                + " } ] }"
+
+            return {
+                "payload": json.dumps(json.loads(str(response)), indent=1),
+                'status': 200 # HTTP status code
+            }
 
         # Update comment is optional and used for audit changes
         try:

@@ -21,6 +21,35 @@ class TrackMeHandlerElasticSources_v1(rest_handler.RESTHandler):
     # Get the entire data hosts collection as a Python array
     def get_elastic_shared(self, request_info, **kwargs):
 
+        describe = False
+
+        # Retrieve from data
+        try:
+            resp_dict = json.loads(str(request_info.raw_args['payload']))
+        except Exception as e:
+            resp_dict = None
+
+        if resp_dict is not None:
+            try:
+                describe = resp_dict['describe']
+                if describe in ("true", "True"):
+                    describe = True
+            except Exception as e:
+                describe = False
+
+        else:
+            # body is not required in this endpoint, if not submitted do not describe the usage
+            describe = False
+
+        if describe:
+
+            response = "{\"describe\": \"This endpoint retrieves the entired shared Elastic Sources collection returned as a JSON array, it requires a GET call with no data required\"}"\
+
+            return {
+                "payload": json.dumps(json.loads(str(response)), indent=1),
+                'status': 200 # HTTP status code
+            }
+
         # Get splunkd port
         entity = splunk.entity.getEntity('/server', 'settings',
                                             namespace='trackme', sessionKey=request_info.session_key, owner='-')
@@ -50,6 +79,35 @@ class TrackMeHandlerElasticSources_v1(rest_handler.RESTHandler):
 
     # Get the entire data hosts collection as a Python array
     def get_elastic_dedicated(self, request_info, **kwargs):
+
+        describe = False
+
+        # Retrieve from data
+        try:
+            resp_dict = json.loads(str(request_info.raw_args['payload']))
+        except Exception as e:
+            resp_dict = None
+
+        if resp_dict is not None:
+            try:
+                describe = resp_dict['describe']
+                if describe in ("true", "True"):
+                    describe = True
+            except Exception as e:
+                describe = False
+
+        else:
+            # body is not required in this endpoint, if not submitted do not describe the usage
+            describe = False
+
+        if describe:
+
+            response = "{\"describe\": \"This endpoint retrieves the entired dedicated Elastic Sources collection returned as a JSON array, it requires a GET call with no data required\"}"\
+
+            return {
+                "payload": json.dumps(json.loads(str(response)), indent=1),
+                'status': 200 # HTTP status code
+            }
 
         # Get splunkd port
         entity = splunk.entity.getEntity('/server', 'settings',
@@ -85,9 +143,39 @@ class TrackMeHandlerElasticSources_v1(rest_handler.RESTHandler):
         data_name = None
         query_string = None
 
+        describe = False
+
         # Retrieve from data
-        resp_dict = json.loads(str(request_info.raw_args['payload']))
-        data_name = resp_dict['data_name']
+        try:
+            resp_dict = json.loads(str(request_info.raw_args['payload']))
+        except Exception as e:
+            resp_dict = None
+
+        if resp_dict is not None:
+            try:
+                describe = resp_dict['describe']
+                if describe in ("true", "True"):
+                    describe = True
+            except Exception as e:
+                describe = False
+            if not describe:
+                data_name = resp_dict['data_name']
+
+        else:
+            # body is required in this endpoint, if not submitted describe the usage
+            describe = True
+
+        if describe:
+
+            response = "{\"describe\": \"This endpoint retrieves a shared Elastic Source configuration stored in the collection returned as a JSON array, it requires a GET call with the following information:\""\
+                + ", \"options\" : [ { "\
+                + "\"data_name\": \"name of the Elastic Source\""\
+                + " } ] }"
+
+            return {
+                "payload": json.dumps(json.loads(str(response)), indent=1),
+                'status': 200 # HTTP status code
+            }
 
         # Define the KV query
         query_string = '{ "data_name": "' + data_name + '" }'
@@ -138,9 +226,39 @@ class TrackMeHandlerElasticSources_v1(rest_handler.RESTHandler):
         data_name = None
         query_string = None
 
+        describe = False
+
         # Retrieve from data
-        resp_dict = json.loads(str(request_info.raw_args['payload']))
-        data_name = resp_dict['data_name']
+        try:
+            resp_dict = json.loads(str(request_info.raw_args['payload']))
+        except Exception as e:
+            resp_dict = None
+
+        if resp_dict is not None:
+            try:
+                describe = resp_dict['describe']
+                if describe in ("true", "True"):
+                    describe = True
+            except Exception as e:
+                describe = False
+            if not describe:
+                data_name = resp_dict['data_name']
+
+        else:
+            # body is required in this endpoint, if not submitted describe the usage
+            describe = True
+
+        if describe:
+
+            response = "{\"describe\": \"This endpoint retrieves a dedicated Elastic Source configuration stored in the collection returned as a JSON array, it requires a GET call with the following information:\""\
+                + ", \"options\" : [ { "\
+                + "\"data_name\": \"name of the Elastic Source\""\
+                + " } ] }"
+
+            return {
+                "payload": json.dumps(json.loads(str(response)), indent=1),
+                'status': 200 # HTTP status code
+            }
 
         # Define the KV query
         query_string = '{ "data_name": "' + data_name + '" }'
@@ -195,13 +313,48 @@ class TrackMeHandlerElasticSources_v1(rest_handler.RESTHandler):
         elastic_data_sourcetype = None
         query_string = None
 
+        describe = False
+
         # Retrieve from data
-        resp_dict = json.loads(str(request_info.raw_args['payload']))
-        data_name = resp_dict['data_name']
-        search_constraint = resp_dict['search_constraint']
-        search_mode = resp_dict['search_mode']
-        elastic_data_index = resp_dict['elastic_data_index']
-        elastic_data_sourcetype = resp_dict['elastic_data_sourcetype']
+        try:
+            resp_dict = json.loads(str(request_info.raw_args['payload']))
+        except Exception as e:
+            resp_dict = None
+
+        if resp_dict is not None:
+            try:
+                describe = resp_dict['describe']
+                if describe in ("true", "True"):
+                    describe = True
+            except Exception as e:
+                describe = False
+            if not describe:
+                data_name = resp_dict['data_name']
+                search_constraint = resp_dict['search_constraint']
+                search_mode = resp_dict['search_mode']
+                elastic_data_index = resp_dict['elastic_data_index']
+                elastic_data_sourcetype = resp_dict['elastic_data_sourcetype']
+
+        else:
+            # body is required in this endpoint, if not submitted describe the usage
+            describe = True
+
+        if describe:
+
+            response = "{\"describe\": \"This endpoint create a new shared Elastic Source, if the entity already exists it will be updated using the data provided, it requires a POST call with the following information:\""\
+                + ", \"options\" : [ { "\
+                + "\"data_name\": \"name of the Elastic Source\", "\
+                + "\"search_constraint\": \"the SPL code for this entity, double quotes need to be escaped\", "\
+                + "\"search_mode\": \"the search mode, valid options are tstats / raw / from / mstats / rest_tstats / rest_raw / rest_from / rest_mstats\", "\
+                + "\"elastic_index\": \"pseudo index value, this value will be used in the UI but has no impacts on the search\", "\
+                + "\"elastic_sourcetype\": \"pseudo sourcetype value name, this value will be used in the UI but has no impacts on the search\", "\
+                + "\"update_comment\": \"OPTIONAL: a comment for the update, comments are added to the audit record, if unset will be defined to: API update\""\
+                + " } ] }"
+
+            return {
+                "payload": json.dumps(json.loads(str(response)), indent=1),
+                'status': 200 # HTTP status code
+            }
 
         # Update comment is optional and used for audit changes
         try:
@@ -346,25 +499,63 @@ class TrackMeHandlerElasticSources_v1(rest_handler.RESTHandler):
         latest_time = None
         query_string = None
 
+        describe = False
+
         # Retrieve from data
-        resp_dict = json.loads(str(request_info.raw_args['payload']))
-        data_name = resp_dict['data_name']
-        search_constraint = resp_dict['search_constraint']
-        search_mode = resp_dict['search_mode']
-        elastic_data_index = resp_dict['elastic_data_index']
-        elastic_data_sourcetype = resp_dict['elastic_data_sourcetype']
-
-        # earliest and latest are optional, if unset we define default values
         try:
-            earliest_time = resp_dict['earliest_time']
+            resp_dict = json.loads(str(request_info.raw_args['payload']))
         except Exception as e:
-            earliest_time = "-4h"
+            resp_dict = None
 
-        try:
-            latest_time = resp_dict['latest_time']
-        except Exception as e:
-            latest_time = "+4h"
-        
+        if resp_dict is not None:
+            try:
+                describe = resp_dict['describe']
+                if describe in ("true", "True"):
+                    describe = True
+            except Exception as e:
+                describe = False
+            if not describe:
+                resp_dict = json.loads(str(request_info.raw_args['payload']))
+                data_name = resp_dict['data_name']
+                search_constraint = resp_dict['search_constraint']
+                search_mode = resp_dict['search_mode']
+                elastic_data_index = resp_dict['elastic_data_index']
+                elastic_data_sourcetype = resp_dict['elastic_data_sourcetype']
+
+                # earliest and latest are optional, if unset we define default values
+                try:
+                    earliest_time = resp_dict['earliest_time']
+                except Exception as e:
+                    earliest_time = "-4h"
+
+                try:
+                    latest_time = resp_dict['latest_time']
+                except Exception as e:
+                    latest_time = "+4h"
+
+        else:
+            # body is required in this endpoint, if not submitted describe the usage
+            describe = True
+
+        if describe:
+
+            response = "{\"describe\": \"This endpoint create a new shared Elastic Source, if the entity already exists it will be updated using the data provided, it requires a POST call with the following information:\""\
+                + ", \"options\" : [ { "\
+                + "\"data_name\": \"name of the Elastic Source\", "\
+                + "\"search_constraint\": \"the SPL code for this entity, double quotes need to be escaped\", "\
+                + "\"search_mode\": \"the search mode, valid options are tstats / raw / from / mstats / rest_tstats / rest_raw / rest_from / rest_mstats\", "\
+                + "\"elastic_index\": \"pseudo index value, this value will be used in the UI but has no impacts on the search\", "\
+                + "\"elastic_sourcetype\": \"pseudo sourcetype value name, this value will be used in the UI but has no impacts on the search\", "\
+                + "\"earliest_time\": \"OPTIONAL: earliest time for the scheduled report definition, if unset will be defined to -4h\", "\
+                + "\"latest_time\": \"OPTIONAL: latest time for the scheduled report definition, if unset will be defined to -4h\", "\
+                + "\"update_comment\": \"OPTIONAL: a comment for the update, comments are added to the audit record, if unset will be defined to: API update\""\
+                + " } ] }"
+
+            return {
+                "payload": json.dumps(json.loads(str(response)), indent=1),
+                'status': 200 # HTTP status code
+            }
+
         # elastic_report is generated during ops
 
         # Update comment is optional and used for audit changes
@@ -654,9 +845,40 @@ class TrackMeHandlerElasticSources_v1(rest_handler.RESTHandler):
         data_name = None
         query_string = None
 
+        describe = False
+
         # Retrieve from data
-        resp_dict = json.loads(str(request_info.raw_args['payload']))
-        data_name = resp_dict['data_name']
+        try:
+            resp_dict = json.loads(str(request_info.raw_args['payload']))
+        except Exception as e:
+            resp_dict = None
+
+        if resp_dict is not None:
+            try:
+                describe = resp_dict['describe']
+                if describe in ("true", "True"):
+                    describe = True
+            except Exception as e:
+                describe = False
+            if not describe:
+                data_name = resp_dict['data_name']
+
+        else:
+            # body is required in this endpoint, if not submitted describe the usage
+            describe = True
+
+        if describe:
+
+            response = "{\"describe\": \"This endpoint deletes a shared Elastic Source, it requires a DELETE call with the following information:\""\
+                + ", \"options\" : [ { "\
+                + "\"data_name\": \"name of the Elastic Source\", "\
+                + "\"update_comment\": \"OPTIONAL: a comment for the update, comments are added to the audit record, if unset will be defined to: API update\""\
+                + " } ] }"
+
+            return {
+                "payload": json.dumps(json.loads(str(response)), indent=1),
+                'status': 200 # HTTP status code
+            }
 
         # Update comment is optional and used for audit changes
         try:
@@ -812,9 +1034,40 @@ class TrackMeHandlerElasticSources_v1(rest_handler.RESTHandler):
         query_string = None
         tracker_name = None
 
+        describe = False
+
         # Retrieve from data
-        resp_dict = json.loads(str(request_info.raw_args['payload']))
-        data_name = resp_dict['data_name']
+        try:
+            resp_dict = json.loads(str(request_info.raw_args['payload']))
+        except Exception as e:
+            resp_dict = None
+
+        if resp_dict is not None:
+            try:
+                describe = resp_dict['describe']
+                if describe in ("true", "True"):
+                    describe = True
+            except Exception as e:
+                describe = False
+            if not describe:
+                data_name = resp_dict['data_name']
+
+        else:
+            # body is required in this endpoint, if not submitted describe the usage
+            describe = True
+
+        if describe:
+
+            response = "{\"describe\": \"This endpoint deletes a dedicated Elastic Source, it requires a DELETE call with the following information:\""\
+                + ", \"options\" : [ { "\
+                + "\"data_name\": \"name of the Elastic Source\", "\
+                + "\"update_comment\": \"OPTIONAL: a comment for the update, comments are added to the audit record, if unset will be defined to: API update\""\
+                + " } ] }"
+
+            return {
+                "payload": json.dumps(json.loads(str(response)), indent=1),
+                'status': 200 # HTTP status code
+            }
 
         # tracker_name is extracted from the KVstore record
 

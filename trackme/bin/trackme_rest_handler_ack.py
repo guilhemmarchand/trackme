@@ -20,6 +20,34 @@ class TrackMeHandlerAck_v1(rest_handler.RESTHandler):
     # Get the entire data sources collection as a Python array
     def get_ack_collection(self, request_info, **kwargs):
 
+        describe = False
+
+        # Retrieve from data
+        try:
+            resp_dict = json.loads(str(request_info.raw_args['payload']))
+        except Exception as e:
+            resp_dict = None
+
+        if resp_dict is not None:
+            try:
+                describe = resp_dict['describe']
+                if describe in ("true", "True"):
+                    describe = True
+            except Exception as e:
+                describe = False
+        else:
+            # body is not required in this endpoint, if not submitted do not describe the usage
+            describe = False
+
+        if describe:
+
+            response = "{\"describe\": \"This endpoint retrieves the entire acknowledgment collection returned as a JSON array, it requires a GET call with no data required\"}"
+
+            return {
+                "payload": json.dumps(json.loads(str(response)), indent=1),
+                'status': 200 # HTTP status code
+            }
+
         # Get splunkd port
         entity = splunk.entity.getEntity('/server', 'settings',
                                             namespace='trackme', sessionKey=request_info.session_key, owner='-')
@@ -51,13 +79,40 @@ class TrackMeHandlerAck_v1(rest_handler.RESTHandler):
     # Get Ack by _key
     def get_ack_by_key(self, request_info, **kwargs):
 
-        # By object_category and object
+        # By key
+        describe = False
         key = None
 
         # Retrieve from data
-        resp_dict = json.loads(str(request_info.raw_args['payload']))
-        key = resp_dict['_key']
-        
+        try:
+            resp_dict = json.loads(str(request_info.raw_args['payload']))
+        except Exception as e:
+            resp_dict = None
+
+        if resp_dict is not None:
+            try:
+                describe = resp_dict['describe']
+                if describe in ("true", "True"):
+                    describe = True
+            except Exception as e:
+                describe = False
+            if not describe:
+                key = resp_dict['_key']
+
+        else:
+            # body is required in this endpoint, if not submitted describe the usage
+            describe = True
+
+        if describe:
+
+            response = "{\"describe\": \"This endpoint retrieves an existing acknowledgment record by the Kvstore key, it requires a GET call with the following information:\""\
+                + ", \"options\" : [ { \"_key\": \"KVstore unique identifier for this record\" } ] }"
+
+            return {
+                "payload": json.dumps(json.loads(str(response)), indent=1),
+                'status': 200 # HTTP status code
+            }
+
         # Get splunkd port
         entity = splunk.entity.getEntity('/server', 'settings',
                                             namespace='trackme', sessionKey=request_info.session_key, owner='-')
@@ -100,14 +155,41 @@ class TrackMeHandlerAck_v1(rest_handler.RESTHandler):
     def get_ack_by_object(self, request_info, **kwargs):
 
         # By object_category and object
+        describe = False
         object_category_value = None
         object_value = None
         query_string = None
 
         # Retrieve from data
-        resp_dict = json.loads(str(request_info.raw_args['payload']))
-        object_value = resp_dict['object']
-        object_category_value = resp_dict['object_category']
+        try:
+            resp_dict = json.loads(str(request_info.raw_args['payload']))
+        except Exception as e:
+            resp_dict = None
+
+        if resp_dict is not None:
+            try:
+                describe = resp_dict['describe']
+                if describe in ("true", "True"):
+                    describe = True
+            except Exception as e:
+                describe = False
+            if not describe:
+                object_value = resp_dict['object']
+                object_category_value = resp_dict['object_category']
+
+        else:
+            # body is required in this endpoint, if not submitted describe the usage
+            describe = True
+
+        if describe:
+
+            response = "{\"describe\": \"This endpoint retrieves an existing acknowledgment record by the object name, it requires a GET call with the following information:\""\
+                + ", \"options\" : [ { \"object_category\": \"type of object (data_source / data_host / metric_host)\", \"object\": \"name of the entity\" } ] }"
+
+            return {
+                "payload": json.dumps(json.loads(str(response)), indent=1),
+                'status': 200 # HTTP status code
+            }
 
         # Define the KV query
         query_string = '{ "$and": [ { "object_category": "' + object_category_value + '" }, { "object' + '": "' + object_value + '" } ] }'
@@ -144,7 +226,6 @@ class TrackMeHandlerAck_v1(rest_handler.RESTHandler):
                     'status': 404 # HTTP status code
                 }
 
-
         except Exception as e:
             return {
                 'payload': 'Warn: exception encountered: ' + str(e) # Payload of the request.
@@ -153,6 +234,8 @@ class TrackMeHandlerAck_v1(rest_handler.RESTHandler):
     # Enable Ack by object name
     def post_ack_enable(self, request_info, **kwargs):
 
+        describe = False
+
         # By object_category and object
         object_category_value = None
         object_value = None
@@ -160,16 +243,46 @@ class TrackMeHandlerAck_v1(rest_handler.RESTHandler):
         ack_period = None
         ack_mtime = None
         ack_state = None
-
         query_string = None
 
         # Retrieve from data
-        resp_dict = json.loads(str(request_info.raw_args['payload']))
-        object_value = resp_dict['object']
-        object_category_value = resp_dict['object_category']
-        ack_period = resp_dict['ack_period']
-        ack_state = "active"
-        # Note: ack_mtime will be defined as the current epoch time
+        try:
+            resp_dict = json.loads(str(request_info.raw_args['payload']))
+        except Exception as e:
+            resp_dict = None
+
+        if resp_dict is not None:
+            try:
+                describe = resp_dict['describe']
+                if describe in ("true", "True"):
+                    describe = True
+            except Exception as e:
+                describe = False
+            if not describe:
+                object_value = resp_dict['object']
+                object_category_value = resp_dict['object_category']
+                ack_period = resp_dict['ack_period']
+                ack_state = "active"
+                # Note: ack_mtime will be defined as the current epoch time
+
+        else:
+            # body is required in this endpoint, if not submitted describe the usage            
+            describe = True
+
+        if describe:
+
+            response = "{\"describe\": \"This endpoint will enable an acknowledgment by the object name, it requires a POST call with the following information:\""\
+                + ", \"options\" : [ { "\
+                + "\"object_category\": \"type of object (data_source / data_host / metric_host)\", "\
+                + "\"object\": \"name of the entity\", "\
+                + "\"ack_period\": \"period for the acknowledgment in seconds\", "\
+                + "\"update_comment\": \"OPTIONAL: a comment for the update, comments are added to the audit record, if unset will be defined to: API update\""\
+                + " } ] }"
+
+            return {
+                "payload": json.dumps(json.loads(str(response)), indent=1),
+                'status': 200 # HTTP status code
+            }
 
         # Update comment is optional and used for audit changes
         try:
@@ -312,6 +425,8 @@ class TrackMeHandlerAck_v1(rest_handler.RESTHandler):
     # Disable Ack
     def post_ack_disable(self, request_info, **kwargs):
 
+        describe = False
+
         # By object_category and object
         object_category_value = None
         object_value = None
@@ -323,9 +438,39 @@ class TrackMeHandlerAck_v1(rest_handler.RESTHandler):
         query_string = None
 
         # Retrieve from data
-        resp_dict = json.loads(str(request_info.raw_args['payload']))
-        object_value = resp_dict['object']
-        object_category_value = resp_dict['object_category']
+        try:
+            resp_dict = json.loads(str(request_info.raw_args['payload']))
+        except Exception as e:
+            resp_dict = None
+
+        if resp_dict is not None:
+            try:
+                describe = resp_dict['describe']
+                if describe in ("true", "True"):
+                    describe = True
+            except Exception as e:
+                describe = False
+            if not describe:
+                object_value = resp_dict['object']
+                object_category_value = resp_dict['object_category']
+
+        else:
+            # body is required in this endpoint, if not submitted describe the usage
+            describe = True
+
+        if describe:
+
+            response = "{\"describe\": \"This endpoint will disable an acknowledgment by the object name, it requires a POST call with the following information:\""\
+                + ", \"options\" : [ { "\
+                + "\"object_category\": \"type of object (data_source / data_host / metric_host)\", "\
+                + "\"object\": \"name of the entity\", "\
+                + "\"update_comment\": \"OPTIONAL: a comment for the update, comments are added to the audit record, if unset will be defined to: API update\""\
+                + " } ] }"
+
+            return {
+                "payload": json.dumps(json.loads(str(response)), indent=1),
+                'status': 200 # HTTP status code
+            }
 
         # Update comment is optional and used for audit changes
         try:
@@ -420,7 +565,7 @@ class TrackMeHandlerAck_v1(rest_handler.RESTHandler):
 
                 # There no ack currently for this object, return http 200 with message
                 return {
-                    "payload": "There are no active acknowledgment for the entity object: " + str(object_value) + ", object_category: " + str(object_category_value),
+                    "payload": "{\"response\": \"There are no active acknowledgment for the entity object: " + str(object_value) + ", object_category: " + str(object_category_value + "\"}"),
                     'status': 200 # HTTP status code
                 }
 
