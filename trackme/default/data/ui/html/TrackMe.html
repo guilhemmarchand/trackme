@@ -4200,7 +4200,7 @@ styles in <div> tags, similar to Bootstrap's grid system.
                                 <div id="panelLinkQueues" class="dashboard-cell" style="width: 50%;">
                                     <div class="dashboard-panel clearfix">
                                         <div class="panel-element-row">
-                                            <div class="input input-dropdown" id="inputHostQueues">
+                                            <div class="input input-multiselect" id="inputHostQueues">
                                                 <label>Host(s):</label>
                                             </div>
                                         </div>
@@ -4299,7 +4299,7 @@ styles in <div> tags, similar to Bootstrap's grid system.
                                 <div id="panelLinkParsingIssues" class="dashboard-cell" style="width: 50%;">
                                     <div class="dashboard-panel clearfix">
                                         <div class="panel-element-row">
-                                            <div class="input input-dropdown" id="inputHostParsing">
+                                            <div class="input input-multiselect" id="inputHostParsing">
                                                 <label>Host(s):</label>
                                             </div>
                                         </div>
@@ -8600,25 +8600,25 @@ styles in <div> tags, similar to Bootstrap's grid system.
                     <div style="margin-right: 28px;" class="input input-text" id="inputDataNameFilter">
                         <label>Keyword filter name:</label>
                     </div>
-                    <div class="input input-dropdown" id="inputTags">
+                    <div class="input input-multiselect" id="inputTags">
                         <label>Tags:</label>
                     </div>
-                    <div class="input input-dropdown" id="inputDataName">
+                    <div class="input input-multiselect" id="inputDataName">
                         <label>Name (use keyword filter):</label>
                     </div>
-                    <div class="input input-dropdown" id="inputDataIndex">
+                    <div class="input input-multiselect" id="inputDataIndex">
                         <label>Index:</label>
                     </div>
-                    <div class="input input-dropdown" id="inputDataSourcetype">
+                    <div class="input input-multiselect" id="inputDataSourcetype">
                         <label>Sourcetype(s):</label>
                     </div>
-                    <div class="input input-dropdown" id="inputDataSourceState">
+                    <div class="input input-multiselect" id="inputDataSourceState">
                         <label>Filter state:</label>
                     </div>
                     <div class="input input-dropdown" id="inputDataMonitoredState">
                         <label>Filter monitored_state:</label>
                     </div>
-                    <div class="input input-dropdown" id="inputDataPriority">
+                    <div class="input input-multiselect" id="inputDataPriority">
                         <label>Filter priority:</label>
                     </div>
                     <div class="input input-dropdown" id="refreshForm">
@@ -8634,10 +8634,10 @@ styles in <div> tags, similar to Bootstrap's grid system.
             <div class="dashboard-panel clearfix">
                 <h2 class="panel-title">Click on any entry of the table to open interactive actions for this entity, use inputs to filter out the selection: (restricted to the first thousand results, use the key world filter input for large scale selections)</h2>
                 <div class="fieldset">
-                    <div class="input input-dropdown" id="inputDataHostIndexes">
+                    <div class="input input-multiselect" id="inputDataHostIndexes">
                         <label>Index(es):</label>
                     </div>
-                    <div class="input input-dropdown" id="inputDataHostSourcetypes">
+                    <div class="input input-multiselect" id="inputDataHostSourcetypes">
                         <label>Sourcetype(s):</label>
                     </div>
                     <div class="input input-dropdown" id="inputDataHostFilterMode">
@@ -8646,16 +8646,16 @@ styles in <div> tags, similar to Bootstrap's grid system.
                     <div style="margin-right: 28px;" class="input input-text" id="inputDataHostFilter">
                         <label>Keyword filter hosts:</label>
                     </div>
-                    <div class="input input-dropdown" id="inputDataHost">
+                    <div class="input input-multiselect" id="inputDataHost">
                         <label>Host(s) (use keyword filter):</label>
                     </div>
-                    <div class="input input-dropdown" id="inputDataHostState">
+                    <div class="input input-multiselect" id="inputDataHostState">
                         <label>Filter state:</label>
                     </div>
                     <div class="input input-dropdown" id="inputDataHostMonitoredState">
                         <label>Filter monitored_state:</label>
                     </div>
-                    <div class="input input-dropdown" id="inputDataHostPriority">
+                    <div class="input input-multiselect" id="inputDataHostPriority">
                         <label>Filter priority:</label>
                     </div>
                     <div class="input input-dropdown" id="refreshHostForm">
@@ -8671,10 +8671,10 @@ styles in <div> tags, similar to Bootstrap's grid system.
             <div class="dashboard-panel clearfix">
                 <h2 class="panel-title">Click on any entry of the table to open interactive actions for this entity, use inputs to filter out the selection: (restricted to the first thousand results, use the key world filter input for large scale selections):</h2>
                 <div class="fieldset">
-                    <div class="input input-dropdown" id="inputMetricHostIndexes">
+                    <div class="input input-multiselect" id="inputMetricHostIndexes">
                         <label>Index(es):</label>
                     </div>
-                    <div class="input input-dropdown" id="inputMetricHostCategories">
+                    <div class="input input-multiselect" id="inputMetricHostCategories">
                         <label>Metric categorie(s):</label>
                     </div>
                     <div class="input input-dropdown" id="inputMetricHostFilterMode">
@@ -8683,16 +8683,16 @@ styles in <div> tags, similar to Bootstrap's grid system.
                     <div style="margin-right: 28px;" class="input input-dropdown" id="inputMetricHostFilter">
                         <label>Keyword filter hosts:</label>
                     </div>
-                    <div class="input input-dropdown" id="inputMetricHost">
+                    <div class="input input-multiselect" id="inputMetricHost">
                         <label>Host(s) (use keyword filter):</label>
                     </div>
-                    <div class="input input-dropdown" id="inputMetricHostState">
+                    <div class="input input-multiselect" id="inputMetricHostState">
                         <label>Filter state:</label>
                     </div>
                     <div class="input input-dropdown" id="inputMetricHostMonitoredState">
                         <label>Filter monitored_state:</label>
                     </div>
-                    <div class="input input-dropdown" id="inputMetricHostPriority">
+                    <div class="input input-multiselect" id="inputMetricHostPriority">
                         <label>Filter priority:</label>
                     </div>
                     <div class="input input-dropdown" id="refreshMetricHostForm">
@@ -36970,6 +36970,7 @@ require([
 <script src="{{SPLUNKWEB_URL_PREFIX}}/static/app/trackme/checkbox_table_data_sampling.js" type="text/javascript"></script>
 <script src="{{SPLUNKWEB_URL_PREFIX}}/static/app/trackme/checkbox_table_tags_policies.js" type="text/javascript"></script>
 <script src="{{SPLUNKWEB_URL_PREFIX}}/static/app/trackme/table_raw.js" type="text/javascript"></script>
+<script src="{{SPLUNKWEB_URL_PREFIX}}/static/app/trackme/multiselect_all.js" type="text/javascript"></script>
 <script>
 var deps = [
     "splunkjs/ready!"
