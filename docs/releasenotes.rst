@@ -24,6 +24,7 @@ https://trackme.readthedocs.io/en/latest/configuration.html
 - Fix - Issue #219 - Outliers detection - dropdown for alert on upper is not pref-filled with the actual setting of the entity
 - Fix - Issue #220 - Audit scheduling - in some environments, status=success is replaced it search time by completed (internal scheduler) which is not expected by the searches
 - Fix - Issue #221 - Data sources - Tags are not preserved following actions in the UI
+- Fix - Issue #224 - Outliers - Switching an entity between different periods may lead the outliers generation to be failing
 - Change: Icons change
 
 Version 1.2.30
