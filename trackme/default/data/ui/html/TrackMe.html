@@ -1173,11 +1173,56 @@ styles in <div> tags, similar to Bootstrap's grid system.
         </div>
     </div>
 
+    <!-- Modal window for metrics search and report -->
+    <div class="modal fade custom-modal-80" id="metric_hosts_search_and_reports" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header modal-header-info">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h1 style="color: white;"><span class="glyphicon glyphicon-lock"></span> Metric store - Search & Reports </h1>
+                </div>
+
+                <div class="modal-body">
+
+                    <div id="rowMetricHostSearchAndReport" class="dashboard-row dashboard-row1" data-original-id="rowMetricHostSearchAndReport">
+                        <div id="panelMetricHostSearchAndReport" class="dashboard-cell" style="width: 100%;" data-original-id="panelMetricHostSearchAndReport">
+                            <div class="dashboard-panel clearfix">
+                                
+                                <div class="panel-element-row">
+                                    <div style="margin-right: 15px; text-align: center;">
+                                        <a class="btn btn-primary" style="margin-right: 20px;" id="btn_search_metric_host_live_report" target="_blank" href="search_metric_source_live_report_url" role="button">Metrics live report</a>
+                                        <a class="btn btn-primary" style="margin-right: 20px;" id="btn_search_metric_host" target="_blank" href="search_metric_source_url" role="button">Metrics mcatalog report</a>
+                                        <a class="btn btn-primary" style="margin-right: 20px;" id="btn_msearch_metric_host" target="_blank" href="search_data_source_url" role="button">Search (msearch)</a>
+                                        <a class="btn btn-primary" style="margin-right: 20px;" id="btn_mpreview_metric_host" target="_blank" href="search_data_source_url" role="button">Search (mpreview)</a>                                        
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div style="margin-top: 20px;" class="modal-footer">
+                        <div style="margin-right: 15px; float: left;">
+                            <button type="submit" class="btn btn-default btn-default pull-left" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Close</button>
+                        </div>
+                        <div style="margin-right: 15px; float: right;">
+                            <button id="btn_metric_host_search_and_report_back" type="submit" class="btn btn-default btn-primary" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Back </button>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
     <!--
     Smart Status
     -->
 
-    <!-- Modal window for tags policies -->
+    <!-- Modal window for Smart Status Data Source -->
     <div class="modal fade custom-modal-80" id="smart_status_data_source" role="dialog">
         <div class="modal-dialog">
 
@@ -1202,8 +1247,8 @@ styles in <div> tags, similar to Bootstrap's grid system.
 
                     </div>
 
-                    <div id="rowSmartStatusDatatSource" class="dashboard-row dashboard-row1" data-original-id="rowSmartStatusDatatSource">
-                        <div id="panelSmartStatusDatatSource" class="dashboard-cell" style="width: 100%;" data-original-id="panelSmartStatusDatatSource">
+                    <div id="rowSmartStatusDataSource" class="dashboard-row dashboard-row1" data-original-id="rowSmartStatusDataSource">
+                        <div id="panelSmartStatusDataSource" class="dashboard-cell" style="width: 100%;" data-original-id="panelSmartStatusDataSource">
                             <div class="dashboard-panel clearfix">
                                 
                                 <div class="panel-element-row">
@@ -1220,7 +1265,115 @@ styles in <div> tags, similar to Bootstrap's grid system.
                             <button type="submit" class="btn btn-default btn-default pull-left" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Close</button>
                         </div>
                         <div style="margin-right: 15px; float: right;">
-                            <button id="btn_smart_status_back" type="submit" class="btn btn-default btn-primary" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Back </button>
+                            <button id="btn_smart_status_data_source_back" type="submit" class="btn btn-default btn-primary" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Back </button>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Modal window for Smart Status Data Host -->
+    <div class="modal fade custom-modal-80" id="smart_status_data_host" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header modal-header-info">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h1 style="color: white;"><span class="glyphicon glyphicon-lock"></span> Smart Status </h1>
+                </div>
+
+                <div class="modal-body">
+
+                    <div>
+
+                        <div style="margin-bottom: 10px;">
+
+                            <div>
+                                <h3>The Smart Status performs advanced investigations and correlations dynamically depending on the state of the data host and the conditions:</h3>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <div id="rowSmartStatusDatatHost" class="dashboard-row dashboard-row1" data-original-id="rowSmartStatusDataHost">
+                        <div id="panelSmartStatusDataHost" class="dashboard-cell" style="width: 100%;" data-original-id="panelSmartStatusDataHost">
+                            <div class="dashboard-panel clearfix">
+                                
+                                <div class="panel-element-row">
+                                    <div id="eventSmartStatusDataHost" class="dashboard-element event" style="width: 100%">
+                                        <div class="panel-body"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div style="margin-top: 20px;" class="modal-footer">
+                        <div style="margin-right: 15px; float: left;">
+                            <button type="submit" class="btn btn-default btn-default pull-left" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Close</button>
+                        </div>
+                        <div style="margin-right: 15px; float: right;">
+                            <button id="btn_smart_status_data_host_back" type="submit" class="btn btn-default btn-primary" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Back </button>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Modal window for Smart Status Metric Host -->
+    <div class="modal fade custom-modal-80" id="smart_status_metric_host" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header modal-header-info">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h1 style="color: white;"><span class="glyphicon glyphicon-lock"></span> Smart Status </h1>
+                </div>
+
+                <div class="modal-body">
+
+                    <div>
+
+                        <div style="margin-bottom: 10px;">
+
+                            <div>
+                                <h3>The Smart Status performs advanced investigations and correlations dynamically depending on the state of the Metric Host and the conditions:</h3>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <div id="rowSmartStatusDatatHost" class="dashboard-row dashboard-row1" data-original-id="rowSmartStatusMetricHost">
+                        <div id="panelSmartStatusMetricHost" class="dashboard-cell" style="width: 100%;" data-original-id="panelSmartStatusMetricHost">
+                            <div class="dashboard-panel clearfix">
+                                
+                                <div class="panel-element-row">
+                                    <div id="eventSmartStatusMetricHost" class="dashboard-element event" style="width: 100%">
+                                        <div class="panel-body"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div style="margin-top: 20px;" class="modal-footer">
+                        <div style="margin-right: 15px; float: left;">
+                            <button type="submit" class="btn btn-default btn-default pull-left" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Close</button>
+                        </div>
+                        <div style="margin-right: 15px; float: right;">
+                            <button id="btn_smart_status_metric_host_back" type="submit" class="btn btn-default btn-primary" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Back </button>
                         </div>
                     </div>
 
@@ -3872,6 +4025,9 @@ styles in <div> tags, similar to Bootstrap's grid system.
                             <div class="btn_ack" style="margin-right: 15px; float: right;">
                                 <button type="submit" id="btn_ack_data_host" role="button" class="btn btn-primary btn-default"><span class="glyphicon glyphicon-remove"></span>Acknowledge alert</button>
                             </div>
+                            <div class="btn_smart_status_data_host" style="margin-right: 15px; float: right;">
+                                <button type="submit" id="btn_smart_status_data_host" role="button" class="btn btn-primary btn-default"><span class="glyphicon glyphicon-remove"></span>Smart Status</button>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -4123,13 +4279,7 @@ styles in <div> tags, similar to Bootstrap's grid system.
                                 <button type="submit" class="btn btn-default btn-default" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Close</button>
                             </div>
                             <div style="margin-right: 15px; float: right;">
-                                <a class="btn btn-primary" id="btn_search_metric_host_live_report" target="_blank" href="search_metric_source_live_report_url" role="button">Metrics live report</a>
-                            </div>
-                            <div style="margin-right: 15px; float: right;">
-                                <a class="btn btn-primary" id="btn_search_metric_host" target="_blank" href="search_metric_source_url" role="button">Metrics mcatalog report</a>
-                            </div>
-                            <div style="margin-right: 15px; float: right;">
-                                <a class="btn btn-primary" id="btn_msearch_metric_host" target="_blank" href="search_data_source_url" role="button">Search (msearch)</a>
+                                <button type="submit" id="btn_search_metric_reports" role="button" class="btn btn-primary btn-default"><span class="glyphicon glyphicon-remove"></span>Search & reports</button>
                             </div>
                             <div style="margin-right: 15px; float: right;">
                                 <button type="submit" id="btn_modify_metric_host" role="button" class="btn btn-primary btn-default"><span class="glyphicon glyphicon-remove"></span>Modify</button>
@@ -4149,7 +4299,9 @@ styles in <div> tags, similar to Bootstrap's grid system.
                             <div class="btn_ack" style="margin-right: 15px; float: right;">
                                 <button type="submit" id="btn_ack_metric_host" role="button" class="btn btn-primary btn-default"><span class="glyphicon glyphicon-remove"></span>Acknowledge alert</button>
                             </div>
-
+                            <div class="btn_smart_status_metric_host" style="margin-right: 15px; float: right;">
+                                <button type="submit" id="btn_smart_status_metric_host" role="button" class="btn btn-primary btn-default"><span class="glyphicon glyphicon-remove"></span>Smart Status</button>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -9477,6 +9629,7 @@ require([
         });
 
         // Smart Status
+
         var searchSmartStatusDataSource = new SearchManager({
             "id": "searchSmartStatusDataSource",
             "earliest_time": "-5m",
@@ -9490,6 +9643,46 @@ require([
             "preview": true,
             "tokenDependencies": {
                 "depends": "$show_smart_status_data_source$"
+            },
+            "runWhenTimeIsUndefined": false
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        });
+
+        var searchSmartStatusDataHost = new SearchManager({
+            "id": "searchSmartStatusDataHost",
+            "earliest_time": "-5m",
+            "cancelOnUnload": true,
+            "sample_ratio": null,
+            "latest_time": "now",
+            "search": "| trackme url=/services/trackme/v1/smart_status/dh_smart_status mode=get body=\"{'data_host': '$tk_data_host$'}\" | `trackme_smart_status_emoji`",
+            "status_buckets": 0,
+            "app": utils.getCurrentApp(),
+            "auto_cancel": 90,
+            "preview": true,
+            "tokenDependencies": {
+                "depends": "$show_smart_status_data_host$"
+            },
+            "runWhenTimeIsUndefined": false
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        });
+
+        var searchSmartStatusMetricHost = new SearchManager({
+            "id": "searchSmartStatusMetricHost",
+            "earliest_time": "-5m",
+            "cancelOnUnload": true,
+            "sample_ratio": null,
+            "latest_time": "now",
+            "search": "| trackme url=/services/trackme/v1/smart_status/mh_smart_status mode=get body=\"{'metric_host': '$tk_metric_host$'}\" | `trackme_smart_status_emoji`",
+            "status_buckets": 0,
+            "app": utils.getCurrentApp(),
+            "auto_cancel": 90,
+            "preview": true,
+            "tokenDependencies": {
+                "depends": "$show_smart_status_metric_host$"
             },
             "runWhenTimeIsUndefined": false
         }, {
@@ -17862,9 +18055,14 @@ require([
                 var msearch_metric_host = '| msearch index=* filter=\"host=\"' + tk_metric_host + '\"\"'
                 msearch_metric_host = 'search' + "?q=" + encodeURI(msearch_metric_host) + '&earliest=-15m&latest=now'
 
+                // Define the history msearch
+                var mpreview_metric_host = '| mpreview index=* filter=\"host=\"' + tk_metric_host + '\"\"'
+                mpreview_metric_host = 'search' + "?q=" + encodeURI(mpreview_metric_host) + '&earliest=-15m&latest=now'
+
                 // Define the URL target
                 document.getElementById("btn_search_metric_host").href = search_metric_host;
                 document.getElementById("btn_msearch_metric_host").href = msearch_metric_host;
+                document.getElementById("btn_mpreview_metric_host").href = mpreview_metric_host;
 
                 var search_metric_host_live_report = '| savedsearch \"trackMe - metric host live report\" host=\"' + tk_metric_host + '"'
                 search_metric_host_live_report = 'search' + "?q=" + encodeURI(search_metric_host_live_report) + '&earliest=-15m&latest=now'
@@ -18056,6 +18254,38 @@ require([
             "maxLines": 5,
             "managerid": "searchSmartStatusDataSource",
             "el": $('#eventSmartStatusDataSource')
+        }, {tokens: true, tokenNamespace: "submitted"}).render();
+
+        var eventSmartStatusDataHost = new EventElement({
+            "id": "eventSmartStatusDataHost",
+            "list.drilldown": "none",
+            "table.drilldown": "all",
+            "list.wrap": "1",
+            "table.wrap": "1",
+            "rowNumbers": "0",
+            "table.sortDirection": "asc",
+            "count": 20,
+            "raw.drilldown": "full",
+            "type": "list",
+            "maxLines": 5,
+            "managerid": "searchSmartStatusDataHost",
+            "el": $('#eventSmartStatusDataHost')
+        }, {tokens: true, tokenNamespace: "submitted"}).render();
+
+        var eventSmartStatusMetricHost = new EventElement({
+            "id": "eventSmartStatusMetricHost",
+            "list.drilldown": "none",
+            "table.drilldown": "all",
+            "list.wrap": "1",
+            "table.wrap": "1",
+            "rowNumbers": "0",
+            "table.sortDirection": "asc",
+            "count": 20,
+            "raw.drilldown": "full",
+            "type": "list",
+            "maxLines": 5,
+            "managerid": "searchSmartStatusMetricHost",
+            "el": $('#eventSmartStatusMetricHost')
         }, {tokens: true, tokenNamespace: "submitted"}).render();
 
         // tags policies
@@ -28783,6 +29013,26 @@ require([
         });
 
         //
+        // Metrics hosts Search & Report
+        //
+
+        // Show modal
+        $("#btn_search_metric_reports").click(function() {
+
+            // Show input modal
+            $("#metric_hosts_search_and_reports").modal();
+
+        });
+
+        // back button
+        $("#btn_metric_host_search_and_report_back").click(function() {
+
+            // Show input modal
+            $("#modal_manage_metric_host").modal();
+
+        });
+
+        //
         // allowlisting metric host
         //
 
@@ -32960,10 +33210,64 @@ require([
         });
 
         // back
-        $("#btn_smart_status_back").click(function() {
+        $("#btn_smart_status_data_source_back").click(function() {
 
             // Show modal
             $("#modal_manage").modal();
+
+        });
+
+        // Smart Status data host
+        $("#btn_smart_status_data_host").click(function() {
+
+            submitTokens();
+
+            // When the Submit button is clicked, get all the form fields by accessing token values
+            var tokens = mvc.Components.get("default");
+
+            // Free the search
+            setToken("show_smart_status_data_host", "true");
+
+            // Force search run every time the button is clicked
+            searchSmartStatusDataHost.startSearch();
+
+            // Show input modal
+            $("#smart_status_data_host").modal();
+
+        });
+
+        // back
+        $("#btn_smart_status_data_host_back").click(function() {
+
+            // Show modal
+            $("#modal_manage_host").modal();
+
+        });
+
+        // Smart Status metric host
+        $("#btn_smart_status_metric_host").click(function() {
+
+            submitTokens();
+
+            // When the Submit button is clicked, get all the form fields by accessing token values
+            var tokens = mvc.Components.get("default");
+
+            // Free the search
+            setToken("show_smart_status_metric_host", "true");
+
+            // Force search run every time the button is clicked
+            searchSmartStatusMetricHost.startSearch();
+
+            // Show input modal
+            $("#smart_status_metric_host").modal();
+
+        });
+
+        // back
+        $("#btn_smart_status_data_host_back").click(function() {
+
+            // Show modal
+            $("#modal_manage_host").modal();
 
         });
 

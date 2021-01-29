@@ -1075,6 +1075,7 @@ class TrackMeHandlerSmartStatus_v1(rest_handler.RESTHandler):
                         # Then, investigate current outliers
                         countOutliers = None
                         lastOutlier = None
+                        lastOutlierReason = None
                         latest4hcount = None
                         lowerBound = None
                         upperBound = None
@@ -1090,7 +1091,9 @@ class TrackMeHandlerSmartStatus_v1(rest_handler.RESTHandler):
                         + "| eventstats count(eval(isOutlier=\"true\")) as countOutliers"\
                         + "| where isOutlier=\"true\""\
                         + "| stats count as countOutliers, max(_time) as lastOutlier, latest(eventcount_4h_span) as latest4hcount, latest(lowerBound) as lowerBound, latest(upperBound) as upperBound, latest(OutlierAlertOnUpper) as OutlierAlertOnUpper"\
-                        + "| eval lastOutlier=strftime(lastOutlier, \"%c\") | foreach lowerBound upperBound latest4hcount [ eval <<FIELD>> = round('<<FIELD>>', 2) ]"
+                        + "| eval lastOutlier=strftime(lastOutlier, \"%c\"),"\
+                        + "lastOutlierReason=case(latest4hcount<lowerBound, \"EventCount beyond lowerBound\", latest4count>upperBound AND OutlierAlertOnUpper=\"true\", \"EventCount over upperBound\", isnull(lastOutlierReason), \"unknown\")"\
+                        + "| foreach lowerBound upperBound latest4hcount [ eval <<FIELD>> = round('<<FIELD>>', 2) ]"
 
                         # spawn the search and get the results
                         searchresults = service.jobs.oneshot(searchquery, **kwargs_search)
@@ -1102,6 +1105,7 @@ class TrackMeHandlerSmartStatus_v1(rest_handler.RESTHandler):
                                 query_result = item
                             countOutliers = query_result["countOutliers"]
                             lastOutlier = query_result["lastOutlier"]
+                            lastOutlierReason = query_result["lastOutlierReason"]
                             latest4hcount = query_result["latest4hcount"]
                             lowerBound = query_result["lowerBound"]
                             upperBound = query_result["upperBound"]
@@ -1110,6 +1114,7 @@ class TrackMeHandlerSmartStatus_v1(rest_handler.RESTHandler):
                         except Exception as e:
                             countOutliers = None
                             lastOutlier = None
+                            lastOutlierReason = None
                             latest4hcount = None
                             lowerBound = None
                             upperBound = None
@@ -1130,7 +1135,8 @@ class TrackMeHandlerSmartStatus_v1(rest_handler.RESTHandler):
                         + '"correlation_outliers": "[ description: Last 24h outliers detection ], [ OutliersCount: ' \
                         + str(countOutliers) + ' ], [ latest4hcount: ' + str(latest4hcount) + ' ], [ lowerBound: ' \
                         + str(lowerBound) + ' ], [ upperBound: ' + str(upperBound) + ' ], [ lastOutlier: ' \
-                        + str(lastOutlier) + ' ], [ OutlierAlertOnUpper: ' + str(OutlierAlertOnUpper) + ' ]", '\
+                        + str(lastOutlier) + ' ], [ lastOutlierReason: ' + str(lastOutlierReason) + ' ], [ OutlierAlertOnUpper: '\
+                        + str(OutlierAlertOnUpper) + ' ]", '\
                         + '"correlation_flipping_state": "' + str(flipping_correlation_msg) + '", '\
                         + '"correlation_data_sampling": "' + str(data_sampling_state) + '"'\
                         + '}'
@@ -1412,6 +1418,441 @@ class TrackMeHandlerSmartStatus_v1(rest_handler.RESTHandler):
                     'status': 404 # HTTP status code
                 }
 
+
+        except Exception as e:
+            return {
+                'payload': 'Warn: exception encountered: ' + str(e), # Payload of the request.
+                'status': 500 # HTTP status code
+            }
+
+
+    # Get smart status for data hosts
+    def get_dh_smart_status(self, request_info, **kwargs):
+
+        # By data_name
+        data_host = None
+        query_string = None
+
+        describe = False
+
+        # Retrieve from data
+        try:
+            resp_dict = json.loads(str(request_info.raw_args['payload']))
+        except Exception as e:
+            resp_dict = None
+
+        if resp_dict is not None:
+            try:
+                describe = resp_dict['describe']
+                if describe in ("true", "True"):
+                    describe = True
+            except Exception as e:
+                describe = False
+            if not describe:
+                data_host = resp_dict['data_host']
+
+        else:
+            # body is required in this endpoint, if not submitted describe the usage
+            describe = True
+
+        if describe:
+
+            response = "{\"describe\": \"This endpoints runs the smart status for a given data host, it requires a GET call with the following options:\""\
+                + ", \"options\" : [ { "\
+                + "\"data_host\": \"name of the data host\""\
+                + " } ] }"
+
+            return {
+                "payload": json.dumps(json.loads(str(response)), indent=1),
+                'status': 200 # HTTP status code
+            }
+
+        # Define the KV query
+        query_string = '{ "data_host": "' + data_host + '" }'
+
+        # Get splunkd port
+        entity = splunk.entity.getEntity('/server', 'settings',
+                                            namespace='trackme', sessionKey=request_info.session_key, owner='-')
+        splunkd_port = entity['mgmtHostPort']
+
+        try:
+
+            collection_name = "kv_trackme_host_monitoring"
+            service = client.connect(
+                owner="nobody",
+                app="trackme",
+                port=splunkd_port,
+                token=request_info.session_key
+            )
+            collection = service.kvstore[collection_name]
+
+            # Get the current record
+            # Notes: the record is returned as an array, as we search for a specific record, we expect one record only
+            
+            try:
+                record = collection.data.query(query=str(query_string))
+                key = record[0].get('_key')
+
+            except Exception as e:
+                key = None
+                
+            # Render result
+            if key is not None and len(key)>2:
+
+                # inititate the smart_code status, we start at 0 then increment using the following rules:
+                # - TBD
+
+                smart_code = 0
+
+                import splunklib.results as results
+
+                # Spawn a new search
+                # Get lagging statistics from live data
+                kwargs_search = {"app": "trackme", "earliest_time": "-5m", "latest_time": "now"}
+                searchquery = "| inputlookup trackme_host_monitoring where _key=\"" + str(key) + "\""
+
+                # spawn the search and get the results
+                searchresults = service.jobs.oneshot(searchquery, **kwargs_search)
+
+                # Get the results and display them using the ResultsReader
+                try:
+                    reader = results.ResultsReader(searchresults)
+                    for item in reader:
+                        query_result = item
+
+                    data_host_state = query_result["data_host_state"]
+                    data_lag_alert_kpis = query_result["data_lag_alert_kpis"]
+                    data_last_lag_seen = query_result["data_last_lag_seen"]
+                    data_last_ingestion_lag_seen = query_result["data_last_ingestion_lag_seen"]
+                    data_max_lag_allowed = query_result["data_max_lag_allowed"]
+                    data_last_time_seen = query_result["data_last_time_seen"]
+                    isOutlier = query_result["isOutlier"]
+                    enable_behaviour_analytic = query_result["enable_behaviour_analytic"]
+                    data_host_alerting_policy = query_result["data_host_alerting_policy"]
+
+                except Exception as e:
+                    data_host_state = None
+                    data_lag_alert_kpis = None
+                    data_last_lag_seen = None
+                    data_last_ingestion_lag_seen = None
+                    data_max_lag_allowed = None
+                    data_last_time_seen = None
+                    enable_behaviour_analytic = None
+                    isOutlier = None
+                    data_host_alerting_policy = None
+
+                #
+                # Flipping status correlation
+                #
+
+                flipping_count = 0
+                flipping_stdev = 0
+                flipping_perc95 = 0
+                flipping_sum = 0
+
+                # retrieve the number of time this entity has flipped during the last 24 hours, multiple back and forth movements is suspicious
+                # and indicates either a misconfiguration (lagging values not adapted) or something very wrong happening
+                import splunklib.results as results
+
+                kwargs_search = {"app": "trackme", "earliest_time": "-24h", "latest_time": "now"}
+                searchquery = "search `trackme_idx` source=\"flip_state_change_tracking\" object_category=\"data_host\" object=\"" + str(data_host) + "\" | bucket _time span=4h | stats count by _time | stats stdev(count) as stdev perc95(count) as perc95 max(count) as max latest(count) as count sum(count) as sum"
+
+                # spawn the search and get the results
+                searchresults = service.jobs.oneshot(searchquery, **kwargs_search)
+
+                # Get the results and display them using the ResultsReader
+                try:
+                    reader = results.ResultsReader(searchresults)
+                    for item in reader:
+                        query_result = item
+                    flipping_count = query_result["count"]
+                    flipping_stdev = query_result["stdev"]
+                    flipping_perc95 = query_result["perc95"]
+                    flipping_sum = query_result["sum"]
+
+                except Exception as e:
+                    flipping_count = 0
+
+                # round flipping_stdev
+                flipping_stdev = round(float(flipping_stdev), 2)
+                flipping_perc95 = round(float(flipping_perc95), 2)
+
+                if (int(flipping_count)>float(flipping_perc95) or int(flipping_count)>float(flipping_stdev)) and int(flipping_count)>1:
+                    flipping_correlation_msg = 'state: [ orange ], message: [ ' + 'The amount of flipping events is abnormally high (last 24h count: ' + str(flipping_sum) + ', perc95: ' + str(flipping_perc95) + ', stdev: ' + str(flipping_stdev) + ', last 4h count: ' + str(flipping_count) + '), review the data host activity to determine potential root causes leading the data flow to flip abnormally. ]'
+                    # increment the smart_code by 1
+                    smart_code += 1
+                else:
+                    flipping_correlation_msg = 'state: [ green ], message: [ There were no anomalies detected in the flipping state activity threshold. ]'
+
+                #
+                # Proceed
+                #
+
+                if data_host_state is None or data_host_state in ("green", "blue"):
+
+                    results = '{' \
+                    + '"data_host": "' + data_host  + '", '\
+                    + '"data_host_state": "' + str(data_host_state) + '", '\
+                    + '"smart_result": "The data host is currently in a normal state, therefore further investigations are not required at this stage.", '\
+                    + '"smart_code": "' + str(smart_code) + '", '\
+                    + '"correlation_flipping_state": "' + str(flipping_correlation_msg) + '"'\
+                    + '}'
+
+                    return {
+                        "payload": json.dumps(json.loads(results), indent=1),
+                        'status': 200 # HTTP status code
+                    }
+
+                else:
+
+                    # runs investigations
+
+                    #
+                    # host policy: retrieve the current global policy definition
+                    #
+
+                    global_host_policy = "track_per_host"
+
+                    kwargs_search = {"app": "trackme", "earliest_time": "-5m", "latest_time": "now"}
+                    searchquery = "| makeresults | eval global_host_policy=`trackme_default_data_host_alert_policy` | fields - _time"
+
+                    # spawn the search and get the results
+                    searchresults = service.jobs.oneshot(searchquery, **kwargs_search)
+
+                    # Get the results and display them using the ResultsReader
+                    try:
+                        reader = results.ResultsReader(searchresults)
+                        for item in reader:
+                            query_result = item
+                        global_host_policy = query_result["global_host_policy"]
+
+                    except Exception as e:
+                        # Ops, default is track_per_host let's assume this is the case if for some reasons we failed to retrieve it
+                        global_host_policy = "track_per_host"
+
+                    # Now investigate the current status of the host:
+                    if data_host_alerting_policy is not None and data_host_alerting_policy in ("global_policy") and global_host_policy in ("track_per_host"):
+                        data_host_alerting_policy = "track_per_host"
+
+                    elif data_host_alerting_policy is not None and data_host_alerting_policy in ("global_policy") and global_host_policy in ("track_per_sourcetype"):
+                        data_host_alerting_policy = "track_per_sourcetype"
+
+                    if data_host_alerting_policy is not None and data_host_alerting_policy in ("track_per_host"):
+                        data_host_alerting_policy = "track_per_host"
+
+                    elif data_host_alerting_policy is not None and data_host_alerting_policy in ("track_per_sourcetype"):
+                        data_host_alerting_policy = "track_per_sourcetype"
+
+                    # Hum, that is not possible normally, assume the default
+                    else:
+                        data_host_alerting_policy = "track_per_host"
+
+                    ######################################
+                    # case: lag event and/or lag ingestion
+                    ######################################
+
+                    report_name = None
+                    report_desc = None
+
+                    if isOutlier in ("0"):
+
+                        # calculate a 4h time range relative to the latest time seen in the data source
+                        earliest_time = int(data_last_time_seen) - (4*3600)
+                        latest_time = "now"
+
+                        kwargs_search = {"app": "trackme", "earliest_time": str(earliest_time), "latest_time": str(latest_time)}
+                        searchquery = "`trackme_smart_status_summary_dh(\"" + str(data_host) + "\")`"
+
+                        report_desc = "[ description: sourcetypes in non alert state ], "
+                        report_name = "sourcetype_report"
+
+                        # spawn the search and get the results
+                        searchresults = service.jobs.oneshot(searchquery, **kwargs_search)
+
+                        # Get the results and display them using the ResultsReader
+                        try:
+                            reader = results.ResultsReader(searchresults)
+                            for item in reader:
+                                query_result = item
+                            summary = query_result["summary"]
+                            summary = summary.replace(", ", ",")
+                            summary = summary.split(",")
+
+                        except Exception as e:
+                            summary = None
+
+                        import datetime, time
+
+                        # convert the epochtime to a human friendly format
+                        human_last_datetime = datetime.datetime.fromtimestamp(int(data_last_time_seen)).strftime('%c')
+
+                        # eval current delay
+                        current_delay = round(time.time()-int(data_last_time_seen))
+
+                        # convert the current delay to a human friendly format
+                        current_delay = str(datetime.timedelta(seconds=int(current_delay)))
+
+                        # increment the smart_code by 10
+                        smart_code += 10
+
+                        if data_host_alerting_policy in ("track_per_host") and data_lag_alert_kpis in ("all_kpis", "lag_event_kpi") and int(data_last_lag_seen)>int(data_max_lag_allowed):
+                            smart_result = "TrackMe triggered an alert due to the latest data available that is out of the acceptable window, "\
+                            + "the maximal event lag allowed is: " + str(data_max_lag_allowed) + " seconds, while the latest data available is: "\
+                            + str(human_last_datetime) + ", the data is late by: " + str(current_delay) + " (days, HH:MM:SS)"
+
+                        elif data_host_alerting_policy in ("track_per_host") and data_lag_alert_kpis in ("all_kpis", "lag_ingestion_kpi") and int(data_last_ingestion_lag_seen)>int(data_max_lag_allowed):
+                            smart_result = "TrackMe triggered an alert due to indexing lag detected out of the acceptable window, "\
+                            + "the maximal ingestion lag allowed is: " + str(data_max_lag_allowed) + " seconds, while an ingestion lag of "\
+                            + str(datetime.timedelta(seconds=int(data_last_ingestion_lag_seen))) + " (days, HH:MM:SS) was detected, review "\
+                            + "the sourcetypes attached to this report to investigate the root cause."
+
+                        elif data_host_alerting_policy in ("track_per_sourcetype"):
+                            smart_result = "TrackMe triggered an alert due to one or more sourcetypes in alert state, "\
+                            + "as the host policy is currently set to track per sourcetype, any sourcetype will impact the host global status. "\
+                            + "Review the attached report, if these sourcetypes have been decomissioned or blocklisted, reset the host to clear "\
+                            + "the current sourcetype knownledge."
+
+                        else:
+                            smart_result = None
+
+                        results_message = '{' \
+                        + '"data_host": "' + str(data_host)  + '", '\
+                        + '"data_host_state": "' + str(data_host_state) + '", '\
+                        + '"data_host_alerting_policy": "' + str(data_host_alerting_policy) + '", '\
+                        + '"smart_result": "' + str(smart_result) + '", '\
+                        + '"' + str(report_name) + '": "' + str(report_desc) + str(summary) + '", '\
+                        + '"smart_code": "' + str(smart_code) + '", ' \
+                        + '"correlation_flipping_state": "' + str(flipping_correlation_msg) + '"'\
+                        + '}'
+
+                        return {
+                            "payload": json.dumps(json.loads(results_message), indent=1),
+                            'status': 200 # HTTP status code
+                        }
+
+                    ##################################
+                    # case: outliers anomaly detection
+                    ##################################
+
+                    elif isOutlier in ("1"):
+
+                        # first, retrieve different information we need to investigate the outliers
+                        OutlierSpan = None
+
+                        kwargs_search = {"app": "trackme", "earliest_time": "-5m", "latest_time": "now"}
+                        searchquery = "| `trackme_outlier_table(trackme_host_monitoring, data_host, " + str(data_host) + ")` | fields OutlierSpan"
+
+                        # spawn the search and get the results
+                        searchresults = service.jobs.oneshot(searchquery, **kwargs_search)
+
+                        # Get the results and display them using the ResultsReader
+                        try:
+                            reader = results.ResultsReader(searchresults)
+                            for item in reader:
+                                query_result = item
+                            OutlierSpan = query_result["OutlierSpan"]
+
+                        except Exception as e:
+                            OutlierSpan = None
+
+                        # Then, investigate current outliers
+                        countOutliers = None
+                        lastOutlier = None
+                        latest4hcount = None
+                        lowerBound = None
+                        upperBound = None
+
+                        kwargs_search = {"app": "trackme", "earliest_time": "-24h", "latest_time": "now"}
+                        searchquery = "| `trackme_outlier_chart(data_host, " + str(data_host) + ", data_host, " + str(OutlierSpan) + ")`"\
+                        + "| eval object_category=\"data_host\", object=\"" + str(data_host) + "\""\
+                        + "| lookup trackme_host_monitoring data_host as object OUTPUT OutlierAlertOnUpper"\
+                        + "| eval isOutlier=case("\
+                        + "OutlierAlertOnUpper=\"false\", if(eventcount_4h_span<lowerBound, \"true\", \"false\"),"\
+                        + "OutlierAlertOnUpper=\"true\", if(eventcount_4h_span<lowerBound OR eventcount_4h_span>upperBound, \"true\", \"false\")"\
+                        + ")"\
+                        + "| eventstats count(eval(isOutlier=\"true\")) as countOutliers"\
+                        + "| where isOutlier=\"true\""\
+                        + "| stats count as countOutliers, max(_time) as lastOutlier, latest(eventcount_4h_span) as latest4hcount, latest(lowerBound) as lowerBound, latest(upperBound) as upperBound, latest(OutlierAlertOnUpper) as OutlierAlertOnUpper"\
+                        + "| eval lastOutlier=strftime(lastOutlier, \"%c\"),"\
+                        + "lastOutlierReason=case(latest4hcount<lowerBound, \"EventCount beyond lowerBound\", latest4count>upperBound AND OutlierAlertOnUpper=\"true\", \"EventCount over upperBound\", isnull(lastOutlierReason), \"unknown\")"\
+                        + "| foreach lowerBound upperBound latest4hcount [ eval <<FIELD>> = round('<<FIELD>>', 2) ]"
+
+                        # spawn the search and get the results
+                        searchresults = service.jobs.oneshot(searchquery, **kwargs_search)
+
+                        # Get the results and display them using the ResultsReader
+                        try:
+                            reader = results.ResultsReader(searchresults)
+                            for item in reader:
+                                query_result = item
+                            countOutliers = query_result["countOutliers"]
+                            lastOutlier = query_result["lastOutlier"]
+                            lastOutlierReason = query_result["lastOutlierReason"]
+                            latest4hcount = query_result["latest4hcount"]
+                            lowerBound = query_result["lowerBound"]
+                            upperBound = query_result["upperBound"]
+                            OutlierAlertOnUpper = query_result["OutlierAlertOnUpper"]
+
+                        except Exception as e:
+                            countOutliers = None
+                            lastOutlier = None
+                            lastOutlierReason = None
+                            latest4hcount = None
+                            lowerBound = None
+                            upperBound = None
+                            OutlierAlertOnUpper = None
+
+                        # increment the smart_code by 40
+                        smart_code += 40
+
+                        results = '{' \
+                        + '"data_host": "' + data_host  + '", '\
+                        + '"data_host_state": "' + data_host_state  + '", '\
+                        + '"smart_result": "TrackMe triggered an alert on this data host due to outliers detection in the '\
+                        + 'event count, outliers are based on the calculation of a lower and upper bound (if alerting on upper) determined '\
+                        + 'against the data host usual behaviour and outliers parameters. Review the correlation results to determine '\
+                        + 'if the behaviour is expected or symptomatic of an issue happening on the data host (lost of '\
+                        + 'sources, etc.) and proceed to any outliers configuration fine tuning if necessary.", '\
+                        + '"smart_code": "' + str(smart_code) + '", ' \
+                        + '"correlation_outliers": "[ description: Last 24h outliers detection ], [ OutliersCount: ' \
+                        + str(countOutliers) + ' ], [ latest4hcount: ' + str(latest4hcount) + ' ], [ lowerBound: ' \
+                        + str(lowerBound) + ' ], [ upperBound: ' + str(upperBound) + ' ], [ lastOutlier: ' \
+                        + str(lastOutlier) + ' ], [ lastOutlierReason: ' + str(lastOutlierReason) + ' ], [ OutlierAlertOnUpper: '\
+                        + str(OutlierAlertOnUpper) + ' ]", '\
+                        + '"correlation_flipping_state": "' + str(flipping_correlation_msg) + '"'\
+                        + '}'
+
+                        return {
+                            "payload": json.dumps(json.loads(results), indent=1),
+                            'status': 200 # HTTP status code
+                        }
+
+                    # Ops, this should not be reached, but in case
+                    results = '{' \
+                    + '"data_host": "' + data_host  + '", '\
+                    + '"data_host_state": "' + str(data_host_state) + '", '\
+                    + '"data_lag_alert_kpis": "' + str(data_lag_alert_kpis) + '", '\
+                    + '"data_last_lag_seen": "' + str(data_last_lag_seen) + '", '\
+                    + '"data_max_lag_allowed": "' + str(data_max_lag_allowed) + '", '\
+                    + '"data_last_ingestion_lag_seen": "' + str(data_last_ingestion_lag_seen) + '", '\
+                    + '"data_host_alerting_policy": "' + str(data_host_alerting_policy) + '", '\
+                    + '"isOutlier": "' + str(isOutlier) + '", '\
+                    + '"enable_behaviour_analytic": "' + str(enable_behaviour_analytic) + '", '\
+                    + '"smart_result": "Ops! Sorry, it looks like an unexpected condition was reached, please submit an issue.", '\
+                    + '"smart_code": "' + "99" + '"'\
+                    + '}'
+
+                    return {
+                        "payload": json.dumps(json.loads(results), indent=1),
+                        'status': 200 # HTTP status code
+                    }                    
+
+            # This data source does not exist
+            else:
+                return {
+                    "payload": 'Warn: resource not found ' + str(query_string),
+                    'status': 404 # HTTP status code
+                }
 
         except Exception as e:
             return {
