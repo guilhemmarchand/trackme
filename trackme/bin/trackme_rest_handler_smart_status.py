@@ -1406,6 +1406,25 @@ class TrackMeHandlerSmartStatus_v1(rest_handler.RESTHandler):
 
                     else:
 
+                        # Ops, this should not be reached, but in case
+                        results = '{' \
+                        + '"data_name": "' + data_name  + '", '\
+                        + '"data_index": "' + data_index  + '", '\
+                        + '"data_sourcetype": "' + data_sourcetype  + '", '\
+                        + '"data_source_state": "' + data_source_state  + '", '\
+                        + '"data_lag_alert_kpis": "' + str(data_lag_alert_kpis) + '", '\
+                        + '"data_last_lag_seen": "' + str(data_last_lag_seen) + '", '\
+                        + '"data_max_lag_allowed": "' + str(data_max_lag_allowed) + '", '\
+                        + '"data_last_ingestion_lag_seen": "' + str(data_last_ingestion_lag_seen) + '", '\
+                        + '"dcount_host": "' + str(dcount_host) + '", '\
+                        + '"min_dcount_host": "' + str(min_dcount_host) + '", '\
+                        + '"isOutlier": "' + str(isOutlier) + '", '\
+                        + '"isAnomaly": "' + str(isAnomaly) + '", '\
+                        + '"enable_behaviour_analytic": "' + str(enable_behaviour_analytic) + '", '\
+                        + '"smart_result": "Ops! Sorry, it looks like an unexpected condition was reached, please submit an issue with this content.", '\
+                        + '"smart_code": "' + "99" + '"'\
+                        + '}'
+
                         return {
                             "payload": "investigations to be processed.",
                             'status': 200 # HTTP status code
@@ -1663,7 +1682,7 @@ class TrackMeHandlerSmartStatus_v1(rest_handler.RESTHandler):
                         kwargs_search = {"app": "trackme", "earliest_time": str(earliest_time), "latest_time": str(latest_time)}
                         searchquery = "`trackme_smart_status_summary_dh(\"" + str(data_host) + "\")`"
 
-                        report_desc = "[ description: sourcetypes in non alert state ], "
+                        report_desc = "[ description: sourcetypes in alert state ], "
                         report_name = "sourcetype_report"
 
                         # spawn the search and get the results
@@ -1838,7 +1857,7 @@ class TrackMeHandlerSmartStatus_v1(rest_handler.RESTHandler):
                     + '"data_host_alerting_policy": "' + str(data_host_alerting_policy) + '", '\
                     + '"isOutlier": "' + str(isOutlier) + '", '\
                     + '"enable_behaviour_analytic": "' + str(enable_behaviour_analytic) + '", '\
-                    + '"smart_result": "Ops! Sorry, it looks like an unexpected condition was reached, please submit an issue.", '\
+                    + '"smart_result": "Ops! Sorry, it looks like an unexpected condition was reached, please submit an issue with this content.", '\
                     + '"smart_code": "' + "99" + '"'\
                     + '}'
 
@@ -1859,3 +1878,245 @@ class TrackMeHandlerSmartStatus_v1(rest_handler.RESTHandler):
                 'payload': 'Warn: exception encountered: ' + str(e), # Payload of the request.
                 'status': 500 # HTTP status code
             }
+
+    # Get smart status for data hosts
+    def get_mh_smart_status(self, request_info, **kwargs):
+
+        # By metric_host
+        metric_host = None
+        query_string = None
+
+        describe = False
+
+        # Retrieve from data
+        try:
+            resp_dict = json.loads(str(request_info.raw_args['payload']))
+        except Exception as e:
+            resp_dict = None
+
+        if resp_dict is not None:
+            try:
+                describe = resp_dict['describe']
+                if describe in ("true", "True"):
+                    describe = True
+            except Exception as e:
+                describe = False
+            if not describe:
+                metric_host = resp_dict['metric_host']
+
+        else:
+            # body is required in this endpoint, if not submitted describe the usage
+            describe = True
+
+        if describe:
+
+            response = "{\"describe\": \"This endpoints runs the smart status for a given metric_host host, it requires a GET call with the following options:\""\
+                + ", \"options\" : [ { "\
+                + "\"metric_host\": \"name of the metric host\""\
+                + " } ] }"
+
+            return {
+                "payload": json.dumps(json.loads(str(response)), indent=1),
+                'status': 200 # HTTP status code
+            }
+
+        # Define the KV query
+        query_string = '{ "metric_host": "' + metric_host + '" }'
+
+        # Get splunkd port
+        entity = splunk.entity.getEntity('/server', 'settings',
+                                            namespace='trackme', sessionKey=request_info.session_key, owner='-')
+        splunkd_port = entity['mgmtHostPort']
+
+        try:
+
+            collection_name = "kv_trackme_metric_host_monitoring"
+            service = client.connect(
+                owner="nobody",
+                app="trackme",
+                port=splunkd_port,
+                token=request_info.session_key
+            )
+            collection = service.kvstore[collection_name]
+
+            # Get the current record
+            # Notes: the record is returned as an array, as we search for a specific record, we expect one record only
+            
+            try:
+                record = collection.data.query(query=str(query_string))
+                key = record[0].get('_key')
+
+            except Exception as e:
+                key = None
+                
+            # Render result
+            if key is not None and len(key)>2:
+
+                # inititate the smart_code status, we start at 0 then increment using the following rules:
+                # - TBD
+
+                smart_code = 0
+
+                import splunklib.results as results
+
+                # Spawn a new search
+                # Get lagging statistics from live data
+                kwargs_search = {"app": "trackme", "earliest_time": "-5m", "latest_time": "now"}
+                searchquery = "| inputlookup trackme_metric_host_monitoring where _key=\"" + str(key) + "\""
+
+                # spawn the search and get the results
+                searchresults = service.jobs.oneshot(searchquery, **kwargs_search)
+
+                # Get the results and display them using the ResultsReader
+                try:
+                    reader = results.ResultsReader(searchresults)
+                    for item in reader:
+                        query_result = item
+
+                    metric_host_state = query_result["metric_host_state"]
+                    metric_last_lag_seen = query_result["metric_last_lag_seen"]
+                    metric_last_time_seen = query_result["metric_last_time_seen"]
+
+                except Exception as e:
+                    metric_host_state = None
+                    metric_last_lag_seen = None
+                    metric_last_time_seen = None
+
+                #
+                # Flipping status correlation
+                #
+
+                flipping_count = 0
+                flipping_stdev = 0
+                flipping_perc95 = 0
+                flipping_sum = 0
+
+                # retrieve the number of time this entity has flipped during the last 24 hours, multiple back and forth movements is suspicious
+                # and indicates either a misconfiguration (lagging values not adapted) or something very wrong happening
+                import splunklib.results as results
+
+                kwargs_search = {"app": "trackme", "earliest_time": "-24h", "latest_time": "now"}
+                searchquery = "search `trackme_idx` source=\"flip_state_change_tracking\" object_category=\"metric_host\" object=\"" + str(metric_host) + "\" | bucket _time span=4h | stats count by _time | stats stdev(count) as stdev perc95(count) as perc95 max(count) as max latest(count) as count sum(count) as sum"
+
+                # spawn the search and get the results
+                searchresults = service.jobs.oneshot(searchquery, **kwargs_search)
+
+                # Get the results and display them using the ResultsReader
+                try:
+                    reader = results.ResultsReader(searchresults)
+                    for item in reader:
+                        query_result = item
+                    flipping_count = query_result["count"]
+                    flipping_stdev = query_result["stdev"]
+                    flipping_perc95 = query_result["perc95"]
+                    flipping_sum = query_result["sum"]
+
+                except Exception as e:
+                    flipping_count = 0
+
+                # round flipping_stdev
+                flipping_stdev = round(float(flipping_stdev), 2)
+                flipping_perc95 = round(float(flipping_perc95), 2)
+
+                if (int(flipping_count)>float(flipping_perc95) or int(flipping_count)>float(flipping_stdev)) and int(flipping_count)>1:
+                    flipping_correlation_msg = 'state: [ orange ], message: [ ' + 'The amount of flipping events is abnormally high (last 24h count: ' + str(flipping_sum) + ', perc95: ' + str(flipping_perc95) + ', stdev: ' + str(flipping_stdev) + ', last 4h count: ' + str(flipping_count) + '), review the data host activity to determine potential root causes leading the data flow to flip abnormally. ]'
+                    # increment the smart_code by 1
+                    smart_code += 1
+                else:
+                    flipping_correlation_msg = 'state: [ green ], message: [ There were no anomalies detected in the flipping state activity threshold. ]'
+
+                #
+                # Proceed
+                #
+
+                if metric_host_state is None or metric_host_state in ("green", "blue"):
+
+                    results = '{' \
+                    + '"metric_host": "' + metric_host  + '", '\
+                    + '"metric_host_state": "' + str(metric_host_state) + '", '\
+                    + '"smart_result": "The metric host is currently in a normal state, therefore further investigations are not required at this stage.", '\
+                    + '"smart_code": "' + str(smart_code) + '", '\
+                    + '"correlation_flipping_state": "' + str(flipping_correlation_msg) + '"'\
+                    + '}'
+
+                    return {
+                        "payload": json.dumps(json.loads(results), indent=1),
+                        'status': 200 # HTTP status code
+                    }
+
+                else:
+
+                    # runs investigations
+
+                    report_name = None
+                    report_desc = None
+
+                    # we get current last 5 minutes of data
+                    earliest_time = "-5m"
+                    latest_time = "now"
+
+                    kwargs_search = {"app": "trackme", "earliest_time": str(earliest_time), "latest_time": str(latest_time)}
+                    searchquery = "| `trackme_smart_status_summary_mh(\"" + str(metric_host) + "\")`"
+
+                    report_desc = "[ description: metrics in alert state ], "
+                    report_name = "metric_category_report"
+
+                    # spawn the search and get the results
+                    searchresults = service.jobs.oneshot(searchquery, **kwargs_search)
+
+                    # Get the results and display them using the ResultsReader
+                    try:
+                        reader = results.ResultsReader(searchresults)
+                        for item in reader:
+                            query_result = item
+                        summary = query_result["summary"]
+                        summary = summary.replace(", ", ",")
+                        summary = summary.split(",")
+
+                    except Exception as e:
+                        summary = None
+
+                    import datetime, time
+
+                    # convert the epochtime to a human friendly format
+                    human_last_datetime = datetime.datetime.fromtimestamp(int(metric_last_time_seen)).strftime('%c')
+
+                    # eval current delay
+                    current_delay = round(time.time()-int(metric_last_time_seen))
+
+                    # convert the current delay to a human friendly format
+                    current_delay = str(datetime.timedelta(seconds=int(current_delay)))
+
+                    # increment the smart_code by 10
+                    smart_code += 10
+
+                    smart_result = "TrackMe triggered an alert due to one or more metrics latest availability that are out of the acceptable time window, "\
+                    + "the very last metric (between any metrics) for this host was received on: " + str(human_last_datetime) + ", global delay if any: " + str(current_delay) + " (days, HH:MM:SS)"
+
+                    results_message = '{' \
+                    + '"metric_host": "' + str(metric_host)  + '", '\
+                    + '"metric_host_state": "' + str(metric_host_state) + '", '\
+                    + '"smart_result": "' + str(smart_result) + '", '\
+                    + '"' + str(report_name) + '": "' + str(report_desc) + str(summary) + '", '\
+                    + '"smart_code": "' + str(smart_code) + '", ' \
+                    + '"correlation_flipping_state": "' + str(flipping_correlation_msg) + '"'\
+                    + '}'
+
+                    return {
+                        "payload": json.dumps(json.loads(results_message), indent=1),
+                        'status': 200 # HTTP status code
+                    }
+
+            # This data source does not exist
+            else:
+                return {
+                    "payload": 'Warn: resource not found ' + str(query_string),
+                    'status': 404 # HTTP status code
+                }
+
+        except Exception as e:
+            return {
+                'payload': 'Warn: exception encountered: ' + str(e), # Payload of the request.
+                'status': 500 # HTTP status code
+            }
+
