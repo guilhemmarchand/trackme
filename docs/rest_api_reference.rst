@@ -81,6 +81,7 @@ Example
 .. image:: img/img_rest_api_wrapper2.png
    :alt: img_rest_api_wrapper2.png
    :align: center
+   :width: 1200px
 
 Every endpoint described in the present REST API reference documentation can be actioned via the trackme custom command, authentication and capabilities are transparently inherited from the user environment running the SPL query.
 
@@ -4418,6 +4419,10 @@ Smart Status endpoints
 +===================================================================================================+==============================================================================+
 | :ref:`ds_smart_status / Run Smart Status for a data source`                                       | /services/trackme/v1/smart_status/ds_smart_status                            |
 +---------------------------------------------------------------------------------------------------+------------------------------------------------------------------------------+
+| :ref:`dh_smart_status / Run Smart Status for a data host`                                         | /services/trackme/v1/smart_status/dh_smart_status                            |
++---------------------------------------------------------------------------------------------------+------------------------------------------------------------------------------+
+| :ref:`mh_smart_status / Run Smart Status for a metric host`                                       | /services/trackme/v1/smart_status/mh_smart_status                            |
++---------------------------------------------------------------------------------------------------+------------------------------------------------------------------------------+
 
 ds_smart_status / Run Smart Status for a data source
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -4450,6 +4455,72 @@ ds_smart_status / Run Smart Status for a data source
       "correlation_outliers": "[ description: Last 24h outliers detection ], [ OutliersCount: 288 ], [ latest4hcount: 34560.00 ], [ lowerBound: 120000.00 ], [ upperBound: 92858.16 ], [ lastOutlier: Sat Jan 16 20:40:00 2021 ], [ OutlierAlertOnUpper: true ]",
       "correlation_flipping_state": "state: [ green ], message: [ There were no anomalies detected in the flipping state activity threshold. ]",
       "correlation_data_sampling": "state: [ red ], message: [ WARNING: Anomalies were detected in data sampling, a change with multiple event formats was detected on Fri Jan 15 08:30:00 2021, review the format of the events and acknowledge the data sampling alert if this format change was expected. Click on the button Manage data sampling for more details. ]"
+    }
+
+*The API response depends on the smart status results.*
+
+dh_smart_status / Run Smart Status for a data host
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+**This endpoints runs the smart status for a given data host, it requires a GET call with the following options:**
+
+- ``"data_host": name of the data host``
+
+*External:*
+
+::
+
+    curl -k -u admin:'ch@ngeM3' -X GET https://localhost:8089/services/trackme/v1/smart_status/dh_smart_status -d '{"data_host": "FIREWALL.PAN.AMER.DESIGN.NODE1"}'
+
+*SPL query:*
+
+::
+
+    | trackme url="/services/trackme/v1/smart_status/dh_smart_status" mode="get" body="{\"data_host\": \"FIREWALL.PAN.AMER.DESIGN.NODE1\"}"
+
+*JSON response:*
+
+::
+
+    {
+    "data_host": "FIREWALL.PAN.AMER.DESIGN.NODE1",
+    "data_host_state": "green",
+    "smart_result": "The data host is currently in a normal state, therefore further investigations are not required at this stage.",
+    "smart_code": "0",
+    "correlation_flipping_state": "state: [ green ], message: [ There were no anomalies detected in the flipping state activity threshold. ]"
+    }
+
+*The API response depends on the smart status results.*
+
+mh_smart_status / Run Smart Status for a metric host
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+**This endpoints runs the smart status for a given data source, it requires a GET call with the following options:**
+
+- ``"metric_host": name of the metric host``
+
+*External:*
+
+::
+
+    curl -k -u admin:'ch@ngeM3' -X GET https://localhost:8089/services/trackme/v1/smart_status/mh_smart_status -d '{"metric_host": "telegraf-node1"}'
+
+*SPL query:*
+
+::
+
+    | trackme url="/services/trackme/v1/smart_status/mh_smart_status" mode="get" body="{\"metric_host\": \"telegraf-node1\"}"
+
+*JSON response:*
+
+::
+
+    {
+    "metric_host": "telegraf-node1",
+    "metric_host_state": "green",
+    "smart_result": "The metric host is currently in a normal state, therefore further investigations are not required at this stage.",
+    "smart_code": "0",
+    "correlation_flipping_state": "state: [ green ], message: [ There were no anomalies detected in the flipping state activity threshold. ]"
     }
 
 *The API response depends on the smart status results.*
