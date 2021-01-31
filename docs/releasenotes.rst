@@ -17,13 +17,13 @@ https://trackme.readthedocs.io/en/latest/configuration.html
 
 - Feature: Introducing the trackme REST API wrapper SPL command, allows interracting with the TrackMe REST API endpoints within SPL queries!
 - Feature: Introducing the smart status REST API endpoints, performs advanced status correlations and investigations easily and automatically, within the UI, as part of an alert action or within your third party automation!
-- Feature: REST API endpoint for Data Sampling - allow rest and run sampling
-- Feature: UI - Issue #223 - multiselect form enhancement with auto disablement of ALL when selecting at least one entry
+- Feature: REST API endpoint for Data Sampling - allow reset and run sampling
+- Feature: UI - Issue #223 - multiselect form enhancement with auto disablement of the ALL choice when selecting at least one entry in the multiselect
 - Feature: Identity cards - Issue #226 - allow defining a global default identity card associated with all data sources (per data source identity cards can still be created and take precedence over the global card)
 - Fix - Issue #217 - Activity alerts view results link would result to 404 page not found for out of the box alerts
-- Fix - Issue #218 - Data sampling - creating custom rule from main then clicking on back leads to wrong window
-- Fix - Issue #219 - Outliers detection - dropdown for alert on upper is not pref-filled with the actual setting of the entity
-- Fix - Issue #220 - Audit scheduling - in some environments, status=success is replaced it search time by completed (internal scheduler) which is not expected by the searches
+- Fix - Issue #218 - Data sampling - creating custom rule from the main screen, then clicking on back button leads to wrong window
+- Fix - Issue #219 - Outliers detection - dropdown for alert on upper is not pre-filled with the actual setting of the entity
+- Fix - Issue #220 - Audit scheduling - in some environments, status="success" is replaced at search time by status="completed" (internal scheduler) which is not expected by the searches
 - Fix - Issue #221 - Data sources - Tags are not preserved following actions in the UI
 - Fix - Issue #224 - Outliers - Switching an entity between different periods may lead the outliers generation to be failing
 - Fix - Issue #225 - Outliers - Data hosts outliers configuration update within the UI causes an entity refresh which does not generate flipping statuses events as expected
