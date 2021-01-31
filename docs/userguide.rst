@@ -2565,13 +2565,54 @@ Data identity card
 .. admonition:: Data identity card
 
    - Data identity cards allow you to define a Web link and a documentation note that will be stored in a KVstore collection, and made available automatically via the UI and the out of the box alert.
-   - Data identity cards are managed via the UI, when no card has been defined yet for a data source, the following message is shown.
+   - Data identity cards are managed via the UI, when no card has been defined yet for a data source, a message indicating it is shown.
    - Data identity cards are available for data sources monitoring only.
+   - You can define a global idendity card that will be used by default to provide a link and a note, and you can still create specific identity cards and associations.
 
-.. image:: img/identity_card1.png
-   :alt: identity_card1.png
+.. image:: img/identity_card4.png
+   :alt: identity_card4.png
+   :align: center
+   :width: 800px
+
+Data identity: global identity card
+-----------------------------------
+
+As a TrackMe administrator, define a value for the global URL and the global note macros, you can quickly access these macros in the **TrackMe Manage and configure** UI:
+
+.. image:: img/identity_card_global.png
+   :alt: identity_card_global.png
    :align: center
    :width: 1200px
+
+.. warning:: The global identity card is enabled only if a value was defined for **both** the URL and the note
+
+*Once defined, the global identity card shows an active link:*
+
+.. image:: img/identity_card_defined.png
+   :alt: identity_card_defined.png
+   :align: center
+   :width: 500px
+
+*Following the link opens the identity card UI:*
+
+.. image:: img/identity_card_global2.png
+   :alt: identity_card_global2.png
+   :align: center
+   :width: 800px
+
+*Given that this is a global identity card, the "Delete card" is disabled automatically, however it is still possible to create a new identity card to be associated with this data source which will replace the global card automatically.*
+
+*Note: if you create a global card while existing cards have defined already, there will be no impacs for existing cards, custom cards take precedence over the default card if any.*
+
+Data identity: workflow
+------------------------
+
+**If the data source has not been associated to a card yet (or no global card was defined), the UI shows a link to define the a documentation reference:**
+
+.. image:: img/identity_card_notdefined.png
+   :alt: identity_card_notdefined.png
+   :align: center
+   :width: 800px
 
 **You can click on the link to create a new identity card:**
 

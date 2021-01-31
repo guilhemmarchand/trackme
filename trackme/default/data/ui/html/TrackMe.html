@@ -1808,21 +1808,46 @@ styles in <div> tags, similar to Bootstrap's grid system.
                                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                                 </div>
 
-                                <div style="margin-top:10px; margin-left: 20px;">
+                                <div class="modal-body">
 
-                                    <div class="imgheader">
-                                        <img style="float: left; margin: 0px 15px 15px 0px;" src="../../static/app/trackme/icons/identity_card.png"/></span>
-                                        <h3>Identity card note:</h3>
-                                        <br />
+                                    <div id="rowIdentityCard1" class="dashboard-row dashboard-row1">
+                                        <div id="panelIdentityCard1" class="dashboard-cell" style="width: 100%;">
+                                            <div class="dashboard-panel clearfix">
+                                                <div class="panel-element-row">
+
+                                                    <div class="imgheader">
+                                                        <img style="float: left; margin: 0px 15px 15px 0px;" src="../../static/app/trackme/icons/identity_card.png"/></span>
+                                                        <h3>Identity card note:</h3>
+                                                        <br />
+                                                    </div>
+                
+                                                    <div class="generic_message_blue" style="max-width: 95%;">
+                                                        <h2 style="font-weight: bold;">$tk_doc_note$</h2>
+                                                    </div>  
+                
+                                                    <div style="margin-bottom: 20px;">
+                                                        <h3>Link to documentation: </h3><a target="_blank" href="$tk_doc_link$">$tk_doc_link$</a>
+                                                    </div>
+                
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
 
-                                    <div class="generic_message_blue" style="max-width: 95%;">
-                                        <h2 style="font-weight: bold;">$tk_doc_note$</h2>
-                                    </div>  
+                                    <div id="rowIdentityCard2" class="dashboard-row dashboard-row1">
+                                        <div id="panelIdentityCard2" class="dashboard-cell" style="width: 100%;">
+                                            <div class="dashboard-panel clearfix">
+                                                <div class="panel-element-row">
 
-                                    <div style="margin-bottom: 20px;">
-                                        <h3>Link to documentation: </h3><a target="_blank" href="$tk_doc_link$">$tk_doc_link$</a>
+                                                    <div>
+                                                        <h4>$tk_msg_doc_identity_card_is_global$</h4>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
+
                                 </div>
 
                             </div>
@@ -16959,6 +16984,7 @@ require([
                 // doc href
                 setToken("tk_doc_link", TokenUtils.replaceTokenNames("$row.doc_link$", _.extend(submittedTokenModel.toJSON(), e.data)));
                 setToken("tk_doc_note", TokenUtils.replaceTokenNames("$row.doc_note$", _.extend(submittedTokenModel.toJSON(), e.data)));
+                setToken("tk_doc_identity_card_is_global", TokenUtils.replaceTokenNames("$row.doc_identity_card_is_global$", _.extend(submittedTokenModel.toJSON(), e.data)));
 
                 // tags
                 setToken("tk_tags", TokenUtils.replaceTokenNames("$row.tags$", _.extend(submittedTokenModel.toJSON(), e.data)));
@@ -17065,6 +17091,7 @@ require([
                 // href docs
                 var tk_doc_link = tokens.get("tk_doc_link");
                 var tk_doc_note = tokens.get("tk_doc_note");
+                var tk_doc_identity_card_is_global = tokens.get("tk_doc_identity_card_is_global");
 
                 // If the documentation reference has not been set, define the href format
                 if (tk_doc_link == "null") {
@@ -17088,6 +17115,15 @@ require([
                     document.getElementById("input_doc_note").value = tk_doc_note;
                 }
 
+                // If the identity card info is global, disable the delete card
+                if (tk_doc_identity_card_is_global == "true") {
+                    document.getElementById('btn_delete_manage_identity_card').disabled = true;
+                    setToken("tk_msg_doc_identity_card_is_global", TokenUtils.replaceTokenNames("This is a default identify card configured at the system level, you cannot delete this card but you can create a new card linked to this specific data source.", _.extend(submittedTokenModel.toJSON(), e.data)));
+                } else {
+                    document.getElementById('btn_delete_manage_identity_card').disabled = false;
+                    setToken("tk_msg_doc_identity_card_is_global", TokenUtils.replaceTokenNames("This identity card was associated to this data source, you can update or delete this card.", _.extend(submittedTokenModel.toJSON(), e.data)));
+                }
+            
                 // tags
                 var tk_tags = tokens.get("tk_tags");
                 //console.log("tk_tags is: " + tk_tags);
@@ -34435,6 +34471,7 @@ require([
                 var input_doc_origin_object = tokens.get("tk_object");
                 var input_doc_link = tokens.get("tk_doc_link");
                 var input_doc_note = tokens.get("tk_doc_note");
+                var tk_doc_identity_card_is_global = tokens.get("doc_identity_card_is_global");
 
                 //console.log("key is: " + input_doc_keyid);
                 //console.log("new_object is: " + input_doc_new_object);
