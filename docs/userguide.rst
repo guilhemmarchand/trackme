@@ -391,6 +391,7 @@ Action buttons
 **Actions:**
 
 - ``Refresh`` will refresh all values related to this entity, it will actually run a specific version of the tracker and update the KVstore record of this data source. Charts and other calculations are refreshed as well.
+- ``Smart Status`` is a powerful TrackMe REST API endpoint that does automated analysis and conditional correlations to provide an advanced status of the entity, and fast the investigaton of an issue root cause.
 - ``Acknowledge alert`` can only be clicked if the data source is effectively in a red state, acknowledging an alert prevent the out of the box alerts from triggering a new alert for this entity until the acknowledgment expires.
 - ``Enable`` can only be clicked if the monitoring state is disabled, if clicked and confirmed, the value of the field ``data_monitored_state`` will switch from disabled to enabled
 - ``Disable`` opposite of the previous
@@ -1667,10 +1668,31 @@ In the UI, access the Smart Status the open-up screen for a given entity, for da
    :align: center
    :width: 1200px
 
-*Smart Status example:*
+*Smart Status example: (normal state entity)*
 
 .. image:: img/smart_status/access_ui2.png
    :alt: img/smart_status/access_ui2.png
+   :align: center
+   :width: 1200px
+
+*Smart Status example: (alert state entity due to outliers)*
+
+.. image:: img/smart_status/access_ui3.png
+   :alt: img/smart_status/access_ui3.png
+   :align: center
+   :width: 1200px
+
+*Smart Status example: (alert state entity due to data sampling exclusive rule matching PII data)*
+
+.. image:: img/smart_status/access_ui4.png
+   :alt: img/smart_status/access_ui4.png
+   :align: center
+   :width: 1200px
+
+*Smart Status example: (alert state entity due to lagging)*
+
+.. image:: img/smart_status/access_ui5.png
+   :alt: img/smart_status/access_ui5.png
    :align: center
    :width: 1200px
 
@@ -1683,6 +1705,11 @@ The Smart Status feature is serviced by a REST API endpoint, as such it can be r
 
 .. image:: img/smart_status/access_rest.png
    :alt: img/smart_status/access_rest.png
+   :align: center
+   :width: 1200px
+
+.. image:: img/smart_status/access_rest2.png
+   :alt: img/smart_status/access_rest2.png
    :align: center
    :width: 1200px
 

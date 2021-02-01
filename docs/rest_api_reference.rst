@@ -47,8 +47,8 @@ These endpoints can be used to interract with TrackMe in a programmatic fashion,
 REST API trackme SPL command
 ----------------------------
 
-Interracting with the REST API in SPL queries
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Interacting with the REST API in SPL queries
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 TrackMe provides a Python based custom command ``trackme`` that acts as a REST API wrapper to interract with the API endpoints.
 
