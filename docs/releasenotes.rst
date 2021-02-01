@@ -20,6 +20,7 @@ https://trackme.readthedocs.io/en/latest/configuration.html
 - Feature: REST API endpoint for Data Sampling - allow reset and run sampling
 - Feature: UI - Issue #223 - multiselect form enhancement with auto disablement of the ALL choice when selecting at least one entry in the multiselect
 - Feature: Identity cards - Issue #226 - allow defining a global default identity card associated with all data sources (per data source identity cards can still be created and take precedence over the global card)
+- Feature: Elastic Sources - Issue #227 - allow deletion of both dedicated and shared sources in the UI via the new REST framework, deletion automatically performs the deletion of related objects (KVstore contents, report, etc)
 - Fix - Issue #217 - Activity alerts view results link would result to 404 page not found for out of the box alerts
 - Fix - Issue #218 - Data sampling - creating custom rule from the main screen, then clicking on back button leads to wrong window
 - Fix - Issue #219 - Outliers detection - dropdown for alert on upper is not pre-filled with the actual setting of the entity
