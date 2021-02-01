@@ -29327,7 +29327,7 @@ require([
             var tk_multi_table_array = tokens.get("removeElasticSourceDedicated");
             //console.log("tk_multi_table_array is: " + tk_multi_table_array);
             tk_multi_table_array = tk_multi_table_array.split(',');
-            //console.log("tk_multi_table_array is: " + tk_multi_table_array);
+            console.log("tk_multi_table_array is: " + tk_multi_table_array);
 
             // Retrieve update comment if any
             var tk_comment = document.getElementById("elastic_source_dedicated_delete_comment").value;
@@ -29361,7 +29361,7 @@ require([
             unsetToken("removeElasticSourceDedicated");
             
             // Go back to modal
-            $("#modify_elastic_sources").modal();
+            $("#modify_elastic_sources_dedicated").modal();
 
         });
 

@@ -1152,6 +1152,30 @@ Besides the fact that Elastic sources appears in the data sources tab, there are
 
 In addition, the collection is used automatically by the main interface if you click on the ``Search`` button to generate the relevant search to access the events related to that entity.
 
+Remove Elastic Sources
+----------------------
+
+*You can delete one or more Elastic Sources, shared or dedicated, within the UI main screen:*
+
+.. image:: img/first_steps/img_delete_elastic_sources.png
+   :alt: img/first_steps/img_delete_elastic_sources
+   :align: center
+   :width: 1200px
+
+*Example with dedicated Elastic Sources:*
+
+.. image:: img/first_steps/img_delete_elastic_sources2.png
+   :alt: img/first_steps/img_delete_elastic_sources2
+   :align: center
+   :width: 1200px
+
+*When deleting Elastic Sources via the UI, the following actions are occurring:*
+
+- The UI calls a REST API endpoint via the :ref:`REST API trackme SPL command`
+- API endpoints are :ref:`elastic_shared_del / Delete a new shared Elastic Source` and :ref:`elastic_dedicated_del / Delete a new shared Elastic Source`
+- All related objects are suppressed automatically, this includes the Elastic Sources KVstore collections, the entities in the main Data sources collection, and the scheduled reports for dedicated Elastic Sources
+- Actions and content are logges in the audit collection before their suppression
+
 Outliers detection and behaviour analytic
 =========================================
 
