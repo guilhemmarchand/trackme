@@ -274,7 +274,7 @@ class TrackMeHandlerTagPolicies_v1(rest_handler.RESTHandler):
                 # Record an audit change
                 import time
                 current_time = int(round(time.time() * 1000))
-                user = "nobody"
+                user = request_info.user
 
                 # Update the record
                 collection.data.update(str(key), json.dumps({"tags_policy_id": tags_policy_id, "tags_policy_value": tags_policy_value, "tags_policy_regex": tags_policy_regex, "mtime": current_time}))
@@ -314,7 +314,7 @@ class TrackMeHandlerTagPolicies_v1(rest_handler.RESTHandler):
                 # Record an audit change
                 import time
                 current_time = int(round(time.time() * 1000))
-                user = "nobody"
+                user = request_info.user
 
                 # Insert the record
                 collection.data.insert(json.dumps({"tags_policy_id": tags_policy_id, "tags_policy_value": tags_policy_value, "tags_policy_regex": tags_policy_regex, "mtime": current_time}))
@@ -452,7 +452,7 @@ class TrackMeHandlerTagPolicies_v1(rest_handler.RESTHandler):
                 # Record an audit change
                 import time
                 current_time = int(round(time.time() * 1000))
-                user = "nobody"
+                user = request_info.user
 
                 try:
 

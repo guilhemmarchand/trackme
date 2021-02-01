@@ -218,7 +218,7 @@ class TrackMeHandlerMaintenance_v1(rest_handler.RESTHandler):
 
                 # Record an audit change
                 current_time = int(round(time.time() * 1000))
-                user = "nobody"
+                user = request_info.user
 
                 try:
 
@@ -255,7 +255,7 @@ class TrackMeHandlerMaintenance_v1(rest_handler.RESTHandler):
 
                 # Record an audit change
                 current_time = int(round(time.time() * 1000))
-                user = "nobody"
+                user = request_info.user
 
                 try:
 
@@ -394,7 +394,7 @@ class TrackMeHandlerMaintenance_v1(rest_handler.RESTHandler):
 
                 # Record an audit change
                 current_time = int(round(time.time() * 1000))
-                user = "nobody"
+                user = request_info.user
 
                 try:
 
@@ -431,7 +431,7 @@ class TrackMeHandlerMaintenance_v1(rest_handler.RESTHandler):
 
                 # Record an audit change
                 current_time = int(round(time.time() * 1000))
-                user = "nobody"
+                user = request_info.user
 
                 try:
 

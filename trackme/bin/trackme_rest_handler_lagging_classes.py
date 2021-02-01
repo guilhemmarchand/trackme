@@ -277,7 +277,7 @@ class TrackMeHandlerLaggingClasses_v1(rest_handler.RESTHandler):
                 # Record an audit change
                 import time
                 current_time = int(round(time.time() * 1000))
-                user = "nobody"
+                user = request_info.user
 
                 # Update the record
                 collection.data.update(str(key), json.dumps({"name": name, "level": level, "object": object_value, "value": value}))
@@ -317,7 +317,7 @@ class TrackMeHandlerLaggingClasses_v1(rest_handler.RESTHandler):
                 # Record an audit change
                 import time
                 current_time = int(round(time.time() * 1000))
-                user = "nobody"
+                user = request_info.user
 
                 # Insert the record
                 collection.data.insert(json.dumps({"name": name, "level": level, "object": object_value, "value": value}))
@@ -462,7 +462,7 @@ class TrackMeHandlerLaggingClasses_v1(rest_handler.RESTHandler):
                 # Record an audit change
                 import time
                 current_time = int(round(time.time() * 1000))
-                user = "nobody"
+                user = request_info.user
 
                 try:
 

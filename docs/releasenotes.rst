@@ -28,6 +28,7 @@ https://trackme.readthedocs.io/en/latest/configuration.html
 - Fix - Issue #221 - Data sources - Tags are not preserved following actions in the UI
 - Fix - Issue #224 - Outliers - Switching an entity between different periods may lead the outliers generation to be failing
 - Fix - Issue #225 - Outliers - Data hosts outliers configuration update within the UI causes an entity refresh which does not generate flipping statuses events as expected
+- Fix - Issue #228 - REST API - Endpoints should honour the user context while logging the action in the audit log collection
 - Change: Icons change
 
 Version 1.2.30

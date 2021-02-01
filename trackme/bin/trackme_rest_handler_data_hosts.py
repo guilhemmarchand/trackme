@@ -366,7 +366,7 @@ class TrackMeHandlerDataHosts_v1(rest_handler.RESTHandler):
                 # Record an audit change
                 import time
                 current_time = int(round(time.time() * 1000))
-                user = "nobody"
+                user = request_info.user
 
                 try:
 
@@ -537,7 +537,7 @@ class TrackMeHandlerDataHosts_v1(rest_handler.RESTHandler):
                 # Record an audit change
                 import time
                 current_time = int(round(time.time() * 1000))
-                user = "nobody"
+                user = request_info.user
 
                 try:
 
@@ -702,7 +702,7 @@ class TrackMeHandlerDataHosts_v1(rest_handler.RESTHandler):
                 # Record an audit change
                 import time
                 current_time = int(round(time.time() * 1000))
-                user = "nobody"
+                user = request_info.user
 
                 try:
 
@@ -872,7 +872,7 @@ class TrackMeHandlerDataHosts_v1(rest_handler.RESTHandler):
                 # Record an audit change
                 import time
                 current_time = int(round(time.time() * 1000))
-                user = "nobody"
+                user = request_info.user
 
                 try:
 
@@ -1045,7 +1045,7 @@ class TrackMeHandlerDataHosts_v1(rest_handler.RESTHandler):
                 # Record an audit change
                 import time
                 current_time = int(round(time.time() * 1000))
-                user = "nobody"
+                user = request_info.user
 
                 try:
 
@@ -1217,7 +1217,7 @@ class TrackMeHandlerDataHosts_v1(rest_handler.RESTHandler):
                 # Record an audit change
                 import time
                 current_time = int(round(time.time() * 1000))
-                user = "nobody"
+                user = request_info.user
 
                 try:
 
@@ -1401,7 +1401,7 @@ class TrackMeHandlerDataHosts_v1(rest_handler.RESTHandler):
                 # Record an audit change
                 import time
                 current_time = int(round(time.time() * 1000))
-                user = "nobody"
+                user = request_info.user
 
                 try:
 
@@ -1539,7 +1539,7 @@ class TrackMeHandlerDataHosts_v1(rest_handler.RESTHandler):
                 # Record an audit change
                 import time
                 current_time = int(round(time.time() * 1000))
-                user = "nobody"
+                user = request_info.user
 
                 try:
 
@@ -1677,7 +1677,7 @@ class TrackMeHandlerDataHosts_v1(rest_handler.RESTHandler):
                 # Record an audit change
                 import time
                 current_time = int(round(time.time() * 1000))
-                user = "nobody"
+                user = request_info.user
 
                 try:
 

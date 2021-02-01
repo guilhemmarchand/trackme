@@ -271,7 +271,7 @@ class TrackMeHandlerLaggingClassesMetrics_v1(rest_handler.RESTHandler):
                 # Record an audit change
                 import time
                 current_time = int(round(time.time() * 1000))
-                user = "nobody"
+                user = request_info.user
 
                 # Update the record
                 collection.data.update(str(key), json.dumps({"metric_category": metric_category, "metric_max_lag_allowed": metric_max_lag_allowed}))
@@ -311,7 +311,7 @@ class TrackMeHandlerLaggingClassesMetrics_v1(rest_handler.RESTHandler):
                 # Record an audit change
                 import time
                 current_time = int(round(time.time() * 1000))
-                user = "nobody"
+                user = request_info.user
 
                 # Insert the record
                 collection.data.insert(json.dumps({"metric_category": metric_category, "metric_max_lag_allowed": metric_max_lag_allowed}))
@@ -450,7 +450,7 @@ class TrackMeHandlerLaggingClassesMetrics_v1(rest_handler.RESTHandler):
                 # Record an audit change
                 import time
                 current_time = int(round(time.time() * 1000))
-                user = "nobody"
+                user = request_info.user
 
                 try:
 

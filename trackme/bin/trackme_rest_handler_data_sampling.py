@@ -265,7 +265,7 @@ class TrackMeHandlerDataSampling_v1(rest_handler.RESTHandler):
                 # Record an audit change
                 import time
                 current_time = int(round(time.time() * 1000))
-                user = "nobody"
+                user = request_info.user
 
                 try:
 
@@ -406,7 +406,7 @@ class TrackMeHandlerDataSampling_v1(rest_handler.RESTHandler):
                 # Record an audit change
                 import time
                 current_time = int(round(time.time() * 1000))
-                user = "nobody"
+                user = request_info.user
 
                 try:
 
@@ -733,7 +733,7 @@ class TrackMeHandlerDataSampling_v1(rest_handler.RESTHandler):
                 # Record an audit change
                 import time
                 current_time = int(round(time.time() * 1000))
-                user = "nobody"
+                user = request_info.user
 
                 # Update the record
                 collection.data.update(str(key), json.dumps({"model_name": model_name, "model_regex": model_regex, "model_type": model_type, "model_id": model_id, "sourcetype_scope": sourcetype_scope, "mtime": current_time}))
@@ -776,7 +776,7 @@ class TrackMeHandlerDataSampling_v1(rest_handler.RESTHandler):
                 # Record an audit change
                 import time
                 current_time = int(round(time.time() * 1000))
-                user = "nobody"
+                user = request_info.user
 
                 # Insert the record
                 collection.data.insert(json.dumps({"model_name": model_name, "model_regex": model_regex, "model_type": model_type, "model_id": model_id, "sourcetype_scope": sourcetype_scope, "mtime": current_time}))
@@ -921,7 +921,7 @@ class TrackMeHandlerDataSampling_v1(rest_handler.RESTHandler):
                 # Record an audit change
                 import time
                 current_time = int(round(time.time() * 1000))
-                user = "nobody"
+                user = request_info.user
 
                 try:
 
