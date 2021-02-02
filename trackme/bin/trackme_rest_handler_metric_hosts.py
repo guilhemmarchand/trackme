@@ -21,6 +21,34 @@ class TrackMeHandlerMetricHosts_v1(rest_handler.RESTHandler):
     # Get the entire data hosts collection as a Python array
     def get_mh_collection(self, request_info, **kwargs):
 
+        describe = False
+
+        # Retrieve from data
+        try:
+            resp_dict = json.loads(str(request_info.raw_args['payload']))
+        except Exception as e:
+            resp_dict = None
+
+        if resp_dict is not None:
+            try:
+                describe = resp_dict['describe']
+                if describe in ("true", "True"):
+                    describe = True
+            except Exception as e:
+                describe = False
+        else:
+            # body is not required in this endpoint, if not submitted do not describe the usage
+            describe = False
+
+        if describe:
+
+            response = "{\"describe\": \"This endpoint retrieves the entire metric hosts collection returned as a JSON array, it requires a GET call with no data required\"}"
+
+            return {
+                "payload": json.dumps(json.loads(str(response)), indent=1),
+                'status': 200 # HTTP status code
+            }
+
         # Get splunkd port
         entity = splunk.entity.getEntity('/server', 'settings',
                                             namespace='trackme', sessionKey=request_info.session_key, owner='-')
@@ -54,9 +82,39 @@ class TrackMeHandlerMetricHosts_v1(rest_handler.RESTHandler):
         # By object_category and object
         key = None
 
+        describe = False
+
         # Retrieve from data
-        resp_dict = json.loads(str(request_info.raw_args['payload']))
-        key = resp_dict['_key']
+        try:
+            resp_dict = json.loads(str(request_info.raw_args['payload']))
+        except Exception as e:
+            resp_dict = None
+
+        if resp_dict is not None:
+            try:
+                describe = resp_dict['describe']
+                if describe in ("true", "True"):
+                    describe = True
+            except Exception as e:
+                describe = False
+            if not describe:
+                key = resp_dict['_key']
+
+        else:
+            # body is required in this endpoint, if not submitted describe the usage
+            describe = True
+
+        if describe:
+
+            response = "{\"describe\": \"This endpoint retrieves an existing metric host record by the Kvstore key, it requires a GET call with the following information:\""\
+                + ", \"options\" : [ { "\
+                + "\"_key\": \"KVstore unique identifier for this record\""\
+                + " } ] }"
+
+            return {
+                "payload": json.dumps(json.loads(str(response)), indent=1),
+                'status': 200 # HTTP status code
+            }
         
         # Get splunkd port
         entity = splunk.entity.getEntity('/server', 'settings',
@@ -103,9 +161,39 @@ class TrackMeHandlerMetricHosts_v1(rest_handler.RESTHandler):
         metric_host = None
         query_string = None
 
+        describe = False
+
         # Retrieve from data
-        resp_dict = json.loads(str(request_info.raw_args['payload']))
-        metric_host = resp_dict['metric_host']
+        try:
+            resp_dict = json.loads(str(request_info.raw_args['payload']))
+        except Exception as e:
+            resp_dict = None
+
+        if resp_dict is not None:
+            try:
+                describe = resp_dict['describe']
+                if describe in ("true", "True"):
+                    describe = True
+            except Exception as e:
+                describe = False
+            if not describe:
+                metric_host = resp_dict['metric_host']
+
+        else:
+            # body is required in this endpoint, if not submitted describe the usage
+            describe = True
+
+        if describe:
+
+            response = "{\"describe\": \"This endpoint retrieves an existing metric host record by the metric host name (metric_host), it requires a GET call with the following information:\""\
+                + ", \"options\" : [ { "\
+                + "\"metric_host\": \"name of the metric host\""\
+                + " } ] }"
+
+            return {
+                "payload": json.dumps(json.loads(str(response)), indent=1),
+                'status': 200 # HTTP status code
+            }
 
         # Define the KV query
         query_string = '{ "metric_host": "' + metric_host + '" }'
@@ -155,9 +243,40 @@ class TrackMeHandlerMetricHosts_v1(rest_handler.RESTHandler):
         metric_host = None
         query_string = None
 
+        describe = False
+
         # Retrieve from data
-        resp_dict = json.loads(str(request_info.raw_args['payload']))
-        metric_host = resp_dict['metric_host']
+        try:
+            resp_dict = json.loads(str(request_info.raw_args['payload']))
+        except Exception as e:
+            resp_dict = None
+
+        if resp_dict is not None:
+            try:
+                describe = resp_dict['describe']
+                if describe in ("true", "True"):
+                    describe = True
+            except Exception as e:
+                describe = False
+            if not describe:
+                metric_host = resp_dict['metric_host']
+
+        else:
+            # body is required in this endpoint, if not submitted describe the usage
+            describe = True
+
+        if describe:
+
+            response = "{\"describe\": \"This endpoint disables data monitoring for an existing metric host by the metric host name (metric_host), it requires a POST call with the following information:\""\
+                + ", \"options\" : [ { "\
+                + "\"metric_host\": \"name of the metric host\", "\
+                + "\"update_comment\": \"OPTIONAL: a comment for the update, comments are added to the audit record, if unset will be defined to: API update\""\
+                + " } ] }"
+
+            return {
+                "payload": json.dumps(json.loads(str(response)), indent=1),
+                'status': 200 # HTTP status code
+            }
 
         # Update comment is optional and used for audit changes
         try:
@@ -237,7 +356,7 @@ class TrackMeHandlerMetricHosts_v1(rest_handler.RESTHandler):
                 # Record an audit change
                 import time
                 current_time = int(round(time.time() * 1000))
-                user = "nobody"
+                user = request_info.user
 
                 try:
 
@@ -282,9 +401,40 @@ class TrackMeHandlerMetricHosts_v1(rest_handler.RESTHandler):
         metric_host = None
         query_string = None
 
+        describe = False
+
         # Retrieve from data
-        resp_dict = json.loads(str(request_info.raw_args['payload']))
-        metric_host = resp_dict['metric_host']
+        try:
+            resp_dict = json.loads(str(request_info.raw_args['payload']))
+        except Exception as e:
+            resp_dict = None
+
+        if resp_dict is not None:
+            try:
+                describe = resp_dict['describe']
+                if describe in ("true", "True"):
+                    describe = True
+            except Exception as e:
+                describe = False
+            if not describe:
+                metric_host = resp_dict['metric_host']
+
+        else:
+            # body is required in this endpoint, if not submitted describe the usage
+            describe = True
+
+        if describe:
+
+            response = "{\"describe\": \"This endpoint enables data monitoring for an existing metric host by the metric host name (metric_host), it requires a POST call with the following information:\""\
+                + ", \"options\" : [ { "\
+                + "\"metric_host\": \"name of the metric host\", "\
+                + "\"update_comment\": \"OPTIONAL: a comment for the update, comments are added to the audit record, if unset will be defined to: API update\""\
+                + " } ] }"
+
+            return {
+                "payload": json.dumps(json.loads(str(response)), indent=1),
+                'status': 200 # HTTP status code
+            }
 
         # Update comment is optional and used for audit changes
         try:
@@ -364,7 +514,7 @@ class TrackMeHandlerMetricHosts_v1(rest_handler.RESTHandler):
                 # Record an audit change
                 import time
                 current_time = int(round(time.time() * 1000))
-                user = "nobody"
+                user = request_info.user
 
                 try:
 
@@ -402,16 +552,47 @@ class TrackMeHandlerMetricHosts_v1(rest_handler.RESTHandler):
                 'payload': 'Warn: exception encountered: ' + str(e) # Payload of the request.
             }
 
-    # Enable monitoring by object name
+    # Reset metrics by object name
     def post_mh_reset(self, request_info, **kwargs):
 
         # By metric_host
         metric_host = None
         query_string = None
 
+        describe = False
+
         # Retrieve from data
-        resp_dict = json.loads(str(request_info.raw_args['payload']))
-        metric_host = resp_dict['metric_host']
+        try:
+            resp_dict = json.loads(str(request_info.raw_args['payload']))
+        except Exception as e:
+            resp_dict = None
+
+        if resp_dict is not None:
+            try:
+                describe = resp_dict['describe']
+                if describe in ("true", "True"):
+                    describe = True
+            except Exception as e:
+                describe = False
+            if not describe:
+                metric_host = resp_dict['metric_host']
+
+        else:
+            # body is required in this endpoint, if not submitted describe the usage
+            describe = True
+
+        if describe:
+
+            response = "{\"describe\": \"This endpoint resets (removal of indexes and metrics knowledge) an existing metric host by the metric host name (metric_host), it requires a POST call with the following information:\""\
+                + ", \"options\" : [ { "\
+                + "\"metric_host\": \"name of the metric host\", "\
+                + "\"update_comment\": \"OPTIONAL: a comment for the update, comments are added to the audit record, if unset will be defined to: API update\""\
+                + " } ] }"
+
+            return {
+                "payload": json.dumps(json.loads(str(response)), indent=1),
+                'status': 200 # HTTP status code
+            }
 
         # Update comment is optional and used for audit changes
         try:
@@ -486,7 +667,7 @@ class TrackMeHandlerMetricHosts_v1(rest_handler.RESTHandler):
                 # Record an audit change
                 import time
                 current_time = int(round(time.time() * 1000))
-                user = "nobody"
+                user = request_info.user
 
                 try:
 
@@ -531,10 +712,42 @@ class TrackMeHandlerMetricHosts_v1(rest_handler.RESTHandler):
         metric_host = None
         query_string = None
 
+        describe = False
+
         # Retrieve from data
-        resp_dict = json.loads(str(request_info.raw_args['payload']))
-        metric_host = resp_dict['metric_host']
-        priority = resp_dict['priority']
+        try:
+            resp_dict = json.loads(str(request_info.raw_args['payload']))
+        except Exception as e:
+            resp_dict = None
+
+        if resp_dict is not None:
+            try:
+                describe = resp_dict['describe']
+                if describe in ("true", "True"):
+                    describe = True
+            except Exception as e:
+                describe = False
+            if not describe:
+                metric_host = resp_dict['metric_host']
+                priority = resp_dict['priority']
+
+        else:
+            # body is required in this endpoint, if not submitted describe the usage
+            describe = True
+
+        if describe:
+
+            response = "{\"describe\": \"This endpoint updates the priority definition for an existing metric host, it requires a POST call with the following information:\""\
+                + ", \"options\" : [ { "\
+                + "\"metric_host\": \"name of the metric host\", "\
+                + "\"priority\": \"priority value, valid options are low / medium / high\", "\
+                + "\"update_comment\": \"OPTIONAL: a comment for the update, comments are added to the audit record, if unset will be defined to: API update\""\
+                + " } ] }"
+
+            return {
+                "payload": json.dumps(json.loads(str(response)), indent=1),
+                'status': 200 # HTTP status code
+            }
 
         # Update comment is optional and used for audit changes
         try:
@@ -611,7 +824,7 @@ class TrackMeHandlerMetricHosts_v1(rest_handler.RESTHandler):
                 # Record an audit change
                 import time
                 current_time = int(round(time.time() * 1000))
-                user = "nobody"
+                user = request_info.user
 
                 try:
 
@@ -657,9 +870,40 @@ class TrackMeHandlerMetricHosts_v1(rest_handler.RESTHandler):
         metric_host = None
         query_string = None
 
+        describe = False
+
         # Retrieve from data
-        resp_dict = json.loads(str(request_info.raw_args['payload']))
-        metric_host = resp_dict['metric_host']
+        try:
+            resp_dict = json.loads(str(request_info.raw_args['payload']))
+        except Exception as e:
+            resp_dict = None
+
+        if resp_dict is not None:
+            try:
+                describe = resp_dict['describe']
+                if describe in ("true", "True"):
+                    describe = True
+            except Exception as e:
+                describe = False
+            if not describe:
+                metric_host = resp_dict['metric_host']
+
+        else:
+            # body is required in this endpoint, if not submitted describe the usage
+            describe = True
+
+        if describe:
+
+            response = "{\"describe\": \"This endpoint performs a temporary deletion of an existing metric host, it requires a DELETE call with the following information:\""\
+                + ", \"options\" : [ { "\
+                + "\"metric_host\": \"name of the metric host\", "\
+                + "\"update_comment\": \"OPTIONAL: a comment for the update, comments are added to the audit record, if unset will be defined to: API update\""\
+                + " } ] }"
+
+            return {
+                "payload": json.dumps(json.loads(str(response)), indent=1),
+                'status': 200 # HTTP status code
+            }
 
         # Update comment is optional and used for audit changes
         try:
@@ -719,7 +963,7 @@ class TrackMeHandlerMetricHosts_v1(rest_handler.RESTHandler):
                 # Record an audit change
                 import time
                 current_time = int(round(time.time() * 1000))
-                user = "nobody"
+                user = request_info.user
 
                 try:
 
@@ -764,9 +1008,40 @@ class TrackMeHandlerMetricHosts_v1(rest_handler.RESTHandler):
         metric_host = None
         query_string = None
 
+        describe = False
+
         # Retrieve from data
-        resp_dict = json.loads(str(request_info.raw_args['payload']))
-        metric_host = resp_dict['metric_host']
+        try:
+            resp_dict = json.loads(str(request_info.raw_args['payload']))
+        except Exception as e:
+            resp_dict = None
+
+        if resp_dict is not None:
+            try:
+                describe = resp_dict['describe']
+                if describe in ("true", "True"):
+                    describe = True
+            except Exception as e:
+                describe = False
+            if not describe:
+                metric_host = resp_dict['metric_host']
+
+        else:
+            # body is required in this endpoint, if not submitted describe the usage
+            describe = True
+
+        if describe:
+
+            response = "{\"describe\": \"This endpoint performs a temporary deletion of an existing metric host, it requires a DELETE call with the following information:\""\
+                + ", \"options\" : [ { "\
+                + "\"metric_host\": \"name of the metric host\", "\
+                + "\"update_comment\": \"OPTIONAL: a comment for the update, comments are added to the audit record, if unset will be defined to: API update\""\
+                + " } ] }"
+
+            return {
+                "payload": json.dumps(json.loads(str(response)), indent=1),
+                'status': 200 # HTTP status code
+            }
 
         # Update comment is optional and used for audit changes
         try:
@@ -826,7 +1101,7 @@ class TrackMeHandlerMetricHosts_v1(rest_handler.RESTHandler):
                 # Record an audit change
                 import time
                 current_time = int(round(time.time() * 1000))
-                user = "nobody"
+                user = request_info.user
 
                 try:
 

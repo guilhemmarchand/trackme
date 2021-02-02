@@ -1,6 +1,36 @@
 Release notes
 #############
 
+Version 1.2.31
+==============
+
+**CAUTION:**
+
+This is a new main release branch, TrackMe 1.2.x requires the deployment of the following dependencies:
+
+- Semicircle Donut Chart Viz, Splunk Base: https://splunkbase.splunk.com/app/4378
+- Splunk Machine Learning Toolkit, Splunk Base: https://splunkbase.splunk.com/app/2890
+- Splunk Timeline - Custom Visualization, Splunk Base: https://splunkbase.splunk.com/app/3120
+
+TrackMe requires a summary index (defaults to trackme_summary) and a metric index (defaults to trackme_metrics):
+https://trackme.readthedocs.io/en/latest/configuration.html
+
+- Feature: Introducing the trackme REST API wrapper SPL command, allows interracting with the TrackMe REST API endpoints within SPL queries!
+- Feature: Introducing the smart status REST API endpoints, performs advanced status correlations and investigations easily and automatically, within the UI, as part of an alert action or within your third party automation!
+- Feature: REST API endpoint for Data Sampling - allow reset and run sampling
+- Feature: UI - Issue #223 - multiselect form enhancement with auto disablement of the ALL choice when selecting at least one entry in the multiselect
+- Feature: Identity cards - Issue #226 - allow defining a global default identity card associated with all data sources (per data source identity cards can still be created and take precedence over the global card)
+- Feature: Elastic Sources - Issue #227 - allow deletion of both dedicated and shared sources in the UI via the new REST framework, deletion automatically performs the deletion of related objects (KVstore contents, report, etc)
+- Fix - Issue #217 - Activity alerts view results link would result to 404 page not found for out of the box alerts
+- Fix - Issue #218 - Data sampling - creating custom rule from the main screen, then clicking on back button leads to wrong window
+- Fix - Issue #219 - Outliers detection - dropdown for alert on upper is not pre-filled with the actual setting of the entity
+- Fix - Issue #220 - Audit scheduling - in some environments, status="success" is replaced at search time by status="completed" (internal scheduler) which is not expected by the searches
+- Fix - Issue #221 - Data sources - Tags are not preserved following actions in the UI
+- Fix - Issue #224 - Outliers - Switching an entity between different periods may lead the outliers generation to be failing
+- Fix - Issue #225 - Outliers - Data hosts outliers configuration update within the UI causes an entity refresh which does not generate flipping statuses events as expected
+- Fix - Issue #228 - REST API - Endpoints should honour the user context while logging the action in the audit log collection
+- Change: Icons change
+
 Version 1.2.30
 ==============
 

@@ -1532,6 +1532,50 @@ styles in <div> tags, similar to Bootstrap's grid system.
         </div>
     </div>
 
+    <div id="rowManageMacrosDocGlobal" class="dashboard-row">
+        <div id="panelManageMacrosDocGlobal" class="dashboard-cell" style="width: 100%;">
+            <div class="dashboard-panel clearfix">
+                <div class="panel-element-row">
+                    <div id="elementManageMacrosDocGlobal" class="dashboard-element html" style="width: 100%">
+                        <div class="panel-body html">
+                            <div style="text-align: center; border: 3px dashed #ccc;">
+                                <div style="display: inline-flex; align-items: center; margin-top: 5px;">
+                                    <span style="font-size: 22px; font-weight: bold; color: #6495ed; margin-top: 5px;">GLOBAL IDENTITY CARD</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="ManageRowMacroDocGlobal1" class="dashboard-row dashboard-rowDataSourcesTable" >
+        <div id="panelManageDocGlobal1" class="dashboard-cell" style="width: 100%;">
+            <div class="dashboard-panel clearfix">
+                <h2 style="padding: 12px 55px 7px 12px;">trackme_identity_card_default_url: global URL for identity cards</h2><h2 class="panel-title">define a value for the global identity card URL, if URL and note are defined, this associates by default all data sources with the default identity card but idenfity cards can still be created and associated: (click on the table bellow to edit the macro definition)</h2>
+                <div class="panel-element-row">
+                    <div id="elementTable_trackme_identity_card_default_url" class="dashboard-element table" style="width: 100%">
+                        <div class="panel-body"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="ManageRowMacroDocGlobal2" class="dashboard-row dashboard-rowDataSourcesTable" >
+        <div id="panelManageDocGlobal2" class="dashboard-cell" style="width: 100%;">
+            <div class="dashboard-panel clearfix">
+                <h2 style="padding: 12px 55px 7px 12px;">trackme_identity_card_default_note: global note for identity cards</h2><h2 class="panel-title">define a value for the global identity card note, if URL and note are defined, this associates by default all data sources with the default identity card but idenfity cards can still be created and associated: (click on the table bellow to edit the macro definition)</h2>
+                <div class="panel-element-row">
+                    <div id="elementTable_trackme_identity_card_default_note" class="dashboard-element table" style="width: 100%">
+                        <div class="panel-body"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <div id="rowManageMacrosInfoVarious" class="dashboard-row dashboard-rowManageResetInfo">
         <div id="panelManageMacrosInfoVarious" class="dashboard-cell" style="width: 100%;">
             <div class="dashboard-panel clearfix">
@@ -1920,6 +1964,26 @@ require([
             "search": "where title=\"trackme_idx_filter\" | table definition",
             "managerid": "searchGetMacrosDefinitions",
             "id": "searchGetMacro_trackme_idx_filter"
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        });
+
+        var searchGetMacro_trackme_identity_card_default_url = new PostProcessManager({
+            "tokenDependencies": {},
+            "search": "where title=\"trackme_identity_card_default_url\" | table definition",
+            "managerid": "searchGetMacrosDefinitions",
+            "id": "searchGetMacro_trackme_identity_card_default_url"
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        });
+
+        var searchGetMacro_trackme_identity_card_default_note = new PostProcessManager({
+            "tokenDependencies": {},
+            "search": "where title=\"trackme_identity_card_default_note\" | table definition",
+            "managerid": "searchGetMacrosDefinitions",
+            "id": "searchGetMacro_trackme_identity_card_default_note"
         }, {
             tokens: true,
             tokenNamespace: "submitted"
@@ -2384,23 +2448,44 @@ require([
             }
         });
 
-        var elementTable_trackme_date_format = new TableElement({
-            "id": "elementTable_trackme_date_format",
+        var elementTable_trackme_identity_card_default_url = new TableElement({
+            "id": "elementTable_trackme_identity_card_default_url",
             "count": 100,
             "drilldown": "row",
             "refresh.display": "none",
             "wrap": "false",
-            "managerid": "searchGetMacro_trackme_date_format",
-            "el": $('#elementTable_trackme_date_format')
+            "managerid": "searchGetMacro_trackme_identity_card_default_url",
+            "el": $('#elementTable_trackme_identity_card_default_url')
         }, {
             tokens: true,
             tokenNamespace: "submitted"
         }).render();
 
-        elementTable_trackme_date_format.on("click", function(e) {
+        elementTable_trackme_identity_card_default_url.on("click", function(e) {
             if (e.field !== undefined) {
                 e.preventDefault();
-                var url = TokenUtils.replaceTokenNames("/en-GB/manager/trackme/admin/macros/trackme_date_format(1)?action=edit", _.extend(submittedTokenModel.toJSON(), e.data), TokenUtils.getEscaper('url'), TokenUtils.getFilters(mvc.Components));
+                var url = TokenUtils.replaceTokenNames("/en-GB/manager/trackme/admin/macros/trackme_identity_card_default_url?action=edit", _.extend(submittedTokenModel.toJSON(), e.data), TokenUtils.getEscaper('url'), TokenUtils.getFilters(mvc.Components));
+                utils.redirect(url, false, "_blank");
+            }
+        });
+
+        var elementTable_trackme_identity_card_default_note = new TableElement({
+            "id": "elementTable_trackme_identity_card_default_note",
+            "count": 100,
+            "drilldown": "row",
+            "refresh.display": "none",
+            "wrap": "false",
+            "managerid": "searchGetMacro_trackme_identity_card_default_note",
+            "el": $('#elementTable_trackme_identity_card_default_note')
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        }).render();
+
+        elementTable_trackme_identity_card_default_note.on("click", function(e) {
+            if (e.field !== undefined) {
+                e.preventDefault();
+                var url = TokenUtils.replaceTokenNames("/en-GB/manager/trackme/admin/macros/trackme_identity_card_default_note?action=edit", _.extend(submittedTokenModel.toJSON(), e.data), TokenUtils.getEscaper('url'), TokenUtils.getFilters(mvc.Components));
                 utils.redirect(url, false, "_blank");
             }
         });

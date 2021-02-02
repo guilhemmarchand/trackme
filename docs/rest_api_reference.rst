@@ -39,8 +39,51 @@ These resource groups are accessible by specific endpoint paths as following:
 +----------------------------------------------+----------------------------------------------+
 | :ref:`Lagging classes metrics endpoints`     | /services/trackme/v1/lagging_classes_metrics |
 +----------------------------------------------+----------------------------------------------+
+| :ref:`Smart Status endpoints`                | /services/trackme/v1/smart_status            |
++----------------------------------------------+----------------------------------------------+
 
 These endpoints can be used to interract with TrackMe in a programmatic fashion, for instance to perform integration tasks with automation systems.
+
+REST API trackme SPL command
+----------------------------
+
+Interacting with the REST API in SPL queries
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+TrackMe provides a Python based custom command ``trackme`` that acts as a REST API wrapper to interract with the API endpoints.
+
+.. image:: img/img_rest_api_wrapper1.png
+   :alt: img_rest_api_wrapper1.png
+   :align: center
+
+Syntax
+''''''
+
+::
+
+    | trackme url=<API endpoint> mode=<HTTP method: get/post/delete> body=<Optional: provides the HTTP body in a json format>
+
+**Arguments:**
+
+- ``url``: (required) describes the API endpoint url, such as ``/services/trackme/v1/smart_status/ds_smart_status``
+- ``mode``: (required) the HTTP mode, valid options are ``get``, ``post``, ``delete``
+- ``body``: the http body, optional for a get query depending on the endpoint, required for post and delete calls
+
+Example
+'''''''
+
+*This example calls the smart_status endpoint for a target data_source:*
+
+::
+
+    | trackme url=/services/trackme/v1/smart_status/ds_smart_status mode=get body="{'data_name': 'firewall:pan:traffic'}"
+
+.. image:: img/img_rest_api_wrapper2.png
+   :alt: img_rest_api_wrapper2.png
+   :align: center
+   :width: 1200px
+
+Every endpoint described in the present REST API reference documentation can be actioned via the trackme custom command, authentication and capabilities are transparently inherited from the user environment running the SPL query.
 
 Authentication
 --------------
@@ -143,9 +186,17 @@ ack_collection / Get full Ack collection
 
 **This endpoint retrieves the entire acknowledgment collection returned as a JSON array, it requires a GET call with no data required:**
 
+*External:*
+
 ::
 
     curl -k -u admin:'ch@ngeM3' -X GET https://localhost:8089/services/trackme/v1/ack/ack_collection
+
+*SPL query:*
+
+::
+
+    | trackme url="/services/trackme/v1/ack/ack_collection" mode="get"
 
 *JSON response: (full collection)*
 
@@ -185,9 +236,17 @@ ack_by_key / Get Ack by _key
 
 - ``"_key": KVstore unique identifier for this record``
 
+*External:*
+
 ::
 
     curl -k -u admin:'ch@ngeM3' -X GET https://localhost:8089/services/trackme/v1/ack/ack_by_key -d '{"_key": "5fd3fe737b1bef735d3f3532"}'
+
+*SPL query:*
+
+::
+
+    | trackme url="/services/trackme/v1/ack/ack_by_key" mode="get" body="{\"_key\": \"5fd3fe737b1bef735d3f3532\"}"
 
 *JSON response:*
 
@@ -211,6 +270,7 @@ ack_by_object / Get Ack by object
 
 **This endpoint retrieves an existing acknowledgment record by the object name, it requires a GET call with the following information:**
 
+*External:*
 
 - ``"object_category": type of object (data_source / data_host / metric_host)"`` 
 - ``"object": name of the entity``
@@ -218,6 +278,12 @@ ack_by_object / Get Ack by object
 ::
 
     curl -k -u admin:'ch@ngeM3' -X GET https://localhost:8089/services/trackme/v1/ack/ack_by_object -d '{"object_category": "data_source", "object": "network:pan:traffic"}'
+
+*SPL query:*
+
+::
+
+    | trackme url="/services/trackme/v1/ack/ack_by_object" mode="get" body="{\"object_category\": \"data_source\", \"object\": \"network:pan:traffic\"}"
 
 *JSON response:*
 
@@ -248,9 +314,17 @@ ack_enable / Enable Ack
 - ``"ack_period": period for the acknowledgment in seconds``
 - ``"update_comment": OPTIONAL: a comment for the update, comments are added to the audit record, if unset will be defined to: API update``
 
+*External:*
+
 ::
 
     curl -k -u admin:'ch@ngeM3' -X POST https://localhost:8089/services/trackme/v1/ack/ack_enable -d '{"object_category": "data_source", "object": "network:pan:traffic", "ack_period": "86400", "update_comment": "Updated by automation."}'
+
+*SPL query:*
+
+::
+
+    | trackme url="/services/trackme/v1/ack/ack_enable" mode="post" body="{\"object_category\": \"data_source\", \"object\": \"network:pan:traffic\", \"ack_period\": \"86400\", \"update_comment\": \"Updated by automation.\"}"
 
 *JSON response:*
 
@@ -275,9 +349,17 @@ ack_disable / Disable Ack
 - ``"object": name of the entity``
 - ``"update_comment": OPTIONAL: a comment for the update, comments are added to the audit record, if unset will be defined to: API update``
 
+*External:*
+
 ::
 
     curl -k -u admin:'ch@ngeM3' -X POST https://localhost:8089/services/trackme/v1/ack/ack_disable -d '{"object_category": "data_source", "object": "network:pan:traffic", "update_comment": "Updated by automation."}'
+
+*SPL query:*
+
+::
+
+    | trackme url="/services/trackme/v1/ack/ack_disable" mode="post" body="{\"object_category\": \"data_source\", \"object\": \"network:pan:traffic\", \"update_comment\": \"Updated by automation.\"}"
 
 *JSON response:*
 
@@ -311,6 +393,8 @@ Data Sources endpoints
 +----------------------------------------------------------------------------+---------------------------------------------------------------------------+
 | :ref:`ds_disable_monitoring / Disable monitoring`                          | /services/trackme/v1/data_sources/ds_disable_monitoring                   |
 +----------------------------------------------------------------------------+---------------------------------------------------------------------------+
+| :ref:`ds_update_priority / Update priority`                                | /services/trackme/v1/data_sources/ds_update_priority                      |
++----------------------------------------------------------------------------+---------------------------------------------------------------------------+
 | :ref:`ds_update_lag_policy / Update lagging policy`                        | /services/trackme/v1/data_sources/ds_update_lag_policy                    |
 +----------------------------------------------------------------------------+---------------------------------------------------------------------------+
 | :ref:`ds_update_min_dcount_host / Update minimal host dcount`              | /services/trackme/v1/data_sources/ds_update_min_dcount_host               |
@@ -318,6 +402,8 @@ Data Sources endpoints
 | :ref:`ds_update_wdays_by_name / Update week days monitoring`               | /services/trackme/v1/data_sources/ds_update_wdays                         |
 +----------------------------------------------------------------------------+---------------------------------------------------------------------------+
 | :ref:`ds_update_outliers / Update outliers detection configuration`        | /services/trackme/v1/data_sources/ds_update_outliers                      |
++----------------------------------------------------------------------------+---------------------------------------------------------------------------+
+| :ref:`ds_update_monitoring_level / Update monitoring level`                | /services/trackme/v1/data_sources/ds_update_monitoring_level              |
 +----------------------------------------------------------------------------+---------------------------------------------------------------------------+
 | :ref:`ds_delete_temporary / Delete temporary`                              | /services/trackme/v1/data_sources/ds_delete_temporary                     |
 +----------------------------------------------------------------------------+---------------------------------------------------------------------------+
@@ -335,9 +421,17 @@ ds_collection / Get full Data Sources collection
 
 **This endpoint retrieves the entire data sources collection returned as a JSON array, it requires a GET call with no data required:**
 
+*External:*
+
 ::
 
     curl -k -u admin:'ch@ngeM3' -X GET https://localhost:8089/services/trackme/v1/data_sources/ds_collection
+
+*SPL query:*
+
+::
+
+    | trackme url="/services/trackme/v1/data_sources/ds_collection" mode="get"
 
 *JSON response: (full collection)*
 
@@ -361,9 +455,17 @@ ds_by_key / Get Data Source by _key
 
 - ``"_key": KVstore unique identifier for this record``
 
+*External:*
+
 ::
 
     curl -k -u admin:'ch@ngeM3' -X GET https://localhost:8089/services/trackme/v1/data_sources/ds_by_key -d '{"_key": "7e8670878a9ad91844f18655f1819c06"}'
+
+*SPL query:*
+
+::
+
+    | trackme url="/services/trackme/v1/data_sources/ds_by_key" mode="get" body="{\"_key\": \"7e8670878a9ad91844f18655f1819c06\"}"
 
 *JSON response: (full record)*
 
@@ -387,9 +489,18 @@ ds_by_name / Get Data Source by name
 
 - ``"data_name": name of the data source``
 
+*External:*
+
 ::
 
     curl -k -u admin:'ch@ngeM3' -X GET https://localhost:8089/services/trackme/v1/data_sources/ds_by_name -d '{"data_name": "network:pan:traffic"}'
+
+*SPL query:*
+
+::
+
+    | trackme url="/services/trackme/v1/data_sources/ds_by_name" mode="get" body="{\"data_name\": \"network:pan:traffic\"}"
+
 
 *JSON response: (full record)*
 
@@ -414,9 +525,17 @@ ds_enable_monitoring / Enable monitoring
 - ``"data_name": name of the data source``
 - ``"update_comment": OPTIONAL: a comment for the update, comments are added to the audit record, if unset will be defined to: API update``
 
+*External:*
+
 ::
 
     curl -k -u admin:'ch@ngeM3' -X POST https://localhost:8089/services/trackme/v1/data_sources/ds_enable_monitoring -d '{"data_name": "network:pan:traffic", "update_comment": "Updated by automation."}'
+
+*SPL query:*
+
+::
+
+    | trackme url="/services/trackme/v1/data_sources/ds_enable_monitoring" mode="post" body="{\"data_name\": \"network:pan:traffic\", \"update_comment\": \"Updated by automation.\"}"
 
 *JSON response: (full record)*
 
@@ -441,9 +560,53 @@ ds_disable_monitoring / Disable monitoring
 - ``"data_name": name of the data source``
 - ``"update_comment": OPTIONAL: a comment for the update, comments are added to the audit record, if unset will be defined to: API update``
 
+*External:*
+
 ::
 
     curl -k -u admin:'ch@ngeM3' -X POST https://localhost:8089/services/trackme/v1/data_sources/ds_disable_monitoring -d '{"data_name": "network:pan:traffic", "update_comment": "Updated by automation."}'
+
+*SPL query:*
+
+::
+
+    | trackme url="/services/trackme/v1/data_sources/ds_disable_monitoring" mode="post" body="{\"data_name\": \"network:pan:traffic\", \"update_comment\": \"Updated by automation.\"}"
+
+*JSON response: (full record)*
+
+::
+
+    {
+    "OutlierAlertOnUpper": "false",
+    "OutlierLowerThresholdMultiplier": "4",
+    "OutlierMinEventCount": "0",
+    "OutlierSpan": "5m",
+    "OutlierTimePeriod": "-7d",
+    "OutlierUpperThresholdMultiplier": "4",
+    "_time": "1607770500",
+    "current_state": "green",
+    ...
+
+ds_update_priority / Update priority
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+**This endpoint updates the priority definition for an existing data source by the data source name (data_name), it requires a POST call with the following information:**
+
+- ``"data_name": name of the data source``
+- ``"priority": priority value, valid options are low / medium / high``
+- ``"update_comment": OPTIONAL: a comment for the update, comments are added to the audit record, if unset will be defined to: API update``
+
+*External:*
+
+::
+
+    curl -k -u admin:'ch@ngeM3' -X POST https://localhost:8089/services/trackme/v1/data_sources/ds_update_priority -d '{"data_name": "network:pan:traffic", "priority": "high", "update_comment": "Updated by automation."}'
+
+*SPL query:*
+
+::
+
+    | trackme url="/services/trackme/v1/data_sources/ds_update_priority" mode="post" body="{\"data_name\": \"network:pan:traffic\", \"priority\": \"high\", \"update_comment\": \"Updated by automation.\"}"
 
 *JSON response: (full record)*
 
@@ -471,9 +634,17 @@ ds_update_lag_policy / Update lagging policy
 - ``"data_override_lagging_class": overrides lagging classes, valid options are true / false``
 - ``"update_comment": OPTIONAL: a comment for the update, comments are added to the audit record, if unset will be defined to: API update``
 
+*External:*
+
 ::
 
     curl -k -u admin:'ch@ngeM3' -X POST https://localhost:8089/services/trackme/v1/data_sources/ds_update_lag_policy -d '{"data_name": "network:pan:traffic", "update_comment": "Updated by automation.", "data_lag_alert_kpis": "lag_ingestion_kpi", "data_max_lag_allowed": "300", "data_override_lagging_class": "true"}'
+
+*SPL query:*
+
+::
+
+    | trackme url="/services/trackme/v1/data_sources/ds_update_lag_policy" mode="post" body="{\"data_name\": \"network:pan:traffic\", \"update_comment\": \"Updated by automation.\", \"data_lag_alert_kpis\": \"lag_ingestion_kpi\", \"data_max_lag_allowed\": \"300\", \"data_override_lagging_class\": \"true\"}"
 
 *JSON response: (full record)*
 
@@ -496,12 +667,20 @@ ds_update_min_dcount_host / Update minimal host dcount
 **This endpoint configures the minimal number of distinct hosts count for an existing data source, it requires a POST call with the following information:**
 
 - ``"data_name": name of the data source``
-- ``"data_max_lag_allowed": minimal accepted number of distinct count hosts, must be an integer``
+- ``"min_dcount_host": minimal accepted number of distinct count hosts, must be an integer``
 - ``"update_comment": OPTIONAL: a comment for the update, comments are added to the audit record, if unset will be defined to: API update``
+
+*External:*
 
 ::
 
     curl -k -u admin:'ch@ngeM3' -X POST https://localhost:8089/services/trackme/v1/data_sources/ds_update_min_dcount_host -d '{"data_name": "network:pan:traffic", "update_comment": "Updated by automation.", "min_dcount_host": "100"}'
+
+*SPL query:*
+
+::
+
+    | trackme url="/services/trackme/v1/data_sources/ds_update_min_dcount_host" mode="post" body="{\"data_name\": \"network:pan:traffic\", \"update_comment\": \"Updated by automation.\", \"min_dcount_host\": \"100\"}"
 
 *JSON response: (full record)*
 
@@ -527,9 +706,17 @@ ds_update_wdays_by_name / Update week days monitoring
 - ``"data_monitoring_wdays":  the week days rule, valid options are manual:all_days / manual:monday-to-friday / manual:monday-to-saturday / [ 0, 1, 2, 3, 4, 5, 6 ] where Sunday is 0``
 - ``"update_comment": OPTIONAL: a comment for the update, comments are added to the audit record, if unset will be defined to: API update``
 
+*External:*
+
 ::
 
     curl -k -u admin:'ch@ngeM3' -X POST https://localhost:8089/services/trackme/v1/data_sources/ds_update_wdays -d '{"data_name": "network:pan:traffic", "update_comment": "Updated by automation.", "data_monitoring_wdays": "manual:monday-to-friday"}'
+
+*SPL query:*
+
+::
+
+    | trackme url="/services/trackme/v1/data_sources/ds_update_wdays" mode="post" body="{\"data_name\": \"network:pan:traffic\", \"update_comment\": \"Updated by automation.\", \"data_monitoring_wdays\": \"manual:monday-to-friday\"}"
 
 *JSON response: (full record)*
 
@@ -561,9 +748,53 @@ ds_update_outliers / Update outliers detection configuration
 - ``"enable_behaviour_analytic": "Enables / Disables outliers detection for that object, valid options are true / false, defaults to true``
 - ``"update_comment": OPTIONAL: a comment for the update, comments are added to the audit record, if unset will be defined to: API update``
 
+*External:*
+
 ::
 
     curl -k -u admin:'ch@ngeM3' -X POST https://localhost:8089/services/trackme/v1/data_sources/ds_update_outliers -d '{"data_name": "network:pan:traffic", "update_comment": "Updated by automation.", "OutlierMinEventCount": "0", "OutlierLowerThresholdMultiplier": "6", "OutlierUpperThresholdMultiplier": "6", "OutlierAlertOnUpper": "false", "OutlierTimePeriod": "7d", "OutlierSpan": "5m", "enable_behaviour_analytic": "true"}'
+
+*SPL query:*
+
+::
+
+    | trackme url="/services/trackme/v1/data_sources/ds_update_outliers" mode="post" body="{\"data_name\": \"network:pan:traffic\", \"update_comment\": \"Updated by automation.\", \"OutlierMinEventCount\": \"0\", \"OutlierLowerThresholdMultiplier\": \"6\", \"OutlierUpperThresholdMultiplier\": \"6\", \"OutlierAlertOnUpper\": \"false\", \"OutlierTimePeriod\": \"7d\", \"OutlierSpan\": \"5m\", \"enable_behaviour_analytic\": \"true\"}"
+
+*JSON response: (full record)*
+
+::
+
+    {
+    "OutlierAlertOnUpper": "false",
+    "OutlierLowerThresholdMultiplier": "4",
+    "OutlierMinEventCount": "0",
+    "OutlierSpan": "5m",
+    "OutlierTimePeriod": "-7d",
+    "OutlierUpperThresholdMultiplier": "4",
+    "_time": "1607770500",
+    "current_state": "green",
+    ...
+
+ds_update_monitoring_level / Update monitoring level
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+**This endpoint updates the monitoring level for an existing data source, it requires a POST call with the following information:**
+
+- ``"data_name": name of the data source``
+- ``"data_monitoring_level": the monitoring level definition, valid options are index / sourcetype``
+- ``"update_comment": OPTIONAL: a comment for the update, comments are added to the audit record, if unset will be defined to: API update``
+
+*External:*
+
+::
+
+    curl -k -u admin:'ch@ngeM3' -X POST https://localhost:8089/services/trackme/v1/data_sources/ds_update_monitoring_level -d '{"data_name": "network:pan:traffic", "update_comment": "Updated by automation.", "data_monitoring_level": "sourcetype"}'
+
+*SPL query:*
+
+::
+
+    | trackme url="/services/trackme/v1/data_sources/ds_update_monitoring_level" mode="post" body="{\"data_name\": \"network:pan:traffic\", \"update_comment\": \"Updated by automation.\", \"data_monitoring_level\": \"sourcetype\"}"
 
 *JSON response: (full record)*
 
@@ -590,9 +821,17 @@ ds_delete_temporary / Delete temporary
 
 Note: A temporary deletion removes the entity and its configuration, if search conditions such as data avaibility allow it, the same entitiy will be re-created automatically by the Trackers.
 
+*External:*
+
 ::
 
     curl -k -u admin:'ch@ngeM3' -X DELETE https://localhost:8089/services/trackme/v1/data_sources/ds_delete_temporary -d '{"data_name": "network:pan:traffic"}'
+
+*SPL query:*
+
+::
+
+    | trackme url="/services/trackme/v1/data_sources/ds_delete_temporary" mode="delete" body="{\"data_name\": \"network:pan:traffic\"}"
 
 *JSON response: (full record)*
 
@@ -610,9 +849,17 @@ ds_delete_permanent / Delete permanently
 
 Note: A permanent deletion removes the entity and its configuration, in addition its a specific audit record to prevent the entity from being created as long as the audit record is not purged. if the audit record is purged and the search conditions such as data avaibility allow it, the same entitiy will be re-created automatically by the Trackers.
 
+*External:*
+
 ::
 
     curl -k -u admin:'ch@ngeM3' -X DELETE https://localhost:8089/services/trackme/v1/data_sources/ds_delete_permanent -d '{"data_name": "network:pan:traffic"}'
+
+*SPL query:*
+
+::
+
+    | trackme url="/services/trackme/v1/data_sources/ds_delete_permanent" mode="delete" body="{\"data_name\": \"network:pan:traffic\"}"
 
 *JSON response: (full record)*
 
@@ -628,9 +875,17 @@ ds_enable_data_sampling / Enable data sampling
 - ``"data_name": name of the data source``
 - ``"update_comment": OPTIONAL: a comment for the update, comments are added to the audit record, if unset will be defined to: API update``
 
+*External:*
+
 ::
 
     curl -k -u admin:'ch@ngeM3' -X POST https://localhost:8089/services/trackme/v1/data_sources/ds_enable_data_sampling -d '{"data_name": "network:pan:traffic", "update_comment": "Updated by automation."}'
+
+*SPL query:*
+
+::
+
+    | trackme url="/services/trackme/v1/data_sources/ds_enable_data_sampling" mode="post" body="{\"data_name\": \"network:pan:traffic\", \"update_comment\": \"Updated by automation.\"}"
 
 *JSON response: (full record)*
 
@@ -651,9 +906,17 @@ ds_disable_data_sampling / Disable data sampling
 - ``"data_name": name of the data source``
 - ``"update_comment": OPTIONAL: a comment for the update, comments are added to the audit record, if unset will be defined to: API update``
 
+*External:*
+
 ::
 
     curl -k -u admin:'ch@ngeM3' -X POST https://localhost:8089/services/trackme/v1/data_sources/ds_disable_data_sampling -d '{"data_name": "network:pan:traffic", "update_comment": "Updated by automation."}'
+
+*SPL query:*
+
+::
+
+    | trackme url="/services/trackme/v1/data_sources/ds_disable_data_sampling" mode="post" body="{\"data_name\": \"network:pan:traffic\", \"update_comment\": \"Updated by automation.\"}"
 
 *JSON response: (full record)*
 
@@ -675,9 +938,17 @@ ds_update_data_sampling_records_nr / Update sampling no of records
 - ``"data_sampling_nr": number of records to be sampled per data source and data sampling execution (defaults to 100 at first sampling, then 50)``
 - ``"update_comment": OPTIONAL: a comment for the update, comments are added to the audit record, if unset will be defined to: API update``
 
+*External:*
+
 ::
 
     curl -k -u admin:'ch@ngeM3' -X POST https://localhost:8089/services/trackme/v1/data_sources/ds_update_data_sampling_records_nr -d '{"data_name": "network:pan:traffic", "data_sampling_nr": "200", "update_comment": "Updated by automation."}'
+
+*SPL query:*
+
+::
+
+    | trackme url="/services/trackme/v1/data_sources/ds_update_data_sampling_records_nr" mode="post" body="{\"data_name\": \"network:pan:traffic\", \"data_sampling_nr\": \"200\", \"update_comment\": \"Updated by automation.\"}"
 
 *JSON response:*
 
@@ -707,11 +978,13 @@ Data Hosts endpoints
 +---------------------------------------------------------------------+-----------------------------------------------------------------+
 | :ref:`dh_disable_monitoring / Disable monitoring`                   | /services/trackme/v1/data_hosts/dh_disable_monitoring           |
 +---------------------------------------------------------------------+-----------------------------------------------------------------+
+| :ref:`dh_update_priority / Update priority`                         | /services/trackme/v1/data_hosts/dh_update_priority              |
++---------------------------------------------------------------------+-----------------------------------------------------------------+
 | :ref:`dh_reset / Reset data host`                                   | /services/trackme/v1/data_hosts/dh_reset                        |
 +---------------------------------------------------------------------+-----------------------------------------------------------------+
 | :ref:`dh_update_lag_policy / Update lagging policy`                 | /services/trackme/v1/data_hosts/dh_update_lag_policy            |
 +---------------------------------------------------------------------+-----------------------------------------------------------------+
-| :ref:`dh_update_wdays_by_name / Update week days monitoring`        | /services/trackme/v1/data_hosts/dh_update_wdays                 |
+| :ref:`dh_update_wdays / Update week days monitoring`                | /services/trackme/v1/data_hosts/dh_update_wdays                 |
 +---------------------------------------------------------------------+-----------------------------------------------------------------+
 | :ref:`dh_update_outliers / Update outliers detection configuration` | /services/trackme/v1/data_hosts/dh_update_outliers              |
 +---------------------------------------------------------------------+-----------------------------------------------------------------+
@@ -725,9 +998,17 @@ dh_collection / Get full Data Hosts collection
 
 **This endpoint retrieves the entire data hosts collection returned as a JSON array, it requires a GET call with no data required:**
 
+*External:*
+
 ::
 
     curl -k -u admin:'ch@ngeM3' -X GET https://localhost:8089/services/trackme/v1/data_hosts/dh_collection
+
+*SPL query:*
+
+::
+
+    | trackme url="/services/trackme/v1/data_hosts/dh_collection" mode="get"
 
 *JSON response: (full collection)*
 
@@ -757,9 +1038,17 @@ dh_by_key / Get data host by _key
 
 - ``"_key": KVstore unique identifier for this record``
 
+*External:*
+
 ::
 
     curl -k -u admin:'ch@ngeM3' -X GET https://localhost:8089/services/trackme/v1/data_hosts/dh_by_key -d '{"_key": "14781cf495c76f1373382197f071c5d6"}'
+
+*SPL query:*
+
+::
+
+    | trackme url="/services/trackme/v1/data_hosts/dh_by_key" mode="get" body="{\"_key\": \"14781cf495c76f1373382197f071c5d6\"}"
 
 *JSON response: (full record)*
 
@@ -787,9 +1076,17 @@ dh_by_name / Get data host by name
 
 - ``"data_host": name of the data host``
 
+*External:*
+
 ::
 
     curl -k -u admin:'ch@ngeM3' -X GET https://localhost:8089/services/trackme/v1/data_hosts/dh_by_name -d '{"data_host": "FIREWALL.PAN.AMER.DESIGN.NODE1"}'
+
+*SPL query:*
+
+::
+
+    | trackme url="/services/trackme/v1/data_hosts/dh_by_name" mode="get" body="{\"data_host\": \"FIREWALL.PAN.AMER.DESIGN.NODE1\"}"
 
 *JSON response: (full record)*
 
@@ -819,9 +1116,17 @@ dh_enable_monitoring / Enable monitoring
 - ``"data_host": name of the data host``
 - ``"update_comment": OPTIONAL: a comment for the update, comments are added to the audit record, if unset will be defined to: API update``
 
+*External:*
+
 ::
 
     curl -k -u admin:'ch@ngeM3' -X POST https://localhost:8089/services/trackme/v1/data_hosts/dh_enable_monitoring -d '{"data_host": "FIREWALL.PAN.AMER.DESIGN.NODE1", "update_comment": "Updated by automation."}'
+
+*SPL query:*
+
+::
+
+    | trackme url="/services/trackme/v1/data_hosts/dh_enable_monitoring" mode="post" body="{\"data_host\": \"FIREWALL.PAN.AMER.DESIGN.NODE1\", \"update_comment\": \"Updated by automation.\"}"
 
 *JSON response: (full record)*
 
@@ -846,9 +1151,17 @@ dh_disable_monitoring / Disable monitoring
 - ``"data_host": name of the data host``
 - ``"update_comment": OPTIONAL: a comment for the update, comments are added to the audit record, if unset will be defined to: API update``
 
+*External:*
+
 ::
 
     curl -k -u admin:'ch@ngeM3' -X POST https://localhost:8089/services/trackme/v1/data_hosts/dh_disable_monitoring -d '{"data_host": "FIREWALL.PAN.AMER.DESIGN.NODE1", "update_comment": "Updated by automation."}'
+
+*SPL query:*
+
+::
+
+    | trackme url="/services/trackme/v1/data_hosts/dh_disable_monitoring" mode="post" body="{\"data_host\": \"FIREWALL.PAN.AMER.DESIGN.NODE1\", \"update_comment\": \"Updated by automation.\"}"
 
 *JSON response: (full record)*
 
@@ -865,6 +1178,39 @@ dh_disable_monitoring / Disable monitoring
      "data_first_time_seen": "1607781871",
      ...
 
+dh_update_priority / Update priority
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+**This endpoint updates the priority definition for an existing data host by the data host name (data_host), it requires a POST call with the following information:**
+
+- ``"data_host": name of the data host``
+- ``"priority": priority value, valid options are low / medium / high``
+- ``"update_comment": OPTIONAL: a comment for the update, comments are added to the audit record, if unset will be defined to: API update``
+
+*External:*
+
+::
+
+    curl -k -u admin:'ch@ngeM3' -X POST https://localhost:8089/services/trackme/v1/data_hosts/dh_update_priority -d '{"data_host": "FIREWALL.PAN.AMER.DESIGN.NODE1", "priority": "high", "update_comment": "Updated by automation."}'
+
+*SPL query:*
+
+::
+
+    | trackme url="/services/trackme/v1/data_hosts/dh_update_priority" mode="post" body="{\"data_host\": \"FIREWALL.PAN.AMER.DESIGN.NODE1\", \"priority\": \"high\", \"update_comment\": \"Updated by automation.\"}"
+
+*JSON response: (full record)*
+
+::
+
+    {
+     "object_category": "data_host",
+     "data_host": "FIREWALL.PAN.AMER.DESIGN.NODE1",
+     "data_last_lag_seen": "-2",
+     "data_last_ingestion_lag_seen": "0",
+     "data_eventcount": "2585",
+     ...
+
 
 dh_reset / Reset data host
 ^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -874,9 +1220,17 @@ dh_reset / Reset data host
 - ``"data_host": name of the data host``
 - ``"update_comment": OPTIONAL: a comment for the update, comments are added to the audit record, if unset will be defined to: API update``
 
+*External:*
+
 ::
 
     curl -k -u admin:'ch@ngeM3' -X POST https://localhost:8089/services/trackme/v1/data_hosts/dh_reset -d '{"data_host": "FIREWALL.PAN.AMER.DESIGN.NODE1", "update_comment": "Updated by automation."}'
+
+*SPL query:*
+
+::
+
+    | trackme url="/services/trackme/v1/data_hosts/dh_reset" mode="post" body="{\"data_host\": \"FIREWALL.PAN.AMER.DESIGN.NODE1\", \"update_comment\": \"Updated by automation.\"}"
 
 *JSON response: (full record)*
 
@@ -903,9 +1257,17 @@ dh_update_lag_policy / Update lagging policy
 - ``"data_host_alerting_policy": policy alerting, valid options are global_policy / track_per_sourcetype / track_per_host``
 - ``"update_comment": OPTIONAL: a comment for the update, comments are added to the audit record, if unset will be defined to: API update``
 
+*External:*
+
 ::
 
     curl -k -u admin:'ch@ngeM3' -X POST https://localhost:8089/services/trackme/v1/data_hosts/dh_update_lag_policy -d '{"data_host": "FIREWALL.PAN.AMER.DESIGN.NODE1", "update_comment": "Updated by automation.", "data_lag_alert_kpis": "lag_ingestion_kpi", "data_max_lag_allowed": "300", "data_override_lagging_class": "true", "data_host_alerting_policy": "track_per_sourcetype"}'
+
+*SPL query:*
+
+::
+
+    | trackme url="/services/trackme/v1/data_hosts/dh_update_lag_policy" mode="post" body="{\"data_host\": \"FIREWALL.PAN.AMER.DESIGN.NODE1\", \"update_comment\": \"Updated by automation.\", \"data_lag_alert_kpis\": \"lag_ingestion_kpi\", \"data_max_lag_allowed\": \"300\", \"data_override_lagging_class\": \"true\", \"data_host_alerting_policy\": \"track_per_sourcetype\"}"
 
 *JSON response: (full record)*
 
@@ -922,8 +1284,8 @@ dh_update_lag_policy / Update lagging policy
      "data_first_time_seen": "1607205117",
      ...
 
-dh_update_wdays_by_name / Update week days monitoring
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+dh_update_wdays / Update week days monitoring
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 **This endpoint configures the week days monitoring rule for an existing data host, it requires a POST call with the following information:**
 
@@ -931,9 +1293,17 @@ dh_update_wdays_by_name / Update week days monitoring
 - ``"data_monitoring_wdays":  the week days rule, valid options are manual:all_days / manual:monday-to-friday / manual:monday-to-saturday / [ 0, 1, 2, 3, 4, 5, 6 ] where Sunday is 0``
 - ``"update_comment": OPTIONAL: a comment for the update, comments are added to the audit record, if unset will be defined to: API update``
 
+*External:*
+
 ::
 
     curl -k -u admin:'ch@ngeM3' -X POST https://localhost:8089/services/trackme/v1/data_hosts/dh_update_wdays -d '{"data_host": "FIREWALL.PAN.AMER.DESIGN.NODE1", "update_comment": "Updated by automation.", "data_monitoring_wdays": "manual:monday-to-friday"}'
+
+*SPL query:*
+
+::
+
+    | trackme url="/services/trackme/v1/data_hosts/dh_update_wdays" mode="post" body="{\"data_host\": \"FIREWALL.PAN.AMER.DESIGN.NODE1\", \"update_comment\": \"Updated by automation.\", \"data_monitoring_wdays\": \"manual:monday-to-friday\"}"
 
 *JSON response: (full record)*
 
@@ -965,9 +1335,17 @@ dh_update_outliers / Update outliers detection configuration
 - ``"enable_behaviour_analytic": "Enables / Disables outliers detection for that object, valid options are true / false, defaults to true``
 - ``"update_comment": OPTIONAL: a comment for the update, comments are added to the audit record, if unset will be defined to: API update``
 
+*External:*
+
 ::
 
     curl -k -u admin:'ch@ngeM3' -X POST https://localhost:8089/services/trackme/v1/data_hosts/dh_update_outliers -d '{"data_host": "FIREWALL.PAN.AMER.DESIGN.NODE1", "update_comment": "Updated by automation.", "OutlierMinEventCount": "0", "OutlierLowerThresholdMultiplier": "6", "OutlierUpperThresholdMultiplier": "6", "OutlierAlertOnUpper": "false", "OutlierTimePeriod": "7d", "OutlierSpan": "5m", "enable_behaviour_analytic": "true"}'
+
+*SPL query:*
+
+::
+
+    | trackme url="/services/trackme/v1/data_hosts/dh_update_outliers" mode="post" body="{\"data_host\": \"FIREWALL.PAN.AMER.DESIGN.NODE1\", \"update_comment\": \"Updated by automation.\", \"OutlierMinEventCount\": \"0\", \"OutlierLowerThresholdMultiplier\": \"6\", \"OutlierUpperThresholdMultiplier\": \"6\", \"OutlierAlertOnUpper\": \"false\", \"OutlierTimePeriod\": \"7d\", \"OutlierSpan\": \"5m\", \"enable_behaviour_analytic\": \"true\"}"
 
 *JSON response: (full record)*
 
@@ -993,9 +1371,17 @@ dh_delete_temporary / Delete temporary
 
 Note: A temporary deletion removes the entity and its configuration, if search conditions such as data avaibility allow it, the same entitiy will be re-created automatically by the Trackers.
 
+*External:*
+
 ::
 
     curl -k -u admin:'ch@ngeM3' -X DELETE https://localhost:8089/services/trackme/v1/data_hosts/dh_delete_temporary -d '{"data_host": "FIREWALL.PAN.AMER.DESIGN.NODE1"}'
+
+*SPL query:*
+
+::
+
+    | trackme url="/services/trackme/v1/data_hosts/dh_delete_temporary" mode="delete" body="{\"data_host\": \"FIREWALL.PAN.AMER.DESIGN.NODE1\"}"
 
 *JSON response: (full record)*
 
@@ -1013,9 +1399,17 @@ dh_delete_permanent / Delete permanently
 
 Note: A permanent deletion removes the entity and its configuration, in addition its a specific audit record to prevent the entity from being created as long as the audit record is not purged. if the audit record is purged and the search conditions such as data avaibility allow it, the same entitiy will be re-created automatically by the Trackers.
 
+*External:*
+
 ::
 
     curl -k -u admin:'ch@ngeM3' -X DELETE https://localhost:8089/services/trackme/v1/data_hosts/dh_delete_permanent -d '{"data_host": "FIREWALL.PAN.AMER.DESIGN.NODE1"}'
+
+*SPL query:*
+
+::
+
+    | trackme url="/services/trackme/v1/data_hosts/dh_delete_permanent" mode="delete" body="{\"data_host\": \"FIREWALL.PAN.AMER.DESIGN.NODE1\"}"
 
 *JSON response: (full record)*
 
@@ -1041,6 +1435,8 @@ Metric Hosts endpoints
 +---------------------------------------------------------------------+-----------------------------------------------------------------+
 | :ref:`mh_disable_monitoring / Disable monitoring`                   | /services/trackme/v1/metric_hosts/mh_disable_monitoring         |
 +---------------------------------------------------------------------+-----------------------------------------------------------------+
+| :ref:`mh_update_priority / Update priority`                         | /services/trackme/v1/metric_hosts/mh_update_priority            |
++---------------------------------------------------------------------+-----------------------------------------------------------------+
 | :ref:`mh_reset / Reset metrics`                                     | /services/trackme/v1/metric_hosts/mh_reset                      |
 +---------------------------------------------------------------------+-----------------------------------------------------------------+
 | :ref:`mh_delete_temporary / Delete temporary`                       | /services/trackme/v1/metric_hosts/mh_delete_temporary           |
@@ -1053,9 +1449,17 @@ mh_collection / Get full Metric Hosts collection
 
 **This endpoint retrieves the entire metric hosts collection returned as a JSON array, it requires a GET call with no data required:**
 
+*External:*
+
 ::
 
     curl -k -u admin:'ch@ngeM3' -X GET https://localhost:8089/services/trackme/v1/metric_hosts/mh_collection
+
+*SPL query:*
+
+::
+
+    | trackme url="/services/trackme/v1/metric_hosts/mh_collection" mode="get"
 
 *JSON response: (full collection)*
 
@@ -1080,9 +1484,18 @@ mh_by_key / Get metric host by _key
 
 - ``"_key": KVstore unique identifier for this record``
 
+*External:*
+
 ::
 
     curl -k -u admin:'ch@ngeM3' -X GET https://localhost:8089/services/trackme/v1/metric_hosts/mh_by_key -d '{"_key": "afb0c5fc92f20c8011ecac371b04f77e"}'
+
+*SPL query:*
+
+::
+
+    | trackme url="/services/trackme/v1/metric_hosts/mh_by_key" mode="get" body="{\"_key\": \"afb0c5fc92f20c8011ecac371b04f77e\"}"
+
 
 *JSON response: (full record)*
 
@@ -1106,9 +1519,17 @@ mh_by_name / Get metric host by name
 
 - ``"metric_host": name of the metric host``
 
+*External:*
+
 ::
 
     curl -k -u admin:'ch@ngeM3' -X GET https://localhost:8089/services/trackme/v1/metric_hosts/mh_by_name -d '{"metric_host": "telegraf-node1"}'
+
+*SPL query:*
+
+::
+
+    | trackme url="/services/trackme/v1/metric_hosts/mh_by_name" mode="get" body="{\"metric_host\": \"telegraf-node1\"}"
 
 *JSON response: (full record)*
 
@@ -1134,9 +1555,17 @@ mh_enable_monitoring / Enable monitoring
 - ``"metric_host": name of the metric host``
 - ``"update_comment": OPTIONAL: a comment for the update, comments are added to the audit record, if unset will be defined to: API update``
 
+*External:*
+
 ::
 
     curl -k -u admin:'ch@ngeM3' -X POST https://localhost:8089/services/trackme/v1/metric_hosts/mh_enable_monitoring -d '{"metric_host": "telegraf-node1", "update_comment": "Updated by automation."}'
+
+*SPL query:*
+
+::
+
+    | trackme url="/services/trackme/v1/metric_hosts/mh_enable_monitoring" mode="post" body="{\"metric_host\": \"telegraf-node1\", \"update_comment\": \"Updated by automation.\"}"
 
 *JSON response: (full record)*
 
@@ -1157,9 +1586,17 @@ mh_disable_monitoring / Disable monitoring
 - ``"metric_host": name of the metric host``
 - ``"update_comment": OPTIONAL: a comment for the update, comments are added to the audit record, if unset will be defined to: API update``
 
+*External:*
+
 ::
 
     curl -k -u admin:'ch@ngeM3' -X POST https://localhost:8089/services/trackme/v1/metric_hosts/mh_disable_monitoring -d '{"metric_host": "telegraf-node1", "update_comment": "Updated by automation."}'
+
+*SPL query:*
+
+::
+
+    | trackme url="/services/trackme/v1/metric_hosts/mh_disable_monitoring" mode="post" body="{\"metric_host\": \"telegraf-node1\", \"update_comment\": \"Updated by automation.\"}"
 
 *JSON response: (full record)*
 
@@ -1172,6 +1609,38 @@ mh_disable_monitoring / Disable monitoring
      "metric_category": "docker,docker_container_blkio,docker_container_cpu,docker_container_health,docker_container_mem,docker_container_net,docker_container_status",
      ...
 
+mh_update_priority / Update priority
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+**This endpoint updates the priority definition for an existing metric host, it requires a POST call with the following information:**
+
+- ``"metric_host": name of the metric host``
+- ``"priority": priority value, valid options are low / medium / high``
+- ``"update_comment": OPTIONAL: a comment for the update, comments are added to the audit record, if unset will be defined to: API update``
+
+*External:*
+
+::
+
+    curl -k -u admin:'ch@ngeM3' -X POST https://localhost:8089/services/trackme/v1/metric_hosts/mh_update_priority -d '{"metric_host": "telegraf-node1", "priority": "high", "update_comment": "Updated by automation."}'
+
+*SPL query:*
+
+::
+
+    | trackme url="/services/trackme/v1/metric_hosts/mh_update_priority" mode="post" body="{\"metric_host\": \"telegraf-node1\", \"priority\": \"high\", \"update_comment\": \"Updated by automation.\"}"
+
+*JSON response: (full record)*
+
+::
+
+    {
+     "object_category": "metric_host",
+     "metric_host": "telegraf-node1",
+     "metric_index": "telegraf",
+     "metric_last_lag_seen": "8",
+     ...
+
 mh_reset / Reset metrics
 ^^^^^^^^^^^^^^^^^^^^^^^^
 
@@ -1180,9 +1649,17 @@ mh_reset / Reset metrics
 - ``"metric_host": name of the metric host``
 - ``"update_comment": OPTIONAL: a comment for the update, comments are added to the audit record, if unset will be defined to: API update``
 
+*External:*
+
 ::
 
     curl -k -u admin:'ch@ngeM3' -X POST https://localhost:8089/services/trackme/v1/metric_hosts/mh_reset -d '{"metric_host": "telegraf-node1", "update_comment": "Updated by automation."}'
+
+*SPL query:*
+
+::
+
+    | trackme url="/services/trackme/v1/metric_hosts/mh_reset" mode="post" body="{\"metric_host\": \"telegraf-node1\", \"update_comment\": \"Updated by automation.\"}"
 
 *JSON response: (full record)*
 
@@ -1205,9 +1682,17 @@ mh_delete_temporary / Delete temporary
 
 Note: A temporary deletion removes the entity and its configuration, if search conditions such as data avaibility allow it, the same entitiy will be re-created automatically by the Trackers.
 
+*External:*
+
 ::
 
     curl -k -u admin:'ch@ngeM3' -X DELETE https://localhost:8089/services/trackme/v1/metric_hosts/mh_delete_temporary -d '{"metric_host": "telegraf-node1"}'
+
+*SPL query:*
+
+::
+
+    | trackme url="/services/trackme/v1/metric_hosts/mh_delete_temporary" mode="delete" body="{\"metric_host\": \"telegraf-node1\"}"
 
 *JSON response: (full record)*
 
@@ -1225,9 +1710,17 @@ mh_delete_permanent / Delete permanently
 
 Note: A permanent deletion removes the entity and its configuration, in addition its a specific audit record to prevent the entity from being created as long as the audit record is not purged. if the audit record is purged and the search conditions such as data avaibility allow it, the same entitiy will be re-created automatically by the Trackers.
 
+*External:*
+
 ::
 
     curl -k -u admin:'ch@ngeM3' -X DELETE https://localhost:8089/services/trackme/v1/metric_hosts/mh_delete_permanent -d '{"metric_host": "telegraf-node1"}'
+
+*SPL query:*
+
+::
+
+    | trackme url="/services/trackme/v1/metric_hosts/mh_delete_permanent" mode="delete" body="{\"metric_host\": \"telegraf-node1\"}"
 
 *JSON response: (full record)*
 
@@ -1265,9 +1758,17 @@ elastic_shared / Get shared Elastic Sources collection
 
 **This endpoint retrieves the entired shared Elastic Sources collection returned as a JSON array, it requires a GET call with no data required:**
 
+*External:*
+
 ::
 
-    curl -k -u admin:'ch@ngeM3' -X GET https://localhost:8089/services/trackme/v1/elastic_sources/elastic_shared -d '{"data_name": "elastic:shared:example:tstats"}'
+    curl -k -u admin:'ch@ngeM3' -X GET https://localhost:8089/services/trackme/v1/elastic_sources/elastic_shared
+
+*SPL query:*
+
+::
+
+    | trackme url="/services/trackme/v1/elastic_sources/elastic_shared" mode="get"
 
 *JSON response:*
 
@@ -1290,9 +1791,17 @@ elastic_dedicated / Get dedicated Elastic Sources collection
 
 **This endpoint retrieves the entired dedicated Elastic Sources collection returned as a JSON array, it requires a GET call with no data required:**
 
+*External:*
+
 ::
 
-    curl -k -u admin:'ch@ngeM3' -X GET https://localhost:8089/services/trackme/v1/elastic_sources/elastic_dedicated -d '{"data_name": "elastic:dedicated:example:tstats"}'
+    curl -k -u admin:'ch@ngeM3' -X GET https://localhost:8089/services/trackme/v1/elastic_sources/elastic_dedicated
+
+*SPL query:*
+
+::
+
+    | trackme url="/services/trackme/v1/elastic_sources/elastic_dedicated" mode="get"
 
 *JSON response:*
 
@@ -1317,9 +1826,17 @@ elastic_shared_by_name / Get shared Elastic Source by name
 
 - ``"data_name": name of the Elastic Source``
 
+*External:*
+
 ::
 
     curl -k -u admin:'ch@ngeM3' -X GET https://localhost:8089/services/trackme/v1/elastic_sources/elastic_shared_by_name -d '{"data_name": "elastic:shared:example:tstats"}'
+
+*SPL query:*
+
+::
+
+    | trackme url="/services/trackme/v1/elastic_sources/elastic_shared_by_name" mode="get" body="{\"data_name\": \"elastic:shared:example:tstats\"}"
 
 *JSON response:*
 
@@ -1344,9 +1861,17 @@ elastic_dedicated_by_name / Get shared Elastic Source by name
 
 - ``"data_name": name of the Elastic Source``
 
+*External:*
+
 ::
 
     curl -k -u admin:'ch@ngeM3' -X GET https://localhost:8089/services/trackme/v1/elastic_sources/elastic_dedicated_by_name -d '{"data_name": "elastic:dedicated:example:tstats"}'
+
+*SPL query:*
+
+::
+
+    | trackme url="/services/trackme/v1/elastic_sources/elastic_dedicated_by_name" mode="get" body="{\"data_name\": \"elastic:dedicated:example:tstats\"}"
 
 *JSON response:*
 
@@ -1393,11 +1918,19 @@ elastic_shared_add / Add or update a new shared Elastic Source
 
 *Filters can include a time range which will override the default 4 hours time range of the wrapper tracker, as: earliest="-15m" latest="+15m"*
 
-*tstats based example:*
+**tstats based example:**
+
+*External:*
 
 ::
 
     curl -k -u admin:'ch@ngeM3' -X POST https://localhost:8089/services/trackme/v1/elastic_sources/elastic_shared_add -d '{"data_name": "elastic:shared:example:tstats", "search_constraint": "index=\"network\" sourcetype=\"pan:traffic\" source=\"network:pan:amer\"", "search_mode": "tstats", "elastic_data_index": "network", "elastic_data_sourcetype": "pan:traffic"}'
+
+*SPL query:*
+
+::
+
+    | trackme url="/services/trackme/v1/elastic_sources/elastic_shared_add" mode="post" body="{\"data_name\": \"elastic:shared:example:tstats\", \"search_constraint\": \"index=\\\"network\\\" sourcetype=\\\"pan:traffic\\\" source=\\\"network:pan:amer\\\"\", \"search_mode\": \"tstats\", \"elastic_data_index\": \"network\", \"elastic_data_sourcetype\": \"pan:traffic\"}"
 
 *JSON response:*
 
@@ -1415,30 +1948,61 @@ elastic_shared_add / Add or update a new shared Elastic Source
      }
     ]
 
-*raw based example:*
+**raw based example:**
+
+*External:*
 
 ::
 
     curl -k -u admin:'ch@ngeM3' -X POST https://localhost:8089/services/trackme/v1/elastic_sources/elastic_shared_add -d '{"data_name": "elastic:shared:example:raw", "search_constraint": "index=\"network\" sourcetype=\"pan:traffic\" source=\"network:pan:amer\" earliest=\"-30m\"", "search_mode": "raw", "elastic_data_index": "network", "elastic_data_sourcetype": "pan:traffic"}'
 
-*from datamodel based example:*
+*SPL query:*
+
+::
+
+    | trackme url="/services/trackme/v1/elastic_sources/elastic_shared_add" mode="post" body="{\"data_name\": \"elastic:shared:example:raw\", \"search_constraint\": \"index=\\\"network\\\" sourcetype=\\\"pan:traffic\\\" source=\\\"network:pan:amer\\\" earliest=\\\"-30m\\\"\", \"search_mode\": \"raw\", \"elastic_data_index\": \"network\", \"elastic_data_sourcetype\": \"pan:traffic\"}"
+
+**from datamodel based example:**
+
+*External:*
 
 ::
 
     curl -k -u admin:'ch@ngeM3' -X POST https://localhost:8089/services/trackme/v1/elastic_sources/elastic_shared_add -d '{"data_name": "elastic:shared:from:datamodel:example", "search_constraint": "datamodel:\"Authentication\" | search user=* action=*", "search_mode": "from", "elastic_data_index": "datamodel", "elastic_data_sourcetype": "auth:example"}'
 
-*from lookup based example:*
+*SPL query:*
+
+::
+
+    | trackme url="/services/trackme/v1/elastic_sources/elastic_shared_add" mode="post" body="{\"data_name\": \"elastic:shared:from:datamodel:example\", \"search_constraint\": \"datamodel:\\\"Authentication\\\" | search user=* action=*\", \"search_mode\": \"from\", \"elastic_data_index\": \"datamodel\", \"elastic_data_sourcetype\": \"auth:example\"}"
+
+**from lookup based example:**
+
+*External:*
 
 ::
 
     curl -k -u admin:'ch@ngeM3' -X POST https://localhost:8089/services/trackme/v1/elastic_sources/elastic_shared_add -d '{"data_name": "elastic:shared:from:lookup:example", "search_constraint": "lookup:\"acme_cmdb_lookup\"", "search_mode": "from", "elastic_data_index": "lookup", "elastic_data_sourcetype": "cmdb:example"}'
 
-*mstats based example:*
+*SPL query:*
+
+::
+
+    | trackme url="/services/trackme/v1/elastic_sources/elastic_shared_add" mode="post" body="{\"data_name\": \"elastic:shared:from:lookup:example\", \"search_constraint\": \"lookup:\\\"acme_cmdb_lookup\\\"\", \"search_mode\": \"from\", \"elastic_data_index\": \"lookup\", \"elastic_data_sourcetype\": \"cmdb:example\"}"
+
+*External:*
+
+**mstats based example:**
 
 ::
 
     curl -k -u admin:'ch@ngeM3' -X POST https://localhost:8089/services/trackme/v1/elastic_sources/elastic_shared_add -d '{"data_name": "elastic:shared:mstats:example", "search_constraint": "index=* metric_name=\"docker_container_cpu*\" earliest=\"-5m\" latest=now", "search_mode": "mstats", "elastic_data_index": "metrics", "elastic_data_sourcetype": "metrics:docker"}'
 
+*SPL query:*
+
+::
+
+    | trackme url="/services/trackme/v1/elastic_sources/elastic_shared_add" mode="post" body="{\"data_name\": \"elastic:shared:mstats:example\", \"search_constraint\": \"index=* metric_name=\\\"docker_container_cpu*\\\" earliest=\\\"-5m\\\" latest=now\", \"search_mode\": \"mstats\", \"elastic_data_index\": \"metrics\", \"elastic_data_sourcetype\": \"metrics:docker\"}"
 
 elastic_dedicated_add / Add or update a new dedicated Elastic Source
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -1473,9 +2037,17 @@ elastic_dedicated_add / Add or update a new dedicated Elastic Source
 
 *Filters can include a time range which will override the default 4 hours time range of the wrapper tracker, as: earliest="-15m" latest="+15m"*
 
+*External:*
+
 ::
 
     curl -k -u admin:'ch@ngeM3' -X POST https://localhost:8089/services/trackme/v1/elastic_sources/elastic_dedicated_add -d '{"data_name": "elastic:dedicated:example:tstats", "search_constraint": "index=\"network\" sourcetype=\"pan:traffic\" source=\"network:pan:amer\"", "search_mode": "tstats", "elastic_data_index": "network", "elastic_data_sourcetype": "pan:traffic", "earliest_time": "-4h", "latest_time": "+4h"}'
+
+*SPL query:*
+
+::
+
+    | trackme url="/services/trackme/v1/elastic_sources/elastic_dedicated_add" mode="post" body="{\"data_name\": \"elastic:dedicated:example:tstats\", \"search_constraint\": \"index=\\\"network\\\" sourcetype=\\\"pan:traffic\\\" source=\\\"network:pan:amer\\\"\", \"search_mode\": \"tstats\", \"elastic_data_index\": \"network\", \"elastic_data_sourcetype\": \"pan:traffic\", \"earliest_time\": \"-4h\", \"latest_time\": \"+4h\"}"
 
 *JSON response:*
 
@@ -1494,29 +2066,61 @@ elastic_dedicated_add / Add or update a new dedicated Elastic Source
      }
     ]
 
-*raw based example:*
+**raw based example:**
+
+*External:*
 
 ::
 
     curl -k -u admin:'ch@ngeM3' -X POST https://localhost:8089/services/trackme/v1/elastic_sources/elastic_dedicated_add -d '{"data_name": "elastic:dedicated:example:raw", "search_constraint": "index=\"network\" sourcetype=\"pan:traffic\" source=\"network:pan:amer\"", "search_mode": "raw", "elastic_data_index": "network", "elastic_data_sourcetype": "pan:traffic", "earliest": "-30m", "latest": "now"}'
 
-*from datamodel based example:*
+*SPL query:*
+
+::
+
+    | trackme url="/services/trackme/v1/elastic_sources/elastic_dedicated_add" mode="post" body="{\"data_name\": \"elastic:dedicated:example:raw\", \"search_constraint\": \"index=\\\"network\\\" sourcetype=\\\"pan:traffic\\\" source=\\\"network:pan:amer\\\"\", \"search_mode\": \"raw\", \"elastic_data_index\": \"network\", \"elastic_data_sourcetype\": \"pan:traffic\", \"earliest\": \"-30m\", \"latest\": \"now\"}"
+
+**from datamodel based example:**
+
+*External:*
 
 ::
 
     curl -k -u admin:'ch@ngeM3' -X POST https://localhost:8089/services/trackme/v1/elastic_sources/elastic_dedicated_add -d '{"data_name": "elastic:dedicated:from:datamodel:example", "search_constraint": "datamodel:\"Authentication\" | search user=* action=*", "search_mode": "from", "elastic_data_index": "datamodel", "elastic_data_sourcetype": "auth:example", "earliest": "-30m", "latest": "now"}'
 
-*from lookup based example:*
+*SPL query:*
+
+::
+
+    | trackme url="/services/trackme/v1/elastic_sources/elastic_dedicated_add" mode="post" body="{\"data_name\": \"elastic:dedicated:from:datamodel:example\", \"search_constraint\": \"datamodel:\\\"Authentication\\\" | search user=* action=*\", \"search_mode\": \"from\", \"elastic_data_index\": \"datamodel\", \"elastic_data_sourcetype\": \"auth:example\", \"earliest\": \"-30m\", \"latest\": \"now\"}"
+
+**from lookup based example:**
+
+*External:*
 
 ::
 
     curl -k -u admin:'ch@ngeM3' -X POST https://localhost:8089/services/trackme/v1/elastic_sources/elastic_dedicated_add -d '{"data_name": "elastic:dedicated:from:lookup:example", "search_constraint": "lookup:\"acme_cmdb_lookup\"", "search_mode": "from", "elastic_data_index": "lookup", "elastic_data_sourcetype": "cmdb:example"}'
 
-*mstats based example:*
+*SPL query:*
+
+::
+
+    | trackme url="/services/trackme/v1/elastic_sources/elastic_dedicated_add" mode="post" body="{\"data_name\": \"elastic:dedicated:from:lookup:example\", \"search_constraint\": \"lookup:\\\"acme_cmdb_lookup\\\"\", \"search_mode\": \"from\", \"elastic_data_index\": \"lookup\", \"elastic_data_sourcetype\": \"cmdb:example\"}"
+
+**mstats based example:**
+
+*External:*
 
 ::
 
     curl -k -u admin:'ch@ngeM3' -X POST https://localhost:8089/services/trackme/v1/elastic_sources/elastic_dedicated_add -d '{"data_name": "elastic:dedicated:mstats:example", "search_constraint": "index=* metric_name=\"docker_container_cpu*\"", "search_mode": "mstats", "elastic_data_index": "metrics", "elastic_data_sourcetype": "metrics:docker", "earliest": "-5m", "latest": "now"}'
+
+*SPL query:*
+
+::
+
+    | trackme url="/services/trackme/v1/elastic_sources/elastic_dedicated_add" mode="post" body="{\"data_name\": \"elastic:dedicated:mstats:example\", \"search_constraint\": \"index=* metric_name=\\\"docker_container_cpu*\\\"\", \"search_mode\": \"mstats\", \"elastic_data_index\": \"metrics\", \"elastic_data_sourcetype\": \"metrics:docker\", \"earliest\": \"-5m\", \"latest\": \"now\"}"
 
 elastic_shared_del / Delete a new shared Elastic Source
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -1532,9 +2136,17 @@ elastic_shared_del / Delete a new shared Elastic Source
 - The associated record in the data sources collection is deleted
 - All settings related to these objects will be removed permanently after being audited
 
+*External:*
+
 ::
 
     curl -k -u admin:'ch@ngeM3' -X DELETE https://localhost:8089/services/trackme/v1/elastic_sources/elastic_shared_del -d '{"data_name": "elastic:shared:example:tstats"}'
+
+*SPL query:*
+
+::
+
+    | trackme url="/services/trackme/v1/elastic_sources/elastic_shared_del" mode="delete" body="{\"data_name\": \"elastic:shared:example:tstats\"}"
 
 *response:*
 
@@ -1557,9 +2169,17 @@ elastic_dedicated_del / Delete a new shared Elastic Source
 - The associated record in the data sources collection is deleted
 - All settings related to these objects will be removed permanently after being audited
 
+*External:*
+
 ::
 
     curl -k -u admin:'ch@ngeM3' -X DELETE https://localhost:8089/services/trackme/v1/elastic_sources/elastic_dedicated_del -d '{"data_name": "elastic:dedicated:example:tstats"}'
+
+*SPL query:*
+
+::
+
+    | trackme url="/services/trackme/v1/elastic_sources/elastic_dedicated_del" mode="delete" body="{\"data_name\": \"elastic:dedicated:example:tstats\"}"
 
 *response:*
 
@@ -1587,9 +2207,17 @@ maintenance_status / Get maintenance mode
 
 **This endpoint retrieves the current maintenance mode collection returned as a JSON array, it requires a GET call with no data required:**
 
+*External:*
+
 ::
 
     curl -k -u admin:'ch@ngeM3' -X GET https://localhost:8089/services/trackme/v1/maintenance/maintenance_status
+
+*SPL query:*
+
+::
+
+    | trackme url="/services/trackme/v1/maintenance/maintenance_status" mode="get"
 
 *JSON response: (full collection)*
 
@@ -1625,23 +2253,47 @@ OPTIONAL: the date time in epochtime format for the start of the maintennce wind
 
 OPTIONAL: a comment for the update, comments are added to the audit record, if unset will be defined to: API update
 
-*Immediately start a maintenance window for 24 hours:*
+**Immediately start a maintenance window for 24 hours:**
+
+*External:*
 
 ::
 
     curl -k -u admin:'ch@ngeM3' -X POST https://localhost:8089/services/trackme/v1/maintenance/maintenance_enable -d '{"updated_comment": "Beginning a 24 hours maintenance window."}'
 
-*Immediately start a maintenance window for 1 hour:*
+*SPL query:*
+
+::
+
+    | trackme url="/services/trackme/v1/maintenance/maintenance_enable" mode="post" body="{\"updated_comment\": \"Beginning a 24 hours maintenance window.\"}"
+
+**Immediately start a maintenance window for 1 hour:**
+
+*External:*
 
 ::
 
     curl -k -u admin:'ch@ngeM3' -X POST https://localhost:8089/services/trackme/v1/maintenance/maintenance_enable -d '{"updated_comment": "Beginning maintenance window for 1 hour.", "maintenance_duration": "3600"}'
 
-*Create a scheduled maintenance window with an explicit start and end in epochtime:*
+*SPL query:*
+
+::
+
+    | trackme url="/services/trackme/v1/maintenance/maintenance_enable" mode="post" body="{\"updated_comment\": \"Beginning maintenance window for 1 hour.\", \"maintenance_duration\": \"3600\"}"
+
+**Create a scheduled maintenance window with an explicit start and end in epochtime:**
+
+*External:*
 
 ::
 
     curl -k -u admin:'ch@ngeM3' -X POST https://localhost:8089/services/trackme/v1/maintenance/maintenance_enable -d '{"updated_comment": "Beginning maintenance window for 1 hour.", "maintenance_mode_start": "1607878800", "maintenance_mode_end": "1607904000"}'
+
+*SPL query:*
+
+::
+
+    | trackme url="/services/trackme/v1/maintenance/maintenance_enable" mode="post" body="{\"updated_comment\": \"Beginning maintenance window for 1 hour.\", \"maintenance_mode_start\": \"1607878800\", \"maintenance_mode_end\": \"1607904000\"}"
 
 *JSON response:*
 
@@ -1665,11 +2317,19 @@ maintenance_disable / Disable maintenance mode
 
 - ``"update_comment": OPTIONAL: a comment for the update, comments are added to the audit record, if unset will be defined to: API update``
 
-*Immediately stops the maintenance window:*
+**Immediately stops the maintenance window:**
+
+*External:*
 
 ::
 
     curl -k -u admin:'ch@ngeM3' -X POST https://localhost:8089/services/trackme/v1/maintenance/maintenance_disable -d '{"updated_comment": "Terminating the maintenance window."}'
+
+*SPL query:*
+
+::
+
+    | trackme url="/services/trackme/v1/maintenance/maintenance_disable" mode="post" body="{\"updated_comment\": \"Terminating the maintenance window.\"}"
 
 *JSON response:*
 
@@ -1718,9 +2378,17 @@ allowlist_ds / Get current allow list for data sources
 
 **This endpoint retrieves the current allow list collection returned as a JSON array, it requires a GET call with no data required:**
 
+*External:*
+
 ::
 
     curl -k -u admin:'ch@ngeM3' -X GET https://localhost:8089/services/trackme/v1/allowlist/allowlist_ds
+
+*SPL query:*
+
+::
+
+    | trackme url="/services/trackme/v1/allowlist/allowlist_ds" mode="get"
 
 *JSON response: (full collection)*
 
@@ -1740,9 +2408,17 @@ allowlist_dh / Get current allow list for data hosts
 
 **This endpoint retrieves the current allow list collection returned as a JSON array, it requires a GET call with no data required:**
 
+*External:*
+
 ::
 
     curl -k -u admin:'ch@ngeM3' -X GET https://localhost:8089/services/trackme/v1/allowlist/allowlist_dh
+
+*SPL query:*
+
+::
+
+    | trackme url="/services/trackme/v1/allowlist/allowlist_dh" mode="get"
 
 *JSON response: (full collection)*
 
@@ -1762,9 +2438,17 @@ allowlist_mh / Get current allow list for metric hosts
 
 **This endpoint retrieves the current allow list collection returned as a JSON array, it requires a GET call with no data required:**
 
+*External:*
+
 ::
 
     curl -k -u admin:'ch@ngeM3' -X GET https://localhost:8089/services/trackme/v1/allowlist/allowlist_mh
+
+*SPL query:*
+
+::
+
+    | trackme url="/services/trackme/v1/allowlist/allowlist_mh" mode="get"
 
 *JSON response: (full collection)*
 
@@ -1787,9 +2471,17 @@ allowlist_ds_add / Add index allow list for data sources
 - ``"data_index": name of the index to be allowed, wildcards are accepted``
 - ``"update_comment": OPTIONAL: a comment for the update, comments are added to the audit record, if unset will be defined to: API update``
 
+*External:*
+
 ::
 
     curl -k -u admin:'ch@ngeM3' -X POST https://localhost:8089/services/trackme/v1/allowlist/allowlist_ds_add -d '{"data_index": "network*"}'
+
+*SPL query:*
+
+::
+
+    | trackme url="/services/trackme/v1/allowlist/allowlist_ds_add" mode="post" body="{\"data_index\": \"network*\"}"
 
 *JSON response:*
 
@@ -1811,9 +2503,17 @@ allowlist_ds_del / Remove index allow list for data sources
 - ``"data_index": name of the index to be allowed, wildcards are accepted``
 - ``"update_comment": OPTIONAL: a comment for the update, comments are added to the audit record, if unset will be defined to: API update``
 
+*External:*
+
 ::
 
     curl -k -u admin:'ch@ngeM3' -X DELETE https://localhost:8089/services/trackme/v1/allowlist/allowlist_ds_del -d '{"data_index": "network*"}'
+
+*SPL query:*
+
+::
+
+    | trackme url="/services/trackme/v1/allowlist/allowlist_ds_del" mode="delete" body="{\"data_index\": \"network*\"}"
 
 *response:*
 
@@ -1829,9 +2529,17 @@ allowlist_dh_add / Add index allow list for data hosts
 - ``"data_index": name of the index to be allowed, wildcards are accepted``
 - ``"update_comment": OPTIONAL: a comment for the update, comments are added to the audit record, if unset will be defined to: API update``
 
+*External:*
+
 ::
 
     curl -k -u admin:'ch@ngeM3' -X POST https://localhost:8089/services/trackme/v1/allowlist/allowlist_dh_add -d '{"data_index": "network*"}'
+
+*SPL query:*
+
+::
+
+    | trackme url="/services/trackme/v1/allowlist/allowlist_dh_add" mode="post" body="{\"data_index\": \"network*\"}"
 
 *response:*
 
@@ -1853,9 +2561,17 @@ allowlist_dh_del / Remove index allow list for data hosts
 - ``"data_index": name of the index to be allowed, wildcards are accepted``
 - ``"update_comment": OPTIONAL: a comment for the update, comments are added to the audit record, if unset will be defined to: API update``
 
+*External:*
+
 ::
 
     curl -k -u admin:'ch@ngeM3' -X DELETE https://localhost:8089/services/trackme/v1/allowlist/allowlist_dh_del -d '{"data_index": "network*"}'
+
+*SPL query:*
+
+::
+
+    | trackme url="/services/trackme/v1/allowlist/allowlist_dh_del" mode="delete" body="{\"data_index\": \"network*\"}"
 
 *response:*
 
@@ -1871,9 +2587,17 @@ allowlist_mh_add / Add index allow list for metric hosts
 - ``"metric_index": name of the index to be allowed, wildcards are accepted``
 - ``"update_comment": OPTIONAL: a comment for the update, comments are added to the audit record, if unset will be defined to: API update``
 
+*External:*
+
 ::
 
     curl -k -u admin:'ch@ngeM3' -X POST https://localhost:8089/services/trackme/v1/allowlist/allowlist_mh_add -d '{"metric_index": "telegraf"}'
+
+*SPL query:*
+
+::
+
+    | trackme url="/services/trackme/v1/allowlist/allowlist_mh_add" mode="post" body="{\"metric_index\": \"telegraf\"}"
 
 *JSON response:*
 
@@ -1895,9 +2619,17 @@ allowlist_mh_del / Remove index allow list for metric hosts
 - ``"metric_index": name of the index to be allowed, wildcards are accepted``
 - ``"update_comment": OPTIONAL: a comment for the update, comments are added to the audit record, if unset will be defined to: API update``
 
+*External:*
+
 ::
 
     curl -k -u admin:'ch@ngeM3' -X DELETE https://localhost:8089/services/trackme/v1/allowlist/allowlist_mh_del -d '{"metric_index": "telegraf"}'
+
+*SPL query:*
+
+::
+
+    | trackme url="/services/trackme/v1/allowlist/allowlist_mh_del" mode="delete" body="{\"metric_index\": \"telegraf\"}"
 
 *response:*
 
@@ -1973,9 +2705,17 @@ blocklist_ds_host / Get current block list for data sources (hosts)
 
 **This endpoint retrieves the current block list collection returned as a JSON array, it requires a GET call with no data required:**
 
+*External:*
+
 ::
 
     curl -k -u admin:'ch@ngeM3' -X GET https://localhost:8089/services/trackme/v1/blocklist/blocklist_ds_host
+
+*SPL query:*
+
+::
+
+    | trackme url="/services/trackme/v1/blocklist/blocklist_ds_host" mode="get"
 
 *JSON response: (full collection)*
 
@@ -1996,9 +2736,17 @@ blocklist_ds_index / Get current block list for data sources (index)
 
 **This endpoint retrieves the current block list collection returned as a JSON array, it requires a GET call with no data required:**
 
+*External:*
+
 ::
 
     curl -k -u admin:'ch@ngeM3' -X GET https://localhost:8089/services/trackme/v1/blocklist/blocklist_ds_index
+
+*SPL query:*
+
+::
+
+    | trackme url="/services/trackme/v1/blocklist/blocklist_ds_index" mode="get"
 
 *JSON response: (full collection)*
 
@@ -2019,9 +2767,17 @@ blocklist_ds_sourcetype / Get current block list for data sources (sourcetype)
 
 **This endpoint retrieves the current block list collection returned as a JSON array, it requires a GET call with no data required:**
 
+*External:*
+
 ::
 
     curl -k -u admin:'ch@ngeM3' -X GET https://localhost:8089/services/trackme/v1/blocklist/blocklist_ds_sourcetype
+
+*SPL query:*
+
+::
+
+    | trackme url="/services/trackme/v1/blocklist/blocklist_ds_sourcetype" mode="get"
 
 *JSON response: (full collection)*
 
@@ -2042,9 +2798,17 @@ blocklist_dh_host / Get current block list for data hosts (hosts)
 
 **This endpoint retrieves the current block list collection returned as a JSON array, it requires a GET call with no data required:**
 
+*External:*
+
 ::
 
     curl -k -u admin:'ch@ngeM3' -X GET https://localhost:8089/services/trackme/v1/blocklist/blocklist_dh_host
+
+*SPL query:*
+
+::
+
+    | trackme url="/services/trackme/v1/blocklist/blocklist_dh_host" mode="get"
 
 *JSON response:*
 
@@ -2065,9 +2829,17 @@ blocklist_dh_index / Get current block list for data hosts (index)
 
 **This endpoint retrieves the current block list collection returned as a JSON array, it requires a GET call with no data required:**
 
+*External:*
+
 ::
 
     curl -k -u admin:'ch@ngeM3' -X GET https://localhost:8089/services/trackme/v1/blocklist/blocklist_dh_index
+
+*SPL query:*
+
+::
+
+    | trackme url="/services/trackme/v1/blocklist/blocklist_dh_index" mode="get"
 
 *JSON response:*
 
@@ -2088,9 +2860,17 @@ blocklist_dh_sourcetype / Get current block list for data hosts (sourcetype)
 
 **This endpoint retrieves the current block list collection returned as a JSON array, it requires a GET call with no data required:**
 
+*External:*
+
 ::
 
     curl -k -u admin:'ch@ngeM3' -X GET https://localhost:8089/services/trackme/v1/blocklist/blocklist_dh_sourcetype
+
+*SPL query:*
+
+::
+
+    | trackme url="/services/trackme/v1/blocklist/blocklist_dh_sourcetype" mode="get"
 
 *JSON response:*
 
@@ -2111,9 +2891,17 @@ blocklist_mh_host / Get current block list for metric hosts (host)
 
 **This endpoint retrieves the current block list collection returned as a JSON array, it requires a GET call with no data required:**
 
+*External:*
+
 ::
 
     curl -k -u admin:'ch@ngeM3' -X GET https://localhost:8089/services/trackme/v1/blocklist/blocklist_mh_host
+
+*SPL query:*
+
+::
+
+    | trackme url="/services/trackme/v1/blocklist/blocklist_mh_host" mode="get"
 
 *JSON response:*
 
@@ -2134,9 +2922,17 @@ blocklist_mh_index / Get current block list for metric hosts (index)
 
 **This endpoint retrieves the current block list collection returned as a JSON array, it requires a GET call with no data required:**
 
+*External:*
+
 ::
 
     curl -k -u admin:'ch@ngeM3' -X GET https://localhost:8089/services/trackme/v1/blocklist/blocklist_mh_index
+
+*SPL query:*
+
+::
+
+    | trackme url="/services/trackme/v1/blocklist/blocklist_mh_index" mode="get"
 
 *JSON response:*
 
@@ -2157,9 +2953,17 @@ blocklist_mh_metric_category / Get current block list for metric hosts (metric_c
 
 **This endpoint retrieves the current block list collection returned as a JSON array, it requires a GET call with no data required:**
 
+*External:*
+
 ::
 
     curl -k -u admin:'ch@ngeM3' -X GET https://localhost:8089/services/trackme/v1/blocklist/blocklist_mh_metric_category
+
+*SPL query:*
+
+::
+
+    | trackme url="/services/trackme/v1/blocklist/blocklist_mh_metric_category" mode="get"
 
 *JSON response:*
 
@@ -2183,9 +2987,17 @@ blocklist_ds_host_add / Add host in block list for data sources
 - ``"data_host": value to be added to the blocklist, accepts wildcards and regular expressions``
 - ``"update_comment": OPTIONAL: a comment for the update, comments are added to the audit record, if unset will be defined to: API update``
 
+*External:*
+
 ::
 
     curl -k -u admin:'ch@ngeM3' -X POST https://localhost:8089/services/trackme/v1/blocklist/blocklist_ds_host_add -d '{"data_host": "bad_host2", "update_comment": "Updated by automation."}'
+
+*SPL query:*
+
+::
+
+    | trackme url="/services/trackme/v1/blocklist/blocklist_ds_host_add" mode="post" body="{\"data_host\": \"bad_host2\", \"update_comment\": \"Updated by automation.\"}"
 
 *JSON response:*
 
@@ -2208,9 +3020,17 @@ blocklist_ds_index_add / Add index in block list for data sources
 - ``"data_index": value to be added to the blocklist, accepts wildcards and regular expressions``
 - ``"update_comment": OPTIONAL: a comment for the update, comments are added to the audit record, if unset will be defined to: API update``
 
+*External:*
+
 ::
 
     curl -k -u admin:'ch@ngeM3' -X POST https://localhost:8089/services/trackme/v1/blocklist/blocklist_ds_index_add -d '{"data_index": "bad_index2", "update_comment": "Updated by automation."}'
+
+*SPL query:*
+
+::
+
+    | trackme url="/services/trackme/v1/blocklist/blocklist_ds_index_add" mode="post" body="{\"data_index\": \"bad_index2\", \"update_comment\": \"Updated by automation.\"}"
 
 *JSON response:*
 
@@ -2233,9 +3053,17 @@ blocklist_ds_index_add / Add sourcetype in block list for data sources
 - ``"data_sourcetype": value to be added to the blocklist, accepts wildcards and regular expressions``
 - ``"update_comment": OPTIONAL: a comment for the update, comments are added to the audit record, if unset will be defined to: API update``
 
+*External:*
+
 ::
 
     curl -k -u admin:'ch@ngeM3' -X POST https://localhost:8089/services/trackme/v1/blocklist/blocklist_ds_sourcetype_add -d '{"data_sourcetype": "bad_sourcetype2", "update_comment": "Updated by automation."}'
+
+*SPL query:*
+
+::
+
+    | trackme url="/services/trackme/v1/blocklist/blocklist_ds_sourcetype_add" mode="post" body="{\"data_sourcetype\": \"bad_sourcetype2\", \"update_comment\": \"Updated by automation.\"}"
 
 *JSON response:*
 
@@ -2258,9 +3086,17 @@ blocklist_dh_host_add / Add host in block list for data hosts
 - ``"data_host": value to be added to the blocklist, accepts wildcards and regular expressions``
 - ``"update_comment": OPTIONAL: a comment for the update, comments are added to the audit record, if unset will be defined to: API update``
 
+*External:*
+
 ::
 
     curl -k -u admin:'ch@ngeM3' -X POST https://localhost:8089/services/trackme/v1/blocklist/blocklist_dh_host_add -d '{"data_host": "bad_host2", "update_comment": "Updated by automation."}'
+
+*SPL query:*
+
+::
+
+    | trackme url="/services/trackme/v1/blocklist/blocklist_dh_host_add" mode="post" body="{\"data_host\": \"bad_host2\", \"update_comment\": \"Updated by automation.\"}"
 
 *JSON response:*
 
@@ -2283,9 +3119,17 @@ blocklist_dh_index_add / Add index in block list for data hosts
 - ``"data_index": value to be added to the blocklist, accepts wildcards and regular expressions``
 - ``"update_comment": OPTIONAL: a comment for the update, comments are added to the audit record, if unset will be defined to: API update``
 
+*External:*
+
 ::
 
     curl -k -u admin:'ch@ngeM3' -X POST https://localhost:8089/services/trackme/v1/blocklist/blocklist_dh_index_add -d '{"data_index": "bad_index2", "update_comment": "Updated by automation."}'
+
+*SPL query:*
+
+::
+
+    | trackme url="/services/trackme/v1/blocklist/blocklist_dh_index_add" mode="post" body="{\"data_index\": \"bad_index2\", \"update_comment\": \"Updated by automation.\"}"
 
 *JSON response:*
 
@@ -2308,9 +3152,17 @@ blocklist_dh_sourcetype_add / Add sourcetype in block list for data hosts
 - ``"data_sourcetype": value to be added to the blocklist, accepts wildcards and regular expressions``
 - ``"update_comment": OPTIONAL: a comment for the update, comments are added to the audit record, if unset will be defined to: API update``
 
+*External:*
+
 ::
 
     curl -k -u admin:'ch@ngeM3' -X POST https://localhost:8089/services/trackme/v1/blocklist/blocklist_dh_sourcetype_add -d '{"data_sourcetype": "bad_sourcetype2", "update_comment": "Updated by automation."}'
+
+*SPL query:*
+
+::
+
+    | trackme url="/services/trackme/v1/blocklist/blocklist_dh_sourcetype_add" mode="post" body="{\"data_sourcetype\": \"bad_sourcetype2\", \"update_comment\": \"Updated by automation.\"}"
 
 *JSON response:*
 
@@ -2333,9 +3185,17 @@ blocklist_mh_host_add / Add host in block list for metric hosts
 - ``"metric_host": value to be added to the blocklist, accepts wildcards and regular expressions``
 - ``"update_comment": OPTIONAL: a comment for the update, comments are added to the audit record, if unset will be defined to: API update``
 
+*External:*
+
 ::
 
     curl -k -u admin:'ch@ngeM3' -X POST https://localhost:8089/services/trackme/v1/blocklist/blocklist_mh_host_add -d '{"metric_host": "bad_host2", "update_comment": "Updated by automation."}'
+
+*SPL query:*
+
+::
+
+    | trackme url="/services/trackme/v1/blocklist/blocklist_mh_host_add" mode="post" body="{\"metric_host\": \"bad_host2\", \"update_comment\": \"Updated by automation.\"}"
 
 *JSON response:*
 
@@ -2358,9 +3218,17 @@ blocklist_mh_index_add / Add index in block list for metric hosts
 - ``"metric_index": value to be added to the blocklist, accepts wildcards and regular expressions``
 - ``"update_comment": OPTIONAL: a comment for the update, comments are added to the audit record, if unset will be defined to: API update``
 
+*External:*
+
 ::
 
     curl -k -u admin:'ch@ngeM3' -X POST https://localhost:8089/services/trackme/v1/blocklist/blocklist_mh_index_add -d '{"metric_index": "bad_index2", "update_comment": "Updated by automation."}'
+
+*SPL query:*
+
+::
+
+    | trackme url="/services/trackme/v1/blocklist/blocklist_mh_index_add" mode="post" body="{\"metric_index\": \"bad_index2\", \"update_comment\": \"Updated by automation.\"}"
 
 *JSON response:*
 
@@ -2383,9 +3251,17 @@ blocklist_mh_metric_category_add / Add metric_category in block list for metric 
 - ``"metric_category": value to be added to the blocklist, accepts wildcards and regular expressions``
 - ``"update_comment": OPTIONAL: a comment for the update, comments are added to the audit record, if unset will be defined to: API update``
 
+*External:*
+
 ::
 
     curl -k -u admin:'ch@ngeM3' -X POST https://localhost:8089/services/trackme/v1/blocklist/blocklist_mh_metric_category_add -d '{"metric_category": "bad_metric", "update_comment": "Updated by automation."}'
+
+*SPL query:*
+
+::
+
+    | trackme url="/services/trackme/v1/blocklist/blocklist_mh_metric_category_add" mode="post" body="{\"metric_category\": \"bad_metric\", \"update_comment\": \"Updated by automation.\"}"
 
 *JSON response:*
 
@@ -2405,12 +3281,20 @@ blocklist_ds_host_del / Delete host in block list for data sources
 
 **This endpoint deletes an existing record returned as a JSON array, it requires a DELETE call with the following arguments:**
 
-- ``"data_host": value to be added to the blocklist, accepts wildcards and regular expressions``
+- ``"data_host": value to be removed from the collection``
 - ``"update_comment": OPTIONAL: a comment for the update, comments are added to the audit record, if unset will be defined to: API update``
+
+*External:*
 
 ::
 
     curl -k -u admin:'ch@ngeM3' -X DELETE https://localhost:8089/services/trackme/v1/blocklist/blocklist_ds_host_del -d '{"data_host": "bad_host2", "update_comment": "Updated by automation."}'
+
+*SPL query:*
+
+::
+
+    | trackme url="/services/trackme/v1/blocklist/blocklist_ds_host_del" mode="delete" body="{\"data_host\": \"bad_host2\", \"update_comment\": \"Updated by automation.\"}"
 
 *response:*
 
@@ -2423,12 +3307,20 @@ blocklist_ds_index_del / Delete index in block list for data sources
 
 **This endpoint deletes an existing record returned as a JSON array, it requires a DELETE call with the following arguments:**
 
-- ``"data_index": value to be added to the blocklist, accepts wildcards and regular expressions``
+- ``"data_index": value to be removed from the collection``
 - ``"update_comment": OPTIONAL: a comment for the update, comments are added to the audit record, if unset will be defined to: API update``
+
+*External:*
 
 ::
 
     curl -k -u admin:'ch@ngeM3' -X DELETE https://localhost:8089/services/trackme/v1/blocklist/blocklist_ds_index_del -d '{"data_index": "bad_index2", "update_comment": "Updated by automation."}'
+
+*SPL query:*
+
+::
+
+    | trackme url="/services/trackme/v1/blocklist/blocklist_ds_index_del" mode="delete" body="{\"data_index\": \"bad_index2\", \"update_comment\": \"Updated by automation.\"}"
 
 *response:*
 
@@ -2441,12 +3333,20 @@ blocklist_ds_sourcetype_del / Delete sourcetype in block list for data sources
 
 **This endpoint deletes an existing record returned as a JSON array, it requires a DELETE call with the following arguments:**
 
-- ``"data_sourcetype": value to be added to the blocklist, accepts wildcards and regular expressions``
+- ``"data_sourcetype": value to be removed from the collection``
 - ``"update_comment": OPTIONAL: a comment for the update, comments are added to the audit record, if unset will be defined to: API update``
+
+*External:*
 
 ::
 
     curl -k -u admin:'ch@ngeM3' -X DELETE https://localhost:8089/services/trackme/v1/blocklist/blocklist_ds_sourcetype_del -d '{"data_sourcetype": "bad_sourcetype2", "update_comment": "Updated by automation."}'
+
+*SPL query:*
+
+::
+
+    | trackme url="/services/trackme/v1/blocklist/blocklist_ds_sourcetype_del" mode="delete" body="{\"data_sourcetype\": \"bad_sourcetype2\", \"update_comment\": \"Updated by automation.\"}"
 
 *response:*
 
@@ -2459,12 +3359,20 @@ blocklist_dh_host_del / Delete host in block list for data hosts
 
 **This endpoint deletes an existing record returned as a JSON array, it requires a DELETE call with the following arguments:**
 
-- ``"data_host": value to be added to the blocklist, accepts wildcards and regular expressions``
+- ``"data_host": value to be removed from the collection``
 - ``"update_comment": OPTIONAL: a comment for the update, comments are added to the audit record, if unset will be defined to: API update``
+
+*External:*
 
 ::
 
     curl -k -u admin:'ch@ngeM3' -X DELETE https://localhost:8089/services/trackme/v1/blocklist/blocklist_dh_host_del -d '{"data_host": "bad_host2", "update_comment": "Updated by automation."}'
+
+*SPL query:*
+
+::
+
+    | trackme url="/services/trackme/v1/blocklist/blocklist_dh_host_del" mode="delete" body="{\"data_host\": \"bad_host2\", \"update_comment\": \"Updated by automation.\"}"
 
 *response:*
 
@@ -2477,12 +3385,20 @@ blocklist_dh_index_del / Delete index in block list for data hosts
 
 **This endpoint deletes an existing record returned as a JSON array, it requires a DELETE call with the following arguments:**
 
-- ``"data_index": value to be added to the blocklist, accepts wildcards and regular expressions``
+- ``"data_index": value to be removed from the collection``
 - ``"update_comment": OPTIONAL: a comment for the update, comments are added to the audit record, if unset will be defined to: API update``
+
+*External:*
 
 ::
 
     curl -k -u admin:'ch@ngeM3' -X DELETE https://localhost:8089/services/trackme/v1/blocklist/blocklist_dh_index_del -d '{"data_index": "bad_index2", "update_comment": "Updated by automation."}'
+
+*SPL query:*
+
+::
+
+    | trackme url="/services/trackme/v1/blocklist/blocklist_dh_index_del" mode="delete" body="{\"data_index\": \"bad_index2\", \"update_comment\": \"Updated by automation.\"}"
 
 *response:*
 
@@ -2495,12 +3411,20 @@ blocklist_dh_sourcetype_del / Delete sourcetype in block list for data hosts
 
 **This endpoint deletes an existing record returned as a JSON array, it requires a DELETE call with the following arguments:**
 
-- ``"data_sourcetype": value to be added to the blocklist, accepts wildcards and regular expressions``
+- ``"data_sourcetype": value to be removed from the collection``
 - ``"update_comment": OPTIONAL: a comment for the update, comments are added to the audit record, if unset will be defined to: API update``
+
+*External:*
 
 ::
 
     curl -k -u admin:'ch@ngeM3' -X DELETE https://localhost:8089/services/trackme/v1/blocklist/blocklist_dh_sourcetype_del -d '{"data_sourcetype": "bad_sourcetype2", "update_comment": "Updated by automation."}'
+
+*SPL query:*
+
+::
+
+    | trackme url="/services/trackme/v1/blocklist/blocklist_dh_sourcetype_del" mode="delete" body="{\"data_sourcetype\": \"bad_sourcetype2\", \"update_comment\": \"Updated by automation.\"}"
 
 *response:*
 
@@ -2513,12 +3437,20 @@ blocklist_mh_host_del / Delete host in block list for metric hosts
 
 **This endpoint deletes an existing record returned as a JSON array, it requires a DELETE call with the following arguments:**
 
-- ``"metric_host": value to be added to the blocklist, accepts wildcards and regular expressions``
+- ``"metric_host": value to be removed from the collection``
 - ``"update_comment": OPTIONAL: a comment for the update, comments are added to the audit record, if unset will be defined to: API update``
+
+*External:*
 
 ::
 
     curl -k -u admin:'ch@ngeM3' -X DELETE https://localhost:8089/services/trackme/v1/blocklist/blocklist_mh_host_del -d '{"metric_host": "bad_host2", "update_comment": "Updated by automation."}'
+
+*SPL query:*
+
+::
+
+    | trackme url="/services/trackme/v1/blocklist/blocklist_mh_host_del" mode="delete" body="{\"metric_host\": \"bad_host2\", \"update_comment\": \"Updated by automation.\"}"
 
 *response:*
 
@@ -2531,12 +3463,20 @@ blocklist_mh_index_del / Delete index in block list for metric hosts
 
 **This endpoint deletes an existing record returned as a JSON array, it requires a DELETE call with the following arguments:**
 
-- ``"metric_index": value to be added to the blocklist, accepts wildcards and regular expressions``
+- ``"metric_index": value to be removed from the collection``
 - ``"update_comment": OPTIONAL: a comment for the update, comments are added to the audit record, if unset will be defined to: API update``
+
+*External:*
 
 ::
 
     curl -k -u admin:'ch@ngeM3' -X DELETE https://localhost:8089/services/trackme/v1/blocklist/blocklist_mh_index_del -d '{"metric_index": "bad_index2", "update_comment": "Updated by automation."}'
+
+*SPL query:*
+
+::
+
+    | trackme url="/services/trackme/v1/blocklist/blocklist_mh_index_del" mode="delete" body="{\"metric_index\": \"bad_index2\", \"update_comment\": \"Updated by automation.\"}"
 
 *response:*
 
@@ -2549,12 +3489,20 @@ blocklist_mh_metric_category_del / Delete metric_category in block list for metr
 
 **This endpoint deletes an existing record returned as a JSON array, it requires a DELETE call with the following arguments:**
 
-- ``"metric_category": value to be added to the blocklist, accepts wildcards and regular expressions``
+- ``"metric_category": value to be removed from the collection``
 - ``"update_comment": OPTIONAL: a comment for the update, comments are added to the audit record, if unset will be defined to: API update``
+
+*External:*
 
 ::
 
     curl -k -u admin:'ch@ngeM3' -X DELETE https://localhost:8089/services/trackme/v1/blocklist/blocklist_mh_metric_category_del -d '{"metric_category": "bad_metric", "update_comment": "Updated by automation."}'
+
+*SPL query:*
+
+::
+
+    | trackme url="/services/trackme/v1/blocklist/blocklist_mh_metric_category_del" mode="delete" body="{\"metric_category\": \"bad_metric\", \"update_comment\": \"Updated by automation.\"}"
 
 *response:*
 
@@ -2586,9 +3534,17 @@ logical_groups_collection / Get entire logical groups collection
 
 **This endpoint retrieves the entire Logical Groups collection returned as a JSON array, it requires a GET call with no data required:**
 
+*External:*
+
 ::
 
     curl -k -u admin:'ch@ngeM3' -X GET https://localhost:8089/services/trackme/v1/logical_groups/logical_groups_collection
+
+*SPL query:*
+
+::
+
+    | trackme url="/services/trackme/v1/logical_groups/logical_groups_collection" mode="get"
 
 *JSON response:*
 
@@ -2617,9 +3573,17 @@ logical_groups_get_grp / Get a logical group
 
 - ``"object_group_name": name of the logical group``
 
+*External:*
+
 ::
 
     curl -k -u admin:'ch@ngeM3' -X GET https://localhost:8089/services/trackme/v1/logical_groups/logical_groups_get_grp -d '{"object_group_name": "logical group example"}'
+
+*SPL query:*
+
+::
+
+    | trackme url="/services/trackme/v1/logical_groups/logical_groups_get_grp" mode="get" body="{\"object_group_name\": \"logical group example\"}"
 
 *JSON response:*
 
@@ -2648,15 +3612,27 @@ logical_groups_add_grp / Add a new or update a logical group
 
 - ``"object_group_name": name of the logical group to be created``
 - ``"object_group_members": comma separated list of the group members``
-- ``"object_group_min_green_percent": OPTIONAL: minimal percentage of hosts that need to be green for the logical group to be green, if unset defaults to 50. Recommended options for this value: 12.5 / 33.33 / 50``
-- ``"update_comment": OPTIONAL: a comment for the update, comments are added to the audit record, if unset will be defined to: API update``
+- ``"object_group_min_green_percent"``: 
+
+OPTIONAL: minimal percentage of hosts that need to be green for the logical group to be green, if unset defaults to 50. Recommended options for this value: 12.5 / 33.33 / 50
+
+- ``"update_comment"``: 
+
+OPTIONAL: a comment for the update, comments are added to the audit record, if unset will be defined to: API update
 
 *If the logical group exists already, it will be updated with the information provided.*
+
+*External:*
 
 ::
 
     curl -k -u admin:'ch@ngeM3' -X POST https://localhost:8089/services/trackme/v1/logical_groups/logical_groups_add_grp -d '{"object_group_name": "logical group example", "object_group_members": "telegraf-node1, telegraf-node2", "object_group_min_green_percent": "50", "comment_update": "Automated API driven logical group creation."}'
 
+*SPL query:*
+
+::
+
+    | trackme url="/services/trackme/v1/logical_groups/logical_groups_add_grp" mode="post" body="{\"object_group_name\": \"logical group example\", \"object_group_members\": \"telegraf-node1, telegraf-node2\", \"object_group_min_green_percent\": \"50\", \"comment_update\": \"Automated API driven logical group creation.\"}"
 
 *JSON response:*
 
@@ -2686,9 +3662,17 @@ logical_groups_del_grp / Delete a logical group
 - ``"object_group_name": name of the logical group to be removed``
 - ``"update_comment": OPTIONAL: a comment for the update, comments are added to the audit record, if unset will be defined to: API update``
 
+*External:*
+
 ::
 
     curl -k -u admin:'ch@ngeM3' -X DELETE https://localhost:8089/services/trackme/v1/logical_groups/logical_groups_del_grp -d '{"object_group_name": "logical group example", "comment_update": "Automated API driven logical group deletion."}'
+
+*SPL query:*
+
+::
+
+    | trackme url="/services/trackme/v1/logical_groups/logical_groups_del_grp" mode="delete" body="{\"object_group_name\": \"logical group example\", \"comment_update\": \"Automated API driven logical group deletion.\"}"
 
 *response:*
 
@@ -2710,15 +3694,25 @@ Data Sampling endpoints
 +---------------------------------------------------------------------------------------------------+------------------------------------------------------------------------------+
 | :ref:`data_sampling_del / Delete a data sampling record for a given data source`                  | /services/trackme/v1/data_sampling/data_sampling_del                         |
 +---------------------------------------------------------------------------------------------------+------------------------------------------------------------------------------+
+| :ref:`data_sampling_reset / Reset and run data sampling for a given data source`                  | /services/trackme/v1/data_sampling/data_sampling_reset                       |
++---------------------------------------------------------------------------------------------------+------------------------------------------------------------------------------+
 
 data_sampling_collection / Get Data sampling collection
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 **This endpoint retrieves the data sampling collection, it requires a GET call with no options required:**
 
+*External:*
+
 ::
 
     curl -k -u admin:'ch@ngeM3' -X GET https://localhost:8089/services/trackme/v1/data_sampling/data_sampling_collection
+
+*SPL query:*
+
+::
+
+    | trackme url="/services/trackme/v1/data_sampling/data_sampling_collection" mode="get"
 
 *JSON response:*
 
@@ -2740,9 +3734,17 @@ data_sampling_by_name / Get Data sampling record by data source
 
 - ``"data_name": name of the data source``
 
+*External:*
+
 ::
 
     curl -k -u admin:'ch@ngeM3' -X GET https://localhost:8089/services/trackme/v1/data_sampling/data_sampling_by_name -d '{"data_name": "main:retail_transaction"}'
+
+*SPL query:*
+
+::
+
+    | trackme url="/services/trackme/v1/data_sampling/data_sampling_collection" mode="get" -body "{\"data_name\": \"main:retail_transaction\"}"
 
 *JSON response:*
 
@@ -2768,15 +3770,49 @@ data_sampling_del / Delete a data sampling record for a given data source
 - ``"data_name": name of the data source``
 - ``"update_comment": OPTIONAL: a comment for the update, comments are added to the audit record, if unset will be defined to: API update``
 
+*External:*
+
 ::
 
     curl -k -u admin:'ch@ngeM3' -X DELETE https://localhost:8089/services/trackme/v1/data_sampling/data_sampling_del -d '{"data_name": "main:retail_transaction", "comment_update": "Automated API driven deletion."}'
+
+*SPL query:*
+
+::
+
+    | trackme url="/services/trackme/v1/data_sampling/data_sampling_del" mode="delete" body="{\"data_name\": \"main:retail_transaction\", \"comment_update\": \"Automated API driven deletion.\"}"
 
 *response:*
 
 ::
 
     Record with _key ab994e3b00751d45591c7abc2b7a1061 was deleted from the collection.
+
+data_sampling_reset / Reset and run data sampling for a given data source
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+**This endpoint clears the data sampling record state and runs the sampling operation for a given data source, it requires a POST call with the following data:**
+
+- ``"data_name": name of the data source``
+- ``"update_comment": OPTIONAL: a comment for the update, comments are added to the audit record, if unset will be defined to: API update``
+
+*External:*
+
+::
+
+    curl -k -u admin:'ch@ngeM3' -X POST https://localhost:8089/services/trackme/v1/data_sampling/data_sampling_reset -d '{"data_name": "main:retail_transaction", "comment_update": "Automated API driven deletion."}'
+
+*SPL query:*
+
+::
+
+    | trackme url="/services/trackme/v1/data_sampling/data_sampling_reset" mode="post" body="{\"data_name\": \"main:retail_transaction\", \"comment_update\": \"Automated API driven deletion.\"}"
+
+*response:*
+
+::
+
+    Data sampling state for: main:sample9-customformat was cleared and sampling operation ran, data sampling state is: green
 
 Data Sampling models endpoints
 ------------------------------
@@ -2800,9 +3836,17 @@ data_sampling_models / Get data sampling custom models
 
 **This endpoint retrieves the data sampling custom models collection, it requires a GET call with no options required:**
 
+*External:*
+
 ::
 
     curl -k -u admin:'ch@ngeM3' -X GET https://localhost:8089/services/trackme/v1/data_sampling/data_sampling_models
+
+*SPL query:*
+
+::
+
+    | trackme url="/services/trackme/v1/data_sampling/data_sampling_models" mode="get"
 
 *JSON response:*
 
@@ -2828,9 +3872,17 @@ data_sampling_models_by_name / Get data sampling custom model by name
 
 - ``"model_name": name of the custom model``
 
+*External:*
+
 ::
 
     curl -k -u admin:'ch@ngeM3' -X GET https://localhost:8089/services/trackme/v1/data_sampling/data_sampling_models_by_name -d '{"model_name": "Example format"}'
+
+*SPL query:*
+
+::
+
+    | trackme url="/services/trackme/v1/data_sampling/data_sampling_models_by_name" mode="get" body="{\"model_name\": \"Example format\"}"
 
 *JSON response:*
 
@@ -2870,9 +3922,17 @@ You can enter a list of sourcetypes as a comma separated list of values, wilcard
 
 *Note: if a custom model referenced under the same name exists already, it will be updated using the information provided.*
 
+*External:*
+
 ::
 
     curl -k -u admin:'ch@ngeM3' -X POST https://localhost:8089/services/trackme/v1/data_sampling/data_sampling_models_add -d '{"model_name": "Example format", "model_type": "inclusive", "model_regex": "^\\{\"extraData\":", "sourcetype_scope": "sample9-customformat", "comment_update": "Automated API driven creation."}'
+
+*SPL query:*
+
+::
+
+    | trackme url="/services/trackme/v1/data_sampling/data_sampling_models_add" mode="post" body="{\"model_name\": \"Example format\", \"model_type\": \"inclusive\", \"model_regex\": \"^\\\\{\\\"extraData\\\":\", \"sourcetype_scope\": \"sample9-customformat\", \"comment_update\": \"Automated API driven creation.\"}"
 
 *JSON response:*
 
@@ -2899,9 +3959,17 @@ data_sampling_models_del / Delete a custom model
 - ``"model_name": name of the custom model``
 - ``"update_comment": OPTIONAL: a comment for the update, comments are added to the audit record, if unset will be defined to: API update``
 
+*External:*
+
 ::
 
     curl -k -u admin:'ch@ngeM3' -X DELETE https://localhost:8089/services/trackme/v1/data_sampling/data_sampling_models_del -d '{"model_name": "Example format", "comment_update": "Automated API driven deletion."}'
+
+*SPL query:*
+
+::
+
+| trackme url="/services/trackme/v1/data_sampling/data_sampling_models_del" mode="delete" body="{\"model_name\": \"Example format\", \"comment_update\": \"Automated API driven deletion.\"}"
 
 *response:*
 
@@ -2931,9 +3999,17 @@ tag_policies / Get tag policies
 
 **This endpoint retrieves the tag policies collection, it requires a GET call with no options required:**
 
+*External:*
+
 ::
 
     curl -k -u admin:'ch@ngeM3' -X GET https://localhost:8089/services/trackme/v1/tag_policies/tag_policies
+
+*SPL query:*
+
+::
+
+| trackme url="/services/trackme/v1/tag_policies/tag_policies" mode="get"
 
 *JSON response:*
 
@@ -2958,9 +4034,17 @@ tag_policies_by_id / Get tag policy by id
 
 - ``"tags_policy_id": ID of the tags policy``
 
+*External:*
+
 ::
 
     curl -k -u admin:'ch@ngeM3' -X GET https://localhost:8089/services/trackme/v1/tag_policies/tag_policies_by_id -d '{"tags_policy_id": "Example policy"}'
+
+*SPL query:*
+
+::
+
+    | trackme url="/services/trackme/v1/tag_policies/tag_policies_by_id" mode="get" body="{\"tags_policy_id\": \"Example policy\"}"
 
 *JSON response:*
 
@@ -2988,9 +4072,17 @@ tag_policies_add / Add a new tag policy or update
 
 *Note: if a tag policy referenced with the same ID exists already, it will be updated using the information provided.*
 
+*External:*
+
 ::
 
     curl -k -u admin:'ch@ngeM3' -X POST https://localhost:8089/services/trackme/v1/tag_policies/tag_policies_add -d '{"tags_policy_id": "Example policy", "tags_policy_regex": "linux_*", "tags_policy_value": "OS,Linux", "comment_update": "Automated API driven creation."}'
+
+*SPL query:*
+
+::
+
+    | trackme url="/services/trackme/v1/tag_policies/tag_policies_add" mode="post" body="{\"tags_policy_id\": \"Example policy\", \"tags_policy_regex\": \"linux_*\", \"tags_policy_value\": \"OS,Linux\", \"comment_update\": \"Automated API driven creation.\"}"
 
 *JSON response:*
 
@@ -3013,9 +4105,17 @@ tag_policies_del / Delete a tag policy
 - ``"tags_policy_id": ID of the tag policy``
 - ``"update_comment": OPTIONAL: a comment for the update, comments are added to the audit record, if unset will be defined to: API update``
 
+*External:*
+
 ::
 
     curl -k -u admin:'ch@ngeM3' -X DELETE https://localhost:8089/services/trackme/v1/tag_policies/tag_policies_del -d '{"tags_policy_id": "Example policy", "comment_update": "Automated API driven deletion."}'
+
+*SPL query:*
+
+::
+
+    | trackme url="/services/trackme/v1/tag_policies/tag_policies_del" mode="delete" body="{\"tags_policy_id\": \"Example policy\", \"comment_update\": \"Automated API driven deletion.\"}"
 
 *response:*
 
@@ -3045,9 +4145,17 @@ lagging_classes / Get lagging classes
 
 **This endpoint retrieves the lagging classes collection, it requires a GET call with no options required:**
 
+*External:*
+
 ::
 
     curl -k -u admin:'ch@ngeM3' -X GET https://localhost:8089/services/trackme/v1/lagging_classes/lagging_classes
+
+*SPL query:*
+
+::
+
+    | trackme url="/services/trackme/v1/lagging_classes/lagging_classes" mode="get"
 
 *JSON response:*
 
@@ -3071,9 +4179,17 @@ lagging_classes_by_name / Get lagging class by name
 
 - ``"name": name of the lagging class``
 
+*External:*
+
 ::
 
     curl -k -u admin:'ch@ngeM3' -X GET https://localhost:8089/services/trackme/v1/lagging_classes/lagging_classes_by_name -d '{"name": "pan:traffic"}'
+
+*SPL query:*
+
+::
+
+    | trackme url="/services/trackme/v1/lagging_classes/lagging_classes_by_name" mode="get" body="{\"name\": \"pan:traffic\"}"
 
 *JSON response:*
 
@@ -3101,9 +4217,17 @@ lagging_classes_add / Add a new lagging class or update
 
 *Note: if a lagging class referenced under the same name exists already, it will be updated using the information provided.*
 
+*External:*
+
 ::
 
     curl -k -u admin:'ch@ngeM3' -X POST https://localhost:8089/services/trackme/v1/lagging_classes/lagging_classes_add -d '{"name": "pan:traffic", "level": "sourcetype", "object": "data_source", "value": "900", "comment_update": "Automated API driven creation."}'
+
+*SPL query:*
+
+::
+
+    | trackme url="/services/trackme/v1/lagging_classes/lagging_classes_add" mode="post" body="{\"name\": \"pan:traffic\", \"level\": \"sourcetype\", \"object\": \"data_source\", \"value\": \"900\", \"comment_update\": \"Automated API driven creation.\"}"
 
 *JSON response:*
 
@@ -3128,9 +4252,17 @@ lagging_classes_del / Delete a lagging class
 - ``"name": name of the lagging class``
 - ``"update_comment": OPTIONAL: a comment for the update, comments are added to the audit record, if unset will be defined to: API update``
 
+*External:*
+
 ::
 
     curl -k -u admin:'ch@ngeM3' -X DELETE https://localhost:8089/services/trackme/v1/lagging_classes/lagging_classes_del -d '{"name": "pan:traffic", "comment_update": "Automated API driven deletion."}'
+
+*SPL query:*
+
+::
+
+    | trackme url="/services/trackme/v1/lagging_classes/lagging_classes_del" mode="delete" body="{\"name\": \"pan:traffic\", \"comment_update\": \"Automated API driven deletion.\"}"
 
 *response:*
 
@@ -3160,9 +4292,17 @@ lagging_classes_metrics / Get lagging classes
 
 **This endpoint retrieves the lagging classes collection, it requires a GET call with no options required:**
 
+*External:*
+
 ::
 
     curl -k -u admin:'ch@ngeM3' -X GET https://localhost:8089/services/trackme/v1/lagging_classes_metrics/lagging_classes_metrics
+
+*SPL query:*
+
+::
+
+    | trackme url="/services/trackme/v1/lagging_classes_metrics/lagging_classes_metrics" mode="get"
 
 *JSON response:*
 
@@ -3184,9 +4324,17 @@ lagging_classes_metrics_by_name / Get lagging class by name
 
 - ``"metric_category": name of the metric category``
 
+*External:*
+
 ::
 
     curl -k -u admin:'ch@ngeM3' -X GET https://localhost:8089/services/trackme/v1/lagging_classes_metrics/lagging_classes_metrics_by_name -d '{"metric_category": "docker"}'
+
+*SPL query:*
+
+::
+
+    | trackme url="/services/trackme/v1/lagging_classes_metrics/lagging_classes_metrics_by_name" mode="get" body="{\"metric_category\": \"docker\"}"
 
 *JSON response:*
 
@@ -3210,9 +4358,17 @@ lagging_classes_metrics_add / Add a new lagging class or update
 
 *Note: if a lagging class referenced under the same name exists already, it will be updated using the information provided.*
 
+*External:*
+
 ::
 
     curl -k -u admin:'ch@ngeM3' -X POST https://localhost:8089/services/trackme/v1/lagging_classes_metrics/lagging_classes_metrics_add -d '{"metric_category": "docker", "metric_max_lag_allowed": "900", "comment_update": "Automated API driven creation."}'
+
+*SPL query:*
+
+::
+
+    | trackme url="/services/trackme/v1/lagging_classes_metrics/lagging_classes_metrics_add" mode="post" body="{\"metric_category\": \"docker\", \"metric_max_lag_allowed\": \"900\", \"comment_update\": \"Automated API driven creation.\"}"
 
 *JSON response:*
 
@@ -3235,9 +4391,17 @@ lagging_classes_metrics_del / Delete a lagging class
 - ``"metric_category": name of the metric category``
 - ``"update_comment": OPTIONAL: a comment for the update, comments are added to the audit record, if unset will be defined to: API update``
 
+*External:*
+
 ::
 
     curl -k -u admin:'ch@ngeM3' -X DELETE https://localhost:8089/services/trackme/v1/lagging_classes_metrics/lagging_classes_metrics_del -d '{"metric_category": "docker", "comment_update": "Automated API driven deletion."}'
+
+*SPL query:*
+
+::
+
+    | trackme url="/services/trackme/v1/lagging_classes_metrics/lagging_classes_metrics_del" mode="delete" body="{\"metric_category\": \"docker\", \"comment_update\": \"Automated API driven deletion.\"}"
 
 *response:*
 
@@ -3245,4 +4409,118 @@ lagging_classes_metrics_del / Delete a lagging class
 
     Record with _key 5fe2928b1a568f12a1149957 was deleted from the collection.
 
+Smart Status endpoints
+----------------------
 
+**Resources summary:**
+
++---------------------------------------------------------------------------------------------------+------------------------------------------------------------------------------+
+| Resource                                                                                          | API Path                                                                     | 
++===================================================================================================+==============================================================================+
+| :ref:`ds_smart_status / Run Smart Status for a data source`                                       | /services/trackme/v1/smart_status/ds_smart_status                            |
++---------------------------------------------------------------------------------------------------+------------------------------------------------------------------------------+
+| :ref:`dh_smart_status / Run Smart Status for a data host`                                         | /services/trackme/v1/smart_status/dh_smart_status                            |
++---------------------------------------------------------------------------------------------------+------------------------------------------------------------------------------+
+| :ref:`mh_smart_status / Run Smart Status for a metric host`                                       | /services/trackme/v1/smart_status/mh_smart_status                            |
++---------------------------------------------------------------------------------------------------+------------------------------------------------------------------------------+
+
+ds_smart_status / Run Smart Status for a data source
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+**This endpoints runs the smart status for a given data source, it requires a GET call with the following options:**
+
+- ``"data_name": name of the data source``
+
+*External:*
+
+::
+
+    curl -k -u admin:'ch@ngeM3' -X GET https://localhost:8089/services/trackme/v1/smart_status/ds_smart_status -d '{"data_name": "network:pan:traffic"}'
+
+*SPL query:*
+
+::
+
+    | trackme url="/services/trackme/v1/smart_status/ds_smart_status" mode="get" body="{\"data_name\": \"network:pan:traffic\"}"
+
+*JSON response:*
+
+::
+
+    {
+      "data_name": "network:pan:traffic",
+      "data_source_state": "red",
+      "smart_result": "TrackMe triggered an alert on this data source due to outliers detection in the event count, outliers are based on the calculation of a lower and upper bound (if alerting on upper) determined against the data source usual behaviour and outliers parameters. Review the correlation results to determine if the behaviour is expected or symptomatic of an issue happening on the data source (lost of sources or hosts, etc.) and proceed to any outliers configuration fine tuning if necessary.",
+      "smart_code": "40",
+      "correlation_outliers": "[ description: Last 24h outliers detection ], [ OutliersCount: 288 ], [ latest4hcount: 34560.00 ], [ lowerBound: 120000.00 ], [ upperBound: 92858.16 ], [ lastOutlier: Sat Jan 16 20:40:00 2021 ], [ OutlierAlertOnUpper: true ]",
+      "correlation_flipping_state": "state: [ green ], message: [ There were no anomalies detected in the flipping state activity threshold. ]",
+      "correlation_data_sampling": "state: [ red ], message: [ WARNING: Anomalies were detected in data sampling, a change with multiple event formats was detected on Fri Jan 15 08:30:00 2021, review the format of the events and acknowledge the data sampling alert if this format change was expected. Click on the button Manage data sampling for more details. ]"
+    }
+
+*The API response depends on the smart status results.*
+
+dh_smart_status / Run Smart Status for a data host
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+**This endpoints runs the smart status for a given data host, it requires a GET call with the following options:**
+
+- ``"data_host": name of the data host``
+
+*External:*
+
+::
+
+    curl -k -u admin:'ch@ngeM3' -X GET https://localhost:8089/services/trackme/v1/smart_status/dh_smart_status -d '{"data_host": "FIREWALL.PAN.AMER.DESIGN.NODE1"}'
+
+*SPL query:*
+
+::
+
+    | trackme url="/services/trackme/v1/smart_status/dh_smart_status" mode="get" body="{\"data_host\": \"FIREWALL.PAN.AMER.DESIGN.NODE1\"}"
+
+*JSON response:*
+
+::
+
+    {
+    "data_host": "FIREWALL.PAN.AMER.DESIGN.NODE1",
+    "data_host_state": "green",
+    "smart_result": "The data host is currently in a normal state, therefore further investigations are not required at this stage.",
+    "smart_code": "0",
+    "correlation_flipping_state": "state: [ green ], message: [ There were no anomalies detected in the flipping state activity threshold. ]"
+    }
+
+*The API response depends on the smart status results.*
+
+mh_smart_status / Run Smart Status for a metric host
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+**This endpoints runs the smart status for a given data source, it requires a GET call with the following options:**
+
+- ``"metric_host": name of the metric host``
+
+*External:*
+
+::
+
+    curl -k -u admin:'ch@ngeM3' -X GET https://localhost:8089/services/trackme/v1/smart_status/mh_smart_status -d '{"metric_host": "telegraf-node1"}'
+
+*SPL query:*
+
+::
+
+    | trackme url="/services/trackme/v1/smart_status/mh_smart_status" mode="get" body="{\"metric_host\": \"telegraf-node1\"}"
+
+*JSON response:*
+
+::
+
+    {
+    "metric_host": "telegraf-node1",
+    "metric_host_state": "green",
+    "smart_result": "The metric host is currently in a normal state, therefore further investigations are not required at this stage.",
+    "smart_code": "0",
+    "correlation_flipping_state": "state: [ green ], message: [ There were no anomalies detected in the flipping state activity threshold. ]"
+    }
+
+*The API response depends on the smart status results.*

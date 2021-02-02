@@ -22,6 +22,7 @@ require([
      var selected_values_array13 = [];
      var selected_values_array14 = [];
      var selected_values_array15 = [];
+     var selected_values_array16 = [];
      var submittedTokens = mvc.Components.get('submitted');
 
      // Table1
@@ -684,5 +685,49 @@ require([
              });
          }
      }
+
+     // Table16
+
+     var CustomRangeRenderer16 = TableView.BaseCellRenderer.extend({
+        canRender: function(cell) {
+            return _(['select']).contains(cell.field);
+        },
+        render: function($td, cell) {
+            var a = $('<div>').attr({"id":"chk-elastic-source-dedicated-policy"+cell.value,"value":cell.value}).addClass('checkbox').click(function() {
+                //console.log("checked",$(this).attr('class'));
+                //console.log("checked",$(this).attr('value'));
+                if($(this).attr('class')==="checkbox")
+                {
+                    selected_values_array16.push($(this).attr('value'));
+                    $(this).removeClass();
+                    $(this).addClass("checkbox checked");
+                }
+                else {
+                    $(this).removeClass();
+                    $(this).addClass("checkbox");
+                    var i = selected_values_array16.indexOf($(this).attr('value'));
+                    if(i != -1) {
+                        selected_values_array16.splice(i, 1);
+                    }
+                }
+                //console.log(selected_values_array16);
+                tokens.set("removeElasticSourceDedicated", selected_values_array16.join());
+                submittedTokens.set(tokens.toJSON());
+            }).appendTo($td);
+        }
+    });
+
+    //List of table IDs
+    var tableIDs = ["tableElasticSourcesDedicated"];
+    for (i=0;i<tableIDs.length;i++) {
+        var sh = mvc.Components.get(tableIDs[i]);
+        if(typeof(sh)!="undefined") {
+            sh.getVisualization(function(tableView) {
+                // Add custom cell renderer and force re-render
+                tableView.table.addCellRenderer(new CustomRangeRenderer16());
+                tableView.table.render();
+            });
+        }
+    }
 
  })

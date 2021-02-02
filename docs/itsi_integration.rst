@@ -34,14 +34,17 @@ Step 1: entity search and creation
 .. image:: img/itsi_entities_start.png
    :alt: itsi_entities_start.png
    :align: center
+   :width: 1200px
 
 .. image:: img/itsi_entities_start2.png
    :alt: itsi_entities_start2.png
    :align: center
+   :width: 1200px
 
 .. image:: img/itsi_entities_start3.png
    :alt: itsi_entities_start3.png
    :align: center
+   :width: 1200px
 
 Note: make sure to edit the permission of the report and shared at the global level
 
@@ -56,6 +59,7 @@ Note: make sure to edit the permission of the report and shared at the global le
 .. image:: img/itsi_entities.png
    :alt: itsi_entities.png
    :align: center
+   :width: 1200px
 
 **Click next and define the entities fields import:**
 
@@ -69,16 +73,19 @@ Note: make sure to edit the permission of the report and shared at the global le
 .. image:: img/itsi_entities2.png
    :alt: itsi_entities2.png
    :align: center
+   :width: 1200px
 
 **Click next to generate the entities, and setup a recurrent import job:**
 
 .. image:: img/itsi_entities3.png
    :alt: itsi_entities3.png
    :align: center
+   :width: 1200px
 
 .. image:: img/itsi_entities4.png
    :alt: itsi_entities4.png
    :align: center
+   :width: 1200px
 
 Any new data source discovered and configured in TrackMe will be created in ITSI, and existing entities will be maintained automatically.
 
@@ -90,6 +97,7 @@ Step 2: create the KPI base search for metrics
 .. image:: img/itsi_kpi1.png
    :alt: itsi_kpi1.png
    :align: center
+   :width: 1200px
 
 **We will create a KPI base search handling the metric index, we use an adhoc search instead of the Metric Search type to allow one KPI base search to handle all of the metrics at once:**
 
@@ -102,16 +110,19 @@ Step 2: create the KPI base search for metrics
 .. image:: img/itsi_kpi2.png
    :alt: itsi_kpi2.png
    :align: center
+   :width: 1200px
 
 *Then add each metric as a new KPI: (see the last screen for the definition of the calculation and service level aggregation)*
 
 .. image:: img/itsi_kpi3.png
    :alt: itsi_kpi3.png
    :align: center
+   :width: 1200px
 
 .. image:: img/itsi_kpi4.png
    :alt: itsi_kpi4.png
    :align: center
+   :width: 1200px
 
 Step 3: create the KPI base searches for summary statuses events
 ----------------------------------------------------------------
@@ -146,14 +157,17 @@ Step 3: create the KPI base searches for summary statuses events
 .. image:: img/itsi_summary_events_kpi_data_source.png
    :alt: iitsi_summary_events_kpi_data_source.png
    :align: center
+   :width: 1200px
 
 .. image:: img/itsi_summary_events_kpi_data_host.png
    :alt: iitsi_summary_events_kpi_data_host.png
    :align: center
+   :width: 1200px
 
 .. image:: img/itsi_summary_events_kpi_metric_host.png
    :alt: iitsi_summary_events_kpi_metric_host.png
    :align: center
+   :width: 1200px
 
 *Notes:*
 
@@ -173,6 +187,7 @@ Step 4: create a service that will be used for the service template definition
 .. image:: img/itsi_service2.png
    :alt: itsi_service2.png
    :align: center
+   :width: 1200px
 
 *Create a KPI manually based on the KPI base searches we created for each of the TrackMe metrics including the event based metric:*
 
@@ -181,10 +196,12 @@ Step 4: create a service that will be used for the service template definition
 .. image:: img/itsi_service3.png
    :alt: itsi_service3.png
    :align: center
+   :width: 1200px
 
 .. image:: img/itsi_service4.png
    :alt: itsi_service4.png
    :align: center
+   :width: 1200px
 
 *Create KPIs and tresholds for summary statuses events:*
 
@@ -193,26 +210,31 @@ Step 4: create a service that will be used for the service template definition
 .. image:: img/itsi_service_kpi_data_source.png
    :alt: itsi_service_kpi_data_source.png
    :align: center
+   :width: 1200px
 
 .. image:: img/itsi_service_kpi_threshold_data_source.png
    :alt: itsi_service_kpi_threshold_data_source.png
    :align: center
+   :width: 1200px
 
 *data hosts tracking*
 
 .. image:: img/itsi_service_kpi_data_host.png
    :alt: itsi_service_kpi_data_host.png
    :align: center
+   :width: 1200px
 
 .. image:: img/itsi_service_kpi_threshold_data_host.png
    :alt: itsi_service_kpi_threshold_data_host.png
    :align: center
+   :width: 1200px
 
 *metric hosts tracking*
 
 .. image:: img/itsi_service_kpi_metric_host.png
    :alt: itsi_service_kpi_metric_host.png
    :align: center
+   :width: 1200px
 
 *repeat the same threshold configuration*
 
@@ -221,6 +243,7 @@ Step 4: create a service that will be used for the service template definition
 .. image:: img/itsi_service6.png
    :alt: itsi_service6.png
    :align: center
+   :width: 1200px
 
 *Note: This pseudo service can optionally be deleted post service template creation, but you can as well keep it to allow future service creation based on this service rather using the service template feature.*
 
@@ -236,6 +259,7 @@ Step 5: create a service template
 .. image:: img/itsi_service_template.png
    :alt: itsi_service_template.png
    :align: center
+   :width: 1200px
 
 Final: Create services business and technical services using TrackMe KPIs
 -------------------------------------------------------------------------
@@ -247,29 +271,36 @@ Finally, the ITSI integration is ready and you can create new services using the
 .. image:: img/itsi_example1.png
    :alt: itsi_example1.png
    :align: center
+   :width: 1200px
 
 .. image:: img/itsi_example2.png
    :alt: itsi_example2.png
    :align: center
+   :width: 1200px
 
 .. image:: img/itsi_customer_example1.png
    :alt: itsi_customer_example1.png
    :align: center
+   :width: 1200px
 
 .. image:: img/itsi_customer_example2.png
    :alt: itsi_customer_example2.png
    :align: center
+   :width: 1200px
 
 .. image:: img/itsi_customer_example3.png
    :alt: itsi_customer_example3.png
    :align: center
+   :width: 1200px
 
 .. image:: img/itsi_customer_example4.png
    :alt: itsi_customer_example4.png
    :align: center
+   :width: 1200px
 
 .. image:: img/itsi_customer_example5.png
    :alt: itsi_customer_example5.png
    :align: center
+   :width: 1200px
 
 **TrackMe acts now transparently as a companion of ITSI, you will continue to manage data sources in TrackMe, create Elastic sources, manage states and max lagging values which are reflected naturally in ITSI.**

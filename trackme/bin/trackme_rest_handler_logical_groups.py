@@ -20,6 +20,35 @@ class TrackMeHandlerLogicalGroups_v1(rest_handler.RESTHandler):
     # Get the entire data sources collection as a Python array
     def get_logical_groups_collection(self, request_info, **kwargs):
 
+        describe = False
+
+        # Retrieve from data
+        try:
+            resp_dict = json.loads(str(request_info.raw_args['payload']))
+        except Exception as e:
+            resp_dict = None
+
+        if resp_dict is not None:
+            try:
+                describe = resp_dict['describe']
+                if describe in ("true", "True"):
+                    describe = True
+            except Exception as e:
+                describe = False
+
+        else:
+            # body is not required in this endpoint, if not submitted do not describe the usage
+            describe = False
+
+        if describe:
+
+            response = "{\"describe\": \"This endpoint retrieves the entire Logical Groups collection returned as a JSON array, it requires a GET call with no data required\"}"\
+
+            return {
+                "payload": json.dumps(json.loads(str(response)), indent=1),
+                'status': 200 # HTTP status code
+            }
+
         # Get splunkd port
         entity = splunk.entity.getEntity('/server', 'settings',
                                             namespace='trackme', sessionKey=request_info.session_key, owner='-')
@@ -56,9 +85,42 @@ class TrackMeHandlerLogicalGroups_v1(rest_handler.RESTHandler):
         # query_string to find records
         query_string = None
 
+        describe = False
+
+        # By object_category and object
+        key = None
+
         # Retrieve from data
-        resp_dict = json.loads(str(request_info.raw_args['payload']))
-        object_group_name = resp_dict['object_group_name']
+        try:
+            resp_dict = json.loads(str(request_info.raw_args['payload']))
+        except Exception as e:
+            resp_dict = None
+
+        if resp_dict is not None:
+            try:
+                describe = resp_dict['describe']
+                if describe in ("true", "True"):
+                    describe = True
+            except Exception as e:
+                describe = False
+            if not describe:
+                object_group_name = resp_dict['object_group_name']
+
+        else:
+            # body is required in this endpoint, if not submitted describe the usage
+            describe = True
+
+        if describe:
+
+            response = "{\"describe\": \"This endpoint retrieve a specific logial group record, it requires a GET call with the following information:\""\
+                + ", \"options\" : [ { "\
+                + "\"object_group_name\": \"name of the logical group\""\
+                + " } ] }"
+
+            return {
+                "payload": json.dumps(json.loads(str(response)), indent=1),
+                'status': 200 # HTTP status code
+            }
 
         # Define the KV query
         query_string = '{ "object_group_name": "' + object_group_name + '" }'
@@ -120,22 +182,61 @@ class TrackMeHandlerLogicalGroups_v1(rest_handler.RESTHandler):
         # query_string to find records
         query_string = None
 
+        describe = False
+
+        # By object_category and object
+        key = None
+
+        # Retrieve from data
+        try:
+            resp_dict = json.loads(str(request_info.raw_args['payload']))
+        except Exception as e:
+            resp_dict = None
+
+        if resp_dict is not None:
+            try:
+                describe = resp_dict['describe']
+                if describe in ("true", "True"):
+                    describe = True
+            except Exception as e:
+                describe = False
+            if not describe:
+                object_group_name = resp_dict['object_group_name']
+                object_group_members = resp_dict['object_group_members']
+
+                # object_group_members is expected as a comma separted list of values
+                # We accept comma with or without a space after the seperator, let's remove any space after the separator
+                object_group_members = object_group_members.replace(", ", ",")
+                # Split by the separator
+                object_group_members = object_group_members.split(",")
+
+                # group min percentage is optional and set to 50% if not provided
+                try:
+                    object_group_min_green_percent = resp_dict['object_group_min_green_percent']
+                except Exception as e:
+                    object_group_min_green_percent = "50"
+
+        else:
+            # body is required in this endpoint, if not submitted describe the usage
+            describe = True
+
+        if describe:
+
+            response = "{\"describe\": \"This endpoint creates a new logical group, it requires a POST call with the following data required:\""\
+                + ", \"options\" : [ { "\
+                + "\"object_group_name\": \"name of the logical group to be created\", "\
+                + "\"object_group_members\": \"comma separated list of the group members\", "\
+                + "\"object_group_min_green_percent\": \"OPTIONAL: minimal percentage of hosts that need to be green for the logical group to be green, if unset defaults to 50. Recommended options for this value: 12.5 / 33.33 / 50\", "\
+                + "\"update_comment\": \"OPTIONAL: a comment for the update, comments are added to the audit record, if unset will be defined to: API update\""\
+                + " } ] }"
+
+            return {
+                "payload": json.dumps(json.loads(str(response)), indent=1),
+                'status': 200 # HTTP status code
+            }
+
         # Retrieve from data
         resp_dict = json.loads(str(request_info.raw_args['payload']))
-        object_group_name = resp_dict['object_group_name']
-        object_group_members = resp_dict['object_group_members']
-
-        # object_group_members is expected as a comma separted list of values
-        # We accept comma with or without a space after the seperator, let's remove any space after the separator
-        object_group_members = object_group_members.replace(", ", ",")
-        # Split by the separator
-        object_group_members = object_group_members.split(",")
-
-        # group min percentage is optional and set to 50% if not provided
-        try:
-            object_group_min_green_percent = resp_dict['object_group_min_green_percent']
-        except Exception as e:
-            object_group_min_green_percent = "50"
 
         # Update comment is optional and used for audit changes
         try:
@@ -202,7 +303,7 @@ class TrackMeHandlerLogicalGroups_v1(rest_handler.RESTHandler):
                 # Record an audit change
                 import time
                 current_time = int(round(time.time() * 1000))
-                user = "nobody"
+                user = request_info.user
 
                 try:
 
@@ -240,7 +341,7 @@ class TrackMeHandlerLogicalGroups_v1(rest_handler.RESTHandler):
                 # Record an audit change
                 import time
                 current_time = int(round(time.time() * 1000))
-                user = "nobody"
+                user = request_info.user
 
                 try:
 
@@ -281,9 +382,43 @@ class TrackMeHandlerLogicalGroups_v1(rest_handler.RESTHandler):
         # query_string to find records
         query_string = None
 
+        describe = False
+
+        # By object_category and object
+        key = None
+
         # Retrieve from data
-        resp_dict = json.loads(str(request_info.raw_args['payload']))
-        object_group_name = resp_dict['object_group_name']
+        try:
+            resp_dict = json.loads(str(request_info.raw_args['payload']))
+        except Exception as e:
+            resp_dict = None
+
+        if resp_dict is not None:
+            try:
+                describe = resp_dict['describe']
+                if describe in ("true", "True"):
+                    describe = True
+            except Exception as e:
+                describe = False
+            if not describe:
+                object_group_name = resp_dict['object_group_name']
+
+        else:
+            # body is required in this endpoint, if not submitted describe the usage
+            describe = True
+
+        if describe:
+
+            response = "{\"describe\": \"This endpoint deletes a logical group, it requires a DELETE call with the following data required:\""\
+                + ", \"options\" : [ { "\
+                + "\"object_group_name\": \"name of the logical group to be removed\", "\
+                + "\"update_comment\": \"OPTIONAL: a comment for the update, comments are added to the audit record, if unset will be defined to: API update\""\
+                + " } ] }"
+
+            return {
+                "payload": json.dumps(json.loads(str(response)), indent=1),
+                'status': 200 # HTTP status code
+            }
 
         # Update comment is optional and used for audit changes
         try:
@@ -342,7 +477,7 @@ class TrackMeHandlerLogicalGroups_v1(rest_handler.RESTHandler):
                 # Record an audit change
                 import time
                 current_time = int(round(time.time() * 1000))
-                user = "nobody"
+                user = request_info.user
 
                 try:
 

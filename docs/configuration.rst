@@ -6,18 +6,21 @@ Configuration
 .. image:: img/configure_ui_metrics_idx.png
    :alt: configure_ui_metrics_idx.png
    :align: center
+   :width: 1200px
 
 .. hint:: Since TrackMe 1.2.4, the application requires the creation of an event index
 
 .. image:: img/configure_ui_summary_idx.png
    :alt: configure_ui_summary_idx.png
    :align: center
+   :width: 1200px
 
 .. tip:: In TrackMe, all main items are macro based such that these can be customised if required, an easy access is provided via the configuration UI
 
 .. image:: img/configure_ui.png
    :alt: configure_ui.png
    :align: center
+   :width: 1200px
 
 Tags enrichment macro definitions
 =================================
@@ -29,6 +32,7 @@ Tags enrichment macro definitions
 .. image:: img/macro_tags.png
    :alt: macro_tags.png
    :align: center
+   :width: 1200px
 
 **Splunk Enterprise Security assets usage:**
 
@@ -113,12 +117,14 @@ TrackMe version 1.0.22 introduced built-in support for both allowlisting of inde
 .. image:: img/allowlist_and_blocklist.png
    :alt: allowlist_and_blocklist.png
    :align: center
+   :width: 800px
 
 The default behaviour of TrackMe is to track data available in all indexes, which changes if allowlisting has been defined:
 
 .. image:: img/allowlisting.png
    :alt: allowlisting.png
    :align: center
+   :width: 800px
 
 The same UI allows you to define blocklisted items, which are added as part of a "NOT" boolean syntax within the searches.
 
@@ -184,3 +190,4 @@ Data hosts global alerting policy
 .. image:: img/data_hosts_allerting_policy_config.png
    :alt: data_hosts_allerting_policy_config.png
    :align: center
+   :width: 1200px

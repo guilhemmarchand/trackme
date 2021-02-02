@@ -20,6 +20,35 @@ class TrackMeHandlerTagPolicies_v1(rest_handler.RESTHandler):
     # Get the entire collection as a Python array
     def get_tag_policies(self, request_info, **kwargs):
 
+        describe = False
+
+        # Retrieve from data
+        try:
+            resp_dict = json.loads(str(request_info.raw_args['payload']))
+        except Exception as e:
+            resp_dict = None
+
+        if resp_dict is not None:
+            try:
+                describe = resp_dict['describe']
+                if describe in ("true", "True"):
+                    describe = True
+            except Exception as e:
+                describe = False
+
+        else:
+            # body is not required in this endpoint, if not submitted do not describe the usage
+            describe = False
+
+        if describe:
+
+            response = "{\"describe\": \"This endpoint retrieves the tag policies collection, it requires a GET call with no options required\"}"\
+
+            return {
+                "payload": json.dumps(json.loads(str(response)), indent=1),
+                'status': 200 # HTTP status code
+            }
+
         # Get splunkd port
         entity = splunk.entity.getEntity('/server', 'settings',
                                             namespace='trackme', sessionKey=request_info.session_key, owner='-')
@@ -57,9 +86,39 @@ class TrackMeHandlerTagPolicies_v1(rest_handler.RESTHandler):
         # query_string to find records
         query_string = None
 
+        describe = False
+
         # Retrieve from data
-        resp_dict = json.loads(str(request_info.raw_args['payload']))
-        tags_policy_id = resp_dict['tags_policy_id']
+        try:
+            resp_dict = json.loads(str(request_info.raw_args['payload']))
+        except Exception as e:
+            resp_dict = None
+
+        if resp_dict is not None:
+            try:
+                describe = resp_dict['describe']
+                if describe in ("true", "True"):
+                    describe = True
+            except Exception as e:
+                describe = False
+            if not describe:
+                tags_policy_id = resp_dict['tags_policy_id']
+
+        else:
+            # body is required in this endpoint, if not submitted describe the usage
+            describe = True
+
+        if describe:
+
+            response = "{\"describe\": \"This endpoint retrieves a tag policy by its id, it requires a GET call with the following data:\""\
+                + ", \"options\" : [ { "\
+                + "\"tags_policy_id\": \"ID of the tags policy\""\
+                + " } ] }"
+
+            return {
+                "payload": json.dumps(json.loads(str(response)), indent=1),
+                'status': 200 # HTTP status code
+            }
 
         # Define the KV query
         query_string = '{ "tags_policy_id": "' + tags_policy_id + '" }'
@@ -121,11 +180,44 @@ class TrackMeHandlerTagPolicies_v1(rest_handler.RESTHandler):
 
         query_string = None
 
+        describe = False
+
         # Retrieve from data
-        resp_dict = json.loads(str(request_info.raw_args['payload']))
-        tags_policy_id = resp_dict['tags_policy_id']
-        tags_policy_value = resp_dict['tags_policy_value']
-        tags_policy_regex = resp_dict['tags_policy_regex']
+        try:
+            resp_dict = json.loads(str(request_info.raw_args['payload']))
+        except Exception as e:
+            resp_dict = None
+
+        if resp_dict is not None:
+            try:
+                describe = resp_dict['describe']
+                if describe in ("true", "True"):
+                    describe = True
+            except Exception as e:
+                describe = False
+            if not describe:
+                tags_policy_id = resp_dict['tags_policy_id']
+                tags_policy_value = resp_dict['tags_policy_value']
+                tags_policy_regex = resp_dict['tags_policy_regex']
+
+        else:
+            # body is required in this endpoint, if not submitted describe the usage
+            describe = True
+
+        if describe:
+
+            response = "{\"describe\": \"This endpoint creates a new tag policy, it requires a POST call with the following data:\""\
+                + ", \"options\" : [ { "\
+                + "\"tags_policy_id\": \"ID of the tag policy\", "\
+                + "\"tags_policy_regex\": \"The regular expression to be used by the tags policy, special characters should be escaped.\", "\
+                + "\"tags_policy_value\": \"List of tags to be applied as a comma separated list of values\", "\
+                + "\"update_comment\": \"OPTIONAL: a comment for the update, comments are added to the audit record, if unset will be defined to: API update\""\
+                + " } ] }"
+
+            return {
+                "payload": json.dumps(json.loads(str(response)), indent=1),
+                'status': 200 # HTTP status code
+            }
 
         # Update comment is optional and used for audit changes
         try:
@@ -182,7 +274,7 @@ class TrackMeHandlerTagPolicies_v1(rest_handler.RESTHandler):
                 # Record an audit change
                 import time
                 current_time = int(round(time.time() * 1000))
-                user = "nobody"
+                user = request_info.user
 
                 # Update the record
                 collection.data.update(str(key), json.dumps({"tags_policy_id": tags_policy_id, "tags_policy_value": tags_policy_value, "tags_policy_regex": tags_policy_regex, "mtime": current_time}))
@@ -222,7 +314,7 @@ class TrackMeHandlerTagPolicies_v1(rest_handler.RESTHandler):
                 # Record an audit change
                 import time
                 current_time = int(round(time.time() * 1000))
-                user = "nobody"
+                user = request_info.user
 
                 # Insert the record
                 collection.data.insert(json.dumps({"tags_policy_id": tags_policy_id, "tags_policy_value": tags_policy_value, "tags_policy_regex": tags_policy_regex, "mtime": current_time}))
@@ -268,9 +360,40 @@ class TrackMeHandlerTagPolicies_v1(rest_handler.RESTHandler):
         tags_policy_id = None
         query_string = None
 
+        describe = False
+
         # Retrieve from data
-        resp_dict = json.loads(str(request_info.raw_args['payload']))
-        tags_policy_id = resp_dict['tags_policy_id']
+        try:
+            resp_dict = json.loads(str(request_info.raw_args['payload']))
+        except Exception as e:
+            resp_dict = None
+
+        if resp_dict is not None:
+            try:
+                describe = resp_dict['describe']
+                if describe in ("true", "True"):
+                    describe = True
+            except Exception as e:
+                describe = False
+            if not describe:
+                tags_policy_id = resp_dict['tags_policy_id']
+
+        else:
+            # body is required in this endpoint, if not submitted describe the usage
+            describe = True
+
+        if describe:
+
+            response = "{\"describe\": \"This endpoint deletes a tag policy, it requires a DELETE call with the following data:\""\
+                + ", \"options\" : [ { "\
+                + "\"tags_policy_id\": \"ID of the tag policy\", "\
+                + "\"update_comment\": \"OPTIONAL: a comment for the update, comments are added to the audit record, if unset will be defined to: API update\""\
+                + " } ] }"
+
+            return {
+                "payload": json.dumps(json.loads(str(response)), indent=1),
+                'status': 200 # HTTP status code
+            }
 
         # Update comment is optional and used for audit changes
         try:
@@ -329,7 +452,7 @@ class TrackMeHandlerTagPolicies_v1(rest_handler.RESTHandler):
                 # Record an audit change
                 import time
                 current_time = int(round(time.time() * 1000))
-                user = "nobody"
+                user = request_info.user
 
                 try:
 

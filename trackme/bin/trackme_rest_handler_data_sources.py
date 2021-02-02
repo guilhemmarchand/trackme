@@ -21,6 +21,34 @@ class TrackMeHandlerDataSources_v1(rest_handler.RESTHandler):
     # Get the entire data sources collection as a Python array
     def get_ds_collection(self, request_info, **kwargs):
 
+        describe = False
+
+        # Retrieve from data
+        try:
+            resp_dict = json.loads(str(request_info.raw_args['payload']))
+        except Exception as e:
+            resp_dict = None
+
+        if resp_dict is not None:
+            try:
+                describe = resp_dict['describe']
+                if describe in ("true", "True"):
+                    describe = True
+            except Exception as e:
+                describe = False
+        else:
+            # body is not required in this endpoint, if not submitted do not describe the usage
+            describe = False
+
+        if describe:
+
+            response = "{\"describe\": \"This endpoint retrieves the entire data sources collection returned as a JSON array, it requires a GET call with no data required\"}"
+
+            return {
+                "payload": json.dumps(json.loads(str(response)), indent=1),
+                'status': 200 # HTTP status code
+            }
+
         # Get splunkd port
         entity = splunk.entity.getEntity('/server', 'settings',
                                             namespace='trackme', sessionKey=request_info.session_key, owner='-')
@@ -52,12 +80,42 @@ class TrackMeHandlerDataSources_v1(rest_handler.RESTHandler):
     # Get data source by _key
     def get_ds_by_key(self, request_info, **kwargs):
 
+        describe = False
+
         # By object_category and object
         key = None
 
         # Retrieve from data
-        resp_dict = json.loads(str(request_info.raw_args['payload']))
-        key = resp_dict['_key']
+        try:
+            resp_dict = json.loads(str(request_info.raw_args['payload']))
+        except Exception as e:
+            resp_dict = None
+
+        if resp_dict is not None:
+            try:
+                describe = resp_dict['describe']
+                if describe in ("true", "True"):
+                    describe = True
+            except Exception as e:
+                describe = False
+            if not describe:
+                key = resp_dict['_key']
+
+        else:
+            # body is required in this endpoint, if not submitted describe the usage
+            describe = True
+
+        if describe:
+
+            response = "{\"describe\": \"This endpoint retrieves an existing data source record by the Kvstore key, it requires a GET call with the following information:\""\
+                + ", \"options\" : [ { "\
+                + "\"_key\": \"KVstore unique identifier for this record\""\
+                + " } ] }"
+
+            return {
+                "payload": json.dumps(json.loads(str(response)), indent=1),
+                'status': 200 # HTTP status code
+            }
         
         # Get splunkd port
         entity = splunk.entity.getEntity('/server', 'settings',
@@ -91,7 +149,6 @@ class TrackMeHandlerDataSources_v1(rest_handler.RESTHandler):
                     'status': 404 # HTTP status code
                 }
 
-
         except Exception as e:
             return {
                 'payload': 'Warn: exception encountered: ' + str(e) # Payload of the request.
@@ -104,9 +161,39 @@ class TrackMeHandlerDataSources_v1(rest_handler.RESTHandler):
         data_name = None
         query_string = None
 
+        describe = False
+
         # Retrieve from data
-        resp_dict = json.loads(str(request_info.raw_args['payload']))
-        data_name = resp_dict['data_name']
+        try:
+            resp_dict = json.loads(str(request_info.raw_args['payload']))
+        except Exception as e:
+            resp_dict = None
+
+        if resp_dict is not None:
+            try:
+                describe = resp_dict['describe']
+                if describe in ("true", "True"):
+                    describe = True
+            except Exception as e:
+                describe = False
+            if not describe:
+                data_name = resp_dict['data_name']
+
+        else:
+            # body is required in this endpoint, if not submitted describe the usage
+            describe = True
+
+        if describe:
+
+            response = "{\"describe\": \"This endpoint retrieves an existing data source record by the data source name (data_name), it requires a GET call with the following information:\""\
+                + ", \"options\" : [ { "\
+                + "\"data_name\": \"name of the data source\""\
+                + " } ] }"
+
+            return {
+                "payload": json.dumps(json.loads(str(response)), indent=1),
+                'status': 200 # HTTP status code
+            }
 
         # Define the KV query
         query_string = '{ "data_name": "' + data_name + '" }'
@@ -156,9 +243,40 @@ class TrackMeHandlerDataSources_v1(rest_handler.RESTHandler):
         data_name = None
         query_string = None
 
+        describe = False
+
         # Retrieve from data
-        resp_dict = json.loads(str(request_info.raw_args['payload']))
-        data_name = resp_dict['data_name']
+        try:
+            resp_dict = json.loads(str(request_info.raw_args['payload']))
+        except Exception as e:
+            resp_dict = None
+
+        if resp_dict is not None:
+            try:
+                describe = resp_dict['describe']
+                if describe in ("true", "True"):
+                    describe = True
+            except Exception as e:
+                describe = False
+            if not describe:
+                data_name = resp_dict['data_name']
+
+        else:
+            # body is required in this endpoint, if not submitted describe the usage
+            describe = True
+
+        if describe:
+
+            response = "{\"describe\": \"This endpoint disables data monitoring for an existing data source by the data source name (data_name), it requires a POST call with the following information:\""\
+                + ", \"options\" : [ { "\
+                + "\"data_name\": \"name of the data source\", "\
+                + "\"update_comment\": \"OPTIONAL: a comment for the update, comments are added to the audit record, if unset will be defined to: API update\""\
+                + " } ] }"
+
+            return {
+                "payload": json.dumps(json.loads(str(response)), indent=1),
+                'status': 200 # HTTP status code
+            }
 
         # Update comment is optional and used for audit changes
         try:
@@ -257,7 +375,7 @@ class TrackMeHandlerDataSources_v1(rest_handler.RESTHandler):
                 # Record an audit change
                 import time
                 current_time = int(round(time.time() * 1000))
-                user = "nobody"
+                user = request_info.user
 
                 try:
 
@@ -302,9 +420,40 @@ class TrackMeHandlerDataSources_v1(rest_handler.RESTHandler):
         data_name = None
         query_string = None
 
+        describe = False
+
         # Retrieve from data
-        resp_dict = json.loads(str(request_info.raw_args['payload']))
-        data_name = resp_dict['data_name']
+        try:
+            resp_dict = json.loads(str(request_info.raw_args['payload']))
+        except Exception as e:
+            resp_dict = None
+
+        if resp_dict is not None:
+            try:
+                describe = resp_dict['describe']
+                if describe in ("true", "True"):
+                    describe = True
+            except Exception as e:
+                describe = False
+            if not describe:
+                data_name = resp_dict['data_name']
+
+        else:
+            # body is required in this endpoint, if not submitted describe the usage
+            describe = True
+
+        if describe:
+
+            response = "{\"describe\": \"This endpoint enables data monitoring for an existing data source by the data source name (data_name), it requires a POST call with the following information:\""\
+                + ", \"options\" : [ { "\
+                + "\"data_name\": \"name of the data source\", "\
+                + "\"update_comment\": \"OPTIONAL: a comment for the update, comments are added to the audit record, if unset will be defined to: API update\""\
+                + " } ] }"
+
+            return {
+                "payload": json.dumps(json.loads(str(response)), indent=1),
+                'status': 200 # HTTP status code
+            }
 
         # Update comment is optional and used for audit changes
         try:
@@ -403,7 +552,7 @@ class TrackMeHandlerDataSources_v1(rest_handler.RESTHandler):
                 # Record an audit change
                 import time
                 current_time = int(round(time.time() * 1000))
-                user = "nobody"
+                user = request_info.user
 
                 try:
 
@@ -448,10 +597,41 @@ class TrackMeHandlerDataSources_v1(rest_handler.RESTHandler):
         data_name = None
         query_string = None
 
+        describe = False
+
         # Retrieve from data
-        resp_dict = json.loads(str(request_info.raw_args['payload']))
-        data_name = resp_dict['data_name']
-        priority = resp_dict['priority']
+        try:
+            resp_dict = json.loads(str(request_info.raw_args['payload']))
+        except Exception as e:
+            resp_dict = None
+
+        if resp_dict is not None:
+            try:
+                describe = resp_dict['describe']
+                if describe in ("true", "True"):
+                    describe = True
+            except Exception as e:
+                describe = False
+            if not describe:
+                data_name = resp_dict['data_name']
+                priority = resp_dict['priority']
+
+        else:
+            # body is required in this endpoint, if not submitted describe the usage
+            describe = True
+
+        if describe:
+
+            response = "{\"describe\": \"This endpoint defines the priority for an existing data source, it requires a POST call with the following information:\""\
+                + ", \"options\" : [ { "\
+                + "\"data_name\": \"name of the data source\", "\
+                + "\"priority\": \"the value for priority, valid options are low / medium / high\""\
+                + " } ] }"
+
+            return {
+                "payload": json.dumps(json.loads(str(response)), indent=1),
+                'status': 200 # HTTP status code
+            }
 
         # Update comment is optional and used for audit changes
         try:
@@ -547,7 +727,7 @@ class TrackMeHandlerDataSources_v1(rest_handler.RESTHandler):
                 # Record an audit change
                 import time
                 current_time = int(round(time.time() * 1000))
-                user = "nobody"
+                user = request_info.user
 
                 try:
 
@@ -593,12 +773,46 @@ class TrackMeHandlerDataSources_v1(rest_handler.RESTHandler):
         data_name = None
         query_string = None
 
+        describe = False
+
         # Retrieve from data
-        resp_dict = json.loads(str(request_info.raw_args['payload']))
-        data_name = resp_dict['data_name']
-        data_lag_alert_kpis = resp_dict['data_lag_alert_kpis'] # all_kpis / lag_ingestion_kpi / lag_event_kpi
-        data_max_lag_allowed = int(resp_dict['data_max_lag_allowed']) # seconds
-        data_override_lagging_class = resp_dict['data_override_lagging_class'] # true / false
+        try:
+            resp_dict = json.loads(str(request_info.raw_args['payload']))
+        except Exception as e:
+            resp_dict = None
+
+        if resp_dict is not None:
+            try:
+                describe = resp_dict['describe']
+                if describe in ("true", "True"):
+                    describe = True
+            except Exception as e:
+                describe = False
+            if not describe:
+                data_name = resp_dict['data_name']
+                data_lag_alert_kpis = resp_dict['data_lag_alert_kpis'] # all_kpis / lag_ingestion_kpi / lag_event_kpi
+                data_max_lag_allowed = int(resp_dict['data_max_lag_allowed']) # seconds
+                data_override_lagging_class = resp_dict['data_override_lagging_class'] # true / false
+
+        else:
+            # body is required in this endpoint, if not submitted describe the usage
+            describe = True
+
+        if describe:
+
+            response = "{\"describe\": \"This endpoint configures the lagging policy for an existing data source, it requires a POST call with the following information:\""\
+                + ", \"options\" : [ { "\
+                + "\"data_name\": \"name of the data source\", "\
+                + "\"data_lag_alert_kpis\": \"KPIs policy to be applied, valid options are all_kpis / lag_ingestion_kpi / lag_event_kpi\", "\
+                + "\"data_max_lag_allowed\": \"maximal accepted lagging value in seconds, must be an integer\", "\
+                + "\"data_override_lagging_class\": \"overrides lagging classes, valid options are true / false\", "\
+                + "\"update_comment\": \"OPTIONAL: a comment for the update, comments are added to the audit record, if unset will be defined to: API update\"" \
+                + " } ] }"
+
+            return {
+                "payload": json.dumps(json.loads(str(response)), indent=1),
+                'status': 200 # HTTP status code
+            }
 
         # Update comment is optional and used for audit changes
         try:
@@ -694,7 +908,7 @@ class TrackMeHandlerDataSources_v1(rest_handler.RESTHandler):
                 # Record an audit change
                 import time
                 current_time = int(round(time.time() * 1000))
-                user = "nobody"
+                user = request_info.user
 
                 try:
 
@@ -739,10 +953,42 @@ class TrackMeHandlerDataSources_v1(rest_handler.RESTHandler):
         data_name = None
         query_string = None
 
+        describe = False
+
         # Retrieve from data
-        resp_dict = json.loads(str(request_info.raw_args['payload']))
-        data_name = resp_dict['data_name']
-        min_dcount_host = int(resp_dict['min_dcount_host']) # integer
+        try:
+            resp_dict = json.loads(str(request_info.raw_args['payload']))
+        except Exception as e:
+            resp_dict = None
+
+        if resp_dict is not None:
+            try:
+                describe = resp_dict['describe']
+                if describe in ("true", "True"):
+                    describe = True
+            except Exception as e:
+                describe = False
+            if not describe:
+                data_name = resp_dict['data_name']
+                min_dcount_host = int(resp_dict['min_dcount_host']) # integer
+
+        else:
+            # body is required in this endpoint, if not submitted describe the usage
+            describe = True
+
+        if describe:
+
+            response = "{\"describe\": \"This endpoint configures the minimal number of distinct hosts count for an existing data source, it requires a POST call with the following information:\""\
+                + ", \"options\" : [ { "\
+                + "\"data_name\": \"name of the data source\", "\
+                + "\"min_dcount_host\": \"minimal accepted number of distinct count hosts, must be an integer\", "\
+                + "\"update_comment\": \"OPTIONAL: a comment for the update, comments are added to the audit record, if unset will be defined to: API update\""\
+                + " } ] }"
+
+            return {
+                "payload": json.dumps(json.loads(str(response)), indent=1),
+                'status': 200 # HTTP status code
+            }
 
         # Update comment is optional and used for audit changes
         try:
@@ -838,7 +1084,7 @@ class TrackMeHandlerDataSources_v1(rest_handler.RESTHandler):
                 # Record an audit change
                 import time
                 current_time = int(round(time.time() * 1000))
-                user = "nobody"
+                user = request_info.user
 
                 try:
 
@@ -883,13 +1129,44 @@ class TrackMeHandlerDataSources_v1(rest_handler.RESTHandler):
         data_name = None
         query_string = None
 
+        describe = False
+
         # Retrieve from data
-        resp_dict = json.loads(str(request_info.raw_args['payload']))
-        data_name = resp_dict['data_name']
-        
-        # Week days monitoring can be:
-        # manual:all_days / manual:monday-to-friday / manual:monday-to-saturday / [ 0, 1, 2, 3, 4, 5, 6 ] where Sunday is 0
-        data_monitoring_wdays = resp_dict['data_monitoring_wdays']
+        try:
+            resp_dict = json.loads(str(request_info.raw_args['payload']))
+        except Exception as e:
+            resp_dict = None
+
+        if resp_dict is not None:
+            try:
+                describe = resp_dict['describe']
+                if describe in ("true", "True"):
+                    describe = True
+            except Exception as e:
+                describe = False
+            if not describe:
+                data_name = resp_dict['data_name']
+                # Week days monitoring can be:
+                # manual:all_days / manual:monday-to-friday / manual:monday-to-saturday / [ 0, 1, 2, 3, 4, 5, 6 ] where Sunday is 0
+                data_monitoring_wdays = resp_dict['data_monitoring_wdays']
+
+        else:
+            # body is required in this endpoint, if not submitted describe the usage
+            describe = True
+
+        if describe:
+
+            response = "{\"describe\": \"This endpoint configures the week days monitoring rule for an existing data source, it requires a POST call with the following information:\""\
+                + ", \"options\" : [ { "\
+                + "\"data_name\": \"name of the data source\", "\
+                + "\"data_monitoring_wdays\": \"the week days rule, valid options are manual:all_days / manual:monday-to-friday / manual:monday-to-saturday / [ 0, 1, 2, 3, 4, 5, 6 ] where Sunday is 0\", "\
+                + "\"update_comment\": \"OPTIONAL: a comment for the update, comments are added to the audit record, if unset will be defined to: API update\""\
+                + " } ] }"
+
+            return {
+                "payload": json.dumps(json.loads(str(response)), indent=1),
+                'status': 200 # HTTP status code
+            }
 
         # Update comment is optional and used for audit changes
         try:
@@ -985,7 +1262,7 @@ class TrackMeHandlerDataSources_v1(rest_handler.RESTHandler):
                 # Record an audit change
                 import time
                 current_time = int(round(time.time() * 1000))
-                user = "nobody"
+                user = request_info.user
 
                 try:
 
@@ -1030,10 +1307,42 @@ class TrackMeHandlerDataSources_v1(rest_handler.RESTHandler):
         data_name = None
         query_string = None
 
+        describe = False
+
         # Retrieve from data
-        resp_dict = json.loads(str(request_info.raw_args['payload']))
-        data_name = resp_dict['data_name']
-        data_monitoring_level = resp_dict['data_monitoring_level'] # index / sourcetype
+        try:
+            resp_dict = json.loads(str(request_info.raw_args['payload']))
+        except Exception as e:
+            resp_dict = None
+
+        if resp_dict is not None:
+            try:
+                describe = resp_dict['describe']
+                if describe in ("true", "True"):
+                    describe = True
+            except Exception as e:
+                describe = False
+            if not describe:
+                data_name = resp_dict['data_name']
+                data_monitoring_level = resp_dict['data_monitoring_level'] # index / sourcetype
+
+        else:
+            # body is required in this endpoint, if not submitted describe the usage
+            describe = True
+
+        if describe:
+
+            response = "{\"describe\": \"This endpoint updates the monitoring level for an existing data source, it requires a POST call with the following information:\""\
+                + ", \"options\" : [ { "\
+                + "\"data_name\": \"name of the data source\", "\
+                + "\"data_monitoring_level\": \"the monitoring level definition, valid options are index / sourcetype\", "\
+                + "\"update_comment\": \"OPTIONAL: a comment for the update, comments are added to the audit record, if unset will be defined to: API update\""\
+                + " } ] }"
+
+            return {
+                "payload": json.dumps(json.loads(str(response)), indent=1),
+                'status': 200 # HTTP status code
+            }
 
         # Update comment is optional and used for audit changes
         try:
@@ -1129,7 +1438,7 @@ class TrackMeHandlerDataSources_v1(rest_handler.RESTHandler):
                 # Record an audit change
                 import time
                 current_time = int(round(time.time() * 1000))
-                user = "nobody"
+                user = request_info.user
 
                 try:
 
@@ -1174,16 +1483,53 @@ class TrackMeHandlerDataSources_v1(rest_handler.RESTHandler):
         data_name = None
         query_string = None
 
+        describe = False
+
         # Retrieve from data
-        resp_dict = json.loads(str(request_info.raw_args['payload']))
-        data_name = resp_dict['data_name']
-        OutlierMinEventCount = resp_dict['OutlierMinEventCount'] # integer, default to 0 (disabled)
-        OutlierLowerThresholdMultiplier = resp_dict['OutlierLowerThresholdMultiplier'] # integer, defaults to 4
-        OutlierUpperThresholdMultiplier = resp_dict['OutlierUpperThresholdMultiplier'] # integer, defaults to 4
-        OutlierAlertOnUpper = resp_dict['OutlierAlertOnUpper'] # true / false
-        OutlierTimePeriod = resp_dict['OutlierTimePeriod'] # relative time period, default to -7d
-        OutlierSpan = resp_dict['OutlierSpan'] # span period Splunk notation, defaults to 5m
-        enable_behaviour_analytic = resp_dict['enable_behaviour_analytic'] # true / false
+        try:
+            resp_dict = json.loads(str(request_info.raw_args['payload']))
+        except Exception as e:
+            resp_dict = None
+
+        if resp_dict is not None:
+            try:
+                describe = resp_dict['describe']
+                if describe in ("true", "True"):
+                    describe = True
+            except Exception as e:
+                describe = False
+            if not describe:
+                data_name = resp_dict['data_name']
+                OutlierMinEventCount = resp_dict['OutlierMinEventCount'] # integer, default to 0 (disabled)
+                OutlierLowerThresholdMultiplier = resp_dict['OutlierLowerThresholdMultiplier'] # integer, defaults to 4
+                OutlierUpperThresholdMultiplier = resp_dict['OutlierUpperThresholdMultiplier'] # integer, defaults to 4
+                OutlierAlertOnUpper = resp_dict['OutlierAlertOnUpper'] # true / false
+                OutlierTimePeriod = resp_dict['OutlierTimePeriod'] # relative time period, default to -7d
+                OutlierSpan = resp_dict['OutlierSpan'] # span period Splunk notation, defaults to 5m
+                enable_behaviour_analytic = resp_dict['enable_behaviour_analytic'] # true / false
+
+        else:
+            # body is required in this endpoint, if not submitted describe the usage
+            describe = True
+
+        if describe:
+
+            response = "{\"describe\": \"This endpoint configures the week days monitoring rule for an existing data source, it requires a POST call with the following information:\""\
+                + ", \"options\" : [ { "\
+                + "\"OutlierMinEventCount\": \"the minimal number of events, if set to anything bigger than 0, the lower bound becomes a static value, needs to be an integer, default to 0 (disabled)\", "\
+                + "\"OutlierLowerThresholdMultiplier\": \"The lower bound threshold multiplier, must be an integer, defaults to 4\", "\
+                + "\"OutlierUpperThresholdMultiplier\": \"The upper bound threshold multiplier, must be integer, defaults to 4\", "\
+                + "\"OutlierAlertOnUpper\": \"Enables / Disables alerting on upper outliers detection, valid options are true / false, defaults to false\", "\
+                + "\"OutlierTimePeriod\": \"relative time period for outliers calculation, default to -7d\", "\
+                + "\"OutlierSpan\": \"span period Splunk notation for outliers UI rendering, defaults to 5m\", "\
+                + "\"enable_behaviour_analytic\": \"Enables / Disables outliers detection for that object, valid options are true / false, defaults to true\", "\
+                + "\"update_comment\": \"OPTIONAL: a comment for the update, comments are added to the audit record, if unset will be defined to: API update\""\
+                + " } ] }"
+
+            return {
+                "payload": json.dumps(json.loads(str(response)), indent=1),
+                'status': 200 # HTTP status code
+            }
 
         # Update comment is optional and used for audit changes
         try:
@@ -1279,7 +1625,7 @@ class TrackMeHandlerDataSources_v1(rest_handler.RESTHandler):
                 # Record an audit change
                 import time
                 current_time = int(round(time.time() * 1000))
-                user = "nobody"
+                user = request_info.user
 
                 try:
 
@@ -1324,9 +1670,40 @@ class TrackMeHandlerDataSources_v1(rest_handler.RESTHandler):
         data_name = None
         query_string = None
 
+        describe = False
+
         # Retrieve from data
-        resp_dict = json.loads(str(request_info.raw_args['payload']))
-        data_name = resp_dict['data_name']
+        try:
+            resp_dict = json.loads(str(request_info.raw_args['payload']))
+        except Exception as e:
+            resp_dict = None
+
+        if resp_dict is not None:
+            try:
+                describe = resp_dict['describe']
+                if describe in ("true", "True"):
+                    describe = True
+            except Exception as e:
+                describe = False
+            if not describe:
+                data_name = resp_dict['data_name']
+
+        else:
+            # body is required in this endpoint, if not submitted describe the usage
+            describe = True
+
+        if describe:
+
+            response = "{\"describe\": \"This endpoint performs a temporary deletion of an existing data source, it requires a DELETE call with the following information:\""\
+                + ", \"options\" : [ { "\
+                + "\"data_name\": \"name of the data source\", "\
+                + "\"update_comment\": \"OPTIONAL: a comment for the update, comments are added to the audit record, if unset will be defined to: API update\""\
+                + " } ] }"
+
+            return {
+                "payload": json.dumps(json.loads(str(response)), indent=1),
+                'status': 200 # HTTP status code
+            }
 
         # Update comment is optional and used for audit changes
         try:
@@ -1386,7 +1763,7 @@ class TrackMeHandlerDataSources_v1(rest_handler.RESTHandler):
                 # Record an audit change
                 import time
                 current_time = int(round(time.time() * 1000))
-                user = "nobody"
+                user = request_info.user
 
                 try:
 
@@ -1431,9 +1808,40 @@ class TrackMeHandlerDataSources_v1(rest_handler.RESTHandler):
         data_name = None
         query_string = None
 
+        describe = False
+
         # Retrieve from data
-        resp_dict = json.loads(str(request_info.raw_args['payload']))
-        data_name = resp_dict['data_name']
+        try:
+            resp_dict = json.loads(str(request_info.raw_args['payload']))
+        except Exception as e:
+            resp_dict = None
+
+        if resp_dict is not None:
+            try:
+                describe = resp_dict['describe']
+                if describe in ("true", "True"):
+                    describe = True
+            except Exception as e:
+                describe = False
+            if not describe:
+                data_name = resp_dict['data_name']
+
+        else:
+            # body is required in this endpoint, if not submitted describe the usage
+            describe = True
+
+        if describe:
+
+            response = "{\"describe\": \"This endpoint performs a permanent deletion of an existing data source, it requires a DELETE call with the following information:\""\
+                + ", \"options\" : [ { "\
+                + "\"data_name\": \"name of the data source\", "\
+                + "\"update_comment\": \"OPTIONAL: a comment for the update, comments are added to the audit record, if unset will be defined to: API update\""\
+                + " } ] }"
+
+            return {
+                "payload": json.dumps(json.loads(str(response)), indent=1),
+                'status': 200 # HTTP status code
+            }
 
         # Update comment is optional and used for audit changes
         try:
@@ -1493,7 +1901,7 @@ class TrackMeHandlerDataSources_v1(rest_handler.RESTHandler):
                 # Record an audit change
                 import time
                 current_time = int(round(time.time() * 1000))
-                user = "nobody"
+                user = request_info.user
 
                 try:
 
@@ -1538,9 +1946,40 @@ class TrackMeHandlerDataSources_v1(rest_handler.RESTHandler):
         data_name = None
         query_string = None
 
+        describe = False
+
         # Retrieve from data
-        resp_dict = json.loads(str(request_info.raw_args['payload']))
-        data_name = resp_dict['data_name']
+        try:
+            resp_dict = json.loads(str(request_info.raw_args['payload']))
+        except Exception as e:
+            resp_dict = None
+
+        if resp_dict is not None:
+            try:
+                describe = resp_dict['describe']
+                if describe in ("true", "True"):
+                    describe = True
+            except Exception as e:
+                describe = False
+            if not describe:
+                data_name = resp_dict['data_name']
+
+        else:
+            # body is required in this endpoint, if not submitted describe the usage
+            describe = True
+
+        if describe:
+
+            response = "{\"describe\": \"This endpoint enables the data sampling feature for an existing data source by the data source name (data_name), it requires a POST call with the following information:\""\
+                + ", \"options\" : [ { "\
+                + "\"data_name\": \"name of the data source\", "\
+                + "\"update_comment\": \"OPTIONAL: a comment for the update, comments are added to the audit record, if unset will be defined to: API update\""\
+                + " } ] }"
+
+            return {
+                "payload": json.dumps(json.loads(str(response)), indent=1),
+                'status': 200 # HTTP status code
+            }
 
         # Static
         data_sample_feature = "enabled"
@@ -1618,7 +2057,7 @@ class TrackMeHandlerDataSources_v1(rest_handler.RESTHandler):
                 # Record an audit change
                 import time
                 current_time = int(round(time.time() * 1000))
-                user = "nobody"
+                user = request_info.user
 
                 try:
 
@@ -1667,9 +2106,40 @@ class TrackMeHandlerDataSources_v1(rest_handler.RESTHandler):
         data_name = None
         query_string = None
 
+        describe = False
+
         # Retrieve from data
-        resp_dict = json.loads(str(request_info.raw_args['payload']))
-        data_name = resp_dict['data_name']
+        try:
+            resp_dict = json.loads(str(request_info.raw_args['payload']))
+        except Exception as e:
+            resp_dict = None
+
+        if resp_dict is not None:
+            try:
+                describe = resp_dict['describe']
+                if describe in ("true", "True"):
+                    describe = True
+            except Exception as e:
+                describe = False
+            if not describe:
+                data_name = resp_dict['data_name']
+
+        else:
+            # body is required in this endpoint, if not submitted describe the usage
+            describe = True
+
+        if describe:
+
+            response = "{\"describe\": \"This endpoint disables the data sampling feature for an existing data source by the data source name (data_name), it requires a POST call with the following information:\""\
+                + ", \"options\" : [ { "\
+                + "\"data_name\": \"name of the data source\", "\
+                + "\"update_comment\": \"OPTIONAL: a comment for the update, comments are added to the audit record, if unset will be defined to: API update\""\
+                + " } ] }"
+
+            return {
+                "payload": json.dumps(json.loads(str(response)), indent=1),
+                'status': 200 # HTTP status code
+            }
 
         # Static
         data_sample_feature = "disabled"
@@ -1747,7 +2217,7 @@ class TrackMeHandlerDataSources_v1(rest_handler.RESTHandler):
                 # Record an audit change
                 import time
                 current_time = int(round(time.time() * 1000))
-                user = "nobody"
+                user = request_info.user
 
                 try:
 
@@ -1796,10 +2266,42 @@ class TrackMeHandlerDataSources_v1(rest_handler.RESTHandler):
         data_sampling_nr = None
         query_string = None
 
+        describe = False
+
         # Retrieve from data
-        resp_dict = json.loads(str(request_info.raw_args['payload']))
-        data_name = resp_dict['data_name']
-        data_sampling_nr = resp_dict['data_sampling_nr']
+        try:
+            resp_dict = json.loads(str(request_info.raw_args['payload']))
+        except Exception as e:
+            resp_dict = None
+
+        if resp_dict is not None:
+            try:
+                describe = resp_dict['describe']
+                if describe in ("true", "True"):
+                    describe = True
+            except Exception as e:
+                describe = False
+            if not describe:
+                data_name = resp_dict['data_name']
+                data_sampling_nr = resp_dict['data_sampling_nr']
+
+        else:
+            # body is required in this endpoint, if not submitted describe the usage
+            describe = True
+
+        if describe:
+
+            response = "{\"describe\": \"This endpoint enables the data sampling feature for an existing data source by the data source name (data_name), it requires a POST call with the following information::\""\
+                + ", \"options\" : [ { "\
+                + "\"data_name\": \"name of the data source\", "\
+                + "\"data_sampling_nr\": \"number of records to be sampled per data source and data sampling execution (defaults to 100 at first sampling, then 50)\", "\
+                + "\"update_comment\": \"OPTIONAL: a comment for the update, comments are added to the audit record, if unset will be defined to: API update\""\
+                + " } ] }"
+
+            return {
+                "payload": json.dumps(json.loads(str(response)), indent=1),
+                'status': 200 # HTTP status code
+            }
 
         # Update comment is optional and used for audit changes
         try:
@@ -1874,7 +2376,7 @@ class TrackMeHandlerDataSources_v1(rest_handler.RESTHandler):
                 # Record an audit change
                 import time
                 current_time = int(round(time.time() * 1000))
-                user = "nobody"
+                user = request_info.user
 
                 try:
 

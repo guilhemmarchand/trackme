@@ -1173,6 +1173,217 @@ styles in <div> tags, similar to Bootstrap's grid system.
         </div>
     </div>
 
+    <!-- Modal window for metrics search and report -->
+    <div class="modal fade custom-modal-80" id="metric_hosts_search_and_reports" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header modal-header-info">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h1 style="color: white;"><span class="glyphicon glyphicon-lock"></span> Metric store - Search & Reports </h1>
+                </div>
+
+                <div class="modal-body">
+
+                    <div id="rowMetricHostSearchAndReport" class="dashboard-row dashboard-row1" data-original-id="rowMetricHostSearchAndReport">
+                        <div id="panelMetricHostSearchAndReport" class="dashboard-cell" style="width: 100%;" data-original-id="panelMetricHostSearchAndReport">
+                            <div class="dashboard-panel clearfix">
+                                
+                                <div class="panel-element-row">
+                                    <div style="margin-right: 15px; text-align: center;">
+                                        <a class="btn btn-primary" style="margin-right: 20px;" id="btn_search_metric_host_live_report" target="_blank" href="search_metric_source_live_report_url" role="button">Metrics live report</a>
+                                        <a class="btn btn-primary" style="margin-right: 20px;" id="btn_search_metric_host" target="_blank" href="search_metric_source_url" role="button">Metrics mcatalog report</a>
+                                        <a class="btn btn-primary" style="margin-right: 20px;" id="btn_msearch_metric_host" target="_blank" href="search_data_source_url" role="button">Search (msearch)</a>
+                                        <a class="btn btn-primary" style="margin-right: 20px;" id="btn_mpreview_metric_host" target="_blank" href="search_data_source_url" role="button">Search (mpreview)</a>                                        
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div style="margin-top: 20px;" class="modal-footer">
+                        <div style="margin-right: 15px; float: left;">
+                            <button type="submit" class="btn btn-default btn-default pull-left" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Close</button>
+                        </div>
+                        <div style="margin-right: 15px; float: right;">
+                            <button id="btn_metric_host_search_and_report_back" type="submit" class="btn btn-default btn-primary" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Back </button>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+    <!--
+    Smart Status
+    -->
+
+    <!-- Modal window for Smart Status Data Source -->
+    <div class="modal fade custom-modal-80" id="smart_status_data_source" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header modal-header-info">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h1 style="color: white;"><span class="glyphicon glyphicon-lock"></span> Smart Status </h1>
+                </div>
+
+                <div class="modal-body">
+
+                    <div>
+
+                        <div style="margin-bottom: 10px;">
+
+                            <div>
+                                <h3>The Smart Status performs advanced investigations and correlations dynamically depending on the state of the data source and the conditions:</h3>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <div id="rowSmartStatusDataSource" class="dashboard-row dashboard-row1" data-original-id="rowSmartStatusDataSource">
+                        <div id="panelSmartStatusDataSource" class="dashboard-cell" style="width: 100%;" data-original-id="panelSmartStatusDataSource">
+                            <div class="dashboard-panel clearfix">
+                                
+                                <div class="panel-element-row">
+                                    <div id="eventSmartStatusDataSource" class="dashboard-element event" style="width: 100%">
+                                        <div class="panel-body"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div style="margin-top: 20px;" class="modal-footer">
+                        <div style="margin-right: 15px; float: left;">
+                            <button type="submit" class="btn btn-default btn-default pull-left" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Close</button>
+                        </div>
+                        <div style="margin-right: 15px; float: right;">
+                            <button id="btn_smart_status_data_source_back" type="submit" class="btn btn-default btn-primary" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Back </button>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Modal window for Smart Status Data Host -->
+    <div class="modal fade custom-modal-80" id="smart_status_data_host" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header modal-header-info">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h1 style="color: white;"><span class="glyphicon glyphicon-lock"></span> Smart Status </h1>
+                </div>
+
+                <div class="modal-body">
+
+                    <div>
+
+                        <div style="margin-bottom: 10px;">
+
+                            <div>
+                                <h3>The Smart Status performs advanced investigations and correlations dynamically depending on the state of the data host and the conditions:</h3>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <div id="rowSmartStatusDatatHost" class="dashboard-row dashboard-row1" data-original-id="rowSmartStatusDataHost">
+                        <div id="panelSmartStatusDataHost" class="dashboard-cell" style="width: 100%;" data-original-id="panelSmartStatusDataHost">
+                            <div class="dashboard-panel clearfix">
+                                
+                                <div class="panel-element-row">
+                                    <div id="eventSmartStatusDataHost" class="dashboard-element event" style="width: 100%">
+                                        <div class="panel-body"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div style="margin-top: 20px;" class="modal-footer">
+                        <div style="margin-right: 15px; float: left;">
+                            <button type="submit" class="btn btn-default btn-default pull-left" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Close</button>
+                        </div>
+                        <div style="margin-right: 15px; float: right;">
+                            <button id="btn_smart_status_data_host_back" type="submit" class="btn btn-default btn-primary" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Back </button>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Modal window for Smart Status Metric Host -->
+    <div class="modal fade custom-modal-80" id="smart_status_metric_host" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header modal-header-info">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h1 style="color: white;"><span class="glyphicon glyphicon-lock"></span> Smart Status </h1>
+                </div>
+
+                <div class="modal-body">
+
+                    <div>
+
+                        <div style="margin-bottom: 10px;">
+
+                            <div>
+                                <h3>The Smart Status performs advanced investigations and correlations dynamically depending on the state of the Metric Host and the conditions:</h3>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <div id="rowSmartStatusDatatHost" class="dashboard-row dashboard-row1" data-original-id="rowSmartStatusMetricHost">
+                        <div id="panelSmartStatusMetricHost" class="dashboard-cell" style="width: 100%;" data-original-id="panelSmartStatusMetricHost">
+                            <div class="dashboard-panel clearfix">
+                                
+                                <div class="panel-element-row">
+                                    <div id="eventSmartStatusMetricHost" class="dashboard-element event" style="width: 100%">
+                                        <div class="panel-body"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div style="margin-top: 20px;" class="modal-footer">
+                        <div style="margin-right: 15px; float: left;">
+                            <button type="submit" class="btn btn-default btn-default pull-left" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Close</button>
+                        </div>
+                        <div style="margin-right: 15px; float: right;">
+                            <button id="btn_smart_status_metric_host_back" type="submit" class="btn btn-default btn-primary" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Back </button>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
     <!--
     tags
     -->
@@ -1597,21 +1808,46 @@ styles in <div> tags, similar to Bootstrap's grid system.
                                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                                 </div>
 
-                                <div style="margin-top:10px; margin-left: 20px;">
+                                <div class="modal-body">
 
-                                    <div class="imgheader">
-                                        <img style="float: left; margin: 0px 15px 15px 0px;" src="../../static/app/trackme/icons/identity_card.png"/></span>
-                                        <h3>Identity card note:</h3>
-                                        <br />
+                                    <div id="rowIdentityCard1" class="dashboard-row dashboard-row1">
+                                        <div id="panelIdentityCard1" class="dashboard-cell" style="width: 100%;">
+                                            <div class="dashboard-panel clearfix">
+                                                <div class="panel-element-row">
+
+                                                    <div class="imgheader">
+                                                        <img style="float: left; margin: 0px 15px 15px 0px;" src="../../static/app/trackme/icons/identity_card.png"/></span>
+                                                        <h3>Identity card note:</h3>
+                                                        <br />
+                                                    </div>
+                
+                                                    <div class="generic_message_blue" style="max-width: 95%;">
+                                                        <h2 style="font-weight: bold;">$tk_doc_note$</h2>
+                                                    </div>  
+                
+                                                    <div style="margin-bottom: 20px;">
+                                                        <h3>Link to documentation: </h3><a target="_blank" href="$tk_doc_link$">$tk_doc_link$</a>
+                                                    </div>
+                
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
 
-                                    <div class="generic_message_blue" style="max-width: 95%;">
-                                        <h2 style="font-weight: bold;">$tk_doc_note$</h2>
-                                    </div>  
+                                    <div id="rowIdentityCard2" class="dashboard-row dashboard-row1">
+                                        <div id="panelIdentityCard2" class="dashboard-cell" style="width: 100%;">
+                                            <div class="dashboard-panel clearfix">
+                                                <div class="panel-element-row">
 
-                                    <div style="margin-bottom: 20px;">
-                                        <h3>Link to documentation: </h3><a target="_blank" href="$tk_doc_link$">$tk_doc_link$</a>
+                                                    <div>
+                                                        <h4>$tk_msg_doc_identity_card_is_global$</h4>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
+
                                 </div>
 
                             </div>
@@ -3367,6 +3603,9 @@ styles in <div> tags, similar to Bootstrap's grid system.
                             <div class="btn_ack" style="margin-right: 15px; float: right;">
                                 <button type="submit" id="btn_ack_data_source" role="button" class="btn btn-primary btn-default"><span class="glyphicon glyphicon-remove"></span>Acknowledge alert</button>
                             </div>
+                            <div class="btn_smart_status_data_source" style="margin-right: 15px; float: right;">
+                                <button type="submit" id="btn_smart_status_data_source" role="button" class="btn btn-primary btn-default"><span class="glyphicon glyphicon-remove"></span>Smart Status</button>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -3811,6 +4050,9 @@ styles in <div> tags, similar to Bootstrap's grid system.
                             <div class="btn_ack" style="margin-right: 15px; float: right;">
                                 <button type="submit" id="btn_ack_data_host" role="button" class="btn btn-primary btn-default"><span class="glyphicon glyphicon-remove"></span>Acknowledge alert</button>
                             </div>
+                            <div class="btn_smart_status_data_host" style="margin-right: 15px; float: right;">
+                                <button type="submit" id="btn_smart_status_data_host" role="button" class="btn btn-primary btn-default"><span class="glyphicon glyphicon-remove"></span>Smart Status</button>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -4062,13 +4304,7 @@ styles in <div> tags, similar to Bootstrap's grid system.
                                 <button type="submit" class="btn btn-default btn-default" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Close</button>
                             </div>
                             <div style="margin-right: 15px; float: right;">
-                                <a class="btn btn-primary" id="btn_search_metric_host_live_report" target="_blank" href="search_metric_source_live_report_url" role="button">Metrics live report</a>
-                            </div>
-                            <div style="margin-right: 15px; float: right;">
-                                <a class="btn btn-primary" id="btn_search_metric_host" target="_blank" href="search_metric_source_url" role="button">Metrics mcatalog report</a>
-                            </div>
-                            <div style="margin-right: 15px; float: right;">
-                                <a class="btn btn-primary" id="btn_msearch_metric_host" target="_blank" href="search_data_source_url" role="button">Search (msearch)</a>
+                                <button type="submit" id="btn_search_metric_reports" role="button" class="btn btn-primary btn-default"><span class="glyphicon glyphicon-remove"></span>Search & reports</button>
                             </div>
                             <div style="margin-right: 15px; float: right;">
                                 <button type="submit" id="btn_modify_metric_host" role="button" class="btn btn-primary btn-default"><span class="glyphicon glyphicon-remove"></span>Modify</button>
@@ -4088,7 +4324,9 @@ styles in <div> tags, similar to Bootstrap's grid system.
                             <div class="btn_ack" style="margin-right: 15px; float: right;">
                                 <button type="submit" id="btn_ack_metric_host" role="button" class="btn btn-primary btn-default"><span class="glyphicon glyphicon-remove"></span>Acknowledge alert</button>
                             </div>
-
+                            <div class="btn_smart_status_metric_host" style="margin-right: 15px; float: right;">
+                                <button type="submit" id="btn_smart_status_metric_host" role="button" class="btn btn-primary btn-default"><span class="glyphicon glyphicon-remove"></span>Smart Status</button>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -4139,7 +4377,7 @@ styles in <div> tags, similar to Bootstrap's grid system.
                                 <div id="panelLinkQueues" class="dashboard-cell" style="width: 50%;">
                                     <div class="dashboard-panel clearfix">
                                         <div class="panel-element-row">
-                                            <div class="input input-dropdown" id="inputHostQueues">
+                                            <div class="input input-multiselect" id="inputHostQueues">
                                                 <label>Host(s):</label>
                                             </div>
                                         </div>
@@ -4238,7 +4476,7 @@ styles in <div> tags, similar to Bootstrap's grid system.
                                 <div id="panelLinkParsingIssues" class="dashboard-cell" style="width: 50%;">
                                     <div class="dashboard-panel clearfix">
                                         <div class="panel-element-row">
-                                            <div class="input input-dropdown" id="inputHostParsing">
+                                            <div class="input input-multiselect" id="inputHostParsing">
                                                 <label>Host(s):</label>
                                             </div>
                                         </div>
@@ -5009,6 +5247,7 @@ styles in <div> tags, similar to Bootstrap's grid system.
 
                 <div class="modal-footer">
                     <button id="btn_modal_elastic_sources_manage" type="submit" style="margin-right: 15px;" class="btn btn-default btn-primary pull-left" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Manage existing shared elastic sources</button>
+                    <button id="btn_modal_elastic_sources_dedicated_manage" type="submit" style="margin-right: 15px;" class="btn btn-default btn-primary pull-left" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Manage existing dedicated elastic sources</button>                    
                     <button id="btn_modal_elastic_sources_add" type="submit" class="btn btn-default btn-primary pull-left" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Create a new elastic source</button>
                     <button type="submit" class="btn btn-default btn-default pull-right" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Cancel</button>
                 </div>
@@ -5158,10 +5397,10 @@ styles in <div> tags, similar to Bootstrap's grid system.
             <div class="modal-content">
                 <div class="modal-header modal-header-danger">
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h1 style="color: white;"><span class="glyphicon glyphicon-lock"></span> Elastic sources definition </h1>
+                    <h1 style="color: white;"><span class="glyphicon glyphicon-lock"></span> Shared Elastic sources definition </h1>
                 </div>
                 <div class="modal-body">
-                    <b>Use this interface to create and manage elastic sources:</b>
+                    <b>Use this interface to create and manage shared elastic sources:</b>
                     <br /><br />
 
                     <div class="boxnotify" id="boxnotify-modify_elastic_sources">
@@ -5209,7 +5448,65 @@ styles in <div> tags, similar to Bootstrap's grid system.
         </div>
     </div>
 
-    <!-- elastic sources deletion -->
+    <div class="modal fade custom-modal-80" id="modify_elastic_sources_dedicated" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header modal-header-danger">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h1 style="color: white;"><span class="glyphicon glyphicon-lock"></span> Dedicated Elastic sources definition </h1>
+                </div>
+                <div class="modal-body">
+                    <b>Use this interface to create and manage dedicated elastic sources:</b>
+                    <br /><br />
+
+                    <div class="boxnotify" id="boxnotify-modify_elastic_sources_dedicated">
+                    </div>
+
+                    <div id="rowElasticSourcesDedicated1a" class="dashboard-row dashboard-row3">
+
+                        <div id="rowElasticSourcesDedicated1b" class="dashboard-cell" style="width: 50%;">
+                            <div class="dashboard-panel clearfix">
+
+                                <div class="panel-element-row">
+                                    <div id="SingleElasticSourcesDedicated" class="dashboard-element single" style="width: 100%">
+                                        <div class="panel-body"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div id="rowElasticSourcesDedicatedTable" class="dashboard-row dashboard-row3">
+                        <div id="panelElasticSourcesDedicatedTable" class="dashboard-cell" style="width: 100%;">
+                            <div class="dashboard-panel clearfix">
+                                <div class="panel-element-row">
+                                    <div class="fieldset">
+                                        <div class="input input-text" id="modal_input_elastic_sources_dedicated_search" style="margin-bottom: 10px;">
+                                            <label>Search for elastic source:</label>
+                                        </div>
+                                        <div id="tableElasticSourcesDedicated" class="dashboard-element table" style="width: 100%">
+                                            <label>Click on the table for interactive actions:</label>
+                                            <div class="panel-body"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" id="btn_modal_elastic_sources_dedicated_add_back" class="btn btn-default btn-primary pull-left" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Back</button>
+                    <button type="submit" id="btn_modal_elastic_sources_dedicated_add_delete" class="btn btn-default btn-danger pull-right" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Remove selected</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- shared elastic sources deletion -->
     <div id="delete_elastic_source" class="dashboard-element html" style="width: 100%">
         <div class="panel-body html">
             <div class="modal fade" id="delete_elastic_source_main" role="dialog">
@@ -5241,6 +5538,45 @@ styles in <div> tags, similar to Bootstrap's grid system.
                         <div class="modal-footer">
                             <button type="submit" id="btn_delete_elastic_source_cancel" role="button" class="btn btn-default btn-default" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span>Cancel</button>
                             <button type="submit" id="btn_delete_elastic_source_confirm" role="button" class="btn btn-danger btn-default"><span class="glyphicon glyphicon-remove"></span>Delete</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- dedicated elastic sources deletion -->
+    <div id="delete_elastic_source_dedicated" class="dashboard-element html" style="width: 100%">
+        <div class="panel-body html">
+            <div class="modal fade" id="delete_elastic_source_main_dedicated" role="dialog">
+                <div class="modal-dialog">
+                    <!-- Modal content-->
+                    <div class="modal-content">
+                        <!-- This is required to get the token substitutions without affecting the buttons actions in js -->
+                        <div class="dashboard-element html" id="body_delete_elastic_source_dedicated">
+                            <div class="panel-body html">
+                                <div class="modal-header modal-header-danger">
+                                    <h1 style="color: white;">Actions for dedicated Elastic Source: </h1>
+                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                </div>
+                                <div class="modal-body">
+                                    <p><b>Confirm modification ?</b><br />
+                                    </p>
+                                    <p>
+                                        <label>Optional: enter a note of this update. <br />
+                                            This note will be logged and made available for notification.</label>
+                                        <textarea
+                                                id = "elastic_source_dedicated_delete_comment"
+                                                rows = "6"
+                                                cols = "160" style="width: 500px;"
+                                                onfocus="if(this.value==this.defaultValue)this.value='';" onblur="if(this.value=='')this.value=this.defaultValue;">update note</textarea>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="submit" id="btn_delete_elastic_source_dedicated_cancel" role="button" class="btn btn-default btn-default" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span>Cancel</button>
+                            <button type="submit" id="btn_delete_elastic_source_dedicated_confirm" role="button" class="btn btn-danger btn-default"><span class="glyphicon glyphicon-remove"></span>Delete</button>
                         </div>
                     </div>
                 </div>
@@ -8539,25 +8875,25 @@ styles in <div> tags, similar to Bootstrap's grid system.
                     <div style="margin-right: 28px;" class="input input-text" id="inputDataNameFilter">
                         <label>Keyword filter name:</label>
                     </div>
-                    <div class="input input-dropdown" id="inputTags">
+                    <div class="input input-multiselect" id="inputTags">
                         <label>Tags:</label>
                     </div>
-                    <div class="input input-dropdown" id="inputDataName">
+                    <div class="input input-multiselect" id="inputDataName">
                         <label>Name (use keyword filter):</label>
                     </div>
-                    <div class="input input-dropdown" id="inputDataIndex">
+                    <div class="input input-multiselect" id="inputDataIndex">
                         <label>Index:</label>
                     </div>
-                    <div class="input input-dropdown" id="inputDataSourcetype">
+                    <div class="input input-multiselect" id="inputDataSourcetype">
                         <label>Sourcetype(s):</label>
                     </div>
-                    <div class="input input-dropdown" id="inputDataSourceState">
+                    <div class="input input-multiselect" id="inputDataSourceState">
                         <label>Filter state:</label>
                     </div>
                     <div class="input input-dropdown" id="inputDataMonitoredState">
                         <label>Filter monitored_state:</label>
                     </div>
-                    <div class="input input-dropdown" id="inputDataPriority">
+                    <div class="input input-multiselect" id="inputDataPriority">
                         <label>Filter priority:</label>
                     </div>
                     <div class="input input-dropdown" id="refreshForm">
@@ -8573,10 +8909,10 @@ styles in <div> tags, similar to Bootstrap's grid system.
             <div class="dashboard-panel clearfix">
                 <h2 class="panel-title">Click on any entry of the table to open interactive actions for this entity, use inputs to filter out the selection: (restricted to the first thousand results, use the key world filter input for large scale selections)</h2>
                 <div class="fieldset">
-                    <div class="input input-dropdown" id="inputDataHostIndexes">
+                    <div class="input input-multiselect" id="inputDataHostIndexes">
                         <label>Index(es):</label>
                     </div>
-                    <div class="input input-dropdown" id="inputDataHostSourcetypes">
+                    <div class="input input-multiselect" id="inputDataHostSourcetypes">
                         <label>Sourcetype(s):</label>
                     </div>
                     <div class="input input-dropdown" id="inputDataHostFilterMode">
@@ -8585,16 +8921,16 @@ styles in <div> tags, similar to Bootstrap's grid system.
                     <div style="margin-right: 28px;" class="input input-text" id="inputDataHostFilter">
                         <label>Keyword filter hosts:</label>
                     </div>
-                    <div class="input input-dropdown" id="inputDataHost">
+                    <div class="input input-multiselect" id="inputDataHost">
                         <label>Host(s) (use keyword filter):</label>
                     </div>
-                    <div class="input input-dropdown" id="inputDataHostState">
+                    <div class="input input-multiselect" id="inputDataHostState">
                         <label>Filter state:</label>
                     </div>
                     <div class="input input-dropdown" id="inputDataHostMonitoredState">
                         <label>Filter monitored_state:</label>
                     </div>
-                    <div class="input input-dropdown" id="inputDataHostPriority">
+                    <div class="input input-multiselect" id="inputDataHostPriority">
                         <label>Filter priority:</label>
                     </div>
                     <div class="input input-dropdown" id="refreshHostForm">
@@ -8610,10 +8946,10 @@ styles in <div> tags, similar to Bootstrap's grid system.
             <div class="dashboard-panel clearfix">
                 <h2 class="panel-title">Click on any entry of the table to open interactive actions for this entity, use inputs to filter out the selection: (restricted to the first thousand results, use the key world filter input for large scale selections):</h2>
                 <div class="fieldset">
-                    <div class="input input-dropdown" id="inputMetricHostIndexes">
+                    <div class="input input-multiselect" id="inputMetricHostIndexes">
                         <label>Index(es):</label>
                     </div>
-                    <div class="input input-dropdown" id="inputMetricHostCategories">
+                    <div class="input input-multiselect" id="inputMetricHostCategories">
                         <label>Metric categorie(s):</label>
                     </div>
                     <div class="input input-dropdown" id="inputMetricHostFilterMode">
@@ -8622,16 +8958,16 @@ styles in <div> tags, similar to Bootstrap's grid system.
                     <div style="margin-right: 28px;" class="input input-dropdown" id="inputMetricHostFilter">
                         <label>Keyword filter hosts:</label>
                     </div>
-                    <div class="input input-dropdown" id="inputMetricHost">
+                    <div class="input input-multiselect" id="inputMetricHost">
                         <label>Host(s) (use keyword filter):</label>
                     </div>
-                    <div class="input input-dropdown" id="inputMetricHostState">
+                    <div class="input input-multiselect" id="inputMetricHostState">
                         <label>Filter state:</label>
                     </div>
                     <div class="input input-dropdown" id="inputMetricHostMonitoredState">
                         <label>Filter monitored_state:</label>
                     </div>
-                    <div class="input input-dropdown" id="inputMetricHostPriority">
+                    <div class="input input-multiselect" id="inputMetricHostPriority">
                         <label>Filter priority:</label>
                     </div>
                     <div class="input input-dropdown" id="refreshMetricHostForm">
@@ -9413,6 +9749,68 @@ require([
                     }]
                 }
             ]
+        });
+
+        // Smart Status
+
+        var searchSmartStatusDataSource = new SearchManager({
+            "id": "searchSmartStatusDataSource",
+            "earliest_time": "-5m",
+            "cancelOnUnload": true,
+            "sample_ratio": null,
+            "latest_time": "now",
+            "search": "| trackme url=/services/trackme/v1/smart_status/ds_smart_status mode=get body=\"{'data_name': '$tk_data_name$'}\" | `trackme_smart_status_emoji`",
+            "status_buckets": 0,
+            "app": utils.getCurrentApp(),
+            "auto_cancel": 90,
+            "preview": true,
+            "tokenDependencies": {
+                "depends": "$show_smart_status_data_source$"
+            },
+            "runWhenTimeIsUndefined": false
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        });
+
+        var searchSmartStatusDataHost = new SearchManager({
+            "id": "searchSmartStatusDataHost",
+            "earliest_time": "-5m",
+            "cancelOnUnload": true,
+            "sample_ratio": null,
+            "latest_time": "now",
+            "search": "| trackme url=/services/trackme/v1/smart_status/dh_smart_status mode=get body=\"{'data_host': '$tk_data_host$'}\" | `trackme_smart_status_emoji`",
+            "status_buckets": 0,
+            "app": utils.getCurrentApp(),
+            "auto_cancel": 90,
+            "preview": true,
+            "tokenDependencies": {
+                "depends": "$show_smart_status_data_host$"
+            },
+            "runWhenTimeIsUndefined": false
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        });
+
+        var searchSmartStatusMetricHost = new SearchManager({
+            "id": "searchSmartStatusMetricHost",
+            "earliest_time": "-5m",
+            "cancelOnUnload": true,
+            "sample_ratio": null,
+            "latest_time": "now",
+            "search": "| trackme url=/services/trackme/v1/smart_status/mh_smart_status mode=get body=\"{'metric_host': '$tk_metric_host$'}\" | `trackme_smart_status_emoji`",
+            "status_buckets": 0,
+            "app": utils.getCurrentApp(),
+            "auto_cancel": 90,
+            "preview": true,
+            "tokenDependencies": {
+                "depends": "$show_smart_status_metric_host$"
+            },
+            "runWhenTimeIsUndefined": false
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
         });
 
         var searchShowTagsPolicies = new SearchManager({
@@ -11529,7 +11927,7 @@ require([
             tokenNamespace: "submitted"
         });
 
-        // Elastic Sources
+        // Elastic Sources Shared
 
         var searchElasticSources = new SearchManager({
             "id": "searchElasticSources",
@@ -11537,7 +11935,7 @@ require([
             "cancelOnUnload": true,
             "sample_ratio": null,
             "latest_time": "now",
-            "search": "| inputlookup trackme_elastic_sources | eval keyid=_key | search data_name=$tk_input_elastic_sources_search$ | eval select=keyid | fields keyid, data_name, search_mode, search_constraint, elastic_data_index, elastic_data_sourcetype, select",
+            "search": "| inputlookup trackme_elastic_sources | eval keyid=_key | search data_name=$tk_input_elastic_sources_search$ | eval select=data_name | fields keyid, data_name, search_mode, search_constraint, elastic_data_index, elastic_data_sourcetype, select",
             "status_buckets": 0,
             "app": utils.getCurrentApp(),
             "auto_cancel": 90,
@@ -11579,6 +11977,61 @@ require([
             "search": "| stats count",
             "managerid": "searchElasticSources",
             "id": "searchSingleElasticSources"
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        });
+
+        // Elastic Sources Shared
+
+        var searchElasticSourcesDedicated = new SearchManager({
+            "id": "searchElasticSourcesDedicated",
+            "earliest_time": "-15m",
+            "cancelOnUnload": true,
+            "sample_ratio": null,
+            "latest_time": "now",
+            "search": "| inputlookup trackme_elastic_sources_dedicated | eval keyid=_key | search data_name=$tk_input_elastic_sources_dedicated_search$ | eval select=data_name | fields keyid, data_name, search_mode, search_constraint, elastic_data_index, elastic_data_sourcetype, select",
+            "status_buckets": 0,
+            "app": utils.getCurrentApp(),
+            "auto_cancel": 90,
+            "preview": true,
+            "tokenDependencies": {
+                "depends": "$start_modify_elastic_sources_dedicated$",
+            },
+            "runWhenTimeIsUndefined": false
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        });
+
+        new SearchEventHandler({
+            managerid: "searchElasticSourcesDedicated",
+            event: "progress",
+            conditions: [{
+                    attr: "match",
+                    value: "'job.resultCount' == 0",
+                    actions: [{
+                        "type": "unset",
+                        "token": "show_table_elastic_sources_dedicated"
+                    }]
+                },
+                {
+                    attr: "any",
+                    value: "*",
+                    actions: [{
+                        "type": "set",
+                        "token": "show_table_elastic_sources_dedicated",
+                        "value": "True"
+                    }]
+                }
+            ]
+        });
+
+        var searchSingleElasticSourcesDedicated = new PostProcessManager({
+            "tokenDependencies": {},
+            "search": "| stats count",
+            "managerid": "searchElasticSourcesDedicated",
+            "id": "searchSingleElasticSourcesDedicated"
         }, {
             tokens: true,
             tokenNamespace: "submitted"
@@ -15508,7 +15961,7 @@ require([
             FormUtils.handleValueChange(modal_input_metric_host_blacklist_metric_category_search);
         });
 
-        // Elastic Sources
+        // Elastic Sources Shared
 
         var modal_input_elastic_sources_search = new TextInput({
             "id": "modal_input_elastic_sources_search",
@@ -15522,6 +15975,22 @@ require([
 
         modal_input_elastic_sources_search.on("change", function(newValue) {
             FormUtils.handleValueChange(modal_input_elastic_sources_search);
+        });
+
+        // Elastic Sources Dedicated
+
+        var modal_input_elastic_sources_dedicated_search = new TextInput({
+            "id": "modal_input_elastic_sources_dedicated_search",
+            "default": "*",
+            "searchWhenChanged": true,
+            "value": "$form.tk_input_elastic_sources_dedicated_search$",
+            "el": $('#modal_input_elastic_sources_dedicated_search')
+        }, {
+            tokens: true
+        }).render();
+
+        modal_input_elastic_sources_dedicated_search.on("change", function(newValue) {
+            FormUtils.handleValueChange(modal_input_elastic_sources_dedicated_search);
         });
 
         // Custom lagging
@@ -16540,7 +17009,7 @@ require([
             tokenNamespace: "submitted"
         }).render();
 
-        // Elastic Sources
+        // Elastic Sources Shared
         var SingleElasticSources = new SingleElement({
             "id": "SingleElasticSources",
             "trendDisplayMode": "absolute",
@@ -16562,6 +17031,33 @@ require([
             "underLabel": "current elastic source(s)",
             "managerid": "searchSingleElasticSources",
             "el": $('#SingleElasticSources')
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        }).render();
+
+        // Elastic Sources Dedicated
+        var SingleElasticSourcesDedicated = new SingleElement({
+            "id": "SingleElasticSourcesDedicated",
+            "trendDisplayMode": "absolute",
+            "drilldown": "none",
+            "trendColorInterpretation": "standard",
+            "useColors": "0",
+            "colorBy": "value",
+            "showTrendIndicator": "1",
+            "showSparkline": "1",
+            "trellis.enabled": "0",
+            "numberPrecision": "0",
+            "rangeColors": "[\"0x77dd77\",\"0x0877a6\",\"0xf8be34\",\"0xf1813f\",\"0xdc4e41\"]",
+            "trellis.size": "medium",
+            "colorMode": "none",
+            "rangeValues": "[0,30,70,100]",
+            "unitPosition": "after",
+            "trellis.scales.shared": "1",
+            "useThousandSeparators": "1",
+            "underLabel": "current elastic source(s)",
+            "managerid": "searchSingleElasticSourcesDedicated",
+            "el": $('#SingleElasticSourcesDedicated')
         }, {
             tokens: true,
             tokenNamespace: "submitted"
@@ -16684,6 +17180,7 @@ require([
                 // doc href
                 setToken("tk_doc_link", TokenUtils.replaceTokenNames("$row.doc_link$", _.extend(submittedTokenModel.toJSON(), e.data)));
                 setToken("tk_doc_note", TokenUtils.replaceTokenNames("$row.doc_note$", _.extend(submittedTokenModel.toJSON(), e.data)));
+                setToken("tk_doc_identity_card_is_global", TokenUtils.replaceTokenNames("$row.doc_identity_card_is_global$", _.extend(submittedTokenModel.toJSON(), e.data)));
 
                 // tags
                 setToken("tk_tags", TokenUtils.replaceTokenNames("$row.tags$", _.extend(submittedTokenModel.toJSON(), e.data)));
@@ -16771,10 +17268,8 @@ require([
 
                 // prefill the current status
                 //console.log("tk_outlieralertonupper is: " + tk_outlieralertonupper);
-                if (tk_outlieralertonupper && tk_outlieralertonupper == "true") {
-                    setToken("form.tk_input_data_host_outlier_alert_on_upper", TokenUtils.replaceTokenNames("true", _.extend(submittedTokenModel.toJSON(), e.data)));
-                } else {
-                    setToken("form.tk_input_data_host_outlier_alert_on_upper", TokenUtils.replaceTokenNames("false", _.extend(submittedTokenModel.toJSON(), e.data)));
+                if (tk_outlieralertonupper && tk_outlieralertonupper != "null") {
+                    setToken("form.tk_input_data_source_outlier_alert_on_upper", TokenUtils.replaceTokenNames(tk_outlieralertonupper, _.extend(submittedTokenModel.toJSON(), e.data)));
                 }
 
                 // prefill the outlier span
@@ -16792,6 +17287,7 @@ require([
                 // href docs
                 var tk_doc_link = tokens.get("tk_doc_link");
                 var tk_doc_note = tokens.get("tk_doc_note");
+                var tk_doc_identity_card_is_global = tokens.get("tk_doc_identity_card_is_global");
 
                 // If the documentation reference has not been set, define the href format
                 if (tk_doc_link == "null") {
@@ -16815,6 +17311,15 @@ require([
                     document.getElementById("input_doc_note").value = tk_doc_note;
                 }
 
+                // If the identity card info is global, disable the delete card
+                if (tk_doc_identity_card_is_global == "true") {
+                    document.getElementById('btn_delete_manage_identity_card').disabled = true;
+                    setToken("tk_msg_doc_identity_card_is_global", TokenUtils.replaceTokenNames("This is a default identify card configured at the system level, you cannot delete this card but you can create a new card linked to this specific data source.", _.extend(submittedTokenModel.toJSON(), e.data)));
+                } else {
+                    document.getElementById('btn_delete_manage_identity_card').disabled = false;
+                    setToken("tk_msg_doc_identity_card_is_global", TokenUtils.replaceTokenNames("This identity card was associated to this data source, you can update or delete this card.", _.extend(submittedTokenModel.toJSON(), e.data)));
+                }
+            
                 // tags
                 var tk_tags = tokens.get("tk_tags");
                 //console.log("tk_tags is: " + tk_tags);
@@ -17675,6 +18180,12 @@ require([
                     setToken("form.tk_input_data_host_outlier_min_eventcount", TokenUtils.replaceTokenNames("disabled", _.extend(submittedTokenModel.toJSON(), e.data)));
                 }
 
+                // prefill the current status
+                //console.log("tk_outlieralertonupper is: " + tk_outlieralertonupper);
+                if (tk_outlieralertonupper && tk_outlieralertonupper != "null") {
+                    setToken("form.tk_input_data_host_outlier_alert_on_upper", TokenUtils.replaceTokenNames(tk_outlieralertonupper, _.extend(submittedTokenModel.toJSON(), e.data)));
+                }
+
                 // prefill the outlier span
                 //console.log("tk_outlier_span is: " + tk_outlier_span);
                 if (tk_outlier_span && tk_outlier_span != "null") {
@@ -17776,9 +18287,14 @@ require([
                 var msearch_metric_host = '| msearch index=* filter=\"host=\"' + tk_metric_host + '\"\"'
                 msearch_metric_host = 'search' + "?q=" + encodeURI(msearch_metric_host) + '&earliest=-15m&latest=now'
 
+                // Define the history msearch
+                var mpreview_metric_host = '| mpreview index=* filter=\"host=\"' + tk_metric_host + '\"\"'
+                mpreview_metric_host = 'search' + "?q=" + encodeURI(mpreview_metric_host) + '&earliest=-15m&latest=now'
+
                 // Define the URL target
                 document.getElementById("btn_search_metric_host").href = search_metric_host;
                 document.getElementById("btn_msearch_metric_host").href = msearch_metric_host;
+                document.getElementById("btn_mpreview_metric_host").href = mpreview_metric_host;
 
                 var search_metric_host_live_report = '| savedsearch \"trackMe - metric host live report\" host=\"' + tk_metric_host + '"'
                 search_metric_host_live_report = 'search' + "?q=" + encodeURI(search_metric_host_live_report) + '&earliest=-15m&latest=now'
@@ -17839,7 +18355,7 @@ require([
 
         var elementHostTableMetricHost = new TableElement({
             "id": "elementHostTableMetricHost",
-            "count": 8,
+            "count": 5,
             "drilldown": "none",
             "fields": "metric_category, metric_last_time, metric_max_lag_allowed, metric_current_lag_sec, duration, state",
             "refresh.display": "none",
@@ -17953,6 +18469,56 @@ require([
             tokens: true,
             tokenNamespace: "submitted"
         }).render();
+
+        // Smart Status
+
+        var eventSmartStatusDataSource = new EventElement({
+            "id": "eventSmartStatusDataSource",
+            "list.drilldown": "none",
+            "table.drilldown": "all",
+            "list.wrap": "1",
+            "table.wrap": "1",
+            "rowNumbers": "0",
+            "table.sortDirection": "asc",
+            "count": 20,
+            "raw.drilldown": "full",
+            "type": "list",
+            "maxLines": 5,
+            "managerid": "searchSmartStatusDataSource",
+            "el": $('#eventSmartStatusDataSource')
+        }, {tokens: true, tokenNamespace: "submitted"}).render();
+
+        var eventSmartStatusDataHost = new EventElement({
+            "id": "eventSmartStatusDataHost",
+            "list.drilldown": "none",
+            "table.drilldown": "all",
+            "list.wrap": "1",
+            "table.wrap": "1",
+            "rowNumbers": "0",
+            "table.sortDirection": "asc",
+            "count": 20,
+            "raw.drilldown": "full",
+            "type": "list",
+            "maxLines": 5,
+            "managerid": "searchSmartStatusDataHost",
+            "el": $('#eventSmartStatusDataHost')
+        }, {tokens: true, tokenNamespace: "submitted"}).render();
+
+        var eventSmartStatusMetricHost = new EventElement({
+            "id": "eventSmartStatusMetricHost",
+            "list.drilldown": "none",
+            "table.drilldown": "all",
+            "list.wrap": "1",
+            "table.wrap": "1",
+            "rowNumbers": "0",
+            "table.sortDirection": "asc",
+            "count": 20,
+            "raw.drilldown": "full",
+            "type": "list",
+            "maxLines": 5,
+            "managerid": "searchSmartStatusMetricHost",
+            "el": $('#eventSmartStatusMetricHost')
+        }, {tokens: true, tokenNamespace: "submitted"}).render();
 
         // tags policies
         var tableTagsPolicies = new TableElement({
@@ -18074,7 +18640,7 @@ require([
             tokenNamespace: "submitted"
         }).render();
 
-        // Elastic Sources
+        // Elastic Sources Shared
 
         var tableElasticSources = new TableElement({
             "id": "tableElasticSources",
@@ -18088,6 +18654,25 @@ require([
             "wrap": "false",
             "managerid": "searchElasticSources",
             "el": $('#tableElasticSources')
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        }).render();
+
+        // Elastic Sources Dedicated
+
+        var tableElasticSourcesDedicated = new TableElement({
+            "id": "tableElasticSourcesDedicated",
+            "tokenDependencies": {
+                "depends": "$show_table_elastic_sources_dedicated$"
+            },
+            "count": 10,
+            "drilldown": "none",
+            "fields": "data_name, search_mode, search_constraint, elastic_data_index, elastic_data_sourcetype, select",
+            "refresh.display": "none",
+            "wrap": "false",
+            "managerid": "searchElasticSourcesDedicated",
+            "el": $('#tableElasticSourcesDedicated')
         }, {
             tokens: true,
             tokenNamespace: "submitted"
@@ -22154,6 +22739,7 @@ require([
             var tk_data_sample_lastrun = tokens.get("tk_data_sample_lastrun");
             var tk_dcount_host = tokens.get("tk_dcount_host");
             var tk_min_dcount_host = tokens.get("tk_min_dcount_host");
+            var tk_tags = tokens.get("tk_tags");
 
             // Create the endpoint URL
             var myendpoint_URl = "{{SPLUNKWEB_URL_PREFIX}}/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_data_source_monitoring/" + tk_keyid;
@@ -22196,7 +22782,8 @@ require([
                 "latest_flip_time": tk_latest_flip_time,
                 "priority": tk_priority,
                 "dcount_host": tk_dcount_host,
-                "min_dcount_host": tk_min_dcount_host
+                "min_dcount_host": tk_min_dcount_host,
+                "tags": tk_tags
             };
 
             if (!tk_keyid || !tk_keyid.length) {
@@ -22794,6 +23381,7 @@ require([
             var tk_data_sample_lastrun = tokens.get("tk_data_sample_lastrun");
             var tk_dcount_host = tokens.get("tk_dcount_host");
             var tk_min_dcount_host = tokens.get("tk_min_dcount_host");
+            var tk_tags = tokens.get("tk_tags");
 
             // Create the endpoint URL
             var myendpoint_URl = "{{SPLUNKWEB_URL_PREFIX}}/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_data_source_monitoring/" + tk_keyid;
@@ -22836,7 +23424,8 @@ require([
                 "latest_flip_time": tk_latest_flip_time,
                 "priority": tk_priority,
                 "dcount_host": tk_dcount_host,
-                "min_dcount_host": tk_min_dcount_host
+                "min_dcount_host": tk_min_dcount_host,
+                "tags": tk_tags
             };
 
             if (!tk_keyid || !tk_keyid.length) {
@@ -23541,6 +24130,7 @@ require([
             var tk_priority = tokens.get("tk_priority");
             var tk_dcount_host = tokens.get("tk_dcount_host");
             var tk_min_dcount_host = tokens.get("tk_min_dcount_host");
+            var tk_tags = tokens.get("tk_tags");
 
             // Create a dictionary to store the field names and values
             var record = {
@@ -23576,7 +24166,8 @@ require([
                 "latest_flip_time": tk_latest_flip_time,
                 "priority": tk_priority,
                 "dcount_host": tk_dcount_host,
-                "min_dcount_host": tk_min_dcount_host
+                "min_dcount_host": tk_min_dcount_host,
+                "tags": tk_tags
             };
 
             // Create the endpoint URL
@@ -27726,6 +28317,7 @@ require([
 
                 submitTokens();
                 setToken("start_modify_elastic_sources", "true");
+                setToken("start_modify_elastic_sources_dedicated", "true");
                 // Show input modal
                 $("#modify_elastic_sources_main").modal();
             });
@@ -27740,6 +28332,14 @@ require([
                 searchElasticSources.startSearch();
         });
 
+        $('#btn_modal_elastic_sources_dedicated_manage').click(function() {
+                // Show input modal
+                $("#modify_elastic_sources_dedicated").modal();
+
+                // Excplicitely refresh the search
+                searchElasticSourcesDedicated.startSearch();
+        });
+
         $('#btn_modal_elastic_sources_add').click(function() {
                 // Default disable button add state
                 document.getElementById('btn_modal_elastic_source_add_new').disabled = true;
@@ -27750,6 +28350,11 @@ require([
 
         // Back
         $('#btn_modal_elastic_sources_add_back').click(function() {
+                // Show input modal
+                $("#modify_elastic_sources_main").modal();
+        });
+
+        $('#btn_modal_elastic_sources_dedicated_add_back').click(function() {
                 // Show input modal
                 $("#modify_elastic_sources_main").modal();
         });
@@ -28253,6 +28858,13 @@ require([
 
         });
 
+
+
+
+
+
+
+
         // run elastic shared tracker now
         $("#add_elastic_source_processed_run_tracker").click(function() {
 
@@ -28441,99 +29053,105 @@ require([
         // delete elastic source
 
         $("#btn_modal_elastic_sources_add_delete").click(function() {
-                $("#modify_elastic_sources").modal('hide');
-                $("#delete_elastic_source_main").modal();
+
+            $("#modify_elastic_sources").modal('hide');
+            $("#delete_elastic_source_main").modal();
+            $("#modify_elastic_sources").modal('hide');
+
         });
 
         function foreachDeleteSharedElasticSource(item) {
         //console.log("removal of key :" + item);
 
-            // Create the endpoint URL
-            var myendpoint_URl = "{{SPLUNKWEB_URL_PREFIX}}/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_elastic_sources/" + item;
+        submitTokens();
 
-            //console.log("Endpoint URL is: " + myendpoint_URl);
+        // When the Submit button is clicked, get all the form fields by accessing token values
+        var tokens = mvc.Components.get("default");
+
+        var tk_multi_table_array = tokens.get("removeElasticSourceShared");
+        var tk_comment = tokens.get("tk_comment");
+
+        //console.log("comment is: " + tk_comment);
 
             if (item && item.length) {
 
-                // Get the KV entry content first
-                $.ajax({
-                    url: myendpoint_URl,
-                    type: "GET",
-                    async: true,
-                    contentType: "application/json",
-                    success: function(returneddata) {
+                // Define the query
+                var searchQuery = "| trackme url=\"/services/trackme/v1/elastic_sources/elastic_shared_del\" mode=\"delete\" body=\"{\\\"data_name\\\": \\\"" + item + "\\\", \\\"update_comment\\\": \\\"" + tk_comment + "\\\"}\"";
 
-                        removedObject = returneddata.data_name;
-                        removedObjectAttr1 = returneddata.search_mode;
-                        removedObjectAttr2 = returneddata.search_constraint;
-                        removedObjectAttr3 = returneddata.elastic_data_index;
-                        removedObjectAttr4 = returneddata.elastic_data_sourcetype;
-                        //console.log("removedObject is: " + removedObject);
+                // Set the search parameters--specify a time range
+                var searchParams = {
+                    earliest_time: "-5m",
+                    latest_time: "now"
+                };
 
-                        // Retrieve update comment if any
-                        var tk_comment = document.getElementById("elastic_source_shared_delete_comment").value;
+                // Run a normal search that immediately returns the job's SID
+                service.search(
+                    searchQuery,
+                    searchParams,
+                    function(err, job) {
 
-                        // if is not defined, give it a value and override text box content
-                        if (tk_comment == "null") {
-                            setToken("tk_update_comment", TokenUtils.replaceTokenNames("No comments for update.", _.extend(submittedTokenModel.toJSON(), e.data)));
-                        }
-                        else if (tk_comment == "update note") {
-                            tk_comment = "No comment for update.";
-                        }
+                        $("#loadingGray").remove()
+                        $("body").append('<div id="loadingGray" style="background: #e9e9e9; display: block; position: fixed; z-index: 100; top: 0; right: 0; bottom: 0; left: 0; height: 100%; opacity: 0.8;"><div style="width: 100%; margin-top: 250px; padding-bottom: 50px; text-align: center;"><p style="font-size: 18pt; font-weight: bolder; color: #003b59;">Deleting shared elastic tracker...</p></div><div id="spinner"></div></div>')
 
-                        // Proceed to delete call
-                        $.ajax({
-                            url: myendpoint_URl,
-                            type: "DELETE",
-                            async: true,
-                            contentType: "application/json",
-                            success: function(returneddata) {
+                        require(["jquery",
+                                "/static/app/trackme/spin.js"
+                            ],
+                            function($,
+                                Spinner
+                            ) {
+                                new Spinner({
+                                    lines: 12, length: 18,
+                                    position: "relative", color: "#003b59"
+                                }).spin(document.getElementById('spinner'));
+                            })
 
-                                //console.log(returneddata);
-
-                                // Audit
-                                action = "success";
-                                change_type = "delete elastic source";
-                                object = removedObject;
-                                object_category = "elastic_sources";
-                                object_attrs = "{" + "\"data_name\": \"" + removedObject + "\", \"search_mode\": \"" + removedObjectAttr1 + "\", \"search_constraint\": \"" + removedObjectAttr2 + "\", \"elastic_data_index\": \"" + removedObjectAttr3 + "\", \"elastic_data_sourcetype\": \"" + removedObjectAttr4 + "\", \"_key\": \"" + item + "\"}";
-                                result = "N/A";
-                                comment = tk_comment;
-                                auditRecord(action, change_type, object, object_category, object_attrs, result, comment);
-
-                                // house cleaning
-                                myendpoint_URl = undefined;
-                                delete(myendpoint_URl);
-                                tk_keyid = undefined;
-                                delete(tk_keyid);
-
-                                // Return to modal
-                                $("#modify_elastic_sources").modal();
-
-                                // Refresh the search
-                                searchElasticSources.startSearch();
-
-                            },
-                            error: function(xhr, textStatus, error) {
-                                message = "Error Updating!" + xhr + textStatus + error;
-
-                                // Audit
-                                action = "failure";
-                                change_type = "delete elastic source";
-                                object = removedObject;
-                                object_category = "elastic_sources";
-                                object_attrs = "{" + "\"data_name\": \"" + removedObject + "\", \"search_mode\": \"" + removedObjectAttr1 + "\", \"search_constraint\": \"" + removedObjectAttr2 + "\", \"elastic_data_index\": \"" + removedObjectAttr3 + "\", \"elastic_data_sourcetype\": \"" + removedObjectAttr4 + "\", \"_key\": \"" + item + "\"}";
-                                result = message;
-                                comment = tk_comment;
-                                auditRecord(action, change_type, object, object_category, object_attrs, result, comment);
-
+                        // Shall the search fail before we can get properties
+                        if (job == null) {
+                            let errorStr = "Unknown Error!";
+                            if (err && err.data && err.data.messages && err.data.messages[0]['text']) {
+                                errorStr = err.data.messages[0]['text'];
+                            } else if (err && err.data && err.data.messages) {
+                                errorStr = JSON.stringify(err.data.messages);
                             }
+                            $("#loadingGray").remove()
+                            $("#modal_update_collection_failure_return").find('.modal-error-message p').text(errorStr);
+                            $("#modal_update_collection_failure_return").modal()
+                        } else {
 
-                        });
+                            // Poll the status of the search job
+                            job.track({
+                                period: 200
+                            }, {
+                                done: function(job) {
+                                    //console.log("Done!");
 
+                                    // Once the job is done, update all searches
+                                    searchElasticSources.startSearch();
+                                    searchDataSourcesMain.startSearch();
+
+                                    $("#loadingGray").remove()
+
+                                },
+                                failed: function(properties) {
+                                    let errorStr = "Unknown Error!";
+                                    if (properties && properties._properties && properties._properties.messages && properties._properties.messages[0]['text']) {
+                                        errorStr = properties._properties.messages[0]['text'];
+                                    } else if (properties && properties._properties && properties._properties.messages) {
+                                        errorStr = JSON.stringify(properties._properties.messages);
+                                    }
+                                    $("#loadingGray").remove()
+                                    $("#modal_update_collection_failure_return").find('.modal-error-message p').text(errorStr);
+                                    $("#modal_update_collection_failure_return").modal()
+                                },
+                                error: function(err) {
+                                    done(err);
+                                    $("#loadingGray").remove()
+                                    $("#modal_update_collection_failure").modal()
+                                }
+                            });
+                        }
                     }
-
-                });
+                );
 
             }
 
@@ -28554,6 +29172,25 @@ require([
             tk_multi_table_array = tk_multi_table_array.split(',');
             //console.log("tk_multi_table_array is: " + tk_multi_table_array);
 
+            // Retrieve update comment if any
+            var tk_comment = document.getElementById("elastic_source_shared_delete_comment").value;
+
+            // if is not defined, give it a value and override text box content
+            if (tk_comment == "null") {
+                setToken("tk_update_comment", TokenUtils.replaceTokenNames("No comments for update.", _.extend(submittedTokenModel.toJSON(), e.data)));
+                // replace the textarea for modification requests
+                document.getElementById("elastic_source_shared_delete_comment").value = "update note";
+            }
+            else if (tk_comment == "update note") {
+                tk_comment = "No comment for update.";
+                document.getElementById("elastic_source_shared_delete_comment").value = "update note";
+            }
+            else {
+                // replace the textarea for modification requests
+                document.getElementById("elastic_source_shared_delete_comment").value = "update note";
+            }
+            setToken("tk_comment", tk_comment);
+
             // Call the function for each value from the array
             tk_multi_table_array.forEach(foreachDeleteSharedElasticSource);
 
@@ -28565,6 +29202,166 @@ require([
 
             // house cleaning
             unsetToken("removeElasticSourceShared");
+
+            // Go back to modal
+            $("#modify_elastic_sources").modal();
+
+        });
+
+        // delete elastic source
+
+        $("#btn_modal_elastic_sources_dedicated_add_delete").click(function() {
+
+            $("#modify_elastic_sources_dedicated").modal('hide');
+            $("#delete_elastic_source_main_dedicated").modal();
+
+        });
+
+        function foreachDeleteDedicatedElasticSource(item) {
+            //console.log("removal of key :" + item);
+
+            submitTokens();
+
+            // When the Submit button is clicked, get all the form fields by accessing token values
+            var tokens = mvc.Components.get("default");
+
+            var tk_multi_table_array = tokens.get("removeElasticSourceDedicated");
+            var tk_comment = tokens.get("tk_comment");
+
+            //console.log("comment is: " + tk_comment);
+
+            if (item && item.length) {
+
+                // Define the query
+                var searchQuery = "| trackme url=\"/services/trackme/v1/elastic_sources/elastic_dedicated_del\" mode=\"delete\" body=\"{\\\"data_name\\\": \\\"" + item + "\\\", \\\"update_comment\\\": \\\"" + tk_comment + "\\\"}\"";
+
+                // Set the search parameters--specify a time range
+                var searchParams = {
+                    earliest_time: "-5m",
+                    latest_time: "now"
+                };
+
+                // Run a normal search that immediately returns the job's SID
+                service.search(
+                    searchQuery,
+                    searchParams,
+                    function(err, job) {
+
+                        $("#loadingGray").remove()
+                        $("body").append('<div id="loadingGray" style="background: #e9e9e9; display: block; position: fixed; z-index: 100; top: 0; right: 0; bottom: 0; left: 0; height: 100%; opacity: 0.8;"><div style="width: 100%; margin-top: 250px; padding-bottom: 50px; text-align: center;"><p style="font-size: 18pt; font-weight: bolder; color: #003b59;">Deleting dedicated elastic tracker...</p></div><div id="spinner"></div></div>')
+
+                        require(["jquery",
+                                "/static/app/trackme/spin.js"
+                            ],
+                            function($,
+                                Spinner
+                            ) {
+                                new Spinner({
+                                    lines: 12, length: 18,
+                                    position: "relative", color: "#003b59"
+                                }).spin(document.getElementById('spinner'));
+                            })
+
+                        // Shall the search fail before we can get properties
+                        if (job == null) {
+                            let errorStr = "Unknown Error!";
+                            if (err && err.data && err.data.messages && err.data.messages[0]['text']) {
+                                errorStr = err.data.messages[0]['text'];
+                            } else if (err && err.data && err.data.messages) {
+                                errorStr = JSON.stringify(err.data.messages);
+                            }
+                            $("#loadingGray").remove()
+                            $("#modal_update_collection_failure_return").find('.modal-error-message p').text(errorStr);
+                            $("#modal_update_collection_failure_return").modal()
+                        } else {
+
+                            // Poll the status of the search job
+                            job.track({
+                                period: 200
+                            }, {
+                                done: function(job) {
+                                    //console.log("Done!");
+
+                                    // Once the job is done, update all searches
+                                    searchElasticSourcesDedicated.startSearch();
+                                    searchDataSourcesMain.startSearch();
+
+                                    $("#loadingGray").remove()
+
+                                },
+                                failed: function(properties) {
+                                    let errorStr = "Unknown Error!";
+                                    if (properties && properties._properties && properties._properties.messages && properties._properties.messages[0]['text']) {
+                                        errorStr = properties._properties.messages[0]['text'];
+                                    } else if (properties && properties._properties && properties._properties.messages) {
+                                        errorStr = JSON.stringify(properties._properties.messages);
+                                    }
+                                    $("#loadingGray").remove()
+                                    $("#modal_update_collection_failure_return").find('.modal-error-message p').text(errorStr);
+                                    $("#modal_update_collection_failure_return").modal()
+                                },
+                                error: function(err) {
+                                    done(err);
+                                    $("#loadingGray").remove()
+                                    $("#modal_update_collection_failure").modal()
+                                }
+                            });
+                        }
+                    }
+                );
+
+            }
+
+        }
+
+        $("#btn_delete_elastic_source_dedicated_confirm").click(function() {
+
+            //console.log("Button was pressed");
+
+            submitTokens();
+
+            // When the Submit button is clicked, get all the form fields by accessing token values
+            var tokens = mvc.Components.get("default");
+
+            // Get the arrays of keys
+            var tk_multi_table_array = tokens.get("removeElasticSourceDedicated");
+            //console.log("tk_multi_table_array is: " + tk_multi_table_array);
+            tk_multi_table_array = tk_multi_table_array.split(',');
+            console.log("tk_multi_table_array is: " + tk_multi_table_array);
+
+            // Retrieve update comment if any
+            var tk_comment = document.getElementById("elastic_source_dedicated_delete_comment").value;
+
+            // if is not defined, give it a value and override text box content
+            if (tk_comment == "null") {
+                setToken("tk_update_comment", TokenUtils.replaceTokenNames("No comments for update.", _.extend(submittedTokenModel.toJSON(), e.data)));
+                // replace the textarea for modification requests
+                document.getElementById("elastic_source_dedicated_delete_comment").value = "update note";
+            }
+            else if (tk_comment == "update note") {
+                tk_comment = "No comment for update.";
+                document.getElementById("elastic_source_dedicated_delete_comment").value = "update note";
+            }
+            else {
+                // replace the textarea for modification requests
+                document.getElementById("elastic_source_dedicated_delete_comment").value = "update note";
+            }
+            setToken("tk_comment", tk_comment);
+
+            // Call the function for each value from the array
+            tk_multi_table_array.forEach(foreachDeleteDedicatedElasticSource);
+
+            // Hide main modal
+            $("#delete_elastic_source_main_dedicated").modal('hide');
+
+            // notify
+            notification('Modification has been registered successfully.', 2000)
+
+            // house cleaning
+            unsetToken("removeElasticSourceDedicated");
+            
+            // Go back to modal
+            $("#modify_elastic_sources_dedicated").modal();
 
         });
 
@@ -28669,6 +29466,26 @@ require([
 
             // Show input modal
             $("#modal_modify_data_host_whitelist").modal();
+
+        });
+
+        //
+        // Metrics hosts Search & Report
+        //
+
+        // Show modal
+        $("#btn_search_metric_reports").click(function() {
+
+            // Show input modal
+            $("#metric_hosts_search_and_reports").modal();
+
+        });
+
+        // back button
+        $("#btn_metric_host_search_and_report_back").click(function() {
+
+            // Show input modal
+            $("#modal_manage_metric_host").modal();
 
         });
 
@@ -29830,6 +30647,7 @@ require([
             var tk_priority = tokens.get("tk_priority");
             var tk_dcount_host = tokens.get("tk_dcount_host");
             var tk_min_dcount_host = tokens.get("tk_min_dcount_host");
+            var tk_tags = tokens.get("tk_tags");
 
             //console.log("Value of modal_input_grace_period is: " + tk_kafka_infra_grace_period);
 
@@ -29883,7 +30701,8 @@ require([
                     "latest_flip_time": tk_latest_flip_time,
                     "priority": tk_priority,
                     "dcount_host": tk_dcount_host,
-                    "min_dcount_host": tk_min_dcount_host
+                    "min_dcount_host": tk_min_dcount_host,
+                    "tags": tk_tags
                 };
 
                 $.ajax({
@@ -29989,6 +30808,7 @@ require([
             var tk_priority = tokens.get("tk_priority");
             var tk_dcount_host = tokens.get("tk_dcount_host");
             var tk_min_dcount_host = tokens.get("tk_min_dcount_host");
+            var tk_tags = tokens.get("tk_tags");
 
             //console.log("Value of modal_input_grace_period is: " + tk_kafka_infra_grace_period);
 
@@ -30042,7 +30862,8 @@ require([
                     "latest_flip_time": tk_latest_flip_time,
                     "priority": tk_new_priority,
                     "dcount_host": tk_dcount_host,
-                    "min_dcount_host": tk_min_dcount_host
+                    "min_dcount_host": tk_min_dcount_host,
+                    "tags": tk_tags
                 };
 
                 $.ajax({
@@ -30154,6 +30975,7 @@ require([
             var tk_priority = tokens.get("tk_priority");
             var tk_dcount_host = tokens.get("tk_dcount_host");
             var tk_min_dcount_host = tokens.get("tk_min_dcount_host");
+            var tk_tags = tokens.get("tk_tags");
 
             //console.log("Value of modal_input_grace_period is: " + tk_kafka_infra_grace_period);
 
@@ -30207,7 +31029,8 @@ require([
                     "latest_flip_time": tk_latest_flip_time,
                     "priority": tk_priority,
                     "dcount_host": tk_dcount_host,
-                    "min_dcount_host": tk_min_dcount_host
+                    "min_dcount_host": tk_min_dcount_host,
+                    "tags": tk_tags
                 };
 
                 $.ajax({
@@ -30331,6 +31154,7 @@ require([
             var tk_priority = tokens.get("tk_priority");
             var tk_dcount_host = tokens.get("tk_dcount_host");
             var tk_min_dcount_host = tokens.get("tk_min_dcount_host");
+            var tk_tags = tokens.get("tk_tags");
 
             //console.log("Value of modal_input_grace_period is: " + tk_kafka_infra_grace_period);
 
@@ -30384,7 +31208,8 @@ require([
                     "latest_flip_time": tk_latest_flip_time,
                     "priority": tk_priority,
                     "dcount_host": tk_dcount_host,
-                    "min_dcount_host": tk_min_dcount_host
+                    "min_dcount_host": tk_min_dcount_host,
+                    "tags": tk_tags
                 };
 
                 $.ajax({
@@ -30491,6 +31316,7 @@ require([
             var tk_priority = tokens.get("tk_priority");
             var tk_dcount_host = tokens.get("tk_dcount_host");
             var tk_min_dcount_host = tokens.get("tk_min_dcount_host");
+            var tk_tags = tokens.get("tk_tags");
 
             // Create the endpoint URL
             var myendpoint_URl = "{{SPLUNKWEB_URL_PREFIX}}/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_data_source_monitoring/" + tk_keyid;
@@ -30542,7 +31368,8 @@ require([
                     "latest_flip_time": tk_latest_flip_time,
                     "priority": tk_priority,
                     "dcount_host": tk_dcount_host,
-                    "min_dcount_host": tk_input_data_source_dcount_host
+                    "min_dcount_host": tk_input_data_source_dcount_host,
+                    "tags": tk_tags
                 };
 
                 $.ajax({
@@ -30655,6 +31482,7 @@ require([
             var tk_priority = tokens.get("tk_priority");
             var tk_dcount_host = tokens.get("tk_dcount_host");
             var tk_min_dcount_host = tokens.get("tk_min_dcount_host");
+            var tk_tags = tokens.get("tk_tags");
 
             //console.log("Value of modal_input_grace_period is: " + tk_kafka_infra_grace_period);
 
@@ -30714,7 +31542,8 @@ require([
                     "latest_flip_time": tk_latest_flip_time,
                     "priority": tk_priority,
                     "dcount_host": tk_dcount_host,
-                    "min_dcount_host": tk_min_dcount_host                    
+                    "min_dcount_host": tk_min_dcount_host,
+                    "tags": tk_tags
                 };
 
                 $.ajax({
@@ -32816,6 +33645,89 @@ require([
 
         });
 
+        // Smart Status
+
+        // Smart Status data source
+        $("#btn_smart_status_data_source").click(function() {
+
+            submitTokens();
+
+            // When the Submit button is clicked, get all the form fields by accessing token values
+            var tokens = mvc.Components.get("default");
+
+            // Free the search
+            setToken("show_smart_status_data_source", "true");
+
+            // Force search run every time the button is clicked
+            searchSmartStatusDataSource.startSearch();
+
+            // Show input modal
+            $("#smart_status_data_source").modal();
+
+        });
+
+        // back
+        $("#btn_smart_status_data_source_back").click(function() {
+
+            // Show modal
+            $("#modal_manage").modal();
+
+        });
+
+        // Smart Status data host
+        $("#btn_smart_status_data_host").click(function() {
+
+            submitTokens();
+
+            // When the Submit button is clicked, get all the form fields by accessing token values
+            var tokens = mvc.Components.get("default");
+
+            // Free the search
+            setToken("show_smart_status_data_host", "true");
+
+            // Force search run every time the button is clicked
+            searchSmartStatusDataHost.startSearch();
+
+            // Show input modal
+            $("#smart_status_data_host").modal();
+
+        });
+
+        // back
+        $("#btn_smart_status_data_host_back").click(function() {
+
+            // Show modal
+            $("#modal_manage_host").modal();
+
+        });
+
+        // Smart Status metric host
+        $("#btn_smart_status_metric_host").click(function() {
+
+            submitTokens();
+
+            // When the Submit button is clicked, get all the form fields by accessing token values
+            var tokens = mvc.Components.get("default");
+
+            // Free the search
+            setToken("show_smart_status_metric_host", "true");
+
+            // Force search run every time the button is clicked
+            searchSmartStatusMetricHost.startSearch();
+
+            // Show input modal
+            $("#smart_status_metric_host").modal();
+
+        });
+
+        // back
+        $("#btn_smart_status_metric_host_back").click(function() {
+
+            // Show modal
+            $("#modal_manage_metric_host").modal();
+
+        });
+
         // tags
 
         // tags policies main
@@ -33980,6 +34892,7 @@ require([
                 var input_doc_origin_object = tokens.get("tk_object");
                 var input_doc_link = tokens.get("tk_doc_link");
                 var input_doc_note = tokens.get("tk_doc_note");
+                var tk_doc_identity_card_is_global = tokens.get("doc_identity_card_is_global");
 
                 //console.log("key is: " + input_doc_keyid);
                 //console.log("new_object is: " + input_doc_new_object);
@@ -35080,6 +35993,7 @@ require([
             var tk_data_sample_lastrun = tokens.get("tk_data_sample_lastrun");
             var tk_dcount_host = tokens.get("tk_dcount_host");
             var tk_min_dcount_host = tokens.get("tk_min_dcount_host");
+            var tk_tags = tokens.get("tk_tags");
 
             // get inputs tokens
 
@@ -35170,7 +36084,8 @@ require([
                 "latest_flip_time": tk_latest_flip_time,
                 "priority": tk_priority,
                 "dcount_host": tk_dcount_host,
-                "min_dcount_host": tk_min_dcount_host
+                "min_dcount_host": tk_min_dcount_host,
+                "tags": tk_tags
             };
 
             if (!tk_keyid || !tk_keyid.length) {
@@ -35347,7 +36262,10 @@ require([
 
             // free searches
             setToken("show_data_sampling_custom_rules", "true");
-            
+
+            // define a token that will be used to determine where in the UI we came from
+            setToken("show_data_sampling_custom_rules_from_home", "true");
+
             // force re-run the search each time the button is clicked
             searchDataSamplingShowCustomRules.startSearch();
 
@@ -36475,7 +37393,16 @@ require([
                                     comment = tk_comment;
                                     auditRecord(action, change_type, object, object_category, object_attrs, result, comment);
 
-                                    $("#data_sampling_manage").modal();
+                                    // Take a decision depending on where we come from
+                                    var tk_data_sampling_custom_rule_name = tokens.get("show_data_sampling_custom_rules_from_home");
+
+                                    if ( tk_data_sampling_custom_rule_name == "true") {
+                                        $("#data_sampling_show_custom_rules").modal();
+                                    }
+                                    else {
+                                        $("#data_sampling_manage").modal();
+                                    }
+
                                 },
                                 failed: function(properties) {
                                     let errorStr = "Unknown Error!";
@@ -36801,10 +37728,11 @@ require([
 // ]]>
 </script>
 <script src="{{SPLUNKWEB_URL_PREFIX}}/static/app/trackme/table.js" type="text/javascript"></script>
-<script src="{{SPLUNKWEB_URL_PREFIX}}/static/app/trackme/checkbox_table.js" type="text/javascript"></script>
+<script src="{{SPLUNKWEB_URL_PREFIX}}/static/app/trackme/checkbox_tablev2.js" type="text/javascript"></script>
 <script src="{{SPLUNKWEB_URL_PREFIX}}/static/app/trackme/checkbox_table_data_sampling.js" type="text/javascript"></script>
 <script src="{{SPLUNKWEB_URL_PREFIX}}/static/app/trackme/checkbox_table_tags_policies.js" type="text/javascript"></script>
 <script src="{{SPLUNKWEB_URL_PREFIX}}/static/app/trackme/table_raw.js" type="text/javascript"></script>
+<script src="{{SPLUNKWEB_URL_PREFIX}}/static/app/trackme/multiselect_all.js" type="text/javascript"></script>
 <script>
 var deps = [
     "splunkjs/ready!"
@@ -37014,6 +37942,18 @@ function notification(s, time) {
   });
 
   $("<p>" + s + "</p>").appendTo('#boxnotify-add_tags_policies').fadeTo(time, 1, function() {
+    $(this).fadeTo(1000, 0, function() {
+      $(this).remove()
+    });
+  });
+
+  $("<p>" + s + "</p>").appendTo('#boxnotify-modify_elastic_sources').fadeTo(time, 1, function() {
+    $(this).fadeTo(1000, 0, function() {
+      $(this).remove()
+    });
+  });
+
+  $("<p>" + s + "</p>").appendTo('#boxnotify-modify_elastic_sources_dedicated').fadeTo(time, 1, function() {
     $(this).fadeTo(1000, 0, function() {
       $(this).remove()
     });

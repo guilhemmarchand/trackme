@@ -22,22 +22,27 @@ Welcome to the Splunk TrackMe application documentation
 .. image:: img/screenshots_main/img001.png
    :alt: img001.png
    :align: center
+   :width: 1200px
 
 .. image:: img/screenshots_main/img002.png
    :alt: img002.png
    :align: center
+   :width: 1200px
 
 .. image:: img/screenshots_main/img003.png
    :alt: img003.png
    :align: center
+   :width: 1200px
 
 .. image:: img/screenshots_main/img004.png
    :alt: img004.png
    :align: center
+   :width: 1200px
 
 .. image:: img/screenshots_main/img005.png
    :alt: img005.png
    :align: center
+   :width: 1200px
 
 **Why this application?**
 
@@ -115,4 +120,3 @@ Versioning and build history:
    :caption: Versioning
 
    releasenotes.rst
-   checklist.rst

@@ -12,6 +12,7 @@ Access TrackMe main interface
 .. image:: img/first_steps/img001.png
    :alt: img/first_steps/img001
    :align: center
+   :width: 1200px
 
 .. tip:: **If the UI is empty and no data sources are showing up:**
 
@@ -26,6 +27,7 @@ Main navigation tabs
 .. image:: img/first_steps/img001_tabs.png
    :alt: img/first_steps/img001_tabs
    :align: center
+   :width: 1000px
 
 - ``DATA SOURCES TRACKING`` shows the tracking of data sources, by default a data source is a breakdown of your data on a per ``index + ":" + sourcetype``
 - ``DATA HOSTS TRACKING`` shows data discovered for each ``host sending events`` to Splunk
@@ -44,6 +46,7 @@ Data Source main screen
 .. image:: img/first_steps/img002.png
    :alt: img/first_steps/img002
    :align: center
+   :width: 1200px
 
 .. warning:: If you do not see the full window (called modal window), review your screen resolution settings, TrackMe requires a minimal high enough resolution when navigating through the app*
 
@@ -54,6 +57,7 @@ The modal window "open-up" is the user main interaction with TrackMe, depending 
 .. image:: img/first_steps/img003.png
    :alt: img/first_steps/img003
    :align: center
+   :width: 1200px
 
 **Let's review these information:**
 
@@ -95,6 +99,7 @@ The modal window "open-up" is the user main interaction with TrackMe, depending 
 .. image:: img/first_steps/img007.png
    :alt: img/first_steps/img007
    :align: center
+   :width: 1200px
 
 - ``Identity documentation card`` is a feature that allows you create an information card (hyperlink and a text note), and link that card to any number of data sources.
 - By default, no identity card is defined which is exposed by this message, if an identity card is created and linked to the entity, the message will turn into a link that once clicked exposes in a new window the context of the card
@@ -110,12 +115,14 @@ Data source screen tabs
 .. image:: img/first_steps/img008.png
    :alt: img/first_steps/img008
    :align: center
+   :width: 1200px
 
 **Starting by describing the tabs available in this window:**
 
 .. image:: img/first_steps/img009.png
    :alt: img/first_steps/img009
    :align: center
+   :width: 1200px
 
 - ``Overview data source`` is the current view that exposes the main information and metrics for this entity
 - ``Outlier detection overview`` exposes the event outliers detection chart
@@ -133,6 +140,7 @@ Overview data source tab
 .. image:: img/first_steps/img010.png
    :alt: img/first_steps/img010
    :align: center
+   :width: 1200px
 
 **This screen exposes several single forms with the following calculations:**
 
@@ -149,6 +157,7 @@ Outlier detection overview
 .. image:: img/first_steps/img011.png
    :alt: img/first_steps/img011
    :align: center
+   :width: 1200px
 
 **This screen exposes the events outliers detection results over time, the purpose of the outliers detection is to provide advanced capabilities to detect when the number of events produced in the scope of an entity goes below or above a certain level, which level gets automatically defined upon the historical behaviour of the data.**
 
@@ -181,6 +190,7 @@ Outlier detection configuration
 .. image:: img/first_steps/img012.png
    :alt: img/first_steps/img012
    :align: center
+   :width: 1200px
 
 **This is the screen provided to configure the outliers detection for a given entity, which exposes a simulation of the results over time, allowing you to train your settings before they are applied.**
 
@@ -198,6 +208,7 @@ Outlier detection configuration
 .. image:: img/first_steps/img013.png
    :alt: img/first_steps/img013
    :align: center
+   :width: 1200px
 
 - ``time period for outliers detection`` defines the time frame TrackMe will be looking at for the outliers calculations (lower/upper bands etc) which is using the recorded metrics every time the short term trackers ran
 - ``span for outliers rendering`` is an additional setting which impact the graphical rendering within the outliers screen, but not the results of the outliers detection itself
@@ -212,6 +223,7 @@ Data sampling
 .. image:: img/first_steps/img_data_sampling001.png
    :alt: img/first_steps/img_data_sampling001.png
    :align: center
+   :width: 1200px
 
 The data sampling message can be:
 
@@ -225,6 +237,7 @@ The button **Manage data sampling** provides summary information about the data 
 .. image:: img/first_steps/img_data_sampling002.png
    :alt: img/first_steps/img_data_sampling002.png
    :align: center
+   :width: 1200px
 
 **Quick button access:**
 
@@ -244,6 +257,7 @@ Data parsing quality
 .. image:: img/first_steps/img014.png
    :alt: img/first_steps/img014
    :align: center
+   :width: 1200px
 
 *Note: for data sources, the scope of indexing time parsing issues happens on the sourcetype level from a Splunk point of view, this means that if there are any parsing issues found for this sourcetype, this can be linked to this data source but as well with any other data source that looks at the same sourcetype.*
 
@@ -257,6 +271,7 @@ Lagging performances
 .. image:: img/first_steps/img015.png
    :alt: img/first_steps/img015
    :align: center
+   :width: 1200px
 
 **The following mcatalog search can be used to expose the metrics stored in the metric store and the dimensions:**
 
@@ -267,6 +282,7 @@ Lagging performances
 .. image:: img/first_steps/img016.png
    :alt: img/first_steps/img016
    :align: center
+   :width: 1200px
 
 **The main dimensions are:**
 
@@ -281,6 +297,7 @@ Status flipping
 .. image:: img/first_steps/img017.png
    :alt: img/first_steps/img017
    :align: center
+   :width: 1200px
 
 **Key information:**
 
@@ -298,48 +315,56 @@ Status message
 .. image:: img/first_steps/img018.png
    :alt: img/first_steps/img018
    :align: center
+   :width: 1200px
 
 *example of a red state due to lagging conditions not met:*
 
 .. image:: img/first_steps/img019.png
    :alt: img/first_steps/img019
    :align: center
+   :width: 1200px
 
 *example of a red state due to outliers detection:*
 
 .. image:: img/first_steps/img020.png
    :alt: img/first_steps/img020
    :align: center
+   :width: 1200px
 
 *example of a red state due to data sampling anomalies detected:*
 
 .. image:: img/first_steps/img020_data_sampling.png
    :alt: img/first_steps/img020_data_sampling
    :align: center
+   :width: 1200px
 
 *example of a red state due to hosts dcount threshold not reached:*
 
 .. image:: img/first_steps/img020_data_sampling_dcount.png
    :alt: img/first_steps/img020_data_sampling_dcount
    :align: center
+   :width: 1200px
 
 *example of a blue state due to logical groups monitoring conditions not met (applies to data hosts and metrics hosts only):*
 
 .. image:: img/first_steps/img020_blue.png
    :alt: img/first_steps/img020_blue
    :align: center
+   :width: 1200px
 
 *example of an orange state due to data indexed in the future:*
 
 .. image:: img/first_steps/img020_orange.png
    :alt: img/first_steps/img020_orange
    :align: center
+   :width: 1200px
 
 *In addition, an integration using the timeline custom view provides an enhanced overview of the entity status over time:*
 
 .. image:: img/first_steps/timeline.png
    :alt: img/first_steps/timeline
    :align: center
+   :width: 1200px
 
 Audit changes
 ^^^^^^^^^^^^^
@@ -349,6 +374,7 @@ Audit changes
 .. image:: img/first_steps/img021.png
    :alt: img/first_steps/img021
    :align: center
+   :width: 1200px
 
 See :ref:`Auditing changes` for more details about the feature.
 
@@ -360,10 +386,12 @@ Action buttons
 .. image:: img/first_steps/img022.png
    :alt: img/first_steps/img022
    :align: center
+   :width: 1200px
 
 **Actions:**
 
 - ``Refresh`` will refresh all values related to this entity, it will actually run a specific version of the tracker and update the KVstore record of this data source. Charts and other calculations are refreshed as well.
+- ``Smart Status`` is a powerful TrackMe REST API endpoint that does automated analysis and conditional correlations to provide an advanced status of the entity, and fast the investigaton of an issue root cause.
 - ``Acknowledge alert`` can only be clicked if the data source is effectively in a red state, acknowledging an alert prevent the out of the box alerts from triggering a new alert for this entity until the acknowledgment expires.
 - ``Enable`` can only be clicked if the monitoring state is disabled, if clicked and confirmed, the value of the field ``data_monitored_state`` will switch from disabled to enabled
 - ``Disable`` opposite of the previous
@@ -411,6 +439,7 @@ See :ref:`Enrichment tags` for more details om this feature
 .. image:: img/first_steps/data_host_reset.png
    :alt: img/first_steps/data_host_reset
    :align: center
+   :width: 1200px
 
 Metric Hosts tracking and features
 ----------------------------------
@@ -449,6 +478,7 @@ Particularities of metric hosts monitoring
 .. image:: img/first_steps/metric_host_reset.png
    :alt: img/first_steps/metric_host_reset
    :align: center
+   :width: 1200px
 
 Triggering this action will remove the current knowledge of metric categories for this entity only and trigger a fresh discovery without losing additional settings like the priority.
 
@@ -464,6 +494,7 @@ Unified update interface
 .. image:: img/first_steps/img023.png
    :alt: img/first_steps/img023
    :align: center
+   :width: 800px
 
 These interfaces are called unified as their main purpose is to provide a central place in the UI where the modification of the main key parameters would be achieved.
 
@@ -475,6 +506,7 @@ Data source unified update
 .. image:: img/first_steps/img024.png
    :alt: img/first_steps/img024
    :align: center
+   :width: 1200px
 
 Data hosts unified update
 -------------------------
@@ -482,6 +514,7 @@ Data hosts unified update
 .. image:: img/first_steps/img025.png
    :alt: img/first_steps/img025
    :align: center
+   :width: 1200px
 
 Metric hosts unified update
 ---------------------------
@@ -489,6 +522,7 @@ Metric hosts unified update
 .. image:: img/first_steps/img026.png
    :alt: img/first_steps/img026
    :align: center
+   :width: 1200px
 
 Unified update interface features
 ---------------------------------
@@ -604,12 +638,14 @@ First, let's expose how to access the Elastic sources interface, from the data s
 .. image:: img/first_steps/img027.png
    :alt: img/first_steps/img027
    :align: center
+   :width: 1200px
 
 The following screen appears:
 
 .. image:: img/first_steps/img028.png
    :alt: img/first_steps/img028
    :align: center
+   :width: 1200px
 
 Elastic source example 1: source Metadata
 -----------------------------------------
@@ -639,12 +675,14 @@ It is easy to understand that the default standard for data source ``index + ":"
 .. image:: img/first_steps/img029.png
    :alt: img/first_steps/img029
    :align: center
+   :width: 1200px
 
 In TrackMe data sources, this would appear as one entity and this is not helping me covering that use case:
 
 .. image:: img/first_steps/img030.png
    :alt: img/first_steps/img030
    :align: center
+   :width: 1200px
 
 What if I want to be monitoring the fact that the EMEA region continues to be indexed properly ? and other regions ?
 
@@ -679,6 +717,7 @@ Indeed, it is clear enough that the default data source feature does not me with
 .. image:: img/first_steps/img032.png
    :alt: img/first_steps/img032
    :align: center
+   :width: 1200px
 
 Rather than one data source that covers the index/sourcetype, the requirement is to have 6 data sources that cover each couple of region/company.
 
@@ -690,6 +729,7 @@ On the opposite, the default data source breaking on on the sourcetype would nee
 .. image:: img/first_steps/img033.png
    :alt: img/first_steps/img033
    :align: center
+   :width: 1200px
 
 The default concept while powerful does not cover my need, but ok there we go and let's extend it easily with Elastic sources!
 
@@ -709,6 +749,7 @@ The purpose of this example is to provide a builtin and effiscient way of tracki
 .. image:: img/first_steps/img-lookup-tracking1.png
    :alt: img/first_steps/img-lookup-tracking1
    :align: center
+   :width: 1200px
 
 The unique requirement for TrackMe to be able to monitor a lookup is to have a time concept which can use to define as the ``_time`` field which TrackMe will rely on.
 
@@ -724,16 +765,19 @@ The following example shows the behaviour with a lookup that is updated every 30
 .. image:: img/first_steps/img-rest-elastic2.png
    :alt: img/first_steps/img-rest-elastic2
    :align: center
+   :width: 1200px
 
 Number of records are monitored automatically by the outliers detection, setting can be fined tuned to alert if the number of records goes bellow, and/or beyond a certain amount of records:
 
 .. image:: img/first_steps/img-rest-elastic-outliers.png
    :alt: img/first_steps/img-rest-elastic-outliers
    :align: center
+   :width: 1200px
 
 .. image:: img/first_steps/img-rest-elastic-outliers2.png
    :alt: img/first_steps/img-rest-elastic-outliers2
    :align: center
+   :width: 1200px
 
 Elastic source example 4: rest searches
 ---------------------------------------
@@ -826,6 +870,7 @@ Elastic source example 1: creation
 .. image:: img/first_steps/img035.png
    :alt: img/first_steps/img035
    :align: center
+   :width: 1200px
 
 **Summary:**
 
@@ -840,12 +885,14 @@ Elastic source example 1: creation
 .. image:: img/first_steps/img036.png
    :alt: img/first_steps/img036
    :align: center
+   :width: 1200px
 
 **Let's click on this nice button!**
 
 .. image:: img/first_steps/img037.png
    :alt: img/first_steps/img037
    :align: center
+   :width: 1200px
 
 This looks good isn't it?
 
@@ -869,6 +916,7 @@ Nice! Let's click on that button and immediately run the shared tracker, upon it
 .. image:: img/first_steps/img039.png
    :alt: img/first_steps/img039
    :align: center
+   :width: 1200px
 
 Ok that's cool! 
 
@@ -879,6 +927,7 @@ Ok that's cool!
 .. image:: img/first_steps/img040.png
    :alt: img/first_steps/img040
    :align: center
+   :width: 1200px
 
 "What about the original data source that created automatically?".
 
@@ -919,6 +968,7 @@ For the purposes of the demonstration, we will this time create Elastic dedicate
 .. image:: img/first_steps/img042.png
    :alt: img/first_steps/img042
    :align: center
+   :width: 1200px
 
 **Once again this is looking perfectly good, this time we will create a dedicated tracker:**
 
@@ -933,6 +983,7 @@ For the purposes of the demonstration, we will this time create Elastic dedicate
 .. image:: img/first_steps/img044.png
    :alt: img/first_steps/img044
    :align: center
+   :width: 1200px
 
 As we did earlier in the example 1, we will simply disable the original data source which is not required anymore.
 
@@ -941,6 +992,7 @@ As we did earlier in the example 1, we will simply disable the original data sou
 .. image:: img/first_steps/img045.png
    :alt: img/first_steps/img045
    :align: center
+   :width: 1200px
 
 We can see that TrackMe has created a new scheduled report for each entity we created, it is perfectly possible to edit these reports up to your needs.
 
@@ -968,6 +1020,7 @@ If our lookupLastUpdated would have been in a human readable format, we could ha
 .. image:: img/first_steps/img-lookup-tracking2.png
    :alt: img/first_steps/img-lookup-tracking2
    :align: center
+   :width: 1200px
 
 Notes:
 
@@ -981,6 +1034,7 @@ Notes:
 .. image:: img/first_steps/img-rest-elastic2.png
    :alt: img/first_steps/img-rest-elastic2
    :align: center
+   :width: 1200px
 
 As we can see, the current lagging corresponds to the difference between now and the latest update of the lookup, TrackMe will immediately starts to compute all metrics, the event count corresponds to the number of records (which allows the usage of outliers detection too), etc.
 
@@ -989,6 +1043,7 @@ When TrackMe detects that the data source is a based on a lookup, the statistics
 .. image:: img/first_steps/img-lookup-tracking5.png
    :alt: img/first_steps/img-lookup-tracking5
    :align: center
+   :width: 1200px
 
 Elastic source example 4: creation
 ----------------------------------
@@ -1018,6 +1073,7 @@ As well, any additional agrument can be given to the rest command by ading these
 .. image:: img/first_steps/img-rest-elastic1.png
    :alt: img/first_steps/img-rest-elastic1
    :align: center
+   :width: 1200px
 
 .. warning:: Currently the rest command generates a warning message "Unable to determine response format from HTTP Header", this message can be safety ignored as it does not impact the results in anyway, but cannot unfortunately be removed at the moment, until it is fixed by Splunk. 
 
@@ -1026,12 +1082,14 @@ Once created, the new data source appears in the UI automatically, the following
 .. image:: img/first_steps/img-rest-elastic2.png
    :alt: img/first_steps/img-rest-elastic2
    :align: center
+   :width: 1200px
 
 In the example of a lookup, the Search button would result in the following:
 
 .. image:: img/first_steps/img-rest-elastic3.png
    :alt: img/first_steps/img-rest-elastic3
    :align: center
+   :width: 1200px
 
 Elastic sources under the hood
 ------------------------------
@@ -1094,6 +1152,30 @@ Besides the fact that Elastic sources appears in the data sources tab, there are
 
 In addition, the collection is used automatically by the main interface if you click on the ``Search`` button to generate the relevant search to access the events related to that entity.
 
+Remove Elastic Sources
+----------------------
+
+*You can delete one or more Elastic Sources, shared or dedicated, within the UI main screen:*
+
+.. image:: img/first_steps/img_delete_elastic_sources.png
+   :alt: img/first_steps/img_delete_elastic_sources
+   :align: center
+   :width: 1200px
+
+*Example with dedicated Elastic Sources:*
+
+.. image:: img/first_steps/img_delete_elastic_sources2.png
+   :alt: img/first_steps/img_delete_elastic_sources2
+   :align: center
+   :width: 1200px
+
+*When deleting Elastic Sources via the UI, the following actions are occurring:*
+
+- The UI calls a REST API endpoint via the :ref:`REST API trackme SPL command`
+- API endpoints are :ref:`elastic_shared_del / Delete a new shared Elastic Source` and :ref:`elastic_dedicated_del / Delete a new shared Elastic Source`
+- All related objects are suppressed automatically, this includes the Elastic Sources KVstore collections, the entities in the main Data sources collection, and the scheduled reports for dedicated Elastic Sources
+- Actions and content are logges in the audit collection before their suppression
+
 Outliers detection and behaviour analytic
 =========================================
 
@@ -1104,6 +1186,7 @@ Outliers detection and behaviour analytic
 .. image:: img/screenshot_outliers1.png
    :alt: screenshot_outliers1.png
    :align: center
+   :width: 1200px
 
 **How things work:**
 
@@ -1131,6 +1214,7 @@ Behaviour Analytic Mode
 .. image:: img/behaviour_analytic_mode.png
    :alt: behaviour_analytic_mode.png
    :align: center
+   :width: 1200px
 
 Using Outliers detection
 ------------------------
@@ -1140,6 +1224,7 @@ Using Outliers detection
 .. image:: img/outliers_zoom1.png
    :alt: outliers_zoom1.png
    :align: center
+   :width: 1200px
 
 **The table exposes the very last result from the analysis:**
 
@@ -1173,24 +1258,28 @@ Simulating and adjusting Outliers detection
 .. image:: img/outliers_config1.png
    :alt: outliers_config1.png
    :align: center
+   :width: 1200px
 
 **For example, you can increase the value of the threshold multiplier to improve the outliers detection in regard with your knowledge of this data, or how its distribution behaves over time:**
 
 .. image:: img/outliers_config2.png
    :alt: outliers_config2.png
    :align: center
+   :width: 1200px
 
 **As well, in some cases you may wish to use a static lower bound value, if you use the static mode, then the outlier detection for the lower band is not used anymore and replaced by this static value as the minimal number of events:**
 
 .. image:: img/outliers_config3.png
    :alt: outliers_config3.png
    :align: center
+   :width: 1200px
 
 **Upper bound outliers detection does not affect the alert status by default, however this option can be enabled and the threshold multiplier be customised if you need to detect a large increase in the volume of data generated by this source:**
 
 .. image:: img/outliers_upper1.png
    :alt: outliers_upper1.png
    :align: center
+   :width: 1200px
 
 Saving the configuration
 ------------------------
@@ -1219,6 +1308,7 @@ Data sampling and event formats recognition
 .. image:: img/img_data_sampling_main_red.png
    :alt: img_data_sampling_main_red.png
    :align: center
+   :width: 1200px
 
 **How things work:**
 
@@ -1249,28 +1339,33 @@ Summary statuses
 .. image:: img/first_steps/img_data_sampling_state_green.png
    :alt: img_data_sampling_state_green.png
    :align: center
+   :width: 1200px
 
 *Blue state: data sampling engine did not inspect this data source yet*
 
 .. image:: img/first_steps/img_data_sampling_state_blue.png
    :alt: img_data_sampling_state_blue.png
    :align: center
+   :width: 1200px
 
 *Orange state: data sampling was disabled due to events format recognition conditions that would not allow to manage this data properly (multiformat, no event formats identification possible)*
 
 .. image:: img/first_steps/img_data_sampling_state_orange1.png
    :alt: img_data_sampling_state_orange1.png
    :align: center
+   :width: 1200px
 
 .. image:: img/first_steps/img_data_sampling_state_orange2.png
    :alt: img_data_sampling_state_orange2.png
    :align: center
+   :width: 1200px
 
 *Red state: anomalies were detected*
 
 .. image:: img/first_steps/img_data_sampling_state_red.png
    :alt: img_data_sampling_state_red.png
    :align: center
+   :width: 1200px
 
 Manage data sampling
 --------------------
@@ -1280,6 +1375,7 @@ Manage data sampling
 .. image:: img/first_steps/img_data_sampling002.png
    :alt: img_data_sampling002.png
    :align: center
+   :width: 1200px
 
 **The summary table shows the main key information:**
 
@@ -1311,6 +1407,7 @@ This button opens a new view that exposes the builtin rules used by TrackMe, and
 .. image:: img/first_steps/img_data_sampling_show_builtin.png
    :alt: img_data_sampling_show_builtin.png
    :align: center
+   :width: 1200px
 
 Builtin rules should not be modified, instead use custom rules to handle event formats that would not be properly identified by the builtin regular expression rules.
 
@@ -1322,6 +1419,7 @@ Custom rules provides a workflow to handle any custom sourcetypes and event form
 .. image:: img/first_steps/img_data_sampling_show_custom1.png
    :alt: img_data_sampling_show_custom1.png
    :align: center
+   :width: 1200px
 
 This view allows you to create a new custom rule (button Create custom rules) or remove any existing custom rules that would not be required anymore. (button Remove selected)
 
@@ -1336,6 +1434,7 @@ This screen alows to test and create a new custom rule based on the current data
 .. image:: img/first_steps/img_data_sampling_create_custom1.png
    :alt: img_data_sampling_create_custom1.png
    :align: center
+   :width: 1200px
 
 To create a new custom rule:
 
@@ -1353,6 +1452,7 @@ To create a new custom rule:
 .. image:: img/first_steps/img_data_sampling_create_custom2.png
    :alt: img_data_sampling_create_custom2.png
    :align: center
+   :width: 1200px
 
 Once you have created a new custom rule, this rule will be applied automatically to future executions of the data sampling engine:
 
@@ -1366,6 +1466,7 @@ Once there is at least one custom rule defined, the list of custom rules appears
 .. image:: img/first_steps/img_data_sampling_delete_custom.png
    :alt: img_data_sampling_delete_custom.png
    :align: center
+   :width: 1200px
 
 When a custom rule is removed, future executions of the data sampling engine will not consider the rule deleted anymore, optionally you can run the data sampling engine now or clear the state for a data source.
 
@@ -1426,6 +1527,7 @@ Disabling the feature means defining the value of the field **data_sample_featur
 .. image:: img/first_steps/img_data_sampling_disable.png
    :alt: img_data_sampling_disable.png
    :align: center
+   :width: 1200px
 
 The Data sampling feature can be enabled / disabled at any point in time, as soon as a data source is disabled, TrackMe stops considering it during the sampling operations.
 
@@ -1439,6 +1541,7 @@ An audit dashboard is provided in the audit navigation menu, this dashboard prov
 .. image:: img/first_steps/img_data_sampling_audit.png
    :alt: img_data_sampling_audit.png
    :align: center
+   :width: 1200px
 
 Data sampling example 1: monitor a specific format
 --------------------------------------------------
@@ -1469,24 +1572,28 @@ Once the rule has been created:
 .. image:: img/first_steps/img_data_sampling_create_custom2.png
    :alt: img_data_sampling_create_custom2.png
    :align: center
+   :width: 1200px
 
 The next execution of the data sampling will report the name of the rule for each data source that is matching our conditions:
 
 .. image:: img/first_steps/img_data_sampling_create_custom3.png
    :alt: img_data_sampling_create_custom3.png
    :align: center
+   :width: 1200px
 
 Should a change in the events format happen, such as malformed events happening for any reason, the data sampling rule would match these exceptions and render a status error to be reviewed.
 
 .. image:: img/first_steps/img_data_sampling_create_custom4.png
    :alt: img_data_sampling_create_custom4.png
    :align: center
+   :width: 1200px
 
 Review of the latest events sample would clearly show the root cause of the issue: (button **View latest sample events**):
 
 .. image:: img/first_steps/img_data_sampling_create_custom5.png
    :alt: img_data_sampling_create_custom5.png
    :align: center
+   :width: 1200px
 
 As the data sampling engine stops proceeding a data source as soon as an issue was detected, these events are the exact events that have caused the anomaly exception at the exact time it happened.
 
@@ -1519,36 +1626,118 @@ Should any event be matching this regular expression, we would most likely face 
 .. image:: img/first_steps/img_data_sampling_create_custom6.png
    :alt: img_data_sampling_create_custom6.png
    :align: center
+   :width: 1200px
 
 Our data uses a format that is recognized automatically by builtin rules, and would appears as following in normal circumstances:
 
 .. image:: img/first_steps/img_data_sampling_create_custom7.png
    :alt: img_data_sampling_create_custom7.png
    :align: center
+   :width: 1200px
 
 After some time, we introduce events containing real clear text credit card numbers, eventually our custom rule will automatically detect it and state an alert on the data source:
 
 .. image:: img/first_steps/img_data_sampling_create_custom8.png
    :alt: img_data_sampling_create_custom8.png
    :align: center
+   :width: 1200px
 
 .. image:: img/first_steps/img_data_sampling_create_custom9.png
    :alt: img_data_sampling_create_custom9.png
    :align: center
+   :width: 1200px
 
 .. image:: img/first_steps/img_data_sampling_create_custom10.png
    :alt: img_data_sampling_create_custom10.png
    :align: center
+   :width: 1200px
 
 We can clearly understand the root cause of the issue reported by TrackMe, shall we investigate further (button **View latest sample events**):
 
 .. image:: img/first_steps/img_data_sampling_create_custom11.png
    :alt: img_data_sampling_create_custom11.png
    :align: center
+   :width: 1200px
 
 Thanks to the data sampling feature, we are able to get an automated tracking that is working at any scale, keep in mind that TrackMe will proceed by picking up samples, which means a very rare condition will potentially not be detected.
 
 However, there is statistically a very high level of chance that if this is happening on a regular basis, this will be detected without having to generate very expensive searches that would look at the entire subset of data. (which would be very expensive and potentially not doable at scale)
+
+Smart Status
+============
+
+Smart Status Introduction
+-------------------------
+
+The Smart Status is a powerful feature that runs automated investigations and correlations.
+
+Under the cover, the Smart Status is a Python based backend exposed via a REST API endpoint, it is available in the TrackMe UI via the :ref:`REST API trackme SPL command` and any third party integration via the :ref:`Smart Status endpoints`.
+
+The feature uses the Python SDK for Splunk and Python capabilities to perform various conditional operations depending on the status of the entity, for instance in short for a data source it does:
+
+- retrieve the current state of the entity
+- perform a correlation over the flipping events to determine if the rate of flipping events is abnormal
+- if the status is not green, determine the reason for the status and conditionally perform correlations and provide a report highlting the findings
+- finally generate a JSON response with a status code depending on the investigations to ease and fast the understanding of the failure root cause
+
+In short, the purpose of the feature is to quickly and automatically investigate the entity status, and provide a short path for investigations.
+
+Smart Status within the UI
+--------------------------
+
+In the UI, access the Smart Status the open-up screen for a given entity, for data sources, hosts and metric hosts:
+
+.. image:: img/smart_status/access_ui.png
+   :alt: img/smart_status/access_ui.png
+   :align: center
+   :width: 1200px
+
+*Smart Status example: (normal state entity)*
+
+.. image:: img/smart_status/access_ui2.png
+   :alt: img/smart_status/access_ui2.png
+   :align: center
+   :width: 1200px
+
+*Smart Status example: (alert state entity due to outliers)*
+
+.. image:: img/smart_status/access_ui3.png
+   :alt: img/smart_status/access_ui3.png
+   :align: center
+   :width: 1200px
+
+*Smart Status example: (alert state entity due to data sampling exclusive rule matching PII data)*
+
+.. image:: img/smart_status/access_ui4.png
+   :alt: img/smart_status/access_ui4.png
+   :align: center
+   :width: 1200px
+
+*Smart Status example: (alert state entity due to lagging)*
+
+.. image:: img/smart_status/access_ui5.png
+   :alt: img/smart_status/access_ui5.png
+   :align: center
+   :width: 1200px
+
+Smart Status from external third party
+--------------------------------------
+
+The Smart Status feature is serviced by a REST API endpoint, as such it can be requested via any external system, such as Splunk Phantom or any other automation plateforns:
+
+*Smart Status example via Postman:*
+
+.. image:: img/smart_status/access_rest.png
+   :alt: img/smart_status/access_rest.png
+   :align: center
+   :width: 1200px
+
+.. image:: img/smart_status/access_rest2.png
+   :alt: img/smart_status/access_rest2.png
+   :align: center
+   :width: 1200px
+
+See: :ref:`Smart Status endpoints`
 
 Priority management
 ===================
@@ -1576,24 +1765,28 @@ First, the UI exposes the current status depending on the priority of the entiti
 .. image:: img/priority/img001.png
    :alt: img001.png
    :align: center
+   :width: 1200px
 
 As well, the priority can be easily filtered:
 
 .. image:: img/priority/img002.png
    :alt: img002.png
    :align: center
+   :width: 1200px
 
 The priority is visible in the table too:
 
 .. image:: img/priority/img003.png
    :alt: img003.png
    :align: center
+   :width: 1200px
 
 When clicking on an entity, the priority is shown on top with a blue colour scheme that starts from light blue for low, blue for medium and darker blue for high:
 
 .. image:: img/priority/img004.png
    :alt: img004.png
    :align: center
+   :width: 1200px
 
 The default priority assigned is "medium" and managed by the following macro:
 
@@ -1611,6 +1804,7 @@ Modify the priority
 .. image:: img/priority/img004.png
    :alt: img004.png
    :align: center
+   :width: 1200px
 
 Bulk update the priority
 ------------------------
@@ -1638,6 +1832,7 @@ Monitored state (enable / disable buttons)
 .. image:: img/enable_disable.png
    :alt: enable_disable.png
    :align: center
+   :width: 800px
 
 If an entity is set to ``disabled``, it will not appear anymore in the main screens, will not be part of any alert results, and no more metrics will be collected for it.
 
@@ -1673,6 +1868,7 @@ Week days monitoring
 .. image:: img/week_days_table.png
    :alt: week_days_table.png
    :align: center
+   :width: 1200px
 
 Monitoring level
 ================
@@ -1687,6 +1883,7 @@ Monitoring level
 .. image:: img/monitoring_level.png
    :alt: monitoring_level.png
    :align: center
+   :width: 1200px
 
 Feature behaviour:
 
@@ -1715,6 +1912,7 @@ Maximal lagging value
 .. image:: img/max_lagging.png
    :alt: .. image:: img/max_lagging.png
    :align: center
+   :width: 1200px
 
 This topic is covered in details in first steps guide :ref:`Main navigation tabs` and :ref:`Unified update interface`.
 
@@ -1732,12 +1930,14 @@ Lagging classes
 .. image:: img/lagging_class_access.png
    :alt: lagging_class_access.png
    :align: center
+   :width: 1200px
 
 **Which lets you access to the following UI:**
 
 .. image:: img/lagging_class_main.png
    :alt: lagging_class_main.png
    :align: center
+   :width: 1200px
 
 **Lagging classes are controlled by the following main rules:**
 
@@ -1768,6 +1968,7 @@ As well, it is possible to override this behaviour and manually control the maxi
 .. image:: img/lagging_class_override.png
    :alt: lagging_class_override.png
    :align: center
+   :width: 1200px
 
 
 Lagging classes behaviour for data hosts
@@ -1789,6 +1990,7 @@ By definition, the data hosts monitoring is a more complex task which involves f
 .. image:: img/lagging_class_override_data_hosts_ex1.png
    :alt: lagging_class_override_data_hosts_ex1.png
    :align: center
+   :width: 1200px
 
 |:arrow_right:| by default, TrackMe applies a 3600 max lagging value per sourcetype and for the overall host
 
@@ -1799,6 +2001,7 @@ By definition, the data hosts monitoring is a more complex task which involves f
 .. image:: img/lagging_class_override_data_hosts_ex2.png
    :alt: lagging_class_override_data_hosts_ex2.png
    :align: center
+   :width: 1200px
 
 - Now let's create a new lagging class matching the sourcetype ``Script:ListeningPorts`` with a short max lagging class of 300 seconds
 - The provider is stopped for the demonstration purposes
@@ -1811,12 +2014,14 @@ By definition, the data hosts monitoring is a more complex task which involves f
 .. image:: img/lagging_class_override_data_hosts_ex3.png
    :alt: lagging_class_override_data_hosts_ex3.png
    :align: center
+   :width: 1200px
 
 **Alerting policy track per host:**
 
 .. image:: img/lagging_class_override_data_hosts_ex4.png
    :alt: lagging_class_override_data_hosts_ex4.png
    :align: center
+   :width: 1200px
 
 .. admonition:: Lagging classes override
 
@@ -1856,18 +2061,21 @@ Let's assume the following use case:
 .. image:: img/img_lagging_classes_example_priority1.png
    :alt: img_lagging_classes_example_priority1.png
    :align: center
+   :width: 1200px
 
 **Let's create our 3 lagging classes via the UI, in our example we will want to apply these policies to data hosts only:**
 
 .. image:: img/img_lagging_classes_example_priority2.png
    :alt: img_lagging_classes_example_priority2.png
    :align: center
+   :width: 1200px
 
 **Once the policies have been created, we can run the Data hosts trackers manually or wait for the next automatic execution, policies are applied successfully:**
 
 .. image:: img/img_lagging_classes_example_priority3.png
    :alt: img_lagging_classes_example_priority3.png
    :align: center
+   :width: 1200px
 
 *Note: The lagging value that will be inherited from the policy cannot be lower than the highest lagging value between the sourcetypes of a given host, shall this be the case, TrackMe will automatically use the highest lagging value between all sourcetypes linked to that host.*
 
@@ -1883,12 +2091,14 @@ Allowlisting & Blocklisting
 .. image:: img/allowlist_and_blocklist.png
    :alt: allowlist_and_blocklist.png
    :align: center
+   :width: 800px
 
 **The default behaviour of TrackMe is to track data available in all indexes, which changes if allowlisting has been defined:**
 
 .. image:: img/allowlisting.png
    :alt: .png
    :align: center
+   :width: 800px
 
 Different level of blocklisting features are provided out of the box, which features can be used to avoid taking in consideration indexes, sourcetypes and hosts.
 
@@ -1907,6 +2117,7 @@ Different level of blocklisting features are provided out of the box, which feat
 .. image:: img/blocklist_example.png
    :alt: blocklist_example.png
    :align: center
+   :width: 800px
 
 Resetting collections to factory defaults
 =========================================
@@ -1918,6 +2129,7 @@ Resetting collections to factory defaults
 .. image:: img/reset_btn.png
    :alt: reset_btn.png
    :align: center
+   :width: 1200px
 
 **If you validate the operation, all configuration changes will be lost (like week days monitoring rules changes, etc) and the long term tracker will be run automatically:**
 
@@ -1935,12 +2147,14 @@ Deletion of entities
 .. image:: img/delete1.png
    :alt: delete1.png
    :align: center
+   :width: 1200px
 
 **Two options are available:**
 
 .. image:: img/delete2.png
    :alt: delete2.png
    :align: center
+   :width: 800px
 
 - When the data source or host is temporary removed, it will be automatically re-created if it has been active during the time range scope of the trackers.
 - When the data source or host is permanently removed, a record of the operation is stored in the audit changes KVstore collection, which we automatically use to prevent the source from being re-created effectively.
@@ -1954,6 +2168,7 @@ When an entity is deleted via the UI, the audit record exposes the full content 
 .. image:: img/delete4.png
    :alt: delete4.png
    :align: center
+   :width: 1200px
 
 It is not possible at the moment to ``restore`` an entity that was previously deleted, however an active entity can be recreated automatically depending on the scope of the data discovery (the data must be available to TrackMe), and with the help of the audit record you could easily re-apply any settings that would be required.
 
@@ -2008,6 +2223,7 @@ Because the passive node might not generate data, we only want to alert if both 
 .. image:: img/logical_groups_example1.png
    :alt: logical_groups_example1.png
    :align: center
+   :width: 1200px
 
 In our example, we have two hosts:
 
@@ -2021,48 +2237,56 @@ For this, we click on the first host, then Modify and finally we click on the Lo
 .. image:: img/logical_groups_example2.png
    :alt: logical_groups_example2.png
    :align: center
+   :width: 800px
 
 Since we don't have yet a group, let's create a new group:
 
 .. image:: img/logical_groups_example3.png
    :alt: logical_groups_example3.png
    :align: center
+   :width: 800px
 
 Once the group is created, the first node is automatically associated with the group, let's click on the second node and associate it with our new group:
 
 .. image:: img/logical_groups_example4.png
    :alt: logical_groups_example4.png
    :align: center
+   :width: 1200px
 
 We clicked on the group which we want to associate the entity with, which performs the association automatically, finally we can see the state of the second host has changed from ``red`` to ``blue``:
 
 .. image:: img/logical_groups_example5.png
    :alt: logical_groups_example5.png
    :align: center
+   :width: 1200px
 
 If we click on the entity and check the status message tab, we can observe a clear message indicating the reason of the state including the name of the logical group this entity is part of:
 
 .. image:: img/logical_groups_example6.png
    :alt: logical_groups_example6.png
    :align: center
+   :width: 1200px
 
 Shall later on the situation be inversed, the active node became passive and the passive became passive, the states will be reversed, since the logical group monitoring rules (50% active) are respected there will not be any alert generated:
 
 .. image:: img/logical_groups_example7.png
    :alt: logical_groups_example7.png
    :align: center
+   :width: 1200px
 
 Finally, shall both entities be inactive, their status will be ``red`` and alerts will be emitted as none of these are meeting the logical group monitoring rules:
 
 .. image:: img/logical_groups_example8.png
    :alt: logical_groups_example8.png
    :align: center
+   :width: 1200px
 
 The status message tab would expose clearly the reason of the ``red`` status:
 
 .. image:: img/logical_groups_example9.png
    :alt: logical_groups_example9.png
    :align: center
+   :width: 1200px
 
 Create a new logical group
 --------------------------
@@ -2072,18 +2296,21 @@ To create a new logical group and associate a first member, enter the unified mo
 .. image:: img/logical_group1.png
    :alt: logical_group1.png
    :align: center
+   :width: 800px
 
 If the entity is not yet associated with a logical group (an entity cannot be associated with more than one group), the following message is displayed:
 
 .. image:: img/logical_group3.png
    :alt: logical_group3.png
    :align: center
+   :width: 800px
 
 Click on the button "Create a new group" which opens the following configuration window:
 
 .. image:: img/logical_group4.png
    :alt: logical_group4.png
    :align: center
+   :width: 800px
 
 - Enter a name for the logical group (names do not need to be unique and can accept any ascii characters)
 
@@ -2097,6 +2324,7 @@ If a logical group already exists and you wish to associate this entity to this 
 .. image:: img/logical_group5.png
    :alt: logical_group5.png
    :align: center
+   :width: 1200px
 
 - Optionally use the filter input box to search for a logical group
 
@@ -2135,6 +2363,7 @@ To remove an association from a logical group, click on the entry table in the i
 .. image:: img/logical_group8.png
    :alt: logical_group8.png
    :align: center
+   :width: 1200px
 
 Once the action is confirmed, the association is immediately removed and the entity acts as any other independent entities.
 
@@ -2155,12 +2384,14 @@ See :ref:`Data hosts global alerting policy` to control the global policy settin
 .. image:: img/data_hosts_alerting_policy1.png
    :alt: data_hosts_alerting_policy1.png
    :align: center
+   :width: 1200px
 
 **Zooming on the summary sourcetype field:**
 
 .. image:: img/data_hosts_alerting_policy2.png
    :alt: data_hosts_alerting_policy2.png
    :align: center
+   :width: 1000px
 
 **The field provides visibility against each sourcetype known to the host, a main state (red / green) represented by an ASCII emoji and the KPI main information about the sourcetypes:**
 
@@ -2175,6 +2406,7 @@ See :ref:`Data hosts global alerting policy` to control the global policy settin
 .. image:: img/data_hosts_alerting_policy3.png
    :alt: data_hosts_alerting_policy3.png
    :align: center
+   :width: 1000px
 
 .. hint::
 
@@ -2192,6 +2424,7 @@ See :ref:`Data hosts global alerting policy` to control the global policy settin
 .. image:: img/data_hosts_alerting_policy4.png
    :alt: data_hosts_alerting_policy4.png
    :align: center
+   :width: 1200px
 
 **Three options are available:**
 
@@ -2208,12 +2441,14 @@ See :ref:`Data hosts global alerting policy` to control the global policy settin
 .. image:: img/lagging_class_override_data_hosts_ex3.png
    :alt: lagging_class_override_data_hosts_ex3.png
    :align: center
+   :width: 1200px
 
 *Alerting policy track per host:*
 
 .. image:: img/lagging_class_override_data_hosts_ex4.png
    :alt: lagging_class_override_data_hosts_ex4.png
    :align: center
+   :width: 1200px
 
 Tags
 ====
@@ -2235,6 +2470,7 @@ Tags
 .. image:: img/tags_filter.png
    :alt: tags_filter.png
    :align: center
+   :width: 1200px
 
 Tags policies
 -------------
@@ -2244,10 +2480,12 @@ Tags policies
 .. image:: img/tags_policies_img001.png
    :alt: tags_policies_img001.png
    :align: center
+   :width: 1200px
 
 .. image:: img/tags_policies_img002.png
    :alt: tags_policies_img002.png
    :align: center
+   :width: 1200px
 
 Create a new tags policy
 ^^^^^^^^^^^^^^^^^^^^^^^^
@@ -2257,6 +2495,7 @@ Create a new tags policy
 .. image:: img/tags_policies_img003.png
    :alt: tags_policies_img003.png
    :align: center
+   :width: 1200px
 
 **Fill the UI with the required information:**
 
@@ -2276,18 +2515,21 @@ Tags policies are applied sequentially in the order the entries are stored in th
 .. image:: img/tags_policies_img004.png
    :alt: tags_policies_img004.png
    :align: center
+   :width: 1200px
 
 *Once the simulation was executed, click on the red button "Add this new policy":*
 
 .. image:: img/tags_policies_img005.png
    :alt: tags_policies_img005.png
    :align: center
+   :width: 1200px
 
 *Tags policies are applied automatically by the data source trackers, you can wait for scheduled executions or manually run the tracker (short term or long term, or both) to immediately assign the tags:*
 
 .. image:: img/tags_policies_img006.png
    :alt: tags_policies_img006.png
    :align: center
+   :width: 800px
 
 Update and delete tags policies
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -2297,6 +2539,7 @@ Update and delete tags policies
 .. image:: img/tags_policies_img007.png
    :alt: tags_policies_img007.png
    :align: center
+   :width: 1200px
 
 Manual tags
 -----------
@@ -2306,24 +2549,28 @@ Manual tags
 .. image:: img/tags_img001.png
    :alt: tags_img001.png
    :align: center
+   :width: 1200px
 
 **When no tags have been defined yet for a data source, the following screen would appear:**
 
 .. image:: img/tags_img002.png
    :alt: tags_img002.png
    :align: center
+   :width: 800px
 
 **When tags have been defined for a data source, the following screen would appear:**
 
 .. image:: img/tags_img002bis.png
    :alt: tags_img002bis.png
    :align: center
+   :width: 800px
 
 **You can click on the "Manage: manual tags" button to define one or more tags for a given data source:**
 
 .. image:: img/tags_img003.png
    :alt: tags_img003.png
    :align: center
+   :width: 800px
 
 *Tags are stored in the data sources KVstore collection in a field called "tags", when multiple tags are defined, the list of tags is defined as a comma separated list of values.*
 
@@ -2335,6 +2582,7 @@ Adding new tags
 .. image:: img/tags_img004.png
    :alt: tags_img004.png
    :align: center
+   :width: 800px
 
 Once a new tag is added, it is made available automatically in the tag filter from the main Trackme data source screen.
 
@@ -2348,6 +2596,7 @@ Updating tags
 .. image:: img/tags_img005.png
    :alt: tags_img005.png
    :align: center
+   :width: 800px
 
 Clearing tags
 ^^^^^^^^^^^^^
@@ -2359,6 +2608,7 @@ Clearing tags
 .. image:: img/tags_img006.png
    :alt: tags_img006.png
    :align: center
+   :width: 800px
 
 Data identity card
 ==================
@@ -2366,30 +2616,75 @@ Data identity card
 .. admonition:: Data identity card
 
    - Data identity cards allow you to define a Web link and a documentation note that will be stored in a KVstore collection, and made available automatically via the UI and the out of the box alert.
-   - Data identity cards are managed via the UI, when no card has been defined yet for a data source, the following message is shown.
+   - Data identity cards are managed via the UI, when no card has been defined yet for a data source, a message indicating it is shown.
    - Data identity cards are available for data sources monitoring only.
+   - You can define a global idendity card that will be used by default to provide a link and a note, and you can still create specific identity cards and associations.
 
-.. image:: img/identity_card1.png
-   :alt: identity_card1.png
+.. image:: img/identity_card4.png
+   :alt: identity_card4.png
    :align: center
+   :width: 800px
+
+Data identity: global identity card
+-----------------------------------
+
+As a TrackMe administrator, define a value for the global URL and the global note macros, you can quickly access these macros in the **TrackMe Manage and configure** UI:
+
+.. image:: img/identity_card_global.png
+   :alt: identity_card_global.png
+   :align: center
+   :width: 1200px
+
+.. warning:: The global identity card is enabled only if a value was defined for **both** the URL and the note
+
+*Once defined, the global identity card shows an active link:*
+
+.. image:: img/identity_card_defined.png
+   :alt: identity_card_defined.png
+   :align: center
+   :width: 500px
+
+*Following the link opens the identity card UI:*
+
+.. image:: img/identity_card_global2.png
+   :alt: identity_card_global2.png
+   :align: center
+   :width: 800px
+
+*Given that this is a global identity card, the "Delete card" is disabled automatically, however it is still possible to create a new identity card to be associated with this data source which will replace the global card automatically.*
+
+*Note: if you create a global card while existing cards have defined already, there will be no impacs for existing cards, custom cards take precedence over the default card if any.*
+
+Data identity: workflow
+------------------------
+
+**If the data source has not been associated to a card yet (or no global card was defined), the UI shows a link to define the a documentation reference:**
+
+.. image:: img/identity_card_notdefined.png
+   :alt: identity_card_notdefined.png
+   :align: center
+   :width: 800px
 
 **You can click on the link to create a new identity card:**
 
 .. image:: img/identity_card2.png
    :alt: identity_card2.png
    :align: center
+   :width: 1200px
 
 **Once the identity card has been created, the following message link is shown:**
 
 .. image:: img/identity_card3.png
    :alt: identity_card3.png
    :align: center
+   :width: 1200px
 
 **Which automatically provides a view with the identity card content:**
 
 .. image:: img/identity_card4.png
    :alt: identity_card4.png
    :align: center
+   :width: 800px
 
 In addition, the fields "doc_link" and "doc_note" are part of the default output of the default alert, which can be recycled eventually to enrich a ticketing system incident.
 
@@ -2398,10 +2693,12 @@ In addition, the fields "doc_link" and "doc_note" are part of the default output
 .. image:: img/identity_card5.png
    :alt: identity_card5.png
    :align: center
+   :width: 800px
 
 .. image:: img/identity_card6.png
    :alt: identity_card6.png
    :align: center
+   :width: 800px
 
 Auditing changes
 ================
@@ -2413,6 +2710,7 @@ Auditing changes
 .. image:: img/auditing1.png
    :alt: auditing1.png
    :align: center
+   :width: 1200px
 
 Different information related to the change performed are stored in the collection, such as the user that performed the change, the type of object, the existing state before the change is performed, and so forth.
 
@@ -2442,6 +2740,7 @@ Using the UI, you can easily monitor and investigate the historical changes of a
 .. image:: img/audit_flipping.png
    :alt: audit_flipping.png
    :align: center
+   :width: 1200px
 
 These events are automatically generated by the tracker reports, and are as well used for SLA calculation purposes.
 
@@ -2457,16 +2756,19 @@ Ops: Queues center
 .. image:: img/ops_queues_001.png
    :alt: ops_queues_001.png
    :align: center
+   :width: 1200px
 
 **This view shows Splunk pipeline queues usage in your environment, using the filtering results from the macro trackme_idx_filter, make sure this macro is configured to filter on indexers and heavy forwarders:**
 
 .. image:: img/ops_queues_002.png
    :alt: ops_queues_001.png
    :align: center
+   :width: 1200px
 
 .. image:: img/ops_queues_003.png
    :alt: ops_queues_001.png
    :align: center
+   :width: 1200px
 
 **Options in the view:**
 
@@ -2485,16 +2787,19 @@ Ops: Parsing view
 .. image:: img/ops_parsing_001.png
    :alt: ops_parsing_001.png
    :align: center
+   :width: 1200px
 
 **This view shows parsing errors happening in your environment, using the filtering results from the macro trackme_idx_filter, make sure this macro is configured to filter on indexers and heavy forwarders:**
 
 .. image:: img/ops_parsing_002.png
    :alt: ops_parsing_002.png
    :align: center
+   :width: 1200px
 
 .. image:: img/ops_parsing_003.png
    :alt: ops_parsing_003.png
    :align: center
+   :width: 1200px
 
 **Options in the view:**
 
@@ -2562,6 +2867,7 @@ Alerts acknowledgment
 .. image:: img/ack1.png
    :alt: ack1.png
    :align: center
+   :width: 1200px
 
 **Acknowledgments provides a way to:**
 
@@ -2585,18 +2891,21 @@ Alerts acknowledgment
 .. image:: img/ack2.png
    :alt: ack2.png
    :align: center
+   :width: 1200px
 
 **Acknowledge for an active alert is active:**
 
 .. image:: img/ack3.png
    :alt: ack3.png
    :align: center
+   :width: 1200px
 
 **Once active, an acknowledge can be disabled on demand by clicking on the Ack table:**
 
 .. image:: img/ack4.png
    :alt: ack4.png
    :align: center
+   :width: 600px
 
 **All acknowledgement related actions are recorded in the audit collection and report.**
 
@@ -2605,6 +2914,7 @@ Alerts acknowledgment
 .. image:: img/ack5.png
    :alt: ack5.png
    :align: center
+   :width: 1200px
 
 Connected experience dashboard for Splunk Mobile & Apple TV
 ===========================================================
@@ -2614,6 +2924,7 @@ Connected experience dashboard for Splunk Mobile & Apple TV
 .. image:: img/connected_dashboard.png
    :alt: connected_dashboard.png
    :align: center
+   :width: 1200px
 
 This dashboard is exported to the system, to be made available to Splunk Cloud Gateway.
 
@@ -2639,6 +2950,7 @@ Fortunately, Splunk with alert actions and addon extensions allows interacting w
 .. image:: img/slack_audit_change_flow.png
    :alt: slack_audit_change_flow.png
    :align: center
+   :width: 1200px
 
 *For Slack integration, see*
 
@@ -2656,16 +2968,19 @@ Enrichment tags
 .. image:: img/tags_screen1.png
    :alt: tags_screen1.png
    :align: center
+   :width: 1200px
 
 .. image:: img/tags_screen2.png
    :alt: tags_screen2.png
    :align: center
+   :width: 1200px
 
 Once configured, enrichment tags provides access to your assets information to help analyst identifying the entities in alert and facilitate further investigations:
 
 .. image:: img/tags_screen3.png
    :alt: tags_screen3.png
    :align: center
+   :width: 1200px
 
 Maintenance mode
 ================
@@ -2690,12 +3005,14 @@ Enabling or extending the maintenance mode
 .. image:: img/maintenance_mode1.png
    :alt: maintenance_mode1.png
    :align: center
+   :width: 1200px
 
 - Within the modal configuration window, enter the date and hours of the end of the maintenance time window:
 
 .. image:: img/maintenance_mode2.png
    :alt: maintenance_mode2.png
    :align: center
+   :width: 1200px
 
 - When the date and hours of the maintenance time window are reached, the scheduled report "Verify Kafka alerting maintenance status" will automatically disable the maintenance mode.
 
@@ -2709,6 +3026,7 @@ During any time of the maintenance time window, an administrator can decide to d
 .. image:: img/maintenance_mode3.png
    :alt: maintenance_mode3.png
    :align: center
+   :width: 1200px
 
 Scheduling a maintenance window
 -------------------------------
@@ -2720,9 +3038,11 @@ You can configure the maintenance mode to be automatically enabled between a spe
 .. image:: img/maintenance_mode4.png
    :alt: maintenance_mode4.png
    :align: center
+   :width: 1200px
 
 - When a maintenance mode window has been scheduled, the UI shows a specific message with the starts / ends on dates:
 
 .. image:: img/maintenance_mode5.png
    :alt: maintenance_mode5.png
    :align: center
+   :width: 1200px
