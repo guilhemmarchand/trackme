@@ -16,6 +16,7 @@ TrackMe requires a summary index (defaults to trackme_summary) and a metric inde
 https://trackme.readthedocs.io/en/latest/configuration.html
 
 - Enhancement - Issue #230 - data host over time and single search performance improvements
+- Enhancement - Issue #222 - Automatically Backup Main KV Store collections, provide endpoints for backup and restore operations
 
 Version 1.2.31
 ==============
