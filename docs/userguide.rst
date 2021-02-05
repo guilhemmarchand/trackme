@@ -3052,7 +3052,7 @@ Backup and restore
 
 TrackMe stores the vaste majority for its content in many KVstore collections.
 
-Using the :ref:`Backup and Restore endpoints` from the API, backups are taken automatically on a schedule basis, can be taken on demand and restored if it is required.
+Using the :ref:`Backup and Restore endpoints` from the API, backups are taken automatically on a scheduled basis, can be taken on demand and restored if necessary.
 
 **Backups are stored a compressed tarball archive, stored in the "backup" directory of the TrackMe application on the search head(s):**
 
@@ -3062,9 +3062,19 @@ Using the :ref:`Backup and Restore endpoints` from the API, backups are taken au
 
    /opt/splunk/etc/apps/trackme/backup/trackme-backup-20210205-142635.tgz
 
-Each archive contains a JSON file corresponding to the entire content of the KVstore collection when the backup was taken.
+Each archive contains a JSON file corresponding to the entire content of the KVstore collection when the backup was taken, empty collections are not backed up.
 
-To perform a restore operation (see the documentation following), the relevant tarball archive needs to be located in the same directory, for Splunk Cloud certification purposes, the application will never attempt to write or access a durectory ouf of the application name space level.
+To perform a restore operation (see the documentation following), the relevant tarball archive needs to be located in the same directory.
+
+For Splunk Cloud certification purposes, the application will never attempt to write or access a directory ouf of the application name space level.
+
+.. admonition:: notes about Search Head Clustering (SHC)
+
+   - If TrackMe is deployed in a Search Head Cluster, the scheduled report is executed on a single search head, randomly
+   - As such, the archive file is created on this specific instance, but not replicated to other members
+   - Restoring requires to manually locate the server hosting the archive file, and running the restore command from this node especially
+   - The restore operation does not mandatory requires to be executed from the SHC / KVstore captain
+   - in a SHC context, the purging part of schedule report happens only on the member running the report, therefore archive files can exist longer than the retention on other members
 
 Automatic backup
 ----------------

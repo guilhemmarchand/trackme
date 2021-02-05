@@ -36,3 +36,7 @@ backups
 
 # appinspect reports
 appinspect_report*.html
+
+# backup directory
+trackme/backup
+
