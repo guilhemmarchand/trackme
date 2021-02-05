@@ -41,6 +41,8 @@ These resource groups are accessible by specific endpoint paths as following:
 +----------------------------------------------+----------------------------------------------+
 | :ref:`Smart Status endpoints`                | /services/trackme/v1/smart_status            |
 +----------------------------------------------+----------------------------------------------+
+| :ref:`Backup and Restore endpoints`          | /services/trackme/v1/backup_and_restore      |
++----------------------------------------------+----------------------------------------------+
 
 These endpoints can be used to interract with TrackMe in a programmatic fashion, for instance to perform integration tasks with automation systems.
 
@@ -4524,3 +4526,133 @@ mh_smart_status / Run Smart Status for a metric host
     }
 
 *The API response depends on the smart status results.*
+
+Backup and Restore endpoints
+----------------------------
+
+**Resources summary:**
+
++---------------------------------------------------------------------------------------------------+------------------------------------------------------------------------------+
+| Resource                                                                                          | API Path                                                                     | 
++===================================================================================================+==============================================================================+
+| :ref:`backup / Get backup archive files available`                                                | /services/trackme/v1/smart_status/backup                                     |
++---------------------------------------------------------------------------------------------------+------------------------------------------------------------------------------+
+| :ref:`backup / Run backup KVstore collections`                                                    | /services/trackme/v1/smart_status/backup                                     |
++---------------------------------------------------------------------------------------------------+------------------------------------------------------------------------------+
+| :ref:`backup / Purge older backup archive files`                                                  | /services/trackme/v1/smart_status/backup                                     |
++---------------------------------------------------------------------------------------------------+------------------------------------------------------------------------------+
+| :ref:`restore / Perform a restore of KVstore collections`                                         | /services/trackme/v1/smart_status/restore                                    |
++---------------------------------------------------------------------------------------------------+------------------------------------------------------------------------------+
+
+
+backup / Get backup archive files available
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+**This endpoint lists all the backup files available on the search head, files are stored in the backup directory of the application, it requires a GET call with no arguments:**
+
+*External:*
+
+::
+
+    curl -k -u admin:'ch@ngeM3' -X GET https://localhost:8089/services/trackme/v1/backup_and_restore/backup
+
+*SPL query:*
+
+::
+
+    | trackme url="/services/trackme/v1/backup_and_restore/backup" mode="get"
+
+*JSON response:*
+
+::
+
+    {"backup_files": "['/opt/splunk/etc/apps/trackme/backup/trackme-backup-20210205-142635.tgz', '/opt/splunk/etc/apps/trackme/backup/trackme-backup-20210205-142607.tgz']"}
+
+backup / Run backup KVstore collections
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+**This endpoint performs a backup of all TrackMe collections in a compressed tarball file stored in the backup directory of the application, it requires a POST call with no arguments:**
+
+*External:*
+
+::
+
+    curl -k -u admin:'ch@ngeM3' -X POST https://localhost:8089/services/trackme/v1/backup_and_restore/backup
+
+*SPL query:*
+
+::
+
+    | trackme url="/services/trackme/v1/backup_and_restore/backup" mode="post"
+
+*JSON response:*
+
+::
+
+    { "backup_archive": "/opt/splunk/etc/apps/trackme/backup/trackme-backup-20210205-142505.tgz", "report": "23 collections backed up / 5 collections empty"}
+
+backup / Purge older backup archive files
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+**This endpoint performs a purge of backup archive files older than x days, it requires a DELETE call with the following arguments:**
+
+- ``retention_days: (integer) OPTIONAL: the maximal retention for backup archive files in days, if not specified defaults to 7 days``
+
+*External:*
+
+::
+
+    curl -k -u admin:'ch@ngeM3' -X DELETE https://localhost:8089/services/trackme/v1/backup_and_restore/backup -d '{"metric_host": "telegraf-node1"}'
+
+*SPL query:*
+
+::
+
+    | trackme url="services/trackme/v1/backup_and_restore/backup" mode="delete" body="{\"retention_days\": \"7\"}"
+
+*JSON response:*
+
+::
+
+    {"status": "There were no backup archive files older than 7 days to be purged"}
+
+restore / Perform a restore of KVstore collections
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+**This endpoint performs a backup of all TrackMe collections in compressed tarball file stored in the backup directory of the application, it requires a POST call with thre following arguments:**
+
+- ``backup_archive``:
+
+The archive file to be restoring from, the tarball compressed file must be located in the backup directory of the trackMe application.
+
+- ``dry_run``: 
+
+(true / false) OPTIONAL: if true, the endpoint will only verify that the archive can be found and successfully extracted, there will be no modifications at all. (default to true)
+
+- ``target:``
+
+(all / name of the KVstore json file) OPTIONAL: restore all available KVstore collection files (all) or choose a specific KVstore json file target to restore a unique collection. (default to all)
+
+*External:*
+
+::
+
+    curl -k -u admin:'ch@ngeM3' -X GET https://localhost:8089/services/trackme/v1/backup_and_restore/backup -d '{"backup_archive": "trackme-backup-20210205-142635.tgz", "dry_run": "false", "target": "all"}'
+
+*SPL query:*
+
+::
+
+    | trackme url="services/trackme/v1/backup_and_restore/restore" mode="post" body="{\"backup_archive\": \"trackme-backup-20210205-142635.tgz\", \"dry_run\": \"false\", \"target\": \"all\"}"
+
+*JSON response in dry_run: true:*
+
+::
+
+    {"response": "Success: the archive /opt/splunk/etc/apps/trackme/backup/trackme-backup-20210205-142635.tgz could be successfully extracted, the following KVstore collections can be restored (empty collections are not backed up)", "collections": "['kv_trackme_data_source_monitoring_blacklist_sourcetype.json', 'kv_trackme_maintenance_mode.json', 'kv_trackme_data_host_monitoring_blacklist_host.json', 'kv_trackme_tags_policies.json', 'kv_trackme_metric_lagging_definition.json', 'kv_trackme_data_sampling.json', 'kv_trackme_data_source_monitoring_blacklist_index.json', 'kv_trackme_custom_lagging_definition.json', 'kv_trackme_summary_investigator_volume_outliers.json', 'kv_trackme_host_monitoring.json', 'kv_trackme_data_sampling_custom_models.json', 'kv_trackme_logical_group.json', 'kv_trackme_elastic_sources.json', 'kv_trackme_data_source_monitoring.json', 'kv_trackme_metric_host_monitoring.json', 'kv_trackme_data_source_monitoring_blacklist_host.json', 'kv_trackme_metric_host_monitoring_blacklist_host.json', 'kv_trackme_metric_host_monitoring_blacklist_metric_category.json', 'kv_trackme_data_host_monitoring_blacklist_sourcetype.json', 'kv_trackme_audit_changes.json', 'kv_trackme_metric_host_monitoring_blacklist_index.json', 'kv_trackme_data_host_monitoring_blacklist_index.json', 'kv_trackme_elastic_sources_dedicated.json']"}
+
+*JSON response in dry_run: false:*
+
+::
+
+    { "backup_archive": "/opt/splunk/etc/apps/trackme/backup/trackme-backup-20210205-142635.tgz", "status": "restore is now complete, please reload TrackMe","collections_files_restored": "['kv_trackme_data_source_monitoring_blacklist_sourcetype.json', 'kv_trackme_maintenance_mode.json', 'kv_trackme_data_host_monitoring_blacklist_host.json', 'kv_trackme_tags_policies.json', 'kv_trackme_metric_lagging_definition.json', 'kv_trackme_data_sampling.json', 'kv_trackme_data_source_monitoring_blacklist_index.json', 'kv_trackme_custom_lagging_definition.json', 'kv_trackme_summary_investigator_volume_outliers.json', 'kv_trackme_host_monitoring.json', 'kv_trackme_data_sampling_custom_models.json', 'kv_trackme_logical_group.json', 'kv_trackme_elastic_sources.json', 'kv_trackme_data_source_monitoring.json', 'kv_trackme_metric_host_monitoring.json', 'kv_trackme_data_source_monitoring_blacklist_host.json', 'kv_trackme_metric_host_monitoring_blacklist_host.json', 'kv_trackme_metric_host_monitoring_blacklist_metric_category.json', 'kv_trackme_data_host_monitoring_blacklist_sourcetype.json', 'kv_trackme_audit_changes.json', 'kv_trackme_metric_host_monitoring_blacklist_index.json', 'kv_trackme_data_host_monitoring_blacklist_index.json', 'kv_trackme_elastic_sources_dedicated.json']"}

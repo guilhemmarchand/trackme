@@ -69,7 +69,7 @@ class TrackMeHandlerBackupAndRestore_v1(rest_handler.RESTHandler):
             backup_files = [join(backuproot, f) for f in listdir(backuproot) if isfile(join(backuproot, f))]
 
             return {
-                "payload": "\"backup_files\": \"" + str(backup_files) + "\"}",
+                "payload": "{\"backup_files\": \"" + str(backup_files) + "\"}",
                 'status': 200 # HTTP status code
             }
 
