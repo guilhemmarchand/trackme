@@ -3050,11 +3050,11 @@ You can configure the maintenance mode to be automatically enabled between a spe
 Backup and restore
 ==================
 
-TrackMe stores the vaste majority for its content in many KVstore collections.
+TrackMe stores the vaste majority of its content in multiple KVstore collections.
 
 Using the :ref:`Backup and Restore endpoints` from the API, backups are taken automatically on a scheduled basis, can be taken on demand and restored if necessary.
 
-**Backups are stored a compressed tarball archive, stored in the "backup" directory of the TrackMe application on the search head(s):**
+**Backups are stored in compressed tarball archives, located in the "backup" directory of the TrackMe application on the search head(s):**
 
 *Example:*
 
@@ -3083,11 +3083,11 @@ A Splunk report is scheduled by default to run every day at 2h AM:
 
 - ``TrackMe - Backup KVstore collections and purge older backup files``
 
-*This report does:*
+*This report does the following operations:*
 
-- Calls the trackme custom command API wrapper to take a backup of all non empty KVstore collections
+- call the trackme custom command API wrapper to take a backup of all non empty KVstore collections, generating an archive file in the search head the report is executed
 
-- Calls the trackme custom command API wrapper to purge backup files older than 7 days (by default)
+- call the trackme custom command API wrapper to purge backup files older than 7 days (by default) in the search head the report is executed
 
 *In SPL:*
 
@@ -3099,7 +3099,7 @@ A Splunk report is scheduled by default to run every day at 2h AM:
 On demand backup
 ----------------
 
-**You can at anytime perform a backup of the KVstore collection by running the following SPL command:**
+**You can at anytime perform a backup of the KVstore collections by running the following SPL command:**
 
 ::
 
@@ -3128,7 +3128,7 @@ This command calls the :ref:`backup / Purge older backup archive files` API endp
    :align: center
    :width: 1200px
 
-All archive files available are listed with their full patch on the file system.
+All archive files available on the search head the command is executed are listed with their full path on the file system.
 
 Purge older backup archive
 --------------------------
