@@ -4535,13 +4535,13 @@ Backup and Restore endpoints
 +---------------------------------------------------------------------------------------------------+------------------------------------------------------------------------------+
 | Resource                                                                                          | API Path                                                                     | 
 +===================================================================================================+==============================================================================+
-| :ref:`backup / Get backup archive files available`                                                | /services/trackme/v1/smart_status/backup                                     |
+| :ref:`backup / Get backup archive files available`                                                | /services/trackme/v1/backup_and_restore/backup                               |
 +---------------------------------------------------------------------------------------------------+------------------------------------------------------------------------------+
-| :ref:`backup / Run backup KVstore collections`                                                    | /services/trackme/v1/smart_status/backup                                     |
+| :ref:`backup / Run backup KVstore collections`                                                    | /services/trackme/v1/backup_and_restore/backup                               |
 +---------------------------------------------------------------------------------------------------+------------------------------------------------------------------------------+
-| :ref:`backup / Purge older backup archive files`                                                  | /services/trackme/v1/smart_status/backup                                     |
+| :ref:`backup / Purge older backup archive files`                                                  | /services/trackme/v1/backup_and_restore/backup                               |
 +---------------------------------------------------------------------------------------------------+------------------------------------------------------------------------------+
-| :ref:`restore / Perform a restore of KVstore collections`                                         | /services/trackme/v1/smart_status/restore                                    |
+| :ref:`restore / Perform a restore of KVstore collections`                                         | /services/trackme/v1/backup_and_restore/restore                              |
 +---------------------------------------------------------------------------------------------------+------------------------------------------------------------------------------+
 
 

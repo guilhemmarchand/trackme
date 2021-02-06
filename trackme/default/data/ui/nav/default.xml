@@ -11,6 +11,9 @@
     <view name="alerts" />
     <view name="analysis_workspace" />
   </collection>
+  <collection label="API &amp; tooling">
+    <view name="trackMe_api_reference" />
+  </collection>
   <collection label="Collections">
     <collection label="Data sources monitoring">
       <a href="search?q=%7C%20inputlookup%20trackme_data_source_monitoring%20%7C%20eval%20keyid%3D_key">Data sources collection</a>
@@ -59,6 +62,5 @@
   </collection>
   <collection label="Help">
       <a href="https://trackme.readthedocs.io/">Documentation on readthedocs.org</a>
-  </collection>  
-  <a href="search">Run a search</a>
+  </collection>
 </nav>
