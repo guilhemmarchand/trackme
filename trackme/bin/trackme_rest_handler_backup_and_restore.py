@@ -16,12 +16,16 @@ sys.path.append(os.path.join(splunkhome, 'etc', 'apps', 'trackme', 'lib'))
 import rest_handler
 import splunklib.client as client
 
+#
+# Splunk Cloud certification notes: these functions create and manage archive files for the application in the following directory $SPLUNK/etc/apps/trackme/backup
+# There are no options to perform any kind of file manipulations out of this application directory
+#
 
 class TrackMeHandlerBackupAndRestore_v1(rest_handler.RESTHandler):
     def __init__(self, command_line, command_arg):
         super(TrackMeHandlerBackupAndRestore_v1, self).__init__(command_line, command_arg, logger)
 
-    # Backup KVstore collections
+    # List backup archive files on this instance
     def get_backup(self, request_info, **kwargs):
 
         describe = False
@@ -63,18 +67,28 @@ class TrackMeHandlerBackupAndRestore_v1(rest_handler.RESTHandler):
             # Set backup root dir
             backuproot = os.path.join(splunkhome, 'etc', 'apps', 'trackme', 'backup')
 
-            # store files in list
-            from os import listdir
-            from os.path import isfile, join
-            backup_files = [join(backuproot, f) for f in listdir(backuproot) if isfile(join(backuproot, f))]
+            # check backup dir existence
+            if not os.path.isdir(backuproot):
 
-            return {
-                "payload": "{\"backup_files\": \"" + str(backup_files) + "\"}",
-                'status': 200 # HTTP status code
-            }
+                return {
+                    "payload": "{\"There are no backup archives available on this instance\"}",
+                    'status': 200 # HTTP status code
+                }
+
+            else:
+
+                # store files in list
+                from os import listdir
+                from os.path import isfile, join
+                backup_files = [join(backuproot, f) for f in listdir(backuproot) if isfile(join(backuproot, f))]
+
+                return {
+                    "payload": "{\"backup_files\": \"" + str(backup_files) + "\"}",
+                    'status': 200 # HTTP status code
+                }
 
 
-    # Backup KVstore collections
+    # Take a backup
     def post_backup(self, request_info, **kwargs):
 
         describe = False
@@ -231,6 +245,7 @@ class TrackMeHandlerBackupAndRestore_v1(rest_handler.RESTHandler):
     def delete_backup(self, request_info, **kwargs):
 
         describe = False
+        retention_days = 7 # default to 7 days of retention if not specified
 
         # Retrieve from data
         try:
@@ -395,8 +410,8 @@ class TrackMeHandlerBackupAndRestore_v1(rest_handler.RESTHandler):
 
         if describe:
 
-            response = "{\"describe\": \"This endpoint performs a backup of all TrackMe collections in a compressed tarball "\
-            + "file stored in the backup directory of the application, it requires a POST call with thre following arguments:\""\
+            response = "{\"describe\": \"This endpoint performs a restore of all TrackMe collections from a compressed tarball backup file"\
+            + "file stored in the backup directory ($SPLUNK_HOME/etc/apps/trackme/backup) of the application, it requires a POST call with thre following arguments:\""\
             + ", \"options\" : [ { "\
             + "\"dry_run\": \"(true / false) OPTIONAL: if true, the endpoint will only verify that the archive can be found and successfully extracted, there will be no modifications at all. (default to true)\","\
             + "\"target\": \"(all / name of the KVstore json file) OPTIONAL: restore all available KVstore collection files (all) or choose a specific KVstore json file target to restore a unique collection. (default to all)\","\
@@ -427,7 +442,7 @@ class TrackMeHandlerBackupAndRestore_v1(rest_handler.RESTHandler):
             # First, check the backup archive existence
             if not os.path.isfile(backupfile):
                 return {
-                    "payload": "{\"response\": \"ERROR: the archive name " + str(backupfile) + " could not be found, restore cannot be processed: \"}"
+                    "payload": "{\"response\": \"ERROR: the archive name " + str(backupfile) + " could not be found, restore cannot be processed\"}"
                 }
 
             # Attempt extraction
@@ -436,7 +451,7 @@ class TrackMeHandlerBackupAndRestore_v1(rest_handler.RESTHandler):
 
             except Exception as e:
                 return {
-                    "payload": "{\"response\": \"ERROR: the archive name " + str(backupfile) + " could not be extracted, restore cannot be processed: \"}"
+                    "payload": "{\"response\": \"ERROR: the archive name " + str(backupfile) + " could not be extracted, restore cannot be processed: \"" + str(e) + "}"
                 }
 
             # store files in list
