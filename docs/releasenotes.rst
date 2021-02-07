@@ -18,6 +18,7 @@ https://trackme.readthedocs.io/en/latest/configuration.html
 - Enhancement - Issue #230 - data host over time and single search performance improvements
 - Enhancement - Issue #222 - Automatically Backup Main KV Store collections, provide endpoints for backup and restore operations
 - Enhancement - Issue #232 - REST API and tooling - Provide a new app nav menu and a new dashboard to demonstrate the REST API endpoints and the usage of the trackme API in SPL commands
+- Fix - Issue #231 - UI - reduce the max number of entries in the tag policies screen (goes beyond the modal limitation)
 
 Version 1.2.31
 ==============
