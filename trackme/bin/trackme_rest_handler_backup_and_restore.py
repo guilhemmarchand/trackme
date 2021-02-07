@@ -397,7 +397,7 @@ class TrackMeHandlerBackupAndRestore_v1(rest_handler.RESTHandler):
                 # default to all if not specified
                 try:
                     target = resp_dict['target']
-                    if target in ("All", "all"):
+                    if target in ("all"):
                         restore_all = True
                     else:
                         restore_all = False
@@ -489,6 +489,52 @@ class TrackMeHandlerBackupAndRestore_v1(rest_handler.RESTHandler):
                 # Things are serious now, let's restore collection per collection                
                 if restore_all:
                 
+                    # define empty list
+                    collection_list = []
+
+                    # Step 1: flush all KVstore collections, TrackMe should be restored to the backup state
+
+                    # Get the Kvstore collections to be backed up from a lookup stored in the app
+                    try:
+                        with open(os.path.join(splunkhome, 'etc', 'apps', 'trackme', 'lookups', 'trackme_kvstore_collections.csv'), newline='') as f:
+                            reader = csv.reader(f)
+                            collection_list = list(reader)
+
+                    except Exception as e:
+                        return {
+                            'payload': 'Warn: exception encountered: ' + str(e) # Payload of the request.
+                        }
+
+                    # to get rid of the header
+                    counter = 0
+
+                    for run_collection in collection_list:
+
+                        if counter == 0:
+                            counter +=1
+                        
+                        else:
+
+                            counter +=1
+                            try:
+
+                                collection_name = run_collection[0]
+                                collection = service.kvstore[collection_name]
+
+                                # Delete the entire collection content
+                                try:
+                                    collection.data.delete()
+
+                                except Exception as e:
+                                    return {
+                                        'payload': 'Warn: exception encountered: ' + str(e) # Payload of the request.
+                                    }
+
+                            except Exception as e:
+                                return {
+                                    'payload': 'Warn: exception encountered: ' + str(e) # Payload of the request.
+                                }
+
                     for collection_backup_json in collections_json_files:
 
                         collection_target = os.path.splitext(collection_backup_json)[0]
@@ -500,15 +546,6 @@ class TrackMeHandlerBackupAndRestore_v1(rest_handler.RESTHandler):
                         # Load the json data
                         f = open (collection_source_file, "r")
                         data = json.loads(f.read())
-
-                        # Delete the entire collection content
-                        try:
-                            collection.data.delete()
-
-                        except Exception as e:
-                            return {
-                                'payload': 'Warn: exception encountered: ' + str(e) # Payload of the request.
-                            }
 
                         # Restore from the json file
                         try:
@@ -527,6 +564,12 @@ class TrackMeHandlerBackupAndRestore_v1(rest_handler.RESTHandler):
 
                         collection_target = os.path.splitext(target)[0]
                         collection_source_file = os.path.join(backupdir, target)
+
+                        # check the json backup file existence
+                        if not os.path.isfile(collection_source_file):
+                            return {
+                                "payload": "{\"response\": \"ERROR: the json file " + str(collection_source_file) + " could not be found, restore cannot be processed\"}"
+                            }
 
                         # connect to collection
                         collection = service.kvstore[collection_target]
