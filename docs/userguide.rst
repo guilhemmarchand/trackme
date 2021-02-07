@@ -584,12 +584,12 @@ See :ref:`Alerting policy for data hosts` for more details about this feature.
 
 **Host distinct count threshold: (data sources only)**
 
-In some cases, you may want to be alerted when the number of distinct count hosts underneath a data source goes bellow a certain threshold.
+In some cases, you may want to be alerted when the number of distinct count hosts underneath a data source goes below a certain threshold.
 
 *Expected values are:*
 
 - "any" (default) which disables any verification against the hosts distinct count number
-- A positive integer representing the minimal threshold for the dcount of hosts, if the current dcount goes bellow this value, the data source turns red
+- A positive integer representing the minimal threshold for the dcount of hosts, if the current dcount goes below this value, the data source turns red
 
 Elastic sources
 ===============
@@ -767,7 +767,7 @@ The following example shows the behaviour with a lookup that is updated every 30
    :align: center
    :width: 1200px
 
-Number of records are monitored automatically by the outliers detection, setting can be fined tuned to alert if the number of records goes bellow, and/or beyond a certain amount of records:
+Number of records are monitored automatically by the outliers detection, setting can be fined tuned to alert if the number of records goes below, and/or beyond a certain amount of records:
 
 .. image:: img/first_steps/img-rest-elastic-outliers.png
    :alt: img/first_steps/img-rest-elastic-outliers
