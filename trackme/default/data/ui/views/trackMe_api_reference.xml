@@ -1,14 +1,21 @@
-<form>
+<form script="trackme:trackMe_api_reference.js">
   <label>TrackMe API Reference</label>
   <description>This dashboard shows the different API resource groups and endpoints available in TrackMe</description>
   <fieldset submitButton="false"></fieldset>
+
   <row depends="$hiddenCss$">
     <panel>
       <html>
         <style>
+
            #resource_grp_dropdown  div[data-component="splunk-core:/splunkjs/mvc/components/Dropdown"]{
              width: 400px !important;
            }
+           
+           .search-timerange div[data-component="splunk-core:/splunkjs/mvc/components/TimeRangePickerDropdown"] {
+            display: none !important;
+           }           
+
         </style>
       </html>
     </panel>
@@ -41,8 +48,8 @@
           <a target="_blank" href="https://trackme.readthedocs.io/en/latest/rest_api_reference.html#rest-api-trackme-spl-command">🔗Link to the trackme SPL command documentation</a>
         </h2>
 
-        <h2>trackme API command Syntax:<br />
-          <code style="font-size: 14px; color: black;">
+        <h2 style="margin-top: 25px; line-height: normal;">trackme API command Syntax:<br />
+          <code style="font-size: 15px; color: black;">
           | <span style="color: blue;">trackme</span> <span style="color: green;">url</span>="&lt;API endpoint&gt;" <span style="color: green;">mode</span>="&lt;HTTP method: get/post/delete&gt;" <span style="color: green;">body</span>="&lt;Optional: provides the HTTP body in a json format, use: {'describe': 'true'} to show options and explanations for this particular endpoint&gt;"
           </code>
         </h2>
@@ -50,6 +57,25 @@
         <p style="margin-top: 20px; line-height: normal;">
         This dashboard references and shows all API endpoints provides by the application, and uses the trackme API SPL command to interract with the endpoint using the describe option.
         </p>
+
+        <table style="width:100%">
+            <tr>
+                <td style="width: 100%;">
+                    <h3>Try it yourself:</h3>
+                    <div id="divSearchBar1"></div>
+                </td>
+            </tr>
+            <tr>
+                <td style="width: 100%;">
+                    <h3>Results:</h3>
+                    <div id="divSearchBar2"></div>
+                </td>
+            </tr>
+        </table>
+
+        <h2 style="margin-top: 25px; line-height: normal;">
+          Checkout the tables below to search for API endpoints, see a short description, get documentation direct links and see usage examples.
+        </h2>
 
       </html>
     </panel>
@@ -76,6 +102,7 @@
             <unset token="resource_api_tk"></unset>
             <unset token="resource_mode_tk"></unset>
             <unset token="resource_doc_tk"></unset>
+            <unset token="resource_search_tk"></unset>
           </condition>
         </change>
       </input>
@@ -101,7 +128,8 @@
           <set token="form.resource_grp_tk">$row.resource_grp$</set>
           <unset token="resource_api_tk"></unset>
           <unset token="resource_mode_tk"></unset>
-          <unset token="resource_mode_doc"></unset>
+          <unset token="resource_doc_tk"></unset>
+          <unset token="resource_search_tk"></unset>
         </drilldown>
       </table>
     </panel>
@@ -114,7 +142,7 @@
         <search>
           <query>| inputlookup trackme_api_reference_endpoints.csv
 | search resource_grp="$resource_grp_tk$"
-| fields resource_grp, resource_api, resource_desc, resource_mode, resource_doc</query>
+| fields resource_api, resource_desc, resource_mode, resource_doc, resource_example</query>
           <earliest>-24h@h</earliest>
           <latest>now</latest>
         </search>
@@ -125,6 +153,7 @@
           <set token="resource_api_tk">$row.resource_api$</set>
           <set token="resource_mode_tk">$row.resource_mode$</set>
           <set token="resource_doc_tk">$row.resource_doc$</set>
+          <set token="resource_search_tk">| trackme url="$row.resource_api$" mode="$row.resource_mode$" body="{'describe': 'True'}"</set>
         </drilldown>
       </table>
     </panel>
@@ -133,7 +162,11 @@
     <panel>
       <title>Resource API endpoint description:</title>
       <html depends="$resource_api_tk$">
-        <h2 style="margin-top: -10px;">| <span style="color: blue;">trackme</span> <span style="color: green;">url</span>="$resource_api_tk$" <span style="color: green;">mode</span>="$resource_mode_tk$" <span style="color: green;">body</span>="{'describe': 'true'}"</h2>
+        <h2>trackme API command:<br/>
+          <code style="font-size: 15px; color: black;">
+          | <span style="color: blue;">trackme</span> <span style="color: green;">url</span>="$resource_api_tk$" <span style="color: green;">mode</span>="$resource_mode_tk$" <span style="color: green;">body</span>="{'describe': 'true'}"
+          </code>
+        </h2>
       </html>
       <html depends="$resource_doc_tk$">
         <h2 style="margin-top: -10px;">
