@@ -30,9 +30,9 @@
         <h2 style="margin-top: 20px;">TrackMe provides a builtin Python based API, serviced by the Splunk API, and categorized by resource groups.</h2>
 
         <p style="margin-top: 20px; line-height: normal;">
-        Using these endpoints allow interracting with TrackMe in a programmatic and automated fashion, providing the capabilities to perform any of the actions you would achieve in the UI, and even more.
+        Using these endpoints allows interracting with TrackMe in a programmatic and automated fashion, providing the capabilities to perform any of the actions you would achieve in the UI, and even more.
         <br />
-        In addition, a custom command <a target="_blank" href="https://trackme.readthedocs.io/en/latest/rest_api_reference.html#rest-api-trackme-spl-command"><span style="color: blue;">trackme</span></a> is provided which allows queriying the endpoints in pure SPL commands, allowing get / post / delete HTTP over any of the API endpoints!
+        A custom SPL command <a target="_blank" href="https://trackme.readthedocs.io/en/latest/rest_api_reference.html#rest-api-trackme-spl-command"><span style="color: blue;">trackme</span></a> is provided which allows queriying the endpoints in pure SPL commands (all actions are supported: get/post/delete), this makes the API capabilities even more accessible and powerful.
   
         </p>
 
@@ -53,10 +53,6 @@
           | <span style="color: blue;">trackme</span> <span style="color: green;">url</span>="&lt;API endpoint&gt;" <span style="color: green;">mode</span>="&lt;HTTP method: get/post/delete&gt;" <span style="color: green;">body</span>="&lt;Optional: provides the HTTP body in a json format, use: {'describe': 'true'} to show options and explanations for this particular endpoint&gt;"
           </code>
         </h2>
-
-        <p style="margin-top: 20px; line-height: normal;">
-        This dashboard references and shows all API endpoints provides by the application, and uses the trackme API SPL command to interract with the endpoint using the describe option.
-        </p>
 
         <table style="width:100%">
             <tr>
