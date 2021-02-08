@@ -20,6 +20,7 @@ https://trackme.readthedocs.io/en/latest/configuration.html
 - Enhancement - Issue #232 - REST API and tooling - Provide a new app nav menu and a new dashboard to demonstrate the REST API endpoints and the usage of the trackme API in SPL commands
 - Fix - Issue #231 - UI - reduce the max number of entries in the tag policies screen (goes beyond the modal limitation)
 - Fix - Issue #233 - Smart Status - orange state due to week days monitoring is not properly handled
+- Fix - Issue #235 - Data sources - Week days monitoring rules are not honoured if triggering due to dcount host
 
 Version 1.2.31
 ==============
