@@ -1330,13 +1330,13 @@ class TrackMeHandlerSmartStatus_v1(rest_handler.RESTHandler):
 
                         # define the message
                         if data_source_state in ("orange") and re.search("week days rules conditions are not met", str(status_message)):
-                            smart_result = "TrackMe triggered an alert on ' + str(flipping_time) + ' due to the minimal distinct count of hosts configured for this data source (threshold: "\
+                            smart_result = "TrackMe triggered an alert on " + str(flipping_time) + " due to the minimal distinct count of hosts configured for this data source (threshold: "\
                             + str(min_dcount_host) + " hosts) which condition is not met as only " + str(dcount_host) \
                             + " hosts are detected currently. Review this threshold and the current data source activity accordingly."\
                             + " However due to week days monitoring rules (" + str(data_monitoring_wdays) + "), the entity is currently in a state that will not generate an active alert."
                         else:
-                            smart_result = "TrackMe triggered an alert on ' + str(flipping_time) + ' due to the minimal distinct count of hosts configured for this data source (threshold: "\
-                            + str(min_dcount_host) + " hosts) which condition is not met as only ' + str(dcount_host) "\
+                            smart_result = "TrackMe triggered an alert on " + str(flipping_time) + " due to the minimal distinct count of hosts configured for this data source (threshold: "\
+                            + str(min_dcount_host) + " hosts) which condition is not met as only " + str(dcount_host)\
                             + " hosts are detected currently. Review this threshold and the current data source activity accordingly."
 
                         # increment the smart_code by 30
