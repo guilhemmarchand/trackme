@@ -21,6 +21,7 @@ https://trackme.readthedocs.io/en/latest/configuration.html
 - Fix - Issue #231 - UI - reduce the max number of entries in the tag policies screen (goes beyond the modal limitation)
 - Fix - Issue #233 - Smart Status - orange state due to week days monitoring is not properly handled
 - Fix - Issue #235 - Data sources - Week days monitoring rules are not honoured if triggering due to dcount host
+- Fix - Issue #236 - Data sources - status message is inaccurate if data source is in data sampling alert but week days monitoring rules are not met
 
 Version 1.2.31
 ==============
