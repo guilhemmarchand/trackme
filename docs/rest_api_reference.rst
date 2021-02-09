@@ -4608,7 +4608,7 @@ backup / Purge older backup archive files
 
 ::
 
-    | trackme url="services/trackme/v1/backup_and_restore/backup" mode="delete" body="{\"retention_days\": \"7\"}"
+    | trackme url="/services/trackme/v1/backup_and_restore/backup" mode="delete" body="{\"retention_days\": \"7\"}"
 
 *JSON response:*
 
@@ -4643,7 +4643,7 @@ The archive file to be restoring from, the tarball compressed file must be locat
 
 ::
 
-    | trackme url="services/trackme/v1/backup_and_restore/restore" mode="post" body="{\"backup_archive\": \"trackme-backup-20210205-142635.tgz\", \"dry_run\": \"false\", \"target\": \"all\"}"
+    | trackme url="/services/trackme/v1/backup_and_restore/restore" mode="post" body="{\"backup_archive\": \"trackme-backup-20210205-142635.tgz\", \"dry_run\": \"false\", \"target\": \"all\"}"
 
 *JSON response in dry_run: true:*
 
