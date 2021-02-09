@@ -6,9 +6,6 @@
 # local metadata
 */metadata/local.meta
 
-# lookups dir
-*/lookups
-
 # Compiled Python files
 *.pyo
 *.pyc
@@ -39,3 +36,7 @@ backups
 
 # appinspect reports
 appinspect_report*.html
+
+# backup directory
+trackme/backup
+

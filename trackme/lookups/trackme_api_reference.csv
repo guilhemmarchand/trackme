@@ -1,0 +1,16 @@
+resource_grp,resource_desc
+/services/trackme/v1/ack,Acknowledgments allow silencing an entity alert for a given period of time automatically.
+/services/trackme/v1/allowlist,Allowlisting provides a framework to easily restrict the entire scope of TracKme to an explicit list of allowed indexes.
+/services/trackme/v1/backup_and_restore,"The major part of TrackMe content is stored in many KVstore collections, you can use these builtin endpoints to access and perform backups, as well as restoring the entire lists of collections or a specific KVstore collection."
+/services/trackme/v1/blocklist,Blocklisting provides the opposite feature on a per index / sourcetype / host feature.
+/services/trackme/v1/data_hosts,Data hosts shows data discovered for each host sending events to Splunk.
+/services/trackme/v1/data_sampling,The Data sampling and event format recognition feature is a powerful automated workflow that provides the capabilities to monitor the raw events formats to automatically detect anomalies and misbehaviour at scale.
+/services/trackme/v1/data_sources,"Data sources are the main entities in TrackMe, representing a Splunk data flow broken by indexes and sourcetypes. (or extended with virtual Elastic Sources)"
+/services/trackme/v1/elastic_sources,The Elastic sources feature provides a builtin workflow to create virtual data sources based on any constraints and any Splunk language.
+/services/trackme/v1/lagging_classes,"The Lagging classes feature provides capabilities to manage and configure the maximal lagging values allowed in a centralised and automated fashion, based on different factors."
+/services/trackme/v1/lagging_classes_metrics,"The Lagging classes feature provides capabilities to manage and configure the maximal lagging values allowed in a centralised and automated fashion, based on different factors. These endpoints are specific to metric hosts."
+/services/trackme/v1/logical_groups,Logical groups are groups of entities that will be considered as an ensemble for monitoring purposes.
+/services/trackme/v1/maintenance,"The maintenance mode feature provides a builtin workflow to temporary silent all alerts from TrackMe for a given period of time, which can be scheduled in advance."
+/services/trackme/v1/metric_hosts,Metric hosts shows metrics discovered for each host sending metrics to Splunk.
+/services/trackme/v1/smart_status,The Smart status endpoints provide advanced analysis and correlation of the current state of an entity.
+/services/trackme/v1/tag_policies,"Tags are keywords that can be defined per data source, this feature provides additional filtering options to group multiple data sources based on any custom criterias."

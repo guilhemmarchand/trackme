@@ -1,6 +1,28 @@
 Release notes
 #############
 
+Version 1.2.32
+==============
+
+**CAUTION:**
+
+This is a new main release branch, TrackMe 1.2.x requires the deployment of the following dependencies:
+
+- Semicircle Donut Chart Viz, Splunk Base: https://splunkbase.splunk.com/app/4378
+- Splunk Machine Learning Toolkit, Splunk Base: https://splunkbase.splunk.com/app/2890
+- Splunk Timeline - Custom Visualization, Splunk Base: https://splunkbase.splunk.com/app/3120
+
+TrackMe requires a summary index (defaults to trackme_summary) and a metric index (defaults to trackme_metrics):
+https://trackme.readthedocs.io/en/latest/configuration.html
+
+- Enhancement - Issue #230 - data host over time and single search performance improvements
+- Enhancement - Issue #222 - Automatically Backup Main KV Store collections, provide endpoints for backup and restore operations
+- Enhancement - Issue #232 - REST API and tooling - Provide a new app nav menu and a new dashboard to demonstrate the REST API endpoints and the usage of the trackme API in SPL commands
+- Fix - Issue #231 - UI - reduce the max number of entries in the tag policies screen (goes beyond the modal limitation)
+- Fix - Issue #233 - Smart Status - orange state due to week days monitoring is not properly handled
+- Fix - Issue #235 - Data sources - Week days monitoring rules are not honoured if triggering due to dcount host
+- Fix - Issue #236 - Data sources - status message is inaccurate if data source is in data sampling alert but week days monitoring rules are not met
+
 Version 1.2.31
 ==============
 
@@ -113,7 +135,7 @@ https://trackme.readthedocs.io/en/latest/configuration.html
 
 *Data sources changes:*
 
-- Feature: Issue #196 Data sources - Provides distinct count threshold capabilities to turn a data source red if the number of hosts goes bellow a static threshold, provides chart visibility in Overview screen of the data source
+- Feature: Issue #196 Data sources - Provides distinct count threshold capabilities to turn a data source red if the number of hosts goes below a static threshold, provides chart visibility in Overview screen of the data source
 
 *Others:*
 

@@ -584,12 +584,12 @@ See :ref:`Alerting policy for data hosts` for more details about this feature.
 
 **Host distinct count threshold: (data sources only)**
 
-In some cases, you may want to be alerted when the number of distinct count hosts underneath a data source goes bellow a certain threshold.
+In some cases, you may want to be alerted when the number of distinct count hosts underneath a data source goes below a certain threshold.
 
 *Expected values are:*
 
 - "any" (default) which disables any verification against the hosts distinct count number
-- A positive integer representing the minimal threshold for the dcount of hosts, if the current dcount goes bellow this value, the data source turns red
+- A positive integer representing the minimal threshold for the dcount of hosts, if the current dcount goes below this value, the data source turns red
 
 Elastic sources
 ===============
@@ -767,7 +767,7 @@ The following example shows the behaviour with a lookup that is updated every 30
    :align: center
    :width: 1200px
 
-Number of records are monitored automatically by the outliers detection, setting can be fined tuned to alert if the number of records goes bellow, and/or beyond a certain amount of records:
+Number of records are monitored automatically by the outliers detection, setting can be fined tuned to alert if the number of records goes below, and/or beyond a certain amount of records:
 
 .. image:: img/first_steps/img-rest-elastic-outliers.png
    :alt: img/first_steps/img-rest-elastic-outliers
@@ -3046,3 +3046,181 @@ You can configure the maintenance mode to be automatically enabled between a spe
    :alt: maintenance_mode5.png
    :align: center
    :width: 1200px
+
+Backup and restore
+==================
+
+TrackMe stores the vaste majority of its content in multiple KVstore collections.
+
+Using the :ref:`Backup and Restore endpoints` from the API, backups are taken automatically on a scheduled basis, can be taken on demand and restored if necessary.
+
+**Backups are stored in compressed tarball archives, located in the "backup" directory of the TrackMe application on the search head(s):**
+
+*Example:*
+
+::
+
+   /opt/splunk/etc/apps/trackme/backup/trackme-backup-20210205-142635.tgz
+
+Each archive contains a JSON file corresponding to the entire content of the KVstore collection when the backup was taken, empty collections are not backed up.
+
+To perform a restore operation (see the documentation following), the relevant tarball archive needs to be located in the same directory.
+
+For Splunk Cloud certification purposes, the application will never attempt to write or access a directory ouf of the application name space level.
+
+.. admonition:: notes about Search Head Clustering (SHC)
+
+   - If TrackMe is deployed in a Search Head Cluster, the scheduled report is executed on a single search head, randomly
+   - As such, the archive file is created on this specific instance, but not replicated to other members
+   - Restoring requires to manually locate the server hosting the archive file, and running the restore command from this node especially
+   - The restore operation does not mandatory requires to be executed from the SHC / KVstore captain
+   - in a SHC context, the purging part of schedule report happens only on the member running the report, therefore archive files can exist longer than the retention on other members
+
+Automatic backup
+----------------
+
+A Splunk report is scheduled by default to run every day at 2h AM:
+
+- ``TrackMe - Backup KVstore collections and purge older backup files``
+
+*This report does the following operations:*
+
+- call the trackme custom command API wrapper to take a backup of all non empty KVstore collections, generating an archive file in the search head the report is executed
+
+- call the trackme custom command API wrapper to purge backup files older than 7 days (by default) in the search head the report is executed
+
+*In SPL:*
+
+::
+
+   | trackme url=/services/trackme/v1/backup_and_restore/backup mode=post\
+   | append [ | trackme url=/services/trackme/v1/backup_and_restore/backup mode=delete body="{'retention_days': '7'}" ]
+
+On demand backup
+----------------
+
+**You can at anytime perform a backup of the KVstore collections by running the following SPL command:**
+
+::
+
+   | trackme url=/services/trackme/v1/backup_and_restore/backup mode=post
+
+This command calls the :ref:`backup / Run backup KVstore collections` API endpoint, and produces the following output:
+
+.. image:: img/backup_and_restore/backup_on_demand.png
+   :alt: backup_on_demand.png
+   :align: center
+   :width: 1200px
+
+List backup archives available
+------------------------------
+
+**You can list the archive files available on the search head running the command using the following SPL command:**
+
+::
+
+   | trackme url=/services/trackme/v1/backup_and_restore/backup mode=get
+
+This command calls the :ref:`backup / Purge older backup archive files` API endpoint, and produces the following output:
+
+.. image:: img/backup_and_restore/backup_list.png
+   :alt: backup_list.png
+   :align: center
+   :width: 1200px
+
+All archive files available on the search head the command is executed are listed with their full path on the file system.
+
+Purge older backup archive
+--------------------------
+
+**You can purge older archive files based on their creation time on the search head running the command using the following SPL command:**
+
+::
+
+   | trackme url=/services/trackme/v1/backup_and_restore/backup mode=delete body="{'retention_days': '7'}"
+
+This command calls the :ref:`backup / Purge older backup archive files` API endpoint, and produces the following output:
+
+.. image:: img/backup_and_restore/backup_purge.png
+   :alt: backup_purge.png
+   :align: center
+   :width: 1200px
+
+Depending on either there are no eligible archives, the response above would appear, or the list of archives that were purged will be rendered.
+
+Restoring a backup
+------------------
+
+.. warning:: Restoring means the content of all KVstore collections will be permanently lost and replaced by the backup, use with precautions!
+
+Restoring relies on the :ref:`restore / Perform a restore of KVstore collections` API endpoint, which can be actionned via the ``trackme`` command, you can list the options:
+
+::
+
+   | trackme url=/services/trackme/v1/backup_and_restore/restore mode=post body="{'describe': 'true'}"
+
+.. image:: img/backup_and_restore/restore1.png
+   :alt: restore1.png
+   :align: center
+   :width: 1200px
+
+dry_run mode
+^^^^^^^^^^^^
+
+By default, the restore endpoint acts in dry_run mode, this means that the backend performs verifications **without applying any kind of modifications**:
+
+- verify that the submitted archive tarball exists on the file system
+- verify that the archive can be uncompressed effectively
+
+It is actioned via the argument ``dry_run`` to be set to ``true`` (which is the default), or ``false`` which invovles performing the restore operation for real.
+
+target for restore
+^^^^^^^^^^^^^^^^^^
+
+By default, the restore operation clears every KVstore collection, and restore collections from the JSON files contained in the backup archive.
+
+This is driven by the argument ``target`` which accepts the following options:
+
+- ``all`` which is the default and means restoring all collections
+
+- ``<name of the JSON file corresponding to the KVstore collection`` to restore a specific KVstore collection only
+
+Use the :ref:`dry_run mode` true to list the JSON file available in a given archive file.
+
+Restoring everything
+^^^^^^^^^^^^^^^^^^^^
+
+**The following SPL command will first perform a dry run to verify the archive, without modifying anything:**
+
+::
+
+   | trackme url=/services/trackme/v1/backup_and_restore/restore mode=post body="{'backup_archive': 'trackme-backup-20210205-142635.tgz', 'target': 'all', 'dry_run': 'true'}"
+
+.. image:: img/backup_and_restore/restore2.png
+   :alt: restore1.png
+   :align: center
+   :width: 1200px
+
+**The following SPL command will restore all KVstore collections to a given state according to the content of that backup:**
+
+::
+
+   | trackme url=/services/trackme/v1/backup_and_restore/restore mode=post body="{'backup_archive': 'trackme-backup-20210205-142635.tgz', 'target': 'all', 'dry_run': 'false'}"
+
+.. image:: img/backup_and_restore/restore3.png
+   :alt: restore3.png
+   :align: center
+   :width: 1200px
+
+**The following SPL command will restore a specific collection only:**
+
+::
+
+   | trackme url=/services/trackme/v1/backup_and_restore/restore mode=post body="{'backup_archive': 'trackme-backup-20210205-142635.tgz', 'target': 'kv_trackme_data_source_monitoring.json', 'dry_run': 'false'}"
+
+.. image:: img/backup_and_restore/restore4.png
+   :alt: restore4.png
+   :align: center
+   :width: 1200px
+
+**Once the restore operation is finished, please reload the application, restarting the Splunk Search head(s) is not required.**

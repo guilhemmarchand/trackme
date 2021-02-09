@@ -2826,7 +2826,7 @@ styles in <div> tags, similar to Bootstrap's grid system.
 
                                     <div class="modal-body">
                                         <h3 style="color: lightslategray;">This entity is currently associated with the following logical group, if you wish to remove this
-                                            membership, click on the table entry bellow:</h3>
+                                            membership, click on the table entry below:</h3>
                                     </div>
 
                                     <div class="fieldset">
@@ -2874,7 +2874,7 @@ styles in <div> tags, similar to Bootstrap's grid system.
                                 <div class="panel-element-row">
 
                                     <div class="modal-body">
-                                        <h3 style="color: lightslategray;">Click on a logical group in the table bellow to make this entity part of the group.
+                                        <h3 style="color: lightslategray;">Click on a logical group in the table below to make this entity part of the group.
                                         Optionally use the filter input to search in existing groups.</h3>
                                     </div>
 
@@ -11286,7 +11286,7 @@ require([
         var searchSingleLagAutoLaggingDataHost7d = new SearchManager({
             "id": "searchSingleLagAutoLaggingDataHost7d",
             "sample_ratio": 1,
-            "search": "| tstats count latest(_indextime) as indextime where index=* host=\"$tk_data_host$\" `trackme_tstats_main_filter` `trackme_get_idx_whitelist(trackme_data_host_monitoring_whitelist_index, data_index)` `apply_data_host_blacklists_data_retrieve` by _time, index, sourcetype span=1s | eval delta=(indextime-_time) | stats perc95(delta) as perc95_lag, avg(delta) as avg_lag | eval perc95_lag=round(perc95_lag, 0), avg_lag=round(avg_lag, 0)",
+            "search": "| tstats count latest(_indextime) as indextime where [ | inputlookup trackme_host_monitoring where data_host=\"$tk_data_host$\" | fields data_index | makemv delim=\",\" data_index | mvexpand data_index | rename data_index as index | table index ] host=\"$tk_data_host$\" `trackme_tstats_main_filter` `trackme_get_idx_whitelist(trackme_data_host_monitoring_whitelist_index, data_index)` `apply_data_host_blacklists_data_retrieve` by _time, index, sourcetype span=1s | eval delta=(indextime-_time) | stats perc95(delta) as perc95_lag, avg(delta) as avg_lag | eval perc95_lag=round(perc95_lag, 0), avg_lag=round(avg_lag, 0)",
             "status_buckets": 0,
             "earliest_time": "-7d",
             "cancelOnUnload": true,
@@ -11326,7 +11326,7 @@ require([
         var searchSingleLag30dAutoLaggingDataHost = new SearchManager({
             "id": "searchSingleLag30dAutoLaggingDataHost",
             "sample_ratio": 1,
-            "search": "| tstats count latest(_indextime) as indextime where index=* host=\"$tk_data_host$\" `trackme_tstats_main_filter` `trackme_get_idx_whitelist(trackme_data_host_monitoring_whitelist_index, data_index)` `apply_data_host_blacklists_data_retrieve` by _time, index, sourcetype span=1s | eval delta=(indextime-_time) | stats perc95(delta) as perc95_lag, avg(delta) as avg_lag | eval perc95_lag=round(perc95_lag, 0), avg_lag=round(avg_lag, 0)",
+            "search": "| tstats count latest(_indextime) as indextime where [ | inputlookup trackme_host_monitoring where data_host=\"$tk_data_host$\" | fields data_index | makemv delim=\",\" data_index | mvexpand data_index | rename data_index as index | table index ] host=\"$tk_data_host$\" `trackme_tstats_main_filter` `trackme_get_idx_whitelist(trackme_data_host_monitoring_whitelist_index, data_index)` `apply_data_host_blacklists_data_retrieve` by _time, index, sourcetype span=1s | eval delta=(indextime-_time) | stats perc95(delta) as perc95_lag, avg(delta) as avg_lag | eval perc95_lag=round(perc95_lag, 0), avg_lag=round(avg_lag, 0)",
             "status_buckets": 0,
             "earliest_time": "-30d",
             "cancelOnUnload": true,
@@ -11566,7 +11566,7 @@ require([
         var searchSingleLagHost = new SearchManager({
             "id": "searchSingleLagHost",
             "sample_ratio": 1,
-            "search": "| tstats count latest(_indextime) as indextime max(_time) as maxtime where index=* host=\"$tk_data_host$\" `trackme_tstats_main_filter` `trackme_get_idx_whitelist(trackme_data_host_monitoring_whitelist_index, data_index)` `apply_data_host_blacklists_data_retrieve` by _time, index, sourcetype span=1s | eval delta=(indextime-_time), event_lag=(now() - maxtime) | stats perc95(delta) as perc95_lag, avg(delta) as avg_lag, latest(event_lag) as event_lag",
+            "search": "| tstats count latest(_indextime) as indextime max(_time) as maxtime where [ | inputlookup trackme_host_monitoring where data_host=\"$tk_data_host$\" | fields data_index | makemv delim=\",\" data_index | mvexpand data_index | rename data_index as index | table index ] host=\"$tk_data_host$\" `trackme_tstats_main_filter` `trackme_get_idx_whitelist(trackme_data_host_monitoring_whitelist_index, data_index)` `apply_data_host_blacklists_data_retrieve` by _time, index, sourcetype span=1s | eval delta=(indextime-_time), event_lag=(now() - maxtime) | stats perc95(delta) as perc95_lag, avg(delta) as avg_lag, latest(event_lag) as event_lag",
             "status_buckets": 0,
             "earliest_time": "$modalTimeHost.earliest$",
             "cancelOnUnload": true,
@@ -11638,7 +11638,7 @@ require([
             "cancelOnUnload": true,
             "latest_time": "$modalTimeHost.latest$",
             "sample_ratio": 1,
-            "search": "| tstats count where index=* host=\"$tk_data_host$\" `trackme_tstats_main_filter` `trackme_get_idx_whitelist(trackme_data_host_monitoring_whitelist_index, data_index)` `apply_data_host_blacklists_data_retrieve` by index, sourcetype",
+            "search": "| tstats count where [ | inputlookup trackme_host_monitoring where data_host=\"$tk_data_host$\" | fields data_index | makemv delim=\",\" data_index | mvexpand data_index | rename data_index as index | table index ] host=\"$tk_data_host$\" `trackme_tstats_main_filter` `trackme_get_idx_whitelist(trackme_data_host_monitoring_whitelist_index, data_index)` `apply_data_host_blacklists_data_retrieve` by index, sourcetype",
             "status_buckets": 0,
             "app": utils.getCurrentApp(),
             "auto_cancel": 90,
@@ -11678,7 +11678,7 @@ require([
             "cancelOnUnload": true,
             "latest_time": "$modalTimeHost.latest$",
             "sample_ratio": 1,
-            "search": "| tstats count, max(_indextime) as indextime where index=* host=\"$tk_data_host$\" `trackme_tstats_main_filter` `trackme_get_idx_whitelist(trackme_data_host_monitoring_whitelist_index, data_index)` `apply_data_host_blacklists_data_retrieve` by _time, index, sourcetype span=1s | eval delta=(indextime-_time) | timechart span=$modalTimeHost.span$ sum(count) as events_count, avg(delta) as avg_lag_sec",
+            "search": "| tstats count, max(_indextime) as indextime where [ | inputlookup trackme_host_monitoring where data_host=\"$tk_data_host$\" | fields data_index | makemv delim=\",\" data_index | mvexpand data_index | rename data_index as index | table index ] host=\"$tk_data_host$\" `trackme_tstats_main_filter` `trackme_get_idx_whitelist(trackme_data_host_monitoring_whitelist_index, data_index)` `apply_data_host_blacklists_data_retrieve` by _time, index, sourcetype span=1s | eval delta=(indextime-_time) | timechart span=$modalTimeHost.span$ sum(count) as events_count, avg(delta) as avg_lag_sec",
             "status_buckets": 0,
             "app": utils.getCurrentApp(),
             "auto_cancel": 90,
@@ -18526,7 +18526,7 @@ require([
             "tokenDependencies": {
                 "depends": "$show_tags_policies$"
             },
-            "count": 10,
+            "count": 8,
             "drilldown": "none",
             "refresh.display": "none",
             "wrap": "false",
