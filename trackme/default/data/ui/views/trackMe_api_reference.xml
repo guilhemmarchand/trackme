@@ -87,7 +87,7 @@
         <fieldForLabel>resource_grp</fieldForLabel>
         <fieldForValue>resource_grp</fieldForValue>
         <search>
-          <query>| inputlookup trackme_api_reference_endpoints.csv 
+          <query>| inputlookup trackme_api_reference_endpoints
 | stats c by resource_grp
 | sort 0 resource_grp</query>
           <earliest>-24h@h</earliest>
@@ -105,7 +105,7 @@
       <table>
         <title>Click on a row of the table to show API endpoints from this resource group:</title>
         <search>
-          <query>| inputlookup trackme_api_reference.csv
+          <query>| inputlookup trackme_api_reference
 | search resource_grp="$resource_grp_tk$"
 | fields resource_grp, resource_desc</query>
           <earliest>-24h@h</earliest>
@@ -136,7 +136,7 @@
       <table>
         <title>Click on a row of the table to describe the endpoint:</title>
         <search>
-          <query>| inputlookup trackme_api_reference_endpoints.csv
+          <query>| inputlookup trackme_api_reference_endpoints
 | search resource_grp="$resource_grp_tk$"
 | fields resource_api, resource_desc, resource_mode, resource_doc, resource_example</query>
           <earliest>-24h@h</earliest>
