@@ -32,7 +32,6 @@ for app in $(ls *.tgz); do
             -H "Cache-Control: no-cache" \
             -s \
             -F "app_package=@${app}" \
-            -F "included_tags=cloud" \
             --url "https://appinspect.splunk.com/v1/app/validate" | jq -r .links | grep href | head -1 | awk -F\" '{print $4}' | awk -F\/ '{print $6}')
 
         if [ $? -eq 0 ]; then
