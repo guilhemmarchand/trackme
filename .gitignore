@@ -40,3 +40,5 @@ appinspect_report*.html
 # backup directory
 trackme/backup
 
+# build directory
+build/*.tgz
