@@ -16,6 +16,7 @@ TrackMe requires a summary index (defaults to trackme_summary) and a metric inde
 https://trackme.readthedocs.io/en/latest/configuration.html
 
 - Enhancement - Issue #241 - KVstore backup and restore - Improved workflow with Metadata recording of backup archives, new dashboard providing insights on the workflow and its features
+- Fix - Issues #242 - UI - interfaces like lagging classes, allow and block listing should not remove the search input form if there are no results found
 
 Version 1.2.33
 ==============
