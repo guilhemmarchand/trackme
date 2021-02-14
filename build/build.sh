@@ -14,7 +14,10 @@ find . -name "*.pyc" -type f | xargs rm -f
 find . -name "*.py" -type f | xargs chmod go-x
 find trackme/lib -name "*.py" -type f | xargs chmod a-x
 tar -czf ${app}_${version}.tgz --exclude=${app}/local --exclude=${app}/backup --exclude=${app}/metadata/local.meta --exclude=${app}/lookups/lookup_file_backups --exclude=${app}/default.old* --exclude='./.*'  --exclude='.[^/]*' --exclude="._*" ${app}
-echo "Wrote: ${app}_${version}.tgz"
+
+sha256=$(sha256sum ${app}_${version}.tgz)
+echo "Wrote: ${sha256}"
+echo ${sha256} > release-sha256.txt
 
 rm -rf ${app}
 exit 0
