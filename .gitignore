@@ -40,3 +40,6 @@ appinspect_report*.html
 # backup directory
 trackme/backup
 
+# build directory
+build/*.tgz
+build/release-sha256.txt

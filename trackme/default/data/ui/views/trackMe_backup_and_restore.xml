@@ -1,0 +1,127 @@
+<dashboard>
+  <label>TrackMe Backup and Restore</label>
+  <row>
+    <panel>
+      <html>
+        <h1>TrackMe KVstore collections backup and restore features:</h1>
+
+        <h2 style="margin-top: 20px;">TrackMe automatically performs backups of its KVstore collections (scheduled report: TrackMe - Backup KVstore collections and purge older backup files), backups can be taken on demand, and restore operations can be operated for all collections or a per individual collection basis.</h2>
+
+        <h2 style="margin-top: 20px;">When a backup is taken, a record with Metadata is added in a dedicated KVstore collection (kv_trackme_backup_archives_info), records are automatically purged when the archive is deleted due to retention. (any missing archive record is as well added if discovered on a search head when a get backups command runs)</h2>
+
+        <h2 style="margin-top: 20px; line-height: normal;">
+          <a target="_blank" href="https://trackme.readthedocs.io/en/latest/userguide.html#backup-and-restore">🔗Link to the backup and restore documentation</a>
+        </h2>
+
+        <h2 style="margin-top: 10px; line-height: normal;">
+          <a target="_blank" href="https://trackme.readthedocs.io/en/latest/rest_api_reference.html#backup-and-restore-endpoints">🔗Link to the API Reference for the backup and restore endpointst</a>
+        </h2>
+
+        <h2 style="margin-top: 25px; line-height: normal;">
+          <i>Create a backup now using the trackme API command:</i>
+          <br/>
+          <code style="font-size: 15px; color: black;">
+          | <span style="color: blue;">trackme</span> <span style="color: green;">url</span>="/services/trackme/v1/backup_and_restore/backup" <span style="color: green;">mode</span>="post"
+          </code>
+        </h2>
+
+        <h2 style="margin-top: 25px; line-height: normal;">
+          <i>List all backups via REST using the trackme API command:</i>
+          <br/>
+          <code style="font-size: 15px; color: black;">
+          | <span style="color: blue;">trackme</span> <span style="color: green;">url</span>="/services/trackme/v1/backup_and_restore/backup" <span style="color: green;">mode</span>="get"
+          </code>
+        </h2>
+
+        <h2 style="margin-top: 25px; line-height: normal;">
+          <i>Restore all collections from an backup archive file via REST using the trackme API command:</i>
+          <br/>
+          <code style="font-size: 15px; color: black;">
+          | <span style="color: blue;">trackme</span> <span style="color: green;">url</span>="/services/trackme/v1/backup_and_restore/restore" <span style="color: green;">mode</span>="post" <span style="color: green;">body</span>="{body="{'backup_archive': 'trackme-backup-20210205-142635.tgz', 'dry_run': 'false', 'target': 'all'}"
+          </code>
+        </h2>
+
+        <h2 style="margin-top: 25px; line-height: normal;">
+          <i>Restore a specific collection from an backup archive file via REST using the trackme API command:</i>
+          <br/>
+          <code style="font-size: 15px; color: black;">
+          | <span style="color: blue;">trackme</span> <span style="color: green;">url</span>="/services/trackme/v1/backup_and_restore/restore" <span style="color: green;">mode</span>="post" <span style="color: green;">body</span>="{body="{'backup_archive': 'trackme-backup-20210205-142635.tgz', 'dry_run': 'false', 'target': 'kv_trackme_data_source_monitoring.json'}"
+          </code>
+        </h2>
+
+
+      </html>
+    </panel>
+  </row>
+  <row>
+    <panel>
+      <single>
+        <search>
+          <query>| inputlookup trackme_backup_archives_info
+| stats dc(backup_archive) as dcount</query>
+          <earliest>-24h@h</earliest>
+          <latest>now</latest>
+          <sampleRatio>1</sampleRatio>
+        </search>
+        <option name="colorMode">block</option>
+        <option name="drilldown">none</option>
+        <option name="rangeColors">["0x006d9c","0x006d9c"]</option>
+        <option name="rangeValues">[0]</option>
+        <option name="underLabel">BACKUP ARCHIVES</option>
+        <option name="useColors">1</option>
+      </single>
+    </panel>
+    <panel>
+      <single>
+        <search>
+          <query>| inputlookup trackme_backup_archives_info
+| stats min(mtime) as time | eval time=strftime(time, "%c")</query>
+          <earliest>-24h@h</earliest>
+          <latest>now</latest>
+        </search>
+        <option name="colorMode">block</option>
+        <option name="drilldown">none</option>
+        <option name="rangeColors">["0x555","0x555"]</option>
+        <option name="rangeValues">[0]</option>
+        <option name="refresh.display">progressbar</option>
+        <option name="underLabel">EARLIEST BACKUP</option>
+        <option name="useColors">1</option>
+      </single>
+    </panel>
+    <panel>
+      <single>
+        <search>
+          <query>| inputlookup trackme_backup_archives_info
+| stats max(mtime) as time | eval time=strftime(time, "%c")</query>
+          <earliest>-24h@h</earliest>
+          <latest>now</latest>
+        </search>
+        <option name="colorMode">block</option>
+        <option name="drilldown">none</option>
+        <option name="rangeColors">["0x555","0x555"]</option>
+        <option name="rangeValues">[0]</option>
+        <option name="refresh.display">progressbar</option>
+        <option name="underLabel">LATEST BACKUP</option>
+        <option name="useColors">1</option>
+      </single>
+    </panel>
+  </row>
+  <row>
+    <panel>
+      <table>
+        <title>Backup archive info collection: | inputlookup trackme_backup_archives_info - Click on a row to open a dry_run restore (safe inspects and investigate the archive content, does not proceed to any effective change)</title>
+        <search>
+          <query>| inputlookup trackme_backup_archives_info
+| sort - limit=0 mtime
+| fields htime server_name backup_archive change_type  status</query>
+          <earliest>-24h@h</earliest>
+          <latest>now</latest>
+        </search>
+        <option name="drilldown">row</option>
+        <drilldown>
+          <link target="_blank">search?q=%7C%20trackme%20url%3D%2Fservices%2Ftrackme%2Fv1%2Fbackup_and_restore%2Frestore%20mode%3Dpost%20body%3D%22%7B'backup_archive'%3A%20'$row.backup_archive$'%2C%20'dry_run'%3A%20'true'%7D%22&amp;earliest=$earliest$&amp;latest=$latest$</link>
+        </drilldown>
+      </table>
+    </panel>
+  </row>
+</dashboard>

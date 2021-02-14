@@ -4,6 +4,12 @@
 | ---    | ---          |
 | master | [![master status](https://circleci.com/gh/guilhemmarchand/trackme/tree/master.svg?style=svg)](https://circleci.com/gh/guilhemmarchand/trackme/tree/master)
 
+## Download
+
+**Consult the application releases in Git:**
+
+https://github.com/guilhemmarchand/trackme/releases
+
 ## The Splunk TrackMe application provides automated monitoring and visibility insight of your data sources availability, with a powerful user interface and workflow for Splunk product owners to detect and alert on failures or abnormal latency:
 
 - Discover and store key states information of data sources, data hosts and metric hosts availability

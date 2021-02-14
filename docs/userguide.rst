@@ -3066,15 +3066,29 @@ Each archive contains a JSON file corresponding to the entire content of the KVs
 
 To perform a restore operation (see the documentation following), the relevant tarball archive needs to be located in the same directory.
 
+When a backup is taken, a record with Metadata is added in a dedicated KVstore collection (kv_trackme_backup_archives_info), records are automatically purged when the archive is deleted due to retention. (any missing archive record is as well added if discovered on a search head when a get backups command runs)
+
 For Splunk Cloud certification purposes, the application will never attempt to write or access a directory ouf of the application name space level.
 
 .. admonition:: notes about Search Head Clustering (SHC)
 
    - If TrackMe is deployed in a Search Head Cluster, the scheduled report is executed on a single search head, randomly
    - As such, the archive file is created on this specific instance, but not replicated to other members
-   - Restoring requires to manually locate the server hosting the archive file, and running the restore command from this node especially
+   - Restoring requires to locate the server hosting the archive file using the audit dashboard or manually in the Metadata collection, and running the restore command from this node especially
    - The restore operation does not mandatory requires to be executed from the SHC / KVstore captain
    - in a SHC context, the purging part of schedule report happens only on the member running the report, therefore archive files can exist longer than the retention on other members
+
+Backup and Restore dashboard
+----------------------------
+
+**An auditing dashboard is provided in the app navigation menu "API & Tooling" that provides an overview of the backup archives knowledge and statuses:**
+
+.. image:: img/backup_and_restore/dashboard_backup_and_restore.png
+   :alt: dashboard_backup_and_restore.png
+   :align: center
+   :width: 1200px
+
+This dashboard uses the backup archives Metadata stores in the KVstore collection **trackme_backup_archives_info** to show the list of backups that were taken over time per instance.
 
 Automatic backup
 ----------------

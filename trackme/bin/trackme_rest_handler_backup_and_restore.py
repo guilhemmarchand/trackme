@@ -2,11 +2,13 @@ import logging
 import os, sys, shutil
 import tarfile
 import csv
-import time
+import time, datetime
 import splunk
 import splunk.entity
 import splunk.Intersplunk
 import json
+import socket
+import hashlib
 
 logger = logging.getLogger(__name__)
 
@@ -25,7 +27,7 @@ class TrackMeHandlerBackupAndRestore_v1(rest_handler.RESTHandler):
     def __init__(self, command_line, command_arg):
         super(TrackMeHandlerBackupAndRestore_v1, self).__init__(command_line, command_arg, logger)
 
-    # List backup archive files on this instance
+    # List backup archive files known from the KV, add any local file that the KV wouldn't do about
     def get_backup(self, request_info, **kwargs):
 
         describe = False
@@ -67,6 +69,9 @@ class TrackMeHandlerBackupAndRestore_v1(rest_handler.RESTHandler):
             # Set backup root dir
             backuproot = os.path.join(splunkhome, 'etc', 'apps', 'trackme', 'backup')
 
+            # get local server name
+            server_name = socket.gethostname()
+
             # check backup dir existence
             if not os.path.isdir(backuproot):
 
@@ -82,11 +87,76 @@ class TrackMeHandlerBackupAndRestore_v1(rest_handler.RESTHandler):
                 from os.path import isfile, join
                 backup_files = [join(backuproot, f) for f in listdir(backuproot) if isfile(join(backuproot, f))]
 
-                return {
-                    "payload": "{\"backup_files\": \"" + str(backup_files) + "\"}",
-                    'status': 200 # HTTP status code
-                }
+                if not backup_files:
 
+                    return {
+                        "payload": "{\"There are no backup archives available on this instance\"}",
+                        'status': 200 # HTTP status code
+                    }
+
+                else:
+
+                    # Enter the list, verify for that for each archive file we have a corresponding record in the audit collection
+                    # if there is no record, then we create a replacement record
+                    for backup_file in backup_files:
+
+                        # get the file mtime
+                        backup_file_mtime = round(os.path.getmtime(backup_file))
+
+                        # Store a record in a backup audit collection
+
+                        # Create a message
+                        status_message = "discovered"
+
+                        # record / key
+                        record = None
+                        key = None
+
+                        # Define the KV query
+                        query_string = '{ "$and": [ { "backup_archive": "' + backup_file + '" }, { "server_name' + '": "' + server_name + '" } ] }'
+
+                        # backup audit collection
+                        collection_name_backup_archives_info = "kv_trackme_backup_archives_info"            
+                        service_backup_archives_info = client.connect(
+                            owner="nobody",
+                            app="trackme",
+                            port=splunkd_port,
+                            token=request_info.session_key
+                        )
+                        collection_backup_archives_info = service_backup_archives_info.kvstore[collection_name_backup_archives_info]
+
+                        try:
+                            record = collection_backup_archives_info.data.query(query=str(query_string))
+                            key = record[0].get('_key')
+
+                        except Exception as e:
+                            key = None
+
+                        # If a record cannot be found, this backup file is not know to TrackMe currently, add a new record
+                        if key is None:
+
+                            try:
+
+                                # Insert the record
+                                collection_backup_archives_info.data.insert(json.dumps({
+                                    "mtime": str(backup_file_mtime),
+                                    "htime": str(datetime.datetime.fromtimestamp(int(backup_file_mtime)).strftime('%c')),
+                                    "server_name": str(server_name),
+                                    "status": str(status_message),
+                                    "change_type": "backup archive was missing from the info collection and added by automatic discovery",
+                                    "backup_archive": str(backup_file)
+                                    }))
+
+                            except Exception as e:
+                                return {
+                                    'payload': 'Warn: exception encountered: ' + str(e) # Payload of the request.
+                                }
+
+                    # Render
+                    return {
+                        "payload": collection_backup_archives_info.data.query(),
+                        'status': 200 # HTTP status code
+                    }
 
     # Take a backup
     def post_backup(self, request_info, **kwargs):
@@ -135,6 +205,9 @@ class TrackMeHandlerBackupAndRestore_v1(rest_handler.RESTHandler):
 
             # Set backup dir
             backupdir = os.path.join(backuproot, str(timestr))
+
+            # get local server name
+            server_name = socket.gethostname()
 
             # Create the backup dir if does not exist
             if not os.path.isdir(backuproot):
@@ -233,10 +306,45 @@ class TrackMeHandlerBackupAndRestore_v1(rest_handler.RESTHandler):
                     'payload': "Error: %s : %s" % (backupdir, e.strerror)
                 }
 
-            # Render
+            # Store a record in a backup audit collection
+
+            # backup audit collection
+            collection_name_backup_archives_info = "kv_trackme_backup_archives_info"            
+            service_backup_archives_info = client.connect(
+                owner="nobody",
+                app="trackme",
+                port=splunkd_port,
+                token=request_info.session_key
+            )
+            collection_backup_archives_info = service_backup_archives_info.kvstore[collection_name_backup_archives_info]
+
+            # Get time
+            current_time = int(round(time.time()))
+
+            # Create a message
+            status_message = "{\"backup_archive\": \"" + str(tar_name) + "\", \"report\": \""\
+                    + str(counter_performed) + " collections backed up / " + str(counter_empty) + " collections empty\"}"
+
+            try:
+
+                # Insert the record
+                collection_backup_archives_info.data.insert(json.dumps({
+                    "mtime": str(current_time),
+                    "htime": str(datetime.datetime.fromtimestamp(int(current_time)).strftime('%c')),
+                    "server_name": str(server_name),
+                    "status": str(status_message),
+                    "change_type": "backup archive created",
+                    "backup_archive": str(os.path.join(backupdir, tar_name))
+                    }))
+
+            except Exception as e:
+                return {
+                    'payload': 'Warn: exception encountered: ' + str(e) # Payload of the request.
+                }
+
+            # Finally render a status message
             return {
-                "payload": "{ \"backup_archive\": \"" + str(tar_name) + "\", \"report\": \""\
-                    + str(counter_performed) + " collections backed up / " + str(counter_empty) + " collections empty\"}",
+                "payload": str(status_message),
                 'status': 200 # HTTP status code
             }
 
@@ -246,6 +354,14 @@ class TrackMeHandlerBackupAndRestore_v1(rest_handler.RESTHandler):
 
         describe = False
         retention_days = 7 # default to 7 days of retention if not specified
+
+        # Get splunkd port
+        entity = splunk.entity.getEntity('/server', 'settings',
+                                            namespace='trackme', sessionKey=request_info.session_key, owner='-')
+        splunkd_port = entity['mgmtHostPort']
+
+        # get local server name
+        server_name = socket.gethostname()
 
         # Retrieve from data
         try:
@@ -343,6 +459,39 @@ class TrackMeHandlerBackupAndRestore_v1(rest_handler.RESTHandler):
                     'status': 200 # HTTP status code
                 }
             else:
+
+                # For each backup archive, if a record is found in the collection info, remove the record
+
+                # backup audit collection
+                collection_name_backup_archives_info = "kv_trackme_backup_archives_info"            
+                service_backup_archives_info = client.connect(
+                    owner="nobody",
+                    app="trackme",
+                    port=splunkd_port,
+                    token=request_info.session_key
+                )
+                collection_backup_archives_info = service_backup_archives_info.kvstore[collection_name_backup_archives_info]
+
+                for backup_file in purgedlist:
+
+                    key = None
+                    record = None
+
+                    # Define the KV query
+                    query_string = '{ "$and": [ { "backup_archive": "' + backup_file + '" }, { "server_name' + '": "' + server_name + '" } ] }'
+
+                    try:
+                        record = collection_backup_archives_info.data.query(query=str(query_string))
+                        key = record[0].get('_key')
+
+                    except Exception as e:
+                        key = None
+
+                    # If a record is found, it shall be purged
+                    if key is not None:
+
+                        # Remove the record
+                        collection_backup_archives_info.data.delete(json.dumps({"_key":key}))
 
                 return {
                     "payload": "{\"status\": \"The following archive files were purged due to retention (" + str(retention_days)\
