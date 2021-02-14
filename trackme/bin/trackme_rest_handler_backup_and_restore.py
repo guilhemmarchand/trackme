@@ -106,7 +106,7 @@ class TrackMeHandlerBackupAndRestore_v1(rest_handler.RESTHandler):
                         # Store a record in a backup audit collection
 
                         # Create a message
-                        status_message = "none"
+                        status_message = "discovered"
 
                         # record / key
                         record = None
@@ -132,7 +132,7 @@ class TrackMeHandlerBackupAndRestore_v1(rest_handler.RESTHandler):
                         except Exception as e:
                             key = None
 
-                        # Render result
+                        # If a record cannot be found, this backup file is not know to TrackMe currently, add a new record
                         if key is None:
 
                             try:
@@ -154,7 +154,7 @@ class TrackMeHandlerBackupAndRestore_v1(rest_handler.RESTHandler):
 
                     # Render
                     return {
-                        "payload": json.dumps(collection_backup_archives_info.data.query(), indent=1),
+                        "payload": collection_backup_archives_info.data.query(),
                         'status': 200 # HTTP status code
                     }
 
@@ -355,6 +355,11 @@ class TrackMeHandlerBackupAndRestore_v1(rest_handler.RESTHandler):
         describe = False
         retention_days = 7 # default to 7 days of retention if not specified
 
+        # Get splunkd port
+        entity = splunk.entity.getEntity('/server', 'settings',
+                                            namespace='trackme', sessionKey=request_info.session_key, owner='-')
+        splunkd_port = entity['mgmtHostPort']
+
         # Retrieve from data
         try:
             resp_dict = json.loads(str(request_info.raw_args['payload']))
@@ -451,6 +456,39 @@ class TrackMeHandlerBackupAndRestore_v1(rest_handler.RESTHandler):
                     'status': 200 # HTTP status code
                 }
             else:
+
+                # For each backup archive, if a record is found in the collection info, remove the record
+
+                # backup audit collection
+                collection_name_backup_archives_info = "kv_trackme_backup_archives_info"            
+                service_backup_archives_info = client.connect(
+                    owner="nobody",
+                    app="trackme",
+                    port=splunkd_port,
+                    token=request_info.session_key
+                )
+                collection_backup_archives_info = service_backup_archives_info.kvstore[collection_name_backup_archives_info]
+
+                for backup_file in purgedlist:
+
+                    key = None
+                    record = None
+
+                    # Define the KV query
+                    query_string = '{ "backup_archive": "' + backup_file + '" }'
+
+                    try:
+                        record = collection_backup_archives_info.data.query(query=str(query_string))
+                        key = record[0].get('_key')
+
+                    except Exception as e:
+                        key = None
+
+                    # If a record is found, it shall be purged
+                    if key is not None:
+
+                        # Remove the record
+                        collection_backup_archives_info.data.delete(json.dumps({"_key":key}))
 
                 return {
                     "payload": "{\"status\": \"The following archive files were purged due to retention (" + str(retention_days)\

@@ -13,6 +13,7 @@
   </collection>
   <collection label="API &amp; tooling">
     <view name="trackMe_api_reference" />
+    <view name="trackMe_backup_and_restore" />
   </collection>
   <collection label="Collections">
     <collection label="Data sources monitoring">

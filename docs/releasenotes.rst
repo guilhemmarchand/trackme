@@ -15,6 +15,8 @@ This is a new main release branch, TrackMe 1.2.x requires the deployment of the 
 TrackMe requires a summary index (defaults to trackme_summary) and a metric index (defaults to trackme_metrics):
 https://trackme.readthedocs.io/en/latest/configuration.html
 
+- Enhancement - Issue #241 - KVstore backup and restore - Improved workflow with Metadata recording of backup archives, new dashboard providing insights on the workflow and its features
+
 Version 1.2.33
 ==============
 
