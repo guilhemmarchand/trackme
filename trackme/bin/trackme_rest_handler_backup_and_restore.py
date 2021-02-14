@@ -97,7 +97,7 @@ class TrackMeHandlerBackupAndRestore_v1(rest_handler.RESTHandler):
                 else:
 
                     # Enter the list, verify for that for each archive file we have a corresponding record in the audit collection
-                    # if theere is no record, we then create a replacement record                
+                    # if there is no record, then we create a replacement record
                     for backup_file in backup_files:
 
                         # get the file mtime
@@ -113,7 +113,7 @@ class TrackMeHandlerBackupAndRestore_v1(rest_handler.RESTHandler):
                         key = None
 
                         # Define the KV query
-                        query_string = '{ "backup_archive": "' + backup_file + '" }'
+                        query_string = '{ "$and": [ { "backup_archive": "' + backup_file + '" }, { "server_name' + '": "' + server_name + '" } ] }'
 
                         # backup audit collection
                         collection_name_backup_archives_info = "kv_trackme_backup_archives_info"            
@@ -360,6 +360,9 @@ class TrackMeHandlerBackupAndRestore_v1(rest_handler.RESTHandler):
                                             namespace='trackme', sessionKey=request_info.session_key, owner='-')
         splunkd_port = entity['mgmtHostPort']
 
+        # get local server name
+        server_name = socket.gethostname()
+
         # Retrieve from data
         try:
             resp_dict = json.loads(str(request_info.raw_args['payload']))
@@ -475,7 +478,7 @@ class TrackMeHandlerBackupAndRestore_v1(rest_handler.RESTHandler):
                     record = None
 
                     # Define the KV query
-                    query_string = '{ "backup_archive": "' + backup_file + '" }'
+                    query_string = '{ "$and": [ { "backup_archive": "' + backup_file + '" }, { "server_name' + '": "' + server_name + '" } ] }'
 
                     try:
                         record = collection_backup_archives_info.data.query(query=str(query_string))
