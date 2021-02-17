@@ -17526,10 +17526,30 @@ require([
                 var tk_elastic_mstats_idx = tokens.get("tk_elastic_mstats_idx");
                 var tk_elastic_mstats_filters = tokens.get("tk_elastic_mstats_filters");
 
+                // Handle regular data sources and additional integration modes
                 if (tk_elastic_source_search_mode == "null") {
-                    tk_data_source_overview_root_search = "| `trackme_tstats` dc(host) as dcount_host count latest(_indextime) as indextime max(_time) as maxtime where index=\"" + tk_data_index + "\" sourcetype=\"" + tk_data_sourcetype + "\" by _time, index, sourcetype span=1s | eval delta=(indextime-_time), event_lag=(now() - maxtime)";
-                    tk_data_source_raw_search = "null";
-                    setToken("tk_data_source_timechart_count_aggreg", TokenUtils.replaceTokenNames("sum", _.extend(submittedTokenModel.toJSON(), e.data)));
+
+                    // cribl integration
+                    if (/\|cribl:/i.test(tk_data_name)) {
+
+                        // Extract the cribl_pipe value
+                        cribl_pipe_matches = tk_data_name.match(/\|cribl:(.*)/);
+                        cribl_pipe = cribl_pipe_matches[1];
+
+                        // create a token for the cribl_pipe
+                        setToken("tk_cribl_pipe", TokenUtils.replaceTokenNames(cribl_pipe, _.extend(submittedTokenModel.toJSON(), e.data)));
+
+                        // define the root search
+                        tk_data_source_overview_root_search = "| `trackme_tstats` dc(host) as dcount_host count latest(_indextime) as indextime max(_time) as maxtime where index=\"" + tk_data_index + "\" sourcetype=\"" + tk_data_sourcetype + "\" cribl_pipe=\"" + cribl_pipe + "\" by _time, index, sourcetype span=1s | eval delta=(indextime-_time), event_lag=(now() - maxtime)";
+                        tk_data_source_raw_search = "null";
+                        setToken("tk_data_source_timechart_count_aggreg", TokenUtils.replaceTokenNames("sum", _.extend(submittedTokenModel.toJSON(), e.data)));
+
+                    }
+                    else {
+                        tk_data_source_overview_root_search = "| `trackme_tstats` dc(host) as dcount_host count latest(_indextime) as indextime max(_time) as maxtime where index=\"" + tk_data_index + "\" sourcetype=\"" + tk_data_sourcetype + "\" by _time, index, sourcetype span=1s | eval delta=(indextime-_time), event_lag=(now() - maxtime)";
+                        tk_data_source_raw_search = "null";
+                        setToken("tk_data_source_timechart_count_aggreg", TokenUtils.replaceTokenNames("sum", _.extend(submittedTokenModel.toJSON(), e.data)));
+                    }
                 }
 
                 else if (tk_elastic_source_search_mode == "tstats") {
@@ -17638,8 +17658,17 @@ require([
                 //console.log("tk_data_source_raw_search is: " + tk_data_source_raw_search);
 
                 if (tk_elastic_source_search_mode == "null") {
-                    var search_data_source = 'search' + "?q=search%20index%3D\"" + encodeURI(tk_data_index) + "\"" + " sourcetype%3D\"" + encodeURI(tk_data_sourcetype) + "\""
-                    //console.log(search_data_source);
+
+                    // cribl integration
+                    if (/\|cribl:/i.test(tk_data_name)) {
+                        var search_data_source = 'search' + "?q=search%20index%3D\"" + encodeURI(tk_data_index) + "\"" + " sourcetype%3D\"" + encodeURI(tk_data_sourcetype) + "\"" + " cribl_pipe%3D\"" + encodeURI(cribl_pipe) + "\""
+                        //console.log(search_data_source);
+                    }
+                    else {
+                        var search_data_source = 'search' + "?q=search%20index%3D\"" + encodeURI(tk_data_index) + "\"" + " sourcetype%3D\"" + encodeURI(tk_data_sourcetype) + "\""
+                        //console.log(search_data_source);
+                    }
+                    
                 } else {
                     var search_data_source = 'search' + tk_data_source_raw_search
                 }

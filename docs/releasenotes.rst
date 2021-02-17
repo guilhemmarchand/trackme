@@ -15,6 +15,7 @@ This is a new main release branch, TrackMe 1.2.x requires the deployment of the 
 TrackMe requires a summary index (defaults to trackme_summary) and a metric index (defaults to trackme_metrics):
 https://trackme.readthedocs.io/en/latest/configuration.html
 
+- Feature - Issue #249 - - CRIBL native integration - provides a natural integration with Cribl
 - Fix - Issue #245 - SLA & QOS - Inconsistency in the calculations using stats range function, replaced with a streamstats based approach for accurate calculations
 - Fix - Issue #246 - Data sources - misleading status message for data sources ingesting data in the future due to bad TZ #248
 
