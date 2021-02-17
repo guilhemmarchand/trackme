@@ -17540,7 +17540,7 @@ require([
                         setToken("tk_cribl_pipe", TokenUtils.replaceTokenNames(cribl_pipe, _.extend(submittedTokenModel.toJSON(), e.data)));
 
                         // define the root search
-                        tk_data_source_overview_root_search = "| `trackme_tstats` dc(host) as dcount_host count latest(_indextime) as indextime max(_time) as maxtime where index=\"" + tk_data_index + "\" sourcetype=\"" + tk_data_sourcetype + "\" cribl_pipe=\"" + cribl_pipe + "\" by _time, index, sourcetype span=1s | eval delta=(indextime-_time), event_lag=(now() - maxtime)";
+                        tk_data_source_overview_root_search = "| `trackme_tstats` dc(host) as dcount_host count latest(_indextime) as indextime max(_time) as maxtime where index=\"" + tk_data_index + "\" sourcetype=\"" + tk_data_sourcetype + "\" cribl_pipe::" + cribl_pipe + " by _time, index, sourcetype span=1s | eval delta=(indextime-_time), event_lag=(now() - maxtime)";
                         tk_data_source_raw_search = "null";
                         setToken("tk_data_source_timechart_count_aggreg", TokenUtils.replaceTokenNames("sum", _.extend(submittedTokenModel.toJSON(), e.data)));
 
@@ -17661,7 +17661,7 @@ require([
 
                     // cribl integration
                     if (/\|cribl:/i.test(tk_data_name)) {
-                        var search_data_source = 'search' + "?q=search%20index%3D\"" + encodeURI(tk_data_index) + "\"" + " sourcetype%3D\"" + encodeURI(tk_data_sourcetype) + "\"" + " cribl_pipe%3D\"" + encodeURI(cribl_pipe) + "\""
+                        var search_data_source = 'search' + "?q=search%20index%3D\"" + encodeURI(tk_data_index) + "\"" + " sourcetype%3D\"" + encodeURI(tk_data_sourcetype) + "\"" + " cribl_pipe::" + encodeURI(cribl_pipe)
                         //console.log(search_data_source);
                     }
                     else {

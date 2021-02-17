@@ -101,6 +101,7 @@ User guide:
 
    userguide
    itsi_integration
+   cribl_integration
    rest_api_reference
 
 Troubleshoot:
