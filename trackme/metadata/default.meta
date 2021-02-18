@@ -313,21 +313,23 @@ access = read : [ * ], write : [ admin, trackme_admin ]
 
 ### TrackMe data sampling
 
-# The data sampling contains samples of real data extracted from indexes, read access should be restricted
+# The data sampling contains samples of real data extracted from Indexes
+# if access needs to be restricted because you have a populaton of non admin users using Trackme,
+# enabled the obfuscated data sampling mode to handle to prevent unwanted data access
 
 [transforms/trackme_data_sampling]
-access = read : [ admin, trackme_admin ], write : [ admin, trackme_admin ]
+access = read : [ * ], write : [ admin, trackme_admin ]
 
 [collections/kv_trackme_data_sampling]
-access = read : [ admin, trackme_admin ], write : [ admin, trackme_admin ]
+access = read : [ * ], write : [ admin, trackme_admin ]
 
 # custom models can be read safety read access
 
 [transforms/trackme_data_sampling_custom_models]
-access = read : [ admin, trackme_admin ], write : [ admin, trackme_admin ]
+access = read : [ * ], write : [ admin, trackme_admin ]
 
 [collections/kv_trackme_data_sampling_custom_models]
-access = read : [ admin, trackme_admin ], write : [ admin, trackme_admin ]
+access = read : [ * ], write : [ admin, trackme_admin ]
 
 ### TrackMe tags
 

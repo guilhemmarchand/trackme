@@ -1247,10 +1247,36 @@ styles in <div> tags, similar to Bootstrap's grid system.
                                     <span style="font-size: 22px; font-weight: bold; color: #6495ed; margin-top: 5px;">DATA SAMPLING &amp; EVENTS FORMAT RECOGNITION</span>
                                 </div>
                                 <div>
-                                    <h2>The data sampling &amp; format recognition allows to automatically monitor raw events formats changes and misbehaviour. These macros can be customised to adjust some of the feature configuration:</h2>
+                                    <h2>The data sampling &amp; format recognition allows to automatically monitor raw events formats changes and misbehaviour. 
+                                        <br />The default data sampling mode stores samples of indexed events in clear text format within the KVstore collection.
+                                        <br />You can optionnally decide to obfuscate these samples during the data sampling engine execution to avoid unwanted data access.     
+                                        <br />In addition, there are different macros that can be customised to adjust some of the feature configuration.</h2>
                                 </div>
                             </div>
                         </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="rowManageDataSamplingObfuscation1" class="dashboard-row dashboard-row_maintenance">
+        <div id="panelManageDataSamplingObfuscation1" class="dashboard-cell" style="width: 50%;">
+            <div class="dashboard-panel clearfix">
+                <h2 class="panel-title"></h2>
+                <div class="fieldset" style="text-align: center;">
+                    <div class="form-submit" id="btn_submit_data_sampling_obfuscate_enable">
+                        <button id="btn_data_sampling_obfuscate_enable" class="btn btn-primary submit">Enable Data Sampling obfuscation mode</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="panelManageDataSamplingObfuscation2" class="dashboard-cell" style="width: 50%;">
+            <div class="dashboard-panel clearfix">
+                <h2 class="panel-title"></h2>
+                <div class="fieldset" style="text-align: center;">
+                    <div class="form-submit" id="btn_submit_data_sampling_obfuscate_disable">
+                        <button id="btn_data_sampling_obfuscate_disable" class="btn btn-primary submit">Disable Data Sampling obfuscation mode</button>
                     </div>
                 </div>
             </div>
@@ -3092,6 +3118,170 @@ require([
 
         // get current status
         get_data_host_alerting_policy();
+
+        //
+        // data sampling obfuscation mode
+        //
+
+        // Get current mode
+        function get_data_sampling_obfuscation_mode() {
+
+            // Manage buttons states dynamically
+
+            submitTokens();
+
+            // When the Submit button is clicked, get all the form fields by accessing token values
+            var tokens = mvc.Components.get("default");
+
+            //
+            // Verify the current status
+            //
+
+            // Define the query
+            var searchQuery = "| rest /servicesNS/-/-/admin/macros splunk_server=local | search title=\"trackme_data_sampling_obfuscation_mode\" | fields definition | rex field=definition mode=sed \"s/\`//g\" | rename definition as current_mode";
+
+            // Set the search parameters--specify a time range
+            var searchParams = {
+                earliest_time: "-5m",
+                latest_time: "now"
+            };
+
+            // Run a oneshot search that returns the job's results
+            service.oneshotSearch(
+                searchQuery,
+                searchParams,
+                function(err, results) {
+
+                    // Display the results
+                    var fields = results.fields;
+                    var rows = results.rows;
+                    var current_mode;
+
+                    for (var i = 0; i < rows.length; i++) {
+                        var values = rows[i];
+                        //console.log("Row " + i + ": ");
+
+                        for (var j = 0; j < values.length; j++) {
+                            var field = fields[j];
+
+                            if (fields[j] == "current_mode") {
+                                current_mode = values[j];
+                            }
+                        }
+                    }
+
+                    //console.log("current_mode: " + current_mode);
+
+                    if (!current_mode) {
+                        document.getElementById('btn_data_sampling_obfuscate_enable').disabled = false;
+                        document.getElementById('btn_data_sampling_obfuscate_disable').disabled = false;
+                        return;
+                    }
+
+                    // Dynamically manage buttons states
+                    if (current_mode == "trackme_data_sampling_obfuscation_mode_enabled") {
+                        document.getElementById('btn_data_sampling_obfuscate_enable').disabled = true;
+                        document.getElementById('btn_data_sampling_obfuscate_disable').disabled = false;
+                    } else if (current_mode == "trackme_data_sampling_obfuscation_mode_disabled") {
+                        document.getElementById('btn_data_sampling_obfuscate_enable').disabled = false;
+                        document.getElementById('btn_data_sampling_obfuscate_disable').disabled = true;
+                    } else {
+                        document.getElementById('btn_data_sampling_obfuscate_enable').disabled = false;
+                        document.getElementById('btn_data_sampling_obfuscate_disable').disabled = false;
+                    }
+
+                });
+
+            }
+
+        // get current status
+        get_data_sampling_obfuscation_mode();
+
+        // Update the data sources mode
+        function update_data_sampling_obfuscation_mode(value) {
+
+            var query_url = "/en-US/splunkd/__raw/servicesNS/nobody/trackme/configs/conf-macros/trackme_data_sampling_obfuscation_mode"
+            var value = value;
+
+            if (value == "trackme_data_sampling_obfuscation_mode_enabled") {
+                change_type = "enable data sampling obfuscation mode";
+            } else if (value == "trackme_data_sampling_obfuscation_mode_disabled") {
+                change_type = "enable data sampling obfuscation mode";
+            } else {
+                // default if unset
+                change_type = "trackme_data_sampling_obfuscation_mode_disabled";
+            }
+
+            $.ajax({
+                url: query_url,
+                type: "POST",
+                async: true,
+                contentType: "application/json",
+                data: "definition=`" + value + "`",
+                success: function(returneddata) {
+                    //console.log("Updated!", returneddata)
+
+                    // Update the buttons
+                    if (value == "trackme_data_sampling_obfuscation_mode_enabled") {
+                        document.getElementById('btn_data_sampling_obfuscate_enable').disabled = true;
+                        document.getElementById('btn_data_sampling_obfuscate_disable').disabled = false;
+                    } else if (value == "trackme_data_sampling_obfuscation_mode_disabled") {
+                        document.getElementById('btn_data_sampling_obfuscate_enable').disabled = false;
+                        document.getElementById('btn_data_sampling_obfuscate_disable').disabled = true;
+                    } else {
+                        document.getElementById('btn_data_sampling_obfuscate_enable').disabled = false;
+                        document.getElementById('btn_data_sampling_obfuscate_disable').disabled = false;
+                    }
+
+                    // notify
+                    notification('Data sampling obfuscation mode has been successfully set ' + value, 6000)
+
+                    // Audit
+                    action = "success";
+                    change_type = change_type;
+                    object = "all";
+                    object_category = "data_source";
+                    object_attrs = "definition=\"" + value + "\"";
+                    result = "N/A";
+                    comment = "N/A";
+                    auditRecord(action, change_type, object, object_category, object_attrs, result, comment);
+
+                },
+                error: function(xhr, textStatus, error) {
+                    message = "Error Updating!" + xhr + textStatus + error;
+
+                    // Audit
+                    action = "failure";
+                    change_type = change_type;
+                    object = "all";
+                    object_category = "data_source";
+                    object_attrs = "definition=\"" + value + "\"";
+                    result = message;
+                    comment = "N/A";
+                    auditRecord(action, change_type, object, object_category, object_attrs, result, comment);
+
+                    $("#modal_update_collection_failure_return").find('.modal-error-message p').text(message);
+                    $("#modal_update_collection_failure_return").modal()
+                }
+            });
+
+        }
+
+        // Enable mode
+        $("#btn_data_sampling_obfuscate_enable").click(function() {
+        //console.log("running update enable");
+        update_data_sampling_obfuscation_mode("trackme_data_sampling_obfuscation_mode_enabled");
+        });
+
+        // Disable mode
+        $("#btn_data_sampling_obfuscate_disable").click(function() {
+        //console.log("running update disable");
+        update_data_sampling_obfuscation_mode("trackme_data_sampling_obfuscation_mode_disabled");
+        });
+
+        //
+        // data source mode
+        //
 
         // Get current data sources mode
         function get_data_source_mode() {
