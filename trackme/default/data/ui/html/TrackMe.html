@@ -12176,7 +12176,7 @@ require([
             "cancelOnUnload": true,
             "sample_ratio": null,
             "latest_time": "now",
-            "search": "| inputlookup trackme_data_sampling where (_key=\"$tk_input_data_sampling_dropdown$\" OR data_name=\"$tk_input_data_sampling_dropdown$\") | fields raw_sample | mvexpand raw_sample | eval sourcetype=\"$tk_data_sampling_custom_st_value$\", sourcetype_scope=\"$tk_data_sampling_custom_sourcetype_scope$\", model_type=\"$tk_data_sampling_custom_rule_type$\" | eval detected_format = case((sourcetype_scope==\"*\"), case(match(raw_sample, \"$tk_data_sampling_custom_rule_regex$\"), \"$tk_data_sampling_custom_rule_name$\"), in(sourcetype, `trackme_data_sampling_custom_models_simulate_genlist(\"$tk_data_sampling_custom_sourcetype_scope$\")`), case(match(raw_sample, \"$tk_data_sampling_custom_rule_regex$\"), \"$tk_data_sampling_custom_rule_name$\")) | `trackme_data_sampling_simulate_custom_rule`",
+            "search": "| `trackme_data_sampling_return_live_sample(\"$tk_input_data_sampling_dropdown$\")` | mvexpand raw_sample | eval sourcetype=\"$tk_data_sampling_custom_st_value$\", sourcetype_scope=\"$tk_data_sampling_custom_sourcetype_scope$\", model_type=\"$tk_data_sampling_custom_rule_type$\" | eval detected_format = case((sourcetype_scope==\"*\"), case(match(raw_sample, \"$tk_data_sampling_custom_rule_regex$\"), \"$tk_data_sampling_custom_rule_name$\"), in(sourcetype, `trackme_data_sampling_custom_models_simulate_genlist(\"$tk_data_sampling_custom_sourcetype_scope$\")`), case(match(raw_sample, \"$tk_data_sampling_custom_rule_regex$\"), \"$tk_data_sampling_custom_rule_name$\")) | `trackme_data_sampling_simulate_custom_rule`",
             "status_buckets": 0,
             "app": utils.getCurrentApp(),
             "auto_cancel": 90,
@@ -12192,11 +12192,11 @@ require([
 
         var searchDataSamplingSimulateCustomRuleLatestEvent = new SearchManager({
             "id": "searchDataSamplingSimulateCustomRuleLatestEvent",
-            "earliest_time": "-15m",
+            "earliest_time": "-24h",
             "cancelOnUnload": true,
             "sample_ratio": null,
             "latest_time": "now",
-            "search": "| inputlookup trackme_data_sampling where (_key=\"$tk_input_data_sampling_dropdown$\" OR data_name=\"$tk_input_data_sampling_dropdown$\") | fields raw_sample | mvexpand raw_sample",
+            "search": "| `trackme_data_sampling_return_live_sample(\"$tk_input_data_sampling_dropdown$\")`",
             "status_buckets": 0,
             "app": utils.getCurrentApp(),
             "auto_cancel": 90,
@@ -36954,8 +36954,64 @@ require([
                 var tk_data_name = tokens.get("tk_data_name");
                 var tk_data_sourcetype = tokens.get("tk_data_sourcetype");
                 var search_latest_sample = 'search' + "?q=" + encodeURI("| inputlookup trackme_data_sampling where data_name=\"" + tk_data_name + "\" | fields raw_sample | mvexpand raw_sample | eval data_sourcetype=\"" + tk_data_sourcetype + "\" | `trackme_data_sampling_abstract_detect_events_format` | lookup trackme_data_sampling_custom_models model_name as current_detected_format output model_type | eval model_type=if(isnull(model_type) AND isnotnull(current_detected_format), \"inclusive\", model_type)");
-                // Define the URL target
-                document.getElementById("btn_data_sampling_latest_sample").href = search_latest_sample;
+
+                // Verify the current data sampling obfuscation mode, if enabled we change the search target
+
+                // Define the query
+                var searchQuery = "| rest /servicesNS/-/-/admin/macros splunk_server=local | search title=\"trackme_data_sampling_obfuscation_mode\" | fields definition | rex field=definition mode=sed \"s/\`//g\" | rename definition as current_mode";
+
+                // Set the search parameters--specify a time range
+                var searchParams = {
+                    earliest_time: "-5m",
+                    latest_time: "now"
+                };
+
+                // Run a oneshot search that returns the job's results
+                service.oneshotSearch(
+                    searchQuery,
+                    searchParams,
+                    function(err, results) {
+
+                        // Display the results
+                        var fields = results.fields;
+                        var rows = results.rows;
+                        var current_mode;
+
+                        for (var i = 0; i < rows.length; i++) {
+                            var values = rows[i];
+                            //console.log("Row " + i + ": ");
+
+                            for (var j = 0; j < values.length; j++) {
+                                var field = fields[j];
+
+                                if (fields[j] == "current_mode") {
+                                    current_mode = values[j];
+                                }
+                            }
+                        }
+
+                        //console.log("current_mode: " + current_mode);
+
+                        if (!current_mode) {
+                            // Define the URL target
+                            document.getElementById("btn_data_sampling_latest_sample").href = search_latest_sample;
+                            return;
+                        }
+
+                        // Dynamically manage buttons states
+                        if (current_mode == "trackme_data_sampling_obfuscation_mode_enabled") {
+                            search_latest_sample = 'search' + "?q=" + encodeURI("| inputlookup trackme_data_sampling where data_name=\"" + tk_data_name + "\" | fields raw_sample");
+                            // Define the URL target
+                            document.getElementById("btn_data_sampling_latest_sample").href = search_latest_sample;
+                        } else if (current_mode == "trackme_data_sampling_obfuscation_mode_disabled") {
+                            // Define the URL target
+                            document.getElementById("btn_data_sampling_latest_sample").href = search_latest_sample;
+                        } else {
+                            // Define the URL target
+                            document.getElementById("btn_data_sampling_latest_sample").href = search_latest_sample;
+                        }
+
+                    });
 
                 // Run engine should not be granted when an anomaly was found at first discovery
                 var data_sample_anomaly_reason = tokens.get("tk_data_sample_anomaly_reason");
@@ -38236,7 +38292,7 @@ require([
             //console.log("tk_data_sourcetype is: " + tk_data_sourcetype);
 
             // Built the search URI
-            var similation_events_detail = 'search' + "?q=" + encodeURIComponent("| inputlookup trackme_data_sampling where _key=\"" + tk_keyid + "\" | fields raw_sample | mvexpand raw_sample | eval sourcetype=\"" + tk_data_sourcetype + "\", sourcetype_scope=\"" + tk_data_sampling_custom_sourcetype_scope + "\" | eval detected_format = case((sourcetype_scope==\"*\"), case(match(raw_sample, \"" + tk_data_sampling_custom_rule_regex + "\"), \"" + tk_data_sampling_custom_rule_name + "\"), in(sourcetype, `trackme_data_sampling_custom_models_simulate_genlist(\"" + tk_data_sampling_custom_sourcetype_scope + "\")`), case(match(raw_sample, \"" + tk_data_sampling_custom_rule_regex + "\"), \"" + tk_data_sampling_custom_rule_name + "\")) | eval detected_format_id=md5(detected_format)");
+            var similation_events_detail = 'search' + "?q=" + encodeURIComponent("| `trackme_data_sampling_return_live_sample(\"" + tk_keyid + "\")` | fields raw_sample | mvexpand raw_sample | eval sourcetype=\"" + tk_data_sourcetype + "\", sourcetype_scope=\"" + tk_data_sampling_custom_sourcetype_scope + "\" | eval detected_format = case((sourcetype_scope==\"*\"), case(match(raw_sample, \"" + tk_data_sampling_custom_rule_regex + "\"), \"" + tk_data_sampling_custom_rule_name + "\"), in(sourcetype, `trackme_data_sampling_custom_models_simulate_genlist(\"" + tk_data_sampling_custom_sourcetype_scope + "\")`), case(match(raw_sample, \"" + tk_data_sampling_custom_rule_regex + "\"), \"" + tk_data_sampling_custom_rule_name + "\")) | eval detected_format_id=md5(detected_format)");
             //console.log("similation_events_detail is: " + similation_events_detail);
 
             // Open
