@@ -263,6 +263,22 @@ class TrackMeHandlerSmartStatus_v1(rest_handler.RESTHandler):
                     else:
                         isElastic = True
 
+                    # This is specific to Cribl integration
+                    isCribl = False
+                    cribl_pipe = None
+
+                    cribl_matches = re.search("\|cribl:(.*)", data_name)
+                    if cribl_matches:
+                        isCribl = True
+                        cribl_pipe = cribl_matches.group(1)
+
+                    # Define the generic where constraint
+                    where_constraint = None
+                    if isCribl and cribl_pipe:
+                        where_constraint = "(index=" + str(data_index) + " sourcetype=" + str(data_sourcetype) + " cribl_pipe::" + cribl_pipe + ")"
+                    else:
+                        where_constraint = "(index=" + str(data_index) + " sourcetype=" + str(data_sourcetype) + ")"
+                    
                     # There are different types of data sources, these can be regular data source or Elastic sources
 
                     ###############################################################
@@ -282,7 +298,7 @@ class TrackMeHandlerSmartStatus_v1(rest_handler.RESTHandler):
 
                             kwargs_search = {"app": "trackme", "earliest_time": str(earliest_time), "latest_time": str(latest_time)}
                             searchquery = "| tstats max(_time) as data_last_time_seen "\
-                            + "where (index=" + str(data_index) + " sourcetype=" + str(data_sourcetype) + ") by host"\
+                            + "where " + str(where_constraint) + " by host"\
                             + " | eval event_lag=now()-data_last_time_seen"\
                             + " | where (event_lag<-600)"\
                             + " | sort - limit=10 event_lag"\
@@ -564,7 +580,7 @@ class TrackMeHandlerSmartStatus_v1(rest_handler.RESTHandler):
 
                             kwargs_search = {"app": "trackme", "earliest_time": str(earliest_time), "latest_time": str(latest_time)}
                             searchquery = "| tstats max(_time) as data_last_time_seen "\
-                            + "where (index=" + str(data_index) + " sourcetype=" + str(data_sourcetype) + ") by host"\
+                            + "where " + str(where_constraint) + " by host"\
                             + " | eval event_lag=now()-data_last_time_seen"\
                             + " | where (event_lag>" + str(data_max_lag_allowed) + ")"\
                             + " | sort - limit=10 event_lag"\
@@ -573,7 +589,7 @@ class TrackMeHandlerSmartStatus_v1(rest_handler.RESTHandler):
                             + " | fields summary"\
                             + " | stats values(summary) as summary | eval summary=mvjoin(summary, \", \")"
 
-                            report_desc = "[ description: report top 10 hosts out of accepted event lag range ], "
+                            report_desc = "[ description: report top 10 hosts out of accepted event lag range ], "                            
                             report_name = "hosts_report"
 
                         # data source is Elastic and tstats
@@ -855,7 +871,7 @@ class TrackMeHandlerSmartStatus_v1(rest_handler.RESTHandler):
 
                             kwargs_search = {"app": "trackme", "earliest_time": str(earliest_time), "latest_time": str(latest_time)}
                             searchquery = "| tstats max(_indextime) as data_last_ingest "\
-                            + "where (index=" + str(data_index) + " sourcetype=" + str(data_sourcetype) + ") by _time, index, sourcetype, host span=1s"\
+                            + "where " + str(where_constraint) + " by _time, index, sourcetype, host span=1s"\
                             + " | eval data_last_ingestion_lag_seen=data_last_ingest-_time"\
                             + " | stats avg(data_last_ingestion_lag_seen) as avg_ingest_lag, max(data_last_ingestion_lag_seen) as max_ingest_lag by host"\
                             + " | where (avg_ingest_lag>" + str(data_max_lag_allowed) + " OR max_ingest_lag>" + str(data_max_lag_allowed) + ")"\
@@ -1127,7 +1143,7 @@ class TrackMeHandlerSmartStatus_v1(rest_handler.RESTHandler):
                             latest_time = "now"
 
                             kwargs_search = {"app": "trackme", "earliest_time": str(earliest_time), "latest_time": str(latest_time)}
-                            searchquery = "| tstats dc(host) as dcount_host where index=\"" + str(data_index) + "\" sourcetype=\"" + str(data_sourcetype) + "\" by _time span=1h"\
+                            searchquery = "| tstats dc(host) as dcount_host where " + str(where_constraint) + " by _time span=1h"\
                             + " | timechart span=1h first(dcount_host) as dcount_host"\
                             + " | eval time=strftime(_time, \"%m/%d %H\")"\
                             + " | eval summary = time . \"h: \" . dcount_host . if(dcount_host>1, \" hosts\", \" host\")"\

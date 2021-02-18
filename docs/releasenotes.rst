@@ -15,7 +15,11 @@ This is a new main release branch, TrackMe 1.2.x requires the deployment of the 
 TrackMe requires a summary index (defaults to trackme_summary) and a metric index (defaults to trackme_metrics):
 https://trackme.readthedocs.io/en/latest/configuration.html
 
-- Fix Issue #245 - SLA & QOS - Inconsistency in the calculations using stats range function, replaced with a streamstats based approach for accurate calculations
+- Feature - Issue #249 - CRIBL native integration - provides a natural integration with Cribl
+- Feature - Issue #250 - new blocklisting capabilities based on the data_name for data sources
+- Enhancement - Issue #251 - Reset collections should better run short term trackers rather than long term trackers for data sources and hosts when resetting
+- Fix - Issue #245 - SLA & QOS - Inconsistency in the calculations using stats range function, replaced with a streamstats based approach for accurate calculations
+- Fix - Issue #246 - Data sources - misleading status message for data sources ingesting data in the future due to bad TZ #248
 
 Version 1.2.34
 ==============
