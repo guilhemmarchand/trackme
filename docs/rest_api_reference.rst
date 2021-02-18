@@ -2653,6 +2653,8 @@ Block list endpoints
 +---------------------------------------------------------------------------------------------------+-----------------------------------------------------------------+
 | :ref:`blocklist_ds_sourcetype / Get current block list for data sources (sourcetype)`             | /services/trackme/v1/blocklist/blocklist_ds_sourcetype          |
 +---------------------------------------------------------------------------------------------------+-----------------------------------------------------------------+
+| :ref:`blocklist_ds_data_name / Get current block list for data names (data_name)`                 | /services/trackme/v1/blocklist/blocklist_ds_data_name           |
++---------------------------------------------------------------------------------------------------+-----------------------------------------------------------------+
 | :ref:`blocklist_dh_host / Get current block list for data hosts (hosts)`                          | /services/trackme/v1/blocklist/blocklist_dh_host                |
 +---------------------------------------------------------------------------------------------------+-----------------------------------------------------------------+
 | :ref:`blocklist_dh_index / Get current block list for data hosts (index)`                         | /services/trackme/v1/blocklist/blocklist_dh_index               |
@@ -2669,7 +2671,9 @@ Block list endpoints
 +---------------------------------------------------------------------------------------------------+-----------------------------------------------------------------+
 | :ref:`blocklist_ds_index_add / Add index in block list for data sources`                          | /services/trackme/v1/blocklist/blocklist_ds_index_add           |
 +---------------------------------------------------------------------------------------------------+-----------------------------------------------------------------+
-| :ref:`blocklist_ds_index_add / Add sourcetype in block list for data sources`                     | /services/trackme/v1/blocklist/blocklist_ds_sourcetype_add      |
+| :ref:`blocklist_ds_sourcetype_add / Add sourcetype in block list for data sources`                | /services/trackme/v1/blocklist/blocklist_ds_sourcetype_add      |
++---------------------------------------------------------------------------------------------------+-----------------------------------------------------------------+
+| :ref:`blocklist_ds_data_name_add / Add data name in block list for data sources`                  | /services/trackme/v1/blocklist/blocklist_ds_data_name_add       |
 +---------------------------------------------------------------------------------------------------+-----------------------------------------------------------------+
 | :ref:`blocklist_dh_host_add / Add host in block list for data hosts`                              | /services/trackme/v1/blocklist/blocklist_dh_host_add            |
 +---------------------------------------------------------------------------------------------------+-----------------------------------------------------------------+
@@ -2688,6 +2692,8 @@ Block list endpoints
 | :ref:`blocklist_ds_index_del / Delete index in block list for data sources`                       | /services/trackme/v1/blocklist/blocklist_ds_index_del           |
 +---------------------------------------------------------------------------------------------------+-----------------------------------------------------------------+
 | :ref:`blocklist_ds_sourcetype_del / Delete sourcetype in block list for data sources`             | /services/trackme/v1/blocklist/blocklist_ds_sourcetype_del      |
++---------------------------------------------------------------------------------------------------+-----------------------------------------------------------------+
+| :ref:`blocklist_ds_data_name_del / Delete data name in block list for data sources`               | /services/trackme/v1/blocklist/blocklist_ds_data_name_del       |
 +---------------------------------------------------------------------------------------------------+-----------------------------------------------------------------+
 | :ref:`blocklist_dh_host_del / Delete host in block list for data hosts`                           | /services/trackme/v1/blocklist/blocklist_dh_host_del            |
 +---------------------------------------------------------------------------------------------------+-----------------------------------------------------------------+
@@ -2793,6 +2799,36 @@ blocklist_ds_sourcetype / Get current block list for data sources (sourcetype)
       "_time": "1607890661", 
       "_key": "5fd676e5ba5afb1f305fe552"
      }
+    ]
+
+blocklist_ds_data_name / Get current block list for data names (data_name)
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+**This endpoint retrieves the current block list collection returned as a JSON array, it requires a GET call with no data required:**
+
+*External:*
+
+::
+
+    curl -k -u admin:'ch@ngeM3' -X GET https://localhost:8089/services/trackme/v1/blocklist/blocklist_ds_data_name
+
+*SPL query:*
+
+::
+
+    | trackme url="/services/trackme/v1/blocklist/blocklist_ds_data_name" mode="get"
+
+*JSON response: (full collection)*
+
+::
+
+    [
+      {
+        "data_name": ".*cribl:splunk_reduce_metadata",
+        "data_blacklist_state": "true",
+        "_user": "nobody",
+        "_key": "602e37bac436b3754709064b"
+      }
     ]
 
 blocklist_dh_host / Get current block list for data hosts (hosts)
@@ -3047,8 +3083,8 @@ blocklist_ds_index_add / Add index in block list for data sources
      }
     ]
 
-blocklist_ds_index_add / Add sourcetype in block list for data sources
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+blocklist_ds_sourcetype_add / Add sourcetype in block list for data sources
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 **This endpoint adds a new record returned as a JSON array, it requires a POST call with no data required:**
 
@@ -3079,6 +3115,38 @@ blocklist_ds_index_add / Add sourcetype in block list for data sources
       "_key": "5fd69d8b91a48072a339d0bf"
      }
     ]
+
+blocklist_ds_data_name_add / Add data name in block list for data sources
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+**This endpoint adds a new record returned as a JSON array, it requires a POST call with no data required:**
+
+- ``"data_name": value to be added to the blocklist, accepts wildcards and regular expressions``
+- ``"update_comment": OPTIONAL: a comment for the update, comments are added to the audit record, if unset will be defined to: API update``
+
+*External:*
+
+::
+
+    curl -k -u admin:'ch@ngeM3' -X POST https://localhost:8089/services/trackme/v1/blocklist/blocklist_ds_data_name_add -d '{"data_name": ".*cribl:splunk_reduce_metadata", "update_comment": "Updated by automation."}'
+
+*SPL query:*
+
+::
+
+    | trackme url="/services/trackme/v1/blocklist/blocklist_ds_data_name_add" mode="post" body="{\"data_name\": \".*cribl:splunk_reduce_metadata\", \"update_comment\": \"Updated by automation.\"}"
+
+*JSON response:*
+
+::
+
+    {
+    "_time": "1613617055",
+    "data_blacklist_state": "true",
+    "data_name": ".*cribl:splunk_reduce_metadata",
+    "_user": "nobody",
+    "_key": "602dd79f6305d730c367c461"
+    }
 
 blocklist_dh_host_add / Add host in block list for data hosts
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -3355,6 +3423,32 @@ blocklist_ds_sourcetype_del / Delete sourcetype in block list for data sources
 ::
 
     Record with _key 5fd69d8b91a48072a339d0bf was deleted from the collection.
+
+blocklist_ds_data_name_del / Delete data name in block list for data sources
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+**This endpoint deletes an existing record returned as a JSON array, it requires a DELETE call with the following arguments:**
+
+- ``"data_name": value to be removed from the collection``
+- ``"update_comment": OPTIONAL: a comment for the update, comments are added to the audit record, if unset will be defined to: API update``
+
+*External:*
+
+::
+
+    curl -k -u admin:'ch@ngeM3' -X DELETE https://localhost:8089/services/trackme/v1/blocklist/blocklist_ds_data_name_del -d '{"data_name": ".*cribl:splunk_reduce_metadata", "update_comment": "Updated by automation."}'
+
+*SPL query:*
+
+::
+
+    | trackme url="/services/trackme/v1/blocklist/blocklist_ds_data_name_del" mode="delete" body="{\"data_name\": \".*cribl:splunk_reduce_metadata\", \"update_comment\": \"Updated by automation.\"}"
+
+*response:*
+
+::
+
+    Record with _key 602e37bac436b3754709064b was deleted from the collection.
 
 blocklist_dh_host_del / Delete host in block list for data hosts
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^

@@ -23,6 +23,7 @@ require([
      var selected_values_array14 = [];
      var selected_values_array15 = [];
      var selected_values_array16 = [];
+     var selected_values_array17 = [];
      var submittedTokens = mvc.Components.get('submitted');
 
      // Table1
@@ -725,6 +726,50 @@ require([
             sh.getVisualization(function(tableView) {
                 // Add custom cell renderer and force re-render
                 tableView.table.addCellRenderer(new CustomRangeRenderer16());
+                tableView.table.render();
+            });
+        }
+    }
+
+     // Table17
+
+     var CustomRangeRenderer17 = TableView.BaseCellRenderer.extend({
+        canRender: function(cell) {
+            return _(['select']).contains(cell.field);
+        },
+        render: function($td, cell) {
+            var a = $('<div>').attr({"id":"chk-blocklist-data-source-data-name"+cell.value,"value":cell.value}).addClass('checkbox').click(function() {
+                //console.log("checked",$(this).attr('class'));
+                //console.log("checked",$(this).attr('value'));
+                if($(this).attr('class')==="checkbox")
+                {
+                    selected_values_array17.push($(this).attr('value'));
+                    $(this).removeClass();
+                    $(this).addClass("checkbox checked");
+                }
+                else {
+                    $(this).removeClass();
+                    $(this).addClass("checkbox");
+                    var i = selected_values_array17.indexOf($(this).attr('value'));
+                    if(i != -1) {
+                        selected_values_array17.splice(i, 1);
+                    }
+                }
+                //console.log(selected_values_array17);
+                tokens.set("removeBlacklistDataSourceDataName", selected_values_array17.join());
+                submittedTokens.set(tokens.toJSON());
+            }).appendTo($td);
+        }
+    });
+
+    //List of table IDs
+    var tableIDs = ["tableBlackListDataSourceDataName"];
+    for (i=0;i<tableIDs.length;i++) {
+        var sh = mvc.Components.get(tableIDs[i]);
+        if(typeof(sh)!="undefined") {
+            sh.getVisualization(function(tableView) {
+                // Add custom cell renderer and force re-render
+                tableView.table.addCellRenderer(new CustomRangeRenderer17());
                 tableView.table.render();
             });
         }
