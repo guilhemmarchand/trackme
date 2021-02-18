@@ -318,10 +318,10 @@ access = read : [ * ], write : [ admin, trackme_admin ]
 # enabled the obfuscated data sampling mode to handle to prevent unwanted data access
 
 [transforms/trackme_data_sampling]
-access = read : [ * ], write : [ admin, trackme_admin ]
+access = read : [ admin, trackme_admin ], write : [ admin, trackme_admin ]
 
 [collections/kv_trackme_data_sampling]
-access = read : [ * ], write : [ admin, trackme_admin ]
+access = read : [ admin, trackme_admin ], write : [ admin, trackme_admin ]
 
 # custom models can be read safety read access
 
