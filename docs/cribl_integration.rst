@@ -6,7 +6,7 @@ Cribl and TrackMe integration
    :align: center
    :width: 196px
 
-**If you are using Cribl, you can easily inegrate TrackMe in a just a few steps, using the excellent native Cribl design, TrackMe will take into account the concept of Cribl pipelines to create, monitor and render the data sources automatically.**
+**If you are using Cribl, you can easily integrate TrackMe in a just a few steps, using the excellent native Cribl design, TrackMe will take into account the concept of Cribl pipelines to create, monitor and render the data sources automatically.**
 
 *In a nutshell:*
 
