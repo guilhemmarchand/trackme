@@ -8,8 +8,10 @@ Cribl and TrackMe integration
 
 **If you are using Cribl, you can easily inegrate TrackMe in a just a few steps, using the excellent native Cribl design, TrackMe will take into account the concept of Cribl pipelines to create, monitor and render the data sources automatically.**
 
+*In a nutshell:*
+
 - A configuration parameter is available in TrackMe to enable the Cribl mode
-- Once activated, the Cribl mode updates the way TrackMe is breaking the data sources
+- Once activated, the Cribl mode updates the way TrackMe is identifying and breaking the data sources
 - To achieve this, TrackMe relies on the **crible_pipe** indexed field automatically created by Cribl when data is indexed in Splunk
 - Related searches naturally uses the **crible_pipe** information, which accurately represents the data pipeline as it should be monitored, from Cribl to Splunk
 
@@ -36,9 +38,9 @@ Cribl mode data sources
 **Let's assume the following simple scenario:**
 
 - Cribl receives incoming data from any kind of sources, and streams to Splunk with associated pipelines
-- In our example, we instruct Cribl to index data in Splunk into a few indexes, but we have many more pipelines since we perform various operations on Cribl, indexes and sourcetypes are potentially fed by more than just one pipeline
-- In regular TrackMe mode, TrackMe would represent the data sources broken by indexes and sourcetypes, which does not represent the incoming what the data pipeline is, and does not provide the valuable information and monitoring we need
-- Once we enable the Cribl mode, TRackMe relies on the Cribl pipeline information, which allows us to have a different and accurate picture of each Cribl pipeline
+- In our example, we instruct Cribl to index data in Splunk into a few indexes, but we have many more pipelines since we perform various operations on Cribl, indexes and sourcetypes are likely fed by much more than just one pipeline
+- In regular TrackMe mode, TrackMe would represent the data sources broken by indexes and sourcetypes, which does not represent what the incoming data flow is underneath, and does not provide the valuable information and monitoring we need
+- Once we enable the Cribl mode, TrackMe relies on the ``cribl_pipe`` pipeline information, which allows us to have a different and accurate picture of each Cribl pipeline
 
 *Cribl pipeline examples:*
 
@@ -54,14 +56,14 @@ Cribl mode data sources
    :align: center
    :width: 1200px
 
-*Once we enable the Cribl mode, we see a drastically different picture, TrackMe automatically creates data sources broken by index, sourcetype and cribl_pipe:*
+*Once we enable the Cribl mode, we see a very different picture, TrackMe automatically creates data sources broken by index, sourcetype and cribl_pipe:*
 
 .. image:: img/cribl/cribl_trackme2.png
    :alt: cribl_trackme2.png
    :align: center
    :width: 1200px
 
-Data sources are created as ``index . ":" . sourcetype . ":" . cribl_pipe``, which accurately represent the Cribl to Splunk data flow.
+Data sources are created as ``index + ":" + sourcetype + ":" + cribl_pipe``, which accurately represents the data flow from Cirbl to Splunk.
 
 Every search actioned by trackMe now automatically recycles the cribl_pipe information naturally, such as latency tracking, data sampling, open in search buttons, etc:
 
@@ -75,6 +77,11 @@ Every search actioned by trackMe now automatically recycles the cribl_pipe infor
    :align: center
    :width: 1200px
 
-Congrats!
+.. image:: img/cribl/cribl_trackme5.png
+   :alt: cribl_trackme5.png
+   :align: center
+   :width: 1200px
+
+Congratulations!
 
 You have a now a natural integration between the wonderful and amazing Cribl, and TrackMe to carefully monitor and track your Splunk data the easy way!
