@@ -82,6 +82,44 @@ Every search actioned by trackMe now automatically recycles the cribl_pipe infor
    :align: center
    :width: 1200px
 
+Cribl pre-processing pipelines and cribl_pipe field
+---------------------------------------------------
+
+If you have a proprocessing pipelines in your Cribl workflow, the ``cribl_pipe`` field becomes a multi-value indexed field which contains both the processing pipeline and pre-processing pipeline:
+
+.. image:: img/cribl/cribl_preprocessing_pipeline.png
+   :alt: cribl_preprocessing_pipeline.png
+   :align: center
+   :width: 1200px
+
+.. image:: img/cribl/cribl_preprocessing_pipeline1.png
+   :alt: cribl_preprocessing_pipeline1.png
+   :align: center
+   :width: 1200px
+
+In the TrackMe context, this means that for the same data source, we get at least two entities, one per pipeline and one for the pre-processing pipeline:
+
+.. image:: img/cribl/cribl_preprocessing_pipeline2.png
+   :alt: cribl_preprocessing_pipeline2.png
+   :align: center
+   :width: 1200px
+
+From the TrackMe point of view, the pre-processing pipeline view has no value and all that we care about is the data flow itself, to get rid of these entities automatically, we can add a data_name blocklist based in a very simple regular expression:
+
+- from the main TrackMe screen, go to "Manage: allowlists & blocklists"
+- add a new data_name blocklist according to the name of your pre-processing pipeline, in our case we will use ``.*cribl:splunk_reduce_metadata``
+- once it has been added, existing entities are not taken into account anymore, and if new data sources are discovered, these will exclude the pre-processing pipeline automatically
+
+.. image:: img/cribl/cribl_preprocessing_pipeline3.png
+   :alt: cribl_preprocessing_pipeline3.png
+   :align: center
+   :width: 700px
+
+.. image:: img/cribl/cribl_preprocessing_pipeline4.png
+   :alt: cribl_preprocessing_pipeline4.png
+   :align: center
+   :width: 1200px
+
 Congratulations!
 
-You have a now a natural integration between the wonderful and amazing Cribl, and TrackMe to carefully monitor and track your Splunk data the easy way!
+You have a now a comprehensive integration between the wonderful and amazing Cribl and TrackMe allowing you to track your Splunk data the easy way!
