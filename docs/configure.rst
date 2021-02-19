@@ -118,3 +118,6 @@ See :ref:`Allowlisting & Blocklisting` in the User guide.
    :width: 800px
 
 .. hint:: Each main TrackMe categories have their own definitions for allow and block listing: ``Data souces``, ``Data hosts`` and ``Metric hosts``
+
+You can define the strategy while you are starting to use TrackMe, and gradually configure what TrackMe accesses to depending on your environment and requirements.
+
