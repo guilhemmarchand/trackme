@@ -9954,7 +9954,7 @@ require([
             "cancelOnUnload": true,
             "sample_ratio": null,
             "latest_time": "$modalTimeWhiteListMetricHost.latest$",
-            "search": "| mcatalog values(metric_name) as metrics where index=* by index | rename metrics as metric_name | stats values(index) as index | mvexpand index | lookup trackme_metric_host_monitoring_whitelist_index metric_index as index OUTPUT metric_index as FOUND | where isnull(FOUND) | sort limit=0 index | fields index",
+            "search": "| mcatalog values(metric_name) as metrics where (index=* OR index=_*) by index | rename metrics as metric_name | stats values(index) as index | mvexpand index | lookup trackme_metric_host_monitoring_whitelist_index metric_index as index OUTPUT metric_index as FOUND | where isnull(FOUND) | sort limit=0 index | fields index",
             "status_buckets": 0,
             "app": utils.getCurrentApp(),
             "auto_cancel": 90,

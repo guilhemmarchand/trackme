@@ -21,6 +21,7 @@ https://trackme.readthedocs.io/en/latest/configuration.html
 - Feature - Issue #253 - Splunk Infrastructure Monitoring, Splunk instances are now monitored automatically in the data hosts tracking via the splunkd sourcetype, this behaviour can be enabled/disabled on demand via the configuration UI
 - Enhancement - Issue #251 - Reset collections should better run short term trackers rather than long term trackers for data sources and hosts when resetting
 - Enhancement - Issue #257 - Allow listing - provides explicit expression addition capabilities with wildcard support
+- Enhancement - Issue #258 - Metric hosts - adds the _metrics in hosts and metrics discovery
 - Fix - Issue #245 - SLA & QOS - Inconsistency in the calculations using stats range function, replaced with a streamstats based approach for accurate calculations
 - Fix - Issue #246 - Data sources - misleading status message for data sources ingesting data in the future due to bad TZ
 - Fix - Issue #256 - host blocking list based on regex does not work properly
