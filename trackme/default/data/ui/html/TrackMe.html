@@ -5728,8 +5728,12 @@ styles in <div> tags, similar to Bootstrap's grid system.
                                             <label>&nbsp;</label>
                                         </div>
 
-                                        <div class="input input-dropdown" id="modal_input_data_source_whitelist" style="margin-bottom: 10px;">
+                                        <div class="input input-dropdown" id="modal_input_data_source_whitelist" style="margin-top: 10px; margin-bottom: 10px;">
                                             <label>index name:</label>
+                                        </div>
+
+                                        <div class="input input-dropdown" id="modal_textinput_data_source_whitelist" style="margin-bottom: 10px;">
+                                            <label>or manual index name expression: (supports wildcards)</label>
                                         </div>
 
                                         <div style="margin-bottom: 10px;">
@@ -5851,8 +5855,12 @@ styles in <div> tags, similar to Bootstrap's grid system.
                                             <label>&nbsp;</label>
                                         </div>
 
-                                        <div class="input input-dropdown" id="modal_input_data_host_whitelist" style="margin-bottom: 10px;">
+                                        <div class="input input-dropdown" id="modal_input_data_host_whitelist" style="margin-top: 10px; margin-bottom: 10px;">
                                             <label>index name:</label>
+                                        </div>
+
+                                        <div class="input input-dropdown" id="modal_textinput_data_host_whitelist" style="margin-bottom: 10px;">
+                                            <label>or manual index name expression: (supports wildcards)</label>
                                         </div>
 
                                         <div style="margin-bottom: 10px;">
@@ -5971,8 +5979,12 @@ styles in <div> tags, similar to Bootstrap's grid system.
                                             <label>&nbsp;</label>
                                         </div>
 
-                                        <div class="input input-dropdown" id="modal_input_metric_host_whitelist" style="margin-bottom: 10px;">
+                                        <div class="input input-dropdown" id="modal_input_metric_host_whitelist" style="margin-top: 10px; margin-bottom: 10px;">
                                             <label>index name:</label>
+                                        </div>
+
+                                        <div class="input input-dropdown" id="modal_textinput_metric_host_whitelist" style="margin-bottom: 10px;">
+                                            <label>or manual index name expression: (supports wildcards)</label>
                                         </div>
 
                                         <div style="margin-bottom: 10px;">
@@ -15918,6 +15930,19 @@ require([
             FormUtils.handleValueChange(modal_input_data_source_whitelist);
         });
 
+        var modal_textinput_data_source_whitelist = new TextInput({
+            "id": "modal_textinput_data_source_whitelist",
+            "searchWhenChanged": true,
+            "value": "$form.tk_textinput_whitelist_data_source$",
+            "el": $('#modal_textinput_data_source_whitelist')
+        }, {
+            tokens: true
+        }).render();
+
+        modal_textinput_data_source_whitelist.on("change", function(newValue) {
+            FormUtils.handleValueChange(modal_textinput_data_source_whitelist);
+        });
+
         var modal_input_data_source_whitelist_search = new TextInput({
             "id": "modal_input_data_source_whitelist_search",
             "default": "*",
@@ -15950,9 +15975,22 @@ require([
         }, {
             tokens: true
         }).render();
-
+        
         modal_input_metric_host_whitelist.on("change", function(newValue) {
             FormUtils.handleValueChange(modal_input_metric_host_whitelist);
+        });
+
+        var modal_textinput_metric_host_whitelist = new TextInput({
+            "id": "modal_textinput_metric_host_whitelist",
+            "searchWhenChanged": true,
+            "value": "$form.tk_textinput_whitelist_metric_host$",
+            "el": $('#modal_textinput_metric_host_whitelist')
+        }, {
+            tokens: true
+        }).render();
+
+        modal_textinput_metric_host_whitelist.on("change", function(newValue) {
+            FormUtils.handleValueChange(modal_textinput_metric_host_whitelist);
         });
 
         var modal_input_metric_host_whitelist_search = new TextInput({
@@ -15990,6 +16028,19 @@ require([
 
         modal_input_data_host_whitelist.on("change", function(newValue) {
             FormUtils.handleValueChange(modal_input_data_host_whitelist);
+        });
+
+        var modal_textinput_data_host_whitelist = new TextInput({
+            "id": "modal_textinput_data_host_whitelist",
+            "searchWhenChanged": true,
+            "value": "$form.tk_textinput_whitelist_data_host$",
+            "el": $('#modal_textinput_data_host_whitelist')
+        }, {
+            tokens: true
+        }).render();
+
+        modal_textinput_data_host_whitelist.on("change", function(newValue) {
+            FormUtils.handleValueChange(modal_textinput_data_host_whitelist);
         });
 
         var modal_input_data_host_whitelist_search = new TextInput({
@@ -19183,7 +19234,7 @@ require([
             "tokenDependencies": {
                 "depends": "$show_table_data_source_whitelist$",
             },
-            "count": 8,
+            "count": 5,
             "drilldown": "none",
             "fields": "data_index, select",
             "refresh.display": "none",
@@ -19202,7 +19253,7 @@ require([
             "tokenDependencies": {
                 "depends": "$show_table_data_host_whitelist$",
             },
-            "count": 8,
+            "count": 5,
             "drilldown": "none",
             "fields": "data_index, select",
             "refresh.display": "none",
@@ -19221,7 +19272,7 @@ require([
             "tokenDependencies": {
                 "depends": "$show_table_metric_host_whitelist$",
             },
-            "count": 8,
+            "count": 5,
             "drilldown": "none",
             "fields": "metric_index, select",
             "refresh.display": "none",
@@ -25768,13 +25819,26 @@ require([
             // When the Submit button is clicked, get all the form fields by accessing token values
             var tk_input_whitelist_data_source = tokens.get("tk_input_whitelist_data_source");
 
+            // When the Submit button is clicked, get all the form fields by accessing token values
+            var tk_textinput_whitelist_data_source = tokens.get("tk_textinput_whitelist_data_source");
+            //console.log("tk_textinput_whitelist_data_source is: " + tk_textinput_whitelist_data_source);
+
+            // choose
+            var tk_add_new_item
+            if (tk_textinput_whitelist_data_source && tk_textinput_whitelist_data_source.length) {
+                tk_add_new_item = tk_textinput_whitelist_data_source;
+            }
+            else {
+                tk_add_new_item = tk_input_whitelist_data_source;                
+            }
+
             // Create the endpoint URL
             var myendpoint_URl = "{{SPLUNKWEB_URL_PREFIX}}/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_data_source_monitoring_whitelist_index";
 
             //console.log("Endpoint URL is: " + myendpoint_URl);
 
             // Define the query
-            var searchQuery = "| inputlookup trackme_data_source_monitoring_whitelist_index | append [ | makeresults | eval data_index=\"" + tk_input_whitelist_data_source + "\"] | dedup data_index | sort limit=0 data_index | outputlookup trackme_data_source_monitoring_whitelist_index";
+            var searchQuery = "| inputlookup trackme_data_source_monitoring_whitelist_index | append [ | makeresults | eval data_index=\"" + tk_add_new_item + "\"] | dedup data_index | sort limit=0 data_index | outputlookup trackme_data_source_monitoring_whitelist_index";
 
             // Set the search parameters--specify a time range
             var searchParams = {
@@ -25782,7 +25846,7 @@ require([
                 latest_time: "now"
             };
 
-            if (tk_input_whitelist_data_source && tk_input_whitelist_data_source.length) {
+            if (tk_add_new_item && tk_add_new_item.length) {
 
                 // Run a blocking search and get back a job
                 service.search(
@@ -25795,9 +25859,9 @@ require([
                             // Audit
                             action = "failure";
                             change_type = "add allowlist index";
-                            object = tk_input_whitelist_data_source;
+                            object = tk_add_new_item;
                             object_category = "data_source";
-                            object_attrs = "{" + "\"data_index\": \"" + tk_input_whitelist_data_source + "\"}";
+                            object_attrs = "{" + "\"data_index\": \"" + tk_add_new_item + "\"}";
                             result = "N/A";
                             comment = "N/A";
                             auditRecord(action, change_type, object, object_category, object_attrs, result, comment);
@@ -25828,6 +25892,7 @@ require([
                                     searchDataSourcesMain.startSearch();
                                     searchPopulateIndexesForWhiteListDataSource.startSearch();
                                     unsetToken("form.tk_input_whitelist_data_source");
+                                    unsetToken("form.tk_textinput_whitelist_data_source");
 
                                     // notify
                                     notification('Modification has been registered successfully.', 2000)
@@ -25835,9 +25900,9 @@ require([
                                     // Audit
                                     action = "success";
                                     change_type = "add allowlist index";
-                                    object = tk_input_whitelist_data_source;
+                                    object = tk_add_new_item;
                                     object_category = "data_source";
-                                    object_attrs = "{" + "\"data_index\": \"" + tk_input_whitelist_data_source + "\"}";
+                                    object_attrs = "{" + "\"data_index\": \"" + tk_add_new_item + "\"}";
                                     result = "N/A";
                                     comment = "N/A";
                                     auditRecord(action, change_type, object, object_category, object_attrs, result, comment);
@@ -26022,13 +26087,26 @@ require([
             // When the Submit button is clicked, get all the form fields by accessing token values
             var tk_input_whitelist_metric_host = tokens.get("tk_input_whitelist_metric_host");
 
+            // When the Submit button is clicked, get all the form fields by accessing token values
+            var tk_textinput_whitelist_metric_host = tokens.get("tk_textinput_whitelist_metric_host");
+            //console.log("tk_textinput_whitelist_metric_host is: " + tk_textinput_whitelist_metric_host);
+
+            // choose
+            var tk_add_new_item
+            if (tk_textinput_whitelist_metric_host && tk_textinput_whitelist_metric_host.length) {
+                tk_add_new_item = tk_textinput_whitelist_metric_host;
+            }
+            else {
+                tk_add_new_item = tk_input_whitelist_metric_host;                
+            }
+
             // Create the endpoint URL
             var myendpoint_URl = "{{SPLUNKWEB_URL_PREFIX}}/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_metric_host_monitoring_whitelist_index";
 
             //console.log("Endpoint URL is: " + myendpoint_URl);
 
             // Define the query
-            var searchQuery = "| inputlookup trackme_metric_host_monitoring_whitelist_index | append [ | makeresults | eval metric_index=\"" + tk_input_whitelist_metric_host + "\"] | dedup metric_index | sort limit=0 metric_index | outputlookup trackme_metric_host_monitoring_whitelist_index";
+            var searchQuery = "| inputlookup trackme_metric_host_monitoring_whitelist_index | append [ | makeresults | eval metric_index=\"" + tk_add_new_item + "\"] | dedup metric_index | sort limit=0 metric_index | outputlookup trackme_metric_host_monitoring_whitelist_index";
 
             // Set the search parameters--specify a time range
             var searchParams = {
@@ -26036,7 +26114,7 @@ require([
                 latest_time: "now"
             };
 
-            if (tk_input_whitelist_metric_host && tk_input_whitelist_metric_host.length) {
+            if (tk_add_new_item && tk_add_new_item.length) {
 
                 // Run a blocking search and get back a job
                 service.search(
@@ -26049,9 +26127,9 @@ require([
                             // Audit
                             action = "failure";
                             change_type = "add allowlist index";
-                            object = tk_input_whitelist_metric_host;
+                            object = tk_add_new_item;
                             object_category = "metric_host";
-                            object_attrs = "{" + "\"metric_index\": \"" + tk_input_whitelist_metric_host + "\"}";
+                            object_attrs = "{" + "\"metric_index\": \"" + tk_add_new_item + "\"}";
                             result = "N/A";
                             comment = "N/A";
                             auditRecord(action, change_type, object, object_category, object_attrs, result, comment);
@@ -26082,6 +26160,7 @@ require([
                                     searchSingleWhiteListMetricHost.startSearch();
                                     searchMetricHostsMain.startSearch();
                                     unsetToken("form.tk_input_whitelist_metric_host");
+                                    unsetToken("form.tk_textinput_whitelist_metric_host");
 
                                     // notify
                                     notification('Modification has been registered successfully.', 2000)
@@ -26089,9 +26168,9 @@ require([
                                     // Audit
                                     action = "success";
                                     change_type = "add allowlist index";
-                                    object = tk_input_whitelist_metric_host;
+                                    object = tk_add_new_item;
                                     object_category = "metric_host";
-                                    object_attrs = "{" + "\"metric_index\": \"" + tk_input_whitelist_metric_host + "\"}";
+                                    object_attrs = "{" + "\"metric_index\": \"" + tk_add_new_item + "\"}";
                                     result = "N/A";
                                     comment = "N/A";
                                     auditRecord(action, change_type, object, object_category, object_attrs, result, comment);
@@ -26276,13 +26355,26 @@ require([
             // When the Submit button is clicked, get all the form fields by accessing token values
             var tk_input_whitelist_data_host = tokens.get("tk_input_whitelist_data_host");
 
+            // When the Submit button is clicked, get all the form fields by accessing token values
+            var tk_textinput_whitelist_data_host = tokens.get("tk_textinput_whitelist_data_host");
+            //console.log("tk_textinput_whitelist_data_host is: " + tk_textinput_whitelist_data_host);
+
+            // choose
+            var tk_add_new_item
+            if (tk_textinput_whitelist_data_host && tk_textinput_whitelist_data_host.length) {
+                tk_add_new_item = tk_textinput_whitelist_data_host;
+            }
+            else {
+                tk_add_new_item = tk_input_whitelist_data_host;                
+            }
+            
             // Create the endpoint URL
             var myendpoint_URl = "{{SPLUNKWEB_URL_PREFIX}}/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_data_host_monitoring_whitelist_index";
 
             //console.log("Endpoint URL is: " + myendpoint_URl);
 
             // Define the query
-            var searchQuery = "| inputlookup trackme_data_host_monitoring_whitelist_index | append [ | makeresults | eval data_index=\"" + tk_input_whitelist_data_host + "\"] | dedup data_index | sort limit=0 data_index | outputlookup trackme_data_host_monitoring_whitelist_index";
+            var searchQuery = "| inputlookup trackme_data_host_monitoring_whitelist_index | append [ | makeresults | eval data_index=\"" + tk_add_new_item + "\"] | dedup data_index | sort limit=0 data_index | outputlookup trackme_data_host_monitoring_whitelist_index";
 
             // Set the search parameters--specify a time range
             var searchParams = {
@@ -26290,7 +26382,7 @@ require([
                 latest_time: "now"
             };
 
-            if (tk_input_whitelist_data_host && tk_input_whitelist_data_host.length) {
+            if (tk_add_new_item && tk_add_new_item.length) {
 
                 // Run a blocking search and get back a job
                 service.search(
@@ -26303,9 +26395,9 @@ require([
                             // Audit
                             action = "failure";
                             change_type = "add allowlist host";
-                            object = tk_input_whitelist_data_host;
+                            object = tk_add_new_item;
                             object_category = "data_host";
-                            object_attrs = "{" + "\"data_host\": \"" + tk_input_whitelist_data_host + "\"}";
+                            object_attrs = "{" + "\"data_host\": \"" + tk_add_new_item + "\"}";
                             result = "N/A";
                             comment = "N/A";
                             auditRecord(action, change_type, object, object_category, object_attrs, result, comment);
@@ -26336,6 +26428,7 @@ require([
                                     searchDataHostsMain.startSearch();
                                     searchPopulateIndexesForWhiteListDataHost.startSearch();
                                     unsetToken("form.tk_input_whitelist_data_host");
+                                    unsetToken("form.tk_textinput_whitelist_data_host");
 
                                     // notify
                                     notification('Modification has been registered successfully.', 2000)
@@ -26343,9 +26436,9 @@ require([
                                     // Audit
                                     action = "success";
                                     change_type = "add allowlist host";
-                                    object = tk_input_whitelist_data_host;
+                                    object = tk_add_new_item;
                                     object_category = "data_host";
-                                    object_attrs = "{" + "\"data_host\": \"" + tk_input_whitelist_data_host + "\"}";
+                                    object_attrs = "{" + "\"data_host\": \"" + tk_add_new_item + "\"}";
                                     result = "N/A";
                                     comment = "N/A";
                                     auditRecord(action, change_type, object, object_category, object_attrs, result, comment);
@@ -30075,7 +30168,7 @@ require([
             var tk_multi_table_array = tokens.get("removeElasticSourceDedicated");
             //console.log("tk_multi_table_array is: " + tk_multi_table_array);
             tk_multi_table_array = tk_multi_table_array.split(',');
-            console.log("tk_multi_table_array is: " + tk_multi_table_array);
+            //console.log("tk_multi_table_array is: " + tk_multi_table_array);
 
             // Retrieve update comment if any
             var tk_comment = document.getElementById("elastic_source_dedicated_delete_comment").value;
