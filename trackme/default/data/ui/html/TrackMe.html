@@ -3400,7 +3400,25 @@ styles in <div> tags, similar to Bootstrap's grid system.
                             </div>
                         </div>
 
-                        <div id="rowLaggingMetricsDataSource" class="dashboard-row dashboard-row1" data-original-id="rowAuditChangesDataSourceTop" data-depends="$show_data_source_lagging_metrics$">
+                        <div id="rowSingleByMetricsLag" class="dashboard-row dashboard-row1" data-depends="$show_data_source_lagging_metrics$">
+                            <div id="panelSingleLag2" class="dashboard-cell" style="width: 100%;">
+                                <div class="dashboard-panel clearfix">
+                                    <div class="panel-element-row">
+                                        <div id="elementSingleLagByMetricsPerc95" class="dashboard-element chart" style="width: 100%">
+                                            <div class="panel-body"></div>
+                                        </div>
+                                        <div id="elementSingleLagByMetricsAvg" class="dashboard-element chart" style="width: 100%">
+                                            <div class="panel-body"></div>
+                                        </div>
+                                        <div id="elementSingleEventByMetricsLag" class="dashboard-element chart" style="width: 100%">
+                                            <div class="panel-body"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div id="rowLaggingMetricsDataSource" class="dashboard-row dashboard-row1" data-depends="$show_data_source_lagging_metrics$">
                             <div id="panelLaggingMetricsDataSourceChart" class="dashboard-cell" style="width: 100%;">
                                 <div class="dashboard-panel clearfix">
                                     <div style="margin-left: 30px;" class="fieldset">
@@ -3846,7 +3864,25 @@ styles in <div> tags, similar to Bootstrap's grid system.
                             </div>
                         </div>
 
-                        <div id="rowLaggingMetricsDataHost" class="dashboard-row dashboard-row1" data-original-id="rowLaggingMetricsDataHost" data-depends="$show_data_host_lagging_metrics$">
+                        <div id="rowSingleLagByMetricsHost" class="dashboard-row dashboard-row1" data-depends="$show_data_host_lagging_metrics$">
+                            <div id="panelSingleLagByMetricsHost2" class="dashboard-cell" style="width: 100%;">
+                                <div class="dashboard-panel clearfix">
+                                    <div class="panel-element-row">
+                                        <div id="elementSingleLagByMetricsHostPerc95" class="dashboard-element chart" style="width: 100%">
+                                            <div class="panel-body"></div>
+                                        </div>
+                                        <div id="elementSingleLagByMetricsHostAvg" class="dashboard-element chart" style="width: 100%">
+                                            <div class="panel-body"></div>
+                                        </div>
+                                        <div id="elementSingleLagByMetricsHostEventLag" class="dashboard-element chart" style="width: 100%">
+                                            <div class="panel-body"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div id="rowLaggingMetricsDataHost" class="dashboard-row dashboard-row1" data-depends="$show_data_host_lagging_metrics$">
                             <div id="panelLaggingMetricsDataHostChart" class="dashboard-cell" style="width: 100%;">
                                 <div class="dashboard-panel clearfix">
                                     <div class="panel-element-row">
@@ -11782,6 +11818,56 @@ require([
             tokenNamespace: "submitted"
         });
 
+        var searchSingleByMetricsLag = new SearchManager({
+            "id": "searchSingleByMetricsLag",
+            "sample_ratio": 1,
+            "search": "| mstats perc95(trackme.lag_ingestion_sec) as perc95_lag, avg(trackme.lag_ingestion_sec) as avg_lag, latest(trackme.lag_event_sec) as event_lag where `trackme_metrics_idx` object_category=\"data_source\" object=\"$tk_data_name$\"",
+            "status_buckets": 0,
+            "earliest_time": "$modalTime.earliest$",
+            "cancelOnUnload": true,
+            "latest_time": "$modalTime.latest$",
+            "app": utils.getCurrentApp(),
+            "auto_cancel": 90,
+            "preview": true,
+            "tokenDependencies": {
+                "depends": "$show_data_source_lagging_metrics$"
+            },
+            "runWhenTimeIsUndefined": false
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        });
+
+        var searchSingleLagByMetricsPerc95 = new PostProcessManager({
+            "tokenDependencies": {},
+            "search": "| fields perc95_lag | `trackme_parse_duration(perc95_lag, 60)`",
+            "managerid": "searchSingleByMetricsLag",
+            "id": "searchSingleLagByMetricsPerc95"
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        });
+
+        var searchSingleLagByMetricsAvg = new PostProcessManager({
+            "tokenDependencies": {},
+            "search": "| fields avg_lag | `trackme_parse_duration(avg_lag, 60)`",
+            "managerid": "searchSingleByMetricsLag",
+            "id": "searchSingleLagByMetricsAvg"
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        });
+
+        var searchSingleEventByMetricsLag = new PostProcessManager({
+            "tokenDependencies": {},
+            "search": "| fields event_lag | `trackme_parse_duration(event_lag, 60)`",
+            "managerid": "searchSingleByMetricsLag",
+            "id": "searchSingleEventByMetricsLag"
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        });
+
         // data host monitoring
 
         // Data parsing quality
@@ -11958,6 +12044,56 @@ require([
             "search": "| fields event_lag | `trackme_parse_duration(event_lag, 60)`",
             "managerid": "searchSingleLagHost",
             "id": "searchSingleLagHostEventLag"
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        });
+
+        var searchSingleLagByMetricsHost = new SearchManager({
+            "id": "searchSingleLagByMetricsHost",
+            "sample_ratio": 1,
+            "search": "| mstats perc95(trackme.lag_ingestion_sec) as perc95_lag, avg(trackme.lag_ingestion_sec) as avg_lag, latest(trackme.lag_event_sec) as event_lag where `trackme_metrics_idx` object_category=\"data_host\" object=\"$tk_data_host$\"",
+            "status_buckets": 0,
+            "earliest_time": "$modalTimeHost.earliest$",
+            "cancelOnUnload": true,
+            "latest_time": "$modalTimeHost.latest$",
+            "app": utils.getCurrentApp(),
+            "auto_cancel": 90,
+            "preview": true,
+            "tokenDependencies": {
+                "depends": "$show_data_host_lagging_metrics$"
+            },
+            "runWhenTimeIsUndefined": false
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        });
+
+        var searchSingleLagByMetricsHostPerc95 = new PostProcessManager({
+            "tokenDependencies": {},
+            "search": "| fields perc95_lag | `trackme_parse_duration(perc95_lag, 60)`",
+            "managerid": "searchSingleLagByMetricsHost",
+            "id": "searchSingleLagByMetricsHostPerc95"
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        });
+
+        var searchSingleLagByMetricsHostAvg = new PostProcessManager({
+            "tokenDependencies": {},
+            "search": "| fields avg_lag | `trackme_parse_duration(avg_lag, 60)`",
+            "managerid": "searchSingleLagByMetricsHost",
+            "id": "searchSingleLagByMetricsHostAvg"
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        });
+
+        var searchSingleLagByMetricsHostEventLag = new PostProcessManager({
+            "tokenDependencies": {},
+            "search": "| fields event_lag | `trackme_parse_duration(event_lag, 60)`",
+            "managerid": "searchSingleLagByMetricsHost",
+            "id": "searchSingleLagByMetricsHostEventLag"
         }, {
             tokens: true,
             tokenNamespace: "submitted"
@@ -20059,6 +20195,91 @@ require([
             }
         });
 
+        // modal Single Lag
+        var elementSingleLagByMetricsPerc95 = new SingleElement({
+            "id": "elementSingleLagByMetricsPerc95",
+            "trendDisplayMode": "absolute",
+            "numberPrecision": "0",
+            "drilldown": "none",
+            "trellis.size": "medium",
+            "trendColorInterpretation": "standard",
+            "height": "80",
+            "useColors": "0",
+            "colorBy": "value",
+            "showTrendIndicator": "1",
+            "showSparkline": "1",
+            "trellis.enabled": "0",
+            "unit": "",
+            "rangeColors": "[\"0x77dd77\",\"0x0877a6\",\"0xf8be34\",\"0xf1813f\",\"0xdc4e41\"]",
+            "colorMode": "none",
+            "rangeValues": "[0,30,70,100]",
+            "unitPosition": "after",
+            "trellis.scales.shared": "1",
+            "useThousandSeparators": "1",
+            "underLabel": "PERC95 INGESTION LAG (sec or [D+]HH:MM:SS)",
+            "managerid": "searchSingleLagByMetricsPerc95",
+            "el": $('#elementSingleLagByMetricsPerc95')
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        }).render();
+
+        var elementSingleLagByMetricsAvg = new SingleElement({
+            "id": "elementSingleLagByMetricsAvg",
+            "trendDisplayMode": "absolute",
+            "numberPrecision": "0.00",
+            "drilldown": "none",
+            "trellis.size": "medium",
+            "trendColorInterpretation": "standard",
+            "height": "80",
+            "useColors": "0",
+            "colorBy": "value",
+            "showTrendIndicator": "1",
+            "showSparkline": "1",
+            "trellis.enabled": "0",
+            "unit": "",
+            "rangeColors": "[\"0x77dd77\",\"0x0877a6\",\"0xf8be34\",\"0xf1813f\",\"0xdc4e41\"]",
+            "colorMode": "none",
+            "rangeValues": "[0,30,70,100]",
+            "unitPosition": "after",
+            "trellis.scales.shared": "1",
+            "useThousandSeparators": "1",
+            "underLabel": "AVG INGESTION LAG (sec or [D+]HH:MM:SS)",
+            "managerid": "searchSingleLagByMetricsAvg",
+            "el": $('#elementSingleLagByMetricsAvg')
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        }).render();
+
+        var elementSingleEventByMetricsLag = new SingleElement({
+            "id": "elementSingleEventByMetricsLag",
+            "trendDisplayMode": "absolute",
+            "numberPrecision": "0.00",
+            "drilldown": "none",
+            "trellis.size": "medium",
+            "trendColorInterpretation": "standard",
+            "height": "80",
+            "useColors": "0",
+            "colorBy": "value",
+            "showTrendIndicator": "1",
+            "showSparkline": "1",
+            "trellis.enabled": "0",
+            "unit": "",
+            "rangeColors": "[\"0x77dd77\",\"0x0877a6\",\"0xf8be34\",\"0xf1813f\",\"0xdc4e41\"]",
+            "colorMode": "none",
+            "rangeValues": "[0,30,70,100]",
+            "unitPosition": "after",
+            "trellis.scales.shared": "1",
+            "useThousandSeparators": "1",
+            "underLabel": "CURRENT EVENT LAG (sec or [D+]HH:MM:SS)",
+            "managerid": "searchSingleEventByMetricsLag",
+            "el": $('#elementSingleEventByMetricsLag')
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        }).render();
+
         // data host monitoring
 
         // Data Parsing Quality
@@ -20310,6 +20531,91 @@ require([
             "underLabel": "CURRENT EVENT LAG (sec or [D+]HH:MM:SS)",
             "managerid": "searchSingleLagHostEventLag",
             "el": $('#elementSingleLagHostEventLag')
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        }).render();
+
+        // modal Single Lag
+        var elementSingleLagByMetricsHostPerc95 = new SingleElement({
+            "id": "elementSingleLagByMetricsHostPerc95",
+            "trendDisplayMode": "absolute",
+            "numberPrecision": "0.00",
+            "drilldown": "none",
+            "height": "80",
+            "trellis.size": "medium",
+            "trendColorInterpretation": "standard",
+            "useColors": "0",
+            "colorBy": "value",
+            "showTrendIndicator": "1",
+            "showSparkline": "1",
+            "trellis.enabled": "0",
+            "unit": "",
+            "rangeColors": "[\"0x77dd77\",\"0x0877a6\",\"0xf8be34\",\"0xf1813f\",\"0xdc4e41\"]",
+            "colorMode": "none",
+            "rangeValues": "[0,30,70,100]",
+            "unitPosition": "after",
+            "trellis.scales.shared": "1",
+            "useThousandSeparators": "1",
+            "underLabel": "PERC95 INGESTION LAG (sec or [D+]HH:MM:SS)",
+            "managerid": "searchSingleLagByMetricsHostPerc95",
+            "el": $('#elementSingleLagByMetricsHostPerc95')
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        }).render();
+
+        var elementSingleLagByMetricsHostAvg = new SingleElement({
+            "id": "elementSingleLagByMetricsHostAvg",
+            "trendDisplayMode": "absolute",
+            "numberPrecision": "0.00",
+            "drilldown": "none",
+            "height": "80",
+            "trellis.size": "medium",
+            "trendColorInterpretation": "standard",
+            "useColors": "0",
+            "colorBy": "value",
+            "showTrendIndicator": "1",
+            "showSparkline": "1",
+            "trellis.enabled": "0",
+            "unit": "",
+            "rangeColors": "[\"0x77dd77\",\"0x0877a6\",\"0xf8be34\",\"0xf1813f\",\"0xdc4e41\"]",
+            "colorMode": "none",
+            "rangeValues": "[0,30,70,100]",
+            "unitPosition": "after",
+            "trellis.scales.shared": "1",
+            "useThousandSeparators": "1",
+            "underLabel": "AVG INGESTION LAG (sec or [D+]HH:MM:SS)",
+            "managerid": "searchSingleLagByMetricsHostAvg",
+            "el": $('#elementSingleLagByMetricsHostAvg')
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        }).render();
+
+        var elementSingleLagByMetricsHostEventLag = new SingleElement({
+            "id": "elementSingleLagByMetricsHostEventLag",
+            "trendDisplayMode": "absolute",
+            "numberPrecision": "0.00",
+            "drilldown": "none",
+            "height": "80",
+            "trellis.size": "medium",
+            "trendColorInterpretation": "standard",
+            "useColors": "0",
+            "colorBy": "value",
+            "showTrendIndicator": "1",
+            "showSparkline": "1",
+            "trellis.enabled": "0",
+            "unit": "",
+            "rangeColors": "[\"0x77dd77\",\"0x0877a6\",\"0xf8be34\",\"0xf1813f\",\"0xdc4e41\"]",
+            "colorMode": "none",
+            "rangeValues": "[0,30,70,100]",
+            "unitPosition": "after",
+            "trellis.scales.shared": "1",
+            "useThousandSeparators": "1",
+            "underLabel": "CURRENT EVENT LAG (sec or [D+]HH:MM:SS)",
+            "managerid": "searchSingleLagByMetricsHostEventLag",
+            "el": $('#elementSingleLagByMetricsHostEventLag')
         }, {
             tokens: true,
             tokenNamespace: "submitted"
@@ -23667,6 +23973,7 @@ require([
             // notify
             notification('Refresh completed.', 6000)
             searchSingleLag.startSearch();
+            searchSingleByMetricsLag.startSearch();
             searchChartLag.startSearch();
             searchSingleSLApct.startSearch();
             searchOutlierDetectionChart.startSearch();
@@ -23691,6 +23998,7 @@ require([
             // notify
             notification('Refresh completed.', 6000)
             searchSingleLagHost.startSearch();
+            searchSingleLagByMetricsHost.startSearch();
             searchChartHostBaseSearch.startSearch();
             searchChartLagHostOverTime.startSearch();
             searchSingleSLAHostpct.startSearch();
@@ -25040,6 +25348,7 @@ require([
                     var tk_data_host= tokens.get("tk_data_host");
 		            clearDataHost(tk_data_host, tk_comment);
                     searchSingleLagHost.startSearch();
+                    searchSingleLagByMetricsHost.startSearch();
                     searchChartHostBaseSearch.startSearch();
                     searchChartLagHostOverTime.startSearch();
                     searchSingleSLAHostpct.startSearch();
@@ -37080,6 +37389,7 @@ require([
                         updateDataSourceEntity(tk_data_name, tk_data_index, tk_data_sourcetype);
 
                         searchSingleLag.startSearch();
+                        searchSingleByMetricsLag.startSearch();
                         searchChartLag.startSearch();
                         searchSingleSLApct.startSearch();
                         searchOutlierDetectionChart.startSearch();
@@ -38666,6 +38976,7 @@ require([
                         updateDataHostEntity("trackme_datahost_tracker_shorterm", tk_data_host);
 
                         searchSingleLagHost.startSearch();
+                        searchSingleLagByMetricsHost.startSearch();
                         searchChartHostBaseSearch.startSearch();
                         searchChartLagHostOverTime.startSearch();
                         searchSingleSLAHostpct.startSearch();
