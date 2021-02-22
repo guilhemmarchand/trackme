@@ -19,6 +19,7 @@ https://trackme.readthedocs.io/en/latest/configuration.html
 - Feature - Issue #250 - new blocklisting capabilities based on the data_name for data sources
 - Feature - Issue #254 - Data Sampling - The new Data Sampling obfuscation mode allows preventing unwanted data accesses to the collection by obfuscating samples at the processing step instead of storing samples within the KVstore collection
 - Feature - Issue #253 - Splunk Infrastructure Monitoring, Splunk instances are now monitored automatically in the data hosts tracking via the splunkd sourcetype, this behaviour can be enabled/disabled on demand via the configuration UI
+- Feature - Issue #260 - REST API endpoints - new endpoints for identity cards management
 - Enhancement - Issue #251 - Reset collections should better run short term trackers rather than long term trackers for data sources and hosts when resetting
 - Enhancement - Issue #257 - Allow listing - provides explicit expression addition capabilities with wildcard support
 - Enhancement - Issue #258 - Metric hosts - adds the _metrics in hosts and metrics discovery
