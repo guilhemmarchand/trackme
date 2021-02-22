@@ -3400,14 +3400,34 @@ styles in <div> tags, similar to Bootstrap's grid system.
                             </div>
                         </div>
 
-                        <div id="rowLaggingMetricsDataSource" class="dashboard-row dashboard-row1" data-original-id="rowAuditChangesDataSourceTop" data-depends="$show_data_source_lagging_metrics$">
-                            <div id="panelLaggingMetricsDataSourceChart" class="dashboard-cell" style="width: 100%;">
+                        <div id="rowSingleByMetricsLag" class="dashboard-row dashboard-row1" data-depends="$show_data_source_lagging_metrics$">
+                            <div id="panelSingleLag2" class="dashboard-cell" style="width: 100%;">
                                 <div class="dashboard-panel clearfix">
                                     <div class="panel-element-row">
+                                        <div id="elementSingleLagByMetricsPerc95" class="dashboard-element chart" style="width: 100%">
+                                            <div class="panel-body"></div>
+                                        </div>
+                                        <div id="elementSingleLagByMetricsAvg" class="dashboard-element chart" style="width: 100%">
+                                            <div class="panel-body"></div>
+                                        </div>
+                                        <div id="elementSingleEventByMetricsLag" class="dashboard-element chart" style="width: 100%">
+                                            <div class="panel-body"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div id="rowLaggingMetricsDataSource" class="dashboard-row dashboard-row1" data-depends="$show_data_source_lagging_metrics$">
+                            <div id="panelLaggingMetricsDataSourceChart" class="dashboard-cell" style="width: 100%;">
+                                <div class="dashboard-panel clearfix">
+                                    <div style="margin-left: 30px;" class="fieldset">
+                                        <div class="input input-dropdown" id="inputDataSourceOverviewMetricsChartSeries">
+                                            <label></label>
+                                        </div>
+                                    </div>
+                                    <div class="panel-element-row">
                                         <div id="chartLaggingMetricDataSourceOverTime" class="dashboard-element chart" style="width: 100%">
-                                            <div class="panel-head">
-                                                <h3>lag_ingestion_sec: delta between index time and latest event timestamp, lag_event_sec: delta between now when the measure is taken, and the latest event timestamp</h3>
-                                            </div>
                                             <div class="panel-body"></div>
                                         </div>
                                     </div>
@@ -3844,14 +3864,29 @@ styles in <div> tags, similar to Bootstrap's grid system.
                             </div>
                         </div>
 
-                        <div id="rowLaggingMetricsDataHost" class="dashboard-row dashboard-row1" data-original-id="rowLaggingMetricsDataHost" data-depends="$show_data_host_lagging_metrics$">
+                        <div id="rowSingleLagByMetricsHost" class="dashboard-row dashboard-row1" data-depends="$show_data_host_lagging_metrics$">
+                            <div id="panelSingleLagByMetricsHost2" class="dashboard-cell" style="width: 100%;">
+                                <div class="dashboard-panel clearfix">
+                                    <div class="panel-element-row">
+                                        <div id="elementSingleLagByMetricsHostPerc95" class="dashboard-element chart" style="width: 100%">
+                                            <div class="panel-body"></div>
+                                        </div>
+                                        <div id="elementSingleLagByMetricsHostAvg" class="dashboard-element chart" style="width: 100%">
+                                            <div class="panel-body"></div>
+                                        </div>
+                                        <div id="elementSingleLagByMetricsHostEventLag" class="dashboard-element chart" style="width: 100%">
+                                            <div class="panel-body"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div id="rowLaggingMetricsDataHost" class="dashboard-row dashboard-row1" data-depends="$show_data_host_lagging_metrics$">
                             <div id="panelLaggingMetricsDataHostChart" class="dashboard-cell" style="width: 100%;">
                                 <div class="dashboard-panel clearfix">
                                     <div class="panel-element-row">
                                         <div id="chartLaggingMetricDataHostOverTime" class="dashboard-element chart" style="width: 100%">
-                                            <div class="panel-head">
-                                                <h3>lag_ingestion_sec: delta between index time and latest event timestamp, lag_event_sec: delta between now when the measure is taken, and the latest event timestamp</h3>
-                                            </div>
                                             <div class="panel-body"></div>
                                         </div>
                                     </div>
@@ -5728,8 +5763,12 @@ styles in <div> tags, similar to Bootstrap's grid system.
                                             <label>&nbsp;</label>
                                         </div>
 
-                                        <div class="input input-dropdown" id="modal_input_data_source_whitelist" style="margin-bottom: 10px;">
+                                        <div class="input input-dropdown" id="modal_input_data_source_whitelist" style="margin-top: 10px; margin-bottom: 10px;">
                                             <label>index name:</label>
+                                        </div>
+
+                                        <div class="input input-dropdown" id="modal_textinput_data_source_whitelist" style="margin-bottom: 10px;">
+                                            <label>or manual index name expression: (supports wildcards)</label>
                                         </div>
 
                                         <div style="margin-bottom: 10px;">
@@ -5851,8 +5890,12 @@ styles in <div> tags, similar to Bootstrap's grid system.
                                             <label>&nbsp;</label>
                                         </div>
 
-                                        <div class="input input-dropdown" id="modal_input_data_host_whitelist" style="margin-bottom: 10px;">
+                                        <div class="input input-dropdown" id="modal_input_data_host_whitelist" style="margin-top: 10px; margin-bottom: 10px;">
                                             <label>index name:</label>
+                                        </div>
+
+                                        <div class="input input-dropdown" id="modal_textinput_data_host_whitelist" style="margin-bottom: 10px;">
+                                            <label>or manual index name expression: (supports wildcards)</label>
                                         </div>
 
                                         <div style="margin-bottom: 10px;">
@@ -5971,8 +6014,12 @@ styles in <div> tags, similar to Bootstrap's grid system.
                                             <label>&nbsp;</label>
                                         </div>
 
-                                        <div class="input input-dropdown" id="modal_input_metric_host_whitelist" style="margin-bottom: 10px;">
+                                        <div class="input input-dropdown" id="modal_input_metric_host_whitelist" style="margin-top: 10px; margin-bottom: 10px;">
                                             <label>index name:</label>
+                                        </div>
+
+                                        <div class="input input-dropdown" id="modal_textinput_metric_host_whitelist" style="margin-bottom: 10px;">
+                                            <label>or manual index name expression: (supports wildcards)</label>
                                         </div>
 
                                         <div style="margin-bottom: 10px;">
@@ -9942,7 +9989,7 @@ require([
             "cancelOnUnload": true,
             "sample_ratio": null,
             "latest_time": "$modalTimeWhiteListMetricHost.latest$",
-            "search": "| mcatalog values(metric_name) as metrics where index=* by index | rename metrics as metric_name | stats values(index) as index | mvexpand index | lookup trackme_metric_host_monitoring_whitelist_index metric_index as index OUTPUT metric_index as FOUND | where isnull(FOUND) | sort limit=0 index | fields index",
+            "search": "| mcatalog values(metric_name) as metrics where (index=* OR index=_*) by index | rename metrics as metric_name | stats values(index) as index | mvexpand index | lookup trackme_metric_host_monitoring_whitelist_index metric_index as index OUTPUT metric_index as FOUND | where isnull(FOUND) | sort limit=0 index | fields index",
             "status_buckets": 0,
             "app": utils.getCurrentApp(),
             "auto_cancel": 90,
@@ -10382,7 +10429,7 @@ require([
             "cancelOnUnload": true,
             "sample_ratio": null,
             "latest_time": "$modalTime.latest$",
-            "search": "| mstats max(trackme.lag_event_sec) as lag_event_sec, max(trackme.lag_ingestion_sec) as lag_ingestion_sec where `trackme_metrics_idx` object_category=\"data_source\" object=\"$tk_data_name$\" by object span=5m | timechart span=$modalTime.span$ avg(lag_event_sec) as lag_event_sec, avg(lag_ingestion_sec) as lag_ingestion_sec",
+            "search": "| mstats max(trackme.eventcount_4h) as eventcount_4h, max(trackme.hostcount_4h) as hostcount_4h, max(trackme.lag_event_sec) as lag_event_sec, max(trackme.lag_ingestion_sec) as lag_ingestion_sec where `trackme_metrics_idx` object_category=\"data_source\" object=\"$tk_data_name$\" by object span=5m | timechart span=$modalTime.span$ avg(eventcount_4h) as eventcount_4h, avg(hostcount_4h) as hostcount_4h, avg(lag_event_sec) as lag_event_sec, avg(lag_ingestion_sec) as lag_ingestion_sec | fields _time, $tk_input_data_source_overview_metrics_chart_series$",
             "status_buckets": 0,
             "app": utils.getCurrentApp(),
             "auto_cancel": 90,
@@ -10402,7 +10449,7 @@ require([
             "cancelOnUnload": true,
             "sample_ratio": null,
             "latest_time": "$modalTimeHost.latest$",
-            "search": "| mstats max(trackme.lag_event_sec) as lag_event_sec, max(trackme.lag_ingestion_sec) as lag_ingestion_sec where `trackme_metrics_idx` object_category=\"data_host\" object=\"$tk_data_host$\" by object span=5m | timechart span=$modalTimeHost.span$ avg(lag_event_sec) as lag_event_sec, avg(lag_ingestion_sec) as lag_ingestion_sec",
+            "search": "| mstats max(trackme.eventcount_4h) as eventcount_4h, max(trackme.lag_event_sec) as lag_event_sec, max(trackme.lag_ingestion_sec) as lag_ingestion_sec where `trackme_metrics_idx` object_category=\"data_host\" object=\"$tk_data_host$\" by object span=5m | timechart span=$modalTimeHost.span$ avg(eventcount_4h) as eventcount_4h, avg(lag_event_sec) as lag_event_sec, avg(lag_ingestion_sec) as lag_ingestion_sec",
             "status_buckets": 0,
             "app": utils.getCurrentApp(),
             "auto_cancel": 90,
@@ -11771,6 +11818,56 @@ require([
             tokenNamespace: "submitted"
         });
 
+        var searchSingleByMetricsLag = new SearchManager({
+            "id": "searchSingleByMetricsLag",
+            "sample_ratio": 1,
+            "search": "| mstats perc95(trackme.lag_ingestion_sec) as perc95_lag, avg(trackme.lag_ingestion_sec) as avg_lag, latest(trackme.lag_event_sec) as event_lag where `trackme_metrics_idx` object_category=\"data_source\" object=\"$tk_data_name$\"",
+            "status_buckets": 0,
+            "earliest_time": "$modalTime.earliest$",
+            "cancelOnUnload": true,
+            "latest_time": "$modalTime.latest$",
+            "app": utils.getCurrentApp(),
+            "auto_cancel": 90,
+            "preview": true,
+            "tokenDependencies": {
+                "depends": "$show_data_source_lagging_metrics$"
+            },
+            "runWhenTimeIsUndefined": false
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        });
+
+        var searchSingleLagByMetricsPerc95 = new PostProcessManager({
+            "tokenDependencies": {},
+            "search": "| fields perc95_lag | `trackme_parse_duration(perc95_lag, 60)`",
+            "managerid": "searchSingleByMetricsLag",
+            "id": "searchSingleLagByMetricsPerc95"
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        });
+
+        var searchSingleLagByMetricsAvg = new PostProcessManager({
+            "tokenDependencies": {},
+            "search": "| fields avg_lag | `trackme_parse_duration(avg_lag, 60)`",
+            "managerid": "searchSingleByMetricsLag",
+            "id": "searchSingleLagByMetricsAvg"
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        });
+
+        var searchSingleEventByMetricsLag = new PostProcessManager({
+            "tokenDependencies": {},
+            "search": "| fields event_lag | `trackme_parse_duration(event_lag, 60)`",
+            "managerid": "searchSingleByMetricsLag",
+            "id": "searchSingleEventByMetricsLag"
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        });
+
         // data host monitoring
 
         // Data parsing quality
@@ -11947,6 +12044,56 @@ require([
             "search": "| fields event_lag | `trackme_parse_duration(event_lag, 60)`",
             "managerid": "searchSingleLagHost",
             "id": "searchSingleLagHostEventLag"
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        });
+
+        var searchSingleLagByMetricsHost = new SearchManager({
+            "id": "searchSingleLagByMetricsHost",
+            "sample_ratio": 1,
+            "search": "| mstats perc95(trackme.lag_ingestion_sec) as perc95_lag, avg(trackme.lag_ingestion_sec) as avg_lag, latest(trackme.lag_event_sec) as event_lag where `trackme_metrics_idx` object_category=\"data_host\" object=\"$tk_data_host$\"",
+            "status_buckets": 0,
+            "earliest_time": "$modalTimeHost.earliest$",
+            "cancelOnUnload": true,
+            "latest_time": "$modalTimeHost.latest$",
+            "app": utils.getCurrentApp(),
+            "auto_cancel": 90,
+            "preview": true,
+            "tokenDependencies": {
+                "depends": "$show_data_host_lagging_metrics$"
+            },
+            "runWhenTimeIsUndefined": false
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        });
+
+        var searchSingleLagByMetricsHostPerc95 = new PostProcessManager({
+            "tokenDependencies": {},
+            "search": "| fields perc95_lag | `trackme_parse_duration(perc95_lag, 60)`",
+            "managerid": "searchSingleLagByMetricsHost",
+            "id": "searchSingleLagByMetricsHostPerc95"
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        });
+
+        var searchSingleLagByMetricsHostAvg = new PostProcessManager({
+            "tokenDependencies": {},
+            "search": "| fields avg_lag | `trackme_parse_duration(avg_lag, 60)`",
+            "managerid": "searchSingleLagByMetricsHost",
+            "id": "searchSingleLagByMetricsHostAvg"
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        });
+
+        var searchSingleLagByMetricsHostEventLag = new PostProcessManager({
+            "tokenDependencies": {},
+            "search": "| fields event_lag | `trackme_parse_duration(event_lag, 60)`",
+            "managerid": "searchSingleLagByMetricsHost",
+            "id": "searchSingleLagByMetricsHostEventLag"
         }, {
             tokens: true,
             tokenNamespace: "submitted"
@@ -13821,6 +13968,35 @@ require([
             } else if (e.value === "events_count, dcount_host") {
                 EventHandler.setToken("data_source_overview_chart1_axis", "hosts distinct count", {}, e.data);
                 EventHandler.setToken("data_source_overview_chart1_axisUnit", "1", {}, e.data);
+            }
+        });
+
+        var inputDataSourceOverviewMetricsChartSeries = new DropdownInput({
+            "id": "inputDataSourceOverviewMetricsChartSeries",
+            "choices": [
+                {"label": "events / lag", "value": "eventcount_4h, lag_event_sec, lag_ingestion_sec"},
+                {"label": "events / host dcount", "value": "eventcount_4h, hostcount_4h"}
+            ],
+            "default": "eventcount_4h, lag_event_sec, lag_ingestion_sec",
+            "searchWhenChanged": true,
+            "selectFirstChoice": false,
+            "showClearButton": true,
+            "initialValue": "eventcount_4h, lag_event_sec, lag_ingestion_sec",
+            "value": "$form.tk_input_data_source_overview_metrics_chart_series$",
+            "el": $('#inputDataSourceOverviewMetricsChartSeries')
+        }, {tokens: true}).render();
+
+        inputDataSourceOverviewMetricsChartSeries.on("change", function(newValue) {
+            FormUtils.handleValueChange(inputDataSourceOverviewMetricsChartSeries);
+        });
+
+        inputDataSourceOverviewMetricsChartSeries.on("valueChange", function(e) {
+            if (e.value === "eventcount_4h, lag_event_sec, lag_ingestion_sec") {
+                EventHandler.setToken("data_source_overview_metrics_chart1_axis", "lagging (sec)", {}, e.data);
+                EventHandler.setToken("data_source_overview_metrics_chart1_axisUnit", "0.1", {}, e.data);
+            } else if (e.value === "eventcount_4h, hostcount_4h") {
+                EventHandler.setToken("data_source_overview_metrics_chart1_axis", "hosts distinct count", {}, e.data);
+                EventHandler.setToken("data_source_overview_metrics_chart1_axisUnit", "1", {}, e.data);
             }
         });
 
@@ -15918,6 +16094,19 @@ require([
             FormUtils.handleValueChange(modal_input_data_source_whitelist);
         });
 
+        var modal_textinput_data_source_whitelist = new TextInput({
+            "id": "modal_textinput_data_source_whitelist",
+            "searchWhenChanged": true,
+            "value": "$form.tk_textinput_whitelist_data_source$",
+            "el": $('#modal_textinput_data_source_whitelist')
+        }, {
+            tokens: true
+        }).render();
+
+        modal_textinput_data_source_whitelist.on("change", function(newValue) {
+            FormUtils.handleValueChange(modal_textinput_data_source_whitelist);
+        });
+
         var modal_input_data_source_whitelist_search = new TextInput({
             "id": "modal_input_data_source_whitelist_search",
             "default": "*",
@@ -15950,9 +16139,22 @@ require([
         }, {
             tokens: true
         }).render();
-
+        
         modal_input_metric_host_whitelist.on("change", function(newValue) {
             FormUtils.handleValueChange(modal_input_metric_host_whitelist);
+        });
+
+        var modal_textinput_metric_host_whitelist = new TextInput({
+            "id": "modal_textinput_metric_host_whitelist",
+            "searchWhenChanged": true,
+            "value": "$form.tk_textinput_whitelist_metric_host$",
+            "el": $('#modal_textinput_metric_host_whitelist')
+        }, {
+            tokens: true
+        }).render();
+
+        modal_textinput_metric_host_whitelist.on("change", function(newValue) {
+            FormUtils.handleValueChange(modal_textinput_metric_host_whitelist);
         });
 
         var modal_input_metric_host_whitelist_search = new TextInput({
@@ -15990,6 +16192,19 @@ require([
 
         modal_input_data_host_whitelist.on("change", function(newValue) {
             FormUtils.handleValueChange(modal_input_data_host_whitelist);
+        });
+
+        var modal_textinput_data_host_whitelist = new TextInput({
+            "id": "modal_textinput_data_host_whitelist",
+            "searchWhenChanged": true,
+            "value": "$form.tk_textinput_whitelist_data_host$",
+            "el": $('#modal_textinput_data_host_whitelist')
+        }, {
+            tokens: true
+        }).render();
+
+        modal_textinput_data_host_whitelist.on("change", function(newValue) {
+            FormUtils.handleValueChange(modal_textinput_data_host_whitelist);
         });
 
         var modal_input_data_host_whitelist_search = new TextInput({
@@ -18233,12 +18448,44 @@ require([
         // Lagging performance metrics
         var chartLaggingMetricDataSourceOverTime = new ChartElement({
             "id": "chartLaggingMetricDataSourceOverTime",
-            "charting.chart": "line",
-            "charting.chart.nullValueMode": "connect",
+            "charting.axisX.abbreviation": "none",
+            "charting.legend.mode": "standard",
+            "charting.chart.bubbleMaximumSize": "50",
+            "charting.chart.sliceCollapsingThreshold": "0.01",
+            "charting.axisTitleY.text": "4h Events count",
+            "refresh.display": "progressbar",
+            "charting.chart.nullValueMode": "gaps",
             "charting.axisTitleX.visibility": "collapsed",
-            "charting.drilldown": "all",
+            "charting.axisTitleY2.text": "$data_source_overview_metrics_chart1_axis$",
+            "charting.axisLabelsY2.majorUnit": "$data_source_overview_metrics_chart1_axisUnit$",
+            "charting.axisX.scale": "linear",
+            "charting.drilldown": "none",
+            "charting.axisLabelsX.majorLabelStyle.overflowMode": "ellipsisNone",
+            "charting.chart.overlayFields": "lag_event_sec,lag_ingestion_sec,hostcount_4h",
+            "charting.chart.showDataLabels": "none",
+            "charting.axisTitleY2.visibility": "visible",
+            "charting.axisY2.enabled": "1",
+            "charting.axisY2.scale": "inherit",
+            "trellis.scales.shared": "1",
+            "charting.layout.splitSeries.allowIndependentYRanges": "0",
+            "charting.chart.bubbleSizeBy": "area",
+            "charting.chart.bubbleMinimumSize": "10",
+            "charting.chart.style": "shiny",
+            "charting.axisY.scale": "linear",
+            "charting.layout.splitSeries": "0",
+            "charting.fieldColors": "{\"eventcount_4h\": 0xaec6cf, \"lag_event_sec\": 0x9542f5, \"lag_ingestion_sec\": 0xff6961, \"hostcount_4h\": 0xff6961}",
             "resizable": true,
-            "height": "300",
+            "charting.legend.labelStyle.overflowMode": "ellipsisMiddle",
+            "charting.lineWidth": "2",
+            "charting.axisTitleY.visibility": "visible",
+            "charting.chart.stackMode": "default",
+            "charting.legend.placement": "right",
+            "trellis.size": "medium",
+            "charting.axisLabelsX.majorLabelStyle.rotation": "0",
+            "charting.axisY2.abbreviation": "none",
+            "charting.chart": "column",
+            "charting.axisY.abbreviation": "none",
+            "trellis.enabled": "0",
             "managerid": "searchLaggingMetricDataSource",
             "el": $('#chartLaggingMetricDataSourceOverTime')
         }, {
@@ -18248,12 +18495,44 @@ require([
 
         var chartLaggingMetricDataHostOverTime = new ChartElement({
             "id": "chartLaggingMetricDataHostOverTime",
-            "charting.chart": "line",
-            "charting.chart.nullValueMode": "connect",
+            "charting.axisX.abbreviation": "none",
+            "charting.legend.mode": "standard",
+            "charting.chart.bubbleMaximumSize": "50",
+            "charting.chart.sliceCollapsingThreshold": "0.01",
+            "charting.axisTitleY.text": "4h Events count",
+            "refresh.display": "progressbar",
+            "charting.chart.nullValueMode": "gaps",
             "charting.axisTitleX.visibility": "collapsed",
-            "charting.drilldown": "all",
+            "charting.axisTitleY2.text": "lagging (sec)",
+            "charting.axisLabelsY2.majorUnit": "0.1",
+            "charting.axisX.scale": "linear",
+            "charting.drilldown": "none",
+            "charting.axisLabelsX.majorLabelStyle.overflowMode": "ellipsisNone",
+            "charting.chart.overlayFields": "lag_event_sec,lag_ingestion_sec,host_count_4h",
+            "charting.chart.showDataLabels": "none",
+            "charting.axisTitleY2.visibility": "visible",
+            "charting.axisY2.enabled": "1",
+            "charting.axisY2.scale": "inherit",
+            "trellis.scales.shared": "1",
+            "charting.layout.splitSeries.allowIndependentYRanges": "0",
+            "charting.chart.bubbleSizeBy": "area",
+            "charting.chart.bubbleMinimumSize": "10",
+            "charting.chart.style": "shiny",
+            "charting.axisY.scale": "linear",
+            "charting.layout.splitSeries": "0",
+            "charting.fieldColors": "{\"eventcount_4h\": 0xaec6cf, \"lag_event_sec\": 0x9542f5, \"lag_ingestion_sec\": 0xff6961}",
             "resizable": true,
-            "height": "300",
+            "charting.legend.labelStyle.overflowMode": "ellipsisMiddle",
+            "charting.lineWidth": "2",
+            "charting.axisTitleY.visibility": "visible",
+            "charting.chart.stackMode": "default",
+            "charting.legend.placement": "right",
+            "trellis.size": "medium",
+            "charting.axisLabelsX.majorLabelStyle.rotation": "0",
+            "charting.axisY2.abbreviation": "none",
+            "charting.chart": "column",
+            "charting.axisY.abbreviation": "none",
+            "trellis.enabled": "0",
             "managerid": "searchLaggingMetricDataHost",
             "el": $('#chartLaggingMetricDataHostOverTime')
         }, {
@@ -19183,7 +19462,7 @@ require([
             "tokenDependencies": {
                 "depends": "$show_table_data_source_whitelist$",
             },
-            "count": 8,
+            "count": 5,
             "drilldown": "none",
             "fields": "data_index, select",
             "refresh.display": "none",
@@ -19202,7 +19481,7 @@ require([
             "tokenDependencies": {
                 "depends": "$show_table_data_host_whitelist$",
             },
-            "count": 8,
+            "count": 5,
             "drilldown": "none",
             "fields": "data_index, select",
             "refresh.display": "none",
@@ -19221,7 +19500,7 @@ require([
             "tokenDependencies": {
                 "depends": "$show_table_metric_host_whitelist$",
             },
-            "count": 8,
+            "count": 5,
             "drilldown": "none",
             "fields": "metric_index, select",
             "refresh.display": "none",
@@ -19916,6 +20195,91 @@ require([
             }
         });
 
+        // modal Single Lag
+        var elementSingleLagByMetricsPerc95 = new SingleElement({
+            "id": "elementSingleLagByMetricsPerc95",
+            "trendDisplayMode": "absolute",
+            "numberPrecision": "0",
+            "drilldown": "none",
+            "trellis.size": "medium",
+            "trendColorInterpretation": "standard",
+            "height": "80",
+            "useColors": "0",
+            "colorBy": "value",
+            "showTrendIndicator": "1",
+            "showSparkline": "1",
+            "trellis.enabled": "0",
+            "unit": "",
+            "rangeColors": "[\"0x77dd77\",\"0x0877a6\",\"0xf8be34\",\"0xf1813f\",\"0xdc4e41\"]",
+            "colorMode": "none",
+            "rangeValues": "[0,30,70,100]",
+            "unitPosition": "after",
+            "trellis.scales.shared": "1",
+            "useThousandSeparators": "1",
+            "underLabel": "PERC95 INGESTION LAG (sec or [D+]HH:MM:SS)",
+            "managerid": "searchSingleLagByMetricsPerc95",
+            "el": $('#elementSingleLagByMetricsPerc95')
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        }).render();
+
+        var elementSingleLagByMetricsAvg = new SingleElement({
+            "id": "elementSingleLagByMetricsAvg",
+            "trendDisplayMode": "absolute",
+            "numberPrecision": "0.00",
+            "drilldown": "none",
+            "trellis.size": "medium",
+            "trendColorInterpretation": "standard",
+            "height": "80",
+            "useColors": "0",
+            "colorBy": "value",
+            "showTrendIndicator": "1",
+            "showSparkline": "1",
+            "trellis.enabled": "0",
+            "unit": "",
+            "rangeColors": "[\"0x77dd77\",\"0x0877a6\",\"0xf8be34\",\"0xf1813f\",\"0xdc4e41\"]",
+            "colorMode": "none",
+            "rangeValues": "[0,30,70,100]",
+            "unitPosition": "after",
+            "trellis.scales.shared": "1",
+            "useThousandSeparators": "1",
+            "underLabel": "AVG INGESTION LAG (sec or [D+]HH:MM:SS)",
+            "managerid": "searchSingleLagByMetricsAvg",
+            "el": $('#elementSingleLagByMetricsAvg')
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        }).render();
+
+        var elementSingleEventByMetricsLag = new SingleElement({
+            "id": "elementSingleEventByMetricsLag",
+            "trendDisplayMode": "absolute",
+            "numberPrecision": "0.00",
+            "drilldown": "none",
+            "trellis.size": "medium",
+            "trendColorInterpretation": "standard",
+            "height": "80",
+            "useColors": "0",
+            "colorBy": "value",
+            "showTrendIndicator": "1",
+            "showSparkline": "1",
+            "trellis.enabled": "0",
+            "unit": "",
+            "rangeColors": "[\"0x77dd77\",\"0x0877a6\",\"0xf8be34\",\"0xf1813f\",\"0xdc4e41\"]",
+            "colorMode": "none",
+            "rangeValues": "[0,30,70,100]",
+            "unitPosition": "after",
+            "trellis.scales.shared": "1",
+            "useThousandSeparators": "1",
+            "underLabel": "CURRENT EVENT LAG (sec or [D+]HH:MM:SS)",
+            "managerid": "searchSingleEventByMetricsLag",
+            "el": $('#elementSingleEventByMetricsLag')
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        }).render();
+
         // data host monitoring
 
         // Data Parsing Quality
@@ -20167,6 +20531,91 @@ require([
             "underLabel": "CURRENT EVENT LAG (sec or [D+]HH:MM:SS)",
             "managerid": "searchSingleLagHostEventLag",
             "el": $('#elementSingleLagHostEventLag')
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        }).render();
+
+        // modal Single Lag
+        var elementSingleLagByMetricsHostPerc95 = new SingleElement({
+            "id": "elementSingleLagByMetricsHostPerc95",
+            "trendDisplayMode": "absolute",
+            "numberPrecision": "0.00",
+            "drilldown": "none",
+            "height": "80",
+            "trellis.size": "medium",
+            "trendColorInterpretation": "standard",
+            "useColors": "0",
+            "colorBy": "value",
+            "showTrendIndicator": "1",
+            "showSparkline": "1",
+            "trellis.enabled": "0",
+            "unit": "",
+            "rangeColors": "[\"0x77dd77\",\"0x0877a6\",\"0xf8be34\",\"0xf1813f\",\"0xdc4e41\"]",
+            "colorMode": "none",
+            "rangeValues": "[0,30,70,100]",
+            "unitPosition": "after",
+            "trellis.scales.shared": "1",
+            "useThousandSeparators": "1",
+            "underLabel": "PERC95 INGESTION LAG (sec or [D+]HH:MM:SS)",
+            "managerid": "searchSingleLagByMetricsHostPerc95",
+            "el": $('#elementSingleLagByMetricsHostPerc95')
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        }).render();
+
+        var elementSingleLagByMetricsHostAvg = new SingleElement({
+            "id": "elementSingleLagByMetricsHostAvg",
+            "trendDisplayMode": "absolute",
+            "numberPrecision": "0.00",
+            "drilldown": "none",
+            "height": "80",
+            "trellis.size": "medium",
+            "trendColorInterpretation": "standard",
+            "useColors": "0",
+            "colorBy": "value",
+            "showTrendIndicator": "1",
+            "showSparkline": "1",
+            "trellis.enabled": "0",
+            "unit": "",
+            "rangeColors": "[\"0x77dd77\",\"0x0877a6\",\"0xf8be34\",\"0xf1813f\",\"0xdc4e41\"]",
+            "colorMode": "none",
+            "rangeValues": "[0,30,70,100]",
+            "unitPosition": "after",
+            "trellis.scales.shared": "1",
+            "useThousandSeparators": "1",
+            "underLabel": "AVG INGESTION LAG (sec or [D+]HH:MM:SS)",
+            "managerid": "searchSingleLagByMetricsHostAvg",
+            "el": $('#elementSingleLagByMetricsHostAvg')
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        }).render();
+
+        var elementSingleLagByMetricsHostEventLag = new SingleElement({
+            "id": "elementSingleLagByMetricsHostEventLag",
+            "trendDisplayMode": "absolute",
+            "numberPrecision": "0.00",
+            "drilldown": "none",
+            "height": "80",
+            "trellis.size": "medium",
+            "trendColorInterpretation": "standard",
+            "useColors": "0",
+            "colorBy": "value",
+            "showTrendIndicator": "1",
+            "showSparkline": "1",
+            "trellis.enabled": "0",
+            "unit": "",
+            "rangeColors": "[\"0x77dd77\",\"0x0877a6\",\"0xf8be34\",\"0xf1813f\",\"0xdc4e41\"]",
+            "colorMode": "none",
+            "rangeValues": "[0,30,70,100]",
+            "unitPosition": "after",
+            "trellis.scales.shared": "1",
+            "useThousandSeparators": "1",
+            "underLabel": "CURRENT EVENT LAG (sec or [D+]HH:MM:SS)",
+            "managerid": "searchSingleLagByMetricsHostEventLag",
+            "el": $('#elementSingleLagByMetricsHostEventLag')
         }, {
             tokens: true,
             tokenNamespace: "submitted"
@@ -23524,6 +23973,7 @@ require([
             // notify
             notification('Refresh completed.', 6000)
             searchSingleLag.startSearch();
+            searchSingleByMetricsLag.startSearch();
             searchChartLag.startSearch();
             searchSingleSLApct.startSearch();
             searchOutlierDetectionChart.startSearch();
@@ -23548,6 +23998,7 @@ require([
             // notify
             notification('Refresh completed.', 6000)
             searchSingleLagHost.startSearch();
+            searchSingleLagByMetricsHost.startSearch();
             searchChartHostBaseSearch.startSearch();
             searchChartLagHostOverTime.startSearch();
             searchSingleSLAHostpct.startSearch();
@@ -24897,6 +25348,7 @@ require([
                     var tk_data_host= tokens.get("tk_data_host");
 		            clearDataHost(tk_data_host, tk_comment);
                     searchSingleLagHost.startSearch();
+                    searchSingleLagByMetricsHost.startSearch();
                     searchChartHostBaseSearch.startSearch();
                     searchChartLagHostOverTime.startSearch();
                     searchSingleSLAHostpct.startSearch();
@@ -25768,13 +26220,26 @@ require([
             // When the Submit button is clicked, get all the form fields by accessing token values
             var tk_input_whitelist_data_source = tokens.get("tk_input_whitelist_data_source");
 
+            // When the Submit button is clicked, get all the form fields by accessing token values
+            var tk_textinput_whitelist_data_source = tokens.get("tk_textinput_whitelist_data_source");
+            //console.log("tk_textinput_whitelist_data_source is: " + tk_textinput_whitelist_data_source);
+
+            // choose
+            var tk_add_new_item
+            if (tk_textinput_whitelist_data_source && tk_textinput_whitelist_data_source.length) {
+                tk_add_new_item = tk_textinput_whitelist_data_source;
+            }
+            else {
+                tk_add_new_item = tk_input_whitelist_data_source;                
+            }
+
             // Create the endpoint URL
             var myendpoint_URl = "{{SPLUNKWEB_URL_PREFIX}}/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_data_source_monitoring_whitelist_index";
 
             //console.log("Endpoint URL is: " + myendpoint_URl);
 
             // Define the query
-            var searchQuery = "| inputlookup trackme_data_source_monitoring_whitelist_index | append [ | makeresults | eval data_index=\"" + tk_input_whitelist_data_source + "\"] | dedup data_index | sort limit=0 data_index | outputlookup trackme_data_source_monitoring_whitelist_index";
+            var searchQuery = "| inputlookup trackme_data_source_monitoring_whitelist_index | append [ | makeresults | eval data_index=\"" + tk_add_new_item + "\"] | dedup data_index | sort limit=0 data_index | outputlookup trackme_data_source_monitoring_whitelist_index";
 
             // Set the search parameters--specify a time range
             var searchParams = {
@@ -25782,7 +26247,7 @@ require([
                 latest_time: "now"
             };
 
-            if (tk_input_whitelist_data_source && tk_input_whitelist_data_source.length) {
+            if (tk_add_new_item && tk_add_new_item.length) {
 
                 // Run a blocking search and get back a job
                 service.search(
@@ -25795,9 +26260,9 @@ require([
                             // Audit
                             action = "failure";
                             change_type = "add allowlist index";
-                            object = tk_input_whitelist_data_source;
+                            object = tk_add_new_item;
                             object_category = "data_source";
-                            object_attrs = "{" + "\"data_index\": \"" + tk_input_whitelist_data_source + "\"}";
+                            object_attrs = "{" + "\"data_index\": \"" + tk_add_new_item + "\"}";
                             result = "N/A";
                             comment = "N/A";
                             auditRecord(action, change_type, object, object_category, object_attrs, result, comment);
@@ -25828,6 +26293,7 @@ require([
                                     searchDataSourcesMain.startSearch();
                                     searchPopulateIndexesForWhiteListDataSource.startSearch();
                                     unsetToken("form.tk_input_whitelist_data_source");
+                                    unsetToken("form.tk_textinput_whitelist_data_source");
 
                                     // notify
                                     notification('Modification has been registered successfully.', 2000)
@@ -25835,9 +26301,9 @@ require([
                                     // Audit
                                     action = "success";
                                     change_type = "add allowlist index";
-                                    object = tk_input_whitelist_data_source;
+                                    object = tk_add_new_item;
                                     object_category = "data_source";
-                                    object_attrs = "{" + "\"data_index\": \"" + tk_input_whitelist_data_source + "\"}";
+                                    object_attrs = "{" + "\"data_index\": \"" + tk_add_new_item + "\"}";
                                     result = "N/A";
                                     comment = "N/A";
                                     auditRecord(action, change_type, object, object_category, object_attrs, result, comment);
@@ -26022,13 +26488,26 @@ require([
             // When the Submit button is clicked, get all the form fields by accessing token values
             var tk_input_whitelist_metric_host = tokens.get("tk_input_whitelist_metric_host");
 
+            // When the Submit button is clicked, get all the form fields by accessing token values
+            var tk_textinput_whitelist_metric_host = tokens.get("tk_textinput_whitelist_metric_host");
+            //console.log("tk_textinput_whitelist_metric_host is: " + tk_textinput_whitelist_metric_host);
+
+            // choose
+            var tk_add_new_item
+            if (tk_textinput_whitelist_metric_host && tk_textinput_whitelist_metric_host.length) {
+                tk_add_new_item = tk_textinput_whitelist_metric_host;
+            }
+            else {
+                tk_add_new_item = tk_input_whitelist_metric_host;                
+            }
+
             // Create the endpoint URL
             var myendpoint_URl = "{{SPLUNKWEB_URL_PREFIX}}/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_metric_host_monitoring_whitelist_index";
 
             //console.log("Endpoint URL is: " + myendpoint_URl);
 
             // Define the query
-            var searchQuery = "| inputlookup trackme_metric_host_monitoring_whitelist_index | append [ | makeresults | eval metric_index=\"" + tk_input_whitelist_metric_host + "\"] | dedup metric_index | sort limit=0 metric_index | outputlookup trackme_metric_host_monitoring_whitelist_index";
+            var searchQuery = "| inputlookup trackme_metric_host_monitoring_whitelist_index | append [ | makeresults | eval metric_index=\"" + tk_add_new_item + "\"] | dedup metric_index | sort limit=0 metric_index | outputlookup trackme_metric_host_monitoring_whitelist_index";
 
             // Set the search parameters--specify a time range
             var searchParams = {
@@ -26036,7 +26515,7 @@ require([
                 latest_time: "now"
             };
 
-            if (tk_input_whitelist_metric_host && tk_input_whitelist_metric_host.length) {
+            if (tk_add_new_item && tk_add_new_item.length) {
 
                 // Run a blocking search and get back a job
                 service.search(
@@ -26049,9 +26528,9 @@ require([
                             // Audit
                             action = "failure";
                             change_type = "add allowlist index";
-                            object = tk_input_whitelist_metric_host;
+                            object = tk_add_new_item;
                             object_category = "metric_host";
-                            object_attrs = "{" + "\"metric_index\": \"" + tk_input_whitelist_metric_host + "\"}";
+                            object_attrs = "{" + "\"metric_index\": \"" + tk_add_new_item + "\"}";
                             result = "N/A";
                             comment = "N/A";
                             auditRecord(action, change_type, object, object_category, object_attrs, result, comment);
@@ -26082,6 +26561,7 @@ require([
                                     searchSingleWhiteListMetricHost.startSearch();
                                     searchMetricHostsMain.startSearch();
                                     unsetToken("form.tk_input_whitelist_metric_host");
+                                    unsetToken("form.tk_textinput_whitelist_metric_host");
 
                                     // notify
                                     notification('Modification has been registered successfully.', 2000)
@@ -26089,9 +26569,9 @@ require([
                                     // Audit
                                     action = "success";
                                     change_type = "add allowlist index";
-                                    object = tk_input_whitelist_metric_host;
+                                    object = tk_add_new_item;
                                     object_category = "metric_host";
-                                    object_attrs = "{" + "\"metric_index\": \"" + tk_input_whitelist_metric_host + "\"}";
+                                    object_attrs = "{" + "\"metric_index\": \"" + tk_add_new_item + "\"}";
                                     result = "N/A";
                                     comment = "N/A";
                                     auditRecord(action, change_type, object, object_category, object_attrs, result, comment);
@@ -26276,13 +26756,26 @@ require([
             // When the Submit button is clicked, get all the form fields by accessing token values
             var tk_input_whitelist_data_host = tokens.get("tk_input_whitelist_data_host");
 
+            // When the Submit button is clicked, get all the form fields by accessing token values
+            var tk_textinput_whitelist_data_host = tokens.get("tk_textinput_whitelist_data_host");
+            //console.log("tk_textinput_whitelist_data_host is: " + tk_textinput_whitelist_data_host);
+
+            // choose
+            var tk_add_new_item
+            if (tk_textinput_whitelist_data_host && tk_textinput_whitelist_data_host.length) {
+                tk_add_new_item = tk_textinput_whitelist_data_host;
+            }
+            else {
+                tk_add_new_item = tk_input_whitelist_data_host;                
+            }
+            
             // Create the endpoint URL
             var myendpoint_URl = "{{SPLUNKWEB_URL_PREFIX}}/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_data_host_monitoring_whitelist_index";
 
             //console.log("Endpoint URL is: " + myendpoint_URl);
 
             // Define the query
-            var searchQuery = "| inputlookup trackme_data_host_monitoring_whitelist_index | append [ | makeresults | eval data_index=\"" + tk_input_whitelist_data_host + "\"] | dedup data_index | sort limit=0 data_index | outputlookup trackme_data_host_monitoring_whitelist_index";
+            var searchQuery = "| inputlookup trackme_data_host_monitoring_whitelist_index | append [ | makeresults | eval data_index=\"" + tk_add_new_item + "\"] | dedup data_index | sort limit=0 data_index | outputlookup trackme_data_host_monitoring_whitelist_index";
 
             // Set the search parameters--specify a time range
             var searchParams = {
@@ -26290,7 +26783,7 @@ require([
                 latest_time: "now"
             };
 
-            if (tk_input_whitelist_data_host && tk_input_whitelist_data_host.length) {
+            if (tk_add_new_item && tk_add_new_item.length) {
 
                 // Run a blocking search and get back a job
                 service.search(
@@ -26303,9 +26796,9 @@ require([
                             // Audit
                             action = "failure";
                             change_type = "add allowlist host";
-                            object = tk_input_whitelist_data_host;
+                            object = tk_add_new_item;
                             object_category = "data_host";
-                            object_attrs = "{" + "\"data_host\": \"" + tk_input_whitelist_data_host + "\"}";
+                            object_attrs = "{" + "\"data_host\": \"" + tk_add_new_item + "\"}";
                             result = "N/A";
                             comment = "N/A";
                             auditRecord(action, change_type, object, object_category, object_attrs, result, comment);
@@ -26336,6 +26829,7 @@ require([
                                     searchDataHostsMain.startSearch();
                                     searchPopulateIndexesForWhiteListDataHost.startSearch();
                                     unsetToken("form.tk_input_whitelist_data_host");
+                                    unsetToken("form.tk_textinput_whitelist_data_host");
 
                                     // notify
                                     notification('Modification has been registered successfully.', 2000)
@@ -26343,9 +26837,9 @@ require([
                                     // Audit
                                     action = "success";
                                     change_type = "add allowlist host";
-                                    object = tk_input_whitelist_data_host;
+                                    object = tk_add_new_item;
                                     object_category = "data_host";
-                                    object_attrs = "{" + "\"data_host\": \"" + tk_input_whitelist_data_host + "\"}";
+                                    object_attrs = "{" + "\"data_host\": \"" + tk_add_new_item + "\"}";
                                     result = "N/A";
                                     comment = "N/A";
                                     auditRecord(action, change_type, object, object_category, object_attrs, result, comment);
@@ -30075,7 +30569,7 @@ require([
             var tk_multi_table_array = tokens.get("removeElasticSourceDedicated");
             //console.log("tk_multi_table_array is: " + tk_multi_table_array);
             tk_multi_table_array = tk_multi_table_array.split(',');
-            console.log("tk_multi_table_array is: " + tk_multi_table_array);
+            //console.log("tk_multi_table_array is: " + tk_multi_table_array);
 
             // Retrieve update comment if any
             var tk_comment = document.getElementById("elastic_source_dedicated_delete_comment").value;
@@ -36895,6 +37389,7 @@ require([
                         updateDataSourceEntity(tk_data_name, tk_data_index, tk_data_sourcetype);
 
                         searchSingleLag.startSearch();
+                        searchSingleByMetricsLag.startSearch();
                         searchChartLag.startSearch();
                         searchSingleSLApct.startSearch();
                         searchOutlierDetectionChart.startSearch();
@@ -38481,6 +38976,7 @@ require([
                         updateDataHostEntity("trackme_datahost_tracker_shorterm", tk_data_host);
 
                         searchSingleLagHost.startSearch();
+                        searchSingleLagByMetricsHost.startSearch();
                         searchChartHostBaseSearch.startSearch();
                         searchChartLagHostOverTime.startSearch();
                         searchSingleSLAHostpct.startSearch();
