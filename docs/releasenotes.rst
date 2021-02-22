@@ -15,7 +15,7 @@ This is a new main release branch, TrackMe 1.2.x requires the deployment of the 
 TrackMe requires a summary index (defaults to trackme_summary) and a metric index (defaults to trackme_metrics):
 https://trackme.readthedocs.io/en/latest/configuration.html
 
-- Feature - Issue #249 - CRIBL native integration - provides a natural integration with Cribl
+- Feature - Issue #249 - CRIBL native integration - TrackMe can now be configured to be transparently reliying on the Cribl pipeline concept to discover and track data sources based on the cirbl_pipe to provide an easy and performing integration
 - Feature - Issue #250 - new blocklisting capabilities based on the data_name for data sources
 - Feature - Issue #254 - Data Sampling - The new Data Sampling obfuscation mode allows preventing unwanted data accesses to the collection by obfuscating samples at the processing step instead of storing samples within the KVstore collection
 - Feature - Issue #253 - Splunk Infrastructure Monitoring, Splunk instances are now monitored automatically in the data hosts tracking via the splunkd sourcetype, this behaviour can be enabled/disabled on demand via the configuration UI
