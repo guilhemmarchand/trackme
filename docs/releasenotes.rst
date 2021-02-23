@@ -28,6 +28,7 @@ https://trackme.readthedocs.io/en/latest/configuration.html
 - Fix - Issue #245 - SLA & QOS - Inconsistency in the calculations using stats range function, replaced with a streamstats based approach for accurate calculations
 - Fix - Issue #246 - Data sources - misleading status message for data sources ingesting data in the future due to bad TZ
 - Fix - Issue #256 - host blocking list based on regex does not work properly
+- Fix - Issue #261 - SLA reporting should honour allow and block lists for each category
 
 Version 1.2.34
 ==============

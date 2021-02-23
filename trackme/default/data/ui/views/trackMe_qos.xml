@@ -1,6 +1,6 @@
 <form>
   <label>TrackMe - Quality Of Service Auditing - SLA compliance reporting</label>
-  <description>The SLA percentage represents the percentage of time an object has spent in green state, which complies with monitoring rules and quality of service</description>
+  <description>The SLA percentage represents the percentage of time an object has spent in green state, which complies with monitoring rules and quality of service (list of objects are refreshed every 4 hours via the job TrackMe - gen object summary per object_category and stored into the lookup kv_trackme_objects_summary)</description>
 
   <search id="baseSearch">
     <query>`trackme_get_sla($object_category$,$object$,$object_freetext$,$priority$)`</query>
