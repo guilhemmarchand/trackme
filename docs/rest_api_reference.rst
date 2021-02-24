@@ -43,6 +43,8 @@ These resource groups are accessible by specific endpoint paths as following:
 +----------------------------------------------+----------------------------------------------+
 | :ref:`Backup and Restore endpoints`          | /services/trackme/v1/backup_and_restore      |
 +----------------------------------------------+----------------------------------------------+
+| :ref:`Identity Cards endpoints`              | /services/trackme/v1/identity_cards          |
++----------------------------------------------+----------------------------------------------+
 
 These endpoints can be used to interract with TrackMe in a programmatic fashion, for instance to perform integration tasks with automation systems.
 
@@ -2653,6 +2655,8 @@ Block list endpoints
 +---------------------------------------------------------------------------------------------------+-----------------------------------------------------------------+
 | :ref:`blocklist_ds_sourcetype / Get current block list for data sources (sourcetype)`             | /services/trackme/v1/blocklist/blocklist_ds_sourcetype          |
 +---------------------------------------------------------------------------------------------------+-----------------------------------------------------------------+
+| :ref:`blocklist_ds_data_name / Get current block list for data names (data_name)`                 | /services/trackme/v1/blocklist/blocklist_ds_data_name           |
++---------------------------------------------------------------------------------------------------+-----------------------------------------------------------------+
 | :ref:`blocklist_dh_host / Get current block list for data hosts (hosts)`                          | /services/trackme/v1/blocklist/blocklist_dh_host                |
 +---------------------------------------------------------------------------------------------------+-----------------------------------------------------------------+
 | :ref:`blocklist_dh_index / Get current block list for data hosts (index)`                         | /services/trackme/v1/blocklist/blocklist_dh_index               |
@@ -2669,7 +2673,9 @@ Block list endpoints
 +---------------------------------------------------------------------------------------------------+-----------------------------------------------------------------+
 | :ref:`blocklist_ds_index_add / Add index in block list for data sources`                          | /services/trackme/v1/blocklist/blocklist_ds_index_add           |
 +---------------------------------------------------------------------------------------------------+-----------------------------------------------------------------+
-| :ref:`blocklist_ds_index_add / Add sourcetype in block list for data sources`                     | /services/trackme/v1/blocklist/blocklist_ds_sourcetype_add      |
+| :ref:`blocklist_ds_sourcetype_add / Add sourcetype in block list for data sources`                | /services/trackme/v1/blocklist/blocklist_ds_sourcetype_add      |
++---------------------------------------------------------------------------------------------------+-----------------------------------------------------------------+
+| :ref:`blocklist_ds_data_name_add / Add data name in block list for data sources`                  | /services/trackme/v1/blocklist/blocklist_ds_data_name_add       |
 +---------------------------------------------------------------------------------------------------+-----------------------------------------------------------------+
 | :ref:`blocklist_dh_host_add / Add host in block list for data hosts`                              | /services/trackme/v1/blocklist/blocklist_dh_host_add            |
 +---------------------------------------------------------------------------------------------------+-----------------------------------------------------------------+
@@ -2688,6 +2694,8 @@ Block list endpoints
 | :ref:`blocklist_ds_index_del / Delete index in block list for data sources`                       | /services/trackme/v1/blocklist/blocklist_ds_index_del           |
 +---------------------------------------------------------------------------------------------------+-----------------------------------------------------------------+
 | :ref:`blocklist_ds_sourcetype_del / Delete sourcetype in block list for data sources`             | /services/trackme/v1/blocklist/blocklist_ds_sourcetype_del      |
++---------------------------------------------------------------------------------------------------+-----------------------------------------------------------------+
+| :ref:`blocklist_ds_data_name_del / Delete data name in block list for data sources`               | /services/trackme/v1/blocklist/blocklist_ds_data_name_del       |
 +---------------------------------------------------------------------------------------------------+-----------------------------------------------------------------+
 | :ref:`blocklist_dh_host_del / Delete host in block list for data hosts`                           | /services/trackme/v1/blocklist/blocklist_dh_host_del            |
 +---------------------------------------------------------------------------------------------------+-----------------------------------------------------------------+
@@ -2793,6 +2801,36 @@ blocklist_ds_sourcetype / Get current block list for data sources (sourcetype)
       "_time": "1607890661", 
       "_key": "5fd676e5ba5afb1f305fe552"
      }
+    ]
+
+blocklist_ds_data_name / Get current block list for data names (data_name)
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+**This endpoint retrieves the current block list collection returned as a JSON array, it requires a GET call with no data required:**
+
+*External:*
+
+::
+
+    curl -k -u admin:'ch@ngeM3' -X GET https://localhost:8089/services/trackme/v1/blocklist/blocklist_ds_data_name
+
+*SPL query:*
+
+::
+
+    | trackme url="/services/trackme/v1/blocklist/blocklist_ds_data_name" mode="get"
+
+*JSON response: (full collection)*
+
+::
+
+    [
+      {
+        "data_name": ".*cribl:splunk_reduce_metadata",
+        "data_blacklist_state": "true",
+        "_user": "nobody",
+        "_key": "602e37bac436b3754709064b"
+      }
     ]
 
 blocklist_dh_host / Get current block list for data hosts (hosts)
@@ -3047,8 +3085,8 @@ blocklist_ds_index_add / Add index in block list for data sources
      }
     ]
 
-blocklist_ds_index_add / Add sourcetype in block list for data sources
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+blocklist_ds_sourcetype_add / Add sourcetype in block list for data sources
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 **This endpoint adds a new record returned as a JSON array, it requires a POST call with no data required:**
 
@@ -3079,6 +3117,38 @@ blocklist_ds_index_add / Add sourcetype in block list for data sources
       "_key": "5fd69d8b91a48072a339d0bf"
      }
     ]
+
+blocklist_ds_data_name_add / Add data name in block list for data sources
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+**This endpoint adds a new record returned as a JSON array, it requires a POST call with no data required:**
+
+- ``"data_name": value to be added to the blocklist, accepts wildcards and regular expressions``
+- ``"update_comment": OPTIONAL: a comment for the update, comments are added to the audit record, if unset will be defined to: API update``
+
+*External:*
+
+::
+
+    curl -k -u admin:'ch@ngeM3' -X POST https://localhost:8089/services/trackme/v1/blocklist/blocklist_ds_data_name_add -d '{"data_name": ".*cribl:splunk_reduce_metadata", "update_comment": "Updated by automation."}'
+
+*SPL query:*
+
+::
+
+    | trackme url="/services/trackme/v1/blocklist/blocklist_ds_data_name_add" mode="post" body="{\"data_name\": \".*cribl:splunk_reduce_metadata\", \"update_comment\": \"Updated by automation.\"}"
+
+*JSON response:*
+
+::
+
+    {
+    "_time": "1613617055",
+    "data_blacklist_state": "true",
+    "data_name": ".*cribl:splunk_reduce_metadata",
+    "_user": "nobody",
+    "_key": "602dd79f6305d730c367c461"
+    }
 
 blocklist_dh_host_add / Add host in block list for data hosts
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -3356,6 +3426,32 @@ blocklist_ds_sourcetype_del / Delete sourcetype in block list for data sources
 
     Record with _key 5fd69d8b91a48072a339d0bf was deleted from the collection.
 
+blocklist_ds_data_name_del / Delete data name in block list for data sources
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+**This endpoint deletes an existing record returned as a JSON array, it requires a DELETE call with the following arguments:**
+
+- ``"data_name": value to be removed from the collection``
+- ``"update_comment": OPTIONAL: a comment for the update, comments are added to the audit record, if unset will be defined to: API update``
+
+*External:*
+
+::
+
+    curl -k -u admin:'ch@ngeM3' -X DELETE https://localhost:8089/services/trackme/v1/blocklist/blocklist_ds_data_name_del -d '{"data_name": ".*cribl:splunk_reduce_metadata", "update_comment": "Updated by automation."}'
+
+*SPL query:*
+
+::
+
+    | trackme url="/services/trackme/v1/blocklist/blocklist_ds_data_name_del" mode="delete" body="{\"data_name\": \".*cribl:splunk_reduce_metadata\", \"update_comment\": \"Updated by automation.\"}"
+
+*response:*
+
+::
+
+    Record with _key 602e37bac436b3754709064b was deleted from the collection.
+
 blocklist_dh_host_del / Delete host in block list for data hosts
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
@@ -3571,7 +3667,7 @@ logical_groups_collection / Get entire logical groups collection
 logical_groups_get_grp / Get a logical group
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-**This endpoint retrieve a specific logial group record, it requires a GET call with the following information:**
+**This endpoint retrieve a specific logical group record, it requires a GET call with the following information:**
 
 - ``"object_group_name": name of the logical group``
 
@@ -4656,3 +4752,275 @@ The archive file to be restoring from, the tarball compressed file must be locat
 ::
 
     { "backup_archive": "/opt/splunk/etc/apps/trackme/backup/trackme-backup-20210205-142635.tgz", "status": "restore is now complete, please reload TrackMe","collections_files_restored": "['kv_trackme_data_source_monitoring_blacklist_sourcetype.json', 'kv_trackme_maintenance_mode.json', 'kv_trackme_data_host_monitoring_blacklist_host.json', 'kv_trackme_tags_policies.json', 'kv_trackme_metric_lagging_definition.json', 'kv_trackme_data_sampling.json', 'kv_trackme_data_source_monitoring_blacklist_index.json', 'kv_trackme_custom_lagging_definition.json', 'kv_trackme_summary_investigator_volume_outliers.json', 'kv_trackme_host_monitoring.json', 'kv_trackme_data_sampling_custom_models.json', 'kv_trackme_logical_group.json', 'kv_trackme_elastic_sources.json', 'kv_trackme_data_source_monitoring.json', 'kv_trackme_metric_host_monitoring.json', 'kv_trackme_data_source_monitoring_blacklist_host.json', 'kv_trackme_metric_host_monitoring_blacklist_host.json', 'kv_trackme_metric_host_monitoring_blacklist_metric_category.json', 'kv_trackme_data_host_monitoring_blacklist_sourcetype.json', 'kv_trackme_audit_changes.json', 'kv_trackme_metric_host_monitoring_blacklist_index.json', 'kv_trackme_data_host_monitoring_blacklist_index.json', 'kv_trackme_elastic_sources_dedicated.json']"}
+
+Identity Cards endpoints
+------------------------
+
+**Resources summary:**
+
++---------------------------------------------------------------------------------------------------+------------------------------------------------------------------------------+
+| Resource                                                                                          | API Path                                                                     | 
++===================================================================================================+==============================================================================+
+| :ref:`identity_cards_collection / Get entire identity cards collection`                           | /services/trackme/v1/identity_cards/identity_cards_collection                |
++---------------------------------------------------------------------------------------------------+------------------------------------------------------------------------------+
+| :ref:`identity_cards_get_card / Get an identity card`                                             | /services/trackme/v1/identity_cards/identity_cards_get_card                  |
++---------------------------------------------------------------------------------------------------+------------------------------------------------------------------------------+
+| :ref:`identity_cards_get_card_by_doc_link / Get an identity card for a doc_link`                  | /services/trackme/v1/identity_cards/identity_cards_get_card_by_doc_link      |
++---------------------------------------------------------------------------------------------------+------------------------------------------------------------------------------+
+| :ref:`identity_cards_add_card / Add an identity card`                                             | /services/trackme/v1/identity_cards/identity_cards_add_card                  |
++---------------------------------------------------------------------------------------------------+------------------------------------------------------------------------------+
+| :ref:`identity_cards_associate_card / Associate an existing card with an object`                  | /services/trackme/v1/identity_cards/identity_cards_associate_card            |
++---------------------------------------------------------------------------------------------------+------------------------------------------------------------------------------+
+| :ref:`identity_cards_unassociate / Unassociate identity card from an object`                      | /services/trackme/v1/identity_cards/identity_cards_unassociate               |
++---------------------------------------------------------------------------------------------------+------------------------------------------------------------------------------+
+| :ref:`identity_cards_delete_card / Remove an identity card`                                       | /services/trackme/v1/identity_cards/identity_cards_delete_card               |
++---------------------------------------------------------------------------------------------------+------------------------------------------------------------------------------+
+
+identity_cards_collection / Get entire identity cards collection
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+**This endpoint retrieves the entire Identity Cards collection returned as a JSON array, it requires a GET call with no data required:**
+
+*External:*
+
+::
+
+    curl -k -u admin:'ch@ngeM3' -X GET https://localhost:8089/services/trackme/v1/identity_cards_collection/identity_cards_collection
+
+*SPL query:*
+
+::
+
+    | trackme url="/services/trackme/v1/identity_cards/identity_cards_collection" mode="get"
+
+*JSON response:*
+
+::
+
+    [
+      {
+        "doc_link": "https://www.acme.com/splunkadmin",
+        "doc_note": "Read the docs.",
+        "object": [
+          "linux_amer:linux_secure",
+          "linux_apac:linux_secure"
+        ],
+        "_user": "nobody",
+        "_key": "60322369c93844004074efa1"
+      }
+    ]
+
+identity_cards_get_card / Get an identity card
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+**This endpoint retrieves the identity card linked to a specific data source, it requires a GET call with the following information:**
+
+- ``object``: name of the data source
+
+*External:*
+
+::
+
+    curl -k -u admin:'ch@ngeM3' -X GET https://localhost:8089/services/trackme/v1/identity_cards_collection/identity_cards_get_card -d '{"object": "linux_amer:linux_secure"}'
+
+*SPL query:*
+
+::
+
+    | trackme url="/services/trackme/v1/identity_cards/identity_cards_collection" mode="get" body="{\"object\": \"linux_amer:linux_secure\"}"
+
+*JSON response:*
+
+::
+
+    {
+      "doc_link": "https://www.acme.com/splunkadmin",
+      "doc_note": "Read the docs.",
+      "object": [
+        "linux_amer:linux_secure",
+        "linux_apac:linux_secure"
+      ],
+      "_user": "nobody",
+      "_key": "60322369c93844004074efa1"
+    }
+
+identity_cards_get_card_by_doc_link / Get an identity card for a doc_link
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+**This endpoint retrieves the identity card by the doc_link value, it requires a GET call with the following information:**
+
+- ``doc_link``: name of the data source
+
+*External:*
+
+::
+
+    curl -k -u admin:'ch@ngeM3' -X GET https://localhost:8089/services/trackme/v1/identity_cards_collection/identity_cards_get_card_by_doc_link -d '{"doc_link": "https://www.acme.com/splunkadmin"}'
+
+*SPL query:*
+
+::
+
+    | trackme url="/services/trackme/v1/identity_cards/identity_cards_get_card_by_doc_link" mode="get" body="{\"doc_link\": \"https://www.acme.com/splunkadmin\"}"
+
+*JSON response:*
+
+::
+
+    {
+      "doc_link": "https://www.acme.com/splunkadmin",
+      "doc_note": "Read the docs.",
+      "object": [
+        "linux_amer:linux_secure",
+        "linux_apac:linux_secure"
+      ],
+      "_user": "nobody",
+      "_key": "60322369c93844004074efa1"
+    }
+
+identity_cards_add_card / Add an identity card
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+**This endpoint creates a new identity card that can later on be associated with one or more data sources (if the card based on the doc_link does not exist it is created, if the card exists already, the doc_link and doc_note are updated and the definition of object is preserved), it requires a POST call with the following data required:**
+ 
+- ``doc_link``: "documentation link, this will be made available in the source identity card"
+- ``doc_note``: "OPTIONAL: documentation note"
+- ``"update_comment": OPTIONAL: a comment for the update, comments are added to the audit record, if unset will be defined to: API update``
+
+*External:*
+
+::
+
+    curl -k -u admin:'ch@ngeM3' -X POST https://localhost:8089/services/trackme/v1/identity_cards_collection/identity_cards_add_card -d '{"doc_link": "https://www.acme.com/splunkadmin", "doc_note": "Read the docs."}'
+
+*SPL query:*
+
+::
+
+    | trackme url="/services/trackme/v1/identity_cards/identity_cards_add_card" mode="post" body="{\"doc_link\": \"https://www.acme.com/splunkadmin\", \"doc_note\": \"Read the docs.\"}"
+
+*JSON response if the card is new and there are no object linked to it:*
+
+::
+
+    {
+      "object": "",
+      "doc_link": "https://www.acme.com/splunkadmin",
+      "doc_note": "Read the docs.",
+      "_user": "nobody",
+      "_key": "60323c1d4f7ac770050f4a78"
+    }
+
+*JSON response if the card exists already and there are one or more objects (data sources) linked to it:*
+
+::
+
+    {
+      "object": [
+      "linux_amer:linux_secure",
+      "linux_apac:linux_secure"
+      ],
+      "doc_link": "https://www.acme.com/splunkadmin",
+      "doc_note": "Read the docs.",
+      "_user": "nobody",
+      "_key": "60323e6c4f7ac770050f4aec"
+    }
+
+identity_cards_associate_card / Associate an existing card with an object
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+**This endpoint associates an existing identity card with a data source (if there are data sources associated with this card already, the list of data sources is preserved and the data source to be associated is added to the list), it requires a POST call with the following data required:**
+
+- ``object``: the data source name to be associated with this card
+- ``key``: the KVstore unique key for this identity card
+- ``"update_comment": OPTIONAL: a comment for the update, comments are added to the audit record, if unset will be defined to: API update``
+
+*External:*
+
+::
+
+    curl -k -u admin:'ch@ngeM3' -X POST https://localhost:8089/services/trackme/v1/identity_cards/identity_cards_associate_card -d '{"key": "60327fd8af39041f28403191", "object": "linux_apac:linux_secure"}'
+
+*SPL query:*
+
+::
+
+    | trackme url="/services/trackme/v1/identity_cards/identity_cards_associate_card" mode="post" body="{\"key\": \"60327fd8af39041f28403191\", \"object\": \"linux_apac:linux_secure\"}"
+
+*JSON response :*
+
+::
+
+    {
+      "object": [
+        "linux_amer:linux_secure",
+        "linux_apac:linux_secure"
+        ],
+      "doc_link": "https://www.acme.com/splunkadmin",
+      "doc_note": "Read the docs.",
+      "_user": "nobody",
+      "_key": "60327fd8af39041f28403191"
+    }
+
+identity_cards_unassociate / Unassociate identity card from an object
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+**This endpoint unassociates the identity card for an object (data source), it requires a POST call with the following data required:**
+
+- ``object``: the object name (data source) to remove association for
+- ``"update_comment": OPTIONAL: a comment for the update, comments are added to the audit record, if unset will be defined to: API update``
+
+*External:*
+
+::
+
+    curl -k -u admin:'ch@ngeM3' -X POST https://localhost:8089/services/trackme/v1/identity_cards/identity_cards_unassociate -d '{"object": "linux_apac:linux_secure"}'
+
+*SPL query:*
+
+::
+
+    | trackme url="/services/trackme/v1/identity_cards/identity_cards_unassociate" mode="post" body="{\"object\": \"linux_apac:linux_secure\"}"
+
+*JSON response if association removal is performed:*
+
+::
+
+    {
+        "response": "object linux_apac:linux_secure has been unassociated from identity card record key: 60327fd8af39041f28403191"
+    }
+
+*JSON response if there is no association to be removed:*
+
+::
+
+    {
+        "response": "object linux_apac:linux_secure already has no identity card association."
+
+    }
+
+identity_cards_delete_card / Remove an identity card
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+**This endpoint deletes an idenfity card by the Kvstore key, it requires a DELETE call with the following informatio:**
+
+- ``key``: KVstore unique identifier for this record
+- ``"update_comment": OPTIONAL: a comment for the update, comments are added to the audit record, if unset will be defined to: API update``
+
+*External:*
+
+::
+
+    curl -k -u admin:'ch@ngeM3' -X POST https://localhost:8089/services/trackme/v1/identity_cards/identity_cards_delete_card -d '{"key": "60327fd8af39041f28403191"}'
+
+*SPL query:*
+
+::
+
+    | trackme url="/services/trackme/v1/identity_cards/identity_cards_delete_card" mode="delete" body="{\"key\": \"60327fd8af39041f28403191\"}"
+
+*response:*
+
+::
+
+    Record with _key 6032a59c7e8f2844dd3b553e was deleted from the collection.

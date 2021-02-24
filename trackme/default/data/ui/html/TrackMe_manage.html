@@ -1155,7 +1155,7 @@ styles in <div> tags, similar to Bootstrap's grid system.
     </div>
 
     <div id="rowManageDataSourceMode1" class="dashboard-row dashboard-row_maintenance">
-        <div id="rowManageDataSourceMode2" class="dashboard-cell" style="width: 50%;">
+        <div id="panelManageDataSourceMode1" class="dashboard-cell" style="width: 33%;">
             <div class="dashboard-panel clearfix">
                 <h2 class="panel-title"></h2>
                 <div class="fieldset" style="text-align: center;">
@@ -1165,12 +1165,22 @@ styles in <div> tags, similar to Bootstrap's grid system.
                 </div>
             </div>
         </div>
-        <div id="rowManageDataSourceMode3" class="dashboard-cell" style="width: 50%;">
-            <div class="dashboard-panel clearfix">
+        <div id="rowManageDataSourceMode2" class="dashboard-cell" style="width: 33%;">
+            <div id="panelManageDataSourceMode2" class="dashboard-panel clearfix">
                 <h2 class="panel-title"></h2>
                 <div class="fieldset" style="text-align: center;">
                     <div class="form-submit" id="btn_data_source_merged_mode">
                         <button id="btn_enable_data_source_merged_mode" class="btn btn-primary submit">Enable merged mode</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="rowManageDataSourceMode3" class="dashboard-cell" style="width: 33%;">
+            <div id="panelManageDataSourceMode3" class="dashboard-panel clearfix">
+                <h2 class="panel-title"></h2>
+                <div class="fieldset" style="text-align: center;">
+                    <div class="form-submit" id="btn_data_source_merged_mode">
+                        <button id="btn_enable_data_source_cribl_mode" class="btn btn-primary submit">Enable CRIBL mode</button>
                     </div>
                 </div>
             </div>
@@ -1226,6 +1236,54 @@ styles in <div> tags, similar to Bootstrap's grid system.
         </div>
     </div>
 
+    <div id="rowManageDataHostMonitorSplunk" class="dashboard-row dashboard-rowManageResetInfo">
+        <div id="panelManageDDataHostMonitorSplunk" class="dashboard-cell" style="width: 100%;">
+            <div class="dashboard-panel clearfix">
+                <div class="panel-element-row">
+                    <div id="elementDataHostMonitorSplunkg" class="dashboard-element html" style="width: 100%">
+                        <div class="panel-body html">
+                            <div style="text-align: center; border: 3px dashed #ccc;">
+                                <div style="display: inline-flex; align-items: center; margin-top: 5px;">
+                                    <span style="font-size: 22px; font-weight: bold; color: #6495ed; margin-top: 5px;">DATA HOST MONITOR SPLUNK</span>
+                                </div>
+                                <div>
+                                    <h2>The default behaviour is to track Splunk instances activity via the Splunk internal data (index=_internal sourcetype=splunkd) in the same way we track any other types of sourcetype made accessible to TrackMe.<br />
+                                    This behaviour came live with TrackMe 1.2.35, and can be disabled bellow if you do not want to track Splunk instances as part of the data host tracking workflow:
+                                    </h2>
+                                </div>
+                            </div>
+                            <div class="boxnotify" id="boxnotify-data-host-alerting-policy">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="rowManageDataHostMonitorSplunk1" class="dashboard-row dashboard-row_maintenance">
+        <div id="rowManageDataHostMonitorSplunk2" class="dashboard-cell" style="width: 50%;">
+            <div class="dashboard-panel clearfix">
+                <h2 class="panel-title"></h2>
+                <div class="fieldset" style="text-align: center;">
+                    <div class="form-submit" id="btn_host_policy_track_per_host">
+                        <button id="btn_enable_data_host_splunkd" class="btn btn-primary submit">Enable Splunk monitoring</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="rowManageDataHostMonitorSplunk3" class="dashboard-cell" style="width: 50%;">
+            <div class="dashboard-panel clearfix">
+                <h2 class="panel-title"></h2>
+                <div class="fieldset" style="text-align: center;">
+                    <div class="form-submit" id="btn_host_policy_track_per_sourcetype">
+                        <button id="btn_disable_data_host_splunkd" class="btn btn-primary submit">Disable Splunk monitoring</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <div id="rowManageDataSampling" class="dashboard-row dashboard-rowManageResetInfo">
         <div id="panelManageDataSampling" class="dashboard-cell" style="width: 100%;">
             <div class="dashboard-panel clearfix">
@@ -1237,10 +1295,36 @@ styles in <div> tags, similar to Bootstrap's grid system.
                                     <span style="font-size: 22px; font-weight: bold; color: #6495ed; margin-top: 5px;">DATA SAMPLING &amp; EVENTS FORMAT RECOGNITION</span>
                                 </div>
                                 <div>
-                                    <h2>The data sampling &amp; format recognition allows to automatically monitor raw events formats changes and misbehaviour. These macros can be customised to adjust some of the feature configuration:</h2>
+                                    <h2>The data sampling &amp; format recognition allows to automatically monitor raw events formats changes and misbehaviour. 
+                                        <br />The default data sampling mode stores samples of indexed events in clear text format within the KVstore collection.
+                                        <br />You can optionnally decide to obfuscate these samples during the data sampling engine execution to avoid unwanted data access.     
+                                        <br />In addition, there are different macros that can be customised to adjust some of the feature configuration.</h2>
                                 </div>
                             </div>
                         </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="rowManageDataSamplingObfuscation1" class="dashboard-row dashboard-row_maintenance">
+        <div id="panelManageDataSamplingObfuscation1" class="dashboard-cell" style="width: 50%;">
+            <div class="dashboard-panel clearfix">
+                <h2 class="panel-title"></h2>
+                <div class="fieldset" style="text-align: center;">
+                    <div class="form-submit" id="btn_submit_data_sampling_obfuscate_enable">
+                        <button id="btn_data_sampling_obfuscate_enable" class="btn btn-primary submit">Enable Data Sampling obfuscation mode</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="panelManageDataSamplingObfuscation2" class="dashboard-cell" style="width: 50%;">
+            <div class="dashboard-panel clearfix">
+                <h2 class="panel-title"></h2>
+                <div class="fieldset" style="text-align: center;">
+                    <div class="form-submit" id="btn_submit_data_sampling_obfuscate_disable">
+                        <button id="btn_data_sampling_obfuscate_disable" class="btn btn-primary submit">Disable Data Sampling obfuscation mode</button>
                     </div>
                 </div>
             </div>
@@ -3083,6 +3167,330 @@ require([
         // get current status
         get_data_host_alerting_policy();
 
+        //
+        // data sampling obfuscation mode
+        //
+
+        // Get current mode
+        function get_data_sampling_obfuscation_mode() {
+
+            // Manage buttons states dynamically
+
+            submitTokens();
+
+            // When the Submit button is clicked, get all the form fields by accessing token values
+            var tokens = mvc.Components.get("default");
+
+            //
+            // Verify the current status
+            //
+
+            // Define the query
+            var searchQuery = "| rest /servicesNS/-/-/admin/macros splunk_server=local | search title=\"trackme_data_sampling_obfuscation_mode\" | fields definition | rex field=definition mode=sed \"s/\`//g\" | rename definition as current_mode";
+
+            // Set the search parameters--specify a time range
+            var searchParams = {
+                earliest_time: "-5m",
+                latest_time: "now"
+            };
+
+            // Run a oneshot search that returns the job's results
+            service.oneshotSearch(
+                searchQuery,
+                searchParams,
+                function(err, results) {
+
+                    // Display the results
+                    var fields = results.fields;
+                    var rows = results.rows;
+                    var current_mode;
+
+                    for (var i = 0; i < rows.length; i++) {
+                        var values = rows[i];
+                        //console.log("Row " + i + ": ");
+
+                        for (var j = 0; j < values.length; j++) {
+                            var field = fields[j];
+
+                            if (fields[j] == "current_mode") {
+                                current_mode = values[j];
+                            }
+                        }
+                    }
+
+                    //console.log("current_mode: " + current_mode);
+
+                    if (!current_mode) {
+                        document.getElementById('btn_data_sampling_obfuscate_enable').disabled = false;
+                        document.getElementById('btn_data_sampling_obfuscate_disable').disabled = false;
+                        return;
+                    }
+
+                    // Dynamically manage buttons states
+                    if (current_mode == "trackme_data_sampling_obfuscation_mode_enabled") {
+                        document.getElementById('btn_data_sampling_obfuscate_enable').disabled = true;
+                        document.getElementById('btn_data_sampling_obfuscate_disable').disabled = false;
+                    } else if (current_mode == "trackme_data_sampling_obfuscation_mode_disabled") {
+                        document.getElementById('btn_data_sampling_obfuscate_enable').disabled = false;
+                        document.getElementById('btn_data_sampling_obfuscate_disable').disabled = true;
+                    } else {
+                        document.getElementById('btn_data_sampling_obfuscate_enable').disabled = false;
+                        document.getElementById('btn_data_sampling_obfuscate_disable').disabled = false;
+                    }
+
+                });
+
+            }
+
+        // get current status
+        get_data_sampling_obfuscation_mode();
+
+        // Update the data sources mode
+        function update_data_sampling_obfuscation_mode(value) {
+
+            var query_url = "/en-US/splunkd/__raw/servicesNS/nobody/trackme/configs/conf-macros/trackme_data_sampling_obfuscation_mode"
+            var value = value;
+
+            if (value == "trackme_data_sampling_obfuscation_mode_enabled") {
+                change_type = "enable data sampling obfuscation mode";
+            } else if (value == "trackme_data_sampling_obfuscation_mode_disabled") {
+                change_type = "enable data sampling obfuscation mode";
+            } else {
+                // default if unset
+                change_type = "trackme_data_sampling_obfuscation_mode_disabled";
+            }
+
+            $.ajax({
+                url: query_url,
+                type: "POST",
+                async: true,
+                contentType: "application/json",
+                data: "definition=`" + value + "`",
+                success: function(returneddata) {
+                    //console.log("Updated!", returneddata)
+
+                    // Update the buttons
+                    if (value == "trackme_data_sampling_obfuscation_mode_enabled") {
+                        document.getElementById('btn_data_sampling_obfuscate_enable').disabled = true;
+                        document.getElementById('btn_data_sampling_obfuscate_disable').disabled = false;
+                    } else if (value == "trackme_data_sampling_obfuscation_mode_disabled") {
+                        document.getElementById('btn_data_sampling_obfuscate_enable').disabled = false;
+                        document.getElementById('btn_data_sampling_obfuscate_disable').disabled = true;
+                    } else {
+                        document.getElementById('btn_data_sampling_obfuscate_enable').disabled = false;
+                        document.getElementById('btn_data_sampling_obfuscate_disable').disabled = false;
+                    }
+
+                    // notify
+                    notification('Data sampling obfuscation mode has been successfully set ' + value, 6000)
+
+                    // Audit
+                    action = "success";
+                    change_type = change_type;
+                    object = "all";
+                    object_category = "data_source";
+                    object_attrs = "definition=\"" + value + "\"";
+                    result = "N/A";
+                    comment = "N/A";
+                    auditRecord(action, change_type, object, object_category, object_attrs, result, comment);
+
+                },
+                error: function(xhr, textStatus, error) {
+                    message = "Error Updating!" + xhr + textStatus + error;
+
+                    // Audit
+                    action = "failure";
+                    change_type = change_type;
+                    object = "all";
+                    object_category = "data_source";
+                    object_attrs = "definition=\"" + value + "\"";
+                    result = message;
+                    comment = "N/A";
+                    auditRecord(action, change_type, object, object_category, object_attrs, result, comment);
+
+                    $("#modal_update_collection_failure_return").find('.modal-error-message p').text(message);
+                    $("#modal_update_collection_failure_return").modal()
+                }
+            });
+
+        }
+
+        // Enable mode
+        $("#btn_data_sampling_obfuscate_enable").click(function() {
+        //console.log("running update enable");
+        update_data_sampling_obfuscation_mode("trackme_data_sampling_obfuscation_mode_enabled");
+        });
+
+        // Disable mode
+        $("#btn_data_sampling_obfuscate_disable").click(function() {
+        //console.log("running update disable");
+        update_data_sampling_obfuscation_mode("trackme_data_sampling_obfuscation_mode_disabled");
+        });
+
+        //
+        // data host splunk monitoring
+        //
+
+        // Get current mode
+        function get_data_host_splunk_monitoring_mode() {
+
+            // Manage buttons states dynamically
+
+            submitTokens();
+
+            // When the Submit button is clicked, get all the form fields by accessing token values
+            var tokens = mvc.Components.get("default");
+
+            //
+            // Verify the current status
+            //
+
+            // Define the query
+            var searchQuery = "| rest /servicesNS/-/-/admin/macros splunk_server=local | search title=\"trackme_tstats_main_filter_for_host\" | fields definition | rex field=definition mode=sed \"s/\`//g\" | rename definition as current_mode";
+
+            // Set the search parameters--specify a time range
+            var searchParams = {
+                earliest_time: "-5m",
+                latest_time: "now"
+            };
+
+            // Run a oneshot search that returns the job's results
+            service.oneshotSearch(
+                searchQuery,
+                searchParams,
+                function(err, results) {
+
+                    // Display the results
+                    var fields = results.fields;
+                    var rows = results.rows;
+                    var current_mode;
+
+                    for (var i = 0; i < rows.length; i++) {
+                        var values = rows[i];
+                        //console.log("Row " + i + ": ");
+
+                        for (var j = 0; j < values.length; j++) {
+                            var field = fields[j];
+
+                            if (fields[j] == "current_mode") {
+                                current_mode = values[j];
+                            }
+                        }
+                    }
+
+                    //console.log("current_mode: " + current_mode);
+
+                    if (!current_mode) {
+                        document.getElementById('btn_enable_data_host_splunkd').disabled = false;
+                        document.getElementById('btn_disable_data_host_splunkd').disabled = false;
+                        return;
+                    }
+
+                    // Dynamically manage buttons states
+                    if (current_mode == "trackme_tstats_root_include_splunkd") {
+                        document.getElementById('btn_enable_data_host_splunkd').disabled = true;
+                        document.getElementById('btn_disable_data_host_splunkd').disabled = false;
+                    } else if (current_mode == "trackme_tstats_root_exclude_splunkd") {
+                        document.getElementById('btn_enable_data_host_splunkd').disabled = false;
+                        document.getElementById('btn_disable_data_host_splunkd').disabled = true;
+                    } else {
+                        document.getElementById('btn_enable_data_host_splunkd').disabled = false;
+                        document.getElementById('btn_disable_data_host_splunkd').disabled = false;
+                    }
+
+                });
+
+            }
+
+        // get current status
+        get_data_host_splunk_monitoring_mode();
+
+        // Update the data sources mode
+        function update_data_host_splunk_monitoring_mode(value) {
+
+            var query_url = "/en-US/splunkd/__raw/servicesNS/nobody/trackme/configs/conf-macros/trackme_tstats_main_filter_for_host"
+            var value = value;
+
+            if (value == "trackme_tstats_root_include_splunkd") {
+                change_type = "enable data host Splunk monitoring";
+            } else if (value == "trackme_tstats_root_exclude_splunkd") {
+                change_type = "disable data host Splunk monitoring";
+            } else {
+                // default if unset
+                change_type = "trackme_tstats_root_include_splunkd";
+            }
+
+            $.ajax({
+                url: query_url,
+                type: "POST",
+                async: true,
+                contentType: "application/json",
+                data: "definition=`" + value + "`",
+                success: function(returneddata) {
+                    //console.log("Updated!", returneddata)
+
+                    // Update the buttons
+                    if (value == "trackme_tstats_root_include_splunkd") {
+                        document.getElementById('btn_enable_data_host_splunkd').disabled = true;
+                        document.getElementById('btn_disable_data_host_splunkd').disabled = false;
+                    } else if (value == "trackme_tstats_root_exclude_splunkd") {
+                        document.getElementById('btn_enable_data_host_splunkd').disabled = false;
+                        document.getElementById('btn_disable_data_host_splunkd').disabled = true;
+                    } else {
+                        document.getElementById('btn_enable_data_host_splunkd').disabled = false;
+                        document.getElementById('btn_disable_data_host_splunkd').disabled = false;
+                    }
+
+                    // notify
+                    notification('Data host Splunk monitoring mode has been successfully set ' + value, 6000)
+
+                    // Audit
+                    action = "success";
+                    change_type = change_type;
+                    object = "all";
+                    object_category = "data_source";
+                    object_attrs = "definition=\"" + value + "\"";
+                    result = "N/A";
+                    comment = "N/A";
+                    auditRecord(action, change_type, object, object_category, object_attrs, result, comment);
+
+                },
+                error: function(xhr, textStatus, error) {
+                    message = "Error Updating!" + xhr + textStatus + error;
+
+                    // Audit
+                    action = "failure";
+                    change_type = change_type;
+                    object = "all";
+                    object_category = "data_source";
+                    object_attrs = "definition=\"" + value + "\"";
+                    result = message;
+                    comment = "N/A";
+                    auditRecord(action, change_type, object, object_category, object_attrs, result, comment);
+
+                    $("#modal_update_collection_failure_return").find('.modal-error-message p').text(message);
+                    $("#modal_update_collection_failure_return").modal()
+                }
+            });
+
+        }
+
+        // Enable mode
+        $("#btn_enable_data_host_splunkd").click(function() {
+            //console.log("running update enable");
+            update_data_host_splunk_monitoring_mode("trackme_tstats_root_include_splunkd");
+        });
+
+        // Disable mode
+        $("#btn_disable_data_host_splunkd").click(function() {
+            //console.log("running update disable");
+            update_data_host_splunk_monitoring_mode("trackme_tstats_root_exclude_splunkd");
+        });
+
+        //
+        // data source mode
+        //
+
         // Get current data sources mode
         function get_data_source_mode() {
 
@@ -3135,6 +3543,7 @@ require([
                     if (!current_data_source_mode) {
                         document.getElementById('btn_enable_data_source_split_mode').disabled = false;
                         document.getElementById('btn_enable_data_source_merged_mode').disabled = false;
+                        document.getElementById('btn_enable_data_source_cribl_mode').disabled = false;
                         return;
                     }
 
@@ -3142,14 +3551,22 @@ require([
                     if (current_data_source_mode == "trackme_data_source_split_mode") {
                         document.getElementById('btn_enable_data_source_split_mode').disabled = true;
                         document.getElementById('btn_enable_data_source_merged_mode').disabled = false;
+                        document.getElementById('btn_enable_data_source_cribl_mode').disabled = false;
                     }
                     else if (current_data_source_mode == "trackme_data_source_merged_mode") {
                         document.getElementById('btn_enable_data_source_split_mode').disabled = false;
                         document.getElementById('btn_enable_data_source_merged_mode').disabled = true;
+                        document.getElementById('btn_enable_data_source_cribl_mode').disabled = false;
+                    }
+                    else if (current_data_source_mode == "trackme_data_source_cribl_mode") {
+                        document.getElementById('btn_enable_data_source_split_mode').disabled = false;
+                        document.getElementById('btn_enable_data_source_merged_mode').disabled = false;
+                        document.getElementById('btn_enable_data_source_cribl_mode').disabled = true;
                     }
                     else {
                         document.getElementById('btn_enable_data_source_split_mode').disabled = false;
                         document.getElementById('btn_enable_data_source_merged_mode').disabled = false;
+                        document.getElementById('btn_enable_data_source_cribl_mode').disabled = false;
                     }
 
             });
@@ -3163,16 +3580,22 @@ require([
         function update_data_source_mode(value) {
 
             var query_url = "/en-US/splunkd/__raw/servicesNS/nobody/trackme/configs/conf-macros/trackme_default_data_source_mode"
+            var query_url2 = "/en-US/splunkd/__raw/servicesNS/nobody/trackme/configs/conf-macros/trackme_data_source_tstats_root_splitby"
             var value = value;
 
             if (value == "trackme_data_source_split_mode") {
                 change_type = "enable data source split mode";
+                root_splitby_value = "trackme_data_source_tstats_root_splitby_regular";
             } else if (value == "trackme_data_source_merged_mode") {
                 change_type = "enable data source merged mode";
-            }
-            else {
+                root_splitby_value = "trackme_data_source_tstats_root_splitby_regular";
+            } else if (value == "trackme_data_source_cribl_mode") {
+                change_type = "enable data source cribl mode";
+                root_splitby_value = "trackme_data_source_tstats_root_splitby_cribl";
+            } else {
                 // default if unset
                 change_type = "trackme_data_source_split_mode";
+                root_splitby_value = "trackme_data_source_tstats_root_splitby_regular";
             }
 
             $.ajax({
@@ -3184,32 +3607,64 @@ require([
                 success: function(returneddata) {
                     //console.log("Updated!", returneddata)
 
-                    // Update the buttons
-                    if (value == "trackme_data_source_split_mode") {
-                        document.getElementById('btn_enable_data_source_split_mode').disabled = true;
-                        document.getElementById('btn_enable_data_source_merged_mode').disabled = false;
-                    }
-                    else if (value == "trackme_data_source_merged_mode") {
-                        document.getElementById('btn_enable_data_source_split_mode').disabled = false;
-                        document.getElementById('btn_enable_data_source_merged_mode').disabled = true;
-                    }
-                    else {
-                        document.getElementById('btn_enable_data_source_split_mode').disabled = false;
-                        document.getElementById('btn_enable_data_source_merged_mode').disabled = false;
-                    }
+                    $.ajax({
+                        url: query_url2,
+                        type: "POST",
+                        async: true,
+                        contentType: "application/json",
+                        data: "definition=`" + root_splitby_value + "`",
+                        success: function(returneddata) {
+                            //console.log("Updated!", returneddata)
 
-                    // notify
-                    notification('Data source mode has been successfully set ' + value, 6000)
+                            // Update the buttons
+                            if (value == "trackme_data_source_split_mode") {
+                                document.getElementById('btn_enable_data_source_split_mode').disabled = true;
+                                document.getElementById('btn_enable_data_source_merged_mode').disabled = false;
+                                document.getElementById('btn_enable_data_source_cribl_mode').disabled = false;
+                            } else if (value == "trackme_data_source_merged_mode") {
+                                document.getElementById('btn_enable_data_source_split_mode').disabled = false;
+                                document.getElementById('btn_enable_data_source_merged_mode').disabled = true;
+                                document.getElementById('btn_enable_data_source_cribl_mode').disabled = false;
+                            } else if (value == "trackme_data_source_cribl_mode") {
+                                document.getElementById('btn_enable_data_source_split_mode').disabled = false;
+                                document.getElementById('btn_enable_data_source_merged_mode').disabled = false;
+                                document.getElementById('btn_enable_data_source_cribl_mode').disabled = true;
+                            } else {
+                                document.getElementById('btn_enable_data_source_split_mode').disabled = false;
+                                document.getElementById('btn_enable_data_source_merged_mode').disabled = false;
+                            }
 
-                    // Audit
-                    action = "success";
-                    change_type = change_type;
-                    object = "all";
-                    object_category = "data_source";
-                    object_attrs = "definition=\"" + value + "\"";
-                    result = "N/A";
-                    comment = "N/A";
-                    auditRecord(action, change_type, object, object_category, object_attrs, result, comment);
+                            // notify
+                            notification('Data source mode has been successfully set ' + value, 6000)
+
+                            // Audit
+                            action = "success";
+                            change_type = change_type;
+                            object = "all";
+                            object_category = "data_source";
+                            object_attrs = "definition=\"" + value + "\"";
+                            result = "N/A";
+                            comment = "N/A";
+                            auditRecord(action, change_type, object, object_category, object_attrs, result, comment);
+
+                        },
+                        error: function(xhr, textStatus, error) {
+                            message = "Error Updating!" + xhr + textStatus + error;
+
+                            // Audit
+                            action = "failure";
+                            change_type = change_type;
+                            object = "all";
+                            object_category = "data_source";
+                            object_attrs = "definition=\"" + value + "\"";
+                            result = message;
+                            comment = "N/A";
+                            auditRecord(action, change_type, object, object_category, object_attrs, result, comment);
+
+                            $("#modal_update_collection_failure_return").find('.modal-error-message p').text(message);
+                            $("#modal_update_collection_failure_return").modal()
+                        }
+                    });
 
                 },
                 error: function(xhr, textStatus, error) {
@@ -3240,6 +3695,11 @@ require([
         // Enable data source merged mode
         $("#btn_enable_data_source_merged_mode").click(function() {
             update_data_source_mode("trackme_data_source_merged_mode");
+        });
+
+        // Enable cribl mode
+        $("#btn_enable_data_source_cribl_mode").click(function() {
+            update_data_source_mode("trackme_data_source_cribl_mode");
         });
 
         // Outliers Production / Training mode
@@ -3460,7 +3920,7 @@ require([
                     function(err, job) {
 
                         $("#loadingGray").remove()
-                        $("body").append('<div id="loadingGray" style="background: #e9e9e9; display: block; position: fixed; z-index: 100; top: 0; right: 0; bottom: 0; left: 0; height: 100%; opacity: 0.8;"><div style="width: 100%; margin-top: 250px; padding-bottom: 50px; text-align: center;"><p style="font-size: 18pt; font-weight: bolder;">Flushing data source KVstore collection and running long term tracker, please wait...</p></div><div id="spinner"></div></div>')
+                        $("body").append('<div id="loadingGray" style="background: #e9e9e9; display: block; position: fixed; z-index: 100; top: 0; right: 0; bottom: 0; left: 0; height: 100%; opacity: 0.8;"><div style="width: 100%; margin-top: 250px; padding-bottom: 50px; text-align: center;"><p style="font-size: 18pt; font-weight: bolder;">Flushing data source KVstore collection and running short term tracker, please wait...</p></div><div id="spinner"></div></div>')
 
                         require(["jquery",
                                 "/static/app/trackme/spin.js"
@@ -3522,12 +3982,12 @@ require([
                                     // Once the job is done, update all searches
 
                                     // Define the query
-                                    var searchQuery = "| savedsearch \"TrackMe - Data sources availability long term tracker\"";
+                                    var searchQuery = "| savedsearch \"TrackMe - Data sources availability short term tracker\"";
 
                                     // Set the search parameters--specify a time range
                                     var searchParams = {
-                                        earliest_time: "-7d",
-                                        latest_time: "now"
+                                        earliest_time: "-4h",
+                                        latest_time: "+4h"
                                     };
 
                                     // Run a normal search that immediately returns the job's SID
@@ -3677,7 +4137,7 @@ require([
                     function(err, job) {
 
                         $("#loadingGray").remove()
-                        $("body").append('<div id="loadingGray" style="background: #e9e9e9; display: block; position: fixed; z-index: 100; top: 0; right: 0; bottom: 0; left: 0; height: 100%; opacity: 0.8;"><div style="width: 100%; margin-top: 250px; padding-bottom: 50px; text-align: center;"><p style="font-size: 18pt; font-weight: bolder;">Flushing data hosts KVstore collection and running long term tracker, please wait...</p></div><div id="spinner"></div></div>')
+                        $("body").append('<div id="loadingGray" style="background: #e9e9e9; display: block; position: fixed; z-index: 100; top: 0; right: 0; bottom: 0; left: 0; height: 100%; opacity: 0.8;"><div style="width: 100%; margin-top: 250px; padding-bottom: 50px; text-align: center;"><p style="font-size: 18pt; font-weight: bolder;">Flushing data hosts KVstore collection and running short term tracker, please wait...</p></div><div id="spinner"></div></div>')
 
                         require(["jquery",
                                 "/static/app/trackme/spin.js"
@@ -3739,12 +4199,12 @@ require([
                                     // Once the job is done, update all searches
 
                                     // Define the query
-                                    var searchQuery = "| savedsearch \"TrackMe - hosts availability long term tracker\"";
+                                    var searchQuery = "| savedsearch \"TrackMe - hosts availability short term tracker\"";
 
                                     // Set the search parameters--specify a time range
                                     var searchParams = {
-                                        earliest_time: "-7d",
-                                        latest_time: "now"
+                                        earliest_time: "-4h",
+                                        latest_time: "+4h"
                                     };
 
                                     // Run a normal search that immediately returns the job's SID
@@ -4295,7 +4755,6 @@ require([
 );
 // ]]>
 </script>
-<script src="{{SPLUNKWEB_URL_PREFIX}}/static/app/trackme/table.js" type="text/javascript"></script>
 <script>
 $(".btn").mouseup(function(){
     $(this).blur();
