@@ -20,7 +20,7 @@ Configure indexes
 
 Once you decided which search head layer will host TrackMe, the next step is to configure its indexes.
 
-TrackMe requires the creation on your indexes of two indexes, one for the summary events and one for the metrics, the second is a metric type of index opposed to events indexes, TrackMe includes the following indexes.conf:
+TrackMe requires the creation of two indexes, one for the summary events and one for the metrics, the second is a metric type of index opposed to events indexes, TrackMe includes the following indexes.conf:
 
 ``default/indexes.conf``
 
@@ -126,7 +126,7 @@ TrackMe Data Sources - Define what works for you
 
 The primary concept of TrackMe is called **data sources**, See :ref:`Data Sources tracking and features` in the User guide for more explanations.
 
-For the purposes of defining the best strategy that works for you, let's explain the 3 modes available, which you can configure via the ``Trackme manage and configure`` interfacce:
+For the purposes of defining the best strategy that works for you, let's explain the 3 modes available, which you can configure via the ``Trackme manage and configure`` interface:
 
 - Split mode (default)
 - Merge mode
