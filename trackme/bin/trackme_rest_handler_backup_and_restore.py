@@ -229,15 +229,29 @@ class TrackMeHandlerBackupAndRestore_v1(rest_handler.RESTHandler):
             collection_list = []
 
             # Get the Kvstore collections to be backed up from a lookup stored in the app
-            try:
-                with open(os.path.join(splunkhome, 'etc', 'apps', 'trackme', 'lookups', 'trackme_kvstore_collections.csv'), newline='') as f:
-                    reader = csv.reader(f)
-                    collection_list = list(reader)
+            if sys.version_info.major == 2:
 
-            except Exception as e:
-                return {
-                    'payload': 'Warn: exception encountered: ' + str(e) # Payload of the request.
-                }
+                try:
+                    with open(os.path.join(splunkhome, 'etc', 'apps', 'trackme', 'lookups', 'trackme_kvstore_collections.csv')) as f:
+                        reader = csv.reader(f)
+                        collection_list = list(reader)
+
+                except Exception as e:
+                    return {
+                        'payload': 'Warn: exception encountered: ' + str(e) # Payload of the request.
+                    }
+
+            else:
+
+                try:
+                    with open(os.path.join(splunkhome, 'etc', 'apps', 'trackme', 'lookups', 'trackme_kvstore_collections.csv'), newline='') as f:
+                        reader = csv.reader(f)
+                        collection_list = list(reader)
+
+                except Exception as e:
+                    return {
+                        'payload': 'Warn: exception encountered: ' + str(e) # Payload of the request.
+                    }
 
             # to get rid of the header
             counter = 0
@@ -644,15 +658,29 @@ class TrackMeHandlerBackupAndRestore_v1(rest_handler.RESTHandler):
                     # Step 1: flush all KVstore collections, TrackMe should be restored to the backup state
 
                     # Get the Kvstore collections to be backed up from a lookup stored in the app
-                    try:
-                        with open(os.path.join(splunkhome, 'etc', 'apps', 'trackme', 'lookups', 'trackme_kvstore_collections.csv'), newline='') as f:
-                            reader = csv.reader(f)
-                            collection_list = list(reader)
+                    if sys.version_info.major == 2:
 
-                    except Exception as e:
-                        return {
-                            'payload': 'Warn: exception encountered: ' + str(e) # Payload of the request.
-                        }
+                        try:
+                            with open(os.path.join(splunkhome, 'etc', 'apps', 'trackme', 'lookups', 'trackme_kvstore_collections.csv')) as f:
+                                reader = csv.reader(f)
+                                collection_list = list(reader)
+
+                        except Exception as e:
+                            return {
+                                'payload': 'Warn: exception encountered: ' + str(e) # Payload of the request.
+                            }
+
+                    else:
+
+                        try:
+                            with open(os.path.join(splunkhome, 'etc', 'apps', 'trackme', 'lookups', 'trackme_kvstore_collections.csv'), newline='') as f:
+                                reader = csv.reader(f)
+                                collection_list = list(reader)
+
+                        except Exception as e:
+                            return {
+                                'payload': 'Warn: exception encountered: ' + str(e) # Payload of the request.
+                            }
 
                     # to get rid of the header
                     counter = 0
