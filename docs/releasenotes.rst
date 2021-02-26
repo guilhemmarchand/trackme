@@ -16,6 +16,7 @@ TrackMe requires a summary index (defaults to trackme_summary) and a metric inde
 https://trackme.readthedocs.io/en/latest/configuration.html
 
 - Fix - Issue #267 - Backup and Restore - Python2 compatibility issues with Splunk 7.x
+- Fix - Issue #261 - SLA - SLA reporting should honour allow/block list and not monitored entities #261
 
 Version 1.2.35
 ==============
