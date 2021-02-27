@@ -3138,12 +3138,18 @@ A Splunk report is scheduled by default to run every day at 2h AM:
 
 - call the trackme custom command API wrapper to purge backup files older than 7 days (by default) in the search head the report is executed
 
+- call the trackme custom command API wrapper to list backup files, and automatically discover any missing files in the knowledge collection
+
 *In SPL:*
 
 ::
 
-   | trackme url=/services/trackme/v1/backup_and_restore/backup mode=post\
+   | trackme url=/services/trackme/v1/backup_and_restore/backup mode=post
    | append [ | trackme url=/services/trackme/v1/backup_and_restore/backup mode=delete body="{'retention_days': '7'}" ]
+   | append [ | trackme url=/services/trackme/v1/backup_and_restore/backup mode=get | spath | eventstats dc({}.backup_archive) as backup_count, values({}.backup_archive) as backup_files
+   | eval backup_count=if(isnull(backup_count), 0, backup_count), backup_files=if(isnull(backup_files), "none", backup_files)
+   | eval report="List of identified or known backup files (" . backup_count . ")"
+   | eval _raw="{\"report\": \"" . report . "\", \"backup_files\": \" [ " . mvjoin(backup_files, ",") . " ]\"}" ]
 
 On demand backup
 ----------------

@@ -609,9 +609,10 @@ class TrackMeHandlerBackupAndRestore_v1(rest_handler.RESTHandler):
                 }
 
             # Attempt extraction
+            import tarfile
             try:
-                shutil.unpack_archive(backupfile, backupdir)
-
+                tf = tarfile.open(backupfile)
+                tf.extractall(backupdir)                   
             except Exception as e:
                 return {
                     "payload": "{\"response\": \"ERROR: the archive name " + str(backupfile) + " could not be extracted, restore cannot be processed: \"" + str(e) + "}"
