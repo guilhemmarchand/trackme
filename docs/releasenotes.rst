@@ -15,6 +15,7 @@ This is a new main release branch, TrackMe 1.2.x requires the deployment of the 
 TrackMe requires a summary index (defaults to trackme_summary) and a metric index (defaults to trackme_metrics):
 https://trackme.readthedocs.io/en/latest/configuration.html
 
+- Enhancement - Issue #268 - Backup and Restore - Perform an additional get call in the Backup operation to automically discover any missing backup files
 - Fix - Issue #267 - Backup and Restore - Python2 compatibility issues with Splunk 7.x
 - Fix - Issue #261 - SLA - SLA reporting should honour allow/block list and not monitored entities #261
 
