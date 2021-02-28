@@ -35873,16 +35873,10 @@ require([
 
                 // replace chars that would lead the operation to fail
                 var input_doc_note = input_doc_note.replace(/\"/g, '\\"');
-
                 var input_doc_link = document.getElementById("input_doc_link").value;
 
-                //console.log("link is: " + input_doc_link);
-                //console.log("note is: " + input_doc_note);
-
                 // Define the query
-                var searchQuery = "| inputlookup trackme_sources_knowledge | where object!=\"" + input_doc_object + "\" | append [ | makeresults | eval object=\"" + input_doc_object + "\", doc_link=\"" +  input_doc_link + "\", doc_note=\"" +  input_doc_note + "\" ] | dedup object | sort limit=0 object | outputlookup trackme_sources_knowledge";
-
-                //console.log(searchQuery);
+                var searchQuery = "| trackme url=\"/services/trackme/v1/identity_cards/identity_cards_add_card\" mode=\"post\" body=\"{\\\"doc_link\\\": \\\"" + input_doc_link + "\\\", \\\"doc_note\\\": \\\"" + input_doc_note + "\\\", \\\"update_comment\\\": \\\"N/A\\\"}\" | spath | table key";
 
                 // Set the search parameters--specify a time range
                 var searchParams = {
@@ -35897,7 +35891,7 @@ require([
 
                 else if (input_doc_link && input_doc_link.length) {
 
-                    // Run a blocking search and get back a job
+                    // Create or update the card using the API endpoint
                     service.search(
                         searchQuery,
                         searchParams,
@@ -35935,6 +35929,36 @@ require([
                                     period: 200
                                 }, {
                                     done: function(job) {
+
+                                        // Get the results and display them
+                                        job.results({}, function(err, results) {
+                                            var fields = results.fields;
+                                            var rows = results.rows;
+                                            var cardkey;
+
+                                            for (var i = 0; i < rows.length; i++) {
+                                                var values = rows[i];
+                                                for (var j = 0; j < values.length; j++) {
+                                                    var field = fields[j];
+                                                    var value = values[j];
+                                                    var cardkey;
+                                                    if (field == "key") {
+                                                        var cardkey = value;
+                                                    }
+                                                }
+                                            }
+
+                                            // Associate the card using the API endpoint
+                                            var searchQuery = "| trackme url=\"/services/trackme/v1/identity_cards/identity_cards_associate_card\" mode=\"post\" body=\"{\\\"key\\\": \\\"" + cardkey + "\\\", \\\"object\\\": \\\"" + input_doc_object + "\\\", \\\"update_comment\\\": \\\"N/A\\\"}\"";
+
+                                            service.oneshotSearch(
+                                                searchQuery,
+                                                searchParams,
+                                                function(err, results) {
+                                                });
+
+                                        })
+                                        
                                         // Run the search again to update the table
                                         searchDataSourcesMain.startSearch();
                                         $("#update_achieved_identity_card").modal()
@@ -36007,13 +36031,8 @@ require([
                 var input_doc_note = document.getElementById("input_doc_note").value;
                 var input_doc_link = document.getElementById("input_doc_link").value;
 
-                //console.log("link is: " + input_doc_link);
-                //console.log("note is: " + input_doc_note);
-
                 // Define the query
-                var searchQuery = "| inputlookup trackme_sources_knowledge | eval keyid=_key | mvexpand object | where object!=\"" + input_doc_object + "\" | stats values(*) as \"*\" by keyid | sort limit=0 keyid | fields - keyid | outputlookup trackme_sources_knowledge";
-
-                //console.log(searchQuery);
+                var searchQuery = "| trackme url=\"/services/trackme/v1/identity_cards/identity_cards_unassociate\" mode=\"post\" body=\"{\\\"object\\\": \\\"" + input_doc_object + "\\\", \\\"update_comment\\\": \\\"N/A\\\"}\"";
 
                 // Set the search parameters--specify a time range
                 var searchParams = {
@@ -36165,14 +36184,8 @@ require([
                 var input_doc_note = tokens.get("tk_doc_note");
                 var tk_doc_identity_card_is_global = tokens.get("doc_identity_card_is_global");
 
-                //console.log("key is: " + input_doc_keyid);
-                //console.log("new_object is: " + input_doc_new_object);
-                //console.log("origin_object is: " + input_doc_origin_object);
-
-                // Define the query
-                var searchQuery = "| inputlookup trackme_sources_knowledge | eval keyid=_key | mvexpand object | append [ | makeresults | eval keyid=\"" + input_doc_keyid + "\", object=\"" + input_doc_new_object + "\" ] | stats values(*) as \"*\" by keyid | outputlookup append=t trackme_sources_knowledge key_field=keyid";
-
-                //console.log(searchQuery);
+                // First unassociate using the API endpoint
+                var searchQuery = "| trackme url=\"/services/trackme/v1/identity_cards/identity_cards_unassociate\" mode=\"post\" body=\"{\\\"object\\\": \\\"" + input_doc_new_object + "\\\", \\\"update_comment\\\": \\\"N/A\\\"}\"";
 
                 // Set the search parameters--specify a time range
                 var searchParams = {
@@ -36220,6 +36233,16 @@ require([
                                     period: 200
                                 }, {
                                     done: function(job) {
+
+                                        // Associate using the endpoint
+                                        var searchQuery = "| trackme url=\"/services/trackme/v1/identity_cards/identity_cards_associate_card\" mode=\"post\" body=\"{\\\"key\\\": \\\"" + input_doc_keyid + "\\\", \\\"object\\\": \\\"" + input_doc_new_object + "\\\", \\\"update_comment\\\": \\\"N/A\\\"}\"";
+
+                                        service.oneshotSearch(
+                                                searchQuery,
+                                                searchParams,
+                                                function(err, results) {
+                                                });
+
                                         // Run the search again to update the table
                                         searchDataSourcesMain.startSearch();
                                         // show deleted modal

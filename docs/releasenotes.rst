@@ -18,6 +18,7 @@ https://trackme.readthedocs.io/en/latest/configuration.html
 - Enhancement - Issue #268 - Backup and Restore - Perform an additional get call in the Backup operation to automically discover any missing backup files
 - Fix - Issue #267 - Backup and Restore - Python2 compatibility issues with Splunk 7.x
 - Fix - Issue #261 - SLA - SLA reporting should honour allow/block list and not monitored entities #261
+- Fix - Issue #266 - ID cards - Updating an existing card within the UI removes other associations with the card that is updated
 
 Version 1.2.35
 ==============
