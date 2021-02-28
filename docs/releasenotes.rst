@@ -20,6 +20,7 @@ https://trackme.readthedocs.io/en/latest/configuration.html
 - Fix - Issue #267 - Backup and Restore - Python2 compatibility issues with Splunk 7.x
 - Fix - Issue #261 - SLA - SLA reporting should honour allow/block list and not monitored entities #261
 - Fix - Issue #266 - ID cards - Updating an existing card within the UI removes other associations with the card that is updated
+- Fix - Issue #270 - REST endpoint resources groups wrong exposure for Splunk Web proxied behaviors
 
 Version 1.2.35
 ==============
