@@ -1840,7 +1840,8 @@ styles in <div> tags, similar to Bootstrap's grid system.
                                                 <div class="panel-element-row">
 
                                                     <div>
-                                                        <h4>$tk_msg_doc_identity_card_is_global$</h4>
+                                                        <hr>
+                                                        <p><i>$tk_msg_doc_identity_card_is_global$ <a target="_blank" href="https://trackme.readthedocs.io/en/latest/userguide.html#data-identity-card">https://trackme.readthedocs.io/en/latest/userguide.html#data-identity-card</a></i></p>
                                                     </div>
 
                                                 </div>
@@ -1884,6 +1885,7 @@ styles in <div> tags, similar to Bootstrap's grid system.
                             <form>
                                 <fieldset>
                                     <legend>Define a link and a note to document this data source</legend>
+                                    <p><b>You can create wildcard matching ID cards to match multiple entities based on your naming convention using the trackme SPL command.</b><br/><i>Open a new tab to: <a target="_blank" href="https://trackme.readthedocs.io/en/latest/userguide.html#data-identity-wildcard-matching">https://trackme.readthedocs.io/en/latest/userguide.html#data-identity-wildcard-matching</a></i></p>
                                     <p>
                                         <label>Optional: enter the documentation link, this will be made available in the source identity card:</label>
                                         <input type = "text"
@@ -17846,6 +17848,7 @@ require([
                 setToken("tk_doc_link", TokenUtils.replaceTokenNames("$row.doc_link$", _.extend(submittedTokenModel.toJSON(), e.data)));
                 setToken("tk_doc_note", TokenUtils.replaceTokenNames("$row.doc_note$", _.extend(submittedTokenModel.toJSON(), e.data)));
                 setToken("tk_doc_identity_card_is_global", TokenUtils.replaceTokenNames("$row.doc_identity_card_is_global$", _.extend(submittedTokenModel.toJSON(), e.data)));
+                setToken("tk_doc_key_match", TokenUtils.replaceTokenNames("$row.doc_key_match$", _.extend(submittedTokenModel.toJSON(), e.data)));
 
                 // tags
                 setToken("tk_tags", TokenUtils.replaceTokenNames("$row.tags$", _.extend(submittedTokenModel.toJSON(), e.data)));
@@ -17953,6 +17956,7 @@ require([
                 var tk_doc_link = tokens.get("tk_doc_link");
                 var tk_doc_note = tokens.get("tk_doc_note");
                 var tk_doc_identity_card_is_global = tokens.get("tk_doc_identity_card_is_global");
+                var tk_doc_key_match = tokens.get("tk_doc_key_match");
 
                 // If the documentation reference has not been set, define the href format
                 if (tk_doc_link == "null") {
@@ -17979,10 +17983,16 @@ require([
                 // If the identity card info is global, disable the delete card
                 if (tk_doc_identity_card_is_global == "true") {
                     document.getElementById('btn_delete_manage_identity_card').disabled = true;
-                    setToken("tk_msg_doc_identity_card_is_global", TokenUtils.replaceTokenNames("This is a default identify card configured at the system level, you cannot delete this card but you can create a new card linked to this specific data source.", _.extend(submittedTokenModel.toJSON(), e.data)));
+                    document.getElementById('btn_modify_manage_identity_card').disabled = false;
+                    setToken("tk_msg_doc_identity_card_is_global", TokenUtils.replaceTokenNames("TrackMe info: this is a default identity card configured at the system level, you cannot delete this card but you can create a new card linked to this specific data source, consult: ", _.extend(submittedTokenModel.toJSON(), e.data)));                
+                } else if (tk_doc_key_match == "wildcard") {
+                    document.getElementById('btn_delete_manage_identity_card').disabled = true;
+                    document.getElementById('btn_modify_manage_identity_card').disabled = true;
+                    setToken("tk_msg_doc_identity_card_is_global", TokenUtils.replaceTokenNames("TrackMe info: this is a wildcard matching identity card, this card has to be managed via the API endpoints, consult: ", _.extend(submittedTokenModel.toJSON(), e.data)));
                 } else {
                     document.getElementById('btn_delete_manage_identity_card').disabled = false;
-                    setToken("tk_msg_doc_identity_card_is_global", TokenUtils.replaceTokenNames("This identity card was associated to this data source, you can update or delete this card.", _.extend(submittedTokenModel.toJSON(), e.data)));
+                    document.getElementById('btn_modify_manage_identity_card').disabled = false;
+                    setToken("tk_msg_doc_identity_card_is_global", TokenUtils.replaceTokenNames("TrackMe info: this identity card was associated to this data source, you can update or delete this card, consult: ", _.extend(submittedTokenModel.toJSON(), e.data)));
                 }
             
                 // tags

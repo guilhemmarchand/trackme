@@ -4962,6 +4962,26 @@ identity_cards_associate_card / Associate an existing card with an object
       "_key": "60327fd8af39041f28403191"
     }
 
+**Wildcard matching:**
+
+Wildcard matching can be performed via the REST API endpoint (but not when managed via the UI), the following example will associate any entities starting by ``linux_*``:
+
+*External:*
+
+::
+
+    curl -k -u admin:'ch@ngeM3' -X POST https://localhost:8089/services/trackme/v1/identity_cards/identity_cards_associate_card -d '{"key": "60327fd8af39041f28403191", "object": "linux_*"}'
+
+*SPL query:*
+
+::
+
+    | trackme url="/services/trackme/v1/identity_cards/identity_cards_associate_card" mode="post" body="{\"key\": \"60327fd8af39041f28403191\", \"object\": \"linux_*\"}"
+
+*JSON response :*
+
+
+
 identity_cards_unassociate / Unassociate identity card from an object
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
