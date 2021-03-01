@@ -1840,7 +1840,8 @@ styles in <div> tags, similar to Bootstrap's grid system.
                                                 <div class="panel-element-row">
 
                                                     <div>
-                                                        <h4>$tk_msg_doc_identity_card_is_global$</h4>
+                                                        <hr>
+                                                        <p><i>$tk_msg_doc_identity_card_is_global$ <a target="_blank" href="https://trackme.readthedocs.io/en/latest/userguide.html#data-identity-card">https://trackme.readthedocs.io/en/latest/userguide.html#data-identity-card</a></i></p>
                                                     </div>
 
                                                 </div>
@@ -1884,6 +1885,7 @@ styles in <div> tags, similar to Bootstrap's grid system.
                             <form>
                                 <fieldset>
                                     <legend>Define a link and a note to document this data source</legend>
+                                    <p><b>You can create wildcard matching ID cards to match multiple entities based on your naming convention using the trackme SPL command.</b><br/><i>Open a new tab to: <a target="_blank" href="https://trackme.readthedocs.io/en/latest/userguide.html#data-identity-wildcard-matching">https://trackme.readthedocs.io/en/latest/userguide.html#data-identity-wildcard-matching</a></i></p>
                                     <p>
                                         <label>Optional: enter the documentation link, this will be made available in the source identity card:</label>
                                         <input type = "text"
@@ -9828,7 +9830,6 @@ require([
                 contentType: "application/json",
                 data: JSON.stringify(audit_record),
                 success: function(returneddata) {
-                    //console.log("Updated!", returneddata)
                     // Run the search again to update the table
                 }
             });
@@ -9882,7 +9883,6 @@ require([
         // VARIOUS
         //
 
-        //console.log("Splunk version is " + $C.VERSION_LABEL);
 
         //
         // SEARCH MANAGERS
@@ -17846,6 +17846,7 @@ require([
                 setToken("tk_doc_link", TokenUtils.replaceTokenNames("$row.doc_link$", _.extend(submittedTokenModel.toJSON(), e.data)));
                 setToken("tk_doc_note", TokenUtils.replaceTokenNames("$row.doc_note$", _.extend(submittedTokenModel.toJSON(), e.data)));
                 setToken("tk_doc_identity_card_is_global", TokenUtils.replaceTokenNames("$row.doc_identity_card_is_global$", _.extend(submittedTokenModel.toJSON(), e.data)));
+                setToken("tk_doc_key_match", TokenUtils.replaceTokenNames("$row.doc_key_match$", _.extend(submittedTokenModel.toJSON(), e.data)));
 
                 // tags
                 setToken("tk_tags", TokenUtils.replaceTokenNames("$row.tags$", _.extend(submittedTokenModel.toJSON(), e.data)));
@@ -17898,7 +17899,6 @@ require([
                 // Outliers configuration
 
                 // prefill the current status
-                //console.log("tk_outlierenabledstatus is: " + tk_outlierenabledstatus);
                 if (tk_outlierenabledstatus && tk_outlierenabledstatus == "true") {
                     setToken("form.tk_input_data_source_enable_outlier", TokenUtils.replaceTokenNames("true", _.extend(submittedTokenModel.toJSON(), e.data)));
                 } else {
@@ -17906,45 +17906,36 @@ require([
                 }
 
                 // prefill the current lower multiplier
-                //console.log("tk_outlierlowerthresholdmultiplier is: " + tk_outlierlowerthresholdmultiplier);
                 if (tk_outlierlowerthresholdmultiplier && isNumeric(tk_outlierlowerthresholdmultiplier)) {
                     setToken("form.tk_input_data_source_outlier_lower_threshold_multiplier", TokenUtils.replaceTokenNames(tk_outlierlowerthresholdmultiplier, _.extend(submittedTokenModel.toJSON(), e.data)));
                 }
 
                 // prefill the current upper multiplier
-                //console.log("tk_outlierupperthresholdmultiplier is: " + tk_outlierupperthresholdmultiplier);
                 if (tk_outlierupperthresholdmultiplier && isNumeric(tk_outlierupperthresholdmultiplier)) {
                     setToken("form.tk_input_data_source_outlier_upper_threshold_multiplier", TokenUtils.replaceTokenNames(tk_outlierupperthresholdmultiplier, _.extend(submittedTokenModel.toJSON(), e.data)));
                 }
 
                 // Define the Outliers lowerbound mode
-                //console.log("tk_outliermineventcount is: " + tk_outliermineventcount);
                 if (tk_outliermineventcount && isNumeric(tk_outliermineventcount) && tk_outliermineventcount > 0) {
-                    //console.log("tk_outliermineventcount is: " + tk_outliermineventcount);
-                    //console.log("Outliers is configured in static mode");
                     setToken("form.tk_input_data_source_outlier_min_eventcount_mode", TokenUtils.replaceTokenNames("static", _.extend(submittedTokenModel.toJSON(), e.data)));
                     setToken("form.tk_input_data_source_outlier_min_eventcount", TokenUtils.replaceTokenNames(tk_outliermineventcount, _.extend(submittedTokenModel.toJSON(), e.data)));
                 }
                 else {
-                    //console.log("Outliers is not configured or configured in dynamic mode");
                     setToken("form.tk_input_data_source_outlier_min_eventcount_mode", TokenUtils.replaceTokenNames("dynamic", _.extend(submittedTokenModel.toJSON(), e.data)));
                     setToken("form.tk_input_data_source_outlier_min_eventcount", TokenUtils.replaceTokenNames("disabled", _.extend(submittedTokenModel.toJSON(), e.data)));
                 }
 
                 // prefill the current status
-                //console.log("tk_outlieralertonupper is: " + tk_outlieralertonupper);
                 if (tk_outlieralertonupper && tk_outlieralertonupper != "null") {
                     setToken("form.tk_input_data_source_outlier_alert_on_upper", TokenUtils.replaceTokenNames(tk_outlieralertonupper, _.extend(submittedTokenModel.toJSON(), e.data)));
                 }
 
                 // prefill the outlier span
-                //console.log("tk_outlier_span is: " + tk_outlier_span);
                 if (tk_outlier_span && tk_outlier_span != "null") {
                     setToken("form.TimeOutlierConfigurationDataSourceSpan", TokenUtils.replaceTokenNames(tk_outlier_span, _.extend(submittedTokenModel.toJSON(), e.data)));
                 }
 
                 // prefill the outlier period
-                //console.log("tk_outlier_period is: " + tk_outlier_period);
                 if (tk_outlier_period && tk_outlier_period != "null") {
                     setToken("form.TimeOutlierConfigurationDataSource", TokenUtils.replaceTokenNames(tk_outlier_period, _.extend(submittedTokenModel.toJSON(), e.data)));
                 }
@@ -17953,6 +17944,7 @@ require([
                 var tk_doc_link = tokens.get("tk_doc_link");
                 var tk_doc_note = tokens.get("tk_doc_note");
                 var tk_doc_identity_card_is_global = tokens.get("tk_doc_identity_card_is_global");
+                var tk_doc_key_match = tokens.get("tk_doc_key_match");
 
                 // If the documentation reference has not been set, define the href format
                 if (tk_doc_link == "null") {
@@ -17979,15 +17971,20 @@ require([
                 // If the identity card info is global, disable the delete card
                 if (tk_doc_identity_card_is_global == "true") {
                     document.getElementById('btn_delete_manage_identity_card').disabled = true;
-                    setToken("tk_msg_doc_identity_card_is_global", TokenUtils.replaceTokenNames("This is a default identify card configured at the system level, you cannot delete this card but you can create a new card linked to this specific data source.", _.extend(submittedTokenModel.toJSON(), e.data)));
+                    document.getElementById('btn_modify_manage_identity_card').disabled = false;
+                    setToken("tk_msg_doc_identity_card_is_global", TokenUtils.replaceTokenNames("TrackMe info: this is a default identity card configured at the system level, you cannot delete this card but you can create a new card linked to this specific data source, consult: ", _.extend(submittedTokenModel.toJSON(), e.data)));                
+                } else if (tk_doc_key_match == "wildcard") {
+                    document.getElementById('btn_delete_manage_identity_card').disabled = true;
+                    document.getElementById('btn_modify_manage_identity_card').disabled = true;
+                    setToken("tk_msg_doc_identity_card_is_global", TokenUtils.replaceTokenNames("TrackMe info: this is a wildcard matching identity card, this card has to be managed via the API endpoints, consult: ", _.extend(submittedTokenModel.toJSON(), e.data)));
                 } else {
                     document.getElementById('btn_delete_manage_identity_card').disabled = false;
-                    setToken("tk_msg_doc_identity_card_is_global", TokenUtils.replaceTokenNames("This identity card was associated to this data source, you can update or delete this card.", _.extend(submittedTokenModel.toJSON(), e.data)));
+                    document.getElementById('btn_modify_manage_identity_card').disabled = false;
+                    setToken("tk_msg_doc_identity_card_is_global", TokenUtils.replaceTokenNames("TrackMe info: this identity card was associated to this data source, you can update or delete this card, consult: ", _.extend(submittedTokenModel.toJSON(), e.data)));
                 }
             
                 // tags
                 var tk_tags = tokens.get("tk_tags");
-                //console.log("tk_tags is: " + tk_tags);
 
                 // define the href depending on the tags
                 if (tk_tags == "No tags defined, click on Update tags to define one or more tags to be associated with this data source.") {
@@ -18129,24 +18126,20 @@ require([
                     setToken("tk_data_source_timechart_count_aggreg", TokenUtils.replaceTokenNames("sum", _.extend(submittedTokenModel.toJSON(), e.data)));
                 }
 
-                //console.log("tk_data_source_overview_root_search is: " + tk_data_source_overview_root_search);
                 setToken("tk_data_source_overview_root_search", TokenUtils.replaceTokenNames(tk_data_source_overview_root_search, _.extend(submittedTokenModel.toJSON(), e.data)));
 
                 // Define the history search
 
                 // Honour elastic sources
-                //console.log("tk_data_source_raw_search is: " + tk_data_source_raw_search);
 
                 if (tk_elastic_source_search_mode == "null") {
 
                     // cribl integration
                     if (/\|cribl:/i.test(tk_data_name)) {
                         var search_data_source = 'search' + "?q=search%20index%3D\"" + encodeURI(tk_data_index) + "\"" + " sourcetype%3D\"" + encodeURI(tk_data_sourcetype) + "\"" + " cribl_pipe::" + encodeURI(cribl_pipe)
-                        //console.log(search_data_source);
                     }
                     else {
                         var search_data_source = 'search' + "?q=search%20index%3D\"" + encodeURI(tk_data_index) + "\"" + " sourcetype%3D\"" + encodeURI(tk_data_sourcetype) + "\""
-                        //console.log(search_data_source);
                     }
                     
                 } else {
@@ -18905,7 +18898,6 @@ require([
                 // Outliers configuration
 
                 // prefill the current status
-                //console.log("tk_outlierenabledstatus is: " + tk_outlierenabledstatus);
                 if (tk_outlierenabledstatus && tk_outlierenabledstatus == "true") {
                     setToken("form.tk_input_data_host_enable_outlier", TokenUtils.replaceTokenNames("true", _.extend(submittedTokenModel.toJSON(), e.data)));
                 } else {
@@ -18913,45 +18905,36 @@ require([
                 }
 
                 // prefill the current lower multiplier
-                //console.log("tk_outlierlowerthresholdmultiplier is: " + tk_outlierlowerthresholdmultiplier);
                 if (tk_outlierlowerthresholdmultiplier && isNumeric(tk_outlierlowerthresholdmultiplier)) {
                     setToken("form.tk_input_data_host_outlier_lower_threshold_multiplier", TokenUtils.replaceTokenNames(tk_outlierlowerthresholdmultiplier, _.extend(submittedTokenModel.toJSON(), e.data)));
                 }
 
                 // prefill the current upper multiplier
-                //console.log("tk_outlierupperthresholdmultiplier is: " + tk_outlierupperthresholdmultiplier);
                 if (tk_outlierupperthresholdmultiplier && isNumeric(tk_outlierupperthresholdmultiplier)) {
                     setToken("form.tk_input_data_host_outlier_upper_threshold_multiplier", TokenUtils.replaceTokenNames(tk_outlierupperthresholdmultiplier, _.extend(submittedTokenModel.toJSON(), e.data)));
                 }
 
                 // Define the Outliers lowerbound mode
-                //console.log("tk_outliermineventcount is: " + tk_outliermineventcount);
                 if (tk_outliermineventcount && isNumeric(tk_outliermineventcount) && tk_outliermineventcount > 0) {
-                    //console.log("tk_outliermineventcount is: " + tk_outliermineventcount);
-                    //console.log("Outliers is configured in static mode");
                     setToken("form.tk_input_data_host_outlier_min_eventcount_mode", TokenUtils.replaceTokenNames("static", _.extend(submittedTokenModel.toJSON(), e.data)));
                     setToken("form.tk_input_data_host_outlier_min_eventcount", TokenUtils.replaceTokenNames(tk_outliermineventcount, _.extend(submittedTokenModel.toJSON(), e.data)));
                 }
                 else {
-                    //console.log("Outliers is not configured or configured in dynamic mode");
                     setToken("form.tk_input_data_host_outlier_min_eventcount_mode", TokenUtils.replaceTokenNames("dynamic", _.extend(submittedTokenModel.toJSON(), e.data)));
                     setToken("form.tk_input_data_host_outlier_min_eventcount", TokenUtils.replaceTokenNames("disabled", _.extend(submittedTokenModel.toJSON(), e.data)));
                 }
 
                 // prefill the current status
-                //console.log("tk_outlieralertonupper is: " + tk_outlieralertonupper);
                 if (tk_outlieralertonupper && tk_outlieralertonupper != "null") {
                     setToken("form.tk_input_data_host_outlier_alert_on_upper", TokenUtils.replaceTokenNames(tk_outlieralertonupper, _.extend(submittedTokenModel.toJSON(), e.data)));
                 }
 
                 // prefill the outlier span
-                //console.log("tk_outlier_span is: " + tk_outlier_span);
                 if (tk_outlier_span && tk_outlier_span != "null") {
                     setToken("form.TimeOutlierConfigurationDataHostSpan", TokenUtils.replaceTokenNames(tk_outlier_span, _.extend(submittedTokenModel.toJSON(), e.data)));
                 }
 
                 // prefill the outlier period
-                //console.log("tk_outlier_period is: " + tk_outlier_period);
                 if (tk_outlier_period && tk_outlier_period != "null") {
                     setToken("form.TimeOutlierConfigurationDataHost", TokenUtils.replaceTokenNames(tk_outlier_period, _.extend(submittedTokenModel.toJSON(), e.data)));
                 }
@@ -22654,11 +22637,9 @@ require([
 
         function updateDataSource(tk_keyid) {
 
-            //console.log("Starting function");
 
             // Perform a target search to update key values
             var searchQuery = "| savedsearch trackme_get_data_source_table_by_key key=" + tk_keyid;
-            //console.log(searchQuery);
 
             // Set the search parameters
             var searchParams = {
@@ -22681,15 +22662,12 @@ require([
                       var rows = results.rows;
                       for(var i = 0; i < rows.length; i++) {
                         var values = rows[i];
-                        //console.log("Row " + i + ": ");
                         for(var j = 0; j < values.length; j++) {
                           var field = fields[j];
                           var value = values[j];
-                          //console.log("  " + field + ": " + value);
 
                             // update state color
                             if (field == "data_source_state") {
-                                //console.log("  " + field + ": " + value);
                                 setToken("tk_data_source_state", value);
                                 tk_data_source_state = value
                                 // Dynamically manage state color
@@ -22710,7 +22688,6 @@ require([
 
                             // update priority color
                             if (field == "priority") {
-                                //console.log("  " + field + ": " + value);
                                 setToken("tk_priority", value);
                                 tk_priority = value
                                 // Dynamically manage state color
@@ -22725,7 +22702,6 @@ require([
 
                             // update monitored state
                             if (field == "data_monitored_state") {
-                                //console.log("  " + field + ": " + value);
                                 setToken("tk_data_monitored_state", value);
                                 tk_data_monitored_state = value
                                 // Dynamically manage state color
@@ -22742,55 +22718,47 @@ require([
 
                             // update lag summary
                             if (field == "lag (event / ingestion)") {
-                                //console.log("  " + field + ": " + value);
                                 setToken("tk_data_lag_summary", value);
                                 tk_data_lag_summary = value
                             }
 
                             // update last time
                             if (field == "last time") {
-                                //console.log("  " + field + ": " + value);
                                 setToken("tk_data_last_time_seen_human", value);
                                 tk_data_last_time_seen_human = value
                             }
 
                             // update last ingest
                             if (field == "last ingest") {
-                                //console.log("  " + field + ": " + value);
                                 setToken("tk_data_last_ingest_human", value);
                                 tk_data_last_ingest_human = value
                             }
 
                             // update data_monitoring_level
                             if (field == "data_monitoring_level") {
-                                //console.log("  " + field + ": " + value);
                                 setToken("tk_data_monitoring_level", value);
                                 tk_data_monitoring_level = value
                             }
 
                             // update data_max_lag_allowed
                             if (field == "data_max_lag_allowed") {
-                                //console.log("  " + field + ": " + value);
                                 setToken("tk_data_max_lag_allowed", value);
                                 tk_data_max_lag_allowed = value
                             }
 
                             // update flip
                             if (field == "latest_flip_time (translated)") {
-                                //console.log("  " + field + ": " + value);
                                 setToken("tk_latest_flip_time_human", value);
                                 tk_latest_flip_time_human = value
                             }
 
                             if (field == "latest_flip_state") {
-                                //console.log("  " + field + ": " + value);
                                 setToken("tk_latest_flip_state", value);
                                 tk_latest_flip_state = value
                             }
 
                             // update status_message
                             if (field == "status_message") {
-                                //console.log("  " + field + ": " + value);
                                 setToken("tk_status_message", value);
                                 tk_status_message = value
                             }
@@ -22799,12 +22767,10 @@ require([
                             if (field == "data_sample_status_message") {
                                 setToken("tk_data_sampling_status_message", value);
                                 tk_data_sampling_status_message = value
-                                //console.log("  " + field + ": " + value);
                             }
 
                             // update state color
                             if (field == "data_sample_status_colour") {
-                                //console.log("  " + field + ": " + value);
                                 setToken("tk_data_sampling_status_message_class", value);
                                 tk_data_sampling_status_message_class = value
                                 // Dynamically manage state color
@@ -22838,11 +22804,9 @@ require([
 
         function updateDataHost(tk_keyid) {
 
-            //console.log("Starting function");
 
             // Perform a target search to update key values
             var searchQuery = "| savedsearch trackme_get_data_host_table_by_key key=" + tk_keyid;
-            //console.log(searchQuery);
 
             // Set the search parameters
             var searchParams = {
@@ -22865,15 +22829,12 @@ require([
                       var rows = results.rows;
                       for(var i = 0; i < rows.length; i++) {
                         var values = rows[i];
-                        //console.log("Row " + i + ": ");
                         for(var j = 0; j < values.length; j++) {
                           var field = fields[j];
                           var value = values[j];
-                          //console.log("  " + field + ": " + value);
 
                             // update state color
                             if (field == "data_host_state") {
-                                //console.log("  " + field + ": " + value);
                                 setToken("tk_data_host_state", value);
                                 tk_data_host_state = value
                                 // Dynamically manage state color
@@ -22894,7 +22855,6 @@ require([
 
                             // update priority color
                             if (field == "priority") {
-                                //console.log("  " + field + ": " + value);
                                 setToken("tk_priority", value);
                                 tk_priority = value
                                 // Dynamically manage state color
@@ -22909,7 +22869,6 @@ require([
 
                             // update monitored state
                             if (field == "data_monitored_state") {
-                                //console.log("  " + field + ": " + value);
                                 setToken("tk_data_monitored_state", value);
                                 tk_data_monitored_state = value
                                 // Dynamically manage state color
@@ -22926,55 +22885,47 @@ require([
 
                             // update lag summary
                             if (field == "lag (event / ingestion)") {
-                                //console.log("  " + field + ": " + value);
                                 setToken("tk_data_lag_summary", value);
                                 tk_data_lag_summary = value
                             }
 
                             // update last time
                             if (field == "last time") {
-                                //console.log("  " + field + ": " + value);
                                 setToken("tk_data_last_time_seen_human", value);
                                 tk_data_last_time_seen_human = value
                             }
 
                             // update last ingest
                             if (field == "last ingest") {
-                                //console.log("  " + field + ": " + value);
                                 setToken("tk_data_last_ingest_human", value);
                                 tk_data_last_ingest_human = value
                             }
 
                             // update data_monitoring_level
                             if (field == "data_monitoring_level") {
-                                //console.log("  " + field + ": " + value);
                                 setToken("tk_data_monitoring_level", value);
                                 tk_data_monitoring_level = value
                             }
 
                             // update data_max_lag_allowed
                             if (field == "data_max_lag_allowed") {
-                                //console.log("  " + field + ": " + value);
                                 setToken("tk_data_max_lag_allowed", value);
                                 tk_data_max_lag_allowed = value
                             }
 
                             // update flip
                             if (field == "latest_flip_time (translated)") {
-                                //console.log("  " + field + ": " + value);
                                 setToken("tk_latest_flip_time_human", value);
                                 tk_latest_flip_time_human = value
                             }
 
                             if (field == "latest_flip_state") {
-                                //console.log("  " + field + ": " + value);
                                 setToken("tk_latest_flip_state", value);
                                 tk_latest_flip_state = value
                             }
 
                             // update status_message
                             if (field == "status_message") {
-                                //console.log("  " + field + ": " + value);
                                 setToken("tk_status_message", value);
                                 tk_status_message = value
                             }
@@ -22998,11 +22949,9 @@ require([
 
         function clearDataHost(tk_data_host, tk_comment) {
 
-            //console.log("Starting function");
 
             // Perform a target search to update key values
             var searchQuery = "| inputlookup trackme_host_monitoring where data_host=\"" + tk_data_host + "\" | eval keyid=_key | eval data_host_st_summary=\"\", data_index=\"\", data_sourcetype=\"\" | outputlookup append=t key_field=keyid trackme_host_monitoring";
-            //console.log(searchQuery);
 
             // Set the search parameters
             var searchParams = {
@@ -23025,11 +22974,9 @@ require([
                     var rows = results.rows;
                     for(var i = 0; i < rows.length; i++) {
                         var values = rows[i];
-                        //console.log("Row " + i + ": ");
                         for(var j = 0; j < values.length; j++) {
                         var field = fields[j];
                         var value = values[j];
-                        //console.log("  " + field + ": " + value);
 
                         }
                     }
@@ -23080,7 +23027,6 @@ require([
 
             // Perform a target search to update key values
             var searchQuery = "| savedsearch \"TrackMe - Data host entity refresh\" host=" + tk_data_host;
-            //console.log(searchQuery);
 
             // Set the search parameters
             var searchParams = {
@@ -23103,11 +23049,9 @@ require([
                     var rows = results.rows;
                     for(var i = 0; i < rows.length; i++) {
                         var values = rows[i];
-                        //console.log("Row " + i + ": ");
                         for(var j = 0; j < values.length; j++) {
                         var field = fields[j];
                         var value = values[j];
-                        //console.log("  " + field + ": " + value);
 
                         }
                     }
@@ -23128,11 +23072,9 @@ require([
 
         function clearMetricHost(tk_metric_host, tk_comment) {
 
-            //console.log("Starting function");
 
             // Perform a target search to update key values
             var searchQuery = "| inputlookup trackme_metric_host_monitoring where metric_host=\"" + tk_metric_host + "\" | eval keyid=_key | eval metric_category=\"\", metric_details=\"\" | outputlookup append=t key_field=keyid trackme_metric_host_monitoring";
-            //console.log(searchQuery);
 
             // Set the search parameters
             var searchParams = {
@@ -23155,11 +23097,9 @@ require([
                     var rows = results.rows;
                     for(var i = 0; i < rows.length; i++) {
                         var values = rows[i];
-                        //console.log("Row " + i + ": ");
                         for(var j = 0; j < values.length; j++) {
                         var field = fields[j];
                         var value = values[j];
-                        //console.log("  " + field + ": " + value);
 
                         }
                     }
@@ -23210,7 +23150,6 @@ require([
 
             // Perform a target search to update key values
             var searchQuery = "| savedsearch trackme_update_metric_host_target_by_metric_host host=\"" + tk_metric_host + "\"";
-            //console.log(searchQuery);
 
             // Set the search parameters
             var searchParams = {
@@ -23233,11 +23172,9 @@ require([
                     var rows = results.rows;
                     for(var i = 0; i < rows.length; i++) {
                         var values = rows[i];
-                        //console.log("Row " + i + ": ");
                         for(var j = 0; j < values.length; j++) {
                         var field = fields[j];
                         var value = values[j];
-                        //console.log("  " + field + ": " + value);
 
                         }
                     }
@@ -23258,11 +23195,9 @@ require([
 
         function updateMetricHost(tk_keyid) {
 
-            //console.log("Starting function");
 
             // Perform a target search to update key values
             var searchQuery = "| savedsearch trackme_get_metric_host_table_by_key key=\"" + tk_keyid + "\"";
-            //console.log(searchQuery);
 
             // Set the search parameters
             var searchParams = {
@@ -23285,15 +23220,12 @@ require([
                       var rows = results.rows;
                       for(var i = 0; i < rows.length; i++) {
                         var values = rows[i];
-                        //console.log("Row " + i + ": ");
                         for(var j = 0; j < values.length; j++) {
                           var field = fields[j];
                           var value = values[j];
-                          //console.log("  " + field + ": " + value);
 
                             // update state color
                             if (field == "metric_host_state") {
-                                //console.log("  " + field + ": " + value);
                                 setToken("tk_metric_host_state", value);
                                 tk_metric_host_state = value
                                 // Dynamically manage state color
@@ -23314,7 +23246,6 @@ require([
 
                             // update priority color
                             if (field == "priority") {
-                                //console.log("  " + field + ": " + value);
                                 setToken("tk_priority", value);
                                 tk_priority = value
                                 // Dynamically manage state color
@@ -23329,7 +23260,6 @@ require([
 
                             // update monitored state
                             if (field == "metric_monitored_state") {
-                                //console.log("  " + field + ": " + value);
                                 setToken("tk_metric_monitored_state", value);
                                 tk_metric_monitored_state = value
                                 // Dynamically manage state color
@@ -23346,27 +23276,23 @@ require([
 
                             // update last time
                             if (field == "last time") {
-                                //console.log("  " + field + ": " + value);
                                 setToken("tk_metric_last_time_seen_human", value);
                                 tk_metric_last_time_seen_human = value
                             }
 
                             // update flip
                             if (field == "latest_flip_time (translated)") {
-                                //console.log("  " + field + ": " + value);
                                 setToken("tk_latest_flip_time_human", value);
                                 tk_latest_flip_time_human = value
                             }
 
                             if (field == "latest_flip_state") {
-                                //console.log("  " + field + ": " + value);
                                 setToken("tk_latest_flip_state", value);
                                 tk_latest_flip_state = value
                             }
 
                             // update status_message
                             if (field == "status_message") {
-                                //console.log("  " + field + ": " + value);
                                 setToken("tk_status_message", value);
                                 tk_status_message = value
                             }
@@ -23390,13 +23316,11 @@ require([
 
         function updateDataSourceEntity(tk_data_name, tk_data_index, tk_data_sourcetype) {
 
-            //console.log("Starting function");
 
             // First retrieve the name of the search to run depending on the context
 
             // Define the query
             var searchQuery = "| `trackme_get_tracker_data_source(\"" + tk_data_name + "\", \"" + tk_data_index + "\", \"" + tk_data_sourcetype + "\")`";
-            //console.log(searchQuery);
 
             // Set the search parameters
             var searchParams = {
@@ -23418,7 +23342,6 @@ require([
 
                     for (var i = 0; i < rows.length; i++) {
                         var values = rows[i];
-                        //console.log("Row " + i + ": ");
 
                         for (var j = 0; j < values.length; j++) {
                             var field = fields[j];
@@ -23429,11 +23352,8 @@ require([
                         }
                     }
 
-                    //console.log("savedsearch_name: " + savedsearch_name);
-                    //console.log("Starting update entity");
 
                     var searchQuery = "| savedsearch " + savedsearch_name;
-                    //console.log(searchQuery);
 
                     // Set the search parameters
                     var searchParams = {
@@ -23456,11 +23376,9 @@ require([
                               var rows = results.rows;
                               for(var i = 0; i < rows.length; i++) {
                                 var values = rows[i];
-                                //console.log("Row " + i + ": ");
                                 for(var j = 0; j < values.length; j++) {
                                   var field = fields[j];
                                   var value = values[j];
-                                  //console.log("  " + field + ": " + value);
 
                                 }
                               }
@@ -23483,11 +23401,9 @@ require([
 
         function updateDataHostEntity(tk_summary_report, tk_data_host) {
 
-            //console.log("Starting function");
 
             // Perform a target search to update key values
             var searchQuery = "| savedsearch \"TrackMe - Data host entity refresh\" host=" + tk_data_host;
-            //console.log(searchQuery);
 
             // Set the search parameters
             var searchParams = {
@@ -23510,11 +23426,9 @@ require([
                       var rows = results.rows;
                       for(var i = 0; i < rows.length; i++) {
                         var values = rows[i];
-                        //console.log("Row " + i + ": ");
                         for(var j = 0; j < values.length; j++) {
                           var field = fields[j];
                           var value = values[j];
-                          //console.log("  " + field + ": " + value);
 
                         }
                       }
@@ -23537,11 +23451,9 @@ require([
 
         function metricOutliersGen(object_category, object, TargetOutlierTimePeriod) {
 
-            //console.log("Starting function");
 
             // Perform a target search to update key values
             var searchQuery = "| `trackme_outliers_gen_metrics(" + object_category + "," + object + "," + TargetOutlierTimePeriod + ")`";
-            //console.log(searchQuery);
 
             // Set the search parameters
             var searchParams = {
@@ -23566,18 +23478,15 @@ require([
                                 var rows = results.rows;
                                 for (var i = 0; i < rows.length; i++) {
                                     var values = rows[i];
-                                    //console.log("Row " + i + ": ");
                                     for (var j = 0; j < values.length; j++) {
                                         var field = fields[j];
                                         var value = values[j];
-                                        //console.log("  " + field + ": " + value);
 
                                     }
                                 }
 
                                 // Perform a target search to update key values
                                 var searchQuery = "| `trackme_summary_investigator_mstats(" + object_category + "," + object + ")`" + " `trackme_summary_investigator_define_bound_abstract` | eval key = md5(object_category . \":\" . object) | `trackme_outputlookup(trackme_summary_investigator_volume_outliers, key)` | stats c";
-                                //console.log(searchQuery);
 
                                 // Set the search parameters
                                 var searchParams = {
@@ -23602,11 +23511,9 @@ require([
                                                     var rows = results.rows;
                                                     for (var i = 0; i < rows.length; i++) {
                                                         var values = rows[i];
-                                                        //console.log("Row " + i + ": ");
                                                         for (var j = 0; j < values.length; j++) {
                                                             var field = fields[j];
                                                             var value = values[j];
-                                                            //console.log("  " + field + ": " + value);
 
                                                         }
                                                     }
@@ -23770,7 +23677,6 @@ require([
                         contentType: "application/json",
                         data: JSON.stringify(record),
                         success: function(returneddata) {
-                            //console.log("Updated!", returneddata)
                             // Run the search again to update the table
                             searchDataSourcesMain.startSearch();
 
@@ -23929,7 +23835,6 @@ require([
                         contentType: "application/json",
                         data: JSON.stringify(record),
                         success: function(returneddata) {
-                            //console.log("Updated!", returneddata)
                             // Run the search again to update the table
                             searchDataHostsMain.startSearch();
 
@@ -24121,7 +24026,6 @@ require([
                         contentType: "application/json",
                         data: JSON.stringify(record),
                         success: function(returneddata) {
-                            //console.log("Updated!", returneddata)
                             // Run the search again to update the table
                             searchMetricHostsMain.startSearch();
 
@@ -24231,7 +24135,6 @@ require([
                     contentType: "application/json",
                     data: JSON.stringify(record),
                     success: function(returneddata) {
-                        //console.log("Updated!", returneddata)
                         // Run the search again to update the table
                         searchMetricHostsMain.startSearch();
 
@@ -24414,7 +24317,6 @@ require([
                         contentType: "application/json",
                         data: JSON.stringify(record),
                         success: function(returneddata) {
-                            //console.log("Updated!", returneddata)
                             // Run the search again to update the table
                             searchDataSourcesMain.startSearch();
 
@@ -24573,7 +24475,6 @@ require([
                         contentType: "application/json",
                         data: JSON.stringify(record),
                         success: function(returneddata) {
-                            //console.log("Updated!", returneddata)
                             // Run the search again to update the table
                             searchDataHostsMain.startSearch();
 
@@ -24661,7 +24562,6 @@ require([
                 "priority": tk_priority
             };
 
-            //console.log(record);
 
             if (!tk_keyid || !tk_keyid.length) {
                 // Show an error message
@@ -24701,7 +24601,6 @@ require([
                         contentType: "application/json",
                         data: JSON.stringify(record),
                         success: function(returneddata) {
-                            //console.log("Updated!", returneddata)
                             // Run the search again to update the table
                             searchMetricHostsMain.startSearch();
 
@@ -24758,7 +24657,6 @@ require([
             // Hide main modal
             $("#modal_manage_metric_host").modal('hide');
 
-            //console.log(record);
 
             if (!tk_keyid || !tk_keyid.length) {
                 // Show an error message
@@ -24904,7 +24802,6 @@ require([
                             async: true,
                             contentType: "application/json",
                             success: function(returneddata) {
-                                //console.log("Updated!", returneddata)
                                 // Run the search again to update the table
                                 searchMetricHostsMain.startSearch();
 
@@ -24984,7 +24881,6 @@ require([
                             async: true,
                             contentType: "application/json",
                             success: function(returneddata) {
-                                //console.log("Updated!", returneddata)
                                 // Run the search again to update the table
                                 searchMetricHostsMain.startSearch();
 
@@ -25162,7 +25058,6 @@ require([
                             async: true,
                             contentType: "application/json",
                             success: function(returneddata) {
-                                //console.log("Updated!", returneddata)
                                 // Run the search again to update the table
                                 searchDataSourcesMain.startSearch();
 
@@ -25243,7 +25138,6 @@ require([
                             async: true,
                             contentType: "application/json",
                             success: function(returneddata) {
-                                //console.log("Updated!", returneddata)
                                 // Run the search again to update the table
                                 searchDataSourcesMain.startSearch();
 
@@ -25309,7 +25203,6 @@ require([
             // Hide main modal
             $("#modal_manage_host").modal('hide');
 
-            //console.log(record);
 
             if (!tk_keyid || !tk_keyid.length) {
                 // Show an error message
@@ -25495,7 +25388,6 @@ require([
                             async: true,
                             contentType: "application/json",
                             success: function(returneddata) {
-                                //console.log("Updated!", returneddata)
                                 // Run the search again to update the table
                                 searchDataHostsMain.startSearch();
 
@@ -25575,7 +25467,6 @@ require([
                             async: true,
                             contentType: "application/json",
                             success: function(returneddata) {
-                                //console.log("Updated!", returneddata)
                                 // Run the search again to update the table
                                 searchDataHostsMain.startSearch();
 
@@ -25747,12 +25638,10 @@ require([
         });
 
         function foreachDeleteMetricSlaPolicy(item) {
-        //console.log("removal of key :" + item);
 
             // Create the endpoint URL
             var myendpoint_URl = "{{SPLUNKWEB_URL_PREFIX}}/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_metric_lagging_definition/" + item;
 
-            //console.log("Endpoint URL is: " + myendpoint_URl);
 
             if (item && item.length) {
 
@@ -25766,7 +25655,6 @@ require([
 
                         var removedObject = returneddata.metric_category;
                         var removedObjectAttr = returneddata.metric_max_lag_allowed;
-                        //console.log("removedObject is: " + removedObject);
 
                         // Retrieve update comment if any
                         var tk_comment = document.getElementById("metric_host_sla_policy_delete_comment").value;
@@ -25787,7 +25675,6 @@ require([
                             contentType: "application/json",
                             success: function(returneddata) {
 
-                                //console.log(returneddata);
 
                                 // Audit
                                 action = "success";
@@ -25839,7 +25726,6 @@ require([
 
         $("#btn_delete_metric_sla_policy_level2").click(function() {
 
-            //console.log("Button was pressed");
 
             submitTokens();
 
@@ -25848,9 +25734,7 @@ require([
 
             // Get the arrays of keys
             var tk_multi_table_array = tokens.get("removeMetricPolicies");
-            //console.log("tk_multi_table_array is: " + tk_multi_table_array);
             tk_multi_table_array = tk_multi_table_array.split(',');
-            //console.log("tk_multi_table_array is: " + tk_multi_table_array);
 
             // Call the function for each value from the array
             tk_multi_table_array.forEach(foreachDeleteMetricSlaPolicy);
@@ -25858,7 +25742,6 @@ require([
             // Hide main modal
             $("#manage_metric_sla_policy").modal('hide');
 
-            //console.log("Updated!", returneddata)
             // Run the search again to update the table
             searchMetricHostsMain.startSearch();
 
@@ -25888,7 +25771,6 @@ require([
             // Create the endpoint URL
             var myendpoint_URl = "{{SPLUNKWEB_URL_PREFIX}}/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_custom_lagging_definition";
 
-            //console.log("Endpoint URL is: " + myendpoint_URl);
 
             // Define the query
             var searchQuery = "| inputlookup trackme_custom_lagging_definition | append [ | makeresults | eval level=\"" + tk_input_custom_lagging_type + "\", name=\"" + tk_input_custom_lagging_name + "\", object=\"" + tk_input_custom_lagging_object + "\", value=\"" + tk_input_custom_lagging_value + "\" ] | dedup level, name, object, value | sort limit=0 level, name | outputlookup trackme_custom_lagging_definition";
@@ -25997,12 +25879,10 @@ require([
         });
 
         function foreachDeleteLaggingClassDataSource(item) {
-        //console.log("removal of key :" + item);
 
             // Create the endpoint URL
             var myendpoint_URl = "{{SPLUNKWEB_URL_PREFIX}}/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_custom_lagging_definition/" + item;
 
-            //console.log("Endpoint URL is: " + myendpoint_URl);
 
             if (item && item.length) {
 
@@ -26018,10 +25898,6 @@ require([
                         var removedObjectAttr1 = returneddata.level;
                         var removedObjectAttr2 = returneddata.value;
                         var removedObjectAttr3 = returneddata.object;
-                        //console.log("removedObject is: " + removedObject);
-                        //console.log("removedObjectAttr1 is: " + removedObjectAttr1);
-                        //console.log("removedObjectAttr2 is: " + removedObjectAttr2);
-                        //console.log("removedObjectAttr3 is: " + removedObjectAttr3);
 
                         // Retrieve update comment if any
                         var tk_comment = document.getElementById("data_source_lagging_policy_delete_comment").value;
@@ -26042,7 +25918,6 @@ require([
                             contentType: "application/json",
                             success: function(returneddata) {
 
-                                //console.log(returneddata);
 
                                 // Audit
                                 action = "success";
@@ -26094,7 +25969,6 @@ require([
 
         $("#btn_lagging_data_source_policy_delete_level2").click(function() {
 
-            //console.log("Button was pressed");
 
             submitTokens();
 
@@ -26103,9 +25977,7 @@ require([
 
             // Get the arrays of keys
             var tk_multi_table_array = tokens.get("removeDataSourceLaggingPolicy");
-            //console.log("tk_multi_table_array is: " + tk_multi_table_array);
             tk_multi_table_array = tk_multi_table_array.split(',');
-            //console.log("tk_multi_table_array is: " + tk_multi_table_array);
 
             // Call the function for each value from the array
             tk_multi_table_array.forEach(foreachDeleteLaggingClassDataSource);
@@ -26125,7 +25997,6 @@ require([
 
         $("#btn_delete_custom_lagging").click(function() {
 
-            //console.log("Button was pressed");
 
             submitTokens();
 
@@ -26143,7 +26014,6 @@ require([
             var tk_input_custom_lagging_name = tokens.get("tk_input_custom_lagging_name");
             var tk_input_custom_lagging_value = tokens.get("tk_input_custom_lagging_value");
 
-            //console.log("Endpoint URL is: " + myendpoint_URl);
 
             if (tk_keyid && tk_keyid.length) {
 
@@ -26157,7 +26027,6 @@ require([
                         // Hide main modal
                         $("#manage_custom_lagging").modal('hide');
 
-                        //console.log("Updated!", returneddata)
                         // Run the search again to update the table
                         searchCustomLagging.startSearch();
 
@@ -26222,7 +26091,6 @@ require([
 
             // When the Submit button is clicked, get all the form fields by accessing token values
             var tk_textinput_whitelist_data_source = tokens.get("tk_textinput_whitelist_data_source");
-            //console.log("tk_textinput_whitelist_data_source is: " + tk_textinput_whitelist_data_source);
 
             // choose
             var tk_add_new_item
@@ -26236,7 +26104,6 @@ require([
             // Create the endpoint URL
             var myendpoint_URl = "{{SPLUNKWEB_URL_PREFIX}}/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_data_source_monitoring_whitelist_index";
 
-            //console.log("Endpoint URL is: " + myendpoint_URl);
 
             // Define the query
             var searchQuery = "| inputlookup trackme_data_source_monitoring_whitelist_index | append [ | makeresults | eval data_index=\"" + tk_add_new_item + "\"] | dedup data_index | sort limit=0 data_index | outputlookup trackme_data_source_monitoring_whitelist_index";
@@ -26353,12 +26220,10 @@ require([
         });
 
         function foreachDeleteWhitelistDataSource(item) {
-          //console.log("removal of key :" + item);
 
             // Create the endpoint URL
             var myendpoint_URl = "{{SPLUNKWEB_URL_PREFIX}}/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_data_source_monitoring_whitelist_index/" + item;
 
-            //console.log("Endpoint URL is: " + myendpoint_URl);
 
             if (item && item.length) {
 
@@ -26371,7 +26236,6 @@ require([
                     success: function(returneddata) {
 
                         var removedObject = returneddata.data_index;
-                        //console.log("removedObject is: " + removedObject);
 
                         // Retrieve update comment if any
                         var tk_comment = document.getElementById("data_source_whitelist_index_delete_comment").value;
@@ -26392,7 +26256,6 @@ require([
                             contentType: "application/json",
                             success: function(returneddata) {
 
-                                //console.log(returneddata);
 
                                 // Audit
                                 action = "success";
@@ -26445,7 +26308,6 @@ require([
 
         $("#btn_delete_data_source_whitelist").click(function() {
 
-            //console.log("Button was pressed");
 
             submitTokens();
 
@@ -26455,7 +26317,6 @@ require([
             // Get the arrays of keys
             var tk_multi_table_array = tokens.get("removeWhitelistDataSource");
             tk_multi_table_array = tk_multi_table_array.split(',');
-            //console.log("tk_multi_table_array is: " + tk_multi_table_array);
 
             // Call the function for each value from the array
             tk_multi_table_array.forEach(foreachDeleteWhitelistDataSource);
@@ -26463,7 +26324,6 @@ require([
             // Hide main modal
             $("#modal_manage_data_source_whitelist").modal('hide');
 
-            //console.log("Updated!", returneddata)
             // Run the search again to update the table
             searchDataSourcesMain.startSearch();
             unsetToken("form.tk_input_whitelist_data_source");
@@ -26490,7 +26350,6 @@ require([
 
             // When the Submit button is clicked, get all the form fields by accessing token values
             var tk_textinput_whitelist_metric_host = tokens.get("tk_textinput_whitelist_metric_host");
-            //console.log("tk_textinput_whitelist_metric_host is: " + tk_textinput_whitelist_metric_host);
 
             // choose
             var tk_add_new_item
@@ -26504,7 +26363,6 @@ require([
             // Create the endpoint URL
             var myendpoint_URl = "{{SPLUNKWEB_URL_PREFIX}}/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_metric_host_monitoring_whitelist_index";
 
-            //console.log("Endpoint URL is: " + myendpoint_URl);
 
             // Define the query
             var searchQuery = "| inputlookup trackme_metric_host_monitoring_whitelist_index | append [ | makeresults | eval metric_index=\"" + tk_add_new_item + "\"] | dedup metric_index | sort limit=0 metric_index | outputlookup trackme_metric_host_monitoring_whitelist_index";
@@ -26621,12 +26479,10 @@ require([
         });
 
         function foreachDeleteWhitelistMetricHost(item) {
-          //console.log("removal of key :" + item);
 
             // Create the endpoint URL
             var myendpoint_URl = "{{SPLUNKWEB_URL_PREFIX}}/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_metric_host_monitoring_whitelist_index/" + item;
 
-            //console.log("Endpoint URL is: " + myendpoint_URl);
 
             if (item && item.length) {
 
@@ -26639,7 +26495,6 @@ require([
                     success: function(returneddata) {
 
                         var removedObject = returneddata.metric_index;
-                        //console.log("removedObject is: " + removedObject);
 
                         // Retrieve update comment if any
                         var tk_comment = document.getElementById("metric_host_whitelist_index_delete_comment").value;
@@ -26660,7 +26515,6 @@ require([
                             contentType: "application/json",
                             success: function(returneddata) {
 
-                                //console.log(returneddata);
 
                                 // Audit
                                 action = "success";
@@ -26713,7 +26567,6 @@ require([
 
         $("#btn_delete_metric_host_whitelist").click(function() {
 
-            //console.log("Button was pressed");
 
             submitTokens();
 
@@ -26723,7 +26576,6 @@ require([
             // Get the arrays of keys
             var tk_multi_table_array = tokens.get("removeWhitelistMetricHost");
             tk_multi_table_array = tk_multi_table_array.split(',');
-            //console.log("tk_multi_table_array is: " + tk_multi_table_array);
 
             // Call the function for each value from the array
             tk_multi_table_array.forEach(foreachDeleteWhitelistMetricHost);
@@ -26731,7 +26583,6 @@ require([
             // Hide main modal
             $("#modal_manage_metric_host_whitelist").modal('hide');
 
-            //console.log("Updated!", returneddata)
             // Run the search again to update the table
             searchMetricHostsMain.startSearch();
             unsetToken("form.tk_input_whitelist_metric_host");
@@ -26758,7 +26609,6 @@ require([
 
             // When the Submit button is clicked, get all the form fields by accessing token values
             var tk_textinput_whitelist_data_host = tokens.get("tk_textinput_whitelist_data_host");
-            //console.log("tk_textinput_whitelist_data_host is: " + tk_textinput_whitelist_data_host);
 
             // choose
             var tk_add_new_item
@@ -26772,7 +26622,6 @@ require([
             // Create the endpoint URL
             var myendpoint_URl = "{{SPLUNKWEB_URL_PREFIX}}/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_data_host_monitoring_whitelist_index";
 
-            //console.log("Endpoint URL is: " + myendpoint_URl);
 
             // Define the query
             var searchQuery = "| inputlookup trackme_data_host_monitoring_whitelist_index | append [ | makeresults | eval data_index=\"" + tk_add_new_item + "\"] | dedup data_index | sort limit=0 data_index | outputlookup trackme_data_host_monitoring_whitelist_index";
@@ -26889,12 +26738,10 @@ require([
         });
 
         function foreachDeleteWhitelistDataHost(item) {
-          //console.log("removal of key :" + item);
 
             // Create the endpoint URL
             var myendpoint_URl = "{{SPLUNKWEB_URL_PREFIX}}/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_data_host_monitoring_whitelist_index/" + item;
 
-            //console.log("Endpoint URL is: " + myendpoint_URl);
 
             if (item && item.length) {
 
@@ -26907,7 +26754,6 @@ require([
                     success: function(returneddata) {
 
                         var removedObject = returneddata.data_index;
-                        //console.log("removedObject is: " + removedObject);
 
                         // Retrieve update comment if any
                         var tk_comment = document.getElementById("data_host_whitelist_index_delete_comment").value;
@@ -26928,7 +26774,6 @@ require([
                             contentType: "application/json",
                             success: function(returneddata) {
 
-                                //console.log(returneddata);
 
                                 // Audit
                                 action = "success";
@@ -26981,7 +26826,6 @@ require([
 
         $("#btn_delete_data_host_whitelist").click(function() {
 
-            //console.log("Button was pressed");
 
             submitTokens();
 
@@ -26991,7 +26835,6 @@ require([
             // Get the arrays of keys
             var tk_multi_table_array = tokens.get("removeWhitelistDataHost");
             tk_multi_table_array = tk_multi_table_array.split(',');
-            //console.log("tk_multi_table_array is: " + tk_multi_table_array);
 
             // Call the function for each value from the array
             tk_multi_table_array.forEach(foreachDeleteWhitelistDataHost);
@@ -26999,7 +26842,6 @@ require([
             // Hide main modal
             $("#modal_manage_data_host_whitelist").modal('hide');
 
-            //console.log("Updated!", returneddata)
             // Run the search again to update the table
             searchDataHostsMain.startSearch();
             unsetToken("form.tk_input_whitelist_data_host");
@@ -27031,7 +26873,6 @@ require([
             // Create the endpoint URL
             var myendpoint_URl = "{{SPLUNKWEB_URL_PREFIX}}/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_data_source_monitoring_blacklist_host";
 
-            //console.log("Endpoint URL is: " + myendpoint_URl);
 
             // Define the query
             var searchQuery = "| inputlookup trackme_data_source_monitoring_blacklist_host | append [ | makeresults | eval data_host=\"" + tk_input_blacklist_host + "\", data_blacklist_state=\"true\" ] | dedup data_host | sort limit=0 data_host | outputlookup trackme_data_source_monitoring_blacklist_host";
@@ -27144,12 +26985,10 @@ require([
         });
 
         function foreachDeleteBlacklistDataSourceHost(item) {
-        //console.log("removal of key :" + item);
 
             // Create the endpoint URL
             var myendpoint_URl = "{{SPLUNKWEB_URL_PREFIX}}/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_data_source_monitoring_blacklist_host/" + item;
 
-            //console.log("Endpoint URL is: " + myendpoint_URl);
 
             if (item && item.length) {
 
@@ -27162,7 +27001,6 @@ require([
                     success: function(returneddata) {
 
                         var removedObject = returneddata.data_host;
-                        //console.log("removedObject is: " + removedObject);
 
                         // Retrieve update comment if any
                         var tk_comment = document.getElementById("data_source_blocklist_host_delete_comment").value;
@@ -27183,7 +27021,6 @@ require([
                             contentType: "application/json",
                             success: function(returneddata) {
 
-                                //console.log(returneddata);
 
                                 // Audit
                                 action = "success";
@@ -27235,7 +27072,6 @@ require([
 
         $("#btn_delete_data_source_blacklist_host").click(function() {
 
-            //console.log("Button was pressed");
 
             submitTokens();
 
@@ -27244,9 +27080,7 @@ require([
 
             // Get the arrays of keys
             var tk_multi_table_array = tokens.get("removeBlacklistDataSourceHost");
-            //console.log("tk_multi_table_array is: " + tk_multi_table_array);
             tk_multi_table_array = tk_multi_table_array.split(',');
-            //console.log("tk_multi_table_array is: " + tk_multi_table_array);
 
             // Call the function for each value from the array
             tk_multi_table_array.forEach(foreachDeleteBlacklistDataSourceHost);
@@ -27254,7 +27088,6 @@ require([
             // Hide main modal
             $("#modal_manage_data_host_whitelist").modal('hide');
 
-            //console.log("Updated!", returneddata)
             // Run the search again to update the table
             searchDataSourcesMain.startSearch();
 
@@ -27281,7 +27114,6 @@ require([
             // Create the endpoint URL
             var myendpoint_URl = "{{SPLUNKWEB_URL_PREFIX}}/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_data_host_monitoring_blacklist_host";
 
-            //console.log("Endpoint URL is: " + myendpoint_URl);
 
             // Define the query
             var searchQuery = "| inputlookup trackme_data_host_monitoring_blacklist_host | append [ | makeresults | eval data_host=\"" + tk_input_blacklist_host + "\", data_blacklist_state=\"true\" ] | dedup data_host | sort limit=0 data_host | outputlookup trackme_data_host_monitoring_blacklist_host";
@@ -27404,7 +27236,6 @@ require([
             // Create the endpoint URL
             var myendpoint_URl = "{{SPLUNKWEB_URL_PREFIX}}/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_data_source_monitoring_blacklist_index";
 
-            //console.log("Endpoint URL is: " + myendpoint_URl);
 
             // Define the query
             var searchQuery = "| inputlookup trackme_data_source_monitoring_blacklist_index | append [ | makeresults | eval data_index=\"" + tk_input_blacklist_index + "\", data_blacklist_state=\"true\" ] | dedup data_index | sort limit=0 data_index | outputlookup trackme_data_source_monitoring_blacklist_index";
@@ -27518,12 +27349,10 @@ require([
         });
 
         function foreachDeleteBlacklistDataSourceIndex(item) {
-        //console.log("removal of key :" + item);
 
             // Create the endpoint URL
             var myendpoint_URl = "{{SPLUNKWEB_URL_PREFIX}}/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_data_source_monitoring_blacklist_index/" + item;
 
-            //console.log("Endpoint URL is: " + myendpoint_URl);
 
             if (item && item.length) {
 
@@ -27536,7 +27365,6 @@ require([
                     success: function(returneddata) {
 
                         var removedObject = returneddata.data_index;
-                        //console.log("removedObject is: " + removedObject);
 
                         // Retrieve update comment if any
                         var tk_comment = document.getElementById("data_source_blocklist_host_delete_comment").value;
@@ -27557,7 +27385,6 @@ require([
                             contentType: "application/json",
                             success: function(returneddata) {
 
-                                //console.log(returneddata);
 
                                 // Audit
                                 action = "success";
@@ -27609,7 +27436,6 @@ require([
 
         $("#btn_delete_data_source_blacklist_index").click(function() {
 
-            //console.log("Button was pressed");
 
             submitTokens();
 
@@ -27618,9 +27444,7 @@ require([
 
             // Get the arrays of keys
             var tk_multi_table_array = tokens.get("removeBlacklistDataSourceIndex");
-            //console.log("tk_multi_table_array is: " + tk_multi_table_array);
             tk_multi_table_array = tk_multi_table_array.split(',');
-            //console.log("tk_multi_table_array is: " + tk_multi_table_array);
 
             // Call the function for each value from the array
             tk_multi_table_array.forEach(foreachDeleteBlacklistDataSourceIndex);
@@ -27628,7 +27452,6 @@ require([
             // Hide main modal
             $("#modal_manage_data_host_whitelist").modal('hide');
 
-            //console.log("Updated!", returneddata)
             // Run the search again to update the table
             searchDataSourcesMain.startSearch();
 
@@ -27648,12 +27471,10 @@ require([
         });
 
         function foreachDeleteBlacklistDataHostIndex(item) {
-        //console.log("removal of key :" + item);
 
             // Create the endpoint URL
             var myendpoint_URl = "{{SPLUNKWEB_URL_PREFIX}}/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_data_host_monitoring_blacklist_index/" + item;
 
-            //console.log("Endpoint URL is: " + myendpoint_URl);
 
             if (item && item.length) {
 
@@ -27666,7 +27487,6 @@ require([
                     success: function(returneddata) {
 
                         var removedObject = returneddata.data_index;
-                        //console.log("removedObject is: " + removedObject);
 
                         // Retrieve update comment if any
                         var tk_comment = document.getElementById("data_host_blocklist_host_delete_comment").value;
@@ -27687,7 +27507,6 @@ require([
                             contentType: "application/json",
                             success: function(returneddata) {
 
-                                //console.log(returneddata);
 
                                 // Audit
                                 action = "success";
@@ -27739,7 +27558,6 @@ require([
 
         $("#btn_delete_data_host_blacklist_index").click(function() {
 
-            //console.log("Button was pressed");
 
             submitTokens();
 
@@ -27748,9 +27566,7 @@ require([
 
             // Get the arrays of keys
             var tk_multi_table_array = tokens.get("removeBlacklistDataHostIndex");
-            //console.log("tk_multi_table_array is: " + tk_multi_table_array);
             tk_multi_table_array = tk_multi_table_array.split(',');
-            //console.log("tk_multi_table_array is: " + tk_multi_table_array);
 
             // Call the function for each value from the array
             tk_multi_table_array.forEach(foreachDeleteBlacklistDataHostIndex);
@@ -27758,7 +27574,6 @@ require([
             // Hide main modal
             $("#modal_manage_data_host_whitelist").modal('hide');
 
-            //console.log("Updated!", returneddata)
             // Run the search again to update the table
             searchDataSourcesMain.startSearch();
 
@@ -27785,7 +27600,6 @@ require([
             // Create the endpoint URL
             var myendpoint_URl = "{{SPLUNKWEB_URL_PREFIX}}/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_data_host_monitoring_blacklist_index";
 
-            //console.log("Endpoint URL is: " + myendpoint_URl);
 
             // Define the query
             var searchQuery = "| inputlookup trackme_data_host_monitoring_blacklist_index | append [ | makeresults | eval data_index=\"" + tk_input_blacklist_index + "\", data_blacklist_state=\"true\" ] | dedup data_index | sort limit=0 data_index | outputlookup trackme_data_host_monitoring_blacklist_index";
@@ -27899,12 +27713,10 @@ require([
         });
 
         function foreachDeleteBlacklistDataHostHost(item) {
-        //console.log("removal of key :" + item);
 
             // Create the endpoint URL
             var myendpoint_URl = "{{SPLUNKWEB_URL_PREFIX}}/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_data_host_monitoring_blacklist_host/" + item;
 
-            //console.log("Endpoint URL is: " + myendpoint_URl);
 
             if (item && item.length) {
 
@@ -27917,7 +27729,6 @@ require([
                     success: function(returneddata) {
 
                         var removedObject = returneddata.data_host;
-                        //console.log("removedObject is: " + removedObject);
 
                         // Retrieve update comment if any
                         var tk_comment = document.getElementById("data_host_blocklist_host_delete_comment").value;
@@ -27938,7 +27749,6 @@ require([
                             contentType: "application/json",
                             success: function(returneddata) {
 
-                                //console.log(returneddata);
 
                                 // Audit
                                 action = "success";
@@ -27990,7 +27800,6 @@ require([
 
         $("#btn_delete_data_host_blacklist_host").click(function() {
 
-            //console.log("Button was pressed");
 
             submitTokens();
 
@@ -27999,9 +27808,7 @@ require([
 
             // Get the arrays of keys
             var tk_multi_table_array = tokens.get("removeBlacklistDataHostHost");
-            //console.log("tk_multi_table_array is: " + tk_multi_table_array);
             tk_multi_table_array = tk_multi_table_array.split(',');
-            //console.log("tk_multi_table_array is: " + tk_multi_table_array);
 
             // Call the function for each value from the array
             tk_multi_table_array.forEach(foreachDeleteBlacklistDataHostHost);
@@ -28009,7 +27816,6 @@ require([
             // Hide main modal
             $("#modal_manage_data_host_whitelist").modal('hide');
 
-            //console.log("Updated!", returneddata)
             // Run the search again to update the table
             searchDataHostsMain.startSearch();            
 
@@ -28036,7 +27842,6 @@ require([
             // Create the endpoint URL
             var myendpoint_URl = "{{SPLUNKWEB_URL_PREFIX}}/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_data_source_monitoring_blacklist_index";
 
-            //console.log("Endpoint URL is: " + myendpoint_URl);
 
             // Define the query
             var searchQuery = "| inputlookup trackme_metric_host_monitoring_blacklist_index | append [ | makeresults | eval metric_index=\"" + tk_input_blacklist_index + "\", metric_blacklist_state=\"true\" ] | dedup metric_index | sort limit=0 metric_index | outputlookup trackme_metric_host_monitoring_blacklist_index";
@@ -28150,12 +27955,10 @@ require([
         });
 
         function foreachDeleteBlacklistMetricHostIndex(item) {
-        //console.log("removal of key :" + item);
 
             // Create the endpoint URL
             var myendpoint_URl = "{{SPLUNKWEB_URL_PREFIX}}/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_metric_host_monitoring_blacklist_index/" + item;
 
-            //console.log("Endpoint URL is: " + myendpoint_URl);
 
             if (item && item.length) {
 
@@ -28168,7 +27971,6 @@ require([
                     success: function(returneddata) {
 
                         var removedObject = returneddata.metric_index;
-                        //console.log("removedObject is: " + removedObject);
 
                         // Retrieve update comment if any
                         var tk_comment = document.getElementById("metric_host_blocklist_host_delete_comment").value;
@@ -28189,7 +27991,6 @@ require([
                             contentType: "application/json",
                             success: function(returneddata) {
 
-                                //console.log(returneddata);
 
                                 // Audit
                                 action = "success";
@@ -28241,7 +28042,6 @@ require([
 
         $("#btn_delete_metric_host_blacklist_index").click(function() {
 
-            //console.log("Button was pressed");
 
             submitTokens();
 
@@ -28250,9 +28050,7 @@ require([
 
             // Get the arrays of keys
             var tk_multi_table_array = tokens.get("removeBlacklistMetricHostIndex");
-            //console.log("tk_multi_table_array is: " + tk_multi_table_array);
             tk_multi_table_array = tk_multi_table_array.split(',');
-            //console.log("tk_multi_table_array is: " + tk_multi_table_array);
 
             // Call the function for each value from the array
             tk_multi_table_array.forEach(foreachDeleteBlacklistMetricHostIndex);
@@ -28260,7 +28058,6 @@ require([
             // Hide main modal
             $("#modal_manage_metric_host_whitelist").modal('hide');
 
-            //console.log("Updated!", returneddata)
             // Run the search again to update the table
             searchMetricHostsMain.startSearch();            
 
@@ -28287,7 +28084,6 @@ require([
             // Create the endpoint URL
             var myendpoint_URl = "{{SPLUNKWEB_URL_PREFIX}}/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_data_source_monitoring_blacklist_sourcetype";
 
-            //console.log("Endpoint URL is: " + myendpoint_URl);
 
             // Define the query
             var searchQuery = "| inputlookup trackme_data_source_monitoring_blacklist_sourcetype | append [ | makeresults | eval data_sourcetype=\"" + tk_input_blacklist_sourcetype + "\", data_blacklist_state=\"true\" ] | dedup data_sourcetype | sort limit=0 data_sourcetype | outputlookup trackme_data_source_monitoring_blacklist_sourcetype";
@@ -28401,12 +28197,10 @@ require([
         });
 
         function foreachDeleteBlacklistDataSourceSourcetype(item) {
-        //console.log("removal of key :" + item);
 
             // Create the endpoint URL
             var myendpoint_URl = "{{SPLUNKWEB_URL_PREFIX}}/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_data_source_monitoring_blacklist_sourcetype/" + item;
 
-            //console.log("Endpoint URL is: " + myendpoint_URl);
 
             if (item && item.length) {
 
@@ -28419,7 +28213,6 @@ require([
                     success: function(returneddata) {
 
                         var removedObject = returneddata.data_sourcetype;
-                        //console.log("removedObject is: " + removedObject);
 
                         // Retrieve update comment if any
                         var tk_comment = document.getElementById("data_source_blocklist_host_delete_comment").value;
@@ -28440,7 +28233,6 @@ require([
                             contentType: "application/json",
                             success: function(returneddata) {
 
-                                //console.log(returneddata);
 
                                 // Audit
                                 action = "success";
@@ -28492,7 +28284,6 @@ require([
 
         $("#btn_delete_data_source_blacklist_sourcetype").click(function() {
 
-            //console.log("Button was pressed");
 
             submitTokens();
 
@@ -28501,9 +28292,7 @@ require([
 
             // Get the arrays of keys
             var tk_multi_table_array = tokens.get("removeBlacklistDataSourceSourcetype");
-            //console.log("tk_multi_table_array is: " + tk_multi_table_array);
             tk_multi_table_array = tk_multi_table_array.split(',');
-            //console.log("tk_multi_table_array is: " + tk_multi_table_array);
 
             // Call the function for each value from the array
             tk_multi_table_array.forEach(foreachDeleteBlacklistDataSourceSourcetype);
@@ -28511,7 +28300,6 @@ require([
             // Hide main modal
             $("#modal_manage_data_host_whitelist").modal('hide');
 
-            //console.log("Updated!", returneddata)
             // Run the search again to update the table
             searchDataSourcesMain.startSearch();
 
@@ -28538,7 +28326,6 @@ require([
             // Create the endpoint URL
             var myendpoint_URl = "{{SPLUNKWEB_URL_PREFIX}}/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_data_source_monitoring_blacklist_data_name";
 
-            //console.log("Endpoint URL is: " + myendpoint_URl);
 
             // Define the query
             var searchQuery = "| inputlookup trackme_data_source_monitoring_blacklist_data_name | append [ | makeresults | eval data_name=\"" + tk_input_blacklist_data_name + "\", data_blacklist_state=\"true\" ] | dedup data_name | sort limit=0 data_name | outputlookup trackme_data_source_monitoring_blacklist_data_name";
@@ -28652,12 +28439,10 @@ require([
             });
 
             function foreachDeleteBlacklistDataSourceDataName(item) {
-            //console.log("removal of key :" + item);
 
             // Create the endpoint URL
             var myendpoint_URl = "{{SPLUNKWEB_URL_PREFIX}}/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_data_source_monitoring_blacklist_data_name/" + item;
 
-            //console.log("Endpoint URL is: " + myendpoint_URl);
 
             if (item && item.length) {
 
@@ -28670,7 +28455,6 @@ require([
                     success: function(returneddata) {
 
                         var removedObject = returneddata.data_data_name;
-                        //console.log("removedObject is: " + removedObject);
 
                         // Retrieve update comment if any
                         var tk_comment = document.getElementById("data_source_blocklist_host_delete_comment").value;
@@ -28691,7 +28475,6 @@ require([
                             contentType: "application/json",
                             success: function(returneddata) {
 
-                                //console.log(returneddata);
 
                                 // Audit
                                 action = "success";
@@ -28743,7 +28526,6 @@ require([
 
             $("#btn_delete_data_source_blacklist_data_name").click(function() {
 
-            //console.log("Button was pressed");
 
             submitTokens();
 
@@ -28752,9 +28534,7 @@ require([
 
             // Get the arrays of keys
             var tk_multi_table_array = tokens.get("removeBlacklistDataSourceDataName");
-            //console.log("tk_multi_table_array is: " + tk_multi_table_array);
             tk_multi_table_array = tk_multi_table_array.split(',');
-            //console.log("tk_multi_table_array is: " + tk_multi_table_array);
 
             // Call the function for each value from the array
             tk_multi_table_array.forEach(foreachDeleteBlacklistDataSourceDataName);
@@ -28762,7 +28542,6 @@ require([
             // Hide main modal
             $("#modal_manage_data_host_whitelist").modal('hide');
 
-            //console.log("Updated!", returneddata)
             // Run the search again to update the table
             searchDataSourcesMain.startSearch();
 
@@ -28789,7 +28568,6 @@ require([
             // Create the endpoint URL
             var myendpoint_URl = "{{SPLUNKWEB_URL_PREFIX}}/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_data_host_monitoring_blacklist_sourcetype";
 
-            //console.log("Endpoint URL is: " + myendpoint_URl);
 
             // Define the query
             var searchQuery = "| inputlookup trackme_data_host_monitoring_blacklist_sourcetype | append [ | makeresults | eval data_sourcetype=\"" + tk_input_blacklist_sourcetype + "\", data_blacklist_state=\"true\" ] | dedup data_sourcetype | sort limit=0 data_sourcetype | outputlookup trackme_data_host_monitoring_blacklist_sourcetype";
@@ -28903,12 +28681,10 @@ require([
         });
 
         function foreachDeleteBlacklistDataHostSourcetype(item) {
-        //console.log("removal of key :" + item);
 
             // Create the endpoint URL
             var myendpoint_URl = "{{SPLUNKWEB_URL_PREFIX}}/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_data_host_monitoring_blacklist_sourcetype/" + item;
 
-            //console.log("Endpoint URL is: " + myendpoint_URl);
 
             if (item && item.length) {
 
@@ -28921,7 +28697,6 @@ require([
                     success: function(returneddata) {
 
                         var removedObject = returneddata.data_sourcetype;
-                        //console.log("removedObject is: " + removedObject);
 
                         // Retrieve update comment if any
                         var tk_comment = document.getElementById("data_host_blocklist_host_delete_comment").value;
@@ -28942,7 +28717,6 @@ require([
                             contentType: "application/json",
                             success: function(returneddata) {
 
-                                //console.log(returneddata);
 
                                 // Audit
                                 action = "success";
@@ -28994,7 +28768,6 @@ require([
 
         $("#btn_delete_data_host_blacklist_sourcetype").click(function() {
 
-            //console.log("Button was pressed");
 
             submitTokens();
 
@@ -29003,9 +28776,7 @@ require([
 
             // Get the arrays of keys
             var tk_multi_table_array = tokens.get("removeBlacklistDataHostSourcetype");
-            //console.log("tk_multi_table_array is: " + tk_multi_table_array);
             tk_multi_table_array = tk_multi_table_array.split(',');
-            //console.log("tk_multi_table_array is: " + tk_multi_table_array);
 
             // Call the function for each value from the array
             tk_multi_table_array.forEach(foreachDeleteBlacklistDataHostSourcetype);
@@ -29013,7 +28784,6 @@ require([
             // Hide main modal
             $("#modal_manage_data_host_whitelist").modal('hide');
 
-            //console.log("Updated!", returneddata)
             // Run the search again to update the table
             searchDataSourcesMain.startSearch();
 
@@ -29041,7 +28811,6 @@ require([
             // Create the endpoint URL
             var myendpoint_URl = "{{SPLUNKWEB_URL_PREFIX}}/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_metric_host_monitoring_blacklist_host";
 
-            //console.log("Endpoint URL is: " + myendpoint_URl);
 
             // Define the query
             var searchQuery = "| inputlookup trackme_metric_host_monitoring_blacklist_host | append [ | makeresults | eval metric_host=\"" + tk_input_blacklist_host + "\", metric_blacklist_state=\"true\" ] | dedup metric_host | sort limit=0 metric_host | outputlookup trackme_metric_host_monitoring_blacklist_host";
@@ -29155,12 +28924,10 @@ require([
         });
 
         function foreachDeleteBlacklistMetricHostHost(item) {
-        //console.log("removal of key :" + item);
 
             // Create the endpoint URL
             var myendpoint_URl = "{{SPLUNKWEB_URL_PREFIX}}/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_metric_host_monitoring_blacklist_host/" + item;
 
-            //console.log("Endpoint URL is: " + myendpoint_URl);
 
             if (item && item.length) {
 
@@ -29173,7 +28940,6 @@ require([
                     success: function(returneddata) {
 
                         var removedObject = returneddata.metric_host;
-                        //console.log("removedObject is: " + removedObject);
 
                         // Retrieve update comment if any
                         var tk_comment = document.getElementById("metric_host_blocklist_host_delete_comment").value;
@@ -29194,7 +28960,6 @@ require([
                             contentType: "application/json",
                             success: function(returneddata) {
 
-                                //console.log(returneddata);
 
                                 // Audit
                                 action = "success";
@@ -29246,7 +29011,6 @@ require([
 
         $("#btn_delete_metric_host_blacklist_host").click(function() {
 
-            //console.log("Button was pressed");
 
             submitTokens();
 
@@ -29255,9 +29019,7 @@ require([
 
             // Get the arrays of keys
             var tk_multi_table_array = tokens.get("removeBlacklistMetricHostHost");
-            //console.log("tk_multi_table_array is: " + tk_multi_table_array);
             tk_multi_table_array = tk_multi_table_array.split(',');
-            //console.log("tk_multi_table_array is: " + tk_multi_table_array);
 
             // Call the function for each value from the array
             tk_multi_table_array.forEach(foreachDeleteBlacklistMetricHostHost);
@@ -29265,7 +29027,6 @@ require([
             // Hide main modal
             $("#modal_manage_metric_host_whitelist").modal('hide');
 
-            //console.log("Updated!", returneddata)
             // Run the search again to update the table
             searchMetricHostsMain.startSearch();
 
@@ -29292,7 +29053,6 @@ require([
             // Create the endpoint URL
             var myendpoint_URl = "{{SPLUNKWEB_URL_PREFIX}}/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_metric_host_monitoring_blacklist_metric_category";
 
-            //console.log("Endpoint URL is: " + myendpoint_URl);
 
             // Define the query
             var searchQuery = "| inputlookup trackme_metric_host_monitoring_blacklist_metric_category | append [ | makeresults | eval metric_category=\"" + tk_input_blacklist_metric_category + "\", metric_blacklist_state=\"true\" ] | dedup metric_category | sort limit=0 metric_category | outputlookup trackme_metric_host_monitoring_blacklist_metric_category";
@@ -29406,12 +29166,10 @@ require([
         });
 
         function foreachDeleteBlacklistMetricHostMetricCategory(item) {
-        //console.log("removal of key :" + item);
 
             // Create the endpoint URL
             var myendpoint_URl = "{{SPLUNKWEB_URL_PREFIX}}/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_metric_host_monitoring_blacklist_metric_category/" + item;
 
-            //console.log("Endpoint URL is: " + myendpoint_URl);
 
             if (item && item.length) {
 
@@ -29424,7 +29182,6 @@ require([
                     success: function(returneddata) {
 
                         var removedObject = returneddata.metric_category;
-                        //console.log("removedObject is: " + removedObject);
 
                         // Retrieve update comment if any
                         var tk_comment = document.getElementById("metric_host_blocklist_metric_category_delete_comment").value;
@@ -29445,7 +29202,6 @@ require([
                             contentType: "application/json",
                             success: function(returneddata) {
 
-                                //console.log(returneddata);
 
                                 // Audit
                                 action = "success";
@@ -29497,7 +29253,6 @@ require([
 
         $("#btn_delete_metric_host_blacklist_metric_category").click(function() {
 
-            //console.log("Button was pressed");
 
             submitTokens();
 
@@ -29506,9 +29261,7 @@ require([
 
             // Get the arrays of keys
             var tk_multi_table_array = tokens.get("removeBlacklistMetricHostMetricCategory");
-            //console.log("tk_multi_table_array is: " + tk_multi_table_array);
             tk_multi_table_array = tk_multi_table_array.split(',');
-            //console.log("tk_multi_table_array is: " + tk_multi_table_array);
 
             // Call the function for each value from the array
             tk_multi_table_array.forEach(foreachDeleteBlacklistMetricHostMetricCategory);
@@ -29516,7 +29269,6 @@ require([
             // Hide main modal
             $("#modal_manage_data_host_whitelist").modal('hide');
 
-            //console.log("Updated!", returneddata)
             // Run the search again to update the table
             searchDataSourcesMain.startSearch();
 
@@ -29615,7 +29367,6 @@ require([
 
             // Define the query
             var searchQuery = "| makeresults | eval data_name=\"" + data_name + "\" | lookup trackme_elastic_sources data_name OUTPUTNEW _key as found | eval is_unique=if(isnull(found), \"true\", \"false\") | fields - _time | fields is_unique";
-            //console.log("searchQuery is: " + searchQuery);
 
             // Set the search parameters--specify a time range
             var searchParams = {
@@ -29651,7 +29402,6 @@ require([
                         document.getElementById('btn_modal_elastic_source_add_new').disabled = true;
                         document.getElementById('btn_modal_elastic_source_dedicated_add_new').disabled = true;
                         setToken("start_simulation_elastic_sources", "false");
-                        //console.log("result is undefined");
                     }
 
                     if (is_unique == "true" && status == "true") {
@@ -29659,14 +29409,12 @@ require([
                         document.getElementById('btn_modal_elastic_source_add_new').disabled = false;
                         document.getElementById('btn_modal_elastic_dedicated_ource_add_new').disabled = false;
                         setToken("start_simulation_elastic_sources", "true");
-                        //console.log("data source is unique");
                     }
                     else if (is_unique == "false") {
                         var start_simulation_elastic_sources = "false";
                         document.getElementById('btn_modal_elastic_source_add_new').disabled = true;
                         document.getElementById('btn_modal_elastic_source_dedicated_add_new').disabled = true;
                         setToken("start_simulation_elastic_sources", "false");
-                        //console.log("data source is not unique");
                     }
 
                 });
@@ -29679,7 +29427,6 @@ require([
         $('#btn_modal_elastic_source_add_simulate').click(function(event) {
             event.stopImmediatePropagation();
 
-            //console.log("Button was pressed");
             submitTokens();
 
             // When the Submit button is clicked, get all the form fields by accessing token values
@@ -29703,7 +29450,6 @@ require([
             var tk_raw_input_elastic_source_search_constraint = document.getElementById("modal_input_elastic_source_search_constraint").value
             tk_input_elastic_source_search_constraint = escapeDoubleQuotes(tk_input_elastic_source_search_constraint);
             setToken("tk_input_elastic_source_search_constraint", tk_input_elastic_source_search_constraint);
-            //console.log(tk_input_elastic_source_search_constraint);
 
             // Start the search if all tokens are defined
             if (tk_input_elastic_source_search_type && tk_input_elastic_source_data_name && tk_input_elastic_source_elastic_data_index && tk_input_elastic_source_elastic_data_sourcetype && tk_input_elastic_source_search_constraint && tk_input_elastic_source_search_constraint!=="Enter the Splunk search constraint chain according to the type of search selected") {
@@ -29770,7 +29516,6 @@ require([
                 var tk_raw_input_elastic_source_search_constraint = document.getElementById("modal_input_elastic_source_search_constraint").value
                 tk_input_elastic_source_search_constraint = escapeDoubleQuotes(tk_input_elastic_source_search_constraint);
                 setToken("tk_input_elastic_source_search_constraint", tk_input_elastic_source_search_constraint);
-                //console.log(tk_input_elastic_source_search_constraint);
 
                 // disable the button once clicked
                 document.getElementById('btn_modal_elastic_source_add_new').disabled = true;
@@ -29797,7 +29542,6 @@ require([
                         success: function(returneddata) {
 
                             // Processed modal
-                            //console.log("New elastic source added with data_name: " + tk_input_elastic_source_data_name);
                             // clean status
                             unsetToken("start_simulation_elastic_sources");
                             // Show message
@@ -29868,7 +29612,6 @@ require([
                 var tk_raw_input_elastic_source_search_constraint = document.getElementById("modal_input_elastic_source_search_constraint").value
                 tk_input_elastic_source_search_constraint = escapeDoubleQuotes(tk_input_elastic_source_search_constraint);
                 setToken("tk_input_elastic_source_search_constraint", tk_input_elastic_source_search_constraint);
-                //console.log(tk_input_elastic_source_search_constraint);
 
                 // disable the button once clicked
                 document.getElementById('btn_modal_elastic_source_dedicated_add_new').disabled = true;
@@ -29881,7 +29624,6 @@ require([
                     tracker_name = tracker_name.substring(0, 100);
                     setToken("tk_tracker_name", tracker_name);
 
-                    //console.log("tk_input_elastic_source_search_type is: " + tk_input_elastic_source_search_type);
 
                     // define the alert search
                     if (tk_input_elastic_source_search_type == "tstats") {
@@ -30110,7 +29852,6 @@ require([
         // run elastic shared tracker now
         $("#add_elastic_source_processed_run_tracker").click(function() {
 
-            //console.log("Button was pressed");
             $("#add_elastic_source_processed").modal('hide');
 
             submitTokens();
@@ -30166,7 +29907,6 @@ require([
                             period: 200
                         }, {
                             done: function(job) {
-                                //console.log("Done!");
 
                                 // Once the job is done, update all searches
                                 searchDataSourcesMain.startSearch();
@@ -30201,7 +29941,6 @@ require([
         // run elastic shared tracker now
         $("#modal_elastic_source_alert_creation_success_run_tracker").click(function() {
 
-            //console.log("Button was pressed");
             $("#modal_elastic_source_alert_creation_success").modal('hide');
 
             submitTokens();
@@ -30260,7 +29999,6 @@ require([
                             period: 200
                         }, {
                             done: function(job) {
-                                //console.log("Done!");
 
                                 // Once the job is done, update all searches
                                 searchDataSourcesMain.startSearch();
@@ -30303,7 +30041,6 @@ require([
         });
 
         function foreachDeleteSharedElasticSource(item) {
-        //console.log("removal of key :" + item);
 
         submitTokens();
 
@@ -30313,7 +30050,6 @@ require([
         var tk_multi_table_array = tokens.get("removeElasticSourceShared");
         var tk_comment = tokens.get("tk_comment");
 
-        //console.log("comment is: " + tk_comment);
 
             if (item && item.length) {
 
@@ -30365,7 +30101,6 @@ require([
                                 period: 200
                             }, {
                                 done: function(job) {
-                                    //console.log("Done!");
 
                                     // Once the job is done, update all searches
                                     searchElasticSources.startSearch();
@@ -30401,7 +30136,6 @@ require([
 
         $("#btn_delete_elastic_source_confirm").click(function() {
 
-            //console.log("Button was pressed");
 
             submitTokens();
 
@@ -30410,9 +30144,7 @@ require([
 
             // Get the arrays of keys
             var tk_multi_table_array = tokens.get("removeElasticSourceShared");
-            //console.log("tk_multi_table_array is: " + tk_multi_table_array);
             tk_multi_table_array = tk_multi_table_array.split(',');
-            //console.log("tk_multi_table_array is: " + tk_multi_table_array);
 
             // Retrieve update comment if any
             var tk_comment = document.getElementById("elastic_source_shared_delete_comment").value;
@@ -30460,7 +30192,6 @@ require([
         });
 
         function foreachDeleteDedicatedElasticSource(item) {
-            //console.log("removal of key :" + item);
 
             submitTokens();
 
@@ -30470,7 +30201,6 @@ require([
             var tk_multi_table_array = tokens.get("removeElasticSourceDedicated");
             var tk_comment = tokens.get("tk_comment");
 
-            //console.log("comment is: " + tk_comment);
 
             if (item && item.length) {
 
@@ -30522,7 +30252,6 @@ require([
                                 period: 200
                             }, {
                                 done: function(job) {
-                                    //console.log("Done!");
 
                                     // Once the job is done, update all searches
                                     searchElasticSourcesDedicated.startSearch();
@@ -30558,7 +30287,6 @@ require([
 
         $("#btn_delete_elastic_source_dedicated_confirm").click(function() {
 
-            //console.log("Button was pressed");
 
             submitTokens();
 
@@ -30567,9 +30295,7 @@ require([
 
             // Get the arrays of keys
             var tk_multi_table_array = tokens.get("removeElasticSourceDedicated");
-            //console.log("tk_multi_table_array is: " + tk_multi_table_array);
             tk_multi_table_array = tk_multi_table_array.split(',');
-            //console.log("tk_multi_table_array is: " + tk_multi_table_array);
 
             // Retrieve update comment if any
             var tk_comment = document.getElementById("elastic_source_dedicated_delete_comment").value;
@@ -31119,7 +30845,6 @@ require([
             // When the Submit button is clicked, get all the form fields by accessing token values
             var tokens = mvc.Components.get("default");
 
-            //console.log("Start collection update");
 
             // Define the query
             var searchQuery = "| savedsearch \"TrackMe - Data sources availability short term tracker\"";
@@ -31169,7 +30894,6 @@ require([
                             period: 200
                         }, {
                             done: function(job) {
-                                //console.log("Done!");
 
                                 // Once the job is done, update all searches
                                 searchDataSourcesMain.startSearch();
@@ -31209,7 +30933,6 @@ require([
             // When the Submit button is clicked, get all the form fields by accessing token values
             var tokens = mvc.Components.get("default");
 
-            //console.log("Start collection update");
 
             // Define the query
             var searchQuery = "| savedsearch \"TrackMe - hosts availability short term tracker\"";
@@ -31259,7 +30982,6 @@ require([
                             period: 200
                         }, {
                             done: function(job) {
-                                //console.log("Done!");
 
                                 // Once the job is done, update all searches
                                 searchDataHostsMain.startSearch();
@@ -31301,7 +31023,6 @@ require([
             // When the Submit button is clicked, get all the form fields by accessing token values
             var tokens = mvc.Components.get("default");
 
-            //console.log("Start collection update");
 
             // Define the query
             var searchQuery = "| savedsearch \"TrackMe - Data sources availability long term tracker\"";
@@ -31351,7 +31072,6 @@ require([
                             period: 200
                         }, {
                             done: function(job) {
-                                //console.log("Done!");
 
                                 // Once the job is done, update all searches
                                 searchDataSourcesMain.startSearch();
@@ -31391,7 +31111,6 @@ require([
             // When the Submit button is clicked, get all the form fields by accessing token values
             var tokens = mvc.Components.get("default");
 
-            //console.log("Start collection update");
 
             // Define the query
             var searchQuery = "| savedsearch \"TrackMe - hosts availability long term tracker\"";
@@ -31441,7 +31160,6 @@ require([
                             period: 200
                         }, {
                             done: function(job) {
-                                //console.log("Done!");
 
                                 // Once the job is done, update all searches
                                 searchDataHostsMain.startSearch();
@@ -31483,7 +31201,6 @@ require([
             // When the Submit button is clicked, get all the form fields by accessing token values
             var tokens = mvc.Components.get("default");
 
-            //console.log("Start collection update");
 
             // Define the query
             var searchQuery = "| savedsearch \"TrackMe - Elastic sources shared tracker\"";
@@ -31533,7 +31250,6 @@ require([
                             period: 200
                         }, {
                             done: function(job) {
-                                //console.log("Done!");
 
                                 // Once the job is done, update all searches
                                 searchDataSourcesMain.startSearch();
@@ -31575,7 +31291,6 @@ require([
             // When the Submit button is clicked, get all the form fields by accessing token values
             var tokens = mvc.Components.get("default");
 
-            //console.log("Start collection update");
 
             // Define the query
             var searchQuery = "| savedsearch \"TrackMe - Data sampling and format detection tracker\"";
@@ -31625,7 +31340,6 @@ require([
                             period: 200
                         }, {
                             done: function(job) {
-                                //console.log("Done!");
 
                                 // Once the job is done, update all searches
                                 searchDataSourcesMain.startSearch();
@@ -31665,7 +31379,6 @@ require([
             // When the Submit button is clicked, get all the form fields by accessing token values
             var tokens = mvc.Components.get("default");
 
-            //console.log("Start collection update");
 
             // Define the query
             var searchQuery = "| savedsearch \"TrackMe - metric hosts availability tracker\"";
@@ -31715,7 +31428,6 @@ require([
                             period: 200
                         }, {
                             done: function(job) {
-                                //console.log("Done!");
 
                                 // Once the job is done, update all searches
                                 searchMetricHostsMain.startSearch();
@@ -31920,7 +31632,6 @@ require([
             var tk_min_dcount_host = tokens.get("tk_min_dcount_host");
             var tk_tags = tokens.get("tk_tags");
 
-            //console.log("Value of modal_input_grace_period is: " + tk_kafka_infra_grace_period);
 
             // Create the endpoint URL
             var myendpoint_URl = "{{SPLUNKWEB_URL_PREFIX}}/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_data_source_monitoring/" + tk_keyid;
@@ -31983,7 +31694,6 @@ require([
                     contentType: "application/json",
                     data: JSON.stringify(record),
                     success: function(returneddata) {
-                        //console.log("Updated!", returneddata)
                         // Run the search again to update the table
                         searchDataSourcesMain.startSearch();
 
@@ -32081,7 +31791,6 @@ require([
             var tk_min_dcount_host = tokens.get("tk_min_dcount_host");
             var tk_tags = tokens.get("tk_tags");
 
-            //console.log("Value of modal_input_grace_period is: " + tk_kafka_infra_grace_period);
 
             // Create the endpoint URL
             var myendpoint_URl = "{{SPLUNKWEB_URL_PREFIX}}/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_data_source_monitoring/" + tk_keyid;
@@ -32144,7 +31853,6 @@ require([
                     contentType: "application/json",
                     data: JSON.stringify(record),
                     success: function(returneddata) {
-                        //console.log("Updated!", returneddata)
                         // Run the search again to update the table
                         searchDataSourcesMain.startSearch();
 
@@ -32248,7 +31956,6 @@ require([
             var tk_min_dcount_host = tokens.get("tk_min_dcount_host");
             var tk_tags = tokens.get("tk_tags");
 
-            //console.log("Value of modal_input_grace_period is: " + tk_kafka_infra_grace_period);
 
             // Create the endpoint URL
             var myendpoint_URl = "{{SPLUNKWEB_URL_PREFIX}}/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_data_source_monitoring/" + tk_keyid;
@@ -32311,7 +32018,6 @@ require([
                     contentType: "application/json",
                     data: JSON.stringify(record),
                     success: function(returneddata) {
-                        //console.log("Updated!", returneddata)
                         // Run the search again to update the table
                         searchDataSourcesMain.startSearch();
 
@@ -32427,7 +32133,6 @@ require([
             var tk_min_dcount_host = tokens.get("tk_min_dcount_host");
             var tk_tags = tokens.get("tk_tags");
 
-            //console.log("Value of modal_input_grace_period is: " + tk_kafka_infra_grace_period);
 
             // Create the endpoint URL
             var myendpoint_URl = "{{SPLUNKWEB_URL_PREFIX}}/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_data_source_monitoring/" + tk_keyid;
@@ -32490,7 +32195,6 @@ require([
                     contentType: "application/json",
                     data: JSON.stringify(record),
                     success: function(returneddata) {
-                        //console.log("Updated!", returneddata)
                         // Run the search again to update the table
                         searchDataSourcesMain.startSearch();
 
@@ -32650,7 +32354,6 @@ require([
                     contentType: "application/json",
                     data: JSON.stringify(record),
                     success: function(returneddata) {
-                        //console.log("Updated!", returneddata)
                         // Run the search again to update the table
                         searchDataSourcesMain.startSearch();
 
@@ -32755,7 +32458,6 @@ require([
             var tk_min_dcount_host = tokens.get("tk_min_dcount_host");
             var tk_tags = tokens.get("tk_tags");
 
-            //console.log("Value of modal_input_grace_period is: " + tk_kafka_infra_grace_period);
 
             // Create the endpoint URL
             var myendpoint_URl = "{{SPLUNKWEB_URL_PREFIX}}/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_data_source_monitoring/" + tk_keyid;
@@ -32824,7 +32526,6 @@ require([
                     contentType: "application/json",
                     data: JSON.stringify(record),
                     success: function(returneddata) {
-                        //console.log("Updated!", returneddata)
                         // Run the search again to update the table
                         searchDataSourcesMain.startSearch();
                         // call update data source
@@ -32903,11 +32604,9 @@ require([
             var tk_origin_data_max_lag_allowed = tokens.get("tk_data_max_lag_allowed");
             var tk_data_override_lagging_class = tokens.get("modal_input_lag_override_class");
 
-            //console.log("Start collection update");
 
             // Define the query
             var searchQuery = "| `trackme_tstats` count latest(_indextime) as indextime where index=\"" + tk_data_index + "\" sourcetype=\"" + tk_data_sourcetype + "\"  by _time, index, sourcetype span=1s | eval delta=(indextime-_time) | stats perc95(delta) as value | eval data_name=\"" + tk_data_name + "\", data_override_lagging_class=\"" + tk_data_override_lagging_class + "\" | lookup trackme_data_source_monitoring data_name OUTPUT _key as keyid | lookup trackme_data_source_monitoring data_name | eval data_max_lag_allowed=if(value>0, round(value, 0), data_max_lag_allowed), value=round(value, 0) | outputlookup trackme_data_source_monitoring key_field=keyid";
-            //console.log(searchQuery);
 
             // Set the search parameters--specify a time range
             var searchParams = {
@@ -32957,7 +32656,6 @@ require([
                             period: 200
                         }, {
                             done: function(job) {
-                                //console.log("Done!");
 
                                 $("#loadingGray").remove()
 
@@ -32972,13 +32670,11 @@ require([
                                     var rows = results.rows;
                                     for (var i = 0; i < rows.length; i++) {
                                         var values = rows[i];
-                                        //console.log("Row " + i + ": ");
                                         for (var j = 0; j < values.length; j++) {
                                             var field = fields[j];
                                             var value = values[j];
 
                                             if (field == "data_max_lag_allowed") {
-                                                //console.log("  " + field + ": " + value);
 
                                                 if (value === '0') {
                                                     notification('ERROR: No live data available for this entity, automatic lagging calculation cannot be performed for inactive entities.', 6000)
@@ -33072,11 +32768,9 @@ require([
             var tk_origin_data_max_lag_allowed = tokens.get("tk_data_max_lag_allowed");
             var tk_data_override_lagging_class = tokens.get("modal_input_lag_override_class");
 
-            //console.log("Start collection update");
 
             // Define the query
             var searchQuery = "| `trackme_tstats` count latest(_indextime) as indextime where index=\"" + tk_data_index + "\" sourcetype=\"" + tk_data_sourcetype + "\"  by _time, index, sourcetype span=1s | eval delta=(indextime-_time) | stats avg(delta) as value | eval data_name=\"" + tk_data_name + "\", data_override_lagging_class=\"" + tk_data_override_lagging_class + "\" | lookup trackme_data_source_monitoring data_name OUTPUT _key as keyid | lookup trackme_data_source_monitoring data_name | eval data_max_lag_allowed=if(value>0, round(value, 0), data_max_lag_allowed), value=round(value, 0) | outputlookup trackme_data_source_monitoring key_field=keyid";
-            //console.log(searchQuery);
 
             // Set the search parameters--specify a time range
             var searchParams = {
@@ -33126,7 +32820,6 @@ require([
                             period: 200
                         }, {
                             done: function(job) {
-                                //console.log("Done!");
 
                                 $("#loadingGray").remove()
 
@@ -33141,13 +32834,11 @@ require([
                                     var rows = results.rows;
                                     for (var i = 0; i < rows.length; i++) {
                                         var values = rows[i];
-                                        //console.log("Row " + i + ": ");
                                         for (var j = 0; j < values.length; j++) {
                                             var field = fields[j];
                                             var value = values[j];
 
                                             if (field == "data_max_lag_allowed") {
-                                                //console.log("  " + field + ": " + value);
 
                                                 if (value === '0') {
                                                     notification('ERROR: No live data available for this entity, automatic lagging calculation cannot be performed for inactive entities.', 6000)
@@ -33242,11 +32933,9 @@ require([
             var tk_origin_data_max_lag_allowed = tokens.get("tk_data_max_lag_allowed");
             var tk_data_override_lagging_class = tokens.get("modal_input_lag_override_class");
 
-            //console.log("Start collection update");
 
             // Define the query
             var searchQuery = "| `trackme_tstats` count latest(_indextime) as indextime where index=\"" + tk_data_index + "\" sourcetype=\"" + tk_data_sourcetype + "\"  by _time, index, sourcetype span=1s | eval delta=(indextime-_time) | stats perc95(delta) as value | eval data_name=\"" + tk_data_name + "\", data_override_lagging_class=\"" + tk_data_override_lagging_class + "\" | lookup trackme_data_source_monitoring data_name OUTPUT _key as keyid | lookup trackme_data_source_monitoring data_name | eval data_max_lag_allowed=if(value>0, round(value, 0), data_max_lag_allowed), value=round(value, 0) | outputlookup trackme_data_source_monitoring key_field=keyid";
-            //console.log(searchQuery);
 
             // Set the search parameters--specify a time range
             var searchParams = {
@@ -33296,7 +32985,6 @@ require([
                             period: 200
                         }, {
                             done: function(job) {
-                                //console.log("Done!");
 
                                 $("#loadingGray").remove()
 
@@ -33311,13 +32999,11 @@ require([
                                     var rows = results.rows;
                                     for (var i = 0; i < rows.length; i++) {
                                         var values = rows[i];
-                                        //console.log("Row " + i + ": ");
                                         for (var j = 0; j < values.length; j++) {
                                             var field = fields[j];
                                             var value = values[j];
 
                                             if (field == "data_max_lag_allowed") {
-                                                //console.log("  " + field + ": " + value);
 
                                                 if (value === '0') {
                                                     notification('ERROR: No live data available for this entity, automatic lagging calculation cannot be performed for inactive entities.', 6000)
@@ -33412,11 +33098,9 @@ require([
             var tk_origin_data_max_lag_allowed = tokens.get("tk_data_max_lag_allowed");
             var tk_data_override_lagging_class = tokens.get("modal_input_lag_override_class");
 
-            //console.log("Start collection update");
 
             // Define the query
             var searchQuery = "| `trackme_tstats` count latest(_indextime) as indextime where index=\"" + tk_data_index + "\" sourcetype=\"" + tk_data_sourcetype + "\"  by _time, index, sourcetype span=1s | eval delta=(indextime-_time) | stats avg(delta) as value | eval data_name=\"" + tk_data_name + "\", data_override_lagging_class=\"" + tk_data_override_lagging_class + "\" | lookup trackme_data_source_monitoring data_name OUTPUT _key as keyid | lookup trackme_data_source_monitoring data_name | eval data_max_lag_allowed=if(value>0, round(value, 0), data_max_lag_allowed), value=round(value, 0) | outputlookup trackme_data_source_monitoring key_field=keyid";
-            //console.log(searchQuery);
 
             // Set the search parameters--specify a time range
             var searchParams = {
@@ -33466,7 +33150,6 @@ require([
                             period: 200
                         }, {
                             done: function(job) {
-                                //console.log("Done!");
 
                                 $("#loadingGray").remove()
 
@@ -33481,13 +33164,11 @@ require([
                                     var rows = results.rows;
                                     for (var i = 0; i < rows.length; i++) {
                                         var values = rows[i];
-                                        //console.log("Row " + i + ": ");
                                         for (var j = 0; j < values.length; j++) {
                                             var field = fields[j];
                                             var value = values[j];
 
                                             if (field == "data_max_lag_allowed") {
-                                                //console.log("  " + field + ": " + value);
 
                                                 if (value === '0') {
                                                     notification('ERROR: No live data available for this entity, automatic lagging calculation cannot be performed for inactive entities.', 6000)
@@ -33651,7 +33332,6 @@ require([
             var tk_latest_flip_time = tokens.get("tk_latest_flip_time");
             var tk_priority = tokens.get("tk_priority");
 
-            //console.log("Value of modal_input_grace_period is: " + tk_kafka_infra_grace_period);
 
             // Create the endpoint URL
             var myendpoint_URl = "{{SPLUNKWEB_URL_PREFIX}}/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_host_monitoring/" + tk_keyid;
@@ -33708,7 +33388,6 @@ require([
                     contentType: "application/json",
                     data: JSON.stringify(record),
                     success: function(returneddata) {
-                        //console.log("Updated!", returneddata)
                         // Run the search again to update the table
                         searchDataHostsMain.startSearch();
 
@@ -33851,7 +33530,6 @@ require([
                     contentType: "application/json",
                     data: JSON.stringify(record),
                     success: function(returneddata) {
-                        //console.log("Updated!", returneddata)
                         // Run the search again to update the table
                         searchDataHostsMain.startSearch();
 
@@ -33947,7 +33625,6 @@ require([
             var tk_latest_flip_time = tokens.get("tk_latest_flip_time");
             var tk_priority = tokens.get("tk_priority");
 
-            //console.log("Value of modal_input_grace_period is: " + tk_kafka_infra_grace_period);
 
             // Create the endpoint URL
             var myendpoint_URl = "{{SPLUNKWEB_URL_PREFIX}}/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_host_monitoring/" + tk_keyid;
@@ -34004,7 +33681,6 @@ require([
                     contentType: "application/json",
                     data: JSON.stringify(record),
                     success: function(returneddata) {
-                        //console.log("Updated!", returneddata)
                         // Run the search again to update the table
                         searchDataHostsMain.startSearch();
 
@@ -34117,7 +33793,6 @@ require([
             var tk_latest_flip_time = tokens.get("tk_latest_flip_time");
             var tk_priority = tokens.get("tk_priority");
 
-            //console.log("Value of modal_input_grace_period is: " + tk_kafka_infra_grace_period);
 
             // Create the endpoint URL
             var myendpoint_URl = "{{SPLUNKWEB_URL_PREFIX}}/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_host_monitoring/" + tk_keyid;
@@ -34183,7 +33858,6 @@ require([
                     contentType: "application/json",
                     data: JSON.stringify(record),
                     success: function(returneddata) {
-                        //console.log("Updated!", returneddata)
                         // Run the search again to update the table
                         searchDataHostsMain.startSearch();
 
@@ -34262,11 +33936,9 @@ require([
             var tk_data_override_lagging_class = tokens.get("modal_input_lag_override_class");
             var tk_origin_data_max_lag_allowed = tokens.get("tk_data_max_lag_allowed");
 
-            //console.log("Start collection update");
 
             // Define the query
             var searchQuery = "| `trackme_tstats` count latest(_indextime) as indextime where index=* host=\"" + tk_data_host + "\"  by _time, index, sourcetype span=1s | eval delta=(indextime-_time) | stats perc95(delta) as value | eval data_host=\"" + tk_data_host + "\", data_override_lagging_class=\"" + tk_data_override_lagging_class + "\" | lookup trackme_host_monitoring data_host OUTPUT _key as keyid | lookup trackme_host_monitoring data_host | eval data_max_lag_allowed=if(value>0, round(value, 0), data_max_lag_allowed), value=round(value, 0) | outputlookup trackme_host_monitoring key_field=keyid";
-            //console.log(searchQuery);
 
             // Set the search parameters--specify a time range
             var searchParams = {
@@ -34316,7 +33988,6 @@ require([
                             period: 200
                         }, {
                             done: function(job) {
-                                //console.log("Done!");
 
                                 $("#loadingGray").remove()
 
@@ -34331,13 +34002,11 @@ require([
                                     var rows = results.rows;
                                     for (var i = 0; i < rows.length; i++) {
                                         var values = rows[i];
-                                        //console.log("Row " + i + ": ");
                                         for (var j = 0; j < values.length; j++) {
                                             var field = fields[j];
                                             var value = values[j];
 
                                             if (field == "value") {
-                                                //console.log("  " + field + ": " + value);
 
                                                 if (value === '0') {
                                                     notification('ERROR: No live data available for this entity, automatic lagging calculation cannot be performed for inactive entities.', 6000)
@@ -34429,11 +34098,9 @@ require([
             var tk_data_override_lagging_class = tokens.get("modal_input_lag_override_class");
             var tk_origin_data_max_lag_allowed = tokens.get("tk_data_max_lag_allowed");
 
-            //console.log("Start collection update");
 
             // Define the query
             var searchQuery = "| `trackme_tstats` count latest(_indextime) as indextime where index=* host=\"" + tk_data_host + "\"  by _time, index, sourcetype span=1s | eval delta=(indextime-_time) | stats avg(delta) as value | eval data_host=\"" + tk_data_host + "\", data_override_lagging_class=\"" + tk_data_override_lagging_class + "\" | lookup trackme_host_monitoring data_host OUTPUT _key as keyid | lookup trackme_host_monitoring data_host | eval data_max_lag_allowed=if(value>0, round(value, 0), data_max_lag_allowed), value=round(value, 0) | outputlookup trackme_host_monitoring key_field=keyid";
-            //console.log(searchQuery);
 
             // Set the search parameters--specify a time range
             var searchParams = {
@@ -34483,7 +34150,6 @@ require([
                             period: 200
                         }, {
                             done: function(job) {
-                                //console.log("Done!");
 
                                 $("#loadingGray").remove()
 
@@ -34498,13 +34164,11 @@ require([
                                     var rows = results.rows;
                                     for (var i = 0; i < rows.length; i++) {
                                         var values = rows[i];
-                                        //console.log("Row " + i + ": ");
                                         for (var j = 0; j < values.length; j++) {
                                             var field = fields[j];
                                             var value = values[j];
 
                                             if (field == "value") {
-                                                //console.log("  " + field + ": " + value);
 
                                                 if (value === '0') {
                                                     notification('ERROR: No live data available for this entity, automatic lagging calculation cannot be performed for inactive entities.', 6000)
@@ -34595,11 +34259,9 @@ require([
             var tk_data_override_lagging_class = tokens.get("modal_input_lag_override_class");
             var tk_origin_data_max_lag_allowed = tokens.get("tk_data_max_lag_allowed");
 
-            //console.log("Start collection update");
 
             // Define the query
             var searchQuery = "| `trackme_tstats` count latest(_indextime) as indextime where index=* host=\"" + tk_data_host + "\"  by _time, index, sourcetype span=1s | eval delta=(indextime-_time) | stats perc95(delta) as value | eval data_host=\"" + tk_data_host + "\", data_override_lagging_class=\"" + tk_data_override_lagging_class + "\" | lookup trackme_host_monitoring data_host OUTPUT _key as keyid | lookup trackme_host_monitoring data_host | eval data_max_lag_allowed=if(value>0, round(value, 0), data_max_lag_allowed), value=round(value, 0) | outputlookup trackme_host_monitoring key_field=keyid";
-            //console.log(searchQuery);
 
             // Set the search parameters--specify a time range
             var searchParams = {
@@ -34649,7 +34311,6 @@ require([
                             period: 200
                         }, {
                             done: function(job) {
-                                //console.log("Done!");
 
                                 $("#loadingGray").remove()
 
@@ -34664,13 +34325,11 @@ require([
                                     var rows = results.rows;
                                     for (var i = 0; i < rows.length; i++) {
                                         var values = rows[i];
-                                        //console.log("Row " + i + ": ");
                                         for (var j = 0; j < values.length; j++) {
                                             var field = fields[j];
                                             var value = values[j];
 
                                             if (field == "value") {
-                                                //console.log("  " + field + ": " + value);
 
                                                 if (value === '0') {
                                                     notification('ERROR: No live data available for this entity, automatic lagging calculation cannot be performed for inactive entities.', 6000)
@@ -34761,11 +34420,9 @@ require([
             var tk_data_override_lagging_class = tokens.get("modal_input_lag_override_class");
             var tk_origin_data_max_lag_allowed = tokens.get("tk_data_max_lag_allowed");
 
-            //console.log("Start collection update");
 
             // Define the query
             var searchQuery = "| `trackme_tstats` count latest(_indextime) as indextime where index=* host=\"" + tk_data_host + "\"  by _time, index, sourcetype span=1s | eval delta=(indextime-_time) | stats avg(delta) as value | eval data_host=\"" + tk_data_host + "\", data_override_lagging_class=\"" + tk_data_override_lagging_class + "\" | lookup trackme_host_monitoring data_host OUTPUT _key as keyid | lookup trackme_host_monitoring data_host | eval data_max_lag_allowed=if(value>0, round(value, 0), data_max_lag_allowed), value=round(value, 0) | outputlookup trackme_host_monitoring key_field=keyid";
-            //console.log(searchQuery);
 
             // Set the search parameters--specify a time range
             var searchParams = {
@@ -34815,7 +34472,6 @@ require([
                             period: 200
                         }, {
                             done: function(job) {
-                                //console.log("Done!");
 
                                 $("#loadingGray").remove()
 
@@ -34830,13 +34486,11 @@ require([
                                     var rows = results.rows;
                                     for (var i = 0; i < rows.length; i++) {
                                         var values = rows[i];
-                                        //console.log("Row " + i + ": ");
                                         for (var j = 0; j < values.length; j++) {
                                             var field = fields[j];
                                             var value = values[j];
 
                                             if (field == "value") {
-                                                //console.log("  " + field + ": " + value);
 
                                                 if (value === '0') {
                                                     notification('ERROR: No live data available for this entity, automatic lagging calculation cannot be performed for inactive entities.', 6000)
@@ -35032,21 +34686,17 @@ require([
 
             // Retrieve the policy id
             var tk_tags_policies_policy_id = tokens.get("tk_tags_policies_policy_id");
-            //console.log("tk_tags_policies_policy_id is: " + tk_tags_policies_policy_id);
 
             // Retrieve the regex rule
             var tk_tags_policies_regex = document.getElementById("modal_input_tags_policies_regex").value;
-            //console.log("tk_tags_policies_regex is: " + tk_tags_policies_regex);
 
             // Retrieve the tags list
             var tk_tags_policies_tags = document.getElementById("modal_input_tags_policies_values").value;
-            //console.log("tk_tags_policies_tags is: " + tk_tags_policies_tags);
 
             // if is not defined, give it a value and override text box content
             if (!tk_tags_policies_policy_id || !tk_tags_policies_policy_id.length || tk_tags_policies_regex == "Enter a valid regular expression to match data source names." || !tk_tags_policies_regex || !tk_tags_policies_regex.length || tk_tags_policies_tags == "Enter a list of tags to applied separeted by commas to specify multiple tags and click on \"Run policy simulation\"." || !tk_tags_policies_tags || !tk_tags_policies_tags.length) {
 
                 // Show an error notification
-                //console.log("Entry is incorrect, no expression was provided");
                 notification('ERROR: Entries are either incorrect or incomplete, please correct and try again.', 6000)
 
                 // Disable the add button
@@ -35085,14 +34735,12 @@ require([
 
         // add button
         $("#btn_modal_tags_policies_add").click(function() {
-            //console.log("button was clicked");
             // Show input modal
             $("#tags_policies_create_policy_confirm").modal();
         });
 
         // add policy
         $("#btn_modal_add_tags_policy_confirm").click(function() {
-            //console.log("Button was clicked");
 
             submitTokens();
 
@@ -35101,21 +34749,17 @@ require([
 
             // Retrieve the policy id
             var tk_tags_policies_policy_id = tokens.get("tk_tags_policies_policy_id");
-            //console.log("tk_tags_policies_policy_id is: " + tk_tags_policies_policy_id);
 
             // Retrieve the regex rule
             var tk_tags_policies_regex = document.getElementById("modal_input_tags_policies_regex").value;
-            //console.log("tk_tags_policies_regex is:" + tk_tags_policies_regex);
 
             // Retrieve the tags list
             var tk_tags_policies_tags = document.getElementById("modal_input_tags_policies_values").value;
-            //console.log("tk_tags_policies_tags is: " + tk_tags_policies_tags);
 
             // if is not defined, give it a value and override text box content - We should never reach this for the add function
             if (!tk_tags_policies_policy_id || !tk_tags_policies_policy_id.length || tk_tags_policies_regex == "Enter a valid regular expression to match data source names." || !tk_tags_policies_regex || !tk_tags_policies_regex.length || tk_tags_policies_tags == "Enter a list of tags to applied separeted by commas to specify multiple tags and click on \"Run policy simulation\"." || !tk_tags_policies_tags || !tk_tags_policies_tags.length) {
 
                 // Show an error notification
-                //console.log("Entry is incorrect, no expression was provided");
                 notification('ERROR: Entries are either incorrect or incomplete, please correct and try again.', 6000)
 
                 // Disable the add button
@@ -35144,7 +34788,6 @@ require([
 
                 // Define the query
                 var searchQuery = "| makeresults | eval tags_policy_id=\"" + tk_tags_policies_policy_id + "\", tags_policy_value=\"" + tk_tags_policies_tags + "\", tags_policy_regex=\"" + tk_tags_policies_regex + "\" | eval mtime=now() | outputlookup append=t trackme_tags_policies";
-                //console.log("searchQuery is: " + searchQuery);
 
                 // Set the search parameters--specify a time range
                 var searchParams = {
@@ -35192,7 +34835,6 @@ require([
                                 done: function(job) {
 
                                     // Refresh the search
-                                    //console.log("Refresh the search");
                                     setToken("show_tags_policies", "true");
                                     searchShowTagsPolicies.startSearch();
 
@@ -35248,12 +34890,10 @@ require([
         });
 
         function foreachRemoveTagsPolicies(item) {
-        //console.log("removal of key :" + item);
 
             // Create the endpoint URL
             var myendpoint_URl = "{{SPLUNKWEB_URL_PREFIX}}/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_tags_policies/" + item;
 
-            //console.log("Endpoint URL is: " + myendpoint_URl);
 
             if (item && item.length) {
 
@@ -35276,7 +34916,6 @@ require([
                         "mtime": mtime,
                         "_key": item
                         };
-                        //console.log("record is: " + record);
 
                         // Retrieve update comment if any
                         var tk_comment = document.getElementById("input_delete_tags_policy_sampling_comment").value;
@@ -35297,7 +34936,6 @@ require([
                             contentType: "application/json",
                             success: function(returneddata) {
 
-                                //console.log(returneddata);
 
                                 // Audit
                                 action = "success";
@@ -35349,7 +34987,6 @@ require([
 
         // delete tags policies confirm
         $("#btn_modal_delete_tags_policy_confirm").click(function() {
-            //console.log("Button was clicked");
 
             submitTokens();
 
@@ -35358,9 +34995,7 @@ require([
 
             // Get the arrays of keys
             var tk_multi_table_array = tokens.get("removeTagsPolicy");
-            //console.log("tk_multi_table_array is: " + tk_multi_table_array);
             tk_multi_table_array = tk_multi_table_array.split(',');
-            //console.log("tk_multi_table_array is: " + tk_multi_table_array);
 
             // Call the function for each value from the array
             tk_multi_table_array.forEach(foreachRemoveTagsPolicies);
@@ -35428,16 +35063,13 @@ require([
             var tk_tags_new = tokens.get("modal_input_tags_new");
             var tk_tags = tokens.get("tk_tags");
             var tk_tags_csv;
-            //console.log("tk_tags is: " + tk_tags);
 
             // Combine current and new tag if relevant
             if (tk_tags !== "No tags defined, click on Update tags to define one or more tags to be associated with this data source.") {                    
                 // form a csv tags list
                 tk_tags_csv = tk_tags.replace(/ \/ /g, ",");
                 tk_tags_new = tk_tags_csv + "," + tk_tags_new;
-                //console.log("tk_tags_csv is: " + tk_tags_csv);            
             }           
-            //console.log("tk_tags_new is: " + tk_tags_new);
 
             // Get tk mains
             var tk_data_name = tokens.get("tk_data_name");
@@ -35445,7 +35077,6 @@ require([
             
             // Define the query
             var searchQuery = "| inputlookup trackme_data_source_monitoring where _key=\"" + tk_keyid + "\" | eval keyid=_key, tags=\"" + tk_tags_new + "\" | outputlookup trackme_data_source_monitoring append=t key_field=keyid";
-            //console.log(searchQuery);
 
             // Set the search parameters--specify a time range
             var searchParams = {
@@ -35526,8 +35157,6 @@ require([
                                         $.each(allValues, function(i, el){
                                         if($.inArray(el, uniqueNames) === -1) uniqueNames.push(el);
                                         });
-                                    //console.log("allValues is: " + allValues);
-                                    //console.log("uniqueNames is " + uniqueNames);
                                     idSelectTags.settings.set("default",uniqueNames);
                                     });
                                 });
@@ -35582,14 +35211,12 @@ require([
             // Retrieve input values
 
             var tk_tags_list = tokens.get("modal_input_tags_update");
-            //console.log("tk_tags_list is: " + tk_tags_list);
 
             var tk_data_name = tokens.get("tk_data_name");
             var tk_keyid = tokens.get("tk_keyid");
             
             // Define the query
             var searchQuery = "| inputlookup trackme_data_source_monitoring where _key=\"" + tk_keyid + "\" | eval keyid=_key, tags=\"" + tk_tags_list + "\" | outputlookup trackme_data_source_monitoring append=t key_field=keyid";
-            //console.log(searchQuery);
 
             // Set the search parameters--specify a time range
             var searchParams = {
@@ -35675,8 +35302,6 @@ require([
                                         $.each(allValues, function(i, el){
                                         if($.inArray(el, uniqueNames) === -1) uniqueNames.push(el);
                                         });
-                                    //console.log("allValues is: " + allValues);
-                                    //console.log("uniqueNames is " + uniqueNames);
                                     idSelectTags.settings.set("default",uniqueNames);
                                     });
                                 });
@@ -35721,14 +35346,12 @@ require([
             // Retrieve input values
 
             var tk_tags_list = tokens.get("modal_input_tags_update");
-            //console.log("tk_tags_list is: " + tk_tags_list);
 
             var tk_data_name = tokens.get("tk_data_name");
             var tk_keyid = tokens.get("tk_keyid");
 
             // Define the query
             var searchQuery = "| inputlookup trackme_data_source_monitoring where _key=\"" + tk_keyid + "\" | eval keyid=_key | fields - tags | outputlookup trackme_data_source_monitoring append=t key_field=keyid";
-            //console.log(searchQuery);
 
             // Set the search parameters--specify a time range
             var searchParams = {
@@ -35873,16 +35496,10 @@ require([
 
                 // replace chars that would lead the operation to fail
                 var input_doc_note = input_doc_note.replace(/\"/g, '\\"');
-
                 var input_doc_link = document.getElementById("input_doc_link").value;
 
-                //console.log("link is: " + input_doc_link);
-                //console.log("note is: " + input_doc_note);
-
                 // Define the query
-                var searchQuery = "| inputlookup trackme_sources_knowledge | where object!=\"" + input_doc_object + "\" | append [ | makeresults | eval object=\"" + input_doc_object + "\", doc_link=\"" +  input_doc_link + "\", doc_note=\"" +  input_doc_note + "\" ] | dedup object | sort limit=0 object | outputlookup trackme_sources_knowledge";
-
-                //console.log(searchQuery);
+                var searchQuery = "| trackme url=\"/services/trackme/v1/identity_cards/identity_cards_add_card\" mode=\"post\" body=\"{\\\"doc_link\\\": \\\"" + input_doc_link + "\\\", \\\"doc_note\\\": \\\"" + input_doc_note + "\\\", \\\"update_comment\\\": \\\"N/A\\\"}\" | spath | table key";
 
                 // Set the search parameters--specify a time range
                 var searchParams = {
@@ -35897,7 +35514,7 @@ require([
 
                 else if (input_doc_link && input_doc_link.length) {
 
-                    // Run a blocking search and get back a job
+                    // Create or update the card using the API endpoint
                     service.search(
                         searchQuery,
                         searchParams,
@@ -35935,6 +35552,36 @@ require([
                                     period: 200
                                 }, {
                                     done: function(job) {
+
+                                        // Get the results and display them
+                                        job.results({}, function(err, results) {
+                                            var fields = results.fields;
+                                            var rows = results.rows;
+                                            var cardkey;
+
+                                            for (var i = 0; i < rows.length; i++) {
+                                                var values = rows[i];
+                                                for (var j = 0; j < values.length; j++) {
+                                                    var field = fields[j];
+                                                    var value = values[j];
+                                                    var cardkey;
+                                                    if (field == "key") {
+                                                        var cardkey = value;
+                                                    }
+                                                }
+                                            }
+
+                                            // Associate the card using the API endpoint
+                                            var searchQuery = "| trackme url=\"/services/trackme/v1/identity_cards/identity_cards_associate_card\" mode=\"post\" body=\"{\\\"key\\\": \\\"" + cardkey + "\\\", \\\"object\\\": \\\"" + input_doc_object + "\\\", \\\"update_comment\\\": \\\"N/A\\\"}\"";
+
+                                            service.oneshotSearch(
+                                                searchQuery,
+                                                searchParams,
+                                                function(err, results) {
+                                                });
+
+                                        })
+                                        
                                         // Run the search again to update the table
                                         searchDataSourcesMain.startSearch();
                                         $("#update_achieved_identity_card").modal()
@@ -36007,13 +35654,8 @@ require([
                 var input_doc_note = document.getElementById("input_doc_note").value;
                 var input_doc_link = document.getElementById("input_doc_link").value;
 
-                //console.log("link is: " + input_doc_link);
-                //console.log("note is: " + input_doc_note);
-
                 // Define the query
-                var searchQuery = "| inputlookup trackme_sources_knowledge | eval keyid=_key | mvexpand object | where object!=\"" + input_doc_object + "\" | stats values(*) as \"*\" by keyid | sort limit=0 keyid | fields - keyid | outputlookup trackme_sources_knowledge";
-
-                //console.log(searchQuery);
+                var searchQuery = "| trackme url=\"/services/trackme/v1/identity_cards/identity_cards_unassociate\" mode=\"post\" body=\"{\\\"object\\\": \\\"" + input_doc_object + "\\\", \\\"update_comment\\\": \\\"N/A\\\"}\"";
 
                 // Set the search parameters--specify a time range
                 var searchParams = {
@@ -36165,14 +35807,8 @@ require([
                 var input_doc_note = tokens.get("tk_doc_note");
                 var tk_doc_identity_card_is_global = tokens.get("doc_identity_card_is_global");
 
-                //console.log("key is: " + input_doc_keyid);
-                //console.log("new_object is: " + input_doc_new_object);
-                //console.log("origin_object is: " + input_doc_origin_object);
-
-                // Define the query
-                var searchQuery = "| inputlookup trackme_sources_knowledge | eval keyid=_key | mvexpand object | append [ | makeresults | eval keyid=\"" + input_doc_keyid + "\", object=\"" + input_doc_new_object + "\" ] | stats values(*) as \"*\" by keyid | outputlookup append=t trackme_sources_knowledge key_field=keyid";
-
-                //console.log(searchQuery);
+                // First unassociate using the API endpoint
+                var searchQuery = "| trackme url=\"/services/trackme/v1/identity_cards/identity_cards_unassociate\" mode=\"post\" body=\"{\\\"object\\\": \\\"" + input_doc_new_object + "\\\", \\\"update_comment\\\": \\\"N/A\\\"}\"";
 
                 // Set the search parameters--specify a time range
                 var searchParams = {
@@ -36220,6 +35856,16 @@ require([
                                     period: 200
                                 }, {
                                     done: function(job) {
+
+                                        // Associate using the endpoint
+                                        var searchQuery = "| trackme url=\"/services/trackme/v1/identity_cards/identity_cards_associate_card\" mode=\"post\" body=\"{\\\"key\\\": \\\"" + input_doc_keyid + "\\\", \\\"object\\\": \\\"" + input_doc_new_object + "\\\", \\\"update_comment\\\": \\\"N/A\\\"}\"";
+
+                                        service.oneshotSearch(
+                                                searchQuery,
+                                                searchParams,
+                                                function(err, results) {
+                                                });
+
                                         // Run the search again to update the table
                                         searchDataSourcesMain.startSearch();
                                         // show deleted modal
@@ -36300,9 +35946,6 @@ require([
                 var tk_data_host = tokens.get("tk_data_host");
                 var tk_metric_host = tokens.get("tk_metric_host");
 
-                //console.log("tk_data_name is " + tk_data_name);
-                //console.log("tk_data_host is " + tk_data_host);
-                //console.log("tk_metric_host is " + tk_metric_host);
 
                 if (tk_data_name !== undefined) {
                     setToken("input_object", tk_data_name);
@@ -36318,8 +35961,6 @@ require([
                 var input_object = tokens.get("input_object");
                 var input_object_category = tokens.get("input_object_category");
 
-                //console.log("input_object is: " + input_object);
-                //console.log("input_object_category is: " + input_object_category);
 
                 // if the token exists already, restart the search, otherwise allow the search to start
                 var tk_start_ack_get = tokens.get("tk_start_ack_get");
@@ -36356,9 +35997,6 @@ require([
                 var input_object_category = tokens.get("input_object_category");
                 var input_ack_duration = tokens.get("input_ack_duration");
 
-                //console.log("input_object is: " + input_object);
-                //console.log("input_object_category is: " + input_object_category);
-                //console.log("input_ack_duration is: "+ input_ack_duration);
 
                 // Retrieve update comment if any
                 var tk_comment = document.getElementById("input_ack_comment").value;
@@ -36381,7 +36019,6 @@ require([
                 // Define the query
                 var searchQuery = "| `trackme_ack_add(\"" + input_object + "\", \"" +  input_object_category + "\", \"" +  input_ack_duration + "\")`";
 
-                //console.log(searchQuery);
 
                 // Set the search parameters--specify a time range
                 var searchParams = {
@@ -36513,8 +36150,6 @@ require([
                 // Define the query
                 var searchQuery = "| `trackme_ack_disable(\"" + keyid + "\")`";
 
-                //console.log(keyid);
-                //console.log(searchQuery);
 
                 // Retrieve update comment if any
                 var tk_comment = document.getElementById("input_ack_comment").value;
@@ -36674,9 +36309,6 @@ require([
                 var tk_data_host = tokens.get("tk_data_host");
                 var tk_metric_host = tokens.get("tk_metric_host");
 
-                //console.log("tk_data_name is " + tk_data_name);
-                //console.log("tk_data_host is " + tk_data_host);
-                //console.log("tk_metric_host is " + tk_metric_host);
 
                 if (tk_data_name !== undefined) {
                     setToken("input_object", tk_data_name);
@@ -36710,15 +36342,12 @@ require([
 
                 // conditional modal target
                 if (input_object_category === "data_source") {
-                    //console.log("Clicked back");
                     $("#modal_modify_data_source_unified").modal()
                 }
                 else if (input_object_category === "data_host") {
-                    //console.log("Clicked back");
                     $("#modal_modify_data_host_unified").modal()
                 }
                 else if (input_object_category === "metric_host") {
-                    //console.log("Clicked back");
                     $("#modal_modify_metric_host_unified").modal()
                 }
 
@@ -36773,13 +36402,10 @@ require([
                 var input_object = tokens.get("input_object");
                 var input_object_category = tokens.get("input_object_category");
 
-                //console.log("Proceeding to removal of " + input_object);
 
                 // Define the query
                 var searchQuery = "| inputlookup trackme_logical_group | mvexpand object_group_members | where object_group_members!=\"" + input_object + "\" | stats values(*) as \"*\" by object_group_name | outputlookup trackme_logical_group";
 
-                //console.log(keyid);
-                //console.log(searchQuery);
 
                 // Set the search parameters--specify a time range
                 var searchParams = {
@@ -36928,10 +36554,7 @@ require([
 
                 // Define the query
                 var searchQuery = "| inputlookup trackme_logical_group | eval keyid=_key | mvexpand object_group_members | append [ | makeresults | eval keyid=\"" + tk_keyid + "\", object_group_members=\"" + input_object + "\", object_group_name=\"" + tk_object_group_name + "\", object_group_mtime=now() ] | stats values(object_group_members) as object_group_members, first(object_group_name) as object_group_name, first(object_group_min_green_percent) as object_group_min_green_percent, max(object_group_mtime) as object_group_mtime by keyid | outputlookup trackme_logical_group append=t key_field=keyid";
-                //console.log(searchQuery);
 
-                //console.log(keyid);
-                //console.log(searchQuery);
 
                 // Set the search parameters--specify a time range
                 var searchParams = {
@@ -37076,7 +36699,6 @@ require([
 
                 // Define the query
                 var searchQuery = "| makeresults | eval object_group_name=\"" + tk_object_group_name + "\", object_group_members=\"" + input_object + "\", object_group_min_green_percent=\"" +  tk_object_group_green_percent + "\", object_group_mtime=now() | append [ | inputlookup trackme_logical_group ] | outputlookup trackme_logical_group";
-                //console.log(searchQuery);
 
                 // Set the search parameters--specify a time range
                 var searchParams = {
@@ -37372,7 +36994,6 @@ require([
                     contentType: "application/json",
                     data: JSON.stringify(record),
                     success: function(returneddata) {
-                        //console.log("Updated!", returneddata)
 
                         // notify
                         var tk_data_name = tokens.get("tk_data_name");
@@ -37440,7 +37061,6 @@ require([
             var $btn_group = $(this);
             $btn_group.find('button').on('click', function() {
                 var $btn = $(this);
-                //console.log("Button was clicked");
 
                 submitTokens();
 
@@ -37476,7 +37096,6 @@ require([
 
                         for (var i = 0; i < rows.length; i++) {
                             var values = rows[i];
-                            //console.log("Row " + i + ": ");
 
                             for (var j = 0; j < values.length; j++) {
                                 var field = fields[j];
@@ -37487,7 +37106,6 @@ require([
                             }
                         }
 
-                        //console.log("current_mode: " + current_mode);
 
                         if (!current_mode) {
                             // Define the URL target
@@ -37512,7 +37130,6 @@ require([
 
                 // Run engine should not be granted when an anomaly was found at first discovery
                 var data_sample_anomaly_reason = tokens.get("tk_data_sample_anomaly_reason");
-                //console.log("data_sample_anomaly_reason is: " + data_sample_anomaly_reason);
                 if (data_sample_anomaly_reason == "multiformat_at_discovery") {
                     document.getElementById('btn_run_data_sampling').disabled = true;
                 } else {
@@ -37529,7 +37146,6 @@ require([
             var $btn_group = $(this);
             $btn_group.find('button').on('click', function() {
                 var $btn = $(this);
-                //console.log("Button was clicked");
                 $("#modal_manage").modal()
             });
         });
@@ -37539,7 +37155,6 @@ require([
             var $btn_group = $(this);
             $btn_group.find('button').on('click', function() {
                 var $btn = $(this);
-                //console.log("Button was clicked");
                 $("#data_sampling_show_builtin_rules").modal()
             });
         });
@@ -37549,7 +37164,6 @@ require([
             var $btn_group = $(this);
             $btn_group.find('button').on('click', function() {
                 var $btn = $(this);
-                //console.log("Button was clicked");
                 $("#data_sampling_manage").modal()
             });
         });
@@ -37606,7 +37220,6 @@ require([
             var $btn_group = $(this);
             $btn_group.find('button').on('click', function() {
                 var $btn = $(this);
-                //console.log("Button was clicked");
 
                 // target
                 $("#data_sampling_manage").modal()
@@ -37621,12 +37234,10 @@ require([
         });
 
         function foreachRemoveDataSamplingCustomRule(item) {
-        //console.log("removal of key :" + item);
 
             // Create the endpoint URL
             var myendpoint_URl = "{{SPLUNKWEB_URL_PREFIX}}/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_data_sampling_custom_models/" + item;
 
-            //console.log("Endpoint URL is: " + myendpoint_URl);
 
             if (item && item.length) {
 
@@ -37651,7 +37262,6 @@ require([
                         "mtime": mtime,
                         "_key": item
                         };
-                        //console.log("record is: " + record);
 
                         // Retrieve update comment if any
                         var tk_comment = document.getElementById("input_remove_custom_rule_data_sampling_comment").value;
@@ -37672,7 +37282,6 @@ require([
                             contentType: "application/json",
                             success: function(returneddata) {
 
-                                //console.log(returneddata);
 
                                 // Audit
                                 action = "success";
@@ -37724,7 +37333,6 @@ require([
 
         $("#btn_modal_remove_custom_rule_confirm").click(function() {
 
-            //console.log("Button was pressed");
 
             submitTokens();
 
@@ -37733,9 +37341,7 @@ require([
 
             // Get the arrays of keys
             var tk_multi_table_array = tokens.get("removeDataSamplingCustomRule");
-            //console.log("tk_multi_table_array is: " + tk_multi_table_array);
             tk_multi_table_array = tk_multi_table_array.split(',');
-            //console.log("tk_multi_table_array is: " + tk_multi_table_array);
 
             // Call the function for each value from the array
             tk_multi_table_array.forEach(foreachRemoveDataSamplingCustomRule);
@@ -37753,7 +37359,6 @@ require([
 
         // Run data sampling engine
         $("#btn_run_data_sampling").click(function() {            
-            //console.log("Button was clicked");
 
             submitTokens();
 
@@ -37765,7 +37370,6 @@ require([
 
             // Define the query
             var searchQuery = "| savedsearch \"TrackMe - Data sampling engine for target\" key=\"" + tk_keyid + "\"";
-            //console.log(searchQuery);
 
             // Set the search parameters--specify a time range
             var searchParams = {
@@ -37812,7 +37416,6 @@ require([
                             period: 200
                         }, {
                             done: function(job) {
-                                //console.log("Done!");
 
                                 // Once the job is done, update all searches
                                 searchDataSamplingTable1.startSearch();
@@ -37846,12 +37449,10 @@ require([
 
         // Disable action
         $("#btn_data_sampling_disable").click(function() {
-            //console.log("Button was clicked");
             $("#modal_disable_data_sampling").modal()
         });
 
         $("#btn_modal_data_sampling_disable_confirm").click(function() {
-            //console.log("Button was clicked");
 
             submitTokens();
 
@@ -37864,7 +37465,6 @@ require([
 
             // Endpoint URI
             var myendpoint_URl = "{{SPLUNKWEB_URL_PREFIX}}/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_data_sampling/" + tk_keyid;
-            //console.log(myendpoint_URl);
 
             // Retrieve update comment if any
             var tk_comment = document.getElementById("input_clear_state_data_sampling_comment").value;
@@ -37893,7 +37493,6 @@ require([
                 success: function(returneddata) {
 
                     var removedObject = returneddata;
-                    //console.log(returneddata);
 
                     var data_sample_mtime = returneddata.data_sample_mtime;
                     var data_sample_feature = returneddata.data_sample_feature;
@@ -37931,11 +37530,9 @@ require([
                         "previous_detected_format_dcount": previous_detected_format_dcount
                     };
 
-                    //console.log("Start collection update");
 
                     // Define the query
                     var searchQuery = "| inputlookup trackme_data_sampling where _key=\"" + tk_keyid + "\" | eval keyid=_key | eval data_sample_feature=\"disabled\", data_sample_mtime=now(), data_sample_status_message=\"WARNING: The data sample feature was manually disabled, to re-enable the feature, click on the button Manage data sampling then Clear state and run sampling.\", data_sample_status_colour=\"orange\" | foreach current_detected_format, current_detected_format_dcount, current_detected_format_id, data_sample_anomaly_ack_mtime, data_sample_anomaly_ack_status, data_sample_anomaly_detected, data_sample_anomaly_reason, data_sample_iteration, multiformat_detected, previous_detected_format, previous_detected_format_dcount, previous_detected_format_id, raw_sample [ eval <<FIELD>> = \"N/A\" ] | outputlookup append=t key_field=keyid trackme_data_sampling";
-                    //console.log(searchQuery);
 
                     // Set the search parameters--specify a time range
                     var searchParams = {
@@ -37982,7 +37579,6 @@ require([
                                     period: 200
                                 }, {
                                     done: function(job) {
-                                        //console.log("Done!");
 
                                         // Once the job is done, update all searches
                                         searchDataSamplingTable1.startSearch();
@@ -38020,12 +37616,10 @@ require([
 
         // Update number of records per sample
         $("#btn_data_sampling_edit_records_nr").click(function() {
-            //console.log("Button was clicked");
             $("#modal_update_records_nr_data_sampling").modal()
         });
 
         $("#btn_update_records_nr_confirm").click(function() {
-            //console.log("Button was clicked");
 
             submitTokens();
 
@@ -38038,7 +37632,6 @@ require([
 
             // Define the query
             var searchQuery = "| inputlookup trackme_data_sampling where data_name=\"" + tk_data_name + "\" | eval keyid=_key | eval data_sampling_nr=\"" + tk_data_sampling_nr + "\" | outputlookup append=t key_field=keyid trackme_data_sampling";
-            //console.log(searchQuery);
 
             // record for auditing
             var record = {
@@ -38104,7 +37697,6 @@ require([
                                 comment = tk_comment;
                                 auditRecord(action, change_type, object, object_category, object_attrs, result, comment);
 
-                                //console.log("Done!");
                                 notification('Update was successful.', 6000)
 
                                 // Update search
@@ -38164,7 +37756,6 @@ require([
 
         // Clear state action
         $("#btn_data_sampling_clear_now").click(function() {
-            //console.log("Button was clicked");
             $("#modal_clear_state_data_sampling").modal()
         });
 
@@ -38191,7 +37782,6 @@ require([
 
             // Endpoint URI
             var myendpoint_URl = "{{SPLUNKWEB_URL_PREFIX}}/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_data_sampling/" + tk_keyid;
-            //console.log(myendpoint_URl);
 
             // Retrieve update comment if any
             var tk_comment = document.getElementById("input_clear_state_data_sampling_comment").value;
@@ -38212,7 +37802,6 @@ require([
             }
 
             // Get the KV entry content first
-            //console.log("Run ajax query");
             $.ajax({
                 url: myendpoint_URl,
                 type: "GET",
@@ -38221,7 +37810,6 @@ require([
                 success: function(returneddata) {
 
                     var removedObject = returneddata;
-                    //console.log(returneddata);
 
                     var data_sample_mtime = returneddata.data_sample_mtime;
                     var data_sample_feature = returneddata.data_sample_feature;
@@ -38275,7 +37863,6 @@ require([
                         contentType: "application/json",
                         success: function(returneddata) {
 
-                            //console.log(returneddata);
 
                             // Audit
                             action = "success";
@@ -38287,11 +37874,9 @@ require([
                             comment = tk_comment;
                             auditRecord(action, change_type, object, object_category, object_attrs, result, comment);
 
-                            //console.log("Start collection update");
 
                             // Define the query
                             var searchQuery = "| savedsearch \"TrackMe - Data sampling engine for target\" key=\"" + tk_keyid + "\"";
-                            //console.log(searchQuery);
 
                             // Set the search parameters--specify a time range
                             var searchParams = {
@@ -38338,7 +37923,6 @@ require([
                                             period: 200
                                         }, {
                                             done: function(job) {
-                                                //console.log("Done!");
 
                                                 // Once the job is done, update all searches
                                                 searchDataSamplingTable1.startSearch();
@@ -38392,7 +37976,6 @@ require([
 
                     // Define the query
                     var searchQuery = "| savedsearch \"TrackMe - Data sampling engine for target\" key=\"" + tk_keyid + "\"";
-                    //console.log(searchQuery);
 
                     // Set the search parameters--specify a time range
                     var searchParams = {
@@ -38439,7 +38022,6 @@ require([
                                     period: 200
                                 }, {
                                     done: function(job) {
-                                        //console.log("Done!");
 
                                         // Once the job is done, update all searches
                                         searchDataSamplingTable1.startSearch();
@@ -38483,7 +38065,6 @@ require([
 
         // Data sampling custom rules
         $("#btn_data_sampling_custom_rules").click(function() {
-            //console.log("Button was clicked");
 
             submitTokens();
 
@@ -38518,13 +38099,11 @@ require([
 
         // Back button
         $("#btn_modal_data_sampling_custom_rule_add_new_back").click(function() {
-            //console.log("Button was clicked");
             $("#data_sampling_show_custom_rules").modal()
         });
 
         // Data sampling custom rule simulation
         $("#btn_modal_data_sampling_custom_rule_show_sample").click(function() {
-            //console.log("Button was clicked");
 
             submitTokens();
 
@@ -38539,7 +38118,6 @@ require([
 
         // Data sampling custom rule simulation
         $("#btn_modal_data_sampling_custom_rule_simulate").click(function() {
-            //console.log("Button was clicked");
 
             submitTokens();
 
@@ -38548,21 +38126,17 @@ require([
 
             // Retrieve the regex rule
             var tk_data_sampling_custom_rule_regex = document.getElementById("modal_input_data_sampling_custom_rule_regex").value;
-            //console.log("tk_data_sampling_custom_rule_regex is:" + tk_data_sampling_custom_rule_regex);
 
             // Retrieve the rule name
             var tk_data_sampling_custom_rule_name = tokens.get("tk_data_sampling_custom_rule_name");
-            //console.log("tk_data_sampling_custom_rule_name is: " + tk_data_sampling_custom_rule_name);
 
             // Retriebe the key id
             var tk_keyid = tokens.get("tk_keyid");
-            //console.log("tk_keyid is: " + tk_keyid);
 
             // if is not defined, give it a value and override text box content
             if (tk_data_sampling_custom_rule_regex == "Enter a valid regular expression and click on the button \"Run model simulation\"." || !tk_data_sampling_custom_rule_name || !tk_data_sampling_custom_rule_name.length) {
 
                 // Show an error notification
-                //console.log("Entry is incorrect, no expression was provided");
                 notification('ERROR: Entries are either incorrect or incomplete, please correct and try again.', 6000)
 
                 // Disable the add button
@@ -38574,10 +38148,8 @@ require([
                 notification('INFO: running new data sampling model...', 6000)
                 unsetToken("tk_data_sampling_custom_rule_regex");
                 setToken("tk_data_sampling_custom_rule_regex", tk_data_sampling_custom_rule_regex);
-                //console.log("tk_data_sampling_custom_rule_regex is:", tk_data_sampling_custom_rule_regex)
                 // Free the simulation search
                 setToken("start_simulation_data_sampling_custom_rule", "true");
-                //console.log("starts the search");
 
                 // Define the URL target
                 document.getElementById('btn_modal_data_sampling_custom_rule_simulate_show_details').disabled = false;
@@ -38594,13 +38166,11 @@ require([
 
         // Data sampling add custom rule
         $("#btn_data_sampling_custom_rule_add").click(function() {
-            //console.log("Button was clicked");
             $("#modal_add_custom_rule_data_sampling").modal();
         });
 
         // Data sampling add custom rule
         $("#btn_modal_add_custom_rule_confirm").click(function() {
-            //console.log("Button was clicked");
 
             submitTokens();
 
@@ -38609,25 +38179,20 @@ require([
 
             // Retrieve the regex rule
             var tk_data_sampling_custom_rule_regex = document.getElementById("modal_input_data_sampling_custom_rule_regex").value;
-            //console.log("tk_data_sampling_custom_rule_regex is:" + tk_data_sampling_custom_rule_regex);
 
             // Retrieve the rule name
             var tk_data_sampling_custom_rule_name = tokens.get("tk_data_sampling_custom_rule_name");
-            //console.log("tk_data_sampling_custom_rule_name is: " + tk_data_sampling_custom_rule_name);
 
             // Retrieve the rule type
             var tk_data_sampling_custom_rule_type = tokens.get("tk_data_sampling_custom_rule_type");
-            //console.log("tk_data_sampling_custom_rule_type is: " + tk_data_sampling_custom_rule_type);
 
             // Retrieve the sourcetype scope
             var tk_data_sampling_custom_sourcetype_scope = tokens.get("tk_data_sampling_custom_sourcetype_scope");
-            //console.log("tk_data_sampling_custom_sourcetype_scope is: " + tk_data_sampling_custom_sourcetype_scope);
 
             // if is not defined, give it a value and override text box content - We should never reach this for the add function
             if (tk_data_sampling_custom_rule_regex == "Enter a valid regular expression and click on the button \"Run model simulation\"." || !tk_data_sampling_custom_rule_name || !tk_data_sampling_custom_rule_name.length) {
 
                 // Show an error notification
-                //console.log("Entry is incorrect, no expression was provided");
                 notification('ERROR: Entries are either incorrect or incomplete, please correct and try again.', 6000)
 
                 // Disable the add button
@@ -38636,7 +38201,6 @@ require([
             }
             else {
 
-                //console.log("Adding to the custom rules")
 
                 // Retrieve update comment if any
                 var tk_comment = document.getElementById("input_add_custom_rule_data_sampling_comment").value;
@@ -38658,7 +38222,6 @@ require([
 
                 // Define the query
                 var searchQuery = "| makeresults | eval model_name=\"" + tk_data_sampling_custom_rule_name + "\", model_type=\"" + tk_data_sampling_custom_rule_type + "\", model_regex=\"" + tk_data_sampling_custom_rule_regex + "\", sourcetype_scope=\"" + tk_data_sampling_custom_sourcetype_scope + "\" | eval _key=md5(model_name), model_id=md5(model_name), mtime=now() | outputlookup trackme_data_sampling_custom_models append=t key_field=_key";
-                //console.log("searchQuery is: " + searchQuery);
 
                 // Set the search parameters--specify a time range
                 var searchParams = {
@@ -38762,7 +38325,6 @@ require([
         });
 
         $("#btn_modal_data_sampling_custom_rule_simulate_show_details").click(function() {
-            //console.log("Button was clicked");
 
             submitTokens();
 
@@ -38771,27 +38333,21 @@ require([
 
             // Retrieve the regex rule
             var tk_data_sampling_custom_rule_regex = document.getElementById("modal_input_data_sampling_custom_rule_regex").value;
-            //console.log("tk_data_sampling_custom_rule_regex is:" + tk_data_sampling_custom_rule_regex);
 
             // Retrieve the rule name
             var tk_data_sampling_custom_rule_name = tokens.get("tk_data_sampling_custom_rule_name");
-            //console.log("tk_data_sampling_custom_rule_name is: " + tk_data_sampling_custom_rule_name);
 
             // Retrieve the sourcetype scope
             var tk_data_sampling_custom_sourcetype_scope = tokens.get("tk_data_sampling_custom_sourcetype_scope");
-            //console.log("tk_data_sampling_custom_sourcetype_scope is: " + tk_data_sampling_custom_sourcetype_scope);
 
             // Retrieve the key id
             var tk_keyid = tokens.get("tk_keyid");
-            //console.log("tk_keyid is: " + tk_keyid);
 
             // Retrieve the key id
             var tk_data_sourcetype = tokens.get("tk_data_sourcetype");
-            //console.log("tk_data_sourcetype is: " + tk_data_sourcetype);
 
             // Built the search URI
             var similation_events_detail = 'search' + "?q=" + encodeURIComponent("| `trackme_data_sampling_return_live_sample(\"" + tk_keyid + "\")` | fields raw_sample | mvexpand raw_sample | eval sourcetype=\"" + tk_data_sourcetype + "\", sourcetype_scope=\"" + tk_data_sampling_custom_sourcetype_scope + "\" | eval detected_format = case((sourcetype_scope==\"*\"), case(match(raw_sample, \"" + tk_data_sampling_custom_rule_regex + "\"), \"" + tk_data_sampling_custom_rule_name + "\"), in(sourcetype, `trackme_data_sampling_custom_models_simulate_genlist(\"" + tk_data_sampling_custom_sourcetype_scope + "\")`), case(match(raw_sample, \"" + tk_data_sampling_custom_rule_regex + "\"), \"" + tk_data_sampling_custom_rule_name + "\")) | eval detected_format_id=md5(detected_format)");
-            //console.log("similation_events_detail is: " + similation_events_detail);
 
             // Open
             window.open(similation_events_detail,'_blank');
@@ -38961,7 +38517,6 @@ require([
                     contentType: "application/json",
                     data: JSON.stringify(record),
                     success: function(returneddata) {
-                        //console.log("Updated!", returneddata)
 
                         // notify
                         var tk_data_host = tokens.get("tk_data_host");
@@ -39082,8 +38637,6 @@ require(deps, function(mvc) {
         $.each(allValues, function(i, el){
           if($.inArray(el, uniqueNames) === -1) uniqueNames.push(el);
         });
-    //console.log("allValues is: " + allValues);
-    //console.log("uniqueNames is " + uniqueNames);
     idSelectTags.settings.set("default",uniqueNames);
     });
 });

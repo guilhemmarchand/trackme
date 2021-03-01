@@ -2007,7 +2007,6 @@ require([
         // VARIOUS
         //
 
-        //console.log("Splunk version is " + $C.VERSION_LABEL);
 
         //
         // SEARCH MANAGERS
@@ -3000,7 +2999,6 @@ require([
                 contentType: "application/json",
                 data: JSON.stringify(audit_record),
                 success: function(returneddata) {
-                    //console.log("Updated!", returneddata)
                     // Run the search again to update the table
                 }
             });
@@ -3034,7 +3032,6 @@ require([
                 contentType: "application/json",
                 data: "definition=\"" + value + "\"",
                 success: function(returneddata) {
-                    //console.log("Updated!", returneddata)
 
                     // Update the buttons
                     if (value == "enabled") {
@@ -3127,7 +3124,6 @@ require([
 
                     for (var i = 0; i < rows.length; i++) {
                         var values = rows[i];
-                        //console.log("Row " + i + ": ");
 
                         for (var j = 0; j < values.length; j++) {
                             var field = fields[j];
@@ -3138,7 +3134,6 @@ require([
                         }
                     }
 
-                    //console.log("current_data_host_alerting_policy: " + current_data_host_alerting_policy);
 
                     if (!current_data_host_alerting_policy) {
                         document.getElementById('btn_enable_data_host_policy_per_host').disabled = false;
@@ -3207,7 +3202,6 @@ require([
 
                     for (var i = 0; i < rows.length; i++) {
                         var values = rows[i];
-                        //console.log("Row " + i + ": ");
 
                         for (var j = 0; j < values.length; j++) {
                             var field = fields[j];
@@ -3218,7 +3212,6 @@ require([
                         }
                     }
 
-                    //console.log("current_mode: " + current_mode);
 
                     if (!current_mode) {
                         document.getElementById('btn_data_sampling_obfuscate_enable').disabled = false;
@@ -3267,7 +3260,6 @@ require([
                 contentType: "application/json",
                 data: "definition=`" + value + "`",
                 success: function(returneddata) {
-                    //console.log("Updated!", returneddata)
 
                     // Update the buttons
                     if (value == "trackme_data_sampling_obfuscation_mode_enabled") {
@@ -3317,13 +3309,11 @@ require([
 
         // Enable mode
         $("#btn_data_sampling_obfuscate_enable").click(function() {
-        //console.log("running update enable");
         update_data_sampling_obfuscation_mode("trackme_data_sampling_obfuscation_mode_enabled");
         });
 
         // Disable mode
         $("#btn_data_sampling_obfuscate_disable").click(function() {
-        //console.log("running update disable");
         update_data_sampling_obfuscation_mode("trackme_data_sampling_obfuscation_mode_disabled");
         });
 
@@ -3367,7 +3357,6 @@ require([
 
                     for (var i = 0; i < rows.length; i++) {
                         var values = rows[i];
-                        //console.log("Row " + i + ": ");
 
                         for (var j = 0; j < values.length; j++) {
                             var field = fields[j];
@@ -3378,7 +3367,6 @@ require([
                         }
                     }
 
-                    //console.log("current_mode: " + current_mode);
 
                     if (!current_mode) {
                         document.getElementById('btn_enable_data_host_splunkd').disabled = false;
@@ -3427,7 +3415,6 @@ require([
                 contentType: "application/json",
                 data: "definition=`" + value + "`",
                 success: function(returneddata) {
-                    //console.log("Updated!", returneddata)
 
                     // Update the buttons
                     if (value == "trackme_tstats_root_include_splunkd") {
@@ -3477,13 +3464,11 @@ require([
 
         // Enable mode
         $("#btn_enable_data_host_splunkd").click(function() {
-            //console.log("running update enable");
             update_data_host_splunk_monitoring_mode("trackme_tstats_root_include_splunkd");
         });
 
         // Disable mode
         $("#btn_disable_data_host_splunkd").click(function() {
-            //console.log("running update disable");
             update_data_host_splunk_monitoring_mode("trackme_tstats_root_exclude_splunkd");
         });
 
@@ -3527,7 +3512,6 @@ require([
 
                     for (var i = 0; i < rows.length; i++) {
                         var values = rows[i];
-                        //console.log("Row " + i + ": ");
 
                         for (var j = 0; j < values.length; j++) {
                             var field = fields[j];
@@ -3538,7 +3522,6 @@ require([
                         }
                     }
 
-                    //console.log("current_data_source_mode: " + current_data_source_mode);
 
                     if (!current_data_source_mode) {
                         document.getElementById('btn_enable_data_source_split_mode').disabled = false;
@@ -3605,7 +3588,6 @@ require([
                 contentType: "application/json",
                 data: "definition=`" + value + "`",
                 success: function(returneddata) {
-                    //console.log("Updated!", returneddata)
 
                     $.ajax({
                         url: query_url2,
@@ -3614,7 +3596,6 @@ require([
                         contentType: "application/json",
                         data: "definition=`" + root_splitby_value + "`",
                         success: function(returneddata) {
-                            //console.log("Updated!", returneddata)
 
                             // Update the buttons
                             if (value == "trackme_data_source_split_mode") {
@@ -3736,7 +3717,6 @@ require([
                 contentType: "application/json",
                 data: "definition=\"" + value + "\"",
                 success: function(returneddata) {
-                    //console.log("Updated!", returneddata)
 
                     // Update the buttons
                     if (value == "track_per_host") {
@@ -3822,7 +3802,6 @@ require([
 
                 for (var i = 0; i < rows.length; i++) {
                     var values = rows[i];
-                    //console.log("Row " + i + ": ");
 
                     for (var j = 0; j < values.length; j++) {
                         var field = fields[j];
@@ -3833,7 +3812,6 @@ require([
                     }
                 }
 
-                //console.log("current_behaviour_analytic_mode_mode: " + current_behaviour_analytic_mode_mode);
 
                 if (!current_behaviour_analytic_mode_mode) {
                     document.getElementById('btn_enable_production_mode_confirm').disabled = false;
@@ -3902,7 +3880,6 @@ require([
 
             $("#btn_modal_reset_data_source_confirmed").click(function() {
 
-                //console.log("Reset of data source collection");
 
                 // Define the query
                 var searchQuery = "| outputlookup trackme_data_source_monitoring";
@@ -3952,7 +3929,6 @@ require([
                                 contentType: "application/json",
                                 data: JSON.stringify(audit_record),
                                 success: function(returneddata) {
-                                    //console.log("Updated!", returneddata)
                                     // Run the search again to update the table
                                 }
                             });
@@ -3977,7 +3953,6 @@ require([
                                 period: 200
                             }, {
                                 done: function(job) {
-                                    //console.log("Done!");
 
                                     // Once the job is done, update all searches
 
@@ -4027,7 +4002,6 @@ require([
                                                     period: 200
                                                 }, {
                                                     done: function(job) {
-                                                        //console.log("Done!");
 
                                                         $("#loadingGray").remove()
 
@@ -4048,7 +4022,6 @@ require([
                                                             contentType: "application/json",
                                                             data: JSON.stringify(audit_record),
                                                             success: function(returneddata) {
-                                                                //console.log("Updated!", returneddata)
                                                                 // Run the search again to update the table
                                                             }
                                                         });
@@ -4119,7 +4092,6 @@ require([
 
             $("#btn_modal_reset_data_host_confirmed").click(function() {
 
-                //console.log("Reset of data source collection");
 
                 // Define the query
                 var searchQuery = "| outputlookup trackme_host_monitoring";
@@ -4169,7 +4141,6 @@ require([
                                 contentType: "application/json",
                                 data: JSON.stringify(audit_record),
                                 success: function(returneddata) {
-                                    //console.log("Updated!", returneddata)
                                     // Run the search again to update the table
                                 }
                             });
@@ -4194,7 +4165,6 @@ require([
                                 period: 200
                             }, {
                                 done: function(job) {
-                                    //console.log("Done!");
 
                                     // Once the job is done, update all searches
 
@@ -4244,7 +4214,6 @@ require([
                                                     period: 200
                                                 }, {
                                                     done: function(job) {
-                                                        //console.log("Done!");
 
                                                         // Audit success change
                                                         var time = (new Date).getTime();
@@ -4263,7 +4232,6 @@ require([
                                                             contentType: "application/json",
                                                             data: JSON.stringify(audit_record),
                                                             success: function(returneddata) {
-                                                                //console.log("Updated!", returneddata)
                                                                 // Run the search again to update the table
                                                             }
                                                         });
@@ -4336,7 +4304,6 @@ require([
 
             $("#btn_modal_reset_metric_host_confirmed").click(function() {
 
-                //console.log("Reset of metric host collection");
 
                 // Define the query
                 var searchQuery = "| outputlookup trackme_metric_host_monitoring";
@@ -4386,7 +4353,6 @@ require([
                                 contentType: "application/json",
                                 data: JSON.stringify(audit_record),
                                 success: function(returneddata) {
-                                    //console.log("Updated!", returneddata)
                                     // Run the search again to update the table
                                 }
                             });
@@ -4411,7 +4377,6 @@ require([
                                 period: 200
                             }, {
                                 done: function(job) {
-                                    //console.log("Done!");
 
                                     // Once the job is done, update all searches
 
@@ -4461,7 +4426,6 @@ require([
                                                     period: 200
                                                 }, {
                                                     done: function(job) {
-                                                        //console.log("Done!");
 
                                                         // Audit success change
                                                         var time = (new Date).getTime();
@@ -4480,7 +4444,6 @@ require([
                                                             contentType: "application/json",
                                                             data: JSON.stringify(audit_record),
                                                             success: function(returneddata) {
-                                                                //console.log("Updated!", returneddata)
                                                                 // Run the search again to update the table
                                                             }
                                                         });
@@ -4556,7 +4519,6 @@ require([
             // When the Submit button is clicked, get all the form fields by accessing token values
             var tokens = mvc.Components.get("default");
 
-            //console.log("Start collection update");
 
             // Define the query
             var searchQuery = "| savedsearch \"TrackMe - Data sources availability short term tracker\"";
@@ -4606,7 +4568,6 @@ require([
                             period: 200
                         }, {
                             done: function(job) {
-                                //console.log("Done!");
 
                                 $("#loadingGray").remove()
                                 $("#modal_update_collection_done").modal()
@@ -4641,7 +4602,6 @@ require([
             // When the Submit button is clicked, get all the form fields by accessing token values
             var tokens = mvc.Components.get("default");
 
-            //console.log("Start collection update");
 
             // Define the query
             var searchQuery = "| savedsearch \"TrackMe - hosts availability short term tracker\"";
@@ -4691,7 +4651,6 @@ require([
                             period: 200
                         }, {
                             done: function(job) {
-                                //console.log("Done!");
 
                                 $("#loadingGray").remove()
                                 $("#modal_update_collection_done").modal()
