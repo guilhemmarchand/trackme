@@ -10065,7 +10065,7 @@ require([
 
         var searchPopulateDataSourcesTags = new PostProcessManager({
             "tokenDependencies": {},
-            "search": "eval tags=if(tags=\"No tags defined, click on Update tags to define one or more tags to be associated with this data source.\", \"\", tags) | makemv delim=\" / \" tags | search $inputDataIndex$ $inputDataSourcetype$ | mvexpand tags | stats values(tags) as tags | mvexpand tags | dedup tags | sort limit=1000 tags",
+            "search": "eval tags=if(match(tags, \"click on Update tags\"), \"\", tags) | makemv delim=\" / \" tags | search $inputDataIndex$ $inputDataSourcetype$ | mvexpand tags | stats values(tags) as tags | mvexpand tags | dedup tags | sort limit=1000 tags",
             "managerid": "searchDataSourcesMain",
             "id": "searchPopulateDataSourcesTags"
         }, {
@@ -38610,29 +38610,6 @@ require([
 <script src="{{SPLUNKWEB_URL_PREFIX}}/static/app/trackme/checkbox_table_tags_policies.js" type="text/javascript"></script>
 <script src="{{SPLUNKWEB_URL_PREFIX}}/static/app/trackme/table_raw.js" type="text/javascript"></script>
 <script src="{{SPLUNKWEB_URL_PREFIX}}/static/app/trackme/multiselect_all.js" type="text/javascript"></script>
-<script>
-var deps = [
-    "splunkjs/ready!"
-];
-require(deps, function(mvc) {
-
-    var idSelectTags = mvc.Components.get('modal_input_tags_update');
-    var allValues = [];
-    var uniqueNames = [];
-
-    var idSearchSelectTags = mvc.Components.get("searchShowTags");
-    var idSearchSelectTags_results = idSearchSelectTags.data("preview");
-    idSearchSelectTags_results.on("data", function() {
-         $.each(idSearchSelectTags_results.data().rows, function( index, value ) {
-            allValues.push(value[0]);
-        });
-        $.each(allValues, function(i, el){
-          if($.inArray(el, uniqueNames) === -1) uniqueNames.push(el);
-        });
-    idSelectTags.settings.set("default",uniqueNames);
-    });
-});
-</script>
 <script>
 $(".btn").mouseup(function(){
     $(this).blur();

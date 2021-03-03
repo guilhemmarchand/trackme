@@ -16,6 +16,7 @@ TrackMe requires a summary index (defaults to trackme_summary) and a metric inde
 https://trackme.readthedocs.io/en/latest/configuration.html
 
 - Fix - Issue #273 - User Interfaces - Several searches should not kick off start at TrackMe main UI loading time
+- Fix - Issue #274 - Data Sources - tags dropdown can render unwanted results when no tags are defined
 
 Version 1.2.36
 ==============
