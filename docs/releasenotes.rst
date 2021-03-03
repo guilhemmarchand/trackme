@@ -18,6 +18,7 @@ https://trackme.readthedocs.io/en/latest/configuration.html
 - Change - Issue #275 - permissions - provides a builtin trackme_user role to handle the minimal non admin access for TrackMe
 - Fix - Issue #273 - User Interfaces - Several searches should not kick off start at TrackMe main UI loading time
 - Fix - Issue #274 - Data Sources - tags dropdown can render unwanted results when no tags are defined
+- Fix - Issue #277 - REST endpoint - the endpoint ds_update_min_dcount_host should allow any as the input
 
 Version 1.2.36
 ==============
