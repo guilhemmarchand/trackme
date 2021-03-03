@@ -671,7 +671,7 @@ ds_update_min_dcount_host / Update minimal host dcount
 **This endpoint configures the minimal number of distinct hosts count for an existing data source, it requires a POST call with the following information:**
 
 - ``"data_name": name of the data source``
-- ``"min_dcount_host": minimal accepted number of distinct count hosts, must be an integer``
+- ``"min_dcount_host": minimal accepted number of distinct count hosts, must be an integer or any to disable the feature``
 - ``"update_comment": OPTIONAL: a comment for the update, comments are added to the audit record, if unset will be defined to: API update``
 
 *External:*
