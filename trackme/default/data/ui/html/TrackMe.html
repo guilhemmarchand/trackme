@@ -13400,8 +13400,7 @@ require([
             "auto_cancel": 90,
             "preview": true,
             "tokenDependencies": {
-                "depends": "$tk_start_parsing_issues_searches$",
-                "rejects": ""
+                "depends": "$tk_start_parsing_issues_searches$"
             },
             "runWhenTimeIsUndefined": false
         }, {tokens: true, tokenNamespace: "submitted"});
@@ -13418,8 +13417,7 @@ require([
             "auto_cancel": 90,
             "preview": true,
             "tokenDependencies": {
-                "depends": "$tk_start_parsing_issues_searches$",
-                "rejects": ""
+                "depends": "$tk_start_parsing_issues_searches$"
             },
             "runWhenTimeIsUndefined": false
         }, {tokens: true, tokenNamespace: "submitted"});
@@ -13436,8 +13434,7 @@ require([
             "auto_cancel": 90,
             "preview": true,
             "tokenDependencies": {
-                "depends": "$tk_start_parsing_issues_searches$",
-                "rejects": ""
+                "depends": "$tk_start_parsing_issues_searches$"
             },
             "runWhenTimeIsUndefined": false
         }, {tokens: true, tokenNamespace: "submitted"});
@@ -13454,8 +13451,7 @@ require([
             "auto_cancel": 90,
             "preview": true,
             "tokenDependencies": {
-                "depends": "$tk_start_parsing_issues_searches$",
-                "rejects": ""
+                "depends": "$tk_start_parsing_issues_searches$"
             },
             "runWhenTimeIsUndefined": false
         }, {tokens: true, tokenNamespace: "submitted"});
@@ -13472,8 +13468,7 @@ require([
             "auto_cancel": 90,
             "preview": true,
             "tokenDependencies": {
-                "depends": "$tk_start_parsing_issues_searches$",
-                "rejects": ""
+                "depends": "$tk_start_parsing_issues_searches$"
             },
             "runWhenTimeIsUndefined": false
         }, {tokens: true, tokenNamespace: "submitted"});
@@ -13490,8 +13485,7 @@ require([
             "auto_cancel": 90,
             "preview": true,
             "tokenDependencies": {
-                "depends": "$tk_start_parsing_issues_searches$",
-                "rejects": ""
+                "depends": "$tk_start_parsing_issues_searches$"
             },
             "runWhenTimeIsUndefined": false
         }, {tokens: true, tokenNamespace: "submitted"});
@@ -13508,8 +13502,7 @@ require([
             "auto_cancel": 90,
             "preview": true,
             "tokenDependencies": {
-                "depends": "$tk_start_parsing_issues_searches$",
-                "rejects": ""
+                "depends": "$tk_start_parsing_issues_searches$"
             },
             "runWhenTimeIsUndefined": false
         }, {tokens: true, tokenNamespace: "submitted"});
@@ -13526,8 +13519,7 @@ require([
             "auto_cancel": 90,
             "preview": true,
             "tokenDependencies": {
-                "depends": "$tk_start_parsing_issues_searches$",
-                "rejects": ""
+                "depends": "$tk_start_parsing_issues_searches$"
             },
             "runWhenTimeIsUndefined": false
         }, {tokens: true, tokenNamespace: "submitted"});
@@ -13544,8 +13536,7 @@ require([
             "auto_cancel": 90,
             "preview": true,
             "tokenDependencies": {
-                "depends": "$tk_start_parsing_issues_searches$",
-                "rejects": ""
+                "depends": "$tk_start_parsing_issues_searches$"
             },
             "runWhenTimeIsUndefined": false
         }, {tokens: true, tokenNamespace: "submitted"});
@@ -13562,6 +13553,7 @@ require([
             "auto_cancel": 90,
             "preview": true,
             "tokenDependencies": {
+                "depends": "$tk_start_parsing_issues_searches$"
             },
             "runWhenTimeIsUndefined": false
         }, {tokens: true, tokenNamespace: "submitted"});
@@ -13578,6 +13570,7 @@ require([
             "auto_cancel": 90,
             "preview": true,
             "tokenDependencies": {
+                "depends": "$tk_start_parsing_issues_searches$"
             },
             "runWhenTimeIsUndefined": false
         }, {tokens: true, tokenNamespace: "submitted"});
@@ -13594,6 +13587,7 @@ require([
             "auto_cancel": 90,
             "preview": true,
             "tokenDependencies": {
+                "depends": "$tk_start_parsing_issues_searches$"
             },
             "runWhenTimeIsUndefined": false
         }, {tokens: true, tokenNamespace: "submitted"});
@@ -13719,14 +13713,12 @@ require([
             "earliest_time": "-5m",
             "latest_time": "now",
             "sample_ratio": null,
-            "search": "| makeresults | eval duration=`trackme_ack_default_duration` | eval label=\"default\" | eval label=tostring(duration, \"duration\"), priority=1 | fields - _time | append [ | makeresults | eval duration=2*24*60*60 | eval label=\"default\" | eval label=tostring(duration, \"duration\"), priority=2 | fields - _time ] | append [ | makeresults | eval duration=7*24*60*60 | eval label=\"default\" | eval label=tostring(duration, \"duration\"), priority=3 | fields - _time ] | append [ | makeresults | eval duration=15*24*60*60 | eval label=\"default\" | eval label=tostring(duration, \"duration\"), priority=4 | fields - _time ] | append [ | makeresults | eval duration=30*24*60*60 | eval label=\"default\" | eval label=tostring(duration, \"duration\"), priority=5 | fields - _time ] | sort priority | fields duration, label",
+            "search": "| `trackme_ack_populate_dropdown`",
             "status_buckets": 0,
             "cancelOnUnload": true,
             "app": utils.getCurrentApp(),
             "auto_cancel": 90,
             "preview": true,
-            "tokenDependencies": {
-            },
             "runWhenTimeIsUndefined": false
         }, {tokens: true});
 
