@@ -17,6 +17,7 @@ https://trackme.readthedocs.io/en/latest/configuration.html
 
 - Enhancement - Issue #279 - Decomission of the getlistdef custom command in favor of a simpler and cleaner pure SPL approach
 - Change - Issue #275 - permissions - provides a builtin trackme_user role to handle the minimal non admin access for TrackMe
+- Change - Issue #276 - User Interface - Migration of Ajax javascript REST calls made within the UI from splunkd to TrackMe based API endpoints
 - Change - Issue #278 - Upgrade of splunklib Python SDK to latest release 1.6.15
 - Fix - Issue #273 - User Interfaces - Several searches should not kick off start at TrackMe main UI loading time
 - Fix - Issue #274 - Data Sources - tags dropdown can render unwanted results when no tags are defined
