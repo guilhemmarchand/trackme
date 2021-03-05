@@ -31172,46 +31172,10 @@ require([
 
             var tk_keyid = tokens.get("tk_keyid");
             var tk_data_name = tokens.get("tk_data_name");
-            var tk_data_index = tokens.get("tk_data_index");
-            var tk_data_sourcetype = tokens.get("tk_data_sourcetype");
-            var tk_data_last_lag_seen = tokens.get("tk_data_last_lag_seen");
-            var tk_data_last_ingestion_lag_seen = tokens.get("tk_data_last_ingestion_lag_seen");
-            var tk_data_eventcount = tokens.get("tk_data_eventcount");
-            var tk_data_first_time_seen = tokens.get("tk_data_first_time_seen");
-            var tk_data_last_time_seen = tokens.get("tk_data_last_time_seen");
-            var tk_data_last_ingest = tokens.get("tk_data_last_ingest");
-            var tk_data_last_lag_seen_idx = tokens.get("tk_data_last_lag_seen_idx");
-            var tk_data_last_time_seen_idx = tokens.get("tk_data_last_time_seen_idx");
-            var tk_data_max_lag_allowed = tokens.get("tk_data_max_lag_allowed");
-            var tk_data_lag_alert_kpis = tokens.get("tk_data_lag_alert_kpis");
-            var tk_data_monitored_state = tokens.get("tk_data_monitored_state");
-            var tk_data_monitoring_level = tokens.get("tk_data_monitoring_level");
             var tk_data_monitoring_wdays = tokens.get("tk_data_monitoring_wdays");
-            var tk_data_override_lagging_class = tokens.get("tk_data_override_lagging_class");
-            var tk_data_source_state = tokens.get("tk_data_source_state");
-            var tk_data_tracker_runtime = tokens.get("tk_data_tracker_runtime");
-            var tk_data_previous_source_state = tokens.get("tk_data_previous_source_state");
-            var tk_data_previous_tracker_runtime = tokens.get("tk_data_previous_tracker_runtime");
-            var tk_outliermineventcount = tokens.get("tk_outliermineventcount");
-            var tk_outlierlowerthresholdmultiplier = tokens.get("tk_outlierlowerthresholdmultiplier");
-            var tk_outlierupperthresholdmultiplier = tokens.get("tk_outlierupperthresholdmultiplier");
-            var tk_outlieralertonupper = tokens.get("tk_outlieralertonupper");
-            var tk_outlier_period = tokens.get("tk_outlier_period");
-            var tk_outlier_span = tokens.get("tk_outlier_span");
-            var tk_isoutlier = tokens.get("tk_isoutlier");
-            var tk_enable_behaviour_analytic = tokens.get("tk_enable_behaviour_analytic");
-            var tk_isanomaly = tokens.get("tk_isanomaly");
-            var tk_data_sample_lastrun = tokens.get("tk_data_sample_lastrun");
-            var tk_latest_flip_state = tokens.get("tk_latest_flip_state");
-            var tk_latest_flip_time = tokens.get("tk_latest_flip_time");
-            var tk_priority = tokens.get("tk_priority");
-            var tk_dcount_host = tokens.get("tk_dcount_host");
-            var tk_min_dcount_host = tokens.get("tk_min_dcount_host");
-            var tk_tags = tokens.get("tk_tags");
-
 
             // Create the endpoint URL
-            var myendpoint_URl = "{{SPLUNKWEB_URL_PREFIX}}/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_data_source_monitoring/" + tk_keyid;
+            var myendpoint_URl = "{{SPLUNKWEB_URL_PREFIX}}/splunkd/__raw/services/trackme/v1/data_sources/ds_update_wdays";
 
             var tk_origin_data_monitoring_wdays = tokens.get("tk_data_monitoring_wdays");
             var tk_data_monitoring_wdays = tokens.get("tk_input_wdays");
@@ -31224,44 +31188,9 @@ require([
 
                 // Create a dictionary to store the field names and values
                 var record = {
-                    "object_category": "data_source",
                     "data_name": tk_data_name,
-                    "data_index": tk_data_index,
-                    "data_sourcetype": tk_data_sourcetype,
-                    "data_last_lag_seen": tk_data_last_lag_seen,
-                    "data_last_ingestion_lag_seen": tk_data_last_ingestion_lag_seen,
-                    "data_eventcount": tk_data_eventcount,
-                    "data_first_time_seen": tk_data_first_time_seen,
-                    "data_last_time_seen": tk_data_last_time_seen,
-                    "data_last_ingest": tk_data_last_ingest,
-                    "data_last_lag_seen_idx": tk_data_last_lag_seen_idx,
-                    "data_last_time_seen_idx": tk_data_last_time_seen_idx,
-                    "data_max_lag_allowed": tk_data_max_lag_allowed,
-                    "data_lag_alert_kpis": tk_data_lag_alert_kpis,
-                    "data_monitored_state": tk_data_monitored_state,
-                    "data_monitoring_level": tk_data_monitoring_level,
                     "data_monitoring_wdays": tk_data_monitoring_wdays,
-                    "data_override_lagging_class": tk_data_override_lagging_class,
-                    "data_source_state": tk_data_source_state,
-                    "data_tracker_runtime": tk_data_tracker_runtime,
-                    "data_previous_source_state": tk_data_previous_source_state,
-                    "data_previous_tracker_runtime": tk_data_previous_tracker_runtime,
-                    "OutlierMinEventCount": tk_outliermineventcount,
-                    "OutlierLowerThresholdMultiplier": tk_outlierlowerthresholdmultiplier,
-                    "OutlierUpperThresholdMultiplier": tk_outlierupperthresholdmultiplier,
-                    "OutlierAlertOnUpper": tk_outlieralertonupper,
-                    "OutlierTimePeriod": tk_outlier_period,
-                    "OutlierSpan": tk_outlier_span,
-                    "isOutlier": tk_isoutlier,
-                    "enable_behaviour_analytic" : tk_enable_behaviour_analytic,
-                    "isAnomaly": tk_isanomaly,
-                    "data_sample_lastrun": tk_data_sample_lastrun,
-                    "latest_flip_state": tk_latest_flip_state,
-                    "latest_flip_time": tk_latest_flip_time,
-                    "priority": tk_priority,
-                    "dcount_host": tk_dcount_host,
-                    "min_dcount_host": tk_min_dcount_host,
-                    "tags": tk_tags
+                    "update_comment": "N/A"
                 };
 
                 $.ajax({
@@ -31269,6 +31198,7 @@ require([
                     type: "POST",
                     async: true,
                     contentType: "application/json",
+                    dataType: "text",
                     data: JSON.stringify(record),
                     success: function(returneddata) {
                         // Run the search again to update the table
@@ -31280,16 +31210,6 @@ require([
                         // notify
                         notification('Modification has been registered successfully.', 2000)
 
-                        // Audit
-                        action = "success";
-                        change_type = "modify week days monitoring";
-                        object = tk_data_name;
-                        object_category = "data_source";
-                        object_attrs = "data_monitoring_wdays changed from:" + tk_origin_data_monitoring_wdays + " to:" + tk_data_monitoring_wdays;
-                        result = "N/A";
-                        comment = "N/A";
-                        auditRecord(action, change_type, object, object_category, object_attrs, result, comment);
-
                         // house cleaning
                         myendpoint_URl = undefined;
                         delete(myendpoint_URl);
@@ -31300,7 +31220,7 @@ require([
 
                     },
                     error: function(xhr, textStatus, error) {
-                        message = "Error Updating!" + xhr + textStatus + error;
+                        message = "server response: " + xhr.responseText + "\n - http response: " + error;
 
                         // Audit
                         action = "failure";
@@ -31417,46 +31337,10 @@ require([
 
             var tk_keyid = tokens.get("tk_keyid");
             var tk_data_name = tokens.get("tk_data_name");
-            var tk_data_index = tokens.get("tk_data_index");
-            var tk_data_sourcetype = tokens.get("tk_data_sourcetype");
-            var tk_data_last_lag_seen = tokens.get("tk_data_last_lag_seen");
-            var tk_data_last_ingestion_lag_seen = tokens.get("tk_data_last_ingestion_lag_seen");
-            var tk_data_eventcount = tokens.get("tk_data_eventcount");
-            var tk_data_first_time_seen = tokens.get("tk_data_first_time_seen");
-            var tk_data_last_time_seen = tokens.get("tk_data_last_time_seen");
-            var tk_data_last_ingest = tokens.get("tk_data_last_ingest");
-            var tk_data_last_lag_seen_idx = tokens.get("tk_data_last_lag_seen_idx");
-            var tk_data_last_time_seen_idx = tokens.get("tk_data_last_time_seen_idx");
-            var tk_data_max_lag_allowed = tokens.get("tk_data_max_lag_allowed");
-            var tk_data_lag_alert_kpis = tokens.get("tk_data_lag_alert_kpis");
-            var tk_data_monitored_state = tokens.get("tk_data_monitored_state");
-            var tk_data_monitoring_level = tokens.get("tk_data_monitoring_level");
             var tk_data_monitoring_wdays = tokens.get("tk_data_monitoring_wdays");
-            var tk_data_override_lagging_class = tokens.get("tk_data_override_lagging_class");
-            var tk_data_source_state = tokens.get("tk_data_source_state");
-            var tk_data_tracker_runtime = tokens.get("tk_data_tracker_runtime");
-            var tk_data_previous_source_state = tokens.get("tk_data_previous_source_state");
-            var tk_data_previous_tracker_runtime = tokens.get("tk_data_previous_tracker_runtime");
-            var tk_outliermineventcount = tokens.get("tk_outliermineventcount");
-            var tk_outlierlowerthresholdmultiplier = tokens.get("tk_outlierlowerthresholdmultiplier");
-            var tk_outlierupperthresholdmultiplier = tokens.get("tk_outlierupperthresholdmultiplier");
-            var tk_outlieralertonupper = tokens.get("tk_outlieralertonupper");
-            var tk_outlier_period = tokens.get("tk_outlier_period");
-            var tk_outlier_span = tokens.get("tk_outlier_span");
-            var tk_isoutlier = tokens.get("tk_isoutlier");
-            var tk_enable_behaviour_analytic = tokens.get("tk_enable_behaviour_analytic");
-            var tk_isanomaly = tokens.get("tk_isanomaly");
-            var tk_data_sample_lastrun = tokens.get("tk_data_sample_lastrun");
-            var tk_latest_flip_state = tokens.get("tk_latest_flip_state");
-            var tk_latest_flip_time = tokens.get("tk_latest_flip_time");
-            var tk_priority = tokens.get("tk_priority");
-            var tk_dcount_host = tokens.get("tk_dcount_host");
-            var tk_min_dcount_host = tokens.get("tk_min_dcount_host");
-            var tk_tags = tokens.get("tk_tags");
-
 
             // Create the endpoint URL
-            var myendpoint_URl = "{{SPLUNKWEB_URL_PREFIX}}/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_data_source_monitoring/" + tk_keyid;
+            var myendpoint_URl = "{{SPLUNKWEB_URL_PREFIX}}/splunkd/__raw/services/trackme/v1/data_sources/ds_update_wdays";
 
             var tk_origin_data_monitoring_wdays = tokens.get("tk_data_monitoring_wdays");
             var tk_data_monitoring_wdays_no = tokens.get("tk_input_wdays_no");
@@ -31469,44 +31353,9 @@ require([
 
                 // Create a dictionary to store the field names and values
                 var record = {
-                    "object_category": "data_source",
                     "data_name": tk_data_name,
-                    "data_index": tk_data_index,
-                    "data_sourcetype": tk_data_sourcetype,
-                    "data_last_lag_seen": tk_data_last_lag_seen,
-                    "data_last_ingestion_lag_seen": tk_data_last_ingestion_lag_seen,
-                    "data_eventcount": tk_data_eventcount,
-                    "data_first_time_seen": tk_data_first_time_seen,
-                    "data_last_time_seen": tk_data_last_time_seen,
-                    "data_last_ingest": tk_data_last_ingest,
-                    "data_last_lag_seen_idx": tk_data_last_lag_seen_idx,
-                    "data_last_time_seen_idx": tk_data_last_time_seen_idx,
-                    "data_max_lag_allowed": tk_data_max_lag_allowed,
-                    "data_lag_alert_kpis": tk_data_lag_alert_kpis,
-                    "data_monitored_state": tk_data_monitored_state,
-                    "data_monitoring_level": tk_data_monitoring_level,
                     "data_monitoring_wdays": tk_data_monitoring_wdays_no,
-                    "data_override_lagging_class": tk_data_override_lagging_class,
-                    "data_source_state": tk_data_source_state,
-                    "data_tracker_runtime": tk_data_tracker_runtime,
-                    "data_previous_source_state": tk_data_previous_source_state,
-                    "data_previous_tracker_runtime": tk_data_previous_tracker_runtime,
-                    "OutlierMinEventCount": tk_outliermineventcount,
-                    "OutlierLowerThresholdMultiplier": tk_outlierlowerthresholdmultiplier,
-                    "OutlierUpperThresholdMultiplier": tk_outlierupperthresholdmultiplier,
-                    "OutlierAlertOnUpper": tk_outlieralertonupper,
-                    "OutlierTimePeriod": tk_outlier_period,
-                    "OutlierSpan": tk_outlier_span,
-                    "isOutlier": tk_isoutlier,
-                    "enable_behaviour_analytic" : tk_enable_behaviour_analytic,
-                    "isAnomaly": tk_isanomaly,
-                    "data_sample_lastrun": tk_data_sample_lastrun,
-                    "latest_flip_state": tk_latest_flip_state,
-                    "latest_flip_time": tk_latest_flip_time,
-                    "priority": tk_priority,
-                    "dcount_host": tk_dcount_host,
-                    "min_dcount_host": tk_min_dcount_host,
-                    "tags": tk_tags
+                    "update_comment": "N/A"
                 };
 
                 $.ajax({
@@ -31514,6 +31363,7 @@ require([
                     type: "POST",
                     async: true,
                     contentType: "application/json",
+                    dataType: "text",
                     data: JSON.stringify(record),
                     success: function(returneddata) {
                         // Run the search again to update the table
@@ -31527,16 +31377,6 @@ require([
                         // notify
                         notification('Modification has been registered successfully.', 2000)
 
-                        // Audit
-                        action = "success";
-                        change_type = "modify week days monitoring";
-                        object = tk_data_name;
-                        object_category = "data_source";
-                        object_attrs = "data_monitoring_wdays changed from:" + tk_origin_data_monitoring_wdays + " to:" + tk_data_monitoring_wdays_no;
-                        result = "N/A";
-                        comment = "N/A";
-                        auditRecord(action, change_type, object, object_category, object_attrs, result, comment);
-
                         // house cleaning
                         myendpoint_URl = undefined;
                         delete(myendpoint_URl);
@@ -31546,7 +31386,7 @@ require([
 
                     },
                     error: function(xhr, textStatus, error) {
-                        message = "Error Updating!" + xhr + textStatus + error;
+                        message = "server response: " + xhr.responseText + "\n - http response: " + error;
 
                         // Audit
                         action = "failure";
