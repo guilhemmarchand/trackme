@@ -549,7 +549,7 @@ class TrackMeHandlerLogicalGroups_v1(rest_handler.RESTHandler):
 
         if describe:
 
-            response = "{\"describe\": \"This endpoint associates an object (data host or metric host) with an existing logical group (existing members\"
+            response = "{\"describe\": \"This endpoint associates an object (data host or metric host) with an existing logical group (existing members"\
                 " of the logical groups are preserved and this object membership will be removed), "\
                 "it requires a POST call with the following data required:\""\
                 + ", \"options\" : [ { "\
