@@ -737,6 +737,7 @@ class TrackMeHandlerLogicalGroups_v1(rest_handler.RESTHandler):
                 describe = False
             if not describe:
                 object_name = resp_dict['object']
+                key = resp_dict['key']
 
         else:
             # body is required in this endpoint, if not submitted describe the usage
@@ -744,11 +745,12 @@ class TrackMeHandlerLogicalGroups_v1(rest_handler.RESTHandler):
 
         if describe:
 
-            response = "{\"describe\": \"This endpoint unassociates an object (data host or metric host) from any logical group it is member of "\
+            response = "{\"describe\": \"This endpoint unassociates an object (data host or metric host) from a logical group it is member of "\
                 "(existing associations of the logical groups are preserved), "\
                 "it requires a POST call with the following data required:\""\
                 + ", \"options\" : [ { "\
                 + "\"object\": \"the object name (data host or metric host) to remove association for\", "\
+                + "\"key\": \"KVstore unique identifier of the logical group\", "\
                 + "\"update_comment\": \"OPTIONAL: a comment for the update, comments are added to the audit record, if unset will be defined to: API update\""\
                 + " } ] }"
 
@@ -793,7 +795,7 @@ class TrackMeHandlerLogicalGroups_v1(rest_handler.RESTHandler):
             collection_audit = service_audit.kvstore[collection_name_audit]
 
             # Get the record
-            query_string = '{ "object_group_members": "' + object_name + '" }'
+            query_string = '{ "_key": "' + key + '" }'
             try:
                 record = collection.data.query(query=str(query_string))
                 key = record[0].get('_key')
@@ -890,14 +892,14 @@ class TrackMeHandlerLogicalGroups_v1(rest_handler.RESTHandler):
                 # no association, nothing to do                
                 else:
                     return {
-                        "payload": str(json.dumps(collection.data.query_by_id(key), indent=1)),
+                        "payload": json.loads('{ "response": "object ' + str(object_name) + ' has no active association with logical group record key: ' + str(key) + "\" }"),
                         'status': 200 # HTTP status code
                     }
 
             else:
                 return {
-                    "payload": json.loads('{ "response": "object ' + str(object_name) + ' already has no logical group association."}'),
-                    'status': 200 # HTTP status code
+                   "payload": 'Warn: resource not found ' + str(key),
+                    'status': 404 # HTTP status code
                 }
 
         except Exception as e:

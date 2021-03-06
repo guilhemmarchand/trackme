@@ -3823,22 +3823,23 @@ logical_groups_associate_group /  Associate an object with an existing logical g
 logical_groups_unassociate / Unassociate an object from any logical group it is member of
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-**This endpoint unassociates an object (data host or metric host) from any logical group it is member of (existing associations of the logical groups are preserved), it requires a POST call with the following data required:**
+**This endpoint unassociates an object (data host or metric host) from a logical group it is member of (existing associations of the logical groups are preserved), it requires a POST call with the following data required:**
 
 - ``"object": the object name (data host or metric host) to remove association for``
+- ``"key": the KVstore unique key of the logical group``
 - ``"update_comment": OPTIONAL: a comment for the update, comments are added to the audit record, if unset will be defined to: API update``
 
 *External:*
 
 ::
 
-    curl -k -u admin:'ch@ngeM3' -X POST https://localhost:8089/services/trackme/v1/logical_groups/logical_groups_unassociate -d '{"object": "telegraf-node3", "comment_update": "Automated API driven logical group creation."}'
+    curl -k -u admin:'ch@ngeM3' -X POST https://localhost:8089/services/trackme/v1/logical_groups/logical_groups_unassociate -d '{"object": "telegraf-node3", "key": "6043a23b33d53e70d86fc091", "comment_update": "Automated API driven logical group update."}'
 
 *SPL query:*
 
 ::
 
-    | trackme url="/services/trackme/v1/logical_groups/logical_groups_unassociate" mode="post" body="{\"object\": \"telegraf-node3\", \"comment_update\": \"Automated API driven logical group creation.\"}"
+    | trackme url="/services/trackme/v1/logical_groups/logical_groups_unassociate" mode="post" body="{\"object\": \"telegraf-node3\", \"key\": \"6043a23b33d53e70d86fc091\", \"comment_update\": \"Automated API driven logical group update.\"}"
 
 *response:*
 
