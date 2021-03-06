@@ -16,6 +16,7 @@ TrackMe requires a summary index (defaults to trackme_summary) and a metric inde
 https://trackme.readthedocs.io/en/latest/configuration.html
 
 - Enhancement - Issue #279 - Decomission of the getlistdef custom command in favor of a simpler and cleaner pure SPL approach
+- Enhancement - Issue #280 - Add new REST endpoint to manage logical group associations
 - Change - Issue #275 - permissions - provides a builtin trackme_user role to handle the minimal non admin access for TrackMe
 - Change - Issue #276 - User Interface - Migration of Ajax javascript REST calls made within the UI from splunkd to TrackMe based API endpoints
 - Change - Issue #278 - Upgrade of splunklib Python SDK to latest release 1.6.15
