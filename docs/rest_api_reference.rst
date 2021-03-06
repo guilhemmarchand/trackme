@@ -3838,7 +3838,7 @@ logical_groups_unassociate / Unassociate an object from any logical group it is 
 
 ::
 
-    | trackme url="/services/trackme/v1/logical_groups/logical_groups_unassociate" mode="post" body="{\"object\": \"telegraf-node3\", \"comment_update\": "Automated API driven logical group creation."}"
+    | trackme url="/services/trackme/v1/logical_groups/logical_groups_unassociate" mode="post" body="{\"object\": \"telegraf-node3\", \"comment_update\": \"Automated API driven logical group creation.\"}"
 
 *response:*
 
