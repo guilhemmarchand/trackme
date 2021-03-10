@@ -34908,11 +34908,9 @@ require([
                 var tokens = mvc.Components.get("default");
 
                 // Retrieve input values
-
                 var input_object = tokens.get("input_object");
                 var input_object_category = tokens.get("input_object_category");
                 var input_ack_duration = tokens.get("input_ack_duration");
-
 
                 // Retrieve update comment if any
                 var tk_comment = document.getElementById("input_ack_comment").value;
@@ -34932,102 +34930,59 @@ require([
                     document.getElementById("input_ack_comment").value = "update note";
                 }
 
-                // Define the query
-                var searchQuery = "| `trackme_ack_add(\"" + input_object + "\", \"" +  input_object_category + "\", \"" +  input_ack_duration + "\")`";
-
-
-                // Set the search parameters--specify a time range
-                var searchParams = {
-                    earliest_time: "-60m",
-                    latest_time: "now"
-                };
-
                 if (input_object && input_object.length && input_ack_duration && input_ack_duration.length) {
 
-                    // Run a blocking search and get back a job
-                    service.search(
-                        searchQuery,
-                        searchParams,
-                        function(err, job) {
+                    // Create the endpoint URL
+                    var myendpoint_URl = "{{SPLUNKWEB_URL_PREFIX}}/splunkd/__raw/services/trackme/v1/ack/ack_enable";
 
-                            function audit_failure() {
+                    // Create a dictionary to store the field names and values
+                    var record = {
+                        "object_category": input_object_category,
+                        "object": input_object,
+                        "ack_period": input_ack_duration,
+                        "update_comment": tk_comment
+                    };
 
-                                // Audit
-                                action = "failure";
-                                change_type = "ack enable";
-                                object = input_object;
-                                object_category = input_object_category;
-                                object_attrs = "object:" + input_object + " has been acknowledged for a period of " + input_ack_duration + " seconds, no more alerts will be generated until the acknowledge is expired.";
-                                result = "N/A";
-                                comment = tk_comment;
-                                auditRecord(action, change_type, object, object_category, object_attrs, result, comment);
+                    $.ajax({
+                        url: myendpoint_URl,
+                        type: "POST",
+                        async: true,
+                        contentType: "application/json",
+                        dataType: "text",
+                        beforeSend: function(xhr){  xhr.overrideMimeType( "text/plain; charset=x-user-defined" );},
+                        data: JSON.stringify(record),
+                        success: function(returneddata) {
 
+                            // Refresh the main search
+                            if (input_object_category == "data_source") {
+                                searchDataSourcesMain.startSearch();
+                            } else if (input_object_category == "data_host") {
+                                searchDataHostsMain.startSearch();
+                            } else if (input_object_category == "metric_host") {
+                                searchMetricHostsMain.startSearch();
                             }
 
-                            // Shall the search fail before we can get properties
-                            if (job == null) {
-                                let errorStr = "Unknown Error!";
-                                if (err && err.data && err.data.messages && err.data.messages[0]['text']) {
-                                    errorStr = err.data.messages[0]['text'];
-                                } else if (err && err.data && err.data.messages) {
-                                    errorStr = JSON.stringify(err.data.messages);
-                                }
-                                audit_failure();
-                                $("#modal_update_collection_failure_return").find('.modal-error-message p').text(errorStr);
-                                $("#modal_update_collection_failure_return").modal()
-                            } else {
+                            // show deleted modal
+                            $("#ack_achieved").modal()
 
-                                // Poll the status of the search job
-                                job.track({
-                                    period: 200
-                                }, {
-                                    done: function(job) {
+                        },
+                        error: function(xhr, textStatus, error) {
+                            message = "server response: " + xhr.responseText + "\n - http response: " + error;
 
-                                        // Refresh the main search
-                                        if (input_object_category == "data_source") {
-                                            searchDataSourcesMain.startSearch();
-                                        } else if (input_object_category == "data_host") {
-                                            searchDataHostsMain.startSearch();
-                                        } else if (input_object_category == "metric_host") {
-                                            searchMetricHostsMain.startSearch();
-                                        }
+                            // Audit
+                            action = "failure";
+                            change_type = "ack enable";
+                            object = input_object;
+                            object_category = input_object_category;
+                            object_attrs = "object:" + input_object + " has been acknowledged for a period of " + input_ack_duration + " seconds, no more alerts will be generated until the acknowledge is expired.";
+                            result = message;
+                            comment = tk_comment;
+                            auditRecord(action, change_type, object, object_category, object_attrs, result, comment);
 
-                                        // show deleted modal
-                                        $("#ack_achieved").modal()
-
-                                        // Audit
-                                        action = "success";
-                                        change_type = "ack enable";
-                                        object = input_object;
-                                        object_category = input_object_category;
-                                        object_attrs = "object:" + input_object + " has been acknowledged for a period of " + input_ack_duration + " seconds, no more alerts will be generated until the acknowledge is expired.";
-                                        result = "N/A";
-                                        comment = tk_comment;
-                                        auditRecord(action, change_type, object, object_category, object_attrs, result, comment);
-
-                                    },
-                                    failed: function(properties) {
-                                        let errorStr = "Unknown Error!";
-                                        if (properties && properties._properties && properties._properties.messages && properties._properties.messages[0]['text']) {
-                                            errorStr = properties._properties.messages[0]['text'];
-                                        } else if (properties && properties._properties && properties._properties.messages) {
-                                            errorStr = JSON.stringify(properties._properties.messages);
-                                        }
-                                        audit_failure();
-                                        $("#modal_update_collection_failure_return").find('.modal-error-message p').text(errorStr);
-                                        $("#modal_update_collection_failure_return").modal()
-                                    },
-                                    error: function(err) {
-                                        done(err);
-                                        audit_failure();
-                                        $("#modal_update_collection_failure_flush").modal()
-                                    }
-                                });
-
-                            }
-
+                            $("#modal_update_collection_failure_return").find('.modal-error-message p').text(message);
+                            $("#modal_update_collection_failure_return").modal()
                         }
-                    );
+                    });
 
                     // house cleaning
                     myendpoint_URl = undefined;
@@ -35056,16 +35011,11 @@ require([
                 var tokens = mvc.Components.get("default");
 
                 // Retrieve input values
-
                 var keyid = tokens.get("keyid");
                 var input_object = tokens.get("input_object");
                 var input_object_category = tokens.get("input_object_category");
                 var ack_expiration = tokens.get("ack_expiration");
                 var ack_state = tokens.get("ack_state");
-
-                // Define the query
-                var searchQuery = "| `trackme_ack_disable(\"" + keyid + "\")`";
-
 
                 // Retrieve update comment if any
                 var tk_comment = document.getElementById("input_ack_comment").value;
@@ -35085,12 +35035,6 @@ require([
                     document.getElementById("input_ack_comment").value = "update note";
                 }
 
-                // Set the search parameters--specify a time range
-                var searchParams = {
-                    earliest_time: "-60m",
-                    latest_time: "now"
-                };
-
                 if (ack_state === "inactive") {
                     // show modal
                     $("#ack_disable_already").modal()
@@ -35098,91 +35042,57 @@ require([
 
                 else if (input_object && input_object.length) {
 
-                    // Run a blocking search and get back a job
-                    service.search(
-                        searchQuery,
-                        searchParams,
-                        function(err, job) {
+                    // Create the endpoint URL
+                    var myendpoint_URl = "{{SPLUNKWEB_URL_PREFIX}}/splunkd/__raw/services/trackme/v1/ack/ack_disable";
 
-                            function audit_failure() {
+                    // Create a dictionary to store the field names and values
+                    var record = {
+                        "object_category": input_object_category,
+                        "object": input_object,
+                        "update_comment": tk_comment
+                    };
 
-                                // Audit
-                                action = "failure";
-                                change_type = "ack disable";
-                                object = input_object;
-                                object_category = input_object_category;
-                                object_attrs = "object:" + input_object + " acknowledge has been disabled (ack_expiration was: " + ack_expiration + "), alerts will be generated depending on state and rules. ";
-                                result = "N/A";
-                                comment = tk_comment;
-                                auditRecord(action, change_type, object, object_category, object_attrs, result, comment);
+                    $.ajax({
+                        url: myendpoint_URl,
+                        type: "POST",
+                        async: true,
+                        contentType: "application/json",
+                        dataType: "text",
+                        beforeSend: function(xhr){  xhr.overrideMimeType( "text/plain; charset=x-user-defined" );},
+                        data: JSON.stringify(record),
+                        success: function(returneddata) {
 
+                            // Refresh the main search
+                            if (input_object_category == "data_source") {
+                                searchDataSourcesMain.startSearch();
+                            } else if (input_object_category == "data_host") {
+                                searchDataHostsMain.startSearch();
+                            } else if (input_object_category == "metric_host") {
+                                searchMetricHostsMain.startSearch();
                             }
 
-                            // Shall the search fail before we can get properties
-                            if (job == null) {
-                                let errorStr = "Unknown Error!";
-                                if (err && err.data && err.data.messages && err.data.messages[0]['text']) {
-                                    errorStr = err.data.messages[0]['text'];
-                                } else if (err && err.data && err.data.messages) {
-                                    errorStr = JSON.stringify(err.data.messages);
-                                }
-                                audit_failure();
-                                $("#modal_update_collection_failure_return").find('.modal-error-message p').text(errorStr);
-                                $("#modal_update_collection_failure_return").modal()
-                            } else {
+                            // show deleted modal
+                            $("#ack_achieved").modal()
 
-                                // Poll the status of the search job
-                                job.track({
-                                    period: 200
-                                }, {
-                                    done: function(job) {
+                        },
+                        error: function(xhr, textStatus, error) {
+                            message = "server response: " + xhr.responseText + "\n - http response: " + error;
 
-                                        // Refresh the main search
-                                        if (input_object_category == "data_source") {
-                                            searchDataSourcesMain.startSearch();
-                                        } else if (input_object_category == "data_host") {
-                                            searchDataHostsMain.startSearch();
-                                        } else if (input_object_category == "metric_host") {
-                                            searchMetricHostsMain.startSearch();
-                                        }
+                            // Audit
+                            action = "failure";
+                            change_type = "ack disable";
+                            object = input_object;
+                            object_category = input_object_category;
+                            object_attrs = "object:" + input_object + " acknowledge has been disabled (ack_expiration was: " + ack_expiration + "), alerts will be generated depending on state and rules. ";
+                            result = message;
+                            comment = tk_comment;
+                            auditRecord(action, change_type, object, object_category, object_attrs, result, comment);
 
-                                        // show disabled modal
-                                        $("#ack_disable_achieved").modal()
-
-                                        // Audit
-                                        action = "success";
-                                        change_type = "ack disable";
-                                        object = input_object;
-                                        object_category = input_object_category;
-                                        object_attrs = "object:" + input_object + " acknowledge has been disabled (ack_expiration was: " + ack_expiration + "), alerts will be generated depending on state and rules. ";
-                                        result = "N/A";
-                                        comment = tk_comment;
-                                        auditRecord(action, change_type, object, object_category, object_attrs, result, comment);
-
-                                    },
-                                    failed: function(properties) {
-                                        let errorStr = "Unknown Error!";
-                                        if (properties && properties._properties && properties._properties.messages && properties._properties.messages[0]['text']) {
-                                            errorStr = properties._properties.messages[0]['text'];
-                                        } else if (properties && properties._properties && properties._properties.messages) {
-                                            errorStr = JSON.stringify(properties._properties.messages);
-                                        }
-                                        audit_failure();
-                                        $("#modal_update_collection_failure_return").find('.modal-error-message p').text(errorStr);
-                                        $("#modal_update_collection_failure_return").modal()
-                                    },
-                                    error: function(err) {
-                                        done(err);
-                                        audit_failure();
-                                        $("#modal_update_collection_failure_flush").modal()
-                                    }
-                                });
-
-                            }
-
+                            $("#modal_update_collection_failure_return").find('.modal-error-message p').text(message);
+                            $("#modal_update_collection_failure_return").modal()
                         }
-                    );
-
+                    });
+                    
                     // house cleaning
                     myendpoint_URl = undefined;
                     delete(myendpoint_URl);
