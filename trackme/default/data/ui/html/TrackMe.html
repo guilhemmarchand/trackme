@@ -22944,50 +22944,28 @@ require([
         function clearDataHost(tk_data_host, tk_comment) {
 
 
-            // Perform a target search to update key values
-            var searchQuery = "| inputlookup trackme_host_monitoring where data_host=\"" + tk_data_host + "\" | eval keyid=_key | eval data_host_st_summary=\"\", data_index=\"\", data_sourcetype=\"\" | outputlookup append=t key_field=keyid trackme_host_monitoring";
+            // Create the endpoint URL
+            var myendpoint_URl = "{{SPLUNKWEB_URL_PREFIX}}/splunkd/__raw/services/trackme/v1/data_hosts/dh_reset";
 
-            // Set the search parameters
-            var searchParams = {
-            exec_mode: "normal",
-            earliest_time: "-5m"
+            // Create a dictionary to store the field names and values
+            var record = {
+                "data_host": tk_data_host,
+                "update_comment": tk_comment
             };
 
-            service.search(
-            searchQuery,
-            searchParams,
-            function(err, job) {
-
-                // Poll the status of the search job
-                job.track({period: 200}, {
-                done: function(job) {
-
-                    // Get the results and print them
-                    job.results({}, function(err, results, job) {
-                    var fields = results.fields;
-                    var rows = results.rows;
-                    for(var i = 0; i < rows.length; i++) {
-                        var values = rows[i];
-                        for(var j = 0; j < values.length; j++) {
-                        var field = fields[j];
-                        var value = values[j];
-
-                        }
-                    }
-                    });
-
-                    // Audit
-                    action = "success";
-                    change_type = "reset data";
-                    object = tk_data_host;
-                    object_category = "data_host";
-                    object_attrs = "N/A";
-                    result = "N/A";
-                    comment = tk_comment;
-                    auditRecord(action, change_type, object, object_category, object_attrs, result, comment);
-
+            $.ajax({
+                url: myendpoint_URl,
+                type: "POST",
+                async: true,
+                contentType: "application/json",
+                dataType: "text",
+                beforeSend: function(xhr){  xhr.overrideMimeType( "text/plain; charset=x-user-defined" );},
+                data: JSON.stringify(record),
+                success: function(returneddata) {
+                    // Nothind to do yet
                 },
-                failed: function(job) {
+                error: function(xhr, textStatus, error) {
+                    message = "server response: " + xhr.responseText + "\n - http response: " + error;
 
                     // Audit
                     action = "failure";
@@ -22999,25 +22977,10 @@ require([
                     comment = tk_comment;
                     auditRecord(action, change_type, object, object_category, object_attrs, result, comment);
 
-                },
-                error: function(err) {
-
-                    // Audit
-                    action = "failure";
-                    change_type = "reset data";
-                    object = tk_data_host;
-                    object_category = "data_host";
-                    object_attrs = "N/A";
-                    result = "N/A";
-                    comment = tk_comment;
-                    auditRecord(action, change_type, object, object_category, object_attrs, result, comment);
-
-                    done(err);
+                    $("#modal_update_collection_failure_return").find('.modal-error-message p').text(message);
+                    $("#modal_update_collection_failure_return").modal()
                 }
-                });
-
-            }
-            );
+            });
 
             // Perform a target search to update key values
             var searchQuery = "| savedsearch \"TrackMe - Data host entity refresh\" host=" + tk_data_host;
@@ -23067,50 +23030,28 @@ require([
         function clearMetricHost(tk_metric_host, tk_comment) {
 
 
-            // Perform a target search to update key values
-            var searchQuery = "| inputlookup trackme_metric_host_monitoring where metric_host=\"" + tk_metric_host + "\" | eval keyid=_key | eval metric_category=\"\", metric_details=\"\" | outputlookup append=t key_field=keyid trackme_metric_host_monitoring";
+            // Create the endpoint URL
+            var myendpoint_URl = "{{SPLUNKWEB_URL_PREFIX}}/splunkd/__raw/services/trackme/v1/metric_hosts/mh_reset";
 
-            // Set the search parameters
-            var searchParams = {
-            exec_mode: "normal",
-            earliest_time: "-5m"
+            // Create a dictionary to store the field names and values
+            var record = {
+                "metric_host": tk_metric_host,
+                "update_comment": tk_comment
             };
 
-            service.search(
-            searchQuery,
-            searchParams,
-            function(err, job) {
-
-                // Poll the status of the search job
-                job.track({period: 200}, {
-                done: function(job) {
-
-                    // Get the results and print them
-                    job.results({}, function(err, results, job) {
-                    var fields = results.fields;
-                    var rows = results.rows;
-                    for(var i = 0; i < rows.length; i++) {
-                        var values = rows[i];
-                        for(var j = 0; j < values.length; j++) {
-                        var field = fields[j];
-                        var value = values[j];
-
-                        }
-                    }
-                    });
-
-                    // Audit
-                    action = "success";
-                    change_type = "reset metrics";
-                    object = tk_metric_host;
-                    object_category = "metric_host";
-                    object_attrs = "N/A";
-                    result = "N/A";
-                    comment = tk_comment;
-                    auditRecord(action, change_type, object, object_category, object_attrs, result, comment);
-
+            $.ajax({
+                url: myendpoint_URl,
+                type: "POST",
+                async: true,
+                contentType: "application/json",
+                dataType: "text",
+                beforeSend: function(xhr){  xhr.overrideMimeType( "text/plain; charset=x-user-defined" );},
+                data: JSON.stringify(record),
+                success: function(returneddata) {
+                    // Nothind to do yet
                 },
-                failed: function(job) {
+                error: function(xhr, textStatus, error) {
+                    message = "server response: " + xhr.responseText + "\n - http response: " + error;
 
                     // Audit
                     action = "failure";
@@ -23122,25 +23063,10 @@ require([
                     comment = tk_comment;
                     auditRecord(action, change_type, object, object_category, object_attrs, result, comment);
 
-                },
-                error: function(err) {
-
-                    // Audit
-                    action = "failure";
-                    change_type = "reset metrics";
-                    object = tk_metric_host;
-                    object_category = "metric_host";
-                    object_attrs = "N/A";
-                    result = "N/A";
-                    comment = tk_comment;
-                    auditRecord(action, change_type, object, object_category, object_attrs, result, comment);
-
-                    done(err);
+                    $("#modal_update_collection_failure_return").find('.modal-error-message p').text(message);
+                    $("#modal_update_collection_failure_return").modal()
                 }
-                });
-
-            }
-            );
+            });
 
             // Perform a target search to update key values
             var searchQuery = "| savedsearch trackme_update_metric_host_target_by_metric_host host=\"" + tk_metric_host + "\"";
