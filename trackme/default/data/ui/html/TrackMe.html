@@ -22973,7 +22973,7 @@ require([
                     object = tk_data_host;
                     object_category = "data_host";
                     object_attrs = "N/A";
-                    result = "N/A";
+                    result = message;
                     comment = tk_comment;
                     auditRecord(action, change_type, object, object_category, object_attrs, result, comment);
 
@@ -23059,7 +23059,7 @@ require([
                     object = tk_metric_host;
                     object_category = "metric_host";
                     object_attrs = "N/A";
-                    result = "N/A";
+                    result = message;
                     comment = tk_comment;
                     auditRecord(action, change_type, object, object_category, object_attrs, result, comment);
 
@@ -24136,7 +24136,7 @@ require([
                             object = tk_metric_host;
                             object_category = "metric_host";
                             object_attrs = JSON.stringify(record,null,'\t');
-                            result = "N/A";
+                            result = message;
                             comment = tk_comment;
                             auditRecord(action, change_type, object, object_category, object_attrs, result, comment);
 
@@ -31245,7 +31245,7 @@ require([
                         object = tk_data_name;
                         object_category = "data_source";
                         object_attrs = "priority changed from:" + tk_origin_priority + " to:" + tk_new_priority;
-                        result = "N/A";
+                        result = message;
                         comment = "N/A";
                         auditRecord(action, change_type, object, object_category, object_attrs, result, comment);
 
@@ -35200,7 +35200,7 @@ require([
                             object = input_object;
                             object_category = input_object_category;
                             object_attrs = "object:" + input_object + " has been removed from Logical group. ";
-                            result = "N/A";
+                            result = message;
                             comment = "N/A";
                             auditRecord(action, change_type, object, object_category, object_attrs, result, comment);
 
@@ -35306,7 +35306,7 @@ require([
                             object = input_object;
                             object_category = input_object_category;
                             object_attrs = "object:" + input_object + " has been added to the logical group " + tk_object_group_name + ".";
-                            result = "N/A";
+                            result = message;
                             comment = "N/A";
                             auditRecord(action, change_type, object, object_category, object_attrs, result, comment);
 
@@ -35409,7 +35409,7 @@ require([
                             object = tk_object_group_name;
                             object_category = input_object_category;
                             object_attrs = "new logical group " + tk_object_group_name + " has been created for object:" + input_object + " with a minimal logical group green percentage of " + tk_object_group_green_percent + ".";
-                            result = "N/A";
+                            result = message;
                             comment = "N/A";
                             auditRecord(action, change_type, object, object_category, object_attrs, result, comment);
 
