@@ -90,7 +90,6 @@ Deployment and configuration:
    :caption: Deployment and configuration
 
    deployment
-   configure
    configuration
 
 User guide:

@@ -1,29 +1,344 @@
-Configuration
-#############
+Step by step installation and configuration
+###########################################
 
-.. hint:: Since TrackMe 1.2.6, the application requires the creation of a metric index
+Step 1: Deploy TrackMe
+======================
 
-.. image:: img/configure_ui_metrics_idx.png
-   :alt: configure_ui_metrics_idx.png
+Where to deploy TrackMe
+-----------------------
+
+The first question you need an answer when you look at deploying TrackMe the very first time is generally where to deploy TrackMe?
+
+**To answer this question in a nutshell:**
+
+- TrackMe is deployed exclusively on a search head layer, there are no components running on forwarders (Universal Forwarders, Heavy Forwarders) or Splunk indexers
+- The seach head layer targets depends on your preference, it can be standalone search head (SH) you are using to run monitoring tools, the monitoring console host (MC) or a Search Head Cluster (SHC)
+- The essential part of the content TrackMe is generated in dedicated indexes (summary events and metrics) and non replicated KVstore collections which have near zero impacts on the search knowledge bundle size that is replicated automatically to your indexers
+
+Configure indexes
+-----------------
+
+Once you decided which search head layer will host TrackMe, the next step is to configure its indexes.
+
+TrackMe requires the creation of two indexes, one for the summary events and one for the metrics, the second is a metric type of index opposed to events indexes, TrackMe includes the following indexes.conf:
+
+``default/indexes.conf``
+
+::
+
+    [trackme_summary]
+    coldPath = $SPLUNK_DB/trackme_summary/colddb
+    homePath = $SPLUNK_DB/trackme_summary/db
+    thawedPath = $SPLUNK_DB/trackme_summary/thaweddb
+
+    [trackme_metrics]
+    coldPath = $SPLUNK_DB/trackme_metrics/colddb
+    homePath = $SPLUNK_DB/trackme_metrics/db
+    thawedPath = $SPLUNK_DB/trackme_metrics/thaweddb
+    datatype = metric
+
+.. hint:: Indexes definition on Search Heads and Indexers
+
+    - before deploying TrackMe, ensure to declare these indexes on your indexers, in clustering mode this means updating on your indexes on the master-apps and pushing the cluster bundle
+    - indexes need to be declared on the search head layer hosting TrackMe too (and other search heads as a good practice), data will not be stored on the search head but this allows autocompletion and collect/mcollect features
+    - given that TrackMe comes with a built-in definition as part of the package, you do not need to handle this normally on the search head but on the indexers (unless the default/indexes.conf is trashed via some automation)
+
+In well designed Splunk environments, you will most likely use volumes on the indexers, you would translate this within your indexer configuration to the following configuration potentially:
+
+::
+
+    [trackme_summary]
+    coldPath = volume:primary/trackme_summary/colddb
+    homePath = volume:primary/trackme_summary/db
+    thawedPath = $SPLUNK_DB/trackme_summary/thaweddb
+
+    [trackme_metrics]
+    coldPath = volume:primary/trackme_metrics/colddb
+    homePath = volume:primary/trackme_metrics/db
+    thawedPath = $SPLUNK_DB/trackme_metrics/thaweddb
+    datatype = metric
+
+*To be adapted depending on your volume configuration!*
+
+Using a different naming convention for indexes
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+In some cases you may need to use a different naming convention for the two TrackMe indexes, this is not an issue and the only thing you will need to update in the application will be defining the custom configuration in the following two macros:
+
+- ``trackme_idx``
+- ``trackme_metrics_idx``
+
+The out of the box definition is:
+
+``default/macros.conf``
+
+::
+
+    [trackme_idx]
+    definition = index="trackme_summary"
+    iseval = 0
+
+    [trackme_metrics_idx]
+    definition = index="trackme_metrics"
+    iseval = 0
+
+Up to your choice, you can do this manually in the same time you deploy TrackMe (in a local/macros.conf) or you can update this within the UI once the application has been deployed:
+
+``TrackMe manage and configure``
+
+.. image:: img/step_by_step_configure/ui_update_indexes.png
+   :alt: ui_update_indexes.png
    :align: center
    :width: 1200px
 
-.. hint:: Since TrackMe 1.2.4, the application requires the creation of an event index
+Step 2: Configure TrackMe to match your needs
+=============================================
 
-.. image:: img/configure_ui_summary_idx.png
-   :alt: configure_ui_summary_idx.png
+TrackMe strategy for data access - What TrackMe will be looking at
+------------------------------------------------------------------
+
+The first thing to consider once your deployed TrackMe is to design your strategy for which data TrackMe will be monitoring.
+
+By default, TrackMe will search efficiently (tstats based queries for events) against any index the search head can access, you can choose between **two** main strategies:
+
+- Either you use ``allow listing`` features to restrict access to explicit list of indexes
+- Either you use ``block listing`` features to be looking at everything **but** specific items you exclude explicitly (indexes, sourcetypes, hosts and so forth)
+
+Both approaches are configurable via the TrackMe UI, and both approaches have its advantages and inconvenients:
+
+- Allow listing is the cleaner and more effiscient way but requires that you have a deep knowledge of your environment
+- Allow listing can lead to be missing things you should have been tracking if not configured properly nor maintained over time
+- Block listing can require more work over time as you need to exclude the bad things you do not want to consider
+
+The two approaches are not exclusive, you can use allow listing AND block listing! This means you can restrict the basic index access scope AND block list certain things you do not want to consider.
+
+See :ref:`Allowlisting & Blocklisting` in the User guide.
+
+*Interface to allow listing and block listing definitions:*
+
+.. image:: img/allowlist_and_blocklist.png
+   :alt: allowlist_and_blocklist.png
+   :align: center
+   :width: 800px
+
+.. hint:: Each main TrackMe categories have their own definitions for allow and block listing: ``Data souces``, ``Data hosts`` and ``Metric hosts``
+
+You can define the strategy while you are starting to use TrackMe, and gradually configure what TrackMe accesses to depending on your environment and requirements.
+
+TrackMe Data Sources - Define what works for you
+------------------------------------------------
+
+The primary concept of TrackMe is called **data sources**, See :ref:`Data Sources tracking and features` in the User guide for more explanations.
+
+For the purposes of defining the best strategy that works for you, let's explain the 3 modes available, which you can configure via the ``Trackme manage and configure`` interface:
+
+- Split mode (default)
+- Merge mode
+- Cribl mode
+
+.. image:: img/step_by_step_configure/ui_data_sources_mode.png
+   :alt: ui_data_sources_mode.png
    :align: center
    :width: 1200px
 
-.. tip:: In TrackMe, all main items are macro based such that these can be customised if required, an easy access is provided via the configuration UI
+See :ref:`Your first steps with TrackMe` for more details in the :ref:`User Guide` to start with tracking concepts
 
-.. image:: img/configure_ui.png
-   :alt: configure_ui.png
+Trackme Data Sources - Split mode
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+The Split mode is the default mode that TrackMe uses, in this mode, the application discovers, classifies and creates entities based on:
+
+``index + ":" + sourcetype``
+
+Let's take the following simple example, we index Windows Events logs Application, System and Security WinEventLogs each WinEventLog in a specific index, we would endup with 3 entities, for instance:
+
+- oswinsec:XmlWinEventLog
+- oswinapp:XmlWinEventLog
+- oswinsys:XmlWinEventLog
+
+On the other hand, would we index these 3 WinEventLogs into a unique index, we would end up with 1 entity only, which covers (meaning TrackMe is looking at) all of the logs:
+
+- oswin:XmlWinEventLog
+
+Don't worry, TrackMe has plenty of features that allow you to cover any use cases (Elastic Sources, allow and block listing, etc), the Split mode is generally what covers most use cases, but this is very depending to your context.
+
+Trackme Data Sources - Merged mode
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+On the opposite, the Merged mode removes the concept of sourcetype and basically creates 1 entity per index, no matters what sourcetypes are indexed in it, entities are created as:
+
+``index + ":all"``
+
+This mode can potentially be interesting for you if you dedicate each index to a specific data flow, and you know by design that this is what you care about.
+
+Trackme Data Sources - Cribl mode
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+If you are using Cribl, you can integrate TrackMe transparently and get benefits from the Cribl design very easily, in the Cribl mode, we create Data sources based on:
+
+``index + ":" + sourcetype + "|cribl:" + cribl_pipe``
+
+For a complete review of the Cribl mode, see :ref:`Cribl Logstream and TrackMe integration`
+
+Finally, note that if you enable the Cribl mode, TrackMe will only discover automatically data sources coming via Cribl.
+
+TrackMe Data Hosts - Define what works for you
+----------------------------------------------
+
+The second big concept in TrackMe is called ``data hosts``, this basically means tracking the acitvity of host sending data to Splunk, from the ``host Splunk Metadata`` point of view.
+
+There are two modes available, called ``Data hosts global alerting policy``:
+
+- ``granular by host``: instructs TrackMe to consider turning an host red only if there are no more sourcetypes emitting data for that hosts according to the various configuration items
+
+- ``granular by sourcetype``:  instructs TrackMe to consider each sourcetype individually by host, including their own max lagging rules, to determine if an host is having issues or not
+
+.. hint:: This defines the global policy applied by default on all data hosts, this can be overriden on a per host basis if needed
+
+*Configuration of the global policy mode in the management UI:*
+
+.. image:: img/data_hosts_allerting_policy_config.png
+   :alt: data_hosts_allerting_policy_config.png
    :align: center
    :width: 1200px
 
-Tags enrichment macro definitions
+See :ref:`Alerting policy for data hosts` for more details in the :ref:`User Guide` to start with data hosts tracking
+
+**Behaviour examples:**
+
+*Alerting policy track per sourcetype:*
+
+.. image:: img/lagging_class_override_data_hosts_ex3.png
+   :alt: lagging_class_override_data_hosts_ex3.png
+   :align: center
+   :width: 1200px
+
+*Alerting policy track per host:*
+
+.. image:: img/lagging_class_override_data_hosts_ex4.png
+   :alt: lagging_class_override_data_hosts_ex4.png
+   :align: center
+   :width: 1200px
+
+Choosing which mode complies with your requirements all depends on how deep and how granular you need to be monitoring data hosts, many users will be happy with the default mode and would use the granular mode for specific entities, others will need to ensure to track hosts in a very precised way, your choice!
+
+TrackMe Metric Hosts - Define what works for you
+------------------------------------------------
+
+The last big concept is called ``metric hosts`` tracking, this basically monitors all hosts (from the Splunk Metadata point of view) sending metrics to the metric store indexes.
+
+There are specific configuration or mode to choose for metric hosts, your configuration will essentially be based on:
+
+- Allow and Block listing to define which indexes and metric categories you want to track
+- Defining threshold policies to configure what delay is acceptable or not on per metric category basis
+
+See :ref:`Metric Hosts tracking and features` in the :ref:`User Guide` to start with metric hosts tracking
+
+Step 3: RBAC and access policies
+================================
+
+Roles and permissions
+---------------------
+
+**TrackMe can be used by different populations of users, depending on the size of your Splunk implementation its maturity, essentially:**
+
+- Splunk administrators that responsible for the daily monitoring and maintenance of the Splunk deployment
+- Ingestion teams responsible for that ingestion data flow fron the providers to Splunk (could be the Splunk administrators, or not)
+- Department teams that care about their own data sources and need to be able to understand what is available to them and the data source states
+- Management
+- maybe more!
+
+**From the application point of view, this essentially means two types of profiles:**
+
+- ``trackme admins`` that can achieve modifications of what is tracked, and how
+- ``trackme users`` that are looking at entities, without being allowed to perform changes
+
+**Fortunately, TrackMe handles this for you, and provides two types of roles you can use or import to properly define the level of permissions needed:**
+
+- ``trackme_admin`` role
+- ``trackme_user`` role
+
+These roles define write or read only permissions on the various objects TrackMe depends on, essentially stored in many KVstore collections.
+
+**Make sure to inherit, or make user member of these roles accordingly.**
+
+.. image:: img/trackme_roles.png
+   :alt: trackme_roles.png
+   :align: center
+   :width: 1200px
+
+Data privacy
+------------
+
+While TrackMe's job is monitoring data, it does generate its own data as well, and especially it is tracking and performing data quality assessments in the scope of a very powerfull feature called :ref:`Data sampling and event formats recognition`.
+
+This results in samples of real events being stored in a dedicated KVstore collection ``trackme_data_sampling``, managed via the data sampling workflow:
+
+.. image:: img/mindmaps/data_sampling_main.png
+   :alt: data_sampling_main.png
+   :align: center
+
+By default, the ``trackme_data_sampling`` is only available in read mode to users member of the ``trackme_user`` and ``trackme_admin`` roles, bellow is the default.meta stanzas:
+
+::
+
+   [transforms/trackme_data_sampling]
+   access = read : [ admin, trackme_admin, trackme_user ], write : [ admin, trackme_admin ]
+
+   [collections/kv_trackme_data_sampling]
+   access = read : [ admin, trackme_admin, trackme_user ], write : [ admin, trackme_admin ]
+
+If you are concerned about this activity, if for some reasons trackme users (and even admins) are not supposed to be able to see samples of real events that TrackMe is looking at, you can enable the :ref:`Data Sampling obfuscation mode`:
+
+.. image:: img/data_sampling_obfuscate.png
+   :alt: data_sampling_obfuscate.png
+   :align: center
+   :width: 1200px
+
+- In the default mode, that is ``Disable Data Sampling obfuscation mode``, events that are sampled are stored in the data sampling KVstore collection and can be used to review the results from the latest sampling operation
+- In the ``Enable Data Sampling obfuscation mode``, events are not stored anymore and replaced by an admin message, the sampling processing still happens the same way but events cannot be reviewed anymore using the latest sample traces
+- In such a case, when then obfuscation mode is enabled, users will need to either run the rules manually to locate the messages that were captured to the conditions being met (bad format, PII data, etc) or use the Smart :ref:`Smart Status` feature to have TrackMe run this operation on demand
+
+Step 4: Indexers macro definition
 =================================
+
+**TrackMe provides different views that are related to the Splunk pipelines and queues, such as:**
+
+- ``Ops: Queues Center``
+- ``Ops: Parsing Issues``
+- In entities tab ``Data Parsing Quality``
+
+**All searches underneath rely on the definition of a macro:**
+
+::
+
+    # defined pattern filter for indexers
+    [trackme_idx_filter]
+    definition = host=idx*
+    iseval = 0
+
+*In TrackMe manage and configure:*
+
+.. image:: img/trackme_idx_filter.png
+   :alt: trackme_idx_filter.png
+   :align: center
+   :width: 1200px
+
+Make sure to update this definition accordingly to match your indexers and potentially Heavy Forwarders naming convention.
+
+*view example:*
+
+.. image:: img/ops_parsing_issues.png
+   :alt: ops_parsing_issues.png
+   :align: center
+   :width: 1200px
+
+Step 5: host tags enrichment
+============================
+
+**OPTIONAL: tags enrichment for data and metric hosts**
+
+**This step is optional and depends on your context:**
 
 .. admonition:: Tags enrichment feature
 
@@ -46,99 +361,49 @@ Similarly, you can use any lookup available in the Splunk instance which provide
 
 Make sure your asset lookup definition is exported to the system, is case insensitive and contains the relevant information, then customize the macros depending on your configuration, example: ``lookup name_of_lookup key as data_hosts`` for data hosts, ``lookup name_of_lookup key as metric_hosts`` for metric hosts.
 
-tstats root macro definition
-============================
+Step 6: entities priority management
+====================================
 
-Searches in the main UI rely on the usage of the following macro:
+**OTIONAL: third party priority definition**
 
-::
+**When TrackMe discovers a new entity, a level of priority is defined by default:**
 
-    # For Splunk 7.3.x and later, you might want to include include_reduced_buckets=t
-    [tstats]
-    definition = tstats
-    iseval = 0
+- by default, entities are added as ``medium`` priority
+- this is controled via the macro ``trackme_default_priority``
+- TrackMe accepts 3 levels of priorities: ``low`` / ``medium`` / ``high``
+- The UIs will threat differently ``high`` priority entities to highlight top critical issues in the Splunk environments
 
-If you are using Splunk 7.3.x or a later version, you can include the reduced buckets in the tstats results, as:
+See :ref:`Priority management` in the :ref:`User Guide` for more details.
 
-::
+.. hint:: How TrackMe manages the priority value
 
-    [tstats]
-    definition = tstats include_reduced_buckets=t
-    iseval = 0
+   - Once a priority is defined for an entity in its collection, this value is always preserved upon iterations of TrackMe jobs or update operations
+   - If a collection is reset by an admin, the priority value that was assigned is lost and will be replaced by the system affected priority value
 
-Summary index macro definition
-==============================
+TrackMe does not provide third party integration to define the priority, especially because this would be very likely highly dependending on every single user context..
 
-Since TrackMe 1.2.0, the application generates summary data events which are indexed in a summary index defined within the following macro:
+However, because TrackMe relies on KVstore based lookups, it is very straightforward to create your own workflow to enrich and define the entities priority level from any other data you have in Splunk such as a CMDB lookup or Enterprise Security Assets.
 
-::
-
-    [trackme_idx]
-    definition = index="summary"
-    iseval = 0
-
-By default, summary events are indexed in index=summary, customize this macro if you wish to change the index target.
-
-Indexers macro definition
-=========================
-
-The built-in views "Ops: Indexes queues" and "Ops: Parsing issues" rely on the usage of the following macro:
+*For example, you could define the following scheduled report that updates the priority based on hird party enrichment:*
 
 ::
 
-    # defined pattern filter for indexers
-    [trackme_idx_filter]
-    definition = host=idx*
-    iseval = 0
+   | inputlookup trackme_host_monitoring | eval key=_key
+   | lookup asset_lookup_by_str key as data_host OUTPUT priority as es_priority
+   | eval priority=case(
+      isnull(es_priority) OR es_priority="", priority,
+      es_priority="low", es_priority,
+      es_priority="medium", es_priority,
+      es_priority="high" OR es_priority="critical", es_priority
+   )
+   | fields - es_priority
+   | outputlookup trackme_host_monitoring append=t key_field=key
+   | stats c
 
-Customise the macro definition to match your indexers host naming convention.
+Such a report would be scheduled to run daily or so, and would automatically maintain the priority definition based on an external integration.
 
-Data source mode
-================
-
-.. admonition:: Data source mode
-
-   - The default behaviour for data sources is to create entities based on the combination of index + ":" + sourcetype (split mode)
-   - In some cases, you may want to change this behaviour and create entities based on the indexes only, whatever the sourcetypes are (merged mode)
-   - When TrackMe is configured in merged mode, data sources entities represent the index and all its sourcetypes, allow list and block list still apply and can be configured
-   - Use the UI to switch from a mode to another, once the mode is defined, reset the data sources collection to cleanup previously created entities
-
-*Configuration of the data source mode in the managment UI:*
-
-.. image:: img/data_source_mode.png
-   :alt: data_source_mode.png
-   :align: center
-
-Allowlisting and blocklisting
-=============================
-
-TrackMe version 1.0.22 introduced built-in support for both allowlisting of indexes and blocklisting of indexes, sourcetypes and hosts.
-
-.. image:: img/allowlist_and_blocklist.png
-   :alt: allowlist_and_blocklist.png
-   :align: center
-   :width: 800px
-
-The default behaviour of TrackMe is to track data available in all indexes, which changes if allowlisting has been defined:
-
-.. image:: img/allowlisting.png
-   :alt: allowlisting.png
-   :align: center
-   :width: 800px
-
-The same UI allows you to define blocklisted items, which are added as part of a "NOT" boolean syntax within the searches.
-
-Finally, in addition the following macro is used within the searches, and can be customized if you need:
-
-::
-
-    # used as the top of the populating searches
-    [trackme_tstats_main_filter]
-    definition = sourcetype!="stash" sourcetype!="*too_small"
-    iseval = 0
-
-Activation of built-in alerts
-=============================
+Step 7: enabling out of the box alerts
+======================================
 
 **TrackMe provides out of the box alerts that can be used to deliver alerting when a monitored component reaches a red state:**
 
@@ -148,46 +413,34 @@ Activation of built-in alerts
 
 - TrackMe - Alert on metric host availability
 
-.. warning:: These alerts are disabled by default, and need to be manually enabled if you wish to use them in your global alerting workflow.
+**To see these alerts, go in:**
 
-trackme_admin role for granular access
-======================================
+- Nav menu ``Search / Alerts``
+- Or Splunk ``Settings / Searches, report and alerts``
 
-**The application contains a built-in role that can be used for granular permissions:**
-
-- trackme_admin
-
-Any user that will be member of this role, or member of a role that is importing this role, will receive the relevant permissions to configure objects such as collections content related to trackMe.
-
-Default priority for data discovery
-===================================
-
-**When a data source or host is discovered by TrackMe, a default value of medium priority is automatically defined via the usage of the following macro:**
-
-- trackme_default_priority
-
-**You can safety customise the macro is you wish to configure a default level of priority by default, which values can be one of the following:**
-
-- low
-- medium
-- high
-
-*Notes: the high value is designed by default to be the highest SLA failure, which should ideally refer to an alert in your ticketing system.*
-
-Data hosts global alerting policy
-=================================
-
-.. admonition:: Altering policy
-
-   - Data hosts monitoring global policy is controlled via a macro configurable in the management UI for TrackMe.
-   - There are two different modes available which define how the monitoring behaves for data hosts and when to declare that a host is having availability issues or not.
-   - The default mode "granular by host" instructs TrackMe to consider turning an host red only if there are no more sourcetypes emitting data for that hosts according to the various configuration items.
-   - The mode "granular by sourcetype" instructs TrackMe to consider each sourcetype individually by host, including their own max lagging rules, to determine if an host is having issues or not
-   - The global policy can be overriden on a per host basis via the host configuration management screen
-
-*Configuration of the global policy mode in the managment UI:*
-
-.. image:: img/data_hosts_allerting_policy_config.png
-   :alt: data_hosts_allerting_policy_config.png
+.. image:: img/ootb_alerts.png
+   :alt: ootb_alerts.png
    :align: center
    :width: 1200px
+
+.. hint:: Out of the box alerts
+
+   - Out of the box alerts are disabled by default, you need to enable alerts to start using them
+   - Alerts will trigger by default on ``high priority`` entities only, this is controlled via the macro definition ``trackme_alerts_priority``
+   - If you need additional levels of granularity in the alerting, for example to alert for medium priority with a different less critical workflow, clone these alerts and create your own versions
+   - Edit the alert to peform your third party integration, for example ``sending emails`` or creating ``JIRA issues`` based on Splunk alert actions capabilities
+
+Final: Read the docs and start using TrackMe
+============================================
+
+TrackMe is a large, powerful and rich in features Splunk application that goes way beyond these initial configuration steps, there are many more features to discover and handle.
+
+**When you start the implentation of TrackMe especially in large environments, it is generally a good approach to:**
+
+- Focuss progressively on highly valuable pieces of data, such as data sources used to feed the SOC use cases, the NOC alerts, etc
+- Use the priority level and tag policies to qualify and immediately get incredible value from TrackMe
+- Use policies for lagging defintion rather per entity definiton (then you can reset collections if you need!)
+- Use tag policies to identify and define data context for even better filtering and value
+- Use Identity cards to provide context for TrackMe admins and users, and document or refer to your very own documentations
+
+Reviewing these simple steps should put you on track easily, continue with readind the :ref:`User Guide` for a full coverage!

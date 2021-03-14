@@ -95,7 +95,7 @@ Data hosts tracking
    :align: center
    :width: 1200px
 
-The default behaviour driven by the global host policy implies that as long as the Splunk instance is forwarding data, the host will remain green even if the sources monitored by and as this host runs into troubles, you can on a global basis change the :ref:`Data hosts global alerting policy` or selectively on a per host basis:
+The default behaviour driven by the global host policy implies that as long as the Splunk instance is forwarding data, the host will remain green even if the sources monitored by and as this host runs into troubles, you can on a global basis change the :ref:`Data Hosts alerting policy<TrackMe Data Hosts - Define what works for you>` or selectively on a per host basis:
 
 *Global policy in TrackMe manage and configure:*
 
