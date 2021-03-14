@@ -2929,7 +2929,7 @@ styles in <div> tags, similar to Bootstrap's grid system.
                                 <div class="panel-element-row">
 
                                     <div class="modal-body">
-                                        <h3 style="color: lightslategray;">Create a new logical group, once created the current entity will automatically member of it.
+                                        <h3 style="color: lightslategray;">Create a new logical group, once created the current entity will automatically be a member of it.
                                             You can then add as many members as you need to form the logical group entity.
                                         </h3>
                                     </div>
@@ -10065,7 +10065,7 @@ require([
 
         var searchPopulateDataSourcesTags = new PostProcessManager({
             "tokenDependencies": {},
-            "search": "eval tags=if(tags=\"No tags defined, click on Update tags to define one or more tags to be associated with this data source.\", \"\", tags) | makemv delim=\" / \" tags | search $inputDataIndex$ $inputDataSourcetype$ | mvexpand tags | stats values(tags) as tags | mvexpand tags | dedup tags | sort limit=1000 tags",
+            "search": "eval tags=if(match(tags, \"click on Update tags\"), \"\", tags) | makemv delim=\" / \" tags | search $inputDataIndex$ $inputDataSourcetype$ | mvexpand tags | stats values(tags) as tags | mvexpand tags | dedup tags | sort limit=1000 tags",
             "managerid": "searchDataSourcesMain",
             "id": "searchPopulateDataSourcesTags"
         }, {
@@ -13400,8 +13400,7 @@ require([
             "auto_cancel": 90,
             "preview": true,
             "tokenDependencies": {
-                "depends": "$tk_start_parsing_issues_searches$",
-                "rejects": ""
+                "depends": "$tk_start_parsing_issues_searches$"
             },
             "runWhenTimeIsUndefined": false
         }, {tokens: true, tokenNamespace: "submitted"});
@@ -13418,8 +13417,7 @@ require([
             "auto_cancel": 90,
             "preview": true,
             "tokenDependencies": {
-                "depends": "$tk_start_parsing_issues_searches$",
-                "rejects": ""
+                "depends": "$tk_start_parsing_issues_searches$"
             },
             "runWhenTimeIsUndefined": false
         }, {tokens: true, tokenNamespace: "submitted"});
@@ -13436,8 +13434,7 @@ require([
             "auto_cancel": 90,
             "preview": true,
             "tokenDependencies": {
-                "depends": "$tk_start_parsing_issues_searches$",
-                "rejects": ""
+                "depends": "$tk_start_parsing_issues_searches$"
             },
             "runWhenTimeIsUndefined": false
         }, {tokens: true, tokenNamespace: "submitted"});
@@ -13454,8 +13451,7 @@ require([
             "auto_cancel": 90,
             "preview": true,
             "tokenDependencies": {
-                "depends": "$tk_start_parsing_issues_searches$",
-                "rejects": ""
+                "depends": "$tk_start_parsing_issues_searches$"
             },
             "runWhenTimeIsUndefined": false
         }, {tokens: true, tokenNamespace: "submitted"});
@@ -13472,8 +13468,7 @@ require([
             "auto_cancel": 90,
             "preview": true,
             "tokenDependencies": {
-                "depends": "$tk_start_parsing_issues_searches$",
-                "rejects": ""
+                "depends": "$tk_start_parsing_issues_searches$"
             },
             "runWhenTimeIsUndefined": false
         }, {tokens: true, tokenNamespace: "submitted"});
@@ -13490,8 +13485,7 @@ require([
             "auto_cancel": 90,
             "preview": true,
             "tokenDependencies": {
-                "depends": "$tk_start_parsing_issues_searches$",
-                "rejects": ""
+                "depends": "$tk_start_parsing_issues_searches$"
             },
             "runWhenTimeIsUndefined": false
         }, {tokens: true, tokenNamespace: "submitted"});
@@ -13508,8 +13502,7 @@ require([
             "auto_cancel": 90,
             "preview": true,
             "tokenDependencies": {
-                "depends": "$tk_start_parsing_issues_searches$",
-                "rejects": ""
+                "depends": "$tk_start_parsing_issues_searches$"
             },
             "runWhenTimeIsUndefined": false
         }, {tokens: true, tokenNamespace: "submitted"});
@@ -13526,8 +13519,7 @@ require([
             "auto_cancel": 90,
             "preview": true,
             "tokenDependencies": {
-                "depends": "$tk_start_parsing_issues_searches$",
-                "rejects": ""
+                "depends": "$tk_start_parsing_issues_searches$"
             },
             "runWhenTimeIsUndefined": false
         }, {tokens: true, tokenNamespace: "submitted"});
@@ -13544,8 +13536,7 @@ require([
             "auto_cancel": 90,
             "preview": true,
             "tokenDependencies": {
-                "depends": "$tk_start_parsing_issues_searches$",
-                "rejects": ""
+                "depends": "$tk_start_parsing_issues_searches$"
             },
             "runWhenTimeIsUndefined": false
         }, {tokens: true, tokenNamespace: "submitted"});
@@ -13562,6 +13553,7 @@ require([
             "auto_cancel": 90,
             "preview": true,
             "tokenDependencies": {
+                "depends": "$tk_start_parsing_issues_searches$"
             },
             "runWhenTimeIsUndefined": false
         }, {tokens: true, tokenNamespace: "submitted"});
@@ -13578,6 +13570,7 @@ require([
             "auto_cancel": 90,
             "preview": true,
             "tokenDependencies": {
+                "depends": "$tk_start_parsing_issues_searches$"
             },
             "runWhenTimeIsUndefined": false
         }, {tokens: true, tokenNamespace: "submitted"});
@@ -13594,6 +13587,7 @@ require([
             "auto_cancel": 90,
             "preview": true,
             "tokenDependencies": {
+                "depends": "$tk_start_parsing_issues_searches$"
             },
             "runWhenTimeIsUndefined": false
         }, {tokens: true, tokenNamespace: "submitted"});
@@ -13719,14 +13713,12 @@ require([
             "earliest_time": "-5m",
             "latest_time": "now",
             "sample_ratio": null,
-            "search": "| makeresults | eval duration=`trackme_ack_default_duration` | eval label=\"default\" | eval label=tostring(duration, \"duration\"), priority=1 | fields - _time | append [ | makeresults | eval duration=2*24*60*60 | eval label=\"default\" | eval label=tostring(duration, \"duration\"), priority=2 | fields - _time ] | append [ | makeresults | eval duration=7*24*60*60 | eval label=\"default\" | eval label=tostring(duration, \"duration\"), priority=3 | fields - _time ] | append [ | makeresults | eval duration=15*24*60*60 | eval label=\"default\" | eval label=tostring(duration, \"duration\"), priority=4 | fields - _time ] | append [ | makeresults | eval duration=30*24*60*60 | eval label=\"default\" | eval label=tostring(duration, \"duration\"), priority=5 | fields - _time ] | sort priority | fields duration, label",
+            "search": "| `trackme_ack_populate_dropdown`",
             "status_buckets": 0,
             "cancelOnUnload": true,
             "app": utils.getCurrentApp(),
             "auto_cancel": 90,
             "preview": true,
-            "tokenDependencies": {
-            },
             "runWhenTimeIsUndefined": false
         }, {tokens: true});
 
@@ -18335,6 +18327,8 @@ require([
         elementLogicalGroupTable.on("click", function(e) {
             if (e.field !== undefined) {
                 e.preventDefault();
+
+                setToken("tk_keyid", TokenUtils.replaceTokenNames("$row.keyid$", _.extend(submittedTokenModel.toJSON(), e.data)));
 
                 // Enable modal context
                 $("#confirm_remove_from_logical_group").modal();
@@ -22950,50 +22944,28 @@ require([
         function clearDataHost(tk_data_host, tk_comment) {
 
 
-            // Perform a target search to update key values
-            var searchQuery = "| inputlookup trackme_host_monitoring where data_host=\"" + tk_data_host + "\" | eval keyid=_key | eval data_host_st_summary=\"\", data_index=\"\", data_sourcetype=\"\" | outputlookup append=t key_field=keyid trackme_host_monitoring";
+            // Create the endpoint URL
+            var myendpoint_URl = "{{SPLUNKWEB_URL_PREFIX}}/splunkd/__raw/services/trackme/v1/data_hosts/dh_reset";
 
-            // Set the search parameters
-            var searchParams = {
-            exec_mode: "normal",
-            earliest_time: "-5m"
+            // Create a dictionary to store the field names and values
+            var record = {
+                "data_host": tk_data_host,
+                "update_comment": tk_comment
             };
 
-            service.search(
-            searchQuery,
-            searchParams,
-            function(err, job) {
-
-                // Poll the status of the search job
-                job.track({period: 200}, {
-                done: function(job) {
-
-                    // Get the results and print them
-                    job.results({}, function(err, results, job) {
-                    var fields = results.fields;
-                    var rows = results.rows;
-                    for(var i = 0; i < rows.length; i++) {
-                        var values = rows[i];
-                        for(var j = 0; j < values.length; j++) {
-                        var field = fields[j];
-                        var value = values[j];
-
-                        }
-                    }
-                    });
-
-                    // Audit
-                    action = "success";
-                    change_type = "reset data";
-                    object = tk_data_host;
-                    object_category = "data_host";
-                    object_attrs = "N/A";
-                    result = "N/A";
-                    comment = tk_comment;
-                    auditRecord(action, change_type, object, object_category, object_attrs, result, comment);
-
+            $.ajax({
+                url: myendpoint_URl,
+                type: "POST",
+                async: true,
+                contentType: "application/json",
+                dataType: "text",
+                beforeSend: function(xhr){  xhr.overrideMimeType( "text/plain; charset=x-user-defined" );},
+                data: JSON.stringify(record),
+                success: function(returneddata) {
+                    // Nothind to do yet
                 },
-                failed: function(job) {
+                error: function(xhr, textStatus, error) {
+                    message = "server response: " + xhr.responseText + "\n - http response: " + error;
 
                     // Audit
                     action = "failure";
@@ -23001,29 +22973,14 @@ require([
                     object = tk_data_host;
                     object_category = "data_host";
                     object_attrs = "N/A";
-                    result = "N/A";
+                    result = message;
                     comment = tk_comment;
                     auditRecord(action, change_type, object, object_category, object_attrs, result, comment);
 
-                },
-                error: function(err) {
-
-                    // Audit
-                    action = "failure";
-                    change_type = "reset data";
-                    object = tk_data_host;
-                    object_category = "data_host";
-                    object_attrs = "N/A";
-                    result = "N/A";
-                    comment = tk_comment;
-                    auditRecord(action, change_type, object, object_category, object_attrs, result, comment);
-
-                    done(err);
+                    $("#modal_update_collection_failure_return").find('.modal-error-message p').text(message);
+                    $("#modal_update_collection_failure_return").modal()
                 }
-                });
-
-            }
-            );
+            });
 
             // Perform a target search to update key values
             var searchQuery = "| savedsearch \"TrackMe - Data host entity refresh\" host=" + tk_data_host;
@@ -23073,50 +23030,28 @@ require([
         function clearMetricHost(tk_metric_host, tk_comment) {
 
 
-            // Perform a target search to update key values
-            var searchQuery = "| inputlookup trackme_metric_host_monitoring where metric_host=\"" + tk_metric_host + "\" | eval keyid=_key | eval metric_category=\"\", metric_details=\"\" | outputlookup append=t key_field=keyid trackme_metric_host_monitoring";
+            // Create the endpoint URL
+            var myendpoint_URl = "{{SPLUNKWEB_URL_PREFIX}}/splunkd/__raw/services/trackme/v1/metric_hosts/mh_reset";
 
-            // Set the search parameters
-            var searchParams = {
-            exec_mode: "normal",
-            earliest_time: "-5m"
+            // Create a dictionary to store the field names and values
+            var record = {
+                "metric_host": tk_metric_host,
+                "update_comment": tk_comment
             };
 
-            service.search(
-            searchQuery,
-            searchParams,
-            function(err, job) {
-
-                // Poll the status of the search job
-                job.track({period: 200}, {
-                done: function(job) {
-
-                    // Get the results and print them
-                    job.results({}, function(err, results, job) {
-                    var fields = results.fields;
-                    var rows = results.rows;
-                    for(var i = 0; i < rows.length; i++) {
-                        var values = rows[i];
-                        for(var j = 0; j < values.length; j++) {
-                        var field = fields[j];
-                        var value = values[j];
-
-                        }
-                    }
-                    });
-
-                    // Audit
-                    action = "success";
-                    change_type = "reset metrics";
-                    object = tk_metric_host;
-                    object_category = "metric_host";
-                    object_attrs = "N/A";
-                    result = "N/A";
-                    comment = tk_comment;
-                    auditRecord(action, change_type, object, object_category, object_attrs, result, comment);
-
+            $.ajax({
+                url: myendpoint_URl,
+                type: "POST",
+                async: true,
+                contentType: "application/json",
+                dataType: "text",
+                beforeSend: function(xhr){  xhr.overrideMimeType( "text/plain; charset=x-user-defined" );},
+                data: JSON.stringify(record),
+                success: function(returneddata) {
+                    // Nothind to do yet
                 },
-                failed: function(job) {
+                error: function(xhr, textStatus, error) {
+                    message = "server response: " + xhr.responseText + "\n - http response: " + error;
 
                     // Audit
                     action = "failure";
@@ -23124,29 +23059,14 @@ require([
                     object = tk_metric_host;
                     object_category = "metric_host";
                     object_attrs = "N/A";
-                    result = "N/A";
+                    result = message;
                     comment = tk_comment;
                     auditRecord(action, change_type, object, object_category, object_attrs, result, comment);
 
-                },
-                error: function(err) {
-
-                    // Audit
-                    action = "failure";
-                    change_type = "reset metrics";
-                    object = tk_metric_host;
-                    object_category = "metric_host";
-                    object_attrs = "N/A";
-                    result = "N/A";
-                    comment = tk_comment;
-                    auditRecord(action, change_type, object, object_category, object_attrs, result, comment);
-
-                    done(err);
+                    $("#modal_update_collection_failure_return").find('.modal-error-message p').text(message);
+                    $("#modal_update_collection_failure_return").modal()
                 }
-                });
-
-            }
-            );
+            });
 
             // Perform a target search to update key values
             var searchQuery = "| savedsearch trackme_update_metric_host_target_by_metric_host host=\"" + tk_metric_host + "\"";
@@ -23557,87 +23477,9 @@ require([
 
             var tk_keyid = tokens.get("tk_keyid");
             var tk_data_name = tokens.get("tk_data_name");
-            var tk_data_index = tokens.get("tk_data_index");
-            var tk_data_sourcetype = tokens.get("tk_data_sourcetype");
-            var tk_data_last_lag_seen = tokens.get("tk_data_last_lag_seen");
-            var tk_data_last_ingestion_lag_seen = tokens.get("tk_data_last_ingestion_lag_seen");
-            var tk_data_eventcount = tokens.get("tk_data_eventcount");
-            var tk_data_first_time_seen = tokens.get("tk_data_first_time_seen");
-            var tk_data_last_time_seen = tokens.get("tk_data_last_time_seen");
-            var tk_data_last_ingest = tokens.get("tk_data_last_ingest");
-            var tk_data_last_lag_seen_idx = tokens.get("tk_data_last_lag_seen_idx");
-            var tk_data_last_time_seen_idx = tokens.get("tk_data_last_time_seen_idx");
-            var tk_data_max_lag_allowed = tokens.get("tk_data_max_lag_allowed");
-            var tk_data_lag_alert_kpis = tokens.get("tk_data_lag_alert_kpis");
-            var tk_data_monitoring_level = tokens.get("tk_data_monitoring_level");
-            var tk_data_monitoring_wdays = tokens.get("tk_data_monitoring_wdays");
-            var tk_data_override_lagging_class = tokens.get("tk_data_override_lagging_class");
-            var tk_data_source_state = tokens.get("tk_data_source_state");
-            var tk_data_tracker_runtime = tokens.get("tk_data_tracker_runtime");
-            var tk_data_previous_source_state = tokens.get("tk_data_previous_source_state");
-            var tk_data_previous_tracker_runtime = tokens.get("tk_data_previous_tracker_runtime");
-            var tk_data_monitored_state = "enabled";
-            var tk_latest_flip_state = tokens.get("tk_latest_flip_state");
-            var tk_latest_flip_time = tokens.get("tk_latest_flip_time");
-            var tk_priority = tokens.get("tk_priority");
-            var tk_outliermineventcount = tokens.get("tk_outliermineventcount");
-            var tk_outlierlowerthresholdmultiplier = tokens.get("tk_outlierlowerthresholdmultiplier");
-            var tk_outlierupperthresholdmultiplier = tokens.get("tk_outlierupperthresholdmultiplier");
-            var tk_outlieralertonupper = tokens.get("tk_outlieralertonupper");
-            var tk_outlier_period = tokens.get("tk_outlier_period");
-            var tk_outlier_span = tokens.get("tk_outlier_span");
-            var tk_isoutlier = tokens.get("tk_isoutlier");
-            var tk_enable_behaviour_analytic = tokens.get("tk_enable_behaviour_analytic");
-            var tk_isanomaly = tokens.get("tk_isanomaly");
-            var tk_data_sample_lastrun = tokens.get("tk_data_sample_lastrun");
-            var tk_dcount_host = tokens.get("tk_dcount_host");
-            var tk_min_dcount_host = tokens.get("tk_min_dcount_host");
-            var tk_tags = tokens.get("tk_tags");
 
             // Create the endpoint URL
-            var myendpoint_URl = "{{SPLUNKWEB_URL_PREFIX}}/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_data_source_monitoring/" + tk_keyid;
-
-            // Create a dictionary to store the field names and values
-            var record = {
-                "object_category": "data_source",
-                "data_name": tk_data_name,
-                "data_index": tk_data_index,
-                "data_sourcetype": tk_data_sourcetype,
-                "data_last_lag_seen": tk_data_last_lag_seen,
-                "data_last_ingestion_lag_seen": tk_data_last_ingestion_lag_seen,
-                "data_eventcount": tk_data_eventcount,
-                "data_first_time_seen": tk_data_first_time_seen,
-                "data_last_time_seen": tk_data_last_time_seen,
-                "data_last_ingest": tk_data_last_ingest,
-                "data_last_lag_seen_idx": tk_data_last_lag_seen_idx,
-                "data_last_time_seen_idx": tk_data_last_time_seen_idx,
-                "data_max_lag_allowed": tk_data_max_lag_allowed,
-                "data_lag_alert_kpis": tk_data_lag_alert_kpis,
-                "data_monitored_state": tk_data_monitored_state,
-                "data_monitoring_level": tk_data_monitoring_level,
-                "data_monitoring_wdays": tk_data_monitoring_wdays,
-                "data_override_lagging_class": tk_data_override_lagging_class,
-                "data_source_state": tk_data_source_state,
-                "data_tracker_runtime": tk_data_tracker_runtime,
-                "data_previous_source_state": tk_data_previous_source_state,
-                "data_previous_tracker_runtime": tk_data_previous_tracker_runtime,
-                "OutlierMinEventCount": tk_outliermineventcount,
-                "OutlierLowerThresholdMultiplier": tk_outlierlowerthresholdmultiplier,
-                "OutlierUpperThresholdMultiplier": tk_outlierupperthresholdmultiplier,
-                "OutlierAlertOnUpper": tk_outlieralertonupper,
-                "OutlierTimePeriod": tk_outlier_period,
-                "OutlierSpan": tk_outlier_span,
-                "isOutlier": tk_isoutlier,
-                "enable_behaviour_analytic" : tk_enable_behaviour_analytic,
-                "isAnomaly": tk_isanomaly,
-                "data_sample_lastrun": tk_data_sample_lastrun,
-                "latest_flip_state": tk_latest_flip_state,
-                "latest_flip_time": tk_latest_flip_time,
-                "priority": tk_priority,
-                "dcount_host": tk_dcount_host,
-                "min_dcount_host": tk_min_dcount_host,
-                "tags": tk_tags
-            };
+            var myendpoint_URl = "{{SPLUNKWEB_URL_PREFIX}}/splunkd/__raw/services/trackme/v1/data_sources/ds_enable_monitoring";
 
             if (!tk_keyid || !tk_keyid.length) {
                 // Show an error message
@@ -23670,29 +23512,26 @@ require([
                         document.getElementById("input_update_comment").value = "update note";
                     }
 
+                    // Create a dictionary to store the field names and values
+                    var record = {
+                        "data_name": tk_data_name,
+                        "update_comment": tk_comment
+                    };
+
                     $.ajax({
                         url: myendpoint_URl,
                         type: "POST",
                         async: true,
                         contentType: "application/json",
+                        dataType: "text",
+                        beforeSend: function(xhr){  xhr.overrideMimeType( "text/plain; charset=x-user-defined" );},
                         data: JSON.stringify(record),
                         success: function(returneddata) {
                             // Run the search again to update the table
                             searchDataSourcesMain.startSearch();
-
-                            // Audit
-                            action = "success";
-                            change_type = "enable monitoring";
-                            object = tk_data_name;
-                            object_category = "data_source";
-                            object_attrs = JSON.stringify(record,null,'\t');
-                            result = "N/A";
-                            comment = tk_comment;
-                            auditRecord(action, change_type, object, object_category, object_attrs, result, comment);
-
                         },
                         error: function(xhr, textStatus, error) {
-                            message = "Error Updating!" + xhr + textStatus + error;
+                            message = "server response: " + xhr.responseText + "\n - http response: " + error;
 
                             // Audit
                             action = "failure";
@@ -23727,75 +23566,9 @@ require([
 
             var tk_keyid = tokens.get("tk_keyid");
             var tk_data_host = tokens.get("tk_data_host");
-            var tk_data_index = tokens.get("tk_data_index");
-            var tk_data_sourcetype = tokens.get("tk_data_sourcetype");
-            var tk_data_host_st_summary = tokens.get("tk_data_host_st_summary");
-            var tk_data_host_alerting_policy = tokens.get("tk_data_host_alerting_policy");
-            var tk_data_last_lag_seen = tokens.get("tk_data_last_lag_seen");
-            var tk_data_last_ingestion_lag_seen = tokens.get("tk_data_last_ingestion_lag_seen");
-            var tk_data_eventcount = tokens.get("tk_data_eventcount");
-            var tk_data_first_time_seen = tokens.get("tk_data_first_time_seen");
-            var tk_data_last_time_seen = tokens.get("tk_data_last_time_seen");
-            var tk_data_last_ingest = tokens.get("tk_data_last_ingest");
-            var tk_data_max_lag_allowed = tokens.get("tk_data_max_lag_allowed");
-            var tk_data_lag_alert_kpis = tokens.get("tk_data_lag_alert_kpis");
-            var tk_data_monitoring_wdays = tokens.get("tk_data_monitoring_wdays");
-            var tk_data_override_lagging_class = tokens.get("tk_data_override_lagging_class");
-            var tk_data_host_state = tokens.get("tk_data_host_state");
-            var tk_data_tracker_runtime = tokens.get("tk_data_tracker_runtime");
-            var tk_data_previous_host_state = tokens.get("tk_data_previous_host_state");
-            var tk_data_previous_tracker_runtime = tokens.get("tk_data_previous_tracker_runtime");
-            var tk_latest_flip_state = tokens.get("tk_latest_flip_state");
-            var tk_latest_flip_time = tokens.get("tk_latest_flip_time");
-            var tk_priority = tokens.get("tk_priority");
-            var tk_data_monitored_state = "enabled";
-            var tk_outliermineventcount = tokens.get("tk_outliermineventcount");
-            var tk_outlierlowerthresholdmultiplier = tokens.get("tk_outlierlowerthresholdmultiplier");
-            var tk_outlierupperthresholdmultiplier = tokens.get("tk_outlierupperthresholdmultiplier");
-            var tk_outlieralertonupper = tokens.get("tk_outlieralertonupper");
-            var tk_outlier_period = tokens.get("tk_outlier_period");
-            var tk_outlier_span = tokens.get("tk_outlier_span");
-            var tk_isoutlier = tokens.get("tk_isoutlier");
-            var tk_enable_behaviour_analytic = tokens.get("tk_enable_behaviour_analytic");
 
             // Create the endpoint URL
-            var myendpoint_URl = "{{SPLUNKWEB_URL_PREFIX}}/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_host_monitoring/" + tk_keyid;
-
-            // Create a dictionary to store the field names and values
-            var record = {
-                "object_category": "data_host",
-                "data_host": tk_data_host,
-                "data_index": tk_data_index,
-                "data_sourcetype": tk_data_sourcetype,
-                "data_host_st_summary" : tk_data_host_st_summary,
-                "data_host_alerting_policy": tk_data_host_alerting_policy,
-                "data_last_lag_seen": tk_data_last_lag_seen,
-                "data_last_ingestion_lag_seen": tk_data_last_ingestion_lag_seen,
-                "data_eventcount": tk_data_eventcount,
-                "data_first_time_seen": tk_data_first_time_seen,
-                "data_last_time_seen": tk_data_last_time_seen,
-                "data_last_ingest": tk_data_last_ingest,
-                "data_max_lag_allowed": tk_data_max_lag_allowed,
-                "data_lag_alert_kpis": tk_data_lag_alert_kpis,
-                "data_monitored_state": tk_data_monitored_state,
-                "data_monitoring_wdays": tk_data_monitoring_wdays,
-                "data_override_lagging_class": tk_data_override_lagging_class,
-                "data_host_state": tk_data_host_state,
-                "data_tracker_runtime": tk_data_tracker_runtime,
-                "data_previous_host_state": tk_data_previous_host_state,
-                "data_previous_tracker_runtime": tk_data_previous_tracker_runtime,
-                "OutlierMinEventCount": tk_outliermineventcount,
-                "OutlierLowerThresholdMultiplier": tk_outlierlowerthresholdmultiplier,
-                "OutlierUpperThresholdMultiplier": tk_outlierupperthresholdmultiplier,
-                "OutlierAlertOnUpper": tk_outlieralertonupper,
-                "OutlierTimePeriod": tk_outlier_period,
-                "OutlierSpan": tk_outlier_span,
-                "isOutlier": tk_isoutlier,
-                "enable_behaviour_analytic" : tk_enable_behaviour_analytic,
-                "latest_flip_state": tk_latest_flip_state,
-                "latest_flip_time": tk_latest_flip_time,
-                "priority": tk_priority
-            };
+            var myendpoint_URl = "{{SPLUNKWEB_URL_PREFIX}}/splunkd/__raw/services/trackme/v1/data_hosts/dh_enable_monitoring";
 
             if (!tk_keyid || !tk_keyid.length) {
                 // Show an error message
@@ -23828,29 +23601,26 @@ require([
                         document.getElementById("input_update_comment").value = "update note";
                     }
 
+                    // Create a dictionary to store the field names and values
+                    var record = {
+                        "data_host": tk_data_host,
+                        "update_comment": tk_comment
+                    };
+
                     $.ajax({
                         url: myendpoint_URl,
                         type: "POST",
                         async: true,
                         contentType: "application/json",
+                        dataType: "text",
+                        beforeSend: function(xhr){  xhr.overrideMimeType( "text/plain; charset=x-user-defined" );},
                         data: JSON.stringify(record),
                         success: function(returneddata) {
                             // Run the search again to update the table
                             searchDataHostsMain.startSearch();
-
-                            // Audit
-                            action = "success";
-                            change_type = "enable monitoring";
-                            object = tk_data_host;
-                            object_category = "data_host";
-                            object_attrs = JSON.stringify(record,null,'\t');
-                            result = "N/A";
-                            comment = tk_comment;
-                            auditRecord(action, change_type, object, object_category, object_attrs, result, comment);
-
                         },
                         error: function(xhr, textStatus, error) {
-                            message = "Error Updating!" + xhr + textStatus + error;
+                            message = "server response: " + xhr.responseText + "\n - http response: " + error;
 
                             // Audit
                             action = "failure";
@@ -23950,43 +23720,9 @@ require([
 
             var tk_keyid = tokens.get("tk_keyid");
             var tk_metric_host = tokens.get("tk_metric_host");
-            var tk_metric_index = tokens.get("tk_metric_index");
-            var tk_metric_category = tokens.get("tk_metric_category");
-            var tk_metric_details = tokens.get("tk_metric_details");
-            var tk_metric_last_lag_seen = tokens.get("tk_metric_last_lag_seen");
-            var tk_metric_first_time_seen = tokens.get("tk_metric_first_time_seen");
-            var tk_metric_last_time_seen = tokens.get("tk_metric_last_time_seen");
-            var tk_metric_host_state = tokens.get("tk_metric_host_state");
-            var tk_metric_tracker_runtime = tokens.get("tk_metric_tracker_runtime");
-            var tk_metric_previous_host_state = tokens.get("tk_metric_previous_host_state");
-            var tk_metric_previous_tracker_runtime = tokens.get("tk_metric_previous_tracker_runtime");
-            var tk_metric_monitored_state = "enabled";
-            var tk_latest_flip_state = tokens.get("tk_latest_flip_state");
-            var tk_latest_flip_time = tokens.get("tk_latest_flip_time");
-            var tk_priority = tokens.get("tk_priority");
 
             // Create the endpoint URL
-            var myendpoint_URl = "{{SPLUNKWEB_URL_PREFIX}}/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_metric_host_monitoring/" + tk_keyid;
-
-            // Create a dictionary to store the field names and values
-            var record = {
-                "object_category": "metric_host",
-                "metric_host": tk_metric_host,
-                "metric_index": tk_metric_index,
-                "metric_category": tk_metric_category,
-                "metric_details": tk_metric_details,
-                "metric_last_lag_seen": tk_metric_last_lag_seen,
-                "metric_first_time_seen": tk_metric_first_time_seen,
-                "metric_last_time_seen": tk_metric_last_time_seen,
-                "metric_monitored_state": tk_metric_monitored_state,
-                "metric_host_state": tk_metric_host_state,
-                "metric_tracker_runtime": tk_metric_tracker_runtime,
-                "metric_previous_host_state": tk_metric_previous_host_state,
-                "metric_previous_tracker_runtime": tk_metric_previous_tracker_runtime,
-                "latest_flip_state": tk_latest_flip_state,
-                "latest_flip_time": tk_latest_flip_time,
-                "priority": tk_priority
-            };
+            var myendpoint_URl = "{{SPLUNKWEB_URL_PREFIX}}/splunkd/__raw/services/trackme/v1/metric_hosts/mh_enable_monitoring";
 
             if (!tk_keyid || !tk_keyid.length) {
                 // Show an error message
@@ -24019,29 +23755,26 @@ require([
                         document.getElementById("input_update_comment").value = "update note";
                     }
 
+                    // Create a dictionary to store the field names and values
+                    var record = {
+                        "metric_host": tk_metric_host,
+                        "update_comment": tk_comment
+                    };
+
                     $.ajax({
                         url: myendpoint_URl,
                         type: "POST",
                         async: true,
                         contentType: "application/json",
+                        dataType: "text",
+                        beforeSend: function(xhr){  xhr.overrideMimeType( "text/plain; charset=x-user-defined" );},
                         data: JSON.stringify(record),
                         success: function(returneddata) {
                             // Run the search again to update the table
                             searchMetricHostsMain.startSearch();
-
-                            // Audit
-                            action = "success";
-                            change_type = "enable monitoring";
-                            object = tk_metric_host;
-                            object_category = "metric_host";
-                            object_attrs = JSON.stringify(record,null,'\t');
-                            result = "N/A";
-                            comment = tk_comment;
-                            auditRecord(action, change_type, object, object_category, object_attrs, result, comment);
-
                         },
                         error: function(xhr, textStatus, error) {
-                            message = "Error Updating!" + xhr + textStatus + error;
+                            message = "server response: " + xhr.responseText + "\n - http response: " + error;
 
                             // Audit
                             action = "failure";
@@ -24081,23 +23814,10 @@ require([
 
             var tk_keyid = tokens.get("tk_keyid");
             var tk_metric_host = tokens.get("tk_metric_host");
-            var tk_metric_index = tokens.get("tk_metric_index");
-            var tk_metric_category = tokens.get("tk_metric_category");
-            var tk_metric_details = tokens.get("tk_metric_details");
-            var tk_metric_last_lag_seen = tokens.get("tk_metric_last_lag_seen");
-            var tk_metric_first_time_seen = tokens.get("tk_metric_first_time_seen");
-            var tk_metric_last_time_seen = tokens.get("tk_metric_last_time_seen");
-            var tk_metric_host_state = tokens.get("tk_metric_host_state");
-            var tk_metric_tracker_runtime = tokens.get("tk_metric_tracker_runtime");
-            var tk_metric_previous_host_state = tokens.get("tk_metric_previous_host_state");
-            var tk_metric_previous_tracker_runtime = tokens.get("tk_metric_previous_tracker_runtime");
-            var tk_metric_monitored_state = "enabled";
-            var tk_latest_flip_state = tokens.get("tk_latest_flip_state");
-            var tk_latest_flip_time = tokens.get("tk_latest_flip_time");
             var tk_priority = tokens.get("tk_priority");
 
             // Create the endpoint URL
-            var myendpoint_URl = "{{SPLUNKWEB_URL_PREFIX}}/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_metric_host_monitoring/" + tk_keyid;
+            var myendpoint_URl = "{{SPLUNKWEB_URL_PREFIX}}/splunkd/__raw/services/trackme/v1/metric_hosts/mh_update_priority";
 
             var tk_origin_priority = tk_priority;
             var tk_new_priority = tokens.get("tk_input_metric_host_priority");
@@ -24110,22 +23830,9 @@ require([
 
                 // Create a dictionary to store the field names and values
                 var record = {
-                    "object_category": "metric_host",
 	                "metric_host": tk_metric_host,
-	                "metric_index": tk_metric_index,
-	                "metric_category": tk_metric_category,
-	                "metric_details": tk_metric_details,
-	                "metric_last_lag_seen": tk_metric_last_lag_seen,
-	                "metric_first_time_seen": tk_metric_first_time_seen,
-	                "metric_last_time_seen": tk_metric_last_time_seen,
-	                "metric_monitored_state": tk_metric_monitored_state,
-	                "metric_host_state": tk_metric_host_state,
-	                "metric_tracker_runtime": tk_metric_tracker_runtime,
-	                "metric_previous_host_state": tk_metric_previous_host_state,
-	                "metric_previous_tracker_runtime": tk_metric_previous_tracker_runtime,
-                    "latest_flip_state": tk_latest_flip_state,
-                    "latest_flip_time": tk_latest_flip_time,
-	                "priority": tk_new_priority
+	                "priority": tk_new_priority,
+                    "update_comment": "N/A"
                 };
 
                 $.ajax({
@@ -24133,6 +23840,8 @@ require([
                     type: "POST",
                     async: true,
                     contentType: "application/json",
+                    dataType: "text",
+                    beforeSend: function(xhr){  xhr.overrideMimeType( "text/plain; charset=x-user-defined" );},
                     data: JSON.stringify(record),
                     success: function(returneddata) {
                         // Run the search again to update the table
@@ -24144,16 +23853,6 @@ require([
                         // call update data source
                         updateMetricHost(tk_keyid);
 
-                        // Audit
-                        action = "success";
-                        change_type = "modify priority";
-                        object = tk_metric_host;
-                        object_category = "metric_host";
-                        object_attrs = "priority changed from:" + tk_origin_priority + " to:" + tk_new_priority
-                        result = "N/A";
-                        comment = "N/A";
-                        auditRecord(action, change_type, object, object_category, object_attrs, result, comment);
-
                         // house cleaning
                         myendpoint_URl = undefined;
                         delete(myendpoint_URl);
@@ -24163,7 +23862,7 @@ require([
 
                     },
                     error: function(xhr, textStatus, error) {
-                        message = "Error Updating!" + xhr + textStatus + error;
+                        message = "server response: " + xhr.responseText + "\n - http response: " + error;
 
                         // Audit
                         action = "failure";
@@ -24197,87 +23896,9 @@ require([
 
             var tk_keyid = tokens.get("tk_keyid");
             var tk_data_name = tokens.get("tk_data_name");
-            var tk_data_index = tokens.get("tk_data_index");
-            var tk_data_sourcetype = tokens.get("tk_data_sourcetype");
-            var tk_data_last_lag_seen = tokens.get("tk_data_last_lag_seen");
-            var tk_data_last_ingestion_lag_seen = tokens.get("tk_data_last_ingestion_lag_seen");
-            var tk_data_eventcount = tokens.get("tk_data_eventcount");
-            var tk_data_first_time_seen = tokens.get("tk_data_first_time_seen");
-            var tk_data_last_time_seen = tokens.get("tk_data_last_time_seen");
-            var tk_data_last_ingest = tokens.get("tk_data_last_ingest");
-            var tk_data_last_lag_seen_idx = tokens.get("tk_data_last_lag_seen_idx");
-            var tk_data_last_time_seen_idx = tokens.get("tk_data_last_time_seen_idx");
-            var tk_data_max_lag_allowed = tokens.get("tk_data_max_lag_allowed");
-            var tk_data_lag_alert_kpis = tokens.get("tk_data_lag_alert_kpis");
-            var tk_data_monitoring_level = tokens.get("tk_data_monitoring_level");
-            var tk_data_monitoring_wdays = tokens.get("tk_data_monitoring_wdays");
-            var tk_data_override_lagging_class = tokens.get("tk_data_override_lagging_class");
-            var tk_data_source_state = tokens.get("tk_data_source_state");
-            var tk_data_tracker_runtime = tokens.get("tk_data_tracker_runtime");
-            var tk_data_previous_source_state = tokens.get("tk_data_previous_source_state");
-            var tk_data_previous_tracker_runtime = tokens.get("tk_data_previous_tracker_runtime");
-            var tk_data_monitored_state = "disabled";
-            var tk_latest_flip_state = tokens.get("tk_latest_flip_state");
-            var tk_latest_flip_time = tokens.get("tk_latest_flip_time");
-            var tk_priority = tokens.get("tk_priority");
-            var tk_outliermineventcount = tokens.get("tk_outliermineventcount");
-            var tk_outlierlowerthresholdmultiplier = tokens.get("tk_outlierlowerthresholdmultiplier");
-            var tk_outlierupperthresholdmultiplier = tokens.get("tk_outlierupperthresholdmultiplier");
-            var tk_outlieralertonupper = tokens.get("tk_outlieralertonupper");
-            var tk_outlier_period = tokens.get("tk_outlier_period");
-            var tk_outlier_span = tokens.get("tk_outlier_span");
-            var tk_isoutlier = tokens.get("tk_isoutlier");
-            var tk_enable_behaviour_analytic = tokens.get("tk_enable_behaviour_analytic");
-            var tk_isanomaly = tokens.get("tk_isanomaly");
-            var tk_data_sample_lastrun = tokens.get("tk_data_sample_lastrun");
-            var tk_dcount_host = tokens.get("tk_dcount_host");
-            var tk_min_dcount_host = tokens.get("tk_min_dcount_host");
-            var tk_tags = tokens.get("tk_tags");
 
             // Create the endpoint URL
-            var myendpoint_URl = "{{SPLUNKWEB_URL_PREFIX}}/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_data_source_monitoring/" + tk_keyid;
-
-            // Create a dictionary to store the field names and values
-            var record = {
-                "object_category": "data_source",
-                "data_name": tk_data_name,
-                "data_index": tk_data_index,
-                "data_sourcetype": tk_data_sourcetype,
-                "data_last_lag_seen": tk_data_last_lag_seen,
-                "data_last_ingestion_lag_seen": tk_data_last_ingestion_lag_seen,
-                "data_eventcount": tk_data_eventcount,
-                "data_first_time_seen": tk_data_first_time_seen,
-                "data_last_time_seen": tk_data_last_time_seen,
-                "data_last_ingest": tk_data_last_ingest,
-                "data_last_lag_seen_idx": tk_data_last_lag_seen_idx,
-                "data_last_time_seen_idx": tk_data_last_time_seen_idx,
-                "data_max_lag_allowed": tk_data_max_lag_allowed,
-                "data_lag_alert_kpis": tk_data_lag_alert_kpis,
-                "data_monitored_state": tk_data_monitored_state,
-                "data_monitoring_level": tk_data_monitoring_level,
-                "data_monitoring_wdays": tk_data_monitoring_wdays,
-                "data_override_lagging_class": tk_data_override_lagging_class,
-                "data_source_state": tk_data_source_state,
-                "data_tracker_runtime": tk_data_tracker_runtime,
-                "data_previous_source_state": tk_data_previous_source_state,
-                "data_previous_tracker_runtime": tk_data_previous_tracker_runtime,
-                "OutlierMinEventCount": tk_outliermineventcount,
-                "OutlierLowerThresholdMultiplier": tk_outlierlowerthresholdmultiplier,
-                "OutlierUpperThresholdMultiplier": tk_outlierupperthresholdmultiplier,
-                "OutlierAlertOnUpper": tk_outlieralertonupper,
-                "OutlierTimePeriod": tk_outlier_period,
-                "OutlierSpan": tk_outlier_span,
-                "isOutlier": tk_isoutlier,
-                "enable_behaviour_analytic" : tk_enable_behaviour_analytic,
-                "isAnomaly": tk_isanomaly,
-                "data_sample_lastrun": tk_data_sample_lastrun,
-                "latest_flip_state": tk_latest_flip_state,
-                "latest_flip_time": tk_latest_flip_time,
-                "priority": tk_priority,
-                "dcount_host": tk_dcount_host,
-                "min_dcount_host": tk_min_dcount_host,
-                "tags": tk_tags
-            };
+            var myendpoint_URl = "{{SPLUNKWEB_URL_PREFIX}}/splunkd/__raw/services/trackme/v1/data_sources/ds_disable_monitoring";
 
             if (!tk_keyid || !tk_keyid.length) {
                 // Show an error message
@@ -24310,29 +23931,26 @@ require([
                         document.getElementById("input_update_comment").value = "update note";
                     }
 
+                    // Create a dictionary to store the field names and values
+                    var record = {
+                        "data_name": tk_data_name,
+                        "update_comment": tk_comment
+                    };
+
                     $.ajax({
                         url: myendpoint_URl,
                         type: "POST",
                         async: true,
                         contentType: "application/json",
+                        dataType: "text",
+                        beforeSend: function(xhr){  xhr.overrideMimeType( "text/plain; charset=x-user-defined" );},
                         data: JSON.stringify(record),
                         success: function(returneddata) {
                             // Run the search again to update the table
                             searchDataSourcesMain.startSearch();
-
-                            // Audit
-                            action = "success";
-                            change_type = "disable monitoring";
-                            object = tk_data_name;
-                            object_category = "data_source";
-                            object_attrs = JSON.stringify(record,null,'\t');
-                            result = "N/A";
-                            comment = tk_comment;
-                            auditRecord(action, change_type, object, object_category, object_attrs, result, comment);
-
                         },
                         error: function(xhr, textStatus, error) {
-                            message = "Error Updating!" + xhr + textStatus + error;
+                            message = "server response: " + xhr.responseText + "\n - http response: " + error;
 
                             // Audit
                             action = "failure";
@@ -24367,75 +23985,9 @@ require([
 
             var tk_keyid = tokens.get("tk_keyid");
             var tk_data_host = tokens.get("tk_data_host");
-            var tk_data_index = tokens.get("tk_data_index");
-            var tk_data_sourcetype = tokens.get("tk_data_sourcetype");
-            var tk_data_host_st_summary = tokens.get("tk_data_host_st_summary");
-            var tk_data_host_alerting_policy = tokens.get("tk_data_host_alerting_policy");
-            var tk_data_last_lag_seen = tokens.get("tk_data_last_lag_seen");
-            var tk_data_last_ingestion_lag_seen = tokens.get("tk_data_last_ingestion_lag_seen");
-            var tk_data_eventcount = tokens.get("tk_data_eventcount");
-            var tk_data_first_time_seen = tokens.get("tk_data_first_time_seen");
-            var tk_data_last_time_seen = tokens.get("tk_data_last_time_seen");
-            var tk_data_last_ingest = tokens.get("tk_data_last_ingest");
-            var tk_data_max_lag_allowed = tokens.get("tk_data_max_lag_allowed");
-            var tk_data_lag_alert_kpis = tokens.get("tk_data_lag_alert_kpis");
-            var tk_data_monitoring_wdays = tokens.get("tk_data_monitoring_wdays");
-            var tk_data_override_lagging_class = tokens.get("tk_data_override_lagging_class");
-            var tk_data_host_state = tokens.get("tk_data_host_state");
-            var tk_data_tracker_runtime = tokens.get("tk_data_tracker_runtime");
-            var tk_data_previous_host_state = tokens.get("tk_data_previous_host_state");
-            var tk_data_previous_tracker_runtime = tokens.get("tk_data_previous_tracker_runtime");
-            var tk_data_monitored_state = "disabled";
-            var tk_latest_flip_state = tokens.get("tk_latest_flip_state");
-            var tk_latest_flip_time = tokens.get("tk_latest_flip_time");
-            var tk_priority = tokens.get("tk_priority");
-            var tk_outliermineventcount = tokens.get("tk_outliermineventcount");
-            var tk_outlierlowerthresholdmultiplier = tokens.get("tk_outlierlowerthresholdmultiplier");
-            var tk_outlierupperthresholdmultiplier = tokens.get("tk_outlierupperthresholdmultiplier");
-            var tk_outlieralertonupper = tokens.get("tk_outlieralertonupper");
-            var tk_outlier_period = tokens.get("tk_outlier_period");
-            var tk_outlier_span = tokens.get("tk_outlier_span");
-            var tk_isoutlier = tokens.get("tk_isoutlier");
-            var tk_enable_behaviour_analytic = tokens.get("tk_enable_behaviour_analytic");
 
             // Create the endpoint URL
-            var myendpoint_URl = "{{SPLUNKWEB_URL_PREFIX}}/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_host_monitoring/" + tk_keyid;
-
-            // Create a dictionary to store the field names and values
-            var record = {
-                "object_category": "data_host",
-                "data_host": tk_data_host,
-                "data_index": tk_data_index,
-                "data_sourcetype": tk_data_sourcetype,
-                "data_host_st_summary" : tk_data_host_st_summary,
-                "data_host_alerting_policy": tk_data_host_alerting_policy,
-                "data_last_lag_seen": tk_data_last_lag_seen,
-                "data_last_ingestion_lag_seen": tk_data_last_ingestion_lag_seen,
-                "data_eventcount": tk_data_eventcount,
-                "data_first_time_seen": tk_data_first_time_seen,
-                "data_last_time_seen": tk_data_last_time_seen,
-                "data_last_ingest": tk_data_last_ingest,
-                "data_max_lag_allowed": tk_data_max_lag_allowed,
-                "data_lag_alert_kpis": tk_data_lag_alert_kpis,
-                "data_monitored_state": tk_data_monitored_state,
-                "data_monitoring_wdays": tk_data_monitoring_wdays,
-                "data_override_lagging_class": tk_data_override_lagging_class,
-                "data_host_state": tk_data_host_state,
-                "data_tracker_runtime": tk_data_tracker_runtime,
-                "data_previous_host_state": tk_data_previous_host_state,
-                "data_previous_tracker_runtime": tk_data_previous_tracker_runtime,
-                "OutlierMinEventCount": tk_outliermineventcount,
-                "OutlierLowerThresholdMultiplier": tk_outlierlowerthresholdmultiplier,
-                "OutlierUpperThresholdMultiplier": tk_outlierupperthresholdmultiplier,
-                "OutlierAlertOnUpper": tk_outlieralertonupper,
-                "OutlierTimePeriod": tk_outlier_period,
-                "OutlierSpan": tk_outlier_span,
-                "isOutlier": tk_isoutlier,
-                "enable_behaviour_analytic" : tk_enable_behaviour_analytic,
-                "latest_flip_state": tk_latest_flip_state,
-                "latest_flip_time": tk_latest_flip_time,
-                "priority": tk_priority
-            };
+            var myendpoint_URl = "{{SPLUNKWEB_URL_PREFIX}}/splunkd/__raw/services/trackme/v1/data_hosts/dh_disable_monitoring";
 
             if (!tk_keyid || !tk_keyid.length) {
                 // Show an error message
@@ -24468,29 +24020,26 @@ require([
                         document.getElementById("input_update_comment").value = "update note";
                     }
 
+                    // Create a dictionary to store the field names and values
+                    var record = {
+                        "data_host": tk_data_host,
+                        "update_comment": tk_comment
+                    };
+
                     $.ajax({
                         url: myendpoint_URl,
                         type: "POST",
                         async: true,
                         contentType: "application/json",
+                        dataType: "text",
+                        beforeSend: function(xhr){  xhr.overrideMimeType( "text/plain; charset=x-user-defined" );},
                         data: JSON.stringify(record),
                         success: function(returneddata) {
                             // Run the search again to update the table
                             searchDataHostsMain.startSearch();
-
-                            // Audit
-                            action = "success";
-                            change_type = "disable monitoring";
-                            object = tk_data_host;
-                            object_category = "data_host";
-                            object_attrs = JSON.stringify(record,null,'\t');
-                            result = "N/A";
-                            comment = tk_comment;
-                            auditRecord(action, change_type, object, object_category, object_attrs, result, comment);
-
                         },
                         error: function(xhr, textStatus, error) {
-                            message = "Error Updating!" + xhr + textStatus + error;
+                            message = "server response: " + xhr.responseText + "\n - http response: " + error;
 
                             // Audit
                             action = "failure";
@@ -24525,43 +24074,9 @@ require([
 
             var tk_keyid = tokens.get("tk_keyid");
             var tk_metric_host = tokens.get("tk_metric_host");
-            var tk_metric_index = tokens.get("tk_metric_index");
-            var tk_metric_category = tokens.get("tk_metric_category");
-            var tk_metric_details = tokens.get("tk_metric_details");
-            var tk_metric_last_lag_seen = tokens.get("tk_metric_last_lag_seen");
-            var tk_metric_first_time_seen = tokens.get("tk_metric_first_time_seen");
-            var tk_metric_last_time_seen = tokens.get("tk_metric_last_time_seen");
-            var tk_metric_host_state = tokens.get("tk_metric_host_state");
-            var tk_metric_tracker_runtime = tokens.get("tk_metric_tracker_runtime");
-            var tk_metric_previous_host_state = tokens.get("tk_metric_previous_host_state");
-            var tk_metric_previous_tracker_runtime = tokens.get("tk_metric_previous_tracker_runtime");
-            var tk_metric_monitored_state = "disabled";
-            var tk_latest_flip_state = tokens.get("tk_latest_flip_state");
-            var tk_latest_flip_time = tokens.get("tk_latest_flip_time");
-            var tk_priority = tokens.get("tk_priority");
 
             // Create the endpoint URL
-            var myendpoint_URl = "{{SPLUNKWEB_URL_PREFIX}}/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_metric_host_monitoring/" + tk_keyid;
-
-            // Create a dictionary to store the field names and values
-            var record = {
-                "metric_host": tk_metric_host,
-                "metric_index": tk_metric_index,
-                "metric_category": tk_metric_category,
-                "metric_details": tk_metric_details,
-                "metric_last_lag_seen": tk_metric_last_lag_seen,
-                "metric_first_time_seen": tk_metric_first_time_seen,
-                "metric_last_time_seen": tk_metric_last_time_seen,
-                "metric_monitored_state": tk_metric_monitored_state,
-                "metric_host_state": tk_metric_host_state,
-                "metric_tracker_runtime": tk_metric_tracker_runtime,
-                "metric_previous_host_state": tk_metric_previous_host_state,
-                "metric_previous_tracker_runtime": tk_metric_previous_tracker_runtime,
-                "latest_flip_state": tk_latest_flip_state,
-                "latest_flip_time": tk_latest_flip_time,
-                "priority": tk_priority
-            };
-
+            var myendpoint_URl = "{{SPLUNKWEB_URL_PREFIX}}/splunkd/__raw/services/trackme/v1/metric_hosts/mh_disable_monitoring";
 
             if (!tk_keyid || !tk_keyid.length) {
                 // Show an error message
@@ -24594,29 +24109,26 @@ require([
                         document.getElementById("input_update_comment").value = "update note";
                     }
 
+                    // Create a dictionary to store the field names and values
+                    var record = {
+                        "metric_host": tk_metric_host,
+                        "update_comment": tk_comment
+                    };
+
                     $.ajax({
                         url: myendpoint_URl,
                         type: "POST",
                         async: true,
                         contentType: "application/json",
+                        dataType: "text",
+                        beforeSend: function(xhr){  xhr.overrideMimeType( "text/plain; charset=x-user-defined" );},
                         data: JSON.stringify(record),
                         success: function(returneddata) {
                             // Run the search again to update the table
                             searchMetricHostsMain.startSearch();
-
-                            // Audit
-                            action = "success";
-                            change_type = "disable monitoring";
-                            object = tk_metric_host;
-                            object_category = "metric_host";
-                            object_attrs = JSON.stringify(record,null,'\t');
-                            result = "N/A";
-                            comment = tk_comment;
-                            auditRecord(action, change_type, object, object_category, object_attrs, result, comment);
-
                         },
                         error: function(xhr, textStatus, error) {
-                            message = "Error Updating!" + xhr + textStatus + error;
+                            message = "server response: " + xhr.responseText + "\n - http response: " + error;
 
                             // Audit
                             action = "failure";
@@ -24624,7 +24136,7 @@ require([
                             object = tk_metric_host;
                             object_category = "metric_host";
                             object_attrs = JSON.stringify(record,null,'\t');
-                            result = "N/A";
+                            result = message;
                             comment = tk_comment;
                             auditRecord(action, change_type, object, object_category, object_attrs, result, comment);
 
@@ -31595,46 +31107,10 @@ require([
 
             var tk_keyid = tokens.get("tk_keyid");
             var tk_data_name = tokens.get("tk_data_name");
-            var tk_data_index = tokens.get("tk_data_index");
-            var tk_data_sourcetype = tokens.get("tk_data_sourcetype");
-            var tk_data_last_lag_seen = tokens.get("tk_data_last_lag_seen");
-            var tk_data_last_ingestion_lag_seen = tokens.get("tk_data_last_ingestion_lag_seen");
-            var tk_data_eventcount = tokens.get("tk_data_eventcount");
-            var tk_data_first_time_seen = tokens.get("tk_data_first_time_seen");
-            var tk_data_last_time_seen = tokens.get("tk_data_last_time_seen");
-            var tk_data_last_ingest = tokens.get("tk_data_last_ingest");
-            var tk_data_last_lag_seen_idx = tokens.get("tk_data_last_lag_seen_idx");
-            var tk_data_last_time_seen_idx = tokens.get("tk_data_last_time_seen_idx");
-            var tk_data_max_lag_allowed = tokens.get("tk_data_max_lag_allowed");
-            var tk_data_lag_alert_kpis = tokens.get("tk_data_lag_alert_kpis");
-            var tk_data_monitored_state = tokens.get("tk_data_monitored_state");
-            var tk_data_monitoring_level = tokens.get("tk_data_monitoring_level");
             var tk_data_monitoring_wdays = tokens.get("tk_data_monitoring_wdays");
-            var tk_data_override_lagging_class = tokens.get("tk_data_override_lagging_class");
-            var tk_data_source_state = tokens.get("tk_data_source_state");
-            var tk_data_tracker_runtime = tokens.get("tk_data_tracker_runtime");
-            var tk_data_previous_source_state = tokens.get("tk_data_previous_source_state");
-            var tk_data_previous_tracker_runtime = tokens.get("tk_data_previous_tracker_runtime");
-            var tk_outliermineventcount = tokens.get("tk_outliermineventcount");
-            var tk_outlierlowerthresholdmultiplier = tokens.get("tk_outlierlowerthresholdmultiplier");
-            var tk_outlierupperthresholdmultiplier = tokens.get("tk_outlierupperthresholdmultiplier");
-            var tk_outlieralertonupper = tokens.get("tk_outlieralertonupper");
-            var tk_outlier_period = tokens.get("tk_outlier_period");
-            var tk_outlier_span = tokens.get("tk_outlier_span");
-            var tk_isoutlier = tokens.get("tk_isoutlier");
-            var tk_enable_behaviour_analytic = tokens.get("tk_enable_behaviour_analytic");
-            var tk_isanomaly = tokens.get("tk_isanomaly");
-            var tk_data_sample_lastrun = tokens.get("tk_data_sample_lastrun");
-            var tk_latest_flip_state = tokens.get("tk_latest_flip_state");
-            var tk_latest_flip_time = tokens.get("tk_latest_flip_time");
-            var tk_priority = tokens.get("tk_priority");
-            var tk_dcount_host = tokens.get("tk_dcount_host");
-            var tk_min_dcount_host = tokens.get("tk_min_dcount_host");
-            var tk_tags = tokens.get("tk_tags");
-
 
             // Create the endpoint URL
-            var myendpoint_URl = "{{SPLUNKWEB_URL_PREFIX}}/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_data_source_monitoring/" + tk_keyid;
+            var myendpoint_URl = "{{SPLUNKWEB_URL_PREFIX}}/splunkd/__raw/services/trackme/v1/data_sources/ds_update_wdays";
 
             var tk_origin_data_monitoring_wdays = tokens.get("tk_data_monitoring_wdays");
             var tk_data_monitoring_wdays = tokens.get("tk_input_wdays");
@@ -31647,44 +31123,9 @@ require([
 
                 // Create a dictionary to store the field names and values
                 var record = {
-                    "object_category": "data_source",
                     "data_name": tk_data_name,
-                    "data_index": tk_data_index,
-                    "data_sourcetype": tk_data_sourcetype,
-                    "data_last_lag_seen": tk_data_last_lag_seen,
-                    "data_last_ingestion_lag_seen": tk_data_last_ingestion_lag_seen,
-                    "data_eventcount": tk_data_eventcount,
-                    "data_first_time_seen": tk_data_first_time_seen,
-                    "data_last_time_seen": tk_data_last_time_seen,
-                    "data_last_ingest": tk_data_last_ingest,
-                    "data_last_lag_seen_idx": tk_data_last_lag_seen_idx,
-                    "data_last_time_seen_idx": tk_data_last_time_seen_idx,
-                    "data_max_lag_allowed": tk_data_max_lag_allowed,
-                    "data_lag_alert_kpis": tk_data_lag_alert_kpis,
-                    "data_monitored_state": tk_data_monitored_state,
-                    "data_monitoring_level": tk_data_monitoring_level,
                     "data_monitoring_wdays": tk_data_monitoring_wdays,
-                    "data_override_lagging_class": tk_data_override_lagging_class,
-                    "data_source_state": tk_data_source_state,
-                    "data_tracker_runtime": tk_data_tracker_runtime,
-                    "data_previous_source_state": tk_data_previous_source_state,
-                    "data_previous_tracker_runtime": tk_data_previous_tracker_runtime,
-                    "OutlierMinEventCount": tk_outliermineventcount,
-                    "OutlierLowerThresholdMultiplier": tk_outlierlowerthresholdmultiplier,
-                    "OutlierUpperThresholdMultiplier": tk_outlierupperthresholdmultiplier,
-                    "OutlierAlertOnUpper": tk_outlieralertonupper,
-                    "OutlierTimePeriod": tk_outlier_period,
-                    "OutlierSpan": tk_outlier_span,
-                    "isOutlier": tk_isoutlier,
-                    "enable_behaviour_analytic" : tk_enable_behaviour_analytic,
-                    "isAnomaly": tk_isanomaly,
-                    "data_sample_lastrun": tk_data_sample_lastrun,
-                    "latest_flip_state": tk_latest_flip_state,
-                    "latest_flip_time": tk_latest_flip_time,
-                    "priority": tk_priority,
-                    "dcount_host": tk_dcount_host,
-                    "min_dcount_host": tk_min_dcount_host,
-                    "tags": tk_tags
+                    "update_comment": "N/A"
                 };
 
                 $.ajax({
@@ -31692,6 +31133,8 @@ require([
                     type: "POST",
                     async: true,
                     contentType: "application/json",
+                    dataType: "text",
+                    beforeSend: function(xhr){  xhr.overrideMimeType( "text/plain; charset=x-user-defined" );},
                     data: JSON.stringify(record),
                     success: function(returneddata) {
                         // Run the search again to update the table
@@ -31703,16 +31146,6 @@ require([
                         // notify
                         notification('Modification has been registered successfully.', 2000)
 
-                        // Audit
-                        action = "success";
-                        change_type = "modify week days monitoring";
-                        object = tk_data_name;
-                        object_category = "data_source";
-                        object_attrs = "data_monitoring_wdays changed from:" + tk_origin_data_monitoring_wdays + " to:" + tk_data_monitoring_wdays;
-                        result = "N/A";
-                        comment = "N/A";
-                        auditRecord(action, change_type, object, object_category, object_attrs, result, comment);
-
                         // house cleaning
                         myendpoint_URl = undefined;
                         delete(myendpoint_URl);
@@ -31723,7 +31156,7 @@ require([
 
                     },
                     error: function(xhr, textStatus, error) {
-                        message = "Error Updating!" + xhr + textStatus + error;
+                        message = "server response: " + xhr.responseText + "\n - http response: " + error;
 
                         // Audit
                         action = "failure";
@@ -31754,46 +31187,10 @@ require([
 
             var tk_keyid = tokens.get("tk_keyid");
             var tk_data_name = tokens.get("tk_data_name");
-            var tk_data_index = tokens.get("tk_data_index");
-            var tk_data_sourcetype = tokens.get("tk_data_sourcetype");
-            var tk_data_last_lag_seen = tokens.get("tk_data_last_lag_seen");
-            var tk_data_last_ingestion_lag_seen = tokens.get("tk_data_last_ingestion_lag_seen");
-            var tk_data_eventcount = tokens.get("tk_data_eventcount");
-            var tk_data_first_time_seen = tokens.get("tk_data_first_time_seen");
-            var tk_data_last_time_seen = tokens.get("tk_data_last_time_seen");
-            var tk_data_last_ingest = tokens.get("tk_data_last_ingest");
-            var tk_data_last_lag_seen_idx = tokens.get("tk_data_last_lag_seen_idx");
-            var tk_data_last_time_seen_idx = tokens.get("tk_data_last_time_seen_idx");
-            var tk_data_max_lag_allowed = tokens.get("tk_data_max_lag_allowed");
-            var tk_data_lag_alert_kpis = tokens.get("tk_data_lag_alert_kpis");
-            var tk_data_monitored_state = tokens.get("tk_data_monitored_state");
-            var tk_data_monitoring_level = tokens.get("tk_data_monitoring_level");
-            var tk_data_monitoring_wdays = tokens.get("tk_data_monitoring_wdays");
-            var tk_data_override_lagging_class = tokens.get("tk_data_override_lagging_class");
-            var tk_data_source_state = tokens.get("tk_data_source_state");
-            var tk_data_tracker_runtime = tokens.get("tk_data_tracker_runtime");
-            var tk_data_previous_source_state = tokens.get("tk_data_previous_source_state");
-            var tk_data_previous_tracker_runtime = tokens.get("tk_data_previous_tracker_runtime");
-            var tk_outliermineventcount = tokens.get("tk_outliermineventcount");
-            var tk_outlierlowerthresholdmultiplier = tokens.get("tk_outlierlowerthresholdmultiplier");
-            var tk_outlierupperthresholdmultiplier = tokens.get("tk_outlierupperthresholdmultiplier");
-            var tk_outlieralertonupper = tokens.get("tk_outlieralertonupper");
-            var tk_outlier_period = tokens.get("tk_outlier_period");
-            var tk_outlier_span = tokens.get("tk_outlier_span");
-            var tk_isoutlier = tokens.get("tk_isoutlier");
-            var tk_enable_behaviour_analytic = tokens.get("tk_enable_behaviour_analytic");
-            var tk_isanomaly = tokens.get("tk_isanomaly");
-            var tk_data_sample_lastrun = tokens.get("tk_data_sample_lastrun");
-            var tk_latest_flip_state = tokens.get("tk_latest_flip_state");
-            var tk_latest_flip_time = tokens.get("tk_latest_flip_time");
             var tk_priority = tokens.get("tk_priority");
-            var tk_dcount_host = tokens.get("tk_dcount_host");
-            var tk_min_dcount_host = tokens.get("tk_min_dcount_host");
-            var tk_tags = tokens.get("tk_tags");
-
 
             // Create the endpoint URL
-            var myendpoint_URl = "{{SPLUNKWEB_URL_PREFIX}}/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_data_source_monitoring/" + tk_keyid;
+            var myendpoint_URl = "{{SPLUNKWEB_URL_PREFIX}}/splunkd/__raw/services/trackme/v1/data_sources/ds_update_priority";
 
             var tk_origin_priority = tk_priority;
             var tk_new_priority = tokens.get("tk_input_priority");
@@ -31808,42 +31205,8 @@ require([
                 var record = {
                     "object_category": "data_source",
                     "data_name": tk_data_name,
-                    "data_index": tk_data_index,
-                    "data_sourcetype": tk_data_sourcetype,
-                    "data_last_lag_seen": tk_data_last_lag_seen,
-                    "data_last_ingestion_lag_seen": tk_data_last_ingestion_lag_seen,
-                    "data_eventcount": tk_data_eventcount,
-                    "data_first_time_seen": tk_data_first_time_seen,
-                    "data_last_time_seen": tk_data_last_time_seen,
-                    "data_last_ingest": tk_data_last_ingest,
-                    "data_last_lag_seen_idx": tk_data_last_lag_seen_idx,
-                    "data_last_time_seen_idx": tk_data_last_time_seen_idx,
-                    "data_max_lag_allowed": tk_data_max_lag_allowed,
-                    "data_lag_alert_kpis": tk_data_lag_alert_kpis,
-                    "data_monitored_state": tk_data_monitored_state,
-                    "data_monitoring_level": tk_data_monitoring_level,
-                    "data_monitoring_wdays": tk_data_monitoring_wdays,
-                    "data_override_lagging_class": tk_data_override_lagging_class,
-                    "data_source_state": tk_data_source_state,
-                    "data_tracker_runtime": tk_data_tracker_runtime,
-                    "data_previous_source_state": tk_data_previous_source_state,
-                    "data_previous_tracker_runtime": tk_data_previous_tracker_runtime,
-                    "OutlierMinEventCount": tk_outliermineventcount,
-                    "OutlierLowerThresholdMultiplier": tk_outlierlowerthresholdmultiplier,
-                    "OutlierUpperThresholdMultiplier": tk_outlierupperthresholdmultiplier,
-                    "OutlierAlertOnUpper": tk_outlieralertonupper,
-                    "OutlierTimePeriod": tk_outlier_period,
-                    "OutlierSpan": tk_outlier_span,
-                    "isOutlier": tk_isoutlier,
-                    "enable_behaviour_analytic" : tk_enable_behaviour_analytic,
-                    "isAnomaly": tk_isanomaly,
-                    "data_sample_lastrun": tk_data_sample_lastrun,
-                    "latest_flip_state": tk_latest_flip_state,
-                    "latest_flip_time": tk_latest_flip_time,
                     "priority": tk_new_priority,
-                    "dcount_host": tk_dcount_host,
-                    "min_dcount_host": tk_min_dcount_host,
-                    "tags": tk_tags
+                    "update_comment": "N/A"
                 };
 
                 $.ajax({
@@ -31851,6 +31214,8 @@ require([
                     type: "POST",
                     async: true,
                     contentType: "application/json",
+                    dataType: "text",
+                    beforeSend: function(xhr){  xhr.overrideMimeType( "text/plain; charset=x-user-defined" );},
                     data: JSON.stringify(record),
                     success: function(returneddata) {
                         // Run the search again to update the table
@@ -31862,16 +31227,6 @@ require([
                         // notify
                         notification('Modification has been registered successfully.', 2000)
 
-                        // Audit
-                        action = "success";
-                        change_type = "modify priority";
-                        object = tk_data_name;
-                        object_category = "data_source";
-                        object_attrs = "priority changed from:" + tk_origin_priority + " to:" + tk_new_priority;
-                        result = "N/A";
-                        comment = "N/A";
-                        auditRecord(action, change_type, object, object_category, object_attrs, result, comment);
-
                         // house cleaning
                         myendpoint_URl = undefined;
                         delete(myendpoint_URl);
@@ -31882,7 +31237,7 @@ require([
 
                     },
                     error: function(xhr, textStatus, error) {
-                        message = "Error Updating!" + xhr + textStatus + error;
+                        message = "server response: " + xhr.responseText + "\n - http response: " + error;
 
                         // Audit
                         action = "failure";
@@ -31890,7 +31245,7 @@ require([
                         object = tk_data_name;
                         object_category = "data_source";
                         object_attrs = "priority changed from:" + tk_origin_priority + " to:" + tk_new_priority;
-                        result = "N/A";
+                        result = message;
                         comment = "N/A";
                         auditRecord(action, change_type, object, object_category, object_attrs, result, comment);
 
@@ -31919,46 +31274,10 @@ require([
 
             var tk_keyid = tokens.get("tk_keyid");
             var tk_data_name = tokens.get("tk_data_name");
-            var tk_data_index = tokens.get("tk_data_index");
-            var tk_data_sourcetype = tokens.get("tk_data_sourcetype");
-            var tk_data_last_lag_seen = tokens.get("tk_data_last_lag_seen");
-            var tk_data_last_ingestion_lag_seen = tokens.get("tk_data_last_ingestion_lag_seen");
-            var tk_data_eventcount = tokens.get("tk_data_eventcount");
-            var tk_data_first_time_seen = tokens.get("tk_data_first_time_seen");
-            var tk_data_last_time_seen = tokens.get("tk_data_last_time_seen");
-            var tk_data_last_ingest = tokens.get("tk_data_last_ingest");
-            var tk_data_last_lag_seen_idx = tokens.get("tk_data_last_lag_seen_idx");
-            var tk_data_last_time_seen_idx = tokens.get("tk_data_last_time_seen_idx");
-            var tk_data_max_lag_allowed = tokens.get("tk_data_max_lag_allowed");
-            var tk_data_lag_alert_kpis = tokens.get("tk_data_lag_alert_kpis");
-            var tk_data_monitored_state = tokens.get("tk_data_monitored_state");
-            var tk_data_monitoring_level = tokens.get("tk_data_monitoring_level");
             var tk_data_monitoring_wdays = tokens.get("tk_data_monitoring_wdays");
-            var tk_data_override_lagging_class = tokens.get("tk_data_override_lagging_class");
-            var tk_data_source_state = tokens.get("tk_data_source_state");
-            var tk_data_tracker_runtime = tokens.get("tk_data_tracker_runtime");
-            var tk_data_previous_source_state = tokens.get("tk_data_previous_source_state");
-            var tk_data_previous_tracker_runtime = tokens.get("tk_data_previous_tracker_runtime");
-            var tk_outliermineventcount = tokens.get("tk_outliermineventcount");
-            var tk_outlierlowerthresholdmultiplier = tokens.get("tk_outlierlowerthresholdmultiplier");
-            var tk_outlierupperthresholdmultiplier = tokens.get("tk_outlierupperthresholdmultiplier");
-            var tk_outlieralertonupper = tokens.get("tk_outlieralertonupper");
-            var tk_outlier_period = tokens.get("tk_outlier_period");
-            var tk_outlier_span = tokens.get("tk_outlier_span");
-            var tk_isoutlier = tokens.get("tk_isoutlier");
-            var tk_enable_behaviour_analytic = tokens.get("tk_enable_behaviour_analytic");
-            var tk_isanomaly = tokens.get("tk_isanomaly");
-            var tk_data_sample_lastrun = tokens.get("tk_data_sample_lastrun");
-            var tk_latest_flip_state = tokens.get("tk_latest_flip_state");
-            var tk_latest_flip_time = tokens.get("tk_latest_flip_time");
-            var tk_priority = tokens.get("tk_priority");
-            var tk_dcount_host = tokens.get("tk_dcount_host");
-            var tk_min_dcount_host = tokens.get("tk_min_dcount_host");
-            var tk_tags = tokens.get("tk_tags");
-
 
             // Create the endpoint URL
-            var myendpoint_URl = "{{SPLUNKWEB_URL_PREFIX}}/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_data_source_monitoring/" + tk_keyid;
+            var myendpoint_URl = "{{SPLUNKWEB_URL_PREFIX}}/splunkd/__raw/services/trackme/v1/data_sources/ds_update_wdays";
 
             var tk_origin_data_monitoring_wdays = tokens.get("tk_data_monitoring_wdays");
             var tk_data_monitoring_wdays_no = tokens.get("tk_input_wdays_no");
@@ -31971,44 +31290,9 @@ require([
 
                 // Create a dictionary to store the field names and values
                 var record = {
-                    "object_category": "data_source",
                     "data_name": tk_data_name,
-                    "data_index": tk_data_index,
-                    "data_sourcetype": tk_data_sourcetype,
-                    "data_last_lag_seen": tk_data_last_lag_seen,
-                    "data_last_ingestion_lag_seen": tk_data_last_ingestion_lag_seen,
-                    "data_eventcount": tk_data_eventcount,
-                    "data_first_time_seen": tk_data_first_time_seen,
-                    "data_last_time_seen": tk_data_last_time_seen,
-                    "data_last_ingest": tk_data_last_ingest,
-                    "data_last_lag_seen_idx": tk_data_last_lag_seen_idx,
-                    "data_last_time_seen_idx": tk_data_last_time_seen_idx,
-                    "data_max_lag_allowed": tk_data_max_lag_allowed,
-                    "data_lag_alert_kpis": tk_data_lag_alert_kpis,
-                    "data_monitored_state": tk_data_monitored_state,
-                    "data_monitoring_level": tk_data_monitoring_level,
                     "data_monitoring_wdays": tk_data_monitoring_wdays_no,
-                    "data_override_lagging_class": tk_data_override_lagging_class,
-                    "data_source_state": tk_data_source_state,
-                    "data_tracker_runtime": tk_data_tracker_runtime,
-                    "data_previous_source_state": tk_data_previous_source_state,
-                    "data_previous_tracker_runtime": tk_data_previous_tracker_runtime,
-                    "OutlierMinEventCount": tk_outliermineventcount,
-                    "OutlierLowerThresholdMultiplier": tk_outlierlowerthresholdmultiplier,
-                    "OutlierUpperThresholdMultiplier": tk_outlierupperthresholdmultiplier,
-                    "OutlierAlertOnUpper": tk_outlieralertonupper,
-                    "OutlierTimePeriod": tk_outlier_period,
-                    "OutlierSpan": tk_outlier_span,
-                    "isOutlier": tk_isoutlier,
-                    "enable_behaviour_analytic" : tk_enable_behaviour_analytic,
-                    "isAnomaly": tk_isanomaly,
-                    "data_sample_lastrun": tk_data_sample_lastrun,
-                    "latest_flip_state": tk_latest_flip_state,
-                    "latest_flip_time": tk_latest_flip_time,
-                    "priority": tk_priority,
-                    "dcount_host": tk_dcount_host,
-                    "min_dcount_host": tk_min_dcount_host,
-                    "tags": tk_tags
+                    "update_comment": "N/A"
                 };
 
                 $.ajax({
@@ -32016,6 +31300,8 @@ require([
                     type: "POST",
                     async: true,
                     contentType: "application/json",
+                    dataType: "text",
+                    beforeSend: function(xhr){  xhr.overrideMimeType( "text/plain; charset=x-user-defined" );},
                     data: JSON.stringify(record),
                     success: function(returneddata) {
                         // Run the search again to update the table
@@ -32029,16 +31315,6 @@ require([
                         // notify
                         notification('Modification has been registered successfully.', 2000)
 
-                        // Audit
-                        action = "success";
-                        change_type = "modify week days monitoring";
-                        object = tk_data_name;
-                        object_category = "data_source";
-                        object_attrs = "data_monitoring_wdays changed from:" + tk_origin_data_monitoring_wdays + " to:" + tk_data_monitoring_wdays_no;
-                        result = "N/A";
-                        comment = "N/A";
-                        auditRecord(action, change_type, object, object_category, object_attrs, result, comment);
-
                         // house cleaning
                         myendpoint_URl = undefined;
                         delete(myendpoint_URl);
@@ -32048,7 +31324,7 @@ require([
 
                     },
                     error: function(xhr, textStatus, error) {
-                        message = "Error Updating!" + xhr + textStatus + error;
+                        message = "server response: " + xhr.responseText + "\n - http response: " + error;
 
                         // Audit
                         action = "failure";
@@ -32096,46 +31372,9 @@ require([
 
             var tk_keyid = tokens.get("tk_keyid");
             var tk_data_name = tokens.get("tk_data_name");
-            var tk_data_index = tokens.get("tk_data_index");
-            var tk_data_sourcetype = tokens.get("tk_data_sourcetype");
-            var tk_data_last_lag_seen = tokens.get("tk_data_last_lag_seen");
-            var tk_data_last_ingestion_lag_seen = tokens.get("tk_data_last_ingestion_lag_seen");
-            var tk_data_eventcount = tokens.get("tk_data_eventcount");
-            var tk_data_first_time_seen = tokens.get("tk_data_first_time_seen");
-            var tk_data_last_time_seen = tokens.get("tk_data_last_time_seen");
-            var tk_data_last_ingest = tokens.get("tk_data_last_ingest");
-            var tk_data_last_lag_seen_idx = tokens.get("tk_data_last_lag_seen_idx");
-            var tk_data_last_time_seen_idx = tokens.get("tk_data_last_time_seen_idx");
-            var tk_data_max_lag_allowed = tokens.get("tk_data_max_lag_allowed");
-            var tk_data_lag_alert_kpis = tokens.get("tk_data_lag_alert_kpis");
-            var tk_data_monitored_state = tokens.get("tk_data_monitored_state");
-            var tk_data_monitoring_level = tokens.get("tk_data_monitoring_level");
-            var tk_data_monitoring_wdays = tokens.get("tk_data_monitoring_wdays");
-            var tk_data_override_lagging_class = tokens.get("tk_data_override_lagging_class");
-            var tk_data_source_state = tokens.get("tk_data_source_state");
-            var tk_data_tracker_runtime = tokens.get("tk_data_tracker_runtime");
-            var tk_data_previous_source_state = tokens.get("tk_data_previous_source_state");
-            var tk_data_previous_tracker_runtime = tokens.get("tk_data_previous_tracker_runtime");
-            var tk_outliermineventcount = tokens.get("tk_outliermineventcount");
-            var tk_outlierlowerthresholdmultiplier = tokens.get("tk_outlierlowerthresholdmultiplier");
-            var tk_outlierupperthresholdmultiplier = tokens.get("tk_outlierupperthresholdmultiplier");
-            var tk_outlieralertonupper = tokens.get("tk_outlieralertonupper");
-            var tk_outlier_period = tokens.get("tk_outlier_period");
-            var tk_outlier_span = tokens.get("tk_outlier_span");
-            var tk_isoutlier = tokens.get("tk_isoutlier");
-            var tk_enable_behaviour_analytic = tokens.get("tk_enable_behaviour_analytic");
-            var tk_isanomaly = tokens.get("tk_isanomaly");
-            var tk_data_sample_lastrun = tokens.get("tk_data_sample_lastrun");
-            var tk_latest_flip_state = tokens.get("tk_latest_flip_state");
-            var tk_latest_flip_time = tokens.get("tk_latest_flip_time");
-            var tk_priority = tokens.get("tk_priority");
-            var tk_dcount_host = tokens.get("tk_dcount_host");
-            var tk_min_dcount_host = tokens.get("tk_min_dcount_host");
-            var tk_tags = tokens.get("tk_tags");
-
 
             // Create the endpoint URL
-            var myendpoint_URl = "{{SPLUNKWEB_URL_PREFIX}}/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_data_source_monitoring/" + tk_keyid;
+            var myendpoint_URl = "{{SPLUNKWEB_URL_PREFIX}}/splunkd/__raw/services/trackme/v1/data_sources/ds_update_monitoring_level";
 
             var tk_data_monitoring_level = tokens.get("tk_input_level");
             var tk_origin_data_monitoring_level = tokens.get("tk_data_monitoring_level");
@@ -32148,44 +31387,9 @@ require([
 
                 // Create a dictionary to store the field names and values
                 var record = {
-                    "object_category": "data_source",
                     "data_name": tk_data_name,
-                    "data_index": tk_data_index,
-                    "data_sourcetype": tk_data_sourcetype,
-                    "data_last_lag_seen": tk_data_last_lag_seen,
-                    "data_last_ingestion_lag_seen": tk_data_last_ingestion_lag_seen,
-                    "data_eventcount": tk_data_eventcount,
-                    "data_first_time_seen": tk_data_first_time_seen,
-                    "data_last_time_seen": tk_data_last_time_seen,
-                    "data_last_ingest": tk_data_last_ingest,
-                    "data_last_lag_seen_idx": tk_data_last_lag_seen_idx,
-                    "data_last_time_seen_idx": tk_data_last_time_seen_idx,
-                    "data_max_lag_allowed": tk_data_max_lag_allowed,
-                    "data_lag_alert_kpis": tk_data_lag_alert_kpis,
-                    "data_monitored_state": tk_data_monitored_state,
                     "data_monitoring_level": tk_data_monitoring_level,
-                    "data_monitoring_wdays": tk_data_monitoring_wdays,
-                    "data_override_lagging_class": tk_data_override_lagging_class,
-                    "data_source_state": tk_data_source_state,
-                    "data_tracker_runtime": tk_data_tracker_runtime,
-                    "data_previous_source_state": tk_data_previous_source_state,
-                    "data_previous_tracker_runtime": tk_data_previous_tracker_runtime,
-                    "OutlierMinEventCount": tk_outliermineventcount,
-                    "OutlierLowerThresholdMultiplier": tk_outlierlowerthresholdmultiplier,
-                    "OutlierUpperThresholdMultiplier": tk_outlierupperthresholdmultiplier,
-                    "OutlierAlertOnUpper": tk_outlieralertonupper,
-                    "OutlierTimePeriod": tk_outlier_period,
-                    "OutlierSpan": tk_outlier_span,
-                    "isOutlier": tk_isoutlier,
-                    "enable_behaviour_analytic" : tk_enable_behaviour_analytic,
-                    "isAnomaly": tk_isanomaly,
-                    "data_sample_lastrun": tk_data_sample_lastrun,
-                    "latest_flip_state": tk_latest_flip_state,
-                    "latest_flip_time": tk_latest_flip_time,
-                    "priority": tk_priority,
-                    "dcount_host": tk_dcount_host,
-                    "min_dcount_host": tk_min_dcount_host,
-                    "tags": tk_tags
+                    "update_comment": "N/A"
                 };
 
                 $.ajax({
@@ -32193,6 +31397,8 @@ require([
                     type: "POST",
                     async: true,
                     contentType: "application/json",
+                    dataType: "text",
+                    beforeSend: function(xhr){  xhr.overrideMimeType( "text/plain; charset=x-user-defined" );},
                     data: JSON.stringify(record),
                     success: function(returneddata) {
                         // Run the search again to update the table
@@ -32204,16 +31410,6 @@ require([
                         // notify
                         notification('Modification has been registered successfully.', 2000)
 
-                        // Audit
-                        action = "success";
-                        change_type = "modify monitoring level";
-                        object = tk_data_name;
-                        object_category = "data_source";
-                        object_attrs = "data_monitoring_level changed from:" + tk_origin_data_monitoring_level + " to:" + tk_data_monitoring_level;
-                        result = "N/A";
-                        comment = "N/A";
-                        auditRecord(action, change_type, object, object_category, object_attrs, result, comment);
-
                         // house cleaning
                         myendpoint_URl = undefined;
                         delete(myendpoint_URl);
@@ -32223,7 +31419,7 @@ require([
 
                     },
                     error: function(xhr, textStatus, error) {
-                        message = "Error Updating!" + xhr + textStatus + error;
+                        message = "server response: " + xhr.responseText + "\n - http response: " + error;
 
                         // Audit
                         action = "failure";
@@ -32256,45 +31452,10 @@ require([
 
             var tk_keyid = tokens.get("tk_keyid");
             var tk_data_name = tokens.get("tk_data_name");
-            var tk_data_index = tokens.get("tk_data_index");
-            var tk_data_sourcetype = tokens.get("tk_data_sourcetype");
-            var tk_data_last_lag_seen = tokens.get("tk_data_last_lag_seen");
-            var tk_data_last_ingestion_lag_seen = tokens.get("tk_data_last_ingestion_lag_seen");
-            var tk_data_eventcount = tokens.get("tk_data_eventcount");
-            var tk_data_first_time_seen = tokens.get("tk_data_first_time_seen");
-            var tk_data_last_time_seen = tokens.get("tk_data_last_time_seen");
-            var tk_data_last_ingest = tokens.get("tk_data_last_ingest");
-            var tk_data_last_lag_seen_idx = tokens.get("tk_data_last_lag_seen_idx");
-            var tk_data_last_time_seen_idx = tokens.get("tk_data_last_time_seen_idx");
-            var tk_data_max_lag_allowed = tokens.get("tk_data_max_lag_allowed");
-            var tk_data_lag_alert_kpis = tokens.get("tk_data_lag_alert_kpis");
-            var tk_data_monitored_state = tokens.get("tk_data_monitored_state");
-            var tk_data_monitoring_level = tokens.get("tk_data_monitoring_level");
-            var tk_data_monitoring_wdays = tokens.get("tk_data_monitoring_wdays");
-            var tk_data_override_lagging_class = tokens.get("tk_data_override_lagging_class");
-            var tk_data_source_state = tokens.get("tk_data_source_state");
-            var tk_data_tracker_runtime = tokens.get("tk_data_tracker_runtime");
-            var tk_data_previous_source_state = tokens.get("tk_data_previous_source_state");
-            var tk_data_previous_tracker_runtime = tokens.get("tk_data_previous_tracker_runtime");
-            var tk_outliermineventcount = tokens.get("tk_outliermineventcount");
-            var tk_outlierlowerthresholdmultiplier = tokens.get("tk_outlierlowerthresholdmultiplier");
-            var tk_outlierupperthresholdmultiplier = tokens.get("tk_outlierupperthresholdmultiplier");
-            var tk_outlieralertonupper = tokens.get("tk_outlieralertonupper");
-            var tk_outlier_period = tokens.get("tk_outlier_period");
-            var tk_outlier_span = tokens.get("tk_outlier_span");
-            var tk_isoutlier = tokens.get("tk_isoutlier");
-            var tk_enable_behaviour_analytic = tokens.get("tk_enable_behaviour_analytic");
-            var tk_isanomaly = tokens.get("tk_isanomaly");
-            var tk_data_sample_lastrun = tokens.get("tk_data_sample_lastrun");
-            var tk_latest_flip_state = tokens.get("tk_latest_flip_state");
-            var tk_latest_flip_time = tokens.get("tk_latest_flip_time");
-            var tk_priority = tokens.get("tk_priority");
-            var tk_dcount_host = tokens.get("tk_dcount_host");
             var tk_min_dcount_host = tokens.get("tk_min_dcount_host");
-            var tk_tags = tokens.get("tk_tags");
 
             // Create the endpoint URL
-            var myendpoint_URl = "{{SPLUNKWEB_URL_PREFIX}}/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_data_source_monitoring/" + tk_keyid;
+            var myendpoint_URl = "{{SPLUNKWEB_URL_PREFIX}}/splunkd/__raw/services/trackme/v1/data_sources/ds_update_min_dcount_host";
 
             var tk_input_data_source_dcount_host = tokens.get("tk_input_data_source_dcount_host");
             var tk_origin_dcount_host = tokens.get("tk_min_dcount_host");
@@ -32307,44 +31468,9 @@ require([
 
                 // Create a dictionary to store the field names and values
                 var record = {
-                    "object_category": "data_source",
                     "data_name": tk_data_name,
-                    "data_index": tk_data_index,
-                    "data_sourcetype": tk_data_sourcetype,
-                    "data_last_lag_seen": tk_data_last_lag_seen,
-                    "data_last_ingestion_lag_seen": tk_data_last_ingestion_lag_seen,
-                    "data_eventcount": tk_data_eventcount,
-                    "data_first_time_seen": tk_data_first_time_seen,
-                    "data_last_time_seen": tk_data_last_time_seen,
-                    "data_last_ingest": tk_data_last_ingest,
-                    "data_last_lag_seen_idx": tk_data_last_lag_seen_idx,
-                    "data_last_time_seen_idx": tk_data_last_time_seen_idx,
-                    "data_max_lag_allowed": tk_data_max_lag_allowed,
-                    "data_lag_alert_kpis": tk_data_lag_alert_kpis,
-                    "data_monitored_state": tk_data_monitored_state,
-                    "data_monitoring_level": tk_data_monitoring_level,
-                    "data_monitoring_wdays": tk_data_monitoring_wdays,
-                    "data_override_lagging_class": tk_data_override_lagging_class,
-                    "data_source_state": tk_data_source_state,
-                    "data_tracker_runtime": tk_data_tracker_runtime,
-                    "data_previous_source_state": tk_data_previous_source_state,
-                    "data_previous_tracker_runtime": tk_data_previous_tracker_runtime,
-                    "OutlierMinEventCount": tk_outliermineventcount,
-                    "OutlierLowerThresholdMultiplier": tk_outlierlowerthresholdmultiplier,
-                    "OutlierUpperThresholdMultiplier": tk_outlierupperthresholdmultiplier,
-                    "OutlierAlertOnUpper": tk_outlieralertonupper,
-                    "OutlierTimePeriod": tk_outlier_period,
-                    "OutlierSpan": tk_outlier_span,
-                    "isOutlier": tk_isoutlier,
-                    "enable_behaviour_analytic" : tk_enable_behaviour_analytic,
-                    "isAnomaly": tk_isanomaly,
-                    "data_sample_lastrun": tk_data_sample_lastrun,
-                    "latest_flip_state": tk_latest_flip_state,
-                    "latest_flip_time": tk_latest_flip_time,
-                    "priority": tk_priority,
-                    "dcount_host": tk_dcount_host,
                     "min_dcount_host": tk_input_data_source_dcount_host,
-                    "tags": tk_tags
+                    "update_comment": "N/A"
                 };
 
                 $.ajax({
@@ -32352,6 +31478,8 @@ require([
                     type: "POST",
                     async: true,
                     contentType: "application/json",
+                    dataType: "text",
+                    beforeSend: function(xhr){  xhr.overrideMimeType( "text/plain; charset=x-user-defined" );},
                     data: JSON.stringify(record),
                     success: function(returneddata) {
                         // Run the search again to update the table
@@ -32363,16 +31491,6 @@ require([
                         // notify
                         notification('Modification has been registered successfully.', 2000)
 
-                        // Audit
-                        action = "success";
-                        change_type = "modify minimal hosts distinct count number";
-                        object = tk_data_name;
-                        object_category = "data_source";
-                        object_attrs = "min_dcount_host changed from:" + tk_origin_dcount_host + " to:" + tk_input_data_source_dcount_host;
-                        result = "N/A";
-                        comment = "N/A";
-                        auditRecord(action, change_type, object, object_category, object_attrs, result, comment);
-
                         // house cleaning
                         myendpoint_URl = undefined;
                         delete(myendpoint_URl);
@@ -32382,7 +31500,7 @@ require([
 
                     },
                     error: function(xhr, textStatus, error) {
-                        message = "Error Updating!" + xhr + textStatus + error;
+                        message = "server response: " + xhr.responseText + "\n - http response: " + error;
 
                         // Audit
                         action = "failure";
@@ -32422,45 +31540,9 @@ require([
 
             var tk_keyid = tokens.get("tk_keyid");
             var tk_data_name = tokens.get("tk_data_name");
-            var tk_data_index = tokens.get("tk_data_index");
-            var tk_data_sourcetype = tokens.get("tk_data_sourcetype");
-            var tk_data_last_lag_seen = tokens.get("tk_data_last_lag_seen");
-            var tk_data_last_ingestion_lag_seen = tokens.get("tk_data_last_ingestion_lag_seen");
-            var tk_data_eventcount = tokens.get("tk_data_eventcount");
-            var tk_data_first_time_seen = tokens.get("tk_data_first_time_seen");
-            var tk_data_last_time_seen = tokens.get("tk_data_last_time_seen");
-            var tk_data_last_ingest = tokens.get("tk_data_last_ingest");
-            var tk_data_last_lag_seen_idx = tokens.get("tk_data_last_lag_seen_idx");
-            var tk_data_last_time_seen_idx = tokens.get("tk_data_last_time_seen_idx");
-            var tk_data_max_lag_allowed = tokens.get("tk_data_max_lag_allowed");
-            var tk_data_lag_alert_kpis = tokens.get("tk_data_lag_alert_kpis");
-            var tk_data_monitored_state = tokens.get("tk_data_monitored_state");
-            var tk_data_monitoring_level = tokens.get("tk_data_monitoring_level");
-            var tk_data_monitoring_wdays = tokens.get("tk_data_monitoring_wdays");
-            var tk_data_source_state = tokens.get("tk_data_source_state");
-            var tk_data_tracker_runtime = tokens.get("tk_data_tracker_runtime");
-            var tk_data_previous_source_state = tokens.get("tk_data_previous_source_state");
-            var tk_data_previous_tracker_runtime = tokens.get("tk_data_previous_tracker_runtime");
-            var tk_outliermineventcount = tokens.get("tk_outliermineventcount");
-            var tk_outlierlowerthresholdmultiplier = tokens.get("tk_outlierlowerthresholdmultiplier");
-            var tk_outlierupperthresholdmultiplier = tokens.get("tk_outlierupperthresholdmultiplier");
-            var tk_outlieralertonupper = tokens.get("tk_outlieralertonupper");
-            var tk_outlier_period = tokens.get("tk_outlier_period");
-            var tk_outlier_span = tokens.get("tk_outlier_span");
-            var tk_isoutlier = tokens.get("tk_isoutlier");
-            var tk_enable_behaviour_analytic = tokens.get("tk_enable_behaviour_analytic");
-            var tk_isanomaly = tokens.get("tk_isanomaly");
-            var tk_data_sample_lastrun = tokens.get("tk_data_sample_lastrun");
-            var tk_latest_flip_state = tokens.get("tk_latest_flip_state");
-            var tk_latest_flip_time = tokens.get("tk_latest_flip_time");
-            var tk_priority = tokens.get("tk_priority");
-            var tk_dcount_host = tokens.get("tk_dcount_host");
-            var tk_min_dcount_host = tokens.get("tk_min_dcount_host");
-            var tk_tags = tokens.get("tk_tags");
-
 
             // Create the endpoint URL
-            var myendpoint_URl = "{{SPLUNKWEB_URL_PREFIX}}/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_data_source_monitoring/" + tk_keyid;
+            var myendpoint_URl = "{{SPLUNKWEB_URL_PREFIX}}/splunkd/__raw/services/trackme/v1/data_sources/ds_update_lag_policy";
 
             // max lag allowed
             var tk_data_max_lag_allowed = tokens.get("tk_input_lag");
@@ -32479,44 +31561,11 @@ require([
 
                 // Create a dictionary to store the field names and values
                 var record = {
-                    "object_category": "data_source",
                     "data_name": tk_data_name,
-                    "data_index": tk_data_index,
-                    "data_sourcetype": tk_data_sourcetype,
-                    "data_last_lag_seen": tk_data_last_lag_seen,
-                    "data_last_ingestion_lag_seen": tk_data_last_ingestion_lag_seen,
-                    "data_eventcount": tk_data_eventcount,
-                    "data_first_time_seen": tk_data_first_time_seen,
-                    "data_last_time_seen": tk_data_last_time_seen,
-                    "data_last_ingest": tk_data_last_ingest,
-                    "data_last_lag_seen_idx": tk_data_last_lag_seen_idx,
-                    "data_last_time_seen_idx": tk_data_last_time_seen_idx,
                     "data_max_lag_allowed": tk_data_max_lag_allowed,
                     "data_lag_alert_kpis": tk_data_lag_alert_kpis,
-                    "data_monitored_state": tk_data_monitored_state,
-                    "data_monitoring_level": tk_data_monitoring_level,
-                    "data_monitoring_wdays": tk_data_monitoring_wdays,
                     "data_override_lagging_class": tk_data_override_lagging_class,
-                    "data_source_state": tk_data_source_state,
-                    "data_tracker_runtime": tk_data_tracker_runtime,
-                    "data_previous_source_state": tk_data_previous_source_state,
-                    "data_previous_tracker_runtime": tk_data_previous_tracker_runtime,
-                    "OutlierMinEventCount": tk_outliermineventcount,
-                    "OutlierLowerThresholdMultiplier": tk_outlierlowerthresholdmultiplier,
-                    "OutlierUpperThresholdMultiplier": tk_outlierupperthresholdmultiplier,
-                    "OutlierAlertOnUpper": tk_outlieralertonupper,
-                    "OutlierTimePeriod": tk_outlier_period,
-                    "OutlierSpan": tk_outlier_span,
-                    "isOutlier": tk_isoutlier,
-                    "enable_behaviour_analytic" : tk_enable_behaviour_analytic,
-                    "isAnomaly": tk_isanomaly,
-                    "data_sample_lastrun": tk_data_sample_lastrun,
-                    "latest_flip_state": tk_latest_flip_state,
-                    "latest_flip_time": tk_latest_flip_time,
-                    "priority": tk_priority,
-                    "dcount_host": tk_dcount_host,
-                    "min_dcount_host": tk_min_dcount_host,
-                    "tags": tk_tags
+                    "update_comment": "N/A"
                 };
 
                 $.ajax({
@@ -32524,6 +31573,8 @@ require([
                     type: "POST",
                     async: true,
                     contentType: "application/json",
+                    dataType: "text",
+                    beforeSend: function(xhr){  xhr.overrideMimeType( "text/plain; charset=x-user-defined" );},
                     data: JSON.stringify(record),
                     success: function(returneddata) {
                         // Run the search again to update the table
@@ -32532,16 +31583,6 @@ require([
                         updateDataSource(tk_keyid);
                         // notify
                         notification('Modification has been registered successfully.', 2000)
-
-                        // Audit
-                        action = "success";
-                        change_type = "modify monitoring lag policy";
-                        object = tk_data_name;
-                        object_category = "data_source";
-                        object_attrs = "{\"data_max_lag_allowed\": \"" + tk_data_max_lag_allowed + "\", \"data_override_lagging_class\": \"" + tk_data_override_lagging_class + "\", \"data_lag_alert_kpis\": \"" + tk_data_lag_alert_kpis + "\"}";
-                        result = "N/A";
-                        comment = "N/A";
-                        auditRecord(action, change_type, object, object_category, object_attrs, result, comment);
 
                         // house cleaning
                         myendpoint_URl = undefined;
@@ -32552,7 +31593,7 @@ require([
 
                     },
                     error: function(xhr, textStatus, error) {
-                        message = "Error Updating!" + xhr + textStatus + error;
+                        message = "server response: " + xhr.responseText + "\n - http response: " + error;
 
                         // Audit
                         action = "failure";
@@ -33301,40 +32342,10 @@ require([
 
             var tk_keyid = tokens.get("tk_keyid");
             var tk_data_host = tokens.get("tk_data_host");
-            var tk_data_index = tokens.get("tk_data_index");
-            var tk_data_sourcetype = tokens.get("tk_data_sourcetype");
-            var tk_data_host_st_summary = tokens.get("tk_data_host_st_summary");
-            var tk_data_host_alerting_policy = tokens.get("tk_data_host_alerting_policy");
-            var tk_data_last_lag_seen = tokens.get("tk_data_last_lag_seen");
-            var tk_data_last_ingestion_lag_seen = tokens.get("tk_data_last_ingestion_lag_seen");
-            var tk_data_eventcount = tokens.get("tk_data_eventcount");
-            var tk_data_first_time_seen = tokens.get("tk_data_first_time_seen");
-            var tk_data_last_time_seen = tokens.get("tk_data_last_time_seen");
-            var tk_data_last_ingest = tokens.get("tk_data_last_ingest");
-            var tk_data_max_lag_allowed = tokens.get("tk_data_max_lag_allowed");
-            var tk_data_lag_alert_kpis = tokens.get("tk_data_lag_alert_kpis");
             var tk_data_monitoring_wdays = tokens.get("tk_data_monitoring_wdays");
-            var tk_data_monitored_state = tokens.get("tk_data_monitored_state");
-            var tk_data_override_lagging_class = tokens.get("tk_data_override_lagging_class");
-            var tk_data_host_state = tokens.get("tk_data_host_state");
-            var tk_data_tracker_runtime = tokens.get("tk_data_tracker_runtime");
-            var tk_data_previous_host_state = tokens.get("tk_data_previous_host_state");
-            var tk_data_previous_tracker_runtime = tokens.get("tk_data_previous_tracker_runtime");
-            var tk_outliermineventcount = tokens.get("tk_outliermineventcount");
-            var tk_outlierlowerthresholdmultiplier = tokens.get("tk_outlierlowerthresholdmultiplier");
-            var tk_outlierupperthresholdmultiplier = tokens.get("tk_outlierupperthresholdmultiplier");
-            var tk_outlieralertonupper = tokens.get("tk_outlieralertonupper");
-            var tk_outlier_period = tokens.get("tk_outlier_period");
-            var tk_outlier_span = tokens.get("tk_outlier_span");
-            var tk_isoutlier = tokens.get("tk_isoutlier");
-            var tk_enable_behaviour_analytic = tokens.get("tk_enable_behaviour_analytic");
-            var tk_latest_flip_state = tokens.get("tk_latest_flip_state");
-            var tk_latest_flip_time = tokens.get("tk_latest_flip_time");
-            var tk_priority = tokens.get("tk_priority");
-
 
             // Create the endpoint URL
-            var myendpoint_URl = "{{SPLUNKWEB_URL_PREFIX}}/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_host_monitoring/" + tk_keyid;
+            var myendpoint_URl = "{{SPLUNKWEB_URL_PREFIX}}/splunkd/__raw/services/trackme/v1/data_hosts/dh_update_wdays";
 
             var tk_origin_data_monitoring_wdays = tokens.get("tk_data_monitoring_wdays");
             var tk_data_monitoring_wdays = tokens.get("tk_input_wdays_host");
@@ -33347,38 +32358,8 @@ require([
 
                 // Create a dictionary to store the field names and values
                 var record = {
-                    "object_category": "data_host",
                     "data_host": tk_data_host,
-                    "data_index": tk_data_index,
-                    "data_sourcetype": tk_data_sourcetype,
-                    "data_host_st_summary" : tk_data_host_st_summary,
-                    "data_host_alerting_policy": tk_data_host_alerting_policy,
-                    "data_last_lag_seen": tk_data_last_lag_seen,
-                    "data_last_ingestion_lag_seen": tk_data_last_ingestion_lag_seen,
-                    "data_eventcount": tk_data_eventcount,
-                    "data_first_time_seen": tk_data_first_time_seen,
-                    "data_last_time_seen": tk_data_last_time_seen,
-                    "data_last_ingest": tk_data_last_ingest,
-                    "data_max_lag_allowed": tk_data_max_lag_allowed,
-                    "data_lag_alert_kpis": tk_data_lag_alert_kpis,
-                    "data_monitored_state": tk_data_monitored_state,
                     "data_monitoring_wdays": tk_data_monitoring_wdays,
-                    "data_override_lagging_class": tk_data_override_lagging_class,
-                    "data_host_state": tk_data_host_state,
-                    "data_tracker_runtime": tk_data_tracker_runtime,
-                    "data_previous_host_state": tk_data_previous_host_state,
-                    "data_previous_tracker_runtime": tk_data_previous_tracker_runtime,
-                    "OutlierMinEventCount": tk_outliermineventcount,
-                    "OutlierLowerThresholdMultiplier": tk_outlierlowerthresholdmultiplier,
-                    "OutlierUpperThresholdMultiplier": tk_outlierupperthresholdmultiplier,
-                    "OutlierAlertOnUpper": tk_outlieralertonupper,
-                    "OutlierTimePeriod": tk_outlier_period,
-                    "OutlierSpan": tk_outlier_span,
-                    "enable_behaviour_analytic" : tk_enable_behaviour_analytic,
-                    "isOutlier": tk_isoutlier,
-                    "latest_flip_state": tk_latest_flip_state,
-                    "latest_flip_time": tk_latest_flip_time,
-                    "priority": tk_priority
                 };
 
                 $.ajax({
@@ -33386,6 +32367,8 @@ require([
                     type: "POST",
                     async: true,
                     contentType: "application/json",
+                    dataType: "text",
+                    beforeSend: function(xhr){  xhr.overrideMimeType( "text/plain; charset=x-user-defined" );},
                     data: JSON.stringify(record),
                     success: function(returneddata) {
                         // Run the search again to update the table
@@ -33397,16 +32380,6 @@ require([
                         // call update data source
                         updateDataHost(tk_keyid);
 
-                        // Audit
-                        action = "success";
-                        change_type = "modify week days monitoring";
-                        object = tk_data_host;
-                        object_category = "data_host";
-                        object_attrs = "data_monitoring_wdays changed from:" + tk_origin_data_monitoring_wdays + " to:" + tk_data_monitoring_wdays;
-                        result = "N/A";
-                        comment = "N/A";
-                        auditRecord(action, change_type, object, object_category, object_attrs, result, comment);
-
                         // house cleaning
                         myendpoint_URl = undefined;
                         delete(myendpoint_URl);
@@ -33416,7 +32389,7 @@ require([
 
                     },
                     error: function(xhr, textStatus, error) {
-                        message = "Error Updating!" + xhr + textStatus + error;
+                        message = "server response: " + xhr.responseText + "\n - http response: " + error;
 
                         // Audit
                         action = "failure";
@@ -33444,39 +32417,10 @@ require([
 
             var tk_keyid = tokens.get("tk_keyid");
             var tk_data_host = tokens.get("tk_data_host");
-            var tk_data_index = tokens.get("tk_data_index");
-            var tk_data_sourcetype = tokens.get("tk_data_sourcetype");
-            var tk_data_host_st_summary = tokens.get("tk_data_host_st_summary");
-            var tk_data_host_alerting_policy = tokens.get("tk_data_host_alerting_policy");
-            var tk_data_last_lag_seen = tokens.get("tk_data_last_lag_seen");
-            var tk_data_last_ingestion_lag_seen = tokens.get("tk_data_last_ingestion_lag_seen");
-            var tk_data_eventcount = tokens.get("tk_data_eventcount");
-            var tk_data_first_time_seen = tokens.get("tk_data_first_time_seen");
-            var tk_data_last_time_seen = tokens.get("tk_data_last_time_seen");
-            var tk_data_last_ingest = tokens.get("tk_data_last_ingest");
-            var tk_data_max_lag_allowed = tokens.get("tk_data_max_lag_allowed");
-            var tk_data_lag_alert_kpis = tokens.get("tk_data_lag_alert_kpis");
-            var tk_data_monitoring_wdays = tokens.get("tk_data_monitoring_wdays");
-            var tk_data_monitored_state = tokens.get("tk_data_monitored_state");
-            var tk_data_override_lagging_class = tokens.get("tk_data_override_lagging_class");
-            var tk_data_host_state = tokens.get("tk_data_host_state");
-            var tk_data_tracker_runtime = tokens.get("tk_data_tracker_runtime");
-            var tk_data_previous_host_state = tokens.get("tk_data_previous_host_state");
-            var tk_data_previous_tracker_runtime = tokens.get("tk_data_previous_tracker_runtime");
-            var tk_outliermineventcount = tokens.get("tk_outliermineventcount");
-            var tk_outlierlowerthresholdmultiplier = tokens.get("tk_outlierlowerthresholdmultiplier");
-            var tk_outlierupperthresholdmultiplier = tokens.get("tk_outlierupperthresholdmultiplier");
-            var tk_outlieralertonupper = tokens.get("tk_outlieralertonupper");
-            var tk_outlier_period = tokens.get("tk_outlier_period");
-            var tk_outlier_span = tokens.get("tk_outlier_span");
-            var tk_isoutlier = tokens.get("tk_isoutlier");
-            var tk_enable_behaviour_analytic = tokens.get("tk_enable_behaviour_analytic");
-            var tk_latest_flip_state = tokens.get("tk_latest_flip_state");
-            var tk_latest_flip_time = tokens.get("tk_latest_flip_time");
             var tk_priority = tokens.get("tk_priority");
 
             // Create the endpoint URL
-            var myendpoint_URl = "{{SPLUNKWEB_URL_PREFIX}}/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_host_monitoring/" + tk_keyid;
+            var myendpoint_URl = "{{SPLUNKWEB_URL_PREFIX}}/splunkd/__raw/services/trackme/v1/data_hosts/dh_update_priority";
 
             var tk_origin_priority = tk_priority;
             var tk_new_priority = tokens.get("tk_input_host_priority");
@@ -33489,38 +32433,9 @@ require([
 
                 // Create a dictionary to store the field names and values
                 var record = {
-                    "object_category": "data_host",
                     "data_host": tk_data_host,
-                    "data_index": tk_data_index,
-                    "data_sourcetype": tk_data_sourcetype,
-                    "data_host_st_summary" : tk_data_host_st_summary,
-                    "data_host_alerting_policy": tk_data_host_alerting_policy,
-                    "data_last_lag_seen": tk_data_last_lag_seen,
-                    "data_last_ingestion_lag_seen": tk_data_last_ingestion_lag_seen,
-                    "data_eventcount": tk_data_eventcount,
-                    "data_first_time_seen": tk_data_first_time_seen,
-                    "data_last_time_seen": tk_data_last_time_seen,
-                    "data_last_ingest": tk_data_last_ingest,
-                    "data_lag_alert_kpis": tk_data_lag_alert_kpis,
-                    "data_max_lag_allowed": tk_data_max_lag_allowed,
-                    "data_monitored_state": tk_data_monitored_state,
-                    "data_monitoring_wdays": tk_data_monitoring_wdays,
-                    "data_override_lagging_class": tk_data_override_lagging_class,
-                    "data_host_state": tk_data_host_state,
-                    "data_tracker_runtime": tk_data_tracker_runtime,
-                    "data_previous_host_state": tk_data_previous_host_state,
-                    "data_previous_tracker_runtime": tk_data_previous_tracker_runtime,
-                    "OutlierMinEventCount": tk_outliermineventcount,
-                    "OutlierLowerThresholdMultiplier": tk_outlierlowerthresholdmultiplier,
-                    "OutlierUpperThresholdMultiplier": tk_outlierupperthresholdmultiplier,
-                    "OutlierAlertOnUpper": tk_outlieralertonupper,
-                    "OutlierTimePeriod": tk_outlier_period,
-                    "OutlierSpan": tk_outlier_span,
-                    "isOutlier": tk_isoutlier,
-                    "enable_behaviour_analytic" : tk_enable_behaviour_analytic,
-                    "latest_flip_state": tk_latest_flip_state,
-                    "latest_flip_time": tk_latest_flip_time,
-                    "priority": tk_new_priority
+                    "priority": tk_new_priority,
+                    "update_comment": "N/A"
                 };
 
                 $.ajax({
@@ -33528,6 +32443,8 @@ require([
                     type: "POST",
                     async: true,
                     contentType: "application/json",
+                    dataType: "text",
+                    beforeSend: function(xhr){  xhr.overrideMimeType( "text/plain; charset=x-user-defined" );},
                     data: JSON.stringify(record),
                     success: function(returneddata) {
                         // Run the search again to update the table
@@ -33539,16 +32456,6 @@ require([
                         // call update data source
                         updateDataHost(tk_keyid);
 
-                        // Audit
-                        action = "success";
-                        change_type = "modify priority";
-                        object = tk_data_host;
-                        object_category = "data_host";
-                        object_attrs = "priority changed from:" + tk_origin_priority + " to:" + tk_new_priority;
-                        result = "N/A";
-                        comment = "N/A";
-                        auditRecord(action, change_type, object, object_category, object_attrs, result, comment);
-
                         // house cleaning
                         myendpoint_URl = undefined;
                         delete(myendpoint_URl);
@@ -33558,7 +32465,7 @@ require([
 
                     },
                     error: function(xhr, textStatus, error) {
-                        message = "Error Updating!" + xhr + textStatus + error;
+                        message = "server response: " + xhr.responseText + "\n - http response: " + error;
 
                         // Audit
                         action = "failure";
@@ -33762,40 +32669,9 @@ require([
 
             var tk_keyid = tokens.get("tk_keyid");
             var tk_data_host = tokens.get("tk_data_host");
-            var tk_data_index = tokens.get("tk_data_index");
-            var tk_data_sourcetype = tokens.get("tk_data_sourcetype");
-            var tk_data_host_st_summary = tokens.get("tk_data_host_st_summary");
-            var tk_data_host_alerting_policy = tokens.get("tk_data_host_alerting_policy");
-            var tk_data_last_lag_seen = tokens.get("tk_data_last_lag_seen");
-            var tk_data_last_ingestion_lag_seen = tokens.get("tk_data_last_ingestion_lag_seen");
-            var tk_data_eventcount = tokens.get("tk_data_eventcount");
-            var tk_data_first_time_seen = tokens.get("tk_data_first_time_seen");
-            var tk_data_last_time_seen = tokens.get("tk_data_last_time_seen");
-            var tk_data_last_ingest = tokens.get("tk_data_last_ingest");
-            var tk_data_max_lag_allowed = tokens.get("tk_data_max_lag_allowed");
-            var tk_data_lag_alert_kpis = tokens.get("tk_data_lag_alert_kpis");
-            var tk_data_monitoring_wdays = tokens.get("tk_data_monitoring_wdays");
-            var tk_data_monitored_state = tokens.get("tk_data_monitored_state");
-            var tk_data_override_lagging_class = tokens.get("tk_data_override_lagging_class");
-            var tk_data_host_state = tokens.get("tk_data_host_state");
-            var tk_data_tracker_runtime = tokens.get("tk_data_tracker_runtime");
-            var tk_data_previous_host_state = tokens.get("tk_data_previous_host_state");
-            var tk_data_previous_tracker_runtime = tokens.get("tk_data_previous_tracker_runtime");
-            var tk_outliermineventcount = tokens.get("tk_outliermineventcount");
-            var tk_outlierlowerthresholdmultiplier = tokens.get("tk_outlierlowerthresholdmultiplier");
-            var tk_outlierupperthresholdmultiplier = tokens.get("tk_outlierupperthresholdmultiplier");
-            var tk_outlieralertonupper = tokens.get("tk_outlieralertonupper");
-            var tk_outlier_period = tokens.get("tk_outlier_period");
-            var tk_outlier_span = tokens.get("tk_outlier_span");
-            var tk_isoutlier = tokens.get("tk_isoutlier");
-            var tk_enable_behaviour_analytic = tokens.get("tk_enable_behaviour_analytic");
-            var tk_latest_flip_state = tokens.get("tk_latest_flip_state");
-            var tk_latest_flip_time = tokens.get("tk_latest_flip_time");
-            var tk_priority = tokens.get("tk_priority");
-
 
             // Create the endpoint URL
-            var myendpoint_URl = "{{SPLUNKWEB_URL_PREFIX}}/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_host_monitoring/" + tk_keyid;
+            var myendpoint_URl = "{{SPLUNKWEB_URL_PREFIX}}/splunkd/__raw/services/trackme/v1/data_hosts/dh_update_lag_policy";
 
             // max lag allowed
             var tk_data_max_lag_allowed = tokens.get("tk_input_lag_host");
@@ -33817,38 +32693,12 @@ require([
 
                 // Create a dictionary to store the field names and values
                 var record = {
-                    "object_category": "data_host",
                     "data_host": tk_data_host,
-                    "data_index": tk_data_index,
-                    "data_sourcetype": tk_data_sourcetype,
-                    "data_host_st_summary" : tk_data_host_st_summary,
                     "data_host_alerting_policy": tk_data_host_alerting_policy,
-                    "data_last_lag_seen": tk_data_last_lag_seen,
-                    "data_last_ingestion_lag_seen": tk_data_last_ingestion_lag_seen,
-                    "data_eventcount": tk_data_eventcount,
-                    "data_first_time_seen": tk_data_first_time_seen,
-                    "data_last_time_seen": tk_data_last_time_seen,
-                    "data_last_ingest": tk_data_last_ingest,
                     "data_max_lag_allowed": tk_data_max_lag_allowed,
                     "data_lag_alert_kpis": tk_data_lag_alert_kpis,
-                    "data_monitored_state": tk_data_monitored_state,
-                    "data_monitoring_wdays": tk_data_monitoring_wdays,
                     "data_override_lagging_class": tk_data_override_lagging_class,
-                    "data_host_state": tk_data_host_state,
-                    "data_tracker_runtime": tk_data_tracker_runtime,
-                    "data_previous_host_state": tk_data_previous_host_state,
-                    "data_previous_tracker_runtime": tk_data_previous_tracker_runtime,
-                    "OutlierMinEventCount": tk_outliermineventcount,
-                    "OutlierLowerThresholdMultiplier": tk_outlierlowerthresholdmultiplier,
-                    "OutlierUpperThresholdMultiplier": tk_outlierupperthresholdmultiplier,
-                    "OutlierAlertOnUpper": tk_outlieralertonupper,
-                    "OutlierTimePeriod": tk_outlier_period,
-                    "OutlierSpan": tk_outlier_span,
-                    "isOutlier": tk_isoutlier,
-                    "enable_behaviour_analytic" : tk_enable_behaviour_analytic,
-                    "latest_flip_state": tk_latest_flip_state,
-                    "latest_flip_time": tk_latest_flip_time,
-                    "priority": tk_priority
+                    "update_comment": "N/A"
                 };
 
                 $.ajax({
@@ -33856,6 +32706,8 @@ require([
                     type: "POST",
                     async: true,
                     contentType: "application/json",
+                    dataType: "text",
+                    beforeSend: function(xhr){  xhr.overrideMimeType( "text/plain; charset=x-user-defined" );},
                     data: JSON.stringify(record),
                     success: function(returneddata) {
                         // Run the search again to update the table
@@ -33867,16 +32719,6 @@ require([
                         // call update data source
                         updateDataHost(tk_keyid);
 
-                        // Audit
-                        action = "success";
-                        change_type = "modify monitoring lag policy";
-                        object = tk_data_host;
-                        object_category = "data_host";
-                        object_attrs = "{\"data_max_lag_allowed\": \"" + tk_data_max_lag_allowed + "\", \"data_override_lagging_class\": \"" + tk_data_override_lagging_class + "\", \"data_lag_alert_kpis\": \"" + tk_data_lag_alert_kpis + "\"}";
-                        result = "N/A";
-                        comment = "N/A";
-                        auditRecord(action, change_type, object, object_category, object_attrs, result, comment);
-
                         // house cleaning
                         myendpoint_URl = undefined;
                         delete(myendpoint_URl);
@@ -33886,7 +32728,7 @@ require([
 
                     },
                     error: function(xhr, textStatus, error) {
-                        message = "Error Updating!" + xhr + textStatus + error;
+                        message = "server response: " + xhr.responseText + "\n - http response: " + error;
 
                         // Audit
                         action = "failure";
@@ -35992,11 +34834,9 @@ require([
                 var tokens = mvc.Components.get("default");
 
                 // Retrieve input values
-
                 var input_object = tokens.get("input_object");
                 var input_object_category = tokens.get("input_object_category");
                 var input_ack_duration = tokens.get("input_ack_duration");
-
 
                 // Retrieve update comment if any
                 var tk_comment = document.getElementById("input_ack_comment").value;
@@ -36016,102 +34856,59 @@ require([
                     document.getElementById("input_ack_comment").value = "update note";
                 }
 
-                // Define the query
-                var searchQuery = "| `trackme_ack_add(\"" + input_object + "\", \"" +  input_object_category + "\", \"" +  input_ack_duration + "\")`";
-
-
-                // Set the search parameters--specify a time range
-                var searchParams = {
-                    earliest_time: "-60m",
-                    latest_time: "now"
-                };
-
                 if (input_object && input_object.length && input_ack_duration && input_ack_duration.length) {
 
-                    // Run a blocking search and get back a job
-                    service.search(
-                        searchQuery,
-                        searchParams,
-                        function(err, job) {
+                    // Create the endpoint URL
+                    var myendpoint_URl = "{{SPLUNKWEB_URL_PREFIX}}/splunkd/__raw/services/trackme/v1/ack/ack_enable";
 
-                            function audit_failure() {
+                    // Create a dictionary to store the field names and values
+                    var record = {
+                        "object_category": input_object_category,
+                        "object": input_object,
+                        "ack_period": input_ack_duration,
+                        "update_comment": tk_comment
+                    };
 
-                                // Audit
-                                action = "failure";
-                                change_type = "ack enable";
-                                object = input_object;
-                                object_category = input_object_category;
-                                object_attrs = "object:" + input_object + " has been acknowledged for a period of " + input_ack_duration + " seconds, no more alerts will be generated until the acknowledge is expired.";
-                                result = "N/A";
-                                comment = tk_comment;
-                                auditRecord(action, change_type, object, object_category, object_attrs, result, comment);
+                    $.ajax({
+                        url: myendpoint_URl,
+                        type: "POST",
+                        async: true,
+                        contentType: "application/json",
+                        dataType: "text",
+                        beforeSend: function(xhr){  xhr.overrideMimeType( "text/plain; charset=x-user-defined" );},
+                        data: JSON.stringify(record),
+                        success: function(returneddata) {
 
+                            // Refresh the main search
+                            if (input_object_category == "data_source") {
+                                searchDataSourcesMain.startSearch();
+                            } else if (input_object_category == "data_host") {
+                                searchDataHostsMain.startSearch();
+                            } else if (input_object_category == "metric_host") {
+                                searchMetricHostsMain.startSearch();
                             }
 
-                            // Shall the search fail before we can get properties
-                            if (job == null) {
-                                let errorStr = "Unknown Error!";
-                                if (err && err.data && err.data.messages && err.data.messages[0]['text']) {
-                                    errorStr = err.data.messages[0]['text'];
-                                } else if (err && err.data && err.data.messages) {
-                                    errorStr = JSON.stringify(err.data.messages);
-                                }
-                                audit_failure();
-                                $("#modal_update_collection_failure_return").find('.modal-error-message p').text(errorStr);
-                                $("#modal_update_collection_failure_return").modal()
-                            } else {
+                            // show deleted modal
+                            $("#ack_achieved").modal()
 
-                                // Poll the status of the search job
-                                job.track({
-                                    period: 200
-                                }, {
-                                    done: function(job) {
+                        },
+                        error: function(xhr, textStatus, error) {
+                            message = "server response: " + xhr.responseText + "\n - http response: " + error;
 
-                                        // Refresh the main search
-                                        if (input_object_category == "data_source") {
-                                            searchDataSourcesMain.startSearch();
-                                        } else if (input_object_category == "data_host") {
-                                            searchDataHostsMain.startSearch();
-                                        } else if (input_object_category == "metric_host") {
-                                            searchMetricHostsMain.startSearch();
-                                        }
+                            // Audit
+                            action = "failure";
+                            change_type = "ack enable";
+                            object = input_object;
+                            object_category = input_object_category;
+                            object_attrs = "object:" + input_object + " has been acknowledged for a period of " + input_ack_duration + " seconds, no more alerts will be generated until the acknowledge is expired.";
+                            result = message;
+                            comment = tk_comment;
+                            auditRecord(action, change_type, object, object_category, object_attrs, result, comment);
 
-                                        // show deleted modal
-                                        $("#ack_achieved").modal()
-
-                                        // Audit
-                                        action = "success";
-                                        change_type = "ack enable";
-                                        object = input_object;
-                                        object_category = input_object_category;
-                                        object_attrs = "object:" + input_object + " has been acknowledged for a period of " + input_ack_duration + " seconds, no more alerts will be generated until the acknowledge is expired.";
-                                        result = "N/A";
-                                        comment = tk_comment;
-                                        auditRecord(action, change_type, object, object_category, object_attrs, result, comment);
-
-                                    },
-                                    failed: function(properties) {
-                                        let errorStr = "Unknown Error!";
-                                        if (properties && properties._properties && properties._properties.messages && properties._properties.messages[0]['text']) {
-                                            errorStr = properties._properties.messages[0]['text'];
-                                        } else if (properties && properties._properties && properties._properties.messages) {
-                                            errorStr = JSON.stringify(properties._properties.messages);
-                                        }
-                                        audit_failure();
-                                        $("#modal_update_collection_failure_return").find('.modal-error-message p').text(errorStr);
-                                        $("#modal_update_collection_failure_return").modal()
-                                    },
-                                    error: function(err) {
-                                        done(err);
-                                        audit_failure();
-                                        $("#modal_update_collection_failure_flush").modal()
-                                    }
-                                });
-
-                            }
-
+                            $("#modal_update_collection_failure_return").find('.modal-error-message p').text(message);
+                            $("#modal_update_collection_failure_return").modal()
                         }
-                    );
+                    });
 
                     // house cleaning
                     myendpoint_URl = undefined;
@@ -36140,16 +34937,11 @@ require([
                 var tokens = mvc.Components.get("default");
 
                 // Retrieve input values
-
                 var keyid = tokens.get("keyid");
                 var input_object = tokens.get("input_object");
                 var input_object_category = tokens.get("input_object_category");
                 var ack_expiration = tokens.get("ack_expiration");
                 var ack_state = tokens.get("ack_state");
-
-                // Define the query
-                var searchQuery = "| `trackme_ack_disable(\"" + keyid + "\")`";
-
 
                 // Retrieve update comment if any
                 var tk_comment = document.getElementById("input_ack_comment").value;
@@ -36169,12 +34961,6 @@ require([
                     document.getElementById("input_ack_comment").value = "update note";
                 }
 
-                // Set the search parameters--specify a time range
-                var searchParams = {
-                    earliest_time: "-60m",
-                    latest_time: "now"
-                };
-
                 if (ack_state === "inactive") {
                     // show modal
                     $("#ack_disable_already").modal()
@@ -36182,91 +34968,57 @@ require([
 
                 else if (input_object && input_object.length) {
 
-                    // Run a blocking search and get back a job
-                    service.search(
-                        searchQuery,
-                        searchParams,
-                        function(err, job) {
+                    // Create the endpoint URL
+                    var myendpoint_URl = "{{SPLUNKWEB_URL_PREFIX}}/splunkd/__raw/services/trackme/v1/ack/ack_disable";
 
-                            function audit_failure() {
+                    // Create a dictionary to store the field names and values
+                    var record = {
+                        "object_category": input_object_category,
+                        "object": input_object,
+                        "update_comment": tk_comment
+                    };
 
-                                // Audit
-                                action = "failure";
-                                change_type = "ack disable";
-                                object = input_object;
-                                object_category = input_object_category;
-                                object_attrs = "object:" + input_object + " acknowledge has been disabled (ack_expiration was: " + ack_expiration + "), alerts will be generated depending on state and rules. ";
-                                result = "N/A";
-                                comment = tk_comment;
-                                auditRecord(action, change_type, object, object_category, object_attrs, result, comment);
+                    $.ajax({
+                        url: myendpoint_URl,
+                        type: "POST",
+                        async: true,
+                        contentType: "application/json",
+                        dataType: "text",
+                        beforeSend: function(xhr){  xhr.overrideMimeType( "text/plain; charset=x-user-defined" );},
+                        data: JSON.stringify(record),
+                        success: function(returneddata) {
 
+                            // Refresh the main search
+                            if (input_object_category == "data_source") {
+                                searchDataSourcesMain.startSearch();
+                            } else if (input_object_category == "data_host") {
+                                searchDataHostsMain.startSearch();
+                            } else if (input_object_category == "metric_host") {
+                                searchMetricHostsMain.startSearch();
                             }
 
-                            // Shall the search fail before we can get properties
-                            if (job == null) {
-                                let errorStr = "Unknown Error!";
-                                if (err && err.data && err.data.messages && err.data.messages[0]['text']) {
-                                    errorStr = err.data.messages[0]['text'];
-                                } else if (err && err.data && err.data.messages) {
-                                    errorStr = JSON.stringify(err.data.messages);
-                                }
-                                audit_failure();
-                                $("#modal_update_collection_failure_return").find('.modal-error-message p').text(errorStr);
-                                $("#modal_update_collection_failure_return").modal()
-                            } else {
+                            // show deleted modal
+                            $("#ack_achieved").modal()
 
-                                // Poll the status of the search job
-                                job.track({
-                                    period: 200
-                                }, {
-                                    done: function(job) {
+                        },
+                        error: function(xhr, textStatus, error) {
+                            message = "server response: " + xhr.responseText + "\n - http response: " + error;
 
-                                        // Refresh the main search
-                                        if (input_object_category == "data_source") {
-                                            searchDataSourcesMain.startSearch();
-                                        } else if (input_object_category == "data_host") {
-                                            searchDataHostsMain.startSearch();
-                                        } else if (input_object_category == "metric_host") {
-                                            searchMetricHostsMain.startSearch();
-                                        }
+                            // Audit
+                            action = "failure";
+                            change_type = "ack disable";
+                            object = input_object;
+                            object_category = input_object_category;
+                            object_attrs = "object:" + input_object + " acknowledge has been disabled (ack_expiration was: " + ack_expiration + "), alerts will be generated depending on state and rules. ";
+                            result = message;
+                            comment = tk_comment;
+                            auditRecord(action, change_type, object, object_category, object_attrs, result, comment);
 
-                                        // show disabled modal
-                                        $("#ack_disable_achieved").modal()
-
-                                        // Audit
-                                        action = "success";
-                                        change_type = "ack disable";
-                                        object = input_object;
-                                        object_category = input_object_category;
-                                        object_attrs = "object:" + input_object + " acknowledge has been disabled (ack_expiration was: " + ack_expiration + "), alerts will be generated depending on state and rules. ";
-                                        result = "N/A";
-                                        comment = tk_comment;
-                                        auditRecord(action, change_type, object, object_category, object_attrs, result, comment);
-
-                                    },
-                                    failed: function(properties) {
-                                        let errorStr = "Unknown Error!";
-                                        if (properties && properties._properties && properties._properties.messages && properties._properties.messages[0]['text']) {
-                                            errorStr = properties._properties.messages[0]['text'];
-                                        } else if (properties && properties._properties && properties._properties.messages) {
-                                            errorStr = JSON.stringify(properties._properties.messages);
-                                        }
-                                        audit_failure();
-                                        $("#modal_update_collection_failure_return").find('.modal-error-message p').text(errorStr);
-                                        $("#modal_update_collection_failure_return").modal()
-                                    },
-                                    error: function(err) {
-                                        done(err);
-                                        audit_failure();
-                                        $("#modal_update_collection_failure_flush").modal()
-                                    }
-                                });
-
-                            }
-
+                            $("#modal_update_collection_failure_return").find('.modal-error-message p').text(message);
+                            $("#modal_update_collection_failure_return").modal()
                         }
-                    );
-
+                    });
+                    
                     // house cleaning
                     myendpoint_URl = undefined;
                     delete(myendpoint_URl);
@@ -36401,104 +35153,61 @@ require([
 
                 var input_object = tokens.get("input_object");
                 var input_object_category = tokens.get("input_object_category");
-
-
-                // Define the query
-                var searchQuery = "| inputlookup trackme_logical_group | mvexpand object_group_members | where object_group_members!=\"" + input_object + "\" | stats values(*) as \"*\" by object_group_name | outputlookup trackme_logical_group";
-
-
-                // Set the search parameters--specify a time range
-                var searchParams = {
-                    earliest_time: "-60m",
-                    latest_time: "now"
-                };
+                var tk_keyid = tokens.get("tk_keyid");
 
                 if (input_object && input_object.length) {
 
-                    // Run a blocking search and get back a job
-                    service.search(
-                        searchQuery,
-                        searchParams,
-                        function(err, job) {
+                    // Create the endpoint URL
+                    var myendpoint_URl = "{{SPLUNKWEB_URL_PREFIX}}/splunkd/__raw/services/trackme/v1/logical_groups/logical_groups_unassociate";
 
-                            function audit_failure() {
+                    // Create a dictionary to store the field names and values
+                    var record = {
+                        "object": input_object,
+                        "key": tk_keyid,
+                        "update_comment": "N/A"
+                    };
 
-                                // Audit
-                                action = "failure";
-                                change_type = "Logical group removal";
-                                object = input_object;
-                                object_category = input_object_category;
-                                object_attrs = "object:" + input_object + " has been removed from Logical group. ";
-                                result = "N/A";
-                                comment = "N/A";
-                                auditRecord(action, change_type, object, object_category, object_attrs, result, comment);
+                    $.ajax({
+                        url: myendpoint_URl,
+                        type: "POST",
+                        async: true,
+                        contentType: "application/json",
+                        dataType: "text",
+                        beforeSend: function(xhr){  xhr.overrideMimeType( "text/plain; charset=x-user-defined" );},
+                        data: JSON.stringify(record),
+                        success: function(returneddata) {
 
+                            // show disabled modal
+                            $("#logical_group_removal_achieved").modal()
+
+                            if (input_object_category === "data_source") {
+                                searchDataSourcesMain.startSearch();
+                            }
+                            else if (input_object_category === "data_host") {
+                                searchDataHostsMain.startSearch();
+                            }
+                            else if (input_object_category === "metric_host") {
+                                searchMetricHostsMain.startSearch();
                             }
 
-                            // Shall the search fail before we can get properties
-                            if (job == null) {
-                                let errorStr = "Unknown Error!";
-                                if (err && err.data && err.data.messages && err.data.messages[0]['text']) {
-                                    errorStr = err.data.messages[0]['text'];
-                                } else if (err && err.data && err.data.messages) {
-                                    errorStr = JSON.stringify(err.data.messages);
-                                }
-                                audit_failure();
-                                $("#modal_update_collection_failure_return").find('.modal-error-message p').text(errorStr);
-                                $("#modal_update_collection_failure_return").modal()
-                            } else {
+                        },
+                        error: function(xhr, textStatus, error) {
+                            message = "server response: " + xhr.responseText + "\n - http response: " + error;
 
-                                // Poll the status of the search job
-                                job.track({
-                                    period: 200
-                                }, {
-                                    done: function(job) {
-                                        // show disabled modal
-                                        $("#logical_group_removal_achieved").modal()
+                            // Audit
+                            action = "failure";
+                            change_type = "Logical group removal";
+                            object = input_object;
+                            object_category = input_object_category;
+                            object_attrs = "object:" + input_object + " has been removed from Logical group. ";
+                            result = message;
+                            comment = "N/A";
+                            auditRecord(action, change_type, object, object_category, object_attrs, result, comment);
 
-                                        if (input_object_category === "data_source") {
-                                            searchDataSourcesMain.startSearch();
-                                        }
-                                        else if (input_object_category === "data_host") {
-                                            searchDataHostsMain.startSearch();
-                                        }
-                                        else if (input_object_category === "metric_host") {
-                                            searchMetricHostsMain.startSearch();
-                                        }
-
-                                        // Audit
-                                        action = "success";
-                                        change_type = "Logical group removal";
-                                        object = input_object;
-                                        object_category = input_object_category;
-                                        object_attrs = "object:" + input_object + " has been removed from Logical group. ";
-                                        result = "N/A";
-                                        comment = "N/A";
-                                        auditRecord(action, change_type, object, object_category, object_attrs, result, comment);
-
-                                    },
-                                    failed: function(properties) {
-                                        let errorStr = "Unknown Error!";
-                                        if (properties && properties._properties && properties._properties.messages && properties._properties.messages[0]['text']) {
-                                            errorStr = properties._properties.messages[0]['text'];
-                                        } else if (properties && properties._properties && properties._properties.messages) {
-                                            errorStr = JSON.stringify(properties._properties.messages);
-                                        }
-                                        audit_failure();
-                                        $("#modal_update_collection_failure_return").find('.modal-error-message p').text(errorStr);
-                                        $("#modal_update_collection_failure_return").modal()
-                                    },
-                                    error: function(err) {
-                                        done(err);
-                                        audit_failure();
-                                        $("#modal_update_collection_failure_flush").modal()
-                                    }
-                                });
-
-                            }
-
+                            $("#modal_update_collection_failure_return").find('.modal-error-message p').text(message);
+                            $("#modal_update_collection_failure_return").modal()
                         }
-                    );
+                    });
 
                     // house cleaning
                     myendpoint_URl = undefined;
@@ -36552,102 +35261,59 @@ require([
                 // from click
                 var tk_object_group_name = tokens.get("tk_object_group_name");
 
-                // Define the query
-                var searchQuery = "| inputlookup trackme_logical_group | eval keyid=_key | mvexpand object_group_members | append [ | makeresults | eval keyid=\"" + tk_keyid + "\", object_group_members=\"" + input_object + "\", object_group_name=\"" + tk_object_group_name + "\", object_group_mtime=now() ] | stats values(object_group_members) as object_group_members, first(object_group_name) as object_group_name, first(object_group_min_green_percent) as object_group_min_green_percent, max(object_group_mtime) as object_group_mtime by keyid | outputlookup trackme_logical_group append=t key_field=keyid";
-
-
-                // Set the search parameters--specify a time range
-                var searchParams = {
-                    earliest_time: "-60m",
-                    latest_time: "now"
-                };
-
                 if (input_object && input_object.length) {
 
-                    // Run a blocking search and get back a job
-                    service.search(
-                        searchQuery,
-                        searchParams,
-                        function(err, job) {
+                    // Create the endpoint URL
+                    var myendpoint_URl = "{{SPLUNKWEB_URL_PREFIX}}/splunkd/__raw/services/trackme/v1/logical_groups/logical_groups_associate_group";
 
-                            function audit_failure() {
+                    // Create a dictionary to store the field names and values
+                    var record = {
+                        "object": input_object,
+                        "key": tk_keyid,
+                        "update_comment": "N/A"
+                    };
 
-                                // Audit
-                                action = "failure";
-                                change_type = "Logical group add membership";
-                                object = input_object;
-                                object_category = input_object_category;
-                                object_attrs = "object:" + input_object + " has been added to the logical group " + tk_object_group_name + ".";
-                                result = "N/A";
-                                comment = "N/A";
-                                auditRecord(action, change_type, object, object_category, object_attrs, result, comment);
+                    $.ajax({
+                        url: myendpoint_URl,
+                        type: "POST",
+                        async: true,
+                        contentType: "application/json",
+                        dataType: "text",
+                        beforeSend: function(xhr){  xhr.overrideMimeType( "text/plain; charset=x-user-defined" );},
+                        data: JSON.stringify(record),
+                        success: function(returneddata) {
 
+                            // show disabled modal
+                            $("#logical_group_add_member_achieved").modal()
+
+                            if (input_object_category === "data_source") {
+                                searchDataSourcesMain.startSearch();
+                            }
+                            else if (input_object_category === "data_host") {
+                                searchDataHostsMain.startSearch();
+                            }
+                            else if (input_object_category === "metric_host") {
+                                searchMetricHostsMain.startSearch();
                             }
 
-                            // Shall the search fail before we can get properties
-                            if (job == null) {
-                                let errorStr = "Unknown Error!";
-                                if (err && err.data && err.data.messages && err.data.messages[0]['text']) {
-                                    errorStr = err.data.messages[0]['text'];
-                                } else if (err && err.data && err.data.messages) {
-                                    errorStr = JSON.stringify(err.data.messages);
-                                }
-                                audit_failure();
-                                $("#modal_update_collection_failure_return").find('.modal-error-message p').text(errorStr);
-                                $("#modal_update_collection_failure_return").modal()
-                            } else {
+                        },
+                        error: function(xhr, textStatus, error) {
+                            message = "server response: " + xhr.responseText + "\n - http response: " + error;
 
-                                // Poll the status of the search job
-                                job.track({
-                                    period: 200
-                                }, {
-                                    done: function(job) {
-                                        // show disabled modal
-                                        $("#logical_group_add_member_achieved").modal()
+                            // Audit
+                            action = "failure";
+                            change_type = "Logical group add membership";
+                            object = input_object;
+                            object_category = input_object_category;
+                            object_attrs = "object:" + input_object + " has been added to the logical group " + tk_object_group_name + ".";
+                            result = message;
+                            comment = "N/A";
+                            auditRecord(action, change_type, object, object_category, object_attrs, result, comment);
 
-                                        if (input_object_category === "data_source") {
-                                            searchDataSourcesMain.startSearch();
-                                        }
-                                        else if (input_object_category === "data_host") {
-                                            searchDataHostsMain.startSearch();
-                                        }
-                                        else if (input_object_category === "metric_host") {
-                                            searchMetricHostsMain.startSearch();
-                                        }
-
-                                        // Audit
-                                        action = "success";
-                                        change_type = "Logical group add membership";
-                                        object = input_object;
-                                        object_category = input_object_category;
-                                        object_attrs = "object:" + input_object + " has been added to the logical group " + tk_object_group_name + ".";
-                                        result = "N/A";
-                                        comment = "N/A";
-                                        auditRecord(action, change_type, object, object_category, object_attrs, result, comment);
-
-                                    },
-                                    failed: function(properties) {
-                                        let errorStr = "Unknown Error!";
-                                        if (properties && properties._properties && properties._properties.messages && properties._properties.messages[0]['text']) {
-                                            errorStr = properties._properties.messages[0]['text'];
-                                        } else if (properties && properties._properties && properties._properties.messages) {
-                                            errorStr = JSON.stringify(properties._properties.messages);
-                                        }
-                                        audit_failure();
-                                        $("#modal_update_collection_failure_return").find('.modal-error-message p').text(errorStr);
-                                        $("#modal_update_collection_failure_return").modal()
-                                    },
-                                    error: function(err) {
-                                        done(err);
-                                        audit_failure();
-                                        $("#modal_update_collection_failure_flush").modal()
-                                    }
-                                });
-
-                            }
-
+                            $("#modal_update_collection_failure_return").find('.modal-error-message p').text(message);
+                            $("#modal_update_collection_failure_return").modal()
                         }
-                    );
+                    });
 
                     // house cleaning
                     myendpoint_URl = undefined;
@@ -36697,101 +35363,60 @@ require([
                 var tk_object_group_name = tokens.get("InputLogicalGroupName");
                 var tk_object_group_green_percent = tokens.get("InputLogicalGroupNamePercent");
 
-                // Define the query
-                var searchQuery = "| makeresults | eval object_group_name=\"" + tk_object_group_name + "\", object_group_members=\"" + input_object + "\", object_group_min_green_percent=\"" +  tk_object_group_green_percent + "\", object_group_mtime=now() | append [ | inputlookup trackme_logical_group ] | outputlookup trackme_logical_group";
-
-                // Set the search parameters--specify a time range
-                var searchParams = {
-                    earliest_time: "-60m",
-                    latest_time: "now"
-                };
-
                 if (tk_object_group_name && tk_object_group_name.length) {
 
-                    // Run a blocking search and get back a job
-                    service.search(
-                        searchQuery,
-                        searchParams,
-                        function(err, job) {
+                    // Create the endpoint URL
+                    var myendpoint_URl = "{{SPLUNKWEB_URL_PREFIX}}/splunkd/__raw/services/trackme/v1/logical_groups/logical_groups_add_grp";
 
-                            function audit_failure() {
+                    // Create a dictionary to store the field names and values
+                    var record = {
+                        "object_group_name": tk_object_group_name,
+                        "object_group_members": input_object,
+                        "object_group_min_green_percent": tk_object_group_green_percent,
+                        "update_comment": "N/A"
+                    };
 
-                                // Audit
-                                action = "failure";
-                                change_type = "Logical group add";
-                                object = tk_object_group_name;
-                                object_category = input_object_category;
-                                object_attrs = "new logical group " + tk_object_group_name + " has been created for object:" + input_object + " with a minimal logical group green percentage of " + tk_object_group_green_percent + ".";
-                                result = "N/A";
-                                comment = "N/A";
-                                auditRecord(action, change_type, object, object_category, object_attrs, result, comment);
+                    $.ajax({
+                        url: myendpoint_URl,
+                        type: "POST",
+                        async: true,
+                        contentType: "application/json",
+                        dataType: "text",
+                        beforeSend: function(xhr){  xhr.overrideMimeType( "text/plain; charset=x-user-defined" );},
+                        data: JSON.stringify(record),
+                        success: function(returneddata) {
 
+                            // show disabled modal
+                            $("#logical_group_add_achieved").modal()
+
+                            if (input_object_category === "data_source") {
+                                searchDataSourcesMain.startSearch();
+                            }
+                            else if (input_object_category === "data_host") {
+                                searchDataHostsMain.startSearch();
+                            }
+                            else if (input_object_category === "metric_host") {
+                                searchMetricHostsMain.startSearch();
                             }
 
-                            // Shall the search fail before we can get properties
-                            if (job == null) {
-                                let errorStr = "Unknown Error!";
-                                if (err && err.data && err.data.messages && err.data.messages[0]['text']) {
-                                    errorStr = err.data.messages[0]['text'];
-                                } else if (err && err.data && err.data.messages) {
-                                    errorStr = JSON.stringify(err.data.messages);
-                                }
-                                audit_failure();
-                                $("#modal_update_collection_failure_return").find('.modal-error-message p').text(errorStr);
-                                $("#modal_update_collection_failure_return").modal()
-                            } else {
+                        },
+                        error: function(xhr, textStatus, error) {
+                            message = "server response: " + xhr.responseText + "\n - http response: " + error;
 
-                                // Poll the status of the search job
-                                job.track({
-                                    period: 200
-                                }, {
-                                    done: function(job) {
-                                        // show disabled modal
-                                        $("#logical_group_add_achieved").modal()
+                            // Audit
+                            action = "failure";
+                            change_type = "Logical group add";
+                            object = tk_object_group_name;
+                            object_category = input_object_category;
+                            object_attrs = "new logical group " + tk_object_group_name + " has been created for object:" + input_object + " with a minimal logical group green percentage of " + tk_object_group_green_percent + ".";
+                            result = message;
+                            comment = "N/A";
+                            auditRecord(action, change_type, object, object_category, object_attrs, result, comment);
 
-                                        if (input_object_category === "data_source") {
-                                            searchDataSourcesMain.startSearch();
-                                        }
-                                        else if (input_object_category === "data_host") {
-                                            searchDataHostsMain.startSearch();
-                                        }
-                                        else if (input_object_category === "metric_host") {
-                                            searchMetricHostsMain.startSearch();
-                                        }
-
-                                        // Audit
-                                        action = "success";
-                                        change_type = "Logical group add";
-                                        object = tk_object_group_name;
-                                        object_category = input_object_category;
-                                        object_attrs = "new logical group " + tk_object_group_name + " has been created for object:" + input_object + " with a minimal logical group green percentage of " + tk_object_group_green_percent + ".";
-                                        result = "N/A";
-                                        comment = "N/A";
-                                        auditRecord(action, change_type, object, object_category, object_attrs, result, comment);
-
-                                    },
-                                    failed: function(properties) {
-                                        let errorStr = "Unknown Error!";
-                                        if (properties && properties._properties && properties._properties.messages && properties._properties.messages[0]['text']) {
-                                            errorStr = properties._properties.messages[0]['text'];
-                                        } else if (properties && properties._properties && properties._properties.messages) {
-                                            errorStr = JSON.stringify(properties._properties.messages);
-                                        }
-                                        audit_failure();
-                                        $("#modal_update_collection_failure_return").find('.modal-error-message p').text(errorStr);
-                                        $("#modal_update_collection_failure_return").modal()
-                                    },
-                                    error: function(err) {
-                                        done(err);
-                                        audit_failure();
-                                        $("#modal_update_collection_failure_flush").modal()
-                                    }
-                                });
-
-                            }
-
+                            $("#modal_update_collection_failure_return").find('.modal-error-message p').text(message);
+                            $("#modal_update_collection_failure_return").modal()
                         }
-                    );
+                    });
 
                     // house cleaning
                     myendpoint_URl = undefined;
@@ -36851,42 +35476,13 @@ require([
 
             var tk_keyid = tokens.get("tk_keyid");
             var tk_data_name = tokens.get("tk_data_name");
-            var tk_data_index = tokens.get("tk_data_index");
-            var tk_data_sourcetype = tokens.get("tk_data_sourcetype");
-            var tk_data_last_lag_seen = tokens.get("tk_data_last_lag_seen");
-            var tk_data_last_ingestion_lag_seen = tokens.get("tk_data_last_ingestion_lag_seen");
-            var tk_data_eventcount = tokens.get("tk_data_eventcount");
-            var tk_data_first_time_seen = tokens.get("tk_data_first_time_seen");
-            var tk_data_last_time_seen = tokens.get("tk_data_last_time_seen");
-            var tk_data_last_ingest = tokens.get("tk_data_last_ingest");
-            var tk_data_last_lag_seen_idx = tokens.get("tk_data_last_lag_seen_idx");
-            var tk_data_last_time_seen_idx = tokens.get("tk_data_last_time_seen_idx");
-            var tk_data_max_lag_allowed = tokens.get("tk_data_max_lag_allowed");
-            var tk_data_lag_alert_kpis = tokens.get("tk_data_lag_alert_kpis");
-            var tk_data_monitoring_level = tokens.get("tk_data_monitoring_level");
-            var tk_data_monitoring_wdays = tokens.get("tk_data_monitoring_wdays");
-            var tk_data_override_lagging_class = tokens.get("tk_data_override_lagging_class");
-            var tk_data_source_state = tokens.get("tk_data_source_state");
-            var tk_data_tracker_runtime = tokens.get("tk_data_tracker_runtime");
-            var tk_data_previous_source_state = tokens.get("tk_data_previous_source_state");
-            var tk_data_previous_tracker_runtime = tokens.get("tk_data_previous_tracker_runtime");
-            var tk_data_monitored_state = tokens.get("tk_data_monitored_state");;
-            var tk_latest_flip_state = tokens.get("tk_latest_flip_state");
-            var tk_latest_flip_time = tokens.get("tk_latest_flip_time");
-            var tk_priority = tokens.get("tk_priority");
             var tk_outliermineventcount = tokens.get("tk_outliermineventcount");
             var tk_outlierlowerthresholdmultiplier = tokens.get("tk_outlierlowerthresholdmultiplier");
             var tk_outlierupperthresholdmultiplier = tokens.get("tk_outlierupperthresholdmultiplier");
             var tk_outlieralertonupper = tokens.get("tk_outlieralertonupper");
             var tk_outlier_period = tokens.get("tk_outlier_period");
-            var tk_outlier_span = tokens.get("tk_outlier_span");
-            var tk_isoutlier = tokens.get("tk_isoutlier");
+            var tk_outlier_span = tokens.get("tk_outlier_span");            
             var tk_enable_behaviour_analytic = tokens.get("tk_enable_behaviour_analytic");
-            var tk_isanomaly = tokens.get("tk_isanomaly");
-            var tk_data_sample_lastrun = tokens.get("tk_data_sample_lastrun");
-            var tk_dcount_host = tokens.get("tk_dcount_host");
-            var tk_min_dcount_host = tokens.get("tk_min_dcount_host");
-            var tk_tags = tokens.get("tk_tags");
 
             // get inputs tokens
 
@@ -36937,48 +35533,19 @@ require([
             }
 
             // Create the endpoint URL
-            var myendpoint_URl = "{{SPLUNKWEB_URL_PREFIX}}/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_data_source_monitoring/" + tk_keyid;
+            var myendpoint_URl = "{{SPLUNKWEB_URL_PREFIX}}/splunkd/__raw/services/trackme/v1/data_sources/ds_update_outliers";
 
             // Create a dictionary to store the field names and values
             var record = {
-                "object_category": "data_source",
                 "data_name": tk_data_name,
-                "data_index": tk_data_index,
-                "data_sourcetype": tk_data_sourcetype,
-                "data_last_lag_seen": tk_data_last_lag_seen,
-                "data_last_ingestion_lag_seen": tk_data_last_ingestion_lag_seen,
-                "data_eventcount": tk_data_eventcount,
-                "data_first_time_seen": tk_data_first_time_seen,
-                "data_last_time_seen": tk_data_last_time_seen,
-                "data_last_ingest": tk_data_last_ingest,
-                "data_last_lag_seen_idx": tk_data_last_lag_seen_idx,
-                "data_last_time_seen_idx": tk_data_last_time_seen_idx,
-                "data_max_lag_allowed": tk_data_max_lag_allowed,
-                "data_lag_alert_kpis": tk_data_lag_alert_kpis,
-                "data_monitored_state": tk_data_monitored_state,
-                "data_monitoring_level": tk_data_monitoring_level,
-                "data_monitoring_wdays": tk_data_monitoring_wdays,
-                "data_override_lagging_class": tk_data_override_lagging_class,
-                "data_source_state": tk_data_source_state,
-                "data_tracker_runtime": tk_data_tracker_runtime,
-                "data_previous_source_state": tk_data_previous_source_state,
-                "data_previous_tracker_runtime": tk_data_previous_tracker_runtime,
                 "OutlierMinEventCount": tk_outliermineventcount,
                 "OutlierLowerThresholdMultiplier": tk_outlierlowerthresholdmultiplier,
                 "OutlierUpperThresholdMultiplier": tk_outlierupperthresholdmultiplier,
                 "OutlierAlertOnUpper": tk_outlieralertonupper,
                 "OutlierTimePeriod": tk_outlier_period,
                 "OutlierSpan": tk_outlier_span,
-                "isOutlier": tk_isoutlier,
                 "enable_behaviour_analytic": tk_enable_behaviour_analytic,
-                "isAnomaly": tk_isanomaly,
-                "data_sample_lastrun": tk_data_sample_lastrun,
-                "latest_flip_state": tk_latest_flip_state,
-                "latest_flip_time": tk_latest_flip_time,
-                "priority": tk_priority,
-                "dcount_host": tk_dcount_host,
-                "min_dcount_host": tk_min_dcount_host,
-                "tags": tk_tags
+                "update_comment": "N/A"
             };
 
             if (!tk_keyid || !tk_keyid.length) {
@@ -36992,6 +35559,8 @@ require([
                     type: "POST",
                     async: true,
                     contentType: "application/json",
+                    dataType: "text",
+                    beforeSend: function(xhr){  xhr.overrideMimeType( "text/plain; charset=x-user-defined" );},
                     data: JSON.stringify(record),
                     success: function(returneddata) {
 
@@ -37023,19 +35592,9 @@ require([
                         // Run the search again to update the table
                         searchDataSourcesMain.startSearch();
 
-                        // Audit
-                        action = "success";
-                        change_type = "modify outliers";
-                        object = tk_data_name;
-                        object_category = "data_source";
-                        object_attrs = JSON.stringify(record, null, '\t');
-                        result = "N/A";
-                        comment = "N/A";
-                        auditRecord(action, change_type, object, object_category, object_attrs, result, comment);
-
                     },
                     error: function(xhr, textStatus, error) {
-                        message = "Error Updating!" + xhr + textStatus + error;
+                        message = "server response: " + xhr.responseText + "\n - http response: " + error;
 
                         // Audit
                         action = "failure";
@@ -38388,36 +36947,13 @@ require([
 
             var tk_keyid = tokens.get("tk_keyid");
             var tk_data_host = tokens.get("tk_data_host");
-            var tk_data_index = tokens.get("tk_data_index");
-            var tk_data_sourcetype = tokens.get("tk_data_sourcetype");
-            var tk_data_host_st_summary = tokens.get("tk_data_host_st_summary");
-            var tk_data_host_alerting_policy = tokens.get("tk_data_host_alerting_policy");
-            var tk_data_last_lag_seen = tokens.get("tk_data_last_lag_seen");
-            var tk_data_last_ingestion_lag_seen = tokens.get("tk_data_last_ingestion_lag_seen");
-            var tk_data_eventcount = tokens.get("tk_data_eventcount");
-            var tk_data_first_time_seen = tokens.get("tk_data_first_time_seen");
-            var tk_data_last_time_seen = tokens.get("tk_data_last_time_seen");
-            var tk_data_last_ingest = tokens.get("tk_data_last_ingest");
-            var tk_data_max_lag_allowed = tokens.get("tk_data_max_lag_allowed");
-            var tk_data_lag_alert_kpis = tokens.get("tk_data_lag_alert_kpis");
-            var tk_data_monitoring_wdays = tokens.get("tk_data_monitoring_wdays");
-            var tk_data_monitored_state = tokens.get("tk_data_monitored_state");
-            var tk_data_override_lagging_class = tokens.get("tk_data_override_lagging_class");
-            var tk_data_host_state = tokens.get("tk_data_host_state");
-            var tk_data_tracker_runtime = tokens.get("tk_data_tracker_runtime");
-            var tk_data_previous_host_state = tokens.get("tk_data_previous_host_state");
-            var tk_data_previous_tracker_runtime = tokens.get("tk_data_previous_tracker_runtime");
             var tk_outliermineventcount = tokens.get("tk_outliermineventcount");
             var tk_outlierlowerthresholdmultiplier = tokens.get("tk_outlierlowerthresholdmultiplier");
             var tk_outlierupperthresholdmultiplier = tokens.get("tk_outlierupperthresholdmultiplier");
             var tk_outlieralertonupper = tokens.get("tk_outlieralertonupper");
             var tk_outlier_period = tokens.get("tk_outlier_period");
             var tk_outlier_span = tokens.get("tk_outlier_span");
-            var tk_isoutlier = tokens.get("tk_isoutlier");
             var tk_enable_behaviour_analytic = tokens.get("tk_enable_behaviour_analytic");
-            var tk_latest_flip_state = tokens.get("tk_latest_flip_state");
-            var tk_latest_flip_time = tokens.get("tk_latest_flip_time");
-            var tk_priority = tokens.get("tk_priority");
 
             // get inputs tokens
 
@@ -38466,42 +37002,19 @@ require([
             }
 
             // Create the endpoint URL
-            var myendpoint_URl = "{{SPLUNKWEB_URL_PREFIX}}/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_host_monitoring/" + tk_keyid;
+            var myendpoint_URl = "{{SPLUNKWEB_URL_PREFIX}}/splunkd/__raw/services/trackme/v1/data_hosts/dh_update_outliers";
 
             // Create a dictionary to store the field names and values
             var record = {
-                "object_category": "data_host",
                 "data_host": tk_data_host,
-                "data_index": tk_data_index,
-                "data_sourcetype": tk_data_sourcetype,
-                "data_host_st_summary" : tk_data_host_st_summary,
-                "data_host_alerting_policy": tk_data_host_alerting_policy,
-                "data_last_lag_seen": tk_data_last_lag_seen,
-                "data_last_ingestion_lag_seen": tk_data_last_ingestion_lag_seen,
-                "data_eventcount": tk_data_eventcount,
-                "data_first_time_seen": tk_data_first_time_seen,
-                "data_last_time_seen": tk_data_last_time_seen,
-                "data_last_ingest": tk_data_last_ingest,
-                "data_max_lag_allowed": tk_data_max_lag_allowed,
-                "data_lag_alert_kpis": tk_data_lag_alert_kpis,
-                "data_monitored_state": tk_data_monitored_state,
-                "data_monitoring_wdays": tk_data_monitoring_wdays,
-                "data_override_lagging_class": tk_data_override_lagging_class,
-                "data_host_state": tk_data_host_state,
-                "data_tracker_runtime": tk_data_tracker_runtime,
-                "data_previous_host_state": tk_data_previous_host_state,
-                "data_previous_tracker_runtime": tk_data_previous_tracker_runtime,
                 "OutlierMinEventCount": tk_outliermineventcount,
                 "OutlierLowerThresholdMultiplier": tk_outlierlowerthresholdmultiplier,
                 "OutlierUpperThresholdMultiplier": tk_outlierupperthresholdmultiplier,
                 "OutlierAlertOnUpper": tk_outlieralertonupper,
                 "OutlierTimePeriod": tk_outlier_period,
                 "OutlierSpan": tk_outlier_span,
-                "isOutlier": tk_isoutlier,
                 "enable_behaviour_analytic" : tk_enable_behaviour_analytic,
-                "latest_flip_state": tk_latest_flip_state,
-                "latest_flip_time": tk_latest_flip_time,
-                "priority": tk_priority
+                "update_comment": "N/A"
             };
 
             if (!tk_keyid || !tk_keyid.length) {
@@ -38515,6 +37028,8 @@ require([
                     type: "POST",
                     async: true,
                     contentType: "application/json",
+                    dataType: "text",
+                    beforeSend: function(xhr){  xhr.overrideMimeType( "text/plain; charset=x-user-defined" );},
                     data: JSON.stringify(record),
                     success: function(returneddata) {
 
@@ -38545,19 +37060,9 @@ require([
                         // Run the search again to update the table
                         searchDataHostsMain.startSearch();
 
-                        // Audit
-                        action = "success";
-                        change_type = "modify outliers";
-                        object = tk_data_host;
-                        object_category = "data_host";
-                        object_attrs = JSON.stringify(record, null, '\t');
-                        result = "N/A";
-                        comment = "N/A";
-                        auditRecord(action, change_type, object, object_category, object_attrs, result, comment);
-
                     },
                     error: function(xhr, textStatus, error) {
-                        message = "Error Updating!" + xhr + textStatus + error;
+                        message = "server response: " + xhr.responseText + "\n - http response: " + error;
 
                         // Audit
                         action = "failure";
@@ -38618,29 +37123,6 @@ require([
 <script src="{{SPLUNKWEB_URL_PREFIX}}/static/app/trackme/checkbox_table_tags_policies.js" type="text/javascript"></script>
 <script src="{{SPLUNKWEB_URL_PREFIX}}/static/app/trackme/table_raw.js" type="text/javascript"></script>
 <script src="{{SPLUNKWEB_URL_PREFIX}}/static/app/trackme/multiselect_all.js" type="text/javascript"></script>
-<script>
-var deps = [
-    "splunkjs/ready!"
-];
-require(deps, function(mvc) {
-
-    var idSelectTags = mvc.Components.get('modal_input_tags_update');
-    var allValues = [];
-    var uniqueNames = [];
-
-    var idSearchSelectTags = mvc.Components.get("searchShowTags");
-    var idSearchSelectTags_results = idSearchSelectTags.data("preview");
-    idSearchSelectTags_results.on("data", function() {
-         $.each(idSearchSelectTags_results.data().rows, function( index, value ) {
-            allValues.push(value[0]);
-        });
-        $.each(allValues, function(i, el){
-          if($.inArray(el, uniqueNames) === -1) uniqueNames.push(el);
-        });
-    idSelectTags.settings.set("default",uniqueNames);
-    });
-});
-</script>
 <script>
 $(".btn").mouseup(function(){
     $(this).blur();

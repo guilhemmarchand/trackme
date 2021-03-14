@@ -2412,7 +2412,7 @@ Alerting policy for data hosts
    - The global alternative mode named "track per sourcetype" instructs TrackMe to consider sourcetypes and their monitoring rules individually on a per host basis, to finally define the overall state of the host
    - This global mode can optionally be overriden on a per host basis via the configuration screen of the data host
 
-See :ref:`Data hosts global alerting policy` to control the global policy settings.
+See :ref:`Data Hosts alerting policy<TrackMe Data Hosts - Define what works for you>` to control the global policy settings.
 
 **An host emitting multiple sourcetypes will appear in the UI with a multi value summary field describing the state and main information of sourcetypes:**
 
@@ -2449,7 +2449,7 @@ See :ref:`Data hosts global alerting policy` to control the global policy settin
 
 **To configure sourcetypes to be taken into account individually, you can either:**
 
-- Define the global policy accordingly (note: this applies by default to all hosts), See :ref:`Data hosts global alerting policy`
+- Define the global policy accordingly (note: this applies by default to all hosts), See :ref:`Data Hosts alerting policy<TrackMe Data Hosts - Define what works for you>`
 - Define the alerting policy for that host especially in the data host configuration screen
 
 **Defining a policy per host:**
