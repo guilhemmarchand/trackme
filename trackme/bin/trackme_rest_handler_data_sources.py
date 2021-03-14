@@ -970,7 +970,11 @@ class TrackMeHandlerDataSources_v1(rest_handler.RESTHandler):
                 describe = False
             if not describe:
                 data_name = resp_dict['data_name']
-                min_dcount_host = int(resp_dict['min_dcount_host']) # integer
+                min_dcount_host = resp_dict['min_dcount_host']
+                # We need to accept the string any (to disable the fearure) or an integer
+                if str(min_dcount_host) not in ("any"):
+                    # anythinse else than "any" or an integer will fail here
+                    min_dcount_host = int(min_dcount_host)
 
         else:
             # body is required in this endpoint, if not submitted describe the usage
@@ -981,7 +985,7 @@ class TrackMeHandlerDataSources_v1(rest_handler.RESTHandler):
             response = "{\"describe\": \"This endpoint configures the minimal number of distinct hosts count for an existing data source, it requires a POST call with the following information:\""\
                 + ", \"options\" : [ { "\
                 + "\"data_name\": \"name of the data source\", "\
-                + "\"min_dcount_host\": \"minimal accepted number of distinct count hosts, must be an integer\", "\
+                + "\"min_dcount_host\": \"minimal accepted number of distinct count hosts, must be an integer or the string any\", "\
                 + "\"update_comment\": \"OPTIONAL: a comment for the update, comments are added to the audit record, if unset will be defined to: API update\""\
                 + " } ] }"
 

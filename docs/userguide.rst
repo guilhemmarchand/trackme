@@ -2654,6 +2654,7 @@ Data identity card
    - Data identity cards are managed via the UI, when no card has been defined yet for a data source, a message indicating it is shown.
    - Data identity cards are available for data sources monitoring only.
    - You can define a global idendity card that will be used by default to provide a link and a note, and you can still create specific identity cards and associations.
+   - You can define wildcard matching identity cards using the API endpoint and the trackme SPL command.
 
 .. image:: img/identity_card4.png
    :alt: identity_card4.png
@@ -2689,6 +2690,91 @@ As a TrackMe administrator, define a value for the global URL and the global not
 *Given that this is a global identity card, the "Delete card" is disabled automatically, however it is still possible to create a new identity card to be associated with this data source which will replace the global card automatically.*
 
 *Note: if you create a global card while existing cards have defined already, there will be no impacs for existing cards, custom cards take precedence over the default card if any.*
+
+Data identity: wildcard matching
+--------------------------------
+
+**In some cases, you will want to have a few ID cards that cover the whole picture relying on your naming convention, you can use wildcard matching for this purpose without having to manually associate each entity with an ID card:**
+
+**Assume the following example:**
+
+- All data sources related to linux_secure are stored in indexes that uses a naming convention starting by ``linux_``
+- We want to create one ID card wich provides a quick informational note, and the link to our documentation
+- We can to create a an ID card and use wildcard matching to automatically associate any ``linux_`` entity with it
+- In addition, we add an additional wildcard matching for anything that starts by ``windows_``
+
+Step 1: Create the Identity card using the ``trackme`` SPL command
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Run the following ``trackme`` SPL command to create a new ID card:
+
+::
+
+   | trackme url="/services/trackme/v1/identity_cards/identity_cards_add_card" mode="post" body="{\"doc_link\": \"https://www.acme.com/splunkadmin\", \"doc_note\": \"Read the docs.\"}"
+
+At this stage, the ID card is not yet associated with any entities, if the card exists already for the same documentation link, it would be updated with these information.
+
+This command returns the ID card as a JSON object, note the ``key`` value which you need for the steps 2:
+
+.. image:: img/id_cards/wildcard_matching_create1.png
+   :alt: wildcard_matching_create1.png
+   :align: center
+   :width: 1000px
+
+Step 2: Associate the Identity card using the ``trackme`` SPL command
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Run the following ``trackme`` SPL command to create the wildcard matching association, say for ``linux_*``:
+
+::
+
+    | trackme url="/services/trackme/v1/identity_cards/identity_cards_associate_card" mode="post" body="{\"key\": \"60327fd8af39041f28403191\", \"object\": \"linux_*\"}"
+
+This command returns the ID card as a JSON object, develop the object JSON key to observe the new association:
+
+.. image:: img/id_cards/wildcard_matching_create2.png
+   :alt: wildcard_matching_create2.png
+   :align: center
+   :width: 1000px
+
+Any entity matching this wildcard criteria will now be associated with this ID card, shall you want to associate the same card with another matching wildcard, say ``windows_*``:
+
+::
+
+    | trackme url="/services/trackme/v1/identity_cards/identity_cards_associate_card" mode="post" body="{\"key\": \"60327fd8af39041f28403191\", \"object\": \"windows_*\"}"
+
+.. image:: img/id_cards/wildcard_matching_create3.png
+   :alt: wildcard_matching_create3.png
+   :align: center
+   :width: 1000px
+
+**Make sure to reload the TrackMe UI**, the following ID card will be associated automatically with any entity that matches your criterias:
+
+.. image:: img/id_cards/wildcard_matching_example.png
+   :alt: wildcard_matching_example.png
+   :align: center
+   :width: 800px
+
+And so forth for any additional wildcard matching you may need.
+
+.. hint:: A message appears at the end of the ID card screen indicating that this is a wildcard matching card that cannot be managed via the UI but with the trackme SPL command and the relevant API endpoints
+
+Removing a wildcard association using the ``trackme`` SPL command
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+An association can be removed easily, the following ``trackme`` SPL command removes the association with the ``windows_*`` wildcard match:
+
+::
+
+   | trackme url="/services/trackme/v1/identity_cards/identity_cards_unassociate" mode="post" body="{\"object\": \"windows_*\"}"
+
+.. image:: img/id_cards/wildcard_matching_remove1.png
+   :alt: wildcard_matching_remove1.png
+   :align: center
+   :width: 1000px
+
+For additional options or more details, consult the :ref:`Identity Cards endpoints` documentation.
+
 
 Data identity: workflow
 ------------------------
@@ -3138,12 +3224,18 @@ A Splunk report is scheduled by default to run every day at 2h AM:
 
 - call the trackme custom command API wrapper to purge backup files older than 7 days (by default) in the search head the report is executed
 
+- call the trackme custom command API wrapper to list backup files, and automatically discover any missing files in the knowledge collection
+
 *In SPL:*
 
 ::
 
-   | trackme url=/services/trackme/v1/backup_and_restore/backup mode=post\
+   | trackme url=/services/trackme/v1/backup_and_restore/backup mode=post
    | append [ | trackme url=/services/trackme/v1/backup_and_restore/backup mode=delete body="{'retention_days': '7'}" ]
+   | append [ | trackme url=/services/trackme/v1/backup_and_restore/backup mode=get | spath | eventstats dc({}.backup_archive) as backup_count, values({}.backup_archive) as backup_files
+   | eval backup_count=if(isnull(backup_count), 0, backup_count), backup_files=if(isnull(backup_files), "none", backup_files)
+   | eval report="List of identified or known backup files (" . backup_count . ")"
+   | eval _raw="{\"report\": \"" . report . "\", \"backup_files\": \" [ " . mvjoin(backup_files, ",") . " ]\"}" ]
 
 On demand backup
 ----------------

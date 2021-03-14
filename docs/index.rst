@@ -103,6 +103,7 @@ User guide:
    userguide
    itsi_integration
    cribl_integration
+   monitor_forwarders
    rest_api_reference
 
 Troubleshoot:
