@@ -267,6 +267,10 @@ These roles define write or read only permissions on the various objects TrackMe
    :align: center
    :width: 1200px
 
+.. tip:: **capabilities for trackme_admin:**
+
+   - the capability ``list_settings`` is required for trackme admins that are not privileged users, to be able to run actions doing updates via the TrackMe rest endpoints
+
 Data privacy
 ------------
 
