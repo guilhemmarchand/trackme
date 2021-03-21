@@ -9719,17 +9719,27 @@ styles in <div> tags, similar to Bootstrap's grid system.
         </div>
     </div>
 
-    <div id="rowDonutsAlertTriggered" class="dashboard-row dashboard-rowSingleFormsDataSource" data-depends="$show_alerts$">
-        <div id="panelDonutAlertTriggered" class="dashboard-row dashboard-row1">
-            <div id="divDonutAlertTriggered1" class="dashboard-cell" style="width: 50%;">
-                <div class="dashboard-panel clearfix">
-                    <div class="panel-element-row">
-                        <div id="DonutAlertTriggered" class="dashboard-element single" style="width: 100%">
-                            <div class="panel-body"></div>
-                            <div style="text-align: center;">
-                                <h3 style="font-size: 14px;">triggering per alert</h3>
-                            </div>
+    <div id="rowAlertTriggered" class="dashboard-row dashboard-row1" data-depends="$show_alerts$">
+        <div id="panelAlertTriggered1" class="dashboard-cell" style="width: 100%;">
+            <div class="dashboard-panel clearfix">
+                <div class="panel-element-row">
+                    <div id="DonutAlertTriggered" class="dashboard-element chart" style="width: 100%">
+                        <div class="panel-head">
+                            <h3>triggering per alert (past 24h)</h3>
                         </div>
+                        <div class="panel-body"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="panelAlertTriggered2" class="dashboard-cell" style="width: 100%;">
+            <div class="dashboard-panel clearfix">
+                <div class="panel-element-row">
+                    <div id="chartAlertTriggered" class="dashboard-element chart" style="width: 100%">
+                        <div class="panel-head">
+                            <h3>triggered over time (past 24h)</h3>
+                        </div>
+                        <div class="panel-body"></div>
                     </div>
                 </div>
             </div>
@@ -10018,6 +10028,11 @@ require([
             tokenNamespace: "submitted"
         });
 
+        search_alerts_main_table.on("search:done", function () {
+            // function here
+            $("#loadingGrayInitial").remove()
+        })
+
         var searchSingleEnabledAlerts = new PostProcessManager({
             "tokenDependencies": {},
             "search": "where disabled=0 | stats c",
@@ -10048,9 +10063,29 @@ require([
             tokenNamespace: "submitted"
         });
 
+        var searchAlertTriggeredOverTime = new SearchManager({
+            "id": "searchAlertTriggeredOverTime",
+            "sample_ratio": 1,
+            "earliest_time": "-24h",
+            "cancelOnUnload": true,
+            "search": "index=_audit action=\"alert_fired\" ss_app=\"trackme\" ss_name!=\"TrackMe - Audit change notification tracker\" | timechart minspan=5m bins=1000 count by ss_name",
+            "latest_time": "now",
+            "status_buckets": 0,
+            "app": utils.getCurrentApp(),
+            "auto_cancel": 90,
+            "preview": true,
+            "tokenDependencies": {
+                "depends": "$show_alerts$"
+            },
+            "runWhenTimeIsUndefined": false
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        });
+
         var search_alerts_triggered_history = new PostProcessManager({
             "tokenDependencies": {},
-            "search": "stats sum(count) as count",
+            "search": "stats sum(count) as count | append [ | makeresults | eval count=0 | fields - _time ] | head 1",
             "managerid": "searchDonutAlertsTriggered",
             "id": "search_alerts_triggered_history"
         }, {
@@ -16987,6 +17022,21 @@ require([
             "el": $('#DonutAlertTriggered')
         }, {tokens: true, tokenNamespace: "submitted"}).render();
 
+        var chartAlertTriggered = new ChartElement({
+            "id": "chartAlertTriggered",
+            "charting.axisTitleX.visibility": "collapsed",
+            "charting.chart.stackMode": "stacked",
+            "charting.chart": "column",
+            "charting.drilldown": "all",
+            "charting.legend.placement": "top",
+            "resizable": true,
+            "managerid": "searchAlertTriggeredOverTime",
+            "el": $('#chartAlertTriggered')
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        }).render();
+
         var TimelineDataSource = new VisualizationElement({
             "id": "TimelineDataSource",
             "type": "timeline_app.timeline",
@@ -23801,6 +23851,7 @@ require([
             submitTokens();
             search_alerts_main_table.startSearch();
             searchDonutAlertsTriggered.startSearch();
+            searchAlertTriggeredOverTime.startSearch();
         });
 
         // enable monitoring
