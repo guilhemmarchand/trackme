@@ -15,6 +15,7 @@ This is a new main release branch, TrackMe 1.2.x requires the deployment of the 
 TrackMe requires a summary index (defaults to trackme_summary) and a metric index (defaults to trackme_metrics):
 https://trackme.readthedocs.io/en/latest/configuration.html
 
+- Feature - Issue #292 - Alerts - New screen for alerts management in TrackMe, review, edit and add alerts within the UI
 - Enhancement - Issue #290 - Alerts - OOTB alert TrackMe - Alert on data source availability should suppress on data_name only
 - Fix - Issue #291 - REST endpoint - the endpoint mh_update_priority does not preserve the monitored_state
 

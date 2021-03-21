@@ -8768,6 +8768,41 @@ styles in <div> tags, similar to Bootstrap's grid system.
         </div>
     </div>
 
+    <!-- ALERT SUMMARY -->
+    <div id="main_modal_manage_alerts" class="dashboard-element html" style="width: 100%">
+        <div class="panel-body html">
+            <div class="modal fade custom-modal-60" id="modal_manage_alerts" role="dialog">
+                <div class="modal-dialog">
+                    <!-- Modal content-->
+                    <div class="modal-content">
+                        <!-- This is required to get the token subsitutions without affecting the buttons actions in js -->
+                        <div class="dashboard-element html" id="body_modal_manage_alerts">
+                            <div class="panel-body html">
+                                <div class="modal-header modal-header-primary">
+                                    <h3 style="color: white;">Actions for alert: <span>$tk_alert_title$</span></h3>
+                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                </div>
+                                <div class="modal-body" style="display:grid;">
+                                    <p><b>Cron Schedule:</b> $tk_alert_cron_schedule$</p>
+                                    <p><b>Schedule window:</b> $tk_alert_schedule_window$</p>
+                                    <p><b>Suppress fields:</b> $tk_alert_suppress_fields$</p>
+                                    <p><b>Suppress period:</b> $tk_alert_suppress_period$</p>
+                                    <p><b>Disabled:</b> $tk_alert_disabled$</p>
+                                    <p><b>Next scheduled time:</b> $tk_alert_next_scheduled_time$</p><br>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="submit" class="btn btn-default btn-default pull-left" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span>Close</button>
+                            <a class="btn btn-primary" id="btn_url_modal_manage_alert" target="_blank" href="alert_url" role="button">Review and edit alert</a>
+                            <a class="btn btn-primary" id="btn_url_modal_history_alert" target="_blank" href="alert_url" role="button">Search alert history</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Generic invalid selection -->
     <div class="modal fade" id="modal_entry_update_invalid" role="dialog">
         <div class="modal-dialog">
@@ -9661,6 +9696,77 @@ styles in <div> tags, similar to Bootstrap's grid system.
         </div>
     </div>
 
+    <div id="rowSingleAlerts" class="dashboard-row dashboard-rowSingleAlerts" data-depends="$show_alerts$">
+        <div id="SingleFormsAlerts" class="dashboard-row dashboard-row1">
+            <div id="SingleFormsAlertsPanel1" class="dashboard-cell" style="width: 50%;">
+                <div class="dashboard-panel clearfix">
+                    <div class="panel-element-row">
+                        <div id="singleFormEnabledAlerts" class="dashboard-element single" style="width: 100%">
+                            <div class="panel-body"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="SingleFormsAlertsPanel2" class="dashboard-cell" style="width: 50%;">
+                <div class="dashboard-panel clearfix">
+                    <div class="panel-element-row">
+                        <div id="singleFormTriggeredAlerts" class="dashboard-element single" style="width: 100%">
+                            <div class="panel-body"></div>
+                        </div>
+                    </div>
+                </div>
+            </div> 
+        </div>
+    </div>
+
+    <div id="rowDonutsAlertTriggered" class="dashboard-row dashboard-rowSingleFormsDataSource" data-depends="$show_alerts$">
+        <div id="panelDonutAlertTriggered" class="dashboard-row dashboard-row1">
+            <div id="divDonutAlertTriggered1" class="dashboard-cell" style="width: 50%;">
+                <div class="dashboard-panel clearfix">
+                    <div class="panel-element-row">
+                        <div id="DonutAlertTriggered" class="dashboard-element single" style="width: 100%">
+                            <div class="panel-body"></div>
+                            <div style="text-align: center;">
+                                <h3 style="font-size: 14px;">triggering per alert</h3>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="rowAlertsBtn" class="dashboard-row dashboard-rowAlertsBtn" data-depends="$show_alerts$">
+        <div id="panelAlertsBtn" class="dashboard-cell" style="width: 100%;">
+            <div class="dashboard-panel clearfix">
+                <div class="panel-element-row">
+                    <div id="elementBtnsAlerts" class="dashboard-element html" style="width: 100%">
+                        <div class="panel-body html">
+                            <div>
+                                <div class="custom-btn">
+                                    <button type="submit" id="btn_refresh_alerts" style="margin-right: 15px;" class="btn btn-default btn-outline-primary" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Refresh</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="rowAlerts" class="dashboard-row dashboard-rowAlerts" data-depends="$show_alerts$">
+        <div id="panelAlerts" class="dashboard-cell" style="width: 100%;">
+            <div class="dashboard-panel clearfix">
+                <h2 class="panel-title">Click on a table row to access object contextual actions</h2>
+                <div class="panel-element-row">
+                    <div id="element_alerts_main_table" class="dashboard-element table" style="width: 100%">
+                        <div class="panel-body"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
 </div>
 
 </div>
@@ -9887,6 +9993,70 @@ require([
         //
         // SEARCH MANAGERS
         //
+
+        //
+        // ALERT SUMMARY
+        //
+
+        var search_alerts_main_table = new SearchManager({
+            "id": "search_alerts_main_table",
+            "sample_ratio": 1,
+            "earliest_time": "-15m",
+            "cancelOnUnload": true,
+            "search": "| rest splunk_server=local /servicesNS/-/trackme/saved/searches | search eai:acl.app=\"trackme\" alert.track=1 title!=\"TrackMe - Audit change notification tracker\" | fields title, cron_schedule, schedule_window, alert.suppress.fields, alert.suppress.period, disabled, next_scheduled_time, id | rex field=id \"saved/searches/(?<id>.*)\" | sort limit=0 title | eval \" \" = \"icon|\" + if(disabled==\"0\",\"ico_good ico_small|icon-check|Up\", \"ico_error ico_small|icon-close|Down\")",
+            "latest_time": "now",
+            "status_buckets": 0,
+            "app": utils.getCurrentApp(),
+            "auto_cancel": 90,
+            "preview": true,
+            "tokenDependencies": {
+                "depends": "$show_alerts$"
+            },
+            "runWhenTimeIsUndefined": false
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        });
+
+        var searchSingleEnabledAlerts = new PostProcessManager({
+            "tokenDependencies": {},
+            "search": "where disabled=0 | stats c",
+            "managerid": "search_alerts_main_table",
+            "id": "searchSingleEnabledAlerts"
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        });        
+
+        var searchDonutAlertsTriggered = new SearchManager({
+            "id": "searchDonutAlertsTriggered",
+            "sample_ratio": 1,
+            "earliest_time": "-24h",
+            "cancelOnUnload": true,
+            "search": "index=_audit action=\"alert_fired\" ss_app=\"trackme\" ss_name!=\"TrackMe - Audit change notification tracker\" | stats count by ss_name",
+            "latest_time": "now",
+            "status_buckets": 0,
+            "app": utils.getCurrentApp(),
+            "auto_cancel": 90,
+            "preview": true,
+            "tokenDependencies": {
+                "depends": "$show_alerts$"
+            },
+            "runWhenTimeIsUndefined": false
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        });
+
+        var search_alerts_triggered_history = new PostProcessManager({
+            "tokenDependencies": {},
+            "search": "stats sum(count) as count",
+            "managerid": "searchDonutAlertsTriggered",
+            "id": "search_alerts_triggered_history"
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        }); 
 
         // data sampling dropdown
         var searchPopulateDataSampling = new SearchManager({
@@ -16673,6 +16843,150 @@ require([
         // VIEWS: VISUALIZATION ELEMENTS
         //
 
+        //
+        // ALERT SUMMARY
+        //
+
+        var element_alerts_main_table = new TableElement({
+            "id": "element_alerts_main_table",
+            "count": 100,
+            "dataOverlayMode": "none",
+            "drilldown": "row",
+            "fields": "title, cron_schedule, schedule_window, alert.suppress.fields, alert.suppress.period, disabled, next_scheduled_time, \" \"",
+            "percentagesRow": "false",
+            "rowNumbers": "false",
+            "totalsRow": "false",
+            "wrap": "true",
+            "managerid": "search_alerts_main_table",
+            "el": $('#element_alerts_main_table')
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        }).render();
+
+        element_alerts_main_table.on("click", function(e) {
+            if (e.field !== undefined) {
+                e.preventDefault();
+
+                setToken("tk_alert_title", TokenUtils.replaceTokenNames("$row.title$", _.extend(submittedTokenModel.toJSON(), e.data)));
+                setToken("tk_alert_cron_schedule", TokenUtils.replaceTokenNames("$row.cron_schedule$", _.extend(submittedTokenModel.toJSON(), e.data)));
+                setToken("tk_alert_schedule_window", TokenUtils.replaceTokenNames("$row.schedule_window$", _.extend(submittedTokenModel.toJSON(), e.data)));
+                setToken("tk_alert_suppress_fields", TokenUtils.replaceTokenNames("$row.alert.suppress.fields$", _.extend(submittedTokenModel.toJSON(), e.data)));
+                setToken("tk_alert_suppress_period", TokenUtils.replaceTokenNames("$row.alert.suppress.period$", _.extend(submittedTokenModel.toJSON(), e.data)));
+                setToken("tk_alert_disabled", TokenUtils.replaceTokenNames("$row.disabled$", _.extend(submittedTokenModel.toJSON(), e.data)));
+                setToken("tk_alert_next_scheduled_time", TokenUtils.replaceTokenNames("$row.next_scheduled_time$", _.extend(submittedTokenModel.toJSON(), e.data)));
+
+                // Define the alert URL
+                var url = TokenUtils.replaceTokenNames("{{SPLUNKWEB_URL_PREFIX}}/app/trackme/alert?s=%2FservicesNS%2Fnobody%2Ftrackme%2Fsaved%2Fsearches%2F$row.id$", _.extend(submittedTokenModel.toJSON(), e.data), TokenUtils.getEscaper('url'), TokenUtils.getFilters(mvc.Components));
+                var alert_url = location.protocol + '//' + location.hostname + (location.port ? ':' + location.port : '') + url;
+                //console.log("full url is " + alert_url);
+
+                // Define the URL target
+                document.getElementById("btn_url_modal_manage_alert").href = alert_url;
+
+                submitTokens();
+
+                // When the Submit button is clicked, get all the form fields by accessing token values
+                var tokens = mvc.Components.get("default");
+
+                // Retrieve alert title token
+                var tk_alert_title = tokens.get("tk_alert_title");
+
+                // Define the history search
+                var alert_search_history = location.protocol + '//' + location.hostname + (location.port ? ':' + location.port : '') + '//app/trackme/search' + "?q=search%20index%3D_audit%20action%3D\"alert_fired\"%20ss_app%3D\"trackme\"%20ss_name%3D\"" + encodeURI(tk_alert_title) + "\""
+
+                // Define the URL target
+                document.getElementById("btn_url_modal_history_alert").href = alert_search_history;
+
+                // Enable modal context
+                $("#modal_manage_alerts").modal();
+
+            }
+        });
+
+        var body_modal_manage_alerts = new HtmlElement({
+            "id": "body_modal_manage_alerts",
+            "useTokens": true,
+            "el": $('#body_modal_manage_alerts')
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        }).render();
+
+        DashboardController.addReadyDep(body_modal_manage_alerts.contentLoaded());
+
+        var singleFormEnabledAlerts = new SingleElement({
+            "id": "singleFormEnabledAlerts",
+            "showTrendIndicator": "1",
+            "unitPosition": "after",
+            "useThousandSeparators": "1",
+            "numberPrecision": "0",
+            "colorBy": "value",
+            "colorMode": "block",
+            "drilldown": "all",
+            "height": "75",
+            "showSparkline": "1",
+            "trellis.scales.shared": "1",
+            "useColors": "1",
+            "trendDisplayMode": "absolute",
+            "trellis.enabled": "0",
+            "trendColorInterpretation": "standard",
+            "trellis.size": "medium",
+            "rangeValues": "[0]",
+            "rangeColors": "[\"0x7fbfff\",\"0x7fbfff\"]",
+            "underLabel": "ENABLED ALERTS",
+            "managerid": "searchSingleEnabledAlerts",
+            "el": $('#singleFormEnabledAlerts')
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        }).render();
+
+        var singleFormTriggeredAlerts = new SingleElement({
+            "id": "singleFormTriggeredAlerts",
+            "showTrendIndicator": "1",
+            "unitPosition": "after",
+            "useThousandSeparators": "1",
+            "numberPrecision": "0",
+            "colorBy": "value",
+            "colorMode": "block",
+            "drilldown": "all",
+            "height": "75",
+            "showSparkline": "1",
+            "trellis.scales.shared": "1",
+            "useColors": "1",
+            "trendDisplayMode": "absolute",
+            "trellis.enabled": "0",
+            "trendColorInterpretation": "standard",
+            "trellis.size": "medium",
+            "rangeValues": "[0]",
+            "rangeColors": "[\"0x7fbfff\",\"0xffb347\"]",
+            "underLabel": "TRIGGERED ALERTS IN THE PAST 24h",
+            "managerid": "search_alerts_triggered_history",
+            "el": $('#singleFormTriggeredAlerts')
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        }).render();
+
+        var DonutAlertTriggered = new VisualizationElement({
+            "id": "DonutAlertTriggered",
+            "type": "semicircle_donut.semicircle_donut",
+            "resizable": true,
+            "drilldown": "none",
+            "height": "170",
+            "refresh.display": "progressbar",
+            "semicircle_donut.semicircle_donut.colorField": "color",
+            "semicircle_donut.semicircle_donut.cutoutPercentage": "50",
+            "semicircle_donut.semicircle_donut.legendPosition": "top",
+            "semicircle_donut.semicircle_donut.type": "half",
+            "trellis.enabled": "0",
+            "trellis.scales.shared": "1",
+            "trellis.size": "medium",
+            "managerid": "searchDonutAlertsTriggered",
+            "el": $('#DonutAlertTriggered')
+        }, {tokens: true, tokenNamespace: "submitted"}).render();
+
         var TimelineDataSource = new VisualizationElement({
             "id": "TimelineDataSource",
             "type": "timeline_app.timeline",
@@ -21433,7 +21747,11 @@ require([
                 {
                     "value": "show_audit_changes",
                     "label": "INVESTIGATE AUDIT CHANGES"
-                }
+                },
+                {
+                    "value": "show_alerts",
+                    "label": "TRACKING ALERTS"
+                }                
             ],
             "default": "show_data_source_tracker",
             "selectFirstChoice": false,
@@ -21455,31 +21773,43 @@ require([
                 EventHandler.unsetToken("show_audit_flip");
                 EventHandler.unsetToken("show_audit_changes");
                 EventHandler.unsetToken("show_metric_host_tracker");
+                EventHandler.unsetToken("show_alerts");                
             } else if (e.value === "show_data_host_tracker") {
                 EventHandler.setToken("show_data_host_tracker", "true", {}, e.data);
                 EventHandler.unsetToken("show_data_source_tracker");
                 EventHandler.unsetToken("show_audit_flip");
                 EventHandler.unsetToken("show_audit_changes");
                 EventHandler.unsetToken("show_metric_host_tracker");
+                EventHandler.unsetToken("show_alerts");                
             } else if (e.value === "show_metric_host_tracker") {
                 EventHandler.setToken("show_metric_host_tracker", "true", {}, e.data);
                 EventHandler.unsetToken("show_data_source_tracker");
                 EventHandler.unsetToken("show_data_host_tracker");
                 EventHandler.unsetToken("show_audit_flip");
                 EventHandler.unsetToken("show_audit_changes");
+                EventHandler.unsetToken("show_alerts");                
             } else if (e.value === "show_audit_flip") {
                 EventHandler.setToken("show_audit_flip", "true", {}, e.data);
                 EventHandler.unsetToken("show_data_source_tracker");
                 EventHandler.unsetToken("show_data_host_tracker");
                 EventHandler.unsetToken("show_audit_changes");
                 EventHandler.unsetToken("show_metric_host_tracker");
+                EventHandler.unsetToken("show_alerts");                
             } else if (e.value === "show_audit_changes") {
                 EventHandler.setToken("show_audit_changes", "true", {}, e.data);
                 EventHandler.unsetToken("show_data_source_tracker");
                 EventHandler.unsetToken("show_data_host_tracker");
                 EventHandler.unsetToken("show_audit_flip");
                 EventHandler.unsetToken("show_metric_host_tracker");
-            }
+                EventHandler.unsetToken("show_alerts");
+            } else if (e.value === "show_alerts") {
+                EventHandler.setToken("show_alerts", "true", {}, e.data);
+                EventHandler.unsetToken("show_data_source_tracker");
+                EventHandler.unsetToken("show_data_host_tracker");
+                EventHandler.unsetToken("show_audit_flip");
+                EventHandler.unsetToken("show_metric_host_tracker");
+                EventHandler.unsetToken("show_audit_changes");
+            }            
         });
 
         var input1 = new TimeRangeInput({
@@ -23462,6 +23792,16 @@ require([
             );
 
         }
+
+        //
+        // ALERT SUMMARY
+        //
+
+        $("#btn_refresh_alerts").click(function() {
+            submitTokens();
+            search_alerts_main_table.startSearch();
+            searchDonutAlertsTriggered.startSearch();
+        });
 
         // enable monitoring
 
