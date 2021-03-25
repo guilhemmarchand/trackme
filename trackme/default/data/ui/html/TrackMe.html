@@ -24437,7 +24437,7 @@ require([
                 tk_custom_alert = tk_custom_alert + "\n| search " +  tk_input_custom_alert_priority;
 
                 // add the state filter
-                tk_custom_alert = tk_custom_alert + "\n| search " +  tk_input_custom_alert_state;
+                tk_custom_alert = tk_custom_alert + "\n| eval state=coalesce(data_source_state,data_host_state,metric_host_state) | search " +  tk_input_custom_alert_state;
 
                 // handle tags
                 if (tk_input_custom_tags != "tags=\"*\"") {
@@ -24485,7 +24485,7 @@ require([
                 tk_custom_alert = tk_custom_alert + "\n| search " +  tk_input_custom_alert_priority;
 
                 // add the state filter
-                tk_custom_alert = tk_custom_alert + "\n| search " +  tk_input_custom_alert_state;
+                tk_custom_alert = tk_custom_alert + "\n| eval state=coalesce(data_source_state,data_host_state,metric_host_state) | search " +  tk_input_custom_alert_state;
 
                 // handle outliers
                 if (tk_input_custom_alert_trigger_on_outliers == "false") {
@@ -24493,9 +24493,9 @@ require([
                 }
 
                 // terminate the search
-                tk_custom_alert = tk_custom_alert + "\n| makemv delim="," data_index";
-                tk_custom_alert = tk_custom_alert + "\n| makemv delim="," data_sourcetype";
-                tk_custom_alert = tk_custom_alert + "\n| makemv delim="," data_host_st_summary";
+                tk_custom_alert = tk_custom_alert + "\n| makemv delim=\",\" data_index";
+                tk_custom_alert = tk_custom_alert + "\n| makemv delim=\",\" data_sourcetype";
+                tk_custom_alert = tk_custom_alert + "\n| makemv delim=\",\" data_host_st_summary";
                 tk_custom_alert = tk_custom_alert + "\n| `trackme_data_host_extract_mvstsummary` | fields - summary_first_time	summary_idx	summary_last_ingest	time, data_host_st_summary";
                 tk_custom_alert = tk_custom_alert + "\n| search `trackme_get_idx_whitelist_searchtime(trackme_data_host_monitoring_whitelist_index, data_index)`";
                 tk_custom_alert = tk_custom_alert + "\n| `apply_data_host_blacklists`";
@@ -24524,7 +24524,7 @@ require([
                 tk_custom_alert = tk_custom_alert + "\n| search " +  tk_input_custom_alert_priority;
 
                 // add the state filter
-                tk_custom_alert = tk_custom_alert + "\n| search " +  tk_input_custom_alert_state;
+                tk_custom_alert = tk_custom_alert + "\n| eval state=coalesce(data_source_state,data_host_state,metric_host_state) | search " +  tk_input_custom_alert_state;
 
                 // terminate the search
                 tk_custom_alert = tk_custom_alert + "\n| makemv delim=\",\" metric_index";
