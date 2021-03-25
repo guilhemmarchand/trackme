@@ -4993,6 +4993,59 @@ styles in <div> tags, similar to Bootstrap's grid system.
         </div>
     </div>
 
+    <!-- alert creation is successful -->
+    <div class="modal fade" id="modal_alert_creation_success" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header modal-header-success">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h1 style="color: white;"><span class="glyphicon glyphicon-lock"></span>New alert successfully created.</h1>
+                </div>
+                <div class="modal-body">
+                    <p>Congratulations, the new alert tracker was successfully created.<br /><br />
+                        <b>The following new tracker was created:</b>
+                    </p>
+                    <div class="modal-error-message" style="margin: 10px 0; padding: 10px; border-radius: 3px 3px 3px 3px; color: #059; background-color: #BEF;">
+                        <p>success return message</p>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-default btn-default" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Error or failure during alert creation -->
+    <div class="modal fade" id="modal_alert_creation_error" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header modal-header-danger">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h1 style="color: white;"><span class="glyphicon glyphicon-lock"></span>Oops!</h1>
+                </div>
+                <div class="modal-body">
+                    <p>Sorry but it looks like an error occurred while attempting to perform the creation of the new alert tracker.<br /><br />
+                        <b>You might not have the permission to perform this operation</b>, or an unexpected failure was encountered.<br /><br />
+                        <b>The server returned the following error message:</b>
+                    </p>
+                    <div class="modal-error-message" style="margin: 10px 0; padding: 10px; border-radius: 3px 3px 3px 3px; color: #D8000C; background-color: #FFBABA;">
+                        <p>error return message</p>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-default btn-default pull-right" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Modal window for lag value modification -->
 
     <!-- data source monitoring -->
@@ -8803,6 +8856,126 @@ styles in <div> tags, similar to Bootstrap's grid system.
         </div>
     </div>
 
+    <div class="modal fade custom-modal-60" id="add_custom_alert" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header modal-header-danger">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h1 style="color: white;"><span class="glyphicon glyphicon-lock"></span> Alert tracking definition </h1>
+                </div>
+                <div class="modal-body">
+                    <b>Use this interface to create a custom alert in assisted mode:</b>
+                    <br /><br />
+                    <div class="boxnotify" id="boxnotify-add_custom_alert">
+                    </div>
+                    <div id="rowCustomAlertAdd1a" class="dashboard-row dashboard-row3">
+                        <div id="rowCustomAlertAdd1b" class="dashboard-cell" style="width: 100%;">
+                            <div class="dashboard-panel clearfix">
+                                <div class="panel-element-row">
+                                    <div class="input input-text" id="modal_input_custom_alert_name" style="margin-bottom: 20px; max-width: 900px;">
+                                        <label>Enter the unique identifier of the new alert:</label>
+                                    </div>
+                                    <div class="input input-linklist" id="modal_input_custom_alert_object_type" style="margin-top: 20px;">
+                                        <label>Choose the type of object to be tracked:</label>
+                                    </div>
+                                    <div class="fieldset">
+                                        <div class="input input-multiselect" id="modal_input_custom_priority_levels" style="margin-top: 20px;">
+                                            <label>Trigger if priority is:</label>
+                                        </div>
+                                        <div class="input input-multiselect" id="modal_input_custom_state_levels" style="margin-top: 20px;">
+                                            <label>trigger if the state is:</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="rowCustomAlertAddDataSource1" class="dashboard-row dashboard-row3" data-depends="$create_alert_data_source$">
+                        <div id="rowCustomAlertAddDataSource2" class="dashboard-cell" style="width: 100%;">
+                            <div class="dashboard-panel clearfix">
+                                <div class="panel-element-row">
+                                    <div class="fieldset">
+                                        <div class="input input-multiselect" id="modal_input_custom_alert_data_source_filter" style="max-width: 300px;">
+                                            <label>Filter data_name:</label>
+                                        </div>
+                                        <div class="input input-multiselect" id="modal_input_custom_tags">
+                                            <label>Include entities with tags:</label>
+                                        </div>
+                                        <div class="input input-dropdown" id="modal_input_custom_alert_trigger_on_outliers">
+                                            <label>Trigger on Outliers?</label>
+                                        </div>
+                                        <div class="input input-dropdown" id="modal_input_custom_alert_trigger_on_data_sampling">
+                                            <label>Trigger on Data Sampling?</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="rowCustomAlertAddDataHost1" class="dashboard-row dashboard-row3" data-depends="$create_alert_data_host$">
+                        <div id="rowCustomAlertAddDataHost2" class="dashboard-cell" style="width: 100%;">
+                            <div class="dashboard-panel clearfix">
+                                <div class="panel-element-row">
+                                    <div class="fieldset">
+                                        <div class="input input-multiselect" id="modal_input_custom_alert_data_host_filter" style="max-width: 300px;">
+                                            <label>Filter data_host:</label>
+                                        </div>
+                                        <div class="input input-dropdown" id="modal_input_custom_alert_trigger_on_outliers_data_host">
+                                            <label>Trigger on Outliers?</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="rowCustomAlertAddDataMetric1" class="dashboard-row dashboard-row3" data-depends="$create_alert_metric_host$">
+                        <div id="rowCustomAlertAddDataMetric2" class="dashboard-cell" style="width: 100%;">
+                            <div class="dashboard-panel clearfix">
+                                <div class="panel-element-row">
+                                    <div class="fieldset">
+                                        <div class="input input-multiselect" id="modal_input_custom_alert_metric_host_filter" style="max-width: 300px;">
+                                            <label>Filter metric_host:</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="rowCustomAlertAddBtns" class="dashboard-row dashboard-row3">
+                        <div id="rowCustomAlertAddBtns" class="dashboard-cell" style="width: 100%;">
+                            <div class="dashboard-panel clearfix">
+                                <div class="panel-element-row">
+                                    <div class="fieldset">
+                                        <div class="input input-text" id="modal_input_custom_alert_cron" style="max-width: 150px;">
+                                            <label>Cron schedule:</label>
+                                        </div>
+                                        <div class="input input-text" id="modal_input_custom_alert_suppress_fields" style="max-width: 300px;">
+                                            <label>Suppression fields:</label>
+                                        </div>
+                                        <div class="input input-text" id="modal_input_custom_alert_suppress_period" style="max-width: 150px;">
+                                            <label>Suppression period:</label>
+                                        </div>                                        
+                                    </div>
+                                    <div>
+                                        <h3>Alert actions and other options will be made available in the Splunk alert editor once the it has been created, default settings will enabled the Adds to triggered alerts action.</h3>
+                                    </div>
+                                    <div style="margin-top: 15x;">
+                                        <button type="submit" id="btn_modal_custom_alert_add_new" style="margin-right: 15px;" class="btn btn-default btn-primary"><span class="glyphicon glyphicon-remove"></span> Add this new alert</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-default btn-default pull-left" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Generic invalid selection -->
     <div class="modal fade" id="modal_entry_update_invalid" role="dialog">
         <div class="modal-dialog">
@@ -9719,7 +9892,7 @@ styles in <div> tags, similar to Bootstrap's grid system.
         </div>
     </div>
 
-    <div id="rowAlertTriggered" class="dashboard-row dashboard-row1" data-depends="$show_alerts$">
+    <div id="rowAlertTriggered" class="dashboard-row dashboard-row1" data-depends="$show_alerts$" data-rejects="$show_no_alerts$">
         <div id="panelAlertTriggered1" class="dashboard-cell" style="width: 100%;">
             <div class="dashboard-panel clearfix">
                 <div class="panel-element-row">
@@ -9746,6 +9919,21 @@ styles in <div> tags, similar to Bootstrap's grid system.
         </div>
     </div>
 
+    <div id="rowAlertTriggeredNoAlerts" class="dashboard-row dashboard-row1" data-depends="$show_alerts$ $show_no_alerts$">
+        <div id="panelAlertTriggeredNoAlerts1" class="dashboard-cell" style="width: 100%;">
+            <div class="dashboard-panel clearfix">
+                <div class="panel-element-row">
+                    <div id="DonutAlertTriggeredNoAlerts" class="dashboard-element chart" style="width: 100%">
+                        <div class="panel-head">
+                            <h3>There are no active alerts for the past 24h</h3>
+                        </div>
+                        <div class="panel-body"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <div id="rowAlertsBtn" class="dashboard-row dashboard-rowAlertsBtn" data-depends="$show_alerts$">
         <div id="panelAlertsBtn" class="dashboard-cell" style="width: 100%;">
             <div class="dashboard-panel clearfix">
@@ -9755,6 +9943,7 @@ styles in <div> tags, similar to Bootstrap's grid system.
                             <div>
                                 <div class="custom-btn">
                                     <button type="submit" id="btn_refresh_alerts" style="margin-right: 15px;" class="btn btn-default btn-outline-primary" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Refresh</button>
+                                    <button type="submit" id="btn_create_alert" style="margin-right: 15px;" class="btn btn-default btn-outline-secondary" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Create a new alert</button>
                                 </div>
                             </div>
                         </div>
@@ -10063,6 +10252,29 @@ require([
             tokenNamespace: "submitted"
         });
 
+        new SearchEventHandler({
+            managerid: "searchDonutAlertsTriggered",
+            event: "progress",
+            conditions: [{
+                    attr: "match",
+                    value: "'job.resultCount' == 0",
+                    actions: [{
+                        "type": "set",
+                        "token": "show_no_alerts",
+                        "value": "True"
+                    }]
+                },
+                {
+                    attr: "any",
+                    value: "*",
+                    actions: [{
+                        "type": "unset",
+                        "token": "show_no_alerts"
+                    }]
+                }
+            ]
+        });
+
         var searchAlertTriggeredOverTime = new SearchManager({
             "id": "searchAlertTriggeredOverTime",
             "sample_ratio": 1,
@@ -10092,6 +10304,27 @@ require([
             tokens: true,
             tokenNamespace: "submitted"
         }); 
+
+        var search_alerts_get_tags = new SearchManager({
+            "id": "search_alerts_get_tags",
+            "sample_ratio": 1,
+            "earliest_time": "-15m",
+            "cancelOnUnload": true,
+            "search": "| inputlookup trackme_data_source_monitoring | eval tags=if(match(tags, \"click on Update tags\"), \"\", tags) | makemv delim=\",\" tags | mvexpand tags | where tags!=\"\" | stats values(tags) as tags | mvexpand tags | dedup tags | sort limit=1000 tags",
+            "latest_time": "now",
+            "status_buckets": 0,
+            "app": utils.getCurrentApp(),
+            "auto_cancel": 90,
+            "preview": true,
+            "tokenDependencies": {
+                "depends": "$show_alerts$",
+                "depends": "$start_get_tags_for_custom_alert$",
+            },
+            "runWhenTimeIsUndefined": false
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        });
 
         // data sampling dropdown
         var searchPopulateDataSampling = new SearchManager({
@@ -15514,6 +15747,297 @@ require([
             FormUtils.handleValueChange(modal_input_dcount_host);
         });
 
+        // ALERT summary
+
+        var modal_input_custom_alert_name = new TextInput({
+            "id": "modal_input_custom_alert_name",
+            "searchWhenChanged": false,
+            "value": "$form.tk_custom_alert_name$",
+            "default": "TrackMe - Alert custom on $create_alert_object_type$",
+            "el": $('#modal_input_custom_alert_name')
+        }, {
+            tokens: true
+        }).render();
+
+        modal_input_custom_alert_name.on("change", function(newValue) {
+            FormUtils.handleValueChange(modal_input_custom_alert_name);
+        });
+
+        // input link selection for modal window
+        var modal_input_custom_alert_object_type = new LinkListInput({
+            "id": "modal_input_custom_alert_object_type",
+            "choices": [{
+                    "value": "data_source",
+                    "label": "DATA SOURCES"
+                },
+                {
+                    "value": "data_host",
+                    "label": "DATA HOSTS"
+                },
+                {
+                    "value": "metric_host",
+                    "label": "METRIC HOSTS"
+                }
+            ],
+            "default": "data_source",
+            "searchWhenChanged": true,
+            "selectFirstChoice": false,
+            "initialValue": "data_source",
+            "value": "$form.inputCustomAlertObjectType$",
+            "el": $('#modal_input_custom_alert_object_type')
+        }, {
+            tokens: true
+        }).render();
+
+        modal_input_custom_alert_object_type.on("change", function(newValue) {
+            FormUtils.handleValueChange(input1);
+        });
+
+        modal_input_custom_alert_object_type.on("valueChange", function(e) {
+            if (e.value === "data_source") {
+                EventHandler.setToken("create_alert_object_type", "data_source", {}, e.data);
+                EventHandler.setToken("create_alert_data_source", "true", {}, e.data);
+                EventHandler.setToken("form.tk_custom_alert_suppress_fields", "data_source", {}, e.data);
+                EventHandler.unsetToken("create_alert_data_host");
+                EventHandler.unsetToken("create_alert_metric_host");
+            } else if (e.value === "data_host") {
+                EventHandler.setToken("create_alert_object_type", "data_host", {}, e.data);
+                EventHandler.setToken("create_alert_data_host", "true", {}, e.data);
+                EventHandler.setToken("form.tk_custom_alert_suppress_fields", "data_host", {}, e.data);                
+                EventHandler.unsetToken("create_alert_data_source");
+                EventHandler.unsetToken("create_alert_metric_host");
+            } else if (e.value === "metric_host") {
+                EventHandler.setToken("create_alert_object_type", "metric_host", {}, e.data);
+                EventHandler.setToken("create_alert_metric_host", "true", {}, e.data);
+                EventHandler.setToken("form.tk_custom_alert_suppress_fields", "metric_host", {}, e.data);                
+                EventHandler.unsetToken("create_alert_data_host");
+                EventHandler.unsetToken("create_alert_data_source");
+            }
+        });
+
+        var modal_input_custom_alert_data_source_filter = new TextInput({
+            "id": "modal_input_custom_alert_data_source_filter",
+            "searchWhenChanged": false,
+            "value": "$form.tk_custom_alert_data_source_filter$",
+            "default": "*",
+            "el": $('#modal_input_custom_alert_data_source_filter')
+        }, {
+            tokens: true
+        }).render();
+
+        modal_input_custom_alert_data_source_filter.on("change", function(newValue) {
+            FormUtils.handleValueChange(modal_input_custom_alert_data_source_filter);
+        });
+
+        var modal_input_custom_alert_data_host_filter = new TextInput({
+            "id": "modal_input_custom_alert_data_host_filter",
+            "searchWhenChanged": false,
+            "value": "$form.tk_custom_alert_data_host_filter$",
+            "default": "*",
+            "el": $('#modal_input_custom_alert_data_host_filter')
+        }, {
+            tokens: true
+        }).render();
+
+        modal_input_custom_alert_data_host_filter.on("change", function(newValue) {
+            FormUtils.handleValueChange(modal_input_custom_alert_data_host_filter);
+        });
+
+        var modal_input_custom_alert_metric_host_filter = new TextInput({
+            "id": "modal_input_custom_alert_metric_host_filter",
+            "searchWhenChanged": false,
+            "value": "$form.tk_custom_alert_metric_host_filter$",
+            "default": "*",
+            "el": $('#modal_input_custom_alert_metric_host_filter')
+        }, {
+            tokens: true
+        }).render();
+
+        modal_input_custom_alert_metric_host_filter.on("change", function(newValue) {
+            FormUtils.handleValueChange(modal_input_custom_alert_metric_host_filter);
+        });
+
+        var modal_input_custom_priority_levels = new MultiSelectInput({
+            "id": "modal_input_custom_priority_levels",
+            "choices": [
+                {"label": "ANY", "value": "*"},
+                {"label": "low", "value": "low"},
+                {"label": "medium", "value": "medium"},
+                {"label": "high", "value": "high"}
+            ],
+            "valuePrefix": "priority=\"",
+            "valueSuffix": "\"",
+            "delimiter": " OR ",
+            "searchWhenChanged": true,
+            "initialValue": ["*"],
+            "value": "$form.tk_input_custom_alert_priority$",
+            "el": $('#modal_input_custom_priority_levels')
+        }, {tokens: true}).render();
+
+        modal_input_custom_priority_levels.on("change", function(newValue) {
+            FormUtils.handleValueChange(modal_input_custom_priority_levels);
+        });
+
+        var modal_input_custom_state_levels = new MultiSelectInput({
+            "id": "modal_input_custom_state_levels",
+            "choices": [
+                {"label": "red", "value": "red"},
+                {"label": "orange", "value": "orange"}
+            ],
+            "valuePrefix": "state=\"",
+            "valueSuffix": "\"",
+            "delimiter": " OR ",
+            "searchWhenChanged": true,
+            "initialValue": ["red"],
+            "value": "$form.tk_input_custom_alert_state$",
+            "el": $('#modal_input_custom_state_levels')
+        }, {tokens: true}).render();
+
+        modal_input_custom_state_levels.on("change", function(newValue) {
+            FormUtils.handleValueChange(modal_input_custom_state_levels);
+        });
+
+        var modal_input_custom_tags = new MultiSelectInput({
+            "id": "modal_input_custom_tags",
+            "choices": [
+                {"label": "ANY", "value": "*"}
+            ],
+            "valuePrefix": "tags=\"",
+            "valueSuffix": "\"",
+            "delimiter": " OR ",
+            "labelField": "tags",
+            "searchWhenChanged": true,
+            "initialValue": ["*"],
+            "selectFirstChoice": false,
+            "valueField": "tags",            
+            "value": "$form.tk_input_custom_tags$",
+            "managerid": "search_alerts_get_tags",
+            "el": $('#modal_input_custom_tags')
+        }, {tokens: true}).render();
+
+        modal_input_custom_tags.on("change", function(newValue) {
+            FormUtils.handleValueChange(modal_input_custom_tags);
+        });
+
+        var modal_input_custom_alert_trigger_on_outliers = new DropdownInput({
+            "id": "modal_input_custom_alert_trigger_on_outliers",
+            "choices": [{
+                    "label": "true",
+                    "value": "true"
+                },
+                {
+                    "label": "false",
+                    "value": "false"
+                }
+            ],
+            "searchWhenChanged": false,
+            "default": "true",
+            "showClearButton": true,
+            "initialValue": "true",
+            "selectFirstChoice": false,
+            "value": "$form.tk_input_custom_alert_trigger_on_outliers$",
+            "el": $('#modal_input_custom_alert_trigger_on_outliers')
+        }, {
+            tokens: true
+        }).render();
+
+        modal_input_custom_alert_trigger_on_outliers.on("change", function(newValue) {
+            FormUtils.handleValueChange(modal_input_custom_alert_trigger_on_outliers);
+        });
+
+        var modal_input_custom_alert_trigger_on_outliers_data_host = new DropdownInput({
+            "id": "modal_input_custom_alert_trigger_on_outliers_data_host",
+            "choices": [{
+                    "label": "true",
+                    "value": "true"
+                },
+                {
+                    "label": "false",
+                    "value": "false"
+                }
+            ],
+            "searchWhenChanged": false,
+            "default": "true",
+            "showClearButton": true,
+            "initialValue": "true",
+            "selectFirstChoice": false,
+            "value": "$form.tk_input_custom_alert_trigger_on_outliers_data_host$",
+            "el": $('#modal_input_custom_alert_trigger_on_outliers_data_host')
+        }, {
+            tokens: true
+        }).render();
+
+        modal_input_custom_alert_trigger_on_outliers_data_host.on("change", function(newValue) {
+            FormUtils.handleValueChange(modal_input_custom_alert_trigger_on_outliers_data_host);
+        });
+
+        var modal_input_custom_alert_trigger_on_data_sampling = new DropdownInput({
+            "id": "modal_input_custom_alert_trigger_on_data_sampling",
+            "choices": [{
+                    "label": "true",
+                    "value": "true"
+                },
+                {
+                    "label": "false",
+                    "value": "false"
+                }
+            ],
+            "searchWhenChanged": false,
+            "default": "true",
+            "showClearButton": true,
+            "initialValue": "true",
+            "selectFirstChoice": false,
+            "value": "$form.tk_input_custom_alert_trigger_on_data_sampling$",
+            "el": $('#modal_input_custom_alert_trigger_on_data_sampling')
+        }, {
+            tokens: true
+        }).render();
+
+        modal_input_custom_alert_trigger_on_data_sampling.on("change", function(newValue) {
+            FormUtils.handleValueChange(modal_input_custom_alert_trigger_on_data_sampling);
+        });
+
+        var modal_input_custom_alert_cron = new TextInput({
+            "id": "modal_input_custom_alert_cron",
+            "searchWhenChanged": false,
+            "value": "$form.tk_custom_alert_cron$",
+            "default": "*/5 * * * *",
+            "el": $('#modal_input_custom_alert_cron')
+        }, {
+            tokens: true
+        }).render();
+
+        modal_input_custom_alert_cron.on("change", function(newValue) {
+            FormUtils.handleValueChange(modal_input_custom_alert_cron);
+        });
+
+        var modal_input_custom_alert_suppress_fields = new TextInput({
+            "id": "modal_input_custom_alert_suppress_fields",
+            "searchWhenChanged": false,
+            "value": "$form.tk_custom_alert_suppress_fields$",
+            "el": $('#modal_input_custom_alert_suppress_fields')
+        }, {
+            tokens: true
+        }).render();
+
+        modal_input_custom_alert_suppress_fields.on("change", function(newValue) {
+            FormUtils.handleValueChange(modal_input_custom_alert_suppress_fields);
+        });
+
+        var modal_input_custom_alert_suppress_period = new TextInput({
+            "id": "modal_input_custom_alert_suppress_period",
+            "searchWhenChanged": false,
+            "value": "$form.tk_custom_alert_suppress_period$",
+            "default": "24h",
+            "el": $('#modal_input_custom_alert_suppress_period')
+        }, {
+            tokens: true
+        }).render();
+
+        modal_input_custom_alert_suppress_period.on("change", function(newValue) {
+            FormUtils.handleValueChange(modal_input_custom_alert_suppress_period);
+        });
+
         // elastic sources
 
         var modal_input_elastic_source_search_type = new DropdownInput({
@@ -16914,7 +17438,6 @@ require([
                 // Define the alert URL
                 var url = TokenUtils.replaceTokenNames("{{SPLUNKWEB_URL_PREFIX}}/app/trackme/alert?s=%2FservicesNS%2Fnobody%2Ftrackme%2Fsaved%2Fsearches%2F$row.id$", _.extend(submittedTokenModel.toJSON(), e.data), TokenUtils.getEscaper('url'), TokenUtils.getFilters(mvc.Components));
                 var alert_url = location.protocol + '//' + location.hostname + (location.port ? ':' + location.port : '') + url;
-                //console.log("full url is " + alert_url);
 
                 // Define the URL target
                 document.getElementById("btn_url_modal_manage_alert").href = alert_url;
@@ -23854,6 +24377,274 @@ require([
             searchAlertTriggeredOverTime.startSearch();
         });
 
+        $("#btn_create_alert").click(function() {
+
+            submitTokens();
+
+            // When the Submit button is clicked, get all the form fields by accessing token values
+            var tokens = mvc.Components.get("default");
+
+            // fire up some searches
+            setToken("start_get_tags_for_custom_alert", "true");
+
+            $("#add_custom_alert").modal();
+        });
+
+        $("#btn_modal_custom_alert_add_new").click(function() {
+
+            submitTokens();
+
+            // When the Submit button is clicked, get all the form fields by accessing token values
+            var tokens = mvc.Components.get("default");
+
+            // When the Submit button is clicked, get all the form fields by accessing token values
+            var tk_custom_alert_name = tokens.get("tk_custom_alert_name");
+            var tk_create_alert_data_source = tokens.get("create_alert_data_source");
+            var tk_create_alert_data_host = tokens.get("create_alert_data_host");
+            var tk_create_alert_metric_host = tokens.get("create_alert_metric_host");
+            var tk_input_custom_alert_priority = tokens.get("tk_input_custom_alert_priority");
+            var tk_input_custom_alert_state = tokens.get("tk_input_custom_alert_state");
+            var tk_custom_alert_data_source_filter = tokens.get("tk_custom_alert_data_source_filter");
+            var tk_custom_alert_data_host_filter = tokens.get("tk_custom_alert_data_host_filter");
+            var tk_custom_alert_metric_host_filter = tokens.get("tk_custom_alert_metric_host_filter");            
+            var tk_input_custom_tags = tokens.get("tk_input_custom_tags");
+            var tk_input_custom_alert_trigger_on_outliers = tokens.get("tk_input_custom_alert_trigger_on_outliers");
+            var tk_input_custom_alert_trigger_on_outliers_data_host = tokens.get("tk_input_custom_alert_trigger_on_outliers_data_host");
+            var tk_input_custom_alert_trigger_on_data_sampling = tokens.get("tk_input_custom_alert_trigger_on_data_sampling");
+            var tk_custom_alert_cron = tokens.get("tk_custom_alert_cron");
+            var tk_custom_alert_suppress_fields = tokens.get("tk_custom_alert_suppress_fields");
+            var tk_custom_alert_suppress_period = tokens.get("tk_custom_alert_suppress_period");
+
+            // Splunk limits report names to max 100 chars, and will refuse otherwise
+            var tk_tracker_name = tk_custom_alert_name.substring(0, 100);
+
+            // define the alert search
+            var tk_custom_alert;
+            var tk_object_category;
+
+            if (tk_create_alert_data_source == "true") {
+
+                tk_object_category = "data_source";
+                tk_custom_alert = "| inputlookup trackme_data_source_monitoring\n| appendcols [ | inputlookup trackme_maintenance_mode ] | filldown maintenance_mode | where NOT maintenance_mode=\"enabled\"";
+
+                // get state
+                tk_custom_alert = tk_custom_alert + "\n| `trackme_eval_data_source_state`";
+
+                // add the data_name filter
+                tk_custom_alert = tk_custom_alert + "\n| search data_name=\"" +  tk_custom_alert_data_source_filter + "\"";
+
+                // add the priority filter
+                tk_custom_alert = tk_custom_alert + "\n| search " +  tk_input_custom_alert_priority;
+
+                // add the state filter
+                tk_custom_alert = tk_custom_alert + "\n| search " +  tk_input_custom_alert_state;
+
+                // handle tags
+                if (tk_input_custom_tags != "tags=\"*\"") {
+                    tk_custom_alert = tk_custom_alert + "\n| makemv delim=\",\" tags | search " + tk_input_custom_tags;
+                }
+    
+                // handle outliers
+                if (tk_input_custom_alert_trigger_on_outliers == "false") {
+                    tk_custom_alert = tk_custom_alert + "\n| where isOutlier=0 ";
+                }
+
+                // handle data sampling
+                if (tk_input_custom_alert_trigger_on_data_sampling == "false") {
+                    tk_custom_alert = tk_custom_alert + "\n| where isAnomaly=0";
+                }
+
+                // terminate the search
+                tk_custom_alert = tk_custom_alert + "\n| search `trackme_get_idx_whitelist_searchtime(trackme_data_source_monitoring_whitelist_index, data_index)`";
+                tk_custom_alert = tk_custom_alert + "\n| `apply_data_source_blacklists`";
+                tk_custom_alert = tk_custom_alert + "\n| where data_monitored_state=\"enabled\"";
+                tk_custom_alert = tk_custom_alert + "\n| `trackme_date_format(data_last_ingest)`";
+                tk_custom_alert = tk_custom_alert + "\n| `trackme_date_format(data_last_time_seen)`";
+                tk_custom_alert = tk_custom_alert + "\n| `trackme_date_format(data_tracker_runtime)`";
+                tk_custom_alert = tk_custom_alert + "\n| `trackme_date_format(data_previous_tracker_runtime)`";
+                tk_custom_alert = tk_custom_alert + "\n| `trackme_eval_icons`";
+                tk_custom_alert = tk_custom_alert + "\n| rename \"* (translated)\" as \"*\"";
+                tk_custom_alert = tk_custom_alert + "\n| `trackme_get_identity_card(data_name)`";
+                tk_custom_alert = tk_custom_alert + "\n| `trackme_ack_lookup(data_name, data_source)`";
+                tk_custom_alert = tk_custom_alert + "\n| fields - monitoring, state";
+                tk_custom_alert = tk_custom_alert + "\n| `trackme_alerts_order_data_source`";
+
+            }
+            else if (tk_create_alert_data_host == "true") {
+
+                tk_object_category = "data_host";
+                tk_custom_alert = "| inputlookup trackme_host_monitoring\n| appendcols [ | inputlookup trackme_maintenance_mode ] | filldown maintenance_mode | where NOT maintenance_mode=\"enabled\"";
+
+                // get state
+                tk_custom_alert = tk_custom_alert + "\n| `trackme_eval_data_host_state`";
+
+                // add the data_host filter
+                tk_custom_alert = tk_custom_alert + "\n| search data_host=\"" +  tk_custom_alert_data_host_filter + "\"";
+
+                // add the priority filter
+                tk_custom_alert = tk_custom_alert + "\n| search " +  tk_input_custom_alert_priority;
+
+                // add the state filter
+                tk_custom_alert = tk_custom_alert + "\n| search " +  tk_input_custom_alert_state;
+
+                // handle outliers
+                if (tk_input_custom_alert_trigger_on_outliers == "false") {
+                    tk_custom_alert = tk_custom_alert + "\n| where isOutlier=0 ";
+                }
+
+                // terminate the search
+                tk_custom_alert = tk_custom_alert + "\n| makemv delim="," data_index";
+                tk_custom_alert = tk_custom_alert + "\n| makemv delim="," data_sourcetype";
+                tk_custom_alert = tk_custom_alert + "\n| makemv delim="," data_host_st_summary";
+                tk_custom_alert = tk_custom_alert + "\n| `trackme_data_host_extract_mvstsummary` | fields - summary_first_time	summary_idx	summary_last_ingest	time, data_host_st_summary";
+                tk_custom_alert = tk_custom_alert + "\n| search `trackme_get_idx_whitelist_searchtime(trackme_data_host_monitoring_whitelist_index, data_index)`";
+                tk_custom_alert = tk_custom_alert + "\n| `apply_data_host_blacklists`";
+                tk_custom_alert = tk_custom_alert + "\n| where data_monitored_state=\"enabled\"";                
+                tk_custom_alert = tk_custom_alert + "\n| `trackme_data_host_group_lookup`";
+                tk_custom_alert = tk_custom_alert + "\n| `trackme_date_format(data_last_ingest)`";
+                tk_custom_alert = tk_custom_alert + "\n| `trackme_date_format(data_last_time_seen)`";
+                tk_custom_alert = tk_custom_alert + "\n| `trackme_date_format(data_tracker_runtime)`";
+                tk_custom_alert = tk_custom_alert + "\n| `trackme_date_format(data_previous_tracker_runtime)`";
+                tk_custom_alert = tk_custom_alert + "\n| `trackme_eval_icons_host`";
+                tk_custom_alert = tk_custom_alert + "\n| rename \"* (translated)\" as \"*\"";
+                tk_custom_alert = tk_custom_alert + "\n| `trackme_ack_lookup(data_host, data_host)`";
+                tk_custom_alert = tk_custom_alert + "\n| fields - monitoring, state, data_index, data_sourcetype";
+                tk_custom_alert = tk_custom_alert + "\n| `trackme_alerts_order_data_host`";
+
+            }
+            else if (tk_create_alert_metric_host == "true") {
+
+                tk_object_category = "metric_host";
+                tk_custom_alert = "| inputlookup trackme_metric_host_monitoring\n| appendcols [ | inputlookup trackme_maintenance_mode ] | filldown maintenance_mode | where NOT maintenance_mode=\"enabled\"";
+
+                // add the metric_host filter
+                tk_custom_alert = tk_custom_alert + "\n| search metric_host=\"" +  tk_custom_alert_metric_host_filter + "\"";
+
+                // add the priority filter
+                tk_custom_alert = tk_custom_alert + "\n| search " +  tk_input_custom_alert_priority;
+
+                // add the state filter
+                tk_custom_alert = tk_custom_alert + "\n| search " +  tk_input_custom_alert_state;
+
+                // terminate the search
+                tk_custom_alert = tk_custom_alert + "\n| makemv delim=\",\" metric_index";
+                tk_custom_alert = tk_custom_alert + "\n| search `trackme_get_idx_whitelist_searchtime(trackme_metric_host_monitoring_whitelist_index, metric_index)`";
+                tk_custom_alert = tk_custom_alert + "\n| `apply_metric_host_blacklists`";
+                tk_custom_alert = tk_custom_alert + "\n| where metric_monitored_state=\"enabled\"";
+                tk_custom_alert = tk_custom_alert + "\n| `trackme_date_format(metric_last_time_seen)`";
+                tk_custom_alert = tk_custom_alert + "\n| eval \"last time\"='metric_last_time_seen (translated)'";
+                tk_custom_alert = tk_custom_alert + "\n| `trackme_date_format(metric_tracker_runtime)`";
+                tk_custom_alert = tk_custom_alert + "\n| `trackme_date_format(metric_previous_tracker_runtime)`";
+                tk_custom_alert = tk_custom_alert + "\n| `trackme_eval_icons_metric_host`";
+                tk_custom_alert = tk_custom_alert + "\n| rename \"* (translated)\" as \"*\"";
+                tk_custom_alert = tk_custom_alert + "\n| makemv metric_category delim=\",\"";
+                tk_custom_alert = tk_custom_alert + "\n| makemv metric_details delim=\",\"";
+                tk_custom_alert = tk_custom_alert + "\n| `trackme_ack_lookup(metric_host, metric_host)`";
+                tk_custom_alert = tk_custom_alert + "\n| `trackme_alerts_order_metric_host`";
+
+            }
+
+            function done(err) {
+                        //error handling logic here
+                    }
+
+            // Specify properties for the alert.
+            var alertOptions = {
+                name: tk_tracker_name,
+                description: "TrackMe alert",
+                search: tk_custom_alert,
+                "alert_type": "always",
+                "alert.severity": "1",
+                "alert.suppress": "1",
+                "alert.suppress.fields": tk_custom_alert_suppress_fields,
+                "alert.suppress.period": tk_custom_alert_suppress_period,
+                "alert.track": "1",
+                "dispatch.earliest_time": "-5m",
+                "dispatch.latest_time": "now",
+                "is_scheduled": "1",
+                "cron_schedule": tk_custom_alert_cron
+            };
+            
+            // Create a saved search/report as an alert.
+            service.savedSearches().create(alertOptions, function(err, alert) {
+                // Error checking.
+                if (err && err.status === 409) {
+                    msg = "ERROR: A saved search/report with the name " + alertOptions.name + " already exists";
+
+                    // Audit
+                    action = "failure";
+                    change_type = "add custom alert";
+                    object = tk_tracker_name;
+                    object_category = tk_object_category;
+                    object_attrs = tk_custom_alert;
+                    result = msg;
+                    comment = "N/A";
+                    auditRecord(action, change_type, object, object_category, object_attrs, result, comment);
+
+                    $("#modal_alert_creation_error").find('.modal-error-message p').text(msg);
+                    $("#add_custom_alert").modal('hide');
+                    $("#modal_alert_creation_error").modal()
+                    done();
+                    return;
+                }
+                else if (err) {
+                    msg = "There was an error creating the saved search/report: error code " + err.status;
+
+                    let errorStr = "Unknown Error!";
+                    if (err && err.data && err.data.messages && err.data.messages[0]['text']) {
+                        errorStr = "error code: " + err.status + " - " + err.data.messages[0]['text'];
+                    } else if (err && err.data && err.data.messages) {
+                        errorStr = JSON.stringify( "error code: " + err.status + " - " + err.data.messages);
+                    }
+
+                    // Audit
+                    action = "failure";
+                    change_type = "add custom alert";
+                    object = tk_tracker_name;
+                    object_category = tk_object_category;
+                    object_attrs = tk_custom_alert;
+                    result = errorStr;
+                    comment = "N/A";
+                    auditRecord(action, change_type, object, object_category, object_attrs, result, comment);
+
+                    $("#modal_alert_creation_error").find('.modal-error-message p').text(errorStr);
+                    $("#add_custom_alert").modal('hide');
+                    $("#modal_alert_creation_error").modal()
+                    done(err);
+                    return;
+                }
+
+                else {
+
+                    // Confirmation message.
+
+                    // Audit
+                    action = "success";
+                    change_type = "add custom alert";
+                    object = tk_tracker_name;
+                    object_category = tk_object_category;
+                    object_attrs = tk_custom_alert;
+                    result = "N/A";
+                    comment = "N/A";
+                    auditRecord(action, change_type, object, object_category, object_attrs, result, comment);
+
+                    msg = "Created saved search/report as alert: " + alert.name;
+                    $("#modal_alert_creation_success").find('.modal-error-message p').text(msg);
+                    $("#add_custom_alert").modal('hide');
+                    $("#modal_alert_creation_success").modal()
+
+                    search_alerts_main_table.startSearch();
+                    searchDonutAlertsTriggered.startSearch();
+                    searchAlertTriggeredOverTime.startSearch();
+
+                    done();
+
+                }
+
+            });
+            
+        });
+        
         // enable monitoring
 
         $("#btn_enable_monitoring").click(function(mode) {
