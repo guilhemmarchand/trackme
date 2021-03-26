@@ -16,8 +16,10 @@ TrackMe requires a summary index (defaults to trackme_summary) and a metric inde
 https://trackme.readthedocs.io/en/latest/configuration.html
 
 - Feature - Issue #292 - Alerts - New screen for alerts management in TrackMe, review, edit and add alerts within the UI
+- Enhancement - Issue #295 - Long term trackers performance - Major reduction of the long term trackers runtime by better taking into account the existing short term entities knowledge
 - Enhancement - Issue #290 - Alerts - OOTB alert TrackMe - Alert on data source availability should suppress on data_name only
 - Fix - Issue #291 - REST endpoint - the endpoint mh_update_priority does not preserve the monitored_state
+- Fix - Issue #294 - Data hosts - Long term tracker filter error causes the long term to miss entities indexing lately
 
 Version 1.2.38
 ==============
