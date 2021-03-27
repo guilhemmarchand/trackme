@@ -409,7 +409,7 @@ Such a report would be scheduled to run daily or so, and would automatically mai
 Step 7: enabling out of the box alerts or create your own custom alerts
 =======================================================================
 
-**Since TrackMe 1.2.39, a dedicated screen allows to manage alerts within TrackMe direclty, and create your own alert in assisted mode:**
+**Since TrackMe 1.2.39, a dedicated screen allows to manage alerts within TrackMe, and create your own alert in assisted mode:**
 
 Using out of the box alerts
 ---------------------------
