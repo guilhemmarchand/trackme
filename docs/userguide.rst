@@ -34,6 +34,7 @@ Main navigation tabs
 - ``METRIC HOSTS TRACKING`` shows metrics discovered for each ``host sending metrics`` to Splunk
 - ``INVESTIGATE STATUS FLIPPING`` shows the detection of an entity switching from a state, example green, to another state like red
 - ``INVESITAGE AUDIT CHANGES`` shows all changes performed within the UI for auditing and review purposes
+- ``TRACKING ALERTS`` shows alerts activity, allows managing and creating new custom alerts adapated to TrackMe context
 
 Data Sources tracking and features
 ----------------------------------
@@ -2974,9 +2975,13 @@ Out of the box alerts
 - ``TrackMe - Alert on data host availability``
 - ``TrackMe - Alert on metric host availability``
 
-.. warning:: These alerts are disabled by default, and need to be manually enabled if you wish to use them in your global alerting workflow.
+.. hint:: enabling out of the box alerts and custom alerts creation
 
-Built-in alerts are Splunk alerts which can be extended to be integrated in many powerful ways, such as your ticketing system (Service Now, JIRA...) or even mobile notifications with Splunk Cloud Gateway.
+   - Depending on your preferences, you may simply enable one or more out of the box alerts
+   - You can as well easily create custom alerts that are more specific to your context, with various options depending on the types of entities
+   - Once an alert is enabled, use the Splunk editor if you wish to enable third party alert actions such as creating tickets in your incident management. sending emails, etc.
+   
+For more details, see :ref:`Step 7: enabling out of the box alerts or create your own custom alerts`
 
 Alerts acknowledgment
 =====================
