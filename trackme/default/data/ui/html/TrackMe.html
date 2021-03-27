@@ -15882,7 +15882,8 @@ require([
             "id": "modal_input_custom_state_levels",
             "choices": [
                 {"label": "red", "value": "red"},
-                {"label": "orange", "value": "orange"}
+                {"label": "orange", "value": "orange"},
+                {"label": "Any (red/orange)", "value": "*"},
             ],
             "valuePrefix": "state=\"",
             "valueSuffix": "\"",
@@ -24437,7 +24438,7 @@ require([
                 tk_custom_alert = tk_custom_alert + "\n| search " +  tk_input_custom_alert_priority;
 
                 // add the state filter
-                tk_custom_alert = tk_custom_alert + "\n| eval state=coalesce(data_source_state,data_host_state,metric_host_state) | search " +  tk_input_custom_alert_state;
+                tk_custom_alert = tk_custom_alert + "\n| eval state=coalesce(data_source_state,data_host_state,metric_host_state) | where (state=\"red\" OR state=\"orange\") | search " +  tk_input_custom_alert_state;
 
                 // handle tags
                 if (tk_input_custom_tags != "tags=\"*\"") {
@@ -24485,7 +24486,7 @@ require([
                 tk_custom_alert = tk_custom_alert + "\n| search " +  tk_input_custom_alert_priority;
 
                 // add the state filter
-                tk_custom_alert = tk_custom_alert + "\n| eval state=coalesce(data_source_state,data_host_state,metric_host_state) | search " +  tk_input_custom_alert_state;
+                tk_custom_alert = tk_custom_alert + "\n| eval state=coalesce(data_source_state,data_host_state,metric_host_state) | where (state=\"red\" OR state=\"orange\") | search " +  tk_input_custom_alert_state;
 
                 // handle outliers
                 if (tk_input_custom_alert_trigger_on_outliers == "false") {
@@ -24524,7 +24525,7 @@ require([
                 tk_custom_alert = tk_custom_alert + "\n| search " +  tk_input_custom_alert_priority;
 
                 // add the state filter
-                tk_custom_alert = tk_custom_alert + "\n| eval state=coalesce(data_source_state,data_host_state,metric_host_state) | search " +  tk_input_custom_alert_state;
+                tk_custom_alert = tk_custom_alert + "\n| eval state=coalesce(data_source_state,data_host_state,metric_host_state) | where (state=\"red\" OR state=\"orange\") | search " +  tk_input_custom_alert_state;
 
                 // terminate the search
                 tk_custom_alert = tk_custom_alert + "\n| makemv delim=\",\" metric_index";
