@@ -809,7 +809,7 @@ class TrackMeHandlerMetricHosts_v1(rest_handler.RESTHandler):
                     "metric_first_time_seen": record[0].get('metric_first_time_seen'), 
                     "metric_last_time_seen": record[0].get('metric_last_time_seen'),
                     "metric_max_lag_allowed": record[0].get('metric_max_lag_allowed'),
-                    "metric_monitored_state": record[0].get('metric_max_lag_allowed'),
+                    "metric_monitored_state": record[0].get('metric_monitored_state'),
                     "metric_monitoring_wdays": record[0].get('metric_monitoring_wdays'),
                     "metric_override_lagging_class": record[0].get('metric_override_lagging_class'),
                     "metric_host_state": record[0].get('metric_host_state'),

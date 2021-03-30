@@ -406,8 +406,13 @@ However, because TrackMe relies on KVstore based lookups, it is very straightfor
 
 Such a report would be scheduled to run daily or so, and would automatically maintain the priority definition based on an external integration.
 
-Step 7: enabling out of the box alerts
-======================================
+Step 7: enabling out of the box alerts or create your own custom alerts
+=======================================================================
+
+**Since TrackMe 1.2.39, a dedicated screen allows to manage alerts within TrackMe, and create your own alert in assisted mode:**
+
+Using out of the box alerts
+---------------------------
 
 **TrackMe provides out of the box alerts that can be used to deliver alerting when a monitored component reaches a red state:**
 
@@ -417,10 +422,7 @@ Step 7: enabling out of the box alerts
 
 - TrackMe - Alert on metric host availability
 
-**To see these alerts, go in:**
-
-- Nav menu ``Search / Alerts``
-- Or Splunk ``Settings / Searches, report and alerts``
+**In TrackMe main screen, go to the tracking alerts tab:**
 
 .. image:: img/ootb_alerts.png
    :alt: ootb_alerts.png
@@ -431,8 +433,32 @@ Step 7: enabling out of the box alerts
 
    - Out of the box alerts are disabled by default, you need to enable alerts to start using them
    - Alerts will trigger by default on ``high priority`` entities only, this is controlled via the macro definition ``trackme_alerts_priority``
-   - If you need additional levels of granularity in the alerting, for example to alert for medium priority with a different less critical workflow, clone these alerts and create your own versions
    - Edit the alert to perform your third party integration, for example ``sending emails`` or creating ``JIRA issues`` based on Splunk alert actions capabilities
+
+Creating custom alerts in assisted mode
+---------------------------------------
+
+**You can use this interface to a create one or more custom alerts:**
+
+.. image:: img/cutom_alerts/img001.png
+   :alt: img001.png
+   :align: center
+   :width: 1200px
+
+**This opens the assistant where you can choose between different builtin options depending on the type of entities to be monitoring:**
+
+.. image:: img/cutom_alerts/img002.png
+   :alt: img002.png
+   :align: center
+   :width: 800px
+
+Once you have created a new alert, it will be immediately visible in the tracking alerts UI, and you can use the Splunk built alert editor to modify the alert to up to your needs such as enabling third party actions, emails actions and so forth.
+
+   .. hint:: Custom alert features
+
+      - Creating custom alerts provide several layers of flexibility depending on your choices and preferences
+      - You may for example have alerts handling lowest level of prority with a specific type of alert action, and have a specific alert for highly critical entities
+      - Advanced setup can easily be performed such as getting benefits from the tags features and multiple alerts using tag policies to associate data sources and different types of alerts, recipients, actions...
 
 Final: Read the docs and start using TrackMe
 ============================================
