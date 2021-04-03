@@ -16,6 +16,7 @@ TrackMe requires a summary index (defaults to trackme_summary) and a metric inde
 https://trackme.readthedocs.io/en/latest/configuration.html
 
 - Fix - Issue #293 - Splunk telemetry causes DateParserVerbose Warnings logged
+- Fix - Issue #299 - Data Sampling - In some circumstances, the custom rule editor might fail to render events
 
 Version 1.2.40
 ==============
