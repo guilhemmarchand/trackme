@@ -434,20 +434,22 @@ Using out of the box alerts
    - Out of the box alerts are disabled by default, you need to enable alerts to start using them
    - Alerts will trigger by default on ``high priority`` entities only, this is controlled via the macro definition ``trackme_alerts_priority``
    - Edit the alert to perform your third party integration, for example ``sending emails`` or creating ``JIRA issues`` based on Splunk alert actions capabilities
+   - Out of the box alert enable by default two TrackMe alert actions, ``automatic acknowledgement`` and the ``Smart Status`` alert actions
+   - The results of the ``Smart Status`` alert action are automatically indexed in the TrackMe summary index within the sourcetype ``trackme_smart_status`` and can be used for investigation purposes
 
 Creating custom alerts in assisted mode
 ---------------------------------------
 
 **You can use this interface to a create one or more custom alerts:**
 
-.. image:: img/cutom_alerts/img001.png
+.. image:: img/custom_alerts/img001.png
    :alt: img001.png
    :align: center
    :width: 1200px
 
 **This opens the assistant where you can choose between different builtin options depending on the type of entities to be monitoring:**
 
-.. image:: img/cutom_alerts/img002.png
+.. image:: img/custom_alerts/img002.png
    :alt: img002.png
    :align: center
    :width: 800px
@@ -459,6 +461,7 @@ Once you have created a new alert, it will be immediately visible in the trackin
       - Creating custom alerts provide several layers of flexibility depending on your choices and preferences
       - You may for example have alerts handling lowest level of prority with a specific type of alert action, and have a specific alert for highly critical entities
       - Advanced setup can easily be performed such as getting benefits from the tags features and multiple alerts using tag policies to associate data sources and different types of alerts, recipients, actions...
+      - You may decide if you wish to enable or disable the TrackMe ``auto acknowledgement`` and ``Smart Status`` alert actions while creating alerts through the assistant
 
 Final: Read the docs and start using TrackMe
 ============================================

@@ -128,4 +128,4 @@ Metric hosts tracking
    :align: center
    :width: 1200px
 
-Congratulations, you have now a builtin, easy and efficient monitoring of your Splunk instances availability, enable and configure up to your preferences the :ref:`Out of the box alerts` and the job is done!
+Congratulations, you have now a builtin, easy and efficient monitoring of your Splunk instances availability, enable and configure alerts up to your preferences the :ref:`Alerts tracking` and the job is done!

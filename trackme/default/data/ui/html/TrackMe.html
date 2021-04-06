@@ -8943,8 +8943,8 @@ styles in <div> tags, similar to Bootstrap's grid system.
                             </div>
                         </div>
                     </div>
-                    <div id="rowCustomAlertAddBtns" class="dashboard-row dashboard-row3">
-                        <div id="rowCustomAlertAddBtns" class="dashboard-cell" style="width: 100%;">
+                    <div id="rowCustomAlertCommon" class="dashboard-row dashboard-row3">
+                        <div id="rowCustomAlertCommon" class="dashboard-cell" style="width: 100%;">
                             <div class="dashboard-panel clearfix">
                                 <div class="panel-element-row">
                                     <div class="fieldset">
@@ -8958,8 +8958,41 @@ styles in <div> tags, similar to Bootstrap's grid system.
                                             <label>Suppression period:</label>
                                         </div>                                        
                                     </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="rowCustomAlertTrackMeActions" class="dashboard-row dashboard-row3">
+                        <div id="rowCustomAlertTrackMeActions" class="dashboard-cell" style="width: 100%;">
+                            <div class="dashboard-panel clearfix">
+                                <div class="panel-element-row">
                                     <div>
-                                        <h3>Alert actions and other options will be made available in the Splunk alert editor once the it has been created, default settings will enabled the Adds to triggered alerts action.</h3>
+                                        <h3>TrackMe alert actions:</h3>
+                                        <lu>
+                                            <li>Auto Acknowledment: automatically acknowledge entities triggering, the ack duration is configurable within the alert action
+                                            <li>Smart Status: automatically call the Smart Status REST endpoint, results are indexed in the trackme summary index for investigations purposes
+                                        </lu>
+                                    </div>
+                                </div>
+                                <div class="panel-element-row">
+                                    <div class="fieldset">
+                                        <div class="input input-drilldown" id="modal_input_custom_alert_auto_ack">
+                                            <label>Auto Acknowledment:</label>
+                                        </div>
+                                        <div class="input input-text" id="modal_input_custom_alert_smart_status">
+                                            <label>Smart Status:</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="rowCustomAlertAddBtns" class="dashboard-row dashboard-row3">
+                        <div id="rowCustomAlertAddBtns" class="dashboard-cell" style="width: 100%;">
+                            <div class="dashboard-panel clearfix">
+                                <div class="panel-element-row">
+                                    <div>
+                                        <h3>Other Alert actions and options will be made available in the Splunk alert editor once the it has been created.</h3>
                                     </div>
                                     <div style="margin-top: 15x;">
                                         <button type="submit" id="btn_modal_custom_alert_add_new" style="margin-right: 15px;" class="btn btn-default btn-primary"><span class="glyphicon glyphicon-remove"></span> Add this new alert</button>
@@ -15797,19 +15830,19 @@ require([
             if (e.value === "data_source") {
                 EventHandler.setToken("create_alert_object_type", "data_source", {}, e.data);
                 EventHandler.setToken("create_alert_data_source", "true", {}, e.data);
-                EventHandler.setToken("form.tk_custom_alert_suppress_fields", "data_source", {}, e.data);
+                EventHandler.setToken("form.tk_custom_alert_suppress_fields", "object", {}, e.data);
                 EventHandler.unsetToken("create_alert_data_host");
                 EventHandler.unsetToken("create_alert_metric_host");
             } else if (e.value === "data_host") {
                 EventHandler.setToken("create_alert_object_type", "data_host", {}, e.data);
                 EventHandler.setToken("create_alert_data_host", "true", {}, e.data);
-                EventHandler.setToken("form.tk_custom_alert_suppress_fields", "data_host", {}, e.data);                
+                EventHandler.setToken("form.tk_custom_alert_suppress_fields", "object", {}, e.data);                
                 EventHandler.unsetToken("create_alert_data_source");
                 EventHandler.unsetToken("create_alert_metric_host");
             } else if (e.value === "metric_host") {
                 EventHandler.setToken("create_alert_object_type", "metric_host", {}, e.data);
                 EventHandler.setToken("create_alert_metric_host", "true", {}, e.data);
-                EventHandler.setToken("form.tk_custom_alert_suppress_fields", "metric_host", {}, e.data);                
+                EventHandler.setToken("form.tk_custom_alert_suppress_fields", "object", {}, e.data);                
                 EventHandler.unsetToken("create_alert_data_host");
                 EventHandler.unsetToken("create_alert_data_source");
             }
@@ -16037,6 +16070,58 @@ require([
 
         modal_input_custom_alert_suppress_period.on("change", function(newValue) {
             FormUtils.handleValueChange(modal_input_custom_alert_suppress_period);
+        });
+
+        var modal_input_custom_alert_auto_ack = new DropdownInput({
+            "id": "modal_input_custom_alert_auto_ack",
+            "choices": [{
+                    "label": "enabled",
+                    "value": "1"
+                },
+                {
+                    "label": "disabled",
+                    "value": "0"
+                }
+            ],
+            "searchWhenChanged": false,
+            "default": "1",
+            "showClearButton": true,
+            "initialValue": "1",
+            "selectFirstChoice": false,
+            "value": "$form.tk_input_custom_alert_auto_ack$",
+            "el": $('#modal_input_custom_alert_auto_ack')
+        }, {
+            tokens: true
+        }).render();
+
+        modal_input_custom_alert_auto_ack.on("change", function(newValue) {
+            FormUtils.handleValueChange(modal_input_custom_alert_auto_ack);
+        });
+
+        var modal_input_custom_alert_smart_status = new DropdownInput({
+            "id": "modal_input_custom_alert_smart_status",
+            "choices": [{
+                    "label": "enabled",
+                    "value": "1"
+                },
+                {
+                    "label": "disabled",
+                    "value": "0"
+                }
+            ],
+            "searchWhenChanged": false,
+            "default": "1",
+            "showClearButton": true,
+            "initialValue": "1",
+            "selectFirstChoice": false,
+            "value": "$form.tk_input_custom_alert_smart_status$",
+            "el": $('#modal_input_custom_alert_smart_status')
+        }, {
+            tokens: true
+        }).render();
+
+        modal_input_custom_alert_smart_status.on("change", function(newValue) {
+            FormUtils.handleValueChange(modal_input_custom_alert_smart_status);
         });
 
         // elastic sources
@@ -24415,6 +24500,8 @@ require([
             var tk_custom_alert_cron = tokens.get("tk_custom_alert_cron");
             var tk_custom_alert_suppress_fields = tokens.get("tk_custom_alert_suppress_fields");
             var tk_custom_alert_suppress_period = tokens.get("tk_custom_alert_suppress_period");
+            var tk_input_custom_alert_smart_status = tokens.get("tk_input_custom_alert_smart_status");
+            var tk_input_custom_alert_auto_ack = tokens.get("tk_input_custom_alert_auto_ack");
 
             // Splunk limits report names to max 100 chars, and will refuse otherwise
             var tk_tracker_name = tk_custom_alert_name.substring(0, 100);
@@ -24549,23 +24636,89 @@ require([
                         //error handling logic here
                     }
 
+            var alertOptions;
+
             // Specify properties for the alert.
-            var alertOptions = {
-                name: tk_tracker_name,
-                description: "TrackMe alert",
-                search: tk_custom_alert,
-                "alert_type": "always",
-                "alert.severity": "1",
-                "alert.suppress": "1",
-                "alert.suppress.fields": tk_custom_alert_suppress_fields,
-                "alert.suppress.period": tk_custom_alert_suppress_period,
-                "alert.track": "1",
-                "dispatch.earliest_time": "-5m",
-                "dispatch.latest_time": "now",
-                "is_scheduled": "1",
-                "cron_schedule": tk_custom_alert_cron
-            };
-            
+            if (tk_input_custom_alert_auto_ack == "1" && tk_input_custom_alert_smart_status == "1") {
+                alertOptions = {
+                    name: tk_tracker_name,
+                    description: "TrackMe alert",
+                    search: tk_custom_alert,
+                    "alert_type": "always",
+                    "alert.severity": "1",
+                    "alert.suppress": "1",
+                    "alert.suppress.fields": tk_custom_alert_suppress_fields,
+                    "alert.suppress.period": tk_custom_alert_suppress_period,
+                    "alert.track": "1",
+                    "dispatch.earliest_time": "-5m",
+                    "dispatch.latest_time": "now",
+                    "is_scheduled": "1",
+                    "cron_schedule": tk_custom_alert_cron,
+                    "actions": "trackme_auto_ack,trackme_smart_status",
+                    "action.trackme_auto_ack.param.object_name": "$result.object$",
+                    "action.trackme_smart_status.param.object_category": "$result.object_category$",
+                    "action.trackme_smart_status.param.object_name": "$result.data_name$",
+                    "action.trackme_auto_ack.param.object_name": "$result.object$"                    
+                };
+            }
+            else if (tk_input_custom_alert_auto_ack == "1") {
+                alertOptions = {
+                    name: tk_tracker_name,
+                    description: "TrackMe alert",
+                    search: tk_custom_alert,
+                    "alert_type": "always",
+                    "alert.severity": "1",
+                    "alert.suppress": "1",
+                    "alert.suppress.fields": tk_custom_alert_suppress_fields,
+                    "alert.suppress.period": tk_custom_alert_suppress_period,
+                    "alert.track": "1",
+                    "dispatch.earliest_time": "-5m",
+                    "dispatch.latest_time": "now",
+                    "is_scheduled": "1",
+                    "cron_schedule": tk_custom_alert_cron,
+                    "actions": "trackme_auto_ack",
+                    "action.trackme_auto_ack.param.object_name": "$result.object$"
+                };
+            }
+            else if (tk_input_custom_alert_smart_status == "1") {
+                alertOptions = {
+                    name: tk_tracker_name,
+                    description: "TrackMe alert",
+                    search: tk_custom_alert,
+                    "alert_type": "always",
+                    "alert.severity": "1",
+                    "alert.suppress": "1",
+                    "alert.suppress.fields": tk_custom_alert_suppress_fields,
+                    "alert.suppress.period": tk_custom_alert_suppress_period,
+                    "alert.track": "1",
+                    "dispatch.earliest_time": "-5m",
+                    "dispatch.latest_time": "now",
+                    "is_scheduled": "1",
+                    "cron_schedule": tk_custom_alert_cron,
+                    "actions": "trackme_smart_status",
+                    "action.trackme_smart_status.param.object_category": "$result.object_category$",
+                    "action.trackme_smart_status.param.object_name": "$result.data_name$",
+                    "action.trackme_auto_ack.param.object_name": "$result.object$"                    
+                };
+            }
+            else {
+                alertOptions = {
+                    name: tk_tracker_name,
+                    description: "TrackMe alert",
+                    search: tk_custom_alert,
+                    "alert_type": "always",
+                    "alert.severity": "1",
+                    "alert.suppress": "1",
+                    "alert.suppress.fields": tk_custom_alert_suppress_fields,
+                    "alert.suppress.period": tk_custom_alert_suppress_period,
+                    "alert.track": "1",
+                    "dispatch.earliest_time": "-5m",
+                    "dispatch.latest_time": "now",
+                    "is_scheduled": "1",
+                    "cron_schedule": tk_custom_alert_cron
+                };
+            }
+
             // Create a saved search/report as an alert.
             service.savedSearches().create(alertOptions, function(err, alert) {
                 // Error checking.

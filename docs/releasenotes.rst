@@ -15,6 +15,8 @@ This is a new main release branch, TrackMe 1.2.x requires the deployment of the 
 TrackMe requires a summary index (defaults to trackme_summary) and a metric index (defaults to trackme_metrics):
 https://trackme.readthedocs.io/en/latest/configuration.html
 
+- Feature - Issue #300 - TrackMe now comes builtin with alert actions enabled by default on out of the box alerts, these actions perform auto acknowledgement, call and index the Smart Status result, the third action is a free style action that call any of the TrackMe REST API endpoints
+- Change: Normalize the suppress fields for all alerts to use the object/object_category TrackMe naming convention
 - Fix - Issue #293 - Splunk telemetry causes DateParserVerbose Warnings logged
 - Fix - Issue #299 - Data Sampling - In some circumstances, the custom rule editor might fail to render events
 
