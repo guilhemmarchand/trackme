@@ -55,6 +55,11 @@ def process_event(helper, *args, **kwargs):
     from splunklib.modularinput.event import Event, ET
     from splunklib.modularinput.event_writer import EventWriter
 
+    # disable urlib3 warnings for SSL
+    # we are talking to localhost splunkd in SSL
+    import urllib3
+    urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
+
     # Retrieve the session_key
     helper.log_debug("Get session_key.")
     session_key = helper.session_key
@@ -76,17 +81,16 @@ def process_event(helper, *args, **kwargs):
     http_body = json.dumps(json.loads(http_body.replace("\'", "\""), strict=False), indent=1)
 
     # build header and target
-    header = 'Splunk ' + str(session_key)
+    header = {
+        'Authorization': 'Splunk %s' % session_key,
+        'Content-Type': 'application/json'}
     target_url = "https://localhost:" + str(splunkd_port) + str(endpoint_url)
 
     # retrieve index target from trackme_idx macro
     record_url = 'https://localhost:' + str(splunkd_port) \
                  + '/servicesNS/-/-/admin/macros/trackme_idx'
-    headers = {
-        'Authorization': 'Splunk %s' % session_key,
-        'Content-Type': 'application/json'}
 
-    response = requests.get(record_url, headers=headers, verify=False)
+    response = requests.get(record_url, headers=header, verify=False)
     helper.log_info("response status_code:={}".format(response.status_code))
     if response.status_code == 200:
         splunk_response = response.text
@@ -110,7 +114,7 @@ def process_event(helper, *args, **kwargs):
             msg = "Performing HTTP get call to " + str(endpoint_url) + " with HTTP body: " + str(http_body)
             helper.log_info("action:={}".format(msg))
             try:
-                response = requests.get(target_url, headers={'Authorization': header}, verify=False, data=http_body)
+                response = requests.get(target_url, headers=header, verify=False, data=http_body)
             
                 if response.status_code == 200:
                     response_data = response.text
@@ -146,7 +150,7 @@ def process_event(helper, *args, **kwargs):
             msg = "Performing get call to " + str(endpoint_url) + " no HTTP body"
             helper.log_info("action:={}".format(msg))
             try:
-                response = requests.get(target_url, headers={'Authorization': header}, verify=False)                    
+                response = requests.get(target_url, headers=header, verify=False)                    
             
                 if response.status_code == 200:
                     response_data = response.text
@@ -183,7 +187,7 @@ def process_event(helper, *args, **kwargs):
         helper.log_info("action:={}".format(msg))
 
         try:
-            response = requests.post(target_url, headers={'Authorization': header}, verify=False, data=http_body)
+            response = requests.post(target_url, headers=header, verify=False, data=http_body)
 
             if response.status_code == 200:
                 response_data = response.text
@@ -221,7 +225,7 @@ def process_event(helper, *args, **kwargs):
 
         # Get
         try:
-            response = requests.delete(target_url, headers={'Authorization': header}, verify=False, data=http_body)
+            response = requests.delete(target_url, headers=header, verify=False, data=http_body)
 
             if response.status_code == 200:
                 response_data = response.text

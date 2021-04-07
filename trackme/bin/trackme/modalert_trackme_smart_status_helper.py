@@ -54,6 +54,11 @@ def process_event(helper, *args, **kwargs):
     from splunklib.modularinput.event import Event, ET
     from splunklib.modularinput.event_writer import EventWriter
 
+    # disable urlib3 warnings for SSL
+    # we are talking to localhost splunkd in SSL
+    import urllib3
+    urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
+
     # Retrieve the session_key
     helper.log_debug("Get session_key.")
     session_key = helper.session_key
@@ -91,7 +96,9 @@ def process_event(helper, *args, **kwargs):
     helper.log_info("http_mode={}".format(http_mode))    
 
     # build header and target
-    header = 'Splunk ' + str(session_key)
+    header = {
+        'Authorization': 'Splunk %s' % session_key,
+        'Content-Type': 'application/json'}
     target_url = "https://localhost:" + str(splunkd_port) + str(endpoint_url)
         
     # prepare the body data, if any
@@ -100,7 +107,7 @@ def process_event(helper, *args, **kwargs):
         json_data = json.dumps(json.loads(body.replace("\'", "\""), strict=False), indent=1)
 
     # Get
-    response = requests.get(target_url, headers={'Authorization': header}, verify=False, data=json_data)
+    response = requests.get(target_url, headers=header, verify=False, data=json_data)
 
     # parse if response is a proper json, otherwise returns as string
     response_data = None
@@ -126,11 +133,8 @@ def process_event(helper, *args, **kwargs):
     # retrieve index target from trackme_idx macro
     record_url = 'https://localhost:' + str(splunkd_port) \
                  + '/servicesNS/-/-/admin/macros/trackme_idx'
-    headers = {
-        'Authorization': 'Splunk %s' % session_key,
-        'Content-Type': 'application/json'}
 
-    response = requests.get(record_url, headers=headers, verify=False)
+    response = requests.get(record_url, headers=header, verify=False)
     helper.log_info("response status_code:={}".format(response.status_code))
     if response.status_code == 200:
         splunk_response = response.text
@@ -141,10 +145,13 @@ def process_event(helper, *args, **kwargs):
             splunk_index = "trackme_summary"
     else:
         splunk_index = "trackme_summary"
-    helper.log_info("splunk_index:={}".format(splunk_index))            
 
     # write event to Splunk
     helper.addevent(json.dumps(data), sourcetype="trackme_smart_status")
-    helper.writeevents(index=str(splunk_index), source=str(source_value))
+    try:
+        helper.writeevents(index=str(splunk_index), source=str(source_value))
+        helper.log_info("Smart Status result successfully written to the Splunk index:={}".format(splunk_index)) 
+    except Exception as e:
+        helper.log_error("Exception encountered while Splunk indexing={}".format(e))
 
     return 0

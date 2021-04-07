@@ -52,6 +52,11 @@ def process_event(helper, *args, **kwargs):
     import re
     import time
     
+    # disable urlib3 warnings for SSL
+    # we are talking to localhost splunkd in SSL
+    import urllib3
+    urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
+
     # Retrieve the session_key
     helper.log_debug("Get session_key.")
     session_key = helper.session_key
@@ -78,7 +83,9 @@ def process_event(helper, *args, **kwargs):
     helper.log_info("body={}".format(body))
 
     # build header and target
-    header = 'Splunk ' + str(session_key)
+    header = {
+        'Authorization': 'Splunk %s' % session_key,
+        'Content-Type': 'application/json'}
     target_url = "https://localhost:" + str(splunkd_port) + str(endpoint_url)
         
     # prepare the body data, if any
@@ -91,7 +98,7 @@ def process_event(helper, *args, **kwargs):
 
     # Get
     try:
-        response = requests.post(target_url, headers={'Authorization': header}, verify=False, data=json_data)
+        response = requests.post(target_url, headers=header, verify=False, data=json_data)
     
         if response.status_code == 200:
             response_data = response.text

@@ -14,6 +14,7 @@
   <collection label="API &amp; tooling">
     <view name="trackMe_api_reference" />
     <view name="trackMe_backup_and_restore" />
+    <saved source="all" match="TrackMe alert actions -" />
   </collection>
   <collection label="Collections">
     <collection label="Data sources monitoring">
