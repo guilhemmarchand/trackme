@@ -19,6 +19,7 @@ https://trackme.readthedocs.io/en/latest/configuration.html
 - Change: Normalize the suppress fields for all alerts to use the object/object_category TrackMe naming convention
 - Fix - Issue #293 - Splunk telemetry causes DateParserVerbose Warnings logged
 - Fix - Issue #299 - Data Sampling - In some circumstances, the custom rule editor might fail to render events
+- Fix - Issue #301 - Smart Status - the REST handler should call the eval state status macro in case it is called before the KVstore is updated
 
 Version 1.2.40
 ==============
