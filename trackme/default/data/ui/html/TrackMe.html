@@ -24655,10 +24655,10 @@ require([
                     "is_scheduled": "1",
                     "cron_schedule": tk_custom_alert_cron,
                     "actions": "trackme_auto_ack,trackme_smart_status",
+                    "action.trackme_auto_ack.param.object_category": "$result.object_category$",
                     "action.trackme_auto_ack.param.object_name": "$result.object$",
                     "action.trackme_smart_status.param.object_category": "$result.object_category$",
-                    "action.trackme_smart_status.param.object_name": "$result.object$",
-                    "action.trackme_auto_ack.param.object_name": "$result.object$"                    
+                    "action.trackme_smart_status.param.object_name": "$result.object$"                    
                 };
             }
             else if (tk_input_custom_alert_auto_ack == "1") {
@@ -24676,7 +24676,8 @@ require([
                     "dispatch.latest_time": "now",
                     "is_scheduled": "1",
                     "cron_schedule": tk_custom_alert_cron,
-                    "actions": "trackme_auto_ack",
+                    "actions": "trackme_auto_ack",                    
+                    "action.trackme_auto_ack.param.object_category": "$result.object_category$",
                     "action.trackme_auto_ack.param.object_name": "$result.object$"
                 };
             }
@@ -24697,8 +24698,7 @@ require([
                     "cron_schedule": tk_custom_alert_cron,
                     "actions": "trackme_smart_status",
                     "action.trackme_smart_status.param.object_category": "$result.object_category$",
-                    "action.trackme_smart_status.param.object_name": "$result.object$",
-                    "action.trackme_auto_ack.param.object_name": "$result.object$"                    
+                    "action.trackme_smart_status.param.object_name": "$result.object$"                   
                 };
             }
             else {
