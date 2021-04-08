@@ -22,6 +22,7 @@ Dependencies
 - Semicircle Donut Chart Viz, Splunk Base: https://splunkbase.splunk.com/app/4378
 - Splunk Machine Learning Toolkit, Splunk Base: https://splunkbase.splunk.com/app/2890
 - Splunk Timeline - Custom Visualization, Splunk Base: https://splunkbase.splunk.com/app/3120
+- Splunk SA CIM - Splunk Common Information Model, Splunk Base: https://splunkbase.splunk.com/app/1621 (require for alert actions and result ingestion purposes)
 
 Indexes
 =======
