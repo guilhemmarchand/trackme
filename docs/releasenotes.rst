@@ -22,6 +22,7 @@ https://trackme.readthedocs.io/en/latest/configuration.html
 - Fix - Issue #299 - Data Sampling - In some circumstances, the custom rule editor might fail to render events
 - Fix - Issue #301 - Smart Status - the REST handler should call the eval state status macro in case it is called before the KVstore is updated
 - Fix - Issue #302 - REST endpoints - Ack - wrong audit event logged
+- Fix - Issue #303 - REST endpoints - Backup and Restore - the purge operation purges the archive but not the KVstore record
 
 Version 1.2.40
 ==============
