@@ -1877,6 +1877,28 @@ Alert action: TrackMe auto acknowledge
    -  When an acknowledgement is enabled, the entity appears with a specific icon in the UI, you can control and extend the acknowledgement at any time.
    -  As long as an acknowledgement is enabled for a given entity, there will be no more alerts generated for it, which leaves time enough for the investigations, performing fine tuning if required or fixing the root cause of the issue.
    - The alert action activity is logged in ``(index="_internal" OR index="cim_modactions") sourcetype="modular_alerts:trackme_auto_ack"``
+   - A quick access report to the alert execution logs is available in the navigation application menu ``API & tooling/TrackMe alert actions - auto ack``
+
+*Example of an auto acknowledge processing logs, at the end of the process the API endpoint JSON result is logged:*
+
+.. image:: img/alert_actions/auto_ack2.png
+   :alt: auto_ack2.png
+   :align: center
+   :width: 1200px
+
+*An audit change event is automatically logged and visible in the UI:**
+
+.. image:: img/alert_actions/auto_ack3.png
+   :alt: auto_ack3.png
+   :align: center
+   :width: 900px
+
+*The entity has the acknowledged icon visible in the main UI screen:*
+
+.. image:: img/alert_actions/auto_ack4.png
+   :alt: auto_ack4.png
+   :align: center
+   :width: 1200px
 
 Alert action: Trackme Smart Status
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -1893,6 +1915,8 @@ Alert action: Trackme Smart Status
    - Using the alert action, the Smart Status action is performed automatically immediately when the entity triggers, and its result is indexed in the TrackMe summary event index defined in the macro ``trackme_idx``
    - The alert action activity is logged in ``(index="_internal" OR index="cim_modactions") sourcetype="modular_alerts:trackme_smart_status"``
    - the alert action result (the server response) is indexed in ```trackme_idx` sourcetype=trackme_smart_status``
+   - A quick access report to the alert execution logs is available in the navigation application menu ``API & tooling/TrackMe alert actions - Smart Status``
+   - A quick access report fo the Smart Status results indexes is available in the navigation application menu ``API & tooling/TrackMe events - Alert actions results``
 
 *Example: the alert triggers for a data source, the Smart Status action is executed and its result is indexed*
 
@@ -1920,6 +1944,8 @@ Alert action: TrackMe free style rest call
    - This alert action allows you to setup easily a custom workflow when the alert triggers dependending on your preference and context
    - The alert action activity is logged in ``(index="_internal" OR index="cim_modactions") sourcetype="modular_alerts:trackme_free_style_rest_call"``
    - the alert action result (the server response) is indexed in ```trackme_idx` sourcetype=trackme_alert_action``
+   - A quick access report to the alert execution logs is available in the navigation application menu ``TrackMe alert actions - free style``
+   - A quick access report fo the Smart Status results indexes is available in the navigation application menu ``API & tooling/TrackMe events - Alert actions results``
 
 **The following example will generate an event of the full data source record as it is when the alert triggers:**
 
