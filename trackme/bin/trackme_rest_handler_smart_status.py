@@ -105,6 +105,7 @@ class TrackMeHandlerSmartStatus_v1(rest_handler.RESTHandler):
                 kwargs_search = {"app": "trackme", "earliest_time": "-5m", "latest_time": "now"}
                 searchquery = "| inputlookup trackme_data_source_monitoring where _key=\"" + str(key) + "\""\
                 + "| eval keyid=_key"\
+                + "| `trackme_eval_data_source_state`"\
                 + "| `trackme_get_identity_card(data_name)`"\
                 + "| `trackme_lookup_elastic_sources`"\
                 + "| `trackme_ack_lookup_main(data_name)`"\
@@ -1876,7 +1877,8 @@ class TrackMeHandlerSmartStatus_v1(rest_handler.RESTHandler):
                 # Spawn a new search
                 # Get lagging statistics from live data
                 kwargs_search = {"app": "trackme", "earliest_time": "-5m", "latest_time": "now"}
-                searchquery = "| inputlookup trackme_host_monitoring where _key=\"" + str(key) + "\""
+                searchquery = "| inputlookup trackme_host_monitoring where _key=\"" + str(key) + "\"" + "\n"\
+                + "| `trackme_eval_data_host_state`"
 
                 # spawn the search and get the results
                 searchresults = service.jobs.oneshot(searchquery, **kwargs_search)

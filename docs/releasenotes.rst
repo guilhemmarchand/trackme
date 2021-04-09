@@ -1,6 +1,29 @@
 Release notes
 #############
 
+Version 1.2.41
+==============
+
+**CAUTION:**
+
+This is a new main release branch, TrackMe 1.2.x requires the deployment of the following dependencies:
+
+- Semicircle Donut Chart Viz, Splunk Base: https://splunkbase.splunk.com/app/4378
+- Splunk Machine Learning Toolkit, Splunk Base: https://splunkbase.splunk.com/app/2890
+- Splunk Timeline - Custom Visualization, Splunk Base: https://splunkbase.splunk.com/app/3120
+- Splunk SA CIM - Splunk Common Information Model, Splunk Base: https://splunkbase.splunk.com/app/1621
+
+TrackMe requires a summary index (defaults to trackme_summary) and a metric index (defaults to trackme_metrics):
+https://trackme.readthedocs.io/en/latest/configuration.html
+
+- Feature - Issue #300 - TrackMe now comes builtin with alert actions enabled by default on out of the box alerts, these actions perform auto acknowledgement, call and index the Smart Status result, the third action is a free style action that call any of the TrackMe REST API endpoints
+- Change: Normalize the suppress fields for all alerts to use the object/object_category TrackMe naming convention
+- Fix - Issue #293 - Splunk telemetry causes DateParserVerbose Warnings logged
+- Fix - Issue #299 - Data Sampling - In some circumstances, the custom rule editor might fail to render events
+- Fix - Issue #301 - Smart Status - the REST handler should call the eval state status macro in case it is called before the KVstore is updated
+- Fix - Issue #302 - REST endpoints - Ack - wrong audit event logged
+- Fix - Issue #303 - REST endpoints - Backup and Restore - the purge operation purges the archive but not the KVstore record
+
 Version 1.2.40
 ==============
 

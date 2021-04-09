@@ -339,7 +339,7 @@ class TrackMeHandlerAck_v1(rest_handler.RESTHandler):
 
                 # Update the record
                 collection.data.update(str(key), json.dumps({"object": object_value,
-                    "object_category": object_category_value,
+                    "object_category": str(object_category_value),
                     "ack_expiration": str(ack_expiration),
                     "ack_state": str(ack_state),
                     "ack_mtime": str(ack_mtime)}))
@@ -358,7 +358,7 @@ class TrackMeHandlerAck_v1(rest_handler.RESTHandler):
                         "action": "success",
                         "change_type": "enable ack",
                         "object": str(object_value),
-                        "object_category": "data_source",
+                        "object_category": str(object_category_value),
                         "object_attrs": str(json.dumps(collection.data.query_by_id(key), indent=1)),
                         "result": "N/A",
                         "comment": str(update_comment)
@@ -378,7 +378,7 @@ class TrackMeHandlerAck_v1(rest_handler.RESTHandler):
 
                 # Insert the record
                 collection.data.insert(json.dumps({"object": object_value,
-                    "object_category": object_category_value,
+                    "object_category": str(object_category_value),
                     "ack_expiration": str(ack_expiration),
                     "ack_state": str(ack_state),
                     "ack_mtime": str(ack_mtime)}))
@@ -400,7 +400,7 @@ class TrackMeHandlerAck_v1(rest_handler.RESTHandler):
                         "action": "success",
                         "change_type": "enable ack",
                         "object": str(object_value),
-                        "object_category": "data_source",
+                        "object_category": str(object_category_value),
                         "object_attrs": json.dumps(json.loads(record), indent=1),
                         "result": "N/A",
                         "comment": str(update_comment)
@@ -526,7 +526,7 @@ class TrackMeHandlerAck_v1(rest_handler.RESTHandler):
 
                 # Update the record
                 collection.data.update(str(key), json.dumps({"object": object_value,
-                    "object_category": object_category_value,
+                    "object_category": str(object_category_value),
                     "ack_expiration": str(ack_expiration),
                     "ack_state": str(ack_state),
                     "ack_mtime": str(ack_mtime)}))
@@ -545,7 +545,7 @@ class TrackMeHandlerAck_v1(rest_handler.RESTHandler):
                         "action": "success",
                         "change_type": "disable ack",
                         "object": str(object_value),
-                        "object_category": "data_source",
+                        "object_category": str(object_category_value),
                         "object_attrs": str(json.dumps(collection.data.query_by_id(key), indent=1)),
                         "result": "N/A",
                         "comment": str(update_comment)

@@ -1,0 +1,37 @@
+<form class="form-horizontal form-complex">
+<div class="control-group">
+	<label class="control-label" for="trackme_free_style_rest_call_endpoint_url">TrackMe Endpoint URL <span class="required">*</span> </label>
+    <div class="controls">
+	<input type="text" name="action.trackme_free_style_rest_call.param.endpoint_url" id="trackme_free_style_rest_call_endpoint_url"/>
+                <span class="help-block"> 
+                    Enter the API endpoint, example:
+/services/trackme/v1/data_sources/ds_disable_data_sampling
+                    <br />
+                    <a target="_blank" href="https://trackme.readthedocs.io/en/latest/rest_api_reference.html">https://trackme.readthedocs.io/en/latest/rest_api_reference.html</a>
+                </span>
+    </div>
+</div>
+<div class="control-group">
+	<label class="control-label" for="trackme_free_style_rest_call_http_mode">HTTP mode <span class="required">*</span> </label>
+    <div class="controls">
+<select name="action.trackme_free_style_rest_call.param.http_mode" id="trackme_free_style_rest_call_http_mode">
+        <option value="get">get</option>
+        <option value="post">post</option>
+        <option value="delete">delete</option>
+</select>
+                <span class="help-block"> 
+                    HTTP mode expected by the API endpoint
+                </span>
+    </div>
+</div>
+<div class="control-group">
+	<label class="control-label" for="trackme_free_style_rest_call_http_body">HTTP body  </label>
+    <div class="controls">
+	<input type="text" name="action.trackme_free_style_rest_call.param.http_body" id="trackme_free_style_rest_call_http_body"/>
+                <span class="help-block"> 
+                    HTTP body if expected by the endpoint (json). Example: {"data_name": "$result.object$"}
+You can define it in SPL within the alert and reference the field such as: $result.action_body$
+                </span>
+    </div>
+</div>
+</form>

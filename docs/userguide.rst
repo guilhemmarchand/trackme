@@ -399,7 +399,7 @@ Action buttons
 - ``Modify`` provides access to the unified modification window which allows interacting with different settings related to this entity
 - ``Search`` opens a search window in a new tab for that entity
 
-See :ref:`Alerts acknowledgment` for more details about the acknowledgment feature
+See :ref:`Alerts tracking` for more details about the acknowledgment feature and alert related configurations
 
 See :ref:`Data source unified update` for more details about the unified update UI for data sources
 
@@ -1775,6 +1775,259 @@ The Smart Status feature is serviced by a REST API endpoint, as such it can be r
 
 See: :ref:`Smart Status endpoints`
 
+Alerts tracking
+===============
+
+.. admonition:: Alerts tracking
+
+   - TrackMe relies on Splunk alerts to provide automated results based on your preferences and usage
+   - One template alert is provided per type of entities (data sources / data hosts / metric hosts) which you can decide to enable and start using straight away
+   - As well, you can create custom alerts via an assistant which templates a TrackMe alert based on your preferences and choices
+   - Finally, TrackMe provides builtin alert actions that are used to extend the application functionalities
+
+The alert topic is as well discussed at the configuration step: :ref:`Step 7: enabling out of the box alerts or create your own custom alerts`
+
+Alerts tracking main screen
+---------------------------
+
+**Within the main TrackMe UI, the alerts tracking screen is available as a selectable tab:**
+
+.. image:: img/ootb_alerts.png
+   :alt: ootb_alerts.png
+   :align: center
+   :width: 1200px
+
+**Depending on the alerts that were enabled, and the actiity of the environment, the screen shows a 24 hours overview of the alerts activity:**
+
+.. image:: img/ootb_alerts2.png
+   :alt: ootb_alerts2.png
+   :align: center
+   :width: 1200px
+
+**Clicking on any alert opens an overview window for this alert with shortcut to the Splunk alert editor and other functions:**
+
+.. image:: img/ootb_alerts3.png
+   :alt: ootb_alerts3.png
+   :align: center
+   :width: 800px
+
+Alerts tracking: out of the box alerts
+--------------------------------------
+
+**Alerts are provided out of the box that cover the basic alerting for all TrackMe entities:**
+
+- ``TrackMe - Alert on data source availability``
+- ``TrackMe - Alert on data host availability``
+- ``TrackMe - Alert on metric host availability``
+
+.. hint:: Out of the box alerts
+
+   - Out of the box alerts are disabled by default, you need to enable alerts to start using them
+   - Alerts will trigger by default on ``high priority`` entities only, this is controlled via the macro definition ``trackme_alerts_priority``
+   - Edit the alert to perform your third party integration, for example ``sending emails`` or creating ``JIRA issues`` based on Splunk alert actions capabilities
+   - Out of the box alert enable by default two TrackMe alert actions, ``automatic acknowledgement`` and the ``Smart Status`` alert actions
+   - The results of the ``Smart Status`` alert action are automatically indexed in the TrackMe summary index within the sourcetype ``trackme_smart_status`` and can be used for investigation purposes
+
+Alerts tracking: custom alerts
+------------------------------
+
+**You can use this interface to a create one or more custom alerts:**
+
+.. image:: img/custom_alerts/img001.png
+   :alt: img001.png
+   :align: center
+   :width: 1200px
+
+**This opens the assistant where you can choose between different builtin options depending on the type of entities to be monitoring:**
+
+.. image:: img/custom_alerts/img002.png
+   :alt: img002.png
+   :align: center
+   :width: 800px
+
+Once you have created a new alert, it will be immediately visible in the tracking alerts UI, and you can use the Splunk built alert editor to modify the alert to up to your needs such as enabling third party actions, emails actions and so forth.
+
+   .. hint:: Custom alert features
+
+      - Creating custom alerts provide several layers of flexibility depending on your choices and preferences
+      - You may for example have alerts handling lowest level of prority with a specific type of alert action, and have a specific alert for highly critical entities
+      - Advanced setup can easily be performed such as getting benefits from the tags features and multiple alerts using tag policies to associate data sources and different types of alerts, recipients, actions...
+      - You may decide if you wish to enable or disable the TrackMe ``auto acknowledgement`` and ``Smart Status`` alert actions while creating alerts through the assistant
+
+Alerts tracking: TrackMe alert actions
+--------------------------------------
+
+**TrackMe provides 3 builtin alert actions that help getting even more value from the application by performing easily some levels of automisation:**
+
+- ``TrackMe auto acknowledge``
+- ``Trackme Smart Status``
+- ``TrackMe free style rest call``
+
+Alert action: TrackMe auto acknowledge
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+.. image:: img/alert_actions/auto_ack1.png
+   :alt: auto_ack1.png
+   :align: center
+   :width: 600px
+
+.. admonition:: Auto acknowledgement
+
+   -  This alert action allows automatically performing an acknowledgement of an entity that enters into a non green state.
+   -  When an acknowledgement is enabled, the entity appears with a specific icon in the UI, you can control and extend the acknowledgement at any time.
+   -  As long as an acknowledgement is enabled for a given entity, there will be no more alerts generated for it, which leaves time enough for the investigations, performing fine tuning if required or fixing the root cause of the issue.
+   - The alert action activity is logged in ``(index="_internal" OR index="cim_modactions") sourcetype="modular_alerts:trackme_auto_ack"``
+   - A quick access report to the alert execution logs is available in the navigation application menu ``API & tooling/TrackMe alert actions - auto ack``
+
+*Example of an auto acknowledge processing logs, at the end of the process the API endpoint JSON result is logged:*
+
+.. image:: img/alert_actions/auto_ack2.png
+   :alt: auto_ack2.png
+   :align: center
+   :width: 1200px
+
+*An audit change event is automatically logged and visible in the UI:**
+
+.. image:: img/alert_actions/auto_ack3.png
+   :alt: auto_ack3.png
+   :align: center
+   :width: 900px
+
+*The entity has the acknowledged icon visible in the main UI screen:*
+
+.. image:: img/alert_actions/auto_ack4.png
+   :alt: auto_ack4.png
+   :align: center
+   :width: 1200px
+
+Alert action: Trackme Smart Status
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+.. image:: img/alert_actions/smart_status1.png
+   :alt: smart_status1.png
+   :align: center
+   :width: 600px
+
+.. admonition:: Smart Status alert action
+
+   - The Smart Status is a very advanced feature of TrackMe which performs automated investigations conditioned by the context of the entity
+   - In normal circumstances, you run the Smart Status action by performing a call to the TrackMe Smart Status API endpoint, or using the Smart Status functions builtin in the TrackMe UI, for more details see: :ref:`Smart Status`
+   - Using the alert action, the Smart Status action is performed automatically immediately when the entity triggers, and its result is indexed in the TrackMe summary event index defined in the macro ``trackme_idx``
+   - The alert action activity is logged in ``(index="_internal" OR index="cim_modactions") sourcetype="modular_alerts:trackme_smart_status"``
+   - the alert action result (the server response) is indexed in ```trackme_idx` sourcetype=trackme_smart_status``
+   - A quick access report to the alert execution logs is available in the navigation application menu ``API & tooling/TrackMe alert actions - Smart Status``
+   - A quick access report fo the Smart Status results indexes is available in the navigation application menu ``API & tooling/TrackMe events - Alert actions results``
+
+*Example: the alert triggers for a data source, the Smart Status action is executed and its result is indexed*
+
+::
+
+   `trackme_idx` sourcetype=trackme_smart_status
+
+.. image:: img/alert_actions/smart_status2.png
+   :alt: smart_status2.png
+   :align: center
+   :width: 1200px
+
+Alert action: TrackMe free style rest call
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+.. image:: img/alert_actions/free_style1.png
+   :alt: smart_status1.png
+   :align: center
+   :width: 600px
+
+.. admonition:: Free style alert action
+
+   - The free style alert action allows you to call any of the TrackMe REST API endpoint to perform an automated action when the alert triggers
+   - The endpoint and its HTTP mode are configured in the alert action, if a body is expected by the endpoint, you can specify it statistically or recycle a field containing its value that you would define in SPL
+   - This alert action allows you to setup easily a custom workflow when the alert triggers dependending on your preference and context
+   - The alert action activity is logged in ``(index="_internal" OR index="cim_modactions") sourcetype="modular_alerts:trackme_free_style_rest_call"``
+   - the alert action result (the server response) is indexed in ```trackme_idx` sourcetype=trackme_alert_action``
+   - A quick access report to the alert execution logs is available in the navigation application menu ``TrackMe alert actions - free style``
+   - A quick access report fo the Smart Status results indexes is available in the navigation application menu ``API & tooling/TrackMe events - Alert actions results``
+
+**The following example will generate an event of the full data source record as it is when the alert triggers:**
+
+- ``TrackMe Endpoint URL:`` /services/trackme/v1/data_sources/ds_by_name
+- ``HTTP mode:`` get
+- ``HTTP body:`` 
+
+::
+
+   {'data_name': '$result.object$'}
+
+.. image:: img/alert_actions/free_style2.png
+   :alt: smart_status2.png
+   :align: center
+   :width: 600px
+
+*When the alert triggers:*
+
+.. image:: img/alert_actions/free_style3.png
+   :alt: smart_status3.png
+   :align: center
+   :width: 600px
+
+Alerts acknowledgment within the UI
+-----------------------------------
+
+.. admonition:: Acknowledgement
+
+   When using built-in alerts, you can leverage alert acknowledgments within the UI to silent an active alert during a given period.
+
+.. image:: img/ack1.png
+   :alt: ack1.png
+   :align: center
+   :width: 1200px
+
+**Acknowledgments provides a way to:**
+
+- Via the user interface, acknowledge an active alert
+- Once acknowledged, the entity remains visible in the UI and monitored, but no more alerts will be generated during the time of the acknowledge
+- An entity (data source, etc) that is in active alert and has been acknowledged will not generate any new alert for the next 24 hours by default, which value can be increased via the input selector
+- Therefore, if the entity flips to a state green again, the acknowledge is automatically disabled
+- If the entity flips later on to a red state, a new acknowledge should be created
+
+**Acknowledgment workflow:**
+
+- Via the UI, if the entity is in red state, the "Acknowledgment" button becomes active, otherwise it is inactive and cannot be clicked
+- If the acknowledge is confirmed by the user, an active entry is created in the KVstore collection named "kv_trackme_alerts_ack". (lookup definition trackme_alerts_ack)
+- The default duration of acknowledges is define by the macro named "trackme_ack_default_duration"
+- Every 5 minutes, the tracker scheduled report named "TrackMe - Ack tracker" verifies if an acknowledge has reached its expiration and will update its status if required
+- The tracker as well verifies the current state of the entity, if the entity has flipped again to a green state, the acknowledge is disabled
+- An acknowledge can be acknowledged again within the UI, which will extend its expiration for another cycle
+
+**Acknowledge for an active alert is inactive:**
+
+.. image:: img/ack2.png
+   :alt: ack2.png
+   :align: center
+   :width: 1200px
+
+**Acknowledge for an active alert is active:**
+
+.. image:: img/ack3.png
+   :alt: ack3.png
+   :align: center
+   :width: 1200px
+
+**Once active, an acknowledge can be disabled on demand by clicking on the Ack table:**
+
+.. image:: img/ack4.png
+   :alt: ack4.png
+   :align: center
+   :width: 500px
+
+**All acknowledgement related actions are recorded in the audit collection and report.**
+
+.. tip:: When an acknowledgment is active, a specific icon replaces the red state icon which easily indicates that an acknowledgement is currently active for that object.
+
+.. image:: img/ack5.png
+   :alt: ack5.png
+   :align: center
+   :width: 1200px
+
 Priority management
 ===================
 
@@ -2963,84 +3216,6 @@ Splunk 8 magic props configuration
    EVENT_BREAKER = regular expression for event breaks
 
 **This configuration represents the ideal sourcetype definition for Splunk, combining an explicit and controled definition for a reliable event breaking and time stamp recognition, as much as it is possible you should always target this configuration.**
-
-Out of the box alerts
-=====================
-
-.. admonition:: Out of the box alerts
-
-   Pre-built alerts are provided if you want to get alerting based in the data sources and hosts monitoring.
-
-- ``TrackMe - Alert on data source availability``
-- ``TrackMe - Alert on data host availability``
-- ``TrackMe - Alert on metric host availability``
-
-.. hint:: enabling out of the box alerts and custom alerts creation
-
-   - Depending on your preferences, you may simply enable one or more out of the box alerts
-   - You can as well easily create custom alerts that are more specific to your context, with various options depending on the types of entities
-   - Once an alert is enabled, use the Splunk editor if you wish to enable third party alert actions such as creating tickets in your incident management. sending emails, etc.
-   
-For more details, see :ref:`Step 7: enabling out of the box alerts or create your own custom alerts`
-
-Alerts acknowledgment
-=====================
-
-.. admonition:: Acknowledgement
-
-   When using built-in alerts, you can leverage alert acknowledgments within the UI to silent an active alert during a given period.
-
-.. image:: img/ack1.png
-   :alt: ack1.png
-   :align: center
-   :width: 1200px
-
-**Acknowledgments provides a way to:**
-
-- Via the user interface, acknowledge an active alert
-- Once acknowledged, the entity remains visible in the UI and monitored, but no more alerts will be generated during the time of the acknowledge
-- An entity (data source, etc) that is in active alert and has been acknowledged will not generate any new alert for the next 24 hours by default, which value can be increased via the input selector
-- Therefore, if the entity flips to a state green again, the acknowledge is automatically disabled
-- If the entity flips later on to a red state, a new acknowledge should be created
-
-**Acknowledgment workflow:**
-
-- Via the UI, if the entity is in red state, the "Acknowledgment" button becomes active, otherwise it is inactive and cannot be clicked
-- If the acknowledge is confirmed by the user, an active entry is created in the KVstore collection named "kv_trackme_alerts_ack". (lookup definition trackme_alerts_ack)
-- The default duration of acknowledges is define by the macro named "trackme_ack_default_duration"
-- Every 5 minutes, the tracker scheduled report named "TrackMe - Ack tracker" verifies if an acknowledge has reached its expiration and will update its status if required
-- The tracker as well verifies the current state of the entity, if the entity has flipped again to a green state, the acknowledge is disabled
-- An acknowledge can be acknowledged again within the UI, which will extend its expiration for another cycle
-
-**Acknowledge for an active alert is inactive:**
-
-.. image:: img/ack2.png
-   :alt: ack2.png
-   :align: center
-   :width: 1200px
-
-**Acknowledge for an active alert is active:**
-
-.. image:: img/ack3.png
-   :alt: ack3.png
-   :align: center
-   :width: 1200px
-
-**Once active, an acknowledge can be disabled on demand by clicking on the Ack table:**
-
-.. image:: img/ack4.png
-   :alt: ack4.png
-   :align: center
-   :width: 600px
-
-**All acknowledgement related actions are recorded in the audit collection and report.**
-
-.. tip:: When an acknowledgment is active, a specific icon replaces the red state icon which easily indicates that an acknowledgement is currently active for that object.
-
-.. image:: img/ack5.png
-   :alt: ack5.png
-   :align: center
-   :width: 1200px
 
 Connected experience dashboard for Splunk Mobile & Apple TV
 ===========================================================

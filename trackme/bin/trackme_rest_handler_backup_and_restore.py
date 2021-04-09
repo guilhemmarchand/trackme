@@ -461,6 +461,46 @@ class TrackMeHandlerBackupAndRestore_v1(rest_handler.RESTHandler):
                                         purgedlist = str(purgedlist) + ", [ " + str(full_path) + " ]"
                                     else:
                                         purgedlist = "[ " + str(full_path) + " ]"
+
+                                    # Purge the record from the KVstore
+
+                                    # record / key
+                                    record = None
+                                    key = None
+
+                                    # Define the KV query
+                                    query_string = '{ "backup_archive": "' + str(full_path) + '" }'
+
+                                    # backup audit collection
+                                    collection_name_backup_archives_info = "kv_trackme_backup_archives_info"            
+                                    service_backup_archives_info = client.connect(
+                                        owner="nobody",
+                                        app="trackme",
+                                        port=splunkd_port,
+                                        token=request_info.session_key
+                                    )
+                                    collection_backup_archives_info = service_backup_archives_info.kvstore[collection_name_backup_archives_info]
+
+                                    try:
+                                        record = collection_backup_archives_info.data.query(query=str(query_string))
+                                        key = record[0].get('_key')
+
+                                    except Exception as e:
+                                        key = None
+
+                                    # If a record cannot be found, this backup file is not know to TrackMe currently, add a new record
+                                    if key is not None:
+
+                                        try:
+
+                                            # Delete the record
+                                            collection_backup_archives_info.data.delete(json.dumps({"_key":key}))
+
+                                        except Exception as e:
+                                            return {
+                                                'payload': 'Warn: exception encountered: ' + str(e) # Payload of the request.
+                                            }
+
                             except Exception as e:
                                 return {
                                     'payload': 'Warn: exception encountered: ' + str(e) # Payload of the request.
