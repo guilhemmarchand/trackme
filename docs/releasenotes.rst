@@ -16,6 +16,8 @@ This is a new main release branch, TrackMe 1.2.x requires the deployment of the 
 TrackMe requires a summary index (defaults to trackme_summary) and a metric index (defaults to trackme_metrics):
 https://trackme.readthedocs.io/en/latest/configuration.html
 
+- Feature - Issue #306 - Alert actions - UI enhancements
+- Fix - Issue #305 - Custom alerts - created alerts should set alert.digest_mode
 
 Version 1.2.41
 ==============

@@ -1809,7 +1809,7 @@ Alerts tracking main screen
 .. image:: img/ootb_alerts3.png
    :alt: ootb_alerts3.png
    :align: center
-   :width: 800px
+   :width: 1200px
 
 Alerts tracking: out of the box alerts
 --------------------------------------
@@ -1900,6 +1900,13 @@ Alert action: TrackMe auto acknowledge
    :align: center
    :width: 1200px
 
+*The result from the Ack endpoint call can be accessed within the UI in the alert actions screen of the alert that generated the call:*
+
+.. image:: img/alert_actions/auto_ack5.png
+   :alt: auto_ack5.png
+   :align: center
+   :width: 1200px
+
 Alert action: Trackme Smart Status
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
@@ -1926,6 +1933,13 @@ Alert action: Trackme Smart Status
 
 .. image:: img/alert_actions/smart_status2.png
    :alt: smart_status2.png
+   :align: center
+   :width: 1200px
+
+*The result from the Smart Status endpoint call can be accessed within the UI in the alert actions screen of the alert that generated the call:*
+
+.. image:: img/alert_actions/smart_status3.png
+   :alt: smart_status3.png
    :align: center
    :width: 1200px
 
@@ -1965,9 +1979,16 @@ Alert action: TrackMe free style rest call
 *When the alert triggers:*
 
 .. image:: img/alert_actions/free_style3.png
-   :alt: smart_status3.png
+   :alt: free_style3.png
    :align: center
-   :width: 600px
+   :width: 1200px
+
+*The result from the Smart Status endpoint call can be accessed within the UI in the alert actions screen of the alert that generated the call:*
+
+.. image:: img/alert_actions/free_style4.png
+   :alt: free_style4.png
+   :align: center
+   :width: 1200px
 
 Alerts acknowledgment within the UI
 -----------------------------------
