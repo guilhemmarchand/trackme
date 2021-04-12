@@ -10569,7 +10569,7 @@ require([
             "sample_ratio": 1,
             "earliest_time": "$showAlertsTime.earliest$",
             "cancelOnUnload": true,
-            "search": "`trackme_idx` (sourcetype=trackme_smart_status) | rex \"\\\"_raw\\\":\\\s(?<json>\{[^\\\}]*\})\" | rename json as _raw | eval object=coalesce('raw.data_name', 'raw.data_host', 'raw.metric_host') | search $tk_input_alert_actions_smart_status$ | search [ search (index=\"_internal\" OR index=\"cim_modactions\") sourcetype=\"modular_alerts:trackme_smart_status\" search_name=\"$tk_alert_title$\" object_name=* | rename object_name as object | search $tk_input_alert_actions_smart_status$ | stats count by object | sort limit=10000 object | fields object ] | `trackme_smart_status_emoji`",
+            "search": "`trackme_idx` (sourcetype=trackme_smart_status) | rex \"\\\"_raw\\\":\\\s(?<json>\{[^\\\}]*\})\" | rename json as _raw | eval object=coalesce('raw.data_name', 'raw.data_host', 'raw.metric_host') | search $tk_input_alert_actions_smart_status$ | search [ search (index=\"_internal\" OR index=\"cim_modactions\") sourcetype=\"modular_alerts:trackme_smart_status\" search_name=\"$tk_alert_title$\" object_name=* | rex \"object_name=(?<object>[^\\\"]*)\" | search $tk_input_alert_actions_smart_status$ | stats count by object | sort limit=10000 object | fields object ] | `trackme_smart_status_emoji`",
             "latest_time": "$showAlertsTime.latest$",
             "status_buckets": 0,
             "app": utils.getCurrentApp(),
