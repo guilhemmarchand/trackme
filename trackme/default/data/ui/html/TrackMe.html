@@ -8824,7 +8824,7 @@ styles in <div> tags, similar to Bootstrap's grid system.
     <!-- ALERT SUMMARY -->
     <div id="main_modal_manage_alerts" class="dashboard-element html" style="width: 100%">
         <div class="panel-body html">
-            <div class="modal fade custom-modal-60" id="modal_manage_alerts" role="dialog">
+            <div class="modal fade custom-modal-80" id="modal_manage_alerts" role="dialog">
                 <div class="modal-dialog">
                     <!-- Modal content-->
                     <div class="modal-content">
@@ -8832,24 +8832,136 @@ styles in <div> tags, similar to Bootstrap's grid system.
                         <div class="dashboard-element html" id="body_modal_manage_alerts">
                             <div class="panel-body html">
                                 <div class="modal-header modal-header-primary">
-                                    <h3 style="color: white;">Actions for alert: <span>$tk_alert_title$</span></h3>
+                                    <h1 style="color: white;">Actions for alert: <span>$tk_alert_title$</span></h1>
                                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                                 </div>
-                                <div class="modal-body" style="display:grid;">
-                                    <p><b>Cron Schedule:</b> $tk_alert_cron_schedule$</p>
-                                    <p><b>Schedule window:</b> $tk_alert_schedule_window$</p>
-                                    <p><b>Suppress fields:</b> $tk_alert_suppress_fields$</p>
-                                    <p><b>Suppress period:</b> $tk_alert_suppress_period$</p>
-                                    <p><b>Disabled:</b> $tk_alert_disabled$</p>
-                                    <p><b>Next scheduled time:</b> $tk_alert_next_scheduled_time$</p><br>
+                                <div class="modal-body">
+                                    <div style="line-height: 1.1; margin-left: 20px;">
+                                        <div style="float:left;width:50%;">
+                                            <p><b>Cron Schedule:</b> $tk_alert_cron_schedule$</p>
+                                            <p><b>Schedule window:</b> $tk_alert_schedule_window$</p>
+                                            <p><b>Suppress fields:</b> $tk_alert_suppress_fields$</p>
+                                            <p><b>Suppress period:</b> $tk_alert_suppress_period$</p>
+                                        </div>
+                                        <div style="float:left;width:50%;">
+                                            <p><b>Disabled:</b> $tk_alert_disabled$</p>
+                                            <p><b>Next scheduled time:</b> $tk_alert_next_scheduled_time$</p>
+                                            <p><b>Alert actions:</b> $tk_alert_actions$</p>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
+
+                        <br />
+                        <hr style="margin-top: -10px;">
+
+                        <div id="rowLinkAlert1" class="dashboard-row dashboard-row1" style="margin-left: 15px; margin-top: -20px;">
+                            <div id="panelLinktAlert1" class="dashboard-cell" style="width: 100%;">
+                                <div class="dashboard-panel clearfix">
+                                    <div class="panel-element-row">
+                                        <div class="input input-linklist" id="inputLinkAlerts">
+                                            <label>&nbsp;</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div id="panelAlert2" class="dashboard-row dashboard-row1" data-depends="$show_alerts_activity$">
+                            <div id="panelChartLag2" class="dashboard-cell" style="width: 100%;">
+                                <div class="dashboard-panel clearfix">
+                                    <div class="panel-element-row">
+                                        <div id="chartAlertTriggeredPerAlert" class="dashboard-element chart" style="width: 100%">
+                                            <div class="panel-head">
+                                                <h3>triggered over time</h3>
+                                            </div>
+                                            <div class="panel-body"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div id="panelAlert2bis" class="dashboard-row dashboard-row1" data-depends="$show_alerts_activity$">
+                            <div id="panelChartLag2bis" class="dashboard-cell" style="width: 100%;">
+                                <div class="dashboard-panel clearfix">
+                                    <div class="panel-element-row">
+                                        <div id="chartAlertActionsPerAlert" class="dashboard-element chart" style="width: 100%">
+                                            <div class="panel-head">
+                                                <h3>alert actions over time</h3>
+                                            </div>
+                                            <div class="panel-body"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div id="panelAlert3" class="dashboard-row dashboard-row1" data-depends="$show_alerts_auto_ack$">
+                            <div id="panelChartLag3" class="dashboard-cell" style="width: 100%;">
+                                <div class="dashboard-panel clearfix">
+                                    <div class="panel-element-row">
+                                        <div class="input input-dropdown" id="modal_input_alert_actions_ack" style="margin-left: 30px; margin-top: 10px; margin-bottom: 10px;">
+                                            <label>object:</label>
+                                        </div>
+                                        <div id="eventAlertActionsAckPerAlert" class="dashboard-element event" style="width: 100%">
+                                            <div class="panel-body"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div id="panelAlert4" class="dashboard-row dashboard-row1" data-depends="$show_alerts_smart_status$">
+                            <div id="panelChartLag4" class="dashboard-cell" style="width: 100%;">
+                                <div class="dashboard-panel clearfix">
+                                    <div class="panel-element-row">
+                                        <div class="input input-dropdown" id="modal_input_alert_actions_smart_status" style="margin-left: 30px; margin-top: 10px; margin-bottom: 10px;">
+                                            <label>object:</label>
+                                        </div>                                        
+                                        <div id="eventAlertActionsSmartStatusPerAlert" class="dashboard-element event" style="width: 100%">
+                                            <div class="panel-body"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div id="panelAlert5" class="dashboard-row dashboard-row1" data-depends="$show_alerts_free_style$">
+                            <div id="panelChartLag5" class="dashboard-cell" style="width: 100%;">
+                                <div class="dashboard-panel clearfix">
+                                    <div class="panel-element-row">
+                                        <div class="input input-dropdown" id="modal_input_alert_actions_free_style" style="margin-left: 30px; margin-top: 10px; margin-bottom: 10px;">
+                                            <label>object:</label>
+                                        </div>                                        
+                                        <div id="eventAlertActionsFreeStylePerAlert" class="dashboard-element event" style="width: 100%">
+                                            <div class="panel-body"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>                        
+
+                        <div id="rowLinkAlertTimeRange" class="dashboard-row dashboard-row1" style="margin-left: 15px;">
+                            <div id="panelLinktAlertTimeRange" class="dashboard-cell" style="width: 100%;">
+                                <div class="dashboard-panel clearfix">
+                                    <div class="panel-element-row">
+                                        <div class="input input-linklist" id="inputLinktAlertsTimeRange">
+                                            <label>&nbsp;</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
                         <div class="modal-footer">
-                            <button type="submit" class="btn btn-default btn-default pull-left" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span>Close</button>
+                            <button type="submit" id="btn_refresh_alert_tracking" role="button" class="btn btn-primary btn-default pull-left"><span class="glyphicon glyphicon-remove"></span>Refresh</button>
+                            <button type="submit" class="btn btn-default btn-default pull-right" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span>Close</button>
                             <a class="btn btn-primary" id="btn_url_modal_manage_alert" target="_blank" href="alert_url" role="button">Review and edit alert</a>
                             <a class="btn btn-primary" id="btn_url_modal_history_alert" target="_blank" href="alert_url" role="button">Search alert history</a>
                         </div>
+
                     </div>
                 </div>
             </div>
@@ -10236,7 +10348,7 @@ require([
             "sample_ratio": 1,
             "earliest_time": "-15m",
             "cancelOnUnload": true,
-            "search": "| rest splunk_server=local /servicesNS/-/trackme/saved/searches | search eai:acl.app=\"trackme\" alert.track=1 title!=\"TrackMe - Audit change notification tracker\" | fields title, cron_schedule, schedule_window, alert.suppress.fields, alert.suppress.period, disabled, next_scheduled_time, id | rex field=id \"saved/searches/(?<id>.*)\" | sort limit=0 title | eval \" \" = \"icon|\" + if(disabled==\"0\",\"ico_good ico_small|icon-check|Up\", \"ico_error ico_small|icon-close|Down\")",
+            "search": "| rest splunk_server=local /servicesNS/-/trackme/saved/searches | search eai:acl.app=\"trackme\" alert.track=1 title!=\"TrackMe - Audit change notification tracker\" | fields title, cron_schedule, schedule_window, alert.suppress.fields, alert.suppress.period, disabled, next_scheduled_time, id, actions | rex field=id \"saved/searches/(?<id>.*)\" | sort limit=0 title | eval \" \" = \"icon|\" + if(disabled==\"0\",\"ico_good ico_small|icon-check|Up\", \"ico_error ico_small|icon-close|Down\")",
             "latest_time": "now",
             "status_buckets": 0,
             "app": utils.getCurrentApp(),
@@ -10255,6 +10367,66 @@ require([
             // function here
             $("#loadingGrayInitial").remove()
         })
+
+        var searchPopulateAlertActionsAck = new SearchManager({
+            "id": "searchPopulateAlertActionsAck",
+            "sample_ratio": 1,
+            "earliest_time": "$showAlertsTime.earliest$",
+            "cancelOnUnload": true,
+            "search": "(index=\"_internal\" OR index=\"cim_modactions\") sourcetype=\"modular_alerts:trackme_auto_ack\" search_name=\"$tk_alert_title$\" response_data=* | rex \"\\\"object\\\":\\\s\\\"(?<object>[^\\\"]*)\" | stats count by object | sort limit=10000 object",
+            "latest_time": "$showAlertsTime.latest$",
+            "status_buckets": 0,
+            "app": utils.getCurrentApp(),
+            "auto_cancel": 90,
+            "preview": true,
+            "tokenDependencies": {
+                "depends": "$show_alerts_auto_ack$"
+            },
+            "runWhenTimeIsUndefined": false
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        });
+
+        var searchPopulateAlertActionsSmartStatus = new SearchManager({
+            "id": "searchPopulateAlertActionsSmartStatus",
+            "sample_ratio": 1,
+            "earliest_time": "$showAlertsTime.earliest$",
+            "cancelOnUnload": true,
+            "search": "(index=\"_internal\" OR index=\"cim_modactions\") sourcetype=\"modular_alerts:trackme_smart_status\" search_name=\"$tk_alert_title$\" object_name=* | rename object_name as object | stats count by object | sort limit=10000 object",
+            "latest_time": "$showAlertsTime.latest$",
+            "status_buckets": 0,
+            "app": utils.getCurrentApp(),
+            "auto_cancel": 90,
+            "preview": true,
+            "tokenDependencies": {
+                "depends": "$show_alerts_smart_status$"
+            },
+            "runWhenTimeIsUndefined": false
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        });
+
+        var searchPopulateAlertActionsFreeStyle = new SearchManager({
+            "id": "searchPopulateAlertActionsFreeStyle",
+            "sample_ratio": 1,
+            "earliest_time": "$showAlertsTime.earliest$",
+            "cancelOnUnload": true,
+            "search": "(index=\"_internal\" OR index=\"cim_modactions\") sourcetype=\"modular_alerts:trackme_free_style_rest_call\" search_name=\"$tk_alert_title$\" | rex \"\\\"(?:data_name|data_host|metric_host)\\\":\\\s\\\"(?<object>[^\\\"]*)\" | stats count by object | sort limit=10000 object",
+            "latest_time": "$showAlertsTime.latest$",
+            "status_buckets": 0,
+            "app": utils.getCurrentApp(),
+            "auto_cancel": 90,
+            "preview": true,
+            "tokenDependencies": {
+                "depends": "$show_alerts_free_style$"
+            },
+            "runWhenTimeIsUndefined": false
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        });
 
         var searchSingleEnabledAlerts = new PostProcessManager({
             "tokenDependencies": {},
@@ -10322,6 +10494,111 @@ require([
             "preview": true,
             "tokenDependencies": {
                 "depends": "$show_alerts$"
+            },
+            "runWhenTimeIsUndefined": false
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        });
+
+        var searchAlertTriggeredOverTimePerAlert = new SearchManager({
+            "id": "searchAlertTriggeredOverTimePerAlert",
+            "sample_ratio": 1,
+            "earliest_time": "$showAlertsTime.earliest$",
+            "cancelOnUnload": true,
+            "search": "index=_audit action=\"alert_fired\" ss_app=\"trackme\" ss_name=\"$tk_alert_title$\" | timechart span=$showAlertsTime.span$ count by ss_name",
+            "latest_time": "$showAlertsTime.latest$",
+            "status_buckets": 0,
+            "app": utils.getCurrentApp(),
+            "auto_cancel": 90,
+            "preview": true,
+            "tokenDependencies": {
+                "depends": "$show_alerts$",
+                "depends": "$show_alerts_activity$",
+            },
+            "runWhenTimeIsUndefined": false
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        });
+
+        var searchAlertActionsTriggeredOverTimePerAlert = new SearchManager({
+            "id": "searchAlertActionsTriggeredOverTimePerAlert",
+            "sample_ratio": 1,
+            "earliest_time": "$showAlertsTime.earliest$",
+            "cancelOnUnload": true,
+            "search": "( (index=\"_internal\" OR index=\"cim_modactions\") sourcetype=\"modular_alerts:trackme_auto_ack\" search_name=\"$tk_alert_title$\" response_data ) OR ( (index=\"_internal\" OR index=\"cim_modactions\") sourcetype=\"modular_alerts:trackme_free_style_rest_call\" search_name=\"$tk_alert_title$\" \"TrackMe REST call was successfull\" ) OR ( (index=\"_internal\" OR index=\"cim_modactions\") sourcetype=\"modular_alerts:trackme_smart_status\" search_name=\"$tk_alert_title$\" \"Smart Status result successfully\" ) | timechart span=$showAlertsTime.span$ count by sourcetype",
+            "latest_time": "$showAlertsTime.latest$",
+            "status_buckets": 0,
+            "app": utils.getCurrentApp(),
+            "auto_cancel": 90,
+            "preview": true,
+            "tokenDependencies": {
+                "depends": "$show_alerts$",
+                "depends": "$show_alerts_activity$",
+            },
+            "runWhenTimeIsUndefined": false
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        });
+
+        var searchAlertActionsAckEventsOverTimePerAlert = new SearchManager({
+            "id": "searchAlertActionsAckEventsOverTimePerAlert",
+            "sample_ratio": 1,
+            "earliest_time": "$showAlertsTime.earliest$",
+            "cancelOnUnload": true,
+            "search": "(index=\"_internal\" OR index=\"cim_modactions\") sourcetype=\"modular_alerts:trackme_auto_ack\" search_name=\"$tk_alert_title$\" response_data=* | rex \"response_data=(?<json>\\\{[^\\\}]*\\\})\" | rename json as _raw | spath | search $tk_input_alert_actions_ack$",
+            "latest_time": "$showAlertsTime.latest$",
+            "status_buckets": 0,
+            "app": utils.getCurrentApp(),
+            "auto_cancel": 90,
+            "preview": true,
+            "tokenDependencies": {
+                "depends": "$show_alerts$",
+                "depends": "$show_alerts_auto_ack$",
+            },
+            "runWhenTimeIsUndefined": false
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        });
+
+        var searchAlertActionsSmartStatusdEventsOverTimePerAlert = new SearchManager({
+            "id": "searchAlertActionsSmartStatusdEventsOverTimePerAlert",
+            "sample_ratio": 1,
+            "earliest_time": "$showAlertsTime.earliest$",
+            "cancelOnUnload": true,
+            "search": "`trackme_idx` (sourcetype=trackme_smart_status) | rex \"\\\"_raw\\\":\\\s(?<json>\{[^\\\}]*\})\" | rename json as _raw | eval object=coalesce('raw.data_name', 'raw.data_host', 'raw.metric_host') | search $tk_input_alert_actions_smart_status$ | search [ search (index=\"_internal\" OR index=\"cim_modactions\") sourcetype=\"modular_alerts:trackme_smart_status\" search_name=\"$tk_alert_title$\" object_name=* | rename object_name as object | search $tk_input_alert_actions_smart_status$ | stats count by object | sort limit=10000 object | fields object ] | `trackme_smart_status_emoji`",
+            "latest_time": "$showAlertsTime.latest$",
+            "status_buckets": 0,
+            "app": utils.getCurrentApp(),
+            "auto_cancel": 90,
+            "preview": true,
+            "tokenDependencies": {
+                "depends": "$show_alerts$",
+                "depends": "$show_alerts_smart_status$",
+            },
+            "runWhenTimeIsUndefined": false
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        });
+
+        var searchAlertActionsFreeStyleEventsOverTimePerAlert = new SearchManager({
+            "id": "searchAlertActionsFreeStyleEventsOverTimePerAlert",
+            "sample_ratio": 1,
+            "earliest_time": "$showAlertsTime.earliest$",
+            "cancelOnUnload": true,
+            "search": "`trackme_idx` (sourcetype=trackme_alert_action) | rex \"\\\"(?:data_name|data_host|metric_host)\\\":\\\s\\\"(?<object>[^\\\"]*)\" | search $tk_input_alert_actions_free_style$ | search [ search (index=\"_internal\" OR index=\"cim_modactions\") sourcetype=\"modular_alerts:trackme_free_style_rest_call\" search_name=\"$tk_alert_title$\" | rex \"\\\"(?:data_name|data_host|metric_host)\\\":\\\s\\\"(?<object>[^\\\"]*)\" | search $tk_input_alert_actions_free_style$ | stats count by object | sort limit=10000 object | fields object ]",
+            "latest_time": "$showAlertsTime.latest$",
+            "status_buckets": 0,
+            "app": utils.getCurrentApp(),
+            "auto_cancel": 90,
+            "preview": true,
+            "tokenDependencies": {
+                "depends": "$show_alerts$",
+                "depends": "$show_alerts_free_style$",
             },
             "runWhenTimeIsUndefined": false
         }, {
@@ -14612,6 +14889,65 @@ require([
             }            
         });
 
+        // show alerts
+        // main data_source link input for modal window
+        var inputLinkAlerts = new LinkListInput({
+            "id": "inputLinkAlerts",
+            "choices": [{
+                    "value": "activity",
+                    "label": "Overview alert activity"
+                },
+                {
+                    "value": "auto_ack",
+                    "label": "Auto Ack actions"
+                },
+                {
+                    "value": "smart_status",
+                    "label": "Smart Status actions"
+                },
+                {
+                    "value": "free_style",
+                    "label": "Free style REST actions"
+                }                
+            ],
+            "default": "activity",
+            "searchWhenChanged": true,
+            "selectFirstChoice": false,
+            "initialValue": "activity",
+            "value": "$form.inputLinkAlerts$",
+            "el": $('#inputLinkAlerts')
+        }, {
+            tokens: true
+        }).render();
+
+        inputLinkAlerts.on("change", function(newValue) {
+            FormUtils.handleValueChange(inputLinkAlerts);
+        });
+
+        inputLinkAlerts.on("valueChange", function(e) {
+            if (e.value === "activity") {
+                EventHandler.setToken("show_alerts_activity", "true", {}, e.data);
+                EventHandler.unsetToken("show_alerts_auto_ack");
+                EventHandler.unsetToken("show_alerts_smart_status");
+                EventHandler.unsetToken("show_alerts_free_style");
+            } else if (e.value === "auto_ack") {
+                EventHandler.setToken("show_alerts_auto_ack", "true", {}, e.data);
+                EventHandler.unsetToken("show_alerts_activity");
+                EventHandler.unsetToken("show_alerts_smart_status");
+                EventHandler.unsetToken("show_alerts_free_style");
+            } else if (e.value === "smart_status") {
+                EventHandler.setToken("show_alerts_smart_status", "true", {}, e.data);
+                EventHandler.unsetToken("show_alerts_activity");
+                EventHandler.unsetToken("show_alerts_auto_ack");
+                EventHandler.unsetToken("show_alerts_free_style");
+            } else if (e.value === "free_style") {
+                EventHandler.setToken("show_alerts_free_style", "true", {}, e.data);
+                EventHandler.unsetToken("show_alerts_activity");
+                EventHandler.unsetToken("show_alerts_auto_ack");
+                EventHandler.unsetToken("show_alerts_smart_status");
+            }            
+        });
+
         // input link selection for modal window
         var inputLinkTime = new LinkListInput({
             "id": "inputLinkTime",
@@ -14719,6 +15055,117 @@ require([
                 EventHandler.setToken("modalTime.earliest", "-90d", {}, e.data);
                 EventHandler.setToken("modalTime.latest", "now", {}, e.data);
                 EventHandler.setToken("modalTime.span", "12h", {}, e.data);
+            }
+        });
+
+        // show alerts
+        // input link selection for modal window
+        var inputLinktAlertsTimeRange = new LinkListInput({
+            "id": "inputLinktAlertsTimeRange",
+            "choices": [{
+                    "value": "60m",
+                    "label": "60m"
+                },
+                {
+                    "value": "4h",
+                    "label": "4h"
+                },
+                {
+                    "value": "8h",
+                    "label": "8h"
+                },
+                {
+                    "value": "12h",
+                    "label": "12h"
+                },
+                {
+                    "value": "24h",
+                    "label": "24h"
+                },
+                {
+                    "value": "48h",
+                    "label": "48h"
+                },
+                {
+                    "value": "7d",
+                    "label": "7d"
+                },
+                {
+                    "value": "15d",
+                    "label": "15d"
+                },
+                {
+                    "value": "30d",
+                    "label": "30d"
+                },
+                {
+                    "value": "60d",
+                    "label": "60d"
+                },
+                {
+                    "value": "90d",
+                    "label": "90d"
+                }
+            ],
+            "default": "24h",
+            "searchWhenChanged": true,
+            "selectFirstChoice": false,
+            "initialValue": "24h",
+            "value": "$form.showAlertsTime$",
+            "el": $('#inputLinktAlertsTimeRange')
+        }, {
+            tokens: true
+        }).render();
+
+        inputLinktAlertsTimeRange.on("change", function(newValue) {
+            FormUtils.handleValueChange(input1);
+        });
+
+        inputLinktAlertsTimeRange.on("valueChange", function(e) {
+            if (e.value === "60m") {
+                EventHandler.setToken("showAlertsTime.earliest", "-60m", {}, e.data);
+                EventHandler.setToken("showAlertsTime.latest", "now", {}, e.data);
+                EventHandler.setToken("showAlertsTime.span", "1m", {}, e.data);
+            } else if (e.value === "4h") {
+                EventHandler.setToken("showAlertsTime.earliest", "-4h", {}, e.data);
+                EventHandler.setToken("showAlertsTime.latest", "now", {}, e.data);
+                EventHandler.setToken("showAlertsTime.span", "5m", {}, e.data);
+            } else if (e.value === "8h") {
+                EventHandler.setToken("showAlertsTime.earliest", "-8h", {}, e.data);
+                EventHandler.setToken("showAlertsTime.latest", "now", {}, e.data);
+                EventHandler.setToken("showAlertsTime.span", "5m", {}, e.data);
+            } else if (e.value === "12h") {
+                EventHandler.setToken("showAlertsTime.earliest", "-12h", {}, e.data);
+                EventHandler.setToken("showAlertsTime.latest", "now", {}, e.data);
+                EventHandler.setToken("showAlertsTime.span", "10m", {}, e.data);
+            } else if (e.value === "24h") {
+                EventHandler.setToken("showAlertsTime.earliest", "-24h", {}, e.data);
+                EventHandler.setToken("showAlertsTime.latest", "now", {}, e.data);
+                EventHandler.setToken("showAlertsTime.span", "15m", {}, e.data);
+            } else if (e.value === "48h") {
+                EventHandler.setToken("showAlertsTime.earliest", "-48h", {}, e.data);
+                EventHandler.setToken("showAlertsTime.latest", "now", {}, e.data);
+                EventHandler.setToken("showAlertsTime.span", "30m", {}, e.data);
+            } else if (e.value === "7d") {
+                EventHandler.setToken("showAlertsTime.earliest", "-7d", {}, e.data);
+                EventHandler.setToken("showAlertsTime.latest", "now", {}, e.data);
+                EventHandler.setToken("showAlertsTime.span", "1h", {}, e.data);
+            } else if (e.value === "15d") {
+                EventHandler.setToken("showAlertsTime.earliest", "-15d", {}, e.data);
+                EventHandler.setToken("showAlertsTime.latest", "now", {}, e.data);
+                EventHandler.setToken("showAlertsTime.span", "2h", {}, e.data);
+            } else if (e.value === "30d") {
+                EventHandler.setToken("showAlertsTime.earliest", "-30d", {}, e.data);
+                EventHandler.setToken("showAlertsTime.latest", "now", {}, e.data);
+                EventHandler.setToken("showAlertsTime.span", "4h", {}, e.data);
+            } else if (e.value === "60d") {
+                EventHandler.setToken("showAlertsTime.earliest", "-60d", {}, e.data);
+                EventHandler.setToken("showAlertsTime.latest", "now", {}, e.data);
+                EventHandler.setToken("showAlertsTime.span", "8h", {}, e.data);
+            } else if (e.value === "90d") {
+                EventHandler.setToken("showAlertsTime.earliest", "-90d", {}, e.data);
+                EventHandler.setToken("showAlertsTime.latest", "now", {}, e.data);
+                EventHandler.setToken("showAlertsTime.span", "12h", {}, e.data);
             }
         });
 
@@ -16877,6 +17324,98 @@ require([
             FormUtils.handleValueChange(modal_input_data_sampling_dropdown);
         });
 
+        // ALERT SUMMARY
+
+        var modal_input_alert_actions_ack = new DropdownInput({
+            "id": "modal_input_alert_actions_ack",
+            "choices": [{
+                    "label": "ANY",
+                    "value": "*"
+                }
+            ],            
+            "tokenDependencies": {
+                "depends": "$show_alerts_auto_ack$"
+            },
+            "searchWhenChanged": true,
+            "default": "*",
+            "prefix": "object=\"",
+            "suffix": "\"",
+            "showClearButton": true,
+            "initialValue": "*",
+            "labelField": "object",
+            "selectFirstChoice": false,
+            "valueField": "object",
+            "value": "$form.tk_input_alert_actions_ack$",
+            "managerid": "searchPopulateAlertActionsAck",
+            "el": $('#modal_input_alert_actions_ack')
+        }, {
+            tokens: true
+        }).render();
+
+        modal_input_alert_actions_ack.on("change", function(newValue) {
+            FormUtils.handleValueChange(modal_input_alert_actions_ack);
+        });
+
+        var modal_input_alert_actions_smart_status = new DropdownInput({
+            "id": "modal_input_alert_actions_smart_status",
+            "choices": [{
+                    "label": "ANY",
+                    "value": "*"
+                }
+            ],            
+            "tokenDependencies": {
+                "depends": "$show_alerts_smart_status$"
+            },
+            "searchWhenChanged": true,
+            "default": "*",
+            "prefix": "object=\"",
+            "suffix": "\"",
+            "showClearButton": true,
+            "initialValue": "*",
+            "labelField": "object",
+            "selectFirstChoice": false,
+            "valueField": "object",
+            "value": "$form.tk_input_alert_actions_smart_status$",
+            "managerid": "searchPopulateAlertActionsSmartStatus",
+            "el": $('#modal_input_alert_actions_smart_status')
+        }, {
+            tokens: true
+        }).render();
+
+        modal_input_alert_actions_smart_status.on("change", function(newValue) {
+            FormUtils.handleValueChange(modal_input_alert_actions_smart_status);
+        });        
+
+        var modal_input_alert_actions_free_style = new DropdownInput({
+            "id": "modal_input_alert_actions_free_style",
+            "choices": [{
+                    "label": "ANY",
+                    "value": "*"
+                }
+            ],            
+            "tokenDependencies": {
+                "depends": "$show_alerts_free_style$"
+            },
+            "searchWhenChanged": true,
+            "default": "*",
+            "prefix": "object=\"",
+            "suffix": "\"",
+            "showClearButton": true,
+            "initialValue": "*",
+            "labelField": "object",
+            "selectFirstChoice": false,
+            "valueField": "object",
+            "value": "$form.tk_input_alert_actions_free_style$",
+            "managerid": "searchPopulateAlertActionsFreeStyle",
+            "el": $('#modal_input_alert_actions_free_style')
+        }, {
+            tokens: true
+        }).render();
+
+        modal_input_alert_actions_free_style.on("change", function(newValue) {
+            FormUtils.handleValueChange(modal_input_alert_actions_free_style);
+        });
+
         // whitelist
 
         // whitelist data_source
@@ -17521,6 +18060,7 @@ require([
                 setToken("tk_alert_suppress_period", TokenUtils.replaceTokenNames("$row.alert.suppress.period$", _.extend(submittedTokenModel.toJSON(), e.data)));
                 setToken("tk_alert_disabled", TokenUtils.replaceTokenNames("$row.disabled$", _.extend(submittedTokenModel.toJSON(), e.data)));
                 setToken("tk_alert_next_scheduled_time", TokenUtils.replaceTokenNames("$row.next_scheduled_time$", _.extend(submittedTokenModel.toJSON(), e.data)));
+                setToken("tk_alert_actions", TokenUtils.replaceTokenNames("$row.actions$", _.extend(submittedTokenModel.toJSON(), e.data)));
 
                 // Define the alert URL
                 var url = TokenUtils.replaceTokenNames("{{SPLUNKWEB_URL_PREFIX}}/app/trackme/alert?s=%2FservicesNS%2Fnobody%2Ftrackme%2Fsaved%2Fsearches%2F$row.id$", _.extend(submittedTokenModel.toJSON(), e.data), TokenUtils.getEscaper('url'), TokenUtils.getFilters(mvc.Components));
@@ -17646,6 +18186,86 @@ require([
             tokens: true,
             tokenNamespace: "submitted"
         }).render();
+
+        var chartAlertTriggeredPerAlert = new ChartElement({
+            "id": "chartAlertTriggeredPerAlert",
+            "charting.axisTitleX.visibility": "collapsed",
+            "charting.chart.stackMode": "stacked",
+            "charting.chart": "column",
+            "charting.drilldown": "all",
+            "charting.legend.placement": "top",
+            "height": "200",
+            "resizable": true,
+            "managerid": "searchAlertTriggeredOverTimePerAlert",
+            "el": $('#chartAlertTriggeredPerAlert')
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        }).render();
+
+        var chartAlertActionsPerAlert = new ChartElement({
+            "id": "chartAlertActionsPerAlert",
+            "charting.axisTitleX.visibility": "collapsed",
+            "charting.chart.stackMode": "stacked",
+            "charting.chart": "column",
+            "charting.drilldown": "all",
+            "charting.legend.placement": "top",
+            "height": "200",
+            "resizable": true,
+            "managerid": "searchAlertActionsTriggeredOverTimePerAlert",
+            "el": $('#chartAlertActionsPerAlert')
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        }).render();
+
+        var eventAlertActionsAckPerAlert = new EventElement({
+            "id": "eventAlertActionsAckPerAlert",
+            "list.drilldown": "none",
+            "table.drilldown": "all",
+            "list.wrap": "1",
+            "table.wrap": "1",
+            "rowNumbers": "0",
+            "table.sortDirection": "asc",
+            "count": 1,
+            "raw.drilldown": "full",
+            "type": "list",
+            "maxLines": 5,
+            "managerid": "searchAlertActionsAckEventsOverTimePerAlert",
+            "el": $('#eventAlertActionsAckPerAlert')
+        }, {tokens: true, tokenNamespace: "submitted"}).render();
+
+        var eventAlertActionsSmartStatusPerAlert = new EventElement({
+            "id": "eventAlertActionsSmartStatusPerAlert",
+            "list.drilldown": "none",
+            "table.drilldown": "all",
+            "list.wrap": "1",
+            "table.wrap": "1",
+            "rowNumbers": "0",
+            "table.sortDirection": "asc",
+            "count": 1,
+            "raw.drilldown": "full",
+            "type": "list",
+            "maxLines": 5,
+            "managerid": "searchAlertActionsSmartStatusdEventsOverTimePerAlert",
+            "el": $('#eventAlertActionsSmartStatusPerAlert')
+        }, {tokens: true, tokenNamespace: "submitted"}).render();
+
+        var eventAlertActionsFreeStylePerAlert = new EventElement({
+            "id": "eventAlertActionsFreeStylePerAlert",
+            "list.drilldown": "none",
+            "table.drilldown": "all",
+            "list.wrap": "1",
+            "table.wrap": "1",
+            "rowNumbers": "0",
+            "table.sortDirection": "asc",
+            "count": 1,
+            "raw.drilldown": "full",
+            "type": "list",
+            "maxLines": 5,
+            "managerid": "searchAlertActionsFreeStyleEventsOverTimePerAlert",
+            "el": $('#eventAlertActionsFreeStylePerAlert')
+        }, {tokens: true, tokenNamespace: "submitted"}).render();
 
         var TimelineDataSource = new VisualizationElement({
             "id": "TimelineDataSource",
@@ -24464,6 +25084,18 @@ require([
             searchAlertTriggeredOverTime.startSearch();
         });
 
+        $("#btn_refresh_alert_tracking").click(function() {
+            submitTokens();
+            searchAlertTriggeredOverTimePerAlert.startSearch();
+            searchPopulateAlertActionsAck.startSearch();
+            searchPopulateAlertActionsSmartStatus.startSearch();
+            searchPopulateAlertActionsFreeStyle.startSearch();
+            searchAlertActionsTriggeredOverTimePerAlert.startSearch();
+            searchAlertActionsAckEventsOverTimePerAlert.startSearch();
+            searchAlertActionsSmartStatusdEventsOverTimePerAlert.startSearch();
+            searchAlertActionsFreeStyleEventsOverTimePerAlert.startSearch();
+        });        
+
         $("#btn_create_alert").click(function() {
 
             submitTokens();
@@ -24646,7 +25278,7 @@ require([
                     description: "TrackMe alert",
                     search: tk_custom_alert,
                     "alert_type": "always",
-                    "alert.severity": "1",
+                    "alert.severity": "5",
                     "alert.suppress": "1",
                     "alert.suppress.fields": tk_custom_alert_suppress_fields,
                     "alert.suppress.period": tk_custom_alert_suppress_period,
@@ -24654,6 +25286,10 @@ require([
                     "dispatch.earliest_time": "-5m",
                     "dispatch.latest_time": "now",
                     "is_scheduled": "1",
+                    "alert_comparator": "greater than",
+                    "alert_type": "number of events",
+                    "alert_threshold": "0",
+                    "alert.digest_mode": "0",
                     "cron_schedule": tk_custom_alert_cron,
                     "actions": "trackme_auto_ack,trackme_smart_status",
                     "action.trackme_auto_ack.param.object_category": "$result.object_category$",
