@@ -10393,7 +10393,7 @@ require([
             "sample_ratio": 1,
             "earliest_time": "$showAlertsTime.earliest$",
             "cancelOnUnload": true,
-            "search": "(index=\"_internal\" OR index=\"cim_modactions\") sourcetype=\"modular_alerts:trackme_smart_status\" search_name=\"$tk_alert_title$\" object_name=* | rename object_name as object | stats count by object | sort limit=10000 object",
+            "search": "(index=\"_internal\" OR index=\"cim_modactions\") sourcetype=\"modular_alerts:trackme_smart_status\" search_name=\"$tk_alert_title$\" object_name=* | rex \"object_name=(?<object>[^\\\"]*)\" | stats count by object | sort limit=10000 object",
             "latest_time": "$showAlertsTime.latest$",
             "status_buckets": 0,
             "app": utils.getCurrentApp(),
