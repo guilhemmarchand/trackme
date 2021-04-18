@@ -17,6 +17,7 @@ TrackMe requires a summary index (defaults to trackme_summary) and a metric inde
 https://trackme.readthedocs.io/en/latest/configuration.html
 
 - Feature - Issue #312 - Migration from Addon Builder based libs to Splunk Addon factory UCC based libs
+- Feature - Issue #316 - Provides day time filtering options when creating custom alerts
 
 Version 1.2.44
 ==============
