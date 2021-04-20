@@ -50,7 +50,7 @@ export appinspect_token=$(curl -X GET \
     --url "https://api.splunk.com/2.0/rest/login/splunk" -s | sed 's/%//g' | jq -r .data.token)
 
 case "$appinspect_token" in
-"null")
+"null"|"")
     printf "${red}\nERROR: login to appinspect API has failed, an authentication token could be not be generated.${reset}\n"
     exit 4
     ;;
