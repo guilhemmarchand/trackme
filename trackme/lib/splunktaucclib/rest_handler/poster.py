@@ -1,7 +1,11 @@
+# SPDX-FileCopyrightText: 2020 2020
+#
+# SPDX-License-Identifier: Apache-2.0
 
 from __future__ import absolute_import
 
 from future import standard_library
+
 standard_library.install_aliases()
 from builtins import object
 import urllib.request, urllib.parse, urllib.error
@@ -10,8 +14,7 @@ import re
 
 from splunk import admin, rest
 
-from splunktalib.rest import splunkd_request, code_to_msg, \
-    build_http_connection
+from splunktalib.rest import splunkd_request, code_to_msg, build_http_connection
 from splunktalib.common.util import is_true
 
 from . import base
@@ -28,67 +31,73 @@ class PosterHandler(base.BaseRestHandler):
         admin.MConfigHandler.__init__(self, *args, **kwargs)
 
         # check required attributes
-        assert hasattr(self, "modelMap") and isinstance(self.modelMap, dict), \
-            RH_Err.ctl(1002,
-                       msgx='{}.modelMap'.format(self.__class__.__name__),
-                       shouldPrint=False)
+        assert hasattr(self, "modelMap") and isinstance(
+            self.modelMap, dict
+        ), RH_Err.ctl(
+            1002, msgx="{}.modelMap".format(self.__class__.__name__), shouldPrint=False
+        )
 
         if self.requestedAction != admin.ACTION_EDIT:
-            RH_Err.ctl(1101,
-                       msgx='Only "edit" supported')
+            RH_Err.ctl(1101, msgx='Only "edit" supported')
         self.setModel(self.callerArgs.id)
-        self.requiredArgs.add('splunk_poster_url')
-        self.requiredArgs.add('splunk_poster_method')
+        self.requiredArgs.add("splunk_poster_url")
+        self.requiredArgs.add("splunk_poster_method")
 
     def setModel(self, name):
         # get model for object
         if name not in self.modelMap:
-            RH_Err.ctl(404,
-                       msgx='object={name}'.format(name=name))
+            RH_Err.ctl(404, msgx="object={name}".format(name=name))
         self.model = self.modelMap[name]
 
         # load attributes from model
         obj = self.model()
-        attrs = {attr: getattr(obj, attr, None) for attr in dir(obj)
-                 if not attr.startswith('__') and attr != 'endpoint'}
+        attrs = {
+            attr: getattr(obj, attr, None)
+            for attr in dir(obj)
+            if not attr.startswith("__") and attr != "endpoint"
+        }
         self.__dict__.update(attrs)
 
     def handleEdit(self, confInfo):
         user, app = self.user_app()
-        proxy_info = self.getProxyInfo(splunkdMgmtUri=rest.makeSplunkdUri(),
-                                       sessionKey=self.getSessionKey(),
-                                       user=user, app=app)
-        proxy_enabled = proxy_info.get('proxy_enabled', False)
+        proxy_info = self.getProxyInfo(
+            splunkdMgmtUri=rest.makeSplunkdUri(),
+            sessionKey=self.getSessionKey(),
+            user=user,
+            app=app,
+        )
+        proxy_enabled = proxy_info.get("proxy_enabled", False)
         http = build_http_connection(proxy_info if proxy_enabled else {})
         try:
-            url = self.callerArgs.data['splunk_poster_url'][0]
+            url = self.callerArgs.data["splunk_poster_url"][0]
             for regex in self.allowedURLs:
                 if re.match(regex, url):
                     break
             else:
-                RH_Err.ctl(1104,
-                           msgx='Unsupported url to be posted')
+                RH_Err.ctl(1104, msgx="Unsupported url to be posted")
 
-            method = self.callerArgs.data['splunk_poster_method'][0]
+            method = self.callerArgs.data["splunk_poster_method"][0]
             if method not in self.allowedMethods:
-                RH_Err.ctl(1104,
-                           msgx='Unsupported method to be posted')
+                RH_Err.ctl(1104, msgx="Unsupported method to be posted")
 
-            payload = {key: val[0] for key, val
-                       in self.callerArgs.data.items()
-                       if key in self.retransmittedArgs}
+            payload = {
+                key: val[0]
+                for key, val in self.callerArgs.data.items()
+                if key in self.retransmittedArgs
+            }
             headers = {
                 "Content-Type": "application/x-www-form-urlencoded",
             }
 
-            resp, content = http.request(url,
-                                        method=method,
-                                        headers=headers,
-                                        body=urllib.parse.urlencode(payload))
+            resp, content = http.request(
+                url,
+                method=method,
+                headers=headers,
+                body=urllib.parse.urlencode(payload),
+            )
             content = json.loads(content)
-            if resp.status not in (200, 201, '200', '201'):
-                RH_Err.ctl(resp.status,
-                           msgx=content)
+            if resp.status not in (200, 201, "200", "201"):
+                RH_Err.ctl(resp.status, msgx=content)
 
             for key, val in content.items():
                 confInfo[self.callerArgs.id][key] = val
@@ -97,8 +106,8 @@ class PosterHandler(base.BaseRestHandler):
 
 
 class PosterModel(base.BaseModel):
-    """Model for request retransmitting target
-    """
+    """Model for request retransmitting target"""
+
     # Argument names:
     # arguments are required. It contains 'splunk_poster_url'
     # and 'splunk_poster_method' automatically.
@@ -117,8 +126,8 @@ class PosterModel(base.BaseModel):
 
 
 class PosterMapping(object):
-    """Mapping from object name to poster model.
-    """
+    """Mapping from object name to poster model."""
+
     # mapping object name to handler model class
     modelMap = {}
 
@@ -142,36 +151,36 @@ class PosterMapping(object):
         :return:
         """
         if not self.proxyInfoEndpoint:
-            RH_Err.ctl(1104,
-                       msgx='Empty endpoint for proxy is being used')
-        url = "{splunkdMgmtUri}servicesNS/{user}/{app}/{proxyInfoEndpoint}"\
-            .format(splunkdMgmtUri=splunkdMgmtUri,
-                    user=user,
-                    app=app,
-                    proxyInfoEndpoint=self.proxyInfoEndpoint)
-        data = {
-            'output_mode': 'json',
-            '--get-clear-credential--': '1'
-        }
+            RH_Err.ctl(1104, msgx="Empty endpoint for proxy is being used")
+        url = "{splunkdMgmtUri}servicesNS/{user}/{app}/{proxyInfoEndpoint}".format(
+            splunkdMgmtUri=splunkdMgmtUri,
+            user=user,
+            app=app,
+            proxyInfoEndpoint=self.proxyInfoEndpoint,
+        )
+        data = {"output_mode": "json", "--get-clear-credential--": "1"}
         resp, cont = splunkd_request(url, sessionKey, data=data, retry=3)
         if resp is None or resp.status != 200:
-            RH_Err.ctl(1104,
-                       msgx='failed to load proxy info. {err}'
-                       .format(err=code_to_msg(resp, cont) if resp else cont))
+            RH_Err.ctl(
+                1104,
+                msgx="failed to load proxy info. {err}".format(
+                    err=code_to_msg(resp, cont) if resp else cont
+                ),
+            )
 
         try:
-            proxy_info = json.loads(cont)['entry'][0]['content']
+            proxy_info = json.loads(cont)["entry"][0]["content"]
         except IndexError | KeyError:
             proxy_info = {}
 
         return {
-            'proxy_enabled': is_true(proxy_info.get('proxy_enabled', 'false')),
-            'proxy_url': proxy_info.get('proxy_url', ''),
-            'proxy_port': proxy_info.get('proxy_port', ''),
-            'proxy_username': proxy_info.get('proxy_username', ''),
-            'proxy_password': proxy_info.get('proxy_password', ''),
-            'proxy_rdns': proxy_info.get('proxy_rdns', 'false'),
-            'proxy_type': proxy_info.get('proxy_type', 'http')
+            "proxy_enabled": is_true(proxy_info.get("proxy_enabled", "false")),
+            "proxy_url": proxy_info.get("proxy_url", ""),
+            "proxy_port": proxy_info.get("proxy_port", ""),
+            "proxy_username": proxy_info.get("proxy_username", ""),
+            "proxy_password": proxy_info.get("proxy_password", ""),
+            "proxy_rdns": proxy_info.get("proxy_rdns", "false"),
+            "proxy_type": proxy_info.get("proxy_type", "http"),
         }
 
 

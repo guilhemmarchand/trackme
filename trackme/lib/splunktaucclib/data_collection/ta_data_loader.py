@@ -1,9 +1,14 @@
+# SPDX-FileCopyrightText: 2020 2020
+#
+# SPDX-License-Identifier: Apache-2.0
+
 """
 Data Loader main entry point
 """
 
 
 from future import standard_library
+
 standard_library.install_aliases()
 from builtins import object
 import os.path as op
@@ -58,8 +63,7 @@ class TADataLoader(object):
             self.run_io_jobs((real_job,))
 
         for job in jobs:
-            j = sjob.Job(_enqueue_io_job, {"real_job": job},
-                         job.get_interval())
+            j = sjob.Job(_enqueue_io_job, {"real_job": job}, job.get_interval())
             self._scheduler.add_jobs((j,))
 
         self._wait_for_tear_down()
@@ -104,8 +108,7 @@ class TADataLoader(object):
         @return: AsyncResult
         """
 
-        return self._executor.run_compute_func_async(func, args,
-                                                     kwargs, callback)
+        return self._executor.run_compute_func_async(func, args, kwargs, callback)
 
     def add_timer(self, callback, when, interval):
         return self._timer_queue.add_timer(callback, when, interval)
@@ -119,12 +122,11 @@ class TADataLoader(object):
     @staticmethod
     def _read_default_settings():
         cur_dir = op.dirname(op.abspath(__file__))
-        setting_file = op.join(cur_dir,"../../","splunktalib", "setting.conf")
+        setting_file = op.join(cur_dir, "../../", "splunktalib", "setting.conf")
         parser = configparser.ConfigParser()
         parser.read(setting_file)
         settings = {}
-        keys = ("process_size", "thread_min_size", "thread_max_size",
-                "task_queue_size")
+        keys = ("process_size", "thread_min_size", "thread_max_size", "task_queue_size")
         for option in keys:
             try:
                 settings[option] = parser.get("global", option)
@@ -147,8 +149,7 @@ class GlobalDataLoader(object):
     @staticmethod
     def get_data_loader(meta_configs, scheduler, writer):
         if GlobalDataLoader.__instance is None:
-            GlobalDataLoader.__instance = TADataLoader(
-                meta_configs, scheduler, writer)
+            GlobalDataLoader.__instance = TADataLoader(meta_configs, scheduler, writer)
         return GlobalDataLoader.__instance
 
     @staticmethod

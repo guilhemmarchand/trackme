@@ -1,3 +1,7 @@
+# SPDX-FileCopyrightText: 2020 2020
+#
+# SPDX-License-Identifier: Apache-2.0
+
 """
 This module provides Read-Write lock.
 """
@@ -31,7 +35,7 @@ class _WriteLocker(object):
 
 
 class RWLock(object):
-    """ Simple Read-Write lock.
+    """Simple Read-Write lock.
 
     Allow multiple read but only one writing concurrently.
     """
@@ -69,4 +73,3 @@ class RWLock(object):
     @property
     def writer_lock(self):
         return _WriteLocker(self)
-

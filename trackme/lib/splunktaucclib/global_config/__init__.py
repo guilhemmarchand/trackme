@@ -1,3 +1,7 @@
+# SPDX-FileCopyrightText: 2020 2020
+#
+# SPDX-License-Identifier: Apache-2.0
+
 """
 Global Config Module
 """
@@ -5,33 +9,27 @@ Global Config Module
 from __future__ import absolute_import
 
 from future import standard_library
+
 standard_library.install_aliases()
 from builtins import object
 import urllib.parse
 from solnlib.splunk_rest_client import SplunkRestClient
 
-from .configuration import (
-    Inputs,
-    Configs,
-    Settings,
-    GlobalConfigError,
-    Configuration
-)
+from .configuration import Inputs, Configs, Settings, GlobalConfigError, Configuration
 from .schema import GlobalConfigSchema
 
 
 __all__ = [
-    'GlobalConfigError',
-    'GlobalConfigSchema',
-    'GlobalConfig',
-    'Inputs',
-    'Configs',
-    'Settings',
+    "GlobalConfigError",
+    "GlobalConfigSchema",
+    "GlobalConfig",
+    "Inputs",
+    "Configs",
+    "Settings",
 ]
 
 
 class GlobalConfig(object):
-
     def __init__(self, splunkd_uri, session_key, schema):
         """
         Global Config.

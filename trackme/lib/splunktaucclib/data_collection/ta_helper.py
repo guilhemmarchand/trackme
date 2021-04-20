@@ -1,3 +1,7 @@
+# SPDX-FileCopyrightText: 2020 2020
+#
+# SPDX-License-Identifier: Apache-2.0
+
 from builtins import object
 import os.path as op
 import threading
@@ -10,6 +14,7 @@ from splunktalib.common import util
 from splunktaucclib.data_collection import ta_consts as c
 import hashlib
 import json
+
 
 def utc2timestamp(human_time):
     regex1 = r"\d{4}-\d{2}-\d{2}.\d{2}:\d{2}:\d{2}"
@@ -43,15 +48,16 @@ def get_md5(data):
     except:
         string_type = isinstance(data, (str))
     if string_type:
-        return hashlib.sha256(data.encode('utf-8')).hexdigest()
+        return hashlib.sha256(data.encode("utf-8")).hexdigest()
     elif isinstance(data, (list, tuple, dict)):
-        return hashlib.sha256(json.dumps(data).encode('utf-8')).hexdigest()
+        return hashlib.sha256(json.dumps(data).encode("utf-8")).hexdigest()
 
 
 def format_input_name_for_file(name):
     import base64
+
     base64_name = base64.b64encode(name.encode("utf-8"), b"__").decode("ascii")
-    qualified_name_str = re.sub(r'[^a-zA-Z0-9]+', '_', name)
+    qualified_name_str = re.sub(r"[^a-zA-Z0-9]+", "_", name)
     return "{}_B64_{}".format(qualified_name_str, base64_name)
 
 
@@ -66,17 +72,17 @@ class ConfigSchemaHandler(object):
     SEPARATOR = "separator"
 
     def __init__(self, meta_configs, client_schema):
-        self._config = sc.Config(splunkd_uri=meta_configs[c.server_uri],
-                                 session_key=meta_configs[c.session_key],
-                                 schema=json.dumps(client_schema[
-                                                       c.config]),
-                                 user="nobody",
-                                 app=ConfigSchemaHandler._app_name)
+        self._config = sc.Config(
+            splunkd_uri=meta_configs[c.server_uri],
+            session_key=meta_configs[c.session_key],
+            schema=json.dumps(client_schema[c.config]),
+            user="nobody",
+            app=ConfigSchemaHandler._app_name,
+        )
         self._client_schema = client_schema
         self._all_conf_contents = {}
         self._load_conf_contents()
         self._division_settings = self._divide_settings()
-
 
     def get_endpoints(self):
         return self._config.get_endpoints()
@@ -95,9 +101,9 @@ class ConfigSchemaHandler(object):
         division_settings = dict()
         for division_endpoint, division_contents in division_schema.items():
             division_settings[division_endpoint] = self._process_division(
-                division_endpoint, division_contents)
+                division_endpoint, division_contents
+            )
         return division_settings
-
 
     def _load_conf_contents(self):
         self._all_conf_contents = self._config.load()
@@ -107,22 +113,28 @@ class ConfigSchemaHandler(object):
         assert isinstance(division_contents, dict)
         for division_key, division_value in division_contents.items():
             try:
-                assert self.TYPE in division_value and \
-                       division_value[self.TYPE] in \
-                       [self.TYPE_SINGLE, self.TYPE_MULTI] and \
-                       self.SEPARATOR in division_value if \
-                    division_value[self.TYPE] == self.TYPE_MULTI else True
+                assert (
+                    self.TYPE in division_value
+                    and division_value[self.TYPE] in [self.TYPE_SINGLE, self.TYPE_MULTI]
+                    and self.SEPARATOR in division_value
+                    if division_value[self.TYPE] == self.TYPE_MULTI
+                    else True
+                )
             except Exception:
                 raise Exception("Invalid division schema")
-            division_metrics.append(DivisionRule(division_endpoint,
-                                                 division_key,
-                                                 division_value[self.TYPE],
-                                                 division_value.get(
-                                                     self.SEPARATOR,
-                                                 ),
-                                                 division_value.get(
-                                                     self.REFER,
-                                                 )))
+            division_metrics.append(
+                DivisionRule(
+                    division_endpoint,
+                    division_key,
+                    division_value[self.TYPE],
+                    division_value.get(
+                        self.SEPARATOR,
+                    ),
+                    division_value.get(
+                        self.REFER,
+                    ),
+                )
+            )
         return division_metrics
 
 
