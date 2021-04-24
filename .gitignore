@@ -34,12 +34,10 @@ backups
 # Visual Basic Code
 .vscode
 
-# appinspect reports
-appinspect_report*.html
-
 # backup directory
 trackme/backup
 
 # build directory
 build/*.tgz
 build/release-sha256.txt
+build/appinspect*.html
