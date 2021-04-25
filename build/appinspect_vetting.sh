@@ -39,8 +39,8 @@ show_usage() {
 
 # get arguments
 while [ "$1" != "" ]; do
-    PARAM=$(echo $1 | awk -F= '{print $1}')
-    VALUE=$(echo $1 | awk -F= '{print $2}')
+    PARAM=$(echo "$1" | awk -F= '{print $1}')
+    VALUE=$(echo "$1" | awk -F= '{print $2}')
     case $PARAM in
     -h | --help)
         show_usage
@@ -100,7 +100,7 @@ if [ -z "$password" ]; then
     exit 100
 fi
 
-if [ ! -s $app ]; then
+if [ ! -s "$app" ]; then
     printf "${red}\nERROR: app archive $app does not exist or is empty, marking the build as failed.${reset}\n"
     show_usage
     exit 1
@@ -120,17 +120,15 @@ fi
 
 # program start
 
-# global status
-appinspect_failed=false
-
 # excluded checks are expected to be CSV list of strings
-excluded_checks=$(echo $excluded_checks | tr , "\n")
+excluded_checks=$(echo "$excluded_checks" | tr , "\n")
+excluded_checks_4grep=$(echo "$excluded_checks" | tr , "\|")
 
 # login to Appinspect API
 printf "${blue}\nINFO: Attempting login to appinspect API...${reset}\n"
 
-export appinspect_token=$(curl -X GET \
-    -u ${username}:${password} \
+appinspect_token=$(curl -X GET \
+    -u "${username}":"${password}" \
     --url "https://api.splunk.com/2.0/rest/login/splunk" -s | sed 's/%//g' | jq -r .data.token)
 
 case "$appinspect_token" in
@@ -158,8 +156,9 @@ case $excluded_tags in
         -s \
         -F "app_package=@${app}" \
         -F "included_tags=${included_tags}" \
-        -F "excluded_tags=${excluded_tags}" \ 
-        --url "https://appinspect.splunk.com/v1/app/validate" | jq -r .links | grep href | head -1 | awk -F\" '{print $4}' | awk -F\/ '{print $6}')
+        -F "excluded_tags=${excluded_tags}" \
+        --url "https://appinspect.splunk.com/v1/app/validate" | jq -r .links | grep href | head -1 | awk -F\" '{print $4}' | awk -F'/' '{print $6}')
+        EXIT_CODE=$?
     ;;
 
 # excluded_tags were provided
@@ -170,32 +169,33 @@ case $excluded_tags in
         -s \
         -F "app_package=@${app}" \
         -F "included_tags=${included_tags}" \
-        --url "https://appinspect.splunk.com/v1/app/validate" | jq -r .links | grep href | head -1 | awk -F\" '{print $4}' | awk -F\/ '{print $6}')
+        --url "https://appinspect.splunk.com/v1/app/validate" | jq -r .links | grep href | head -1 | awk -F\" '{print $4}' | awk -F'/' '{print $6}')
+        EXIT_CODE=$?
     ;;
 
 esac
 
 # Looping and polling the status
-if [ $? -eq 0 ]; then
+if [ $EXIT_CODE -eq 0 ]; then
     printf "${green}\nSUCCESS: upload was successful, polling status...${reset}\n"
 
     status=$(curl -X GET \
         -s \
         -H "Authorization: bearer ${appinspect_token}" \
-        --url https://appinspect.splunk.com/v1/app/validate/status/${uuid} | jq -r .status)
+        --url https://appinspect.splunk.com/v1/app/validate/status/"${uuid}" | jq -r .status)
 
-    while [ $status != "SUCCESS" ]; do
+    while [ "$status" != "SUCCESS" ]; do
 
         printf "${blue}\nINFO: appinspect is currently running:${reset}\n\n"
         curl -X GET \
             -s \
             -H "Authorization: bearer ${appinspect_token}" \
-            --url https://appinspect.splunk.com/v1/app/validate/status/${uuid} | jq
+            --url https://appinspect.splunk.com/v1/app/validate/status/"${uuid}" | jq
         sleep 2
         status=$(curl -X GET \
             -s \
             -H "Authorization: bearer ${appinspect_token}" \
-            --url https://appinspect.splunk.com/v1/app/validate/status/${uuid} | jq -r .status)
+            --url https://appinspect.splunk.com/v1/app/validate/status/"${uuid}" | jq -r .status)
 
     done
 
@@ -206,16 +206,16 @@ if [ $? -eq 0 ]; then
         info=$(curl -X GET \
             -s \
             -H "Authorization: bearer ${appinspect_token}" \
-            --url https://appinspect.splunk.com/v1/app/validate/status/${uuid} | jq -r .info)
+            --url https://appinspect.splunk.com/v1/app/validate/status/"${uuid}" | jq -r .info)
 
         # Show info summary json
-        echo $info | jq .
+        echo "$info" | jq .
 
         # Get the list of failures, if any
         failures_list=$(curl -X GET \
             -s \
             -H "Authorization: bearer ${appinspect_token}" \
-            --url https://appinspect.splunk.com/v1/app/report/${uuid} | jq '.reports[].groups[].checks[] | select(.result | test("failure")) | .name')
+            --url https://appinspect.splunk.com/v1/app/report/"${uuid}" | jq '.reports[].groups[].checks[] | select(.result | test("failure")) | .name')
 
         # Get failures and count
         failures_included_count=0
@@ -224,8 +224,7 @@ if [ $? -eq 0 ]; then
         # included count
         for failure in $failures_list; do
             for excluded_check in $excluded_checks; do
-                echo $failure | grep $excluded_check >/dev/null 2>&1
-                if [ $? -ne 0 ]; then
+                if ! echo "$failure" | grep -q "$excluded_check" ; then
                     ((failures_included_count = failures_included_count + 1))
                 fi
             done
@@ -234,18 +233,17 @@ if [ $? -eq 0 ]; then
         # excluded count
         for failure in $failures_list; do
             for excluded_check in $excluded_checks; do
-                echo $failure | grep $excluded_check >/dev/null 2>&1
-                if [ $? -eq 0 ]; then
+                if echo "$failure" | grep -q "$excluded_check" ; then
                     ((failures_excluded_count = failures_excluded_count + 1))
                 fi
             done
         done
 
         # Inform if we had failures we are ignoring
-        if [ $failures_excluded_count -ne 0 ]; then
+        if [ "$failures_excluded_count" -ne 0 ]; then
             printf "${yellow}\n\nWARN: $failures_excluded_count failure(s) were excluded due to custom checks exclusion list${reset}"
             echo ""
-            echo $failures_list | egrep "(check_for_emails_in_saved_search)"
+            echo "$failures_list" | grep -E "$excluded_checks_4grep"
             echo ""
         fi
 
@@ -256,10 +254,10 @@ if [ $? -eq 0 ]; then
             -H "Cache-Control: no-cache" \
             -H "Content-Type: text/html" \
             --url "https://appinspect.splunk.com/v1/app/report/${uuid}" \
-            -o ${html_report_out}
+            -o "${html_report_out}"
         printf "${blue}\nINFO: report downloaded to file ${html_report_out} ${reset}\n"
 
-        if [ $failures_included_count -eq 0 ]; then
+        if [ "$failures_included_count" -eq 0 ]; then
             printf "${green}\n\nSUCCESS: appinspect reported no failures or no failures excluded via custom lists, marking this build as successful.${reset}\n\n"
             exit 0
         else
