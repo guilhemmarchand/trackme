@@ -1,9 +1,14 @@
+# SPDX-FileCopyrightText: 2020 2020
+#
+# SPDX-License-Identifier: Apache-2.0
+
 """Credentials Management for REST Endpoint
 """
 
 from __future__ import absolute_import
 
 from future import standard_library
+
 standard_library.install_aliases()
 from builtins import object
 import json
@@ -18,8 +23,8 @@ from .error import RestError
 
 
 __all__ = [
-    'RestCredentialsContext',
-    'RestCredentials',
+    "RestCredentialsContext",
+    "RestCredentials",
 ]
 
 
@@ -28,7 +33,7 @@ class RestCredentialsContext(object):
     Credentials' context, including realm, username and password.
     """
 
-    REALM = '__REST_CREDENTIAL__#{base_app}#{endpoint}'
+    REALM = "__REST_CREDENTIAL__#{base_app}#{endpoint}"
 
     def __init__(self, endpoint, name, *args, **kwargs):
         self._endpoint = endpoint
@@ -43,7 +48,7 @@ class RestCredentialsContext(object):
         """
         return self.REALM.format(
             base_app=get_base_app_name(),
-            endpoint=self._endpoint.internal_endpoint.strip('/'),
+            endpoint=self._endpoint.internal_endpoint.strip("/"),
         )
 
     def username(self):
@@ -74,33 +79,26 @@ class RestCredentialsContext(object):
         try:
             return json.loads(string)
         except ValueError:
-            raise RestError(
-                500,
-                'Fail to load encrypted string, invalid JSON'
-            )
+            raise RestError(500, "Fail to load encrypted string, invalid JSON")
 
 
 class RestCredentials(object):
     """
     Credential Management stored in passwords.conf
     """
-    # Changed password constant to six '*' to make it consistent with solnlib password constant
-    PASSWORD = u'******'
-    EMPTY_VALUE = u''
 
-    def __init__(
-            self,
-            splunkd_uri,
-            session_key,
-            endpoint
-    ):
+    # Changed password constant to six '*' to make it consistent with solnlib password constant
+    PASSWORD = u"******"
+    EMPTY_VALUE = u""
+
+    def __init__(self, splunkd_uri, session_key, endpoint):
         self._splunkd_uri = splunkd_uri
         self._splunkd_info = urllib.parse.urlparse(self._splunkd_uri)
         self._session_key = session_key
         self._endpoint = endpoint
-        self._realm = '__REST_CREDENTIAL__#{base_app}#{endpoint}'.format(
+        self._realm = "__REST_CREDENTIAL__#{base_app}#{endpoint}".format(
             base_app=get_base_app_name(),
-            endpoint=self._endpoint.internal_endpoint.strip('/')
+            endpoint=self._endpoint.internal_endpoint.strip("/"),
         )
 
     def get_encrypted_field_names(self, name):
@@ -149,13 +147,15 @@ class RestCredentials(object):
                 else:
                     # if the field value is '******', keep the original value
                     original_clear_password = self._get(name)
-                    if original_clear_password and original_clear_password.get(field_name):
+                    if original_clear_password and original_clear_password.get(
+                        field_name
+                    ):
                         encrypting[field_name] = original_clear_password[field_name]
                     else:
                         # original password does not exist, use '******' as password
                         encrypting[field_name] = data[field_name]
             elif field_name in data and not data[field_name]:
-                data[field_name] = ''
+                data[field_name] = ""
             else:
                 # field not in data
                 # if the optional encrypted field is not passed, keep original if it exist
@@ -283,60 +283,62 @@ class RestCredentials(object):
             realm=self._realm,
             scheme=self._splunkd_info.scheme,
             host=self._splunkd_info.hostname,
-            port=self._splunkd_info.port
+            port=self._splunkd_info.port,
         )
 
         all_passwords = credential_manager._get_all_passwords()
         # filter by realm
-        realm_passwords = [x for x in all_passwords if x['realm'] == self._realm]
+        realm_passwords = [x for x in all_passwords if x["realm"] == self._realm]
         return self._merge_passwords(data, realm_passwords)
 
     @staticmethod
     def _delete_empty_value_for_dict(dct):
-        empty_value_names = [k for k, v in dct.items() if v == '']
+        empty_value_names = [k for k, v in dct.items() if v == ""]
         for k in empty_value_names:
             del dct[k]
 
     def _merge_passwords(self, data, passwords):
         """
-            return if some fields need to write with new "******"
+        return if some fields need to write with new "******"
         """
         # merge clear passwords to response data
         changed_item_list = []
 
-        password_dict = {pwd['username']: json.loads(pwd['clear_password']) for pwd in passwords}
+        password_dict = {
+            pwd["username"]: json.loads(pwd["clear_password"]) for pwd in passwords
+        }
         # existed passwords models: previously has encrypted value
-        existing_encrypted_items = [x for x in data if x['name'] in password_dict]
+        existing_encrypted_items = [x for x in data if x["name"] in password_dict]
 
         # previously has no encrypted value
-        not_encrypted_items = [x for x in data if x['name'] not in password_dict]
+        not_encrypted_items = [x for x in data if x["name"] not in password_dict]
 
         # For model that password existed
         # 1.Password changed: Update it and add to changed_item_list
         # 2.Password unchanged: Get the password and update the response data
         for existed_model in existing_encrypted_items:
-            name = existed_model['name']
+            name = existed_model["name"]
             clear_password = password_dict[name]
             need_write_magic_pwd = False
             need_write_back_pwd = False
             for k, v in clear_password.items():
                 # make sure key exist in model content
-                if k in existed_model['content']:
-                    if existed_model['content'][k] == self.PASSWORD:
+                if k in existed_model["content"]:
+                    if existed_model["content"][k] == self.PASSWORD:
                         # set existing as raw value
-                        existed_model['content'][k] = v
-                    elif existed_model['content'][k] == '':
+                        existed_model["content"][k] = v
+                    elif existed_model["content"][k] == "":
                         # mark to delete it
-                        clear_password[k] = ''
+                        clear_password[k] = ""
                         need_write_back_pwd = True
                         continue
                     else:
                         need_write_magic_pwd = True
                         need_write_back_pwd = True
-                        clear_password[k] = existed_model['content'][k]
+                        clear_password[k] = existed_model["content"][k]
                 else:
                     # mark to delete it
-                    clear_password[k] = ''
+                    clear_password[k] = ""
                     need_write_back_pwd = True
 
             # update the password storage
@@ -353,13 +355,13 @@ class RestCredentials(object):
 
         # For other models, encrypt the password and return
         for other_model in not_encrypted_items:
-            name = other_model['name']
-            content = other_model['content']
+            name = other_model["name"]
+            content = other_model["content"]
             encrypted_field_names = self.get_encrypted_field_names(name)
             clear_password = {}
             for field_name in encrypted_field_names:
                 # make sure key exist in model content
-                if field_name in content and content[field_name] != '':
+                if field_name in content and content[field_name] != "":
                     clear_password[field_name] = content[field_name]
             if clear_password:
                 self._set(name, clear_password)
@@ -380,10 +382,7 @@ class RestCredentials(object):
             return
         context = RestCredentialsContext(self._endpoint, name)
         mgr = self._get_manager(context)
-        mgr.set_password(
-            user=context.username(),
-            password=context.dump(credentials)
-        )
+        mgr.set_password(user=context.username(), password=context.dump(credentials))
 
     def _get(self, name):
         context = RestCredentialsContext(self._endpoint, name)
@@ -445,5 +444,5 @@ class RestCredentials(object):
             realm=context.realm(),
             scheme=self._splunkd_info.scheme,
             host=self._splunkd_info.hostname,
-            port=self._splunkd_info.port
+            port=self._splunkd_info.port,
         )

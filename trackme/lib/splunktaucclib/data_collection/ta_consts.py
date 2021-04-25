@@ -1,3 +1,7 @@
+# SPDX-FileCopyrightText: 2020 2020
+#
+# SPDX-License-Identifier: Apache-2.0
+
 server_uri = "server_uri"
 session_key = "session_key"
 version = "version"
@@ -22,7 +26,7 @@ input_name = "input_name"
 input_data = "input_data"
 interval = "interval"
 data = "data"
-batch_size = 'batch_size'
+batch_size = "batch_size"
 time_fmt = "%Y-%m-%dT%H:%M:%S"
 utc_time_fmt = "%Y-%m-%dT%H:%M:%S.%fZ"
 

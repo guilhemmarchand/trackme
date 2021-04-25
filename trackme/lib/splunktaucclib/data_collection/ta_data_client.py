@@ -1,31 +1,41 @@
 #!/usr/bin/python
+
+# SPDX-FileCopyrightText: 2020 2020
+#
+# SPDX-License-Identifier: Apache-2.0
+
 from builtins import next
 from builtins import object
 from splunktaucclib.data_collection import ta_checkpoint_manager as cp
 import splunktaucclib.data_collection.ta_data_collector as tdc
 
 
-def build_event(host=None,
-                source=None,
-                sourcetype=None,
-                time=None,
-                index=None,
-                raw_data="",
-                is_unbroken=False,
-                is_done=False):
+def build_event(
+    host=None,
+    source=None,
+    sourcetype=None,
+    time=None,
+    index=None,
+    raw_data="",
+    is_unbroken=False,
+    is_done=False,
+):
     if is_unbroken is False and is_done is True:
-        raise Exception('is_unbroken=False is_done=True is invalid')
-    return tdc.event_tuple._make([host, source, sourcetype, time, index,
-                                  raw_data, is_unbroken, is_done])
+        raise Exception("is_unbroken=False is_done=True is invalid")
+    return tdc.event_tuple._make(
+        [host, source, sourcetype, time, index, raw_data, is_unbroken, is_done]
+    )
 
 
 class TaDataClient(object):
-    def __init__(self,
-                 all_conf_contents,
-                 meta_config,
-                 task_config,
-                 ckpt=None,
-                 checkpoint_mgr=None):
+    def __init__(
+        self,
+        all_conf_contents,
+        meta_config,
+        task_config,
+        ckpt=None,
+        checkpoint_mgr=None,
+    ):
         self._all_conf_contents = all_conf_contents
         self._meta_config = meta_config
         self._task_config = task_config
@@ -43,27 +53,28 @@ class TaDataClient(object):
         raise StopIteration
 
 
-def create_data_collector(dataloader,
-                          tconfig,
-                          meta_configs,
-                          task_config,
-                          data_client_cls,
-                          checkpoint_cls=None):
+def create_data_collector(
+    dataloader, tconfig, meta_configs, task_config, data_client_cls, checkpoint_cls=None
+):
     checkpoint_manager_cls = checkpoint_cls or cp.TACheckPointMgr
-    return tdc.TADataCollector(tconfig, meta_configs, task_config,
-                               checkpoint_manager_cls, data_client_cls,
-                               dataloader)
+    return tdc.TADataCollector(
+        tconfig,
+        meta_configs,
+        task_config,
+        checkpoint_manager_cls,
+        data_client_cls,
+        dataloader,
+    )
 
 
 def client_adapter(job_func):
     class TaDataClientAdapter(TaDataClient):
-        def __init__(self, all_conf_contents, meta_config, task_config, ckpt,
-                     chp_mgr):
+        def __init__(self, all_conf_contents, meta_config, task_config, ckpt, chp_mgr):
             super(TaDataClientAdapter, self).__init__(
-                all_conf_contents, meta_config, task_config, ckpt, chp_mgr)
+                all_conf_contents, meta_config, task_config, ckpt, chp_mgr
+            )
             self._execute_times = 0
-            self._gen = job_func(self._all_conf_contents, self._task_config,
-                                 self._ckpt)
+            self._gen = job_func(self._all_conf_contents, self._task_config, self._ckpt)
 
         def stop(self):
             """

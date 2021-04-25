@@ -1,4 +1,9 @@
 #!/usr/bin/python
+
+# SPDX-FileCopyrightText: 2020 2020
+#
+# SPDX-License-Identifier: Apache-2.0
+
 from __future__ import absolute_import
 from builtins import object
 import time
@@ -8,41 +13,61 @@ import splunktaucclib.common.log as stulog
 import splunktalib.common.util as scu
 from collections import namedtuple
 
-evt_fmt = ("<stream><event><host>{0}</host>"
-           "<source><![CDATA[{1}]]></source>"
-           "<sourcetype><![CDATA[{2}]]></sourcetype>"
-           "<time>{3}</time>"
-           "<index>{4}</index><data>"
-           "<![CDATA[{5}]]></data></event></stream>")
+evt_fmt = (
+    "<stream><event><host>{0}</host>"
+    "<source><![CDATA[{1}]]></source>"
+    "<sourcetype><![CDATA[{2}]]></sourcetype>"
+    "<time>{3}</time>"
+    "<index>{4}</index><data>"
+    "<![CDATA[{5}]]></data></event></stream>"
+)
 
-unbroken_evt_fmt = ("<stream>"
-                    "<event unbroken=\"1\">"
-                    "<host>{0}</host>"
-                    "<source><![CDATA[{1}]]></source>"
-                    "<sourcetype><![CDATA[{2}]]></sourcetype>"
-                    "<time>{3}</time>"
-                    "<index>{4}</index>"
-                    "<data><![CDATA[{5}]]></data>"
-                    "{6}"
-                    "</event>"
-                    "</stream>")
+unbroken_evt_fmt = (
+    "<stream>"
+    '<event unbroken="1">'
+    "<host>{0}</host>"
+    "<source><![CDATA[{1}]]></source>"
+    "<sourcetype><![CDATA[{2}]]></sourcetype>"
+    "<time>{3}</time>"
+    "<index>{4}</index>"
+    "<data><![CDATA[{5}]]></data>"
+    "{6}"
+    "</event>"
+    "</stream>"
+)
 
-event_tuple = namedtuple('Event',
-                         ['host', 'source', 'sourcetype', 'time', 'index',
-                          'raw_data', 'is_unbroken', 'is_done'])
+event_tuple = namedtuple(
+    "Event",
+    [
+        "host",
+        "source",
+        "sourcetype",
+        "time",
+        "index",
+        "raw_data",
+        "is_unbroken",
+        "is_done",
+    ],
+)
 
 
 class TADataCollector(object):
-    def __init__(self, tconfig, meta_config, task_config,
-                 checkpoint_manager_cls, data_client_cls, data_loader):
+    def __init__(
+        self,
+        tconfig,
+        meta_config,
+        task_config,
+        checkpoint_manager_cls,
+        data_client_cls,
+        data_loader,
+    ):
         self._lock = threading.Lock()
         self._ta_config = tconfig
         self._meta_config = meta_config
         self._task_config = task_config
         self._stopped = True
         self._p = self._get_logger_prefix()
-        self._checkpoint_manager = checkpoint_manager_cls(meta_config,
-                                                          task_config)
+        self._checkpoint_manager = checkpoint_manager_cls(meta_config, task_config)
         self.data_client_cls = data_client_cls
         self._data_loader = data_loader
         self._client = None
@@ -57,8 +82,7 @@ class TADataCollector(object):
         return self._task_config[c.interval]
 
     def _get_logger_prefix(self):
-        pairs = ['{}="{}"'.format(c.stanza_name, self._task_config[
-            c.stanza_name])]
+        pairs = ['{}="{}"'.format(c.stanza_name, self._task_config[c.stanza_name])]
         for key in self._task_config[c.divide_key]:
             pairs.append('{}="{}"'.format(key, self._task_config[key]))
         return "[{}]".format(" ".join(pairs))
@@ -81,15 +105,23 @@ class TADataCollector(object):
             assert event.raw_data, "the raw data of events is empty"
             if event.is_unbroken:
                 evt = unbroken_evt_fmt.format(
-                    event.host or "", event.source or "", event.sourcetype or
-                    "", event.time or "", event.index or "",
-                    scu.escape_cdata(event.raw_data), "<done/>" if
-                    event.is_done else "")
+                    event.host or "",
+                    event.source or "",
+                    event.sourcetype or "",
+                    event.time or "",
+                    event.index or "",
+                    scu.escape_cdata(event.raw_data),
+                    "<done/>" if event.is_done else "",
+                )
             else:
-                evt = evt_fmt.format(event.host or "", event.source or "",
-                                     event.sourcetype or "", event.time or "",
-                                     event.index or "",
-                                     scu.escape_cdata(event.raw_data))
+                evt = evt_fmt.format(
+                    event.host or "",
+                    event.source or "",
+                    event.sourcetype or "",
+                    event.time or "",
+                    event.index or "",
+                    scu.escape_cdata(event.raw_data),
+                )
             evts.append(evt)
         return evts
 
@@ -105,8 +137,12 @@ class TADataCollector(object):
     def _create_data_client(self):
         ckpt = self._get_ckpt()
         data_client = self.data_client_cls(
-            self._ta_config.get_all_conf_contents(), self._meta_config,
-            self._task_config, ckpt, self._checkpoint_manager)
+            self._ta_config.get_all_conf_contents(),
+            self._meta_config,
+            self._task_config,
+            ckpt,
+            self._checkpoint_manager,
+        )
 
         stulog.logger.debug("{} Set {}={} ".format(self._p, c.ckpt_dict, ckpt))
         return data_client
@@ -115,29 +151,36 @@ class TADataCollector(object):
         if self._lock.locked():
             stulog.logger.debug(
                 "Last round of stanza={} is not done yet".format(
-                    self._task_config[c.stanza_name]))
+                    self._task_config[c.stanza_name]
+                )
+            )
             return
         with self._lock:
             self._stopped = False
             checkpoint_key = self._get_ckpt_key()
-            stulog.logger.info("{} Start indexing data for checkpoint_key={"
-                               "}".format(self._p, checkpoint_key))
+            stulog.logger.info(
+                "{} Start indexing data for checkpoint_key={"
+                "}".format(self._p, checkpoint_key)
+            )
             try:
 
                 self._do_safe_index()
             except Exception:
-                stulog.logger.exception("{} Failed to index data"
-                                        .format(self._p))
-            stulog.logger.info("{} End of indexing data for checkpoint_key={}"
-                               .format(self._p, checkpoint_key))
+                stulog.logger.exception("{} Failed to index data".format(self._p))
+            stulog.logger.info(
+                "{} End of indexing data for checkpoint_key={}".format(
+                    self._p, checkpoint_key
+                )
+            )
 
     def _write_events(self, ckpt, events):
         evts = self._build_event(events)
         if evts:
             if not self._data_loader.write_events(evts):
-                stulog.logger.info("{} the event queue is closed and the "
-                                   "received data will be discarded".format(
-                                       self._p))
+                stulog.logger.info(
+                    "{} the event queue is closed and the "
+                    "received data will be discarded".format(self._p)
+                )
                 return False
         if ckpt is None:
             return True
@@ -147,7 +190,9 @@ class TADataCollector(object):
             except Exception:
                 stulog.logger.exception(
                     "{} Failed to update ckpt {} to {}".format(
-                        self._p, self._get_ckpt_key(), ckpt))
+                        self._p, self._get_ckpt_key(), ckpt
+                    )
+                )
                 time.sleep(2)
                 continue
             else:
@@ -176,5 +221,4 @@ class TADataCollector(object):
         try:
             self._client.get()
         except StopIteration:
-            stulog.logger.debug("{} Invoke client.get() after stop ".format(
-                self._p))
+            stulog.logger.debug("{} Invoke client.get() after stop ".format(self._p))

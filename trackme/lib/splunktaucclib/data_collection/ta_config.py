@@ -1,3 +1,7 @@
+# SPDX-FileCopyrightText: 2020 2020
+#
+# SPDX-License-Identifier: Apache-2.0
+
 from __future__ import absolute_import
 from __future__ import division
 import sys
@@ -10,6 +14,7 @@ from . import ta_helper as th
 import splunktaucclib.common.log as stulog
 import splunktalib.modinput as modinput
 from splunktalib.common import util
+
 basestring = str if sys.version_info[0] == 3 else basestring
 
 # methods can be overrided by subclass : process_task_configs
@@ -17,28 +22,29 @@ class TaConfig(object):
     _current_hostname = socket.gethostname()
     _appname = util.get_appname_from_path(op.abspath(__file__))
 
-    def __init__(self, meta_config, client_schema, stanza_name=None,
-                 log_suffix=None):
+    def __init__(self, meta_config, client_schema, stanza_name=None, log_suffix=None):
         self._meta_config = meta_config
         self._stanza_name = stanza_name
         self._log_suffix = log_suffix
         if self._stanza_name and self._log_suffix:
-            stulog.reset_logger(self._log_suffix + "_" +
-                                th.format_input_name_for_file(
-                                    self._stanza_name))
+            stulog.reset_logger(
+                self._log_suffix
+                + "_"
+                + th.format_input_name_for_file(self._stanza_name)
+            )
             stulog.logger.info("Start {} task".format(self._stanza_name))
         self._task_configs = []
         self._client_schema = client_schema
-        self._server_info = sc.ServerInfo(meta_config[c.server_uri],
-                                          meta_config[c.session_key])
+        self._server_info = sc.ServerInfo(
+            meta_config[c.server_uri], meta_config[c.session_key]
+        )
         self._all_conf_contents = {}
         self._get_division_settings = {}
         self._load_task_configs()
         self._log_level = self._get_log_level()
 
     def is_shc_but_not_captain(self):
-        return self._server_info.is_shc_member() and \
-               not self._server_info.is_captain()
+        return self._server_info.is_shc_member() and not self._server_info.is_captain()
 
     def get_meta_config(self):
         return self._meta_config
@@ -56,20 +62,18 @@ class TaConfig(object):
         return self._log_level
 
     def _load_task_configs(self):
-        config_handler = th.ConfigSchemaHandler(self._meta_config,
-                                                self._client_schema)
+        config_handler = th.ConfigSchemaHandler(self._meta_config, self._client_schema)
         self._all_conf_contents = config_handler.get_all_conf_contents()
         self._divide_settings = config_handler.get_division_settings()
         assert self._divide_settings, "division is empty"
-        self._generate_task_configs(self._all_conf_contents,
-                                    self._divide_settings)
+        self._generate_task_configs(self._all_conf_contents, self._divide_settings)
 
     def _generate_task_configs(self, all_conf_contents, divide_settings):
         all_task_configs = list()
         for division_endpoint, divide_setting in divide_settings.items():
-            task_configs = self._get_task_configs(all_conf_contents,
-                                                  division_endpoint,
-                                                  divide_setting)
+            task_configs = self._get_task_configs(
+                all_conf_contents, division_endpoint, divide_setting
+            )
             all_task_configs = all_task_configs + task_configs
 
         for task_config in all_task_configs:
@@ -80,18 +84,19 @@ class TaConfig(object):
                 task_config[c.use_kv_store] = True
             stulog.logger.debug("Task info: %s", task_config)
         self.process_task_configs(all_task_configs)
-        #interval
+        # interval
         for task_config in all_task_configs:
-            assert task_config.get(c.interval), "task config has no interval " \
-                                                "field"
+            assert task_config.get(c.interval), "task config has no interval " "field"
             task_config[c.interval] = int(task_config[c.interval])
             if task_config[c.interval] <= 0:
-                raise ValueError("The interval value {} is invalid. It "
-                                    "should be a positive integer"
-                                    .format(task_config[c.interval]))
+                raise ValueError(
+                    "The interval value {} is invalid. It "
+                    "should be a positive integer".format(task_config[c.interval])
+                )
         self._task_configs = all_task_configs
-        stulog.logger.info("Totally generated {} task configs".format(
-            len(self._task_configs)))
+        stulog.logger.info(
+            "Totally generated {} task configs".format(len(self._task_configs))
+        )
 
     # Override this method if some transforms or validations needs to be done
     # before task_configs is exposed
@@ -104,13 +109,12 @@ class TaConfig(object):
     def _get_log_level(self):
         if not self._client_schema["basic"].get("config_meta"):
             return "INFO"
-        if not self._client_schema["basic"][
-            "config_meta"].get("logging_setting"):
+        if not self._client_schema["basic"]["config_meta"].get("logging_setting"):
             return "INFO"
-        paths = self._client_schema["basic"]["config_meta"][
-            "logging_setting"].split(">")
-        global_setting = self.get_all_conf_contents()[paths[
-            0].strip()]
+        paths = self._client_schema["basic"]["config_meta"]["logging_setting"].split(
+            ">"
+        )
+        global_setting = self.get_all_conf_contents()[paths[0].strip()]
         if not global_setting:
             return "INFO"
         log_level = self.get_all_conf_contents()
@@ -121,21 +125,23 @@ class TaConfig(object):
         else:
             return log_level
 
-    def _get_task_configs(self, all_conf_contents, division_endpoint,
-                          divide_setting):
+    def _get_task_configs(self, all_conf_contents, division_endpoint, divide_setting):
         task_configs = list()
         orig_task_configs = all_conf_contents.get(division_endpoint)
-        for orig_task_config_stanza, orig_task_config_contents in \
-                orig_task_configs.items():
+        for (
+            orig_task_config_stanza,
+            orig_task_config_contents,
+        ) in orig_task_configs.items():
             if util.is_true(orig_task_config_contents.get(c.disabled, False)):
-                stulog.logger.debug("Stanza %s is disabled",
-                                    orig_task_config_contents)
+                stulog.logger.debug("Stanza %s is disabled", orig_task_config_contents)
                 continue
             orig_task_config_contents[c.divide_endpoint] = division_endpoint
             divide_tasks = self._divide_task_config(
                 orig_task_config_stanza,
                 orig_task_config_contents,
-                divide_setting, all_conf_contents)
+                divide_setting,
+                all_conf_contents,
+            )
             task_configs = task_configs + divide_tasks
         if self._stanza_name:
             for task_config in task_configs:
@@ -143,8 +149,13 @@ class TaConfig(object):
                     return [task_config]
         return task_configs
 
-    def _divide_task_config(self, task_config_stanza, task_config_contents,
-                            divide_setting, all_conf_contents):
+    def _divide_task_config(
+        self,
+        task_config_stanza,
+        task_config_contents,
+        divide_setting,
+        all_conf_contents,
+    ):
         task_config = dict()
         task_config[c.stanza_name] = [self._get_stanza_name(task_config_stanza)]
         multi = 1
@@ -165,12 +176,13 @@ class TaConfig(object):
             times += 1
             if times % 2 == 0:
                 scale_task_config[key].sort()
-        return self._build_task_configs(scale_task_config, all_conf_contents,
-                                        divide_setting, multi)
+        return self._build_task_configs(
+            scale_task_config, all_conf_contents, divide_setting, multi
+        )
 
-    def _build_task_configs(self, raw_task_config, all_conf_contents,
-                            divide_setting,
-                            length):
+    def _build_task_configs(
+        self, raw_task_config, all_conf_contents, divide_setting, length
+    ):
         task_configs = list()
         # split task configs
         for i in range(length):
@@ -195,7 +207,7 @@ class TaConfig(object):
 
         pos = in_name.find("://")
         if pos > 0:
-            in_name = in_name[pos + 3:]
+            in_name = in_name[pos + 3 :]
         return in_name
 
 
@@ -206,4 +218,3 @@ def create_ta_config(settings, config_cls=TaConfig, log_suffix=None):
     else:
         stanza_name = None
     return config_cls(meta_config, settings, stanza_name, log_suffix)
-

@@ -1,3 +1,7 @@
+# SPDX-FileCopyrightText: 2020 2020
+#
+# SPDX-License-Identifier: Apache-2.0
+
 """Error control
 """
 
@@ -14,36 +18,32 @@ from splunk import RESTException
 import splunktaucclib.common.log as stulog
 
 
-__all__ = ['RestHandlerError', 'ERROR_MAPPING']
+__all__ = ["RestHandlerError", "ERROR_MAPPING"]
 
 
 # Errors mapping for add-on.
 # Edit it when you need to add new error type.
 ERROR_MAPPING = {
     # splunkd internal error, occurred while calling splunkd REST API.
-    400: 'Bad Request',
-    401: 'Client is not authenticated',
-    402: 'Current license does not allow the requested action',
-    403: 'Unauthorized client for the requested action',
-    404: 'Resource/Endpoint requested dose not exist',
-    409: 'Conflict occurred due to existing object with the same name',
-    500: 'Splunkd internal error',
-
-
+    400: "Bad Request",
+    401: "Client is not authenticated",
+    402: "Current license does not allow the requested action",
+    403: "Unauthorized client for the requested action",
+    404: "Resource/Endpoint requested dose not exist",
+    409: "Conflict occurred due to existing object with the same name",
+    500: "Splunkd internal error",
     # Rest handler predefined error in add-on.
-    1000: 'An Add-on Internal ERROR Occurred',
-    1001: 'Fatal Error',
-    1002: 'Some mandatory attributes are missing or unusable for the handler',
-
-    1020: 'Fail to encrypt credential information',
-    1021: 'Fail to decrypt the encrypted credential information',
-    1022: 'Fail to delete the encrypted credential information',
-
-    1100: 'Unsupported value in request arguments',
-    1101: 'Unsupported action on the requested endpoint',
-    1102: 'Failed to check object for _sync action',
-    1103: 'Failed to teardown configurations',
-    1104: 'Poster REST handler error',
+    1000: "An Add-on Internal ERROR Occurred",
+    1001: "Fatal Error",
+    1002: "Some mandatory attributes are missing or unusable for the handler",
+    1020: "Fail to encrypt credential information",
+    1021: "Fail to decrypt the encrypted credential information",
+    1022: "Fail to delete the encrypted credential information",
+    1100: "Unsupported value in request arguments",
+    1101: "Unsupported action on the requested endpoint",
+    1102: "Failed to check object for _sync action",
+    1103: "Failed to teardown configurations",
+    1104: "Poster REST handler error",
 }
 
 
@@ -55,7 +55,7 @@ class RestHandlerError(object):
         code >= 1000: Rest handler predefined error in add-on,
     """
 
-    def __init__(self, code, msgx=''):
+    def __init__(self, code, msgx=""):
         if code == -1:
             self._conv(msgx)
         else:
@@ -64,14 +64,11 @@ class RestHandlerError(object):
             self._msg = RestHandlerError.map(code)
 
     def __str__(self):
-        msgx = (self._msgx and self._msgx != self._msg) \
-               and ' - %s' % self._msgx or ""
-        return 'REST ERROR[%s]: %s%s' \
-               % (self._code, self._msg, msgx)
+        msgx = (self._msgx and self._msgx != self._msg) and " - %s" % self._msgx or ""
+        return "REST ERROR[%s]: %s%s" % (self._code, self._msg, msgx)
 
     def _conv(self, exc):
-        """Convert a Exception form 'splunk.rest.simpleRequest'
-        """
+        """Convert a Exception form 'splunk.rest.simpleRequest'"""
         if isinstance(exc, RESTException):
             self._code = exc.statusCode
 
@@ -82,12 +79,12 @@ class RestHandlerError(object):
 
             msgx = exc.get_extended_message_text().strip()
             if self._msg == msgx:
-                self._msg = 'Undefined Error'
+                self._msg = "Undefined Error"
             try:
-                pattern = r'In handler \'\S+\': (?P<msgx>.*$)'
+                pattern = r"In handler \'\S+\': (?P<msgx>.*$)"
                 m = re.match(pattern, msgx)
                 groupDict = m.groupdict()
-                self._msgx = groupDict['msgx']
+                self._msgx = groupDict["msgx"]
             except:
                 self._msgx = msgx
         else:
@@ -103,12 +100,11 @@ class RestHandlerError(object):
         :returns: error message for the input code
         """
         msg = ERROR_MAPPING.get(code)
-        assert msg, 'Invalid error code is being used - code=%s' % code
+        assert msg, "Invalid error code is being used - code=%s" % code
         return msg
 
     @staticmethod
-    def ctl(code, msgx='', logLevel=logging.ERROR,
-            shouldPrint=True, shouldRaise=True):
+    def ctl(code, msgx="", logLevel=logging.ERROR, shouldPrint=True, shouldRaise=True):
         """Control error, including printing out the error message,
         logging it and raising an exception (BaseException).
 
@@ -139,11 +135,13 @@ class RestHandlerError(object):
             logLevel=logging.INFO)
         """
         err = RestHandlerError(code, msgx=msgx)
-        tb = '\r\n' + (''.join(traceback.format_stack())) \
-            if logLevel >= logging.ERROR or isinstance(msgx, Exception) \
-            else ''
+        tb = (
+            "\r\n" + ("".join(traceback.format_stack()))
+            if logLevel >= logging.ERROR or isinstance(msgx, Exception)
+            else ""
+        )
 
-        stulog.logger.log(logLevel, '%s%s' % (err, tb), exc_info=1)
+        stulog.logger.log(logLevel, "%s%s" % (err, tb), exc_info=1)
         if shouldPrint:
             sys.stdout.write(str(err))
         if shouldRaise:

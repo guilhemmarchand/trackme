@@ -15,7 +15,7 @@ executors:
     working_directory: ~/repo
 
 jobs:
-  validate-content:
+  splunk-appinspect:
     executor: content-executor
     steps:
       - run:
@@ -39,7 +39,7 @@ jobs:
             mkdir dist
             cp trackme.tar.gz dist/
             cd ../
-            trackme/build/appinspect_vetting.sh $SPLUNK_BASE_LOGIN $SPLUNK_BASE_PASSWD trackme/dist/trackme.tar.gz
+            trackme/build/appinspect_vetting.sh --username=$SPLUNK_BASE_LOGIN --password=$SPLUNK_BASE_PASSWD --app=trackme/dist/trackme.tar.gz --included_tags=splunk_appinspect --excluded_tags=manual --excluded_checks=check_indexes_conf_does_not_exist --html_report_out=/tmp/appinspect_report.html
       - save_cache:
           key: deps1-{{ .Branch }}-{{ checksum "trackme/trackme/default/app.conf" }}
           paths:
@@ -48,6 +48,9 @@ jobs:
           root: trackme/dist/
           paths:
               - trackme.tar.gz
+      - store_artifacts:
+          path: /tmp/appinspect_report.html
+          destination: appinspect-report
   publish-github-release:
     docker:
       - image: cibuilds/github:latest
@@ -65,7 +68,7 @@ workflows:
   version: 2.1
   validate-and-build:
     jobs:
-      - validate-content:
+      - splunk-appinspect:
           context: 
             - docker-hub-creds
             - splunk-base-creds
@@ -75,10 +78,9 @@ workflows:
       - publish-github-release:
           context: docker-hub-creds
           requires:
-            - validate-content
+            - splunk-appinspect
           filters:
             tags:
               only: /^v.*/
             branches:
               ignore: /.*/
-

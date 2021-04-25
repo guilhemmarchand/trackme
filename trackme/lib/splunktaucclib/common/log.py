@@ -1,15 +1,20 @@
+# SPDX-FileCopyrightText: 2020 2020
+#
+# SPDX-License-Identifier: Apache-2.0
+
 import sys
 import logging
 import splunktalib.common.log as stclog
+
 basestring = str if sys.version_info[0] == 3 else basestring
 
 _level_by_name = {
-    'DEBUG': logging.DEBUG,
-    'INFO': logging.INFO,
-    'WARNING': logging.WARNING,
-    'ERROR': logging.ERROR,
-    'FATAL': logging.FATAL,
-    'CRITICAL': logging.CRITICAL
+    "DEBUG": logging.DEBUG,
+    "INFO": logging.INFO,
+    "WARNING": logging.WARNING,
+    "ERROR": logging.ERROR,
+    "FATAL": logging.FATAL,
+    "CRITICAL": logging.CRITICAL,
 }
 
 

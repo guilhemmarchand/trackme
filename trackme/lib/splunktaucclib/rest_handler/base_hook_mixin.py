@@ -1,8 +1,13 @@
+# SPDX-FileCopyrightText: 2020 2020
+#
+# SPDX-License-Identifier: Apache-2.0
 
 from builtins import object
+
+
 class BaseHookMixin(object):
-    """ Base Hook Mixin class
-    """
+    """Base Hook Mixin class"""
+
     def create_hook(self, session_key, config_name, stanza_id, payload):
         """Create hook called before the actual create action
 

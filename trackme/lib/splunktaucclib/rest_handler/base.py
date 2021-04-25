@@ -1,3 +1,7 @@
+# SPDX-FileCopyrightText: 2020 2020
+#
+# SPDX-License-Identifier: Apache-2.0
+
 """Base Handler Class of REST Manager.
 """
 
@@ -20,29 +24,31 @@ from splunktaucclib.rest_handler.util import makeConfItem
 from splunktaucclib.rest_handler.error_ctl import RestHandlerError as RH_Err
 from splunktaucclib.rest_handler.cred_mgmt import CredMgmt
 
-__all__ = ['user_caps', 'BaseRestHandler', 'BaseModel', 'ResourceHandler']
+__all__ = ["user_caps", "BaseRestHandler", "BaseModel", "ResourceHandler"]
 
 basestring = str if sys.version_info[0] == 3 else basestring
 APP_NAME = sc_util.get_appname_from_path(op.abspath(__file__))
 
 
 def get_entities(endpoint, session_key, user, app, get_args):
-    url = rest.makeSplunkdUri() + 'servicesNS/' + user + '/' + app + \
-          '/' + endpoint
+    url = rest.makeSplunkdUri() + "servicesNS/" + user + "/" + app + "/" + endpoint
     try:
         response, content = rest.simpleRequest(
-            url, sessionKey=session_key,
-            method='GET', getargs=get_args,
+            url,
+            sessionKey=session_key,
+            method="GET",
+            getargs=get_args,
             raiseAllErrors=True,
         )
         res = json.loads(content)
-        if 'entry' in res:
-            return {entry['name']: entry['content'] for entry in res['entry']}
+        if "entry" in res:
+            return {entry["name"]: entry["content"] for entry in res["entry"]}
         else:
             return {}
     except Exception as exc:
         RH_Err.ctl(-1, msgx=exc, logLevel=logging.INFO)
     return
+
 
 def user_caps(mgmt_uri, session_key):
     """
@@ -51,21 +57,18 @@ def user_caps(mgmt_uri, session_key):
     :param session_key:
     :return:
     """
-    url = mgmt_uri + '/services/authentication/current-context'
+    url = mgmt_uri + "/services/authentication/current-context"
 
-    resp, cont = splunkd_request(url,
-                                 session_key,
-                                 method='GET',
-                                 data={'output_mode': 'json'},
-                                 retry=3)
+    resp, cont = splunkd_request(
+        url, session_key, method="GET", data={"output_mode": "json"}, retry=3
+    )
     if resp is None:
-        RH_Err.ctl(500, logging.ERROR,
-                   'Fail to get capabilities of sessioned user')
-    elif resp.status not in (200, '200'):
+        RH_Err.ctl(500, logging.ERROR, "Fail to get capabilities of sessioned user")
+    elif resp.status not in (200, "200"):
         RH_Err.ctl(resp.status, logging.ERROR, cont)
 
     cont = json.loads(cont)
-    caps = cont['entry'][0]['content']['capabilities']
+    caps = cont["entry"][0]["content"]["capabilities"]
     return set(caps)
 
 
@@ -82,68 +85,74 @@ class BaseRestHandler(admin.MConfigHandler):
         self._log_request()
 
         # not allow to create object with name starting with '_'
-        if (self.requestedAction == admin.ACTION_CREATE and
-                self.callerArgs.id and self.callerArgs.id.startswith('_')):
-            RH_Err.ctl(400,
-                       msgx='It is not allowed to create object with '
-                       'name starting with "_"',
-                       logLevel=logging.INFO)
+        if (
+            self.requestedAction == admin.ACTION_CREATE
+            and self.callerArgs.id
+            and self.callerArgs.id.startswith("_")
+        ):
+            RH_Err.ctl(
+                400,
+                msgx="It is not allowed to create object with "
+                'name starting with "_"',
+                logLevel=logging.INFO,
+            )
 
         # check required attributes
-        assert getattr(self, "endpoint", ''), \
-            RH_Err.ctl(1002,
-                       msgx='%s.endpoint' % (self._getHandlerName()),
-                       shouldPrint=False)
-        assert hasattr(self, "validate") and ismethod(self.validate), \
-            RH_Err.ctl(1002,
-                       msgx='%s.validate' % (self._getHandlerName()),
-                       shouldPrint=False)
-        assert hasattr(self, "normalize") and ismethod(self.normalize), \
-            RH_Err.ctl(1002,
-                       msgx='%s.normalize' % (self._getHandlerName()),
-                       shouldPrint=False)
+        assert getattr(self, "endpoint", ""), RH_Err.ctl(
+            1002, msgx="%s.endpoint" % (self._getHandlerName()), shouldPrint=False
+        )
+        assert hasattr(self, "validate") and ismethod(self.validate), RH_Err.ctl(
+            1002, msgx="%s.validate" % (self._getHandlerName()), shouldPrint=False
+        )
+        assert hasattr(self, "normalize") and ismethod(self.normalize), RH_Err.ctl(
+            1002, msgx="%s.normalize" % (self._getHandlerName()), shouldPrint=False
+        )
 
         # check capabilities of sessioned user
         self.check_caps()
 
         # Check if entry exists for "_sync"
-        if self.customAction == '_sync':
+        if self.customAction == "_sync":
             try:
                 self.get(self.callerArgs.id)
             except ResourceNotFound:
                 self.exist4sync = False
             except Exception as exc:
-                RH_Err.ctl(
-                    1102,
-                    msgx='object=%s, err=%s' % (self.callerArgs.id, exc))
+                RH_Err.ctl(1102, msgx="object=%s, err=%s" % (self.callerArgs.id, exc))
             else:
                 self.exist4sync = True
         self._cred_mgmt = self.get_cred_mgmt(self.endpoint)
 
     def setup(self):
-        if self.customAction == '_sync':
-            action = admin.ACTION_EDIT if self.exist4sync \
-                else admin.ACTION_CREATE
+        if self.customAction == "_sync":
+            action = admin.ACTION_EDIT if self.exist4sync else admin.ACTION_CREATE
             self.setupArgs(action)
         elif self.requestedAction in (admin.ACTION_CREATE, admin.ACTION_EDIT):
             self.setupArgs(self.requestedAction)
         elif self.requestedAction == admin.ACTION_LIST:
-            self.supportedArgs.addOptArg('--get-clear-credential--')
+            self.supportedArgs.addOptArg("--get-clear-credential--")
 
     def setupArgs(self, action):
         if action in [admin.ACTION_CREATE]:
-            self._addArgs(reqArgsIter=self.requiredArgs,
-                          optArgsIter=itertools.chain(self.optionalArgs,
-                                                      self.transientArgs))
+            self._addArgs(
+                reqArgsIter=self.requiredArgs,
+                optArgsIter=itertools.chain(self.optionalArgs, self.transientArgs),
+            )
         elif action in [admin.ACTION_EDIT]:
-            self._addArgs(optArgsIter=itertools.chain(
-                self.requiredArgs, self.optionalArgs, self.transientArgs))
+            self._addArgs(
+                optArgsIter=itertools.chain(
+                    self.requiredArgs, self.optionalArgs, self.transientArgs
+                )
+            )
         if self.allowExtra:
-            arguments = set(itertools.chain(
-                self.requiredArgs, self.optionalArgs, self.transientArgs))
-            extra_args = (arg
-                          for arg in list(self.callerArgs.data.keys())
-                          if arg not in arguments)
+            arguments = set(
+                itertools.chain(
+                    self.requiredArgs, self.optionalArgs, self.transientArgs
+                )
+            )
+            extra_args = (
+                arg for arg in list(self.callerArgs.data.keys()) if arg not in arguments
+            )
             self._addArgs(optArgsIter=extra_args)
 
     def _addArgs(self, reqArgsIter=(), optArgsIter=()):
@@ -155,49 +164,57 @@ class BaseRestHandler(admin.MConfigHandler):
     def check_caps(self):
         current_caps = user_caps(rest.makeSplunkdUri(), self.getSessionKey())
 
-        cap4endpoint = self.rest_prefix + '_' + self.cap4endpoint \
-            if self.cap4endpoint else ''
+        cap4endpoint = (
+            self.rest_prefix + "_" + self.cap4endpoint if self.cap4endpoint else ""
+        )
         if cap4endpoint and cap4endpoint not in current_caps:
-            RH_Err.ctl(403,
-                       msgx='capability=' + cap4endpoint,
-                       logLevel=logging.INFO)
+            RH_Err.ctl(403, msgx="capability=" + cap4endpoint, logLevel=logging.INFO)
         if 0 < len(self.customAction):
             self.customActionCap = cap4endpoint
 
-        cap4get_cred = self.rest_prefix + '_' + self.cap4get_cred \
-            if self.cap4get_cred else ''
-        if '--get-clear-credential--' in self.callerArgs.data and \
-                cap4get_cred and cap4get_cred not in current_caps:
-            RH_Err.ctl(403,
-                       msgx='capability=' + cap4get_cred,
-                       logLevel=logging.INFO)
+        cap4get_cred = (
+            self.rest_prefix + "_" + self.cap4get_cred if self.cap4get_cred else ""
+        )
+        if (
+            "--get-clear-credential--" in self.callerArgs.data
+            and cap4get_cred
+            and cap4get_cred not in current_caps
+        ):
+            RH_Err.ctl(403, msgx="capability=" + cap4get_cred, logLevel=logging.INFO)
 
     def get_cred_mgmt(self, endpoint):
         # credential fields
-        self.encryptedArgs = set([(self.keyMap.get(arg) or arg)
-                                  for arg in self.encryptedArgs])
+        self.encryptedArgs = set(
+            [(self.keyMap.get(arg) or arg) for arg in self.encryptedArgs]
+        )
         user, app = self.user_app()
-        return CredMgmt(sessionKey=self.getSessionKey(),
-                        user=user,
-                        app=app,
-                        endpoint=endpoint,
-                        encryptedArgs=self.encryptedArgs)
+        return CredMgmt(
+            sessionKey=self.getSessionKey(),
+            user=user,
+            app=app,
+            endpoint=endpoint,
+            encryptedArgs=self.encryptedArgs,
+        )
 
     def handleList(self, confInfo):
         user, app = self.user_app()
 
         # reload the conf before reading it
         try:
-            entity.refreshEntities(self.endpoint,
-                                   namespace=app,
-                                   owner=user,
-                                   sessionKey=self.getSessionKey())
+            entity.refreshEntities(
+                self.endpoint,
+                namespace=app,
+                owner=user,
+                sessionKey=self.getSessionKey(),
+            )
         except Exception as exc:
-            RH_Err.ctl(1023,
-                       msgx=exc,
-                       logLevel=logging.INFO,
-                       shouldPrint=False,
-                       shouldRaise=False, )
+            RH_Err.ctl(
+                1023,
+                msgx=exc,
+                logLevel=logging.INFO,
+                shouldPrint=False,
+                shouldRaise=False,
+            )
 
         if self.callerArgs.id is None:
             ents = self.all()
@@ -206,11 +223,7 @@ class BaseRestHandler(admin.MConfigHandler):
         else:
             try:
                 ent = self.get(self.callerArgs.id)
-                makeConfItem(self.callerArgs.id,
-                             ent,
-                             confInfo,
-                             user=user,
-                             app=app)
+                makeConfItem(self.callerArgs.id, ent, confInfo, user=user, app=app)
             except ResourceNotFound as exc:
                 RH_Err.ctl(-1, exc, logLevel=logging.INFO)
 
@@ -223,21 +236,24 @@ class BaseRestHandler(admin.MConfigHandler):
 
         if self.requestedAction != admin.ACTION_LIST:
 
-            if self.requestedAction in [admin.ACTION_CREATE,
-                                        admin.ACTION_EDIT] \
-                    and len(self.callerArgs.data) > 0:
+            if (
+                self.requestedAction in [admin.ACTION_CREATE, admin.ACTION_EDIT]
+                and len(self.callerArgs.data) > 0
+            ):
                 ent.properties = dict()
 
-                ent['sharing'] = meta['sharing']
-                ent['owner'] = meta['owner']
+                ent["sharing"] = meta["sharing"]
+                ent["owner"] = meta["owner"]
 
             hasWritePerms = "perms.write" in self.callerArgs
             hasReadPerms = "perms.read" in self.callerArgs
             isPermsPost = hasWritePerms or hasReadPerms
 
-            if "sharing" in self.callerArgs \
-                    and "user" in self.callerArgs["sharing"] \
-                    and isPermsPost:
+            if (
+                "sharing" in self.callerArgs
+                and "user" in self.callerArgs["sharing"]
+                and isPermsPost
+            ):
                 msg = "ACL cannot be set for user-level sharing"
                 stulog.logger.error(msg)
                 raise Exception(msg)
@@ -246,13 +262,13 @@ class BaseRestHandler(admin.MConfigHandler):
             # for some reason, this can still return None
             if perms is None:
                 perms = {}
-            ent['perms.read'] = perms.get("read", [])
-            ent['perms.write'] = perms.get("write", [])
+            ent["perms.read"] = perms.get("read", [])
+            ent["perms.write"] = perms.get("write", [])
 
             for k, v in list(self.callerArgs.data.items()):
                 ent[k] = v
 
-            entity.setEntity(ent, self.getSessionKey(), uri=ent.id + '/acl')
+            entity.setEntity(ent, self.getSessionKey(), uri=ent.id + "/acl")
 
         confItem = confInfo[self.callerArgs.id]
         acl = copy.deepcopy(meta)
@@ -266,9 +282,9 @@ class BaseRestHandler(admin.MConfigHandler):
         except:
             pass
         else:
-            RH_Err.ctl(409,
-                       msgx=('object=%s' % self.callerArgs.id),
-                       logLevel=logging.INFO)
+            RH_Err.ctl(
+                409, msgx=("object=%s" % self.callerArgs.id), logLevel=logging.INFO
+            )
 
         try:
             args = self.encode(self.callerArgs.data)
@@ -305,17 +321,22 @@ class BaseRestHandler(admin.MConfigHandler):
         for the request. It is ``True`` for CREATE, ``False`` for EDIT.
         """
         # filter transient arguments & handle none value
-        args = {key: '' if (val is None or val[0] is None) else val[0]
-                for key, val in args.items()
-                if key not in self.transientArgs}
+        args = {
+            key: "" if (val is None or val[0] is None) else val[0]
+            for key, val in args.items()
+            if key not in self.transientArgs
+        }
 
         # set default value if needed
         if setDefault:
-            needed_args_iter = itertools.chain(self.requiredArgs,
-                                               self.optionalArgs)
-            args.update({k: [self.defaultVals[k]]
-                         for k in needed_args_iter
-                         if k in self.defaultVals and not args.get(k)})
+            needed_args_iter = itertools.chain(self.requiredArgs, self.optionalArgs)
+            args.update(
+                {
+                    k: [self.defaultVals[k]]
+                    for k in needed_args_iter
+                    if k in self.defaultVals and not args.get(k)
+                }
+            )
 
         # validate
         args = self.validate(args)
@@ -324,13 +345,22 @@ class BaseRestHandler(admin.MConfigHandler):
         args = self.normalize(args)
 
         # Value Mapping
-        args = {k: ([(self.valMap[k].get(v) or v)
-                     for v in (vs if isinstance(vs, list) else [vs])] if
-                    k in self.valMap else vs)
-                for k, vs in list(args.items())}
+        args = {
+            k: (
+                [
+                    (self.valMap[k].get(v) or v)
+                    for v in (vs if isinstance(vs, list) else [vs])
+                ]
+                if k in self.valMap
+                else vs
+            )
+            for k, vs in list(args.items())
+        }
         # Key Mapping
-        args = {(k in self.keyMap and self.keyMap[k] or k): vs
-                for k, vs in list(args.items())}
+        args = {
+            (k in self.keyMap and self.keyMap[k] or k): vs
+            for k, vs in list(args.items())
+        }
 
         # encrypt
         tanzaName = self._makeStanzaName(self.callerArgs.id)
@@ -349,18 +379,20 @@ class BaseRestHandler(admin.MConfigHandler):
         ent = self._autoEncrypt(name, ent)
 
         # decrypt
-        if self.callerArgs.data.get('--get-clear-credential--') == ['1']:
+        if self.callerArgs.data.get("--get-clear-credential--") == ["1"]:
             try:
                 ent = self._cred_mgmt.decrypt(self._makeStanzaName(name), ent)
             except ResourceNotFound:
-                RH_Err.ctl(1021,
-                           msgx='endpoint=%s, item=%s' % (self.endpoint, name),
-                           shouldPrint=False,
-                           shouldRaise=False)
+                RH_Err.ctl(
+                    1021,
+                    msgx="endpoint=%s, item=%s" % (self.endpoint, name),
+                    shouldPrint=False,
+                    shouldRaise=False,
+                )
         else:
-            ent = {key: val
-                   for key, val in ent.items()
-                   if key not in self.encryptedArgs}
+            ent = {
+                key: val for key, val in ent.items() if key not in self.encryptedArgs
+            }
 
         # Adverse Key Mapping
         ent = {k: v for k, v in ent.items()}
@@ -369,35 +401,51 @@ class BaseRestHandler(admin.MConfigHandler):
         ent.update(ent_new)
 
         # Adverse Value Mapping
-        valMapAdv = {k: {y: x
-                         for x, y in list(m.items())}
-                     for k, m in list(self.valMap.items())}
-        ent = {k: (([(valMapAdv[k].get(v) or v) for v in vs] if
-                    isinstance(vs, list) else (valMapAdv[k].get(vs) or vs)) if
-                   k in valMapAdv else vs)
-               for k, vs in list(ent.items())}
+        valMapAdv = {
+            k: {y: x for x, y in list(m.items())} for k, m in list(self.valMap.items())
+        }
+        ent = {
+            k: (
+                (
+                    [(valMapAdv[k].get(v) or v) for v in vs]
+                    if isinstance(vs, list)
+                    else (valMapAdv[k].get(vs) or vs)
+                )
+                if k in valMapAdv
+                else vs
+            )
+            for k, vs in list(ent.items())
+        }
 
         # normalize
         ent = self.normalize(ent)
 
         # filter undesired arguments & handle none value
-        return {k: ((str(v).lower() if isinstance(v, bool) else v) if
-                    (v is not None and str(v).strip()) else '')
-                for k, v in ent.items()
-                if k not in self.transientArgs and
-                (self.allowExtra or k in self.requiredArgs or k in
-                 self.optionalArgs or k in self.outputExtraFields)}
+        return {
+            k: (
+                (str(v).lower() if isinstance(v, bool) else v)
+                if (v is not None and str(v).strip())
+                else ""
+            )
+            for k, v in ent.items()
+            if k not in self.transientArgs
+            and (
+                self.allowExtra
+                or k in self.requiredArgs
+                or k in self.optionalArgs
+                or k in self.outputExtraFields
+            )
+        }
 
     def _autoEncrypt(self, name, ent):
-        cred_data = {key: ('' if val is None else val)
-                     for key, val in ent.items()
-                     if key in self.encryptedArgs and val !=
-                     CredMgmt.PASSWORD_MASK}
+        cred_data = {
+            key: ("" if val is None else val)
+            for key, val in ent.items()
+            if key in self.encryptedArgs and val != CredMgmt.PASSWORD_MASK
+        }
         if cred_data:
             ent = self._cred_mgmt.encrypt(self._makeStanzaName(name), ent)
-            args = {key: val
-                    for key, val in ent.items()
-                    if key in self.encryptedArgs}
+            args = {key: val for key, val in ent.items() if key in self.encryptedArgs}
             self.update(name, **args)
         return ent
 
@@ -412,9 +460,9 @@ class BaseRestHandler(admin.MConfigHandler):
 
     def _reload(self, confInfo):
         path = "%s/_reload" % self.endpoint
-        response, _ = rest.simpleRequest(path,
-                                         sessionKey=self.getSessionKey(),
-                                         method='POST')
+        response, _ = rest.simpleRequest(
+            path, sessionKey=self.getSessionKey(), method="POST"
+        )
         if response.status != 200:
             exc = RESTException(response.status, response.messages)
             RH_Err.ctl(-1, exc, logLevel=logging.INFO)
@@ -423,30 +471,26 @@ class BaseRestHandler(admin.MConfigHandler):
         self.update(self.callerArgs.id, disabled=disabled)
 
     def handleCustom(self, confInfo, **params):
-        if self.customAction in ['acl']:
+        if self.customAction in ["acl"]:
             return self.handleACL(confInfo)
 
-        if self.customAction == 'disable':
-            self.handleDisableAction(confInfo, '1')
-        elif self.customAction == 'enable':
-            self.handleDisableAction(confInfo, '0')
+        if self.customAction == "disable":
+            self.handleDisableAction(confInfo, "1")
+        elif self.customAction == "enable":
+            self.handleDisableAction(confInfo, "0")
         elif self.customAction == "_reload":
             self._reload(confInfo)
         elif self.customAction == "move":
             self.move(confInfo, **params)
-        elif self.customAction == '_sync':
+        elif self.customAction == "_sync":
             self.handleSyncAction(confInfo, **params)
         else:
-            RH_Err.ctl(1101,
-                       'action=%s' % self.customAction,
-                       logLevel=logging.INFO)
+            RH_Err.ctl(1101, "action=%s" % self.customAction, logLevel=logging.INFO)
 
     def user_app(self):
-        """Get context info: user/app or namespace/owner
-        """
+        """Get context info: user/app or namespace/owner"""
         app = self.context != admin.CONTEXT_NONE and self.appName or "-"
-        user = (self.context == admin.CONTEXT_APP_AND_USER and self.userName or
-                "nobody")
+        user = self.context == admin.CONTEXT_APP_AND_USER and self.userName or "nobody"
         return user, app
 
     def all(self):
@@ -456,21 +500,21 @@ class BaseRestHandler(admin.MConfigHandler):
         # against the full set of results.
         user, app = self.user_app()
         get_args = {
-            'output_mode': 'json',
-            'count': -1,
+            "output_mode": "json",
+            "count": -1,
         }
-        ents = get_entities(
-            self.endpoint, self.getSessionKey(), user, app, get_args
-        )
+        ents = get_entities(self.endpoint, self.getSessionKey(), user, app, get_args)
         return {name: self.decode(name, ent) for name, ent in list(ents.items())}
 
     def get(self, name):
         user, app = self.user_app()
-        ent = entity.getEntity(self.endpoint,
-                               name,
-                               namespace=app,
-                               owner=user,
-                               sessionKey=self.getSessionKey())
+        ent = entity.getEntity(
+            self.endpoint,
+            name,
+            namespace=app,
+            owner=user,
+            sessionKey=self.getSessionKey(),
+        )
         return self.decode(name, ent)
 
     def create(self, name, **params):
@@ -487,20 +531,24 @@ class BaseRestHandler(admin.MConfigHandler):
 
     def delete(self, name):
         user, app = self.user_app()
-        entity.deleteEntity(self.endpoint,
-                            name,
-                            namespace=app,
-                            owner=user,
-                            sessionKey=self.getSessionKey())
+        entity.deleteEntity(
+            self.endpoint,
+            name,
+            namespace=app,
+            owner=user,
+            sessionKey=self.getSessionKey(),
+        )
 
     def update(self, name, **params):
         user, app = self.user_app()
         try:
-            ent = entity.getEntity(self.endpoint,
-                                   name,
-                                   namespace=app,
-                                   owner=user,
-                                   sessionKey=self.getSessionKey())
+            ent = entity.getEntity(
+                self.endpoint,
+                name,
+                namespace=app,
+                owner=user,
+                sessionKey=self.getSessionKey(),
+            )
 
             for arg, val in list(params.items()):
                 ent[arg] = val
@@ -518,20 +566,18 @@ class BaseRestHandler(admin.MConfigHandler):
     def move(self, confInfo, **params):
         user, app = self.user_app()
         args = self.getCallerArgs()
-        if hasattr(self, 'encode'):
+        if hasattr(self, "encode"):
             args = self.encode(args)
 
         postArgs = {"app": args["app"], "user": args["user"]}
-        path = entity.buildEndpoint(self.endpoint,
-                                    entityName=self.callerArgs.id,
-                                    namespace=app,
-                                    owner=user)
+        path = entity.buildEndpoint(
+            self.endpoint, entityName=self.callerArgs.id, namespace=app, owner=user
+        )
         path += "/move"
 
-        response, _ = rest.simpleRequest(path,
-                                         sessionKey=self.getSessionKey(),
-                                         method='POST',
-                                         postargs=postArgs)
+        response, _ = rest.simpleRequest(
+            path, sessionKey=self.getSessionKey(), method="POST", postargs=postArgs
+        )
         if response.status != 200:
             exc = RESTException(response.status, response.messages)
             RH_Err.ctl(-1, exc, logLevel=logging.INFO)
@@ -547,25 +593,28 @@ class BaseRestHandler(admin.MConfigHandler):
 
     def _log_request(self):
         actions = {
-            admin.ACTION_CREATE: 'create',
-            admin.ACTION_LIST: 'list',
-            admin.ACTION_EDIT: 'edit',
-            admin.ACTION_REMOVE: 'remove',
-            admin.ACTION_MEMBERS: 'members',
-            admin.ACTION_RELOAD: 'reload',
+            admin.ACTION_CREATE: "create",
+            admin.ACTION_LIST: "list",
+            admin.ACTION_EDIT: "edit",
+            admin.ACTION_REMOVE: "remove",
+            admin.ACTION_MEMBERS: "members",
+            admin.ACTION_RELOAD: "reload",
         }
 
-        msg = ('Splunk Add-on REST Handler Request: '
-               'endpoint={endpoint}, '
-               'entry={entry}, '
-               'action={action}, '
-               'custom_action={custom_action}, '
-               'args={args}'.format(
-                   endpoint=self.endpoint,
-                   entry=self.callerArgs.id,
-                   action=actions.get(self.requestedAction, None),
-                   custom_action=self.customAction,
-                   args=json.dumps([arg for arg in self.callerArgs.data]), ))
+        msg = (
+            "Splunk Add-on REST Handler Request: "
+            "endpoint={endpoint}, "
+            "entry={entry}, "
+            "action={action}, "
+            "custom_action={custom_action}, "
+            "args={args}".format(
+                endpoint=self.endpoint,
+                entry=self.callerArgs.id,
+                action=actions.get(self.requestedAction, None),
+                custom_action=self.customAction,
+                args=json.dumps([arg for arg in self.callerArgs.data]),
+            )
+        )
         if self.requestedAction == admin.ACTION_LIST:
             stulog.logger.debug(msg)
         else:
@@ -577,13 +626,14 @@ class BaseModel(object):
     It ensure that key/value stored in *.conf are mapped to storage key/value,
     key/value shown to user are mapped to interface key/value.
     """
+
     # REST prefix. Default is lower-case app name.
     # Change it if needed.
     rest_prefix = APP_NAME
 
     # Endpoint, specifies the conf name, in form:
     # configs/conf-<conf_file_name>
-    endpoint = ''
+    endpoint = ""
 
     # Argument names:
     # arguments are required (interface keys, which are shown to user).
@@ -605,20 +655,25 @@ class BaseModel(object):
     valMap = {}  # arguments' value mapping
 
     # Extra fields in return data (metadata fields).
-    outputExtraFields = ('eai:acl', 'acl', 'eai:attributes', 'eai:appName',
-                         'eai:userName', 'disabled')
+    outputExtraFields = (
+        "eai:acl",
+        "acl",
+        "eai:attributes",
+        "eai:appName",
+        "eai:userName",
+        "disabled",
+    )
 
     # Required capabilities for this REST Endpoint.
     # Empty string means no need to check capability.
     # It will add ``rest_prefix`` automatically.
     #   cap4endpoint: basic capability for this endpoint.
     #   cap4get_cred: capability to get credential info.
-    cap4endpoint = 'endpoint'
-    cap4get_cred = 'get_credential'
+    cap4endpoint = "endpoint"
+    cap4get_cred = "get_credential"
 
     def validate(self, args):
-        """Validate request arguments.
-        """
+        """Validate request arguments."""
         for k, vs in list(args.items()):
             if k not in self.validators or not vs:
                 continue
@@ -626,24 +681,25 @@ class BaseModel(object):
                 vs = [vs]
             for v in vs:
                 if not self.validators[k].validate(v, args):
-                    RH_Err.ctl(1100,
-                               msgx=('{msg} - field={k}'
-                                     .format(msg=self.validators[k].msg,
-                                             k=k)),
-                               logLevel=logging.INFO)
+                    RH_Err.ctl(
+                        1100,
+                        msgx=(
+                            "{msg} - field={k}".format(msg=self.validators[k].msg, k=k)
+                        ),
+                        logLevel=logging.INFO,
+                    )
         return args
 
     def normalize(self, data):
-        """Normalize request arguments or response data.
-        """
+        """Normalize request arguments or response data."""
         for k, vs in list(data.items()):
             if k not in self.normalisers or not vs:
                 continue
-            if isinstance(vs, list) or \
-                    isinstance(vs, dict) or \
-                    isinstance(vs, tuple):
-                data[k] = [self.normalisers[k].normalize(v) if
-                           isinstance(v, basestring) else v for v in vs]
+            if isinstance(vs, list) or isinstance(vs, dict) or isinstance(vs, tuple):
+                data[k] = [
+                    self.normalisers[k].normalize(v) if isinstance(v, basestring) else v
+                    for v in vs
+                ]
             else:
                 data[k] = self.normalisers[k].normalize(vs)
         return data

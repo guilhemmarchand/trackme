@@ -1,5 +1,9 @@
 #!/usr/bin/python
 
+# SPDX-FileCopyrightText: 2020 2020
+#
+# SPDX-License-Identifier: Apache-2.0
+
 """
 This is the main entry point for My TA
 """
@@ -22,8 +26,7 @@ from splunktaucclib.data_collection import ta_data_client as tdc
 utils.remove_http_proxy_env_vars()
 
 
-def do_scheme(ta_short_name, ta_name, schema_para_list=None,
-              single_instance=True):
+def do_scheme(ta_short_name, ta_name, schema_para_list=None, single_instance=True):
     """
     Feed splunkd the TA's scheme
 
@@ -39,10 +42,12 @@ def do_scheme(ta_short_name, ta_name, schema_para_list=None,
           <title>{param}</title>
           <required_on_create>0</required_on_create>
           <required_on_edit>0</required_on_edit>
-        </arg>""".format(param=param)
+        </arg>""".format(
+            param=param
+        )
 
-
-    print("""
+    print(
+        """
     <scheme>
     <title>Splunk Add-on for {ta_short_name}</title>
     <description>Enable data inputs for {ta_name}</description>
@@ -58,8 +63,13 @@ def do_scheme(ta_short_name, ta_name, schema_para_list=None,
       </args>
     </endpoint>
     </scheme>
-    """.format((str(single_instance)).lower(),ta_short_name=ta_short_name,
-               ta_name=ta_name, param_str=param_str))
+    """.format(
+            (str(single_instance)).lower(),
+            ta_short_name=ta_short_name,
+            ta_name=ta_name,
+            param_str=param_str,
+        )
+    )
 
 
 def _setup_signal_handler(data_loader, ta_short_name):
@@ -82,24 +92,23 @@ def _handle_file_changes(data_loader):
     """
 
     def _handle_refresh(changed_files):
-        stulog.logger.info("Detect {} changed, reboot itself".format(
-            changed_files))
+        stulog.logger.info("Detect {} changed, reboot itself".format(changed_files))
         data_loader.tear_down()
 
     return _handle_refresh
 
 
 def _get_conf_files(local_file_list):
-    cur_dir = op.dirname(op.dirname(op.dirname(op.dirname(op.dirname(op.abspath(
-        __file__))))))
+    cur_dir = op.dirname(
+        op.dirname(op.dirname(op.dirname(op.abspath(__file__))))
+    )
     files = []
     for f in local_file_list:
         files.append(op.join(cur_dir, "local", f))
     return files
 
 
-def run(collector_cls, settings, checkpoint_cls=None, config_cls=None,
-        log_suffix=None):
+def run(collector_cls, settings, checkpoint_cls=None, config_cls=None, log_suffix=None):
     """
     Main loop. Run this TA forever
     """
@@ -107,7 +116,7 @@ def run(collector_cls, settings, checkpoint_cls=None, config_cls=None,
     utils.disable_stdout_buffer()
 
     # http://bugs.python.org/issue7980
-    time.strptime('2016-01-01', '%Y-%m-%d')
+    time.strptime("2016-01-01", "%Y-%m-%d")
 
     tconfig = tc.create_ta_config(settings, config_cls or tc.TaConfig, log_suffix)
     stulog.set_log_level(tconfig.get_log_level())
@@ -125,18 +134,27 @@ def run(collector_cls, settings, checkpoint_cls=None, config_cls=None,
 
     loader = dl.create_data_loader(meta_config)
 
-    jobs = [tdc.create_data_collector(loader, tconfig, meta_config, task_config,
-                                      collector_cls,
-            checkpoint_cls=checkpoint_cls or cpmgr.TACheckPointMgr)
-            for task_config in task_configs]
+    jobs = [
+        tdc.create_data_collector(
+            loader,
+            tconfig,
+            meta_config,
+            task_config,
+            collector_cls,
+            checkpoint_cls=checkpoint_cls or cpmgr.TACheckPointMgr,
+        )
+        for task_config in task_configs
+    ]
 
     # handle signal
     _setup_signal_handler(loader, settings["basic"]["title"])
 
     # monitor files to reboot
     if settings["basic"].get("monitor_file"):
-        monitor = fm.FileMonitor(_handle_file_changes(loader),
-                             _get_conf_files(settings["basic"]["monitor_file"]))
+        monitor = fm.FileMonitor(
+            _handle_file_changes(loader),
+            _get_conf_files(settings["basic"]["monitor_file"]),
+        )
         loader.add_timer(monitor.check_changes, time.time(), 10)
 
     # add orphan process handling, which will check each 1 second
@@ -165,9 +183,15 @@ def usage():
     sys.exit(1)
 
 
-def main(collector_cls, schema_file_path, log_suffix="modinput",
-         checkpoint_cls=None, configer_cls=None, schema_para_list=None,
-         single_instance=True):
+def main(
+    collector_cls,
+    schema_file_path,
+    log_suffix="modinput",
+    checkpoint_cls=None,
+    configer_cls=None,
+    schema_para_list=None,
+    single_instance=True,
+):
     """
     Main entry point
     """
@@ -182,8 +206,7 @@ def main(collector_cls, schema_file_path, log_suffix="modinput",
     args = sys.argv
     if len(args) > 1:
         if args[1] == "--scheme":
-            do_scheme(ta_short_name, ta_desc, schema_para_list,
-                      single_instance)
+            do_scheme(ta_short_name, ta_desc, schema_para_list, single_instance)
         elif args[1] == "--validate-arguments":
             sys.exit(validate_config())
         elif args[1] in ("-h", "--h", "--help"):
@@ -193,10 +216,14 @@ def main(collector_cls, schema_file_path, log_suffix="modinput",
     else:
         stulog.logger.info("Start {} task".format(ta_short_name))
         try:
-            run(collector_cls, settings, checkpoint_cls=checkpoint_cls,
-                config_cls=configer_cls, log_suffix=log_suffix)
+            run(
+                collector_cls,
+                settings,
+                checkpoint_cls=checkpoint_cls,
+                config_cls=configer_cls,
+                log_suffix=log_suffix,
+            )
         except Exception as e:
-            stulog.logger.exception(
-                "{} task encounter exception".format(ta_short_name))
+            stulog.logger.exception("{} task encounter exception".format(ta_short_name))
         stulog.logger.info("End {} task".format(ta_short_name))
     sys.exit(0)

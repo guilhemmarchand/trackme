@@ -1,3 +1,7 @@
+# SPDX-FileCopyrightText: 2020 2020
+#
+# SPDX-License-Identifier: Apache-2.0
+
 """REST Manager for data inputs (a wrapper of data inputs).
 
 Note: It manages inputs.conf
@@ -6,6 +10,7 @@ Note: It manages inputs.conf
 
 from __future__ import absolute_import
 from future import standard_library
+
 standard_library.install_aliases()
 from builtins import map
 import sys
@@ -20,32 +25,34 @@ from . import base, util
 from .error_ctl import RestHandlerError as RH_Err
 
 
-__all__ = ['DataInputHandler', 'DataInputModel']
+__all__ = ["DataInputHandler", "DataInputModel"]
 basestring = str if sys.version_info[0] == 3 else basestring
 
 
 class DataInputHandler(base.BaseRestHandler):
-    """A Wrapper of Splunk Data Input REST.
-    """
+    """A Wrapper of Splunk Data Input REST."""
 
     def __init__(self, *args, **kwargs):
         base.BaseRestHandler.__init__(self, *args, **kwargs)
-        assert hasattr(self, "dataInputName") and self.dataInputName, \
-            RH_Err.ctl(1002,
-                       msgx='{}.dataInputName'.format(self._getHandlerName()),
-                       shouldPrint=False)
+        assert hasattr(self, "dataInputName") and self.dataInputName, RH_Err.ctl(
+            1002,
+            msgx="{}.dataInputName".format(self._getHandlerName()),
+            shouldPrint=False,
+        )
 
         self._cred_mgmt = self.get_cred_mgmt(self.dataInputName)
 
     def handleCreate(self, confInfo):
         args = self.encode(self.callerArgs.data)
-        args['name'] = self.callerArgs.id
+        args["name"] = self.callerArgs.id
         try:
-            rest.simpleRequest(self.makeRequestURL(),
-                               sessionKey=self.getSessionKey(),
-                               postargs=args,
-                               method='POST',
-                               raiseAllErrors=True)
+            rest.simpleRequest(
+                self.makeRequestURL(),
+                sessionKey=self.getSessionKey(),
+                postargs=args,
+                method="POST",
+                raiseAllErrors=True,
+            )
         except Exception as exc:
             RH_Err.ctl(-1, msgx=exc, logLevel=logging.INFO)
         return
@@ -53,11 +60,13 @@ class DataInputHandler(base.BaseRestHandler):
     def handleEdit(self, confInfo):
         args = self.encode(self.callerArgs.data, setDefault=True)
         try:
-            rest.simpleRequest(self.makeRequestURL(),
-                               sessionKey=self.getSessionKey(),
-                               postargs=args,
-                               method='POST',
-                               raiseAllErrors=True)
+            rest.simpleRequest(
+                self.makeRequestURL(),
+                sessionKey=self.getSessionKey(),
+                postargs=args,
+                method="POST",
+                raiseAllErrors=True,
+            )
         except Exception as exc:
             RH_Err.ctl(-1, msgx=exc, logLevel=logging.INFO)
         return
@@ -65,93 +74,118 @@ class DataInputHandler(base.BaseRestHandler):
     def handleList(self, confInfo):
         user, app = self.user_app()
         try:
-            response, content = \
-                rest.simpleRequest(self.makeRequestURL(),
-                                   sessionKey=self.getSessionKey(),
-                                   method='GET', raiseAllErrors=True)
+            response, content = rest.simpleRequest(
+                self.makeRequestURL(),
+                sessionKey=self.getSessionKey(),
+                method="GET",
+                raiseAllErrors=True,
+            )
             res = json.loads(content)
-            if 'entry' in res:
-                for entry in res['entry']:
-                    name, ent = entry['name'], entry['content']
-                    ent[admin.EAI_ENTRY_ACL] = entry['acl']
+            if "entry" in res:
+                for entry in res["entry"]:
+                    name, ent = entry["name"], entry["content"]
+                    ent[admin.EAI_ENTRY_ACL] = entry["acl"]
                     ent = self.decode(name, self.convert(ent))
-                    util.makeConfItem(name, ent, confInfo,
-                                      user=user, app=app)
+                    util.makeConfItem(name, ent, confInfo, user=user, app=app)
         except Exception as exc:
             RH_Err.ctl(-1, msgx=exc, logLevel=logging.INFO)
         return
 
     def handleRemove(self, confInfo):
         try:
-            rest.simpleRequest(self.makeRequestURL(),
-                               sessionKey=self.getSessionKey(),
-                               method='DELETE', raiseAllErrors=True)
+            rest.simpleRequest(
+                self.makeRequestURL(),
+                sessionKey=self.getSessionKey(),
+                method="DELETE",
+                raiseAllErrors=True,
+            )
         except Exception as exc:
             RH_Err.ctl(-1, msgx=exc, logLevel=logging.INFO)
         self._cred_mgmt.delete(self._makeStanzaName(self.callerArgs.id))
         return
 
     def handleCustom(self, confInfo, **params):
-        if self.customAction in ['acl']:
+        if self.customAction in ["acl"]:
             return self.handleACL(confInfo)
 
-        if self.customAction == 'disable':
+        if self.customAction == "disable":
             self.handleDisable(confInfo)
-        elif self.customAction == 'enable':
+        elif self.customAction == "enable":
             self.handleEnable(confInfo)
         elif self.customAction == "sync":
             self.sync(confInfo, **params)
         else:
-            RH_Err.ctl(-1,
-                       msgx='action=%s' % self.customAction,
-                       logLevel=logging.INFO)
+            RH_Err.ctl(-1, msgx="action=%s" % self.customAction, logLevel=logging.INFO)
 
     def handleDisable(self, confInfo):
         try:
-            rest.simpleRequest(self.makeRequestURL()
-                               .replace('?output_mode=json',
-                                        '/disable?output_mode=json'),
-                               sessionKey=self.getSessionKey(),
-                               method='POST', raiseAllErrors=True)
+            rest.simpleRequest(
+                self.makeRequestURL().replace(
+                    "?output_mode=json", "/disable?output_mode=json"
+                ),
+                sessionKey=self.getSessionKey(),
+                method="POST",
+                raiseAllErrors=True,
+            )
         except Exception as exc:
             RH_Err.ctl(-1, msgx=exc, logLevel=logging.INFO)
         return
 
     def handleEnable(self, confInfo):
         try:
-            rest.simpleRequest(self.makeRequestURL()
-                               .replace('?output_mode=json',
-                                        '/enable?output_mode=json'),
-                               sessionKey=self.getSessionKey(),
-                               method='POST', raiseAllErrors=True)
+            rest.simpleRequest(
+                self.makeRequestURL().replace(
+                    "?output_mode=json", "/enable?output_mode=json"
+                ),
+                sessionKey=self.getSessionKey(),
+                method="POST",
+                raiseAllErrors=True,
+            )
         except Exception as exc:
             RH_Err.ctl(-1, msgx=exc, logLevel=logging.INFO)
         return
 
     def get(self, name):
-        rest.simpleRequest(self.makeRequestURL(),
-                           sessionKey=self.getSessionKey(),
-                           method='GET', raiseAllErrors=True)
+        rest.simpleRequest(
+            self.makeRequestURL(),
+            sessionKey=self.getSessionKey(),
+            method="GET",
+            raiseAllErrors=True,
+        )
         return
 
     def makeRequestURL(self):
         user, app = self.user_app()
-        eid = None if self.callerArgs.id is None \
-            else quote(self.callerArgs.id.encode('utf-8'), safe='')
+        eid = (
+            None
+            if self.callerArgs.id is None
+            else quote(self.callerArgs.id.encode("utf-8"), safe="")
+        )
         actions = (admin.ACTION_EDIT, admin.ACTION_LIST, admin.ACTION_REMOVE)
-        name = (self.requestedAction in actions and
-                self.callerArgs.id is not None) and ('/' + eid) or ''
-        return (rest.makeSplunkdUri() + 'servicesNS/' + user + '/' + app +
-                '/data/inputs/' + self.dataInputName + name +
-                '?output_mode=json&count=-1')
+        name = (
+            (self.requestedAction in actions and self.callerArgs.id is not None)
+            and ("/" + eid)
+            or ""
+        )
+        return (
+            rest.makeSplunkdUri()
+            + "servicesNS/"
+            + user
+            + "/"
+            + app
+            + "/data/inputs/"
+            + self.dataInputName
+            + name
+            + "?output_mode=json&count=-1"
+        )
 
     def convertErrMsg(self, errMsg):
         err = json.loads(errMsg)
-        return err['messages'][0]['text']
+        return err["messages"][0]["text"]
 
     def convert(self, data):
         if isinstance(data, basestring):
-            return data.encode('utf-8')
+            return data.encode("utf-8")
         elif isinstance(data, collections.Mapping):
             return dict(list(map(self.convert, iter(data.items()))))
         elif isinstance(data, collections.Iterable):
@@ -160,16 +194,17 @@ class DataInputHandler(base.BaseRestHandler):
             return data
 
     def _makeStanzaName(self, name):
-        return "{dataInputName}://{name}"\
-            .format(dataInputName=self.dataInputName, name=name)
+        return "{dataInputName}://{name}".format(
+            dataInputName=self.dataInputName, name=name
+        )
 
 
 class DataInputModel(base.BaseModel):
-    """Base Class of Data Input Model.
-    """
+    """Base Class of Data Input Model."""
+
     # For Splunkd data input TEST API:
     # servicesNS/<user>/<app>/data/inputs/<dataInputName>
-    dataInputName = ''
+    dataInputName = ""
 
 
 def ResourceHandler(model, handler=DataInputHandler):

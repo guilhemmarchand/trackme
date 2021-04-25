@@ -1,3 +1,7 @@
+# SPDX-FileCopyrightText: 2020 2020
+#
+# SPDX-License-Identifier: Apache-2.0
+
 """Credential Management for REST Endpoint
 """
 
@@ -15,7 +19,7 @@ from .error_ctl import RestHandlerError
 from splunktalib.credentials import CredentialManager as CredMgr
 
 
-__all__ = ['CredMgmt']
+__all__ = ["CredMgmt"]
 
 
 class CredMgmt(object):
@@ -50,11 +54,11 @@ class CredMgmt(object):
             for decrypt & delete.
         :return: a tuple (realm, username, password)
         """
-        realm = CredMgmt.REALM_TEMPLATE.format(baseApp=getBaseAppName(),
-                                               endpoint=self._endpoint,
-                                               stanzaName=stanzaName)
-        username = 'username'
-        password = '' if data is None else json.dumps(data)
+        realm = CredMgmt.REALM_TEMPLATE.format(
+            baseApp=getBaseAppName(), endpoint=self._endpoint, stanzaName=stanzaName
+        )
+        username = "username"
+        password = "" if data is None else json.dumps(data)
         return realm, username, password
 
     def encrypt(self, stanzaName, data):
@@ -65,10 +69,11 @@ class CredMgmt(object):
         :param data: data to encrypt, a dict.
         :return:
         """
-        cred_data_new = {key: ('' if val is None else val)
-                         for key, val in data.items()
-                         if key in self._encryptedArgs and
-                         val != CredMgmt.PASSWORD_MASK}
+        cred_data_new = {
+            key: ("" if val is None else val)
+            for key, val in data.items()
+            if key in self._encryptedArgs and val != CredMgmt.PASSWORD_MASK
+        }
         if not cred_data_new:
             return data
 
@@ -78,13 +83,14 @@ class CredMgmt(object):
             cred_data = {}
 
         cred_data.update(cred_data_new)
-        realm, username, password = self.context(stanzaName,
-                                                 data=cred_data)
-        cred_mgr = CredMgr(self._splunkMgmtUri,
-                           self._sessionKey,
-                           app=self._app,
-                           owner=self._user,
-                           realm=realm)
+        realm, username, password = self.context(stanzaName, data=cred_data)
+        cred_mgr = CredMgr(
+            self._splunkMgmtUri,
+            self._sessionKey,
+            app=self._app,
+            owner=self._user,
+            realm=realm,
+        )
         try:
             # since the size of the to-be-encrypted data is not fixed,
             # if the new data have smaller size than the previous one,
@@ -96,10 +102,7 @@ class CredMgmt(object):
                 if arg in self._encryptedArgs:
                     data[arg] = CredMgmt.PASSWORD_MASK
         except Exception as exc:
-            RestHandlerError.ctl(1020,
-                                 msgx=exc,
-                                 shouldPrint=False,
-                                 shouldRaise=False)
+            RestHandlerError.ctl(1020, msgx=exc, shouldPrint=False, shouldRaise=False)
         return data
 
     def decrypt(self, stanzaName, data):
@@ -114,23 +117,22 @@ class CredMgmt(object):
         if not self._encryptedArgs:
             return data
         realm, username, password = self.context(stanzaName)
-        cred_mgr = CredMgr(self._splunkMgmtUri,
-                           self._sessionKey,
-                           app=self._app,
-                           owner=self._user,
-                           realm=realm)
+        cred_mgr = CredMgr(
+            self._splunkMgmtUri,
+            self._sessionKey,
+            app=self._app,
+            owner=self._user,
+            realm=realm,
+        )
 
         try:
             creds = cred_mgr.get_clear_password(username)
         except Exception as exc:
-            RestHandlerError.ctl(1021,
-                                 msgx=exc,
-                                 shouldPrint=True,
-                                 shouldRaise=True)
+            RestHandlerError.ctl(1021, msgx=exc, shouldPrint=True, shouldRaise=True)
         cred = creds.get(username, {})
 
         for arg, val in list(cred.items()):
-            data[arg] = (val if arg in self._encryptedArgs else data[arg])
+            data[arg] = val if arg in self._encryptedArgs else data[arg]
         return data
 
     def delete(self, stanzaName):
@@ -144,18 +146,17 @@ class CredMgmt(object):
             return
 
         realm, username, password = self.context(stanzaName)
-        cred_mgr = CredMgr(self._splunkMgmtUri,
-                           self._sessionKey,
-                           app=self._app,
-                           owner=self._user,
-                           realm=realm)
+        cred_mgr = CredMgr(
+            self._splunkMgmtUri,
+            self._sessionKey,
+            app=self._app,
+            owner=self._user,
+            realm=realm,
+        )
         try:
             cred_mgr.delete(username, throw=True)
         except Exception as exc:
-            RestHandlerError.ctl(1022,
-                                 msgx=exc,
-                                 shouldPrint=False,
-                                 shouldRaise=False)
+            RestHandlerError.ctl(1022, msgx=exc, shouldPrint=False, shouldRaise=False)
             return False
         return True
 

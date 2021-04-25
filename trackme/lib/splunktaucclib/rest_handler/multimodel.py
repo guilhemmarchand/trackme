@@ -1,3 +1,7 @@
+# SPDX-FileCopyrightText: 2020 2020
+#
+# SPDX-License-Identifier: Apache-2.0
+
 """REST handler for multiple models with different structure in one *.conf.
 It assumes that there are enumerable objects in every model,
 and they will be listed in ``modelMap`` in advance, that means
@@ -21,7 +25,7 @@ from . import base
 from .cred_mgmt import CredMgmt
 from .error_ctl import RestHandlerError as RH_Err
 
-__all__ = ['MultiModelRestHandler', 'MultiModel', 'ResourceHandler']
+__all__ = ["MultiModelRestHandler", "MultiModel", "ResourceHandler"]
 
 
 class MultiModelRestHandler(base.BaseRestHandler):
@@ -34,20 +38,24 @@ class MultiModelRestHandler(base.BaseRestHandler):
         self._log_request()
 
         # check required attributes
-        assert hasattr(self, "endpoint"), \
-            RH_Err.ctl(1002,
-                       msgx='%s.endpoint' % self.__class__.__name__,
-                       shouldPrint=False,
-                       shouldRaise=False)
-        assert hasattr(self, "modelMap") and isinstance(self.modelMap, dict), \
-            RH_Err.ctl(1002,
-                       msgx='%s.modelMap' % self.__class__.__name__,
-                       shouldPrint=False,
-                       shouldRaise=False)
+        assert hasattr(self, "endpoint"), RH_Err.ctl(
+            1002,
+            msgx="%s.endpoint" % self.__class__.__name__,
+            shouldPrint=False,
+            shouldRaise=False,
+        )
+        assert hasattr(self, "modelMap") and isinstance(
+            self.modelMap, dict
+        ), RH_Err.ctl(
+            1002,
+            msgx="%s.modelMap" % self.__class__.__name__,
+            shouldPrint=False,
+            shouldRaise=False,
+        )
 
         # Check custom actions
         self.check_caps()
-        if self.customAction == '_sync':
+        if self.customAction == "_sync":
             self.exist4sync = True
 
         # set model for requested object
@@ -56,31 +64,37 @@ class MultiModelRestHandler(base.BaseRestHandler):
             self.setModel(self.callerArgs.id)
 
     def setModel(self, name):
-        """Get data model for specified object.
-        """
+        """Get data model for specified object."""
         # get model for object
         if name not in self.modelMap:
-            RH_Err.ctl(404,
-                       msgx='object={name}'
-                       .format(name=name, handler=self.__class__.__name__))
+            RH_Err.ctl(
+                404,
+                msgx="object={name}".format(name=name, handler=self.__class__.__name__),
+            )
         self.model = self.modelMap[name]
 
         # load attributes from model
         obj = self.model()
-        attrs = {attr: getattr(obj, attr, None) for attr in dir(obj)
-                 if not attr.startswith('__') and
-                 attr not in ('endpoint', 'rest_prefix',
-                              'cap4endpoint', 'cap4get_cred')}
+        attrs = {
+            attr: getattr(obj, attr, None)
+            for attr in dir(obj)
+            if not attr.startswith("__")
+            and attr not in ("endpoint", "rest_prefix", "cap4endpoint", "cap4get_cred")
+        }
         self.__dict__.update(attrs)
 
         # credential fields
-        self.encryptedArgs = set([(self.keyMap.get(arg) or arg)
-                                  for arg in self.encryptedArgs])
+        self.encryptedArgs = set(
+            [(self.keyMap.get(arg) or arg) for arg in self.encryptedArgs]
+        )
         user, app = self.user_app()
-        self._cred_mgmt = CredMgmt(sessionKey=self.getSessionKey(),
-                                   user=user, app=app,
-                                   endpoint=self.endpoint,
-                                   encryptedArgs=self.encryptedArgs)
+        self._cred_mgmt = CredMgmt(
+            sessionKey=self.getSessionKey(),
+            user=user,
+            app=app,
+            endpoint=self.endpoint,
+            encryptedArgs=self.encryptedArgs,
+        )
         return
 
     def handleRemove(self, confInfo):
@@ -107,11 +121,13 @@ class MultiModelRestHandler(base.BaseRestHandler):
     def update(self, name, **params):
         user, app = self.user_app()
         try:
-            ent = splunk.entity.getEntity(self.endpoint,
-                                          name,
-                                          namespace=app,
-                                          owner=user,
-                                          sessionKey=self.getSessionKey())
+            ent = splunk.entity.getEntity(
+                self.endpoint,
+                name,
+                namespace=app,
+                owner=user,
+                sessionKey=self.getSessionKey(),
+            )
 
             for arg, val in list(params.items()):
                 ent[arg] = val
@@ -126,13 +142,14 @@ class MultiModelRestHandler(base.BaseRestHandler):
             RH_Err.ctl(-1, exc, logLevel=logging.INFO)
 
     def _getHandlerName(self):
-        return '%s.%s' % (self.__class__.__name__, self.model.__name__)
+        return "%s.%s" % (self.__class__.__name__, self.model.__name__)
 
 
 class MultiModel(object):
     """Mapping from object name to model, which means stanzas with
     different structure will be stored in same endpoint.
     """
+
     # REST prefix. Default is lower-case app name.
     # Change it if needed.
     rest_prefix = base.APP_NAME
@@ -149,8 +166,8 @@ class MultiModel(object):
     # It will add ``rest_prefix`` automatically.
     #   cap4endpoint: basic capability for this endpoint.
     #   cap4get_cred: capability to get credential info.
-    cap4endpoint = 'endpoint'
-    cap4get_cred = 'get_credential'
+    cap4endpoint = "endpoint"
+    cap4get_cred = "get_credential"
 
 
 def ResourceHandler(multimodel, handler=MultiModelRestHandler):

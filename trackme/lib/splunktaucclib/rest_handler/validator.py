@@ -1,3 +1,7 @@
+# SPDX-FileCopyrightText: 2020 2020
+#
+# SPDX-License-Identifier: Apache-2.0
+
 """Validators
 """
 
@@ -10,16 +14,28 @@ import json
 
 from . import error_ctl
 
-__all__ = ['Validator', 'ValidationError', 'AnyOf', 'AllOf', 'Userdefined',
-           'Enum', 'Range', 'String', 'Pattern', 'Host', 'Port', 'RequiredIf']
+__all__ = [
+    "Validator",
+    "ValidationError",
+    "AnyOf",
+    "AllOf",
+    "Userdefined",
+    "Enum",
+    "Range",
+    "String",
+    "Pattern",
+    "Host",
+    "Port",
+    "RequiredIf",
+]
 basestring = str if sys.version_info[0] == 3 else basestring
 
 
 class Validator(object):
-    """Base class of validators.
-    """
-    _name = None    # Validator name.
-    _msg = 'Validation Failed'  # Message when validation failed.
+    """Base class of validators."""
+
+    _name = None  # Validator name.
+    _msg = "Validation Failed"  # Message when validation failed.
 
     def __init__(self):
         pass
@@ -34,20 +50,18 @@ class Validator(object):
 
     @property
     def name(self):
-        """name of validator.
-        """
+        """name of validator."""
         return self._name or self.__class__.__name__
 
     @property
     def msg(self):
-        """message when validation failed.
-        """
+        """message when validation failed."""
         return self._msg
 
 
 class ValidationError(Exception):
-    """Exception from validation.
-    """
+    """Exception from validation."""
+
     pass
 
 
@@ -113,8 +127,7 @@ class Userdefined(Validator):
 
 
 class Enum(Validator):
-    """A validator that accepts only a finite set of values.
-    """
+    """A validator that accepts only a finite set of values."""
 
     def __init__(self, values=()):
         """
@@ -125,8 +138,7 @@ class Enum(Validator):
             self._values = set(values)
         except:
             self._values = list(values)
-        self._msg = 'Value should be in ' \
-                    ''.format(json.dumps(list(self._values)))
+        self._msg = "Value should be in " "".format(json.dumps(list(self._values)))
 
     def validate(self, value, data):
         return value in self._values
@@ -146,34 +158,34 @@ class Range(Validator):
         """
         try:
             minVal_bool = isinstance(minVal, (int, long, float))
-            maxVal_bool =  isinstance(maxVal, (int, long, float))
+            maxVal_bool = isinstance(maxVal, (int, long, float))
         except:
             minVal_bool = isinstance(minVal, (int, float))
-            maxVal_bool =  isinstance(maxVal, (int, float))
-        assert ((minVal is None or minVal_bool) and
-                (maxVal is None or maxVal_bool)), \
-            '``minVal`` & ``maxVal`` should be numeric'
+            maxVal_bool = isinstance(maxVal, (int, float))
+        assert (minVal is None or minVal_bool) and (
+            maxVal is None or maxVal_bool
+        ), "``minVal`` & ``maxVal`` should be numeric"
         super(Range, self).__init__()
         self._minVal, self._maxVal = minVal, maxVal
 
         if None not in (self._minVal, self._maxVal):
-            self._msg = 'Value should be between {} and {}' \
-                        ''.format(self._minVal, self._maxVal)
+            self._msg = "Value should be between {} and {}" "".format(
+                self._minVal, self._maxVal
+            )
         elif self._minVal is not None:
-            self._msg = 'Value should be no smaller than {}' \
-                        ''.format(self._minVal)
+            self._msg = "Value should be no smaller than {}" "".format(self._minVal)
         elif self._maxVal is not None:
-            self._msg = 'Value should be smaller than {}' \
-                        ''.format(self._maxVal)
+            self._msg = "Value should be smaller than {}" "".format(self._maxVal)
 
     def validate(self, value, data):
         try:
             value = float(value)
         except ValueError:
-            self._msg = 'Invalid format for numeric value'
+            self._msg = "Invalid format for numeric value"
             return False
-        failed = (self._minVal is not None and value < self._minVal) or \
-                 (self._maxVal is not None and value > self._maxVal)
+        failed = (self._minVal is not None and value < self._minVal) or (
+            self._maxVal is not None and value > self._maxVal
+        )
         return False if failed else True
 
 
@@ -193,37 +205,35 @@ class String(Validator):
         """
         try:
             minLen_bool = isinstance(minLen, (int, long, float))
-            maxLen_bool =  isinstance(maxLen, (int, long, float))
+            maxLen_bool = isinstance(maxLen, (int, long, float))
         except:
             minLen_bool = isinstance(minLen, (int, float))
-            maxLen_bool =  isinstance(maxLen, (int, float))
-        assert ((minLen is None or minLen_bool) and
-                (maxLen is None or maxLen_bool)), \
-            '``minLen`` & ``maxLen`` should be numeric'
+            maxLen_bool = isinstance(maxLen, (int, float))
+        assert (minLen is None or minLen_bool) and (
+            maxLen is None or maxLen_bool
+        ), "``minLen`` & ``maxLen`` should be numeric"
         super(String, self).__init__()
         self._minLen = 0 if minLen is not None and minLen < 0 else minLen
         self._maxLen = 0 if maxLen is not None and maxLen < 0 else maxLen
 
         if None not in (self._minLen, self._maxLen):
-            self._msg = 'Value should be between {} and {}' \
-                        ''.format(self._minLen, self._maxLen)
+            self._msg = "Value should be between {} and {}" "".format(
+                self._minLen, self._maxLen
+            )
         elif self._minLen is not None:
-            self._msg = 'Value should be no smaller than {}' \
-                        ''.format(self._minLen)
+            self._msg = "Value should be no smaller than {}" "".format(self._minLen)
         elif self._maxLen is not None:
-            self._msg = 'Value should be smaller than {}' \
-                        ''.format(self._maxLen)
+            self._msg = "Value should be smaller than {}" "".format(self._maxLen)
 
     def validate(self, value, data):
-        failed = (self._minLen is not None and len(value) < self._minLen) or \
-                 (self._maxLen is not None and len(value) > self._maxLen)
-        return (False if (not isinstance(value, basestring)) or failed
-                else True)
+        failed = (self._minLen is not None and len(value) < self._minLen) or (
+            self._maxLen is not None and len(value) > self._maxLen
+        )
+        return False if (not isinstance(value, basestring)) or failed else True
 
 
 class Pattern(Validator):
-    """A validator that accepts strings that match a given regular expression.
-    """
+    """A validator that accepts strings that match a given regular expression."""
 
     def __init__(self, regexp, flags=0):
         """
@@ -233,29 +243,30 @@ class Pattern(Validator):
         """
         super(Pattern, self).__init__()
         self._regexp = re.compile(regexp, flags=flags)
-        self._msg = 'Not matching the pattern'
+        self._msg = "Not matching the pattern"
 
     def validate(self, value, data):
         return self._regexp.match(value) and True or False
 
 
 class Host(Pattern):
-    """A validator that accepts strings that represent network hostname.
-    """
+    """A validator that accepts strings that represent network hostname."""
+
     def __init__(self):
-        regexp = (r"^(([a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9\-]*[a-zA-Z0-9])\.)*"
-                  r"([A-Za-z0-9]|[A-Za-z0-9][A-Za-z0-9\-]*[A-Za-z0-9])$"
-                  )
+        regexp = (
+            r"^(([a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9\-]*[a-zA-Z0-9])\.)*"
+            r"([A-Za-z0-9]|[A-Za-z0-9][A-Za-z0-9\-]*[A-Za-z0-9])$"
+        )
         super(Host, self).__init__(regexp, flags=re.I)
-        self._msg = 'Invalid hostname'
+        self._msg = "Invalid hostname"
 
 
 class Port(Range):
-    """Port number.
-    """
+    """Port number."""
+
     def __init__(self):
         super(Port, self).__init__(0, 65535)
-        self._msg = 'Port number should be an integer between 0 and 65535'
+        self._msg = "Port number should be an integer between 0 and 65535"
 
     def validate(self, value, data):
         try:
@@ -270,6 +281,7 @@ class RequiredIf(Validator):
     Some other fields are required in the payload data of request
     if this one is inputted as some specified values.
     """
+
     def __init__(self, fields, spec_vals=()):
         """
 
@@ -286,7 +298,7 @@ class RequiredIf(Validator):
             return True
 
         for field in self.fields:
-            val = data.get(field, '')
+            val = data.get(field, "")
             if not val:
                 self._msg = '"%s" is required for input' % field
                 return False
