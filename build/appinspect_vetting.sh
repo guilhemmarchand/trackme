@@ -89,13 +89,13 @@ reset=" \x1b[0m "
 
 # simple argument verification
 if [ -z "$username" ]; then
-    echo -e "${red}\nERROR: Splunk Base user name is not set"
+    echo -e "${red}\nERROR: Splunk Base user name is not set${reset}\n"
     show_usage
     exit 100
 fi
 
 if [ -z "$password" ]; then
-    echo -e "${red}\nERROR: Splunk Base password is not set"
+    echo -e "${red}\nERROR: Splunk Base password is not set${reset}\n"
     show_usage
     exit 100
 fi
@@ -107,7 +107,7 @@ if [ ! -s "$app" ]; then
 fi
 
 if [ -z "$included_tags" ]; then
-    echo -e "${red}\nERROR: Appinspect included tags have not been provided, this is a mandatory argument\n"
+    echo -e "${red}\nERROR: Appinspect included tags have not been provided, this is a mandatory argument${reset}\n"
     show_usage
     exit 100
 fi
