@@ -19,13 +19,17 @@ jobs:
     executor: content-executor
     steps:
       - run:
-          name: checkout repo
+          name: checkout Git repository
           command: |
             if [ "${CIRCLE_BRANCH}" == "" ]; then
                 git clone https://${GITHUB_TOKEN}@github.com/guilhemmarchand/trackme
             else
                 git clone --branch ${CIRCLE_BRANCH} https://${GITHUB_TOKEN}@github.com/guilhemmarchand/trackme
             fi
+      - run:
+          name: checkout Splunk Appinspect shell executor
+          command: |
+            git clone https://github.com/guilhemmarchand/splunk-appinspect-pipeline.git
       - restore_cache:
           key: deps1-{{ .Branch }}-{{ checksum "trackme/trackme/default/app.conf" }}
       - run:
@@ -39,7 +43,7 @@ jobs:
             mkdir dist
             cp trackme.tar.gz dist/
             cd ../
-            trackme/build/appinspect_vetting.sh --username=$SPLUNK_BASE_LOGIN --password=$SPLUNK_BASE_PASSWD --app=trackme/dist/trackme.tar.gz --included_tags=splunk_appinspect --excluded_tags=manual --excluded_checks=check_indexes_conf_does_not_exist --html_report_out=/tmp/appinspect_report.html
+            splunk-appinspect-pipeline/appinspect_vetting.sh --username=$SPLUNK_BASE_LOGIN --password=$SPLUNK_BASE_PASSWD --app=trackme/dist/trackme.tar.gz --included_tags=splunk_appinspect --excluded_tags=manual --excluded_checks=check_indexes_conf_does_not_exist --html_report_out=/tmp/appinspect_report.html
       - save_cache:
           key: deps1-{{ .Branch }}-{{ checksum "trackme/trackme/default/app.conf" }}
           paths:
