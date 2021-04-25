@@ -34,7 +34,7 @@
 
 # show usage
 show_usage() {
-    printf "${blue}\n\nUsage: ./${0} --username=<splunk_base_login> --password=<splunk_base_password> --app=<tgz_app_archive> --included_tags=<appinspect_included_tags> --excluded_tags=<appinspect_excluded_tags> --excluded_checks=<appinspect_excluded_checks>\n\n"
+    echo -e "${blue}\n\nUsage: ./${0} --username=<splunk_base_login> --password=<splunk_base_password> --app=<tgz_app_archive> --included_tags=<appinspect_included_tags> --excluded_tags=<appinspect_excluded_tags> --excluded_checks=<appinspect_excluded_checks>\n\n"
 }
 
 # get arguments
@@ -89,25 +89,25 @@ reset=" \x1b[0m "
 
 # simple argument verification
 if [ -z "$username" ]; then
-    printf "${red}\nERROR: Splunk Base user name is not set"
+    echo -e "${red}\nERROR: Splunk Base user name is not set"
     show_usage
     exit 100
 fi
 
 if [ -z "$password" ]; then
-    printf "${red}\nERROR: Splunk Base password is not set"
+    echo -e "${red}\nERROR: Splunk Base password is not set"
     show_usage
     exit 100
 fi
 
 if [ ! -s "$app" ]; then
-    printf "${red}\nERROR: app archive $app does not exist or is empty, marking the build as failed.${reset}\n"
+    echo -e "${red}\nERROR: app archive $app does not exist or is empty, marking the build as failed.${reset}\n"
     show_usage
     exit 1
 fi
 
 if [ -z "$included_tags" ]; then
-    printf "${red}\nERROR: Appinspect included tags have not been provided, this is a mandatory argument\n"
+    echo -e "${red}\nERROR: Appinspect included tags have not been provided, this is a mandatory argument\n"
     show_usage
     exit 100
 fi
@@ -125,7 +125,7 @@ excluded_checks=$(echo "$excluded_checks" | tr , "\n")
 excluded_checks_4grep=$(echo "$excluded_checks" | tr , "\|")
 
 # login to Appinspect API
-printf "${blue}\nINFO: Attempting login to appinspect API...${reset}\n"
+echo -e "${blue}\nINFO: Attempting login to appinspect API...${reset}\n"
 
 appinspect_token=$(curl -X GET \
     -u "${username}":"${password}" \
@@ -133,16 +133,16 @@ appinspect_token=$(curl -X GET \
 
 case "$appinspect_token" in
 "null" | "")
-    printf "${red}\nERROR: login to appinspect API has failed, an authentication token could be not be generated.${reset}\n"
+    echo -e "${red}\nERROR: login to appinspect API has failed, an authentication token could be not be generated.${reset}\n"
     exit 2
     ;;
 *)
-    printf "${green}\nSUCCESS: Authentication was successful and we got a token.${reset}\n"
+    echo -e "${green}\nSUCCESS: Authentication was successful and we got a token.${reset}\n"
     ;;
 esac
 
 # upload to Appinspect API
-printf "${blue}\nINFO: Please wait while submitting to appinspect...${reset}\n"
+echo -e "${blue}\nINFO: Please wait while submitting to appinspect...${reset}\n"
 
 # Run Appinspect, depending on select options
 
@@ -177,7 +177,7 @@ esac
 
 # Looping and polling the status
 if [ $EXIT_CODE -eq 0 ]; then
-    printf "${green}\nSUCCESS: upload was successful, polling status...${reset}\n"
+    echo -e "${green}\nSUCCESS: upload was successful, polling status...${reset}\n"
 
     status=$(curl -X GET \
         -s \
@@ -186,7 +186,7 @@ if [ $EXIT_CODE -eq 0 ]; then
 
     while [ "$status" != "SUCCESS" ]; do
 
-        printf "${blue}\nINFO: appinspect is currently running:${reset}\n\n"
+        echo -e "${blue}\nINFO: appinspect is currently running:${reset}\n\n"
         curl -X GET \
             -s \
             -H "Authorization: bearer ${appinspect_token}" \
@@ -201,7 +201,7 @@ if [ $EXIT_CODE -eq 0 ]; then
 
     case ${status} in
     "SUCCESS")
-        printf "${green}\nSUCESS: appinspect review was successfully proceeded:${reset}\n"
+        echo -e "${green}\nSUCESS: appinspect review was successfully proceeded:${reset}\n"
 
         info=$(curl -X GET \
             -s \
@@ -241,7 +241,7 @@ if [ $EXIT_CODE -eq 0 ]; then
 
         # Inform if we had failures we are ignoring
         if [ "$failures_excluded_count" -ne 0 ]; then
-            printf "${yellow}\n\nWARN: $failures_excluded_count failure(s) were excluded due to custom checks exclusion list${reset}"
+            echo -e "${yellow}\n\nWARN: $failures_excluded_count failure(s) were excluded due to custom checks exclusion list${reset}"
             echo ""
             echo "$failures_list" | grep -E "$excluded_checks_4grep"
             echo ""
@@ -255,26 +255,26 @@ if [ $EXIT_CODE -eq 0 ]; then
             -H "Content-Type: text/html" \
             --url "https://appinspect.splunk.com/v1/app/report/${uuid}" \
             -o "${html_report_out}"
-        printf "${blue}\nINFO: report downloaded to file ${html_report_out} ${reset}\n"
+        echo -e "${blue}\nINFO: report downloaded to file ${html_report_out} ${reset}\n"
 
         if [ "$failures_included_count" -eq 0 ]; then
-            printf "${green}\n\nSUCCESS: appinspect reported no failures or no failures excluded via custom lists, marking this build as successful.${reset}\n\n"
+            echo -e "${green}\n\nSUCCESS: appinspect reported no failures or no failures excluded via custom lists, marking this build as successful.${reset}\n\n"
             exit 0
         else
-            printf "${red}\n\nERROR: appinspect reported failures, marking this build as failed.${reset}\n\n"
+            echo -e "${red}\n\nERROR: appinspect reported failures, marking this build as failed.${reset}\n\n"
             exit 4
         fi
 
         ;;
 
     "*")
-        printf "${red}\nERROR: appinspect review was not successfull, marking the build as failed.${reset}\n"
+        echo -e "${red}\nERROR: appinspect review was not successfull, marking the build as failed.${reset}\n"
         exit 5
         ;;
 
     esac
 
 else
-    printf "${red}\nERROR: upload to Splunk appinspect API has failed (did we timed out?), marking the build as failed.${reset}\n"
+    echo -e "${red}\nERROR: upload to Splunk appinspect API has failed (did we timed out?), marking the build as failed.${reset}\n"
     exit 3
 fi
