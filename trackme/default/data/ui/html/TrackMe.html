@@ -9068,7 +9068,10 @@ styles in <div> tags, similar to Bootstrap's grid system.
                                         </div>
                                         <div class="input input-text" id="modal_input_custom_alert_suppress_period" style="max-width: 150px;">
                                             <label>Suppression period:</label>
-                                        </div>                                        
+                                        </div>
+                                        <div class="input input-text" id="modal_input_custom_alert_time_filtering" style="max-width: 300px;">
+                                            <label>Day time filtering:</label>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -16233,7 +16236,7 @@ require([
         var modal_input_custom_alert_name = new TextInput({
             "id": "modal_input_custom_alert_name",
             "searchWhenChanged": false,
-            "value": "$form.tk_custom_alert_name$",
+            "value": "$form.tk_input_custom_alert_name$",
             "default": "TrackMe - Alert custom on $create_alert_object_type$",
             "el": $('#modal_input_custom_alert_name')
         }, {
@@ -16278,19 +16281,19 @@ require([
             if (e.value === "data_source") {
                 EventHandler.setToken("create_alert_object_type", "data_source", {}, e.data);
                 EventHandler.setToken("create_alert_data_source", "true", {}, e.data);
-                EventHandler.setToken("form.tk_custom_alert_suppress_fields", "object", {}, e.data);
+                EventHandler.setToken("form.tk_input_custom_alert_suppress_fields", "object", {}, e.data);
                 EventHandler.unsetToken("create_alert_data_host");
                 EventHandler.unsetToken("create_alert_metric_host");
             } else if (e.value === "data_host") {
                 EventHandler.setToken("create_alert_object_type", "data_host", {}, e.data);
                 EventHandler.setToken("create_alert_data_host", "true", {}, e.data);
-                EventHandler.setToken("form.tk_custom_alert_suppress_fields", "object", {}, e.data);                
+                EventHandler.setToken("form.tk_input_custom_alert_suppress_fields", "object", {}, e.data);
                 EventHandler.unsetToken("create_alert_data_source");
                 EventHandler.unsetToken("create_alert_metric_host");
             } else if (e.value === "metric_host") {
                 EventHandler.setToken("create_alert_object_type", "metric_host", {}, e.data);
                 EventHandler.setToken("create_alert_metric_host", "true", {}, e.data);
-                EventHandler.setToken("form.tk_custom_alert_suppress_fields", "object", {}, e.data);                
+                EventHandler.setToken("form.tk_input_custom_alert_suppress_fields", "object", {}, e.data);
                 EventHandler.unsetToken("create_alert_data_host");
                 EventHandler.unsetToken("create_alert_data_source");
             }
@@ -16299,7 +16302,7 @@ require([
         var modal_input_custom_alert_data_source_filter = new TextInput({
             "id": "modal_input_custom_alert_data_source_filter",
             "searchWhenChanged": false,
-            "value": "$form.tk_custom_alert_data_source_filter$",
+            "value": "$form.tk_input_custom_alert_data_source_filter$",
             "default": "*",
             "el": $('#modal_input_custom_alert_data_source_filter')
         }, {
@@ -16313,7 +16316,7 @@ require([
         var modal_input_custom_alert_data_host_filter = new TextInput({
             "id": "modal_input_custom_alert_data_host_filter",
             "searchWhenChanged": false,
-            "value": "$form.tk_custom_alert_data_host_filter$",
+            "value": "$form.tk_input_custom_alert_data_host_filter$",
             "default": "*",
             "el": $('#modal_input_custom_alert_data_host_filter')
         }, {
@@ -16327,7 +16330,7 @@ require([
         var modal_input_custom_alert_metric_host_filter = new TextInput({
             "id": "modal_input_custom_alert_metric_host_filter",
             "searchWhenChanged": false,
-            "value": "$form.tk_custom_alert_metric_host_filter$",
+            "value": "$form.tk_input_custom_alert_metric_host_filter$",
             "default": "*",
             "el": $('#modal_input_custom_alert_metric_host_filter')
         }, {
@@ -16482,7 +16485,7 @@ require([
         var modal_input_custom_alert_cron = new TextInput({
             "id": "modal_input_custom_alert_cron",
             "searchWhenChanged": false,
-            "value": "$form.tk_custom_alert_cron$",
+            "value": "$form.tk_input_custom_alert_cron$",
             "default": "*/5 * * * *",
             "el": $('#modal_input_custom_alert_cron')
         }, {
@@ -16496,7 +16499,7 @@ require([
         var modal_input_custom_alert_suppress_fields = new TextInput({
             "id": "modal_input_custom_alert_suppress_fields",
             "searchWhenChanged": false,
-            "value": "$form.tk_custom_alert_suppress_fields$",
+            "value": "$form.tk_input_custom_alert_suppress_fields$",
             "el": $('#modal_input_custom_alert_suppress_fields')
         }, {
             tokens: true
@@ -16509,7 +16512,7 @@ require([
         var modal_input_custom_alert_suppress_period = new TextInput({
             "id": "modal_input_custom_alert_suppress_period",
             "searchWhenChanged": false,
-            "value": "$form.tk_custom_alert_suppress_period$",
+            "value": "$form.tk_input_custom_alert_suppress_period$",
             "default": "24h",
             "el": $('#modal_input_custom_alert_suppress_period')
         }, {
@@ -16518,6 +16521,52 @@ require([
 
         modal_input_custom_alert_suppress_period.on("change", function(newValue) {
             FormUtils.handleValueChange(modal_input_custom_alert_suppress_period);
+        });
+
+        var modal_input_custom_alert_time_filtering = new DropdownInput({
+            "id": "modal_input_custom_alert_time_filtering",
+            "choices": [{
+                    "label": "Any time",
+                    "value": "AnyTime"
+                },
+                {
+                    "label": "Days business (08h-20h)",
+                    "value": "Day_BusinessDays_8h-20h"
+                },
+                {
+                    "label": "Days WE only (08h-20h)",
+                    "value": "Day_WeekEnd_8h-20h"
+                },
+                {
+                    "label": "Days of the Week (08h-20h)",
+                    "value": "Day_AllDays_8h-20h"
+                },
+                {
+                    "label": "Night business (20h-08h)",
+                    "value": "Night_BusinessDays_20h-8h"
+                },
+                {
+                    "label": "Night WE only (20h-08h)",
+                    "value": "Night_WeekEnd_20h-8h"
+                },
+                {
+                    "label": "Night days of the week (20h-08h)",
+                    "value": "Night_AllDays_20h-8h"
+                },
+            ],
+            "searchWhenChanged": false,
+            "default": "AnyTime",
+            "showClearButton": true,
+            "initialValue": "AnyTime",
+            "selectFirstChoice": false,
+            "value": "$form.tk_input_custom_alert_time_filtering$",
+            "el": $('#modal_input_custom_alert_time_filtering')
+        }, {
+            tokens: true
+        }).render();
+
+        modal_input_custom_alert_time_filtering.on("change", function(newValue) {
+            FormUtils.handleValueChange(modal_input_custom_alert_time_filtering);
         });
 
         var modal_input_custom_alert_auto_ack = new DropdownInput({
@@ -25117,33 +25166,34 @@ require([
             var tokens = mvc.Components.get("default");
 
             // When the Submit button is clicked, get all the form fields by accessing token values
-            var tk_custom_alert_name = tokens.get("tk_custom_alert_name");
-            var tk_create_alert_data_source = tokens.get("create_alert_data_source");
-            var tk_create_alert_data_host = tokens.get("create_alert_data_host");
-            var tk_create_alert_metric_host = tokens.get("create_alert_metric_host");
+            var tk_input_custom_alert_name = tokens.get("tk_input_custom_alert_name");
+            var tk_input_create_alert_data_source = tokens.get("create_alert_data_source");
+            var tk_input_create_alert_data_host = tokens.get("create_alert_data_host");
+            var tk_input_create_alert_metric_host = tokens.get("create_alert_metric_host");
             var tk_input_custom_alert_priority = tokens.get("tk_input_custom_alert_priority");
             var tk_input_custom_alert_state = tokens.get("tk_input_custom_alert_state");
-            var tk_custom_alert_data_source_filter = tokens.get("tk_custom_alert_data_source_filter");
-            var tk_custom_alert_data_host_filter = tokens.get("tk_custom_alert_data_host_filter");
-            var tk_custom_alert_metric_host_filter = tokens.get("tk_custom_alert_metric_host_filter");            
+            var tk_input_custom_alert_data_source_filter = tokens.get("tk_input_custom_alert_data_source_filter");
+            var tk_input_custom_alert_data_host_filter = tokens.get("tk_input_custom_alert_data_host_filter");
+            var tk_input_custom_alert_metric_host_filter = tokens.get("tk_input_custom_alert_metric_host_filter");
             var tk_input_custom_tags = tokens.get("tk_input_custom_tags");
             var tk_input_custom_alert_trigger_on_outliers = tokens.get("tk_input_custom_alert_trigger_on_outliers");
             var tk_input_custom_alert_trigger_on_outliers_data_host = tokens.get("tk_input_custom_alert_trigger_on_outliers_data_host");
             var tk_input_custom_alert_trigger_on_data_sampling = tokens.get("tk_input_custom_alert_trigger_on_data_sampling");
-            var tk_custom_alert_cron = tokens.get("tk_custom_alert_cron");
-            var tk_custom_alert_suppress_fields = tokens.get("tk_custom_alert_suppress_fields");
-            var tk_custom_alert_suppress_period = tokens.get("tk_custom_alert_suppress_period");
+            var tk_input_custom_alert_cron = tokens.get("tk_input_custom_alert_cron");
+            var tk_input_custom_alert_suppress_fields = tokens.get("tk_input_custom_alert_suppress_fields");
+            var tk_input_custom_alert_suppress_period = tokens.get("tk_input_custom_alert_suppress_period");
+            var tk_input_custom_alert_time_filtering = tokens.get("tk_input_custom_alert_time_filtering");
             var tk_input_custom_alert_smart_status = tokens.get("tk_input_custom_alert_smart_status");
             var tk_input_custom_alert_auto_ack = tokens.get("tk_input_custom_alert_auto_ack");
 
             // Splunk limits report names to max 100 chars, and will refuse otherwise
-            var tk_tracker_name = tk_custom_alert_name.substring(0, 100);
+            var tk_tracker_name = tk_input_custom_alert_name.substring(0, 100);
 
             // define the alert search
             var tk_custom_alert;
             var tk_object_category;
 
-            if (tk_create_alert_data_source == "true") {
+            if (tk_input_create_alert_data_source == "true") {
 
                 tk_object_category = "data_source";
                 tk_custom_alert = "| inputlookup trackme_data_source_monitoring\n| appendcols [ | inputlookup trackme_maintenance_mode ] | filldown maintenance_mode | where NOT maintenance_mode=\"enabled\"";
@@ -25152,7 +25202,7 @@ require([
                 tk_custom_alert = tk_custom_alert + "\n| `trackme_eval_data_source_state`";
 
                 // add the data_name filter
-                tk_custom_alert = tk_custom_alert + "\n| search data_name=\"" +  tk_custom_alert_data_source_filter + "\"";
+                tk_custom_alert = tk_custom_alert + "\n| search data_name=\"" +  tk_input_custom_alert_data_source_filter + "\"";
 
                 // add the priority filter
                 tk_custom_alert = tk_custom_alert + "\n| search " +  tk_input_custom_alert_priority;
@@ -25179,6 +25229,10 @@ require([
                 tk_custom_alert = tk_custom_alert + "\n| search `trackme_get_idx_whitelist_searchtime(trackme_data_source_monitoring_whitelist_index, data_index)`";
                 tk_custom_alert = tk_custom_alert + "\n| `apply_data_source_blacklists`";
                 tk_custom_alert = tk_custom_alert + "\n| where data_monitored_state=\"enabled\"";
+
+                // handle time filtering
+                tk_custom_alert = tk_custom_alert + "\n| `" + tk_input_custom_alert_time_filtering + "`";
+
                 tk_custom_alert = tk_custom_alert + "\n| `trackme_date_format(data_last_ingest)`";
                 tk_custom_alert = tk_custom_alert + "\n| `trackme_date_format(data_last_time_seen)`";
                 tk_custom_alert = tk_custom_alert + "\n| `trackme_date_format(data_tracker_runtime)`";
@@ -25191,7 +25245,7 @@ require([
                 tk_custom_alert = tk_custom_alert + "\n| `trackme_alerts_order_data_source`";
 
             }
-            else if (tk_create_alert_data_host == "true") {
+            else if (tk_input_create_alert_data_host == "true") {
 
                 tk_object_category = "data_host";
                 tk_custom_alert = "| inputlookup trackme_host_monitoring\n| appendcols [ | inputlookup trackme_maintenance_mode ] | filldown maintenance_mode | where NOT maintenance_mode=\"enabled\"";
@@ -25200,7 +25254,7 @@ require([
                 tk_custom_alert = tk_custom_alert + "\n| `trackme_eval_data_host_state`";
 
                 // add the data_host filter
-                tk_custom_alert = tk_custom_alert + "\n| search data_host=\"" +  tk_custom_alert_data_host_filter + "\"";
+                tk_custom_alert = tk_custom_alert + "\n| search data_host=\"" +  tk_input_custom_alert_data_host_filter + "\"";
 
                 // add the priority filter
                 tk_custom_alert = tk_custom_alert + "\n| search " +  tk_input_custom_alert_priority;
@@ -25220,7 +25274,11 @@ require([
                 tk_custom_alert = tk_custom_alert + "\n| `trackme_data_host_extract_mvstsummary` | fields - summary_first_time	summary_idx	summary_last_ingest	time, data_host_st_summary";
                 tk_custom_alert = tk_custom_alert + "\n| search `trackme_get_idx_whitelist_searchtime(trackme_data_host_monitoring_whitelist_index, data_index)`";
                 tk_custom_alert = tk_custom_alert + "\n| `apply_data_host_blacklists`";
-                tk_custom_alert = tk_custom_alert + "\n| where data_monitored_state=\"enabled\"";                
+                tk_custom_alert = tk_custom_alert + "\n| where data_monitored_state=\"enabled\"";
+
+                // handle time filtering
+                tk_custom_alert = tk_custom_alert + "\n| `" + tk_input_custom_alert_time_filtering + "`";
+
                 tk_custom_alert = tk_custom_alert + "\n| `trackme_data_host_group_lookup`";
                 tk_custom_alert = tk_custom_alert + "\n| `trackme_date_format(data_last_ingest)`";
                 tk_custom_alert = tk_custom_alert + "\n| `trackme_date_format(data_last_time_seen)`";
@@ -25233,13 +25291,13 @@ require([
                 tk_custom_alert = tk_custom_alert + "\n| `trackme_alerts_order_data_host`";
 
             }
-            else if (tk_create_alert_metric_host == "true") {
+            else if (tk_input_create_alert_metric_host == "true") {
 
                 tk_object_category = "metric_host";
                 tk_custom_alert = "| inputlookup trackme_metric_host_monitoring\n| appendcols [ | inputlookup trackme_maintenance_mode ] | filldown maintenance_mode | where NOT maintenance_mode=\"enabled\"";
 
                 // add the metric_host filter
-                tk_custom_alert = tk_custom_alert + "\n| search metric_host=\"" +  tk_custom_alert_metric_host_filter + "\"";
+                tk_custom_alert = tk_custom_alert + "\n| search metric_host=\"" +  tk_input_custom_alert_metric_host_filter + "\"";
 
                 // add the priority filter
                 tk_custom_alert = tk_custom_alert + "\n| search " +  tk_input_custom_alert_priority;
@@ -25252,6 +25310,10 @@ require([
                 tk_custom_alert = tk_custom_alert + "\n| search `trackme_get_idx_whitelist_searchtime(trackme_metric_host_monitoring_whitelist_index, metric_index)`";
                 tk_custom_alert = tk_custom_alert + "\n| `apply_metric_host_blacklists`";
                 tk_custom_alert = tk_custom_alert + "\n| where metric_monitored_state=\"enabled\"";
+
+                // handle time filtering
+                tk_custom_alert = tk_custom_alert + "\n| `" + tk_input_custom_alert_time_filtering + "`";
+
                 tk_custom_alert = tk_custom_alert + "\n| `trackme_date_format(metric_last_time_seen)`";
                 tk_custom_alert = tk_custom_alert + "\n| eval \"last time\"='metric_last_time_seen (translated)'";
                 tk_custom_alert = tk_custom_alert + "\n| `trackme_date_format(metric_tracker_runtime)`";
@@ -25280,8 +25342,8 @@ require([
                     "alert_type": "always",
                     "alert.severity": "5",
                     "alert.suppress": "1",
-                    "alert.suppress.fields": tk_custom_alert_suppress_fields,
-                    "alert.suppress.period": tk_custom_alert_suppress_period,
+                    "alert.suppress.fields": tk_input_custom_alert_suppress_fields,
+                    "alert.suppress.period": tk_input_custom_alert_suppress_period,
                     "alert.track": "1",
                     "dispatch.earliest_time": "-5m",
                     "dispatch.latest_time": "now",
@@ -25290,7 +25352,7 @@ require([
                     "alert_type": "number of events",
                     "alert_threshold": "0",
                     "alert.digest_mode": "0",
-                    "cron_schedule": tk_custom_alert_cron,
+                    "cron_schedule": tk_input_custom_alert_cron,
                     "actions": "trackme_auto_ack,trackme_smart_status",
                     "action.trackme_auto_ack.param.object_category": "$result.object_category$",
                     "action.trackme_auto_ack.param.object_name": "$result.object$",
@@ -25306,13 +25368,13 @@ require([
                     "alert_type": "always",
                     "alert.severity": "1",
                     "alert.suppress": "1",
-                    "alert.suppress.fields": tk_custom_alert_suppress_fields,
-                    "alert.suppress.period": tk_custom_alert_suppress_period,
+                    "alert.suppress.fields": tk_input_custom_alert_suppress_fields,
+                    "alert.suppress.period": tk_input_custom_alert_suppress_period,
                     "alert.track": "1",
                     "dispatch.earliest_time": "-5m",
                     "dispatch.latest_time": "now",
                     "is_scheduled": "1",
-                    "cron_schedule": tk_custom_alert_cron,
+                    "cron_schedule": tk_input_custom_alert_cron,
                     "actions": "trackme_auto_ack",                    
                     "action.trackme_auto_ack.param.object_category": "$result.object_category$",
                     "action.trackme_auto_ack.param.object_name": "$result.object$"
@@ -25326,13 +25388,13 @@ require([
                     "alert_type": "always",
                     "alert.severity": "1",
                     "alert.suppress": "1",
-                    "alert.suppress.fields": tk_custom_alert_suppress_fields,
-                    "alert.suppress.period": tk_custom_alert_suppress_period,
+                    "alert.suppress.fields": tk_input_custom_alert_suppress_fields,
+                    "alert.suppress.period": tk_input_custom_alert_suppress_period,
                     "alert.track": "1",
                     "dispatch.earliest_time": "-5m",
                     "dispatch.latest_time": "now",
                     "is_scheduled": "1",
-                    "cron_schedule": tk_custom_alert_cron,
+                    "cron_schedule": tk_input_custom_alert_cron,
                     "actions": "trackme_smart_status",
                     "action.trackme_smart_status.param.object_category": "$result.object_category$",
                     "action.trackme_smart_status.param.object_name": "$result.object$"                   
@@ -25346,13 +25408,13 @@ require([
                     "alert_type": "always",
                     "alert.severity": "1",
                     "alert.suppress": "1",
-                    "alert.suppress.fields": tk_custom_alert_suppress_fields,
-                    "alert.suppress.period": tk_custom_alert_suppress_period,
+                    "alert.suppress.fields": tk_input_custom_alert_suppress_fields,
+                    "alert.suppress.period": tk_input_custom_alert_suppress_period,
                     "alert.track": "1",
                     "dispatch.earliest_time": "-5m",
                     "dispatch.latest_time": "now",
                     "is_scheduled": "1",
-                    "cron_schedule": tk_custom_alert_cron
+                    "cron_schedule": tk_input_custom_alert_cron
                 };
             }
 

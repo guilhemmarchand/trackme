@@ -3,31 +3,19 @@
 # Check https://circleci.com/docs/2.0/language-python/ for more details
 #
 
-dependencies:
-  cache_directories:
-    - "~/.apt-cache"
-  pre:
-    - sudo rm -rf /var/cache/apt/archives && sudo ln -s ~/.apt-cache /var/cache/apt/archives && mkdir -p ~/.apt-cache/partial
-
-apt-run: &apt-install
-  name: install system packages
-  command: |
-    sudo apt update -qq
-    sudo apt install -y python-pip
-
 version: 2.1
 
 executors:
   content-executor:
     docker:
-      - image: circleci/python:latest
+      - image: cimg/base:stable
         auth:
           username: $DOCKERHUB_LOGIN  # can specify string literal values
           password: $DOCKERHUB_TOKEN  # or project environment variable reference
     working_directory: ~/repo
 
 jobs:
-  validate-content:
+  splunk-appinspect:
     executor: content-executor
     steps:
       - run:
@@ -40,39 +28,18 @@ jobs:
             fi
       - restore_cache:
           key: deps1-{{ .Branch }}-{{ checksum "trackme/trackme/default/app.conf" }}
-      - run: *apt-install
       - run:
-          name: grab appinspect
-          command: |
-            curl -Ls https://download.splunk.com/misc/appinspect/splunk-appinspect-latest.tar.gz -o appinspect-lastest.tar.gz
-            mkdir appinspect-latest
-            tar -zxvf appinspect-lastest.tar.gz -C appinspect-latest --strip-components=1
-      - run:
-          name: install appinspect
-          command: |
-            cd appinspect-latest
-            rm -rf venv
-            sudo pip install --upgrade pip setuptools
-            sudo pip install virtualenv
-            virtualenv --clear venv
-            source venv/bin/activate
-            pip install .
-      - run:
-          name: run appinspect
+          name: run appinspect API app vetting
           command: |
             cd trackme
             rm -rf trackme/.git
             rm -rf trackme/.circleci
             rm -rf trackme/.gitignore
-            tar -zcvf trackme.tar.gz trackme
+            tar -zcf trackme.tar.gz trackme
             mkdir dist
             cp trackme.tar.gz dist/
             cd ../
-            cd appinspect-latest
-            pwd
-            ls -ltr
-            source venv/bin/activate
-            splunk-appinspect inspect ../trackme/trackme.tar.gz --included-tags=cloud
+            trackme/build/appinspect_vetting.sh --username=$SPLUNK_BASE_LOGIN --password=$SPLUNK_BASE_PASSWD --app=trackme/dist/trackme.tar.gz --included_tags=splunk_appinspect --excluded_tags=manual --excluded_checks=check_indexes_conf_does_not_exist --html_report_out=/tmp/appinspect_report.html
       - save_cache:
           key: deps1-{{ .Branch }}-{{ checksum "trackme/trackme/default/app.conf" }}
           paths:
@@ -81,6 +48,9 @@ jobs:
           root: trackme/dist/
           paths:
               - trackme.tar.gz
+      - store_artifacts:
+          path: /tmp/appinspect_report.html
+          destination: appinspect-report
   publish-github-release:
     docker:
       - image: cibuilds/github:latest
@@ -98,18 +68,19 @@ workflows:
   version: 2.1
   validate-and-build:
     jobs:
-      - validate-content:
-          context: docker-hub-creds
+      - splunk-appinspect:
+          context: 
+            - docker-hub-creds
+            - splunk-base-creds
           filters:
             tags:
               only: /.*/
       - publish-github-release:
           context: docker-hub-creds
           requires:
-            - validate-content
+            - splunk-appinspect
           filters:
             tags:
               only: /^v.*/
             branches:
               ignore: /.*/
-

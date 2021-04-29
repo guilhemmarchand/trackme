@@ -1,12 +1,12 @@
 
 # encoding = utf-8
 # Always put this line at the beginning of this file
-import trackme_declare
+import import_declare_test
 
 import os
 import sys
 
-from alert_actions_base import ModularAlertBase
+from splunktaucclib.alert_actions_base import ModularAlertBase
 import modalert_trackme_auto_ack_helper
 
 class AlertActionWorkertrackme_auto_ack(ModularAlertBase):
@@ -36,12 +36,12 @@ class AlertActionWorkertrackme_auto_ack(ModularAlertBase):
                 return 3
             status = modalert_trackme_auto_ack_helper.process_event(self, *args, **kwargs)
         except (AttributeError, TypeError) as ae:
-            self.log_error("Error: {}. Please double check spelling and also verify that a compatible version of Splunk_SA_CIM is installed.".format(str(ae)))
+            self.log_error("Error: {}. Please double check spelling and also verify that a compatible version of Splunk_SA_CIM is installed.".format(str(ae)))#ae.message replaced with str(ae)
             return 4
         except Exception as e:
             msg = "Unexpected error: {}."
-            if e:
-                self.log_error(msg.format(str(e)))
+            if str(e):
+                self.log_error(msg.format(str(e)))#e.message replaced with str(ae)
             else:
                 import traceback
                 self.log_error(msg.format(traceback.format_exc()))
