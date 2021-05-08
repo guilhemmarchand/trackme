@@ -1267,6 +1267,9 @@ styles in <div> tags, similar to Bootstrap's grid system.
                         <div style="margin-right: 15px; float: right;">
                             <button id="btn_smart_status_data_source_back" type="submit" class="btn btn-default btn-primary" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Back </button>
                         </div>
+                        <div style="margin-right: 15px; float: right;">
+                            <a class="btn btn-primary" id="btn_smart_status_data_source_history" target="_blank" href="search_data_source_smart_status" role="button">Search alert actions history</a>
+                        </div>
                     </div>
 
                 </div>
@@ -1321,6 +1324,9 @@ styles in <div> tags, similar to Bootstrap's grid system.
                         <div style="margin-right: 15px; float: right;">
                             <button id="btn_smart_status_data_host_back" type="submit" class="btn btn-default btn-primary" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Back </button>
                         </div>
+                        <div style="margin-right: 15px; float: right;">
+                            <a class="btn btn-primary" id="btn_smart_status_data_host_history" target="_blank" href="search_data_host_smart_status" role="button">Search alert actions history</a>
+                        </div>
                     </div>
 
                 </div>
@@ -1374,6 +1380,9 @@ styles in <div> tags, similar to Bootstrap's grid system.
                         </div>
                         <div style="margin-right: 15px; float: right;">
                             <button id="btn_smart_status_metric_host_back" type="submit" class="btn btn-default btn-primary" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Back </button>
+                        </div>
+                        <div style="margin-right: 15px; float: right;">
+                            <a class="btn btn-primary" id="btn_smart_status_metric_host_history" target="_blank" href="search_metric_host_smart_status" role="button">Search alert actions history</a>
                         </div>
                     </div>
 
@@ -35460,6 +35469,13 @@ require([
             // Free the search
             setToken("show_smart_status_data_source", "true");
 
+            // get token
+            var tk_data_name = tokens.get("tk_data_name");
+
+            // Define the search button target
+            var search_data_source_smart_status = 'search' + "?q=search" + encodeURI(' `trackme_idx` source=\"ds_smart_status\"' + ' raw.data_name=\"' + tk_data_name + '\" | rename raw.* as \"*\" | table _time smart_result') + '&earliest=-7d&latest=now'
+            document.getElementById("btn_smart_status_data_source_history").href = search_data_source_smart_status;
+
             // Force search run every time the button is clicked
             searchSmartStatusDataSource.startSearch();
 
@@ -35487,8 +35503,15 @@ require([
             // Free the search
             setToken("show_smart_status_data_host", "true");
 
+            // get token
+            var tk_data_host = tokens.get("tk_data_host");
+
             // Force search run every time the button is clicked
             searchSmartStatusDataHost.startSearch();
+
+            // Define the search button target
+            var search_data_host_smart_status = 'search' + "?q=search" + encodeURI(' `trackme_idx` source=\"dh_smart_status\"' + ' raw.data_host=\"' + tk_data_host + '\" | rename raw.* as \"*\" | table _time smart_result') + '&earliest=-7d&latest=now'
+            document.getElementById("btn_smart_status_data_host_history").href = search_data_host_smart_status;
 
             // Show input modal
             $("#smart_status_data_host").modal();
@@ -35514,8 +35537,15 @@ require([
             // Free the search
             setToken("show_smart_status_metric_host", "true");
 
+            // get token
+            var tk_metric_host = tokens.get("tk_metric_host");
+
             // Force search run every time the button is clicked
             searchSmartStatusMetricHost.startSearch();
+
+            // Define the search button target
+            var search_metric_host_smart_status = 'search' + "?q=search" + encodeURI(' `trackme_idx` source=\"mh_smart_status\"' + ' raw.metric_host=\"' + tk_metric_host + '\" | rename raw.* as \"*\" | table _time smart_result') + '&earliest=-7d&latest=now'
+            document.getElementById("btn_smart_status_metric_host_history").href = search_metric_host_smart_status;
 
             // Show input modal
             $("#smart_status_metric_host").modal();
