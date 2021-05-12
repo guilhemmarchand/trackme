@@ -1,9 +1,15 @@
-Support
-#######
+Support & donate
+################
 
-This application is community supported.
+**I am supporting my applications for free, for the good of everyone and on my own private time. As you can guess, this is a huge amount of time and efforts.**
 
-To get support, use of one the following options:
+If you enjoy it, and want to support and encourage me, buy me a coffee (or a Pizza) and you will make me very happy!
+
+|location_link|
+
+.. |location_link| raw:: html
+
+    <script type="text/javascript" src="https://cdnjs.buymeacoffee.com/1.0.0/button.prod.min.js" data-name="bmc-button" data-slug="guilhemmarchand" data-color="#5F7FFF" data-emoji="🍕"  data-font="Cookie" data-text="Buy me a pizza" data-outline-color="#000000" data-font-color="#ffffff" data-coffee-color="#FFDD00" ></script>
 
 Splunk Answers
 ==============
