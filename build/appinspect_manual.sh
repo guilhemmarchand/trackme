@@ -35,7 +35,7 @@ for app in $(ls *.tgz); do
             -H "Cache-Control: no-cache" \
             -s \
             -F "app_package=@${app}" \
-            -F "included_tags=advanced_xml,alert_actions_conf,appapproval,cloud,custom_search_commands_v2,custom_search_commands,custom_visualizations,custom_workflow_actions,deprecated_feature,developer_guidance,django_bindings,inputs_conf,markdown,malicious,modular_input(s),offensive,packaging_standards,private_app,removed_feature,restmap_config,savedsearches,security,service,web_conf,splunk_5_0,splunk_6_0,splunk_6_1,splunk_6_2,splunk_6_3,splunk_6_4,splunk_6_5,splunk_6_6,splunk_7_0,splunk_7_1,splunk_7_2,splunk_7_3,splunk_8_0" \
+            -F "included_tags=cloud" \
             --url "https://appinspect.splunk.com/v1/app/validate" | jq -r .links | grep href | head -1 | awk -F\" '{print $4}' | awk -F\/ '{print $6}')
 
         if [ $? -eq 0 ]; then
