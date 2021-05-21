@@ -11,12 +11,12 @@ If you enjoy it, and want to support and encourage me, buy me a coffee (or a Piz
 
     <script type="text/javascript" src="https://cdnjs.buymeacoffee.com/1.0.0/button.prod.min.js" data-name="bmc-button" data-slug="guilhemmarchand" data-color="#5F7FFF" data-emoji="🍕"  data-font="Cookie" data-text="Buy me a pizza" data-outline-color="#000000" data-font-color="#ffffff" data-coffee-color="#FFDD00" ></script>
 
-Splunk Answers
-==============
+Splunk community
+================
 
-Open a question in Splunk answers for the application:
+Open a question in Splunk community:
 
-- https://answers.splunk.com/app/questions/4621.html
+- https://community.splunk.com
 
 Splunk community slack
 ======================

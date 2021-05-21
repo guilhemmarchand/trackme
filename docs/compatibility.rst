@@ -1,8 +1,8 @@
 Compatibility
 =============
 
-Splunk compatibility
-####################
+Splunk core compatibility
+#########################
 
 .. admonition:: Splunk core
 
@@ -30,6 +30,15 @@ Splunk Cloud compatibility
 
 - In Splunk Base, if the latest version is not yet vetted the following message is displayed "This version is not yet available for Splunk Cloud."
 - Use the version dropdown to select an earlier version to see "Splunk Cloud" listed in the Products, which confirms that this version has been vetted
+
+Python compatibility
+####################
+
+.. admonition:: Python 3 compatibility
+
+    - TrackMe is fully compatible with Python 3
+    - Splunk Python SDK libs embedded in TrackMe are maintained up to date with official releases
+    - While Python 3 compatibility is the main target, TrackMe is as well cross compatible with Python 2
 
 Web Browser compatibility
 #########################
