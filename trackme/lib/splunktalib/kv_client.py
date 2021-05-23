@@ -6,7 +6,7 @@ from builtins import range
 from builtins import object
 import re
 import json
-from xml.etree import cElementTree as et
+from defusedxml import cElementTree as et
 
 import splunktalib.rest as rest
 

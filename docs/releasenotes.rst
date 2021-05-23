@@ -17,6 +17,7 @@ TrackMe requires a summary index (defaults to trackme_summary) and a metric inde
 https://trackme.readthedocs.io/en/latest/configuration.html
 
 - Change: Update splunktaucclib to 4.2.0
+- Change: Update splunktalib to 1.2.1
 
 Version 1.2.46
 ==============
