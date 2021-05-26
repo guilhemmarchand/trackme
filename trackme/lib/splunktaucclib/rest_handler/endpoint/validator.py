@@ -269,13 +269,7 @@ class Number(Validator):
         :param is_int: the value should be integer or not
         """
 
-        def check(val):
-            try:
-                return val is None or isinstance(val, (int, long, float))
-            except NameError:
-                return val is None or isinstance(val, (int, float))
-
-        assert check(min_val) and check(
+        assert self._check(min_val) and self._check(
             max_val
         ), "%(min_val)s & %(max_val)s should be numbers" % {
             "min_val": min_val,
@@ -286,6 +280,12 @@ class Number(Validator):
         self._min_val = min_val
         self._max_val = max_val
         self._is_int = is_int
+
+    def _check(self, val):
+        try:
+            return val is None or isinstance(val, (int, long, float))
+        except NameError:
+            return val is None or isinstance(val, (int, float))
 
     def validate(self, value, data):
         try:
@@ -337,15 +337,7 @@ class String(Validator):
             it should be longer than ``max_len``
         """
 
-        def check(val):
-            if val is None:
-                return True
-            try:
-                return isinstance(val, (int, long)) and val >= 0
-            except NameError:
-                return isinstance(val, (int)) and val >= 0
-
-        assert check(min_len) and check(
+        assert self._check(min_len) and self._check(
             max_len
         ), "%(min_len)s & %(max_len)s should be numbers" % {
             "min_len": min_len,
@@ -354,6 +346,14 @@ class String(Validator):
 
         super(String, self).__init__()
         self._min_len, self._max_len = min_len, max_len
+
+    def _check(self, val):
+        if val is None:
+            return True
+        try:
+            return isinstance(val, (int, long)) and val >= 0
+        except NameError:
+            return isinstance(val, (int)) and val >= 0
 
     def validate(self, value, data):
         if not isinstance(value, basestring):

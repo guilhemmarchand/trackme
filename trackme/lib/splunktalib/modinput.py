@@ -83,7 +83,7 @@ def parse_modinput_configs(config_str):
     @return: meta_config and stanza_config
     """
 
-    import xml.dom.minidom as xdm
+    import defusedxml.minidom as xdm
 
     meta_configs = {
         "server_host": None,

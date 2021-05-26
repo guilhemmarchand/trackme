@@ -10,7 +10,7 @@ from builtins import str
 from builtins import range
 from builtins import object
 import re
-import xml.dom.minidom as xdm
+import defusedxml.minidom as xdm
 
 import splunktalib.common.util as util
 import splunktalib.common.xml_dom_parser as xdp
