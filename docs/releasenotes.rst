@@ -16,6 +16,7 @@ This is a new main release branch, TrackMe 1.2.x requires the deployment of the 
 TrackMe requires a summary index (defaults to trackme_summary) and a metric index (defaults to trackme_metrics):
 https://trackme.readthedocs.io/en/latest/configuration.html
 
+- Fix - Issue #328 - Data host - Regex based block lists are not honored as documented
 - Change: Update splunktaucclib to 4.2.0
 - Change: Update splunktalib to 1.2.1
 
