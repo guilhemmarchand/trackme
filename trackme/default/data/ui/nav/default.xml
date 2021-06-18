@@ -22,7 +22,7 @@
       <a href="search?q=%7C%20inputlookup%20trackme_data_source_monitoring%20%7C%20eval%20keyid%3D_key">Data sources collection</a>
       <a href="search?q=%7C%20inputlookup%20trackme_elastic_sources%20%7C%20eval%20keyid%3D_key">Elastic Shared Data sources collection</a>
       <a href="search?q=%7C%20inputlookup%20trackme_elastic_sources_dedicated%20%7C%20eval%20keyid%3D_key">Elastic Dedicated Data sources mapping collection</a>
-      <collection label="Whitelist &amp; Blacklists">
+      <collection label="Allowlists &amp; Blocklists">
         <a href="search?q=%7C%20inputlookup%20trackme_data_source_monitoring_whitelist_index%20%7C%20eval%20keyid%3D_key">Allowlist indexes</a>
         <a href="search?q=%7C%20inputlookup%20trackme_data_source_monitoring_blacklist_index%20%7C%20eval%20keyid%3D_key">Blocklist indexes</a>
         <a href="search?q=%7C%20inputlookup%20trackme_data_source_monitoring_blacklist_host%20%7C%20eval%20keyid%3D_key">Blocklist hosts</a>
@@ -35,7 +35,7 @@
     </collection>
     <collection label="Data hosts monitoring">
     <a href="search?q=%7C%20inputlookup%20trackme_host_monitoring%20%7C%20eval%20keyid%3D_key">Data Hosts collection</a>
-      <collection label="Whitelist &amp; Blacklists">
+      <collection label="Allowlists &amp; Blocklists">
         <a href="search?q=%7C%20inputlookup%20trackme_data_host_monitoring_whitelist_index%20%7C%20eval%20keyid%3D_key">Allowlist indexes</a>
         <a href="search?q=%7C%20inputlookup%20trackme_data_host_monitoring_blacklist_index%20%7C%20eval%20keyid%3D_key">Blocklist indexes</a>
         <a href="search?q=%7C%20inputlookup%20trackme_data_host_monitoring_blacklist_host%20%7C%20eval%20keyid%3D_key">Blocklist hosts</a>
@@ -45,8 +45,8 @@
     <collection label="Metric host monitoring">
       <a href="search?q=%7C%20inputlookup%20trackme_metric_host_monitoring%20%7C%20eval%20keyid%3D_key">Metric hosts collection</a>
       <a href="search?q=%7C%20inputlookup%20trackme_metric_lagging_definition%20%7C%20eval%20keyid%3D_key">Metric lagging definition</a>
-      <collection label="Whitelist &amp; Blacklists">
-        <a href="search?q=%7C%20inputlookup%20trackme_data_host_monitoring_whitelist_index%20%7C%20eval%20keyid%3D_key">Allowlist indexes</a>
+      <collection label="Allowlists &amp; Blocklists">
+        <a href="search?q=%7C%20inputlookup%20trackme_metric_host_monitoring_whitelist_index%20%7C%20eval%20keyid%3D_key">Allowlist indexes</a>
         <a href="search?q=%7C%20inputlookup%20trackme_metric_host_monitoring_blacklist_index%20%7C%20eval%20keyid%3D_key">Blocklist indexes</a>
         <a href="search?q=%7C%20inputlookup%20trackme_metric_host_monitoring_blacklist_host%20%7C%20eval%20keyid%3D_key">Blocklist hosts</a>
         <a href="search?q=%7C%20inputlookup%20trackme_metric_host_monitoring_blacklist_metric_category%20%7C%20eval%20keyid%3D_key">Blocklist Metric categories</a>
