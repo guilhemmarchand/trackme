@@ -17,6 +17,7 @@ TrackMe requires a summary index (defaults to trackme_summary) and a metric inde
 https://trackme.readthedocs.io/en/latest/configuration.html
 
 - Enhancement - Issue #335 - addresses memory overhead of the metric trackers using span=1s by default
+- Fix - Issue #336 - Fix - SmartStatus - future tolerance macro is not taken into account by the endpoint
 - Fix - Issue #333 - Nav - Wrong search for metric hosts allow list collection
 - Change - Nav - remaining whitelist and blocklists terms
 

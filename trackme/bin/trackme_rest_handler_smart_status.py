@@ -6,6 +6,7 @@ import splunk.Intersplunk
 import json
 import re
 import datetime, time
+import requests
 
 logger = logging.getLogger(__name__)
 
@@ -69,6 +70,11 @@ class TrackMeHandlerSmartStatus_v1(rest_handler.RESTHandler):
                                             namespace='trackme', sessionKey=request_info.session_key, owner='-')
         splunkd_port = entity['mgmtHostPort']
 
+        # Define an header for requests authenticated communications with splunkd
+        header = {
+            'Authorization': 'Splunk %s' % request_info.session_key,
+            'Content-Type': 'application/json'}
+
         try:
 
             collection_name = "kv_trackme_data_source_monitoring"            
@@ -92,6 +98,21 @@ class TrackMeHandlerSmartStatus_v1(rest_handler.RESTHandler):
                 
             # Render result
             if key is not None and len(key)>2:
+
+                # Get the definition for the tolerance of data in the future
+                record_url = 'https://localhost:' + str(splunkd_port) \
+                            + '/servicesNS/-/-/admin/macros/trackme_future_indexing_tolerance'
+
+                response = requests.get(record_url, headers=header, verify=False)
+                if response.status_code == 200:
+                    splunk_response = response.text
+                    future_tolerance_match = re.search('name=\"definition\"\>\"{0,1}(\-{0,1}\d*)\"{0,1}\<', splunk_response, re.IGNORECASE)
+                    if future_tolerance_match:
+                        future_tolerance = future_tolerance_match.group(1)
+                    else:
+                        future_tolerance = "-600"
+                else:
+                    future_tolerance = "-600"
 
                 # inititate the smart_code status, we start at 0 then increment using the following rules:
                 # - TBD
@@ -301,7 +322,7 @@ class TrackMeHandlerSmartStatus_v1(rest_handler.RESTHandler):
                             searchquery = "| tstats max(_time) as data_last_time_seen "\
                             + "where " + str(where_constraint) + " by host"\
                             + " | eval event_lag=now()-data_last_time_seen"\
-                            + " | where (event_lag<-600)"\
+                            + " | where (event_lag<" + str(future_tolerance) + ")"\
                             + " | sort - limit=10 event_lag"\
                             + " | foreach event_lag [ eval <<FIELD>> = if('<<FIELD>>'>60, tostring(round('<<FIELD>>',0),\"duration\"), round('<<FIELD>>', 0)) ]"\
                             + ' | eval summary = host . " (event_lag: " . event_lag . ")"'\
@@ -322,7 +343,7 @@ class TrackMeHandlerSmartStatus_v1(rest_handler.RESTHandler):
                             searchquery = "| tstats max(_time) as data_last_time_seen "\
                             + "where (" + str(elastic_source_search_constraint) + ") by host"\
                             + " | eval event_lag=now()-data_last_time_seen"\
-                            + " | where (event_lag<-600)"\
+                            + " | where (event_lag<" + str(future_tolerance) + ")"\
                             + " | sort - limit=10 event_lag"\
                             + " | foreach event_lag [ eval <<FIELD>> = if('<<FIELD>>'>60, tostring(round('<<FIELD>>',0),\"duration\"), round('<<FIELD>>', 0)) ]"\
                             + ' | eval summary = host . " (event_lag: " . event_lag . ")"'\
@@ -343,7 +364,7 @@ class TrackMeHandlerSmartStatus_v1(rest_handler.RESTHandler):
                             searchquery = "search " + str(elastic_source_search_constraint)\
                             + " | stats max(_time) as data_last_time_seen by host"\
                             + " | eval event_lag=now()-data_last_time_seen"\
-                            + " | where (event_lag<-600)"\
+                            + " | where (event_lag<" + str(future_tolerance) + ")"\
                             + " | sort - limit=10 event_lag"\
                             + " | foreach event_lag [ eval <<FIELD>> = if('<<FIELD>>'>60, tostring(round('<<FIELD>>',0),\"duration\"), round('<<FIELD>>', 0)) ]"\
                             + ' | eval summary = host . " (event_lag: " . event_lag . ")"'\
@@ -364,7 +385,7 @@ class TrackMeHandlerSmartStatus_v1(rest_handler.RESTHandler):
                             searchquery = "| mstats latest(_value) as value where " + str(elastic_source_search_constraint) + " by host, metric_name span=1s"\
                             + " | stats max(_time) as lastTime by metric_name"\
                             + " | eval metric_lag=now()-lastTime"\
-                            + " | where (metric_lag><-600)"\
+                            + " | where (metric_lag><" + str(future_tolerance) + ")"\
                             + " | sort - limit=10 metric_lag"\
                             + " | foreach metric_lag [ eval <<FIELD>> = if('<<FIELD>>'>60, tostring(round('<<FIELD>>',0),\"duration\"), round('<<FIELD>>', 0)) ]"\
                             + " | fields metric_name, metric_lag"\
@@ -390,7 +411,7 @@ class TrackMeHandlerSmartStatus_v1(rest_handler.RESTHandler):
                                 searchquery = "| from " + str(elastic_source_search_constraint)\
                                 + " | stats max(_time) as data_last_time_seen by host"\
                                 + " | eval event_lag=now()-data_last_time_seen"\
-                                + " | where (event_lag<-600)"\
+                                + " | where (event_lag<" + str(future_tolerance) + ")"\
                                 + " | sort - limit=10 event_lag"\
                                 + " | foreach event_lag [ eval <<FIELD>> = if('<<FIELD>>'>60, tostring(round('<<FIELD>>',0),\"duration\"), round('<<FIELD>>', 0)) ]"\
                                 + ' | eval summary = host . " (event_lag: " . event_lag . ")"'\
@@ -424,7 +445,7 @@ class TrackMeHandlerSmartStatus_v1(rest_handler.RESTHandler):
                             + "| tstats max(_time) as data_last_time_seen "\
                             + "where (" + str(elastic_source_from_part2) + ") by host"\
                             + " | eval event_lag=now()-data_last_time_seen"\
-                            + " | where (event_lag<-600)"\
+                            + " | where (event_lag<" + str(future_tolerance) + ")"\
                             + " | sort - limit=10 event_lag"\
                             + " | foreach event_lag [ eval <<FIELD>> = if('<<FIELD>>'>60, tostring(round('<<FIELD>>',0),\\\"duration\\\"), round('<<FIELD>>', 0)) ]"\
                             + ' | eval summary = host . \\" (event_lag: \\" . event_lag . \\")\\"'\
@@ -447,7 +468,7 @@ class TrackMeHandlerSmartStatus_v1(rest_handler.RESTHandler):
                             + " search " + str(elastic_source_from_part2)\
                             + " | stats max(_time) as data_last_time_seen by host"\
                             + " | eval event_lag=now()-data_last_time_seen"\
-                            + " | where (event_lag<-600)"\
+                            + " | where (event_lag<" + str(future_tolerance) + ")"\
                             + " | sort - limit=10 event_lag"\
                             + " | foreach event_lag [ eval <<FIELD>> = if('<<FIELD>>'>60, tostring(round('<<FIELD>>',0),\\\"duration\\\"), round('<<FIELD>>', 0)) ]"\
                             + ' | eval summary = host . \\" (event_lag: \\" . event_lag . \\")\\"'\
@@ -474,7 +495,7 @@ class TrackMeHandlerSmartStatus_v1(rest_handler.RESTHandler):
                                 + " | from " + str(elastic_source_search_constraint)\
                                 + " | stats max(_time) as data_last_time_seen by host"\
                                 + " | eval event_lag=now()-data_last_time_seen"\
-                                + " | where (event_lag<-600)"\
+                                + " | where (event_lag<" + str(future_tolerance) + ")"\
                                 + " | sort - limit=10 event_lag"\
                                 + " | foreach event_lag [ eval <<FIELD>> = if('<<FIELD>>'>60, tostring(round('<<FIELD>>',0),\\\"duration\\\"), round('<<FIELD>>', 0)) ]"\
                                 + ' | eval summary = host . \\" (event_lag: \\" . event_lag . \\")"'\
@@ -510,7 +531,7 @@ class TrackMeHandlerSmartStatus_v1(rest_handler.RESTHandler):
                             + " | mstats latest(_value) as value where " + str(elastic_source_from_part2) + " by host, metric_name span=1s"\
                             + " | stats max(_time) as lastTime by metric_name"\
                             + " | eval metric_lag=now()-lastTime"\
-                            + " | where (metric_lag<-600)"\
+                            + " | where (metric_lag<" + str(future_tolerance) + ")"\
                             + " | sort - limit=10 metric_lag"\
                             + " | foreach metric_lag [ eval <<FIELD>> = if('<<FIELD>>'>60, tostring(round('<<FIELD>>',0),\\\"duration\\\"), round('<<FIELD>>', 0)) ]"\
                             + " | fields metric_name, metric_lag"\
@@ -1843,6 +1864,11 @@ class TrackMeHandlerSmartStatus_v1(rest_handler.RESTHandler):
                                             namespace='trackme', sessionKey=request_info.session_key, owner='-')
         splunkd_port = entity['mgmtHostPort']
 
+        # Define an header for requests authenticated communications with splunkd
+        header = {
+            'Authorization': 'Splunk %s' % request_info.session_key,
+            'Content-Type': 'application/json'}
+
         try:
 
             collection_name = "kv_trackme_host_monitoring"
@@ -1866,6 +1892,21 @@ class TrackMeHandlerSmartStatus_v1(rest_handler.RESTHandler):
                 
             # Render result
             if key is not None and len(key)>2:
+
+                # Get the definition for the tolerance of data in the future
+                record_url = 'https://localhost:' + str(splunkd_port) \
+                            + '/servicesNS/-/-/admin/macros/trackme_future_indexing_tolerance'
+
+                response = requests.get(record_url, headers=header, verify=False)
+                if response.status_code == 200:
+                    splunk_response = response.text
+                    future_tolerance_match = re.search('name=\"definition\"\>\"{0,1}(\-{0,1}\d*)\"{0,1}\<', splunk_response, re.IGNORECASE)
+                    if future_tolerance_match:
+                        future_tolerance = future_tolerance_match.group(1)
+                    else:
+                        future_tolerance = "-600"
+                else:
+                    future_tolerance = "-600"
 
                 # inititate the smart_code status, we start at 0 then increment using the following rules:
                 # - TBD
@@ -2343,6 +2384,11 @@ class TrackMeHandlerSmartStatus_v1(rest_handler.RESTHandler):
                                             namespace='trackme', sessionKey=request_info.session_key, owner='-')
         splunkd_port = entity['mgmtHostPort']
 
+        # Define an header for requests authenticated communications with splunkd
+        header = {
+            'Authorization': 'Splunk %s' % request_info.session_key,
+            'Content-Type': 'application/json'}
+
         try:
 
             collection_name = "kv_trackme_metric_host_monitoring"
@@ -2366,6 +2412,21 @@ class TrackMeHandlerSmartStatus_v1(rest_handler.RESTHandler):
                 
             # Render result
             if key is not None and len(key)>2:
+
+                # Get the definition for the tolerance of data in the future
+                record_url = 'https://localhost:' + str(splunkd_port) \
+                            + '/servicesNS/-/-/admin/macros/trackme_future_indexing_tolerance'
+
+                response = requests.get(record_url, headers=header, verify=False)
+                if response.status_code == 200:
+                    splunk_response = response.text
+                    future_tolerance_match = re.search('name=\"definition\"\>\"{0,1}(\-{0,1}\d*)\"{0,1}\<', splunk_response, re.IGNORECASE)
+                    if future_tolerance_match:
+                        future_tolerance = future_tolerance_match.group(1)
+                    else:
+                        future_tolerance = "-600"
+                else:
+                    future_tolerance = "-600"
 
                 # inititate the smart_code status, we start at 0 then increment using the following rules:
                 # - TBD
