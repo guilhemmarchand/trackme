@@ -16,6 +16,7 @@ This is a new main release branch, TrackMe 1.2.x requires the deployment of the 
 TrackMe requires a summary index (defaults to trackme_summary) and a metric index (defaults to trackme_metrics):
 https://trackme.readthedocs.io/en/latest/configuration.html
 
+- Enhancement - Issue #335 - addresses memory overhead of the metric trackers using span=1s by default
 - Fix - Issue #333 - Nav - Wrong search for metric hosts allow list collection
 - Change - Nav - remaining whitelist and blocklists terms
 
