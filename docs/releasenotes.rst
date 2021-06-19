@@ -20,6 +20,7 @@ https://trackme.readthedocs.io/en/latest/configuration.html
 - Fix - Issue #336 - Fix - SmartStatus - future tolerance macro is not taken into account by the endpoint
 - Fix - Issue #333 - Nav - Wrong search for metric hosts allow list collection
 - Fix - Issue #337 - Data sources - Short term tracker run via the UI should use latest=+4h, long term tracker should match savedsearch earliest=-24h latest=-4h
+- Fix - Issue #338 - Splunk 8.2 regression in rootUri for UI TrackMe manage drilldowns to macro due to a root URL change in manager
 - Change - Nav - remaining whitelist and blocklists terms
 
 Version 1.2.47
