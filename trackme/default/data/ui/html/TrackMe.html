@@ -19661,13 +19661,13 @@ require([
                         setToken("tk_cribl_pipe", TokenUtils.replaceTokenNames(cribl_pipe, _.extend(submittedTokenModel.toJSON(), e.data)));
 
                         // define the root search
-                        tk_data_source_overview_root_search = "| `trackme_tstats` dc(host) as dcount_host count latest(_indextime) as indextime max(_time) as maxtime where index=\"" + tk_data_index + "\" sourcetype=\"" + tk_data_sourcetype + "\" cribl_pipe::" + cribl_pipe + " by _time, index, sourcetype span=1s | eval delta=(indextime-_time), event_lag=(now() - maxtime)";
+                        tk_data_source_overview_root_search = "| `trackme_tstats` dc(host) as dcount_host count latest(_indextime) as indextime max(_time) as maxtime where index=\"" + tk_data_index + "\" sourcetype=\"" + tk_data_sourcetype + "\" cribl_pipe::" + cribl_pipe + " `trackme_tstats_main_filter` by _time, index, sourcetype span=1s | eval delta=(indextime-_time), event_lag=(now() - maxtime)";
                         tk_data_source_raw_search = "null";
                         setToken("tk_data_source_timechart_count_aggreg", TokenUtils.replaceTokenNames("sum", _.extend(submittedTokenModel.toJSON(), e.data)));
 
                     }
                     else {
-                        tk_data_source_overview_root_search = "| `trackme_tstats` dc(host) as dcount_host count latest(_indextime) as indextime max(_time) as maxtime where index=\"" + tk_data_index + "\" sourcetype=\"" + tk_data_sourcetype + "\" by _time, index, sourcetype span=1s | eval delta=(indextime-_time), event_lag=(now() - maxtime)";
+                        tk_data_source_overview_root_search = "| `trackme_tstats` dc(host) as dcount_host count latest(_indextime) as indextime max(_time) as maxtime where index=\"" + tk_data_index + "\" sourcetype=\"" + tk_data_sourcetype + "\" `trackme_tstats_main_filter` by _time, index, sourcetype span=1s | eval delta=(indextime-_time), event_lag=(now() - maxtime)";
                         tk_data_source_raw_search = "null";
                         setToken("tk_data_source_timechart_count_aggreg", TokenUtils.replaceTokenNames("sum", _.extend(submittedTokenModel.toJSON(), e.data)));
                     }
@@ -19766,7 +19766,7 @@ require([
 
                 else
                 {
-                    tk_data_source_overview_root_search = "| `trackme_tstats` dc(host) as dcount_host count latest(_indextime) as indextime max(_time) as maxtime where index=\"" + tk_data_index + "\" sourcetype=\"" + tk_data_sourcetype + "\" by _time, index, sourcetype span=1s | eval delta=(indextime-_time), event_lag=(now() - maxtime)";
+                    tk_data_source_overview_root_search = "| `trackme_tstats` dc(host) as dcount_host count latest(_indextime) as indextime max(_time) as maxtime where index=\"" + tk_data_index + "\" sourcetype=\"" + tk_data_sourcetype + "\" `trackme_tstats_main_filter` by _time, index, sourcetype span=1s | eval delta=(indextime-_time), event_lag=(now() - maxtime)";
                     setToken("tk_data_source_timechart_count_aggreg", TokenUtils.replaceTokenNames("sum", _.extend(submittedTokenModel.toJSON(), e.data)));
                 }
 
