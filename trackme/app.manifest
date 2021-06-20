@@ -5,13 +5,13 @@
     "id": {
       "group": null,
       "name": "trackme",
-      "version": "1.2.47"
+      "version": "1.2.48"
     },
     "author": [
       {
         "name": "Guilhem Marchand",
         "email": "guilhem.marchand@gmail.com",
-        "company": "Octamis"
+        "company": null
       }
     ],
     "releaseDate": null,
