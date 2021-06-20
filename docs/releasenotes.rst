@@ -1,6 +1,29 @@
 Release notes
 #############
 
+Version 1.2.48
+==============
+
+**CAUTION:**
+
+This is a new main release branch, TrackMe 1.2.x requires the deployment of the following dependencies:
+
+- Semicircle Donut Chart Viz, Splunk Base: https://splunkbase.splunk.com/app/4378
+- Splunk Machine Learning Toolkit, Splunk Base: https://splunkbase.splunk.com/app/2890
+- Splunk Timeline - Custom Visualization, Splunk Base: https://splunkbase.splunk.com/app/3120
+- Splunk SA CIM - Splunk Common Information Model, Splunk Base: https://splunkbase.splunk.com/app/1621
+
+TrackMe requires a summary index (defaults to trackme_summary) and a metric index (defaults to trackme_metrics):
+https://trackme.readthedocs.io/en/latest/configuration.html
+
+- Enhancement - Issue #335 - addresses memory overhead of the metric trackers using span=1s by default
+- Fix - Issue #336 - Fix - SmartStatus - future tolerance macro is not taken into account by the endpoint
+- Fix - Issue #333 - Nav - Wrong search for metric hosts allow list collection
+- Fix - Issue #337 - Data sources - Short term tracker run via the UI should use latest=+4h, long term tracker should match savedsearch earliest=-24h latest=-4h
+- Fix - Issue #338 - Splunk 8.2 regression in rootUri for UI TrackMe manage drilldowns to macro due to a root URL change in manager
+- Fix - Issue #339 - Data sources - Data source overview chart tab should honor the trackme_tstats_main_filter macro
+- Change - Nav - remaining whitelist and blocklists terms
+
 Version 1.2.47
 ==============
 

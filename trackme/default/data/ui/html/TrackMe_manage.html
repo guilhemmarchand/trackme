@@ -2361,6 +2361,17 @@ require([
         // VIEWS: FORM INPUTS
         //
 
+        function defineRootUri() {
+            var rootUri;
+            var splunkVersion = $C.VERSION_LABEL.replace(".", "")
+                if (Number(splunkVersion) >= '82') {
+                    var rootUri = '/en-GB/manager/trackme/data/macros/';
+                } else {
+                    var rootUri = '/en-GB/manager/trackme/admin/macros/';
+                }
+                return rootUri;
+        }
+
         // manage and configure
 
         var elementTable_tstats = new TableElement({
@@ -2379,7 +2390,8 @@ require([
         elementTable_tstats.on("click", function(e) {
             if (e.field !== undefined) {
                 e.preventDefault();
-                var url = TokenUtils.replaceTokenNames("/en-GB/manager/trackme/admin/macros/trackme_tstats?action=edit", _.extend(submittedTokenModel.toJSON(), e.data), TokenUtils.getEscaper('url'), TokenUtils.getFilters(mvc.Components));
+                rootUri = defineRootUri();
+                var url = TokenUtils.replaceTokenNames(rootUri + "trackme_tstats?action=edit", _.extend(submittedTokenModel.toJSON(), e.data), TokenUtils.getEscaper('url'), TokenUtils.getFilters(mvc.Components));
                 utils.redirect(url, false, "_blank");
             }
         });
@@ -2400,7 +2412,8 @@ require([
         elementTable_trackme_idx_filter.on("click", function(e) {
             if (e.field !== undefined) {
                 e.preventDefault();
-                var url = TokenUtils.replaceTokenNames("/en-GB/manager/trackme/admin/macros/trackme_idx_filter?action=edit", _.extend(submittedTokenModel.toJSON(), e.data), TokenUtils.getEscaper('url'), TokenUtils.getFilters(mvc.Components));
+                rootUri = defineRootUri();
+                var url = TokenUtils.replaceTokenNames(rootUri + "trackme_idx_filter?action=edit", _.extend(submittedTokenModel.toJSON(), e.data), TokenUtils.getEscaper('url'), TokenUtils.getFilters(mvc.Components));
                 utils.redirect(url, false, "_blank");
             }
         });
@@ -2421,7 +2434,8 @@ require([
         elementTable_trackme_idx_summary.on("click", function(e) {
             if (e.field !== undefined) {
                 e.preventDefault();
-                var url = TokenUtils.replaceTokenNames("/en-GB/manager/trackme/admin/macros/trackme_idx?action=edit", _.extend(submittedTokenModel.toJSON(), e.data), TokenUtils.getEscaper('url'), TokenUtils.getFilters(mvc.Components));
+                rootUri = defineRootUri();
+                var url = TokenUtils.replaceTokenNames(rootUri + "trackme_idx?action=edit", _.extend(submittedTokenModel.toJSON(), e.data), TokenUtils.getEscaper('url'), TokenUtils.getFilters(mvc.Components));
                 utils.redirect(url, false, "_blank");
             }
         });
@@ -2442,7 +2456,8 @@ require([
         elementTable_trackme_metrics_idx.on("click", function(e) {
             if (e.field !== undefined) {
                 e.preventDefault();
-                var url = TokenUtils.replaceTokenNames("/en-GB/manager/trackme/admin/macros/trackme_metrics_idx?action=edit", _.extend(submittedTokenModel.toJSON(), e.data), TokenUtils.getEscaper('url'), TokenUtils.getFilters(mvc.Components));
+                rootUri = defineRootUri();
+                var url = TokenUtils.replaceTokenNames(rootUri + "trackme_metrics_idx?action=edit", _.extend(submittedTokenModel.toJSON(), e.data), TokenUtils.getEscaper('url'), TokenUtils.getFilters(mvc.Components));
                 utils.redirect(url, false, "_blank");
             }
         });
@@ -2463,7 +2478,8 @@ require([
         elementTable_trackme_default_outlier_threshold_multiplier.on("click", function(e) {
             if (e.field !== undefined) {
                 e.preventDefault();
-                var url = TokenUtils.replaceTokenNames("/en-GB/manager/trackme/admin/macros/trackme_default_outlier_threshold_multiplier?action=edit", _.extend(submittedTokenModel.toJSON(), e.data), TokenUtils.getEscaper('url'), TokenUtils.getFilters(mvc.Components));
+                rootUri = defineRootUri();
+                var url = TokenUtils.replaceTokenNames(rootUri + "trackme_default_outlier_threshold_multiplier?action=edit", _.extend(submittedTokenModel.toJSON(), e.data), TokenUtils.getEscaper('url'), TokenUtils.getFilters(mvc.Components));
                 utils.redirect(url, false, "_blank");
             }
         });
@@ -2484,7 +2500,8 @@ require([
         elementTable_trackme_default_outlier_period.on("click", function(e) {
             if (e.field !== undefined) {
                 e.preventDefault();
-                var url = TokenUtils.replaceTokenNames("/en-GB/manager/trackme/admin/macros/trackme_default_outlier_period?action=edit", _.extend(submittedTokenModel.toJSON(), e.data), TokenUtils.getEscaper('url'), TokenUtils.getFilters(mvc.Components));
+                rootUri = defineRootUri();
+                var url = TokenUtils.replaceTokenNames(rootUri + "trackme_default_outlier_period?action=edit", _.extend(submittedTokenModel.toJSON(), e.data), TokenUtils.getEscaper('url'), TokenUtils.getFilters(mvc.Components));
                 utils.redirect(url, false, "_blank");
             }
         });
@@ -2505,7 +2522,8 @@ require([
         elementTable_trackme_default_outlier_alert_on_upper.on("click", function(e) {
             if (e.field !== undefined) {
                 e.preventDefault();
-                var url = TokenUtils.replaceTokenNames("/en-GB/manager/trackme/admin/macros/trackme_default_outlier_alert_on_upper?action=edit", _.extend(submittedTokenModel.toJSON(), e.data), TokenUtils.getEscaper('url'), TokenUtils.getFilters(mvc.Components));
+                rootUri = defineRootUri();
+                var url = TokenUtils.replaceTokenNames(rootUri + "trackme_default_outlier_alert_on_upper?action=edit", _.extend(submittedTokenModel.toJSON(), e.data), TokenUtils.getEscaper('url'), TokenUtils.getFilters(mvc.Components));
                 utils.redirect(url, false, "_blank");
             }
         });
@@ -2526,7 +2544,8 @@ require([
         elementTable_trackme_default_enable_behaviour_analytic.on("click", function(e) {
             if (e.field !== undefined) {
                 e.preventDefault();
-                var url = TokenUtils.replaceTokenNames("/en-GB/manager/trackme/admin/macros/trackme_default_enable_behaviour_analytic?action=edit", _.extend(submittedTokenModel.toJSON(), e.data), TokenUtils.getEscaper('url'), TokenUtils.getFilters(mvc.Components));
+                rootUri = defineRootUri();
+                var url = TokenUtils.replaceTokenNames(rootUri + "trackme_default_enable_behaviour_analytic?action=edit", _.extend(submittedTokenModel.toJSON(), e.data), TokenUtils.getEscaper('url'), TokenUtils.getFilters(mvc.Components));
                 utils.redirect(url, false, "_blank");
             }
         });
@@ -2547,7 +2566,8 @@ require([
         elementTable_trackme_identity_card_default_url.on("click", function(e) {
             if (e.field !== undefined) {
                 e.preventDefault();
-                var url = TokenUtils.replaceTokenNames("/en-GB/manager/trackme/admin/macros/trackme_identity_card_default_url?action=edit", _.extend(submittedTokenModel.toJSON(), e.data), TokenUtils.getEscaper('url'), TokenUtils.getFilters(mvc.Components));
+                rootUri = defineRootUri();
+                var url = TokenUtils.replaceTokenNames(rootUri + "trackme_identity_card_default_url?action=edit", _.extend(submittedTokenModel.toJSON(), e.data), TokenUtils.getEscaper('url'), TokenUtils.getFilters(mvc.Components));
                 utils.redirect(url, false, "_blank");
             }
         });
@@ -2568,7 +2588,8 @@ require([
         elementTable_trackme_identity_card_default_note.on("click", function(e) {
             if (e.field !== undefined) {
                 e.preventDefault();
-                var url = TokenUtils.replaceTokenNames("/en-GB/manager/trackme/admin/macros/trackme_identity_card_default_note?action=edit", _.extend(submittedTokenModel.toJSON(), e.data), TokenUtils.getEscaper('url'), TokenUtils.getFilters(mvc.Components));
+                rootUri = defineRootUri();
+                var url = TokenUtils.replaceTokenNames(rootUri + "trackme_identity_card_default_note?action=edit", _.extend(submittedTokenModel.toJSON(), e.data), TokenUtils.getEscaper('url'), TokenUtils.getFilters(mvc.Components));
                 utils.redirect(url, false, "_blank");
             }
         });
@@ -2589,7 +2610,8 @@ require([
         elementTable_trackme_tstats_main_filter.on("click", function(e) {
             if (e.field !== undefined) {
                 e.preventDefault();
-                var url = TokenUtils.replaceTokenNames("/en-GB/manager/trackme/admin/macros/trackme_tstats_main_filter?action=edit", _.extend(submittedTokenModel.toJSON(), e.data), TokenUtils.getEscaper('url'), TokenUtils.getFilters(mvc.Components));
+                rootUri = defineRootUri();
+                var url = TokenUtils.replaceTokenNames(rootUri + "trackme_tstats_main_filter?action=edit", _.extend(submittedTokenModel.toJSON(), e.data), TokenUtils.getEscaper('url'), TokenUtils.getFilters(mvc.Components));
                 utils.redirect(url, false, "_blank");
             }
         });
@@ -2610,7 +2632,8 @@ require([
         elementTable_trackme_alerts_priority.on("click", function(e) {
             if (e.field !== undefined) {
                 e.preventDefault();
-                var url = TokenUtils.replaceTokenNames("/en-GB/manager/trackme/admin/macros/trackme_alerts_priority?action=edit", _.extend(submittedTokenModel.toJSON(), e.data), TokenUtils.getEscaper('url'), TokenUtils.getFilters(mvc.Components));
+                rootUri = defineRootUri();
+                var url = TokenUtils.replaceTokenNames(rootUri + "trackme_alerts_priority?action=edit", _.extend(submittedTokenModel.toJSON(), e.data), TokenUtils.getEscaper('url'), TokenUtils.getFilters(mvc.Components));
                 utils.redirect(url, false, "_blank");
             }
         });
@@ -2631,7 +2654,8 @@ require([
         elementTable_trackme_default_monitored_state.on("click", function(e) {
             if (e.field !== undefined) {
                 e.preventDefault();
-                var url = TokenUtils.replaceTokenNames("/en-GB/manager/trackme/admin/macros/trackme_default_monitored_state?action=edit", _.extend(submittedTokenModel.toJSON(), e.data), TokenUtils.getEscaper('url'), TokenUtils.getFilters(mvc.Components));
+                rootUri = defineRootUri();
+                var url = TokenUtils.replaceTokenNames(rootUri + "trackme_default_monitored_state?action=edit", _.extend(submittedTokenModel.toJSON(), e.data), TokenUtils.getEscaper('url'), TokenUtils.getFilters(mvc.Components));
                 utils.redirect(url, false, "_blank");
             }
         });
@@ -2652,7 +2676,8 @@ require([
         elementTable_trackme_default_host_monitored_state.on("click", function(e) {
             if (e.field !== undefined) {
                 e.preventDefault();
-                var url = TokenUtils.replaceTokenNames("/en-GB/manager/trackme/admin/macros/trackme_default_host_monitored_state?action=edit", _.extend(submittedTokenModel.toJSON(), e.data), TokenUtils.getEscaper('url'), TokenUtils.getFilters(mvc.Components));
+                rootUri = defineRootUri();
+                var url = TokenUtils.replaceTokenNames(rootUri + "trackme_default_host_monitored_state?action=edit", _.extend(submittedTokenModel.toJSON(), e.data), TokenUtils.getEscaper('url'), TokenUtils.getFilters(mvc.Components));
                 utils.redirect(url, false, "_blank");
             }
         });
@@ -2673,7 +2698,8 @@ require([
         elementTable_trackme_default_metric_host_monitored_state.on("click", function(e) {
             if (e.field !== undefined) {
                 e.preventDefault();
-                var url = TokenUtils.replaceTokenNames("/en-GB/manager/trackme/admin/macros/trackme_default_metric_host_monitored_state?action=edit", _.extend(submittedTokenModel.toJSON(), e.data), TokenUtils.getEscaper('url'), TokenUtils.getFilters(mvc.Components));
+                rootUri = defineRootUri();
+                var url = TokenUtils.replaceTokenNames(rootUri + "trackme_default_metric_host_monitored_state?action=edit", _.extend(submittedTokenModel.toJSON(), e.data), TokenUtils.getEscaper('url'), TokenUtils.getFilters(mvc.Components));
                 utils.redirect(url, false, "_blank");
             }
         });
@@ -2694,7 +2720,8 @@ require([
         elementTable_trackme_default_lag.on("click", function(e) {
             if (e.field !== undefined) {
                 e.preventDefault();
-                var url = TokenUtils.replaceTokenNames("/en-GB/manager/trackme/admin/macros/trackme_default_lag?action=edit", _.extend(submittedTokenModel.toJSON(), e.data), TokenUtils.getEscaper('url'), TokenUtils.getFilters(mvc.Components));
+                rootUri = defineRootUri();
+                var url = TokenUtils.replaceTokenNames(rootUri + "trackme_default_lag?action=edit", _.extend(submittedTokenModel.toJSON(), e.data), TokenUtils.getEscaper('url'), TokenUtils.getFilters(mvc.Components));
                 utils.redirect(url, false, "_blank");
             }
         });
@@ -2715,7 +2742,8 @@ require([
         elementTable_trackme_default_host_lag.on("click", function(e) {
             if (e.field !== undefined) {
                 e.preventDefault();
-                var url = TokenUtils.replaceTokenNames("/en-GB/manager/trackme/admin/macros/trackme_default_host_lag?action=edit", _.extend(submittedTokenModel.toJSON(), e.data), TokenUtils.getEscaper('url'), TokenUtils.getFilters(mvc.Components));
+                rootUri = defineRootUri();
+                var url = TokenUtils.replaceTokenNames(rootUri + "trackme_default_host_lag?action=edit", _.extend(submittedTokenModel.toJSON(), e.data), TokenUtils.getEscaper('url'), TokenUtils.getFilters(mvc.Components));
                 utils.redirect(url, false, "_blank");
             }
         });
@@ -2736,7 +2764,8 @@ require([
         elementTable_trackme_default_metric_host_lag.on("click", function(e) {
             if (e.field !== undefined) {
                 e.preventDefault();
-                var url = TokenUtils.replaceTokenNames("/en-GB/manager/trackme/admin/macros/trackme_default_metric_host_lag?action=edit", _.extend(submittedTokenModel.toJSON(), e.data), TokenUtils.getEscaper('url'), TokenUtils.getFilters(mvc.Components));
+                rootUri = defineRootUri();
+                var url = TokenUtils.replaceTokenNames(rootUri + "trackme_default_metric_host_lag?action=edit", _.extend(submittedTokenModel.toJSON(), e.data), TokenUtils.getEscaper('url'), TokenUtils.getFilters(mvc.Components));
                 utils.redirect(url, false, "_blank");
             }
         });
@@ -2757,7 +2786,8 @@ require([
         elementTable_trackme_audit_changes_retention.on("click", function(e) {
             if (e.field !== undefined) {
                 e.preventDefault();
-                var url = TokenUtils.replaceTokenNames("/en-GB/manager/trackme/admin/macros/trackme_audit_changes_retention?action=edit", _.extend(submittedTokenModel.toJSON(), e.data), TokenUtils.getEscaper('url'), TokenUtils.getFilters(mvc.Components));
+                rootUri = defineRootUri();
+                var url = TokenUtils.replaceTokenNames(rootUri + "trackme_audit_changes_retention?action=edit", _.extend(submittedTokenModel.toJSON(), e.data), TokenUtils.getEscaper('url'), TokenUtils.getFilters(mvc.Components));
                 utils.redirect(url, false, "_blank");
             }
         });
@@ -2778,7 +2808,8 @@ require([
         elementTable_trackme_ack_default_duration.on("click", function(e) {
             if (e.field !== undefined) {
                 e.preventDefault();
-                var url = TokenUtils.replaceTokenNames("/en-GB/manager/trackme/admin/macros/trackme_ack_default_duration?action=edit", _.extend(submittedTokenModel.toJSON(), e.data), TokenUtils.getEscaper('url'), TokenUtils.getFilters(mvc.Components));
+                rootUri = defineRootUri();
+                var url = TokenUtils.replaceTokenNames(rootUri + "trackme_ack_default_duration?action=edit", _.extend(submittedTokenModel.toJSON(), e.data), TokenUtils.getEscaper('url'), TokenUtils.getFilters(mvc.Components));
                 utils.redirect(url, false, "_blank");
             }
         });
@@ -2799,7 +2830,8 @@ require([
         elementTable_trackme_future_indexing_tolerance.on("click", function(e) {
             if (e.field !== undefined) {
                 e.preventDefault();
-                var url = TokenUtils.replaceTokenNames("/en-GB/manager/trackme/admin/macros/trackme_future_indexing_tolerance?action=edit", _.extend(submittedTokenModel.toJSON(), e.data), TokenUtils.getEscaper('url'), TokenUtils.getFilters(mvc.Components));
+                rootUri = defineRootUri();
+                var url = TokenUtils.replaceTokenNames(rootUri + "trackme_future_indexing_tolerance?action=edit", _.extend(submittedTokenModel.toJSON(), e.data), TokenUtils.getEscaper('url'), TokenUtils.getFilters(mvc.Components));
                 utils.redirect(url, false, "_blank");
             }
         });
@@ -2820,7 +2852,8 @@ require([
         elementTable_trackme_data_host_rule_filter.on("click", function(e) {
             if (e.field !== undefined) {
                 e.preventDefault();
-                var url = TokenUtils.replaceTokenNames("/en-GB/manager/trackme/admin/macros/trackme_data_host_rule_filter(1)?action=edit", _.extend(submittedTokenModel.toJSON(), e.data), TokenUtils.getEscaper('url'), TokenUtils.getFilters(mvc.Components));
+                rootUri = defineRootUri();
+                var url = TokenUtils.replaceTokenNames(rootUri + "trackme_data_host_rule_filter(1)?action=edit", _.extend(submittedTokenModel.toJSON(), e.data), TokenUtils.getEscaper('url'), TokenUtils.getFilters(mvc.Components));
                 utils.redirect(url, false, "_blank");
             }
         });
@@ -2841,7 +2874,8 @@ require([
         elementTable_trackme_get_data_host_tags.on("click", function(e) {
             if (e.field !== undefined) {
                 e.preventDefault();
-                var url = TokenUtils.replaceTokenNames("/en-GB/manager/trackme/admin/macros/trackme_get_data_host_tags?action=edit", _.extend(submittedTokenModel.toJSON(), e.data), TokenUtils.getEscaper('url'), TokenUtils.getFilters(mvc.Components));
+                rootUri = defineRootUri();
+                var url = TokenUtils.replaceTokenNames(rootUri + "trackme_get_data_host_tags?action=edit", _.extend(submittedTokenModel.toJSON(), e.data), TokenUtils.getEscaper('url'), TokenUtils.getFilters(mvc.Components));
                 utils.redirect(url, false, "_blank");
             }
         });
@@ -2862,7 +2896,8 @@ require([
         elementTable_trackme_data_sampling_max_allowed_runtime_sec.on("click", function(e) {
             if (e.field !== undefined) {
                 e.preventDefault();
-                var url = TokenUtils.replaceTokenNames("/en-GB/manager/trackme/admin/macros/trackme_data_sampling_max_allowed_runtime_sec?action=edit", _.extend(submittedTokenModel.toJSON(), e.data), TokenUtils.getEscaper('url'), TokenUtils.getFilters(mvc.Components));
+                rootUri = defineRootUri();
+                var url = TokenUtils.replaceTokenNames(rootUri + "trackme_data_sampling_max_allowed_runtime_sec?action=edit", _.extend(submittedTokenModel.toJSON(), e.data), TokenUtils.getEscaper('url'), TokenUtils.getFilters(mvc.Components));
                 utils.redirect(url, false, "_blank");
             }
         });
@@ -2883,7 +2918,8 @@ require([
         elementTable_trackme_data_sampling_default_sample_record_at_discovery.on("click", function(e) {
             if (e.field !== undefined) {
                 e.preventDefault();
-                var url = TokenUtils.replaceTokenNames("/en-GB/manager/trackme/admin/macros/trackme_data_sampling_default_sample_record_at_discovery?action=edit", _.extend(submittedTokenModel.toJSON(), e.data), TokenUtils.getEscaper('url'), TokenUtils.getFilters(mvc.Components));
+                rootUri = defineRootUri();
+                var url = TokenUtils.replaceTokenNames(rootUri + "trackme_data_sampling_default_sample_record_at_discovery?action=edit", _.extend(submittedTokenModel.toJSON(), e.data), TokenUtils.getEscaper('url'), TokenUtils.getFilters(mvc.Components));
                 utils.redirect(url, false, "_blank");
             }
         });
@@ -2904,7 +2940,8 @@ require([
         elementTable_trackme_data_sampling_default_sample_record_at_run.on("click", function(e) {
             if (e.field !== undefined) {
                 e.preventDefault();
-                var url = TokenUtils.replaceTokenNames("/en-GB/manager/trackme/admin/macros/trackme_data_sampling_default_sample_record_at_run?action=edit", _.extend(submittedTokenModel.toJSON(), e.data), TokenUtils.getEscaper('url'), TokenUtils.getFilters(mvc.Components));
+                rootUri = defineRootUri();
+                var url = TokenUtils.replaceTokenNames(rootUri + "trackme_data_sampling_default_sample_record_at_run?action=edit", _.extend(submittedTokenModel.toJSON(), e.data), TokenUtils.getEscaper('url'), TokenUtils.getFilters(mvc.Components));
                 utils.redirect(url, false, "_blank");
             }
         });
@@ -2925,7 +2962,8 @@ require([
         elementTable_trackme_get_metric_host_tags.on("click", function(e) {
             if (e.field !== undefined) {
                 e.preventDefault();
-                var url = TokenUtils.replaceTokenNames("/en-GB/manager/trackme/admin/macros/trackme_get_metric_host_tags?action=edit", _.extend(submittedTokenModel.toJSON(), e.data), TokenUtils.getEscaper('url'), TokenUtils.getFilters(mvc.Components));
+                rootUri = defineRootUri();
+                var url = TokenUtils.replaceTokenNames(rootUri + "trackme_get_metric_host_tags?action=edit", _.extend(submittedTokenModel.toJSON(), e.data), TokenUtils.getEscaper('url'), TokenUtils.getFilters(mvc.Components));
                 utils.redirect(url, false, "_blank");
             }
         });
@@ -2946,7 +2984,8 @@ require([
         elementTable_trackme_auto_disablement_period.on("click", function(e) {
             if (e.field !== undefined) {
                 e.preventDefault();
-                var url = TokenUtils.replaceTokenNames("/en-GB/manager/trackme/admin/macros/trackme_auto_disablement_period?action=edit", _.extend(submittedTokenModel.toJSON(), e.data), TokenUtils.getEscaper('url'), TokenUtils.getFilters(mvc.Components));
+                rootUri = defineRootUri();
+                var url = TokenUtils.replaceTokenNames(rootUri + "trackme_auto_disablement_period?action=edit", _.extend(submittedTokenModel.toJSON(), e.data), TokenUtils.getEscaper('url'), TokenUtils.getFilters(mvc.Components));
                 utils.redirect(url, false, "_blank");
             }
         });
