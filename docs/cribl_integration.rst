@@ -123,3 +123,97 @@ From the TrackMe point of view, the pre-processing pipeline view has no value an
 Congratulations!
 
 You have a now a comprehensive integration between the wonderful and amazing Cribl LogStream and TrackMe allowing you to track your Splunk data the easy way!
+
+Handling both Cribl mode and regular mode
+-----------------------------------------
+
+In some deployments, you may have both Cribl Logstream feeding Splunk, and regular other types of data coming from Universal or Heavy Forwarders.
+
+When TrackMe is configured in the Cribl mode, only data coming from Cribl Logstream will be taken into account, which happens because we expect a ``cribl_pipe`` indexed field for every data source to be discovered and maintained.
+
+However, with some minor manual steps, you can easily work in hybrid mode and have data sources handled automatically for both Cribl Logstream originating data, and regular data indexed directly.
+
+This process is currently manual, which might be improved in a future release of TrackMe.
+
+Clone Data sources trackers
+^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+First, clone the abstract report named ``TrackMe - Data sources abstract root tracker``, example: ``TrackMe - Data sources abstract root tracker - Not Cribl``
+
+This report is used by both the short term and long term trackers to reduce the amount of duplicated SPL lines of codes, you can achieve the clone via Splunk Web (Settings, Searches, reports and alerts), or manually via configuration files if you prefer.
+
+Next, clone the scheduled report named ``TrackMe - Data sources availability short term tracker``, example: ``TrackMe - Data sources availability short term tracker - Not Cribl``
+
+Finally, clone the scheduled report named ``TrackMe - Data sources availability long term tracker``, example: ``TrackMe - Data sources availability short term tracker - Not Cribl``
+
+Update Data sources abstract report
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Edit the newly created abstract report ``TrackMe - Data sources abstract root tracker - Not Cribl``:
+
+**1 - Update the split by condition**
+
+*Locate in the first line:*
+
+::
+
+   by `trackme_data_source_tstats_root_splitby`
+
+*And replace with:*
+
+::
+
+   by `trackme_data_source_tstats_root_splitby_regular`
+
+**2 - Update the where statement**
+
+*Still in the first line, locate:*
+
+::
+
+   where index=* sourcetype=*
+
+*And replace with:*
+
+::
+
+   where index=* sourcetype=* cribl_pipe!=*
+
+*Note: this will ensure these trackers only care about data not originating from Cribl Logstream.*
+
+**3 - Update the intermediate calculation**
+
+*locate in the report the line:*
+
+::
+
+   | `trackme_default_data_source_mode`
+
+*And replace with:*
+
+::
+
+   | `trackme_data_source_split_mode`
+
+Update Data sources short and long term trackers
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+For both the short term and long term trackers newly created, edit the report and:
+
+*Locate the first line:*
+
+::
+
+   | savedsearch "TrackMe - Data sources abstract root tracker"
+
+*And replace with:*
+
+::
+
+   | savedsearch "TrackMe - Data sources abstract root tracker - Not Cribl"
+
+And that's it, after the first executions of the newly created tracker reports, any data source that is not coming from Cribl Logstream will be discovered and maintained as usual.
+
+You can immediately run the short term tracker to get regular data sources added to TrackMe.
+
+Note that the "run trackers" buttons in the TrackMe UI will only handle the main default trackers, which is a minor loss of features as you do not normally need to actively execute the trackers.
