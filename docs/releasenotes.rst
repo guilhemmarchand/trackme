@@ -16,6 +16,7 @@ This is a new main release branch, TrackMe 1.2.x requires the deployment of the 
 TrackMe requires a summary index (defaults to trackme_summary) and a metric index (defaults to trackme_metrics):
 https://trackme.readthedocs.io/en/latest/configuration.html
 
+- Enhancement - Fix Issue #343 - REST CALL - use nobody context to optimize rest calls performance in large scale environments
 
 Version 1.2.48
 ==============

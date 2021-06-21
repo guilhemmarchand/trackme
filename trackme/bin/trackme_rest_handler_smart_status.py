@@ -101,7 +101,7 @@ class TrackMeHandlerSmartStatus_v1(rest_handler.RESTHandler):
 
                 # Get the definition for the tolerance of data in the future
                 record_url = 'https://localhost:' + str(splunkd_port) \
-                            + '/servicesNS/-/-/admin/macros/trackme_future_indexing_tolerance'
+                            + '/servicesNS/nobody/trackme/admin/macros/trackme_future_indexing_tolerance'
 
                 response = requests.get(record_url, headers=header, verify=False)
                 if response.status_code == 200:
@@ -1895,7 +1895,7 @@ class TrackMeHandlerSmartStatus_v1(rest_handler.RESTHandler):
 
                 # Get the definition for the tolerance of data in the future
                 record_url = 'https://localhost:' + str(splunkd_port) \
-                            + '/servicesNS/-/-/admin/macros/trackme_future_indexing_tolerance'
+                            + '/servicesNS/nobody/trackme/admin/macros/trackme_future_indexing_tolerance'
 
                 response = requests.get(record_url, headers=header, verify=False)
                 if response.status_code == 200:
@@ -2415,7 +2415,7 @@ class TrackMeHandlerSmartStatus_v1(rest_handler.RESTHandler):
 
                 # Get the definition for the tolerance of data in the future
                 record_url = 'https://localhost:' + str(splunkd_port) \
-                            + '/servicesNS/-/-/admin/macros/trackme_future_indexing_tolerance'
+                            + '/servicesNS/nobody/trackme/admin/macros/trackme_future_indexing_tolerance'
 
                 response = requests.get(record_url, headers=header, verify=False)
                 if response.status_code == 200:
