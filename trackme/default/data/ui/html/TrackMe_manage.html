@@ -2021,7 +2021,7 @@ require([
             "sample_ratio": null,
             "refreshType": "delay",
             "latest_time": "now",
-            "search": "| rest /servicesNS/-/-/admin/macros count=0 splunk_server=local | rename eai:appName as app | where app=\"trackme\" | table title definition",
+            "search": "| rest /servicesNS/nobody/trackme/admin/macros count=0 splunk_server=local | rename eai:appName as app | where app=\"trackme\" | table title definition",
             "status_buckets": 0,
             "app": utils.getCurrentApp(),
             "auto_cancel": 90,
@@ -3220,7 +3220,7 @@ require([
             //
 
             // Define the query
-            var searchQuery = "| rest /servicesNS/-/-/admin/macros splunk_server=local | search title=\"trackme_data_sampling_obfuscation_mode\" | fields definition | rex field=definition mode=sed \"s/\`//g\" | rename definition as current_mode";
+            var searchQuery = "| rest /servicesNS/nobody/trackme/admin/macros/trackme_data_sampling_obfuscation_mode splunk_server=local | fields definition | rex field=definition mode=sed \"s/\`//g\" | rename definition as current_mode";
 
             // Set the search parameters--specify a time range
             var searchParams = {
@@ -3375,7 +3375,7 @@ require([
             //
 
             // Define the query
-            var searchQuery = "| rest /servicesNS/-/-/admin/macros splunk_server=local | search title=\"trackme_tstats_main_filter_for_host\" | fields definition | rex field=definition mode=sed \"s/\`//g\" | rename definition as current_mode";
+            var searchQuery = "| rest /servicesNS/nobody/trackme/admin/macros/trackme_tstats_main_filter_for_host splunk_server=local | fields definition | rex field=definition mode=sed \"s/\`//g\" | rename definition as current_mode";
 
             // Set the search parameters--specify a time range
             var searchParams = {
@@ -3530,7 +3530,7 @@ require([
             //
 
             // Define the query
-            var searchQuery = "| rest /servicesNS/-/-/admin/macros splunk_server=local | search title=\"trackme_default_data_source_mode\" | fields definition | rex field=definition mode=sed \"s/\`//g\" | rename definition as current_data_source_mode";
+            var searchQuery = "| rest /servicesNS/nobody/trackme/admin/macros/trackme_default_data_source_mode splunk_server=local | fields definition | rex field=definition mode=sed \"s/\`//g\" | rename definition as current_data_source_mode";
 
             // Set the search parameters--specify a time range
             var searchParams = {
