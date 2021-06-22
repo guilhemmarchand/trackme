@@ -88,7 +88,7 @@ def process_event(helper, *args, **kwargs):
 
     # retrieve index target from trackme_idx macro
     record_url = 'https://localhost:' + str(splunkd_port) \
-                 + '/servicesNS/-/-/admin/macros/trackme_idx'
+                 + '/servicesNS/nobody/trackme/admin/macros/trackme_idx'
 
     response = requests.get(record_url, headers=header, verify=False)
     helper.log_info("response status_code:={}".format(response.status_code))

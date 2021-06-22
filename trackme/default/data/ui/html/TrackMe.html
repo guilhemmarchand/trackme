@@ -10360,7 +10360,7 @@ require([
             "sample_ratio": 1,
             "earliest_time": "-15m",
             "cancelOnUnload": true,
-            "search": "| rest splunk_server=local /servicesNS/-/trackme/saved/searches | search eai:acl.app=\"trackme\" alert.track=1 title!=\"TrackMe - Audit change notification tracker\" | fields title, cron_schedule, schedule_window, alert.suppress.fields, alert.suppress.period, disabled, next_scheduled_time, id, actions | rex field=id \"saved/searches/(?<id>.*)\" | sort limit=0 title | eval \" \" = \"icon|\" + if(disabled==\"0\",\"ico_good ico_small|icon-check|Up\", \"ico_error ico_small|icon-close|Down\")",
+            "search": "| rest splunk_server=local /servicesNS/nobody/trackme/saved/searches | search eai:acl.app=\"trackme\" alert.track=1 title!=\"TrackMe - Audit change notification tracker\" | fields title, cron_schedule, schedule_window, alert.suppress.fields, alert.suppress.period, disabled, next_scheduled_time, id, actions | rex field=id \"saved/searches/(?<id>.*)\" | sort limit=0 title | eval \" \" = \"icon|\" + if(disabled==\"0\",\"ico_good ico_small|icon-check|Up\", \"ico_error ico_small|icon-close|Down\")",
             "latest_time": "now",
             "status_buckets": 0,
             "app": utils.getCurrentApp(),
@@ -37699,7 +37699,7 @@ require([
                 // Verify the current data sampling obfuscation mode, if enabled we change the search target
 
                 // Define the query
-                var searchQuery = "| rest /servicesNS/-/-/admin/macros splunk_server=local | search title=\"trackme_data_sampling_obfuscation_mode\" | fields definition | rex field=definition mode=sed \"s/\`//g\" | rename definition as current_mode";
+                var searchQuery = "| rest /servicesNS/nobody/trackme/admin/macros/trackme_data_sampling_obfuscation_mode splunk_server=local | fields definition | rex field=definition mode=sed \"s/\`//g\" | rename definition as current_mode";
 
                 // Set the search parameters--specify a time range
                 var searchParams = {
