@@ -95,13 +95,13 @@ ITSI entities import
 .. image:: img/itsi_entities3.png
    :alt: itsi_entities3.png
    :align: center
-   :width: 1200px
+   :width: 1000px
    :class: with-border
 
 .. image:: img/itsi_entities4.png
    :alt: itsi_entities4.png
    :align: center
-   :width: 1200px
+   :width: 1000px
    :class: with-border
 
 Any new data source discovered and configured in TrackMe will be created in ITSI, and existing entities will be maintained automatically.
@@ -136,7 +136,7 @@ Step 2: create the KPI base search for metrics
 .. image:: img/itsi_v2/kpi_basesearch_metrics1.png
    :alt: kpi_basesearch_metrics1.png
    :align: center
-   :width: 1200px
+   :width: 1000px
    :class: with-border
 
 *Then, create the metrics as follows:*
@@ -218,7 +218,7 @@ Step 3: create the KPI base searches for summary statuses events
 .. image:: img/itsi_v2/kpi_basesearch_metrics5.png
    :alt: kpi_basesearch_metrics5.png
    :align: center
-   :width: 1200px
+   :width: 1000px
    :class: with-border
 
 *Then, create the metrics as follows:*
@@ -278,73 +278,151 @@ Step 3: create the KPI base searches for summary statuses events
 Step 4: create a service that will be used for the service template definition
 ------------------------------------------------------------------------------
 
-**This is optional and is part of your ITSI design choices, therefore using service templates provide centralization features and changes can be reflected to all linked services.**
+**Go in Services / Create Service:**
 
-**Now that the KPI base searches have been created, we will create a pseudo service for TrackMe that will be used as the source service for the service template creation:**
+- Title: **TrackMe:Template**
+- Description: **This is the template initial service for TrackMe**
+- Manually add service content
 
-- Click on Configure / Service
-- Create a new service that recycles our KPIs and filters
-
-.. image:: img/itsi_service2.png
-   :alt: itsi_service2.png
+.. image:: img/itsi_v2/service_template1.png
+   :alt: service_template1.png
    :align: center
-   :width: 1200px
+   :width: 500px
+   :class: with-border
 
-*Create a KPI manually based on the KPI base searches we created for each of the TrackMe metrics including the event based metric:*
+**Define the entities rules as follows:**
 
-*Note: there might be no results show in the mini charts during the service creation which can be ignored at this level*
-
-.. image:: img/itsi_service3.png
-   :alt: itsi_service3.png
+.. image:: img/itsi_v2/service_template_main.png
+   :alt: service_template_main.png
    :align: center
-   :width: 1200px
+   :width: 1000px
+   :class: with-border
 
-.. image:: img/itsi_service4.png
-   :alt: itsi_service4.png
+- Info: itsi_role matches "trackme"
+- Info: trackme_object_category matches "*"
+- Entity Tile: does not match "*"
+
+.. image:: img/itsi_v2/service_template2.png
+   :alt: service_template2.png
    :align: center
-   :width: 1200px
+   :width: 1000px
+   :class: with-border
 
-*Create KPIs and tresholds for summary statuses events:*
+**Add the KPIs to the service, as follows:**
 
-*data sources tracking*
+**TrackMe:eventcount_4h**
 
-.. image:: img/itsi_service_kpi_data_source.png
-   :alt: itsi_service_kpi_data_source.png
+- Title: TrackMe:eventcount_4h
+- Description: TrackMe records the event count per time of 4 hours per entity
+
+.. image:: img/itsi_v2/service_template3.png
+   :alt: service_template3.png
    :align: center
-   :width: 1200px
+   :width: 500px
+   :class: with-border
 
-.. image:: img/itsi_service_kpi_threshold_data_source.png
-   :alt: itsi_service_kpi_threshold_data_source.png
+.. image:: img/itsi_v2/service_template4.png
+   :alt: service_template4.png
    :align: center
-   :width: 1200px
+   :width: 500px
+   :class: with-border
 
-*data hosts tracking*
+*Click next until you can hit the finish button.*
 
-.. image:: img/itsi_service_kpi_data_host.png
-   :alt: itsi_service_kpi_data_host.png
+**TrackMe:lag_event_sec**
+
+- Title: TrackMe:lag_event_sec
+- Description: TrackMe records the event lagging in seconds per entity
+
+.. image:: img/itsi_v2/service_template5.png
+   :alt: service_template5.png
    :align: center
-   :width: 1200px
+   :width: 500px
+   :class: with-border
 
-.. image:: img/itsi_service_kpi_threshold_data_host.png
-   :alt: itsi_service_kpi_threshold_data_host.png
+.. image:: img/itsi_v2/service_template6.png
+   :alt: service_template6.png
    :align: center
-   :width: 1200px
+   :width: 500px
+   :class: with-border
 
-*metric hosts tracking*
+*Click next until you can hit the finish button.*
 
-.. image:: img/itsi_service_kpi_metric_host.png
-   :alt: itsi_service_kpi_metric_host.png
+**TrackMe:lag_ingestion_sec**
+
+- Title: TrackMe:lag_ingestion_sec
+- Description: TrackMe records the event latency lagging in seconds per entity
+
+.. image:: img/itsi_v2/service_template7.png
+   :alt: service_template7.png
    :align: center
-   :width: 1200px
+   :width: 500px
+   :class: with-border
 
-*repeat the same threshold configuration*
-
-**Finally, save but DO NOT activate the pseudo service, this service was required temporarily for the purposes of the service template creation in the next step:**
-
-.. image:: img/itsi_service6.png
-   :alt: itsi_service6.png
+.. image:: img/itsi_v2/service_template8.png
+   :alt: service_template8.png
    :align: center
-   :width: 1200px
+   :width: 500px
+   :class: with-border
+
+*Click next until you can hit the finish button.*
+
+**TrackMe:high_red**
+
+- Title: TrackMe:high_red
+- Description: TrackMe records flapping statuses events based on the entity priority, this metric handles high priority entities swtiching to a red status
+
+.. image:: img/itsi_v2/service_template9.png
+   :alt: service_template7.png
+   :align: center
+   :width: 500px
+   :class: with-border
+
+.. image:: img/itsi_v2/service_template10.png
+   :alt: service_template10.png
+   :align: center
+   :width: 500px
+   :class: with-border
+
+*Click next until you can hit the finish button.*
+
+**TrackMe:high_red**
+
+- Title: TrackMe:medium_red
+- Description: TrackMe records flapping statuses events based on the entity priority, this metric handles medium priority entities swtiching to a red status
+
+.. image:: img/itsi_v2/service_template11.png
+   :alt: service_template11.png
+   :align: center
+   :width: 500px
+   :class: with-border
+
+.. image:: img/itsi_v2/service_template12.png
+   :alt: service_template12.png
+   :align: center
+   :width: 500px
+   :class: with-border
+
+*Click next until you can hit the finish button.*
+
+**TrackMe:low_red**
+
+- Title: TrackMe:low_red
+- Description: TrackMe records flapping statuses events based on the entity priority, this metric handles low priority entities swtiching to a red status
+
+.. image:: img/itsi_v2/service_template13.png
+   :alt: service_template13.png
+   :align: center
+   :width: 500px
+   :class: with-border
+
+.. image:: img/itsi_v2/service_template14.png
+   :alt: service_template14.png
+   :align: center
+   :width: 500px
+   :class: with-border
+
+*Click next until you can hit the finish button.*
 
 *Note: This pseudo service can optionally be deleted post service template creation, but you can as well keep it to allow future service creation based on this service rather using the service template feature.*
 
@@ -357,10 +435,32 @@ Step 5: create a service template
 - Use the previously created pseudo service to create a new service template
 - Any future customization of this service template will be reflected to all linked services (which can be controlled when modifications on the template are made)
 
-.. image:: img/itsi_service_template.png
-   :alt: itsi_service_template.png
+.. image:: img/itsi_v2/service_template_create.png
+   :alt: service_template_create.png
    :align: center
-   :width: 1200px
+   :width: 500px
+   :class: with-border
+
+Step 6: fine tun threasholds
+----------------------------
+
+On the service template, you can fine tune some of the thresholds, essentially regarding the status flapping metrics.
+
+The thresholds related to the maximal lagging values and evencount would be fine tuned on a per service basis.
+
+**Fine tuning the flapping statuses:**
+
+At the minimum, if TrackMe detects an issue with the entity, the ITSI service should reflect the issue on the TrackMe notation, such as:
+
+.. image:: img/itsi_v2/service_template_thresholds.png
+   :alt: service_template_thresholds.png
+   :align: center
+   :width: 1000px
+   :class: with-border
+
+**Make sure to apply the same thresholds per entity, and reflect the same change on medium_red and low_red metrics. (with potentially different values if necessary)**
+
+When business and technical services are created, you potentially can fine tune the other metrics up to the requirements, note that TrackMe settings for that or these entities composing the service are reflected in anyway using the flapping statuses metrics.
 
 Final: Create services business and technical services using TrackMe KPIs
 -------------------------------------------------------------------------
