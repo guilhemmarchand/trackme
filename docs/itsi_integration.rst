@@ -106,6 +106,20 @@ ITSI entities import
 
 Any new data source discovered and configured in TrackMe will be created in ITSI, and existing entities will be maintained automatically.
 
+Set up a recurring import, for reference:
+
+https://docs.splunk.com/Documentation/ITSI/latest/Entity/ImportRecurring
+
+**Once you have setup the recurring import, you can access to the savedsearches:**
+
+*ITSI Import Objects - TrackMe:*
+
+.. image:: img/itsi_v2/entities_recurring_import.png
+   :alt: entities_recurring_import.png
+   :align: center
+   :width: 1000px
+   :class: with-border
+
 Step 2: create the KPI base search for metrics
 ----------------------------------------------
 
