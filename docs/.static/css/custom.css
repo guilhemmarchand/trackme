@@ -1,9 +1,14 @@
 /* increase width */
 .wy-nav-content {
-    max-width: 1500px;
+  max-width: 1500px;
 }
 
 /* fix non wrapping tables */
-.wy-table-responsive table td, .wy-table-responsive table th {
-    white-space: normal !important;
+.wy-table-responsive table td,
+.wy-table-responsive table th {
+  white-space: normal !important;
+}
+
+.with-border img {
+  border: 1px solid #555;
 }

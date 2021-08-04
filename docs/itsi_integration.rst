@@ -13,67 +13,82 @@ Splunk ITSI and TrackMe integration
 Step 1: entity search and creation
 ----------------------------------
 
-**Create an entity search to generate entities in ITSI:**
+**Create entity search(es) to generate entities in ITSI:**
 
 - If ITSI and TrackMe are running on the same search head layer, you can enrich the entities results with information from TrackMe such as the priority or the monitored stated
-- You can include any kind of filter required, for example you might want to monitoring within ITSI only data sources, that are monitored and a medium or high priority.
+- You can include any kind of filter required, for example you might want to monitoring within ITSI only data sources, that are monitored and a medium or high priority
+- Create a single entity search per TrackMe category to avoid issues such as duplicated ITSI entities
+- You do not need a long time range period, the last 15 minutes is enough since all TrackMe entities are available in the summary data for each execution of the trackers
 
-*Example:*
+ITSI entities generation search definition
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-::
-
-    | mcatalog values(metric_name) as metrics where index=trackme_metrics metric_name=* object_category="data_source" by object_category, object
-    | eval itsi_role = "trackme"
-    | fields - metrics
-    | eval itsi_entity = object_category . ":" . object
-    | lookup trackme_data_source_monitoring object_category, data_name as object OUTPUT data_monitored_state as trackme_monitored_state, priority as trackme_priority
-    | where trackme_monitored_state="enabled" AND (trackme_priority="medium" OR trackme_priority="high")
-
-*Run this search in the search view in the ITSI space, then save it as a report and the export globally for ease of use in the future:*
-
-.. image:: img/itsi_entities_start.png
-   :alt: itsi_entities_start.png
-   :align: center
-   :width: 1200px
-
-.. image:: img/itsi_entities_start2.png
-   :alt: itsi_entities_start2.png
-   :align: center
-   :width: 1200px
-
-.. image:: img/itsi_entities_start3.png
-   :alt: itsi_entities_start3.png
-   :align: center
-   :width: 1200px
-
-Note: make sure to edit the permission of the report and shared at the global level
-
-*Now, in ITSI Configure/Entities then Entities / new import from search, we will proceed to the entities creation and a recurrent job definition:*
+Data source entity gen search
+"""""""""""""""""""""""""""""
 
 ::
 
-    | savedsearch "TrackMe - Entities gen report"
+   index=trackme_summary source=current_state_tracking:data_source (data_monitored_state="enabled")
+   | eval trackme_monitored_state=coalesce(data_monitored_state, metric_monitored_state), object=lower(object)
+   | stats latest(priority) as trackme_priority, latest(trackme_monitored_state) as trackme_monitored_state by object_category, object
+   | fields object_category, object, trackme_monitored_state, trackme_priority
+   | rename object as trackme_object, object_category as trackme_object_category
+   | eval itsi_role = "trackme", itsi_entity = trackme_object, itsi_entity_type = "trackme:" . trackme_object_category
+   | fields itsi_entity, itsi_role, itsi_entity_type, trackme_*
 
-*Make sure you select a time range that makes sense, TrackMe generate metrics potentially every 5 minutes but less frequent data sources might not appear if the time range is too short.*
+Data host entity gen search
+"""""""""""""""""""""""""""
 
-.. image:: img/itsi_entities.png
-   :alt: itsi_entities.png
+::
+
+   index=trackme_summary source=current_state_tracking:data_host (data_monitored_state="enabled")
+   | eval trackme_monitored_state=coalesce(data_monitored_state, metric_monitored_state), object=lower(object)
+   | stats latest(priority) as trackme_priority, latest(trackme_monitored_state) as trackme_monitored_state by object_category, object
+   | fields object_category, object, trackme_monitored_state, trackme_priority
+   | rename object as trackme_object, object_category as trackme_object_category
+   | eval itsi_role = "trackme", itsi_entity = trackme_object, itsi_entity_type = "trackme:" . trackme_object_category
+   | fields itsi_entity, itsi_role, itsi_entity_type, trackme_*
+
+Metric host entity gen search if on the same search head(s)
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+::
+
+   index=trackme_summary source=current_state_tracking:metric_host (metric_monitored_state="enabled")
+   | eval trackme_monitored_state=coalesce(data_monitored_state, metric_monitored_state), object=lower(object)
+   | stats latest(priority) as trackme_priority, latest(trackme_monitored_state) as trackme_monitored_state by object_category, object
+   | fields object_category, object, trackme_monitored_state, trackme_priority
+   | rename object as trackme_object, object_category as trackme_object_category
+   | eval itsi_role = "trackme", itsi_entity = trackme_object, itsi_entity_type = "trackme:" . trackme_object_category
+   | fields itsi_entity, itsi_role, itsi_entity_type, trackme_*
+
+
+ITSI entities import
+^^^^^^^^^^^^^^^^^^^^
+
+**Go in ITSI / Configuration / Entities then click on the button Create Entity / Inport from Search**
+
+.. image:: img/itsi_v2/entities_import_screen1.png
+   :alt: entities_import_screen1.png
    :align: center
-   :width: 1200px
+   :width: 900px
+   :class: with-border
 
 **Click next and define the entities fields import:**
 
-- **object_category:** import as Entity information field
-- **object:** import as Entity Alias
 - **itsi_entity:** import as Entity Title
 - **itsi_role:** import as Entity information field
+- **itsi_entity_type:** import as Entity Type
 - **trackme_monitored_state:** import as Entity information field
+- **trackme_object:** import as Entity Alias
+- **trackme_object_category:** import as Entity information field
 - **trackme_priority:** import as Entity information field
 
-.. image:: img/itsi_entities2.png
-   :alt: itsi_entities2.png
+.. image:: img/itsi_v2/entities_import_screen2.png
+   :alt: entities_import_screen2.png
    :align: center
-   :width: 1200px
+   :width: 900px
+   :class: with-border
 
 **Click next to generate the entities, and setup a recurrent import job:**
 
