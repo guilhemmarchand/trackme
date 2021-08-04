@@ -137,15 +137,15 @@ Step 2: create the KPI base search for metrics
 
 ::
 
-   | mstats latest(trackme.eventcount_4h) as trackme.eventcount_4h, latest(trackme.lag_event_sec) as trackme.lag_event_sec, latest(trackme.lag_ingestion_sec) as trackme.lag_ingestion_sec where index=trackme_metrics by object_category, object
+   | mstats latest(trackme.eventcount_4h) as trackme.eventcount_4h, latest(trackme.lag_event_sec) as trackme.lag_event_sec, latest(trackme.lag_ingestion_sec) as trackme.lag_ingestion_sec where index=trackme_metrics by object_category, object | rename object_category as trackme_object_category, object as trackme_object
 
 - KPI Search Schedule: **Every 5 minutes**
 - Calculation Window: **Last 5 minutes**
 - Monitoring Lag (in seconds): **30**
 - Split by Entity: **yes**
-- Entity Split Field: **object**
+- Entity Split Field: **trackme_object**
 - Filter to Entities in Service: **yes**
-- Entity Filter Field: **object**
+- Entity Filter Field: **trackme_object**
 
 .. image:: img/itsi_v2/kpi_basesearch_metrics1.png
    :alt: kpi_basesearch_metrics1.png
@@ -220,14 +220,15 @@ Step 3: create the KPI base searches for summary statuses events
 
    `trackme_idx` source="current_state_tracking:*" priority=*
    | eval {priority}_{current_state} = current_state
+   | rename object_category as trackme_object_category, object as trackme_object
 
 - KPI Search Schedule: **Every 5 minutes**
 - Calculation Window: **Last 5 minutes**
 - Monitoring Lag (in seconds): **60**
 - Split by Entity: **yes**
-- Entity Split Field: **object**
+- Entity Split Field: **trackme_object**
 - Filter to Entities in Service: **yes**
-- Entity Filter Field: **object**
+- Entity Filter Field: **trackme_object**
 
 .. image:: img/itsi_v2/kpi_basesearch_metrics5.png
    :alt: kpi_basesearch_metrics5.png
