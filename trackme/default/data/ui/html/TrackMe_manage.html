@@ -2364,6 +2364,7 @@ require([
         function defineRootUri() {
             var rootUri;
             var splunkVersion = $C.VERSION_LABEL.replace(".", "")
+            splunkVersion = splunkVersion.substring(0, 2);
                 if (Number(splunkVersion) >= '82') {
                     var rootUri = '/en-GB/manager/trackme/data/macros/';
                 } else {
