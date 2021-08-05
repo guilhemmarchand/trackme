@@ -35,7 +35,7 @@ class TrackMeRestHandler(GeneratingCommand):
 
     def generate(self, **kwargs):
 
-        if (self.url and re.search(r"services\/trackme", self.url)) and self.mode in ("get", "post", "delete"):
+        if (self.url and re.search(r"^\/services\/trackme\/v\d*", self.url)) and self.mode in ("get", "post", "delete"):
 
             # Get the session key
             session_key = self._metadata.searchinfo.session_key
