@@ -16,7 +16,8 @@ This is a new main release branch, TrackMe 1.2.x requires the deployment of the 
 TrackMe requires a summary index (defaults to trackme_summary) and a metric index (defaults to trackme_metrics):
 https://trackme.readthedocs.io/en/latest/configuration.html
 
-
+- Fix - Issue #356 - trackme.py endpoint check can be circumvented to perform REST calls to endpoints external to TrackMe
+- Fix - Issue #357 - In Splunk Cloud the UI manage and configure will not provide the right URL for quick access to the macro definition
 
 Version 1.2.50
 ==============
