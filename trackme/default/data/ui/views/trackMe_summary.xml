@@ -1,4 +1,4 @@
-<dashboard theme="dark">
+<dashboard theme="dark" version="1.1">
   <label>TrackMe Mobile</label>
   <description>Connected Experience tracking review of data sources availability</description>
 
