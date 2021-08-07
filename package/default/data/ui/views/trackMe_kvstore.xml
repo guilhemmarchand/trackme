@@ -1,0 +1,70 @@
+<form version="1.1">
+  <label>TrackMe - KVstore collections audit</label>
+  <search id="kvstore_mainsearch">
+    <query>| rest splunk_server=local /services/server/introspection/kvstore/collectionstats
+| mvexpand data
+| spath input=data
+| rex field=ns "(?&lt;App&gt;.*)\.(?&lt;Collection&gt;.*)"
+| eval dbsize=round(size/1024/1024, 2)
+| eval indexsize=round(totalIndexSize/1024/1024, 2)
+| stats first(count) AS "Number of Objects" first(nindexes) AS Accelerations first(indexsize) AS "Acceleration Size (MB)" first(dbsize) AS "Collection Size (MB)" by App, Collection
+| sort - "Collection Size (MB)"
+| where App="trackme"</query>
+  </search>
+  <fieldset submitButton="false"></fieldset>
+  <row>
+    <panel>
+      <title>KVstore usage summary</title>
+      <single>
+        <search base="kvstore_mainsearch">
+          <query>stats count</query>
+        </search>
+        <option name="rangeColors">["0x53a051","0x0877a6","0xf8be34","0xf1813f","0xdc4e41"]</option>
+        <option name="underLabel">Number of KVstore collections</option>
+      </single>
+      <single>
+        <search base="kvstore_mainsearch">
+          <query>stats sum("Number of Objects")</query>
+        </search>
+        <option name="rangeColors">["0x53a051","0x0877a6","0xf8be34","0xf1813f","0xdc4e41"]</option>
+        <option name="underLabel">Total number of entries in the KVstore</option>
+      </single>
+      <single>
+        <search base="kvstore_mainsearch">
+          <query>stats sum("Collection Size (MB)")</query>
+        </search>
+        <option name="rangeColors">["0x53a051","0x0877a6","0xf8be34","0xf1813f","0xdc4e41"]</option>
+        <option name="underLabel">Total size used by KVstore collections</option>
+        <option name="unit">MB</option>
+      </single>
+      <single>
+        <search base="kvstore_mainsearch">
+          <query>stats sum("Acceleration Size (MB)")</query>
+        </search>
+        <option name="rangeColors">["0x53a051","0x0877a6","0xf8be34","0xf1813f","0xdc4e41"]</option>
+        <option name="underLabel">Total acceleration size used by KVstore collections</option>
+        <option name="unit">MB</option>
+      </single>
+    </panel>
+  </row>
+  <row>
+    <panel>
+      <html>
+        <div style="text-align: center;">
+          <h1>KVstore collections auditing</h1>
+        </div>
+      </html>
+    </panel>
+  </row>
+  <row>
+    <panel>
+      <title>KVstore collections details</title>
+      <table>
+        <search base="kvstore_mainsearch">
+          <query>sort - "Collection Size (MB)"</query>
+        </search>
+        <option name="count">100</option>
+      </table>
+    </panel>
+  </row>
+</form>

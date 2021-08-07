@@ -10,8 +10,8 @@ executors:
     docker:
       - image: cimg/base:stable
         auth:
-          username: $DOCKERHUB_LOGIN  # can specify string literal values
-          password: $DOCKERHUB_TOKEN  # or project environment variable reference
+          username: $DOCKERHUB_LOGIN # can specify string literal values
+          password: $DOCKERHUB_TOKEN # or project environment variable reference
     working_directory: ~/repo
 
 jobs:
@@ -19,7 +19,13 @@ jobs:
     executor: content-executor
     steps:
       - run:
-          name: checkout repo
+          name: install ucc-gen and dependencies
+          command: |
+            sudo apt-get update
+            sudo apt-get install -y python3-pip
+            pip3 install --no-input splunk-add-on-ucc-framework
+      - run:
+          name: checkout Git repository
           command: |
             if [ "${CIRCLE_BRANCH}" == "" ]; then
                 git clone https://${GITHUB_TOKEN}@github.com/guilhemmarchand/trackme
@@ -31,27 +37,32 @@ jobs:
           command: |
             git clone https://github.com/guilhemmarchand/splunk-appinspect-pipeline.git
       - restore_cache:
-          key: deps1-{{ .Branch }}-{{ checksum "trackme/trackme/default/app.conf" }}
+          key: deps1-{{ .Branch }}-{{ checksum "trackme/package/default/app.conf" }}
       - run:
           name: run appinspect API app vetting
           command: |
             cd trackme
-            rm -rf trackme/.git
-            rm -rf trackme/.circleci
-            rm -rf trackme/.gitignore
-            tar -zcf trackme.tar.gz trackme
-            mkdir dist
-            cp trackme.tar.gz dist/
-            cd ../
-            splunk-appinspect-pipeline/appinspect_vetting.sh --username=$SPLUNK_BASE_LOGIN --password=$SPLUNK_BASE_PASSWD --app=trackme/dist/trackme.tar.gz --included_tags=splunk_appinspect --excluded_tags=manual --excluded_checks=check_indexes_conf_does_not_exist --html_report_out=/tmp/appinspect_report.html
+            OUTDIR="output"
+            app="trackme"
+            version=$(grep 'version =' version.txt | head -1 | awk '{print $3}' | sed 's/\.//g')
+            ta_version=$(grep 'version =' version.txt | head -1 | awk '{print $3}')
+            ucc-gen --ta-version "$ta_version"
+            cd "${OUTDIR}"
+            find . -name "*.pyc" -type f -exec rm -f {} \;
+            tar -czf ${app}.tgz ${app}
+            echo "Wrote: ${app}.tgz"
+            mkdir $HOME/dist
+            mv ${app}.tgz $HOME/dist/
+            cd $HOME
+            $HOME/repo/splunk-appinspect-pipeline/appinspect_vetting.sh --username=$SPLUNK_BASE_LOGIN --password=$SPLUNK_BASE_PASSWD --app=$HOME/dist/${app}.tgz --included_tags="splunk_appinspect,future" --excluded_tags=manual --excluded_checks=check_indexes_conf_does_not_exist --html_report_out=/tmp/appinspect_report.html
       - save_cache:
-          key: deps1-{{ .Branch }}-{{ checksum "trackme/trackme/default/app.conf" }}
+          key: deps1-{{ .Branch }}-{{ checksum "trackme/package/default/app.conf" }}
           paths:
             - "venv"
       - persist_to_workspace:
-          root: trackme/dist/
+          root: /home/circleci/dist
           paths:
-              - trackme.tar.gz
+            - trackme.tgz
       - store_artifacts:
           path: /tmp/appinspect_report.html
           destination: appinspect-report
@@ -59,21 +70,21 @@ jobs:
     docker:
       - image: cibuilds/github:latest
         auth:
-          username: $DOCKERHUB_LOGIN  # can specify string literal values
-          password: $DOCKERHUB_TOKEN  # or project environment variable reference
+          username: $DOCKERHUB_LOGIN # can specify string literal values
+          password: $DOCKERHUB_TOKEN # or project environment variable reference
     steps:
       - attach_workspace:
-          at: ~/trackme/dist/trackme.tar.gz
+          at: ~/dist/trackme.tar.gz
       - run:
           name: publish release on github
           command: |
-            ghr -t ${GITHUB_TOKEN} -u ${CIRCLE_PROJECT_USERNAME} -r ${CIRCLE_PROJECT_REPONAME} -c ${CIRCLE_SHA1} -delete ${CIRCLE_TAG} ~/trackme/dist/trackme.tar.gz
+            ghr -t ${GITHUB_TOKEN} -u ${CIRCLE_PROJECT_USERNAME} -r ${CIRCLE_PROJECT_REPONAME} -c ${CIRCLE_SHA1} -delete ${CIRCLE_TAG} ~/dist/trackme.tar.gz
 workflows:
   version: 2.1
   validate-and-build:
     jobs:
       - splunk-appinspect:
-          context: 
+          context:
             - docker-hub-creds
             - splunk-base-creds
           filters:

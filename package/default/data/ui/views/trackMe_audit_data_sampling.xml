@@ -1,0 +1,199 @@
+<form version="1.1">
+  <label>TrackMe - Data sampling and events formats recognition audit</label>
+  <fieldset submitButton="false"></fieldset>
+  <row>
+    <panel>
+      <title>Number of monitored and active data sources during the last 24 hours</title>
+      <single>
+        <search>
+          <query>| inputlookup trackme_data_source_monitoring where data_monitored_state="enabled" | eval keyid = _key | where data_last_time_seen&gt;relative_time(now(), "-24h")
+| stats dc(keyid) as dcount</query>
+          <earliest>-24h@h</earliest>
+          <latest>now</latest>
+          <sampleRatio>1</sampleRatio>
+        </search>
+        <option name="colorBy">value</option>
+        <option name="colorMode">block</option>
+        <option name="drilldown">none</option>
+        <option name="numberPrecision">0</option>
+        <option name="rangeColors">["0x779ecb","0x779ecb"]</option>
+        <option name="rangeValues">[0]</option>
+        <option name="showSparkline">1</option>
+        <option name="showTrendIndicator">1</option>
+        <option name="trellis.enabled">0</option>
+        <option name="trellis.scales.shared">1</option>
+        <option name="trellis.size">medium</option>
+        <option name="trendColorInterpretation">standard</option>
+        <option name="trendDisplayMode">absolute</option>
+        <option name="underLabel">DATA SOURCES</option>
+        <option name="unitPosition">after</option>
+        <option name="useColors">1</option>
+        <option name="useThousandSeparators">1</option>
+      </single>
+    </panel>
+    <panel>
+      <title>Number of Data sampling entities in the processed collection</title>
+      <single>
+        <search>
+          <query>| inputlookup trackme_data_sampling | eval keyid = _key
+| lookup trackme_data_source_monitoring data_name OUTPUT data_monitored_state | where data_monitored_state="enabled"
+| stats dc(keyid) as dcount</query>
+          <earliest>-24h@h</earliest>
+          <latest>now</latest>
+          <sampleRatio>1</sampleRatio>
+        </search>
+        <option name="colorBy">value</option>
+        <option name="colorMode">block</option>
+        <option name="drilldown">none</option>
+        <option name="numberPrecision">0</option>
+        <option name="rangeColors">["0x779ecb","0x779ecb"]</option>
+        <option name="rangeValues">[0]</option>
+        <option name="showSparkline">1</option>
+        <option name="showTrendIndicator">1</option>
+        <option name="trellis.enabled">0</option>
+        <option name="trellis.scales.shared">1</option>
+        <option name="trellis.size">medium</option>
+        <option name="trendColorInterpretation">standard</option>
+        <option name="trendDisplayMode">absolute</option>
+        <option name="underLabel">DATA SOURCES</option>
+        <option name="unitPosition">after</option>
+        <option name="useColors">1</option>
+        <option name="useThousandSeparators">1</option>
+      </single>
+    </panel>
+  </row>
+  <row>
+    <panel>
+      <input type="dropdown" token="tk_is_anomaly" searchWhenChanged="true">
+        <label>isAnomaly:</label>
+        <choice value="*">ANY</choice>
+        <choice value="1">true</choice>
+        <choice value="0">false</choice>
+        <initialValue>*</initialValue>
+      </input>
+      <table>
+        <title>Data sources and data sampling status table - this is the consolidated view from the data source collection as presented within the UI, a value of 0 indicates no anomalies, while a value of 1 indicates anomalies detected by the data sampling engine</title>
+        <search>
+          <query>| inputlookup trackme_data_source_monitoring where data_monitored_state="enabled" | eval keyid=_key
+| search isAnomaly=$tk_is_anomaly$
+| fields keyid, data_name, data_sample_lastrun, isAnomaly
+| eval data_sample_lastrun=if(data_sample_lastrun!=0, strftime(data_sample_lastrun, "%c"), "N/A (no successful run yet)")</query>
+          <earliest>-24h@h</earliest>
+          <latest>now</latest>
+        </search>
+        <option name="count">10</option>
+        <option name="drilldown">none</option>
+        <option name="refresh.display">progressbar</option>
+        <format type="color" field="data_sample_lastrun">
+          <colorPalette type="map">{"N/A (no successful run yet)":#ff6961}</colorPalette>
+        </format>
+        <format type="color" field="isAnomaly">
+          <colorPalette type="map">{"0":#77dd77,"1":#ff6961}</colorPalette>
+        </format>
+      </table>
+    </panel>
+  </row>
+  <row>
+    <panel>
+      <input type="dropdown" token="data_sample_feature" searchWhenChanged="true">
+        <label>data_sample_feature:</label>
+        <choice value="*">ANY</choice>
+        <initialValue>*</initialValue>
+        <fieldForLabel>data_sample_feature</fieldForLabel>
+        <fieldForValue>data_sample_feature</fieldForValue>
+        <search>
+          <query>| inputlookup trackme_data_sampling | eval keyid=_key
+| lookup trackme_data_source_monitoring data_name OUTPUT data_monitored_state | where data_monitored_state="enabled"
+| fillnull value="Unknown" data_sample_feature, data_sample_anomaly_reason, data_sample_anomaly_detected
+| stats c by data_sample_feature
+| fields data_sample_feature
+| sort 0 data_sample_feature</query>
+          <earliest>-24h@h</earliest>
+          <latest>now</latest>
+        </search>
+      </input>
+      <input type="dropdown" token="data_sample_anomaly_reason" searchWhenChanged="true">
+        <label>data_sample_anomaly_reason:</label>
+        <choice value="*">ANY</choice>
+        <initialValue>*</initialValue>
+        <fieldForLabel>data_sample_anomaly_reason</fieldForLabel>
+        <fieldForValue>data_sample_anomaly_reason</fieldForValue>
+        <search>
+          <query>| inputlookup trackme_data_sampling | eval keyid=_key
+| lookup trackme_data_source_monitoring data_name OUTPUT data_monitored_state | where data_monitored_state="enabled"
+| fillnull value="Unknown" data_sample_feature, data_sample_anomaly_reason, data_sample_anomaly_detected | search data_sample_feature="$data_sample_feature$"
+| stats c by data_sample_anomaly_reason
+| fields data_sample_anomaly_reason
+| sort 0 data_sample_anomaly_reason</query>
+          <earliest>-24h@h</earliest>
+          <latest>now</latest>
+        </search>
+      </input>
+      <table>
+        <title>Data sampling records details - this is the raw view from the collection trackme_data_sampling, except the raw events samples (fields raw_sample and latest_raw)</title>
+        <search>
+          <query>| inputlookup trackme_data_sampling | eval keyid=_key
+| lookup trackme_data_source_monitoring data_name OUTPUT data_monitored_state | where data_monitored_state="enabled"
+| fillnull value="Unknown" data_sample_feature, data_sample_anomaly_reason, data_sample_anomaly_detected | search data_sample_feature="$data_sample_feature$" data_sample_anomaly_reason="$data_sample_anomaly_reason$" data_sample_anomaly_detected=$tk_is_anomaly$
+| fields keyid, data_name, *
+| fields - raw_*
+| fields keyid, data_name, data_sample_anomaly_detected, data_sample_anomaly_reason, data_sample_feature, *</query>
+          <earliest>-24h@h</earliest>
+          <latest>now</latest>
+        </search>
+        <option name="drilldown">none</option>
+        <option name="refresh.display">progressbar</option>
+        <format type="color" field="data_sample_anomaly_detected">
+          <colorPalette type="map">{"0":#77dd77,"1":#ff6961}</colorPalette>
+        </format>
+        <format type="color" field="data_sample_feature">
+          <colorPalette type="map">{"enabled":#77dd77,"disabled":#ffb347}</colorPalette>
+        </format>
+      </table>
+    </panel>
+  </row>
+  <row>
+    <panel>
+      <table>
+        <title>Tracker scheduler execution metrics - this view exposes some key information from the scheduling perspective such maximal number of entities that are to be processed in a single execution</title>
+        <search>
+          <query>index=_internal sourcetype=scheduler earliest=-4h latest=now status="success" trackme app="trackme" savedsearch_name="TrackMe - Data sampling and format detection tracker"
+| stats avg(run_time) AS avg_run_time, max(run_time) AS max_run_time, latest(run_time) AS latest_run_time, latest(result_count) as last_processed_no_entities by savedsearch_name
+| foreach avg_run_time max_run_time latest_run_time [ eval &lt;&lt;FIELD&gt;&gt; = round('&lt;&lt;FIELD&gt;&gt;', 2) ]
+| appendcols [ | inputlookup trackme_data_source_monitoring where data_monitored_state="enabled" | stats count as total_entities ]
+| eval potential_rate_sec=round(latest_run_time/last_processed_no_entities, 2)
+| eval max_accepted_run_time_sec=`trackme_data_sampling_max_allowed_runtime_sec`
+| eval max_entities_to_process=round(max_accepted_run_time_sec/potential_rate_sec, 0)</query>
+          <earliest>-4h@m</earliest>
+          <latest>now</latest>
+        </search>
+        <option name="drilldown">none</option>
+        <format type="color" field="last_processed_no_entities">
+          <colorPalette type="map">{"0":#ff6961}</colorPalette>
+        </format>
+      </table>
+    </panel>
+  </row>
+  <row>
+    <panel>
+      <table>
+        <title>Scheduler executions over time - this reports the details over time from the scheduling point of view, a key informatom is the number of entities that were processed during the execution of the tracker</title>
+        <search>
+          <query>index=_internal sourcetype=scheduler earliest=-4h latest=now status="success" trackme app="trackme" savedsearch_name="TrackMe - Data sampling and format detection tracker"
+| stats latest(run_time) AS run_time, latest(result_count) as last_processed_no_entities by _time, savedsearch_name
+| eval run_time = round(run_time, 2)
+| appendcols [ | inputlookup trackme_data_source_monitoring where data_monitored_state="enabled" | stats count as total_entities ]
+| filldown total_entities
+| eval potential_rate_sec=round(latest_run_time/last_processed_no_entities, 2)
+| eval max_accepted_run_time_sec=`trackme_data_sampling_max_allowed_runtime_sec`
+| eval max_entities_to_process=round(max_accepted_run_time_sec/potential_rate_sec, 0)
+| sort - limit=0 _time</query>
+          <earliest>-4h@m</earliest>
+          <latest>now</latest>
+        </search>
+        <option name="drilldown">none</option>
+        <option name="refresh.display">progressbar</option>
+      </table>
+    </panel>
+  </row>
+</form>

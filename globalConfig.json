@@ -1,0 +1,152 @@
+{
+    "pages": {
+        "configuration": {
+            "tabs": [
+                {
+                    "name": "logging",
+                    "entity": [
+                        {
+                            "type": "singleSelect",
+                            "label": "Log level",
+                            "options": {
+                                "disableSearch": true,
+                                "autoCompleteFields": [
+                                    {
+                                        "value": "DEBUG",
+                                        "label": "DEBUG"
+                                    },
+                                    {
+                                        "value": "INFO",
+                                        "label": "INFO"
+                                    },
+                                    {
+                                        "value": "WARNING",
+                                        "label": "WARNING"
+                                    },
+                                    {
+                                        "value": "ERROR",
+                                        "label": "ERROR"
+                                    },
+                                    {
+                                        "value": "CRITICAL",
+                                        "label": "CRITICAL"
+                                    }
+                                ]
+                            },
+                            "defaultValue": "INFO",
+                            "field": "loglevel"
+                        }
+                    ],
+                    "title": "Logging"
+                }
+            ],
+            "title": "Configuration",
+            "description": "Configure TrackMe"
+        }
+    },
+    "alerts": [
+        {
+            "name": "trackme_smart_status",
+            "label": "Trackme Smart Status",
+            "description": "Run the TrackMe Smart Status",
+            "entity": [
+                {
+                    "type": "text",
+                    "label": "Object category",
+                    "help": "Object category",
+                    "field": "object_category",
+                    "required": true
+                },
+                {
+                    "type": "text",
+                    "label": "Object name",
+                    "help": "Object name",
+                    "field": "object_name",
+                    "required": true
+                }
+            ]
+        },
+        {
+            "name": "trackme_auto_ack",
+            "label": "TrackMe auto acknowledge",
+            "description": "Perform an automatic acknowledgement of an entity triggering",
+            "entity": [
+                {
+                    "type": "text",
+                    "label": "Object category",
+                    "help": "Object category",
+                    "field": "object_category",
+                    "required": true
+                },
+                {
+                    "type": "text",
+                    "label": "Object name",
+                    "help": "Object name",
+                    "field": "object_name",
+                    "required": true
+                },
+                {
+                    "type": "text",
+                    "label": "Ack period (seconds)",
+                    "help": "Acknowledge period in seconds",
+                    "field": "ack_period",
+                    "required": true
+                }
+            ]
+        },
+        {
+            "name": "trackme_free_style_rest_call",
+            "label": "TrackMe free style rest call",
+            "description": "Performs a rest call to any TrackMe REST API endpoint",
+            "entity": [
+                {
+                    "type": "text",
+                    "label": "TrackMe Endpoint URL",
+                    "help": "Enter the API endpoint, example: /services/trackme/v1/data_sources/ds_disable_data_sampling",
+                    "field": "endpoint_url",
+                    "required": true
+                },
+                {
+                    "type": "singleSelect",
+                    "label": "HTTP mode",
+                    "field": "http_mode",
+                    "defaultValue": "get",
+                    "help": "HTTP mode expected by the API endpoint",
+                    "required": true,
+                    "options": {
+                        "items": [
+                            {
+                                "value": "get",
+                                "label": "get"
+                            },
+                            {
+                                "value": "post",
+                                "label": "post"
+                            },
+                            {
+                                "value": "delete",
+                                "label": "delete"
+                            }
+                        ],
+                        "display": true
+                    }
+                },
+                {
+                    "type": "text",
+                    "label": "HTTP body",
+                    "help": "HTTP body",
+                    "field": "http_body",
+                    "required": true
+                }
+            ]
+        }
+    ],
+    "meta": {
+        "apiVersion": "3.2.0",
+        "name": "trackme",
+        "restRoot": "trackme",
+        "version": "1.2.52",
+        "displayName": "TrackMe",
+        "schemaVersion": "0.0.2"
+    }
+}
