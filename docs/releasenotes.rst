@@ -4,8 +4,15 @@ Release notes
 Version 1.2.52
 ==============
 
+.. warning:: **Splunk 8.x and Python3 support only**
+
+    - Starting from this release, only Splunk 8.x and Python3 are supported
+    - Some functions such as builtin alert actions are not compatible any longer with Python2 and Splunk 7.x
+    - For the latest version available for Splunk 7.x, see the release 1.2.51
+
 - Enhancement - Issue #360 - JQuery upgrade for Simple XML dashboards
 - Enhancement - migration to ucc-gen for the librairies management and the app generation
+- Change - Python2 and Splunk 7.x support is dropped starting from this release, TrackMe now only supports Splunk 8.x and Python3
 
 Version 1.2.51
 ==============

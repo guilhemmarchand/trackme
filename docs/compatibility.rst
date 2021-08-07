@@ -6,9 +6,11 @@ Splunk core compatibility
 
 .. admonition:: Splunk core
 
-    - TrackMe is compatible with Splunk 7.2.x and later.
+    - TrackMe is compatible with Splunk 8.x and later. (Python3 only support starting from release 1.2.52)
 
 The previous main branch of TrackMe (V1.1.x) was compatible with Splunk versions starting from Splunk 7.0.x, which changed from 7.2.x due to the usage of the mcollect command.
+
+The latest release compatible with Splunk 7.2.x/7.3.x and Python2 is the release 1.2.51.
 
 Splunk Cloud compatibility
 ##########################
@@ -36,9 +38,8 @@ Python compatibility
 
 .. admonition:: Python 3 compatibility
 
-    - TrackMe is fully compatible with Python 3
-    - Splunk Python SDK libs embedded in TrackMe are maintained up to date with official releases
-    - While Python 3 compatibility is the main target, TrackMe is as well cross compatible with Python 2
+    - TrackMe supports Python 3 exclusively
+    - Python2 support was dropped in release 1.2.51, starting from release 1.2.52 TrackMe only supports Python3
 
 Web Browser compatibility
 #########################
