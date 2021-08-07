@@ -41,3 +41,10 @@ trackme/backup
 build/*.tgz
 build/release-sha256.txt
 build/appinspect*.html
+
+# output
+output/*
+!output/README.txt
+
+# Python pickle
+*.pickle

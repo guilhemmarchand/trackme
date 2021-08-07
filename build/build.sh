@@ -4,20 +4,27 @@
 # for Mac OS X
 export COPYFILE_DISABLE=true
 
-PWD=`pwd`
-app="trackme"
-cp -a ../${app} .
-version=`grep 'version =' ${app}/default/app.conf | awk '{print $3}' | sed 's/\.//g'`
+PWD=$(pwd)
+OUTDIR="output"
 
+app="trackme"
+version=$(grep 'version =' ../version.txt | head -1 | awk '{print $3}' | sed 's/\.//g')
+ta_version=$(grep 'version =' ../version.txt | head -1 | awk '{print $3}')
+
+cd ../
+ucc-gen --ta-version "$ta_version"
+
+cd "${OUTDIR}"
+find . -name "*.pyc" -type f -exec rm -f {} \;
 rm -f *.tgz
-find . -name "*.pyc" -type f | xargs rm -f
-find . -name "*.py" -type f | xargs chmod go-x
-find trackme/lib -name "*.py" -type f | xargs chmod a-x
-tar -czf ${app}_${version}.tgz --exclude=${app}/local --exclude=${app}/backup --exclude=${app}/metadata/local.meta --exclude=${app}/lookups/lookup_file_backups --exclude=${app}/default.old* --exclude='./.*'  --exclude='.[^/]*' --exclude="._*" ${app}
+if [ -f ${app}/metadata/local.meta ]; then
+  rm -f ${app}/metadata/local.meta
+fi
+tar -czf ${app}_${version}.tgz ${app}
+echo "Wrote: ${app}_${version}.tgz"
 
 sha256=$(sha256sum ${app}_${version}.tgz)
-echo "Wrote: ${sha256}"
+echo "Wrote: ${sha256} in $OUTDIR"
 echo ${sha256} > release-sha256.txt
 
-rm -rf ${app}
 exit 0
