@@ -10,10 +10,10 @@ logger = logging.getLogger(__name__)
 splunkhome = os.environ['SPLUNK_HOME']
 sys.path.append(os.path.join(splunkhome, 'etc', 'apps', 'trackme', 'lib'))
 
-import rest_handler
+import trackme_rest_handler
 import splunklib.client as client
 
-class TrackMeHandlerBlockList_v1(rest_handler.RESTHandler):
+class TrackMeHandlerBlockList_v1(trackme_rest_handler.RESTHandler):
     def __init__(self, command_line, command_arg):
         super(TrackMeHandlerBlockList_v1, self).__init__(command_line, command_arg, logger)
 

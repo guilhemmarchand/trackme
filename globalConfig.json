@@ -142,11 +142,10 @@
         }
     ],
     "meta": {
-        "apiVersion": "3.2.0",
         "name": "trackme",
         "restRoot": "trackme",
-        "version": "1.2.52",
+        "version": "1.2.53",
         "displayName": "TrackMe",
-        "schemaVersion": "0.0.2"
+        "schemaVersion": "0.0.3"
     }
 }
