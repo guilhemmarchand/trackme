@@ -19,7 +19,7 @@ splunkhome = os.environ['SPLUNK_HOME']
 sys.path.append(os.path.join(splunkhome, 'etc', 'apps', 'trackme', 'lib'))
 
 from splunklib.searchcommands import dispatch, GeneratingCommand, Configuration, Option, validators
-import rest_handler
+import trackme_rest_handler
 import splunklib.client as client
 
 
