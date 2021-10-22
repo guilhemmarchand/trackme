@@ -10,6 +10,7 @@ Version 1.2.54
     - Some functions such as builtin alert actions are not compatible any longer with Python2 and Splunk 7.x
     - For the latest version available for Splunk 7.x, see the release 1.2.51
 
+- Fix - Issue #368 - Disable the KVstore to indexers replication for the kv_trackme_objects_summary collection
 
 Version 1.2.53
 ==============
