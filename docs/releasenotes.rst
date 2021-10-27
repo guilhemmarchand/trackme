@@ -10,6 +10,8 @@ Version 1.2.55
     - Some functions such as builtin alert actions are not compatible any longer with Python2 and Splunk 7.x
     - For the latest version available for Splunk 7.x, see the release 1.2.51
 
+- Feature: Provides a new split by custom mode to allow defining a custom indexed field in the data source discovery and maintenance workflow
+- Feature: Notification bar and various UI improvements in the configuration UI
 
 Version 1.2.54
 ==============

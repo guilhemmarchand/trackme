@@ -992,6 +992,32 @@ styles in <div> tags, similar to Bootstrap's grid system.
         </div>
     </div>
 
+    <!-- Custom split by input modal -->
+    <div class="modal fade" id="modal_input_split_by_custom" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header modal-header-danger">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h3 style="color: white;"><span class="glyphicon glyphicon-lock"></span>Custom split by mode</h3>
+                </div>
+                <div class="modal-body">
+
+                    <h2>Provide the custom indexed field to be used for entities discovery and by statement:</h2>
+                    <h3><i>The field must be an indexed field, you cannot specify more than one field and special characters are not allowed.</i></h3>
+                    <input type="text" id="input_split_by_custom_field" style="width: 300px;"/>
+
+                </div>
+
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-default btn-default pull-left" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Cancel</button>
+                    <button type="submit" id="btn_modal_input_split_by_custom_field" disabled='disabled' class="btn btn-default btn-primary pull-right" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Confirm</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- START MAIN -->
 
     <div id="rowManageResetInfo" class="dashboard-row dashboard-rowManageResetInfo">
@@ -1135,13 +1161,16 @@ styles in <div> tags, similar to Bootstrap's grid system.
                                     <span style="font-size: 22px; font-weight: bold; color: #6495ed; margin-top: 5px;">DATA SOURCE MODE</span>
                                 </div>
                                 <div style="margin-left: 50px; margin-right: 50px; margin-top: 20px; margin-bottom: 20px; text-align: justify;">
-                                    <h2>The default behaviour for data sources monitoring is to create entities based on index + ":" + sourcetype (<b>split mode</b>)
+                                    <h2>The <b>split mode</b> defines the default behaviour for data sources monitoring, which is to discover and maintain entities based on "index + ":" + sourcetype"
+                                        <br /><br />
+                                        Alternatively, you can use a different default mode depending on your needs:                                        
+                                        <lu>
+                                            <li><b>split by custom</b> mode (index + ":" + sourcetype + "|fieldName:" + fieldValue), in this mode you specify a custom indexed field for the discovery and breaking purposes</li>
+                                            <li><b>merged mode</b> which considers the index globally (index + ":" + "all"), the entity represents the whole index and all of its data</li>
+                                            <li><b>Cribl mode</b> to automatically discover and maintain entities based on the cribl pipe Metadata for Cribl Logstream customers</li>
+                                        </lu>
                                         <br />
-                                        Alternatively, you can use the <b>split by source</b> mode (index + ":" + sourcetype + ":" + source) or the <b>merged mode</b> which considers the index globally (index + ":" + "all")
-                                        <br />
-                                        Cibl Logstream customers can decide to enable the <b>Cribl mode</b> to automatically discover and maintain entities based on the cribl pipe Metadata
-                                        <br />
-                                        After the mode is changed, proceed to a reset of the collection to discover entities based on the new scheme (button Manage: reset collection for data sources)
+                                        After the mode is changed, proceed to a reset of the collection to discover entities based on the new scheme (button Manage: reset collection for data sources) and cleanout previously discovered entities.
                                     </h2>
                                 </div>
                             </div>
@@ -1168,8 +1197,8 @@ styles in <div> tags, similar to Bootstrap's grid system.
             <div class="dashboard-panel clearfix">
                 <h2 class="panel-title"></h2>
                 <div class="fieldset" style="text-align: center;">
-                    <div class="form-submit" id="btn_data_source_split_by_source_mode">
-                        <button id="btn_enable_data_source_split_by_source_mode" class="btn btn-primary submit">Enable split by source mode</button>
+                    <div class="form-submit" id="btn_data_source_split_by_custom_mode">
+                        <button id="btn_enable_data_source_split_by_custom_mode" class="btn btn-primary submit">Enable split custom mode</button>
                     </div>
                 </div>
             </div>
@@ -1970,16 +1999,15 @@ require([
             "jquery",
             "/static/app/trackme/notifybar/jquery.notifyBar.js",
             ], function ($) {
-            //code here
-            console.log("notify")
-            jQuery(function () {
-                jQuery.notifyBar({
-                cssClass: varCss,
-                position: varPosition,
-                html: varHtml,
-                delay: vardelay,
+                //code here
+                jQuery(function () {
+                    jQuery.notifyBar({
+                    cssClass: varCss,
+                    position: varPosition,
+                    html: varHtml,
+                    delay: vardelay,
+                    });
                 });
-            });
             });
         }
 
@@ -3593,7 +3621,7 @@ require([
 
                     if (!current_data_source_mode) {
                         document.getElementById('btn_enable_data_source_split_mode').disabled = false;
-                        document.getElementById('btn_enable_data_source_split_by_source_mode').disabled = false;
+                        document.getElementById('btn_enable_data_source_split_by_custom_mode').disabled = false;
                         document.getElementById('btn_enable_data_source_merged_mode').disabled = false;
                         document.getElementById('btn_enable_data_source_cribl_mode').disabled = false;
                         return;
@@ -3602,31 +3630,31 @@ require([
                     // Dynamically manage buttons states
                     if (current_data_source_mode == "trackme_data_source_split_mode") {
                         document.getElementById('btn_enable_data_source_split_mode').disabled = true;
-                        document.getElementById('btn_enable_data_source_split_by_source_mode').disabled = false;
+                        document.getElementById('btn_enable_data_source_split_by_custom_mode').disabled = false;
                         document.getElementById('btn_enable_data_source_merged_mode').disabled = false;
                         document.getElementById('btn_enable_data_source_cribl_mode').disabled = false;
                     }
-                    else if (current_data_source_mode == "trackme_data_source_split_bysource_mode") {
+                    else if (current_data_source_mode.includes("trackme_data_source_split_bycustom_mode")) {
                         document.getElementById('btn_enable_data_source_split_mode').disabled = false;
-                        document.getElementById('btn_enable_data_source_split_by_source_mode').disabled = true;
+                        document.getElementById('btn_enable_data_source_split_by_custom_mode').disabled = true;                        
                         document.getElementById('btn_enable_data_source_merged_mode').disabled = false;
                         document.getElementById('btn_enable_data_source_cribl_mode').disabled = false;
                     }
                     else if (current_data_source_mode == "trackme_data_source_merged_mode") {
                         document.getElementById('btn_enable_data_source_split_mode').disabled = false;
-                        document.getElementById('btn_enable_data_source_split_by_source_mode').disabled = false;
+                        document.getElementById('btn_enable_data_source_split_by_custom_mode').disabled = false;
                         document.getElementById('btn_enable_data_source_merged_mode').disabled = true;
                         document.getElementById('btn_enable_data_source_cribl_mode').disabled = false;
                     }
                     else if (current_data_source_mode == "trackme_data_source_cribl_mode") {
                         document.getElementById('btn_enable_data_source_split_mode').disabled = false;
-                        document.getElementById('btn_enable_data_source_split_by_source_mode').disabled = false;
+                        document.getElementById('btn_enable_data_source_split_by_custom_mode').disabled = false;
                         document.getElementById('btn_enable_data_source_merged_mode').disabled = false;
                         document.getElementById('btn_enable_data_source_cribl_mode').disabled = true;
                     }
                     else {
                         document.getElementById('btn_enable_data_source_split_mode').disabled = false;
-                        document.getElementById('btn_enable_data_source_split_by_source_mode').disabled = false;
+                        document.getElementById('btn_enable_data_source_split_by_custom_mode').disabled = false;
                         document.getElementById('btn_enable_data_source_merged_mode').disabled = false;
                         document.getElementById('btn_enable_data_source_cribl_mode').disabled = false;
                     }
@@ -3639,26 +3667,42 @@ require([
         get_data_source_mode();
 
         // Update the data sources mode
-        function update_data_source_mode(value) {
+        function update_data_source_mode(value, field) {
 
             var query_url = "/en-US/splunkd/__raw/servicesNS/nobody/trackme/configs/conf-macros/trackme_default_data_source_mode"
             var query_url2 = "/en-US/splunkd/__raw/servicesNS/nobody/trackme/configs/conf-macros/trackme_data_source_tstats_root_splitby"
-            var value = value;
+            var main_splitby_value;
+            var root_splitby_value;
 
+            // standard
             if (value == "trackme_data_source_split_mode") {
+                main_splitby_value = value;
                 change_type = "enable data source split mode";
                 root_splitby_value = "trackme_data_source_tstats_root_splitby_regular";
+            // split by source
             } else if (value == "trackme_data_source_split_bysource_mode") {
+                main_splitby_value = value;
                 change_type = "enable data source split by source mode";
                 root_splitby_value = "trackme_data_source_tstats_root_splitby_source";
+            // split by custom indexed field
+            } else if (value.includes("trackme_data_source_split_bycustom_mode")) {
+                // update the value in this specific case
+                main_splitby_value = "trackme_data_source_split_bycustom_mode(\"" + field + "\")";
+                change_type = "enable data source split by custom mode";
+                root_splitby_value = "trackme_data_source_tstats_root_splitby_custom(\"" + field + "\")";
+            // merged mode
             } else if (value == "trackme_data_source_merged_mode") {
+                main_splitby_value = value;
                 change_type = "enable data source merged mode";
                 root_splitby_value = "trackme_data_source_tstats_root_splitby_regular";
+            // cribl mode
             } else if (value == "trackme_data_source_cribl_mode") {
+                main_splitby_value = value;
                 change_type = "enable data source cribl mode";
                 root_splitby_value = "trackme_data_source_tstats_root_splitby_cribl";
             } else {
                 // default if unset
+                main_splitby_value = value;
                 change_type = "trackme_data_source_split_mode";
                 root_splitby_value = "trackme_data_source_tstats_root_splitby_regular";
             }
@@ -3668,7 +3712,7 @@ require([
                 type: "POST",
                 async: true,
                 contentType: "application/json",
-                data: "definition=`" + value + "`",
+                data: "definition=`" + main_splitby_value + "`",
                 success: function(returneddata) {
 
                     $.ajax({
@@ -3679,35 +3723,43 @@ require([
                         data: "definition=`" + root_splitby_value + "`",
                         success: function(returneddata) {
 
+                            // notify
+                            var msgMode;
+
                             // Update the buttons
                             if (value == "trackme_data_source_split_mode") {
                                 document.getElementById('btn_enable_data_source_split_mode').disabled = true;
-                                document.getElementById('btn_enable_data_source_split_by_source_mode').disabled = false;
+                                document.getElementById('btn_enable_data_source_split_by_custom_mode').disabled = false;
                                 document.getElementById('btn_enable_data_source_merged_mode').disabled = false;
                                 document.getElementById('btn_enable_data_source_cribl_mode').disabled = false;
-                            } else if (value == "trackme_data_source_split_bysource_mode") {
+                                msgMode = "Standard split by mode";
+                            } else if (value.includes("trackme_data_source_split_bycustom_mode")) {
                                 document.getElementById('btn_enable_data_source_split_mode').disabled = false;
-                                document.getElementById('btn_enable_data_source_split_by_source_mode').disabled = true;
+                                document.getElementById('btn_enable_data_source_split_by_custom_mode').disabled = true;
                                 document.getElementById('btn_enable_data_source_merged_mode').disabled = false;
                                 document.getElementById('btn_enable_data_source_cribl_mode').disabled = false;
+                                msgMode = "Split by custom mode";
                             } else if (value == "trackme_data_source_merged_mode") {
                                 document.getElementById('btn_enable_data_source_split_mode').disabled = false;
-                                document.getElementById('btn_enable_data_source_split_by_source_mode').disabled = false;
+                                document.getElementById('btn_enable_data_source_split_by_custom_mode').disabled = false;
                                 document.getElementById('btn_enable_data_source_merged_mode').disabled = true;
                                 document.getElementById('btn_enable_data_source_cribl_mode').disabled = false;
+                                msgMode = "merged mode";
                             } else if (value == "trackme_data_source_cribl_mode") {
                                 document.getElementById('btn_enable_data_source_split_mode').disabled = false;
-                                document.getElementById('btn_enable_data_source_split_by_source_mode').disabled = false;
+                                document.getElementById('btn_enable_data_source_split_by_custom_mode').disabled = false;
                                 document.getElementById('btn_enable_data_source_merged_mode').disabled = false;
                                 document.getElementById('btn_enable_data_source_cribl_mode').disabled = true;
+                                msgMode = "Cribl mode";
                             } else {
                                 document.getElementById('btn_enable_data_source_split_mode').disabled = false;
-                                document.getElementById('btn_enable_data_source_split_by_source_mode').disabled = false;
+                                document.getElementById('btn_enable_data_source_split_by_custom_mode').disabled = false;
                                 document.getElementById('btn_enable_data_source_merged_mode').disabled = false;
+                                msgMode = "Standard split by mode";
                             }
 
                             // notify
-                            notify("success", "bottom", 'Data source mode has been successfully set to: ' + value, "5");                            
+                            notify("success", "bottom", 'Data source mode has been successfully set to: ' + msgMode, "5");                            
 
                             // Audit
                             action = "success";
@@ -3761,22 +3813,51 @@ require([
 
         // Enable data source split mode
         $("#btn_enable_data_source_split_mode").click(function() {
-            update_data_source_mode("trackme_data_source_split_mode");
+            update_data_source_mode("trackme_data_source_split_mode", "null");
         });
 
-        // Enable data source split mode source variation
-        $("#btn_enable_data_source_split_by_source_mode").click(function() {
-            update_data_source_mode("trackme_data_source_split_bysource_mode");
+        // custom field, monitors value for custom field
+        $(function () {
+            $("#input_split_by_custom_field").keyup(function () {
+            if ($(this).val() == "") {
+                //Check to see if there is any text entered
+                // If there is no text within the input then disable the button
+                $("#btn_modal_input_split_by_custom_field").prop("disabled", true);
+            }
+            else if (/(\s|\,|\'|\")/i.test($(this).val())) {
+                $("#btn_modal_input_split_by_custom_field").prop("disabled", true);
+                notify("error", "bottom", 'An invalid input was detected, a single field must be provided with no special characters', "5");
+            } else {
+                //If there is text in the input, then enable the button if other conditions are met
+                $("#btn_modal_input_split_by_custom_field").prop("disabled", false);
+            }
+            });
+        });
+
+        // Custom split by modal input
+        $("#btn_enable_data_source_split_by_custom_mode").click(function() {
+            // open modal
+            $("#modal_input_split_by_custom").modal()
+        });
+
+        // retrieve the input value if confirmed, and proceed
+        $("#btn_modal_input_split_by_custom_field").click(function() {
+            $("#modal_input_split_by_custom").modal()
+
+            var customField = document.getElementById("input_split_by_custom_field").value;
+            if (customField != "" && customField != 'undefined') {
+                update_data_source_mode("trackme_data_source_split_bycustom_mode", customField);
+            }
         });
 
         // Enable data source merged mode
         $("#btn_enable_data_source_merged_mode").click(function() {
-            update_data_source_mode("trackme_data_source_merged_mode");
+            update_data_source_mode("trackme_data_source_merged_mode", "null");
         });
 
         // Enable cribl mode
         $("#btn_enable_data_source_cribl_mode").click(function() {
-            update_data_source_mode("trackme_data_source_cribl_mode");
+            update_data_source_mode("trackme_data_source_cribl_mode", "null");
         });
 
         // Outliers Production / Training mode
