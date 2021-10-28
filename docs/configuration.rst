@@ -130,10 +130,11 @@ TrackMe Data Sources - Define what works for you
 
 The primary concept of TrackMe is called **data sources**, See :ref:`Data Sources tracking and features` in the User guide for more explanations.
 
-For the purposes of defining the best strategy that works for you, let's explain the 3 modes available, which you can configure via the ``Trackme manage and configure`` interface:
+For the purposes of defining the best strategy that works for you, let's explain the different modes available, which you can configure via the ``Trackme manage and configure`` interface:
 
 - Split mode (default)
-- Merge mode
+- Split custom mode
+- Merged mode
 - Cribl mode
 
 .. image:: img/step_by_step_configure/ui_data_sources_mode.png
@@ -162,10 +163,23 @@ On the other hand, would we index these 3 WinEventLogs into a unique index, we w
 
 Don't worry, TrackMe has plenty of features that allow you to cover any use cases (Elastic Sources, allow and block listing, etc), the Split mode is generally what covers most use cases, but this is very depending to your context.
 
+Trackme Data Sources - split custom mode
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+The Split custom mode allows you to define an additional indexed field to be used when discovering and maintaining the data sources.
+
+Once you define the indexed field, entities are going to be created as following:
+
+``index + ":" + sourcetype + "|<keyName>:<keyValue>``
+
+Where ``keyName`` is the name of the indexed field, ``keyValue`` the value.
+
+.. hint:: Once enabled, any data source that does not include the indexed field will not be discovered any longer, you can handle any additional use cases as :ref:`Elastic Sources` or create custom trackers in hybrid mode.
+
 Trackme Data Sources - Merged mode
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-On the opposite, the Merged mode removes the concept of sourcetype and basically creates 1 entity per index, no matters what sourcetypes are indexed in it, entities are created as:
+The Merged mode removes the concept of sourcetype and basically creates 1 entity per index, no matters what sourcetypes are indexed in it, entities are created as:
 
 ``index + ":all"``
 
