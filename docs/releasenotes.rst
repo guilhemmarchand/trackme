@@ -1,6 +1,17 @@
 Release notes
 #############
 
+Version 1.2.56
+==============
+
+.. warning:: **Splunk 8.x and Python3 support only**
+
+    - Starting from this release, only Splunk 8.x and Python3 are supported
+    - Some functions such as builtin alert actions are not compatible any longer with Python2 and Splunk 7.x
+    - For the latest version available for Splunk 7.x, see the release 1.2.51
+
+- Fix Issue #372 - Non existing id section in app.conf was reported to cause trouble to Splunk Cloud internal automation
+
 Version 1.2.55
 ==============
 
