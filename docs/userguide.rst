@@ -2841,6 +2841,43 @@ Tags policies are applied sequentially in the order the entries are stored in th
    :align: center
    :width: 800px
 
+Tag policy multiple matching
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+**Tag policies are based on regular expressions, you can match multiple cases in a single policy relying on regex capabilities.**
+
+**Say you want to match entities:**
+
+- containing "network" at the beginning of the data source name
+- containing "firewall" at the beginning of the data source name
+- containing "proxy" at the beginning of the data source name
+
+A very simple regular expression could be:
+
+::
+
+   ^(network|firewall?proxy).*
+
+Which you can complete with as many conditions as needed.
+
+**You can obvisouly be even more specific, say we want to match:**
+
+- entities that are starting by "linux\_" as the index prefix
+- in these entities, only those matching either "amer", "emea" or "apac"
+- terminate properly the entities naming convention, such that there can be no risk of unexpectly matching other entities
+
+Our entities look like: (note that in this example we use the merging mode, therefore all entities are suffixed by ":all")
+
+- "linux_amer:all"
+- "linux_emea:all"
+- "linux_apac:all"
+
+Our strict matching tag policy regular expression could be:
+
+::
+
+   ^linux_(amer|apac|emea):all$
+
 Update and delete tags policies
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
