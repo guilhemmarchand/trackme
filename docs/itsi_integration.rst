@@ -137,7 +137,9 @@ Step 2: create the KPI base search for metrics
 
 ::
 
-   | mstats latest(trackme.eventcount_4h) as trackme.eventcount_4h, latest(trackme.lag_event_sec) as trackme.lag_event_sec, latest(trackme.lag_ingestion_sec) as trackme.lag_ingestion_sec where index=trackme_metrics by object_category, object | rename object_category as trackme_object_category, object as trackme_object
+   index=trackme_summary source="current_state_tracking:data_source"
+   | stats latest(data_eventcount) as trackme.eventcount_4h, latest(data_last_lag_seen) as trackme.lag_event_sec, latest(data_last_ingestion_lag_seen) as trackme.lag_ingestion_sec by _time, object_category, object
+   | rename object_category as trackme_object_category, object as trackme_object
 
 - KPI Search Schedule: **Every 5 minutes**
 - Calculation Window: **Last 5 minutes**
