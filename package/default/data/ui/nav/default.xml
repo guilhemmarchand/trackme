@@ -27,6 +27,7 @@
         <a href="search?q=%7C%20inputlookup%20trackme_data_source_monitoring_blacklist_index%20%7C%20eval%20keyid%3D_key">Blocklist indexes</a>
         <a href="search?q=%7C%20inputlookup%20trackme_data_source_monitoring_blacklist_host%20%7C%20eval%20keyid%3D_key">Blocklist hosts</a>
         <a href="search?q=%7C%20inputlookup%20trackme_data_source_monitoring_blacklist_sourcetype%20%7C%20eval%20keyid%3D_key">Blocklist sourcetypes</a>
+        <a href="search?q=%7C%20inputlookup%20trackme_data_source_monitoring_blacklist_data_name%20%7C%20eval%20keyid%3D_key">Blocklist data_name</a>        
       </collection>
       <collection label="Data sampling &amp; event format detection">
         <a href="search?q=%7C%20inputlookup%20trackme_data_sampling%20%7C%20eval%20keyid%3D_key">Data sampling and event format detection collection</a>

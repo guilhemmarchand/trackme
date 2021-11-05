@@ -765,13 +765,17 @@ class TrackMeHandlerBackupAndRestore_v1(trackme_rest_handler.RESTHandler):
                         f = open (collection_source_file, "r")
                         data = json.loads(f.read())
 
-                        # Restore from the json file
-                        try:
-                            collection.data.batch_save(*data)
-                        except Exception as e:
-                            return {
-                                'payload': 'Warn: exception encountered: ' + str(e) # Payload of the request.
-                            }
+                        # process by chunk
+                        chunks = [data[i:i + 500] for i in range(0, len(data), 500)]
+                        for chunk in chunks:
+
+                            # Restore from the json file
+                            try:
+                                collection.data.batch_save(*chunk)
+                            except Exception as e:
+                                return {
+                                    'payload': 'Warn: exception encountered: ' + str(e) # Payload of the request.
+                                }
 
                         # clean out
                         f.close()
@@ -805,13 +809,17 @@ class TrackMeHandlerBackupAndRestore_v1(trackme_rest_handler.RESTHandler):
                                 'payload': 'Warn: exception encountered: ' + str(e) # Payload of the request.
                             }
 
-                        # Restore from the json file
-                        try:
-                            collection.data.batch_save(*data)
-                        except Exception as e:
-                            return {
-                                'payload': 'Warn: exception encountered: ' + str(e) # Payload of the request.
-                            }
+                        # process by chunk
+                        chunks = [data[i:i + 500] for i in range(0, len(data), 500)]
+                        for chunk in chunks:
+
+                            # Restore from the json file
+                            try:
+                                collection.data.batch_save(*chunk)
+                            except Exception as e:
+                                return {
+                                    'payload': 'Warn: exception encountered: ' + str(e) # Payload of the request.
+                                }
 
                         # clean out
                         f.close()

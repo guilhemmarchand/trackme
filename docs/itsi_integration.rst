@@ -384,7 +384,7 @@ Step 4: create a service that will be used for the service template definition
 
 *Click next until you can hit the finish button.*
 
-**TrackMe:high_red**
+**TrackMe:medium_red**
 
 - Title: TrackMe:high_red
 - Description: TrackMe records flapping statuses events based on the entity priority, this metric handles high priority entities swtiching to a red status
@@ -458,7 +458,7 @@ Step 5: create a service template
    :width: 500px
    :class: with-border
 
-Step 6: fine tun threasholds
+Step 6: fine tune thresholds
 ----------------------------
 
 On the service template, you can fine tune some of the thresholds, essentially regarding the status flapping metrics.
