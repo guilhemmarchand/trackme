@@ -11,6 +11,7 @@ Version 1.2.57
     - For the latest version available for Splunk 7.x, see the release 1.2.51
 
 - Fix Issue #375 - restore fails due to max document per batch API limit reached
+- Fix Issue #371 - typo in Data sampling error messages
 
 Version 1.2.56
 ==============
