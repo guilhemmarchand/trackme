@@ -3530,7 +3530,11 @@ Depending on either there are no eligible archives, the response above would app
 Restoring a backup
 ------------------
 
-.. warning:: Restoring means the content of all KVstore collections will be permanently lost and replaced by the backup, use with precautions!
+.. warning:: **Restoring means the content of all KVstore collections will be permanently lost and replaced by the backup, use with precautions!**
+
+   - Splunk API limits by default the max number of document per batch to 1000
+   - trackMe uses a chunk approach that limits to 500 document per API call
+   - To be able to perform a restore operation, ensure that limits.conf / kvstore / max_documents_per_batch_save is equal or superior to 500
 
 Restoring relies on the :ref:`restore / Perform a restore of KVstore collections` API endpoint, which can be actionned via the ``trackme`` command, you can list the options:
 
