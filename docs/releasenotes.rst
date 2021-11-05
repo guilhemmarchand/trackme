@@ -12,6 +12,7 @@ Version 1.2.57
 
 - Fix Issue #375 - restore fails due to max document per batch API limit reached
 - Fix Issue #371 - typo in Data sampling error messages
+- Fix Issue #374 - missing shortcut to trackme_data_source_monitoring_blacklist_data_name in the nav menu
 
 Version 1.2.56
 ==============
