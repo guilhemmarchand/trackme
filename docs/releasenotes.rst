@@ -11,6 +11,7 @@ Version 1.2.58
     - For the latest version available for Splunk 7.x, see the release 1.2.51
 
 - Fix Issue #379 - urllib3 insecure error messages from custom endpoint when interracting with splunkd
+- Fix Issue #378 - backup and restore generate POST related warning messages
 
 Version 1.2.57
 ==============
