@@ -37,7 +37,7 @@
           <i>Restore all collections from an backup archive file via REST using the trackme API command:</i>
           <br/>
           <code style="font-size: 15px; color: black;">
-          | <span style="color: blue;">trackme</span> <span style="color: green;">url</span>="/services/trackme/v1/backup_and_restore/restore" <span style="color: green;">mode</span>="post" <span style="color: green;">body</span>="{body="{'backup_archive': 'trackme-backup-20210205-142635.tgz', 'dry_run': 'false', 'target': 'all'}"
+          | <span style="color: blue;">trackme</span> <span style="color: green;">url</span>="/services/trackme/v1/backup_and_restore/restore" <span style="color: green;">mode</span>="post" <span style="color: green;">body</span>="{'backup_archive': 'trackme-backup-20210205-142635.tgz', 'dry_run': 'false', 'target': 'all'}"
           </code>
         </h2>
 
@@ -45,7 +45,7 @@
           <i>Restore a specific collection from an backup archive file via REST using the trackme API command:</i>
           <br/>
           <code style="font-size: 15px; color: black;">
-          | <span style="color: blue;">trackme</span> <span style="color: green;">url</span>="/services/trackme/v1/backup_and_restore/restore" <span style="color: green;">mode</span>="post" <span style="color: green;">body</span>="{body="{'backup_archive': 'trackme-backup-20210205-142635.tgz', 'dry_run': 'false', 'target': 'kv_trackme_data_source_monitoring.json'}"
+          | <span style="color: blue;">trackme</span> <span style="color: green;">url</span>="/services/trackme/v1/backup_and_restore/restore" <span style="color: green;">mode</span>="post" <span style="color: green;">body</span>="{'backup_archive': 'trackme-backup-20210205-142635.tgz', 'dry_run': 'false', 'target': 'kv_trackme_data_source_monitoring.json'}"
           </code>
         </h2>
 

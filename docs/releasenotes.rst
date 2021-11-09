@@ -12,6 +12,7 @@ Version 1.2.58
 
 - Fix Issue #379 - urllib3 insecure error messages from custom endpoint when interracting with splunkd
 - Fix Issue #378 - backup and restore generate POST related warning messages
+- Fix Issue #377 - Typos in sample instructions in backup and restore user interface
 
 Version 1.2.57
 ==============
