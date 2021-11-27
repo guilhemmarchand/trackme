@@ -1,0 +1,365 @@
+<dashboard version="1.1" theme="dark" stylesheet="trackme:common.css" script="TrackMe_maintenance_v100.js" >
+  <label>TrackMe Maintenance Mode</label>
+  <row>
+    <panel>
+      <html>
+        <div style="text-align: center; border: 3px dashed #ccc;">
+            <div style="display: inline-flex; align-items: center; margin-top: 5px;">
+                <span style="font-size: 22px; font-weight: bold; color: #6495ed; margin-top: 10px; margin-bottom: 10px;">MAINTENANCE MODE</span>
+            </div>
+        </div>
+      </html>
+    </panel>
+  </row>
+  <row>
+    <panel>
+      <html>
+        <div style="text-align: left;">
+              <div style="margin-top: 20px;">
+                <h1>The maintenance mode can be activated for a given period of time to automatically silence all alerts from TrackMe.</h1>
+                <ul>
+                  <li>Once activated or scheduled to be activated automatically, alerts will continue to be executed but will not be able to trigger based on the maintenance mode condition.</li>
+                  <li>The maintenance mode can be enabled / disabled at any time,  and its period can be extended if required.</li>
+                  <li>Once the maintenance end time has been reached, it will automatically be disabled.</li>
+                  <li>Time is shown in your own local time zone settings.</li>
+                </ul>
+              </div>
+        </div>
+      </html>
+
+      <html>
+
+        <!-- Modal window for maintenance enable end time calendar selection -->
+        <div class="modal fade" id="enable_maintenance_endtime" role="dialog">
+            <div class="modal-dialog">
+
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-header modal-header-danger">
+                        <button type="button" class="close" data-dismiss="modal"></button>
+                        <h1 style="color: white;"><span class="glyphicon glyphicon-lock"></span> Enabling the maintenance mode</h1>
+                    </div>
+                    <div class="modal-body">
+
+                        <p><b>Enable maintenance mode to avoid alerts triggering during your maintenance time window:</b></p>
+
+                        <div class="dateInput">
+                            <div style="margin-bottom: 6px">Maintenance modes starts on:</div>
+                            <input id="inputStartMaintenance" type="date"></input>
+                        </div>
+                        <div class="input input-dropdown" id="inputStartMaintenanceTime">
+                            <label>At:</label>
+                        </div>
+
+                        <div class="dateInput">
+                            <div style="margin-bottom: 6px">Maintenance modes ends on:</div>
+                            <input id="inputEndMaintenance" type="date"></input>
+                        </div>
+                        <div class="input input-dropdown" id="inputEndMaintenanceTime">
+                            <label>At:</label>
+                        </div>
+
+                      <div class="custom-textarea">
+
+                        <p>
+                            <label>Optional: enter a note of this update. <br />
+                                This note will be logged and made available for notification.</label>
+                            <textarea
+                                    id = "input_enable_comment"
+                                    rows = "6"
+                                    cols = "160" style="width: 500px;"
+                                    onfocus="if(this.value==this.defaultValue)this.value='';" onblur="if(this.value=='')this.value=this.defaultValue;">update note</textarea>
+                        </p>
+
+                      </div>
+
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-default btn-default pull-left" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Cancel</button>
+                        <button id="btn_enable_maintenance_endtime" type="submit" class="btn btn-default btn-danger pull-right" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Ok</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+      </html>
+
+      <html>
+
+        <!-- Modal window asking for confirmation before deactivating the maintenance mode -->
+        <div class="modal fade" id="disabled_maintenance_confirmation" role="dialog">
+            <div class="modal-dialog">
+
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-header modal-header-danger">
+                        <button type="button" class="close" data-dismiss="modal"></button>
+                        <h1 style="color: white;"><span class="glyphicon glyphicon-lock"></span> Disabling the maintenance mode</h1>
+                    </div>
+                    <div class="modal-body">
+
+                      <div class="custom-textarea">
+
+                        <p><b>Do you want to confirm disabling the maintenance mode?</b>
+                            Once the maintenance mode will be disabled, all activated alerts will be able to trigger.
+                        </p>
+
+                        <p>
+                            <label>Optional: enter a note of this update. <br />
+                                This note will be logged and made available for notification.</label>
+                            <textarea
+                                    id = "input_disable_comment"
+                                    rows = "6"
+                                    cols = "160" style="width: 500px;"
+                                    onfocus="if(this.value==this.defaultValue)this.value='';" onblur="if(this.value=='')this.value=this.defaultValue;">update note</textarea>
+                        </p>
+
+                      </div>
+
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-default btn-default pull-left" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Cancel</button>
+                        <button id="btn_disable_maintenance_confirmation" type="submit" class="btn btn-default btn-info pull-right" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Ok</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Maintenance mode selection is invalid -->
+        <div class="modal fade" id="maintenance_mode_date_is_invalid" role="dialog">
+            <div class="modal-dialog">
+
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-header modal-header-danger">
+                        <button type="button" class="close" data-dismiss="modal"></button>
+                        <h1 style="color: white;"><span class="glyphicon glyphicon-lock"></span>Oops!</h1>
+                    </div>
+                    <div class="modal-body">
+                        <p><b>Invalid entry:</b> the selected date time is in the past or your start / end time selection is invalid, please correct your selection.
+                        </p>
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-default btn-info pull-right" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Ok</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Maintenance mode end of date is invalid -->
+        <div class="modal fade" id="maintenance_mode_data_is_invalid" role="dialog">
+            <div class="modal-dialog">
+
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal"></button>
+                        <h1 style="color: indianred;"><span class="glyphicon glyphicon-lock"></span>Maintenance mode</h1>
+                    </div>
+                    <div class="modal-body">
+                        <p><b>Invalid entry:</b> the date / time entries are empty or incorrect, please select a valid end date for the maintenance mode.
+                        </p>
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-default btn-primary pull-right" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Ok</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- maintenance mode disabled -->
+        <div class="modal fade" id="modal_maintenance_mode_disabled" role="dialog">
+            <div class="modal-dialog">
+
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-header modal-header-success">
+                        <button type="button" class="close" data-dismiss="modal"></button>
+                        <h1 style="color: #77dd77;"><span class="glyphicon glyphicon-lock"></span>Maintenance mode has been disabled</h1>
+                    </div>
+                    <div class="modal-body">
+                        <p>
+                            Returning to normal operation mode, all of the activated alerts will be able to trigger starting now. <br />
+                        </p>
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-info pull-right" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Ok</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- maintenance mode final message-->
+        <div class="modal fade" id="modal_maintenance_mode_confirmed" role="dialog">
+            <div class="modal-dialog">
+
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-header modal-header-success">
+                        <button type="button" class="close" data-dismiss="modal"></button>
+                        <h1 style="color: #77dd77;"><span class="glyphicon glyphicon-lock"></span>Maintenance mode has been enabled</h1>
+                    </div>
+                    <div class="modal-body">
+                        <p>
+                            None of the alerts will be able to trigger during the maintenance time window. <br />
+                            The maintenance mode will be automatically deactivated when the end date time configured will be reached.
+                        </p>
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-info pull-right" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Ok</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- maintenance mode final message-->
+        <div class="modal fade" id="modal_maintenance_mode_scheduled" role="dialog">
+            <div class="modal-dialog">
+
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-header modal-header-success">
+                        <button type="button" class="close" data-dismiss="modal"></button>
+                        <h1 style="color: #77dd77;"><span class="glyphicon glyphicon-lock"></span>Maintenance mode scheduled</h1>
+                    </div>
+                    <div class="modal-body">
+                        <p>
+                            The scheduled report will automatically enable the maintenance mode according to your request. <br />
+                            During the maintenance time window, none of the Kafka alerting wll be able to trigger.
+                        </p>
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-default btn-default pull-right" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Ok</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Error or failure while attempting to enable or disable the maintenance mode -->
+        <div class="modal fade" id="modal_maintenance_mode_failure" role="dialog">
+            <div class="modal-dialog">
+
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-header modal-header-success">
+                        <button type="button" class="close" data-dismiss="modal"></button>
+                        <h1 style="color: indianred;"><span class="glyphicon glyphicon-lock"></span>Oops!</h1>
+                    </div>
+                    <div class="modal-body">
+                        <p>Sorry but it looks like an error occurred while attempting to modify the maintenance mode.<br />
+                            <b>You might not have the permission to write to the collection</b>, or an unexpected failure was encountered.
+                        </p>
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-default btn-default pull-right" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Error loading the current maintenance mode -->
+        <div class="modal fade" id="modal_loading_maintenance_mode_failure" role="dialog">
+            <div class="modal-dialog">
+
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-header modal-header-success">
+                        <button type="button" class="close" data-dismiss="modal"></button>
+                        <h1 style="color: indianred;"><span class="glyphicon glyphicon-lock"></span>Oops!</h1>
+                    </div>
+                    <div class="modal-body">
+                        <p>Sorry but it looks like an error occurred while loading the current maintenance mode status.
+                            <br /><br />
+                            Please attempt to refresh the page or review Splunk logs.<br />
+                            <b>If the application was just deployed, please make sure Splunk was restarted after the installation.</b>
+                        </p>
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-default btn-default pull-right" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Error or failure during KVstore collection update -->
+        <div class="modal fade" id="modal_update_collection_failure_return" role="dialog">
+            <div class="modal-dialog">
+
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-header modal-header-danger">
+                        <button type="button" class="close" data-dismiss="modal"></button>
+                        <h1 style="color: indianred;"><span class="glyphicon glyphicon-lock"></span>Oops!</h1>
+                    </div>
+                    <div class="modal-body">
+                        <p>Sorry but it looks like an error occurred while attempting to perform the KVstore collection update.<br />
+                            <b>You might not have the permission to write to the collection</b>, or an unexpected failure was encountered.<br />
+                            <b>The server returned the following error message:</b>
+                        </p>
+                        <div class="modal-error-message" style="margin: 10px 0; padding: 10px; border-radius: 3px 3px 3px 3px; color: #D8000C; background-color: #FFBABA;">
+                            <p>error return message</p>
+                        </div>
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-default btn-default pull-right" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+      </html>
+
+    </panel>
+  </row>
+  <row>
+    <panel>
+      <html>
+        <div id="element_maintenance_state"></div>
+      </html>
+    </panel>
+  </row>
+  <row depends="$maintenance_enabled$">
+    <panel>
+      <html>
+        <div id="element_maintenance_state_reactivation"></div>
+      </html>
+    </panel>
+  </row>
+  <row depends="$maintenance_scheduled$">
+    <panel>
+      <html>
+        <div id="element_maintenance_state_scheduled"></div>
+      </html>
+    </panel>
+  </row>
+  <row>
+    <panel>
+      <html>
+        <div style="text-align: center;">
+            <div id="btn_enable_maintenance">
+                <button id="btn_press_enable_maintenance" class="btn btn-danger submit">Enable maintenance mode</button>
+            </div>
+        </div>
+      </html>
+    </panel>
+    <panel>
+      <html>
+        <div style="text-align: center;">
+            <div id="btn_disable_maintenance">
+                <button id="btn_press_disable_maintenance" class="btn btn-info submit">Disable maintenance mode</button>
+            </div>
+        </div>
+      </html>
+    </panel>
+  </row>
+</dashboard>
