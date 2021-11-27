@@ -1,4 +1,4 @@
-<dashboard version="1.1" theme="dark" stylesheet="trackme:common.css" script="TrackMe_maintenance_v100.js" >
+<dashboard version="1.1" theme="dark" stylesheet="trackme:common.css" script="trackMe_maintenance_v100.js" >
   <label>TrackMe Maintenance Mode</label>
   <row>
     <panel>
