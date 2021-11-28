@@ -135,7 +135,7 @@
                 <div class="modal-content">
                     <div class="modal-header modal-header-danger">
                         <button type="button" class="close" data-dismiss="modal"></button>
-                        <h1 style="color: white;"><span class="glyphicon glyphicon-lock"></span>Oops!</h1>
+                        <h1 style="color: indianred;"><span class="glyphicon glyphicon-lock"></span>Oops!</h1>
                     </div>
                     <div class="modal-body">
                         <p><b>Invalid entry:</b> the selected date time is in the past or your start / end time selection is invalid, please correct your selection.

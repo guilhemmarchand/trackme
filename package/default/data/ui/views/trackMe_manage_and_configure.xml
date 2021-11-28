@@ -1,0 +1,845 @@
+<dashboard version="1.1" theme="dark" stylesheet="trackme:common.css,trackme:notifybar/jquery.notifyBar.css,trackme:css-loader/css-loader.css" script="trackMe_manage_and_configure_v100.js" >
+  <label>TrackMe Manage and configure</label>
+  <row>
+    <panel>
+      <html>
+
+      <style>
+
+        .imgheader36 img {
+            float: left;
+            width: 36px;
+            height: 36px;
+        }
+
+        .imgheader36 h1 {
+            color: lightslategrey;
+            text-align: left;
+            position: relative;
+            top: 9px;
+            left: 10px;
+        }
+
+        .imgheader36 h3 {
+            position: relative;
+            top: 8px;
+            left: -10px;
+        }
+
+        .imgminiheader img {
+            position: relative;
+            top: -4px;
+        }
+
+      </style>
+
+        <!-- Error or failure during KVstore collection update -->
+        <div class="modal fade" id="modal_update_collection_failure_return" role="dialog">
+            <div class="modal-dialog">
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-header modal-header-danger">
+                        <button type="button" class="close" data-dismiss="modal"></button>
+                        <h1 style="color: indianred;"><span class="glyphicon glyphicon-lock"></span>Oops!</h1>
+                    </div>
+                    <div class="modal-body">
+                        <p>Sorry but it looks like an error occurred while attempting to perform the KVstore collection update.<br />
+                            <b>You might not have the permission to write to the collection</b>, or an unexpected failure was encountered.<br />
+                            <b>The server returned the following error message:</b>
+                        </p>
+                        <div class="modal-error-message" style="margin: 10px 0; padding: 10px; border-radius: 3px 3px 3px 3px; color: #D8000C; background-color: #FFBABA;">
+                            <p>error return message</p>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-default btn-default pull-right" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Reset data source collection -->
+        <div class="modal fade" id="modal_reset_data_host" role="dialog">
+            <div class="modal-dialog">
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-header modal-header-danger">
+                        <button type="button" class="close" data-dismiss="modal"></button>
+                        <h1 style="color: indianred;"><span class="glyphicon glyphicon-lock"></span>Data collection reset</h1>
+                    </div>
+                    <div class="modal-body">
+                        <p>
+                            <b>Are you sure that you want to reset the data host collection?</b><br />
+                            All changes in the collection will be irremediably lost and trackers will be automatically started to populate a fresh collection version.
+                            <b>Which changes will be affected?</b>
+                            <ul>
+                                <li>modifications of lagging values for all entries</li>
+                                <li>modifications of week days rules for all entries</li>
+                            </ul>
+                            <b>Whitelisted/Blacklisted items will not be touched at any level, and will be preserved in their current state.</b>
+                        </p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-default btn-default pull-left" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Cancel</button>
+                        <button type="submit" id="btn_modal_reset_data_host_confirmed" class="btn btn-default btn-danger pull-right" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Ok</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Reset data source collection -->
+        <div class="modal fade" id="modal_reset_data_source" role="dialog">
+            <div class="modal-dialog">
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-header modal-header-danger">
+                        <button type="button" class="close" data-dismiss="modal"></button>
+                        <h1 style="color: indianred;"><span class="glyphicon glyphicon-lock"></span>Data collection reset</h1>
+                    </div>
+                    <div class="modal-body">
+                        <p>
+                            <b>Are you sure that you want to reset the data source collection?</b><br />
+                            All changes in the collection will be irremediably lost and trackers will be automatically started to populate a fresh collection version.
+                            <b>Which changes will be affected?</b>
+                            <ul>
+                                <li>modifications of lagging values for all entries</li>
+                                <li>modifications of week days rules for all entries</li>
+                                <li>modifications of monitoring level for all entries</li>
+                            </ul>
+                            <b>Whitelisted/Blacklisted items will not be touched at any level, and will be preserved in their current state.</b>
+                        </p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-default btn-default pull-left" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Cancel</button>
+                        <button type="submit" id="btn_modal_reset_data_source_confirmed" class="btn btn-default btn-danger pull-right" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Ok</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Reset data source collection -->
+        <div class="modal fade" id="modal_reset_metric_host" role="dialog">
+            <div class="modal-dialog">
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-header modal-header-danger">
+                        <button type="button" class="close" data-dismiss="modal"></button>
+                        <h1 style="color: indianred;"><span class="glyphicon glyphicon-lock"></span>Metric collection reset</h1>
+                    </div>
+                    <div class="modal-body">
+                        <p>
+                            <b>Are you sure that you want to reset the metric host collection?</b><br />
+                            All changes in the collection will be irremediably lost and the metric tracker will be automatically started to populate a fresh collection version.
+                            <b>Which changes will be affected?</b>
+                            <ul>
+                                <li>List of metric hosts in the collection</li>
+                                <li>Activation state of collection entries</li>
+                            </ul>
+                            <b>Whitelisted/Blacklisted items and metric SLA policies will not be touched at any level, and will be preserved in their current state.</b>
+                        </p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-default btn-default pull-left" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Cancel</button>
+                        <button type="submit" id="btn_modal_reset_metric_host_confirmed" class="btn btn-default btn-danger pull-right" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Ok</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Reset done -->
+        <div class="modal fade" id="modal_reset_done" role="dialog">
+            <div class="modal-dialog">
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-header modal-header-danger">
+                        <button type="button" class="close" data-dismiss="modal"></button>
+                        <h1 style="color: #77dd77;"><span class="glyphicon glyphicon-lock"></span>Success</h1>
+                    </div>
+                    <div class="modal-body">
+                        <h3>The collection was successfully reset.</h3>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-default btn-info pull-right" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Ok!</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Custom split by input modal -->
+        <div class="modal fade" id="modal_input_split_by_custom" role="dialog">
+            <div class="modal-dialog">
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-header modal-header-danger">
+                        <button type="button" class="close" data-dismiss="modal"></button>
+                        <h1 style="color: white;"><span class="glyphicon glyphicon-lock"></span>Custom split by mode</h1>
+                    </div>
+                    <div class="modal-body">
+                        <h2>Provide the custom indexed field to be used for entities discovery and by statement:</h2>
+                        <h3><i>The field must be an indexed field, you cannot specify more than one field and special characters are not allowed.</i></h3>
+                        <input type="text" id="input_split_by_custom_field" style="width: 300px;"></input>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-default btn-default pull-left" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Cancel</button>
+                        <button type="submit" id="btn_modal_input_split_by_custom_field" disabled='disabled' class="btn btn-default btn-info pull-right" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Confirm</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div style="text-align: center; border: 3px dashed #ccc;">
+            <div style="display: inline-flex; align-items: center; margin-top: 5px;">
+                <span style="font-size: 22px; font-weight: bold; color: #6495ed; margin-top: 10px; margin-bottom: 10px;">RESET COLLECTIONS</span>
+            </div>
+        </div>
+      </html>
+    </panel>
+  </row>
+
+  <!-- Reset collections -->
+
+  <row>
+    <panel>
+        <html>
+            <div>
+                <div style="margin-bottom: 15px;">
+                    <h2>Use this function to reset the <b>data_source</b> collection and automatically run trackers:</h2>
+                    <button type="submit" id="btn_manage_reset_data_source" style="margin-right: 15px;" class="btn btn-default btn-danger" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Manage: reset collection</button>
+                </div>
+            </div>
+        </html>
+    </panel>
+    <panel>
+        <html>
+            <div>
+                <div style="margin-bottom: 15px;">
+                    <h2>Use this function to reset the <b>data_host</b> collection and automatically run trackers:</h2>
+                    <button type="submit" id="btn_manage_reset_data_host" style="margin-right: 15px;" class="btn btn-default btn-danger" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Manage: reset collection</button>
+                </div>
+            </div>
+        </html>
+    </panel>
+    <panel>
+        <html>
+            <div>
+                <div style="margin-bottom: 15px;">
+                    <h2>Use this function to reset the <b>metric_host</b> collection and automatically run trackers:</h2>
+                    <button type="submit" id="btn_manage_reset_metric_host" style="margin-right: 15px;" class="btn btn-default btn-danger" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Manage: reset collection</button>
+                </div>
+            </div>
+        </html>
+    </panel>
+  </row>
+
+  <!-- Reset collections -->
+
+  <row>
+    <panel>
+        <html>
+            <div style="text-align: center; border: 3px dashed #ccc;">
+                <div style="display: inline-flex; align-items: center; margin-top: 5px;">
+                    <span style="font-size: 22px; font-weight: bold; color: #6495ed; margin-top: 5px;">BEHAVIOUR ANALYTIC MODE</span>
+                </div>
+                <div style="margin-left: 50px; margin-right: 50px; margin-top: 20px; margin-bottom: 20px; text-align: justify;">
+                    <h2>Manage the behaviour analytic mode, when the Production mode is enabled, true positive alerts will generate a red state, in training mode these will generate an orange state, in disabled mode these will not impact the state.</h2>
+                </div>
+                <div class="fieldset" style="text-align: center; margin-top: 10px; margin-bottom: 10px;">
+                    <div class="form-submit" id="btn_enable_production_mode" style="margin-right: 60px;">
+                        <button id="btn_enable_production_mode_confirm" class="btn btn-danger submit">Enable production mode</button>
+                    </div>
+                    <div class="form-submit" id="btn_enable_training_mode" style="margin-right: 60px;">
+                        <button id="btn_enable_training_mode_confirm" class="btn btn-info submit">Enable training mode</button>
+                    </div>
+                    <div class="form-submit" id="btn_disabled_mode" style="margin-right: 60px;">
+                        <button id="btn_disabled_mode_confirm" class="btn btn-info submit">Disable behaviour analytic</button>
+                    </div>
+                </div>
+            </div>
+        </html>
+    </panel>
+  </row>
+
+<!-- Data source mode -->
+<row>
+    <panel>
+        <html>
+            <div style="text-align: center; border: 3px dashed #ccc;">
+                <div style="display: inline-flex; align-items: center; margin-top: 5px;">
+                    <span style="font-size: 22px; font-weight: bold; color: #6495ed; margin-top: 5px;">DATA SOURCE MODE</span>
+                </div>
+                <div style="margin-left: 50px; margin-right: 50px; margin-top: 20px; margin-bottom: 20px; text-align: justify;">
+                    <h2>The <b>split mode</b> defines the default behaviour for data sources monitoring, which is to discover and maintain entities based on "index + ":" + sourcetype"
+                        Alternatively, you can use a different default mode depending on your needs:                                        
+                        <ul>
+                            <li><b>split by custom</b> mode (index + ":" + sourcetype + "|fieldName:" + fieldValue), in this mode you specify a custom indexed field for the discovery and breaking purposes</li>
+                            <li><b>merged mode</b> which considers the index globally (index + ":" + "all"), the entity represents the whole index and all of its data</li>
+                            <li><b>Cribl mode</b> to automatically discover and maintain entities based on the cribl pipe Metadata for Cribl Logstream customers</li>
+                        </ul>
+                        After the mode is changed, proceed to a reset of the collection to discover entities based on the new scheme (button Manage: reset collection for data sources) and cleanout previously discovered entities.
+                    </h2>
+                </div>
+                <div class="fieldset" style="text-align: center; margin-top: 10px; margin-bottom: 10px;">
+                    <div class="form-submit" id="btn_data_source_split_mode" style="margin-right: 60px;">
+                        <button id="btn_enable_data_source_split_mode" class="btn btn-info submit">Enable split mode</button>
+                    </div>
+                    <div class="form-submit" id="btn_data_source_split_by_custom_mode" style="margin-right: 60px;">
+                        <button id="btn_enable_data_source_split_by_custom_mode" class="btn btn-info submit">Enable split custom mode</button>
+                    </div>
+                    <div class="form-submit" id="btn_data_source_merged_mode" style="margin-right: 60px;">
+                        <button id="btn_enable_data_source_merged_mode" class="btn btn-info submit">Enable merged mode</button>
+                    </div>
+                    <div class="form-submit" id="btn_data_source_merged_mode" style="margin-right: 60px;">
+                        <button id="btn_enable_data_source_cribl_mode" class="btn btn-info submit">Enable CRIBL mode</button>
+                    </div>
+                </div>
+            </div>
+        </html>
+    </panel>
+</row>
+
+<!-- Data host alerting policy -->
+<row>
+    <panel>
+        <html>
+            <div style="text-align: center; border: 3px dashed #ccc;">
+                <div style="display: inline-flex; align-items: center; margin-top: 5px;">
+                    <span style="font-size: 22px; font-weight: bold; color: #6495ed; margin-top: 5px;">DATA HOST GLOBAL ALERTING POLICY</span>
+                </div>
+                <div style="margin-left: 50px; margin-right: 50px; margin-top: 20px; margin-bottom: 20px; text-align: justify;">
+                    <h2>The default behaviour for data hosts monitoring is to turn host states in red mode when <b>all of the known sourcetypes</b> have stopped emitting data in a way that monitoring conditions are not met. (if any sourcetype continues to be indexed and monitoring conditions are met, the host is green)
+                        You can change the global policy to the <b>track per sourcetype</b> mode which configures TrackMe to turn an host status to red if at least one sourcetypes is actually red. (to be green, all sourcetypes must be green)
+                        This policy can defined widely in this configuration screen, and on a per data host basis in the data host configuration screen. 
+                    </h2>
+                </div>
+                <div class="fieldset" style="text-align: center; margin-top: 10px; margin-bottom: 10px;">
+                    <div class="form-submit" id="btn_host_policy_track_per_host" style="margin-right: 60px;">
+                        <button id="btn_enable_data_host_policy_per_host" class="btn btn-info submit">Enable global policy per host</button>
+                    </div>
+                    <div class="form-submit" id="btn_host_policy_track_per_sourcetype" style="margin-right: 60px;">
+                        <button id="btn_enable_data_host_policy_per_sourcetype" class="btn btn-info submit">Enable global policy per sourcetype</button>
+                    </div>
+                </div>
+            </div>
+        </html>
+    </panel>
+</row>
+
+<!-- Data host monitor Splunk -->
+<row>
+    <panel>
+        <html>
+            <div style="text-align: center; border: 3px dashed #ccc;">
+                <div style="display: inline-flex; align-items: center; margin-top: 5px;">
+                    <span style="font-size: 22px; font-weight: bold; color: #6495ed; margin-top: 5px;">DATA HOST MONITOR SPLUNK</span>
+                </div>
+                <div style="margin-left: 50px; margin-right: 50px; margin-top: 20px; margin-bottom: 20px; text-align: justify;">
+                    <h2>The default behaviour is to track Splunk instances activity via the Splunk internal data (index=_internal sourcetype=splunkd) in the same way we track any other types of sourcetype made accessible to TrackMe.<br />
+                    This can be disabled bellow if you do not want to track Splunk instances as part of the data host tracking workflow:
+                    </h2>
+                </div>
+                <div class="fieldset" style="text-align: center;">
+                    <div class="form-submit" id="btn_host_policy_track_per_host" style="margin-right: 60px;">
+                        <button id="btn_enable_data_host_splunkd" class="btn btn-info submit">Enable Splunk monitoring</button>
+                    </div>
+                    <div class="form-submit" id="btn_host_policy_track_per_sourcetype" style="margin-right: 60px;">
+                        <button id="btn_disable_data_host_splunkd" class="btn btn-info submit">Disable Splunk monitoring</button>
+                    </div>
+                </div>
+            </div>
+        </html>
+    </panel>
+</row>
+
+<!-- Data Sampling obfuscation mode -->
+<row>
+    <panel>
+        <html>
+            <div style="text-align: center; border: 3px dashed #ccc;">
+                <div style="display: inline-flex; align-items: center; margin-top: 5px;">
+                    <span style="font-size: 22px; font-weight: bold; color: #6495ed; margin-top: 5px;">DATA SAMPLING &amp; EVENTS FORMAT RECOGNITION</span>
+                </div>
+                <div style="margin-left: 50px; margin-right: 50px; margin-top: 20px; margin-bottom: 20px; text-align: justify;">
+                    <h2>The data sampling &amp; format recognition allows to automatically monitor raw events formats changes and misbehaviour.</h2>
+                        <ul>
+                            <li>By default, the data sampling mode stores samples of indexed events in a clear text format in a dedicated KVstore collection.</li>
+                            <li>You can optionnally decide to obfuscate these samples during the data sampling engine execution to avoid unwanted data access.</li>
+                            <li>In addition, there are different macros that can be customised to adjust some of the feature configuration.</li>
+                        </ul>
+                </div>
+                <div class="fieldset" style="text-align: center;">
+                    <div class="form-submit" id="btn_submit_data_sampling_obfuscate_enable" style="margin-right: 60px;">
+                        <button id="btn_data_sampling_obfuscate_enable" class="btn btn-info submit">Enable Data Sampling obfuscation mode</button>
+                    </div>
+                    <div class="form-submit" id="btn_submit_data_sampling_obfuscate_disable" style="margin-right: 60px;">
+                        <button id="btn_data_sampling_obfuscate_disable" class="btn btn-info submit">Disable Data Sampling obfuscation mode</button>
+                    </div>
+                </div>                
+            </div>
+        </html>
+    </panel>
+</row>
+
+<row>
+    <panel>
+        <html>
+            <h1>trackme_data_sampling_max_allowed_runtime_sec</h1>
+            <h2 class="panel-title">This defines the maximal amount of time in seconds to allow for the run time of the data sampling and event format recognition tracker, this value is
+                used to automatically calculate the number of data sources to be processed per iteration based on the previous schedule run time performance.<br />Increasing this value would allow processing more data sources in a single execution, and perform sampling and event format reconigition more often. 
+            </h2>
+            <div id="elementTable_trackme_data_sampling_max_allowed_runtime_sec">
+            </div>
+        </html>
+    </panel>
+</row>
+
+<row>
+    <panel>
+        <html>
+            <h1>trackme_data_sampling_default_sample_record_at_discovery</h1>
+            <h2 class="panel-title">This defines the number of events to sample the very first time the data sample engine runs against this data source, this bigger this value is, the more accurate the event format reconigition will be. (defaults to 100 events per data source) 
+            </h2>
+            <div id="elementTable_trackme_data_sampling_default_sample_record_at_discovery">
+            </div>
+        </html>
+    </panel>
+</row>
+
+<row>
+    <panel>
+        <html>
+            <h1>trackme_data_sampling_default_sample_record_at_run</h1>
+            <h2 class="panel-title">This defines the number of events to sample during every new execution of the data sample engine runs against this data source post discovery, this bigger this value is, the more accurate the event format reconigition will be. (defaults to 50 events per data source) 
+            </h2>
+            <div id="elementTable_trackme_data_sampling_default_sample_record_at_run">
+            </div>
+        </html>
+    </panel>
+</row>
+
+<row>
+    <panel>
+        <html>
+            <div style="text-align: center; border: 3px dashed #ccc;">
+                <div style="display: inline-flex; align-items: center; margin-top: 5px;">
+                    <span style="font-size: 22px; font-weight: bold; color: #6495ed; margin-top: 10px; margin-bottom: 10px;">TAGS ENRICHMENT MACRO DEFINITIONS</span>
+                </div>
+            </div>
+        </html>
+    </panel>
+</row>
+
+<row>
+    <panel>
+        <html>
+            <div>
+                <div class="imgheader36">
+                    <span><img style="float: left; margin: 0px 15px 15px 0px;" src="../../static/app/trackme/icons/tags.png"/></span>
+                    <h3>Object tags:</h3>
+                </div>
+                <br />
+                <h1>Tags enrichment is made available when investigating a data or metric host within the user interface, to provide valuable context and get benefit from assets information available in Splunk.</h1>
+                <p>
+                <b><i>Splunk Enterprise Security assets usage:</i></b>
+                <br />
+                If TrackMe is running on the same search head than Enterprise Security and you wish to use its assets knowledge, customize the macro with <code> `get_asset(data_host)`</code> for data hosts, and <code>`get_asset(metric_host)`</code> for metric hosts.
+                <br />
+                If Enterprise Security is running on a different search head, one option is to define a summary scheduled report on the ES search head, then a scheduled report that will use the summary data to automatically build a copy of Enterprise Security assets lookup. (asset_lookup_by_str)
+                Customize the macro with a call to lookup <code>lookup name_of_lookup key as data_host</code> for data_hosts, and <code>lookup name_of_lookup key as metric_host</code> for metric_hosts.
+                <br />
+                <b><i>Any kind of CMDB data available in Splunk:</i></b>
+                <br />
+                Similarly you can use any lookup available in the Splunk instance which provides Assets context looking up a key which in most cases would be host name, dns name or IP address.
+                <br />
+                Make sure your asset lookup definition is exported to the system, is case insensitive and contains the relevant information, then customize the macros depending on your configuration, example: <code>lookup name_of_lookup key as data_hosts</code> for data hosts, <code>lookup name_of_lookup key as metric_hosts</code> for metric hosts.
+                </p>
+            </div>
+        </html>
+    </panel>
+</row>
+
+<row>
+    <panel>
+        <html>
+            <h1>trackme_get_data_host_tags</h1>
+            <h2 class="panel-title">Macro definition for data host tags enrichment 
+            </h2>
+            <div id="elementTable_trackme_get_data_host_tags">
+            </div>
+        </html>
+    </panel>
+</row>
+
+<row>
+    <panel>
+        <html>
+            <h1>trackme_get_metric_host_tags</h1>
+            <h2 class="panel-title">Macro definition for metric host tags enrichment 
+            </h2>
+            <div id="elementTable_trackme_get_metric_host_tags">
+            </div>
+        </html>
+    </panel>
+</row>
+
+<row>
+    <panel>
+        <html>
+            <div style="text-align: center; border: 3px dashed #ccc;">
+                <div style="display: inline-flex; align-items: center; margin-top: 5px;">
+                    <span style="font-size: 22px; font-weight: bold; color: #6495ed; margin-top: 10px; margin-bottom: 10px;">MAIN MACROS DEFINITIONS</span>
+                </div>
+            </div>
+        </html>
+    </panel>
+</row>
+
+<row>
+    <panel>
+        <html>
+            <h1>trackme_tstats</h1>
+            <h2 class="panel-title">Macro definition for every call to the tstats command in the application: (click on the table below to edit the macro definition)
+            </h2>
+            <div id="elementTable_tstats">
+            </div>
+        </html>
+    </panel>
+</row>
+
+<row>
+    <panel>
+        <html>
+            <h1>trackme_tstats_main_filter</h1>
+            <h2 class="panel-title">The default behaviour of TrackMe is to track data available in all indexes, a macro is used within each tracker which can be modified if you wish to restrict TrackMe to a given list of indexes or any other valid Meta data filter: (click on the table below to edit the macro definition)
+            </h2>
+            <div id="elementTable_trackme_tstats_main_filter">
+            </div>
+        </html>
+    </panel>
+</row>
+
+<row>
+    <panel>
+        <html>
+            <h1>trackme_idx_filter</h1>
+            <h2 class="panel-title">The builtin views “Ops: Indexes queues” and “Ops: Parsing issues” rely on the usage of the following macro: (click on the table below to edit the macro definition)
+            </h2>
+            <div id="elementTable_trackme_idx_filter">
+            </div>
+        </html>
+    </panel>
+</row>
+
+<row>
+    <panel>
+        <html>
+            <h1>trackme_metrics_idx: metric index for TrackMe</h1>
+            <h2 class="panel-title">The Summary Investigator tracker generates metrics to be indexed into a metric index which is defined in the following macro: (default to index=trackme_metrics, click on the table below to edit the macro definition)
+            </h2>
+            <div id="elementTable_trackme_metrics_idx">
+            </div>
+        </html>
+    </panel>
+</row>
+
+<row>
+    <panel>
+        <html>
+            <h1>trackme_idx: summary index for TrackMekme_get_metric_host_tags</h1>
+            <h2 class="panel-title">The app will generate summary events which target index which is defined in the following macro: (default to index=summary, click on the table below to edit the macro definition)
+            </h2>
+            <div id="elementTable_trackme_idx_summary">
+            </div>
+        </html>
+    </panel>
+</row>
+
+<row>
+    <panel>
+        <html>
+            <div style="text-align: center; border: 3px dashed #ccc;">
+                <div style="display: inline-flex; align-items: center; margin-top: 5px;">
+                    <span style="font-size: 22px; font-weight: bold; color: #6495ed; margin-top: 10px; margin-bottom: 10px;">BEHAVIOUR ANALYTIC MACROS DEFINITIONS</span>
+                </div>
+            </div>
+        </html>
+    </panel>
+</row>
+
+<row>
+    <panel>
+        <html>
+            <h1>trackme_default_enable_behaviour_analytic: default enabled status for behaviour analytic features (true is enabled, false is disabled)</h1>
+            <h2 class="panel-title">When an entity is added to the collection, a default status is defined for behaviour analytic features, default to enabled: (click on the table below to edit the macro definition)
+            </h2>
+            <div id="elementTable_trackme_default_enable_behaviour_analytic">
+            </div>
+        </html>
+    </panel>
+</row>
+
+<row>
+    <panel>
+        <html>
+            <h1>trackme_default_outlier_threshold_multiplier: default value for outlier threshold multiplier</h1>
+            <h2 class="panel-title">Event count outliers detection for behaviour analytics uses the default threshold multiplier for outliers calculations: (click on the table below to edit the macro definition)
+            </h2>
+            <div id="elementTable_trackme_default_outlier_threshold_multiplier">
+            </div>
+        </html>
+    </panel>
+</row>
+
+<row>
+    <panel>
+        <html>
+            <h1>trackme_default_outlier_alert_on_upper: default behaviour for alerting on outliers increase (true is enabled, false is disabled)</h1>
+            <h2 class="panel-title">Enable or disable impacting the entity status on upper outliers detection: (click on the table below to edit the macro definition)
+            </h2>
+            <div id="elementTable_trackme_default_outlier_alert_on_upper">
+            </div>
+        </html>
+    </panel>
+</row>
+
+<row>
+    <panel>
+        <html>
+            <h1>trackme_default_outlier_period: default period in relative days for outliers detection calculations</h1>
+            <h2 class="panel-title">define the period which is by default taken in consideration during outliers calculations: (click on the table below to edit the macro definition)
+            </h2>
+            <div id="elementTable_trackme_default_outlier_period">
+            </div>
+        </html>
+    </panel>
+</row>
+
+<row>
+    <panel>
+        <html>
+            <div style="text-align: center; border: 3px dashed #ccc;">
+                <div style="display: inline-flex; align-items: center; margin-top: 5px;">
+                    <span style="font-size: 22px; font-weight: bold; color: #6495ed; margin-top: 10px; margin-bottom: 10px;">GLOBAL IDENTITY CARD</span>
+                </div>
+            </div>
+        </html>
+    </panel>
+</row>
+
+<row>
+    <panel>
+        <html>
+            <h1>trackme_identity_card_default_url: global URL for identity cards</h1>
+            <h2 class="panel-title">define a value for the global identity card URL, if URL and note are defined, this associates by default all data sources with the default identity card but idenfity cards can still be created and associated: (click on the table below to edit the macro definition)
+            </h2>
+            <div id="elementTable_trackme_identity_card_default_url">
+            </div>
+        </html>
+    </panel>
+</row>
+
+<row>
+    <panel>
+        <html>
+            <h1>trackme_identity_card_default_note: global note for identity cards</h1>
+            <h2 class="panel-title">define a value for the global identity card note, if URL and note are defined, this associates by default all data sources with the default identity card but idenfity cards can still be created and associated: (click on the table below to edit the macro definition)
+            </h2>
+            <div id="elementTable_trackme_identity_card_default_note">
+            </div>
+        </html>
+    </panel>
+</row>
+
+<row>
+    <panel>
+        <html>
+            <div style="text-align: center; border: 3px dashed #ccc;">
+                <div style="display: inline-flex; align-items: center; margin-top: 5px;">
+                    <span style="font-size: 22px; font-weight: bold; color: #6495ed; margin-top: 10px; margin-bottom: 10px;">OTHER MACROS DEFINITIONS</span>
+                </div>
+            </div>
+        </html>
+    </panel>
+</row>
+
+<row>
+    <panel>
+        <html>
+            <div>
+                <h1>trackme_date_format</h1>
+                <h2 class="panel-title">The UI generates human readable time stamps in the following format: (click on the table below to edit the macro definition)</h2>
+                <div id="elementTable_trackme_date_format">
+                </div>
+            </div>
+        </html>
+    </panel>
+</row>
+
+<row>
+    <panel>
+        <html>
+            <div>
+                <h1>trackme_default_monitored_state</h1>
+                <h2 class="panel-title">Defines the default value for monitored_state when a data source is discovered: (click on the table below to edit the macro definition)
+                </h2>
+                <div id="elementTable_trackme_default_monitored_state">
+                </div>
+            </div>
+        </html>
+    </panel>
+</row>
+
+<row>
+    <panel>
+        <html>
+            <div>
+                <h1>trackme_default_host_monitored_state</h1>
+                <h2 class="panel-title">Defines the default value for monitored_state when a data host is discovered: (click on the table below to edit the macro definition)
+                </h2>
+                <div id="elementTable_trackme_default_host_monitored_state">
+                </div>
+            </div>
+        </html>
+    </panel>
+</row>
+
+<row>
+    <panel>
+        <html>
+            <div>
+                <h1>trackme_default_hostrackme_default_metric_host_monitored_statet_monitored_state</h1>
+                <h2 class="panel-title">Defines the default value for monitored_state when a metric host is discovered: (click on the table below to edit the macro definition)
+                </h2>
+                <div id="elementTable_trackme_default_metric_host_monitored_state">
+                </div>
+            </div>
+        </html>
+    </panel>
+</row>
+
+<row>
+    <panel>
+        <html>
+            <div>
+                <h1>trackme_default_lag</h1>
+                <h2 class="panel-title">Defines the default value in seconds for the maximal lag latency for data sources: (click on the table below to edit the macro definition)
+                </h2>
+                <div id="elementTable_trackme_default_lag">
+                </div>
+            </div>
+        </html>
+    </panel>
+</row>
+
+<row>
+    <panel>
+        <html>
+            <div>
+                <h1>trackme_default_host_lag</h1>
+                <h2 class="panel-title">Defines the default value in seconds for the maximal lag latency for data hosts: (click on the table below to edit the macro definition)
+                </h2>
+                <div id="elementTable_trackme_default_host_lag">
+                </div>
+            </div>
+        </html>
+    </panel>
+</row>
+
+<row>
+    <panel>
+        <html>
+            <div>
+                <h1>trackme_default_metric_host_lag</h1>
+                <h2 class="panel-title">Defines the default value in seconds for the maximal lag latency for metric hosts: (click on the table below to edit the macro definition)
+                </h2>
+                <div id="elementTable_trackme_default_metric_host_lag">
+                </div>
+            </div>
+        </html>
+    </panel>
+</row>
+
+<row>
+    <panel>
+        <html>
+            <div>
+                <h1>trackme_audit_changes_retention</h1>
+                <h2 class="panel-title">Defines the retention to be used for entries stored in the audit collection: (click on the table below to edit the macro definition)
+                </h2>
+                <div id="elementTable_trackme_audit_changes_retention">
+                </div>
+            </div>
+        </html>
+    </panel>
+</row>
+
+<row>
+    <panel>
+        <html>
+            <div>
+                <h1>trackme_alerts_priority</h1>
+                <h2 class="panel-title">Macro definition for alerting priority, this macro is used by the application out of the box alerts to return SLA alerts based on the rules and the priority level: (click on the table below to edit the macro definition)
+                </h2>
+                <div id="elementTable_trackme_alerts_priority">
+                </div>
+            </div>
+        </html>
+    </panel>
+</row>
+
+<row>
+    <panel>
+        <html>
+            <div>
+                <h1>trackme_ack_default_duration</h1>
+                <h2 class="panel-title">Macro definition for acknowledgment, this macro defines the amount in seconds for maximal acknowledge duration, default to 1 day: (click on the table below to edit the macro definition)
+                </h2>
+                <div id="elementTable_trackme_ack_default_duration">
+                </div>
+            </div>
+        </html>
+    </panel>
+</row>
+
+<row>
+    <panel>
+        <html>
+            <div>
+                <h1>trackme_future_indexing_tolerance</h1>
+                <h2 class="panel-title">Macro definition for data indexed in the future detection tolerance, this macro defines the amount in negative seconds used for tolerance before we assume the data is indexed in the future: (click on the table below to edit the macro definition)
+                </h2>
+                <div id="elementTable_trackme_future_indexing_tolerance">
+                </div>
+            </div>
+        </html>
+    </panel>
+</row>
+
+<row>
+    <panel>
+        <html>
+            <div>
+                <h1>trackme_data_host_rule_filter</h1>
+                <h2 class="panel-title">Macro definition for data host naming filtering, this macro defines a regex based approach and length condition to filter out potential incorrectly defined hosts: (click on the table below to edit the macro definition)
+                </h2>
+                <div id="elementTable_trackme_data_host_rule_filter">
+                </div>
+            </div>
+        </html>
+    </panel>
+</row>
+
+<row>
+    <panel>
+        <html>
+            <div>
+                <h1>trackme_auto_disablement_period</h1>
+                <h2 class="panel-title">Macro definition for monitoring state auto disablement, this macro defines the number of days before a data source, data host or metric host gets automatically disabled if it has not actively sent data to Splunk:
+                </h2>
+                <div id="elementTable_trackme_auto_disablement_period">
+                </div>
+            </div>
+        </html>
+    </panel>
+</row>
+
+</dashboard>
