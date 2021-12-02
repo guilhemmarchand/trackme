@@ -1,0 +1,23 @@
+<form version="1.1" theme="dark" script="test.js">
+
+<row>
+    <panel>
+        <html>
+            <div id="inputLinkDataSource"></div>
+        </html>
+    </panel>
+</row>
+
+<row>
+    <panel>
+        <html>
+            <div>
+                <p>token show_data_source_overview is $show_data_source_overview$</p>
+                <br />
+                <p>token show_data_source_outlier is $show_data_source_outlier$</p>
+            </div>
+        </html>
+    </panel>
+</row>
+
+</form>

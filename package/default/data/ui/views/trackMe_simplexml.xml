@@ -7959,15 +7959,19 @@
                     </div>
                 </div>
 
-
-                <div>
-                    <h1>Test start UI</h1>
-                </div>
-
             </html>
-
 
         </panel>
     </row>
+
+    <row>
+        <panel>
+            <html>
+                <div id="link1">
+                </div>
+            </html>
+        </panel>
+    </row>
+
 
 </dashboard>
