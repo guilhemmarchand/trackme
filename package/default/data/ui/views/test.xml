@@ -30,7 +30,7 @@
     </panel>
 </row>
 
-<row>
+<row depends="$show_data_source_overview$">
     <panel>
         <html>
             <div id="DonutDataSourceCountByPriority"></div>
