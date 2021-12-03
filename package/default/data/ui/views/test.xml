@@ -5,6 +5,26 @@
 <row>
     <panel>
         <html>
+
+            <style>
+
+.container-trackme-inputs {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.item-trackme-inputs {
+  order: 5; /* default is 0 */
+  margin-top: -10px;
+}
+
+.fieldset {
+    margin-top: -10px !important;
+    margin-bottom: -30px !important;
+}
+
+            </style>
+
             <div id="link1"></div>
         </html>
     </panel>
@@ -31,36 +51,101 @@
                     <div>
                         <h2 class="panel-title">Click on any entry of the table to open interactive actions for this entity, use inputs to filter out the selection: (restricted to the first thousand results, use the key world filter input for large scale selections)</h2>
                         <div class="fieldset">
-                            <div class="input input-dropdown" id="inputDataNameFilterMode">
-                                <label>Keyword filter mode:</label>
+
+                            <div class="container-trackme-inputs">
+
+                                <div class="item-trackme-inputs">
+                                    <div class="panel-head">
+                                        <h3>Keyword filter mode:</h3>
+                                    </div>
+                                    <div class="panel-body">
+                                        <div id="inputDataNameFilterMode"></div>
+                                    </div>
+                                </div>
+
+                                <div class="item-trackme-inputs">
+                                    <div class="panel-head">
+                                        <h3>Keyword filter name:</h3>
+                                    </div>
+                                    <div class="panel-body">
+                                        <div id="inputDataNameFilter"></div>
+                                    </div>
+                                </div>
+
+                                <div class="item-trackme-inputs">
+                                    <div class="panel-head">
+                                        <h3>Tags:</h3>
+                                    </div>
+                                    <div class="panel-body">
+                                        <div id="inputTags"></div>
+                                    </div>
+                                </div>
+
+                                <div class="item-trackme-inputs">
+                                    <div class="panel-head">
+                                        <h3>Name (use keyword filter):</h3>
+                                    </div>
+                                    <div class="panel-body">
+                                        <div id="inputDataName"></div>
+                                    </div>
+                                </div>
+
+                                <div class="item-trackme-inputs">
+                                    <div class="panel-head">
+                                        <h3>Index:</h3>
+                                    </div>
+                                    <div class="panel-body">
+                                        <div id="inputDataIndex"></div>
+                                    </div>
+                                </div>
+
+                                <div class="item-trackme-inputs">
+                                    <div class="panel-head">
+                                        <h3>Sourcetype(s):</h3>
+                                    </div>
+                                    <div class="panel-body">
+                                        <div id="inputDataSourcetype"></div>
+                                    </div>
+                                </div>
+
+                                <div class="item-trackme-inputs">
+                                    <div class="panel-head">
+                                        <h3>Filter state:</h3>
+                                    </div>
+                                    <div class="panel-body">
+                                        <div id="inputDataSourceState"></div>
+                                    </div>
+                                </div>
+
+                                <div class="item-trackme-inputs">
+                                    <div class="panel-head">
+                                        <h3>Filter monitored_state:</h3>
+                                    </div>
+                                    <div class="panel-body">
+                                        <div id="inputDataMonitoredState"></div>
+                                    </div>
+                                </div>
+
+                                <div class="item-trackme-inputs">
+                                    <div class="panel-head">
+                                        <h3>Filter priority:</h3>
+                                    </div>
+                                    <div class="panel-body">
+                                        <div id="inputDataPriority"></div>
+                                    </div>
+                                </div>
+
+                                <div class="item-trackme-inputs">
+                                    <div class="panel-head">
+                                        <h3>Auto refresh:</h3>
+                                    </div>
+                                    <div class="panel-body">
+                                        <div id="refreshForm"></div>
+                                    </div>
+                                </div>
+
                             </div>
-                            <div style="margin-right: 28px;" class="input input-text" id="inputDataNameFilter">
-                                <label>Keyword filter name:</label>
-                            </div>
-                            <div class="input input-multiselect" id="inputTags">
-                                <label>Tags:</label>
-                            </div>
-                            <div class="input input-multiselect" id="inputDataName">
-                                <label>Name (use keyword filter):</label>
-                            </div>
-                            <div class="input input-multiselect" id="inputDataIndex">
-                                <label>Index:</label>
-                            </div>
-                            <div class="input input-multiselect" id="inputDataSourcetype">
-                                <label>Sourcetype(s):</label>
-                            </div>
-                            <div class="input input-multiselect" id="inputDataSourceState">
-                                <label>Filter state:</label>
-                            </div>
-                            <div class="input input-dropdown" id="inputDataMonitoredState">
-                                <label>Filter monitored_state:</label>
-                            </div>
-                            <div class="input input-multiselect" id="inputDataPriority">
-                                <label>Filter priority:</label>
-                            </div>
-                            <div class="input input-dropdown" id="refreshForm">
-                                <label>Auto refresh:</label>
-                            </div>
+
                         </div>
                     </div>
                 </div>
