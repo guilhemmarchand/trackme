@@ -21,6 +21,8 @@ require([
   "splunkjs/mvc/simpleform/input/linklist",
   "splunkjs/mvc/simpleform/input/text",
   "splunkjs/mvc/simpleform/input/multiselect",
+  "splunkjs/mvc/simpleform/input/dropdown",
+  "splunkjs/mvc/simplexml/element/table",
   "splunkjs/mvc/simpleform/formutils",
   "splunkjs/mvc/simplexml/eventhandler",
   "splunkjs/mvc/simplexml/searcheventhandler",
@@ -47,6 +49,8 @@ require([
   LinkListInput,
   TextInput,
   MultiSelectInput,
+  DropdownInput,
+  TableElement,
   FormUtils,
   EventHandler,
   SearchEventHandler,
@@ -84,6 +88,52 @@ require([
   }
 
   //
+  // FUNCTIONS
+  //
+
+  //
+  // cssloader
+  //
+
+  function cssloader(msg) {
+    $("#cssloader").remove();
+    $("body").append(
+      '<div id="cssloader" class="loader loader-default is-active" data-text="' +
+        msg +
+        '"></div>'
+    );
+  }
+
+  // run the cssloader immediately, it will be remove when the main home loading facing search is ready
+  cssloader("Please wait while trackMe is loading...");
+
+  //
+  // Notify
+  //
+
+  function notify(varCss, varPosition, varHtml, vardelay) {
+    require([
+      "jquery",
+      "/static/app/trackme/notifybar/jquery.notifyBar.js",
+    ], function ($) {
+      //code here
+      jQuery(function () {
+        jQuery.notifyBar({
+          cssClass: varCss,
+          position: varPosition,
+          html: varHtml,
+          delay: vardelay,
+        });
+      });
+    });
+  }
+
+  // Returns true if numeric
+  function isNumeric(n) {
+    return !isNaN(parseFloat(n)) && isFinite(n) && n > 0;
+  }
+
+  //
   // VIZ
   //
 
@@ -97,7 +147,7 @@ require([
   // SPLUNK INPUTS
   //
 
-  var inputDataNameFilterMode = new DropdownView(
+  var inputDataNameFilterMode = new DropdownInput(
     {
       id: "inputDataNameFilterMode",
       choices: [
@@ -115,7 +165,7 @@ require([
       showClearButton: true,
       initialValue: "",
       selectFirstChoice: false,
-      value: "$inputDataNameFilterMode$",
+      value: "$form.inputDataNameFilterMode$",
       el: $("#inputDataNameFilterMode"),
     },
     {
@@ -123,14 +173,18 @@ require([
     }
   ).render();
 
-  var inputDataNameFilter = new TextInputView(
+  inputDataNameFilterMode.on("change", function (newValue) {
+    FormUtils.handleValueChange(inputDataNameFilterMode);
+  });
+
+  var inputDataNameFilter = new TextInput(
     {
       id: "inputDataNameFilter",
       searchWhenChanged: true,
       prefix: 'data_name="*',
       suffix: '*"',
       initialValue: "*",
-      value: "$inputDataNameFilter$",
+      value: "$form.inputDataNameFilter$",
       el: $("#inputDataNameFilter"),
     },
     {
@@ -138,7 +192,11 @@ require([
     }
   ).render();
 
-  var inputTags = new MultiDropdownView(
+  inputDataNameFilter.on("change", function (newValue) {
+    FormUtils.handleValueChange(inputDataNameFilter);
+  });
+
+  var inputTags = new MultiSelectInput(
     {
       id: "inputTags",
       tokenDependencies: {
@@ -159,7 +217,7 @@ require([
       initialValue: "*",
       selectFirstChoice: false,
       valueField: "tags",
-      value: "$inputTags$",
+      value: "$form.inputTags$",
       managerid: "searchPopulateDataSourcesTags",
       el: $("#inputTags"),
     },
@@ -168,7 +226,11 @@ require([
     }
   ).render();
 
-  var inputDataName = new MultiDropdownView(
+  inputTags.on("change", function (newValue) {
+    FormUtils.handleValueChange(inputTags);
+  });
+
+  var inputDataName = new MultiSelectInput(
     {
       id: "inputDataName",
       tokenDependencies: {
@@ -189,7 +251,7 @@ require([
       initialValue: "*",
       selectFirstChoice: false,
       valueField: "data_name",
-      value: "$inputDataName$",
+      value: "$form.inputDataName$",
       managerid: "searchPopulateDataSources",
       el: $("#inputDataName"),
     },
@@ -198,7 +260,11 @@ require([
     }
   ).render();
 
-  var inputDataIndex = new MultiDropdownView(
+  inputDataName.on("change", function (newValue) {
+    FormUtils.handleValueChange(inputDataName);
+  });
+
+  var inputDataIndex = new MultiSelectInput(
     {
       id: "inputDataIndex",
       tokenDependencies: {
@@ -219,7 +285,7 @@ require([
       initialValue: "*",
       selectFirstChoice: false,
       valueField: "data_index",
-      value: "$inputDataIndex$",
+      value: "$form.inputDataIndex$",
       managerid: "searchPopulateDataSourcesIndexes",
       el: $("#inputDataIndex"),
     },
@@ -228,7 +294,11 @@ require([
     }
   ).render();
 
-  var inputDataSourcetype = new MultiDropdownView(
+  inputDataIndex.on("change", function (newValue) {
+    FormUtils.handleValueChange(inputDataIndex);
+  });
+
+  var inputDataSourcetype = new MultiSelectInput(
     {
       id: "inputDataSourcetype",
       choices: [
@@ -246,7 +316,7 @@ require([
       initialValue: "*",
       selectFirstChoice: false,
       valueField: "data_sourcetype",
-      value: "$inputDataSourcetype$",
+      value: "$form.inputDataSourcetype$",
       managerid: "searchPopulateDataSourcesSourcetypes",
       el: $("#inputDataSourcetype"),
     },
@@ -255,7 +325,11 @@ require([
     }
   ).render();
 
-  var inputDataSourceState = new MultiDropdownView(
+  inputDataSourcetype.on("change", function (newValue) {
+    FormUtils.handleValueChange(inputDataSourcetype);
+  });
+
+  var inputDataSourceState = new MultiSelectInput(
     {
       id: "inputDataSourceState",
       choices: [
@@ -270,13 +344,17 @@ require([
       delimiter: " OR ",
       searchWhenChanged: true,
       initialValue: ["*"],
-      value: "$data_source_state$",
+      value: "$form.data_source_state$",
       el: $("#inputDataSourceState"),
     },
     { tokens: true }
   ).render();
 
-  var inputDataMonitoredState = new DropdownView(
+  inputDataSourceState.on("change", function (newValue) {
+    FormUtils.handleValueChange(inputDataSourceState);
+  });
+
+  var inputDataMonitoredState = new DropdownInput(
     {
       id: "inputDataMonitoredState",
       choices: [
@@ -300,7 +378,7 @@ require([
       suffix: '"',
       initialValue: "enabled",
       selectFirstChoice: false,
-      value: "$data_monitored_state$",
+      value: "$form.data_monitored_state$",
       el: $("#inputDataMonitoredState"),
     },
     {
@@ -308,7 +386,11 @@ require([
     }
   ).render();
 
-  var inputDataPriority = new MultiDropdownView(
+  inputDataMonitoredState.on("change", function (newValue) {
+    FormUtils.handleValueChange(inputDataMonitoredState);
+  });
+
+  var inputDataPriority = new MultiSelectInput(
     {
       id: "inputDataPriority",
       choices: [
@@ -322,13 +404,17 @@ require([
       delimiter: " OR ",
       searchWhenChanged: true,
       initialValue: ["*"],
-      value: "$inputDataPriority$",
+      value: "$form.inputDataPriority$",
       el: $("#inputDataPriority"),
     },
     { tokens: true }
   ).render();
 
-  var refreshForm = new DropdownView(
+  inputDataPriority.on("change", function (newValue) {
+    FormUtils.handleValueChange(inputDataPriority);
+  });
+
+  var refreshForm = new DropdownInput(
     {
       id: "refreshForm",
       choices: [
@@ -361,6 +447,10 @@ require([
       tokens: true,
     }
   ).render();
+
+  refreshForm.on("change", function (newValue) {
+    FormUtils.handleValueChange(refreshForm);
+  });
 
   //
   // SPLUNK SEARCHES
@@ -398,10 +488,10 @@ require([
     }
   );
 
-  search_alerts_main_table.on("search:done", function () {
-    // function here
-    $("#loadingGrayInitial").remove();
-  });
+  //search_alerts_main_table.on("search:done", function () {
+  // function here
+  //  $("#cssloader").remove();
+  //});
 
   var searchPopulateAlertActionsAck = new SearchManager(
     {
@@ -893,8 +983,8 @@ require([
   );
 
   searchDataSourcesMain.on("search:done", function () {
-    // function here
-    $("#loadingGrayInitial").remove();
+    // stop the cssloader
+    $("#cssloader").remove();
   });
 
   var searchDataSourcesPostTable = new PostProcessManager(
@@ -1210,8 +1300,8 @@ require([
   );
 
   searchMainAuditFlip.on("search:done", function () {
-    // function here
-    $("#loadingGrayInitial").remove();
+    // stop the css loader
+    $("#cssloader").remove();
   });
 
   var searchMainAuditFlipTable = new PostProcessManager(
@@ -1924,8 +2014,8 @@ require([
   );
 
   searchMainAuditChanges.on("search:done", function () {
-    // function here
-    $("#loadingGrayInitial").remove();
+    // stop the css loader
+    $("#cssloader").remove();
   });
 
   var searchMainAuditChangesPopulate = new SearchManager(
@@ -2088,8 +2178,8 @@ require([
   );
 
   searchMetricHostsMain.on("search:done", function () {
-    // function here
-    $("#loadingGrayInitial").remove();
+    // stop the css loader
+    $("#cssloader").remove();
   });
 
   var searchMainTableMetricHost = new PostProcessManager(
@@ -2253,8 +2343,8 @@ require([
   );
 
   searchDataHostsMain.on("search:done", function () {
-    // function here
-    $("#loadingGrayInitial").remove();
+    // stop the css loader
+    $("#cssloader").remove();
   });
 
   var searchMainTableHost = new PostProcessManager(
@@ -5818,6 +5908,1507 @@ require([
       EventHandler.unsetToken("show_data_sampling");
     }
   });
+
+  //
+  // Data source main table element
+  //
+
+  var elementMainTable = new TableView(
+    {
+      id: "elementMainTable",
+      count: 20,
+      drilldown: "row",
+      fields:
+        'data_name, "last time", "last ingest", priority, state, "lag (event / ingestion)", "last time idx", data_last_lag_seen_idx, data_max_lag_allowed, monitoring, data_monitoring_level, data_monitoring_wdays',
+      "refresh.display": "none",
+      wrap: "false",
+      managerid: "searchDataSourcesPostTable",
+      el: $("#elementMainTable"),
+    },
+    {
+      tokens: true,
+      tokenNamespace: "submitted",
+    }
+  ).render();
+
+  elementMainTable.on("click", function (e) {
+    if (e.field !== undefined) {
+      e.preventDefault();
+
+      // clean any previously set main token, used for variable purposes
+      unsetToken("tk_data_host");
+      unsetToken("tk_metric_host");
+
+      setToken(
+        "tk_keyid",
+        TokenUtils.replaceTokenNames(
+          "$row.keyid$",
+          _.extend(submittedTokenModel.toJSON(), e.data)
+        )
+      );
+      setToken(
+        "tk_data_name",
+        TokenUtils.replaceTokenNames(
+          "$row.data_name$",
+          _.extend(submittedTokenModel.toJSON(), e.data)
+        )
+      );
+      setToken(
+        "tk_data_index",
+        TokenUtils.replaceTokenNames(
+          "$row.data_index$",
+          _.extend(submittedTokenModel.toJSON(), e.data)
+        )
+      );
+      setToken(
+        "tk_data_sourcetype",
+        TokenUtils.replaceTokenNames(
+          "$row.data_sourcetype$",
+          _.extend(submittedTokenModel.toJSON(), e.data)
+        )
+      );
+      setToken(
+        "tk_data_last_lag_seen",
+        TokenUtils.replaceTokenNames(
+          "$row.data_last_lag_seen$",
+          _.extend(submittedTokenModel.toJSON(), e.data)
+        )
+      );
+      setToken(
+        "tk_data_last_ingestion_lag_seen",
+        TokenUtils.replaceTokenNames(
+          "$row.data_last_ingestion_lag_seen$",
+          _.extend(submittedTokenModel.toJSON(), e.data)
+        )
+      );
+      setToken(
+        "tk_data_lag_summary",
+        TokenUtils.replaceTokenNames(
+          "$row.lag (event / ingestion)$",
+          _.extend(submittedTokenModel.toJSON(), e.data)
+        )
+      );
+      setToken(
+        "tk_data_last_lag_seen_idx",
+        TokenUtils.replaceTokenNames(
+          "$row.data_last_lag_seen_idx$",
+          _.extend(submittedTokenModel.toJSON(), e.data)
+        )
+      );
+      setToken(
+        "tk_data_eventcount",
+        TokenUtils.replaceTokenNames(
+          "$row.data_eventcount$",
+          _.extend(submittedTokenModel.toJSON(), e.data)
+        )
+      );
+      setToken(
+        "tk_data_first_time_seen",
+        TokenUtils.replaceTokenNames(
+          "$row.data_first_time_seen$",
+          _.extend(submittedTokenModel.toJSON(), e.data)
+        )
+      );
+      setToken(
+        "tk_data_last_time_seen",
+        TokenUtils.replaceTokenNames(
+          "$row.data_last_time_seen$",
+          _.extend(submittedTokenModel.toJSON(), e.data)
+        )
+      );
+      setToken(
+        "tk_data_last_time_seen_human",
+        TokenUtils.replaceTokenNames(
+          "$row.last time$",
+          _.extend(submittedTokenModel.toJSON(), e.data)
+        )
+      );
+      setToken(
+        "tk_data_last_ingest",
+        TokenUtils.replaceTokenNames(
+          "$row.data_last_ingest$",
+          _.extend(submittedTokenModel.toJSON(), e.data)
+        )
+      );
+      setToken(
+        "tk_data_last_ingest_human",
+        TokenUtils.replaceTokenNames(
+          "$row.last ingest$",
+          _.extend(submittedTokenModel.toJSON(), e.data)
+        )
+      );
+      setToken(
+        "tk_data_last_time_seen_idx",
+        TokenUtils.replaceTokenNames(
+          "$row.data_last_time_seen_idx$",
+          _.extend(submittedTokenModel.toJSON(), e.data)
+        )
+      );
+      setToken(
+        "tk_data_last_time_seen_idx_human",
+        TokenUtils.replaceTokenNames(
+          "$row.data_last_time_seen_idx (translated)$",
+          _.extend(submittedTokenModel.toJSON(), e.data)
+        )
+      );
+      setToken(
+        "tk_data_max_lag_allowed",
+        TokenUtils.replaceTokenNames(
+          "$row.data_max_lag_allowed$",
+          _.extend(submittedTokenModel.toJSON(), e.data)
+        )
+      );
+      setToken(
+        "tk_data_lag_alert_kpis",
+        TokenUtils.replaceTokenNames(
+          "$row.data_lag_alert_kpis$",
+          _.extend(submittedTokenModel.toJSON(), e.data)
+        )
+      );
+      setToken(
+        "tk_data_monitored_state",
+        TokenUtils.replaceTokenNames(
+          "$row.data_monitored_state$",
+          _.extend(submittedTokenModel.toJSON(), e.data)
+        )
+      );
+      setToken(
+        "tk_data_monitoring_level",
+        TokenUtils.replaceTokenNames(
+          "$row.data_monitoring_level$",
+          _.extend(submittedTokenModel.toJSON(), e.data)
+        )
+      );
+      setToken(
+        "tk_data_monitoring_wdays",
+        TokenUtils.replaceTokenNames(
+          "$row.data_monitoring_wdays$",
+          _.extend(submittedTokenModel.toJSON(), e.data)
+        )
+      );
+      setToken(
+        "tk_data_override_lagging_class",
+        TokenUtils.replaceTokenNames(
+          "$row.data_override_lagging_class$",
+          _.extend(submittedTokenModel.toJSON(), e.data)
+        )
+      );
+      setToken(
+        "tk_data_source_state",
+        TokenUtils.replaceTokenNames(
+          "$row.data_source_state$",
+          _.extend(submittedTokenModel.toJSON(), e.data)
+        )
+      );
+      setToken(
+        "tk_data_tracker_runtime",
+        TokenUtils.replaceTokenNames(
+          "$row.data_tracker_runtime$",
+          _.extend(submittedTokenModel.toJSON(), e.data)
+        )
+      );
+      setToken(
+        "tk_data_previous_source_state",
+        TokenUtils.replaceTokenNames(
+          "$row.data_previous_source_state$",
+          _.extend(submittedTokenModel.toJSON(), e.data)
+        )
+      );
+      setToken(
+        "tk_data_previous_tracker_runtime",
+        TokenUtils.replaceTokenNames(
+          "$row.data_previous_tracker_runtime$",
+          _.extend(submittedTokenModel.toJSON(), e.data)
+        )
+      );
+      setToken(
+        "tk_latest_flip_state",
+        TokenUtils.replaceTokenNames(
+          "$row.latest_flip_state$",
+          _.extend(submittedTokenModel.toJSON(), e.data)
+        )
+      );
+      setToken(
+        "tk_latest_flip_time",
+        TokenUtils.replaceTokenNames(
+          "$row.latest_flip_time$",
+          _.extend(submittedTokenModel.toJSON(), e.data)
+        )
+      );
+      setToken(
+        "tk_latest_flip_time_human",
+        TokenUtils.replaceTokenNames(
+          "$row.latest_flip_time (translated)$",
+          _.extend(submittedTokenModel.toJSON(), e.data)
+        )
+      );
+      setToken(
+        "tk_priority",
+        TokenUtils.replaceTokenNames(
+          "$row.priority$",
+          _.extend(submittedTokenModel.toJSON(), e.data)
+        )
+      );
+
+      // dcount hosts
+      setToken(
+        "tk_dcount_host",
+        TokenUtils.replaceTokenNames(
+          "$row.dcount_host$",
+          _.extend(submittedTokenModel.toJSON(), e.data)
+        )
+      );
+      setToken(
+        "tk_min_dcount_host",
+        TokenUtils.replaceTokenNames(
+          "$row.min_dcount_host$",
+          _.extend(submittedTokenModel.toJSON(), e.data)
+        )
+      );
+      setToken(
+        "form.tk_input_data_source_dcount_host",
+        TokenUtils.replaceTokenNames(
+          "$row.min_dcount_host$",
+          _.extend(submittedTokenModel.toJSON(), e.data)
+        )
+      );
+
+      // outlier
+      setToken(
+        "tk_outlierenabledstatus",
+        TokenUtils.replaceTokenNames(
+          "$row.enable_behaviour_analytic$",
+          _.extend(submittedTokenModel.toJSON(), e.data)
+        )
+      );
+      setToken(
+        "tk_outliermineventcount",
+        TokenUtils.replaceTokenNames(
+          "$row.OutlierMinEventCount$",
+          _.extend(submittedTokenModel.toJSON(), e.data)
+        )
+      );
+      setToken(
+        "tk_outlierlowerthresholdmultiplier",
+        TokenUtils.replaceTokenNames(
+          "$row.OutlierLowerThresholdMultiplier$",
+          _.extend(submittedTokenModel.toJSON(), e.data)
+        )
+      );
+      setToken(
+        "tk_outlierupperthresholdmultiplier",
+        TokenUtils.replaceTokenNames(
+          "$row.OutlierUpperThresholdMultiplier$",
+          _.extend(submittedTokenModel.toJSON(), e.data)
+        )
+      );
+      setToken(
+        "tk_outlieralertonupper",
+        TokenUtils.replaceTokenNames(
+          "$row.OutlierAlertOnUpper$",
+          _.extend(submittedTokenModel.toJSON(), e.data)
+        )
+      );
+      setToken(
+        "tk_outlier_period",
+        TokenUtils.replaceTokenNames(
+          "$row.OutlierTimePeriod$",
+          _.extend(submittedTokenModel.toJSON(), e.data)
+        )
+      );
+      setToken(
+        "tk_outlier_span",
+        TokenUtils.replaceTokenNames(
+          "$row.OutlierSpan$",
+          _.extend(submittedTokenModel.toJSON(), e.data)
+        )
+      );
+      setToken(
+        "tk_isoutlier",
+        TokenUtils.replaceTokenNames(
+          "$row.isOutlier$",
+          _.extend(submittedTokenModel.toJSON(), e.data)
+        )
+      );
+      setToken(
+        "tk_enable_behaviour_analytic",
+        TokenUtils.replaceTokenNames(
+          "$row.enable_behaviour_analytic$",
+          _.extend(submittedTokenModel.toJSON(), e.data)
+        )
+      );
+
+      // elastic sources
+      setToken(
+        "tk_elastic_source_search_mode",
+        TokenUtils.replaceTokenNames(
+          "$row.elastic_source_search_mode$",
+          _.extend(submittedTokenModel.toJSON(), e.data)
+        )
+      );
+      setToken(
+        "tk_elastic_source_search_constraint",
+        TokenUtils.replaceTokenNames(
+          "$row.elastic_source_search_constraint$",
+          _.extend(submittedTokenModel.toJSON(), e.data)
+        )
+      );
+      setToken(
+        "tk_elastic_source_from_part1",
+        TokenUtils.replaceTokenNames(
+          "$row.elastic_source_from_part1$",
+          _.extend(submittedTokenModel.toJSON(), e.data)
+        )
+      );
+      setToken(
+        "tk_elastic_source_from_part2",
+        TokenUtils.replaceTokenNames(
+          "$row.elastic_source_from_part2$",
+          _.extend(submittedTokenModel.toJSON(), e.data)
+        )
+      );
+      setToken(
+        "tk_elastic_mstats_idx",
+        TokenUtils.replaceTokenNames(
+          "$row.elastic_mstats_idx$",
+          _.extend(submittedTokenModel.toJSON(), e.data)
+        )
+      );
+      setToken(
+        "tk_elastic_mstats_filters",
+        TokenUtils.replaceTokenNames(
+          "$row.elastic_mstats_filters$",
+          _.extend(submittedTokenModel.toJSON(), e.data)
+        )
+      );
+
+      // data sampling
+      setToken(
+        "tk_data_sampling_status_message",
+        TokenUtils.replaceTokenNames(
+          "$row.data_sample_status_message$",
+          _.extend(submittedTokenModel.toJSON(), e.data)
+        )
+      );
+      setToken(
+        "tk_data_sampling_status_colour",
+        TokenUtils.replaceTokenNames(
+          "$row.data_sample_status_colour$",
+          _.extend(submittedTokenModel.toJSON(), e.data)
+        )
+      );
+      setToken(
+        "tk_data_sample_anomaly_reason",
+        TokenUtils.replaceTokenNames(
+          "$row.data_sample_anomaly_reason$",
+          _.extend(submittedTokenModel.toJSON(), e.data)
+        )
+      );
+      setToken(
+        "tk_isanomaly",
+        TokenUtils.replaceTokenNames(
+          "$row.isAnomaly$",
+          _.extend(submittedTokenModel.toJSON(), e.data)
+        )
+      );
+      setToken(
+        "tk_data_sample_lastrun",
+        TokenUtils.replaceTokenNames(
+          "$row.data_sample_lastrun$",
+          _.extend(submittedTokenModel.toJSON(), e.data)
+        )
+      );
+
+      // status message
+      setToken(
+        "tk_status_message",
+        TokenUtils.replaceTokenNames(
+          "$row.status_message$",
+          _.extend(submittedTokenModel.toJSON(), e.data)
+        )
+      );
+
+      // doc href
+      setToken(
+        "tk_doc_link",
+        TokenUtils.replaceTokenNames(
+          "$row.doc_link$",
+          _.extend(submittedTokenModel.toJSON(), e.data)
+        )
+      );
+      setToken(
+        "tk_doc_note",
+        TokenUtils.replaceTokenNames(
+          "$row.doc_note$",
+          _.extend(submittedTokenModel.toJSON(), e.data)
+        )
+      );
+      setToken(
+        "tk_doc_identity_card_is_global",
+        TokenUtils.replaceTokenNames(
+          "$row.doc_identity_card_is_global$",
+          _.extend(submittedTokenModel.toJSON(), e.data)
+        )
+      );
+      setToken(
+        "tk_doc_key_match",
+        TokenUtils.replaceTokenNames(
+          "$row.doc_key_match$",
+          _.extend(submittedTokenModel.toJSON(), e.data)
+        )
+      );
+
+      // tags
+      setToken(
+        "tk_tags",
+        TokenUtils.replaceTokenNames(
+          "$row.tags$",
+          _.extend(submittedTokenModel.toJSON(), e.data)
+        )
+      );
+
+      // pref-fill current lagging input
+      setToken(
+        "form.tk_input_lag",
+        TokenUtils.replaceTokenNames(
+          "$row.data_max_lag_allowed$",
+          _.extend(submittedTokenModel.toJSON(), e.data)
+        )
+      );
+
+      // pref-fill current wdays input
+      setToken(
+        "form.tk_input_wdays",
+        TokenUtils.replaceTokenNames(
+          "$row.data_monitoring_wdays$",
+          _.extend(submittedTokenModel.toJSON(), e.data)
+        )
+      );
+
+      // pre-fill current monitoring level
+      setToken(
+        "form.tk_input_level",
+        TokenUtils.replaceTokenNames(
+          "$row.data_monitoring_level$",
+          _.extend(submittedTokenModel.toJSON(), e.data)
+        )
+      );
+
+      // pre-fill current priority
+      setToken(
+        "form.tk_input_priority",
+        TokenUtils.replaceTokenNames(
+          "$row.priority$",
+          _.extend(submittedTokenModel.toJSON(), e.data)
+        )
+      );
+
+      // pre-fill lagging class override
+      setToken(
+        "form.modal_input_lag_override_class",
+        TokenUtils.replaceTokenNames(
+          "$row.data_override_lagging_class$",
+          _.extend(submittedTokenModel.toJSON(), e.data)
+        )
+      );
+
+      // pre-fill alert over kpis
+      setToken(
+        "form.tk_input_data_lag_alert_kpis",
+        TokenUtils.replaceTokenNames(
+          "$row.data_lag_alert_kpis$",
+          _.extend(submittedTokenModel.toJSON(), e.data)
+        )
+      );
+
+      submitTokens();
+
+      // When the Submit button is clicked, get all the form fields by accessing token values
+      var tokens = mvc.Components.get("default");
+
+      // When the Submit button is clicked, get all the form fields by accessing token values
+      var tokens = mvc.Components.get("default");
+
+      var tk_data_name = tokens.get("tk_data_name");
+      var tk_data_monitored_state = tokens.get("tk_data_monitored_state");
+      var tk_data_index = tokens.get("tk_data_index");
+      var tk_data_sourcetype = tokens.get("tk_data_sourcetype");
+
+      // Get earliest / latest to be recycled in some use cases
+      var tk_earliest = tokens.get("modalTime.earliest");
+      var tk_latest = tokens.get("modalTime.latest");
+
+      // Manage Outliers
+      var tk_outlierenabledstatus = tokens.get("tk_outlierenabledstatus");
+      var tk_outliermineventcount = tokens.get("tk_outliermineventcount");
+      var tk_outlierlowerthresholdmultiplier = tokens.get(
+        "tk_outlierlowerthresholdmultiplier"
+      );
+      var tk_outlierupperthresholdmultiplier = tokens.get(
+        "tk_outlierupperthresholdmultiplier"
+      );
+      var tk_outlieralertonupper = tokens.get("tk_outlieralertonupper");
+      var tk_isoutlier = tokens.get("tk_isoutlier");
+      var tk_outlier_span = tokens.get("tk_outlier_span");
+      var tk_outlier_period = tokens.get("tk_outlier_period");
+
+      // Outliers configuration
+
+      // prefill the current status
+      if (tk_outlierenabledstatus && tk_outlierenabledstatus == "true") {
+        setToken(
+          "form.tk_input_data_source_enable_outlier",
+          TokenUtils.replaceTokenNames(
+            "true",
+            _.extend(submittedTokenModel.toJSON(), e.data)
+          )
+        );
+      } else {
+        setToken(
+          "form.tk_input_data_source_enable_outlier",
+          TokenUtils.replaceTokenNames(
+            "false",
+            _.extend(submittedTokenModel.toJSON(), e.data)
+          )
+        );
+      }
+
+      // prefill the current lower multiplier
+      if (
+        tk_outlierlowerthresholdmultiplier &&
+        isNumeric(tk_outlierlowerthresholdmultiplier)
+      ) {
+        setToken(
+          "form.tk_input_data_source_outlier_lower_threshold_multiplier",
+          TokenUtils.replaceTokenNames(
+            tk_outlierlowerthresholdmultiplier,
+            _.extend(submittedTokenModel.toJSON(), e.data)
+          )
+        );
+      }
+
+      // prefill the current upper multiplier
+      if (
+        tk_outlierupperthresholdmultiplier &&
+        isNumeric(tk_outlierupperthresholdmultiplier)
+      ) {
+        setToken(
+          "form.tk_input_data_source_outlier_upper_threshold_multiplier",
+          TokenUtils.replaceTokenNames(
+            tk_outlierupperthresholdmultiplier,
+            _.extend(submittedTokenModel.toJSON(), e.data)
+          )
+        );
+      }
+
+      // Define the Outliers lowerbound mode
+      if (
+        tk_outliermineventcount &&
+        isNumeric(tk_outliermineventcount) &&
+        tk_outliermineventcount > 0
+      ) {
+        setToken(
+          "form.tk_input_data_source_outlier_min_eventcount_mode",
+          TokenUtils.replaceTokenNames(
+            "static",
+            _.extend(submittedTokenModel.toJSON(), e.data)
+          )
+        );
+        setToken(
+          "form.tk_input_data_source_outlier_min_eventcount",
+          TokenUtils.replaceTokenNames(
+            tk_outliermineventcount,
+            _.extend(submittedTokenModel.toJSON(), e.data)
+          )
+        );
+      } else {
+        setToken(
+          "form.tk_input_data_source_outlier_min_eventcount_mode",
+          TokenUtils.replaceTokenNames(
+            "dynamic",
+            _.extend(submittedTokenModel.toJSON(), e.data)
+          )
+        );
+        setToken(
+          "form.tk_input_data_source_outlier_min_eventcount",
+          TokenUtils.replaceTokenNames(
+            "disabled",
+            _.extend(submittedTokenModel.toJSON(), e.data)
+          )
+        );
+      }
+
+      // prefill the current status
+      if (tk_outlieralertonupper && tk_outlieralertonupper != "null") {
+        setToken(
+          "form.tk_input_data_source_outlier_alert_on_upper",
+          TokenUtils.replaceTokenNames(
+            tk_outlieralertonupper,
+            _.extend(submittedTokenModel.toJSON(), e.data)
+          )
+        );
+      }
+
+      // prefill the outlier span
+      if (tk_outlier_span && tk_outlier_span != "null") {
+        setToken(
+          "form.TimeOutlierConfigurationDataSourceSpan",
+          TokenUtils.replaceTokenNames(
+            tk_outlier_span,
+            _.extend(submittedTokenModel.toJSON(), e.data)
+          )
+        );
+      }
+
+      // prefill the outlier period
+      if (tk_outlier_period && tk_outlier_period != "null") {
+        setToken(
+          "form.TimeOutlierConfigurationDataSource",
+          TokenUtils.replaceTokenNames(
+            tk_outlier_period,
+            _.extend(submittedTokenModel.toJSON(), e.data)
+          )
+        );
+      }
+
+      // href docs
+      var tk_doc_link = tokens.get("tk_doc_link");
+      var tk_doc_note = tokens.get("tk_doc_note");
+      var tk_doc_identity_card_is_global = tokens.get(
+        "tk_doc_identity_card_is_global"
+      );
+      var tk_doc_key_match = tokens.get("tk_doc_key_match");
+
+      // If the documentation reference has not been set, define the href format
+      if (tk_doc_link == "null") {
+        setToken(
+          "tk_doc_link_main",
+          TokenUtils.replaceTokenNames(
+            "Click here to define a documentation reference",
+            _.extend(submittedTokenModel.toJSON(), e.data)
+          )
+        );
+        setToken(
+          "tk_doc_modal_target",
+          TokenUtils.replaceTokenNames(
+            "define_identity_card",
+            _.extend(submittedTokenModel.toJSON(), e.data)
+          )
+        );
+        // replace the textinput for modification requests
+        document.getElementById("input_doc_link").value =
+          "link to documentation";
+      } else {
+        setToken(
+          "tk_doc_link_main",
+          TokenUtils.replaceTokenNames(
+            "Show data source identity card",
+            _.extend(submittedTokenModel.toJSON(), e.data)
+          )
+        );
+        setToken(
+          "tk_doc_modal_target",
+          TokenUtils.replaceTokenNames(
+            "manage_identity_card",
+            _.extend(submittedTokenModel.toJSON(), e.data)
+          )
+        );
+        // replace the textinput for modification requests
+        document.getElementById("input_doc_link").value = tk_doc_link;
+      }
+
+      if (tk_doc_note == "null") {
+        setToken(
+          "tk_doc_link",
+          TokenUtils.replaceTokenNames(
+            "No documentation defined.",
+            _.extend(submittedTokenModel.toJSON(), e.data)
+          )
+        );
+        // replace the textarea for modification requests
+        document.getElementById("input_doc_note").value = "documentation note";
+      } else {
+        // replace the textarea for modification requests
+        document.getElementById("input_doc_note").value = tk_doc_note;
+      }
+
+      // If the identity card info is global, disable the delete card
+      if (tk_doc_identity_card_is_global == "true") {
+        document.getElementById(
+          "btn_delete_manage_identity_card"
+        ).disabled = true;
+        document.getElementById(
+          "btn_modify_manage_identity_card"
+        ).disabled = false;
+        setToken(
+          "tk_msg_doc_identity_card_is_global",
+          TokenUtils.replaceTokenNames(
+            "TrackMe info: this is a default identity card configured at the system level, you cannot delete this card but you can create a new card linked to this specific data source, consult: ",
+            _.extend(submittedTokenModel.toJSON(), e.data)
+          )
+        );
+      } else if (tk_doc_key_match == "wildcard") {
+        document.getElementById(
+          "btn_delete_manage_identity_card"
+        ).disabled = true;
+        document.getElementById(
+          "btn_modify_manage_identity_card"
+        ).disabled = true;
+        setToken(
+          "tk_msg_doc_identity_card_is_global",
+          TokenUtils.replaceTokenNames(
+            "TrackMe info: this is a wildcard matching identity card, this card has to be managed via the API endpoints, consult: ",
+            _.extend(submittedTokenModel.toJSON(), e.data)
+          )
+        );
+      } else {
+        document.getElementById(
+          "btn_delete_manage_identity_card"
+        ).disabled = false;
+        document.getElementById(
+          "btn_modify_manage_identity_card"
+        ).disabled = false;
+        setToken(
+          "tk_msg_doc_identity_card_is_global",
+          TokenUtils.replaceTokenNames(
+            "TrackMe info: this identity card was associated to this data source, you can update or delete this card, consult: ",
+            _.extend(submittedTokenModel.toJSON(), e.data)
+          )
+        );
+      }
+
+      // tags
+      var tk_tags = tokens.get("tk_tags");
+
+      // define the href depending on the tags
+      if (
+        tk_tags ==
+        "No tags defined, click on Update tags to define one or more tags to be associated with this data source."
+      ) {
+        setToken(
+          "tk_tags_link_main",
+          TokenUtils.replaceTokenNames(
+            "Click here to define tags",
+            _.extend(submittedTokenModel.toJSON(), e.data)
+          )
+        );
+        setToken(
+          "tk_tags_modal_target",
+          TokenUtils.replaceTokenNames(
+            "manage_tags",
+            _.extend(submittedTokenModel.toJSON(), e.data)
+          )
+        );
+      } else {
+        setToken(
+          "tk_tags_link_main",
+          TokenUtils.replaceTokenNames(
+            "Show tags",
+            _.extend(submittedTokenModel.toJSON(), e.data)
+          )
+        );
+        setToken(
+          "tk_tags_modal_target",
+          TokenUtils.replaceTokenNames(
+            "manage_tags",
+            _.extend(submittedTokenModel.toJSON(), e.data)
+          )
+        );
+      }
+
+      // Manage root search for overview, conditionally define the query depending on the search
+      var tk_elastic_source_search_mode = tokens.get(
+        "tk_elastic_source_search_mode"
+      );
+      var tk_elastic_source_search_constraint = tokens.get(
+        "tk_elastic_source_search_constraint"
+      );
+      var tk_elastic_source_from_part1 = tokens.get(
+        "tk_elastic_source_from_part1"
+      );
+      var tk_elastic_source_from_part2 = tokens.get(
+        "tk_elastic_source_from_part2"
+      );
+      var tk_elastic_mstats_idx = tokens.get("tk_elastic_mstats_idx");
+      var tk_elastic_mstats_filters = tokens.get("tk_elastic_mstats_filters");
+
+      // Handle regular data sources and additional integration modes
+      if (tk_elastic_source_search_mode == "null") {
+        // cribl integration
+        if (/\|cribl:/i.test(tk_data_name)) {
+          // Extract the cribl_pipe value
+          cribl_pipe_matches = tk_data_name.match(/\|cribl:(.*)/);
+          cribl_pipe = cribl_pipe_matches[1];
+
+          // create a token for the cribl_pipe
+          setToken(
+            "tk_cribl_pipe",
+            TokenUtils.replaceTokenNames(
+              cribl_pipe,
+              _.extend(submittedTokenModel.toJSON(), e.data)
+            )
+          );
+
+          // define the root search
+          tk_data_source_overview_root_search =
+            '| `trackme_tstats` dc(host) as dcount_host count latest(_indextime) as indextime max(_time) as maxtime where index="' +
+            tk_data_index +
+            '" sourcetype="' +
+            tk_data_sourcetype +
+            '" cribl_pipe::' +
+            cribl_pipe +
+            " `trackme_tstats_main_filter` by _time, index, sourcetype span=1s | eval delta=(indextime-_time), event_lag=(now() - maxtime)";
+          tk_data_source_raw_search = "null";
+          setToken(
+            "tk_data_source_timechart_count_aggreg",
+            TokenUtils.replaceTokenNames(
+              "sum",
+              _.extend(submittedTokenModel.toJSON(), e.data)
+            )
+          );
+        }
+
+        // split by custom mode
+        else if (/\|key:/i.test(tk_data_name)) {
+          regex_matches = tk_data_name.match(/\|key:([^\|]+)\|(.*)/);
+          keyName = regex_matches[1];
+          keyValue = regex_matches[2];
+          tk_data_source_overview_root_search =
+            '| `trackme_tstats` dc(host) as dcount_host count latest(_indextime) as indextime max(_time) as maxtime where index="' +
+            tk_data_index +
+            '" sourcetype="' +
+            tk_data_sourcetype +
+            '" ' +
+            keyName +
+            '="' +
+            keyValue +
+            '" `trackme_tstats_main_filter` by _time, index, sourcetype, source span=1s | eval delta=(indextime-_time), event_lag=(now() - maxtime)';
+          tk_data_source_raw_search = "null";
+          setToken(
+            "tk_data_source_timechart_count_aggreg",
+            TokenUtils.replaceTokenNames(
+              "sum",
+              _.extend(submittedTokenModel.toJSON(), e.data)
+            )
+          );
+        }
+
+        // standard mode
+        else {
+          tk_data_source_overview_root_search =
+            '| `trackme_tstats` dc(host) as dcount_host count latest(_indextime) as indextime max(_time) as maxtime where index="' +
+            tk_data_index +
+            '" sourcetype="' +
+            tk_data_sourcetype +
+            '" `trackme_tstats_main_filter` by _time, index, sourcetype span=1s | eval delta=(indextime-_time), event_lag=(now() - maxtime)';
+          tk_data_source_raw_search = "null";
+          setToken(
+            "tk_data_source_timechart_count_aggreg",
+            TokenUtils.replaceTokenNames(
+              "sum",
+              _.extend(submittedTokenModel.toJSON(), e.data)
+            )
+          );
+        }
+      } else if (tk_elastic_source_search_mode == "tstats") {
+        tk_data_source_overview_root_search =
+          "| `trackme_tstats` dc(host) as dcount_host count latest(_indextime) as indextime max(_time) as maxtime where " +
+          tk_elastic_source_search_constraint +
+          " by _time, index, sourcetype span=1s | eval delta=(indextime-_time), event_lag=(now() - maxtime)";
+        tk_data_source_raw_search =
+          "?q=search%20" + encodeURI(tk_elastic_source_search_constraint);
+        setToken(
+          "tk_data_source_timechart_count_aggreg",
+          TokenUtils.replaceTokenNames(
+            "sum",
+            _.extend(submittedTokenModel.toJSON(), e.data)
+          )
+        );
+      } else if (tk_elastic_source_search_mode == "raw") {
+        tk_data_source_overview_root_search =
+          tk_elastic_source_search_constraint +
+          " | eval delta=(_indextime-_time), event_lag=(now() - _time) | bucket _time span=1s | stats count, avg(delta) as delta, latest(event_lag) as event_lag, dc(host) as dcount_host by _time";
+        tk_data_source_raw_search =
+          "?q=search%20" + encodeURI(tk_elastic_source_search_constraint);
+        setToken(
+          "tk_data_source_timechart_count_aggreg",
+          TokenUtils.replaceTokenNames(
+            "sum",
+            _.extend(submittedTokenModel.toJSON(), e.data)
+          )
+        );
+      } else if (
+        tk_elastic_source_search_mode == "from" &&
+        tk_elastic_source_from_part1 != "null" &&
+        tk_elastic_source_from_part2 != "null"
+      ) {
+        if (/datamodel:/i.test(tk_elastic_source_search_constraint)) {
+          // rest search needs special handling
+          tk_data_source_overview_root_search =
+            "| " +
+            tk_elastic_source_search_mode +
+            " " +
+            tk_elastic_source_from_part1 +
+            " | " +
+            tk_elastic_source_from_part2 +
+            " | eventstats max(_time) as maxtime | eval delta=(_indextime-_time), event_lag=(now() - maxtime) | bucket _time span=1s | stats count, avg(delta) as delta, latest(event_lag) as event_lag, dc(host) as dcount_host by _time";
+          setToken(
+            "tk_data_source_timechart_count_aggreg",
+            TokenUtils.replaceTokenNames(
+              "sum",
+              _.extend(submittedTokenModel.toJSON(), e.data)
+            )
+          );
+        } else if (/lookup:/i.test(tk_elastic_source_search_constraint)) {
+          // rest search needs special handling
+          tk_data_source_overview_root_search =
+            '| mstats latest(_value) as value where `trackme_metrics_idx` (metric_name=trackme.eventcount_4h OR metric_name=trackme.lag_event_sec OR metric_name=trackme.hostcount_4h) object_category="data_source" object="' +
+            tk_data_name +
+            '" by metric_name span=5m | eval {metric_name}=value | stats first(trackme.eventcount_4h) as count, first(trackme.lag_event_sec) as delta, max(trackme.hostcount_4h) as dcount_host by _time | eval event_lag=delta';
+          setToken(
+            "tk_data_source_timechart_count_aggreg",
+            TokenUtils.replaceTokenNames(
+              "latest",
+              _.extend(submittedTokenModel.toJSON(), e.data)
+            )
+          );
+        }
+
+        tk_data_source_raw_search =
+          "?q=" +
+          encodeURI("| ") +
+          encodeURI(tk_elastic_source_search_mode) +
+          " " +
+          encodeURI(tk_elastic_source_from_part1) +
+          encodeURI(" | ") +
+          encodeURI(tk_elastic_source_from_part2);
+      } else if (
+        tk_elastic_source_search_mode == "rest_from" &&
+        tk_elastic_source_from_part1 != "null" &&
+        tk_elastic_source_from_part2 != "null"
+      ) {
+        // rest seach requires escaping
+        tk_elastic_source_from_part2 = tk_elastic_source_from_part2.replace(
+          /\"/g,
+          '\\"'
+        );
+
+        if (/datamodel:/i.test(tk_elastic_source_search_constraint)) {
+          // rest search needs special handling
+          tk_data_source_overview_root_search =
+            "| rest " +
+            tk_elastic_source_from_part1 +
+            ' /servicesNS/admin/search/search/jobs/export search="' +
+            "| from " +
+            tk_elastic_source_from_part2 +
+            "| eventstats max(_time) as maxtime | eval delta=(_indextime-_time), event_lag=(now() - maxtime) | bucket _time span=1s | stats count, avg(delta) as delta, latest(event_lag) as event_lag, dc(host) as dcount_host by _time" +
+            ' | eval data_name=\\"' +
+            tk_data_name +
+            '\\", data_index=\\"' +
+            tk_data_index +
+            '\\", data_sourcetype=\\"' +
+            tk_data_sourcetype +
+            '\\", data_last_ingestion_lag_seen=data_last_ingest-data_last_time_seen"' +
+            ' output_mode="csv"' +
+            ' earliest_time="' +
+            tk_earliest +
+            '"' +
+            ' latest_time="' +
+            tk_latest +
+            '"' +
+            "| head 1 | table value | restextractforstats" +
+            ' | eval _time=strptime(_time, "%Y-%m-%d %H:%M:%S.%3N %Z")';
+          tk_data_source_raw_search =
+            "?q=" +
+            encodeURI(
+              "| rest " +
+                tk_elastic_source_from_part1 +
+                ' /servicesNS/admin/search/search/jobs/export search="' +
+                "| from " +
+                tk_elastic_source_from_part2 +
+                '| head 100 | fields _time _raw"' +
+                ' output_mode="csv"' +
+                ' earliest_time="' +
+                tk_earliest +
+                '"' +
+                ' latest_time="' +
+                tk_latest +
+                '"' +
+                " | head 1 | table value | restextractraw" +
+                ' | eval _time=strptime(_time, "%Y-%m-%d %H:%M:%S.%3N %Z")'
+            );
+          setToken(
+            "tk_data_source_timechart_count_aggreg",
+            TokenUtils.replaceTokenNames(
+              "sum",
+              _.extend(submittedTokenModel.toJSON(), e.data)
+            )
+          );
+        } else if (/lookup:/i.test(tk_elastic_source_search_constraint)) {
+          // rest search needs special handling
+          tk_data_source_overview_root_search =
+            '| mstats latest(_value) as value where `trackme_metrics_idx` (metric_name=trackme.eventcount_4h OR metric_name=trackme.lag_event_sec OR metric_name=trackme.hostcount_4h) object_category="data_source" object="' +
+            tk_data_name +
+            '" by metric_name span=5m | eval {metric_name}=value | stats first(trackme.eventcount_4h) as count, first(trackme.lag_event_sec) as delta, max(trackme.hostcount_4h) as dcount_host by _time | eval event_lag=delta';
+          tk_data_source_raw_search =
+            "?q=" +
+            encodeURI(
+              "| rest " +
+                tk_elastic_source_from_part1 +
+                ' /servicesNS/admin/search/search/jobs/export search="' +
+                "| from " +
+                tk_elastic_source_from_part2 +
+                "| head 100" +
+                '" output_mode="csv"' +
+                "| head 1"
+            );
+          setToken(
+            "tk_data_source_timechart_count_aggreg",
+            TokenUtils.replaceTokenNames(
+              "latest",
+              _.extend(submittedTokenModel.toJSON(), e.data)
+            )
+          );
+        }
+      } else if (
+        tk_elastic_source_search_mode == "mstats" &&
+        tk_elastic_mstats_filters != "null"
+      ) {
+        tk_data_source_overview_root_search =
+          '| mstats latest(_value) as value where `trackme_metrics_idx` (metric_name=trackme.eventcount_4h OR metric_name=trackme.lag_event_sec OR metric_name=trackme.hostcount_4h) object_category="data_source" object="' +
+          tk_data_name +
+          '" by metric_name span=5m | eval {metric_name}=value | stats first(trackme.eventcount_4h) as count, first(trackme.lag_event_sec) as delta, max(trackme.hostcount_4h) as dcount_host by _time | eval event_lag=delta';
+        if (tk_elastic_mstats_idx == "null") {
+          tk_data_source_raw_search =
+            "?q=" +
+            encodeURI("| msearch ") +
+            encodeURI("index=*") +
+            " " +
+            encodeURI('filter="' + tk_elastic_mstats_filters + '"') +
+            encodeURI(' earliest="-5m" latest=now');
+        } else {
+          tk_data_source_raw_search =
+            "?q=" +
+            encodeURI("| msearch ") +
+            encodeURI(tk_elastic_mstats_idx) +
+            " " +
+            encodeURI('filter="' + tk_elastic_mstats_filters + '"') +
+            encodeURI(' earliest="-5m" latest=now');
+        }
+        setToken(
+          "tk_data_source_timechart_count_aggreg",
+          TokenUtils.replaceTokenNames(
+            "latest",
+            _.extend(submittedTokenModel.toJSON(), e.data)
+          )
+        );
+      }
+
+      // tstats over rest
+      else if (
+        tk_elastic_source_search_mode == "rest_tstats" &&
+        tk_elastic_source_from_part1 != "null" &&
+        tk_elastic_source_from_part2 != "null"
+      ) {
+        // rest seach requires escaping
+        tk_elastic_source_from_part2 = tk_elastic_source_from_part2.replace(
+          /\"/g,
+          '\\"'
+        );
+        // rest search needs special handling
+        tk_data_source_overview_root_search =
+          "| rest count=0 " +
+          tk_elastic_source_from_part1 +
+          ' /servicesNS/admin/search/search/jobs/export search="' +
+          "| tstats dc(host) as dcount_host count latest(_indextime) as indextime max(_time) as maxtime where " +
+          tk_elastic_source_from_part2 +
+          ' by _time, index, sourcetype span=1s | eval delta=(indextime-_time), event_lag=(now() - maxtime) | fields _time count delta event_lag dcount_host"' +
+          ' output_mode="csv"' +
+          ' earliest_time="' +
+          tk_earliest +
+          '"' +
+          ' latest_time="' +
+          tk_latest +
+          '"' +
+          " | table value | restextractforstats" +
+          ' | eval _time=strptime(_time, "%Y-%m-%d %H:%M:%S.%3N %Z")';
+        tk_data_source_raw_search =
+          "?q=" +
+          encodeURI(
+            "| rest count=0 " +
+              tk_elastic_source_from_part1 +
+              ' /servicesNS/admin/search/search/jobs/export search="' +
+              "search " +
+              tk_elastic_source_from_part2 +
+              ' | head 100 | fields _time _raw"' +
+              ' output_mode="csv"' +
+              ' earliest_time="' +
+              tk_earliest +
+              '"' +
+              ' latest_time="' +
+              tk_latest +
+              '"' +
+              " | head 1 | table value | restextractraw" +
+              ' | eval _time=strptime(_time, "%Y-%m-%d %H:%M:%S.%3N %Z")'
+          );
+        setToken(
+          "tk_data_source_timechart_count_aggreg",
+          TokenUtils.replaceTokenNames(
+            "sum",
+            _.extend(submittedTokenModel.toJSON(), e.data)
+          )
+        );
+      }
+
+      // raw over rest
+      else if (
+        tk_elastic_source_search_mode == "rest_raw" &&
+        tk_elastic_source_from_part1 != "null" &&
+        tk_elastic_source_from_part2 != "null"
+      ) {
+        // rest seach requires escaping
+        tk_elastic_source_from_part2 = tk_elastic_source_from_part2.replace(
+          /\"/g,
+          '\\"'
+        );
+        // rest search needs special handling
+        tk_data_source_overview_root_search =
+          "| rest count=0 " +
+          tk_elastic_source_from_part1 +
+          ' /servicesNS/admin/search/search/jobs/export search="' +
+          "search " +
+          tk_elastic_source_from_part2 +
+          ' | eval delta=(_indextime-_time), event_lag=(now() - _time) | bucket _time span=1s | stats count, avg(delta) as delta, latest(event_lag) as event_lag, dc(host) as dcount_host by _time"' +
+          ' output_mode="csv"' +
+          ' earliest_time="' +
+          tk_earliest +
+          '"' +
+          ' latest_time="' +
+          tk_latest +
+          '"' +
+          " | table value | restextractforstats" +
+          ' | eval _time=strptime(_time, "%Y-%m-%d %H:%M:%S.%3N %Z")';
+        tk_data_source_raw_search =
+          "?q=" +
+          encodeURI(
+            "| rest count=0 " +
+              tk_elastic_source_from_part1 +
+              ' /servicesNS/admin/search/search/jobs/export search="' +
+              "search " +
+              tk_elastic_source_from_part2 +
+              ' | head 100 | fields _time _raw"' +
+              ' output_mode="csv"' +
+              ' earliest_time="' +
+              tk_earliest +
+              '"' +
+              ' latest_time="' +
+              tk_latest +
+              '"' +
+              " | head 1 | table value | restextractraw" +
+              ' | eval _time=strptime(_time, "%Y-%m-%d %H:%M:%S.%3N %Z")'
+          );
+        setToken(
+          "tk_data_source_timechart_count_aggreg",
+          TokenUtils.replaceTokenNames(
+            "sum",
+            _.extend(submittedTokenModel.toJSON(), e.data)
+          )
+        );
+      }
+
+      // mstats over rest (uses summary data)
+      else if (
+        tk_elastic_source_search_mode == "rest_mstats" &&
+        tk_elastic_mstats_filters != "null"
+      ) {
+        tk_data_source_overview_root_search =
+          '| mstats latest(_value) as value where `trackme_metrics_idx` (metric_name=trackme.eventcount_4h OR metric_name=trackme.lag_event_sec OR metric_name=trackme.hostcount_4h) object_category="data_source" object="' +
+          tk_data_name +
+          '" by metric_name span=5m | eval {metric_name}=value | stats first(trackme.eventcount_4h) as count, first(trackme.lag_event_sec) as delta, max(trackme.hostcount_4h) as dcount_host by _time | eval event_lag=delta';
+        if (tk_elastic_mstats_idx == "null") {
+          tk_data_source_raw_search =
+            "?q=" +
+            encodeURI("| msearch ") +
+            encodeURI("index=*") +
+            " " +
+            encodeURI('filter="' + tk_elastic_mstats_filters + '"') +
+            encodeURI(' earliest="-5m" latest=now');
+        } else {
+          tk_data_source_raw_search =
+            "?q=" +
+            encodeURI("| msearch ") +
+            encodeURI(tk_elastic_mstats_idx) +
+            " " +
+            encodeURI('filter="' + tk_elastic_mstats_filters + '"') +
+            encodeURI(' earliest="-5m" latest=now');
+        }
+        setToken(
+          "tk_data_source_timechart_count_aggreg",
+          TokenUtils.replaceTokenNames(
+            "latest",
+            _.extend(submittedTokenModel.toJSON(), e.data)
+          )
+        );
+      } else {
+        tk_data_source_overview_root_search =
+          '| `trackme_tstats` dc(host) as dcount_host count latest(_indextime) as indextime max(_time) as maxtime where index="' +
+          tk_data_index +
+          '" sourcetype="' +
+          tk_data_sourcetype +
+          '" `trackme_tstats_main_filter` by _time, index, sourcetype span=1s | eval delta=(indextime-_time), event_lag=(now() - maxtime)';
+        setToken(
+          "tk_data_source_timechart_count_aggreg",
+          TokenUtils.replaceTokenNames(
+            "sum",
+            _.extend(submittedTokenModel.toJSON(), e.data)
+          )
+        );
+      }
+
+      setToken(
+        "tk_data_source_overview_root_search",
+        TokenUtils.replaceTokenNames(
+          tk_data_source_overview_root_search,
+          _.extend(submittedTokenModel.toJSON(), e.data)
+        )
+      );
+
+      // Define the history search
+
+      // Honour elastic sources
+
+      if (tk_elastic_source_search_mode == "null") {
+        // cribl integration
+        if (/\|cribl:/i.test(tk_data_name)) {
+          var search_data_source =
+            "search" +
+            '?q=search%20index%3D"' +
+            encodeURI(tk_data_index) +
+            '"' +
+            ' sourcetype%3D"' +
+            encodeURI(tk_data_sourcetype) +
+            '"' +
+            " cribl_pipe::" +
+            encodeURI(cribl_pipe);
+        }
+
+        // split by custom
+        else if (/\|key:/i.test(tk_data_name)) {
+          regex_matches = tk_data_name.match(/\|key:([^\|]+)\|(.*)/);
+          keyName = regex_matches[1];
+          keyValue = regex_matches[2];
+          var search_data_source =
+            "search" +
+            '?q=search%20index%3D"' +
+            encodeURI(tk_data_index) +
+            '"' +
+            ' sourcetype%3D"' +
+            encodeURI(tk_data_sourcetype) +
+            '" ' +
+            keyName +
+            '%3D"' +
+            encodeURI(keyValue) +
+            '"';
+        }
+
+        // standard split
+        else {
+          var search_data_source =
+            "search" +
+            '?q=search%20index%3D"' +
+            encodeURI(tk_data_index) +
+            '"' +
+            ' sourcetype%3D"' +
+            encodeURI(tk_data_sourcetype) +
+            '"';
+        }
+      } else {
+        var search_data_source = "search" + tk_data_source_raw_search;
+      }
+
+      // state
+      var tk_data_source_state = tokens.get("tk_data_source_state");
+
+      // priority
+      var tk_priority = tokens.get("tk_priority");
+
+      // Define the URL target
+      document.getElementById("btn_search_data_source").href =
+        search_data_source;
+
+      // Dynamically manage buttons states
+      if (tk_data_monitored_state == "enabled") {
+        document.getElementById("btn_enable_monitoring").disabled = true;
+        document.getElementById("btn_disable_monitoring").disabled = false;
+        setToken(
+          "tk_data_monitored_state_class",
+          TokenUtils.replaceTokenNames(
+            "title_green",
+            _.extend(submittedTokenModel.toJSON(), e.data)
+          )
+        );
+      } else {
+        document.getElementById("btn_enable_monitoring").disabled = false;
+        document.getElementById("btn_disable_monitoring").disabled = true;
+        setToken(
+          "tk_data_monitored_state_class",
+          TokenUtils.replaceTokenNames(
+            "title_grey",
+            _.extend(submittedTokenModel.toJSON(), e.data)
+          )
+        );
+      }
+
+      // Dynamically manage Ack button
+      if (tk_data_source_state == "red") {
+        document.getElementById("btn_ack_data_source").disabled = false;
+      } else {
+        document.getElementById("btn_ack_data_source").disabled = true;
+      }
+
+      // Dynamically manage state color
+      if (tk_data_source_state == "green") {
+        setToken(
+          "tk_data_source_state_class",
+          TokenUtils.replaceTokenNames(
+            "title_green",
+            _.extend(submittedTokenModel.toJSON(), e.data)
+          )
+        );
+        setToken(
+          "tk_data_source_status_message_class",
+          TokenUtils.replaceTokenNames(
+            "status_message_green",
+            _.extend(submittedTokenModel.toJSON(), e.data)
+          )
+        );
+      } else if (tk_data_source_state == "orange") {
+        setToken(
+          "tk_data_source_state_class",
+          TokenUtils.replaceTokenNames(
+            "title_orange",
+            _.extend(submittedTokenModel.toJSON(), e.data)
+          )
+        );
+        setToken(
+          "tk_data_source_status_message_class",
+          TokenUtils.replaceTokenNames(
+            "status_message_orange",
+            _.extend(submittedTokenModel.toJSON(), e.data)
+          )
+        );
+      } else if (tk_data_source_state == "blue") {
+        setToken(
+          "tk_data_source_state_class",
+          TokenUtils.replaceTokenNames(
+            "title_blue",
+            _.extend(submittedTokenModel.toJSON(), e.data)
+          )
+        );
+        setToken(
+          "tk_data_source_status_message_class",
+          TokenUtils.replaceTokenNames(
+            "status_message_blue",
+            _.extend(submittedTokenModel.toJSON(), e.data)
+          )
+        );
+      } else if (tk_data_source_state == "red") {
+        setToken(
+          "tk_data_source_state_class",
+          TokenUtils.replaceTokenNames(
+            "title_red",
+            _.extend(submittedTokenModel.toJSON(), e.data)
+          )
+        );
+        setToken(
+          "tk_data_source_status_message_class",
+          TokenUtils.replaceTokenNames(
+            "status_message_red",
+            _.extend(submittedTokenModel.toJSON(), e.data)
+          )
+        );
+      }
+
+      // Dynamically manage priority color
+      if (tk_priority == "low") {
+        setToken(
+          "tk_priority_class",
+          TokenUtils.replaceTokenNames(
+            "title_low_priority",
+            _.extend(submittedTokenModel.toJSON(), e.data)
+          )
+        );
+      } else if (tk_priority == "medium") {
+        setToken(
+          "tk_priority_class",
+          TokenUtils.replaceTokenNames(
+            "title_medium_priority",
+            _.extend(submittedTokenModel.toJSON(), e.data)
+          )
+        );
+      } else if (tk_priority == "high") {
+        setToken(
+          "tk_priority_class",
+          TokenUtils.replaceTokenNames(
+            "title_high_priority",
+            _.extend(submittedTokenModel.toJSON(), e.data)
+          )
+        );
+      }
+
+      // Data sampling
+
+      var tk_data_sampling_status_colour = tokens.get(
+        "tk_data_sampling_status_colour"
+      );
+
+      if (tk_data_sampling_status_colour == "green") {
+        setToken(
+          "tk_data_sampling_status_message_class",
+          TokenUtils.replaceTokenNames(
+            "status_message_green",
+            _.extend(submittedTokenModel.toJSON(), e.data)
+          )
+        );
+      } else if (tk_data_sampling_status_colour == "orange") {
+        setToken(
+          "tk_data_sampling_status_message_class",
+          TokenUtils.replaceTokenNames(
+            "status_message_orange",
+            _.extend(submittedTokenModel.toJSON(), e.data)
+          )
+        );
+      } else if (tk_data_sampling_status_colour == "blue") {
+        setToken(
+          "tk_data_sampling_status_message_class",
+          TokenUtils.replaceTokenNames(
+            "status_message_blue",
+            _.extend(submittedTokenModel.toJSON(), e.data)
+          )
+        );
+      } else if (tk_data_sampling_status_colour == "red") {
+        setToken(
+          "tk_data_sampling_status_message_class",
+          TokenUtils.replaceTokenNames(
+            "status_message_red",
+            _.extend(submittedTokenModel.toJSON(), e.data)
+          )
+        );
+      }
+
+      // Enable modal context
+      $("#modal_manage").modal();
+    }
+  });
+
+  var resultsLinkMainTable = new ResultsLinkView({
+    id: "resultsLinkMainTable",
+    managerid: "searchDataSourcesPostTable",
+    "link.exportResults.visible": false,
+    el: $("#controlMainTable"),
+  });
+
+  resultsLinkMainTable.render().$el.appendTo($("controlMainTable"));
 
   //
   // END

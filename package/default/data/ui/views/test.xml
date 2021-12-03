@@ -1,4 +1,4 @@
-<form version="1.1" theme="dark" script="test.js" hideEdit="true">
+<form version="1.1" theme="dark" stylesheet="trackme:common.css,trackme:notifybar/jquery.notifyBar.css,trackme:css-loader/css-loader.css" script="test.js,multiselect_all.js" hideEdit="true">
 <label>TrackMe - Data tracking system</label>
 <description>Monitoring your Splunk data availability made easy</description>
 
@@ -25,18 +25,18 @@
 
             </style>
 
-            <div id="link1"></div>
+            <div style="margin-bottom: -25px; margin-top: -9px;" id="link1"></div>
         </html>
     </panel>
 </row>
 
-<row depends="$show_data_source_overview$">
-    <panel>
+<row>
+    <panel depends="$show_data_source_tracker$">
         <html>
             <div id="DonutDataSourceCountByPriority"></div>
         </html>
     </panel>
-    <panel>
+    <panel depends="$show_data_source_tracker$">
         <html>
             <div id="DonutDataSourceCountByStateAndPriority"></div>
         </html>
@@ -45,7 +45,7 @@
 
 <row>
     <panel>
-        <html depends="$show_data_source_overview$">
+        <html depends="$show_data_source_tracker$">
             <div>
                 <div>
                     <div>
@@ -154,19 +154,61 @@
     </panel>
 </row>
 
+<row depends="$show_data_source_tracker$">
+    <panel>
+        <html>
+            <div>
+                <div>
+                    <div>
+                        <div>
+                            <div>
+                                <div>
+                                    <div>
+                                        <div class="btn_modify_elastic_sources_main custom-btn">
+                                            <button type="submit" style="margin-right: 15px;" class="btn btn-outline-primary" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Manage: elastic sources</button>
+                                        </div>
+                                        <div class="custom-btn">
+                                            <button type="submit" id="btn_modify_data_source_blacklist_main" style="margin-right: 15px;" class="btn btn-outline-primary" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Manage: allowlists &amp; blocklists</button>
+                                        </div>
+                                        <div class="btn_modify_custom_lagging custom-btn">
+                                            <button type="submit" style="margin-right: 15px;" class="btn btn-outline-primary" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Manage: define lagging classes</button>
+                                        </div>
+                                        <div class="btn_modify_tags_policies custom-btn">
+                                            <button type="submit" style="margin-right: 15px;" class="btn btn-outline-primary" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Manage: tags policies</button>
+                                        </div>
+                                        <div class="custom-btn">
+                                            <button type="submit" id="btn_modify_data_sampling_rules" style="margin-right: 15px;" class="btn btn-outline-primary" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Manage: data sampling</button>
+                                        </div>
+                                        <div class="custom-btn">
+                                            <button type="submit" id="btn_run_trackers" style="margin-right: 15px;" class="btn btn-outline-secondary"><span class="glyphicon glyphicon-remove"></span> Run: Trackers reports</button>
+                                        </div>
+                                    </div>
+                                    <div style="float: left;">
+                                        <div class="btn_ops_index_queue custom-btn">
+                                            <button type="submit" style="margin-right: 15px;" class="btn btn-outline-info" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Ops: Queues center</button>
+                                        </div>
+                                        <div class="btn_ops_parsing_issues custom-btn">
+                                            <button type="submit" style="margin-right: 15px;" class="btn btn-outline-info" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Ops: Parsing issues</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </html>
+    </panel>
+</row>
+
 <row>
     <panel>
         <html>
             <div>
-                <p>token show_data_source_overview is $show_data_source_overview$ and token show_data_source_tracker is $show_data_source_tracker$</p>
-                <br />
-                <p>token show_data_source_outlier is $show_data_source_outlier$</p>
-                <br />
-                <p>inputDataNameFilterMode is $inputDataNameFilterMode$</p>
-                <br />
-                <p>debug: $inputDataIndex$ $inputDataSourcetype$</p>
-                <br />
-                <p>| inputlookup trackme_data_source_monitoring\n| eval keyid=_key\n| `apply_data_source_blacklists`\n| search `trackme_get_idx_whitelist_searchtime(trackme_data_source_monitoring_whitelist_index, data_index)`\n| `trackme_eval_data_source_state`\n| `trackme_default_priority`\n| `trackme_date_format(data_last_time_seen)`\n| `trackme_date_format(data_last_time_seen_idx)`\n| `trackme_date_format(data_last_ingest)`\n| fillnull value=\"red\" data_source_state\n| sort 0 data_source\n| `trackme_eval_icons`\n| search $inputDataNameFilterMode$ ($inputDataNameFilter$)\n| search `trackme_get_idx_whitelist_searchtime(trackme_data_source_monitoring_whitelist_index, data_index)`\n| `apply_data_source_blacklists`\n| rex field=tags mode=sed \"s/,/ \\\/ /g\"\n| fillnull value=\"No tags defined, click on Update tags to define one or more tags to be associated with this data source.\" tags</p>
+                <div id="elementMainTable">
+                </div>
+                <div id="controlMainTable" class="search-elements">
+                </div>
             </div>
         </html>
     </panel>
