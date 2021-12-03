@@ -75,6 +75,16 @@ require([
   }
 
   //
+  // Vizz
+  //
+
+  // semicircle donut custom viz
+  var semiCircleDonut = VisualizationRegistry.getVisualizer(
+    "semicircle_donut",
+    "semicircle_donut"
+  );
+  
+  //
   // FUNCTIONS
   //
 

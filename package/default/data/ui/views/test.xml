@@ -1,9 +1,70 @@
-<form version="1.1" theme="dark" script="test.js">
+<form version="1.1" theme="dark" script="test.js" hideEdit="true">
+<label>TrackMe - Data tracking system</label>
+<description>Monitoring your Splunk data availability made easy</description>
 
 <row>
     <panel>
         <html>
-            <div id="inputLinkDataSource"></div>
+            <div id="link1"></div>
+        </html>
+    </panel>
+</row>
+
+<row>
+    <panel>
+        <html>
+            <div id="DonutDataSourceCountByPriority"></div>
+        </html>
+    </panel>
+    <panel>
+        <html>
+            <div id="DonutDataSourceCountByStateAndPriority"></div>
+        </html>
+    </panel>
+</row>
+
+<row>
+    <panel>
+        <html depends="$show_data_source_overview$">
+            <div>
+                <div>
+                    <div>
+                        <h2 class="panel-title">Click on any entry of the table to open interactive actions for this entity, use inputs to filter out the selection: (restricted to the first thousand results, use the key world filter input for large scale selections)</h2>
+                        <div class="fieldset">
+                            <div class="input input-dropdown" id="inputDataNameFilterMode">
+                                <label>Keyword filter mode:</label>
+                            </div>
+                            <div style="margin-right: 28px;" class="input input-text" id="inputDataNameFilter">
+                                <label>Keyword filter name:</label>
+                            </div>
+                            <div class="input input-multiselect" id="inputTags">
+                                <label>Tags:</label>
+                            </div>
+                            <div class="input input-multiselect" id="inputDataName">
+                                <label>Name (use keyword filter):</label>
+                            </div>
+                            <div class="input input-multiselect" id="inputDataIndex">
+                                <label>Index:</label>
+                            </div>
+                            <div class="input input-multiselect" id="inputDataSourcetype">
+                                <label>Sourcetype(s):</label>
+                            </div>
+                            <div class="input input-multiselect" id="inputDataSourceState">
+                                <label>Filter state:</label>
+                            </div>
+                            <div class="input input-dropdown" id="inputDataMonitoredState">
+                                <label>Filter monitored_state:</label>
+                            </div>
+                            <div class="input input-multiselect" id="inputDataPriority">
+                                <label>Filter priority:</label>
+                            </div>
+                            <div class="input input-dropdown" id="refreshForm">
+                                <label>Auto refresh:</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </html>
     </panel>
 </row>
@@ -12,9 +73,15 @@
     <panel>
         <html>
             <div>
-                <p>token show_data_source_overview is $show_data_source_overview$</p>
+                <p>token show_data_source_overview is $show_data_source_overview$ and token show_data_source_tracker is $show_data_source_tracker$</p>
                 <br />
                 <p>token show_data_source_outlier is $show_data_source_outlier$</p>
+                <br />
+                <p>inputDataNameFilterMode is $inputDataNameFilterMode$</p>
+                <br />
+                <p>debug: $inputDataIndex$ $inputDataSourcetype$</p>
+                <br />
+                <p>| inputlookup trackme_data_source_monitoring\n| eval keyid=_key\n| `apply_data_source_blacklists`\n| search `trackme_get_idx_whitelist_searchtime(trackme_data_source_monitoring_whitelist_index, data_index)`\n| `trackme_eval_data_source_state`\n| `trackme_default_priority`\n| `trackme_date_format(data_last_time_seen)`\n| `trackme_date_format(data_last_time_seen_idx)`\n| `trackme_date_format(data_last_ingest)`\n| fillnull value=\"red\" data_source_state\n| sort 0 data_source\n| `trackme_eval_icons`\n| search $inputDataNameFilterMode$ ($inputDataNameFilter$)\n| search `trackme_get_idx_whitelist_searchtime(trackme_data_source_monitoring_whitelist_index, data_index)`\n| `apply_data_source_blacklists`\n| rex field=tags mode=sed \"s/,/ \\\/ /g\"\n| fillnull value=\"No tags defined, click on Update tags to define one or more tags to be associated with this data source.\" tags</p>
             </div>
         </html>
     </panel>
