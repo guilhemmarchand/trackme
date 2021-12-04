@@ -10401,7 +10401,7 @@ require([
       type: "semicircle_donut.semicircle_donut",
       resizable: true,
       drilldown: "none",
-      height: "170",
+      height: "200",
       "refresh.display": "progressbar",
       "semicircle_donut.semicircle_donut.colorField": "color",
       "semicircle_donut.semicircle_donut.cutoutPercentage": "50",
