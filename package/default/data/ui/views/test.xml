@@ -1324,4 +1324,124 @@
     </panel>
 </row>
 
+<!-- Audit changes UI elements -->
+
+<row depends="$show_audit_changes$">
+    <panel>
+        <title>TOP Actions</title>
+        <chart>
+            <search base="searchAuditChangesTopAction"></search>
+            <option name="charting.chart">pie</option>
+            <option name="charting.drilldown">all</option>
+            <option name="resizable">true</option>
+        </chart>
+    </panel>
+    <panel>
+        <title>TOP Users</title>
+        <chart>
+            <search base="searchAuditChangesTopUser"></search>
+            <option name="charting.chart">pie</option>
+            <option name="charting.drilldown">all</option>
+            <option name="resizable">true</option>
+        </chart>
+    </panel>
+    <panel>
+        <title>TOP Change Types</title>
+        <chart>
+            <search base="searchAuditChangesTopChangeType"></search>
+            <option name="charting.chart">pie</option>
+            <option name="charting.drilldown">all</option>
+            <option name="resizable">true</option>
+        </chart>
+    </panel>
+</row>
+
+<row depends="$show_audit_changes$">
+    <panel>
+        <html>
+            <div>
+                <div>
+                    <div>
+                        <h2 style="margin-top: -10px;" class="panel-title">Search for audit changes:</h2>
+                        <div class="fieldset">
+
+                            <div class="container-trackme-inputs">
+
+                                <div class="item-trackme-inputs">
+                                    <div class="panel-head">
+                                        <h3>time period:</h3>
+                                    </div>
+                                    <div class="panel-body">
+                                        <div id="input_timerange_audit_changes"></div>
+                                    </div>
+                                </div>
+
+                                <div class="item-trackme-inputs">
+                                    <div class="panel-head">
+                                        <h3>action:</h3>
+                                    </div>
+                                    <div class="panel-body">
+                                        <div id="inputAuditChangesAction"></div>
+                                    </div>
+                                </div>
+
+                                <div class="item-trackme-inputs">
+                                    <div class="panel-head">
+                                        <h3>user:</h3>
+                                    </div>
+                                    <div class="panel-body">
+                                        <div id="inputAuditChangesUser"></div>
+                                    </div>
+                                </div>
+
+                                <div class="item-trackme-inputs">
+                                    <div class="panel-head">
+                                        <h3>object_category:</h3>
+                                    </div>
+                                    <div class="panel-body">
+                                        <div id="inputAuditChangesObjectCategory"></div>
+                                    </div>
+                                </div>
+
+                                <div class="item-trackme-inputs">
+                                    <div class="panel-head">
+                                        <h3>change_type:</h3>
+                                    </div>
+                                    <div class="panel-body">
+                                        <div id="inputAuditChangesChangeType"></div>
+                                    </div>
+                                </div>
+
+                                <div class="item-trackme-inputs">
+                                    <div class="panel-head">
+                                        <h3>object:</h3>
+                                    </div>
+                                    <div class="panel-body">
+                                        <div id="inputAuditChangesObject"></div>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </html>
+    </panel>
+</row>
+
+<row depends="$show_audit_changes$">
+    <panel>
+        <html>
+            <div>
+                <div id="elementMainTableAuditChanges" class="view-elements">
+                </div>
+                <div id="resultsLinkelementMainTableAuditChanges" class="search-elements">
+                </div>
+            </div>
+        </html>
+    </panel>
+</row>
+
 </form>

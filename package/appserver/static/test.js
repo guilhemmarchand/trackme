@@ -10101,6 +10101,215 @@ require([
     .$el.appendTo($("resultsLinkelementMainTableAuditFlip"));
 
   //
+  // Audit changes
+  //
+
+  var input_timerange_audit_changes = new TimeRangeInput(
+    {
+      id: "input_timerange_audit_changes",
+      searchWhenChanged: true,
+      default: { latest_time: "now", earliest_time: "-24h" },
+      earliest_time: "$form.timerange_audit_changes.earliest$",
+      latest_time: "$form.timerange_audit_changes.latest$",
+      el: $("#input_timerange_audit_changes"),
+    },
+    { tokens: true }
+  ).render();
+
+  input_timerange_audit_changes.on("change", function (newValue) {
+    FormUtils.handleValueChange(input_timerange_audit_changes);
+  });
+
+  var inputAuditChangesAction = new DropdownInput(
+    {
+      id: "inputAuditChangesAction",
+      tokenDependencies: {
+        depends: "$show_audit_changes$",
+      },
+      choices: [
+        {
+          label: "ALL",
+          value: "*",
+        },
+      ],
+      searchWhenChanged: true,
+      default: "*",
+      showClearButton: true,
+      labelField: "action",
+      prefix: 'action="',
+      suffix: '"',
+      initialValue: "*",
+      selectFirstChoice: false,
+      valueField: "action",
+      value: "$form.audit_changes_action$",
+      managerid: "searchAuditChangesAction",
+      el: $("#inputAuditChangesAction"),
+    },
+    {
+      tokens: true,
+    }
+  ).render();
+
+  inputAuditChangesAction.on("change", function (newValue) {
+    FormUtils.handleValueChange(inputAuditChangesAction);
+  });
+
+  var inputAuditChangesUser = new DropdownInput(
+    {
+      id: "inputAuditChangesUser",
+      tokenDependencies: {
+        depends: "$show_audit_changes$",
+      },
+      choices: [
+        {
+          label: "ALL",
+          value: "*",
+        },
+      ],
+      searchWhenChanged: true,
+      default: "*",
+      showClearButton: true,
+      labelField: "user",
+      prefix: 'user="',
+      suffix: '"',
+      initialValue: "*",
+      selectFirstChoice: false,
+      valueField: "user",
+      value: "$form.audit_changes_user$",
+      managerid: "searchAuditChangesUser",
+      el: $("#inputAuditChangesUser"),
+    },
+    {
+      tokens: true,
+    }
+  ).render();
+
+  inputAuditChangesUser.on("change", function (newValue) {
+    FormUtils.handleValueChange(inputAuditChangesUser);
+  });
+
+  var inputAuditChangesObjectCategory = new DropdownInput(
+    {
+      id: "inputAuditChangesObjectCategory",
+      tokenDependencies: {
+        depends: "$show_audit_changes$",
+      },
+      choices: [
+        {
+          label: "ALL",
+          value: "*",
+        },
+      ],
+      searchWhenChanged: true,
+      default: "*",
+      showClearButton: true,
+      labelField: "object_category",
+      prefix: 'object_category="',
+      suffix: '"',
+      initialValue: "*",
+      selectFirstChoice: false,
+      valueField: "object_category",
+      value: "$form.audit_changes_object_category$",
+      managerid: "searchAuditChangesObjectCategory",
+      el: $("#inputAuditChangesObjectCategory"),
+    },
+    {
+      tokens: true,
+    }
+  ).render();
+
+  inputAuditChangesObjectCategory.on("change", function (newValue) {
+    FormUtils.handleValueChange(inputAuditChangesObjectCategory);
+  });
+
+  var inputAuditChangesChangeType = new DropdownInput(
+    {
+      id: "inputAuditChangesChangeType",
+      tokenDependencies: {
+        depends: "$show_audit_changes$",
+      },
+      choices: [
+        {
+          label: "ALL",
+          value: "*",
+        },
+      ],
+      searchWhenChanged: true,
+      default: "*",
+      showClearButton: true,
+      labelField: "change_type",
+      prefix: 'change_type="',
+      suffix: '"',
+      initialValue: "*",
+      selectFirstChoice: false,
+      valueField: "change_type",
+      value: "$form.audit_changes_change_type$",
+      managerid: "searchAuditChangesChangeType",
+      el: $("#inputAuditChangesChangeType"),
+    },
+    {
+      tokens: true,
+    }
+  ).render();
+
+  inputAuditChangesChangeType.on("change", function (newValue) {
+    FormUtils.handleValueChange(inputAuditChangesChangeType);
+  });
+
+  var inputAuditChangesObject = new DropdownInput(
+    {
+      id: "inputAuditChangesObject",
+      tokenDependencies: {
+        depends: "$show_audit_changes$",
+      },
+      choices: [
+        {
+          label: "ALL",
+          value: "*",
+        },
+      ],
+      searchWhenChanged: true,
+      default: "*",
+      showClearButton: true,
+      labelField: "object",
+      prefix: 'object="',
+      suffix: '"',
+      initialValue: "*",
+      selectFirstChoice: false,
+      valueField: "object",
+      value: "$form.audit_changes_object$",
+      managerid: "searchAuditChangesObject",
+      el: $("#inputAuditChangesObject"),
+    },
+    {
+      tokens: true,
+    }
+  ).render();
+
+  inputAuditChangesObject.on("change", function (newValue) {
+    FormUtils.handleValueChange(inputAuditChangesObject);
+  });
+
+  var elementMainTableAuditChanges = new TableView(
+    {
+      id: "elementMainTableAuditChanges",
+      count: 100,
+      drilldown: "none",
+      "refresh.display": "none",
+      wrap: "true",
+      managerid: "searchMainAuditChanges",
+      el: $("#elementMainTableAuditChanges"),
+    },
+    {
+      tokens: true,
+      tokenNamespace: "submitted",
+    }
+  ).render();
+
+  // render icons
+  renderTableIcon(elementMainTableAuditChanges);
+
+  //
   // END
   //
 });
