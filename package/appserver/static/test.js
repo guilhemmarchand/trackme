@@ -20,6 +20,7 @@ require([
   "splunkjs/mvc/visualizationregistry",
   "splunkjs/mvc/simpleform/input/linklist",
   "splunkjs/mvc/simpleform/input/text",
+  "splunkjs/mvc/simpleform/input/timerange",
   "splunkjs/mvc/simpleform/input/multiselect",
   "splunkjs/mvc/simpleform/input/dropdown",
   "splunkjs/mvc/simplexml/element/table",
@@ -49,6 +50,7 @@ require([
   VisualizationRegistry,
   LinkListInput,
   TextInput,
+  TimeRangeInput,
   MultiSelectInput,
   DropdownInput,
   TableElement,
@@ -9959,6 +9961,144 @@ require([
       $("#modal_manage_metric_host").modal();
     }
   });
+
+  //
+  // Flipping statuses
+  //
+
+  var input_timerange_audit_flip = new TimeRangeInput(
+    {
+      id: "input_timerange_audit_flip",
+      searchWhenChanged: true,
+      default: { latest_time: "now", earliest_time: "-24h" },
+      earliest_time: "$form.timerange_audit_flip.earliest$",
+      latest_time: "$form.timerange_audit_flip.latest$",
+      el: $("#input_timerange_audit_flip"),
+    },
+    { tokens: true }
+  ).render();
+
+  input_timerange_audit_flip.on("change", function (newValue) {
+    FormUtils.handleValueChange(input_timerange_audit_flip);
+  });
+
+  var inputAuditFlipObjectFilter = new TextInput(
+    {
+      id: "inputAuditFlipObjectFilter",
+      searchWhenChanged: true,
+      default: "*",
+      prefix: 'object="*',
+      suffix: '*"',
+      initialValue: "*",
+      value: "$form.inputAuditFlipObjectFilter$",
+      el: $("#inputAuditFlipObjectFilter"),
+    },
+    {
+      tokens: true,
+    }
+  ).render();
+
+  inputAuditFlipObjectFilter.on("change", function (newValue) {
+    FormUtils.handleValueChange(inputAuditFlipObjectFilter);
+  });
+
+  var inputAuditFlipObjectCategory = new DropdownInput(
+    {
+      id: "inputAuditFlipObjectCategory",
+      tokenDependencies: {
+        depends: "$show_audit_flip$",
+      },
+      choices: [
+        {
+          label: "ALL",
+          value: "*",
+        },
+      ],
+      searchWhenChanged: true,
+      default: "*",
+      showClearButton: true,
+      labelField: "object_category",
+      prefix: 'object_category="',
+      suffix: '"',
+      initialValue: "*",
+      selectFirstChoice: false,
+      valueField: "object_category",
+      value: "$form.audit_flip_object_category$",
+      managerid: "searchAuditFlipObjectCategory",
+      el: $("#inputAuditFlipObjectCategory"),
+    },
+    {
+      tokens: true,
+    }
+  ).render();
+
+  inputAuditFlipObjectCategory.on("change", function (newValue) {
+    FormUtils.handleValueChange(inputAuditFlipObjectCategory);
+  });
+
+  var inputAuditFlipObject = new DropdownInput(
+    {
+      id: "inputAuditFlipObject",
+      tokenDependencies: {
+        depends: "$show_audit_flip$",
+      },
+      choices: [
+        {
+          label: "ALL",
+          value: "*",
+        },
+      ],
+      searchWhenChanged: true,
+      default: "*",
+      showClearButton: true,
+      labelField: "object",
+      prefix: 'object="',
+      suffix: '"',
+      initialValue: "*",
+      selectFirstChoice: false,
+      valueField: "object",
+      value: "$form.audit_flip_object$",
+      managerid: "searchAuditFlipObject",
+      el: $("#inputAuditFlipObject"),
+    },
+    {
+      tokens: true,
+    }
+  ).render();
+
+  inputAuditFlipObject.on("change", function (newValue) {
+    FormUtils.handleValueChange(inputAuditFlipObject);
+  });
+
+  var elementMainTableAuditFlip = new TableView(
+    {
+      id: "elementMainTableAuditFlip",
+      count: 100,
+      drilldown: "none",
+      "refresh.display": "none",
+      wrap: "false",
+      managerid: "searchMainAuditFlipTable",
+      el: $("#elementMainTableAuditFlip"),
+    },
+    {
+      tokens: true,
+      tokenNamespace: "submitted",
+    }
+  ).render();
+
+  // render icons
+  renderTableIcon(elementMainTableAuditFlip);
+
+  var resultsLinkelementMainTableAuditFlip = new ResultsLinkView({
+    id: "resultsLinkelementMainTableAuditFlip",
+    managerid: "searchMainAuditFlipTable",
+    "link.exportResults.visible": false,
+    el: $("#resultsLinkelementMainTableAuditFlip"),
+  });
+
+  resultsLinkelementMainTableHost
+    .render()
+    .$el.appendTo($("resultsLinkelementMainTableAuditFlip"));
 
   //
   // END

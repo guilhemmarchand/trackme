@@ -1230,5 +1230,98 @@
     </panel>
 </row>
 
+<!-- Flipping status UI elements -->
+
+<row depends="$show_audit_flip$">
+    <panel>
+        <title>TOP Object</title>
+        <chart>
+            <search base="searchAuditFlipTopObject"></search>
+            <option name="charting.chart">pie</option>
+            <option name="charting.drilldown">all</option>
+            <option name="resizable">true</option>
+        </chart>
+    </panel>
+    <panel>
+        <title>Flip over time</title>
+        <chart>
+            <search base="searchAuditFlipOverTime"></search>
+            <option name="charting.chart.stackMode">stacked</option>
+            <option name="charting.chart">column</option>
+            <option name="charting.drilldown">all</option>
+            <option name="resizable">true</option>
+        </chart>
+    </panel>
+</row>
+
+<row depends="$show_audit_flip$">
+    <panel>
+        <html>
+            <div>
+                <div>
+                    <div>
+                        <h2 style="margin-top: -10px;" class="panel-title">Search for alert state flipping:</h2>
+                        <div class="fieldset">
+
+                            <div class="container-trackme-inputs">
+
+                                <div class="item-trackme-inputs">
+                                    <div class="panel-head">
+                                        <h3>time period:</h3>
+                                    </div>
+                                    <div class="panel-body">
+                                        <div id="input_timerange_audit_flip"></div>
+                                    </div>
+                                </div>
+
+                                <div class="item-trackme-inputs">
+                                    <div class="panel-head">
+                                        <h3>Keyword filter object:</h3>
+                                    </div>
+                                    <div class="panel-body">
+                                        <div id="inputAuditFlipObjectFilter"></div>
+                                    </div>
+                                </div>
+
+                                <div class="item-trackme-inputs">
+                                    <div class="panel-head">
+                                        <h3>object_category:</h3>
+                                    </div>
+                                    <div class="panel-body">
+                                        <div id="inputAuditFlipObjectCategory"></div>
+                                    </div>
+                                </div>
+
+                                <div class="item-trackme-inputs">
+                                    <div class="panel-head">
+                                        <h3>object(s) (use keyword filter):</h3>
+                                    </div>
+                                    <div class="panel-body">
+                                        <div id="inputAuditFlipObject"></div>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </html>
+    </panel>
+</row>
+
+<row depends="$show_audit_flip$">
+    <panel>
+        <html>
+            <div>
+                <div id="elementMainTableAuditFlip" class="view-elements">
+                </div>
+                <div id="resultsLinkelementMainTableAuditFlip" class="search-elements">
+                </div>
+            </div>
+        </html>
+    </panel>
+</row>
 
 </form>
