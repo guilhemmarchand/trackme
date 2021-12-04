@@ -104,9 +104,6 @@ require([
     );
   }
 
-  // run the cssloader immediately, it will be remove when the main home loading facing search is ready
-  cssloader("Please wait while trackMe is loading...");
-
   //
   // Notify
   //
@@ -131,6 +128,43 @@ require([
   // Returns true if numeric
   function isNumeric(n) {
     return !isNaN(parseFloat(n)) && isFinite(n) && n > 0;
+  }
+
+  // render custom table emoji icons
+  function renderTableIcon(element) {
+    var CustomIconRenderer = TableView.BaseCellRenderer.extend({
+      canRender: function (cell) {
+        if (typeof cell.value === "string") {
+          return cell.value && cell.value.substr(0, 5) === "icon|";
+        }
+      },
+      render: function ($td, cell) {
+        var parts = cell.value.split("|");
+
+        // green
+        if (parts[1] === "ico_good ico_small") {
+          $td.css({ "text-align": "center" }).html("<div>🟢</div>");
+        }
+        // red
+        else if (parts[1] === "ico_error ico_small") {
+          $td.css({ "text-align": "center" }).html("<div>🔴</div>");
+        }
+        // orange
+        else if (parts[1] === "ico_warn ico_small") {
+          $td.css({ "text-align": "center" }).html("<div>🟠</div>");
+        }
+        // blue
+        else if (parts[1] === "ico_unknown ico_small") {
+          $td.css({ "text-align": "center" }).html("<div>🔵</div>");
+        }
+
+        if (parts.length > 3) {
+          $td.attr("title", parts[3]);
+        }
+      },
+    });
+
+    element.addCellRenderer(new CustomIconRenderer());
   }
 
   //
@@ -5930,6 +5964,9 @@ require([
       tokenNamespace: "submitted",
     }
   ).render();
+
+  // render icons
+  renderTableIcon(elementMainTable);
 
   elementMainTable.on("click", function (e) {
     if (e.field !== undefined) {
