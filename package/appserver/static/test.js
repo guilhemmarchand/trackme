@@ -23,6 +23,7 @@ require([
   "splunkjs/mvc/simpleform/input/multiselect",
   "splunkjs/mvc/simpleform/input/dropdown",
   "splunkjs/mvc/simplexml/element/table",
+  "splunkjs/mvc/simplexml/element/single",
   "splunkjs/mvc/simpleform/formutils",
   "splunkjs/mvc/simplexml/eventhandler",
   "splunkjs/mvc/simplexml/searcheventhandler",
@@ -51,6 +52,7 @@ require([
   MultiSelectInput,
   DropdownInput,
   TableElement,
+  SingleElement,
   FormUtils,
   EventHandler,
   SearchEventHandler,
@@ -7498,6 +7500,234 @@ require([
   resultsLinkelementMainTable
     .render()
     .$el.appendTo($("resultsLinkelementMainTable"));
+
+  var singleFormTotalDataSource = new SingleView(
+    {
+      id: "singleFormTotalDataSource",
+      showTrendIndicator: "1",
+      unitPosition: "after",
+      useThousandSeparators: "1",
+      numberPrecision: "0",
+      colorBy: "value",
+      colorMode: "block",
+      drilldown: "all",
+      height: "95",
+      showSparkline: "1",
+      "trellis.scales.shared": "1",
+      useColors: "1",
+      trendDisplayMode: "absolute",
+      "trellis.enabled": "0",
+      trendColorInterpretation: "standard",
+      "trellis.size": "medium",
+      rangeValues: "[0]",
+      rangeColors: '["0x7fbfff","0x7fbfff"]',
+      underLabel: "DATA SOURCES",
+      managerid: "searchSingleDataSource1",
+      el: $("#singleFormTotalDataSource"),
+    },
+    {
+      tokens: true,
+      tokenNamespace: "submitted",
+    }
+  ).render();
+
+  singleFormTotalDataSource.on("click", function (e) {
+    if (e.field !== undefined) {
+      e.preventDefault();
+      setToken(
+        "form.data_source_state",
+        TokenUtils.replaceTokenNames(
+          "*",
+          _.extend(submittedTokenModel.toJSON(), e.data)
+        )
+      );
+      setToken(
+        "form.inputDataPriority",
+        TokenUtils.replaceTokenNames(
+          "*",
+          _.extend(submittedTokenModel.toJSON(), e.data)
+        )
+      );
+      setToken(
+        "form.data_monitored_state",
+        TokenUtils.replaceTokenNames(
+          "*",
+          _.extend(submittedTokenModel.toJSON(), e.data)
+        )
+      );
+    }
+  });
+
+  var singleFormTotalDataSourceAlerts = new SingleView(
+    {
+      id: "singleFormTotalDataSourceAlerts",
+      showTrendIndicator: "1",
+      unitPosition: "after",
+      useThousandSeparators: "1",
+      numberPrecision: "0",
+      colorBy: "value",
+      colorMode: "block",
+      drilldown: "all",
+      height: "95",
+      showSparkline: "1",
+      "trellis.scales.shared": "1",
+      useColors: "1",
+      trendDisplayMode: "absolute",
+      "trellis.enabled": "0",
+      trendColorInterpretation: "standard",
+      "trellis.size": "medium",
+      rangeValues: "[0]",
+      rangeColors: '["0x7fbfff","0xffb347"]',
+      underLabel: "ANY PRIORITY DATA SOURCES IN ALERT",
+      managerid: "searchSingleDataSourceInAlert",
+      el: $("#singleFormTotalDataSourceAlerts"),
+    },
+    {
+      tokens: true,
+      tokenNamespace: "submitted",
+    }
+  ).render();
+
+  singleFormTotalDataSourceAlerts.on("click", function (e) {
+    if (e.field !== undefined) {
+      e.preventDefault();
+      setToken(
+        "form.inputDataPriority",
+        TokenUtils.replaceTokenNames(
+          "*",
+          _.extend(submittedTokenModel.toJSON(), e.data)
+        )
+      );
+      setToken(
+        "form.data_monitored_state",
+        TokenUtils.replaceTokenNames(
+          "enabled",
+          _.extend(submittedTokenModel.toJSON(), e.data)
+        )
+      );
+      setToken(
+        "form.data_source_state",
+        TokenUtils.replaceTokenNames(
+          "red",
+          _.extend(submittedTokenModel.toJSON(), e.data)
+        )
+      );
+    }
+  });
+
+  var singleFormTotalDataSourceAlertsHighPriority = new SingleView(
+    {
+      id: "singleFormTotalDataSourceAlertsHighPriority",
+      showTrendIndicator: "1",
+      unitPosition: "after",
+      useThousandSeparators: "1",
+      numberPrecision: "0",
+      colorBy: "value",
+      colorMode: "block",
+      drilldown: "all",
+      height: "95",
+      showSparkline: "1",
+      "trellis.scales.shared": "1",
+      useColors: "1",
+      trendDisplayMode: "absolute",
+      "trellis.enabled": "0",
+      trendColorInterpretation: "standard",
+      "trellis.size": "medium",
+      rangeValues: "[0]",
+      rangeColors: '["0x7fbfff","0xff6961"]',
+      underLabel: "HIGH PRIORITY DATA SOURCES IN ALERT",
+      managerid: "searchSingleDataSourceHighPriority",
+      el: $("#singleFormTotalDataSourceAlertsHighPriority"),
+    },
+    {
+      tokens: true,
+      tokenNamespace: "submitted",
+    }
+  ).render();
+
+  singleFormTotalDataSourceAlertsHighPriority.on("click", function (e) {
+    if (e.field !== undefined) {
+      e.preventDefault();
+      setToken(
+        "form.data_source_state",
+        TokenUtils.replaceTokenNames(
+          "red",
+          _.extend(submittedTokenModel.toJSON(), e.data)
+        )
+      );
+      setToken(
+        "form.data_monitored_state",
+        TokenUtils.replaceTokenNames(
+          "enabled",
+          _.extend(submittedTokenModel.toJSON(), e.data)
+        )
+      );
+      setToken(
+        "form.inputDataPriority",
+        TokenUtils.replaceTokenNames(
+          "high",
+          _.extend(submittedTokenModel.toJSON(), e.data)
+        )
+      );
+    }
+  });
+
+  var singleFormTotalDataSourceDisabled = new SingleView(
+    {
+      id: "singleFormTotalDataSourceDisabled",
+      showTrendIndicator: "1",
+      unitPosition: "after",
+      useThousandSeparators: "1",
+      numberPrecision: "0",
+      colorBy: "value",
+      colorMode: "block",
+      drilldown: "all",
+      height: "95",
+      showSparkline: "1",
+      "trellis.scales.shared": "1",
+      useColors: "1",
+      trendDisplayMode: "absolute",
+      "trellis.enabled": "0",
+      trendColorInterpretation: "standard",
+      "trellis.size": "medium",
+      rangeValues: "[0]",
+      rangeColors: '["0x7fbfff","0x7fbfff"]',
+      underLabel: "DATA SOURCES NOT MONITORED",
+      managerid: "searchSingleDataSourceNotMonitored",
+      el: $("#singleFormTotalDataSourceDisabled"),
+    },
+    {
+      tokens: true,
+      tokenNamespace: "submitted",
+    }
+  ).render();
+
+  singleFormTotalDataSourceDisabled.on("click", function (e) {
+    if (e.field !== undefined) {
+      e.preventDefault();
+      setToken(
+        "form.data_monitored_state",
+        TokenUtils.replaceTokenNames(
+          "disabled",
+          _.extend(submittedTokenModel.toJSON(), e.data)
+        )
+      );
+      setToken(
+        "form.data_source_state",
+        TokenUtils.replaceTokenNames(
+          "*",
+          _.extend(submittedTokenModel.toJSON(), e.data)
+        )
+      );
+      setToken(
+        "form.inputDataPriority",
+        TokenUtils.replaceTokenNames(
+          "*",
+          _.extend(submittedTokenModel.toJSON(), e.data)
+        )
+      );
+    }
+  });
 
   //
   // END

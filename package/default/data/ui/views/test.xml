@@ -627,14 +627,16 @@
     </panel>
 </row>
 
-<row>
-    <panel depends="$show_data_source_tracker$">
+<!-- Data source tracking UI elements -->
+
+<row depends="$show_data_source_tracker$">
+    <panel>
         <html>
             <div id="DonutDataSourceCountByPriority"></div>
             <div style="text-align: center;"><h3>Monitored data sources count by priority</h3></div>
         </html>
     </panel>
-    <panel depends="$show_data_source_tracker$">
+    <panel>
         <html>
             <div id="DonutDataSourceCountByStateAndPriority"></div>
             <div style="text-align: center;"><h3>Monitored data sources count by state and priority</h3></div>
@@ -642,9 +644,44 @@
     </panel>
 </row>
 
-<row>
+<row depends="$show_data_source_tracker$">
     <panel>
-        <html depends="$show_data_source_tracker$">
+        <html>
+            <div>
+                <div id="singleFormTotalDataSource">
+                </div>
+            </div>
+        </html>
+    </panel>
+    <panel>
+        <html>
+            <div>
+                <div id="singleFormTotalDataSourceAlerts">
+                </div>
+            </div>
+        </html>
+    </panel>
+    <panel>
+        <html>
+            <div>
+                <div id="singleFormTotalDataSourceAlertsHighPriority">
+                </div>
+            </div>
+        </html>
+    </panel>
+    <panel>
+        <html>
+            <div>
+                <div id="singleFormTotalDataSourceDisabled">
+                </div>
+            </div>
+        </html>
+    </panel>
+</row>
+
+<row depends="$show_data_source_tracker$">
+    <panel>
+        <html>
             <div>
                 <div>
                     <div>
