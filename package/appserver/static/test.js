@@ -7812,7 +7812,7 @@ require([
       colorBy: "value",
       colorMode: "block",
       drilldown: "all",
-      height: "75",
+      height: "95",
       showSparkline: "1",
       "trellis.scales.shared": "1",
       useColors: "1",
@@ -7869,7 +7869,7 @@ require([
       colorBy: "value",
       colorMode: "block",
       drilldown: "all",
-      height: "75",
+      height: "95",
       showSparkline: "1",
       "trellis.scales.shared": "1",
       useColors: "1",
@@ -7926,7 +7926,7 @@ require([
       colorBy: "value",
       colorMode: "block",
       drilldown: "all",
-      height: "75",
+      height: "95",
       showSparkline: "1",
       "trellis.scales.shared": "1",
       useColors: "1",
@@ -7983,7 +7983,7 @@ require([
       colorBy: "value",
       colorMode: "block",
       drilldown: "all",
-      height: "75",
+      height: "95",
       showSparkline: "1",
       "trellis.scales.shared": "1",
       useColors: "1",
@@ -8958,6 +8958,1005 @@ require([
 
       // Enable modal context
       $("#modal_manage_host").modal();
+    }
+  });
+
+  var resultsLinkelementMainTableHost = new ResultsLinkView({
+    id: "resultsLinkelementMainTableHost",
+    managerid: "searchMainTableHost",
+    "link.exportResults.visible": false,
+    el: $("#resultsLinkelementMainTableHost"),
+  });
+
+  resultsLinkelementMainTableHost
+    .render()
+    .$el.appendTo($("resultsLinkelementMainTableHost"));
+
+  //
+  // Metric host tracking
+  //
+
+  var DonutMetricHostCountByStateAndPriority = new semiCircleDonut(
+    {
+      id: "DonutMetricHostCountByStateAndPriority",
+      type: "semicircle_donut.semicircle_donut",
+      resizable: true,
+      drilldown: "all",
+      height: "170",
+      "refresh.display": "progressbar",
+      "semicircle_donut.semicircle_donut.colorField": "color",
+      "semicircle_donut.semicircle_donut.cutoutPercentage": "50",
+      "semicircle_donut.semicircle_donut.legendPosition": "top",
+      "semicircle_donut.semicircle_donut.type": "half",
+      "trellis.enabled": "0",
+      "trellis.scales.shared": "1",
+      "trellis.size": "medium",
+      managerid: "searchSingleMetricHostDonutPriorities",
+      el: $("#DonutMetricHostCountByStateAndPriority"),
+    },
+    { tokens: true, tokenNamespace: "submitted" }
+  ).render();
+
+  DonutMetricHostCountByStateAndPriority.on("click", function (e) {
+    if (e.field !== undefined) {
+      e.preventDefault();
+      setToken(
+        "form.metric_host_state",
+        TokenUtils.replaceTokenNames(
+          "*",
+          _.extend(submittedTokenModel.toJSON(), e.data)
+        )
+      );
+      setToken(
+        "form.inputMetricHostPriority",
+        TokenUtils.replaceTokenNames(
+          "$row.priority$",
+          _.extend(submittedTokenModel.toJSON(), e.data)
+        )
+      );
+      setToken(
+        "form.metric_monitored_state",
+        TokenUtils.replaceTokenNames(
+          "enabled",
+          _.extend(submittedTokenModel.toJSON(), e.data)
+        )
+      );
+    }
+  });
+
+  var DonutMetricHostCountByPriority = new semiCircleDonut(
+    {
+      id: "DonutMetricHostCountByPriority",
+      type: "semicircle_donut.semicircle_donut",
+      resizable: true,
+      drilldown: "none",
+      height: "170",
+      "refresh.display": "progressbar",
+      "semicircle_donut.semicircle_donut.colorField": "color",
+      "semicircle_donut.semicircle_donut.cutoutPercentage": "50",
+      "semicircle_donut.semicircle_donut.legendPosition": "top",
+      "semicircle_donut.semicircle_donut.type": "half",
+      "trellis.enabled": "0",
+      "trellis.scales.shared": "1",
+      "trellis.size": "medium",
+      managerid: "searchSingleMetricHostDonutAlerts",
+      el: $("#DonutMetricHostCountByPriority"),
+    },
+    { tokens: true, tokenNamespace: "submitted" }
+  ).render();
+
+  var singleFormTotalMetricHost = new SingleView(
+    {
+      id: "singleFormTotalMetricHost",
+      showTrendIndicator: "1",
+      unitPosition: "after",
+      useThousandSeparators: "1",
+      numberPrecision: "0",
+      colorBy: "value",
+      colorMode: "block",
+      drilldown: "all",
+      height: "75",
+      showSparkline: "1",
+      "trellis.scales.shared": "1",
+      useColors: "1",
+      trendDisplayMode: "absolute",
+      "trellis.enabled": "0",
+      trendColorInterpretation: "standard",
+      "trellis.size": "medium",
+      rangeValues: "[0]",
+      rangeColors: '["0x7fbfff","0x7fbfff"]',
+      underLabel: "METRIC HOSTS",
+      managerid: "searchSingleMetricHost1",
+      el: $("#singleFormTotalMetricHost"),
+    },
+    {
+      tokens: true,
+      tokenNamespace: "submitted",
+    }
+  ).render();
+
+  singleFormTotalMetricHost.on("click", function (e) {
+    if (e.field !== undefined) {
+      e.preventDefault();
+      setToken(
+        "form.metric_host_state",
+        TokenUtils.replaceTokenNames(
+          "*",
+          _.extend(submittedTokenModel.toJSON(), e.data)
+        )
+      );
+      setToken(
+        "form.inputMetricHostPriority",
+        TokenUtils.replaceTokenNames(
+          "*",
+          _.extend(submittedTokenModel.toJSON(), e.data)
+        )
+      );
+      setToken(
+        "form.metric_monitored_state",
+        TokenUtils.replaceTokenNames(
+          "*",
+          _.extend(submittedTokenModel.toJSON(), e.data)
+        )
+      );
+    }
+  });
+
+  var singleFormTotalMetricHostAlerts = new SingleView(
+    {
+      id: "singleFormTotalMetricHostAlerts",
+      showTrendIndicator: "1",
+      unitPosition: "after",
+      useThousandSeparators: "1",
+      numberPrecision: "0",
+      colorBy: "value",
+      colorMode: "block",
+      drilldown: "all",
+      height: "75",
+      showSparkline: "1",
+      "trellis.scales.shared": "1",
+      useColors: "1",
+      trendDisplayMode: "absolute",
+      "trellis.enabled": "0",
+      trendColorInterpretation: "standard",
+      "trellis.size": "medium",
+      rangeValues: "[0]",
+      rangeColors: '["0x7fbfff","0xffb347"]',
+      underLabel: "ANY PRIORITY METRIC HOSTS IN ALERT",
+      managerid: "searchSingleMetricHostInAlert",
+      el: $("#singleFormTotalMetricHostAlerts"),
+    },
+    {
+      tokens: true,
+      tokenNamespace: "submitted",
+    }
+  ).render();
+
+  singleFormTotalMetricHostAlerts.on("click", function (e) {
+    if (e.field !== undefined) {
+      e.preventDefault();
+      setToken(
+        "form.inputMetricHostPriority",
+        TokenUtils.replaceTokenNames(
+          "*",
+          _.extend(submittedTokenModel.toJSON(), e.data)
+        )
+      );
+      setToken(
+        "form.metric_monitored_state",
+        TokenUtils.replaceTokenNames(
+          "enabled",
+          _.extend(submittedTokenModel.toJSON(), e.data)
+        )
+      );
+      setToken(
+        "form.metric_host_state",
+        TokenUtils.replaceTokenNames(
+          "red",
+          _.extend(submittedTokenModel.toJSON(), e.data)
+        )
+      );
+    }
+  });
+
+  var singleFormTotalMetricHostAlertsHighPriority = new SingleView(
+    {
+      id: "singleFormTotalMetricHostAlertsHighPriority",
+      showTrendIndicator: "1",
+      unitPosition: "after",
+      useThousandSeparators: "1",
+      numberPrecision: "0",
+      colorBy: "value",
+      colorMode: "block",
+      drilldown: "all",
+      height: "75",
+      showSparkline: "1",
+      "trellis.scales.shared": "1",
+      useColors: "1",
+      trendDisplayMode: "absolute",
+      "trellis.enabled": "0",
+      trendColorInterpretation: "standard",
+      "trellis.size": "medium",
+      rangeValues: "[0]",
+      rangeColors: '["0x7fbfff","0xff6961"]',
+      underLabel: "HIGH PRIORITY METRIC HOSTS IN ALERT",
+      managerid: "searchSingleMetricHostHighPriority",
+      el: $("#singleFormTotalMetricHostAlertsHighPriority"),
+    },
+    {
+      tokens: true,
+      tokenNamespace: "submitted",
+    }
+  ).render();
+
+  singleFormTotalMetricHostAlertsHighPriority.on("click", function (e) {
+    if (e.field !== undefined) {
+      e.preventDefault();
+      setToken(
+        "form.metric_host_state",
+        TokenUtils.replaceTokenNames(
+          "red",
+          _.extend(submittedTokenModel.toJSON(), e.data)
+        )
+      );
+      setToken(
+        "form.metric_monitored_state",
+        TokenUtils.replaceTokenNames(
+          "enabled",
+          _.extend(submittedTokenModel.toJSON(), e.data)
+        )
+      );
+      setToken(
+        "form.inputMetricHostPriority",
+        TokenUtils.replaceTokenNames(
+          "high",
+          _.extend(submittedTokenModel.toJSON(), e.data)
+        )
+      );
+    }
+  });
+
+  var singleFormTotalMetricHostDisabled = new SingleView(
+    {
+      id: "singleFormTotalMetricHostDisabled",
+      showTrendIndicator: "1",
+      unitPosition: "after",
+      useThousandSeparators: "1",
+      numberPrecision: "0",
+      colorBy: "value",
+      colorMode: "block",
+      drilldown: "all",
+      height: "75",
+      showSparkline: "1",
+      "trellis.scales.shared": "1",
+      useColors: "1",
+      trendDisplayMode: "absolute",
+      "trellis.enabled": "0",
+      trendColorInterpretation: "standard",
+      "trellis.size": "medium",
+      rangeValues: "[0]",
+      rangeColors: '["0x7fbfff","0x7fbfff"]',
+      underLabel: "METRIC HOSTS NOT MONITORED",
+      managerid: "searchSingleMetricHostNotMonitored",
+      el: $("#singleFormTotalMetricHostDisabled"),
+    },
+    {
+      tokens: true,
+      tokenNamespace: "submitted",
+    }
+  ).render();
+
+  singleFormTotalMetricHostDisabled.on("click", function (e) {
+    if (e.field !== undefined) {
+      e.preventDefault();
+      setToken(
+        "form.metric_monitored_state",
+        TokenUtils.replaceTokenNames(
+          "disabled",
+          _.extend(submittedTokenModel.toJSON(), e.data)
+        )
+      );
+      setToken(
+        "form.metric_host_state",
+        TokenUtils.replaceTokenNames(
+          "*",
+          _.extend(submittedTokenModel.toJSON(), e.data)
+        )
+      );
+      setToken(
+        "form.inputMetricHostPriority",
+        TokenUtils.replaceTokenNames(
+          "*",
+          _.extend(submittedTokenModel.toJSON(), e.data)
+        )
+      );
+    }
+  });
+
+  var inputMetricHostIndexes = new MultiSelectInput(
+    {
+      id: "inputMetricHostIndexes",
+      tokenDependencies: {
+        depends: "$show_metric_host_tracker$",
+      },
+      choices: [
+        {
+          label: "ALL",
+          value: "*",
+        },
+      ],
+      searchWhenChanged: true,
+      showClearButton: true,
+      labelField: "metric_index",
+      valuePrefix: 'metric_index="',
+      valueSuffix: '"',
+      delimiter: " OR ",
+      initialValue: "*",
+      selectFirstChoice: false,
+      valueField: "metric_index",
+      value: "$form.inputMetricHostIndexes$",
+      managerid: "searchPopulateMetricHostsIndexes",
+      el: $("#inputMetricHostIndexes"),
+    },
+    {
+      tokens: true,
+    }
+  ).render();
+
+  inputMetricHostIndexes.on("change", function (newValue) {
+    FormUtils.handleValueChange(inputMetricHostIndexes);
+    multiselectAll(inputMetricHostIndexes);
+  });
+
+  var inputMetricHostCategories = new MultiSelectInput(
+    {
+      id: "inputMetricHostCategories",
+      tokenDependencies: {
+        depends: "$show_metric_host_tracker$",
+      },
+      choices: [
+        {
+          label: "ALL",
+          value: "*",
+        },
+      ],
+      searchWhenChanged: true,
+      showClearButton: true,
+      labelField: "metric_category",
+      valuePrefix: 'metric_category="',
+      valueSuffix: '"',
+      delimiter: " OR ",
+      initialValue: "*",
+      selectFirstChoice: false,
+      valueField: "metric_category",
+      value: "$form.inputMetricHostCategories$",
+      managerid: "searchPopulateMetricHostsCategories",
+      el: $("#inputMetricHostCategories"),
+    },
+    {
+      tokens: true,
+    }
+  ).render();
+
+  inputMetricHostCategories.on("change", function (newValue) {
+    FormUtils.handleValueChange(inputMetricHostCategories);
+    multiselectAll(inputMetricHostCategories);
+  });
+
+  var inputMetricHostFilterMode = new DropdownInput(
+    {
+      id: "inputMetricHostFilterMode",
+      choices: [
+        {
+          label: "Includes",
+          value: "",
+        },
+        {
+          label: "Excludes",
+          value: "NOT",
+        },
+      ],
+      searchWhenChanged: true,
+      default: "",
+      showClearButton: true,
+      initialValue: "",
+      selectFirstChoice: false,
+      value: "$form.inputMetricHostFilterMode$",
+      el: $("#inputMetricHostFilterMode"),
+    },
+    {
+      tokens: true,
+    }
+  ).render();
+
+  inputMetricHostFilterMode.on("change", function (newValue) {
+    FormUtils.handleValueChange(inputMetricHostFilterMode);
+  });
+
+  var inputMetricHostFilter = new TextInput(
+    {
+      id: "inputMetricHostFilter",
+      searchWhenChanged: true,
+      prefix: '"*',
+      suffix: '*"',
+      initialValue: "*",
+      value: "$form.inputMetricHostFilter$",
+      el: $("#inputMetricHostFilter"),
+    },
+    {
+      tokens: true,
+    }
+  ).render();
+
+  inputMetricHostFilter.on("change", function (newValue) {
+    FormUtils.handleValueChange(inputMetricHostFilter);
+  });
+
+  var inputMetricHost = new MultiSelectInput(
+    {
+      id: "inputMetricHost",
+      tokenDependencies: {
+        depends: "$show_metric_host_tracker$",
+      },
+      choices: [
+        {
+          label: "ALL",
+          value: "*",
+        },
+      ],
+      searchWhenChanged: true,
+      showClearButton: true,
+      labelField: "metric_host",
+      valuePrefix: 'metric_host="',
+      valueSuffix: '"',
+      delimiter: " OR ",
+      initialValue: "*",
+      selectFirstChoice: false,
+      valueField: "metric_host",
+      value: "$form.inputMetricHost$",
+      managerid: "searchPopulateMetricHosts",
+      el: $("#inputMetricHost"),
+    },
+    {
+      tokens: true,
+    }
+  ).render();
+
+  inputMetricHost.on("change", function (newValue) {
+    FormUtils.handleValueChange(inputMetricHost);
+    multiselectAll(inputMetricHost);
+  });
+
+  var inputMetricHostState = new MultiSelectInput(
+    {
+      id: "inputMetricHostState",
+      choices: [
+        { label: "ALL", value: "*" },
+        { label: "Green", value: "green" },
+        { label: "Blue", value: "blue" },
+        { label: "Orange", value: "orange" },
+        { label: "Red", value: "red" },
+      ],
+      valuePrefix: 'metric_host_state="',
+      valueSuffix: '"',
+      delimiter: " OR ",
+      searchWhenChanged: true,
+      initialValue: ["*"],
+      value: "$form.metric_host_state$",
+      el: $("#inputMetricHostState"),
+    },
+    { tokens: true }
+  ).render();
+
+  inputMetricHostState.on("change", function (newValue) {
+    FormUtils.handleValueChange(inputMetricHostState);
+    multiselectAll(inputMetricHostState);
+  });
+
+  var inputMetricHostMonitoredState = new DropdownInput(
+    {
+      id: "inputMetricHostMonitoredState",
+      choices: [
+        {
+          label: "ALL",
+          value: "*",
+        },
+        {
+          label: "Enabled",
+          value: "enabled",
+        },
+        {
+          label: "Disabled",
+          value: "disabled",
+        },
+      ],
+      searchWhenChanged: true,
+      default: "enabled",
+      showClearButton: true,
+      prefix: 'metric_monitored_state="',
+      suffix: '"',
+      initialValue: "enabled",
+      selectFirstChoice: false,
+      value: "$form.metric_monitored_state$",
+      el: $("#inputMetricHostMonitoredState"),
+    },
+    {
+      tokens: true,
+    }
+  ).render();
+
+  inputMetricHostMonitoredState.on("change", function (newValue) {
+    FormUtils.handleValueChange(inputMetricHostMonitoredState);
+  });
+
+  var inputMetricHostPriority = new MultiSelectInput(
+    {
+      id: "inputMetricHostPriority",
+      choices: [
+        { label: "ALL", value: "*" },
+        { label: "low", value: "low" },
+        { label: "medium", value: "medium" },
+        { label: "high", value: "high" },
+      ],
+      valuePrefix: 'priority="',
+      valueSuffix: '"',
+      delimiter: " OR ",
+      searchWhenChanged: true,
+      initialValue: ["*"],
+      value: "$form.inputMetricHostPriority$",
+      el: $("#inputMetricHostPriority"),
+    },
+    { tokens: true }
+  ).render();
+
+  inputMetricHostPriority.on("change", function (newValue) {
+    FormUtils.handleValueChange(inputMetricHostPriority);
+    multiselectAll(inputMetricHostPriority);
+  });
+
+  var refreshMetricHostForm = new DropdownInput(
+    {
+      id: "refreshMetricHostForm",
+      choices: [
+        {
+          value: "60",
+          label: "1 min",
+        },
+        {
+          value: "120",
+          label: "2 min",
+        },
+        {
+          value: "300",
+          label: "5 min",
+        },
+        {
+          value: "none",
+          label: "none",
+        },
+      ],
+      selectFirstChoice: false,
+      default: "300",
+      showClearButton: true,
+      initialValue: "300",
+      searchWhenChanged: true,
+      value: "$refresh$",
+      el: $("#refreshMetricHostForm"),
+    },
+    {
+      tokens: true,
+    }
+  ).render();
+
+  refreshMetricHostForm.on("change", function (newValue) {
+    FormUtils.handleValueChange(refreshMetricHostForm);
+  });
+
+  var elementMainTableMetricHost = new TableView(
+    {
+      id: "elementMainTableMetricHost",
+      count: 20,
+      drilldown: "row",
+      fields:
+        'metric_host, metric_index, metric_category, metric_details_human, "last time", priority, state, monitoring',
+      "refresh.display": "none",
+      wrap: "false",
+      managerid: "searchMainTableMetricHost",
+      el: $("#elementMainTableMetricHost"),
+    },
+    {
+      tokens: true,
+      tokenNamespace: "submitted",
+    }
+  ).render();
+
+  // render icons
+  renderTableIcon(elementMainTableMetricHost);
+
+  elementMainTableMetricHost.on("click", function (e) {
+    if (e.field !== undefined) {
+      e.preventDefault();
+
+      // clean any previously set main token, used for variable purposes
+      unsetToken("tk_data_name");
+      unsetToken("tk_data_host");
+
+      setToken(
+        "tk_keyid",
+        TokenUtils.replaceTokenNames(
+          "$row.keyid$",
+          _.extend(submittedTokenModel.toJSON(), e.data)
+        )
+      );
+      setToken(
+        "tk_metric_host",
+        TokenUtils.replaceTokenNames(
+          "$row.metric_host$",
+          _.extend(submittedTokenModel.toJSON(), e.data)
+        )
+      );
+      setToken(
+        "tk_metric_index",
+        TokenUtils.replaceTokenNames(
+          "$row.metric_index_raw$",
+          _.extend(submittedTokenModel.toJSON(), e.data)
+        )
+      );
+      setToken(
+        "tk_metric_category",
+        TokenUtils.replaceTokenNames(
+          "$row.metric_category_raw$",
+          _.extend(submittedTokenModel.toJSON(), e.data)
+        )
+      );
+      setToken(
+        "tk_metric_first_time_seen",
+        TokenUtils.replaceTokenNames(
+          "$row.metric_first_time_seen$",
+          _.extend(submittedTokenModel.toJSON(), e.data)
+        )
+      );
+      setToken(
+        "tk_metric_last_time_seen",
+        TokenUtils.replaceTokenNames(
+          "$row.metric_last_time_seen$",
+          _.extend(submittedTokenModel.toJSON(), e.data)
+        )
+      );
+      setToken(
+        "tk_metric_last_time_seen_human",
+        TokenUtils.replaceTokenNames(
+          "$row.last time$",
+          _.extend(submittedTokenModel.toJSON(), e.data)
+        )
+      );
+      setToken(
+        "tk_metric_last_lag_seen",
+        TokenUtils.replaceTokenNames(
+          "$row.metric_last_lag_seen$",
+          _.extend(submittedTokenModel.toJSON(), e.data)
+        )
+      );
+      setToken(
+        "tk_metric_details",
+        TokenUtils.replaceTokenNames(
+          "$row.metric_details_raw$",
+          _.extend(submittedTokenModel.toJSON(), e.data)
+        )
+      );
+      setToken(
+        "tk_metric_monitored_state",
+        TokenUtils.replaceTokenNames(
+          "$row.metric_monitored_state$",
+          _.extend(submittedTokenModel.toJSON(), e.data)
+        )
+      );
+      setToken(
+        "tk_metric_host_state",
+        TokenUtils.replaceTokenNames(
+          "$row.metric_host_state$",
+          _.extend(submittedTokenModel.toJSON(), e.data)
+        )
+      );
+      setToken(
+        "tk_metric_tracker_runtime",
+        TokenUtils.replaceTokenNames(
+          "$row.metric_tracker_runtime$",
+          _.extend(submittedTokenModel.toJSON(), e.data)
+        )
+      );
+      setToken(
+        "tk_metric_previous_host_state",
+        TokenUtils.replaceTokenNames(
+          "$row.metric_previous_host_state$",
+          _.extend(submittedTokenModel.toJSON(), e.data)
+        )
+      );
+      setToken(
+        "tk_metric_previous_tracker_runtime",
+        TokenUtils.replaceTokenNames(
+          "$row.metric_previous_tracker_runtime$",
+          _.extend(submittedTokenModel.toJSON(), e.data)
+        )
+      );
+      setToken(
+        "tk_latest_flip_state",
+        TokenUtils.replaceTokenNames(
+          "$row.latest_flip_state$",
+          _.extend(submittedTokenModel.toJSON(), e.data)
+        )
+      );
+      setToken(
+        "tk_latest_flip_time",
+        TokenUtils.replaceTokenNames(
+          "$row.latest_flip_time$",
+          _.extend(submittedTokenModel.toJSON(), e.data)
+        )
+      );
+      setToken(
+        "tk_latest_flip_time_human",
+        TokenUtils.replaceTokenNames(
+          "$row.latest_flip_time (translated)$",
+          _.extend(submittedTokenModel.toJSON(), e.data)
+        )
+      );
+      setToken(
+        "tk_priority",
+        TokenUtils.replaceTokenNames(
+          "$row.priority$",
+          _.extend(submittedTokenModel.toJSON(), e.data)
+        )
+      );
+
+      // pre-fill current priority
+      setToken(
+        "form.tk_input_metric_host_priority",
+        TokenUtils.replaceTokenNames(
+          "$row.priority$",
+          _.extend(submittedTokenModel.toJSON(), e.data)
+        )
+      );
+
+      // logical group
+      setToken(
+        "tk_object_group_name",
+        TokenUtils.replaceTokenNames(
+          "$row.object_group_name$",
+          _.extend(submittedTokenModel.toJSON(), e.data)
+        )
+      );
+      setToken(
+        "tk_object_group_state",
+        TokenUtils.replaceTokenNames(
+          "$row.object_group_state$",
+          _.extend(submittedTokenModel.toJSON(), e.data)
+        )
+      );
+      setToken(
+        "tk_object_group_green_percent",
+        TokenUtils.replaceTokenNames(
+          "$row.object_group_green_percent$",
+          _.extend(submittedTokenModel.toJSON(), e.data)
+        )
+      );
+      setToken(
+        "tk_object_group_min_green_percent",
+        TokenUtils.replaceTokenNames(
+          "$row.object_group_min_green_percent$",
+          _.extend(submittedTokenModel.toJSON(), e.data)
+        )
+      );
+
+      // status message
+      setToken(
+        "tk_status_message",
+        TokenUtils.replaceTokenNames(
+          "$row.status_message$",
+          _.extend(submittedTokenModel.toJSON(), e.data)
+        )
+      );
+
+      submitTokens();
+
+      // When the Submit button is clicked, get all the form fields by accessing token values
+      var tokens = mvc.Components.get("default");
+
+      // When the Submit button is clicked, get all the form fields by accessing token values
+      var tokens = mvc.Components.get("default");
+
+      var tk_metric_monitored_state = tokens.get("tk_metric_monitored_state");
+      var tk_metric_host = tokens.get("tk_metric_host");
+
+      // state
+      var tk_metric_host_state = tokens.get("tk_metric_host_state");
+
+      // priority
+      var tk_priority = tokens.get("tk_priority");
+
+      // Define the history search
+      var search_metric_host =
+        '| mcatalog values(metric_name), values(_dims) where index=* host="' +
+        tk_metric_host +
+        '" by host';
+      search_metric_host =
+        "search" +
+        "?q=" +
+        encodeURI(search_metric_host) +
+        "&earliest=-15m&latest=now";
+
+      // Define the history msearch
+      var msearch_metric_host =
+        '| msearch index=* filter="host="' + tk_metric_host + '""';
+      msearch_metric_host =
+        "search" +
+        "?q=" +
+        encodeURI(msearch_metric_host) +
+        "&earliest=-15m&latest=now";
+
+      // Define the history msearch
+      var mpreview_metric_host =
+        '| mpreview index=* filter="host="' + tk_metric_host + '""';
+      mpreview_metric_host =
+        "search" +
+        "?q=" +
+        encodeURI(mpreview_metric_host) +
+        "&earliest=-15m&latest=now";
+
+      // Define the URL target
+      document.getElementById("btn_search_metric_host").href =
+        search_metric_host;
+      document.getElementById("btn_msearch_metric_host").href =
+        msearch_metric_host;
+      document.getElementById("btn_mpreview_metric_host").href =
+        mpreview_metric_host;
+
+      var search_metric_host_live_report =
+        '| savedsearch "trackMe - metric host live report" host="' +
+        tk_metric_host +
+        '"';
+      search_metric_host_live_report =
+        "search" +
+        "?q=" +
+        encodeURI(search_metric_host_live_report) +
+        "&earliest=-15m&latest=now";
+
+      // Define the URL target
+      document.getElementById("btn_search_metric_host_live_report").href =
+        search_metric_host_live_report;
+
+      // Dynamically manage buttons states
+      if (tk_metric_monitored_state == "enabled") {
+        document.getElementById(
+          "btn_enable_monitoring_metric_host"
+        ).disabled = true;
+        document.getElementById(
+          "btn_disable_monitoring_metric_host"
+        ).disabled = false;
+        setToken(
+          "tk_metric_monitored_state_class",
+          TokenUtils.replaceTokenNames(
+            "title_green",
+            _.extend(submittedTokenModel.toJSON(), e.data)
+          )
+        );
+      } else {
+        document.getElementById(
+          "btn_enable_monitoring_metric_host"
+        ).disabled = false;
+        document.getElementById(
+          "btn_disable_monitoring_metric_host"
+        ).disabled = true;
+        setToken(
+          "tk_metric_monitored_state_class",
+          TokenUtils.replaceTokenNames(
+            "title_grey",
+            _.extend(submittedTokenModel.toJSON(), e.data)
+          )
+        );
+      }
+
+      // Dynamically manage Ack button
+      if (tk_metric_host_state == "red") {
+        document.getElementById("btn_ack_metric_host").disabled = false;
+      } else {
+        document.getElementById("btn_ack_metric_host").disabled = true;
+      }
+
+      // Dynamically manage state color
+      if (tk_metric_host_state == "green") {
+        setToken(
+          "tk_metric_host_state_class",
+          TokenUtils.replaceTokenNames(
+            "title_green",
+            _.extend(submittedTokenModel.toJSON(), e.data)
+          )
+        );
+        setToken(
+          "tk_metric_host_status_message_class",
+          TokenUtils.replaceTokenNames(
+            "status_message_green",
+            _.extend(submittedTokenModel.toJSON(), e.data)
+          )
+        );
+      } else if (tk_metric_host_state == "orange") {
+        setToken(
+          "tk_metric_host_state_class",
+          TokenUtils.replaceTokenNames(
+            "title_orange",
+            _.extend(submittedTokenModel.toJSON(), e.data)
+          )
+        );
+        setToken(
+          "tk_metric_host_status_message_class",
+          TokenUtils.replaceTokenNames(
+            "status_message_orange",
+            _.extend(submittedTokenModel.toJSON(), e.data)
+          )
+        );
+      } else if (tk_metric_host_state == "blue") {
+        setToken(
+          "tk_metric_host_state_class",
+          TokenUtils.replaceTokenNames(
+            "title_blue",
+            _.extend(submittedTokenModel.toJSON(), e.data)
+          )
+        );
+        setToken(
+          "tk_metric_host_status_message_class",
+          TokenUtils.replaceTokenNames(
+            "status_message_blue",
+            _.extend(submittedTokenModel.toJSON(), e.data)
+          )
+        );
+      } else if (tk_metric_host_state == "red") {
+        setToken(
+          "tk_metric_host_state_class",
+          TokenUtils.replaceTokenNames(
+            "title_red",
+            _.extend(submittedTokenModel.toJSON(), e.data)
+          )
+        );
+        setToken(
+          "tk_metric_host_status_message_class",
+          TokenUtils.replaceTokenNames(
+            "status_message_red",
+            _.extend(submittedTokenModel.toJSON(), e.data)
+          )
+        );
+      }
+
+      // Dynamically manage priority color
+      if (tk_priority == "low") {
+        setToken(
+          "tk_priority_class",
+          TokenUtils.replaceTokenNames(
+            "title_low_priority",
+            _.extend(submittedTokenModel.toJSON(), e.data)
+          )
+        );
+      } else if (tk_priority == "medium") {
+        setToken(
+          "tk_priority_class",
+          TokenUtils.replaceTokenNames(
+            "title_medium_priority",
+            _.extend(submittedTokenModel.toJSON(), e.data)
+          )
+        );
+      } else if (tk_priority == "high") {
+        setToken(
+          "tk_priority_class",
+          TokenUtils.replaceTokenNames(
+            "title_high_priority",
+            _.extend(submittedTokenModel.toJSON(), e.data)
+          )
+        );
+      }
+
+      // Explicitly refresh the get tags search
+      searchGetMetricHostTags.startSearch();
+
+      // Enable modal context
+      $("#modal_manage_metric_host").modal();
     }
   });
 
