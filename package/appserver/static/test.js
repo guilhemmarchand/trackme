@@ -9758,7 +9758,7 @@ require([
         )
       );
 
-      submitTokens();
+      //submitTokens();
 
       // When the Submit button is clicked, get all the form fields by accessing token values
       var tokens = mvc.Components.get("default");
@@ -9962,6 +9962,17 @@ require([
     }
   });
 
+  var resultsLinkelementMainTableMetricHost = new ResultsLinkView({
+    id: "resultsLinkelementMainTableMetricHost",
+    managerid: "searchMainTableMetricHost",
+    "link.exportResults.visible": false,
+    el: $("#resultsLinkelementMainTableMetricHost"),
+  });
+
+  resultsLinkelementMainTableMetricHost
+    .render()
+    .$el.appendTo($("resultsLinkelementMainTableMetricHost"));
+
   //
   // Flipping statuses
   //
@@ -10096,7 +10107,7 @@ require([
     el: $("#resultsLinkelementMainTableAuditFlip"),
   });
 
-  resultsLinkelementMainTableHost
+  resultsLinkelementMainTableAuditFlip
     .render()
     .$el.appendTo($("resultsLinkelementMainTableAuditFlip"));
 
@@ -10308,6 +10319,17 @@ require([
 
   // render icons
   renderTableIcon(elementMainTableAuditChanges);
+
+  var resultsLinkelementMainTableAuditChanges = new ResultsLinkView({
+    id: "resultsLinkelementMainTableAuditChanges",
+    managerid: "searchMainAuditChanges",
+    "link.exportResults.visible": false,
+    el: $("#resultsLinkelementMainTableAuditChanges"),
+  });
+
+  resultsLinkelementMainTableAuditChanges
+    .render()
+    .$el.appendTo($("resultsLinkelementMainTableAuditChanges"));
 
   //
   // END
