@@ -167,6 +167,23 @@ require([
     element.addCellRenderer(new CustomIconRenderer());
   }
 
+  // handle multiselect all selection in a enhanced way
+  function multiselectAll(element) {
+    var values = element.val();
+    // I assume the default multiselect value will be the first (hardcoded) choice
+    // Like <choice value="*">All</choice>
+    // If there is no hardcoded choice, then .options.choices[0] won't exist...
+    var first_choice_value = element.options.choices[0].value;
+    // If the user removed everything then add the first choice "All" back
+    if (values.length === 0) {
+      element.val([first_choice_value]);
+    }
+    // If the user choose something else then remove the first choice "All" (if it's there)
+    else if (values.indexOf(first_choice_value) >= 0 && values.length > 1) {
+      element.val(_.without(values, first_choice_value));
+    }
+  }
+
   //
   // Various
   //
@@ -292,6 +309,7 @@ require([
 
   inputTags.on("change", function (newValue) {
     FormUtils.handleValueChange(inputTags);
+    multiselectAll(inputTags);
   });
 
   var inputDataName = new MultiSelectInput(
@@ -326,6 +344,7 @@ require([
 
   inputDataName.on("change", function (newValue) {
     FormUtils.handleValueChange(inputDataName);
+    multiselectAll(inputDataName);
   });
 
   var inputDataIndex = new MultiSelectInput(
@@ -360,6 +379,7 @@ require([
 
   inputDataIndex.on("change", function (newValue) {
     FormUtils.handleValueChange(inputDataIndex);
+    multiselectAll(inputDataIndex);
   });
 
   var inputDataSourcetype = new MultiSelectInput(
@@ -391,6 +411,7 @@ require([
 
   inputDataSourcetype.on("change", function (newValue) {
     FormUtils.handleValueChange(inputDataSourcetype);
+    multiselectAll(inputDataSourcetype);
   });
 
   var inputDataSourceState = new MultiSelectInput(
@@ -416,6 +437,7 @@ require([
 
   inputDataSourceState.on("change", function (newValue) {
     FormUtils.handleValueChange(inputDataSourceState);
+    multiselectAll(inputDataSourceState);
   });
 
   var inputDataMonitoredState = new DropdownInput(
@@ -476,6 +498,7 @@ require([
 
   inputDataPriority.on("change", function (newValue) {
     FormUtils.handleValueChange(inputDataPriority);
+    multiselectAll(inputDataPriority);
   });
 
   var refreshForm = new DropdownInput(
