@@ -20,7 +20,7 @@
 
 .fieldset {
     margin-top: -10px !important;
-    margin-bottom: -30px !important;
+    margin-bottom: -10px !important;
 }
 
 .custom-btn {
@@ -28,9 +28,19 @@
     margin-top:15px;
 }
 
+/* handle search elements */
+.search-elements {
+  display: none !important;
+}
+
+/* hide this */
+.splunk-choice-input-message {
+    display: none !important;
+}
+
             </style>
             <div id="cssloader" class="loader loader-default is-active" data-text="Please wait while loading trackMe..."></div>
-            <div style="margin-bottom: -25px; margin-top: -9px;" id="link1"></div>
+            <div style="margin-bottom: -5px; margin-top: -9px;" id="link1"></div>
         </html>
     </panel>
 </row>
@@ -39,11 +49,13 @@
     <panel depends="$show_data_source_tracker$">
         <html>
             <div id="DonutDataSourceCountByPriority"></div>
+            <div style="text-align: center;"><h3>Monitored data sources count by priority</h3></div>
         </html>
     </panel>
     <panel depends="$show_data_source_tracker$">
         <html>
             <div id="DonutDataSourceCountByStateAndPriority"></div>
+            <div style="text-align: center;"><h3>Monitored data sources count by state and priority</h3></div>
         </html>
     </panel>
 </row>
@@ -54,7 +66,7 @@
             <div>
                 <div>
                     <div>
-                        <h2 class="panel-title">Click on any entry of the table to open interactive actions for this entity, use inputs to filter out the selection: (restricted to the first thousand results, use the key world filter input for large scale selections)</h2>
+                        <h2 style="margin-top: -10px;" class="panel-title">Click on any entry of the table to open interactive actions for this entity, use inputs to filter out the selection: (restricted to the first thousand results, use the key world filter input for large scale selections)</h2>
                         <div class="fieldset">
 
                             <div class="container-trackme-inputs">
@@ -200,9 +212,9 @@
     <panel>
         <html>
             <div>
-                <div id="elementMainTable" class="custom-table">
+                <div id="elementMainTable" class="view-elements">
                 </div>
-                <div id="controlMainTable" class="search-elements">
+                <div id="resultsLinkelementMainTable" class="search-elements">
                 </div>
             </div>
         </html>

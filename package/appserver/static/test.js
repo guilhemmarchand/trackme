@@ -168,6 +168,36 @@ require([
   }
 
   //
+  // Various
+  //
+
+  //
+  // Handle search elements
+  //
+
+  $(".view-elements").hover(
+    function () {
+      var divid = "#" + this.id;
+      var childdiv = "#resultsLink" + this.id;
+      $(childdiv).attr("style", "display:block !important");
+    },
+    function () {
+      var childdiv = "#resultsLink" + this.id;
+
+      $(childdiv).hover(
+        function () {
+          $(childdiv).attr("style", "display:block !important");
+        },
+        function () {
+          $(childdiv).attr("style", "display:block !none");
+        }
+      );
+
+      $(childdiv).attr("style", "display:block !none");
+    }
+  );
+
+  //
   // VIZ
   //
 
@@ -6458,10 +6488,7 @@ require([
         )
       );
 
-      submitTokens();
-
-      // When the Submit button is clicked, get all the form fields by accessing token values
-      var tokens = mvc.Components.get("default");
+      //submitTokens();
 
       // When the Submit button is clicked, get all the form fields by accessing token values
       var tokens = mvc.Components.get("default");
@@ -7438,14 +7465,16 @@ require([
     }
   });
 
-  var resultsLinkMainTable = new ResultsLinkView({
-    id: "resultsLinkMainTable",
+  var resultsLinkelementMainTable = new ResultsLinkView({
+    id: "resultsLinkelementMainTable",
     managerid: "searchDataSourcesPostTable",
     "link.exportResults.visible": false,
-    el: $("#controlMainTable"),
+    el: $("#resultsLinkelementMainTable"),
   });
 
-  resultsLinkMainTable.render().$el.appendTo($("controlMainTable"));
+  resultsLinkelementMainTable
+    .render()
+    .$el.appendTo($("resultsLinkelementMainTable"));
 
   //
   // END
