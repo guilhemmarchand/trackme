@@ -9057,7 +9057,7 @@ require([
       colorBy: "value",
       colorMode: "block",
       drilldown: "all",
-      height: "75",
+      height: "95",
       showSparkline: "1",
       "trellis.scales.shared": "1",
       useColors: "1",
@@ -9114,7 +9114,7 @@ require([
       colorBy: "value",
       colorMode: "block",
       drilldown: "all",
-      height: "75",
+      height: "95",
       showSparkline: "1",
       "trellis.scales.shared": "1",
       useColors: "1",
@@ -9171,7 +9171,7 @@ require([
       colorBy: "value",
       colorMode: "block",
       drilldown: "all",
-      height: "75",
+      height: "95",
       showSparkline: "1",
       "trellis.scales.shared": "1",
       useColors: "1",
@@ -9228,7 +9228,7 @@ require([
       colorBy: "value",
       colorMode: "block",
       drilldown: "all",
-      height: "75",
+      height: "95",
       showSparkline: "1",
       "trellis.scales.shared": "1",
       useColors: "1",
@@ -10330,6 +10330,232 @@ require([
   resultsLinkelementMainTableAuditChanges
     .render()
     .$el.appendTo($("resultsLinkelementMainTableAuditChanges"));
+
+  //
+  // Tracking UI alerts
+  //
+
+  var singleFormEnabledAlerts = new SingleView(
+    {
+      id: "singleFormEnabledAlerts",
+      showTrendIndicator: "1",
+      unitPosition: "after",
+      useThousandSeparators: "1",
+      numberPrecision: "0",
+      colorBy: "value",
+      colorMode: "block",
+      drilldown: "all",
+      height: "95",
+      showSparkline: "1",
+      "trellis.scales.shared": "1",
+      useColors: "1",
+      trendDisplayMode: "absolute",
+      "trellis.enabled": "0",
+      trendColorInterpretation: "standard",
+      "trellis.size": "medium",
+      rangeValues: "[0]",
+      rangeColors: '["0x7fbfff","0x7fbfff"]',
+      underLabel: "ENABLED ALERTS",
+      managerid: "searchSingleEnabledAlerts",
+      el: $("#singleFormEnabledAlerts"),
+    },
+    {
+      tokens: true,
+      tokenNamespace: "submitted",
+    }
+  ).render();
+
+  var singleFormTriggeredAlerts = new SingleView(
+    {
+      id: "singleFormTriggeredAlerts",
+      showTrendIndicator: "1",
+      unitPosition: "after",
+      useThousandSeparators: "1",
+      numberPrecision: "0",
+      colorBy: "value",
+      colorMode: "block",
+      drilldown: "all",
+      height: "95",
+      showSparkline: "1",
+      "trellis.scales.shared": "1",
+      useColors: "1",
+      trendDisplayMode: "absolute",
+      "trellis.enabled": "0",
+      trendColorInterpretation: "standard",
+      "trellis.size": "medium",
+      rangeValues: "[0]",
+      rangeColors: '["0x7fbfff","0xffb347"]',
+      underLabel: "TRIGGERED ALERTS IN THE PAST 24h",
+      managerid: "search_alerts_triggered_history",
+      el: $("#singleFormTriggeredAlerts"),
+    },
+    {
+      tokens: true,
+      tokenNamespace: "submitted",
+    }
+  ).render();
+
+  var DonutAlertTriggered = new semiCircleDonut(
+    {
+      id: "DonutAlertTriggered",
+      type: "semicircle_donut.semicircle_donut",
+      resizable: true,
+      drilldown: "none",
+      height: "170",
+      "refresh.display": "progressbar",
+      "semicircle_donut.semicircle_donut.colorField": "color",
+      "semicircle_donut.semicircle_donut.cutoutPercentage": "50",
+      "semicircle_donut.semicircle_donut.legendPosition": "top",
+      "semicircle_donut.semicircle_donut.type": "half",
+      "trellis.enabled": "0",
+      "trellis.scales.shared": "1",
+      "trellis.size": "medium",
+      managerid: "searchDonutAlertsTriggered",
+      el: $("#DonutAlertTriggered"),
+    },
+    { tokens: true, tokenNamespace: "submitted" }
+  ).render();
+
+  var element_alerts_main_table = new TableView(
+    {
+      id: "element_alerts_main_table",
+      count: 100,
+      dataOverlayMode: "none",
+      drilldown: "row",
+      fields:
+        'title, cron_schedule, schedule_window, alert.suppress.fields, alert.suppress.period, disabled, next_scheduled_time, " "',
+      percentagesRow: "false",
+      rowNumbers: "false",
+      totalsRow: "false",
+      wrap: "true",
+      managerid: "search_alerts_main_table",
+      el: $("#element_alerts_main_table"),
+    },
+    {
+      tokens: true,
+      tokenNamespace: "submitted",
+    }
+  ).render();
+
+  element_alerts_main_table.on("click", function (e) {
+    if (e.field !== undefined) {
+      e.preventDefault();
+
+      setToken(
+        "tk_alert_title",
+        TokenUtils.replaceTokenNames(
+          "$row.title$",
+          _.extend(submittedTokenModel.toJSON(), e.data)
+        )
+      );
+      setToken(
+        "tk_alert_cron_schedule",
+        TokenUtils.replaceTokenNames(
+          "$row.cron_schedule$",
+          _.extend(submittedTokenModel.toJSON(), e.data)
+        )
+      );
+      setToken(
+        "tk_alert_schedule_window",
+        TokenUtils.replaceTokenNames(
+          "$row.schedule_window$",
+          _.extend(submittedTokenModel.toJSON(), e.data)
+        )
+      );
+      setToken(
+        "tk_alert_suppress_fields",
+        TokenUtils.replaceTokenNames(
+          "$row.alert.suppress.fields$",
+          _.extend(submittedTokenModel.toJSON(), e.data)
+        )
+      );
+      setToken(
+        "tk_alert_suppress_period",
+        TokenUtils.replaceTokenNames(
+          "$row.alert.suppress.period$",
+          _.extend(submittedTokenModel.toJSON(), e.data)
+        )
+      );
+      setToken(
+        "tk_alert_disabled",
+        TokenUtils.replaceTokenNames(
+          "$row.disabled$",
+          _.extend(submittedTokenModel.toJSON(), e.data)
+        )
+      );
+      setToken(
+        "tk_alert_next_scheduled_time",
+        TokenUtils.replaceTokenNames(
+          "$row.next_scheduled_time$",
+          _.extend(submittedTokenModel.toJSON(), e.data)
+        )
+      );
+      setToken(
+        "tk_alert_actions",
+        TokenUtils.replaceTokenNames(
+          "$row.actions$",
+          _.extend(submittedTokenModel.toJSON(), e.data)
+        )
+      );
+
+      // Define the alert URL
+      var url = TokenUtils.replaceTokenNames(
+        "{{SPLUNKWEB_URL_PREFIX}}/app/trackme/alert?s=%2FservicesNS%2Fnobody%2Ftrackme%2Fsaved%2Fsearches%2F$row.id$",
+        _.extend(submittedTokenModel.toJSON(), e.data),
+        TokenUtils.getEscaper("url"),
+        TokenUtils.getFilters(mvc.Components)
+      );
+      var alert_url =
+        location.protocol +
+        "//" +
+        location.hostname +
+        (location.port ? ":" + location.port : "") +
+        url;
+
+      // Define the URL target
+      document.getElementById("btn_url_modal_manage_alert").href = alert_url;
+
+      //submitTokens();
+
+      // When the Submit button is clicked, get all the form fields by accessing token values
+      var tokens = mvc.Components.get("default");
+
+      // Retrieve alert title token
+      var tk_alert_title = tokens.get("tk_alert_title");
+
+      // Define the history search
+      var alert_search_history =
+        location.protocol +
+        "//" +
+        location.hostname +
+        (location.port ? ":" + location.port : "") +
+        "//app/trackme/search" +
+        '?q=search%20index%3D_audit%20action%3D"alert_fired"%20ss_app%3D"trackme"%20ss_name%3D"' +
+        encodeURI(tk_alert_title) +
+        '"';
+
+      // Define the URL target
+      document.getElementById("btn_url_modal_history_alert").href =
+        alert_search_history;
+
+      // Enable modal context
+      $("#modal_manage_alerts").modal();
+    }
+  });
+
+  // render icons
+  renderTableIcon(element_alerts_main_table);
+
+  var resultsLinkelement_alerts_main_table = new ResultsLinkView({
+    id: "resultsLinkelement_alerts_main_table",
+    managerid: "search_alerts_main_table",
+    "link.exportResults.visible": false,
+    el: $("#resultsLinkelement_alerts_main_table"),
+  });
+
+  resultsLinkelement_alerts_main_table
+    .render()
+    .$el.appendTo($("resultsLinkelement_alerts_main_table"));
 
   //
   // END

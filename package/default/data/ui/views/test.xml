@@ -1444,4 +1444,80 @@
     </panel>
 </row>
 
+<!-- Tracking Alerts UI elements -->
+
+<row depends="$show_alerts$">
+    <panel>
+        <html>
+            <div>
+                <div id="singleFormEnabledAlerts">
+                </div>
+            </div>
+        </html>
+    </panel>
+    <panel>
+        <html>
+            <div>
+                <div id="singleFormTriggeredAlerts">
+                </div>
+            </div>
+        </html>
+    </panel>
+</row>
+
+<row depends="$show_alerts$" rejects="$show_no_alerts$">
+    <panel>
+        <html>
+            <div id="DonutAlertTriggered"></div>
+            <div style="text-align: center;"><h3>triggering per alert (past 24h)</h3></div>
+        </html>
+    </panel>
+    <panel>
+        <title>triggered over time (past 24h)</title>
+        <chart>
+            <search base="searchAlertTriggeredOverTime"></search>
+            <option name="charting.axisTitleX.visibility">collapsed</option>
+            <option name="charting.chart.stackMode">stacked</option>
+            <option name="charting.chart">column</option>
+            <option name="charting.drilldown">all</option>
+            <option name="charting.legend.placement">top</option>
+            <option name="resizable">true</option>
+        </chart>
+    </panel>
+</row>
+
+<row depends="$show_alerts$ $show_no_alerts$">
+    <panel>
+        <html>
+            <h3>There are no active alerts for the past 24h</h3>
+        </html>
+    </panel>
+</row>
+
+<row depends="$show_alerts$">
+    <panel>
+        <html>
+            <div>
+                <div class="custom-btn">
+                    <button type="submit" id="btn_refresh_alerts" style="margin-right: 15px;" class="btn btn-default btn-outline-primary" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Refresh</button>
+                    <button type="submit" id="btn_create_alert" style="margin-right: 15px;" class="btn btn-default btn-outline-secondary" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Create a new alert</button>
+                </div>
+            </div>
+        </html>
+    </panel>
+</row>
+
+<row depends="$show_alerts$">
+    <panel>
+        <html>
+            <div>
+                <div id="element_alerts_main_table" class="view-elements">
+                </div>
+                <div id="resultsLinkelement_alerts_main_table" class="search-elements">
+                </div>
+            </div>
+        </html>
+    </panel>
+</row>
+
 </form>
