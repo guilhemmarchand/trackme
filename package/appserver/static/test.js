@@ -7730,6 +7730,1238 @@ require([
   });
 
   //
+  // Data host tracking
+  //
+
+  var DonutDataHostCountByStateAndPriority = new semiCircleDonut(
+    {
+      id: "DonutDataHostCountByStateAndPriority",
+      type: "semicircle_donut.semicircle_donut",
+      resizable: true,
+      drilldown: "all",
+      height: "170",
+      "refresh.display": "progressbar",
+      "semicircle_donut.semicircle_donut.colorField": "color",
+      "semicircle_donut.semicircle_donut.cutoutPercentage": "50",
+      "semicircle_donut.semicircle_donut.legendPosition": "top",
+      "semicircle_donut.semicircle_donut.type": "half",
+      "trellis.enabled": "0",
+      "trellis.scales.shared": "1",
+      "trellis.size": "medium",
+      managerid: "searchSingleDataHostDonutPriorities",
+      el: $("#DonutDataHostCountByStateAndPriority"),
+    },
+    { tokens: true, tokenNamespace: "submitted" }
+  ).render();
+
+  DonutDataHostCountByStateAndPriority.on("click", function (e) {
+    if (e.field !== undefined) {
+      e.preventDefault();
+      setToken(
+        "form.data_host_state",
+        TokenUtils.replaceTokenNames(
+          "*",
+          _.extend(submittedTokenModel.toJSON(), e.data)
+        )
+      );
+      setToken(
+        "form.inputDataHostPriority",
+        TokenUtils.replaceTokenNames(
+          "$row.priority$",
+          _.extend(submittedTokenModel.toJSON(), e.data)
+        )
+      );
+      setToken(
+        "form.data_monitored_state",
+        TokenUtils.replaceTokenNames(
+          "enabled",
+          _.extend(submittedTokenModel.toJSON(), e.data)
+        )
+      );
+    }
+  });
+
+  var DonutDataHostCountByPriority = new semiCircleDonut(
+    {
+      id: "DonutDataHostCountByPriority",
+      type: "semicircle_donut.semicircle_donut",
+      resizable: true,
+      drilldown: "none",
+      height: "170",
+      "refresh.display": "progressbar",
+      "semicircle_donut.semicircle_donut.colorField": "color",
+      "semicircle_donut.semicircle_donut.cutoutPercentage": "50",
+      "semicircle_donut.semicircle_donut.legendPosition": "top",
+      "semicircle_donut.semicircle_donut.type": "half",
+      "trellis.enabled": "0",
+      "trellis.scales.shared": "1",
+      "trellis.size": "medium",
+      managerid: "searchSingleDataHostDonutAlerts",
+      el: $("#DonutDataHostCountByPriority"),
+    },
+    { tokens: true, tokenNamespace: "submitted" }
+  ).render();
+
+  var singleFormTotalDataHost = new SingleView(
+    {
+      id: "singleFormTotalDataHost",
+      showTrendIndicator: "1",
+      unitPosition: "after",
+      useThousandSeparators: "1",
+      numberPrecision: "0",
+      colorBy: "value",
+      colorMode: "block",
+      drilldown: "all",
+      height: "75",
+      showSparkline: "1",
+      "trellis.scales.shared": "1",
+      useColors: "1",
+      trendDisplayMode: "absolute",
+      "trellis.enabled": "0",
+      trendColorInterpretation: "standard",
+      "trellis.size": "medium",
+      rangeValues: "[0]",
+      rangeColors: '["0x7fbfff","0x7fbfff"]',
+      underLabel: "DATA HOSTS",
+      managerid: "searchSingleDataHost1",
+      el: $("#singleFormTotalDataHost"),
+    },
+    {
+      tokens: true,
+      tokenNamespace: "submitted",
+    }
+  ).render();
+
+  singleFormTotalDataHost.on("click", function (e) {
+    if (e.field !== undefined) {
+      e.preventDefault();
+      setToken(
+        "form.data_host_state",
+        TokenUtils.replaceTokenNames(
+          "*",
+          _.extend(submittedTokenModel.toJSON(), e.data)
+        )
+      );
+      setToken(
+        "form.inputDataHostPriority",
+        TokenUtils.replaceTokenNames(
+          "*",
+          _.extend(submittedTokenModel.toJSON(), e.data)
+        )
+      );
+      setToken(
+        "form.data_monitored_state",
+        TokenUtils.replaceTokenNames(
+          "*",
+          _.extend(submittedTokenModel.toJSON(), e.data)
+        )
+      );
+    }
+  });
+
+  var singleFormTotalDataHostAlerts = new SingleView(
+    {
+      id: "singleFormTotalDataHostAlerts",
+      showTrendIndicator: "1",
+      unitPosition: "after",
+      useThousandSeparators: "1",
+      numberPrecision: "0",
+      colorBy: "value",
+      colorMode: "block",
+      drilldown: "all",
+      height: "75",
+      showSparkline: "1",
+      "trellis.scales.shared": "1",
+      useColors: "1",
+      trendDisplayMode: "absolute",
+      "trellis.enabled": "0",
+      trendColorInterpretation: "standard",
+      "trellis.size": "medium",
+      rangeValues: "[0]",
+      rangeColors: '["0x7fbfff","0xffb347"]',
+      underLabel: "ANY PRIORITY DATA HOSTS IN ALERT",
+      managerid: "searchSingleDataHostInAlert",
+      el: $("#singleFormTotalDataHostAlerts"),
+    },
+    {
+      tokens: true,
+      tokenNamespace: "submitted",
+    }
+  ).render();
+
+  singleFormTotalDataHostAlerts.on("click", function (e) {
+    if (e.field !== undefined) {
+      e.preventDefault();
+      setToken(
+        "form.inputDataHostPriority",
+        TokenUtils.replaceTokenNames(
+          "*",
+          _.extend(submittedTokenModel.toJSON(), e.data)
+        )
+      );
+      setToken(
+        "form.data_monitored_state",
+        TokenUtils.replaceTokenNames(
+          "enabled",
+          _.extend(submittedTokenModel.toJSON(), e.data)
+        )
+      );
+      setToken(
+        "form.data_host_state",
+        TokenUtils.replaceTokenNames(
+          "red",
+          _.extend(submittedTokenModel.toJSON(), e.data)
+        )
+      );
+    }
+  });
+
+  var singleFormTotalDataHostAlertsHighPriority = new SingleView(
+    {
+      id: "singleFormTotalDataHostAlertsHighPriority",
+      showTrendIndicator: "1",
+      unitPosition: "after",
+      useThousandSeparators: "1",
+      numberPrecision: "0",
+      colorBy: "value",
+      colorMode: "block",
+      drilldown: "all",
+      height: "75",
+      showSparkline: "1",
+      "trellis.scales.shared": "1",
+      useColors: "1",
+      trendDisplayMode: "absolute",
+      "trellis.enabled": "0",
+      trendColorInterpretation: "standard",
+      "trellis.size": "medium",
+      rangeValues: "[0]",
+      rangeColors: '["0x7fbfff","0xff6961"]',
+      underLabel: "HIGH PRIORITY DATA HOSTS IN ALERT",
+      managerid: "searchSingleDataHostHighPriority",
+      el: $("#singleFormTotalDataHostAlertsHighPriority"),
+    },
+    {
+      tokens: true,
+      tokenNamespace: "submitted",
+    }
+  ).render();
+
+  singleFormTotalDataHostAlertsHighPriority.on("click", function (e) {
+    if (e.field !== undefined) {
+      e.preventDefault();
+      setToken(
+        "form.data_host_state",
+        TokenUtils.replaceTokenNames(
+          "red",
+          _.extend(submittedTokenModel.toJSON(), e.data)
+        )
+      );
+      setToken(
+        "form.data_monitored_state",
+        TokenUtils.replaceTokenNames(
+          "enabled",
+          _.extend(submittedTokenModel.toJSON(), e.data)
+        )
+      );
+      setToken(
+        "form.inputDataHostPriority",
+        TokenUtils.replaceTokenNames(
+          "high",
+          _.extend(submittedTokenModel.toJSON(), e.data)
+        )
+      );
+    }
+  });
+
+  var singleFormTotalDataHostDisabled = new SingleView(
+    {
+      id: "singleFormTotalDataHostDisabled",
+      showTrendIndicator: "1",
+      unitPosition: "after",
+      useThousandSeparators: "1",
+      numberPrecision: "0",
+      colorBy: "value",
+      colorMode: "block",
+      drilldown: "all",
+      height: "75",
+      showSparkline: "1",
+      "trellis.scales.shared": "1",
+      useColors: "1",
+      trendDisplayMode: "absolute",
+      "trellis.enabled": "0",
+      trendColorInterpretation: "standard",
+      "trellis.size": "medium",
+      rangeValues: "[0]",
+      rangeColors: '["0x7fbfff","0x7fbfff"]',
+      underLabel: "DATA HOSTS NOT MONITORED",
+      managerid: "searchSingleDataHostNotMonitored",
+      el: $("#singleFormTotalDataHostDisabled"),
+    },
+    {
+      tokens: true,
+      tokenNamespace: "submitted",
+    }
+  ).render();
+
+  singleFormTotalDataHostDisabled.on("click", function (e) {
+    if (e.field !== undefined) {
+      e.preventDefault();
+      setToken(
+        "form.data_monitored_state",
+        TokenUtils.replaceTokenNames(
+          "disabled",
+          _.extend(submittedTokenModel.toJSON(), e.data)
+        )
+      );
+      setToken(
+        "form.data_host_state",
+        TokenUtils.replaceTokenNames(
+          "*",
+          _.extend(submittedTokenModel.toJSON(), e.data)
+        )
+      );
+      setToken(
+        "form.inputDataHostPriority",
+        TokenUtils.replaceTokenNames(
+          "*",
+          _.extend(submittedTokenModel.toJSON(), e.data)
+        )
+      );
+    }
+  });
+
+  var inputDataHostIndexes = new MultiSelectInput(
+    {
+      id: "inputDataHostIndexes",
+      tokenDependencies: {
+        depends: "$show_data_host_tracker$",
+      },
+      choices: [
+        {
+          label: "ALL",
+          value: "*",
+        },
+      ],
+      searchWhenChanged: true,
+      showClearButton: true,
+      labelField: "data_index",
+      valuePrefix: 'data_index="',
+      valueSuffix: '"',
+      delimiter: " OR ",
+      initialValue: "*",
+      selectFirstChoice: false,
+      valueField: "data_index",
+      value: "$form.inputDataHostIndexes$",
+      managerid: "searchPopulateDataHostsIndexes",
+      el: $("#inputDataHostIndexes"),
+    },
+    {
+      tokens: true,
+    }
+  ).render();
+
+  inputDataHostIndexes.on("change", function (newValue) {
+    FormUtils.handleValueChange(inputDataHostIndexes);
+    multiselectAll(inputDataHostIndexes);
+  });
+
+  var inputDataHostSourcetypes = new MultiSelectInput(
+    {
+      id: "inputDataHostSourcetypes",
+      tokenDependencies: {
+        depends: "$show_data_host_tracker$",
+      },
+      choices: [
+        {
+          label: "ALL",
+          value: "*",
+        },
+      ],
+      searchWhenChanged: true,
+      showClearButton: true,
+      labelField: "data_sourcetype",
+      valuePrefix: 'data_sourcetype="',
+      valueSuffix: '"',
+      delimiter: " OR ",
+      initialValue: "*",
+      selectFirstChoice: false,
+      valueField: "data_sourcetype",
+      value: "$form.inputDataHostSourcetypes$",
+      managerid: "searchPopulateDataHostsSourcetypes",
+      el: $("#inputDataHostSourcetypes"),
+    },
+    {
+      tokens: true,
+    }
+  ).render();
+
+  inputDataHostSourcetypes.on("change", function (newValue) {
+    FormUtils.handleValueChange(inputDataHostSourcetypes);
+    multiselectAll(inputDataHostSourcetypes);
+  });
+
+  var inputDataHostFilterMode = new DropdownInput(
+    {
+      id: "inputDataHostFilterMode",
+      choices: [
+        {
+          label: "Includes",
+          value: "",
+        },
+        {
+          label: "Excludes",
+          value: "NOT",
+        },
+      ],
+      searchWhenChanged: true,
+      default: "",
+      showClearButton: true,
+      initialValue: "",
+      selectFirstChoice: false,
+      value: "$form.inputDataHostFilterMode$",
+      el: $("#inputDataHostFilterMode"),
+    },
+    {
+      tokens: true,
+    }
+  ).render();
+
+  inputDataHostFilterMode.on("change", function (newValue) {
+    FormUtils.handleValueChange(inputDataHostFilterMode);
+  });
+
+  inputDataHostFilterMode.on("valueChange", function (e) {
+    if (e.value === "NOT") {
+      EventHandler.unsetToken("form.inputDataHostFilter");
+    }
+  });
+
+  var inputDataHostFilter = new TextInput(
+    {
+      id: "inputDataHostFilter",
+      searchWhenChanged: true,
+      prefix: '"*',
+      suffix: '*"',
+      initialValue: "*",
+      default: "*",
+      value: "$form.inputDataHostFilter$",
+      el: $("#inputDataHostFilter"),
+    },
+    {
+      tokens: true,
+    }
+  ).render();
+
+  inputDataHostFilter.on("change", function (newValue) {
+    FormUtils.handleValueChange(inputDataHostFilter);
+  });
+
+  var inputDataHost = new MultiSelectInput(
+    {
+      id: "inputDataHost",
+      tokenDependencies: {
+        depends: "$show_data_host_tracker$",
+      },
+      choices: [
+        {
+          label: "ALL",
+          value: "*",
+        },
+      ],
+      searchWhenChanged: true,
+      showClearButton: true,
+      labelField: "data_host",
+      valuePrefix: 'data_host="',
+      valueSuffix: '"',
+      delimiter: " OR ",
+      initialValue: "*",
+      selectFirstChoice: false,
+      valueField: "data_host",
+      value: "$form.inputDataHost$",
+      managerid: "searchPopulateDataHosts",
+      el: $("#inputDataHost"),
+    },
+    {
+      tokens: true,
+    }
+  ).render();
+
+  inputDataHost.on("change", function (newValue) {
+    FormUtils.handleValueChange(inputDataHost);
+    multiselectAll(inputDataHost);
+  });
+
+  var inputDataHostState = new MultiSelectInput(
+    {
+      id: "inputDataHostState",
+      choices: [
+        { label: "ALL", value: "*" },
+        { label: "Green", value: "green" },
+        { label: "Blue", value: "blue" },
+        { label: "Orange", value: "orange" },
+        { label: "Red", value: "red" },
+      ],
+      valuePrefix: 'data_host_state="',
+      valueSuffix: '"',
+      delimiter: " OR ",
+      searchWhenChanged: true,
+      initialValue: ["*"],
+      value: "$form.data_host_state$",
+      el: $("#inputDataHostState"),
+    },
+    { tokens: true }
+  ).render();
+
+  inputDataHostState.on("change", function (newValue) {
+    FormUtils.handleValueChange(inputDataHostState);
+    multiselectAll(inputDataHostState);
+  });
+
+  var inputDataHostMonitoredState = new DropdownInput(
+    {
+      id: "inputDataHostMonitoredState",
+      choices: [
+        {
+          label: "ALL",
+          value: "*",
+        },
+        {
+          label: "Enabled",
+          value: "enabled",
+        },
+        {
+          label: "Disabled",
+          value: "disabled",
+        },
+      ],
+      searchWhenChanged: true,
+      default: "enabled",
+      showClearButton: true,
+      prefix: 'data_monitored_state="',
+      suffix: '"',
+      initialValue: "enabled",
+      selectFirstChoice: false,
+      value: "$form.data_monitored_state$",
+      el: $("#inputDataHostMonitoredState"),
+    },
+    {
+      tokens: true,
+    }
+  ).render();
+
+  inputDataHostMonitoredState.on("change", function (newValue) {
+    FormUtils.handleValueChange(inputDataHostMonitoredState);
+  });
+
+  var inputDataHostPriority = new MultiSelectInput(
+    {
+      id: "inputDataHostPriority",
+      choices: [
+        { label: "ALL", value: "*" },
+        { label: "low", value: "low" },
+        { label: "medium", value: "medium" },
+        { label: "high", value: "high" },
+      ],
+      valuePrefix: 'priority="',
+      valueSuffix: '"',
+      delimiter: " OR ",
+      searchWhenChanged: true,
+      initialValue: ["*"],
+      value: "$form.inputDataHostPriority$",
+      el: $("#inputDataHostPriority"),
+    },
+    { tokens: true }
+  ).render();
+
+  inputDataHostPriority.on("change", function (newValue) {
+    FormUtils.handleValueChange(inputDataHostPriority);
+    multiselectAll(inputDataHostPriority);
+  });
+
+  var refreshHostForm = new DropdownInput(
+    {
+      id: "refreshHostForm",
+      choices: [
+        {
+          value: "60",
+          label: "1 min",
+        },
+        {
+          value: "120",
+          label: "2 min",
+        },
+        {
+          value: "300",
+          label: "5 min",
+        },
+        {
+          value: "3600",
+          label: "none",
+        },
+      ],
+      selectFirstChoice: false,
+      default: "300",
+      showClearButton: true,
+      initialValue: "300",
+      searchWhenChanged: true,
+      value: "$refresh$",
+      el: $("#refreshHostForm"),
+    },
+    {
+      tokens: true,
+    }
+  ).render();
+
+  refreshForm.on("change", function (newValue) {
+    FormUtils.handleValueChange(refreshForm);
+  });
+
+  var elementMainTableHost = new TableView(
+    {
+      id: "elementMainTableHost",
+      count: 20,
+      drilldown: "row",
+      fields:
+        'data_host, sourcetype_summary, "last time", "last ingest", priority, state, "lag (event / ingestion)", data_max_lag_allowed, monitoring, data_monitoring_wdays',
+      "refresh.display": "none",
+      wrap: "false",
+      managerid: "searchMainTableHost",
+      el: $("#elementMainTableHost"),
+    },
+    {
+      tokens: true,
+      tokenNamespace: "submitted",
+    }
+  ).render();
+
+  // render icons
+  renderTableIcon(elementMainTableHost);
+
+  elementMainTableHost.on("click", function (e) {
+    if (e.field !== undefined) {
+      e.preventDefault();
+
+      // clean any previously set main token, used for variable purposes
+      unsetToken("tk_data_name");
+      unsetToken("tk_metric_host");
+
+      setToken(
+        "tk_keyid",
+        TokenUtils.replaceTokenNames(
+          "$row.keyid$",
+          _.extend(submittedTokenModel.toJSON(), e.data)
+        )
+      );
+      setToken(
+        "tk_data_host",
+        TokenUtils.replaceTokenNames(
+          "$row.data_host$",
+          _.extend(submittedTokenModel.toJSON(), e.data)
+        )
+      );
+      setToken(
+        "tk_data_index",
+        TokenUtils.replaceTokenNames(
+          "$row.data_index_raw$",
+          _.extend(submittedTokenModel.toJSON(), e.data)
+        )
+      );
+      setToken(
+        "tk_data_sourcetype",
+        TokenUtils.replaceTokenNames(
+          "$row.data_sourcetype_raw$",
+          _.extend(submittedTokenModel.toJSON(), e.data)
+        )
+      );
+      setToken(
+        "tk_data_host_st_summary",
+        TokenUtils.replaceTokenNames(
+          "$row.data_host_st_summary_raw$",
+          _.extend(submittedTokenModel.toJSON(), e.data)
+        )
+      );
+      setToken(
+        "tk_data_host_alerting_policy",
+        TokenUtils.replaceTokenNames(
+          "$row.data_host_alerting_policy$",
+          _.extend(submittedTokenModel.toJSON(), e.data)
+        )
+      );
+      setToken(
+        "tk_data_last_lag_seen",
+        TokenUtils.replaceTokenNames(
+          "$row.data_last_lag_seen$",
+          _.extend(submittedTokenModel.toJSON(), e.data)
+        )
+      );
+      setToken(
+        "tk_data_last_ingestion_lag_seen",
+        TokenUtils.replaceTokenNames(
+          "$row.data_last_ingestion_lag_seen$",
+          _.extend(submittedTokenModel.toJSON(), e.data)
+        )
+      );
+      setToken(
+        "tk_data_lag_summary",
+        TokenUtils.replaceTokenNames(
+          "$row.lag (event / ingestion)$",
+          _.extend(submittedTokenModel.toJSON(), e.data)
+        )
+      );
+      setToken(
+        "tk_data_eventcount",
+        TokenUtils.replaceTokenNames(
+          "$row.data_eventcount$",
+          _.extend(submittedTokenModel.toJSON(), e.data)
+        )
+      );
+      setToken(
+        "tk_data_first_time_seen",
+        TokenUtils.replaceTokenNames(
+          "$row.data_first_time_seen$",
+          _.extend(submittedTokenModel.toJSON(), e.data)
+        )
+      );
+      setToken(
+        "tk_data_last_time_seen",
+        TokenUtils.replaceTokenNames(
+          "$row.data_last_time_seen$",
+          _.extend(submittedTokenModel.toJSON(), e.data)
+        )
+      );
+      setToken(
+        "tk_data_last_time_seen_human",
+        TokenUtils.replaceTokenNames(
+          "$row.last time$",
+          _.extend(submittedTokenModel.toJSON(), e.data)
+        )
+      );
+      setToken(
+        "tk_data_last_ingest",
+        TokenUtils.replaceTokenNames(
+          "$row.data_last_ingest$",
+          _.extend(submittedTokenModel.toJSON(), e.data)
+        )
+      );
+      setToken(
+        "tk_data_last_ingest_human",
+        TokenUtils.replaceTokenNames(
+          "$row.last ingest$",
+          _.extend(submittedTokenModel.toJSON(), e.data)
+        )
+      );
+      setToken(
+        "tk_data_max_lag_allowed",
+        TokenUtils.replaceTokenNames(
+          "$row.data_max_lag_allowed$",
+          _.extend(submittedTokenModel.toJSON(), e.data)
+        )
+      );
+      setToken(
+        "tk_data_lag_alert_kpis",
+        TokenUtils.replaceTokenNames(
+          "$row.data_lag_alert_kpis$",
+          _.extend(submittedTokenModel.toJSON(), e.data)
+        )
+      );
+      setToken(
+        "tk_data_monitored_state",
+        TokenUtils.replaceTokenNames(
+          "$row.data_monitored_state$",
+          _.extend(submittedTokenModel.toJSON(), e.data)
+        )
+      );
+      setToken(
+        "tk_data_monitoring_wdays",
+        TokenUtils.replaceTokenNames(
+          "$row.data_monitoring_wdays$",
+          _.extend(submittedTokenModel.toJSON(), e.data)
+        )
+      );
+      setToken(
+        "tk_data_override_lagging_class",
+        TokenUtils.replaceTokenNames(
+          "$row.data_override_lagging_class$",
+          _.extend(submittedTokenModel.toJSON(), e.data)
+        )
+      );
+      setToken(
+        "tk_data_host_state",
+        TokenUtils.replaceTokenNames(
+          "$row.data_host_state$",
+          _.extend(submittedTokenModel.toJSON(), e.data)
+        )
+      );
+      setToken(
+        "tk_data_tracker_runtime",
+        TokenUtils.replaceTokenNames(
+          "$row.data_tracker_runtime$",
+          _.extend(submittedTokenModel.toJSON(), e.data)
+        )
+      );
+      setToken(
+        "tk_data_previous_host_state",
+        TokenUtils.replaceTokenNames(
+          "$row.data_previous_host_state$",
+          _.extend(submittedTokenModel.toJSON(), e.data)
+        )
+      );
+      setToken(
+        "tk_data_previous_tracker_runtime",
+        TokenUtils.replaceTokenNames(
+          "$row.data_previous_tracker_runtime$",
+          _.extend(submittedTokenModel.toJSON(), e.data)
+        )
+      );
+      setToken(
+        "tk_latest_flip_state",
+        TokenUtils.replaceTokenNames(
+          "$row.latest_flip_state$",
+          _.extend(submittedTokenModel.toJSON(), e.data)
+        )
+      );
+      setToken(
+        "tk_latest_flip_time",
+        TokenUtils.replaceTokenNames(
+          "$row.latest_flip_time$",
+          _.extend(submittedTokenModel.toJSON(), e.data)
+        )
+      );
+      setToken(
+        "tk_latest_flip_time_human",
+        TokenUtils.replaceTokenNames(
+          "$row.latest_flip_time (translated)$",
+          _.extend(submittedTokenModel.toJSON(), e.data)
+        )
+      );
+      setToken(
+        "tk_priority",
+        TokenUtils.replaceTokenNames(
+          "$row.priority$",
+          _.extend(submittedTokenModel.toJSON(), e.data)
+        )
+      );
+
+      // outlier
+      setToken(
+        "tk_outlierenabledstatus",
+        TokenUtils.replaceTokenNames(
+          "$row.enable_behaviour_analytic$",
+          _.extend(submittedTokenModel.toJSON(), e.data)
+        )
+      );
+      setToken(
+        "tk_outliermineventcount",
+        TokenUtils.replaceTokenNames(
+          "$row.OutlierMinEventCount$",
+          _.extend(submittedTokenModel.toJSON(), e.data)
+        )
+      );
+      setToken(
+        "tk_outlierlowerthresholdmultiplier",
+        TokenUtils.replaceTokenNames(
+          "$row.OutlierLowerThresholdMultiplier$",
+          _.extend(submittedTokenModel.toJSON(), e.data)
+        )
+      );
+      setToken(
+        "tk_outlierupperthresholdmultiplier",
+        TokenUtils.replaceTokenNames(
+          "$row.OutlierUpperThresholdMultiplier$",
+          _.extend(submittedTokenModel.toJSON(), e.data)
+        )
+      );
+      setToken(
+        "tk_outlieralertonupper",
+        TokenUtils.replaceTokenNames(
+          "$row.OutlierAlertOnUpper$",
+          _.extend(submittedTokenModel.toJSON(), e.data)
+        )
+      );
+      setToken(
+        "tk_outlier_period",
+        TokenUtils.replaceTokenNames(
+          "$row.OutlierTimePeriod$",
+          _.extend(submittedTokenModel.toJSON(), e.data)
+        )
+      );
+      setToken(
+        "tk_outlier_span",
+        TokenUtils.replaceTokenNames(
+          "$row.OutlierSpan$",
+          _.extend(submittedTokenModel.toJSON(), e.data)
+        )
+      );
+      setToken(
+        "tk_isoutlier",
+        TokenUtils.replaceTokenNames(
+          "$row.isOutlier$",
+          _.extend(submittedTokenModel.toJSON(), e.data)
+        )
+      );
+
+      // status message
+      setToken(
+        "tk_status_message",
+        TokenUtils.replaceTokenNames(
+          "$row.status_message$",
+          _.extend(submittedTokenModel.toJSON(), e.data)
+        )
+      );
+
+      // tags
+      setToken(
+        "tk_data_host_tags",
+        TokenUtils.replaceTokenNames(
+          "$row.data_host_tags$",
+          _.extend(submittedTokenModel.toJSON(), e.data)
+        )
+      );
+
+      // pref-fill current lagging input
+      setToken(
+        "form.tk_input_lag_host",
+        TokenUtils.replaceTokenNames(
+          "$row.data_max_lag_allowed$",
+          _.extend(submittedTokenModel.toJSON(), e.data)
+        )
+      );
+
+      // pref-fill current wdays input
+      setToken(
+        "form.tk_input_wdays_host",
+        TokenUtils.replaceTokenNames(
+          "$row.data_monitoring_wdays$",
+          _.extend(submittedTokenModel.toJSON(), e.data)
+        )
+      );
+
+      // pre-fill current priority
+      setToken(
+        "form.tk_input_host_priority",
+        TokenUtils.replaceTokenNames(
+          "$row.priority$",
+          _.extend(submittedTokenModel.toJSON(), e.data)
+        )
+      );
+
+      // pre-fill lagging class override
+      setToken(
+        "form.modal_input_lag_override_class_host",
+        TokenUtils.replaceTokenNames(
+          "$row.data_override_lagging_class$",
+          _.extend(submittedTokenModel.toJSON(), e.data)
+        )
+      );
+
+      // pre-fill alert over kpis
+      setToken(
+        "form.tk_input_data_lag_alert_kpis_host",
+        TokenUtils.replaceTokenNames(
+          "$row.data_lag_alert_kpis$",
+          _.extend(submittedTokenModel.toJSON(), e.data)
+        )
+      );
+
+      // pre-fill alerting policy
+      setToken(
+        "form.tk_input_host_alerting_policy",
+        TokenUtils.replaceTokenNames(
+          "$row.data_host_alerting_policy$",
+          _.extend(submittedTokenModel.toJSON(), e.data)
+        )
+      );
+
+      //submitTokens();
+
+      // When the Submit button is clicked, get all the form fields by accessing token values
+      var tokens = mvc.Components.get("default");
+
+      // When the Submit button is clicked, get all the form fields by accessing token values
+      var tokens = mvc.Components.get("default");
+
+      var tk_data_monitored_state = tokens.get("tk_data_monitored_state");
+      var tk_data_host = tokens.get("tk_data_host");
+
+      // state
+      var tk_data_host_state = tokens.get("tk_data_host_state");
+
+      // priority
+      var tk_priority = tokens.get("tk_priority");
+
+      // Define the history search
+      var search_data_host =
+        "search" +
+        '?q=search%20index%3D"*" ' +
+        'host="' +
+        encodeURI(tk_data_host) +
+        '"';
+
+      // Define the URL target
+      document.getElementById("btn_search_data_host").href = search_data_host;
+
+      // Dynamically manage buttons states
+      if (tk_data_monitored_state == "enabled") {
+        document.getElementById("btn_enable_monitoring_host").disabled = true;
+        document.getElementById("btn_disable_monitoring_host").disabled = false;
+        setToken(
+          "tk_data_monitored_state_class",
+          TokenUtils.replaceTokenNames(
+            "title_green",
+            _.extend(submittedTokenModel.toJSON(), e.data)
+          )
+        );
+      } else {
+        document.getElementById("btn_enable_monitoring_host").disabled = false;
+        document.getElementById("btn_disable_monitoring_host").disabled = true;
+        setToken(
+          "tk_data_monitored_state_class",
+          TokenUtils.replaceTokenNames(
+            "title_grey",
+            _.extend(submittedTokenModel.toJSON(), e.data)
+          )
+        );
+      }
+
+      // Dynamically manage Ack button
+      if (tk_data_host_state == "red") {
+        document.getElementById("btn_ack_data_host").disabled = false;
+      } else {
+        document.getElementById("btn_ack_data_host").disabled = true;
+      }
+
+      // Dynamically manage state color
+      if (tk_data_host_state == "green") {
+        setToken(
+          "tk_data_host_state_class",
+          TokenUtils.replaceTokenNames(
+            "title_green",
+            _.extend(submittedTokenModel.toJSON(), e.data)
+          )
+        );
+        setToken(
+          "tk_data_host_status_message_class",
+          TokenUtils.replaceTokenNames(
+            "status_message_green",
+            _.extend(submittedTokenModel.toJSON(), e.data)
+          )
+        );
+      } else if (tk_data_host_state == "orange") {
+        setToken(
+          "tk_data_host_state_class",
+          TokenUtils.replaceTokenNames(
+            "title_orange",
+            _.extend(submittedTokenModel.toJSON(), e.data)
+          )
+        );
+        setToken(
+          "tk_data_host_status_message_class",
+          TokenUtils.replaceTokenNames(
+            "status_message_orange",
+            _.extend(submittedTokenModel.toJSON(), e.data)
+          )
+        );
+      } else if (tk_data_host_state == "blue") {
+        setToken(
+          "tk_data_host_state_class",
+          TokenUtils.replaceTokenNames(
+            "title_blue",
+            _.extend(submittedTokenModel.toJSON(), e.data)
+          )
+        );
+        setToken(
+          "tk_data_host_status_message_class",
+          TokenUtils.replaceTokenNames(
+            "status_message_blue",
+            _.extend(submittedTokenModel.toJSON(), e.data)
+          )
+        );
+      } else if (tk_data_host_state == "red") {
+        setToken(
+          "tk_data_host_state_class",
+          TokenUtils.replaceTokenNames(
+            "title_red",
+            _.extend(submittedTokenModel.toJSON(), e.data)
+          )
+        );
+        setToken(
+          "tk_data_host_status_message_class",
+          TokenUtils.replaceTokenNames(
+            "status_message_red",
+            _.extend(submittedTokenModel.toJSON(), e.data)
+          )
+        );
+      }
+
+      // Dynamically manage priority color
+      if (tk_priority == "low") {
+        setToken(
+          "tk_priority_class",
+          TokenUtils.replaceTokenNames(
+            "title_low_priority",
+            _.extend(submittedTokenModel.toJSON(), e.data)
+          )
+        );
+      } else if (tk_priority == "medium") {
+        setToken(
+          "tk_priority_class",
+          TokenUtils.replaceTokenNames(
+            "title_medium_priority",
+            _.extend(submittedTokenModel.toJSON(), e.data)
+          )
+        );
+      } else if (tk_priority == "high") {
+        setToken(
+          "tk_priority_class",
+          TokenUtils.replaceTokenNames(
+            "title_high_priority",
+            _.extend(submittedTokenModel.toJSON(), e.data)
+          )
+        );
+      }
+
+      // Manage Outliers
+      var tk_outlierenabledstatus = tokens.get("tk_outlierenabledstatus");
+      var tk_outliermineventcount = tokens.get("tk_outliermineventcount");
+      var tk_outlierlowerthresholdmultiplier = tokens.get(
+        "tk_outlierlowerthresholdmultiplier"
+      );
+      var tk_outlierupperthresholdmultiplier = tokens.get(
+        "tk_outlierupperthresholdmultiplier"
+      );
+      var tk_outlieralertonupper = tokens.get("tk_outlieralertonupper");
+      var tk_isoutlier = tokens.get("tk_isoutlier");
+      var tk_outlier_span = tokens.get("tk_outlier_span");
+      var tk_outlier_period = tokens.get("tk_outlier_period");
+
+      // Outliers configuration
+
+      // prefill the current status
+      if (tk_outlierenabledstatus && tk_outlierenabledstatus == "true") {
+        setToken(
+          "form.tk_input_data_host_enable_outlier",
+          TokenUtils.replaceTokenNames(
+            "true",
+            _.extend(submittedTokenModel.toJSON(), e.data)
+          )
+        );
+      } else {
+        setToken(
+          "form.tk_input_data_host_enable_outlier",
+          TokenUtils.replaceTokenNames(
+            "false",
+            _.extend(submittedTokenModel.toJSON(), e.data)
+          )
+        );
+      }
+
+      // prefill the current lower multiplier
+      if (
+        tk_outlierlowerthresholdmultiplier &&
+        isNumeric(tk_outlierlowerthresholdmultiplier)
+      ) {
+        setToken(
+          "form.tk_input_data_host_outlier_lower_threshold_multiplier",
+          TokenUtils.replaceTokenNames(
+            tk_outlierlowerthresholdmultiplier,
+            _.extend(submittedTokenModel.toJSON(), e.data)
+          )
+        );
+      }
+
+      // prefill the current upper multiplier
+      if (
+        tk_outlierupperthresholdmultiplier &&
+        isNumeric(tk_outlierupperthresholdmultiplier)
+      ) {
+        setToken(
+          "form.tk_input_data_host_outlier_upper_threshold_multiplier",
+          TokenUtils.replaceTokenNames(
+            tk_outlierupperthresholdmultiplier,
+            _.extend(submittedTokenModel.toJSON(), e.data)
+          )
+        );
+      }
+
+      // Define the Outliers lowerbound mode
+      if (
+        tk_outliermineventcount &&
+        isNumeric(tk_outliermineventcount) &&
+        tk_outliermineventcount > 0
+      ) {
+        setToken(
+          "form.tk_input_data_host_outlier_min_eventcount_mode",
+          TokenUtils.replaceTokenNames(
+            "static",
+            _.extend(submittedTokenModel.toJSON(), e.data)
+          )
+        );
+        setToken(
+          "form.tk_input_data_host_outlier_min_eventcount",
+          TokenUtils.replaceTokenNames(
+            tk_outliermineventcount,
+            _.extend(submittedTokenModel.toJSON(), e.data)
+          )
+        );
+      } else {
+        setToken(
+          "form.tk_input_data_host_outlier_min_eventcount_mode",
+          TokenUtils.replaceTokenNames(
+            "dynamic",
+            _.extend(submittedTokenModel.toJSON(), e.data)
+          )
+        );
+        setToken(
+          "form.tk_input_data_host_outlier_min_eventcount",
+          TokenUtils.replaceTokenNames(
+            "disabled",
+            _.extend(submittedTokenModel.toJSON(), e.data)
+          )
+        );
+      }
+
+      // prefill the current status
+      if (tk_outlieralertonupper && tk_outlieralertonupper != "null") {
+        setToken(
+          "form.tk_input_data_host_outlier_alert_on_upper",
+          TokenUtils.replaceTokenNames(
+            tk_outlieralertonupper,
+            _.extend(submittedTokenModel.toJSON(), e.data)
+          )
+        );
+      }
+
+      // prefill the outlier span
+      if (tk_outlier_span && tk_outlier_span != "null") {
+        setToken(
+          "form.TimeOutlierConfigurationDataHostSpan",
+          TokenUtils.replaceTokenNames(
+            tk_outlier_span,
+            _.extend(submittedTokenModel.toJSON(), e.data)
+          )
+        );
+      }
+
+      // prefill the outlier period
+      if (tk_outlier_period && tk_outlier_period != "null") {
+        setToken(
+          "form.TimeOutlierConfigurationDataHost",
+          TokenUtils.replaceTokenNames(
+            tk_outlier_period,
+            _.extend(submittedTokenModel.toJSON(), e.data)
+          )
+        );
+      }
+
+      // Explicitly refresh the get tags search
+      searchGetDataHostTags.startSearch();
+
+      // Enable modal context
+      $("#modal_manage_host").modal();
+    }
+  });
+
+  //
   // END
   //
 });
