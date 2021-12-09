@@ -11419,6 +11419,9 @@ require([
       "id": "modal_input_data_source_whitelist_search",
       "default": "*",
       "searchWhenChanged": true,
+      "tokenDependencies": {
+        "depends": "$show_table_data_source_whitelist$",
+      },
       "value": "$form.tk_input_data_source_whitelist_search$",
       "el": $('#modal_input_data_source_whitelist_search')
   }, {
@@ -11469,6 +11472,9 @@ require([
       "id": "modal_input_metric_host_whitelist_search",
       "default": "*",
       "searchWhenChanged": true,
+      "tokenDependencies": {
+        "depends": "$show_table_metric_host_whitelist$",
+      },
       "value": "$form.tk_input_metric_host_whitelist_search$",
       "el": $('#modal_input_metric_host_whitelist_search')
   }, {
@@ -11519,6 +11525,9 @@ require([
       "id": "modal_input_data_host_whitelist_search",
       "default": "*",
       "searchWhenChanged": true,
+      "tokenDependencies": {
+        "depends": "$show_table_data_host_whitelist$",
+      },
       "value": "$form.tk_input_data_host_whitelist_search$",
       "el": $('#modal_input_data_host_whitelist_search')
   }, {
@@ -11621,7 +11630,7 @@ require([
 
   // whitelist metric_host
 
-  var singleWhiteListMetricHost = new SingleElement({
+  var singleWhiteListMetricHost = new SingleView({
       "id": "singleWhiteListMetricHost",
       "trendDisplayMode": "absolute",
       "drilldown": "none",
@@ -11649,7 +11658,7 @@ require([
 
   // whitelist data_host
 
-  var singleWhiteListDataHost = new SingleElement({
+  var singleWhiteListDataHost = new SingleView({
       "id": "singleWhiteListDataHost",
       "trendDisplayMode": "absolute",
       "drilldown": "none",
@@ -11675,7 +11684,7 @@ require([
       tokenNamespace: "submitted"
   }).render();
 
-  var singleBlackListDataSourceHost = new SingleElement({
+  var singleBlackListDataSourceHost = new SingleView({
       "id": "singleBlackListDataSourceHost",
       "trendDisplayMode": "absolute",
       "drilldown": "none",
@@ -11701,7 +11710,7 @@ require([
       tokenNamespace: "submitted"
   }).render();
 
-  var singleBlackListDataSourceIndex = new SingleElement({
+  var singleBlackListDataSourceIndex = new SingleView({
       "id": "singleBlackListDataSourceIndex",
       "trendDisplayMode": "absolute",
       "drilldown": "none",
@@ -11727,7 +11736,7 @@ require([
       tokenNamespace: "submitted"
   }).render();
 
-  var singleBlackListDataSourceSourcetype = new SingleElement({
+  var singleBlackListDataSourceSourcetype = new SingleView({
       "id": "singleBlackListDataSourceSourcetype",
       "trendDisplayMode": "absolute",
       "drilldown": "none",
@@ -11753,7 +11762,7 @@ require([
       tokenNamespace: "submitted"
   }).render();
 
-  var singleBlackListDataSourceDataName = new SingleElement({
+  var singleBlackListDataSourceDataName = new SingleView({
       "id": "singleBlackListDataSourceDataName",
       "trendDisplayMode": "absolute",
       "drilldown": "none",
@@ -11779,7 +11788,7 @@ require([
       tokenNamespace: "submitted"
   }).render();
 
-  var singleBlackListDataHostHost = new SingleElement({
+  var singleBlackListDataHostHost = new SingleView({
       "id": "singleBlackListDataHostHost",
       "trendDisplayMode": "absolute",
       "drilldown": "none",
@@ -11805,7 +11814,7 @@ require([
       tokenNamespace: "submitted"
   }).render();
 
-  var singleBlackListDataHostIndex = new SingleElement({
+  var singleBlackListDataHostIndex = new SingleView({
       "id": "singleBlackListDataHostIndex",
       "trendDisplayMode": "absolute",
       "drilldown": "none",
@@ -11831,7 +11840,7 @@ require([
       tokenNamespace: "submitted"
   }).render();
 
-  var singleBlackListMetricHostIndex = new SingleElement({
+  var singleBlackListMetricHostIndex = new SingleView({
       "id": "singleBlackListMetricHostIndex",
       "trendDisplayMode": "absolute",
       "drilldown": "none",
@@ -11857,7 +11866,7 @@ require([
       tokenNamespace: "submitted"
   }).render();
 
-  var singleBlackListDataHostSourcetype = new SingleElement({
+  var singleBlackListDataHostSourcetype = new SingleView({
       "id": "singleBlackListDataHostSourcetype",
       "trendDisplayMode": "absolute",
       "drilldown": "none",
@@ -11884,7 +11893,7 @@ require([
   }).render();
 
   // blacklist netric host
-  var singleBlackListMetricHostHost = new SingleElement({
+  var singleBlackListMetricHostHost = new SingleView({
       "id": "singleBlackListMetricHostHost",
       "trendDisplayMode": "absolute",
       "drilldown": "none",
@@ -11911,7 +11920,7 @@ require([
   }).render();
 
   // blacklist metric_category
-  var singleBlackListMetricHostMetricCategory = new SingleElement({
+  var singleBlackListMetricHostMetricCategory = new SingleView({
       "id": "singleBlackListMetricHostMetricCategory",
       "trendDisplayMode": "absolute",
       "drilldown": "none",
@@ -11979,6 +11988,8 @@ require([
       tokenNamespace: "submitted"
   }).render();
 
+  renderTableCheckBox("tableWhiteListDataHost", "removeWhitelistDataHost");
+
   // whitelist metric_host
 
   var tableWhiteListMetricHost = new TableElement({
@@ -11997,6 +12008,8 @@ require([
       tokens: true,
       tokenNamespace: "submitted"
   }).render();
+
+  renderTableCheckBox("tableWhiteListMetricHost", "removeWhitelistMetricHost");
 
   // blacklist
 
@@ -16265,6 +16278,7 @@ require([
             },
             {
               done: function (job) {
+
                 // Once the job is done, update all searches
                 searchWhiteListDataSource.startSearch();
                 searchSingleWhiteListDataSource.startSearch();
@@ -16272,12 +16286,6 @@ require([
                 searchPopulateIndexesForWhiteListDataSource.startSearch();
                 unsetToken("form.tk_input_whitelist_data_source");
                 unsetToken("form.tk_textinput_whitelist_data_source");
-
-                // notify
-                notification(
-                  "Modification has been registered successfully.",
-                  2000
-                );
 
                 // Audit
                 action = "success";
@@ -16587,12 +16595,6 @@ require([
                 searchMetricHostsMain.startSearch();
                 unsetToken("form.tk_input_whitelist_metric_host");
                 unsetToken("form.tk_textinput_whitelist_metric_host");
-
-                // notify
-                notification(
-                  "Modification has been registered successfully.",
-                  2000
-                );
 
                 // Audit
                 action = "success";
@@ -16904,12 +16906,6 @@ require([
                 unsetToken("form.tk_input_whitelist_data_host");
                 unsetToken("form.tk_textinput_whitelist_data_host");
 
-                // notify
-                notification(
-                  "Modification has been registered successfully.",
-                  2000
-                );
-
                 // Audit
                 action = "success";
                 change_type = "add allowlist host";
@@ -17204,11 +17200,6 @@ require([
                 searchBlackListDataSourceHost.startSearch();
                 searchSingleBlackListDataSourceHost.startSearch();
                 searchDataSourcesMain.startSearch();
-                // notify
-                notification(
-                  "Modification has been registered successfully.",
-                  2000
-                );
 
                 // Audit
                 action = "success";
@@ -17500,12 +17491,6 @@ require([
                 searchSingleBlackListDataHostHost.startSearch();
                 searchDataHostsMain.startSearch();
 
-                // notify
-                notification(
-                  "Modification has been registered successfully.",
-                  2000
-                );
-
                 // Audit
                 action = "success";
                 change_type = "add blocklist host";
@@ -17652,12 +17637,6 @@ require([
                 searchBlackListDataSourceIndex.startSearch();
                 searchSingleBlackListDataSourceIndex.startSearch();
                 searchDataSourcesMain.startSearch();
-
-                // notify
-                notification(
-                  "Modification has been registered successfully.",
-                  2000
-                );
 
                 // Audit
                 action = "success";
@@ -18092,12 +18071,6 @@ require([
                 searchSingleBlackListDataHostIndex.startSearch();
                 searchDataHostsMain.startSearch();
 
-                // notify
-                notification(
-                  "Modification has been registered successfully.",
-                  2000
-                );
-
                 // Audit
                 action = "success";
                 change_type = "add blocklist index";
@@ -18388,12 +18361,6 @@ require([
                 searchSingleBlackListMetricHostIndex.startSearch();
                 searchMetricHostsMain.startSearch();
 
-                // notify
-                notification(
-                  "Modification has been registered successfully.",
-                  2000
-                );
-
                 // Audit
                 action = "success";
                 change_type = "add blocklist index";
@@ -18683,12 +18650,6 @@ require([
                 searchBlackListDataSourceSourcetype.startSearch();
                 searchSingleBlackListDataSourceSourcetype.startSearch();
                 searchDataSourcesMain.startSearch();
-
-                // notify
-                notification(
-                  "Modification has been registered successfully.",
-                  2000
-                );
 
                 // Audit
                 action = "success";
@@ -18987,12 +18948,6 @@ require([
                 searchSingleBlackListDataSourceDataName.startSearch();
                 searchDataSourcesMain.startSearch();
 
-                // notify
-                notification(
-                  "Modification has been registered successfully.",
-                  2000
-                );
-
                 // Audit
                 action = "success";
                 change_type = "add blocklist data_name";
@@ -19282,12 +19237,6 @@ require([
                 searchBlackListDataHostSourcetype.startSearch();
                 searchSingleBlackListDataHostSourcetype.startSearch();
                 searchDataHostsMain.startSearch();
-
-                // notify
-                notification(
-                  "Modification has been registered successfully.",
-                  2000
-                );
 
                 // Audit
                 action = "success";
@@ -19582,12 +19531,6 @@ require([
                 searchBlackListMetricHostHost.startSearch();
                 searchSingleBlackListMetricHostHost.startSearch();
                 searchMetricHostsMain.startSearch();
-
-                // notify
-                notification(
-                  "Modification has been registered successfully.",
-                  2000
-                );
 
                 // Audit
                 action = "success";
@@ -19886,12 +19829,6 @@ require([
                 searchMetricHostsMain.startSearch();
                 unsetToken(
                   "form.tk_input_metric_host_blacklist_metric_category"
-                );
-
-                // notify
-                notification(
-                  "Modification has been registered successfully.",
-                  2000
                 );
 
                 // Audit
@@ -21623,7 +21560,6 @@ require([
     var $btn_group = $(this);
     $btn_group.find("button").on("click", function () {
       var $btn = $(this);
-
       //submitTokens();
       setToken("start_modify_data_source_whitelist", "true");
       // Show input modal
@@ -21647,7 +21583,6 @@ require([
     var $btn_group = $(this);
     $btn_group.find("button").on("click", function () {
       var $btn = $(this);
-
       //submitTokens();
       setToken("start_modify_data_host_whitelist", "true");
       // Show input modal
@@ -21687,7 +21622,6 @@ require([
     var $btn_group = $(this);
     $btn_group.find("button").on("click", function () {
       var $btn = $(this);
-
       //submitTokens();
       setToken("start_modify_metric_host_whitelist", "true");
       // Show input modal

@@ -78,6 +78,11 @@
     background-color: inherit; !important
 }
 
+/* Handle label for Splunk inputs */
+.splunk-input-label {
+    margin-left: 12px;
+}
+
 /*** Buttons ***/
 
         .btn {
@@ -870,11 +875,11 @@
                                                 <div style="display: inline-flex;">
 
                                                     <div class="input input-text" id="modal_input_elastic_source_data_name" style="margin-bottom: 10px; min-width: 500px; max-width: 500px; margin-right: 150px;">
-                                                        <label>Enter the unique identifier of the elastic source:</label>
+                                                        <label class="splunk-input-label">Enter the unique identifier of the elastic source:</label>
                                                     </div>
 
                                                     <div class="input input-dropdown" id="modal_input_elastic_source_search_type" style="margin-bottom: 10px;">
-                                                        <label>Choose the type of search:</label>
+                                                        <label class="splunk-input-label">Choose the type of search:</label>
                                                     </div>
 
                                                 </div>
@@ -894,19 +899,19 @@
                                                 <div class="fieldset">
 
                                                     <div class="input input-text" id="modal_input_elastic_source_elastic_data_index" style="margin-bottom: 10px; max-width: 300px;">
-                                                        <label>Optional: index value visible in the UI (white|blacklist applies)</label>
+                                                        <label class="splunk-input-label">Optional: index value visible in the UI (white|blacklist applies)</label>
                                                     </div>
 
                                                     <div class="input input-text" id="modal_input_elastic_source_elastic_data_sourcetype" style="margin-bottom: 10px; max-width: 300px;">
-                                                        <label>Optional: sourcetype visible in the UI (white|blacklist applies)</label>
+                                                        <label class="splunk-input-label">Optional: sourcetype visible in the UI (white|blacklist applies)</label>
                                                     </div>
 
                                                     <div class="input input-text" id="modal_input_elastic_source_earliest" style="margin-bottom: 10px; max-width: 300px;">
-                                                        <label>Earliest, for dedicated trackers only (shared tracker uses -4h)</label>
+                                                        <label class="splunk-input-label">Earliest, for dedicated trackers only (shared tracker uses -4h)</label>
                                                     </div>
 
                                                     <div class="input input-text" id="modal_input_elastic_source_latest" style="margin-bottom: 10px; max-width: 300px;">
-                                                        <label>Latest, for dedicated trackers only (shared tracker uses +4h)</label>
+                                                        <label class="splunk-input-label">Latest, for dedicated trackers only (shared tracker uses +4h)</label>
                                                     </div>
 
                                                 </div>
@@ -1006,7 +1011,7 @@
                                             <div>
                                                 <div class="fieldset">
                                                     <div class="input input-text" id="modal_input_elastic_sources_search" style="margin-bottom: 10px;">
-                                                        <label>Search for elastic source:</label>
+                                                        <label class="splunk-input-label">Search for elastic source:</label>
                                                     </div>
                                                 </div>
                                             </div>
@@ -1070,7 +1075,7 @@
                                             <div>
                                                 <div class="fieldset">
                                                     <div class="input input-text" id="modal_input_elastic_sources_dedicated_search" style="margin-bottom: 10px;">
-                                                        <label>Search for elastic source:</label>
+                                                        <label class="splunk-input-label">Search for elastic source:</label>
                                                     </div>
                                                 </div>
                                             </div>
@@ -1245,7 +1250,6 @@
                                         <h1>Manage allowlists &amp; blocklists for data sources</h1>
                                         <button type="button" class="close" data-dismiss="modal"></button>
                                     </div>
-
                                     <div class="modal-body" style="display:grid;">
                                         <h1>Allowlist of indexes at data discovery and search time:</h1>
                                         <ul>
@@ -1254,9 +1258,8 @@
                                             <li>Indexes allowlisting is applied at discovery and search time, but can require the collection to be reset or previously discovered entities to be removed manually</li>
                                         </ul>
                                     </div>
-
                                     <div class="modal-body" style="display:grid;">
-                                        <h1>Blocklists: use these features to blacklist hosts, indexes, sourcetypes or data names at data discovery and search time.</h1>
+                                        <h1>Blocklists: use these features to blocklist hosts, indexes, sourcetypes or data names at data discovery and search time.</h1>
                                         <ul>
                                             <li>Hosts that have been blocklisted are excluded from the data discovery</li>
                                             <li>Indexes that have been blocklisted are excluded from the data discovery, and from alerting results at search time</li>
@@ -1264,7 +1267,6 @@
                                             <li>Data names are the entities identifiers created by TrackMe, blocklisting will prevent their creation during discovery and at search time</li>
                                         </ul>
                                     </div>
-
                                 </div>
                             </div>
                             <div class="modal-footer">
@@ -1297,31 +1299,19 @@
                             <div id="body_modal_manage_data_host_blacklists">
                                 <div>
                                     <div class="modal-header modal-header-danger">
-                                        <h1 style="color: white;">Manage allowlists &amp; blocklists for data hosts</h1>
+                                        <h1>Manage allowlists &amp; blocklists for data hosts</h1>
                                         <button type="button" class="close" data-dismiss="modal"></button>
                                     </div>
-
-                                    <div class="modal-body" style="margin-bottom: 10px;">
-                                        <span class="title_green">Allowlist</span>
-                                    </div>
-
                                     <div class="modal-body" style="display:grid;">
-                                        <b>Allowlist of indexes at data discovery and search time:</b>
+                                        <h1>Allowlist of indexes at data discovery and search time:</h1>
                                         <ul>
                                             <li>By default, trackMe searches for entities in all available indexes</li>
                                             <li>You can restrict at any time the list of indexes allowed by editing the content of the allowlist collections</li>
                                             <li>Indexes allowlisting is applied at discovery and search time, but can require the collection to be reset or previously discovered entities to be removed manually</li>
                                         </ul>
                                     </div>
-
-                                    <br />
-
-                                    <div class="modal-body" style="margin-bottom: 10px;">
-                                        <span class="title_red">Blocklist</span>
-                                    </div>
-
                                     <div class="modal-body" style="display:grid;">
-                                        <b>Use these features to blocklist hosts, indexes or sourcetypes at data discovery and search time.</b>
+                                        <h1>Blocklists: use these features to blocklist hosts, indexes, sourcetypes or data names at data discovery and search time.</h1>
                                         <ul>
                                             <li>Hosts that have been blocklisted are excluded from the data discovery, and from alerting results at search time</li>
                                             <li>Indexes that have been blocklisted are excluded from the data discovery, and from alerting results at search time</li>
@@ -1329,7 +1319,6 @@
                                             <li>When adding indexes and sourcetypes in blocklist, existing entities need to purged or reset, or the whole collection should be reset to reflect the changes</li>
                                         </ul>
                                     </div>
-
                                 </div>
                             </div>
                             <div class="modal-footer">
@@ -1359,38 +1348,25 @@
                             <div id="body_modal_manage_metric_host_blacklists">
                                 <div>
                                     <div class="modal-header modal-header-danger">
-                                        <h1 style="color: white;">Manage allowlists &amp; blocklists for metric hosts</h1>
+                                        <h1>Manage allowlists &amp; blocklists for metric hosts</h1>
                                         <button type="button" class="close" data-dismiss="modal"></button>
                                     </div>
-
-                                    <div class="modal-body" style="margin-bottom: 10px;">
-                                        <span class="title_green">Allowlist</span>
-                                    </div>
-
                                     <div class="modal-body" style="display:grid;">
-                                        <b>Allowlist of indexes at data discovery and search time:</b>
+                                        <h1>Allowlist of indexes at data discovery and search time:</h1>
                                         <ul>
                                             <li>By default, trackMe searches for entities in all available indexes</li>
                                             <li>You can restrict at any time the list of indexes allowed by editing the content of the allowlist collections</li>
                                             <li>Indexes allowlisting is applied at discovery and search time, but can require the collection to be reset or previously discovered entities to be removed manually</li>
                                         </ul>
                                     </div>
-
-                                    <br />
-
-                                    <div class="modal-body" style="margin-bottom: 10px;">
-                                        <span class="title_red">Blocklist</span>
-                                    </div>
-
                                     <div class="modal-body" style="display:grid;">
-                                        <b>Blocklist: use this feature to globally exclude one of more type of metrics at data discovery and search time.</b>
+                                        <h1>Blocklist: use this feature to globally exclude one of more type of metrics at data discovery and search time.</h1>
                                         <ul>
                                             <li>So called metric category represents the first part of the metric name, and is extracted while discovering the metrics available</li>
                                             <li>For example, metric_category=cpu would exclude any metric_name=cpu.*</li>
                                             <li>You can add or remove metric categories in blacklist at any time</li>
                                         </ul>
                                     </div>
-
                                 </div>
                             </div>
                             <div class="modal-footer">
@@ -1427,21 +1403,21 @@
                                 <h1><span class="glyphicon glyphicon-lock"></span> Modify index allowlisting</h1>
                             </div>
                             <div class="modal-body">
-                                <h1>If no indexes are in allowlist, TrackMe uses all searchable indexes, otherwise only the indexes in allowlist will be taken into account</h1>
+                                <h2>If no indexes are in allowlist, TrackMe uses all searchable indexes, otherwise only the indexes in allowlist will be taken into account</h2>
 
-                                <div id="singleWhiteListDataSource">
+                                <div style="margin-right: -350px;" id="singleWhiteListDataSource">
                                 </div>
 
-                                <div class="input input-linklist" style="margin-bottom: 20px;" id="inputLinkTimeWhiteListDataSource">
+                                <div class="input input-linklist" style="margin-left: 20px; margin-top: -66px; margin-bottom: 20px;" id="inputLinkTimeWhiteListDataSource">
                                     <label></label>
                                 </div>
 
                                 <div class="fieldset">
                                     <div class="input input-dropdown" id="modal_input_data_source_whitelist">
-                                        <label>index name:</label>
+                                        <label class="splunk-input-label">Index name:</label>
                                     </div>
                                     <div class="input input-dropdown" style="width: 400px;" id="modal_textinput_data_source_whitelist">
-                                        <label>or manual index name expression: (supports wildcards)</label>
+                                        <label class="splunk-input-label">Or manual index name expression: (supports wildcards)</label>
                                     </div>
                                 </div>
 
@@ -1449,20 +1425,10 @@
                                     <button id="btn_modal_data_source_whitelist_add" type="submit" class="btn btn-outline-primary" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Add this index</button>
                                 </div>
 
-                                <div id="panelWhiteListDataSourceEmpty" style="display: none;">
-                                    <div>
-                                        <div>
-                                            <div class="modal-body">
-                                                <h3 style="color: lightslategray;">All indexes are currently allowed in the data discovery, or your search did generate any results.</h3>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
                                 <div style="margin-top: 20px;">
                                     <div class="fieldset">
                                         <div class="input input-text" id="modal_input_data_source_whitelist_search" style="margin-bottom: 10px;">
-                                            <label>Search for index name:</label>
+                                            <label class="splunk-input-label">Search for index name:</label>
                                         </div>
                                     </div>
                                 </div>
@@ -1487,7 +1453,6 @@
                 <!-- whitelist data_host -->
                 <div class="modal fade custom-modal-50" id="modal_modify_data_host_whitelist" role="dialog">
                     <div class="modal-dialog">
-
                         <!-- Modal content-->
                         <div class="modal-content">
                             <div class="modal-header modal-header-danger">
@@ -1495,112 +1460,48 @@
                                 <h1><span class="glyphicon glyphicon-lock"></span> Modify index allowlisting</h1>
                             </div>
                             <div class="modal-body">
-                                <b>If no indexes are in allowlist, TrackMe will use all available indexes, otherwise only the indexes in allowlist will be taken in charge</b>
-                                <br /><br />
+                                <h2>If no indexes are in allowlist, TrackMe uses all searchable indexes, otherwise only the indexes in allowlist will be taken into account</h2>
 
-                                <div class="boxnotify" id="boxnotify-modal_modify_data_host_whitelist">
+                                <div style="margin-right: -350px;" id="singleWhiteListDataHost">
                                 </div>
 
-                                <div>
-                                    <div>
-
-                                        <div>
-                                            <div>
-
-                                                <div class="fieldset">
-
-                                                    <div class="input input-linklist" id="inputLinkTimeWhiteListDataHost">
-                                                        <label></label>
-                                                    </div>
-
-                                                    <div class="input input-dropdown" id="modal_input_data_host_whitelist" style="margin-top: 10px; margin-bottom: 10px;">
-                                                        <label>index name:</label>
-                                                    </div>
-
-                                                    <div class="input input-dropdown" id="modal_textinput_data_host_whitelist" style="margin-bottom: 10px;">
-                                                        <label>or manual index name expression: (supports wildcards)</label>
-                                                    </div>
-
-                                                    <div style="margin-bottom: 10px;">
-                                                        <button id="btn_modal_data_host_whitelist_add" type="submit" class="btn btn-default btn-primary" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Add this index</button>
-                                                    </div>
-
-                                                </div>
-
-                                            </div>
-                                        </div>
-
-                                    </div>
-
-                                    <div style="width: 50%;">
-                                        <div>
-
-                                            <div>
-                                                <div id="singleWhiteListDataHost">
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-
+                                <div class="input input-linklist" style="margin-left: 20px; margin-top: -66px; margin-bottom: 20px;" id="inputLinkTimeWhiteListDataHost">
+                                    <label></label>
                                 </div>
 
-                                <div data-rejects="$show_table_data_host_whitelist$">
-                                    <div>
+                                <div class="fieldset">
+                                    <div class="input input-dropdown" id="modal_input_data_host_whitelist">
+                                        <label class="splunk-input-label">Index name:</label>
+                                    </div>
+                                    <div class="input input-dropdown" style="width: 400px;" id="modal_textinput_data_host_whitelist">
+                                        <label class="splunk-input-label">Or manual index name expression: (supports wildcards)</label>
+                                    </div>
+                                </div>
 
-                                        <div>
-                                            <div>
+                                <div style="margin-top: 20px; margin-left: 20px;">
+                                    <button id="btn_modal_data_host_whitelist_add" type="submit" class="btn btn-outline-primary" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Add this index</button>
+                                </div>
 
-                                                <div class="modal-body">
-                                                    <h3 style="color: lightslategray;">All indexes are currently allowed in the data discovery, or your search did not return any results.</h3>
-                                                    <br /><br />
-                                                </div>
-
-                                            </div>
+                                <div style="margin-top: 20px;">
+                                    <div class="fieldset">
+                                        <div class="input input-text" id="modal_input_data_host_whitelist_search" style="margin-bottom: 10px;">
+                                            <label class="splunk-input-label">Search for index name:</label>
                                         </div>
-
                                     </div>
                                 </div>
 
                                 <div>
-                                    <div style="margin-top: -25px; width: 100%;">
-
-                                        <div>
-                                            <div>
-
-                                                <div class="fieldset">
-                                                    <div class="input input-text" id="modal_input_data_host_whitelist_search" style="margin-bottom: 10px;">
-                                                        <label>Search for index name:</label>
-                                                    </div>
-                                                </div>
-
-                                            </div>
-                                        </div>
-
-                                    </div>
-                                </div>
-
-                                <div>
-                                    <div>
-
-                                        <div>
-                                            <div>
-
-                                                <div class="fieldset">
-                                                    <div id="tableWhiteListDataHost">
-                                                        <label>Select entries and use the remove selected button:</label>
-                                                    </div>
-                                                </div>
-
-                                            </div>
-                                        </div>
-
+                                    <div id="tableWhiteListDataHost">
+                                        <label>Select entries and use the remove selected button:</label>
+                                        <div class="panel-footer" style="display: none;"></div>
                                     </div>
                                 </div>
 
                             </div>
-                            <div class="modal-footer">
-                                <button type="submit" id="btn_modal_data_host_whitelist_add_cancel" class="btn btn-default btn-primary pull-left" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Back</button>
-                                <button type="submit" id="btn_modal_data_host_whitelist_add_delete" class="btn btn-default btn-danger pull-right" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Remove selected</button>
+
+                            <div class="modal-footer" style="margin-top: 30px;">
+                                <button type="submit" id="btn_modal_data_host_whitelist_add_cancel" class="btn btn-outline-primary pull-left" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Back</button>
+                                <button type="submit" id="btn_modal_data_host_whitelist_add_delete" class="btn btn-outline-danger pull-right" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Remove selected</button>
                             </div>
                         </div>
                     </div>
@@ -1617,109 +1518,45 @@
                                 <h1><span class="glyphicon glyphicon-lock"></span> Modify index allowlisting</h1>
                             </div>
                             <div class="modal-body">
-                                <b>If no indexes are in allowlist, TrackMe will use all available indexes, otherwise only the indexes in allowlist will be taken in charge</b>
-                                <br /><br />
+                                <h2>If no indexes are in allowlist, TrackMe uses all searchable indexes, otherwise only the indexes in allowlist will be taken into account</h2>
 
-                                <div class="boxnotify" id="boxnotify-modal_modify_metric_host_whitelist">
+                                <div style="margin-right: -350px;" id="singleWhiteListMetricHost">
                                 </div>
 
-                                <div>
-                                    <div>
-
-                                        <div>
-                                            <div>
-
-                                                <div class="fieldset">
-
-                                                    <div class="input input-linklist" id="inputLinkTimeWhiteListMetricHost">
-                                                        <label></label>
-                                                    </div>
-
-                                                    <div class="input input-dropdown" id="modal_input_metric_host_whitelist" style="margin-top: 10px; margin-bottom: 10px;">
-                                                        <label>index name:</label>
-                                                    </div>
-
-                                                    <div class="input input-dropdown" id="modal_textinput_metric_host_whitelist" style="margin-bottom: 10px;">
-                                                        <label>or manual index name expression: (supports wildcards)</label>
-                                                    </div>
-
-                                                    <div style="margin-bottom: 10px;">
-                                                        <button id="btn_modal_metric_host_whitelist_add" type="submit" class="btn btn-default btn-primary" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Add this index</button>
-                                                    </div>
-
-                                                </div>
-
-                                            </div>
-                                        </div>
-
-                                    </div>
-
-                                    <div style="width: 50%;">
-                                        <div>
-
-                                            <div>
-                                                <div id="singleWhiteListMetricHost">
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-
+                                <div class="input input-linklist" style="margin-left: 20px; margin-top: -66px; margin-bottom: 20px;" id="inputLinkTimeWhiteListMetricHost">
+                                    <label></label>
                                 </div>
 
-                                <div data-rejects="$show_table_metric_host_whitelist$">
-                                    <div>
+                                <div class="fieldset">
+                                    <div class="input input-dropdown" id="modal_input_metric_host_whitelist">
+                                        <label class="splunk-input-label">Index name:</label>
+                                    </div>
+                                    <div class="input input-dropdown" style="width: 400px;" id="modal_textinput_metric_host_whitelist">
+                                        <label class="splunk-input-label">Or manual index name expression: (supports wildcards)</label>
+                                    </div>
+                                </div>
 
-                                        <div>
-                                            <div>
+                                <div style="margin-top: 20px; margin-left: 20px;">
+                                    <button id="btn_modal_metric_host_whitelist_add" type="submit" class="btn btn-outline-primary" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Add this index</button>
+                                </div>
 
-                                                <div class="modal-body">
-                                                    <h3 style="color: lightslategray;">All indexes are currently allowed in the data discovery, or your search did return any results.</h3>
-                                                    <br /><br />
-                                                </div>
-
-                                            </div>
+                                <div style="margin-top: 20px;">
+                                    <div class="fieldset">
+                                        <div class="input input-text" id="modal_input_metric_host_whitelist_search" style="margin-bottom: 10px;">
+                                            <label class="splunk-input-label">Search for index name:</label>
                                         </div>
-
                                     </div>
                                 </div>
 
                                 <div>
-                                    <div style="margin-top: -25px; width: 100%;">
-
-                                        <div>
-                                            <div>
-
-                                                <div class="fieldset">
-                                                    <div class="input input-text" id="modal_input_metric_host_whitelist_search" style="margin-bottom: 10px;">
-                                                        <label>Search for index name:</label>
-                                                    </div>
-                                                </div>
-
-                                            </div>
-                                        </div>
-
-                                    </div>
-                                </div>
-
-                                <div>
-                                    <div>
-
-                                        <div>
-                                            <div>
-
-                                                <div class="fieldset">
-                                                    <div id="tableWhiteListMetricHost">
-                                                        <label>Select entries and use the remove selected button:</label>
-                                                    </div>
-                                                </div>
-
-                                            </div>
-                                        </div>
-
+                                    <div id="tableWhiteListMetricHost">
+                                        <label>Select entries and use the remove selected button:</label>
+                                        <div class="panel-footer" style="display: none;"></div>
                                     </div>
                                 </div>
 
                             </div>
+
                             <div class="modal-footer">
                                 <button type="submit" id="btn_modal_metric_host_whitelist_add_cancel" class="btn btn-default btn-primary pull-left" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Back</button>
                                 <button type="submit" id="btn_modal_metric_host_whitelist_add_delete" class="btn btn-default btn-danger pull-right" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Remove selected</button>
@@ -1770,7 +1607,7 @@
 
                                                 <div class="fieldset">
                                                     <div class="input input-text" id="modal_input_data_source_blacklist_host" style="margin-bottom: 10px;">
-                                                        <label>host name or expression:</label>
+                                                        <label class="splunk-input-label">Host name or expression:</label>
                                                     </div>
 
                                                     <div style="margin-bottom: 10px;">
@@ -1802,7 +1639,7 @@
                                             <div>
                                                 <div class="fieldset">
                                                     <div class="input input-text" id="modal_input_data_source_blacklist_host_search" style="margin-bottom: 10px;">
-                                                        <label>Search for host name:</label>
+                                                        <label class="splunk-input-label">Search for host name:</label>
                                                     </div>
                                                 </div>
                                             </div>
@@ -1869,7 +1706,7 @@
 
                                                 <div class="fieldset">
                                                     <div class="input input-text" id="modal_input_data_source_blacklist_index" style="margin-bottom: 10px;">
-                                                        <label>index name or expression:</label>
+                                                        <label class="splunk-input-label">Index name or expression:</label>
                                                     </div>
 
                                                     <div style="margin-bottom: 10px;">
@@ -1903,7 +1740,7 @@
 
                                                 <div class="fieldset">
                                                     <div class="input input-text" id="modal_input_data_source_blacklist_index_search" style="margin-bottom: 10px;">
-                                                        <label>Search for index name:</label>
+                                                        <label class="splunk-input-label">Search for index name:</label>
                                                     </div>
                                                 </div>
 
@@ -1976,7 +1813,7 @@
 
                                                 <div class="fieldset">
                                                     <div class="input input-text" id="modal_input_data_source_blacklist_sourcetype" style="margin-bottom: 10px;">
-                                                        <label>sourcetype name or expression:</label>
+                                                        <label class="splunk-input-label">sourcetype name or expression:</label>
                                                     </div>
 
                                                     <div style="margin-bottom: 10px;">
@@ -2010,7 +1847,7 @@
 
                                                 <div class="fieldset">
                                                     <div class="input input-text" id="modal_input_data_source_blacklist_sourcetype_search" style="margin-bottom: 10px;">
-                                                        <label>Search for sourcetype name:</label>
+                                                        <label class="splunk-input-label">Search for sourcetype name:</label>
                                                     </div>
                                                 </div>
 
@@ -2083,7 +1920,7 @@
 
                                                 <div class="fieldset">
                                                     <div class="input input-text" id="modal_input_data_source_blacklist_data_name" style="margin-bottom: 10px;">
-                                                        <label>data name or expression:</label>
+                                                        <label class="splunk-input-label">data name or expression:</label>
                                                     </div>
 
                                                     <div style="margin-bottom: 10px;">
@@ -2117,7 +1954,7 @@
 
                                                 <div class="fieldset">
                                                     <div class="input input-text" id="modal_input_data_source_blacklist_data_name_search" style="margin-bottom: 10px;">
-                                                        <label>Search for data name:</label>
+                                                        <label class="splunk-input-label">Search for data name:</label>
                                                     </div>
                                                 </div>
 
@@ -2194,7 +2031,7 @@
 
                                                 <div class="fieldset">
                                                     <div class="input input-text" id="modal_input_data_host_blacklist_host" style="margin-bottom: 10px;">
-                                                        <label>host name or expression:</label>
+                                                        <label class="splunk-input-label">host name or expression:</label>
                                                     </div>
 
                                                     <div style="margin-bottom: 10px;">
@@ -2226,7 +2063,7 @@
                                             <div>
                                                 <div class="fieldset">
                                                     <div class="input input-text" id="modal_input_data_host_blacklist_host_search" style="margin-bottom: 10px;">
-                                                        <label>Search for host name:</label>
+                                                        <label class="splunk-input-label">Search for host name:</label>
                                                     </div>
                                                 </div>
                                             </div>
@@ -2340,11 +2177,11 @@
                                         <button type="button" class="close" data-dismiss="modal"></button>
                                     </div>
                                     <div class="modal-body">
-                                        <p><b>Confirm modification ?</b><br />
+                                        <p><b>Confirm modification ?</b>
                                         </p>
                                         <div class="custom-textarea">
                                             <p>
-                                                <label>Optional: enter a note of this update. <br />
+                                                <label>Optional: enter a note of this update.
                                                     This note will be logged and made available for notification.</label>
                                                 <textarea
                                                         id = "metric_host_whitelist_index_delete_comment"
@@ -2382,11 +2219,11 @@
                                         <button type="button" class="close" data-dismiss="modal"></button>
                                     </div>
                                     <div class="modal-body">
-                                        <p><b>Confirm modification ?</b><br />
+                                        <p><b>Confirm modification ?</b>
                                         </p>
                                         <div class="custom-textarea">
                                             <p>
-                                                <label>Optional: enter a note of this update. <br />
+                                                <label>Optional: enter a note of this update.
                                                     This note will be logged and made available for notification.</label>
                                                 <textarea
                                                         id = "data_host_whitelist_index_delete_comment"
