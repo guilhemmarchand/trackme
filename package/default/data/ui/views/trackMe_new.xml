@@ -1,4 +1,4 @@
-<form version="1.1" theme="dark" stylesheet="trackme:common.css,trackme:notifybar/jquery.notifyBar.css,trackme:css-loader/css-loader.css" script="trackMe_home_v100.js" hideEdit="true">
+<form version="1.1" theme="dark" stylesheet="trackme:common.css,trackme:notifybar/jquery.notifyBar.css,trackme:css-loader/css-loader.css,trackme:checkbox_table.css" script="trackMe_home_v100.js" hideEdit="true">
 <label>TrackMe - Data tracking system</label>
 <description>Monitoring your Splunk data availability made easy</description>
 
@@ -40,7 +40,42 @@
 
 /* modal header classes */
 .modal-header-info h1 {
-    color: dodgerblue;
+    color: #A7C7E7;
+}
+
+/* modal header classes */
+.modal-header-success h1 {
+    color: #77dd77;
+}
+
+/* modal header classes */
+.modal-header-danger h1 {
+    color: #ff6961;
+}
+
+/*Notification alerts*/
+
+[class^="boxnotify"] {
+    position: fixed;
+    bottom: 1em;
+    left: 1em;
+    z-index: 999999;
+}
+
+[class^="boxnotify"] p {
+    background-color: rgba(0, 0, 0, .7);
+    width: 600px;
+    border-radius: 5px;
+    padding: .7em;
+    margin: .5em;
+    color: white;
+    font-size: 1.6em;
+    display: none;
+}
+
+/* Fix an issue with dark theme */
+.dashboard-row .dashboard-panel .panel-footer.show, .dashboard-row .dashboard-panel .dashboard-element:hover .panel-footer {
+    background-color: inherit; !important
 }
 
 /*** Buttons ***/
@@ -314,7 +349,7 @@
         }
 
         .btn-outline-primary {
-        color: #007bff;
+        color: #fff;
         border-color: #007bff;
         }
 
@@ -346,7 +381,7 @@
         }
 
         .btn-outline-secondary {
-        color: #6c757d;
+        color: #fff;
         border-color: #6c757d;
         }
 
@@ -410,7 +445,7 @@
         }
 
         .btn-outline-info {
-        color: #17a2b8;
+        color: #fff;
         border-color: #17a2b8;
         }
 
@@ -442,7 +477,7 @@
         }
 
         .btn-outline-warning {
-        color: #ffc107;
+        color: #fff;
         border-color: #ffc107;
         }
 
@@ -474,7 +509,7 @@
         }
 
         .btn-outline-danger {
-        color: #dc3545;
+        color: #fff;
         border-color: #dc3545;
         }
 
@@ -725,6 +760,476 @@
                     </div>
                 </div>
 
+                <!--
+                Elastic sources
+                -->
+
+                <div class="modal fade custom-modal-80" id="modify_elastic_sources_main" role="dialog">
+                    <div class="modal-dialog">
+
+                        <!-- Modal content-->
+                        <div class="modal-content">
+                            <div class="modal-header modal-header-info">
+                                <button type="button" class="close" data-dismiss="modal"></button>
+                                <h1><span class="glyphicon glyphicon-lock"></span>TrackMe Elastic sources - Manage and create</h1>
+                            </div>
+                            <div class="modal-body">
+                                <b>Elastic sources are custom flexible data sources entities, which can be searches based on regular raw events searches, tstats searches, from command based searches and metric indexes using the mstats command:</b>
+
+                                <ul>
+                                    <li>Consult the <a target="_blank" href="https://trackme.readthedocs.io/en/latest/userguide.html#elastic-sources">Elastic Sources documentation</a> for more information and detailed examples</li>
+                                    <li>Elastic sources should be used when the default concept of trackMe (statement by index/sourcetype) does not comply with your requirements, or does not provide the level of flexibility requested</li>                        
+                                    <li>Elastic sources can be based on a shared or dedicated tracker, the shared elastic tracker loads the content of the lookup trackme_elastic_sources, and performs all the searches in a single execution</li>
+                                    <li>A dedicated elastic tracker is a scheduled report created in the UI to manage, automatically integrated with TrackMe workflow</li>
+                                    <li>For large volume sources or advanced use cases such as mapping additional lookups, the usage of a dedicated elastic tracker is recommended (the search can be cutomised after its creation)</li>
+                                    <li>The shared elastic tracker should be reserved for high performing searches, ideally tstats based searches relying on indexed fields</li>
+                                </ul>
+
+                                <style type="text/css">
+                                .tg  {border-collapse:collapse;border-spacing:0;}
+                                .tg td{border-color:black;border-style:solid;border-width:1px;font-family:Arial, sans-serif;font-size:14px;
+                                overflow:hidden;padding:10px 5px;word-break:normal;}
+                                .tg th{border-color:black;border-style:solid;border-width:1px;font-family:Arial, sans-serif;font-size:14px;
+                                font-weight:normal;overflow:hidden;padding:10px 5px;word-break:normal;}
+                                .tg .tg-p1nr{border-color:inherit;font-size:12px;text-align:left;vertical-align:top}
+                                .tg .tg-f4iu{border-color:inherit;font-size:13px;text-align:center;vertical-align:top}
+                                </style>
+                                <table class="tg" style="line-height: 90%;">
+                                    <thead>
+                                    <tr>
+                                        <th class="tg-f4iu"><span style="font-weight:bold">FIELD</span></th>
+                                        <th class="tg-f4iu"><span style="font-weight:bold">DEFINITION</span></th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr>
+                                        <td class="tg-p1nr"><span style="font-weight:bold">data_name</span></td>
+                                        <td class="tg-p1nr">This is the main identifier for a data source, and needs to be unique within the entire collection</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="tg-p1nr"><span style="font-weight:bold">search_mode</span></td>
+                                        <td class="tg-p1nr">The type of search, valid options are: <strong>tstats</strong> / <strong>raw</strong> / <strong>from</strong> / <strong>mstats</strong></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="tg-p1nr"><span style="font-weight:bold">search_constraint</span></td>
+                                        <td class="tg-p1nr">The constraint of the search:<br />- <strong>tstats</strong>: this represents the where part of a tstats search, as: <span><code>index=my_index source=my_source</code></span><br />- <strong>raw</strong>: Any filter that is before stats calculation, as: <span><code>index=my_index tag=authentication app=my_application</code></span><br />- <strong>from (datamodel)</strong>: a search using from is in 2 parts with a pipe separation, where the 1st segment is the object and the 2nd a search constraint, as: <span><br /><code>datamodel:"Authentication" | search user="*" action="success" app="my_application"</code></span> <br />- <strong>from (lookup)</strong>: A lookup can be monitored with the from command, it requires the lookup to have a time field concept, and a field _time in epoch time format needs to be created using an eval function with strftime/strptime, such as: <span><br /><code>lookup:"my_lookup" | eval _time=strptime(lastUpdated, "%d/%m/%Y %H:%M:%S")</code></span> <br />- <strong>mstats</strong>: Allows monitoring metric indexes according to your constraints including dimensions, as: <span><code>index="k8s_metrics" metric_name="k8s.*" cluster_name="production"</code></span> <br />Filters can include a time range which will override the default 4 hours time range of the wrapper tracker, as: <span><code>earliest="-15m" latest="+15m"</code></span>
+                                        
+                                            <br />- <strong>rest</strong>: these are special remote searches performed against the <a target="_blank" href="https://docs.splunk.com/Documentation/Splunk/latest/RESTTUT/RESTsearches">Splunk API</a> using the SPL <a target="_blank" href="https://docs.splunk.com/Documentation/Splunk/latest/SearchReference/Rest">rest command.</a> This allows tracking data that is not available to the search head(s) hosting TrackMe.
+                                            <br />Syntax examples for rest searches, the first part before the pipe needs to contain the rest target:
+                                            <br />
+                                            <span><code>splunk_server="my_search_head" | index=my_index source=my_source</code></span>
+                                            <br />
+                                            <span><code>splunk_server_group="dmc_searchheadclustergroup_shc1" | lookup:asset_cmdb_lookup | eval _time=strptime(lastUpdated, "%d/%m/%Y %H:%M:%S")</code></span>
+
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="tg-p1nr"><span style="font-weight:bold">elastic _data_index</span></td>
+                                        <td class="tg-p1nr">Optional, this value will be used in the UI but has no impacts on the search, default to the data_name if unset</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="tg-p1nr"><span style="font-weight:bold">elastic_data_sourcetype</span></td>
+                                        <td class="tg-p1nr"><span style="font-weight:400;font-style:normal">Optional, this value will be used in the UI but has no impacts on the search, default to the data_name if unset</span></td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+
+                            <div class="modal-footer">
+                                <button id="btn_modal_elastic_sources_manage" type="submit" style="margin-right: 15px;" class="btn btn-outline-primary pull-left" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Manage existing shared elastic sources</button>
+                                <button id="btn_modal_elastic_sources_dedicated_manage" type="submit" style="margin-right: 15px;" class="btn btn-outline-primary pull-left" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Manage existing dedicated elastic sources</button>                    
+                                <button id="btn_modal_elastic_sources_add" type="submit" class="btn btn-outline-primary pull-left" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Create a new elastic source</button>
+                                <button type="submit" class="btn btn-outline-secondary pull-right" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Cancel</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal fade custom-modal-80" id="add_elastic_sources" role="dialog">
+                    <div class="modal-dialog">
+
+                        <!-- Modal content-->
+                        <div class="modal-content">
+                            <div class="modal-header modal-header-info">
+                                <button type="button" class="close" data-dismiss="modal"></button>
+                                <h1><span class="glyphicon glyphicon-lock"></span> Elastic sources definition: use this interface to create and manage elastic sources</h1>
+                            </div>
+                            <div class="modal-body">
+
+                                <div class="boxnotify" id="boxnotify-add_elastic_source">
+                                </div>
+
+                                <div>
+
+                                    <div>
+
+                                        <div>
+
+                                            <div>
+
+                                                <div style="display: inline-flex;">
+
+                                                    <div class="input input-text" id="modal_input_elastic_source_data_name" style="margin-bottom: 10px; min-width: 500px; max-width: 500px; margin-right: 150px;">
+                                                        <label>Enter the unique identifier of the elastic source:</label>
+                                                    </div>
+
+                                                    <div class="input input-dropdown" id="modal_input_elastic_source_search_type" style="margin-bottom: 10px;">
+                                                        <label>Choose the type of search:</label>
+                                                    </div>
+
+                                                </div>
+
+                                                <div class="custom-textarea">
+                                                    <legend style="color: white;">Fill the search constraint according to the type of search:</legend>
+                                                    <p>
+                                                        <label>Enter the constraint for the search:</label>
+                                                        <textarea
+                                                                id = "modal_input_elastic_source_search_constraint"
+                                                                rows = "3"
+                                                                cols = "80" style="width: 1100px;"
+                                                                onfocus="if(this.value==this.defaultValue)this.value='';" onblur="if(this.value=='')this.value=this.defaultValue;">Enter the Splunk search constraint chain according to the type of search selected</textarea>
+                                                    </p>
+                                                </div>
+
+                                                <div class="fieldset">
+
+                                                    <div class="input input-text" id="modal_input_elastic_source_elastic_data_index" style="margin-bottom: 10px; max-width: 300px;">
+                                                        <label>Optional: index value visible in the UI (white|blacklist applies)</label>
+                                                    </div>
+
+                                                    <div class="input input-text" id="modal_input_elastic_source_elastic_data_sourcetype" style="margin-bottom: 10px; max-width: 300px;">
+                                                        <label>Optional: sourcetype visible in the UI (white|blacklist applies)</label>
+                                                    </div>
+
+                                                    <div class="input input-text" id="modal_input_elastic_source_earliest" style="margin-bottom: 10px; max-width: 300px;">
+                                                        <label>Earliest, for dedicated trackers only (shared tracker uses -4h)</label>
+                                                    </div>
+
+                                                    <div class="input input-text" id="modal_input_elastic_source_latest" style="margin-bottom: 10px; max-width: 300px;">
+                                                        <label>Latest, for dedicated trackers only (shared tracker uses +4h)</label>
+                                                    </div>
+
+                                                </div>
+
+                                                <div>
+                                                    <h3 style="color: white;">Caution: allowlist indexes and blocklists apply to elastic trackers, make sure to configure these accordingly or use valid index and sourcetype values</h3>
+                                                    <button type="submit" id="btn_modal_elastic_source_add_simulate" style="margin-right: 15px;" class="btn btn-outline-primary"><span class="glyphicon glyphicon-remove"></span> Simulate the search</button>
+                                                    <button type="submit" id="btn_modal_elastic_source_add_new" style="margin-right: 15px;" class="btn btn-outline-primary"><span class="glyphicon glyphicon-remove"></span> Add to the shared tracker</button>
+                                                    <button type="submit" id="btn_modal_elastic_source_dedicated_add_new" style="margin-right: 15px;" class="btn btn-outline-primary"><span class="glyphicon glyphicon-remove"></span> Add as a new dedicated tracker</button>
+                                                </div>
+
+                                            </div>
+
+                                            <br />
+
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+                                <div id="divElasticSourcesTest" style="display: none; min-height: 140px;">
+                                    <div id="tableElasticSourcesTest" class="view-elements">
+                                    </div>
+                                    <div id="resultsLinktableElasticSourcesTest" class="search-elements">
+                                    </div>
+                                    <br />
+                                </div>
+
+                            </div>
+                            <div class="modal-footer">
+                                <button type="submit" class="btn btn-outline-secondary pull-left" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Cancel</button>
+                                <button type="submit" id="btn_modal_elastic_sources_add_new_back" class="btn btn-outline-secondary pull-right" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Back</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Modal window confirmation -->
+                <div class="modal fade" id="add_elastic_source_processed" role="dialog">
+                    <div class="modal-dialog">
+
+                        <!-- Modal content-->
+                        <div class="modal-content">
+                            <div class="modal-header modal-header-success">
+                                <button type="button" class="close" data-dismiss="modal"></button>
+                                <h1><span class="glyphicon glyphicon-lock"></span>New elastic source successfully added.</h1>
+                            </div>
+                            <div class="modal-body">
+                                <h1>Congratulations, the new elastic source was successfully added to the shared tracker collection.</h1>
+                                <h2>The following new configuration was created:</h2>
+                                <div class="modal-error-message" style="margin: 10px 0; padding: 10px; border-radius: 3px 3px 3px 3px; color: white; background-color: dodgerblue;">
+                                    <p>success return message</p>
+                                </div>
+                            </div>
+
+                            <div class="modal-footer">
+                                <button type="submit" id="add_elastic_source_processed_run_tracker" class="btn btn-outline-primary" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Run Elastic Shared tracker now</button>
+                                <button type="submit" class="btn btn-outline-secondary" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Close</button>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="modal fade custom-modal-80" id="modify_elastic_sources" role="dialog">
+                    <div class="modal-dialog">
+
+                        <!-- Modal content-->
+                        <div class="modal-content">
+                            <div class="modal-header modal-header-info">
+                                <button type="button" class="close" data-dismiss="modal"></button>
+                                <h1><span class="glyphicon glyphicon-lock"></span> Shared Elastic sources definition </h1>
+                            </div>
+                            <div class="modal-body">
+                                <b>Use this interface to create and manage shared elastic sources:</b>
+                                <br />
+
+                                <div class="boxnotify" id="boxnotify-modify_elastic_sources">
+                                </div>
+
+                                <div>
+                                    <div style="width: 50%;">
+                                        <div >
+
+                                            <div>
+                                                <div id="SingleElasticSources">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div>
+                                    <div>
+                                        <div >
+                                            <div>
+                                                <div class="fieldset">
+                                                    <div class="input input-text" id="modal_input_elastic_sources_search" style="margin-bottom: 10px;">
+                                                        <label>Search for elastic source:</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div style="margin-bottom: 20px;">
+                                    <div>
+                                        <div >
+                                            <div>
+                                                <div class="fieldset">
+                                                    <div id="tableElasticSources">
+                                                        <label>Click on the table for interactive actions:</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="modal-footer">
+                                <button type="submit" id="btn_modal_elastic_sources_add_back" class="btn btn-outline-secondary pull-left" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Back</button>
+                                <button type="submit" id="btn_modal_elastic_sources_add_delete" class="btn btn-outline-danger pull-right" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Remove selected</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal fade custom-modal-80" id="modify_elastic_sources_dedicated" role="dialog">
+                    <div class="modal-dialog">
+
+                        <!-- Modal content-->
+                        <div class="modal-content">
+                            <div class="modal-header modal-header-info">
+                                <button type="button" class="close" data-dismiss="modal"></button>
+                                <h1><span class="glyphicon glyphicon-lock"></span> Dedicated Elastic sources definition </h1>
+                            </div>
+                            <div class="modal-body">
+                                <b>Use this interface to create and manage dedicated elastic sources:</b>
+                                <br /><br />
+
+                                <div class="boxnotify" id="boxnotify-modify_elastic_sources_dedicated">
+                                </div>
+
+                                <div>
+                                    <div style="width: 50%;">
+                                        <div >
+                                            <div>
+                                                <div id="SingleElasticSourcesDedicated">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div>
+                                    <div>
+                                        <div >
+                                            <div>
+                                                <div class="fieldset">
+                                                    <div class="input input-text" id="modal_input_elastic_sources_dedicated_search" style="margin-bottom: 10px;">
+                                                        <label>Search for elastic source:</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div style="margin-bottom: 20px;">
+                                    <div>
+                                        <div >
+                                            <div>
+                                                <div class="fieldset">
+                                                    <div id="tableElasticSourcesDedicated">
+                                                        <label>Click on the table for interactive actions:</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="modal-footer">
+                                <button type="submit" id="btn_modal_elastic_sources_dedicated_add_back" class="btn btn-outline-secondary pull-left" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Back</button>
+                                <button type="submit" id="btn_modal_elastic_sources_dedicated_add_delete" class="btn btn-outline-danger pull-right" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Remove selected</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- shared elastic sources deletion -->
+                <div id="delete_elastic_source">
+                    <div>
+                        <div class="modal fade" id="delete_elastic_source_main" role="dialog">
+                            <div class="modal-dialog">
+                                <!-- Modal content-->
+                                <div class="modal-content">
+                                    <!-- This is required to get the token substitutions without affecting the buttons actions in js -->
+                                    <div>
+                                        <div>
+                                            <div class="modal-header modal-header-danger">
+                                                <h1>Actions for shared Elastic Source: </h1>
+                                                <button type="button" class="close" data-dismiss="modal"></button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <p><b>Confirm modification ?</b>
+                                                </p>
+                                                <div class="custom-textarea">
+                                                    <p>
+                                                        <label>Optional: enter a note of this update.
+                                                            This note will be logged and made available for notification.</label>
+                                                        <textarea
+                                                                id = "elastic_source_shared_delete_comment"
+                                                                rows = "6"
+                                                                cols = "160" style="width: 500px;"
+                                                                onfocus="if(this.value==this.defaultValue)this.value='';" onblur="if(this.value=='')this.value=this.defaultValue;">update note</textarea>
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="submit" id="btn_delete_elastic_source_cancel" role="button" class="btn btn-outline-secondary" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span>Cancel</button>
+                                        <button type="submit" id="btn_delete_elastic_source_confirm" role="button" class="btn btn-outline-danger" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span>Delete</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- dedicated elastic sources deletion -->
+                <div class="modal fade" id="delete_elastic_source_main_dedicated" role="dialog">
+                    <div class="modal-dialog">
+                        <!-- Modal content-->
+                        <div class="modal-content">
+                            <!-- This is required to get the token substitutions without affecting the buttons actions in js -->
+                            <div>
+                                <div>
+                                    <div class="modal-header modal-header-danger">
+                                        <h1>Actions for dedicated Elastic Source: </h1>
+                                        <button type="button" class="close" data-dismiss="modal"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <p><b>Confirm modification ?</b>
+                                        </p>
+                                        <div class="custom-textarea">
+                                            <p>
+                                                <label>Optional: enter a note of this update.
+                                                    This note will be logged and made available for notification.</label>
+                                                <textarea
+                                                        id = "elastic_source_dedicated_delete_comment"
+                                                        rows = "6"
+                                                        cols = "160" style="width: 500px;"
+                                                        onfocus="if(this.value==this.defaultValue)this.value='';" onblur="if(this.value=='')this.value=this.defaultValue;">update note</textarea>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="submit" id="btn_delete_elastic_source_dedicated_cancel" role="button" class="btn btn-outline-secondary" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span>Cancel</button>
+                                <button type="submit" id="btn_delete_elastic_source_dedicated_confirm" role="button" class="btn btn-outline-danger"><span class="glyphicon glyphicon-remove"></span>Delete</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- elastic source creation is successful -->
+                <div class="modal fade" id="modal_elastic_source_alert_creation_success" role="dialog">
+                    <div class="modal-dialog">
+
+                        <!-- Modal content-->
+                        <div class="modal-content">
+                            <div class="modal-header modal-header-success">
+                                <button type="button" class="close" data-dismiss="modal"></button>
+                                <h1><span class="glyphicon glyphicon-lock"></span>New tracker successfully created.</h1>
+                            </div>
+                            <div class="modal-body">
+                                <h1>Congratulations, the new elastic source tracker was successfully created.</h1>
+                                <h2>The following new tracker was created:</h2>
+                                <div class="modal-error-message" style="margin: 10px 0; padding: 10px; border-radius: 3px 3px 3px 3px; color: white; background-color: dodgerblue;">
+                                    <p>success return message</p>
+                                </div>
+                            </div>
+
+                            <div class="modal-footer">
+                                <button type="submit" id="modal_elastic_source_alert_creation_success_run_tracker" class="btn btn-outline-primary" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Run this Elastic dedicated tracker now</button>
+                                <button type="submit" class="btn btn-outline-secondary" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Close</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Error or failure during elastic source creation -->
+                <div class="modal fade" id="modal_elastic_source_alert_creation_error" role="dialog">
+                    <div class="modal-dialog">
+
+                        <!-- Modal content-->
+                        <div class="modal-content">
+                            <div class="modal-header modal-header-danger">
+                                <button type="button" class="close" data-dismiss="modal"></button>
+                                <h1><span class="glyphicon glyphicon-lock"></span>Oops!</h1>
+                            </div>
+                            <div class="modal-body">
+                                <h1>Sorry but it looks like an error occurred while attempting to perform the creation of the new elastic source tracker.</h1>
+                                <h2>You might not have the permission to perform this operation, or an unexpected failure was encountered.</h2>
+                                <b>The server returned the following error message:</b>
+                                <div class="modal-error-message" style="margin: 10px 0; padding: 10px; border-radius: 3px 3px 3px 3px; color: white; background-color: #ff6961;">
+                                    <p>error return message</p>
+                                </div>
+                            </div>
+
+                            <div class="modal-footer">
+                                <button type="submit" class="btn btn-outline-secondary pull-right" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Close</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
         </html>
 
@@ -749,7 +1254,7 @@
                                 <div>
 
                                     <div class="modal-header modal-header-info">
-                                        <h1 style="font-size: 18px; color: white;">Enrichment tags: $tk_data_host$</h1>
+                                        <h1 style="font-size: 18px;">Enrichment tags: $tk_data_host$</h1>
                                         <button type="button" class="close" data-dismiss="modal"></button>
                                     </div>
                                 </div>
@@ -793,7 +1298,7 @@
                                 <div>
 
                                     <div class="modal-header modal-header-info">
-                                        <h1 style="font-size: 18px; color: white;">Enrichment tags: $tk_metric_host$</h1>
+                                        <h1 style="font-size: 18px;">Enrichment tags: $tk_metric_host$</h1>
                                         <button type="button" class="close" data-dismiss="modal"></button>
                                     </div>
                                 </div>
@@ -834,7 +1339,7 @@
                         <div class="modal-content">
                             <div class="modal-header modal-header-info">
                                 <button type="button" class="close" data-dismiss="modal"></button>
-                                <h1 style="color: white;"><span class="glyphicon glyphicon-lock"></span> Metric store - Search &amp; Reports </h1>
+                                <h1><span class="glyphicon glyphicon-lock"></span> Metric store - Search &amp; Reports </h1>
                             </div>
 
                             <div class="modal-body">
@@ -883,7 +1388,7 @@
                         <div class="modal-content">
                             <div class="modal-header modal-header-info">
                                 <button type="button" class="close" data-dismiss="modal"></button>
-                                <h1 style="color: white;"><span class="glyphicon glyphicon-lock"></span> Smart Status </h1>
+                                <h1><span class="glyphicon glyphicon-lock"></span> Smart Status </h1>
                             </div>
 
                             <div class="modal-body">
@@ -939,7 +1444,7 @@
                         <div class="modal-content">
                             <div class="modal-header modal-header-info">
                                 <button type="button" class="close" data-dismiss="modal"></button>
-                                <h1 style="color: white;"><span class="glyphicon glyphicon-lock"></span> Smart Status </h1>
+                                <h1><span class="glyphicon glyphicon-lock"></span> Smart Status </h1>
                             </div>
 
                             <div class="modal-body">
@@ -995,7 +1500,7 @@
                         <div class="modal-content">
                             <div class="modal-header modal-header-info">
                                 <button type="button" class="close" data-dismiss="modal"></button>
-                                <h1 style="color: white;"><span class="glyphicon glyphicon-lock"></span> Smart Status </h1>
+                                <h1><span class="glyphicon glyphicon-lock"></span> Smart Status </h1>
                             </div>
 
                             <div class="modal-body">
@@ -1055,7 +1560,7 @@
                         <div class="modal-content">
                             <div class="modal-header modal-header-info">
                                 <button type="button" class="close" data-dismiss="modal"></button>
-                                <h1 style="color: white;"><span class="glyphicon glyphicon-lock"></span> Tags policies </h1>
+                                <h1><span class="glyphicon glyphicon-lock"></span> Tags policies </h1>
                             </div>
 
                             <div class="modal-body">
@@ -1140,7 +1645,7 @@
                         <div class="modal-content">
                             <div class="modal-header modal-header-danger">
                                 <button type="button" class="close" data-dismiss="modal"></button>
-                                <h1 style="color: white;"><span class="glyphicon glyphicon-lock"></span> Tags policies: create new policy </h1>
+                                <h1><span class="glyphicon glyphicon-lock"></span> Tags policies: create new policy </h1>
                             </div>
                             <div class="modal-body">
                                 <b>Use this interface to create and manage tags policies:</b>
@@ -1226,7 +1731,7 @@
                             </div>
 
                             <div class="modal-footer">
-                                <button type="submit" class="btn btn-default btn-default pull-left" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Cancel</button>
+                                <button type="submit" class="btn btn-outline-secondary pull-left" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Cancel</button>
                                 <button type="submit" id="btn_modal_tags_policies_add_back" class="btn btn-default btn-primary pull-right" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Back</button>
                             </div>
 
@@ -1242,7 +1747,7 @@
                         <div class="modal-content">
                             <div class="modal-header modal-header-danger">
                                 <button type="button" class="close" data-dismiss="modal"></button>
-                                <h1 style="color: white;"><span class="glyphicon glyphicon-lock"></span>Tags policies</h1>
+                                <h1><span class="glyphicon glyphicon-lock"></span>Tags policies</h1>
                             </div>
                             <div class="modal-body">
                                 <p><b>Confirm tag policy addition action?</b><br />
@@ -1261,7 +1766,7 @@
                             </div>
 
                             <div class="modal-footer">
-                                <button type="submit" class="btn btn-default btn-default pull-left" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Cancel</button>
+                                <button type="submit" class="btn btn-outline-secondary pull-left" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Cancel</button>
                                 <button type="submit" id="btn_modal_add_tags_policy_confirm" class="btn btn-default btn-primary pull-right" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Ok</button>
                             </div>
                         </div>
@@ -1276,7 +1781,7 @@
                         <div class="modal-content">
                             <div class="modal-header modal-header-danger">
                                 <button type="button" class="close" data-dismiss="modal"></button>
-                                <h1 style="color: white;"><span class="glyphicon glyphicon-lock"></span>Tags policies</h1>
+                                <h1><span class="glyphicon glyphicon-lock"></span>Tags policies</h1>
                             </div>
                             <div class="modal-body">
                                 <p><b>Confirm tag policy deletion action?</b><br />
@@ -1295,7 +1800,7 @@
                             </div>
 
                             <div class="modal-footer">
-                                <button type="submit" class="btn btn-default btn-default pull-left" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Cancel</button>
+                                <button type="submit" class="btn btn-outline-secondary pull-left" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Cancel</button>
                                 <button type="submit" id="btn_modal_delete_tags_policy_confirm" class="btn btn-default btn-primary pull-right" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Ok</button>
                             </div>
                         </div>
@@ -1311,7 +1816,7 @@
                             <div id="body_manage_tags">
                                 <div>
                                     <div class="modal-header modal-header-info">
-                                        <h1 style="font-size: 18px; color: white;">Tags for data source: $tk_data_name$</h1>
+                                        <h1 style="font-size: 18px;">Tags for data source: $tk_data_name$</h1>
                                         <button type="button" class="close" data-dismiss="modal"></button>
                                     </div>
 
@@ -1358,7 +1863,7 @@
                             <div id="body_update_tags">
                                 <div>
                                     <div class="modal-header modal-header-info">
-                                        <h1 style="font-size: 18px; color: white;">Update tags</h1>
+                                        <h1 style="font-size: 18px;">Update tags</h1>
                                         <button type="button" class="close" data-dismiss="modal"></button>
                                     </div>
 
@@ -1421,7 +1926,7 @@
 
                                 <div class="modal-footer">
                                     <button type="submit" id="btn_back_update_tags" class="btn btn-default btn-primary pull-left" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Back</button>
-                                    <button type="submit" class="btn btn-default btn-default pull-right" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Close</button>
+                                    <button type="submit" class="btn btn-outline-secondary pull-right" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Close</button>
                                 </div>        
 
                             </div>
@@ -1442,7 +1947,7 @@
                             <div>
                                 <div>
                                     <div class="modal-header modal-header-info">
-                                        <h1 style="font-size: 18px; color: white;">Identity card for data source: $tk_data_name$</h1>
+                                        <h1 style="font-size: 18px;">Identity card for data source: $tk_data_name$</h1>
                                         <button type="button" class="close" data-dismiss="modal"></button>
                                     </div>
 
@@ -1493,7 +1998,7 @@
                         <div class="modal-content">
                             <div class="modal-header modal-header-danger">
                                 <button type="button" class="close" data-dismiss="modal"></button>
-                                <h1 style="color: white;"><span class="glyphicon glyphicon-lock"></span> Documentation identity card </h1>
+                                <h1><span class="glyphicon glyphicon-lock"></span> Documentation identity card </h1>
                             </div>
 
                             <div class="modal-body">
@@ -1563,7 +2068,7 @@
                         <div class="modal-content">
                             <div class="modal-header modal-header-danger">
                                 <button type="button" class="close" data-dismiss="modal"></button>
-                                <h1 style="color: white;"><span class="glyphicon glyphicon-lock"></span> Documentation identity card </h1>
+                                <h1><span class="glyphicon glyphicon-lock"></span> Documentation identity card </h1>
                             </div>
                             <div class="modal-body">
                                 <b>Associate with an existing identity card:</b>
@@ -1599,7 +2104,7 @@
                             <div class="modal-content">
                                 <div class="modal-header modal-header-danger">
                                     <button type="button" class="close" data-dismiss="modal"></button>
-                                    <h1 style="color: white;"><span class="glyphicon glyphicon-lock"></span> Documentation identity card </h1>
+                                    <h1><span class="glyphicon glyphicon-lock"></span> Documentation identity card </h1>
                                 </div>
 
                                 <div class="modal-body">
@@ -1636,7 +2141,7 @@
                             <div class="modal-content">
                                 <div class="modal-header modal-header-danger">
                                     <button type="button" class="close" data-dismiss="modal"></button>
-                                    <h1 style="color: white;"><span class="glyphicon glyphicon-lock"></span> Documentation identity card </h1>
+                                    <h1><span class="glyphicon glyphicon-lock"></span> Documentation identity card </h1>
                                 </div>
 
                                 <div class="modal-body">
@@ -1674,7 +2179,7 @@
                             <div class="modal-content">
                                 <div class="modal-header modal-header-success">
                                     <button type="button" class="close" data-dismiss="modal"></button>
-                                    <h1 style="color: white;"><span class="glyphicon glyphicon-lock"></span> Documentation identity card </h1>
+                                    <h1><span class="glyphicon glyphicon-lock"></span> Documentation identity card </h1>
                                 </div>
 
                                 <div class="modal-body">
@@ -1710,7 +2215,7 @@
                             <div class="modal-content">
                                 <div class="modal-header modal-header-success">
                                     <button type="button" class="close" data-dismiss="modal"></button>
-                                    <h1 style="color: white;"><span class="glyphicon glyphicon-lock"></span> Documentation identity card </h1>
+                                    <h1><span class="glyphicon glyphicon-lock"></span> Documentation identity card </h1>
                                 </div>
 
                                 <div class="modal-body">
@@ -1746,7 +2251,7 @@
                             <div class="modal-content">
                                 <div class="modal-header modal-header-success">
                                     <button type="button" class="close" data-dismiss="modal"></button>
-                                    <h1 style="color: white;"><span class="glyphicon glyphicon-lock"></span> Documentation identity card </h1>
+                                    <h1><span class="glyphicon glyphicon-lock"></span> Documentation identity card </h1>
                                 </div>
 
                                 <div class="modal-body">
@@ -1782,7 +2287,7 @@
                             <div class="modal-content">
                                 <div class="modal-header modal-header-danger">
                                     <button type="button" class="close" data-dismiss="modal"></button>
-                                    <h1 style="color: white;"><span class="glyphicon glyphicon-lock"></span> Acknowledge active alert </h1>
+                                    <h1><span class="glyphicon glyphicon-lock"></span> Acknowledge active alert </h1>
                                 </div>
 
                                 <div class="modal-body">
@@ -1870,7 +2375,7 @@
                             <div class="modal-content">
                                 <div class="modal-header modal-header-info">
                                     <button type="button" class="close" data-dismiss="modal"></button>
-                                    <h1 style="color: white;"><span class="glyphicon glyphicon-lock"></span> Data sampling &amp; events format recognition </h1>
+                                    <h1><span class="glyphicon glyphicon-lock"></span> Data sampling &amp; events format recognition </h1>
                                 </div>
 
                                 <div class="modal-body">
@@ -1969,7 +2474,7 @@
                             <div class="modal-content">
                                 <div class="modal-header modal-header-info">
                                     <button type="button" class="close" data-dismiss="modal"></button>
-                                    <h1 style="color: white;"><span class="glyphicon glyphicon-lock"></span> Data sampling &amp; events format recognition </h1>
+                                    <h1><span class="glyphicon glyphicon-lock"></span> Data sampling &amp; events format recognition </h1>
                                 </div>
 
                                 <div class="modal-body">
@@ -2028,7 +2533,7 @@
                             <div class="modal-content">
                                 <div class="modal-header modal-header-info">
                                     <button type="button" class="close" data-dismiss="modal"></button>
-                                    <h1 style="color: white;"><span class="glyphicon glyphicon-lock"></span> Data sampling &amp; events format recognition </h1>
+                                    <h1><span class="glyphicon glyphicon-lock"></span> Data sampling &amp; events format recognition </h1>
                                 </div>
 
                                 <div class="modal-body">
@@ -2111,7 +2616,7 @@
                         <div class="modal-content">
                             <div class="modal-header modal-header-danger">
                                 <button type="button" class="close" data-dismiss="modal"></button>
-                                <h1 style="color: white;"><span class="glyphicon glyphicon-lock"></span> Data sampling &amp; events format recognition: create custom rules </h1>
+                                <h1><span class="glyphicon glyphicon-lock"></span> Data sampling &amp; events format recognition: create custom rules </h1>
                             </div>
                             <div class="modal-body">
                                 <b>Use this interface to create and manage custom rules for events format recognition:</b>
@@ -2223,7 +2728,7 @@
                             </div>
 
                             <div class="modal-footer">
-                                <button type="submit" class="btn btn-default btn-default pull-left" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Cancel</button>
+                                <button type="submit" class="btn btn-outline-secondary pull-left" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Cancel</button>
                                 <button type="submit" id="btn_modal_data_sampling_custom_rule_add_new_back" class="btn btn-default btn-primary pull-right" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Back</button>
                             </div>
 
@@ -2239,7 +2744,7 @@
                         <div class="modal-content">
                             <div class="modal-header modal-header-success">
                                 <button type="button" class="close" data-dismiss="modal"></button>
-                                <h1 style="color: white;"><span class="glyphicon glyphicon-lock"></span> Acknowledge active alert </h1>
+                                <h1><span class="glyphicon glyphicon-lock"></span> Acknowledge active alert </h1>
                             </div>
 
                             <div class="modal-body">
@@ -2274,7 +2779,7 @@
                         <div class="modal-content">
                             <div class="modal-header modal-header-success">
                                 <button type="button" class="close" data-dismiss="modal"></button>
-                                <h1 style="color: white;"><span class="glyphicon glyphicon-lock"></span> Acknowledge active alert </h1>
+                                <h1><span class="glyphicon glyphicon-lock"></span> Acknowledge active alert </h1>
                             </div>
 
                             <div class="modal-body">
@@ -2309,7 +2814,7 @@
                         <div class="modal-content">
                             <div class="modal-header modal-header-info">
                                 <button type="button" class="close" data-dismiss="modal"></button>
-                                <h1 style="color: white;"><span class="glyphicon glyphicon-lock"></span> Acknowledge active alert </h1>
+                                <h1><span class="glyphicon glyphicon-lock"></span> Acknowledge active alert </h1>
                             </div>
 
                             <div class="modal-body">
@@ -2345,7 +2850,7 @@
                         <div class="modal-content">
                             <div class="modal-header modal-header-danger">
                                 <button type="button" class="close" data-dismiss="modal"></button>
-                                <h1 style="color: white;"><span class="glyphicon glyphicon-lock"></span> Acknowledge active alert </h1>
+                                <h1><span class="glyphicon glyphicon-lock"></span> Acknowledge active alert </h1>
                             </div>
 
                             <div class="modal-body">
@@ -2390,7 +2895,7 @@
                         <div class="modal-content">
                             <div class="modal-header modal-header-danger">
                                 <button type="button" class="close" data-dismiss="modal"></button>
-                                <h1 style="color: white;"><span class="glyphicon glyphicon-lock"></span> Logical group </h1>
+                                <h1><span class="glyphicon glyphicon-lock"></span> Logical group </h1>
                             </div>
                             <div class="modal-body">
                                 <b>Entities logical group management</b>
@@ -2465,7 +2970,7 @@
                         <div class="modal-content">
                             <div class="modal-header modal-header-danger">
                                 <button type="button" class="close" data-dismiss="modal"></button>
-                                <h1 style="color: white;"><span class="glyphicon glyphicon-lock"></span> Logical group </h1>
+                                <h1><span class="glyphicon glyphicon-lock"></span> Logical group </h1>
                             </div>
                             <div class="modal-body">
                                 <b>Entities logical group management</b>
@@ -2518,7 +3023,7 @@
                         <div class="modal-content">
                             <div class="modal-header modal-header-danger">
                                 <button type="button" class="close" data-dismiss="modal"></button>
-                                <h1 style="color: white;"><span class="glyphicon glyphicon-lock"></span> Logical group </h1>
+                                <h1><span class="glyphicon glyphicon-lock"></span> Logical group </h1>
                             </div>
                             <div class="modal-body">
                                 <b>Entities logical group management</b>
@@ -2577,7 +3082,7 @@
                         <div class="modal-content">
                             <div class="modal-header modal-header-danger">
                                 <button type="button" class="close" data-dismiss="modal"></button>
-                                <h1 style="color: white;"><span class="glyphicon glyphicon-lock"></span> Logical group </h1>
+                                <h1><span class="glyphicon glyphicon-lock"></span> Logical group </h1>
                             </div>
 
                             <div class="modal-body">
@@ -2613,7 +3118,7 @@
                         <div class="modal-content">
                             <div class="modal-header modal-header-success">
                                 <button type="button" class="close" data-dismiss="modal"></button>
-                                <h1 style="color: white;"><span class="glyphicon glyphicon-lock"></span> Logical group </h1>
+                                <h1><span class="glyphicon glyphicon-lock"></span> Logical group </h1>
                             </div>
 
                             <div class="modal-body">
@@ -2649,7 +3154,7 @@
                         <div class="modal-content">
                             <div class="modal-header modal-header-danger">
                                 <button type="button" class="close" data-dismiss="modal"></button>
-                                <h1 style="color: white;"><span class="glyphicon glyphicon-lock"></span> Logical group </h1>
+                                <h1><span class="glyphicon glyphicon-lock"></span> Logical group </h1>
                             </div>
 
                             <div class="modal-body">
@@ -2685,7 +3190,7 @@
                         <div class="modal-content">
                             <div class="modal-header modal-header-success">
                                 <button type="button" class="close" data-dismiss="modal"></button>
-                                <h1 style="color: white;"><span class="glyphicon glyphicon-lock"></span> Logical group </h1>
+                                <h1><span class="glyphicon glyphicon-lock"></span> Logical group </h1>
                             </div>
 
                             <div class="modal-body">
@@ -2720,7 +3225,7 @@
                         <div class="modal-content">
                             <div class="modal-header modal-header-success">
                                 <button type="button" class="close" data-dismiss="modal"></button>
-                                <h1 style="color: white;"><span class="glyphicon glyphicon-lock"></span> Logical group </h1>
+                                <h1><span class="glyphicon glyphicon-lock"></span> Logical group </h1>
                             </div>
 
                             <div class="modal-body">
@@ -3212,7 +3717,7 @@
                             <div>
                                 <div>
                                     <div class="modal-header modal-header-primary">
-                                        <h1 style="font-size: 18px; color: white;">Actions for data host: $tk_data_host$</h1>
+                                        <h1 style="font-size: 18px;">Actions for data host: $tk_data_host$</h1>
                                         <button type="button" class="close" data-dismiss="modal"></button>
                                     </div>
                                     <div class="modal-body">
@@ -3636,7 +4141,7 @@
                             <div>
                                 <div>
                                     <div class="modal-header modal-header-primary">
-                                        <h1 style="font-size: 18px; color: white;">Actions for metric host: $tk_metric_host$</h1>
+                                        <h1 style="font-size: 18px;">Actions for metric host: $tk_metric_host$</h1>
                                         <button type="button" class="close" data-dismiss="modal"></button>
                                     </div>
                                     <div class="modal-body">
@@ -3892,7 +4397,7 @@
                             <div>
                                 <div>
                                     <div class="modal-header modal-header-info">
-                                        <h1 style="font-size: 18px; color: white;">Ops: Queues center</h1>
+                                        <h1 style="font-size: 18px;">Ops: Queues center</h1>
                                         <button type="button" id="btn_ops_index_queue_close" class="close" data-dismiss="modal"></button>
                                     </div>
                                 </div>
@@ -3992,7 +4497,7 @@
                             <div>
                                 <div>
                                     <div class="modal-header modal-header-info">
-                                        <h1 style="font-size: 18px; color: white;">Ops: Parsing issues</h1>
+                                        <h1 style="font-size: 18px;">Ops: Parsing issues</h1>
                                         <button type="button" id="btn_ops_parsing_issues_close" class="close" data-dismiss="modal"></button>
                                     </div>
                                 </div>
@@ -4317,7 +4822,7 @@
                         <div class="modal-content">
                             <div class="modal-header modal-header-danger">
                                 <button type="button" class="close" data-dismiss="modal"></button>
-                                <h1 style="color: white;"><span class="glyphicon glyphicon-lock"></span>KVstore entry deletion</h1>
+                                <h1><span class="glyphicon glyphicon-lock"></span>KVstore entry deletion</h1>
                             </div>
                             <div class="modal-body">
                                 <p><b>Confirm deletion of this entry?</b><br /><br />
@@ -4335,7 +4840,7 @@
                             </div>
 
                             <div class="modal-footer">
-                                <button type="submit" class="btn btn-default btn-default pull-left" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Cancel</button>
+                                <button type="submit" class="btn btn-outline-secondary pull-left" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Cancel</button>
                                 <button type="submit" id="btn_modal_entry_deletion_temporary" class="btn btn-default btn-primary pull-right" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Delete temporary</button>
                                 <button type="submit" id="btn_modal_entry_deletion" class="btn btn-default btn-danger pull-right" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Delete permanently</button>
                             </div>
@@ -4351,97 +4856,19 @@
                         <div class="modal-content">
                             <div class="modal-header modal-header-danger">
                                 <button type="button" class="close" data-dismiss="modal"></button>
-                                <h1 style="color: white;"><span class="glyphicon glyphicon-lock"></span>Oops!</h1>
+                                <h1><span class="glyphicon glyphicon-lock"></span>Oops!</h1>
                             </div>
                             <div class="modal-body">
-                                <p>Sorry but it looks like an error occurred while attempting to perform the KVstore collection update.<br /><br />
-                                    <b>You might not have the permission to write to the collection</b>, or an unexpected failure was encountered.<br /><br />
-                                    <b>The server returned the following error message:</b>
-                                </p>
-                                <div class="modal-error-message" style="margin: 10px 0; padding: 10px; border-radius: 3px 3px 3px 3px; color: #D8000C; background-color: #FFBABA;">
+                                <h1>Sorry but it looks like an error occurred while attempting to perform the KVstore collection update.</h1>
+                                <h2>You might not have the permission to write to the collection, or an unexpected failure was encountered.</h2>
+                                <b>The server returned the following error message:</b>
+                                <div class="modal-error-message" style="margin: 10px 0; padding: 10px; border-radius: 3px 3px 3px 3px; color: white; background-color: #ff6961;">
                                     <p>error return message</p>
                                 </div>
                             </div>
 
                             <div class="modal-footer">
-                                <button type="submit" class="btn btn-default btn-default pull-right" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Close</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- elastic source simulation -->
-                <div class="modal fade" id="modal_generic_search_error" role="dialog">
-                    <div class="modal-dialog">
-
-                        <!-- Modal content-->
-                        <div class="modal-content">
-                            <div class="modal-header modal-header-danger">
-                                <button type="button" class="close" data-dismiss="modal"></button>
-                                <h1 style="color: white;"><span class="glyphicon glyphicon-lock"></span>Oops!</h1>
-                            </div>
-                            <div class="modal-body">
-                                <p>Sorry but the simulation of the search has failed due to a syntax error or another failure.<br /><br />
-                                    <b>Verify your syntax and try again.</b><br /><br />
-                                </p>
-                            </div>
-
-                            <div class="modal-footer">
-                                <button type="submit" id="btn_modal_generic_search_error_back" class="btn btn-default btn-primary pull-right" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Back</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- elastic source creation is successful -->
-                <div class="modal fade" id="modal_elastic_source_alert_creation_success" role="dialog">
-                    <div class="modal-dialog">
-
-                        <!-- Modal content-->
-                        <div class="modal-content">
-                            <div class="modal-header modal-header-success">
-                                <button type="button" class="close" data-dismiss="modal"></button>
-                                <h1 style="color: white;"><span class="glyphicon glyphicon-lock"></span>New tracker successfully created.</h1>
-                            </div>
-                            <div class="modal-body">
-                                <p>Congratulations, the new elastic source tracker was successfully created.<br /><br />
-                                    <b>The following new tracker was created:</b>
-                                </p>
-                                <div class="modal-error-message" style="margin: 10px 0; padding: 10px; border-radius: 3px 3px 3px 3px; color: #059; background-color: #BEF;">
-                                    <p>success return message</p>
-                                </div>
-                            </div>
-
-                            <div class="modal-footer">
-                                <button type="submit" id="modal_elastic_source_alert_creation_success_run_tracker" class="btn btn-default btn-default btn-primary"><span class="glyphicon glyphicon-remove"></span> Run this Elastic dedicated tracker now</button>
-                                <button type="submit" class="btn btn-default btn-default" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Close</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Error or failure during elastic source creation -->
-                <div class="modal fade" id="modal_elastic_source_alert_creation_error" role="dialog">
-                    <div class="modal-dialog">
-
-                        <!-- Modal content-->
-                        <div class="modal-content">
-                            <div class="modal-header modal-header-danger">
-                                <button type="button" class="close" data-dismiss="modal"></button>
-                                <h1 style="color: white;"><span class="glyphicon glyphicon-lock"></span>Oops!</h1>
-                            </div>
-                            <div class="modal-body">
-                                <p>Sorry but it looks like an error occurred while attempting to perform the creation of the new elastic source tracker.<br /><br />
-                                    <b>You might not have the permission to perform this operation</b>, or an unexpected failure was encountered.<br /><br />
-                                    <b>The server returned the following error message:</b>
-                                </p>
-                                <div class="modal-error-message" style="margin: 10px 0; padding: 10px; border-radius: 3px 3px 3px 3px; color: #D8000C; background-color: #FFBABA;">
-                                    <p>error return message</p>
-                                </div>
-                            </div>
-
-                            <div class="modal-footer">
-                                <button type="submit" class="btn btn-default btn-default pull-right" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Close</button>
+                                <button type="submit" class="btn btn-outline-secondary pull-right" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Close</button>
                             </div>
                         </div>
                     </div>
@@ -4455,13 +4882,13 @@
                         <div class="modal-content">
                             <div class="modal-header modal-header-success">
                                 <button type="button" class="close" data-dismiss="modal"></button>
-                                <h1 style="color: white;"><span class="glyphicon glyphicon-lock"></span>New alert successfully created.</h1>
+                                <h1><span class="glyphicon glyphicon-lock"></span>New alert successfully created.</h1>
                             </div>
                             <div class="modal-body">
                                 <p>Congratulations, the new alert tracker was successfully created.<br /><br />
                                     <b>The following new tracker was created:</b>
                                 </p>
-                                <div class="modal-error-message" style="margin: 10px 0; padding: 10px; border-radius: 3px 3px 3px 3px; color: #059; background-color: #BEF;">
+                                <div class="modal-error-message" style="margin: 10px 0; padding: 10px; border-radius: 3px 3px 3px 3px; color: white; background-color: dodgerblue;">
                                     <p>success return message</p>
                                 </div>
                             </div>
@@ -4481,20 +4908,19 @@
                         <div class="modal-content">
                             <div class="modal-header modal-header-danger">
                                 <button type="button" class="close" data-dismiss="modal"></button>
-                                <h1 style="color: white;"><span class="glyphicon glyphicon-lock"></span>Oops!</h1>
+                                <h1><span class="glyphicon glyphicon-lock"></span>Oops!</h1>
                             </div>
                             <div class="modal-body">
-                                <p>Sorry but it looks like an error occurred while attempting to perform the creation of the new alert tracker.<br /><br />
-                                    <b>You might not have the permission to perform this operation</b>, or an unexpected failure was encountered.<br /><br />
-                                    <b>The server returned the following error message:</b>
-                                </p>
-                                <div class="modal-error-message" style="margin: 10px 0; padding: 10px; border-radius: 3px 3px 3px 3px; color: #D8000C; background-color: #FFBABA;">
+                                <h1>Sorry but it looks like an error occurred while attempting to perform the creation of the new alert tracker.</h1>
+                                <h2>You might not have the permission to perform this operation, or an unexpected failure was encountered.</h2>
+                                <b>The server returned the following error message:</b>
+                                <div class="modal-error-message" style="margin: 10px 0; padding: 10px; border-radius: 3px 3px 3px 3px; color: white; background-color: #ff6961;">
                                     <p>error return message</p>
                                 </div>
                             </div>
 
                             <div class="modal-footer">
-                                <button type="submit" class="btn btn-default btn-default pull-right" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Close</button>
+                                <button type="submit" class="btn btn-outline-secondary pull-right" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Close</button>
                             </div>
                         </div>
                     </div>
@@ -4511,7 +4937,7 @@
                         <div class="modal-content">
                             <div class="modal-header modal-header-danger">
                                 <button type="button" class="close" data-dismiss="modal"></button>
-                                <h1 style="color: white;"><span class="glyphicon glyphicon-lock"></span> Modify data source monitoring</h1>
+                                <h1><span class="glyphicon glyphicon-lock"></span> Modify data source monitoring</h1>
                             </div>
                             <div class="modal-body">
                                 <p>You can modify different parameters regarding the monitoring of this data source:</p>
@@ -4567,7 +4993,7 @@
                         <div class="modal-content">
                             <div class="modal-header modal-header-danger">
                                 <button type="button" class="close" data-dismiss="modal"></button>
-                                <h1 style="color: white;"><span class="glyphicon glyphicon-lock"></span> Modify data host monitoring</h1>
+                                <h1><span class="glyphicon glyphicon-lock"></span> Modify data host monitoring</h1>
                             </div>
                             <div class="modal-body">
                                 <p>You can modify different parameters regarding the monitoring of this data host:</p>
@@ -4614,7 +5040,7 @@
                         <div class="modal-content">
                             <div class="modal-header modal-header-danger">
                                 <button type="button" class="close" data-dismiss="modal"></button>
-                                <h1 style="color: white;"><span class="glyphicon glyphicon-lock"></span> Lagging classes definition </h1>
+                                <h1><span class="glyphicon glyphicon-lock"></span> Lagging classes definition </h1>
                             </div>
                             <div class="modal-body">
                                 <b>Lagging classes are applied automatically during the trackers execution, use this interface to define a default lagging value with a policy based on different conditions:</b>
@@ -4709,434 +5135,8 @@
 
                             </div>
                             <div class="modal-footer">
-                                <button type="submit" class="btn btn-default btn-default pull-left" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Cancel</button>
+                                <button type="submit" class="btn btn-outline-secondary pull-left" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Cancel</button>
                                 <button type="submit" id="btn_lagging_data_source_policy_delete_level1" class="btn btn-default btn-danger pull-right" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Remove selected</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!--
-                Elastic sources
-                -->
-
-                <div class="modal fade custom-modal-80" id="modify_elastic_sources_main" role="dialog">
-                    <div class="modal-dialog">
-
-                        <!-- Modal content-->
-                        <div class="modal-content">
-                            <div class="modal-header modal-header-info">
-                                <button type="button" class="close" data-dismiss="modal"></button>
-                                <h1 style="color: white;"><span class="glyphicon glyphicon-lock"></span> TrackMe Elastic sources - Manage and create</h1>
-                            </div>
-                            <div class="modal-body">
-                                <b>Elastic sources are custom flexible data sources entities, which can be searches based on regular raw events searches, tstats searches, from command based searches and metric indexes using the mstats command:</b>
-                                <br />
-
-                                <lu>
-                                    <li>Consult the <a target="_blank" href="https://trackme.readthedocs.io/en/latest/userguide.html#elastic-sources">Elastic Sources documentation</a> for more information and detailed examples</li>
-                                    <li>Elastic sources should be used when the default concept of trackMe (statement by index/sourcetype) does not comply with your requirements, or does not provide the level of flexibility requested</li>                        
-                                    <li>Elastic sources can be based on a shared or dedicated tracker, the shared elastic tracker loads the content of the lookup trackme_elastic_sources, and performs all the searches in a single execution</li>
-                                    <li>A dedicated elastic tracker is a scheduled report created in the UI to manage, automatically integrated with TrackMe workflow</li>
-                                    <li>For large volume sources or advanced use cases such as mapping additional lookups, the usage of a dedicated elastic tracker is recommended (the search can be cutomised after its creation)</li>
-                                    <li>The shared elastic tracker should be reserved for high performing searches, ideally tstats based searches relying on indexed fields</li>
-                                    <li>Dedicated elastic trackers information are as well stored in the trackme_elastic_sources_dedicated lookup for mapping purposes in the UI</li>
-                                </lu>
-
-                                <br />
-
-                                <style type="text/css">
-                                .tg  {border-collapse:collapse;border-spacing:0;}
-                                .tg td{border-color:black;border-style:solid;border-width:1px;font-family:Arial, sans-serif;font-size:14px;
-                                overflow:hidden;padding:10px 5px;word-break:normal;}
-                                .tg th{border-color:black;border-style:solid;border-width:1px;font-family:Arial, sans-serif;font-size:14px;
-                                font-weight:normal;overflow:hidden;padding:10px 5px;word-break:normal;}
-                                .tg .tg-p1nr{border-color:inherit;font-size:12px;text-align:left;vertical-align:top}
-                                .tg .tg-f4iu{border-color:inherit;font-size:13px;text-align:center;vertical-align:top}
-                                </style>
-                                <table class="tg">
-                                    <thead>
-                                    <tr>
-                                        <th class="tg-f4iu"><span style="font-weight:bold">FIELD</span></th>
-                                        <th class="tg-f4iu"><span style="font-weight:bold">DEFINITION</span></th>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                    <tr>
-                                        <td class="tg-p1nr"><span style="font-weight:bold">data_name</span></td>
-                                        <td class="tg-p1nr">This is the main identifier for a data source, and needs to be unique within the entire collection</td>
-                                    </tr>
-                                    <tr>
-                                        <td class="tg-p1nr"><span style="font-weight:bold">search_mode</span></td>
-                                        <td class="tg-p1nr">The type of search, valid options are: <strong>tstats</strong> / <strong>raw</strong> / <strong>from</strong> / <strong>mstats</strong></td>
-                                    </tr>
-                                    <tr>
-                                        <td class="tg-p1nr"><span style="font-weight:bold">search_constraint</span></td>
-                                        <td class="tg-p1nr">The constraint of the search:<br />- <strong>tstats</strong>: this represents the where part of a tstats search, as: <span><code>index=my_index source=my_source</code></span><br />- <strong>raw</strong>: Any filter that is before stats calculation, as: <span><code>index=my_index tag=authentication app=my_application</code></span><br />- <strong>from (datamodel)</strong>: a search using from is in 2 parts with a pipe separation, where the 1st segment is the object and the 2nd a search constraint, as: <span><code>datamodel:"Authentication" | search user="*" action="success" app="my_application"</code></span> <br />- <strong>from (lookup)</strong>: A lookup can be monitored with the from command, it requires the lookup to have a time field concept, and a field _time in epoch time format needs to be created using an eval function with strftime/strptime, such as: <span><code>lookup:"my_lookup" | eval _time=strptime(lastUpdated, "%d/%m/%Y %H:%M:%S")</code></span> <br />- <strong>mstats</strong>: Allows monitoring metric indexes according to your constraints including dimensions, as: <span><code>index="k8s_metrics" metric_name="k8s.*" cluster_name="production"</code></span> <br />Filters can include a time range which will override the default 4 hours time range of the wrapper tracker, as: <span><code>earliest="-15m" latest="+15m"</code></span>
-                                        
-                                            <br />- <strong>rest</strong>: these are special remote searches performed against the <a target="_blank" href="https://docs.splunk.com/Documentation/Splunk/latest/RESTTUT/RESTsearches">Splunk API</a> using the SPL <a target="_blank" href="https://docs.splunk.com/Documentation/Splunk/latest/SearchReference/Rest">rest command.</a> This allows tracking data that is not available to the search head(s) hosting TrackMe.
-                                            <br />Syntax examples for rest searches, the first part before the pipe needs to contain the rest target:
-                                            <br />
-                                            <span><code>splunk_server="my_search_head" | index=my_index source=my_source</code></span>
-                                            <br />
-                                            <span><code>splunk_server_group="dmc_searchheadclustergroup_shc1" | lookup:asset_cmdb_lookup | eval _time=strptime(lastUpdated, "%d/%m/%Y %H:%M:%S")</code></span>
-
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td class="tg-p1nr"><span style="font-weight:bold">elastic _data_index</span></td>
-                                        <td class="tg-p1nr">Optional, this value will be used in the UI but has no impacts on the search, default to the data_name if unset</td>
-                                    </tr>
-                                    <tr>
-                                        <td class="tg-p1nr"><span style="font-weight:bold">elastic_data_sourcetype</span></td>
-                                        <td class="tg-p1nr"><span style="font-weight:400;font-style:normal">Optional, this value will be used in the UI but has no impacts on the search, default to the data_name if unset</span></td>
-                                    </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-
-                            <div class="modal-footer">
-                                <button id="btn_modal_elastic_sources_manage" type="submit" style="margin-right: 15px;" class="btn btn-default btn-primary pull-left" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Manage existing shared elastic sources</button>
-                                <button id="btn_modal_elastic_sources_dedicated_manage" type="submit" style="margin-right: 15px;" class="btn btn-default btn-primary pull-left" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Manage existing dedicated elastic sources</button>                    
-                                <button id="btn_modal_elastic_sources_add" type="submit" class="btn btn-default btn-primary pull-left" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Create a new elastic source</button>
-                                <button type="submit" class="btn btn-default btn-default pull-right" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Cancel</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="modal fade custom-modal-80" id="add_elastic_sources" role="dialog">
-                    <div class="modal-dialog">
-
-                        <!-- Modal content-->
-                        <div class="modal-content">
-                            <div class="modal-header modal-header-danger">
-                                <button type="button" class="close" data-dismiss="modal"></button>
-                                <h1 style="color: white;"><span class="glyphicon glyphicon-lock"></span> Elastic sources definition </h1>
-                            </div>
-                            <div class="modal-body">
-                                <b>Use this interface to create and manage elastic sources:</b>
-                                <br /><br />
-
-                                <div class="boxnotify" id="boxnotify-add_elastic_source">
-                                </div>
-
-                                <div>
-
-                                    <div>
-
-                                        <div>
-
-                                            <div>
-
-                                                <div class="input input-text" id="modal_input_elastic_source_data_name" style="margin-bottom: 10px; max-width: 300px;">
-                                                    <label>Enter the unique identifier of the elastic source:</label>
-                                                </div>
-
-                                                <div class="input input-dropdown" id="modal_input_elastic_source_search_type" style="margin-bottom: 10px;">
-                                                    <label>Choose the type of search:</label>
-                                                </div>
-
-                                                <form>
-                                                    <fieldset>
-                                                        <legend>Fill the search constraint according to the type of search:</legend>
-                                                        <p>
-                                                            <label>Enter the constraint for the search:</label>
-                                                            <textarea
-                                                                    id = "modal_input_elastic_source_search_constraint"
-                                                                    rows = "3"
-                                                                    cols = "80" style="width: 1100px;"
-                                                                    onfocus="if(this.value==this.defaultValue)this.value='';" onblur="if(this.value=='')this.value=this.defaultValue;">Enter the Splunk search constraint chain according to the type of search selected</textarea>
-                                                        </p>
-
-                                                    </fieldset>
-                                                </form>
-
-                                                <div class="fieldset">
-
-                                                    <div class="input input-text" id="modal_input_elastic_source_elastic_data_index" style="margin-bottom: 10px; max-width: 300px;">
-                                                        <label>Optional: index value visible in the UI (white|blacklist applies)</label>
-                                                    </div>
-
-                                                    <div class="input input-text" id="modal_input_elastic_source_elastic_data_sourcetype" style="margin-bottom: 10px; max-width: 300px;">
-                                                        <label>Optional: sourcetype visible in the UI (white|blacklist applies)</label>
-                                                    </div>
-
-                                                    <div class="input input-text" id="modal_input_elastic_source_earliest" style="margin-bottom: 10px; max-width: 300px;">
-                                                        <label>Earliest, for dedicated trackers only (shared tracker uses -4h)</label>
-                                                    </div>
-
-                                                    <div class="input input-text" id="modal_input_elastic_source_latest" style="margin-bottom: 10px; max-width: 300px;">
-                                                        <label>Latest, for dedicated trackers only (shared tracker uses +4h)</label>
-                                                    </div>
-
-                                                </div>
-
-                                                <div style="margin-top: 15x;">
-                                                    <h4 style="color: red;">Caution: allowlist indexes and blocklists apply to elastic trackers, make sure to configure these accordingly or use valid index and sourcetype values</h4>
-                                                    <br />
-                                                    <button type="submit" id="btn_modal_elastic_source_add_simulate" style="margin-right: 15px;" class="btn btn-default btn-primary"><span class="glyphicon glyphicon-remove"></span> Simulate the search</button>
-                                                    <button type="submit" id="btn_modal_elastic_source_add_new" style="margin-right: 15px;" class="btn btn-default btn-primary"><span class="glyphicon glyphicon-remove"></span> Add to the shared tracker</button>
-                                                    <button type="submit" id="btn_modal_elastic_source_dedicated_add_new" style="margin-right: 15px;" class="btn btn-default btn-primary"><span class="glyphicon glyphicon-remove"></span> Add as a new dedicated tracker</button>
-                                                </div>
-
-                                            </div>
-
-                                            <br />
-                                            <br />
-
-                                        </div>
-
-                                    </div>
-
-                                </div>
-
-                                <div data-depends="$start_simulation_elastic_sources$">
-                                    <div>
-                                        <div>
-                                            <div>
-                                                <div id="tableElasticSourcesTest" style="width: 100%; max-height: 140px;">
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                            </div>
-                            <div class="modal-footer">
-                                <button type="submit" class="btn btn-default btn-default pull-left" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Cancel</button>
-                                <button type="submit" id="btn_modal_elastic_sources_add_new_back" class="btn btn-default btn-primary pull-right" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Back</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Modal window confirmation of association for identity card -->
-                <div class="modal fade" id="add_elastic_source_processed" role="dialog">
-                    <div class="modal-dialog">
-
-                        <!-- Modal content-->
-                        <div class="modal-content">
-                            <div class="modal-header modal-header-success">
-                                <button type="button" class="close" data-dismiss="modal"></button>
-                                <h1 style="color: white;"><span class="glyphicon glyphicon-lock"></span>New elastic source successfully added.</h1>
-                            </div>
-                            <div class="modal-body">
-                                <p>Congratulations, the new elastic source was successfully added to the shared tracker collection.<br /><br />
-                                    <b>The following new configuration was created:</b>
-                                </p>
-                                <div class="modal-error-message" style="margin: 10px 0; padding: 10px; border-radius: 3px 3px 3px 3px; color: #059; background-color: #BEF;">
-                                    <p>success return message</p>
-                                </div>
-                            </div>
-
-                            <div class="modal-footer">
-                                <button type="submit" id="add_elastic_source_processed_run_tracker" class="btn btn-default btn-default btn-primary"><span class="glyphicon glyphicon-remove"></span> Run Elastic Shared tracker now</button>
-                                <button type="submit" class="btn btn-default btn-default" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Close</button>
-                            </div>
-                        </div>
-
-                    </div>
-                </div>
-
-                <div class="modal fade custom-modal-80" id="modify_elastic_sources" role="dialog">
-                    <div class="modal-dialog">
-
-                        <!-- Modal content-->
-                        <div class="modal-content">
-                            <div class="modal-header modal-header-danger">
-                                <button type="button" class="close" data-dismiss="modal"></button>
-                                <h1 style="color: white;"><span class="glyphicon glyphicon-lock"></span> Shared Elastic sources definition </h1>
-                            </div>
-                            <div class="modal-body">
-                                <b>Use this interface to create and manage shared elastic sources:</b>
-                                <br /><br />
-
-                                <div class="boxnotify" id="boxnotify-modify_elastic_sources">
-                                </div>
-
-                                <div>
-                                    <div style="width: 50%;">
-                                        <div >
-
-                                            <div>
-                                                <div id="SingleElasticSources">
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div>
-                                    <div>
-                                        <div >
-                                            <div>
-                                                <div class="fieldset">
-                                                    <div class="input input-text" id="modal_input_elastic_sources_search" style="margin-bottom: 10px;">
-                                                        <label>Search for elastic source:</label>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div>
-                                    <div>
-                                        <div >
-                                            <div>
-                                                <div class="fieldset">
-                                                    <div id="tableElasticSources">
-                                                        <label>Click on the table for interactive actions:</label>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                            </div>
-                            <div class="modal-footer">
-                                <button type="submit" id="btn_modal_elastic_sources_add_back" class="btn btn-default btn-primary pull-left" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Back</button>
-                                <button type="submit" id="btn_modal_elastic_sources_add_delete" class="btn btn-default btn-danger pull-right" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Remove selected</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="modal fade custom-modal-80" id="modify_elastic_sources_dedicated" role="dialog">
-                    <div class="modal-dialog">
-
-                        <!-- Modal content-->
-                        <div class="modal-content">
-                            <div class="modal-header modal-header-danger">
-                                <button type="button" class="close" data-dismiss="modal"></button>
-                                <h1 style="color: white;"><span class="glyphicon glyphicon-lock"></span> Dedicated Elastic sources definition </h1>
-                            </div>
-                            <div class="modal-body">
-                                <b>Use this interface to create and manage dedicated elastic sources:</b>
-                                <br /><br />
-
-                                <div class="boxnotify" id="boxnotify-modify_elastic_sources_dedicated">
-                                </div>
-
-                                <div>
-                                    <div style="width: 50%;">
-                                        <div >
-                                            <div>
-                                                <div id="SingleElasticSourcesDedicated">
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div>
-                                    <div>
-                                        <div >
-                                            <div>
-                                                <div class="fieldset">
-                                                    <div class="input input-text" id="modal_input_elastic_sources_dedicated_search" style="margin-bottom: 10px;">
-                                                        <label>Search for elastic source:</label>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div>
-                                    <div>
-                                        <div >
-                                            <div>
-                                                <div class="fieldset">
-                                                    <div id="tableElasticSourcesDedicated">
-                                                        <label>Click on the table for interactive actions:</label>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                            </div>
-                            <div class="modal-footer">
-                                <button type="submit" id="btn_modal_elastic_sources_dedicated_add_back" class="btn btn-default btn-primary pull-left" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Back</button>
-                                <button type="submit" id="btn_modal_elastic_sources_dedicated_add_delete" class="btn btn-default btn-danger pull-right" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Remove selected</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- shared elastic sources deletion -->
-                <div id="delete_elastic_source">
-                    <div>
-                        <div class="modal fade" id="delete_elastic_source_main" role="dialog">
-                            <div class="modal-dialog">
-                                <!-- Modal content-->
-                                <div class="modal-content">
-                                    <!-- This is required to get the token substitutions without affecting the buttons actions in js -->
-                                    <div>
-                                        <div>
-                                            <div class="modal-header modal-header-danger">
-                                                <h1 style="color: white;">Actions for shared Elastic Source: </h1>
-                                                <button type="button" class="close" data-dismiss="modal"></button>
-                                            </div>
-                                            <div class="modal-body">
-                                                <p><b>Confirm modification ?</b><br />
-                                                </p>
-                                                <p>
-                                                    <label>Optional: enter a note of this update. <br />
-                                                        This note will be logged and made available for notification.</label>
-                                                    <textarea
-                                                            id = "elastic_source_shared_delete_comment"
-                                                            rows = "6"
-                                                            cols = "160" style="width: 500px;"
-                                                            onfocus="if(this.value==this.defaultValue)this.value='';" onblur="if(this.value=='')this.value=this.defaultValue;">update note</textarea>
-                                                </p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="modal-footer">
-                                        <button type="submit" id="btn_delete_elastic_source_cancel" role="button" class="btn btn-default btn-default" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span>Cancel</button>
-                                        <button type="submit" id="btn_delete_elastic_source_confirm" role="button" class="btn btn-danger btn-default"><span class="glyphicon glyphicon-remove"></span>Delete</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- dedicated elastic sources deletion -->
-                <div class="modal fade" id="delete_elastic_source_main_dedicated" role="dialog">
-                    <div class="modal-dialog">
-                        <!-- Modal content-->
-                        <div class="modal-content">
-                            <!-- This is required to get the token substitutions without affecting the buttons actions in js -->
-                            <div>
-                                <div>
-                                    <div class="modal-header modal-header-danger">
-                                        <h1 style="color: white;">Actions for dedicated Elastic Source: </h1>
-                                        <button type="button" class="close" data-dismiss="modal"></button>
-                                    </div>
-                                    <div class="modal-body">
-                                        <p><b>Confirm modification ?</b><br />
-                                        </p>
-                                        <p>
-                                            <label>Optional: enter a note of this update. <br />
-                                                This note will be logged and made available for notification.</label>
-                                            <textarea
-                                                    id = "elastic_source_dedicated_delete_comment"
-                                                    rows = "6"
-                                                    cols = "160" style="width: 500px;"
-                                                    onfocus="if(this.value==this.defaultValue)this.value='';" onblur="if(this.value=='')this.value=this.defaultValue;">update note</textarea>
-                                        </p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="modal-footer">
-                                <button type="submit" id="btn_delete_elastic_source_dedicated_cancel" role="button" class="btn btn-default btn-default" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span>Cancel</button>
-                                <button type="submit" id="btn_delete_elastic_source_dedicated_confirm" role="button" class="btn btn-danger btn-default"><span class="glyphicon glyphicon-remove"></span>Delete</button>
                             </div>
                         </div>
                     </div>
@@ -5226,7 +5226,7 @@
                         <div class="modal-content">
                             <div class="modal-header modal-header-danger">
                                 <button type="button" class="close" data-dismiss="modal"></button>
-                                <h1 style="color: white;"><span class="glyphicon glyphicon-lock"></span> Modify index allowlisting</h1>
+                                <h1><span class="glyphicon glyphicon-lock"></span> Modify index allowlisting</h1>
                             </div>
                             <div class="modal-body">
                                 <b>If no indexes are in allowlist, TrackMe will use all available indexes, otherwise only the indexes in allowlist will be taken in charge</b>
@@ -5351,7 +5351,7 @@
                         <div class="modal-content">
                             <div class="modal-header modal-header-danger">
                                 <button type="button" class="close" data-dismiss="modal"></button>
-                                <h1 style="color: white;"><span class="glyphicon glyphicon-lock"></span> Modify index allowlisting</h1>
+                                <h1><span class="glyphicon glyphicon-lock"></span> Modify index allowlisting</h1>
                             </div>
                             <div class="modal-body">
                                 <b>If no indexes are in allowlist, TrackMe will use all available indexes, otherwise only the indexes in allowlist will be taken in charge</b>
@@ -5473,7 +5473,7 @@
                         <div class="modal-content">
                             <div class="modal-header modal-header-danger">
                                 <button type="button" class="close" data-dismiss="modal"></button>
-                                <h1 style="color: white;"><span class="glyphicon glyphicon-lock"></span> Modify index allowlisting</h1>
+                                <h1><span class="glyphicon glyphicon-lock"></span> Modify index allowlisting</h1>
                             </div>
                             <div class="modal-body">
                                 <b>If no indexes are in allowlist, TrackMe will use all available indexes, otherwise only the indexes in allowlist will be taken in charge</b>
@@ -5601,7 +5601,7 @@
                         <div class="modal-content">
                             <div class="modal-header modal-header-danger">
                                 <button type="button" class="close" data-dismiss="modal"></button>
-                                <h1 style="color: white;"><span class="glyphicon glyphicon-lock"></span> Modify host blocklisting</h1>
+                                <h1><span class="glyphicon glyphicon-lock"></span> Modify host blocklisting</h1>
                             </div>
                             <div class="modal-body">
                                 <b>Hosts that have been blocklisted are excluded from the data discovery</b>
@@ -5700,7 +5700,7 @@
                         <div class="modal-content">
                             <div class="modal-header modal-header-danger">
                                 <button type="button" class="close" data-dismiss="modal"></button>
-                                <h1 style="color: white;"><span class="glyphicon glyphicon-lock"></span> Modify index blocklisting</h1>
+                                <h1><span class="glyphicon glyphicon-lock"></span> Modify index blocklisting</h1>
                             </div>
                             <div class="modal-body">
                                 <b>Indexes that have been blocklisted are excluded from the data discovery</b>
@@ -5807,7 +5807,7 @@
                         <div class="modal-content">
                             <div class="modal-header modal-header-danger">
                                 <button type="button" class="close" data-dismiss="modal"></button>
-                                <h1 style="color: white;"><span class="glyphicon glyphicon-lock"></span> Modify sourcetype blocklisting</h1>
+                                <h1><span class="glyphicon glyphicon-lock"></span> Modify sourcetype blocklisting</h1>
                             </div>
                             <div class="modal-body">
                                 <b>Sourcetypes that have been blocklisted are excluded from the data discovery</b>
@@ -5914,7 +5914,7 @@
                         <div class="modal-content">
                             <div class="modal-header modal-header-danger">
                                 <button type="button" class="close" data-dismiss="modal"></button>
-                                <h1 style="color: white;"><span class="glyphicon glyphicon-lock"></span> Modify data_name blocklisting</h1>
+                                <h1><span class="glyphicon glyphicon-lock"></span> Modify data_name blocklisting</h1>
                             </div>
                             <div class="modal-body">
                                 <b>Data names that have been blocklisted are excluded from the data discovery</b>
@@ -6025,7 +6025,7 @@
                         <div class="modal-content">
                             <div class="modal-header modal-header-danger">
                                 <button type="button" class="close" data-dismiss="modal"></button>
-                                <h1 style="color: white;"><span class="glyphicon glyphicon-lock"></span> Modify host blocklisting</h1>
+                                <h1><span class="glyphicon glyphicon-lock"></span> Modify host blocklisting</h1>
                             </div>
                             <div class="modal-body">
                                 <b>Hosts that have been blocklisted are excluded from the data discovery</b>
@@ -6123,7 +6123,7 @@
                         <div class="modal-content">
                             <div class="modal-header modal-header-success">
                                 <button type="button" class="close" data-dismiss="modal"></button>
-                                <h1 style="color: white;"><span class="glyphicon glyphicon-lock"></span>Black list host updated</h1>
+                                <h1><span class="glyphicon glyphicon-lock"></span>Black list host updated</h1>
                             </div>
                             <div class="modal-body">
                                 <p><b>The host was successfully added to the blacklist host collection. the host will be permanently excluded from the data sources discovery.</b><br /><br />
@@ -6148,7 +6148,7 @@
                         <div class="modal-content">
                             <div class="modal-header modal-header-danger">
                                 <button type="button" class="close" data-dismiss="modal"></button>
-                                <h1 style="color: white;"><span class="glyphicon glyphicon-lock"></span> Data source unified update </h1>
+                                <h1><span class="glyphicon glyphicon-lock"></span> Data source unified update </h1>
                             </div>
 
                             <div class="modal-body">
@@ -6325,7 +6325,7 @@
                         <div class="modal-content">
                             <div class="modal-header modal-header-danger">
                                 <button type="button" class="close" data-dismiss="modal"></button>
-                                <h1 style="color: white;"><span class="glyphicon glyphicon-lock"></span> Data source unified update </h1>
+                                <h1><span class="glyphicon glyphicon-lock"></span> Data source unified update </h1>
                             </div>
 
                             <div class="modal-body">
@@ -6391,7 +6391,7 @@
                         <div class="modal-content">
                             <div class="modal-header modal-header-danger">
                                 <button type="button" class="close" data-dismiss="modal"></button>
-                                <h1 style="color: white;"><span class="glyphicon glyphicon-lock"></span> Data host unified update </h1>
+                                <h1><span class="glyphicon glyphicon-lock"></span> Data host unified update </h1>
                             </div>
 
                             <div class="modal-body">
@@ -6533,7 +6533,7 @@
                         <div class="modal-content">
                             <div class="modal-header modal-header-danger">
                                 <button type="button" class="close" data-dismiss="modal"></button>
-                                <h1 style="color: white;"><span class="glyphicon glyphicon-lock"></span> Data host unified update </h1>
+                                <h1><span class="glyphicon glyphicon-lock"></span> Data host unified update </h1>
                             </div>
                             
                             <div class="modal-body">
@@ -6599,7 +6599,7 @@
                         <div class="modal-content">
                             <div class="modal-header modal-header-danger">
                                 <button type="button" class="close" data-dismiss="modal"></button>
-                                <h1 style="color: white;"><span class="glyphicon glyphicon-lock"></span> Metric host unified update </h1>
+                                <h1><span class="glyphicon glyphicon-lock"></span> Metric host unified update </h1>
                             </div>
 
                             <div class="modal-body">
@@ -6668,7 +6668,7 @@
                         <div class="modal-content">
                             <div class="modal-header modal-header-danger">
                                 <button type="button" class="close" data-dismiss="modal"></button>
-                                <h1 style="color: white;"><span class="glyphicon glyphicon-lock"></span> Monitoring week days update </h1>
+                                <h1><span class="glyphicon glyphicon-lock"></span> Monitoring week days update </h1>
                             </div>
                             <div class="modal-body">
                                 <p>
@@ -6703,7 +6703,7 @@
                         <div class="modal-content">
                             <div class="modal-header modal-header-danger">
                                 <button type="button" class="close" data-dismiss="modal"></button>
-                                <h1 style="color: white;"><span class="glyphicon glyphicon-lock"></span> Monitoring week days update </h1>
+                                <h1><span class="glyphicon glyphicon-lock"></span> Monitoring week days update </h1>
                             </div>
                             <div class="modal-body">
                                 <p>
@@ -6741,7 +6741,7 @@
                         <div class="modal-content">
                             <div class="modal-header modal-header-danger">
                                 <button type="button" class="close" data-dismiss="modal"></button>
-                                <h1 style="color: white;"><span class="glyphicon glyphicon-lock"></span> Metrics SLA policies editor </h1>
+                                <h1><span class="glyphicon glyphicon-lock"></span> Metrics SLA policies editor </h1>
                             </div>
                             <div class="modal-body">
                                 <b>Use this interface to manage SLA policies for metric categories:</b>
@@ -6812,7 +6812,7 @@
 
                             </div>
                             <div class="modal-footer">
-                                <button type="submit" class="btn btn-default btn-default pull-left" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Cancel</button>
+                                <button type="submit" class="btn btn-outline-secondary pull-left" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Cancel</button>
                                 <button type="submit" id="btn_delete_metric_sla_policy_level1" class="btn btn-default btn-danger pull-right" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Remove selected</button>
                             </div>
                         </div>
@@ -7518,7 +7518,7 @@
                         <div class="modal-content">
                             <div class="modal-header modal-header-danger">
                                 <button type="button" class="close" data-dismiss="modal"></button>
-                                <h1 style="color: white;"><span class="glyphicon glyphicon-lock"></span> Modify index blocklisting</h1>
+                                <h1><span class="glyphicon glyphicon-lock"></span> Modify index blocklisting</h1>
                             </div>
                             <div class="modal-body">
                                 <b>Indexes that have been blocklisted are excluded from the data discovery</b>
@@ -7624,7 +7624,7 @@
                         <div class="modal-content">
                             <div class="modal-header modal-header-danger">
                                 <button type="button" class="close" data-dismiss="modal"></button>
-                                <h1 style="color: white;"><span class="glyphicon glyphicon-lock"></span> Modify index blocklisting</h1>
+                                <h1><span class="glyphicon glyphicon-lock"></span> Modify index blocklisting</h1>
                             </div>
                             <div class="modal-body">
                                 <b>Indexes that have been blocklisted are excluded from the data discovery</b>
@@ -7731,7 +7731,7 @@
                         <div class="modal-content">
                             <div class="modal-header modal-header-danger">
                                 <button type="button" class="close" data-dismiss="modal"></button>
-                                <h1 style="color: white;"><span class="glyphicon glyphicon-lock"></span> Modify sourcetype blocklisting</h1>
+                                <h1><span class="glyphicon glyphicon-lock"></span> Modify sourcetype blocklisting</h1>
                             </div>
                             <div class="modal-body">
                                 <b>Sourcetypes that have been blocklisted are excluded from the data discovery</b>
@@ -7839,7 +7839,7 @@
                         <div class="modal-content">
                             <div class="modal-header modal-header-danger">
                                 <button type="button" class="close" data-dismiss="modal"></button>
-                                <h1 style="color: white;"><span class="glyphicon glyphicon-lock"></span> Modify host blocklisting</h1>
+                                <h1><span class="glyphicon glyphicon-lock"></span> Modify host blocklisting</h1>
                             </div>
                             <div class="modal-body">
                                 <b>Hosts that have been blocklisted are excluded from the data discovery</b>
@@ -7938,7 +7938,7 @@
                         <div class="modal-content">
                             <div class="modal-header modal-header-danger">
                                 <button type="button" class="close" data-dismiss="modal"></button>
-                                <h1 style="color: white;"><span class="glyphicon glyphicon-lock"></span> Modify metric category blocklisting</h1>
+                                <h1><span class="glyphicon glyphicon-lock"></span> Modify metric category blocklisting</h1>
                             </div>
                             <div class="modal-body">
                                 <b>metric_category that have been blocklisted are excluded from the metric discovery</b>
@@ -8182,7 +8182,7 @@
                         <div class="modal-content">
                             <div class="modal-header modal-header-danger">
                                 <button type="button" class="close" data-dismiss="modal"></button>
-                                <h1 style="color: white;"><span class="glyphicon glyphicon-lock"></span> Alert tracking definition </h1>
+                                <h1><span class="glyphicon glyphicon-lock"></span> Alert tracking definition </h1>
                             </div>
                             <div class="modal-body">
                                 <b>Use this interface to create a custom alert in assisted mode:</b>
@@ -8326,7 +8326,7 @@
                                 </div>
                             </div>
                             <div class="modal-footer">
-                                <button type="submit" class="btn btn-default btn-default pull-left" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Cancel</button>
+                                <button type="submit" class="btn btn-outline-secondary pull-left" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Cancel</button>
                             </div>
                         </div>
                     </div>
@@ -8340,7 +8340,7 @@
                         <div class="modal-content">
                             <div class="modal-header modal-header-danger">
                                 <button type="button" class="close" data-dismiss="modal"></button>
-                                <h1 style="color: white;"><span class="glyphicon glyphicon-lock"></span>KVstore entry selection is invalid</h1>
+                                <h1><span class="glyphicon glyphicon-lock"></span>KVstore entry selection is invalid</h1>
                             </div>
                             <div class="modal-body">
                                 <p>The selection you have made or the modification you have requested is invalid.<br /><br />
@@ -8362,7 +8362,7 @@
                         <div class="modal-content">
                             <div class="modal-header modal-header-danger">
                                 <button type="button" class="close" data-dismiss="modal"></button>
-                                <h1 style="color: white;"><span class="glyphicon glyphicon-lock"></span>Data sampling &amp; events format recognition</h1>
+                                <h1><span class="glyphicon glyphicon-lock"></span>Data sampling &amp; events format recognition</h1>
                             </div>
                             <div class="modal-body">
 
@@ -8413,7 +8413,7 @@
                         <div class="modal-content">
                             <div class="modal-header modal-header-danger">
                                 <button type="button" class="close" data-dismiss="modal"></button>
-                                <h1 style="color: white;"><span class="glyphicon glyphicon-lock"></span>Data sampling &amp; events format recognition</h1>
+                                <h1><span class="glyphicon glyphicon-lock"></span>Data sampling &amp; events format recognition</h1>
                             </div>
                             <div class="modal-body">
                                 <p><b>Confirm clear state action?</b><br />
@@ -8447,7 +8447,7 @@
                         <div class="modal-content">
                             <div class="modal-header modal-header-danger">
                                 <button type="button" class="close" data-dismiss="modal"></button>
-                                <h1 style="color: white;"><span class="glyphicon glyphicon-lock"></span>Data sampling &amp; events format recognition</h1>
+                                <h1><span class="glyphicon glyphicon-lock"></span>Data sampling &amp; events format recognition</h1>
                             </div>
                             <div class="modal-body">
                                 <p><b>Confirm disable action?</b><br />
@@ -8481,7 +8481,7 @@
                         <div class="modal-content">
                             <div class="modal-header modal-header-danger">
                                 <button type="button" class="close" data-dismiss="modal"></button>
-                                <h1 style="color: white;"><span class="glyphicon glyphicon-lock"></span>Data sampling &amp; events format recognition</h1>
+                                <h1><span class="glyphicon glyphicon-lock"></span>Data sampling &amp; events format recognition</h1>
                             </div>
                             <div class="modal-body">
                                 <p><b>Confirm custom rule deletion action?</b><br />
@@ -8500,7 +8500,7 @@
                             </div>
 
                             <div class="modal-footer">
-                                <button type="submit" class="btn btn-default btn-default pull-left" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Cancel</button>
+                                <button type="submit" class="btn btn-outline-secondary pull-left" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Cancel</button>
                                 <button type="submit" id="btn_modal_remove_custom_rule_confirm" class="btn btn-default btn-primary pull-right" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Ok</button>
                             </div>
                         </div>
@@ -8515,7 +8515,7 @@
                         <div class="modal-content">
                             <div class="modal-header modal-header-danger">
                                 <button type="button" class="close" data-dismiss="modal"></button>
-                                <h1 style="color: white;"><span class="glyphicon glyphicon-lock"></span>Data sampling &amp; events format recognition</h1>
+                                <h1><span class="glyphicon glyphicon-lock"></span>Data sampling &amp; events format recognition</h1>
                             </div>
                             <div class="modal-body">
                                 <p><b>Confirm custom rule addition action?</b><br />
@@ -8534,7 +8534,7 @@
                             </div>
 
                             <div class="modal-footer">
-                                <button type="submit" class="btn btn-default btn-default pull-left" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Cancel</button>
+                                <button type="submit" class="btn btn-outline-secondary pull-left" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Cancel</button>
                                 <button type="submit" id="btn_modal_add_custom_rule_confirm" class="btn btn-default btn-primary pull-right" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Ok</button>
                             </div>
                         </div>
@@ -8549,7 +8549,7 @@
                         <div class="modal-content">
                             <div class="modal-header modal-header-danger">
                                 <button type="button" class="close" data-dismiss="modal"></button>
-                                <h1 style="color: white;"><span class="glyphicon glyphicon-lock"></span>KVstore entry update</h1>
+                                <h1><span class="glyphicon glyphicon-lock"></span>KVstore entry update</h1>
                             </div>
                             <div class="modal-body">
                                 <p><b>Confirm modification for this entry?</b><br />
@@ -8568,7 +8568,7 @@
                             </div>
 
                             <div class="modal-footer">
-                                <button type="submit" class="btn btn-default btn-default pull-left" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Cancel</button>
+                                <button type="submit" class="btn btn-outline-secondary pull-left" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Cancel</button>
                                 <button type="submit" id="btn_modal_entry_modification" class="btn btn-default btn-primary pull-right" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Ok</button>
                             </div>
                         </div>

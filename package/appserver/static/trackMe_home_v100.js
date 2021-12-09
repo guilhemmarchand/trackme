@@ -133,9 +133,256 @@ require([
     });
   }
 
+  //
+  // Notification
+  //
+
+  function notification(s, time) {
+
+    $("<p>" + s + "</p>").appendTo('#boxnotify-data-source').fadeTo(time, 1, function() {
+      $(this).fadeTo(1000, 0, function() {
+        $(this).remove()
+      });
+    });
+  
+    $("<p>" + s + "</p>").appendTo('#boxnotify-data-host').fadeTo(time, 1, function() {
+      $(this).fadeTo(1000, 0, function() {
+        $(this).remove()
+      });
+    });
+  
+    $("<p>" + s + "</p>").appendTo('#boxnotify-metric-host').fadeTo(time, 1, function() {
+      $(this).fadeTo(1000, 0, function() {
+        $(this).remove()
+      });
+    });
+  
+    $("<p>" + s + "</p>").appendTo('#boxnotify-unified-data-source').fadeTo(time, 1, function() {
+      $(this).fadeTo(1000, 0, function() {
+        $(this).remove()
+      });
+    });
+  
+    $("<p>" + s + "</p>").appendTo('#boxnotify-unified-data-source-autolag').fadeTo(time, 1, function() {
+      $(this).fadeTo(1000, 0, function() {
+        $(this).remove()
+      });
+    });
+  
+    $("<p>" + s + "</p>").appendTo('#boxnotify-unified-data-host').fadeTo(time, 1, function() {
+      $(this).fadeTo(1000, 0, function() {
+        $(this).remove()
+      });
+    });
+  
+    $("<p>" + s + "</p>").appendTo('#boxnotify-unified-data-host-autolag').fadeTo(time, 1, function() {
+      $(this).fadeTo(1000, 0, function() {
+        $(this).remove()
+      });
+    });
+  
+    $("<p>" + s + "</p>").appendTo('#boxnotify-unified-metric-host').fadeTo(time, 1, function() {
+      $(this).fadeTo(1000, 0, function() {
+        $(this).remove()
+      });
+    });
+  
+    $("<p>" + s + "</p>").appendTo('#boxnotify-modal_modify_data_source_whitelist').fadeTo(time, 1, function() {
+      $(this).fadeTo(1000, 0, function() {
+        $(this).remove()
+      });
+    });
+  
+    $("<p>" + s + "</p>").appendTo('#boxnotify-modal_modify_data_host_whitelist').fadeTo(time, 1, function() {
+      $(this).fadeTo(1000, 0, function() {
+        $(this).remove()
+      });
+    });
+  
+    $("<p>" + s + "</p>").appendTo('#boxnotify-modal_modify_metric_host_whitelist').fadeTo(time, 1, function() {
+      $(this).fadeTo(1000, 0, function() {
+        $(this).remove()
+      });
+    });
+  
+    $("<p>" + s + "</p>").appendTo('#boxnotify-modal_modify_data_source_blacklist_host').fadeTo(time, 1, function() {
+      $(this).fadeTo(1000, 0, function() {
+        $(this).remove()
+      });
+    });
+  
+    $("<p>" + s + "</p>").appendTo('#boxnotify-modal_modify_data_source_blacklist_index').fadeTo(time, 1, function() {
+      $(this).fadeTo(1000, 0, function() {
+        $(this).remove()
+      });
+    });
+  
+    $("<p>" + s + "</p>").appendTo('#boxnotify-modal_modify_data_source_blacklist_sourcetype').fadeTo(time, 1, function() {
+      $(this).fadeTo(1000, 0, function() {
+        $(this).remove()
+      });
+    });
+  
+    $("<p>" + s + "</p>").appendTo('#boxnotify-modal_modify_data_source_blacklist_data_name').fadeTo(time, 1, function() {
+      $(this).fadeTo(1000, 0, function() {
+        $(this).remove()
+      });
+    });
+  
+    $("<p>" + s + "</p>").appendTo('#boxnotify-modal_modify_data_host_blacklist_host').fadeTo(time, 1, function() {
+      $(this).fadeTo(1000, 0, function() {
+        $(this).remove()
+      });
+    });
+  
+    $("<p>" + s + "</p>").appendTo('#boxnotify-modal_modify_data_host_blacklist_index').fadeTo(time, 1, function() {
+      $(this).fadeTo(1000, 0, function() {
+        $(this).remove()
+      });
+    });
+  
+    $("<p>" + s + "</p>").appendTo('#boxnotify-modal_modify_metric_host_blacklist_host').fadeTo(time, 1, function() {
+      $(this).fadeTo(1000, 0, function() {
+        $(this).remove()
+      });
+    });
+  
+    $("<p>" + s + "</p>").appendTo('#boxnotify-modal_modify_metric_host_blacklist_index').fadeTo(time, 1, function() {
+      $(this).fadeTo(1000, 0, function() {
+        $(this).remove()
+      });
+    });
+  
+    $("<p>" + s + "</p>").appendTo('#boxnotify-modal_modify_data_host_blacklist_sourcetype').fadeTo(time, 1, function() {
+      $(this).fadeTo(1000, 0, function() {
+        $(this).remove()
+      });
+    });
+  
+    $("<p>" + s + "</p>").appendTo('#boxnotify-modal_modify_metric_host_blacklist_metric_category').fadeTo(time, 1, function() {
+      $(this).fadeTo(1000, 0, function() {
+        $(this).remove()
+      });
+    });
+  
+    $("<p>" + s + "</p>").appendTo('#boxnotify-modify_custom_lagging').fadeTo(time, 1, function() {
+      $(this).fadeTo(1000, 0, function() {
+        $(this).remove()
+      });
+    });
+  
+    $("<p>" + s + "</p>").appendTo('#boxnotify-data-source-outliers-update').fadeTo(time, 1, function() {
+      $(this).fadeTo(1000, 0, function() {
+        $(this).remove()
+      });
+    });
+  
+    $("<p>" + s + "</p>").appendTo('#boxnotify-data-host-outliers-update').fadeTo(time, 1, function() {
+      $(this).fadeTo(1000, 0, function() {
+        $(this).remove()
+      });
+    });
+  
+    $("<p>" + s + "</p>").appendTo('#boxnotify-add_elastic_source').fadeTo(time, 1, function() {
+      $(this).fadeTo(1000, 0, function() {
+        $(this).remove()
+      });
+    });
+  
+    $("<p>" + s + "</p>").appendTo('#boxnotify-add_data_sampling_custom_rule').fadeTo(time, 1, function() {
+      $(this).fadeTo(1000, 0, function() {
+        $(this).remove()
+      });
+    });  
+  
+    $("<p>" + s + "</p>").appendTo('#boxnotify-view_data_sampling_custom_rule').fadeTo(time, 1, function() {
+      $(this).fadeTo(1000, 0, function() {
+        $(this).remove()
+      });
+    });
+  
+    $("<p>" + s + "</p>").appendTo('#boxnotify-manage_data_sampling').fadeTo(time, 1, function() {
+      $(this).fadeTo(1000, 0, function() {
+        $(this).remove()
+      });
+    });
+  
+    $("<p>" + s + "</p>").appendTo('#boxnotify-manage_tags').fadeTo(time, 1, function() {
+      $(this).fadeTo(1000, 0, function() {
+        $(this).remove()
+      });
+    });
+  
+    $("<p>" + s + "</p>").appendTo('#boxnotify-add_tags_policies').fadeTo(time, 1, function() {
+      $(this).fadeTo(1000, 0, function() {
+        $(this).remove()
+      });
+    });
+  
+    $("<p>" + s + "</p>").appendTo('#boxnotify-modify_elastic_sources').fadeTo(time, 1, function() {
+      $(this).fadeTo(1000, 0, function() {
+        $(this).remove()
+      });
+    });
+  
+    $("<p>" + s + "</p>").appendTo('#boxnotify-modify_elastic_sources_dedicated').fadeTo(time, 1, function() {
+      $(this).fadeTo(1000, 0, function() {
+        $(this).remove()
+      });
+    });
+  
+  }  
+
   // Returns true if numeric
   function isNumeric(n) {
     return !isNaN(parseFloat(n)) && isFinite(n) && n > 0;
+  }
+
+  // Escape double quotes
+  function escapeDoubleQuotes(str) {
+    return str.replace(/\\([\s\S])|(")/g,"\\$1$2"); // thanks @slevithan!
+  }
+
+  // generate a unique ID
+  function uuid() {
+    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+      var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
+      return v.toString(16);
+    });
+  }
+
+  // Audit record
+  function auditRecord(action, change_type, object, object_category, object_attrs, result, comment) {
+
+    // Audit changes
+    var tokens = mvc.Components.get("default");
+    var currentUser = Splunk.util.getConfigValue("USERNAME");
+    tokens.set("currentUser", currentUser);
+    var auditendpoint_URl = "/en-US/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_audit_changes/"
+
+    var time = (new Date).getTime();
+    var audit_record = {
+        "time": time,
+        "action": action,
+        "user": currentUser,
+        "change_type": change_type,
+        "object": object,
+        "object_category": object_category,
+        "object_attrs": object_attrs,
+        "result": result,
+        "comment": comment
+    };
+    $.ajax({
+        url: auditendpoint_URl,
+        type: "POST",
+        async: true,
+        contentType: "application/json",
+        data: JSON.stringify(audit_record),
+        success: function(returneddata) {
+            // Run the search again to update the table
+        }
+    });
+
   }
 
   // render custom table emoji icons
@@ -176,6 +423,55 @@ require([
     });
 
     element.addCellRenderer(new CustomIconRenderer());
+  }
+
+  // render custom table checkbox
+  function renderTableCheckBox(element, tokenName) {
+
+    selected_values_array = [];
+
+    var CustomRangeRenderer = TableView.BaseCellRenderer.extend({
+      canRender: function(cell) {
+          return _(['select']).contains(cell.field);
+      },
+      render: function($td, cell) {
+          var a = $('<div>').attr({"id":"chk-allowlist-data-source"+cell.value,"value":cell.value}).addClass('checkbox').click(function() {
+              //console.log("checked",$(this).attr('class'));
+              //console.log("checked",$(this).attr('value'));
+              if($(this).attr('class')==="checkbox")
+              {
+                  selected_values_array.push($(this).attr('value'));
+                  $(this).removeClass();
+                  $(this).addClass("checkbox checked");
+              }
+              else {
+                  $(this).removeClass();
+                  $(this).addClass("checkbox");
+                  var i = selected_values_array.indexOf($(this).attr('value'));
+                  if(i != -1) {
+                      selected_values_array.splice(i, 1);
+                  }
+              }
+              //console.log(selected_values_array);
+              tokens.set(tokenName, selected_values_array.join());
+              //submittedTokens.set(tokens.toJSON());
+          }).appendTo($td);
+        }
+    });
+
+    //List of table IDs
+    var tableIDs = [element];
+    for (i=0;i<tableIDs.length;i++) {
+        var sh = mvc.Components.get(tableIDs[i]);
+        if(typeof(sh)!="undefined") {
+            sh.getVisualization(function(tableView) {
+                // Add custom cell renderer and force re-render
+                tableView.table.addCellRenderer(new CustomRangeRenderer());
+                tableView.table.render();
+            });
+        }
+    }
+
   }
 
   // handle multiselect all selection in a enhanced way
@@ -224,6 +520,21 @@ require([
       $(childdiv).attr("style", "display:block !none");
     }
   );
+
+  //
+  // Handle html textarea
+  //
+
+  $(".custom-textarea").each(function () {
+    var $text_group = $(this);
+    $text_group.find("textarea").on("click", function () {
+      var $text = $(this);
+      if (this.value == this.defaultValue) this.value = "";
+      $(this).blur(function () {
+        if (this.value == "") this.value = this.defaultValue;
+      });
+    });
+  });
 
   //
   // SERVICE OBJECT
@@ -4242,8 +4553,7 @@ require([
       runWhenTimeIsUndefined: false,
     },
     {
-      tokens: true,
-      tokenNamespace: "submitted",
+      tokens: true
     }
   );
 
@@ -10574,6 +10884,291 @@ require([
     .render()
     .$el.appendTo($("resultsLinkelement_alerts_main_table"));
 
+  // Elastic Sources Shared
+  var SingleElasticSources = new SingleView({
+      "id": "SingleElasticSources",
+      "trendDisplayMode": "absolute",
+      "drilldown": "none",
+      "trendColorInterpretation": "standard",
+      "useColors": "0",
+      "colorBy": "value",
+      "showTrendIndicator": "1",
+      "showSparkline": "1",
+      "trellis.enabled": "0",
+      "numberPrecision": "0",
+      "rangeColors": "[\"0x77dd77\",\"0x0877a6\",\"0xf8be34\",\"0xf1813f\",\"0xdc4e41\"]",
+      "trellis.size": "medium",
+      "colorMode": "none",
+      "rangeValues": "[0,30,70,100]",
+      "unitPosition": "after",
+      "trellis.scales.shared": "1",
+      "useThousandSeparators": "1",
+      "underLabel": "current elastic source(s)",
+      "managerid": "searchSingleElasticSources",
+      "el": $('#SingleElasticSources')
+  }, {
+      tokens: true,
+      tokenNamespace: "submitted"
+  }).render();
+
+  // Elastic Sources Dedicated
+  var SingleElasticSourcesDedicated = new SingleView({
+      "id": "SingleElasticSourcesDedicated",
+      "trendDisplayMode": "absolute",
+      "drilldown": "none",
+      "trendColorInterpretation": "standard",
+      "useColors": "0",
+      "colorBy": "value",
+      "showTrendIndicator": "1",
+      "showSparkline": "1",
+      "trellis.enabled": "0",
+      "numberPrecision": "0",
+      "rangeColors": "[\"0x77dd77\",\"0x0877a6\",\"0xf8be34\",\"0xf1813f\",\"0xdc4e41\"]",
+      "trellis.size": "medium",
+      "colorMode": "none",
+      "rangeValues": "[0,30,70,100]",
+      "unitPosition": "after",
+      "trellis.scales.shared": "1",
+      "useThousandSeparators": "1",
+      "underLabel": "current elastic source(s)",
+      "managerid": "searchSingleElasticSourcesDedicated",
+      "el": $('#SingleElasticSourcesDedicated')
+  }, {
+      tokens: true,
+      tokenNamespace: "submitted"
+  }).render();
+
+  // Elastic Sources Shared
+
+  var modal_input_elastic_sources_search = new TextInput({
+      "id": "modal_input_elastic_sources_search",
+      "default": "*",
+      "searchWhenChanged": true,
+      "value": "$form.tk_input_elastic_sources_search$",
+      "el": $('#modal_input_elastic_sources_search')
+  }, {
+      tokens: true
+  }).render();
+
+  modal_input_elastic_sources_search.on("change", function(newValue) {
+      FormUtils.handleValueChange(modal_input_elastic_sources_search);
+  });
+
+  // Elastic Sources Dedicated
+
+  var modal_input_elastic_sources_dedicated_search = new TextInput({
+      "id": "modal_input_elastic_sources_dedicated_search",
+      "default": "*",
+      "searchWhenChanged": true,
+      "value": "$form.tk_input_elastic_sources_dedicated_search$",
+      "el": $('#modal_input_elastic_sources_dedicated_search')
+  }, {
+      tokens: true
+  }).render();
+
+  modal_input_elastic_sources_dedicated_search.on("change", function(newValue) {
+      FormUtils.handleValueChange(modal_input_elastic_sources_dedicated_search);
+  });
+
+  // Elastic Sources Shared
+
+  var tableElasticSources = new TableElement({
+    "id": "tableElasticSources",
+    "tokenDependencies": {
+        "depends": "$show_table_elastic_sources$"
+    },
+    "count": 8,
+    "drilldown": "none",
+    "fields": "data_name, search_mode, search_constraint, elastic_data_index, elastic_data_sourcetype, select",
+    "refresh.display": "none",
+    "wrap": "false",
+    "managerid": "searchElasticSources",
+    "el": $('#tableElasticSources')
+    }, {
+    tokens: true,
+    tokenNamespace: "submitted"
+  }).render();
+
+  renderTableCheckBox("tableElasticSources", "removeElasticSourceShared");
+
+  // Elastic Sources Dedicated
+
+  var tableElasticSourcesDedicated = new TableElement({
+      "id": "tableElasticSourcesDedicated",
+      "tokenDependencies": {
+          "depends": "$show_table_elastic_sources_dedicated$"
+      },
+      "count": 8,
+      "drilldown": "none",
+      "fields": "data_name, search_mode, search_constraint, elastic_data_index, elastic_data_sourcetype, select",
+      "refresh.display": "none",
+      "wrap": "false",
+      "managerid": "searchElasticSourcesDedicated",
+      "el": $('#tableElasticSourcesDedicated')
+  }, {
+      tokens: true,
+      tokenNamespace: "submitted"
+  }).render();
+
+  renderTableCheckBox("tableElasticSourcesDedicated", "removeElasticSourceDedicated");
+
+  // Simulation
+  var tableElasticSourcesTest = new TableView({
+      "id": "tableElasticSourcesTest",
+      "tokenDependencies": {
+          "depends": "$start_simulation_elastic_sources$"
+      },
+      "count": 1,
+      "drilldown": "row",
+      "refresh.display": "none",
+      "wrap": "false",
+      "managerid": "searchElasticSourcesTest",
+      "el": $('#tableElasticSourcesTest')
+  }, {
+      tokens: true,
+      tokenNamespace: "submitted"
+  }).render();
+
+  // render icons
+  renderTableIcon(tableElasticSourcesTest);
+
+  var resultsLinktableElasticSourcesTest = new ResultsLinkView({
+    id: "resultsLinktableElasticSourcesTest",
+    managerid: "searchDataSourcesPostTable",
+    "link.exportResults.visible": false,
+    el: $("#resultsLinktableElasticSourcesTest"),
+  });
+
+  resultsLinktableElasticSourcesTest
+    .render()
+    .$el.appendTo($("resultsLinktableElasticSourcesTest"));
+
+  // elastic sources
+
+  var modal_input_elastic_source_search_type = new DropdownInput({
+      "id": "modal_input_elastic_source_search_type",
+      "choices": [{
+              "label": "tstats",
+              "value": "tstats"
+          },
+          {
+              "label": "raw",
+              "value": "raw"
+          },
+          {
+              "label": "from",
+              "value": "from"
+          },
+          {
+              "label": "mstats",
+              "value": "mstats"
+          },
+          {
+              "label": "rest (tstats)",
+              "value": "rest_tstats"
+          },
+          {
+              "label": "rest (raw)",
+              "value": "rest_raw"
+          },
+          {
+              "label": "rest (from)",
+              "value": "rest_from"
+          },
+          {
+              "label": "rest (mstats)",
+              "value": "rest_mstats"
+          },
+      ],
+      "searchWhenChanged": false,
+      "default": "tstats",
+      "showClearButton": true,
+      "initialValue": "tstats",
+      "selectFirstChoice": false,
+      "value": "$form.tk_input_elastic_source_search_type$",
+      "el": $('#modal_input_elastic_source_search_type')
+  }, {
+      tokens: true
+  }).render();
+
+  modal_input_elastic_source_search_type.on("change", function(newValue) {
+      FormUtils.handleValueChange(modal_input_elastic_source_search_type);
+  });
+
+  var modal_input_elastic_source_data_name = new TextInput({
+      "id": "modal_input_elastic_source_data_name",
+      "searchWhenChanged": false,
+      "value": "$form.tk_input_elastic_source_data_name$",
+      "el": $('#modal_input_elastic_source_data_name')
+  }, {
+      tokens: true
+  }).render();
+
+  modal_input_elastic_source_data_name.on("change", function(newValue) {
+      FormUtils.handleValueChange(modal_input_elastic_source_data_name);
+  });
+
+  var modal_input_elastic_source_elastic_data_index = new TextInput({
+      "id": "modal_input_elastic_source_elastic_data_index",
+      "searchWhenChanged": false,
+      "default": "none",
+      "initialValue": "none",
+      "value": "$form.tk_input_elastic_source_elastic_data_index$",
+      "el": $('#modal_input_elastic_source_elastic_data_index')
+  }, {
+      tokens: true
+  }).render();
+
+  modal_input_elastic_source_elastic_data_index.on("change", function(newValue) {
+      FormUtils.handleValueChange(modal_input_elastic_source_elastic_data_index);
+  });
+
+  var modal_input_elastic_source_elastic_data_sourcetype = new TextInput({
+      "id": "modal_input_elastic_source_elastic_data_sourcetype",
+      "searchWhenChanged": false,
+      "default": "none",
+      "initialValue": "none",
+      "value": "$form.tk_input_elastic_source_elastic_data_sourcetype$",
+      "el": $('#modal_input_elastic_source_elastic_data_sourcetype')
+  }, {
+      tokens: true
+  }).render();
+
+  modal_input_elastic_source_elastic_data_sourcetype.on("change", function(newValue) {
+      FormUtils.handleValueChange(modal_input_elastic_source_elastic_data_sourcetype);
+  });
+
+  var modal_input_elastic_source_earliest = new TextInput({
+      "id": "modal_input_elastic_source_earliest",
+      "searchWhenChanged": false,
+      "default": "-4h",
+      "initialValue": "-4h",
+      "value": "$form.tk_input_elastic_source_earliest$",
+      "el": $('#modal_input_elastic_source_earliest')
+  }, {
+      tokens: true
+  }).render();
+
+  modal_input_elastic_source_earliest.on("change", function(newValue) {
+      FormUtils.handleValueChange(modal_input_elastic_source_earliest);
+  });
+
+  var modal_input_elastic_source_latest = new TextInput({
+      "id": "modal_input_elastic_source_latest",
+      "searchWhenChanged": false,
+      "default": "+4h",
+      "initialValue": "+4h",
+      "value": "$form.tk_input_elastic_source_latest$",
+      "el": $('#modal_input_elastic_source_latest')
+  }, {
+      tokens: true
+  }).render();
+
+  modal_input_elastic_source_latest.on("change", function(newValue) {
+      FormUtils.handleValueChange(modal_input_elastic_source_latest);
+  });
+
+
   //
   // BEGIN OPERATIONS
   //
@@ -10583,7 +11178,7 @@ require([
   var currentUser = Splunk.util.getConfigValue("USERNAME");
   tokens.set("currentUser", currentUser);
   var auditendpoint_URl =
-    "{{SPLUNKWEB_URL_PREFIX}}/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_audit_changes/";
+    "/en-US/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_audit_changes/";
 
   // FUNCTIONS
 
@@ -10940,7 +11535,7 @@ require([
   function clearDataHost(tk_data_host, tk_comment) {
     // Create the endpoint URL
     var myendpoint_URl =
-      "{{SPLUNKWEB_URL_PREFIX}}/splunkd/__raw/services/trackme/v1/data_hosts/dh_reset";
+      "/en-US/splunkd/__raw/services/trackme/v1/data_hosts/dh_reset";
 
     // Create a dictionary to store the field names and values
     var record = {
@@ -11034,7 +11629,7 @@ require([
   function clearMetricHost(tk_metric_host, tk_comment) {
     // Create the endpoint URL
     var myendpoint_URl =
-      "{{SPLUNKWEB_URL_PREFIX}}/splunkd/__raw/services/trackme/v1/metric_hosts/mh_reset";
+      "/en-US/splunkd/__raw/services/trackme/v1/metric_hosts/mh_reset";
 
     // Create a dictionary to store the field names and values
     var record = {
@@ -12001,7 +12596,7 @@ require([
 
     // Create the endpoint URL
     var myendpoint_URl =
-      "{{SPLUNKWEB_URL_PREFIX}}/splunkd/__raw/services/trackme/v1/data_sources/ds_enable_monitoring";
+      "/en-US/splunkd/__raw/services/trackme/v1/data_sources/ds_enable_monitoring";
 
     if (!tk_keyid || !tk_keyid.length) {
       // Show an error message
@@ -12105,7 +12700,7 @@ require([
 
     // Create the endpoint URL
     var myendpoint_URl =
-      "{{SPLUNKWEB_URL_PREFIX}}/splunkd/__raw/services/trackme/v1/data_hosts/dh_enable_monitoring";
+      "/en-US/splunkd/__raw/services/trackme/v1/data_hosts/dh_enable_monitoring";
 
     if (!tk_keyid || !tk_keyid.length) {
       // Show an error message
@@ -12274,7 +12869,7 @@ require([
 
     // Create the endpoint URL
     var myendpoint_URl =
-      "{{SPLUNKWEB_URL_PREFIX}}/splunkd/__raw/services/trackme/v1/metric_hosts/mh_enable_monitoring";
+      "/en-US/splunkd/__raw/services/trackme/v1/metric_hosts/mh_enable_monitoring";
 
     if (!tk_keyid || !tk_keyid.length) {
       // Show an error message
@@ -12383,7 +12978,7 @@ require([
 
     // Create the endpoint URL
     var myendpoint_URl =
-      "{{SPLUNKWEB_URL_PREFIX}}/splunkd/__raw/services/trackme/v1/metric_hosts/mh_update_priority";
+      "/en-US/splunkd/__raw/services/trackme/v1/metric_hosts/mh_update_priority";
 
     var tk_origin_priority = tk_priority;
     var tk_new_priority = tokens.get("tk_input_metric_host_priority");
@@ -12481,7 +13076,7 @@ require([
 
     // Create the endpoint URL
     var myendpoint_URl =
-      "{{SPLUNKWEB_URL_PREFIX}}/splunkd/__raw/services/trackme/v1/data_sources/ds_disable_monitoring";
+      "/en-US/splunkd/__raw/services/trackme/v1/data_sources/ds_disable_monitoring";
 
     if (!tk_keyid || !tk_keyid.length) {
       // Show an error message
@@ -12585,7 +13180,7 @@ require([
 
     // Create the endpoint URL
     var myendpoint_URl =
-      "{{SPLUNKWEB_URL_PREFIX}}/splunkd/__raw/services/trackme/v1/data_hosts/dh_disable_monitoring";
+      "/en-US/splunkd/__raw/services/trackme/v1/data_hosts/dh_disable_monitoring";
 
     if (!tk_keyid || !tk_keyid.length) {
       // Show an error message
@@ -12689,7 +13284,7 @@ require([
 
     // Create the endpoint URL
     var myendpoint_URl =
-      "{{SPLUNKWEB_URL_PREFIX}}/splunkd/__raw/services/trackme/v1/metric_hosts/mh_disable_monitoring";
+      "/en-US/splunkd/__raw/services/trackme/v1/metric_hosts/mh_disable_monitoring";
 
     if (!tk_keyid || !tk_keyid.length) {
       // Show an error message
@@ -12901,7 +13496,7 @@ require([
 
     // Create the endpoint URL
     var myendpoint_URl =
-      "{{SPLUNKWEB_URL_PREFIX}}/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_metric_host_monitoring/" +
+      "/en-US/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_metric_host_monitoring/" +
       tk_keyid;
 
     if (tk_keyid && tk_keyid.length) {
@@ -13212,7 +13807,7 @@ require([
 
     // Create the endpoint URL
     var myendpoint_URl =
-      "{{SPLUNKWEB_URL_PREFIX}}/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_data_source_monitoring/" +
+      "/en-US/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_data_source_monitoring/" +
       tk_keyid;
 
     if (tk_keyid && tk_keyid.length) {
@@ -13598,7 +14193,7 @@ require([
 
     // Create the endpoint URL
     var myendpoint_URl =
-      "{{SPLUNKWEB_URL_PREFIX}}/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_host_monitoring/" +
+      "/en-US/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_host_monitoring/" +
       tk_keyid;
 
     if (tk_keyid && tk_keyid.length) {
@@ -13984,7 +14579,7 @@ require([
   function foreachDeleteMetricSlaPolicy(item) {
     // Create the endpoint URL
     var myendpoint_URl =
-      "{{SPLUNKWEB_URL_PREFIX}}/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_metric_lagging_definition/" +
+      "/en-US/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_metric_lagging_definition/" +
       item;
 
     if (item && item.length) {
@@ -14146,7 +14741,7 @@ require([
 
     // Create the endpoint URL
     var myendpoint_URl =
-      "{{SPLUNKWEB_URL_PREFIX}}/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_custom_lagging_definition";
+      "/en-US/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_custom_lagging_definition";
 
     // Define the query
     var searchQuery =
@@ -14316,7 +14911,7 @@ require([
   function foreachDeleteLaggingClassDataSource(item) {
     // Create the endpoint URL
     var myendpoint_URl =
-      "{{SPLUNKWEB_URL_PREFIX}}/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_custom_lagging_definition/" +
+      "/en-US/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_custom_lagging_definition/" +
       item;
 
     if (item && item.length) {
@@ -14474,7 +15069,7 @@ require([
 
     // Create the endpoint URL
     var myendpoint_URl =
-      "{{SPLUNKWEB_URL_PREFIX}}/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_custom_lagging_definition/" +
+      "/en-US/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_custom_lagging_definition/" +
       tk_keyid;
 
     // Get tokens
@@ -14606,7 +15201,7 @@ require([
 
     // Create the endpoint URL
     var myendpoint_URl =
-      "{{SPLUNKWEB_URL_PREFIX}}/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_data_source_monitoring_whitelist_index";
+      "/en-US/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_data_source_monitoring_whitelist_index";
 
     // Define the query
     var searchQuery =
@@ -14755,7 +15350,7 @@ require([
   function foreachDeleteWhitelistDataSource(item) {
     // Create the endpoint URL
     var myendpoint_URl =
-      "{{SPLUNKWEB_URL_PREFIX}}/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_data_source_monitoring_whitelist_index/" +
+      "/en-US/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_data_source_monitoring_whitelist_index/" +
       item;
 
     if (item && item.length) {
@@ -14921,7 +15516,7 @@ require([
 
     // Create the endpoint URL
     var myendpoint_URl =
-      "{{SPLUNKWEB_URL_PREFIX}}/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_metric_host_monitoring_whitelist_index";
+      "/en-US/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_metric_host_monitoring_whitelist_index";
 
     // Define the query
     var searchQuery =
@@ -15071,7 +15666,7 @@ require([
   function foreachDeleteWhitelistMetricHost(item) {
     // Create the endpoint URL
     var myendpoint_URl =
-      "{{SPLUNKWEB_URL_PREFIX}}/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_metric_host_monitoring_whitelist_index/" +
+      "/en-US/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_metric_host_monitoring_whitelist_index/" +
       item;
 
     if (item && item.length) {
@@ -15237,7 +15832,7 @@ require([
 
     // Create the endpoint URL
     var myendpoint_URl =
-      "{{SPLUNKWEB_URL_PREFIX}}/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_data_host_monitoring_whitelist_index";
+      "/en-US/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_data_host_monitoring_whitelist_index";
 
     // Define the query
     var searchQuery =
@@ -15386,7 +15981,7 @@ require([
   function foreachDeleteWhitelistDataHost(item) {
     // Create the endpoint URL
     var myendpoint_URl =
-      "{{SPLUNKWEB_URL_PREFIX}}/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_data_host_monitoring_whitelist_index/" +
+      "/en-US/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_data_host_monitoring_whitelist_index/" +
       item;
 
     if (item && item.length) {
@@ -15540,7 +16135,7 @@ require([
 
     // Create the endpoint URL
     var myendpoint_URl =
-      "{{SPLUNKWEB_URL_PREFIX}}/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_data_source_monitoring_blacklist_host";
+      "/en-US/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_data_source_monitoring_blacklist_host";
 
     // Define the query
     var searchQuery =
@@ -15687,7 +16282,7 @@ require([
   function foreachDeleteBlacklistDataSourceHost(item) {
     // Create the endpoint URL
     var myendpoint_URl =
-      "{{SPLUNKWEB_URL_PREFIX}}/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_data_source_monitoring_blacklist_host/" +
+      "/en-US/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_data_source_monitoring_blacklist_host/" +
       item;
 
     if (item && item.length) {
@@ -15835,7 +16430,7 @@ require([
 
     // Create the endpoint URL
     var myendpoint_URl =
-      "{{SPLUNKWEB_URL_PREFIX}}/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_data_host_monitoring_blacklist_host";
+      "/en-US/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_data_host_monitoring_blacklist_host";
 
     // Define the query
     var searchQuery =
@@ -15988,7 +16583,7 @@ require([
 
     // Create the endpoint URL
     var myendpoint_URl =
-      "{{SPLUNKWEB_URL_PREFIX}}/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_data_source_monitoring_blacklist_index";
+      "/en-US/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_data_source_monitoring_blacklist_index";
 
     // Define the query
     var searchQuery =
@@ -16136,7 +16731,7 @@ require([
   function foreachDeleteBlacklistDataSourceIndex(item) {
     // Create the endpoint URL
     var myendpoint_URl =
-      "{{SPLUNKWEB_URL_PREFIX}}/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_data_source_monitoring_blacklist_index/" +
+      "/en-US/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_data_source_monitoring_blacklist_index/" +
       item;
 
     if (item && item.length) {
@@ -16279,7 +16874,7 @@ require([
   function foreachDeleteBlacklistDataHostIndex(item) {
     // Create the endpoint URL
     var myendpoint_URl =
-      "{{SPLUNKWEB_URL_PREFIX}}/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_data_host_monitoring_blacklist_index/" +
+      "/en-US/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_data_host_monitoring_blacklist_index/" +
       item;
 
     if (item && item.length) {
@@ -16427,7 +17022,7 @@ require([
 
     // Create the endpoint URL
     var myendpoint_URl =
-      "{{SPLUNKWEB_URL_PREFIX}}/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_data_host_monitoring_blacklist_index";
+      "/en-US/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_data_host_monitoring_blacklist_index";
 
     // Define the query
     var searchQuery =
@@ -16575,7 +17170,7 @@ require([
   function foreachDeleteBlacklistDataHostHost(item) {
     // Create the endpoint URL
     var myendpoint_URl =
-      "{{SPLUNKWEB_URL_PREFIX}}/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_data_host_monitoring_blacklist_host/" +
+      "/en-US/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_data_host_monitoring_blacklist_host/" +
       item;
 
     if (item && item.length) {
@@ -16723,7 +17318,7 @@ require([
 
     // Create the endpoint URL
     var myendpoint_URl =
-      "{{SPLUNKWEB_URL_PREFIX}}/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_data_source_monitoring_blacklist_index";
+      "/en-US/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_data_source_monitoring_blacklist_index";
 
     // Define the query
     var searchQuery =
@@ -16871,7 +17466,7 @@ require([
   function foreachDeleteBlacklistMetricHostIndex(item) {
     // Create the endpoint URL
     var myendpoint_URl =
-      "{{SPLUNKWEB_URL_PREFIX}}/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_metric_host_monitoring_blacklist_index/" +
+      "/en-US/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_metric_host_monitoring_blacklist_index/" +
       item;
 
     if (item && item.length) {
@@ -17019,7 +17614,7 @@ require([
 
     // Create the endpoint URL
     var myendpoint_URl =
-      "{{SPLUNKWEB_URL_PREFIX}}/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_data_source_monitoring_blacklist_sourcetype";
+      "/en-US/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_data_source_monitoring_blacklist_sourcetype";
 
     // Define the query
     var searchQuery =
@@ -17172,7 +17767,7 @@ require([
   function foreachDeleteBlacklistDataSourceSourcetype(item) {
     // Create the endpoint URL
     var myendpoint_URl =
-      "{{SPLUNKWEB_URL_PREFIX}}/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_data_source_monitoring_blacklist_sourcetype/" +
+      "/en-US/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_data_source_monitoring_blacklist_sourcetype/" +
       item;
 
     if (item && item.length) {
@@ -17322,7 +17917,7 @@ require([
 
     // Create the endpoint URL
     var myendpoint_URl =
-      "{{SPLUNKWEB_URL_PREFIX}}/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_data_source_monitoring_blacklist_data_name";
+      "/en-US/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_data_source_monitoring_blacklist_data_name";
 
     // Define the query
     var searchQuery =
@@ -17470,7 +18065,7 @@ require([
   function foreachDeleteBlacklistDataSourceDataName(item) {
     // Create the endpoint URL
     var myendpoint_URl =
-      "{{SPLUNKWEB_URL_PREFIX}}/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_data_source_monitoring_blacklist_data_name/" +
+      "/en-US/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_data_source_monitoring_blacklist_data_name/" +
       item;
 
     if (item && item.length) {
@@ -17618,7 +18213,7 @@ require([
 
     // Create the endpoint URL
     var myendpoint_URl =
-      "{{SPLUNKWEB_URL_PREFIX}}/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_data_host_monitoring_blacklist_sourcetype";
+      "/en-US/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_data_host_monitoring_blacklist_sourcetype";
 
     // Define the query
     var searchQuery =
@@ -17769,7 +18364,7 @@ require([
   function foreachDeleteBlacklistDataHostSourcetype(item) {
     // Create the endpoint URL
     var myendpoint_URl =
-      "{{SPLUNKWEB_URL_PREFIX}}/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_data_host_monitoring_blacklist_sourcetype/" +
+      "/en-US/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_data_host_monitoring_blacklist_sourcetype/" +
       item;
 
     if (item && item.length) {
@@ -17918,7 +18513,7 @@ require([
 
     // Create the endpoint URL
     var myendpoint_URl =
-      "{{SPLUNKWEB_URL_PREFIX}}/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_metric_host_monitoring_blacklist_host";
+      "/en-US/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_metric_host_monitoring_blacklist_host";
 
     // Define the query
     var searchQuery =
@@ -18066,7 +18661,7 @@ require([
   function foreachDeleteBlacklistMetricHostHost(item) {
     // Create the endpoint URL
     var myendpoint_URl =
-      "{{SPLUNKWEB_URL_PREFIX}}/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_metric_host_monitoring_blacklist_host/" +
+      "/en-US/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_metric_host_monitoring_blacklist_host/" +
       item;
 
     if (item && item.length) {
@@ -18214,7 +18809,7 @@ require([
 
     // Create the endpoint URL
     var myendpoint_URl =
-      "{{SPLUNKWEB_URL_PREFIX}}/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_metric_host_monitoring_blacklist_metric_category";
+      "/en-US/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_metric_host_monitoring_blacklist_metric_category";
 
     // Define the query
     var searchQuery =
@@ -18377,7 +18972,7 @@ require([
   function foreachDeleteBlacklistMetricHostMetricCategory(item) {
     // Create the endpoint URL
     var myendpoint_URl =
-      "{{SPLUNKWEB_URL_PREFIX}}/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_metric_host_monitoring_blacklist_metric_category/" +
+      "/en-US/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_metric_host_monitoring_blacklist_metric_category/" +
       item;
 
     if (item && item.length) {
@@ -18571,6 +19166,8 @@ require([
     document.getElementById(
       "btn_modal_elastic_source_dedicated_add_new"
     ).disabled = true;
+    // hide the table view
+    $("#divElasticSourcesTest").css("display", "none");
     // Show input modal
     $("#add_elastic_sources").modal();
   });
@@ -18667,8 +19264,6 @@ require([
   $("#btn_modal_elastic_source_add_simulate").click(function (event) {
     event.stopImmediatePropagation();
 
-    //submitTokens();
-
     // When the Submit button is clicked, get all the form fields by accessing token values
     var tokens = mvc.Components.get("default");
 
@@ -18724,16 +19319,24 @@ require([
       tk_input_elastic_source_search_constraint !==
         "Enter the Splunk search constraint chain according to the type of search selected"
     ) {
-      notification(
+
+      // notify
+      notify(
+        "info",
+        "bottom",
         "Elastic source simulation started for data_name: " +
           tk_input_elastic_source_data_name +
           ", if the simulation is successful, click on save new elastic source to include this new source in the collection.",
-        6000
+        "5"
       );
+
       // Free the beast
       var start_simulation_elastic_sources = "true";
       var success_simulation_elastic_sources = "false";
       setToken("start_simulation_elastic_sources", "true");
+
+      // free the table view
+      $("#divElasticSourcesTest").css("display", "inherit");
       searchElasticSourcesTest.startSearch();
 
       searchElasticSourcesTest.on("search:error", function (properties) {
@@ -18746,8 +19349,15 @@ require([
         document.getElementById(
           "btn_modal_elastic_source_dedicated_add_new"
         ).disabled = true;
-        $("#add_elastic_sources").modal("hide");
-        $("#modal_generic_search_error").modal();
+
+        // notify
+        notify(
+          "error",
+          "bottom",
+          "The search has failed, verify the syntax and try again.",
+          "5"
+        );
+
       });
 
       searchElasticSourcesTest.on("search:fail", function (properties) {
@@ -18760,8 +19370,15 @@ require([
         document.getElementById(
           "btn_modal_elastic_source_dedicated_add_new"
         ).disabled = true;
-        $("#add_elastic_sources").modal("hide");
-        $("#modal_generic_search_error").modal();
+
+        // notify
+        notify(
+          "error",
+          "bottom",
+          "The search has failed, verify the syntax and try again.",
+          "5"
+        );
+
       });
 
       // If the search is processed successfully
@@ -18778,11 +19395,17 @@ require([
         // elastic_sources_check_unique(tk_input_elastic_source_data_name, "true");
       });
     } else {
+
       unsetToken("start_simulation_elastic_sources");
-      notification(
-        "ERROR: Entries are either incorrect or incomplete, please correct and try again.",
-        6000
+
+      // notify
+      notify(
+        "error",
+        "bottom",
+        "Entries are either incorrect or incomplete, please correct and try again.",
+        "5"
       );
+
     }
 
     // add a new elastic source
@@ -18841,7 +19464,7 @@ require([
         start_simulation_elastic_sources == "true"
       ) {
         var myendpoint_URl =
-          "{{SPLUNKWEB_URL_PREFIX}}/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_elastic_sources/";
+          "/en-US/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_elastic_sources/";
 
         // Create a dictionary to store the field names and values
         var record = {
@@ -18860,10 +19483,6 @@ require([
           contentType: "application/json",
           data: JSON.stringify(record),
           success: function (returneddata) {
-            // Processed modal
-            // clean status
-            unsetToken("start_simulation_elastic_sources");
-            // Show message
             msg =
               "The new elastic source: " +
               tk_input_elastic_source_data_name +
@@ -18942,9 +19561,11 @@ require([
           },
         });
       } else {
-        notification(
+        notify(
+          "error",
+          "bottom",
           "ERROR: Please successfully run the simulation first.",
-          6000
+          "5"
         );
       }
     });
@@ -19075,9 +19696,11 @@ require([
               tk_input_elastic_source_data_name +
               '")` | stats c';
           } else {
-            notification(
-              "ERROR: This from query is not supported, only datamodel and lookup based from queries are accepted.",
-              6000
+            notify(
+              "error",
+              "bottom",
+              "This from query is not supported, only datamodel and lookup based from queries are accepted.",
+              "5"
             );
             return;
           }
@@ -19243,9 +19866,11 @@ require([
               tk_input_elastic_source_data_name +
               '")` | stats c';
           } else {
-            notification(
-              "ERROR: This from query is not supported, only datamodel and lookup based from queries are accepted.",
-              6000
+            notify(
+              "error",
+              "bottom",
+              "This from query is not supported, only datamodel and lookup based from queries are accepted.",
+              "5"
             );
             return;
           }
@@ -19362,8 +19987,6 @@ require([
             done(err);
             return;
           } else {
-            // clean status
-            unsetToken("start_simulation_elastic_sources");
 
             // Confirmation message.
 
@@ -19387,7 +20010,7 @@ require([
 
             // Store in the KVstore for mapping purposes
             var myendpoint_URl =
-              "{{SPLUNKWEB_URL_PREFIX}}/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_elastic_sources_dedicated/";
+              "/en-US/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_elastic_sources_dedicated/";
 
             // Create a dictionary to store the field names and values
             var record = {
@@ -19426,9 +20049,12 @@ require([
           }
         });
       } else {
-        notification(
+        // notify
+        notify(
+          "error",
+          "bottom",
           "ERROR: Please successfully run the simulation first.",
-          6000
+          "5"
         );
       }
     });
@@ -19455,19 +20081,9 @@ require([
 
     // Run a normal search that immediately returns the job's SID
     service.search(searchQuery, searchParams, function (err, job) {
-      cssloaderremove();
-      $("body").append(
-        '<div id="loadingGray" style="background: #e9e9e9; display: block; position: fixed; z-index: 100; top: 0; right: 0; bottom: 0; left: 0; height: 100%; opacity: 0.8;"><div style="width: 100%; margin-top: 250px; padding-bottom: 50px; text-align: center;"><p style="font-size: 18pt; font-weight: bolder; color: #003b59;">Running the Elastic Shared Tracker...</p></div><div id="spinner"></div></div>'
-      );
 
-      require(["jquery", "/static/app/trackme/spin.js"], function ($, Spinner) {
-        new Spinner({
-          lines: 12,
-          length: 18,
-          position: "relative",
-          color: "#003b59",
-        }).spin(document.getElementById("spinner"));
-      });
+      // run loader
+      cssloader("Running the Elastic Shared Tracker...");
 
       // Shall the search fail before we can get properties
       if (job == null) {
@@ -19537,6 +20153,9 @@ require([
   // run elastic shared tracker now
   $("#modal_elastic_source_alert_creation_success_run_tracker").click(
     function () {
+
+      console.log("Clicked button");
+
       $("#modal_elastic_source_alert_creation_success").modal("hide");
 
       //submitTokens();
@@ -19558,24 +20177,8 @@ require([
 
       // Run a normal search that immediately returns the job's SID
       service.search(searchQuery, searchParams, function (err, job) {
-        cssloaderremove();
-        $("body").append(
-          '<div id="loadingGray" style="background: #e9e9e9; display: block; position: fixed; z-index: 100; top: 0; right: 0; bottom: 0; left: 0; height: 100%; opacity: 0.8;"><div style="width: 100%; margin-top: 250px; padding-bottom: 50px; text-align: center;"><p style="font-size: 18pt; font-weight: bolder; color: #003b59;">Running the dedicated elastic tracker' +
-            tk_tracker_name +
-            '...</p></div><div id="spinner"></div></div>'
-        );
 
-        require([
-          "jquery",
-          "/static/app/trackme/spin.js",
-        ], function ($, Spinner) {
-          new Spinner({
-            lines: 12,
-            length: 18,
-            position: "relative",
-            color: "#003b59",
-          }).spin(document.getElementById("spinner"));
-        });
+        cssloader("Running the dedicated elastic tracker");
 
         // Shall the search fail before we can get properties
         if (job == null) {
@@ -19677,22 +20280,8 @@ require([
 
       // Run a normal search that immediately returns the job's SID
       service.search(searchQuery, searchParams, function (err, job) {
-        cssloaderremove();
-        $("body").append(
-          '<div id="loadingGray" style="background: #e9e9e9; display: block; position: fixed; z-index: 100; top: 0; right: 0; bottom: 0; left: 0; height: 100%; opacity: 0.8;"><div style="width: 100%; margin-top: 250px; padding-bottom: 50px; text-align: center;"><p style="font-size: 18pt; font-weight: bolder; color: #003b59;">Deleting shared elastic tracker...</p></div><div id="spinner"></div></div>'
-        );
 
-        require([
-          "jquery",
-          "/static/app/trackme/spin.js",
-        ], function ($, Spinner) {
-          new Spinner({
-            lines: 12,
-            length: 18,
-            position: "relative",
-            color: "#003b59",
-          }).spin(document.getElementById("spinner"));
-        });
+        cssloader("Deleting shared elastic tracker...");
 
         // Shall the search fail before we can get properties
         if (job == null) {
@@ -19801,11 +20390,13 @@ require([
     // Call the function for each value from the array
     tk_multi_table_array.forEach(foreachDeleteSharedElasticSource);
 
-    // Hide main modal
-    $("#delete_elastic_source_main").modal("hide");
-
     // notify
-    notification("Modification has been registered successfully.", 2000);
+    notify(
+      "info",
+      "bottom",
+      "Modification has been registered successfully.",
+      "5"
+    );
 
     // house cleaning
     unsetToken("removeElasticSourceShared");
@@ -19847,22 +20438,8 @@ require([
 
       // Run a normal search that immediately returns the job's SID
       service.search(searchQuery, searchParams, function (err, job) {
-        cssloaderremove();
-        $("body").append(
-          '<div id="loadingGray" style="background: #e9e9e9; display: block; position: fixed; z-index: 100; top: 0; right: 0; bottom: 0; left: 0; height: 100%; opacity: 0.8;"><div style="width: 100%; margin-top: 250px; padding-bottom: 50px; text-align: center;"><p style="font-size: 18pt; font-weight: bolder; color: #003b59;">Deleting dedicated elastic tracker...</p></div><div id="spinner"></div></div>'
-        );
 
-        require([
-          "jquery",
-          "/static/app/trackme/spin.js",
-        ], function ($, Spinner) {
-          new Spinner({
-            lines: 12,
-            length: 18,
-            position: "relative",
-            color: "#003b59",
-          }).spin(document.getElementById("spinner"));
-        });
+        cssloader("Deleting dedicated elastic tracker...");
 
         // Shall the search fail before we can get properties
         if (job == null) {
@@ -19975,7 +20552,12 @@ require([
     $("#delete_elastic_source_main_dedicated").modal("hide");
 
     // notify
-    notification("Modification has been registered successfully.", 2000);
+    notify(
+      "info",
+      "bottom",
+      "Modification has been registered successfully.",
+      "5"
+    );
 
     // house cleaning
     unsetToken("removeElasticSourceDedicated");
@@ -21210,7 +21792,7 @@ require([
 
     // Create the endpoint URL
     var myendpoint_URl =
-      "{{SPLUNKWEB_URL_PREFIX}}/splunkd/__raw/services/trackme/v1/data_sources/ds_update_wdays";
+      "/en-US/splunkd/__raw/services/trackme/v1/data_sources/ds_update_wdays";
 
     var tk_origin_data_monitoring_wdays = tokens.get(
       "tk_data_monitoring_wdays"
@@ -21308,7 +21890,7 @@ require([
 
     // Create the endpoint URL
     var myendpoint_URl =
-      "{{SPLUNKWEB_URL_PREFIX}}/splunkd/__raw/services/trackme/v1/data_sources/ds_update_priority";
+      "/en-US/splunkd/__raw/services/trackme/v1/data_sources/ds_update_priority";
 
     var tk_origin_priority = tk_priority;
     var tk_new_priority = tokens.get("tk_input_priority");
@@ -21409,7 +21991,7 @@ require([
 
     // Create the endpoint URL
     var myendpoint_URl =
-      "{{SPLUNKWEB_URL_PREFIX}}/splunkd/__raw/services/trackme/v1/data_sources/ds_update_wdays";
+      "/en-US/splunkd/__raw/services/trackme/v1/data_sources/ds_update_wdays";
 
     var tk_origin_data_monitoring_wdays = tokens.get(
       "tk_data_monitoring_wdays"
@@ -21521,7 +22103,7 @@ require([
 
     // Create the endpoint URL
     var myendpoint_URl =
-      "{{SPLUNKWEB_URL_PREFIX}}/splunkd/__raw/services/trackme/v1/data_sources/ds_update_monitoring_level";
+      "/en-US/splunkd/__raw/services/trackme/v1/data_sources/ds_update_monitoring_level";
 
     var tk_data_monitoring_level = tokens.get("tk_input_level");
     var tk_origin_data_monitoring_level = tokens.get(
@@ -21621,7 +22203,7 @@ require([
 
     // Create the endpoint URL
     var myendpoint_URl =
-      "{{SPLUNKWEB_URL_PREFIX}}/splunkd/__raw/services/trackme/v1/data_sources/ds_update_min_dcount_host";
+      "/en-US/splunkd/__raw/services/trackme/v1/data_sources/ds_update_min_dcount_host";
 
     var tk_input_data_source_dcount_host = tokens.get(
       "tk_input_data_source_dcount_host"
@@ -21731,7 +22313,7 @@ require([
 
     // Create the endpoint URL
     var myendpoint_URl =
-      "{{SPLUNKWEB_URL_PREFIX}}/splunkd/__raw/services/trackme/v1/data_sources/ds_update_lag_policy";
+      "/en-US/splunkd/__raw/services/trackme/v1/data_sources/ds_update_lag_policy";
 
     // max lag allowed
     var tk_data_max_lag_allowed = tokens.get("tk_input_lag");
@@ -22770,7 +23352,7 @@ require([
 
     // Create the endpoint URL
     var myendpoint_URl =
-      "{{SPLUNKWEB_URL_PREFIX}}/splunkd/__raw/services/trackme/v1/data_hosts/dh_update_wdays";
+      "/en-US/splunkd/__raw/services/trackme/v1/data_hosts/dh_update_wdays";
 
     var tk_origin_data_monitoring_wdays = tokens.get(
       "tk_data_monitoring_wdays"
@@ -22864,7 +23446,7 @@ require([
 
     // Create the endpoint URL
     var myendpoint_URl =
-      "{{SPLUNKWEB_URL_PREFIX}}/splunkd/__raw/services/trackme/v1/data_hosts/dh_update_priority";
+      "/en-US/splunkd/__raw/services/trackme/v1/data_hosts/dh_update_priority";
 
     var tk_origin_priority = tk_priority;
     var tk_new_priority = tokens.get("tk_input_host_priority");
@@ -23006,7 +23588,7 @@ require([
 
     // Create the endpoint URL
     var myendpoint_URl =
-      "{{SPLUNKWEB_URL_PREFIX}}/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_host_monitoring/" +
+      "/en-US/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_host_monitoring/" +
       tk_keyid;
 
     var tk_origin_data_monitoring_wdays = tokens.get(
@@ -23164,7 +23746,7 @@ require([
 
     // Create the endpoint URL
     var myendpoint_URl =
-      "{{SPLUNKWEB_URL_PREFIX}}/splunkd/__raw/services/trackme/v1/data_hosts/dh_update_lag_policy";
+      "/en-US/splunkd/__raw/services/trackme/v1/data_hosts/dh_update_lag_policy";
 
     // max lag allowed
     var tk_data_max_lag_allowed = tokens.get("tk_input_lag_host");
@@ -24592,7 +25174,7 @@ require([
   function foreachRemoveTagsPolicies(item) {
     // Create the endpoint URL
     var myendpoint_URl =
-      "{{SPLUNKWEB_URL_PREFIX}}/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_tags_policies/" +
+      "/en-US/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_tags_policies/" +
       item;
 
     if (item && item.length) {
@@ -25952,7 +26534,7 @@ require([
       ) {
         // Create the endpoint URL
         var myendpoint_URl =
-          "{{SPLUNKWEB_URL_PREFIX}}/splunkd/__raw/services/trackme/v1/ack/ack_enable";
+          "/en-US/splunkd/__raw/services/trackme/v1/ack/ack_enable";
 
         // Create a dictionary to store the field names and values
         var record = {
@@ -26080,7 +26662,7 @@ require([
       } else if (input_object && input_object.length) {
         // Create the endpoint URL
         var myendpoint_URl =
-          "{{SPLUNKWEB_URL_PREFIX}}/splunkd/__raw/services/trackme/v1/ack/ack_disable";
+          "/en-US/splunkd/__raw/services/trackme/v1/ack/ack_disable";
 
         // Create a dictionary to store the field names and values
         var record = {
@@ -26275,7 +26857,7 @@ require([
     if (input_object && input_object.length) {
       // Create the endpoint URL
       var myendpoint_URl =
-        "{{SPLUNKWEB_URL_PREFIX}}/splunkd/__raw/services/trackme/v1/logical_groups/logical_groups_unassociate";
+        "/en-US/splunkd/__raw/services/trackme/v1/logical_groups/logical_groups_unassociate";
 
       // Create a dictionary to store the field names and values
       var record = {
@@ -26389,7 +26971,7 @@ require([
     if (input_object && input_object.length) {
       // Create the endpoint URL
       var myendpoint_URl =
-        "{{SPLUNKWEB_URL_PREFIX}}/splunkd/__raw/services/trackme/v1/logical_groups/logical_groups_associate_group";
+        "/en-US/splunkd/__raw/services/trackme/v1/logical_groups/logical_groups_associate_group";
 
       // Create a dictionary to store the field names and values
       var record = {
@@ -26507,7 +27089,7 @@ require([
     if (tk_object_group_name && tk_object_group_name.length) {
       // Create the endpoint URL
       var myendpoint_URl =
-        "{{SPLUNKWEB_URL_PREFIX}}/splunkd/__raw/services/trackme/v1/logical_groups/logical_groups_add_grp";
+        "/en-US/splunkd/__raw/services/trackme/v1/logical_groups/logical_groups_add_grp";
 
       // Create a dictionary to store the field names and values
       var record = {
@@ -26732,7 +27314,7 @@ require([
 
       // Create the endpoint URL
       var myendpoint_URl =
-        "{{SPLUNKWEB_URL_PREFIX}}/splunkd/__raw/services/trackme/v1/data_sources/ds_update_outliers";
+        "/en-US/splunkd/__raw/services/trackme/v1/data_sources/ds_update_outliers";
 
       // Create a dictionary to store the field names and values
       var record = {
@@ -27038,7 +27620,7 @@ require([
   function foreachRemoveDataSamplingCustomRule(item) {
     // Create the endpoint URL
     var myendpoint_URl =
-      "{{SPLUNKWEB_URL_PREFIX}}/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_data_sampling_custom_models/" +
+      "/en-US/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_data_sampling_custom_models/" +
       item;
 
     if (item && item.length) {
@@ -27288,7 +27870,7 @@ require([
 
     // Endpoint URI
     var myendpoint_URl =
-      "{{SPLUNKWEB_URL_PREFIX}}/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_data_sampling/" +
+      "/en-US/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_data_sampling/" +
       tk_keyid;
 
     // Retrieve update comment if any
@@ -27686,7 +28268,7 @@ require([
 
     // Endpoint URI
     var myendpoint_URl =
-      "{{SPLUNKWEB_URL_PREFIX}}/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_data_sampling/" +
+      "/en-US/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_data_sampling/" +
       tk_keyid;
 
     // Retrieve update comment if any
@@ -28567,7 +29149,7 @@ require([
 
     // Create the endpoint URL
     var myendpoint_URl =
-      "{{SPLUNKWEB_URL_PREFIX}}/splunkd/__raw/services/trackme/v1/data_hosts/dh_update_outliers";
+      "/en-US/splunkd/__raw/services/trackme/v1/data_hosts/dh_update_outliers";
 
     // Create a dictionary to store the field names and values
     var record = {
