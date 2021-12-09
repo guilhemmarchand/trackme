@@ -11168,6 +11168,1007 @@ require([
       FormUtils.handleValueChange(modal_input_elastic_source_latest);
   });
 
+  // whitelist
+
+  // whitelist data_source
+  // input link selection for modal window
+  var inputLinkTimeWhiteListDataSource = new LinkListInput({
+    "id": "inputLinkTimeWhiteListDataSource",
+    "choices": [{
+            "value": "24h",
+            "label": "24h"
+        },
+        {
+            "value": "7d",
+            "label": "7d"
+        },
+        {
+            "value": "30d",
+            "label": "30d"
+        },
+        {
+            "value": "90d",
+            "label": "90d"
+        }
+    ],
+    "default": "24h",
+    "searchWhenChanged": true,
+    "selectFirstChoice": false,
+    "initialValue": "24h",
+    "value": "$form.LinkTimeWhiteListDataSource$",
+    "el": $('#inputLinkTimeWhiteListDataSource')
+  }, {
+      tokens: true
+  }).render();
+
+  inputLinkTimeWhiteListDataSource.on("change", function(newValue) {
+      FormUtils.handleValueChange(inputLinkTimeWhiteListDataSource);
+  });
+
+  inputLinkTimeWhiteListDataSource.on("valueChange", function(e) {
+      if (e.value === "24h") {
+          EventHandler.setToken("modalTimeWhiteListDataSource.earliest", "-24h", {}, e.data);
+          EventHandler.setToken("modalTimeWhiteListDataSource.latest", "now", {}, e.data);
+      } else if (e.value === "7d") {
+          EventHandler.setToken("modalTimeWhiteListDataSource.earliest", "-7d", {}, e.data);
+          EventHandler.setToken("modalTimeWhiteListDataSource.latest", "now", {}, e.data);
+      } else if (e.value === "30d") {
+          EventHandler.setToken("modalTimeWhiteListDataSource.earliest", "-30d", {}, e.data);
+          EventHandler.setToken("modalTimeWhiteListDataSource.latest", "now", {}, e.data);
+      } else if (e.value === "90d") {
+          EventHandler.setToken("modalTimeWhiteListDataSource.earliest", "-90d", {}, e.data);
+          EventHandler.setToken("modalTimeWhiteListDataSource.latest", "now", {}, e.data);
+      }
+  });
+
+  // whitelist data_host
+  // input link selection for modal window
+  var inputLinkTimeWhiteListDataHost = new LinkListInput({
+    "id": "inputLinkTimeWhiteListDataHost",
+    "choices": [
+        {
+            "value": "24h",
+            "label": "24h"
+        },
+        {
+            "value": "7d",
+            "label": "7d"
+        },
+        {
+            "value": "30d",
+            "label": "30d"
+        },
+        {
+            "value": "90d",
+            "label": "90d"
+        }
+    ],
+    "default": "24h",
+    "searchWhenChanged": true,
+    "selectFirstChoice": false,
+    "initialValue": "24h",
+    "value": "$form.LinkTimeWhiteListDataHost$",
+    "el": $('#inputLinkTimeWhiteListDataHost')
+  }, {
+      tokens: true
+  }).render();
+
+  inputLinkTimeWhiteListDataHost.on("change", function(newValue) {
+      FormUtils.handleValueChange(inputLinkTimeWhiteListDataHost);
+  });
+
+  inputLinkTimeWhiteListDataHost.on("valueChange", function(e) {
+      if (e.value === "24h") {
+          EventHandler.setToken("modalTimeWhiteListDataHost.earliest", "-24h", {}, e.data);
+          EventHandler.setToken("modalTimeWhiteListDataHost.latest", "now", {}, e.data);
+      } else if (e.value === "7d") {
+          EventHandler.setToken("modalTimeWhiteListDataHost.earliest", "-7d", {}, e.data);
+          EventHandler.setToken("modalTimeWhiteListDataHost.latest", "now", {}, e.data);
+      } else if (e.value === "30d") {
+          EventHandler.setToken("modalTimeWhiteListDataHost.earliest", "-30d", {}, e.data);
+          EventHandler.setToken("modalTimeWhiteListDataHost.latest", "now", {}, e.data);
+      } else if (e.value === "90d") {
+          EventHandler.setToken("modalTimeWhiteListDataHost.earliest", "-90d", {}, e.data);
+          EventHandler.setToken("modalTimeWhiteListDataHost.latest", "now", {}, e.data);
+      }
+  });
+
+  // whitelist metric_host
+  // input link selection for modal window
+  var inputLinkTimeWhiteListMetricHost = new LinkListInput({
+      "id": "inputLinkTimeWhiteListMetricHost",
+      "choices": [
+          {
+              "value": "24h",
+              "label": "24h"
+          },
+          {
+              "value": "7d",
+              "label": "7d"
+          },
+          {
+              "value": "30d",
+              "label": "30d"
+          },
+          {
+              "value": "90d",
+              "label": "90d"
+          }
+      ],
+      "default": "24h",
+      "searchWhenChanged": true,
+      "selectFirstChoice": false,
+      "initialValue": "24h",
+      "value": "$form.LinkTimeWhiteListMetricHost$",
+      "el": $('#inputLinkTimeWhiteListMetricHost')
+  }, {
+      tokens: true
+  }).render();
+
+  inputLinkTimeWhiteListMetricHost.on("change", function(newValue) {
+      FormUtils.handleValueChange(inputLinkTimeWhiteListMetricHost);
+  });
+
+  inputLinkTimeWhiteListMetricHost.on("valueChange", function(e) {
+      if (e.value === "24h") {
+          EventHandler.setToken("modalTimeWhiteListMetricHost.earliest", "-24h", {}, e.data);
+          EventHandler.setToken("modalTimeWhiteListMetricHost.latest", "now", {}, e.data);
+      } else if (e.value === "7d") {
+          EventHandler.setToken("modalTimeWhiteListMetricHost.earliest", "-7d", {}, e.data);
+          EventHandler.setToken("modalTimeWhiteListMetricHost.latest", "now", {}, e.data);
+      } else if (e.value === "30d") {
+          EventHandler.setToken("modalTimeWhiteListMetricHost.earliest", "-30d", {}, e.data);
+          EventHandler.setToken("modalTimeWhiteListMetricHost.latest", "now", {}, e.data);
+      } else if (e.value === "90d") {
+          EventHandler.setToken("modalTimeWhiteListMetricHost.earliest", "-90d", {}, e.data);
+          EventHandler.setToken("modalTimeWhiteListMetricHost.latest", "now", {}, e.data);
+      }
+  });
+
+  // blacklist metric_host
+  // input link selection for modal window
+  var inputLinkTimeBlackListMetricHost = new LinkListInput({
+      "id": "inputLinkTimeBlackListMetricHost",
+      "choices": [
+          {
+              "value": "24h",
+              "label": "24h"
+          },
+          {
+              "value": "7d",
+              "label": "7d"
+          },
+          {
+              "value": "30d",
+              "label": "30d"
+          },
+          {
+              "value": "90d",
+              "label": "90d"
+          }
+      ],
+      "default": "24h",
+      "searchWhenChanged": true,
+      "selectFirstChoice": false,
+      "initialValue": "24h",
+      "value": "$form.LinkTimeBlackListMetricHost$",
+      "el": $('#inputLinkTimeBlackListMetricHost')
+  }, {
+      tokens: true
+  }).render();
+
+  inputLinkTimeBlackListMetricHost.on("change", function(newValue) {
+      FormUtils.handleValueChange(inputLinkTimeBlackListMetricHost);
+  });
+
+  inputLinkTimeBlackListMetricHost.on("valueChange", function(e) {
+      if (e.value === "24h") {
+          EventHandler.setToken("modalTimeBlackListMetricHost.earliest", "-24h", {}, e.data);
+          EventHandler.setToken("modalTimeBlackListMetricHost.latest", "now", {}, e.data);
+      } else if (e.value === "7d") {
+          EventHandler.setToken("modalTimeBlackListMetricHost.earliest", "-7d", {}, e.data);
+          EventHandler.setToken("modalTimeBlackListMetricHost.latest", "now", {}, e.data);
+      } else if (e.value === "30d") {
+          EventHandler.setToken("modalTimeBlackListMetricHost.earliest", "-30d", {}, e.data);
+          EventHandler.setToken("modalTimeBlackListMetricHost.latest", "now", {}, e.data);
+      } else if (e.value === "90d") {
+          EventHandler.setToken("modalTimeBlackListMetricHost.earliest", "-90d", {}, e.data);
+          EventHandler.setToken("modalTimeBlackListMetricHost.latest", "now", {}, e.data);
+      }
+  });
+
+  // whitelist
+
+  // whitelist data_source
+
+  var modal_input_data_source_whitelist = new DropdownInput({
+    "id": "modal_input_data_source_whitelist",
+    "tokenDependencies": {
+        "depends": "$show_data_source_tracker$"
+    },
+    "searchWhenChanged": true,
+    "showClearButton": true,
+    "labelField": "index",
+    "selectFirstChoice": false,
+    "valueField": "index",
+    "value": "$form.tk_input_whitelist_data_source$",
+    "managerid": "searchPopulateIndexesForWhiteListDataSource",
+    "el": $('#modal_input_data_source_whitelist')
+  }, {
+      tokens: true
+  }).render();
+
+  modal_input_data_source_whitelist.on("change", function(newValue) {
+      FormUtils.handleValueChange(modal_input_data_source_whitelist);
+  });
+
+  var modal_textinput_data_source_whitelist = new TextInput({
+      "id": "modal_textinput_data_source_whitelist",
+      "searchWhenChanged": true,
+      "value": "$form.tk_textinput_whitelist_data_source$",
+      "el": $('#modal_textinput_data_source_whitelist')
+  }, {
+      tokens: true
+  }).render();
+
+  modal_textinput_data_source_whitelist.on("change", function(newValue) {
+      FormUtils.handleValueChange(modal_textinput_data_source_whitelist);
+  });
+
+  var modal_input_data_source_whitelist_search = new TextInput({
+      "id": "modal_input_data_source_whitelist_search",
+      "default": "*",
+      "searchWhenChanged": true,
+      "value": "$form.tk_input_data_source_whitelist_search$",
+      "el": $('#modal_input_data_source_whitelist_search')
+  }, {
+      tokens: true
+  }).render();
+
+  modal_input_data_source_whitelist_search.on("change", function(newValue) {
+      FormUtils.handleValueChange(modal_input_data_source_whitelist_search);
+  });
+
+  // whitelist metric_host
+
+  var modal_input_metric_host_whitelist = new DropdownInput({
+      "id": "modal_input_metric_host_whitelist",
+      "tokenDependencies": {
+          "depends": "$show_metric_host_tracker$"
+      },
+      "searchWhenChanged": true,
+      "showClearButton": true,
+      "labelField": "index",
+      "selectFirstChoice": false,
+      "valueField": "index",
+      "value": "$form.tk_input_whitelist_metric_host$",
+      "managerid": "searchPopulateIndexesForWhiteListMetricHost",
+      "el": $('#modal_input_metric_host_whitelist')
+  }, {
+      tokens: true
+  }).render();
+
+  modal_input_metric_host_whitelist.on("change", function(newValue) {
+      FormUtils.handleValueChange(modal_input_metric_host_whitelist);
+  });
+
+  var modal_textinput_metric_host_whitelist = new TextInput({
+      "id": "modal_textinput_metric_host_whitelist",
+      "searchWhenChanged": true,
+      "value": "$form.tk_textinput_whitelist_metric_host$",
+      "el": $('#modal_textinput_metric_host_whitelist')
+  }, {
+      tokens: true
+  }).render();
+
+  modal_textinput_metric_host_whitelist.on("change", function(newValue) {
+      FormUtils.handleValueChange(modal_textinput_metric_host_whitelist);
+  });
+
+  var modal_input_metric_host_whitelist_search = new TextInput({
+      "id": "modal_input_metric_host_whitelist_search",
+      "default": "*",
+      "searchWhenChanged": true,
+      "value": "$form.tk_input_metric_host_whitelist_search$",
+      "el": $('#modal_input_metric_host_whitelist_search')
+  }, {
+      tokens: true
+  }).render();
+
+  modal_input_metric_host_whitelist_search.on("change", function(newValue) {
+      FormUtils.handleValueChange(modal_input_metric_host_whitelist_search);
+  });
+
+  // whitelist data_host
+
+  var modal_input_data_host_whitelist = new DropdownInput({
+      "id": "modal_input_data_host_whitelist",
+      "tokenDependencies": {
+          "depends": "$show_data_host_tracker$"
+      },
+      "searchWhenChanged": true,
+      "showClearButton": true,
+      "labelField": "index",
+      "selectFirstChoice": false,
+      "valueField": "index",
+      "value": "$form.tk_input_whitelist_data_host$",
+      "managerid": "searchPopulateIndexesForWhiteListDataHost",
+      "el": $('#modal_input_data_host_whitelist')
+  }, {
+      tokens: true
+  }).render();
+
+  modal_input_data_host_whitelist.on("change", function(newValue) {
+      FormUtils.handleValueChange(modal_input_data_host_whitelist);
+  });
+
+  var modal_textinput_data_host_whitelist = new TextInput({
+      "id": "modal_textinput_data_host_whitelist",
+      "searchWhenChanged": true,
+      "value": "$form.tk_textinput_whitelist_data_host$",
+      "el": $('#modal_textinput_data_host_whitelist')
+  }, {
+      tokens: true
+  }).render();
+
+  modal_textinput_data_host_whitelist.on("change", function(newValue) {
+      FormUtils.handleValueChange(modal_textinput_data_host_whitelist);
+  });
+
+  var modal_input_data_host_whitelist_search = new TextInput({
+      "id": "modal_input_data_host_whitelist_search",
+      "default": "*",
+      "searchWhenChanged": true,
+      "value": "$form.tk_input_data_host_whitelist_search$",
+      "el": $('#modal_input_data_host_whitelist_search')
+  }, {
+      tokens: true
+  }).render();
+
+  modal_input_data_host_whitelist_search.on("change", function(newValue) {
+      FormUtils.handleValueChange(modal_input_data_host_whitelist_search);
+  });
+
+  // blacklist data source
+
+  // blacklist host
+
+  var modal_input_data_source_blacklist_host = new TextInput({
+      "id": "modal_input_data_source_blacklist_host",
+      "searchWhenChanged": true,
+      "value": "$form.tk_input_data_source_blacklist_host$",
+      "el": $('#modal_input_data_source_blacklist_host')
+  }, {
+      tokens: true
+  }).render();
+
+  modal_input_data_source_blacklist_host.on("change", function(newValue) {
+      FormUtils.handleValueChange(modal_input_data_source_blacklist_host);
+  });
+
+  var modal_input_data_source_blacklist_host_search = new TextInput({
+      "id": "modal_input_data_source_blacklist_host_search",
+      "default": "*",
+      "searchWhenChanged": true,
+      "value": "$form.tk_input_data_source_blacklist_host_search$",
+      "el": $('#modal_input_data_source_blacklist_host_search')
+  }, {
+      tokens: true
+  }).render();
+
+  modal_input_data_source_blacklist_host_search.on("change", function(newValue) {
+      FormUtils.handleValueChange(modal_input_data_source_blacklist_host_search);
+  });
+
+  // blacklist index
+
+  var modal_input_data_source_blacklist_index = new TextInput({
+      "id": "modal_input_data_source_blacklist_index",
+      "searchWhenChanged": true,
+      "value": "$form.tk_input_blacklist_index$",
+      "el": $('#modal_input_data_source_blacklist_index')
+  }, {
+      tokens: true
+  }).render();
+
+  modal_input_data_source_blacklist_index.on("change", function(newValue) {
+      FormUtils.handleValueChange(modal_input_data_source_blacklist_index);
+  });
+
+  var modal_input_data_source_blacklist_index_search = new TextInput({
+      "id": "modal_input_data_source_blacklist_index_search",
+      "default": "*",
+      "searchWhenChanged": true,
+      "value": "$form.tk_input_data_source_blacklist_index_search$",
+      "el": $('#modal_input_data_source_blacklist_index_search')
+  }, {
+      tokens: true
+  }).render();
+
+  modal_input_data_source_blacklist_index_search.on("change", function(newValue) {
+      FormUtils.handleValueChange(modal_input_data_source_blacklist_index_search);
+  });
+
+  // whitelist
+
+  // whitelist data_source
+
+  var singleWhiteListDataSource = new SingleView({
+    "id": "singleWhiteListDataSource",
+    "trendDisplayMode": "absolute",
+    "drilldown": "none",
+    "trendColorInterpretation": "standard",
+    "useColors": "0",
+    "colorBy": "value",
+    "showTrendIndicator": "1",
+    "showSparkline": "1",
+    "trellis.enabled": "0",
+    "numberPrecision": "0",
+    "rangeColors": "[\"0x77dd77\",\"0x0877a6\",\"0xf8be34\",\"0xf1813f\",\"0xdc4e41\"]",
+    "trellis.size": "medium",
+    "colorMode": "none",
+    "rangeValues": "[0,30,70,100]",
+    "unitPosition": "after",
+    "trellis.scales.shared": "1",
+    "useThousandSeparators": "1",
+    "underLabel": "index(es) in whitelist currently",
+    "managerid": "searchSingleWhiteListDataSource",
+    "el": $('#singleWhiteListDataSource')
+  }, {
+      tokens: true,
+      tokenNamespace: "submitted"
+  }).render();
+
+  // whitelist metric_host
+
+  var singleWhiteListMetricHost = new SingleElement({
+      "id": "singleWhiteListMetricHost",
+      "trendDisplayMode": "absolute",
+      "drilldown": "none",
+      "trendColorInterpretation": "standard",
+      "useColors": "0",
+      "colorBy": "value",
+      "showTrendIndicator": "1",
+      "showSparkline": "1",
+      "trellis.enabled": "0",
+      "numberPrecision": "0",
+      "rangeColors": "[\"0x77dd77\",\"0x0877a6\",\"0xf8be34\",\"0xf1813f\",\"0xdc4e41\"]",
+      "trellis.size": "medium",
+      "colorMode": "none",
+      "rangeValues": "[0,30,70,100]",
+      "unitPosition": "after",
+      "trellis.scales.shared": "1",
+      "useThousandSeparators": "1",
+      "underLabel": "index(es) in whitelist currently",
+      "managerid": "searchSingleWhiteListMetricHost",
+      "el": $('#singleWhiteListMetricHost')
+  }, {
+      tokens: true,
+      tokenNamespace: "submitted"
+  }).render();
+
+  // whitelist data_host
+
+  var singleWhiteListDataHost = new SingleElement({
+      "id": "singleWhiteListDataHost",
+      "trendDisplayMode": "absolute",
+      "drilldown": "none",
+      "trendColorInterpretation": "standard",
+      "useColors": "0",
+      "colorBy": "value",
+      "showTrendIndicator": "1",
+      "showSparkline": "1",
+      "trellis.enabled": "0",
+      "numberPrecision": "0",
+      "rangeColors": "[\"0x77dd77\",\"0x0877a6\",\"0xf8be34\",\"0xf1813f\",\"0xdc4e41\"]",
+      "trellis.size": "medium",
+      "colorMode": "none",
+      "rangeValues": "[0,30,70,100]",
+      "unitPosition": "after",
+      "trellis.scales.shared": "1",
+      "useThousandSeparators": "1",
+      "underLabel": "index(es) in whitelist currently",
+      "managerid": "searchSingleWhiteListDataHost",
+      "el": $('#singleWhiteListDataHost')
+  }, {
+      tokens: true,
+      tokenNamespace: "submitted"
+  }).render();
+
+  var singleBlackListDataSourceHost = new SingleElement({
+      "id": "singleBlackListDataSourceHost",
+      "trendDisplayMode": "absolute",
+      "drilldown": "none",
+      "trendColorInterpretation": "standard",
+      "useColors": "0",
+      "colorBy": "value",
+      "showTrendIndicator": "1",
+      "showSparkline": "1",
+      "trellis.enabled": "0",
+      "numberPrecision": "0",
+      "rangeColors": "[\"0x77dd77\",\"0x0877a6\",\"0xf8be34\",\"0xf1813f\",\"0xdc4e41\"]",
+      "trellis.size": "medium",
+      "colorMode": "none",
+      "rangeValues": "[0,30,70,100]",
+      "unitPosition": "after",
+      "trellis.scales.shared": "1",
+      "useThousandSeparators": "1",
+      "underLabel": "host(s) in blacklist currently",
+      "managerid": "searchSingleBlackListDataSourceHost",
+      "el": $('#singleBlackListDataSourceHost')
+  }, {
+      tokens: true,
+      tokenNamespace: "submitted"
+  }).render();
+
+  var singleBlackListDataSourceIndex = new SingleElement({
+      "id": "singleBlackListDataSourceIndex",
+      "trendDisplayMode": "absolute",
+      "drilldown": "none",
+      "trendColorInterpretation": "standard",
+      "useColors": "0",
+      "colorBy": "value",
+      "showTrendIndicator": "1",
+      "showSparkline": "1",
+      "trellis.enabled": "0",
+      "numberPrecision": "0",
+      "rangeColors": "[\"0x77dd77\",\"0x0877a6\",\"0xf8be34\",\"0xf1813f\",\"0xdc4e41\"]",
+      "trellis.size": "medium",
+      "colorMode": "none",
+      "rangeValues": "[0,30,70,100]",
+      "unitPosition": "after",
+      "trellis.scales.shared": "1",
+      "useThousandSeparators": "1",
+      "underLabel": "index(es) in blacklist currently",
+      "managerid": "searchSingleBlackListDataSourceIndex",
+      "el": $('#singleBlackListDataSourceIndex')
+  }, {
+      tokens: true,
+      tokenNamespace: "submitted"
+  }).render();
+
+  var singleBlackListDataSourceSourcetype = new SingleElement({
+      "id": "singleBlackListDataSourceSourcetype",
+      "trendDisplayMode": "absolute",
+      "drilldown": "none",
+      "trendColorInterpretation": "standard",
+      "useColors": "0",
+      "colorBy": "value",
+      "showTrendIndicator": "1",
+      "showSparkline": "1",
+      "trellis.enabled": "0",
+      "numberPrecision": "0",
+      "rangeColors": "[\"0x77dd77\",\"0x0877a6\",\"0xf8be34\",\"0xf1813f\",\"0xdc4e41\"]",
+      "trellis.size": "medium",
+      "colorMode": "none",
+      "rangeValues": "[0,30,70,100]",
+      "unitPosition": "after",
+      "trellis.scales.shared": "1",
+      "useThousandSeparators": "1",
+      "underLabel": "sourcetype(s) in blacklist currently",
+      "managerid": "searchSingleBlackListDataSourceSourcetype",
+      "el": $('#singleBlackListDataSourceSourcetype')
+  }, {
+      tokens: true,
+      tokenNamespace: "submitted"
+  }).render();
+
+  var singleBlackListDataSourceDataName = new SingleElement({
+      "id": "singleBlackListDataSourceDataName",
+      "trendDisplayMode": "absolute",
+      "drilldown": "none",
+      "trendColorInterpretation": "standard",
+      "useColors": "0",
+      "colorBy": "value",
+      "showTrendIndicator": "1",
+      "showSparkline": "1",
+      "trellis.enabled": "0",
+      "numberPrecision": "0",
+      "rangeColors": "[\"0x77dd77\",\"0x0877a6\",\"0xf8be34\",\"0xf1813f\",\"0xdc4e41\"]",
+      "trellis.size": "medium",
+      "colorMode": "none",
+      "rangeValues": "[0,30,70,100]",
+      "unitPosition": "after",
+      "trellis.scales.shared": "1",
+      "useThousandSeparators": "1",
+      "underLabel": "data name(s) in blacklist currently",
+      "managerid": "searchSingleBlackListDataSourceDataName",
+      "el": $('#singleBlackListDataSourceDataName')
+  }, {
+      tokens: true,
+      tokenNamespace: "submitted"
+  }).render();
+
+  var singleBlackListDataHostHost = new SingleElement({
+      "id": "singleBlackListDataHostHost",
+      "trendDisplayMode": "absolute",
+      "drilldown": "none",
+      "trendColorInterpretation": "standard",
+      "useColors": "0",
+      "colorBy": "value",
+      "showTrendIndicator": "1",
+      "showSparkline": "1",
+      "trellis.enabled": "0",
+      "numberPrecision": "0",
+      "rangeColors": "[\"0x77dd77\",\"0x0877a6\",\"0xf8be34\",\"0xf1813f\",\"0xdc4e41\"]",
+      "trellis.size": "medium",
+      "colorMode": "none",
+      "rangeValues": "[0,30,70,100]",
+      "unitPosition": "after",
+      "trellis.scales.shared": "1",
+      "useThousandSeparators": "1",
+      "underLabel": "host(s) in blacklist currently",
+      "managerid": "searchSingleBlackListDataHostHost",
+      "el": $('#singleBlackListDataHostHost')
+  }, {
+      tokens: true,
+      tokenNamespace: "submitted"
+  }).render();
+
+  var singleBlackListDataHostIndex = new SingleElement({
+      "id": "singleBlackListDataHostIndex",
+      "trendDisplayMode": "absolute",
+      "drilldown": "none",
+      "trendColorInterpretation": "standard",
+      "useColors": "0",
+      "colorBy": "value",
+      "showTrendIndicator": "1",
+      "showSparkline": "1",
+      "trellis.enabled": "0",
+      "numberPrecision": "0",
+      "rangeColors": "[\"0x77dd77\",\"0x0877a6\",\"0xf8be34\",\"0xf1813f\",\"0xdc4e41\"]",
+      "trellis.size": "medium",
+      "colorMode": "none",
+      "rangeValues": "[0,30,70,100]",
+      "unitPosition": "after",
+      "trellis.scales.shared": "1",
+      "useThousandSeparators": "1",
+      "underLabel": "index(es) in blacklist currently",
+      "managerid": "searchSingleBlackListDataHostIndex",
+      "el": $('#singleBlackListDataHostIndex')
+  }, {
+      tokens: true,
+      tokenNamespace: "submitted"
+  }).render();
+
+  var singleBlackListMetricHostIndex = new SingleElement({
+      "id": "singleBlackListMetricHostIndex",
+      "trendDisplayMode": "absolute",
+      "drilldown": "none",
+      "trendColorInterpretation": "standard",
+      "useColors": "0",
+      "colorBy": "value",
+      "showTrendIndicator": "1",
+      "showSparkline": "1",
+      "trellis.enabled": "0",
+      "numberPrecision": "0",
+      "rangeColors": "[\"0x77dd77\",\"0x0877a6\",\"0xf8be34\",\"0xf1813f\",\"0xdc4e41\"]",
+      "trellis.size": "medium",
+      "colorMode": "none",
+      "rangeValues": "[0,30,70,100]",
+      "unitPosition": "after",
+      "trellis.scales.shared": "1",
+      "useThousandSeparators": "1",
+      "underLabel": "index(es) in blacklist currently",
+      "managerid": "searchSingleBlackListMetricHostIndex",
+      "el": $('#singleBlackListMetricHostIndex')
+  }, {
+      tokens: true,
+      tokenNamespace: "submitted"
+  }).render();
+
+  var singleBlackListDataHostSourcetype = new SingleElement({
+      "id": "singleBlackListDataHostSourcetype",
+      "trendDisplayMode": "absolute",
+      "drilldown": "none",
+      "trendColorInterpretation": "standard",
+      "useColors": "0",
+      "colorBy": "value",
+      "showTrendIndicator": "1",
+      "showSparkline": "1",
+      "trellis.enabled": "0",
+      "numberPrecision": "0",
+      "rangeColors": "[\"0x77dd77\",\"0x0877a6\",\"0xf8be34\",\"0xf1813f\",\"0xdc4e41\"]",
+      "trellis.size": "medium",
+      "colorMode": "none",
+      "rangeValues": "[0,30,70,100]",
+      "unitPosition": "after",
+      "trellis.scales.shared": "1",
+      "useThousandSeparators": "1",
+      "underLabel": "sourcetype(s) in blacklist currently",
+      "managerid": "searchSingleBlackListDataHostSourcetype",
+      "el": $('#singleBlackListDataHostSourcetype')
+  }, {
+      tokens: true,
+      tokenNamespace: "submitted"
+  }).render();
+
+  // blacklist netric host
+  var singleBlackListMetricHostHost = new SingleElement({
+      "id": "singleBlackListMetricHostHost",
+      "trendDisplayMode": "absolute",
+      "drilldown": "none",
+      "trendColorInterpretation": "standard",
+      "useColors": "0",
+      "colorBy": "value",
+      "showTrendIndicator": "1",
+      "showSparkline": "1",
+      "trellis.enabled": "0",
+      "numberPrecision": "0",
+      "rangeColors": "[\"0x77dd77\",\"0x0877a6\",\"0xf8be34\",\"0xf1813f\",\"0xdc4e41\"]",
+      "trellis.size": "medium",
+      "colorMode": "none",
+      "rangeValues": "[0,30,70,100]",
+      "unitPosition": "after",
+      "trellis.scales.shared": "1",
+      "useThousandSeparators": "1",
+      "underLabel": "host(s) in blacklist currently",
+      "managerid": "searchSingleBlackListMetricHostHost",
+      "el": $('#singleBlackListMetricHostHost')
+  }, {
+      tokens: true,
+      tokenNamespace: "submitted"
+  }).render();
+
+  // blacklist metric_category
+  var singleBlackListMetricHostMetricCategory = new SingleElement({
+      "id": "singleBlackListMetricHostMetricCategory",
+      "trendDisplayMode": "absolute",
+      "drilldown": "none",
+      "trendColorInterpretation": "standard",
+      "useColors": "0",
+      "colorBy": "value",
+      "showTrendIndicator": "1",
+      "showSparkline": "1",
+      "trellis.enabled": "0",
+      "numberPrecision": "0",
+      "rangeColors": "[\"0x77dd77\",\"0x0877a6\",\"0xf8be34\",\"0xf1813f\",\"0xdc4e41\"]",
+      "trellis.size": "medium",
+      "colorMode": "none",
+      "rangeValues": "[0,30,70,100]",
+      "unitPosition": "after",
+      "trellis.scales.shared": "1",
+      "useThousandSeparators": "1",
+      "underLabel": "metric categorie(s) in blacklist currently",
+      "managerid": "searchSingleBlackListMetricHostMetricCategory",
+      "el": $('#singleBlackListMetricHostMetricCategory')
+  }, {
+      tokens: true,
+      tokenNamespace: "submitted"
+  }).render();
+
+  // whitelist
+
+  // whitelist data_source
+
+  var tableWhiteListDataSource = new TableElement({
+    "id": "tableWhiteListDataSource",
+    "tokenDependencies": {
+        "depends": "$show_table_data_source_whitelist$",
+    },
+    "count": 5,
+    "drilldown": "none",
+    "fields": "data_index, select",
+    "refresh.display": "none",
+    "wrap": "false",
+    "managerid": "searchWhiteListDataSource",
+    "el": $('#tableWhiteListDataSource')
+  }, {
+      tokens: true,
+      tokenNamespace: "submitted"
+  }).render();
+
+  renderTableCheckBox("tableWhiteListDataSource", "removeWhitelistDataSource");
+
+  // whitelist data_host
+
+  var tableWhiteListDataHost = new TableElement({
+      "id": "tableWhiteListDataHost",
+      "tokenDependencies": {
+          "depends": "$show_table_data_host_whitelist$",
+      },
+      "count": 5,
+      "drilldown": "none",
+      "fields": "data_index, select",
+      "refresh.display": "none",
+      "wrap": "false",
+      "managerid": "searchWhiteListDataHost",
+      "el": $('#tableWhiteListDataHost')
+  }, {
+      tokens: true,
+      tokenNamespace: "submitted"
+  }).render();
+
+  // whitelist metric_host
+
+  var tableWhiteListMetricHost = new TableElement({
+      "id": "tableWhiteListMetricHost",
+      "tokenDependencies": {
+          "depends": "$show_table_metric_host_whitelist$",
+      },
+      "count": 5,
+      "drilldown": "none",
+      "fields": "metric_index, select",
+      "refresh.display": "none",
+      "wrap": "false",
+      "managerid": "searchWhiteListMetricHost",
+      "el": $('#tableWhiteListMetricHost')
+  }, {
+      tokens: true,
+      tokenNamespace: "submitted"
+  }).render();
+
+  // blacklist
+
+  var tableBlackListDataSourceHost = new TableView({
+      "id": "tableBlackListDataSourceHost",
+      "tokenDependencies": {
+          "depends": "$show_table_data_source_blacklist_host$"
+      },
+      "count": 5,
+      "drilldown": "none",
+      "fields": "data_host, is_rex, select",
+      "refresh.display": "none",
+      "wrap": "false",
+      "managerid": "searchBlackListDataSourceHost",
+      "el": $('#tableBlackListDataSourceHost')
+  }, {
+      tokens: true,
+      tokenNamespace: "submitted"
+  }).render();
+
+  var tableBlackListDataSourceIndex = new TableView({
+      "id": "tableBlackListDataSourceIndex",
+      "tokenDependencies": {
+          "depends": "$show_table_data_source_blacklist_index$",
+      },
+      "count": 5,
+      "drilldown": "none",
+      "fields": "data_index, is_rex, select",
+      "refresh.display": "none",
+      "wrap": "false",
+      "managerid": "searchBlackListDataSourceIndex",
+      "el": $('#tableBlackListDataSourceIndex')
+  }, {
+      tokens: true,
+      tokenNamespace: "submitted"
+  }).render();
+
+  var tableBlackListDataSourceSourcetype = new TableView({
+      "id": "tableBlackListDataSourceSourcetype",
+      "tokenDependencies": {
+          "depends": "$show_table_data_source_blacklist_sourcetype$"
+      },
+      "count": 5,
+      "drilldown": "none",
+      "fields": "data_sourcetype, is_rex, select",
+      "refresh.display": "none",
+      "wrap": "false",
+      "managerid": "searchBlackListDataSourceSourcetype",
+      "el": $('#tableBlackListDataSourceSourcetype')
+  }, {
+      tokens: true,
+      tokenNamespace: "submitted"
+  }).render();
+
+  var tableBlackListDataSourceDataName = new TableView({
+      "id": "tableBlackListDataSourceDataName",
+      "tokenDependencies": {
+          "depends": "$show_table_data_source_blacklist_data_name$"
+      },
+      "count": 5,
+      "drilldown": "none",
+      "fields": "data_name, is_rex, select",
+      "refresh.display": "none",
+      "wrap": "false",
+      "managerid": "searchBlackListDataSourceDataName",
+      "el": $('#tableBlackListDataSourceDataName')
+  }, {
+      tokens: true,
+      tokenNamespace: "submitted"
+  }).render();
+
+  var tableBlackListDataHostHost = new TableView({
+      "id": "tableBlackListDataHostHost",
+      "tokenDependencies": {
+          "depends": "$show_table_data_host_blacklist_host$"
+      },
+      "count": 5,
+      "drilldown": "none",
+      "fields": "data_host, is_rex, select",
+      "refresh.display": "none",
+      "wrap": "false",
+      "managerid": "searchBlackListDataHostHost",
+      "el": $('#tableBlackListDataHostHost')
+  }, {
+      tokens: true,
+      tokenNamespace: "submitted"
+  }).render();
+
+  var tableBlackListDataHostIndex = new TableView({
+      "id": "tableBlackListDataHostIndex",
+      "tokenDependencies": {
+          "depends": "$show_table_data_host_blacklist_index$"
+      },
+      "count": 5,
+      "drilldown": "none",
+      "fields": "data_index, is_rex, select",
+      "refresh.display": "none",
+      "wrap": "false",
+      "managerid": "searchBlackListDataHostIndex",
+      "el": $('#tableBlackListDataHostIndex')
+  }, {
+      tokens: true,
+      tokenNamespace: "submitted"
+  }).render();
+
+  var tableBlackListMetricHostIndex = new TableView({
+      "id": "tableBlackListMetricHostIndex",
+      "tokenDependencies": {
+          "depends": "$show_table_metric_host_blacklist_index$"
+      },
+      "count": 5,
+      "drilldown": "none",
+      "fields": "metric_index, is_rex, select",
+      "refresh.display": "none",
+      "wrap": "false",
+      "managerid": "searchBlackListMetricHostIndex",
+      "el": $('#tableBlackListMetricHostIndex')
+  }, {
+      tokens: true,
+      tokenNamespace: "submitted"
+  }).render();
+
+  var tableBlackListDataHostSourcetype = new TableView({
+      "id": "tableBlackListDataHostSourcetype",
+      "tokenDependencies": {
+          "depends": "$show_table_data_host_blacklist_sourcetype$"
+      },
+      "count": 5,
+      "drilldown": "none",
+      "fields": "data_sourcetype, is_rex, select",
+      "refresh.display": "none",
+      "wrap": "false",
+      "managerid": "searchBlackListDataHostSourcetype",
+      "el": $('#tableBlackListDataHostSourcetype')
+  }, {
+      tokens: true,
+      tokenNamespace: "submitted"
+  }).render();
+
+  var tableBlackListMetricHostHost = new TableView({
+      "id": "tableBlackListMetricHostHost",
+      "tokenDependencies": {
+          "depends": "$show_table_metric_host_blacklist_host$"
+      },
+      "count": 5,
+      "drilldown": "none",
+      "fields": "metric_host, is_rex, select",
+      "refresh.display": "none",
+      "wrap": "false",
+      "managerid": "searchBlackListMetricHostHost",
+      "el": $('#tableBlackListMetricHostHost')
+  }, {
+      tokens: true,
+      tokenNamespace: "submitted"
+  }).render();
+
+  var tableBlackListMetricHostMetricCategory = new TableView({
+      "id": "tableBlackListMetricHostMetricCategory",
+      "tokenDependencies": {
+          "depends": "$show_table_metric_host_blacklist_metric_category$"
+      },
+      "count": 5,
+      "drilldown": "none",
+      "fields": "metric_category, is_rex, select",
+      "refresh.display": "none",
+      "wrap": "false",
+      "managerid": "searchBlackListMetricHostMetricCategory",
+      "el": $('#tableBlackListMetricHostMetricCategory')
+  }, {
+      tokens: true,
+      tokenNamespace: "submitted"
+  }).render();
 
   //
   // BEGIN OPERATIONS
