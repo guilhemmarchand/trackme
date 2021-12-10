@@ -53,6 +53,16 @@
     color: #ff6961;
 }
 
+/* bocklist top panels */
+.blocklist-toppanels {
+    margin-top: 10px;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: 1fr;
+    grid-column-gap: 0px;
+    grid-row-gap: 0px;
+}
+
 /*Notification alerts*/
 
 [class^="boxnotify"] {
@@ -1443,7 +1453,7 @@
                             </div>
 
                             <div class="modal-footer" style="margin-top: 30px;">
-                                <button type="submit" id="btn_modal_data_source_whitelist_add_cancel" class="btn btn-outline-primary pull-left" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Back</button>
+                                <button type="submit" id="btn_modal_data_source_whitelist_add_cancel" class="btn btn-outline-secondary pull-left" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Back</button>
                                 <button type="submit" id="btn_modal_data_source_whitelist_add_delete" class="btn btn-outline-danger pull-right" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Remove selected</button>
                             </div>
                         </div>
@@ -1500,7 +1510,7 @@
                             </div>
 
                             <div class="modal-footer" style="margin-top: 30px;">
-                                <button type="submit" id="btn_modal_data_host_whitelist_add_cancel" class="btn btn-outline-primary pull-left" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Back</button>
+                                <button type="submit" id="btn_modal_data_host_whitelist_add_cancel" class="btn btn-outline-secondary pull-left" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Back</button>
                                 <button type="submit" id="btn_modal_data_host_whitelist_add_delete" class="btn btn-outline-danger pull-right" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Remove selected</button>
                             </div>
                         </div>
@@ -1558,8 +1568,8 @@
                             </div>
 
                             <div class="modal-footer">
-                                <button type="submit" id="btn_modal_metric_host_whitelist_add_cancel" class="btn btn-default btn-primary pull-left" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Back</button>
-                                <button type="submit" id="btn_modal_metric_host_whitelist_add_delete" class="btn btn-default btn-danger pull-right" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Remove selected</button>
+                                <button type="submit" id="btn_modal_metric_host_whitelist_add_cancel" class="btn btn-outline-seconday pull-left" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Back</button>
+                                <button type="submit" id="btn_modal_metric_host_whitelist_add_delete" class="btn btn-outline-danger pull-right" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Remove selected</button>
                             </div>
                         </div>
                     </div>
@@ -1574,7 +1584,6 @@
                 <!-- blacklist host -->
                 <div class="modal fade custom-modal-50" id="modal_modify_data_source_blacklist_host" role="dialog">
                     <div class="modal-dialog">
-
                         <!-- Modal content-->
                         <div class="modal-content">
                             <div class="modal-header modal-header-danger">
@@ -1582,89 +1591,42 @@
                                 <h1><span class="glyphicon glyphicon-lock"></span> Modify host blocklisting</h1>
                             </div>
                             <div class="modal-body">
-                                <b>Hosts that have been blocklisted are excluded from the data discovery</b>
-                                <br /><br />
-
-                                <div class="boxnotify" id="boxnotify-modal_modify_data_source_blacklist_host">
-                                </div>
-
-                                <b>Blocklist entries support the following types:</b>
-                                <br /><br />
-
-                                <lu>
+                                <h2>Hosts that have been blocklisted are excluded from the data discovery, the following types are supported:</h2>
+                                <ul>
                                     <li>explicit names, example: <code>dev001</code></li>
                                     <li>wildcards, example: <code>dev-*</code></li>
                                     <li>regular expressions, example: <code>(?i)dev-.*</code></li>
-                                </lu>
-
-                                <br />
-
-                                <div>
-                                    <div>
-
-                                        <div>
-                                            <div>
-
-                                                <div class="fieldset">
-                                                    <div class="input input-text" id="modal_input_data_source_blacklist_host" style="margin-bottom: 10px;">
-                                                        <label class="splunk-input-label">Host name or expression:</label>
-                                                    </div>
-
-                                                    <div style="margin-bottom: 10px;">
-                                                        <button id="btn_modal_data_source_blacklist_host_add" type="submit" class="btn btn-default btn-primary" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Add this entry</button>
-                                                    </div>
-
-                                                </div>
-
-                                            </div>
+                                </ul>
+                                <hr />
+                                <div class="blocklist-toppanels">
+                                    <div class="fieldset">
+                                        <div class="input input-text" id="modal_input_data_source_blacklist_host" style="margin-bottom: 10px; width: 350px;">
+                                            <label class="splunk-input-label">Host name or expression:</label>
                                         </div>
-
-                                    </div>
-
-                                    <div style="width: 50%;">
-                                        <div>
-
-                                            <div>
-                                                <div id="singleBlackListDataSourceHost">
-                                                </div>
-                                            </div>
+                                        <div style="margin-left: 10px;">
+                                            <button id="btn_modal_data_source_blacklist_host_add" type="submit" class="btn btn-outline-primary" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Add this entry</button>
                                         </div>
                                     </div>
-
+                                    <div id="singleBlackListDataSourceHost">
+                                    </div>
                                 </div>
-
-                                <div>
-                                    <div style="margin-top: -25px; width: 100%;">
-                                        <div>
-                                            <div>
-                                                <div class="fieldset">
-                                                    <div class="input input-text" id="modal_input_data_source_blacklist_host_search" style="margin-bottom: 10px;">
-                                                        <label class="splunk-input-label">Search for host name:</label>
-                                                    </div>
-                                                </div>
-                                            </div>
+                                <div style="margin-top: 20px;">
+                                    <div class="fieldset">
+                                        <div class="input input-text" id="modal_input_data_source_blacklist_host_search" style="margin-bottom: 10px; width: 350px;">
+                                            <label class="splunk-input-label">Search for host name:</label>
                                         </div>
                                     </div>
                                 </div>
-
                                 <div>
-                                    <div>
-                                        <div>
-                                            <div>
-                                                <div class="fieldset">
-                                                    <div id="tableBlackListDataSourceHost">
-                                                        <label>Select entries and use the remove selected button:</label>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
+                                    <div id="tableBlackListDataSourceHost">
+                                        <label>Select entries and use the remove selected button:</label>
+                                        <div class="panel-footer" style="display: none;"></div>
                                     </div>
                                 </div>
-
                             </div>
                             <div class="modal-footer">
-                                <button type="submit" id="btn_modal_data_source_blacklist_host_add_cancel" class="btn btn-default btn-primary pull-left" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Back</button>
-                                <button type="submit" id="btn_modal_data_source_blacklist_host_add_delete" class="btn btn-default btn-danger pull-right" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Remove selected</button>
+                                <button type="submit" id="btn_modal_data_source_blacklist_host_add_cancel" class="btn btn-outline-secondary pull-left" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Back</button>
+                                <button type="submit" id="btn_modal_data_source_blacklist_host_add_delete" class="btn btn-outline-danger pull-right" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Remove selected</button>
                             </div>
                         </div>
                     </div>
@@ -1673,7 +1635,6 @@
                 <!-- blacklist index -->
                 <div class="modal fade custom-modal-50" id="modal_modify_data_source_blacklist_index" role="dialog">
                     <div class="modal-dialog">
-
                         <!-- Modal content-->
                         <div class="modal-content">
                             <div class="modal-header modal-header-danger">
@@ -1681,97 +1642,42 @@
                                 <h1><span class="glyphicon glyphicon-lock"></span> Modify index blocklisting</h1>
                             </div>
                             <div class="modal-body">
-                                <b>Indexes that have been blocklisted are excluded from the data discovery</b>
-                                <br /><br />
-
-                                <div class="boxnotify" id="boxnotify-modal_modify_data_source_blacklist_index">
-                                </div>
-
-                                <b>Blocklist entries support the following types:</b>
-                                <br /><br />
-
-                                <lu>
+                                <h2>Indexes that have been blocklisted are excluded from the data discovery, the following types are supported:</h2>
+                                <ul>
                                     <li>explicit names, example: <code>dev001</code></li>
                                     <li>wildcards, example: <code>dev-*</code></li>
                                     <li>regular expressions, example: <code>(?i)dev-.*</code></li>
-                                </lu>
-
-                                <br />
-
-                                <div>
-                                    <div style="width: 100%;">
-
-                                        <div>
-                                            <div>
-
-                                                <div class="fieldset">
-                                                    <div class="input input-text" id="modal_input_data_source_blacklist_index" style="margin-bottom: 10px;">
-                                                        <label class="splunk-input-label">Index name or expression:</label>
-                                                    </div>
-
-                                                    <div style="margin-bottom: 10px;">
-                                                        <button id="btn_modal_data_source_blacklist_index_add" type="submit" class="btn btn-default btn-primary" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Add this entry</button>
-                                                    </div>
-
-                                                </div>
-
-                                            </div>
+                                </ul>
+                                <hr />
+                                <div class="blocklist-toppanels">
+                                    <div class="fieldset">
+                                        <div class="input input-text" id="modal_input_data_source_blacklist_index" style="margin-bottom: 10px; width: 350px;">
+                                            <label class="splunk-input-label">Index name or expression:</label>
                                         </div>
-
-                                    </div>
-
-                                    <div style="width: 50%;">
-                                        <div>
-
-                                            <div>
-                                                <div id="singleBlackListDataSourceIndex">
-                                                </div>
-                                            </div>
+                                        <div style="margin-left: 10px;">
+                                            <button id="btn_modal_data_source_blacklist_index_add" type="submit" class="btn btn-outline-primary" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Add this entry</button>
                                         </div>
                                     </div>
-
-                                </div>
-
-                                <div>
-                                    <div style="margin-top: -25px; width: 100%;">
-
-                                        <div>
-                                            <div>
-
-                                                <div class="fieldset">
-                                                    <div class="input input-text" id="modal_input_data_source_blacklist_index_search" style="margin-bottom: 10px;">
-                                                        <label class="splunk-input-label">Search for index name:</label>
-                                                    </div>
-                                                </div>
-
-                                            </div>
-                                        </div>
-
+                                    <div id="singleBlackListDataSourceIndex">
                                     </div>
                                 </div>
-
-                                <div>
-                                    <div style="width: 100%;">
-
-                                        <div>
-                                            <div>
-
-                                                <div class="fieldset">
-                                                    <div id="tableBlackListDataSourceIndex">
-                                                        <label>Select entries and use the remove selected button:</label>
-                                                    </div>
-                                                </div>
-
-                                            </div>
+                                <div style="margin-top: 20px;">
+                                    <div class="fieldset">
+                                        <div class="input input-text" id="modal_input_data_source_blacklist_index_search" style="margin-bottom: 10px; width: 350px;">
+                                            <label class="splunk-input-label">Search for index name:</label>
                                         </div>
-
                                     </div>
                                 </div>
-
+                                <div>
+                                    <div id="tableBlackListDataSourceIndex">
+                                        <label>Select entries and use the remove selected button:</label>
+                                        <div class="panel-footer" style="display: none;"></div>
+                                    </div>
+                                </div>
                             </div>
                             <div class="modal-footer">
-                                <button type="submit" id="btn_modal_data_source_blacklist_index_add_cancel" class="btn btn-default btn-primary pull-left" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Back</button>
-                                <button type="submit" id="btn_modal_data_source_blacklist_index_add_delete" class="btn btn-default btn-danger pull-right" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Remove selected</button>
+                                <button type="submit" id="btn_modal_data_source_blacklist_index_add_cancel" class="btn btn-outline-secondary pull-left" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Back</button>
+                                <button type="submit" id="btn_modal_data_source_blacklist_index_add_delete" class="btn btn-outline-danger pull-right" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Remove selected</button>
                             </div>
                         </div>
                     </div>
@@ -1780,7 +1686,6 @@
                 <!-- blacklist sourcetype -->
                 <div class="modal fade custom-modal-50" id="modal_modify_data_source_blacklist_sourcetype" role="dialog">
                     <div class="modal-dialog">
-
                         <!-- Modal content-->
                         <div class="modal-content">
                             <div class="modal-header modal-header-danger">
@@ -1788,97 +1693,42 @@
                                 <h1><span class="glyphicon glyphicon-lock"></span> Modify sourcetype blocklisting</h1>
                             </div>
                             <div class="modal-body">
-                                <b>Sourcetypes that have been blocklisted are excluded from the data discovery</b>
-                                <br /><br />
-
-                                <div class="boxnotify" id="boxnotify-modal_modify_data_source_blacklist_sourcetype">
-                                </div>
-
-                                <b>Blocklist entries support the following types:</b>
-                                <br /><br />
-
-                                <lu>
+                                <h2>Sourcetypes that have been blocklisted are excluded from the data discovery, the following types are supported:</h2>
+                                <ul>
                                     <li>explicit names, example: <code>dev001</code></li>
                                     <li>wildcards, example: <code>dev-*</code></li>
                                     <li>regular expressions, example: <code>(?i)dev-.*</code></li>
-                                </lu>
-
-                                <br />
-
-                                <div>
-                                    <div style="width: 100%;">
-
-                                        <div>
-                                            <div>
-
-                                                <div class="fieldset">
-                                                    <div class="input input-text" id="modal_input_data_source_blacklist_sourcetype" style="margin-bottom: 10px;">
-                                                        <label class="splunk-input-label">sourcetype name or expression:</label>
-                                                    </div>
-
-                                                    <div style="margin-bottom: 10px;">
-                                                        <button id="btn_modal_data_source_blacklist_sourcetype_add" type="submit" class="btn btn-default btn-primary" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Add this entry</button>
-                                                    </div>
-
-                                                </div>
-
-                                            </div>
+                                </ul>
+                                <hr />
+                                <div class="blocklist-toppanels">
+                                    <div class="fieldset">
+                                        <div class="input input-text" id="modal_input_data_source_blacklist_sourcetype" style="margin-bottom: 10px; width: 350px;">
+                                            <label class="splunk-input-label">Sourcetype name or expression:</label>
                                         </div>
-
-                                    </div>
-
-                                    <div style="width: 50%;">
-                                        <div>
-
-                                            <div>
-                                                <div id="singleBlackListDataSourceSourcetype">
-                                                </div>
-                                            </div>
+                                        <div style="margin-left: 10px;">
+                                            <button id="btn_modal_data_source_blacklist_sourcetype_add" type="submit" class="btn btn-outline-primary" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Add this entry</button>
                                         </div>
                                     </div>
-
-                                </div>
-
-                                <div>
-                                    <div style="margin-top: -25px; width: 100%;">
-
-                                        <div>
-                                            <div>
-
-                                                <div class="fieldset">
-                                                    <div class="input input-text" id="modal_input_data_source_blacklist_sourcetype_search" style="margin-bottom: 10px;">
-                                                        <label class="splunk-input-label">Search for sourcetype name:</label>
-                                                    </div>
-                                                </div>
-
-                                            </div>
-                                        </div>
-
+                                    <div id="singleBlackListDataSourceSourcetype">
                                     </div>
                                 </div>
-
-                                <div>
-                                    <div style="width: 100%;">
-
-                                        <div>
-                                            <div>
-
-                                                <div class="fieldset">
-                                                    <div id="tableBlackListDataSourceSourcetype">
-                                                        <label>Select entries and use the remove selected button:</label>
-                                                    </div>
-                                                </div>
-
-                                            </div>
+                                <div style="margin-top: 20px;">
+                                    <div class="fieldset">
+                                        <div class="input input-text" id="modal_input_data_source_blacklist_sourcetype_search" style="margin-bottom: 10px; width: 350px;">
+                                            <label class="splunk-input-label">Search for sourcetype name:</label>
                                         </div>
-
                                     </div>
                                 </div>
-
+                                <div>
+                                    <div id="tableBlackListDataSourceSourcetype">
+                                        <label>Select entries and use the remove selected button:</label>
+                                        <div class="panel-footer" style="display: none;"></div>
+                                    </div>
+                                </div>
                             </div>
                             <div class="modal-footer">
-                                <button type="submit" id="btn_modal_data_source_blacklist_sourcetype_add_cancel" class="btn btn-default btn-primary pull-left" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Back</button>
-                                <button type="submit" id="btn_modal_data_source_blacklist_sourcetype_add_delete" class="btn btn-default btn-danger pull-right" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Remove selected</button>
+                                <button type="submit" id="btn_modal_data_source_blacklist_sourcetype_add_cancel" class="btn btn-outline-secondary pull-left" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Back</button>
+                                <button type="submit" id="btn_modal_data_source_blacklist_sourcetype_add_delete" class="btn btn-outline-danger pull-right" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Remove selected</button>
                             </div>
                         </div>
                     </div>
@@ -1887,7 +1737,6 @@
                 <!-- blacklist sourcetype -->
                 <div class="modal fade custom-modal-50" id="modal_modify_data_source_blacklist_data_name" role="dialog">
                     <div class="modal-dialog">
-
                         <!-- Modal content-->
                         <div class="modal-content">
                             <div class="modal-header modal-header-danger">
@@ -1895,97 +1744,42 @@
                                 <h1><span class="glyphicon glyphicon-lock"></span> Modify data_name blocklisting</h1>
                             </div>
                             <div class="modal-body">
-                                <b>Data names that have been blocklisted are excluded from the data discovery</b>
-                                <br /><br />
-
-                                <div class="boxnotify" id="boxnotify-modal_modify_data_source_blacklist_data_name">
-                                </div>
-
-                                <b>Blocklist entries support the following types:</b>
-                                <br /><br />
-
-                                <lu>
+                                <h2>Data names that have been blocklisted are excluded from the data discovery, the following types are supported:</h2>
+                                <ul>
                                     <li>explicit names, example: <code>dev001</code></li>
                                     <li>wildcards, example: <code>dev-*</code></li>
                                     <li>regular expressions, example: <code>(?i)dev-.*</code></li>
-                                </lu>
-
-                                <br />
-
-                                <div>
-                                    <div style="width: 100%;">
-
-                                        <div>
-                                            <div>
-
-                                                <div class="fieldset">
-                                                    <div class="input input-text" id="modal_input_data_source_blacklist_data_name" style="margin-bottom: 10px;">
-                                                        <label class="splunk-input-label">data name or expression:</label>
-                                                    </div>
-
-                                                    <div style="margin-bottom: 10px;">
-                                                        <button id="btn_modal_data_source_blacklist_data_name_add" type="submit" class="btn btn-default btn-primary" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Add this entry</button>
-                                                    </div>
-
-                                                </div>
-
-                                            </div>
+                                </ul>
+                                <hr />
+                                <div class="blocklist-toppanels">
+                                    <div class="fieldset">
+                                        <div class="input input-text" id="modal_input_data_source_blacklist_data_name" style="margin-bottom: 10px; width: 350px;">
+                                            <label class="splunk-input-label">Data name or expression:</label>
                                         </div>
-
-                                    </div>
-
-                                    <div style="width: 50%;">
-                                        <div>
-
-                                            <div>
-                                                <div id="singleBlackListDataSourceDataName">
-                                                </div>
-                                            </div>
+                                        <div style="margin-left: 10px;">
+                                            <button id="btn_modal_data_source_blacklist_data_name_add" type="submit" class="btn btn-outline-primary" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Add this entry</button>
                                         </div>
                                     </div>
-
-                                </div>
-
-                                <div>
-                                    <div style="margin-top: -25px; width: 100%;">
-
-                                        <div>
-                                            <div>
-
-                                                <div class="fieldset">
-                                                    <div class="input input-text" id="modal_input_data_source_blacklist_data_name_search" style="margin-bottom: 10px;">
-                                                        <label class="splunk-input-label">Search for data name:</label>
-                                                    </div>
-                                                </div>
-
-                                            </div>
-                                        </div>
-
+                                    <div id="singleBlackListDataSourceDataName">
                                     </div>
                                 </div>
-
-                                <div>
-                                    <div style="width: 100%;">
-
-                                        <div>
-                                            <div>
-
-                                                <div class="fieldset">
-                                                    <div id="tableBlackListDataSourceDataName">
-                                                        <label>Select entries and use the remove selected button:</label>
-                                                    </div>
-                                                </div>
-
-                                            </div>
+                                <div style="margin-top: 20px;">
+                                    <div class="fieldset">
+                                        <div class="input input-text" id="modal_input_data_source_blacklist_data_name_search" style="margin-bottom: 10px; width: 350px;">
+                                            <label class="splunk-input-label">Search for data name:</label>
                                         </div>
-
                                     </div>
                                 </div>
-
+                                <div>
+                                    <div id="tableBlackListDataSourceDataName">
+                                        <label>Select entries and use the remove selected button:</label>
+                                        <div class="panel-footer" style="display: none;"></div>
+                                    </div>
+                                </div>
                             </div>
                             <div class="modal-footer">
-                                <button type="submit" id="btn_modal_data_source_blacklist_data_name_add_cancel" class="btn btn-default btn-primary pull-left" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Back</button>
-                                <button type="submit" id="btn_modal_data_source_blacklist_data_name_add_delete" class="btn btn-default btn-danger pull-right" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Remove selected</button>
+                                <button type="submit" id="btn_modal_data_source_blacklist_data_name_add_cancel" class="btn btn-outline-secondary pull-left" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Back</button>
+                                <button type="submit" id="btn_modal_data_source_blacklist_data_name_add_delete" class="btn btn-outline-danger pull-right" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Remove selected</button>
                             </div>
                         </div>
                     </div>
@@ -1998,7 +1792,6 @@
                 <!-- blacklist host -->
                 <div class="modal fade custom-modal-50" id="modal_modify_data_host_blacklist_host" role="dialog">
                     <div class="modal-dialog">
-
                         <!-- Modal content-->
                         <div class="modal-content">
                             <div class="modal-header modal-header-danger">
@@ -2006,88 +1799,42 @@
                                 <h1><span class="glyphicon glyphicon-lock"></span> Modify host blocklisting</h1>
                             </div>
                             <div class="modal-body">
-                                <b>Hosts that have been blocklisted are excluded from the data discovery</b>
-                                <br /><br />
-
-                                <div class="boxnotify" id="boxnotify-modal_modify_data_host_blacklist_host">
-                                </div>
-
-                                <b>Blocklist entries support the following types:</b>
-                                <br /><br />
-
-                                <lu>
+                                <h2>Hosts that have been blocklisted are excluded from the data discovery, the following types are supported:</h2>
+                                <ul>
                                     <li>explicit names, example: <code>dev001</code></li>
                                     <li>wildcards, example: <code>dev-*</code></li>
                                     <li>regular expressions, example: <code>(?i)dev-.*</code></li>
-                                </lu>
-
-                                <br />
-
-                                <div>
-                                    <div>
-
-                                        <div>
-                                            <div>
-
-                                                <div class="fieldset">
-                                                    <div class="input input-text" id="modal_input_data_host_blacklist_host" style="margin-bottom: 10px;">
-                                                        <label class="splunk-input-label">host name or expression:</label>
-                                                    </div>
-
-                                                    <div style="margin-bottom: 10px;">
-                                                        <button id="btn_modal_data_host_blacklist_host_add" type="submit" class="btn btn-default btn-primary" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Add this entry</button>
-                                                    </div>
-
-                                                </div>
-
-                                            </div>
+                                </ul>
+                                <hr />
+                                <div class="blocklist-toppanels">
+                                    <div class="fieldset">
+                                        <div class="input input-text" id="modal_input_data_host_blacklist_host" style="margin-bottom: 10px; width: 350px;">
+                                            <label class="splunk-input-label">Host name or expression:</label>
                                         </div>
-
-                                    </div>
-
-                                    <div>
-                                        <div>
-
-                                            <div>
-                                                <div id="singleBlackListDataHostHost">
-                                                </div>
-                                            </div>
+                                        <div style="margin-left: 10px;">
+                                            <button id="btn_modal_data_host_blacklist_host_add" type="submit" class="btn btn-outline-primary" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Add this entry</button>
                                         </div>
                                     </div>
-
+                                    <div id="singleBlackListDataHostHost">
+                                    </div>
                                 </div>
-
-                                <div>
-                                    <div style="margin-top: -25px; width: 100%;">
-                                        <div>
-                                            <div>
-                                                <div class="fieldset">
-                                                    <div class="input input-text" id="modal_input_data_host_blacklist_host_search" style="margin-bottom: 10px;">
-                                                        <label class="splunk-input-label">Search for host name:</label>
-                                                    </div>
-                                                </div>
-                                            </div>
+                                <div style="margin-top: 20px;">
+                                    <div class="fieldset">
+                                        <div class="input input-text" id="modal_input_data_host_blacklist_host_search" style="margin-bottom: 10px; width: 350px;">
+                                            <label class="splunk-input-label">Search for host name:</label>
                                         </div>
                                     </div>
                                 </div>
-
                                 <div>
-                                    <div>
-                                        <div>
-                                            <div>
-                                                <div class="fieldset">
-                                                    <div id="tableBlackListDataHostHost">
-                                                        <label>Select entries and use the remove selected button:</label>                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
+                                    <div id="tableBlackListDataHostHost">
+                                        <label>Select entries and use the remove selected button:</label>
+                                        <div class="panel-footer" style="display: none;"></div>
                                     </div>
                                 </div>
-
                             </div>
                             <div class="modal-footer">
-                                <button type="submit" id="btn_modal_data_host_blacklist_host_add_cancel" class="btn btn-default btn-primary pull-left" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Back</button>
-                                <button type="submit" id="btn_modal_data_host_blacklist_host_add_delete" class="btn btn-default btn-danger pull-right" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Remove selected</button>
+                                <button type="submit" id="btn_modal_data_host_blacklist_host_add_cancel" class="btn btn-outline-secondary pull-left" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Back</button>
+                                <button type="submit" id="btn_modal_data_host_blacklist_host_add_delete" class="btn btn-outline-danger pull-right" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Remove selected</button>
                             </div>
                         </div>
                     </div>
@@ -2639,7 +2386,6 @@
                 <!-- blacklist index -->
                 <div class="modal fade custom-modal-50" id="modal_modify_data_host_blacklist_index" role="dialog">
                     <div class="modal-dialog">
-
                         <!-- Modal content-->
                         <div class="modal-content">
                             <div class="modal-header modal-header-danger">
@@ -2647,92 +2393,38 @@
                                 <h1><span class="glyphicon glyphicon-lock"></span> Modify index blocklisting</h1>
                             </div>
                             <div class="modal-body">
-                                <b>Indexes that have been blocklisted are excluded from the data discovery</b>
-                                <br /><br />
-
-                                <div class="boxnotify" id="boxnotify-modal_modify_data_host_blacklist_index">
-                                </div>
-
-                                <b>Blocklist entries support the following types:</b>
-                                <br /><br />
-
-                                <lu>
+                                <h2>Indexes that have been blocklisted are excluded from the data discovery, the following types are supported:</h2>
+                                <ul>
                                     <li>explicit names, example: <code>dev001</code></li>
                                     <li>wildcards, example: <code>dev-*</code></li>
                                     <li>regular expressions, example: <code>(?i)dev-.*</code></li>
-                                </lu>
-
-                                <br />
-
-                                <div >
-                                    <div style="width: 100%;">
-
-                                        <div>
-                                            <div>
-
-                                                <div class="fieldset">
-                                                    <div class="input input-text" id="modal_input_data_host_blacklist_index" style="margin-bottom: 10px;">
-                                                        <label>index name or expression:</label>
-                                                    </div>
-
-                                                    <div style="margin-bottom: 10px;">
-                                                        <button id="btn_modal_data_host_blacklist_index_add" type="submit" class="btn btn-default btn-primary" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Add this entry</button>
-                                                    </div>
-
-                                                </div>
-
-                                            </div>
+                                </ul>
+                                <hr />
+                                <div class="blocklist-toppanels">
+                                    <div class="fieldset">
+                                        <div class="input input-text" id="modal_input_data_host_blacklist_index" style="margin-bottom: 10px; width: 350px;">
+                                            <label class="splunk-input-label">Index name or expression:</label>
                                         </div>
-
-                                    </div>
-
-                                    <div>
-                                        <div>
-
-                                            <div>
-                                                <div id="singleBlackListDataHostIndex">
-                                                </div>
-                                            </div>
+                                        <div style="margin-left: 10px;">
+                                            <button id="btn_modal_data_host_blacklist_index_add" type="submit" class="btn btn-outline-primary" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Add this entry</button>
                                         </div>
                                     </div>
-
-                                </div>
-
-                                <div >
-                                    <div style="margin-top: -25px; width: 100%;">
-
-                                        <div>
-                                            <div>
-
-                                                <div class="fieldset">
-                                                    <div class="input input-text" id="modal_input_data_host_blacklist_index_search" style="margin-bottom: 10px;">
-                                                        <label>Search for index name:</label>
-                                                    </div>
-                                                </div>
-
-                                            </div>
-                                        </div>
-
+                                    <div id="singleBlackListDataHostIndex">
                                     </div>
                                 </div>
-
-                                <div >
-                                    <div style="width: 100%;">
-
-                                        <div>
-                                            <div>
-
-                                                <div class="fieldset">
-                                                    <div id="tableBlackListDataHostIndex">
-                                                        <label>Select entries and use the remove selected button:</label>                                                    </div>
-                                                </div>
-
-                                            </div>
+                                <div style="margin-top: 20px;">
+                                    <div class="fieldset">
+                                        <div class="input input-text" id="modal_input_data_host_blacklist_index_search" style="margin-bottom: 10px; width: 350px;">
+                                            <label class="splunk-input-label">Search for index name:</label>
                                         </div>
-
                                     </div>
                                 </div>
-
+                                <div>
+                                    <div id="tableBlackListDataHostIndex">
+                                        <label>Select entries and use the remove selected button:</label>
+                                        <div class="panel-footer" style="display: none;"></div>
+                                    </div>
+                                </div>
                             </div>
                             <div class="modal-footer">
                                 <button type="submit" id="btn_modal_data_host_blacklist_index_add_cancel" class="btn btn-default btn-primary pull-left" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Back</button>
@@ -2745,7 +2437,6 @@
                 <!-- blacklist index -->
                 <div class="modal fade custom-modal-50" id="modal_modify_metric_host_blacklist_index" role="dialog">
                     <div class="modal-dialog">
-
                         <!-- Modal content-->
                         <div class="modal-content">
                             <div class="modal-header modal-header-danger">
@@ -2753,97 +2444,42 @@
                                 <h1><span class="glyphicon glyphicon-lock"></span> Modify index blocklisting</h1>
                             </div>
                             <div class="modal-body">
-                                <b>Indexes that have been blocklisted are excluded from the data discovery</b>
-                                <br /><br />
-
-                                <div class="boxnotify" id="boxnotify-modal_modify_metric_host_blacklist_index">
-                                </div>
-
-                                <b>Blocklist entries support the following types:</b>
-                                <br /><br />
-
-                                <lu>
+                                <h2>Indexes that have been blocklisted are excluded from the data discovery, the following types are supported:</h2>
+                                <ul>
                                     <li>explicit names, example: <code>dev001</code></li>
                                     <li>wildcards, example: <code>dev-*</code></li>
                                     <li>regular expressions, example: <code>(?i)dev-.*</code></li>
-                                </lu>
-
-                                <br />
-
-                                <div >
-                                    <div style="width: 100%;">
-
-                                        <div>
-                                            <div>
-
-                                                <div class="fieldset">
-                                                    <div class="input input-text" id="modal_input_metric_host_blacklist_index" style="margin-bottom: 10px;">
-                                                        <label>index name or expression:</label>
-                                                    </div>
-
-                                                    <div style="margin-bottom: 10px;">
-                                                        <button id="btn_modal_metric_host_blacklist_index_add" type="submit" class="btn btn-default btn-primary" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Add this entry</button>
-                                                    </div>
-
-                                                </div>
-
-                                            </div>
+                                </ul>
+                                <hr />
+                                <div class="blocklist-toppanels">
+                                    <div class="fieldset">
+                                        <div class="input input-text" id="modal_input_metric_host_blacklist_index" style="margin-bottom: 10px; width: 350px;">
+                                            <label class="splunk-input-label">Index name or expression:</label>
                                         </div>
-
-                                    </div>
-
-                                    <div>
-                                        <div>
-
-                                            <div>
-                                                <div id="singleBlackListMetricHostIndex">
-                                                </div>
-                                            </div>
+                                        <div style="margin-left: 10px;">
+                                            <button id="btn_modal_metric_host_blacklist_index_add" type="submit" class="btn btn-outline-primary" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Add this entry</button>
                                         </div>
                                     </div>
-
-                                </div>
-
-                                <div >
-                                    <div style="margin-top: -25px; width: 100%;">
-
-                                        <div>
-                                            <div>
-
-                                                <div class="fieldset">
-                                                    <div class="input input-text" id="modal_input_metric_host_blacklist_index_search" style="margin-bottom: 10px;">
-                                                        <label>Search for index name:</label>
-                                                    </div>
-                                                </div>
-
-                                            </div>
-                                        </div>
-
+                                    <div id="singleBlackListMetricHostIndex">
                                     </div>
                                 </div>
-
-                                <div >
-                                    <div style="width: 100%;">
-
-                                        <div>
-                                            <div>
-
-                                                <div class="fieldset">
-                                                    <div id="tableBlackListMetricHostIndex">
-                                                        <label>Select entries and use the remove selected button:</label>
-                                                    </div>
-                                                </div>
-
-                                            </div>
+                                <div style="margin-top: 20px;">
+                                    <div class="fieldset">
+                                        <div class="input input-text" id="modal_input_metric_host_blacklist_index_search" style="margin-bottom: 10px; width: 350px;">
+                                            <label class="splunk-input-label">Search for index name:</label>
                                         </div>
-
                                     </div>
                                 </div>
-
+                                <div>
+                                    <div id="tableBlackListMetricHostIndex">
+                                        <label>Select entries and use the remove selected button:</label>
+                                        <div class="panel-footer" style="display: none;"></div>
+                                    </div>
+                                </div>
                             </div>
                             <div class="modal-footer">
-                                <button type="submit" id="btn_modal_metric_host_blacklist_index_add_cancel" class="btn btn-default btn-primary pull-left" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Back</button>
-                                <button type="submit" id="btn_modal_metric_host_blacklist_index_add_delete" class="btn btn-default btn-danger pull-right" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Remove selected</button>
+                                <button type="submit" id="btn_modal_metric_host_blacklist_index_add_cancel" class="btn btn-outline-secondary pull-left" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Back</button>
+                                <button type="submit" id="btn_modal_metric_host_blacklist_index_add_delete" class="btn btn-outline-danger pull-right" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Remove selected</button>
                             </div>
                         </div>
                     </div>
@@ -2860,98 +2496,42 @@
                                 <h1><span class="glyphicon glyphicon-lock"></span> Modify sourcetype blocklisting</h1>
                             </div>
                             <div class="modal-body">
-                                <b>Sourcetypes that have been blocklisted are excluded from the data discovery</b>
-                                <br /><br />
-
-                                <div class="boxnotify" id="boxnotify-modal_modify_data_host_blacklist_sourcetype">
-                                </div>
-
-                                <b>Blocklist entries support the following types:</b>
-                                <br /><br />
-
-                                <lu>
+                                <h2>Sourcetypes that have been blocklisted are excluded from the data discovery, the following types are supported:</h2>
+                                <ul>
                                     <li>explicit names, example: <code>dev001</code></li>
                                     <li>wildcards, example: <code>dev-*</code></li>
                                     <li>regular expressions, example: <code>(?i)dev-.*</code></li>
-                                </lu>
-
-                                <br />
-
-                                <div >
-                                    <div style="width: 100%;">
-
-                                        <div>
-                                            <div>
-
-                                                <div class="fieldset">
-                                                    <div class="input input-text" id="modal_input_data_host_blacklist_sourcetype" style="margin-bottom: 10px;">
-                                                        <label>sourcetype name or expression:</label>
-                                                    </div>
-
-                                                    <div style="margin-bottom: 10px;">
-                                                        <button id="btn_modal_data_host_blacklist_sourcetype_add" type="submit" class="btn btn-default btn-primary" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Add this entry</button>
-                                                    </div>
-
-                                                </div>
-
-                                            </div>
+                                </ul>
+                                <hr />
+                                <div class="blocklist-toppanels">
+                                    <div class="fieldset">
+                                        <div class="input input-text" id="modal_input_data_host_blacklist_sourcetype" style="margin-bottom: 10px; width: 350px;">
+                                            <label class="splunk-input-label">Sourcetype name or expression:</label>
                                         </div>
-
-                                    </div>
-
-                                    <div>
-                                        <div>
-
-                                            <div>
-                                                <div id="singleBlackListDataHostSourcetype">
-                                                </div>
-                                            </div>
+                                        <div style="margin-left: 10px;">
+                                            <button id="btn_modal_data_host_blacklist_sourcetype_add" type="submit" class="btn btn-outline-primary" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Add this entry</button>
                                         </div>
                                     </div>
-
-                                </div>
-
-                                <div >
-                                    <div style="margin-top: -25px; width: 100%;">
-
-                                        <div>
-                                            <div>
-
-                                                <div class="fieldset">
-                                                    <div class="input input-text" id="modal_input_data_host_blacklist_sourcetype_search" style="margin-bottom: 10px;">
-                                                        <label>Search for sourcetype name:</label>
-                                                    </div>
-                                                </div>
-
-                                            </div>
-                                        </div>
-
+                                    <div id="singleBlackListDataHostSourcetype">
                                     </div>
                                 </div>
-
-                                <div >
-                                    <div style="width: 100%;">
-
-                                        <div>
-                                            <div>
-
-                                                <div class="fieldset">
-                                                    <div id="tableBlackListDataHostSourcetype">
-                                                        <label>Select entries and use the remove selected button:</label>
-                                                    </div>
-
-                                                </div>
-
-                                            </div>
+                                <div style="margin-top: 20px;">
+                                    <div class="fieldset">
+                                        <div class="input input-text" id="modal_input_data_host_blacklist_sourcetype_search" style="margin-bottom: 10px; width: 350px;">
+                                            <label class="splunk-input-label">Search for sourcetype name:</label>
                                         </div>
-
                                     </div>
                                 </div>
-
+                                <div>
+                                    <div id="tableBlackListDataHostSourcetype">
+                                        <label>Select entries and use the remove selected button:</label>
+                                        <div class="panel-footer" style="display: none;"></div>
+                                    </div>
+                                </div>
                             </div>
                             <div class="modal-footer">
-                                <button type="submit" id="btn_modal_data_host_blacklist_sourcetype_add_cancel" class="btn btn-default btn-primary pull-left" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Back</button>
-                                <button type="submit" id="btn_modal_data_host_blacklist_sourcetype_add_delete" class="btn btn-default btn-danger pull-right" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Remove selected</button>
+                                <button type="submit" id="btn_modal_data_host_blacklist_sourcetype_add_cancel" class="btn btn-outline-secondary pull-left" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Back</button>
+                                <button type="submit" id="btn_modal_data_host_blacklist_sourcetype_add_delete" class="btn btn-outline-danger pull-right" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Remove selected</button>
                             </div>
                         </div>
                     </div>
@@ -2960,7 +2540,6 @@
                 <!-- blacklist host -->
                 <div class="modal fade custom-modal-50" id="modal_modify_metric_host_blacklist_host" role="dialog">
                     <div class="modal-dialog">
-
                         <!-- Modal content-->
                         <div class="modal-content">
                             <div class="modal-header modal-header-danger">
@@ -2968,89 +2547,42 @@
                                 <h1><span class="glyphicon glyphicon-lock"></span> Modify host blocklisting</h1>
                             </div>
                             <div class="modal-body">
-                                <b>Hosts that have been blocklisted are excluded from the data discovery</b>
-                                <br /><br />
-
-                                <div class="boxnotify" id="boxnotify-modal_modify_metric_host_blacklist_host">
-                                </div>
-
-                                <b>Blocklist entries support the following types:</b>
-                                <br /><br />
-
-                                <lu>
+                                <h2>Hosts that have been blocklisted are excluded from the data discovery, the following types are supported:</h2>
+                                <ul>
                                     <li>explicit names, example: <code>dev001</code></li>
                                     <li>wildcards, example: <code>dev-*</code></li>
                                     <li>regular expressions, example: <code>(?i)dev-.*</code></li>
-                                </lu>
-
-                                <br />
-
-                                <div >
-                                    <div style="width: 100%;">
-
-                                        <div>
-                                            <div>
-
-                                                <div class="fieldset">
-                                                    <div class="input input-text" id="modal_input_metric_host_blacklist_host" style="margin-bottom: 10px;">
-                                                        <label>host name or expression:</label>
-                                                    </div>
-
-                                                    <div style="margin-bottom: 10px;">
-                                                        <button id="btn_modal_metric_host_blacklist_host_add" type="submit" class="btn btn-default btn-primary" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Add this entry</button>
-                                                    </div>
-
-                                                </div>
-
-                                            </div>
+                                </ul>
+                                <hr />
+                                <div class="blocklist-toppanels">
+                                    <div class="fieldset">
+                                        <div class="input input-text" id="modal_input_metric_host_blacklist_host" style="margin-bottom: 10px; width: 350px;">
+                                            <label class="splunk-input-label">Host name or expression:</label>
                                         </div>
-
-                                    </div>
-
-                                    <div>
-                                        <div>
-
-                                            <div>
-                                                <div id="singleBlackListMetricHostHost">
-                                                </div>
-                                            </div>
+                                        <div style="margin-left: 10px;">
+                                            <button id="btn_modal_metric_host_blacklist_host_add" type="submit" class="btn btn-outline-primary" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Add this entry</button>
                                         </div>
                                     </div>
-
+                                    <div id="singleBlackListMetricHostHost">
+                                    </div>
                                 </div>
-
-                                <div >
-                                    <div style="margin-top: -25px; width: 100%;">
-                                        <div>
-                                            <div>
-                                                <div class="fieldset">
-                                                    <div class="input input-text" id="modal_input_metric_host_blacklist_host_search" style="margin-bottom: 10px;">
-                                                        <label>Search for host name:</label>
-                                                    </div>
-                                                </div>
-                                            </div>
+                                <div style="margin-top: 20px;">
+                                    <div class="fieldset">
+                                        <div class="input input-text" id="modal_input_metric_host_blacklist_host_search" style="margin-bottom: 10px; width: 350px;">
+                                            <label class="splunk-input-label">Search for host name:</label>
                                         </div>
                                     </div>
                                 </div>
-
-                                <div >
-                                    <div style="width: 100%;">
-                                        <div>
-                                            <div>
-                                                <div class="fieldset">
-                                                    <div id="tableBlackListMetricHostHost">
-                                                        <label>Select entries and use the remove selected button:</label>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
+                                <div>
+                                    <div id="tableBlackListMetricHostHost">
+                                        <label>Select entries and use the remove selected button:</label>
+                                        <div class="panel-footer" style="display: none;"></div>
                                     </div>
                                 </div>
-
                             </div>
                             <div class="modal-footer">
-                                <button type="submit" id="btn_modal_metric_host_blacklist_host_add_cancel" class="btn btn-default btn-primary pull-left" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Back</button>
-                                <button type="submit" id="btn_modal_metric_host_blacklist_host_add_delete" class="btn btn-default btn-danger pull-right" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Remove selected</button>
+                                <button type="submit" id="btn_modal_metric_host_blacklist_host_add_cancel" class="btn btn-outline-secondary pull-left" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Back</button>
+                                <button type="submit" id="btn_modal_metric_host_blacklist_host_add_delete" class="btn btn-outline-danger pull-right" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Remove selected</button>
                             </div>
                         </div>
                     </div>
@@ -3059,7 +2591,6 @@
                 <!-- blacklist metric_category -->
                 <div class="modal fade custom-modal-50" id="modal_modify_metric_host_blacklist_metric_category" role="dialog">
                     <div class="modal-dialog">
-
                         <!-- Modal content-->
                         <div class="modal-content">
                             <div class="modal-header modal-header-danger">
@@ -3067,97 +2598,37 @@
                                 <h1><span class="glyphicon glyphicon-lock"></span> Modify metric category blocklisting</h1>
                             </div>
                             <div class="modal-body">
-                                <b>metric_category that have been blocklisted are excluded from the metric discovery</b>
-                                <br /><br />
-
-                                <div class="boxnotify" id="boxnotify-modal_modify_metric_host_blacklist_metric_category">
+                                <h2>metric_category that have been blocklisted are excluded from the metric discovery</h2>
+                                <div style="margin-right: -350px;" id="singleBlackListMetricHostMetricCategory">
                                 </div>
-
-                                <lu>
-                                    <li>TrackMe - metric hosts availability tracker</li>
-                                </lu>
-
-                                <br />
-
-                                <div >
-                                    <div style="width: 100%;">
-
-                                        <div>
-                                            <div>
-
-                                                <div class="fieldset">
-
-                                                    <div class="input input-linklist" id="inputLinkTimeBlackListMetricHost">
-                                                        <label></label>
-                                                    </div>
-
-                                                    <div class="input input-dropdown" id="modal_input_metric_host_blacklist_metric_category" style="margin-bottom: 10px;">
-                                                        <label>metric category:</label>
-                                                    </div>
-
-                                                    <div style="margin-bottom: 10px;">
-                                                        <button id="btn_modal_metric_host_blacklist_metric_category_add" type="submit" class="btn btn-default btn-primary" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Add this metric category</button>
-                                                    </div>
-
-                                                </div>
-
-                                            </div>
-                                        </div>
-
-                                    </div>
-
-                                    <div>
-                                        <div>
-
-                                            <div>
-                                                <div id="singleBlackListMetricHostMetricCategory">
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-
+                                <div class="input input-linklist" style="margin-left: 20px; margin-top: -66px; margin-bottom: 20px;" id="inputLinkTimeBlackListMetricHost">
+                                    <label></label>
                                 </div>
-
-                                <div >
-                                    <div style="margin-top: -25px; width: 100%;">
-
-                                        <div>
-                                            <div>
-
-                                                <div class="fieldset">
-                                                    <div class="input input-text" id="modal_input_metric_host_blacklist_metric_category_search" style="margin-bottom: 10px;">
-                                                        <label>Search for metric category:</label>
-                                                    </div>
-                                                </div>
-
-                                            </div>
-                                        </div>
-
+                                <div class="fieldset">
+                                    <div class="input input-dropdown" id="modal_input_metric_host_blacklist_metric_category">
+                                        <label class="splunk-input-label">metric category:</label>
                                     </div>
                                 </div>
-
-                                <div >
-                                    <div style="width: 100%;">
-
-                                        <div>
-                                            <div>
-
-                                                <div class="fieldset">
-                                                    <div id="tableBlackListMetricHostMetricCategory">
-                                                        <label>Click on the table for interactive actions:</label>
-                                                    </div>
-                                                </div>
-
-                                            </div>
+                                <div style="margin-top: 20px; margin-left: 20px;">
+                                    <button id="btn_modal_metric_host_blacklist_metric_category_add" type="submit" class="btn btn-outline-primary" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Add this metric category</button>
+                                </div>
+                                <div style="margin-top: 20px;">
+                                    <div class="fieldset">
+                                        <div class="input input-text" id="modal_input_metric_host_blacklist_metric_category_search" style="margin-bottom: 10px;">
+                                            <label class="splunk-input-label">Search for metric category:</label>
                                         </div>
-
                                     </div>
                                 </div>
-
+                                <div>
+                                    <div id="tableBlackListMetricHostMetricCategory">
+                                        <label>Select entries and use the remove selected button:</label>
+                                        <div class="panel-footer" style="display: none;"></div>
+                                    </div>
+                                </div>
                             </div>
                             <div class="modal-footer">
-                                <button type="submit" id="btn_modal_metric_host_blacklist_metric_category_add_cancel" class="btn btn-default btn-primary pull-left" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Back</button>
-                                <button type="submit" id="btn_modal_metric_host_blacklist_metric_category_add_delete" class="btn btn-default btn-danger pull-right" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Remove selected</button>
+                                <button type="submit" id="btn_modal_metric_host_blacklist_metric_category_add_cancel" class="btn btn-outline-secondary pull-left" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Back</button>
+                                <button type="submit" id="btn_modal_metric_host_blacklist_metric_category_add_delete" class="btn btn-outline-danger pull-right" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Remove selected</button>
                             </div>
                         </div>
                     </div>

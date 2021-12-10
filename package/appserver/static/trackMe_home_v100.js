@@ -11559,6 +11559,9 @@ require([
       "id": "modal_input_data_source_blacklist_host_search",
       "default": "*",
       "searchWhenChanged": true,
+      "tokenDependencies": {
+        "depends": "$show_table_data_source_blacklist_host$"
+      },      
       "value": "$form.tk_input_data_source_blacklist_host_search$",
       "el": $('#modal_input_data_source_blacklist_host_search')
   }, {
@@ -11588,6 +11591,9 @@ require([
       "id": "modal_input_data_source_blacklist_index_search",
       "default": "*",
       "searchWhenChanged": true,
+      "tokenDependencies": {
+        "depends": "$show_table_data_source_blacklist_index$"
+      },      
       "value": "$form.tk_input_data_source_blacklist_index_search$",
       "el": $('#modal_input_data_source_blacklist_index_search')
   }, {
@@ -11596,6 +11602,267 @@ require([
 
   modal_input_data_source_blacklist_index_search.on("change", function(newValue) {
       FormUtils.handleValueChange(modal_input_data_source_blacklist_index_search);
+  });
+
+  // blacklist sourcetype
+
+  var modal_input_data_source_blacklist_sourcetype = new TextInput({
+    "id": "modal_input_data_source_blacklist_sourcetype",
+    "searchWhenChanged": true,
+    "value": "$form.tk_input_data_source_blacklist_sourcetype$",
+    "el": $('#modal_input_data_source_blacklist_sourcetype')
+  }, {
+      tokens: true
+  }).render();
+
+  modal_input_data_source_blacklist_sourcetype.on("change", function(newValue) {
+      FormUtils.handleValueChange(modal_input_data_source_blacklist_sourcetype);
+  });
+
+  var modal_input_data_source_blacklist_sourcetype_search = new TextInput({
+      "id": "modal_input_data_source_blacklist_sourcetype_search",
+      "default": "*",
+      "searchWhenChanged": true,
+      "tokenDependencies": {
+        "depends": "$show_table_data_source_blacklist_sourcetype$"
+      },      
+      "value": "$form.tk_input_data_source_blacklist_sourcetype_search$",
+      "el": $('#modal_input_data_source_blacklist_sourcetype_search')
+  }, {
+      tokens: true
+  }).render();
+
+  modal_input_data_source_blacklist_sourcetype_search.on("change", function(newValue) {
+      FormUtils.handleValueChange(modal_input_data_source_blacklist_sourcetype_search);
+  });
+
+  // blacklist data_name
+
+  var modal_input_data_source_blacklist_data_name = new TextInput({
+    "id": "modal_input_data_source_blacklist_data_name",
+    "searchWhenChanged": true,
+    "value": "$form.tk_input_data_source_blacklist_data_name$",
+    "el": $('#modal_input_data_source_blacklist_data_name')
+  }, {
+      tokens: true
+  }).render();
+
+  modal_input_data_source_blacklist_data_name.on("change", function(newValue) {
+      FormUtils.handleValueChange(modal_input_data_source_blacklist_data_name);
+  });
+
+  var modal_input_data_source_blacklist_data_name_search = new TextInput({
+      "id": "modal_input_data_source_blacklist_data_name_search",
+      "default": "*",
+      "searchWhenChanged": true,
+      "tokenDependencies": {
+        "depends": "$show_table_data_source_blacklist_data_name$"
+      },       
+      "value": "$form.tk_input_data_source_blacklist_data_name_search$",
+      "el": $('#modal_input_data_source_blacklist_data_name_search')
+  }, {
+      tokens: true
+  }).render();
+
+  modal_input_data_source_blacklist_data_name_search.on("change", function(newValue) {
+      FormUtils.handleValueChange(modal_input_data_source_blacklist_data_name_search);
+  });
+
+  // blacklist data host
+
+  // blacklist host
+
+  var modal_input_data_host_blacklist_host = new TextInput({
+    "id": "modal_input_data_host_blacklist_host",
+    "searchWhenChanged": true,
+    "value": "$form.tk_input_data_host_blacklist_host$",
+    "el": $('#modal_input_data_host_blacklist_host')
+  }, {
+      tokens: true
+  }).render();
+
+  modal_input_data_host_blacklist_host.on("change", function(newValue) {
+      FormUtils.handleValueChange(modal_input_data_host_blacklist_host);
+  });
+
+  var modal_input_data_host_blacklist_host_search = new TextInput({
+      "id": "modal_input_data_host_blacklist_host_search",
+      "default": "*",
+      "searchWhenChanged": true,
+      "tokenDependencies": {
+        "depends": "$show_table_data_host_blacklist_host$"
+      },      
+      "value": "$form.tk_input_data_host_blacklist_host_search$",
+      "el": $('#modal_input_data_host_blacklist_host_search')
+  }, {
+      tokens: true
+  }).render();
+
+  modal_input_data_host_blacklist_host_search.on("change", function(newValue) {
+      FormUtils.handleValueChange(modal_input_data_host_blacklist_host_search);
+  });
+
+  // blacklist host
+
+  var modal_input_metric_host_blacklist_host = new TextInput({
+      "id": "modal_input_metric_host_blacklist_host",
+      "searchWhenChanged": true,
+      "value": "$form.tk_input_metric_host_blacklist_host$",
+      "el": $('#modal_input_metric_host_blacklist_host')
+  }, {
+      tokens: true
+  }).render();
+
+  modal_input_metric_host_blacklist_host.on("change", function(newValue) {
+      FormUtils.handleValueChange(modal_input_metric_host_blacklist_host);
+  });
+
+  var modal_input_metric_host_blacklist_host_search = new TextInput({
+      "id": "modal_input_metric_host_blacklist_host_search",
+      "default": "*",
+      "searchWhenChanged": true,
+      "tokenDependencies": {
+        "depends": "$show_table_metric_host_blacklist_host$"
+      },      
+      "value": "$form.tk_input_metric_host_blacklist_host_search$",
+      "el": $('#modal_input_metric_host_blacklist_host_search')
+  }, {
+      tokens: true
+  }).render();
+
+  modal_input_metric_host_blacklist_host_search.on("change", function(newValue) {
+      FormUtils.handleValueChange(modal_input_metric_host_blacklist_host_search);
+  });
+
+  // blacklist index
+
+  var modal_input_data_host_blacklist_index = new TextInput({
+      "id": "modal_input_data_host_blacklist_index",
+      "searchWhenChanged": true,
+      "value": "$form.tk_input_data_host_blacklist_index$",
+      "el": $('#modal_input_data_host_blacklist_index')
+  }, {
+      tokens: true
+  }).render();
+
+  modal_input_data_host_blacklist_index.on("change", function(newValue) {
+      FormUtils.handleValueChange(modal_input_data_host_blacklist_index);
+  });
+
+  var modal_input_data_host_blacklist_index_search = new TextInput({
+      "id": "modal_input_data_host_blacklist_index_search",
+      "default": "*",
+      "searchWhenChanged": true,
+      "tokenDependencies": {
+        "depends": "$show_table_data_host_blacklist_index$"
+      },      
+      "value": "$form.tk_input_data_host_blacklist_index_search$",
+      "el": $('#modal_input_data_host_blacklist_index_search')
+  }, {
+      tokens: true
+  }).render();
+
+  modal_input_data_host_blacklist_index_search.on("change", function(newValue) {
+      FormUtils.handleValueChange(modal_input_data_host_blacklist_index_search);
+  });
+
+  var modal_input_metric_host_blacklist_index = new TextInput({
+      "id": "modal_input_metric_host_blacklist_index",
+      "searchWhenChanged": true,
+      "value": "$form.tk_input_metric_host_blacklist_index$",
+      "el": $('#modal_input_metric_host_blacklist_index')
+  }, {
+      tokens: true
+  }).render();
+
+  modal_input_metric_host_blacklist_index.on("change", function(newValue) {
+      FormUtils.handleValueChange(modal_input_metric_host_blacklist_index);
+  });
+
+  var modal_input_metric_host_blacklist_index_search = new TextInput({
+      "id": "modal_input_metric_host_blacklist_index_search",
+      "default": "*",
+      "searchWhenChanged": true,
+      "tokenDependencies": {
+        "depends": "$show_table_metric_host_blacklist_index$"
+      },      
+      "value": "$form.tk_input_metric_host_blacklist_index_search$",
+      "el": $('#modal_input_metric_host_blacklist_index_search')
+  }, {
+      tokens: true
+  }).render();
+
+  modal_input_metric_host_blacklist_index_search.on("change", function(newValue) {
+      FormUtils.handleValueChange(modal_input_metric_host_blacklist_index_search);
+  });
+
+  // blacklist sourcetype
+
+  var modal_input_data_host_blacklist_sourcetype = new TextInput({
+      "id": "modal_input_data_host_blacklist_sourcetype",
+      "searchWhenChanged": true,
+      "value": "$form.tk_input_data_host_blacklist_sourcetype$",
+      "el": $('#modal_input_data_host_blacklist_sourcetype')
+  }, {
+      tokens: true
+  }).render();
+
+  modal_input_data_host_blacklist_sourcetype.on("change", function(newValue) {
+      FormUtils.handleValueChange(modal_input_data_host_blacklist_sourcetype);
+  });
+
+  var modal_input_data_host_blacklist_sourcetype_search = new TextInput({
+      "id": "modal_input_data_host_blacklist_sourcetype_search",
+      "default": "*",
+      "searchWhenChanged": true,
+      "tokenDependencies": {
+        "depends": "$show_table_data_host_blacklist_sourcetype$"
+      },      
+      "value": "$form.tk_input_data_host_blacklist_sourcetype_search$",
+      "el": $('#modal_input_data_host_blacklist_sourcetype_search')
+  }, {
+      tokens: true
+  }).render();
+
+  modal_input_data_host_blacklist_sourcetype_search.on("change", function(newValue) {
+      FormUtils.handleValueChange(modal_input_data_host_blacklist_sourcetype_search);
+  });
+
+  // blacklist metric_category
+
+  var modal_input_metric_host_blacklist_metric_category = new DropdownInput({
+      "id": "modal_input_metric_host_blacklist_metric_category",
+      "searchWhenChanged": true,
+      "showClearButton": true,
+      "labelField": "metric_category",
+      "selectFirstChoice": false,
+      "valueField": "metric_category",
+      "value": "$form.tk_input_metric_host_blacklist_metric_category$",
+      "managerid": "searchPopulateMetricCategoriesForBlackListMetricHost",
+      "el": $('#modal_input_metric_host_blacklist_metric_category')
+  }, {
+      tokens: true
+  }).render();
+
+  modal_input_metric_host_blacklist_metric_category.on("change", function(newValue) {
+      FormUtils.handleValueChange(modal_input_metric_host_blacklist_metric_category);
+  });
+
+  var modal_input_metric_host_blacklist_metric_category_search = new TextInput({
+      "id": "modal_input_metric_host_blacklist_metric_category_search",
+      "default": "*",
+      "searchWhenChanged": true,
+      "tokenDependencies": {
+        "depends": "$show_table_metric_host_blacklist_metric_category$"
+      },      
+      "value": "$form.tk_input_metric_host_blacklist_metric_category_search$",
+      "el": $('#modal_input_metric_host_blacklist_metric_category_search')
+  }, {
+      tokens: true
+  }).render();
+
+  modal_input_metric_host_blacklist_metric_category_search.on("change", function(newValue) {
+      FormUtils.handleValueChange(modal_input_metric_host_blacklist_metric_category_search);
   });
 
   // whitelist
@@ -12013,7 +12280,7 @@ require([
 
   // blacklist
 
-  var tableBlackListDataSourceHost = new TableView({
+  var tableBlackListDataSourceHost = new TableElement({
       "id": "tableBlackListDataSourceHost",
       "tokenDependencies": {
           "depends": "$show_table_data_source_blacklist_host$"
@@ -12030,7 +12297,9 @@ require([
       tokenNamespace: "submitted"
   }).render();
 
-  var tableBlackListDataSourceIndex = new TableView({
+  renderTableCheckBox("tableBlackListDataSourceHost", "removeBlacklistDataSourceHost");
+
+  var tableBlackListDataSourceIndex = new TableElement({
       "id": "tableBlackListDataSourceIndex",
       "tokenDependencies": {
           "depends": "$show_table_data_source_blacklist_index$",
@@ -12047,7 +12316,9 @@ require([
       tokenNamespace: "submitted"
   }).render();
 
-  var tableBlackListDataSourceSourcetype = new TableView({
+  renderTableCheckBox("tableBlackListDataSourceIndex", "removeBlacklistDataSourceIndex");
+
+  var tableBlackListDataSourceSourcetype = new TableElement({
       "id": "tableBlackListDataSourceSourcetype",
       "tokenDependencies": {
           "depends": "$show_table_data_source_blacklist_sourcetype$"
@@ -12064,7 +12335,9 @@ require([
       tokenNamespace: "submitted"
   }).render();
 
-  var tableBlackListDataSourceDataName = new TableView({
+  renderTableCheckBox("tableBlackListDataSourceSourcetype", "removeBlacklistDataSourceSourcetype");
+
+  var tableBlackListDataSourceDataName = new TableElement({
       "id": "tableBlackListDataSourceDataName",
       "tokenDependencies": {
           "depends": "$show_table_data_source_blacklist_data_name$"
@@ -12081,7 +12354,9 @@ require([
       tokenNamespace: "submitted"
   }).render();
 
-  var tableBlackListDataHostHost = new TableView({
+  renderTableCheckBox("tableBlackListDataSourceDataName", "removeBlacklistDataSourceDataName");
+
+  var tableBlackListDataHostHost = new TableElement({
       "id": "tableBlackListDataHostHost",
       "tokenDependencies": {
           "depends": "$show_table_data_host_blacklist_host$"
@@ -12098,7 +12373,9 @@ require([
       tokenNamespace: "submitted"
   }).render();
 
-  var tableBlackListDataHostIndex = new TableView({
+  renderTableCheckBox("tableBlackListDataHostHost", "removeBlacklistDataHostHost");
+
+  var tableBlackListDataHostIndex = new TableElement({
       "id": "tableBlackListDataHostIndex",
       "tokenDependencies": {
           "depends": "$show_table_data_host_blacklist_index$"
@@ -12115,7 +12392,9 @@ require([
       tokenNamespace: "submitted"
   }).render();
 
-  var tableBlackListMetricHostIndex = new TableView({
+  renderTableCheckBox("tableBlackListDataHostIndex", "removeBlacklistDataHostIndex");
+
+  var tableBlackListMetricHostIndex = new TableElement({
       "id": "tableBlackListMetricHostIndex",
       "tokenDependencies": {
           "depends": "$show_table_metric_host_blacklist_index$"
@@ -12132,7 +12411,9 @@ require([
       tokenNamespace: "submitted"
   }).render();
 
-  var tableBlackListDataHostSourcetype = new TableView({
+  renderTableCheckBox("tableBlackListMetricHostIndex", "removeBlacklistMetricHostIndex");
+
+  var tableBlackListDataHostSourcetype = new TableElement({
       "id": "tableBlackListDataHostSourcetype",
       "tokenDependencies": {
           "depends": "$show_table_data_host_blacklist_sourcetype$"
@@ -12149,7 +12430,9 @@ require([
       tokenNamespace: "submitted"
   }).render();
 
-  var tableBlackListMetricHostHost = new TableView({
+  renderTableCheckBox("tableBlackListDataHostSourcetype", "removeBlacklistDataHostSourcetype");
+
+  var tableBlackListMetricHostHost = new TableElement({
       "id": "tableBlackListMetricHostHost",
       "tokenDependencies": {
           "depends": "$show_table_metric_host_blacklist_host$"
@@ -12166,7 +12449,9 @@ require([
       tokenNamespace: "submitted"
   }).render();
 
-  var tableBlackListMetricHostMetricCategory = new TableView({
+  renderTableCheckBox("tableBlackListMetricHostHost", "removeBlacklistMetricHostHost");
+
+  var tableBlackListMetricHostMetricCategory = new TableElement({
       "id": "tableBlackListMetricHostMetricCategory",
       "tokenDependencies": {
           "depends": "$show_table_metric_host_blacklist_metric_category$"
@@ -12182,6 +12467,8 @@ require([
       tokens: true,
       tokenNamespace: "submitted"
   }).render();
+
+  renderTableCheckBox("tableBlackListMetricHostMetricCategory", "removeBlacklistMetricHostMetricCategory");
 
   //
   // BEGIN OPERATIONS
