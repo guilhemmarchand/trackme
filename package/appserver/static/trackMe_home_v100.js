@@ -12470,6 +12470,161 @@ require([
 
   renderTableCheckBox("tableBlackListMetricHostMetricCategory", "removeBlacklistMetricHostMetricCategory");
 
+  // Custom lagging
+
+  var modal_input_custom_lagging_type = new DropdownInput({
+    "id": "modal_input_custom_lagging_type",
+    "choices": [{
+            "label": "sourcetype",
+            "value": "sourcetype"
+        },
+        {
+            "label": "index",
+            "value": "index"
+        },
+        {
+            "label": "priority",
+            "value": "priority"
+        }                
+    ],
+    "searchWhenChanged": true,
+    "default": "sourcetype",
+    "showClearButton": true,
+    "initialValue": "sourcetype",
+    "selectFirstChoice": false,
+    "value": "$form.tk_input_custom_lagging_type$",
+    "el": $('#modal_input_custom_lagging_type')
+  }, {
+      tokens: true
+  }).render();
+
+  modal_input_custom_lagging_type.on("change", function(newValue) {
+      FormUtils.handleValueChange(modal_input_custom_lagging_type);
+  });       
+
+  var modal_input_custom_lagging_name = new TextInput({
+      "id": "modal_input_custom_lagging_name",
+      "searchWhenChanged": true,
+      "value": "$form.tk_input_custom_lagging_name$",
+      "el": $('#modal_input_custom_lagging_name')
+  }, {
+      tokens: true
+  }).render();
+
+  modal_input_custom_lagging_name.on("change", function(newValue) {
+      FormUtils.handleValueChange(modal_input_custom_lagging_name);
+  });
+
+  var modal_input_custom_lagging_value = new TextInput({
+      "id": "modal_input_custom_lagging_value",
+      "searchWhenChanged": true,
+      "value": "$form.tk_input_custom_lagging_value$",
+      "el": $('#modal_input_custom_lagging_value')
+  }, {
+      tokens: true
+  }).render();
+
+  modal_input_custom_lagging_value.on("change", function(newValue) {
+      FormUtils.handleValueChange(modal_input_custom_lagging_value);
+  });
+
+  var modal_input_custom_lagging_object = new DropdownInput({
+      "id": "modal_input_custom_lagging_object",
+      "choices": [{
+              "label": "data_source",
+              "value": "data_source"
+          },
+          {
+              "label": "data_host",
+              "value": "data_host"
+          },
+          {
+              "label": "all",
+              "value": "all"
+          }                
+      ],
+      "searchWhenChanged": true,
+      "default": "all",
+      "showClearButton": true,
+      "initialValue": "all",
+      "selectFirstChoice": false,
+      "value": "$form.tk_input_custom_lagging_object$",
+      "el": $('#modal_input_custom_lagging_object')
+  }, {
+      tokens: true
+  }).render();
+
+  modal_input_custom_lagging_object.on("change", function(newValue) {
+      FormUtils.handleValueChange(modal_input_custom_lagging_object);
+  });
+
+  // Custom lagging
+  var SingleCustomLagging = new SingleView({
+    "id": "SingleCustomLagging",
+    "trendDisplayMode": "absolute",
+    "drilldown": "none",
+    "trendColorInterpretation": "standard",
+    "useColors": "0",
+    "colorBy": "value",
+    "showTrendIndicator": "1",
+    "showSparkline": "1",
+    "trellis.enabled": "0",
+    "numberPrecision": "0",
+    "rangeColors": "[\"0x77dd77\",\"0x0877a6\",\"0xf8be34\",\"0xf1813f\",\"0xdc4e41\"]",
+    "trellis.size": "medium",
+    "colorMode": "none",
+    "rangeValues": "[0,30,70,100]",
+    "unitPosition": "after",
+    "trellis.scales.shared": "1",
+    "useThousandSeparators": "1",
+    "underLabel": "current lagging class(es)",
+    "managerid": "searchSingleCustomLagging",
+    "el": $('#SingleCustomLagging')
+  }, {
+      tokens: true,
+      tokenNamespace: "submitted"
+  }).render();
+
+  // Custom lagging
+
+  var modal_input_custom_lagging_search = new TextInput({
+    "id": "modal_input_custom_lagging_search",
+    "tokenDependencies": {
+      "depends": "$show_table_custom_lagging$"
+    },    
+    "default": "*",
+    "searchWhenChanged": true,
+    "value": "$form.tk_input_custom_lagging_search$",
+    "el": $('#modal_input_custom_lagging_search')
+  }, {
+      tokens: true
+  }).render();
+
+  modal_input_custom_lagging_search.on("change", function(newValue) {
+      FormUtils.handleValueChange(modal_input_custom_lagging_search);
+  });
+
+  // Custom lagging
+
+  var tableCustomLagging = new TableElement({
+    "id": "tableCustomLagging",
+    "tokenDependencies": {
+        "depends": "$show_table_custom_lagging$"
+    },
+    "count": 5,
+    "drilldown": "none",
+    "fields": "level, name, object, value, select",
+    "refresh.display": "none",
+    "wrap": "false",
+    "managerid": "searchCustomLagging",
+    "el": $('#tableCustomLagging')
+  }, {
+      tokens: true,
+      tokenNamespace: "submitted"
+  }).render();
+
+  renderTableCheckBox("tableCustomLagging", "removeDataSourceLaggingPolicy");
+
   //
   // BEGIN OPERATIONS
   //

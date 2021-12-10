@@ -2626,6 +2626,123 @@
                     </div>
                 </div>
 
+                <!--
+                Custom lagging
+                -->
+
+                <div class="modal fade custom-modal-80" id="modify_custom_lagging" role="dialog">
+                    <div class="modal-dialog">
+                        <!-- Modal content-->
+                        <div class="modal-content">
+                            <div class="modal-header modal-header-info">
+                                <button type="button" class="close" data-dismiss="modal"></button>
+                                <h1><span class="glyphicon glyphicon-lock"></span> Lagging classes definitions: use this interface to define lagging policies</h1>
+                            </div>
+                            <div class="modal-body">
+                                <style>
+                                    .parent-lagging-classes-info {
+                                        display: grid;
+                                        grid-template-columns: repeat(2, 1fr);
+                                        grid-template-rows: 1fr;
+                                        grid-column-gap: 0px;
+                                        grid-row-gap: 0px;
+                                    }
+                                </style>
+                                <div class="parent-lagging-classes-info">
+                                    <div>
+                                        <h2>Lagging classes are applied automatically during the trackers execution, you can define policies based on different conditions:</h2>
+                                        <ul>
+                                            <li>Based on the index</li>
+                                            <li>Based on the sourcetype</li>
+                                            <li>Based on the priority level defined for the entity</li>
+                                        </ul>
+                                    </div>
+                                    <div>
+                                        <h2>Conflict resolution and behaviour:</h2>
+                                        <ul>
+                                            <li><b>For data sources:</b> lagging classes are applied in the following order: index, sourcetype, priority (first match takes precedence)</li>
+                                            <li><b>For data hosts:</b> The highest lagging value takes precedence, if multiple sourcetypes, the host global max lag cannot be lower than the highest value between all sourcetypes</li>
+                                            <li><b>For all:</b> A given entity can override every lagging classes and apply a wanted value if data_override_lagging_class is set to true via the Override lagging classes dropdown</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="blocklist-toppanels">
+                                    <div class="fieldset">
+                                        <div class="input input-dropdown" id="modal_input_custom_lagging_type" style="margin-bottom: 10px;">
+                                            <label class="splunk-input-label">Applies to:</label>
+                                        </div>
+                                        <div class="input input-text" id="modal_input_custom_lagging_name" style="margin-bottom: 10px;">
+                                            <label class="splunk-input-label">Name:</label>
+                                        </div>
+                                        <div class="input input-text" id="modal_input_custom_lagging_value" style="margin-bottom: 10px;">
+                                            <label class="splunk-input-label">Lagging value:</label>
+                                        </div>
+                                        <div class="input input-dropdown" id="modal_input_custom_lagging_object" style="margin-bottom: 10px;">
+                                            <label class="splunk-input-label">object: (data sources/hosts)</label>
+                                        </div>
+                                        <div style="margin-left: 10px; margin-top: 10px; margin-bottom: 10px;">
+                                            <button id="btn_modal_custom_lagging_add" type="submit" class="btn btn-outline-primary" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Add this lagging class</button>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <div id="SingleCustomLagging">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="fieldset">
+                                    <div class="input input-text" id="modal_input_custom_lagging_search" style="margin-bottom: 10px;">
+                                        <label class="splunk-input-label">Search for lagging class:</label>
+                                    </div>
+                                </div>
+                                <div>
+                                    <div id="tableCustomLagging">
+                                        <label>Select entries and use the remove selected button:</label>
+                                        <div class="panel-footer" style="display: none;"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="submit" class="btn btn-outline-secondary pull-left" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Cancel</button>
+                                <button type="submit" id="btn_lagging_data_source_policy_delete_level1" class="btn btn-outline-danger pull-right" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Remove selected</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Modal drilldown context for Custom lagging -->
+                <div class="modal fade" id="manage_custom_lagging" role="dialog">
+                    <div class="modal-dialog">
+                        <!-- Modal content-->
+                        <div class="modal-content">
+                            <!-- This is required to get the token substitutions without affecting the buttons actions in js -->
+                            <div>
+                                <div>
+                                    <div class="modal-header modal-header-danger">
+                                        <h1 style="color: white;">Actions for lagging classes: </h1>
+                                        <button type="button" class="close" data-dismiss="modal"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <p><b>Confirm modification ?</b>
+                                        </p>
+                                        <div class="custom-textarea">
+                                            <label>Optional: enter a note of this update, this note will be logged and made available for notification.</label>
+                                            <textarea
+                                                    id = "data_source_lagging_policy_delete_comment"
+                                                    rows = "6"
+                                                    cols = "160" style="width: 500px;"
+                                                    onfocus="if(this.value==this.defaultValue)this.value='';" onblur="if(this.value=='')this.value=this.defaultValue;">update note</textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="submit" id="btn_delete_custom_lagging_cancel" role="button" class="btn btn-outline-primary" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span>Cancel</button>
+                                <button type="submit" id="btn_lagging_data_source_policy_delete_level2" role="button" class="btn btn-outline-danger"><span class="glyphicon glyphicon-remove"></span>Delete</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
         </html>
 
         <html>
@@ -6419,154 +6536,6 @@
                                 <button type="submit" id="btn_modal_modify_host_cancel" class="btn btn-default btn-default pull-left" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Cancel</button>
                                 <button id="btn_modal_modify_wdays_host" type="submit" class="btn btn-default btn-primary" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Modify monitoring wdays</button>
                                 <button id="btn_modal_modify_lag_host" type="submit" class="btn btn-default btn-primary" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Modify monitoring lagging</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!--
-                Custom lagging
-                -->
-
-                <div class="modal fade custom-modal-80" id="modify_custom_lagging" role="dialog">
-                    <div class="modal-dialog">
-
-                        <!-- Modal content-->
-                        <div class="modal-content">
-                            <div class="modal-header modal-header-danger">
-                                <button type="button" class="close" data-dismiss="modal"></button>
-                                <h1><span class="glyphicon glyphicon-lock"></span> Lagging classes definition </h1>
-                            </div>
-                            <div class="modal-body">
-                                <b>Lagging classes are applied automatically during the trackers execution, use this interface to define a default lagging value with a policy based on different conditions:</b>
-                                <lu>
-                                    <li>Based on the index</li>
-                                    <li>Based on the sourcetype</li>
-                                    <li>Based on the priority level defined for the entity</li>
-                                </lu>
-                                <br />
-
-                                <b>Conflict resolution and behaviour:</b>
-                                <lu>
-                                    <li><b>For data sources:</b> lagging classes are applied in the following order: index, sourcetype, priority (first match takes precedence)</li>
-                                    <li><b>For data hosts:</b> The highest lagging value takes precedence, if multiple sourcetypes, the host global max lag cannot be lower than the highest value between all sourcetypes</li>
-                                    <li><b>For all:</b> A given entity can override every lagging classes and apply a wanted value if data_override_lagging_class is set to true via the Override lagging classes dropdown</li>
-                                </lu>
-
-                                <div class="boxnotify" id="boxnotify-modify_custom_lagging">
-                                </div>
-
-                                <div>
-                                    <div>
-
-                                        <div>
-                                            <div>
-
-                                                <div class="fieldset">
-                                                    <div class="input input-dropdown" id="modal_input_custom_lagging_type" style="margin-bottom: 10px;">
-                                                        <label>Applies to:</label>
-                                                    </div>
-
-                                                    <div class="input input-text" id="modal_input_custom_lagging_name" style="margin-bottom: 10px;">
-                                                        <label>Name:</label>
-                                                    </div>
-
-                                                    <div class="input input-text" id="modal_input_custom_lagging_value" style="margin-bottom: 10px;">
-                                                        <label>Lagging value:</label>
-                                                    </div>
-
-                                                    <div class="input input-dropdown" id="modal_input_custom_lagging_object" style="margin-bottom: 10px;">
-                                                        <label>object: (data sources/hosts)</label>
-                                                    </div>
-
-                                                    <div style="margin-top: 10px; margin-bottom: 10px;">
-                                                        <button id="btn_modal_custom_lagging_add" type="submit" class="btn btn-default btn-primary" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Add this lagging class</button>
-                                                    </div>
-                                                </div>
-
-                                            </div>
-                                        </div>
-
-                                    </div>
-
-                                    <div style="width: 50%;">
-                                        <div>
-                                            <div>
-                                                <div id="SingleCustomLagging">
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                </div>
-
-                                <div>
-                                    <div style="margin-top: -25px; width: 100%;">
-                                        <div>
-                                            <div>
-                                                <div class="fieldset">
-                                                    <div class="input input-text" id="modal_input_custom_lagging_search" style="margin-bottom: 10px;">
-                                                        <label>Search for lagging class:</label>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div>
-                                    <div style="margin-top: -25px; width: 100%;">
-                                        <div>
-                                            <div>
-                                                <div class="fieldset">
-                                                    <div id="tableCustomLagging">
-                                                        <label>Select entries and use the remove selected button:</label>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                            </div>
-                            <div class="modal-footer">
-                                <button type="submit" class="btn btn-outline-secondary pull-left" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Cancel</button>
-                                <button type="submit" id="btn_lagging_data_source_policy_delete_level1" class="btn btn-default btn-danger pull-right" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Remove selected</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Modal drilldown context for Custom lagging -->
-                <div class="modal fade" id="manage_custom_lagging" role="dialog">
-                    <div class="modal-dialog">
-                        <!-- Modal content-->
-                        <div class="modal-content">
-                            <!-- This is required to get the token substitutions without affecting the buttons actions in js -->
-                            <div>
-                                <div>
-                                    <div class="modal-header modal-header-danger">
-                                        <h1 style="color: white;">Actions for lagging classes: </h1>
-                                        <button type="button" class="close" data-dismiss="modal"></button>
-                                    </div>
-                                    <div class="modal-body">
-                                        <p><b>Confirm modification ?</b><br />
-                                        </p>
-                                        <p>
-                                            <label>Optional: enter a note of this update. <br />
-                                                This note will be logged and made available for notification.</label>
-                                            <textarea
-                                                    id = "data_source_lagging_policy_delete_comment"
-                                                    rows = "6"
-                                                    cols = "160" style="width: 500px;"
-                                                    onfocus="if(this.value==this.defaultValue)this.value='';" onblur="if(this.value=='')this.value=this.defaultValue;">update note</textarea>
-                                        </p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="modal-footer">
-                                <button type="submit" id="btn_delete_custom_lagging_cancel" role="button" class="btn btn-outline-primary" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span>Cancel</button>
-                                <button type="submit" id="btn_lagging_data_source_policy_delete_level2" role="button" class="btn btn-outline-danger"><span class="glyphicon glyphicon-remove"></span>Delete</button>
                             </div>
                         </div>
                     </div>
