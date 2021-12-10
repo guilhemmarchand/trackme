@@ -698,38 +698,32 @@
                                         <h1>Trackers: data sources</h1>
                                         <button type="button" class="close" data-dismiss="modal"></button>
                                     </div>
-
                                     <div class="modal-body" style="margin-top: 20px;">
-                                        <h2>Main tracker reports:</h2>
-
+                                        <h1>Main tracker reports:</h1>
                                         <ul>
                                             <li>Use "Run: short term tracker now" button to run the regular data sources tracker for short term period (-24h / +4h)</li>
                                             <li>Use "Run: long term tracker now" button to run the regular data sources tracker for long term period (-7d / +4h)</li>
                                             <li>Use "Run: Elastic shared tracker now" button to run the tracker report for shared Elastic sources (-4h / +4h)</li>
                                         </ul>
-
-                                        <h2>Data sampling &amp; events format recognition</h2>
-
+                                        <h1>Data sampling &amp; events format recognition</h1>
                                         <ul>
                                             <li>Use "Run: data sampling now" button to run the data sampling and format recognition tracker (-24h / +4h)</li>
                                         </ul>
-
                                     </div>
-
                                 </div>
                             </div>
                             <div class="modal-footer">
                                 <div class="custom-btn">
-                                    <button type="submit" id="btn_run_tracker" style="margin-right: 15px;" class="btn btn-outline-secondary" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Run: short term tracker now</button>
+                                    <button type="submit" id="btn_run_tracker" style="margin-right: 15px;" class="btn btn-outline-primary" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Run: short term tracker now</button>
                                 </div>
                                 <div class="custom-btn">
-                                    <button type="submit" id="btn_run_tracker_longterm" style="margin-right: 15px;" class="btn btn-outline-secondary" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Run: long term tracker now</button>
+                                    <button type="submit" id="btn_run_tracker_longterm" style="margin-right: 15px;" class="btn btn-outline-primary" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Run: long term tracker now</button>
                                 </div>
                                 <div class="custom-btn">
-                                    <button type="submit" id="btn_run_tracker_shared_elastic" style="margin-right: 15px;" class="btn btn-outline-secondary" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Run: Elastic shared tracker now</button>
+                                    <button type="submit" id="btn_run_tracker_shared_elastic" style="margin-right: 15px;" class="btn btn-outline-primary" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Run: Elastic shared tracker now</button>
                                 </div>
                                 <div class="custom-btn">
-                                    <button type="submit" id="btn_run_tracker_data_sampling" style="margin-right: 15px;" class="btn btn-outline-secondary" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Run: Data Sampling now</button>
+                                    <button type="submit" id="btn_run_tracker_data_sampling" style="margin-right: 15px;" class="btn btn-outline-primary" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Run: Data Sampling now</button>
                                 </div>
                             </div>
                         </div>
@@ -750,23 +744,21 @@
                                                 <h1>Trackers: data hosts</h1>
                                                 <button type="button" class="close" data-dismiss="modal"></button>
                                             </div>
-
                                             <div class="modal-body" style="margin-top: 20px;">
-                                                <h2>Main tracker reports:</h2>
+                                                <h1>Main tracker reports:</h1>
                                                 <ul>
                                                     <li>Use "Run: short term tracker now" button to run the regular data hosts tracker for short term period (-24h / +4h)</li>
                                                     <li>Use "Run: long term tracker now" button to run the regular data hosts tracker for long term period (-7d / +4h)</li>
                                                 </ul>
                                             </div>
-
                                         </div>
                                     </div>
                                     <div class="modal-footer">
                                         <div class="custom-btn">
-                                            <button type="submit" id="btn_run_tracker_host" style="margin-right: 15px;" class="btn btn-outline-secondary" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Run: short term tracker now</button>
+                                            <button type="submit" id="btn_run_tracker_host" style="margin-right: 15px;" class="btn btn-outline-primary" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Run: short term tracker now</button>
                                         </div>
                                         <div class="custom-btn">
-                                            <button type="submit" id="btn_run_tracker_host_longterm" style="margin-right: 15px;" class="btn btn-outline-secondary" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Run: long term tracker now</button>
+                                            <button type="submit" id="btn_run_tracker_host_longterm" style="margin-right: 15px;" class="btn btn-outline-primary" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Run: long term tracker now</button>
                                         </div>
                                     </div>
                                 </div>
