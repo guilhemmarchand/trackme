@@ -1669,6 +1669,18 @@ require([
     ],
   });
 
+  // set the panel visibility
+  searchShowTagsPolicies.on("change", function (newValue) {
+    show_tags_policies = getToken("show_tags_policies");
+    if (show_tags_policies === 'True') {
+      $("#divTableTagsPoliciesNoPolicies").css("display", "none");
+      $("#divTableTagsPolicies").css("display", "inherit");
+    } else {
+      $("#divTableTagsPoliciesNoPolicies").css("display", "inherit");
+      $("#divTableTagsPolicies").css("display", "none");
+    }
+  });
+
   var searchTagsPoliciesSimulate = new SearchManager(
     {
       id: "searchTagsPoliciesSimulate",

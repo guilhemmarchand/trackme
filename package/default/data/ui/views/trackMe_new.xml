@@ -2767,12 +2767,17 @@
                                         <li>After you create new tags policies, run the data source tracker to apply immediately, or wait for scheduled executions</li>
                                     </ul>
                                 </div>
-                                <div>
-                                    <div id="tableTagsPolicies" class="view-elements">
+                                <div id="divTableTagsPolicies">
+                                    <div id="tableTagsPolicies" style="display: none;" class="view-elements">
                                         <label>Tags policies currently defined:</label>
                                         <div style="display: none;" class="panel-footer"></div>
                                     </div>
                                     <div id="resultsLinktableTagsPolicies" class="search-elements"></div>
+                                </div>
+                                <div id="divTableTagsPoliciesNoPolicies" style="display: none;">
+                                    <div style="text-align: center; margin-top: 50px;" class="modal-body">
+                                        <h2 style="color: lightslategray; font-style: italic;">There are no tag policies defined, click on the Create Policy button to start.</h2>
+                                    </div>
                                 </div>
                                 <div style="margin-top: 20px;" class="modal-footer">
                                     <div style="margin-right: 15px; float: left;">
