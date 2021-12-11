@@ -31,6 +31,7 @@
 /* handle search elements */
 .search-elements {
   display: none !important;
+  position: absolute;
 }
 
 /* hide this */
@@ -2743,6 +2744,302 @@
                     </div>
                 </div>
 
+                <!--
+                tags
+                -->
+
+                <!-- Modal window for tags policies -->
+                <div class="modal fade custom-modal-80" id="manage_tags_policies" role="dialog">
+                    <div class="modal-dialog">
+                        <!-- Modal content-->
+                        <div class="modal-content">
+                            <div class="modal-header modal-header-info">
+                                <button type="button" class="close" data-dismiss="modal"></button>
+                                <h1><span class="glyphicon glyphicon-lock"></span> Tags policies </h1>
+                            </div>
+                            <div class="modal-body">
+                                <div>
+                                    <h1>What are tags policies used for:</h1>
+                                    <ul>
+                                        <li>Tags can be automatically defined by creating tags policies, if defined tags policies are automatically applied by the data source trackers</li>
+                                        <li>Tags policies use regular expression rules to match the data source naming convention (field data_name), and apply one or more tags automatically</li>
+                                        <li>If there are any tags that were manually applied on a data source, tags will be merged automatically</li>
+                                        <li>After you create new tags policies, run the data source tracker to apply immediately, or wait for scheduled executions</li>
+                                    </ul>
+                                </div>
+                                <div>
+                                    <div id="tableTagsPolicies" class="view-elements">
+                                        <label>Tags policies currently defined:</label>
+                                        <div style="display: none;" class="panel-footer"></div>
+                                    </div>
+                                    <div id="resultsLinktableTagsPolicies" class="search-elements"></div>
+                                </div>
+                                <div style="margin-top: 20px;" class="modal-footer">
+                                    <div style="margin-right: 15px; float: left;">
+                                        <button type="submit" class="btn btn-outline-secondary pull-left" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Close</button>
+                                    </div>
+                                    <div class="btn_data_sampling_custom_rules_delete" style="margin-right: 15px; float: right;">
+                                        <button type="submit" id="btn_modal_tags_policies_delete" class="btn btn-outline-danger" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Remove selected</button>
+                                    </div>
+                                    <div style="margin-right: 15px; float: right;">
+                                        <button id="btn_tags_policies_create" type="submit" class="btn btn-outline-primary" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Create policy </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal fade custom-modal-80" id="tags_policies_create_policy" role="dialog">
+                    <div class="modal-dialog">
+                        <!-- Modal content-->
+                        <div class="modal-content">
+                            <div class="modal-header modal-header-info">
+                                <button type="button" class="close" data-dismiss="modal"></button>
+                                <h1><span class="glyphicon glyphicon-lock"></span> Tags policies: create new policy </h1>
+                            </div>
+                            <div class="modal-body">
+                                <h2>Create and manage tags policies:</h2>
+                                <div style="margin-bottom: 15px;">
+                                    <div class="input input-text" id="modal_input_tags_policies_policy_id" style="margin-bottom: 10px; max-width: 500px;">
+                                        <label class="splunk-input-label">Enter a unique name for this policy:</label>
+                                    </div>
+                                    <form style="margin: 0 0 0px;">
+                                        <fieldset>
+                                            <legend style="margin-bottom: 5px; color: white;">Regular expression rule:</legend>
+                                            <div class="custom-textarea">                                         
+                                                <label>Example: <code>^network_amer:.*</code> would match all data sources related to an index starting by network_* such as: <code>network_amer:pan:traffic</code></label>
+                                                <textarea
+                                                        id = "modal_input_tags_policies_regex"
+                                                        rows = "3"
+                                                        cols = "80" style="width: 1100px;"
+                                                        onfocus="if(this.value==this.defaultValue)this.value='';" onblur="if(this.value=='')this.value=this.defaultValue;">Enter a valid regular expression to match data source names.</textarea>
+                                            </div>
+                                        </fieldset>
+                                    </form>
+                                    <form style="margin: 0 0 0px;">
+                                        <fieldset>
+                                            <legend style="margin-bottom: 5px; color: white;">List of tags:</legend>
+                                            <div class="custom-textarea">                                              
+                                                <label>Example: <code>network,PII,AMER</code> would apply these tags to every data source was matched by the regular expression policy</label>
+                                                <textarea
+                                                        id = "modal_input_tags_policies_values"
+                                                        rows = "3"
+                                                        cols = "80" style="width: 1100px;"
+                                                        onfocus="if(this.value==this.defaultValue)this.value='';" onblur="if(this.value=='')this.value=this.defaultValue;">Enter a list of tags to applied separeted by commas to specify multiple tags and click on "Run policy simulation".</textarea>
+                                            </div>
+                                        </fieldset>
+                                    </form>
+                                    <div style="margin-top: 15x; margin-bottom: 15x;">
+                                        <div style="margin-right: 15px; float: left;">
+                                            <button type="submit" id="btn_modal_tags_policies_simulate" class="btn btn-outline-primary"><span class="glyphicon glyphicon-remove"></span> Run policy simulation</button>
+                                        </div>
+                                        <div style="margin-right: 15px; float: left;">
+                                            <button type="submit" id="btn_modal_tags_policies_add" class="btn btn-outline-primary"><span class="glyphicon glyphicon-remove"></span> Add this new policy</button>
+                                        </div>
+                                    </div>
+                                    <br />
+                                </div>
+                                <div>
+                                    <div id="tableTagsPoliciesSimulate" class="view-elements">
+                                        <div style="display: none;" class="panel-footer"></div>
+                                    </div>
+                                    <div id="resultsLinktableTagsPoliciesSimulate" class="search-elements"></div>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <br />
+                                <button type="submit" id="btn_modal_tags_policies_add_back" class="btn btn-default btn-primary pull-right" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Back</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tags policy confirm add -->
+                <div class="modal fade" id="tags_policies_create_policy_confirm" role="dialog">
+                    <div class="modal-dialog">
+                        <!-- Modal content-->
+                        <div class="modal-content">
+                            <div class="modal-header modal-header-danger">
+                                <button type="button" class="close" data-dismiss="modal"></button>
+                                <h1><span class="glyphicon glyphicon-lock"></span>Tags policies</h1>
+                            </div>
+                            <div class="modal-body">
+                                <p><b>Confirm tag policy addition action?</b>
+                                </p>
+                                <div class="custom-textarea">
+                                    <label>Optional: enter a note of this update, this note will be logged and made available for notification.</label>
+                                    <textarea
+                                            id = "input_add_tags_policy_sampling_comment"
+                                            rows = "6"
+                                            cols = "160" style="width: 500px;"
+                                            onfocus="if(this.value==this.defaultValue)this.value='';" onblur="if(this.value=='')this.value=this.defaultValue;">update note</textarea>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="submit" class="btn btn-outline-secondary pull-left" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Cancel</button>
+                                <button type="submit" id="btn_modal_add_tags_policy_confirm" class="btn btn-outline-primary pull-right" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Ok</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tags policy confirm delete -->
+                <div class="modal fade" id="tags_policies_delete_policy_confirm" role="dialog">
+                    <div class="modal-dialog">
+                        <!-- Modal content-->
+                        <div class="modal-content">
+                            <div class="modal-header modal-header-danger">
+                                <button type="button" class="close" data-dismiss="modal"></button>
+                                <h1><span class="glyphicon glyphicon-lock"></span>Tags policies</h1>
+                            </div>
+                            <div class="modal-body">
+                                <p><b>Confirm tag policy deletion action?</b>
+                                </p>
+                                <div class="custom-textarea">
+                                    <label>Optional: enter a note of this update, this note will be logged and made available for notification.</label>
+                                    <textarea
+                                            id = "input_delete_tags_policy_sampling_comment"
+                                            rows = "6"
+                                            cols = "160" style="width: 500px;"
+                                            onfocus="if(this.value==this.defaultValue)this.value='';" onblur="if(this.value=='')this.value=this.defaultValue;">update note</textarea>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="submit" class="btn btn-outline-secondary pull-left" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Cancel</button>
+                                <button type="submit" id="btn_modal_delete_tags_policy_confirm" class="btn btn-outline-danger pull-right" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Ok</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Modal drilldown context for tags -->
+                <div class="modal fade custom-modal-50" id="manage_tags" role="dialog">
+                    <div class="modal-dialog">
+                        <!-- Modal content-->
+                        <div class="modal-content">
+                            <!-- This is required to get the token substitutions without affecting the buttons actions in js -->
+                            <div id="body_manage_tags">
+                                <div>
+                                    <div class="modal-header modal-header-info">
+                                        <h1 style="font-size: 18px;">Tags for data source: $tk_data_name$</h1>
+                                        <button type="button" class="close" data-dismiss="modal"></button>
+                                    </div>
+
+                                    <div style="margin-top:10px; margin-left: 20px;">
+
+                                        <div class="imgheader">
+                                            <span><img style="float: left; margin: 0px 15px 15px 0px;" src="../../static/app/trackme/icons/identity_card.png"/></span>
+                                            <h3>Tags:</h3>
+                                            <br />
+                                        </div>
+
+                                        <div class="generic_message_blue" style="max-width: 95%;">
+                                        <h2 style="font-weight: bold;">$tk_tags$</h2>
+                                        </div>
+
+                                    </div>
+
+                                </div>
+                            </div>
+                        <div class="modal-footer">
+                            <div style="float: left;" class="custom-btn">
+                                <button type="submit" style="margin-right: 15px;" id="btn_back_manage_tags" class="btn btn-default btn-primary pull-left" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Back</button>
+                            </div>
+                            <div style="float: right;" class="custom-btn">
+                                <button type="submit" style="margin-right: 15px;" id="btn_close_manage_tags" class="btn btn-default btn-default pull-right" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Close</button>
+                            </div>
+                            <div style="float: right;" class="custom-btn">
+                                <button type="submit" style="margin-right: 15px;" id="btn_modify_manage_tags" class="btn btn-default btn-primary" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Manage: manual tags</button>
+                            </div>
+                            <div style="float: right;" class="btn_modify_tags_policies custom-btn">
+                                <button type="submit" style="margin-right: 15px;" class="btn btn-primary" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Manage: tags policies</button>
+                            </div>
+                        </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Modal drilldown context for tags -->
+                <div class="modal fade custom-modal-50" id="update_tags" role="dialog">
+                    <div class="modal-dialog">
+                        <!-- Modal content-->
+                        <div class="modal-content">
+                            <!-- This is required to get the token substitutions without affecting the buttons actions in js -->
+                            <div id="body_update_tags">
+                                <div>
+                                    <div class="modal-header modal-header-info">
+                                        <h1 style="font-size: 18px;">Update tags</h1>
+                                        <button type="button" class="close" data-dismiss="modal"></button>
+                                    </div>
+
+                                    <div class="boxnotify" id="boxnotify-manage_tags">
+                                    </div>
+                
+                                    <div style="margin-top:10px; margin-left: 20px;">
+
+                                    <div class="fieldset">
+                                        <div style="margin-bottom: 20px;">
+                                            <h3>
+                                            This interface allows to manually define tags per data source, to define tags based on policies, use the tags policies instead.
+                                            <br />
+                                            When both policies and manual tags are applied, the tags are automatically merged.
+                                            </h3>
+                                        </div>
+                                        <div class="input input-text" id="modal_input_tags_new" style="margin-bottom: 10px;">
+                                            <label>Enter a new tag to be added to this data source:</label>
+                                        </div>
+                                        <div style="margin-bottom: 10px;">
+                                            <button id="btn_modal_tags_add" type="submit" class="btn btn-default btn-primary"><span class="glyphicon glyphicon-remove"></span> Add this tag</button>
+                                        </div>
+                                    </div>
+                    
+                                        <div data-depends="$show_tags_multiselect$">
+                                            <div>
+                                                <div>
+                                                    <div>
+                                                        <div class="fieldset">
+                                                            <div class="input input-dropdown" id="modal_input_tags_update" style="margin-bottom: 10px;">
+                                                                <label>List of current tags for this data source, unselect a tag to remove it and click on the save button:</label>
+                                                            </div>
+                                                            <div style="margin-bottom: 10px;">
+                                                                <button id="btn_modal_tags_save" type="submit" class="btn btn-default btn-primary"><span class="glyphicon glyphicon-remove"></span> Save tags</button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div data-depends="$show_tags_multiselect$">
+                                            <div>
+                                                <div>
+                                                    <div>
+                                                        <div class="fieldset">
+                                                            <p>To remove all current tags, click on the following button:</p>
+                                                            <div style="margin-bottom: 10px;">
+                                                                <button id="btn_modal_tags_clear" type="submit" class="btn btn-default btn-danger"><span class="glyphicon glyphicon-remove"></span> Clear all tags</button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>                                    
+
+                                    </div>
+
+                                </div>
+
+                                <div class="modal-footer">
+                                    <button type="submit" id="btn_back_update_tags" class="btn btn-default btn-primary pull-left" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Back</button>
+                                    <button type="submit" class="btn btn-outline-secondary pull-right" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Close</button>
+                                </div>        
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
         </html>
 
         <html>
@@ -3057,392 +3354,6 @@
 
                         </div>
 
-                    </div>
-                </div>
-
-                <!--
-                tags
-                -->
-
-                <!-- Modal window for tags policies -->
-                <div class="modal fade custom-modal-80" id="manage_tags_policies" role="dialog">
-                    <div class="modal-dialog">
-
-                        <!-- Modal content-->
-                        <div class="modal-content">
-                            <div class="modal-header modal-header-info">
-                                <button type="button" class="close" data-dismiss="modal"></button>
-                                <h1><span class="glyphicon glyphicon-lock"></span> Tags policies </h1>
-                            </div>
-
-                            <div class="modal-body">
-
-                                <div class="boxnotify" id="boxnotify-manage-tags-policies">
-                                </div>
-
-                                <div>
-
-                                    <div style="margin-bottom: 10px;">
-
-                                        <div>
-                                            <h3>Tags policies:</h3>
-                                            <lu>
-                                                <li>Tags can be automatically defined by creating tags policies, if defined tags policies are automatically applied by the data source trackers</li>
-                                                <li>Tags policies use regular expression rules to match the data source naming convention (field data_name), and apply one or more tags automatically</li>
-                                                <li>If there are any tags that were manually applied on a data source, tags will be merged automatically</li>
-                                                <li>After you create new tags policies, run the data source tracker to apply immediately, or wait for scheduled executions</li>
-                                            </lu>
-
-                                        </div>
-
-                                    </div>
-
-                                </div>
-
-                                <div>
-                                    <div>
-                                        <div>
-                                            <div>
-                                                <div class="fieldset">
-                                                    <div id="tableTagsPolicies">
-                                                        <label>Tags policies currently defined:</label>
-    
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div data-rejects="$show_tags_policies$">
-                                    <div style="width: 100%;">
-
-                                        <div>
-                                            <div>
-
-                                                <div style="text-align: center; margin-top: 50px;" class="modal-body">
-                                                    <h3 style="color: lightslategray;">There are no tags policies currently defined.</h3>
-                                                    <br /><br />
-                                                </div>
-
-                                            </div>
-                                        </div>
-
-                                    </div>
-                                </div>
-
-                                <div style="margin-top: 20px;" class="modal-footer">
-                                    <div style="margin-right: 15px; float: left;">
-                                        <button type="submit" class="btn btn-default btn-default pull-left" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Close</button>
-                                    </div>
-                                    <div class="btn_data_sampling_custom_rules_delete" style="margin-right: 15px; float: right;">
-                                        <button type="submit" id="btn_modal_tags_policies_delete" class="btn btn-default btn-danger" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Remove selected</button>
-                                    </div>
-                                    <div style="margin-right: 15px; float: right;">
-                                        <button id="btn_tags_policies_create" type="submit" class="btn btn-default btn-primary" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Create policy </button>
-                                    </div>
-                                </div>
-
-                            </div>
-
-                        </div>
-
-                    </div>
-                </div>
-
-                <div class="modal fade custom-modal-80" id="tags_policies_create_policy" role="dialog">
-                    <div class="modal-dialog">
-
-                        <!-- Modal content-->
-                        <div class="modal-content">
-                            <div class="modal-header modal-header-danger">
-                                <button type="button" class="close" data-dismiss="modal"></button>
-                                <h1><span class="glyphicon glyphicon-lock"></span> Tags policies: create new policy </h1>
-                            </div>
-                            <div class="modal-body">
-                                <b>Use this interface to create and manage tags policies:</b>
-                                <br /><br />
-
-                                <div class="boxnotify" id="boxnotify-add_tags_policies">
-                                </div>
-
-                                <div>
-
-                                    <div>
-
-                                        <div>
-
-                                            <div>
-
-                                                <div class="input input-text" id="modal_input_tags_policies_policy_id" style="margin-bottom: 10px; max-width: 300px;">
-                                                    <label>Enter a unique name for this policy:</label>
-                                                </div>
-
-                                                <form style="margin: 0 0 0px;">
-                                                    <fieldset>
-                                                        <legend style="margin-bottom: 5px;">Regular expression rule:</legend>
-                                                        <p>                                                
-                                                            <label>Example: <code>^network_amer:.*</code> <br />would match all data sources related to an index starting by network_* such as: <code>network_amer:pan:traffic</code><br /></label>
-                                                            <textarea
-                                                                    id = "modal_input_tags_policies_regex"
-                                                                    rows = "3"
-                                                                    cols = "80" style="width: 1100px;"
-                                                                    onfocus="if(this.value==this.defaultValue)this.value='';" onblur="if(this.value=='')this.value=this.defaultValue;">Enter a valid regular expression to match data source names.</textarea>
-                                                        </p>
-
-                                                    </fieldset>
-                                                </form>
-
-                                                <form style="margin: 0 0 0px;">
-                                                    <fieldset>
-                                                        <legend style="margin-bottom: 5px;">List of tags:</legend>
-                                                        <p>                                                
-                                                            <label>Example: <code>network,PII,AMER</code> <br />would apply these tags to every data source was matched by the regular expression policy<br /></label>
-                                                            <textarea
-                                                                    id = "modal_input_tags_policies_values"
-                                                                    rows = "3"
-                                                                    cols = "80" style="width: 1100px;"
-                                                                    onfocus="if(this.value==this.defaultValue)this.value='';" onblur="if(this.value=='')this.value=this.defaultValue;">Enter a list of tags to applied separeted by commas to specify multiple tags and click on "Run policy simulation".</textarea>
-                                                        </p>
-
-                                                    </fieldset>
-                                                </form>
-
-                                                <div style="margin-top: 15x;">
-                                                    <div style="margin-right: 15px; float: left;">
-                                                        <button type="submit" id="btn_modal_tags_policies_simulate" class="btn btn-default btn-primary"><span class="glyphicon glyphicon-remove"></span> Run policy simulation</button>
-                                                    </div>
-                                                    <div style="margin-right: 15px; float: left;">
-                                                        <button type="submit" id="btn_modal_tags_policies_add" class="btn btn-default btn-danger"><span class="glyphicon glyphicon-remove"></span> Add this new policy</button>
-                                                    </div>
-                                                </div>
-
-                                            </div>
-
-                                            <br />
-                                            <br />
-
-                                        </div>
-
-                                    </div>
-
-                                </div>
-
-                                <div data-depends="$start_simulation_tags_policies$">
-                                    <div>
-                                        <div>
-                                            <div>
-                                                <div id="tableTagsPoliciesSimulate">
-
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                            </div>
-
-                            <div class="modal-footer">
-                                <button type="submit" class="btn btn-outline-secondary pull-left" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Cancel</button>
-                                <button type="submit" id="btn_modal_tags_policies_add_back" class="btn btn-default btn-primary pull-right" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Back</button>
-                            </div>
-
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Tags policy confirm add -->
-                <div class="modal fade" id="tags_policies_create_policy_confirm" role="dialog">
-                    <div class="modal-dialog">
-
-                        <!-- Modal content-->
-                        <div class="modal-content">
-                            <div class="modal-header modal-header-danger">
-                                <button type="button" class="close" data-dismiss="modal"></button>
-                                <h1><span class="glyphicon glyphicon-lock"></span>Tags policies</h1>
-                            </div>
-                            <div class="modal-body">
-                                <p><b>Confirm tag policy addition action?</b><br />
-                                </p>
-
-                                <p>
-                                    <label>Optional: enter a note of this update. <br />
-                                        This note will be logged and made available for notification.</label>
-                                    <textarea
-                                            id = "input_add_tags_policy_sampling_comment"
-                                            rows = "6"
-                                            cols = "160" style="width: 500px;"
-                                            onfocus="if(this.value==this.defaultValue)this.value='';" onblur="if(this.value=='')this.value=this.defaultValue;">update note</textarea>
-                                </p>
-
-                            </div>
-
-                            <div class="modal-footer">
-                                <button type="submit" class="btn btn-outline-secondary pull-left" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Cancel</button>
-                                <button type="submit" id="btn_modal_add_tags_policy_confirm" class="btn btn-default btn-primary pull-right" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Ok</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Tags policy confirm delete -->
-                <div class="modal fade" id="tags_policies_delete_policy_confirm" role="dialog">
-                    <div class="modal-dialog">
-
-                        <!-- Modal content-->
-                        <div class="modal-content">
-                            <div class="modal-header modal-header-danger">
-                                <button type="button" class="close" data-dismiss="modal"></button>
-                                <h1><span class="glyphicon glyphicon-lock"></span>Tags policies</h1>
-                            </div>
-                            <div class="modal-body">
-                                <p><b>Confirm tag policy deletion action?</b><br />
-                                </p>
-
-                                <p>
-                                    <label>Optional: enter a note of this update. <br />
-                                        This note will be logged and made available for notification.</label>
-                                    <textarea
-                                            id = "input_delete_tags_policy_sampling_comment"
-                                            rows = "6"
-                                            cols = "160" style="width: 500px;"
-                                            onfocus="if(this.value==this.defaultValue)this.value='';" onblur="if(this.value=='')this.value=this.defaultValue;">update note</textarea>
-                                </p>
-
-                            </div>
-
-                            <div class="modal-footer">
-                                <button type="submit" class="btn btn-outline-secondary pull-left" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Cancel</button>
-                                <button type="submit" id="btn_modal_delete_tags_policy_confirm" class="btn btn-default btn-primary pull-right" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Ok</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Modal drilldown context for tags -->
-                <div class="modal fade custom-modal-50" id="manage_tags" role="dialog">
-                    <div class="modal-dialog">
-                        <!-- Modal content-->
-                        <div class="modal-content">
-                            <!-- This is required to get the token substitutions without affecting the buttons actions in js -->
-                            <div id="body_manage_tags">
-                                <div>
-                                    <div class="modal-header modal-header-info">
-                                        <h1 style="font-size: 18px;">Tags for data source: $tk_data_name$</h1>
-                                        <button type="button" class="close" data-dismiss="modal"></button>
-                                    </div>
-
-                                    <div style="margin-top:10px; margin-left: 20px;">
-
-                                        <div class="imgheader">
-                                            <span><img style="float: left; margin: 0px 15px 15px 0px;" src="../../static/app/trackme/icons/identity_card.png"/></span>
-                                            <h3>Tags:</h3>
-                                            <br />
-                                        </div>
-
-                                        <div class="generic_message_blue" style="max-width: 95%;">
-                                        <h2 style="font-weight: bold;">$tk_tags$</h2>
-                                        </div>
-
-                                    </div>
-
-                                </div>
-                            </div>
-                        <div class="modal-footer">
-                            <div style="float: left;" class="custom-btn">
-                                <button type="submit" style="margin-right: 15px;" id="btn_back_manage_tags" class="btn btn-default btn-primary pull-left" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Back</button>
-                            </div>
-                            <div style="float: right;" class="custom-btn">
-                                <button type="submit" style="margin-right: 15px;" id="btn_close_manage_tags" class="btn btn-default btn-default pull-right" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Close</button>
-                            </div>
-                            <div style="float: right;" class="custom-btn">
-                                <button type="submit" style="margin-right: 15px;" id="btn_modify_manage_tags" class="btn btn-default btn-primary" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Manage: manual tags</button>
-                            </div>
-                            <div style="float: right;" class="btn_modify_tags_policies custom-btn">
-                                <button type="submit" style="margin-right: 15px;" class="btn btn-primary" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Manage: tags policies</button>
-                            </div>
-                        </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Modal drilldown context for tags -->
-                <div class="modal fade custom-modal-50" id="update_tags" role="dialog">
-                    <div class="modal-dialog">
-                        <!-- Modal content-->
-                        <div class="modal-content">
-                            <!-- This is required to get the token substitutions without affecting the buttons actions in js -->
-                            <div id="body_update_tags">
-                                <div>
-                                    <div class="modal-header modal-header-info">
-                                        <h1 style="font-size: 18px;">Update tags</h1>
-                                        <button type="button" class="close" data-dismiss="modal"></button>
-                                    </div>
-
-                                    <div class="boxnotify" id="boxnotify-manage_tags">
-                                    </div>
-                
-                                    <div style="margin-top:10px; margin-left: 20px;">
-
-                                    <div class="fieldset">
-                                        <div style="margin-bottom: 20px;">
-                                            <h3>
-                                            This interface allows to manually define tags per data source, to define tags based on policies, use the tags policies instead.
-                                            <br />
-                                            When both policies and manual tags are applied, the tags are automatically merged.
-                                            </h3>
-                                        </div>
-                                        <div class="input input-text" id="modal_input_tags_new" style="margin-bottom: 10px;">
-                                            <label>Enter a new tag to be added to this data source:</label>
-                                        </div>
-                                        <div style="margin-bottom: 10px;">
-                                            <button id="btn_modal_tags_add" type="submit" class="btn btn-default btn-primary"><span class="glyphicon glyphicon-remove"></span> Add this tag</button>
-                                        </div>
-                                    </div>
-                    
-                                        <div data-depends="$show_tags_multiselect$">
-                                            <div>
-                                                <div>
-                                                    <div>
-                                                        <div class="fieldset">
-                                                            <div class="input input-dropdown" id="modal_input_tags_update" style="margin-bottom: 10px;">
-                                                                <label>List of current tags for this data source, unselect a tag to remove it and click on the save button:</label>
-                                                            </div>
-                                                            <div style="margin-bottom: 10px;">
-                                                                <button id="btn_modal_tags_save" type="submit" class="btn btn-default btn-primary"><span class="glyphicon glyphicon-remove"></span> Save tags</button>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div data-depends="$show_tags_multiselect$">
-                                            <div>
-                                                <div>
-                                                    <div>
-                                                        <div class="fieldset">
-                                                            <p>To remove all current tags, click on the following button:</p>
-                                                            <div style="margin-bottom: 10px;">
-                                                                <button id="btn_modal_tags_clear" type="submit" class="btn btn-default btn-danger"><span class="glyphicon glyphicon-remove"></span> Clear all tags</button>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>                                    
-
-                                    </div>
-
-                                </div>
-
-                                <div class="modal-footer">
-                                    <button type="submit" id="btn_back_update_tags" class="btn btn-default btn-primary pull-left" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Back</button>
-                                    <button type="submit" class="btn btn-outline-secondary pull-right" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Close</button>
-                                </div>        
-
-                            </div>
-                        </div>
                     </div>
                 </div>
 

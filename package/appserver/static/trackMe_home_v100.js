@@ -503,21 +503,21 @@ require([
     function () {
       var divid = "#" + this.id;
       var childdiv = "#resultsLink" + this.id;
-      $(childdiv).attr("style", "display:block !important");
+      $(childdiv).attr("style", "display: inline-block !important");
     },
     function () {
       var childdiv = "#resultsLink" + this.id;
 
       $(childdiv).hover(
         function () {
-          $(childdiv).attr("style", "display:block !important");
+          $(childdiv).attr("style", "display: inline-block !important");
         },
         function () {
-          $(childdiv).attr("style", "display:block !none");
+          $(childdiv).attr("style", "display: none !important");
         }
       );
 
-      $(childdiv).attr("style", "display:block !none");
+      $(childdiv).attr("style", "display: none !important");
     }
   );
 
@@ -1688,8 +1688,7 @@ require([
       runWhenTimeIsUndefined: false,
     },
     {
-      tokens: true,
-      tokenNamespace: "submitted",
+      tokens: true
     }
   );
 
@@ -12624,6 +12623,76 @@ require([
   }).render();
 
   renderTableCheckBox("tableCustomLagging", "removeDataSourceLaggingPolicy");
+
+  // tags policies
+  var tableTagsPolicies = new TableElement({
+    "id": "tableTagsPolicies",
+    "tokenDependencies": {
+        "depends": "$show_tags_policies$"
+    },
+    "count": 8,
+    "drilldown": "none",
+    "refresh.display": "none",
+    "wrap": "false",
+    "managerid": "searchShowTagsPolicies",
+    "el": $('#tableTagsPolicies')
+  }, {
+      tokens: true,
+      tokenNamespace: "submitted"
+  }).render();
+
+  renderTableCheckBox("tableTagsPolicies", "removeTagsPolicy");
+
+  var resultsLinktableTagsPolicies = new ResultsLinkView({
+    id: "resultsLinktableTagsPolicies",
+    managerid: "searchShowTagsPolicies",
+    "link.exportResults.visible": false,
+    el: $("#resultsLinktableTagsPolicies"),
+  });
+
+  resultsLinktableTagsPolicies
+    .render()
+    .$el.appendTo($("resultsLinktableTagsPolicies"));
+
+  var modal_input_tags_policies_policy_id = new TextInput({
+      "id": "modal_input_tags_policies_id",
+      "searchWhenChanged": false,
+      "value": "$form.tk_tags_policies_policy_id$",
+      "el": $('#modal_input_tags_policies_policy_id')
+  }, {
+      tokens: true
+  }).render();
+
+  modal_input_tags_policies_policy_id.on("change", function(newValue) {
+      FormUtils.handleValueChange(modal_input_tags_policies_policy_id);
+  });
+
+  // Simulation
+  var tableTagsPoliciesSimulate = new TableElement({
+  "id": "tableTagsPoliciesSimulate",
+  "tokenDependencies": {
+      "depends": "$start_simulation_tags_policies$"
+  },
+  "count": 1,
+  "drilldown": "row",
+  "refresh.display": "none",
+  "wrap": "false",
+  "managerid": "searchTagsPoliciesSimulate",
+  "el": $('#tableTagsPoliciesSimulate')
+  }, {
+    tokens: true
+  }).render();
+
+  var resultsLinktableTagsPoliciesSimulate = new ResultsLinkView({
+    id: "resultsLinktableTagsPoliciesSimulate",
+    managerid: "searchTagsPoliciesSimulate",
+    "link.exportResults.visible": false,
+    el: $("#resultsLinktableTagsPoliciesSimulate"),
+  });
+
+  resultsLinktableTagsPoliciesSimulate
+    .render()
+    .$el.appendTo($("resultsLinktableTagsPoliciesSimulate"));
 
   //
   // BEGIN OPERATIONS
@@ -26321,6 +26390,8 @@ require([
 
   // add button
   $("#btn_modal_tags_policies_add").click(function () {
+    // hide
+    $("#tags_policies_create_policy").modal('hide');
     // Show input modal
     $("#tags_policies_create_policy_confirm").modal();
   });
