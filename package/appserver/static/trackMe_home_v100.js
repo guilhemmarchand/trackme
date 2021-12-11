@@ -4261,6 +4261,18 @@ require([
     ],
   });
 
+  // set the panel visibility
+  searchDataSamplingShowCustomRules.on("change", function (newValue) {
+    show_table_data_sampling_custom_rules = getToken("show_table_data_sampling_custom_rules");
+    if (show_table_data_sampling_custom_rules === 'True') {
+      $("#divTableCustomRulesNoRules").css("display", "none");
+      $("#divTableCustomRules").css("display", "inherit");
+    } else {
+      $("#divTableCustomRulesNoRules").css("display", "inherit");
+      $("#divTableCustomRules").css("display", "none");
+    }
+  });
+
   var searchDataSamplingShowBuiltinRules = new SearchManager(
     {
       id: "searchDataSamplingShowBuiltinRules",
@@ -4279,8 +4291,7 @@ require([
       runWhenTimeIsUndefined: false,
     },
     {
-      tokens: true,
-      tokenNamespace: "submitted",
+      tokens: true
     }
   );
 
@@ -4303,8 +4314,7 @@ require([
       runWhenTimeIsUndefined: false,
     },
     {
-      tokens: true,
-      tokenNamespace: "submitted",
+      tokens: true
     }
   );
 
@@ -4327,8 +4337,7 @@ require([
       runWhenTimeIsUndefined: false,
     },
     {
-      tokens: true,
-      tokenNamespace: "submitted",
+      tokens: true
     }
   );
 
@@ -12693,6 +12702,238 @@ require([
   resultsLinktableTagsPoliciesSimulate
     .render()
     .$el.appendTo($("resultsLinktableTagsPoliciesSimulate"));
+
+  // Data Sampling
+
+  var tableDataSamplingSummary = new TableElement({
+    "id": "tableDataSamplingSummary",
+    "tokenDependencies": {
+        "depends": "$show_data_sampling$"
+    },
+    "count": 8,
+    "drilldown": "none",
+    "fields": "feature, current_detected_format, \" \", previous_detected_format, state, anomaly_reason, multiformat, mtime, data_sampling_nr",
+    "refresh.display": "none",
+    "wrap": "false",
+    "managerid": "searchDataSamplingTable1",
+    "el": $('#tableDataSamplingSummary')
+    }, {
+        tokens: true,
+        tokenNamespace: "submitted"
+    }).render();
+
+  var tableDataSamplingShowBuiltinRules = new TableElement({
+      "id": "tableDataSamplingShowBuiltinRules",
+      "tokenDependencies": {
+          "depends": "$show_data_sampling$"
+      },
+      "count": 8,
+      "drilldown": "none",
+      "refresh.display": "none",
+      "wrap": "false",
+      "managerid": "searchDataSamplingShowBuiltinRules",
+      "el": $('#tableDataSamplingShowBuiltinRules')
+  }, {
+      tokens: true,
+      tokenNamespace: "submitted"
+  }).render();
+
+  var tableDataSamplingShowCustomRules = new TableElement({
+      "id": "tableDataSamplingShowCustomRules",
+      "tokenDependencies": {
+          "depends": "$show_data_sampling_custom_rules$",
+          "depends": "$show_table_data_sampling_custom_rules$"
+      },
+      "count": 8,
+      "drilldown": "none",
+      "refresh.display": "none",
+      "wrap": "false",
+      "managerid": "searchDataSamplingShowCustomRules",
+      "el": $('#tableDataSamplingShowCustomRules')
+  }, {
+      tokens: true,
+      tokenNamespace: "submitted"
+  }).render();
+
+  renderTableCheckBox("tableDataSamplingShowCustomRules", "removeDataSamplingCustomRule");
+
+  var resultsLinktableDataSamplingShowCustomRules = new ResultsLinkView({
+    id: "resultsLinktableDataSamplingShowCustomRules",
+    managerid: "searchDataSamplingShowCustomRules",
+    "link.exportResults.visible": false,
+    el: $("#resultsLinktableDataSamplingShowCustomRules"),
+  });
+
+  resultsLinktableDataSamplingShowCustomRules
+    .render()
+    .$el.appendTo($("resultsLinktableDataSamplingShowCustomRules"));
+
+  // Data sampling
+  var modal_input_data_sampling_custom_rule_name = new TextInput({
+    "id": "modal_input_data_sampling_custom_rule_name",
+    "searchWhenChanged": false,
+    "value": "$form.tk_data_sampling_custom_rule_name$",
+    "el": $('#modal_input_data_sampling_custom_rule_name')
+  }, {
+      tokens: true
+  }).render();
+
+  modal_input_data_sampling_custom_rule_name.on("change", function(newValue) {
+      FormUtils.handleValueChange(modal_input_data_sampling_custom_rule_name);
+  });
+
+  var modal_input_data_sampling_custom_rule_type = new DropdownInput({
+      "id": "modal_input_data_sampling_custom_rule_type",
+      "choices": [{
+              "label": "rule must match",
+              "value": "inclusive"
+          },
+          {
+              "label": "rule must not match",
+              "value": "exclusive"
+          }
+      ],
+      "searchWhenChanged": true,
+      "default": "inclusive",
+      "showClearButton": true,
+      "initialValue": "inclusive",
+      "selectFirstChoice": false,
+      "value": "$form.tk_data_sampling_custom_rule_type$",
+      "el": $('#modal_input_data_sampling_custom_rule_type')
+  }, {
+      tokens: true
+  }).render();
+
+  modal_input_data_sampling_custom_rule_type.on("change", function(newValue) {
+      FormUtils.handleValueChange(modal_input_data_sampling_custom_rule_type);
+  });
+
+  // Data sampling sourcetype value
+  var modal_input_data_sampling_custom_st_value = new TextInput({
+      "id": "modal_input_data_sampling_custom_st_value",
+      "searchWhenChanged": false,
+      "default": "simulation:test_sourcetype",
+      "initialValue": "simulation:test_sourcetype",
+      "value": "$form.tk_data_sampling_custom_st_value$",
+      "el": $('#modal_input_data_sampling_custom_st_value')
+  }, {
+      tokens: true
+  }).render();
+
+  modal_input_data_sampling_custom_st_value.on("change", function(newValue) {
+      FormUtils.handleValueChange(modal_input_data_sampling_custom_st_value);
+  });
+
+  // Data sampling scope
+  var modal_input_data_sampling_custom_sourcetype_scope = new TextInput({
+      "id": "modal_input_data_sampling_custom_sourcetype_scope",
+      "searchWhenChanged": false,
+      "initialValue": "*",
+      "default": "*",
+      "value": "$form.tk_data_sampling_custom_sourcetype_scope$",
+      "el": $('#modal_input_data_sampling_custom_sourcetype_scope')
+  }, {
+      tokens: true
+  }).render();
+
+  modal_input_data_sampling_custom_sourcetype_scope.on("change", function(newValue) {
+      FormUtils.handleValueChange(modal_input_data_sampling_custom_sourcetype_scope);
+  });
+
+  // Data sampling number of records per sample
+  var modal_input_data_sampling_records_nr = new TextInput({
+      "id": "modal_input_data_sampling_records_nr",
+      "searchWhenChanged": true,
+      "default": "50",
+      "initialValue": "50",            
+      "value": "$form.tk_input_data_sampling_records_nr$",
+      "el": $('#modal_input_data_sampling_records_nr')
+  }, {
+      tokens: true
+  }).render();
+
+  modal_input_data_sampling_records_nr.on("change", function(newValue) {
+      FormUtils.handleValueChange(modal_input_data_sampling_records_nr);
+  });
+
+  // data sampling dropdown
+  var modal_input_data_sampling_dropdown = new DropdownInput({
+    "id": "modal_input_data_sampling_dropdown",
+    "tokenDependencies": {
+        "depends": "$show_data_source_tracker$"
+    },
+    "searchWhenChanged": true,
+    "showClearButton": true,
+    "labelField": "data_name",
+    "selectFirstChoice": false,
+    "valueField": "key",
+    "value": "$form.tk_input_data_sampling_dropdown$",
+    "managerid": "searchPopulateDataSampling",
+    "el": $('#modal_input_data_sampling_dropdown')
+  }, {
+      tokens: true
+  }).render();
+
+  modal_input_data_sampling_dropdown.on("change", function(newValue) {
+      FormUtils.handleValueChange(modal_input_data_sampling_dropdown);
+  });
+
+  // Data sampling
+
+  // Simulation
+  var tableDataSamplingSimulateCustomRule = new TableElement({
+    "id": "tableDataSamplingSimulateCustomRule",
+    "tokenDependencies": {
+        "depends": "$start_simulation_data_sampling_custom_rule$"
+    },
+    "count": 1,
+    "drilldown": "row",
+    "refresh.display": "none",
+    "wrap": "false",
+    "managerid": "searchDataSamplingSimulateCustomRule",
+    "el": $('#tableDataSamplingSimulateCustomRule')
+  }, {
+      tokens: true,
+      tokenNamespace: "submitted"
+  }).render();
+
+  var resultsLinktableDataSamplingSimulateCustomRule = new ResultsLinkView({
+    id: "resultsLinktableDataSamplingSimulateCustomRule",
+    managerid: "searchDataSamplingSimulateCustomRule",
+    "link.exportResults.visible": false,
+    el: $("#resultsLinktableDataSamplingSimulateCustomRule"),
+  });
+
+  resultsLinktableDataSamplingSimulateCustomRule
+    .render()
+    .$el.appendTo($("resultsLinktableDataSamplingSimulateCustomRule"));
+
+  var tableDataSamplingSimulateCustomRuleLatestEvent = new TableElement({
+      "id": "tableDataSamplingSimulateCustomRuleLatestEvent",
+      "tokenDependencies": {
+          "depends": "$start_simulation_data_sampling_custom_rule_show_events$"
+      },
+      "count": 5,
+      "drilldown": "row",
+      "refresh.display": "none",
+      "wrap": "false",
+      "managerid": "searchDataSamplingSimulateCustomRuleLatestEvent",
+      "el": $('#tableDataSamplingSimulateCustomRuleLatestEvent')
+  }, {
+      tokens: true,
+      tokenNamespace: "submitted"
+  }).render();
+
+  var resultsLinktableDataSamplingSimulateCustomRuleLatestEvent = new ResultsLinkView({
+    id: "resultsLinktableDataSamplingSimulateCustomRuleLatestEvent",
+    managerid: "searchDataSamplingSimulateCustomRuleLatestEvent",
+    "link.exportResults.visible": false,
+    el: $("#resultsLinktableDataSamplingSimulateCustomRuleLatestEvent"),
+  });
+
+  resultsLinktableDataSamplingSimulateCustomRuleLatestEvent
+    .render()
+    .$el.appendTo($("resultsLinktableDataSamplingSimulateCustomRuleLatestEvent"));
 
   //
   // BEGIN OPERATIONS
@@ -30105,6 +30346,9 @@ require([
   $("#btn_modal_data_sampling_custom_rule_show_sample").click(function () {
     //submitTokens();
 
+    // show the sample table
+    $("#divTableDataSamplingSample").css("display", "inherit");
+
     // When the Submit button is clicked, get all the form fields by accessing token values
     var tokens = mvc.Components.get("default");
 
@@ -30116,6 +30360,12 @@ require([
   // Data sampling custom rule simulation
   $("#btn_modal_data_sampling_custom_rule_simulate").click(function () {
     //submitTokens();
+
+    // temporary hide the sample table
+    $("#divTableDataSamplingSample").css("display", "none");
+
+    // show the simulation div
+    $("#divTableDataSamplingSimulate").css("display", "inherit");
 
     // When the Submit button is clicked, get all the form fields by accessing token values
     var tokens = mvc.Components.get("default");
@@ -30130,7 +30380,7 @@ require([
       "tk_data_sampling_custom_rule_name"
     );
 
-    // Retriebe the key id
+    // Retrieve the key id
     var tk_keyid = tokens.get("tk_keyid");
 
     // if is not defined, give it a value and override text box content
@@ -30171,15 +30421,20 @@ require([
         "btn_modal_data_sampling_custom_rule_simulate_show_details"
       ).disabled = false;
 
-      // Disable the add button
+      // Enable the add button
       document.getElementById(
         "btn_data_sampling_custom_rule_add"
       ).disabled = false;
+
+      // show the sample table (agin if previously showned)
+      //$("#divTableDataSamplingSample").css("display", "inherit");
+
     }
   });
 
   // Data sampling add custom rule
   $("#btn_data_sampling_custom_rule_add").click(function () {
+    $("#data_sampling_create_custom_rules").modal('hide');
     $("#modal_add_custom_rule_data_sampling").modal();
   });
 
@@ -30441,6 +30696,20 @@ require([
 
       // Retrieve the key id
       var tk_data_sourcetype = tokens.get("tk_data_sourcetype");
+
+      // If we are coming from the main UI, we have no keyid / sourcetype
+      var tk_selected_data_sourcetype = tokens.get("tk_input_data_sampling_dropdown");
+      var tk_data_sampling_custom_st_value = tokens.get("tk_data_sampling_custom_st_value");
+
+      // if tk_keyid is unset
+      if (tk_keyid == null) {
+        tk_keyid = tk_selected_data_sourcetype;
+      }
+
+      // if sourcetype is unset
+      if (tk_data_sourcetype == null) {
+        tk_data_sourcetype = tk_data_sampling_custom_st_value;
+      }
 
       // Built the search URI
       var similation_events_detail =
