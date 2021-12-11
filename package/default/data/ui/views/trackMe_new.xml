@@ -94,6 +94,38 @@
     margin-left: 12px;
 }
 
+/* Additional modal sizes */
+
+.modal-big {
+    height: 800px;
+    max-height: 400%;
+    width: 80%;
+    margin-left: -40%;
+}
+
+.modal-guts {
+
+    /* For Splunk 7.0.x */
+    /* margin-top: 30px; */
+
+    /* other stuff we already covered */
+
+    /* cover the modal */
+    position: absolute;
+
+    width: 90%;
+    min-height: 50px;
+    max-height: 650px;
+    height: 100%;
+
+    /* spacing as needed */
+    padding: 20px 50px 20px 20px;
+
+    /* let it scroll */
+    overflow: auto;
+    
+}
+
 /*** Buttons ***/
 
         .btn {
@@ -3480,6 +3512,98 @@
                     </div>
                 </div>
 
+                <!-- Indexers Queues -->
+                <div class="modal fade modal-big" id="modal_queues" role="dialog">
+                    <div class="modal-dialog">
+                        <!-- Modal content-->
+                        <div class="modal-content">
+                            <!-- This is required to get the token substitutions without affecting the buttons actions in js -->
+                            <div>
+                                <div>
+                                    <div class="modal-header modal-header-info">
+                                        <h1 style="font-size: 18px;">Ops: Queues center</h1>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="modal-guts">
+                                <div>
+                                    <h1>Splunk indexing queues:</h1>
+                                    <lu>
+                                        <li>Update the macro <a target="_blank" href="/en-GB/manager/trackme/admin/macros/trackme_idx_filter?action=edit">trackme_idx_filter</a> to match indexers and other instances such as heavy forwarders that should be included</li>
+                                        <li>Use the break down dropdown to select a break down option for detailed queue charts rendering</li>
+                                        <li>For more information about Splunk queues: <a target="_blank" href="https://wiki.splunk.com/Community:HowIndexingWorks">https://wiki.splunk.com/Community:HowIndexingWorks</a></li>
+                                        <li>Conf slides, How Splunkd works: <a target="_blank" href="https://conf.splunk.com/files/2017/slides/how-splunkd-works.pdf">https://conf.splunk.com/files/2017/slides/how-splunkd-works.pdf</a></li>
+                                        <li>Conf slides, How to Troubleshoot Blocked Ingestion Pipeline Queues with Indexers and Forwarders: <a target="_blank" href="https://conf.splunk.com/files/2019/slides/FN1570.pdf">https://conf.splunk.com/files/2019/slides/FN1570.pdf</a></li>        
+                                    </lu>
+                                </div>
+                                <hr />
+                                <h2>Scroll down through the charts to review the Splunk queues usage</h2>
+                                <style>
+                                    .parent-ops-queues-inputs {
+                                        display: grid;
+                                        grid-template-columns: repeat(2, 1fr);
+                                        grid-template-rows: 1fr;
+                                        grid-column-gap: 0px;
+                                        grid-row-gap: 0px;
+                                    }
+                                </style>
+                                <div class="parent-ops-queues-inputs">
+                                    <div class="fieldset">
+                                        <div class="input input-multiselect" id="inputHostQueues">
+                                            <label>Host(s):</label>
+                                        </div>
+                                    </div>
+                                    <div class="fieldset">
+                                        <div class="input input-linklist" id="inputLinkQueuesTime">
+                                            <label></label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div>
+                                    <div>
+                                        <div>
+                                            <div>
+                                                <div id="elementChartQueueAll" class="view-elements">
+                                                    <div>
+                                                        <h3>All queues - Blocking queues (more than 0% means queues filling)</h3>
+                                                    </div>                                                                                                  
+                                                </div>
+                                                <div id="resultsLinkelementChartQueueAll" class="search-elements"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <br />
+                                <div style="margin-left: 15px;">
+                                    <div>
+                                        <div>
+                                            <div>
+                                                <div class="input input-dropdown" id="inputHostQueuesBreak">
+                                                    <label>Break by:</label>
+                                                </div>                                            
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div>
+                                    <div>
+                                        <div>
+                                            <div>
+                                                <div id="elementChartQueuesTreillis" class="view-elements">
+                                                    <div>
+                                                        <h3>Queues details</h3>
+                                                    </div>
+                                                </div>
+                                                <div id="resultsLinkelementChartQueuesTreillis" class="search-elements"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
         </html>
 
         <html>
@@ -5877,106 +6001,6 @@
                                 <div class="btn_smart_status_metric_host" style="margin-right: 15px; float: right;">
                                     <button type="submit" id="btn_smart_status_metric_host" role="button" class="btn btn-primary btn-default"><span class="glyphicon glyphicon-remove"></span>Smart Status</button>
                                 </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Indexers Queues -->
-                <div class="modal fade modal-big" id="modal_queues" role="dialog">
-                    <div class="modal-dialog">
-                        <!-- Modal content-->
-                        <div class="modal-content">
-                            <!-- This is required to get the token substitutions without affecting the buttons actions in js -->
-                            <div>
-                                <div>
-                                    <div class="modal-header modal-header-info">
-                                        <h1 style="font-size: 18px;">Ops: Queues center</h1>
-                                        <button type="button" id="btn_ops_index_queue_close" class="close" data-dismiss="modal"></button>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="modal-guts">
-                                <div>
-                                    <div>
-                                        <div>                                        
-                                            <div>
-                                                <div>
-                                                    <div>
-                                                        <h1>Splunk indexing queues:</h1>
-                                                        <lu>
-                                                            <li>Update the macro <a target="_blank" href="/en-GB/manager/trackme/admin/macros/trackme_idx_filter?action=edit">trackme_idx_filter</a> to match indexers and other instances such as heavy forwarders that should be included</li>
-                                                            <li>Use the break down dropdown to select a break down option for detailed queue charts rendering</li>
-                                                            <li>For more information about Splunk queues: <a target="_blank" href="https://wiki.splunk.com/Community:HowIndexingWorks">https://wiki.splunk.com/Community:HowIndexingWorks</a></li>
-                                                            <li>Conf slides, How Splunkd works: <a target="_blank" href="https://conf.splunk.com/files/2017/slides/how-splunkd-works.pdf">https://conf.splunk.com/files/2017/slides/how-splunkd-works.pdf</a></li>
-                                                            <li>Conf slides, How to Troubleshoot Blocked Ingestion Pipeline Queues with Indexers and Forwarders: <a target="_blank" href="https://conf.splunk.com/files/2019/slides/FN1570.pdf">https://conf.splunk.com/files/2019/slides/FN1570.pdf</a></li>        
-                                                        </lu>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div>
-                                    <div style="width: 50%;">
-                                        <div>
-                                            <div>
-                                                <div class="input input-multiselect" id="inputHostQueues">
-                                                    <label>Host(s):</label>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div>
-                                        <div>
-                                            <div>
-                                                <div class="input input-linklist" id="inputLinkQueuesTime">
-                                                    <label></label>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div>
-                                    <div>
-                                        <div>
-                                            <div>
-                                                <div id="elementChartQueueAll">
-                                                    <div>
-                                                        <h3>All queues - Blocking queues (more than 0% means queues filling)</h3>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div style="margin-left: 15px;">
-                                    <div>
-                                        <div>
-                                            <div>
-                                                <div class="input input-dropdown" id="inputHostQueuesBreak">
-                                                    <label>Break by:</label>
-                                                </div>                                            
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div>
-                                    <div>
-                                        <div>
-                                            <div>
-                                                <div id="elementChartQueuesTreillis">
-                                                    <div>
-                                                        <h3>Queues details</h3>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="modal-footer">
-                                <button type="submit" class="btn btn-default btn-default pull-left" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Close</button>
                             </div>
                         </div>
                     </div>

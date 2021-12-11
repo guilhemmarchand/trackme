@@ -12947,6 +12947,215 @@ require([
     .render()
     .$el.appendTo($("resultsLinktableDataSamplingSimulateCustomRuleLatestEvent"));
 
+  // input multiselect for queues
+  var inputHostQueues = new MultiSelectInput({
+    "id": "inputHostQueues",
+    "tokenDependencies": {
+        "depends": "$tk_start_indexers_queues_searches$"
+    },
+    "choices": [{
+        "label": "ALL",
+        "value": "*"
+    }],
+    "searchWhenChanged": true,
+    "showClearButton": true,
+    "labelField": "host",
+    "valuePrefix": "host=\"",
+    "valueSuffix": "\"",
+    "delimiter": " OR ",
+    "initialValue": "*",
+    "selectFirstChoice": false,
+    "valueField": "host",
+    "value": "$form.inputHostQueues$",
+    "managerid": "searchPopulateHostQueues",
+    "el": $('#inputHostQueues')
+  }, {
+      tokens: true
+  }).render();
+
+  inputHostQueues.on("change", function(newValue) {
+      FormUtils.handleValueChange(inputHostQueues);
+  });
+
+  var inputHostQueuesBreak = new DropdownInput({
+    "id": "inputHostQueuesBreak",
+    "choices": [
+        {"label": "Queue", "value": "name"},
+        {"label": "Queue, Ingest pipe", "value": "name . \":\" . ingest_pipe"},
+        {"label": "Queue, Ingest pipe, host", "value": "host . \":\" . name . \":\" . ingest_pipe"}
+    ],
+    "default": "name",
+    "searchWhenChanged": true,
+    "selectFirstChoice": false,
+    "showClearButton": true,
+    "initialValue": "name",
+    "value": "$form.inputHostQueuesBreak$",
+    "el": $('#inputHostQueuesBreak')
+  }, {tokens: true}).render();
+
+  inputHostQueuesBreak.on("change", function(newValue) {
+      FormUtils.handleValueChange(inputHostQueuesBreak);
+});
+
+// input link selection for modal window
+var inputLinkQueuesTime = new LinkListInput({
+  "id": "inputLinkQueuesTime",
+  "choices": [{
+          "value": "4h",
+          "label": "4h"
+      },
+      {
+          "value": "24h",
+          "label": "24h"
+      },
+      {
+          "value": "7d",
+          "label": "7d"
+      },
+      {
+          "value": "30d",
+          "label": "30d"
+      }
+  ],
+  "default": "4h",
+  "searchWhenChanged": true,
+  "selectFirstChoice": false,
+  "initialValue": "4h",
+  "value": "$form.inputLinkQueuesTime$",
+  "el": $('#inputLinkQueuesTime')
+  }, {
+      tokens: true
+  }).render();
+
+  inputLinkQueuesTime.on("change", function(newValue) {
+      FormUtils.handleValueChange(inputLinkQueuesTime);
+  });
+
+  inputLinkQueuesTime.on("valueChange", function(e) {
+      if (e.value === "4h") {
+          EventHandler.setToken("inputLinkQueuesTime.earliest", "-4h", {}, e.data);
+          EventHandler.setToken("inputLinkQueuesTime.latest", "now", {}, e.data);
+          EventHandler.setToken("inputLinkQueuesTime.span", "5m", {}, e.data);
+      } else if (e.value === "24h") {
+          EventHandler.setToken("inputLinkQueuesTime.earliest", "-24h", {}, e.data);
+          EventHandler.setToken("inputLinkQueuesTime.latest", "now", {}, e.data);
+          EventHandler.setToken("inputLinkQueuesTime.span", "15m", {}, e.data);
+      } else if (e.value === "7d") {
+          EventHandler.setToken("inputLinkQueuesTime.earliest", "-7d", {}, e.data);
+          EventHandler.setToken("inputLinkQueuesTime.latest", "now", {}, e.data);
+          EventHandler.setToken("inputLinkQueuesTime.span", "30m", {}, e.data);
+      } else if (e.value === "30d") {
+          EventHandler.setToken("inputLinkQueuesTime.earliest", "-30d", {}, e.data);
+          EventHandler.setToken("inputLinkQueuesTime.latest", "now", {}, e.data);
+          EventHandler.setToken("inputLinkQueuesTime.span", "4h", {}, e.data);
+      }
+  });
+
+  // Ops: Indexer Queues
+  var elementChartQueueAll = new ChartView({
+    "id": "elementChartQueueAll",
+    "charting.chart.nullValueMode": "gaps",
+    "resizable": true,
+    "trellis.enabled": "0",
+    "charting.axisTitleX.visibility": "collapsed",
+    "refresh.display": "progressbar",
+    "charting.chart.stackMode": "stacked",
+    "charting.axisLabelsX.majorLabelStyle.overflowMode": "ellipsisNone",
+    "charting.axisY.abbreviation": "none",
+    "charting.legend.placement": "bottom",
+    "charting.axisY2.abbreviation": "none",
+    "charting.legend.labelStyle.overflowMode": "ellipsisMiddle",
+    "charting.chart.showDataLabels": "none",
+    "charting.axisY2.enabled": "0",
+    "charting.chart.sliceCollapsingThreshold": "0.01",
+    "charting.chart.style": "shiny",
+    "charting.layout.splitSeries.allowIndependentYRanges": "0",
+    "charting.chart": "line",
+    "charting.axisX.scale": "linear",
+    "trellis.scales.shared": "1",
+    "charting.axisTitleY.visibility": "visible",
+    "charting.axisTitleY2.visibility": "visible",
+    "height": "350",
+    "charting.chart.bubbleMinimumSize": "10",
+    "charting.drilldown": "none",
+    "charting.legend.mode": "standard",
+    "charting.chart.bubbleMaximumSize": "50",
+    "trellis.size": "medium",
+    "charting.axisY.scale": "linear",
+    "charting.chart.bubbleSizeBy": "area",
+    "charting.axisLabelsX.majorLabelStyle.rotation": "0",
+    "charting.axisX.abbreviation": "none",
+    "charting.layout.splitSeries": "0",
+    "charting.lineWidth": "2",
+    "charting.axisY2.scale": "inherit",
+    "managerid": "searchQueueAll",
+    "el": $('#elementChartQueueAll')
+  }, {
+      tokens: true,
+      tokenNamespace: "submitted"
+  }).render();
+
+  var resultsLinkelementChartQueueAll = new ResultsLinkView({
+    id: "resultsLinkelementChartQueueAll",
+    managerid: "searchQueueAll",
+    "link.exportResults.visible": false,
+    el: $("#resultsLinkelementChartQueueAll"),
+  });
+
+  resultsLinkelementChartQueueAll
+    .render()
+    .$el.appendTo($("resultsLinkelementChartQueueAll"));
+
+  var elementChartQueuesTreillis = new ChartView({
+    "id": "elementChartQueuesTreillis",
+    "resizable": true,
+    "charting.axisLabelsX.majorLabelStyle.overflowMode": "ellipsisNone",
+    "charting.axisLabelsX.majorLabelStyle.rotation": "0",
+    "charting.axisTitleX.visibility": "collapsed",
+    "charting.axisTitleY.visibility": "visible",
+    "charting.axisTitleY2.visibility": "visible",
+    "charting.axisX.abbreviation": "none",
+    "charting.axisX.scale": "linear",
+    "charting.axisY.abbreviation": "none",
+    "charting.axisY.scale": "linear",
+    "charting.axisY2.abbreviation": "none",
+    "charting.axisY2.enabled": "0",
+    "charting.axisY2.scale": "inherit",
+    "charting.chart": "line",
+    "charting.chart.bubbleMaximumSize": "50",
+    "charting.chart.bubbleMinimumSize": "10",
+    "charting.chart.bubbleSizeBy": "area",
+    "charting.chart.nullValueMode": "gaps",
+    "charting.chart.showDataLabels": "none",
+    "charting.chart.sliceCollapsingThreshold": "0.01",
+    "charting.chart.stackMode": "default",
+    "charting.chart.style": "shiny",
+    "charting.drilldown": "none",
+    "charting.layout.splitSeries": "0",
+    "charting.layout.splitSeries.allowIndependentYRanges": "0",
+    "charting.legend.labelStyle.overflowMode": "ellipsisMiddle",
+    "charting.legend.mode": "standard",
+    "charting.legend.placement": "right",
+    "charting.lineWidth": "2",
+    "trellis.enabled": "1",
+    "trellis.scales.shared": "0",
+    "trellis.size": "large",
+    "height": "1200",
+    "managerid": "searchQueueTreillis",
+    "el": $('#elementChartQueuesTreillis')
+  }, {tokens: true, tokenNamespace: "submitted"}).render();
+
+  var resultsLinkelementChartQueuesTreillis = new ResultsLinkView({
+    id: "resultsLinkelementChartQueuesTreillis",
+    managerid: "searchQueueTreillis",
+    "link.exportResults.visible": false,
+    el: $("#resultsLinkelementChartQueuesTreillis"),
+  });
+
+  resultsLinkelementChartQueuesTreillis
+    .render()
+    .$el.appendTo($("resultsLinkelementChartQueuesTreillis"));
+
   //
   // BEGIN OPERATIONS
   //
