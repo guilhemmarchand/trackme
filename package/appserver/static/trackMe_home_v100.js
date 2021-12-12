@@ -25,6 +25,7 @@ require([
   "splunkjs/mvc/simpleform/input/dropdown",
   "splunkjs/mvc/simplexml/element/table",
   "splunkjs/mvc/simplexml/element/single",
+  "splunkjs/mvc/simplexml/element/event",
   "splunkjs/mvc/simpleform/formutils",
   "splunkjs/mvc/simplexml/eventhandler",
   "splunkjs/mvc/simplexml/searcheventhandler",
@@ -55,6 +56,7 @@ require([
   DropdownInput,
   TableElement,
   SingleElement,
+  EventElement,
   FormUtils,
   EventHandler,
   SearchEventHandler,
@@ -13155,6 +13157,770 @@ var inputLinkQueuesTime = new LinkListInput({
   resultsLinkelementChartQueuesTreillis
     .render()
     .$el.appendTo($("resultsLinkelementChartQueuesTreillis"));
+
+  // input multiselect for parsing
+  var inputHostParsing = new MultiSelectInput({
+    "id": "inputHostParsing",
+    "tokenDependencies": {
+        "depends": "$tk_start_parsing_issues_searches$"
+    },
+    "choices": [{
+        "label": "ALL",
+        "value": "*"
+    }],
+    "searchWhenChanged": true,
+    "showClearButton": true,
+    "labelField": "host",
+    "valuePrefix": "host=\"",
+    "valueSuffix": "\"",
+    "delimiter": " OR ",
+    "initialValue": "*",
+    "selectFirstChoice": false,
+    "valueField": "host",
+    "value": "$form.inputHostParsing$",
+    "managerid": "searchPopulateHostParsing",
+    "el": $('#inputHostParsing')
+  }, {
+      tokens: true
+  }).render();
+
+  inputHostParsing.on("change", function(newValue) {
+      FormUtils.handleValueChange(inputHostParsing);
+  });
+
+  // input link selection for modal window
+  var inputLinkParsingIssuesTime = new LinkListInput({
+    "id": "inputLinkParsingIssuesTime",
+    "choices": [{
+            "value": "4h",
+            "label": "4h"
+        },
+        {
+            "value": "24h",
+            "label": "24h"
+        },
+        {
+            "value": "7d",
+            "label": "7d"
+        },
+        {
+            "value": "30d",
+            "label": "30d"
+        }
+    ],
+    "default": "4h",
+    "searchWhenChanged": true,
+    "selectFirstChoice": false,
+    "initialValue": "4h",
+    "value": "$form.inputLinkParsingIssuesTime$",
+    "el": $('#inputLinkParsingIssuesTime')
+  }, {
+      tokens: true
+  }).render();
+
+  inputLinkParsingIssuesTime.on("change", function(newValue) {
+      FormUtils.handleValueChange(inputLinkParsingIssuesTime);
+  });
+
+  inputLinkParsingIssuesTime.on("valueChange", function(e) {
+      if (e.value === "4h") {
+          EventHandler.setToken("inputLinkParsingIssuesTime.earliest", "-4h", {}, e.data);
+          EventHandler.setToken("inputLinkParsingIssuesTime.latest", "now", {}, e.data);
+          EventHandler.setToken("inputLinkParsingIssuesTime.span", "5m", {}, e.data);
+      } else if (e.value === "24h") {
+          EventHandler.setToken("inputLinkParsingIssuesTime.earliest", "-24h", {}, e.data);
+          EventHandler.setToken("inputLinkParsingIssuesTime.latest", "now", {}, e.data);
+          EventHandler.setToken("inputLinkParsingIssuesTime.span", "15m", {}, e.data);
+      } else if (e.value === "7d") {
+          EventHandler.setToken("inputLinkParsingIssuesTime.earliest", "-7d", {}, e.data);
+          EventHandler.setToken("inputLinkParsingIssuesTime.latest", "now", {}, e.data);
+          EventHandler.setToken("inputLinkParsingIssuesTime.span", "30m", {}, e.data);
+      } else if (e.value === "30d") {
+          EventHandler.setToken("inputLinkParsingIssuesTime.earliest", "-30d", {}, e.data);
+          EventHandler.setToken("inputLinkParsingIssuesTime.latest", "now", {}, e.data);
+          EventHandler.setToken("inputLinkParsingIssuesTime.span", "4h", {}, e.data);
+      }
+  });
+
+  // modal Single Lag
+  var elementSingleParsingIssues = new SingleView({
+    "id": "elementSingleParsingIssues",
+    "trendDisplayMode": "absolute",
+    "numberPrecision": "0.00",
+    "drilldown": "all",
+    "trellis.size": "medium",
+    "trendColorInterpretation": "standard",
+    "useColors": "0",
+    "colorBy": "value",
+    "showTrendIndicator": "1",
+    "showSparkline": "1",
+    "trellis.enabled": "0",
+    "unit": "",
+    "rangeColors": "[\"0x77dd77\",\"0x0877a6\",\"0xf8be34\",\"0xf1813f\",\"0xdc4e41\"]",
+    "colorMode": "none",
+    "rangeValues": "[0,30,70,100]",
+    "unitPosition": "after",
+    "trellis.scales.shared": "1",
+    "useThousandSeparators": "1",
+    "underLabel": "SUMMARY",
+    "managerid": "searchParsingIssuesSingle",
+    "el": $('#elementSingleParsingIssues')
+  }, {
+      tokens: true,
+      tokenNamespace: "submitted"
+  }).render();
+
+  // Ops: Parsing Issues
+  var elementChartParsingIssues = new ChartView({
+    "id": "elementChartParsingIssues",
+    "charting.chart.nullValueMode": "gaps",
+    "resizable": true,
+    "trellis.enabled": "0",
+    "charting.axisTitleX.visibility": "collapsed",
+    "refresh.display": "progressbar",
+    "charting.chart.stackMode": "stacked",
+    "charting.axisLabelsX.majorLabelStyle.overflowMode": "ellipsisNone",
+    "charting.axisY.abbreviation": "none",
+    "charting.legend.placement": "bottom",
+    "charting.axisY2.abbreviation": "none",
+    "charting.legend.labelStyle.overflowMode": "ellipsisMiddle",
+    "charting.chart.showDataLabels": "none",
+    "charting.axisY2.enabled": "0",
+    "charting.chart.sliceCollapsingThreshold": "0.01",
+    "charting.chart.style": "shiny",
+    "charting.layout.splitSeries.allowIndependentYRanges": "0",
+    "charting.chart": "column",
+    "charting.axisX.scale": "linear",
+    "trellis.scales.shared": "1",
+    "charting.axisTitleY.visibility": "visible",
+    "charting.axisTitleY2.visibility": "visible",
+    "height": "300",
+    "charting.chart.bubbleMinimumSize": "10",
+    "charting.drilldown": "all",
+    "charting.legend.mode": "standard",
+    "charting.chart.bubbleMaximumSize": "50",
+    "trellis.size": "medium",
+    "charting.axisY.scale": "linear",
+    "charting.chart.bubbleSizeBy": "area",
+    "charting.axisLabelsX.majorLabelStyle.rotation": "0",
+    "charting.axisX.abbreviation": "none",
+    "charting.layout.splitSeries": "0",
+    "charting.lineWidth": "2",
+    "charting.axisY2.scale": "inherit",
+    "managerid": "searchParsingIssuesChart",
+    "el": $('#elementChartParsingIssues')
+  }, {
+      tokens: true,
+      tokenNamespace: "submitted"
+  }).render();
+
+  var resultsLinkelementChartParsingIssues = new ResultsLinkView({
+    id: "resultsLinkelementChartParsingIssues",
+    managerid: "searchParsingIssuesChart",
+    "link.exportResults.visible": false,
+    el: $("#resultsLinkelementChartParsingIssues"),
+  });
+
+  resultsLinkelementChartParsingIssues
+    .render()
+    .$el.appendTo($("resultsLinkelementChartParsingIssues"));
+
+  var chartLineBreakingProcessorTopSource = new ChartView({
+    "id": "chartLineBreakingProcessorTopSource",
+    "resizable": true,
+    "charting.axisLabelsX.majorLabelStyle.overflowMode": "ellipsisNone",
+    "charting.axisLabelsX.majorLabelStyle.rotation": "0",
+    "charting.axisTitleX.visibility": "visible",
+    "charting.axisTitleY.visibility": "visible",
+    "charting.axisTitleY2.visibility": "visible",
+    "charting.axisX.abbreviation": "none",
+    "charting.axisX.scale": "linear",
+    "charting.axisY.abbreviation": "none",
+    "charting.axisY.scale": "linear",
+    "charting.axisY2.abbreviation": "none",
+    "charting.axisY2.enabled": "0",
+    "charting.axisY2.scale": "inherit",
+    "charting.chart": "pie",
+    "charting.chart.bubbleMaximumSize": "50",
+    "charting.chart.bubbleMinimumSize": "10",
+    "charting.chart.bubbleSizeBy": "area",
+    "charting.chart.nullValueMode": "gaps",
+    "charting.chart.showDataLabels": "none",
+    "charting.chart.sliceCollapsingThreshold": "0.01",
+    "charting.chart.stackMode": "default",
+    "charting.chart.style": "shiny",
+    "charting.drilldown": "all",
+    "charting.layout.splitSeries": "0",
+    "charting.layout.splitSeries.allowIndependentYRanges": "0",
+    "charting.legend.labelStyle.overflowMode": "ellipsisMiddle",
+    "charting.legend.mode": "standard",
+    "charting.legend.placement": "right",
+    "charting.lineWidth": "2",
+    "refresh.display": "progressbar",
+    "trellis.enabled": "0",
+    "trellis.scales.shared": "1",
+    "trellis.size": "medium",
+    "managerid": "searchLineBreakingProcessorTopSource",
+    "el": $('#chartLineBreakingProcessorTopSource')
+  }, {tokens: true, tokenNamespace: "submitted"}).render();
+
+  var chartLineBreakingProcessorTopHost = new ChartView({
+    "id": "chartLineBreakingProcessorTopHost",
+    "resizable": true,
+    "charting.axisLabelsX.majorLabelStyle.overflowMode": "ellipsisNone",
+    "charting.axisLabelsX.majorLabelStyle.rotation": "0",
+    "charting.axisTitleX.visibility": "visible",
+    "charting.axisTitleY.visibility": "visible",
+    "charting.axisTitleY2.visibility": "visible",
+    "charting.axisX.abbreviation": "none",
+    "charting.axisX.scale": "linear",
+    "charting.axisY.abbreviation": "none",
+    "charting.axisY.scale": "linear",
+    "charting.axisY2.abbreviation": "none",
+    "charting.axisY2.enabled": "0",
+    "charting.axisY2.scale": "inherit",
+    "charting.chart": "pie",
+    "charting.chart.bubbleMaximumSize": "50",
+    "charting.chart.bubbleMinimumSize": "10",
+    "charting.chart.bubbleSizeBy": "area",
+    "charting.chart.nullValueMode": "gaps",
+    "charting.chart.showDataLabels": "none",
+    "charting.chart.sliceCollapsingThreshold": "0.01",
+    "charting.chart.stackMode": "default",
+    "charting.chart.style": "shiny",
+    "charting.drilldown": "all",
+    "charting.layout.splitSeries": "0",
+    "charting.layout.splitSeries.allowIndependentYRanges": "0",
+    "charting.legend.labelStyle.overflowMode": "ellipsisMiddle",
+    "charting.legend.mode": "standard",
+    "charting.legend.placement": "right",
+    "charting.lineWidth": "2",
+    "refresh.display": "progressbar",
+    "trellis.enabled": "0",
+    "trellis.scales.shared": "1",
+    "trellis.size": "medium",
+    "managerid": "searchLineBreakingProcessorTopHost",
+    "el": $('#chartLineBreakingProcessorTopHost')
+  }, {tokens: true, tokenNamespace: "submitted"}).render();
+
+  var chartLineBreakingProcessorTopSourcetype = new ChartView({
+    "id": "chartLineBreakingProcessorTopSourcetype",
+    "resizable": true,
+    "charting.axisLabelsX.majorLabelStyle.overflowMode": "ellipsisNone",
+    "charting.axisLabelsX.majorLabelStyle.rotation": "0",
+    "charting.axisTitleX.visibility": "visible",
+    "charting.axisTitleY.visibility": "visible",
+    "charting.axisTitleY2.visibility": "visible",
+    "charting.axisX.abbreviation": "none",
+    "charting.axisX.scale": "linear",
+    "charting.axisY.abbreviation": "none",
+    "charting.axisY.scale": "linear",
+    "charting.axisY2.abbreviation": "none",
+    "charting.axisY2.enabled": "0",
+    "charting.axisY2.scale": "inherit",
+    "charting.chart": "pie",
+    "charting.chart.bubbleMaximumSize": "50",
+    "charting.chart.bubbleMinimumSize": "10",
+    "charting.chart.bubbleSizeBy": "area",
+    "charting.chart.nullValueMode": "gaps",
+    "charting.chart.showDataLabels": "none",
+    "charting.chart.sliceCollapsingThreshold": "0.01",
+    "charting.chart.stackMode": "default",
+    "charting.chart.style": "shiny",
+    "charting.drilldown": "all",
+    "charting.layout.splitSeries": "0",
+    "charting.layout.splitSeries.allowIndependentYRanges": "0",
+    "charting.legend.labelStyle.overflowMode": "ellipsisMiddle",
+    "charting.legend.mode": "standard",
+    "charting.legend.placement": "right",
+    "charting.lineWidth": "2",
+    "refresh.display": "progressbar",
+    "trellis.enabled": "0",
+    "trellis.scales.shared": "1",
+    "trellis.size": "medium",
+    "managerid": "searchLineBreakingProcessorTopSourcetype",
+    "el": $('#chartLineBreakingProcessorTopSourcetype')
+  }, {tokens: true, tokenNamespace: "submitted"}).render();
+
+  var tableLineBreakingProcessorTopSource = new TableElement({
+    "id": "tableLineBreakingProcessorTopSource",
+    "drilldown": "all",
+    "count": "5",
+    "refresh.display": "progressbar",
+    "managerid": "searchLineBreakingProcessorTopSource",
+    "el": $('#tableLineBreakingProcessorTopSource')
+  }, {tokens: true, tokenNamespace: "submitted"}).render();
+
+  var resultsLinktableLineBreakingProcessorTopSource = new ResultsLinkView({
+    id: "resultsLinktableLineBreakingProcessorTopSource",
+    managerid: "searchLineBreakingProcessorTopSource",
+    "link.exportResults.visible": false,
+    el: $("#resultsLinktableLineBreakingProcessorTopSource"),
+  });
+
+  resultsLinktableLineBreakingProcessorTopSource
+    .render()
+    .$el.appendTo($("resultsLinktableLineBreakingProcessorTopSource"));
+
+  var tableLineBreakingProcessorTopHost = new TableElement({
+    "id": "tableLineBreakingProcessorTopHost",
+    "drilldown": "all",
+    "count": "5",
+    "refresh.display": "progressbar",
+    "managerid": "searchLineBreakingProcessorTopHost",
+    "el": $('#tableLineBreakingProcessorTopHost')
+  }, {tokens: true, tokenNamespace: "submitted"}).render();
+
+  var resultsLinktableLineBreakingProcessorTopHost = new ResultsLinkView({
+    id: "resultsLinktableLineBreakingProcessorTopHost",
+    managerid: "searchLineBreakingProcessorTopHost",
+    "link.exportResults.visible": false,
+    el: $("#resultsLinktableLineBreakingProcessorTopHost"),
+  });
+
+  resultsLinktableLineBreakingProcessorTopHost
+    .render()
+    .$el.appendTo($("resultsLinktableLineBreakingProcessorTopHost"));
+
+  var tableLineBreakingProcessorTopSourcetype = new TableElement({
+    "id": "tableLineBreakingProcessorTopSourcetype",
+    "drilldown": "all",
+    "count": "5",
+    "refresh.display": "progressbar",
+    "managerid": "searchLineBreakingProcessorTopSourcetype",
+    "el": $('#tableLineBreakingProcessorTopSourcetype')
+  }, {tokens: true, tokenNamespace: "submitted"}).render();
+
+  var resultsLinktableLineBreakingProcessorTopSourcetype = new ResultsLinkView({
+    id: "resultsLinktableLineBreakingProcessorTopSourcetype",
+    managerid: "searchLineBreakingProcessorTopSourcetype",
+    "link.exportResults.visible": false,
+    el: $("#resultsLinktableLineBreakingProcessorTopSourcetype"),
+  });
+
+  resultsLinktableLineBreakingProcessorTopSourcetype
+    .render()
+    .$el.appendTo($("resultsLinktableLineBreakingProcessorTopSourcetype"));
+
+  var chartAggregatorMiningProcessorTopSource = new ChartView({
+    "id": "chartAggregatorMiningProcessorTopSource",
+    "resizable": true,
+    "charting.axisLabelsX.majorLabelStyle.overflowMode": "ellipsisNone",
+    "charting.axisLabelsX.majorLabelStyle.rotation": "0",
+    "charting.axisTitleX.visibility": "visible",
+    "charting.axisTitleY.visibility": "visible",
+    "charting.axisTitleY2.visibility": "visible",
+    "charting.axisX.abbreviation": "none",
+    "charting.axisX.scale": "linear",
+    "charting.axisY.abbreviation": "none",
+    "charting.axisY.scale": "linear",
+    "charting.axisY2.abbreviation": "none",
+    "charting.axisY2.enabled": "0",
+    "charting.axisY2.scale": "inherit",
+    "charting.chart": "pie",
+    "charting.chart.bubbleMaximumSize": "50",
+    "charting.chart.bubbleMinimumSize": "10",
+    "charting.chart.bubbleSizeBy": "area",
+    "charting.chart.nullValueMode": "gaps",
+    "charting.chart.showDataLabels": "none",
+    "charting.chart.sliceCollapsingThreshold": "0.01",
+    "charting.chart.stackMode": "default",
+    "charting.chart.style": "shiny",
+    "charting.drilldown": "all",
+    "charting.layout.splitSeries": "0",
+    "charting.layout.splitSeries.allowIndependentYRanges": "0",
+    "charting.legend.labelStyle.overflowMode": "ellipsisMiddle",
+    "charting.legend.mode": "standard",
+    "charting.legend.placement": "right",
+    "charting.lineWidth": "2",
+    "refresh.display": "progressbar",
+    "trellis.enabled": "0",
+    "trellis.scales.shared": "1",
+    "trellis.size": "medium",
+    "managerid": "searchAggregatorMiningProcessorTopSource",
+    "el": $('#chartAggregatorMiningProcessorTopSource')
+  }, {tokens: true, tokenNamespace: "submitted"}).render();
+
+  var chartAggregatorMiningProcessorTopHost = new ChartView({
+    "id": "chartAggregatorMiningProcessorTopHost",
+    "resizable": true,
+    "charting.axisLabelsX.majorLabelStyle.overflowMode": "ellipsisNone",
+    "charting.axisLabelsX.majorLabelStyle.rotation": "0",
+    "charting.axisTitleX.visibility": "visible",
+    "charting.axisTitleY.visibility": "visible",
+    "charting.axisTitleY2.visibility": "visible",
+    "charting.axisX.abbreviation": "none",
+    "charting.axisX.scale": "linear",
+    "charting.axisY.abbreviation": "none",
+    "charting.axisY.scale": "linear",
+    "charting.axisY2.abbreviation": "none",
+    "charting.axisY2.enabled": "0",
+    "charting.axisY2.scale": "inherit",
+    "charting.chart": "pie",
+    "charting.chart.bubbleMaximumSize": "50",
+    "charting.chart.bubbleMinimumSize": "10",
+    "charting.chart.bubbleSizeBy": "area",
+    "charting.chart.nullValueMode": "gaps",
+    "charting.chart.showDataLabels": "none",
+    "charting.chart.sliceCollapsingThreshold": "0.01",
+    "charting.chart.stackMode": "default",
+    "charting.chart.style": "shiny",
+    "charting.drilldown": "all",
+    "charting.layout.splitSeries": "0",
+    "charting.layout.splitSeries.allowIndependentYRanges": "0",
+    "charting.legend.labelStyle.overflowMode": "ellipsisMiddle",
+    "charting.legend.mode": "standard",
+    "charting.legend.placement": "right",
+    "charting.lineWidth": "2",
+    "refresh.display": "progressbar",
+    "trellis.enabled": "0",
+    "trellis.scales.shared": "1",
+    "trellis.size": "medium",
+    "managerid": "searchAggregatorMiningProcessorTopHost",
+    "el": $('#chartAggregatorMiningProcessorTopHost')
+  }, {tokens: true, tokenNamespace: "submitted"}).render();
+
+  var chartAggregatorMiningProcessorTopSourcetype = new ChartView({
+    "id": "chartAggregatorMiningProcessorTopSourcetype",
+    "resizable": true,
+    "charting.axisLabelsX.majorLabelStyle.overflowMode": "ellipsisNone",
+    "charting.axisLabelsX.majorLabelStyle.rotation": "0",
+    "charting.axisTitleX.visibility": "visible",
+    "charting.axisTitleY.visibility": "visible",
+    "charting.axisTitleY2.visibility": "visible",
+    "charting.axisX.abbreviation": "none",
+    "charting.axisX.scale": "linear",
+    "charting.axisY.abbreviation": "none",
+    "charting.axisY.scale": "linear",
+    "charting.axisY2.abbreviation": "none",
+    "charting.axisY2.enabled": "0",
+    "charting.axisY2.scale": "inherit",
+    "charting.chart": "pie",
+    "charting.chart.bubbleMaximumSize": "50",
+    "charting.chart.bubbleMinimumSize": "10",
+    "charting.chart.bubbleSizeBy": "area",
+    "charting.chart.nullValueMode": "gaps",
+    "charting.chart.showDataLabels": "none",
+    "charting.chart.sliceCollapsingThreshold": "0.01",
+    "charting.chart.stackMode": "default",
+    "charting.chart.style": "shiny",
+    "charting.drilldown": "all",
+    "charting.layout.splitSeries": "0",
+    "charting.layout.splitSeries.allowIndependentYRanges": "0",
+    "charting.legend.labelStyle.overflowMode": "ellipsisMiddle",
+    "charting.legend.mode": "standard",
+    "charting.legend.placement": "right",
+    "charting.lineWidth": "2",
+    "refresh.display": "progressbar",
+    "trellis.enabled": "0",
+    "trellis.scales.shared": "1",
+    "trellis.size": "medium",
+    "managerid": "searchAggregatorMiningProcessorTopSourcetype",
+    "el": $('#chartAggregatorMiningProcessorTopSourcetype')
+  }, {tokens: true, tokenNamespace: "submitted"}).render();
+
+    var tableAggregatorMiningProcessorTopSource = new TableElement({
+      "id": "tableAggregatorMiningProcessorTopSource",
+      "drilldown": "none",
+      "count": "5",
+      "refresh.display": "progressbar",
+      "managerid": "searchAggregatorMiningProcessorTopSource",
+      "el": $('#tableAggregatorMiningProcessorTopSource')
+    }, {tokens: true, tokenNamespace: "submitted"}).render();
+
+    var resultsLinktableAggregatorMiningProcessorTopSource = new ResultsLinkView({
+      id: "resultsLinktableAggregatorMiningProcessorTopSource",
+      managerid: "searchAggregatorMiningProcessorTopSource",
+      "link.exportResults.visible": false,
+      el: $("#resultsLinktableAggregatorMiningProcessorTopSource"),
+    });
+  
+    resultsLinktableAggregatorMiningProcessorTopSource
+      .render()
+      .$el.appendTo($("resultsLinktableAggregatorMiningProcessorTopSource"));  
+
+    var tableAggregatorMiningProcessorTopHost = new TableElement({
+      "id": "tableAggregatorMiningProcessorTopHost",
+      "drilldown": "none",
+      "count": "5",
+      "refresh.display": "progressbar",
+      "managerid": "searchAggregatorMiningProcessorTopHost",
+      "el": $('#tableAggregatorMiningProcessorTopHost')
+    }, {tokens: true, tokenNamespace: "submitted"}).render();
+
+    var resultsLinktableAggregatorMiningProcessorTopHost = new ResultsLinkView({
+      id: "resultsLinktableAggregatorMiningProcessorTopHost",
+      managerid: "searchAggregatorMiningProcessorTopHost",
+      "link.exportResults.visible": false,
+      el: $("#resultsLinktableAggregatorMiningProcessorTopHost"),
+    });
+  
+    resultsLinktableAggregatorMiningProcessorTopHost
+      .render()
+      .$el.appendTo($("resultsLinktableAggregatorMiningProcessorTopHost"));
+
+    var tableAggregatorMiningProcessorTopSourcetype = new TableElement({
+      "id": "tableAggregatorMiningProcessorTopSourcetype",
+      "drilldown": "none",
+      "count": "5",
+      "refresh.display": "progressbar",
+      "managerid": "searchAggregatorMiningProcessorTopSourcetype",
+      "el": $('#tableAggregatorMiningProcessorTopSourcetype')
+    }, {tokens: true, tokenNamespace: "submitted"}).render();
+
+    var resultsLinktableAggregatorMiningProcessorTopSourcetype = new ResultsLinkView({
+      id: "resultsLinktableAggregatorMiningProcessorTopSourcetype",
+      managerid: "searchAggregatorMiningProcessorTopSourcetype",
+      "link.exportResults.visible": false,
+      el: $("#resultsLinktableAggregatorMiningProcessorTopSourcetype"),
+    });
+  
+    resultsLinktableAggregatorMiningProcessorTopSourcetype
+      .render()
+      .$el.appendTo($("resultsLinktableAggregatorMiningProcessorTopSourcetype"));
+
+    var chartDateParserVerboseTopSource = new ChartView({
+      "id": "chartDateParserVerboseTopSource",
+      "resizable": true,
+      "charting.axisLabelsX.majorLabelStyle.overflowMode": "ellipsisNone",
+      "charting.axisLabelsX.majorLabelStyle.rotation": "0",
+      "charting.axisTitleX.visibility": "visible",
+      "charting.axisTitleY.visibility": "visible",
+      "charting.axisTitleY2.visibility": "visible",
+      "charting.axisX.abbreviation": "none",
+      "charting.axisX.scale": "linear",
+      "charting.axisY.abbreviation": "none",
+      "charting.axisY.scale": "linear",
+      "charting.axisY2.abbreviation": "none",
+      "charting.axisY2.enabled": "0",
+      "charting.axisY2.scale": "inherit",
+      "charting.chart": "pie",
+      "charting.chart.bubbleMaximumSize": "50",
+      "charting.chart.bubbleMinimumSize": "10",
+      "charting.chart.bubbleSizeBy": "area",
+      "charting.chart.nullValueMode": "gaps",
+      "charting.chart.showDataLabels": "none",
+      "charting.chart.sliceCollapsingThreshold": "0.01",
+      "charting.chart.stackMode": "default",
+      "charting.chart.style": "shiny",
+      "charting.drilldown": "all",
+      "charting.layout.splitSeries": "0",
+      "charting.layout.splitSeries.allowIndependentYRanges": "0",
+      "charting.legend.labelStyle.overflowMode": "ellipsisMiddle",
+      "charting.legend.mode": "standard",
+      "charting.legend.placement": "right",
+      "charting.lineWidth": "2",
+      "refresh.display": "progressbar",
+      "trellis.enabled": "0",
+      "trellis.scales.shared": "1",
+      "trellis.size": "medium",
+      "managerid": "searchDateParserVerboseTopSource",
+      "el": $('#chartDateParserVerboseTopSource')
+  }, {tokens: true, tokenNamespace: "submitted"}).render();
+
+  var tableDateParserVerboseTopSource = new TableElement({
+      "id": "tableDateParserVerboseTopSource",
+      "drilldown": "all",
+      "count": "5",
+      "refresh.display": "progressbar",
+      "managerid": "searchDateParserVerboseTopSource",
+      "el": $('#tableDateParserVerboseTopSource')
+  }, {tokens: true, tokenNamespace: "submitted"}).render();
+
+  var resultsLinktableDateParserVerboseTopSource = new ResultsLinkView({
+    id: "resultsLinktableDateParserVerboseTopSource",
+    managerid: "searchDateParserVerboseTopSource",
+    "link.exportResults.visible": false,
+    el: $("#resultsLinktableDateParserVerboseTopSource"),
+  });
+
+  resultsLinktableDateParserVerboseTopSource
+    .render()
+    .$el.appendTo($("resultsLinktableDateParserVerboseTopSource"));
+
+  var chartDateParserVerboseTopHost = new ChartView({
+      "id": "chartDateParserVerboseTopHost",
+      "resizable": true,
+      "charting.axisLabelsX.majorLabelStyle.overflowMode": "ellipsisNone",
+      "charting.axisLabelsX.majorLabelStyle.rotation": "0",
+      "charting.axisTitleX.visibility": "visible",
+      "charting.axisTitleY.visibility": "visible",
+      "charting.axisTitleY2.visibility": "visible",
+      "charting.axisX.abbreviation": "none",
+      "charting.axisX.scale": "linear",
+      "charting.axisY.abbreviation": "none",
+      "charting.axisY.scale": "linear",
+      "charting.axisY2.abbreviation": "none",
+      "charting.axisY2.enabled": "0",
+      "charting.axisY2.scale": "inherit",
+      "charting.chart": "pie",
+      "charting.chart.bubbleMaximumSize": "50",
+      "charting.chart.bubbleMinimumSize": "10",
+      "charting.chart.bubbleSizeBy": "area",
+      "charting.chart.nullValueMode": "gaps",
+      "charting.chart.showDataLabels": "none",
+      "charting.chart.sliceCollapsingThreshold": "0.01",
+      "charting.chart.stackMode": "default",
+      "charting.chart.style": "shiny",
+      "charting.drilldown": "all",
+      "charting.layout.splitSeries": "0",
+      "charting.layout.splitSeries.allowIndependentYRanges": "0",
+      "charting.legend.labelStyle.overflowMode": "ellipsisMiddle",
+      "charting.legend.mode": "standard",
+      "charting.legend.placement": "right",
+      "charting.lineWidth": "2",
+      "refresh.display": "progressbar",
+      "trellis.enabled": "0",
+      "trellis.scales.shared": "1",
+      "trellis.size": "medium",
+      "managerid": "searchDateParserVerboseTopHost",
+      "el": $('#chartDateParserVerboseTopHost')
+  }, {tokens: true, tokenNamespace: "submitted"}).render();
+
+  var tableDateParserVerboseTopHost = new TableElement({
+      "id": "tableDateParserVerboseTopHost",
+      "drilldown": "all",
+      "count": "5",
+      "refresh.display": "progressbar",
+      "managerid": "searchDateParserVerboseTopHost",
+      "el": $('#tableDateParserVerboseTopHost')
+  }, {tokens: true, tokenNamespace: "submitted"}).render();
+
+  var resultsLinktableDateParserVerboseTopHost = new ResultsLinkView({
+    id: "resultsLinktableDateParserVerboseTopHost",
+    managerid: "searchDateParserVerboseTopHost",
+    "link.exportResults.visible": false,
+    el: $("#resultsLinktableDateParserVerboseTopHost"),
+  });
+
+  resultsLinktableDateParserVerboseTopHost
+    .render()
+    .$el.appendTo($("resultsLinktableDateParserVerboseTopHost"));
+
+  var chartDateParserVerboseTopSourcetype = new ChartView({
+      "id": "chartDateParserVerboseTopSourcetype",
+      "resizable": true,
+      "charting.axisLabelsX.majorLabelStyle.overflowMode": "ellipsisNone",
+      "charting.axisLabelsX.majorLabelStyle.rotation": "0",
+      "charting.axisTitleX.visibility": "visible",
+      "charting.axisTitleY.visibility": "visible",
+      "charting.axisTitleY2.visibility": "visible",
+      "charting.axisX.abbreviation": "none",
+      "charting.axisX.scale": "linear",
+      "charting.axisY.abbreviation": "none",
+      "charting.axisY.scale": "linear",
+      "charting.axisY2.abbreviation": "none",
+      "charting.axisY2.enabled": "0",
+      "charting.axisY2.scale": "inherit",
+      "charting.chart": "pie",
+      "charting.chart.bubbleMaximumSize": "50",
+      "charting.chart.bubbleMinimumSize": "10",
+      "charting.chart.bubbleSizeBy": "area",
+      "charting.chart.nullValueMode": "gaps",
+      "charting.chart.showDataLabels": "none",
+      "charting.chart.sliceCollapsingThreshold": "0.01",
+      "charting.chart.stackMode": "default",
+      "charting.chart.style": "shiny",
+      "charting.drilldown": "all",
+      "charting.layout.splitSeries": "0",
+      "charting.layout.splitSeries.allowIndependentYRanges": "0",
+      "charting.legend.labelStyle.overflowMode": "ellipsisMiddle",
+      "charting.legend.mode": "standard",
+      "charting.legend.placement": "right",
+      "charting.lineWidth": "2",
+      "refresh.display": "progressbar",
+      "trellis.enabled": "0",
+      "trellis.scales.shared": "1",
+      "trellis.size": "medium",
+      "managerid": "searchDateParserVerboseTopSourcetype",
+      "el": $('#chartDateParserVerboseTopSourcetype')
+  }, {tokens: true, tokenNamespace: "submitted"}).render();
+
+  var tableDateParserVerboseTopSourcetype = new TableElement({
+      "id": "tableDateParserVerboseTopSourcetype",
+      "drilldown": "all",
+      "count": "5",
+      "refresh.display": "progressbar",
+      "managerid": "searchDateParserVerboseTopSourcetype",
+      "el": $('#tableDateParserVerboseTopSourcetype')
+  }, {tokens: true, tokenNamespace: "submitted"}).render();
+
+  var resultsLinktableDateParserVerboseTopSourcetype = new ResultsLinkView({
+    id: "resultsLinktableDateParserVerboseTopSourcetype",
+    managerid: "searchDateParserVerboseTopSourcetype",
+    "link.exportResults.visible": false,
+    el: $("#resultsLinktableDateParserVerboseTopSourcetype"),
+  });
+
+  resultsLinktableDateParserVerboseTopSourcetype
+    .render()
+    .$el.appendTo($("resultsLinktableDateParserVerboseTopSourcetype"));
+
+  var EventLineBreakingProcessorEvent = new EventElement({
+    "id": "EventLineBreakingProcessorEvent",
+    "count": 5,
+    "list.drilldown": "all",
+    "raw.drilldown": "none",
+    "table.drilldown": "none",
+    "type": "raw",
+    "managerid": "searchLineBreakingProcessorEvent",
+    "el": $('#EventLineBreakingProcessorEvent')
+  }, {tokens: true, tokenNamespace: "submitted"}).render();
+
+  var resultsLinkEventLineBreakingProcessorEvent = new ResultsLinkView({
+    id: "resultsLinkEventLineBreakingProcessorEvent",
+    managerid: "searchLineBreakingProcessorEvent",
+    "link.exportResults.visible": false,
+    el: $("#resultsLinkEventLineBreakingProcessorEvent"),
+  });
+
+  resultsLinkEventLineBreakingProcessorEvent
+    .render()
+    .$el.appendTo($("resultsLinkEventLineBreakingProcessorEvent"));
+
+  var EventAggregatorMiningProcessorEvent = new EventElement({
+      "id": "EventAggregatorMiningProcessorEvent",
+      "count": 5,
+      "list.drilldown": "none",
+      "raw.drilldown": "none",
+      "table.drilldown": "none",
+      "type": "raw",
+      "managerid": "searchAggregatorMiningProcessorEvent",
+      "el": $('#EventAggregatorMiningProcessorEvent')
+  }, {tokens: true, tokenNamespace: "submitted"}).render();
+
+  var resultsLinkEventAggregatorMiningProcessorEvent = new ResultsLinkView({
+    id: "resultsLinkEventAggregatorMiningProcessorEvent",
+    managerid: "searchAggregatorMiningProcessorEvent",
+    "link.exportResults.visible": false,
+    el: $("#resultsLinkEventAggregatorMiningProcessorEvent"),
+  });
+
+  resultsLinkEventAggregatorMiningProcessorEvent
+    .render()
+    .$el.appendTo($("resultsLinkEventAggregatorMiningProcessorEvent"));
+
+  var EventDateParserVerboseEvent = new EventElement({
+      "id": "EventDateParserVerboseEvent",
+      "count": 5,
+      "list.drilldown": "none",
+      "raw.drilldown": "none",
+      "table.drilldown": "none",
+      "type": "raw",
+      "managerid": "searchDateParserVerboseEvent",
+      "el": $('#EventDateParserVerboseEvent')
+  }, {tokens: true, tokenNamespace: "submitted"}).render();
+
+  var resultsLinkEventDateParserVerboseEvent = new ResultsLinkView({
+    id: "resultsLinkEventDateParserVerboseEvent",
+    managerid: "searchDateParserVerboseEvent",
+    "link.exportResults.visible": false,
+    el: $("#resultsLinkEventDateParserVerboseEvent"),
+  });
+
+  resultsLinkEventDateParserVerboseEvent
+    .render()
+    .$el.appendTo($("resultsLinkEventDateParserVerboseEvent"));
 
   //
   // BEGIN OPERATIONS
