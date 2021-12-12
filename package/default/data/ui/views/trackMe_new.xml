@@ -126,6 +126,178 @@
     
 }
 
+/* img headers */
+
+.imgheader {
+    margin-top: 10px;
+    margin-bottom: 40px;
+}
+
+.imgheader img {
+    float: left;
+    width: 48px;
+    height: 48px;
+}
+
+.imgheader h1 {
+    color: lightslategrey;
+    text-align: left;
+    position: relative;
+    top: 9px;
+    left: 10px;
+}
+
+.imgheader h3 {
+    position: relative;
+    top: 14px;
+    left: -10px;
+}
+
+.imgheader {
+    margin-top: 10px;
+    margin-bottom: 40px;
+}
+
+.imgheader36 img {
+    float: left;
+    width: 36px;
+    height: 36px;
+}
+
+.imgheader36 h1 {
+    color: lightslategrey;
+    text-align: left;
+    position: relative;
+    top: 9px;
+    left: 10px;
+}
+
+.imgheader36 h3 {
+    position: relative;
+    top: 8px;
+    left: -10px;
+}
+
+.imgminiheader img {
+    position: relative;
+    top: -4px;
+}
+
+/* span titles */
+
+span.title_yellow {
+    background: #ffd700;
+    padding: 0.3em 1.5em;
+    font-weight: 600;
+    position: relative;
+    border-radius: 5px;
+    margin-left: 5px;
+}
+
+span.title_orange {
+    background: #ffb347;
+    padding: 0.3em 1.5em;
+    font-weight: 600;
+    position: relative;
+    border-radius: 5px;
+    margin-left: 5px;
+}
+
+span.title_blue {
+    background: #89cff0;
+    padding: 0.3em 1.5em;
+    font-weight: 600;
+    position: relative;
+    border-radius: 5px;
+    margin-left: 5px;
+}
+
+span.title_green {
+    background: #77dd77;
+    padding: 0.3em 1.5em;
+    font-weight: 600;
+    position: relative;
+    border-radius: 5px;
+    margin-left: 5px;
+}
+
+span.title_red {
+    background: #ff6961;
+    padding: 0.3em 1.5em;
+    font-weight: 600;
+    position: relative;
+    border-radius: 5px;
+    margin-left: 5px;
+}
+
+span.title_grey {
+    background: #808080;
+    padding: 0.3em 1.5em;
+    font-weight: 600;
+    position: relative;
+    border-radius: 5px;
+    margin-left: 5px;
+}
+
+span.title_low_priority {
+    background: #cce5ff;
+    padding: 0.3em 1.5em;
+    font-weight: 600;
+    position: relative;
+    border-radius: 5px;
+    margin-left: 5px;
+}
+
+span.title_medium_priority {
+    background: #7fbfff;
+    padding: 0.3em 1.5em;
+    font-weight: 600;
+    position: relative;
+    border-radius: 5px;
+    margin-left: 5px;
+}
+
+span.title_high_priority {
+    background: #3298ff;
+    padding: 0.3em 1.5em;
+    font-weight: 600;
+    position: relative;
+    border-radius: 5px;
+    margin-left: 5px;
+}
+
+.status_message_orange {
+    background-color: #ffd394;
+    margin: 30px 0;
+    padding: 10px;
+    border-radius: 3px 3px 3px 3px;
+    margin-bottom: 80px;
+}
+
+.status_message_blue {
+    background-color: #cfebf9;
+    margin: 30px 0;
+    padding: 10px;
+    border-radius: 3px 3px 3px 3px;
+    margin-bottom: 80px;
+}
+
+.status_message_green {
+    background-color: #b6edb6;
+    margin: 30px 0;
+    padding: 10px;
+    border-radius: 3px 3px 3px 3px;
+    margin-bottom: 80px;
+}
+
+.status_message_red {
+    background-color: #FFBABA;
+    margin: 30px 0;
+    padding: 10px;
+    border-radius: 3px 3px 3px 3px;
+    margin-bottom: 80px;
+}
+
 /*** Buttons ***/
 
         .btn {
@@ -3932,6 +4104,106 @@
                     </div>
                 </div>
 
+                <!-- Modal drilldown context for data sources -->
+                <div class="modal fade custom-modal-80" id="modal_manage" role="dialog">
+                    <div class="modal-dialog">
+                        <!-- Modal content-->
+                        <div class="modal-content">
+                            <!-- This is required to get the token substitutions without affecting the buttons actions in js -->
+                            <div>
+                                <div>
+                                    <div class="modal-header modal-header-info">                                    
+                                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                                        <h1>Actions for data source: $tk_data_name$</h1>                 
+                                    </div>
+
+                                    <div class="modal-body">
+
+                                        <style>
+                                            .parent-data-source-top-info {
+                                                display: grid;
+                                                grid-template-columns: repeat(3, 1fr);
+                                                grid-template-rows: 1fr;
+                                                grid-column-gap: 0px;
+                                                grid-row-gap: 0px;
+                                                line-height: 1.1;
+                                            }
+                                        </style>
+
+                                        <div class="parent-data-source-top-info">
+                                            <div>
+                                                <p><b>data_index:</b> $tk_data_index$</p>
+                                                <p><b>data_sourcetype:</b> $tk_data_sourcetype$</p>
+                                                <p><b>lag event / lag ingestion: ([D+]HH:MM:SS)</b> $tk_data_lag_summary$</p>
+                                                <p><b>data_last_time_seen:</b> $tk_data_last_time_seen_human$</p>
+                                            </div>
+                                            <div>
+                                                <p><b>data_last_ingest:</b> $tk_data_last_ingest_human$</p>
+                                                <p><b>data_max_lag_allowed:</b> $tk_data_max_lag_allowed$</p>
+                                                <p><b>data_monitored_state:</b> <span class="$tk_data_monitored_state_class$">$tk_data_monitored_state$</span></p>
+                                                <p><b>data_monitoring_level:</b> $tk_data_monitoring_level$</p>
+                                            </div>
+                                            <div>
+                                                <p><b>latest_flip_time:</b> $tk_latest_flip_time_human$</p>
+                                                <p><b>latest_flip_state:</b> $tk_latest_flip_state$</p>
+                                                <p><b>state:</b> <span class="$tk_data_source_state_class$">$tk_data_source_state$</span></p>
+                                                <p><b>priority:</b> <span class="$tk_priority_class$">$tk_priority$</span></p>
+                                            </div>
+                                        </div>
+
+                                        <div style="margin-left: 10px;">
+                                            <div class="imgheader">
+                                                <img style="float: left; margin: 0px 15px 15px 0px;" src="../../static/app/trackme/icons/identity_card.png"/>
+                                                <h3><span><a id="doc_link_data_source" data-toggle="modal" data-target="#$tk_doc_modal_target$">$tk_doc_link_main$</a>
+                                                    / 
+                                                    <a id="tags_data_source" data-toggle="modal" data-target="#$tk_tags_modal_target$">$tk_tags_link_main$</a>
+                                                    </span>
+                                                </h3>
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+                                </div>
+                            </div>
+
+                            <br />
+                            <br />
+                            <br />
+
+                            <div class="modal-footer">
+                                <div style="margin-right: 15px; float: left;">
+                                    <button type="submit" id="btn_refresh_data_source" role="button" class="btn btn-outline-primary pull-left"><span class="glyphicon glyphicon-remove"></span>Refresh</button>
+                                </div>
+                                <div style="margin-right: 15px; float: right;">
+                                    <button type="submit" class="btn btn-outline-secondary" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Close</button>
+                                </div>
+                                <div style="margin-right: 15px; float: right;">
+                                    <a class="btn btn-outline-primary" id="btn_search_data_source" target="_blank" href="search_data_source_url" role="button">Search</a>
+                                </div>
+                                <div style="margin-right: 15px; float: right;">
+                                    <button type="submit" id="btn_modify_data_source" role="button" class="btn btn-outline-primary"><span class="glyphicon glyphicon-remove"></span>Modify</button>
+                                </div>
+                                <div style="margin-right: 15px; float: right;">
+                                    <button type="submit" id="btn_delete_data_source" role="button" class="btn btn-outline-danger"><span class="glyphicon glyphicon-remove"></span>Delete</button>
+                                </div>
+                                <div style="margin-right: 15px; float: right;">
+                                    <button type="submit" id="btn_disable_monitoring" role="button" class="btn btn-outline-danger"><span class="glyphicon glyphicon-remove"></span>Disable</button>
+                                </div>
+                                <div style="margin-right: 15px; float: right;">
+                                    <button type="submit" id="btn_enable_monitoring" role="button" class="btn btn-outline-primary"><span class="glyphicon glyphicon-remove"></span>Enable</button>
+                                </div>
+                                <div class="btn_ack" style="margin-right: 15px; float: right;">
+                                    <button type="submit" id="btn_ack_data_source" role="button" class="btn btn-outline-primary"><span class="glyphicon glyphicon-remove"></span>Acknowledge alert</button>
+                                </div>
+                                <div class="btn_smart_status_data_source" style="margin-right: 15px; float: right;">
+                                    <button type="submit" id="btn_smart_status_data_source" role="button" class="btn btn-outline-primary"><span class="glyphicon glyphicon-remove"></span>Smart Status</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
         </html>
 
         <html>
@@ -5196,461 +5468,6 @@
 
                         </div>
 
-                    </div>
-                </div>
-
-                <!-- Modal drilldown context for Alerts -->
-                <div class="modal fade custom-modal-80" id="modal_manage" role="dialog">
-                    <div class="modal-dialog">
-                        <!-- Modal content-->
-                        <div class="modal-content">
-                            <!-- This is required to get the token substitutions without affecting the buttons actions in js -->
-                            <div>
-                                <div>
-                                    <div class="modal-header modal-header-primary">                                    
-                                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                                        <h1 style="color: white;">Actions for data source: $tk_data_name$</h1>                 
-                                    </div>
-
-                                    <div class="modal-body">
-
-                                        <div style="line-height: 1.1; margin-left: 20px;">
-                                            <div style="float:left;width:33%;">
-                                                <p><b>data_index:</b> $tk_data_index$</p>
-                                                <p><b>data_sourcetype:</b> $tk_data_sourcetype$</p>
-                                                <p><b>lag event / lag ingestion: ([D+]HH:MM:SS)</b> $tk_data_lag_summary$</p>
-                                                <p><b>data_last_time_seen:</b> $tk_data_last_time_seen_human$</p>
-                                            </div>
-                                            <div style="float:left;width:33%;">
-                                                <p><b>data_last_ingest:</b> $tk_data_last_ingest_human$</p>
-                                                <p><b>data_max_lag_allowed:</b> $tk_data_max_lag_allowed$</p>
-                                                <p><b>data_monitored_state:</b> <span class="$tk_data_monitored_state_class$">$tk_data_monitored_state$</span></p>
-                                                <p><b>data_monitoring_level:</b> $tk_data_monitoring_level$</p>
-                                            </div>
-                                            <div style="float:left;width:33%;">
-                                                <p><b>latest_flip_time:</b> $tk_latest_flip_time_human$</p>
-                                                <p><b>latest_flip_state:</b> $tk_latest_flip_state$</p>
-                                                <p><b>state:</b> <span class="$tk_data_source_state_class$">$tk_data_source_state$</span></p>
-                                                <p><b>priority:</b> <span class="$tk_priority_class$">$tk_priority$</span></p>
-                                            </div>
-                                        </div>
-
-                                        <div style="margin-left: 10px;">
-                                            <div class="imgheader">
-                                                <img style="float: left; margin: 0px 15px 15px 0px;" src="../../static/app/trackme/icons/identity_card.png"/>
-                                                <h3><span><a id="doc_link_data_source" data-toggle="modal" data-target="#$tk_doc_modal_target$">$tk_doc_link_main$</a>
-                                                    / 
-                                                    <a id="tags_data_source" data-toggle="modal" data-target="#$tk_tags_modal_target$">$tk_tags_link_main$</a>
-                                                    </span>
-                                                </h3>
-                                            </div>
-                                        </div>
-
-                                    </div>
-
-                                </div>
-                            </div>
-
-                            <br />
-                            <hr style="margin-top: -10px;"/>
-                            
-                            <div class="boxnotify" id="boxnotify-data-source">
-                            </div>
-
-                            <div style="margin-left: 15px; margin-top: -20px;">
-                                <div>
-                                    <div>
-                                        <div>
-                                            <div class="input input-linklist" id="inputLinkDataSource">
-                                                <label></label>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div>
-                                <div>
-                                    <div>
-                                        <div>
-                                            <div id="elementSingleLagPerc95">
-                                            </div>
-                                            <div id="elementSingleLagAvg">
-                                            </div>
-                                            <div id="elementSingleEventLag">
-                                            </div>
-                                            <div id="elementSingleSLApct">
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div data-depends="$show_data_source_overview$">
-                                <div>
-                                    <div>
-                                        <div style="margin-left: 30px;" class="fieldset">
-                                            <div class="input input-dropdown" id="inputDataSourceOverviewChartSeries">
-                                                <label></label>
-                                            </div>
-                                        </div>
-                                        <div>
-                                            <div id="elementChartLag">
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div data-depends="$show_data_source_outlier$">
-                                <div style="width: 100%; max-height: 350px;">
-                                    <div>
-                                        <div>
-                                            <div id="elementOutlier">
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div data-depends="$show_data_source_outlier$">
-                                <div style="width: 100%; max-height: 90px;">
-                                    <div>
-
-                                        <div>
-                                            <div id="elementOutlierTable">
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div data-depends="$show_data_source_outlier_configuration$">
-                                <div>
-                                    <div>
-
-                                        <div style="margin-left: 30px;" class="fieldset">
-                                            <div class="input input-dropdown" id="inputDataSourceConfigOutlierEnableOutlier">
-                                                <label>Enable Outlier Detection:</label>
-                                            </div>
-                                            <div class="input input-dropdown" id="inputDataSourceConfigOutlierAlertOnUpper">
-                                                <label>Enable alert on upper Outlier:</label>
-                                            </div>
-                                            <div class="input input-dropdown" id="inputDataSourceConfigOutlierOutlierMinEventCountMode">
-                                                <label>OutlierMinEventCount mode:</label>
-                                            </div>
-                                            <div style="max-width: 165px;" class="input input-text" id="inputDataSourceConfigOutlierOutlierMinEventCount">
-                                                <label>OutlierMinEventCount:</label>
-                                            </div>
-                                            <div style="max-width: 165px;" class="input input-text" id="inputDataSourceConfigOutlierOutlierLowerThresholdMultiplier">
-                                                <label>Lower threshold multiplier:</label>
-                                            </div>
-                                            <div style="max-width: 165px;" class="input input-text" id="inputDataSourceConfigOutlierOutlierUpperThresholdMultiplier">
-                                                <label>Upper threshold multiplier:</label>
-                                            </div>
-                                        </div>
-
-                                        <div style="margin-left: 42px; margin-right: 42px;">
-                                            <button type="submit" id="btn_outlier_config_data_source_save" role="button" style="margin-right: 15px;" class="btn btn-primary btn-default pull-right"><span class="glyphicon glyphicon-remove"></span>Save Outliers settings</button>
-                                            <button type="submit" id="btn_outlier_config_data_source_simulate" role="button" style="margin-right: 15px;" class="btn btn-primary btn-default pull-right"><span class="glyphicon glyphicon-remove"></span>Simulate Outliers settings</button>
-                                        </div>
-
-                                        <div class="boxnotify" id="boxnotify-data-source-outliers-update">
-                                        </div>
-
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div data-depends="$show_data_source_outlier_configuration$, $start_outliers_simulation_data_source$">
-                                <div style="width: 100%; max-height: 350px;">
-                                    <div>
-                                        <div>
-                                            <div id="elementOutlierSimulation">
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div data-depends="$show_data_quality$,$show_data_quality_no_results$">
-                                <div>
-                                    <div>
-                                        <div>
-                                            <div id="elementSearchDataSourceParsingQualitySingle">
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div data-depends="$show_data_sampling$">
-                                <div>
-                                    <div>
-
-                                        <div>
-                                            <div>
-                                                <div>
-                                                    <div class="$tk_data_sampling_status_message_class$">
-                                                        <h2 style="font-weight: bold;">$tk_data_sampling_status_message$</h2>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div>
-                                            <div>
-                                                <div>
-                                                    <div class="btn_data_sampling_manage" style="margin-left: 42px; margin-right: 42px;">
-                                                        <button id="btn_data_sampling_manage" type="submit" role="button" style="margin-right: 15px;" class="btn btn-outline-primary pull-right"><span class="glyphicon glyphicon-remove"></span>Manage data sampling</button>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div data-depends="$show_data_quality$,$show_data_quality_no_results$">
-                                <div>
-                                    <div>
-                                        <div>
-                                            <div>
-                                                <h3>CAUTION: Indexing time parsing errors happen on the sourcetype level, if this sourcetype is indexing to more than one index, these errors may not apply to this index / sourcetype combination</h3>
-                                            </div>
-                                            <div id="elementSearchDataSourceParsingQualityChart">
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div data-depends="$show_data_quality$" data-rejects="$show_data_quality_no_results$">
-                                <div>
-                                    <div>
-                                        <div>
-
-                                            <div>
-                                                <div>
-                                                    <div class="status_message_green">
-                                                        <h2 style="font-weight: bold;">No indexing parsing errors detected within the period</h2>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div data-depends="$show_data_source_lagging_metrics$">
-                                <div>
-                                    <div>
-                                        <div>
-                                            <div id="elementSingleLagByMetricsPerc95">
-                                            </div>
-                                            <div id="elementSingleLagByMetricsAvg">
-                                            </div>
-                                            <div id="elementSingleEventByMetricsLag">
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div data-depends="$show_data_source_lagging_metrics$">
-                                <div>
-                                    <div>
-                                        <div style="margin-left: 30px;" class="fieldset">
-                                            <div class="input input-dropdown" id="inputDataSourceOverviewMetricsChartSeries">
-                                                <label></label>
-                                            </div>
-                                        </div>
-                                        <div>
-                                            <div id="chartLaggingMetricDataSourceOverTime">
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div data-depends="$show_flipping_status$,$show_flipping_status_no_results$">
-                                <div>
-                                    <div>
-                                        <div>
-                                            <div id="chartAuditFlipDataSourceOverTime">
-                                                <div>
-                                                    <h3>Flip over time</h3>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div data-depends="$show_flipping_status$,$show_flipping_status_no_results$">
-                                <div>
-                                    <div>
-                                        <div>
-                                            <div id="elementMainTableAuditFlipDataSource">
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div data-depends="$show_flipping_status$" data-rejects="$show_flipping_status_no_results$">
-                                <div>
-                                    <div>
-                                        <div>
-                                            <div>
-                                                <div>
-                                                    <div class="status_message_green">
-                                                        <h2 style="font-weight: bold;">No flipping status detected within the period</h2>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div data-depends="$show_data_source_status_message$">
-                                <div>
-                                    <div>
-                                        <div>
-                                            <div>
-                                                <div>
-                                                    <div class="$tk_data_source_status_message_class$">
-                                                        <h2 style="font-weight: bold;">$tk_status_message$</h2>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div style="margin-top: -80px; max-height: 200px !important">
-                                            <div>
-                                                <div>
-                                                    <div>
-                                                        <div id="TimelineDataSource">
-                                                            <div>
-                                                                <h3>Last 7 days timeline</h3>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div data-depends="$show_data_source_audit_changes$,$show_data_source_audit_changes_no_results$">
-                                <div>
-                                    <div>
-                                        <div>
-                                            <div id="chartAuditChangesDataSourceOverTime">
-                                                <div>
-                                                    <h3>Changes over time</h3>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div data-depends="$show_data_source_audit_changes$,$show_data_source_audit_changes_no_results$">
-                                <div>
-                                    <div>
-                                        <div>
-                                            <div id="elementMainTableAuditChangesDataSource">
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div data-depends="$show_data_source_audit_changes$" data-rejects="$show_data_source_audit_changes_no_results$">
-                                <div>
-                                    <div>
-                                        <div>
-                                            <div>
-                                                <div>
-                                                    <div class="status_message_green">
-                                                        <h2 style="font-weight: bold;">No audit changes detected within the period</h2>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div style="margin-left: 15px;" data-rejects="$show_data_source_status_message$,$show_data_source_outlier_configuration$">
-                                <div style="width: 100%;">
-                                    <div>
-                                        <div>
-                                            <div class="input input-linklist" id="inputLinkTime">
-                                                <label></label>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div style="margin-left: 15px;" data-depends="$show_data_source_outlier_configuration$">
-                                <div style="width: 50%;">
-                                    <div>
-                                        <div class="fieldset">
-                                            <div class="input input-linklist" id="LinkTimeOutlierConfigurationDataSource">
-                                                <label>Select the time period for outliers detection, this period will be saved and used to restrict the calculations</label>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div style="width: 50%;">
-                                    <div>
-                                        <div class="fieldset">
-                                            <div class="input input-linklist" id="LinkTimeOutlierConfigurationDataSourceSpan">
-                                                <label>Select the span for outliers rendering, this value will be saved and used for rendering purposes</label>
-                                            </div>
-
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="modal-footer">
-                                <div style="margin-right: 15px; float: left;">
-                                    <button type="submit" id="btn_refresh_data_source" role="button" class="btn btn-primary btn-default pull-left"><span class="glyphicon glyphicon-remove"></span>Refresh</button>
-                                </div>
-                                <div style="margin-right: 15px; float: right;">
-                                    <button type="submit" class="btn btn-outline-primary" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Close</button>
-                                </div>
-                                <div style="margin-right: 15px; float: right;">
-                                    <a class="btn btn-primary" id="btn_search_data_source" target="_blank" href="search_data_source_url" role="button">Search</a>
-                                </div>
-                                <div style="margin-right: 15px; float: right;">
-                                    <button type="submit" id="btn_modify_data_source" role="button" class="btn btn-primary btn-default"><span class="glyphicon glyphicon-remove"></span>Modify</button>
-                                </div>
-                                <div style="margin-right: 15px; float: right;">
-                                    <button type="submit" id="btn_delete_data_source" role="button" class="btn btn-outline-danger"><span class="glyphicon glyphicon-remove"></span>Delete</button>
-                                </div>
-                                <div style="margin-right: 15px; float: right;">
-                                    <button type="submit" id="btn_disable_monitoring" role="button" class="btn btn-outline-danger"><span class="glyphicon glyphicon-remove"></span>Disable</button>
-                                </div>
-                                <div style="margin-right: 15px; float: right;">
-                                    <button type="submit" id="btn_enable_monitoring" role="button" class="btn btn-primary btn-default"><span class="glyphicon glyphicon-remove"></span>Enable</button>
-                                </div>
-                                <div class="btn_ack" style="margin-right: 15px; float: right;">
-                                    <button type="submit" id="btn_ack_data_source" role="button" class="btn btn-primary btn-default"><span class="glyphicon glyphicon-remove"></span>Acknowledge alert</button>
-                                </div>
-                                <div class="btn_smart_status_data_source" style="margin-right: 15px; float: right;">
-                                    <button type="submit" id="btn_smart_status_data_source" role="button" class="btn btn-primary btn-default"><span class="glyphicon glyphicon-remove"></span>Smart Status</button>
-                                </div>
-                            </div>
-                        </div>
                     </div>
                 </div>
 
