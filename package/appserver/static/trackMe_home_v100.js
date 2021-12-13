@@ -3220,8 +3220,7 @@ require([
       runWhenTimeIsUndefined: false,
     },
     {
-      tokens: true,
-      tokenNamespace: "submitted",
+      tokens: true
     }
   );
 
@@ -3618,8 +3617,7 @@ require([
       runWhenTimeIsUndefined: false,
     },
     {
-      tokens: true,
-      tokenNamespace: "submitted",
+      tokens: true
     }
   );
 
@@ -3631,8 +3629,7 @@ require([
       id: "searchSingleLagPerc95",
     },
     {
-      tokens: true,
-      tokenNamespace: "submitted",
+      tokens: true
     }
   );
 
@@ -3644,8 +3641,7 @@ require([
       id: "searchSingleLagAvg",
     },
     {
-      tokens: true,
-      tokenNamespace: "submitted",
+      tokens: true
     }
   );
 
@@ -3657,8 +3653,7 @@ require([
       id: "searchSingleEventLag",
     },
     {
-      tokens: true,
-      tokenNamespace: "submitted",
+      tokens: true
     }
   );
 
@@ -3667,7 +3662,7 @@ require([
       tokenDependencies: {
         depends: "$show_data_source_tracker$",
       },
-      search: "`trackme_get_sla_pct_per_entity(data_source,$tk_data_name$)`",
+      search: "`trackme_get_sla_pct_per_entity_key(data_source,$tk_keyid$)`",
       id: "searchSingleSLApct",
       sample_ratio: 1,
       status_buckets: 0,
@@ -3679,8 +3674,7 @@ require([
       preview: true,
     },
     {
-      tokens: true,
-      tokenNamespace: "submitted",
+      tokens: true
     }
   );
 
@@ -3703,8 +3697,7 @@ require([
       runWhenTimeIsUndefined: false,
     },
     {
-      tokens: true,
-      tokenNamespace: "submitted",
+      tokens: true
     }
   );
 
@@ -3716,8 +3709,7 @@ require([
       id: "searchSingleLagByMetricsPerc95",
     },
     {
-      tokens: true,
-      tokenNamespace: "submitted",
+      tokens: true
     }
   );
 
@@ -3729,8 +3721,7 @@ require([
       id: "searchSingleLagByMetricsAvg",
     },
     {
-      tokens: true,
-      tokenNamespace: "submitted",
+      tokens: true
     }
   );
 
@@ -3742,8 +3733,7 @@ require([
       id: "searchSingleEventByMetricsLag",
     },
     {
-      tokens: true,
-      tokenNamespace: "submitted",
+      tokens: true
     }
   );
 
@@ -6704,9 +6694,453 @@ require([
       // pre-fill alert over kpis
       tokens.set("form.tk_input_data_lag_alert_kpis", e.data["row.data_lag_alert_kpis"]);
 
+      // Get earliest / latest to be recycled in some use cases
+      var tk_earliest = tokens.get("modalTime.earliest");
+      var tk_latest = tokens.get("modalTime.latest");
 
+      // Manage root search for overview, conditionally define the query depending on the search
+      var tk_elastic_source_search_mode = e.data["row.tk_elastic_source_search_mode"];
+      var tk_elastic_source_search_constraint = e.data["row.tk_elastic_source_search_constraint"];
+      var tk_elastic_source_from_part1 = e.data["row.tk_elastic_source_from_part1"];
+      var tk_elastic_source_from_part2 = e.data["row.tk_elastic_source_from_part2"];
+      var tk_elastic_mstats_idx = e.data["row.tk_elastic_mstats_idx"];
+      var tk_elastic_mstats_filters = e.data["row.tk_elastic_mstats_filters"];
 
+      // Handle regular data sources and additional integration modes
+      if (tk_elastic_source_search_mode == "null") {
+        // cribl integration
+        if (/\|cribl:/i.test(tk_data_name)) {
+          // Extract the cribl_pipe value
+          cribl_pipe_matches = tk_data_name.match(/\|cribl:(.*)/);
+          cribl_pipe = cribl_pipe_matches[1];
 
+          // create a token for the cribl_pipe
+          setToken(
+            "tk_cribl_pipe",
+            TokenUtils.replaceTokenNames(
+              cribl_pipe,
+              _.extend(submittedTokenModel.toJSON(), e.data)
+            )
+          );
+
+          // define the root search
+          tk_data_source_overview_root_search =
+            '| `trackme_tstats` dc(host) as dcount_host count latest(_indextime) as indextime max(_time) as maxtime where index="' +
+            tk_data_index +
+            '" sourcetype="' +
+            tk_data_sourcetype +
+            '" cribl_pipe::' +
+            cribl_pipe +
+            " `trackme_tstats_main_filter` by _time, index, sourcetype span=1s | eval delta=(indextime-_time), event_lag=(now() - maxtime)";
+          tk_data_source_raw_search = "null";
+          setToken(
+            "tk_data_source_timechart_count_aggreg",
+            TokenUtils.replaceTokenNames(
+              "sum",
+              _.extend(submittedTokenModel.toJSON(), e.data)
+            )
+          );
+        }
+
+        // split by custom mode
+        else if (/\|key:/i.test(tk_data_name)) {
+          regex_matches = tk_data_name.match(/\|key:([^\|]+)\|(.*)/);
+          keyName = regex_matches[1];
+          keyValue = regex_matches[2];
+          tk_data_source_overview_root_search =
+            '| `trackme_tstats` dc(host) as dcount_host count latest(_indextime) as indextime max(_time) as maxtime where index="' +
+            tk_data_index +
+            '" sourcetype="' +
+            tk_data_sourcetype +
+            '" ' +
+            keyName +
+            '="' +
+            keyValue +
+            '" `trackme_tstats_main_filter` by _time, index, sourcetype, source span=1s | eval delta=(indextime-_time), event_lag=(now() - maxtime)';
+          tk_data_source_raw_search = "null";
+          setToken(
+            "tk_data_source_timechart_count_aggreg",
+            TokenUtils.replaceTokenNames(
+              "sum",
+              _.extend(submittedTokenModel.toJSON(), e.data)
+            )
+          );
+        }
+
+        // standard mode
+        else {
+          tk_data_source_overview_root_search =
+            '| `trackme_tstats` dc(host) as dcount_host count latest(_indextime) as indextime max(_time) as maxtime where index="' +
+            tk_data_index +
+            '" sourcetype="' +
+            tk_data_sourcetype +
+            '" `trackme_tstats_main_filter` by _time, index, sourcetype span=1s | eval delta=(indextime-_time), event_lag=(now() - maxtime)';
+          tk_data_source_raw_search = "null";
+          setToken(
+            "tk_data_source_timechart_count_aggreg",
+            TokenUtils.replaceTokenNames(
+              "sum",
+              _.extend(submittedTokenModel.toJSON(), e.data)
+            )
+          );
+        }
+      } else if (tk_elastic_source_search_mode == "tstats") {
+        tk_data_source_overview_root_search =
+          "| `trackme_tstats` dc(host) as dcount_host count latest(_indextime) as indextime max(_time) as maxtime where " +
+          tk_elastic_source_search_constraint +
+          " by _time, index, sourcetype span=1s | eval delta=(indextime-_time), event_lag=(now() - maxtime)";
+        tk_data_source_raw_search =
+          "?q=search%20" + encodeURI(tk_elastic_source_search_constraint);
+        setToken(
+          "tk_data_source_timechart_count_aggreg",
+          TokenUtils.replaceTokenNames(
+            "sum",
+            _.extend(submittedTokenModel.toJSON(), e.data)
+          )
+        );
+      } else if (tk_elastic_source_search_mode == "raw") {
+        tk_data_source_overview_root_search =
+          tk_elastic_source_search_constraint +
+          " | eval delta=(_indextime-_time), event_lag=(now() - _time) | bucket _time span=1s | stats count, avg(delta) as delta, latest(event_lag) as event_lag, dc(host) as dcount_host by _time";
+        tk_data_source_raw_search =
+          "?q=search%20" + encodeURI(tk_elastic_source_search_constraint);
+        setToken(
+          "tk_data_source_timechart_count_aggreg",
+          TokenUtils.replaceTokenNames(
+            "sum",
+            _.extend(submittedTokenModel.toJSON(), e.data)
+          )
+        );
+      } else if (
+        tk_elastic_source_search_mode == "from" &&
+        tk_elastic_source_from_part1 != "null" &&
+        tk_elastic_source_from_part2 != "null"
+      ) {
+        if (/datamodel:/i.test(tk_elastic_source_search_constraint)) {
+          // rest search needs special handling
+          tk_data_source_overview_root_search =
+            "| " +
+            tk_elastic_source_search_mode +
+            " " +
+            tk_elastic_source_from_part1 +
+            " | " +
+            tk_elastic_source_from_part2 +
+            " | eventstats max(_time) as maxtime | eval delta=(_indextime-_time), event_lag=(now() - maxtime) | bucket _time span=1s | stats count, avg(delta) as delta, latest(event_lag) as event_lag, dc(host) as dcount_host by _time";
+          setToken(
+            "tk_data_source_timechart_count_aggreg",
+            TokenUtils.replaceTokenNames(
+              "sum",
+              _.extend(submittedTokenModel.toJSON(), e.data)
+            )
+          );
+        } else if (/lookup:/i.test(tk_elastic_source_search_constraint)) {
+          // rest search needs special handling
+          tk_data_source_overview_root_search =
+            '| mstats latest(_value) as value where `trackme_metrics_idx` (metric_name=trackme.eventcount_4h OR metric_name=trackme.lag_event_sec OR metric_name=trackme.hostcount_4h) object_category="data_source" object="' +
+            tk_data_name +
+            '" by metric_name span=5m | eval {metric_name}=value | stats first(trackme.eventcount_4h) as count, first(trackme.lag_event_sec) as delta, max(trackme.hostcount_4h) as dcount_host by _time | eval event_lag=delta';
+          setToken(
+            "tk_data_source_timechart_count_aggreg",
+            TokenUtils.replaceTokenNames(
+              "latest",
+              _.extend(submittedTokenModel.toJSON(), e.data)
+            )
+          );
+        }
+
+        tk_data_source_raw_search =
+          "?q=" +
+          encodeURI("| ") +
+          encodeURI(tk_elastic_source_search_mode) +
+          " " +
+          encodeURI(tk_elastic_source_from_part1) +
+          encodeURI(" | ") +
+          encodeURI(tk_elastic_source_from_part2);
+      } else if (
+        tk_elastic_source_search_mode == "rest_from" &&
+        tk_elastic_source_from_part1 != "null" &&
+        tk_elastic_source_from_part2 != "null"
+      ) {
+        // rest seach requires escaping
+        tk_elastic_source_from_part2 = tk_elastic_source_from_part2.replace(
+          /\"/g,
+          '\\"'
+        );
+
+        if (/datamodel:/i.test(tk_elastic_source_search_constraint)) {
+          // rest search needs special handling
+          tk_data_source_overview_root_search =
+            "| rest " +
+            tk_elastic_source_from_part1 +
+            ' /servicesNS/admin/search/search/jobs/export search="' +
+            "| from " +
+            tk_elastic_source_from_part2 +
+            "| eventstats max(_time) as maxtime | eval delta=(_indextime-_time), event_lag=(now() - maxtime) | bucket _time span=1s | stats count, avg(delta) as delta, latest(event_lag) as event_lag, dc(host) as dcount_host by _time" +
+            ' | eval data_name=\\"' +
+            tk_data_name +
+            '\\", data_index=\\"' +
+            tk_data_index +
+            '\\", data_sourcetype=\\"' +
+            tk_data_sourcetype +
+            '\\", data_last_ingestion_lag_seen=data_last_ingest-data_last_time_seen"' +
+            ' output_mode="csv"' +
+            ' earliest_time="' +
+            tk_earliest +
+            '"' +
+            ' latest_time="' +
+            tk_latest +
+            '"' +
+            "| head 1 | table value | restextractforstats" +
+            ' | eval _time=strptime(_time, "%Y-%m-%d %H:%M:%S.%3N %Z")';
+          tk_data_source_raw_search =
+            "?q=" +
+            encodeURI(
+              "| rest " +
+                tk_elastic_source_from_part1 +
+                ' /servicesNS/admin/search/search/jobs/export search="' +
+                "| from " +
+                tk_elastic_source_from_part2 +
+                '| head 100 | fields _time _raw"' +
+                ' output_mode="csv"' +
+                ' earliest_time="' +
+                tk_earliest +
+                '"' +
+                ' latest_time="' +
+                tk_latest +
+                '"' +
+                " | head 1 | table value | restextractraw" +
+                ' | eval _time=strptime(_time, "%Y-%m-%d %H:%M:%S.%3N %Z")'
+            );
+          setToken(
+            "tk_data_source_timechart_count_aggreg",
+            TokenUtils.replaceTokenNames(
+              "sum",
+              _.extend(submittedTokenModel.toJSON(), e.data)
+            )
+          );
+        } else if (/lookup:/i.test(tk_elastic_source_search_constraint)) {
+          // rest search needs special handling
+          tk_data_source_overview_root_search =
+            '| mstats latest(_value) as value where `trackme_metrics_idx` (metric_name=trackme.eventcount_4h OR metric_name=trackme.lag_event_sec OR metric_name=trackme.hostcount_4h) object_category="data_source" object="' +
+            tk_data_name +
+            '" by metric_name span=5m | eval {metric_name}=value | stats first(trackme.eventcount_4h) as count, first(trackme.lag_event_sec) as delta, max(trackme.hostcount_4h) as dcount_host by _time | eval event_lag=delta';
+          tk_data_source_raw_search =
+            "?q=" +
+            encodeURI(
+              "| rest " +
+                tk_elastic_source_from_part1 +
+                ' /servicesNS/admin/search/search/jobs/export search="' +
+                "| from " +
+                tk_elastic_source_from_part2 +
+                "| head 100" +
+                '" output_mode="csv"' +
+                "| head 1"
+            );
+          setToken(
+            "tk_data_source_timechart_count_aggreg",
+            TokenUtils.replaceTokenNames(
+              "latest",
+              _.extend(submittedTokenModel.toJSON(), e.data)
+            )
+          );
+        }
+      } else if (
+        tk_elastic_source_search_mode == "mstats" &&
+        tk_elastic_mstats_filters != "null"
+      ) {
+        tk_data_source_overview_root_search =
+          '| mstats latest(_value) as value where `trackme_metrics_idx` (metric_name=trackme.eventcount_4h OR metric_name=trackme.lag_event_sec OR metric_name=trackme.hostcount_4h) object_category="data_source" object="' +
+          tk_data_name +
+          '" by metric_name span=5m | eval {metric_name}=value | stats first(trackme.eventcount_4h) as count, first(trackme.lag_event_sec) as delta, max(trackme.hostcount_4h) as dcount_host by _time | eval event_lag=delta';
+        if (tk_elastic_mstats_idx == "null") {
+          tk_data_source_raw_search =
+            "?q=" +
+            encodeURI("| msearch ") +
+            encodeURI("index=*") +
+            " " +
+            encodeURI('filter="' + tk_elastic_mstats_filters + '"') +
+            encodeURI(' earliest="-5m" latest=now');
+        } else {
+          tk_data_source_raw_search =
+            "?q=" +
+            encodeURI("| msearch ") +
+            encodeURI(tk_elastic_mstats_idx) +
+            " " +
+            encodeURI('filter="' + tk_elastic_mstats_filters + '"') +
+            encodeURI(' earliest="-5m" latest=now');
+        }
+        setToken(
+          "tk_data_source_timechart_count_aggreg",
+          TokenUtils.replaceTokenNames(
+            "latest",
+            _.extend(submittedTokenModel.toJSON(), e.data)
+          )
+        );
+      }
+
+      // tstats over rest
+      else if (
+        tk_elastic_source_search_mode == "rest_tstats" &&
+        tk_elastic_source_from_part1 != "null" &&
+        tk_elastic_source_from_part2 != "null"
+      ) {
+        // rest seach requires escaping
+        tk_elastic_source_from_part2 = tk_elastic_source_from_part2.replace(
+          /\"/g,
+          '\\"'
+        );
+        // rest search needs special handling
+        tk_data_source_overview_root_search =
+          "| rest count=0 " +
+          tk_elastic_source_from_part1 +
+          ' /servicesNS/admin/search/search/jobs/export search="' +
+          "| tstats dc(host) as dcount_host count latest(_indextime) as indextime max(_time) as maxtime where " +
+          tk_elastic_source_from_part2 +
+          ' by _time, index, sourcetype span=1s | eval delta=(indextime-_time), event_lag=(now() - maxtime) | fields _time count delta event_lag dcount_host"' +
+          ' output_mode="csv"' +
+          ' earliest_time="' +
+          tk_earliest +
+          '"' +
+          ' latest_time="' +
+          tk_latest +
+          '"' +
+          " | table value | restextractforstats" +
+          ' | eval _time=strptime(_time, "%Y-%m-%d %H:%M:%S.%3N %Z")';
+        tk_data_source_raw_search =
+          "?q=" +
+          encodeURI(
+            "| rest count=0 " +
+              tk_elastic_source_from_part1 +
+              ' /servicesNS/admin/search/search/jobs/export search="' +
+              "search " +
+              tk_elastic_source_from_part2 +
+              ' | head 100 | fields _time _raw"' +
+              ' output_mode="csv"' +
+              ' earliest_time="' +
+              tk_earliest +
+              '"' +
+              ' latest_time="' +
+              tk_latest +
+              '"' +
+              " | head 1 | table value | restextractraw" +
+              ' | eval _time=strptime(_time, "%Y-%m-%d %H:%M:%S.%3N %Z")'
+          );
+        setToken(
+          "tk_data_source_timechart_count_aggreg",
+          TokenUtils.replaceTokenNames(
+            "sum",
+            _.extend(submittedTokenModel.toJSON(), e.data)
+          )
+        );
+      }
+
+      // raw over rest
+      else if (
+        tk_elastic_source_search_mode == "rest_raw" &&
+        tk_elastic_source_from_part1 != "null" &&
+        tk_elastic_source_from_part2 != "null"
+      ) {
+        // rest seach requires escaping
+        tk_elastic_source_from_part2 = tk_elastic_source_from_part2.replace(
+          /\"/g,
+          '\\"'
+        );
+        // rest search needs special handling
+        tk_data_source_overview_root_search =
+          "| rest count=0 " +
+          tk_elastic_source_from_part1 +
+          ' /servicesNS/admin/search/search/jobs/export search="' +
+          "search " +
+          tk_elastic_source_from_part2 +
+          ' | eval delta=(_indextime-_time), event_lag=(now() - _time) | bucket _time span=1s | stats count, avg(delta) as delta, latest(event_lag) as event_lag, dc(host) as dcount_host by _time"' +
+          ' output_mode="csv"' +
+          ' earliest_time="' +
+          tk_earliest +
+          '"' +
+          ' latest_time="' +
+          tk_latest +
+          '"' +
+          " | table value | restextractforstats" +
+          ' | eval _time=strptime(_time, "%Y-%m-%d %H:%M:%S.%3N %Z")';
+        tk_data_source_raw_search =
+          "?q=" +
+          encodeURI(
+            "| rest count=0 " +
+              tk_elastic_source_from_part1 +
+              ' /servicesNS/admin/search/search/jobs/export search="' +
+              "search " +
+              tk_elastic_source_from_part2 +
+              ' | head 100 | fields _time _raw"' +
+              ' output_mode="csv"' +
+              ' earliest_time="' +
+              tk_earliest +
+              '"' +
+              ' latest_time="' +
+              tk_latest +
+              '"' +
+              " | head 1 | table value | restextractraw" +
+              ' | eval _time=strptime(_time, "%Y-%m-%d %H:%M:%S.%3N %Z")'
+          );
+        setToken(
+          "tk_data_source_timechart_count_aggreg",
+          TokenUtils.replaceTokenNames(
+            "sum",
+            _.extend(submittedTokenModel.toJSON(), e.data)
+          )
+        );
+      }
+
+      // mstats over rest (uses summary data)
+      else if (
+        tk_elastic_source_search_mode == "rest_mstats" &&
+        tk_elastic_mstats_filters != "null"
+      ) {
+        tk_data_source_overview_root_search =
+          '| mstats latest(_value) as value where `trackme_metrics_idx` (metric_name=trackme.eventcount_4h OR metric_name=trackme.lag_event_sec OR metric_name=trackme.hostcount_4h) object_category="data_source" object="' +
+          tk_data_name +
+          '" by metric_name span=5m | eval {metric_name}=value | stats first(trackme.eventcount_4h) as count, first(trackme.lag_event_sec) as delta, max(trackme.hostcount_4h) as dcount_host by _time | eval event_lag=delta';
+        if (tk_elastic_mstats_idx == "null") {
+          tk_data_source_raw_search =
+            "?q=" +
+            encodeURI("| msearch ") +
+            encodeURI("index=*") +
+            " " +
+            encodeURI('filter="' + tk_elastic_mstats_filters + '"') +
+            encodeURI(' earliest="-5m" latest=now');
+        } else {
+          tk_data_source_raw_search =
+            "?q=" +
+            encodeURI("| msearch ") +
+            encodeURI(tk_elastic_mstats_idx) +
+            " " +
+            encodeURI('filter="' + tk_elastic_mstats_filters + '"') +
+            encodeURI(' earliest="-5m" latest=now');
+        }
+        setToken(
+          "tk_data_source_timechart_count_aggreg",
+          TokenUtils.replaceTokenNames(
+            "latest",
+            _.extend(submittedTokenModel.toJSON(), e.data)
+          )
+        );
+      } else {
+        tk_data_source_overview_root_search =
+          '| `trackme_tstats` dc(host) as dcount_host count latest(_indextime) as indextime max(_time) as maxtime where index="' +
+          tk_data_index +
+          '" sourcetype="' +
+          tk_data_sourcetype +
+          '" `trackme_tstats_main_filter` by _time, index, sourcetype span=1s | eval delta=(indextime-_time), event_lag=(now() - maxtime)';
+        setToken(
+          "tk_data_source_timechart_count_aggreg",
+          TokenUtils.replaceTokenNames(
+            "sum",
+            _.extend(submittedTokenModel.toJSON(), e.data)
+          )
+        );
+      }
+
+      console.log("tk_data_source_overview_root_search is: " + tk_data_source_overview_root_search);
+      setToken("tk_data_source_overview_root_search", tk_data_source_overview_root_search);
 
 
       
@@ -12801,7 +13235,7 @@ var inputLinkQueuesTime = new LinkListInput({
     "drilldown": "none",
     "trellis.size": "medium",
     "trendColorInterpretation": "standard",
-    "height": "80",
+    "height": "95",
     "useColors": "0",
     "colorBy": "value",
     "showTrendIndicator": "1",
@@ -12821,6 +13255,17 @@ var inputLinkQueuesTime = new LinkListInput({
       tokens: true,
       tokenNamespace: "submitted"
   }).render();
+
+  var resultsLinkelementSingleLagPerc95 = new ResultsLinkView({
+    id: "resultsLinkelementSingleLagPerc95",
+    managerid: "searchSingleLagPerc95",
+    "link.exportResults.visible": false,
+    el: $("#resultsLinkelementSingleLagPerc95"),
+  });
+
+  resultsLinkelementSingleLagPerc95
+    .render()
+    .$el.appendTo($("resultsLinkelementSingleLagPerc95"));
 
   // input link selection for modal window
   var inputLinkTime = new LinkListInput({
@@ -12932,6 +13377,202 @@ var inputLinkQueuesTime = new LinkListInput({
       }
   });
 
+  var elementSingleLagAvg = new SingleView({
+    "id": "elementSingleLagAvg",
+    "trendDisplayMode": "absolute",
+    "numberPrecision": "0.00",
+    "drilldown": "none",
+    "trellis.size": "medium",
+    "trendColorInterpretation": "standard",
+    "height": "95",
+    "useColors": "0",
+    "colorBy": "value",
+    "showTrendIndicator": "1",
+    "showSparkline": "1",
+    "trellis.enabled": "0",
+    "unit": "",
+    "rangeColors": "[\"0x77dd77\",\"0x0877a6\",\"0xf8be34\",\"0xf1813f\",\"0xdc4e41\"]",
+    "colorMode": "none",
+    "rangeValues": "[0,30,70,100]",
+    "unitPosition": "after",
+    "trellis.scales.shared": "1",
+    "useThousandSeparators": "1",
+    "underLabel": "AVG INGESTION LAG (sec or [D+]HH:MM:SS)",
+    "managerid": "searchSingleLagAvg",
+    "el": $('#elementSingleLagAvg')
+  }, {
+      tokens: true,
+      tokenNamespace: "submitted"
+  }).render();
+
+  var resultsLinkelementSingleLagAvg = new ResultsLinkView({
+    id: "resultsLinkelementSingleLagAvg",
+    managerid: "searchSingleLagAvg",
+    "link.exportResults.visible": false,
+    el: $("#resultsLinkelementSingleLagAvg"),
+  });
+
+  resultsLinkelementSingleLagAvg
+    .render()
+    .$el.appendTo($("resultsLinkelementSingleLagAvg"));
+
+  var elementSingleEventLag = new SingleView({
+    "id": "elementSingleEventLag",
+    "trendDisplayMode": "absolute",
+    "numberPrecision": "0.00",
+    "drilldown": "none",
+    "trellis.size": "medium",
+    "trendColorInterpretation": "standard",
+    "height": "95",
+    "useColors": "0",
+    "colorBy": "value",
+    "showTrendIndicator": "1",
+    "showSparkline": "1",
+    "trellis.enabled": "0",
+    "unit": "",
+    "rangeColors": "[\"0x77dd77\",\"0x0877a6\",\"0xf8be34\",\"0xf1813f\",\"0xdc4e41\"]",
+    "colorMode": "none",
+    "rangeValues": "[0,30,70,100]",
+    "unitPosition": "after",
+    "trellis.scales.shared": "1",
+    "useThousandSeparators": "1",
+    "underLabel": "CURRENT EVENT LAG (sec or [D+]HH:MM:SS)",
+    "managerid": "searchSingleEventLag",
+    "el": $('#elementSingleEventLag')
+  }, {
+      tokens: true,
+      tokenNamespace: "submitted"
+  }).render();
+
+  var resultsLinkelementSingleEventLag = new ResultsLinkView({
+    id: "resultsLinkelementSingleEventLag",
+    managerid: "searchSingleEventLag",
+    "link.exportResults.visible": false,
+    el: $("#resultsLinkelementSingleEventLag"),
+  });
+
+  resultsLinkelementSingleEventLag
+    .render()
+    .$el.appendTo($("resultsLinkelementSingleEventLag"));
+
+  var elementSingleSLApct = new SingleView({
+    "id": "elementSingleSLApct",
+    "trendDisplayMode": "absolute",
+    "numberPrecision": "0.00",
+    "drilldown": "all",
+    "trellis.size": "medium",
+    "trendColorInterpretation": "standard",
+    "height": "95",
+    "useColors": "0",
+    "colorBy": "value",
+    "showTrendIndicator": "1",
+    "showSparkline": "1",
+    "trellis.enabled": "0",
+    "unit": "%",
+    "rangeColors": "[\"0xdc4e41\",\"0xf1813f\",\"0x77dd77\"]",
+    "colorMode": "none",
+    "rangeValues": "[50,90]",
+    "unitPosition": "after",
+    "trellis.scales.shared": "1",
+    "useColors": "1",
+    "useThousandSeparators": "1",
+    "underLabel": "SLA PCT (% time spent in green/blue over 90d)",
+    "managerid": "searchSingleSLApct",
+    "el": $('#elementSingleSLApct')
+  }, {
+      tokens: true,
+      tokenNamespace: "submitted"
+  }).render();
+
+  var resultsLinkelementSingleSLApct = new ResultsLinkView({
+    id: "resultsLinkelementSingleSLApct",
+    managerid: "searchSingleSLApct",
+    "link.exportResults.visible": false,
+    el: $("#resultsLinkelementSingleSLApct"),
+  });
+
+  resultsLinkelementSingleSLApct
+    .render()
+    .$el.appendTo($("resultsLinkelementSingleSLApct"));
+
+  // data host outlier configuration
+  var inputDataSourceOverviewChartSeries = new DropdownInput({
+    "id": "inputDataSourceOverviewChartSeries",
+    "choices": [
+        {"label": "events / lag", "value": "events_count, avg_lag_sec"},
+        {"label": "events / host dcount", "value": "events_count, dcount_host"}
+    ],
+    "default": "events_count, avg_lag_sec",
+    "searchWhenChanged": true,
+    "selectFirstChoice": false,
+    "showClearButton": true,
+    "initialValue": "events_count, avg_lag_sec",
+    "value": "$form.tk_input_data_source_overview_chart_series$",
+    "el": $('#inputDataSourceOverviewChartSeries')
+  }, {tokens: true}).render();
+
+  inputDataSourceOverviewChartSeries.on("change", function(newValue) {
+      FormUtils.handleValueChange(inputDataSourceOverviewChartSeries);
+  });
+
+  // modal window chart
+  var elementChartLag = new ChartView({
+    "id": "elementChartLag",
+    "charting.axisX.abbreviation": "none",
+    "charting.legend.mode": "standard",
+    "charting.chart.bubbleMaximumSize": "50",
+    "charting.chart.sliceCollapsingThreshold": "0.01",
+    "charting.axisTitleY.text": "Events count",
+    "refresh.display": "progressbar",
+    "charting.chart.nullValueMode": "gaps",
+    "charting.axisTitleX.visibility": "collapsed",
+    "charting.axisTitleY2.text": "$data_source_overview_chart1_axis$",
+    "charting.axisLabelsY2.majorUnit": "$data_source_overview_chart1_axisUnit$",
+    "charting.axisX.scale": "linear",
+    "charting.drilldown": "none",
+    "charting.axisLabelsX.majorLabelStyle.overflowMode": "ellipsisNone",
+    "charting.chart.overlayFields": "avg_lag_sec,dcount_host",
+    "charting.chart.showDataLabels": "none",
+    "charting.axisTitleY2.visibility": "visible",
+    "charting.axisY2.enabled": "1",
+    "charting.axisY2.scale": "inherit",
+    "trellis.scales.shared": "1",
+    "charting.layout.splitSeries.allowIndependentYRanges": "0",
+    "charting.chart.bubbleSizeBy": "area",
+    "charting.chart.bubbleMinimumSize": "10",
+    "charting.chart.style": "shiny",
+    "charting.axisY.scale": "linear",
+    "charting.layout.splitSeries": "0",
+    "charting.fieldColors": "{\"events_count\": 0xaec6cf, \"avg_lag_sec\": 0xff6961, \"dcount_host\": 0xff6961}",
+    "resizable": true,
+    "charting.legend.labelStyle.overflowMode": "ellipsisMiddle",
+    "charting.lineWidth": "2",
+    "charting.axisTitleY.visibility": "visible",
+    "charting.chart.stackMode": "default",
+    "charting.legend.placement": "right",
+    "trellis.size": "medium",
+    "charting.axisLabelsX.majorLabelStyle.rotation": "0",
+    "charting.axisY2.abbreviation": "none",
+    "charting.chart": "column",
+    "charting.axisY.abbreviation": "none",
+    "trellis.enabled": "0",
+    "managerid": "searchChartLag",
+    "el": $('#elementChartLag')
+  }, {
+      tokens: true,
+      tokenNamespace: "submitted"
+  }).render();
+
+  var resultsLinkelementChartLag = new ResultsLinkView({
+    id: "resultsLinkelementChartLag",
+    managerid: "searchChartLag",
+    "link.exportResults.visible": false,
+    el: $("#resultsLinkelementChartLag"),
+  });
+
+  resultsLinkelementChartLag
+    .render()
+    .$el.appendTo($("resultsLinkelementChartLag"));
 
   //
   // BEGIN OPERATIONS

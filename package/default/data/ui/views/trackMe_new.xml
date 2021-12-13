@@ -584,7 +584,7 @@ span.title_high_priority {
         }
 
         .btn-outline-primary.disabled, .btn-outline-primary:disabled {
-        color: #007bff;
+        color: #5c6773;
         background-color: transparent;
         }
 
@@ -4110,7 +4110,7 @@ span.title_high_priority {
                         <!-- Modal content-->
                         <div class="modal-content">
                             <!-- This is required to get the token substitutions without affecting the buttons actions in js -->
-                            <div>
+                            <div style="margin-bottom: 10px;">
                                 <div>
                                     <div class="modal-header modal-header-info">                                    
                                         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
@@ -4152,7 +4152,7 @@ span.title_high_priority {
                                             </div>
                                         </div>
 
-                                        <div style="margin-left: 10px;">
+                                        <div style="margin-left: 10px; margin-top: -15px;">
                                             <div class="imgheader">
                                                 <img style="float: left; margin: 0px 15px 15px 0px;" src="../../static/app/trackme/icons/identity_card.png"/>
                                                 <div id="child-data-source-top-docs-tags">
@@ -4176,9 +4176,54 @@ span.title_high_priority {
                                 </div>
                             </div>
 
-                            <div id="data_source_overview" style="display: none">
+                            <style>
+                                .parent-data-source-overview-single {
+                                    display: grid;
+                                    grid-template-columns: repeat(4, 1fr);
+                                    grid-template-rows: 1fr;
+                                    grid-column-gap: 0px;
+                                    grid-row-gap: 0px;
+                                }
+                            </style>
 
-                                <div id="elementSingleLagPerc95">
+                            <div id="data_source_overview" style="display: none">
+                                <div class="parent-data-source-overview-single">
+                                    <div>
+                                        <div id="elementSingleLagPerc95" class="view-elements">
+                                        </div>
+                                        <div id="resultsLinkelementSingleLagPerc95" class="search-elements">
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <div id="elementSingleLagAvg" class="view-elements">
+                                        </div>
+                                        <div id="resultsLinkelementSingleLagAvg" class="search-elements">
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <div id="elementSingleEventLag" class="view-elements">
+                                        </div>
+                                        <div id="resultsLinkelementSingleEventLag" class="search-elements">
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <div id="elementSingleSLApct" class="view-elements">
+                                        </div>
+                                        <div id="resultsLinkelementSingleSLApct" class="search-elements">
+                                        </div>                                        
+                                    </div>
+                                </div>
+
+                                <div style="margin-top: 25px;">
+                                    <div style="margin-left: 20px;" class="input input-dropdown" id="inputDataSourceOverviewChartSeries">
+                                        <label></label>
+                                    </div>
+                                    <div style="padding: 20px;">
+                                        <div id="elementChartLag" class="view-elements">
+                                        </div>
+                                        <div id="resultsLinkelementChartLag" class="search-elements">
+                                        </div>
+                                    </div>
                                 </div>
 
                             </div>
