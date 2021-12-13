@@ -26,6 +26,7 @@ require([
   "splunkjs/mvc/simplexml/element/table",
   "splunkjs/mvc/simplexml/element/single",
   "splunkjs/mvc/simplexml/element/event",
+  "splunkjs/mvc/simplexml/element/visualization",
   "splunkjs/mvc/simpleform/formutils",
   "splunkjs/mvc/simplexml/eventhandler",
   "splunkjs/mvc/simplexml/searcheventhandler",
@@ -55,6 +56,7 @@ require([
   MultiSelectInput,
   DropdownInput,
   TableElement,
+  VisualizationElement,
   SingleElement,
   EventElement,
   FormUtils,
@@ -554,6 +556,12 @@ require([
   var semiCircleDonut = VisualizationRegistry.getVisualizer(
     "semicircle_donut",
     "semicircle_donut"
+  );
+
+  // ML toolkit
+  var OutliersViz = VisualizationRegistry.getVisualizer(
+    "Splunk_ML_Toolkit",
+    "OutliersViz"
   );
 
   //
@@ -3312,7 +3320,7 @@ require([
       id: "searchOutlierDetectionChart",
       sample_ratio: 1,
       search:
-        '| `trackme_outlier_chart(data_source, "$tk_data_name$", data_name, $tk_outlier_span$)`',
+        '| `trackme_outlier_chart(data_source, "$tk_object$", data_name, $tk_outlier_span$)`',
       status_buckets: 0,
       earliest_time: "$modalTime.earliest$",
       cancelOnUnload: true,
@@ -3327,8 +3335,7 @@ require([
       runWhenTimeIsUndefined: false,
     },
     {
-      tokens: true,
-      tokenNamespace: "submitted",
+      tokens: true
     }
   );
 
@@ -3363,7 +3370,7 @@ require([
       id: "searchOutlierDetectionTable",
       sample_ratio: 1,
       search:
-        "| `trackme_outlier_table(trackme_data_source_monitoring, data_name, $tk_data_name$)`",
+        "| `trackme_outlier_table(trackme_data_source_monitoring, data_name, $tk_object$)`",
       status_buckets: 0,
       earliest_time: "-24h",
       cancelOnUnload: true,
@@ -3378,8 +3385,7 @@ require([
       runWhenTimeIsUndefined: false,
     },
     {
-      tokens: true,
-      tokenNamespace: "submitted",
+      tokens: true
     }
   );
 
@@ -3840,8 +3846,7 @@ require([
       runWhenTimeIsUndefined: false,
     },
     {
-      tokens: true,
-      tokenNamespace: "submitted",
+      tokens: true
     }
   );
 
@@ -3866,8 +3871,7 @@ require([
       runWhenTimeIsUndefined: false,
     },
     {
-      tokens: true,
-      tokenNamespace: "submitted",
+      tokens: true
     }
   );
 
@@ -3891,8 +3895,7 @@ require([
       runWhenTimeIsUndefined: false,
     },
     {
-      tokens: true,
-      tokenNamespace: "submitted",
+      tokens: true
     }
   );
 
@@ -6490,7 +6493,7 @@ require([
 
       // required for various purposes
       setToken("tk_keyid", tk_keyid);
-      //setToken("tk_data_name", tk_data_name);
+      setToken("tk_object", tk_data_name);
       
       // Dynamically manage priority color
       var tk_priority_class;
@@ -6646,6 +6649,8 @@ require([
       var tk_outlieralertonupper = e.data["row.OutlierAlertOnUpper"];
       var tk_outlier_period = e.data["row.OutlierTimePeriod"];
       var tk_outlier_span = e.data["row.OutlierSpan"];
+      // token required for charting
+      setToken("tk_outlier_span", tk_outlier_span);
       var tk_isoutlier = e.data["row.isOutlier"];
       var tk_enable_behaviour_analytic = e.data["row.enable_behaviour_analytic"];
 
@@ -13573,6 +13578,56 @@ var inputLinkQueuesTime = new LinkListInput({
   resultsLinkelementChartLag
     .render()
     .$el.appendTo($("resultsLinkelementChartLag"));
+
+  // Outliers
+  var elementOutlier = new OutliersViz({
+    "id": "elementOutlier",
+    "type": "Splunk_ML_Toolkit.OutliersViz",
+    "resizable": true,
+    "Splunk_ML_Toolkit.OutliersViz.showOutlierCount": "true",
+    "drilldown": "none",
+    "trellis.enabled": "0",
+    "trellis.scales.shared": "1",
+    "trellis.size": "medium",
+    "height": "350",
+    "managerid": "searchOutlierDetectionChart",
+    "el": $('#elementOutlier')
+  }, {tokens: true, tokenNamespace: "submitted"}).render();
+
+  var resultsLinkelementOutlier = new ResultsLinkView({
+    id: "resultsLinkelementOutlier",
+    managerid: "searchOutlierDetectionChart",
+    "link.exportResults.visible": false,
+    el: $("#resultsLinkelementOutlier"),
+  });
+
+  resultsLinkelementOutlier
+    .render()
+    .$el.appendTo($("resultsLinkelementOutlier"));
+
+  var elementOutlierTable = new TableView({
+    "id": "elementOutlierTable",
+    "count": 100,
+    "dataOverlayMode": "none",
+    "drilldown": "none",
+    "percentagesRow": "false",
+    "rowNumbers": "false",
+    "totalsRow": "false",
+    "wrap": "true",
+    "managerid": "searchOutlierDetectionTable",
+    "el": $('#elementOutlierTable')
+  }, {tokens: true, tokenNamespace: "submitted"}).render();
+
+  var resultsLinkelementOutlierTable = new ResultsLinkView({
+    id: "resultsLinkelementOutlierTable",
+    managerid: "searchOutlierDetectionTable",
+    "link.exportResults.visible": false,
+    el: $("#resultsLinkelementOutlierTable"),
+  });
+
+  resultsLinkelementOutlierTable
+    .render()
+    .$el.appendTo($("resultsLinkelementOutlierTable"));
 
   //
   // BEGIN OPERATIONS

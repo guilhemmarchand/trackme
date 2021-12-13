@@ -4114,7 +4114,7 @@ span.title_high_priority {
                                 <div>
                                     <div class="modal-header modal-header-info">                                    
                                         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                                        <div id="parent-data-source-main"><h1>Actions for data source: $tk_data_name$</h1></div>       
+                                        <div id="parent-data-source-main"><h1>Actions for data source: </h1></div>       
                                     </div>
 
                                     <div class="modal-body">
@@ -4229,6 +4229,21 @@ span.title_high_priority {
                             </div>
 
                             <div id="data_source_outliers" style="display: none">
+
+                                <div style="padding: 20px;">
+                                    <div id="elementOutlier" class="view-elements">
+                                    </div>
+                                    <div id="resultsLinkelementOutlier" class="search-elements">
+                                    </div>
+                                </div>
+
+                                <div style="padding: 20px;">
+                                    <div id="elementOutlierTable" class="view-elements">
+                                    </div>
+                                    <div id="resultsLinkelementOutlierTable" class="search-elements">
+                                    </div>
+                                </div>
+
                             </div>
 
                             <div id="data_source_outliers_config" style="display: none">
@@ -8409,6 +8424,14 @@ span.title_high_priority {
                 <div id="resultsLinkelement_alerts_main_table" class="search-elements">
                 </div>
             </div>
+        </html>
+    </panel>
+</row>
+
+<row>
+    <panel>
+        <html>
+            | `trackme_outlier_chart(data_source, "$tk_object$", data_name, $tk_outlier_span$)`
         </html>
     </panel>
 </row>
