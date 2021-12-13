@@ -4105,7 +4105,7 @@ span.title_high_priority {
                 </div>
 
                 <!-- Modal drilldown context for data sources -->
-                <div class="modal fade custom-modal-80" id="modal_manage" role="dialog">
+                <div class="modal fade custom-modal-80" id="modal_manage_data_source" role="dialog">
                     <div class="modal-dialog">
                         <!-- Modal content-->
                         <div class="modal-content">
@@ -4114,7 +4114,7 @@ span.title_high_priority {
                                 <div>
                                     <div class="modal-header modal-header-info">                                    
                                         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                                        <h1>Actions for data source: $tk_data_name$</h1>                 
+                                        <div id="parent-data-source-main"><h1>Actions for data source: $tk_data_name$</h1></div>       
                                     </div>
 
                                     <div class="modal-body">
@@ -4127,23 +4127,24 @@ span.title_high_priority {
                                                 grid-column-gap: 0px;
                                                 grid-row-gap: 0px;
                                                 line-height: 1.1;
+                                                margin-left: 5%;
                                             }
                                         </style>
 
                                         <div class="parent-data-source-top-info">
-                                            <div>
+                                            <div id="child-data-source-top-info1">
                                                 <p><b>data_index:</b> $tk_data_index$</p>
                                                 <p><b>data_sourcetype:</b> $tk_data_sourcetype$</p>
                                                 <p><b>lag event / lag ingestion: ([D+]HH:MM:SS)</b> $tk_data_lag_summary$</p>
                                                 <p><b>data_last_time_seen:</b> $tk_data_last_time_seen_human$</p>
                                             </div>
-                                            <div>
+                                            <div id="child-data-source-top-info2">
                                                 <p><b>data_last_ingest:</b> $tk_data_last_ingest_human$</p>
                                                 <p><b>data_max_lag_allowed:</b> $tk_data_max_lag_allowed$</p>
                                                 <p><b>data_monitored_state:</b> <span class="$tk_data_monitored_state_class$">$tk_data_monitored_state$</span></p>
                                                 <p><b>data_monitoring_level:</b> $tk_data_monitoring_level$</p>
                                             </div>
-                                            <div>
+                                            <div id="child-data-source-top-info3">
                                                 <p><b>latest_flip_time:</b> $tk_latest_flip_time_human$</p>
                                                 <p><b>latest_flip_state:</b> $tk_latest_flip_state$</p>
                                                 <p><b>state:</b> <span class="$tk_data_source_state_class$">$tk_data_source_state$</span></p>
@@ -4154,11 +4155,13 @@ span.title_high_priority {
                                         <div style="margin-left: 10px;">
                                             <div class="imgheader">
                                                 <img style="float: left; margin: 0px 15px 15px 0px;" src="../../static/app/trackme/icons/identity_card.png"/>
-                                                <h3><span><a id="doc_link_data_source" data-toggle="modal" data-target="#$tk_doc_modal_target$">$tk_doc_link_main$</a>
-                                                    / 
-                                                    <a id="tags_data_source" data-toggle="modal" data-target="#$tk_tags_modal_target$">$tk_tags_link_main$</a>
-                                                    </span>
-                                                </h3>
+                                                <div id="child-data-source-top-docs-tags">
+                                                    <h3><span><a id="doc_link_data_source" data-toggle="modal" data-target="#$tk_doc_modal_target$">$tk_doc_link_main$</a>
+                                                        / 
+                                                        <a id="tags_data_source" data-toggle="modal" data-target="#$tk_tags_modal_target$">$tk_tags_link_main$</a>
+                                                        </span>
+                                                    </h3>
+                                                </div>
                                             </div>
                                         </div>
 
