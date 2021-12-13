@@ -4170,9 +4170,45 @@ span.title_high_priority {
                                 </div>
                             </div>
 
-                            <br />
-                            <br />
-                            <br />
+                            <div style="margin-left: 20px;">
+                                <div class="input input-linklist" id="inputLinkDataSource">
+                                    <label></label>
+                                </div>
+                            </div>
+
+                            <div id="data_source_overview" style="display: none">
+
+                                <div id="elementSingleLagPerc95">
+                                </div>
+
+                            </div>
+
+                            <div id="data_source_outliers" style="display: none">
+                            </div>
+
+                            <div id="data_source_outliers_config" style="display: none">
+                            </div>
+
+                            <div id="data_source_data_sampling" style="display: none">
+                            </div>
+
+                            <div id="data_source_data_parsing" style="display: none">
+                            </div>
+
+                            <div id="data_source_metrics" style="display: none">
+                            </div>
+
+                            <div id="data_source_flipping" style="display: none">
+                            </div>
+
+                            <div id="data_source_audit" style="display: none">
+                            </div>
+
+                            <div id="data_source_changes" style="display: none">
+                            </div>
+
+                            <div id="inputLinkTime">
+                            </div>
 
                             <div class="modal-footer">
                                 <div style="margin-right: 15px; float: left;">
@@ -4182,25 +4218,25 @@ span.title_high_priority {
                                     <button type="submit" class="btn btn-outline-secondary" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Close</button>
                                 </div>
                                 <div style="margin-right: 15px; float: right;">
-                                    <a class="btn btn-outline-primary" id="btn_search_data_source" target="_blank" href="search_data_source_url" role="button">Search</a>
+                                    <a class="btn btn-outline-primary" id="btn_search_data_source" data-dismiss="modal" target="_blank" href="search_data_source_url" role="button">Search</a>
                                 </div>
                                 <div style="margin-right: 15px; float: right;">
-                                    <button type="submit" id="btn_modify_data_source" role="button" class="btn btn-outline-primary"><span class="glyphicon glyphicon-remove"></span>Modify</button>
+                                    <button type="submit" id="btn_modify_data_source" role="button" data-dismiss="modal" class="btn btn-outline-primary"><span class="glyphicon glyphicon-remove"></span>Modify</button>
                                 </div>
                                 <div style="margin-right: 15px; float: right;">
-                                    <button type="submit" id="btn_delete_data_source" role="button" class="btn btn-outline-danger"><span class="glyphicon glyphicon-remove"></span>Delete</button>
+                                    <button type="submit" id="btn_delete_data_source" role="button" data-dismiss="modal" class="btn btn-outline-danger"><span class="glyphicon glyphicon-remove"></span>Delete</button>
                                 </div>
                                 <div style="margin-right: 15px; float: right;">
-                                    <button type="submit" id="btn_disable_monitoring" role="button" class="btn btn-outline-danger"><span class="glyphicon glyphicon-remove"></span>Disable</button>
+                                    <button type="submit" id="btn_disable_monitoring" role="button" data-dismiss="modal" class="btn btn-outline-danger"><span class="glyphicon glyphicon-remove"></span>Disable</button>
                                 </div>
                                 <div style="margin-right: 15px; float: right;">
-                                    <button type="submit" id="btn_enable_monitoring" role="button" class="btn btn-outline-primary"><span class="glyphicon glyphicon-remove"></span>Enable</button>
+                                    <button type="submit" id="btn_enable_monitoring" role="button" data-dismiss="modal" class="btn btn-outline-primary"><span class="glyphicon glyphicon-remove"></span>Enable</button>
                                 </div>
                                 <div class="btn_ack" style="margin-right: 15px; float: right;">
-                                    <button type="submit" id="btn_ack_data_source" role="button" class="btn btn-outline-primary"><span class="glyphicon glyphicon-remove"></span>Acknowledge alert</button>
+                                    <button type="submit" id="btn_ack_data_source" role="button" data-dismiss="modal" class="btn btn-outline-primary"><span class="glyphicon glyphicon-remove"></span>Acknowledge alert</button>
                                 </div>
                                 <div class="btn_smart_status_data_source" style="margin-right: 15px; float: right;">
-                                    <button type="submit" id="btn_smart_status_data_source" role="button" class="btn btn-outline-primary"><span class="glyphicon glyphicon-remove"></span>Smart Status</button>
+                                    <button type="submit" id="btn_smart_status_data_source" role="button" data-dismiss="modal" class="btn btn-outline-primary"><span class="glyphicon glyphicon-remove"></span>Smart Status</button>
                                 </div>
                             </div>
                         </div>

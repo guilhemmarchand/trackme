@@ -6244,6 +6244,15 @@ require([
       EventHandler.unsetToken("show_data_source_audit_changes");
       EventHandler.unsetToken("show_data_source_lagging_metrics");
       EventHandler.unsetToken("show_data_sampling");
+      $("#data_source_overview").css("display", "inherit");
+      $("#data_source_outliers").css("display", "none");
+      $("#data_source_outliers_config").css("display", "none");
+      $("#data_source_data_sampling").css("display", "none");
+      $("#data_source_data_parsing").css("display", "none");
+      $("#data_source_metrics").css("display", "none");
+      $("#data_source_flipping").css("display", "none");
+      $("#data_source_audit").css("display", "none");
+      $("#data_source_changes").css("display", "none");
     } else if (e.value === "outlier") {
       EventHandler.setToken("show_data_source_outlier", "true", {}, e.data);
       EventHandler.unsetToken("show_data_source_overview");
@@ -6254,6 +6263,15 @@ require([
       EventHandler.unsetToken("show_data_source_audit_changes");
       EventHandler.unsetToken("show_data_source_lagging_metrics");
       EventHandler.unsetToken("show_data_sampling");
+      $("#data_source_overview").css("display", "none");
+      $("#data_source_outliers").css("display", "inherit");
+      $("#data_source_outliers_config").css("display", "none");
+      $("#data_source_data_sampling").css("display", "none");
+      $("#data_source_data_parsing").css("display", "none");
+      $("#data_source_metrics").css("display", "none");
+      $("#data_source_flipping").css("display", "none");
+      $("#data_source_audit").css("display", "none");
+      $("#data_source_changes").css("display", "none");
     } else if (e.value === "outlier_configuration") {
       EventHandler.setToken(
         "show_data_source_outlier_configuration",
@@ -6269,6 +6287,15 @@ require([
       EventHandler.unsetToken("show_data_source_audit_changes");
       EventHandler.unsetToken("show_data_source_lagging_metrics");
       EventHandler.unsetToken("show_data_sampling");
+      $("#data_source_overview").css("display", "none");
+      $("#data_source_outliers").css("display", "none");
+      $("#data_source_outliers_config").css("display", "inherit");
+      $("#data_source_data_sampling").css("display", "none");
+      $("#data_source_data_parsing").css("display", "none");
+      $("#data_source_metrics").css("display", "none");
+      $("#data_source_flipping").css("display", "none");
+      $("#data_source_audit").css("display", "none");
+      $("#data_source_changes").css("display", "none");
     } else if (e.value === "data_sampling") {
       EventHandler.setToken("show_data_sampling", "true", {}, e.data);
       EventHandler.unsetToken("show_data_source_overview");
@@ -6279,6 +6306,15 @@ require([
       EventHandler.unsetToken("show_data_source_audit_changes");
       EventHandler.unsetToken("show_data_source_lagging_metrics");
       EventHandler.unsetToken("show_data_quality");
+      $("#data_source_overview").css("display", "none");
+      $("#data_source_outliers").css("display", "none");
+      $("#data_source_outliers_config").css("display", "none");
+      $("#data_source_data_sampling").css("display", "inherit");
+      $("#data_source_data_parsing").css("display", "none");
+      $("#data_source_metrics").css("display", "none");
+      $("#data_source_flipping").css("display", "none");
+      $("#data_source_audit").css("display", "none");
+      $("#data_source_changes").css("display", "none");
     } else if (e.value === "data_quality") {
       EventHandler.setToken("show_data_quality", "true", {}, e.data);
       EventHandler.unsetToken("show_data_source_overview");
@@ -6289,6 +6325,15 @@ require([
       EventHandler.unsetToken("show_data_source_audit_changes");
       EventHandler.unsetToken("show_data_source_lagging_metrics");
       EventHandler.unsetToken("show_data_sampling");
+      $("#data_source_overview").css("display", "none");
+      $("#data_source_outliers").css("display", "none");
+      $("#data_source_outliers_config").css("display", "none");
+      $("#data_source_data_sampling").css("display", "none");
+      $("#data_source_data_parsing").css("display", "inherit");
+      $("#data_source_metrics").css("display", "none");
+      $("#data_source_flipping").css("display", "none");
+      $("#data_source_audit").css("display", "none");
+      $("#data_source_changes").css("display", "none");
     } else if (e.value === "lagging_metrics") {
       EventHandler.setToken(
         "show_data_source_lagging_metrics",
@@ -6304,6 +6349,15 @@ require([
       EventHandler.unsetToken("show_data_source_audit_changes");
       EventHandler.unsetToken("show_data_quality");
       EventHandler.unsetToken("show_data_sampling");
+      $("#data_source_overview").css("display", "none");
+      $("#data_source_outliers").css("display", "none");
+      $("#data_source_outliers_config").css("display", "none");
+      $("#data_source_data_sampling").css("display", "none");
+      $("#data_source_data_parsing").css("display", "none");
+      $("#data_source_metrics").css("display", "inherit");
+      $("#data_source_flipping").css("display", "none");
+      $("#data_source_audit").css("display", "none");
+      $("#data_source_changes").css("display", "none");
     } else if (e.value === "flipping_status") {
       EventHandler.setToken("show_flipping_status", "true", {}, e.data);
       EventHandler.unsetToken("show_data_source_overview");
@@ -6314,6 +6368,15 @@ require([
       EventHandler.unsetToken("show_data_source_audit_changes");
       EventHandler.unsetToken("show_data_source_lagging_metrics");
       EventHandler.unsetToken("show_data_sampling");
+      $("#data_source_overview").css("display", "none");
+      $("#data_source_outliers").css("display", "none");
+      $("#data_source_outliers_config").css("display", "none");
+      $("#data_source_data_sampling").css("display", "none");
+      $("#data_source_data_parsing").css("display", "none");
+      $("#data_source_metrics").css("display", "none");
+      $("#data_source_flipping").css("display", "inherit");
+      $("#data_source_audit").css("display", "none");
+      $("#data_source_changes").css("display", "none");
     } else if (e.value === "status_message") {
       EventHandler.setToken(
         "show_data_source_status_message",
@@ -6329,6 +6392,15 @@ require([
       EventHandler.unsetToken("show_data_source_audit_changes");
       EventHandler.unsetToken("show_data_source_lagging_metrics");
       EventHandler.unsetToken("show_data_sampling");
+      $("#data_source_overview").css("display", "none");
+      $("#data_source_outliers").css("display", "none");
+      $("#data_source_outliers_config").css("display", "none");
+      $("#data_source_data_sampling").css("display", "none");
+      $("#data_source_data_parsing").css("display", "none");
+      $("#data_source_metrics").css("display", "none");
+      $("#data_source_flipping").css("display", "none");
+      $("#data_source_audit").css("display", "inherit");
+      $("#data_source_changes").css("display", "none");
     } else if (e.value === "data_source_audit_changes") {
       EventHandler.setToken(
         "show_data_source_audit_changes",
@@ -6344,6 +6416,15 @@ require([
       EventHandler.unsetToken("show_data_source_status_message");
       EventHandler.unsetToken("show_data_source_lagging_metrics");
       EventHandler.unsetToken("show_data_sampling");
+      $("#data_source_overview").css("display", "none");
+      $("#data_source_outliers").css("display", "none");
+      $("#data_source_outliers_config").css("display", "none");
+      $("#data_source_data_sampling").css("display", "none");
+      $("#data_source_data_parsing").css("display", "none");
+      $("#data_source_metrics").css("display", "none");
+      $("#data_source_flipping").css("display", "none");
+      $("#data_source_audit").css("display", "none");
+      $("#data_source_changes").css("display", "inherit");
     }
   });
 
@@ -6623,6 +6704,12 @@ require([
       // pre-fill alert over kpis
       tokens.set("form.tk_input_data_lag_alert_kpis", e.data["row.data_lag_alert_kpis"]);
 
+
+
+
+
+
+      
       // Enable modal context
       $("#modal_manage_data_source").modal();
     }
@@ -12703,6 +12790,148 @@ var inputLinkQueuesTime = new LinkListInput({
   resultsLinkEventDateParserVerboseEvent
     .render()
     .$el.appendTo($("resultsLinkEventDateParserVerboseEvent"));
+
+  // data sources main modal view
+
+  // modal Single Lag
+  var elementSingleLagPerc95 = new SingleView({
+    "id": "elementSingleLagPerc95",
+    "trendDisplayMode": "absolute",
+    "numberPrecision": "0",
+    "drilldown": "none",
+    "trellis.size": "medium",
+    "trendColorInterpretation": "standard",
+    "height": "80",
+    "useColors": "0",
+    "colorBy": "value",
+    "showTrendIndicator": "1",
+    "showSparkline": "1",
+    "trellis.enabled": "0",
+    "unit": "",
+    "rangeColors": "[\"0x77dd77\",\"0x0877a6\",\"0xf8be34\",\"0xf1813f\",\"0xdc4e41\"]",
+    "colorMode": "none",
+    "rangeValues": "[0,30,70,100]",
+    "unitPosition": "after",
+    "trellis.scales.shared": "1",
+    "useThousandSeparators": "1",
+    "underLabel": "PERC95 INGESTION LAG (sec or [D+]HH:MM:SS)",
+    "managerid": "searchSingleLagPerc95",
+    "el": $('#elementSingleLagPerc95')
+  }, {
+      tokens: true,
+      tokenNamespace: "submitted"
+  }).render();
+
+  // input link selection for modal window
+  var inputLinkTime = new LinkListInput({
+    "id": "inputLinkTime",
+    "choices": [{
+            "value": "60m",
+            "label": "60m"
+        },
+        {
+            "value": "4h",
+            "label": "4h"
+        },
+        {
+            "value": "8h",
+            "label": "8h"
+        },
+        {
+            "value": "12h",
+            "label": "12h"
+        },
+        {
+            "value": "24h",
+            "label": "24h"
+        },
+        {
+            "value": "48h",
+            "label": "48h"
+        },
+        {
+            "value": "7d",
+            "label": "7d"
+        },
+        {
+            "value": "15d",
+            "label": "15d"
+        },
+        {
+            "value": "30d",
+            "label": "30d"
+        },
+        {
+            "value": "60d",
+            "label": "60d"
+        },
+        {
+            "value": "90d",
+            "label": "90d"
+        }
+    ],
+    "default": "24h",
+    "searchWhenChanged": true,
+    "selectFirstChoice": false,
+    "initialValue": "24h",
+    "value": "$form.modalActionTime$",
+    "el": $('#inputLinkTime')
+  }, {
+      tokens: true
+  }).render();
+
+  inputLinkTime.on("change", function(newValue) {
+      FormUtils.handleValueChange(inputLinkTime);
+  });
+
+  inputLinkTime.on("valueChange", function(e) {
+      if (e.value === "60m") {
+          EventHandler.setToken("modalTime.earliest", "-60m", {}, e.data);
+          EventHandler.setToken("modalTime.latest", "now", {}, e.data);
+          EventHandler.setToken("modalTime.span", "1m", {}, e.data);
+      } else if (e.value === "4h") {
+          EventHandler.setToken("modalTime.earliest", "-4h", {}, e.data);
+          EventHandler.setToken("modalTime.latest", "now", {}, e.data);
+          EventHandler.setToken("modalTime.span", "5m", {}, e.data);
+      } else if (e.value === "8h") {
+          EventHandler.setToken("modalTime.earliest", "-8h", {}, e.data);
+          EventHandler.setToken("modalTime.latest", "now", {}, e.data);
+          EventHandler.setToken("modalTime.span", "5m", {}, e.data);
+      } else if (e.value === "12h") {
+          EventHandler.setToken("modalTime.earliest", "-12h", {}, e.data);
+          EventHandler.setToken("modalTime.latest", "now", {}, e.data);
+          EventHandler.setToken("modalTime.span", "10m", {}, e.data);
+      } else if (e.value === "24h") {
+          EventHandler.setToken("modalTime.earliest", "-24h", {}, e.data);
+          EventHandler.setToken("modalTime.latest", "now", {}, e.data);
+          EventHandler.setToken("modalTime.span", "15m", {}, e.data);
+      } else if (e.value === "48h") {
+          EventHandler.setToken("modalTime.earliest", "-48h", {}, e.data);
+          EventHandler.setToken("modalTime.latest", "now", {}, e.data);
+          EventHandler.setToken("modalTime.span", "30m", {}, e.data);
+      } else if (e.value === "7d") {
+          EventHandler.setToken("modalTime.earliest", "-7d", {}, e.data);
+          EventHandler.setToken("modalTime.latest", "now", {}, e.data);
+          EventHandler.setToken("modalTime.span", "1h", {}, e.data);
+      } else if (e.value === "15d") {
+          EventHandler.setToken("modalTime.earliest", "-15d", {}, e.data);
+          EventHandler.setToken("modalTime.latest", "now", {}, e.data);
+          EventHandler.setToken("modalTime.span", "2h", {}, e.data);
+      } else if (e.value === "30d") {
+          EventHandler.setToken("modalTime.earliest", "-30d", {}, e.data);
+          EventHandler.setToken("modalTime.latest", "now", {}, e.data);
+          EventHandler.setToken("modalTime.span", "4h", {}, e.data);
+      } else if (e.value === "60d") {
+          EventHandler.setToken("modalTime.earliest", "-60d", {}, e.data);
+          EventHandler.setToken("modalTime.latest", "now", {}, e.data);
+          EventHandler.setToken("modalTime.span", "8h", {}, e.data);
+      } else if (e.value === "90d") {
+          EventHandler.setToken("modalTime.earliest", "-90d", {}, e.data);
+          EventHandler.setToken("modalTime.latest", "now", {}, e.data);
+          EventHandler.setToken("modalTime.span", "12h", {}, e.data);
+      }
+  });
+
 
   //
   // BEGIN OPERATIONS
