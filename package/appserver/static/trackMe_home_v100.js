@@ -3296,7 +3296,6 @@ require([
     },
     {
       tokens: true,
-      tokenNamespace: "submitted",
     }
   );
 
@@ -3310,7 +3309,6 @@ require([
     },
     {
       tokens: true,
-      tokenNamespace: "submitted",
     }
   );
 
@@ -3344,7 +3342,7 @@ require([
       id: "searchOutlierDetectionChartSimulation",
       sample_ratio: 1,
       search:
-        '| `trackme_outlier_chart_simulate(data_source, "$tk_data_name$", data_name, $tk_input_data_source_outlier_lower_threshold_multiplier$, $tk_input_data_source_outlier_upper_threshold_multiplier$, $tk_input_data_source_outlier_min_eventcount$, $tk_input_data_source_outlier_span$)`',
+        '| `trackme_outlier_chart_simulate(data_source, "$tk_object$", data_name, $tk_input_data_source_outlier_lower_threshold_multiplier$, $tk_input_data_source_outlier_upper_threshold_multiplier$, $tk_input_data_source_outlier_min_eventcount$, $tk_input_data_source_outlier_span$)`',
       status_buckets: 0,
       earliest_time: "$tk_input_data_source_outlier_period$",
       cancelOnUnload: true,
@@ -3360,8 +3358,7 @@ require([
       runWhenTimeIsUndefined: false,
     },
     {
-      tokens: true,
-      tokenNamespace: "submitted",
+      tokens: true
     }
   );
 
@@ -3408,8 +3405,7 @@ require([
       runWhenTimeIsUndefined: false,
     },
     {
-      tokens: true,
-      tokenNamespace: "submitted",
+      tokens: true
     }
   );
 
@@ -6246,6 +6242,7 @@ require([
       $("#data_source_flipping").css("display", "none");
       $("#data_source_audit").css("display", "none");
       $("#data_source_changes").css("display", "none");
+      $("#data_source_timepicker").css("display", "inherit");
     } else if (e.value === "outlier") {
       EventHandler.setToken("show_data_source_outlier", "true", {}, e.data);
       EventHandler.unsetToken("show_data_source_overview");
@@ -6265,6 +6262,7 @@ require([
       $("#data_source_flipping").css("display", "none");
       $("#data_source_audit").css("display", "none");
       $("#data_source_changes").css("display", "none");
+      $("#data_source_timepicker").css("display", "inherit");
     } else if (e.value === "outlier_configuration") {
       EventHandler.setToken(
         "show_data_source_outlier_configuration",
@@ -6289,6 +6287,7 @@ require([
       $("#data_source_flipping").css("display", "none");
       $("#data_source_audit").css("display", "none");
       $("#data_source_changes").css("display", "none");
+      $("#data_source_timepicker").css("display", "none");
     } else if (e.value === "data_sampling") {
       EventHandler.setToken("show_data_sampling", "true", {}, e.data);
       EventHandler.unsetToken("show_data_source_overview");
@@ -6308,6 +6307,7 @@ require([
       $("#data_source_flipping").css("display", "none");
       $("#data_source_audit").css("display", "none");
       $("#data_source_changes").css("display", "none");
+      $("#data_source_timepicker").css("display", "none");
     } else if (e.value === "data_quality") {
       EventHandler.setToken("show_data_quality", "true", {}, e.data);
       EventHandler.unsetToken("show_data_source_overview");
@@ -6327,6 +6327,7 @@ require([
       $("#data_source_flipping").css("display", "none");
       $("#data_source_audit").css("display", "none");
       $("#data_source_changes").css("display", "none");
+      $("#data_source_timepicker").css("display", "inherit");
     } else if (e.value === "lagging_metrics") {
       EventHandler.setToken(
         "show_data_source_lagging_metrics",
@@ -6351,6 +6352,7 @@ require([
       $("#data_source_flipping").css("display", "none");
       $("#data_source_audit").css("display", "none");
       $("#data_source_changes").css("display", "none");
+      $("#data_source_timepicker").css("display", "inherit");
     } else if (e.value === "flipping_status") {
       EventHandler.setToken("show_flipping_status", "true", {}, e.data);
       EventHandler.unsetToken("show_data_source_overview");
@@ -6370,6 +6372,7 @@ require([
       $("#data_source_flipping").css("display", "inherit");
       $("#data_source_audit").css("display", "none");
       $("#data_source_changes").css("display", "none");
+      $("#data_source_timepicker").css("display", "inherit");
     } else if (e.value === "status_message") {
       EventHandler.setToken(
         "show_data_source_status_message",
@@ -6394,6 +6397,7 @@ require([
       $("#data_source_flipping").css("display", "none");
       $("#data_source_audit").css("display", "inherit");
       $("#data_source_changes").css("display", "none");
+      $("#data_source_timepicker").css("display", "none");
     } else if (e.value === "data_source_audit_changes") {
       EventHandler.setToken(
         "show_data_source_audit_changes",
@@ -6418,6 +6422,7 @@ require([
       $("#data_source_flipping").css("display", "none");
       $("#data_source_audit").css("display", "none");
       $("#data_source_changes").css("display", "inherit");
+      $("#data_source_timepicker").css("display", "inherit");
     }
   });
 
@@ -6454,7 +6459,11 @@ require([
       var tk_keyid = e.data["row.keyid"];
       var tk_data_name = e.data["row.data_name"];
       var tk_data_index = e.data["row.data_index"];
+      // token required for operations
+      //setToken("tk_data_index", tk_data_index);
       var tk_data_sourcetype = e.data["row.data_sourcetype"];
+      // token required for operations
+      //setToken("tk_data_sourcetype", tk_data_sourcetype);
       var tk_data_last_lag_seen = e.data["row.data_last_lag_seen"];
       var tk_data_last_ingestion_lag_seen = e.data["row.data_last_ingestion_lag_seen"];
       var tk_data_lag_summary = e.data["row.lag (event / ingestion)"];
@@ -6653,6 +6662,8 @@ require([
       setToken("tk_outlier_span", tk_outlier_span);
       var tk_isoutlier = e.data["row.isOutlier"];
       var tk_enable_behaviour_analytic = e.data["row.enable_behaviour_analytic"];
+      // token required for outliers configuration
+      setToken("tk_enable_behaviour_analytic", tk_enable_behaviour_analytic);
 
       // elastic sources
       var tk_elastic_source_search_mode = e.data["row.elastic_source_search_mode"];
@@ -13629,6 +13640,337 @@ var inputLinkQueuesTime = new LinkListInput({
     .render()
     .$el.appendTo($("resultsLinkelementOutlierTable"));
 
+  var elementOutlierSimulation = new OutliersViz({
+    "id": "elementOutlierSimulation",
+    "type": "Splunk_ML_Toolkit.OutliersViz",
+    "resizable": true,
+    "Splunk_ML_Toolkit.OutliersViz.showOutlierCount": "true",
+    "drilldown": "none",
+    "trellis.enabled": "0",
+    "trellis.scales.shared": "1",
+    "trellis.size": "medium",
+    "height": "350",
+    "managerid": "searchOutlierDetectionChartSimulation",
+    "el": $('#elementOutlierSimulation')
+  }, {tokens: true, tokenNamespace: "submitted"}).render();
+
+  var resultsLinkelementOutlierSimulation = new ResultsLinkView({
+    id: "resultsLinkelementOutlierSimulation",
+    managerid: "searchOutlierDetectionChartSimulation",
+    "link.exportResults.visible": false,
+    el: $("#resultsLinkelementOutlierSimulation"),
+  });
+
+  resultsLinkelementOutlierSimulation
+    .render()
+    .$el.appendTo($("resultsLinkelementOutlierSimulation"));
+
+  // data source outlier configuration
+  var inputDataSourceConfigOutlierEnableOutlier = new DropdownInput({
+    "id": "inputDataSourceConfigOutlierEnableOutlier",
+    "choices": [
+        {"label": "True", "value": "true"},
+        {"label": "False", "value": "false"}
+    ],
+    "default": "true",
+    "searchWhenChanged": true,
+    "selectFirstChoice": false,
+    "showClearButton": true,
+    "initialValue": "true",
+    "value": "$form.tk_input_data_source_enable_outlier$",
+    "el": $('#inputDataSourceConfigOutlierEnableOutlier')
+  }, {tokens: true}).render();
+
+  inputDataSourceConfigOutlierEnableOutlier.on("change", function(newValue) {
+      FormUtils.handleValueChange(inputDataSourceConfigOutlierEnableOutlier);
+  });
+
+  var inputDataSourceConfigOutlierOutlierMinEventCountMode = new DropdownInput({
+      "id": "inputDataSourceConfigOutlierOutlierMinEventCountMode",
+      "choices": [
+          {"label": "Dynamic", "value": "dynamic"},
+          {"label": "Static", "value": "static"}
+      ],
+      "default": "dynamic",
+      "searchWhenChanged": true,
+      "selectFirstChoice": false,
+      "showClearButton": true,
+      "initialValue": "dynamic",
+      "value": "$form.tk_input_data_source_outlier_min_eventcount_mode$",
+      "el": $('#inputDataSourceConfigOutlierOutlierMinEventCountMode')
+  }, {tokens: true}).render();
+
+  inputDataSourceConfigOutlierOutlierMinEventCountMode.on("change", function(newValue) {
+      FormUtils.handleValueChange(inputDataSourceConfigOutlierOutlierMinEventCountMode);
+  });
+
+  var inputDataSourceConfigOutlierAlertOnUpper = new DropdownInput({
+      "id": "inputDataSourceConfigOutlierAlertOnUpper",
+      "choices": [
+          {"label": "True", "value": "true"},
+          {"label": "False", "value": "false"}
+      ],
+      "default": "false",
+      "searchWhenChanged": true,
+      "selectFirstChoice": false,
+      "showClearButton": true,
+      "initialValue": "false",
+      "value": "$form.tk_input_data_source_outlier_alert_on_upper$",
+      "el": $('#inputDataSourceConfigOutlierAlertOnUpper')
+  }, {tokens: true}).render();
+
+  inputDataSourceConfigOutlierAlertOnUpper.on("change", function(newValue) {
+      FormUtils.handleValueChange(inputDataSourceConfigOutlierAlertOnUpper);
+  });
+
+  inputDataSourceConfigOutlierOutlierMinEventCountMode.on("valueChange", function(e) {
+      if (e.value === "dynamic") {
+          EventHandler.setToken("form.tk_input_data_source_outlier_min_eventcount", "disabled", {}, e.data);
+          $("#inputDataSourceConfigOutlierOutlierMinEventCount").css("display", "none");
+      } else if (e.value === "static") {
+          EventHandler.unsetToken("form.tk_input_data_source_outlier_min_eventcount");
+          $("#inputDataSourceConfigOutlierOutlierMinEventCount").css("display", "inline-block");
+      }
+  });
+
+  var inputDataSourceConfigOutlierOutlierMinEventCount = new TextInput({
+      "id": "inputDataSourceConfigOutlierOutlierMinEventCount",
+      "searchWhenChanged": true,
+      "value": "$form.tk_input_data_source_outlier_min_eventcount$",
+      "el": $('#inputDataSourceConfigOutlierOutlierMinEventCount')
+  }, {tokens: true}).render();
+
+  inputDataSourceConfigOutlierOutlierMinEventCount.on("change", function(newValue) {
+      FormUtils.handleValueChange(inputDataSourceConfigOutlierOutlierMinEventCount);
+  });
+
+  var inputDataSourceConfigOutlierOutlierLowerThresholdMultiplier = new TextInput({
+      "id": "inputDataSourceConfigOutlierOutlierLowerThresholdMultiplier",
+      "default": "4",
+      "searchWhenChanged": true,
+      "initialValue": "4",
+      "value": "$form.tk_input_data_source_outlier_lower_threshold_multiplier$",
+      "el": $('#inputDataSourceConfigOutlierOutlierLowerThresholdMultiplier')
+  }, {tokens: true}).render();
+
+  inputDataSourceConfigOutlierOutlierLowerThresholdMultiplier.on("change", function(newValue) {
+      FormUtils.handleValueChange(inputDataSourceConfigOutlierOutlierLowerThresholdMultiplier);
+  });
+
+  var inputDataSourceConfigOutlierOutlierUpperThresholdMultiplier = new TextInput({
+      "id": "inputDataSourceConfigOutlierOutlierUpperThresholdMultiplier",
+      "default": "4",
+      "searchWhenChanged": true,
+      "initialValue": "4",
+      "value": "$form.tk_input_data_source_outlier_upper_threshold_multiplier$",
+      "el": $('#inputDataSourceConfigOutlierOutlierUpperThresholdMultiplier')
+  }, {tokens: true}).render();
+
+  inputDataSourceConfigOutlierOutlierUpperThresholdMultiplier.on("change", function(newValue) {
+      FormUtils.handleValueChange(inputDataSourceConfigOutlierOutlierUpperThresholdMultiplier);
+  });
+
+  // data host outlier configuration
+  var inputDataHostConfigOutlierEnableOutlier = new DropdownInput({
+      "id": "inputDataHostConfigOutlierEnableOutlier",
+      "choices": [
+          {"label": "True", "value": "true"},
+          {"label": "False", "value": "false"}
+      ],
+      "default": "true",
+      "searchWhenChanged": true,
+      "selectFirstChoice": false,
+      "showClearButton": true,
+      "initialValue": "true",
+      "value": "$form.tk_input_data_host_enable_outlier$",
+      "el": $('#inputDataHostConfigOutlierEnableOutlier')
+  }, {tokens: true}).render();
+
+  inputDataHostConfigOutlierEnableOutlier.on("change", function(newValue) {
+      FormUtils.handleValueChange(inputDataHostConfigOutlierEnableOutlier);
+  });
+
+  var inputDataHostConfigOutlierAlertOnUpper = new DropdownInput({
+      "id": "inputDataHostConfigOutlierAlertOnUpper",
+      "choices": [
+          {"label": "True", "value": "true"},
+          {"label": "False", "value": "false"}
+      ],
+      "default": "false",
+      "searchWhenChanged": true,
+      "selectFirstChoice": false,
+      "showClearButton": true,
+      "initialValue": "false",
+      "value": "$form.tk_input_data_host_outlier_alert_on_upper$",
+      "el": $('#inputDataHostConfigOutlierAlertOnUpper')
+  }, {tokens: true}).render();
+
+  inputDataHostConfigOutlierAlertOnUpper.on("change", function(newValue) {
+      FormUtils.handleValueChange(inputDataHostConfigOutlierAlertOnUpper);
+  });
+
+  var inputDataHostConfigOutlierOutlierMinEventCountMode = new DropdownInput({
+      "id": "inputDataHostConfigOutlierOutlierMinEventCountMode",
+      "choices": [
+          {"label": "Dynamic", "value": "dynamic"},
+          {"label": "Static", "value": "static"}
+      ],
+      "default": "dynamic",
+      "searchWhenChanged": true,
+      "selectFirstChoice": false,
+      "showClearButton": true,
+      "initialValue": "dynamic",
+      "value": "$form.tk_input_data_host_outlier_min_eventcount_mode$",
+      "el": $('#inputDataHostConfigOutlierOutlierMinEventCountMode')
+  }, {tokens: true}).render();
+
+  inputDataHostConfigOutlierOutlierMinEventCountMode.on("change", function(newValue) {
+      FormUtils.handleValueChange(inputDataHostConfigOutlierOutlierMinEventCountMode);
+  });
+
+  inputDataHostConfigOutlierOutlierMinEventCountMode.on("valueChange", function(e) {
+      if (e.value === "dynamic") {
+          EventHandler.setToken("form.tk_input_data_host_outlier_min_eventcount", "disabled", {}, e.data);
+      } else if (e.value === "static") {
+          EventHandler.unsetToken("form.tk_input_data_host_outlier_min_eventcount");
+      }
+  });
+
+  var inputDataHostConfigOutlierOutlierMinEventCount = new TextInput({
+      "id": "inputDataHostConfigOutlierOutlierMinEventCount",
+      "tokenDependencies": {"depends": "$show_tk_input_data_host_outlier_min_eventcount$"},
+      "searchWhenChanged": true,
+      "value": "$form.tk_input_data_host_outlier_min_eventcount$",
+      "el": $('#inputDataHostConfigOutlierOutlierMinEventCount')
+  }, {tokens: true}).render();
+
+  inputDataHostConfigOutlierOutlierMinEventCount.on("change", function(newValue) {
+      FormUtils.handleValueChange(inputDataHostConfigOutlierOutlierMinEventCount);
+  });
+
+  var inputDataHostConfigOutlierOutlierLowerThresholdMultiplier = new TextInput({
+      "id": "inputDataHostConfigOutlierOutlierLowerThresholdMultiplier",
+      "default": "4",
+      "searchWhenChanged": true,
+      "initialValue": "4",
+      "value": "$form.tk_input_data_host_outlier_lower_threshold_multiplier$",
+      "el": $('#inputDataHostConfigOutlierOutlierLowerThresholdMultiplier')
+  }, {tokens: true}).render();
+
+  inputDataHostConfigOutlierOutlierLowerThresholdMultiplier.on("change", function(newValue) {
+      FormUtils.handleValueChange(inputDataHostConfigOutlierOutlierLowerThresholdMultiplier);
+  });
+
+  var inputDataHostConfigOutlierOutlierUpperThresholdMultiplier = new TextInput({
+      "id": "inputDataHostConfigOutlierOutlierUpperThresholdMultiplier",
+      "default": "4",
+      "searchWhenChanged": true,
+      "initialValue": "4",
+      "value": "$form.tk_input_data_host_outlier_upper_threshold_multiplier$",
+      "el": $('#inputDataHostConfigOutlierOutlierUpperThresholdMultiplier')
+  }, {tokens: true}).render();
+
+  inputDataHostConfigOutlierOutlierUpperThresholdMultiplier.on("change", function(newValue) {
+      FormUtils.handleValueChange(inputDataHostConfigOutlierOutlierUpperThresholdMultiplier);
+  });
+    
+  // outliers configuration data_source
+  var LinkTimeOutlierConfigurationDataSource = new LinkListInput({
+    "id": "LinkTimeOutlierConfigurationDataSource",
+    "choices": [{
+            "value": "-24h",
+            "label": "24h"
+        },
+        {
+            "value": "-48h",
+            "label": "48h"
+        },
+        {
+            "value": "-7d",
+            "label": "7d"
+        },
+        {
+            "value": "-30d",
+            "label": "30d"
+        }
+    ],
+    "default": "-7d",
+    "searchWhenChanged": true,
+    "selectFirstChoice": false,
+    "initialValue": "-7d",
+    "value": "$form.TimeOutlierConfigurationDataSource$",
+    "el": $('#LinkTimeOutlierConfigurationDataSource')
+  }, {
+      tokens: true
+  }).render();
+
+  LinkTimeOutlierConfigurationDataSource.on("change", function(newValue) {
+      FormUtils.handleValueChange(LinkTimeOutlierConfigurationDataSource);
+  });
+
+  LinkTimeOutlierConfigurationDataSource.on("valueChange", function(e) {
+    if (e.value === "-24h") {
+          EventHandler.setToken("tk_input_data_source_outlier_period", "-24h", {}, e.data);
+      } else if (e.value === "-48h") {
+          EventHandler.setToken("tk_input_data_source_outlier_period", "-48h", {}, e.data);
+      } else if (e.value === "-7d") {
+          EventHandler.setToken("tk_input_data_source_outlier_period", "-7d", {}, e.data);
+      } else if (e.value === "-30d") {
+          EventHandler.setToken("tk_input_data_source_outlier_period", "-30d", {}, e.data);
+      }
+  });
+
+  var LinkTimeOutlierConfigurationDataSourceSpan = new LinkListInput({
+    "id": "LinkTimeOutlierConfigurationDataSourceSpan",
+    "choices": [{
+            "value": "5m",
+            "label": "5m"
+        },
+        {
+            "value": "60m",
+            "label": "60m"
+        },
+        {
+            "value": "4h",
+            "label": "4h"
+        },
+        {
+            "value": "12h",
+            "label": "12h"
+        },
+        {
+            "value": "1d",
+            "label": "1d"
+        }
+    ],
+    "default": "5m",
+    "searchWhenChanged": true,
+    "selectFirstChoice": false,
+    "initialValue": "5m",
+    "value": "$form.TimeOutlierConfigurationDataSourceSpan$",
+    "el": $('#LinkTimeOutlierConfigurationDataSourceSpan')
+  }, {
+      tokens: true
+  }).render();
+
+  LinkTimeOutlierConfigurationDataSourceSpan.on("change", function(newValue) {
+      FormUtils.handleValueChange(LinkTimeOutlierConfigurationDataSourceSpan);
+  });
+
+  LinkTimeOutlierConfigurationDataSourceSpan.on("valueChange", function(e) {
+    if (e.value === "5m") {
+          EventHandler.setToken("tk_input_data_source_outlier_span", "5m", {}, e.data);
+      } else if (e.value === "60m") {
+          EventHandler.setToken("tk_input_data_source_outlier_span", "60m", {}, e.data);
+      } else if (e.value === "4h") {
+          EventHandler.setToken("tk_input_data_source_outlier_span", "4h", {}, e.data);
+      } else if (e.value === "12h") {
+          EventHandler.setToken("tk_input_data_source_outlier_span", "12h", {}, e.data);
+      } else if (e.value === "1d") {
+          EventHandler.setToken("tk_input_data_source_outlier_span", "1d", {}, e.data);
+      }
+  });
+
   //
   // BEGIN OPERATIONS
   //
@@ -13663,168 +14005,231 @@ var inputLinkQueuesTime = new LinkListInput({
             job.results({}, function (err, results, job) {
               var fields = results.fields;
               var rows = results.rows;
+
+              var tk_data_name;
+              var tk_data_index;
+              var tk_data_sourcetype;
+              var tk_data_lag_summary;
+              var tk_data_last_time_seen_human;
+              var tk_data_last_ingest_human;
+              var tk_data_max_lag_allowed;
+              var tk_data_monitoring_level;
+              var tk_latest_flip_time_human;
+              var tk_latest_flip_state;
+              var tk_priority;
+              var tk_data_source_state;
+              var tk_data_monitored_state;
+              var tk_doc_identity_card_is_global;
+              var tk_doc_key_match;
+              var tk_doc_link;
+              var tk_doc_note;
+              var tk_tags;
+
               for (var i = 0; i < rows.length; i++) {
                 var values = rows[i];
                 for (var j = 0; j < values.length; j++) {
                   var field = fields[j];
                   var value = values[j];
 
-                  // update state color
-                  if (field == "data_source_state") {
-                    setToken("tk_data_source_state", value);
-                    tk_data_source_state = value;
-                    // Dynamically manage state color
-                    if (tk_data_source_state == "green") {
-                      setToken("tk_data_source_state_class", "title_green");
-                      setToken(
-                        "tk_data_source_status_message_class",
-                        "status_message_green"
-                      );
-                    } else if (tk_data_source_state == "orange") {
-                      setToken("tk_data_source_state_class", "title_orange");
-                      setToken(
-                        "tk_data_source_status_message_class",
-                        "status_message_orange"
-                      );
-                    } else if (tk_data_source_state == "blue") {
-                      setToken("tk_data_source_state_class", "title_blue");
-                      setToken(
-                        "tk_data_source_status_message_class",
-                        "status_message_blue"
-                      );
-                    } else if (tk_data_source_state == "red") {
-                      setToken("tk_data_source_state_class", "title_red");
-                      setToken(
-                        "tk_data_source_status_message_class",
-                        "status_message_red"
-                      );
-                    }
+                  if (field == "data_name") {
+                    tk_data_name = value;
                   }
-
-                  // update priority color
-                  if (field == "priority") {
-                    setToken("tk_priority", value);
-                    tk_priority = value;
-                    // Dynamically manage state color
-                    if (tk_priority == "low") {
-                      setToken("tk_priority_class", "title_low_priority");
-                    } else if (tk_priority == "medium") {
-                      setToken("tk_priority_class", "title_medium_priority");
-                    } else if (tk_priority == "high") {
-                      setToken("tk_priority_class", "title_high_priority");
-                    }
+                  else if (field == "data_index") {
+                    tk_data_index = value;
                   }
-
-                  // update monitored state
-                  if (field == "data_monitored_state") {
-                    setToken("tk_data_monitored_state", value);
-                    tk_data_monitored_state = value;
-                    // Dynamically manage state color
-                    if (tk_data_monitored_state == "enabled") {
-                      document.getElementById(
-                        "btn_enable_monitoring"
-                      ).disabled = true;
-                      document.getElementById(
-                        "btn_disable_monitoring"
-                      ).disabled = false;
-                      setToken("tk_data_monitored_state_class", "title_green");
-                    } else {
-                      document.getElementById(
-                        "btn_enable_monitoring"
-                      ).disabled = false;
-                      document.getElementById(
-                        "btn_disable_monitoring"
-                      ).disabled = true;
-                      setToken("tk_data_monitored_state_class", "title_grey");
-                    }
+                  else if (field == "data_sourcetype") {
+                    tk_data_sourcetype = value;
                   }
-
-                  // update lag summary
-                  if (field == "lag (event / ingestion)") {
-                    setToken("tk_data_lag_summary", value);
+                  else if (field == "lag (event / ingestion)") {
                     tk_data_lag_summary = value;
                   }
-
-                  // update last time
-                  if (field == "last time") {
-                    setToken("tk_data_last_time_seen_human", value);
+                  else if (field == "last time") {
                     tk_data_last_time_seen_human = value;
                   }
-
-                  // update last ingest
-                  if (field == "last ingest") {
-                    setToken("tk_data_last_ingest_human", value);
+                  else if (field == "last ingest") {
                     tk_data_last_ingest_human = value;
                   }
-
-                  // update data_monitoring_level
-                  if (field == "data_monitoring_level") {
-                    setToken("tk_data_monitoring_level", value);
-                    tk_data_monitoring_level = value;
-                  }
-
-                  // update data_max_lag_allowed
-                  if (field == "data_max_lag_allowed") {
-                    setToken("tk_data_max_lag_allowed", value);
+                  else if (field == "data_max_lag_allowed") {
                     tk_data_max_lag_allowed = value;
                   }
-
-                  // update flip
-                  if (field == "latest_flip_time (translated)") {
-                    setToken("tk_latest_flip_time_human", value);
+                  else if (field == "data_monitoring_level") {
+                    tk_data_monitoring_level = value;
+                  }
+                  else if (field == "latest_flip_time (translated)") {
                     tk_latest_flip_time_human = value;
                   }
-
-                  if (field == "latest_flip_state") {
-                    setToken("tk_latest_flip_state", value);
+                  else if (field == "latest_flip_state") {
                     tk_latest_flip_state = value;
                   }
-
-                  // update status_message
-                  if (field == "status_message") {
-                    setToken("tk_status_message", value);
-                    tk_status_message = value;
+                  else if (field == "priority") {
+                    tk_priority = value;
                   }
-
-                  // update data sampling
-                  if (field == "data_sample_status_message") {
-                    setToken("tk_data_sampling_status_message", value);
-                    tk_data_sampling_status_message = value;
+                  else if (field == "data_source_state") {
+                    tk_data_source_state = value;
                   }
-
-                  // update state color
-                  if (field == "data_sample_status_colour") {
-                    setToken("tk_data_sampling_status_message_class", value);
-                    tk_data_sampling_status_message_class = value;
-                    // Dynamically manage state color
-                    if (tk_data_sampling_status_message_class == "green") {
-                      setToken(
-                        "tk_data_sampling_status_message_class",
-                        "status_message_green"
-                      );
-                    } else if (
-                      tk_data_sampling_status_message_class == "orange"
-                    ) {
-                      setToken(
-                        "tk_data_sampling_status_message_class",
-                        "status_message_orange"
-                      );
-                    } else if (
-                      tk_data_sampling_status_message_class == "blue"
-                    ) {
-                      setToken(
-                        "tk_data_sampling_status_message_class",
-                        "status_message_blue"
-                      );
-                    } else if (tk_data_sampling_status_message_class == "red") {
-                      setToken(
-                        "tk_data_sampling_status_message_class",
-                        "status_message_red"
-                      );
-                    }
+                  else if (field == "data_monitored_state") {
+                    tk_data_monitored_state = value;
                   }
+                  else if (field == "doc_identity_card_is_global") {
+                    tk_doc_identity_card_is_global = value;
+                  }
+                  else if (field == "doc_key_match") {
+                    tk_doc_key_match = value;
+                  }
+                  else if (field == "doc_link") {
+                    tk_doc_link = value;
+                  }
+                  else if (field == "doc_note") {
+                    tk_doc_note = value;
+                  }
+                  else if (field == "tags") {
+                    tk_tags = value;
+                  }
+                  
                 }
               }
+
+              // Dynamically manage priority color
+              var tk_priority_class;
+              if (tk_priority == "low") {
+                tk_priority_class = "title_low_priority";
+              } else if (tk_priority == "medium") {
+                tk_priority_class = "title_medium_priority";
+              } else if (tk_priority == "high") {
+                tk_priority_class = "title_high_priority";
+              }
+
+              // Dynamically manage state color
+              var tk_data_source_state_class;
+              var tk_data_source_status_message_class;
+              if (tk_data_source_state == "green") {
+                tk_data_source_state_class = "title_green";
+                tk_data_source_status_message_class = "status_message_green";
+              } else if (tk_data_source_state == "orange") {
+                tk_data_source_state_class = "title_orange";
+                tk_data_source_status_message_class = "status_message_orange";
+              } else if (tk_data_source_state == "blue") {
+                tk_data_source_state_class = "title_blue";
+                tk_data_source_status_message_class = "status_message_blue";
+              } else if (tk_data_source_state == "red") {
+                tk_data_source_state_class = "title_red";
+                tk_data_source_status_message_class = "status_message_red";
+              }
+
+              // Dynamically manage buttons states
+              var tk_data_monitored_state_class;
+              if (tk_data_monitored_state == "enabled") {
+                document.getElementById("btn_enable_monitoring").disabled = true;
+                document.getElementById("btn_disable_monitoring").disabled = false;
+                tk_data_monitored_state_class = "title_green";
+              } else {
+                document.getElementById("btn_enable_monitoring").disabled = false;
+                document.getElementById("btn_disable_monitoring").disabled = true;
+                tk_data_monitored_state_class = "title_grey";
+              }
+
+              // href docs
+              var tk_doc_link_main;
+              var tk_doc_modal_target;
+
+              // If the documentation reference has not been set, define the href format
+              if (tk_doc_link == "null") {
+                tk_doc_link_main = "Click here to define a documentation reference";
+                tk_doc_modal_target = "define_identity_card";
+                // replace the textinput for modification requests
+                document.getElementById("input_doc_link").value =
+                  "link to documentation";
+              } else {
+                tk_doc_link_main = "Show data source identity card";
+                tk_doc_modal_target = "manage_identity_card";
+                // replace the textinput for modification requests
+                document.getElementById("input_doc_link").value = tk_doc_link;
+              }
+
+              if (tk_doc_note == "null") {
+                tk_doc_link = "No documentation defined.";
+                // replace the textarea for modification requests
+                document.getElementById("input_doc_note").value = "documentation note";
+              } else {
+                // replace the textarea for modification requests
+                document.getElementById("input_doc_note").value = tk_doc_note;
+              }
+
+              // If the identity card info is global, disable the delete card
+              if (tk_doc_identity_card_is_global == "true") {
+                document.getElementById(
+                  "btn_delete_manage_identity_card"
+                ).disabled = true;
+                document.getElementById(
+                  "btn_modify_manage_identity_card"
+                ).disabled = false;
+                tk_msg_doc_identity_card_is_global = "TrackMe info: this is a default identity card configured at the system level, you cannot delete this card but you can create a new card linked to this specific data source, consult: ";
+              } else if (tk_doc_key_match == "wildcard") {
+                document.getElementById(
+                  "btn_delete_manage_identity_card"
+                ).disabled = true;
+                document.getElementById(
+                  "btn_modify_manage_identity_card"
+                ).disabled = true;
+                tk_msg_doc_identity_card_is_global = "TrackMe info: this is a wildcard matching identity card, this card has to be managed via the API endpoints, consult: ";
+              } else {
+                document.getElementById(
+                  "btn_delete_manage_identity_card"
+                ).disabled = false;
+                document.getElementById(
+                  "btn_modify_manage_identity_card"
+                ).disabled = false;
+                tk_msg_doc_identity_card_is_global = "TrackMe info: this identity card was associated to this data source, you can update or delete this card, consult: ";
+              }
+
+              // tags
+              var tk_tags_link_main;
+              // define the href depending on the tags
+              if (
+                tk_tags ==
+                "No tags defined, click on Update tags to define one or more tags to be associated with this data source."
+              ) {
+                tk_tags_link_main = "Click here to define tags";
+                tk_tags_modal_target = "manage_tags";
+              } else {
+                tk_tags_link_main = "Show tags";
+                tk_tags_modal_target = "manage_tags";
+              }
+
+              // replace info panels
+              $('#parent-data-source-main').html(
+                '<h1>Actions for data source: ' + tk_data_name + '</h1>'
+              );
+
+              $('#child-data-source-top-info1').html(
+                '<p><b>data_index:</b> ' + tk_data_index + '</p>' +
+                '<p><b>data_sourcetype:</b> ' + tk_data_sourcetype + '</p>' + 
+                '<p><b>lag event / lag ingestion: ([D+]HH:MM:SS)</b> ' + tk_data_lag_summary + '</p>' +
+                '<p><b>data_last_time_seen:</b> ' + tk_data_last_time_seen_human + '</p>'
+              );
+
+              $('#child-data-source-top-info2').html(
+                '<p><b>data_last_ingest:</b> ' + tk_data_last_ingest_human + '</p>' +
+                '<p><b>data_max_lag_allowed:</b> ' + tk_data_max_lag_allowed + '</p>' +
+                '<p><b>data_monitored_state:</b> <span class="' + tk_data_monitored_state_class + '">' + tk_data_monitored_state + '</span></p>' +
+                '<p><b>data_monitoring_level:</b> ' + tk_data_monitoring_level + '</p>'
+              );
+
+              $('#child-data-source-top-info3').html(
+                '<p><b>latest_flip_time:</b> ' + tk_latest_flip_time_human + '</p>' + 
+                '<p><b>latest_flip_state:</b> ' + tk_latest_flip_state + '</p>' +
+                '<p><b>state:</b> <span class="' + tk_data_source_state_class + '">' + tk_data_source_state + '</span></p>' +
+                '<p><b>priority:</b> <span class="' + tk_priority_class + '">' + tk_priority + '</span></p>'
+              );
+
+              $('#child-data-source-top-docs-tags').html(
+                '<h3><span><a id="doc_link_data_source" data-toggle="modal" data-target="#' + tk_doc_modal_target + '">' + tk_doc_link_main + '</a>' +
+                ' / ' +
+                '<a id="tags_data_source" data-toggle="modal" data-target="#' + tk_tags_modal_target + '">' + tk_tags_link_main + '</a>' +
+                '</span>' +
+                '</h3>'
+              );
+
             });
           },
           failed: function (job) {},
@@ -14320,9 +14725,7 @@ var inputLinkQueuesTime = new LinkListInput({
   }
 
   function updateDataSourceEntity(
-    tk_data_name,
-    tk_data_index,
-    tk_data_sourcetype
+    tk_data_name
   ) {
     // First retrieve the name of the search to run depending on the context
 
@@ -14330,11 +14733,9 @@ var inputLinkQueuesTime = new LinkListInput({
     var searchQuery =
       '| `trackme_get_tracker_data_source("' +
       tk_data_name +
-      '", "' +
-      tk_data_index +
-      '", "' +
-      tk_data_sourcetype +
       '")`';
+
+    console.log("searchQuery is: " + searchQuery);
 
     // Set the search parameters
     var searchParams = {
@@ -14347,8 +14748,9 @@ var inputLinkQueuesTime = new LinkListInput({
       // Display the results
       var fields = results.fields;
       var rows = results.rows;
-      var current_maintenance_mode;
-      var current_time_updated;
+
+      console.log("results: " + fields);
+      console.log("results: " + rows);
 
       for (var i = 0; i < rows.length; i++) {
         var values = rows[i];
@@ -14358,6 +14760,7 @@ var inputLinkQueuesTime = new LinkListInput({
 
           if (fields[j] == "savedsearch_name") {
             savedsearch_name = values[j];
+            console.log("savedsearch_name is: " + savedsearch_name);
           }
         }
       }
@@ -15253,7 +15656,12 @@ var inputLinkQueuesTime = new LinkListInput({
   // refresh data_source
   $("#btn_refresh_data_source").click(function (mode) {
     // notify
-    notification("Refresh completed.", 6000);
+    notify(
+      "info",
+      "bottom",
+      "Refreshing entity, please wait...",
+      "5"
+    );
     searchSingleLag.startSearch();
     searchSingleByMetricsLag.startSearch();
     searchChartLag.startSearch();
@@ -15266,13 +15674,17 @@ var inputLinkQueuesTime = new LinkListInput({
     SearchDataSourceParsingQualityMain.startSearch();
     searchDataSourceTimeline.startSearch();
     // call update summary investigator for that entity only
-    var tk_data_name = tokens.get("tk_data_name");
-    var tk_data_index = tokens.get("tk_data_index");
-    var tk_data_sourcetype = tokens.get("tk_data_sourcetype");
-    updateDataSourceEntity(tk_data_name, tk_data_index, tk_data_sourcetype);
+    var tk_data_name = tokens.get("tk_object");
+    updateDataSourceEntity(tk_data_name);
     // call update data source
     var tk_keyid = tokens.get("tk_keyid");
     updateDataSource(tk_keyid);
+    notify(
+      "info",
+      "bottom",
+      "Refresh completed.",
+      "5"
+    );
   });
 
   // refresh data_host
@@ -29576,7 +29988,7 @@ var inputLinkQueuesTime = new LinkListInput({
     var tokens = mvc.Components.get("default");
 
     // get the object name
-    var tk_data_name = tokens.get("tk_data_name");
+    var tk_data_name = tokens.get("tk_object");
 
     // set the token the search depends on
     setToken("start_outliers_simulation_data_source", "true");
@@ -29584,11 +29996,12 @@ var inputLinkQueuesTime = new LinkListInput({
     // explicitly start the search
     searchOutlierDetectionChartSimulation.startSearch();
 
+    // set the panel visibility
+    //$("#data-source-outliers-simulation").css("display", "inherit");
+
     // notify
-    notification(
-      "Outliers simulation started for data source " + tk_data_name + ".",
-      6000
-    );
+    notify("info", "bottom", "Outliers simulation started for data source " + tk_data_name + ".", "5");
+
   });
 
   $("#btn_outlier_config_data_source_save")
@@ -29600,7 +30013,7 @@ var inputLinkQueuesTime = new LinkListInput({
       var tokens = mvc.Components.get("default");
 
       var tk_keyid = tokens.get("tk_keyid");
-      var tk_data_name = tokens.get("tk_data_name");
+      var tk_data_name = tokens.get("tk_object");
       var tk_outliermineventcount = tokens.get("tk_outliermineventcount");
       var tk_outlierlowerthresholdmultiplier = tokens.get(
         "tk_outlierlowerthresholdmultiplier"
@@ -29729,13 +30142,8 @@ var inputLinkQueuesTime = new LinkListInput({
           data: JSON.stringify(record),
           success: function (returneddata) {
             // notify
-            var tk_data_name = tokens.get("tk_data_name");
-            var tk_data_index = tokens.get("tk_data_index");
-            var tk_data_sourcetype = tokens.get("tk_data_sourcetype");
-            notification(
-              "Outliers configuration updated, please wait a few seconds while statistics are generated, click on refresh in the Outliers tab if statistics are not yet available.",
-              6000
-            );
+            var tk_data_name = tokens.get("tk_object");
+            notify("info", "bottom", "Outliers configuration updated, please wait a few seconds while statistics are generated, click on refresh in the Outliers tab if statistics are not yet available.", "5");
 
             // Generate metrics if outlier period was changed
             if (tk_source_outlier_period != tk_input_data_source_outlier_span) {
@@ -29747,10 +30155,9 @@ var inputLinkQueuesTime = new LinkListInput({
             }
 
             // call update summary investigator for that entity only
+            console.log("run updateDataSourceEntity");
             updateDataSourceEntity(
-              tk_data_name,
-              tk_data_index,
-              tk_data_sourcetype
+              tk_data_name
             );
 
             searchSingleLag.startSearch();
@@ -29762,6 +30169,7 @@ var inputLinkQueuesTime = new LinkListInput({
 
             // call update data source
             var tk_keyid = tokens.get("tk_keyid");
+            console.log("run updateDataSource")
             updateDataSource(tk_keyid);
 
             // Run the search again to update the table

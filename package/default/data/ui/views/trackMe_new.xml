@@ -4247,6 +4247,64 @@ span.title_high_priority {
                             </div>
 
                             <div id="data_source_outliers_config" style="display: none">
+
+                                <div style="margin-left: 20px; margin-top: 10px; margin-bottom: 10px;">
+
+                                    <div class="fieldset">
+                                        <div class="input input-dropdown" id="inputDataSourceConfigOutlierEnableOutlier">
+                                            <label class="splunk-input-label">Enable Outlier Detection:</label>
+                                        </div>
+                                        <div class="input input-dropdown" id="inputDataSourceConfigOutlierAlertOnUpper">
+                                            <label class="splunk-input-label">Enable alert on upper Outlier:</label>
+                                        </div>
+                                        <div class="input input-dropdown" id="inputDataSourceConfigOutlierOutlierMinEventCountMode">
+                                            <label class="splunk-input-label">OutlierMinEventCount mode:</label>
+                                        </div>
+                                        <div style="max-width: 180px; display: none;" class="input input-text" id="inputDataSourceConfigOutlierOutlierMinEventCount">
+                                            <label class="splunk-input-label">OutlierMinEventCount:</label>
+                                        </div>
+                                        <div style="max-width: 180px;" class="input input-text" id="inputDataSourceConfigOutlierOutlierLowerThresholdMultiplier">
+                                            <label class="splunk-input-label">Lower threshold multiplier:</label>
+                                        </div>
+                                        <div style="max-width: 180px;" class="input input-text" id="inputDataSourceConfigOutlierOutlierUpperThresholdMultiplier">
+                                            <label class="splunk-input-label">Upper threshold multiplier:</label>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                                <div style="margin-left: 42px; margin-right: 42px; margin-bottom: 30px;">
+                                    <button type="submit" id="btn_outlier_config_data_source_save" role="button" style="margin-right: 15px;" class="btn btn-outline-danger pull-right"><span class="glyphicon glyphicon-remove"></span>Save Outliers settings</button>
+                                    <button type="submit" id="btn_outlier_config_data_source_simulate" role="button" style="margin-right: 15px;" class="btn btn-outline-primary pull-right"><span class="glyphicon glyphicon-remove"></span>Simulate Outliers settings</button>
+                                </div>
+
+                                <div style="padding: 20px;">
+                                    <div id="elementOutlierSimulation" class="view-elements">
+                                    </div>
+                                    <div id="resultsLinkelementOutlierSimulation" class="search-elements">
+                                    </div>
+                                </div>
+
+                                <style>
+                                    .parent-data-source-overview-simulation-timeinputs {
+                                        display: grid;
+                                        grid-template-columns: repeat(2, 1fr);
+                                        grid-template-rows: 1fr;
+                                        grid-column-gap: 0px;
+                                        grid-row-gap: 0px;
+                                        margin-left: 20px;
+                                    }
+                                </style>
+
+                                <div class="parent-data-source-overview-simulation-timeinputs">
+                                    <div class="input input-linklist" id="LinkTimeOutlierConfigurationDataSource">
+                                        <label>Select the time period for outliers detection, this period will be saved and used to restrict the calculations</label>
+                                    </div>
+                                    <div class="input input-linklist" id="LinkTimeOutlierConfigurationDataSourceSpan">
+                                        <label>Select the span for outliers rendering, this value will be saved and used for rendering purposes</label>
+                                    </div>
+                                </div>
+
                             </div>
 
                             <div id="data_source_data_sampling" style="display: none">
@@ -4267,7 +4325,9 @@ span.title_high_priority {
                             <div id="data_source_changes" style="display: none">
                             </div>
 
-                            <div id="inputLinkTime">
+                            <div id="data_source_timepicker" style="display: none">
+                                <div id="inputLinkTime">
+                                </div>
                             </div>
 
                             <div class="modal-footer">
@@ -8431,8 +8491,21 @@ span.title_high_priority {
 <row>
     <panel>
         <html>
-            | `trackme_outlier_chart(data_source, "$tk_object$", data_name, $tk_outlier_span$)`
+            | `trackme_outlier_chart_simulate(data_source, "$tk_object$", data_name, $tk_input_data_source_outlier_lower_threshold_multiplier$, $tk_input_data_source_outlier_upper_threshold_multiplier$, $tk_input_data_source_outlier_min_eventcount$, $tk_input_data_source_outlier_span$)`
+            <br />
+                    depends: "$show_data_source_tracker$",<br />
+                    depends: "$show_data_source_outlier_configuration$",<br />
+                    depends: "$start_outliers_simulation_data_source$",<br />
+                    earliest_time: "$tk_input_data_source_outlier_period$",
+
+
         </html>
+
+        <html>
+
+
+        </html>
+
     </panel>
 </row>
 
