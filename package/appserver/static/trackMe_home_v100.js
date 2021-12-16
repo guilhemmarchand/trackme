@@ -6645,6 +6645,34 @@ require([
         '</h3>'
       );
 
+      // data sampling
+      var tk_data_sampling_status_message = e.data["row.data_sample_status_message"];
+      var tk_data_sampling_status_colour = e.data["row.data_sample_status_colour"];
+      var tk_data_sample_anomaly_reason = e.data["row.data_sample_anomaly_reason"];
+      var tk_isanomaly = e.data["row.isAnomaly"];
+      var tk_data_sample_lastrun = e.data["row.data_sample_lastrun"];
+
+      var tk_data_sampling_status_message_class;
+      if (tk_data_sampling_status_colour == "green") {
+          var tk_data_sampling_status_message_class = "status_message_green";
+      } else if (tk_data_sampling_status_colour == "orange") {
+          var tk_data_sampling_status_message_class = "status_message_orange";
+      } else if (tk_data_sampling_status_colour == "blue") {
+          var tk_data_sampling_status_message_class = "status_message_blue";
+      } else if (tk_data_sampling_status_colour == "red") {
+          var tk_data_sampling_status_message_class = "status_message_red";
+      }
+
+      // replace the panel
+      $('#child-data-source-data-sampling').html(
+        '<div class="' + tk_data_sampling_status_message_class + '">' +
+        '<h2 style="font-weight: bold; color: darkslategray;">' + tk_data_sampling_status_message + '</h2>' +
+        '</div>'
+      );
+
+      // status message
+      var tk_status_message = e.data["row.status_message"];
+
       // dcount hosts
       var tk_dcount_host = e.data["row.dcount_host"];
       var tk_min_dcount_host = e.data["row.min_dcount_host"];
@@ -6672,16 +6700,6 @@ require([
       var tk_elastic_source_from_part2 = e.data["row.elastic_source_from_part2"];
       var tk_elastic_mstats_idx = e.data["row.elastic_mstats_idx"];
       var tk_elastic_mstats_filters = e.data["row.elastic_mstats_filters"];
-
-      // data sampling
-      var tk_data_sampling_status_message = e.data["row.data_sample_status_message"];
-      var tk_data_sampling_status_colour = e.data["row.data_sample_status_colour"];
-      var tk_data_sample_anomaly_reason = e.data["row.data_sample_anomaly_reason"];
-      var tk_isanomaly = e.data["row.isAnomaly"];
-      var tk_data_sample_lastrun = e.data["row.data_sample_lastrun"];
-
-      // status message
-      var tk_status_message = e.data["row.status_message"];
 
       // doc href
       var tk_doc_link = e.data["row.doc_link"];
@@ -14040,7 +14058,7 @@ var inputLinkQueuesTime = new LinkListInput({
                   else if (field == "data_sourcetype") {
                     tk_data_sourcetype = value;
                   }
-                  else if (field == "lag (event / ingestion)") {
+                  else if (field == "lag summary (lag event / lag ingestion)") {
                     tk_data_lag_summary = value;
                   }
                   else if (field == "last time") {

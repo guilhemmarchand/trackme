@@ -192,6 +192,7 @@ span.title_yellow {
     position: relative;
     border-radius: 5px;
     margin-left: 5px;
+    color: darkslategray;
 }
 
 span.title_orange {
@@ -201,6 +202,7 @@ span.title_orange {
     position: relative;
     border-radius: 5px;
     margin-left: 5px;
+    color: darkslategray;
 }
 
 span.title_blue {
@@ -210,6 +212,7 @@ span.title_blue {
     position: relative;
     border-radius: 5px;
     margin-left: 5px;
+    color: darkslategray;
 }
 
 span.title_green {
@@ -219,6 +222,7 @@ span.title_green {
     position: relative;
     border-radius: 5px;
     margin-left: 5px;
+    color: darkslategray;
 }
 
 span.title_red {
@@ -228,6 +232,7 @@ span.title_red {
     position: relative;
     border-radius: 5px;
     margin-left: 5px;
+    color: darkslategray;
 }
 
 span.title_grey {
@@ -237,6 +242,7 @@ span.title_grey {
     position: relative;
     border-radius: 5px;
     margin-left: 5px;
+    color: darkslategray;
 }
 
 span.title_low_priority {
@@ -246,6 +252,7 @@ span.title_low_priority {
     position: relative;
     border-radius: 5px;
     margin-left: 5px;
+    color: darkslategray;
 }
 
 span.title_medium_priority {
@@ -255,6 +262,7 @@ span.title_medium_priority {
     position: relative;
     border-radius: 5px;
     margin-left: 5px;
+    color: darkslategray;
 }
 
 span.title_high_priority {
@@ -264,38 +272,35 @@ span.title_high_priority {
     position: relative;
     border-radius: 5px;
     margin-left: 5px;
+    color: darkslategray;
 }
 
 .status_message_orange {
-    background-color: #ffd394;
+    background-color: #ffb347;
     margin: 30px 0;
     padding: 10px;
     border-radius: 3px 3px 3px 3px;
-    margin-bottom: 80px;
 }
 
 .status_message_blue {
-    background-color: #cfebf9;
+    background-color: #A7C7E7;
     margin: 30px 0;
     padding: 10px;
     border-radius: 3px 3px 3px 3px;
-    margin-bottom: 80px;
 }
 
 .status_message_green {
-    background-color: #b6edb6;
+    background-color: #77dd77;
     margin: 30px 0;
     padding: 10px;
     border-radius: 3px 3px 3px 3px;
-    margin-bottom: 80px;
 }
 
 .status_message_red {
-    background-color: #FFBABA;
+    background-color: #ff6961;
     margin: 30px 0;
     padding: 10px;
     border-radius: 3px 3px 3px 3px;
-    margin-bottom: 80px;
 }
 
 /*** Buttons ***/
@@ -586,6 +591,7 @@ span.title_high_priority {
         .btn-outline-primary.disabled, .btn-outline-primary:disabled {
         color: #5c6773;
         background-color: transparent;
+        border-color: #6c757d;
         }
 
         .btn-outline-primary:not(:disabled):not(.disabled):active, .btn-outline-primary:not(:disabled):not(.disabled).active,
@@ -4308,6 +4314,16 @@ span.title_high_priority {
                             </div>
 
                             <div id="data_source_data_sampling" style="display: none">
+
+                                <div style="padding: 20px;">
+                                    <div id="child-data-source-data-sampling">
+                                    </div>
+                                </div>
+
+                                <div class="btn_data_sampling_manage" style="margin-left: 42px; margin-right: 42px; margin-bottom: 60px;">
+                                    <button id="btn_data_sampling_manage" type="submit" data-dismiss="modal" role="button" style="margin-right: 15px;" class="btn btn-outline-primary pull-right"><span class="glyphicon glyphicon-remove"></span>Manage data sampling</button>
+                                </div>
+
                             </div>
 
                             <div id="data_source_data_parsing" style="display: none">
