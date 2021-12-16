@@ -3256,89 +3256,6 @@ span.title_high_priority {
                 </div>
 
                 <!-- Modal window for Data Sampling -->
-                <div class="modal fade custom-modal-80" id="data_sampling_manage" role="dialog">
-                    <div class="modal-dialog">
-                        <!-- Modal content-->
-                        <div class="modal-content">
-                            <div class="modal-header modal-header-info">
-                                <button type="button" class="close" data-dismiss="modal"></button>
-                                <h1><span class="glyphicon glyphicon-lock"></span> Data sampling &amp; events format recognition </h1>
-                            </div>
-                            <div class="modal-body">
-                                <div>
-                                    <div style="margin-bottom: 10px;">
-                                        <div>
-                                            <h2>The data sampling and events format recognition tracks the raw events format behaviour based on the following workflow:</h2>
-                                            <ul>
-                                                <li>On a regular basis, a sample of the latest data source raw events is taken and investigated by the Data sampling and format detection tracker</li>
-                                                <li>Events format recognition is performed against builtin regular expression rules to identify a unique event pattern, which can be extended with custom rules to hande unknown or custom formats</li>
-                                                <li>Depending on the conditions, such as a change detected in the format of the raw events, a status is determined and taken into account by the data sources trackers</li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                    <div style="margin-bottom: 20px;">
-                                        <img src="../../static/app/trackme/mindmaps/data_sampling_main.png" alt="data_sampling_main.png"></img>
-                                    </div>
-                                    <div style="margin-bottom: 10px;">
-                                        <span><a target="_blank" href="https://trackme.readthedocs.io/en/latest/userguide.html#data-sampling-and-event-formats-recognition">Link to documentation</a></span> / <span><a target="_blank" href="trackMe_audit_data_sampling">Link to data sampling audit dashboard</a></span>
-                                    </div>                                    
-                                    <div style="margin-bottom: 10px;">
-                                        <div>
-                                            <h3 style="color: steelblue;">Acting on a data sampling and events format recognition anomaly detection:</h3>
-                                            <lu>
-                                                <li>If during the discovery multiple events formats are detected, the feature is automatically disabled to avoid generating false positive alerts</li>
-                                                <li>If a certain format was previously identified and during the next iteration a format change is detected, an anomaly state will be raised</li>
-                                                <li>Once an anomaly was raised, the anomaly status is frozen and will not be cleared until a manual action is performed by running the "Clear state and run sampling" action</li>
-                                                <li>When the clear state action is performed, previously identified information for that data source are cleared, and the data sampling inspection starts over</li>
-                                            </lu>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div>
-                                    <div>
-                                        <div>
-                                            <div>
-                                                <div class="fieldset">
-                                                    <div id="tableDataSamplingSummary">
-                                                        <label>Data sampling summary for this data source:</label>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div style="margin-top: 20px;" class="modal-footer">
-                                    <div class="btn_data_sampling_back" style="margin-right: 15px; float: left;">
-                                        <button type="submit" class="btn btn-default btn-primary" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Back</button>
-                                    </div>
-                                    <div style="margin-right: 15px; float: right;">
-                                        <button id="btn_data_sampling_disable" type="submit" class="btn btn-default btn-danger" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Disable</button>
-                                    </div>
-                                    <div style="margin-right: 15px; float: right;">
-                                        <button id="btn_data_sampling_clear_now" type="submit" class="btn btn-default btn-danger" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Clear state &amp; run sampling</button>
-                                    </div>
-                                    <div style="margin-right: 15px; float: right;">
-                                        <button id="btn_data_sampling_edit_records_nr" type="submit" class="btn btn-default btn-danger" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Update records/sample</button>
-                                    </div>
-                                    <div style="margin-right: 15px; float: right;">
-                                        <button id="btn_run_data_sampling" type="submit" class="btn btn-default btn-primary" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Run sampling engine now</button>
-                                    </div>
-                                    <div style="margin-right: 15px; float: right;">
-                                        <button type="submit" id="btn_data_sampling_custom_rules_view" class="btn btn-default btn-primary" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Manage custom rules </button>
-                                    </div>
-                                    <div class="btn_data_sampling_builtin_rules" style="margin-right: 15px; float: right;">
-                                        <button type="submit" class="btn btn-default btn-info" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> View builtin rules </button>
-                                    </div>
-                                    <div style="margin-right: 15px; float: right;">
-                                        <a class="btn btn-info" id="btn_data_sampling_latest_sample" target="_blank" href="search" role="button">View latest sample events</a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Modal window for Data Sampling -->
                 <div class="modal fade custom-modal-80" id="data_sampling_show_custom_rules" role="dialog">
                     <div class="modal-dialog">
                         <!-- Modal content-->
@@ -4373,6 +4290,83 @@ span.title_high_priority {
                                 </div>
                                 <div class="btn_smart_status_data_source" style="margin-right: 15px; float: right;">
                                     <button type="submit" id="btn_smart_status_data_source" role="button" data-dismiss="modal" class="btn btn-outline-primary"><span class="glyphicon glyphicon-remove"></span>Smart Status</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Modal window for Data Sampling -->
+                <div class="modal fade custom-modal-80" id="data_sampling_manage" role="dialog">
+                    <div class="modal-dialog">
+                        <!-- Modal content-->
+                        <div class="modal-content">
+                            <div class="modal-header modal-header-info">
+                                <button type="button" class="close" data-dismiss="modal"></button>
+                                <h1><span class="glyphicon glyphicon-lock"></span> Data sampling &amp; events format recognition </h1>
+                            </div>
+                            <div class="modal-body">
+                                <div>
+                                    <div style="margin-bottom: 10px;">
+                                        <div>
+                                            <h2>The data sampling and events format recognition tracks the raw events format behaviour based on the following workflow:</h2>
+                                            <ul>
+                                                <li>On a regular basis, a sample of the latest data source raw events is taken and investigated by the Data sampling and format detection tracker</li>
+                                                <li>Events format recognition is performed against builtin regular expression rules to identify a unique event pattern, which can be extended with custom rules to hande unknown or custom formats</li>
+                                                <li>Depending on the conditions, such as a change detected in the format of the raw events, a status is determined and taken into account by the data sources trackers</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <div style="margin-bottom: 20px;">
+                                        <img src="../../static/app/trackme/mindmaps/data_sampling_main.png" alt="data_sampling_main.png"></img>
+                                    </div>
+                                    <div style="margin-bottom: 10px;">
+                                        <span><a target="_blank" href="https://trackme.readthedocs.io/en/latest/userguide.html#data-sampling-and-event-formats-recognition">Link to documentation</a></span> / <span><a target="_blank" href="trackMe_audit_data_sampling">Link to data sampling audit dashboard</a></span>
+                                    </div>                                    
+                                    <div style="margin-bottom: 10px;">
+                                        <div>
+                                            <h3 style="color: steelblue;">Acting on a data sampling and events format recognition anomaly detection:</h3>
+                                            <lu>
+                                                <li>If during the discovery multiple events formats are detected, the feature is automatically disabled to avoid generating false positive alerts</li>
+                                                <li>If a certain format was previously identified and during the next iteration a format change is detected, an anomaly state will be raised</li>
+                                                <li>Once an anomaly was raised, the anomaly status is frozen and will not be cleared until a manual action is performed by running the "Clear state and run sampling" action</li>
+                                                <li>When the clear state action is performed, previously identified information for that data source are cleared, and the data sampling inspection starts over</li>
+                                            </lu>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div>
+                                    <div class="fieldset">
+                                        <div id="tableDataSamplingSummary">
+                                            <label>Data sampling summary for this data source:</label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div style="margin-top: 20px;" class="modal-footer">
+                                    <div class="btn_data_sampling_back" style="margin-right: 15px; float: left;">
+                                        <button type="submit" class="btn btn-outline-secondary" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Back</button>
+                                    </div>
+                                    <div style="margin-right: 15px; float: right;">
+                                        <button id="btn_data_sampling_disable" type="submit" class="btn btn-outline-danger" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Disable</button>
+                                    </div>
+                                    <div style="margin-right: 15px; float: right;">
+                                        <button id="btn_data_sampling_clear_now" type="submit" class="btn btn-outline-danger" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Clear state &amp; run sampling</button>
+                                    </div>
+                                    <div style="margin-right: 15px; float: right;">
+                                        <button id="btn_data_sampling_edit_records_nr" type="submit" class="btn btn-outline-primary" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Update records/sample</button>
+                                    </div>
+                                    <div style="margin-right: 15px; float: right;">
+                                        <button id="btn_run_data_sampling" type="submit" class="btn btn-outline-primary" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Run sampling engine now</button>
+                                    </div>
+                                    <div style="margin-right: 15px; float: right;">
+                                        <button type="submit" id="btn_data_sampling_custom_rules_view" class="btn btn-outline-primary" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Manage custom rules </button>
+                                    </div>
+                                    <div class="btn_data_sampling_builtin_rules" style="margin-right: 15px; float: right;">
+                                        <button type="submit" class="btn btn-outline-primary" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> View builtin rules </button>
+                                    </div>
+                                    <div style="margin-right: 15px; float: right;">
+                                        <a class="btn btn-outline-primary" id="btn_data_sampling_latest_sample" target="_blank" href="search" role="button">View latest sample events</a>
+                                    </div>
                                 </div>
                             </div>
                         </div>

@@ -30239,7 +30239,7 @@ var inputLinkQueuesTime = new LinkListInput({
       var tokens = mvc.Components.get("default");
 
       // Built the search URI
-      var tk_data_name = tokens.get("tk_data_name");
+      var tk_data_name = tokens.get("tk_object");
       var tk_data_sourcetype = tokens.get("tk_data_sourcetype");
       var search_latest_sample =
         "search" +
