@@ -4194,7 +4194,7 @@ require([
       sample_ratio: null,
       latest_time: "now",
       search:
-        '| inputlookup trackme_data_sampling where data_name="$tk_data_name$" | eval " " = "<--" | fields data_sample_status_colour, data_sample_status_message, data_sample_feature, data_sampling_nr, current_detected_format, " ", previous_detected_format, data_sample_anomaly_detected, data_sample_anomaly_reason, multiformat_detected, data_sample_mtime | eval mtime=strftime(data_sample_mtime, "%c") | `trackme_eval_icons_data_sampling_enablement` | `trackme_eval_icons_data_sampling_summary` | rename data_sample_anomaly_reason as anomaly_reason, multiformat_detected as multiformat | eval previous_detected_format=if(isnull(previous_detected_format), "N/A", previous_detected_format) | append [ | makeresults | eval data_sample_feature="N/A", current_detected_format="N/A", previous_detected_format="N/A", state="N/A", anomaly_reason="N/A", multiformat="N/A", mtime="N/A" ] | eval data_sampling_nr=if(isnum(data_sampling_nr), data_sampling_nr, `trackme_data_sampling_default_sample_record_at_run`) | fields - data_name | rename data_sample_feature as feature | head 1',
+        '| inputlookup trackme_data_sampling where _key="$tk_keyid$" | eval " " = "<--" | fields data_sample_status_colour, data_sample_status_message, data_sample_feature, data_sampling_nr, current_detected_format, " ", previous_detected_format, data_sample_anomaly_detected, data_sample_anomaly_reason, multiformat_detected, data_sample_mtime | eval mtime=strftime(data_sample_mtime, "%c") | `trackme_eval_icons_data_sampling_enablement` | `trackme_eval_icons_data_sampling_summary` | rename data_sample_anomaly_reason as anomaly_reason, multiformat_detected as multiformat | eval previous_detected_format=if(isnull(previous_detected_format), "N/A", previous_detected_format) | append [ | makeresults | eval data_sample_feature="N/A", current_detected_format="N/A", previous_detected_format="N/A", state="N/A", anomaly_reason="N/A", multiformat="N/A", mtime="N/A" ] | eval data_sampling_nr=if(isnum(data_sampling_nr), data_sampling_nr, `trackme_data_sampling_default_sample_record_at_run`) | fields - data_name | rename data_sample_feature as feature | head 1',
       status_buckets: 0,
       app: utils.getCurrentApp(),
       auto_cancel: 90,
@@ -4206,7 +4206,6 @@ require([
     },
     {
       tokens: true,
-      tokenNamespace: "submitted",
     }
   );
 
@@ -12056,7 +12055,7 @@ require([
 
   // Data Sampling
 
-  var tableDataSamplingSummary = new TableElement({
+  var tableDataSamplingSummary = new TableView({
     "id": "tableDataSamplingSummary",
     "tokenDependencies": {
         "depends": "$show_data_sampling$"
@@ -12069,10 +12068,22 @@ require([
     "managerid": "searchDataSamplingTable1",
     "el": $('#tableDataSamplingSummary')
     }, {
-        tokens: true,
-        tokenNamespace: "submitted"
+        tokens: true
     }).render();
 
+  renderTableIcon(tableDataSamplingSummary);
+
+  var resultsLinktableDataSamplingSummary = new ResultsLinkView({
+    id: "resultsLinktableDataSamplingSummary",
+    managerid: "searchDataSamplingTable1",
+    "link.exportResults.visible": false,
+    el: $("#resultsLinktableDataSamplingSummary"),
+  });
+
+  resultsLinktableDataSamplingSummary
+    .render()
+    .$el.appendTo($("resultsLinktableDataSamplingSummary"));
+  
   var tableDataSamplingShowBuiltinRules = new TableElement({
       "id": "tableDataSamplingShowBuiltinRules",
       "tokenDependencies": {
@@ -30252,6 +30263,8 @@ var inputLinkQueuesTime = new LinkListInput({
             '" | `trackme_data_sampling_abstract_detect_events_format` | lookup trackme_data_sampling_custom_models model_name as current_detected_format output model_type | eval model_type=if(isnull(model_type) AND isnotnull(current_detected_format), "inclusive", model_type)'
         );
 
+      console.log("search_latest_sample is: " + search_latest_sample);
+
       // Verify the current data sampling obfuscation mode, if enabled we change the search target
 
       // Define the query
@@ -30326,7 +30339,7 @@ var inputLinkQueuesTime = new LinkListInput({
         document.getElementById("btn_run_data_sampling").disabled = false;
       }
 
-      $("#modal_manage").modal("hide");
+      // open modal
       $("#data_sampling_manage").modal();
     });
   });

@@ -37791,6 +37791,7 @@ require([
         $('.btn_data_sampling_back').each(function() {
             var $btn_group = $(this);
             $btn_group.find('button').on('click', function() {
+                console.log("back clicked");
                 var $btn = $(this);
                 $("#modal_manage").modal()
             });

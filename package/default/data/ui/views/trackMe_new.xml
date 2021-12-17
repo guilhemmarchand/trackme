@@ -4337,8 +4337,10 @@ span.title_high_priority {
                                 </div>
                                 <div>
                                     <div class="fieldset">
-                                        <div id="tableDataSamplingSummary">
+                                        <div id="tableDataSamplingSummary" class="view-elements">
                                             <label>Data sampling summary for this data source:</label>
+                                        </div>
+                                        <div id="resultsLinktableDataSamplingSummary" class="search-elements">
                                         </div>
                                     </div>
                                 </div>
