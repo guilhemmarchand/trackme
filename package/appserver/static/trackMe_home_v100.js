@@ -1729,7 +1729,7 @@ require([
       cancelOnUnload: true,
       sample_ratio: null,
       latest_time: "$modalTime.latest$",
-      search: '| mstats max(trackme.eventcount_4h) as eventcount_4h, max(trackme.hostcount_4h) as hostcount_4h, max(trackme.lag_event_sec) as lag_event_sec, max(trackme.lag_ingestion_sec) as lag_ingestion_sec where `trackme_metrics_idx` object_category="data_source" object="$tk_data_name$" by object span=5m | timechart span=$modalTime.span$ avg(eventcount_4h) as eventcount_4h, avg(hostcount_4h) as hostcount_4h, avg(lag_event_sec) as lag_event_sec, avg(lag_ingestion_sec) as lag_ingestion_sec | fields _time, $tk_input_data_source_overview_metrics_chart_series$',
+      search: '| mstats max(trackme.eventcount_4h) as eventcount_4h, max(trackme.hostcount_4h) as hostcount_4h, max(trackme.lag_event_sec) as lag_event_sec, max(trackme.lag_ingestion_sec) as lag_ingestion_sec where `trackme_metrics_idx` object_category="data_source" object="$tk_object$" by object span=5m | timechart span=$modalTime.span$ avg(eventcount_4h) as eventcount_4h, avg(hostcount_4h) as hostcount_4h, avg(lag_event_sec) as lag_event_sec, avg(lag_ingestion_sec) as lag_ingestion_sec | fields _time, $tk_input_data_source_overview_metrics_chart_series$',
       status_buckets: 0,
       app: utils.getCurrentApp(),
       auto_cancel: 90,
@@ -3136,7 +3136,7 @@ require([
   var searchSingleByMetricsLag = new SearchManager({
       id: "searchSingleByMetricsLag",
       sample_ratio: 1,
-      search: '| mstats perc95(trackme.lag_ingestion_sec) as perc95_lag, avg(trackme.lag_ingestion_sec) as avg_lag, latest(trackme.lag_event_sec) as event_lag where `trackme_metrics_idx` object_category="data_source" object="$tk_data_name$"',
+      search: '| mstats perc95(trackme.lag_ingestion_sec) as perc95_lag, avg(trackme.lag_ingestion_sec) as avg_lag, latest(trackme.lag_event_sec) as event_lag where `trackme_metrics_idx` object_category="data_source" object="$tk_object$"',
       status_buckets: 0,
       earliest_time: "$modalTime.earliest$",
       cancelOnUnload: true,
@@ -13224,6 +13224,223 @@ require([
       tokens: true,
       tokenNamespace: "submitted"
   }).render();
+
+  var resultsLinkelementSearchDataSourceParsingQualityChart = new ResultsLinkView({
+    id: "resultsLinkelementSearchDataSourceParsingQualityChart",
+    managerid: "SearchDataSourceParsingQualityChart",
+    "link.exportResults.visible": false,
+    el: $("#resultsLinkelementSearchDataSourceParsingQualityChart"),
+  });
+  
+  resultsLinkelementSearchDataSourceParsingQualityChart
+    .render()
+    .$el.appendTo($("resultsLinkelementSearchDataSourceParsingQualityChart"));
+  
+  // modal Single Lag
+  var elementSingleLagByMetricsPerc95 = new SingleView({
+    "id": "elementSingleLagByMetricsPerc95",
+    "trendDisplayMode": "absolute",
+    "numberPrecision": "0",
+    "drilldown": "none",
+    "trellis.size": "medium",
+    "trendColorInterpretation": "standard",
+    "height": "95",
+    "useColors": "0",
+    "colorBy": "value",
+    "showTrendIndicator": "1",
+    "showSparkline": "1",
+    "trellis.enabled": "0",
+    "unit": "",
+    "rangeColors": "[\"0x77dd77\",\"0x0877a6\",\"0xf8be34\",\"0xf1813f\",\"0xdc4e41\"]",
+    "colorMode": "none",
+    "rangeValues": "[0,30,70,100]",
+    "unitPosition": "after",
+    "trellis.scales.shared": "1",
+    "useThousandSeparators": "1",
+    "underLabel": "PERC95 INGESTION LAG (sec or [D+]HH:MM:SS)",
+    "managerid": "searchSingleLagByMetricsPerc95",
+    "el": $('#elementSingleLagByMetricsPerc95')
+}, {
+    tokens: true,
+    tokenNamespace: "submitted"
+}).render();
+
+var resultsLinkelementSingleLagByMetricsPerc95 = new ResultsLinkView({
+  id: "resultsLinkelementSingleLagByMetricsPerc95",
+  managerid: "searchSingleLagByMetricsPerc95",
+  "link.exportResults.visible": false,
+  el: $("#resultsLinkelementSingleLagByMetricsPerc95"),
+});
+
+resultsLinkelementSingleLagByMetricsPerc95
+  .render()
+  .$el.appendTo($("resultsLinkelementSingleLagByMetricsPerc95"));
+
+var elementSingleLagByMetricsAvg = new SingleView({
+    "id": "elementSingleLagByMetricsAvg",
+    "trendDisplayMode": "absolute",
+    "numberPrecision": "0.00",
+    "drilldown": "none",
+    "trellis.size": "medium",
+    "trendColorInterpretation": "standard",
+    "height": "95",
+    "useColors": "0",
+    "colorBy": "value",
+    "showTrendIndicator": "1",
+    "showSparkline": "1",
+    "trellis.enabled": "0",
+    "unit": "",
+    "rangeColors": "[\"0x77dd77\",\"0x0877a6\",\"0xf8be34\",\"0xf1813f\",\"0xdc4e41\"]",
+    "colorMode": "none",
+    "rangeValues": "[0,30,70,100]",
+    "unitPosition": "after",
+    "trellis.scales.shared": "1",
+    "useThousandSeparators": "1",
+    "underLabel": "AVG INGESTION LAG (sec or [D+]HH:MM:SS)",
+    "managerid": "searchSingleLagByMetricsAvg",
+    "el": $('#elementSingleLagByMetricsAvg')
+}, {
+    tokens: true,
+    tokenNamespace: "submitted"
+}).render();
+
+var resultsLinkelementSingleLagByMetricsAvg = new ResultsLinkView({
+  id: "resultsLinkelementSingleLagByMetricsAvg",
+  managerid: "searchSingleLagByMetricsAvg",
+  "link.exportResults.visible": false,
+  el: $("#resultsLinkelementSingleLagByMetricsAvg"),
+});
+
+resultsLinkelementSingleLagByMetricsAvg
+  .render()
+  .$el.appendTo($("resultsLinkelementSingleLagByMetricsAvg"));
+
+var elementSingleEventByMetricsLag = new SingleView({
+    "id": "elementSingleEventByMetricsLag",
+    "trendDisplayMode": "absolute",
+    "numberPrecision": "0.00",
+    "drilldown": "none",
+    "trellis.size": "medium",
+    "trendColorInterpretation": "standard",
+    "height": "95",
+    "useColors": "0",
+    "colorBy": "value",
+    "showTrendIndicator": "1",
+    "showSparkline": "1",
+    "trellis.enabled": "0",
+    "unit": "",
+    "rangeColors": "[\"0x77dd77\",\"0x0877a6\",\"0xf8be34\",\"0xf1813f\",\"0xdc4e41\"]",
+    "colorMode": "none",
+    "rangeValues": "[0,30,70,100]",
+    "unitPosition": "after",
+    "trellis.scales.shared": "1",
+    "useThousandSeparators": "1",
+    "underLabel": "CURRENT EVENT LAG (sec or [D+]HH:MM:SS)",
+    "managerid": "searchSingleEventByMetricsLag",
+    "el": $('#elementSingleEventByMetricsLag')
+}, {
+    tokens: true,
+    tokenNamespace: "submitted"
+}).render();
+
+var resultsLinkelementSingleEventByMetricsLag = new ResultsLinkView({
+  id: "resultsLinkelementSingleEventByMetricsLag",
+  managerid: "searchSingleEventByMetricsLag",
+  "link.exportResults.visible": false,
+  el: $("#resultsLinkelementSingleEventByMetricsLag"),
+});
+
+resultsLinkelementSingleEventByMetricsLag
+  .render()
+  .$el.appendTo($("resultsLinkelementSingleEventByMetricsLag"));
+
+  // Lagging performance metrics
+  var chartLaggingMetricDataSourceOverTime = new ChartView({
+    "id": "chartLaggingMetricDataSourceOverTime",
+    "charting.axisX.abbreviation": "none",
+    "charting.legend.mode": "standard",
+    "charting.chart.bubbleMaximumSize": "50",
+    "charting.chart.sliceCollapsingThreshold": "0.01",
+    "charting.axisTitleY.text": "4h Events count",
+    "refresh.display": "progressbar",
+    "charting.chart.nullValueMode": "gaps",
+    "charting.axisTitleX.visibility": "collapsed",
+    "charting.axisTitleY2.text": "$data_source_overview_metrics_chart1_axis$",
+    "charting.axisLabelsY2.majorUnit": "$data_source_overview_metrics_chart1_axisUnit$",
+    "charting.axisX.scale": "linear",
+    "charting.drilldown": "none",
+    "charting.axisLabelsX.majorLabelStyle.overflowMode": "ellipsisNone",
+    "charting.chart.overlayFields": "lag_event_sec,lag_ingestion_sec,hostcount_4h",
+    "charting.chart.showDataLabels": "none",
+    "charting.axisTitleY2.visibility": "visible",
+    "charting.axisY2.enabled": "1",
+    "charting.axisY2.scale": "inherit",
+    "trellis.scales.shared": "1",
+    "charting.layout.splitSeries.allowIndependentYRanges": "0",
+    "charting.chart.bubbleSizeBy": "area",
+    "charting.chart.bubbleMinimumSize": "10",
+    "charting.chart.style": "shiny",
+    "charting.axisY.scale": "linear",
+    "charting.layout.splitSeries": "0",
+    "charting.fieldColors": "{\"eventcount_4h\": 0xaec6cf, \"lag_event_sec\": 0x9542f5, \"lag_ingestion_sec\": 0xff6961, \"hostcount_4h\": 0xff6961}",
+    "resizable": true,
+    "charting.legend.labelStyle.overflowMode": "ellipsisMiddle",
+    "charting.lineWidth": "2",
+    "charting.axisTitleY.visibility": "visible",
+    "charting.chart.stackMode": "default",
+    "charting.legend.placement": "right",
+    "trellis.size": "medium",
+    "charting.axisLabelsX.majorLabelStyle.rotation": "0",
+    "charting.axisY2.abbreviation": "none",
+    "charting.chart": "column",
+    "charting.axisY.abbreviation": "none",
+    "trellis.enabled": "0",
+    "managerid": "searchLaggingMetricDataSource",
+    "el": $('#chartLaggingMetricDataSourceOverTime')
+}, {
+    tokens: true,
+    tokenNamespace: "submitted"
+}).render();
+
+var resultsLinkchartLaggingMetricDataSourceOverTime = new ResultsLinkView({
+  id: "resultsLinkchartLaggingMetricDataSourceOverTime",
+  managerid: "searchLaggingMetricDataSource",
+  "link.exportResults.visible": false,
+  el: $("#resultsLinkchartLaggingMetricDataSourceOverTime"),
+});
+
+resultsLinkchartLaggingMetricDataSourceOverTime
+  .render()
+  .$el.appendTo($("resultsLinkchartLaggingMetricDataSourceOverTime"));
+
+var inputDataSourceOverviewMetricsChartSeries = new DropdownInput({
+  "id": "inputDataSourceOverviewMetricsChartSeries",
+  "choices": [
+      {"label": "events / lag", "value": "eventcount_4h, lag_event_sec, lag_ingestion_sec"},
+      {"label": "events / host dcount", "value": "eventcount_4h, hostcount_4h"}
+  ],
+  "default": "eventcount_4h, lag_event_sec, lag_ingestion_sec",
+  "searchWhenChanged": true,
+  "selectFirstChoice": false,
+  "showClearButton": true,
+  "initialValue": "eventcount_4h, lag_event_sec, lag_ingestion_sec",
+  "value": "$form.tk_input_data_source_overview_metrics_chart_series$",
+  "el": $('#inputDataSourceOverviewMetricsChartSeries')
+}, {tokens: true}).render();
+
+inputDataSourceOverviewMetricsChartSeries.on("change", function(newValue) {
+  FormUtils.handleValueChange(inputDataSourceOverviewMetricsChartSeries);
+});
+
+inputDataSourceOverviewMetricsChartSeries.on("valueChange", function(e) {
+  if (e.value === "eventcount_4h, lag_event_sec, lag_ingestion_sec") {
+      EventHandler.setToken("data_source_overview_metrics_chart1_axis", "lagging (sec)", {}, e.data);
+      EventHandler.setToken("data_source_overview_metrics_chart1_axisUnit", "0.1", {}, e.data);
+  } else if (e.value === "eventcount_4h, hostcount_4h") {
+      EventHandler.setToken("data_source_overview_metrics_chart1_axis", "hosts distinct count", {}, e.data);
+      EventHandler.setToken("data_source_overview_metrics_chart1_axisUnit", "1", {}, e.data);
+  }
+});
 
   //
   // BEGIN OPERATIONS
