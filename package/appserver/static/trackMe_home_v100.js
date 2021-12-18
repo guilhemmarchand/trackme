@@ -1898,7 +1898,7 @@ require([
       cancelOnUnload: true,
       sample_ratio: null,
       latest_time: "$modalTime.latest$",
-      search: '`trackme_idx` source="flip_state_change_tracking" object_category="data_source" object="$tk_data_name$" | eval separator = "-->" | dedup _time object object_category object_previous_state object_state | table _time object object_category object_previous_state separator object_state result',
+      search: '`trackme_idx` source="flip_state_change_tracking" object_category="data_source" object="$tk_object$" | eval separator = "-->" | dedup _time object object_category object_previous_state object_state | table _time object object_category object_previous_state separator object_state result',
       status_buckets: 0,
       app: utils.getCurrentApp(),
       auto_cancel: 90,
@@ -1908,8 +1908,7 @@ require([
       },
       runWhenTimeIsUndefined: false,
   }, {
-      tokens: true,
-      tokenNamespace: "submitted",
+      tokens: true
   });
 
   new SearchEventHandler({
@@ -1933,6 +1932,20 @@ require([
               }, ],
           },
       ],
+  });
+
+  // set the panel visibility
+  searchDataSourceMainAuditFlip.on("change", function(newValue) {
+    var show_flipping_status_no_results = getToken("show_flipping_status_no_results");
+    if (show_flipping_status_no_results === 'True') {
+        $("#divDataSourceFlippingNotFound").css("display", "none");
+        $("#divDataSourceFlippingChart").css("display", "inherit");
+        $("#divDataSourceFlippingTable").css("display", "inherit");        
+    } else {
+      $("#divDataSourceFlippingNotFound").css("display", "inherit");
+      $("#divDataSourceFlippingChart").css("display", "none");
+      $("#divDataSourceFlippingTable").css("display", "none");        
+  }
   });
 
   var searchMainDataSourceAuditFlipTable = new PostProcessManager({
@@ -13441,6 +13454,61 @@ inputDataSourceOverviewMetricsChartSeries.on("valueChange", function(e) {
       EventHandler.setToken("data_source_overview_metrics_chart1_axisUnit", "1", {}, e.data);
   }
 });
+
+        // Audit Flip Data Source
+        var elementMainTableAuditFlipDataSource = new TableView({
+          "id": "elementMainTableAuditFlipDataSource",
+          "count": 5,
+          "drilldown": "none",
+          "refresh.display": "none",
+          "wrap": "false",
+          "managerid": "searchMainDataSourceAuditFlipTable",
+          "el": $('#elementMainTableAuditFlipDataSource')
+      }, {
+          tokens: true,
+          tokenNamespace: "submitted"
+      }).render();
+
+      renderTableIcon(elementMainTableAuditFlipDataSource);
+
+      var resultsLinkelementMainTableAuditFlipDataSource = new ResultsLinkView({
+        id: "resultsLinkelementMainTableAuditFlipDataSource",
+        managerid: "searchMainDataSourceAuditFlipTable",
+        "link.exportResults.visible": false,
+        el: $("#resultsLinkelementMainTableAuditFlipDataSource"),
+      });
+      
+      resultsLinkelementMainTableAuditFlipDataSource
+        .render()
+        .$el.appendTo($("resultsLinkelementMainTableAuditFlipDataSource"));
+      
+      var chartAuditFlipDataSourceOverTime = new ChartView({
+          "id": "chartAuditFlipDataSourceOverTime",
+          "charting.chart.stackMode": "stacked",
+          "charting.chart": "column",
+          "charting.drilldown": "all",
+          "charting.axisLabelsY.majorUnit": "1",
+          "charting.fieldColors": "{\"orange\": 0xffd394, \"blue\": 0xcfebf9, \"green\": 0xb6edb6, \"red\": 0xFFBABA}",
+          "resizable": true,
+          "height": "150",
+          "managerid": "searchAuditDataSourceFlipOverTime",
+          "el": $('#chartAuditFlipDataSourceOverTime')
+      }, {
+          tokens: true,
+          tokenNamespace: "submitted"
+      }).render();
+
+      var resultsLinkchartAuditFlipDataSourceOverTime = new ResultsLinkView({
+        id: "resultsLinkchartAuditFlipDataSourceOverTime",
+        managerid: "searchAuditDataSourceFlipOverTime",
+        "link.exportResults.visible": false,
+        el: $("#resultsLinkchartAuditFlipDataSourceOverTime"),
+      });
+      
+      resultsLinkchartAuditFlipDataSourceOverTime
+        .render()
+        .$el.appendTo($("resultsLinkchartAuditFlipDataSourceOverTime"));
+
 
   //
   // BEGIN OPERATIONS

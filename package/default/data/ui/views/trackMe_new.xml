@@ -4548,6 +4548,7 @@ span.title_high_priority {
 									</div>
 								</div>
 							</div>
+
 							<div id="data_source_data_sampling" style="display: none">
 								<div style="padding: 20px;">
 									<div id="child-data-source-data-sampling"></div>
@@ -4572,6 +4573,7 @@ span.title_high_priority {
 									</div>
 								</div>
 							</div>
+
 							<div id="data_source_metrics" style="display: none">
 
                                 <style>
@@ -4614,9 +4616,48 @@ span.title_high_priority {
 
                             </div>
 
-							<div id="data_source_flipping" style="display: none"></div>
-							<div id="data_source_audit" style="display: none"></div>
-							<div id="data_source_changes" style="display: none"></div>
+							<div id="data_source_flipping" style="display: none">
+
+                                <div style="padding: 20px;">
+                                    <div id="divDataSourceFlippingChart" style="display: none">
+                                        <h3>Flip over time</h3>
+                                        <div id="chartAuditFlipDataSourceOverTime" class="view-elements"></div>
+                                        <div id="resultsLinkchartAuditFlipDataSourceOverTime" class="search-elements"></div>
+                                    </div>
+                                </div>
+
+                                <div style="padding: 20px;">
+                                    <div id="divDataSourceFlippingTable" style="display: none">
+                                        <div id="elementMainTableAuditFlipDataSource" class="view-elements">
+                                        <div id="resultsLinkelementMainTableAuditFlipDataSource" class="search-elements"></div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div style="padding: 20px;">
+                                    <div id="divDataSourceFlippingNotFound" style="display: none">
+                                        <div class="status_message_green">
+                                            <h2 style="font-weight: bold;">No flipping status detected within the period</h2>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+
+
+							<div id="data_source_audit" style="display: none">
+                            
+                            </div>
+
+
+							<div id="data_source_changes" style="display: none">
+                            
+                            
+                            </div>
+
+
+
+
 							<div id="data_source_timepicker" style="display: none">
 								<div id="inputLinkTime"></div>
 							</div>
