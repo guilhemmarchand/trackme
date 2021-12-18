@@ -4356,6 +4356,127 @@ span.title_high_priority {
                     </div>
                 </div>
 
+                <!--
+                Smart Status
+                -->
+
+                <!-- Modal window for Smart Status Data Source -->
+                <div class="modal fade custom-modal-80" id="smart_status_data_source" role="dialog">
+                    <div class="modal-dialog">
+                        <!-- Modal content-->
+                        <div class="modal-content">
+                            <div class="modal-header modal-header-info">
+                                <button type="button" class="close" data-dismiss="modal"></button>
+                                <h1><span class="glyphicon glyphicon-lock"></span> Smart Status </h1>
+                            </div>
+                            <div class="modal-body">
+                                <div>
+                                    <div>
+                                        <div>
+                                            <h1>The Smart Status performs advanced investigations and correlations dynamically depending on the state of the data source and the conditions:</h1>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div>
+                                    <div id="eventSmartStatusDataSource" class="view-elements">
+                                    </div>
+                                    <div id="resultsLinkeventSmartStatusDataSource" class="search-elements">
+                                    </div>
+                                </div>                                
+                                <div style="margin-top: 20px;" class="modal-footer">
+                                    <div style="margin-right: 15px; float: left;">
+                                        <button type="submit" class="btn btn-outline-secondary pull-left" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Close</button>
+                                    </div>
+                                    <div style="margin-right: 15px; float: right;">
+                                        <button id="btn_smart_status_data_source_back" type="submit" class="btn btn-outline-secondary" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Back </button>
+                                    </div>
+                                    <div style="margin-right: 15px; float: right;">
+                                        <a class="btn btn-outline-primary" id="btn_smart_status_data_source_history" target="_blank" href="search_data_source_smart_status" role="button">Search alert actions history</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Modal window for Smart Status Data Host -->
+                <div class="modal fade custom-modal-80" id="smart_status_data_host" role="dialog">
+                    <div class="modal-dialog">
+                        <!-- Modal content-->
+                        <div class="modal-content">
+                            <div class="modal-header modal-header-info">
+                                <button type="button" class="close" data-dismiss="modal"></button>
+                                <h1><span class="glyphicon glyphicon-lock"></span> Smart Status </h1>
+                            </div>
+                            <div class="modal-body">
+                                <div>
+                                    <div style="margin-bottom: 10px;">
+                                        <div>
+                                            <h1>The Smart Status performs advanced investigations and correlations dynamically depending on the state of the data host and the conditions:</h1>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div>
+                                    <div id="eventSmartStatusDataHost" class="view-elements">
+                                    </div>
+                                    <div id="resultsLinkeventSmartStatusDataHost" class="search-elements">
+                                    </div>
+                                </div>                                
+                                <div style="margin-top: 20px;" class="modal-footer">
+                                    <div style="margin-right: 15px; float: left;">
+                                        <button type="submit" class="btn btn-outline-secondary pull-left" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Close</button>
+                                    </div>
+                                    <div style="margin-right: 15px; float: right;">
+                                        <button id="btn_smart_status_data_host_back" type="submit" class="btn btn-outline-secondary" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Back </button>
+                                    </div>
+                                    <div style="margin-right: 15px; float: right;">
+                                        <a class="btn btn-outline-primary" id="btn_smart_status_data_host_history" target="_blank" href="search_data_host_smart_status" role="button">Search alert actions history</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Modal window for Smart Status Metric Host -->
+                <div class="modal fade custom-modal-80" id="smart_status_metric_host" role="dialog">
+                    <div class="modal-dialog">
+                        <!-- Modal content-->
+                        <div class="modal-content">
+                            <div class="modal-header modal-header-info">
+                                <button type="button" class="close" data-dismiss="modal"></button>
+                                <h1><span class="glyphicon glyphicon-lock"></span> Smart Status </h1>
+                            </div>
+                            <div class="modal-body">
+                                <div>
+                                    <div style="margin-bottom: 10px;">
+                                        <div>
+                                            <h1>The Smart Status performs advanced investigations and correlations dynamically depending on the state of the Metric Host and the conditions:</h1>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div>
+                                    <div id="eventSmartStatusMetricHost" class="view-elements">
+                                    </div>
+                                    <div id="resultsLinkeventSmartStatusMetricHost" class="search-elements">
+                                    </div>
+                                </div>                                
+                                <div style="margin-top: 20px;" class="modal-footer">
+                                    <div style="margin-right: 15px; float: left;">
+                                        <button type="submit" class="btn btn-outline-secondary pull-left" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Close</button>
+                                    </div>
+                                    <div style="margin-right: 15px; float: right;">
+                                        <button id="btn_smart_status_metric_host_back" type="submit" class="btn btn-outline-secondary" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Back </button>
+                                    </div>
+                                    <div style="margin-right: 15px; float: right;">
+                                        <a class="btn btn-outline-primary" id="btn_smart_status_metric_host_history" target="_blank" href="search_metric_host_smart_status" role="button">Search alert actions history</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
         </html>
 
         <html>
@@ -4491,178 +4612,6 @@ span.title_high_priority {
                                     </div>
                                     <div style="margin-right: 15px; float: right;">
                                         <button id="btn_metric_host_search_and_report_back" type="submit" class="btn btn-default btn-primary" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Back </button>
-                                    </div>
-                                </div>
-
-                            </div>
-
-                        </div>
-
-                    </div>
-                </div>
-
-                <!--
-                Smart Status
-                -->
-
-                <!-- Modal window for Smart Status Data Source -->
-                <div class="modal fade custom-modal-80" id="smart_status_data_source" role="dialog">
-                    <div class="modal-dialog">
-
-                        <!-- Modal content-->
-                        <div class="modal-content">
-                            <div class="modal-header modal-header-info">
-                                <button type="button" class="close" data-dismiss="modal"></button>
-                                <h1><span class="glyphicon glyphicon-lock"></span> Smart Status </h1>
-                            </div>
-
-                            <div class="modal-body">
-
-                                <div>
-
-                                    <div style="margin-bottom: 10px;">
-
-                                        <div>
-                                            <h3>The Smart Status performs advanced investigations and correlations dynamically depending on the state of the data source and the conditions:</h3>
-                                        </div>
-
-                                    </div>
-
-                                </div>
-
-                                <div>
-                                    <div>
-                                        <div>
-                                            
-                                            <div>
-                                                <div id="eventSmartStatusDataSource">
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                
-                                <div style="margin-top: 20px;" class="modal-footer">
-                                    <div style="margin-right: 15px; float: left;">
-                                        <button type="submit" class="btn btn-default btn-default pull-left" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Close</button>
-                                    </div>
-                                    <div style="margin-right: 15px; float: right;">
-                                        <button id="btn_smart_status_data_source_back" type="submit" class="btn btn-default btn-primary" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Back </button>
-                                    </div>
-                                    <div style="margin-right: 15px; float: right;">
-                                        <a class="btn btn-primary" id="btn_smart_status_data_source_history" target="_blank" href="search_data_source_smart_status" role="button">Search alert actions history</a>
-                                    </div>
-                                </div>
-
-                            </div>
-
-                        </div>
-
-                    </div>
-                </div>
-
-                <!-- Modal window for Smart Status Data Host -->
-                <div class="modal fade custom-modal-80" id="smart_status_data_host" role="dialog">
-                    <div class="modal-dialog">
-
-                        <!-- Modal content-->
-                        <div class="modal-content">
-                            <div class="modal-header modal-header-info">
-                                <button type="button" class="close" data-dismiss="modal"></button>
-                                <h1><span class="glyphicon glyphicon-lock"></span> Smart Status </h1>
-                            </div>
-
-                            <div class="modal-body">
-
-                                <div>
-
-                                    <div style="margin-bottom: 10px;">
-
-                                        <div>
-                                            <h3>The Smart Status performs advanced investigations and correlations dynamically depending on the state of the data host and the conditions:</h3>
-                                        </div>
-
-                                    </div>
-
-                                </div>
-
-                                <div>
-                                    <div>
-                                        <div>
-                                            
-                                            <div>
-                                                <div id="eventSmartStatusDataHost">
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                
-                                <div style="margin-top: 20px;" class="modal-footer">
-                                    <div style="margin-right: 15px; float: left;">
-                                        <button type="submit" class="btn btn-default btn-default pull-left" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Close</button>
-                                    </div>
-                                    <div style="margin-right: 15px; float: right;">
-                                        <button id="btn_smart_status_data_host_back" type="submit" class="btn btn-default btn-primary" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Back </button>
-                                    </div>
-                                    <div style="margin-right: 15px; float: right;">
-                                        <a class="btn btn-primary" id="btn_smart_status_data_host_history" target="_blank" href="search_data_host_smart_status" role="button">Search alert actions history</a>
-                                    </div>
-                                </div>
-
-                            </div>
-
-                        </div>
-
-                    </div>
-                </div>
-
-                <!-- Modal window for Smart Status Metric Host -->
-                <div class="modal fade custom-modal-80" id="smart_status_metric_host" role="dialog">
-                    <div class="modal-dialog">
-
-                        <!-- Modal content-->
-                        <div class="modal-content">
-                            <div class="modal-header modal-header-info">
-                                <button type="button" class="close" data-dismiss="modal"></button>
-                                <h1><span class="glyphicon glyphicon-lock"></span> Smart Status </h1>
-                            </div>
-
-                            <div class="modal-body">
-
-                                <div>
-
-                                    <div style="margin-bottom: 10px;">
-
-                                        <div>
-                                            <h3>The Smart Status performs advanced investigations and correlations dynamically depending on the state of the Metric Host and the conditions:</h3>
-                                        </div>
-
-                                    </div>
-
-                                </div>
-
-                                <div>
-                                    <div>
-                                        <div>
-                                            
-                                            <div>
-                                                <div id="eventSmartStatusMetricHost">
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                
-                                <div style="margin-top: 20px;" class="modal-footer">
-                                    <div style="margin-right: 15px; float: left;">
-                                        <button type="submit" class="btn btn-default btn-default pull-left" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Close</button>
-                                    </div>
-                                    <div style="margin-right: 15px; float: right;">
-                                        <button id="btn_smart_status_metric_host_back" type="submit" class="btn btn-default btn-primary" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Back </button>
-                                    </div>
-                                    <div style="margin-right: 15px; float: right;">
-                                        <a class="btn btn-primary" id="btn_smart_status_metric_host_history" target="_blank" href="search_metric_host_smart_status" role="button">Search alert actions history</a>
                                     </div>
                                 </div>
 
@@ -8477,6 +8426,18 @@ span.title_high_priority {
                 <div id="resultsLinkelement_alerts_main_table" class="search-elements">
                 </div>
             </div>
+        </html>
+    </panel>
+</row>
+
+<row>
+    <panel>
+        <html>
+
+            show_smart_status_data_source is $show_smart_status_data_source$
+            <br />
+            tk_data_name is tk_data_name
+
         </html>
     </panel>
 </row>

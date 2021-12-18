@@ -12,6 +12,7 @@ require([
   "splunkjs/mvc/dropdownview",
   "splunkjs/mvc/multidropdownview",
   "splunkjs/mvc/tableview",
+  "splunkjs/mvc/eventsviewerview",
   "splunkjs/mvc/textinputview",
   "splunkjs/mvc/singleview",
   "splunkjs/mvc/chartview",
@@ -44,6 +45,7 @@ require([
   DropdownView,
   MultiDropdownView,
   TableView,
+  EventsViewer,
   TextInputView,
   SingleView,
   ChartView,
@@ -1561,19 +1563,15 @@ require([
       sample_ratio: null,
       latest_time: "now",
       search:
-        "| trackme url=/services/trackme/v1/smart_status/ds_smart_status mode=get body=\"{'data_name': '$tk_data_name$'}\" | `trackme_smart_status_emoji`",
+        "$tk_data_source_smart_status_search$",
       status_buckets: 0,
       app: utils.getCurrentApp(),
       auto_cancel: 90,
       preview: true,
-      tokenDependencies: {
-        depends: "$show_smart_status_data_source$",
-      },
       runWhenTimeIsUndefined: false,
     },
     {
-      tokens: true,
-      tokenNamespace: "submitted",
+      tokens: true
     }
   );
 
@@ -1585,19 +1583,15 @@ require([
       sample_ratio: null,
       latest_time: "now",
       search:
-        "| trackme url=/services/trackme/v1/smart_status/dh_smart_status mode=get body=\"{'data_host': '$tk_data_host$'}\" | `trackme_smart_status_emoji`",
+        "$tk_data_host_smart_status_search$",
       status_buckets: 0,
       app: utils.getCurrentApp(),
       auto_cancel: 90,
       preview: true,
-      tokenDependencies: {
-        depends: "$show_smart_status_data_host$",
-      },
       runWhenTimeIsUndefined: false,
     },
     {
-      tokens: true,
-      tokenNamespace: "submitted",
+      tokens: true
     }
   );
 
@@ -1609,19 +1603,15 @@ require([
       sample_ratio: null,
       latest_time: "now",
       search:
-        "| trackme url=/services/trackme/v1/smart_status/mh_smart_status mode=get body=\"{'metric_host': '$tk_metric_host$'}\" | `trackme_smart_status_emoji`",
+        "$tk_data_host_smart_status_search$",
       status_buckets: 0,
       app: utils.getCurrentApp(),
       auto_cancel: 90,
       preview: true,
-      tokenDependencies: {
-        depends: "$show_smart_status_metric_host$",
-      },
       runWhenTimeIsUndefined: false,
     },
     {
-      tokens: true,
-      tokenNamespace: "submitted",
+      tokens: true
     }
   );
 
@@ -13194,7 +13184,7 @@ var inputLinkQueuesTime = new LinkListInput({
     .render()
     .$el.appendTo($("resultsLinktableDateParserVerboseTopSourcetype"));
 
-  var EventLineBreakingProcessorEvent = new EventElement({
+  var EventLineBreakingProcessorEvent = new EventsViewer({
     "id": "EventLineBreakingProcessorEvent",
     "count": 5,
     "list.drilldown": "all",
@@ -13216,7 +13206,7 @@ var inputLinkQueuesTime = new LinkListInput({
     .render()
     .$el.appendTo($("resultsLinkEventLineBreakingProcessorEvent"));
 
-  var EventAggregatorMiningProcessorEvent = new EventElement({
+  var EventAggregatorMiningProcessorEvent = new EventsViewer({
       "id": "EventAggregatorMiningProcessorEvent",
       "count": 5,
       "list.drilldown": "none",
@@ -13238,7 +13228,7 @@ var inputLinkQueuesTime = new LinkListInput({
     .render()
     .$el.appendTo($("resultsLinkEventAggregatorMiningProcessorEvent"));
 
-  var EventDateParserVerboseEvent = new EventElement({
+  var EventDateParserVerboseEvent = new EventsViewer({
       "id": "EventDateParserVerboseEvent",
       "count": 5,
       "list.drilldown": "none",
@@ -13989,6 +13979,84 @@ var inputLinkQueuesTime = new LinkListInput({
           EventHandler.setToken("tk_input_data_source_outlier_span", "1d", {}, e.data);
       }
   });
+
+  // Smart Status
+
+  var eventSmartStatusDataSource = new EventsViewer({
+    "id": "eventSmartStatusDataSource",
+    "count": 5,
+    "list.drilldown": "none",
+    "raw.drilldown": "none",
+    "table.drilldown": "none",
+    "type": "list",
+    "managerid": "searchSmartStatusDataSource",
+    "el": $('#eventSmartStatusDataSource')
+}, {tokens: true, tokenNamespace: "submitted"}).render();
+
+  var resultsLinkeventSmartStatusDataSource = new ResultsLinkView({
+    id: "resultsLinkeventSmartStatusDataSource",
+    managerid: "searchSmartStatusDataSource",
+    "link.exportResults.visible": false,
+    el: $("#resultsLinkeventSmartStatusDataSource"),
+  });
+
+  resultsLinkeventSmartStatusDataSource
+    .render()
+    .$el.appendTo($("resultsLinkeventSmartStatusDataSource"));
+
+var eventSmartStatusDataHost = new EventsViewer({
+    "id": "eventSmartStatusDataHost",
+    "list.drilldown": "none",
+    "table.drilldown": "all",
+    "list.wrap": "1",
+    "table.wrap": "1",
+    "rowNumbers": "0",
+    "table.sortDirection": "asc",
+    "count": 20,
+    "raw.drilldown": "full",
+    "type": "list",
+    "maxLines": 5,
+    "managerid": "searchSmartStatusDataHost",
+    "el": $('#eventSmartStatusDataHost')
+}, {tokens: true, tokenNamespace: "submitted"}).render();
+
+var resultsLinkeventSmartStatusDataHost = new ResultsLinkView({
+  id: "resultsLinkeventSmartStatusDataHost",
+  managerid: "searchSmartStatusDataHost",
+  "link.exportResults.visible": false,
+  el: $("#resultsLinkeventSmartStatusDataHost"),
+});
+
+resultsLinkeventSmartStatusDataHost
+  .render()
+  .$el.appendTo($("resultsLinkeventSmartStatusDataHost"));
+
+var eventSmartStatusMetricHost = new EventsViewer({
+    "id": "eventSmartStatusMetricHost",
+    "list.drilldown": "none",
+    "table.drilldown": "all",
+    "list.wrap": "1",
+    "table.wrap": "1",
+    "rowNumbers": "0",
+    "table.sortDirection": "asc",
+    "count": 20,
+    "raw.drilldown": "full",
+    "type": "list",
+    "maxLines": 5,
+    "managerid": "searchSmartStatusMetricHost",
+    "el": $('#eventSmartStatusMetricHost')
+}, {tokens: true, tokenNamespace: "submitted"}).render();
+
+var resultsLinkeventSmartStatusMetricHost = new ResultsLinkView({
+  id: "resultsLinkeventSmartStatusMetricHost",
+  managerid: "searchSmartStatusMetricHost",
+  "link.exportResults.visible": false,
+  el: $("#resultsLinkeventSmartStatusMetricHost"),
+});
+
+resultsLinkeventSmartStatusMetricHost
+  .render()
+  .$el.appendTo($("resultsLinkeventSmartStatusMetricHost"));
 
   //
   // BEGIN OPERATIONS
@@ -27275,11 +27343,13 @@ var inputLinkQueuesTime = new LinkListInput({
   // Smart Status data source
   $("#btn_smart_status_data_source").click(function () {
 
-    // Free the search
-    setToken("show_smart_status_data_source", "true");
-
     // get token
     var tk_data_name = getToken("tk_object");
+
+    // set the search
+    setToken("tk_data_source_smart_status_search", 
+    "| trackme url=/services/trackme/v1/smart_status/ds_smart_status mode=get body=\"{'data_name': '" + tk_data_name + "'}\" | `trackme_smart_status_emoji` | spath" 
+    )
 
     // Define the search button target
     var search_data_source_smart_status =
@@ -27311,11 +27381,13 @@ var inputLinkQueuesTime = new LinkListInput({
   // Smart Status data host
   $("#btn_smart_status_data_host").click(function () {
 
-    // Free the search
-    setToken("show_smart_status_data_host", "true");
-
     // get token
     var tk_data_host = getToken("tk_data_host");
+
+    // set the search
+    setToken("tk_data_host_smart_status_search", 
+    "| trackme url=/services/trackme/v1/smart_status/dh_smart_status mode=get body=\"{'data_host': '" + tk_data_host + "'}\" | `trackme_smart_status_emoji` | spath"    
+    )
 
     // Force search run every time the button is clicked
     searchSmartStatusDataHost.startSearch();
@@ -27347,11 +27419,13 @@ var inputLinkQueuesTime = new LinkListInput({
   // Smart Status metric host
   $("#btn_smart_status_metric_host").click(function () {
 
-    // Free the search
-    setToken("show_smart_status_metric_host", "true");
-
     // get token
     var tk_metric_host = getToken("tk_metric_host");
+
+    // set the search
+    setToken("tk_data_host_smart_status_search", 
+    "| trackme url=/services/trackme/v1/smart_status/mh_smart_status mode=get body=\"{'metric_host': '" + tk_metric_host + "'}\" | `trackme_smart_status_emoji` | spath"    
+    )
 
     // Force search run every time the button is clicked
     searchSmartStatusMetricHost.startSearch();
