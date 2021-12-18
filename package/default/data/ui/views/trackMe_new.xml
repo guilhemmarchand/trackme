@@ -3492,47 +3492,47 @@
 										<div class="parent-data-source-top-info">
 											<div id="child-data-source-top-info1">
 												<p>
-													<b>data_index:</b> $tk_data_index$
+													<b>data_index:</b> value
 												</p>
 												<p>
-													<b>data_sourcetype:</b> $tk_data_sourcetype$
+													<b>data_sourcetype:</b> value
 												</p>
 												<p>
-													<b>lag event / lag ingestion: ([D+]HH:MM:SS)</b> $tk_data_lag_summary$
+													<b>lag event / lag ingestion: ([D+]HH:MM:SS)</b> value
 												</p>
 												<p>
-													<b>data_last_time_seen:</b> $tk_data_last_time_seen_human$
+													<b>data_last_time_seen:</b> value
 												</p>
 											</div>
 											<div id="child-data-source-top-info2">
 												<p>
-													<b>data_last_ingest:</b> $tk_data_last_ingest_human$
+													<b>data_last_ingest:</b> value
 												</p>
 												<p>
-													<b>data_max_lag_allowed:</b> $tk_data_max_lag_allowed$
+													<b>data_max_lag_allowed:</b> value
 												</p>
 												<p>
 													<b>data_monitored_state:</b>
-													<span class="$tk_data_monitored_state_class$">$tk_data_monitored_state$</span>
+													<span class="value">value</span>
 												</p>
 												<p>
-													<b>data_monitoring_level:</b> $tk_data_monitoring_level$
+													<b>data_monitoring_level:</b> value
 												</p>
 											</div>
 											<div id="child-data-source-top-info3">
 												<p>
-													<b>latest_flip_time:</b> $tk_latest_flip_time_human$
+													<b>latest_flip_time:</b> value
 												</p>
 												<p>
-													<b>latest_flip_state:</b> $tk_latest_flip_state$
+													<b>latest_flip_state:</b> value
 												</p>
 												<p>
 													<b>state:</b>
-													<span class="$tk_data_source_state_class$">$tk_data_source_state$</span>
+													<span class="value">value</span>
 												</p>
 												<p>
 													<b>priority:</b>
-													<span class="$tk_priority_class$">$tk_priority$</span>
+													<span class="value">value</span>
 												</p>
 											</div>
 										</div>
@@ -3542,10 +3542,10 @@
 												<div id="child-data-source-top-docs-tags">
 													<h3>
 														<span>
-															<a id="doc_link_data_source" data-toggle="modal" data-target="#$tk_doc_modal_target$">$tk_doc_link_main$</a>
+															<a id="doc_link_data_source" data-toggle="modal" data-target="#value">value</a>
                                                         / 
                                                         
-															<a id="tags_data_source" data-toggle="modal" data-target="#$tk_tags_modal_target$">$tk_tags_link_main$</a>
+															<a id="tags_data_source" data-toggle="modal" data-target="#value">value</a>
 														</span>
 													</h3>
 												</div>
@@ -4243,7 +4243,7 @@
 							<div class="modal-header modal-header-danger">
 								<button type="button" class="close" data-dismiss="modal"></button>
 								<h1>
-									<span class="glyphicon glyphicon-lock"></span> Data source - lagging values
+									<span class="glyphicon glyphicon-lock"></span> Data source - define the max lagging value allowed from statistics
 								</h1>
 							</div>
 							<div class="modal-body">
@@ -4261,32 +4261,44 @@
                                     }
                                 </style>
 								<div class="parent-data-source-single-calculate-autolag">
-                                    <div id="elementDataSourceAutoLaggingDataSourceSingleLagPerc95"></div>
-                                    <div id="elementDataSourceAutoLaggingDataSourceSingleLagAvg"></div>
-                                    <div id="elementDataSourceAutoLaggingDataSourceSingleLagPerc95Last30d"></div>
-                                    <div id="elementDataSourceAutoLaggingDataSourceSingleLagAvgLast30d"></div>
+                                    <div>
+                                        <div id="elementDataSourceAutoLaggingDataSourceSingleLagPerc95" class="view-elements"></div>
+                                        <div id="resultsLinkelementDataSourceAutoLaggingDataSourceSingleLagPerc95" class="search-elements"></div>
+                                    </div>
+                                    <div>
+                                        <div id="elementDataSourceAutoLaggingDataSourceSingleLagAvg" class="view-elements"></div>
+                                        <div id="resultsLinkelementDataSourceAutoLaggingDataSourceSingleLagAvg" class="search-elements"></div>
+                                    </div>
+                                    <div>
+                                        <div id="elementDataSourceAutoLaggingDataSourceSingleLagPerc95Last30d" class="view-elements"></div>
+                                        <div id="resultsLinkelementDataSourceAutoLaggingDataSourceSingleLagPerc95Last30d" class="search-elements"></div>
+                                    </div>
+                                    <div>
+                                        <div id="elementDataSourceAutoLaggingDataSourceSingleLagAvgLast30d" class="view-elements"></div>
+                                        <div id="resultsLinkelementDataSourceAutoLaggingDataSourceSingleLagAvgLast30d" class="search-elements"></div>
+                                    </div>
 								</div>
-								<div style="margin-top: 15px; margin-bottom: 15px;">
+								<div style="margin-top: 25px; margin-bottom: 25px;">
                                     <h2>Choose one option to be applied:</h2>
                                 </div>
                                 <div class="parent-data-source-single-calculate-autolag">
                                     <div style="text-align: center;">
-                                        <button id="btn_modal_modify_lag_auto_perc95" type="submit" class="btn btn-outline-primary">
+                                        <button id="btn_modal_modify_lag_auto_perc95" type="submit" class="btn btn-outline-danger">
                                             <span class="glyphicon glyphicon-remove"></span> Apply auto percentile lag (7d)
                                         </button>
                                     </div>
                                     <div style="text-align: center;">
-                                        <button id="btn_modal_modify_lag_auto_perc95_30d" type="submit" class="btn btn-outline-primary">
+                                        <button id="btn_modal_modify_lag_auto_perc95_30d" type="submit" class="btn btn-outline-danger">
                                             <span class="glyphicon glyphicon-remove"></span> Or Apply auto percentile lag (30d)
                                         </button>
                                     </div>
                                     <div style="text-align: center;">
-                                        <button id="btn_modal_modify_lag_auto_average" type="submit" class="btn btn-outline-primary">
+                                        <button id="btn_modal_modify_lag_auto_average" type="submit" class="btn btn-outline-danger">
                                             <span class="glyphicon glyphicon-remove"></span> Or Apply auto average lag (7d)
                                         </button>
                                     </div>
                                     <div style="text-align: center;">
-                                        <button id="btn_modal_modify_lag_auto_average_30d" type="submit" class="btn btn-outline-primary">
+                                        <button id="btn_modal_modify_lag_auto_average_30d" type="submit" class="btn btn-outline-danger">
                                             <span class="glyphicon glyphicon-remove"></span> Or Apply auto average lag (30d)
                                         </button>
                                     </div>

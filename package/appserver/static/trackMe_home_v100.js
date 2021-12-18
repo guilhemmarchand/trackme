@@ -258,8 +258,6 @@ require([
                   "id": "chk-allowlist-data-source" + cell.value,
                   "value": cell.value
               }).addClass('checkbox').click(function() {
-                  //console.log("checked",$(this).attr('class'));
-                  //console.log("checked",$(this).attr('value'));
                   if ($(this).attr('class') === "checkbox") {
                       selected_values_array.push($(this).attr('value'));
                       $(this).removeClass();
@@ -272,9 +270,7 @@ require([
                           selected_values_array.splice(i, 1);
                       }
                   }
-                  //console.log(selected_values_array);
                   tokens.set(tokenName, selected_values_array.join());
-                  //submittedTokens.set(tokens.toJSON());
               }).appendTo($td);
           }
       });
@@ -5358,10 +5354,10 @@ require([
           var tk_data_name = e.data["row.data_name"];
           var tk_data_index = e.data["row.data_index"];
           // token required for operations
-          //setToken("tk_data_index", tk_data_index);
+          setToken("tk_data_index", tk_data_index);
           var tk_data_sourcetype = e.data["row.data_sourcetype"];
           // token required for operations
-          //setToken("tk_data_sourcetype", tk_data_sourcetype);
+          setToken("tk_data_sourcetype", tk_data_sourcetype);
           var tk_data_last_lag_seen = e.data["row.data_last_lag_seen"];
           var tk_data_last_ingestion_lag_seen = e.data["row.data_last_ingestion_lag_seen"];
           var tk_data_lag_summary = e.data["row.lag (event / ingestion)"];
@@ -5375,11 +5371,15 @@ require([
           var tk_data_last_time_seen_idx = e.data["row.data_last_time_seen_idx"];
           var tk_data_last_time_seen_idx_human = e.data["row.data_last_time_seen_idx (translated)"];
           var tk_data_max_lag_allowed = e.data["row.data_max_lag_allowed"];
+          // token required for auto lagging
+          setToken("tk_data_max_lag_allowed", tk_data_max_lag_allowed);
           var tk_data_lag_alert_kpis = e.data["row.data_lag_alert_kpis"];
           var tk_data_monitored_state = e.data["row.data_monitored_state"];
           var tk_data_monitoring_level = e.data["row.data_monitoring_level"];
           var tk_data_monitoring_wdays = e.data["row.data_monitoring_wdays"];
           var tk_data_override_lagging_class = e.data["row.data_override_lagging_class"];
+          // required for auto lagging
+          setToken("tk_data_override_lagging_class", tk_data_override_lagging_class);
           var tk_data_source_state = e.data["row.data_source_state"];
           var tk_data_tracker_runtime = e.data["row.data_tracker_runtime"];
           var tk_data_previous_source_state = e.data["row.data_previous_source_state"];
@@ -6080,10 +6080,7 @@ require([
               );
           }
 
-          console.log("tk_data_source_overview_root_search is: " + tk_data_source_overview_root_search);
           setToken("tk_data_source_overview_root_search", tk_data_source_overview_root_search);
-
-
 
           // Enable modal context
           $("#modal_manage_data_source").modal();
@@ -12458,7 +12455,7 @@ require([
       "charting.chart.style": "shiny",
       "charting.axisY.scale": "linear",
       "charting.layout.splitSeries": "0",
-      "charting.fieldColors": "{\"events_count\": 0xaec6cf, \"avg_lag_sec\": 0xff6961, \"dcount_host\": 0xff6961}",
+      "charting.fieldColors": "{\"events_count\": 0x7fbfff, \"avg_lag_sec\": 0xff6961, \"dcount_host\": 0xff6961}",
       "resizable": true,
       "charting.legend.labelStyle.overflowMode": "ellipsisMiddle",
       "charting.lineWidth": "2",
@@ -13750,6 +13747,17 @@ require([
           tokenNamespace: "submitted"
       }).render();
 
+      var resultsLinkelementDataSourceAutoLaggingDataSourceSingleLagPerc95 = new ResultsLinkView({
+        id: "resultsLinkelementDataSourceAutoLaggingDataSourceSingleLagPerc95",
+        managerid: "searchSingleLagAutoLaggingDataSource7dSingleLagPerc95",
+        "link.exportResults.visible": false,
+        el: $("#resultsLinkelementDataSourceAutoLaggingDataSourceSingleLagPerc95"),
+      });
+    
+      resultsLinkelementDataSourceAutoLaggingDataSourceSingleLagPerc95
+          .render()
+          .$el.appendTo($("resultsLinkelementDataSourceAutoLaggingDataSourceSingleLagPerc95"));
+  
       var elementDataSourceAutoLaggingDataSourceSingleLagAvg = new SingleView({
         "id": "elementDataSourceAutoLaggingDataSourceSingleLagAvg",
         "trendDisplayMode": "absolute",
@@ -13776,6 +13784,17 @@ require([
         tokens: true,
         tokenNamespace: "submitted"
     }).render();
+
+    var resultsLinkelementDataSourceAutoLaggingDataSourceSingleLagAvg = new ResultsLinkView({
+      id: "resultsLinkelementDataSourceAutoLaggingDataSourceSingleLagAvg",
+      managerid: "searchSingleLagAutoLaggingDataSource7dSingleLagAvg",
+      "link.exportResults.visible": false,
+      el: $("#resultsLinkelementDataSourceAutoLaggingDataSourceSingleLagAvg"),
+    });
+  
+    resultsLinkelementDataSourceAutoLaggingDataSourceSingleLagAvg
+        .render()
+        .$el.appendTo($("resultsLinkelementDataSourceAutoLaggingDataSourceSingleLagAvg"));
 
     var elementDataSourceAutoLaggingDataSourceSingleLagPerc95Last30d = new SingleView({
         "id": "elementDataSourceAutoLaggingDataSourceSingleLagPerc95Last30d",
@@ -13804,6 +13823,17 @@ require([
         tokenNamespace: "submitted"
     }).render();
 
+    var resultsLinkelementDataSourceAutoLaggingDataSourceSingleLagPerc95Last30d = new ResultsLinkView({
+      id: "resultsLinkelementDataSourceAutoLaggingDataSourceSingleLagPerc95Last30d",
+      managerid: "searchSingleLagAutoLaggingDataSource30dSingleLagPerc95",
+      "link.exportResults.visible": false,
+      el: $("#resultsLinkelementDataSourceAutoLaggingDataSourceSingleLagPerc95Last30d"),
+    });
+  
+    resultsLinkelementDataSourceAutoLaggingDataSourceSingleLagPerc95Last30d
+        .render()
+        .$el.appendTo($("resultsLinkelementDataSourceAutoLaggingDataSourceSingleLagPerc95Last30d"));
+
     var elementDataSourceAutoLaggingDataSourceSingleLagAvgLast30d = new SingleView({
         "id": "elementDataSourceAutoLaggingDataSourceSingleLagAvgLast30d",
         "trendDisplayMode": "absolute",
@@ -13830,6 +13860,17 @@ require([
         tokens: true,
         tokenNamespace: "submitted"
     }).render();
+
+    var resultsLinkelementDataSourceAutoLaggingDataSourceSingleLagAvgLast30d = new ResultsLinkView({
+      id: "resultsLinkelementDataSourceAutoLaggingDataSourceSingleLagAvgLast30d",
+      managerid: "searchSingleLagAutoLaggingDataSource30dSingleLagAvg",
+      "link.exportResults.visible": false,
+      el: $("#resultsLinkelementDataSourceAutoLaggingDataSourceSingleLagAvgLast30d"),
+    });
+  
+    resultsLinkelementDataSourceAutoLaggingDataSourceSingleLagAvgLast30d
+        .render()
+        .$el.appendTo($("resultsLinkelementDataSourceAutoLaggingDataSourceSingleLagAvgLast30d"));
 
     // modal Single AutoLag
     var elementDataHostAutoLaggingDataHostSingleLagPerc95 = new SingleView({
@@ -13858,6 +13899,17 @@ require([
         tokens: true,
         tokenNamespace: "submitted"
     }).render();
+
+    var resultsLinkelementDataHostAutoLaggingDataHostSingleLagPerc95 = new ResultsLinkView({
+      id: "resultsLinkelementDataHostAutoLaggingDataHostSingleLagPerc95",
+      managerid: "searchSingleLagAutoLaggingDataHost7dSingleLagPerc95",
+      "link.exportResults.visible": false,
+      el: $("#resultsLinkelementDataHostAutoLaggingDataHostSingleLagPerc95"),
+    });
+  
+    resultsLinkelementDataHostAutoLaggingDataHostSingleLagPerc95
+        .render()
+        .$el.appendTo($("resultsLinkelementDataHostAutoLaggingDataHostSingleLagPerc95"));
 
   //
   // BEGIN OPERATIONS
@@ -14611,8 +14663,6 @@ require([
           tk_data_name +
           '")`';
 
-      console.log("searchQuery is: " + searchQuery);
-
       // Set the search parameters
       var searchParams = {
           exec_mode: "normal",
@@ -14625,9 +14675,6 @@ require([
           var fields = results.fields;
           var rows = results.rows;
 
-          console.log("results: " + fields);
-          console.log("results: " + rows);
-
           for (var i = 0; i < rows.length; i++) {
               var values = rows[i];
 
@@ -14636,7 +14683,6 @@ require([
 
                   if (fields[j] == "savedsearch_name") {
                       savedsearch_name = values[j];
-                      console.log("savedsearch_name is: " + savedsearch_name);
                   }
               }
           }
@@ -22684,8 +22730,6 @@ require([
   $("#modal_elastic_source_alert_creation_success_run_tracker").click(
       function() {
 
-          console.log("Clicked button");
-
           $("#modal_elastic_source_alert_creation_success").modal("hide");
 
           // Get the tracker name
@@ -24929,7 +24973,7 @@ require([
           tk_data_name +
           '", data_override_lagging_class="' +
           tk_data_override_lagging_class +
-          '" | lookup trackme_data_source_monitoring data_name OUTPUT _key as keyid | lookup trackme_data_source_monitoring data_name | eval data_max_lag_allowed=if(value>0, round(value, 0), data_max_lag_allowed), value=round(value, 0) | outputlookup trackme_data_source_monitoring key_field=keyid';
+          '" | lookup trackme_data_source_monitoring data_name OUTPUT _key as keyid | lookup trackme_data_source_monitoring data_name | eval data_max_lag_allowed=if(value>=30, round(value, 0), data_max_lag_allowed), value=round(value, 0) | outputlookup trackme_data_source_monitoring key_field=keyid';
 
       // Set the search parameters--specify a time range
       var searchParams = {
@@ -24987,6 +25031,7 @@ require([
                                   var value = values[j];
 
                                   if (field == "data_max_lag_allowed") {
+
                                       if (value === "0") {
                                           // notify
                                           notify(
@@ -24995,6 +25040,21 @@ require([
                                             "ERROR: No live data available for this entity, automatic lagging calculation cannot be performed for inactive entities.",
                                             "5"
                                           );
+
+                                      }
+                                      else if (value === tk_origin_data_max_lag_allowed) {
+
+                                        // notify
+                                        var msg = "ERROR: The max lagging value of " + value +
+                                        " seconds returned from the result of the search equals to the current value assigned (" +
+                                        tk_origin_data_max_lag_allowed +
+                                        " seconds), this indicates that the search did not return a valid value therefore the current value was preserved (min value: 30 seconds)"
+                                        notify(
+                                          "error",
+                                          "bottom",
+                                          msg,
+                                          "10"
+                                        );
 
                                       } else {
                                           // Run the search again to update the table
@@ -25136,7 +25196,7 @@ require([
           tk_data_name +
           '", data_override_lagging_class="' +
           tk_data_override_lagging_class +
-          '" | lookup trackme_data_source_monitoring data_name OUTPUT _key as keyid | lookup trackme_data_source_monitoring data_name | eval data_max_lag_allowed=if(value>0, round(value, 0), data_max_lag_allowed), value=round(value, 0) | outputlookup trackme_data_source_monitoring key_field=keyid';
+          '" | lookup trackme_data_source_monitoring data_name OUTPUT _key as keyid | lookup trackme_data_source_monitoring data_name | eval data_max_lag_allowed=if(value>=30, round(value, 0), data_max_lag_allowed), value=round(value, 0) | outputlookup trackme_data_source_monitoring key_field=keyid';
 
       // Set the search parameters--specify a time range
       var searchParams = {
@@ -25202,6 +25262,21 @@ require([
                                             "ERROR: No live data available for this entity, automatic lagging calculation cannot be performed for inactive entities.",
                                             "5"
                                           );
+
+                                      } else if (value === tk_origin_data_max_lag_allowed) {
+
+                                        // notify
+                                        var msg = "ERROR: The max lagging value of " + value +
+                                        " seconds returned from the result of the search equals to the current value assigned (" +
+                                        tk_origin_data_max_lag_allowed +
+                                        " seconds), this indicates that the search did not return a valid value therefore the current value was preserved (min value: 30 seconds)"
+                                        notify(
+                                          "error",
+                                          "bottom",
+                                          msg,
+                                          "10"
+                                        );
+
                                       } else {
                                           // Run the search again to update the table
                                           searchDataSourcesMain.startSearch();
@@ -25342,7 +25417,7 @@ require([
           tk_data_name +
           '", data_override_lagging_class="' +
           tk_data_override_lagging_class +
-          '" | lookup trackme_data_source_monitoring data_name OUTPUT _key as keyid | lookup trackme_data_source_monitoring data_name | eval data_max_lag_allowed=if(value>0, round(value, 0), data_max_lag_allowed), value=round(value, 0) | outputlookup trackme_data_source_monitoring key_field=keyid';
+          '" | lookup trackme_data_source_monitoring data_name OUTPUT _key as keyid | lookup trackme_data_source_monitoring data_name | eval data_max_lag_allowed=if(value>=30, round(value, 0), data_max_lag_allowed), value=round(value, 0) | outputlookup trackme_data_source_monitoring key_field=keyid';
 
       // Set the search parameters--specify a time range
       var searchParams = {
@@ -25408,6 +25483,21 @@ require([
                                             "ERROR: No live data available for this entity, automatic lagging calculation cannot be performed for inactive entities.",
                                             "5"
                                           );
+
+                                      } else if (value === tk_origin_data_max_lag_allowed) {
+
+                                            // notify
+                                            var msg = "ERROR: The max lagging value of " + value +
+                                            " seconds returned from the result of the search equals to the current value assigned (" +
+                                            tk_origin_data_max_lag_allowed +
+                                            " seconds), this indicates that the search did not return a valid value therefore the current value was preserved (min value: 30 seconds)"
+                                            notify(
+                                              "error",
+                                              "bottom",
+                                              msg,
+                                              "10"
+                                            );
+    
                                       } else {
                                           // Run the search again to update the table
                                           searchDataSourcesMain.startSearch();
@@ -25548,7 +25638,7 @@ require([
           tk_data_name +
           '", data_override_lagging_class="' +
           tk_data_override_lagging_class +
-          '" | lookup trackme_data_source_monitoring data_name OUTPUT _key as keyid | lookup trackme_data_source_monitoring data_name | eval data_max_lag_allowed=if(value>0, round(value, 0), data_max_lag_allowed), value=round(value, 0) | outputlookup trackme_data_source_monitoring key_field=keyid';
+          '" | lookup trackme_data_source_monitoring data_name OUTPUT _key as keyid | lookup trackme_data_source_monitoring data_name | eval data_max_lag_allowed=if(value>=30, round(value, 0), data_max_lag_allowed), value=round(value, 0) | outputlookup trackme_data_source_monitoring key_field=keyid';
 
       // Set the search parameters--specify a time range
       var searchParams = {
@@ -25615,6 +25705,20 @@ require([
                                             "ERROR: No live data available for this entity, automatic lagging calculation cannot be performed for inactive entities.",
                                             "5"
                                           );
+
+                                      } else if (value === tk_origin_data_max_lag_allowed) {
+
+                                      // notify
+                                      var msg = "ERROR: The max lagging value of " + value +
+                                      " seconds returned from the result of the search equals to the current value assigned (" +
+                                      tk_origin_data_max_lag_allowed +
+                                      " seconds), this indicates that the search did not return a valid value therefore the current value was preserved (min value: 30 seconds)"
+                                      notify(
+                                        "error",
+                                        "bottom",
+                                        msg,
+                                        "10"
+                                      );
 
                                       } else {
                                           // Run the search again to update the table
@@ -29659,7 +29763,6 @@ require([
                       }
 
                       // call update summary investigator for that entity only
-                      console.log("run updateDataSourceEntity");
                       updateDataSourceEntity(
                           tk_data_name
                       );
@@ -29673,7 +29776,6 @@ require([
 
                       // call update data source
                       var tk_keyid = getToken("tk_keyid");
-                      console.log("run updateDataSource")
                       updateDataSource(tk_keyid);
 
                       // Run the search again to update the table
