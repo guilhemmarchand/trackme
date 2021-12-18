@@ -6728,8 +6728,8 @@ require([
       tokens.set("form.tk_input_data_lag_alert_kpis", e.data["row.data_lag_alert_kpis"]);
 
       // Get earliest / latest to be recycled in some use cases
-      var tk_earliest = tokens.get("modalTime.earliest");
-      var tk_latest = tokens.get("modalTime.latest");
+      var tk_earliest = getToken("modalTime.earliest");
+      var tk_latest = getToken("modalTime.latest");
 
       // Manage root search for overview, conditionally define the query depending on the search
       var tk_elastic_source_search_mode = e.data["row.tk_elastic_source_search_mode"];
@@ -8359,22 +8359,14 @@ require([
         )
       );
 
-      ////submitTokens();
-
-      // When the Submit button is clicked, get all the form fields by accessing token values
-      var tokens = mvc.Components.get("default");
-
-      // When the Submit button is clicked, get all the form fields by accessing token values
-      var tokens = mvc.Components.get("default");
-
-      var tk_data_monitored_state = tokens.get("tk_data_monitored_state");
-      var tk_data_host = tokens.get("tk_data_host");
+      var tk_data_monitored_state = getToken("tk_data_monitored_state");
+      var tk_data_host = getToken("tk_data_host");
 
       // state
-      var tk_data_host_state = tokens.get("tk_data_host_state");
+      var tk_data_host_state = getToken("tk_data_host_state");
 
       // priority
-      var tk_priority = tokens.get("tk_priority");
+      var tk_priority = getToken("tk_priority");
 
       // Define the history search
       var search_data_host =
@@ -8508,18 +8500,18 @@ require([
       }
 
       // Manage Outliers
-      var tk_outlierenabledstatus = tokens.get("tk_outlierenabledstatus");
-      var tk_outliermineventcount = tokens.get("tk_outliermineventcount");
-      var tk_outlierlowerthresholdmultiplier = tokens.get(
+      var tk_outlierenabledstatus = getToken("tk_outlierenabledstatus");
+      var tk_outliermineventcount = getToken("tk_outliermineventcount");
+      var tk_outlierlowerthresholdmultiplier = getToken(
         "tk_outlierlowerthresholdmultiplier"
       );
-      var tk_outlierupperthresholdmultiplier = tokens.get(
+      var tk_outlierupperthresholdmultiplier = getToken(
         "tk_outlierupperthresholdmultiplier"
       );
-      var tk_outlieralertonupper = tokens.get("tk_outlieralertonupper");
-      var tk_isoutlier = tokens.get("tk_isoutlier");
-      var tk_outlier_span = tokens.get("tk_outlier_span");
-      var tk_outlier_period = tokens.get("tk_outlier_period");
+      var tk_outlieralertonupper = getToken("tk_outlieralertonupper");
+      var tk_isoutlier = getToken("tk_isoutlier");
+      var tk_outlier_span = getToken("tk_outlier_span");
+      var tk_outlier_period = getToken("tk_outlier_period");
 
       // Outliers configuration
 
@@ -9443,22 +9435,14 @@ require([
         )
       );
 
-      ////submitTokens();
-
-      // When the Submit button is clicked, get all the form fields by accessing token values
-      var tokens = mvc.Components.get("default");
-
-      // When the Submit button is clicked, get all the form fields by accessing token values
-      var tokens = mvc.Components.get("default");
-
-      var tk_metric_monitored_state = tokens.get("tk_metric_monitored_state");
-      var tk_metric_host = tokens.get("tk_metric_host");
+      var tk_metric_monitored_state = getToken("tk_metric_monitored_state");
+      var tk_metric_host = getToken("tk_metric_host");
 
       // state
-      var tk_metric_host_state = tokens.get("tk_metric_host_state");
+      var tk_metric_host_state = getToken("tk_metric_host_state");
 
       // priority
-      var tk_priority = tokens.get("tk_priority");
+      var tk_priority = getToken("tk_priority");
 
       // Define the history search
       var search_metric_host =
@@ -10200,13 +10184,8 @@ require([
       // Define the URL target
       document.getElementById("btn_url_modal_manage_alert").href = alert_url;
 
-      ////submitTokens();
-
-      // When the Submit button is clicked, get all the form fields by accessing token values
-      var tokens = mvc.Components.get("default");
-
       // Retrieve alert title token
-      var tk_alert_title = tokens.get("tk_alert_title");
+      var tk_alert_title = getToken("tk_alert_title");
 
       // Define the history search
       var alert_search_history =
@@ -12084,7 +12063,7 @@ require([
     .render()
     .$el.appendTo($("resultsLinktableDataSamplingSummary"));
   
-  var tableDataSamplingShowBuiltinRules = new TableElement({
+  var tableDataSamplingShowBuiltinRules = new TableView({
       "id": "tableDataSamplingShowBuiltinRules",
       "tokenDependencies": {
           "depends": "$show_data_sampling$"
@@ -12099,6 +12078,17 @@ require([
       tokens: true,
       tokenNamespace: "submitted"
   }).render();
+
+  var resultsLinktableDataSamplingShowBuiltinRules = new ResultsLinkView({
+    id: "resultsLinktableDataSamplingShowBuiltinRules",
+    managerid: "searchDataSamplingShowBuiltinRules",
+    "link.exportResults.visible": false,
+    el: $("#resultsLinktableDataSamplingShowBuiltinRules"),
+  });
+
+  resultsLinktableDataSamplingShowBuiltinRules
+    .render()
+    .$el.appendTo($("resultsLinktableDataSamplingShowBuiltinRules"));
 
   var tableDataSamplingShowCustomRules = new TableElement({
       "id": "tableDataSamplingShowCustomRules",
@@ -14999,57 +14989,53 @@ var inputLinkQueuesTime = new LinkListInput({
   });
 
   $("#btn_modal_custom_alert_add_new").click(function () {
-    //submitTokens();
 
     // When the Submit button is clicked, get all the form fields by accessing token values
-    var tokens = mvc.Components.get("default");
-
-    // When the Submit button is clicked, get all the form fields by accessing token values
-    var tk_input_custom_alert_name = tokens.get("tk_input_custom_alert_name");
-    var tk_input_create_alert_data_source = tokens.get(
+    var tk_input_custom_alert_name = getToken("tk_input_custom_alert_name");
+    var tk_input_create_alert_data_source = getToken(
       "create_alert_data_source"
     );
-    var tk_input_create_alert_data_host = tokens.get("create_alert_data_host");
-    var tk_input_create_alert_metric_host = tokens.get(
+    var tk_input_create_alert_data_host = getToken("create_alert_data_host");
+    var tk_input_create_alert_metric_host = getToken(
       "create_alert_metric_host"
     );
-    var tk_input_custom_alert_priority = tokens.get(
+    var tk_input_custom_alert_priority = getToken(
       "tk_input_custom_alert_priority"
     );
-    var tk_input_custom_alert_state = tokens.get("tk_input_custom_alert_state");
-    var tk_input_custom_alert_data_source_filter = tokens.get(
+    var tk_input_custom_alert_state = getToken("tk_input_custom_alert_state");
+    var tk_input_custom_alert_data_source_filter = getToken(
       "tk_input_custom_alert_data_source_filter"
     );
-    var tk_input_custom_alert_data_host_filter = tokens.get(
+    var tk_input_custom_alert_data_host_filter = getToken(
       "tk_input_custom_alert_data_host_filter"
     );
-    var tk_input_custom_alert_metric_host_filter = tokens.get(
+    var tk_input_custom_alert_metric_host_filter = getToken(
       "tk_input_custom_alert_metric_host_filter"
     );
-    var tk_input_custom_tags = tokens.get("tk_input_custom_tags");
-    var tk_input_custom_alert_trigger_on_outliers = tokens.get(
+    var tk_input_custom_tags = getToken("tk_input_custom_tags");
+    var tk_input_custom_alert_trigger_on_outliers = getToken(
       "tk_input_custom_alert_trigger_on_outliers"
     );
-    var tk_input_custom_alert_trigger_on_outliers_data_host = tokens.get(
+    var tk_input_custom_alert_trigger_on_outliers_data_host = getToken(
       "tk_input_custom_alert_trigger_on_outliers_data_host"
     );
-    var tk_input_custom_alert_trigger_on_data_sampling = tokens.get(
+    var tk_input_custom_alert_trigger_on_data_sampling = getToken(
       "tk_input_custom_alert_trigger_on_data_sampling"
     );
-    var tk_input_custom_alert_cron = tokens.get("tk_input_custom_alert_cron");
-    var tk_input_custom_alert_suppress_fields = tokens.get(
+    var tk_input_custom_alert_cron = getToken("tk_input_custom_alert_cron");
+    var tk_input_custom_alert_suppress_fields = getToken(
       "tk_input_custom_alert_suppress_fields"
     );
-    var tk_input_custom_alert_suppress_period = tokens.get(
+    var tk_input_custom_alert_suppress_period = getToken(
       "tk_input_custom_alert_suppress_period"
     );
-    var tk_input_custom_alert_time_filtering = tokens.get(
+    var tk_input_custom_alert_time_filtering = getToken(
       "tk_input_custom_alert_time_filtering"
     );
-    var tk_input_custom_alert_smart_status = tokens.get(
+    var tk_input_custom_alert_smart_status = getToken(
       "tk_input_custom_alert_smart_status"
     );
-    var tk_input_custom_alert_auto_ack = tokens.get(
+    var tk_input_custom_alert_auto_ack = getToken(
       "tk_input_custom_alert_auto_ack"
     );
 
@@ -15478,13 +15464,8 @@ var inputLinkQueuesTime = new LinkListInput({
     // Hide main modal
     $("#modal_manage").modal("hide");
 
-    //submitTokens();
-
-    // When the Submit button is clicked, get all the form fields by accessing token values
-    var tokens = mvc.Components.get("default");
-
-    var tk_keyid = tokens.get("tk_keyid");
-    var tk_data_name = tokens.get("tk_data_name");
+    var tk_keyid = getToken("tk_keyid");
+    var tk_data_name = getToken("tk_object");
 
     // Create the endpoint URL
     var myendpoint_URl =
@@ -15582,13 +15563,8 @@ var inputLinkQueuesTime = new LinkListInput({
     // Hide main modal
     $("#modal_manage_host").modal("hide");
 
-    //submitTokens();
-
-    // When the Submit button is clicked, get all the form fields by accessing token values
-    var tokens = mvc.Components.get("default");
-
-    var tk_keyid = tokens.get("tk_keyid");
-    var tk_data_host = tokens.get("tk_data_host");
+    var tk_keyid = getToken("tk_keyid");
+    var tk_data_host = getToken("tk_data_host");
 
     // Create the endpoint URL
     var myendpoint_URl =
@@ -15703,10 +15679,10 @@ var inputLinkQueuesTime = new LinkListInput({
     SearchDataSourceParsingQualityMain.startSearch();
     searchDataSourceTimeline.startSearch();
     // call update summary investigator for that entity only
-    var tk_data_name = tokens.get("tk_object");
+    var tk_data_name = getToken("tk_object");
     updateDataSourceEntity(tk_data_name);
     // call update data source
-    var tk_keyid = tokens.get("tk_keyid");
+    var tk_keyid = getToken("tk_keyid");
     updateDataSource(tk_keyid);
     notify(
       "info",
@@ -15734,10 +15710,10 @@ var inputLinkQueuesTime = new LinkListInput({
     searchDataHostTimeline.startSearch();
 
     // call update summary investigator for that entity only
-    var tk_data_host = tokens.get("tk_data_host");
+    var tk_data_host = getToken("tk_data_host");
     updateDataHostEntity("trackme_datahost_tracker_shorterm", tk_data_host);
     // call update data host
-    var tk_keyid = tokens.get("tk_keyid");
+    var tk_keyid = getToken("tk_keyid");
     updateDataHost(tk_keyid);
   });
 
@@ -15751,7 +15727,7 @@ var inputLinkQueuesTime = new LinkListInput({
     searchMetricHostMainAuditChanges.startSearch();
     searchMetricHostTimeline.startSearch();
 
-    var tk_keyid = tokens.get("tk_keyid");
+    var tk_keyid = getToken("tk_keyid");
     // call update metric host
     updateMetricHost(tk_keyid);
   });
@@ -15760,13 +15736,8 @@ var inputLinkQueuesTime = new LinkListInput({
     // Hide main modal
     $("#modal_manage_metric_host").modal("hide");
 
-    //submitTokens();
-
-    // When the Submit button is clicked, get all the form fields by accessing token values
-    var tokens = mvc.Components.get("default");
-
-    var tk_keyid = tokens.get("tk_keyid");
-    var tk_metric_host = tokens.get("tk_metric_host");
+    var tk_keyid = getToken("tk_keyid");
+    var tk_metric_host = getToken("tk_metric_host");
 
     // Create the endpoint URL
     var myendpoint_URl =
@@ -15870,19 +15841,17 @@ var inputLinkQueuesTime = new LinkListInput({
 
   // metric host priority
   $("#btn_modal_modify_priority_metric_host_confirm").click(function () {
-    // When the Submit button is clicked, get all the form fields by accessing token values
-    var tokens = mvc.Components.get("default");
 
-    var tk_keyid = tokens.get("tk_keyid");
-    var tk_metric_host = tokens.get("tk_metric_host");
-    var tk_priority = tokens.get("tk_priority");
+    var tk_keyid = getToken("tk_keyid");
+    var tk_metric_host = getToken("tk_metric_host");
+    var tk_priority = getToken("tk_priority");
 
     // Create the endpoint URL
     var myendpoint_URl =
       "/en-US/splunkd/__raw/services/trackme/v1/metric_hosts/mh_update_priority";
 
     var tk_origin_priority = tk_priority;
-    var tk_new_priority = tokens.get("tk_input_metric_host_priority");
+    var tk_new_priority = getToken("tk_input_metric_host_priority");
 
     if (!tk_new_priority || !tk_new_priority.length) {
       // Show an error message
@@ -15967,13 +15936,8 @@ var inputLinkQueuesTime = new LinkListInput({
     // Hide main modal
     $("#modal_manage").modal("hide");
 
-    //submitTokens();
-
-    // When the Submit button is clicked, get all the form fields by accessing token values
-    var tokens = mvc.Components.get("default");
-
-    var tk_keyid = tokens.get("tk_keyid");
-    var tk_data_name = tokens.get("tk_data_name");
+    var tk_keyid = getToken("tk_keyid");
+    var tk_data_name = getToken("tk_object");
 
     // Create the endpoint URL
     var myendpoint_URl =
@@ -16071,13 +16035,8 @@ var inputLinkQueuesTime = new LinkListInput({
     // Hide main modal
     $("#modal_manage_host").modal("hide");
 
-    //submitTokens();
-
-    // When the Submit button is clicked, get all the form fields by accessing token values
-    var tokens = mvc.Components.get("default");
-
-    var tk_keyid = tokens.get("tk_keyid");
-    var tk_data_host = tokens.get("tk_data_host");
+    var tk_keyid = getToken("tk_keyid");
+    var tk_data_host = getToken("tk_data_host");
 
     // Create the endpoint URL
     var myendpoint_URl =
@@ -16175,13 +16134,8 @@ var inputLinkQueuesTime = new LinkListInput({
     // Hide main modal
     $("#modal_manage_metric_host").modal("hide");
 
-    //submitTokens();
-
-    // When the Submit button is clicked, get all the form fields by accessing token values
-    var tokens = mvc.Components.get("default");
-
-    var tk_keyid = tokens.get("tk_keyid");
-    var tk_metric_host = tokens.get("tk_metric_host");
+    var tk_keyid = getToken("tk_keyid");
+    var tk_metric_host = getToken("tk_metric_host");
 
     // Create the endpoint URL
     var myendpoint_URl =
@@ -16280,14 +16234,10 @@ var inputLinkQueuesTime = new LinkListInput({
   //
 
   $("#btn_reset_metric_host").click(function (mode) {
-    //submitTokens();
-
-    // When the Submit button is clicked, get all the form fields by accessing token values
-    var tokens = mvc.Components.get("default");
 
     // Get tokens
-    var tk_keyid = tokens.get("tk_keyid");
-    var tk_metric_host = tokens.get("tk_metric_host");
+    var tk_keyid = getToken("tk_keyid");
+    var tk_metric_host = getToken("tk_metric_host");
 
     // Hide main modal
     $("#modal_manage_metric_host").modal("hide");
@@ -16350,31 +16300,26 @@ var inputLinkQueuesTime = new LinkListInput({
     // Hide main modal
     $("#modal_manage_metric_host").modal("hide");
 
-    //submitTokens();
-
-    // When the Submit button is clicked, get all the form fields by accessing token values
-    var tokens = mvc.Components.get("default");
-
-    var tk_keyid = tokens.get("tk_keyid");
-    var tk_metric_host = tokens.get("tk_metric_host");
-    var tk_metric_index = tokens.get("tk_metric_index");
-    var tk_metric_category = tokens.get("tk_metric_category");
-    var tk_metric_details = tokens.get("tk_metric_details");
-    var tk_metric_last_lag_seen = tokens.get("tk_metric_last_lag_seen");
-    var tk_metric_first_time_seen = tokens.get("tk_metric_first_time_seen");
-    var tk_metric_last_time_seen = tokens.get("tk_metric_last_time_seen");
-    var tk_metric_host_state = tokens.get("tk_metric_host_state");
-    var tk_metric_tracker_runtime = tokens.get("tk_metric_tracker_runtime");
-    var tk_metric_previous_host_state = tokens.get(
+    var tk_keyid = getToken("tk_keyid");
+    var tk_metric_host = getToken("tk_metric_host");
+    var tk_metric_index = getToken("tk_metric_index");
+    var tk_metric_category = getToken("tk_metric_category");
+    var tk_metric_details = getToken("tk_metric_details");
+    var tk_metric_last_lag_seen = getToken("tk_metric_last_lag_seen");
+    var tk_metric_first_time_seen = getToken("tk_metric_first_time_seen");
+    var tk_metric_last_time_seen = getToken("tk_metric_last_time_seen");
+    var tk_metric_host_state = getToken("tk_metric_host_state");
+    var tk_metric_tracker_runtime = getToken("tk_metric_tracker_runtime");
+    var tk_metric_previous_host_state = getToken(
       "tk_metric_previous_host_state"
     );
-    var tk_metric_previous_tracker_runtime = tokens.get(
+    var tk_metric_previous_tracker_runtime = getToken(
       "tk_metric_previous_tracker_runtime"
     );
     var tk_metric_monitored_state = "disabled";
-    var tk_latest_flip_state = tokens.get("tk_latest_flip_state");
-    var tk_latest_flip_time = tokens.get("tk_latest_flip_time");
-    var tk_priority = tokens.get("tk_priority");
+    var tk_latest_flip_state = getToken("tk_latest_flip_state");
+    var tk_latest_flip_time = getToken("tk_latest_flip_time");
+    var tk_priority = getToken("tk_priority");
 
     // Create a dictionary to store the field names and values
     var record = {
@@ -16617,56 +16562,51 @@ var inputLinkQueuesTime = new LinkListInput({
     // Hide main modal
     $("#modal_manage").modal("hide");
 
-    //submitTokens();
-
     // When the Submit button is clicked, get all the form fields by accessing token values
-    var tokens = mvc.Components.get("default");
-
-    // When the Submit button is clicked, get all the form fields by accessing token values
-    var tk_keyid = tokens.get("tk_keyid");
-    var tk_data_name = tokens.get("tk_data_name");
-    var tk_data_index = tokens.get("tk_data_index");
-    var tk_data_sourcetype = tokens.get("tk_data_sourcetype");
-    var tk_data_last_lag_seen = tokens.get("tk_data_last_lag_seen");
-    var tk_data_last_ingestion_lag_seen = tokens.get(
+    var tk_keyid = getToken("tk_keyid");
+    var tk_data_name = getToken("tk_object");
+    var tk_data_index = getToken("tk_data_index");
+    var tk_data_sourcetype = getToken("tk_data_sourcetype");
+    var tk_data_last_lag_seen = getToken("tk_data_last_lag_seen");
+    var tk_data_last_ingestion_lag_seen = getToken(
       "tk_data_last_ingestion_lag_seen"
     );
-    var tk_data_eventcount = tokens.get("tk_data_eventcount");
-    var tk_data_first_time_seen = tokens.get("tk_data_first_time_seen");
-    var tk_data_last_time_seen = tokens.get("tk_data_last_time_seen");
-    var tk_data_last_ingest = tokens.get("tk_data_last_ingest");
-    var tk_data_last_lag_seen_idx = tokens.get("tk_data_last_lag_seen_idx");
-    var tk_data_last_time_seen_idx = tokens.get("tk_data_last_time_seen_idx");
-    var tk_data_max_lag_allowed = tokens.get("tk_data_max_lag_allowed");
-    var tk_data_lag_alert_kpis = tokens.get("tk_data_lag_alert_kpis");
-    var tk_data_monitored_state = tokens.get("tk_data_monitored_state");
-    var tk_data_monitoring_level = tokens.get("tk_data_monitoring_level");
-    var tk_data_monitoring_wdays = tokens.get("tk_data_monitoring_wdays");
-    var tk_data_override_lagging_class = tokens.get(
+    var tk_data_eventcount = getToken("tk_data_eventcount");
+    var tk_data_first_time_seen = getToken("tk_data_first_time_seen");
+    var tk_data_last_time_seen = getToken("tk_data_last_time_seen");
+    var tk_data_last_ingest = getToken("tk_data_last_ingest");
+    var tk_data_last_lag_seen_idx = getToken("tk_data_last_lag_seen_idx");
+    var tk_data_last_time_seen_idx = getToken("tk_data_last_time_seen_idx");
+    var tk_data_max_lag_allowed = getToken("tk_data_max_lag_allowed");
+    var tk_data_lag_alert_kpis = getToken("tk_data_lag_alert_kpis");
+    var tk_data_monitored_state = getToken("tk_data_monitored_state");
+    var tk_data_monitoring_level = getToken("tk_data_monitoring_level");
+    var tk_data_monitoring_wdays = getToken("tk_data_monitoring_wdays");
+    var tk_data_override_lagging_class = getToken(
       "tk_data_override_lagging_class"
     );
-    var tk_outliermineventcount = tokens.get("tk_outliermineventcount");
-    var tk_outlierlowerthresholdmultiplier = tokens.get(
+    var tk_outliermineventcount = getToken("tk_outliermineventcount");
+    var tk_outlierlowerthresholdmultiplier = getToken(
       "tk_outlierlowerthresholdmultiplier"
     );
-    var tk_outlierupperthresholdmultiplier = tokens.get(
+    var tk_outlierupperthresholdmultiplier = getToken(
       "tk_outlierupperthresholdmultiplier"
     );
-    var tk_outlieralertonupper = tokens.get("tk_outlieralertonupper");
-    var tk_outlier_period = tokens.get("tk_outlier_period");
-    var tk_outlier_span = tokens.get("tk_outlier_span");
-    var tk_isoutlier = tokens.get("tk_isoutlier");
-    var tk_enable_behaviour_analytic = tokens.get(
+    var tk_outlieralertonupper = getToken("tk_outlieralertonupper");
+    var tk_outlier_period = getToken("tk_outlier_period");
+    var tk_outlier_span = getToken("tk_outlier_span");
+    var tk_isoutlier = getToken("tk_isoutlier");
+    var tk_enable_behaviour_analytic = getToken(
       "tk_enable_behaviour_analytic"
     );
-    var tk_isanomaly = tokens.get("tk_isanomaly");
-    var tk_data_sample_lastrun = tokens.get("tk_data_sample_lastrun");
-    var tk_latest_flip_state = tokens.get("tk_latest_flip_state");
-    var tk_latest_flip_time = tokens.get("tk_latest_flip_time");
-    var tk_priority = tokens.get("tk_priority");
-    var tk_dcount_host = tokens.get("tk_dcount_host");
-    var tk_min_dcount_host = tokens.get("tk_min_dcount_host");
-    var tk_tags = tokens.get("tk_tags");
+    var tk_isanomaly = getToken("tk_isanomaly");
+    var tk_data_sample_lastrun = getToken("tk_data_sample_lastrun");
+    var tk_latest_flip_state = getToken("tk_latest_flip_state");
+    var tk_latest_flip_time = getToken("tk_latest_flip_time");
+    var tk_priority = getToken("tk_priority");
+    var tk_dcount_host = getToken("tk_dcount_host");
+    var tk_min_dcount_host = getToken("tk_min_dcount_host");
+    var tk_tags = getToken("tk_tags");
 
     // Create a dictionary to store the field names and values
     var record = {
@@ -16929,14 +16869,10 @@ var inputLinkQueuesTime = new LinkListInput({
   //
 
   $("#btn_reset_data_host").click(function (mode) {
-    //submitTokens();
-
-    // When the Submit button is clicked, get all the form fields by accessing token values
-    var tokens = mvc.Components.get("default");
 
     // Get tokens
-    var tk_keyid = tokens.get("tk_keyid");
-    var tk_data_host = tokens.get("tk_data_host");
+    var tk_keyid = getToken("tk_keyid");
+    var tk_data_host = getToken("tk_data_host");
 
     // Hide main modal
     $("#modal_manage_host").modal("hide");
@@ -16977,7 +16913,7 @@ var inputLinkQueuesTime = new LinkListInput({
         // notify
         notification("Reset completed.", 6000);
         // call reset data host
-        var tk_data_host = tokens.get("tk_data_host");
+        var tk_data_host = getToken("tk_data_host");
         clearDataHost(tk_data_host, tk_comment);
         searchSingleLagHost.startSearch();
         searchSingleLagByMetricsHost.startSearch();
@@ -16993,10 +16929,10 @@ var inputLinkQueuesTime = new LinkListInput({
         searchDataHostTimeline.startSearch();
 
         // call update summary investigator for that entity only
-        var tk_data_host = tokens.get("tk_data_host");
+        var tk_data_host = getToken("tk_data_host");
         updateDataHostEntity("trackme_datahost_tracker_shorterm", tk_data_host);
         // call update data host
-        var tk_keyid = tokens.get("tk_keyid");
+        var tk_keyid = getToken("tk_keyid");
         updateDataHost(tk_keyid);
 
         // Return to modal
@@ -17013,52 +16949,47 @@ var inputLinkQueuesTime = new LinkListInput({
     // Hide main modal
     $("#modal_manage_host").modal("hide");
 
-    //submitTokens();
-
     // When the Submit button is clicked, get all the form fields by accessing token values
-    var tokens = mvc.Components.get("default");
-
-    // When the Submit button is clicked, get all the form fields by accessing token values
-    var tk_keyid = tokens.get("tk_keyid");
-    var tk_data_host = tokens.get("tk_data_host");
-    var tk_data_index = tokens.get("tk_data_index");
-    var tk_data_sourcetype = tokens.get("tk_data_sourcetype");
-    var tk_data_host_st_summary = tokens.get("tk_data_host_st_summary");
-    var tk_data_host_alerting_policy = tokens.get(
+    var tk_keyid = getToken("tk_keyid");
+    var tk_data_host = getToken("tk_data_host");
+    var tk_data_index = getToken("tk_data_index");
+    var tk_data_sourcetype = getToken("tk_data_sourcetype");
+    var tk_data_host_st_summary = getToken("tk_data_host_st_summary");
+    var tk_data_host_alerting_policy = getToken(
       "tk_data_host_alerting_policy"
     );
-    var tk_data_last_lag_seen = tokens.get("tk_data_last_lag_seen");
-    var tk_data_last_ingestion_lag_seen = tokens.get(
+    var tk_data_last_lag_seen = getToken("tk_data_last_lag_seen");
+    var tk_data_last_ingestion_lag_seen = getToken(
       "tk_data_last_ingestion_lag_seen"
     );
-    var tk_data_eventcount = tokens.get("tk_data_eventcount");
-    var tk_data_first_time_seen = tokens.get("tk_data_first_time_seen");
-    var tk_data_last_time_seen = tokens.get("tk_data_last_time_seen");
-    var tk_data_last_ingest = tokens.get("tk_data_last_ingest");
-    var tk_data_max_lag_allowed = tokens.get("tk_data_max_lag_allowed");
-    var tk_data_lag_alert_kpis = tokens.get("tk_data_lag_alert_kpis");
-    var tk_data_monitoring_wdays = tokens.get("tk_data_monitoring_wdays");
-    var tk_data_monitored_state = tokens.get("tk_data_monitored_state");
-    var tk_data_override_lagging_class = tokens.get(
+    var tk_data_eventcount = getToken("tk_data_eventcount");
+    var tk_data_first_time_seen = getToken("tk_data_first_time_seen");
+    var tk_data_last_time_seen = getToken("tk_data_last_time_seen");
+    var tk_data_last_ingest = getToken("tk_data_last_ingest");
+    var tk_data_max_lag_allowed = getToken("tk_data_max_lag_allowed");
+    var tk_data_lag_alert_kpis = getToken("tk_data_lag_alert_kpis");
+    var tk_data_monitoring_wdays = getToken("tk_data_monitoring_wdays");
+    var tk_data_monitored_state = getToken("tk_data_monitored_state");
+    var tk_data_override_lagging_class = getToken(
       "tk_data_override_lagging_class"
     );
-    var tk_outliermineventcount = tokens.get("tk_outliermineventcount");
-    var tk_outlierlowerthresholdmultiplier = tokens.get(
+    var tk_outliermineventcount = getToken("tk_outliermineventcount");
+    var tk_outlierlowerthresholdmultiplier = getToken(
       "tk_outlierlowerthresholdmultiplier"
     );
-    var tk_outlierupperthresholdmultiplier = tokens.get(
+    var tk_outlierupperthresholdmultiplier = getToken(
       "tk_outlierupperthresholdmultiplier"
     );
-    var tk_outlieralertonupper = tokens.get("tk_outlieralertonupper");
-    var tk_outlier_period = tokens.get("tk_outlier_period");
-    var tk_outlier_span = tokens.get("tk_outlier_span");
-    var tk_isoutlier = tokens.get("tk_isoutlier");
-    var tk_enable_behaviour_analytic = tokens.get(
+    var tk_outlieralertonupper = getToken("tk_outlieralertonupper");
+    var tk_outlier_period = getToken("tk_outlier_period");
+    var tk_outlier_span = getToken("tk_outlier_span");
+    var tk_isoutlier = getToken("tk_isoutlier");
+    var tk_enable_behaviour_analytic = getToken(
       "tk_enable_behaviour_analytic"
     );
-    var tk_latest_flip_state = tokens.get("tk_latest_flip_state");
-    var tk_latest_flip_time = tokens.get("tk_latest_flip_time");
-    var tk_priority = tokens.get("tk_priority");
+    var tk_latest_flip_state = getToken("tk_latest_flip_state");
+    var tk_latest_flip_time = getToken("tk_latest_flip_time");
+    var tk_priority = getToken("tk_priority");
 
     // Create a dictionary to store the field names and values
     var record = {
@@ -17313,16 +17244,12 @@ var inputLinkQueuesTime = new LinkListInput({
   // add policy
 
   $("#btn_modal_metric_policy_add").click(function () {
-    //submitTokens();
 
     // When the Submit button is clicked, get all the form fields by accessing token values
-    var tokens = mvc.Components.get("default");
-
-    // When the Submit button is clicked, get all the form fields by accessing token values
-    var tk_input_metric_policy_metric_category = tokens.get(
+    var tk_input_metric_policy_metric_category = getToken(
       "tk_input_metric_policy_metric_category"
     );
-    var tk_input_metric_policy_metric_value = tokens.get(
+    var tk_input_metric_policy_metric_value = getToken(
       "tk_input_metric_policy_metric_value"
     );
 
@@ -17593,13 +17520,9 @@ var inputLinkQueuesTime = new LinkListInput({
   }
 
   $("#btn_delete_metric_sla_policy_level2").click(function () {
-    //submitTokens();
-
-    // When the Submit button is clicked, get all the form fields by accessing token values
-    var tokens = mvc.Components.get("default");
 
     // Get the arrays of keys
-    var tk_multi_table_array = tokens.get("removeMetricPolicies");
+    var tk_multi_table_array = getToken("removeMetricPolicies");
     tk_multi_table_array = tk_multi_table_array.split(",");
 
     // Call the function for each value from the array
@@ -17621,22 +17544,18 @@ var inputLinkQueuesTime = new LinkListInput({
   // Custom lagging
 
   $("#btn_modal_custom_lagging_add").click(function () {
-    //submitTokens();
 
     // When the Submit button is clicked, get all the form fields by accessing token values
-    var tokens = mvc.Components.get("default");
-
-    // When the Submit button is clicked, get all the form fields by accessing token values
-    var tk_input_custom_lagging_type = tokens.get(
+    var tk_input_custom_lagging_type = getToken(
       "tk_input_custom_lagging_type"
     );
-    var tk_input_custom_lagging_name = tokens.get(
+    var tk_input_custom_lagging_name = getToken(
       "tk_input_custom_lagging_name"
     );
-    var tk_input_custom_lagging_value = tokens.get(
+    var tk_input_custom_lagging_value = getToken(
       "tk_input_custom_lagging_value"
     );
-    var tk_input_custom_lagging_object = tokens.get(
+    var tk_input_custom_lagging_object = getToken(
       "tk_input_custom_lagging_object"
     );
 
@@ -17935,13 +17854,9 @@ var inputLinkQueuesTime = new LinkListInput({
   }
 
   $("#btn_lagging_data_source_policy_delete_level2").click(function () {
-    //submitTokens();
-
-    // When the Submit button is clicked, get all the form fields by accessing token values
-    var tokens = mvc.Components.get("default");
 
     // Get the arrays of keys
-    var tk_multi_table_array = tokens.get("removeDataSourceLaggingPolicy");
+    var tk_multi_table_array = getToken("removeDataSourceLaggingPolicy");
     tk_multi_table_array = tk_multi_table_array.split(",");
 
     // Call the function for each value from the array
@@ -17960,13 +17875,9 @@ var inputLinkQueuesTime = new LinkListInput({
   // delete lagging class
 
   $("#btn_delete_custom_lagging").click(function () {
-    //submitTokens();
 
     // When the Submit button is clicked, get all the form fields by accessing token values
-    var tokens = mvc.Components.get("default");
-
-    // When the Submit button is clicked, get all the form fields by accessing token values
-    var tk_keyid = tokens.get("tk_keyid");
+    var tk_keyid = getToken("tk_keyid");
 
     // Create the endpoint URL
     var myendpoint_URl =
@@ -17974,13 +17885,13 @@ var inputLinkQueuesTime = new LinkListInput({
       tk_keyid;
 
     // Get tokens
-    var tk_input_custom_lagging_type = tokens.get(
+    var tk_input_custom_lagging_type = getToken(
       "tk_input_custom_lagging_type"
     );
-    var tk_input_custom_lagging_name = tokens.get(
+    var tk_input_custom_lagging_name = getToken(
       "tk_input_custom_lagging_name"
     );
-    var tk_input_custom_lagging_value = tokens.get(
+    var tk_input_custom_lagging_value = getToken(
       "tk_input_custom_lagging_value"
     );
 
@@ -18074,18 +17985,14 @@ var inputLinkQueuesTime = new LinkListInput({
   // add entry from whitelist
 
   $("#btn_modal_data_source_whitelist_add").click(function () {
-    //submitTokens();
 
     // When the Submit button is clicked, get all the form fields by accessing token values
-    var tokens = mvc.Components.get("default");
-
-    // When the Submit button is clicked, get all the form fields by accessing token values
-    var tk_input_whitelist_data_source = tokens.get(
+    var tk_input_whitelist_data_source = getToken(
       "tk_input_whitelist_data_source"
     );
 
     // When the Submit button is clicked, get all the form fields by accessing token values
-    var tk_textinput_whitelist_data_source = tokens.get(
+    var tk_textinput_whitelist_data_source = getToken(
       "tk_textinput_whitelist_data_source"
     );
 
@@ -18355,13 +18262,9 @@ var inputLinkQueuesTime = new LinkListInput({
   }
 
   $("#btn_delete_data_source_whitelist").click(function () {
-    //submitTokens();
-
-    // When the Submit button is clicked, get all the form fields by accessing token values
-    var tokens = mvc.Components.get("default");
 
     // Get the arrays of keys
-    var tk_multi_table_array = tokens.get("removeWhitelistDataSource");
+    var tk_multi_table_array = getToken("removeWhitelistDataSource");
     tk_multi_table_array = tk_multi_table_array.split(",");
 
     // Call the function for each value from the array
@@ -18384,18 +18287,14 @@ var inputLinkQueuesTime = new LinkListInput({
   // add entry from whitelist
 
   $("#btn_modal_metric_host_whitelist_add").click(function () {
-    //submitTokens();
 
     // When the Submit button is clicked, get all the form fields by accessing token values
-    var tokens = mvc.Components.get("default");
-
-    // When the Submit button is clicked, get all the form fields by accessing token values
-    var tk_input_whitelist_metric_host = tokens.get(
+    var tk_input_whitelist_metric_host = getToken(
       "tk_input_whitelist_metric_host"
     );
 
     // When the Submit button is clicked, get all the form fields by accessing token values
-    var tk_textinput_whitelist_metric_host = tokens.get(
+    var tk_textinput_whitelist_metric_host = getToken(
       "tk_textinput_whitelist_metric_host"
     );
 
@@ -18665,13 +18564,9 @@ var inputLinkQueuesTime = new LinkListInput({
   }
 
   $("#btn_delete_metric_host_whitelist").click(function () {
-    //submitTokens();
-
-    // When the Submit button is clicked, get all the form fields by accessing token values
-    var tokens = mvc.Components.get("default");
 
     // Get the arrays of keys
-    var tk_multi_table_array = tokens.get("removeWhitelistMetricHost");
+    var tk_multi_table_array = getToken("removeWhitelistMetricHost");
     tk_multi_table_array = tk_multi_table_array.split(",");
 
     // Call the function for each value from the array
@@ -18694,18 +18589,14 @@ var inputLinkQueuesTime = new LinkListInput({
   // add entry from whitelist
 
   $("#btn_modal_data_host_whitelist_add").click(function () {
-    //submitTokens();
 
     // When the Submit button is clicked, get all the form fields by accessing token values
-    var tokens = mvc.Components.get("default");
-
-    // When the Submit button is clicked, get all the form fields by accessing token values
-    var tk_input_whitelist_data_host = tokens.get(
+    var tk_input_whitelist_data_host = getToken(
       "tk_input_whitelist_data_host"
     );
 
     // When the Submit button is clicked, get all the form fields by accessing token values
-    var tk_textinput_whitelist_data_host = tokens.get(
+    var tk_textinput_whitelist_data_host = getToken(
       "tk_textinput_whitelist_data_host"
     );
 
@@ -18974,13 +18865,9 @@ var inputLinkQueuesTime = new LinkListInput({
   }
 
   $("#btn_delete_data_host_whitelist").click(function () {
-    //submitTokens();
-
-    // When the Submit button is clicked, get all the form fields by accessing token values
-    var tokens = mvc.Components.get("default");
 
     // Get the arrays of keys
-    var tk_multi_table_array = tokens.get("removeWhitelistDataHost");
+    var tk_multi_table_array = getToken("removeWhitelistDataHost");
     tk_multi_table_array = tk_multi_table_array.split(",");
 
     // Call the function for each value from the array
@@ -19007,13 +18894,9 @@ var inputLinkQueuesTime = new LinkListInput({
   // add entry from blacklist
 
   $("#btn_modal_data_source_blacklist_host_add").click(function () {
-    //submitTokens();
 
     // When the Submit button is clicked, get all the form fields by accessing token values
-    var tokens = mvc.Components.get("default");
-
-    // When the Submit button is clicked, get all the form fields by accessing token values
-    var tk_input_blacklist_host = tokens.get(
+    var tk_input_blacklist_host = getToken(
       "tk_input_data_source_blacklist_host"
     );
 
@@ -19269,13 +19152,9 @@ var inputLinkQueuesTime = new LinkListInput({
   }
 
   $("#btn_delete_data_source_blacklist_host").click(function () {
-    //submitTokens();
-
-    // When the Submit button is clicked, get all the form fields by accessing token values
-    var tokens = mvc.Components.get("default");
 
     // Get the arrays of keys
-    var tk_multi_table_array = tokens.get("removeBlacklistDataSourceHost");
+    var tk_multi_table_array = getToken("removeBlacklistDataSourceHost");
     tk_multi_table_array = tk_multi_table_array.split(",");
 
     // Call the function for each value from the array
@@ -19297,13 +19176,9 @@ var inputLinkQueuesTime = new LinkListInput({
   // add entry from blacklist
 
   $("#btn_modal_data_host_blacklist_host_add").click(function () {
-    //submitTokens();
 
     // When the Submit button is clicked, get all the form fields by accessing token values
-    var tokens = mvc.Components.get("default");
-
-    // When the Submit button is clicked, get all the form fields by accessing token values
-    var tk_input_blacklist_host = tokens.get(
+    var tk_input_blacklist_host = getToken(
       "tk_input_data_host_blacklist_host"
     );
 
@@ -19446,13 +19321,9 @@ var inputLinkQueuesTime = new LinkListInput({
   // add entry from blacklist
 
   $("#btn_modal_data_source_blacklist_index_add").click(function () {
-    //submitTokens();
 
     // When the Submit button is clicked, get all the form fields by accessing token values
-    var tokens = mvc.Components.get("default");
-
-    // When the Submit button is clicked, get all the form fields by accessing token values
-    var tk_input_blacklist_index = tokens.get("tk_input_blacklist_index");
+    var tk_input_blacklist_index = getToken("tk_input_blacklist_index");
 
     // Create the endpoint URL
     var myendpoint_URl =
@@ -19706,13 +19577,9 @@ var inputLinkQueuesTime = new LinkListInput({
   }
 
   $("#btn_delete_data_source_blacklist_index").click(function () {
-    //submitTokens();
-
-    // When the Submit button is clicked, get all the form fields by accessing token values
-    var tokens = mvc.Components.get("default");
 
     // Get the arrays of keys
-    var tk_multi_table_array = tokens.get("removeBlacklistDataSourceIndex");
+    var tk_multi_table_array = getToken("removeBlacklistDataSourceIndex");
     tk_multi_table_array = tk_multi_table_array.split(",");
 
     // Call the function for each value from the array
@@ -19849,13 +19716,9 @@ var inputLinkQueuesTime = new LinkListInput({
   }
 
   $("#btn_delete_data_host_blacklist_index").click(function () {
-    //submitTokens();
-
-    // When the Submit button is clicked, get all the form fields by accessing token values
-    var tokens = mvc.Components.get("default");
 
     // Get the arrays of keys
-    var tk_multi_table_array = tokens.get("removeBlacklistDataHostIndex");
+    var tk_multi_table_array = getToken("removeBlacklistDataHostIndex");
     tk_multi_table_array = tk_multi_table_array.split(",");
 
     // Call the function for each value from the array
@@ -19877,13 +19740,9 @@ var inputLinkQueuesTime = new LinkListInput({
   // add entry from blacklist
 
   $("#btn_modal_data_host_blacklist_index_add").click(function () {
-    //submitTokens();
 
     // When the Submit button is clicked, get all the form fields by accessing token values
-    var tokens = mvc.Components.get("default");
-
-    // When the Submit button is clicked, get all the form fields by accessing token values
-    var tk_input_blacklist_index = tokens.get(
+    var tk_input_blacklist_index = getToken(
       "tk_input_data_host_blacklist_index"
     );
 
@@ -20139,13 +19998,9 @@ var inputLinkQueuesTime = new LinkListInput({
   }
 
   $("#btn_delete_data_host_blacklist_host").click(function () {
-    //submitTokens();
-
-    // When the Submit button is clicked, get all the form fields by accessing token values
-    var tokens = mvc.Components.get("default");
 
     // Get the arrays of keys
-    var tk_multi_table_array = tokens.get("removeBlacklistDataHostHost");
+    var tk_multi_table_array = getToken("removeBlacklistDataHostHost");
     tk_multi_table_array = tk_multi_table_array.split(",");
 
     // Call the function for each value from the array
@@ -20167,13 +20022,9 @@ var inputLinkQueuesTime = new LinkListInput({
   // add entry from blacklist
 
   $("#btn_modal_metric_host_blacklist_index_add").click(function () {
-    //submitTokens();
 
     // When the Submit button is clicked, get all the form fields by accessing token values
-    var tokens = mvc.Components.get("default");
-
-    // When the Submit button is clicked, get all the form fields by accessing token values
-    var tk_input_blacklist_index = tokens.get(
+    var tk_input_blacklist_index = getToken(
       "tk_input_metric_host_blacklist_index"
     );
 
@@ -20429,13 +20280,9 @@ var inputLinkQueuesTime = new LinkListInput({
   }
 
   $("#btn_delete_metric_host_blacklist_index").click(function () {
-    //submitTokens();
-
-    // When the Submit button is clicked, get all the form fields by accessing token values
-    var tokens = mvc.Components.get("default");
 
     // Get the arrays of keys
-    var tk_multi_table_array = tokens.get("removeBlacklistMetricHostIndex");
+    var tk_multi_table_array = getToken("removeBlacklistMetricHostIndex");
     tk_multi_table_array = tk_multi_table_array.split(",");
 
     // Call the function for each value from the array
@@ -20457,13 +20304,9 @@ var inputLinkQueuesTime = new LinkListInput({
   // sourcetype blacklist
 
   $("#btn_modal_data_source_blacklist_sourcetype_add").click(function () {
-    //submitTokens();
 
     // When the Submit button is clicked, get all the form fields by accessing token values
-    var tokens = mvc.Components.get("default");
-
-    // When the Submit button is clicked, get all the form fields by accessing token values
-    var tk_input_blacklist_sourcetype = tokens.get(
+    var tk_input_blacklist_sourcetype = getToken(
       "tk_input_data_source_blacklist_sourcetype"
     );
 
@@ -20724,13 +20567,9 @@ var inputLinkQueuesTime = new LinkListInput({
   }
 
   $("#btn_delete_data_source_blacklist_sourcetype").click(function () {
-    //submitTokens();
-
-    // When the Submit button is clicked, get all the form fields by accessing token values
-    var tokens = mvc.Components.get("default");
 
     // Get the arrays of keys
-    var tk_multi_table_array = tokens.get(
+    var tk_multi_table_array = getToken(
       "removeBlacklistDataSourceSourcetype"
     );
     tk_multi_table_array = tk_multi_table_array.split(",");
@@ -20754,13 +20593,9 @@ var inputLinkQueuesTime = new LinkListInput({
   // data_name blacklist
 
   $("#btn_modal_data_source_blacklist_data_name_add").click(function () {
-    //submitTokens();
 
     // When the Submit button is clicked, get all the form fields by accessing token values
-    var tokens = mvc.Components.get("default");
-
-    // When the Submit button is clicked, get all the form fields by accessing token values
-    var tk_input_blacklist_data_name = tokens.get(
+    var tk_input_blacklist_data_name = getToken(
       "tk_input_data_source_blacklist_data_name"
     );
 
@@ -21016,13 +20851,9 @@ var inputLinkQueuesTime = new LinkListInput({
   }
 
   $("#btn_delete_data_source_blacklist_data_name").click(function () {
-    //submitTokens();
-
-    // When the Submit button is clicked, get all the form fields by accessing token values
-    var tokens = mvc.Components.get("default");
 
     // Get the arrays of keys
-    var tk_multi_table_array = tokens.get("removeBlacklistDataSourceDataName");
+    var tk_multi_table_array = getToken("removeBlacklistDataSourceDataName");
     tk_multi_table_array = tk_multi_table_array.split(",");
 
     // Call the function for each value from the array
@@ -21044,13 +20875,9 @@ var inputLinkQueuesTime = new LinkListInput({
   // sourcetype blacklist
 
   $("#btn_modal_data_host_blacklist_sourcetype_add").click(function () {
-    //submitTokens();
 
     // When the Submit button is clicked, get all the form fields by accessing token values
-    var tokens = mvc.Components.get("default");
-
-    // When the Submit button is clicked, get all the form fields by accessing token values
-    var tk_input_blacklist_sourcetype = tokens.get(
+    var tk_input_blacklist_sourcetype = getToken(
       "tk_input_data_host_blacklist_sourcetype"
     );
 
@@ -21309,13 +21136,9 @@ var inputLinkQueuesTime = new LinkListInput({
   }
 
   $("#btn_delete_data_host_blacklist_sourcetype").click(function () {
-    //submitTokens();
-
-    // When the Submit button is clicked, get all the form fields by accessing token values
-    var tokens = mvc.Components.get("default");
 
     // Get the arrays of keys
-    var tk_multi_table_array = tokens.get("removeBlacklistDataHostSourcetype");
+    var tk_multi_table_array = getToken("removeBlacklistDataHostSourcetype");
     tk_multi_table_array = tk_multi_table_array.split(",");
 
     // Call the function for each value from the array
@@ -21338,13 +21161,9 @@ var inputLinkQueuesTime = new LinkListInput({
   // add entry from blacklist
 
   $("#btn_modal_metric_host_blacklist_host_add").click(function () {
-    //submitTokens();
 
     // When the Submit button is clicked, get all the form fields by accessing token values
-    var tokens = mvc.Components.get("default");
-
-    // When the Submit button is clicked, get all the form fields by accessing token values
-    var tk_input_blacklist_host = tokens.get(
+    var tk_input_blacklist_host = getToken(
       "tk_input_metric_host_blacklist_host"
     );
 
@@ -21600,13 +21419,9 @@ var inputLinkQueuesTime = new LinkListInput({
   }
 
   $("#btn_delete_metric_host_blacklist_host").click(function () {
-    //submitTokens();
-
-    // When the Submit button is clicked, get all the form fields by accessing token values
-    var tokens = mvc.Components.get("default");
 
     // Get the arrays of keys
-    var tk_multi_table_array = tokens.get("removeBlacklistMetricHostHost");
+    var tk_multi_table_array = getToken("removeBlacklistMetricHostHost");
     tk_multi_table_array = tk_multi_table_array.split(",");
 
     // Call the function for each value from the array
@@ -21628,13 +21443,9 @@ var inputLinkQueuesTime = new LinkListInput({
   // metric_category blacklist
 
   $("#btn_modal_metric_host_blacklist_metric_category_add").click(function () {
-    //submitTokens();
 
     // When the Submit button is clicked, get all the form fields by accessing token values
-    var tokens = mvc.Components.get("default");
-
-    // When the Submit button is clicked, get all the form fields by accessing token values
-    var tk_input_blacklist_metric_category = tokens.get(
+    var tk_input_blacklist_metric_category = getToken(
       "tk_input_metric_host_blacklist_metric_category"
     );
 
@@ -21905,13 +21716,9 @@ var inputLinkQueuesTime = new LinkListInput({
   }
 
   $("#btn_delete_metric_host_blacklist_metric_category").click(function () {
-    //submitTokens();
-
-    // When the Submit button is clicked, get all the form fields by accessing token values
-    var tokens = mvc.Components.get("default");
 
     // Get the arrays of keys
-    var tk_multi_table_array = tokens.get(
+    var tk_multi_table_array = getToken(
       "removeBlacklistMetricHostMetricCategory"
     );
     tk_multi_table_array = tk_multi_table_array.split(",");
@@ -21940,7 +21747,7 @@ var inputLinkQueuesTime = new LinkListInput({
     //submitTokens();
 
     // Show input modal
-    $("#modal_manage").modal();
+    $("#modal_manage_data_source").modal();
   });
 
   // data hosts monitoring
@@ -22089,9 +21896,6 @@ var inputLinkQueuesTime = new LinkListInput({
   $("#btn_modal_elastic_source_add_simulate").click(function (event) {
     event.stopImmediatePropagation();
 
-    // When the Submit button is clicked, get all the form fields by accessing token values
-    var tokens = mvc.Components.get("default");
-
     // disabled if enabled
     document.getElementById("btn_modal_elastic_source_add_new").disabled = true;
     document.getElementById(
@@ -22099,22 +21903,22 @@ var inputLinkQueuesTime = new LinkListInput({
     ).disabled = true;
 
     // Get tokens
-    var tk_input_elastic_source_search_type = tokens.get(
+    var tk_input_elastic_source_search_type = getToken(
       "tk_input_elastic_source_search_type"
     );
-    var tk_input_elastic_source_data_name = tokens.get(
+    var tk_input_elastic_source_data_name = getToken(
       "tk_input_elastic_source_data_name"
     );
-    var tk_input_elastic_source_elastic_data_index = tokens.get(
+    var tk_input_elastic_source_elastic_data_index = getToken(
       "tk_input_elastic_source_elastic_data_index"
     );
-    var tk_input_elastic_source_elastic_data_sourcetype = tokens.get(
+    var tk_input_elastic_source_elastic_data_sourcetype = getToken(
       "tk_input_elastic_source_elastic_data_sourcetype"
     );
-    var tk_input_elastic_source_earliest = tokens.get(
+    var tk_input_elastic_source_earliest = getToken(
       "tk_input_elastic_source_earliest"
     );
-    var tk_input_elastic_source_latest = tokens.get(
+    var tk_input_elastic_source_latest = getToken(
       "tk_input_elastic_source_latest"
     );
 
@@ -22238,27 +22042,27 @@ var inputLinkQueuesTime = new LinkListInput({
       event.stopImmediatePropagation();
 
       // Get status
-      var success_simulation_elastic_sources = tokens.get(
+      var success_simulation_elastic_sources = getToken(
         "start_simulation_elastic_sources"
       );
 
       // Get tokens
-      var tk_input_elastic_source_search_type = tokens.get(
+      var tk_input_elastic_source_search_type = getToken(
         "tk_input_elastic_source_search_type"
       );
-      var tk_input_elastic_source_data_name = tokens.get(
+      var tk_input_elastic_source_data_name = getToken(
         "tk_input_elastic_source_data_name"
       );
-      var tk_input_elastic_source_elastic_data_index = tokens.get(
+      var tk_input_elastic_source_elastic_data_index = getToken(
         "tk_input_elastic_source_elastic_data_index"
       );
-      var tk_input_elastic_source_elastic_data_sourcetype = tokens.get(
+      var tk_input_elastic_source_elastic_data_sourcetype = getToken(
         "tk_input_elastic_source_elastic_data_sourcetype"
       );
-      var tk_input_elastic_source_earliest = tokens.get(
+      var tk_input_elastic_source_earliest = getToken(
         "tk_input_elastic_source_earliest"
       );
-      var tk_input_elastic_source_latest = tokens.get(
+      var tk_input_elastic_source_latest = getToken(
         "tk_input_elastic_source_latest"
       );
 
@@ -22399,27 +22203,27 @@ var inputLinkQueuesTime = new LinkListInput({
       event.stopImmediatePropagation();
 
       // Get status
-      var success_simulation_elastic_sources = tokens.get(
+      var success_simulation_elastic_sources = getToken(
         "start_simulation_elastic_sources"
       );
 
       // Get tokens
-      var tk_input_elastic_source_search_type = tokens.get(
+      var tk_input_elastic_source_search_type = getToken(
         "tk_input_elastic_source_search_type"
       );
-      var tk_input_elastic_source_data_name = tokens.get(
+      var tk_input_elastic_source_data_name = getToken(
         "tk_input_elastic_source_data_name"
       );
-      var tk_input_elastic_source_elastic_data_index = tokens.get(
+      var tk_input_elastic_source_elastic_data_index = getToken(
         "tk_input_elastic_source_elastic_data_index"
       );
-      var tk_input_elastic_source_elastic_data_sourcetype = tokens.get(
+      var tk_input_elastic_source_elastic_data_sourcetype = getToken(
         "tk_input_elastic_source_elastic_data_sourcetype"
       );
-      var tk_input_elastic_source_earliest = tokens.get(
+      var tk_input_elastic_source_earliest = getToken(
         "tk_input_elastic_source_earliest"
       );
-      var tk_input_elastic_source_latest = tokens.get(
+      var tk_input_elastic_source_latest = getToken(
         "tk_input_elastic_source_latest"
       );
 
@@ -22983,13 +22787,8 @@ var inputLinkQueuesTime = new LinkListInput({
 
       $("#modal_elastic_source_alert_creation_success").modal("hide");
 
-      //submitTokens();
-
-      // When the Submit button is clicked, get all the form fields by accessing token values
-      var tokens = mvc.Components.get("default");
-
       // Get the tracker name
-      var tk_tracker_name = tokens.get("tk_tracker_name");
+      var tk_tracker_name = getToken("tk_tracker_name");
 
       // Define the query
       var searchQuery = '| savedsearch "' + tk_tracker_name + '"';
@@ -23080,13 +22879,9 @@ var inputLinkQueuesTime = new LinkListInput({
   });
 
   function foreachDeleteSharedElasticSource(item) {
-    //submitTokens();
 
-    // When the Submit button is clicked, get all the form fields by accessing token values
-    var tokens = mvc.Components.get("default");
-
-    var tk_multi_table_array = tokens.get("removeElasticSourceShared");
-    var tk_comment = tokens.get("tk_comment");
+    var tk_multi_table_array = getToken("removeElasticSourceShared");
+    var tk_comment = getToken("tk_comment");
 
     if (item && item.length) {
       // Define the query
@@ -23175,13 +22970,9 @@ var inputLinkQueuesTime = new LinkListInput({
   }
 
   $("#btn_delete_elastic_source_confirm").click(function () {
-    //submitTokens();
-
-    // When the Submit button is clicked, get all the form fields by accessing token values
-    var tokens = mvc.Components.get("default");
 
     // Get the arrays of keys
-    var tk_multi_table_array = tokens.get("removeElasticSourceShared");
+    var tk_multi_table_array = getToken("removeElasticSourceShared");
     tk_multi_table_array = tk_multi_table_array.split(",");
 
     // Retrieve update comment if any
@@ -23238,13 +23029,9 @@ var inputLinkQueuesTime = new LinkListInput({
   });
 
   function foreachDeleteDedicatedElasticSource(item) {
-    //submitTokens();
 
-    // When the Submit button is clicked, get all the form fields by accessing token values
-    var tokens = mvc.Components.get("default");
-
-    var tk_multi_table_array = tokens.get("removeElasticSourceDedicated");
-    var tk_comment = tokens.get("tk_comment");
+    var tk_multi_table_array = getToken("removeElasticSourceDedicated");
+    var tk_comment = getToken("tk_comment");
 
     if (item && item.length) {
       // Define the query
@@ -23333,13 +23120,9 @@ var inputLinkQueuesTime = new LinkListInput({
   }
 
   $("#btn_delete_elastic_source_dedicated_confirm").click(function () {
-    //submitTokens();
-
-    // When the Submit button is clicked, get all the form fields by accessing token values
-    var tokens = mvc.Components.get("default");
 
     // Get the arrays of keys
-    var tk_multi_table_array = tokens.get("removeElasticSourceDedicated");
+    var tk_multi_table_array = getToken("removeElasticSourceDedicated");
     tk_multi_table_array = tk_multi_table_array.split(",");
 
     // Retrieve update comment if any
@@ -23773,7 +23556,7 @@ var inputLinkQueuesTime = new LinkListInput({
 
       //submitTokens();
       setToken("tk_start_parsing_issues_searches", "true");
-      var tk_hosts = tokens.get("inputHostParsing");
+      var tk_hosts = getToken("inputHostParsing");
 
       // Show input modal
       $("#modal_parsing_issues").modal();
@@ -23781,11 +23564,11 @@ var inputLinkQueuesTime = new LinkListInput({
   });
 
   $("#btn_search_parsing_issues_linebreaking").click(function () {
-    //submitTokens();
+
     setToken("tk_start_parsing_issues_searches", "true");
-    var tk_earliest = tokens.get("inputLinkParsingIssuesTime.earliest");
-    var tk_latest = tokens.get("inputLinkParsingIssuesTime.latest");
-    var tk_hosts = tokens.get("inputHostParsing");
+    var tk_earliest = getToken("inputLinkParsingIssuesTime.earliest");
+    var tk_latest = getToken("inputLinkParsingIssuesTime.latest");
+    var tk_hosts = getToken("inputHostParsing");
 
     // Define the history search
     var search_parsing_issues_linebreaking =
@@ -23805,11 +23588,11 @@ var inputLinkQueuesTime = new LinkListInput({
   });
 
   $("#btn_search_parsing_issues_aggregator").click(function () {
-    //submitTokens();
+
     setToken("tk_start_parsing_issues_searches", "true");
-    var tk_earliest = tokens.get("inputLinkParsingIssuesTime.earliest");
-    var tk_latest = tokens.get("inputLinkParsingIssuesTime.latest");
-    var tk_hosts = tokens.get("inputHostParsing");
+    var tk_earliest = getToken("inputLinkParsingIssuesTime.earliest");
+    var tk_latest = getToken("inputLinkParsingIssuesTime.latest");
+    var tk_hosts = getToken("inputHostParsing");
 
     // Define the history search
     var search_parsing_issues_aggregator =
@@ -23829,11 +23612,11 @@ var inputLinkQueuesTime = new LinkListInput({
   });
 
   $("#btn_search_parsing_issues_dateparser").click(function () {
-    //submitTokens();
+
     setToken("tk_start_parsing_issues_searches", "true");
-    var tk_earliest = tokens.get("inputLinkParsingIssuesTime.earliest");
-    var tk_latest = tokens.get("inputLinkParsingIssuesTime.latest");
-    var tk_hosts = tokens.get("inputHostParsing");
+    var tk_earliest = getToken("inputLinkParsingIssuesTime.earliest");
+    var tk_latest = getToken("inputLinkParsingIssuesTime.latest");
+    var tk_hosts = getToken("inputHostParsing");
 
     // Define the history search
     var search_parsing_issues_dateparser =
@@ -24592,7 +24375,7 @@ var inputLinkQueuesTime = new LinkListInput({
     //submitTokens();
 
     // Show modal
-    $("#modal_manage").modal();
+    $("#modal_manage_data_source").modal();
   });
 
   $("#btn_modal_modify_wdays").click(function () {
@@ -24603,23 +24386,19 @@ var inputLinkQueuesTime = new LinkListInput({
   });
 
   $("#btn_modal_modify_monitoring_wdays_confirm").click(function () {
-    //submitTokens();
-
-    // When the Submit button is clicked, get all the form fields by accessing token values
-    var tokens = mvc.Components.get("default");
-
-    var tk_keyid = tokens.get("tk_keyid");
-    var tk_data_name = tokens.get("tk_data_name");
-    var tk_data_monitoring_wdays = tokens.get("tk_data_monitoring_wdays");
+    
+    var tk_keyid = getToken("tk_keyid");
+    var tk_data_name = getToken("tk_object");
+    var tk_data_monitoring_wdays = getToken("tk_data_monitoring_wdays");
 
     // Create the endpoint URL
     var myendpoint_URl =
       "/en-US/splunkd/__raw/services/trackme/v1/data_sources/ds_update_wdays";
 
-    var tk_origin_data_monitoring_wdays = tokens.get(
+    var tk_origin_data_monitoring_wdays = getToken(
       "tk_data_monitoring_wdays"
     );
-    var tk_data_monitoring_wdays = tokens.get("tk_input_wdays");
+    var tk_data_monitoring_wdays = getToken("tk_input_wdays");
 
     if (!tk_data_monitoring_wdays || !tk_data_monitoring_wdays.length) {
       // Show an error message
@@ -24701,21 +24480,17 @@ var inputLinkQueuesTime = new LinkListInput({
 
   // priority
   $("#btn_modal_modify_priority_confirm").click(function () {
-    //submitTokens();
 
-    // When the Submit button is clicked, get all the form fields by accessing token values
-    var tokens = mvc.Components.get("default");
-
-    var tk_keyid = tokens.get("tk_keyid");
-    var tk_data_name = tokens.get("tk_data_name");
-    var tk_priority = tokens.get("tk_priority");
+    var tk_keyid = getToken("tk_keyid");
+    var tk_data_name = getToken("tk_object");
+    var tk_priority = getToken("tk_priority");
 
     // Create the endpoint URL
     var myendpoint_URl =
       "/en-US/splunkd/__raw/services/trackme/v1/data_sources/ds_update_priority";
 
     var tk_origin_priority = tk_priority;
-    var tk_new_priority = tokens.get("tk_input_priority");
+    var tk_new_priority = getToken("tk_input_priority");
 
     if (!tk_new_priority || !tk_new_priority.length) {
       // Show an error message
@@ -24802,23 +24577,19 @@ var inputLinkQueuesTime = new LinkListInput({
   });
 
   $("#btn_modal_modify_monitoring_wdays_no_confirm").click(function () {
-    //submitTokens();
 
-    // When the Submit button is clicked, get all the form fields by accessing token values
-    var tokens = mvc.Components.get("default");
-
-    var tk_keyid = tokens.get("tk_keyid");
-    var tk_data_name = tokens.get("tk_data_name");
-    var tk_data_monitoring_wdays = tokens.get("tk_data_monitoring_wdays");
+    var tk_keyid = getToken("tk_keyid");
+    var tk_data_name = getToken("tk_object");
+    var tk_data_monitoring_wdays = getToken("tk_data_monitoring_wdays");
 
     // Create the endpoint URL
     var myendpoint_URl =
       "/en-US/splunkd/__raw/services/trackme/v1/data_sources/ds_update_wdays";
 
-    var tk_origin_data_monitoring_wdays = tokens.get(
+    var tk_origin_data_monitoring_wdays = getToken(
       "tk_data_monitoring_wdays"
     );
-    var tk_data_monitoring_wdays_no = tokens.get("tk_input_wdays_no");
+    var tk_data_monitoring_wdays_no = getToken("tk_input_wdays_no");
 
     if (!tk_data_monitoring_wdays_no || !tk_data_monitoring_wdays_no.length) {
       // Show an error message
@@ -24915,20 +24686,16 @@ var inputLinkQueuesTime = new LinkListInput({
   });
 
   $("#btn_modal_modify_monitoring_level_confirm").click(function () {
-    //submitTokens();
 
-    // When the Submit button is clicked, get all the form fields by accessing token values
-    var tokens = mvc.Components.get("default");
-
-    var tk_keyid = tokens.get("tk_keyid");
-    var tk_data_name = tokens.get("tk_data_name");
+    var tk_keyid = getToken("tk_keyid");
+    var tk_data_name = getToken("tk_object");
 
     // Create the endpoint URL
     var myendpoint_URl =
       "/en-US/splunkd/__raw/services/trackme/v1/data_sources/ds_update_monitoring_level";
 
-    var tk_data_monitoring_level = tokens.get("tk_input_level");
-    var tk_origin_data_monitoring_level = tokens.get(
+    var tk_data_monitoring_level = getToken("tk_input_level");
+    var tk_origin_data_monitoring_level = getToken(
       "tk_data_monitoring_level"
     );
 
@@ -25014,23 +24781,19 @@ var inputLinkQueuesTime = new LinkListInput({
   //
 
   $("#btn_modal_modify_dcount_host_confirm").click(function () {
-    //submitTokens();
 
-    // When the Submit button is clicked, get all the form fields by accessing token values
-    var tokens = mvc.Components.get("default");
-
-    var tk_keyid = tokens.get("tk_keyid");
-    var tk_data_name = tokens.get("tk_data_name");
-    var tk_min_dcount_host = tokens.get("tk_min_dcount_host");
+    var tk_keyid = getToken("tk_keyid");
+    var tk_data_name = getToken("tk_object");
+    var tk_min_dcount_host = getToken("tk_min_dcount_host");
 
     // Create the endpoint URL
     var myendpoint_URl =
       "/en-US/splunkd/__raw/services/trackme/v1/data_sources/ds_update_min_dcount_host";
 
-    var tk_input_data_source_dcount_host = tokens.get(
+    var tk_input_data_source_dcount_host = getToken(
       "tk_input_data_source_dcount_host"
     );
-    var tk_origin_dcount_host = tokens.get("tk_min_dcount_host");
+    var tk_origin_dcount_host = getToken("tk_min_dcount_host");
 
     if (
       !tk_input_data_source_dcount_host ||
@@ -25125,26 +24888,22 @@ var inputLinkQueuesTime = new LinkListInput({
   });
 
   $("#btn_modal_modify_lag_confirm").click(function () {
-    //submitTokens();
 
-    // When the Submit button is clicked, get all the form fields by accessing token values
-    var tokens = mvc.Components.get("default");
-
-    var tk_keyid = tokens.get("tk_keyid");
-    var tk_data_name = tokens.get("tk_data_name");
+    var tk_keyid = getToken("tk_keyid");
+    var tk_data_name = getToken("tk_object");
 
     // Create the endpoint URL
     var myendpoint_URl =
       "/en-US/splunkd/__raw/services/trackme/v1/data_sources/ds_update_lag_policy";
 
     // max lag allowed
-    var tk_data_max_lag_allowed = tokens.get("tk_input_lag");
+    var tk_data_max_lag_allowed = getToken("tk_input_lag");
 
     // alert over kpis
-    var tk_data_lag_alert_kpis = tokens.get("tk_input_data_lag_alert_kpis");
+    var tk_data_lag_alert_kpis = getToken("tk_input_data_lag_alert_kpis");
 
     // lagging class override
-    var tk_data_override_lagging_class = tokens.get(
+    var tk_data_override_lagging_class = getToken(
       "modal_input_lag_override_class"
     );
 
@@ -25252,17 +25011,13 @@ var inputLinkQueuesTime = new LinkListInput({
   });
 
   $("#btn_modal_modify_lag_auto_perc95").click(function () {
-    //submitTokens();
 
-    // When the Submit button is clicked, get all the form fields by accessing token values
-    var tokens = mvc.Components.get("default");
-
-    var tk_keyid = tokens.get("tk_keyid");
-    var tk_data_name = tokens.get("tk_data_name");
-    var tk_data_index = tokens.get("tk_data_index");
-    var tk_data_sourcetype = tokens.get("tk_data_sourcetype");
-    var tk_origin_data_max_lag_allowed = tokens.get("tk_data_max_lag_allowed");
-    var tk_data_override_lagging_class = tokens.get(
+    var tk_keyid = getToken("tk_keyid");
+    var tk_data_name = getToken("tk_object");
+    var tk_data_index = getToken("tk_data_index");
+    var tk_data_sourcetype = getToken("tk_data_sourcetype");
+    var tk_origin_data_max_lag_allowed = getToken("tk_data_max_lag_allowed");
+    var tk_data_override_lagging_class = getToken(
       "modal_input_lag_override_class"
     );
 
@@ -25471,17 +25226,13 @@ var inputLinkQueuesTime = new LinkListInput({
   });
 
   $("#btn_modal_modify_lag_auto_average").click(function () {
-    //submitTokens();
 
-    // When the Submit button is clicked, get all the form fields by accessing token values
-    var tokens = mvc.Components.get("default");
-
-    var tk_keyid = tokens.get("tk_keyid");
-    var tk_data_name = tokens.get("tk_data_name");
-    var tk_data_index = tokens.get("tk_data_index");
-    var tk_data_sourcetype = tokens.get("tk_data_sourcetype");
-    var tk_origin_data_max_lag_allowed = tokens.get("tk_data_max_lag_allowed");
-    var tk_data_override_lagging_class = tokens.get(
+    var tk_keyid = getToken("tk_keyid");
+    var tk_data_name = getToken("tk_object");
+    var tk_data_index = getToken("tk_data_index");
+    var tk_data_sourcetype = getToken("tk_data_sourcetype");
+    var tk_origin_data_max_lag_allowed = getToken("tk_data_max_lag_allowed");
+    var tk_data_override_lagging_class = getToken(
       "modal_input_lag_override_class"
     );
 
@@ -25690,17 +25441,13 @@ var inputLinkQueuesTime = new LinkListInput({
   });
 
   $("#btn_modal_modify_lag_auto_perc95_30d").click(function () {
-    //submitTokens();
 
-    // When the Submit button is clicked, get all the form fields by accessing token values
-    var tokens = mvc.Components.get("default");
-
-    var tk_keyid = tokens.get("tk_keyid");
-    var tk_data_name = tokens.get("tk_data_name");
-    var tk_data_index = tokens.get("tk_data_index");
-    var tk_data_sourcetype = tokens.get("tk_data_sourcetype");
-    var tk_origin_data_max_lag_allowed = tokens.get("tk_data_max_lag_allowed");
-    var tk_data_override_lagging_class = tokens.get(
+    var tk_keyid = getToken("tk_keyid");
+    var tk_data_name = getToken("tk_object");
+    var tk_data_index = getToken("tk_data_index");
+    var tk_data_sourcetype = getToken("tk_data_sourcetype");
+    var tk_origin_data_max_lag_allowed = getToken("tk_data_max_lag_allowed");
+    var tk_data_override_lagging_class = getToken(
       "modal_input_lag_override_class"
     );
 
@@ -25909,17 +25656,13 @@ var inputLinkQueuesTime = new LinkListInput({
   });
 
   $("#btn_modal_modify_lag_auto_average_30d").click(function () {
-    //submitTokens();
 
-    // When the Submit button is clicked, get all the form fields by accessing token values
-    var tokens = mvc.Components.get("default");
-
-    var tk_keyid = tokens.get("tk_keyid");
-    var tk_data_name = tokens.get("tk_data_name");
-    var tk_data_index = tokens.get("tk_data_index");
-    var tk_data_sourcetype = tokens.get("tk_data_sourcetype");
-    var tk_origin_data_max_lag_allowed = tokens.get("tk_data_max_lag_allowed");
-    var tk_data_override_lagging_class = tokens.get(
+    var tk_keyid = getToken("tk_keyid");
+    var tk_data_name = getToken("tk_object");
+    var tk_data_index = getToken("tk_data_index");
+    var tk_data_sourcetype = getToken("tk_data_sourcetype");
+    var tk_origin_data_max_lag_allowed = getToken("tk_data_max_lag_allowed");
+    var tk_data_override_lagging_class = getToken(
       "modal_input_lag_override_class"
     );
 
@@ -26165,21 +25908,19 @@ var inputLinkQueuesTime = new LinkListInput({
   });
 
   $("#btn_modal_modify_monitoring_wdays_host_confirm").click(function () {
-    // When the Submit button is clicked, get all the form fields by accessing token values
-    var tokens = mvc.Components.get("default");
 
-    var tk_keyid = tokens.get("tk_keyid");
-    var tk_data_host = tokens.get("tk_data_host");
-    var tk_data_monitoring_wdays = tokens.get("tk_data_monitoring_wdays");
+    var tk_keyid = getToken("tk_keyid");
+    var tk_data_host = getToken("tk_data_host");
+    var tk_data_monitoring_wdays = getToken("tk_data_monitoring_wdays");
 
     // Create the endpoint URL
     var myendpoint_URl =
       "/en-US/splunkd/__raw/services/trackme/v1/data_hosts/dh_update_wdays";
 
-    var tk_origin_data_monitoring_wdays = tokens.get(
+    var tk_origin_data_monitoring_wdays = getToken(
       "tk_data_monitoring_wdays"
     );
-    var tk_data_monitoring_wdays = tokens.get("tk_input_wdays_host");
+    var tk_data_monitoring_wdays = getToken("tk_input_wdays_host");
 
     if (!tk_data_monitoring_wdays || !tk_data_monitoring_wdays.length) {
       // Show an error message
@@ -26259,19 +26000,17 @@ var inputLinkQueuesTime = new LinkListInput({
 
   // host priority
   $("#btn_modal_modify_priority_host_confirm").click(function () {
-    // When the Submit button is clicked, get all the form fields by accessing token values
-    var tokens = mvc.Components.get("default");
 
-    var tk_keyid = tokens.get("tk_keyid");
-    var tk_data_host = tokens.get("tk_data_host");
-    var tk_priority = tokens.get("tk_priority");
+    var tk_keyid = getToken("tk_keyid");
+    var tk_data_host = getToken("tk_data_host");
+    var tk_priority = getToken("tk_priority");
 
     // Create the endpoint URL
     var myendpoint_URl =
       "/en-US/splunkd/__raw/services/trackme/v1/data_hosts/dh_update_priority";
 
     var tk_origin_priority = tk_priority;
-    var tk_new_priority = tokens.get("tk_input_host_priority");
+    var tk_new_priority = getToken("tk_input_host_priority");
 
     if (!tk_new_priority || !tk_new_priority.length) {
       // Show an error message
@@ -26358,65 +26097,63 @@ var inputLinkQueuesTime = new LinkListInput({
   // Week days
 
   $("#btn_modal_modify_monitoring_wdays_host_no_confirm").click(function () {
-    // When the Submit button is clicked, get all the form fields by accessing token values
-    var tokens = mvc.Components.get("default");
 
-    var tk_keyid = tokens.get("tk_keyid");
-    var tk_data_host = tokens.get("tk_data_host");
-    var tk_data_index = tokens.get("tk_data_index");
-    var tk_data_sourcetype = tokens.get("tk_data_sourcetype");
-    var tk_data_host_st_summary = tokens.get("tk_data_host_st_summary");
-    var tk_data_host_alerting_policy = tokens.get(
+    var tk_keyid = getToken("tk_keyid");
+    var tk_data_host = getToken("tk_data_host");
+    var tk_data_index = getToken("tk_data_index");
+    var tk_data_sourcetype = getToken("tk_data_sourcetype");
+    var tk_data_host_st_summary = getToken("tk_data_host_st_summary");
+    var tk_data_host_alerting_policy = getToken(
       "tk_data_host_alerting_policy"
     );
-    var tk_data_last_lag_seen = tokens.get("tk_data_last_lag_seen");
-    var tk_data_last_ingestion_lag_seen = tokens.get(
+    var tk_data_last_lag_seen = getToken("tk_data_last_lag_seen");
+    var tk_data_last_ingestion_lag_seen = getToken(
       "tk_data_last_ingestion_lag_seen"
     );
-    var tk_data_eventcount = tokens.get("tk_data_eventcount");
-    var tk_data_first_time_seen = tokens.get("tk_data_first_time_seen");
-    var tk_data_last_time_seen = tokens.get("tk_data_last_time_seen");
-    var tk_data_last_ingest = tokens.get("tk_data_last_ingest");
-    var tk_data_max_lag_allowed = tokens.get("tk_data_max_lag_allowed");
-    var tk_data_lag_alert_kpis = tokens.get("tk_data_lag_alert_kpis");
-    var tk_data_monitoring_wdays = tokens.get("tk_data_monitoring_wdays");
-    var tk_data_monitored_state = tokens.get("tk_data_monitored_state");
-    var tk_data_override_lagging_class = tokens.get(
+    var tk_data_eventcount = getToken("tk_data_eventcount");
+    var tk_data_first_time_seen = getToken("tk_data_first_time_seen");
+    var tk_data_last_time_seen = getToken("tk_data_last_time_seen");
+    var tk_data_last_ingest = getToken("tk_data_last_ingest");
+    var tk_data_max_lag_allowed = getToken("tk_data_max_lag_allowed");
+    var tk_data_lag_alert_kpis = getToken("tk_data_lag_alert_kpis");
+    var tk_data_monitoring_wdays = getToken("tk_data_monitoring_wdays");
+    var tk_data_monitored_state = getToken("tk_data_monitored_state");
+    var tk_data_override_lagging_class = getToken(
       "tk_data_override_lagging_class"
     );
-    var tk_data_host_state = tokens.get("tk_data_host_state");
-    var tk_data_tracker_runtime = tokens.get("tk_data_tracker_runtime");
-    var tk_data_previous_host_state = tokens.get("tk_data_previous_host_state");
-    var tk_data_previous_tracker_runtime = tokens.get(
+    var tk_data_host_state = getToken("tk_data_host_state");
+    var tk_data_tracker_runtime = getToken("tk_data_tracker_runtime");
+    var tk_data_previous_host_state = getToken("tk_data_previous_host_state");
+    var tk_data_previous_tracker_runtime = getToken(
       "tk_data_previous_tracker_runtime"
     );
-    var tk_outliermineventcount = tokens.get("tk_outliermineventcount");
-    var tk_outlierlowerthresholdmultiplier = tokens.get(
+    var tk_outliermineventcount = getToken("tk_outliermineventcount");
+    var tk_outlierlowerthresholdmultiplier = getToken(
       "tk_outlierlowerthresholdmultiplier"
     );
-    var tk_outlierupperthresholdmultiplier = tokens.get(
+    var tk_outlierupperthresholdmultiplier = getToken(
       "tk_outlierupperthresholdmultiplier"
     );
-    var tk_outlieralertonupper = tokens.get("tk_outlieralertonupper");
-    var tk_outlier_period = tokens.get("tk_outlier_period");
-    var tk_outlier_span = tokens.get("tk_outlier_span");
-    var tk_isoutlier = tokens.get("tk_isoutlier");
-    var tk_enable_behaviour_analytic = tokens.get(
+    var tk_outlieralertonupper = getToken("tk_outlieralertonupper");
+    var tk_outlier_period = getToken("tk_outlier_period");
+    var tk_outlier_span = getToken("tk_outlier_span");
+    var tk_isoutlier = getToken("tk_isoutlier");
+    var tk_enable_behaviour_analytic = getToken(
       "tk_enable_behaviour_analytic"
     );
-    var tk_latest_flip_state = tokens.get("tk_latest_flip_state");
-    var tk_latest_flip_time = tokens.get("tk_latest_flip_time");
-    var tk_priority = tokens.get("tk_priority");
+    var tk_latest_flip_state = getToken("tk_latest_flip_state");
+    var tk_latest_flip_time = getToken("tk_latest_flip_time");
+    var tk_priority = getToken("tk_priority");
 
     // Create the endpoint URL
     var myendpoint_URl =
       "/en-US/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_host_monitoring/" +
       tk_keyid;
 
-    var tk_origin_data_monitoring_wdays = tokens.get(
+    var tk_origin_data_monitoring_wdays = getToken(
       "tk_data_monitoring_wdays"
     );
-    var tk_data_monitoring_wdays_no = tokens.get("tk_input_wdays_host_no");
+    var tk_data_monitoring_wdays_no = getToken("tk_input_wdays_host_no");
 
     if (!tk_data_monitoring_wdays_no || !tk_data_monitoring_wdays_no.length) {
       // Show an error message
@@ -26560,31 +26297,29 @@ var inputLinkQueuesTime = new LinkListInput({
   });
 
   $("#btn_modal_modify_lag_confirm_host").click(function () {
-    // When the Submit button is clicked, get all the form fields by accessing token values
-    var tokens = mvc.Components.get("default");
 
-    var tk_keyid = tokens.get("tk_keyid");
-    var tk_data_host = tokens.get("tk_data_host");
+    var tk_keyid = getToken("tk_keyid");
+    var tk_data_host = getToken("tk_data_host");
 
     // Create the endpoint URL
     var myendpoint_URl =
       "/en-US/splunkd/__raw/services/trackme/v1/data_hosts/dh_update_lag_policy";
 
     // max lag allowed
-    var tk_data_max_lag_allowed = tokens.get("tk_input_lag_host");
+    var tk_data_max_lag_allowed = getToken("tk_input_lag_host");
 
     // alert over kpis
-    var tk_data_lag_alert_kpis = tokens.get(
+    var tk_data_lag_alert_kpis = getToken(
       "tk_input_data_lag_alert_kpis_host"
     );
 
     // alerting policy
-    var tk_data_host_alerting_policy = tokens.get(
+    var tk_data_host_alerting_policy = getToken(
       "tk_input_host_alerting_policy"
     );
 
     // lagging class override
-    var tk_data_override_lagging_class = tokens.get(
+    var tk_data_override_lagging_class = getToken(
       "modal_input_lag_override_class_host"
     );
 
@@ -26695,17 +26430,13 @@ var inputLinkQueuesTime = new LinkListInput({
   });
 
   $("#btn_modal_modify_lag_auto_perc95_host").click(function () {
-    //submitTokens();
 
-    // When the Submit button is clicked, get all the form fields by accessing token values
-    var tokens = mvc.Components.get("default");
-
-    var tk_keyid = tokens.get("tk_keyid");
-    var tk_data_host = tokens.get("tk_data_host");
-    var tk_data_override_lagging_class = tokens.get(
+    var tk_keyid = getToken("tk_keyid");
+    var tk_data_host = getToken("tk_data_host");
+    var tk_data_override_lagging_class = getToken(
       "modal_input_lag_override_class"
     );
-    var tk_origin_data_max_lag_allowed = tokens.get("tk_data_max_lag_allowed");
+    var tk_origin_data_max_lag_allowed = getToken("tk_data_max_lag_allowed");
 
     // Define the query
     var searchQuery =
@@ -26910,17 +26641,13 @@ var inputLinkQueuesTime = new LinkListInput({
   });
 
   $("#btn_modal_modify_lag_auto_average_host").click(function () {
-    //submitTokens();
 
-    // When the Submit button is clicked, get all the form fields by accessing token values
-    var tokens = mvc.Components.get("default");
-
-    var tk_keyid = tokens.get("tk_keyid");
-    var tk_data_host = tokens.get("tk_data_host");
-    var tk_data_override_lagging_class = tokens.get(
+    var tk_keyid = getToken("tk_keyid");
+    var tk_data_host = getToken("tk_data_host");
+    var tk_data_override_lagging_class = getToken(
       "modal_input_lag_override_class"
     );
-    var tk_origin_data_max_lag_allowed = tokens.get("tk_data_max_lag_allowed");
+    var tk_origin_data_max_lag_allowed = getToken("tk_data_max_lag_allowed");
 
     // Define the query
     var searchQuery =
@@ -27124,17 +26851,13 @@ var inputLinkQueuesTime = new LinkListInput({
   });
 
   $("#btn_modal_modify_lag_auto_perc95_30d_host").click(function () {
-    //submitTokens();
 
-    // When the Submit button is clicked, get all the form fields by accessing token values
-    var tokens = mvc.Components.get("default");
-
-    var tk_keyid = tokens.get("tk_keyid");
-    var tk_data_host = tokens.get("tk_data_host");
-    var tk_data_override_lagging_class = tokens.get(
+    var tk_keyid = getToken("tk_keyid");
+    var tk_data_host = getToken("tk_data_host");
+    var tk_data_override_lagging_class = getToken(
       "modal_input_lag_override_class"
     );
-    var tk_origin_data_max_lag_allowed = tokens.get("tk_data_max_lag_allowed");
+    var tk_origin_data_max_lag_allowed = getToken("tk_data_max_lag_allowed");
 
     // Define the query
     var searchQuery =
@@ -27338,17 +27061,13 @@ var inputLinkQueuesTime = new LinkListInput({
   });
 
   $("#btn_modal_modify_lag_auto_average_30d_host").click(function () {
-    //submitTokens();
 
-    // When the Submit button is clicked, get all the form fields by accessing token values
-    var tokens = mvc.Components.get("default");
-
-    var tk_keyid = tokens.get("tk_keyid");
-    var tk_data_host = tokens.get("tk_data_host");
-    var tk_data_override_lagging_class = tokens.get(
+    var tk_keyid = getToken("tk_keyid");
+    var tk_data_host = getToken("tk_data_host");
+    var tk_data_override_lagging_class = getToken(
       "modal_input_lag_override_class"
     );
-    var tk_origin_data_max_lag_allowed = tokens.get("tk_data_max_lag_allowed");
+    var tk_origin_data_max_lag_allowed = getToken("tk_data_max_lag_allowed");
 
     // Define the query
     var searchQuery =
@@ -27555,16 +27274,12 @@ var inputLinkQueuesTime = new LinkListInput({
 
   // Smart Status data source
   $("#btn_smart_status_data_source").click(function () {
-    //submitTokens();
-
-    // When the Submit button is clicked, get all the form fields by accessing token values
-    var tokens = mvc.Components.get("default");
 
     // Free the search
     setToken("show_smart_status_data_source", "true");
 
     // get token
-    var tk_data_name = tokens.get("tk_data_name");
+    var tk_data_name = getToken("tk_object");
 
     // Define the search button target
     var search_data_source_smart_status =
@@ -27590,21 +27305,17 @@ var inputLinkQueuesTime = new LinkListInput({
   // back
   $("#btn_smart_status_data_source_back").click(function () {
     // Show modal
-    $("#modal_manage").modal();
+    $("#modal_manage_data_source").modal();
   });
 
   // Smart Status data host
   $("#btn_smart_status_data_host").click(function () {
-    //submitTokens();
-
-    // When the Submit button is clicked, get all the form fields by accessing token values
-    var tokens = mvc.Components.get("default");
 
     // Free the search
     setToken("show_smart_status_data_host", "true");
 
     // get token
-    var tk_data_host = tokens.get("tk_data_host");
+    var tk_data_host = getToken("tk_data_host");
 
     // Force search run every time the button is clicked
     searchSmartStatusDataHost.startSearch();
@@ -27635,16 +27346,12 @@ var inputLinkQueuesTime = new LinkListInput({
 
   // Smart Status metric host
   $("#btn_smart_status_metric_host").click(function () {
-    //submitTokens();
-
-    // When the Submit button is clicked, get all the form fields by accessing token values
-    var tokens = mvc.Components.get("default");
 
     // Free the search
     setToken("show_smart_status_metric_host", "true");
 
     // get token
-    var tk_metric_host = tokens.get("tk_metric_host");
+    var tk_metric_host = getToken("tk_metric_host");
 
     // Force search run every time the button is clicked
     searchSmartStatusMetricHost.startSearch();
@@ -27697,13 +27404,9 @@ var inputLinkQueuesTime = new LinkListInput({
   });
 
   $("#btn_modal_tags_policies_simulate").click(function () {
-    //submitTokens();
-
-    // When the Submit button is clicked, get all the form fields by accessing token values
-    var tokens = mvc.Components.get("default");
 
     // Retrieve the policy id
-    var tk_tags_policies_policy_id = tokens.get("tk_tags_policies_policy_id");
+    var tk_tags_policies_policy_id = getToken("tk_tags_policies_policy_id");
 
     // Retrieve the regex rule
     var tk_tags_policies_regex = document.getElementById(
@@ -27774,13 +27477,9 @@ var inputLinkQueuesTime = new LinkListInput({
 
   // add policy
   $("#btn_modal_add_tags_policy_confirm").click(function () {
-    //submitTokens();
-
-    // When the Submit button is clicked, get all the form fields by accessing token values
-    var tokens = mvc.Components.get("default");
 
     // Retrieve the policy id
-    var tk_tags_policies_policy_id = tokens.get("tk_tags_policies_policy_id");
+    var tk_tags_policies_policy_id = getToken("tk_tags_policies_policy_id");
 
     // Retrieve the regex rule
     var tk_tags_policies_regex = document.getElementById(
@@ -28105,13 +27804,9 @@ var inputLinkQueuesTime = new LinkListInput({
 
   // delete tags policies confirm
   $("#btn_modal_delete_tags_policy_confirm").click(function () {
-    //submitTokens();
-
-    // When the Submit button is clicked, get all the form fields by accessing token values
-    var tokens = mvc.Components.get("default");
 
     // Get the arrays of keys
-    var tk_multi_table_array = tokens.get("removeTagsPolicy");
+    var tk_multi_table_array = getToken("removeTagsPolicy");
     tk_multi_table_array = tk_multi_table_array.split(",");
 
     // Call the function for each value from the array
@@ -28132,13 +27827,13 @@ var inputLinkQueuesTime = new LinkListInput({
   // back button
   $("#btn_back_manage_tags").click(function () {
     // Show input modal
-    $("#modal_manage").modal();
+    $("#modal_manage_data_source").modal();
   });
 
   // back button
   $("#btn_back_manage_tags").click(function () {
     // Show input modal
-    $("#modal_manage").modal();
+    $("#modal_manage_data_source").modal();
   });
 
   // back button
@@ -28167,14 +27862,10 @@ var inputLinkQueuesTime = new LinkListInput({
 
   // add button
   $("#btn_modal_tags_add").click(function () {
-    //submitTokens();
-
-    // When the Submit button is clicked, get all the form fields by accessing token values
-    var tokens = mvc.Components.get("default");
 
     // Retrieve input values
-    var tk_tags_new = tokens.get("modal_input_tags_new");
-    var tk_tags = tokens.get("tk_tags");
+    var tk_tags_new = getToken("modal_input_tags_new");
+    var tk_tags = getToken("tk_tags");
     var tk_tags_csv;
 
     // Combine current and new tag if relevant
@@ -28188,8 +27879,8 @@ var inputLinkQueuesTime = new LinkListInput({
     }
 
     // Get tk mains
-    var tk_data_name = tokens.get("tk_data_name");
-    var tk_keyid = tokens.get("tk_keyid");
+    var tk_data_name = getToken("tk_object");
+    var tk_keyid = getToken("tk_keyid");
 
     // Define the query
     var searchQuery =
@@ -28350,17 +28041,11 @@ var inputLinkQueuesTime = new LinkListInput({
 
   // modify button
   $("#btn_modal_tags_save").click(function () {
-    //submitTokens();
-
-    // When the Submit button is clicked, get all the form fields by accessing token values
-    var tokens = mvc.Components.get("default");
 
     // Retrieve input values
-
-    var tk_tags_list = tokens.get("modal_input_tags_update");
-
-    var tk_data_name = tokens.get("tk_data_name");
-    var tk_keyid = tokens.get("tk_keyid");
+    var tk_tags_list = getToken("modal_input_tags_update");
+    var tk_data_name = getToken("tk_object");
+    var tk_keyid = getToken("tk_keyid");
 
     // Define the query
     var searchQuery =
@@ -28516,17 +28201,11 @@ var inputLinkQueuesTime = new LinkListInput({
 
   // clear button
   $("#btn_modal_tags_clear").click(function () {
-    //submitTokens();
-
-    // When the Submit button is clicked, get all the form fields by accessing token values
-    var tokens = mvc.Components.get("default");
 
     // Retrieve input values
-
-    var tk_tags_list = tokens.get("modal_input_tags_update");
-
-    var tk_data_name = tokens.get("tk_data_name");
-    var tk_keyid = tokens.get("tk_keyid");
+    var tk_tags_list = getToken("modal_input_tags_update");
+    var tk_data_name = getToken("tk_object");
+    var tk_keyid = getToken("tk_keyid");
 
     // Define the query
     var searchQuery =
@@ -28665,12 +28344,12 @@ var inputLinkQueuesTime = new LinkListInput({
   // back button
   $("#btn_back_manage_identity_card").click(function () {
     // Show input modal
-    $("#modal_manage").modal();
+    $("#modal_manage_data_source").modal();
   });
 
   $("#btn_close_define_identity_card").click(function () {
     // Show input modal
-    $("#modal_manage").modal();
+    $("#modal_manage_data_source").modal();
   });
 
   // update button
@@ -28692,14 +28371,8 @@ var inputLinkQueuesTime = new LinkListInput({
     $btn_group.find("button").on("click", function () {
       var $btn = $(this);
 
-      //submitTokens();
-
-      // When the Submit button is clicked, get all the form fields by accessing token values
-      var tokens = mvc.Components.get("default");
-
       // Retrieve input values
-
-      var input_doc_object = tokens.get("tk_data_name");
+      var input_doc_object = getToken("tk_data_name");
       var input_doc_note = document.getElementById("input_doc_note").value;
 
       // replace chars that would lead the operation to fail
@@ -28888,19 +28561,14 @@ var inputLinkQueuesTime = new LinkListInput({
   // back
   $("#btn_define_identity_card_back").click(function () {
     // Show modal
-    $("#modal_manage").modal();
+    $("#modal_manage_data_source").modal();
   });
 
   // delete button
   $("#btn_delete_identity_card_confirm").click(function () {
-    //submitTokens();
-
-    // When the Submit button is clicked, get all the form fields by accessing token values
-    var tokens = mvc.Components.get("default");
 
     // Retrieve input values
-
-    var input_doc_object = tokens.get("tk_data_name");
+    var input_doc_object = getToken("tk_data_name");
     var input_doc_note = document.getElementById("input_doc_note").value;
     var input_doc_link = document.getElementById("input_doc_link").value;
 
@@ -29055,14 +28723,8 @@ var inputLinkQueuesTime = new LinkListInput({
     $btn_group.find("button").on("click", function () {
       var $btn = $(this);
 
-      // create token that will free the search for table populate
-      //submitTokens();
-
-      // When the Submit button is clicked, get all the form fields by accessing token values
-      var tokens = mvc.Components.get("default");
-
       // if the token exists already, restart the search, otherwise allow the search to start
-      var tk_start_associate_identity_card = tokens.get(
+      var tk_start_associate_identity_card = getToken(
         "tk_start_associate_identity_card"
       );
 
@@ -29082,19 +28744,14 @@ var inputLinkQueuesTime = new LinkListInput({
 
   // confirm button
   $("#btn_associate_identity_card_confirm_valid").click(function () {
-    //submitTokens();
-
-    // When the Submit button is clicked, get all the form fields by accessing token values
-    var tokens = mvc.Components.get("default");
 
     // Retrieve input values
-
-    var input_doc_keyid = tokens.get("tk_keyid");
-    var input_doc_new_object = tokens.get("tk_data_name");
-    var input_doc_origin_object = tokens.get("tk_object");
-    var input_doc_link = tokens.get("tk_doc_link");
-    var input_doc_note = tokens.get("tk_doc_note");
-    var tk_doc_identity_card_is_global = tokens.get(
+    var input_doc_keyid = getToken("tk_keyid");
+    var input_doc_new_object = getToken("tk_data_name");
+    var input_doc_origin_object = getToken("tk_object");
+    var input_doc_link = getToken("tk_doc_link");
+    var input_doc_note = getToken("tk_doc_note");
+    var tk_doc_identity_card_is_global = getToken(
       "doc_identity_card_is_global"
     );
 
@@ -29273,15 +28930,9 @@ var inputLinkQueuesTime = new LinkListInput({
     $btn_group.find("button").on("click", function () {
       var $btn = $(this);
 
-      // create token that will free the search for table populate
-      //submitTokens();
-
-      // When the Submit button is clicked, get all the form fields by accessing token values
-      var tokens = mvc.Components.get("default");
-
-      var tk_data_name = tokens.get("tk_data_name");
-      var tk_data_host = tokens.get("tk_data_host");
-      var tk_metric_host = tokens.get("tk_metric_host");
+      var tk_data_name = getToken("tk_object");
+      var tk_data_host = getToken("tk_data_host");
+      var tk_metric_host = getToken("tk_metric_host");
 
       if (tk_data_name !== undefined) {
         setToken("input_object", tk_data_name);
@@ -29294,11 +28945,11 @@ var inputLinkQueuesTime = new LinkListInput({
         setToken("input_object_category", "metric_host");
       }
 
-      var input_object = tokens.get("input_object");
-      var input_object_category = tokens.get("input_object_category");
+      var input_object = getToken("input_object");
+      var input_object_category = getToken("input_object_category");
 
       // if the token exists already, restart the search, otherwise allow the search to start
-      var tk_start_ack_get = tokens.get("tk_start_ack_get");
+      var tk_start_ack_get = getToken("tk_start_ack_get");
 
       if (tk_start_ack_get && tk_start_ack_get.length) {
         searchAckGet.startSearch();
@@ -29318,15 +28969,10 @@ var inputLinkQueuesTime = new LinkListInput({
     $btn_group.find("button").on("click", function () {
       var $btn = $(this);
 
-      //submitTokens();
-
-      // When the Submit button is clicked, get all the form fields by accessing token values
-      var tokens = mvc.Components.get("default");
-
       // Retrieve input values
-      var input_object = tokens.get("input_object");
-      var input_object_category = tokens.get("input_object_category");
-      var input_ack_duration = tokens.get("input_ack_duration");
+      var input_object = getToken("input_object");
+      var input_object_category = getToken("input_object_category");
+      var input_ack_duration = getToken("input_ack_duration");
 
       // Retrieve update comment if any
       var tk_comment = document.getElementById("input_ack_comment").value;
@@ -29446,17 +29092,12 @@ var inputLinkQueuesTime = new LinkListInput({
     $btn_group.find("button").on("click", function () {
       var $btn = $(this);
 
-      //submitTokens();
-
-      // When the Submit button is clicked, get all the form fields by accessing token values
-      var tokens = mvc.Components.get("default");
-
       // Retrieve input values
-      var keyid = tokens.get("keyid");
-      var input_object = tokens.get("input_object");
-      var input_object_category = tokens.get("input_object_category");
-      var ack_expiration = tokens.get("ack_expiration");
-      var ack_state = tokens.get("ack_state");
+      var keyid = getToken("keyid");
+      var input_object = getToken("input_object");
+      var input_object_category = getToken("input_object_category");
+      var ack_expiration = getToken("ack_expiration");
+      var ack_state = getToken("ack_state");
 
       // Retrieve update comment if any
       var tk_comment = document.getElementById("input_ack_comment").value;
@@ -29574,14 +29215,8 @@ var inputLinkQueuesTime = new LinkListInput({
     $btn_group.find("button").on("click", function () {
       var $btn = $(this);
 
-      // create token that will free the search for table populate
-      //submitTokens();
-
-      // When the Submit button is clicked, get all the form fields by accessing token values
-      var tokens = mvc.Components.get("default");
-
       // if the token exists already, restart the search, otherwise allow the search to start
-      var tk_start_logical_member_get = tokens.get(
+      var tk_start_logical_member_get = getToken(
         "tk_start_logical_member_get"
       );
 
@@ -29591,9 +29226,9 @@ var inputLinkQueuesTime = new LinkListInput({
         setToken("tk_start_logical_member_get", "true");
       }
 
-      var tk_data_name = tokens.get("tk_data_name");
-      var tk_data_host = tokens.get("tk_data_host");
-      var tk_metric_host = tokens.get("tk_metric_host");
+      var tk_data_name = getToken("tk_object");
+      var tk_data_host = getToken("tk_data_host");
+      var tk_metric_host = getToken("tk_metric_host");
 
       if (tk_data_name !== undefined) {
         setToken("input_object", tk_data_name);
@@ -29613,14 +29248,11 @@ var inputLinkQueuesTime = new LinkListInput({
 
   // back
   $("#btn_associate_logical_group_back").click(function () {
-    // create token that will free the search for table populate
-    //submitTokens();
 
-    // When the Submit button is clicked, get all the form fields by accessing token values
-    var tokens = mvc.Components.get("default");
+    // create token that will free the search for table populate
 
     // retrieve token
-    var input_object_category = tokens.get("input_object_category");
+    var input_object_category = getToken("input_object_category");
 
     // conditional modal target
     if (input_object_category === "data_source") {
@@ -29643,15 +29275,9 @@ var inputLinkQueuesTime = new LinkListInput({
     $btn_group.find("button").on("click", function () {
       var $btn = $(this);
 
-      // create token that will free the search for table populate
-      //submitTokens();
-
-      // When the Submit button is clicked, get all the form fields by accessing token values
-      var tokens = mvc.Components.get("default");
-
-      var tk_data_name = tokens.get("tk_data_name");
-      var tk_data_host = tokens.get("tk_data_host");
-      var tk_metric_host = tokens.get("tk_metric_host");
+      var tk_data_name = getToken("tk_object");
+      var tk_data_host = getToken("tk_data_host");
+      var tk_metric_host = getToken("tk_metric_host");
 
       if (tk_data_name !== undefined) {
         setToken("input_object", tk_data_name);
@@ -29668,15 +29294,10 @@ var inputLinkQueuesTime = new LinkListInput({
 
   // Remove from logical group
   $("#btn_remove_from_logical_group_confirm_valid").click(function () {
-    // create token that will free the search for table populate
-    //submitTokens();
-
-    // When the Submit button is clicked, get all the form fields by accessing token values
-    var tokens = mvc.Components.get("default");
-
-    var input_object = tokens.get("input_object");
-    var input_object_category = tokens.get("input_object_category");
-    var tk_keyid = tokens.get("tk_keyid");
+  
+    var input_object = getToken("input_object");
+    var input_object_category = getToken("input_object_category");
+    var tk_keyid = getToken("tk_keyid");
 
     if (input_object && input_object.length) {
       // Create the endpoint URL
@@ -29757,14 +29378,9 @@ var inputLinkQueuesTime = new LinkListInput({
 
   // Add logical group member
   $("#btn_add_logical_group_member").click(function () {
-    // create token that will free the search for table populate
-    //submitTokens();
-
-    // When the Submit button is clicked, get all the form fields by accessing token values
-    var tokens = mvc.Components.get("default");
 
     // if the token exists already, restart the search, otherwise allow the search to start
-    var tk_start_logical_member_add = tokens.get("tk_start_logical_member_add");
+    var tk_start_logical_member_add = getToken("tk_start_logical_member_add");
 
     if (tk_start_logical_member_add && tk_start_logical_member_add.length) {
       searchLogicalGroupTableAddMember.startSearch();
@@ -29777,20 +29393,15 @@ var inputLinkQueuesTime = new LinkListInput({
 
   // Add logical group member
   $("#btn_add_logical_group_member_confirm_valid").click(function () {
-    // create token that will free the search for table populate
-    //submitTokens();
 
-    // When the Submit button is clicked, get all the form fields by accessing token values
-    var tokens = mvc.Components.get("default");
-
-    var input_object = tokens.get("input_object");
-    var input_object_category = tokens.get("input_object_category");
+    var input_object = getToken("input_object");
+    var input_object_category = getToken("input_object_category");
 
     // keyid is used to add to group
-    var tk_keyid = tokens.get("tk_keyid");
+    var tk_keyid = getToken("tk_keyid");
 
     // from click
-    var tk_object_group_name = tokens.get("tk_object_group_name");
+    var tk_object_group_name = getToken("tk_object_group_name");
 
     if (input_object && input_object.length) {
       // Create the endpoint URL
@@ -29895,18 +29506,13 @@ var inputLinkQueuesTime = new LinkListInput({
 
   // Add logical group
   $("#btn_associate_logical_group_add_group").click(function () {
-    // create token that will free the search for table populate
-    //submitTokens();
 
-    // When the Submit button is clicked, get all the form fields by accessing token values
-    var tokens = mvc.Components.get("default");
-
-    var input_object = tokens.get("input_object");
-    var input_object_category = tokens.get("input_object_category");
+    var input_object = getToken("input_object");
+    var input_object_category = getToken("input_object_category");
 
     // from input
-    var tk_object_group_name = tokens.get("InputLogicalGroupName");
-    var tk_object_group_green_percent = tokens.get(
+    var tk_object_group_name = getToken("InputLogicalGroupName");
+    var tk_object_group_green_percent = getToken(
       "InputLogicalGroupNamePercent"
     );
 
@@ -30010,23 +29616,15 @@ var inputLinkQueuesTime = new LinkListInput({
 
   // data source run simulation
   $("#btn_outlier_config_data_source_simulate").click(function () {
-    // create token that will free the search for table populate
-    //submitTokens();
-
-    // When the Submit button is clicked, get all the form fields by accessing token values
-    var tokens = mvc.Components.get("default");
 
     // get the object name
-    var tk_data_name = tokens.get("tk_object");
+    var tk_data_name = getToken("tk_object");
 
     // set the token the search depends on
     setToken("start_outliers_simulation_data_source", "true");
 
     // explicitly start the search
     searchOutlierDetectionChartSimulation.startSearch();
-
-    // set the panel visibility
-    //$("#data-source-outliers-simulation").css("display", "inherit");
 
     // notify
     notify("info", "bottom", "Outliers simulation started for data source " + tk_data_name + ".", "5");
@@ -30036,53 +29634,49 @@ var inputLinkQueuesTime = new LinkListInput({
   $("#btn_outlier_config_data_source_save")
     .unbind("click")
     .click(function () {
-      //submitTokens();
 
-      // When the Submit button is clicked, get all the form fields by accessing token values
-      var tokens = mvc.Components.get("default");
-
-      var tk_keyid = tokens.get("tk_keyid");
-      var tk_data_name = tokens.get("tk_object");
-      var tk_outliermineventcount = tokens.get("tk_outliermineventcount");
-      var tk_outlierlowerthresholdmultiplier = tokens.get(
+      var tk_keyid = getToken("tk_keyid");
+      var tk_data_name = getToken("tk_object");
+      var tk_outliermineventcount = getToken("tk_outliermineventcount");
+      var tk_outlierlowerthresholdmultiplier = getToken(
         "tk_outlierlowerthresholdmultiplier"
       );
-      var tk_outlierupperthresholdmultiplier = tokens.get(
+      var tk_outlierupperthresholdmultiplier = getToken(
         "tk_outlierupperthresholdmultiplier"
       );
-      var tk_outlieralertonupper = tokens.get("tk_outlieralertonupper");
-      var tk_outlier_period = tokens.get("tk_outlier_period");
-      var tk_outlier_span = tokens.get("tk_outlier_span");
-      var tk_enable_behaviour_analytic = tokens.get(
+      var tk_outlieralertonupper = getToken("tk_outlieralertonupper");
+      var tk_outlier_period = getToken("tk_outlier_period");
+      var tk_outlier_span = getToken("tk_outlier_span");
+      var tk_enable_behaviour_analytic = getToken(
         "tk_enable_behaviour_analytic"
       );
 
       // get inputs tokens
 
-      var tk_input_data_source_enable_outlier = tokens.get(
+      var tk_input_data_source_enable_outlier = getToken(
         "tk_input_data_source_enable_outlier"
       );
-      var tk_input_data_source_outlier_min_eventcount_mode = tokens.get(
+      var tk_input_data_source_outlier_min_eventcount_mode = getToken(
         "tk_input_data_source_outlier_min_eventcount_mode"
       );
-      var tk_input_data_source_outlier_alert_on_upper = tokens.get(
+      var tk_input_data_source_outlier_alert_on_upper = getToken(
         "tk_input_data_source_outlier_alert_on_upper"
       );
-      var tk_input_data_source_outlier_min_eventcount = tokens.get(
+      var tk_input_data_source_outlier_min_eventcount = getToken(
         "tk_input_data_source_outlier_min_eventcount"
       );
-      var tk_input_data_source_outlier_lower_threshold_multiplier = tokens.get(
+      var tk_input_data_source_outlier_lower_threshold_multiplier = getToken(
         "tk_input_data_source_outlier_lower_threshold_multiplier"
       );
-      var tk_input_data_source_outlier_upper_threshold_multiplier = tokens.get(
+      var tk_input_data_source_outlier_upper_threshold_multiplier = getToken(
         "tk_input_data_source_outlier_upper_threshold_multiplier"
       );
-      var tk_input_data_source_outlier_span = tokens.get(
+      var tk_input_data_source_outlier_span = getToken(
         "tk_input_data_source_outlier_span"
       );
 
       // OutlierTimePeriod equals to the earliest LinkInput
-      var tk_input_data_source_outlier_period = tokens.get(
+      var tk_input_data_source_outlier_period = getToken(
         "tk_input_data_source_outlier_period"
       );
 
@@ -30171,7 +29765,7 @@ var inputLinkQueuesTime = new LinkListInput({
           data: JSON.stringify(record),
           success: function (returneddata) {
             // notify
-            var tk_data_name = tokens.get("tk_object");
+            var tk_data_name = getToken("tk_object");
             notify("info", "bottom", "Outliers configuration updated, please wait a few seconds while statistics are generated, click on refresh in the Outliers tab if statistics are not yet available.", "5");
 
             // Generate metrics if outlier period was changed
@@ -30197,7 +29791,7 @@ var inputLinkQueuesTime = new LinkListInput({
             searchOutlierDetectionTable.startSearch();
 
             // call update data source
-            var tk_keyid = tokens.get("tk_keyid");
+            var tk_keyid = getToken("tk_keyid");
             console.log("run updateDataSource")
             updateDataSource(tk_keyid);
 
@@ -30244,26 +29838,18 @@ var inputLinkQueuesTime = new LinkListInput({
     $btn_group.find("button").on("click", function () {
       var $btn = $(this);
 
-      //submitTokens();
-
-      // When the Submit button is clicked, get all the form fields by accessing token values
-      var tokens = mvc.Components.get("default");
-
       // Built the search URI
-      var tk_data_name = tokens.get("tk_object");
-      var tk_data_sourcetype = tokens.get("tk_data_sourcetype");
+      var tk_data_name = getToken("tk_object");
       var search_latest_sample =
         "search" +
         "?q=" +
         encodeURI(
           '| inputlookup trackme_data_sampling where data_name="' +
             tk_data_name +
-            '" | fields raw_sample | mvexpand raw_sample | eval data_sourcetype="' +
-            tk_data_sourcetype +
-            '" | `trackme_data_sampling_abstract_detect_events_format` | lookup trackme_data_sampling_custom_models model_name as current_detected_format output model_type | eval model_type=if(isnull(model_type) AND isnotnull(current_detected_format), "inclusive", model_type)'
+            '" | fields raw_sample | mvexpand raw_sample | eval ' +            
+            ' [ | inputlookup trackme_data_source_monitoring where data_name="' + tk_data_name + '" | fields data_sourcetype | return data_sourcetype ]' +
+            ' | `trackme_data_sampling_abstract_detect_events_format` | lookup trackme_data_sampling_custom_models model_name as current_detected_format output model_type | eval model_type=if(isnull(model_type) AND isnotnull(current_detected_format), "inclusive", model_type)'
         );
-
-      console.log("search_latest_sample is: " + search_latest_sample);
 
       // Verify the current data sampling obfuscation mode, if enabled we change the search target
 
@@ -30330,7 +29916,7 @@ var inputLinkQueuesTime = new LinkListInput({
       });
 
       // Run engine should not be granted when an anomaly was found at first discovery
-      var data_sample_anomaly_reason = tokens.get(
+      var data_sample_anomaly_reason = getToken(
         "tk_data_sample_anomaly_reason"
       );
       if (data_sample_anomaly_reason == "multiformat_at_discovery") {
@@ -30349,7 +29935,7 @@ var inputLinkQueuesTime = new LinkListInput({
     var $btn_group = $(this);
     $btn_group.find("button").on("click", function () {
       var $btn = $(this);
-      $("#modal_manage").modal();
+      $("#modal_manage_data_source").modal();
     });
   });
 
@@ -30550,13 +30136,9 @@ var inputLinkQueuesTime = new LinkListInput({
   }
 
   $("#btn_modal_remove_custom_rule_confirm").click(function () {
-    //submitTokens();
-
-    // When the Submit button is clicked, get all the form fields by accessing token values
-    var tokens = mvc.Components.get("default");
 
     // Get the arrays of keys
-    var tk_multi_table_array = tokens.get("removeDataSamplingCustomRule");
+    var tk_multi_table_array = getToken("removeDataSamplingCustomRule");
     tk_multi_table_array = tk_multi_table_array.split(",");
 
     // Call the function for each value from the array
@@ -30574,13 +30156,9 @@ var inputLinkQueuesTime = new LinkListInput({
 
   // Run data sampling engine
   $("#btn_run_data_sampling").click(function () {
-    //submitTokens();
-
-    // When the Submit button is clicked, get all the form fields by accessing token values
-    var tokens = mvc.Components.get("default");
 
     // Built the search URI
-    var tk_keyid = tokens.get("tk_keyid");
+    var tk_keyid = getToken("tk_keyid");
 
     // Define the query
     var searchQuery =
@@ -30596,19 +30174,9 @@ var inputLinkQueuesTime = new LinkListInput({
 
     // Run a normal search that immediately returns the job's SID
     service.search(searchQuery, searchParams, function (err, job) {
-      cssloaderremove();
-      $("body").append(
-        '<div id="loadingGray" style="background: #e9e9e9; display: block; position: fixed; z-index: 100; top: 0; right: 0; bottom: 0; left: 0; height: 100%; opacity: 0.8;"><div style="width: 100%; margin-top: 250px; padding-bottom: 50px; text-align: center;"><p style="font-size: 18pt; font-weight: bolder; color: #003b59;">Running the data sampling and format recognition engine...</p></div><div id="spinner"></div></div>'
-      );
 
-      require(["jquery", "/static/app/trackme/spin.js"], function ($, Spinner) {
-        new Spinner({
-          lines: 12,
-          length: 18,
-          position: "relative",
-          color: "#003b59",
-        }).spin(document.getElementById("spinner"));
-      });
+      // spinner
+      cssloader("Running the data sampling and format recognition engine...");
 
       // Shall the search fail before we can get properties
       if (job == null) {
@@ -30681,14 +30249,10 @@ var inputLinkQueuesTime = new LinkListInput({
   });
 
   $("#btn_modal_data_sampling_disable_confirm").click(function () {
-    //submitTokens();
-
-    // When the Submit button is clicked, get all the form fields by accessing token values
-    var tokens = mvc.Components.get("default");
 
     // Built the search URI
-    var tk_data_name = tokens.get("tk_data_name");
-    var tk_keyid = tokens.get("tk_keyid");
+    var tk_data_name = getToken("tk_object");
+    var tk_keyid = getToken("tk_keyid");
 
     // Endpoint URI
     var myendpoint_URl =
@@ -30790,22 +30354,9 @@ var inputLinkQueuesTime = new LinkListInput({
 
         // Run a normal search that immediately returns the job's SID
         service.search(searchQuery, searchParams, function (err, job) {
-          cssloaderremove();
-          $("body").append(
-            '<div id="loadingGray" style="background: #e9e9e9; display: block; position: fixed; z-index: 100; top: 0; right: 0; bottom: 0; left: 0; height: 100%; opacity: 0.8;"><div style="width: 100%; margin-top: 250px; padding-bottom: 50px; text-align: center;"><p style="font-size: 18pt; font-weight: bolder; color: #003b59;">Clearing the data source state and disabling the data sampling feature...</p></div><div id="spinner"></div></div>'
-          );
 
-          require([
-            "jquery",
-            "/static/app/trackme/spin.js",
-          ], function ($, Spinner) {
-            new Spinner({
-              lines: 12,
-              length: 18,
-              position: "relative",
-              color: "#003b59",
-            }).spin(document.getElementById("spinner"));
-          });
+          // spinner
+          cssloader("Clearing the data source state and disabling the data sampling feature...");
 
           // Shall the search fail before we can get properties
           if (job == null) {
@@ -30880,14 +30431,10 @@ var inputLinkQueuesTime = new LinkListInput({
   });
 
   $("#btn_update_records_nr_confirm").click(function () {
-    //submitTokens();
-
-    // When the Submit button is clicked, get all the form fields by accessing token values
-    var tokens = mvc.Components.get("default");
 
     // Get tokens
-    var tk_data_name = tokens.get("tk_data_name");
-    var tk_data_sampling_nr = tokens.get("tk_input_data_sampling_records_nr");
+    var tk_data_name = getToken("tk_object");
+    var tk_data_sampling_nr = getToken("tk_input_data_sampling_records_nr");
 
     // Define the query
     var searchQuery =
@@ -31076,17 +30623,10 @@ var inputLinkQueuesTime = new LinkListInput({
 
   // Clear state action button is confirmed
   $("#btn_modal_clear_state_confirm").click(function () {
-    //var that = $(this);
-    //that.off('click'); // remove handler
-
-    //submitTokens();
-
-    // When the Submit button is clicked, get all the form fields by accessing token values
-    var tokens = mvc.Components.get("default");
 
     // Built the search URI
-    var tk_data_name = tokens.get("tk_data_name");
-    var tk_keyid = tokens.get("tk_keyid");
+    var tk_data_name = getToken("tk_object");
+    var tk_keyid = getToken("tk_keyid");
 
     // Endpoint URI
     var myendpoint_URl =
@@ -31221,22 +30761,9 @@ var inputLinkQueuesTime = new LinkListInput({
 
             // Run a normal search that immediately returns the job's SID
             service.search(searchQuery, searchParams, function (err, job) {
-              cssloaderremove();
-              $("body").append(
-                '<div id="loadingGray" style="background: #e9e9e9; display: block; position: fixed; z-index: 100; top: 0; right: 0; bottom: 0; left: 0; height: 100%; opacity: 0.8;"><div style="width: 100%; margin-top: 250px; padding-bottom: 50px; text-align: center;"><p style="font-size: 18pt; font-weight: bolder; color: #003b59;">Clearing the data source state and running the data sampling and format recognition engine...</p></div><div id="spinner"></div></div>'
-              );
 
-              require([
-                "jquery",
-                "/static/app/trackme/spin.js",
-              ], function ($, Spinner) {
-                new Spinner({
-                  lines: 12,
-                  length: 18,
-                  position: "relative",
-                  color: "#003b59",
-                }).spin(document.getElementById("spinner"));
-              });
+              // spinner
+              cssloader("Clearing the data source state and running the data sampling and format recognition engine...");
 
               // Shall the search fail before we can get properties
               if (job == null) {
@@ -31343,22 +30870,9 @@ var inputLinkQueuesTime = new LinkListInput({
 
         // Run a normal search that immediately returns the job's SID
         service.search(searchQuery, searchParams, function (err, job) {
-          cssloaderremove();
-          $("body").append(
-            '<div id="loadingGray" style="background: #e9e9e9; display: block; position: fixed; z-index: 100; top: 0; right: 0; bottom: 0; left: 0; height: 100%; opacity: 0.8;"><div style="width: 100%; margin-top: 250px; padding-bottom: 50px; text-align: center;"><p style="font-size: 18pt; font-weight: bolder; color: #003b59;">Clearing the data source state and running the data sampling and format recognition engine...</p></div><div id="spinner"></div></div>'
-          );
 
-          require([
-            "jquery",
-            "/static/app/trackme/spin.js",
-          ], function ($, Spinner) {
-            new Spinner({
-              lines: 12,
-              length: 18,
-              position: "relative",
-              color: "#003b59",
-            }).spin(document.getElementById("spinner"));
-          });
+          // spinner
+          cssloader("Clearing the data source state and running the data sampling and format recognition engine...");
 
           // Shall the search fail before we can get properties
           if (job == null) {
@@ -31435,14 +30949,10 @@ var inputLinkQueuesTime = new LinkListInput({
 
   // Data sampling custom rules
   $("#btn_data_sampling_custom_rules").click(function () {
-    //submitTokens();
-
-    // When the Submit button is clicked, get all the form fields by accessing token values
-    var tokens = mvc.Components.get("default");
 
     // Get the current data source
-    var tk_data_name = tokens.get("tk_data_name");
-    var tk_data_sourcetype = tokens.get("tk_data_sourcetype");
+    var tk_data_name = getToken("tk_object");
+    var tk_data_sourcetype = getToken("tk_data_sourcetype");
 
     // Apply to the form inputs
     setToken("form.tk_input_data_sampling_dropdown", tk_data_name);
@@ -31500,21 +31010,18 @@ var inputLinkQueuesTime = new LinkListInput({
     // show the simulation div
     $("#divTableDataSamplingSimulate").css("display", "inherit");
 
-    // When the Submit button is clicked, get all the form fields by accessing token values
-    var tokens = mvc.Components.get("default");
-
     // Retrieve the regex rule
     var tk_data_sampling_custom_rule_regex = document.getElementById(
       "modal_input_data_sampling_custom_rule_regex"
     ).value;
 
     // Retrieve the rule name
-    var tk_data_sampling_custom_rule_name = tokens.get(
+    var tk_data_sampling_custom_rule_name = getToken(
       "tk_data_sampling_custom_rule_name"
     );
 
     // Retrieve the key id
-    var tk_keyid = tokens.get("tk_keyid");
+    var tk_keyid = getToken("tk_keyid");
 
     // if is not defined, give it a value and override text box content
     if (
@@ -31573,10 +31080,6 @@ var inputLinkQueuesTime = new LinkListInput({
 
   // Data sampling add custom rule
   $("#btn_modal_add_custom_rule_confirm").click(function () {
-    //submitTokens();
-
-    // When the Submit button is clicked, get all the form fields by accessing token values
-    var tokens = mvc.Components.get("default");
 
     // Retrieve the regex rule
     var tk_data_sampling_custom_rule_regex = document.getElementById(
@@ -31584,17 +31087,17 @@ var inputLinkQueuesTime = new LinkListInput({
     ).value;
 
     // Retrieve the rule name
-    var tk_data_sampling_custom_rule_name = tokens.get(
+    var tk_data_sampling_custom_rule_name = getToken(
       "tk_data_sampling_custom_rule_name"
     );
 
     // Retrieve the rule type
-    var tk_data_sampling_custom_rule_type = tokens.get(
+    var tk_data_sampling_custom_rule_type = getToken(
       "tk_data_sampling_custom_rule_type"
     );
 
     // Retrieve the sourcetype scope
-    var tk_data_sampling_custom_sourcetype_scope = tokens.get(
+    var tk_data_sampling_custom_sourcetype_scope = getToken(
       "tk_data_sampling_custom_sourcetype_scope"
     );
 
@@ -31758,7 +31261,7 @@ var inputLinkQueuesTime = new LinkListInput({
                 );
 
                 // Take a decision depending on where we come from
-                var tk_data_sampling_custom_rule_name = tokens.get(
+                var tk_data_sampling_custom_rule_name = getToken(
                   "show_data_sampling_custom_rules_from_home"
                 );
 
@@ -31804,10 +31307,6 @@ var inputLinkQueuesTime = new LinkListInput({
 
   $("#btn_modal_data_sampling_custom_rule_simulate_show_details").click(
     function () {
-      //submitTokens();
-
-      // When the Submit button is clicked, get all the form fields by accessing token values
-      var tokens = mvc.Components.get("default");
 
       // Retrieve the regex rule
       var tk_data_sampling_custom_rule_regex = document.getElementById(
@@ -31815,24 +31314,24 @@ var inputLinkQueuesTime = new LinkListInput({
       ).value;
 
       // Retrieve the rule name
-      var tk_data_sampling_custom_rule_name = tokens.get(
+      var tk_data_sampling_custom_rule_name = getToken(
         "tk_data_sampling_custom_rule_name"
       );
 
       // Retrieve the sourcetype scope
-      var tk_data_sampling_custom_sourcetype_scope = tokens.get(
+      var tk_data_sampling_custom_sourcetype_scope = getToken(
         "tk_data_sampling_custom_sourcetype_scope"
       );
 
       // Retrieve the key id
-      var tk_keyid = tokens.get("tk_keyid");
+      var tk_keyid = getToken("tk_keyid");
 
       // Retrieve the key id
-      var tk_data_sourcetype = tokens.get("tk_data_sourcetype");
+      var tk_data_sourcetype = getToken("tk_data_sourcetype");
 
       // If we are coming from the main UI, we have no keyid / sourcetype
-      var tk_selected_data_sourcetype = tokens.get("tk_input_data_sampling_dropdown");
-      var tk_data_sampling_custom_st_value = tokens.get("tk_data_sampling_custom_st_value");
+      var tk_selected_data_sourcetype = getToken("tk_input_data_sampling_dropdown");
+      var tk_data_sampling_custom_st_value = getToken("tk_data_sampling_custom_st_value");
 
       // if tk_keyid is unset
       if (tk_keyid == null) {
@@ -31877,14 +31376,9 @@ var inputLinkQueuesTime = new LinkListInput({
 
   // data source run simulation
   $("#btn_outlier_config_data_host_simulate").click(function () {
-    // create token that will free the search for table populate
-    //submitTokens();
-
-    // When the Submit button is clicked, get all the form fields by accessing token values
-    var tokens = mvc.Components.get("default");
 
     // get the object name
-    var tk_data_host = tokens.get("tk_data_host");
+    var tk_data_host = getToken("tk_data_host");
 
     // set the token the search depends on
     setToken("start_outliers_simulation_data_host", "true");
@@ -31900,51 +31394,47 @@ var inputLinkQueuesTime = new LinkListInput({
   });
 
   $("#btn_outlier_config_data_host_save").click(function (mode) {
-    //submitTokens();
 
-    // When the Submit button is clicked, get all the form fields by accessing token values
-    var tokens = mvc.Components.get("default");
-
-    var tk_keyid = tokens.get("tk_keyid");
-    var tk_data_host = tokens.get("tk_data_host");
-    var tk_outliermineventcount = tokens.get("tk_outliermineventcount");
-    var tk_outlierlowerthresholdmultiplier = tokens.get(
+    var tk_keyid = getToken("tk_keyid");
+    var tk_data_host = getToken("tk_data_host");
+    var tk_outliermineventcount = getToken("tk_outliermineventcount");
+    var tk_outlierlowerthresholdmultiplier = getToken(
       "tk_outlierlowerthresholdmultiplier"
     );
-    var tk_outlierupperthresholdmultiplier = tokens.get(
+    var tk_outlierupperthresholdmultiplier = getToken(
       "tk_outlierupperthresholdmultiplier"
     );
-    var tk_outlieralertonupper = tokens.get("tk_outlieralertonupper");
-    var tk_outlier_period = tokens.get("tk_outlier_period");
-    var tk_outlier_span = tokens.get("tk_outlier_span");
-    var tk_enable_behaviour_analytic = tokens.get(
+    var tk_outlieralertonupper = getToken("tk_outlieralertonupper");
+    var tk_outlier_period = getToken("tk_outlier_period");
+    var tk_outlier_span = getToken("tk_outlier_span");
+    var tk_enable_behaviour_analytic = getToken(
       "tk_enable_behaviour_analytic"
     );
 
     // get inputs tokens
 
-    var tk_input_data_host_enable_outlier = tokens.get(
+    var tk_input_data_host_enable_outlier = getToken(
       "tk_input_data_host_enable_outlier"
     );
-    var tk_input_data_host_outlier_min_eventcount_mode = tokens.get(
+    var tk_input_data_host_outlier_min_eventcount_mode = getToken(
       "tk_input_data_host_outlier_min_eventcount_mode"
     );
-    var tk_input_data_host_outlier_alert_on_upper = tokens.get(
+    var tk_input_data_host_outlier_alert_on_upper = getToken(
       "tk_input_data_host_outlier_alert_on_upper"
     );
-    var tk_input_data_host_outlier_min_eventcount = tokens.get(
+    var tk_input_data_host_outlier_min_eventcount = getToken(
       "tk_input_data_host_outlier_min_eventcount"
     );
-    var tk_input_data_host_outlier_lower_threshold_multiplier = tokens.get(
+    var tk_input_data_host_outlier_lower_threshold_multiplier = getToken(
       "tk_input_data_host_outlier_lower_threshold_multiplier"
     );
-    var tk_input_data_host_outlier_upper_threshold_multiplier = tokens.get(
+    var tk_input_data_host_outlier_upper_threshold_multiplier = getToken(
       "tk_input_data_host_outlier_upper_threshold_multiplier"
     );
-    var tk_input_data_host_outlier_period = tokens.get(
+    var tk_input_data_host_outlier_period = getToken(
       "tk_input_data_host_outlier_period"
     );
-    var tk_input_data_host_outlier_span = tokens.get(
+    var tk_input_data_host_outlier_span = getToken(
       "tk_input_data_host_outlier_span"
     );
 
@@ -32031,7 +31521,7 @@ var inputLinkQueuesTime = new LinkListInput({
         data: JSON.stringify(record),
         success: function (returneddata) {
           // notify
-          var tk_data_host = tokens.get("tk_data_host");
+          var tk_data_host = getToken("tk_data_host");
           notification(
             "Outliers configuration updated, please wait a few seconds while statistics are generated, click on refresh in the Outliers tab if statistics are not yet available.",
             6000
@@ -32061,7 +31551,7 @@ var inputLinkQueuesTime = new LinkListInput({
           searchOutlierDetectionTableDataHost.startSearch();
 
           // call update data host
-          var tk_keyid = tokens.get("tk_keyid");
+          var tk_keyid = getToken("tk_keyid");
           updateDataHost(tk_keyid);
 
           // Run the search again to update the table

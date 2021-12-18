@@ -3305,64 +3305,45 @@ span.title_high_priority {
                     </div>
                 </div>
 
-                    <!-- Modal window for Data Sampling -->
-                    <div class="modal fade custom-modal-80" id="data_sampling_show_builtin_rules" role="dialog">
-                        <div class="modal-dialog">
-
-                            <!-- Modal content-->
-                            <div class="modal-content">
-                                <div class="modal-header modal-header-info">
-                                    <button type="button" class="close" data-dismiss="modal"></button>
-                                    <h1><span class="glyphicon glyphicon-lock"></span> Data sampling &amp; events format recognition </h1>
-                                </div>
-
-                                <div class="modal-body">
-
-                                    <div>
-
-                                        <div style="margin-bottom: 10px;">
-
-                                            <div>
-                                                <h3>Events format recognition builtin regex rules:</h3>
-                                                <lu>
-                                                    <li>Builtin rules are applied <b>after</b> custom rules (if any)</li>
-                                                    <li>Builtin rules are regular expressions used to identify the type of events based on a structure (json, xml...), an expected timestamp format or a unique pattern</li>
-                                                    <li>These rules cover most common valuable use cases and can be easily extended by the addition of custom rules</li>
-                                                    <li>Shall none of the rules be matching the events formats, events will be tagged as "raw_not_identified" and the data sampling feature will be disabled automatically for that data source</li>
-                                                </lu>
-
-                                            </div>
-
-                                        </div>
-
-                                    </div>
-
-                                    <div>
-                                        <div>
-                                            <div>
-                                                <div>
-                                                    <div class="fieldset">
-                                                        <div id="tableDataSamplingShowBuiltinRules">
-                                                            <label>Data sampling event recognition builtin rules:</label>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div style="margin-top: 20px;" class="modal-footer">
-                                        <div class="btn_data_sampling_builtin_rules_back" style="margin-right: 15px; float: right;">
-                                            <button type="submit" class="btn btn-default btn-primary" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Back</button>
-                                        </div>
-                                    </div>
-
-                                </div>
-
+                <!-- Modal window for Data Sampling -->
+                <div class="modal fade custom-modal-80" id="data_sampling_show_builtin_rules" role="dialog">
+                    <div class="modal-dialog">
+                        <!-- Modal content-->
+                        <div class="modal-content">
+                            <div class="modal-header modal-header-info">
+                                <button type="button" class="close" data-dismiss="modal"></button>
+                                <h1><span class="glyphicon glyphicon-lock"></span> Data sampling &amp; events format recognition </h1>
                             </div>
-
+                            <div class="modal-body">
+                                <div>
+                                    <div style="margin-bottom: 10px;">
+                                        <div>
+                                            <h1>Events format recognition builtin regex rules:</h1>
+                                            <ul>
+                                                <li>Builtin rules are applied <b>after</b> custom rules (if any)</li>
+                                                <li>Builtin rules are regular expressions used to identify the type of events based on a structure (json, xml...), an expected timestamp format or a unique pattern</li>
+                                                <li>These rules cover most common valuable use cases and can be easily extended by the addition of custom rules</li>
+                                                <li>Shall none of the rules be matching the events formats, events will be tagged as "raw_not_identified" and the data sampling feature will be disabled automatically for that data source</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div>
+                                    <div id="tableDataSamplingShowBuiltinRules" class="view-elements">
+                                        <label>Data sampling event recognition builtin rules:</label>
+                                    </div>
+                                    <div id="resultsLinktableDataSamplingShowBuiltinRules" class="search-elements">
+                                    </div>
+                                </div>
+                                <div style="margin-top: 20px;" class="modal-footer">
+                                    <div class="btn_data_sampling_builtin_rules_back" style="margin-right: 15px; float: right;">
+                                        <button type="submit" class="btn btn-outline-secondary" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Back</button>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
+                </div>
 
                 <div class="modal fade custom-modal-80" id="data_sampling_create_custom_rules" role="dialog">
                     <div class="modal-dialog">
@@ -3373,7 +3354,7 @@ span.title_high_priority {
                                 <h1><span class="glyphicon glyphicon-lock"></span> Data sampling &amp; events format recognition: create custom rules </h1>
                             </div>
                             <div class="modal-body">
-                                <h2>Use this interface to create and manage custom rules for events format recognition:</h2>
+                                <h1>Use this interface to create and manage custom rules for events format recognition:</h1>
                                 <div>
                                     <div class="fieldset">
                                         <div class="input input-text" id="modal_input_data_sampling_custom_rule_name" style="margin-bottom: 10px; max-width: 500px; width: 500px; margin-right: 60px;">
@@ -3465,7 +3446,7 @@ span.title_high_priority {
                                 <h1><span class="glyphicon glyphicon-lock"></span>Data sampling &amp; events format recognition</h1>
                             </div>
                             <div class="modal-body">
-                                <b>Number of records per sample:</b>
+                                <h2>Number of records per sample:</h2>
                                 <p>Enter the maximal number of events to be extracted per data source during the data sampling operation: (default: 50)</p>
                                 <div class="fieldset">
                                     <div class="input input-text" id="modal_input_data_sampling_records_nr">
@@ -3530,7 +3511,7 @@ span.title_high_priority {
                                 <h1><span class="glyphicon glyphicon-lock"></span>Data sampling &amp; events format recognition</h1>
                             </div>
                             <div class="modal-body">
-                                <p><b>Confirm disable action?</b><br />
+                                <p><b>Confirm disable action?</b>
                                 </p>
                                 <div class="custom-textarea">
                                     <label>Optional: enter a note of this update, this note will be logged and made available for notification.</label>
@@ -4309,7 +4290,7 @@ span.title_high_priority {
                                 <div>
                                     <div style="margin-bottom: 10px;">
                                         <div>
-                                            <h2>The data sampling and events format recognition tracks the raw events format behaviour based on the following workflow:</h2>
+                                            <h1>The data sampling and events format recognition tracks the raw events format behaviour based on the following workflow:</h1>
                                             <ul>
                                                 <li>On a regular basis, a sample of the latest data source raw events is taken and investigated by the Data sampling and format detection tracker</li>
                                                 <li>Events format recognition is performed against builtin regular expression rules to identify a unique event pattern, which can be extended with custom rules to hande unknown or custom formats</li>
@@ -4317,7 +4298,7 @@ span.title_high_priority {
                                             </ul>
                                         </div>
                                     </div>
-                                    <div style="margin-bottom: 20px;">
+                                    <div style="margin-bottom: 20px; text-align: center;">
                                         <img src="../../static/app/trackme/mindmaps/data_sampling_main.png" alt="data_sampling_main.png"></img>
                                     </div>
                                     <div style="margin-bottom: 10px;">
@@ -4325,13 +4306,13 @@ span.title_high_priority {
                                     </div>                                    
                                     <div style="margin-bottom: 10px;">
                                         <div>
-                                            <h3 style="color: steelblue;">Acting on a data sampling and events format recognition anomaly detection:</h3>
-                                            <lu>
+                                            <h1>Acting on a data sampling and events format recognition anomaly detection:</h1>
+                                            <ul>
                                                 <li>If during the discovery multiple events formats are detected, the feature is automatically disabled to avoid generating false positive alerts</li>
                                                 <li>If a certain format was previously identified and during the next iteration a format change is detected, an anomaly state will be raised</li>
                                                 <li>Once an anomaly was raised, the anomaly status is frozen and will not be cleared until a manual action is performed by running the "Clear state and run sampling" action</li>
                                                 <li>When the clear state action is performed, previously identified information for that data source are cleared, and the data sampling inspection starts over</li>
-                                            </lu>
+                                            </ul>
                                         </div>
                                     </div>
                                 </div>
@@ -4346,7 +4327,7 @@ span.title_high_priority {
                                 </div>
                                 <div style="margin-top: 20px;" class="modal-footer">
                                     <div class="btn_data_sampling_back" style="margin-right: 15px; float: left;">
-                                        <button type="submit" class="btn btn-outline-secondary" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Back</button>
+                                        <button id="test_btn_data_sampling_back" type="submit" class="btn btn-outline-secondary" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Back</button>
                                     </div>
                                     <div style="margin-right: 15px; float: right;">
                                         <button id="btn_data_sampling_disable" type="submit" class="btn btn-outline-danger" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Disable</button>
@@ -8497,27 +8478,6 @@ span.title_high_priority {
                 </div>
             </div>
         </html>
-    </panel>
-</row>
-
-<row>
-    <panel>
-        <html>
-            | `trackme_outlier_chart_simulate(data_source, "$tk_object$", data_name, $tk_input_data_source_outlier_lower_threshold_multiplier$, $tk_input_data_source_outlier_upper_threshold_multiplier$, $tk_input_data_source_outlier_min_eventcount$, $tk_input_data_source_outlier_span$)`
-            <br />
-                    depends: "$show_data_source_tracker$",<br />
-                    depends: "$show_data_source_outlier_configuration$",<br />
-                    depends: "$start_outliers_simulation_data_source$",<br />
-                    earliest_time: "$tk_input_data_source_outlier_period$",
-
-
-        </html>
-
-        <html>
-
-
-        </html>
-
     </panel>
 </row>
 
