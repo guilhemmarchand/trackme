@@ -26,6 +26,7 @@ require([
   "splunkjs/mvc/simpleform/input/timerange",
   "splunkjs/mvc/simpleform/input/multiselect",
   "splunkjs/mvc/simpleform/input/dropdown",
+  "splunkjs/mvc/simpleform/input/checkboxgroup",
   "splunkjs/mvc/simplexml/element/table",
   "splunkjs/mvc/simplexml/element/single",
   "splunkjs/mvc/simplexml/element/event",
@@ -59,6 +60,7 @@ require([
   TimeRangeInput,
   MultiSelectInput,
   DropdownInput,
+  CheckboxGroupInput,
   TableElement,
   VisualizationElement,
   SingleElement,
@@ -137,206 +139,6 @@ require([
               });
           });
       });
-  }
-
-  //
-  // Notification
-  //
-
-  function notification(s, time) {
-
-      $("<p>" + s + "</p>").appendTo('#boxnotify-data-source').fadeTo(time, 1, function() {
-          $(this).fadeTo(1000, 0, function() {
-              $(this).remove()
-          });
-      });
-
-      $("<p>" + s + "</p>").appendTo('#boxnotify-data-host').fadeTo(time, 1, function() {
-          $(this).fadeTo(1000, 0, function() {
-              $(this).remove()
-          });
-      });
-
-      $("<p>" + s + "</p>").appendTo('#boxnotify-metric-host').fadeTo(time, 1, function() {
-          $(this).fadeTo(1000, 0, function() {
-              $(this).remove()
-          });
-      });
-
-      $("<p>" + s + "</p>").appendTo('#boxnotify-unified-data-source').fadeTo(time, 1, function() {
-          $(this).fadeTo(1000, 0, function() {
-              $(this).remove()
-          });
-      });
-
-      $("<p>" + s + "</p>").appendTo('#boxnotify-unified-data-source-autolag').fadeTo(time, 1, function() {
-          $(this).fadeTo(1000, 0, function() {
-              $(this).remove()
-          });
-      });
-
-      $("<p>" + s + "</p>").appendTo('#boxnotify-unified-data-host').fadeTo(time, 1, function() {
-          $(this).fadeTo(1000, 0, function() {
-              $(this).remove()
-          });
-      });
-
-      $("<p>" + s + "</p>").appendTo('#boxnotify-unified-data-host-autolag').fadeTo(time, 1, function() {
-          $(this).fadeTo(1000, 0, function() {
-              $(this).remove()
-          });
-      });
-
-      $("<p>" + s + "</p>").appendTo('#boxnotify-unified-metric-host').fadeTo(time, 1, function() {
-          $(this).fadeTo(1000, 0, function() {
-              $(this).remove()
-          });
-      });
-
-      $("<p>" + s + "</p>").appendTo('#boxnotify-modal_modify_data_source_whitelist').fadeTo(time, 1, function() {
-          $(this).fadeTo(1000, 0, function() {
-              $(this).remove()
-          });
-      });
-
-      $("<p>" + s + "</p>").appendTo('#boxnotify-modal_modify_data_host_whitelist').fadeTo(time, 1, function() {
-          $(this).fadeTo(1000, 0, function() {
-              $(this).remove()
-          });
-      });
-
-      $("<p>" + s + "</p>").appendTo('#boxnotify-modal_modify_metric_host_whitelist').fadeTo(time, 1, function() {
-          $(this).fadeTo(1000, 0, function() {
-              $(this).remove()
-          });
-      });
-
-      $("<p>" + s + "</p>").appendTo('#boxnotify-modal_modify_data_source_blacklist_host').fadeTo(time, 1, function() {
-          $(this).fadeTo(1000, 0, function() {
-              $(this).remove()
-          });
-      });
-
-      $("<p>" + s + "</p>").appendTo('#boxnotify-modal_modify_data_source_blacklist_index').fadeTo(time, 1, function() {
-          $(this).fadeTo(1000, 0, function() {
-              $(this).remove()
-          });
-      });
-
-      $("<p>" + s + "</p>").appendTo('#boxnotify-modal_modify_data_source_blacklist_sourcetype').fadeTo(time, 1, function() {
-          $(this).fadeTo(1000, 0, function() {
-              $(this).remove()
-          });
-      });
-
-      $("<p>" + s + "</p>").appendTo('#boxnotify-modal_modify_data_source_blacklist_data_name').fadeTo(time, 1, function() {
-          $(this).fadeTo(1000, 0, function() {
-              $(this).remove()
-          });
-      });
-
-      $("<p>" + s + "</p>").appendTo('#boxnotify-modal_modify_data_host_blacklist_host').fadeTo(time, 1, function() {
-          $(this).fadeTo(1000, 0, function() {
-              $(this).remove()
-          });
-      });
-
-      $("<p>" + s + "</p>").appendTo('#boxnotify-modal_modify_data_host_blacklist_index').fadeTo(time, 1, function() {
-          $(this).fadeTo(1000, 0, function() {
-              $(this).remove()
-          });
-      });
-
-      $("<p>" + s + "</p>").appendTo('#boxnotify-modal_modify_metric_host_blacklist_host').fadeTo(time, 1, function() {
-          $(this).fadeTo(1000, 0, function() {
-              $(this).remove()
-          });
-      });
-
-      $("<p>" + s + "</p>").appendTo('#boxnotify-modal_modify_metric_host_blacklist_index').fadeTo(time, 1, function() {
-          $(this).fadeTo(1000, 0, function() {
-              $(this).remove()
-          });
-      });
-
-      $("<p>" + s + "</p>").appendTo('#boxnotify-modal_modify_data_host_blacklist_sourcetype').fadeTo(time, 1, function() {
-          $(this).fadeTo(1000, 0, function() {
-              $(this).remove()
-          });
-      });
-
-      $("<p>" + s + "</p>").appendTo('#boxnotify-modal_modify_metric_host_blacklist_metric_category').fadeTo(time, 1, function() {
-          $(this).fadeTo(1000, 0, function() {
-              $(this).remove()
-          });
-      });
-
-      $("<p>" + s + "</p>").appendTo('#boxnotify-modify_custom_lagging').fadeTo(time, 1, function() {
-          $(this).fadeTo(1000, 0, function() {
-              $(this).remove()
-          });
-      });
-
-      $("<p>" + s + "</p>").appendTo('#boxnotify-data-source-outliers-update').fadeTo(time, 1, function() {
-          $(this).fadeTo(1000, 0, function() {
-              $(this).remove()
-          });
-      });
-
-      $("<p>" + s + "</p>").appendTo('#boxnotify-data-host-outliers-update').fadeTo(time, 1, function() {
-          $(this).fadeTo(1000, 0, function() {
-              $(this).remove()
-          });
-      });
-
-      $("<p>" + s + "</p>").appendTo('#boxnotify-add_elastic_source').fadeTo(time, 1, function() {
-          $(this).fadeTo(1000, 0, function() {
-              $(this).remove()
-          });
-      });
-
-      $("<p>" + s + "</p>").appendTo('#boxnotify-add_data_sampling_custom_rule').fadeTo(time, 1, function() {
-          $(this).fadeTo(1000, 0, function() {
-              $(this).remove()
-          });
-      });
-
-      $("<p>" + s + "</p>").appendTo('#boxnotify-view_data_sampling_custom_rule').fadeTo(time, 1, function() {
-          $(this).fadeTo(1000, 0, function() {
-              $(this).remove()
-          });
-      });
-
-      $("<p>" + s + "</p>").appendTo('#boxnotify-manage_data_sampling').fadeTo(time, 1, function() {
-          $(this).fadeTo(1000, 0, function() {
-              $(this).remove()
-          });
-      });
-
-      $("<p>" + s + "</p>").appendTo('#boxnotify-manage_tags').fadeTo(time, 1, function() {
-          $(this).fadeTo(1000, 0, function() {
-              $(this).remove()
-          });
-      });
-
-      $("<p>" + s + "</p>").appendTo('#boxnotify-add_tags_policies').fadeTo(time, 1, function() {
-          $(this).fadeTo(1000, 0, function() {
-              $(this).remove()
-          });
-      });
-
-      $("<p>" + s + "</p>").appendTo('#boxnotify-modify_elastic_sources').fadeTo(time, 1, function() {
-          $(this).fadeTo(1000, 0, function() {
-              $(this).remove()
-          });
-      });
-
-      $("<p>" + s + "</p>").appendTo('#boxnotify-modify_elastic_sources_dedicated').fadeTo(time, 1, function() {
-          $(this).fadeTo(1000, 0, function() {
-              $(this).remove()
-          });
-      });
-
   }
 
   // Returns true if numeric
@@ -582,8 +384,8 @@ require([
 
   // Timeline
   var TimeLine = VisualizationRegistry.getVisualizer(
-    "timeline_app",
-    "timeline"
+      "timeline_app",
+      "timeline"
   );
 
   //
@@ -1709,16 +1511,16 @@ require([
 
   // set the panel visibility
   searchDataSourceMainAuditChanges.on("change", function(newValue) {
-    var show_data_source_audit_changes_no_results = getToken("show_data_source_audit_changes_no_results");
-    if (show_data_source_audit_changes_no_results === 'True') {
-        $("#divDataSourceChangesNotFound").css("display", "none");
-        $("#divDataSourceChangesChart").css("display", "inherit");
-        $("#divDataSourceChangesTable").css("display", "inherit");
-    } else {
-      $("#divDataSourceChangesNotFound").css("display", "inherit");
-      $("#divDataSourceChangesChart").css("display", "none");
-      $("#divDataSourceChangesTable").css("display", "none");
-    }
+      var show_data_source_audit_changes_no_results = getToken("show_data_source_audit_changes_no_results");
+      if (show_data_source_audit_changes_no_results === 'True') {
+          $("#divDataSourceChangesNotFound").css("display", "none");
+          $("#divDataSourceChangesChart").css("display", "inherit");
+          $("#divDataSourceChangesTable").css("display", "inherit");
+      } else {
+          $("#divDataSourceChangesNotFound").css("display", "inherit");
+          $("#divDataSourceChangesChart").css("display", "none");
+          $("#divDataSourceChangesTable").css("display", "none");
+      }
   });
 
   var searchMainDataSourceAuditChangesTable = new PostProcessManager({
@@ -1955,16 +1757,16 @@ require([
 
   // set the panel visibility
   searchDataSourceMainAuditFlip.on("change", function(newValue) {
-    var show_flipping_status_no_results = getToken("show_flipping_status_no_results");
-    if (show_flipping_status_no_results === 'True') {
-        $("#divDataSourceFlippingNotFound").css("display", "none");
-        $("#divDataSourceFlippingChart").css("display", "inherit");
-        $("#divDataSourceFlippingTable").css("display", "inherit");        
-    } else {
-      $("#divDataSourceFlippingNotFound").css("display", "inherit");
-      $("#divDataSourceFlippingChart").css("display", "none");
-      $("#divDataSourceFlippingTable").css("display", "none");        
-  }
+      var show_flipping_status_no_results = getToken("show_flipping_status_no_results");
+      if (show_flipping_status_no_results === 'True') {
+          $("#divDataSourceFlippingNotFound").css("display", "none");
+          $("#divDataSourceFlippingChart").css("display", "inherit");
+          $("#divDataSourceFlippingTable").css("display", "inherit");
+      } else {
+          $("#divDataSourceFlippingNotFound").css("display", "inherit");
+          $("#divDataSourceFlippingChart").css("display", "none");
+          $("#divDataSourceFlippingTable").css("display", "none");
+      }
   });
 
   var searchMainDataSourceAuditFlipTable = new PostProcessManager({
@@ -2842,14 +2644,14 @@ require([
 
   // set the panel visibility
   SearchDataSourceParsingQualityMain.on("change", function(newValue) {
-    var show_data_quality_no_results = getToken("show_data_quality_no_results");
-    if (show_data_quality_no_results === 'True') {
-        $("#divDataSourceParsingErrorsNotFound").css("display", "none");
-        $("#divDataSourceParsingErrorsFound").css("display", "inherit");
-    } else {
-        $("#divDataSourceParsingErrorsNotFound").css("display", "inherit");
-        $("#divDataSourceParsingErrorsFound").css("display", "none");
-    }
+      var show_data_quality_no_results = getToken("show_data_quality_no_results");
+      if (show_data_quality_no_results === 'True') {
+          $("#divDataSourceParsingErrorsNotFound").css("display", "none");
+          $("#divDataSourceParsingErrorsFound").css("display", "inherit");
+      } else {
+          $("#divDataSourceParsingErrorsNotFound").css("display", "inherit");
+          $("#divDataSourceParsingErrorsFound").css("display", "none");
+      }
   });
 
   var SearchDataSourceParsingQualityChart = new PostProcessManager({
@@ -5745,9 +5547,9 @@ require([
           );
 
           $('#child-data-source-status-message').html(
-            '<div class="' + tk_data_source_status_message_class + '">' +
-            '<h2 style="font-weight: bold; color: darkslategray;">' + tk_status_message + '</h2>' +
-            '</div>'
+              '<div class="' + tk_data_source_status_message_class + '">' +
+              '<h2 style="font-weight: bold; color: darkslategray;">' + tk_status_message + '</h2>' +
+              '</div>'
           );
 
           // data sampling
@@ -13264,277 +13066,284 @@ require([
   }).render();
 
   var resultsLinkelementSearchDataSourceParsingQualityChart = new ResultsLinkView({
-    id: "resultsLinkelementSearchDataSourceParsingQualityChart",
-    managerid: "SearchDataSourceParsingQualityChart",
-    "link.exportResults.visible": false,
-    el: $("#resultsLinkelementSearchDataSourceParsingQualityChart"),
+      id: "resultsLinkelementSearchDataSourceParsingQualityChart",
+      managerid: "SearchDataSourceParsingQualityChart",
+      "link.exportResults.visible": false,
+      el: $("#resultsLinkelementSearchDataSourceParsingQualityChart"),
   });
-  
+
   resultsLinkelementSearchDataSourceParsingQualityChart
-    .render()
-    .$el.appendTo($("resultsLinkelementSearchDataSourceParsingQualityChart"));
-  
+      .render()
+      .$el.appendTo($("resultsLinkelementSearchDataSourceParsingQualityChart"));
+
   // modal Single Lag
   var elementSingleLagByMetricsPerc95 = new SingleView({
-    "id": "elementSingleLagByMetricsPerc95",
-    "trendDisplayMode": "absolute",
-    "numberPrecision": "0",
-    "drilldown": "none",
-    "trellis.size": "medium",
-    "trendColorInterpretation": "standard",
-    "height": "95",
-    "useColors": "0",
-    "colorBy": "value",
-    "showTrendIndicator": "1",
-    "showSparkline": "1",
-    "trellis.enabled": "0",
-    "unit": "",
-    "rangeColors": "[\"0x77dd77\",\"0x0877a6\",\"0xf8be34\",\"0xf1813f\",\"0xdc4e41\"]",
-    "colorMode": "none",
-    "rangeValues": "[0,30,70,100]",
-    "unitPosition": "after",
-    "trellis.scales.shared": "1",
-    "useThousandSeparators": "1",
-    "underLabel": "PERC95 INGESTION LAG (sec or [D+]HH:MM:SS)",
-    "managerid": "searchSingleLagByMetricsPerc95",
-    "el": $('#elementSingleLagByMetricsPerc95')
-}, {
-    tokens: true,
-    tokenNamespace: "submitted"
-}).render();
+      "id": "elementSingleLagByMetricsPerc95",
+      "trendDisplayMode": "absolute",
+      "numberPrecision": "0",
+      "drilldown": "none",
+      "trellis.size": "medium",
+      "trendColorInterpretation": "standard",
+      "height": "95",
+      "useColors": "0",
+      "colorBy": "value",
+      "showTrendIndicator": "1",
+      "showSparkline": "1",
+      "trellis.enabled": "0",
+      "unit": "",
+      "rangeColors": "[\"0x77dd77\",\"0x0877a6\",\"0xf8be34\",\"0xf1813f\",\"0xdc4e41\"]",
+      "colorMode": "none",
+      "rangeValues": "[0,30,70,100]",
+      "unitPosition": "after",
+      "trellis.scales.shared": "1",
+      "useThousandSeparators": "1",
+      "underLabel": "PERC95 INGESTION LAG (sec or [D+]HH:MM:SS)",
+      "managerid": "searchSingleLagByMetricsPerc95",
+      "el": $('#elementSingleLagByMetricsPerc95')
+  }, {
+      tokens: true,
+      tokenNamespace: "submitted"
+  }).render();
 
-var resultsLinkelementSingleLagByMetricsPerc95 = new ResultsLinkView({
-  id: "resultsLinkelementSingleLagByMetricsPerc95",
-  managerid: "searchSingleLagByMetricsPerc95",
-  "link.exportResults.visible": false,
-  el: $("#resultsLinkelementSingleLagByMetricsPerc95"),
-});
+  var resultsLinkelementSingleLagByMetricsPerc95 = new ResultsLinkView({
+      id: "resultsLinkelementSingleLagByMetricsPerc95",
+      managerid: "searchSingleLagByMetricsPerc95",
+      "link.exportResults.visible": false,
+      el: $("#resultsLinkelementSingleLagByMetricsPerc95"),
+  });
 
-resultsLinkelementSingleLagByMetricsPerc95
-  .render()
-  .$el.appendTo($("resultsLinkelementSingleLagByMetricsPerc95"));
+  resultsLinkelementSingleLagByMetricsPerc95
+      .render()
+      .$el.appendTo($("resultsLinkelementSingleLagByMetricsPerc95"));
 
-var elementSingleLagByMetricsAvg = new SingleView({
-    "id": "elementSingleLagByMetricsAvg",
-    "trendDisplayMode": "absolute",
-    "numberPrecision": "0.00",
-    "drilldown": "none",
-    "trellis.size": "medium",
-    "trendColorInterpretation": "standard",
-    "height": "95",
-    "useColors": "0",
-    "colorBy": "value",
-    "showTrendIndicator": "1",
-    "showSparkline": "1",
-    "trellis.enabled": "0",
-    "unit": "",
-    "rangeColors": "[\"0x77dd77\",\"0x0877a6\",\"0xf8be34\",\"0xf1813f\",\"0xdc4e41\"]",
-    "colorMode": "none",
-    "rangeValues": "[0,30,70,100]",
-    "unitPosition": "after",
-    "trellis.scales.shared": "1",
-    "useThousandSeparators": "1",
-    "underLabel": "AVG INGESTION LAG (sec or [D+]HH:MM:SS)",
-    "managerid": "searchSingleLagByMetricsAvg",
-    "el": $('#elementSingleLagByMetricsAvg')
-}, {
-    tokens: true,
-    tokenNamespace: "submitted"
-}).render();
+  var elementSingleLagByMetricsAvg = new SingleView({
+      "id": "elementSingleLagByMetricsAvg",
+      "trendDisplayMode": "absolute",
+      "numberPrecision": "0.00",
+      "drilldown": "none",
+      "trellis.size": "medium",
+      "trendColorInterpretation": "standard",
+      "height": "95",
+      "useColors": "0",
+      "colorBy": "value",
+      "showTrendIndicator": "1",
+      "showSparkline": "1",
+      "trellis.enabled": "0",
+      "unit": "",
+      "rangeColors": "[\"0x77dd77\",\"0x0877a6\",\"0xf8be34\",\"0xf1813f\",\"0xdc4e41\"]",
+      "colorMode": "none",
+      "rangeValues": "[0,30,70,100]",
+      "unitPosition": "after",
+      "trellis.scales.shared": "1",
+      "useThousandSeparators": "1",
+      "underLabel": "AVG INGESTION LAG (sec or [D+]HH:MM:SS)",
+      "managerid": "searchSingleLagByMetricsAvg",
+      "el": $('#elementSingleLagByMetricsAvg')
+  }, {
+      tokens: true,
+      tokenNamespace: "submitted"
+  }).render();
 
-var resultsLinkelementSingleLagByMetricsAvg = new ResultsLinkView({
-  id: "resultsLinkelementSingleLagByMetricsAvg",
-  managerid: "searchSingleLagByMetricsAvg",
-  "link.exportResults.visible": false,
-  el: $("#resultsLinkelementSingleLagByMetricsAvg"),
-});
+  var resultsLinkelementSingleLagByMetricsAvg = new ResultsLinkView({
+      id: "resultsLinkelementSingleLagByMetricsAvg",
+      managerid: "searchSingleLagByMetricsAvg",
+      "link.exportResults.visible": false,
+      el: $("#resultsLinkelementSingleLagByMetricsAvg"),
+  });
 
-resultsLinkelementSingleLagByMetricsAvg
-  .render()
-  .$el.appendTo($("resultsLinkelementSingleLagByMetricsAvg"));
+  resultsLinkelementSingleLagByMetricsAvg
+      .render()
+      .$el.appendTo($("resultsLinkelementSingleLagByMetricsAvg"));
 
-var elementSingleEventByMetricsLag = new SingleView({
-    "id": "elementSingleEventByMetricsLag",
-    "trendDisplayMode": "absolute",
-    "numberPrecision": "0.00",
-    "drilldown": "none",
-    "trellis.size": "medium",
-    "trendColorInterpretation": "standard",
-    "height": "95",
-    "useColors": "0",
-    "colorBy": "value",
-    "showTrendIndicator": "1",
-    "showSparkline": "1",
-    "trellis.enabled": "0",
-    "unit": "",
-    "rangeColors": "[\"0x77dd77\",\"0x0877a6\",\"0xf8be34\",\"0xf1813f\",\"0xdc4e41\"]",
-    "colorMode": "none",
-    "rangeValues": "[0,30,70,100]",
-    "unitPosition": "after",
-    "trellis.scales.shared": "1",
-    "useThousandSeparators": "1",
-    "underLabel": "CURRENT EVENT LAG (sec or [D+]HH:MM:SS)",
-    "managerid": "searchSingleEventByMetricsLag",
-    "el": $('#elementSingleEventByMetricsLag')
-}, {
-    tokens: true,
-    tokenNamespace: "submitted"
-}).render();
+  var elementSingleEventByMetricsLag = new SingleView({
+      "id": "elementSingleEventByMetricsLag",
+      "trendDisplayMode": "absolute",
+      "numberPrecision": "0.00",
+      "drilldown": "none",
+      "trellis.size": "medium",
+      "trendColorInterpretation": "standard",
+      "height": "95",
+      "useColors": "0",
+      "colorBy": "value",
+      "showTrendIndicator": "1",
+      "showSparkline": "1",
+      "trellis.enabled": "0",
+      "unit": "",
+      "rangeColors": "[\"0x77dd77\",\"0x0877a6\",\"0xf8be34\",\"0xf1813f\",\"0xdc4e41\"]",
+      "colorMode": "none",
+      "rangeValues": "[0,30,70,100]",
+      "unitPosition": "after",
+      "trellis.scales.shared": "1",
+      "useThousandSeparators": "1",
+      "underLabel": "CURRENT EVENT LAG (sec or [D+]HH:MM:SS)",
+      "managerid": "searchSingleEventByMetricsLag",
+      "el": $('#elementSingleEventByMetricsLag')
+  }, {
+      tokens: true,
+      tokenNamespace: "submitted"
+  }).render();
 
-var resultsLinkelementSingleEventByMetricsLag = new ResultsLinkView({
-  id: "resultsLinkelementSingleEventByMetricsLag",
-  managerid: "searchSingleEventByMetricsLag",
-  "link.exportResults.visible": false,
-  el: $("#resultsLinkelementSingleEventByMetricsLag"),
-});
+  var resultsLinkelementSingleEventByMetricsLag = new ResultsLinkView({
+      id: "resultsLinkelementSingleEventByMetricsLag",
+      managerid: "searchSingleEventByMetricsLag",
+      "link.exportResults.visible": false,
+      el: $("#resultsLinkelementSingleEventByMetricsLag"),
+  });
 
-resultsLinkelementSingleEventByMetricsLag
-  .render()
-  .$el.appendTo($("resultsLinkelementSingleEventByMetricsLag"));
+  resultsLinkelementSingleEventByMetricsLag
+      .render()
+      .$el.appendTo($("resultsLinkelementSingleEventByMetricsLag"));
 
   // Lagging performance metrics
   var chartLaggingMetricDataSourceOverTime = new ChartView({
-    "id": "chartLaggingMetricDataSourceOverTime",
-    "charting.axisX.abbreviation": "none",
-    "charting.legend.mode": "standard",
-    "charting.chart.bubbleMaximumSize": "50",
-    "charting.chart.sliceCollapsingThreshold": "0.01",
-    "charting.axisTitleY.text": "4h Events count",
-    "refresh.display": "progressbar",
-    "charting.chart.nullValueMode": "gaps",
-    "charting.axisTitleX.visibility": "collapsed",
-    "charting.axisTitleY2.text": "$data_source_overview_metrics_chart1_axis$",
-    "charting.axisLabelsY2.majorUnit": "$data_source_overview_metrics_chart1_axisUnit$",
-    "charting.axisX.scale": "linear",
-    "charting.drilldown": "none",
-    "charting.axisLabelsX.majorLabelStyle.overflowMode": "ellipsisNone",
-    "charting.chart.overlayFields": "lag_event_sec,lag_ingestion_sec,hostcount_4h",
-    "charting.chart.showDataLabels": "none",
-    "charting.axisTitleY2.visibility": "visible",
-    "charting.axisY2.enabled": "1",
-    "charting.axisY2.scale": "inherit",
-    "trellis.scales.shared": "1",
-    "charting.layout.splitSeries.allowIndependentYRanges": "0",
-    "charting.chart.bubbleSizeBy": "area",
-    "charting.chart.bubbleMinimumSize": "10",
-    "charting.chart.style": "shiny",
-    "charting.axisY.scale": "linear",
-    "charting.layout.splitSeries": "0",
-    "charting.fieldColors": "{\"eventcount_4h\": 0xaec6cf, \"lag_event_sec\": 0x9542f5, \"lag_ingestion_sec\": 0xff6961, \"hostcount_4h\": 0xff6961}",
-    "resizable": true,
-    "charting.legend.labelStyle.overflowMode": "ellipsisMiddle",
-    "charting.lineWidth": "2",
-    "charting.axisTitleY.visibility": "visible",
-    "charting.chart.stackMode": "default",
-    "charting.legend.placement": "right",
-    "trellis.size": "medium",
-    "charting.axisLabelsX.majorLabelStyle.rotation": "0",
-    "charting.axisY2.abbreviation": "none",
-    "charting.chart": "column",
-    "charting.axisY.abbreviation": "none",
-    "trellis.enabled": "0",
-    "managerid": "searchLaggingMetricDataSource",
-    "el": $('#chartLaggingMetricDataSourceOverTime')
-}, {
-    tokens: true,
-    tokenNamespace: "submitted"
-}).render();
+      "id": "chartLaggingMetricDataSourceOverTime",
+      "charting.axisX.abbreviation": "none",
+      "charting.legend.mode": "standard",
+      "charting.chart.bubbleMaximumSize": "50",
+      "charting.chart.sliceCollapsingThreshold": "0.01",
+      "charting.axisTitleY.text": "4h Events count",
+      "refresh.display": "progressbar",
+      "charting.chart.nullValueMode": "gaps",
+      "charting.axisTitleX.visibility": "collapsed",
+      "charting.axisTitleY2.text": "$data_source_overview_metrics_chart1_axis$",
+      "charting.axisLabelsY2.majorUnit": "$data_source_overview_metrics_chart1_axisUnit$",
+      "charting.axisX.scale": "linear",
+      "charting.drilldown": "none",
+      "charting.axisLabelsX.majorLabelStyle.overflowMode": "ellipsisNone",
+      "charting.chart.overlayFields": "lag_event_sec,lag_ingestion_sec,hostcount_4h",
+      "charting.chart.showDataLabels": "none",
+      "charting.axisTitleY2.visibility": "visible",
+      "charting.axisY2.enabled": "1",
+      "charting.axisY2.scale": "inherit",
+      "trellis.scales.shared": "1",
+      "charting.layout.splitSeries.allowIndependentYRanges": "0",
+      "charting.chart.bubbleSizeBy": "area",
+      "charting.chart.bubbleMinimumSize": "10",
+      "charting.chart.style": "shiny",
+      "charting.axisY.scale": "linear",
+      "charting.layout.splitSeries": "0",
+      "charting.fieldColors": "{\"eventcount_4h\": 0xaec6cf, \"lag_event_sec\": 0x9542f5, \"lag_ingestion_sec\": 0xff6961, \"hostcount_4h\": 0xff6961}",
+      "resizable": true,
+      "charting.legend.labelStyle.overflowMode": "ellipsisMiddle",
+      "charting.lineWidth": "2",
+      "charting.axisTitleY.visibility": "visible",
+      "charting.chart.stackMode": "default",
+      "charting.legend.placement": "right",
+      "trellis.size": "medium",
+      "charting.axisLabelsX.majorLabelStyle.rotation": "0",
+      "charting.axisY2.abbreviation": "none",
+      "charting.chart": "column",
+      "charting.axisY.abbreviation": "none",
+      "trellis.enabled": "0",
+      "managerid": "searchLaggingMetricDataSource",
+      "el": $('#chartLaggingMetricDataSourceOverTime')
+  }, {
+      tokens: true,
+      tokenNamespace: "submitted"
+  }).render();
 
-var resultsLinkchartLaggingMetricDataSourceOverTime = new ResultsLinkView({
-  id: "resultsLinkchartLaggingMetricDataSourceOverTime",
-  managerid: "searchLaggingMetricDataSource",
-  "link.exportResults.visible": false,
-  el: $("#resultsLinkchartLaggingMetricDataSourceOverTime"),
-});
+  var resultsLinkchartLaggingMetricDataSourceOverTime = new ResultsLinkView({
+      id: "resultsLinkchartLaggingMetricDataSourceOverTime",
+      managerid: "searchLaggingMetricDataSource",
+      "link.exportResults.visible": false,
+      el: $("#resultsLinkchartLaggingMetricDataSourceOverTime"),
+  });
 
-resultsLinkchartLaggingMetricDataSourceOverTime
-  .render()
-  .$el.appendTo($("resultsLinkchartLaggingMetricDataSourceOverTime"));
+  resultsLinkchartLaggingMetricDataSourceOverTime
+      .render()
+      .$el.appendTo($("resultsLinkchartLaggingMetricDataSourceOverTime"));
 
-var inputDataSourceOverviewMetricsChartSeries = new DropdownInput({
-  "id": "inputDataSourceOverviewMetricsChartSeries",
-  "choices": [
-      {"label": "events / lag", "value": "eventcount_4h, lag_event_sec, lag_ingestion_sec"},
-      {"label": "events / host dcount", "value": "eventcount_4h, hostcount_4h"}
-  ],
-  "default": "eventcount_4h, lag_event_sec, lag_ingestion_sec",
-  "searchWhenChanged": true,
-  "selectFirstChoice": false,
-  "showClearButton": true,
-  "initialValue": "eventcount_4h, lag_event_sec, lag_ingestion_sec",
-  "value": "$form.tk_input_data_source_overview_metrics_chart_series$",
-  "el": $('#inputDataSourceOverviewMetricsChartSeries')
-}, {tokens: true}).render();
+  var inputDataSourceOverviewMetricsChartSeries = new DropdownInput({
+      "id": "inputDataSourceOverviewMetricsChartSeries",
+      "choices": [{
+              "label": "events / lag",
+              "value": "eventcount_4h, lag_event_sec, lag_ingestion_sec"
+          },
+          {
+              "label": "events / host dcount",
+              "value": "eventcount_4h, hostcount_4h"
+          }
+      ],
+      "default": "eventcount_4h, lag_event_sec, lag_ingestion_sec",
+      "searchWhenChanged": true,
+      "selectFirstChoice": false,
+      "showClearButton": true,
+      "initialValue": "eventcount_4h, lag_event_sec, lag_ingestion_sec",
+      "value": "$form.tk_input_data_source_overview_metrics_chart_series$",
+      "el": $('#inputDataSourceOverviewMetricsChartSeries')
+  }, {
+      tokens: true
+  }).render();
 
-inputDataSourceOverviewMetricsChartSeries.on("change", function(newValue) {
-  FormUtils.handleValueChange(inputDataSourceOverviewMetricsChartSeries);
-});
+  inputDataSourceOverviewMetricsChartSeries.on("change", function(newValue) {
+      FormUtils.handleValueChange(inputDataSourceOverviewMetricsChartSeries);
+  });
 
-inputDataSourceOverviewMetricsChartSeries.on("valueChange", function(e) {
-  if (e.value === "eventcount_4h, lag_event_sec, lag_ingestion_sec") {
-      EventHandler.setToken("data_source_overview_metrics_chart1_axis", "lagging (sec)", {}, e.data);
-      EventHandler.setToken("data_source_overview_metrics_chart1_axisUnit", "0.1", {}, e.data);
-  } else if (e.value === "eventcount_4h, hostcount_4h") {
-      EventHandler.setToken("data_source_overview_metrics_chart1_axis", "hosts distinct count", {}, e.data);
-      EventHandler.setToken("data_source_overview_metrics_chart1_axisUnit", "1", {}, e.data);
-  }
-});
+  inputDataSourceOverviewMetricsChartSeries.on("valueChange", function(e) {
+      if (e.value === "eventcount_4h, lag_event_sec, lag_ingestion_sec") {
+          EventHandler.setToken("data_source_overview_metrics_chart1_axis", "lagging (sec)", {}, e.data);
+          EventHandler.setToken("data_source_overview_metrics_chart1_axisUnit", "0.1", {}, e.data);
+      } else if (e.value === "eventcount_4h, hostcount_4h") {
+          EventHandler.setToken("data_source_overview_metrics_chart1_axis", "hosts distinct count", {}, e.data);
+          EventHandler.setToken("data_source_overview_metrics_chart1_axisUnit", "1", {}, e.data);
+      }
+  });
 
-        // Audit Flip Data Source
-        var elementMainTableAuditFlipDataSource = new TableView({
-          "id": "elementMainTableAuditFlipDataSource",
-          "count": 5,
-          "drilldown": "none",
-          "refresh.display": "none",
-          "wrap": "false",
-          "managerid": "searchMainDataSourceAuditFlipTable",
-          "el": $('#elementMainTableAuditFlipDataSource')
-      }, {
-          tokens: true,
-          tokenNamespace: "submitted"
-      }).render();
+  // Audit Flip Data Source
+  var elementMainTableAuditFlipDataSource = new TableView({
+      "id": "elementMainTableAuditFlipDataSource",
+      "count": 5,
+      "drilldown": "none",
+      "refresh.display": "none",
+      "wrap": "false",
+      "managerid": "searchMainDataSourceAuditFlipTable",
+      "el": $('#elementMainTableAuditFlipDataSource')
+  }, {
+      tokens: true,
+      tokenNamespace: "submitted"
+  }).render();
 
-      renderTableIcon(elementMainTableAuditFlipDataSource);
+  renderTableIcon(elementMainTableAuditFlipDataSource);
 
-      var resultsLinkelementMainTableAuditFlipDataSource = new ResultsLinkView({
-        id: "resultsLinkelementMainTableAuditFlipDataSource",
-        managerid: "searchMainDataSourceAuditFlipTable",
-        "link.exportResults.visible": false,
-        el: $("#resultsLinkelementMainTableAuditFlipDataSource"),
-      });
-      
-      resultsLinkelementMainTableAuditFlipDataSource
-        .render()
-        .$el.appendTo($("resultsLinkelementMainTableAuditFlipDataSource"));
-      
-      var chartAuditFlipDataSourceOverTime = new ChartView({
-          "id": "chartAuditFlipDataSourceOverTime",
-          "charting.chart.stackMode": "stacked",
-          "charting.chart": "column",
-          "charting.drilldown": "all",
-          "charting.axisLabelsY.majorUnit": "1",
-          "charting.fieldColors": "{\"orange\": 0xffd394, \"blue\": 0xcfebf9, \"green\": 0xb6edb6, \"red\": 0xFFBABA}",
-          "resizable": true,
-          "height": "150",
-          "managerid": "searchAuditDataSourceFlipOverTime",
-          "el": $('#chartAuditFlipDataSourceOverTime')
-      }, {
-          tokens: true,
-          tokenNamespace: "submitted"
-      }).render();
+  var resultsLinkelementMainTableAuditFlipDataSource = new ResultsLinkView({
+      id: "resultsLinkelementMainTableAuditFlipDataSource",
+      managerid: "searchMainDataSourceAuditFlipTable",
+      "link.exportResults.visible": false,
+      el: $("#resultsLinkelementMainTableAuditFlipDataSource"),
+  });
 
-      var resultsLinkchartAuditFlipDataSourceOverTime = new ResultsLinkView({
-        id: "resultsLinkchartAuditFlipDataSourceOverTime",
-        managerid: "searchAuditDataSourceFlipOverTime",
-        "link.exportResults.visible": false,
-        el: $("#resultsLinkchartAuditFlipDataSourceOverTime"),
-      });
-      
-      resultsLinkchartAuditFlipDataSourceOverTime
-        .render()
-        .$el.appendTo($("resultsLinkchartAuditFlipDataSourceOverTime"));
+  resultsLinkelementMainTableAuditFlipDataSource
+      .render()
+      .$el.appendTo($("resultsLinkelementMainTableAuditFlipDataSource"));
 
-    var TimelineDataSource = new TimeLine({
+  var chartAuditFlipDataSourceOverTime = new ChartView({
+      "id": "chartAuditFlipDataSourceOverTime",
+      "charting.chart.stackMode": "stacked",
+      "charting.chart": "column",
+      "charting.drilldown": "all",
+      "charting.axisLabelsY.majorUnit": "1",
+      "charting.fieldColors": "{\"orange\": 0xffd394, \"blue\": 0xcfebf9, \"green\": 0xb6edb6, \"red\": 0xFFBABA}",
+      "resizable": true,
+      "height": "150",
+      "managerid": "searchAuditDataSourceFlipOverTime",
+      "el": $('#chartAuditFlipDataSourceOverTime')
+  }, {
+      tokens: true,
+      tokenNamespace: "submitted"
+  }).render();
+
+  var resultsLinkchartAuditFlipDataSourceOverTime = new ResultsLinkView({
+      id: "resultsLinkchartAuditFlipDataSourceOverTime",
+      managerid: "searchAuditDataSourceFlipOverTime",
+      "link.exportResults.visible": false,
+      el: $("#resultsLinkchartAuditFlipDataSourceOverTime"),
+  });
+
+  resultsLinkchartAuditFlipDataSourceOverTime
+      .render()
+      .$el.appendTo($("resultsLinkchartAuditFlipDataSourceOverTime"));
+
+  var TimelineDataSource = new TimeLine({
       "id": "TimelineDataSource",
       "type": "timeline_app.timeline",
       "resizable": false,
@@ -13549,18 +13358,21 @@ inputDataSourceOverviewMetricsChartSeries.on("valueChange", function(e) {
       "height": "150",
       "managerid": "searchDataSourceTimeline",
       "el": $('#TimelineDataSource')
-  }, {tokens: true, tokenNamespace: "submitted"}).render();
+  }, {
+      tokens: true,
+      tokenNamespace: "submitted"
+  }).render();
 
   var resultsLinkTimelineDataSource = new ResultsLinkView({
-    id: "resultsLinkTimelineDataSource",
-    managerid: "searchDataSourceTimeline",
-    "link.exportResults.visible": false,
-    el: $("#resultsLinkTimelineDataSource"),
+      id: "resultsLinkTimelineDataSource",
+      managerid: "searchDataSourceTimeline",
+      "link.exportResults.visible": false,
+      el: $("#resultsLinkTimelineDataSource"),
   });
-  
+
   resultsLinkTimelineDataSource
-    .render()
-    .$el.appendTo($("resultsLinkTimelineDataSource"));
+      .render()
+      .$el.appendTo($("resultsLinkTimelineDataSource"));
 
   var TimelineDataHost = new TimeLine({
       "id": "TimelineDataHost",
@@ -13577,18 +13389,21 @@ inputDataSourceOverviewMetricsChartSeries.on("valueChange", function(e) {
       "height": "150",
       "managerid": "searchDataHostTimeline",
       "el": $('#TimelineDataHost')
-  }, {tokens: true, tokenNamespace: "submitted"}).render();
+  }, {
+      tokens: true,
+      tokenNamespace: "submitted"
+  }).render();
 
   var resultsLinkTimelineDataHost = new ResultsLinkView({
-    id: "resultsLinkTimelineDataHost",
-    managerid: "searchDataHostTimeline",
-    "link.exportResults.visible": false,
-    el: $("#resultsLinkTimelineDataHost"),
+      id: "resultsLinkTimelineDataHost",
+      managerid: "searchDataHostTimeline",
+      "link.exportResults.visible": false,
+      el: $("#resultsLinkTimelineDataHost"),
   });
-  
+
   resultsLinkTimelineDataHost
-    .render()
-    .$el.appendTo($("resultsLinkTimelineDataHost"));
+      .render()
+      .$el.appendTo($("resultsLinkTimelineDataHost"));
 
   var TimelineMetricHost = new TimeLine({
       "id": "TimelineMetricHost",
@@ -13605,28 +13420,31 @@ inputDataSourceOverviewMetricsChartSeries.on("valueChange", function(e) {
       "height": "150",
       "managerid": "searchMetricHostTimeline",
       "el": $('#TimelineMetricHost')
-  }, {tokens: true, tokenNamespace: "submitted"}).render();
+  }, {
+      tokens: true,
+      tokenNamespace: "submitted"
+  }).render();
 
   var resultsLinkTimelineMetricHost = new ResultsLinkView({
-    id: "resultsLinkTimelineMetricHost",
-    managerid: "searchMetricHostTimeline",
-    "link.exportResults.visible": false,
-    el: $("#resultsLinkTimelineMetricHost"),
+      id: "resultsLinkTimelineMetricHost",
+      managerid: "searchMetricHostTimeline",
+      "link.exportResults.visible": false,
+      el: $("#resultsLinkTimelineMetricHost"),
   });
-  
+
   resultsLinkTimelineMetricHost
-    .render()
-    .$el.appendTo($("resultsLinkTimelineMetricHost"));
+      .render()
+      .$el.appendTo($("resultsLinkTimelineMetricHost"));
 
   // Audit Changes Data Source
   var elementMainTableAuditChangesDataSource = new TableView({
-    "id": "elementMainTableAuditChangesDataSource",
-    "count": 4,
-    "drilldown": "none",
-    "refresh.display": "none",
-    "wrap": "false",
-    "managerid": "searchMainDataSourceAuditChangesTable",
-    "el": $('#elementMainTableAuditChangesDataSource')
+      "id": "elementMainTableAuditChangesDataSource",
+      "count": 4,
+      "drilldown": "none",
+      "refresh.display": "none",
+      "wrap": "false",
+      "managerid": "searchMainDataSourceAuditChangesTable",
+      "el": $('#elementMainTableAuditChangesDataSource')
   }, {
       tokens: true,
       tokenNamespace: "submitted"
@@ -13635,42 +13453,275 @@ inputDataSourceOverviewMetricsChartSeries.on("valueChange", function(e) {
   renderTableIcon(elementMainTableAuditChangesDataSource);
 
   var resultsLinkelementMainTableAuditChangesDataSource = new ResultsLinkView({
-    id: "resultsLinkelementMainTableAuditChangesDataSource",
-    managerid: "searchMainDataSourceAuditChangesTable",
-    "link.exportResults.visible": false,
-    el: $("#resultsLinkelementMainTableAuditChangesDataSource"),
+      id: "resultsLinkelementMainTableAuditChangesDataSource",
+      managerid: "searchMainDataSourceAuditChangesTable",
+      "link.exportResults.visible": false,
+      el: $("#resultsLinkelementMainTableAuditChangesDataSource"),
   });
-  
-  resultsLinkelementMainTableAuditChangesDataSource
-    .render()
-    .$el.appendTo($("resultsLinkelementMainTableAuditChangesDataSource"));
 
-var chartAuditChangesDataSourceOverTime = new ChartView({
-    "id": "chartAuditChangesDataSourceOverTime",
-    "charting.chart.stackMode": "stacked",
-    "charting.chart": "column",
-    "charting.drilldown": "all",
-    "charting.axisLabelsY.majorUnit": "1",
-    "charting.fieldColors": "{\"success\": 0xb6edb6, \"failure\": 0xFFBABA}",
-    "resizable": true,
-    "height": "150",
-    "managerid": "searchAuditDataSourceAuditChangesOverTime",
-    "el": $('#chartAuditChangesDataSourceOverTime')
+  resultsLinkelementMainTableAuditChangesDataSource
+      .render()
+      .$el.appendTo($("resultsLinkelementMainTableAuditChangesDataSource"));
+
+  var chartAuditChangesDataSourceOverTime = new ChartView({
+      "id": "chartAuditChangesDataSourceOverTime",
+      "charting.chart.stackMode": "stacked",
+      "charting.chart": "column",
+      "charting.drilldown": "all",
+      "charting.axisLabelsY.majorUnit": "1",
+      "charting.fieldColors": "{\"success\": 0xb6edb6, \"failure\": 0xFFBABA}",
+      "resizable": true,
+      "height": "150",
+      "managerid": "searchAuditDataSourceAuditChangesOverTime",
+      "el": $('#chartAuditChangesDataSourceOverTime')
   }, {
       tokens: true,
       tokenNamespace: "submitted"
   }).render();
 
   var resultsLinkchartAuditChangesDataSourceOverTime = new ResultsLinkView({
-    id: "resultsLinkchartAuditChangesDataSourceOverTime",
-    managerid: "searchMainDataSourceAuditChangesTable",
-    "link.exportResults.visible": false,
-    el: $("#resultsLinkchartAuditChangesDataSourceOverTime"),
+      id: "resultsLinkchartAuditChangesDataSourceOverTime",
+      managerid: "searchMainDataSourceAuditChangesTable",
+      "link.exportResults.visible": false,
+      el: $("#resultsLinkchartAuditChangesDataSourceOverTime"),
   });
-  
+
   resultsLinkchartAuditChangesDataSourceOverTime
-    .render()
-    .$el.appendTo($("resultsLinkchartAuditChangesDataSourceOverTime"));
+      .render()
+      .$el.appendTo($("resultsLinkchartAuditChangesDataSourceOverTime"));
+
+  // data source monitoring
+
+  // input lag
+
+  var modal_input_lag = new TextInput({
+      "id": "modal_input_lag",
+      "searchWhenChanged": true,
+      "value": "$form.tk_input_lag$",
+      "el": $('#modal_input_lag')
+  }, {
+      tokens: true
+  }).render();
+
+  modal_input_lag.on("change", function(newValue) {
+      FormUtils.handleValueChange(modal_input_lag);
+  });
+
+  var modal_input_lag_override_class = new DropdownInput({
+      "id": "modal_input_lag_override_class",
+      "choices": [{
+              "label": "true",
+              "value": "true"
+          },
+          {
+              "label": "false",
+              "value": "false"
+          }
+      ],
+      "searchWhenChanged": true,
+      "default": "true",
+      "showClearButton": true,
+      "initialValue": "true",
+      "selectFirstChoice": false,
+      "value": "$form.modal_input_lag_override_class$",
+      "el": $('#modal_input_lag_override_class')
+  }, {
+      tokens: true
+  }).render();
+
+  modal_input_lag_override_class.on("change", function(newValue) {
+      FormUtils.handleValueChange(modal_input_lag_override_class);
+  });
+
+  var modal_input_lag_alert_over = new DropdownInput({
+      "id": "modal_input_lag_alert_over",
+      "choices": [{
+              "label": "lag event / lag ingestion",
+              "value": "all_kpis"
+          },
+          {
+              "label": "lag ingestion only",
+              "value": "lag_ingestion_kpi"
+          },
+          {
+              "label": "lag event only",
+              "value": "lag_event_kpi"
+          }
+      ],
+      "searchWhenChanged": true,
+      "default": "all_kpis",
+      "showClearButton": true,
+      "initialValue": "true",
+      "selectFirstChoice": false,
+      "value": "$form.tk_input_data_lag_alert_kpis$",
+      "el": $('#modal_input_lag_alert_over')
+  }, {
+      tokens: true
+  }).render();
+
+  modal_input_lag_alert_over.on("change", function(newValue) {
+      FormUtils.handleValueChange(modal_input_lag_alert_over);
+  });
+
+  // data source priority
+
+  var modal_input_priority = new DropdownInput({
+      "id": "modal_input_priority",
+      "choices": [{
+              "label": "low",
+              "value": "low"
+          },
+          {
+              "label": "medium",
+              "value": "medium"
+          },
+          {
+              "label": "high",
+              "value": "high"
+          }
+      ],
+      "searchWhenChanged": true,
+      "default": "medium",
+      "showClearButton": true,
+      "initialValue": "medium",
+      "selectFirstChoice": false,
+      "value": "$form.tk_input_priority$",
+      "el": $('#modal_input_priority')
+  }, {
+      tokens: true
+  }).render();
+
+  modal_input_priority.on("change", function(newValue) {
+      FormUtils.handleValueChange(modal_input_priority);
+  });
+
+  // data source monitoring
+
+  var modal_input_wdays = new DropdownInput({
+      "id": "modal_input_wdays",
+      "choices": [{
+              "label": "manual:all_days",
+              "value": "manual:all_days"
+          },
+          {
+              "label": "manual:monday-to-friday",
+              "value": "manual:monday-to-friday"
+          },
+          {
+              "label": "manual:monday-to-saturday",
+              "value": "manual:monday-to-saturday"
+          }
+      ],
+      "searchWhenChanged": true,
+      "default": "manual:all_days",
+      "showClearButton": true,
+      "initialValue": "all_days",
+      "selectFirstChoice": false,
+      "value": "$form.tk_input_wdays$",
+      "el": $('#modal_input_wdays')
+  }, {
+      tokens: true
+  }).render();
+
+  modal_input_wdays.on("change", function(newValue) {
+      FormUtils.handleValueChange(modal_input_wdays);
+  });
+
+  modal_input_wdays.on("valueChange", function(e) {
+      if (e.value === "manual:enter_days_numbers") {
+          EventHandler.setToken("show_manual_wdays", "true", {}, e.data);
+      } else {
+          EventHandler.unsetToken("show_manual_wdays");
+      }
+  });
+
+  var modal_input_wdays_no = new CheckboxGroupInput({
+      "id": "modal_input_wdays_no",
+      "choices": [{
+              "label": "Monday",
+              "value": "1"
+          },
+          {
+              "label": "Tuesday",
+              "value": "2"
+          },
+          {
+              "label": "Wednesday",
+              "value": "3"
+          },
+          {
+              "label": "Thursday",
+              "value": "4"
+          },
+          {
+              "label": "Friday",
+              "value": "5"
+          },
+          {
+              "label": "Saturday",
+              "value": "6"
+          },
+          {
+              "label": "Sunday",
+              "value": "0"
+          }
+      ],
+      "prefix": "manual:",
+      "searchWhenChanged": true,
+      "default": ["1", "2", "3", "4", "5", "6", "0"],
+      "delimiter": ",",
+      "value": "$form.tk_input_wdays_no$",
+      "el": $('#modal_input_wdays_no')
+  }, {
+      tokens: true
+  }).render();
+
+  modal_input_wdays_no.on("change", function(newValue) {
+      FormUtils.handleValueChange(modal_input_wdays_no);
+  });
+
+  var modal_input_level = new DropdownInput({
+      "id": "modal_input_level",
+      "choices": [{
+              "label": "sourcetype",
+              "value": "sourcetype"
+          },
+          {
+              "label": "index",
+              "value": "index"
+          }
+      ],
+      "searchWhenChanged": true,
+      "default": "sourcetype",
+      "showClearButton": true,
+      "initialValue": "sourcetype",
+      "selectFirstChoice": false,
+      "value": "$form.tk_input_level$",
+      "el": $('#modal_input_level')
+  }, {
+      tokens: true
+  }).render();
+
+  modal_input_level.on("change", function(newValue) {
+      FormUtils.handleValueChange(modal_input_level);
+  });
+
+  // distinct count hosts
+  var modal_input_dcount_host = new TextInput({
+      "id": "modal_input_dcount_host",
+      "searchWhenChanged": true,
+      "default": "any",
+      "initialValue": "any",
+      "value": "$form.tk_input_data_source_dcount_host$",
+      "el": $('#modal_input_dcount_host')
+  }, {
+      tokens: true
+  }).render();
+
+  modal_input_dcount_host.on("change", function(newValue) {
+      FormUtils.handleValueChange(modal_input_dcount_host);
+  });
+
 
   //
   // BEGIN OPERATIONS
@@ -13772,7 +13823,7 @@ var chartAuditChangesDataSourceOverTime = new ChartView({
                               } else if (field == 'status_message') {
                                   tk_status_message = value;
                               }
-                              
+
 
                           }
                       }
@@ -13919,10 +13970,10 @@ var chartAuditChangesDataSourceOverTime = new ChartView({
                       );
 
                       $('#child-data-source-status-message').html(
-                        '<div class="' + tk_data_source_status_message_class + '">' +
-                        '<h2 style="font-weight: bold; color: darkslategray;">' + tk_status_message + '</h2>' +
-                        '</div>'
-                      );            
+                          '<div class="' + tk_data_source_status_message_class + '">' +
+                          '<h2 style="font-weight: bold; color: darkslategray;">' + tk_status_message + '</h2>' +
+                          '</div>'
+                      );
 
                   });
               },
@@ -15352,8 +15403,15 @@ var chartAuditChangesDataSourceOverTime = new ChartView({
 
   // refresh data_host
   $("#btn_refresh_data_host").click(function(mode) {
+
       // notify
-      notification("Refresh completed.", 6000);
+      notify(
+        "info",
+        "bottom",
+        "Refresh completed.",
+        "5"
+      );
+
       searchSingleLagHost.startSearch();
       searchSingleLagByMetricsHost.startSearch();
       searchChartHostBaseSearch.startSearch();
@@ -15377,8 +15435,15 @@ var chartAuditChangesDataSourceOverTime = new ChartView({
 
   // refresh metric_host
   $("#btn_refresh_metric_host").click(function(mode) {
+
       // notify
-      notification("Refresh completed.", 6000);
+      notify(
+        "info",
+        "bottom",
+        "Refresh completed.",
+        "5"
+      );
+
       searchHostTableMetricHost.startSearch();
       searchSingleSLAMetricHostpct.startSearch();
       searchMetricHostMainAuditFlip.startSearch();
@@ -15538,7 +15603,12 @@ var chartAuditChangesDataSourceOverTime = new ChartView({
                   searchMetricHostsMain.startSearch();
 
                   // notify
-                  notification("Modification has been registered successfully.", 2000);
+                  notify(
+                    "info",
+                    "bottom",
+                    "Modification has been registered successfully.",
+                    "5"
+                  );
 
                   // call update data source
                   updateMetricHost(tk_keyid);
@@ -15934,7 +16004,13 @@ var chartAuditChangesDataSourceOverTime = new ChartView({
               }
 
               // notify
-              notification("Reset completed.", 6000);
+              notify(
+                "info",
+                "bottom",
+                "Reset completed.",
+                "5"
+              );
+
               // call reset metric host
               clearMetricHost(tk_metric_host, tk_comment);
               searchHostTableMetricHost.startSearch();
@@ -16569,7 +16645,13 @@ var chartAuditChangesDataSourceOverTime = new ChartView({
               }
 
               // notify
-              notification("Reset completed.", 6000);
+              notify(
+                "info",
+                "bottom",
+                "Reset completed.",
+                "5"
+              );
+              
               // call reset data host
               var tk_data_host = getToken("tk_data_host");
               clearDataHost(tk_data_host, tk_comment);
@@ -17190,7 +17272,12 @@ var chartAuditChangesDataSourceOverTime = new ChartView({
       searchMetricHostsMain.startSearch();
 
       // notify
-      notification("Modification has been registered successfully.", 2000);
+      notify(
+        "info",
+        "bottom",
+        "Modification has been registered successfully.",
+        "5"
+      );
 
       // house cleaning
       unsetToken("removeMetricPolicies");
@@ -17518,7 +17605,12 @@ var chartAuditChangesDataSourceOverTime = new ChartView({
       $("#manage_custom_lagging").modal("hide");
 
       // notify
-      notification("Modification has been registered successfully.", 2000);
+      notify(
+        "info",
+        "bottom",
+        "Modification has been registered successfully.",
+        "5"
+      );
 
       // house cleaning
       unsetToken("removeDataSourceLaggingPolicy");
@@ -17927,7 +18019,12 @@ var chartAuditChangesDataSourceOverTime = new ChartView({
       unsetToken("form.tk_input_whitelist_data_source");
 
       // notify
-      notification("Modification has been registered successfully.", 2000);
+      notify(
+        "info",
+        "bottom",
+        "Modification has been registered successfully.",
+        "5"
+      );
 
       // house cleaning
       unsetToken("removeWhitelistDataSource");
@@ -18226,7 +18323,12 @@ var chartAuditChangesDataSourceOverTime = new ChartView({
       unsetToken("form.tk_input_whitelist_metric_host");
 
       // notify
-      notification("Modification has been registered successfully.", 2000);
+      notify(
+        "info",
+        "bottom",
+        "Modification has been registered successfully.",
+        "5"
+      );
 
       // house cleaning
       unsetToken("removeWhitelistMetricHost");
@@ -18524,7 +18626,12 @@ var chartAuditChangesDataSourceOverTime = new ChartView({
       unsetToken("form.tk_input_whitelist_data_host");
 
       // notify
-      notification("Modification has been registered successfully.", 2000);
+      notify(
+        "info",
+        "bottom",
+        "Modification has been registered successfully.",
+        "5"
+      );
 
       // house cleaning
       unsetToken("removeWhitelistDataHost");
@@ -18807,7 +18914,12 @@ var chartAuditChangesDataSourceOverTime = new ChartView({
       searchDataSourcesMain.startSearch();
 
       // notify
-      notification("Modification has been registered successfully.", 2000);
+      notify(
+        "info",
+        "bottom",
+        "Modification has been registered successfully.",
+        "5"
+      );
 
       // house cleaning
       unsetToken("removeBlacklistDataSourceHost");
@@ -19226,7 +19338,12 @@ var chartAuditChangesDataSourceOverTime = new ChartView({
       searchDataSourcesMain.startSearch();
 
       // notify
-      notification("Modification has been registered successfully.", 2000);
+      notify(
+        "info",
+        "bottom",
+        "Modification has been registered successfully.",
+        "5"
+      );
 
       // house cleaning
       unsetToken("removeBlacklistDataSourceIndex");
@@ -19365,7 +19482,12 @@ var chartAuditChangesDataSourceOverTime = new ChartView({
       searchDataSourcesMain.startSearch();
 
       // notify
-      notification("Modification has been registered successfully.", 2000);
+      notify(
+        "info",
+        "bottom",
+        "Modification has been registered successfully.",
+        "5"
+      );
 
       // house cleaning
       unsetToken("removeBlacklistDataHostIndex");
@@ -19644,7 +19766,12 @@ var chartAuditChangesDataSourceOverTime = new ChartView({
       searchDataHostsMain.startSearch();
 
       // notify
-      notification("Modification has been registered successfully.", 2000);
+      notify(
+        "info",
+        "bottom",
+        "Modification has been registered successfully.",
+        "5"
+      );
 
       // house cleaning
       unsetToken("removeBlacklistDataHostHost");
@@ -19923,7 +20050,12 @@ var chartAuditChangesDataSourceOverTime = new ChartView({
       searchMetricHostsMain.startSearch();
 
       // notify
-      notification("Modification has been registered successfully.", 2000);
+      notify(
+        "info",
+        "bottom",
+        "Modification has been registered successfully.",
+        "5"
+      );
 
       // house cleaning
       unsetToken("removeBlacklistMetricHostIndex");
@@ -20209,7 +20341,12 @@ var chartAuditChangesDataSourceOverTime = new ChartView({
       searchDataSourcesMain.startSearch();
 
       // notify
-      notification("Modification has been registered successfully.", 2000);
+      notify(
+        "info",
+        "bottom",
+        "Modification has been registered successfully.",
+        "5"
+      );
 
       // house cleaning
       unsetToken("removeBlacklistDataSourceSourcetype");
@@ -20488,7 +20625,12 @@ var chartAuditChangesDataSourceOverTime = new ChartView({
       searchDataSourcesMain.startSearch();
 
       // notify
-      notification("Modification has been registered successfully.", 2000);
+      notify(
+        "info",
+        "bottom",
+        "Modification has been registered successfully.",
+        "5"
+      );
 
       // house cleaning
       unsetToken("removeBlacklistDataSourceDataName");
@@ -20770,7 +20912,12 @@ var chartAuditChangesDataSourceOverTime = new ChartView({
       searchDataSourcesMain.startSearch();
 
       // notify
-      notification("Modification has been registered successfully.", 2000);
+      notify(
+        "info",
+        "bottom",
+        "Modification has been registered successfully.",
+        "5"
+      );
 
       // house cleaning
       unsetToken("removeBlacklistDataHostSourcetype");
@@ -21050,7 +21197,12 @@ var chartAuditChangesDataSourceOverTime = new ChartView({
       searchMetricHostsMain.startSearch();
 
       // notify
-      notification("Modification has been registered successfully.", 2000);
+      notify(
+        "info",
+        "bottom",
+        "Modification has been registered successfully.",
+        "5"
+      );
 
       // house cleaning
       unsetToken("removeBlacklistMetricHostHost");
@@ -21348,7 +21500,12 @@ var chartAuditChangesDataSourceOverTime = new ChartView({
       searchDataSourcesMain.startSearch();
 
       // notify
-      notification("Modification has been registered successfully.", 2000);
+      notify(
+        "info",
+        "bottom",
+        "Modification has been registered successfully.",
+        "5"
+      );
 
       // house cleaning
       unsetToken("removeBlacklistMetricHostMetricCategory");
@@ -24008,7 +24165,12 @@ var chartAuditChangesDataSourceOverTime = new ChartView({
                   updateDataSource(tk_keyid);
 
                   // notify
-                  notification("Modification has been registered successfully.", 2000);
+                  notify(
+                    "info",
+                    "bottom",
+                    "Modification has been registered successfully.",
+                    "5"
+                  );
 
                   // house cleaning
                   myendpoint_URl = undefined;
@@ -24101,7 +24263,12 @@ var chartAuditChangesDataSourceOverTime = new ChartView({
                   updateDataSource(tk_keyid);
 
                   // notify
-                  notification("Modification has been registered successfully.", 2000);
+                  notify(
+                    "info",
+                    "bottom",
+                    "The entity has been updated successfully.",
+                    "5"
+                  );
 
                   // house cleaning
                   myendpoint_URl = undefined;
@@ -24201,7 +24368,12 @@ var chartAuditChangesDataSourceOverTime = new ChartView({
                   updateDataSource(tk_keyid);
 
                   // notify
-                  notification("Modification has been registered successfully.", 2000);
+                  notify(
+                    "info",
+                    "bottom",
+                    "The entity has been updated successfully.",
+                    "5"
+                  );
 
                   // house cleaning
                   myendpoint_URl = undefined;
@@ -24307,7 +24479,12 @@ var chartAuditChangesDataSourceOverTime = new ChartView({
                   updateDataSource(tk_keyid);
 
                   // notify
-                  notification("Modification has been registered successfully.", 2000);
+                  notify(
+                    "info",
+                    "bottom",
+                    "The entity has been updated successfully.",
+                    "5"
+                  );
 
                   // house cleaning
                   myendpoint_URl = undefined;
@@ -24377,10 +24554,12 @@ var chartAuditChangesDataSourceOverTime = new ChartView({
           !tk_input_data_source_dcount_host ||
           !tk_input_data_source_dcount_host.length
       ) {
-          // Show an error notification
-          notification(
-              'ERROR: the minimal distinct host count value needs to be a positive integer, or the string "any" to define any value.',
-              6000
+          // notify
+          notify(
+            "error",
+            "bottom",
+            "ERROR: the minimal distinct host count value needs to be a positive integer, or the string \"any\" to define any value.",
+            "5"
           );
           return;
       } else {
@@ -24409,7 +24588,12 @@ var chartAuditChangesDataSourceOverTime = new ChartView({
                   updateDataSource(tk_keyid);
 
                   // notify
-                  notification("Modification has been registered successfully.", 2000);
+                  notify(
+                    "info",
+                    "bottom",
+                    "The entity has been updated successfully.",
+                    "5"
+                  );
 
                   // house cleaning
                   myendpoint_URl = undefined;
@@ -24519,8 +24703,12 @@ var chartAuditChangesDataSourceOverTime = new ChartView({
                   // call update data source
                   updateDataSource(tk_keyid);
                   // notify
-                  notification("Modification has been registered successfully.", 2000);
-
+                  notify(
+                    "info",
+                    "bottom",
+                    "The entity has been updated successfully.",
+                    "5"
+                  );
                   // house cleaning
                   myendpoint_URl = undefined;
                   delete myendpoint_URl;
@@ -24571,10 +24759,6 @@ var chartAuditChangesDataSourceOverTime = new ChartView({
 
   // Show main modal
   $("#btn_modal_modify_lag_auto_main").click(function() {
-      //submitTokens();
-
-      // When the Submit button is clicked, get all the form fields by accessing token values
-      var tokens = mvc.Components.get("default");
 
       // Free the searches
       setToken("show_data_source_autolagging", "true");
@@ -24679,20 +24863,26 @@ var chartAuditChangesDataSourceOverTime = new ChartView({
 
                                   if (field == "data_max_lag_allowed") {
                                       if (value === "0") {
-                                          notification(
-                                              "ERROR: No live data available for this entity, automatic lagging calculation cannot be performed for inactive entities.",
-                                              6000
+                                          // notify
+                                          notify(
+                                            "error",
+                                            "bottom",
+                                            "ERROR: No live data available for this entity, automatic lagging calculation cannot be performed for inactive entities.",
+                                            "5"
                                           );
+
                                       } else {
                                           // Run the search again to update the table
                                           searchDataSourcesMain.startSearch();
 
                                           // notify
-                                          notification(
-                                              "Modification has been registered successfully, max lagging value automatically defined to " +
+                                          notify(
+                                            "info",
+                                            "bottom",
+                                            "Modification has been registered successfully, max lagging value automatically defined to " +
                                               value +
                                               " seconds.",
-                                              6000
+                                            "5"
                                           );
 
                                           setToken("tk_data_max_lag_allowed", value);
@@ -24891,20 +25081,25 @@ var chartAuditChangesDataSourceOverTime = new ChartView({
 
                                   if (field == "data_max_lag_allowed") {
                                       if (value === "0") {
-                                          notification(
-                                              "ERROR: No live data available for this entity, automatic lagging calculation cannot be performed for inactive entities.",
-                                              6000
+                                          // notify
+                                          notify(
+                                            "error",
+                                            "bottom",
+                                            "ERROR: No live data available for this entity, automatic lagging calculation cannot be performed for inactive entities.",
+                                            "5"
                                           );
                                       } else {
                                           // Run the search again to update the table
                                           searchDataSourcesMain.startSearch();
 
                                           // notify
-                                          notification(
-                                              "Modification has been registered successfully, max lagging value automatically defined to " +
-                                              value +
-                                              " seconds.",
-                                              6000
+                                          notify(
+                                            "info",
+                                            "bottom",
+                                            "Modification has been registered successfully, max lagging value automatically defined to " +
+                                            value +
+                                            " seconds.",
+                                            "5"
                                           );
 
                                           setToken("tk_data_max_lag_allowed", value);
@@ -25103,20 +25298,25 @@ var chartAuditChangesDataSourceOverTime = new ChartView({
 
                                   if (field == "data_max_lag_allowed") {
                                       if (value === "0") {
-                                          notification(
-                                              "ERROR: No live data available for this entity, automatic lagging calculation cannot be performed for inactive entities.",
-                                              6000
+                                          // notify
+                                          notify(
+                                            "info",
+                                            "bottom",
+                                            "ERROR: No live data available for this entity, automatic lagging calculation cannot be performed for inactive entities.",
+                                            "5"
                                           );
                                       } else {
                                           // Run the search again to update the table
                                           searchDataSourcesMain.startSearch();
 
                                           // notify
-                                          notification(
-                                              "Modification has been registered successfully, max lagging value automatically defined to " +
+                                          notify(
+                                            "info",
+                                            "bottom",
+                                            "Modification has been registered successfully, max lagging value automatically defined to " +
                                               value +
                                               " seconds.",
-                                              6000
+                                            "5"
                                           );
 
                                           setToken("tk_data_max_lag_allowed", value);
@@ -25315,20 +25515,27 @@ var chartAuditChangesDataSourceOverTime = new ChartView({
 
                                   if (field == "data_max_lag_allowed") {
                                       if (value === "0") {
-                                          notification(
-                                              "ERROR: No live data available for this entity, automatic lagging calculation cannot be performed for inactive entities.",
-                                              6000
+
+                                          // notify
+                                          notify(
+                                            "error",
+                                            "bottom",
+                                            "ERROR: No live data available for this entity, automatic lagging calculation cannot be performed for inactive entities.",
+                                            "5"
                                           );
+
                                       } else {
                                           // Run the search again to update the table
                                           searchDataSourcesMain.startSearch();
 
                                           // notify
-                                          notification(
-                                              "Modification has been registered successfully, max lagging value automatically defined to " +
+                                          notify(
+                                            "info",
+                                            "bottom",
+                                            "Modification has been registered successfully, max lagging value automatically defined to " +
                                               value +
                                               " seconds.",
-                                              6000
+                                            "5"
                                           );
 
                                           setToken("tk_data_max_lag_allowed", value);
@@ -25514,7 +25721,12 @@ var chartAuditChangesDataSourceOverTime = new ChartView({
                   searchDataHostsMain.startSearch();
 
                   // notify
-                  notification("Modification has been registered successfully.", 2000);
+                  notify(
+                    "info",
+                    "bottom",
+                    "Modification has been registered successfully.",
+                    "5"
+                  );
 
                   // call update data source
                   updateDataHost(tk_keyid);
@@ -25605,7 +25817,12 @@ var chartAuditChangesDataSourceOverTime = new ChartView({
                   searchDataHostsMain.startSearch();
 
                   // notify
-                  notification("Modification has been registered successfully.", 2000);
+                  notify(
+                    "info",
+                    "bottom",
+                    "Modification has been registered successfully.",
+                    "5"
+                  );
 
                   // call update data source
                   updateDataHost(tk_keyid);
@@ -25775,7 +25992,12 @@ var chartAuditChangesDataSourceOverTime = new ChartView({
                   $("#modal_modify_data_host_unified").modal();
 
                   // notify
-                  notification("Modification has been registered successfully.", 2000);
+                  notify(
+                    "info",
+                    "bottom",
+                    "The entity has been updated successfully.",
+                    "5"
+                  );
 
                   // call update data source
                   updateDataHost(tk_keyid);
@@ -25923,7 +26145,12 @@ var chartAuditChangesDataSourceOverTime = new ChartView({
                   searchDataHostsMain.startSearch();
 
                   // notify
-                  notification("Modification has been registered successfully.", 2000);
+                  notify(
+                    "info",
+                    "bottom",
+                    "The entity has been updated successfully.",
+                    "5"
+                  );
 
                   // call update data source
                   updateDataHost(tk_keyid);
@@ -26082,20 +26309,27 @@ var chartAuditChangesDataSourceOverTime = new ChartView({
 
                                   if (field == "value") {
                                       if (value === "0") {
-                                          notification(
-                                              "ERROR: No live data available for this entity, automatic lagging calculation cannot be performed for inactive entities.",
-                                              6000
+
+                                          // notify
+                                          notify(
+                                            "error",
+                                            "bottom",
+                                            "ERROR: No live data available for this entity, automatic lagging calculation cannot be performed for inactive entities.",
+                                            "5"
                                           );
+
                                       } else {
                                           // Run the search again to update the table
                                           searchDataHostsMain.startSearch();
 
                                           // notify
-                                          notification(
-                                              "Modification has been registered successfully, max lagging value automatically defined to " +
+                                          notify(
+                                            "info",
+                                            "bottom",
+                                            "Modification has been registered successfully, max lagging value automatically defined to " +
                                               value +
                                               " seconds.",
-                                              6000
+                                            "5"
                                           );
 
                                           setToken("tk_data_max_lag_allowed", value);
@@ -26290,20 +26524,27 @@ var chartAuditChangesDataSourceOverTime = new ChartView({
 
                                   if (field == "value") {
                                       if (value === "0") {
-                                          notification(
-                                              "ERROR: No live data available for this entity, automatic lagging calculation cannot be performed for inactive entities.",
-                                              6000
+
+                                          // notify
+                                          notify(
+                                            "error",
+                                            "bottom",
+                                            "ERROR: No live data available for this entity, automatic lagging calculation cannot be performed for inactive entities.",
+                                            "5"
                                           );
+
                                       } else {
                                           // Run the search again to update the table
                                           searchDataHostsMain.startSearch();
 
                                           // notify
-                                          notification(
-                                              "Modification has been registered successfully, max lagging value automatically defined to " +
+                                          notify(
+                                            "info",
+                                            "bottom",
+                                            "Modification has been registered successfully, max lagging value automatically defined to " +
                                               value +
                                               " seconds.",
-                                              6000
+                                            "5"
                                           );
 
                                           setToken("tk_data_max_lag_allowed", value);
@@ -26497,20 +26738,27 @@ var chartAuditChangesDataSourceOverTime = new ChartView({
 
                                   if (field == "value") {
                                       if (value === "0") {
-                                          notification(
-                                              "ERROR: No live data available for this entity, automatic lagging calculation cannot be performed for inactive entities.",
-                                              6000
+
+                                          // notify
+                                          notify(
+                                            "error",
+                                            "bottom",
+                                            "ERROR: No live data available for this entity, automatic lagging calculation cannot be performed for inactive entities.",
+                                            "5"
                                           );
-                                      } else {
+
+                                        } else {
                                           // Run the search again to update the table
                                           searchDataHostsMain.startSearch();
 
                                           // notify
-                                          notification(
-                                              "Modification has been registered successfully, max lagging value automatically defined to " +
+                                          notify(
+                                            "info",
+                                            "bottom",
+                                            "Modification has been registered successfully, max lagging value automatically defined to " +
                                               value +
                                               " seconds.",
-                                              6000
+                                            "5"
                                           );
 
                                           setToken("tk_data_max_lag_allowed", value);
@@ -26704,20 +26952,27 @@ var chartAuditChangesDataSourceOverTime = new ChartView({
 
                                   if (field == "value") {
                                       if (value === "0") {
-                                          notification(
-                                              "ERROR: No live data available for this entity, automatic lagging calculation cannot be performed for inactive entities.",
-                                              6000
+
+                                          // notify
+                                          notify(
+                                            "error",
+                                            "bottom",
+                                            "ERROR: No live data available for this entity, automatic lagging calculation cannot be performed for inactive entities.",
+                                            "5"
                                           );
+
                                       } else {
                                           // Run the search again to update the table
                                           searchDataHostsMain.startSearch();
 
                                           // notify
-                                          notification(
-                                              "Modification has been registered successfully, max lagging value automatically defined to " +
+                                          notify(
+                                            "info",
+                                            "bottom",
+                                            "Modification has been registered successfully, max lagging value automatically defined to " +
                                               value +
                                               " seconds.",
-                                              6000
+                                            "5"
                                           );
 
                                           setToken("tk_data_max_lag_allowed", value);
@@ -26991,16 +27246,26 @@ var chartAuditChangesDataSourceOverTime = new ChartView({
           !tk_tags_policies_tags ||
           !tk_tags_policies_tags.length
       ) {
-          // Show an error notification
-          notification(
-              "ERROR: Entries are either incorrect or incomplete, please correct and try again.",
-              6000
+
+          // notify
+          notify(
+            "error",
+            "bottom",
+            "ERROR: Entries are either incorrect or incomplete, please correct and try again.",
+            "5"
           );
 
           // Disable the add button
           document.getElementById("btn_modal_tags_policies_add").disabled = true;
       } else {
-          notification("INFO: Starting tags policy simulation...", 6000);
+
+          // notify
+          notify(
+            "info",
+            "bottom",
+            "Starting tags policy simulation...",
+            "5"
+          );
 
           // Set the tokens
           setToken("tk_tags_policies_regex", tk_tags_policies_regex);
@@ -27065,9 +27330,13 @@ var chartAuditChangesDataSourceOverTime = new ChartView({
           !tk_tags_policies_tags.length
       ) {
           // Show an error notification
-          notification(
-              "ERROR: Entries are either incorrect or incomplete, please correct and try again.",
-              6000
+
+          // notify
+          notify(
+            "error",
+            "bottom",
+            "ERROR: Entries are either incorrect or incomplete, please correct and try again.",
+            "5"
           );
 
           // Disable the add button
@@ -27181,9 +27450,11 @@ var chartAuditChangesDataSourceOverTime = new ChartView({
                           $("#manage_tags_policies").modal();
 
                           // notify
-                          notification(
-                              "Modification has been registered successfully.",
-                              2000
+                          notify(
+                            "info",
+                            "bottom",
+                            "The entity has been updated successfully.",
+                            "5"
                           );
 
                           // Audit
@@ -27373,7 +27644,12 @@ var chartAuditChangesDataSourceOverTime = new ChartView({
       $("#tags_policies_delete_policy_confirm").modal("hide");
 
       // notify
-      notification("Modification has been registered successfully.", 2000);
+      notify(
+        "info",
+        "bottom",
+        "Modification has been registered successfully.",
+        "5"
+      );
 
       // house cleaning
       unsetToken("removeTagsPolicy");
@@ -27499,8 +27775,14 @@ var chartAuditChangesDataSourceOverTime = new ChartView({
                   period: 200,
               }, {
                   done: function(job) {
-                      // show notify
-                      notification("New tag successfully added.", 6000);
+
+                      // notify
+                      notify(
+                        "info",
+                        "bottom",
+                        "New tag successfully added.",
+                        "5"
+                      );
 
                       // Update the tags token
                       tk_tags_audit = tk_tags_new;
@@ -27661,9 +27943,15 @@ var chartAuditChangesDataSourceOverTime = new ChartView({
                   period: 200,
               }, {
                   done: function(job) {
-                      // show notify
-                      notification("Tags list updated.", 6000);
 
+                      // notify
+                      notify(
+                        "info",
+                        "bottom",
+                        "Tags list updated.",
+                        "5"
+                      );
+                      
                       // Audit
                       action = "success";
                       change_type = "update tags";
@@ -27816,8 +28104,14 @@ var chartAuditChangesDataSourceOverTime = new ChartView({
                   period: 200,
               }, {
                   done: function(job) {
-                      // show notify
-                      notification("Tags list was cleared successfully.", 6000);
+
+                      // notify
+                      notify(
+                        "info",
+                        "bottom",
+                        "Tags list was cleared successfully.",
+                        "5"
+                      );
 
                       // Update the tags token
                       setToken(
@@ -29687,7 +29981,12 @@ var chartAuditChangesDataSourceOverTime = new ChartView({
       $("#modal_remove_custom_rule_data_sampling").modal("hide");
 
       // notify
-      notification("Modification has been registered successfully.", 2000);
+      notify(
+        "info",
+        "bottom",
+        "Modification has been registered successfully.",
+        "5"
+      );
 
       // house cleaning
       unsetToken("removeDataSamplingCustomRule");
@@ -30059,7 +30358,13 @@ var chartAuditChangesDataSourceOverTime = new ChartView({
                           comment
                       );
 
-                      notification("Update was successful.", 6000);
+                      // notify
+                      notify(
+                        "info",
+                        "bottom",
+                        "Update was successful.",
+                        "5"
+                      );
 
                       // Update search
                       searchDataSamplingTable1.startSearch();
@@ -30554,10 +30859,13 @@ var chartAuditChangesDataSourceOverTime = new ChartView({
           !tk_data_sampling_custom_rule_name ||
           !tk_data_sampling_custom_rule_name.length
       ) {
-          // Show an error notification
-          notification(
-              "ERROR: Entries are either incorrect or incomplete, please correct and try again.",
-              6000
+
+          // notify
+          notify(
+            "error",
+            "bottom",
+            "ERROR: Entries are either incorrect or incomplete, please correct and try again.",
+            "5"
           );
 
           // Disable the add button
@@ -30566,7 +30874,15 @@ var chartAuditChangesDataSourceOverTime = new ChartView({
           ).disabled = true;
       } else {
           // replace the textarea for modification requests
-          notification("INFO: running new data sampling model...", 6000);
+
+          // notify
+          notify(
+            "info",
+            "bottom",
+            "Running new data sampling model...",
+            "5"
+          );
+
           unsetToken("tk_data_sampling_custom_rule_regex");
           setToken(
               "tk_data_sampling_custom_rule_regex",
@@ -30632,10 +30948,13 @@ var chartAuditChangesDataSourceOverTime = new ChartView({
           !tk_data_sampling_custom_rule_name ||
           !tk_data_sampling_custom_rule_name.length
       ) {
-          // Show an error notification
-          notification(
-              "ERROR: Entries are either incorrect or incomplete, please correct and try again.",
-              6000
+
+          // notify
+          notify(
+            "error",
+            "bottom",
+            "ERROR: Entries are either incorrect or incomplete, please correct and try again.",
+            "5"
           );
 
           // Disable the add button
@@ -30750,10 +31069,13 @@ var chartAuditChangesDataSourceOverTime = new ChartView({
                           searchSingleBlackListDataSourceHost.startSearch();
                           searchDataSourcesMain.startSearch();
                           searchDataSamplingShowCustomRules.startSearch();
+
                           // notify
-                          notification(
-                              "Modification has been registered successfully.",
-                              2000
+                          notify(
+                            "info",
+                            "bottom",
+                            "Modification has been registered successfully.",
+                            "5"
                           );
 
                           // Audit
@@ -30908,10 +31230,13 @@ var chartAuditChangesDataSourceOverTime = new ChartView({
       searchOutlierDetectionChartSimulationDataHost.startSearch();
 
       // notify
-      notification(
-          "Outliers simulation started for data host " + tk_data_host + ".",
-          6000
+      notify(
+        "info",
+        "bottom",
+        "Outliers simulation started for data host " + tk_data_host + ".",
+        "5"
       );
+      
   });
 
   $("#btn_outlier_config_data_host_save").click(function(mode) {
@@ -31043,9 +31368,13 @@ var chartAuditChangesDataSourceOverTime = new ChartView({
               success: function(returneddata) {
                   // notify
                   var tk_data_host = getToken("tk_data_host");
-                  notification(
-                      "Outliers configuration updated, please wait a few seconds while statistics are generated, click on refresh in the Outliers tab if statistics are not yet available.",
-                      6000
+
+                  // notify
+                  notify(
+                    "info",
+                    "bottom",
+                    "Outliers configuration updated, please wait a few seconds while statistics are generated, click on refresh in the Outliers tab if statistics are not yet available.",
+                    "5"
                   );
 
                   // Generate metrics if outlier period was changed
