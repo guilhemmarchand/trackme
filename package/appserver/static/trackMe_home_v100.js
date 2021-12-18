@@ -580,6 +580,12 @@ require([
       "OutliersViz"
   );
 
+  // Timeline
+  var TimeLine = VisualizationRegistry.getVisualizer(
+    "timeline_app",
+    "timeline"
+  );
+
   //
   // SPLUNK INPUTS
   //
@@ -1665,7 +1671,7 @@ require([
       cancelOnUnload: true,
       sample_ratio: null,
       latest_time: "$modalTime.latest$",
-      search: '| inputlookup trackme_audit_changes where (object="$tk_data_name$" AND object_category="data_source") | sort limit=0 - time | eval _time=time/1000 | fields - time | addinfo | where _time>=info_min_time AND (_time<=info_max_time OR info_max_time="+Infinity") | `trackme_eval_icons_audit_changes` | rename action_icon as " " | fields _time user action " " change_type comment',
+      search: '| inputlookup trackme_audit_changes where (object="$tk_object$" AND object_category="data_source") | sort limit=0 - time | eval _time=time/1000 | fields - time | addinfo | where _time>=info_min_time AND (_time<=info_max_time OR info_max_time="+Infinity") | `trackme_eval_icons_audit_changes` | rename action_icon as " " | fields _time user action " " change_type comment',
       status_buckets: 0,
       app: utils.getCurrentApp(),
       auto_cancel: 90,
@@ -1676,7 +1682,6 @@ require([
       runWhenTimeIsUndefined: false,
   }, {
       tokens: true,
-      tokenNamespace: "submitted",
   });
 
   new SearchEventHandler({
@@ -1700,6 +1705,20 @@ require([
               }, ],
           },
       ],
+  });
+
+  // set the panel visibility
+  searchDataSourceMainAuditChanges.on("change", function(newValue) {
+    var show_data_source_audit_changes_no_results = getToken("show_data_source_audit_changes_no_results");
+    if (show_data_source_audit_changes_no_results === 'True') {
+        $("#divDataSourceChangesNotFound").css("display", "none");
+        $("#divDataSourceChangesChart").css("display", "inherit");
+        $("#divDataSourceChangesTable").css("display", "inherit");
+    } else {
+      $("#divDataSourceChangesNotFound").css("display", "inherit");
+      $("#divDataSourceChangesChart").css("display", "none");
+      $("#divDataSourceChangesTable").css("display", "none");
+    }
   });
 
   var searchMainDataSourceAuditChangesTable = new PostProcessManager({
@@ -1973,7 +1992,7 @@ require([
       earliest_time: "-7d@d",
       latest_time: "now",
       sample_ratio: null,
-      search: '`trackme_idx` object_category="data_source" object="$tk_data_name$" source="current_state_tracking:data_source" | sort limit=0 _time | table _time, object, current_state | streamstats first(_time) as previous_time current=f by object | eventstats count as total | streamstats count as record_count | eval duration=_time-previous_time | eval previous_time=strftime(previous_time, "%c") | search current_state=* | fields _time, object, current_state, duration',
+      search: '`trackme_idx` object_category="data_source" object="$tk_object$" source="current_state_tracking:data_source" | sort limit=0 _time | table _time, object, current_state | streamstats first(_time) as previous_time current=f by object | eventstats count as total | streamstats count as record_count | eval duration=_time-previous_time | eval previous_time=strftime(previous_time, "%c") | search current_state=* | fields _time, object, current_state, duration',
       status_buckets: 0,
       cancelOnUnload: true,
       app: utils.getCurrentApp(),
@@ -1984,8 +2003,7 @@ require([
       },
       runWhenTimeIsUndefined: false,
   }, {
-      tokens: true,
-      tokenNamespace: "submitted"
+      tokens: true
   });
 
   var searchDataHostTimeline = new SearchManager({
@@ -2004,8 +2022,7 @@ require([
       },
       runWhenTimeIsUndefined: false,
   }, {
-      tokens: true,
-      tokenNamespace: "submitted"
+      tokens: true
   });
 
   var searchMetricHostTimeline = new SearchManager({
@@ -2024,8 +2041,7 @@ require([
       },
       runWhenTimeIsUndefined: false,
   }, {
-      tokens: true,
-      tokenNamespace: "submitted"
+      tokens: true
   });
 
   var searchDataHostMainAuditFlip = new SearchManager({
@@ -5328,7 +5344,7 @@ require([
           $("#data_source_data_parsing").css("display", "none");
           $("#data_source_metrics").css("display", "none");
           $("#data_source_flipping").css("display", "none");
-          $("#data_source_audit").css("display", "none");
+          $("#data_source_status").css("display", "none");
           $("#data_source_changes").css("display", "none");
           $("#data_source_timepicker").css("display", "inherit");
       } else if (e.value === "outlier") {
@@ -5348,7 +5364,7 @@ require([
           $("#data_source_data_parsing").css("display", "none");
           $("#data_source_metrics").css("display", "none");
           $("#data_source_flipping").css("display", "none");
-          $("#data_source_audit").css("display", "none");
+          $("#data_source_status").css("display", "none");
           $("#data_source_changes").css("display", "none");
           $("#data_source_timepicker").css("display", "inherit");
       } else if (e.value === "outlier_configuration") {
@@ -5372,7 +5388,7 @@ require([
           $("#data_source_data_parsing").css("display", "none");
           $("#data_source_metrics").css("display", "none");
           $("#data_source_flipping").css("display", "none");
-          $("#data_source_audit").css("display", "none");
+          $("#data_source_status").css("display", "none");
           $("#data_source_changes").css("display", "none");
           $("#data_source_timepicker").css("display", "none");
       } else if (e.value === "data_sampling") {
@@ -5392,7 +5408,7 @@ require([
           $("#data_source_data_parsing").css("display", "none");
           $("#data_source_metrics").css("display", "none");
           $("#data_source_flipping").css("display", "none");
-          $("#data_source_audit").css("display", "none");
+          $("#data_source_status").css("display", "none");
           $("#data_source_changes").css("display", "none");
           $("#data_source_timepicker").css("display", "none");
       } else if (e.value === "data_quality") {
@@ -5412,7 +5428,7 @@ require([
           $("#data_source_data_parsing").css("display", "inherit");
           $("#data_source_metrics").css("display", "none");
           $("#data_source_flipping").css("display", "none");
-          $("#data_source_audit").css("display", "none");
+          $("#data_source_status").css("display", "none");
           $("#data_source_changes").css("display", "none");
           $("#data_source_timepicker").css("display", "inherit");
       } else if (e.value === "lagging_metrics") {
@@ -5436,7 +5452,7 @@ require([
           $("#data_source_data_parsing").css("display", "none");
           $("#data_source_metrics").css("display", "inherit");
           $("#data_source_flipping").css("display", "none");
-          $("#data_source_audit").css("display", "none");
+          $("#data_source_status").css("display", "none");
           $("#data_source_changes").css("display", "none");
           $("#data_source_timepicker").css("display", "inherit");
       } else if (e.value === "flipping_status") {
@@ -5456,7 +5472,7 @@ require([
           $("#data_source_data_parsing").css("display", "none");
           $("#data_source_metrics").css("display", "none");
           $("#data_source_flipping").css("display", "inherit");
-          $("#data_source_audit").css("display", "none");
+          $("#data_source_status").css("display", "none");
           $("#data_source_changes").css("display", "none");
           $("#data_source_timepicker").css("display", "inherit");
       } else if (e.value === "status_message") {
@@ -5480,7 +5496,7 @@ require([
           $("#data_source_data_parsing").css("display", "none");
           $("#data_source_metrics").css("display", "none");
           $("#data_source_flipping").css("display", "none");
-          $("#data_source_audit").css("display", "inherit");
+          $("#data_source_status").css("display", "inherit");
           $("#data_source_changes").css("display", "none");
           $("#data_source_timepicker").css("display", "none");
       } else if (e.value === "data_source_audit_changes") {
@@ -5504,7 +5520,7 @@ require([
           $("#data_source_data_parsing").css("display", "none");
           $("#data_source_metrics").css("display", "none");
           $("#data_source_flipping").css("display", "none");
-          $("#data_source_audit").css("display", "none");
+          $("#data_source_status").css("display", "none");
           $("#data_source_changes").css("display", "inherit");
           $("#data_source_timepicker").css("display", "inherit");
       }
@@ -5579,6 +5595,9 @@ require([
 
           // tags
           var tk_tags = e.data["row.tags"];
+
+          // status
+          var tk_status_message = e.data["row.status_message"];
 
           // required for various purposes
           setToken("tk_keyid", tk_keyid);
@@ -5723,6 +5742,12 @@ require([
               '<a id="tags_data_source" data-toggle="modal" data-target="#' + tk_tags_modal_target + '">' + tk_tags_link_main + '</a>' +
               '</span>' +
               '</h3>'
+          );
+
+          $('#child-data-source-status-message').html(
+            '<div class="' + tk_data_source_status_message_class + '">' +
+            '<h2 style="font-weight: bold; color: darkslategray;">' + tk_status_message + '</h2>' +
+            '</div>'
           );
 
           // data sampling
@@ -13509,6 +13534,143 @@ inputDataSourceOverviewMetricsChartSeries.on("valueChange", function(e) {
         .render()
         .$el.appendTo($("resultsLinkchartAuditFlipDataSourceOverTime"));
 
+    var TimelineDataSource = new TimeLine({
+      "id": "TimelineDataSource",
+      "type": "timeline_app.timeline",
+      "resizable": false,
+      "drilldown": "none",
+      "timeline_app.timeline.axisTimeFormat": "DAYS",
+      "timeline_app.timeline.colorMode": "categorical",
+      "timeline_app.timeline.maxColor": "#DA5C5C",
+      "timeline_app.timeline.minColor": "#FFE8E8",
+      "timeline_app.timeline.numOfBins": "6",
+      "timeline_app.timeline.tooltipTimeFormat": "DAYS",
+      "timeline_app.timeline.useColors": "1",
+      "height": "150",
+      "managerid": "searchDataSourceTimeline",
+      "el": $('#TimelineDataSource')
+  }, {tokens: true, tokenNamespace: "submitted"}).render();
+
+  var resultsLinkTimelineDataSource = new ResultsLinkView({
+    id: "resultsLinkTimelineDataSource",
+    managerid: "searchDataSourceTimeline",
+    "link.exportResults.visible": false,
+    el: $("#resultsLinkTimelineDataSource"),
+  });
+  
+  resultsLinkTimelineDataSource
+    .render()
+    .$el.appendTo($("resultsLinkTimelineDataSource"));
+
+  var TimelineDataHost = new TimeLine({
+      "id": "TimelineDataHost",
+      "type": "timeline_app.timeline",
+      "resizable": false,
+      "drilldown": "none",
+      "timeline_app.timeline.axisTimeFormat": "DAYS",
+      "timeline_app.timeline.colorMode": "categorical",
+      "timeline_app.timeline.maxColor": "#DA5C5C",
+      "timeline_app.timeline.minColor": "#FFE8E8",
+      "timeline_app.timeline.numOfBins": "6",
+      "timeline_app.timeline.tooltipTimeFormat": "DAYS",
+      "timeline_app.timeline.useColors": "1",
+      "height": "150",
+      "managerid": "searchDataHostTimeline",
+      "el": $('#TimelineDataHost')
+  }, {tokens: true, tokenNamespace: "submitted"}).render();
+
+  var resultsLinkTimelineDataHost = new ResultsLinkView({
+    id: "resultsLinkTimelineDataHost",
+    managerid: "searchDataHostTimeline",
+    "link.exportResults.visible": false,
+    el: $("#resultsLinkTimelineDataHost"),
+  });
+  
+  resultsLinkTimelineDataHost
+    .render()
+    .$el.appendTo($("resultsLinkTimelineDataHost"));
+
+  var TimelineMetricHost = new TimeLine({
+      "id": "TimelineMetricHost",
+      "type": "timeline_app.timeline",
+      "resizable": false,
+      "drilldown": "none",
+      "timeline_app.timeline.axisTimeFormat": "DAYS",
+      "timeline_app.timeline.colorMode": "categorical",
+      "timeline_app.timeline.maxColor": "#DA5C5C",
+      "timeline_app.timeline.minColor": "#FFE8E8",
+      "timeline_app.timeline.numOfBins": "6",
+      "timeline_app.timeline.tooltipTimeFormat": "DAYS",
+      "timeline_app.timeline.useColors": "1",
+      "height": "150",
+      "managerid": "searchMetricHostTimeline",
+      "el": $('#TimelineMetricHost')
+  }, {tokens: true, tokenNamespace: "submitted"}).render();
+
+  var resultsLinkTimelineMetricHost = new ResultsLinkView({
+    id: "resultsLinkTimelineMetricHost",
+    managerid: "searchMetricHostTimeline",
+    "link.exportResults.visible": false,
+    el: $("#resultsLinkTimelineMetricHost"),
+  });
+  
+  resultsLinkTimelineMetricHost
+    .render()
+    .$el.appendTo($("resultsLinkTimelineMetricHost"));
+
+  // Audit Changes Data Source
+  var elementMainTableAuditChangesDataSource = new TableView({
+    "id": "elementMainTableAuditChangesDataSource",
+    "count": 4,
+    "drilldown": "none",
+    "refresh.display": "none",
+    "wrap": "false",
+    "managerid": "searchMainDataSourceAuditChangesTable",
+    "el": $('#elementMainTableAuditChangesDataSource')
+  }, {
+      tokens: true,
+      tokenNamespace: "submitted"
+  }).render();
+
+  renderTableIcon(elementMainTableAuditChangesDataSource);
+
+  var resultsLinkelementMainTableAuditChangesDataSource = new ResultsLinkView({
+    id: "resultsLinkelementMainTableAuditChangesDataSource",
+    managerid: "searchMainDataSourceAuditChangesTable",
+    "link.exportResults.visible": false,
+    el: $("#resultsLinkelementMainTableAuditChangesDataSource"),
+  });
+  
+  resultsLinkelementMainTableAuditChangesDataSource
+    .render()
+    .$el.appendTo($("resultsLinkelementMainTableAuditChangesDataSource"));
+
+var chartAuditChangesDataSourceOverTime = new ChartView({
+    "id": "chartAuditChangesDataSourceOverTime",
+    "charting.chart.stackMode": "stacked",
+    "charting.chart": "column",
+    "charting.drilldown": "all",
+    "charting.axisLabelsY.majorUnit": "1",
+    "charting.fieldColors": "{\"success\": 0xb6edb6, \"failure\": 0xFFBABA}",
+    "resizable": true,
+    "height": "150",
+    "managerid": "searchAuditDataSourceAuditChangesOverTime",
+    "el": $('#chartAuditChangesDataSourceOverTime')
+  }, {
+      tokens: true,
+      tokenNamespace: "submitted"
+  }).render();
+
+  var resultsLinkchartAuditChangesDataSourceOverTime = new ResultsLinkView({
+    id: "resultsLinkchartAuditChangesDataSourceOverTime",
+    managerid: "searchMainDataSourceAuditChangesTable",
+    "link.exportResults.visible": false,
+    el: $("#resultsLinkchartAuditChangesDataSourceOverTime"),
+  });
+  
+  resultsLinkchartAuditChangesDataSourceOverTime
+    .render()
+    .$el.appendTo($("resultsLinkchartAuditChangesDataSourceOverTime"));
 
   //
   // BEGIN OPERATIONS
@@ -13563,6 +13725,7 @@ inputDataSourceOverviewMetricsChartSeries.on("valueChange", function(e) {
                       var tk_doc_link;
                       var tk_doc_note;
                       var tk_tags;
+                      var tk_status_message;
 
                       for (var i = 0; i < rows.length; i++) {
                           var values = rows[i];
@@ -13606,7 +13769,10 @@ inputDataSourceOverviewMetricsChartSeries.on("valueChange", function(e) {
                                   tk_doc_note = value;
                               } else if (field == "tags") {
                                   tk_tags = value;
+                              } else if (field == 'status_message') {
+                                  tk_status_message = value;
                               }
+                              
 
                           }
                       }
@@ -13751,6 +13917,12 @@ inputDataSourceOverviewMetricsChartSeries.on("valueChange", function(e) {
                           '</span>' +
                           '</h3>'
                       );
+
+                      $('#child-data-source-status-message').html(
+                        '<div class="' + tk_data_source_status_message_class + '">' +
+                        '<h2 style="font-weight: bold; color: darkslategray;">' + tk_status_message + '</h2>' +
+                        '</div>'
+                      );            
 
                   });
               },

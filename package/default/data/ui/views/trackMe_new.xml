@@ -301,6 +301,37 @@ span.title_high_priority {
     border-radius: 3px 3px 3px 3px;
 }
 
+        /* Timeline viz */
+        .ccat-green {
+             fill: #77dd77 !important;
+             stroke: #77dd77 !important;
+        }
+  
+        .ccat-red {
+             fill: #ff6961 !important;
+             stroke: #ff6961 !important;
+        }
+
+        .ccat-blue {
+             fill: #89cff0 !important;
+             stroke: #89cff0 !important;
+        }
+
+        .ccat-orange {
+             fill: #ffb347 !important;
+             stroke: #ffb347 !important;
+        }
+
+        .ccat-yellow {
+             fill: #ffd700 !important;
+             stroke: #ffd700 !important;
+        }
+           
+        .ccat-grey {
+             fill: #808080 !important;
+             stroke: #808080 !important;
+        }
+
 /*** Buttons ***/
 
         .btn {
@@ -4637,7 +4668,7 @@ span.title_high_priority {
                                 <div style="padding: 20px;">
                                     <div id="divDataSourceFlippingNotFound" style="display: none">
                                         <div class="status_message_green">
-                                            <h2 style="font-weight: bold;">No flipping status detected within the period</h2>
+                                            <h2 style="font-weight: bold; color: darkslategray;">No flipping status detected within the period</h2>
                                         </div>
                                     </div>
                                 </div>
@@ -4645,18 +4676,46 @@ span.title_high_priority {
                             </div>
 
 
-							<div id="data_source_audit" style="display: none">
-                            
+							<div id="data_source_status" style="display: none">
+                                <div style="padding: 20px;">
+                                    <div id="child-data-source-status-message">
+                                    </div>
+                                </div>
+                                <div style="padding: 20px;">
+                                    <h3>Last 7 days timeline</h3>
+                                    <div id="TimelineDataSource" class="view-elements">
+                                    </div>
+                                    <div id="resultsLinkTimelineDataSource" class="search-elements">
+                                    </div>
+                                </div>
                             </div>
-
 
 							<div id="data_source_changes" style="display: none">
                             
+                                <div style="padding: 20px;">
+                                    <div id="divDataSourceChangesChart" style="display: none">
+                                        <h3>Changes over time</h3>
+                                        <div id="chartAuditChangesDataSourceOverTime" class="view-elements"></div>
+                                        <div id="resultsLinkchartAuditChangesDataSourceOverTime" class="search-elements"></div>
+                                    </div>
+                                </div>
+
+                                <div style="padding: 20px;">
+                                    <div id="divDataSourceChangesTable" style="display: none">
+                                        <div id="elementMainTableAuditChangesDataSource" class="view-elements"></div>
+                                        <div id="resultsLinkelementMainTableAuditChangesDataSource" class="search-elements"></div>
+                                    </div>
+                                </div>
+
+                                <div style="padding: 20px;">
+                                    <div id="divDataSourceChangesNotFound" style="display: none">
+                                        <div class="status_message_green">
+                                            <h2 style="font-weight: bold; color: darkslategray;">No flipping status detected within the period</h2>
+                                        </div>
+                                    </div>
+                                </div>
                             
                             </div>
-
-
-
 
 							<div id="data_source_timepicker" style="display: none">
 								<div id="inputLinkTime"></div>
