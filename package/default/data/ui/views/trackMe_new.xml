@@ -4124,10 +4124,10 @@
                                                 </div>
                                             </div>
                                             <div style="margin-top: 10px; margin-bottom: 10px;">
-                                                <button id="btn_modal_modify_lag_confirm" type="submit" class="btn btn-outline-danger">
+                                                <button id="btn_modal_modify_lag_confirm" type="submit" class="btn btn-outline-danger" style="margin-right: 5px;">
                                                     <span class="glyphicon glyphicon-remove"></span> Apply manual lagging rule
                                                 </button>
-                                                <button id="btn_modal_modify_lag_auto_main" type="submit" data-dismiss="modal" class="btn btn-outline-primary">
+                                                <button id="btn_modal_modify_lag_auto_main" type="submit" data-dismiss="modal" class="btn btn-outline-primary" style="margin-right: 5px;">
                                                     <span class="glyphicon glyphicon-remove"></span> Or choose an auto lagging
                                                 </button>
                                             </div>
@@ -4158,7 +4158,7 @@
                                                 </div>
                                             </div>
                                             <div style="margin-top: 10px; margin-bottom: 10px;">
-                                                <button id="btn_modal_modify_priority_confirm" type="submit" class="btn btn-outline-danger">
+                                                <button id="btn_modal_modify_priority_confirm" type="submit" class="btn btn-outline-danger" style="margin-right: 5px;">
                                                     <span class="glyphicon glyphicon-remove"></span> Apply priority
                                                 </button>
                                             </div>
@@ -4172,10 +4172,10 @@
                                                 </div>
                                             </div>
                                             <div style="margin-top: 10px; margin-bottom: 10px;">
-                                                <button id="btn_modal_modify_monitoring_wdays_confirm" type="submit" class="btn btn-outline-danger">
+                                                <button id="btn_modal_modify_monitoring_wdays_confirm" type="submit" class="btn btn-outline-danger" style="margin-right: 5px;">
                                                     <span class="glyphicon glyphicon-remove"></span> Apply wdays builtin rule
                                                 </button>
-                                                <button id="btn_modal_modify_wdays_no" type="submit" class="btn btn-outline-primary" data-dismiss="modal">
+                                                <button id="btn_modal_modify_wdays_no" type="submit" class="btn btn-outline-primary" data-dismiss="modal" style="margin-right: 5px;">
                                                     <span class="glyphicon glyphicon-remove"></span> Or select days of the week
                                                 </button>
                                             </div>
@@ -4201,7 +4201,7 @@
                                                 </div>
                                             </div>
                                             <div style="margin-top: 10px; margin-bottom: 10px;">
-                                                <button id="btn_modal_modify_monitoring_level_confirm" type="submit" class="btn btn-outline-danger">
+                                                <button id="btn_modal_modify_monitoring_level_confirm" type="submit" class="btn btn-outline-danger" style="margin-right: 5px;">
                                                     <span class="glyphicon glyphicon-remove"></span> Apply monitoring level rule
                                                 </button>
                                             </div>
@@ -4215,7 +4215,7 @@
                                                 </div>
                                             </div>
                                             <div style="margin-top: 10px; margin-bottom: 10px;">
-                                                <button id="btn_modal_modify_dcount_host_confirm" type="submit" class="btn btn-outline-danger">
+                                                <button id="btn_modal_modify_dcount_host_confirm" type="submit" class="btn btn-outline-danger" style="margin-right: 5px;">
                                                     <span class="glyphicon glyphicon-remove"></span> Apply host dcount rule
                                                 </button>
                                             </div>
@@ -4248,8 +4248,8 @@
 							</div>
 							<div class="modal-body">
 								<div style="margin-bottom: 30px;">
-									<h2>The following calculations represent different options that could be used to define an appropriate value for the max lagging value allowed.</h2>
-                                    <p>Note that these calculations are performed against the lag at ingestion time only.</p>									
+									<h1>The following calculations represent different options that could be used to define an appropriate value for the max lagging value allowed.</h1>
+                                    <h2>Note that these calculations are performed against the lag at ingestion time only.</h2>
 								</div>
                                 <style>
                                     .parent-data-source-single-calculate-autolag {
@@ -4266,22 +4266,30 @@
                                     <div id="elementDataSourceAutoLaggingDataSourceSingleLagPerc95Last30d"></div>
                                     <div id="elementDataSourceAutoLaggingDataSourceSingleLagAvgLast30d"></div>
 								</div>
-								<div>
-									<div style="margin-bottom: 10px;">
-										<h4>Choose one option to be applied:</h4>
-										<button id="btn_modal_modify_lag_auto_perc95" type="submit" class="btn btn-outline-primary">
-											<span class="glyphicon glyphicon-remove"></span> Apply auto percentile lag (7d)
-										</button>
-										<button id="btn_modal_modify_lag_auto_perc95_30d" type="submit" class="btn btn-outline-primary">
-											<span class="glyphicon glyphicon-remove"></span> Or Apply auto percentile lag (30d)
-										</button>
-										<button id="btn_modal_modify_lag_auto_average" type="submit" class="btn btn-outline-primary">
-											<span class="glyphicon glyphicon-remove"></span> Or Apply auto average lag (7d)
-										</button>
-										<button id="btn_modal_modify_lag_auto_average_30d" type="submit" class="btn btn-outline-primary">
-											<span class="glyphicon glyphicon-remove"></span> Or Apply auto average lag (30d)
-										</button>
-									</div>
+								<div style="margin-top: 15px; margin-bottom: 15px;">
+                                    <h2>Choose one option to be applied:</h2>
+                                </div>
+                                <div class="parent-data-source-single-calculate-autolag">
+                                    <div style="text-align: center;">
+                                        <button id="btn_modal_modify_lag_auto_perc95" type="submit" class="btn btn-outline-primary">
+                                            <span class="glyphicon glyphicon-remove"></span> Apply auto percentile lag (7d)
+                                        </button>
+                                    </div>
+                                    <div style="text-align: center;">
+                                        <button id="btn_modal_modify_lag_auto_perc95_30d" type="submit" class="btn btn-outline-primary">
+                                            <span class="glyphicon glyphicon-remove"></span> Or Apply auto percentile lag (30d)
+                                        </button>
+                                    </div>
+                                    <div style="text-align: center;">
+                                        <button id="btn_modal_modify_lag_auto_average" type="submit" class="btn btn-outline-primary">
+                                            <span class="glyphicon glyphicon-remove"></span> Or Apply auto average lag (7d)
+                                        </button>
+                                    </div>
+                                    <div style="text-align: center;">
+                                        <button id="btn_modal_modify_lag_auto_average_30d" type="submit" class="btn btn-outline-primary">
+                                            <span class="glyphicon glyphicon-remove"></span> Or Apply auto average lag (30d)
+                                        </button>
+                                    </div>
 								</div>
 							</div>
 							<div style="margin-top: 20px;" class="modal-footer">

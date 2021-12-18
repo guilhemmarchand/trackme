@@ -13722,6 +13722,142 @@ require([
       FormUtils.handleValueChange(modal_input_dcount_host);
   });
 
+        // modal Single AutoLag
+        var elementDataSourceAutoLaggingDataSourceSingleLagPerc95 = new SingleView({
+          "id": "elementDataSourceAutoLaggingDataSourceSingleLagPerc95",
+          "trendDisplayMode": "absolute",
+          "numberPrecision": "0",
+          "drilldown": "none",
+          "trellis.size": "medium",
+          "trendColorInterpretation": "standard",
+          "height": "95",
+          "useColors": "0",
+          "colorBy": "value",
+          "showTrendIndicator": "1",
+          "showSparkline": "1",
+          "trellis.enabled": "0",
+          "rangeColors": "[\"0x77dd77\",\"0x0877a6\",\"0xf8be34\",\"0xf1813f\",\"0xdc4e41\"]",
+          "colorMode": "none",
+          "rangeValues": "[0,30,70,100]",
+          "unitPosition": "after",
+          "trellis.scales.shared": "1",
+          "useThousandSeparators": "1",
+          "underLabel": "LAST 7 DAYS PERCENTILE 95 AUTO LAG",
+          "managerid": "searchSingleLagAutoLaggingDataSource7dSingleLagPerc95",
+          "el": $('#elementDataSourceAutoLaggingDataSourceSingleLagPerc95')
+      }, {
+          tokens: true,
+          tokenNamespace: "submitted"
+      }).render();
+
+      var elementDataSourceAutoLaggingDataSourceSingleLagAvg = new SingleView({
+        "id": "elementDataSourceAutoLaggingDataSourceSingleLagAvg",
+        "trendDisplayMode": "absolute",
+        "numberPrecision": "0",
+        "drilldown": "none",
+        "trellis.size": "medium",
+        "trendColorInterpretation": "standard",
+        "height": "95",
+        "useColors": "0",
+        "colorBy": "value",
+        "showTrendIndicator": "1",
+        "showSparkline": "1",
+        "trellis.enabled": "0",
+        "rangeColors": "[\"0x77dd77\",\"0x0877a6\",\"0xf8be34\",\"0xf1813f\",\"0xdc4e41\"]",
+        "colorMode": "none",
+        "rangeValues": "[0,30,70,100]",
+        "unitPosition": "after",
+        "trellis.scales.shared": "1",
+        "useThousandSeparators": "1",
+        "underLabel": "LAST 7 DAYS AVERAGE AUTO LAG",
+        "managerid": "searchSingleLagAutoLaggingDataSource7dSingleLagAvg",
+        "el": $('#elementDataSourceAutoLaggingDataSourceSingleLagAvg')
+    }, {
+        tokens: true,
+        tokenNamespace: "submitted"
+    }).render();
+
+    var elementDataSourceAutoLaggingDataSourceSingleLagPerc95Last30d = new SingleView({
+        "id": "elementDataSourceAutoLaggingDataSourceSingleLagPerc95Last30d",
+        "trendDisplayMode": "absolute",
+        "numberPrecision": "0",
+        "drilldown": "none",
+        "trellis.size": "medium",
+        "trendColorInterpretation": "standard",
+        "height": "95",
+        "useColors": "0",
+        "colorBy": "value",
+        "showTrendIndicator": "1",
+        "showSparkline": "1",
+        "trellis.enabled": "0",
+        "rangeColors": "[\"0x77dd77\",\"0x0877a6\",\"0xf8be34\",\"0xf1813f\",\"0xdc4e41\"]",
+        "colorMode": "none",
+        "rangeValues": "[0,30,70,100]",
+        "unitPosition": "after",
+        "trellis.scales.shared": "1",
+        "useThousandSeparators": "1",
+        "underLabel": "LAST 30 DAYS PERCENTILE 95 AUTO LAG",
+        "managerid": "searchSingleLagAutoLaggingDataSource30dSingleLagPerc95",
+        "el": $('#elementDataSourceAutoLaggingDataSourceSingleLagPerc95Last30d')
+    }, {
+        tokens: true,
+        tokenNamespace: "submitted"
+    }).render();
+
+    var elementDataSourceAutoLaggingDataSourceSingleLagAvgLast30d = new SingleView({
+        "id": "elementDataSourceAutoLaggingDataSourceSingleLagAvgLast30d",
+        "trendDisplayMode": "absolute",
+        "numberPrecision": "0",
+        "drilldown": "none",
+        "trellis.size": "medium",
+        "trendColorInterpretation": "standard",
+        "height": "95",
+        "useColors": "0",
+        "colorBy": "value",
+        "showTrendIndicator": "1",
+        "showSparkline": "1",
+        "trellis.enabled": "0",
+        "rangeColors": "[\"0x77dd77\",\"0x0877a6\",\"0xf8be34\",\"0xf1813f\",\"0xdc4e41\"]",
+        "colorMode": "none",
+        "rangeValues": "[0,30,70,100]",
+        "unitPosition": "after",
+        "trellis.scales.shared": "1",
+        "useThousandSeparators": "1",
+        "underLabel": "LAST 30 DAYS AVERAGE AUTO LAG",
+        "managerid": "searchSingleLagAutoLaggingDataSource30dSingleLagAvg",
+        "el": $('#elementDataSourceAutoLaggingDataSourceSingleLagAvgLast30d')
+    }, {
+        tokens: true,
+        tokenNamespace: "submitted"
+    }).render();
+
+    // modal Single AutoLag
+    var elementDataHostAutoLaggingDataHostSingleLagPerc95 = new SingleView({
+        "id": "elementDataHostAutoLaggingDataHostSingleLagPerc95",
+        "trendDisplayMode": "absolute",
+        "numberPrecision": "0",
+        "drilldown": "none",
+        "trellis.size": "medium",
+        "trendColorInterpretation": "standard",
+        "height": "95",
+        "useColors": "0",
+        "colorBy": "value",
+        "showTrendIndicator": "1",
+        "showSparkline": "1",
+        "trellis.enabled": "0",
+        "rangeColors": "[\"0x77dd77\",\"0x0877a6\",\"0xf8be34\",\"0xf1813f\",\"0xdc4e41\"]",
+        "colorMode": "none",
+        "rangeValues": "[0,30,70,100]",
+        "unitPosition": "after",
+        "trellis.scales.shared": "1",
+        "useThousandSeparators": "1",
+        "underLabel": "LAST 7 DAYS PERCENTILE 95 AUTO LAG",
+        "managerid": "searchSingleLagAutoLaggingDataHost7dSingleLagPerc95",
+        "el": $('#elementDataHostAutoLaggingDataHostSingleLagPerc95')
+    }, {
+        tokens: true,
+        tokenNamespace: "submitted"
+    }).render();
 
   //
   // BEGIN OPERATIONS
@@ -24806,19 +24942,8 @@ require([
           // hide the current modal
           $("#modal_modify_data_source_autolag").modal("hide");
 
-          cssloaderremove();
-          $("body").append(
-              '<div id="loadingGray" style="background: #e9e9e9; display: block; position: fixed; z-index: 100; top: 0; right: 0; bottom: 0; left: 0; height: 100%; opacity: 0.8;"><div style="width: 100%; margin-top: 250px; padding-bottom: 50px; text-align: center;"><p style="font-size: 18pt; font-weight: bolder; color: #003b59;">Please wait while determining the entity lagging value...</p></div><div id="spinner"></div></div>'
-          );
-
-          require(["jquery", "/static/app/trackme/spin.js"], function($, Spinner) {
-              new Spinner({
-                  lines: 12,
-                  length: 18,
-                  position: "relative",
-                  color: "#003b59",
-              }).spin(document.getElementById("spinner"));
-          });
+          // spinner
+          cssloader("Please wait while determining the entity lagging value...");
 
           // Shall the search fail before we can get properties
           if (job == null) {
@@ -25024,19 +25149,8 @@ require([
           // hide the current modal
           $("#modal_modify_data_source_autolag").modal("hide");
 
-          cssloaderremove();
-          $("body").append(
-              '<div id="loadingGray" style="background: #e9e9e9; display: block; position: fixed; z-index: 100; top: 0; right: 0; bottom: 0; left: 0; height: 100%; opacity: 0.8;"><div style="width: 100%; margin-top: 250px; padding-bottom: 50px; text-align: center;"><p style="font-size: 18pt; font-weight: bolder; color: #003b59;">Please wait while determining the entity lagging value...</p></div><div id="spinner"></div></div>'
-          );
-
-          require(["jquery", "/static/app/trackme/spin.js"], function($, Spinner) {
-              new Spinner({
-                  lines: 12,
-                  length: 18,
-                  position: "relative",
-                  color: "#003b59",
-              }).spin(document.getElementById("spinner"));
-          });
+          // spinner
+          cssloader("Please wait while determining the entity lagging value...");
 
           // Shall the search fail before we can get properties
           if (job == null) {
@@ -25241,19 +25355,8 @@ require([
           // hide the current modal
           $("#modal_modify_data_source_autolag").modal("hide");
 
-          cssloaderremove();
-          $("body").append(
-              '<div id="loadingGray" style="background: #e9e9e9; display: block; position: fixed; z-index: 100; top: 0; right: 0; bottom: 0; left: 0; height: 100%; opacity: 0.8;"><div style="width: 100%; margin-top: 250px; padding-bottom: 50px; text-align: center;"><p style="font-size: 18pt; font-weight: bolder; color: #003b59;">Please wait while determining the entity lagging value...</p></div><div id="spinner"></div></div>'
-          );
-
-          require(["jquery", "/static/app/trackme/spin.js"], function($, Spinner) {
-              new Spinner({
-                  lines: 12,
-                  length: 18,
-                  position: "relative",
-                  color: "#003b59",
-              }).spin(document.getElementById("spinner"));
-          });
+          // spinner
+          cssloader("Please wait while determining the entity lagging value...");
 
           // Shall the search fail before we can get properties
           if (job == null) {
@@ -25458,19 +25561,8 @@ require([
           // hide the current modal
           $("#modal_modify_data_source_autolag").modal("hide");
 
-          cssloaderremove();
-          $("body").append(
-              '<div id="loadingGray" style="background: #e9e9e9; display: block; position: fixed; z-index: 100; top: 0; right: 0; bottom: 0; left: 0; height: 100%; opacity: 0.8;"><div style="width: 100%; margin-top: 250px; padding-bottom: 50px; text-align: center;"><p style="font-size: 18pt; font-weight: bolder; color: #003b59;">Please wait while determining the entity lagging value...</p></div><div id="spinner"></div></div>'
-          );
-
-          require(["jquery", "/static/app/trackme/spin.js"], function($, Spinner) {
-              new Spinner({
-                  lines: 12,
-                  length: 18,
-                  position: "relative",
-                  color: "#003b59",
-              }).spin(document.getElementById("spinner"));
-          });
+          // spinner
+          cssloader("Please wait while determining the entity lagging value...");
 
           // Shall the search fail before we can get properties
           if (job == null) {
@@ -26252,19 +26344,8 @@ require([
           // hide the current modal
           $("#modal_modify_data_host_autolag").modal("hide");
 
-          cssloaderremove();
-          $("body").append(
-              '<div id="loadingGray" style="background: #e9e9e9; display: block; position: fixed; z-index: 100; top: 0; right: 0; bottom: 0; left: 0; height: 100%; opacity: 0.8;"><div style="width: 100%; margin-top: 250px; padding-bottom: 50px; text-align: center;"><p style="font-size: 18pt; font-weight: bolder; color: #003b59;">Please wait while determining the entity lagging value...</p></div><div id="spinner"></div></div>'
-          );
-
-          require(["jquery", "/static/app/trackme/spin.js"], function($, Spinner) {
-              new Spinner({
-                  lines: 12,
-                  length: 18,
-                  position: "relative",
-                  color: "#003b59",
-              }).spin(document.getElementById("spinner"));
-          });
+          // spinner
+          cssloader("Please wait while determining the entity lagging value...");
 
           // Shall the search fail before we can get properties
           if (job == null) {
@@ -26467,19 +26548,8 @@ require([
           // hide the current modal
           $("#modal_modify_data_host_autolag").modal("hide");
 
-          cssloaderremove();
-          $("body").append(
-              '<div id="loadingGray" style="background: #e9e9e9; display: block; position: fixed; z-index: 100; top: 0; right: 0; bottom: 0; left: 0; height: 100%; opacity: 0.8;"><div style="width: 100%; margin-top: 250px; padding-bottom: 50px; text-align: center;"><p style="font-size: 18pt; font-weight: bolder; color: #003b59;">Please wait while determining the entity lagging value...</p></div><div id="spinner"></div></div>'
-          );
-
-          require(["jquery", "/static/app/trackme/spin.js"], function($, Spinner) {
-              new Spinner({
-                  lines: 12,
-                  length: 18,
-                  position: "relative",
-                  color: "#003b59",
-              }).spin(document.getElementById("spinner"));
-          });
+          // spinner
+          cssloader("Please wait while determining the entity lagging value...");
 
           // Shall the search fail before we can get properties
           if (job == null) {
@@ -26681,19 +26751,8 @@ require([
           // hide the current modal
           $("#modal_modify_data_host_autolag").modal("hide");
 
-          cssloaderremove();
-          $("body").append(
-              '<div id="loadingGray" style="background: #e9e9e9; display: block; position: fixed; z-index: 100; top: 0; right: 0; bottom: 0; left: 0; height: 100%; opacity: 0.8;"><div style="width: 100%; margin-top: 250px; padding-bottom: 50px; text-align: center;"><p style="font-size: 18pt; font-weight: bolder; color: #003b59;">Please wait while determining the entity lagging value...</p></div><div id="spinner"></div></div>'
-          );
-
-          require(["jquery", "/static/app/trackme/spin.js"], function($, Spinner) {
-              new Spinner({
-                  lines: 12,
-                  length: 18,
-                  position: "relative",
-                  color: "#003b59",
-              }).spin(document.getElementById("spinner"));
-          });
+          // spinner
+          cssloader("Please wait while determining the entity lagging value...");
 
           // Shall the search fail before we can get properties
           if (job == null) {
@@ -26895,19 +26954,8 @@ require([
           // hide the current modal
           $("#modal_modify_data_host_autolag").modal("hide");
 
-          cssloaderremove();
-          $("body").append(
-              '<div id="loadingGray" style="background: #e9e9e9; display: block; position: fixed; z-index: 100; top: 0; right: 0; bottom: 0; left: 0; height: 100%; opacity: 0.8;"><div style="width: 100%; margin-top: 250px; padding-bottom: 50px; text-align: center;"><p style="font-size: 18pt; font-weight: bolder; color: #003b59;">Please wait while determining the entity lagging value...</p></div><div id="spinner"></div></div>'
-          );
-
-          require(["jquery", "/static/app/trackme/spin.js"], function($, Spinner) {
-              new Spinner({
-                  lines: 12,
-                  length: 18,
-                  position: "relative",
-                  color: "#003b59",
-              }).spin(document.getElementById("spinner"));
-          });
+          // spinner
+          cssloader("Please wait while determining the entity lagging value...");
 
           // Shall the search fail before we can get properties
           if (job == null) {
