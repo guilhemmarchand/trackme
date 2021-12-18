@@ -4225,6 +4225,23 @@ span.title_high_priority {
                             </div>
 
                             <div id="data_source_data_parsing" style="display: none">
+
+                                <div style="padding: 20px;">
+
+                                    <div id="divDataSourceParsingErrorsFound">
+                                        <h3>CAUTION: Indexing time parsing errors happen on the sourcetype level, if this sourcetype is indexing to more than one index, these errors may not apply to this index / sourcetype combination</h3>
+                                        <div id="elementSearchDataSourceParsingQualityChart">
+                                        </div>
+                                    </div>
+
+                                    <div id="divDataSourceParsingErrorsNotFound">
+                                        <div class="status_message_green">
+                                            <h2 style="font-weight: bold; color: darkslategray;">No indexing parsing errors detected within the period</h2>
+                                        </div>
+                                    </div>
+
+                                </div>
+
                             </div>
 
                             <div id="data_source_metrics" style="display: none">
