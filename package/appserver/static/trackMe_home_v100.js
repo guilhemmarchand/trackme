@@ -5512,6 +5512,13 @@ require([
               tk_tags_modal_target = "manage_tags";
           }
 
+          // Dynamically manage Ack button
+          if (tk_data_source_state == "red") {
+            document.getElementById('btn_ack_data_source').disabled = false;
+          } else {
+              document.getElementById('btn_ack_data_source').disabled = true;
+          }
+
           // replace info panels
           $('#parent-data-source-main').html(
               '<h1>Actions for data source: ' + tk_data_name + '</h1>'
@@ -13911,6 +13918,78 @@ require([
       .render()
       .$el.appendTo($("resultsLinkelementDataHostAutoLaggingDataHostSingleLagPerc95"));
 
+  // Ack
+  var input_ack_duration = new DropdownInput({
+    "id": "input_ack_duration",
+    "choices": [],
+    "searchWhenChanged": true,
+    "labelField": "label",
+    "valueField": "duration",
+    "selectFirstChoice": true,
+    "showClearButton": true,
+    "value": "$form.input_ack_duration$",
+    "managerid": "searchAckDuration",
+    "el": $('#input_ack_duration')
+}, {tokens: true}).render();
+
+input_ack_duration.on("change", function(newValue) {
+    FormUtils.handleValueChange(input_ack_duration);
+});
+
+      // Ack
+      var elementAckGet = new TableView({
+        "id": "elementAckGet",
+        "count": 100,
+        "drilldown": "row",
+        "fields": "object, ack_mtime, ack_expiration, ack_state, ack_state_icon, comment",
+        "refresh.display": "none",
+        "wrap": "false",
+        "managerid": "searchAckGet",
+        "el": $('#elementAckGet')
+    }, {
+        tokens: true,
+        tokenNamespace: "submitted"
+    }).render();
+
+    elementAckGet.on("click", function(e) {
+        if (e.field !== undefined) {
+            e.preventDefault();
+
+            setToken("keyid", TokenUtils.replaceTokenNames("$row.keyid$", _.extend(submittedTokenModel.toJSON(), e.data)));
+            setToken("input_object", TokenUtils.replaceTokenNames("$row.object$", _.extend(submittedTokenModel.toJSON(), e.data)));
+            setToken("input_object_category", TokenUtils.replaceTokenNames("$row.object_category$", _.extend(submittedTokenModel.toJSON(), e.data)));
+            setToken("ack_expiration", TokenUtils.replaceTokenNames("$row.ack_expiration$", _.extend(submittedTokenModel.toJSON(), e.data)));
+            setToken("ack_state", TokenUtils.replaceTokenNames("$row.ack_state$", _.extend(submittedTokenModel.toJSON(), e.data)));
+
+            // check if already inactive
+            var ack_state = e.data["row.ack_state"];
+
+            if (ack_state === "inactive") {
+                // hide modal
+                $("#confirm_ack").modal('hide');
+                // Enable modal context
+                $("#ack_disable_already").modal();
+            }
+            else {
+                // hide modal
+                $("#confirm_ack").modal('hide');
+                // Enable modal context
+                $("#disable_ack").modal();
+            }
+          }
+      });
+
+      var resultsLinkelementAckGet = new ResultsLinkView({
+        id: "resultsLinkelementAckGet",
+        managerid: "searchAckGet",
+        "link.exportResults.visible": false,
+        el: $("#resultsLinkelementAckGet"),
+    });
+  
+    resultsLinkelementAckGet
+        .render()
+        .$el.appendTo($("resultsLinkelementAckGet"));  
+
   //
   // BEGIN OPERATIONS
   //
@@ -14138,6 +14217,13 @@ require([
                           var tk_data_sampling_status_message_class = "status_message_blue";
                       } else if (tk_data_sampling_status_colour == "red") {
                           var tk_data_sampling_status_message_class = "status_message_red";
+                      }
+
+                      // Dynamically manage Ack button
+                      if (tk_data_source_state == "red") {
+                        document.getElementById('btn_ack_data_source').disabled = false;
+                      } else {
+                          document.getElementById('btn_ack_data_source').disabled = true;
                       }
 
                       // replace info panels
@@ -29081,7 +29167,6 @@ require([
   });
 
   // Disable ack
-
   $(".btn_ack_disable_valid").each(function() {
       var $btn_group = $(this);
       $btn_group.find("button").on("click", function() {
@@ -29152,7 +29237,7 @@ require([
                       }
 
                       // show deleted modal
-                      $("#ack_achieved").modal();
+                      $("#ack_disable_achieved").modal();
                   },
                   error: function(xhr, textStatus, error) {
                       message =

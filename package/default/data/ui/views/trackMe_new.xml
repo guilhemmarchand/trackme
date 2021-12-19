@@ -4772,6 +4772,7 @@
 						</div>
 					</div>
 				</div>
+
 				<!-- Modal window for ack -->
 				<div class="modal fade custom-modal-80" id="confirm_ack" role="dialog">
 					<div class="modal-dialog">
@@ -4785,55 +4786,48 @@
 							</div>
 							<div class="modal-body">
 								<div>
-									<div>
-										<div>
-											<div>
-												<div>
-													<h4>Do you want to acknowledge this alert?</h4>
-													<p>When an active alert is acknowledged, it remains visible in the user interface and monitored, therefore no more
-                                                        alerts will be generated based on the builtin alerting for that source.
-                                                        
-                                                        An acknowledgment is valid for a period of time, and will be disabled automatically once its expiration time has been reached.
-                                                        
-                                                        If an active acknowledgment is acknowledged again, its expiration is extended for a new cycle.
-                                                        
-                                                        An acknowledgment is automatically disabled when the source flips again to a green state.
-                                                        
-														<b>Click on Confirm Ack to acknowledge this alert (if Ack is inactive), or click on the table entry if the Ack is active and you wish to disable it now.</b>
-													</p>
-												</div>
-												<div class="fieldset">
-													<div id="elementAckGet">
-														<label>Current Ack status:</label>
-													</div>
-													<div class="input input-dropdown" id="input_ack_duration">
-														<label>Ack duration:</label>
-													</div>
-													<div class="custom-textarea">
-														<p>
-															<label>Optional: enter a note of this acknowledgment, this note will be logged and made available for notification.
-															</label>
-															<textarea
-                                                                        id = "input_ack_comment"
-                                                                        rows = "6"
-                                                                        cols = "160" style="width: 500px;"
-                                                                        onfocus="if(this.value==this.defaultValue)this.value='';" onblur="if(this.value=='')this.value=this.defaultValue;">update note</textarea>
-														</p>
-													</div>
-												</div>
-											</div>
-										</div>
-									</div>
+                                    <h1>Do you want to acknowledge this alert?</h1>
+                                    <h2>When an active alert is acknowledged, it remains visible in the user interface and monitored. However, no more
+                                        alerts will be generated based on the builtin alerting for that source:</h2>
+                                    <ul>
+                                        <li>An acknowledgment is valid for a period of time, and will be disabled automatically once its expiration time has been reached.</li>
+                                        <li>If an active acknowledgment is acknowledged again, its expiration is extended for a new cycle.</li>                                        
+                                        <li>An acknowledgment is automatically disabled when the source flips again to a green state.</li>
+                                    </ul>
+                                    <h1>Click on Confirm Ack to acknowledge this alert (if Ack is inactive), or click on the table entry if the Ack is active and you wish to disable it now.</h1>
+                                </div>
+                                <div class="fieldset">
+                                    <div style="margin-bottom: 30px;">
+                                        <div id="elementAckGet" class="view-elements">
+                                            <label>Current Ack status:</label>
+                                        </div>
+                                        <div id="resultsLinkelementAckGet" class="search-elements">
+                                        </div>
+                                    </div>
+                                    <div class="input input-dropdown" id="input_ack_duration" style="margin-bottom: 20px;">
+                                        <label>Ack duration:</label>
+                                    </div>
+                                    <div class="custom-textarea">
+                                        <p>
+                                            <label>Optional: enter a note of this acknowledgment, this note will be logged and made available for notification.
+                                            </label>
+                                            <textarea
+                                                        id = "input_ack_comment"
+                                                        rows = "6"
+                                                        cols = "160" style="width: 500px;"
+                                                        onfocus="if(this.value==this.defaultValue)this.value='';" onblur="if(this.value=='')this.value=this.defaultValue;">update note</textarea>
+                                        </p>
+                                    </div>                                    
 								</div>
 							</div>
 							<div style="margin-top: 20px;" class="modal-footer">
 								<div style="margin-right: 15px; float: right;">
-									<button type="submit" class="btn btn-outline-primary" data-dismiss="modal">
+									<button type="submit" class="btn btn-outline-secondary" data-dismiss="modal">
 										<span class="glyphicon glyphicon-remove"></span> Close
 									</button>
 								</div>
 								<div class="btn_ack_confirm_valid" style="margin-right: 15px; float: right;">
-									<button type="submit" class="btn btn-default btn-primary" data-dismiss="modal">
+									<button type="submit" class="btn btn-outline-danger" data-dismiss="modal">
 										<span class="glyphicon glyphicon-remove"></span> Confirm Ack 
 									</button>
 								</div>
@@ -4841,6 +4835,7 @@
 						</div>
 					</div>
 				</div>
+
 				<!-- Modal window confirmation of association for identity card -->
 				<div class="modal fade" id="ack_achieved" role="dialog">
 					<div class="modal-dialog">
@@ -4856,19 +4851,20 @@
 								<div>
 									<div style="margin-bottom: 10px;">
 										<div>
-											<h4>Alert acknowledgment was successfully created.</h4>
+											<h1>Alert acknowledgment was successfully created.</h1>
 										</div>
 									</div>
 								</div>
 							</div>
 							<div style="margin-top: 20px;" class="modal-footer">
-								<button type="submit" class="btn btn-default btn-primary" data-dismiss="modal">
+								<button type="submit" class="btn btn-outline-secondary" data-dismiss="modal">
 									<span class="glyphicon glyphicon-remove"></span> Ok 
 								</button>
 							</div>
 						</div>
 					</div>
 				</div>
+
 				<div class="modal fade" id="ack_disable_achieved" role="dialog">
 					<div class="modal-dialog">
 						<!-- Modal content-->
@@ -4881,21 +4877,18 @@
 							</div>
 							<div class="modal-body">
 								<div>
-									<div style="margin-bottom: 10px;">
-										<div>
-											<h4>Alert acknowledgment was successfully disabled.</h4>
-										</div>
-									</div>
+                                    <h1>Alert acknowledgment was successfully disabled.</h1>
 								</div>
 							</div>
 							<div style="margin-top: 20px;" class="modal-footer">
-								<button type="submit" class="btn btn-default btn-primary" data-dismiss="modal">
+								<button type="submit" class="btn btn-outline-secondary" data-dismiss="modal">
 									<span class="glyphicon glyphicon-remove"></span> Ok 
 								</button>
 							</div>
 						</div>
 					</div>
 				</div>
+
 				<div class="modal fade" id="ack_disable_already" role="dialog">
 					<div class="modal-dialog">
 						<!-- Modal content-->
@@ -4908,21 +4901,18 @@
 							</div>
 							<div class="modal-body">
 								<div>
-									<div style="margin-bottom: 10px;">
-										<div>
-											<h4>Alert acknowledgment is already inactive.</h4>
-										</div>
-									</div>
+                                    <h1>Alert acknowledgment is already inactive.</h1>
 								</div>
 							</div>
 							<div style="margin-top: 20px;" class="modal-footer">
-								<button type="submit" class="btn btn-default btn-primary" data-dismiss="modal">
+								<button type="submit" class="btn btn-outline-secondary" data-dismiss="modal">
 									<span class="glyphicon glyphicon-remove"></span> Ok 
 								</button>
 							</div>
 						</div>
 					</div>
 				</div>
+
 				<!-- Modal window for ack -->
 				<div class="modal fade" id="disable_ack" role="dialog">
 					<div class="modal-dialog">
@@ -4936,25 +4926,17 @@
 							</div>
 							<div class="modal-body">
 								<div>
-									<div>
-										<div>
-											<div>
-												<div>
-													<h4>Do you want to disable this acknowledge ?</h4>
-												</div>
-											</div>
-										</div>
-									</div>
+                                    <h1>Do you want to disable this acknowledge ?</h1>
 								</div>
 							</div>
 							<div style="margin-top: 20px;" class="modal-footer">
 								<div style="margin-right: 15px; float: right;">
-									<button type="submit" class="btn btn-outline-primary" data-dismiss="modal">
+									<button type="submit" class="btn btn-outline-secondary" data-dismiss="modal">
 										<span class="glyphicon glyphicon-remove"></span> Close
 									</button>
 								</div>
 								<div class="btn_ack_disable_valid" style="margin-right: 15px; float: right;">
-									<button type="submit" class="btn btn-default btn-danger" data-dismiss="modal">
+									<button type="submit" class="btn btn-outline-danger" data-dismiss="modal">
 										<span class="glyphicon glyphicon-remove"></span> Disable Ack 
 									</button>
 								</div>
