@@ -4350,140 +4350,117 @@
 					</div>
 				</div>
 
-			</html>
-			<html>
-				<!-- ############
-                    MODAL WINDOWS
-                ############# -->
-				<!--
-                Object tags
-                -->
-				<!-- Modal window define for identity card association -->
-				<div class="modal fade custom-modal-80" id="modal_data_host_tags" role="dialog">
+				<!-- alert creation is successful -->
+				<div class="modal fade" id="modal_alert_creation_success" role="dialog">
 					<div class="modal-dialog">
 						<!-- Modal content-->
 						<div class="modal-content">
-							<!-- This is required to get the token substitutions without affecting the buttons actions in js -->
-							<div>
-								<div>
-									<div class="modal-header modal-header-info">
-										<h1 style="font-size: 18px;">Enrichment tags: $tk_data_host$</h1>
-										<button type="button" class="close" data-dismiss="modal"></button>
-									</div>
-								</div>
-							</div>
-							<div class="modal-body">
-								<div>
-									<div>
-										<div>
-											<div>
-												<div class="imgheader36">
-													<span>
-														<img style="float: left; margin: 0px 15px 15px 0px;" src="../../static/app/trackme/icons/tags.png"/>
-													</span>
-													<h3>Object tags:</h3>
-													<br />
-												</div>
-											</div>
-											<div>
-												<div id="elementGetTagsDataHost"></div>
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
-							<div class="modal-footer">
-								<button type="submit" id="btn_back_data_host_tags" class="btn btn-default btn-primary pull-left" data-dismiss="modal">
-									<span class="glyphicon glyphicon-remove"></span> Back
-								</button>
-							</div>
-						</div>
-					</div>
-				</div>
-				<!-- Modal window define for identity card association -->
-				<div class="modal fade custom-modal-80" id="modal_metric_host_tags" role="dialog">
-					<div class="modal-dialog">
-						<!-- Modal content-->
-						<div class="modal-content">
-							<!-- This is required to get the token substitutions without affecting the buttons actions in js -->
-							<div id="body_metric_host_tags">
-								<div>
-									<div class="modal-header modal-header-info">
-										<h1 style="font-size: 18px;">Enrichment tags: $tk_metric_host$</h1>
-										<button type="button" class="close" data-dismiss="modal"></button>
-									</div>
-								</div>
-							</div>
-							<div class="modal-body">
-								<div>
-									<div>
-										<div>
-											<div>
-												<div class="imgheader36">
-													<span>
-														<img style="float: left; margin: 0px 15px 15px 0px;" src="../../static/app/trackme/icons/tags.png"/>
-													</span>
-													<h3>Object tags:</h3>
-													<br />
-												</div>
-											</div>
-											<div>
-												<div id="elementGetTagsMetricHost"></div>
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
-							<div class="modal-footer">
-								<button type="submit" id="btn_back_metric_host_tags" class="btn btn-default btn-primary pull-left" data-dismiss="modal">
-									<span class="glyphicon glyphicon-remove"></span> Back
-								</button>
-							</div>
-						</div>
-					</div>
-				</div>
-				<!-- Modal window for metrics search and report -->
-				<div class="modal fade custom-modal-80" id="metric_hosts_search_and_reports" role="dialog">
-					<div class="modal-dialog">
-						<!-- Modal content-->
-						<div class="modal-content">
-							<div class="modal-header modal-header-info">
+							<div class="modal-header modal-header-success">
 								<button type="button" class="close" data-dismiss="modal"></button>
 								<h1>
-									<span class="glyphicon glyphicon-lock"></span> Metric store - Search &amp; Reports 
+									<span class="glyphicon glyphicon-lock"></span>New alert successfully created.
 								</h1>
 							</div>
 							<div class="modal-body">
-								<div>
-									<div>
-										<div>
-											<div>
-												<div style="margin-right: 15px; text-align: center;">
-													<a class="btn btn-primary" style="margin-right: 20px;" id="btn_search_metric_host_live_report" target="_blank" href="search_metric_source_live_report_url" role="button">Metrics live report</a>
-													<a class="btn btn-primary" style="margin-right: 20px;" id="btn_search_metric_host" target="_blank" href="search_metric_source_url" role="button">Metrics mcatalog report</a>
-													<a class="btn btn-primary" style="margin-right: 20px;" id="btn_msearch_metric_host" target="_blank" href="search_data_source_url" role="button">Search (msearch)</a>
-													<a class="btn btn-primary" style="margin-right: 20px;" id="btn_mpreview_metric_host" target="_blank" href="search_data_source_url" role="button">Search (mpreview)</a>
-												</div>
-											</div>
-										</div>
-									</div>
+								<p>Congratulations, the new alert tracker was successfully created.
+									<br />
+									<br />
+									<b>The following new tracker was created:</b>
+								</p>
+								<div class="modal-error-message" style="margin: 10px 0; padding: 10px; border-radius: 3px 3px 3px 3px; color: white; background-color: dodgerblue;">
+									<p>success return message</p>
 								</div>
-								<div style="margin-top: 20px;" class="modal-footer">
-									<div style="margin-right: 15px; float: left;">
-										<button type="submit" class="btn btn-default btn-default pull-left" data-dismiss="modal">
-											<span class="glyphicon glyphicon-remove"></span> Close
-										</button>
-									</div>
-									<div style="margin-right: 15px; float: right;">
-										<button id="btn_metric_host_search_and_report_back" type="submit" class="btn btn-default btn-primary" data-dismiss="modal">
-											<span class="glyphicon glyphicon-remove"></span> Back 
-										</button>
-									</div>
-								</div>
+							</div>
+							<div class="modal-footer">
+								<button type="submit" class="btn btn-outline-primary" data-dismiss="modal">
+									<span class="glyphicon glyphicon-remove"></span> Close
+								</button>
 							</div>
 						</div>
 					</div>
 				</div>
+				<!-- Error or failure during alert creation -->
+				<div class="modal fade" id="modal_alert_creation_error" role="dialog">
+					<div class="modal-dialog">
+						<!-- Modal content-->
+						<div class="modal-content">
+							<div class="modal-header modal-header-danger">
+								<button type="button" class="close" data-dismiss="modal"></button>
+								<h1>
+									<span class="glyphicon glyphicon-lock"></span>Oops!
+								</h1>
+							</div>
+							<div class="modal-body">
+								<h1>Sorry but it looks like an error occurred while attempting to perform the creation of the new alert tracker.</h1>
+								<h2>You might not have the permission to perform this operation, or an unexpected failure was encountered.</h2>
+								<b>The server returned the following error message:</b>
+								<div class="modal-error-message" style="margin: 10px 0; padding: 10px; border-radius: 3px 3px 3px 3px; color: white; background-color: #ff6961;">
+									<p>error return message</p>
+								</div>
+							</div>
+							<div class="modal-footer">
+								<button type="submit" class="btn btn-outline-secondary pull-right" data-dismiss="modal">
+									<span class="glyphicon glyphicon-remove"></span> Close
+								</button>
+							</div>
+						</div>
+					</div>
+				</div>
+				<!-- Modal window for lag value modification -->
+				<!-- data source monitoring -->
+				<div class="modal fade custom-modal-50" id="modal_modify_main" role="dialog">
+					<div class="modal-dialog">
+						<!-- Modal content-->
+						<div class="modal-content">
+							<div class="modal-header modal-header-danger">
+								<button type="button" class="close" data-dismiss="modal"></button>
+								<h1>
+									<span class="glyphicon glyphicon-lock"></span> Modify data source monitoring
+								</h1>
+							</div>
+							<div class="modal-body">
+								<p>You can modify different parameters regarding the monitoring of this data source:</p>
+								<b>monitoring_wdays: modify the week days rules for monitoring</b>
+								<br />
+								<lu>
+									<li>all_days: monitor the data source every days of the week</li>
+									<li>monday-to-friday: monitor the data source only during working days from Monday to Friday</li>
+									<li>monday-to-saturday: monitor the data source only during working days from Monday to Saturday</li>
+									<li>Or enter the manual mode where you can select each days of the week to be monitored</li>
+								</lu>
+								<br />
+								<b>monitoring_level:</b>
+								<br />
+								<lu>
+									<li>sourcetype: monitor data source availability on a per sourcetype basis</li>
+									<li>index: monitor data source availability on a per index basis, ignoring the sourcetype value</li>
+								</lu>
+								<br />
+								<b>maximal lag value:</b>
+								<br />
+								<lu>
+									<li>the maximal value in seconds of unavailability of the data source before it is declared in red state</li>
+								</lu>
+								<br />
+							</div>
+							<div class="modal-footer">
+								<button type="submit" id="btn_modal_modify_cancel" class="btn btn-default btn-default pull-left" data-dismiss="modal">
+									<span class="glyphicon glyphicon-remove"></span> Cancel
+								</button>
+								<button id="btn_modal_modify_wdays" type="submit" class="btn btn-default btn-primary" data-dismiss="modal">
+									<span class="glyphicon glyphicon-remove"></span> Modify monitoring wdays
+								</button>
+								<button id="btn_modal_modify_level" type="submit" class="btn btn-default btn-primary" data-dismiss="modal">
+									<span class="glyphicon glyphicon-remove"></span> Modify monitoring level
+								</button>
+								<button id="btn_modal_modify_lag" type="submit" class="btn btn-default btn-primary" data-dismiss="modal">
+									<span class="glyphicon glyphicon-remove"></span> Modify monitoring lagging
+								</button>
+							</div>
+						</div>
+					</div>
+				</div>
+
 				<!--
                 identity card
                 -->
@@ -4563,7 +4540,6 @@
 												<legend>Define a link and a note to document this data source</legend>
 												<p>
 													<b>You can create wildcard matching ID cards to match multiple entities based on your naming convention using the trackme SPL command.</b>
-													<br/>
 													<i>Open a new tab to: 
 														<a target="_blank" href="https://trackme.readthedocs.io/en/latest/userguide.html#data-identity-wildcard-matching">https://trackme.readthedocs.io/en/latest/userguide.html#data-identity-wildcard-matching</a>
 													</i>
@@ -4576,14 +4552,16 @@
                                                         style="width: 900px;"
                                                         onfocus="if(this.value==this.defaultValue)this.value='';" onblur="if(this.value=='')this.value=this.defaultValue;"></input>
 												</p>
-												<p>
-													<label>Optional: enter a documentation note:</label>
-													<textarea
-                                                            id = "input_doc_note"
-                                                            rows = "10"
-                                                            cols = "160" style="width: 900px;"
-                                                            onfocus="if(this.value==this.defaultValue)this.value='';" onblur="if(this.value=='')this.value=this.defaultValue;">documentation note</textarea>
-												</p>
+                                                <div class="custom-textarea">
+                                                    <p>
+                                                        <label>Optional: enter a documentation note:</label>
+                                                        <textarea
+                                                                id = "input_doc_note"
+                                                                rows = "10"
+                                                                cols = "160" style="width: 900px;"
+                                                                onfocus="if(this.value==this.defaultValue)this.value='';" onblur="if(this.value=='')this.value=this.defaultValue;">documentation note</textarea>
+                                                    </p>
+                                                </div>
 											</fieldset>
 										</form>
 										<div style="float: left;">
@@ -4815,19 +4793,12 @@
 													<p>When an active alert is acknowledged, it remains visible in the user interface and monitored, therefore no more
                                                         alerts will be generated based on the builtin alerting for that source.
                                                         
-														<br />
-														<br />
                                                         An acknowledgment is valid for a period of time, and will be disabled automatically once its expiration time has been reached.
                                                         
-														<br />
                                                         If an active acknowledgment is acknowledged again, its expiration is extended for a new cycle.
                                                         
-														<br />
-														<br />
                                                         An acknowledgment is automatically disabled when the source flips again to a green state.
                                                         
-														<br />
-														<br />
 														<b>Click on Confirm Ack to acknowledge this alert (if Ack is inactive), or click on the table entry if the Ack is active and you wish to disable it now.</b>
 													</p>
 												</div>
@@ -4835,18 +4806,12 @@
 													<div id="elementAckGet">
 														<label>Current Ack status:</label>
 													</div>
-													<br />
-													<br />
 													<div class="input input-dropdown" id="input_ack_duration">
 														<label>Ack duration:</label>
 													</div>
-													<br />
-													<br />
-													<div>
+													<div class="custom-textarea">
 														<p>
-															<label>Optional: enter a note of this acknowledgment. 
-																<br />
-                                                                    This note will be logged and made available for notification.
+															<label>Optional: enter a note of this acknowledgment, this note will be logged and made available for notification.
 															</label>
 															<textarea
                                                                         id = "input_ack_comment"
@@ -4992,6 +4957,251 @@
 									<button type="submit" class="btn btn-default btn-danger" data-dismiss="modal">
 										<span class="glyphicon glyphicon-remove"></span> Disable Ack 
 									</button>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<!-- Generic modification -->
+				<div class="modal fade" id="modal_entry_modification" role="dialog">
+					<div class="modal-dialog">
+						<!-- Modal content-->
+						<div class="modal-content">
+							<div class="modal-header modal-header-danger">
+								<button type="button" class="close" data-dismiss="modal"></button>
+								<h1>
+									<span class="glyphicon glyphicon-lock"></span>Perform entity updates
+								</h1>
+							</div>
+							<div class="modal-body">
+								<p>
+									<b>Confirm update for this entity?</b>
+								</p>
+								<p>
+									<label>Optional: enter a note of this update, this note will be logged and made available for notification.
+									</label>
+                                    <div class="custom-textarea">
+                                        <textarea
+                                                id = "input_update_comment"
+                                                rows = "6"
+                                                cols = "160" style="width: 500px;"
+                                                onfocus="if(this.value==this.defaultValue)this.value='';" onblur="if(this.value=='')this.value=this.defaultValue;">update note</textarea>
+                                    </div>
+								</p>
+							</div>
+							<div class="modal-footer">
+								<button type="submit" class="btn btn-outline-secondary pull-left" data-dismiss="modal">
+									<span class="glyphicon glyphicon-remove"></span> Cancel
+								</button>
+								<button type="submit" id="btn_modal_entry_modification" class="btn btn-outline-danger pull-right" data-dismiss="modal">
+									<span class="glyphicon glyphicon-remove"></span> Confirm
+								</button>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<!-- Generic deletion -->
+				<div class="modal custom-modal-50 fade" id="modal_entry_deletion" role="dialog">
+					<div class="modal-dialog">
+						<!-- Modal content-->
+						<div class="modal-content">
+							<div class="modal-header modal-header-danger">
+								<button type="button" class="close" data-dismiss="modal"></button>
+								<h1>
+									<span class="glyphicon glyphicon-lock"></span>Entity deletion
+								</h1>
+							</div>
+							<div class="modal-body">
+								<p>
+									<h1>Confirm deletion of this entity?</h1>
+                                    You may want to delete a data source entry if the data source has been discontinued, or if the target index or sourcetype was changed.                                    
+									<h1>Two options are available:</h1>
+									<ul>
+										<li>
+											<b>Delete temporary:</b> removes the entity and its settings, shall the data source or host be active in the past 7 days, it will be re-created automatically by the trackers
+										</li>
+										<li>
+											<b>Delete permanently:</b> removes the entity and its settings, in addition it prevents the data source or host from being re-created automatically by the trackers
+										</li>
+									</ul>
+								</p>
+							</div>
+							<div class="modal-footer">
+								<button type="submit" class="btn btn-outline-secondary pull-left" data-dismiss="modal">
+									<span class="glyphicon glyphicon-remove"></span> Cancel
+								</button>
+								<button type="submit" id="btn_modal_entry_deletion_temporary" class="btn btn-outline-danger pull-right" data-dismiss="modal">
+									<span class="glyphicon glyphicon-remove"></span> Delete temporary
+								</button>
+								<button type="submit" id="btn_modal_entry_deletion" class="btn btn-outline-danger pull-right" data-dismiss="modal">
+									<span class="glyphicon glyphicon-remove"></span> Delete permanently
+								</button>
+							</div>
+						</div>
+					</div>
+				</div>
+				<!-- Error or failure during KVstore collection update -->
+				<div class="modal fade" id="modal_update_collection_failure_return" role="dialog">
+					<div class="modal-dialog">
+						<!-- Modal content-->
+						<div class="modal-content">
+							<div class="modal-header modal-header-danger">
+								<button type="button" class="close" data-dismiss="modal"></button>
+								<h1>
+									<span class="glyphicon glyphicon-lock"></span>Oops!
+								</h1>
+							</div>
+							<div class="modal-body">
+								<h1>Sorry but it looks like an error occurred while attempting to perform the KVstore collection update.</h1>
+								<h2>You might not have the permission to write to the collection, or an unexpected failure was encountered.</h2>
+								<b>The server returned the following error message:</b>
+								<div class="modal-error-message" style="margin: 10px 0; padding: 10px; border-radius: 3px 3px 3px 3px; color: white; background-color: #ff6961;">
+									<p>error return message</p>
+								</div>
+							</div>
+							<div class="modal-footer">
+								<button type="submit" class="btn btn-outline-secondary pull-right" data-dismiss="modal">
+									<span class="glyphicon glyphicon-remove"></span> Close
+								</button>
+							</div>
+						</div>
+					</div>
+				</div>
+
+			</html>
+
+            <!-- BEGIN OPERATIONS -->
+
+			<html>
+				<!-- ############
+                    MODAL WINDOWS
+                ############# -->
+				<!--
+                Object tags
+                -->
+				<!-- Modal window define for identity card association -->
+				<div class="modal fade custom-modal-80" id="modal_data_host_tags" role="dialog">
+					<div class="modal-dialog">
+						<!-- Modal content-->
+						<div class="modal-content">
+							<!-- This is required to get the token substitutions without affecting the buttons actions in js -->
+							<div>
+								<div>
+									<div class="modal-header modal-header-info">
+										<h1 style="font-size: 18px;">Enrichment tags: $tk_data_host$</h1>
+										<button type="button" class="close" data-dismiss="modal"></button>
+									</div>
+								</div>
+							</div>
+							<div class="modal-body">
+								<div>
+									<div>
+										<div>
+											<div>
+												<div class="imgheader36">
+													<span>
+														<img style="float: left; margin: 0px 15px 15px 0px;" src="../../static/app/trackme/icons/tags.png"/>
+													</span>
+													<h3>Object tags:</h3>
+													<br />
+												</div>
+											</div>
+											<div>
+												<div id="elementGetTagsDataHost"></div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="modal-footer">
+								<button type="submit" id="btn_back_data_host_tags" class="btn btn-default btn-primary pull-left" data-dismiss="modal">
+									<span class="glyphicon glyphicon-remove"></span> Back
+								</button>
+							</div>
+						</div>
+					</div>
+				</div>
+				<!-- Modal window define for identity card association -->
+				<div class="modal fade custom-modal-80" id="modal_metric_host_tags" role="dialog">
+					<div class="modal-dialog">
+						<!-- Modal content-->
+						<div class="modal-content">
+							<!-- This is required to get the token substitutions without affecting the buttons actions in js -->
+							<div id="body_metric_host_tags">
+								<div>
+									<div class="modal-header modal-header-info">
+										<h1 style="font-size: 18px;">Enrichment tags: $tk_metric_host$</h1>
+										<button type="button" class="close" data-dismiss="modal"></button>
+									</div>
+								</div>
+							</div>
+							<div class="modal-body">
+								<div>
+									<div>
+										<div>
+											<div>
+												<div class="imgheader36">
+													<span>
+														<img style="float: left; margin: 0px 15px 15px 0px;" src="../../static/app/trackme/icons/tags.png"/>
+													</span>
+													<h3>Object tags:</h3>
+													<br />
+												</div>
+											</div>
+											<div>
+												<div id="elementGetTagsMetricHost"></div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="modal-footer">
+								<button type="submit" id="btn_back_metric_host_tags" class="btn btn-default btn-primary pull-left" data-dismiss="modal">
+									<span class="glyphicon glyphicon-remove"></span> Back
+								</button>
+							</div>
+						</div>
+					</div>
+				</div>
+				<!-- Modal window for metrics search and report -->
+				<div class="modal fade custom-modal-80" id="metric_hosts_search_and_reports" role="dialog">
+					<div class="modal-dialog">
+						<!-- Modal content-->
+						<div class="modal-content">
+							<div class="modal-header modal-header-info">
+								<button type="button" class="close" data-dismiss="modal"></button>
+								<h1>
+									<span class="glyphicon glyphicon-lock"></span> Metric store - Search &amp; Reports 
+								</h1>
+							</div>
+							<div class="modal-body">
+								<div>
+									<div>
+										<div>
+											<div>
+												<div style="margin-right: 15px; text-align: center;">
+													<a class="btn btn-primary" style="margin-right: 20px;" id="btn_search_metric_host_live_report" target="_blank" href="search_metric_source_live_report_url" role="button">Metrics live report</a>
+													<a class="btn btn-primary" style="margin-right: 20px;" id="btn_search_metric_host" target="_blank" href="search_metric_source_url" role="button">Metrics mcatalog report</a>
+													<a class="btn btn-primary" style="margin-right: 20px;" id="btn_msearch_metric_host" target="_blank" href="search_data_source_url" role="button">Search (msearch)</a>
+													<a class="btn btn-primary" style="margin-right: 20px;" id="btn_mpreview_metric_host" target="_blank" href="search_data_source_url" role="button">Search (mpreview)</a>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div style="margin-top: 20px;" class="modal-footer">
+									<div style="margin-right: 15px; float: left;">
+										<button type="submit" class="btn btn-default btn-default pull-left" data-dismiss="modal">
+											<span class="glyphicon glyphicon-remove"></span> Close
+										</button>
+									</div>
+									<div style="margin-right: 15px; float: right;">
+										<button id="btn_metric_host_search_and_report_back" type="submit" class="btn btn-default btn-primary" data-dismiss="modal">
+											<span class="glyphicon glyphicon-remove"></span> Back 
+										</button>
+									</div>
 								</div>
 							</div>
 						</div>
@@ -5995,189 +6205,6 @@
 						</div>
 					</div>
 				</div>
-				<!-- Generic deletion -->
-				<div class="modal custom-modal-50 fade" id="modal_entry_deletion" role="dialog">
-					<div class="modal-dialog">
-						<!-- Modal content-->
-						<div class="modal-content">
-							<div class="modal-header modal-header-danger">
-								<button type="button" class="close" data-dismiss="modal"></button>
-								<h1>
-									<span class="glyphicon glyphicon-lock"></span>KVstore entry deletion
-								</h1>
-							</div>
-							<div class="modal-body">
-								<p>
-									<b>Confirm deletion of this entry?</b>
-									<br />
-									<br />
-                                    You may want to delete a data source entry if the data source has been discontinued, or if the target index or sourcetype was changed.
-                                    
-									<br />
-									<br />
-									<b>Two options are available:</b>
-									<lu>
-										<li>
-											<b>Delete temporary:</b> removes the entity and its settings, shall the data source or host be active in the past 7 days, it will be re-created automatically by the trackers
-										</li>
-										<li>
-											<b>Delete permanently:</b> removes the entity and its settings, in addition it prevents the data source or host from being re-created automatically by the trackers
-										</li>
-										<br />
-									</lu>
-								</p>
-							</div>
-							<div class="modal-footer">
-								<button type="submit" class="btn btn-outline-secondary pull-left" data-dismiss="modal">
-									<span class="glyphicon glyphicon-remove"></span> Cancel
-								</button>
-								<button type="submit" id="btn_modal_entry_deletion_temporary" class="btn btn-default btn-primary pull-right" data-dismiss="modal">
-									<span class="glyphicon glyphicon-remove"></span> Delete temporary
-								</button>
-								<button type="submit" id="btn_modal_entry_deletion" class="btn btn-default btn-danger pull-right" data-dismiss="modal">
-									<span class="glyphicon glyphicon-remove"></span> Delete permanently
-								</button>
-							</div>
-						</div>
-					</div>
-				</div>
-				<!-- Error or failure during KVstore collection update -->
-				<div class="modal fade" id="modal_update_collection_failure_return" role="dialog">
-					<div class="modal-dialog">
-						<!-- Modal content-->
-						<div class="modal-content">
-							<div class="modal-header modal-header-danger">
-								<button type="button" class="close" data-dismiss="modal"></button>
-								<h1>
-									<span class="glyphicon glyphicon-lock"></span>Oops!
-								</h1>
-							</div>
-							<div class="modal-body">
-								<h1>Sorry but it looks like an error occurred while attempting to perform the KVstore collection update.</h1>
-								<h2>You might not have the permission to write to the collection, or an unexpected failure was encountered.</h2>
-								<b>The server returned the following error message:</b>
-								<div class="modal-error-message" style="margin: 10px 0; padding: 10px; border-radius: 3px 3px 3px 3px; color: white; background-color: #ff6961;">
-									<p>error return message</p>
-								</div>
-							</div>
-							<div class="modal-footer">
-								<button type="submit" class="btn btn-outline-secondary pull-right" data-dismiss="modal">
-									<span class="glyphicon glyphicon-remove"></span> Close
-								</button>
-							</div>
-						</div>
-					</div>
-				</div>
-				<!-- alert creation is successful -->
-				<div class="modal fade" id="modal_alert_creation_success" role="dialog">
-					<div class="modal-dialog">
-						<!-- Modal content-->
-						<div class="modal-content">
-							<div class="modal-header modal-header-success">
-								<button type="button" class="close" data-dismiss="modal"></button>
-								<h1>
-									<span class="glyphicon glyphicon-lock"></span>New alert successfully created.
-								</h1>
-							</div>
-							<div class="modal-body">
-								<p>Congratulations, the new alert tracker was successfully created.
-									<br />
-									<br />
-									<b>The following new tracker was created:</b>
-								</p>
-								<div class="modal-error-message" style="margin: 10px 0; padding: 10px; border-radius: 3px 3px 3px 3px; color: white; background-color: dodgerblue;">
-									<p>success return message</p>
-								</div>
-							</div>
-							<div class="modal-footer">
-								<button type="submit" class="btn btn-outline-primary" data-dismiss="modal">
-									<span class="glyphicon glyphicon-remove"></span> Close
-								</button>
-							</div>
-						</div>
-					</div>
-				</div>
-				<!-- Error or failure during alert creation -->
-				<div class="modal fade" id="modal_alert_creation_error" role="dialog">
-					<div class="modal-dialog">
-						<!-- Modal content-->
-						<div class="modal-content">
-							<div class="modal-header modal-header-danger">
-								<button type="button" class="close" data-dismiss="modal"></button>
-								<h1>
-									<span class="glyphicon glyphicon-lock"></span>Oops!
-								</h1>
-							</div>
-							<div class="modal-body">
-								<h1>Sorry but it looks like an error occurred while attempting to perform the creation of the new alert tracker.</h1>
-								<h2>You might not have the permission to perform this operation, or an unexpected failure was encountered.</h2>
-								<b>The server returned the following error message:</b>
-								<div class="modal-error-message" style="margin: 10px 0; padding: 10px; border-radius: 3px 3px 3px 3px; color: white; background-color: #ff6961;">
-									<p>error return message</p>
-								</div>
-							</div>
-							<div class="modal-footer">
-								<button type="submit" class="btn btn-outline-secondary pull-right" data-dismiss="modal">
-									<span class="glyphicon glyphicon-remove"></span> Close
-								</button>
-							</div>
-						</div>
-					</div>
-				</div>
-				<!-- Modal window for lag value modification -->
-				<!-- data source monitoring -->
-				<div class="modal fade custom-modal-50" id="modal_modify_main" role="dialog">
-					<div class="modal-dialog">
-						<!-- Modal content-->
-						<div class="modal-content">
-							<div class="modal-header modal-header-danger">
-								<button type="button" class="close" data-dismiss="modal"></button>
-								<h1>
-									<span class="glyphicon glyphicon-lock"></span> Modify data source monitoring
-								</h1>
-							</div>
-							<div class="modal-body">
-								<p>You can modify different parameters regarding the monitoring of this data source:</p>
-								<b>monitoring_wdays: modify the week days rules for monitoring</b>
-								<br />
-								<lu>
-									<li>all_days: monitor the data source every days of the week</li>
-									<li>monday-to-friday: monitor the data source only during working days from Monday to Friday</li>
-									<li>monday-to-saturday: monitor the data source only during working days from Monday to Saturday</li>
-									<li>Or enter the manual mode where you can select each days of the week to be monitored</li>
-								</lu>
-								<br />
-								<b>monitoring_level:</b>
-								<br />
-								<lu>
-									<li>sourcetype: monitor data source availability on a per sourcetype basis</li>
-									<li>index: monitor data source availability on a per index basis, ignoring the sourcetype value</li>
-								</lu>
-								<br />
-								<b>maximal lag value:</b>
-								<br />
-								<lu>
-									<li>the maximal value in seconds of unavailability of the data source before it is declared in red state</li>
-								</lu>
-								<br />
-							</div>
-							<div class="modal-footer">
-								<button type="submit" id="btn_modal_modify_cancel" class="btn btn-default btn-default pull-left" data-dismiss="modal">
-									<span class="glyphicon glyphicon-remove"></span> Cancel
-								</button>
-								<button id="btn_modal_modify_wdays" type="submit" class="btn btn-default btn-primary" data-dismiss="modal">
-									<span class="glyphicon glyphicon-remove"></span> Modify monitoring wdays
-								</button>
-								<button id="btn_modal_modify_level" type="submit" class="btn btn-default btn-primary" data-dismiss="modal">
-									<span class="glyphicon glyphicon-remove"></span> Modify monitoring level
-								</button>
-								<button id="btn_modal_modify_lag" type="submit" class="btn btn-default btn-primary" data-dismiss="modal">
-									<span class="glyphicon glyphicon-remove"></span> Modify monitoring lagging
-								</button>
-							</div>
-						</div>
-					</div>
-				</div>
 				<!-- data host monitoring -->
 				<div class="modal fade custom-modal-50" id="modal_modify_main_host" role="dialog">
 					<div class="modal-dialog">
@@ -6236,19 +6263,18 @@
 									<div class="modal-body">
 										<p>
 											<b>Confirm modification ?</b>
-											<br />
 										</p>
-										<p>
-											<label>Optional: enter a note of this update. 
-												<br />
-                                                This note will be logged and made available for notification.
-											</label>
-											<textarea
-                                                    id = "metric_host_sla_policy_delete_comment"
-                                                    rows = "6"
-                                                    cols = "160" style="width: 500px;"
-                                                    onfocus="if(this.value==this.defaultValue)this.value='';" onblur="if(this.value=='')this.value=this.defaultValue;">update note</textarea>
-										</p>
+                                        <div class="custom-textarea">
+                                            <p>
+                                                <label>Optional: enter a note of this update, this note will be logged and made available for notification.
+                                                </label>
+                                                <textarea
+                                                        id = "metric_host_sla_policy_delete_comment"
+                                                        rows = "6"
+                                                        cols = "160" style="width: 500px;"
+                                                        onfocus="if(this.value==this.defaultValue)this.value='';" onblur="if(this.value=='')this.value=this.defaultValue;">update note</textarea>
+                                            </p>
+                                        </div>
 									</div>
 								</div>
 							</div>
@@ -6953,45 +6979,6 @@
 							</div>
 							<div class="modal-footer">
 								<button type="submit" id="btn_modal_entry_update_invalid" class="btn btn-primary btn-danger pull-right" data-dismiss="modal">
-									<span class="glyphicon glyphicon-remove"></span> Ok
-								</button>
-							</div>
-						</div>
-					</div>
-				</div>
-				<!-- Generic modification -->
-				<div class="modal fade" id="modal_entry_modification" role="dialog">
-					<div class="modal-dialog">
-						<!-- Modal content-->
-						<div class="modal-content">
-							<div class="modal-header modal-header-danger">
-								<button type="button" class="close" data-dismiss="modal"></button>
-								<h1>
-									<span class="glyphicon glyphicon-lock"></span>KVstore entry update
-								</h1>
-							</div>
-							<div class="modal-body">
-								<p>
-									<b>Confirm modification for this entry?</b>
-									<br />
-								</p>
-								<p>
-									<label>Optional: enter a note of this update. 
-										<br />
-                                        This note will be logged and made available for notification.
-									</label>
-									<textarea
-                                            id = "input_update_comment"
-                                            rows = "6"
-                                            cols = "160" style="width: 500px;"
-                                            onfocus="if(this.value==this.defaultValue)this.value='';" onblur="if(this.value=='')this.value=this.defaultValue;">update note</textarea>
-								</p>
-							</div>
-							<div class="modal-footer">
-								<button type="submit" class="btn btn-outline-secondary pull-left" data-dismiss="modal">
-									<span class="glyphicon glyphicon-remove"></span> Cancel
-								</button>
-								<button type="submit" id="btn_modal_entry_modification" class="btn btn-default btn-primary pull-right" data-dismiss="modal">
 									<span class="glyphicon glyphicon-remove"></span> Ok
 								</button>
 							</div>

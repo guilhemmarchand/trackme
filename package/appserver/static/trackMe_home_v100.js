@@ -13719,197 +13719,197 @@ require([
       FormUtils.handleValueChange(modal_input_dcount_host);
   });
 
-        // modal Single AutoLag
-        var elementDataSourceAutoLaggingDataSourceSingleLagPerc95 = new SingleView({
-          "id": "elementDataSourceAutoLaggingDataSourceSingleLagPerc95",
-          "trendDisplayMode": "absolute",
-          "numberPrecision": "0",
-          "drilldown": "none",
-          "trellis.size": "medium",
-          "trendColorInterpretation": "standard",
-          "height": "95",
-          "useColors": "0",
-          "colorBy": "value",
-          "showTrendIndicator": "1",
-          "showSparkline": "1",
-          "trellis.enabled": "0",
-          "rangeColors": "[\"0x77dd77\",\"0x0877a6\",\"0xf8be34\",\"0xf1813f\",\"0xdc4e41\"]",
-          "colorMode": "none",
-          "rangeValues": "[0,30,70,100]",
-          "unitPosition": "after",
-          "trellis.scales.shared": "1",
-          "useThousandSeparators": "1",
-          "underLabel": "LAST 7 DAYS PERCENTILE 95 AUTO LAG",
-          "managerid": "searchSingleLagAutoLaggingDataSource7dSingleLagPerc95",
-          "el": $('#elementDataSourceAutoLaggingDataSourceSingleLagPerc95')
-      }, {
-          tokens: true,
-          tokenNamespace: "submitted"
-      }).render();
+  // modal Single AutoLag
+  var elementDataSourceAutoLaggingDataSourceSingleLagPerc95 = new SingleView({
+      "id": "elementDataSourceAutoLaggingDataSourceSingleLagPerc95",
+      "trendDisplayMode": "absolute",
+      "numberPrecision": "0",
+      "drilldown": "none",
+      "trellis.size": "medium",
+      "trendColorInterpretation": "standard",
+      "height": "95",
+      "useColors": "0",
+      "colorBy": "value",
+      "showTrendIndicator": "1",
+      "showSparkline": "1",
+      "trellis.enabled": "0",
+      "rangeColors": "[\"0x77dd77\",\"0x0877a6\",\"0xf8be34\",\"0xf1813f\",\"0xdc4e41\"]",
+      "colorMode": "none",
+      "rangeValues": "[0,30,70,100]",
+      "unitPosition": "after",
+      "trellis.scales.shared": "1",
+      "useThousandSeparators": "1",
+      "underLabel": "LAST 7 DAYS PERCENTILE 95 AUTO LAG",
+      "managerid": "searchSingleLagAutoLaggingDataSource7dSingleLagPerc95",
+      "el": $('#elementDataSourceAutoLaggingDataSourceSingleLagPerc95')
+  }, {
+      tokens: true,
+      tokenNamespace: "submitted"
+  }).render();
 
-      var resultsLinkelementDataSourceAutoLaggingDataSourceSingleLagPerc95 = new ResultsLinkView({
-        id: "resultsLinkelementDataSourceAutoLaggingDataSourceSingleLagPerc95",
-        managerid: "searchSingleLagAutoLaggingDataSource7dSingleLagPerc95",
-        "link.exportResults.visible": false,
-        el: $("#resultsLinkelementDataSourceAutoLaggingDataSourceSingleLagPerc95"),
-      });
-    
-      resultsLinkelementDataSourceAutoLaggingDataSourceSingleLagPerc95
-          .render()
-          .$el.appendTo($("resultsLinkelementDataSourceAutoLaggingDataSourceSingleLagPerc95"));
-  
-      var elementDataSourceAutoLaggingDataSourceSingleLagAvg = new SingleView({
-        "id": "elementDataSourceAutoLaggingDataSourceSingleLagAvg",
-        "trendDisplayMode": "absolute",
-        "numberPrecision": "0",
-        "drilldown": "none",
-        "trellis.size": "medium",
-        "trendColorInterpretation": "standard",
-        "height": "95",
-        "useColors": "0",
-        "colorBy": "value",
-        "showTrendIndicator": "1",
-        "showSparkline": "1",
-        "trellis.enabled": "0",
-        "rangeColors": "[\"0x77dd77\",\"0x0877a6\",\"0xf8be34\",\"0xf1813f\",\"0xdc4e41\"]",
-        "colorMode": "none",
-        "rangeValues": "[0,30,70,100]",
-        "unitPosition": "after",
-        "trellis.scales.shared": "1",
-        "useThousandSeparators": "1",
-        "underLabel": "LAST 7 DAYS AVERAGE AUTO LAG",
-        "managerid": "searchSingleLagAutoLaggingDataSource7dSingleLagAvg",
-        "el": $('#elementDataSourceAutoLaggingDataSourceSingleLagAvg')
-    }, {
-        tokens: true,
-        tokenNamespace: "submitted"
-    }).render();
+  var resultsLinkelementDataSourceAutoLaggingDataSourceSingleLagPerc95 = new ResultsLinkView({
+      id: "resultsLinkelementDataSourceAutoLaggingDataSourceSingleLagPerc95",
+      managerid: "searchSingleLagAutoLaggingDataSource7dSingleLagPerc95",
+      "link.exportResults.visible": false,
+      el: $("#resultsLinkelementDataSourceAutoLaggingDataSourceSingleLagPerc95"),
+  });
 
-    var resultsLinkelementDataSourceAutoLaggingDataSourceSingleLagAvg = new ResultsLinkView({
+  resultsLinkelementDataSourceAutoLaggingDataSourceSingleLagPerc95
+      .render()
+      .$el.appendTo($("resultsLinkelementDataSourceAutoLaggingDataSourceSingleLagPerc95"));
+
+  var elementDataSourceAutoLaggingDataSourceSingleLagAvg = new SingleView({
+      "id": "elementDataSourceAutoLaggingDataSourceSingleLagAvg",
+      "trendDisplayMode": "absolute",
+      "numberPrecision": "0",
+      "drilldown": "none",
+      "trellis.size": "medium",
+      "trendColorInterpretation": "standard",
+      "height": "95",
+      "useColors": "0",
+      "colorBy": "value",
+      "showTrendIndicator": "1",
+      "showSparkline": "1",
+      "trellis.enabled": "0",
+      "rangeColors": "[\"0x77dd77\",\"0x0877a6\",\"0xf8be34\",\"0xf1813f\",\"0xdc4e41\"]",
+      "colorMode": "none",
+      "rangeValues": "[0,30,70,100]",
+      "unitPosition": "after",
+      "trellis.scales.shared": "1",
+      "useThousandSeparators": "1",
+      "underLabel": "LAST 7 DAYS AVERAGE AUTO LAG",
+      "managerid": "searchSingleLagAutoLaggingDataSource7dSingleLagAvg",
+      "el": $('#elementDataSourceAutoLaggingDataSourceSingleLagAvg')
+  }, {
+      tokens: true,
+      tokenNamespace: "submitted"
+  }).render();
+
+  var resultsLinkelementDataSourceAutoLaggingDataSourceSingleLagAvg = new ResultsLinkView({
       id: "resultsLinkelementDataSourceAutoLaggingDataSourceSingleLagAvg",
       managerid: "searchSingleLagAutoLaggingDataSource7dSingleLagAvg",
       "link.exportResults.visible": false,
       el: $("#resultsLinkelementDataSourceAutoLaggingDataSourceSingleLagAvg"),
-    });
-  
-    resultsLinkelementDataSourceAutoLaggingDataSourceSingleLagAvg
-        .render()
-        .$el.appendTo($("resultsLinkelementDataSourceAutoLaggingDataSourceSingleLagAvg"));
+  });
 
-    var elementDataSourceAutoLaggingDataSourceSingleLagPerc95Last30d = new SingleView({
-        "id": "elementDataSourceAutoLaggingDataSourceSingleLagPerc95Last30d",
-        "trendDisplayMode": "absolute",
-        "numberPrecision": "0",
-        "drilldown": "none",
-        "trellis.size": "medium",
-        "trendColorInterpretation": "standard",
-        "height": "95",
-        "useColors": "0",
-        "colorBy": "value",
-        "showTrendIndicator": "1",
-        "showSparkline": "1",
-        "trellis.enabled": "0",
-        "rangeColors": "[\"0x77dd77\",\"0x0877a6\",\"0xf8be34\",\"0xf1813f\",\"0xdc4e41\"]",
-        "colorMode": "none",
-        "rangeValues": "[0,30,70,100]",
-        "unitPosition": "after",
-        "trellis.scales.shared": "1",
-        "useThousandSeparators": "1",
-        "underLabel": "LAST 30 DAYS PERCENTILE 95 AUTO LAG",
-        "managerid": "searchSingleLagAutoLaggingDataSource30dSingleLagPerc95",
-        "el": $('#elementDataSourceAutoLaggingDataSourceSingleLagPerc95Last30d')
-    }, {
-        tokens: true,
-        tokenNamespace: "submitted"
-    }).render();
+  resultsLinkelementDataSourceAutoLaggingDataSourceSingleLagAvg
+      .render()
+      .$el.appendTo($("resultsLinkelementDataSourceAutoLaggingDataSourceSingleLagAvg"));
 
-    var resultsLinkelementDataSourceAutoLaggingDataSourceSingleLagPerc95Last30d = new ResultsLinkView({
+  var elementDataSourceAutoLaggingDataSourceSingleLagPerc95Last30d = new SingleView({
+      "id": "elementDataSourceAutoLaggingDataSourceSingleLagPerc95Last30d",
+      "trendDisplayMode": "absolute",
+      "numberPrecision": "0",
+      "drilldown": "none",
+      "trellis.size": "medium",
+      "trendColorInterpretation": "standard",
+      "height": "95",
+      "useColors": "0",
+      "colorBy": "value",
+      "showTrendIndicator": "1",
+      "showSparkline": "1",
+      "trellis.enabled": "0",
+      "rangeColors": "[\"0x77dd77\",\"0x0877a6\",\"0xf8be34\",\"0xf1813f\",\"0xdc4e41\"]",
+      "colorMode": "none",
+      "rangeValues": "[0,30,70,100]",
+      "unitPosition": "after",
+      "trellis.scales.shared": "1",
+      "useThousandSeparators": "1",
+      "underLabel": "LAST 30 DAYS PERCENTILE 95 AUTO LAG",
+      "managerid": "searchSingleLagAutoLaggingDataSource30dSingleLagPerc95",
+      "el": $('#elementDataSourceAutoLaggingDataSourceSingleLagPerc95Last30d')
+  }, {
+      tokens: true,
+      tokenNamespace: "submitted"
+  }).render();
+
+  var resultsLinkelementDataSourceAutoLaggingDataSourceSingleLagPerc95Last30d = new ResultsLinkView({
       id: "resultsLinkelementDataSourceAutoLaggingDataSourceSingleLagPerc95Last30d",
       managerid: "searchSingleLagAutoLaggingDataSource30dSingleLagPerc95",
       "link.exportResults.visible": false,
       el: $("#resultsLinkelementDataSourceAutoLaggingDataSourceSingleLagPerc95Last30d"),
-    });
-  
-    resultsLinkelementDataSourceAutoLaggingDataSourceSingleLagPerc95Last30d
-        .render()
-        .$el.appendTo($("resultsLinkelementDataSourceAutoLaggingDataSourceSingleLagPerc95Last30d"));
+  });
 
-    var elementDataSourceAutoLaggingDataSourceSingleLagAvgLast30d = new SingleView({
-        "id": "elementDataSourceAutoLaggingDataSourceSingleLagAvgLast30d",
-        "trendDisplayMode": "absolute",
-        "numberPrecision": "0",
-        "drilldown": "none",
-        "trellis.size": "medium",
-        "trendColorInterpretation": "standard",
-        "height": "95",
-        "useColors": "0",
-        "colorBy": "value",
-        "showTrendIndicator": "1",
-        "showSparkline": "1",
-        "trellis.enabled": "0",
-        "rangeColors": "[\"0x77dd77\",\"0x0877a6\",\"0xf8be34\",\"0xf1813f\",\"0xdc4e41\"]",
-        "colorMode": "none",
-        "rangeValues": "[0,30,70,100]",
-        "unitPosition": "after",
-        "trellis.scales.shared": "1",
-        "useThousandSeparators": "1",
-        "underLabel": "LAST 30 DAYS AVERAGE AUTO LAG",
-        "managerid": "searchSingleLagAutoLaggingDataSource30dSingleLagAvg",
-        "el": $('#elementDataSourceAutoLaggingDataSourceSingleLagAvgLast30d')
-    }, {
-        tokens: true,
-        tokenNamespace: "submitted"
-    }).render();
+  resultsLinkelementDataSourceAutoLaggingDataSourceSingleLagPerc95Last30d
+      .render()
+      .$el.appendTo($("resultsLinkelementDataSourceAutoLaggingDataSourceSingleLagPerc95Last30d"));
 
-    var resultsLinkelementDataSourceAutoLaggingDataSourceSingleLagAvgLast30d = new ResultsLinkView({
+  var elementDataSourceAutoLaggingDataSourceSingleLagAvgLast30d = new SingleView({
+      "id": "elementDataSourceAutoLaggingDataSourceSingleLagAvgLast30d",
+      "trendDisplayMode": "absolute",
+      "numberPrecision": "0",
+      "drilldown": "none",
+      "trellis.size": "medium",
+      "trendColorInterpretation": "standard",
+      "height": "95",
+      "useColors": "0",
+      "colorBy": "value",
+      "showTrendIndicator": "1",
+      "showSparkline": "1",
+      "trellis.enabled": "0",
+      "rangeColors": "[\"0x77dd77\",\"0x0877a6\",\"0xf8be34\",\"0xf1813f\",\"0xdc4e41\"]",
+      "colorMode": "none",
+      "rangeValues": "[0,30,70,100]",
+      "unitPosition": "after",
+      "trellis.scales.shared": "1",
+      "useThousandSeparators": "1",
+      "underLabel": "LAST 30 DAYS AVERAGE AUTO LAG",
+      "managerid": "searchSingleLagAutoLaggingDataSource30dSingleLagAvg",
+      "el": $('#elementDataSourceAutoLaggingDataSourceSingleLagAvgLast30d')
+  }, {
+      tokens: true,
+      tokenNamespace: "submitted"
+  }).render();
+
+  var resultsLinkelementDataSourceAutoLaggingDataSourceSingleLagAvgLast30d = new ResultsLinkView({
       id: "resultsLinkelementDataSourceAutoLaggingDataSourceSingleLagAvgLast30d",
       managerid: "searchSingleLagAutoLaggingDataSource30dSingleLagAvg",
       "link.exportResults.visible": false,
       el: $("#resultsLinkelementDataSourceAutoLaggingDataSourceSingleLagAvgLast30d"),
-    });
-  
-    resultsLinkelementDataSourceAutoLaggingDataSourceSingleLagAvgLast30d
-        .render()
-        .$el.appendTo($("resultsLinkelementDataSourceAutoLaggingDataSourceSingleLagAvgLast30d"));
+  });
 
-    // modal Single AutoLag
-    var elementDataHostAutoLaggingDataHostSingleLagPerc95 = new SingleView({
-        "id": "elementDataHostAutoLaggingDataHostSingleLagPerc95",
-        "trendDisplayMode": "absolute",
-        "numberPrecision": "0",
-        "drilldown": "none",
-        "trellis.size": "medium",
-        "trendColorInterpretation": "standard",
-        "height": "95",
-        "useColors": "0",
-        "colorBy": "value",
-        "showTrendIndicator": "1",
-        "showSparkline": "1",
-        "trellis.enabled": "0",
-        "rangeColors": "[\"0x77dd77\",\"0x0877a6\",\"0xf8be34\",\"0xf1813f\",\"0xdc4e41\"]",
-        "colorMode": "none",
-        "rangeValues": "[0,30,70,100]",
-        "unitPosition": "after",
-        "trellis.scales.shared": "1",
-        "useThousandSeparators": "1",
-        "underLabel": "LAST 7 DAYS PERCENTILE 95 AUTO LAG",
-        "managerid": "searchSingleLagAutoLaggingDataHost7dSingleLagPerc95",
-        "el": $('#elementDataHostAutoLaggingDataHostSingleLagPerc95')
-    }, {
-        tokens: true,
-        tokenNamespace: "submitted"
-    }).render();
+  resultsLinkelementDataSourceAutoLaggingDataSourceSingleLagAvgLast30d
+      .render()
+      .$el.appendTo($("resultsLinkelementDataSourceAutoLaggingDataSourceSingleLagAvgLast30d"));
 
-    var resultsLinkelementDataHostAutoLaggingDataHostSingleLagPerc95 = new ResultsLinkView({
+  // modal Single AutoLag
+  var elementDataHostAutoLaggingDataHostSingleLagPerc95 = new SingleView({
+      "id": "elementDataHostAutoLaggingDataHostSingleLagPerc95",
+      "trendDisplayMode": "absolute",
+      "numberPrecision": "0",
+      "drilldown": "none",
+      "trellis.size": "medium",
+      "trendColorInterpretation": "standard",
+      "height": "95",
+      "useColors": "0",
+      "colorBy": "value",
+      "showTrendIndicator": "1",
+      "showSparkline": "1",
+      "trellis.enabled": "0",
+      "rangeColors": "[\"0x77dd77\",\"0x0877a6\",\"0xf8be34\",\"0xf1813f\",\"0xdc4e41\"]",
+      "colorMode": "none",
+      "rangeValues": "[0,30,70,100]",
+      "unitPosition": "after",
+      "trellis.scales.shared": "1",
+      "useThousandSeparators": "1",
+      "underLabel": "LAST 7 DAYS PERCENTILE 95 AUTO LAG",
+      "managerid": "searchSingleLagAutoLaggingDataHost7dSingleLagPerc95",
+      "el": $('#elementDataHostAutoLaggingDataHostSingleLagPerc95')
+  }, {
+      tokens: true,
+      tokenNamespace: "submitted"
+  }).render();
+
+  var resultsLinkelementDataHostAutoLaggingDataHostSingleLagPerc95 = new ResultsLinkView({
       id: "resultsLinkelementDataHostAutoLaggingDataHostSingleLagPerc95",
       managerid: "searchSingleLagAutoLaggingDataHost7dSingleLagPerc95",
       "link.exportResults.visible": false,
       el: $("#resultsLinkelementDataHostAutoLaggingDataHostSingleLagPerc95"),
-    });
-  
-    resultsLinkelementDataHostAutoLaggingDataHostSingleLagPerc95
-        .render()
-        .$el.appendTo($("resultsLinkelementDataHostAutoLaggingDataHostSingleLagPerc95"));
+  });
+
+  resultsLinkelementDataHostAutoLaggingDataHostSingleLagPerc95
+      .render()
+      .$el.appendTo($("resultsLinkelementDataHostAutoLaggingDataHostSingleLagPerc95"));
 
   //
   // BEGIN OPERATIONS
@@ -13965,6 +13965,8 @@ require([
                       var tk_doc_note;
                       var tk_tags;
                       var tk_status_message;
+                      var tk_data_sampling_status_message;
+                      var tk_data_sampling_status_colour;
 
                       for (var i = 0; i < rows.length; i++) {
                           var values = rows[i];
@@ -14010,8 +14012,11 @@ require([
                                   tk_tags = value;
                               } else if (field == 'status_message') {
                                   tk_status_message = value;
+                              } else if (field == 'data_sample_status_message') {
+                                tk_data_sampling_status_message = value;
+                              } else if (field == 'data_sample_status_colour') {
+                                tk_data_sampling_status_colour = value;
                               }
-
 
                           }
                       }
@@ -14123,6 +14128,18 @@ require([
                           tk_tags_modal_target = "manage_tags";
                       }
 
+                      // data sampling
+                      var tk_data_sampling_status_message_class;
+                      if (tk_data_sampling_status_colour == "green") {
+                          var tk_data_sampling_status_message_class = "status_message_green";
+                      } else if (tk_data_sampling_status_colour == "orange") {
+                          var tk_data_sampling_status_message_class = "status_message_orange";
+                      } else if (tk_data_sampling_status_colour == "blue") {
+                          var tk_data_sampling_status_message_class = "status_message_blue";
+                      } else if (tk_data_sampling_status_colour == "red") {
+                          var tk_data_sampling_status_message_class = "status_message_red";
+                      }
+
                       // replace info panels
                       $('#parent-data-source-main').html(
                           '<h1>Actions for data source: ' + tk_data_name + '</h1>'
@@ -14161,6 +14178,12 @@ require([
                           '<div class="' + tk_data_source_status_message_class + '">' +
                           '<h2 style="font-weight: bold; color: darkslategray;">' + tk_status_message + '</h2>' +
                           '</div>'
+                      );
+
+                      $('#child-data-source-data-sampling').html(
+                        '<div class="' + tk_data_sampling_status_message_class + '">' +
+                        '<h2 style="font-weight: bold; color: darkslategray;">' + tk_data_sampling_status_message + '</h2>' +
+                        '</div>'
                       );
 
                   });
@@ -15412,6 +15435,14 @@ require([
                   },
                   data: JSON.stringify(record),
                   success: function(returneddata) {
+                      // notify
+                      var msg = "The entity " + tk_data_name + " has been updated successfully."
+                      notify(
+                          "success",
+                          "bottom",
+                          msg,
+                          "5"
+                      );
                       // Run the search again to update the table
                       searchDataSourcesMain.startSearch();
                   },
@@ -15439,7 +15470,6 @@ require([
                           result,
                           comment
                       );
-
                       $("#modal_update_collection_failure_return")
                           .find(".modal-error-message p")
                           .text(message);
@@ -15588,10 +15618,10 @@ require([
 
       // notify
       notify(
-        "info",
-        "bottom",
-        "Refresh completed.",
-        "5"
+          "info",
+          "bottom",
+          "Refresh completed.",
+          "5"
       );
 
       searchSingleLagHost.startSearch();
@@ -15620,10 +15650,10 @@ require([
 
       // notify
       notify(
-        "info",
-        "bottom",
-        "Refresh completed.",
-        "5"
+          "info",
+          "bottom",
+          "Refresh completed.",
+          "5"
       );
 
       searchHostTableMetricHost.startSearch();
@@ -15786,10 +15816,10 @@ require([
 
                   // notify
                   notify(
-                    "info",
-                    "bottom",
-                    "Modification has been registered successfully.",
-                    "5"
+                      "info",
+                      "bottom",
+                      "Modification has been registered successfully.",
+                      "5"
                   );
 
                   // call update data source
@@ -15903,6 +15933,14 @@ require([
                   },
                   data: JSON.stringify(record),
                   success: function(returneddata) {
+                      // notify
+                      var msg = "The entity " + tk_data_name + " has been updated successfully."
+                      notify(
+                          "success",
+                          "bottom",
+                          msg,
+                          "5"
+                      );
                       // Run the search again to update the table
                       searchDataSourcesMain.startSearch();
                   },
@@ -16187,10 +16225,10 @@ require([
 
               // notify
               notify(
-                "info",
-                "bottom",
-                "Reset completed.",
-                "5"
+                  "info",
+                  "bottom",
+                  "Reset completed.",
+                  "5"
               );
 
               // call reset metric host
@@ -16481,91 +16519,6 @@ require([
       // When the Submit button is clicked, get all the form fields by accessing token values
       var tk_keyid = getToken("tk_keyid");
       var tk_data_name = getToken("tk_object");
-      var tk_data_index = getToken("tk_data_index");
-      var tk_data_sourcetype = getToken("tk_data_sourcetype");
-      var tk_data_last_lag_seen = getToken("tk_data_last_lag_seen");
-      var tk_data_last_ingestion_lag_seen = getToken(
-          "tk_data_last_ingestion_lag_seen"
-      );
-      var tk_data_eventcount = getToken("tk_data_eventcount");
-      var tk_data_first_time_seen = getToken("tk_data_first_time_seen");
-      var tk_data_last_time_seen = getToken("tk_data_last_time_seen");
-      var tk_data_last_ingest = getToken("tk_data_last_ingest");
-      var tk_data_last_lag_seen_idx = getToken("tk_data_last_lag_seen_idx");
-      var tk_data_last_time_seen_idx = getToken("tk_data_last_time_seen_idx");
-      var tk_data_max_lag_allowed = getToken("tk_data_max_lag_allowed");
-      var tk_data_lag_alert_kpis = getToken("tk_data_lag_alert_kpis");
-      var tk_data_monitored_state = getToken("tk_data_monitored_state");
-      var tk_data_monitoring_level = getToken("tk_data_monitoring_level");
-      var tk_data_monitoring_wdays = getToken("tk_data_monitoring_wdays");
-      var tk_data_override_lagging_class = getToken(
-          "tk_data_override_lagging_class"
-      );
-      var tk_outliermineventcount = getToken("tk_outliermineventcount");
-      var tk_outlierlowerthresholdmultiplier = getToken(
-          "tk_outlierlowerthresholdmultiplier"
-      );
-      var tk_outlierupperthresholdmultiplier = getToken(
-          "tk_outlierupperthresholdmultiplier"
-      );
-      var tk_outlieralertonupper = getToken("tk_outlieralertonupper");
-      var tk_outlier_period = getToken("tk_outlier_period");
-      var tk_outlier_span = getToken("tk_outlier_span");
-      var tk_isoutlier = getToken("tk_isoutlier");
-      var tk_enable_behaviour_analytic = getToken(
-          "tk_enable_behaviour_analytic"
-      );
-      var tk_isanomaly = getToken("tk_isanomaly");
-      var tk_data_sample_lastrun = getToken("tk_data_sample_lastrun");
-      var tk_latest_flip_state = getToken("tk_latest_flip_state");
-      var tk_latest_flip_time = getToken("tk_latest_flip_time");
-      var tk_priority = getToken("tk_priority");
-      var tk_dcount_host = getToken("tk_dcount_host");
-      var tk_min_dcount_host = getToken("tk_min_dcount_host");
-      var tk_tags = getToken("tk_tags");
-
-      // Create a dictionary to store the field names and values
-      var record = {
-          object_category: "data_source",
-          data_name: tk_data_name,
-          data_index: tk_data_index,
-          data_sourcetype: tk_data_sourcetype,
-          data_last_lag_seen: tk_data_last_lag_seen,
-          data_last_ingestion_lag_seen: tk_data_last_ingestion_lag_seen,
-          data_eventcount: tk_data_eventcount,
-          data_first_time_seen: tk_data_first_time_seen,
-          data_last_time_seen: tk_data_last_time_seen,
-          data_last_ingest: tk_data_last_ingest,
-          data_last_lag_seen_idx: tk_data_last_lag_seen_idx,
-          data_last_time_seen_idx: tk_data_last_time_seen_idx,
-          data_max_lag_allowed: tk_data_max_lag_allowed,
-          data_lag_alert_kpis: tk_data_lag_alert_kpis,
-          data_monitored_state: tk_data_monitored_state,
-          data_monitoring_level: tk_data_monitoring_level,
-          data_monitoring_wdays: tk_data_monitoring_wdays,
-          data_override_lagging_class: tk_data_override_lagging_class,
-          OutlierMinEventCount: tk_outliermineventcount,
-          OutlierLowerThresholdMultiplier: tk_outlierlowerthresholdmultiplier,
-          OutlierUpperThresholdMultiplier: tk_outlierupperthresholdmultiplier,
-          OutlierAlertOnUpper: tk_outlieralertonupper,
-          OutlierTimePeriod: tk_outlier_period,
-          OutlierSpan: tk_outlier_span,
-          isOutlier: tk_isoutlier,
-          enable_behaviour_analytic: tk_enable_behaviour_analytic,
-          isAnomaly: tk_isanomaly,
-          data_sample_lastrun: tk_data_sample_lastrun,
-          latest_flip_state: tk_latest_flip_state,
-          latest_flip_time: tk_latest_flip_time,
-          priority: tk_priority,
-          dcount_host: tk_dcount_host,
-          min_dcount_host: tk_min_dcount_host,
-          tags: tk_tags,
-      };
-
-      // Create the endpoint URL
-      var myendpoint_URl =
-          "/en-US/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_data_source_monitoring/" +
-          tk_keyid;
 
       if (tk_keyid && tk_keyid.length) {
           $("#modal_entry_deletion").modal();
@@ -16610,71 +16563,100 @@ require([
                               "update note";
                       }
 
-                      $.ajax({
-                          url: myendpoint_URl,
-                          type: "DELETE",
-                          async: true,
-                          contentType: "application/json",
-                          success: function(returneddata) {
-                              // Run the search again to update the table
-                              searchDataSourcesMain.startSearch();
+                      // Define the query
+                      var searchQuery =
+                          '| trackme url="/services/trackme/v1/data_sources/ds_delete_temporary" mode="delete" body="{\\"data_name\\": \\"' +
+                          tk_data_name +
+                          '\\", \\"update_comment\\": \\"' +
+                          tk_comment +
+                          '\\"}"';
 
-                              // Audit
-                              action = "success";
-                              change_type = "delete temporary";
-                              object = tk_data_name;
-                              object_category = "data_source";
-                              object_attrs = JSON.stringify(record, null, "\t");
-                              result = "N/A";
-                              comment = tk_comment;
-                              auditRecord(
-                                  action,
-                                  change_type,
-                                  object,
-                                  object_category,
-                                  object_attrs,
-                                  result,
-                                  comment
-                              );
+                      // Set the search parameters--specify a time range
+                      var searchParams = {
+                          earliest_time: "-5m",
+                          latest_time: "now",
+                      };
 
-                              // house cleaning
-                              myendpoint_URl = undefined;
-                              delete myendpoint_URl;
-                              tk_keyid = undefined;
-                              delete tk_keyid;
-                              return;
-                          },
-                          error: function(xhr, textStatus, error) {
-                              message = "Error Updating!" + xhr + textStatus + error;
+                      // Run a normal search that immediately returns the job's SID
+                      service.search(searchQuery, searchParams, function(err, job) {
 
-                              // Audit
-                              action = "failure";
-                              change_type = "delete temporary";
-                              object = tk_data_name;
-                              object_category = "data_source";
-                              object_attrs = JSON.stringify(record, null, "\t");
-                              result = message;
-                              comment = tk_comment;
-                              auditRecord(
-                                  action,
-                                  change_type,
-                                  object,
-                                  object_category,
-                                  object_attrs,
-                                  result,
-                                  comment
-                              );
+                          // spinner
+                          cssloader("Deleting entity...");
 
+                          // Shall the search fail before we can get properties
+                          if (job == null) {
+                              let errorStr = "Unknown Error!";
+                              if (
+                                  err &&
+                                  err.data &&
+                                  err.data.messages &&
+                                  err.data.messages[0]["text"]
+                              ) {
+                                  errorStr = err.data.messages[0]["text"];
+                              } else if (err && err.data && err.data.messages) {
+                                  errorStr = JSON.stringify(err.data.messages);
+                              }
+                              cssloaderremove();
                               $("#modal_update_collection_failure_return")
                                   .find(".modal-error-message p")
-                                  .text(message);
+                                  .text(errorStr);
                               $("#modal_update_collection_failure_return").modal();
-                          },
+                          } else {
+                              // Poll the status of the search job
+                              job.track({
+                                  period: 200,
+                              }, {
+                                  done: function(job) {
+
+                                      // notify
+                                      var msg = "The entity " + tk_data_name + " has been temporary deleted."
+                                      notify(
+                                          "success",
+                                          "bottom",
+                                          msg,
+                                          "5"
+                                      );
+
+                                      // Run the search again to update the table
+                                      searchDataSourcesMain.startSearch();
+
+                                      // remove spinner
+                                      cssloaderremove();
+                                  },
+                                  failed: function(properties) {
+                                      let errorStr = "Unknown Error!";
+                                      if (
+                                          properties &&
+                                          properties._properties &&
+                                          properties._properties.messages &&
+                                          properties._properties.messages[0]["text"]
+                                      ) {
+                                          errorStr = properties._properties.messages[0]["text"];
+                                      } else if (
+                                          properties &&
+                                          properties._properties &&
+                                          properties._properties.messages
+                                      ) {
+                                          errorStr = JSON.stringify(properties._properties.messages);
+                                      }
+                                      cssloaderremove();
+                                      $("#modal_update_collection_failure_return")
+                                          .find(".modal-error-message p")
+                                          .text(errorStr);
+                                      $("#modal_update_collection_failure_return").modal();
+                                  },
+                                  error: function(err) {
+                                      done(err);
+                                      cssloaderremove();
+                                      $("#modal_update_collection_failure").modal();
+                                  },
+                              });
+                          }
                       });
                   });
               });
 
-          // Delete temporary: change_type will be set to permanent
+          // Delete permanent: change_type will be set to permanent
           $("#btn_modal_entry_deletion")
               .unbind("click")
               .click(function() {
@@ -16714,66 +16696,95 @@ require([
                               "update note";
                       }
 
-                      $.ajax({
-                          url: myendpoint_URl,
-                          type: "DELETE",
-                          async: true,
-                          contentType: "application/json",
-                          success: function(returneddata) {
-                              // Run the search again to update the table
-                              searchDataSourcesMain.startSearch();
+                      // Define the query
+                      var searchQuery =
+                          '| trackme url="/services/trackme/v1/data_sources/ds_delete_permanent" mode="delete" body="{\\"data_name\\": \\"' +
+                          tk_data_name +
+                          '\\", \\"update_comment\\": \\"' +
+                          tk_comment +
+                          '\\"}"';
 
-                              // Audit
-                              action = "success";
-                              change_type = "delete permanent";
-                              object = tk_data_name;
-                              object_category = "data_source";
-                              object_attrs = JSON.stringify(record, null, "\t");
-                              result = "N/A";
-                              comment = tk_comment;
-                              auditRecord(
-                                  action,
-                                  change_type,
-                                  object,
-                                  object_category,
-                                  object_attrs,
-                                  result,
-                                  comment
-                              );
+                      // Set the search parameters--specify a time range
+                      var searchParams = {
+                          earliest_time: "-5m",
+                          latest_time: "now",
+                      };
 
-                              // house cleaning
-                              myendpoint_URl = undefined;
-                              delete myendpoint_URl;
-                              tk_keyid = undefined;
-                              delete tk_keyid;
-                              return;
-                          },
-                          error: function(xhr, textStatus, error) {
-                              message = "Error Updating!" + xhr + textStatus + error;
+                      // Run a normal search that immediately returns the job's SID
+                      service.search(searchQuery, searchParams, function(err, job) {
 
-                              // Audit
-                              action = "failure";
-                              change_type = "delete permanent";
-                              object = tk_data_name;
-                              object_category = "data_source";
-                              object_attrs = JSON.stringify(record, null, "\t");
-                              result = "N/A";
-                              comment = tk_comment;
-                              auditRecord(
-                                  action,
-                                  change_type,
-                                  object,
-                                  object_category,
-                                  object_attrs,
-                                  result,
-                                  comment
-                              );
+                          // spinner
+                          cssloader("Deleting entity...");
 
+                          // Shall the search fail before we can get properties
+                          if (job == null) {
+                              let errorStr = "Unknown Error!";
+                              if (
+                                  err &&
+                                  err.data &&
+                                  err.data.messages &&
+                                  err.data.messages[0]["text"]
+                              ) {
+                                  errorStr = err.data.messages[0]["text"];
+                              } else if (err && err.data && err.data.messages) {
+                                  errorStr = JSON.stringify(err.data.messages);
+                              }
+                              cssloaderremove();
                               $("#modal_update_collection_failure_return")
                                   .find(".modal-error-message p")
-                                  .text(message);
+                                  .text(errorStr);
                               $("#modal_update_collection_failure_return").modal();
-                          },
+                          } else {
+                              // Poll the status of the search job
+                              job.track({
+                                  period: 200,
+                              }, {
+                                  done: function(job) {
+
+                                      // notify
+                                      var msg = "The entity " + tk_data_name + " has been permanently deleted."
+                                      notify(
+                                          "success",
+                                          "bottom",
+                                          msg,
+                                          "5"
+                                      );
+
+                                      // Run the search again to update the table
+                                      searchDataSourcesMain.startSearch();
+
+                                      // remove spinner
+                                      cssloaderremove();
+                                  },
+                                  failed: function(properties) {
+                                      let errorStr = "Unknown Error!";
+                                      if (
+                                          properties &&
+                                          properties._properties &&
+                                          properties._properties.messages &&
+                                          properties._properties.messages[0]["text"]
+                                      ) {
+                                          errorStr = properties._properties.messages[0]["text"];
+                                      } else if (
+                                          properties &&
+                                          properties._properties &&
+                                          properties._properties.messages
+                                      ) {
+                                          errorStr = JSON.stringify(properties._properties.messages);
+                                      }
+                                      cssloaderremove();
+                                      $("#modal_update_collection_failure_return")
+                                          .find(".modal-error-message p")
+                                          .text(errorStr);
+                                      $("#modal_update_collection_failure_return").modal();
+                                  },
+                                  error: function(err) {
+                                      done(err);
+                                      cssloaderremove();
+                                      $("#modal_update_collection_failure").modal();
+                                  },
+                              });
+                          }
                       });
                   });
               });
@@ -16828,12 +16839,12 @@ require([
 
               // notify
               notify(
-                "info",
-                "bottom",
-                "Reset completed.",
-                "5"
+                  "info",
+                  "bottom",
+                  "Reset completed.",
+                  "5"
               );
-              
+
               // call reset data host
               var tk_data_host = getToken("tk_data_host");
               clearDataHost(tk_data_host, tk_comment);
@@ -17455,10 +17466,10 @@ require([
 
       // notify
       notify(
-        "info",
-        "bottom",
-        "Modification has been registered successfully.",
-        "5"
+          "info",
+          "bottom",
+          "Modification has been registered successfully.",
+          "5"
       );
 
       // house cleaning
@@ -17788,10 +17799,10 @@ require([
 
       // notify
       notify(
-        "info",
-        "bottom",
-        "Modification has been registered successfully.",
-        "5"
+          "info",
+          "bottom",
+          "Modification has been registered successfully.",
+          "5"
       );
 
       // house cleaning
@@ -18202,10 +18213,10 @@ require([
 
       // notify
       notify(
-        "info",
-        "bottom",
-        "Modification has been registered successfully.",
-        "5"
+          "info",
+          "bottom",
+          "Modification has been registered successfully.",
+          "5"
       );
 
       // house cleaning
@@ -18506,10 +18517,10 @@ require([
 
       // notify
       notify(
-        "info",
-        "bottom",
-        "Modification has been registered successfully.",
-        "5"
+          "info",
+          "bottom",
+          "Modification has been registered successfully.",
+          "5"
       );
 
       // house cleaning
@@ -18809,10 +18820,10 @@ require([
 
       // notify
       notify(
-        "info",
-        "bottom",
-        "Modification has been registered successfully.",
-        "5"
+          "info",
+          "bottom",
+          "Modification has been registered successfully.",
+          "5"
       );
 
       // house cleaning
@@ -19097,10 +19108,10 @@ require([
 
       // notify
       notify(
-        "info",
-        "bottom",
-        "Modification has been registered successfully.",
-        "5"
+          "info",
+          "bottom",
+          "Modification has been registered successfully.",
+          "5"
       );
 
       // house cleaning
@@ -19521,10 +19532,10 @@ require([
 
       // notify
       notify(
-        "info",
-        "bottom",
-        "Modification has been registered successfully.",
-        "5"
+          "info",
+          "bottom",
+          "Modification has been registered successfully.",
+          "5"
       );
 
       // house cleaning
@@ -19665,10 +19676,10 @@ require([
 
       // notify
       notify(
-        "info",
-        "bottom",
-        "Modification has been registered successfully.",
-        "5"
+          "info",
+          "bottom",
+          "Modification has been registered successfully.",
+          "5"
       );
 
       // house cleaning
@@ -19949,10 +19960,10 @@ require([
 
       // notify
       notify(
-        "info",
-        "bottom",
-        "Modification has been registered successfully.",
-        "5"
+          "info",
+          "bottom",
+          "Modification has been registered successfully.",
+          "5"
       );
 
       // house cleaning
@@ -20233,10 +20244,10 @@ require([
 
       // notify
       notify(
-        "info",
-        "bottom",
-        "Modification has been registered successfully.",
-        "5"
+          "info",
+          "bottom",
+          "Modification has been registered successfully.",
+          "5"
       );
 
       // house cleaning
@@ -20524,10 +20535,10 @@ require([
 
       // notify
       notify(
-        "info",
-        "bottom",
-        "Modification has been registered successfully.",
-        "5"
+          "info",
+          "bottom",
+          "Modification has been registered successfully.",
+          "5"
       );
 
       // house cleaning
@@ -20808,10 +20819,10 @@ require([
 
       // notify
       notify(
-        "info",
-        "bottom",
-        "Modification has been registered successfully.",
-        "5"
+          "info",
+          "bottom",
+          "Modification has been registered successfully.",
+          "5"
       );
 
       // house cleaning
@@ -21095,10 +21106,10 @@ require([
 
       // notify
       notify(
-        "info",
-        "bottom",
-        "Modification has been registered successfully.",
-        "5"
+          "info",
+          "bottom",
+          "Modification has been registered successfully.",
+          "5"
       );
 
       // house cleaning
@@ -21380,10 +21391,10 @@ require([
 
       // notify
       notify(
-        "info",
-        "bottom",
-        "Modification has been registered successfully.",
-        "5"
+          "info",
+          "bottom",
+          "Modification has been registered successfully.",
+          "5"
       );
 
       // house cleaning
@@ -21683,10 +21694,10 @@ require([
 
       // notify
       notify(
-        "info",
-        "bottom",
-        "Modification has been registered successfully.",
-        "5"
+          "info",
+          "bottom",
+          "Modification has been registered successfully.",
+          "5"
       );
 
       // house cleaning
@@ -24346,10 +24357,10 @@ require([
 
                   // notify
                   notify(
-                    "info",
-                    "bottom",
-                    "Modification has been registered successfully.",
-                    "5"
+                      "info",
+                      "bottom",
+                      "Modification has been registered successfully.",
+                      "5"
                   );
 
                   // house cleaning
@@ -24444,10 +24455,10 @@ require([
 
                   // notify
                   notify(
-                    "info",
-                    "bottom",
-                    "The entity has been updated successfully.",
-                    "5"
+                      "info",
+                      "bottom",
+                      "The entity has been updated successfully.",
+                      "5"
                   );
 
                   // house cleaning
@@ -24549,10 +24560,10 @@ require([
 
                   // notify
                   notify(
-                    "info",
-                    "bottom",
-                    "The entity has been updated successfully.",
-                    "5"
+                      "info",
+                      "bottom",
+                      "The entity has been updated successfully.",
+                      "5"
                   );
 
                   // house cleaning
@@ -24660,10 +24671,10 @@ require([
 
                   // notify
                   notify(
-                    "info",
-                    "bottom",
-                    "The entity has been updated successfully.",
-                    "5"
+                      "info",
+                      "bottom",
+                      "The entity has been updated successfully.",
+                      "5"
                   );
 
                   // house cleaning
@@ -24736,10 +24747,10 @@ require([
       ) {
           // notify
           notify(
-            "error",
-            "bottom",
-            "ERROR: the minimal distinct host count value needs to be a positive integer, or the string \"any\" to define any value.",
-            "5"
+              "error",
+              "bottom",
+              "ERROR: the minimal distinct host count value needs to be a positive integer, or the string \"any\" to define any value.",
+              "5"
           );
           return;
       } else {
@@ -24769,10 +24780,10 @@ require([
 
                   // notify
                   notify(
-                    "info",
-                    "bottom",
-                    "The entity has been updated successfully.",
-                    "5"
+                      "info",
+                      "bottom",
+                      "The entity has been updated successfully.",
+                      "5"
                   );
 
                   // house cleaning
@@ -24884,10 +24895,10 @@ require([
                   updateDataSource(tk_keyid);
                   // notify
                   notify(
-                    "info",
-                    "bottom",
-                    "The entity has been updated successfully.",
-                    "5"
+                      "info",
+                      "bottom",
+                      "The entity has been updated successfully.",
+                      "5"
                   );
                   // house cleaning
                   myendpoint_URl = undefined;
@@ -25035,26 +25046,25 @@ require([
                                       if (value === "0") {
                                           // notify
                                           notify(
-                                            "error",
-                                            "bottom",
-                                            "ERROR: No live data available for this entity, automatic lagging calculation cannot be performed for inactive entities.",
-                                            "5"
+                                              "error",
+                                              "bottom",
+                                              "ERROR: No live data available for this entity, automatic lagging calculation cannot be performed for inactive entities.",
+                                              "5"
                                           );
 
-                                      }
-                                      else if (value === tk_origin_data_max_lag_allowed) {
+                                      } else if (value === tk_origin_data_max_lag_allowed) {
 
-                                        // notify
-                                        var msg = "ERROR: The max lagging value of " + value +
-                                        " seconds returned from the result of the search equals to the current value assigned (" +
-                                        tk_origin_data_max_lag_allowed +
-                                        " seconds), this indicates that the search did not return a valid value therefore the current value was preserved (min value: 30 seconds)"
-                                        notify(
-                                          "error",
-                                          "bottom",
-                                          msg,
-                                          "10"
-                                        );
+                                          // notify
+                                          var msg = "ERROR: The max lagging value of " + value +
+                                              " seconds returned from the result of the search equals to the current value assigned (" +
+                                              tk_origin_data_max_lag_allowed +
+                                              " seconds), this indicates that the search did not return a valid value therefore the current value was preserved (min value: 30 seconds)"
+                                          notify(
+                                              "error",
+                                              "bottom",
+                                              msg,
+                                              "10"
+                                          );
 
                                       } else {
                                           // Run the search again to update the table
@@ -25062,12 +25072,12 @@ require([
 
                                           // notify
                                           notify(
-                                            "info",
-                                            "bottom",
-                                            "Modification has been registered successfully, max lagging value automatically defined to " +
+                                              "info",
+                                              "bottom",
+                                              "Modification has been registered successfully, max lagging value automatically defined to " +
                                               value +
                                               " seconds.",
-                                            "5"
+                                              "5"
                                           );
 
                                           setToken("tk_data_max_lag_allowed", value);
@@ -25257,25 +25267,25 @@ require([
                                       if (value === "0") {
                                           // notify
                                           notify(
-                                            "error",
-                                            "bottom",
-                                            "ERROR: No live data available for this entity, automatic lagging calculation cannot be performed for inactive entities.",
-                                            "5"
+                                              "error",
+                                              "bottom",
+                                              "ERROR: No live data available for this entity, automatic lagging calculation cannot be performed for inactive entities.",
+                                              "5"
                                           );
 
                                       } else if (value === tk_origin_data_max_lag_allowed) {
 
-                                        // notify
-                                        var msg = "ERROR: The max lagging value of " + value +
-                                        " seconds returned from the result of the search equals to the current value assigned (" +
-                                        tk_origin_data_max_lag_allowed +
-                                        " seconds), this indicates that the search did not return a valid value therefore the current value was preserved (min value: 30 seconds)"
-                                        notify(
-                                          "error",
-                                          "bottom",
-                                          msg,
-                                          "10"
-                                        );
+                                          // notify
+                                          var msg = "ERROR: The max lagging value of " + value +
+                                              " seconds returned from the result of the search equals to the current value assigned (" +
+                                              tk_origin_data_max_lag_allowed +
+                                              " seconds), this indicates that the search did not return a valid value therefore the current value was preserved (min value: 30 seconds)"
+                                          notify(
+                                              "error",
+                                              "bottom",
+                                              msg,
+                                              "10"
+                                          );
 
                                       } else {
                                           // Run the search again to update the table
@@ -25283,12 +25293,12 @@ require([
 
                                           // notify
                                           notify(
-                                            "info",
-                                            "bottom",
-                                            "Modification has been registered successfully, max lagging value automatically defined to " +
-                                            value +
-                                            " seconds.",
-                                            "5"
+                                              "info",
+                                              "bottom",
+                                              "Modification has been registered successfully, max lagging value automatically defined to " +
+                                              value +
+                                              " seconds.",
+                                              "5"
                                           );
 
                                           setToken("tk_data_max_lag_allowed", value);
@@ -25478,38 +25488,38 @@ require([
                                       if (value === "0") {
                                           // notify
                                           notify(
-                                            "info",
-                                            "bottom",
-                                            "ERROR: No live data available for this entity, automatic lagging calculation cannot be performed for inactive entities.",
-                                            "5"
+                                              "info",
+                                              "bottom",
+                                              "ERROR: No live data available for this entity, automatic lagging calculation cannot be performed for inactive entities.",
+                                              "5"
                                           );
 
                                       } else if (value === tk_origin_data_max_lag_allowed) {
 
-                                            // notify
-                                            var msg = "ERROR: The max lagging value of " + value +
-                                            " seconds returned from the result of the search equals to the current value assigned (" +
-                                            tk_origin_data_max_lag_allowed +
-                                            " seconds), this indicates that the search did not return a valid value therefore the current value was preserved (min value: 30 seconds)"
-                                            notify(
+                                          // notify
+                                          var msg = "ERROR: The max lagging value of " + value +
+                                              " seconds returned from the result of the search equals to the current value assigned (" +
+                                              tk_origin_data_max_lag_allowed +
+                                              " seconds), this indicates that the search did not return a valid value therefore the current value was preserved (min value: 30 seconds)"
+                                          notify(
                                               "error",
                                               "bottom",
                                               msg,
                                               "10"
-                                            );
-    
+                                          );
+
                                       } else {
                                           // Run the search again to update the table
                                           searchDataSourcesMain.startSearch();
 
                                           // notify
                                           notify(
-                                            "info",
-                                            "bottom",
-                                            "Modification has been registered successfully, max lagging value automatically defined to " +
+                                              "info",
+                                              "bottom",
+                                              "Modification has been registered successfully, max lagging value automatically defined to " +
                                               value +
                                               " seconds.",
-                                            "5"
+                                              "5"
                                           );
 
                                           setToken("tk_data_max_lag_allowed", value);
@@ -25700,25 +25710,25 @@ require([
 
                                           // notify
                                           notify(
-                                            "error",
-                                            "bottom",
-                                            "ERROR: No live data available for this entity, automatic lagging calculation cannot be performed for inactive entities.",
-                                            "5"
+                                              "error",
+                                              "bottom",
+                                              "ERROR: No live data available for this entity, automatic lagging calculation cannot be performed for inactive entities.",
+                                              "5"
                                           );
 
                                       } else if (value === tk_origin_data_max_lag_allowed) {
 
-                                      // notify
-                                      var msg = "ERROR: The max lagging value of " + value +
-                                      " seconds returned from the result of the search equals to the current value assigned (" +
-                                      tk_origin_data_max_lag_allowed +
-                                      " seconds), this indicates that the search did not return a valid value therefore the current value was preserved (min value: 30 seconds)"
-                                      notify(
-                                        "error",
-                                        "bottom",
-                                        msg,
-                                        "10"
-                                      );
+                                          // notify
+                                          var msg = "ERROR: The max lagging value of " + value +
+                                              " seconds returned from the result of the search equals to the current value assigned (" +
+                                              tk_origin_data_max_lag_allowed +
+                                              " seconds), this indicates that the search did not return a valid value therefore the current value was preserved (min value: 30 seconds)"
+                                          notify(
+                                              "error",
+                                              "bottom",
+                                              msg,
+                                              "10"
+                                          );
 
                                       } else {
                                           // Run the search again to update the table
@@ -25726,12 +25736,12 @@ require([
 
                                           // notify
                                           notify(
-                                            "info",
-                                            "bottom",
-                                            "Modification has been registered successfully, max lagging value automatically defined to " +
+                                              "info",
+                                              "bottom",
+                                              "Modification has been registered successfully, max lagging value automatically defined to " +
                                               value +
                                               " seconds.",
-                                            "5"
+                                              "5"
                                           );
 
                                           setToken("tk_data_max_lag_allowed", value);
@@ -25918,10 +25928,10 @@ require([
 
                   // notify
                   notify(
-                    "info",
-                    "bottom",
-                    "Modification has been registered successfully.",
-                    "5"
+                      "info",
+                      "bottom",
+                      "Modification has been registered successfully.",
+                      "5"
                   );
 
                   // call update data source
@@ -26014,10 +26024,10 @@ require([
 
                   // notify
                   notify(
-                    "info",
-                    "bottom",
-                    "Modification has been registered successfully.",
-                    "5"
+                      "info",
+                      "bottom",
+                      "Modification has been registered successfully.",
+                      "5"
                   );
 
                   // call update data source
@@ -26189,10 +26199,10 @@ require([
 
                   // notify
                   notify(
-                    "info",
-                    "bottom",
-                    "The entity has been updated successfully.",
-                    "5"
+                      "info",
+                      "bottom",
+                      "The entity has been updated successfully.",
+                      "5"
                   );
 
                   // call update data source
@@ -26342,10 +26352,10 @@ require([
 
                   // notify
                   notify(
-                    "info",
-                    "bottom",
-                    "The entity has been updated successfully.",
-                    "5"
+                      "info",
+                      "bottom",
+                      "The entity has been updated successfully.",
+                      "5"
                   );
 
                   // call update data source
@@ -26497,10 +26507,10 @@ require([
 
                                           // notify
                                           notify(
-                                            "error",
-                                            "bottom",
-                                            "ERROR: No live data available for this entity, automatic lagging calculation cannot be performed for inactive entities.",
-                                            "5"
+                                              "error",
+                                              "bottom",
+                                              "ERROR: No live data available for this entity, automatic lagging calculation cannot be performed for inactive entities.",
+                                              "5"
                                           );
 
                                       } else {
@@ -26509,12 +26519,12 @@ require([
 
                                           // notify
                                           notify(
-                                            "info",
-                                            "bottom",
-                                            "Modification has been registered successfully, max lagging value automatically defined to " +
+                                              "info",
+                                              "bottom",
+                                              "Modification has been registered successfully, max lagging value automatically defined to " +
                                               value +
                                               " seconds.",
-                                            "5"
+                                              "5"
                                           );
 
                                           setToken("tk_data_max_lag_allowed", value);
@@ -26701,10 +26711,10 @@ require([
 
                                           // notify
                                           notify(
-                                            "error",
-                                            "bottom",
-                                            "ERROR: No live data available for this entity, automatic lagging calculation cannot be performed for inactive entities.",
-                                            "5"
+                                              "error",
+                                              "bottom",
+                                              "ERROR: No live data available for this entity, automatic lagging calculation cannot be performed for inactive entities.",
+                                              "5"
                                           );
 
                                       } else {
@@ -26713,12 +26723,12 @@ require([
 
                                           // notify
                                           notify(
-                                            "info",
-                                            "bottom",
-                                            "Modification has been registered successfully, max lagging value automatically defined to " +
+                                              "info",
+                                              "bottom",
+                                              "Modification has been registered successfully, max lagging value automatically defined to " +
                                               value +
                                               " seconds.",
-                                            "5"
+                                              "5"
                                           );
 
                                           setToken("tk_data_max_lag_allowed", value);
@@ -26904,24 +26914,24 @@ require([
 
                                           // notify
                                           notify(
-                                            "error",
-                                            "bottom",
-                                            "ERROR: No live data available for this entity, automatic lagging calculation cannot be performed for inactive entities.",
-                                            "5"
+                                              "error",
+                                              "bottom",
+                                              "ERROR: No live data available for this entity, automatic lagging calculation cannot be performed for inactive entities.",
+                                              "5"
                                           );
 
-                                        } else {
+                                      } else {
                                           // Run the search again to update the table
                                           searchDataHostsMain.startSearch();
 
                                           // notify
                                           notify(
-                                            "info",
-                                            "bottom",
-                                            "Modification has been registered successfully, max lagging value automatically defined to " +
+                                              "info",
+                                              "bottom",
+                                              "Modification has been registered successfully, max lagging value automatically defined to " +
                                               value +
                                               " seconds.",
-                                            "5"
+                                              "5"
                                           );
 
                                           setToken("tk_data_max_lag_allowed", value);
@@ -27107,10 +27117,10 @@ require([
 
                                           // notify
                                           notify(
-                                            "error",
-                                            "bottom",
-                                            "ERROR: No live data available for this entity, automatic lagging calculation cannot be performed for inactive entities.",
-                                            "5"
+                                              "error",
+                                              "bottom",
+                                              "ERROR: No live data available for this entity, automatic lagging calculation cannot be performed for inactive entities.",
+                                              "5"
                                           );
 
                                       } else {
@@ -27119,12 +27129,12 @@ require([
 
                                           // notify
                                           notify(
-                                            "info",
-                                            "bottom",
-                                            "Modification has been registered successfully, max lagging value automatically defined to " +
+                                              "info",
+                                              "bottom",
+                                              "Modification has been registered successfully, max lagging value automatically defined to " +
                                               value +
                                               " seconds.",
-                                            "5"
+                                              "5"
                                           );
 
                                           setToken("tk_data_max_lag_allowed", value);
@@ -27401,10 +27411,10 @@ require([
 
           // notify
           notify(
-            "error",
-            "bottom",
-            "ERROR: Entries are either incorrect or incomplete, please correct and try again.",
-            "5"
+              "error",
+              "bottom",
+              "ERROR: Entries are either incorrect or incomplete, please correct and try again.",
+              "5"
           );
 
           // Disable the add button
@@ -27413,10 +27423,10 @@ require([
 
           // notify
           notify(
-            "info",
-            "bottom",
-            "Starting tags policy simulation...",
-            "5"
+              "info",
+              "bottom",
+              "Starting tags policy simulation...",
+              "5"
           );
 
           // Set the tokens
@@ -27485,10 +27495,10 @@ require([
 
           // notify
           notify(
-            "error",
-            "bottom",
-            "ERROR: Entries are either incorrect or incomplete, please correct and try again.",
-            "5"
+              "error",
+              "bottom",
+              "ERROR: Entries are either incorrect or incomplete, please correct and try again.",
+              "5"
           );
 
           // Disable the add button
@@ -27603,10 +27613,10 @@ require([
 
                           // notify
                           notify(
-                            "info",
-                            "bottom",
-                            "The entity has been updated successfully.",
-                            "5"
+                              "info",
+                              "bottom",
+                              "The entity has been updated successfully.",
+                              "5"
                           );
 
                           // Audit
@@ -27797,10 +27807,10 @@ require([
 
       // notify
       notify(
-        "info",
-        "bottom",
-        "Modification has been registered successfully.",
-        "5"
+          "info",
+          "bottom",
+          "Modification has been registered successfully.",
+          "5"
       );
 
       // house cleaning
@@ -27930,10 +27940,10 @@ require([
 
                       // notify
                       notify(
-                        "info",
-                        "bottom",
-                        "New tag successfully added.",
-                        "5"
+                          "info",
+                          "bottom",
+                          "New tag successfully added.",
+                          "5"
                       );
 
                       // Update the tags token
@@ -28098,12 +28108,12 @@ require([
 
                       // notify
                       notify(
-                        "info",
-                        "bottom",
-                        "Tags list updated.",
-                        "5"
+                          "info",
+                          "bottom",
+                          "Tags list updated.",
+                          "5"
                       );
-                      
+
                       // Audit
                       action = "success";
                       change_type = "update tags";
@@ -28259,10 +28269,10 @@ require([
 
                       // notify
                       notify(
-                        "info",
-                        "bottom",
-                        "Tags list was cleared successfully.",
-                        "5"
+                          "info",
+                          "bottom",
+                          "Tags list was cleared successfully.",
+                          "5"
                       );
 
                       // Update the tags token
@@ -30132,10 +30142,10 @@ require([
 
       // notify
       notify(
-        "info",
-        "bottom",
-        "Modification has been registered successfully.",
-        "5"
+          "info",
+          "bottom",
+          "Modification has been registered successfully.",
+          "5"
       );
 
       // house cleaning
@@ -30510,10 +30520,10 @@ require([
 
                       // notify
                       notify(
-                        "info",
-                        "bottom",
-                        "Update was successful.",
-                        "5"
+                          "info",
+                          "bottom",
+                          "Update was successful.",
+                          "5"
                       );
 
                       // Update search
@@ -31012,10 +31022,10 @@ require([
 
           // notify
           notify(
-            "error",
-            "bottom",
-            "ERROR: Entries are either incorrect or incomplete, please correct and try again.",
-            "5"
+              "error",
+              "bottom",
+              "ERROR: Entries are either incorrect or incomplete, please correct and try again.",
+              "5"
           );
 
           // Disable the add button
@@ -31027,10 +31037,10 @@ require([
 
           // notify
           notify(
-            "info",
-            "bottom",
-            "Running new data sampling model...",
-            "5"
+              "info",
+              "bottom",
+              "Running new data sampling model...",
+              "5"
           );
 
           unsetToken("tk_data_sampling_custom_rule_regex");
@@ -31101,10 +31111,10 @@ require([
 
           // notify
           notify(
-            "error",
-            "bottom",
-            "ERROR: Entries are either incorrect or incomplete, please correct and try again.",
-            "5"
+              "error",
+              "bottom",
+              "ERROR: Entries are either incorrect or incomplete, please correct and try again.",
+              "5"
           );
 
           // Disable the add button
@@ -31222,10 +31232,10 @@ require([
 
                           // notify
                           notify(
-                            "info",
-                            "bottom",
-                            "Modification has been registered successfully.",
-                            "5"
+                              "info",
+                              "bottom",
+                              "Modification has been registered successfully.",
+                              "5"
                           );
 
                           // Audit
@@ -31381,12 +31391,12 @@ require([
 
       // notify
       notify(
-        "info",
-        "bottom",
-        "Outliers simulation started for data host " + tk_data_host + ".",
-        "5"
+          "info",
+          "bottom",
+          "Outliers simulation started for data host " + tk_data_host + ".",
+          "5"
       );
-      
+
   });
 
   $("#btn_outlier_config_data_host_save").click(function(mode) {
@@ -31521,10 +31531,10 @@ require([
 
                   // notify
                   notify(
-                    "info",
-                    "bottom",
-                    "Outliers configuration updated, please wait a few seconds while statistics are generated, click on refresh in the Outliers tab if statistics are not yet available.",
-                    "5"
+                      "info",
+                      "bottom",
+                      "Outliers configuration updated, please wait a few seconds while statistics are generated, click on refresh in the Outliers tab if statistics are not yet available.",
+                      "5"
                   );
 
                   // Generate metrics if outlier period was changed
