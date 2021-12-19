@@ -1205,7 +1205,7 @@ require([
       cancelOnUnload: true,
       sample_ratio: null,
       latest_time: "now",
-      search: '| inputlookup trackme_data_source_monitoring where data_name="$tk_data_name$" | fields tags | makemv delim="," tags | mvexpand tags | dedup tags | sort tags',
+      search: '| inputlookup trackme_data_source_monitoring where data_name="$tk_object$" | fields tags | makemv delim="," tags | mvexpand tags | dedup tags | sort tags',
       status_buckets: 0,
       app: utils.getCurrentApp(),
       auto_cancel: 90,
@@ -1215,8 +1215,7 @@ require([
       },
       runWhenTimeIsUndefined: false,
   }, {
-      tokens: true,
-      tokenNamespace: "submitted",
+      tokens: true
   });
 
   new SearchEventHandler({
@@ -1240,6 +1239,18 @@ require([
               }, ],
           },
       ],
+  });
+
+  // set the panel visibility
+  searchShowTags.on("change", function(newValue) {
+    var show_tags_multiselect = getToken("show_tags_multiselect");
+    if (show_tags_multiselect === 'True') {
+        $("#divTagsUpdate").css("display", "inherit");
+        $("#divTagsClear").css("display", "inherit");
+    } else {
+      $("#divTagsUpdate").css("display", "none");
+      $("#divTagsClear").css("display", "none");
+  }
   });
 
   // Smart Status
@@ -5397,6 +5408,8 @@ require([
 
           // tags
           var tk_tags = e.data["row.tags"];
+          // token required for tags operations
+          setToken("tk_tags", tk_tags);
 
           // status
           var tk_status_message = e.data["row.status_message"];
@@ -5512,6 +5525,14 @@ require([
               tk_tags_modal_target = "manage_tags";
           }
 
+          $('#child-data-source-tag-header').html(
+            '<h1 style="font-size: 18px;">Tags for data source: ' + tk_data_name + '</h1>'
+          );
+
+          $('#child-data-source-tag-content').html(
+            '<h2 style="font-weight: bold; color: darkslategray;">' + tk_tags + '</h2>'
+          );
+
           // Dynamically manage Ack button
           if (tk_data_source_state == "red") {
             document.getElementById('btn_ack_data_source').disabled = false;
@@ -5546,9 +5567,9 @@ require([
           );
 
           $('#child-data-source-top-docs-tags').html(
-              '<h3><span><a id="doc_link_data_source" data-toggle="modal" data-target="#' + tk_doc_modal_target + '">' + tk_doc_link_main + '</a>' +
+              '<h3><span><a id="doc_link_data_source" data-toggle="modal" data-dismiss="modal" data-target="#' + tk_doc_modal_target + '">' + tk_doc_link_main + '</a>' +
               ' / ' +
-              '<a id="tags_data_source" data-toggle="modal" data-target="#' + tk_tags_modal_target + '">' + tk_tags_link_main + '</a>' +
+              '<a id="tags_data_source" data-toggle="modal" data-dismiss="modal" data-target="#' + tk_tags_modal_target + '">' + tk_tags_link_main + '</a>' +
               '</span>' +
               '</h3>'
           );
@@ -13990,6 +14011,39 @@ input_ack_duration.on("change", function(newValue) {
         .render()
         .$el.appendTo($("resultsLinkelementAckGet"));  
 
+        // tags
+        var modal_input_tags_new = new TextInput({
+          "id": "modal_input_tags_new",
+          "searchWhenChanged": true,
+          "value": "$form.modal_input_tags_new$",
+          "el": $('#modal_input_tags_new')
+      }, {
+          tokens: true
+      }).render();
+
+      modal_input_tags_new.on("change", function(newValue) {
+          FormUtils.handleValueChange(modal_input_tags_new);
+      });
+
+      var modal_input_tags_update = new MultiSelectInput({
+          "id": "modal_input_tags_update",
+          "tokenDependencies": {
+              "depends": "$show_tags_multiselect$"
+          },
+          "choices": [],
+          "searchWhenChanged": true,
+          "labelField": "tags",
+          "valueField": "tags",
+          "delimiter": ",",
+          "value": "$form.modal_input_tags_update$",
+          "managerid": "searchShowTags",
+          "el": $('#modal_input_tags_update')
+      }, {tokens: true}).render();
+
+      modal_input_tags_update.on("change", function(newValue) {
+          FormUtils.handleValueChange(modal_input_tags_update);
+      });
+
   //
   // BEGIN OPERATIONS
   //
@@ -14207,6 +14261,14 @@ input_ack_duration.on("change", function(newValue) {
                           tk_tags_modal_target = "manage_tags";
                       }
 
+                      $('#child-data-source-tag-header').html(
+                        '<h1 style="font-size: 18px;">Tags for data source: ' + tk_data_name + '</h1>'
+                      );
+            
+                      $('#child-data-source-tag-content').html(
+                        '<h2 style="font-weight: bold; color: darkslategray;">' + tk_tags + '</h2>'
+                      );
+            
                       // data sampling
                       var tk_data_sampling_status_message_class;
                       if (tk_data_sampling_status_colour == "green") {
@@ -14253,9 +14315,9 @@ input_ack_duration.on("change", function(newValue) {
                       );
 
                       $('#child-data-source-top-docs-tags').html(
-                          '<h3><span><a id="doc_link_data_source" data-toggle="modal" data-target="#' + tk_doc_modal_target + '">' + tk_doc_link_main + '</a>' +
+                          '<h3><span><a id="doc_link_data_source" data-toggle="modal" data-dismiss="modal" data-target="#' + tk_doc_modal_target + '">' + tk_doc_link_main + '</a>' +
                           ' / ' +
-                          '<a id="tags_data_source" data-toggle="modal" data-target="#' + tk_tags_modal_target + '">' + tk_tags_link_main + '</a>' +
+                          '<a id="tags_data_source" data-toggle="modal" data-dismiss="modal" data-target="#' + tk_tags_modal_target + '">' + tk_tags_link_main + '</a>' +
                           '</span>' +
                           '</h3>'
                       );
@@ -28026,7 +28088,7 @@ input_ack_duration.on("change", function(newValue) {
 
                       // notify
                       notify(
-                          "info",
+                          "success",
                           "bottom",
                           "New tag successfully added.",
                           "5"
@@ -28036,6 +28098,11 @@ input_ack_duration.on("change", function(newValue) {
                       tk_tags_audit = tk_tags_new;
                       tk_tags_new = tk_tags_new.replace(/,/g, " / ");
                       setToken("tk_tags", tk_tags_new);
+
+                      // keep div up to date
+                      $('#child-data-source-tag-content').html(
+                        '<h2 style="font-weight: bold; color: darkslategray;">' + tk_tags_new + '</h2>'
+                      );
 
                       // Refresh the multiselect
                       unsetToken("form.modal_input_tags_update");
@@ -28194,9 +28261,9 @@ input_ack_duration.on("change", function(newValue) {
 
                       // notify
                       notify(
-                          "info",
+                          "success",
                           "bottom",
-                          "Tags list updated.",
+                          "Tags list was updated successfully.",
                           "5"
                       );
 
@@ -28221,6 +28288,11 @@ input_ack_duration.on("change", function(newValue) {
                       // Update the tags token
                       tk_tags_list = tk_tags_list.replace(/,/g, " / ");
                       setToken("tk_tags", tk_tags_list);
+
+                      // keep div up to date
+                      $('#child-data-source-tag-content').html(
+                        '<h2 style="font-weight: bold; color: darkslategray;">' + tk_tags_list + '</h2>'
+                      );
 
                       // Refresh the main search
                       searchShowTags.startSearch();
@@ -28355,7 +28427,7 @@ input_ack_duration.on("change", function(newValue) {
 
                       // notify
                       notify(
-                          "info",
+                          "success",
                           "bottom",
                           "Tags list was cleared successfully.",
                           "5"
@@ -28365,6 +28437,11 @@ input_ack_duration.on("change", function(newValue) {
                       setToken(
                           "tk_tags",
                           "No tags defined, click on Update tags to define one or more tags to be associated with this data source."
+                      );
+
+                      // keep div up to date
+                      $('#child-data-source-tag-content').html(
+                        '<h2 style="font-weight: bold; color: darkslategray;">No tags defined, click on Update tags to define one or more tags to be associated with this data source.</h2>'
                       );
 
                       // Refresh the multiselect

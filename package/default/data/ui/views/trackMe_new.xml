@@ -2513,8 +2513,10 @@
 							<div id="body_manage_tags">
 								<div>
 									<div class="modal-header modal-header-info">
-										<h1 style="font-size: 18px;">Tags for data source: $tk_data_name$</h1>
-										<button type="button" class="close" data-dismiss="modal"></button>
+                                        <div id="child-data-source-tag-header">
+    										<h1 style="font-size: 18px;">Tags for data source: value</h1>
+                                        </div>
+    									<button type="button" class="close" data-dismiss="modal"></button>
 									</div>
 									<div style="margin-top:10px; margin-left: 20px;">
 										<div class="imgheader">
@@ -2522,32 +2524,33 @@
 												<img style="float: left; margin: 0px 15px 15px 0px;" src="../../static/app/trackme/icons/identity_card.png"/>
 											</span>
 											<h3>Tags:</h3>
-											<br />
 										</div>
 										<div class="generic_message_blue" style="max-width: 95%;">
-											<h2 style="font-weight: bold;">$tk_tags$</h2>
+                                            <div id="child-data-source-tag-content">
+    											<h2 style="font-weight: bold; color: darkslategray;">value</h2>
+                                            </div>
 										</div>
 									</div>
 								</div>
 							</div>
 							<div class="modal-footer">
 								<div style="float: left;" class="custom-btn">
-									<button type="submit" style="margin-right: 15px;" id="btn_back_manage_tags" class="btn btn-default btn-primary pull-left" data-dismiss="modal">
+									<button type="submit" style="margin-right: 15px;" id="btn_back_manage_tags" class="btn btn-outline-secondary pull-left" data-dismiss="modal">
 										<span class="glyphicon glyphicon-remove"></span> Back
 									</button>
 								</div>
 								<div style="float: right;" class="custom-btn">
-									<button type="submit" style="margin-right: 15px;" id="btn_close_manage_tags" class="btn btn-default btn-default pull-right" data-dismiss="modal">
+									<button type="submit" style="margin-right: 15px;" id="btn_close_manage_tags" class="btn btn-outline-secondary pull-right" data-dismiss="modal">
 										<span class="glyphicon glyphicon-remove"></span> Close
 									</button>
 								</div>
 								<div style="float: right;" class="custom-btn">
-									<button type="submit" style="margin-right: 15px;" id="btn_modify_manage_tags" class="btn btn-default btn-primary" data-dismiss="modal">
+									<button type="submit" style="margin-right: 15px;" id="btn_modify_manage_tags" class="btn btn-outline-primary" data-dismiss="modal">
 										<span class="glyphicon glyphicon-remove"></span> Manage: manual tags
 									</button>
 								</div>
 								<div style="float: right;" class="btn_modify_tags_policies custom-btn">
-									<button type="submit" style="margin-right: 15px;" class="btn btn-primary" data-dismiss="modal">
+									<button type="submit" style="margin-right: 15px;" class="btn btn-outline-primary" data-dismiss="modal">
 										<span class="glyphicon glyphicon-remove"></span> Manage: tags policies
 									</button>
 								</div>
@@ -2570,61 +2573,47 @@
 									<div style="margin-top:10px; margin-left: 20px;">
 										<div class="fieldset">
 											<div style="margin-bottom: 20px;">
-												<h3>
-                                            This interface allows to manually define tags per data source, to define tags based on policies, use the tags policies instead.
-                                            
-													<br />
-                                            When both policies and manual tags are applied, the tags are automatically merged.
-                                            
-												</h3>
+												<h1>This interface allows to manually define tags per data source, to define tags based on policies, use the tags policies instead.</h1>
+                                                <h2>When both policies and manual tags are applied, the tags are automatically merged.</h2>
 											</div>
 											<div class="input input-text" id="modal_input_tags_new" style="margin-bottom: 10px;">
 												<label>Enter a new tag to be added to this data source:</label>
 											</div>
 											<div style="margin-bottom: 10px;">
-												<button id="btn_modal_tags_add" type="submit" class="btn btn-default btn-primary">
+												<button id="btn_modal_tags_add" type="submit" class="btn btn-outline-primary">
 													<span class="glyphicon glyphicon-remove"></span> Add this tag
 												</button>
 											</div>
 										</div>
-										<div data-depends="$show_tags_multiselect$">
-											<div>
-												<div>
-													<div>
-														<div class="fieldset">
-															<div class="input input-dropdown" id="modal_input_tags_update" style="margin-bottom: 10px;">
-																<label>List of current tags for this data source, unselect a tag to remove it and click on the save button:</label>
-															</div>
-															<div style="margin-bottom: 10px;">
-																<button id="btn_modal_tags_save" type="submit" class="btn btn-default btn-primary">
-																	<span class="glyphicon glyphicon-remove"></span> Save tags
-																</button>
-															</div>
-														</div>
-													</div>
-												</div>
-											</div>
+
+										<div id="divTagsUpdate" style="display: none;">
+                                            <div class="fieldset">
+                                                <div class="input input-dropdown" id="modal_input_tags_update" style="margin-bottom: 10px;">
+                                                    <label>List of current tags for this data source, unselect a tag to remove it and click on the save button:</label>
+                                                </div>
+                                                <div style="margin-bottom: 10px;">
+                                                    <button id="btn_modal_tags_save" type="submit" class="btn btn-outline-primary">
+                                                        <span class="glyphicon glyphicon-remove"></span> Save tags
+                                                    </button>
+                                                </div>
+                                            </div>
 										</div>
-										<div data-depends="$show_tags_multiselect$">
-											<div>
-												<div>
-													<div>
-														<div class="fieldset">
-															<p>To remove all current tags, click on the following button:</p>
-															<div style="margin-bottom: 10px;">
-																<button id="btn_modal_tags_clear" type="submit" class="btn btn-default btn-danger">
-																	<span class="glyphicon glyphicon-remove"></span> Clear all tags
-																</button>
-															</div>
-														</div>
-													</div>
-												</div>
-											</div>
+
+										<div id="divTagsClear" style="display: none;">
+                                            <div class="fieldset">
+                                                <p>To remove all current tags, click on the following button:</p>
+                                                <div style="margin-bottom: 10px;">
+                                                    <button id="btn_modal_tags_clear" type="submit" class="btn btn-outline-danger">
+                                                        <span class="glyphicon glyphicon-remove"></span> Clear all tags
+                                                    </button>
+                                                </div>
+                                            </div>
 										</div>
+
 									</div>
 								</div>
 								<div class="modal-footer">
-									<button type="submit" id="btn_back_update_tags" class="btn btn-default btn-primary pull-left" data-dismiss="modal">
+									<button type="submit" id="btn_back_update_tags" class="btn btn-outline-secondary pull-left" data-dismiss="modal">
 										<span class="glyphicon glyphicon-remove"></span> Back
 									</button>
 									<button type="submit" class="btn btn-outline-secondary pull-right" data-dismiss="modal">
