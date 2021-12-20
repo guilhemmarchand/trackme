@@ -5511,6 +5511,19 @@ require([
               tk_msg_doc_identity_card_is_global = "TrackMe info: this identity card was associated to this data source, you can update or delete this card, consult: ";
           }
 
+          // Update the div
+          $('#child-data-source-identity-card1').html(
+            '<h2 style="font-weight: bold; color: darkslategray;">' + tk_doc_note + '</h2>'
+          );
+
+          $('#child-data-source-identity-card2').html(
+            '<a target="_blank" href=' + tk_doc_link + '">' + tk_doc_link + '</a>'
+          );
+
+          $('#child-data-source-identity-card3').html(
+            '<i>' + tk_msg_doc_identity_card_is_global + '</i>'
+          );
+
           // tags
           var tk_tags_link_main;
           // define the href depending on the tags
@@ -14044,6 +14057,66 @@ input_ack_duration.on("change", function(newValue) {
           FormUtils.handleValueChange(modal_input_tags_update);
       });
 
+        // Identify card
+        var FilterIdentityCardTable = new TextInput({
+          "id": "FilterIdentityCardTable",
+          "searchWhenChanged": true,
+          "default": "*",
+          "value": "$form.FilterIdentityCardTable$",
+          "el": $('#FilterIdentityCardTable')
+      }, {
+          tokens: true
+      }).render();
+
+      FilterIdentityCardTable.on("change", function(newValue) {
+          FormUtils.handleValueChange(FilterIdentityCardTable);
+      });
+
+        // Identity card
+        var elementIdentityCardTable = new TableView({
+          "id": "elementIdentityCardTable",
+          "count": 100,
+          "drilldown": "row",
+          "refresh.display": "none",
+          "wrap": "false",
+          "managerid": "searchIdentityCardTable",
+          "el": $('#elementIdentityCardTable')
+      }, {
+          tokens: true,
+          tokenNamespace: "submitted"
+      }).render();
+
+      elementIdentityCardTable.on("click", function(e) {
+          if (e.field !== undefined) {
+              e.preventDefault();
+
+              var tk_input_doc_keyid = e.data['row.keyid'];
+              setToken("tk_input_doc_keyid", tk_input_doc_keyid);
+              var tk_input_doc_object = e.data['row.object'];
+              setToken("tk_input_doc_object", tk_input_doc_object);
+              var tk_input_doc_link = e.data['row.doc_link'];
+              setToken("tk_input_doc_link", tk_input_doc_link);
+              var tk_input_doc_note = e.data['ow.doc_note'];
+              setToken("tk_input_doc_note", tk_input_doc_note);
+
+              // Enable modal context
+              $("#associate_identity_card").modal('hide');
+              $("#confirm_associate_identity_card").modal();
+
+          }
+      });
+
+      var resultsLinkelementIdentityCardTable = new ResultsLinkView({
+        id: "resultsLinkelementIdentityCardTable",
+        managerid: "searchIdentityCardTable",
+        "link.exportResults.visible": false,
+        el: $("#resultsLinkelementIdentityCardTable"),
+    });
+  
+    resultsLinkelementIdentityCardTable
+        .render()
+        .$el.appendTo($("resultsLinkelementIdentityCardTable"));  
+
   //
   // BEGIN OPERATIONS
   //
@@ -14246,6 +14319,19 @@ input_ack_duration.on("change", function(newValue) {
                           ).disabled = false;
                           tk_msg_doc_identity_card_is_global = "TrackMe info: this identity card was associated to this data source, you can update or delete this card, consult: ";
                       }
+
+                      // Update the div
+                      $('#child-data-source-identity-card1').html(
+                        '<h2 style="font-weight: bold; color: darkslategray;">' + tk_doc_note + '</h2>'
+                      );
+
+                      $('#child-data-source-identity-card2').html(
+                        '<a target="_blank" href=' + tk_doc_link + '">' + tk_doc_link + '</a>'
+                      );
+
+                      $('#child-data-source-identity-card3').html(
+                        '<i>' + tk_msg_doc_identity_card_is_global + '</i>'
+                      );
 
                       // tags
                       var tk_tags_link_main;
@@ -28538,8 +28624,11 @@ input_ack_duration.on("change", function(newValue) {
       $btn_group.find("button").on("click", function() {
           var $btn = $(this);
 
+          // spinner
+          cssloader("Please wait performing the identity card creation...");
+          
           // Retrieve input values
-          var input_doc_object = getToken("tk_data_name");
+          var input_doc_object = getToken("tk_object");
           var input_doc_note = document.getElementById("input_doc_note").value;
 
           // replace chars that would lead the operation to fail
@@ -28570,6 +28659,7 @@ input_ack_duration.on("change", function(newValue) {
               // Create or update the card using the API endpoint
               service.search(searchQuery, searchParams, function(err, job) {
                   function audit_failure() {
+                      cssloaderremove();
                       // Audit
                       action = "failure";
                       change_type = "create or update identity card";
@@ -28608,6 +28698,7 @@ input_ack_duration.on("change", function(newValue) {
                       } else if (err && err.data && err.data.messages) {
                           errorStr = JSON.stringify(err.data.messages);
                       }
+                      cssloaderremove();
                       audit_failure();
                       $("#modal_update_collection_failure_return")
                           .find(".modal-error-message p")
@@ -28651,6 +28742,8 @@ input_ack_duration.on("change", function(newValue) {
                                       function(err, results) {}
                                   );
                               });
+
+                              cssloaderremove();
 
                               // Run the search again to update the table
                               searchDataSourcesMain.startSearch();
@@ -28696,6 +28789,7 @@ input_ack_duration.on("change", function(newValue) {
                               ) {
                                   errorStr = JSON.stringify(properties._properties.messages);
                               }
+                              cssloaderremove();
                               audit_failure();
                               $("#modal_update_collection_failure_return")
                                   .find(".modal-error-message p")
@@ -28704,6 +28798,7 @@ input_ack_duration.on("change", function(newValue) {
                           },
                           error: function(err) {
                               done(err);
+                              cssloaderremove();
                               audit_failure();
                               $("#modal_update_collection_failure_flush").modal();
                           },
@@ -28716,6 +28811,7 @@ input_ack_duration.on("change", function(newValue) {
               delete myendpoint_URl;
               return;
           } else {
+              cssloaderremove();
               $("#modal_entry_update_invalid").modal();
               return;
           }
@@ -28732,9 +28828,12 @@ input_ack_duration.on("change", function(newValue) {
   $("#btn_delete_identity_card_confirm").click(function() {
 
       // Retrieve input values
-      var input_doc_object = getToken("tk_data_name");
+      var input_doc_object = getToken("tk_object");
       var input_doc_note = document.getElementById("input_doc_note").value;
       var input_doc_link = document.getElementById("input_doc_link").value;
+
+      // spinner
+      cssloader("Please wait deleting the identity card...");
 
       // Define the query
       var searchQuery =
@@ -28766,6 +28865,7 @@ input_ack_duration.on("change", function(newValue) {
                       input_doc_note;
                   result = "N/A";
                   comment = "N/A";
+                  cssloaderremove();
                   auditRecord(
                       action,
                       change_type,
@@ -28790,6 +28890,7 @@ input_ack_duration.on("change", function(newValue) {
                   } else if (err && err.data && err.data.messages) {
                       errorStr = JSON.stringify(err.data.messages);
                   }
+                  cssloaderremove();
                   audit_failure();
                   $("#modal_update_collection_failure_return")
                       .find(".modal-error-message p")
@@ -28801,6 +28902,7 @@ input_ack_duration.on("change", function(newValue) {
                       period: 200,
                   }, {
                       done: function(job) {
+                          cssloaderremove();
                           // Run the search again to update the table
                           searchDataSourcesMain.startSearch();
                           // show deleted modal
@@ -28846,6 +28948,7 @@ input_ack_duration.on("change", function(newValue) {
                           ) {
                               errorStr = JSON.stringify(properties._properties.messages);
                           }
+                          cssloaderremove();
                           audit_failure();
                           $("#modal_update_collection_failure_return")
                               .find(".modal-error-message p")
@@ -28853,6 +28956,7 @@ input_ack_duration.on("change", function(newValue) {
                           $("#modal_update_collection_failure_return").modal();
                       },
                       error: function(err) {
+                          cssloaderremove();
                           done(err);
                           audit_failure();
                           $("#modal_update_collection_failure_flush").modal();
@@ -28866,6 +28970,7 @@ input_ack_duration.on("change", function(newValue) {
           delete myendpoint_URl;
           return;
       } else {
+          cssloaderremove();
           $("#modal_entry_update_invalid").modal();
           return;
       }
@@ -28878,7 +28983,6 @@ input_ack_duration.on("change", function(newValue) {
   });
 
   // associate identity card button
-
   $(".btn_associate_identity_card").each(function() {
       var $btn_group = $(this);
       $btn_group.find("button").on("click", function() {
@@ -28906,15 +29010,17 @@ input_ack_duration.on("change", function(newValue) {
   // confirm button
   $("#btn_associate_identity_card_confirm_valid").click(function() {
 
+      // spinner
+      cssloader("Please wait performing doc association...");
+
       // Retrieve input values
-      var input_doc_keyid = getToken("tk_keyid");
-      var input_doc_new_object = getToken("tk_data_name");
-      var input_doc_origin_object = getToken("tk_object");
-      var input_doc_link = getToken("tk_doc_link");
-      var input_doc_note = getToken("tk_doc_note");
-      var tk_doc_identity_card_is_global = getToken(
-          "doc_identity_card_is_global"
-      );
+      // the knowledge collection key id
+      var input_doc_keyid = getToken("tk_input_doc_keyid");
+      // the selected data source
+      var input_doc_new_object = getToken("tk_object");
+      // from the knowledge collection
+      var input_doc_link = getToken("tk_input_doc_link");
+      var input_doc_note = getToken("tk_input_doc_note");
 
       // First unassociate using the API endpoint
       var searchQuery =
@@ -28931,33 +29037,6 @@ input_ack_duration.on("change", function(newValue) {
       if (input_doc_keyid && input_doc_keyid.length) {
           // Run a blocking search and get back a job
           service.search(searchQuery, searchParams, function(err, job) {
-              function audit_failure() {
-                  // Audit
-                  action = "failure";
-                  change_type = "associate identity card";
-                  object = input_doc_new_object;
-                  object_category = "data_source";
-                  object_attrs =
-                      "object:" +
-                      input_doc_new_object +
-                      " was associated with identity card keyid: " +
-                      input_doc_keyid +
-                      ", doc_link:" +
-                      input_doc_link +
-                      ", doc_note:" +
-                      input_doc_note;
-                  result = "N/A";
-                  comment = "N/A";
-                  auditRecord(
-                      action,
-                      change_type,
-                      object,
-                      object_category,
-                      object_attrs,
-                      result,
-                      comment
-                  );
-              }
 
               // Shall the search fail before we can get properties
               if (job == null) {
@@ -28972,7 +29051,7 @@ input_ack_duration.on("change", function(newValue) {
                   } else if (err && err.data && err.data.messages) {
                       errorStr = JSON.stringify(err.data.messages);
                   }
-                  audit_failure();
+                  cssloaderremove();
                   $("#modal_update_collection_failure_return")
                       .find(".modal-error-message p")
                       .text(errorStr);
@@ -28997,36 +29076,11 @@ input_ack_duration.on("change", function(newValue) {
                               function(err, results) {}
                           );
 
+                          cssloaderremove();
                           // Run the search again to update the table
                           searchDataSourcesMain.startSearch();
                           // show deleted modal
                           $("#associate_achieved_identity_card").modal();
-
-                          // Audit
-                          action = "success";
-                          change_type = "associate identity card";
-                          object = input_doc_new_object;
-                          object_category = "data_source";
-                          object_attrs =
-                              "object:" +
-                              input_doc_new_object +
-                              " was associated with identity card keyid: " +
-                              input_doc_keyid +
-                              ", doc_link:" +
-                              input_doc_link +
-                              ", doc_note:" +
-                              input_doc_note;
-                          result = "N/A";
-                          comment = "N/A";
-                          auditRecord(
-                              action,
-                              change_type,
-                              object,
-                              object_category,
-                              object_attrs,
-                              result,
-                              comment
-                          );
                       },
                       failed: function(properties) {
                           let errorStr = "Unknown Error!";
@@ -29044,7 +29098,7 @@ input_ack_duration.on("change", function(newValue) {
                           ) {
                               errorStr = JSON.stringify(properties._properties.messages);
                           }
-                          audit_failure();
+                          cssloaderremove();
                           $("#modal_update_collection_failure_return")
                               .find(".modal-error-message p")
                               .text(errorStr);
@@ -29052,7 +29106,7 @@ input_ack_duration.on("change", function(newValue) {
                       },
                       error: function(err) {
                           done(err);
-                          audit_failure();
+                          cssloaderremove();
                           $("#modal_update_collection_failure_flush").modal();
                       },
                   });
@@ -29064,6 +29118,7 @@ input_ack_duration.on("change", function(newValue) {
           delete myendpoint_URl;
           return;
       } else {
+          cssloaderremove();
           $("#modal_entry_update_invalid").modal();
           return;
       }

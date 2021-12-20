@@ -4462,7 +4462,7 @@
 							<div>
 								<div>
 									<div class="modal-header modal-header-info">
-										<h1 style="font-size: 18px;">Identity card for data source: $tk_data_name$</h1>
+										<h1>Identity card</h1>
 										<button type="button" class="close" data-dismiss="modal"></button>
 									</div>
 									<div class="modal-body">
@@ -4472,20 +4472,26 @@
 													<img style="float: left; margin: 0px 15px 15px 0px;" src="../../static/app/trackme/icons/identity_card.png"/>
 												</span>
 												<h3>Identity card note:</h3>
-												<br />
 											</div>
 											<div class="generic_message_blue" style="max-width: 95%;">
-												<h2 style="font-weight: bold;">$tk_doc_note$</h2>
-											</div>
+                                                <div id="child-data-source-identity-card1">
+    												<h2 style="font-weight: bold; color: darkslategray;">value</h2>
+                                                </div>
+    										</div>
 											<div style="margin-bottom: 20px;">
 												<h3>Link to documentation: </h3>
-												<a target="_blank" href="$tk_doc_link$">$tk_doc_link$</a>
+                                                <div id="child-data-source-identity-card2">
+    												<a target="_blank" href="value">value</a>
+                                                </div>
 											</div>
 										</div>
 										<div>
 											<hr />
 											<p>
-												<i>$tk_msg_doc_identity_card_is_global$ 
+                                                <div id="child-data-source-identity-card3">
+    												<i>value</i>
+                                                </div>
+                                                <i>
 													<a target="_blank" href="https://trackme.readthedocs.io/en/latest/userguide.html#data-identity-card">https://trackme.readthedocs.io/en/latest/userguide.html#data-identity-card</a>
 												</i>
 											</p>
@@ -4494,22 +4500,23 @@
 								</div>
 							</div>
 							<div class="modal-footer">
-								<button type="submit" id="btn_delete_manage_identity_card" class="btn btn-default btn-danger" data-dismiss="modal">
+								<button type="submit" id="btn_delete_manage_identity_card" class="btn btn-outline-danger" data-dismiss="modal">
 									<span class="glyphicon glyphicon-remove"></span> Delete card
 								</button>
-								<button type="submit" id="btn_modify_manage_identity_card" class="btn btn-default btn-primary" data-dismiss="modal">
+								<button type="submit" id="btn_modify_manage_identity_card" class="btn btn-outline-danger" data-dismiss="modal">
 									<span class="glyphicon glyphicon-remove"></span> Update card
 								</button>
-								<button type="submit" id="btn_back_manage_identity_card" class="btn btn-default btn-primary pull-left" data-dismiss="modal">
+								<button type="submit" id="btn_back_manage_identity_card" class="btn btn-outline-secondary pull-left" data-dismiss="modal">
 									<span class="glyphicon glyphicon-remove"></span> Back
 								</button>
-								<button type="submit" id="btn_close_manage_identity_card" class="btn btn-default btn-default pull-right" data-dismiss="modal">
+								<button type="submit" id="btn_close_manage_identity_card" class="btn btn-outline-secondary pull-right" data-dismiss="modal">
 									<span class="glyphicon glyphicon-remove"></span> Close
 								</button>
 							</div>
 						</div>
 					</div>
 				</div>
+
 				<!-- Modal window define for identity card -->
 				<div class="modal fade custom-modal-60" id="define_identity_card" role="dialog">
 					<div class="modal-dialog">
@@ -4524,23 +4531,27 @@
 							<div class="modal-body">
 								<div>
 									<div style="margin-bottom: 10px;">
+
+                                        <h1>Define a link and a note to document this data source</h1>
+
 										<form>
 											<fieldset>
-												<legend>Define a link and a note to document this data source</legend>
 												<p>
 													<b>You can create wildcard matching ID cards to match multiple entities based on your naming convention using the trackme SPL command.</b>
 													<i>Open a new tab to: 
 														<a target="_blank" href="https://trackme.readthedocs.io/en/latest/userguide.html#data-identity-wildcard-matching">https://trackme.readthedocs.io/en/latest/userguide.html#data-identity-wildcard-matching</a>
 													</i>
 												</p>
-												<p>
-													<label>Optional: enter the documentation link, this will be made available in the source identity card:</label>
-													<input type = "text"
-                                                        id = "input_doc_link"
-                                                        value = "link to documentation"
-                                                        style="width: 900px;"
-                                                        onfocus="if(this.value==this.defaultValue)this.value='';" onblur="if(this.value=='')this.value=this.defaultValue;"></input>
-												</p>
+                                                <div class="custom-textarea">
+                                                    <p>
+                                                        <label>Optional: enter the documentation link, this will be made available in the source identity card:</label>
+                                                        <textarea
+                                                                id = "input_doc_link"
+                                                                rows = "2"
+                                                                cols = "160" style="width: 900px;"
+                                                                onfocus="if(this.value==this.defaultValue)this.value='';" onblur="if(this.value=='')this.value=this.defaultValue;">link to documentation</textarea>
+                                                    </p>
+                                                </div>
                                                 <div class="custom-textarea">
                                                     <p>
                                                         <label>Optional: enter a documentation note:</label>
@@ -4555,12 +4566,12 @@
 										</form>
 										<div style="float: left;">
 											<div class="btn_define_identity_card custom-btn" style="margin-right: 15px;">
-												<button type="submit" class="btn btn-default btn-primary" data-dismiss="modal">
+												<button type="submit" class="btn btn-outline-primary" data-dismiss="modal">
 													<span class="glyphicon glyphicon-remove"></span> Create or update this record 
 												</button>
 											</div>
 											<div class="btn_associate_identity_card custom-btn" style="margin-right: 15px;">
-												<button type="submit" class="btn btn-default btn-primary" data-dismiss="modal">
+												<button type="submit" class="btn btn-outline-primary" data-dismiss="modal">
 													<span class="glyphicon glyphicon-remove"></span> Or associate with an existing record 
 												</button>
 											</div>
@@ -4569,10 +4580,10 @@
 								</div>
 							</div>
 							<div style="margin-top: 20px;" class="modal-footer">
-								<button type="submit" id="btn_define_identity_card_back" class="btn btn-default btn-primary" data-dismiss="modal">
+								<button type="submit" id="btn_define_identity_card_back" class="btn btn-outline-secondary" data-dismiss="modal">
 									<span class="glyphicon glyphicon-remove"></span> Back
 								</button>
-								<button type="submit" class="btn btn-default" data-dismiss="modal">
+								<button type="submit" class="btn btn-outline-secondary" data-dismiss="modal">
 									<span class="glyphicon glyphicon-remove"></span> Close
 								</button>
 							</div>
@@ -4591,29 +4602,34 @@
 								</h1>
 							</div>
 							<div class="modal-body">
-								<b>Associate with an existing identity card:</b>
-								<br />
-								<br />
+								<h1>Associate with an existing identity card:</h1>
 								<div>
-									<div class="input input-text" id="FilterIdentityCardTable" style="margin-bottom: 10px;">
-										<label>Filter:</label>
-									</div>
-									<div id="elementIdentityCardTable" style="width: 100%">
-										<label>Click on a table entry to associate with an existing identity card:</label>
-									</div>
+                                    <div class="fieldset">
+                                        <div class="input input-text" id="FilterIdentityCardTable">
+                                            <label>Filter:</label>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <div id="elementIdentityCardTable" class="view-elements">
+                                            <label>Click on a table entry to associate with an existing identity card:</label>
+                                        </div>
+                                        <div id="resultsLinkelementIdentityCardTable" class="search-elements">
+                                        </div>
+                                    </div>
 								</div>
 							</div>
 							<div class="modal-footer">
-								<button type="submit" id="btn_associate_identity_card_back" class="btn btn-default btn-primary pull-left" data-dismiss="modal">
+								<button type="submit" id="btn_associate_identity_card_back" class="btn btn-outline-secondary pull-left" data-dismiss="modal">
 									<span class="glyphicon glyphicon-remove"></span> Back
 								</button>
-								<button type="submit" class="btn btn-default btn-default pull-right" data-dismiss="modal">
+								<button type="submit" class="btn btn-outline-secondary pull-right" data-dismiss="modal">
 									<span class="glyphicon glyphicon-remove"></span> Cancel
 								</button>
 							</div>
 						</div>
 					</div>
 				</div>
+
 				<!-- Modal window association confirmation for identity card -->
 				<div class="modal fade" id="confirm_associate_identity_card" role="dialog">
 					<div class="modal-dialog">
@@ -4629,22 +4645,23 @@
 								<div>
 									<div style="margin-bottom: 10px;">
 										<div>
-											<h4>Please confirm the association of the identity card records?</h4>
+											<h1>Please confirm the association of the identity card records?</h1>
 										</div>
 									</div>
 								</div>
 							</div>
 							<div style="margin-top: 20px;" class="modal-footer">
-								<button type="submit" id="btn_associate_identity_card_confirm_valid" class="btn btn-default btn-primary" data-dismiss="modal">
+								<button type="submit" id="btn_associate_identity_card_confirm_valid" class="btn btn-outline-danger" data-dismiss="modal">
 									<span class="glyphicon glyphicon-remove"></span> Confirm association 
 								</button>
-								<button type="submit" id="btn_associate_identity_card_confirm_back" class="btn btn-default btn-primary" data-dismiss="modal">
+								<button type="submit" id="btn_associate_identity_card_confirm_back" class="btn btn-outline-secondary" data-dismiss="modal">
 									<span class="glyphicon glyphicon-remove"></span> Back 
 								</button>
 							</div>
 						</div>
 					</div>
 				</div>
+
 				<!-- Modal window deletion for identity card -->
 				<div class="modal fade" id="delete_identity_card" role="dialog">
 					<div class="modal-dialog">
@@ -4667,16 +4684,17 @@
 								</div>
 							</div>
 							<div style="margin-top: 20px;" class="modal-footer">
-								<button type="submit" id="btn_delete_identity_card_confirm" class="btn btn-default btn-danger" data-dismiss="modal">
+								<button type="submit" id="btn_delete_identity_card_confirm" class="btn btn-outline-danger" data-dismiss="modal">
 									<span class="glyphicon glyphicon-remove"></span> Delete this record 
 								</button>
-								<button type="submit" id="btn_delete_identity_card_back" class="btn btn-default btn-primary" data-dismiss="modal">
+								<button type="submit" id="btn_delete_identity_card_back" class="btn btn-outline-secondary" data-dismiss="modal">
 									<span class="glyphicon glyphicon-remove"></span> Back 
 								</button>
 							</div>
 						</div>
 					</div>
 				</div>
+
 				<!-- Modal window confirmation of association for identity card -->
 				<div class="modal fade" id="associate_achieved_identity_card" role="dialog">
 					<div class="modal-dialog">
@@ -4692,19 +4710,20 @@
 								<div>
 									<div style="margin-bottom: 10px;">
 										<div>
-											<h4>The identity card record was successfully associated with this source.</h4>
+											<h1>The identity card record was successfully associated with this source.</h1>
 										</div>
 									</div>
 								</div>
 							</div>
 							<div style="margin-top: 20px;" class="modal-footer">
-								<button type="submit" class="btn btn-default btn-primary" data-dismiss="modal">
+								<button type="submit" class="btn btn-outline-primary" data-dismiss="modal">
 									<span class="glyphicon glyphicon-remove"></span> Ok 
 								</button>
 							</div>
 						</div>
 					</div>
 				</div>
+
 				<!-- Modal window confirmation of deletion for identity card -->
 				<div class="modal fade" id="update_achieved_identity_card" role="dialog">
 					<div class="modal-dialog">
@@ -4720,19 +4739,20 @@
 								<div>
 									<div style="margin-bottom: 10px;">
 										<div>
-											<h4>The identity card record was successfully created or updated.</h4>
+											<h1>The identity card record was successfully created or updated.</h1>
 										</div>
 									</div>
 								</div>
 							</div>
 							<div style="margin-top: 20px;" class="modal-footer">
-								<button type="submit" class="btn btn-default btn-primary" data-dismiss="modal">
+								<button type="submit" class="btn btn-outline-primary" data-dismiss="modal">
 									<span class="glyphicon glyphicon-remove"></span> Ok 
 								</button>
 							</div>
 						</div>
 					</div>
 				</div>
+
 				<!-- Modal window confirmation of deletion for identity card -->
 				<div class="modal fade" id="delete_achieved_identity_card" role="dialog">
 					<div class="modal-dialog">
@@ -4748,13 +4768,13 @@
 								<div>
 									<div style="margin-bottom: 10px;">
 										<div>
-											<h4>The identity card record was successfully deleted.</h4>
+											<h1>The identity card record was successfully deleted.</h1>
 										</div>
 									</div>
 								</div>
 							</div>
 							<div style="margin-top: 20px;" class="modal-footer">
-								<button type="submit" class="btn btn-default btn-primary" data-dismiss="modal">
+								<button type="submit" class="btn btn-outline-primary" data-dismiss="modal">
 									<span class="glyphicon glyphicon-remove"></span> Ok 
 								</button>
 							</div>
