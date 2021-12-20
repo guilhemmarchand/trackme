@@ -14117,6 +14117,405 @@ input_ack_duration.on("change", function(newValue) {
         .render()
         .$el.appendTo($("resultsLinkelementIdentityCardTable"));  
 
+        // ALERT summary
+
+        var modal_input_custom_alert_name = new TextInput({
+          "id": "modal_input_custom_alert_name",
+          "searchWhenChanged": false,
+          "value": "$form.tk_input_custom_alert_name$",
+          "default": "TrackMe - Alert custom on $create_alert_object_type$",
+          "el": $('#modal_input_custom_alert_name')
+      }, {
+          tokens: true
+      }).render();
+
+      modal_input_custom_alert_name.on("change", function(newValue) {
+          FormUtils.handleValueChange(modal_input_custom_alert_name);
+      });
+
+        // input link selection for modal window
+        var modal_input_custom_alert_object_type = new LinkListInput({
+          "id": "modal_input_custom_alert_object_type",
+          "choices": [{
+                  "value": "data_source",
+                  "label": "DATA SOURCES"
+              },
+              {
+                  "value": "data_host",
+                  "label": "DATA HOSTS"
+              },
+              {
+                  "value": "metric_host",
+                  "label": "METRIC HOSTS"
+              }
+          ],
+          "default": "data_source",
+          "searchWhenChanged": true,
+          "selectFirstChoice": false,
+          "initialValue": "data_source",
+          "value": "$form.inputCustomAlertObjectType$",
+          "el": $('#modal_input_custom_alert_object_type')
+      }, {
+          tokens: true
+      }).render();
+
+      modal_input_custom_alert_object_type.on("change", function(newValue) {
+          FormUtils.handleValueChange(input1);
+      });
+
+      modal_input_custom_alert_object_type.on("valueChange", function(e) {
+          if (e.value === "data_source") {
+              EventHandler.setToken("create_alert_object_type", "data_source", {}, e.data);
+              EventHandler.setToken("create_alert_data_source", "true", {}, e.data);
+              EventHandler.setToken("form.tk_input_custom_alert_suppress_fields", "object", {}, e.data);
+              EventHandler.unsetToken("create_alert_data_host");
+              EventHandler.unsetToken("create_alert_metric_host");
+              $("#div_create_alert_data_source").css("display", "inherit");
+              $("#div_create_alert_data_host").css("display", "none");
+              $("#div_create_alert_metric_host").css("display", "none");
+          } else if (e.value === "data_host") {
+              EventHandler.setToken("create_alert_object_type", "data_host", {}, e.data);
+              EventHandler.setToken("create_alert_data_host", "true", {}, e.data);
+              EventHandler.setToken("form.tk_input_custom_alert_suppress_fields", "object", {}, e.data);
+              EventHandler.unsetToken("create_alert_data_source");
+              EventHandler.unsetToken("create_alert_metric_host");
+              $("#div_create_alert_data_source").css("display", "none");
+              $("#div_create_alert_data_host").css("display", "inherit");
+              $("#div_create_alert_metric_host").css("display", "none");
+            } else if (e.value === "metric_host") {
+              EventHandler.setToken("create_alert_object_type", "metric_host", {}, e.data);
+              EventHandler.setToken("create_alert_metric_host", "true", {}, e.data);
+              EventHandler.setToken("form.tk_input_custom_alert_suppress_fields", "object", {}, e.data);
+              EventHandler.unsetToken("create_alert_data_host");
+              EventHandler.unsetToken("create_alert_data_source");
+              $("#div_create_alert_data_source").css("display", "none");
+              $("#div_create_alert_data_host").css("display", "none");
+              $("#div_create_alert_metric_host").css("display", "inherit");
+          }
+      });
+
+      var modal_input_custom_priority_levels = new MultiSelectInput({
+        "id": "modal_input_custom_priority_levels",
+        "choices": [
+            {"label": "ANY", "value": "*"},
+            {"label": "low", "value": "low"},
+            {"label": "medium", "value": "medium"},
+            {"label": "high", "value": "high"}
+        ],
+        "valuePrefix": "priority=\"",
+        "valueSuffix": "\"",
+        "delimiter": " OR ",
+        "searchWhenChanged": true,
+        "initialValue": ["*"],
+        "value": "$form.tk_input_custom_alert_priority$",
+        "el": $('#modal_input_custom_priority_levels')
+    }, {tokens: true}).render();
+
+    modal_input_custom_priority_levels.on("change", function(newValue) {
+        FormUtils.handleValueChange(modal_input_custom_priority_levels);
+    });
+
+    var modal_input_custom_state_levels = new MultiSelectInput({
+      "id": "modal_input_custom_state_levels",
+      "choices": [
+          {"label": "red", "value": "red"},
+          {"label": "orange", "value": "orange"},
+          {"label": "Any (red/orange)", "value": "*"},
+      ],
+      "valuePrefix": "state=\"",
+      "valueSuffix": "\"",
+      "delimiter": " OR ",
+      "searchWhenChanged": true,
+      "initialValue": ["red"],
+      "value": "$form.tk_input_custom_alert_state$",
+      "el": $('#modal_input_custom_state_levels')
+  }, {tokens: true}).render();
+
+  modal_input_custom_state_levels.on("change", function(newValue) {
+      FormUtils.handleValueChange(modal_input_custom_state_levels);
+  });
+
+  var modal_input_custom_alert_data_source_filter = new TextInput({
+    "id": "modal_input_custom_alert_data_source_filter",
+    "searchWhenChanged": false,
+    "value": "$form.tk_input_custom_alert_data_source_filter$",
+    "default": "*",
+    "el": $('#modal_input_custom_alert_data_source_filter')
+}, {
+    tokens: true
+}).render();
+
+modal_input_custom_alert_data_source_filter.on("change", function(newValue) {
+    FormUtils.handleValueChange(modal_input_custom_alert_data_source_filter);
+});
+
+var modal_input_custom_tags = new MultiSelectInput({
+  "id": "modal_input_custom_tags",
+  "choices": [
+      {"label": "ANY", "value": "*"}
+  ],
+  "valuePrefix": "tags=\"",
+  "valueSuffix": "\"",
+  "delimiter": " OR ",
+  "labelField": "tags",
+  "searchWhenChanged": true,
+  "initialValue": ["*"],
+  "selectFirstChoice": false,
+  "valueField": "tags",            
+  "value": "$form.tk_input_custom_tags$",
+  "managerid": "search_alerts_get_tags",
+  "el": $('#modal_input_custom_tags')
+}, {tokens: true}).render();
+
+modal_input_custom_tags.on("change", function(newValue) {
+  FormUtils.handleValueChange(modal_input_custom_tags);
+});
+
+var modal_input_custom_alert_trigger_on_outliers = new DropdownInput({
+  "id": "modal_input_custom_alert_trigger_on_outliers",
+  "choices": [{
+          "label": "true",
+          "value": "true"
+      },
+      {
+          "label": "false",
+          "value": "false"
+      }
+  ],
+  "searchWhenChanged": false,
+  "default": "true",
+  "showClearButton": true,
+  "initialValue": "true",
+  "selectFirstChoice": false,
+  "value": "$form.tk_input_custom_alert_trigger_on_outliers$",
+  "el": $('#modal_input_custom_alert_trigger_on_outliers')
+}, {
+  tokens: true
+}).render();
+
+modal_input_custom_alert_trigger_on_outliers.on("change", function(newValue) {
+  FormUtils.handleValueChange(modal_input_custom_alert_trigger_on_outliers);
+});
+
+var modal_input_custom_alert_trigger_on_data_sampling = new DropdownInput({
+  "id": "modal_input_custom_alert_trigger_on_data_sampling",
+  "choices": [{
+          "label": "true",
+          "value": "true"
+      },
+      {
+          "label": "false",
+          "value": "false"
+      }
+  ],
+  "searchWhenChanged": false,
+  "default": "true",
+  "showClearButton": true,
+  "initialValue": "true",
+  "selectFirstChoice": false,
+  "value": "$form.tk_input_custom_alert_trigger_on_data_sampling$",
+  "el": $('#modal_input_custom_alert_trigger_on_data_sampling')
+}, {
+  tokens: true
+}).render();
+
+modal_input_custom_alert_trigger_on_data_sampling.on("change", function(newValue) {
+  FormUtils.handleValueChange(modal_input_custom_alert_trigger_on_data_sampling);
+});
+
+var modal_input_custom_alert_data_host_filter = new TextInput({
+  "id": "modal_input_custom_alert_data_host_filter",
+  "searchWhenChanged": false,
+  "value": "$form.tk_input_custom_alert_data_host_filter$",
+  "default": "*",
+  "el": $('#modal_input_custom_alert_data_host_filter')
+}, {
+  tokens: true
+}).render();
+
+modal_input_custom_alert_data_host_filter.on("change", function(newValue) {
+  FormUtils.handleValueChange(modal_input_custom_alert_data_host_filter);
+});
+
+var modal_input_custom_alert_trigger_on_outliers_data_host = new DropdownInput({
+  "id": "modal_input_custom_alert_trigger_on_outliers_data_host",
+  "choices": [{
+          "label": "true",
+          "value": "true"
+      },
+      {
+          "label": "false",
+          "value": "false"
+      }
+  ],
+  "searchWhenChanged": false,
+  "default": "true",
+  "showClearButton": true,
+  "initialValue": "true",
+  "selectFirstChoice": false,
+  "value": "$form.tk_input_custom_alert_trigger_on_outliers_data_host$",
+  "el": $('#modal_input_custom_alert_trigger_on_outliers_data_host')
+}, {
+  tokens: true
+}).render();
+
+modal_input_custom_alert_trigger_on_outliers_data_host.on("change", function(newValue) {
+  FormUtils.handleValueChange(modal_input_custom_alert_trigger_on_outliers_data_host);
+});
+
+var modal_input_custom_alert_metric_host_filter = new TextInput({
+  "id": "modal_input_custom_alert_metric_host_filter",
+  "searchWhenChanged": false,
+  "value": "$form.tk_input_custom_alert_metric_host_filter$",
+  "default": "*",
+  "el": $('#modal_input_custom_alert_metric_host_filter')
+}, {
+  tokens: true
+}).render();
+
+modal_input_custom_alert_metric_host_filter.on("change", function(newValue) {
+  FormUtils.handleValueChange(modal_input_custom_alert_metric_host_filter);
+});
+
+var modal_input_custom_alert_cron = new TextInput({
+  "id": "modal_input_custom_alert_cron",
+  "searchWhenChanged": false,
+  "value": "$form.tk_input_custom_alert_cron$",
+  "default": "*/5 * * * *",
+  "el": $('#modal_input_custom_alert_cron')
+}, {
+  tokens: true
+}).render();
+
+modal_input_custom_alert_cron.on("change", function(newValue) {
+  FormUtils.handleValueChange(modal_input_custom_alert_cron);
+});
+
+var modal_input_custom_alert_suppress_fields = new TextInput({
+  "id": "modal_input_custom_alert_suppress_fields",
+  "searchWhenChanged": false,
+  "value": "$form.tk_input_custom_alert_suppress_fields$",
+  "el": $('#modal_input_custom_alert_suppress_fields')
+}, {
+  tokens: true
+}).render();
+
+modal_input_custom_alert_suppress_fields.on("change", function(newValue) {
+  FormUtils.handleValueChange(modal_input_custom_alert_suppress_fields);
+});
+
+var modal_input_custom_alert_suppress_period = new TextInput({
+  "id": "modal_input_custom_alert_suppress_period",
+  "searchWhenChanged": false,
+  "value": "$form.tk_input_custom_alert_suppress_period$",
+  "default": "24h",
+  "el": $('#modal_input_custom_alert_suppress_period')
+}, {
+  tokens: true
+}).render();
+
+modal_input_custom_alert_suppress_period.on("change", function(newValue) {
+  FormUtils.handleValueChange(modal_input_custom_alert_suppress_period);
+});
+
+var modal_input_custom_alert_time_filtering = new DropdownInput({
+  "id": "modal_input_custom_alert_time_filtering",
+  "choices": [{
+          "label": "Any time",
+          "value": "AnyTime"
+      },
+      {
+          "label": "Days business (08h-20h)",
+          "value": "Day_BusinessDays_8h-20h"
+      },
+      {
+          "label": "Days WE only (08h-20h)",
+          "value": "Day_WeekEnd_8h-20h"
+      },
+      {
+          "label": "Days of the Week (08h-20h)",
+          "value": "Day_AllDays_8h-20h"
+      },
+      {
+          "label": "Night business (20h-08h)",
+          "value": "Night_BusinessDays_20h-8h"
+      },
+      {
+          "label": "Night WE only (20h-08h)",
+          "value": "Night_WeekEnd_20h-8h"
+      },
+      {
+          "label": "Night days of the week (20h-08h)",
+          "value": "Night_AllDays_20h-8h"
+      },
+  ],
+  "searchWhenChanged": false,
+  "default": "AnyTime",
+  "showClearButton": true,
+  "initialValue": "AnyTime",
+  "selectFirstChoice": false,
+  "value": "$form.tk_input_custom_alert_time_filtering$",
+  "el": $('#modal_input_custom_alert_time_filtering')
+}, {
+  tokens: true
+}).render();
+
+modal_input_custom_alert_time_filtering.on("change", function(newValue) {
+  FormUtils.handleValueChange(modal_input_custom_alert_time_filtering);
+});
+
+var modal_input_custom_alert_auto_ack = new DropdownInput({
+  "id": "modal_input_custom_alert_auto_ack",
+  "choices": [{
+          "label": "enabled",
+          "value": "1"
+      },
+      {
+          "label": "disabled",
+          "value": "0"
+      }
+  ],
+  "searchWhenChanged": false,
+  "default": "1",
+  "showClearButton": true,
+  "initialValue": "1",
+  "selectFirstChoice": false,
+  "value": "$form.tk_input_custom_alert_auto_ack$",
+  "el": $('#modal_input_custom_alert_auto_ack')
+}, {
+  tokens: true
+}).render();
+
+modal_input_custom_alert_auto_ack.on("change", function(newValue) {
+  FormUtils.handleValueChange(modal_input_custom_alert_auto_ack);
+});
+
+var modal_input_custom_alert_smart_status = new DropdownInput({
+  "id": "modal_input_custom_alert_smart_status",
+  "choices": [{
+          "label": "enabled",
+          "value": "1"
+      },
+      {
+          "label": "disabled",
+          "value": "0"
+      }
+  ],
+  "searchWhenChanged": false,
+  "default": "1",
+  "showClearButton": true,
+  "initialValue": "1",
+  "selectFirstChoice": false,
+  "value": "$form.tk_input_custom_alert_smart_status$",
+  "el": $('#modal_input_custom_alert_smart_status')
+}, {
+  tokens: true
+}).render();
+
+modal_input_custom_alert_smart_status.on("change", function(newValue) {
+  FormUtils.handleValueChange(modal_input_custom_alert_smart_status);
+});
+
   //
   // BEGIN OPERATIONS
   //
@@ -15129,10 +15528,6 @@ input_ack_duration.on("change", function(newValue) {
   });
 
   $("#btn_create_alert").click(function() {
-      //submitTokens();
-
-      // When the Submit button is clicked, get all the form fields by accessing token values
-      var tokens = mvc.Components.get("default");
 
       // fire up some searches
       setToken("start_get_tags_for_custom_alert", "true");

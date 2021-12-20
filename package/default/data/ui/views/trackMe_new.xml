@@ -5061,6 +5061,119 @@
 					</div>
 				</div>
 
+				<div class="modal fade custom-modal-80" id="add_custom_alert" role="dialog">
+					<div class="modal-dialog">
+						<!-- Modal content-->
+						<div class="modal-content">
+							<div class="modal-header modal-header-danger">
+								<button type="button" class="close" data-dismiss="modal"></button>
+								<h1>
+									<span class="glyphicon glyphicon-lock"></span> Alert tracking definition 
+								</h1>
+							</div>
+							<div class="modal-body">
+								<h1>Use this interface to create a custom alert in assisted mode:</h1>
+                                <div>
+                                    <div class="fieldset">
+                                        <div class="input input-text" id="modal_input_custom_alert_name" style="margin-bottom: 20px; max-width: 900px;">
+                                            <label>Enter the unique identifier of the new alert:</label>
+                                        </div>
+                                    </div>
+                                    <div class="input input-linklist" id="modal_input_custom_alert_object_type" style="margin-top: 20px;">
+                                        <label>Choose the type of object to be tracked:</label>
+                                    </div>
+                                    <div class="fieldset">
+                                        <div class="input input-multiselect" id="modal_input_custom_priority_levels" style="margin-top: 20px;">
+                                            <label>Trigger if priority is:</label>
+                                        </div>
+                                        <div class="input input-multiselect" id="modal_input_custom_state_levels" style="margin-top: 20px;">
+                                            <label>trigger if the state is:</label>
+                                        </div>
+                                    </div>
+                                </div>
+								<div id="div_create_alert_data_source" style="display: none">
+                                    <div class="fieldset">
+                                        <div class="input input-multiselect" id="modal_input_custom_alert_data_source_filter" style="max-width: 300px;">
+                                            <label>Filter data_name:</label>
+                                        </div>
+                                        <div class="input input-multiselect" id="modal_input_custom_tags">
+                                            <label>Include entities with tags:</label>
+                                        </div>
+                                        <div class="input input-dropdown" id="modal_input_custom_alert_trigger_on_outliers">
+                                            <label>Trigger on Outliers?</label>
+                                        </div>
+                                        <div class="input input-dropdown" id="modal_input_custom_alert_trigger_on_data_sampling">
+                                            <label>Trigger on Data Sampling?</label>
+                                        </div>
+                                    </div>
+								</div>
+								<div id="div_create_alert_data_host" style="display: none">
+                                    <div class="fieldset">
+                                        <div class="input input-multiselect" id="modal_input_custom_alert_data_host_filter" style="max-width: 300px;">
+                                            <label>Filter data_host:</label>
+                                        </div>
+                                        <div class="input input-dropdown" id="modal_input_custom_alert_trigger_on_outliers_data_host">
+                                            <label>Trigger on Outliers?</label>
+                                        </div>
+                                    </div>
+								</div>
+								<div id="div_create_alert_metric_host" style="display: none">
+                                    <div class="fieldset">
+                                        <div class="input input-multiselect" id="modal_input_custom_alert_metric_host_filter" style="max-width: 300px;">
+                                            <label>Filter metric_host:</label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="fieldset">
+                                    <div class="input input-text" id="modal_input_custom_alert_cron" style="max-width: 150px;">
+                                        <label>Cron schedule:</label>
+                                    </div>
+                                    <div class="input input-text" id="modal_input_custom_alert_suppress_fields" style="max-width: 300px;">
+                                        <label>Suppression fields:</label>
+                                    </div>
+                                    <div class="input input-text" id="modal_input_custom_alert_suppress_period" style="max-width: 150px;">
+                                        <label>Suppression period:</label>
+                                    </div>
+                                    <div class="input input-text" id="modal_input_custom_alert_time_filtering" style="max-width: 300px;">
+                                        <label>Day time filtering:</label>
+                                    </div>
+								</div>
+								<div>
+                                    <h3>TrackMe alert actions:</h3>
+                                    <ul>
+                                        <li>Auto Acknowledment: automatically acknowledge entities triggering, the ack duration is configurable within the alert action</li>
+                                        <li>Smart Status: automatically call the Smart Status REST endpoint, results are indexed in the trackme summary index for investigations purposes</li>
+                                        <li>For more details: 
+                                            <a target="_blank" href="https://trackme.readthedocs.io/en/latest/userguide.html#alerts-tracking-trackme-alert-actions">TrackMe alert actions documentation</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="fieldset">
+                                    <div class="input input-drilldown" id="modal_input_custom_alert_auto_ack">
+                                        <label>Auto Acknowledment:</label>
+                                    </div>
+                                    <div class="input input-text" id="modal_input_custom_alert_smart_status">
+                                        <label>Smart Status:</label>
+                                    </div>
+                                </div>
+								<div>
+                                    <h3>Other Alert actions and options will be made available in the Splunk alert editor once the it has been created.</h3>
+                                </div>
+                                <div class="fieldset">
+                                    <button type="submit" id="btn_modal_custom_alert_add_new" style="margin-right: 15px;" class="btn btn-outline-primary">
+                                        <span class="glyphicon glyphicon-remove"></span> Add this new alert
+                                    </button>
+                                </div>
+							</div>
+							<div class="modal-footer">
+								<button type="submit" class="btn btn-outline-secondary pull-left" data-dismiss="modal">
+									<span class="glyphicon glyphicon-remove"></span> Cancel
+								</button>
+							</div>
+						</div>
+					</div>
+				</div>
+
 			</html>
 
             <!-- BEGIN OPERATIONS -->
@@ -6787,166 +6900,6 @@
 								</button>
 								<a class="btn btn-primary" id="btn_url_modal_manage_alert" target="_blank" href="alert_url" role="button">Review and edit alert</a>
 								<a class="btn btn-primary" id="btn_url_modal_history_alert" target="_blank" href="alert_url" role="button">Search alert history</a>
-							</div>
-						</div>
-					</div>
-				</div>
-				<div class="modal fade custom-modal-60" id="add_custom_alert" role="dialog">
-					<div class="modal-dialog">
-						<!-- Modal content-->
-						<div class="modal-content">
-							<div class="modal-header modal-header-danger">
-								<button type="button" class="close" data-dismiss="modal"></button>
-								<h1>
-									<span class="glyphicon glyphicon-lock"></span> Alert tracking definition 
-								</h1>
-							</div>
-							<div class="modal-body">
-								<b>Use this interface to create a custom alert in assisted mode:</b>
-								<div>
-									<div>
-										<div>
-											<div>
-												<div class="input input-text" id="modal_input_custom_alert_name" style="margin-bottom: 20px; max-width: 900px;">
-													<label>Enter the unique identifier of the new alert:</label>
-												</div>
-												<div class="input input-linklist" id="modal_input_custom_alert_object_type" style="margin-top: 20px;">
-													<label>Choose the type of object to be tracked:</label>
-												</div>
-												<div class="fieldset">
-													<div class="input input-multiselect" id="modal_input_custom_priority_levels" style="margin-top: 20px;">
-														<label>Trigger if priority is:</label>
-													</div>
-													<div class="input input-multiselect" id="modal_input_custom_state_levels" style="margin-top: 20px;">
-														<label>trigger if the state is:</label>
-													</div>
-												</div>
-											</div>
-										</div>
-									</div>
-								</div>
-								<div data-depends="$create_alert_data_source$">
-									<div>
-										<div>
-											<div>
-												<div class="fieldset">
-													<div class="input input-multiselect" id="modal_input_custom_alert_data_source_filter" style="max-width: 300px;">
-														<label>Filter data_name:</label>
-													</div>
-													<div class="input input-multiselect" id="modal_input_custom_tags">
-														<label>Include entities with tags:</label>
-													</div>
-													<div class="input input-dropdown" id="modal_input_custom_alert_trigger_on_outliers">
-														<label>Trigger on Outliers?</label>
-													</div>
-													<div class="input input-dropdown" id="modal_input_custom_alert_trigger_on_data_sampling">
-														<label>Trigger on Data Sampling?</label>
-													</div>
-												</div>
-											</div>
-										</div>
-									</div>
-								</div>
-								<div data-depends="$create_alert_data_host$">
-									<div>
-										<div>
-											<div>
-												<div class="fieldset">
-													<div class="input input-multiselect" id="modal_input_custom_alert_data_host_filter" style="max-width: 300px;">
-														<label>Filter data_host:</label>
-													</div>
-													<div class="input input-dropdown" id="modal_input_custom_alert_trigger_on_outliers_data_host">
-														<label>Trigger on Outliers?</label>
-													</div>
-												</div>
-											</div>
-										</div>
-									</div>
-								</div>
-								<div data-depends="$create_alert_metric_host$">
-									<div>
-										<div>
-											<div>
-												<div class="fieldset">
-													<div class="input input-multiselect" id="modal_input_custom_alert_metric_host_filter" style="max-width: 300px;">
-														<label>Filter metric_host:</label>
-													</div>
-												</div>
-											</div>
-										</div>
-									</div>
-								</div>
-								<div>
-									<div>
-										<div>
-											<div>
-												<div class="fieldset">
-													<div class="input input-text" id="modal_input_custom_alert_cron" style="max-width: 150px;">
-														<label>Cron schedule:</label>
-													</div>
-													<div class="input input-text" id="modal_input_custom_alert_suppress_fields" style="max-width: 300px;">
-														<label>Suppression fields:</label>
-													</div>
-													<div class="input input-text" id="modal_input_custom_alert_suppress_period" style="max-width: 150px;">
-														<label>Suppression period:</label>
-													</div>
-													<div class="input input-text" id="modal_input_custom_alert_time_filtering" style="max-width: 300px;">
-														<label>Day time filtering:</label>
-													</div>
-												</div>
-											</div>
-										</div>
-									</div>
-								</div>
-								<div>
-									<div>
-										<div>
-											<div>
-												<div>
-													<h3>TrackMe alert actions:</h3>
-													<lu>
-														<li>Auto Acknowledment: automatically acknowledge entities triggering, the ack duration is configurable within the alert action</li>
-														<li>Smart Status: automatically call the Smart Status REST endpoint, results are indexed in the trackme summary index for investigations purposes</li>
-														<li>For more details: 
-															<a target="_blank" href="https://trackme.readthedocs.io/en/latest/userguide.html#alerts-tracking-trackme-alert-actions">TrackMe alert actions documentation</a>
-														</li>
-													</lu>
-												</div>
-											</div>
-											<div>
-												<div class="fieldset">
-													<div class="input input-drilldown" id="modal_input_custom_alert_auto_ack">
-														<label>Auto Acknowledment:</label>
-													</div>
-													<div class="input input-text" id="modal_input_custom_alert_smart_status">
-														<label>Smart Status:</label>
-													</div>
-												</div>
-											</div>
-										</div>
-									</div>
-								</div>
-								<div>
-									<div>
-										<div>
-											<div>
-												<div>
-													<h3>Other Alert actions and options will be made available in the Splunk alert editor once the it has been created.</h3>
-												</div>
-												<div style="margin-top: 15x;">
-													<button type="submit" id="btn_modal_custom_alert_add_new" style="margin-right: 15px;" class="btn btn-default btn-primary">
-														<span class="glyphicon glyphicon-remove"></span> Add this new alert
-													</button>
-												</div>
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
-							<div class="modal-footer">
-								<button type="submit" class="btn btn-outline-secondary pull-left" data-dismiss="modal">
-									<span class="glyphicon glyphicon-remove"></span> Cancel
-								</button>
 							</div>
 						</div>
 					</div>
