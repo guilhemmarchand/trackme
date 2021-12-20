@@ -60,17 +60,17 @@ class TrackMeRestHandler(GeneratingCommand):
             # Get
             if self.mode in ("get"):
                 if self.body:
-                    response = requests.get(target_url, headers={'Authorization': header}, verify=False, data=json_data)
+                    response = requests.get(target_url, headers={'Authorization': header, 'Content-Type': 'application/json'}, verify=False, data=json_data)
                 else:
                     response = requests.get(target_url, headers={'Authorization': header}, verify=False)                    
 
             # Post (body is required)
             elif self.mode in ("post"):
-                response = requests.post(target_url, headers={'Authorization': header}, verify=False, data=json_data)
+                response = requests.post(target_url, headers={'Authorization': header, 'Content-Type': 'application/json'}, verify=False, data=json_data)
 
             # Delete (body is required)
             elif self.mode in ("delete"):
-                response = requests.delete(target_url, headers={'Authorization': header}, verify=False, data=json_data)
+                response = requests.delete(target_url, headers={'Authorization': header, 'Content-Type': 'application/json'}, verify=False, data=json_data)
 
             # yield data
 

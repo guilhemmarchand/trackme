@@ -1,6 +1,20 @@
 Release notes
 #############
 
+Version 1.2.58
+==============
+
+.. warning:: **Splunk 8.x and Python3 support only**
+
+    - Starting from this release, only Splunk 8.x and Python3 are supported
+    - Some functions such as builtin alert actions are not compatible any longer with Python2 and Splunk 7.x
+    - For the latest version available for Splunk 7.x, see the release 1.2.51
+
+- Fix Issue #379 - urllib3 insecure error messages from custom endpoint when interracting with splunkd
+- Fix Issue #378 - backup and restore generate POST related warning messages
+- Fix Issue #377 - Typos in sample instructions in backup and restore user interface
+- Fix Issue #364 - The long term tracker can impact some data sources unexpectly in some specific conditions
+
 Version 1.2.57
 ==============
 

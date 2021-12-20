@@ -144,7 +144,7 @@
     "meta": {
         "name": "trackme",
         "restRoot": "trackme",
-        "version": "1.2.57",
+        "version": "1.2.58",
         "displayName": "TrackMe",
         "schemaVersion": "0.0.3"
     }

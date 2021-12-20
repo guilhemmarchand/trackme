@@ -2,6 +2,8 @@ import os
 import re
 import sys
 import json
+import urllib3
+urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
 from splunk.persistconn.application import PersistentServerConnectionApplication
 
