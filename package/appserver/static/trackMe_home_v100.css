@@ -19,6 +19,10 @@
 	margin-top: 15px;
 }
 
+/* Splunk viz div */
+.view-main {
+	padding: 2px 2px 26px 2px;
+}
 
 /* handle search elements */
 

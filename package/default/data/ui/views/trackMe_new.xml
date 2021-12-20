@@ -4338,7 +4338,6 @@
 						</div>
 					</div>
 				</div>
-
 				<!-- alert creation is successful -->
 				<div class="modal fade" id="modal_alert_creation_success" role="dialog">
 					<div class="modal-dialog">
@@ -4351,23 +4350,20 @@
 								</h1>
 							</div>
 							<div class="modal-body">
-								<p>Congratulations, the new alert tracker was successfully created.
-									<br />
-									<br />
-									<b>The following new tracker was created:</b>
-								</p>
+								<h1>Congratulations, the new alert tracker was successfully created.</h1>
+                                <h2>The following new tracker was created:</h2>
 								<div class="modal-error-message" style="margin: 10px 0; padding: 10px; border-radius: 3px 3px 3px 3px; color: white; background-color: dodgerblue;">
 									<p>success return message</p>
 								</div>
 							</div>
 							<div class="modal-footer">
-								<button type="submit" class="btn btn-outline-primary" data-dismiss="modal">
+								<button type="submit" class="btn btn-outline-secondary" data-dismiss="modal">
 									<span class="glyphicon glyphicon-remove"></span> Close
 								</button>
 							</div>
 						</div>
 					</div>
-				</div>
+				</div>                
 				<!-- Error or failure during alert creation -->
 				<div class="modal fade" id="modal_alert_creation_error" role="dialog">
 					<div class="modal-dialog">
@@ -5065,65 +5061,69 @@
 					<div class="modal-dialog">
 						<!-- Modal content-->
 						<div class="modal-content">
-							<div class="modal-header modal-header-danger">
+							<div class="modal-header modal-header-info">
 								<button type="button" class="close" data-dismiss="modal"></button>
 								<h1>
-									<span class="glyphicon glyphicon-lock"></span> Alert tracking definition 
+									<span class="glyphicon glyphicon-lock"></span> Alert tracking definition - Use this interface to create a custom alert in assisted mode
 								</h1>
 							</div>
 							<div class="modal-body">
-								<h1>Use this interface to create a custom alert in assisted mode:</h1>
-                                <div>
-                                    <div class="fieldset">
-                                        <div class="input input-text" id="modal_input_custom_alert_name" style="margin-bottom: 20px; max-width: 900px;">
-                                            <label>Enter the unique identifier of the new alert:</label>
-                                        </div>
+                                <div class="fieldset">
+                                    <div class="input input-text" id="modal_input_custom_alert_name" style="width: 600px; max-width: 600px;">
+                                        <label>Enter the unique identifier of the new alert:</label>
                                     </div>
-                                    <div class="input input-linklist" id="modal_input_custom_alert_object_type" style="margin-top: 20px;">
+                                </div>
+                                <hr />
+                                <div style="margin-left: 10px;">
+                                    <div class="input input-linklist" id="modal_input_custom_alert_object_type">
                                         <label>Choose the type of object to be tracked:</label>
                                     </div>
-                                    <div class="fieldset">
-                                        <div class="input input-multiselect" id="modal_input_custom_priority_levels" style="margin-top: 20px;">
-                                            <label>Trigger if priority is:</label>
+                                </div>
+                                <hr />
+                                <div class="fieldset">
+                                    <div class="input input-multiselect" id="modal_input_custom_priority_levels">
+                                        <label>Trigger if priority is:</label>
+                                    </div>
+                                    <div class="input input-multiselect" id="modal_input_custom_state_levels">
+                                        <label>trigger if the state is:</label>
+                                    </div>
+                                </div>
+                                <div style="margin-top: 20px;">
+                                    <div id="div_create_alert_data_source" style="display: none">
+                                        <div class="fieldset">
+                                            <div class="input input-multiselect" id="modal_input_custom_alert_data_source_filter" style="max-width: 300px;">
+                                                <label>Filter data_name:</label>
+                                            </div>
+                                            <div class="input input-multiselect" id="modal_input_custom_tags">
+                                                <label>Include entities with tags:</label>
+                                            </div>
+                                            <div class="input input-dropdown" id="modal_input_custom_alert_trigger_on_outliers">
+                                                <label>Trigger on Outliers?</label>
+                                            </div>
+                                            <div class="input input-dropdown" id="modal_input_custom_alert_trigger_on_data_sampling">
+                                                <label>Trigger on Data Sampling?</label>
+                                            </div>
                                         </div>
-                                        <div class="input input-multiselect" id="modal_input_custom_state_levels" style="margin-top: 20px;">
-                                            <label>trigger if the state is:</label>
+                                    </div>
+                                    <div id="div_create_alert_data_host" style="display: none">
+                                        <div class="fieldset">
+                                            <div class="input input-multiselect" id="modal_input_custom_alert_data_host_filter" style="max-width: 300px;">
+                                                <label>Filter data_host:</label>
+                                            </div>
+                                            <div class="input input-dropdown" id="modal_input_custom_alert_trigger_on_outliers_data_host">
+                                                <label>Trigger on Outliers?</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div id="div_create_alert_metric_host" style="display: none">
+                                        <div class="fieldset">
+                                            <div class="input input-multiselect" id="modal_input_custom_alert_metric_host_filter" style="max-width: 300px;">
+                                                <label>Filter metric_host:</label>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-								<div id="div_create_alert_data_source" style="display: none">
-                                    <div class="fieldset">
-                                        <div class="input input-multiselect" id="modal_input_custom_alert_data_source_filter" style="max-width: 300px;">
-                                            <label>Filter data_name:</label>
-                                        </div>
-                                        <div class="input input-multiselect" id="modal_input_custom_tags">
-                                            <label>Include entities with tags:</label>
-                                        </div>
-                                        <div class="input input-dropdown" id="modal_input_custom_alert_trigger_on_outliers">
-                                            <label>Trigger on Outliers?</label>
-                                        </div>
-                                        <div class="input input-dropdown" id="modal_input_custom_alert_trigger_on_data_sampling">
-                                            <label>Trigger on Data Sampling?</label>
-                                        </div>
-                                    </div>
-								</div>
-								<div id="div_create_alert_data_host" style="display: none">
-                                    <div class="fieldset">
-                                        <div class="input input-multiselect" id="modal_input_custom_alert_data_host_filter" style="max-width: 300px;">
-                                            <label>Filter data_host:</label>
-                                        </div>
-                                        <div class="input input-dropdown" id="modal_input_custom_alert_trigger_on_outliers_data_host">
-                                            <label>Trigger on Outliers?</label>
-                                        </div>
-                                    </div>
-								</div>
-								<div id="div_create_alert_metric_host" style="display: none">
-                                    <div class="fieldset">
-                                        <div class="input input-multiselect" id="modal_input_custom_alert_metric_host_filter" style="max-width: 300px;">
-                                            <label>Filter metric_host:</label>
-                                        </div>
-                                    </div>
-                                </div>
+                                <hr />
                                 <div class="fieldset">
                                     <div class="input input-text" id="modal_input_custom_alert_cron" style="max-width: 150px;">
                                         <label>Cron schedule:</label>
@@ -5138,6 +5138,7 @@
                                         <label>Day time filtering:</label>
                                     </div>
 								</div>
+                                <hr />
 								<div>
                                     <h3>TrackMe alert actions:</h3>
                                     <ul>
@@ -5155,20 +5156,125 @@
                                     <div class="input input-text" id="modal_input_custom_alert_smart_status">
                                         <label>Smart Status:</label>
                                     </div>
-                                </div>
-								<div>
                                     <h3>Other Alert actions and options will be made available in the Splunk alert editor once the it has been created.</h3>
                                 </div>
-                                <div class="fieldset">
-                                    <button type="submit" id="btn_modal_custom_alert_add_new" style="margin-right: 15px;" class="btn btn-outline-primary">
-                                        <span class="glyphicon glyphicon-remove"></span> Add this new alert
-                                    </button>
-                                </div>
 							</div>
-							<div class="modal-footer">
+							<div class="modal-footer" style="margin-top: 10px;">
 								<button type="submit" class="btn btn-outline-secondary pull-left" data-dismiss="modal">
 									<span class="glyphicon glyphicon-remove"></span> Cancel
 								</button>
+                                <button type="submit" id="btn_modal_custom_alert_add_new" style="margin-right: 15px;" class="btn btn-outline-primary pull-right">
+                                    <span class="glyphicon glyphicon-remove"></span> Add this new alert
+                                </button>
+							</div>                            
+						</div>
+					</div>
+				</div>
+				<!-- ALERT SUMMARY -->
+				<div class="modal fade custom-modal-80" id="modal_manage_alerts" role="dialog">
+					<div class="modal-dialog">
+						<!-- Modal content-->
+						<div class="modal-content">
+							<!-- This is required to get the token subsitutions without affecting the buttons actions in js -->
+							<div>
+								<div>
+									<div class="modal-header modal-header-primary">										
+                                            <div id="child-alert-tracking-info-panel-title">
+    											<h1>Actions for alert:<span>value</span></h1>
+                                            </div>
+										<button type="button" class="close" data-dismiss="modal"></button>
+									</div>
+									<div class="modal-body">
+                                        <style>
+                                            .parent-alert-tracking-info-panel {
+                                                display: grid;
+                                                grid-template-columns: repeat(2, 1fr);
+                                                grid-template-rows: 1fr;
+                                                grid-column-gap: 0px;
+                                                grid-row-gap: 0px;
+                                                margin-left: 5%;
+                                            }
+
+                                            .parent-alert-tracking-info-panel h3{
+                                                line-height: 15px;
+                                            }
+                                        </style>
+										<div class="parent-alert-tracking-info-panel">
+											<div id="child-alert-tracking-info-panel1">
+											</div>
+											<div id="child-alert-tracking-info-panel2">
+											</div>
+										</div>
+                                        <hr style="margin: 10px;" />
+                                        <div>
+                                            <div class="input input-linklist" id="inputLinkAlerts">
+                                                <label></label>
+                                            </div>
+                                        </div>
+                                        <div id="tracking-alert-alerts-activity-panel1" style="display: none">
+											<div class="view-main">
+												<h3>triggered over time</h3>
+												<div id="chartAlertTriggeredPerAlert" class="view-elements"></div>
+												<div id="resultsLinkchartAlertTriggeredPerAlert" class="search-elements"></div>
+											</div>
+                                        </div>
+                                        <div id="tracking-alert-alerts-activity-panel2" style="display: none">
+											<div class="view-main">
+												<h3>alert actions over time</h3>
+												<div id="chartAlertActionsPerAlert" class="view-elements"></div>
+												<div id="resultsLinkchartAlertActionsPerAlert" class="search-elements"></div>
+											</div>
+                                        </div>
+                                        <div id="tracking-alert-alerts-autoack-panel1" style="display: none">
+                                            <div>
+                                                <div class="input input-dropdown" id="modal_input_alert_actions_ack" style="margin-left: 30px; margin-top: 10px; margin-bottom: 10px;">
+                                                    <label>object:</label>
+                                                </div>
+                                                <div class="view-main">
+                                                    <div id="eventAlertActionsAckPerAlert" class="view-elements"></div>
+                                                    <div id="resultsLinkeventAlertActionsAckPerAlert" class="search-elements"></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div id="tracking-alert-alerts-smartstatus-panel1" style="display: none">
+                                            <div>
+                                                <div class="input input-dropdown" id="modal_input_alert_actions_smart_status" style="margin-left: 30px; margin-top: 10px; margin-bottom: 10px;">
+                                                    <label>object:</label>
+                                                </div>
+                                                <div class="view-main">                    
+                                                    <div id="eventAlertActionsSmartStatusPerAlert" class="view-elements"></div>
+                                                    <div id="resultsLinkeventAlertActionsSmartStatusPerAlert" class="search-elements"></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div id="tracking-alert-alerts-freestyle-panel1" style="display: none">
+                                            <div>
+                                                <div class="input input-dropdown" id="modal_input_alert_actions_free_style" style="margin-left: 30px; margin-top: 10px; margin-bottom: 10px;">
+                                                    <label>object:</label>
+                                                </div>
+                                                <div class="view-main">
+                                                    <div id="eventAlertActionsFreeStylePerAlert" class="view-elements"></div>
+                                                    <div id="resultsLinkeventAlertActionsFreeStylePerAlert" class="search-elements"></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div style="margin-left: 15px;">
+                                            <div class="input input-linklist" id="inputLinktAlertsTimeRange">
+                                                <label></label>
+                                            </div>
+                                        </div>
+									</div>
+								</div>
+							</div>
+							<div class="modal-footer">
+								<button type="submit" id="btn_refresh_alert_tracking" role="button" class="btn btn-outline-primary pull-left">
+									<span class="glyphicon glyphicon-remove"></span>Refresh
+								</button>
+								<button type="submit" class="btn btn-outline-secondary pull-right" data-dismiss="modal">
+									<span class="glyphicon glyphicon-remove"></span>Close
+								</button>
+								<a class="btn btn-outline-primary" id="btn_url_modal_manage_alert" target="_blank" href="alert_url" role="button">Review and edit alert</a>
+								<a class="btn btn-outline-primary" id="btn_url_modal_history_alert" target="_blank" href="alert_url" role="button">Search alert history</a>
 							</div>
 						</div>
 					</div>
@@ -6760,150 +6866,6 @@
 						</div>
 					</div>
 				</div>
-				<!-- ALERT SUMMARY -->
-				<div class="modal fade custom-modal-80" id="modal_manage_alerts" role="dialog">
-					<div class="modal-dialog">
-						<!-- Modal content-->
-						<div class="modal-content">
-							<!-- This is required to get the token subsitutions without affecting the buttons actions in js -->
-							<div>
-								<div>
-									<div class="modal-header modal-header-primary">
-										<h1 style="color: white;">Actions for alert: 
-											<span>$tk_alert_title$</span>
-										</h1>
-										<button type="button" class="close" data-dismiss="modal"></button>
-									</div>
-									<div class="modal-body">
-										<div style="line-height: 1.1; margin-left: 20px;">
-											<div style="float:left;width:50%;">
-												<p>
-													<b>Cron Schedule:</b> $tk_alert_cron_schedule$
-												</p>
-												<p>
-													<b>Schedule window:</b> $tk_alert_schedule_window$
-												</p>
-												<p>
-													<b>Suppress fields:</b> $tk_alert_suppress_fields$
-												</p>
-												<p>
-													<b>Suppress period:</b> $tk_alert_suppress_period$
-												</p>
-											</div>
-											<div style="float:left;width:50%;">
-												<p>
-													<b>Disabled:</b> $tk_alert_disabled$
-												</p>
-												<p>
-													<b>Next scheduled time:</b> $tk_alert_next_scheduled_time$
-												</p>
-												<p>
-													<b>Alert actions:</b> $tk_alert_actions$
-												</p>
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
-							<br />
-							<hr style="margin-top: -10px;" />
-							<div style="margin-left: 15px; margin-top: -20px;">
-								<div>
-									<div>
-										<div>
-											<div class="input input-linklist" id="inputLinkAlerts">
-												<label></label>
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
-							<div data-depends="$show_alerts_activity$">
-								<div>
-									<div>
-										<div>
-											<div id="chartAlertTriggeredPerAlert">
-												<div>
-													<h3>triggered over time</h3>
-												</div>
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
-							<div data-depends="$show_alerts_activity$">
-								<div>
-									<div>
-										<div>
-											<div id="chartAlertActionsPerAlert">
-												<div>
-													<h3>alert actions over time</h3>
-												</div>
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
-							<div data-depends="$show_alerts_auto_ack$">
-								<div>
-									<div>
-										<div>
-											<div class="input input-dropdown" id="modal_input_alert_actions_ack" style="margin-left: 30px; margin-top: 10px; margin-bottom: 10px;">
-												<label>object:</label>
-											</div>
-											<div id="eventAlertActionsAckPerAlert"></div>
-										</div>
-									</div>
-								</div>
-							</div>
-							<div data-depends="$show_alerts_smart_status$">
-								<div>
-									<div>
-										<div>
-											<div class="input input-dropdown" id="modal_input_alert_actions_smart_status" style="margin-left: 30px; margin-top: 10px; margin-bottom: 10px;">
-												<label>object:</label>
-											</div>
-											<div id="eventAlertActionsSmartStatusPerAlert"></div>
-										</div>
-									</div>
-								</div>
-							</div>
-							<div data-depends="$show_alerts_free_style$">
-								<div>
-									<div>
-										<div>
-											<div class="input input-dropdown" id="modal_input_alert_actions_free_style" style="margin-left: 30px; margin-top: 10px; margin-bottom: 10px;">
-												<label>object:</label>
-											</div>
-											<div id="eventAlertActionsFreeStylePerAlert"></div>
-										</div>
-									</div>
-								</div>
-							</div>
-							<div style="margin-left: 15px;">
-								<div>
-									<div>
-										<div>
-											<div class="input input-linklist" id="inputLinktAlertsTimeRange">
-												<label></label>
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
-							<div class="modal-footer">
-								<button type="submit" id="btn_refresh_alert_tracking" role="button" class="btn btn-primary btn-default pull-left">
-									<span class="glyphicon glyphicon-remove"></span>Refresh
-								</button>
-								<button type="submit" class="btn btn-default btn-default pull-right" data-dismiss="modal">
-									<span class="glyphicon glyphicon-remove"></span>Close
-								</button>
-								<a class="btn btn-primary" id="btn_url_modal_manage_alert" target="_blank" href="alert_url" role="button">Review and edit alert</a>
-								<a class="btn btn-primary" id="btn_url_modal_history_alert" target="_blank" href="alert_url" role="button">Search alert history</a>
-							</div>
-						</div>
-					</div>
-				</div>
 				<!-- Generic invalid selection -->
 				<div class="modal fade" id="modal_entry_update_invalid" role="dialog">
 					<div class="modal-dialog">
@@ -7133,7 +7095,7 @@
 	<row depends="$show_data_source_tracker$">
 		<panel>
 			<html>
-				<div>
+				<div class="view-main">
 					<div id="elementMainTable" class="view-elements"></div>
 					<div id="resultsLinkelementMainTable" class="search-elements"></div>
 				</div>
@@ -7316,7 +7278,7 @@
 	<row depends="$show_data_host_tracker$">
 		<panel>
 			<html>
-				<div>
+				<div class="view-main">
 					<div id="elementMainTableHost" class="view-elements"></div>
 					<div id="resultsLinkelementMainTableHost" class="search-elements"></div>
 				</div>
@@ -7501,7 +7463,7 @@
 	<row depends="$show_metric_host_tracker$">
 		<panel>
 			<html>
-				<div>
+				<div class="view-main">
 					<div id="elementMainTableMetricHost" class="view-elements"></div>
 					<div id="resultsLinkelementMainTableMetricHost" class="search-elements"></div>
 				</div>
@@ -7582,7 +7544,7 @@
 	<row depends="$show_audit_flip$">
 		<panel>
 			<html>
-				<div>
+				<div class="view-main">
 					<div id="elementMainTableAuditFlip" class="view-elements"></div>
 					<div id="resultsLinkelementMainTableAuditFlip" class="search-elements"></div>
 				</div>
@@ -7687,7 +7649,7 @@
 	<row depends="$show_audit_changes$">
 		<panel>
 			<html>
-				<div>
+				<div class="view-main">
 					<div id="elementMainTableAuditChanges" class="view-elements"></div>
 					<div id="resultsLinkelementMainTableAuditChanges" class="search-elements"></div>
 				</div>
@@ -7760,7 +7722,7 @@
 	<row depends="$show_alerts$">
 		<panel>
 			<html>
-				<div>
+				<div class="view-main">
 					<div id="element_alerts_main_table" class="view-elements"></div>
 					<div id="resultsLinkelement_alerts_main_table" class="search-elements"></div>
 				</div>
