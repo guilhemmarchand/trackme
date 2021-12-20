@@ -3474,9 +3474,13 @@
                                                 grid-template-rows: 1fr;
                                                 grid-column-gap: 0px;
                                                 grid-row-gap: 0px;
-                                                line-height: 1.1;
                                                 margin-left: 5%;
                                             }
+
+                                            .parent-data-source-top-info {
+                                                line-height: 10px;
+                                            }
+
                                         </style>
 										<div class="parent-data-source-top-info">
 											<div id="child-data-source-top-info1">
@@ -5196,7 +5200,7 @@
                                             }
 
                                             .parent-alert-tracking-info-panel h3{
-                                                line-height: 15px;
+                                                line-height: 10px;
                                             }
                                         </style>
 										<div class="parent-alert-tracking-info-panel">

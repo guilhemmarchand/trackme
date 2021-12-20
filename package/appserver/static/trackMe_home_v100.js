@@ -5552,24 +5552,24 @@ require([
             );
 
             $('#child-data-source-top-info1').html(
-                '<p><b>data_index:</b> ' + tk_data_index + '</p>' +
-                '<p><b>data_sourcetype:</b> ' + tk_data_sourcetype + '</p>' +
-                '<p><b>lag event / lag ingestion: ([D+]HH:MM:SS)</b> ' + tk_data_lag_summary + '</p>' +
-                '<p><b>data_last_time_seen:</b> ' + tk_data_last_time_seen_human + '</p>'
+                '<h3>data_index: <span style="color: dodgerblue;">' + tk_data_index + '</span></h3>' +
+                '<h3>data_sourcetype: <span style="color: dodgerblue;">' + tk_data_sourcetype + '<span style="color: dodgerblue;">' +
+                '<h3>lag event / lag ingestion: ([D+]HH:MM:SS) <span style="color: dodgerblue;">' + tk_data_lag_summary + '<span style="color: dodgerblue;">' +
+                '<h3>data_last_time_seen: <span style="color: dodgerblue;">' + tk_data_last_time_seen_human + '<span style="color: dodgerblue;">'
             );
 
             $('#child-data-source-top-info2').html(
-                '<p><b>data_last_ingest:</b> ' + tk_data_last_ingest_human + '</p>' +
-                '<p><b>data_max_lag_allowed:</b> ' + tk_data_max_lag_allowed + '</p>' +
-                '<p><b>data_monitored_state:</b> <span class="' + tk_data_monitored_state_class + '">' + tk_data_monitored_state + '</span></p>' +
-                '<p><b>data_monitoring_level:</b> ' + tk_data_monitoring_level + '</p>'
+                '<h3>data_last_ingest: <span style="color: dodgerblue;">' + tk_data_last_ingest_human + '<span style="color: dodgerblue;">' +
+                '<h3>data_max_lag_allowed: <span style="color: dodgerblue;">' + tk_data_max_lag_allowed + '<span style="color: dodgerblue;">' +
+                '<h3>data_monitored_state:</b> <span class="' + tk_data_monitored_state_class + '">' + tk_data_monitored_state + '</span></h3>' +
+                '<h3>data_monitoring_level: <span style="color: dodgerblue;">' + tk_data_monitoring_level + '<span style="color: dodgerblue;">'
             );
 
             $('#child-data-source-top-info3').html(
-                '<p><b>latest_flip_time:</b> ' + tk_latest_flip_time_human + '</p>' +
-                '<p><b>latest_flip_state:</b> ' + tk_latest_flip_state + '</p>' +
-                '<p><b>state:</b> <span class="' + tk_data_source_state_class + '">' + tk_data_source_state + '</span></p>' +
-                '<p><b>priority:</b> <span class="' + tk_priority_class + '">' + tk_priority + '</span></p>'
+                '<h3>latest_flip_time: <span style="color: dodgerblue;">' + tk_latest_flip_time_human + '<span style="color: dodgerblue;">' +
+                '<h3>latest_flip_state: <span style="color: dodgerblue;">' + tk_latest_flip_state + '<span style="color: dodgerblue;">' +
+                '<h3>state:</b> <span class="' + tk_data_source_state_class + '">' + tk_data_source_state + '</span></p>' +
+                '<h3>priority:</b> <span class="' + tk_priority_class + '">' + tk_priority + '</span></p>'
             );
 
             $('#child-data-source-top-docs-tags').html(
@@ -15192,26 +15192,26 @@ require([
                         );
 
                         $('#child-data-source-top-info1').html(
-                            '<p><b>data_index:</b> ' + tk_data_index + '</p>' +
-                            '<p><b>data_sourcetype:</b> ' + tk_data_sourcetype + '</p>' +
-                            '<p><b>lag event / lag ingestion: ([D+]HH:MM:SS)</b> ' + tk_data_lag_summary + '</p>' +
-                            '<p><b>data_last_time_seen:</b> ' + tk_data_last_time_seen_human + '</p>'
+                            '<h3>data_index: <span style="color: dodgerblue;">' + tk_data_index + '</span></h3>' +
+                            '<h3>data_sourcetype: <span style="color: dodgerblue;">' + tk_data_sourcetype + '<span style="color: dodgerblue;">' +
+                            '<h3>lag event / lag ingestion: ([D+]HH:MM:SS) <span style="color: dodgerblue;">' + tk_data_lag_summary + '<span style="color: dodgerblue;">' +
+                            '<h3>data_last_time_seen: <span style="color: dodgerblue;">' + tk_data_last_time_seen_human + '<span style="color: dodgerblue;">'
                         );
-
+            
                         $('#child-data-source-top-info2').html(
-                            '<p><b>data_last_ingest:</b> ' + tk_data_last_ingest_human + '</p>' +
-                            '<p><b>data_max_lag_allowed:</b> ' + tk_data_max_lag_allowed + '</p>' +
-                            '<p><b>data_monitored_state:</b> <span class="' + tk_data_monitored_state_class + '">' + tk_data_monitored_state + '</span></p>' +
-                            '<p><b>data_monitoring_level:</b> ' + tk_data_monitoring_level + '</p>'
+                            '<h3>data_last_ingest: <span style="color: dodgerblue;">' + tk_data_last_ingest_human + '<span style="color: dodgerblue;">' +
+                            '<h3>data_max_lag_allowed: <span style="color: dodgerblue;">' + tk_data_max_lag_allowed + '<span style="color: dodgerblue;">' +
+                            '<h3>data_monitored_state:</b> <span class="' + tk_data_monitored_state_class + '">' + tk_data_monitored_state + '</span></h3>' +
+                            '<h3>data_monitoring_level: <span style="color: dodgerblue;">' + tk_data_monitoring_level + '<span style="color: dodgerblue;">'
                         );
-
+            
                         $('#child-data-source-top-info3').html(
-                            '<p><b>latest_flip_time:</b> ' + tk_latest_flip_time_human + '</p>' +
-                            '<p><b>latest_flip_state:</b> ' + tk_latest_flip_state + '</p>' +
-                            '<p><b>state:</b> <span class="' + tk_data_source_state_class + '">' + tk_data_source_state + '</span></p>' +
-                            '<p><b>priority:</b> <span class="' + tk_priority_class + '">' + tk_priority + '</span></p>'
+                            '<h3>latest_flip_time: <span style="color: dodgerblue;">' + tk_latest_flip_time_human + '<span style="color: dodgerblue;">' +
+                            '<h3>latest_flip_state: <span style="color: dodgerblue;">' + tk_latest_flip_state + '<span style="color: dodgerblue;">' +
+                            '<h3>state:</b> <span class="' + tk_data_source_state_class + '">' + tk_data_source_state + '</span></p>' +
+                            '<h3>priority:</b> <span class="' + tk_priority_class + '">' + tk_priority + '</span></p>'
                         );
-
+            
                         $('#child-data-source-top-docs-tags').html(
                             '<h3><span><a id="doc_link_data_source" data-toggle="modal" data-dismiss="modal" data-target="#' + tk_doc_modal_target + '">' + tk_doc_link_main + '</a>' +
                             ' / ' +
