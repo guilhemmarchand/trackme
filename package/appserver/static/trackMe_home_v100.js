@@ -2504,8 +2504,7 @@ require([
         preview: true,
         runWhenTimeIsUndefined: false,
     }, {
-        tokens: true,
-        tokenNamespace: "submitted",
+        tokens: true
     });
 
     // metric_host
@@ -7075,7 +7074,7 @@ require([
                 '<h3>data_max_lag_allowed: <span style="color: dodgerblue;">' + tk_data_max_lag_allowed + '<span style="color: dodgerblue;">' +
                 '<h3>data_monitored_state:</b> <span class="' + tk_data_monitored_state_class + '">' + tk_data_monitored_state + '</span></h3>' +
                 '<h3>state:</b> <span class="' + tk_data_host_state_class + '">' + tk_data_host_state + '</span></p>'
-                );
+            );
 
             $('#child-data-host-top-info3').html(
                 '<h3>latest_flip_time: <span style="color: dodgerblue;">' + tk_latest_flip_time_human + '<span style="color: dodgerblue;">' +
@@ -7106,7 +7105,7 @@ require([
 
             // pre-fill alerting policy
             setToken("form.tk_input_host_alerting_policy", e.data['row.data_host_alerting_policy']);
-            
+
             // Get earliest / latest to be recycled in some use cases
             var tk_earliest = getToken("modalTimeHost.earliest");
             var tk_latest = getToken("modalTimeHost.latest");
@@ -14501,880 +14500,1343 @@ require([
         .render()
         .$el.appendTo($("resultsLinkeventAlertActionsFreeStylePerAlert"));
 
-        // input link selection for modal window
-        var inputLinkTimeHost = new LinkListInput({
-            "id": "inputLinkTimeHost",
-            "choices": [{
-                    "value": "60m",
-                    "label": "60m"
-                },
-                {
-                    "value": "4h",
-                    "label": "4h"
-                },
-                {
-                    "value": "8h",
-                    "label": "8h"
-                },
-                {
-                    "value": "12h",
-                    "label": "12h"
-                },
-                {
-                    "value": "24h",
-                    "label": "24h"
-                },
-                {
-                    "value": "48h",
-                    "label": "48h"
-                },
-                {
-                    "value": "7d",
-                    "label": "7d"
-                },
-                {
-                    "value": "15d",
-                    "label": "15d"
-                },
-                {
-                    "value": "30d",
-                    "label": "30d"
-                },
-                {
-                    "value": "60d",
-                    "label": "60d"
-                },
-                {
-                    "value": "90d",
-                    "label": "90d"
-                }
-            ],
-            "default": "24h",
+    // input link selection for modal window
+    var inputLinkTimeHost = new LinkListInput({
+        "id": "inputLinkTimeHost",
+        "choices": [{
+                "value": "60m",
+                "label": "60m"
+            },
+            {
+                "value": "4h",
+                "label": "4h"
+            },
+            {
+                "value": "8h",
+                "label": "8h"
+            },
+            {
+                "value": "12h",
+                "label": "12h"
+            },
+            {
+                "value": "24h",
+                "label": "24h"
+            },
+            {
+                "value": "48h",
+                "label": "48h"
+            },
+            {
+                "value": "7d",
+                "label": "7d"
+            },
+            {
+                "value": "15d",
+                "label": "15d"
+            },
+            {
+                "value": "30d",
+                "label": "30d"
+            },
+            {
+                "value": "60d",
+                "label": "60d"
+            },
+            {
+                "value": "90d",
+                "label": "90d"
+            }
+        ],
+        "default": "24h",
+        "searchWhenChanged": true,
+        "selectFirstChoice": false,
+        "initialValue": "24h",
+        "value": "$form.modalActionTimeHost$",
+        "el": $('#inputLinkTimeHost')
+    }, {
+        tokens: true
+    }).render();
+
+    inputLinkTimeHost.on("change", function(newValue) {
+        FormUtils.handleValueChange(inputLinkTimeHost);
+    });
+
+    inputLinkTimeHost.on("valueChange", function(e) {
+        if (e.value === "60m") {
+            EventHandler.setToken("modalTimeHost.earliest", "-60m", {}, e.data);
+            EventHandler.setToken("modalTimeHost.latest", "now", {}, e.data);
+            EventHandler.setToken("modalTimeHost.span", "1m", {}, e.data);
+        } else if (e.value === "4h") {
+            EventHandler.setToken("modalTimeHost.earliest", "-4h", {}, e.data);
+            EventHandler.setToken("modalTimeHost.latest", "now", {}, e.data);
+            EventHandler.setToken("modalTimeHost.span", "5m", {}, e.data);
+        } else if (e.value === "8h") {
+            EventHandler.setToken("modalTimeHost.earliest", "-8h", {}, e.data);
+            EventHandler.setToken("modalTimeHost.latest", "now", {}, e.data);
+            EventHandler.setToken("modalTimeHost.span", "5m", {}, e.data);
+        } else if (e.value === "12h") {
+            EventHandler.setToken("modalTimeHost.earliest", "-12h", {}, e.data);
+            EventHandler.setToken("modalTimeHost.latest", "now", {}, e.data);
+            EventHandler.setToken("modalTimeHost.span", "10m", {}, e.data);
+        } else if (e.value === "24h") {
+            EventHandler.setToken("modalTimeHost.earliest", "-24h", {}, e.data);
+            EventHandler.setToken("modalTimeHost.latest", "now", {}, e.data);
+            EventHandler.setToken("modalTimeHost.span", "15m", {}, e.data);
+        } else if (e.value === "48h") {
+            EventHandler.setToken("modalTimeHost.earliest", "-48h", {}, e.data);
+            EventHandler.setToken("modalTimeHost.latest", "now", {}, e.data);
+            EventHandler.setToken("modalTimeHost.span", "30m", {}, e.data);
+        } else if (e.value === "7d") {
+            EventHandler.setToken("modalTimeHost.earliest", "-7d", {}, e.data);
+            EventHandler.setToken("modalTimeHost.latest", "now", {}, e.data);
+            EventHandler.setToken("modalTimeHost.span", "1h", {}, e.data);
+        } else if (e.value === "15d") {
+            EventHandler.setToken("modalTimeHost.earliest", "-15d", {}, e.data);
+            EventHandler.setToken("modalTimeHost.latest", "now", {}, e.data);
+            EventHandler.setToken("modalTimeHost.span", "2h", {}, e.data);
+        } else if (e.value === "30d") {
+            EventHandler.setToken("modalTimeHost.earliest", "-30d", {}, e.data);
+            EventHandler.setToken("modalTimeHost.latest", "now", {}, e.data);
+            EventHandler.setToken("modalTimeHost.span", "4h", {}, e.data);
+        } else if (e.value === "60d") {
+            EventHandler.setToken("modalTimeHost.earliest", "-60d", {}, e.data);
+            EventHandler.setToken("modalTimeHost.latest", "now", {}, e.data);
+            EventHandler.setToken("modalTimeHost.span", "8h", {}, e.data);
+        } else if (e.value === "90d") {
+            EventHandler.setToken("modalTimeHost.earliest", "-90d", {}, e.data);
+            EventHandler.setToken("modalTimeHost.latest", "now", {}, e.data);
+            EventHandler.setToken("modalTimeHost.span", "12h", {}, e.data);
+        }
+    });
+
+    // data host monitoring
+
+    // main data_host link input for modal window
+    var inputLinkDataHost = new LinkListInput({
+        "id": "inputLinkDataHost",
+        "choices": [{
+                "value": "overview",
+                "label": "Overview data host"
+            },
+            {
+                "value": "outlier",
+                "label": "Outlier detection overview"
+            },
+            {
+                "value": "outlier_configuration",
+                "label": "Outlier detection configuration"
+            },
+            {
+                "value": "data_quality",
+                "label": "Data parsing quality"
+            },
+            {
+                "value": "lagging_metrics",
+                "label": "Lagging performances"
+            },
+            {
+                "value": "flipping_status",
+                "label": "Status flipping"
+            },
+            {
+                "value": "status_message",
+                "label": "Status message"
+            },
+            {
+                "value": "audit_changes",
+                "label": "Audit changes"
+            }
+        ],
+        "default": "overview",
+        "searchWhenChanged": true,
+        "selectFirstChoice": false,
+        "initialValue": "overview",
+        "value": "$form.inputLinkDataHost$",
+        "el": $('#inputLinkDataHost')
+    }, {
+        tokens: true
+    }).render();
+
+    inputLinkDataHost.on("change", function(newValue) {
+        FormUtils.handleValueChange(inputLinkDataHost);
+    });
+
+    inputLinkDataHost.on("valueChange", function(e) {
+        if (e.value === "overview") {
+            EventHandler.setToken("show_data_host_overview", "true", {}, e.data);
+            EventHandler.unsetToken("show_data_host_outlier");
+            EventHandler.unsetToken("show_data_host_outlier_configuration");
+            EventHandler.unsetToken("show_data_host_status_message");
+            EventHandler.unsetToken("show_data_host_quality");
+            EventHandler.unsetToken("show_data_host_flipping_status");
+            EventHandler.unsetToken("show_data_host_audit_changes");
+            EventHandler.unsetToken("show_data_host_lagging_metrics");
+            $("#data_host_overview").css("display", "inherit");
+            $("#data_host_outliers").css("display", "none");
+            $("#data_host_outliers_config").css("display", "none");
+            $("#data_host_data_parsing").css("display", "none");
+            $("#data_host_metrics").css("display", "none");
+            $("#data_host_flipping").css("display", "none");
+            $("#data_host_status").css("display", "none");
+            $("#data_host_changes").css("display", "none");
+            $("#data_host_timepicker").css("display", "inherit");
+        } else if (e.value === "outlier") {
+            EventHandler.setToken("show_data_host_outlier", "true", {}, e.data);
+            EventHandler.unsetToken("show_data_host_overview");
+            EventHandler.unsetToken("show_data_host_outlier_configuration");
+            EventHandler.unsetToken("show_data_host_status_message");
+            EventHandler.unsetToken("show_data_host_quality");
+            EventHandler.unsetToken("show_data_host_flipping_status");
+            EventHandler.unsetToken("show_data_host_audit_changes");
+            EventHandler.unsetToken("show_data_host_lagging_metrics");
+            $("#data_host_overview").css("display", "none");
+            $("#data_host_outliers").css("display", "inherit");
+            $("#data_host_outliers_config").css("display", "none");
+            $("#data_host_data_parsing").css("display", "none");
+            $("#data_host_metrics").css("display", "none");
+            $("#data_host_flipping").css("display", "none");
+            $("#data_host_status").css("display", "none");
+            $("#data_host_changes").css("display", "none");
+            $("#data_host_timepicker").css("display", "inherit");
+        } else if (e.value === "outlier_configuration") {
+            EventHandler.setToken("show_data_host_outlier_configuration", "true", {}, e.data);
+            EventHandler.unsetToken("show_data_host_overview");
+            EventHandler.unsetToken("show_data_host_outlier");
+            EventHandler.unsetToken("show_data_host_status_message");
+            EventHandler.unsetToken("show_data_host_quality");
+            EventHandler.unsetToken("show_data_host_flipping_status");
+            EventHandler.unsetToken("show_data_host_audit_changes");
+            EventHandler.unsetToken("show_data_host_lagging_metrics");
+            $("#data_host_overview").css("display", "none");
+            $("#data_host_outliers").css("display", "none");
+            $("#data_host_outliers_config").css("display", "inherit");
+            $("#data_host_data_parsing").css("display", "none");
+            $("#data_host_metrics").css("display", "none");
+            $("#data_host_flipping").css("display", "none");
+            $("#data_host_status").css("display", "none");
+            $("#data_host_changes").css("display", "none");
+            $("#data_host_timepicker").css("display", "none");
+        } else if (e.value === "data_quality") {
+            EventHandler.setToken("show_data_host_quality", "true", {}, e.data);
+            EventHandler.unsetToken("show_data_host_overview");
+            EventHandler.unsetToken("show_data_host_outlier");
+            EventHandler.unsetToken("show_data_host_status_message");
+            EventHandler.unsetToken("show_data_host_outlier_configuration");
+            EventHandler.unsetToken("show_data_host_flipping_status");
+            EventHandler.unsetToken("show_data_host_audit_changes");
+            EventHandler.unsetToken("show_data_host_lagging_metrics");
+            $("#data_host_overview").css("display", "none");
+            $("#data_host_outliers").css("display", "none");
+            $("#data_host_outliers_config").css("display", "none");
+            $("#data_host_data_parsing").css("display", "inherit");
+            $("#data_host_metrics").css("display", "none");
+            $("#data_host_flipping").css("display", "none");
+            $("#data_host_status").css("display", "none");
+            $("#data_host_changes").css("display", "none");
+            $("#data_host_timepicker").css("display", "inherit");
+        } else if (e.value === "lagging_metrics") {
+            EventHandler.setToken("show_data_host_lagging_metrics", "true", {}, e.data);
+            EventHandler.unsetToken("show_data_host_overview");
+            EventHandler.unsetToken("show_data_host_outlier");
+            EventHandler.unsetToken("show_data_host_status_message");
+            EventHandler.unsetToken("show_data_host_outlier_configuration");
+            EventHandler.unsetToken("show_data_host_flipping_status");
+            EventHandler.unsetToken("show_data_host_audit_changes");
+            EventHandler.unsetToken("show_data_host_quality");
+            $("#data_host_overview").css("display", "none");
+            $("#data_host_outliers").css("display", "none");
+            $("#data_host_outliers_config").css("display", "none");
+            $("#data_host_data_parsing").css("display", "none");
+            $("#data_host_metrics").css("display", "inherit");
+            $("#data_host_flipping").css("display", "none");
+            $("#data_host_status").css("display", "none");
+            $("#data_host_changes").css("display", "none");
+            $("#data_host_timepicker").css("display", "inherit");
+        } else if (e.value === "flipping_status") {
+            EventHandler.setToken("show_data_host_flipping_status", "true", {}, e.data);
+            EventHandler.unsetToken("show_data_host_overview");
+            EventHandler.unsetToken("show_data_host_outlier");
+            EventHandler.unsetToken("show_data_host_status_message");
+            EventHandler.unsetToken("show_data_host_outlier_configuration");
+            EventHandler.unsetToken("show_data_host_quality");
+            EventHandler.unsetToken("show_data_host_audit_changes");
+            EventHandler.unsetToken("show_data_host_lagging_metrics");
+            $("#data_host_overview").css("display", "none");
+            $("#data_host_outliers").css("display", "none");
+            $("#data_host_outliers_config").css("display", "none");
+            $("#data_host_data_parsing").css("display", "none");
+            $("#data_host_metrics").css("display", "none");
+            $("#data_host_flipping").css("display", "inherit");
+            $("#data_host_status").css("display", "none");
+            $("#data_host_changes").css("display", "none");
+            $("#data_host_timepicker").css("display", "inherit");
+        } else if (e.value === "status_message") {
+            EventHandler.setToken("show_data_host_status_message", "true", {}, e.data);
+            EventHandler.unsetToken("show_data_host_overview");
+            EventHandler.unsetToken("show_data_host_outlier_configuration");
+            EventHandler.unsetToken("show_data_host_outlier");
+            EventHandler.unsetToken("show_data_host_quality");
+            EventHandler.unsetToken("show_data_host_flipping_status");
+            EventHandler.unsetToken("show_data_host_audit_changes");
+            EventHandler.unsetToken("show_data_host_lagging_metrics");
+            $("#data_host_overview").css("display", "none");
+            $("#data_host_outliers").css("display", "none");
+            $("#data_host_outliers_config").css("display", "none");
+            $("#data_host_data_parsing").css("display", "none");
+            $("#data_host_metrics").css("display", "none");
+            $("#data_host_flipping").css("display", "none");
+            $("#data_host_status").css("display", "inherit");
+            $("#data_host_changes").css("display", "none");
+            $("#data_host_timepicker").css("display", "inherit");
+        } else if (e.value === "audit_changes") {
+            EventHandler.setToken("show_data_host_audit_changes", "true", {}, e.data);
+            EventHandler.unsetToken("show_data_host_overview");
+            EventHandler.unsetToken("show_data_host_outlier_configuration");
+            EventHandler.unsetToken("show_data_host_outlier");
+            EventHandler.unsetToken("show_data_host_quality");
+            EventHandler.unsetToken("show_data_host_flipping_status");
+            EventHandler.unsetToken("show_data_host_status_message");
+            EventHandler.unsetToken("show_data_host_lagging_metrics");
+            $("#data_host_overview").css("display", "none");
+            $("#data_host_outliers").css("display", "none");
+            $("#data_host_outliers_config").css("display", "none");
+            $("#data_host_data_parsing").css("display", "none");
+            $("#data_host_metrics").css("display", "none");
+            $("#data_host_flipping").css("display", "none");
+            $("#data_host_status").css("display", "none");
+            $("#data_host_changes").css("display", "inherit");
+            $("#data_host_timepicker").css("display", "inherit");
+        }
+    });
+
+    // modal Single Lag
+    var elementSingleLagHostPerc95 = new SingleView({
+        "id": "elementSingleLagHostPerc95",
+        "trendDisplayMode": "absolute",
+        "numberPrecision": "0.00",
+        "drilldown": "none",
+        "height": "95",
+        "trellis.size": "medium",
+        "trendColorInterpretation": "standard",
+        "useColors": "0",
+        "colorBy": "value",
+        "showTrendIndicator": "1",
+        "showSparkline": "1",
+        "trellis.enabled": "0",
+        "unit": "",
+        "rangeColors": "[\"0x77dd77\",\"0x0877a6\",\"0xf8be34\",\"0xf1813f\",\"0xdc4e41\"]",
+        "colorMode": "none",
+        "rangeValues": "[0,30,70,100]",
+        "unitPosition": "after",
+        "trellis.scales.shared": "1",
+        "useThousandSeparators": "1",
+        "underLabel": "PERC95 INGESTION LAG (sec or [D+]HH:MM:SS)",
+        "managerid": "searchSingleLagHostPerc95",
+        "el": $('#elementSingleLagHostPerc95')
+    }, {
+        tokens: true,
+        tokenNamespace: "submitted"
+    }).render();
+
+    var resultsLinkelementSingleLagHostPerc95 = new ResultsLinkView({
+        id: "resultsLinkelementSingleLagHostPerc95",
+        managerid: "searchSingleLagHostPerc95",
+        "link.exportResults.visible": false,
+        el: $("#resultsLinkelementSingleLagHostPerc95"),
+    });
+
+    resultsLinkelementSingleLagHostPerc95
+        .render()
+        .$el.appendTo($("resultsLinkelementSingleLagHostPerc95"));
+
+    var elementSingleLagHostAvg = new SingleView({
+        "id": "elementSingleLagHostAvg",
+        "trendDisplayMode": "absolute",
+        "numberPrecision": "0.00",
+        "drilldown": "none",
+        "height": "95",
+        "trellis.size": "medium",
+        "trendColorInterpretation": "standard",
+        "useColors": "0",
+        "colorBy": "value",
+        "showTrendIndicator": "1",
+        "showSparkline": "1",
+        "trellis.enabled": "0",
+        "unit": "",
+        "rangeColors": "[\"0x77dd77\",\"0x0877a6\",\"0xf8be34\",\"0xf1813f\",\"0xdc4e41\"]",
+        "colorMode": "none",
+        "rangeValues": "[0,30,70,100]",
+        "unitPosition": "after",
+        "trellis.scales.shared": "1",
+        "useThousandSeparators": "1",
+        "underLabel": "AVG INGESTION LAG (sec or [D+]HH:MM:SS)",
+        "managerid": "searchSingleLagHostAvg",
+        "el": $('#elementSingleLagHostAvg')
+    }, {
+        tokens: true,
+        tokenNamespace: "submitted"
+    }).render();
+
+    var resultsLinkelementSingleLagHostAvg = new ResultsLinkView({
+        id: "resultsLinkelementSingleLagHostAvg",
+        managerid: "searchSingleLagHostAvg",
+        "link.exportResults.visible": false,
+        el: $("#resultsLinkelementSingleLagHostAvg"),
+    });
+
+    resultsLinkelementSingleLagHostAvg
+        .render()
+        .$el.appendTo($("resultsLinkelementSingleLagHostAvg"));
+
+    var elementSingleLagHostEventLag = new SingleView({
+        "id": "elementSingleLagHostEventLag",
+        "trendDisplayMode": "absolute",
+        "numberPrecision": "0.00",
+        "drilldown": "none",
+        "height": "95",
+        "trellis.size": "medium",
+        "trendColorInterpretation": "standard",
+        "useColors": "0",
+        "colorBy": "value",
+        "showTrendIndicator": "1",
+        "showSparkline": "1",
+        "trellis.enabled": "0",
+        "unit": "",
+        "rangeColors": "[\"0x77dd77\",\"0x0877a6\",\"0xf8be34\",\"0xf1813f\",\"0xdc4e41\"]",
+        "colorMode": "none",
+        "rangeValues": "[0,30,70,100]",
+        "unitPosition": "after",
+        "trellis.scales.shared": "1",
+        "useThousandSeparators": "1",
+        "underLabel": "CURRENT EVENT LAG (sec or [D+]HH:MM:SS)",
+        "managerid": "searchSingleLagHostEventLag",
+        "el": $('#elementSingleLagHostEventLag')
+    }, {
+        tokens: true,
+        tokenNamespace: "submitted"
+    }).render();
+
+    var resultsLinkelementSingleLagHostEventLag = new ResultsLinkView({
+        id: "resultsLinkelementSingleLagHostEventLag",
+        managerid: "searchSingleLagHostEventLag",
+        "link.exportResults.visible": false,
+        el: $("#resultsLinkelementSingleLagHostEventLag"),
+    });
+
+    resultsLinkelementSingleLagHostEventLag
+        .render()
+        .$el.appendTo($("resultsLinkelementSingleLagHostEventLag"));
+
+    var elementSingleSLAHostpct = new SingleView({
+        "id": "elementSingleSLAHostpct",
+        "trendDisplayMode": "absolute",
+        "numberPrecision": "0.00",
+        "drilldown": "all",
+        "height": "95",
+        "trellis.size": "medium",
+        "trendColorInterpretation": "standard",
+        "useColors": "0",
+        "colorBy": "value",
+        "showTrendIndicator": "1",
+        "showSparkline": "1",
+        "trellis.enabled": "0",
+        "unit": "%",
+        "rangeColors": "[\"0xdc4e41\",\"0xf1813f\",\"0x77dd77\"]",
+        "colorMode": "none",
+        "rangeValues": "[50,90]",
+        "unitPosition": "after",
+        "trellis.scales.shared": "1",
+        "useColors": "1",
+        "useThousandSeparators": "1",
+        "underLabel": "SLA PCT (% time spent in green/blue mode last 90d)",
+        "managerid": "searchSingleSLAHostpct",
+        "el": $('#elementSingleSLAHostpct')
+    }, {
+        tokens: true,
+        tokenNamespace: "submitted"
+    }).render();
+
+    var resultsLinkelementSingleSLAHostpct = new ResultsLinkView({
+        id: "resultsLinkelementSingleSLAHostpct",
+        managerid: "searchSingleSLAHostpct",
+        "link.exportResults.visible": false,
+        el: $("#resultsLinkelementSingleSLAHostpct"),
+    });
+
+    resultsLinkelementSingleSLAHostpct
+        .render()
+        .$el.appendTo($("resultsLinkelementSingleSLAHostpct"));
+
+    var elementChartHostIndexes = new ChartView({
+        "id": "elementChartHostIndexes",
+        "charting.drilldown": "all",
+        "resizable": true,
+        "charting.chart": "pie",
+        "height": "160",
+        "managerid": "searchChartHostIndexes",
+        "el": $('#elementChartHostIndexes')
+    }, {
+        tokens: true,
+        tokenNamespace: "submitted"
+    }).render();
+
+    var resultsLinkelementChartHostIndexes = new ResultsLinkView({
+        id: "resultsLinkelementChartHostIndexes",
+        managerid: "searchChartHostIndexes",
+        "link.exportResults.visible": false,
+        el: $("#resultsLinkelementChartHostIndexes"),
+    });
+
+    resultsLinkelementChartHostIndexes
+        .render()
+        .$el.appendTo($("resultsLinkelementChartHostIndexes"));
+
+    var elementChartHostSourcetypes = new ChartView({
+        "id": "elementChartHostSourcetypes",
+        "charting.drilldown": "all",
+        "resizable": true,
+        "charting.chart": "pie",
+        "height": "160",
+        "managerid": "searchChartHostSourcetypes",
+        "el": $('#elementChartHostSourcetypes')
+    }, {
+        tokens: true,
+        tokenNamespace: "submitted"
+    }).render();
+
+    var resultsLinkelementChartHostSourcetypes = new ResultsLinkView({
+        id: "resultsLinkelementChartHostSourcetypes",
+        managerid: "searchChartHostSourcetypes",
+        "link.exportResults.visible": false,
+        el: $("#resultsLinkelementChartHostSourcetypes"),
+    });
+
+    resultsLinkelementChartHostSourcetypes
+        .render()
+        .$el.appendTo($("resultsLinkelementChartHostSourcetypes"));
+
+    // modal window chart
+    var elementChartLagHostOverTime = new ChartView({
+        "id": "elementChartLagHostOverTime",
+        "charting.axisX.abbreviation": "none",
+        "charting.legend.mode": "standard",
+        "charting.chart.bubbleMaximumSize": "50",
+        "charting.chart.sliceCollapsingThreshold": "0.01",
+        "charting.axisTitleY.text": "Events count",
+        "refresh.display": "progressbar",
+        "charting.chart.nullValueMode": "gaps",
+        "charting.axisTitleX.visibility": "collapsed",
+        "charting.axisTitleY2.text": "lag in seconds",
+        "charting.axisX.scale": "linear",
+        "charting.drilldown": "none",
+        "charting.axisLabelsX.majorLabelStyle.overflowMode": "ellipsisNone",
+        "charting.chart.overlayFields": "avg_lag_sec",
+        "charting.chart.showDataLabels": "none",
+        "charting.axisTitleY2.visibility": "visible",
+        "charting.axisY2.enabled": "1",
+        "charting.axisY2.scale": "inherit",
+        "trellis.scales.shared": "1",
+        "charting.layout.splitSeries.allowIndependentYRanges": "0",
+        "charting.chart.bubbleSizeBy": "area",
+        "charting.chart.bubbleMinimumSize": "10",
+        "charting.chart.style": "shiny",
+        "charting.axisY.scale": "linear",
+        "charting.layout.splitSeries": "0",
+        "resizable": true,
+        "charting.legend.labelStyle.overflowMode": "ellipsisMiddle",
+        "charting.lineWidth": "2",
+        "charting.axisTitleY.visibility": "visible",
+        "charting.chart.stackMode": "default",
+        "charting.legend.placement": "right",
+        "trellis.size": "medium",
+        "charting.axisLabelsX.majorLabelStyle.rotation": "0",
+        "charting.axisY2.abbreviation": "none",
+        "charting.chart": "column",
+        "charting.axisY.abbreviation": "none",
+        "charting.fieldColors": "{\"events_count\": 0xaec6cf, \"avg_lag_sec\": 0x8b0000}",
+        "trellis.enabled": "0",
+        "height": "160",
+        "managerid": "searchChartLagHostOverTime",
+        "el": $('#elementChartLagHostOverTime')
+    }, {
+        tokens: true,
+        tokenNamespace: "submitted"
+    }).render();
+
+    var resultsLinkelementChartLagHostOverTime = new ResultsLinkView({
+        id: "resultsLinkelementChartLagHostOverTime",
+        managerid: "searchChartLagHostOverTime",
+        "link.exportResults.visible": false,
+        el: $("#resultsLinkelementChartLagHostOverTime"),
+    });
+
+    resultsLinkelementChartLagHostOverTime
+        .render()
+        .$el.appendTo($("resultsLinkelementChartLagHostOverTime"));
+
+    // outlier chart
+    var elementOutlierDataHost = new OutliersViz({
+        "id": "elementOutlierDataHost",
+        "type": "Splunk_ML_Toolkit.OutliersViz",
+        "resizable": true,
+        "Splunk_ML_Toolkit.OutliersViz.showOutlierCount": "true",
+        "drilldown": "none",
+        "trellis.enabled": "0",
+        "trellis.scales.shared": "1",
+        "trellis.size": "medium",
+        "height": "350",
+        "managerid": "searchOutlierDetectionChartDataHost",
+        "el": $('#elementOutlierDataHost')
+    }, {
+        tokens: true,
+        tokenNamespace: "submitted"
+    }).render();
+
+    var resultsLinkelementOutlierDataHost = new ResultsLinkView({
+        id: "resultsLinkelementOutlierDataHost",
+        managerid: "searchOutlierDetectionChartDataHost",
+        "link.exportResults.visible": false,
+        el: $("#resultsLinkelementOutlierDataHost"),
+    });
+
+    resultsLinkelementOutlierDataHost
+        .render()
+        .$el.appendTo($("resultsLinkelementOutlierDataHost"));
+
+    var elementOutlierTableDataHost = new TableView({
+        "id": "elementOutlierTableDataHost",
+        "count": 100,
+        "dataOverlayMode": "none",
+        "drilldown": "none",
+        "percentagesRow": "false",
+        "rowNumbers": "false",
+        "totalsRow": "false",
+        "wrap": "true",
+        "managerid": "searchOutlierDetectionTableDataHost",
+        "el": $('#elementOutlierTableDataHost')
+    }, {
+        tokens: true,
+        tokenNamespace: "submitted"
+    }).render();
+
+    var resultsLinkelementOutlierTableDataHost = new ResultsLinkView({
+        id: "resultsLinkelementOutlierTableDataHost",
+        managerid: "searchOutlierDetectionTableDataHost",
+        "link.exportResults.visible": false,
+        el: $("#resultsLinkelementOutlierTableDataHost"),
+    });
+
+    resultsLinkelementOutlierTableDataHost
+        .render()
+        .$el.appendTo($("resultsLinkelementOutlierTableDataHost"));
+
+    var elementOutlierSimulationDataHost = new OutliersViz({
+        "id": "elementOutlierSimulationDataHost",
+        "type": "Splunk_ML_Toolkit.OutliersViz",
+        "resizable": true,
+        "Splunk_ML_Toolkit.OutliersViz.showOutlierCount": "true",
+        "drilldown": "none",
+        "trellis.enabled": "0",
+        "trellis.scales.shared": "1",
+        "trellis.size": "medium",
+        "height": "350",
+        "managerid": "searchOutlierDetectionChartSimulationDataHost",
+        "el": $('#elementOutlierSimulationDataHost')
+    }, {
+        tokens: true,
+        tokenNamespace: "submitted"
+    }).render();
+
+    var resultsLinkelementOutlierSimulationDataHost = new ResultsLinkView({
+        id: "resultsLinkelementOutlierSimulationDataHost",
+        managerid: "searchOutlierDetectionChartSimulationDataHost",
+        "link.exportResults.visible": false,
+        el: $("#resultsLinkelementOutlierSimulationDataHost"),
+    });
+
+    resultsLinkelementOutlierSimulationDataHost
+        .render()
+        .$el.appendTo($("resultsLinkelementOutlierSimulationDataHost"));
+
+    // Data Parsing Quality
+    var elementSearchDataHostParsingQualityChart = new ChartView({
+        "id": "elementSearchDataHostParsingQualityChart",
+        "charting.chart.nullValueMode": "gaps",
+        "resizable": true,
+        "trellis.enabled": "0",
+        "charting.axisTitleX.visibility": "collapsed",
+        "refresh.display": "progressbar",
+        "charting.chart.stackMode": "stacked",
+        "charting.axisLabelsX.majorLabelStyle.overflowMode": "ellipsisNone",
+        "charting.axisY.abbreviation": "none",
+        "charting.legend.placement": "bottom",
+        "charting.axisY2.abbreviation": "none",
+        "charting.legend.labelStyle.overflowMode": "ellipsisMiddle",
+        "charting.chart.showDataLabels": "none",
+        "charting.axisY2.enabled": "0",
+        "charting.chart.sliceCollapsingThreshold": "0.01",
+        "charting.chart.style": "shiny",
+        "charting.layout.splitSeries.allowIndependentYRanges": "0",
+        "charting.chart": "column",
+        "charting.axisX.scale": "linear",
+        "trellis.scales.shared": "1",
+        "charting.axisTitleY.visibility": "visible",
+        "charting.axisTitleY2.visibility": "visible",
+        "charting.chart.bubbleMinimumSize": "10",
+        "charting.drilldown": "none",
+        "charting.legend.mode": "standard",
+        "charting.chart.bubbleMaximumSize": "50",
+        "trellis.size": "medium",
+        "charting.axisY.scale": "linear",
+        "charting.chart.bubbleSizeBy": "area",
+        "charting.axisLabelsX.majorLabelStyle.rotation": "0",
+        "charting.axisX.abbreviation": "none",
+        "charting.layout.splitSeries": "0",
+        "charting.lineWidth": "2",
+        "charting.axisY2.scale": "inherit",
+        "managerid": "SearchDataHostParsingQualityChart",
+        "el": $('#elementSearchDataHostParsingQualityChart')
+    }, {
+        tokens: true,
+        tokenNamespace: "submitted"
+    }).render();
+
+    var resultsLinkelementSearchDataHostParsingQualityChart = new ResultsLinkView({
+        id: "resultsLinkelementSearchDataHostParsingQualityChart",
+        managerid: "SearchDataHostParsingQualityChart",
+        "link.exportResults.visible": false,
+        el: $("#resultsLinkelementSearchDataHostParsingQualityChart"),
+    });
+
+    resultsLinkelementSearchDataHostParsingQualityChart
+        .render()
+        .$el.appendTo($("resultsLinkelementSearchDataHostParsingQualityChart"));
+
+    // modal Single Lag
+    var elementSingleLagByMetricsHostPerc95 = new SingleView({
+        "id": "elementSingleLagByMetricsHostPerc95",
+        "trendDisplayMode": "absolute",
+        "numberPrecision": "0.00",
+        "drilldown": "none",
+        "height": "95",
+        "trellis.size": "medium",
+        "trendColorInterpretation": "standard",
+        "useColors": "0",
+        "colorBy": "value",
+        "showTrendIndicator": "1",
+        "showSparkline": "1",
+        "trellis.enabled": "0",
+        "unit": "",
+        "rangeColors": "[\"0x77dd77\",\"0x0877a6\",\"0xf8be34\",\"0xf1813f\",\"0xdc4e41\"]",
+        "colorMode": "none",
+        "rangeValues": "[0,30,70,100]",
+        "unitPosition": "after",
+        "trellis.scales.shared": "1",
+        "useThousandSeparators": "1",
+        "underLabel": "PERC95 INGESTION LAG (sec or [D+]HH:MM:SS)",
+        "managerid": "searchSingleLagByMetricsHostPerc95",
+        "el": $('#elementSingleLagByMetricsHostPerc95')
+    }, {
+        tokens: true,
+        tokenNamespace: "submitted"
+    }).render();
+
+    var resultsLinkelementSingleLagByMetricsHostPerc95 = new ResultsLinkView({
+        id: "resultsLinkelementSingleLagByMetricsHostPerc95",
+        managerid: "searchSingleLagByMetricsHostPerc95",
+        "link.exportResults.visible": false,
+        el: $("#resultsLinkelementSingleLagByMetricsHostPerc95"),
+    });
+
+    resultsLinkelementSingleLagByMetricsHostPerc95
+        .render()
+        .$el.appendTo($("resultsLinkelementSingleLagByMetricsHostPerc95"));
+
+    var elementSingleLagByMetricsHostAvg = new SingleView({
+        "id": "elementSingleLagByMetricsHostAvg",
+        "trendDisplayMode": "absolute",
+        "numberPrecision": "0.00",
+        "drilldown": "none",
+        "height": "95",
+        "trellis.size": "medium",
+        "trendColorInterpretation": "standard",
+        "useColors": "0",
+        "colorBy": "value",
+        "showTrendIndicator": "1",
+        "showSparkline": "1",
+        "trellis.enabled": "0",
+        "unit": "",
+        "rangeColors": "[\"0x77dd77\",\"0x0877a6\",\"0xf8be34\",\"0xf1813f\",\"0xdc4e41\"]",
+        "colorMode": "none",
+        "rangeValues": "[0,30,70,100]",
+        "unitPosition": "after",
+        "trellis.scales.shared": "1",
+        "useThousandSeparators": "1",
+        "underLabel": "AVG INGESTION LAG (sec or [D+]HH:MM:SS)",
+        "managerid": "searchSingleLagByMetricsHostAvg",
+        "el": $('#elementSingleLagByMetricsHostAvg')
+    }, {
+        tokens: true,
+        tokenNamespace: "submitted"
+    }).render();
+
+    var resultsLinkelementSingleLagByMetricsHostAvg = new ResultsLinkView({
+        id: "resultsLinkelementSingleLagByMetricsHostAvg",
+        managerid: "searchSingleLagByMetricsHostAvg",
+        "link.exportResults.visible": false,
+        el: $("#resultsLinkelementSingleLagByMetricsHostAvg"),
+    });
+
+    resultsLinkelementSingleLagByMetricsHostAvg
+        .render()
+        .$el.appendTo($("resultsLinkelementSingleLagByMetricsHostAvg"));
+
+    var elementSingleLagByMetricsHostEventLag = new SingleView({
+        "id": "elementSingleLagByMetricsHostEventLag",
+        "trendDisplayMode": "absolute",
+        "numberPrecision": "0.00",
+        "drilldown": "none",
+        "height": "95",
+        "trellis.size": "medium",
+        "trendColorInterpretation": "standard",
+        "useColors": "0",
+        "colorBy": "value",
+        "showTrendIndicator": "1",
+        "showSparkline": "1",
+        "trellis.enabled": "0",
+        "unit": "",
+        "rangeColors": "[\"0x77dd77\",\"0x0877a6\",\"0xf8be34\",\"0xf1813f\",\"0xdc4e41\"]",
+        "colorMode": "none",
+        "rangeValues": "[0,30,70,100]",
+        "unitPosition": "after",
+        "trellis.scales.shared": "1",
+        "useThousandSeparators": "1",
+        "underLabel": "CURRENT EVENT LAG (sec or [D+]HH:MM:SS)",
+        "managerid": "searchSingleLagByMetricsHostEventLag",
+        "el": $('#elementSingleLagByMetricsHostEventLag')
+    }, {
+        tokens: true,
+        tokenNamespace: "submitted"
+    }).render();
+
+    var resultsLinkelementSingleLagByMetricsHostEventLag = new ResultsLinkView({
+        id: "resultsLinkelementSingleLagByMetricsHostEventLag",
+        managerid: "searchSingleLagByMetricsHostEventLag",
+        "link.exportResults.visible": false,
+        el: $("#resultsLinkelementSingleLagByMetricsHostEventLag"),
+    });
+
+    resultsLinkelementSingleLagByMetricsHostEventLag
+        .render()
+        .$el.appendTo($("resultsLinkelementSingleLagByMetricsHostEventLag"));
+
+    var chartLaggingMetricDataHostOverTime = new ChartView({
+        "id": "chartLaggingMetricDataHostOverTime",
+        "charting.axisX.abbreviation": "none",
+        "charting.legend.mode": "standard",
+        "charting.chart.bubbleMaximumSize": "50",
+        "charting.chart.sliceCollapsingThreshold": "0.01",
+        "charting.axisTitleY.text": "4h Events count",
+        "refresh.display": "progressbar",
+        "charting.chart.nullValueMode": "gaps",
+        "charting.axisTitleX.visibility": "collapsed",
+        "charting.axisTitleY2.text": "lagging (sec)",
+        "charting.axisLabelsY2.majorUnit": "0.1",
+        "charting.axisX.scale": "linear",
+        "charting.drilldown": "none",
+        "charting.axisLabelsX.majorLabelStyle.overflowMode": "ellipsisNone",
+        "charting.chart.overlayFields": "lag_event_sec,lag_ingestion_sec,host_count_4h",
+        "charting.chart.showDataLabels": "none",
+        "charting.axisTitleY2.visibility": "visible",
+        "charting.axisY2.enabled": "1",
+        "charting.axisY2.scale": "inherit",
+        "trellis.scales.shared": "1",
+        "charting.layout.splitSeries.allowIndependentYRanges": "0",
+        "charting.chart.bubbleSizeBy": "area",
+        "charting.chart.bubbleMinimumSize": "10",
+        "charting.chart.style": "shiny",
+        "charting.axisY.scale": "linear",
+        "charting.layout.splitSeries": "0",
+        "charting.fieldColors": "{\"eventcount_4h\": 0xaec6cf, \"lag_event_sec\": 0x9542f5, \"lag_ingestion_sec\": 0xff6961}",
+        "resizable": true,
+        "charting.legend.labelStyle.overflowMode": "ellipsisMiddle",
+        "charting.lineWidth": "2",
+        "charting.axisTitleY.visibility": "visible",
+        "charting.chart.stackMode": "default",
+        "charting.legend.placement": "right",
+        "trellis.size": "medium",
+        "charting.axisLabelsX.majorLabelStyle.rotation": "0",
+        "charting.axisY2.abbreviation": "none",
+        "charting.chart": "column",
+        "charting.axisY.abbreviation": "none",
+        "trellis.enabled": "0",
+        "managerid": "searchLaggingMetricDataHost",
+        "el": $('#chartLaggingMetricDataHostOverTime')
+    }, {
+        tokens: true,
+        tokenNamespace: "submitted"
+    }).render();
+
+    var resultsLinkchartLaggingMetricDataHostOverTime = new ResultsLinkView({
+        id: "resultsLinkchartLaggingMetricDataHostOverTime",
+        managerid: "searchLaggingMetricDataHost",
+        "link.exportResults.visible": false,
+        el: $("#resultsLinkchartLaggingMetricDataHostOverTime"),
+    });
+
+    resultsLinkchartLaggingMetricDataHostOverTime
+        .render()
+        .$el.appendTo($("resultsLinkchartLaggingMetricDataHostOverTime"));
+
+    var chartAuditFlipDataHostOverTime = new ChartView({
+        "id": "chartAuditFlipDataHostOverTime",
+        "charting.chart.stackMode": "stacked",
+        "charting.chart": "column",
+        "charting.drilldown": "all",
+        "charting.axisLabelsY.majorUnit": "1",
+        "charting.fieldColors": "{\"orange\": 0xffd394, \"blue\": 0xcfebf9, \"green\": 0xb6edb6, \"red\": 0xFFBABA}",
+        "resizable": true,
+        "height": "150",
+        "managerid": "searchAuditDataHostFlipOverTime",
+        "el": $('#chartAuditFlipDataHostOverTime')
+    }, {
+        tokens: true,
+        tokenNamespace: "submitted"
+    }).render();
+
+    var resultsLinkchartAuditFlipDataHostOverTime = new ResultsLinkView({
+        id: "resultsLinkchartAuditFlipDataHostOverTime",
+        managerid: "searchAuditDataHostFlipOverTime",
+        "link.exportResults.visible": false,
+        el: $("#resultsLinkchartAuditFlipDataHostOverTime"),
+    });
+
+    resultsLinkchartAuditFlipDataHostOverTime
+        .render()
+        .$el.appendTo($("resultsLinkchartAuditFlipDataHostOverTime"));
+
+    // Audit Flip Data Host
+    var elementMainTableAuditFlipDataHost = new TableView({
+        "id": "elementMainTableAuditFlipDataHost",
+        "count": 5,
+        "drilldown": "none",
+        "refresh.display": "none",
+        "wrap": "false",
+        "managerid": "searchMainDataHostAuditFlipTable",
+        "el": $('#elementMainTableAuditFlipDataHost')
+    }, {
+        tokens: true,
+        tokenNamespace: "submitted"
+    }).render();
+
+    renderTableIcon(elementMainTableAuditFlipDataHost);
+
+    var resultsLinkelementMainTableAuditFlipDataHost = new ResultsLinkView({
+        id: "resultsLinkelementMainTableAuditFlipDataHost",
+        managerid: "searchMainDataHostAuditFlipTable",
+        "link.exportResults.visible": false,
+        el: $("#resultsLinkelementMainTableAuditFlipDataHost"),
+    });
+
+    resultsLinkelementMainTableAuditFlipDataHost
+        .render()
+        .$el.appendTo($("resultsLinkelementMainTableAuditFlipDataHost"));
+
+    var chartAuditChangesDataHostOverTime = new ChartView({
+        "id": "chartAuditChangesDataHostOverTime",
+        "charting.chart.stackMode": "stacked",
+        "charting.chart": "column",
+        "charting.drilldown": "all",
+        "charting.axisLabelsY.majorUnit": "1",
+        "charting.fieldColors": "{\"success\": 0xb6edb6, \"failure\": 0xFFBABA}",
+        "resizable": true,
+        "height": "150",
+        "managerid": "searchAuditDataHostAuditChangesOverTime",
+        "el": $('#chartAuditChangesDataHostOverTime')
+    }, {
+        tokens: true,
+        tokenNamespace: "submitted"
+    }).render();
+
+    var resultsLinkchartAuditChangesDataHostOverTime = new ResultsLinkView({
+        id: "resultsLinkchartAuditChangesDataHostOverTime",
+        managerid: "searchAuditDataHostAuditChangesOverTime",
+        "link.exportResults.visible": false,
+        el: $("#resultsLinkchartAuditChangesDataHostOverTime"),
+    });
+
+    resultsLinkchartAuditChangesDataHostOverTime
+        .render()
+        .$el.appendTo($("resultsLinkchartAuditChangesDataHostOverTime"));
+
+    // Audit Changes Data Host
+    var elementMainTableAuditChangesDataHost = new TableView({
+        "id": "elementMainTableAuditChangesDataHost",
+        "count": 5,
+        "drilldown": "none",
+        "refresh.display": "none",
+        "wrap": "false",
+        "managerid": "searchMainDataHostAuditChangesTable",
+        "el": $('#elementMainTableAuditChangesDataHost')
+    }, {
+        tokens: true,
+        tokenNamespace: "submitted"
+    }).render();
+
+    var resultsLinkelementMainTableAuditChangesDataHost = new ResultsLinkView({
+        id: "resultsLinkelementMainTableAuditChangesDataHost",
+        managerid: "searchMainDataHostAuditChangesTable",
+        "link.exportResults.visible": false,
+        el: $("#resultsLinkelementMainTableAuditChangesDataHost"),
+    });
+
+    resultsLinkelementMainTableAuditChangesDataHost
+        .render()
+        .$el.appendTo($("resultsLinkelementMainTableAuditChangesDataHost"));
+
+    var LinkTimeOutlierConfigurationDataHostSpan = new LinkListInput({
+        "id": "LinkTimeOutlierConfigurationDataHostSpan",
+        "choices": [{
+                "value": "5m",
+                "label": "5m"
+            },
+            {
+                "value": "60m",
+                "label": "60m"
+            },
+            {
+                "value": "4h",
+                "label": "4h"
+            },
+            {
+                "value": "12h",
+                "label": "12h"
+            },
+            {
+                "value": "1d",
+                "label": "1d"
+            }
+        ],
+        "default": "5m",
+        "searchWhenChanged": true,
+        "selectFirstChoice": false,
+        "initialValue": "5m",
+        "value": "$form.TimeOutlierConfigurationDataHostSpan$",
+        "el": $('#LinkTimeOutlierConfigurationDataHostSpan')
+    }, {
+        tokens: true
+    }).render();
+
+    LinkTimeOutlierConfigurationDataHostSpan.on("change", function(newValue) {
+        FormUtils.handleValueChange(LinkTimeOutlierConfigurationDataHostSpan);
+    });
+
+    LinkTimeOutlierConfigurationDataHostSpan.on("valueChange", function(e) {
+        if (e.value === "5m") {
+            EventHandler.setToken("tk_input_data_host_outlier_span", "5m", {}, e.data);
+        } else if (e.value === "60m") {
+            EventHandler.setToken("tk_input_data_host_outlier_span", "60m", {}, e.data);
+        } else if (e.value === "4h") {
+            EventHandler.setToken("tk_input_data_host_outlier_span", "4h", {}, e.data);
+        } else if (e.value === "12h") {
+            EventHandler.setToken("tk_input_data_host_outlier_span", "12h", {}, e.data);
+        } else if (e.value === "1d") {
+            EventHandler.setToken("tk_input_data_host_outlier_span", "1d", {}, e.data);
+        }
+    });
+
+    // outliers configuration data_host
+    var LinkTimeOutlierConfigurationDataHost = new LinkListInput({
+        "id": "LinkTimeOutlierConfigurationDataHost",
+        "choices": [{
+                "value": "-24h",
+                "label": "24h"
+            },
+            {
+                "value": "-48h",
+                "label": "48h"
+            },
+            {
+                "value": "-7d",
+                "label": "7d"
+            },
+            {
+                "value": "-30d",
+                "label": "30d"
+            }
+        ],
+        "default": "-7d",
+        "searchWhenChanged": true,
+        "selectFirstChoice": false,
+        "initialValue": "-7d",
+        "value": "$form.TimeOutlierConfigurationDataHost$",
+        "el": $('#LinkTimeOutlierConfigurationDataHost')
+    }, {
+        tokens: true
+    }).render();
+
+    LinkTimeOutlierConfigurationDataHost.on("change", function(newValue) {
+        FormUtils.handleValueChange(LinkTimeOutlierConfigurationDataHost);
+    });
+
+    LinkTimeOutlierConfigurationDataHost.on("valueChange", function(e) {
+        if (e.value === "-24h") {
+            EventHandler.setToken("tk_input_data_host_outlier_period", "-24h", {}, e.data);
+        } else if (e.value === "-48h") {
+            EventHandler.setToken("tk_input_data_host_outlier_period", "-48h", {}, e.data);
+        } else if (e.value === "-7d") {
+            EventHandler.setToken("tk_input_data_host_outlier_period", "-7d", {}, e.data);
+        } else if (e.value === "-30d") {
+            EventHandler.setToken("tk_input_data_host_outlier_period", "-30d", {}, e.data);
+        }
+    });
+
+        // Get assets tags
+        var elementGetTagsDataHost = new TableView({
+            "id": "elementGetTagsDataHost",
+            "count": 100,
+            "drilldown": "row",
+            "refresh.display": "none",
+            "wrap": "true",
+            "managerid": "searchGetDataHostTags",
+            "el": $('#elementGetTagsDataHost')
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        }).render();
+
+        var resultsLinkelementGetTagsDataHost = new ResultsLinkView({
+            id: "resultsLinkelementGetTagsDataHost",
+            managerid: "searchGetDataHostTags",
+            "link.exportResults.visible": false,
+            el: $("#resultsLinkelementGetTagsDataHost"),
+        });
+    
+        resultsLinkelementGetTagsDataHost
+            .render()
+            .$el.appendTo($("resultsLinkelementGetTagsDataHost"));
+    
+        // data host monitoring
+
+        // input lag
+
+        var modal_input_lag_host = new TextInput({
+            "id": "modal_input_lag_host",
             "searchWhenChanged": true,
-            "selectFirstChoice": false,
-            "initialValue": "24h",
-            "value": "$form.modalActionTimeHost$",
-            "el": $('#inputLinkTimeHost')
+            "value": "$form.tk_input_lag_host$",
+            "el": $('#modal_input_lag_host')
         }, {
             tokens: true
         }).render();
 
-        inputLinkTimeHost.on("change", function(newValue) {
-            FormUtils.handleValueChange(inputLinkTimeHost);
+        modal_input_lag_host.on("change", function(newValue) {
+            FormUtils.handleValueChange(modal_input_lag_host);
         });
 
-        inputLinkTimeHost.on("valueChange", function(e) {
-            if (e.value === "60m") {
-                EventHandler.setToken("modalTimeHost.earliest", "-60m", {}, e.data);
-                EventHandler.setToken("modalTimeHost.latest", "now", {}, e.data);
-                EventHandler.setToken("modalTimeHost.span", "1m", {}, e.data);
-            } else if (e.value === "4h") {
-                EventHandler.setToken("modalTimeHost.earliest", "-4h", {}, e.data);
-                EventHandler.setToken("modalTimeHost.latest", "now", {}, e.data);
-                EventHandler.setToken("modalTimeHost.span", "5m", {}, e.data);
-            } else if (e.value === "8h") {
-                EventHandler.setToken("modalTimeHost.earliest", "-8h", {}, e.data);
-                EventHandler.setToken("modalTimeHost.latest", "now", {}, e.data);
-                EventHandler.setToken("modalTimeHost.span", "5m", {}, e.data);
-            } else if (e.value === "12h") {
-                EventHandler.setToken("modalTimeHost.earliest", "-12h", {}, e.data);
-                EventHandler.setToken("modalTimeHost.latest", "now", {}, e.data);
-                EventHandler.setToken("modalTimeHost.span", "10m", {}, e.data);
-            } else if (e.value === "24h") {
-                EventHandler.setToken("modalTimeHost.earliest", "-24h", {}, e.data);
-                EventHandler.setToken("modalTimeHost.latest", "now", {}, e.data);
-                EventHandler.setToken("modalTimeHost.span", "15m", {}, e.data);
-            } else if (e.value === "48h") {
-                EventHandler.setToken("modalTimeHost.earliest", "-48h", {}, e.data);
-                EventHandler.setToken("modalTimeHost.latest", "now", {}, e.data);
-                EventHandler.setToken("modalTimeHost.span", "30m", {}, e.data);
-            } else if (e.value === "7d") {
-                EventHandler.setToken("modalTimeHost.earliest", "-7d", {}, e.data);
-                EventHandler.setToken("modalTimeHost.latest", "now", {}, e.data);
-                EventHandler.setToken("modalTimeHost.span", "1h", {}, e.data);
-            } else if (e.value === "15d") {
-                EventHandler.setToken("modalTimeHost.earliest", "-15d", {}, e.data);
-                EventHandler.setToken("modalTimeHost.latest", "now", {}, e.data);
-                EventHandler.setToken("modalTimeHost.span", "2h", {}, e.data);
-            } else if (e.value === "30d") {
-                EventHandler.setToken("modalTimeHost.earliest", "-30d", {}, e.data);
-                EventHandler.setToken("modalTimeHost.latest", "now", {}, e.data);
-                EventHandler.setToken("modalTimeHost.span", "4h", {}, e.data);
-            } else if (e.value === "60d") {
-                EventHandler.setToken("modalTimeHost.earliest", "-60d", {}, e.data);
-                EventHandler.setToken("modalTimeHost.latest", "now", {}, e.data);
-                EventHandler.setToken("modalTimeHost.span", "8h", {}, e.data);
-            } else if (e.value === "90d") {
-                EventHandler.setToken("modalTimeHost.earliest", "-90d", {}, e.data);
-                EventHandler.setToken("modalTimeHost.latest", "now", {}, e.data);
-                EventHandler.setToken("modalTimeHost.span", "12h", {}, e.data);
-            }
+        var modal_input_lag_override_class_host = new DropdownInput({
+            "id": "modal_input_lag_override_class_host",
+            "choices": [{
+                    "label": "true",
+                    "value": "true"
+                },
+                {
+                    "label": "false",
+                    "value": "false"
+                }
+            ],
+            "searchWhenChanged": true,
+            "default": "true",
+            "showClearButton": true,
+            "initialValue": "true",
+            "selectFirstChoice": false,
+            "value": "$form.modal_input_lag_override_class_host$",
+            "el": $('#modal_input_lag_override_class_host')
+        }, {
+            tokens: true
+        }).render();
+
+        modal_input_lag_override_class_host.on("change", function(newValue) {
+            FormUtils.handleValueChange(modal_input_lag_override_class_host);
+        });
+
+        var modal_input_lag_alert_over_host = new DropdownInput({
+            "id": "modal_input_lag_alert_over_host",
+            "choices": [{
+                    "label": "lag event / lag ingestion",
+                    "value": "all_kpis"
+                },
+                {
+                    "label": "lag ingestion only",
+                    "value": "lag_ingestion_kpi"
+                },
+                {
+                    "label": "lag event only",
+                    "value": "lag_event_kpi"
+                }                
+            ],
+            "searchWhenChanged": true,
+            "default": "all_kpis",
+            "showClearButton": true,
+            "initialValue": "all_kpis",
+            "selectFirstChoice": false,
+            "value": "$form.tk_input_data_lag_alert_kpis_host$",
+            "el": $('#modal_input_lag_alert_over_host')
+        }, {
+            tokens: true
+        }).render();
+
+        modal_input_lag_alert_over_host.on("change", function(newValue) {
+            FormUtils.handleValueChange(modal_input_lag_alert_over_host);
+        });
+
+        var modal_input_host_alerting_policy = new DropdownInput({
+            "id": "modal_input_host_alerting_policy",
+            "choices": [{
+                    "label": "global policy",
+                    "value": "global_policy"
+                },
+                {
+                    "label": "red if at least one sourcetype is red",
+                    "value": "track_per_sourcetype"
+                },
+                {
+                    "label": "red only if all sourcetypes are red",
+                    "value": "track_per_host"
+                }                
+            ],
+            "searchWhenChanged": true,
+            "default": "global_policy",
+            "showClearButton": true,
+            "initialValue": "global_policy",
+            "selectFirstChoice": false,
+            "value": "$form.tk_input_host_alerting_policy$",
+            "el": $('#modal_input_host_alerting_policy')
+        }, {
+            tokens: true
+        }).render();
+
+        modal_input_host_alerting_policy.on("change", function(newValue) {
+            FormUtils.handleValueChange(modal_input_host_alerting_policy);
+        });
+
+        // data host priority
+
+        var modal_input_host_priority = new DropdownInput({
+            "id": "modal_input_host_priority",
+            "choices": [{
+                    "label": "low",
+                    "value": "low"
+                },
+                {
+                    "label": "medium",
+                    "value": "medium"
+                },
+                {
+                    "label": "high",
+                    "value": "high"
+                }
+            ],
+            "searchWhenChanged": true,
+            "default": "medium",
+            "showClearButton": true,
+            "initialValue": "medium",
+            "selectFirstChoice": false,
+            "value": "$form.tk_input_host_priority$",
+            "el": $('#modal_input_host_priority')
+        }, {
+            tokens: true
+        }).render();
+
+        modal_input_host_priority.on("change", function(newValue) {
+            FormUtils.handleValueChange(modal_input_host_priority);
         });
 
         // data host monitoring
 
-        // main data_host link input for modal window
-        var inputLinkDataHost = new LinkListInput({
-            "id": "inputLinkDataHost",
+        var modal_input_wdays_host = new DropdownInput({
+            "id": "modal_input_wdays_host",
             "choices": [{
-                    "value": "overview",
-                    "label": "Overview data host"
+                    "label": "manual:all_days",
+                    "value": "manual:all_days"
                 },
                 {
-                    "value": "outlier",
-                    "label": "Outlier detection overview"
+                    "label": "manual:monday-to-friday",
+                    "value": "manual:monday-to-friday"
                 },
                 {
-                    "value": "outlier_configuration",
-                    "label": "Outlier detection configuration"
-                },
-                {
-                    "value": "data_quality",
-                    "label": "Data parsing quality"
-                },
-                {
-                    "value": "lagging_metrics",
-                    "label": "Lagging performances"
-                },
-                {
-                    "value": "flipping_status",
-                    "label": "Status flipping"
-                },
-                {
-                    "value": "status_message",
-                    "label": "Status message"
-                },
-                {
-                    "value": "audit_changes",
-                    "label": "Audit changes"
+                    "label": "manual:monday-to-saturday",
+                    "value": "manual:monday-to-saturday"
                 }
             ],
-            "default": "overview",
             "searchWhenChanged": true,
+            "default": "manual:all_days",
+            "showClearButton": true,
+            "initialValue": "all_days",
             "selectFirstChoice": false,
-            "initialValue": "overview",
-            "value": "$form.inputLinkDataHost$",
-            "el": $('#inputLinkDataHost')
+            "value": "$form.tk_input_wdays_host$",
+            "el": $('#modal_input_wdays_host')
         }, {
             tokens: true
         }).render();
 
-        inputLinkDataHost.on("change", function(newValue) {
-            FormUtils.handleValueChange(inputLinkDataHost);
+        modal_input_wdays_host.on("change", function(newValue) {
+            FormUtils.handleValueChange(modal_input_wdays_host);
         });
 
-        inputLinkDataHost.on("valueChange", function(e) {
-            if (e.value === "overview") {
-                EventHandler.setToken("show_data_host_overview", "true", {}, e.data);
-                EventHandler.unsetToken("show_data_host_outlier");
-                EventHandler.unsetToken("show_data_host_outlier_configuration");
-                EventHandler.unsetToken("show_data_host_status_message");
-                EventHandler.unsetToken("show_data_host_quality");
-                EventHandler.unsetToken("show_data_host_flipping_status");
-                EventHandler.unsetToken("show_data_host_audit_changes");
-                EventHandler.unsetToken("show_data_host_lagging_metrics");
-                $("#data_host_overview").css("display", "inherit");
-                $("#data_host_outliers").css("display", "none");
-                $("#data_host_outliers_config").css("display", "none");
-                $("#data_host_data_parsing").css("display", "none");
-                $("#data_host_metrics").css("display", "none");
-                $("#data_host_flipping").css("display", "none");
-                $("#data_host_status").css("display", "none");
-                $("#data_host_changes").css("display", "none");
-                $("#data_host_timepicker").css("display", "inherit");
-            } else if (e.value === "outlier") {
-                EventHandler.setToken("show_data_host_outlier", "true", {}, e.data);
-                EventHandler.unsetToken("show_data_host_overview");
-                EventHandler.unsetToken("show_data_host_outlier_configuration");
-                EventHandler.unsetToken("show_data_host_status_message");
-                EventHandler.unsetToken("show_data_host_quality");
-                EventHandler.unsetToken("show_data_host_flipping_status");
-                EventHandler.unsetToken("show_data_host_audit_changes");
-                EventHandler.unsetToken("show_data_host_lagging_metrics");
-                $("#data_host_overview").css("display", "none");
-                $("#data_host_outliers").css("display", "inherit");
-                $("#data_host_outliers_config").css("display", "none");
-                $("#data_host_data_parsing").css("display", "none");
-                $("#data_host_metrics").css("display", "none");
-                $("#data_host_flipping").css("display", "none");
-                $("#data_host_status").css("display", "none");
-                $("#data_host_changes").css("display", "none");
-                $("#data_host_timepicker").css("display", "inherit");
-            } else if (e.value === "outlier_configuration") {
-                EventHandler.setToken("show_data_host_outlier_configuration", "true", {}, e.data);
-                EventHandler.unsetToken("show_data_host_overview");
-                EventHandler.unsetToken("show_data_host_outlier");
-                EventHandler.unsetToken("show_data_host_status_message");
-                EventHandler.unsetToken("show_data_host_quality");
-                EventHandler.unsetToken("show_data_host_flipping_status");
-                EventHandler.unsetToken("show_data_host_audit_changes");
-                EventHandler.unsetToken("show_data_host_lagging_metrics");
-                $("#data_host_overview").css("display", "none");
-                $("#data_host_outliers").css("display", "none");
-                $("#data_host_outliers_config").css("display", "inherit");
-                $("#data_host_data_parsing").css("display", "none");
-                $("#data_host_metrics").css("display", "none");
-                $("#data_host_flipping").css("display", "none");
-                $("#data_host_status").css("display", "none");
-                $("#data_host_changes").css("display", "none");
-                $("#data_host_timepicker").css("display", "none");
-            } else if (e.value === "data_quality") {
-                EventHandler.setToken("show_data_host_quality", "true", {}, e.data);
-                EventHandler.unsetToken("show_data_host_overview");
-                EventHandler.unsetToken("show_data_host_outlier");
-                EventHandler.unsetToken("show_data_host_status_message");
-                EventHandler.unsetToken("show_data_host_outlier_configuration");
-                EventHandler.unsetToken("show_data_host_flipping_status");
-                EventHandler.unsetToken("show_data_host_audit_changes");
-                EventHandler.unsetToken("show_data_host_lagging_metrics");
-                $("#data_host_overview").css("display", "none");
-                $("#data_host_outliers").css("display", "none");
-                $("#data_host_outliers_config").css("display", "none");
-                $("#data_host_data_parsing").css("display", "inherit");
-                $("#data_host_metrics").css("display", "none");
-                $("#data_host_flipping").css("display", "none");
-                $("#data_host_status").css("display", "none");
-                $("#data_host_changes").css("display", "none");
-                $("#data_host_timepicker").css("display", "inherit");
-            } else if (e.value === "lagging_metrics") {
-                EventHandler.setToken("show_data_host_lagging_metrics", "true", {}, e.data);
-                EventHandler.unsetToken("show_data_host_overview");
-                EventHandler.unsetToken("show_data_host_outlier");
-                EventHandler.unsetToken("show_data_host_status_message");
-                EventHandler.unsetToken("show_data_host_outlier_configuration");
-                EventHandler.unsetToken("show_data_host_flipping_status");
-                EventHandler.unsetToken("show_data_host_audit_changes");
-                EventHandler.unsetToken("show_data_host_quality");
-                $("#data_host_overview").css("display", "none");
-                $("#data_host_outliers").css("display", "none");
-                $("#data_host_outliers_config").css("display", "none");
-                $("#data_host_data_parsing").css("display", "none");
-                $("#data_host_metrics").css("display", "inherit");
-                $("#data_host_flipping").css("display", "none");
-                $("#data_host_status").css("display", "none");
-                $("#data_host_changes").css("display", "none");
-                $("#data_host_timepicker").css("display", "inherit");
-            } else if (e.value === "flipping_status") {
-                EventHandler.setToken("show_data_host_flipping_status", "true", {}, e.data);
-                EventHandler.unsetToken("show_data_host_overview");
-                EventHandler.unsetToken("show_data_host_outlier");
-                EventHandler.unsetToken("show_data_host_status_message");
-                EventHandler.unsetToken("show_data_host_outlier_configuration");
-                EventHandler.unsetToken("show_data_host_quality");
-                EventHandler.unsetToken("show_data_host_audit_changes");
-                EventHandler.unsetToken("show_data_host_lagging_metrics");
-                $("#data_host_overview").css("display", "none");
-                $("#data_host_outliers").css("display", "none");
-                $("#data_host_outliers_config").css("display", "none");
-                $("#data_host_data_parsing").css("display", "none");
-                $("#data_host_metrics").css("display", "none");
-                $("#data_host_flipping").css("display", "inherit");
-                $("#data_host_status").css("display", "none");
-                $("#data_host_changes").css("display", "none");
-                $("#data_host_timepicker").css("display", "inherit");                
-            } else if (e.value === "status_message") {
-                EventHandler.setToken("show_data_host_status_message", "true", {}, e.data);
-                EventHandler.unsetToken("show_data_host_overview");
-                EventHandler.unsetToken("show_data_host_outlier_configuration");
-                EventHandler.unsetToken("show_data_host_outlier");
-                EventHandler.unsetToken("show_data_host_quality");
-                EventHandler.unsetToken("show_data_host_flipping_status");
-                EventHandler.unsetToken("show_data_host_audit_changes");
-                EventHandler.unsetToken("show_data_host_lagging_metrics");
-                $("#data_host_overview").css("display", "none");
-                $("#data_host_outliers").css("display", "none");
-                $("#data_host_outliers_config").css("display", "none");
-                $("#data_host_data_parsing").css("display", "none");
-                $("#data_host_metrics").css("display", "none");
-                $("#data_host_flipping").css("display", "none");
-                $("#data_host_status").css("display", "inherit");
-                $("#data_host_changes").css("display", "none");
-                $("#data_host_timepicker").css("display", "inherit");
-            } else if (e.value === "audit_changes") {
-                EventHandler.setToken("show_data_host_audit_changes", "true", {}, e.data);
-                EventHandler.unsetToken("show_data_host_overview");
-                EventHandler.unsetToken("show_data_host_outlier_configuration");
-                EventHandler.unsetToken("show_data_host_outlier");
-                EventHandler.unsetToken("show_data_host_quality");
-                EventHandler.unsetToken("show_data_host_flipping_status");
-                EventHandler.unsetToken("show_data_host_status_message");
-                EventHandler.unsetToken("show_data_host_lagging_metrics");
-                $("#data_host_overview").css("display", "none");
-                $("#data_host_outliers").css("display", "none");
-                $("#data_host_outliers_config").css("display", "none");
-                $("#data_host_data_parsing").css("display", "none");
-                $("#data_host_metrics").css("display", "none");
-                $("#data_host_flipping").css("display", "none");
-                $("#data_host_status").css("display", "none");
-                $("#data_host_changes").css("display", "inherit");
-                $("#data_host_timepicker").css("display", "inherit");
+        modal_input_wdays_host.on("valueChange", function(e) {
+            if (e.value === "manual:enter_days_numbers") {
+                EventHandler.setToken("show_manual_wdays_host", "true", {}, e.data);
+            } else {
+                EventHandler.unsetToken("show_manual_wdays_host");
             }
         });
 
-        // modal Single Lag
-        var elementSingleLagHostPerc95 = new SingleView({
-            "id": "elementSingleLagHostPerc95",
-            "trendDisplayMode": "absolute",
-            "numberPrecision": "0.00",
-            "drilldown": "none",
-            "height": "95",
-            "trellis.size": "medium",
-            "trendColorInterpretation": "standard",
-            "useColors": "0",
-            "colorBy": "value",
-            "showTrendIndicator": "1",
-            "showSparkline": "1",
-            "trellis.enabled": "0",
-            "unit": "",
-            "rangeColors": "[\"0x77dd77\",\"0x0877a6\",\"0xf8be34\",\"0xf1813f\",\"0xdc4e41\"]",
-            "colorMode": "none",
-            "rangeValues": "[0,30,70,100]",
-            "unitPosition": "after",
-            "trellis.scales.shared": "1",
-            "useThousandSeparators": "1",
-            "underLabel": "PERC95 INGESTION LAG (sec or [D+]HH:MM:SS)",
-            "managerid": "searchSingleLagHostPerc95",
-            "el": $('#elementSingleLagHostPerc95')
+        var modal_input_wdays_host_no = new CheckboxGroupInput({
+            "id": "modal_input_wdays_host_no",
+            "choices": [{
+                    "label": "Monday",
+                    "value": "1"
+                },
+                {
+                    "label": "Tuesday",
+                    "value": "2"
+                },
+                {
+                    "label": "Wednesday",
+                    "value": "3"
+                },
+                {
+                    "label": "Thursday",
+                    "value": "4"
+                },
+                {
+                    "label": "Friday",
+                    "value": "5"
+                },
+                {
+                    "label": "Saturday",
+                    "value": "6"
+                },
+                {
+                    "label": "Sunday",
+                    "value": "0"
+                }
+            ],
+            "prefix": "manual:",
+            "searchWhenChanged": true,
+            "default": ["1", "2", "3", "4", "5", "6", "0"],
+            "delimiter": ",",
+            "value": "$form.tk_input_wdays_host_no$",
+            "el": $('#modal_input_wdays_host_no')
         }, {
-            tokens: true,
-            tokenNamespace: "submitted"
+            tokens: true
         }).render();
 
-        var elementSingleLagHostAvg = new SingleView({
-            "id": "elementSingleLagHostAvg",
-            "trendDisplayMode": "absolute",
-            "numberPrecision": "0.00",
-            "drilldown": "none",
-            "height": "95",
-            "trellis.size": "medium",
-            "trendColorInterpretation": "standard",
-            "useColors": "0",
-            "colorBy": "value",
-            "showTrendIndicator": "1",
-            "showSparkline": "1",
-            "trellis.enabled": "0",
-            "unit": "",
-            "rangeColors": "[\"0x77dd77\",\"0x0877a6\",\"0xf8be34\",\"0xf1813f\",\"0xdc4e41\"]",
-            "colorMode": "none",
-            "rangeValues": "[0,30,70,100]",
-            "unitPosition": "after",
-            "trellis.scales.shared": "1",
-            "useThousandSeparators": "1",
-            "underLabel": "AVG INGESTION LAG (sec or [D+]HH:MM:SS)",
-            "managerid": "searchSingleLagHostAvg",
-            "el": $('#elementSingleLagHostAvg')
-        }, {
-            tokens: true,
-            tokenNamespace: "submitted"
-        }).render();
-
-        var elementSingleLagHostEventLag = new SingleView({
-            "id": "elementSingleLagHostEventLag",
-            "trendDisplayMode": "absolute",
-            "numberPrecision": "0.00",
-            "drilldown": "none",
-            "height": "95",
-            "trellis.size": "medium",
-            "trendColorInterpretation": "standard",
-            "useColors": "0",
-            "colorBy": "value",
-            "showTrendIndicator": "1",
-            "showSparkline": "1",
-            "trellis.enabled": "0",
-            "unit": "",
-            "rangeColors": "[\"0x77dd77\",\"0x0877a6\",\"0xf8be34\",\"0xf1813f\",\"0xdc4e41\"]",
-            "colorMode": "none",
-            "rangeValues": "[0,30,70,100]",
-            "unitPosition": "after",
-            "trellis.scales.shared": "1",
-            "useThousandSeparators": "1",
-            "underLabel": "CURRENT EVENT LAG (sec or [D+]HH:MM:SS)",
-            "managerid": "searchSingleLagHostEventLag",
-            "el": $('#elementSingleLagHostEventLag')
-        }, {
-            tokens: true,
-            tokenNamespace: "submitted"
-        }).render();
-
-        var elementSingleSLAHostpct = new SingleView({
-            "id": "elementSingleSLAHostpct",
-            "trendDisplayMode": "absolute",
-            "numberPrecision": "0.00",
-            "drilldown": "all",
-            "height": "95",
-            "trellis.size": "medium",
-            "trendColorInterpretation": "standard",
-            "useColors": "0",
-            "colorBy": "value",
-            "showTrendIndicator": "1",
-            "showSparkline": "1",
-            "trellis.enabled": "0",
-            "unit": "%",
-            "rangeColors": "[\"0xdc4e41\",\"0xf1813f\",\"0x77dd77\"]",
-            "colorMode": "none",
-            "rangeValues": "[50,90]",
-            "unitPosition": "after",
-            "trellis.scales.shared": "1",
-            "useColors": "1",
-            "useThousandSeparators": "1",
-            "underLabel": "SLA PCT (% time spent in green/blue mode last 90d)",
-            "managerid": "searchSingleSLAHostpct",
-            "el": $('#elementSingleSLAHostpct')
-        }, {
-            tokens: true,
-            tokenNamespace: "submitted"
-        }).render();
-
-        var elementChartHostIndexes = new ChartView({
-            "id": "elementChartHostIndexes",
-            "charting.drilldown": "all",
-            "resizable": true,
-            "charting.chart": "pie",
-            "height": "160",
-            "managerid": "searchChartHostIndexes",
-            "el": $('#elementChartHostIndexes')
-        }, {
-            tokens: true,
-            tokenNamespace: "submitted"
-        }).render();
-
-        var elementChartHostSourcetypes = new ChartView({
-            "id": "elementChartHostSourcetypes",
-            "charting.drilldown": "all",
-            "resizable": true,
-            "charting.chart": "pie",
-            "height": "160",
-            "managerid": "searchChartHostSourcetypes",
-            "el": $('#elementChartHostSourcetypes')
-        }, {
-            tokens: true,
-            tokenNamespace: "submitted"
-        }).render();
-
-        // modal window chart
-        var elementChartLagHostOverTime = new ChartView({
-            "id": "elementChartLagHostOverTime",
-            "charting.axisX.abbreviation": "none",
-            "charting.legend.mode": "standard",
-            "charting.chart.bubbleMaximumSize": "50",
-            "charting.chart.sliceCollapsingThreshold": "0.01",
-            "charting.axisTitleY.text": "Events count",
-            "refresh.display": "progressbar",
-            "charting.chart.nullValueMode": "gaps",
-            "charting.axisTitleX.visibility": "collapsed",
-            "charting.axisTitleY2.text": "lag in seconds",
-            "charting.axisX.scale": "linear",
-            "charting.drilldown": "none",
-            "charting.axisLabelsX.majorLabelStyle.overflowMode": "ellipsisNone",
-            "charting.chart.overlayFields": "avg_lag_sec",
-            "charting.chart.showDataLabels": "none",
-            "charting.axisTitleY2.visibility": "visible",
-            "charting.axisY2.enabled": "1",
-            "charting.axisY2.scale": "inherit",
-            "trellis.scales.shared": "1",
-            "charting.layout.splitSeries.allowIndependentYRanges": "0",
-            "charting.chart.bubbleSizeBy": "area",
-            "charting.chart.bubbleMinimumSize": "10",
-            "charting.chart.style": "shiny",
-            "charting.axisY.scale": "linear",
-            "charting.layout.splitSeries": "0",
-            "resizable": true,
-            "charting.legend.labelStyle.overflowMode": "ellipsisMiddle",
-            "charting.lineWidth": "2",
-            "charting.axisTitleY.visibility": "visible",
-            "charting.chart.stackMode": "default",
-            "charting.legend.placement": "right",
-            "trellis.size": "medium",
-            "charting.axisLabelsX.majorLabelStyle.rotation": "0",
-            "charting.axisY2.abbreviation": "none",
-            "charting.chart": "column",
-            "charting.axisY.abbreviation": "none",
-            "charting.fieldColors": "{\"events_count\": 0xaec6cf, \"avg_lag_sec\": 0x8b0000}",
-            "trellis.enabled": "0",
-            "height": "160",
-            "managerid": "searchChartLagHostOverTime",
-            "el": $('#elementChartLagHostOverTime')
-        }, {
-            tokens: true,
-            tokenNamespace: "submitted"
-        }).render();
-
-        // outlier chart
-        var elementOutlierDataHost = new OutliersViz({
-            "id": "elementOutlierDataHost",
-            "type": "Splunk_ML_Toolkit.OutliersViz",
-            "resizable": true,
-            "Splunk_ML_Toolkit.OutliersViz.showOutlierCount": "true",
-            "drilldown": "none",
-            "trellis.enabled": "0",
-            "trellis.scales.shared": "1",
-            "trellis.size": "medium",
-            "height": "350",
-            "managerid": "searchOutlierDetectionChartDataHost",
-            "el": $('#elementOutlierDataHost')
-        }, {tokens: true, tokenNamespace: "submitted"}).render();
-
-        var elementOutlierTableDataHost = new TableView({
-            "id": "elementOutlierTableDataHost",
-            "count": 100,
-            "dataOverlayMode": "none",
-            "drilldown": "none",
-            "percentagesRow": "false",
-            "rowNumbers": "false",
-            "totalsRow": "false",
-            "wrap": "true",
-            "managerid": "searchOutlierDetectionTableDataHost",
-            "el": $('#elementOutlierTableDataHost')
-        }, {tokens: true, tokenNamespace: "submitted"}).render();
-
-        var elementOutlierSimulationDataHost = new OutliersViz({
-            "id": "elementOutlierSimulationDataHost",
-            "type": "Splunk_ML_Toolkit.OutliersViz",
-            "resizable": true,
-            "Splunk_ML_Toolkit.OutliersViz.showOutlierCount": "true",
-            "drilldown": "none",
-            "trellis.enabled": "0",
-            "trellis.scales.shared": "1",
-            "trellis.size": "medium",
-            "height": "350",
-            "managerid": "searchOutlierDetectionChartSimulationDataHost",
-            "el": $('#elementOutlierSimulationDataHost')
-        }, {tokens: true, tokenNamespace: "submitted"}).render();
+        modal_input_wdays_host_no.on("change", function(newValue) {
+            FormUtils.handleValueChange(modal_input_wdays_host_no);
+        });
         
-        // Data Parsing Quality
-        var elementSearchDataHostParsingQualityChart = new ChartView({
-            "id": "elementSearchDataHostParsingQualityChart",
-            "charting.chart.nullValueMode": "gaps",
-            "resizable": true,
-            "trellis.enabled": "0",
-            "charting.axisTitleX.visibility": "collapsed",
-            "refresh.display": "progressbar",
-            "charting.chart.stackMode": "stacked",
-            "charting.axisLabelsX.majorLabelStyle.overflowMode": "ellipsisNone",
-            "charting.axisY.abbreviation": "none",
-            "charting.legend.placement": "bottom",
-            "charting.axisY2.abbreviation": "none",
-            "charting.legend.labelStyle.overflowMode": "ellipsisMiddle",
-            "charting.chart.showDataLabels": "none",
-            "charting.axisY2.enabled": "0",
-            "charting.chart.sliceCollapsingThreshold": "0.01",
-            "charting.chart.style": "shiny",
-            "charting.layout.splitSeries.allowIndependentYRanges": "0",
-            "charting.chart": "column",
-            "charting.axisX.scale": "linear",
-            "trellis.scales.shared": "1",
-            "charting.axisTitleY.visibility": "visible",
-            "charting.axisTitleY2.visibility": "visible",
-            "charting.chart.bubbleMinimumSize": "10",
-            "charting.drilldown": "none",
-            "charting.legend.mode": "standard",
-            "charting.chart.bubbleMaximumSize": "50",
-            "trellis.size": "medium",
-            "charting.axisY.scale": "linear",
-            "charting.chart.bubbleSizeBy": "area",
-            "charting.axisLabelsX.majorLabelStyle.rotation": "0",
-            "charting.axisX.abbreviation": "none",
-            "charting.layout.splitSeries": "0",
-            "charting.lineWidth": "2",
-            "charting.axisY2.scale": "inherit",
-            "managerid": "SearchDataHostParsingQualityChart",
-            "el": $('#elementSearchDataHostParsingQualityChart')
-        }, {
-            tokens: true,
-            tokenNamespace: "submitted"
-        }).render();
-
-        // modal Single Lag
-        var elementSingleLagByMetricsHostPerc95 = new SingleView({
-            "id": "elementSingleLagByMetricsHostPerc95",
-            "trendDisplayMode": "absolute",
-            "numberPrecision": "0.00",
-            "drilldown": "none",
-            "height": "95",
-            "trellis.size": "medium",
-            "trendColorInterpretation": "standard",
-            "useColors": "0",
-            "colorBy": "value",
-            "showTrendIndicator": "1",
-            "showSparkline": "1",
-            "trellis.enabled": "0",
-            "unit": "",
-            "rangeColors": "[\"0x77dd77\",\"0x0877a6\",\"0xf8be34\",\"0xf1813f\",\"0xdc4e41\"]",
-            "colorMode": "none",
-            "rangeValues": "[0,30,70,100]",
-            "unitPosition": "after",
-            "trellis.scales.shared": "1",
-            "useThousandSeparators": "1",
-            "underLabel": "PERC95 INGESTION LAG (sec or [D+]HH:MM:SS)",
-            "managerid": "searchSingleLagByMetricsHostPerc95",
-            "el": $('#elementSingleLagByMetricsHostPerc95')
-        }, {
-            tokens: true,
-            tokenNamespace: "submitted"
-        }).render();
-
-        var elementSingleLagByMetricsHostAvg = new SingleView({
-            "id": "elementSingleLagByMetricsHostAvg",
-            "trendDisplayMode": "absolute",
-            "numberPrecision": "0.00",
-            "drilldown": "none",
-            "height": "95",
-            "trellis.size": "medium",
-            "trendColorInterpretation": "standard",
-            "useColors": "0",
-            "colorBy": "value",
-            "showTrendIndicator": "1",
-            "showSparkline": "1",
-            "trellis.enabled": "0",
-            "unit": "",
-            "rangeColors": "[\"0x77dd77\",\"0x0877a6\",\"0xf8be34\",\"0xf1813f\",\"0xdc4e41\"]",
-            "colorMode": "none",
-            "rangeValues": "[0,30,70,100]",
-            "unitPosition": "after",
-            "trellis.scales.shared": "1",
-            "useThousandSeparators": "1",
-            "underLabel": "AVG INGESTION LAG (sec or [D+]HH:MM:SS)",
-            "managerid": "searchSingleLagByMetricsHostAvg",
-            "el": $('#elementSingleLagByMetricsHostAvg')
-        }, {
-            tokens: true,
-            tokenNamespace: "submitted"
-        }).render();
-
-        var elementSingleLagByMetricsHostEventLag = new SingleView({
-            "id": "elementSingleLagByMetricsHostEventLag",
-            "trendDisplayMode": "absolute",
-            "numberPrecision": "0.00",
-            "drilldown": "none",
-            "height": "95",
-            "trellis.size": "medium",
-            "trendColorInterpretation": "standard",
-            "useColors": "0",
-            "colorBy": "value",
-            "showTrendIndicator": "1",
-            "showSparkline": "1",
-            "trellis.enabled": "0",
-            "unit": "",
-            "rangeColors": "[\"0x77dd77\",\"0x0877a6\",\"0xf8be34\",\"0xf1813f\",\"0xdc4e41\"]",
-            "colorMode": "none",
-            "rangeValues": "[0,30,70,100]",
-            "unitPosition": "after",
-            "trellis.scales.shared": "1",
-            "useThousandSeparators": "1",
-            "underLabel": "CURRENT EVENT LAG (sec or [D+]HH:MM:SS)",
-            "managerid": "searchSingleLagByMetricsHostEventLag",
-            "el": $('#elementSingleLagByMetricsHostEventLag')
-        }, {
-            tokens: true,
-            tokenNamespace: "submitted"
-        }).render();
-
-        var chartLaggingMetricDataHostOverTime = new ChartView({
-            "id": "chartLaggingMetricDataHostOverTime",
-            "charting.axisX.abbreviation": "none",
-            "charting.legend.mode": "standard",
-            "charting.chart.bubbleMaximumSize": "50",
-            "charting.chart.sliceCollapsingThreshold": "0.01",
-            "charting.axisTitleY.text": "4h Events count",
-            "refresh.display": "progressbar",
-            "charting.chart.nullValueMode": "gaps",
-            "charting.axisTitleX.visibility": "collapsed",
-            "charting.axisTitleY2.text": "lagging (sec)",
-            "charting.axisLabelsY2.majorUnit": "0.1",
-            "charting.axisX.scale": "linear",
-            "charting.drilldown": "none",
-            "charting.axisLabelsX.majorLabelStyle.overflowMode": "ellipsisNone",
-            "charting.chart.overlayFields": "lag_event_sec,lag_ingestion_sec,host_count_4h",
-            "charting.chart.showDataLabels": "none",
-            "charting.axisTitleY2.visibility": "visible",
-            "charting.axisY2.enabled": "1",
-            "charting.axisY2.scale": "inherit",
-            "trellis.scales.shared": "1",
-            "charting.layout.splitSeries.allowIndependentYRanges": "0",
-            "charting.chart.bubbleSizeBy": "area",
-            "charting.chart.bubbleMinimumSize": "10",
-            "charting.chart.style": "shiny",
-            "charting.axisY.scale": "linear",
-            "charting.layout.splitSeries": "0",
-            "charting.fieldColors": "{\"eventcount_4h\": 0xaec6cf, \"lag_event_sec\": 0x9542f5, \"lag_ingestion_sec\": 0xff6961}",
-            "resizable": true,
-            "charting.legend.labelStyle.overflowMode": "ellipsisMiddle",
-            "charting.lineWidth": "2",
-            "charting.axisTitleY.visibility": "visible",
-            "charting.chart.stackMode": "default",
-            "charting.legend.placement": "right",
-            "trellis.size": "medium",
-            "charting.axisLabelsX.majorLabelStyle.rotation": "0",
-            "charting.axisY2.abbreviation": "none",
-            "charting.chart": "column",
-            "charting.axisY.abbreviation": "none",
-            "trellis.enabled": "0",
-            "managerid": "searchLaggingMetricDataHost",
-            "el": $('#chartLaggingMetricDataHostOverTime')
-        }, {
-            tokens: true,
-            tokenNamespace: "submitted"
-        }).render();
-
-        var chartAuditFlipDataHostOverTime = new ChartView({
-            "id": "chartAuditFlipDataHostOverTime",
-            "charting.chart.stackMode": "stacked",
-            "charting.chart": "column",
-            "charting.drilldown": "all",
-            "charting.axisLabelsY.majorUnit": "1",
-            "charting.fieldColors": "{\"orange\": 0xffd394, \"blue\": 0xcfebf9, \"green\": 0xb6edb6, \"red\": 0xFFBABA}",
-            "resizable": true,
-            "height": "150",
-            "managerid": "searchAuditDataHostFlipOverTime",
-            "el": $('#chartAuditFlipDataHostOverTime')
-        }, {
-            tokens: true,
-            tokenNamespace: "submitted"
-        }).render();
-
-        // Audit Flip Data Host
-        var elementMainTableAuditFlipDataHost = new TableView({
-            "id": "elementMainTableAuditFlipDataHost",
-            "count": 5,
-            "drilldown": "none",
-            "refresh.display": "none",
-            "wrap": "false",
-            "managerid": "searchMainDataHostAuditFlipTable",
-            "el": $('#elementMainTableAuditFlipDataHost')
-        }, {
-            tokens: true,
-            tokenNamespace: "submitted"
-        }).render();
-
-        renderTableIcon(elementMainTableAuditFlipDataHost);
-
-        var chartAuditChangesDataHostOverTime = new ChartView({
-            "id": "chartAuditChangesDataHostOverTime",
-            "charting.chart.stackMode": "stacked",
-            "charting.chart": "column",
-            "charting.drilldown": "all",
-            "charting.axisLabelsY.majorUnit": "1",
-            "charting.fieldColors": "{\"success\": 0xb6edb6, \"failure\": 0xFFBABA}",
-            "resizable": true,
-            "height": "150",
-            "managerid": "searchAuditDataHostAuditChangesOverTime",
-            "el": $('#chartAuditChangesDataHostOverTime')
-        }, {
-            tokens: true,
-            tokenNamespace: "submitted"
-        }).render();
-
-        // Audit Changes Data Host
-        var elementMainTableAuditChangesDataHost = new TableView({
-            "id": "elementMainTableAuditChangesDataHost",
-            "count": 5,
-            "drilldown": "none",
-            "refresh.display": "none",
-            "wrap": "false",
-            "managerid": "searchMainDataHostAuditChangesTable",
-            "el": $('#elementMainTableAuditChangesDataHost')
-        }, {
-            tokens: true,
-            tokenNamespace: "submitted"
-        }).render();
-
-        var LinkTimeOutlierConfigurationDataHostSpan = new LinkListInput({
-            "id": "LinkTimeOutlierConfigurationDataHostSpan",
-            "choices": [{
-                    "value": "5m",
-                    "label": "5m"
-                },
-                {
-                    "value": "60m",
-                    "label": "60m"
-                },
-                {
-                    "value": "4h",
-                    "label": "4h"
-                },
-                {
-                    "value": "12h",
-                    "label": "12h"
-                },
-                {
-                    "value": "1d",
-                    "label": "1d"
-                }
-            ],
-            "default": "5m",
-            "searchWhenChanged": true,
-            "selectFirstChoice": false,
-            "initialValue": "5m",
-            "value": "$form.TimeOutlierConfigurationDataHostSpan$",
-            "el": $('#LinkTimeOutlierConfigurationDataHostSpan')
-        }, {
-            tokens: true
-        }).render();
-
-        LinkTimeOutlierConfigurationDataHostSpan.on("change", function(newValue) {
-            FormUtils.handleValueChange(LinkTimeOutlierConfigurationDataHostSpan);
-        });
-
-        LinkTimeOutlierConfigurationDataHostSpan.on("valueChange", function(e) {
-			if (e.value === "5m") {
-                EventHandler.setToken("tk_input_data_host_outlier_span", "5m", {}, e.data);
-            } else if (e.value === "60m") {
-                EventHandler.setToken("tk_input_data_host_outlier_span", "60m", {}, e.data);
-            } else if (e.value === "4h") {
-                EventHandler.setToken("tk_input_data_host_outlier_span", "4h", {}, e.data);
-            } else if (e.value === "12h") {
-                EventHandler.setToken("tk_input_data_host_outlier_span", "12h", {}, e.data);
-            } else if (e.value === "1d") {
-                EventHandler.setToken("tk_input_data_host_outlier_span", "1d", {}, e.data);
-            }
-        });
-
-        // outliers configuration data_host
-        var LinkTimeOutlierConfigurationDataHost = new LinkListInput({
-            "id": "LinkTimeOutlierConfigurationDataHost",
-            "choices": [{
-                    "value": "-24h",
-                    "label": "24h"
-                },
-                {
-                    "value": "-48h",
-                    "label": "48h"
-                },
-                {
-                    "value": "-7d",
-                    "label": "7d"
-                },
-                {
-                    "value": "-30d",
-                    "label": "30d"
-                }
-            ],
-            "default": "-7d",
-            "searchWhenChanged": true,
-            "selectFirstChoice": false,
-            "initialValue": "-7d",
-            "value": "$form.TimeOutlierConfigurationDataHost$",
-            "el": $('#LinkTimeOutlierConfigurationDataHost')
-        }, {
-            tokens: true
-        }).render();
-
-        LinkTimeOutlierConfigurationDataHost.on("change", function(newValue) {
-            FormUtils.handleValueChange(LinkTimeOutlierConfigurationDataHost);
-        });
-
-        LinkTimeOutlierConfigurationDataHost.on("valueChange", function(e) {
-			if (e.value === "-24h") {
-                EventHandler.setToken("tk_input_data_host_outlier_period", "-24h", {}, e.data);
-            } else if (e.value === "-48h") {
-                EventHandler.setToken("tk_input_data_host_outlier_period", "-48h", {}, e.data);
-            } else if (e.value === "-7d") {
-                EventHandler.setToken("tk_input_data_host_outlier_period", "-7d", {}, e.data);
-            } else if (e.value === "-30d") {
-                EventHandler.setToken("tk_input_data_host_outlier_period", "-30d", {}, e.data);
-            }
-        });
-
     //
     // BEGIN OPERATIONS
     //
@@ -15643,21 +16105,21 @@ require([
                             '<h3>lag event / lag ingestion: ([D+]HH:MM:SS) <span style="color: dodgerblue;">' + tk_data_lag_summary + '<span style="color: dodgerblue;">' +
                             '<h3>data_last_time_seen: <span style="color: dodgerblue;">' + tk_data_last_time_seen_human + '<span style="color: dodgerblue;">'
                         );
-            
+
                         $('#child-data-source-top-info2').html(
                             '<h3>data_last_ingest: <span style="color: dodgerblue;">' + tk_data_last_ingest_human + '<span style="color: dodgerblue;">' +
                             '<h3>data_max_lag_allowed: <span style="color: dodgerblue;">' + tk_data_max_lag_allowed + '<span style="color: dodgerblue;">' +
                             '<h3>data_monitored_state:</b> <span class="' + tk_data_monitored_state_class + '">' + tk_data_monitored_state + '</span></h3>' +
                             '<h3>data_monitoring_level: <span style="color: dodgerblue;">' + tk_data_monitoring_level + '<span style="color: dodgerblue;">'
                         );
-            
+
                         $('#child-data-source-top-info3').html(
                             '<h3>latest_flip_time: <span style="color: dodgerblue;">' + tk_latest_flip_time_human + '<span style="color: dodgerblue;">' +
                             '<h3>latest_flip_state: <span style="color: dodgerblue;">' + tk_latest_flip_state + '<span style="color: dodgerblue;">' +
                             '<h3>state:</b> <span class="' + tk_data_source_state_class + '">' + tk_data_source_state + '</span></p>' +
                             '<h3>priority:</b> <span class="' + tk_priority_class + '">' + tk_priority + '</span></p>'
                         );
-            
+
                         $('#child-data-source-top-docs-tags').html(
                             '<h3><span><a id="doc_link_data_source" data-toggle="modal" data-dismiss="modal" data-target="#' + tk_doc_modal_target + '">' + tk_doc_link_main + '</a>' +
                             ' / ' +
@@ -15715,122 +16177,116 @@ require([
                                 var field = fields[j];
                                 var value = values[j];
 
-                                // update state color
-                                if (field == "data_host_state") {
-                                    setToken("tk_data_host_state", value);
-                                    tk_data_host_state = value;
-                                    // Dynamically manage state color
-                                    if (tk_data_host_state == "green") {
-                                        setToken("tk_data_host_state_class", "title_green");
-                                        setToken(
-                                            "tk_data_host_status_message_class",
-                                            "status_message_green"
-                                        );
-                                    } else if (tk_data_host_state == "orange") {
-                                        setToken("tk_data_host_state_class", "title_orange");
-                                        setToken(
-                                            "tk_data_host_status_message_class",
-                                            "status_message_orange"
-                                        );
-                                    } else if (tk_data_host_state == "blue") {
-                                        setToken("tk_data_host_state_class", "title_blue");
-                                        setToken(
-                                            "tk_data_host_status_message_class",
-                                            "status_message_blue"
-                                        );
-                                    } else if (tk_data_host_state == "red") {
-                                        setToken("tk_data_host_state_class", "title_red");
-                                        setToken(
-                                            "tk_data_host_status_message_class",
-                                            "status_message_red"
-                                        );
-                                    }
-                                }
+                                var tk_data_host;
+                                var tk_data_lag_summary;
+                                var tk_data_last_time_seen_human;
+                                var tk_data_last_ingest_human;
+                                var tk_data_max_lag_allowed;
+                                var tk_latest_flip_time_human;
+                                var tk_latest_flip_state;
+                                var tk_priority;
+                                var tk_data_host_state;
+                                var tk_data_monitored_state;
+                                var tk_status_message;
 
-                                // update priority color
-                                if (field == "priority") {
-                                    setToken("tk_priority", value);
-                                    tk_priority = value;
-                                    // Dynamically manage state color
-                                    if (tk_priority == "low") {
-                                        setToken("tk_priority_class", "title_low_priority");
-                                    } else if (tk_priority == "medium") {
-                                        setToken("tk_priority_class", "title_medium_priority");
-                                    } else if (tk_priority == "high") {
-                                        setToken("tk_priority_class", "title_high_priority");
-                                    }
-                                }
-
-                                // update monitored state
-                                if (field == "data_monitored_state") {
-                                    setToken("tk_data_monitored_state", value);
-                                    tk_data_monitored_state = value;
-                                    // Dynamically manage state color
-                                    if (tk_data_monitored_state == "enabled") {
-                                        document.getElementById(
-                                            "btn_enable_monitoring"
-                                        ).disabled = true;
-                                        document.getElementById(
-                                            "btn_disable_monitoring"
-                                        ).disabled = false;
-                                        setToken("tk_data_monitored_state_class", "title_green");
-                                    } else {
-                                        document.getElementById(
-                                            "btn_enable_monitoring"
-                                        ).disabled = false;
-                                        document.getElementById(
-                                            "btn_disable_monitoring"
-                                        ).disabled = true;
-                                        setToken("tk_data_monitored_state_class", "title_grey");
-                                    }
-                                }
-
-                                // update lag summary
-                                if (field == "lag (event / ingestion)") {
-                                    setToken("tk_data_lag_summary", value);
+                                if (field == "data_host") {
+                                    tk_data_host = value;
+                                } else if (field == "lag summary (lag event / lag ingestion)") {
                                     tk_data_lag_summary = value;
-                                }
-
-                                // update last time
-                                if (field == "last time") {
-                                    setToken("tk_data_last_time_seen_human", value);
+                                } else if (field == "last time") {
                                     tk_data_last_time_seen_human = value;
-                                }
-
-                                // update last ingest
-                                if (field == "last ingest") {
-                                    setToken("tk_data_last_ingest_human", value);
+                                } else if (field == "last ingest") {
                                     tk_data_last_ingest_human = value;
-                                }
-
-                                // update data_monitoring_level
-                                if (field == "data_monitoring_level") {
-                                    setToken("tk_data_monitoring_level", value);
-                                    tk_data_monitoring_level = value;
-                                }
-
-                                // update data_max_lag_allowed
-                                if (field == "data_max_lag_allowed") {
-                                    setToken("tk_data_max_lag_allowed", value);
+                                } else if (field == "data_max_lag_allowed") {
                                     tk_data_max_lag_allowed = value;
-                                }
-
-                                // update flip
-                                if (field == "latest_flip_time (translated)") {
-                                    setToken("tk_latest_flip_time_human", value);
+                                } else if (field == "data_monitoring_level") {
+                                    tk_data_monitoring_level = value;
+                                } else if (field == "latest_flip_time (translated)") {
                                     tk_latest_flip_time_human = value;
-                                }
-
-                                if (field == "latest_flip_state") {
-                                    setToken("tk_latest_flip_state", value);
+                                } else if (field == "latest_flip_state") {
                                     tk_latest_flip_state = value;
-                                }
-
-                                // update status_message
-                                if (field == "status_message") {
-                                    setToken("tk_status_message", value);
+                                } else if (field == "priority") {
+                                    tk_priority = value;
+                                } else if (field == "data_host_state") {
+                                    tk_data_host_state = value;
+                                } else if (field == "data_monitored_state") {
+                                    tk_data_monitored_state = value;
+                                } else if (field == 'status_message') {
                                     tk_status_message = value;
                                 }
+
+                                // Dynamically manage priority color
+                                var tk_priority_class;
+                                if (tk_priority == "low") {
+                                    tk_priority_class = "title_low_priority";
+                                } else if (tk_priority == "medium") {
+                                    tk_priority_class = "title_medium_priority";
+                                } else if (tk_priority == "high") {
+                                    tk_priority_class = "title_high_priority";
+                                }
+
+                                // Dynamically manage buttons states
+                                if (tk_data_monitored_state == "enabled") {
+                                    document.getElementById("btn_enable_monitoring_host").disabled = true;
+                                    document.getElementById("btn_disable_monitoring_host").disabled = false;
+                                    tk_data_monitored_state_class = "title_green";
+                                } else {
+                                    document.getElementById("btn_enable_monitoring_host").disabled = false;
+                                    document.getElementById("btn_disable_monitoring_host").disabled = true;
+                                    tk_data_monitored_state_class = "title_grey";
+                                }
+
+                                // Dynamically manage state color
+                                if (tk_data_host_state == "green") {
+                                    tk_data_host_state_class = "title_green";
+                                    tk_data_host_status_message_class = "status_message_green";
+                                } else if (tk_data_host_state == "orange") {
+                                    tk_data_host_state_class = "title_orange";
+                                    tk_data_host_status_message_class = "status_message_orange";
+                                } else if (tk_data_host_state == "blue") {
+                                    tk_data_host_state_class = "title_blue";
+                                    tk_data_host_status_message_class = "status_message_blue";
+                                } else if (tk_data_host_state == "red") {
+                                    tk_data_host_state_class = "title_red";
+                                    tk_data_host_status_message_class = "status_message_red";
+                                }
+
+                                // Dynamically manage Ack button
+                                if (tk_data_host_state == "red") {
+                                    document.getElementById("btn_ack_data_host").disabled = false;
+                                } else {
+                                    document.getElementById("btn_ack_data_host").disabled = true;
+                                }
+
+                                // replace info panels
+                                $('#parent-data-host-main').html(
+                                    '<h1>Actions for data host: ' + tk_data_host + '</h1>'
+                                );
+
+                                $('#child-data-host-top-info1').html(
+                                    '<h3>lag event / lag ingestion: ([D+]HH:MM:SS) <span style="color: dodgerblue;">' + tk_data_lag_summary + '<span style="color: dodgerblue;">' +
+                                    '<h3>data_last_time_seen: <span style="color: dodgerblue;">' + tk_data_last_time_seen_human + '<span style="color: dodgerblue;">' +
+                                    '<h3>data_last_ingest: <span style="color: dodgerblue;">' + tk_data_last_ingest_human + '<span style="color: dodgerblue;">'
+                                );
+
+                                $('#child-data-host-top-info2').html(
+                                    '<h3>data_max_lag_allowed: <span style="color: dodgerblue;">' + tk_data_max_lag_allowed + '<span style="color: dodgerblue;">' +
+                                    '<h3>data_monitored_state:</b> <span class="' + tk_data_monitored_state_class + '">' + tk_data_monitored_state + '</span></h3>' +
+                                    '<h3>state:</b> <span class="' + tk_data_host_state_class + '">' + tk_data_host_state + '</span></p>'
+                                );
+
+                                $('#child-data-host-top-info3').html(
+                                    '<h3>latest_flip_time: <span style="color: dodgerblue;">' + tk_latest_flip_time_human + '<span style="color: dodgerblue;">' +
+                                    '<h3>latest_flip_state: <span style="color: dodgerblue;">' + tk_latest_flip_state + '<span style="color: dodgerblue;">' +
+                                    '<h3>priority:</b> <span class="' + tk_priority_class + '">' + tk_priority + '</span></p>'
+                                );
+
+                                $('#child-data-host-status-message').html(
+                                    '<div class="' + tk_data_host_status_message_class + '">' +
+                                    '<h2 style="font-weight: bold; color: darkslategray;">' + tk_status_message + '</h2>' +
+                                    '</div>'
+                                );
+
                             }
                         }
                     });
@@ -17031,6 +17487,14 @@ require([
                     },
                     data: JSON.stringify(record),
                     success: function(returneddata) {
+                        // notify
+                        var msg = "The entity " + tk_data_host + " has been updated successfully."
+                        notify(
+                            "success",
+                            "bottom",
+                            msg,
+                            "5"
+                        );
                         // Run the search again to update the table
                         searchDataHostsMain.startSearch();
                     },
@@ -17105,15 +17569,13 @@ require([
 
     // refresh data_host
     $("#btn_refresh_data_host").click(function(mode) {
-
         // notify
         notify(
             "info",
             "bottom",
-            "Refresh completed.",
+            "Refreshing entity, please wait...",
             "5"
         );
-
         searchSingleLagHost.startSearch();
         searchSingleLagByMetricsHost.startSearch();
         searchChartHostBaseSearch.startSearch();
@@ -17133,19 +17595,23 @@ require([
         // call update data host
         var tk_keyid = getToken("tk_keyid");
         updateDataHost(tk_keyid);
-    });
-
-    // refresh metric_host
-    $("#btn_refresh_metric_host").click(function(mode) {
-
-        // notify
         notify(
             "info",
             "bottom",
             "Refresh completed.",
             "5"
         );
+    });
 
+    // refresh metric_host
+    $("#btn_refresh_metric_host").click(function(mode) {
+        // notify
+        notify(
+            "info",
+            "bottom",
+            "Refreshing entity, please wait...",
+            "5"
+        );
         searchHostTableMetricHost.startSearch();
         searchSingleSLAMetricHostpct.startSearch();
         searchMetricHostMainAuditFlip.startSearch();
@@ -17155,6 +17621,12 @@ require([
         var tk_keyid = getToken("tk_keyid");
         // call update metric host
         updateMetricHost(tk_keyid);
+        notify(
+            "info",
+            "bottom",
+            "Refresh completed.",
+            "5"
+        );
     });
 
     $("#btn_enable_monitoring_metric_host").click(function(mode) {
@@ -17218,6 +17690,14 @@ require([
                     },
                     data: JSON.stringify(record),
                     success: function(returneddata) {
+                        // notify
+                        var msg = "The entity " + tk_metric_host + " has been updated successfully."
+                        notify(
+                            "success",
+                            "bottom",
+                            msg,
+                            "5"
+                        );
                         // Run the search again to update the table
                         searchMetricHostsMain.startSearch();
                     },
@@ -17530,6 +18010,14 @@ require([
                     },
                     data: JSON.stringify(record),
                     success: function(returneddata) {
+                        // notify
+                        var msg = "The entity " + tk_data_host + " has been updated successfully."
+                        notify(
+                            "success",
+                            "bottom",
+                            msg,
+                            "5"
+                        );
                         // Run the search again to update the table
                         searchDataHostsMain.startSearch();
                     },
@@ -17629,6 +18117,14 @@ require([
                     },
                     data: JSON.stringify(record),
                     success: function(returneddata) {
+                        // notify
+                        var msg = "The entity " + tk_metric_host + " has been updated successfully."
+                        notify(
+                            "success",
+                            "bottom",
+                            msg,
+                            "5"
+                        );
                         // Run the search again to update the table
                         searchMetricHostsMain.startSearch();
                     },
@@ -17712,15 +18208,14 @@ require([
                     // replace the textarea for modification requests
                     document.getElementById("input_update_comment").value = "update note";
                 }
-
                 // notify
+                var msg = "The entity " + tk_metric_host + " has been reset successfully."
                 notify(
-                    "info",
+                    "success",
                     "bottom",
-                    "Reset completed.",
+                    msg,
                     "5"
                 );
-
                 // call reset metric host
                 clearMetricHost(tk_metric_host, tk_comment);
                 searchHostTableMetricHost.startSearch();
@@ -17746,48 +18241,6 @@ require([
 
         var tk_keyid = getToken("tk_keyid");
         var tk_metric_host = getToken("tk_metric_host");
-        var tk_metric_index = getToken("tk_metric_index");
-        var tk_metric_category = getToken("tk_metric_category");
-        var tk_metric_details = getToken("tk_metric_details");
-        var tk_metric_last_lag_seen = getToken("tk_metric_last_lag_seen");
-        var tk_metric_first_time_seen = getToken("tk_metric_first_time_seen");
-        var tk_metric_last_time_seen = getToken("tk_metric_last_time_seen");
-        var tk_metric_host_state = getToken("tk_metric_host_state");
-        var tk_metric_tracker_runtime = getToken("tk_metric_tracker_runtime");
-        var tk_metric_previous_host_state = getToken(
-            "tk_metric_previous_host_state"
-        );
-        var tk_metric_previous_tracker_runtime = getToken(
-            "tk_metric_previous_tracker_runtime"
-        );
-        var tk_metric_monitored_state = "disabled";
-        var tk_latest_flip_state = getToken("tk_latest_flip_state");
-        var tk_latest_flip_time = getToken("tk_latest_flip_time");
-        var tk_priority = getToken("tk_priority");
-
-        // Create a dictionary to store the field names and values
-        var record = {
-            metric_host: tk_metric_host,
-            metric_index: tk_metric_index,
-            metric_category: tk_metric_category,
-            metric_details: tk_metric_details,
-            metric_last_lag_seen: tk_metric_last_lag_seen,
-            metric_first_time_seen: tk_metric_first_time_seen,
-            metric_last_time_seen: tk_metric_last_time_seen,
-            metric_monitored_state: tk_metric_monitored_state,
-            metric_host_state: tk_metric_host_state,
-            metric_tracker_runtime: tk_metric_tracker_runtime,
-            metric_previous_host_state: tk_metric_previous_host_state,
-            metric_previous_tracker_runtime: tk_metric_previous_tracker_runtime,
-            latest_flip_state: tk_latest_flip_state,
-            latest_flip_time: tk_latest_flip_time,
-            priority: tk_priority,
-        };
-
-        // Create the endpoint URL
-        var myendpoint_URl =
-            "/en-US/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_metric_host_monitoring/" +
-            tk_keyid;
 
         if (tk_keyid && tk_keyid.length) {
             $("#modal_entry_deletion").modal();
@@ -17831,66 +18284,95 @@ require([
                                 "update note";
                         }
 
-                        $.ajax({
-                            url: myendpoint_URl,
-                            type: "DELETE",
-                            async: true,
-                            contentType: "application/json",
-                            success: function(returneddata) {
-                                // Run the search again to update the table
-                                searchMetricHostsMain.startSearch();
+                        // Define the query
+                        var searchQuery =
+                            '| trackme url="/services/trackme/v1/metric_hosts/mh_delete_temporary" mode="delete" body="{\\"metric_host\\": \\"' +
+                            tk_metric_host +
+                            '\\", \\"update_comment\\": \\"' +
+                            tk_comment +
+                            '\\"}"';
 
-                                // Audit
-                                action = "success";
-                                change_type = "delete temporary";
-                                object = tk_metric_host;
-                                object_category = "metric_host";
-                                object_attrs = JSON.stringify(record, null, "\t");
-                                result = "N/A";
-                                comment = tk_comment;
-                                auditRecord(
-                                    action,
-                                    change_type,
-                                    object,
-                                    object_category,
-                                    object_attrs,
-                                    result,
-                                    comment
-                                );
+                        // Set the search parameters--specify a time range
+                        var searchParams = {
+                            earliest_time: "-5m",
+                            latest_time: "now",
+                        };
 
-                                // house cleaning
-                                myendpoint_URl = undefined;
-                                delete myendpoint_URl;
-                                tk_keyid = undefined;
-                                delete tk_keyid;
-                                return;
-                            },
-                            error: function(xhr, textStatus, error) {
-                                message = "Error Updating!" + xhr + textStatus + error;
+                        // Run a normal search that immediately returns the job's SID
+                        service.search(searchQuery, searchParams, function(err, job) {
 
-                                // Audit
-                                action = "failure";
-                                change_type = "delete temporary";
-                                object = tk_metric_host;
-                                object_category = "metric_host";
-                                object_attrs = JSON.stringify(record, null, "\t");
-                                result = message;
-                                comment = tk_comment;
-                                auditRecord(
-                                    action,
-                                    change_type,
-                                    object,
-                                    object_category,
-                                    object_attrs,
-                                    result,
-                                    comment
-                                );
+                            // spinner
+                            cssloader("Deleting entity...");
 
+                            // Shall the search fail before we can get properties
+                            if (job == null) {
+                                let errorStr = "Unknown Error!";
+                                if (
+                                    err &&
+                                    err.data &&
+                                    err.data.messages &&
+                                    err.data.messages[0]["text"]
+                                ) {
+                                    errorStr = err.data.messages[0]["text"];
+                                } else if (err && err.data && err.data.messages) {
+                                    errorStr = JSON.stringify(err.data.messages);
+                                }
+                                cssloaderremove();
                                 $("#modal_update_collection_failure_return")
                                     .find(".modal-error-message p")
-                                    .text(message);
+                                    .text(errorStr);
                                 $("#modal_update_collection_failure_return").modal();
-                            },
+                            } else {
+                                // Poll the status of the search job
+                                job.track({
+                                    period: 200,
+                                }, {
+                                    done: function(job) {
+
+                                        // notify
+                                        var msg = "The entity " + tk_metric_host + " has been temporary deleted."
+                                        notify(
+                                            "success",
+                                            "bottom",
+                                            msg,
+                                            "5"
+                                        );
+
+                                        // Run the search again to update the table
+                                        searchMetricHostsMain.startSearch();
+
+                                        // remove spinner
+                                        cssloaderremove();
+                                    },
+                                    failed: function(properties) {
+                                        let errorStr = "Unknown Error!";
+                                        if (
+                                            properties &&
+                                            properties._properties &&
+                                            properties._properties.messages &&
+                                            properties._properties.messages[0]["text"]
+                                        ) {
+                                            errorStr = properties._properties.messages[0]["text"];
+                                        } else if (
+                                            properties &&
+                                            properties._properties &&
+                                            properties._properties.messages
+                                        ) {
+                                            errorStr = JSON.stringify(properties._properties.messages);
+                                        }
+                                        cssloaderremove();
+                                        $("#modal_update_collection_failure_return")
+                                            .find(".modal-error-message p")
+                                            .text(errorStr);
+                                        $("#modal_update_collection_failure_return").modal();
+                                    },
+                                    error: function(err) {
+                                        done(err);
+                                        cssloaderremove();
+                                        $("#modal_update_collection_failure").modal();
+                                    },
+                                });
+                            }
                         });
                     });
                 });
@@ -17934,66 +18416,95 @@ require([
                                 "update note";
                         }
 
-                        $.ajax({
-                            url: myendpoint_URl,
-                            type: "DELETE",
-                            async: true,
-                            contentType: "application/json",
-                            success: function(returneddata) {
-                                // Run the search again to update the table
-                                searchMetricHostsMain.startSearch();
+                        // Define the query
+                        var searchQuery =
+                            '| trackme url="/services/trackme/v1/metric_hosts/mh_delete_permanent" mode="delete" body="{\\"metric_host\\": \\"' +
+                            tk_metric_host +
+                            '\\", \\"update_comment\\": \\"' +
+                            tk_comment +
+                            '\\"}"';
 
-                                // Audit
-                                action = "success";
-                                change_type = "delete permanent";
-                                object = tk_metric_host;
-                                object_category = "metric_host";
-                                object_attrs = JSON.stringify(record, null, "\t");
-                                result = "N/A";
-                                comment = tk_comment;
-                                auditRecord(
-                                    action,
-                                    change_type,
-                                    object,
-                                    object_category,
-                                    object_attrs,
-                                    result,
-                                    comment
-                                );
+                        // Set the search parameters--specify a time range
+                        var searchParams = {
+                            earliest_time: "-5m",
+                            latest_time: "now",
+                        };
 
-                                // house cleaning
-                                myendpoint_URl = undefined;
-                                delete myendpoint_URl;
-                                tk_keyid = undefined;
-                                delete tk_keyid;
-                                return;
-                            },
-                            error: function(xhr, textStatus, error) {
-                                message = "Error Updating!" + xhr + textStatus + error;
+                        // Run a normal search that immediately returns the job's SID
+                        service.search(searchQuery, searchParams, function(err, job) {
 
-                                // Audit
-                                action = "failure";
-                                change_type = "delete permanent";
-                                object = tk_metric_host;
-                                object_category = "metric_host";
-                                object_attrs = JSON.stringify(record, null, "\t");
-                                result = message;
-                                comment = tk_comment;
-                                auditRecord(
-                                    action,
-                                    change_type,
-                                    object,
-                                    object_category,
-                                    object_attrs,
-                                    result,
-                                    comment
-                                );
+                            // spinner
+                            cssloader("Deleting entity...");
 
+                            // Shall the search fail before we can get properties
+                            if (job == null) {
+                                let errorStr = "Unknown Error!";
+                                if (
+                                    err &&
+                                    err.data &&
+                                    err.data.messages &&
+                                    err.data.messages[0]["text"]
+                                ) {
+                                    errorStr = err.data.messages[0]["text"];
+                                } else if (err && err.data && err.data.messages) {
+                                    errorStr = JSON.stringify(err.data.messages);
+                                }
+                                cssloaderremove();
                                 $("#modal_update_collection_failure_return")
                                     .find(".modal-error-message p")
-                                    .text(message);
+                                    .text(errorStr);
                                 $("#modal_update_collection_failure_return").modal();
-                            },
+                            } else {
+                                // Poll the status of the search job
+                                job.track({
+                                    period: 200,
+                                }, {
+                                    done: function(job) {
+
+                                        // notify
+                                        var msg = "The entity " + tk_metric_host + " has been temporary deleted."
+                                        notify(
+                                            "success",
+                                            "bottom",
+                                            msg,
+                                            "5"
+                                        );
+
+                                        // Run the search again to update the table
+                                        searchMetricHostsMain.startSearch();
+
+                                        // remove spinner
+                                        cssloaderremove();
+                                    },
+                                    failed: function(properties) {
+                                        let errorStr = "Unknown Error!";
+                                        if (
+                                            properties &&
+                                            properties._properties &&
+                                            properties._properties.messages &&
+                                            properties._properties.messages[0]["text"]
+                                        ) {
+                                            errorStr = properties._properties.messages[0]["text"];
+                                        } else if (
+                                            properties &&
+                                            properties._properties &&
+                                            properties._properties.messages
+                                        ) {
+                                            errorStr = JSON.stringify(properties._properties.messages);
+                                        }
+                                        cssloaderremove();
+                                        $("#modal_update_collection_failure_return")
+                                            .find(".modal-error-message p")
+                                            .text(errorStr);
+                                        $("#modal_update_collection_failure_return").modal();
+                                    },
+                                    error: function(err) {
+                                        done(err);
+                                        cssloaderremove();
+                                        $("#modal_update_collection_failure").modal();
+                                    },
+                                });
+                            }
                         });
                     });
                 });
@@ -18326,15 +18837,14 @@ require([
                     // replace the textarea for modification requests
                     document.getElementById("input_update_comment").value = "update note";
                 }
-
                 // notify
+                var msg = "The entity " + tk_data_host + " has been reset successfully."
                 notify(
-                    "info",
+                    "success",
                     "bottom",
-                    "Reset completed.",
+                    msg,
                     "5"
                 );
-
                 // call reset data host
                 var tk_data_host = getToken("tk_data_host");
                 clearDataHost(tk_data_host, tk_comment);
@@ -18375,81 +18885,6 @@ require([
         // When the Submit button is clicked, get all the form fields by accessing token values
         var tk_keyid = getToken("tk_keyid");
         var tk_data_host = getToken("tk_data_host");
-        var tk_data_index = getToken("tk_data_index");
-        var tk_data_sourcetype = getToken("tk_data_sourcetype");
-        var tk_data_host_st_summary = getToken("tk_data_host_st_summary");
-        var tk_data_host_alerting_policy = getToken(
-            "tk_data_host_alerting_policy"
-        );
-        var tk_data_last_lag_seen = getToken("tk_data_last_lag_seen");
-        var tk_data_last_ingestion_lag_seen = getToken(
-            "tk_data_last_ingestion_lag_seen"
-        );
-        var tk_data_eventcount = getToken("tk_data_eventcount");
-        var tk_data_first_time_seen = getToken("tk_data_first_time_seen");
-        var tk_data_last_time_seen = getToken("tk_data_last_time_seen");
-        var tk_data_last_ingest = getToken("tk_data_last_ingest");
-        var tk_data_max_lag_allowed = getToken("tk_data_max_lag_allowed");
-        var tk_data_lag_alert_kpis = getToken("tk_data_lag_alert_kpis");
-        var tk_data_monitoring_wdays = getToken("tk_data_monitoring_wdays");
-        var tk_data_monitored_state = getToken("tk_data_monitored_state");
-        var tk_data_override_lagging_class = getToken(
-            "tk_data_override_lagging_class"
-        );
-        var tk_outliermineventcount = getToken("tk_outliermineventcount");
-        var tk_outlierlowerthresholdmultiplier = getToken(
-            "tk_outlierlowerthresholdmultiplier"
-        );
-        var tk_outlierupperthresholdmultiplier = getToken(
-            "tk_outlierupperthresholdmultiplier"
-        );
-        var tk_outlieralertonupper = getToken("tk_outlieralertonupper");
-        var tk_outlier_period = getToken("tk_outlier_period");
-        var tk_outlier_span = getToken("tk_outlier_span");
-        var tk_isoutlier = getToken("tk_isoutlier");
-        var tk_enable_behaviour_analytic = getToken(
-            "tk_enable_behaviour_analytic"
-        );
-        var tk_latest_flip_state = getToken("tk_latest_flip_state");
-        var tk_latest_flip_time = getToken("tk_latest_flip_time");
-        var tk_priority = getToken("tk_priority");
-
-        // Create a dictionary to store the field names and values
-        var record = {
-            object_category: "data_host",
-            data_host: tk_data_host,
-            data_index: tk_data_index,
-            data_sourcetype: tk_data_sourcetype,
-            data_host_st_summary: tk_data_host_st_summary,
-            data_host_alerting_policy: tk_data_host_alerting_policy,
-            data_last_lag_seen: tk_data_last_lag_seen,
-            data_last_ingestion_lag_seen: tk_data_last_ingestion_lag_seen,
-            data_eventcount: tk_data_eventcount,
-            data_first_time_seen: tk_data_first_time_seen,
-            data_last_time_seen: tk_data_last_time_seen,
-            data_last_ingest: tk_data_last_ingest,
-            data_max_lag_allowed: tk_data_max_lag_allowed,
-            data_lag_alert_kpis: tk_data_lag_alert_kpis,
-            data_monitored_state: tk_data_monitored_state,
-            data_monitoring_wdays: tk_data_monitoring_wdays,
-            data_override_lagging_class: tk_data_override_lagging_class,
-            OutlierMinEventCount: tk_outliermineventcount,
-            OutlierLowerThresholdMultiplier: tk_outlierlowerthresholdmultiplier,
-            OutlierUpperThresholdMultiplier: tk_outlierupperthresholdmultiplier,
-            OutlierAlertOnUpper: tk_outlieralertonupper,
-            OutlierTimePeriod: tk_outlier_period,
-            OutlierSpan: tk_outlier_span,
-            isOutlier: tk_isoutlier,
-            enable_behaviour_analytic: tk_enable_behaviour_analytic,
-            latest_flip_state: tk_latest_flip_state,
-            latest_flip_time: tk_latest_flip_time,
-            priority: tk_priority,
-        };
-
-        // Create the endpoint URL
-        var myendpoint_URl =
-            "/en-US/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_host_monitoring/" +
-            tk_keyid;
 
         if (tk_keyid && tk_keyid.length) {
             $("#modal_entry_deletion").modal();
@@ -18493,66 +18928,95 @@ require([
                                 "update note";
                         }
 
-                        $.ajax({
-                            url: myendpoint_URl,
-                            type: "DELETE",
-                            async: true,
-                            contentType: "application/json",
-                            success: function(returneddata) {
-                                // Run the search again to update the table
-                                searchDataHostsMain.startSearch();
+                        // Define the query
+                        var searchQuery =
+                            '| trackme url="/services/trackme/v1/data_hosts/dh_delete_temporary" mode="delete" body="{\\"data_host\\": \\"' +
+                            tk_data_host +
+                            '\\", \\"update_comment\\": \\"' +
+                            tk_comment +
+                            '\\"}"';
 
-                                // Audit
-                                action = "success";
-                                change_type = "delete temporary";
-                                object = tk_data_host;
-                                object_category = "data_host";
-                                object_attrs = JSON.stringify(record, null, "\t");
-                                result = "N/A";
-                                comment = tk_comment;
-                                auditRecord(
-                                    action,
-                                    change_type,
-                                    object,
-                                    object_category,
-                                    object_attrs,
-                                    result,
-                                    comment
-                                );
+                        // Set the search parameters--specify a time range
+                        var searchParams = {
+                            earliest_time: "-5m",
+                            latest_time: "now",
+                        };
 
-                                // house cleaning
-                                myendpoint_URl = undefined;
-                                delete myendpoint_URl;
-                                tk_keyid = undefined;
-                                delete tk_keyid;
-                                return;
-                            },
-                            error: function(xhr, textStatus, error) {
-                                message = "Error Updating!" + xhr + textStatus + error;
+                        // Run a normal search that immediately returns the job's SID
+                        service.search(searchQuery, searchParams, function(err, job) {
 
-                                // Audit
-                                action = "failure";
-                                change_type = "delete temporary";
-                                object = tk_data_host;
-                                object_category = "data_host";
-                                object_attrs = JSON.stringify(record, null, "\t");
-                                result = message;
-                                comment = tk_comment;
-                                auditRecord(
-                                    action,
-                                    change_type,
-                                    object,
-                                    object_category,
-                                    object_attrs,
-                                    result,
-                                    comment
-                                );
+                            // spinner
+                            cssloader("Deleting entity...");
 
+                            // Shall the search fail before we can get properties
+                            if (job == null) {
+                                let errorStr = "Unknown Error!";
+                                if (
+                                    err &&
+                                    err.data &&
+                                    err.data.messages &&
+                                    err.data.messages[0]["text"]
+                                ) {
+                                    errorStr = err.data.messages[0]["text"];
+                                } else if (err && err.data && err.data.messages) {
+                                    errorStr = JSON.stringify(err.data.messages);
+                                }
+                                cssloaderremove();
                                 $("#modal_update_collection_failure_return")
                                     .find(".modal-error-message p")
-                                    .text(message);
+                                    .text(errorStr);
                                 $("#modal_update_collection_failure_return").modal();
-                            },
+                            } else {
+                                // Poll the status of the search job
+                                job.track({
+                                    period: 200,
+                                }, {
+                                    done: function(job) {
+
+                                        // notify
+                                        var msg = "The entity " + tk_data_host + " has been temporary deleted."
+                                        notify(
+                                            "success",
+                                            "bottom",
+                                            msg,
+                                            "5"
+                                        );
+
+                                        // Run the search again to update the table
+                                        searchDataHostsMain.startSearch();
+
+                                        // remove spinner
+                                        cssloaderremove();
+                                    },
+                                    failed: function(properties) {
+                                        let errorStr = "Unknown Error!";
+                                        if (
+                                            properties &&
+                                            properties._properties &&
+                                            properties._properties.messages &&
+                                            properties._properties.messages[0]["text"]
+                                        ) {
+                                            errorStr = properties._properties.messages[0]["text"];
+                                        } else if (
+                                            properties &&
+                                            properties._properties &&
+                                            properties._properties.messages
+                                        ) {
+                                            errorStr = JSON.stringify(properties._properties.messages);
+                                        }
+                                        cssloaderremove();
+                                        $("#modal_update_collection_failure_return")
+                                            .find(".modal-error-message p")
+                                            .text(errorStr);
+                                        $("#modal_update_collection_failure_return").modal();
+                                    },
+                                    error: function(err) {
+                                        done(err);
+                                        cssloaderremove();
+                                        $("#modal_update_collection_failure").modal();
+                                    },
+                                });
+                            }
                         });
                     });
                 });
@@ -18596,66 +19060,95 @@ require([
                                 "update note";
                         }
 
-                        $.ajax({
-                            url: myendpoint_URl,
-                            type: "DELETE",
-                            async: true,
-                            contentType: "application/json",
-                            success: function(returneddata) {
-                                // Run the search again to update the table
-                                searchDataHostsMain.startSearch();
+                        // Define the query
+                        var searchQuery =
+                            '| trackme url="/services/trackme/v1/data_hosts/dh_delete_permanent" mode="delete" body="{\\"data_host\\": \\"' +
+                            tk_data_host +
+                            '\\", \\"update_comment\\": \\"' +
+                            tk_comment +
+                            '\\"}"';
 
-                                // Audit
-                                action = "success";
-                                change_type = "delete permanent";
-                                object = tk_data_host;
-                                object_category = "data_host";
-                                object_attrs = JSON.stringify(record, null, "\t");
-                                result = "N/A";
-                                comment = tk_comment;
-                                auditRecord(
-                                    action,
-                                    change_type,
-                                    object,
-                                    object_category,
-                                    object_attrs,
-                                    result,
-                                    comment
-                                );
+                        // Set the search parameters--specify a time range
+                        var searchParams = {
+                            earliest_time: "-5m",
+                            latest_time: "now",
+                        };
 
-                                // house cleaning
-                                myendpoint_URl = undefined;
-                                delete myendpoint_URl;
-                                tk_keyid = undefined;
-                                delete tk_keyid;
-                                return;
-                            },
-                            error: function(xhr, textStatus, error) {
-                                message = "Error Updating!" + xhr + textStatus + error;
+                        // Run a normal search that immediately returns the job's SID
+                        service.search(searchQuery, searchParams, function(err, job) {
 
-                                // Audit
-                                action = "failure";
-                                change_type = "delete permanent";
-                                object = tk_data_host;
-                                object_category = "data_host";
-                                object_attrs = JSON.stringify(record, null, "\t");
-                                result = message;
-                                comment = tk_comment;
-                                auditRecord(
-                                    action,
-                                    change_type,
-                                    object,
-                                    object_category,
-                                    object_attrs,
-                                    result,
-                                    comment
-                                );
+                            // spinner
+                            cssloader("Deleting entity...");
 
+                            // Shall the search fail before we can get properties
+                            if (job == null) {
+                                let errorStr = "Unknown Error!";
+                                if (
+                                    err &&
+                                    err.data &&
+                                    err.data.messages &&
+                                    err.data.messages[0]["text"]
+                                ) {
+                                    errorStr = err.data.messages[0]["text"];
+                                } else if (err && err.data && err.data.messages) {
+                                    errorStr = JSON.stringify(err.data.messages);
+                                }
+                                cssloaderremove();
                                 $("#modal_update_collection_failure_return")
                                     .find(".modal-error-message p")
-                                    .text(message);
+                                    .text(errorStr);
                                 $("#modal_update_collection_failure_return").modal();
-                            },
+                            } else {
+                                // Poll the status of the search job
+                                job.track({
+                                    period: 200,
+                                }, {
+                                    done: function(job) {
+
+                                        // notify
+                                        var msg = "The entity " + tk_data_host + " has been permanently deleted."
+                                        notify(
+                                            "success",
+                                            "bottom",
+                                            msg,
+                                            "5"
+                                        );
+
+                                        // Run the search again to update the table
+                                        searchDataHostsMain.startSearch();
+
+                                        // remove spinner
+                                        cssloaderremove();
+                                    },
+                                    failed: function(properties) {
+                                        let errorStr = "Unknown Error!";
+                                        if (
+                                            properties &&
+                                            properties._properties &&
+                                            properties._properties.messages &&
+                                            properties._properties.messages[0]["text"]
+                                        ) {
+                                            errorStr = properties._properties.messages[0]["text"];
+                                        } else if (
+                                            properties &&
+                                            properties._properties &&
+                                            properties._properties.messages
+                                        ) {
+                                            errorStr = JSON.stringify(properties._properties.messages);
+                                        }
+                                        cssloaderremove();
+                                        $("#modal_update_collection_failure_return")
+                                            .find(".modal-error-message p")
+                                            .text(errorStr);
+                                        $("#modal_update_collection_failure_return").modal();
+                                    },
+                                    error: function(err) {
+                                        done(err);
+                                        cssloaderremove();
+                                        $("#modal_update_collection_failure").modal();
+                                    },
+                                });
+                            }
                         });
                     });
                 });

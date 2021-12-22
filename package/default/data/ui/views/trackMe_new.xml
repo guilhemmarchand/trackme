@@ -3462,8 +3462,7 @@
 								<div>
 									<div class="modal-header modal-header-info">
 										<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-										<div id="parent-data-source-main">
-											<h1>Actions for data source: </h1>
+										<div id="parent-data-source-main" style="margin-bottom: -18px;">
 										</div>
 									</div>
 									<div class="modal-body">
@@ -3484,49 +3483,10 @@
                                         </style>
 										<div class="parent-data-source-top-info">
 											<div id="child-data-source-top-info1">
-												<p>
-													<b>data_index:</b> value
-												</p>
-												<p>
-													<b>data_sourcetype:</b> value
-												</p>
-												<p>
-													<b>lag event / lag ingestion: ([D+]HH:MM:SS)</b> value
-												</p>
-												<p>
-													<b>data_last_time_seen:</b> value
-												</p>
 											</div>
 											<div id="child-data-source-top-info2">
-												<p>
-													<b>data_last_ingest:</b> value
-												</p>
-												<p>
-													<b>data_max_lag_allowed:</b> value
-												</p>
-												<p>
-													<b>data_monitored_state:</b>
-													<span class="value">value</span>
-												</p>
-												<p>
-													<b>data_monitoring_level:</b> value
-												</p>
 											</div>
 											<div id="child-data-source-top-info3">
-												<p>
-													<b>latest_flip_time:</b> value
-												</p>
-												<p>
-													<b>latest_flip_state:</b> value
-												</p>
-												<p>
-													<b>state:</b>
-													<span class="value">value</span>
-												</p>
-												<p>
-													<b>priority:</b>
-													<span class="value">value</span>
-												</p>
 											</div>
 										</div>
 										<div style="margin-left: 10px; margin-top: -15px;">
@@ -3563,19 +3523,19 @@
                             </style>
 							<div id="data_source_overview" style="display: none">
 								<div class="parent-data-source-overview-single">
-									<div>
+									<div style="padding: 10px;">
 										<div id="elementSingleLagPerc95" class="view-elements"></div>
 										<div id="resultsLinkelementSingleLagPerc95" class="search-elements"></div>
 									</div>
-									<div>
+									<div style="padding: 10px;">
 										<div id="elementSingleLagAvg" class="view-elements"></div>
 										<div id="resultsLinkelementSingleLagAvg" class="search-elements"></div>
 									</div>
-									<div>
+									<div style="padding: 10px;">
 										<div id="elementSingleEventLag" class="view-elements"></div>
 										<div id="resultsLinkelementSingleEventLag" class="search-elements"></div>
 									</div>
-									<div>
+									<div style="padding: 10px;">
 										<div id="elementSingleSLApct" class="view-elements"></div>
 										<div id="resultsLinkelementSingleSLApct" class="search-elements"></div>
 									</div>
@@ -3632,8 +3592,10 @@
 									</button>
 								</div>
 								<div style="padding: 20px;">
-									<div id="elementOutlierSimulation" class="view-elements"></div>
-									<div id="resultsLinkelementOutlierSimulation" class="search-elements"></div>
+									<div style="padding: 10px;">
+										<div id="elementOutlierSimulation" class="view-elements"></div>
+										<div id="resultsLinkelementOutlierSimulation" class="search-elements"></div>
+									</div>
 								</div>
 								<style>
                                     .parent-data-source-overview-simulation-timeinputs {
@@ -3667,12 +3629,12 @@
 							</div>
 							<div id="data_source_data_parsing" style="display: none">
 								<div style="padding: 20px;">
-									<div id="divDataSourceParsingErrorsFound">
+									<div id="divDataSourceParsingErrorsFound" style="display: none;">
 										<h3>CAUTION: Indexing time parsing errors happen on the sourcetype level, if this sourcetype is indexing to more than one index, these errors may not apply to this index / sourcetype combination</h3>
 										<div id="elementSearchDataSourceParsingQualityChart" class="view-elements"></div>
                                         <div id="resultsLinkelementSearchDataSourceParsingQualityChart" class="search-elements"></div>
 									</div>
-									<div id="divDataSourceParsingErrorsNotFound">
+									<div id="divDataSourceParsingErrorsNotFound" style="display: none;">
 										<div class="status_message_green">
 											<h2 style="font-weight: bold; color: darkslategray;">No indexing parsing errors detected within the period</h2>
 										</div>
@@ -3724,32 +3686,36 @@
 
 							<div id="data_source_flipping" style="display: none">
 
-                                <div style="padding: 20px;">
+                                <div>
                                     <div id="divDataSourceFlippingChart" style="display: none">
-                                        <h3>Flip over time</h3>
-                                        <div id="chartAuditFlipDataSourceOverTime" class="view-elements"></div>
-                                        <div id="resultsLinkchartAuditFlipDataSourceOverTime" class="search-elements"></div>
+										<div style="padding: 20px;">
+											<h3>Flip over time</h3>
+											<div id="chartAuditFlipDataSourceOverTime" class="view-elements"></div>
+											<div id="resultsLinkchartAuditFlipDataSourceOverTime" class="search-elements"></div>
+										</div>
                                     </div>
                                 </div>
 
-                                <div style="padding: 20px;">
+                                <div>
                                     <div id="divDataSourceFlippingTable" style="display: none">
-                                        <div id="elementMainTableAuditFlipDataSource" class="view-elements">
-                                        <div id="resultsLinkelementMainTableAuditFlipDataSource" class="search-elements"></div>
+										<div style="padding: 20px;">
+											<div id="elementMainTableAuditFlipDataSource" class="view-elements"></div>
+											<div id="resultsLinkelementMainTableAuditFlipDataSource" class="search-elements"></div>
                                         </div>
                                     </div>
                                 </div>
 
-                                <div style="padding: 20px;">
+                                <div>
                                     <div id="divDataSourceFlippingNotFound" style="display: none">
-                                        <div class="status_message_green">
-                                            <h2 style="font-weight: bold; color: darkslategray;">No flipping status detected within the period</h2>
-                                        </div>
+										<div style="padding: 20px;">
+											<div class="status_message_green">
+												<h2 style="font-weight: bold; color: darkslategray;">No flipping status detected within the period</h2>
+											</div>
+										</div>
                                     </div>
                                 </div>
 
                             </div>
-
 
 							<div id="data_source_status" style="display: none">
                                 <div style="padding: 20px;">
@@ -3782,14 +3748,14 @@
                                             <h2 style="font-weight: bold; color: darkslategray;">No changes detected within the period</h2>
                                         </div>
                                     </div>
-                                </div>
-                            
+                                </div>                        
                             </div>
-
 							<div id="data_source_timepicker" style="display: none">
-								<div id="inputLinkTime"></div>
-							</div>
-							<div class="modal-footer">
+								<div style="padding: 20px;">
+									<div id="inputLinkTime"></div>
+								</div>
+							</div>							
+							<div class="modal-footer" style="margin-top: -30px;">
 								<div style="margin-right: 15px; float: left;">
 									<button type="submit" id="btn_refresh_data_source" role="button" class="btn btn-outline-primary pull-left">
 										<span class="glyphicon glyphicon-remove"></span>Refresh
@@ -5287,7 +5253,7 @@
 							<div>
 								<div>
 									<div class="modal-header modal-header-primary">
-										<div id="parent-data-host-main">
+										<div id="parent-data-host-main" style="margin-bottom: -18px;">
 										</div>
 										<button type="button" class="close" data-dismiss="modal"></button>
 									</div>
@@ -5317,7 +5283,7 @@
 											<div class="imgheader36">
 												<img style="float: left; margin: 0px 15px 15px 0px;" src="../../static/app/trackme/icons/tags.png"/>
 												<h3>
-													<a id="link_data_host_tags" data-toggle="modal" data-target="#modal_data_host_tags">Show object tags</a>
+													<a id="link_data_host_tags" data-toggle="modal" data-dismiss="modal" data-target="#modal_data_host_tags">Show object tags</a>
 												</h3>
 											</div>
 										</div>
@@ -5349,54 +5315,54 @@
                             </style>
 							<div id="data_host_overview" style="display: none">
 								<div class="parent-data-host-overview-single">
-									<div>
-										<div id="elementSingleLagHostPerc95">
+									<div style="padding: 10px;">
+										<div id="elementSingleLagHostPerc95" class="view-elements">
 										</div>
-										<div id="resultsLinkelementSingleLagHostPerc95">
+										<div id="resultsLinkelementSingleLagHostPerc95" class="search-elements">
 										</div>
 									</div>
-									<div>
-										<div id="elementSingleLagHostAvg">
+									<div style="padding: 10px;">
+										<div id="elementSingleLagHostAvg" class="view-elements">
 										</div>
-										<div id="resultsLinkelementSingleLagHostAvg">
+										<div id="resultsLinkelementSingleLagHostAvg" class="search-elements">
 										</div>											
 									</div>
-									<div>
-										<div id="elementSingleLagHostEventLag">
+									<div style="padding: 10px;">
+										<div id="elementSingleLagHostEventLag" class="view-elements">
 										</div>
-										<div id="resultsLinkelementSingleLagHostEventLag">
+										<div id="resultsLinkelementSingleLagHostEventLag" class="search-elements">
 										</div>
 									</div>
-									<div>
-										<div id="elementSingleSLAHostpct">
+									<div style="padding: 10px;">
+										<div id="elementSingleSLAHostpct" class="view-elements">
 										</div>
-										<div id="resultsLinkelementSingleLagHostEventLag">
+										<div id="resultsLinkelementSingleSLAHostpct" class="search-elements">
 										</div>
 									</div>
 								</div>
 								<div class="parent-data-host-overview-pie">
 									<div style="padding: 20px;">
 										<div>
-											<div id="elementChartHostIndexes">
+											<div id="elementChartHostIndexes" class="view-elements">
 											</div>
-											<div id="resultsLinkelementChartHostIndexes">
+											<div id="resultsLinkelementChartHostIndexes" class="search-elements">
 											</div>
 										</div>
 									</div>
 									<div style="padding: 20px;">
 										<div>
-											<div id="elementChartHostSourcetypes">
+											<div id="elementChartHostSourcetypes" class="view-elements">
 											</div>
-											<div id="resultsLinkelementChartHostSourcetypes">
+											<div id="resultsLinkelementChartHostSourcetypes" class="search-elements">
 											</div>											
 										</div>
 									</div>
 								</div>
 								<div style="padding: 20px;">
 									<div>
-										<div id="elementChartLagHostOverTime">
+										<div id="elementChartLagHostOverTime" class="view-elements">
 										</div>
-										<div id="resultLinkelementChartLagHostOverTime">
+										<div id="resultsLinkelementChartLagHostOverTime" class="search-elements">
 										</div>										
 									</div>
 								</div>
@@ -5449,7 +5415,7 @@
 									</button>
 								</div>
 								<div style="padding: 20px;">
-									<div>
+									<div style="padding: 10px;">
 										<div id="elementOutlierSimulationDataHost" class="view-elements">
 										</div>
 										<div id="resultsLinkelementOutlierSimulationDataHost" class="search-elements">
@@ -5478,11 +5444,11 @@
 
 							<div id="data_host_data_parsing" style="display: none">
 								<div style="padding: 20px;">
-									<div id="divDataHostParsingErrorsFound">
+									<div id="divDataHostParsingErrorsFound" style="display: none;">
 										<div id="elementSearchDataHostParsingQualityChart" class="view-elements"></div>
                                         <div id="resultsLinkelementSearchDataHostParsingQualityChart" class="search-elements"></div>
 									</div>
-									<div id="divDataSourceParsingErrorsNotFound">
+									<div id="divDataHostParsingErrorsNotFound" style="display: none;">
 										<div class="status_message_green">
 											<h2 style="font-weight: bold; color: darkslategray;">No indexing parsing errors detected within the period</h2>
 										</div>
@@ -5531,32 +5497,36 @@
 
 							<div id="data_host_flipping" style="display: none">
 
-                                <div style="padding: 20px;">
+                                <div>
                                     <div id="divDataHostFlippingChart" style="display: none">
-                                        <h3>Flip over time</h3>
-                                        <div id="chartAuditFlipDataHostOverTime" class="view-elements"></div>
-                                        <div id="resultsLinkchartAuditFlipDataSHostOverTime" class="search-elements"></div>
+										<div style="padding: 20px;">
+											<h3>Flip over time</h3>
+											<div id="chartAuditFlipDataHostOverTime" class="view-elements"></div>
+											<div id="resultsLinkchartAuditFlipDataHostOverTime" class="search-elements"></div>
+										</div>
                                     </div>
                                 </div>
 
-                                <div style="padding: 20px;">
+                                <div>
                                     <div id="divDataHostFlippingTable" style="display: none">
-                                        <div id="elementMainTableAuditFlipDataHost" class="view-elements">
-                                        <div id="resultsLinkelementMainTableAuditFlipDataHost" class="search-elements"></div>
-                                        </div>
+										<div style="padding: 20px;">
+											<div id="elementMainTableAuditFlipDataHost" class="view-elements"></div>
+											<div id="resultsLinkelementMainTableAuditFlipDataHost" class="search-elements"></div>
+										</div>
                                     </div>
                                 </div>
 
-                                <div style="padding: 20px;">
+                                <div>
                                     <div id="divDataHostFlippingNotFound" style="display: none">
-                                        <div class="status_message_green">
-                                            <h2 style="font-weight: bold; color: darkslategray;">No flipping status detected within the period</h2>
-                                        </div>
+										<div style="padding: 20px;">
+											<div class="status_message_green">
+												<h2 style="font-weight: bold; color: darkslategray;">No flipping status detected within the period</h2>
+											</div>
+										</div>
                                     </div>
                                 </div>
 
                             </div>
-
 
 							<div id="data_host_status" style="display: none">
                                 <div style="padding: 20px;">
@@ -5594,10 +5564,12 @@
                             </div>
 
 							<div id="data_host_timepicker" style="display: none">
-								<div id="inputLinkTimeHost"></div>
+								<div style="padding: 20px;">
+									<div id="inputLinkTimeHost"></div>
+								</div>
 							</div>
 
-							<div class="modal-footer">
+							<div class="modal-footer" style="margin-top: -30px;">
 								<div style="margin-right: 15px; float: left;">
 									<button type="submit" id="btn_refresh_data_host" role="button" class="btn btn-outline-secondary pull-left">
 										<span class="glyphicon glyphicon-remove"></span>Refresh
@@ -5612,7 +5584,7 @@
 									<a class="btn btn-outline-primary" id="btn_search_data_host" target="_blank" href="search_data_source_url" role="button">Search</a>
 								</div>
 								<div style="margin-right: 15px; float: right;">
-									<button type="submit" id="btn_modify_data_host" role="button" class="btn btn-outline-danger">
+									<button type="submit" id="btn_modify_data_host" role="button" data-dismiss="modal" class="btn btn-outline-danger">
 										<span class="glyphicon glyphicon-remove"></span>Modify
 									</button>
 								</div>
@@ -5637,15 +5609,257 @@
 									</button>
 								</div>
 								<div class="btn_ack" style="margin-right: 15px; float: right;">
-									<button type="submit" id="btn_ack_data_host" role="button" class="btn btn-outline-primary">
+									<button type="submit" id="btn_ack_data_host" role="button" data-dismiss="modal" class="btn btn-outline-primary">
 										<span class="glyphicon glyphicon-remove"></span>Acknowledge alert
 									</button>
 								</div>
 								<div class="btn_smart_status_data_host" style="margin-right: 15px; float: right;">
-									<button type="submit" id="btn_smart_status_data_host" role="button" class="btn btn-outline-primary">
+									<button type="submit" id="btn_smart_status_data_host" role="button" data-dismiss="modal" class="btn btn-outline-primary">
 										<span class="glyphicon glyphicon-remove"></span>Smart Status
 									</button>
 								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<!--
+                Object tags
+                -->
+				<!-- Modal window define for identity card association -->
+				<div class="modal fade custom-modal-80" id="modal_data_host_tags" role="dialog">
+					<div class="modal-dialog">
+						<!-- Modal content-->
+						<div class="modal-content">
+							<!-- This is required to get the token substitutions without affecting the buttons actions in js -->
+							<div>
+								<div>
+									<div class="modal-header modal-header-info">
+										<h1>Enrichment tags:</h1>
+										<button type="button" class="close" data-dismiss="modal"></button>
+									</div>
+								</div>
+							</div>
+							<div class="modal-body">
+								<div>
+									<div class="imgheader36">
+										<span>
+											<img style="float: left; margin: 0px 15px 15px 0px;" src="../../static/app/trackme/icons/tags.png"/>
+										</span>
+										<h3>Object tags:</h3>
+									</div>
+								</div>
+								<div class="view-main" style="margin-top: 30px;">
+									<div id="elementGetTagsDataHost" class="view-elements"></div>
+									<div id="resultsLinkelementGetTagsDataHost" class="search-elements"></div>												
+								</div>
+							</div>
+							<div class="modal-footer">
+								<button type="submit" id="btn_back_data_host_tags" class="btn btn-outline-primary pull-left" data-dismiss="modal">
+									<span class="glyphicon glyphicon-remove"></span> Back
+								</button>
+							</div>
+						</div>
+					</div>
+				</div>
+				<!-- data host monitoring -->
+				<!-- Modal window for data source unified -->
+				<div class="modal fade custom-modal-80" id="modal_modify_data_host_unified" role="dialog">
+					<div class="modal-dialog">
+						<!-- Modal content-->
+						<div class="modal-content">
+							<div class="modal-header modal-header-danger">
+								<button type="button" class="close" data-dismiss="modal"></button>
+								<h1>
+									<span class="glyphicon glyphicon-lock"></span> Data host - main settings
+								</h1>
+							</div>
+							<div class="modal-body">
+								<style>
+								.parent-data-host-modify-l1 {
+									display: grid;
+									grid-template-columns: 1fr;
+									grid-template-rows: 1fr;
+									grid-column-gap: 0px;
+									grid-row-gap: 0px;
+								}
+								</style>
+								<div class="parent-data-host-modify-l1">
+									<div>
+										<h1>Lag monitoring policy:</h1>
+										<div style="margin-left: 15px;">
+											<ul>
+												<li>The maximal allowed lagging value defines the threshold in seconds for green/red assignment (depending on Alerts over KPIs). Ideally defined by policies, this value can as well be defined per host.</li>
+												<li>Override lagging classes allows bypassing any lagging classes configuration, for data hosts and if defined to true, this applies to all sourcetypes for the host.</li>
+												<li>Alerting policy defines the global behaviour when multiple sourcetypes are monitored for a same host, alerting can be based on the overall host indexing or by considering each sourcetype individually.</li>
+												<li>To define a manual lagging value for this host, enter the value in seconds and set lagging class override to true (otherwise this value will not be saved), optionally define Alert over KPIs and Alerting policy.</li>
+												<li>Alert over KPIs and Alerting policy can be configured independantly from the max lagging value/lagging class override.</li>
+											</ul>
+										</div>
+										<div>
+											<div class="fieldset">
+												<div class="input input-text" id="modal_input_lag_host">
+													<label>Maximal allowed lagging value:</label>
+												</div>
+												<div class="input input-dropdown" id="modal_input_lag_override_class_host">
+													<label>Override lagging classes:</label>
+												</div>
+												<div class="input input-dropdown" id="modal_input_lag_alert_over_host">
+													<label>Alert over KPIs:</label>
+												</div>
+												<div class="input input-dropdown" id="modal_input_host_alerting_policy">
+													<label>Alerting policy:</label>
+												</div>
+											</div>
+										</div>
+										<div style="margin-top: 10px; margin-bottom: 10px;">
+											<button id="btn_modal_modify_lag_confirm_host" type="submit" class="btn btn-outline-danger" style="margin-right: 5px;">
+												<span class="glyphicon glyphicon-remove"></span> Apply manual lagging rule
+											</button>
+											<button id="btn_modal_modify_lag_auto_main_host" type="submit" class="btn btn-outline-primary">
+												<span class="glyphicon glyphicon-remove"></span> Or choose an auto lagging
+											</button>
+										</div>
+									</div>
+								</div>
+								<hr />
+								<style>
+									.parent-data-source-modify-l2 {
+										display: grid;
+										grid-template-columns: repeat(2, 1fr);
+										grid-template-rows: 1fr;
+										grid-column-gap: 0px;
+										grid-row-gap: 0px;
+									}
+								</style>
+								<div class="parent-data-source-modify-l2">
+									<div>
+										<h1>Priority:</h1>
+										<p>Define the priority of the data source for granular level of SLA alerting:</p>
+										<p>
+											<span class="title_low_priority">low</span>
+											<span class="title_medium_priority">medium</span>
+											<span class="title_high_priority">high</span>
+										</p>
+										<div class="fieldset">
+											<div class="input input-text" id="modal_input_host_priority">
+												<label></label>
+											</div>
+										</div>
+										<div style="margin-top: 10px; margin-bottom: 10px;">
+											<button id="btn_modal_modify_priority_confirm" type="submit" class="btn btn-outline-danger" style="margin-right: 5px;">
+												<span class="glyphicon glyphicon-remove"></span> Apply priority
+											</button>
+										</div>
+									</div>
+									<div>
+										<h1>Associate to a Logical group:</h1>
+										<h2>Logical groups are groups of entities that will be considered as an ensemble for monitoring purposes.</h2>
+										<p>
+										A typical use case is a couple of active / passive appliances, where only the active member generates data.
+										When associated in a Logical group, the entity status relies on the minimal green percentage configured during the group creation versus
+										the current green percentage of the group. (percentages of members green)										
+										</p>
+										<div style="margin-bottom: 20px;" class="btn_logical_group">
+											<button type="submit" class="btn btn-outline-primary">
+												<span class="glyphicon glyphicon-remove"></span> Manage in a Logical group 
+											</button>
+										</div>
+									</div>
+								</div>
+								<hr />
+								<style>
+								.parent-data-host-modify-l3 {
+									display: grid;
+									grid-template-columns: 1fr;
+									grid-template-rows: 1fr;
+									grid-column-gap: 0px;
+									grid-row-gap: 0px;
+								}
+								</style>
+								<div>
+									<h1>Week days monitoring:</h1>
+									<p>Monitor source on a all days basis, apply a builtin rule, or explicitly select week days:</p>
+									<div class="fieldset">
+										<div class="input input-text" id="modal_input_wdays_host">
+											<label></label>
+										</div>
+									</div>
+									<div style="margin-top: 10px; margin-bottom: 10px;">
+										<button id="btn_modal_modify_monitoring_wdays_host_confirm" type="submit" class="btn btn-outline-danger" style="margin-right: 5px;">
+											<span class="glyphicon glyphicon-remove"></span> Apply wdays builtin rule
+										</button>
+										<button id="btn_modal_modify_wdays_host_no" type="submit" class="btn btn-outline-primary" data-dismiss="modal">
+											<span class="glyphicon glyphicon-remove"></span> Or select days of the week
+										</button>
+									</div>
+								</div>
+							</div>
+							<div style="margin-top: 20px;" class="modal-footer">
+								<button type="submit" id="btn_close_data_host_unified" class="btn btn-outline-secondary pull-left" data-dismiss="modal">
+									<span class="glyphicon glyphicon-remove"></span> Back
+								</button>
+								<button type="submit" class="btn btn-outline-secondary" data-dismiss="modal">
+									<span class="glyphicon glyphicon-remove"></span> Close
+								</button>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<!-- Modal window for data source unified autolag -->
+				<div class="modal fade custom-modal-80" id="modal_modify_data_host_autolag" role="dialog">
+					<div class="modal-dialog">
+						<!-- Modal content-->
+						<div class="modal-content">
+							<div class="modal-header modal-header-danger">
+								<button type="button" class="close" data-dismiss="modal"></button>
+								<h1>
+									<span class="glyphicon glyphicon-lock"></span> Data host unified update 
+								</h1>
+							</div>
+							<div class="modal-body">
+								<div style="margin-bottom: 30px;">
+									<h3>The following calculations reppresent different options that could be used to define an appropriate value for the max lagging value allowed. 
+										<br />Note that these calculations are performed against the lag at ingestion time only.
+									</h3>
+								</div>
+								<div>
+									<div>
+										<div>
+											<div>
+												<div id="elementDataHostAutoLaggingDataHostSingleLagPerc95"></div>
+												<div id="elementDataHostAutoLaggingDataHostSingleLagAvg"></div>
+												<div id="elementDataHostAutoLaggingDataHostSingleLagPerc95Last30d"></div>
+												<div id="elementDataHostAutoLaggingDataHostSingleLagAvgLast30d"></div>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div>
+									<div style="margin-bottom: 10px;">
+										<h4>Choose one option to be applied:</h4>
+										<button id="btn_modal_modify_lag_auto_perc95_host" type="submit" class="btn btn-default btn-primary">
+											<span class="glyphicon glyphicon-remove"></span> Apply auto percentile lag (7d)
+										</button>
+										<button id="btn_modal_modify_lag_auto_perc95_30d_host" type="submit" class="btn btn-default btn-primary">
+											<span class="glyphicon glyphicon-remove"></span> Or Apply auto percentile lag (30d)
+										</button>
+										<button id="btn_modal_modify_lag_auto_average_host" type="submit" class="btn btn-default btn-primary">
+											<span class="glyphicon glyphicon-remove"></span> Or Apply auto average lag (7d)
+										</button>
+										<button id="btn_modal_modify_lag_auto_average_30d_host" type="submit" class="btn btn-default btn-primary">
+											<span class="glyphicon glyphicon-remove"></span> Or Apply auto average lag (30d)
+										</button>
+									</div>
+								</div>
+							</div>
+							<div style="margin-top: 20px;" class="modal-footer">
+								<button type="submit" id="btn_close_data_host_unified_autolag" class="btn btn-default btn-primary pull-left" data-dismiss="modal">
+									<span class="glyphicon glyphicon-remove"></span> Back
+								</button>
+								<button type="submit" class="btn btn-default btn-right" data-dismiss="modal">
+									<span class="glyphicon glyphicon-remove"></span> Close
+								</button>
 							</div>
 						</div>
 					</div>
@@ -5659,51 +5873,6 @@
 				<!-- ############
                     MODAL WINDOWS
                 ############# -->
-				<!--
-                Object tags
-                -->
-				<!-- Modal window define for identity card association -->
-				<div class="modal fade custom-modal-80" id="modal_data_host_tags" role="dialog">
-					<div class="modal-dialog">
-						<!-- Modal content-->
-						<div class="modal-content">
-							<!-- This is required to get the token substitutions without affecting the buttons actions in js -->
-							<div>
-								<div>
-									<div class="modal-header modal-header-info">
-										<h1 style="font-size: 18px;">Enrichment tags: $tk_data_host$</h1>
-										<button type="button" class="close" data-dismiss="modal"></button>
-									</div>
-								</div>
-							</div>
-							<div class="modal-body">
-								<div>
-									<div>
-										<div>
-											<div>
-												<div class="imgheader36">
-													<span>
-														<img style="float: left; margin: 0px 15px 15px 0px;" src="../../static/app/trackme/icons/tags.png"/>
-													</span>
-													<h3>Object tags:</h3>
-													<br />
-												</div>
-											</div>
-											<div>
-												<div id="elementGetTagsDataHost"></div>
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
-							<div class="modal-footer">
-								<button type="submit" id="btn_back_data_host_tags" class="btn btn-default btn-primary pull-left" data-dismiss="modal">
-									<span class="glyphicon glyphicon-remove"></span> Back
-								</button>
-							</div>
-						</div>
-					</div>
-				</div>
 				<!-- Modal window define for identity card association -->
 				<div class="modal fade custom-modal-80" id="modal_metric_host_tags" role="dialog">
 					<div class="modal-dialog">
@@ -6453,192 +6622,6 @@
 								</button>
 								<button type="submit" id="btn_delete_metric_sla_policy_level2" role="button" class="btn btn-outline-danger">
 									<span class="glyphicon glyphicon-remove"></span>Delete
-								</button>
-							</div>
-						</div>
-					</div>
-				</div>
-				<!-- data host monitoring -->
-				<!-- Modal window for data source unified -->
-				<div class="modal fade custom-modal-80" id="modal_modify_data_host_unified" role="dialog">
-					<div class="modal-dialog">
-						<!-- Modal content-->
-						<div class="modal-content">
-							<div class="modal-header modal-header-danger">
-								<button type="button" class="close" data-dismiss="modal"></button>
-								<h1>
-									<span class="glyphicon glyphicon-lock"></span> Data host unified update 
-								</h1>
-							</div>
-							<div class="modal-body">
-								<b>Lag monitoring policy:</b>
-								<div style="margin-left: 15px;">
-									<ul>
-										<li>The maximal allowed lagging value defines the threshold in seconds for green/red assignment (depending on Alerts over KPIs). Ideally defined by policies, this value can as well be defined per host.</li>
-										<li>Override lagging classes allows bypassing any lagging classes configuration, for data hosts and if defined to true, this applies to all sourcetypes for the host.</li>
-										<li>Alerting policy defines the global behaviour when multiple sourcetypes are monitored for a same host, alerting can be based on the overall host indexing or by considering each sourcetype individually.</li>
-										<li>To define a manual lagging value for this host, enter the value in seconds and set lagging class override to true (otherwise this value will not be saved), optionally define Alert over KPIs and Alerting policy.</li>
-										<li>Alert over KPIs and Alerting policy can be configured independantly from the max lagging value/lagging class override.</li>
-									</ul>
-								</div>
-								<div>
-                                    <div class="fieldset">
-                                        <div style="margin-right: 28px;" class="input input-text" id="modal_input_lag_host">
-                                            <label>Maximal allowed lagging value:</label>
-                                        </div>
-                                        <div class="input input-dropdown" id="modal_input_lag_override_class_host">
-                                            <label>Override lagging classes:</label>
-                                        </div>
-                                        <div class="input input-dropdown" id="modal_input_lag_alert_over_host">
-                                            <label>Alert over KPIs:</label>
-                                        </div>
-                                        <div class="input input-dropdown" id="modal_input_host_alerting_policy">
-                                            <label>Alerting policy:</label>
-                                        </div>
-                                    </div>
-								</div>
-                                <div>
-                                    <button id="btn_modal_modify_lag_confirm_host" type="submit" class="btn btn-default btn-primary">
-                                        <span class="glyphicon glyphicon-remove"></span> Apply manual lagging rule
-                                    </button>
-                                    <button id="btn_modal_modify_lag_auto_main_host" type="submit" class="btn btn-default btn-primary">
-                                        <span class="glyphicon glyphicon-remove"></span> Or choose an auto lagging
-                                    </button>
-                                </div>
-								<hr />
-								<div style="margin-bottom: 10px; width: 50%; float:left">
-									<b>Priority:</b>
-									<p>Define the priority of the data host for granular level of SLA alerting:</p>
-									<p>
-										<span class="title_low_priority">low</span>
-										<span class="title_medium_priority">medium</span>
-										<span class="title_high_priority">high</span>
-									</p>
-									<div>
-										<div>
-											<div>
-												<div class="fieldset">
-													<div class="input input-text" id="modal_input_host_priority">
-														<label></label>
-													</div>
-												</div>
-											</div>
-										</div>
-									</div>
-									<div>
-										<button id="btn_modal_modify_priority_host_confirm" type="submit" class="btn btn-default btn-primary">
-											<span class="glyphicon glyphicon-remove"></span> Apply priority
-										</button>
-									</div>
-								</div>
-								<div style="margin-bottom: 10px; width: 50%; float:right">
-									<b>Associate to a Logical group:</b>
-									<p>Logical groups are groups of entities that will be considered as an ensemble for monitoring purposes.
-                                        
-										<br />
-                                        A typical use case is a couple of active / passive appliances, where only the active member generates data.
-                                        
-										<br />
-										<br />
-                                        When associated in a Logical group, the entity status relies on the minimal green percentage configured during the group creation versus
-                                        the current green percentage of the group. (percentages of members green)
-                                    
-									</p>
-									<div style="margin-bottom: 20px;" class="btn_logical_group">
-										<button type="submit" class="btn btn-default btn-primary">
-											<span class="glyphicon glyphicon-remove"></span> Manage in a Logical group 
-										</button>
-									</div>
-								</div>
-								<div style="margin-top: 240px; margin-bottom: 10px;">
-									<hr />
-									<b>Week days monitoring:</b>
-									<p>Monitor source on a all days basis, apply a builtin rule, or explicitly select week days:</p>
-									<div>
-										<div>
-											<div>
-												<div class="fieldset">
-													<div class="input input-text" id="modal_input_wdays_host">
-														<label></label>
-													</div>
-												</div>
-											</div>
-										</div>
-									</div>
-									<div>
-										<button id="btn_modal_modify_monitoring_wdays_host_confirm" type="submit" class="btn btn-default btn-primary">
-											<span class="glyphicon glyphicon-remove"></span> Apply wdays builtin rule
-										</button>
-										<button id="btn_modal_modify_wdays_host_no" type="submit" class="btn btn-default btn-primary" data-dismiss="modal">
-											<span class="glyphicon glyphicon-remove"></span> Or select days of the week
-										</button>
-									</div>
-								</div>
-							</div>
-							<div style="margin-top: 20px;" class="modal-footer">
-								<button type="submit" id="btn_close_data_host_unified" class="btn btn-default btn-primary pull-left" data-dismiss="modal">
-									<span class="glyphicon glyphicon-remove"></span> Back
-								</button>
-								<button type="submit" class="btn btn-outline-primary" data-dismiss="modal">
-									<span class="glyphicon glyphicon-remove"></span> Close
-								</button>
-							</div>
-						</div>
-					</div>
-				</div>
-				<!-- Modal window for data source unified autolag -->
-				<div class="modal fade custom-modal-80" id="modal_modify_data_host_autolag" role="dialog">
-					<div class="modal-dialog">
-						<!-- Modal content-->
-						<div class="modal-content">
-							<div class="modal-header modal-header-danger">
-								<button type="button" class="close" data-dismiss="modal"></button>
-								<h1>
-									<span class="glyphicon glyphicon-lock"></span> Data host unified update 
-								</h1>
-							</div>
-							<div class="modal-body">
-								<div style="margin-bottom: 30px;">
-									<h3>The following calculations reppresent different options that could be used to define an appropriate value for the max lagging value allowed. 
-										<br />Note that these calculations are performed against the lag at ingestion time only.
-									</h3>
-								</div>
-								<div>
-									<div>
-										<div>
-											<div>
-												<div id="elementDataHostAutoLaggingDataHostSingleLagPerc95"></div>
-												<div id="elementDataHostAutoLaggingDataHostSingleLagAvg"></div>
-												<div id="elementDataHostAutoLaggingDataHostSingleLagPerc95Last30d"></div>
-												<div id="elementDataHostAutoLaggingDataHostSingleLagAvgLast30d"></div>
-											</div>
-										</div>
-									</div>
-								</div>
-								<div>
-									<div style="margin-bottom: 10px;">
-										<h4>Choose one option to be applied:</h4>
-										<button id="btn_modal_modify_lag_auto_perc95_host" type="submit" class="btn btn-default btn-primary">
-											<span class="glyphicon glyphicon-remove"></span> Apply auto percentile lag (7d)
-										</button>
-										<button id="btn_modal_modify_lag_auto_perc95_30d_host" type="submit" class="btn btn-default btn-primary">
-											<span class="glyphicon glyphicon-remove"></span> Or Apply auto percentile lag (30d)
-										</button>
-										<button id="btn_modal_modify_lag_auto_average_host" type="submit" class="btn btn-default btn-primary">
-											<span class="glyphicon glyphicon-remove"></span> Or Apply auto average lag (7d)
-										</button>
-										<button id="btn_modal_modify_lag_auto_average_30d_host" type="submit" class="btn btn-default btn-primary">
-											<span class="glyphicon glyphicon-remove"></span> Or Apply auto average lag (30d)
-										</button>
-									</div>
-								</div>
-							</div>
-							<div style="margin-top: 20px;" class="modal-footer">
-								<button type="submit" id="btn_close_data_host_unified_autolag" class="btn btn-default btn-primary pull-left" data-dismiss="modal">
-									<span class="glyphicon glyphicon-remove"></span> Back
-								</button>
-								<button type="submit" class="btn btn-default btn-right" data-dismiss="modal">
-									<span class="glyphicon glyphicon-remove"></span> Close
 								</button>
 							</div>
 						</div>

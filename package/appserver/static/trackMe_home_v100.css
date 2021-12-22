@@ -832,8 +832,9 @@ span.title_high_priority {
 
 .btn-outline-danger.disabled,
 .btn-outline-danger:disabled {
-	color: #dc3545;
+	color: #5c6773;
 	background-color: transparent;
+	border-color: #6c757d;;
 }
 
 .btn-outline-danger:not(:disabled):not(.disabled):active,
