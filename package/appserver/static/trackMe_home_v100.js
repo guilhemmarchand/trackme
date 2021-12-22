@@ -1628,6 +1628,20 @@ require([
         ],
     });
 
+    // set the panel visibility
+    searchDataHostMainAuditChanges.on("change", function(newValue) {
+        var show_data_host_audit_changes_no_results = getToken("show_data_host_audit_changes_no_results");
+        if (show_data_host_audit_changes_no_results === 'True') {
+            $("#divDataHostChangesNotFound").css("display", "none");
+            $("#divDataHostChangesChart").css("display", "inherit");
+            $("#divDataHostChangesTable").css("display", "inherit");
+        } else {
+            $("#divDataHostChangesNotFound").css("display", "inherit");
+            $("#divDataHostChangesChart").css("display", "none");
+            $("#divDataHostChangesTable").css("display", "none");
+        }
+    });
+
     var searchMainDataHostAuditChangesTable = new PostProcessManager({
         tokenDependencies: {},
         search: "sort - limit=10000 _time",
@@ -1862,8 +1876,7 @@ require([
         },
         runWhenTimeIsUndefined: false,
     }, {
-        tokens: true,
-        tokenNamespace: "submitted",
+        tokens: true
     });
 
     new SearchEventHandler({
@@ -1889,14 +1902,27 @@ require([
         ],
     });
 
+    // set the panel visibility
+    searchDataHostMainAuditFlip.on("change", function(newValue) {
+        var show_data_host_flipping_status_no_results = getToken("show_data_host_flipping_status_no_results");
+        if (show_data_host_flipping_status_no_results === 'True') {
+            $("#divDataHostFlippingNotFound").css("display", "none");
+            $("#divDataHostFlippingChart").css("display", "inherit");
+            $("#divDataHostFlippingTable").css("display", "inherit");
+        } else {
+            $("#divDataHostFlippingNotFound").css("display", "inherit");
+            $("#divDataHostFlippingChart").css("display", "none");
+            $("#divDataHostFlippingTable").css("display", "none");
+        }
+    });
+
     var searchMainDataHostAuditFlipTable = new PostProcessManager({
         tokenDependencies: {},
         search: 'rename separator as " " | `trackme_eval_icons_flip` | fields _time	object object_category object_previous_state " " object_state | sort - limit=10000 _time',
         managerid: "searchDataHostMainAuditFlip",
         id: "searchMainDataHostAuditFlipTable",
     }, {
-        tokens: true,
-        tokenNamespace: "submitted",
+        tokens: true
     });
 
     var searchAuditDataHostFlipOverTime = new PostProcessManager({
@@ -1905,8 +1931,7 @@ require([
         managerid: "searchDataHostMainAuditFlip",
         id: "searchAuditDataHostFlipOverTime",
     }, {
-        tokens: true,
-        tokenNamespace: "submitted",
+        tokens: true
     });
 
     var searchMetricHostMainAuditFlip = new SearchManager({
@@ -1925,8 +1950,7 @@ require([
         },
         runWhenTimeIsUndefined: false,
     }, {
-        tokens: true,
-        tokenNamespace: "submitted",
+        tokens: true
     });
 
     new SearchEventHandler({
@@ -3056,6 +3080,18 @@ require([
         ],
     });
 
+    // set the panel visibility
+    SearchDataHostParsingQualityMain.on("change", function(newValue) {
+        var show_data_host_quality_no_results = getToken("show_data_host_quality_no_results");
+        if (show_data_host_quality_no_results === 'True') {
+            $("#divDataHostParsingErrorsNotFound").css("display", "none");
+            $("#divDataHostParsingErrorsFound").css("display", "inherit");
+        } else {
+            $("#divDataHostParsingErrorsNotFound").css("display", "inherit");
+            $("#divDataHostParsingErrorsFound").css("display", "none");
+        }
+    });
+
     var SearchDataHostParsingQualityChart = new PostProcessManager({
         tokenDependencies: {},
         search: "timechart span=$modalTimeHost.span$ count by component",
@@ -3154,8 +3190,7 @@ require([
         },
         runWhenTimeIsUndefined: false,
     }, {
-        tokens: true,
-        tokenNamespace: "submitted",
+        tokens: true
     });
 
     var searchSingleLagHostPerc95 = new PostProcessManager({
@@ -6936,341 +6971,50 @@ require([
             unsetToken("tk_data_name");
             unsetToken("tk_metric_host");
 
-            setToken(
-                "tk_keyid",
-                TokenUtils.replaceTokenNames(
-                    "$row.keyid$",
-                    _.extend(submittedTokenModel.toJSON(), e.data)
-                )
-            );
-            setToken(
-                "tk_data_host",
-                TokenUtils.replaceTokenNames(
-                    "$row.data_host$",
-                    _.extend(submittedTokenModel.toJSON(), e.data)
-                )
-            );
-            setToken(
-                "tk_data_index",
-                TokenUtils.replaceTokenNames(
-                    "$row.data_index_raw$",
-                    _.extend(submittedTokenModel.toJSON(), e.data)
-                )
-            );
-            setToken(
-                "tk_data_sourcetype",
-                TokenUtils.replaceTokenNames(
-                    "$row.data_sourcetype_raw$",
-                    _.extend(submittedTokenModel.toJSON(), e.data)
-                )
-            );
-            setToken(
-                "tk_data_host_st_summary",
-                TokenUtils.replaceTokenNames(
-                    "$row.data_host_st_summary_raw$",
-                    _.extend(submittedTokenModel.toJSON(), e.data)
-                )
-            );
-            setToken(
-                "tk_data_host_alerting_policy",
-                TokenUtils.replaceTokenNames(
-                    "$row.data_host_alerting_policy$",
-                    _.extend(submittedTokenModel.toJSON(), e.data)
-                )
-            );
-            setToken(
-                "tk_data_last_lag_seen",
-                TokenUtils.replaceTokenNames(
-                    "$row.data_last_lag_seen$",
-                    _.extend(submittedTokenModel.toJSON(), e.data)
-                )
-            );
-            setToken(
-                "tk_data_last_ingestion_lag_seen",
-                TokenUtils.replaceTokenNames(
-                    "$row.data_last_ingestion_lag_seen$",
-                    _.extend(submittedTokenModel.toJSON(), e.data)
-                )
-            );
-            setToken(
-                "tk_data_lag_summary",
-                TokenUtils.replaceTokenNames(
-                    "$row.lag (event / ingestion)$",
-                    _.extend(submittedTokenModel.toJSON(), e.data)
-                )
-            );
-            setToken(
-                "tk_data_eventcount",
-                TokenUtils.replaceTokenNames(
-                    "$row.data_eventcount$",
-                    _.extend(submittedTokenModel.toJSON(), e.data)
-                )
-            );
-            setToken(
-                "tk_data_first_time_seen",
-                TokenUtils.replaceTokenNames(
-                    "$row.data_first_time_seen$",
-                    _.extend(submittedTokenModel.toJSON(), e.data)
-                )
-            );
-            setToken(
-                "tk_data_last_time_seen",
-                TokenUtils.replaceTokenNames(
-                    "$row.data_last_time_seen$",
-                    _.extend(submittedTokenModel.toJSON(), e.data)
-                )
-            );
-            setToken(
-                "tk_data_last_time_seen_human",
-                TokenUtils.replaceTokenNames(
-                    "$row.last time$",
-                    _.extend(submittedTokenModel.toJSON(), e.data)
-                )
-            );
-            setToken(
-                "tk_data_last_ingest",
-                TokenUtils.replaceTokenNames(
-                    "$row.data_last_ingest$",
-                    _.extend(submittedTokenModel.toJSON(), e.data)
-                )
-            );
-            setToken(
-                "tk_data_last_ingest_human",
-                TokenUtils.replaceTokenNames(
-                    "$row.last ingest$",
-                    _.extend(submittedTokenModel.toJSON(), e.data)
-                )
-            );
-            setToken(
-                "tk_data_max_lag_allowed",
-                TokenUtils.replaceTokenNames(
-                    "$row.data_max_lag_allowed$",
-                    _.extend(submittedTokenModel.toJSON(), e.data)
-                )
-            );
-            setToken(
-                "tk_data_lag_alert_kpis",
-                TokenUtils.replaceTokenNames(
-                    "$row.data_lag_alert_kpis$",
-                    _.extend(submittedTokenModel.toJSON(), e.data)
-                )
-            );
-            setToken(
-                "tk_data_monitored_state",
-                TokenUtils.replaceTokenNames(
-                    "$row.data_monitored_state$",
-                    _.extend(submittedTokenModel.toJSON(), e.data)
-                )
-            );
-            setToken(
-                "tk_data_monitoring_wdays",
-                TokenUtils.replaceTokenNames(
-                    "$row.data_monitoring_wdays$",
-                    _.extend(submittedTokenModel.toJSON(), e.data)
-                )
-            );
-            setToken(
-                "tk_data_override_lagging_class",
-                TokenUtils.replaceTokenNames(
-                    "$row.data_override_lagging_class$",
-                    _.extend(submittedTokenModel.toJSON(), e.data)
-                )
-            );
-            setToken(
-                "tk_data_host_state",
-                TokenUtils.replaceTokenNames(
-                    "$row.data_host_state$",
-                    _.extend(submittedTokenModel.toJSON(), e.data)
-                )
-            );
-            setToken(
-                "tk_data_tracker_runtime",
-                TokenUtils.replaceTokenNames(
-                    "$row.data_tracker_runtime$",
-                    _.extend(submittedTokenModel.toJSON(), e.data)
-                )
-            );
-            setToken(
-                "tk_data_previous_host_state",
-                TokenUtils.replaceTokenNames(
-                    "$row.data_previous_host_state$",
-                    _.extend(submittedTokenModel.toJSON(), e.data)
-                )
-            );
-            setToken(
-                "tk_data_previous_tracker_runtime",
-                TokenUtils.replaceTokenNames(
-                    "$row.data_previous_tracker_runtime$",
-                    _.extend(submittedTokenModel.toJSON(), e.data)
-                )
-            );
-            setToken(
-                "tk_latest_flip_state",
-                TokenUtils.replaceTokenNames(
-                    "$row.latest_flip_state$",
-                    _.extend(submittedTokenModel.toJSON(), e.data)
-                )
-            );
-            setToken(
-                "tk_latest_flip_time",
-                TokenUtils.replaceTokenNames(
-                    "$row.latest_flip_time$",
-                    _.extend(submittedTokenModel.toJSON(), e.data)
-                )
-            );
-            setToken(
-                "tk_latest_flip_time_human",
-                TokenUtils.replaceTokenNames(
-                    "$row.latest_flip_time (translated)$",
-                    _.extend(submittedTokenModel.toJSON(), e.data)
-                )
-            );
-            setToken(
-                "tk_priority",
-                TokenUtils.replaceTokenNames(
-                    "$row.priority$",
-                    _.extend(submittedTokenModel.toJSON(), e.data)
-                )
-            );
+            // get entity details
+            var tk_keyid = e.data['row.keyid'];
+            var tk_data_host = e.data['row.data_host'];
+            var tk_priority = e.data["row.priority"];
+            var tk_status_message = e.data["row.status_message"];
+            var tk_data_host_state = e.data['row.data_host_state'];
+            var tk_data_monitored_state = e.data['row.data_monitored_state'];
+            var tk_data_lag_summary = e.data["row.lag (event / ingestion)"];
+            var tk_data_last_ingest_human = e.data["row.last ingest"];
+            var tk_data_last_time_seen_human = e.data["row.last time"];
+            var tk_data_max_lag_allowed = e.data["row.data_max_lag_allowed"];
+            var tk_latest_flip_time_human = e.data["row.latest_flip_time (translated)"];
+            var tk_latest_flip_state = e.data["row.latest_flip_state"];
+            var tk_data_host_tags = e.data['row.data_host_tags'];
 
             // outlier
-            setToken(
-                "tk_outlierenabledstatus",
-                TokenUtils.replaceTokenNames(
-                    "$row.enable_behaviour_analytic$",
-                    _.extend(submittedTokenModel.toJSON(), e.data)
-                )
-            );
-            setToken(
-                "tk_outliermineventcount",
-                TokenUtils.replaceTokenNames(
-                    "$row.OutlierMinEventCount$",
-                    _.extend(submittedTokenModel.toJSON(), e.data)
-                )
-            );
-            setToken(
-                "tk_outlierlowerthresholdmultiplier",
-                TokenUtils.replaceTokenNames(
-                    "$row.OutlierLowerThresholdMultiplier$",
-                    _.extend(submittedTokenModel.toJSON(), e.data)
-                )
-            );
-            setToken(
-                "tk_outlierupperthresholdmultiplier",
-                TokenUtils.replaceTokenNames(
-                    "$row.OutlierUpperThresholdMultiplier$",
-                    _.extend(submittedTokenModel.toJSON(), e.data)
-                )
-            );
-            setToken(
-                "tk_outlieralertonupper",
-                TokenUtils.replaceTokenNames(
-                    "$row.OutlierAlertOnUpper$",
-                    _.extend(submittedTokenModel.toJSON(), e.data)
-                )
-            );
-            setToken(
-                "tk_outlier_period",
-                TokenUtils.replaceTokenNames(
-                    "$row.OutlierTimePeriod$",
-                    _.extend(submittedTokenModel.toJSON(), e.data)
-                )
-            );
-            setToken(
-                "tk_outlier_span",
-                TokenUtils.replaceTokenNames(
-                    "$row.OutlierSpan$",
-                    _.extend(submittedTokenModel.toJSON(), e.data)
-                )
-            );
-            setToken(
-                "tk_isoutlier",
-                TokenUtils.replaceTokenNames(
-                    "$row.isOutlier$",
-                    _.extend(submittedTokenModel.toJSON(), e.data)
-                )
-            );
+            var tk_outlierenabledstatus = e.data["row.enable_behaviour_analytic"];
+            var tk_outliermineventcount = e.data["row.OutlierMinEventCount"];
+            var tk_outlierlowerthresholdmultiplier = e.data["row.OutlierLowerThresholdMultiplier"];
+            var tk_outlierupperthresholdmultiplier = e.data["row.OutlierUpperThresholdMultiplier"];
+            var tk_outlieralertonupper = e.data["row.OutlierAlertOnUpper"];
+            var tk_outlier_period = e.data["row.OutlierTimePeriod"];
+            var tk_outlier_span = e.data["row.OutlierSpan"];
+            // token required for charting
+            setToken("tk_outlier_span", tk_outlier_span);
+            var tk_isoutlier = e.data["row.isOutlier"];
+            var tk_enable_behaviour_analytic = e.data["row.enable_behaviour_analytic"];
+            // token required for outliers configuration
+            setToken("tk_enable_behaviour_analytic", tk_enable_behaviour_analytic);
 
-            // status message
-            setToken(
-                "tk_status_message",
-                TokenUtils.replaceTokenNames(
-                    "$row.status_message$",
-                    _.extend(submittedTokenModel.toJSON(), e.data)
-                )
-            );
 
-            // tags
-            setToken(
-                "tk_data_host_tags",
-                TokenUtils.replaceTokenNames(
-                    "$row.data_host_tags$",
-                    _.extend(submittedTokenModel.toJSON(), e.data)
-                )
-            );
+            // required for various purposes
+            setToken("tk_keyid", tk_keyid);
+            setToken("tk_data_host", tk_data_host);
 
-            // pref-fill current lagging input
-            setToken(
-                "form.tk_input_lag_host",
-                TokenUtils.replaceTokenNames(
-                    "$row.data_max_lag_allowed$",
-                    _.extend(submittedTokenModel.toJSON(), e.data)
-                )
-            );
-
-            // pref-fill current wdays input
-            setToken(
-                "form.tk_input_wdays_host",
-                TokenUtils.replaceTokenNames(
-                    "$row.data_monitoring_wdays$",
-                    _.extend(submittedTokenModel.toJSON(), e.data)
-                )
-            );
-
-            // pre-fill current priority
-            setToken(
-                "form.tk_input_host_priority",
-                TokenUtils.replaceTokenNames(
-                    "$row.priority$",
-                    _.extend(submittedTokenModel.toJSON(), e.data)
-                )
-            );
-
-            // pre-fill lagging class override
-            setToken(
-                "form.modal_input_lag_override_class_host",
-                TokenUtils.replaceTokenNames(
-                    "$row.data_override_lagging_class$",
-                    _.extend(submittedTokenModel.toJSON(), e.data)
-                )
-            );
-
-            // pre-fill alert over kpis
-            setToken(
-                "form.tk_input_data_lag_alert_kpis_host",
-                TokenUtils.replaceTokenNames(
-                    "$row.data_lag_alert_kpis$",
-                    _.extend(submittedTokenModel.toJSON(), e.data)
-                )
-            );
-
-            // pre-fill alerting policy
-            setToken(
-                "form.tk_input_host_alerting_policy",
-                TokenUtils.replaceTokenNames(
-                    "$row.data_host_alerting_policy$",
-                    _.extend(submittedTokenModel.toJSON(), e.data)
-                )
-            );
-
-            var tk_data_monitored_state = getToken("tk_data_monitored_state");
-            var tk_data_host = getToken("tk_data_host");
-
-            // state
-            var tk_data_host_state = getToken("tk_data_host_state");
-
-            // priority
-            var tk_priority = getToken("tk_priority");
+            // Dynamically manage priority color
+            var tk_priority_class;
+            if (tk_priority == "low") {
+                tk_priority_class = "title_low_priority";
+            } else if (tk_priority == "medium") {
+                tk_priority_class = "title_medium_priority";
+            } else if (tk_priority == "high") {
+                tk_priority_class = "title_high_priority";
+            }
 
             // Define the history search
             var search_data_host =
@@ -7287,23 +7031,26 @@ require([
             if (tk_data_monitored_state == "enabled") {
                 document.getElementById("btn_enable_monitoring_host").disabled = true;
                 document.getElementById("btn_disable_monitoring_host").disabled = false;
-                setToken(
-                    "tk_data_monitored_state_class",
-                    TokenUtils.replaceTokenNames(
-                        "title_green",
-                        _.extend(submittedTokenModel.toJSON(), e.data)
-                    )
-                );
+                tk_data_monitored_state_class = "title_green";
             } else {
                 document.getElementById("btn_enable_monitoring_host").disabled = false;
                 document.getElementById("btn_disable_monitoring_host").disabled = true;
-                setToken(
-                    "tk_data_monitored_state_class",
-                    TokenUtils.replaceTokenNames(
-                        "title_grey",
-                        _.extend(submittedTokenModel.toJSON(), e.data)
-                    )
-                );
+                tk_data_monitored_state_class = "title_grey";
+            }
+
+            // Dynamically manage state color
+            if (tk_data_host_state == "green") {
+                tk_data_host_state_class = "title_green";
+                tk_data_host_status_message_class = "status_message_green";
+            } else if (tk_data_host_state == "orange") {
+                tk_data_host_state_class = "title_orange";
+                tk_data_host_status_message_class = "status_message_orange";
+            } else if (tk_data_host_state == "blue") {
+                tk_data_host_state_class = "title_blue";
+                tk_data_host_status_message_class = "status_message_blue";
+            } else if (tk_data_host_state == "red") {
+                tk_data_host_state_class = "title_red";
+                tk_data_host_status_message_class = "status_message_red";
             }
 
             // Dynamically manage Ack button
@@ -7313,231 +7060,56 @@ require([
                 document.getElementById("btn_ack_data_host").disabled = true;
             }
 
-            // Dynamically manage state color
-            if (tk_data_host_state == "green") {
-                setToken(
-                    "tk_data_host_state_class",
-                    TokenUtils.replaceTokenNames(
-                        "title_green",
-                        _.extend(submittedTokenModel.toJSON(), e.data)
-                    )
-                );
-                setToken(
-                    "tk_data_host_status_message_class",
-                    TokenUtils.replaceTokenNames(
-                        "status_message_green",
-                        _.extend(submittedTokenModel.toJSON(), e.data)
-                    )
-                );
-            } else if (tk_data_host_state == "orange") {
-                setToken(
-                    "tk_data_host_state_class",
-                    TokenUtils.replaceTokenNames(
-                        "title_orange",
-                        _.extend(submittedTokenModel.toJSON(), e.data)
-                    )
-                );
-                setToken(
-                    "tk_data_host_status_message_class",
-                    TokenUtils.replaceTokenNames(
-                        "status_message_orange",
-                        _.extend(submittedTokenModel.toJSON(), e.data)
-                    )
-                );
-            } else if (tk_data_host_state == "blue") {
-                setToken(
-                    "tk_data_host_state_class",
-                    TokenUtils.replaceTokenNames(
-                        "title_blue",
-                        _.extend(submittedTokenModel.toJSON(), e.data)
-                    )
-                );
-                setToken(
-                    "tk_data_host_status_message_class",
-                    TokenUtils.replaceTokenNames(
-                        "status_message_blue",
-                        _.extend(submittedTokenModel.toJSON(), e.data)
-                    )
-                );
-            } else if (tk_data_host_state == "red") {
-                setToken(
-                    "tk_data_host_state_class",
-                    TokenUtils.replaceTokenNames(
-                        "title_red",
-                        _.extend(submittedTokenModel.toJSON(), e.data)
-                    )
-                );
-                setToken(
-                    "tk_data_host_status_message_class",
-                    TokenUtils.replaceTokenNames(
-                        "status_message_red",
-                        _.extend(submittedTokenModel.toJSON(), e.data)
-                    )
-                );
-            }
-
-            // Dynamically manage priority color
-            if (tk_priority == "low") {
-                setToken(
-                    "tk_priority_class",
-                    TokenUtils.replaceTokenNames(
-                        "title_low_priority",
-                        _.extend(submittedTokenModel.toJSON(), e.data)
-                    )
-                );
-            } else if (tk_priority == "medium") {
-                setToken(
-                    "tk_priority_class",
-                    TokenUtils.replaceTokenNames(
-                        "title_medium_priority",
-                        _.extend(submittedTokenModel.toJSON(), e.data)
-                    )
-                );
-            } else if (tk_priority == "high") {
-                setToken(
-                    "tk_priority_class",
-                    TokenUtils.replaceTokenNames(
-                        "title_high_priority",
-                        _.extend(submittedTokenModel.toJSON(), e.data)
-                    )
-                );
-            }
-
-            // Manage Outliers
-            var tk_outlierenabledstatus = getToken("tk_outlierenabledstatus");
-            var tk_outliermineventcount = getToken("tk_outliermineventcount");
-            var tk_outlierlowerthresholdmultiplier = getToken(
-                "tk_outlierlowerthresholdmultiplier"
+            // replace info panels
+            $('#parent-data-host-main').html(
+                '<h1>Actions for data host: ' + tk_data_host + '</h1>'
             );
-            var tk_outlierupperthresholdmultiplier = getToken(
-                "tk_outlierupperthresholdmultiplier"
+
+            $('#child-data-host-top-info1').html(
+                '<h3>lag event / lag ingestion: ([D+]HH:MM:SS) <span style="color: dodgerblue;">' + tk_data_lag_summary + '<span style="color: dodgerblue;">' +
+                '<h3>data_last_time_seen: <span style="color: dodgerblue;">' + tk_data_last_time_seen_human + '<span style="color: dodgerblue;">' +
+                '<h3>data_last_ingest: <span style="color: dodgerblue;">' + tk_data_last_ingest_human + '<span style="color: dodgerblue;">'
             );
-            var tk_outlieralertonupper = getToken("tk_outlieralertonupper");
-            var tk_isoutlier = getToken("tk_isoutlier");
-            var tk_outlier_span = getToken("tk_outlier_span");
-            var tk_outlier_period = getToken("tk_outlier_period");
 
-            // Outliers configuration
+            $('#child-data-host-top-info2').html(
+                '<h3>data_max_lag_allowed: <span style="color: dodgerblue;">' + tk_data_max_lag_allowed + '<span style="color: dodgerblue;">' +
+                '<h3>data_monitored_state:</b> <span class="' + tk_data_monitored_state_class + '">' + tk_data_monitored_state + '</span></h3>' +
+                '<h3>state:</b> <span class="' + tk_data_host_state_class + '">' + tk_data_host_state + '</span></p>'
+                );
 
-            // prefill the current status
-            if (tk_outlierenabledstatus && tk_outlierenabledstatus == "true") {
-                setToken(
-                    "form.tk_input_data_host_enable_outlier",
-                    TokenUtils.replaceTokenNames(
-                        "true",
-                        _.extend(submittedTokenModel.toJSON(), e.data)
-                    )
-                );
-            } else {
-                setToken(
-                    "form.tk_input_data_host_enable_outlier",
-                    TokenUtils.replaceTokenNames(
-                        "false",
-                        _.extend(submittedTokenModel.toJSON(), e.data)
-                    )
-                );
-            }
+            $('#child-data-host-top-info3').html(
+                '<h3>latest_flip_time: <span style="color: dodgerblue;">' + tk_latest_flip_time_human + '<span style="color: dodgerblue;">' +
+                '<h3>latest_flip_state: <span style="color: dodgerblue;">' + tk_latest_flip_state + '<span style="color: dodgerblue;">' +
+                '<h3>priority:</b> <span class="' + tk_priority_class + '">' + tk_priority + '</span></p>'
+            );
 
-            // prefill the current lower multiplier
-            if (
-                tk_outlierlowerthresholdmultiplier &&
-                isNumeric(tk_outlierlowerthresholdmultiplier)
-            ) {
-                setToken(
-                    "form.tk_input_data_host_outlier_lower_threshold_multiplier",
-                    TokenUtils.replaceTokenNames(
-                        tk_outlierlowerthresholdmultiplier,
-                        _.extend(submittedTokenModel.toJSON(), e.data)
-                    )
-                );
-            }
+            $('#child-data-host-status-message').html(
+                '<div class="' + tk_data_host_status_message_class + '">' +
+                '<h2 style="font-weight: bold; color: darkslategray;">' + tk_status_message + '</h2>' +
+                '</div>'
+            );
 
-            // prefill the current upper multiplier
-            if (
-                tk_outlierupperthresholdmultiplier &&
-                isNumeric(tk_outlierupperthresholdmultiplier)
-            ) {
-                setToken(
-                    "form.tk_input_data_host_outlier_upper_threshold_multiplier",
-                    TokenUtils.replaceTokenNames(
-                        tk_outlierupperthresholdmultiplier,
-                        _.extend(submittedTokenModel.toJSON(), e.data)
-                    )
-                );
-            }
+            // pref-fill current lagging input
+            setToken("form.tk_input_lag_host", e.data['row.data_max_lag_allowed']);
 
-            // Define the Outliers lowerbound mode
-            if (
-                tk_outliermineventcount &&
-                isNumeric(tk_outliermineventcount) &&
-                tk_outliermineventcount > 0
-            ) {
-                setToken(
-                    "form.tk_input_data_host_outlier_min_eventcount_mode",
-                    TokenUtils.replaceTokenNames(
-                        "static",
-                        _.extend(submittedTokenModel.toJSON(), e.data)
-                    )
-                );
-                setToken(
-                    "form.tk_input_data_host_outlier_min_eventcount",
-                    TokenUtils.replaceTokenNames(
-                        tk_outliermineventcount,
-                        _.extend(submittedTokenModel.toJSON(), e.data)
-                    )
-                );
-            } else {
-                setToken(
-                    "form.tk_input_data_host_outlier_min_eventcount_mode",
-                    TokenUtils.replaceTokenNames(
-                        "dynamic",
-                        _.extend(submittedTokenModel.toJSON(), e.data)
-                    )
-                );
-                setToken(
-                    "form.tk_input_data_host_outlier_min_eventcount",
-                    TokenUtils.replaceTokenNames(
-                        "disabled",
-                        _.extend(submittedTokenModel.toJSON(), e.data)
-                    )
-                );
-            }
+            // pref-fill current wdays input
+            setToken("form.tk_input_wdays_host", e.data['row.data_monitoring_wdays']);
 
-            // prefill the current status
-            if (tk_outlieralertonupper && tk_outlieralertonupper != "null") {
-                setToken(
-                    "form.tk_input_data_host_outlier_alert_on_upper",
-                    TokenUtils.replaceTokenNames(
-                        tk_outlieralertonupper,
-                        _.extend(submittedTokenModel.toJSON(), e.data)
-                    )
-                );
-            }
+            // pre-fill current priority
+            setToken("form.tk_input_host_priority", e.data['row.priority']);
 
-            // prefill the outlier span
-            if (tk_outlier_span && tk_outlier_span != "null") {
-                setToken(
-                    "form.TimeOutlierConfigurationDataHostSpan",
-                    TokenUtils.replaceTokenNames(
-                        tk_outlier_span,
-                        _.extend(submittedTokenModel.toJSON(), e.data)
-                    )
-                );
-            }
+            // pre-fill lagging class override
+            setToken("form.modal_input_lag_override_class_host", e.data['row.data_override_lagging_class']);
 
-            // prefill the outlier period
-            if (tk_outlier_period && tk_outlier_period != "null") {
-                setToken(
-                    "form.TimeOutlierConfigurationDataHost",
-                    TokenUtils.replaceTokenNames(
-                        tk_outlier_period,
-                        _.extend(submittedTokenModel.toJSON(), e.data)
-                    )
-                );
-            }
+            // pre-fill alert over kpis
+            setToken("form.tk_input_data_lag_alert_kpis_host", e.data['row.data_lag_alert_kpis']);
 
-            // Explicitly refresh the get tags search
-            searchGetDataHostTags.startSearch();
+            // pre-fill alerting policy
+            setToken("form.tk_input_host_alerting_policy", e.data['row.data_host_alerting_policy']);
+            
+            // Get earliest / latest to be recycled in some use cases
+            var tk_earliest = getToken("modalTimeHost.earliest");
+            var tk_latest = getToken("modalTimeHost.latest");
 
             // Enable modal context
             $("#modal_manage_host").modal();
@@ -14928,6 +14500,880 @@ require([
     resultsLinkeventAlertActionsFreeStylePerAlert
         .render()
         .$el.appendTo($("resultsLinkeventAlertActionsFreeStylePerAlert"));
+
+        // input link selection for modal window
+        var inputLinkTimeHost = new LinkListInput({
+            "id": "inputLinkTimeHost",
+            "choices": [{
+                    "value": "60m",
+                    "label": "60m"
+                },
+                {
+                    "value": "4h",
+                    "label": "4h"
+                },
+                {
+                    "value": "8h",
+                    "label": "8h"
+                },
+                {
+                    "value": "12h",
+                    "label": "12h"
+                },
+                {
+                    "value": "24h",
+                    "label": "24h"
+                },
+                {
+                    "value": "48h",
+                    "label": "48h"
+                },
+                {
+                    "value": "7d",
+                    "label": "7d"
+                },
+                {
+                    "value": "15d",
+                    "label": "15d"
+                },
+                {
+                    "value": "30d",
+                    "label": "30d"
+                },
+                {
+                    "value": "60d",
+                    "label": "60d"
+                },
+                {
+                    "value": "90d",
+                    "label": "90d"
+                }
+            ],
+            "default": "24h",
+            "searchWhenChanged": true,
+            "selectFirstChoice": false,
+            "initialValue": "24h",
+            "value": "$form.modalActionTimeHost$",
+            "el": $('#inputLinkTimeHost')
+        }, {
+            tokens: true
+        }).render();
+
+        inputLinkTimeHost.on("change", function(newValue) {
+            FormUtils.handleValueChange(inputLinkTimeHost);
+        });
+
+        inputLinkTimeHost.on("valueChange", function(e) {
+            if (e.value === "60m") {
+                EventHandler.setToken("modalTimeHost.earliest", "-60m", {}, e.data);
+                EventHandler.setToken("modalTimeHost.latest", "now", {}, e.data);
+                EventHandler.setToken("modalTimeHost.span", "1m", {}, e.data);
+            } else if (e.value === "4h") {
+                EventHandler.setToken("modalTimeHost.earliest", "-4h", {}, e.data);
+                EventHandler.setToken("modalTimeHost.latest", "now", {}, e.data);
+                EventHandler.setToken("modalTimeHost.span", "5m", {}, e.data);
+            } else if (e.value === "8h") {
+                EventHandler.setToken("modalTimeHost.earliest", "-8h", {}, e.data);
+                EventHandler.setToken("modalTimeHost.latest", "now", {}, e.data);
+                EventHandler.setToken("modalTimeHost.span", "5m", {}, e.data);
+            } else if (e.value === "12h") {
+                EventHandler.setToken("modalTimeHost.earliest", "-12h", {}, e.data);
+                EventHandler.setToken("modalTimeHost.latest", "now", {}, e.data);
+                EventHandler.setToken("modalTimeHost.span", "10m", {}, e.data);
+            } else if (e.value === "24h") {
+                EventHandler.setToken("modalTimeHost.earliest", "-24h", {}, e.data);
+                EventHandler.setToken("modalTimeHost.latest", "now", {}, e.data);
+                EventHandler.setToken("modalTimeHost.span", "15m", {}, e.data);
+            } else if (e.value === "48h") {
+                EventHandler.setToken("modalTimeHost.earliest", "-48h", {}, e.data);
+                EventHandler.setToken("modalTimeHost.latest", "now", {}, e.data);
+                EventHandler.setToken("modalTimeHost.span", "30m", {}, e.data);
+            } else if (e.value === "7d") {
+                EventHandler.setToken("modalTimeHost.earliest", "-7d", {}, e.data);
+                EventHandler.setToken("modalTimeHost.latest", "now", {}, e.data);
+                EventHandler.setToken("modalTimeHost.span", "1h", {}, e.data);
+            } else if (e.value === "15d") {
+                EventHandler.setToken("modalTimeHost.earliest", "-15d", {}, e.data);
+                EventHandler.setToken("modalTimeHost.latest", "now", {}, e.data);
+                EventHandler.setToken("modalTimeHost.span", "2h", {}, e.data);
+            } else if (e.value === "30d") {
+                EventHandler.setToken("modalTimeHost.earliest", "-30d", {}, e.data);
+                EventHandler.setToken("modalTimeHost.latest", "now", {}, e.data);
+                EventHandler.setToken("modalTimeHost.span", "4h", {}, e.data);
+            } else if (e.value === "60d") {
+                EventHandler.setToken("modalTimeHost.earliest", "-60d", {}, e.data);
+                EventHandler.setToken("modalTimeHost.latest", "now", {}, e.data);
+                EventHandler.setToken("modalTimeHost.span", "8h", {}, e.data);
+            } else if (e.value === "90d") {
+                EventHandler.setToken("modalTimeHost.earliest", "-90d", {}, e.data);
+                EventHandler.setToken("modalTimeHost.latest", "now", {}, e.data);
+                EventHandler.setToken("modalTimeHost.span", "12h", {}, e.data);
+            }
+        });
+
+        // data host monitoring
+
+        // main data_host link input for modal window
+        var inputLinkDataHost = new LinkListInput({
+            "id": "inputLinkDataHost",
+            "choices": [{
+                    "value": "overview",
+                    "label": "Overview data host"
+                },
+                {
+                    "value": "outlier",
+                    "label": "Outlier detection overview"
+                },
+                {
+                    "value": "outlier_configuration",
+                    "label": "Outlier detection configuration"
+                },
+                {
+                    "value": "data_quality",
+                    "label": "Data parsing quality"
+                },
+                {
+                    "value": "lagging_metrics",
+                    "label": "Lagging performances"
+                },
+                {
+                    "value": "flipping_status",
+                    "label": "Status flipping"
+                },
+                {
+                    "value": "status_message",
+                    "label": "Status message"
+                },
+                {
+                    "value": "audit_changes",
+                    "label": "Audit changes"
+                }
+            ],
+            "default": "overview",
+            "searchWhenChanged": true,
+            "selectFirstChoice": false,
+            "initialValue": "overview",
+            "value": "$form.inputLinkDataHost$",
+            "el": $('#inputLinkDataHost')
+        }, {
+            tokens: true
+        }).render();
+
+        inputLinkDataHost.on("change", function(newValue) {
+            FormUtils.handleValueChange(inputLinkDataHost);
+        });
+
+        inputLinkDataHost.on("valueChange", function(e) {
+            if (e.value === "overview") {
+                EventHandler.setToken("show_data_host_overview", "true", {}, e.data);
+                EventHandler.unsetToken("show_data_host_outlier");
+                EventHandler.unsetToken("show_data_host_outlier_configuration");
+                EventHandler.unsetToken("show_data_host_status_message");
+                EventHandler.unsetToken("show_data_host_quality");
+                EventHandler.unsetToken("show_data_host_flipping_status");
+                EventHandler.unsetToken("show_data_host_audit_changes");
+                EventHandler.unsetToken("show_data_host_lagging_metrics");
+                $("#data_host_overview").css("display", "inherit");
+                $("#data_host_outliers").css("display", "none");
+                $("#data_host_outliers_config").css("display", "none");
+                $("#data_host_data_parsing").css("display", "none");
+                $("#data_host_metrics").css("display", "none");
+                $("#data_host_flipping").css("display", "none");
+                $("#data_host_status").css("display", "none");
+                $("#data_host_changes").css("display", "none");
+                $("#data_host_timepicker").css("display", "inherit");
+            } else if (e.value === "outlier") {
+                EventHandler.setToken("show_data_host_outlier", "true", {}, e.data);
+                EventHandler.unsetToken("show_data_host_overview");
+                EventHandler.unsetToken("show_data_host_outlier_configuration");
+                EventHandler.unsetToken("show_data_host_status_message");
+                EventHandler.unsetToken("show_data_host_quality");
+                EventHandler.unsetToken("show_data_host_flipping_status");
+                EventHandler.unsetToken("show_data_host_audit_changes");
+                EventHandler.unsetToken("show_data_host_lagging_metrics");
+                $("#data_host_overview").css("display", "none");
+                $("#data_host_outliers").css("display", "inherit");
+                $("#data_host_outliers_config").css("display", "none");
+                $("#data_host_data_parsing").css("display", "none");
+                $("#data_host_metrics").css("display", "none");
+                $("#data_host_flipping").css("display", "none");
+                $("#data_host_status").css("display", "none");
+                $("#data_host_changes").css("display", "none");
+                $("#data_host_timepicker").css("display", "inherit");
+            } else if (e.value === "outlier_configuration") {
+                EventHandler.setToken("show_data_host_outlier_configuration", "true", {}, e.data);
+                EventHandler.unsetToken("show_data_host_overview");
+                EventHandler.unsetToken("show_data_host_outlier");
+                EventHandler.unsetToken("show_data_host_status_message");
+                EventHandler.unsetToken("show_data_host_quality");
+                EventHandler.unsetToken("show_data_host_flipping_status");
+                EventHandler.unsetToken("show_data_host_audit_changes");
+                EventHandler.unsetToken("show_data_host_lagging_metrics");
+                $("#data_host_overview").css("display", "none");
+                $("#data_host_outliers").css("display", "none");
+                $("#data_host_outliers_config").css("display", "inherit");
+                $("#data_host_data_parsing").css("display", "none");
+                $("#data_host_metrics").css("display", "none");
+                $("#data_host_flipping").css("display", "none");
+                $("#data_host_status").css("display", "none");
+                $("#data_host_changes").css("display", "none");
+                $("#data_host_timepicker").css("display", "none");
+            } else if (e.value === "data_quality") {
+                EventHandler.setToken("show_data_host_quality", "true", {}, e.data);
+                EventHandler.unsetToken("show_data_host_overview");
+                EventHandler.unsetToken("show_data_host_outlier");
+                EventHandler.unsetToken("show_data_host_status_message");
+                EventHandler.unsetToken("show_data_host_outlier_configuration");
+                EventHandler.unsetToken("show_data_host_flipping_status");
+                EventHandler.unsetToken("show_data_host_audit_changes");
+                EventHandler.unsetToken("show_data_host_lagging_metrics");
+                $("#data_host_overview").css("display", "none");
+                $("#data_host_outliers").css("display", "none");
+                $("#data_host_outliers_config").css("display", "none");
+                $("#data_host_data_parsing").css("display", "inherit");
+                $("#data_host_metrics").css("display", "none");
+                $("#data_host_flipping").css("display", "none");
+                $("#data_host_status").css("display", "none");
+                $("#data_host_changes").css("display", "none");
+                $("#data_host_timepicker").css("display", "inherit");
+            } else if (e.value === "lagging_metrics") {
+                EventHandler.setToken("show_data_host_lagging_metrics", "true", {}, e.data);
+                EventHandler.unsetToken("show_data_host_overview");
+                EventHandler.unsetToken("show_data_host_outlier");
+                EventHandler.unsetToken("show_data_host_status_message");
+                EventHandler.unsetToken("show_data_host_outlier_configuration");
+                EventHandler.unsetToken("show_data_host_flipping_status");
+                EventHandler.unsetToken("show_data_host_audit_changes");
+                EventHandler.unsetToken("show_data_host_quality");
+                $("#data_host_overview").css("display", "none");
+                $("#data_host_outliers").css("display", "none");
+                $("#data_host_outliers_config").css("display", "none");
+                $("#data_host_data_parsing").css("display", "none");
+                $("#data_host_metrics").css("display", "inherit");
+                $("#data_host_flipping").css("display", "none");
+                $("#data_host_status").css("display", "none");
+                $("#data_host_changes").css("display", "none");
+                $("#data_host_timepicker").css("display", "inherit");
+            } else if (e.value === "flipping_status") {
+                EventHandler.setToken("show_data_host_flipping_status", "true", {}, e.data);
+                EventHandler.unsetToken("show_data_host_overview");
+                EventHandler.unsetToken("show_data_host_outlier");
+                EventHandler.unsetToken("show_data_host_status_message");
+                EventHandler.unsetToken("show_data_host_outlier_configuration");
+                EventHandler.unsetToken("show_data_host_quality");
+                EventHandler.unsetToken("show_data_host_audit_changes");
+                EventHandler.unsetToken("show_data_host_lagging_metrics");
+                $("#data_host_overview").css("display", "none");
+                $("#data_host_outliers").css("display", "none");
+                $("#data_host_outliers_config").css("display", "none");
+                $("#data_host_data_parsing").css("display", "none");
+                $("#data_host_metrics").css("display", "none");
+                $("#data_host_flipping").css("display", "inherit");
+                $("#data_host_status").css("display", "none");
+                $("#data_host_changes").css("display", "none");
+                $("#data_host_timepicker").css("display", "inherit");                
+            } else if (e.value === "status_message") {
+                EventHandler.setToken("show_data_host_status_message", "true", {}, e.data);
+                EventHandler.unsetToken("show_data_host_overview");
+                EventHandler.unsetToken("show_data_host_outlier_configuration");
+                EventHandler.unsetToken("show_data_host_outlier");
+                EventHandler.unsetToken("show_data_host_quality");
+                EventHandler.unsetToken("show_data_host_flipping_status");
+                EventHandler.unsetToken("show_data_host_audit_changes");
+                EventHandler.unsetToken("show_data_host_lagging_metrics");
+                $("#data_host_overview").css("display", "none");
+                $("#data_host_outliers").css("display", "none");
+                $("#data_host_outliers_config").css("display", "none");
+                $("#data_host_data_parsing").css("display", "none");
+                $("#data_host_metrics").css("display", "none");
+                $("#data_host_flipping").css("display", "none");
+                $("#data_host_status").css("display", "inherit");
+                $("#data_host_changes").css("display", "none");
+                $("#data_host_timepicker").css("display", "inherit");
+            } else if (e.value === "audit_changes") {
+                EventHandler.setToken("show_data_host_audit_changes", "true", {}, e.data);
+                EventHandler.unsetToken("show_data_host_overview");
+                EventHandler.unsetToken("show_data_host_outlier_configuration");
+                EventHandler.unsetToken("show_data_host_outlier");
+                EventHandler.unsetToken("show_data_host_quality");
+                EventHandler.unsetToken("show_data_host_flipping_status");
+                EventHandler.unsetToken("show_data_host_status_message");
+                EventHandler.unsetToken("show_data_host_lagging_metrics");
+                $("#data_host_overview").css("display", "none");
+                $("#data_host_outliers").css("display", "none");
+                $("#data_host_outliers_config").css("display", "none");
+                $("#data_host_data_parsing").css("display", "none");
+                $("#data_host_metrics").css("display", "none");
+                $("#data_host_flipping").css("display", "none");
+                $("#data_host_status").css("display", "none");
+                $("#data_host_changes").css("display", "inherit");
+                $("#data_host_timepicker").css("display", "inherit");
+            }
+        });
+
+        // modal Single Lag
+        var elementSingleLagHostPerc95 = new SingleView({
+            "id": "elementSingleLagHostPerc95",
+            "trendDisplayMode": "absolute",
+            "numberPrecision": "0.00",
+            "drilldown": "none",
+            "height": "95",
+            "trellis.size": "medium",
+            "trendColorInterpretation": "standard",
+            "useColors": "0",
+            "colorBy": "value",
+            "showTrendIndicator": "1",
+            "showSparkline": "1",
+            "trellis.enabled": "0",
+            "unit": "",
+            "rangeColors": "[\"0x77dd77\",\"0x0877a6\",\"0xf8be34\",\"0xf1813f\",\"0xdc4e41\"]",
+            "colorMode": "none",
+            "rangeValues": "[0,30,70,100]",
+            "unitPosition": "after",
+            "trellis.scales.shared": "1",
+            "useThousandSeparators": "1",
+            "underLabel": "PERC95 INGESTION LAG (sec or [D+]HH:MM:SS)",
+            "managerid": "searchSingleLagHostPerc95",
+            "el": $('#elementSingleLagHostPerc95')
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        }).render();
+
+        var elementSingleLagHostAvg = new SingleView({
+            "id": "elementSingleLagHostAvg",
+            "trendDisplayMode": "absolute",
+            "numberPrecision": "0.00",
+            "drilldown": "none",
+            "height": "95",
+            "trellis.size": "medium",
+            "trendColorInterpretation": "standard",
+            "useColors": "0",
+            "colorBy": "value",
+            "showTrendIndicator": "1",
+            "showSparkline": "1",
+            "trellis.enabled": "0",
+            "unit": "",
+            "rangeColors": "[\"0x77dd77\",\"0x0877a6\",\"0xf8be34\",\"0xf1813f\",\"0xdc4e41\"]",
+            "colorMode": "none",
+            "rangeValues": "[0,30,70,100]",
+            "unitPosition": "after",
+            "trellis.scales.shared": "1",
+            "useThousandSeparators": "1",
+            "underLabel": "AVG INGESTION LAG (sec or [D+]HH:MM:SS)",
+            "managerid": "searchSingleLagHostAvg",
+            "el": $('#elementSingleLagHostAvg')
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        }).render();
+
+        var elementSingleLagHostEventLag = new SingleView({
+            "id": "elementSingleLagHostEventLag",
+            "trendDisplayMode": "absolute",
+            "numberPrecision": "0.00",
+            "drilldown": "none",
+            "height": "95",
+            "trellis.size": "medium",
+            "trendColorInterpretation": "standard",
+            "useColors": "0",
+            "colorBy": "value",
+            "showTrendIndicator": "1",
+            "showSparkline": "1",
+            "trellis.enabled": "0",
+            "unit": "",
+            "rangeColors": "[\"0x77dd77\",\"0x0877a6\",\"0xf8be34\",\"0xf1813f\",\"0xdc4e41\"]",
+            "colorMode": "none",
+            "rangeValues": "[0,30,70,100]",
+            "unitPosition": "after",
+            "trellis.scales.shared": "1",
+            "useThousandSeparators": "1",
+            "underLabel": "CURRENT EVENT LAG (sec or [D+]HH:MM:SS)",
+            "managerid": "searchSingleLagHostEventLag",
+            "el": $('#elementSingleLagHostEventLag')
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        }).render();
+
+        var elementSingleSLAHostpct = new SingleView({
+            "id": "elementSingleSLAHostpct",
+            "trendDisplayMode": "absolute",
+            "numberPrecision": "0.00",
+            "drilldown": "all",
+            "height": "95",
+            "trellis.size": "medium",
+            "trendColorInterpretation": "standard",
+            "useColors": "0",
+            "colorBy": "value",
+            "showTrendIndicator": "1",
+            "showSparkline": "1",
+            "trellis.enabled": "0",
+            "unit": "%",
+            "rangeColors": "[\"0xdc4e41\",\"0xf1813f\",\"0x77dd77\"]",
+            "colorMode": "none",
+            "rangeValues": "[50,90]",
+            "unitPosition": "after",
+            "trellis.scales.shared": "1",
+            "useColors": "1",
+            "useThousandSeparators": "1",
+            "underLabel": "SLA PCT (% time spent in green/blue mode last 90d)",
+            "managerid": "searchSingleSLAHostpct",
+            "el": $('#elementSingleSLAHostpct')
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        }).render();
+
+        var elementChartHostIndexes = new ChartView({
+            "id": "elementChartHostIndexes",
+            "charting.drilldown": "all",
+            "resizable": true,
+            "charting.chart": "pie",
+            "height": "160",
+            "managerid": "searchChartHostIndexes",
+            "el": $('#elementChartHostIndexes')
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        }).render();
+
+        var elementChartHostSourcetypes = new ChartView({
+            "id": "elementChartHostSourcetypes",
+            "charting.drilldown": "all",
+            "resizable": true,
+            "charting.chart": "pie",
+            "height": "160",
+            "managerid": "searchChartHostSourcetypes",
+            "el": $('#elementChartHostSourcetypes')
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        }).render();
+
+        // modal window chart
+        var elementChartLagHostOverTime = new ChartView({
+            "id": "elementChartLagHostOverTime",
+            "charting.axisX.abbreviation": "none",
+            "charting.legend.mode": "standard",
+            "charting.chart.bubbleMaximumSize": "50",
+            "charting.chart.sliceCollapsingThreshold": "0.01",
+            "charting.axisTitleY.text": "Events count",
+            "refresh.display": "progressbar",
+            "charting.chart.nullValueMode": "gaps",
+            "charting.axisTitleX.visibility": "collapsed",
+            "charting.axisTitleY2.text": "lag in seconds",
+            "charting.axisX.scale": "linear",
+            "charting.drilldown": "none",
+            "charting.axisLabelsX.majorLabelStyle.overflowMode": "ellipsisNone",
+            "charting.chart.overlayFields": "avg_lag_sec",
+            "charting.chart.showDataLabels": "none",
+            "charting.axisTitleY2.visibility": "visible",
+            "charting.axisY2.enabled": "1",
+            "charting.axisY2.scale": "inherit",
+            "trellis.scales.shared": "1",
+            "charting.layout.splitSeries.allowIndependentYRanges": "0",
+            "charting.chart.bubbleSizeBy": "area",
+            "charting.chart.bubbleMinimumSize": "10",
+            "charting.chart.style": "shiny",
+            "charting.axisY.scale": "linear",
+            "charting.layout.splitSeries": "0",
+            "resizable": true,
+            "charting.legend.labelStyle.overflowMode": "ellipsisMiddle",
+            "charting.lineWidth": "2",
+            "charting.axisTitleY.visibility": "visible",
+            "charting.chart.stackMode": "default",
+            "charting.legend.placement": "right",
+            "trellis.size": "medium",
+            "charting.axisLabelsX.majorLabelStyle.rotation": "0",
+            "charting.axisY2.abbreviation": "none",
+            "charting.chart": "column",
+            "charting.axisY.abbreviation": "none",
+            "charting.fieldColors": "{\"events_count\": 0xaec6cf, \"avg_lag_sec\": 0x8b0000}",
+            "trellis.enabled": "0",
+            "height": "160",
+            "managerid": "searchChartLagHostOverTime",
+            "el": $('#elementChartLagHostOverTime')
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        }).render();
+
+        // outlier chart
+        var elementOutlierDataHost = new OutliersViz({
+            "id": "elementOutlierDataHost",
+            "type": "Splunk_ML_Toolkit.OutliersViz",
+            "resizable": true,
+            "Splunk_ML_Toolkit.OutliersViz.showOutlierCount": "true",
+            "drilldown": "none",
+            "trellis.enabled": "0",
+            "trellis.scales.shared": "1",
+            "trellis.size": "medium",
+            "height": "350",
+            "managerid": "searchOutlierDetectionChartDataHost",
+            "el": $('#elementOutlierDataHost')
+        }, {tokens: true, tokenNamespace: "submitted"}).render();
+
+        var elementOutlierTableDataHost = new TableView({
+            "id": "elementOutlierTableDataHost",
+            "count": 100,
+            "dataOverlayMode": "none",
+            "drilldown": "none",
+            "percentagesRow": "false",
+            "rowNumbers": "false",
+            "totalsRow": "false",
+            "wrap": "true",
+            "managerid": "searchOutlierDetectionTableDataHost",
+            "el": $('#elementOutlierTableDataHost')
+        }, {tokens: true, tokenNamespace: "submitted"}).render();
+
+        var elementOutlierSimulationDataHost = new OutliersViz({
+            "id": "elementOutlierSimulationDataHost",
+            "type": "Splunk_ML_Toolkit.OutliersViz",
+            "resizable": true,
+            "Splunk_ML_Toolkit.OutliersViz.showOutlierCount": "true",
+            "drilldown": "none",
+            "trellis.enabled": "0",
+            "trellis.scales.shared": "1",
+            "trellis.size": "medium",
+            "height": "350",
+            "managerid": "searchOutlierDetectionChartSimulationDataHost",
+            "el": $('#elementOutlierSimulationDataHost')
+        }, {tokens: true, tokenNamespace: "submitted"}).render();
+        
+        // Data Parsing Quality
+        var elementSearchDataHostParsingQualityChart = new ChartView({
+            "id": "elementSearchDataHostParsingQualityChart",
+            "charting.chart.nullValueMode": "gaps",
+            "resizable": true,
+            "trellis.enabled": "0",
+            "charting.axisTitleX.visibility": "collapsed",
+            "refresh.display": "progressbar",
+            "charting.chart.stackMode": "stacked",
+            "charting.axisLabelsX.majorLabelStyle.overflowMode": "ellipsisNone",
+            "charting.axisY.abbreviation": "none",
+            "charting.legend.placement": "bottom",
+            "charting.axisY2.abbreviation": "none",
+            "charting.legend.labelStyle.overflowMode": "ellipsisMiddle",
+            "charting.chart.showDataLabels": "none",
+            "charting.axisY2.enabled": "0",
+            "charting.chart.sliceCollapsingThreshold": "0.01",
+            "charting.chart.style": "shiny",
+            "charting.layout.splitSeries.allowIndependentYRanges": "0",
+            "charting.chart": "column",
+            "charting.axisX.scale": "linear",
+            "trellis.scales.shared": "1",
+            "charting.axisTitleY.visibility": "visible",
+            "charting.axisTitleY2.visibility": "visible",
+            "charting.chart.bubbleMinimumSize": "10",
+            "charting.drilldown": "none",
+            "charting.legend.mode": "standard",
+            "charting.chart.bubbleMaximumSize": "50",
+            "trellis.size": "medium",
+            "charting.axisY.scale": "linear",
+            "charting.chart.bubbleSizeBy": "area",
+            "charting.axisLabelsX.majorLabelStyle.rotation": "0",
+            "charting.axisX.abbreviation": "none",
+            "charting.layout.splitSeries": "0",
+            "charting.lineWidth": "2",
+            "charting.axisY2.scale": "inherit",
+            "managerid": "SearchDataHostParsingQualityChart",
+            "el": $('#elementSearchDataHostParsingQualityChart')
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        }).render();
+
+        // modal Single Lag
+        var elementSingleLagByMetricsHostPerc95 = new SingleView({
+            "id": "elementSingleLagByMetricsHostPerc95",
+            "trendDisplayMode": "absolute",
+            "numberPrecision": "0.00",
+            "drilldown": "none",
+            "height": "95",
+            "trellis.size": "medium",
+            "trendColorInterpretation": "standard",
+            "useColors": "0",
+            "colorBy": "value",
+            "showTrendIndicator": "1",
+            "showSparkline": "1",
+            "trellis.enabled": "0",
+            "unit": "",
+            "rangeColors": "[\"0x77dd77\",\"0x0877a6\",\"0xf8be34\",\"0xf1813f\",\"0xdc4e41\"]",
+            "colorMode": "none",
+            "rangeValues": "[0,30,70,100]",
+            "unitPosition": "after",
+            "trellis.scales.shared": "1",
+            "useThousandSeparators": "1",
+            "underLabel": "PERC95 INGESTION LAG (sec or [D+]HH:MM:SS)",
+            "managerid": "searchSingleLagByMetricsHostPerc95",
+            "el": $('#elementSingleLagByMetricsHostPerc95')
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        }).render();
+
+        var elementSingleLagByMetricsHostAvg = new SingleView({
+            "id": "elementSingleLagByMetricsHostAvg",
+            "trendDisplayMode": "absolute",
+            "numberPrecision": "0.00",
+            "drilldown": "none",
+            "height": "95",
+            "trellis.size": "medium",
+            "trendColorInterpretation": "standard",
+            "useColors": "0",
+            "colorBy": "value",
+            "showTrendIndicator": "1",
+            "showSparkline": "1",
+            "trellis.enabled": "0",
+            "unit": "",
+            "rangeColors": "[\"0x77dd77\",\"0x0877a6\",\"0xf8be34\",\"0xf1813f\",\"0xdc4e41\"]",
+            "colorMode": "none",
+            "rangeValues": "[0,30,70,100]",
+            "unitPosition": "after",
+            "trellis.scales.shared": "1",
+            "useThousandSeparators": "1",
+            "underLabel": "AVG INGESTION LAG (sec or [D+]HH:MM:SS)",
+            "managerid": "searchSingleLagByMetricsHostAvg",
+            "el": $('#elementSingleLagByMetricsHostAvg')
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        }).render();
+
+        var elementSingleLagByMetricsHostEventLag = new SingleView({
+            "id": "elementSingleLagByMetricsHostEventLag",
+            "trendDisplayMode": "absolute",
+            "numberPrecision": "0.00",
+            "drilldown": "none",
+            "height": "95",
+            "trellis.size": "medium",
+            "trendColorInterpretation": "standard",
+            "useColors": "0",
+            "colorBy": "value",
+            "showTrendIndicator": "1",
+            "showSparkline": "1",
+            "trellis.enabled": "0",
+            "unit": "",
+            "rangeColors": "[\"0x77dd77\",\"0x0877a6\",\"0xf8be34\",\"0xf1813f\",\"0xdc4e41\"]",
+            "colorMode": "none",
+            "rangeValues": "[0,30,70,100]",
+            "unitPosition": "after",
+            "trellis.scales.shared": "1",
+            "useThousandSeparators": "1",
+            "underLabel": "CURRENT EVENT LAG (sec or [D+]HH:MM:SS)",
+            "managerid": "searchSingleLagByMetricsHostEventLag",
+            "el": $('#elementSingleLagByMetricsHostEventLag')
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        }).render();
+
+        var chartLaggingMetricDataHostOverTime = new ChartView({
+            "id": "chartLaggingMetricDataHostOverTime",
+            "charting.axisX.abbreviation": "none",
+            "charting.legend.mode": "standard",
+            "charting.chart.bubbleMaximumSize": "50",
+            "charting.chart.sliceCollapsingThreshold": "0.01",
+            "charting.axisTitleY.text": "4h Events count",
+            "refresh.display": "progressbar",
+            "charting.chart.nullValueMode": "gaps",
+            "charting.axisTitleX.visibility": "collapsed",
+            "charting.axisTitleY2.text": "lagging (sec)",
+            "charting.axisLabelsY2.majorUnit": "0.1",
+            "charting.axisX.scale": "linear",
+            "charting.drilldown": "none",
+            "charting.axisLabelsX.majorLabelStyle.overflowMode": "ellipsisNone",
+            "charting.chart.overlayFields": "lag_event_sec,lag_ingestion_sec,host_count_4h",
+            "charting.chart.showDataLabels": "none",
+            "charting.axisTitleY2.visibility": "visible",
+            "charting.axisY2.enabled": "1",
+            "charting.axisY2.scale": "inherit",
+            "trellis.scales.shared": "1",
+            "charting.layout.splitSeries.allowIndependentYRanges": "0",
+            "charting.chart.bubbleSizeBy": "area",
+            "charting.chart.bubbleMinimumSize": "10",
+            "charting.chart.style": "shiny",
+            "charting.axisY.scale": "linear",
+            "charting.layout.splitSeries": "0",
+            "charting.fieldColors": "{\"eventcount_4h\": 0xaec6cf, \"lag_event_sec\": 0x9542f5, \"lag_ingestion_sec\": 0xff6961}",
+            "resizable": true,
+            "charting.legend.labelStyle.overflowMode": "ellipsisMiddle",
+            "charting.lineWidth": "2",
+            "charting.axisTitleY.visibility": "visible",
+            "charting.chart.stackMode": "default",
+            "charting.legend.placement": "right",
+            "trellis.size": "medium",
+            "charting.axisLabelsX.majorLabelStyle.rotation": "0",
+            "charting.axisY2.abbreviation": "none",
+            "charting.chart": "column",
+            "charting.axisY.abbreviation": "none",
+            "trellis.enabled": "0",
+            "managerid": "searchLaggingMetricDataHost",
+            "el": $('#chartLaggingMetricDataHostOverTime')
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        }).render();
+
+        var chartAuditFlipDataHostOverTime = new ChartView({
+            "id": "chartAuditFlipDataHostOverTime",
+            "charting.chart.stackMode": "stacked",
+            "charting.chart": "column",
+            "charting.drilldown": "all",
+            "charting.axisLabelsY.majorUnit": "1",
+            "charting.fieldColors": "{\"orange\": 0xffd394, \"blue\": 0xcfebf9, \"green\": 0xb6edb6, \"red\": 0xFFBABA}",
+            "resizable": true,
+            "height": "150",
+            "managerid": "searchAuditDataHostFlipOverTime",
+            "el": $('#chartAuditFlipDataHostOverTime')
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        }).render();
+
+        // Audit Flip Data Host
+        var elementMainTableAuditFlipDataHost = new TableView({
+            "id": "elementMainTableAuditFlipDataHost",
+            "count": 5,
+            "drilldown": "none",
+            "refresh.display": "none",
+            "wrap": "false",
+            "managerid": "searchMainDataHostAuditFlipTable",
+            "el": $('#elementMainTableAuditFlipDataHost')
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        }).render();
+
+        renderTableIcon(elementMainTableAuditFlipDataHost);
+
+        var chartAuditChangesDataHostOverTime = new ChartView({
+            "id": "chartAuditChangesDataHostOverTime",
+            "charting.chart.stackMode": "stacked",
+            "charting.chart": "column",
+            "charting.drilldown": "all",
+            "charting.axisLabelsY.majorUnit": "1",
+            "charting.fieldColors": "{\"success\": 0xb6edb6, \"failure\": 0xFFBABA}",
+            "resizable": true,
+            "height": "150",
+            "managerid": "searchAuditDataHostAuditChangesOverTime",
+            "el": $('#chartAuditChangesDataHostOverTime')
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        }).render();
+
+        // Audit Changes Data Host
+        var elementMainTableAuditChangesDataHost = new TableView({
+            "id": "elementMainTableAuditChangesDataHost",
+            "count": 5,
+            "drilldown": "none",
+            "refresh.display": "none",
+            "wrap": "false",
+            "managerid": "searchMainDataHostAuditChangesTable",
+            "el": $('#elementMainTableAuditChangesDataHost')
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        }).render();
+
+        var LinkTimeOutlierConfigurationDataHostSpan = new LinkListInput({
+            "id": "LinkTimeOutlierConfigurationDataHostSpan",
+            "choices": [{
+                    "value": "5m",
+                    "label": "5m"
+                },
+                {
+                    "value": "60m",
+                    "label": "60m"
+                },
+                {
+                    "value": "4h",
+                    "label": "4h"
+                },
+                {
+                    "value": "12h",
+                    "label": "12h"
+                },
+                {
+                    "value": "1d",
+                    "label": "1d"
+                }
+            ],
+            "default": "5m",
+            "searchWhenChanged": true,
+            "selectFirstChoice": false,
+            "initialValue": "5m",
+            "value": "$form.TimeOutlierConfigurationDataHostSpan$",
+            "el": $('#LinkTimeOutlierConfigurationDataHostSpan')
+        }, {
+            tokens: true
+        }).render();
+
+        LinkTimeOutlierConfigurationDataHostSpan.on("change", function(newValue) {
+            FormUtils.handleValueChange(LinkTimeOutlierConfigurationDataHostSpan);
+        });
+
+        LinkTimeOutlierConfigurationDataHostSpan.on("valueChange", function(e) {
+			if (e.value === "5m") {
+                EventHandler.setToken("tk_input_data_host_outlier_span", "5m", {}, e.data);
+            } else if (e.value === "60m") {
+                EventHandler.setToken("tk_input_data_host_outlier_span", "60m", {}, e.data);
+            } else if (e.value === "4h") {
+                EventHandler.setToken("tk_input_data_host_outlier_span", "4h", {}, e.data);
+            } else if (e.value === "12h") {
+                EventHandler.setToken("tk_input_data_host_outlier_span", "12h", {}, e.data);
+            } else if (e.value === "1d") {
+                EventHandler.setToken("tk_input_data_host_outlier_span", "1d", {}, e.data);
+            }
+        });
+
+        // outliers configuration data_host
+        var LinkTimeOutlierConfigurationDataHost = new LinkListInput({
+            "id": "LinkTimeOutlierConfigurationDataHost",
+            "choices": [{
+                    "value": "-24h",
+                    "label": "24h"
+                },
+                {
+                    "value": "-48h",
+                    "label": "48h"
+                },
+                {
+                    "value": "-7d",
+                    "label": "7d"
+                },
+                {
+                    "value": "-30d",
+                    "label": "30d"
+                }
+            ],
+            "default": "-7d",
+            "searchWhenChanged": true,
+            "selectFirstChoice": false,
+            "initialValue": "-7d",
+            "value": "$form.TimeOutlierConfigurationDataHost$",
+            "el": $('#LinkTimeOutlierConfigurationDataHost')
+        }, {
+            tokens: true
+        }).render();
+
+        LinkTimeOutlierConfigurationDataHost.on("change", function(newValue) {
+            FormUtils.handleValueChange(LinkTimeOutlierConfigurationDataHost);
+        });
+
+        LinkTimeOutlierConfigurationDataHost.on("valueChange", function(e) {
+			if (e.value === "-24h") {
+                EventHandler.setToken("tk_input_data_host_outlier_period", "-24h", {}, e.data);
+            } else if (e.value === "-48h") {
+                EventHandler.setToken("tk_input_data_host_outlier_period", "-48h", {}, e.data);
+            } else if (e.value === "-7d") {
+                EventHandler.setToken("tk_input_data_host_outlier_period", "-7d", {}, e.data);
+            } else if (e.value === "-30d") {
+                EventHandler.setToken("tk_input_data_host_outlier_period", "-30d", {}, e.data);
+            }
+        });
 
     //
     // BEGIN OPERATIONS
