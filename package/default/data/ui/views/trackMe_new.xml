@@ -5542,26 +5542,28 @@
                                 </div>
                             </div>
 
-							<div id="data_host_changes" style="display: none">
-                            
+							<div id="data_host_changes" style="display: none">                            
                                 <div style="padding: 20px;">
                                     <div id="divDataHostChangesChart" style="display: none">
-                                        <h3>Changes over time</h3>
-                                        <div id="chartAuditChangesDataHostOverTime" class="view-elements"></div>
-                                        <div id="resultsLinkchartAuditChangesDataHostOverTime" class="search-elements"></div>
+										<div style="padding: 20px;">
+											<h3>Changes over time</h3>
+											<div id="chartAuditChangesDataHostOverTime" class="view-elements"></div>
+											<div id="resultsLinkchartAuditChangesDataHostOverTime" class="search-elements"></div>
+										</div>
                                     </div>
-                                    <div id="divDataHostChangesTable" style="display: none">
-                                        <div id="elementMainTableAuditChangesDataHost" class="view-elements"></div>
-                                        <div id="resultsLinkelementMainTableAuditChangesDataHost" class="search-elements"></div>
-                                    </div>
+									<div style="padding: 20px;">
+										<div id="divDataHostChangesTable" style="display: none">
+											<div id="elementMainTableAuditChangesDataHost" class="view-elements"></div>
+											<div id="resultsLinkelementMainTableAuditChangesDataHost" class="search-elements"></div>
+										</div>
+									</div>
                                     <div id="divDataHostChangesNotFound" style="display: none">
                                         <div class="status_message_green">
                                             <h2 style="font-weight: bold; color: darkslategray;">No changes detected within the period</h2>
                                         </div>
                                     </div>
                                 </div>
-                            
-                            </div>
+							</div>
 
 							<div id="data_host_timepicker" style="display: none">
 								<div style="padding: 20px;">
@@ -6130,6 +6132,261 @@
 					</div>
 				</div>
 
+				<!-- Modal drilldown context for Alerts -->
+				<div class="modal fade custom-modal-80" id="modal_manage_metric_host" role="dialog">
+					<div class="modal-dialog">
+						<!-- Modal content-->
+						<div class="modal-content">
+							<!-- This is required to get the token substitutions without affecting the buttons actions in js -->
+							<div>
+								<div>
+									<div class="modal-header modal-header-primary">
+										<div id="parent-metric-host-main" style="margin-bottom: -18px;">
+										</div>
+										<button type="button" class="close" data-dismiss="modal"></button>
+									</div>
+									<div class="modal-body">
+										<style>
+                                            .parent-metric-host-top-info {
+                                                display: grid;
+                                                grid-template-columns: repeat(4, 1fr);
+                                                grid-template-rows: 1fr;
+                                                grid-column-gap: 0px;
+                                                grid-row-gap: 0px;
+                                                margin-left: 5%;
+                                            }
+                                            .parent-metric-host-top-info {
+                                                line-height: 10px;
+                                            }
+                                        </style>
+										<div class="parent-metric-host-top-info">
+											<div id="child-metric-host-top-info1">
+											</div>
+											<div id="child-metric-host-top-info2">
+											</div>
+											<div id="child-metric-host-top-info3">
+											</div>
+											<div id="child-metric-host-top-info4">
+											</div>
+										</div>
+										<div style="margin-left: 10px; margin-bottom: 10px;">
+											<div class="imgheader36">
+												<img style="float: left; margin: 0px 15px 15px 0px;" src="../../static/app/trackme/icons/tags.png"/>
+												<h3>
+													<a id="link_metric_host_tags" data-toggle="modal" data-dismiss="modal" data-target="#modal_metric_host_tags">Show object tags</a>
+												</h3>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+
+							<div style="margin-left: 20px;">
+								<div class="input input-linklist" id="inputLinkMetricHost">
+									<label></label>
+								</div>
+							</div>
+
+							<style>
+                                .parent-metric-host-overview-topelements {
+                                    display: grid;
+                                    grid-template-columns: repeat(2, 1fr);
+                                    grid-template-rows: 1fr;
+                                    grid-column-gap: 0px;
+                                    grid-row-gap: 0px;
+                                }
+                            </style>
+							<div id="metric_host_overview" style="display: none">
+								<div class="parent-metric-host-overview-topelements">
+									<div style="padding: 20px;">
+										<div id="elementHostChartMetricHost" class="view-elements">
+										</div>
+										<div id="resultsLinkelementHostChartMetricHost" class="search-elements">
+										</div>
+									</div>
+									<div style="padding: 20px;">
+										<div id="elementSingleSLAMetricHostpct" class="view-elements">
+										</div>
+										<div id="resultsLinkelementSingleSLAMetricHostpct" class="search-elements">
+										</div>											
+									</div>
+								</div>
+								<div style="padding: 20px;">
+									<div id="elementHostTableMetricHost" class="view-elements">
+										<label>Metrics availability table:</label>
+									</div>
+									<div id="resultsLinkelementHostTableMetricHost" class="search-elements">
+									</div>
+								</div>
+							</div>
+
+							<div id="metric_host_flipping" style="display: none">
+                                <div>
+                                    <div id="divMetricHostFlippingChart" style="display: none">
+										<div style="padding: 20px;">
+											<h3>Flip over time</h3>
+											<div id="chartAuditFlipMetricHostOverTime" class="view-elements"></div>
+											<div id="resultsLinkchartAuditFlipMetricHostOverTime" class="search-elements"></div>
+										</div>
+                                    </div>
+                                </div>
+                                <div>
+                                    <div id="divMetricHostFlippingTable" style="display: none">
+										<div style="padding: 20px;">
+											<div id="elementMainTableAuditFlipMetricHost" class="view-elements"></div>
+											<div id="resultsLinkelementMainTableAuditFlipMetricHost" class="search-elements"></div>
+										</div>
+                                    </div>
+                                </div>
+                                <div>
+                                    <div id="divMetricHostFlippingNotFound" style="display: none">
+										<div style="padding: 20px;">
+											<div class="status_message_green">
+												<h2 style="font-weight: bold; color: darkslategray;">No flipping status detected within the period</h2>
+											</div>
+										</div>
+                                    </div>
+                                </div>
+                            </div>
+
+							<div id="metric_host_status" style="display: none">
+                                <div style="padding: 20px;">
+                                    <div id="child-metric-host-status-message">
+                                    </div>
+                                </div>
+                                <div style="padding: 20px;">
+                                    <h3>Last 7 days timeline</h3>
+                                    <div id="TimelineMetricHost" class="view-elements">
+                                    </div>
+                                    <div id="resultsLinkTimelineMetricHost" class="search-elements">
+                                    </div>
+                                </div>
+								<br />
+                            </div>
+
+							<div id="metric_host_changes" style="display: none">                            
+                                <div style="padding: 20px;">
+                                    <div id="divMetricHostChangesChart" style="display: none">
+										<div style="padding: 20px;">
+											<h3>Changes over time</h3>
+											<div id="chartAuditChangesMetricHostOverTime" class="view-elements"></div>
+											<div id="resultsLinkchartAuditChangesMetricHostOverTime" class="search-elements"></div>
+										</div>
+                                    </div>
+                                    <div id="divMetricHostChangesTable" style="display: none">
+										<div style="padding: 20px;">
+											<div id="elementMainTableAuditChangesMetricHost" class="view-elements"></div>
+											<div id="resultsLinkelementMainTableAuditChangesMetricHost" class="search-elements"></div>
+										</div>
+                                    </div>
+                                    <div id="divMetricHostChangesNotFound" style="display: none">
+                                        <div class="status_message_green">
+                                            <h2 style="font-weight: bold; color: darkslategray;">No changes detected within the period</h2>
+                                        </div>
+                                    </div>
+                                </div>
+                            
+                            </div>
+
+							<div id="metric_host_timepicker" style="display: none">
+								<div style="padding: 20px;">
+									<div id="inputLinkTimeMetricHost"></div>
+								</div>
+							</div>
+
+							<div class="modal-footer" style="margin-top: -30px;">
+								<div style="margin-right: 15px; float: left;">
+									<button type="submit" id="btn_refresh_metric_host" role="button" class="btn btn-outline-secondary pull-left">
+										<span class="glyphicon glyphicon-remove"></span>Refresh
+									</button>
+								</div>
+								<div style="margin-right: 15px; float: right;">
+									<button type="submit" class="btn btn-outline-secondary" data-dismiss="modal">
+										<span class="glyphicon glyphicon-remove"></span> Close
+									</button>
+								</div>
+								<div style="margin-right: 15px; float: right;">
+									<button type="submit" id="btn_search_metric_reports" role="button" class="btn btn-outline-primary">
+										<span class="glyphicon glyphicon-remove"></span>Search &amp; reports
+									</button>
+								</div>
+								<div style="margin-right: 15px; float: right;">
+									<button type="submit" id="btn_modify_metric_host" role="button" data-dismiss="modal" class="btn btn-outline-danger">
+										<span class="glyphicon glyphicon-remove"></span>Modify
+									</button>
+								</div>
+								<div style="margin-right: 15px; float: right;">
+									<button type="submit" id="btn_reset_metric_host" role="button" class="btn btn-outline-danger">
+										<span class="glyphicon glyphicon-remove"></span>Reset
+									</button>
+								</div>
+								<div style="margin-right: 15px; float: right;">
+									<button type="submit" id="btn_delete_metric_host" role="button" class="btn btn-outline-danger">
+										<span class="glyphicon glyphicon-remove"></span>Delete
+									</button>
+								</div>
+								<div style="margin-right: 15px; float: right;">
+									<button type="submit" id="btn_disable_monitoring_metric_host" role="button" class="btn btn-outline-danger">
+										<span class="glyphicon glyphicon-remove"></span>Disable
+									</button>
+								</div>
+								<div style="margin-right: 15px; float: right;">
+									<button type="submit" id="btn_enable_monitoring_metric_host" role="button" class="btn btn-outline-primary">
+										<span class="glyphicon glyphicon-remove"></span>Enable
+									</button>
+								</div>
+								<div class="btn_ack" style="margin-right: 15px; float: right;">
+									<button type="submit" id="btn_ack_metric_host" role="button" data-dismiss="modal" class="btn btn-outline-primary">
+										<span class="glyphicon glyphicon-remove"></span>Acknowledge alert
+									</button>
+								</div>
+								<div class="btn_smart_status_metric_host" style="margin-right: 15px; float: right;">
+									<button type="submit" id="btn_smart_status_metric_host" role="button" data-dismiss="modal" class="btn btn-outline-primary">
+										<span class="glyphicon glyphicon-remove"></span>Smart Status
+									</button>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<!-- Modal window define for identity card association -->
+				<div class="modal fade custom-modal-80" id="modal_metric_host_tags" role="dialog">
+					<div class="modal-dialog">
+						<!-- Modal content-->
+						<div class="modal-content">
+							<!-- This is required to get the token substitutions without affecting the buttons actions in js -->
+							<div>
+								<div>
+									<div class="modal-header modal-header-info">
+										<h1>Enrichment tags:</h1>
+										<button type="button" class="close" data-dismiss="modal"></button>
+									</div>
+								</div>
+							</div>
+							<div class="modal-body">
+								<div>
+									<div class="imgheader36">
+										<span>
+											<img style="float: left; margin: 0px 15px 15px 0px;" src="../../static/app/trackme/icons/tags.png"/>
+										</span>
+										<h3>Object tags:</h3>
+									</div>
+								</div>
+								<div class="view-main" style="margin-top: 30px;">
+									<div id="elementGetTagsMetricHost" class="view-elements"></div>
+									<div id="resultsLinkelementGetTagsMetricHost" class="search-elements"></div>												
+								</div>
+							</div>
+							<div class="modal-footer">
+								<button type="submit" id="btn_back_metric_host_tags" class="btn btn-outline-primary pull-left" data-dismiss="modal">
+									<span class="glyphicon glyphicon-remove"></span> Back
+								</button>
+							</div>
+						</div>
+					</div>
+				</div>
+
 			</html>
 
             <!-- BEGIN OPERATIONS -->
@@ -6138,48 +6395,6 @@
 				<!-- ############
                     MODAL WINDOWS
                 ############# -->
-				<!-- Modal window define for identity card association -->
-				<div class="modal fade custom-modal-80" id="modal_metric_host_tags" role="dialog">
-					<div class="modal-dialog">
-						<!-- Modal content-->
-						<div class="modal-content">
-							<!-- This is required to get the token substitutions without affecting the buttons actions in js -->
-							<div id="body_metric_host_tags">
-								<div>
-									<div class="modal-header modal-header-info">
-										<h1 style="font-size: 18px;">Enrichment tags: $tk_metric_host$</h1>
-										<button type="button" class="close" data-dismiss="modal"></button>
-									</div>
-								</div>
-							</div>
-							<div class="modal-body">
-								<div>
-									<div>
-										<div>
-											<div>
-												<div class="imgheader36">
-													<span>
-														<img style="float: left; margin: 0px 15px 15px 0px;" src="../../static/app/trackme/icons/tags.png"/>
-													</span>
-													<h3>Object tags:</h3>
-													<br />
-												</div>
-											</div>
-											<div>
-												<div id="elementGetTagsMetricHost"></div>
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
-							<div class="modal-footer">
-								<button type="submit" id="btn_back_metric_host_tags" class="btn btn-default btn-primary pull-left" data-dismiss="modal">
-									<span class="glyphicon glyphicon-remove"></span> Back
-								</button>
-							</div>
-						</div>
-					</div>
-				</div>
 				<!-- Modal window for metrics search and report -->
 				<div class="modal fade custom-modal-80" id="metric_hosts_search_and_reports" role="dialog">
 					<div class="modal-dialog">
@@ -6217,277 +6432,6 @@
 											<span class="glyphicon glyphicon-remove"></span> Back 
 										</button>
 									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-				<!-- Modal drilldown context for Alerts -->
-				<div class="modal fade custom-modal-80" id="modal_manage_metric_host" role="dialog">
-					<div class="modal-dialog">
-						<!-- Modal content-->
-						<div class="modal-content">
-							<!-- This is required to get the token substitutions without affecting the buttons actions in js -->
-							<div>
-								<div>
-									<div class="modal-header modal-header-primary">
-										<h1 style="font-size: 18px;">Actions for metric host: $tk_metric_host$</h1>
-										<button type="button" class="close" data-dismiss="modal"></button>
-									</div>
-									<div class="modal-body">
-										<div style="line-height: 1.1; margin-left: 20px;">
-											<div style="float:left;width:25%;">
-												<p>
-													<b>metric_last_lag_seen:</b> $tk_metric_last_lag_seen$
-												</p>
-												<p>
-													<b>metric_last_time_seen:</b> $tk_metric_last_time_seen_human$
-												</p>
-											</div>
-											<div style="float:left;width:25%;">
-												<p>
-													<b>metric_monitored_state:</b>
-													<span class="$tk_metric_monitored_state_class$">$tk_metric_monitored_state$</span>
-												</p>
-												<p>
-													<b>metric_host_state:</b>
-													<span class="$tk_metric_host_state_class$">$tk_metric_host_state$</span>
-												</p>
-											</div>
-											<div style="float:left;width:25%;">
-												<p>
-													<b>latest_flip_time:</b> $tk_latest_flip_time_human$
-												</p>
-												<p>
-													<b>latest_flip_state:</b> $tk_latest_flip_state$
-												</p>
-											</div>
-											<div style="float:left;width:25%;">
-												<p>
-													<b>priority:</b>
-													<span class="$tk_priority_class$">$tk_priority$</span>
-												</p>
-											</div>
-										</div>
-										<div style="margin-left: 10px; margin-bottom: 10px;">
-											<div class="imgheader36">
-												<img style="float: left; margin: 0px 15px 15px 0px;" src="../../static/app/trackme/icons/tags.png"/>
-												<h3>
-													<a id="link_metric_host_tags" data-toggle="modal" data-target="#modal_metric_host_tags">Show object tags</a>
-												</h3>
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
-							<br />
-							<hr />
-							<div style="margin-left: 15px; margin-top: -20px;">
-								<div>
-									<div>
-										<div>
-											<div class="input input-linklist" id="inputLinkMetricHost">
-												<label></label>
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
-							<div data-depends="$show_metric_host_overview$">
-								<div data-depends="$show_metric_host_overview$">
-									<div>
-										<div>
-											<div id="elementHostChartMetricHost"></div>
-										</div>
-									</div>
-								</div>
-								<div data-depends="$show_metric_host_overview$">
-									<div>
-										<div>
-											<div id="elementSingleSLAMetricHostpct"></div>
-										</div>
-									</div>
-								</div>
-							</div>
-							<div data-depends="$show_metric_host_overview$">
-								<div>
-									<div>
-										<div>
-											<div class="fieldset">
-												<div id="elementHostTableMetricHost">
-													<label>Metrics availability table:</label>
-												</div>
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
-							<div data-depends="$show_metric_host_flipping_status$,$show_metric_host_flipping_status_no_results$">
-								<div>
-									<div>
-										<div>
-											<div id="chartAuditFlipMetricHostOverTime">
-												<div>
-													<h3>Flip over time</h3>
-												</div>
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
-							<div data-depends="$show_metric_host_flipping_status$,$show_metric_host_flipping_status_no_results$">
-								<div>
-									<div>
-										<div>
-											<div id="elementMainTableAuditFlipMetricHost"></div>
-										</div>
-									</div>
-								</div>
-							</div>
-							<div data-depends="$show_metric_host_flipping_status$" data-rejects="$show_metric_host_flipping_status_no_results$">
-								<div>
-									<div>
-										<div>
-											<div>
-												<div>
-													<div class="status_message_green">
-														<h2 style="font-weight: bold;">No flipping status detected within the period</h2>
-													</div>
-												</div>
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
-							<div data-depends="$show_metric_host_status_message$">
-								<div>
-									<div>
-										<div>
-											<div>
-												<div>
-													<div class="$tk_metric_host_status_message_class$">
-														<h2 style="font-weight: bold;">$tk_status_message$</h2>
-													</div>
-												</div>
-											</div>
-										</div>
-										<div style="margin-top: -80px; max-height: 200px !important">
-											<div>
-												<div>
-													<div>
-														<div id="TimelineMetricHost">
-															<div>
-																<h3>Last 7 days timeline</h3>
-															</div>
-														</div>
-													</div>
-												</div>
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
-							<div data-depends="$show_metric_host_audit_changes$,$show_metric_host_audit_changes_no_results$">
-								<div>
-									<div>
-										<div>
-											<div id="chartAuditChangesMetricHostOverTime">
-												<div>
-													<h3>Changes over time</h3>
-												</div>
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
-							<div data-depends="$show_metric_host_audit_changes$,$show_metric_host_audit_changes_no_results$">
-								<div>
-									<div>
-										<div>
-											<div id="elementMainTableAuditChangesMetricHost"></div>
-										</div>
-									</div>
-								</div>
-							</div>
-							<div data-depends="$show_metric_host_audit_changes$" data-rejects="$show_metric_host_audit_changes_no_results$">
-								<div>
-									<div>
-										<div>
-											<div>
-												<div>
-													<div class="status_message_green">
-														<h2 style="font-weight: bold;">No audit changes detected within the period</h2>
-													</div>
-												</div>
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
-							<div style="margin-left: 15px;" data-rejects="$show_metric_host_overview$,$show_metric_host_status_message$">
-								<div>
-									<div>
-										<div>
-											<div class="input input-linklist" id="inputLinkTimeMetricHost">
-												<label></label>
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
-							<div>
-								<hr width="100%" size="8" align="center" />
-							</div>
-							<div class="modal-footer">
-								<div style="margin-right: 15px; float: left;">
-									<button type="submit" id="btn_refresh_metric_host" role="button" class="btn btn-primary btn-default pull-left">
-										<span class="glyphicon glyphicon-remove"></span>Refresh
-									</button>
-								</div>
-								<div style="margin-right: 15px; float: right;">
-									<button type="submit" class="btn btn-outline-primary" data-dismiss="modal">
-										<span class="glyphicon glyphicon-remove"></span> Close
-									</button>
-								</div>
-								<div style="margin-right: 15px; float: right;">
-									<button type="submit" id="btn_search_metric_reports" role="button" class="btn btn-primary btn-default">
-										<span class="glyphicon glyphicon-remove"></span>Search &amp; reports
-									</button>
-								</div>
-								<div style="margin-right: 15px; float: right;">
-									<button type="submit" id="btn_modify_metric_host" role="button" class="btn btn-primary btn-default">
-										<span class="glyphicon glyphicon-remove"></span>Modify
-									</button>
-								</div>
-								<div style="margin-right: 15px; float: right;">
-									<button type="submit" id="btn_reset_metric_host" role="button" class="btn btn-outline-danger">
-										<span class="glyphicon glyphicon-remove"></span>Reset
-									</button>
-								</div>
-								<div style="margin-right: 15px; float: right;">
-									<button type="submit" id="btn_delete_metric_host" role="button" class="btn btn-outline-danger">
-										<span class="glyphicon glyphicon-remove"></span>Delete
-									</button>
-								</div>
-								<div style="margin-right: 15px; float: right;">
-									<button type="submit" id="btn_disable_monitoring_metric_host" role="button" class="btn btn-outline-danger">
-										<span class="glyphicon glyphicon-remove"></span>Disable
-									</button>
-								</div>
-								<div style="margin-right: 15px; float: right;">
-									<button type="submit" id="btn_enable_monitoring_metric_host" role="button" class="btn btn-primary btn-default">
-										<span class="glyphicon glyphicon-remove"></span>Enable
-									</button>
-								</div>
-								<div class="btn_ack" style="margin-right: 15px; float: right;">
-									<button type="submit" id="btn_ack_metric_host" role="button" class="btn btn-primary btn-default">
-										<span class="glyphicon glyphicon-remove"></span>Acknowledge alert
-									</button>
-								</div>
-								<div class="btn_smart_status_metric_host" style="margin-right: 15px; float: right;">
-									<button type="submit" id="btn_smart_status_metric_host" role="button" class="btn btn-primary btn-default">
-										<span class="glyphicon glyphicon-remove"></span>Smart Status
-									</button>
 								</div>
 							</div>
 						</div>
@@ -7581,4 +7525,19 @@
 			</html>
 		</panel>
 	</row>
+
+	<row>
+		<panel>
+			<html>
+| savedsearch "trackMe - metric per host table report" host="$tk_metric_host$"
+<br />
+show_metric_host_tracker is $show_metric_host_tracker$
+<br />
+tk_metric_host is $tk_metric_host$
+<br />
+			</html>
+		</panel>
+	</row>
+
+
 </form>
