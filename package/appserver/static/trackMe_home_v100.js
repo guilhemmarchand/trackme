@@ -6998,6 +6998,7 @@ require([
             var tk_latest_flip_state = e.data["row.latest_flip_state"];
             var tk_data_host_tags = e.data['row.data_host_tags'];
             var tk_data_max_lag_allowed = e.data["row.data_max_lag_allowed"];
+            var tk_data_monitoring_wdays = e.data["row.data_monitoring_wdays"];
             // token required for auto lagging
             setToken("tk_data_max_lag_allowed", tk_data_max_lag_allowed);
             var tk_data_override_lagging_class = e.data["row.data_override_lagging_class"];
@@ -28324,62 +28325,18 @@ require([
     $("#btn_modal_modify_monitoring_wdays_host_no_confirm").click(function() {
 
         var tk_keyid = getToken("tk_keyid");
-        var tk_data_host = getToken("tk_data_host");
-        var tk_data_index = getToken("tk_data_index");
-        var tk_data_sourcetype = getToken("tk_data_sourcetype");
-        var tk_data_host_st_summary = getToken("tk_data_host_st_summary");
-        var tk_data_host_alerting_policy = getToken(
-            "tk_data_host_alerting_policy"
-        );
-        var tk_data_last_lag_seen = getToken("tk_data_last_lag_seen");
-        var tk_data_last_ingestion_lag_seen = getToken(
-            "tk_data_last_ingestion_lag_seen"
-        );
-        var tk_data_eventcount = getToken("tk_data_eventcount");
-        var tk_data_first_time_seen = getToken("tk_data_first_time_seen");
-        var tk_data_last_time_seen = getToken("tk_data_last_time_seen");
-        var tk_data_last_ingest = getToken("tk_data_last_ingest");
-        var tk_data_max_lag_allowed = getToken("tk_data_max_lag_allowed");
-        var tk_data_lag_alert_kpis = getToken("tk_data_lag_alert_kpis");
+        var tk_object = getToken("tk_object");
         var tk_data_monitoring_wdays = getToken("tk_data_monitoring_wdays");
-        var tk_data_monitored_state = getToken("tk_data_monitored_state");
-        var tk_data_override_lagging_class = getToken(
-            "tk_data_override_lagging_class"
-        );
-        var tk_data_host_state = getToken("tk_data_host_state");
-        var tk_data_tracker_runtime = getToken("tk_data_tracker_runtime");
-        var tk_data_previous_host_state = getToken("tk_data_previous_host_state");
-        var tk_data_previous_tracker_runtime = getToken(
-            "tk_data_previous_tracker_runtime"
-        );
-        var tk_outliermineventcount = getToken("tk_outliermineventcount");
-        var tk_outlierlowerthresholdmultiplier = getToken(
-            "tk_outlierlowerthresholdmultiplier"
-        );
-        var tk_outlierupperthresholdmultiplier = getToken(
-            "tk_outlierupperthresholdmultiplier"
-        );
-        var tk_outlieralertonupper = getToken("tk_outlieralertonupper");
-        var tk_outlier_period = getToken("tk_outlier_period");
-        var tk_outlier_span = getToken("tk_outlier_span");
-        var tk_isoutlier = getToken("tk_isoutlier");
-        var tk_enable_behaviour_analytic = getToken(
-            "tk_enable_behaviour_analytic"
-        );
-        var tk_latest_flip_state = getToken("tk_latest_flip_state");
-        var tk_latest_flip_time = getToken("tk_latest_flip_time");
-        var tk_priority = getToken("tk_priority");
-
+    
         // Create the endpoint URL
         var myendpoint_URl =
-            "/en-US/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_host_monitoring/" +
-            tk_keyid;
-
+            "/en-US/splunkd/__raw/services/trackme/v1/data_hosts/dh_update_wdays";
+    
         var tk_origin_data_monitoring_wdays = getToken(
             "tk_data_monitoring_wdays"
         );
-        var tk_data_monitoring_wdays_no = getToken("tk_input_wdays_host_no");
-
+        var tk_data_monitoring_wdays_no = getToken("tk_input_wdays_no");
+    
         if (!tk_data_monitoring_wdays_no || !tk_data_monitoring_wdays_no.length) {
             // Show an error message
             $("#modal_entry_update_invalid").modal();
@@ -28387,52 +28344,30 @@ require([
         } else {
             // Create a dictionary to store the field names and values
             var record = {
-                object_category: "data_host",
-                data_host: tk_data_host,
-                data_index: tk_data_index,
-                data_sourcetype: tk_data_sourcetype,
-                data_host_st_summary: tk_data_host_st_summary,
-                data_host_alerting_policy: tk_data_host_alerting_policy,
-                data_last_lag_seen: tk_data_last_lag_seen,
-                data_last_ingestion_lag_seen: tk_data_last_ingestion_lag_seen,
-                data_eventcount: tk_data_eventcount,
-                data_first_time_seen: tk_data_first_time_seen,
-                data_last_time_seen: tk_data_last_time_seen,
-                data_last_ingest: tk_data_last_ingest,
-                data_max_lag_allowed: tk_data_max_lag_allowed,
-                data_lag_alert_kpis: tk_data_lag_alert_kpis,
-                data_monitored_state: tk_data_monitored_state,
+                data_host: tk_object,
                 data_monitoring_wdays: tk_data_monitoring_wdays_no,
-                data_override_lagging_class: tk_data_override_lagging_class,
-                data_host_state: tk_data_host_state,
-                data_tracker_runtime: tk_data_tracker_runtime,
-                data_previous_host_state: tk_data_previous_host_state,
-                data_previous_tracker_runtime: tk_data_previous_tracker_runtime,
-                OutlierMinEventCount: tk_outliermineventcount,
-                OutlierLowerThresholdMultiplier: tk_outlierlowerthresholdmultiplier,
-                OutlierUpperThresholdMultiplier: tk_outlierupperthresholdmultiplier,
-                OutlierAlertOnUpper: tk_outlieralertonupper,
-                OutlierTimePeriod: tk_outlier_period,
-                OutlierSpan: tk_outlier_span,
-                isOutlier: tk_isoutlier,
-                enable_behaviour_analytic: tk_enable_behaviour_analytic,
-                latest_flip_state: tk_latest_flip_state,
-                latest_flip_time: tk_latest_flip_time,
-                priority: tk_priority,
+                update_comment: "N/A",
             };
-
+    
             $.ajax({
                 url: myendpoint_URl,
                 type: "POST",
                 async: true,
                 contentType: "application/json",
+                dataType: "text",
+                beforeSend: function(xhr) {
+                    xhr.overrideMimeType("text/plain; charset=x-user-defined");
+                },
                 data: JSON.stringify(record),
                 success: function(returneddata) {
                     // Run the search again to update the table
                     searchDataHostsMain.startSearch();
-
+    
                     $("#modal_modify_data_host_unified").modal();
-
+    
+                    // call update data source
+                    updateDataHost(tk_keyid);
+    
                     // notify
                     notify(
                         "info",
@@ -28440,32 +28375,7 @@ require([
                         "The entity has been updated successfully.",
                         "5"
                     );
-
-                    // call update data source
-                    updateDataHost(tk_keyid);
-
-                    // Audit
-                    action = "success";
-                    change_type = "modify week days monitorin";
-                    object = tk_data_host;
-                    object_category = "data_host";
-                    object_attrs =
-                        "data_monitoring_wdays changed from:" +
-                        tk_origin_data_monitoring_wdays +
-                        " to:" +
-                        tk_data_monitoring_wdays_no;
-                    result = "N/A";
-                    comment = "N/A";
-                    auditRecord(
-                        action,
-                        change_type,
-                        object,
-                        object_category,
-                        object_attrs,
-                        result,
-                        comment
-                    );
-
+    
                     // house cleaning
                     myendpoint_URl = undefined;
                     delete myendpoint_URl;
@@ -28474,12 +28384,16 @@ require([
                     return;
                 },
                 error: function(xhr, textStatus, error) {
-                    message = "Error Updating!" + xhr + textStatus + error;
-
+                    message =
+                        "server response: " +
+                        xhr.responseText +
+                        "\n - http response: " +
+                        error;
+    
                     // Audit
                     action = "failure";
-                    change_type = "modify week days monitorin";
-                    object = tk_data_host;
+                    change_type = "modify week days monitoring";
+                    object = tk_data_name;
                     object_category = "data_host";
                     object_attrs =
                         "data_monitoring_wdays changed from:" +
@@ -28497,7 +28411,7 @@ require([
                         result,
                         comment
                     );
-
+    
                     $("#modal_update_collection_failure_return")
                         .find(".modal-error-message p")
                         .text(message);

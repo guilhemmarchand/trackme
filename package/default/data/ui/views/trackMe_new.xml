@@ -6096,6 +6096,40 @@
 					</div>
 				</div>
 
+				<!-- Modal window for monitoring level modification -->
+				<div class="modal fade" id="modal_modify_monitoring_wdays_host_no" role="dialog">
+					<div class="modal-dialog">
+						<!-- Modal content-->
+						<div class="modal-content">
+							<div class="modal-header modal-header-danger">
+								<button type="button" class="close" data-dismiss="modal"></button>
+								<h1>
+									<span class="glyphicon glyphicon-lock"></span> Monitoring week days update 
+								</h1>
+							</div>
+							<div class="modal-body">
+                                <h2>Select the days of the week where will be applied the monitoring rules:</h2>
+								<p>
+                                    If the data source triggers a red state during a day which is not monitored, it will be ignored by TrackMe alerts. 
+								</p>
+								<div class="fieldset">
+									<div class="input input-checkboxgroup" id="modal_input_wdays_host_no">
+										<label></label>
+									</div>
+								</div>
+							</div>
+							<div class="modal-footer">
+								<button id="btn_modal_modify_monitoring_wdays_host_no_cancel" type="submit" class="btn btn-outline-secondary pull-left" data-dismiss="modal">
+									<span class="glyphicon glyphicon-remove"></span> Cancel
+								</button>
+								<button id="btn_modal_modify_monitoring_wdays_host_no_confirm" type="submit" class="btn btn-outline-danger pull-right" data-dismiss="modal">
+									<span class="glyphicon glyphicon-remove"></span> Ok
+								</button>
+							</div>
+						</div>
+					</div>
+				</div>
+
 			</html>
 
             <!-- BEGIN OPERATIONS -->
@@ -6601,46 +6635,6 @@
 								</button>
 								<button type="submit" class="btn btn-outline-primary" data-dismiss="modal">
 									<span class="glyphicon glyphicon-remove"></span> Close
-								</button>
-							</div>
-						</div>
-					</div>
-				</div>
-				<!-- data host monitoring -->
-				<!-- Modal window for monitoring level modification -->
-				<div class="modal fade" id="modal_modify_monitoring_wdays_host_no" role="dialog">
-					<div class="modal-dialog">
-						<!-- Modal content-->
-						<div class="modal-content">
-							<div class="modal-header modal-header-danger">
-								<button type="button" class="close" data-dismiss="modal"></button>
-								<h1>
-									<span class="glyphicon glyphicon-lock"></span> Monitoring week days update 
-								</h1>
-							</div>
-							<div class="modal-body">
-								<p>
-                                    Select the days of the week where will be applied the monitoring rules.
-                                    
-									<br />
-									<br />
-                                    If the data source is not available during a week day that is not selected, no alert will be given.
-                                    
-									<br />
-									<br />
-								</p>
-								<div class="fieldset">
-									<div class="input input-checkboxgroup" id="modal_input_wdays_host_no">
-										<label></label>
-									</div>
-								</div>
-							</div>
-							<div class="modal-footer">
-								<button id="btn_modal_modify_monitoring_wdays_host_no_cancel" type="submit" class="btn btn-default btn-default pull-left" data-dismiss="modal">
-									<span class="glyphicon glyphicon-remove"></span> Cancel
-								</button>
-								<button id="btn_modal_modify_monitoring_wdays_host_no_confirm" type="submit" class="btn btn-default btn-primary pull-right" data-dismiss="modal">
-									<span class="glyphicon glyphicon-remove"></span> Ok
 								</button>
 							</div>
 						</div>
