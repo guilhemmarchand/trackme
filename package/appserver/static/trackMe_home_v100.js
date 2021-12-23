@@ -2897,8 +2897,7 @@ require([
         },
         runWhenTimeIsUndefined: false,
     }, {
-        tokens: true,
-        tokenNamespace: "submitted",
+        tokens: true
     });
 
     var searchSingleLagAutoLaggingDataHost30dSingleLagPerc95 =
@@ -2908,8 +2907,7 @@ require([
             managerid: "searchSingleLag30dAutoLaggingDataHost",
             id: "searchSingleLagAutoLaggingDataHost30dSingleLagPerc95",
         }, {
-            tokens: true,
-            tokenNamespace: "submitted",
+            tokens: true
         });
 
     var searchSingleLagAutoLaggingDataHost30dSingleLagAvg =
@@ -2919,8 +2917,7 @@ require([
             managerid: "searchSingleLag30dAutoLaggingDataHost",
             id: "searchSingleLagAutoLaggingDataHost30dSingleLagAvg",
         }, {
-            tokens: true,
-            tokenNamespace: "submitted",
+            tokens: true
         });
 
     var searchSingleLag = new SearchManager({
@@ -4839,7 +4836,7 @@ require([
             depends: "$tk_start_logical_member_get$",
         },
         sample_ratio: 1,
-        search: '| inputlookup trackme_logical_group | eval keyid=_key | search object_group_members="$input_object$" | eval object_group_mtime=strftime(object_group_mtime, "%c") | table keyid, object_group_name, object_group_members, object_group_min_green_percent, object_group_mtime',
+        search: '| inputlookup trackme_logical_group | eval keyid=_key | search object_group_members="$tk_object$" | eval object_group_mtime=strftime(object_group_mtime, "%c") | table keyid, object_group_name, object_group_members, object_group_min_green_percent, object_group_mtime',
         cancelOnUnload: true,
         status_buckets: 0,
         app: utils.getCurrentApp(),
@@ -4883,6 +4880,18 @@ require([
                 ],
             },
         ],
+    });
+
+    // set the panel visibility
+    searchLogicalGroupTable.on("change", function(newValue) {
+        show_add_logical_group = getToken("show_add_logical_group");
+        if (show_add_logical_group === 'True') {
+            $("#divShowAddLogicalGroup").css("display", "inherit");
+            $("#divShowTableLogicalGroup").css("display", "none");
+        } else {
+            $("#divShowAddLogicalGroup").css("display", "none");
+            $("#divShowTableLogicalGroup").css("display", "inherit");
+        }
     });
 
     // Logical group add member
@@ -6973,7 +6982,11 @@ require([
             // get entity details
             var tk_keyid = e.data['row.keyid'];
             var tk_data_host = e.data['row.data_host'];
+            var tk_object = tk_data_host;
+            var tk_object_category = "data_host";
             var tk_priority = e.data["row.priority"];
+            // token required for priority audit change
+            setToken("tk_priority", tk_priority);
             var tk_status_message = e.data["row.status_message"];
             var tk_data_host_state = e.data['row.data_host_state'];
             var tk_data_monitored_state = e.data['row.data_monitored_state'];
@@ -6984,6 +6997,12 @@ require([
             var tk_latest_flip_time_human = e.data["row.latest_flip_time (translated)"];
             var tk_latest_flip_state = e.data["row.latest_flip_state"];
             var tk_data_host_tags = e.data['row.data_host_tags'];
+            var tk_data_max_lag_allowed = e.data["row.data_max_lag_allowed"];
+            // token required for auto lagging
+            setToken("tk_data_max_lag_allowed", tk_data_max_lag_allowed);
+            var tk_data_override_lagging_class = e.data["row.data_override_lagging_class"];
+            // required for auto lagging
+            setToken("tk_data_override_lagging_class", tk_data_override_lagging_class);
 
             // outlier
             var tk_outlierenabledstatus = e.data["row.enable_behaviour_analytic"];
@@ -7000,10 +7019,11 @@ require([
             // token required for outliers configuration
             setToken("tk_enable_behaviour_analytic", tk_enable_behaviour_analytic);
 
-
             // required for various purposes
             setToken("tk_keyid", tk_keyid);
             setToken("tk_data_host", tk_data_host);
+            setToken("tk_object", tk_object);
+            setToken("tk_object_category", tk_object_category);
 
             // Dynamically manage priority color
             var tk_priority_class;
@@ -15592,251 +15612,484 @@ require([
         }
     });
 
-        // Get assets tags
-        var elementGetTagsDataHost = new TableView({
-            "id": "elementGetTagsDataHost",
-            "count": 100,
-            "drilldown": "row",
-            "refresh.display": "none",
-            "wrap": "true",
-            "managerid": "searchGetDataHostTags",
-            "el": $('#elementGetTagsDataHost')
-        }, {
-            tokens: true,
-            tokenNamespace: "submitted"
-        }).render();
+    // Get assets tags
+    var elementGetTagsDataHost = new TableView({
+        "id": "elementGetTagsDataHost",
+        "count": 100,
+        "drilldown": "row",
+        "refresh.display": "none",
+        "wrap": "true",
+        "managerid": "searchGetDataHostTags",
+        "el": $('#elementGetTagsDataHost')
+    }, {
+        tokens: true,
+        tokenNamespace: "submitted"
+    }).render();
 
-        var resultsLinkelementGetTagsDataHost = new ResultsLinkView({
-            id: "resultsLinkelementGetTagsDataHost",
-            managerid: "searchGetDataHostTags",
-            "link.exportResults.visible": false,
-            el: $("#resultsLinkelementGetTagsDataHost"),
-        });
-    
-        resultsLinkelementGetTagsDataHost
-            .render()
-            .$el.appendTo($("resultsLinkelementGetTagsDataHost"));
-    
-        // data host monitoring
+    var resultsLinkelementGetTagsDataHost = new ResultsLinkView({
+        id: "resultsLinkelementGetTagsDataHost",
+        managerid: "searchGetDataHostTags",
+        "link.exportResults.visible": false,
+        el: $("#resultsLinkelementGetTagsDataHost"),
+    });
 
-        // input lag
+    resultsLinkelementGetTagsDataHost
+        .render()
+        .$el.appendTo($("resultsLinkelementGetTagsDataHost"));
 
-        var modal_input_lag_host = new TextInput({
-            "id": "modal_input_lag_host",
-            "searchWhenChanged": true,
-            "value": "$form.tk_input_lag_host$",
-            "el": $('#modal_input_lag_host')
-        }, {
-            tokens: true
-        }).render();
+    // data host monitoring
 
-        modal_input_lag_host.on("change", function(newValue) {
-            FormUtils.handleValueChange(modal_input_lag_host);
-        });
+    // input lag
 
-        var modal_input_lag_override_class_host = new DropdownInput({
-            "id": "modal_input_lag_override_class_host",
-            "choices": [{
-                    "label": "true",
-                    "value": "true"
-                },
-                {
-                    "label": "false",
-                    "value": "false"
-                }
-            ],
-            "searchWhenChanged": true,
-            "default": "true",
-            "showClearButton": true,
-            "initialValue": "true",
-            "selectFirstChoice": false,
-            "value": "$form.modal_input_lag_override_class_host$",
-            "el": $('#modal_input_lag_override_class_host')
-        }, {
-            tokens: true
-        }).render();
+    var modal_input_lag_host = new TextInput({
+        "id": "modal_input_lag_host",
+        "searchWhenChanged": true,
+        "value": "$form.tk_input_lag_host$",
+        "el": $('#modal_input_lag_host')
+    }, {
+        tokens: true
+    }).render();
 
-        modal_input_lag_override_class_host.on("change", function(newValue) {
-            FormUtils.handleValueChange(modal_input_lag_override_class_host);
-        });
+    modal_input_lag_host.on("change", function(newValue) {
+        FormUtils.handleValueChange(modal_input_lag_host);
+    });
 
-        var modal_input_lag_alert_over_host = new DropdownInput({
-            "id": "modal_input_lag_alert_over_host",
-            "choices": [{
-                    "label": "lag event / lag ingestion",
-                    "value": "all_kpis"
-                },
-                {
-                    "label": "lag ingestion only",
-                    "value": "lag_ingestion_kpi"
-                },
-                {
-                    "label": "lag event only",
-                    "value": "lag_event_kpi"
-                }                
-            ],
-            "searchWhenChanged": true,
-            "default": "all_kpis",
-            "showClearButton": true,
-            "initialValue": "all_kpis",
-            "selectFirstChoice": false,
-            "value": "$form.tk_input_data_lag_alert_kpis_host$",
-            "el": $('#modal_input_lag_alert_over_host')
-        }, {
-            tokens: true
-        }).render();
-
-        modal_input_lag_alert_over_host.on("change", function(newValue) {
-            FormUtils.handleValueChange(modal_input_lag_alert_over_host);
-        });
-
-        var modal_input_host_alerting_policy = new DropdownInput({
-            "id": "modal_input_host_alerting_policy",
-            "choices": [{
-                    "label": "global policy",
-                    "value": "global_policy"
-                },
-                {
-                    "label": "red if at least one sourcetype is red",
-                    "value": "track_per_sourcetype"
-                },
-                {
-                    "label": "red only if all sourcetypes are red",
-                    "value": "track_per_host"
-                }                
-            ],
-            "searchWhenChanged": true,
-            "default": "global_policy",
-            "showClearButton": true,
-            "initialValue": "global_policy",
-            "selectFirstChoice": false,
-            "value": "$form.tk_input_host_alerting_policy$",
-            "el": $('#modal_input_host_alerting_policy')
-        }, {
-            tokens: true
-        }).render();
-
-        modal_input_host_alerting_policy.on("change", function(newValue) {
-            FormUtils.handleValueChange(modal_input_host_alerting_policy);
-        });
-
-        // data host priority
-
-        var modal_input_host_priority = new DropdownInput({
-            "id": "modal_input_host_priority",
-            "choices": [{
-                    "label": "low",
-                    "value": "low"
-                },
-                {
-                    "label": "medium",
-                    "value": "medium"
-                },
-                {
-                    "label": "high",
-                    "value": "high"
-                }
-            ],
-            "searchWhenChanged": true,
-            "default": "medium",
-            "showClearButton": true,
-            "initialValue": "medium",
-            "selectFirstChoice": false,
-            "value": "$form.tk_input_host_priority$",
-            "el": $('#modal_input_host_priority')
-        }, {
-            tokens: true
-        }).render();
-
-        modal_input_host_priority.on("change", function(newValue) {
-            FormUtils.handleValueChange(modal_input_host_priority);
-        });
-
-        // data host monitoring
-
-        var modal_input_wdays_host = new DropdownInput({
-            "id": "modal_input_wdays_host",
-            "choices": [{
-                    "label": "manual:all_days",
-                    "value": "manual:all_days"
-                },
-                {
-                    "label": "manual:monday-to-friday",
-                    "value": "manual:monday-to-friday"
-                },
-                {
-                    "label": "manual:monday-to-saturday",
-                    "value": "manual:monday-to-saturday"
-                }
-            ],
-            "searchWhenChanged": true,
-            "default": "manual:all_days",
-            "showClearButton": true,
-            "initialValue": "all_days",
-            "selectFirstChoice": false,
-            "value": "$form.tk_input_wdays_host$",
-            "el": $('#modal_input_wdays_host')
-        }, {
-            tokens: true
-        }).render();
-
-        modal_input_wdays_host.on("change", function(newValue) {
-            FormUtils.handleValueChange(modal_input_wdays_host);
-        });
-
-        modal_input_wdays_host.on("valueChange", function(e) {
-            if (e.value === "manual:enter_days_numbers") {
-                EventHandler.setToken("show_manual_wdays_host", "true", {}, e.data);
-            } else {
-                EventHandler.unsetToken("show_manual_wdays_host");
+    var modal_input_lag_override_class_host = new DropdownInput({
+        "id": "modal_input_lag_override_class_host",
+        "choices": [{
+                "label": "true",
+                "value": "true"
+            },
+            {
+                "label": "false",
+                "value": "false"
             }
-        });
+        ],
+        "searchWhenChanged": true,
+        "default": "true",
+        "showClearButton": true,
+        "initialValue": "true",
+        "selectFirstChoice": false,
+        "value": "$form.modal_input_lag_override_class_host$",
+        "el": $('#modal_input_lag_override_class_host')
+    }, {
+        tokens: true
+    }).render();
 
-        var modal_input_wdays_host_no = new CheckboxGroupInput({
-            "id": "modal_input_wdays_host_no",
-            "choices": [{
-                    "label": "Monday",
-                    "value": "1"
-                },
-                {
-                    "label": "Tuesday",
-                    "value": "2"
-                },
-                {
-                    "label": "Wednesday",
-                    "value": "3"
-                },
-                {
-                    "label": "Thursday",
-                    "value": "4"
-                },
-                {
-                    "label": "Friday",
-                    "value": "5"
-                },
-                {
-                    "label": "Saturday",
-                    "value": "6"
-                },
-                {
-                    "label": "Sunday",
-                    "value": "0"
-                }
-            ],
-            "prefix": "manual:",
-            "searchWhenChanged": true,
-            "default": ["1", "2", "3", "4", "5", "6", "0"],
-            "delimiter": ",",
-            "value": "$form.tk_input_wdays_host_no$",
-            "el": $('#modal_input_wdays_host_no')
-        }, {
-            tokens: true
-        }).render();
+    modal_input_lag_override_class_host.on("change", function(newValue) {
+        FormUtils.handleValueChange(modal_input_lag_override_class_host);
+    });
 
-        modal_input_wdays_host_no.on("change", function(newValue) {
-            FormUtils.handleValueChange(modal_input_wdays_host_no);
-        });
-        
+    var modal_input_lag_alert_over_host = new DropdownInput({
+        "id": "modal_input_lag_alert_over_host",
+        "choices": [{
+                "label": "lag event / lag ingestion",
+                "value": "all_kpis"
+            },
+            {
+                "label": "lag ingestion only",
+                "value": "lag_ingestion_kpi"
+            },
+            {
+                "label": "lag event only",
+                "value": "lag_event_kpi"
+            }
+        ],
+        "searchWhenChanged": true,
+        "default": "all_kpis",
+        "showClearButton": true,
+        "initialValue": "all_kpis",
+        "selectFirstChoice": false,
+        "value": "$form.tk_input_data_lag_alert_kpis_host$",
+        "el": $('#modal_input_lag_alert_over_host')
+    }, {
+        tokens: true
+    }).render();
+
+    modal_input_lag_alert_over_host.on("change", function(newValue) {
+        FormUtils.handleValueChange(modal_input_lag_alert_over_host);
+    });
+
+    var modal_input_host_alerting_policy = new DropdownInput({
+        "id": "modal_input_host_alerting_policy",
+        "choices": [{
+                "label": "global policy",
+                "value": "global_policy"
+            },
+            {
+                "label": "red if at least one sourcetype is red",
+                "value": "track_per_sourcetype"
+            },
+            {
+                "label": "red only if all sourcetypes are red",
+                "value": "track_per_host"
+            }
+        ],
+        "searchWhenChanged": true,
+        "default": "global_policy",
+        "showClearButton": true,
+        "initialValue": "global_policy",
+        "selectFirstChoice": false,
+        "value": "$form.tk_input_host_alerting_policy$",
+        "el": $('#modal_input_host_alerting_policy')
+    }, {
+        tokens: true
+    }).render();
+
+    modal_input_host_alerting_policy.on("change", function(newValue) {
+        FormUtils.handleValueChange(modal_input_host_alerting_policy);
+    });
+
+    // data host priority
+
+    var modal_input_host_priority = new DropdownInput({
+        "id": "modal_input_host_priority",
+        "choices": [{
+                "label": "low",
+                "value": "low"
+            },
+            {
+                "label": "medium",
+                "value": "medium"
+            },
+            {
+                "label": "high",
+                "value": "high"
+            }
+        ],
+        "searchWhenChanged": true,
+        "default": "medium",
+        "showClearButton": true,
+        "initialValue": "medium",
+        "selectFirstChoice": false,
+        "value": "$form.tk_input_host_priority$",
+        "el": $('#modal_input_host_priority')
+    }, {
+        tokens: true
+    }).render();
+
+    modal_input_host_priority.on("change", function(newValue) {
+        FormUtils.handleValueChange(modal_input_host_priority);
+    });
+
+    // data host monitoring
+
+    var modal_input_wdays_host = new DropdownInput({
+        "id": "modal_input_wdays_host",
+        "choices": [{
+                "label": "manual:all_days",
+                "value": "manual:all_days"
+            },
+            {
+                "label": "manual:monday-to-friday",
+                "value": "manual:monday-to-friday"
+            },
+            {
+                "label": "manual:monday-to-saturday",
+                "value": "manual:monday-to-saturday"
+            }
+        ],
+        "searchWhenChanged": true,
+        "default": "manual:all_days",
+        "showClearButton": true,
+        "initialValue": "all_days",
+        "selectFirstChoice": false,
+        "value": "$form.tk_input_wdays_host$",
+        "el": $('#modal_input_wdays_host')
+    }, {
+        tokens: true
+    }).render();
+
+    modal_input_wdays_host.on("change", function(newValue) {
+        FormUtils.handleValueChange(modal_input_wdays_host);
+    });
+
+    modal_input_wdays_host.on("valueChange", function(e) {
+        if (e.value === "manual:enter_days_numbers") {
+            EventHandler.setToken("show_manual_wdays_host", "true", {}, e.data);
+        } else {
+            EventHandler.unsetToken("show_manual_wdays_host");
+        }
+    });
+
+    var modal_input_wdays_host_no = new CheckboxGroupInput({
+        "id": "modal_input_wdays_host_no",
+        "choices": [{
+                "label": "Monday",
+                "value": "1"
+            },
+            {
+                "label": "Tuesday",
+                "value": "2"
+            },
+            {
+                "label": "Wednesday",
+                "value": "3"
+            },
+            {
+                "label": "Thursday",
+                "value": "4"
+            },
+            {
+                "label": "Friday",
+                "value": "5"
+            },
+            {
+                "label": "Saturday",
+                "value": "6"
+            },
+            {
+                "label": "Sunday",
+                "value": "0"
+            }
+        ],
+        "prefix": "manual:",
+        "searchWhenChanged": true,
+        "default": ["1", "2", "3", "4", "5", "6", "0"],
+        "delimiter": ",",
+        "value": "$form.tk_input_wdays_host_no$",
+        "el": $('#modal_input_wdays_host_no')
+    }, {
+        tokens: true
+    }).render();
+
+    modal_input_wdays_host_no.on("change", function(newValue) {
+        FormUtils.handleValueChange(modal_input_wdays_host_no);
+    });
+
+    var elementDataHostAutoLaggingDataHostSingleLagAvg = new SingleView({
+        "id": "elementDataHostAutoLaggingDataHostSingleLagAvg",
+        "trendDisplayMode": "absolute",
+        "numberPrecision": "0",
+        "drilldown": "none",
+        "trellis.size": "medium",
+        "trendColorInterpretation": "standard",
+        "height": "95",
+        "useColors": "0",
+        "colorBy": "value",
+        "showTrendIndicator": "1",
+        "showSparkline": "1",
+        "trellis.enabled": "0",
+        "rangeColors": "[\"0x77dd77\",\"0x0877a6\",\"0xf8be34\",\"0xf1813f\",\"0xdc4e41\"]",
+        "colorMode": "none",
+        "rangeValues": "[0,30,70,100]",
+        "unitPosition": "after",
+        "trellis.scales.shared": "1",
+        "useThousandSeparators": "1",
+        "underLabel": "LAST 7 DAYS AVERAGE AUTO LAG",
+        "managerid": "searchSingleLagAutoLaggingDataHost7dSingleLagAvg",
+        "el": $('#elementDataHostAutoLaggingDataHostSingleLagAvg')
+    }, {
+        tokens: true,
+        tokenNamespace: "submitted"
+    }).render();
+
+    var resultsLinkelementDataHostAutoLaggingDataHostSingleLagAvg = new ResultsLinkView({
+        id: "resultsLinkelementDataHostAutoLaggingDataHostSingleLagAvg",
+        managerid: "searchSingleLagAutoLaggingDataHost7dSingleLagAvg",
+        "link.exportResults.visible": false,
+        el: $("#resultsLinkelementDataHostAutoLaggingDataHostSingleLagAvg"),
+    });
+
+    resultsLinkelementDataHostAutoLaggingDataHostSingleLagAvg
+        .render()
+        .$el.appendTo($("resultsLinkelementDataHostAutoLaggingDataHostSingleLagAvg"));
+
+    var elementDataHostAutoLaggingDataHostSingleLagPerc95Last30d = new SingleView({
+        "id": "elementDataHostAutoLaggingDataHostSingleLagPerc95Last30d",
+        "trendDisplayMode": "absolute",
+        "numberPrecision": "0",
+        "drilldown": "none",
+        "trellis.size": "medium",
+        "trendColorInterpretation": "standard",
+        "height": "95",
+        "useColors": "0",
+        "colorBy": "value",
+        "showTrendIndicator": "1",
+        "showSparkline": "1",
+        "trellis.enabled": "0",
+        "rangeColors": "[\"0x77dd77\",\"0x0877a6\",\"0xf8be34\",\"0xf1813f\",\"0xdc4e41\"]",
+        "colorMode": "none",
+        "rangeValues": "[0,30,70,100]",
+        "unitPosition": "after",
+        "trellis.scales.shared": "1",
+        "useThousandSeparators": "1",
+        "underLabel": "LAST 30 DAYS PERCENTILE 95 AUTO LAG",
+        "managerid": "searchSingleLagAutoLaggingDataHost30dSingleLagPerc95",
+        "el": $('#elementDataHostAutoLaggingDataHostSingleLagPerc95Last30d')
+    }, {
+        tokens: true,
+        tokenNamespace: "submitted"
+    }).render();
+
+    var resultsLinkelementDataHostAutoLaggingDataHostSingleLagPerc95Last30d = new ResultsLinkView({
+        id: "resultsLinkelementDataHostAutoLaggingDataHostSingleLagPerc95Last30d",
+        managerid: "searchSingleLagAutoLaggingDataHost30dSingleLagPerc95",
+        "link.exportResults.visible": false,
+        el: $("#resultsLinkelementDataHostAutoLaggingDataHostSingleLagPerc95Last30d"),
+    });
+
+    resultsLinkelementDataHostAutoLaggingDataHostSingleLagPerc95Last30d
+        .render()
+        .$el.appendTo($("resultsLinkelementDataHostAutoLaggingDataHostSingleLagPerc95Last30d"));
+
+    var elementDataHostAutoLaggingDataHostSingleLagAvgLast30d = new SingleView({
+        "id": "elementDataHostAutoLaggingDataHostSingleLagAvgLast30d",
+        "trendDisplayMode": "absolute",
+        "numberPrecision": "0",
+        "drilldown": "none",
+        "trellis.size": "medium",
+        "trendColorInterpretation": "standard",
+        "height": "95",
+        "useColors": "0",
+        "colorBy": "value",
+        "showTrendIndicator": "1",
+        "showSparkline": "1",
+        "trellis.enabled": "0",
+        "rangeColors": "[\"0x77dd77\",\"0x0877a6\",\"0xf8be34\",\"0xf1813f\",\"0xdc4e41\"]",
+        "colorMode": "none",
+        "rangeValues": "[0,30,70,100]",
+        "unitPosition": "after",
+        "trellis.scales.shared": "1",
+        "useThousandSeparators": "1",
+        "underLabel": "LAST 30 DAYS AVERAGE AUTO LAG",
+        "managerid": "searchSingleLagAutoLaggingDataHost30dSingleLagAvg",
+        "el": $('#elementDataHostAutoLaggingDataHostSingleLagAvgLast30d')
+    }, {
+        tokens: true,
+        tokenNamespace: "submitted"
+    }).render();
+
+    var resultselementDataHostAutoLaggingDataHostSingleLagAvgLast30d = new ResultsLinkView({
+        id: "resultselementDataHostAutoLaggingDataHostSingleLagAvgLast30d",
+        managerid: "searchSingleLagAutoLaggingDataHost30dSingleLagAvg",
+        "link.exportResults.visible": false,
+        el: $("#resultselementDataHostAutoLaggingDataHostSingleLagAvgLast30d"),
+    });
+
+    resultselementDataHostAutoLaggingDataHostSingleLagAvgLast30d
+        .render()
+        .$el.appendTo($("resultselementDataHostAutoLaggingDataHostSingleLagAvgLast30d"));
+
+    // Logical group
+    var elementLogicalGroupTable = new TableView({
+        "id": "elementLogicalGroupTable",
+        "count": 100,
+        "drilldown": "row",
+        "refresh.display": "none",
+        "wrap": "false",
+        "managerid": "searchLogicalGroupTable",
+        "el": $('#elementLogicalGroupTable')
+    }, {
+        tokens: true,
+        tokenNamespace: "submitted"
+    }).render();
+
+    elementLogicalGroupTable.on("click", function(e) {
+        if (e.field !== undefined) {
+            e.preventDefault();
+
+            setToken("tk_keyid", TokenUtils.replaceTokenNames("$row.keyid$", _.extend(submittedTokenModel.toJSON(), e.data)));
+            setToken("tk_object_group_name", TokenUtils.replaceTokenNames("$row.object_group_name$", _.extend(submittedTokenModel.toJSON(), e.data)));
+
+            // Enable modal context
+            $('.modal').modal('hide');
+            $("#confirm_remove_from_logical_group").modal();
+
+        }
+    });
+
+    // Logical group add member
+    var elementLogicalGroupTableAddMember = new TableView({
+        "id": "elementLogicalGroupTableAddMember",
+        "count": 5,
+        "drilldown": "row",
+        "refresh.display": "none",
+        "wrap": "false",
+        "managerid": "searchLogicalGroupTableAddMember",
+        "el": $('#elementLogicalGroupTableAddMember')
+    }, {
+        tokens: true,
+        tokenNamespace: "submitted"
+    }).render();
+
+    elementLogicalGroupTableAddMember.on("click", function(e) {
+        if (e.field !== undefined) {
+            e.preventDefault();
+
+            setToken("tk_keyid", TokenUtils.replaceTokenNames("$row.keyid$", _.extend(submittedTokenModel.toJSON(), e.data)));
+            setToken("tk_object_group_name", TokenUtils.replaceTokenNames("$row.object_group_name$", _.extend(submittedTokenModel.toJSON(), e.data)));
+
+            // Enable modal context
+            $('.modal').modal('hide');
+            $("#confirm_add_member_logical_group").modal();
+
+        }
+    });
+
+    // Logical group
+    var FilterLogicalGroupTable = new TextInput({
+        "id": "FilterLogicalGroupTable",
+        "searchWhenChanged": true,
+        "default": "*",
+        "value": "$form.FilterLogicalGroupTable$",
+        "el": $('#FilterLogicalGroupTable')
+    }, {
+        tokens: true
+    }).render();
+
+    FilterLogicalGroupTable.on("change", function(newValue) {
+        FormUtils.handleValueChange(FilterLogicalGroupTable);
+    });
+
+    // Logical group add
+    var InputLogicalGroupName = new TextInput({
+        "id": "InputLogicalGroupName",
+        "searchWhenChanged": true,
+        "value": "$form.InputLogicalGroupName$",
+        "el": $('#InputLogicalGroupName')
+    }, {
+        tokens: true
+    }).render();
+
+    InputLogicalGroupName.on("change", function(newValue) {
+        FormUtils.handleValueChange(InputLogicalGroupName);
+    });
+
+    var InputLogicalGroupNamePercent = new DropdownInput({
+        "id": "InputLogicalGroupNamePercent",
+        "choices": [{
+                "label": "50%",
+                "value": "50"
+            },
+            {
+                "label": "33.33%",
+                "value": "33.33"
+            },
+            {
+                "label": "25%",
+                "value": "25"
+            },
+            {
+                "label": "12.5%",
+                "value": "12.5"
+            }
+        ],
+        "searchWhenChanged": true,
+        "default": "50",
+        "showClearButton": true,
+        "initialValue": "50",
+        "selectFirstChoice": false,
+        "value": "$form.InputLogicalGroupNamePercent$",
+        "el": $('#InputLogicalGroupNamePercent')
+    }, {
+        tokens: true
+    }).render();
+
+    InputLogicalGroupNamePercent.on("change", function(newValue) {
+        FormUtils.handleValueChange(InputLogicalGroupNamePercent);
+    });
+
     //
     // BEGIN OPERATIONS
     //
@@ -26438,7 +26691,7 @@ require([
 
                     // notify
                     notify(
-                        "info",
+                        "success",
                         "bottom",
                         "The entity has been updated successfully.",
                         "5"
@@ -28007,9 +28260,9 @@ require([
 
                     // notify
                     notify(
-                        "info",
+                        "success",
                         "bottom",
-                        "Modification has been registered successfully.",
+                        "The entity has been updated successfully.",
                         "5"
                     );
 
@@ -28428,7 +28681,7 @@ require([
             tk_data_host +
             '", data_override_lagging_class="' +
             tk_data_override_lagging_class +
-            '" | lookup trackme_host_monitoring data_host OUTPUT _key as keyid | lookup trackme_host_monitoring data_host | eval data_max_lag_allowed=if(value>0, round(value, 0), data_max_lag_allowed), value=round(value, 0) | outputlookup trackme_host_monitoring key_field=keyid';
+            '" | lookup trackme_host_monitoring data_host OUTPUT _key as keyid | lookup trackme_host_monitoring data_host | eval data_max_lag_allowed=if(value>=30, round(value, 0), data_max_lag_allowed), value=round(value, 0) | outputlookup trackme_host_monitoring key_field=keyid';
 
         // Set the search parameters--specify a time range
         var searchParams = {
@@ -28494,6 +28747,20 @@ require([
                                                 "bottom",
                                                 "ERROR: No live data available for this entity, automatic lagging calculation cannot be performed for inactive entities.",
                                                 "5"
+                                            );
+
+                                        } else if (value === tk_origin_data_max_lag_allowed) {
+
+                                            // notify
+                                            var msg = "ERROR: The max lagging value of " + value +
+                                                " seconds returned from the result of the search equals to the current value assigned (" +
+                                                tk_origin_data_max_lag_allowed +
+                                                " seconds), this indicates that the search did not return a valid value therefore the current value was preserved (min value: 30 seconds)"
+                                            notify(
+                                                "error",
+                                                "bottom",
+                                                msg,
+                                                "10"
                                             );
 
                                         } else {
@@ -28632,7 +28899,7 @@ require([
             tk_data_host +
             '", data_override_lagging_class="' +
             tk_data_override_lagging_class +
-            '" | lookup trackme_host_monitoring data_host OUTPUT _key as keyid | lookup trackme_host_monitoring data_host | eval data_max_lag_allowed=if(value>0, round(value, 0), data_max_lag_allowed), value=round(value, 0) | outputlookup trackme_host_monitoring key_field=keyid';
+            '" | lookup trackme_host_monitoring data_host OUTPUT _key as keyid | lookup trackme_host_monitoring data_host | eval data_max_lag_allowed=if(value>=30, round(value, 0), data_max_lag_allowed), value=round(value, 0) | outputlookup trackme_host_monitoring key_field=keyid';
 
         // Set the search parameters--specify a time range
         var searchParams = {
@@ -28698,6 +28965,20 @@ require([
                                                 "bottom",
                                                 "ERROR: No live data available for this entity, automatic lagging calculation cannot be performed for inactive entities.",
                                                 "5"
+                                            );
+
+                                        } else if (value === tk_origin_data_max_lag_allowed) {
+
+                                            // notify
+                                            var msg = "ERROR: The max lagging value of " + value +
+                                                " seconds returned from the result of the search equals to the current value assigned (" +
+                                                tk_origin_data_max_lag_allowed +
+                                                " seconds), this indicates that the search did not return a valid value therefore the current value was preserved (min value: 30 seconds)"
+                                            notify(
+                                                "error",
+                                                "bottom",
+                                                msg,
+                                                "10"
                                             );
 
                                         } else {
@@ -28835,7 +29116,7 @@ require([
             tk_data_host +
             '", data_override_lagging_class="' +
             tk_data_override_lagging_class +
-            '" | lookup trackme_host_monitoring data_host OUTPUT _key as keyid | lookup trackme_host_monitoring data_host | eval data_max_lag_allowed=if(value>0, round(value, 0), data_max_lag_allowed), value=round(value, 0) | outputlookup trackme_host_monitoring key_field=keyid';
+            '" | lookup trackme_host_monitoring data_host OUTPUT _key as keyid | lookup trackme_host_monitoring data_host | eval data_max_lag_allowed=if(value>=30, round(value, 0), data_max_lag_allowed), value=round(value, 0) | outputlookup trackme_host_monitoring key_field=keyid';
 
         // Set the search parameters--specify a time range
         var searchParams = {
@@ -28893,6 +29174,7 @@ require([
                                     var value = values[j];
 
                                     if (field == "value") {
+
                                         if (value === "0") {
 
                                             // notify
@@ -28901,6 +29183,20 @@ require([
                                                 "bottom",
                                                 "ERROR: No live data available for this entity, automatic lagging calculation cannot be performed for inactive entities.",
                                                 "5"
+                                            );
+
+                                        } else if (value === tk_origin_data_max_lag_allowed) {
+
+                                            // notify
+                                            var msg = "ERROR: The max lagging value of " + value +
+                                                " seconds returned from the result of the search equals to the current value assigned (" +
+                                                tk_origin_data_max_lag_allowed +
+                                                " seconds), this indicates that the search did not return a valid value therefore the current value was preserved (min value: 30 seconds)"
+                                            notify(
+                                                "error",
+                                                "bottom",
+                                                msg,
+                                                "10"
                                             );
 
                                         } else {
@@ -29038,7 +29334,7 @@ require([
             tk_data_host +
             '", data_override_lagging_class="' +
             tk_data_override_lagging_class +
-            '" | lookup trackme_host_monitoring data_host OUTPUT _key as keyid | lookup trackme_host_monitoring data_host | eval data_max_lag_allowed=if(value>0, round(value, 0), data_max_lag_allowed), value=round(value, 0) | outputlookup trackme_host_monitoring key_field=keyid';
+            '" | lookup trackme_host_monitoring data_host OUTPUT _key as keyid | lookup trackme_host_monitoring data_host | eval data_max_lag_allowed=if(value>=30, round(value, 0), data_max_lag_allowed), value=round(value, 0) | outputlookup trackme_host_monitoring key_field=keyid';
 
         // Set the search parameters--specify a time range
         var searchParams = {
@@ -29104,6 +29400,20 @@ require([
                                                 "bottom",
                                                 "ERROR: No live data available for this entity, automatic lagging calculation cannot be performed for inactive entities.",
                                                 "5"
+                                            );
+
+                                        } else if (value === tk_origin_data_max_lag_allowed) {
+
+                                            // notify
+                                            var msg = "ERROR: The max lagging value of " + value +
+                                                " seconds returned from the result of the search equals to the current value assigned (" +
+                                                tk_origin_data_max_lag_allowed +
+                                                " seconds), this indicates that the search did not return a valid value therefore the current value was preserved (min value: 30 seconds)"
+                                            notify(
+                                                "error",
+                                                "bottom",
+                                                msg,
+                                                "10"
                                             );
 
                                         } else {
@@ -31175,33 +31485,10 @@ require([
         var $btn_group = $(this);
         $btn_group.find("button").on("click", function() {
             var $btn = $(this);
-
-            // if the token exists already, restart the search, otherwise allow the search to start
-            var tk_start_logical_member_get = getToken(
-                "tk_start_logical_member_get"
-            );
-
-            if (tk_start_logical_member_get && tk_start_logical_member_get.length) {
-                searchLogicalGroupTable.startSearch();
-            } else {
-                setToken("tk_start_logical_member_get", "true");
-            }
-
-            var tk_data_name = getToken("tk_object");
-            var tk_data_host = getToken("tk_data_host");
-            var tk_metric_host = getToken("tk_metric_host");
-
-            if (tk_data_name !== undefined) {
-                setToken("input_object", tk_data_name);
-                setToken("input_object_category", "data_source");
-            } else if (tk_data_host !== undefined) {
-                setToken("input_object", tk_data_host);
-                setToken("input_object_category", "data_host");
-            } else if (tk_metric_host !== undefined) {
-                setToken("input_object", tk_metric_host);
-                setToken("input_object_category", "metric_host");
-            }
-
+            // Free the search
+            setToken("tk_start_logical_member_get", "true");
+            // Start the search
+            searchLogicalGroupTable.startSearch();
             // show modal
             $("#logical_group").modal();
         });
@@ -31209,18 +31496,14 @@ require([
 
     // back
     $("#btn_associate_logical_group_back").click(function() {
-
-        // create token that will free the search for table populate
-
         // retrieve token
-        var input_object_category = getToken("input_object_category");
-
+        var tk_object_category = getToken("tk_object_category");
         // conditional modal target
-        if (input_object_category === "data_source") {
+        if (tk_object_category === "data_source") {
             $("#modal_modify_data_source_unified").modal();
-        } else if (input_object_category === "data_host") {
+        } else if (tk_object_category === "data_host") {
             $("#modal_modify_data_host_unified").modal();
-        } else if (input_object_category === "metric_host") {
+        } else if (tk_object_category === "metric_host") {
             $("#modal_modify_metric_host_unified").modal();
         }
     });
@@ -31230,44 +31513,22 @@ require([
         $("#logical_group").modal();
     });
 
-    //
-    $(".btn_logical_group_valid").each(function() {
-        var $btn_group = $(this);
-        $btn_group.find("button").on("click", function() {
-            var $btn = $(this);
-
-            var tk_data_name = getToken("tk_object");
-            var tk_data_host = getToken("tk_data_host");
-            var tk_metric_host = getToken("tk_metric_host");
-
-            if (tk_data_name !== undefined) {
-                setToken("input_object", tk_data_name);
-                setToken("input_object_category", "data_source");
-            } else if (tk_data_host !== undefined) {
-                setToken("input_object", tk_data_host);
-                setToken("input_object_category", "data_host");
-            } else if (tk_metric_host !== undefined) {
-                setToken("input_object", tk_metric_host);
-                setToken("input_object_category", "metric_host");
-            }
-        });
-    });
-
     // Remove from logical group
     $("#btn_remove_from_logical_group_confirm_valid").click(function() {
 
-        var input_object = getToken("input_object");
-        var input_object_category = getToken("input_object_category");
+        var tk_object = getToken("tk_object");
+        var tk_object_category = getToken("tk_object_category");
         var tk_keyid = getToken("tk_keyid");
+        var tk_object_group_name = getToken("tk_object_group_name");
 
-        if (input_object && input_object.length) {
+        if (tk_object && tk_object.length) {
             // Create the endpoint URL
             var myendpoint_URl =
                 "/en-US/splunkd/__raw/services/trackme/v1/logical_groups/logical_groups_unassociate";
 
             // Create a dictionary to store the field names and values
             var record = {
-                object: input_object,
+                object: tk_object,
                 key: tk_keyid,
                 update_comment: "N/A",
             };
@@ -31283,15 +31544,19 @@ require([
                 },
                 data: JSON.stringify(record),
                 success: function(returneddata) {
-                    // show disabled modal
-                    $("#logical_group_removal_achieved").modal();
+                    // notify
+                    msg = "The member was successfully removed from the logical group " + tk_object_group_name;
+                    notify("success", "bottom", msg, "5");
 
-                    if (input_object_category === "data_source") {
+                    if (tk_object_category === "data_source") {
                         searchDataSourcesMain.startSearch();
-                    } else if (input_object_category === "data_host") {
+                        searchLogicalGroupTable.startSearch();
+                    } else if (tk_object_category === "data_host") {
                         searchDataHostsMain.startSearch();
-                    } else if (input_object_category === "metric_host") {
+                        searchLogicalGroupTable.startSearch();
+                    } else if (tk_object_category === "metric_host") {
                         searchMetricHostsMain.startSearch();
+                        searchLogicalGroupTable.startSearch();
                     }
                 },
                 error: function(xhr, textStatus, error) {
@@ -31304,10 +31569,10 @@ require([
                     // Audit
                     action = "failure";
                     change_type = "Logical group removal";
-                    object = input_object;
-                    object_category = input_object_category;
+                    object = tk_object;
+                    object_category = tk_object_category;
                     object_attrs =
-                        "object:" + input_object + " has been removed from Logical group. ";
+                        "object:" + tk_object + " has been removed from Logical group. ";
                     result = message;
                     comment = "N/A";
                     auditRecord(
@@ -31355,8 +31620,8 @@ require([
     // Add logical group member
     $("#btn_add_logical_group_member_confirm_valid").click(function() {
 
-        var input_object = getToken("input_object");
-        var input_object_category = getToken("input_object_category");
+        var tk_object = getToken("tk_object");
+        var tk_object_category = getToken("tk_object_category");
 
         // keyid is used to add to group
         var tk_keyid = getToken("tk_keyid");
@@ -31364,14 +31629,14 @@ require([
         // from click
         var tk_object_group_name = getToken("tk_object_group_name");
 
-        if (input_object && input_object.length) {
+        if (tk_object && tk_object.length) {
             // Create the endpoint URL
             var myendpoint_URl =
                 "/en-US/splunkd/__raw/services/trackme/v1/logical_groups/logical_groups_associate_group";
 
             // Create a dictionary to store the field names and values
             var record = {
-                object: input_object,
+                object: tk_object,
                 key: tk_keyid,
                 update_comment: "N/A",
             };
@@ -31387,16 +31652,25 @@ require([
                 },
                 data: JSON.stringify(record),
                 success: function(returneddata) {
-                    // show disabled modal
-                    $("#logical_group_add_member_achieved").modal();
+                    // notify
+                    msg = "The member was successfully added to the logical group " + tk_object_group_name;
+                    notify("success", "bottom", msg, "5");
 
-                    if (input_object_category === "data_source") {
+                    // refresh searches
+                    if (tk_object_category === "data_source") {
                         searchDataSourcesMain.startSearch();
-                    } else if (input_object_category === "data_host") {
+                        searchLogicalGroupTable.startSearch();
+                    } else if (tk_object_category === "data_host") {
                         searchDataHostsMain.startSearch();
-                    } else if (input_object_category === "metric_host") {
+                        searchLogicalGroupTable.startSearch();
+                    } else if (tk_object_category === "metric_host") {
                         searchMetricHostsMain.startSearch();
+                        searchLogicalGroupTable.startSearch();
                     }
+
+                    // return to modal
+                    $("#logical_group").modal();
+
                 },
                 error: function(xhr, textStatus, error) {
                     message =
@@ -31408,11 +31682,11 @@ require([
                     // Audit
                     action = "failure";
                     change_type = "Logical group add membership";
-                    object = input_object;
-                    object_category = input_object_category;
+                    object = tk_object;
+                    object_category = tk_object_category;
                     object_attrs =
                         "object:" +
-                        input_object +
+                        tk_object +
                         " has been added to the logical group " +
                         tk_object_group_name +
                         ".";
@@ -31468,8 +31742,8 @@ require([
     // Add logical group
     $("#btn_associate_logical_group_add_group").click(function() {
 
-        var input_object = getToken("input_object");
-        var input_object_category = getToken("input_object_category");
+        var tk_object = getToken("tk_object");
+        var tk_object_category = getToken("tk_object_category");
 
         // from input
         var tk_object_group_name = getToken("InputLogicalGroupName");
@@ -31485,7 +31759,7 @@ require([
             // Create a dictionary to store the field names and values
             var record = {
                 object_group_name: tk_object_group_name,
-                object_group_members: input_object,
+                object_group_members: tk_object,
                 object_group_min_green_percent: tk_object_group_green_percent,
                 update_comment: "N/A",
             };
@@ -31501,16 +31775,24 @@ require([
                 },
                 data: JSON.stringify(record),
                 success: function(returneddata) {
-                    // show disabled modal
-                    $("#logical_group_add_achieved").modal();
+                    // notify
+                    msg = "The new logical group " + tk_object_group_name + " was successfully created";
+                    notify("success", "bottom", msg, "5");
 
-                    if (input_object_category === "data_source") {
+                    if (tk_object_category === "data_source") {
                         searchDataSourcesMain.startSearch();
-                    } else if (input_object_category === "data_host") {
+                        searchLogicalGroupTable.startSearch();
+                    } else if (tk_object_category === "data_host") {
                         searchDataHostsMain.startSearch();
-                    } else if (input_object_category === "metric_host") {
+                        searchLogicalGroupTable.startSearch();
+                    } else if (tk_object_category === "metric_host") {
                         searchMetricHostsMain.startSearch();
+                        searchLogicalGroupTable.startSearch();
                     }
+
+                    // return to modal
+                    $("#logical_group").modal();
+
                 },
                 error: function(xhr, textStatus, error) {
                     message =
@@ -31523,12 +31805,12 @@ require([
                     action = "failure";
                     change_type = "Logical group add";
                     object = tk_object_group_name;
-                    object_category = input_object_category;
+                    object_category = tk_object_category;
                     object_attrs =
                         "new logical group " +
                         tk_object_group_name +
                         " has been created for object:" +
-                        input_object +
+                        tk_object +
                         " with a minimal logical group green percentage of " +
                         tk_object_group_green_percent +
                         ".";

@@ -5715,7 +5715,7 @@
 											<button id="btn_modal_modify_lag_confirm_host" type="submit" class="btn btn-outline-danger" style="margin-right: 5px;">
 												<span class="glyphicon glyphicon-remove"></span> Apply manual lagging rule
 											</button>
-											<button id="btn_modal_modify_lag_auto_main_host" type="submit" class="btn btn-outline-primary">
+											<button id="btn_modal_modify_lag_auto_main_host" type="submit" class="btn btn-outline-primary" data-dismiss="modal">
 												<span class="glyphicon glyphicon-remove"></span> Or choose an auto lagging
 											</button>
 										</div>
@@ -5746,7 +5746,7 @@
 											</div>
 										</div>
 										<div style="margin-top: 10px; margin-bottom: 10px;">
-											<button id="btn_modal_modify_priority_confirm" type="submit" class="btn btn-outline-danger" style="margin-right: 5px;">
+											<button id="btn_modal_modify_priority_host_confirm" type="submit" class="btn btn-outline-danger" style="margin-right: 5px;">
 												<span class="glyphicon glyphicon-remove"></span> Apply priority
 											</button>
 										</div>
@@ -5760,7 +5760,7 @@
 										the current green percentage of the group. (percentages of members green)										
 										</p>
 										<div style="margin-bottom: 20px;" class="btn_logical_group">
-											<button type="submit" class="btn btn-outline-primary">
+											<button type="submit" class="btn btn-outline-primary" data-dismiss="modal">
 												<span class="glyphicon glyphicon-remove"></span> Manage in a Logical group 
 											</button>
 										</div>
@@ -5806,7 +5806,7 @@
 					</div>
 				</div>
 
-				<!-- Modal window for data source unified autolag -->
+				<!-- Modal window for data host unified autolag -->
 				<div class="modal fade custom-modal-80" id="modal_modify_data_host_autolag" role="dialog">
 					<div class="modal-dialog">
 						<!-- Modal content-->
@@ -5814,51 +5814,282 @@
 							<div class="modal-header modal-header-danger">
 								<button type="button" class="close" data-dismiss="modal"></button>
 								<h1>
-									<span class="glyphicon glyphicon-lock"></span> Data host unified update 
+									<span class="glyphicon glyphicon-lock"></span> Data host - define the max lagging value allowed from statistics
 								</h1>
 							</div>
 							<div class="modal-body">
 								<div style="margin-bottom: 30px;">
-									<h3>The following calculations reppresent different options that could be used to define an appropriate value for the max lagging value allowed. 
-										<br />Note that these calculations are performed against the lag at ingestion time only.
-									</h3>
+									<h1>The following calculations represent different options that could be used to define an appropriate value for the max lagging value allowed.</h1>
+                                    <h2>Note that these calculations are performed against the lag at ingestion time only.</h2>
 								</div>
-								<div>
+                                <style>
+                                    .parent-data-host-single-calculate-autolag {
+                                        display: grid;
+                                        grid-template-columns: repeat(4, 1fr);
+                                        grid-template-rows: 1fr;
+                                        grid-column-gap: 0px;
+                                        grid-row-gap: 0px;
+                                    }
+                                </style>
+								<div class="parent-data-source-single-calculate-autolag">
+                                    <div>
+                                        <div id="elementDataHostAutoLaggingDataHostSingleLagPerc95" class="view-elements"></div>
+                                        <div id="resultsLinkelementDataHostAutoLaggingDataHostSingleLagPerc95" class="search-elements"></div>
+                                    </div>
+                                    <div>
+                                        <div id="elementDataHostAutoLaggingDataHostSingleLagAvg" class="view-elements"></div>
+                                        <div id="resultsLinkelementDataHostAutoLaggingDataHostSingleLagAvg" class="search-elements"></div>
+                                    </div>
+                                    <div>
+                                        <div id="elementDataHostAutoLaggingDataHostSingleLagPerc95Last30d" class="view-elements"></div>
+                                        <div id="resultsLinkelementDataHostAutoLaggingDataHostSingleLagPerc95Last30d" class="search-elements"></div>
+                                    </div>
+                                    <div>
+                                        <div id="elementDataHostAutoLaggingDataHostSingleLagAvgLast30d" class="view-elements"></div>
+                                        <div id="resultsLinkelementDataHostAutoLaggingDataHostSingleLagAvgLast30d" class="search-elements"></div>
+                                    </div>
+								</div>
+								<div style="margin-top: 25px; margin-bottom: 25px;">
+                                    <h2>Choose one option to be applied:</h2>
+                                </div>
+                                <div class="parent-data-source-single-calculate-autolag">
+                                    <div style="text-align: center;">
+                                        <button id="btn_modal_modify_lag_auto_perc95_host" type="submit" class="btn btn-outline-danger">
+                                            <span class="glyphicon glyphicon-remove"></span> Apply auto percentile lag (7d)
+                                        </button>
+                                    </div>
+                                    <div style="text-align: center;">
+                                        <button id="btn_modal_modify_lag_auto_perc95_30d_host" type="submit" class="btn btn-outline-danger">
+                                            <span class="glyphicon glyphicon-remove"></span> Or Apply auto percentile lag (30d)
+                                        </button>
+                                    </div>
+                                    <div style="text-align: center;">
+                                        <button id="btn_modal_modify_lag_auto_average_host" type="submit" class="btn btn-outline-danger">
+                                            <span class="glyphicon glyphicon-remove"></span> Or Apply auto average lag (7d)
+                                        </button>
+                                    </div>
+                                    <div style="text-align: center;">
+                                        <button id="btn_modal_modify_lag_auto_average_30d_host" type="submit" class="btn btn-outline-danger">
+                                            <span class="glyphicon glyphicon-remove"></span> Or Apply auto average lag (30d)
+                                        </button>
+                                    </div>
+								</div>
+							</div>
+							<div style="margin-top: 20px;" class="modal-footer">
+								<button type="submit" id="btn_close_data_host_unified_autolag" class="btn btn-outline-secondary pull-left" data-dismiss="modal">
+									<span class="glyphicon glyphicon-remove"></span> Back
+								</button>
+								<button type="submit" class="btn btn-outline-secondary btn-right" data-dismiss="modal">
+									<span class="glyphicon glyphicon-remove"></span> Close
+								</button>
+							</div>
+						</div>
+					</div>
+				</div>
+				<!-- Modal window for logical group association -->
+				<div class="modal fade custom-modal-80" id="logical_group" role="dialog">
+					<div class="modal-dialog">
+						<!-- Modal content-->
+						<div class="modal-content">
+							<div class="modal-header modal-header-info">
+								<button type="button" class="close" data-dismiss="modal"></button>
+								<h1>
+									<span class="glyphicon glyphicon-lock"></span> Logical group 
+								</h1>
+							</div>
+
+							<div class="modal-body">
+								<h1>Entities logical group management</h1>
+
+								<div id="divShowAddLogicalGroup" display="none;">
 									<div>
-										<div>
-											<div>
-												<div id="elementDataHostAutoLaggingDataHostSingleLagPerc95"></div>
-												<div id="elementDataHostAutoLaggingDataHostSingleLagAvg"></div>
-												<div id="elementDataHostAutoLaggingDataHostSingleLagPerc95Last30d"></div>
-												<div id="elementDataHostAutoLaggingDataHostSingleLagAvgLast30d"></div>
+										<h2 style="color: lightslategray;">This entity is not currently associated to a logical group, choose one of the following options:</h2>
+										<div style="margin-top: 20px;">
+											<div style="float: left; margin-right: 20px;">
+												<button type="submit" id="btn_add_logical_group_new" class="btn btn-outline-primary" data-dismiss="modal">
+													<span class="glyphicon glyphicon-remove"></span> Create a new group 
+												</button>
+											</div>
+											<div style="float: left; margin-right: 20px;">
+												<button type="submit" id="btn_add_logical_group_member" class="btn btn-outline-primary" data-dismiss="modal">
+													<span class="glyphicon glyphicon-remove"></span> Add to an existing group 
+												</button>
 											</div>
 										</div>
 									</div>
 								</div>
+
+								<div id="divShowTableLogicalGroup" display="none;">
+									<div>
+										<h2 style="color: lightslategray;">This entity is currently associated with the following logical group, if you wish to remove this membership, click on the table entry below:</h2>
+										<div class="view-main">
+											<div id="elementLogicalGroupTable" class="view-elements"></div>
+											<div id="resultsLinkelementLogicalGroupTable" class="search-elements"></div>
+										</div>
+									</div>
+								</div>
+
+								<br />
+
+							</div>
+
+							<div class="modal-footer">
+								<button type="submit" id="btn_associate_logical_group_back" class="btn btn-outline-secondary pull-left" data-dismiss="modal">
+									<span class="glyphicon glyphicon-remove"></span> Back
+								</button>
+								<button type="submit" class="btn btn-outline-secondary pull-right" data-dismiss="modal">
+									<span class="glyphicon glyphicon-remove"></span> Cancel
+								</button>
+							</div>
+
+						</div>
+					</div>
+				</div>
+
+				<!-- Modal window for logical group association -->
+				<div class="modal fade custom-modal-80" id="logical_group_add_member" role="dialog">
+					<div class="modal-dialog">
+						<!-- Modal content-->
+						<div class="modal-content">
+							<div class="modal-header modal-header-danger">
+								<button type="button" class="close" data-dismiss="modal"></button>
+								<h1>
+									<span class="glyphicon glyphicon-lock"></span> Logical group 
+								</h1>
+							</div>
+							<div class="modal-body">
+								<h1>Entities logical group management</h1>
 								<div>
-									<div style="margin-bottom: 10px;">
-										<h4>Choose one option to be applied:</h4>
-										<button id="btn_modal_modify_lag_auto_perc95_host" type="submit" class="btn btn-default btn-primary">
-											<span class="glyphicon glyphicon-remove"></span> Apply auto percentile lag (7d)
-										</button>
-										<button id="btn_modal_modify_lag_auto_perc95_30d_host" type="submit" class="btn btn-default btn-primary">
-											<span class="glyphicon glyphicon-remove"></span> Or Apply auto percentile lag (30d)
-										</button>
-										<button id="btn_modal_modify_lag_auto_average_host" type="submit" class="btn btn-default btn-primary">
-											<span class="glyphicon glyphicon-remove"></span> Or Apply auto average lag (7d)
-										</button>
-										<button id="btn_modal_modify_lag_auto_average_30d_host" type="submit" class="btn btn-default btn-primary">
-											<span class="glyphicon glyphicon-remove"></span> Or Apply auto average lag (30d)
-										</button>
+									<div>
+										<h2 style="color: lightslategray;">Click on a logical group in the table below to make this entity part of the group.
+										Optionally use the filter input to search in existing groups.</h2>
+									</div>
+									<div class="fieldset">
+										<div class="input input-text" id="FilterLogicalGroupTable" style="margin-bottom: 10px;">
+											<label>Filter:</label>
+										</div>
+										<div>
+											<div id="elementLogicalGroupTableAddMember"></div>
+											<div id="resultsLinkelementLogicalGroupTableAddMember"></div>
+										</div>
 									</div>
 								</div>
 							</div>
-							<div style="margin-top: 20px;" class="modal-footer">
-								<button type="submit" id="btn_close_data_host_unified_autolag" class="btn btn-default btn-primary pull-left" data-dismiss="modal">
+							<div class="modal-footer">
+								<button type="submit" id="btn_associate_logical_group_add_member_back" class="btn btn-outline-secondary pull-left" data-dismiss="modal">
 									<span class="glyphicon glyphicon-remove"></span> Back
 								</button>
-								<button type="submit" class="btn btn-default btn-right" data-dismiss="modal">
-									<span class="glyphicon glyphicon-remove"></span> Close
+								<button type="submit" class="btn btn-outline-secondary pull-right" data-dismiss="modal">
+									<span class="glyphicon glyphicon-remove"></span> Cancel
+								</button>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<!-- Modal window for logical group association -->
+				<div class="modal fade custom-modal-50" id="logical_group_add_group" role="dialog">
+					<div class="modal-dialog">
+						<!-- Modal content-->
+						<div class="modal-content">
+							<div class="modal-header modal-header-danger">
+								<button type="button" class="close" data-dismiss="modal"></button>
+								<h1>
+									<span class="glyphicon glyphicon-lock"></span> Logical group 
+								</h1>
+							</div>
+
+							<div class="modal-body">
+								<h1>Entities logical group management</h1>
+
+								<div>
+									<div>
+										<h2>Create a new logical group, once created the current entity will automatically be a member of it.
+											You can then add as many members as you need to form the logical group entity.
+										</h2>
+									</div>
+									<div class="fieldset">
+										<div class="input input-text" id="InputLogicalGroupName" style="margin-bottom: 10px; width: 400px;">
+											<label class="splunk-input-label">Enter the logical group name:</label>
+										</div>
+									</div>
+									<div class="fieldset">
+										<div class="input input-dropdown" id="InputLogicalGroupNamePercent" style="margin-bottom: 10px;">
+											<label class="splunk-input-label">Minimal percent of members in green state:</label>
+										</div>
+										<div style="margin-top: 20px;">
+											<i>Example: A logical group of 2 members with a minimal 50% green state means one member actively generating data will not trigger alerts.</i>
+										</div>
+									</div>
+									<div style="margin-top: 20px;" class="btn_logical_group_valid">
+										<button type="submit" id="btn_associate_logical_group_add_group" class="btn btn-outline-primary pull-left" data-dismiss="modal">
+											<span class="glyphicon glyphicon-remove"></span> Create new logical group 
+										</button>
+									</div>
+									<br />
+								</div>
+							</div>
+
+							<div class="modal-footer">
+								<button type="submit" id="btn_associate_logical_group_add_group_back" class="btn btn-outline-secondary pull-left" data-dismiss="modal">
+									<span class="glyphicon glyphicon-remove"></span> Back
+								</button>
+								<button type="submit" class="btn btn-outline-secondary pull-right" data-dismiss="modal">
+									<span class="glyphicon glyphicon-remove"></span> Cancel
+								</button>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<!-- Modal window Logical group removal -->
+				<div class="modal fade" id="confirm_remove_from_logical_group" role="dialog">
+					<div class="modal-dialog">
+						<!-- Modal content-->
+						<div class="modal-content">
+							<div class="modal-header modal-header-danger">
+								<button type="button" class="close" data-dismiss="modal"></button>
+								<h1>
+									<span class="glyphicon glyphicon-lock"></span> Logical group 
+								</h1>
+							</div>
+							<div class="modal-body">
+								<div>
+									<h1>Do you want to remove this entity from the logical group?</h1>
+								</div>
+							</div>
+							<div style="margin-top: 20px;" class="modal-footer">
+								<button type="submit" id="btn_remove_from_logical_group_confirm_valid" class="btn btn-outline-danger" data-dismiss="modal">
+									<span class="glyphicon glyphicon-remove"></span> Remove association 
+								</button>
+								<button type="submit" id="btn_remove_from_logical_group_confirm_back" class="btn btn-outline-secondary" data-dismiss="modal">
+									<span class="glyphicon glyphicon-remove"></span> Back 
+								</button>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<!-- Modal window Logical group removal -->
+				<div class="modal fade" id="confirm_add_member_logical_group" role="dialog">
+					<div class="modal-dialog">
+						<!-- Modal content-->
+						<div class="modal-content">
+							<div class="modal-header modal-header-danger">
+								<button type="button" class="close" data-dismiss="modal"></button>
+								<h1>
+									<span class="glyphicon glyphicon-lock"></span> Logical group 
+								</h1>
+							</div>
+							<div class="modal-body">
+								<h1>Do you want to add the entity in the logical group?</h1>
+							</div>
+							<div style="margin-top: 20px;" class="modal-footer">
+								<button type="submit" id="btn_add_logical_group_member_confirm_valid" class="btn btn-outline-danger" data-dismiss="modal">
+									<span class="glyphicon glyphicon-remove"></span> Confirm membership 
+								</button>
+								<button type="submit" id="btn_add_logical_group_member_confirm_back" class="btn btn-outline-secondary" data-dismiss="modal">
+									<span class="glyphicon glyphicon-remove"></span> Back 
 								</button>
 							</div>
 						</div>
@@ -5953,321 +6184,6 @@
 										</button>
 									</div>
 								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-				<!-- Modal window for logical group association -->
-				<div class="modal fade custom-modal-80" id="logical_group" role="dialog">
-					<div class="modal-dialog">
-						<!-- Modal content-->
-						<div class="modal-content">
-							<div class="modal-header modal-header-danger">
-								<button type="button" class="close" data-dismiss="modal"></button>
-								<h1>
-									<span class="glyphicon glyphicon-lock"></span> Logical group 
-								</h1>
-							</div>
-							<div class="modal-body">
-								<b>Entities logical group management</b>
-								<br />
-								<br />
-								<div data-depends="$show_add_logical_group$">
-									<div>
-										<div>
-											<div>
-												<div class="modal-body">
-													<h3 style="color: lightslategray;">This entity is not currently associated to a logical group, choose one of the following options:</h3>
-													<div style="margin-top: 20px;">
-														<div style="float: left; margin-right: 20px;">
-															<button type="submit" id="btn_add_logical_group_new" class="btn btn-default btn-primary" data-dismiss="modal">
-																<span class="glyphicon glyphicon-remove"></span> Create a new group 
-															</button>
-														</div>
-														<div style="float: left; margin-right: 20px;">
-															<button type="submit" id="btn_add_logical_group_member" class="btn btn-default btn-primary" data-dismiss="modal">
-																<span class="glyphicon glyphicon-remove"></span> Add to an existing group 
-															</button>
-														</div>
-													</div>
-												</div>
-											</div>
-										</div>
-									</div>
-								</div>
-								<div data-depends="$show_table_logical_group$">
-									<div>
-										<div>
-											<div>
-												<div class="modal-body">
-													<h3 style="color: lightslategray;">This entity is currently associated with the following logical group, if you wish to remove this
-                                                        membership, click on the table entry below:</h3>
-												</div>
-												<div class="fieldset">
-													<div id="elementLogicalGroupTable">
-														<label></label>
-													</div>
-												</div>
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
-							<div class="modal-footer">
-								<button type="submit" id="btn_associate_logical_group_back" class="btn btn-default btn-primary pull-left" data-dismiss="modal">
-									<span class="glyphicon glyphicon-remove"></span> Back
-								</button>
-								<button type="submit" class="btn btn-default btn-default pull-right" data-dismiss="modal">
-									<span class="glyphicon glyphicon-remove"></span> Cancel
-								</button>
-							</div>
-						</div>
-					</div>
-				</div>
-				<!-- Modal window for logical group association -->
-				<div class="modal fade custom-modal-80" id="logical_group_add_member" role="dialog">
-					<div class="modal-dialog">
-						<!-- Modal content-->
-						<div class="modal-content">
-							<div class="modal-header modal-header-danger">
-								<button type="button" class="close" data-dismiss="modal"></button>
-								<h1>
-									<span class="glyphicon glyphicon-lock"></span> Logical group 
-								</h1>
-							</div>
-							<div class="modal-body">
-								<b>Entities logical group management</b>
-								<br />
-								<br />
-								<div>
-									<div>
-										<div>
-											<div>
-												<div class="modal-body">
-													<h3 style="color: lightslategray;">Click on a logical group in the table below to make this entity part of the group.
-                                                    Optionally use the filter input to search in existing groups.</h3>
-												</div>
-												<div class="fieldset">
-													<div class="input input-text" id="FilterLogicalGroupTable" style="margin-bottom: 10px;">
-														<label>Filter:</label>
-													</div>
-													<div id="elementLogicalGroupTableAddMember">
-														<label></label>
-													</div>
-												</div>
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
-							<div class="modal-footer">
-								<button type="submit" id="btn_associate_logical_group_add_member_back" class="btn btn-default btn-primary pull-left" data-dismiss="modal">
-									<span class="glyphicon glyphicon-remove"></span> Back
-								</button>
-								<button type="submit" class="btn btn-default btn-default pull-right" data-dismiss="modal">
-									<span class="glyphicon glyphicon-remove"></span> Cancel
-								</button>
-							</div>
-						</div>
-					</div>
-				</div>
-				<!-- Modal window for logical group association -->
-				<div class="modal fade custom-modal-50" id="logical_group_add_group" role="dialog">
-					<div class="modal-dialog">
-						<!-- Modal content-->
-						<div class="modal-content">
-							<div class="modal-header modal-header-danger">
-								<button type="button" class="close" data-dismiss="modal"></button>
-								<h1>
-									<span class="glyphicon glyphicon-lock"></span> Logical group 
-								</h1>
-							</div>
-							<div class="modal-body">
-								<b>Entities logical group management</b>
-								<br />
-								<br />
-								<div>
-									<div>
-										<div>
-											<div>
-												<div class="modal-body">
-													<h3 style="color: lightslategray;">Create a new logical group, once created the current entity will automatically be a member of it.
-                                                        You can then add as many members as you need to form the logical group entity.
-                                                    </h3>
-												</div>
-												<div class="fieldset">
-													<div class="input input-text" id="InputLogicalGroupName" style="margin-bottom: 10px;">
-														<label>Enter the logical group name:</label>
-													</div>
-												</div>
-												<div class="fieldset">
-													<div class="input input-dropdown" id="InputLogicalGroupNamePercent" style="margin-bottom: 10px;">
-														<label>Minimal percent of members in green state:</label>
-													</div>
-													<div style="margin-top: 10px;">
-														<p>A logical group of 2 members with a minimal 50% green state means one member actively generating data will not trigger alerts.</p>
-													</div>
-												</div>
-												<div class="modal-body" style="margin-top: 20px;">
-													<button type="submit" id="btn_associate_logical_group_add_group" class="btn btn-default btn-primary pull-left" data-dismiss="modal">
-														<span class="glyphicon glyphicon-remove"></span> Create new logical group 
-													</button>
-												</div>
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
-							<div class="modal-footer" style="margin-top: 20px;">
-								<button type="submit" id="btn_associate_logical_group_add_group_back" class="btn btn-default btn-primary pull-left" data-dismiss="modal">
-									<span class="glyphicon glyphicon-remove"></span> Back
-								</button>
-								<button type="submit" class="btn btn-default btn-default pull-right" data-dismiss="modal">
-									<span class="glyphicon glyphicon-remove"></span> Cancel
-								</button>
-							</div>
-						</div>
-					</div>
-				</div>
-				<!-- Modal window Logical group removal -->
-				<div class="modal fade" id="confirm_remove_from_logical_group" role="dialog">
-					<div class="modal-dialog">
-						<!-- Modal content-->
-						<div class="modal-content">
-							<div class="modal-header modal-header-danger">
-								<button type="button" class="close" data-dismiss="modal"></button>
-								<h1>
-									<span class="glyphicon glyphicon-lock"></span> Logical group 
-								</h1>
-							</div>
-							<div class="modal-body">
-								<div>
-									<div style="margin-bottom: 10px;">
-										<div>
-											<h4>Do you want to remove this entity from the logical group?</h4>
-										</div>
-									</div>
-								</div>
-							</div>
-							<div style="margin-top: 20px;" class="modal-footer">
-								<button type="submit" id="btn_remove_from_logical_group_confirm_valid" class="btn btn-default btn-danger" data-dismiss="modal">
-									<span class="glyphicon glyphicon-remove"></span> Remove association 
-								</button>
-								<button type="submit" id="btn_remove_from_logical_group_confirm_back" class="btn btn-default btn-primary" data-dismiss="modal">
-									<span class="glyphicon glyphicon-remove"></span> Back 
-								</button>
-							</div>
-						</div>
-					</div>
-				</div>
-				<div class="modal fade" id="logical_group_removal_achieved" role="dialog">
-					<div class="modal-dialog">
-						<!-- Modal content-->
-						<div class="modal-content">
-							<div class="modal-header modal-header-success">
-								<button type="button" class="close" data-dismiss="modal"></button>
-								<h1>
-									<span class="glyphicon glyphicon-lock"></span> Logical group 
-								</h1>
-							</div>
-							<div class="modal-body">
-								<div>
-									<div style="margin-bottom: 10px;">
-										<div>
-											<h4>Logical group membership was successfully removed.</h4>
-										</div>
-									</div>
-								</div>
-							</div>
-							<div style="margin-top: 20px;" class="modal-footer">
-								<button type="submit" class="btn btn-default btn-primary" data-dismiss="modal">
-									<span class="glyphicon glyphicon-remove"></span> Ok 
-								</button>
-							</div>
-						</div>
-					</div>
-				</div>
-				<!-- Modal window Logical group removal -->
-				<div class="modal fade" id="confirm_add_member_logical_group" role="dialog">
-					<div class="modal-dialog">
-						<!-- Modal content-->
-						<div class="modal-content">
-							<div class="modal-header modal-header-danger">
-								<button type="button" class="close" data-dismiss="modal"></button>
-								<h1>
-									<span class="glyphicon glyphicon-lock"></span> Logical group 
-								</h1>
-							</div>
-							<div class="modal-body">
-								<div>
-									<div style="margin-bottom: 10px;">
-										<div>
-											<h4>Do you want to add the entity in the logical group?</h4>
-										</div>
-									</div>
-								</div>
-							</div>
-							<div style="margin-top: 20px;" class="modal-footer">
-								<button type="submit" id="btn_add_logical_group_member_confirm_valid" class="btn btn-default btn-primary" data-dismiss="modal">
-									<span class="glyphicon glyphicon-remove"></span> Confirm membership 
-								</button>
-								<button type="submit" id="btn_add_logical_group_member_confirm_back" class="btn btn-default btn-primary" data-dismiss="modal">
-									<span class="glyphicon glyphicon-remove"></span> Back 
-								</button>
-							</div>
-						</div>
-					</div>
-				</div>
-				<div class="modal fade" id="logical_group_add_member_achieved" role="dialog">
-					<div class="modal-dialog">
-						<!-- Modal content-->
-						<div class="modal-content">
-							<div class="modal-header modal-header-success">
-								<button type="button" class="close" data-dismiss="modal"></button>
-								<h1>
-									<span class="glyphicon glyphicon-lock"></span> Logical group 
-								</h1>
-							</div>
-							<div class="modal-body">
-								<div>
-									<div style="margin-bottom: 10px;">
-										<div>
-											<h4>Logical group membership was successfully achieved.</h4>
-										</div>
-									</div>
-								</div>
-							</div>
-							<div style="margin-top: 20px;" class="modal-footer">
-								<button type="submit" class="btn btn-default btn-primary" data-dismiss="modal">
-									<span class="glyphicon glyphicon-remove"></span> Ok 
-								</button>
-							</div>
-						</div>
-					</div>
-				</div>
-				<div class="modal fade" id="logical_group_add_achieved" role="dialog">
-					<div class="modal-dialog">
-						<!-- Modal content-->
-						<div class="modal-content">
-							<div class="modal-header modal-header-success">
-								<button type="button" class="close" data-dismiss="modal"></button>
-								<h1>
-									<span class="glyphicon glyphicon-lock"></span> Logical group 
-								</h1>
-							</div>
-							<div class="modal-body">
-								<div>
-									<div style="margin-bottom: 10px;">
-										<div>
-											<h4>Logical group has been successfully created, and entity associated.</h4>
-										</div>
-									</div>
-								</div>
-							</div>
-							<div style="margin-top: 20px;" class="modal-footer">
-								<button type="submit" class="btn btn-default btn-primary" data-dismiss="modal">
-									<span class="glyphicon glyphicon-remove"></span> Ok 
-								</button>
 							</div>
 						</div>
 					</div>
@@ -6673,7 +6589,7 @@
                                     
 									</p>
 									<div style="margin-bottom: 20px;" class="btn_logical_group">
-										<button type="submit" class="btn btn-default btn-primary">
+										<button type="submit" class="btn btn-default btn-primary" data-dismiss="modal">
 											<span class="glyphicon glyphicon-remove"></span> Manage in a Logical group 
 										</button>
 									</div>
@@ -7668,22 +7584,6 @@
 					<div id="element_alerts_main_table" class="view-elements"></div>
 					<div id="resultsLinkelement_alerts_main_table" class="search-elements"></div>
 				</div>
-			</html>
-		</panel>
-	</row>
-	<row>
-		<panel>
-			<html>
-				| `trackme_outlier_chart_simulate(data_host, "$tk_data_host$", data_host, $tk_input_data_host_outlier_lower_threshold_multiplier$, $tk_input_data_host_outlier_upper_threshold_multiplier$, $tk_input_data_host_outlier_min_eventcount$, $tk_input_data_host_outlier_span$)
-			<br />
-			tk_input_data_host_outlier_period is $tk_input_data_host_outlier_period$
-			<br />
-            depends: "$show_data_host_tracker$",
-			<br />
-            depends: "$show_data_host_outlier_configuration$",
-			<br />
-            depends: "$start_outliers_simulation_data_host$",
-			<br />
 			</html>
 		</panel>
 	</row>
