@@ -5999,7 +5999,7 @@ require([
                 if (tk_elastic_mstats_idx == "null") {
                     tk_data_source_raw_search =
                         "?q=" +
-                        encodeURI("| msearch ") +
+                        encodeURI("| mpreview ") +
                         encodeURI("index=*") +
                         " " +
                         encodeURI('filter="' + tk_elastic_mstats_filters + '"') +
@@ -6007,7 +6007,7 @@ require([
                 } else {
                     tk_data_source_raw_search =
                         "?q=" +
-                        encodeURI("| msearch ") +
+                        encodeURI("| mpreview ") +
                         encodeURI(tk_elastic_mstats_idx) +
                         " " +
                         encodeURI('filter="' + tk_elastic_mstats_filters + '"') +
@@ -6146,7 +6146,7 @@ require([
                 if (tk_elastic_mstats_idx == "null") {
                     tk_data_source_raw_search =
                         "?q=" +
-                        encodeURI("| msearch ") +
+                        encodeURI("| mpreview ") +
                         encodeURI("index=*") +
                         " " +
                         encodeURI('filter="' + tk_elastic_mstats_filters + '"') +
@@ -6154,7 +6154,7 @@ require([
                 } else {
                     tk_data_source_raw_search =
                         "?q=" +
-                        encodeURI("| msearch ") +
+                        encodeURI("| mpreview ") +
                         encodeURI(tk_elastic_mstats_idx) +
                         " " +
                         encodeURI('filter="' + tk_elastic_mstats_filters + '"') +
@@ -7761,10 +7761,16 @@ require([
 
             // get entity details
             var tk_keyid = e.data['row.keyid'];
+            // token is required
+            setToken("tk_keyid", tk_keyid);
             var tk_metric_host = e.data['row.metric_host'];
             setToken("tk_metric_host", tk_metric_host);
             var tk_object = tk_metric_host;
+            // token is required
+            setToken("tk_object", tk_object);
             var tk_object_category = "metric_host";
+            // token is required
+            setToken("tk_object_category", tk_object_category);
             var tk_priority = e.data["row.priority"];
             // token required for priority audit change
             setToken("tk_priority", tk_priority);
@@ -7802,15 +7808,6 @@ require([
                 "&earliest=-15m&latest=now";
 
             // Define the history msearch
-            var msearch_metric_host =
-                '| msearch index=* filter="host="' + tk_metric_host + '""';
-            msearch_metric_host =
-                "search" +
-                "?q=" +
-                encodeURI(msearch_metric_host) +
-                "&earliest=-15m&latest=now";
-
-            // Define the history msearch
             var mpreview_metric_host =
                 '| mpreview index=* filter="host="' + tk_metric_host + '""';
             mpreview_metric_host =
@@ -7822,8 +7819,6 @@ require([
             // Define the URL target
             document.getElementById("btn_search_metric_host").href =
                 search_metric_host;
-            document.getElementById("btn_msearch_metric_host").href =
-                msearch_metric_host;
             document.getElementById("btn_mpreview_metric_host").href =
                 mpreview_metric_host;
 
@@ -7863,7 +7858,10 @@ require([
                 tk_metric_monitored_state_class = "title_grey";
             }
 
+            console.log("tk_metric_monitored_state_class is: " + tk_metric_monitored_state_class);
+
             // Dynamically manage state color
+            var tk_metric_host_state_class;
             if (tk_metric_host_state == "green") {
                 tk_metric_host_state_class = "title_green";
                 tk_metric_host_status_message_class = "status_message_green";
@@ -7899,8 +7897,8 @@ require([
             );
 
             $('#child-metric-host-top-info2').html(
-                '<h3>monitored state: <span style="color: dodgerblue;">' + tk_metric_monitored_state + '<span style="color: dodgerblue;">' +
-                '<h3>host state:</b> <span class="' + tk_metric_monitored_state_class + '">' + tk_metric_host_state + '</span></h3>'
+                '<h3>monitored state:</b> <span class="' + tk_metric_monitored_state_class + '">' + tk_metric_monitored_state + '</span></h3>' +
+                '<h3>host state:</b> <span class="' + tk_metric_host_state_class + '">' + tk_metric_host_state + '</span></h3>'
             );
 
             $('#child-metric-host-top-info3').html(
@@ -16354,6 +16352,36 @@ require([
         .render()
         .$el.appendTo($("resultsLinkelementGetTagsMetricHost"));
     
+        var modal_input_metric_host_priority = new DropdownInput({
+            "id": "modal_input_metric_host_priority",
+            "choices": [{
+                    "label": "low",
+                    "value": "low"
+                },
+                {
+                    "label": "medium",
+                    "value": "medium"
+                },
+                {
+                    "label": "high",
+                    "value": "high"
+                }
+            ],
+            "searchWhenChanged": true,
+            "default": "medium",
+            "showClearButton": true,
+            "initialValue": "medium",
+            "selectFirstChoice": false,
+            "value": "$form.tk_input_metric_host_priority$",
+            "el": $('#modal_input_metric_host_priority')
+        }, {
+            tokens: true
+        }).render();
+
+        modal_input_metric_host_priority.on("change", function(newValue) {
+            FormUtils.handleValueChange(modal_input_metric_host_priority);
+        });
+
     //
     // BEGIN OPERATIONS
     //
@@ -17011,6 +17039,8 @@ require([
             tk_keyid +
             '"';
 
+        console.log("searchQuery is: " + searchQuery);
+
         // Set the search parameters
         var searchParams = {
             exec_mode: "normal",
@@ -17033,101 +17063,114 @@ require([
                                 var field = fields[j];
                                 var value = values[j];
 
-                                // update state color
-                                if (field == "metric_host_state") {
-                                    setToken("tk_metric_host_state", value);
-                                    tk_metric_host_state = value;
-                                    // Dynamically manage state color
-                                    if (tk_metric_host_state == "green") {
-                                        setToken("tk_metric_host_state_class", "title_green");
-                                        setToken(
-                                            "tk_metric_host_status_message_class",
-                                            "status_message_green"
-                                        );
-                                    } else if (tk_metric_host_state == "orange") {
-                                        setToken("tk_metric_host_state_class", "title_orange");
-                                        setToken(
-                                            "tk_metric_host_status_message_class",
-                                            "status_message_orange"
-                                        );
-                                    } else if (tk_metric_host_state == "blue") {
-                                        setToken("tk_metric_host_state_class", "title_blue");
-                                        setToken(
-                                            "tk_metric_host_status_message_class",
-                                            "status_message_blue"
-                                        );
-                                    } else if (tk_metric_host_state == "red") {
-                                        setToken("tk_metric_host_state_class", "title_red");
-                                        setToken(
-                                            "tk_metric_host_status_message_class",
-                                            "status_message_red"
-                                        );
-                                    }
-                                }
+                                var tk_metric_host;
+                                var tk_metric_last_lag_seen;
+                                var tk_metric_last_time_seen_human;
+                                var tk_latest_flip_time_human;
+                                var tk_latest_flip_state;
+                                var tk_priority;
+                                var tk_metric_host_state;
+                                var tk_metric_monitored_state;
+                                var tk_status_message;
 
-                                // update priority color
-                                if (field == "priority") {
-                                    setToken("tk_priority", value);
-                                    tk_priority = value;
-                                    // Dynamically manage state color
-                                    if (tk_priority == "low") {
-                                        setToken("tk_priority_class", "title_low_priority");
-                                    } else if (tk_priority == "medium") {
-                                        setToken("tk_priority_class", "title_medium_priority");
-                                    } else if (tk_priority == "high") {
-                                        setToken("tk_priority_class", "title_high_priority");
-                                    }
-                                }
-
-                                // update monitored state
-                                if (field == "metric_monitored_state") {
-                                    setToken("tk_metric_monitored_state", value);
-                                    tk_metric_monitored_state = value;
-                                    // Dynamically manage state color
-                                    if (tk_metric_monitored_state == "enabled") {
-                                        document.getElementById(
-                                            "btn_enable_monitoring"
-                                        ).disabled = true;
-                                        document.getElementById(
-                                            "btn_disable_monitoring"
-                                        ).disabled = false;
-                                        setToken(
-                                            "tk_metric_monitored_state_class",
-                                            "title_green"
-                                        );
-                                    } else {
-                                        document.getElementById(
-                                            "btn_enable_monitoring"
-                                        ).disabled = false;
-                                        document.getElementById(
-                                            "btn_disable_monitoring"
-                                        ).disabled = true;
-                                        setToken("tk_metric_monitored_state_class", "title_grey");
-                                    }
-                                }
-
-                                // update last time
-                                if (field == "last time") {
-                                    setToken("tk_metric_last_time_seen_human", value);
+                                if (field == "metric_host") {
+                                    tk_metric_host = value;
+                                } else if (field == "metric_last_lag_seen") {
+                                    tk_metric_last_lag_seen = value;
+                                } else if (field == "last time") {
                                     tk_metric_last_time_seen_human = value;
-                                }
-
-                                // update flip
-                                if (field == "latest_flip_time (translated)") {
-                                    setToken("tk_latest_flip_time_human", value);
+                                } else if (field == "latest_flip_time (translated)") {
                                     tk_latest_flip_time_human = value;
-                                }
-
-                                if (field == "latest_flip_state") {
-                                    setToken("tk_latest_flip_state", value);
+                                } else if (field == "latest_flip_state") {
                                     tk_latest_flip_state = value;
-                                }
-
-                                // update status_message
-                                if (field == "status_message") {
-                                    setToken("tk_status_message", value);
+                                } else if (field == "priority") {
+                                    tk_priority = value;
+                                } else if (field == "metric_host_state") {
+                                    tk_metric_host_state = value;
+                                } else if (field == "metric_monitored_state") {
+                                    tk_metric_monitored_state = value;
+                                } else if (field == 'status_message') {
                                     tk_status_message = value;
                                 }
+
+                                // Dynamically manage priority color
+                                var tk_priority_class;
+                                if (tk_priority == "low") {
+                                    tk_priority_class = "title_low_priority";
+                                } else if (tk_priority == "medium") {
+                                    tk_priority_class = "title_medium_priority";
+                                } else if (tk_priority == "high") {
+                                    tk_priority_class = "title_high_priority";
+                                }
+
+                                // Dynamically manage buttons states
+                                var tk_metric_monitored_state_class;
+                                if (tk_metric_monitored_state == "enabled") {
+                                    document.getElementById("btn_enable_monitoring_metric_host").disabled = true;
+                                    document.getElementById("btn_disable_monitoring_metric_host").disabled = false;
+                                    tk_metric_monitored_state_class = "title_green";
+                                } else {
+                                    document.getElementById("btn_enable_monitoring_metric_host").disabled = false;
+                                    document.getElementById("btn_disable_monitoring_metric_host").disabled = true;
+                                    tk_metric_monitored_state_class = "title_grey";
+                                }
+
+                                // Dynamically manage state color
+                                var tk_metric_host_state_class;
+                                if (tk_metric_host_state == "green") {
+                                    tk_metric_host_state_class = "title_green";
+                                    tk_metric_host_status_message_class = "status_message_green";
+                                } else if (tk_metric_host_state == "orange") {
+                                    tk_metric_host_state_class = "title_orange";
+                                    tk_metric_host_status_message_class = "status_message_orange";
+                                } else if (tk_metric_host_state == "blue") {
+                                    tk_metric_host_state_class = "title_blue";
+                                    tk_metric_host_status_message_class = "status_message_blue";
+                                } else if (tk_metric_host_state == "red") {
+                                    tk_metric_host_state_class = "title_red";
+                                    tk_metric_host_status_message_class = "status_message_red";
+                                }
+
+                                // Dynamically manage Ack button
+                                if (tk_metric_host_state == "red") {
+                                    document.getElementById("btn_ack_metric_host").disabled = false;
+                                } else {
+                                    document.getElementById("btn_ack_metric_host").disabled = true;
+                                }
+
+                                // Explicitly refresh the get tags search
+                                searchGetMetricHostTags.startSearch();
+
+                                // replace info panels
+                                $('#parent-metric-host-main').html(
+                                    '<h1>Actions for metric host: ' + tk_metric_host + '</h1>'
+                                );
+
+                                $('#child-metric-host-top-info1').html(
+                                    '<h3>last lag seen: <span style="color: dodgerblue;">' + tk_metric_last_lag_seen + '<span style="color: dodgerblue;">' +
+                                    '<h3>last time seen: <span style="color: dodgerblue;">' + tk_metric_last_time_seen_human + '<span style="color: dodgerblue;">'
+                                );
+
+                                $('#child-metric-host-top-info2').html(
+                                    '<h3>monitored state:</b> <span class="' + tk_metric_monitored_state_class + '">' + tk_metric_monitored_state + '</span></h3>' +
+                                    '<h3>host state:</b> <span class="' + tk_metric_host_state_class + '">' + tk_metric_host_state + '</span></h3>'
+                                );
+                    
+                                $('#child-metric-host-top-info3').html(
+                                    '<h3>latest flip time: <span style="color: dodgerblue;">' + tk_latest_flip_time_human + '<span style="color: dodgerblue;">' +
+                                    '<h3>latest flip state: <span style="color: dodgerblue;">' + tk_latest_flip_state + '<span style="color: dodgerblue;">'
+                                );
+
+                                $('#child-metric-host-top-info4').html(
+                                    '<h3>priority:</b> <span class="' + tk_priority_class + '">' + tk_priority + '</span></p>'
+                                );
+
+                                $('#child-metric-host-status-message').html(
+                                    '<div class="' + tk_metric_host_status_message_class + '">' +
+                                    '<h2 style="font-weight: bold; color: darkslategray;">' + tk_status_message + '</h2>' +
+                                    '</div>'
+                                );
+
                             }
                         }
                     });

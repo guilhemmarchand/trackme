@@ -6306,7 +6306,7 @@
 									</button>
 								</div>
 								<div style="margin-right: 15px; float: right;">
-									<button type="submit" id="btn_search_metric_reports" role="button" class="btn btn-outline-primary">
+									<button type="submit" id="btn_search_metric_reports" role="button" data-dismiss="modal" class="btn btn-outline-primary">
 										<span class="glyphicon glyphicon-remove"></span>Search &amp; reports
 									</button>
 								</div>
@@ -6386,6 +6386,112 @@
 						</div>
 					</div>
 				</div>
+				<!-- Modal window for metrics search and report -->
+				<div class="modal fade custom-modal-80" id="metric_hosts_search_and_reports" role="dialog">
+					<div class="modal-dialog">
+						<!-- Modal content-->
+						<div class="modal-content">
+							<div class="modal-header modal-header-info">
+								<button type="button" class="close" data-dismiss="modal"></button>
+								<h1>
+									<span class="glyphicon glyphicon-lock"></span> Metric indexes - Search &amp; Reports 
+								</h1>
+							</div>
+							<div class="modal-body">
+								<div>
+									<h1>You can search metric indexes content using one of the methods below:</h1>
+									<div style="margin-top: 30px; margin-bottom: 30px;">
+										<a class="btn btn-outline-primary" style="margin-right: 20px;" id="btn_search_metric_host_live_report" target="_blank" href="search_metric_source_live_report_url" role="button">Metrics live report</a>
+										<a class="btn btn-outline-primary" style="margin-right: 20px;" id="btn_search_metric_host" target="_blank" href="search_metric_source_url" role="button">Metrics mcatalog report</a>
+										<a class="btn btn-outline-primary" style="margin-right: 20px;" id="btn_mpreview_metric_host" target="_blank" href="search_data_source_url" role="button">Search (mpreview)</a>
+									</div>
+								</div>
+								<div style="margin-top: 20px;" class="modal-footer">
+									<div style="margin-right: 15px; float: left;">
+										<button type="submit" class="btn btn-outline-secondary pull-left" data-dismiss="modal">
+											<span class="glyphicon glyphicon-remove"></span> Close
+										</button>
+									</div>
+									<div style="margin-right: 15px; float: right;">
+										<button id="btn_metric_host_search_and_report_back" type="submit" class="btn btn-outline-secondary" data-dismiss="modal">
+											<span class="glyphicon glyphicon-remove"></span> Back 
+										</button>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<!-- metric host monitoring -->
+				<!-- Modal window for data source unified -->
+				<div class="modal fade custom-modal-80" id="modal_modify_metric_host_unified" role="dialog">
+					<div class="modal-dialog">
+						<!-- Modal content-->
+						<div class="modal-content">
+							<div class="modal-header modal-header-danger">
+								<button type="button" class="close" data-dismiss="modal"></button>
+								<h1>
+									<span class="glyphicon glyphicon-lock"></span> Metric host - main settings
+								</h1>
+							</div>
+							<div class="modal-body">
+								<style>
+								.parent-metric-host-modify-l1 {
+									display: grid;
+									grid-template-columns: repeat(2, 1fr);
+									grid-template-rows: 1fr;
+									grid-column-gap: 0px;
+									grid-row-gap: 0px;
+								}
+								</style>
+								<div class="parent-metric-host-modify-l1">
+									<div>
+										<h1>Metric host priority:</h1>
+										<p>Define the priority of the metric host for granular level of SLA alerting:</p>
+										<p>
+											<span class="title_low_priority">low</span>
+											<span class="title_medium_priority">medium</span>
+											<span class="title_high_priority">high</span>
+										</p>
+										<div class="fieldset">
+											<div class="input input-text" id="modal_input_metric_host_priority">
+												<label></label>
+											</div>
+										</div>
+										<div style="margin-top: 10px; margin-bottom: 10px;">
+											<button id="btn_modal_modify_priority_metric_host_confirm" type="submit" class="btn btn-outline-danger">
+												<span class="glyphicon glyphicon-remove"></span> Apply priority
+											</button>
+										</div>
+									</div>
+									<div>
+										<h1>Associate to a Logical group:</h1>
+										<h2>Logical groups are groups of entities that will be considered as an ensemble for monitoring purposes.</h2>
+										<p>
+										A typical use case is a couple of active / passive appliances, where only the active member generates data.
+										When associated in a Logical group, the entity status relies on the minimal green percentage configured during the group creation versus
+										the current green percentage of the group. (percentages of members green)										
+										</p>
+										<div style="margin-top: 10px; margin-bottom: 10px;" class="btn_logical_group">
+											<button type="submit" class="btn btn-outline-primary" data-dismiss="modal">
+												<span class="glyphicon glyphicon-remove"></span> Manage in a Logical group 
+											</button>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div style="margin-top: 30px;" class="modal-footer">
+								<button type="submit" id="btn_close_metric_host_unified" class="btn btn-outline-secondary pull-left" data-dismiss="modal">
+									<span class="glyphicon glyphicon-remove"></span> Back
+								</button>
+								<button type="submit" class="btn btn-outline-secondary" data-dismiss="modal">
+									<span class="glyphicon glyphicon-remove"></span> Close
+								</button>
+							</div>
+						</div>
+					</div>
+				</div>
 
 			</html>
 
@@ -6395,48 +6501,6 @@
 				<!-- ############
                     MODAL WINDOWS
                 ############# -->
-				<!-- Modal window for metrics search and report -->
-				<div class="modal fade custom-modal-80" id="metric_hosts_search_and_reports" role="dialog">
-					<div class="modal-dialog">
-						<!-- Modal content-->
-						<div class="modal-content">
-							<div class="modal-header modal-header-info">
-								<button type="button" class="close" data-dismiss="modal"></button>
-								<h1>
-									<span class="glyphicon glyphicon-lock"></span> Metric store - Search &amp; Reports 
-								</h1>
-							</div>
-							<div class="modal-body">
-								<div>
-									<div>
-										<div>
-											<div>
-												<div style="margin-right: 15px; text-align: center;">
-													<a class="btn btn-primary" style="margin-right: 20px;" id="btn_search_metric_host_live_report" target="_blank" href="search_metric_source_live_report_url" role="button">Metrics live report</a>
-													<a class="btn btn-primary" style="margin-right: 20px;" id="btn_search_metric_host" target="_blank" href="search_metric_source_url" role="button">Metrics mcatalog report</a>
-													<a class="btn btn-primary" style="margin-right: 20px;" id="btn_msearch_metric_host" target="_blank" href="search_data_source_url" role="button">Search (msearch)</a>
-													<a class="btn btn-primary" style="margin-right: 20px;" id="btn_mpreview_metric_host" target="_blank" href="search_data_source_url" role="button">Search (mpreview)</a>
-												</div>
-											</div>
-										</div>
-									</div>
-								</div>
-								<div style="margin-top: 20px;" class="modal-footer">
-									<div style="margin-right: 15px; float: left;">
-										<button type="submit" class="btn btn-default btn-default pull-left" data-dismiss="modal">
-											<span class="glyphicon glyphicon-remove"></span> Close
-										</button>
-									</div>
-									<div style="margin-right: 15px; float: right;">
-										<button id="btn_metric_host_search_and_report_back" type="submit" class="btn btn-default btn-primary" data-dismiss="modal">
-											<span class="glyphicon glyphicon-remove"></span> Back 
-										</button>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
 				<!-- data host monitoring -->
 				<div class="modal fade custom-modal-50" id="modal_modify_main_host" role="dialog">
 					<div class="modal-dialog">
@@ -6516,69 +6580,6 @@
 								</button>
 								<button type="submit" id="btn_delete_metric_sla_policy_level2" role="button" class="btn btn-outline-danger">
 									<span class="glyphicon glyphicon-remove"></span>Delete
-								</button>
-							</div>
-						</div>
-					</div>
-				</div>
-				<!-- metric host monitoring -->
-				<!-- Modal window for data source unified -->
-				<div class="modal fade custom-modal-80" id="modal_modify_metric_host_unified" role="dialog">
-					<div class="modal-dialog">
-						<!-- Modal content-->
-						<div class="modal-content">
-							<div class="modal-header modal-header-danger">
-								<button type="button" class="close" data-dismiss="modal"></button>
-								<h1>
-									<span class="glyphicon glyphicon-lock"></span> Metric host unified update 
-								</h1>
-							</div>
-							<div class="modal-body">
-								<div style="margin-bottom: 10px; width: 50%; float: left;">
-									<b>Metric host priority:</b>
-									<p>Define the priority of the metric host for granular level of SLA alerting:</p>
-									<p>
-										<span class="title_low_priority">low</span>
-										<span class="title_medium_priority">medium</span>
-										<span class="title_high_priority">high</span>
-									</p>
-									<div class="fieldset">
-										<div class="input input-text" id="modal_input_metric_host_priority">
-											<label></label>
-										</div>
-									</div>
-									<div>
-										<button id="btn_modal_modify_priority_metric_host_confirm" type="submit" class="btn btn-default btn-primary">
-											<span class="glyphicon glyphicon-remove"></span> Apply priority
-										</button>
-									</div>
-								</div>
-								<div style="margin-bottom: 10px; width: 50%; float: right;">
-									<b>Associate to a Logical group:</b>
-									<p>Logical groups are groups of entities that will be considered as an ensemble for monitoring purposes.
-                                        
-										<br />
-                                        A typical use case is a couple of active / passive appliances, where only the active member generates data.
-                                        
-										<br />
-										<br />
-                                        When associated in a Logical group, the entity status relies on the minimal green percentage configured during the group creation versus
-                                        the current green percentage of the group. (percentages of members green)
-                                    
-									</p>
-									<div style="margin-bottom: 20px;" class="btn_logical_group">
-										<button type="submit" class="btn btn-default btn-primary" data-dismiss="modal">
-											<span class="glyphicon glyphicon-remove"></span> Manage in a Logical group 
-										</button>
-									</div>
-								</div>
-							</div>
-							<div style="margin-top: 260px;" class="modal-footer">
-								<button type="submit" id="btn_close_metric_host_unified" class="btn btn-default btn-primary pull-left" data-dismiss="modal">
-									<span class="glyphicon glyphicon-remove"></span> Back
-								</button>
-								<button type="submit" class="btn btn-outline-primary" data-dismiss="modal">
-									<span class="glyphicon glyphicon-remove"></span> Close
 								</button>
 							</div>
 						</div>
