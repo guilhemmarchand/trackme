@@ -5,7 +5,7 @@
 		<panel>
 			<html>
 				<div id="cssloader" class="loader loader-default is-active" data-text="Please wait while loading trackMe..."></div>
-				<div style="margin-bottom: -10px; margin-top: 0px;" id="link1"></div>
+				<div style="margin-bottom: -10px; margin-top: 0px;" id="linkMainInput"></div>
 			</html>
 			<html>
 				<!-- RUN TRACKERS -->
@@ -5144,7 +5144,6 @@
 								<div>
 									<div class="modal-header modal-header-primary">										
                                             <div id="child-alert-tracking-info-panel-title">
-    											<h1>Actions for alert:<span>value</span></h1>
                                             </div>
 										<button type="button" class="close" data-dismiss="modal"></button>
 									</div>
@@ -5152,13 +5151,12 @@
                                         <style>
                                             .parent-alert-tracking-info-panel {
                                                 display: grid;
-                                                grid-template-columns: repeat(2, 1fr);
+                                                grid-template-columns: repeat(3, 1fr);
                                                 grid-template-rows: 1fr;
                                                 grid-column-gap: 0px;
                                                 grid-row-gap: 0px;
                                                 margin-left: 5%;
                                             }
-
                                             .parent-alert-tracking-info-panel h3{
                                                 line-height: 10px;
                                             }
@@ -5167,6 +5165,8 @@
 											<div id="child-alert-tracking-info-panel1">
 											</div>
 											<div id="child-alert-tracking-info-panel2">
+											</div>
+											<div id="child-alert-tracking-info-panel3">
 											</div>
 										</div>
                                         <hr style="margin: 10px;" />

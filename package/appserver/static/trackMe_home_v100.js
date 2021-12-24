@@ -7,7 +7,6 @@ require([
     "underscore",
     "splunkjs/mvc",
     "splunkjs/mvc/utils",
-    "splunkjs/mvc/tokenutils",
     "splunkjs/mvc/searchcontrolsview",
     "splunkjs/mvc/searchmanager",
     "splunkjs/mvc/postprocessmanager",
@@ -34,14 +33,12 @@ require([
     "splunkjs/mvc/simpleform/formutils",
     "splunkjs/mvc/simplexml/eventhandler",
     "splunkjs/mvc/simplexml/searcheventhandler",
-    "splunkjs/mvc/simplexml/urltokenmodel",
     "splunkjs/mvc/simplexml/ready!",
 ], function(
     $,
     _,
     mvc,
     utils,
-    TokenUtils,
     SearchControlsView,
     SearchManager,
     PostProcessManager,
@@ -67,8 +64,7 @@ require([
     EventElement,
     FormUtils,
     EventHandler,
-    SearchEventHandler,
-    UrlTokenModel
+    SearchEventHandler
 ) {
     // TOKENS
 
@@ -166,7 +162,7 @@ require([
         // Audit changes
         var tokens = mvc.Components.get("default");
         var currentUser = Splunk.util.getConfigValue("USERNAME");
-        tokens.set("currentUser", currentUser);
+        setToken("currentUser", currentUser);
         var auditendpoint_URl = "/en-US/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_audit_changes/"
 
         var time = (new Date).getTime();
@@ -270,7 +266,7 @@ require([
                             selected_values_array.splice(i, 1);
                         }
                     }
-                    tokens.set(tokenName, selected_values_array.join());
+                    setToken(tokenName, selected_values_array.join());
                 }).appendTo($td);
             }
         });
@@ -5018,26 +5014,11 @@ require([
         if (e.field !== undefined) {
             e.preventDefault();
             setToken(
-                "form.inputDataPriority",
-                TokenUtils.replaceTokenNames(
-                    "$row.priority$",
-                    _.extend(submittedTokenModel.toJSON(), e.data)
-                )
-            );
+                "form.inputDataPriority", e.data["row.priority"]);
             setToken(
-                "form.data_source_state",
-                TokenUtils.replaceTokenNames(
-                    "*",
-                    _.extend(submittedTokenModel.toJSON(), e.data)
-                )
-            );
+                "form.data_source_state", "*");
             setToken(
-                "form.data_monitored_state",
-                TokenUtils.replaceTokenNames(
-                    "enabled",
-                    _.extend(submittedTokenModel.toJSON(), e.data)
-                )
-            );
+                "form.data_monitored_state", "enabled");
         }
     });
 
@@ -5067,8 +5048,8 @@ require([
     //
 
     // main
-    var link1 = new LinkListInput({
-        id: "link1",
+    var linkMainInput = new LinkListInput({
+        id: "linkMainInput",
         choices: [{
                 value: "show_data_source_tracker",
                 label: "DATA SOURCES TRACKING",
@@ -5098,16 +5079,16 @@ require([
         selectFirstChoice: false,
         searchWhenChanged: true,
         value: "$form.tk_main_link$",
-        el: $("#link1"),
+        el: $("#linkMainInput"),
     }, {
         tokens: true,
     }).render();
 
-    link1.on("change", function(newValue) {
-        FormUtils.handleValueChange(link1);
+    linkMainInput.on("change", function(newValue) {
+        FormUtils.handleValueChange(linkMainInput);
     });
 
-    link1.on("valueChange", function(e) {
+    linkMainInput.on("valueChange", function(e) {
         if (e.value === "show_data_source_tracker") {
             EventHandler.setToken("show_data_source_tracker", "true", {}, e.data);
             EventHandler.unsetToken("show_data_host_tracker");
@@ -5696,7 +5677,7 @@ require([
             // dcount hosts
             var tk_dcount_host = e.data["row.dcount_host"];
             var tk_min_dcount_host = e.data["row.min_dcount_host"];
-            tokens.set("form.tk_input_data_source_dcount_host", e.data["row.min_dcount_host"]);
+            setToken("form.tk_input_data_source_dcount_host", e.data["row.min_dcount_host"]);
 
             // outlier
             var tk_outlierenabledstatus = e.data["row.enable_behaviour_analytic"];
@@ -5731,22 +5712,22 @@ require([
             var tk_tags = e.data["row.tags"];
 
             // pref-fill current lagging input
-            tokens.set("form.tk_input_lag", e.data["row.data_max_lag_allowed"]);
+            setToken("form.tk_input_lag", e.data["row.data_max_lag_allowed"]);
 
             // pref-fill current wdays input
-            tokens.set("form.tk_input_wdays", e.data["row.data_monitoring_wdays"]);
+            setToken("form.tk_input_wdays", e.data["row.data_monitoring_wdays"]);
 
             // pre-fill current monitoring level
-            tokens.set("form.tk_input_level", e.data["row.data_monitoring_level"]);
+            setToken("form.tk_input_level", e.data["row.data_monitoring_level"]);
 
             // pre-fill current priority
-            tokens.set("form.tk_input_priority", e.data["row.priority"]);
+            setToken("form.tk_input_priority", e.data["row.priority"]);
 
             // pre-fill lagging class override
-            tokens.set("form.modal_input_lag_override_class", e.data["row.data_override_lagging_class"]);
+            setToken("form.modal_input_lag_override_class", e.data["row.data_override_lagging_class"]);
 
             // pre-fill alert over kpis
-            tokens.set("form.tk_input_data_lag_alert_kpis", e.data["row.data_lag_alert_kpis"]);
+            setToken("form.tk_input_data_lag_alert_kpis", e.data["row.data_lag_alert_kpis"]);
 
             // Get earliest / latest to be recycled in some use cases
             var tk_earliest = getToken("modalTime.earliest");
@@ -5769,13 +5750,7 @@ require([
                     cribl_pipe = cribl_pipe_matches[1];
 
                     // create a token for the cribl_pipe
-                    setToken(
-                        "tk_cribl_pipe",
-                        TokenUtils.replaceTokenNames(
-                            cribl_pipe,
-                            _.extend(submittedTokenModel.toJSON(), e.data)
-                        )
-                    );
+                    setToken("tk_cribl_pipe", cribl_pipe);
 
                     // define the root search
                     tk_data_source_overview_root_search =
@@ -5787,13 +5762,7 @@ require([
                         cribl_pipe +
                         " `trackme_tstats_main_filter` by _time, index, sourcetype span=1s | eval delta=(indextime-_time), event_lag=(now() - maxtime)";
                     tk_data_source_raw_search = "null";
-                    setToken(
-                        "tk_data_source_timechart_count_aggreg",
-                        TokenUtils.replaceTokenNames(
-                            "sum",
-                            _.extend(submittedTokenModel.toJSON(), e.data)
-                        )
-                    );
+                    setToken("tk_data_source_timechart_count_aggreg", "sum");
                 }
 
                 // split by custom mode
@@ -5812,13 +5781,7 @@ require([
                         keyValue +
                         '" `trackme_tstats_main_filter` by _time, index, sourcetype, source span=1s | eval delta=(indextime-_time), event_lag=(now() - maxtime)';
                     tk_data_source_raw_search = "null";
-                    setToken(
-                        "tk_data_source_timechart_count_aggreg",
-                        TokenUtils.replaceTokenNames(
-                            "sum",
-                            _.extend(submittedTokenModel.toJSON(), e.data)
-                        )
-                    );
+                    setToken("tk_data_source_timechart_count_aggreg", "sum");
                 }
 
                 // standard mode
@@ -5830,13 +5793,7 @@ require([
                         tk_data_sourcetype +
                         '" `trackme_tstats_main_filter` by _time, index, sourcetype span=1s | eval delta=(indextime-_time), event_lag=(now() - maxtime)';
                     tk_data_source_raw_search = "null";
-                    setToken(
-                        "tk_data_source_timechart_count_aggreg",
-                        TokenUtils.replaceTokenNames(
-                            "sum",
-                            _.extend(submittedTokenModel.toJSON(), e.data)
-                        )
-                    );
+                    setToken("tk_data_source_timechart_count_aggreg", "sum");
                 }
             } else if (tk_elastic_source_search_mode == "tstats") {
                 tk_data_source_overview_root_search =
@@ -5845,26 +5802,14 @@ require([
                     " by _time, index, sourcetype span=1s | eval delta=(indextime-_time), event_lag=(now() - maxtime)";
                 tk_data_source_raw_search =
                     "?q=search%20" + encodeURI(tk_elastic_source_search_constraint);
-                setToken(
-                    "tk_data_source_timechart_count_aggreg",
-                    TokenUtils.replaceTokenNames(
-                        "sum",
-                        _.extend(submittedTokenModel.toJSON(), e.data)
-                    )
-                );
+                setToken("tk_data_source_timechart_count_aggreg", "sum");
             } else if (tk_elastic_source_search_mode == "raw") {
                 tk_data_source_overview_root_search =
                     tk_elastic_source_search_constraint +
                     " | eval delta=(_indextime-_time), event_lag=(now() - _time) | bucket _time span=1s | stats count, avg(delta) as delta, latest(event_lag) as event_lag, dc(host) as dcount_host by _time";
                 tk_data_source_raw_search =
                     "?q=search%20" + encodeURI(tk_elastic_source_search_constraint);
-                setToken(
-                    "tk_data_source_timechart_count_aggreg",
-                    TokenUtils.replaceTokenNames(
-                        "sum",
-                        _.extend(submittedTokenModel.toJSON(), e.data)
-                    )
-                );
+                setToken("tk_data_source_timechart_count_aggreg", "sum");
             } else if (
                 tk_elastic_source_search_mode == "from" &&
                 tk_elastic_source_from_part1 != "null" &&
@@ -5880,26 +5825,14 @@ require([
                         " | " +
                         tk_elastic_source_from_part2 +
                         " | eventstats max(_time) as maxtime | eval delta=(_indextime-_time), event_lag=(now() - maxtime) | bucket _time span=1s | stats count, avg(delta) as delta, latest(event_lag) as event_lag, dc(host) as dcount_host by _time";
-                    setToken(
-                        "tk_data_source_timechart_count_aggreg",
-                        TokenUtils.replaceTokenNames(
-                            "sum",
-                            _.extend(submittedTokenModel.toJSON(), e.data)
-                        )
-                    );
+                    setToken("tk_data_source_timechart_count_aggreg", "sum");
                 } else if (/lookup:/i.test(tk_elastic_source_search_constraint)) {
                     // rest search needs special handling
                     tk_data_source_overview_root_search =
                         '| mstats latest(_value) as value where `trackme_metrics_idx` (metric_name=trackme.eventcount_4h OR metric_name=trackme.lag_event_sec OR metric_name=trackme.hostcount_4h) object_category="data_source" object="' +
                         tk_data_name +
                         '" by metric_name span=5m | eval {metric_name}=value | stats first(trackme.eventcount_4h) as count, first(trackme.lag_event_sec) as delta, max(trackme.hostcount_4h) as dcount_host by _time | eval event_lag=delta';
-                    setToken(
-                        "tk_data_source_timechart_count_aggreg",
-                        TokenUtils.replaceTokenNames(
-                            "latest",
-                            _.extend(submittedTokenModel.toJSON(), e.data)
-                        )
-                    );
+                    setToken("tk_data_source_timechart_count_aggreg", "latest");
                 }
 
                 tk_data_source_raw_search =
@@ -5965,13 +5898,7 @@ require([
                             " | head 1 | table value | restextractraw" +
                             ' | eval _time=strptime(_time, "%Y-%m-%d %H:%M:%S.%3N %Z")'
                         );
-                    setToken(
-                        "tk_data_source_timechart_count_aggreg",
-                        TokenUtils.replaceTokenNames(
-                            "sum",
-                            _.extend(submittedTokenModel.toJSON(), e.data)
-                        )
-                    );
+                    setToken("tk_data_source_timechart_count_aggreg", "sum");
                 } else if (/lookup:/i.test(tk_elastic_source_search_constraint)) {
                     // rest search needs special handling
                     tk_data_source_overview_root_search =
@@ -5990,13 +5917,7 @@ require([
                             '" output_mode="csv"' +
                             "| head 1"
                         );
-                    setToken(
-                        "tk_data_source_timechart_count_aggreg",
-                        TokenUtils.replaceTokenNames(
-                            "latest",
-                            _.extend(submittedTokenModel.toJSON(), e.data)
-                        )
-                    );
+                    setToken("tk_data_source_timechart_count_aggreg", "latest");
                 }
             } else if (
                 tk_elastic_source_search_mode == "mstats" &&
@@ -6023,13 +5944,7 @@ require([
                         encodeURI('filter="' + tk_elastic_mstats_filters + '"') +
                         encodeURI(' earliest="-5m" latest=now');
                 }
-                setToken(
-                    "tk_data_source_timechart_count_aggreg",
-                    TokenUtils.replaceTokenNames(
-                        "latest",
-                        _.extend(submittedTokenModel.toJSON(), e.data)
-                    )
-                );
+                setToken("tk_data_source_timechart_count_aggreg", "latest");
             }
 
             // tstats over rest
@@ -6079,13 +5994,7 @@ require([
                         " | head 1 | table value | restextractraw" +
                         ' | eval _time=strptime(_time, "%Y-%m-%d %H:%M:%S.%3N %Z")'
                     );
-                setToken(
-                    "tk_data_source_timechart_count_aggreg",
-                    TokenUtils.replaceTokenNames(
-                        "sum",
-                        _.extend(submittedTokenModel.toJSON(), e.data)
-                    )
-                );
+                setToken("tk_data_source_timechart_count_aggreg", "sum");
             }
 
             // raw over rest
@@ -6135,13 +6044,7 @@ require([
                         " | head 1 | table value | restextractraw" +
                         ' | eval _time=strptime(_time, "%Y-%m-%d %H:%M:%S.%3N %Z")'
                     );
-                setToken(
-                    "tk_data_source_timechart_count_aggreg",
-                    TokenUtils.replaceTokenNames(
-                        "sum",
-                        _.extend(submittedTokenModel.toJSON(), e.data)
-                    )
-                );
+                setToken("tk_data_source_timechart_count_aggreg", "sum");
             }
 
             // mstats over rest (uses summary data)
@@ -6170,13 +6073,7 @@ require([
                         encodeURI('filter="' + tk_elastic_mstats_filters + '"') +
                         encodeURI(' earliest="-5m" latest=now');
                 }
-                setToken(
-                    "tk_data_source_timechart_count_aggreg",
-                    TokenUtils.replaceTokenNames(
-                        "latest",
-                        _.extend(submittedTokenModel.toJSON(), e.data)
-                    )
-                );
+                setToken("tk_data_source_timechart_count_aggreg", "latest");
             } else {
                 tk_data_source_overview_root_search =
                     '| `trackme_tstats` dc(host) as dcount_host count latest(_indextime) as indextime max(_time) as maxtime where index="' +
@@ -6184,13 +6081,7 @@ require([
                     '" sourcetype="' +
                     tk_data_sourcetype +
                     '" `trackme_tstats_main_filter` by _time, index, sourcetype span=1s | eval delta=(indextime-_time), event_lag=(now() - maxtime)';
-                setToken(
-                    "tk_data_source_timechart_count_aggreg",
-                    TokenUtils.replaceTokenNames(
-                        "sum",
-                        _.extend(submittedTokenModel.toJSON(), e.data)
-                    )
-                );
+                setToken("tk_data_source_timechart_count_aggreg", "sum");
             }
 
             setToken("tk_data_source_overview_root_search", tk_data_source_overview_root_search);
@@ -6241,27 +6132,9 @@ require([
     singleFormTotalDataSource.on("click", function(e) {
         if (e.field !== undefined) {
             e.preventDefault();
-            setToken(
-                "form.data_source_state",
-                TokenUtils.replaceTokenNames(
-                    "*",
-                    _.extend(submittedTokenModel.toJSON(), e.data)
-                )
-            );
-            setToken(
-                "form.inputDataPriority",
-                TokenUtils.replaceTokenNames(
-                    "*",
-                    _.extend(submittedTokenModel.toJSON(), e.data)
-                )
-            );
-            setToken(
-                "form.data_monitored_state",
-                TokenUtils.replaceTokenNames(
-                    "*",
-                    _.extend(submittedTokenModel.toJSON(), e.data)
-                )
-            );
+            setToken("form.data_source_state", "*");
+            setToken("form.inputDataPriority", "*");
+            setToken("form.data_monitored_state", "*");
         }
     });
 
@@ -6295,27 +6168,9 @@ require([
     singleFormTotalDataSourceAlerts.on("click", function(e) {
         if (e.field !== undefined) {
             e.preventDefault();
-            setToken(
-                "form.inputDataPriority",
-                TokenUtils.replaceTokenNames(
-                    "*",
-                    _.extend(submittedTokenModel.toJSON(), e.data)
-                )
-            );
-            setToken(
-                "form.data_monitored_state",
-                TokenUtils.replaceTokenNames(
-                    "enabled",
-                    _.extend(submittedTokenModel.toJSON(), e.data)
-                )
-            );
-            setToken(
-                "form.data_source_state",
-                TokenUtils.replaceTokenNames(
-                    "red",
-                    _.extend(submittedTokenModel.toJSON(), e.data)
-                )
-            );
+            setToken("form.inputDataPriority", "*");
+            setToken("form.data_monitored_state", "enabled");
+            setToken("form.data_source_state", "red");
         }
     });
 
@@ -6349,27 +6204,9 @@ require([
     singleFormTotalDataSourceAlertsHighPriority.on("click", function(e) {
         if (e.field !== undefined) {
             e.preventDefault();
-            setToken(
-                "form.data_source_state",
-                TokenUtils.replaceTokenNames(
-                    "red",
-                    _.extend(submittedTokenModel.toJSON(), e.data)
-                )
-            );
-            setToken(
-                "form.data_monitored_state",
-                TokenUtils.replaceTokenNames(
-                    "enabled",
-                    _.extend(submittedTokenModel.toJSON(), e.data)
-                )
-            );
-            setToken(
-                "form.inputDataPriority",
-                TokenUtils.replaceTokenNames(
-                    "high",
-                    _.extend(submittedTokenModel.toJSON(), e.data)
-                )
-            );
+            setToken("form.data_source_state", "red");
+            setToken("form.data_monitored_state", "enabled");
+            setToken("form.inputDataPriority", "high");
         }
     });
 
@@ -6403,27 +6240,9 @@ require([
     singleFormTotalDataSourceDisabled.on("click", function(e) {
         if (e.field !== undefined) {
             e.preventDefault();
-            setToken(
-                "form.data_monitored_state",
-                TokenUtils.replaceTokenNames(
-                    "disabled",
-                    _.extend(submittedTokenModel.toJSON(), e.data)
-                )
-            );
-            setToken(
-                "form.data_source_state",
-                TokenUtils.replaceTokenNames(
-                    "*",
-                    _.extend(submittedTokenModel.toJSON(), e.data)
-                )
-            );
-            setToken(
-                "form.inputDataPriority",
-                TokenUtils.replaceTokenNames(
-                    "*",
-                    _.extend(submittedTokenModel.toJSON(), e.data)
-                )
-            );
+            setToken("form.data_monitored_state", "disabled");
+            setToken("form.data_source_state", "*");
+            setToken("form.inputDataPriority", "*");
         }
     });
 
@@ -6455,22 +6274,9 @@ require([
     DonutDataHostCountByStateAndPriority.on("click", function(e) {
         if (e.field !== undefined) {
             e.preventDefault();
-            setToken(
-                "form.data_host_state",
-                TokenUtils.replaceTokenNames(
-                    "*",
-                    _.extend(submittedTokenModel.toJSON(), e.data)
-                )
-            );
-            setToken(
-                "form.inputDataHostPriority", e.data["row.priority$"]);
-            setToken(
-                "form.data_monitored_state",
-                TokenUtils.replaceTokenNames(
-                    "enabled",
-                    _.extend(submittedTokenModel.toJSON(), e.data)
-                )
-            );
+            setToken("form.data_host_state", "*");
+            setToken("form.inputDataHostPriority", e.data["row.priority$"]);
+            setToken("form.data_monitored_state", "enabled");
         }
     });
 
@@ -6525,27 +6331,9 @@ require([
     singleFormTotalDataHost.on("click", function(e) {
         if (e.field !== undefined) {
             e.preventDefault();
-            setToken(
-                "form.data_host_state",
-                TokenUtils.replaceTokenNames(
-                    "*",
-                    _.extend(submittedTokenModel.toJSON(), e.data)
-                )
-            );
-            setToken(
-                "form.inputDataHostPriority",
-                TokenUtils.replaceTokenNames(
-                    "*",
-                    _.extend(submittedTokenModel.toJSON(), e.data)
-                )
-            );
-            setToken(
-                "form.data_monitored_state",
-                TokenUtils.replaceTokenNames(
-                    "*",
-                    _.extend(submittedTokenModel.toJSON(), e.data)
-                )
-            );
+            setToken("form.data_host_state", "*");
+            setToken("form.inputDataHostPriority", "*");
+            setToken("form.data_monitored_state", "*");
         }
     });
 
@@ -6579,27 +6367,9 @@ require([
     singleFormTotalDataHostAlerts.on("click", function(e) {
         if (e.field !== undefined) {
             e.preventDefault();
-            setToken(
-                "form.inputDataHostPriority",
-                TokenUtils.replaceTokenNames(
-                    "*",
-                    _.extend(submittedTokenModel.toJSON(), e.data)
-                )
-            );
-            setToken(
-                "form.data_monitored_state",
-                TokenUtils.replaceTokenNames(
-                    "enabled",
-                    _.extend(submittedTokenModel.toJSON(), e.data)
-                )
-            );
-            setToken(
-                "form.data_host_state",
-                TokenUtils.replaceTokenNames(
-                    "red",
-                    _.extend(submittedTokenModel.toJSON(), e.data)
-                )
-            );
+            setToken("form.inputDataHostPriority", "*");
+            setToken("form.data_monitored_state", "enabled");
+            setToken("form.data_host_state", "red");
         }
     });
 
@@ -6633,27 +6403,9 @@ require([
     singleFormTotalDataHostAlertsHighPriority.on("click", function(e) {
         if (e.field !== undefined) {
             e.preventDefault();
-            setToken(
-                "form.data_host_state",
-                TokenUtils.replaceTokenNames(
-                    "red",
-                    _.extend(submittedTokenModel.toJSON(), e.data)
-                )
-            );
-            setToken(
-                "form.data_monitored_state",
-                TokenUtils.replaceTokenNames(
-                    "enabled",
-                    _.extend(submittedTokenModel.toJSON(), e.data)
-                )
-            );
-            setToken(
-                "form.inputDataHostPriority",
-                TokenUtils.replaceTokenNames(
-                    "high",
-                    _.extend(submittedTokenModel.toJSON(), e.data)
-                )
-            );
+            setToken("form.data_host_state", "red");
+            setToken("form.data_monitored_state", "enabled");
+            setToken("form.inputDataHostPriority", "high");
         }
     });
 
@@ -6687,27 +6439,9 @@ require([
     singleFormTotalDataHostDisabled.on("click", function(e) {
         if (e.field !== undefined) {
             e.preventDefault();
-            setToken(
-                "form.data_monitored_state",
-                TokenUtils.replaceTokenNames(
-                    "disabled",
-                    _.extend(submittedTokenModel.toJSON(), e.data)
-                )
-            );
-            setToken(
-                "form.data_host_state",
-                TokenUtils.replaceTokenNames(
-                    "*",
-                    _.extend(submittedTokenModel.toJSON(), e.data)
-                )
-            );
-            setToken(
-                "form.inputDataHostPriority",
-                TokenUtils.replaceTokenNames(
-                    "*",
-                    _.extend(submittedTokenModel.toJSON(), e.data)
-                )
-            );
+            setToken("form.data_monitored_state", "disabled");
+            setToken("form.data_host_state", "*");
+            setToken("form.inputDataHostPriority", "*");
         }
     });
 
@@ -7211,27 +6945,9 @@ require([
     DonutMetricHostCountByStateAndPriority.on("click", function(e) {
         if (e.field !== undefined) {
             e.preventDefault();
-            setToken(
-                "form.metric_host_state",
-                TokenUtils.replaceTokenNames(
-                    "*",
-                    _.extend(submittedTokenModel.toJSON(), e.data)
-                )
-            );
-            setToken(
-                "form.inputMetricHostPriority",
-                TokenUtils.replaceTokenNames(
-                    "$row.priority$",
-                    _.extend(submittedTokenModel.toJSON(), e.data)
-                )
-            );
-            setToken(
-                "form.metric_monitored_state",
-                TokenUtils.replaceTokenNames(
-                    "enabled",
-                    _.extend(submittedTokenModel.toJSON(), e.data)
-                )
-            );
+            setToken("form.metric_host_state", "*");
+            setToken("form.inputMetricHostPriority", e.data["row.priority"]);
+            setToken("form.metric_monitored_state", "enabled");
         }
     });
 
@@ -7286,27 +7002,9 @@ require([
     singleFormTotalMetricHost.on("click", function(e) {
         if (e.field !== undefined) {
             e.preventDefault();
-            setToken(
-                "form.metric_host_state",
-                TokenUtils.replaceTokenNames(
-                    "*",
-                    _.extend(submittedTokenModel.toJSON(), e.data)
-                )
-            );
-            setToken(
-                "form.inputMetricHostPriority",
-                TokenUtils.replaceTokenNames(
-                    "*",
-                    _.extend(submittedTokenModel.toJSON(), e.data)
-                )
-            );
-            setToken(
-                "form.metric_monitored_state",
-                TokenUtils.replaceTokenNames(
-                    "*",
-                    _.extend(submittedTokenModel.toJSON(), e.data)
-                )
-            );
+            setToken("form.metric_host_state", "*");
+            setToken("form.inputMetricHostPriority", "*");
+            setToken("form.metric_monitored_state", "*");
         }
     });
 
@@ -7340,27 +7038,9 @@ require([
     singleFormTotalMetricHostAlerts.on("click", function(e) {
         if (e.field !== undefined) {
             e.preventDefault();
-            setToken(
-                "form.inputMetricHostPriority",
-                TokenUtils.replaceTokenNames(
-                    "*",
-                    _.extend(submittedTokenModel.toJSON(), e.data)
-                )
-            );
-            setToken(
-                "form.metric_monitored_state",
-                TokenUtils.replaceTokenNames(
-                    "enabled",
-                    _.extend(submittedTokenModel.toJSON(), e.data)
-                )
-            );
-            setToken(
-                "form.metric_host_state",
-                TokenUtils.replaceTokenNames(
-                    "red",
-                    _.extend(submittedTokenModel.toJSON(), e.data)
-                )
-            );
+            setToken("form.inputMetricHostPriority", "*");
+            setToken("form.metric_monitored_state", "enabled");
+            setToken("form.metric_host_state", "red");
         }
     });
 
@@ -7394,27 +7074,9 @@ require([
     singleFormTotalMetricHostAlertsHighPriority.on("click", function(e) {
         if (e.field !== undefined) {
             e.preventDefault();
-            setToken(
-                "form.metric_host_state",
-                TokenUtils.replaceTokenNames(
-                    "red",
-                    _.extend(submittedTokenModel.toJSON(), e.data)
-                )
-            );
-            setToken(
-                "form.metric_monitored_state",
-                TokenUtils.replaceTokenNames(
-                    "enabled",
-                    _.extend(submittedTokenModel.toJSON(), e.data)
-                )
-            );
-            setToken(
-                "form.inputMetricHostPriority",
-                TokenUtils.replaceTokenNames(
-                    "high",
-                    _.extend(submittedTokenModel.toJSON(), e.data)
-                )
-            );
+            setToken("form.metric_host_state", "red");
+            setToken("form.metric_monitored_state", "enabled");
+            setToken("form.inputMetricHostPriority", "high");
         }
     });
 
@@ -7448,27 +7110,9 @@ require([
     singleFormTotalMetricHostDisabled.on("click", function(e) {
         if (e.field !== undefined) {
             e.preventDefault();
-            setToken(
-                "form.metric_monitored_state",
-                TokenUtils.replaceTokenNames(
-                    "disabled",
-                    _.extend(submittedTokenModel.toJSON(), e.data)
-                )
-            );
-            setToken(
-                "form.metric_host_state",
-                TokenUtils.replaceTokenNames(
-                    "*",
-                    _.extend(submittedTokenModel.toJSON(), e.data)
-                )
-            );
-            setToken(
-                "form.inputMetricHostPriority",
-                TokenUtils.replaceTokenNames(
-                    "*",
-                    _.extend(submittedTokenModel.toJSON(), e.data)
-                )
-            );
+            setToken("form.metric_monitored_state", "disabled");
+            setToken("form.metric_host_state", "*");
+            setToken("form.inputMetricHostPriority", "*");
         }
     });
 
@@ -8378,25 +8022,24 @@ require([
             );
 
             $('#child-alert-tracking-info-panel1').html(
+                '<h3>Disabled: <span style="color: dodgerblue;">' + tk_alert_disabled + '</h3></span>' +
                 '<h3>Cron Schedule: <span style="color: dodgerblue;">' + tk_alert_cron_schedule + '</h3></span>' +
-                '<h3>Schedule window: <span style="color: dodgerblue;">' + tk_alert_schedule_window + '</h3></span>' +
+                '<h3>Schedule window: <span style="color: dodgerblue;">' + tk_alert_schedule_window + '</h3></span>'
+            );
+
+            $('#child-alert-tracking-info-panel2').html(
                 '<h3>Suppress fields: <span style="color: dodgerblue;">' + tk_alert_suppress_fields + '</h3></span>' +
                 '<h3>Suppress period: <span style="color: dodgerblue;">' + tk_alert_suppress_period + '</h3></span>'
             );
 
-            $('#child-alert-tracking-info-panel2').html(
-                '<h3>Disabled: <span style="color: dodgerblue;">' + tk_alert_disabled + '</h3></span>' +
+            $('#child-alert-tracking-info-panel3').html(                
                 '<h3>Next scheduled time: <span style="color: dodgerblue;">' + tk_alert_next_scheduled_time + '</h3></span>' +
                 '<h3>Alert actions: <span style="color: dodgerblue;">' + tk_alert_actions + '</h3></span>'
             );
 
             // Define the alert URL
-            var url = TokenUtils.replaceTokenNames(
-                "{{SPLUNKWEB_URL_PREFIX}}/app/trackme/alert?s=%2FservicesNS%2Fnobody%2Ftrackme%2Fsaved%2Fsearches%2F$row.id$",
-                _.extend(submittedTokenModel.toJSON(), e.data),
-                TokenUtils.getEscaper("url"),
-                TokenUtils.getFilters(mvc.Components)
-            );
+            var alert_id = e.data['row.id'];
+            var url = "/app/trackme/alert?s=%2FservicesNS%2Fnobody%2Ftrackme%2Fsaved%2Fsearches%2F" + alert_id;
             var alert_url =
                 location.protocol +
                 "//" +
@@ -8413,7 +8056,7 @@ require([
                 "//" +
                 location.hostname +
                 (location.port ? ":" + location.port : "") +
-                "//app/trackme/search" +
+                "/app/trackme/search" +
                 '?q=search%20index%3D_audit%20action%3D"alert_fired"%20ss_app%3D"trackme"%20ss_name%3D"' +
                 encodeURI(tk_alert_title) +
                 '"';
@@ -13373,11 +13016,11 @@ require([
         if (e.field !== undefined) {
             e.preventDefault();
 
-            setToken("keyid", TokenUtils.replaceTokenNames("$row.keyid$", _.extend(submittedTokenModel.toJSON(), e.data)));
-            setToken("input_object", TokenUtils.replaceTokenNames("$row.object$", _.extend(submittedTokenModel.toJSON(), e.data)));
-            setToken("input_object_category", TokenUtils.replaceTokenNames("$row.object_category$", _.extend(submittedTokenModel.toJSON(), e.data)));
-            setToken("ack_expiration", TokenUtils.replaceTokenNames("$row.ack_expiration$", _.extend(submittedTokenModel.toJSON(), e.data)));
-            setToken("ack_state", TokenUtils.replaceTokenNames("$row.ack_state$", _.extend(submittedTokenModel.toJSON(), e.data)));
+            setToken("keyid", e.data["row.keyid"]);
+            setToken("input_object", e.data["row.object"]);
+            setToken("input_object_category", e.data["row.object_category"]);
+            setToken("ack_expiration", e.data["row.ack_expiration"]);
+            setToken("ack_state", e.data["row.ack_state"]);
 
             // check if already inactive
             var ack_state = e.data["row.ack_state"];
@@ -15819,8 +15462,8 @@ require([
         if (e.field !== undefined) {
             e.preventDefault();
 
-            setToken("tk_keyid", TokenUtils.replaceTokenNames("$row.keyid$", _.extend(submittedTokenModel.toJSON(), e.data)));
-            setToken("tk_object_group_name", TokenUtils.replaceTokenNames("$row.object_group_name$", _.extend(submittedTokenModel.toJSON(), e.data)));
+            setToken("tk_keyid", e.data["row.keyid"]);
+            setToken("tk_object_group_name", e.data["row.object_group_name"]);
 
             // Enable modal context
             $('.modal').modal('hide');
@@ -15858,8 +15501,8 @@ require([
         if (e.field !== undefined) {
             e.preventDefault();
 
-            setToken("tk_keyid", TokenUtils.replaceTokenNames("$row.keyid$", _.extend(submittedTokenModel.toJSON(), e.data)));
-            setToken("tk_object_group_name", TokenUtils.replaceTokenNames("$row.object_group_name$", _.extend(submittedTokenModel.toJSON(), e.data)));
+            setToken("tk_keyid", e.data["row.keyid"]);
+            setToken("tk_object_group_name", e.data["row.object_group_name"]);
 
             // Enable modal context
             $('.modal').modal('hide');
@@ -15942,402 +15585,402 @@ require([
         FormUtils.handleValueChange(InputLogicalGroupNamePercent);
     });
 
-        // input link selection for modal window
-        var inputLinkTimeMetricHost = new LinkListInput({
-            "id": "inputLinkTimeMetricHost",
-            "choices": [{
-                    "value": "60m",
-                    "label": "60m"
-                },
-                {
-                    "value": "4h",
-                    "label": "4h"
-                },
-                {
-                    "value": "8h",
-                    "label": "8h"
-                },
-                {
-                    "value": "12h",
-                    "label": "12h"
-                },
-                {
-                    "value": "24h",
-                    "label": "24h"
-                },
-                {
-                    "value": "48h",
-                    "label": "48h"
-                },
-                {
-                    "value": "7d",
-                    "label": "7d"
-                },
-                {
-                    "value": "15d",
-                    "label": "15d"
-                },
-                {
-                    "value": "30d",
-                    "label": "30d"
-                },
-                {
-                    "value": "60d",
-                    "label": "60d"
-                },
-                {
-                    "value": "90d",
-                    "label": "90d"
-                }
-            ],
-            "default": "24h",
-            "searchWhenChanged": true,
-            "selectFirstChoice": false,
-            "initialValue": "24h",
-            "value": "$form.modalActionTimeMetricHost$",
-            "el": $('#inputLinkTimeMetricHost')
-        }, {
-            tokens: true
-        }).render();
-
-        inputLinkTimeMetricHost.on("change", function(newValue) {
-            FormUtils.handleValueChange(inputLinkTimeMetricHost);
-        });
-
-        inputLinkTimeMetricHost.on("valueChange", function(e) {
-            if (e.value === "60m") {
-                EventHandler.setToken("modalTimeMetricHost.earliest", "-60m", {}, e.data);
-                EventHandler.setToken("modalTimeMetricHost.latest", "now", {}, e.data);
-                EventHandler.setToken("modalTimeMetricHost.span", "1m", {}, e.data);
-            } else if (e.value === "4h") {
-                EventHandler.setToken("modalTimeMetricHost.earliest", "-4h", {}, e.data);
-                EventHandler.setToken("modalTimeMetricHost.latest", "now", {}, e.data);
-                EventHandler.setToken("modalTimeMetricHost.span", "5m", {}, e.data);
-            } else if (e.value === "8h") {
-                EventHandler.setToken("modalTimeMetricHost.earliest", "-8h", {}, e.data);
-                EventHandler.setToken("modalTimeMetricHost.latest", "now", {}, e.data);
-                EventHandler.setToken("modalTimeMetricHost.span", "5m", {}, e.data);
-            } else if (e.value === "12h") {
-                EventHandler.setToken("modalTimeMetricHost.earliest", "-12h", {}, e.data);
-                EventHandler.setToken("modalTimeMetricHost.latest", "now", {}, e.data);
-                EventHandler.setToken("modalTimeMetricHost.span", "10m", {}, e.data);
-            } else if (e.value === "24h") {
-                EventHandler.setToken("modalTimeMetricHost.earliest", "-24h", {}, e.data);
-                EventHandler.setToken("modalTimeMetricHost.latest", "now", {}, e.data);
-                EventHandler.setToken("modalTimeMetricHost.span", "15m", {}, e.data);
-            } else if (e.value === "48h") {
-                EventHandler.setToken("modalTimeMetricHost.earliest", "-48h", {}, e.data);
-                EventHandler.setToken("modalTimeMetricHost.latest", "now", {}, e.data);
-                EventHandler.setToken("modalTimeMetricHost.span", "30m", {}, e.data);
-            } else if (e.value === "7d") {
-                EventHandler.setToken("modalTimeMetricHost.earliest", "-7d", {}, e.data);
-                EventHandler.setToken("modalTimeMetricHost.latest", "now", {}, e.data);
-                EventHandler.setToken("modalTimeMetricHost.span", "1h", {}, e.data);
-            } else if (e.value === "15d") {
-                EventHandler.setToken("modalTimeMetricHost.earliest", "-15d", {}, e.data);
-                EventHandler.setToken("modalTimeMetricHost.latest", "now", {}, e.data);
-                EventHandler.setToken("modalTimeMetricHost.span", "2h", {}, e.data);
-            } else if (e.value === "30d") {
-                EventHandler.setToken("modalTimeMetricHost.earliest", "-30d", {}, e.data);
-                EventHandler.setToken("modalTimeMetricHost.latest", "now", {}, e.data);
-                EventHandler.setToken("modalTimeMetricHost.span", "4h", {}, e.data);
-            } else if (e.value === "60d") {
-                EventHandler.setToken("modalTimeMetricHost.earliest", "-60d", {}, e.data);
-                EventHandler.setToken("modalTimeMetricHost.latest", "now", {}, e.data);
-                EventHandler.setToken("modalTimeMetricHost.span", "8h", {}, e.data);
-            } else if (e.value === "90d") {
-                EventHandler.setToken("modalTimeMetricHost.earliest", "-90d", {}, e.data);
-                EventHandler.setToken("modalTimeMetricHost.latest", "now", {}, e.data);
-                EventHandler.setToken("modalTimeMetricHost.span", "12h", {}, e.data);
+    // input link selection for modal window
+    var inputLinkTimeMetricHost = new LinkListInput({
+        "id": "inputLinkTimeMetricHost",
+        "choices": [{
+                "value": "60m",
+                "label": "60m"
+            },
+            {
+                "value": "4h",
+                "label": "4h"
+            },
+            {
+                "value": "8h",
+                "label": "8h"
+            },
+            {
+                "value": "12h",
+                "label": "12h"
+            },
+            {
+                "value": "24h",
+                "label": "24h"
+            },
+            {
+                "value": "48h",
+                "label": "48h"
+            },
+            {
+                "value": "7d",
+                "label": "7d"
+            },
+            {
+                "value": "15d",
+                "label": "15d"
+            },
+            {
+                "value": "30d",
+                "label": "30d"
+            },
+            {
+                "value": "60d",
+                "label": "60d"
+            },
+            {
+                "value": "90d",
+                "label": "90d"
             }
-        });
+        ],
+        "default": "24h",
+        "searchWhenChanged": true,
+        "selectFirstChoice": false,
+        "initialValue": "24h",
+        "value": "$form.modalActionTimeMetricHost$",
+        "el": $('#inputLinkTimeMetricHost')
+    }, {
+        tokens: true
+    }).render();
 
-        // modal link input
-        var inputLinkMetricHost = new LinkListInput({
-            "id": "inputLinkMetricHost",
-            "choices": [{
-                    "value": "overview",
-                    "label": "Overview metric host"
-                },
-                {
-                    "value": "flipping_status",
-                    "label": "Status flipping"
-                },
-                {
-                    "value": "status_message",
-                    "label": "Status message"
-                },
-                {
-                    "value": "audit_changes",
-                    "label": "Audit changes"
-                }
-            ],
-            "default": "overview",
-            "searchWhenChanged": true,
-            "selectFirstChoice": false,
-            "initialValue": "overview",
-            "value": "$form.inputLinkMetricHost$",
-            "el": $('#inputLinkMetricHost')
-        }, {
-            tokens: true
-        }).render();
+    inputLinkTimeMetricHost.on("change", function(newValue) {
+        FormUtils.handleValueChange(inputLinkTimeMetricHost);
+    });
 
-        inputLinkMetricHost.on("change", function(newValue) {
-            FormUtils.handleValueChange(inputLinkMetricHost);
-        });
+    inputLinkTimeMetricHost.on("valueChange", function(e) {
+        if (e.value === "60m") {
+            EventHandler.setToken("modalTimeMetricHost.earliest", "-60m", {}, e.data);
+            EventHandler.setToken("modalTimeMetricHost.latest", "now", {}, e.data);
+            EventHandler.setToken("modalTimeMetricHost.span", "1m", {}, e.data);
+        } else if (e.value === "4h") {
+            EventHandler.setToken("modalTimeMetricHost.earliest", "-4h", {}, e.data);
+            EventHandler.setToken("modalTimeMetricHost.latest", "now", {}, e.data);
+            EventHandler.setToken("modalTimeMetricHost.span", "5m", {}, e.data);
+        } else if (e.value === "8h") {
+            EventHandler.setToken("modalTimeMetricHost.earliest", "-8h", {}, e.data);
+            EventHandler.setToken("modalTimeMetricHost.latest", "now", {}, e.data);
+            EventHandler.setToken("modalTimeMetricHost.span", "5m", {}, e.data);
+        } else if (e.value === "12h") {
+            EventHandler.setToken("modalTimeMetricHost.earliest", "-12h", {}, e.data);
+            EventHandler.setToken("modalTimeMetricHost.latest", "now", {}, e.data);
+            EventHandler.setToken("modalTimeMetricHost.span", "10m", {}, e.data);
+        } else if (e.value === "24h") {
+            EventHandler.setToken("modalTimeMetricHost.earliest", "-24h", {}, e.data);
+            EventHandler.setToken("modalTimeMetricHost.latest", "now", {}, e.data);
+            EventHandler.setToken("modalTimeMetricHost.span", "15m", {}, e.data);
+        } else if (e.value === "48h") {
+            EventHandler.setToken("modalTimeMetricHost.earliest", "-48h", {}, e.data);
+            EventHandler.setToken("modalTimeMetricHost.latest", "now", {}, e.data);
+            EventHandler.setToken("modalTimeMetricHost.span", "30m", {}, e.data);
+        } else if (e.value === "7d") {
+            EventHandler.setToken("modalTimeMetricHost.earliest", "-7d", {}, e.data);
+            EventHandler.setToken("modalTimeMetricHost.latest", "now", {}, e.data);
+            EventHandler.setToken("modalTimeMetricHost.span", "1h", {}, e.data);
+        } else if (e.value === "15d") {
+            EventHandler.setToken("modalTimeMetricHost.earliest", "-15d", {}, e.data);
+            EventHandler.setToken("modalTimeMetricHost.latest", "now", {}, e.data);
+            EventHandler.setToken("modalTimeMetricHost.span", "2h", {}, e.data);
+        } else if (e.value === "30d") {
+            EventHandler.setToken("modalTimeMetricHost.earliest", "-30d", {}, e.data);
+            EventHandler.setToken("modalTimeMetricHost.latest", "now", {}, e.data);
+            EventHandler.setToken("modalTimeMetricHost.span", "4h", {}, e.data);
+        } else if (e.value === "60d") {
+            EventHandler.setToken("modalTimeMetricHost.earliest", "-60d", {}, e.data);
+            EventHandler.setToken("modalTimeMetricHost.latest", "now", {}, e.data);
+            EventHandler.setToken("modalTimeMetricHost.span", "8h", {}, e.data);
+        } else if (e.value === "90d") {
+            EventHandler.setToken("modalTimeMetricHost.earliest", "-90d", {}, e.data);
+            EventHandler.setToken("modalTimeMetricHost.latest", "now", {}, e.data);
+            EventHandler.setToken("modalTimeMetricHost.span", "12h", {}, e.data);
+        }
+    });
 
-        inputLinkMetricHost.on("valueChange", function(e) {
-            if (e.value === "overview") {
-                EventHandler.setToken("show_metric_host_overview", "true", {}, e.data);
-                EventHandler.unsetToken("show_metric_host_status_message");
-                EventHandler.unsetToken("show_metric_host_flipping_status");
-                EventHandler.unsetToken("show_metric_host_audit_changes");
-                $("#metric_host_overview").css("display", "inherit");
-                $("#metric_host_flipping").css("display", "none");
-                $("#metric_host_status").css("display", "none");
-                $("#metric_host_changes").css("display", "none");
-                $("#metric_host_timepicker").css("display", "inherit");    
-            } else if (e.value === "flipping_status") {
-                EventHandler.setToken("show_metric_host_flipping_status", "true", {}, e.data);
-                EventHandler.unsetToken("show_metric_host_overview");
-                EventHandler.unsetToken("show_metric_host_status_message");
-                EventHandler.unsetToken("show_metric_host_audit_changes");
-                $("#metric_host_overview").css("display", "none");
-                $("#metric_host_flipping").css("display", "inherit");
-                $("#metric_host_status").css("display", "none");
-                $("#metric_host_changes").css("display", "none");
-                $("#metric_host_timepicker").css("display", "inherit");    
-            } else if (e.value === "status_message") {
-                EventHandler.setToken("show_metric_host_status_message", "true", {}, e.data);
-                EventHandler.unsetToken("show_metric_host_overview");
-                EventHandler.unsetToken("show_metric_host_flipping_status");
-                EventHandler.unsetToken("show_metric_host_audit_changes");
-                $("#metric_host_overview").css("display", "none");
-                $("#metric_host_flipping").css("display", "none");
-                $("#metric_host_status").css("display", "inherit");
-                $("#metric_host_changes").css("display", "none");
-                $("#metric_host_timepicker").css("display", "none");    
-            } else if (e.value === "audit_changes") {
-                EventHandler.setToken("show_metric_host_audit_changes", "true", {}, e.data);
-                EventHandler.unsetToken("show_metric_host_overview");
-                EventHandler.unsetToken("show_metric_host_flipping_status");
-                EventHandler.unsetToken("show_metric_host_status_message");
-                $("#metric_host_overview").css("display", "none");
-                $("#metric_host_flipping").css("display", "none");
-                $("#metric_host_status").css("display", "none");
-                $("#metric_host_changes").css("display", "inherit");
-                $("#metric_host_timepicker").css("display", "inherit");    
+    // modal link input
+    var inputLinkMetricHost = new LinkListInput({
+        "id": "inputLinkMetricHost",
+        "choices": [{
+                "value": "overview",
+                "label": "Overview metric host"
+            },
+            {
+                "value": "flipping_status",
+                "label": "Status flipping"
+            },
+            {
+                "value": "status_message",
+                "label": "Status message"
+            },
+            {
+                "value": "audit_changes",
+                "label": "Audit changes"
             }
-        });
+        ],
+        "default": "overview",
+        "searchWhenChanged": true,
+        "selectFirstChoice": false,
+        "initialValue": "overview",
+        "value": "$form.inputLinkMetricHost$",
+        "el": $('#inputLinkMetricHost')
+    }, {
+        tokens: true
+    }).render();
 
-        var elementHostChartMetricHost = new ChartView({
-            "id": "elementHostChartMetricHost",
-            "charting.chart": "pie",
-            "charting.drilldown": "all",
-            "charting.fieldColors": "{\"red\": 0xff6961, \"orange\": 0xffb347, \"blue\": 0x89cff0, \"green\": 0x77dd77}",
-            "height": "180",
-            "resizable": true,
-            "managerid": "searchHostChartMetricHost",
-            "el": $('#elementHostChartMetricHost')
-        }, {
-            tokens: true,
-            tokenNamespace: "submitted"
-        }).render();
+    inputLinkMetricHost.on("change", function(newValue) {
+        FormUtils.handleValueChange(inputLinkMetricHost);
+    });
 
-        var resultsLinkelementHostChartMetricHost = new ResultsLinkView({
-            id: "resultsLinkelementHostChartMetricHost",
-            managerid: "searchHostChartMetricHost",
-            "link.exportResults.visible": false,
-            el: $("#resultsLinkelementHostChartMetricHost"),
-        });
-    
-        resultsLinkelementHostChartMetricHost
-            .render()
-            .$el.appendTo($("resultsLinkelementHostChartMetricHost"));
+    inputLinkMetricHost.on("valueChange", function(e) {
+        if (e.value === "overview") {
+            EventHandler.setToken("show_metric_host_overview", "true", {}, e.data);
+            EventHandler.unsetToken("show_metric_host_status_message");
+            EventHandler.unsetToken("show_metric_host_flipping_status");
+            EventHandler.unsetToken("show_metric_host_audit_changes");
+            $("#metric_host_overview").css("display", "inherit");
+            $("#metric_host_flipping").css("display", "none");
+            $("#metric_host_status").css("display", "none");
+            $("#metric_host_changes").css("display", "none");
+            $("#metric_host_timepicker").css("display", "inherit");
+        } else if (e.value === "flipping_status") {
+            EventHandler.setToken("show_metric_host_flipping_status", "true", {}, e.data);
+            EventHandler.unsetToken("show_metric_host_overview");
+            EventHandler.unsetToken("show_metric_host_status_message");
+            EventHandler.unsetToken("show_metric_host_audit_changes");
+            $("#metric_host_overview").css("display", "none");
+            $("#metric_host_flipping").css("display", "inherit");
+            $("#metric_host_status").css("display", "none");
+            $("#metric_host_changes").css("display", "none");
+            $("#metric_host_timepicker").css("display", "inherit");
+        } else if (e.value === "status_message") {
+            EventHandler.setToken("show_metric_host_status_message", "true", {}, e.data);
+            EventHandler.unsetToken("show_metric_host_overview");
+            EventHandler.unsetToken("show_metric_host_flipping_status");
+            EventHandler.unsetToken("show_metric_host_audit_changes");
+            $("#metric_host_overview").css("display", "none");
+            $("#metric_host_flipping").css("display", "none");
+            $("#metric_host_status").css("display", "inherit");
+            $("#metric_host_changes").css("display", "none");
+            $("#metric_host_timepicker").css("display", "none");
+        } else if (e.value === "audit_changes") {
+            EventHandler.setToken("show_metric_host_audit_changes", "true", {}, e.data);
+            EventHandler.unsetToken("show_metric_host_overview");
+            EventHandler.unsetToken("show_metric_host_flipping_status");
+            EventHandler.unsetToken("show_metric_host_status_message");
+            $("#metric_host_overview").css("display", "none");
+            $("#metric_host_flipping").css("display", "none");
+            $("#metric_host_status").css("display", "none");
+            $("#metric_host_changes").css("display", "inherit");
+            $("#metric_host_timepicker").css("display", "inherit");
+        }
+    });
 
-        var elementSingleSLAMetricHostpct = new SingleView({
-            "id": "elementSingleSLAMetricHostpct",
-            "trendDisplayMode": "absolute",
-            "numberPrecision": "0.00",
-            "drilldown": "all",
-            "height": "95",
-            "trellis.size": "medium",
-            "trendColorInterpretation": "standard",
-            "useColors": "0",
-            "colorBy": "value",
-            "showTrendIndicator": "1",
-            "showSparkline": "1",
-            "trellis.enabled": "0",
-            "unit": "%",
-            "rangeColors": "[\"0xdc4e41\",\"0xf1813f\",\"0x77dd77\"]",
-            "colorMode": "none",
-            "rangeValues": "[50,90]",
-            "unitPosition": "after",
-            "trellis.scales.shared": "1",
-            "useColors": "1",
-            "useThousandSeparators": "1",
-            "underLabel": "SLA PCT (% time spent in green/blue over 90d)",
-            "managerid": "searchSingleSLAMetricHostpct",
-            "el": $('#elementSingleSLAMetricHostpct')
-        }, {
-            tokens: true,
-            tokenNamespace: "submitted"
-        }).render();
+    var elementHostChartMetricHost = new ChartView({
+        "id": "elementHostChartMetricHost",
+        "charting.chart": "pie",
+        "charting.drilldown": "all",
+        "charting.fieldColors": "{\"red\": 0xff6961, \"orange\": 0xffb347, \"blue\": 0x89cff0, \"green\": 0x77dd77}",
+        "height": "180",
+        "resizable": true,
+        "managerid": "searchHostChartMetricHost",
+        "el": $('#elementHostChartMetricHost')
+    }, {
+        tokens: true,
+        tokenNamespace: "submitted"
+    }).render();
 
-        elementSingleSLAMetricHostpct.on("click", function(e) {
-            if (e.field !== undefined) {
-                e.preventDefault();
-                var url = TokenUtils.replaceTokenNames("{{SPLUNKWEB_URL_PREFIX}}/app/trackme/trackMe_qos?form.timerange.earliest=-90d%40d&form.timerange.latest=now&form.object_category=metric_host&form.object_freetext=*&form.object=$tk_metric_host$&form.priority=*", _.extend(submittedTokenModel.toJSON(), e.data), TokenUtils.getEscaper('url'), TokenUtils.getFilters(mvc.Components));
-                utils.redirect(url, false, "_blank");
-            }
-        });
+    var resultsLinkelementHostChartMetricHost = new ResultsLinkView({
+        id: "resultsLinkelementHostChartMetricHost",
+        managerid: "searchHostChartMetricHost",
+        "link.exportResults.visible": false,
+        el: $("#resultsLinkelementHostChartMetricHost"),
+    });
 
-        var resultsLinkelementSingleSLAMetricHostpct = new ResultsLinkView({
-            id: "resultsLinkelementSingleSLAMetricHostpct",
-            managerid: "searchSingleSLAMetricHostpct",
-            "link.exportResults.visible": false,
-            el: $("#resultsLinkelementSingleSLAMetricHostpct"),
-        });
-    
-        resultsLinkelementSingleSLAMetricHostpct
-            .render()
-            .$el.appendTo($("resultsLinkelementSingleSLAMetricHostpct"));
+    resultsLinkelementHostChartMetricHost
+        .render()
+        .$el.appendTo($("resultsLinkelementHostChartMetricHost"));
 
-        var elementHostTableMetricHost = new TableView({
-            "id": "elementHostTableMetricHost",
-            "count": 5,
-            "drilldown": "none",
-            "fields": "metric_category, metric_last_time, metric_max_lag_allowed, metric_current_lag_sec, duration, state",
-            "refresh.display": "none",
-            "wrap": "false",
-            "managerid": "searchHostTableMetricHost",
-            "el": $('#elementHostTableMetricHost')
-        }, {
-            tokens: true,
-            tokenNamespace: "submitted"
-        }).render();
+    var elementSingleSLAMetricHostpct = new SingleView({
+        "id": "elementSingleSLAMetricHostpct",
+        "trendDisplayMode": "absolute",
+        "numberPrecision": "0.00",
+        "drilldown": "all",
+        "height": "95",
+        "trellis.size": "medium",
+        "trendColorInterpretation": "standard",
+        "useColors": "0",
+        "colorBy": "value",
+        "showTrendIndicator": "1",
+        "showSparkline": "1",
+        "trellis.enabled": "0",
+        "unit": "%",
+        "rangeColors": "[\"0xdc4e41\",\"0xf1813f\",\"0x77dd77\"]",
+        "colorMode": "none",
+        "rangeValues": "[50,90]",
+        "unitPosition": "after",
+        "trellis.scales.shared": "1",
+        "useColors": "1",
+        "useThousandSeparators": "1",
+        "underLabel": "SLA PCT (% time spent in green/blue over 90d)",
+        "managerid": "searchSingleSLAMetricHostpct",
+        "el": $('#elementSingleSLAMetricHostpct')
+    }, {
+        tokens: true,
+        tokenNamespace: "submitted"
+    }).render();
 
-        renderTableIcon(elementHostTableMetricHost);
+    elementSingleSLAMetricHostpct.on("click", function(e) {
+        if (e.field !== undefined) {
+            e.preventDefault();
+            var url = "/app/trackme/trackMe_qos?form.timerange.earliest=-90d%40d&form.timerange.latest=now&form.object_category=metric_host&form.object_freetext=*&form.object=" + tk_metric_host + "&form.priority=*";
+            utils.redirect(url, false, "_blank");
+        }
+    });
 
-        var resultsLinkelementHostTableMetricHost = new ResultsLinkView({
-            id: "resultsLinkelementHostTableMetricHost",
-            managerid: "searchHostTableMetricHost",
-            "link.exportResults.visible": false,
-            el: $("#resultsLinkelementHostTableMetricHost"),
-        });
-    
-        resultsLinkelementHostTableMetricHost
-            .render()
-            .$el.appendTo($("resultsLinkelementHostTableMetricHost"));
+    var resultsLinkelementSingleSLAMetricHostpct = new ResultsLinkView({
+        id: "resultsLinkelementSingleSLAMetricHostpct",
+        managerid: "searchSingleSLAMetricHostpct",
+        "link.exportResults.visible": false,
+        el: $("#resultsLinkelementSingleSLAMetricHostpct"),
+    });
 
-        var chartAuditFlipMetricHostOverTime = new ChartView({
-            "id": "chartAuditFlipMetricHostOverTime",
-            "charting.chart.stackMode": "stacked",
-            "charting.chart": "column",
-            "charting.drilldown": "all",
-            "charting.axisLabelsY.majorUnit": "1",
-            "charting.fieldColors": "{\"orange\": 0xffd394, \"blue\": 0xcfebf9, \"green\": 0xb6edb6, \"red\": 0xFFBABA}",
-            "resizable": true,
-            "height": "150",
-            "managerid": "searchAuditmetricHostFlipOverTime",
-            "el": $('#chartAuditFlipMetricHostOverTime')
-        }, {
-            tokens: true,
-            tokenNamespace: "submitted"
-        }).render();
+    resultsLinkelementSingleSLAMetricHostpct
+        .render()
+        .$el.appendTo($("resultsLinkelementSingleSLAMetricHostpct"));
 
-        var resultsLinkchartAuditFlipMetricHostOverTime = new ResultsLinkView({
-            id: "resultsLinkchartAuditFlipMetricHostOverTime",
-            managerid: "searchAuditmetricHostFlipOverTime",
-            "link.exportResults.visible": false,
-            el: $("#resultsLinkchartAuditFlipMetricHostOverTime"),
-        });
-    
-        resultsLinkchartAuditFlipMetricHostOverTime
-            .render()
-            .$el.appendTo($("resultsLinkchartAuditFlipMetricHostOverTime"));
+    var elementHostTableMetricHost = new TableView({
+        "id": "elementHostTableMetricHost",
+        "count": 5,
+        "drilldown": "none",
+        "fields": "metric_category, metric_last_time, metric_max_lag_allowed, metric_current_lag_sec, duration, state",
+        "refresh.display": "none",
+        "wrap": "false",
+        "managerid": "searchHostTableMetricHost",
+        "el": $('#elementHostTableMetricHost')
+    }, {
+        tokens: true,
+        tokenNamespace: "submitted"
+    }).render();
 
-        // Audit Flip Metric Host
-        var elementMainTableAuditFlipMetricHost = new TableView({
-            "id": "elementMainTableAuditFlipMetricHost",
-            "count": 5,
-            "drilldown": "none",
-            "refresh.display": "none",
-            "wrap": "false",
-            "managerid": "searchMainMetricHostAuditFlipTable",
-            "el": $('#elementMainTableAuditFlipMetricHost')
-        }, {
-            tokens: true,
-            tokenNamespace: "submitted"
-        }).render();
+    renderTableIcon(elementHostTableMetricHost);
 
-        renderTableIcon(elementMainTableAuditFlipMetricHost);
+    var resultsLinkelementHostTableMetricHost = new ResultsLinkView({
+        id: "resultsLinkelementHostTableMetricHost",
+        managerid: "searchHostTableMetricHost",
+        "link.exportResults.visible": false,
+        el: $("#resultsLinkelementHostTableMetricHost"),
+    });
 
-        var resultsLinkelementMainTableAuditFlipMetricHost = new ResultsLinkView({
-            id: "resultsLinkelementMainTableAuditFlipMetricHost",
-            managerid: "searchMainMetricHostAuditFlipTable",
-            "link.exportResults.visible": false,
-            el: $("#resultsLinkelementMainTableAuditFlipMetricHost"),
-        });
-    
-        resultsLinkelementMainTableAuditFlipMetricHost
-            .render()
-            .$el.appendTo($("resultsLinkelementMainTableAuditFlipMetricHost"));
+    resultsLinkelementHostTableMetricHost
+        .render()
+        .$el.appendTo($("resultsLinkelementHostTableMetricHost"));
 
-        var chartAuditChangesMetricHostOverTime = new ChartView({
-            "id": "chartAuditChangesMetricHostOverTime",
-            "charting.chart.stackMode": "stacked",
-            "charting.chart": "column",
-            "charting.drilldown": "all",
-            "charting.axisLabelsY.majorUnit": "1",
-            "charting.fieldColors": "{\"success\": 0xb6edb6, \"failure\": 0xFFBABA}",
-            "resizable": true,
-            "height": "150",
-            "managerid": "searchAuditMetricHostAuditChangesOverTime",
-            "el": $('#chartAuditChangesMetricHostOverTime')
-        }, {
-            tokens: true,
-            tokenNamespace: "submitted"
-        }).render();
+    var chartAuditFlipMetricHostOverTime = new ChartView({
+        "id": "chartAuditFlipMetricHostOverTime",
+        "charting.chart.stackMode": "stacked",
+        "charting.chart": "column",
+        "charting.drilldown": "all",
+        "charting.axisLabelsY.majorUnit": "1",
+        "charting.fieldColors": "{\"orange\": 0xffd394, \"blue\": 0xcfebf9, \"green\": 0xb6edb6, \"red\": 0xFFBABA}",
+        "resizable": true,
+        "height": "150",
+        "managerid": "searchAuditmetricHostFlipOverTime",
+        "el": $('#chartAuditFlipMetricHostOverTime')
+    }, {
+        tokens: true,
+        tokenNamespace: "submitted"
+    }).render();
 
-        var resultsLinkchartAuditChangesMetricHostOverTime = new ResultsLinkView({
-            id: "resultsLinkchartAuditChangesMetricHostOverTime",
-            managerid: "searchAuditMetricHostAuditChangesOverTime",
-            "link.exportResults.visible": false,
-            el: $("#resultsLinkchartAuditChangesMetricHostOverTime"),
-        });
-    
-        resultsLinkchartAuditChangesMetricHostOverTime
-            .render()
-            .$el.appendTo($("resultsLinkchartAuditChangesMetricHostOverTime"));
+    var resultsLinkchartAuditFlipMetricHostOverTime = new ResultsLinkView({
+        id: "resultsLinkchartAuditFlipMetricHostOverTime",
+        managerid: "searchAuditmetricHostFlipOverTime",
+        "link.exportResults.visible": false,
+        el: $("#resultsLinkchartAuditFlipMetricHostOverTime"),
+    });
 
-        // Audit Changes Metric Host
-        var elementMainTableAuditChangesMetricHost = new TableView({
-            "id": "elementMainTableAuditChangesMetricHost",
-            "count": 5,
-            "drilldown": "none",
-            "refresh.display": "none",
-            "wrap": "false",
-            "managerid": "searchMainMetricHostAuditChangesTable",
-            "el": $('#elementMainTableAuditChangesMetricHost')
-        }, {
-            tokens: true,
-            tokenNamespace: "submitted"
-        }).render();
+    resultsLinkchartAuditFlipMetricHostOverTime
+        .render()
+        .$el.appendTo($("resultsLinkchartAuditFlipMetricHostOverTime"));
 
-        renderTableIcon(elementMainTableAuditChangesMetricHost);
+    // Audit Flip Metric Host
+    var elementMainTableAuditFlipMetricHost = new TableView({
+        "id": "elementMainTableAuditFlipMetricHost",
+        "count": 5,
+        "drilldown": "none",
+        "refresh.display": "none",
+        "wrap": "false",
+        "managerid": "searchMainMetricHostAuditFlipTable",
+        "el": $('#elementMainTableAuditFlipMetricHost')
+    }, {
+        tokens: true,
+        tokenNamespace: "submitted"
+    }).render();
 
-        var resultsLinkelementMainTableAuditChangesMetricHost = new ResultsLinkView({
-            id: "resultsLinkelementMainTableAuditChangesMetricHost",
-            managerid: "searchMainMetricHostAuditChangesTable",
-            "link.exportResults.visible": false,
-            el: $("#resultsLinkelementMainTableAuditChangesMetricHost"),
-        });
-    
-        resultsLinkelementMainTableAuditChangesMetricHost
-            .render()
-            .$el.appendTo($("resultsLinkelementMainTableAuditChangesMetricHost"));
-    
+    renderTableIcon(elementMainTableAuditFlipMetricHost);
+
+    var resultsLinkelementMainTableAuditFlipMetricHost = new ResultsLinkView({
+        id: "resultsLinkelementMainTableAuditFlipMetricHost",
+        managerid: "searchMainMetricHostAuditFlipTable",
+        "link.exportResults.visible": false,
+        el: $("#resultsLinkelementMainTableAuditFlipMetricHost"),
+    });
+
+    resultsLinkelementMainTableAuditFlipMetricHost
+        .render()
+        .$el.appendTo($("resultsLinkelementMainTableAuditFlipMetricHost"));
+
+    var chartAuditChangesMetricHostOverTime = new ChartView({
+        "id": "chartAuditChangesMetricHostOverTime",
+        "charting.chart.stackMode": "stacked",
+        "charting.chart": "column",
+        "charting.drilldown": "all",
+        "charting.axisLabelsY.majorUnit": "1",
+        "charting.fieldColors": "{\"success\": 0xb6edb6, \"failure\": 0xFFBABA}",
+        "resizable": true,
+        "height": "150",
+        "managerid": "searchAuditMetricHostAuditChangesOverTime",
+        "el": $('#chartAuditChangesMetricHostOverTime')
+    }, {
+        tokens: true,
+        tokenNamespace: "submitted"
+    }).render();
+
+    var resultsLinkchartAuditChangesMetricHostOverTime = new ResultsLinkView({
+        id: "resultsLinkchartAuditChangesMetricHostOverTime",
+        managerid: "searchAuditMetricHostAuditChangesOverTime",
+        "link.exportResults.visible": false,
+        el: $("#resultsLinkchartAuditChangesMetricHostOverTime"),
+    });
+
+    resultsLinkchartAuditChangesMetricHostOverTime
+        .render()
+        .$el.appendTo($("resultsLinkchartAuditChangesMetricHostOverTime"));
+
+    // Audit Changes Metric Host
+    var elementMainTableAuditChangesMetricHost = new TableView({
+        "id": "elementMainTableAuditChangesMetricHost",
+        "count": 5,
+        "drilldown": "none",
+        "refresh.display": "none",
+        "wrap": "false",
+        "managerid": "searchMainMetricHostAuditChangesTable",
+        "el": $('#elementMainTableAuditChangesMetricHost')
+    }, {
+        tokens: true,
+        tokenNamespace: "submitted"
+    }).render();
+
+    renderTableIcon(elementMainTableAuditChangesMetricHost);
+
+    var resultsLinkelementMainTableAuditChangesMetricHost = new ResultsLinkView({
+        id: "resultsLinkelementMainTableAuditChangesMetricHost",
+        managerid: "searchMainMetricHostAuditChangesTable",
+        "link.exportResults.visible": false,
+        el: $("#resultsLinkelementMainTableAuditChangesMetricHost"),
+    });
+
+    resultsLinkelementMainTableAuditChangesMetricHost
+        .render()
+        .$el.appendTo($("resultsLinkelementMainTableAuditChangesMetricHost"));
+
     var elementGetTagsMetricHost = new TableView({
         "id": "elementGetTagsMetricHost",
         "count": 100,
@@ -16361,140 +16004,140 @@ require([
     resultsLinkelementGetTagsMetricHost
         .render()
         .$el.appendTo($("resultsLinkelementGetTagsMetricHost"));
-    
-        var modal_input_metric_host_priority = new DropdownInput({
-            "id": "modal_input_metric_host_priority",
-            "choices": [{
-                    "label": "low",
-                    "value": "low"
-                },
-                {
-                    "label": "medium",
-                    "value": "medium"
-                },
-                {
-                    "label": "high",
-                    "value": "high"
-                }
-            ],
-            "searchWhenChanged": true,
-            "default": "medium",
-            "showClearButton": true,
-            "initialValue": "medium",
-            "selectFirstChoice": false,
-            "value": "$form.tk_input_metric_host_priority$",
-            "el": $('#modal_input_metric_host_priority')
-        }, {
-            tokens: true
-        }).render();
 
-        modal_input_metric_host_priority.on("change", function(newValue) {
-            FormUtils.handleValueChange(modal_input_metric_host_priority);
-        });
-
-        var inputMetricPolicySLA_category = new DropdownInput({
-            "id": "inputMetricPolicySLA_category",
-            "tokenDependencies": {
-                "depends": "$show_metric_host_tracker$"
+    var modal_input_metric_host_priority = new DropdownInput({
+        "id": "modal_input_metric_host_priority",
+        "choices": [{
+                "label": "low",
+                "value": "low"
             },
-            "searchWhenChanged": true,
-            "showClearButton": true,
-            "labelField": "metric_category",
-            "selectFirstChoice": false,
-            "valueField": "metric_category",
-            "value": "$form.tk_input_metric_policy_metric_category$",
-            "managerid": "searchPopulateMetricHostsCategories",
-            "el": $('#inputMetricPolicySLA_category')
-        }, {
-            tokens: true
-        }).render();
-
-        inputMetricPolicySLA_category.on("change", function(newValue) {
-            FormUtils.handleValueChange(inputMetricPolicySLA_category);
-        });
-
-        var inputMetricPolicySLA_value = new TextInput({
-            "id": "inputMetricPolicySLA_value",
-            "searchWhenChanged": true,
-            "value": "$form.tk_input_metric_policy_metric_value$",
-            "el": $('#inputMetricPolicySLA_value')
-        }, {
-            tokens: true
-        }).render();
-
-        inputMetricPolicySLA_value.on("change", function(newValue) {
-            FormUtils.handleValueChange(inputMetricPolicySLA_value);
-        });
-
-        // metric sla policies
-        var SingleMetricPolicies = new SingleView({
-            "id": "SingleMetricPolicies",
-            "trendDisplayMode": "absolute",
-            "drilldown": "none",
-            "trendColorInterpretation": "standard",
-            "useColors": "0",
-            "colorBy": "value",
-            "showTrendIndicator": "1",
-            "showSparkline": "1",
-            "trellis.enabled": "0",
-            "numberPrecision": "0",
-            "rangeColors": "[\"0x77dd77\",\"0x0877a6\",\"0xf8be34\",\"0xf1813f\",\"0xdc4e41\"]",
-            "trellis.size": "medium",
-            "colorMode": "none",
-            "rangeValues": "[0,30,70,100]",
-            "unitPosition": "after",
-            "trellis.scales.shared": "1",
-            "useThousandSeparators": "1",
-            "underLabel": "metric policies",
-            "managerid": "searchSingleMetricPolicies",
-            "el": $('#SingleMetricPolicies')
-        }, {
-            tokens: true,
-            tokenNamespace: "submitted"
-        }).render();
-
-        var resultsLinkSingleMetricPolicies = new ResultsLinkView({
-            id: "resultsLinkSingleMetricPolicies",
-            managerid: "searchSingleMetricPolicies",
-            "link.exportResults.visible": false,
-            el: $("#resultsLinkSingleMetricPolicies"),
-        });
-    
-        resultsLinkSingleMetricPolicies
-            .render()
-            .$el.appendTo($("resultsLinkSingleMetricPolicies"));
-    
-        // Metric SLA policies
-
-        var tableMetricPolicies = new TableElement({
-            "id": "tableMetricPolicies",
-            "tokenDependencies": {
-                "depends": "$show_table_metric_policies$"
+            {
+                "label": "medium",
+                "value": "medium"
             },
-            "count": 8,
-            "drilldown": "none",
-            "fields": "metric_category, metric_max_lag_allowed, select",
-            "refresh.display": "none",
-            "wrap": "false",
-            "managerid": "searchMetricPolicies",
-            "el": $('#tableMetricPolicies')
-        }, {
-            tokens: true,
-            tokenNamespace: "submitted"
-        }).render();
+            {
+                "label": "high",
+                "value": "high"
+            }
+        ],
+        "searchWhenChanged": true,
+        "default": "medium",
+        "showClearButton": true,
+        "initialValue": "medium",
+        "selectFirstChoice": false,
+        "value": "$form.tk_input_metric_host_priority$",
+        "el": $('#modal_input_metric_host_priority')
+    }, {
+        tokens: true
+    }).render();
 
-        renderTableCheckBox("tableMetricPolicies", "removeMetricPolicies");
+    modal_input_metric_host_priority.on("change", function(newValue) {
+        FormUtils.handleValueChange(modal_input_metric_host_priority);
+    });
 
-        var resultsLinktableMetricPolicies = new ResultsLinkView({
-            id: "resultsLinktableMetricPolicies",
-            managerid: "searchMetricPolicies",
-            "link.exportResults.visible": false,
-            el: $("#resultsLinktableMetricPolicies"),
-        });
-    
-        resultsLinktableMetricPolicies
-            .render()
-            .$el.appendTo($("resultsLinktableMetricPolicies"));
+    var inputMetricPolicySLA_category = new DropdownInput({
+        "id": "inputMetricPolicySLA_category",
+        "tokenDependencies": {
+            "depends": "$show_metric_host_tracker$"
+        },
+        "searchWhenChanged": true,
+        "showClearButton": true,
+        "labelField": "metric_category",
+        "selectFirstChoice": false,
+        "valueField": "metric_category",
+        "value": "$form.tk_input_metric_policy_metric_category$",
+        "managerid": "searchPopulateMetricHostsCategories",
+        "el": $('#inputMetricPolicySLA_category')
+    }, {
+        tokens: true
+    }).render();
+
+    inputMetricPolicySLA_category.on("change", function(newValue) {
+        FormUtils.handleValueChange(inputMetricPolicySLA_category);
+    });
+
+    var inputMetricPolicySLA_value = new TextInput({
+        "id": "inputMetricPolicySLA_value",
+        "searchWhenChanged": true,
+        "value": "$form.tk_input_metric_policy_metric_value$",
+        "el": $('#inputMetricPolicySLA_value')
+    }, {
+        tokens: true
+    }).render();
+
+    inputMetricPolicySLA_value.on("change", function(newValue) {
+        FormUtils.handleValueChange(inputMetricPolicySLA_value);
+    });
+
+    // metric sla policies
+    var SingleMetricPolicies = new SingleView({
+        "id": "SingleMetricPolicies",
+        "trendDisplayMode": "absolute",
+        "drilldown": "none",
+        "trendColorInterpretation": "standard",
+        "useColors": "0",
+        "colorBy": "value",
+        "showTrendIndicator": "1",
+        "showSparkline": "1",
+        "trellis.enabled": "0",
+        "numberPrecision": "0",
+        "rangeColors": "[\"0x77dd77\",\"0x0877a6\",\"0xf8be34\",\"0xf1813f\",\"0xdc4e41\"]",
+        "trellis.size": "medium",
+        "colorMode": "none",
+        "rangeValues": "[0,30,70,100]",
+        "unitPosition": "after",
+        "trellis.scales.shared": "1",
+        "useThousandSeparators": "1",
+        "underLabel": "metric policies",
+        "managerid": "searchSingleMetricPolicies",
+        "el": $('#SingleMetricPolicies')
+    }, {
+        tokens: true,
+        tokenNamespace: "submitted"
+    }).render();
+
+    var resultsLinkSingleMetricPolicies = new ResultsLinkView({
+        id: "resultsLinkSingleMetricPolicies",
+        managerid: "searchSingleMetricPolicies",
+        "link.exportResults.visible": false,
+        el: $("#resultsLinkSingleMetricPolicies"),
+    });
+
+    resultsLinkSingleMetricPolicies
+        .render()
+        .$el.appendTo($("resultsLinkSingleMetricPolicies"));
+
+    // Metric SLA policies
+
+    var tableMetricPolicies = new TableElement({
+        "id": "tableMetricPolicies",
+        "tokenDependencies": {
+            "depends": "$show_table_metric_policies$"
+        },
+        "count": 8,
+        "drilldown": "none",
+        "fields": "metric_category, metric_max_lag_allowed, select",
+        "refresh.display": "none",
+        "wrap": "false",
+        "managerid": "searchMetricPolicies",
+        "el": $('#tableMetricPolicies')
+    }, {
+        tokens: true,
+        tokenNamespace: "submitted"
+    }).render();
+
+    renderTableCheckBox("tableMetricPolicies", "removeMetricPolicies");
+
+    var resultsLinktableMetricPolicies = new ResultsLinkView({
+        id: "resultsLinktableMetricPolicies",
+        managerid: "searchMetricPolicies",
+        "link.exportResults.visible": false,
+        el: $("#resultsLinktableMetricPolicies"),
+    });
+
+    resultsLinktableMetricPolicies
+        .render()
+        .$el.appendTo($("resultsLinktableMetricPolicies"));
 
     //
     // BEGIN OPERATIONS
@@ -16503,7 +16146,7 @@ require([
     // Audit changes
     var tokens = mvc.Components.get("default");
     var currentUser = Splunk.util.getConfigValue("USERNAME");
-    tokens.set("currentUser", currentUser);
+    setToken("currentUser", currentUser);
     var auditendpoint_URl =
         "/en-US/splunkd/__raw/servicesNS/nobody/trackme/storage/collections/data/kv_trackme_audit_changes/";
 
@@ -17269,7 +16912,7 @@ require([
                                     '<h3>monitored state:</b> <span class="' + tk_metric_monitored_state_class + '">' + tk_metric_monitored_state + '</span></h3>' +
                                     '<h3>host state:</b> <span class="' + tk_metric_host_state_class + '">' + tk_metric_host_state + '</span></h3>'
                                 );
-                    
+
                                 $('#child-metric-host-top-info3').html(
                                     '<h3>latest flip time: <span style="color: dodgerblue;">' + tk_latest_flip_time_human + '<span style="color: dodgerblue;">' +
                                     '<h3>latest flip state: <span style="color: dodgerblue;">' + tk_latest_flip_state + '<span style="color: dodgerblue;">'
@@ -18021,13 +17664,7 @@ require([
 
                 // if is not defined, give it a value and override text box content
                 if (tk_comment == "null") {
-                    setToken(
-                        "tk_update_comment",
-                        TokenUtils.replaceTokenNames(
-                            "No comments for update.",
-                            _.extend(submittedTokenModel.toJSON(), e.data)
-                        )
-                    );
+                    setToken("tk_update_comment", "No comments for update.");
                     // replace the textarea for modification requests
                     document.getElementById("input_update_comment").value = "update note";
                 } else if (tk_comment == "update note") {
@@ -18127,13 +17764,7 @@ require([
 
                 // if is not defined, give it a value and override text box content
                 if (tk_comment == "null") {
-                    setToken(
-                        "tk_update_comment",
-                        TokenUtils.replaceTokenNames(
-                            "No comments for update.",
-                            _.extend(submittedTokenModel.toJSON(), e.data)
-                        )
-                    );
+                    setToken("tk_update_comment", "No comments for update.");
                     // replace the textarea for modification requests
                     document.getElementById("input_update_comment").value = "update note";
                 } else if (tk_comment == "update note") {
@@ -18330,13 +17961,7 @@ require([
 
                 // if is not defined, give it a value and override text box content
                 if (tk_comment == "null") {
-                    setToken(
-                        "tk_update_comment",
-                        TokenUtils.replaceTokenNames(
-                            "No comments for update.",
-                            _.extend(submittedTokenModel.toJSON(), e.data)
-                        )
-                    );
+                    setToken("tk_update_comment", "No comments for update.");
                     // replace the textarea for modification requests
                     document.getElementById("input_update_comment").value = "update note";
                 } else if (tk_comment == "update note") {
@@ -18543,13 +18168,7 @@ require([
 
                 // if is not defined, give it a value and override text box content
                 if (tk_comment == "null") {
-                    setToken(
-                        "tk_update_comment",
-                        TokenUtils.replaceTokenNames(
-                            "No comments for update.",
-                            _.extend(submittedTokenModel.toJSON(), e.data)
-                        )
-                    );
+                    setToken("tk_update_comment", "No comments for update.");
                     // replace the textarea for modification requests
                     document.getElementById("input_update_comment").value = "update note";
                 } else if (tk_comment == "update note") {
@@ -18650,13 +18269,7 @@ require([
 
                 // if is not defined, give it a value and override text box content
                 if (tk_comment == "null") {
-                    setToken(
-                        "tk_update_comment",
-                        TokenUtils.replaceTokenNames(
-                            "No comments for update.",
-                            _.extend(submittedTokenModel.toJSON(), e.data)
-                        )
-                    );
+                    setToken("tk_update_comment", "No comments for update.");
                     // replace the textarea for modification requests
                     document.getElementById("input_update_comment").value = "update note";
                 } else if (tk_comment == "update note") {
@@ -18757,13 +18370,7 @@ require([
 
                 // if is not defined, give it a value and override text box content
                 if (tk_comment == "null") {
-                    setToken(
-                        "tk_update_comment",
-                        TokenUtils.replaceTokenNames(
-                            "No comments for update.",
-                            _.extend(submittedTokenModel.toJSON(), e.data)
-                        )
-                    );
+                    setToken("tk_update_comment", "No comments for update.");
                     // replace the textarea for modification requests
                     document.getElementById("input_update_comment").value = "update note";
                 } else if (tk_comment == "update note") {
@@ -18866,13 +18473,7 @@ require([
 
                 // if is not defined, give it a value and override text box content
                 if (tk_comment == "null") {
-                    setToken(
-                        "tk_update_comment",
-                        TokenUtils.replaceTokenNames(
-                            "No comments for update.",
-                            _.extend(submittedTokenModel.toJSON(), e.data)
-                        )
-                    );
+                    setToken("tk_update_comment", "No comments for update.");
                     // replace the textarea for modification requests
                     document.getElementById("input_update_comment").value = "update note";
                 } else if (tk_comment == "update note") {
@@ -18938,13 +18539,7 @@ require([
 
                         // if is not defined, give it a value and override text box content
                         if (tk_comment == "null") {
-                            setToken(
-                                "tk_update_comment",
-                                TokenUtils.replaceTokenNames(
-                                    "No comments for update.",
-                                    _.extend(submittedTokenModel.toJSON(), e.data)
-                                )
-                            );
+                            setToken("tk_update_comment", "No comments for update.");
                             // replace the textarea for modification requests
                             document.getElementById("input_update_comment").value =
                                 "update note";
@@ -19070,13 +18665,7 @@ require([
 
                         // if is not defined, give it a value and override text box content
                         if (tk_comment == "null") {
-                            setToken(
-                                "tk_update_comment",
-                                TokenUtils.replaceTokenNames(
-                                    "No comments for update.",
-                                    _.extend(submittedTokenModel.toJSON(), e.data)
-                                )
-                            );
+                            setToken("tk_update_comment", "No comments for update.");
                             // replace the textarea for modification requests
                             document.getElementById("input_update_comment").value =
                                 "update note";
@@ -19218,13 +18807,7 @@ require([
 
                         // if is not defined, give it a value and override text box content
                         if (tk_comment == "null") {
-                            setToken(
-                                "tk_update_comment",
-                                TokenUtils.replaceTokenNames(
-                                    "No comments for update.",
-                                    _.extend(submittedTokenModel.toJSON(), e.data)
-                                )
-                            );
+                            setToken("tk_update_comment", "No comments for update.");
                             // replace the textarea for modification requests
                             document.getElementById("input_update_comment").value =
                                 "update note";
@@ -19351,13 +18934,7 @@ require([
 
                         // if is not defined, give it a value and override text box content
                         if (tk_comment == "null") {
-                            setToken(
-                                "tk_update_comment",
-                                TokenUtils.replaceTokenNames(
-                                    "No comments for update.",
-                                    _.extend(submittedTokenModel.toJSON(), e.data)
-                                )
-                            );
+                            setToken("tk_update_comment", "No comments for update.");
                             // replace the textarea for modification requests
                             document.getElementById("input_update_comment").value =
                                 "update note";
@@ -19495,13 +19072,7 @@ require([
 
                 // if is not defined, give it a value and override text box content
                 if (tk_comment == "null") {
-                    setToken(
-                        "tk_update_comment",
-                        TokenUtils.replaceTokenNames(
-                            "No comments for update.",
-                            _.extend(submittedTokenModel.toJSON(), e.data)
-                        )
-                    );
+                    setToken("tk_update_comment", "No comments for update.");
                     // replace the textarea for modification requests
                     document.getElementById("input_update_comment").value = "update note";
                 } else if (tk_comment == "update note") {
@@ -19582,13 +19153,7 @@ require([
 
                         // if is not defined, give it a value and override text box content
                         if (tk_comment == "null") {
-                            setToken(
-                                "tk_update_comment",
-                                TokenUtils.replaceTokenNames(
-                                    "No comments for update.",
-                                    _.extend(submittedTokenModel.toJSON(), e.data)
-                                )
-                            );
+                            setToken("tk_update_comment", "No comments for update.");
                             // replace the textarea for modification requests
                             document.getElementById("input_update_comment").value =
                                 "update note";
@@ -19714,13 +19279,7 @@ require([
 
                         // if is not defined, give it a value and override text box content
                         if (tk_comment == "null") {
-                            setToken(
-                                "tk_update_comment",
-                                TokenUtils.replaceTokenNames(
-                                    "No comments for update.",
-                                    _.extend(submittedTokenModel.toJSON(), e.data)
-                                )
-                            );
+                            setToken("tk_update_comment", "No comments for update.");
                             // replace the textarea for modification requests
                             document.getElementById("input_update_comment").value =
                                 "update note";
@@ -20023,13 +19582,7 @@ require([
 
                     // if is not defined, give it a value and override text box content
                     if (tk_comment == "null") {
-                        setToken(
-                            "tk_update_comment",
-                            TokenUtils.replaceTokenNames(
-                                "No comments for update.",
-                                _.extend(submittedTokenModel.toJSON(), e.data)
-                            )
-                        );
+                        setToken("tk_update_comment", "No comments for update.");
                     } else if (tk_comment == "update note") {
                         tk_comment = "No comment for update.";
                     }
@@ -20351,13 +19904,7 @@ require([
 
                     // if is not defined, give it a value and override text box content
                     if (tk_comment == "null") {
-                        setToken(
-                            "tk_update_comment",
-                            TokenUtils.replaceTokenNames(
-                                "No comments for update.",
-                                _.extend(submittedTokenModel.toJSON(), e.data)
-                            )
-                        );
+                        setToken("tk_update_comment", "No comments for update.");
                     } else if (tk_comment == "update note") {
                         tk_comment = "No comment for update.";
                     }
@@ -20772,13 +20319,7 @@ require([
 
                     // if is not defined, give it a value and override text box content
                     if (tk_comment == "null") {
-                        setToken(
-                            "tk_update_comment",
-                            TokenUtils.replaceTokenNames(
-                                "No comments for update.",
-                                _.extend(submittedTokenModel.toJSON(), e.data)
-                            )
-                        );
+                        setToken("tk_update_comment", "No comments for update.");
                     } else if (tk_comment == "update note") {
                         tk_comment = "No comment for update.";
                     }
@@ -21076,13 +20617,7 @@ require([
 
                     // if is not defined, give it a value and override text box content
                     if (tk_comment == "null") {
-                        setToken(
-                            "tk_update_comment",
-                            TokenUtils.replaceTokenNames(
-                                "No comments for update.",
-                                _.extend(submittedTokenModel.toJSON(), e.data)
-                            )
-                        );
+                        setToken("tk_update_comment", "No comments for update.");
                     } else if (tk_comment == "update note") {
                         tk_comment = "No comment for update.";
                     }
@@ -21379,13 +20914,7 @@ require([
 
                     // if is not defined, give it a value and override text box content
                     if (tk_comment == "null") {
-                        setToken(
-                            "tk_update_comment",
-                            TokenUtils.replaceTokenNames(
-                                "No comments for update.",
-                                _.extend(submittedTokenModel.toJSON(), e.data)
-                            )
-                        );
+                        setToken("tk_update_comment", "No comments for update.");
                     } else if (tk_comment == "update note") {
                         tk_comment = "No comment for update.";
                     }
@@ -21669,13 +21198,7 @@ require([
 
                     // if is not defined, give it a value and override text box content
                     if (tk_comment == "null") {
-                        setToken(
-                            "tk_update_comment",
-                            TokenUtils.replaceTokenNames(
-                                "No comments for update.",
-                                _.extend(submittedTokenModel.toJSON(), e.data)
-                            )
-                        );
+                        setToken("tk_update_comment", "No comments for update.");
                     } else if (tk_comment == "update note") {
                         tk_comment = "No comment for update.";
                     }
@@ -22093,13 +21616,7 @@ require([
 
                     // if is not defined, give it a value and override text box content
                     if (tk_comment == "null") {
-                        setToken(
-                            "tk_update_comment",
-                            TokenUtils.replaceTokenNames(
-                                "No comments for update.",
-                                _.extend(submittedTokenModel.toJSON(), e.data)
-                            )
-                        );
+                        setToken("tk_update_comment", "No comments for update.");
                     } else if (tk_comment == "update note") {
                         tk_comment = "No comment for update.";
                     }
@@ -22237,13 +21754,7 @@ require([
 
                     // if is not defined, give it a value and override text box content
                     if (tk_comment == "null") {
-                        setToken(
-                            "tk_update_comment",
-                            TokenUtils.replaceTokenNames(
-                                "No comments for update.",
-                                _.extend(submittedTokenModel.toJSON(), e.data)
-                            )
-                        );
+                        setToken("tk_update_comment", "No comments for update.");
                     } else if (tk_comment == "update note") {
                         tk_comment = "No comment for update.";
                     }
@@ -22521,13 +22032,7 @@ require([
 
                     // if is not defined, give it a value and override text box content
                     if (tk_comment == "null") {
-                        setToken(
-                            "tk_update_comment",
-                            TokenUtils.replaceTokenNames(
-                                "No comments for update.",
-                                _.extend(submittedTokenModel.toJSON(), e.data)
-                            )
-                        );
+                        setToken("tk_update_comment", "No comments for update.");
                     } else if (tk_comment == "update note") {
                         tk_comment = "No comment for update.";
                     }
@@ -22805,13 +22310,7 @@ require([
 
                     // if is not defined, give it a value and override text box content
                     if (tk_comment == "null") {
-                        setToken(
-                            "tk_update_comment",
-                            TokenUtils.replaceTokenNames(
-                                "No comments for update.",
-                                _.extend(submittedTokenModel.toJSON(), e.data)
-                            )
-                        );
+                        setToken("tk_update_comment", "No comments for update.");
                     } else if (tk_comment == "update note") {
                         tk_comment = "No comment for update.";
                     }
@@ -23094,13 +22593,7 @@ require([
 
                     // if is not defined, give it a value and override text box content
                     if (tk_comment == "null") {
-                        setToken(
-                            "tk_update_comment",
-                            TokenUtils.replaceTokenNames(
-                                "No comments for update.",
-                                _.extend(submittedTokenModel.toJSON(), e.data)
-                            )
-                        );
+                        setToken("tk_update_comment", "No comments for update.");
                     } else if (tk_comment == "update note") {
                         tk_comment = "No comment for update.";
                     }
@@ -23380,13 +22873,7 @@ require([
 
                     // if is not defined, give it a value and override text box content
                     if (tk_comment == "null") {
-                        setToken(
-                            "tk_update_comment",
-                            TokenUtils.replaceTokenNames(
-                                "No comments for update.",
-                                _.extend(submittedTokenModel.toJSON(), e.data)
-                            )
-                        );
+                        setToken("tk_update_comment", "No comments for update.");
                     } else if (tk_comment == "update note") {
                         tk_comment = "No comment for update.";
                     }
@@ -23667,13 +23154,7 @@ require([
 
                     // if is not defined, give it a value and override text box content
                     if (tk_comment == "null") {
-                        setToken(
-                            "tk_update_comment",
-                            TokenUtils.replaceTokenNames(
-                                "No comments for update.",
-                                _.extend(submittedTokenModel.toJSON(), e.data)
-                            )
-                        );
+                        setToken("tk_update_comment", "No comments for update.");
                     } else if (tk_comment == "update note") {
                         tk_comment = "No comment for update.";
                     }
@@ -23952,13 +23433,7 @@ require([
 
                     // if is not defined, give it a value and override text box content
                     if (tk_comment == "null") {
-                        setToken(
-                            "tk_update_comment",
-                            TokenUtils.replaceTokenNames(
-                                "No comments for update.",
-                                _.extend(submittedTokenModel.toJSON(), e.data)
-                            )
-                        );
+                        setToken("tk_update_comment", "No comments for update.");
                     } else if (tk_comment == "update note") {
                         tk_comment = "No comment for update.";
                     }
@@ -24251,13 +23726,7 @@ require([
 
                     // if is not defined, give it a value and override text box content
                     if (tk_comment == "null") {
-                        setToken(
-                            "tk_update_comment",
-                            TokenUtils.replaceTokenNames(
-                                "No comments for update.",
-                                _.extend(submittedTokenModel.toJSON(), e.data)
-                            )
-                        );
+                        setToken("tk_update_comment", "No comments for update.");
                     } else if (tk_comment == "update note") {
                         tk_comment = "No comment for update.";
                     }
@@ -25597,13 +25066,7 @@ require([
 
         // if is not defined, give it a value and override text box content
         if (tk_comment == "null") {
-            setToken(
-                "tk_update_comment",
-                TokenUtils.replaceTokenNames(
-                    "No comments for update.",
-                    _.extend(submittedTokenModel.toJSON(), e.data)
-                )
-            );
+            setToken("tk_update_comment", "No comments for update.");
             // replace the textarea for modification requests
             document.getElementById("elastic_source_shared_delete_comment").value =
                 "update note";
@@ -25744,13 +25207,7 @@ require([
 
         // if is not defined, give it a value and override text box content
         if (tk_comment == "null") {
-            setToken(
-                "tk_update_comment",
-                TokenUtils.replaceTokenNames(
-                    "No comments for update.",
-                    _.extend(submittedTokenModel.toJSON(), e.data)
-                )
-            );
+            setToken("tk_update_comment", "No comments for update.");
             // replace the textarea for modification requests
             document.getElementById("elastic_source_dedicated_delete_comment").value =
                 "update note";
@@ -28755,16 +28212,16 @@ require([
         var tk_keyid = getToken("tk_keyid");
         var tk_object = getToken("tk_object");
         var tk_data_monitoring_wdays = getToken("tk_data_monitoring_wdays");
-    
+
         // Create the endpoint URL
         var myendpoint_URl =
             "/en-US/splunkd/__raw/services/trackme/v1/data_hosts/dh_update_wdays";
-    
+
         var tk_origin_data_monitoring_wdays = getToken(
             "tk_data_monitoring_wdays"
         );
         var tk_data_monitoring_wdays_no = getToken("tk_input_wdays_no");
-    
+
         if (!tk_data_monitoring_wdays_no || !tk_data_monitoring_wdays_no.length) {
             // Show an error message
             $("#modal_entry_update_invalid").modal();
@@ -28776,7 +28233,7 @@ require([
                 data_monitoring_wdays: tk_data_monitoring_wdays_no,
                 update_comment: "N/A",
             };
-    
+
             $.ajax({
                 url: myendpoint_URl,
                 type: "POST",
@@ -28790,12 +28247,12 @@ require([
                 success: function(returneddata) {
                     // Run the search again to update the table
                     searchDataHostsMain.startSearch();
-    
+
                     $("#modal_modify_data_host_unified").modal();
-    
+
                     // call update data source
                     updateDataHost(tk_keyid);
-    
+
                     // notify
                     notify(
                         "info",
@@ -28803,7 +28260,7 @@ require([
                         "The entity has been updated successfully.",
                         "5"
                     );
-    
+
                     // house cleaning
                     myendpoint_URl = undefined;
                     delete myendpoint_URl;
@@ -28817,7 +28274,7 @@ require([
                         xhr.responseText +
                         "\n - http response: " +
                         error;
-    
+
                     // Audit
                     action = "failure";
                     change_type = "modify week days monitoring";
@@ -28839,7 +28296,7 @@ require([
                         result,
                         comment
                     );
-    
+
                     $("#modal_update_collection_failure_return")
                         .find(".modal-error-message p")
                         .text(message);
@@ -30146,13 +29603,7 @@ require([
 
             // if is not defined, give it a value and override text box content
             if (tk_comment == "null") {
-                setToken(
-                    "tk_update_comment",
-                    TokenUtils.replaceTokenNames(
-                        "No comments for update.",
-                        _.extend(submittedTokenModel.toJSON(), e.data)
-                    )
-                );
+                setToken("tk_update_comment", "No comments for update.");
                 // replace the textarea for modification requests
                 document.getElementById(
                     "input_add_tags_policy_sampling_comment"
@@ -30352,13 +29803,7 @@ require([
 
                     // if is not defined, give it a value and override text box content
                     if (tk_comment == "null") {
-                        setToken(
-                            "tk_update_comment",
-                            TokenUtils.replaceTokenNames(
-                                "No comments for update.",
-                                _.extend(submittedTokenModel.toJSON(), e.data)
-                            )
-                        );
+                        setToken("tk_update_comment", "No comments for update.");
                     } else if (tk_comment == "update note") {
                         tk_comment = "No comment for update.";
                     }
@@ -31593,13 +31038,7 @@ require([
 
             // if is not defined, give it a value and override text box content
             if (tk_comment == "null") {
-                setToken(
-                    "tk_update_comment",
-                    TokenUtils.replaceTokenNames(
-                        "No comments for update.",
-                        _.extend(submittedTokenModel.toJSON(), e.data)
-                    )
-                );
+                setToken("tk_update_comment", "No comments for update.");
                 // replace the textarea for modification requests
                 document.getElementById("input_ack_comment").value = "update note";
             } else if (tk_comment == "update note") {
@@ -31717,13 +31156,7 @@ require([
 
             // if is not defined, give it a value and override text box content
             if (tk_comment == "null") {
-                setToken(
-                    "tk_update_comment",
-                    TokenUtils.replaceTokenNames(
-                        "No comments for update.",
-                        _.extend(submittedTokenModel.toJSON(), e.data)
-                    )
-                );
+                setToken("tk_update_comment", "No comments for update.");
                 // replace the textarea for modification requests
                 document.getElementById("input_ack_comment").value = "update note";
             } else if (tk_comment == "update note") {
@@ -32643,13 +32076,7 @@ require([
 
                     // if is not defined, give it a value and override text box content
                     if (tk_comment == "null") {
-                        setToken(
-                            "tk_update_comment",
-                            TokenUtils.replaceTokenNames(
-                                "No comments for update.",
-                                _.extend(submittedTokenModel.toJSON(), e.data)
-                            )
-                        );
+                        setToken("tk_update_comment", "No comments for update.");
                     } else if (tk_comment == "update note") {
                         tk_comment = "No comment for update.";
                     }
@@ -32851,13 +32278,7 @@ require([
 
         // if is not defined, give it a value and override text box content
         if (tk_comment == "null") {
-            setToken(
-                "tk_update_comment",
-                TokenUtils.replaceTokenNames(
-                    "No comments for update.",
-                    _.extend(submittedTokenModel.toJSON(), e.data)
-                )
-            );
+            setToken("tk_update_comment", "No comments for update.");
             // replace the textarea for modification requests
             document.getElementById("input_clear_state_data_sampling_comment").value =
                 "update note";
@@ -33039,13 +32460,7 @@ require([
 
         // if is not defined, give it a value and override text box content
         if (tk_comment == "null") {
-            setToken(
-                "tk_update_comment",
-                TokenUtils.replaceTokenNames(
-                    "No comments for update.",
-                    _.extend(submittedTokenModel.toJSON(), e.data)
-                )
-            );
+            setToken("tk_update_comment", "No comments for update.");
             // replace the textarea for modification requests
             document.getElementById("input_clear_state_data_sampling_comment").value =
                 "update note";
@@ -33225,13 +32640,7 @@ require([
 
         // if is not defined, give it a value and override text box content
         if (tk_comment == "null") {
-            setToken(
-                "tk_update_comment",
-                TokenUtils.replaceTokenNames(
-                    "No comments for update.",
-                    _.extend(submittedTokenModel.toJSON(), e.data)
-                )
-            );
+            setToken("tk_update_comment", "No comments for update.");
             // replace the textarea for modification requests
             document.getElementById("input_clear_state_data_sampling_comment").value =
                 "update note";
@@ -33719,13 +33128,7 @@ require([
 
             // if is not defined, give it a value and override text box content
             if (tk_comment == "null") {
-                setToken(
-                    "tk_update_comment",
-                    TokenUtils.replaceTokenNames(
-                        "No comments for update.",
-                        _.extend(submittedTokenModel.toJSON(), e.data)
-                    )
-                );
+                setToken("tk_update_comment", "No comments for update.");
                 // replace the textarea for modification requests
                 document.getElementById(
                     "input_add_custom_rule_data_sampling_comment"
