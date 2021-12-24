@@ -3419,6 +3419,16 @@ require([
         ],
     });
 
+    // set the panel visibility
+    searchMetricPolicies.on("change", function(newValue) {
+        show_table_metric_policies = getToken("show_table_metric_policies");
+        if (show_table_metric_policies === 'True') {
+            $("#divTableMetricPolicies").css("display", "inherit");
+        } else {
+            $("#divTableMetricPolicies").css("display", "none");
+        }
+    });
+
     var searchSingleMetricPolicies = new PostProcessManager({
         tokenDependencies: {},
         search: "| stats count",
@@ -16382,6 +16392,110 @@ require([
             FormUtils.handleValueChange(modal_input_metric_host_priority);
         });
 
+        var inputMetricPolicySLA_category = new DropdownInput({
+            "id": "inputMetricPolicySLA_category",
+            "tokenDependencies": {
+                "depends": "$show_metric_host_tracker$"
+            },
+            "searchWhenChanged": true,
+            "showClearButton": true,
+            "labelField": "metric_category",
+            "selectFirstChoice": false,
+            "valueField": "metric_category",
+            "value": "$form.tk_input_metric_policy_metric_category$",
+            "managerid": "searchPopulateMetricHostsCategories",
+            "el": $('#inputMetricPolicySLA_category')
+        }, {
+            tokens: true
+        }).render();
+
+        inputMetricPolicySLA_category.on("change", function(newValue) {
+            FormUtils.handleValueChange(inputMetricPolicySLA_category);
+        });
+
+        var inputMetricPolicySLA_value = new TextInput({
+            "id": "inputMetricPolicySLA_value",
+            "searchWhenChanged": true,
+            "value": "$form.tk_input_metric_policy_metric_value$",
+            "el": $('#inputMetricPolicySLA_value')
+        }, {
+            tokens: true
+        }).render();
+
+        inputMetricPolicySLA_value.on("change", function(newValue) {
+            FormUtils.handleValueChange(inputMetricPolicySLA_value);
+        });
+
+        // metric sla policies
+        var SingleMetricPolicies = new SingleView({
+            "id": "SingleMetricPolicies",
+            "trendDisplayMode": "absolute",
+            "drilldown": "none",
+            "trendColorInterpretation": "standard",
+            "useColors": "0",
+            "colorBy": "value",
+            "showTrendIndicator": "1",
+            "showSparkline": "1",
+            "trellis.enabled": "0",
+            "numberPrecision": "0",
+            "rangeColors": "[\"0x77dd77\",\"0x0877a6\",\"0xf8be34\",\"0xf1813f\",\"0xdc4e41\"]",
+            "trellis.size": "medium",
+            "colorMode": "none",
+            "rangeValues": "[0,30,70,100]",
+            "unitPosition": "after",
+            "trellis.scales.shared": "1",
+            "useThousandSeparators": "1",
+            "underLabel": "metric policies",
+            "managerid": "searchSingleMetricPolicies",
+            "el": $('#SingleMetricPolicies')
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        }).render();
+
+        var resultsLinkSingleMetricPolicies = new ResultsLinkView({
+            id: "resultsLinkSingleMetricPolicies",
+            managerid: "searchSingleMetricPolicies",
+            "link.exportResults.visible": false,
+            el: $("#resultsLinkSingleMetricPolicies"),
+        });
+    
+        resultsLinkSingleMetricPolicies
+            .render()
+            .$el.appendTo($("resultsLinkSingleMetricPolicies"));
+    
+        // Metric SLA policies
+
+        var tableMetricPolicies = new TableElement({
+            "id": "tableMetricPolicies",
+            "tokenDependencies": {
+                "depends": "$show_table_metric_policies$"
+            },
+            "count": 8,
+            "drilldown": "none",
+            "fields": "metric_category, metric_max_lag_allowed, select",
+            "refresh.display": "none",
+            "wrap": "false",
+            "managerid": "searchMetricPolicies",
+            "el": $('#tableMetricPolicies')
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        }).render();
+
+        renderTableCheckBox("tableMetricPolicies", "removeMetricPolicies");
+
+        var resultsLinktableMetricPolicies = new ResultsLinkView({
+            id: "resultsLinktableMetricPolicies",
+            managerid: "searchMetricPolicies",
+            "link.exportResults.visible": false,
+            el: $("#resultsLinktableMetricPolicies"),
+        });
+    
+        resultsLinktableMetricPolicies
+            .render()
+            .$el.appendTo($("resultsLinktableMetricPolicies"));
+
     //
     // BEGIN OPERATIONS
     //
@@ -19800,6 +19914,14 @@ require([
                         period: 200,
                     }, {
                         done: function(job) {
+                            // notify
+                            var msg = "The new metric SLA policy was added successfully.";
+                            notify(
+                                "success",
+                                "bottom",
+                                msg,
+                                "5"
+                            );
                             // Once the job is done, update all searches
                             unsetToken("form.tk_input_metric_policy_metric_category");
                             searchMetricHostsMain.startSearch();

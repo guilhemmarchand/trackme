@@ -2271,7 +2271,7 @@
 							<div>
 								<div>
 									<div class="modal-header modal-header-danger">
-										<h1 style="color: white;">Actions for lagging classes: </h1>
+										<h1>Actions for lagging classes: </h1>
 										<button type="button" class="close" data-dismiss="modal"></button>
 									</div>
 									<div class="modal-body">
@@ -6493,57 +6493,80 @@
 					</div>
 				</div>
 
-			</html>
-
-            <!-- BEGIN OPERATIONS -->
-
-			<html>
-				<!-- ############
-                    MODAL WINDOWS
-                ############# -->
-				<!-- data host monitoring -->
-				<div class="modal fade custom-modal-50" id="modal_modify_main_host" role="dialog">
+				<!--
+                Metrics SLA policies editor
+                -->
+				<div class="modal fade custom-modal-60" id="modal_metric_sla_policies" role="dialog">
 					<div class="modal-dialog">
 						<!-- Modal content-->
 						<div class="modal-content">
-							<div class="modal-header modal-header-danger">
+							<div class="modal-header modal-header-info">
 								<button type="button" class="close" data-dismiss="modal"></button>
 								<h1>
-									<span class="glyphicon glyphicon-lock"></span> Modify data host monitoring
+									<span class="glyphicon glyphicon-lock"></span> Metrics SLA policies editor 
 								</h1>
 							</div>
 							<div class="modal-body">
-								<p>You can modify different parameters regarding the monitoring of this data host:</p>
-								<b>monitoring_wdays: modify the week days rules for monitoring</b>
-								<br />
-								<lu>
-									<li>all_days: monitor the data source every days of the week</li>
-									<li>monday-to-friday: monitor the data source only during working days from Monday to Friday</li>
-									<li>monday-to-saturday: monitor the data source only during working days from Monday to Saturday</li>
-									<li>Or enter the manual mode where you can select each days of the week to be monitored</li>
-								</lu>
-								<br />
-								<b>maximal lag value:</b>
-								<br />
-								<lu>
-									<li>the maximal value in seconds of unavailability of the data host before it is declared in red state</li>
-								</lu>
-								<br />
+								<style>
+								.parent-metric-sla-editor {
+									display: grid;
+									grid-template-columns: repeat(2, 1fr);
+									grid-template-rows: 1fr;
+									grid-column-gap: 0px;
+									grid-row-gap: 0px;
+								}
+								</style>
+								<div style="margin-bottom: 20px;">
+									<h1>Use this interface to manage SLA policies for metric categories:</h1>
+									<ul>
+										<li>A metric category is extracted automatically from the first segment of the metric path (ex: cpu for cpu.cpu_idle)</li>
+										<li>If a metric category is not listed in the policies, a default value is applied automatically</li>
+										<li>Each metric category is taken in consideration individually based on these rules</li>
+									</ul>
+								</div>
+								<div class="parent-metric-sla-editor">
+									<div class="fieldset">
+										<div class="input input-dropdown" id="inputMetricPolicySLA_category" style="margin-bottom: 10px;">
+											<label class="splunk-input-label">metric_category:</label>
+										</div>
+										<div class="input input-text" id="inputMetricPolicySLA_value" style="margin-bottom: 10px;">
+											<label class="splunk-input-label">metric_max_lag_allowed:</label>
+										</div>
+										<div style="margin-bottom: 10px;">
+											<button id="btn_modal_metric_policy_add" type="submit" class="btn btn-outline-danger" data-dismiss="modal">
+												<span class="glyphicon glyphicon-remove"></span> Add this metric SLA policy
+											</button>
+										</div>
+									</div>
+									<div>
+										<div>
+											<div id="SingleMetricPolicies" class="view-elements"></div>
+											<div id="resultsLinkSingleMetricPolicies" class="search-elements"></div>
+										</div>
+									</div>
+								</div>
+								<div>
+									<div id="divTableMetricPolicies" style="display: none;">
+										<div id="tableMetricPolicies" class="view-elements">
+											<label>Select entries and use the remove selected button:</label>
+											<div class="panel-footer" style="display: none;"></div>
+										</div>
+										<div id="resultsLinktableMetricPolicies" class="search-elements"></div>
+									</div>
+								</div>
 							</div>
-							<div class="modal-footer">
-								<button type="submit" id="btn_modal_modify_host_cancel" class="btn btn-default btn-default pull-left" data-dismiss="modal">
+							<div class="modal-footer" style="margin-top: 30px;">
+								<button type="submit" class="btn btn-outline-secondary pull-left" data-dismiss="modal">
 									<span class="glyphicon glyphicon-remove"></span> Cancel
 								</button>
-								<button id="btn_modal_modify_wdays_host" type="submit" class="btn btn-default btn-primary" data-dismiss="modal">
-									<span class="glyphicon glyphicon-remove"></span> Modify monitoring wdays
-								</button>
-								<button id="btn_modal_modify_lag_host" type="submit" class="btn btn-default btn-primary" data-dismiss="modal">
-									<span class="glyphicon glyphicon-remove"></span> Modify monitoring lagging
+								<button type="submit" id="btn_delete_metric_sla_policy_level1" class="btn btn-outline-danger pull-right" data-dismiss="modal">
+									<span class="glyphicon glyphicon-remove"></span> Remove selected
 								</button>
 							</div>
 						</div>
 					</div>
 				</div>
+
 				<!-- Modal drilldown context for metric SLA policy -->
 				<div class="modal fade" id="manage_metric_sla_policy" role="dialog">
 					<div class="modal-dialog">
@@ -6553,7 +6576,7 @@
 							<div>
 								<div>
 									<div class="modal-header modal-header-danger">
-										<h1 style="color: white;">Actions for metric category: </h1>
+										<h1>Actions for metric category: </h1>
 										<button type="button" class="close" data-dismiss="modal"></button>
 									</div>
 									<div class="modal-body">
@@ -6575,7 +6598,7 @@
 								</div>
 							</div>
 							<div class="modal-footer">
-								<button type="submit" id="btn_delete_metric_sla_policy_cancel" role="button" class="btn btn-outline-primary" data-dismiss="modal">
+								<button type="submit" id="btn_delete_metric_sla_policy_cancel" role="button" class="btn btn-outline-secondary" data-dismiss="modal">
 									<span class="glyphicon glyphicon-remove"></span>Cancel
 								</button>
 								<button type="submit" id="btn_delete_metric_sla_policy_level2" role="button" class="btn btn-outline-danger">
@@ -6585,84 +6608,7 @@
 						</div>
 					</div>
 				</div>
-				<!--
 
-                Metrics SLA policies editor
-
-                -->
-				<div class="modal fade custom-modal-60" id="modal_metric_sla_policies" role="dialog">
-					<div class="modal-dialog">
-						<!-- Modal content-->
-						<div class="modal-content">
-							<div class="modal-header modal-header-danger">
-								<button type="button" class="close" data-dismiss="modal"></button>
-								<h1>
-									<span class="glyphicon glyphicon-lock"></span> Metrics SLA policies editor 
-								</h1>
-							</div>
-							<div class="modal-body">
-								<b>Use this interface to manage SLA policies for metric categories:</b>
-								<lu>
-									<li>A metric category is extracted automatically from the first segment of the metric path (ex: cpu for cpu.cpu_idle)</li>
-									<li>If a metric category is not listed in the policies, a default value is applied automatically</li>
-									<li>Each metric category is taken in consideration individually based on these rules</li>
-								</lu>
-								<br />
-								<div>
-									<div>
-										<div>
-											<div>
-												<div class="fieldset">
-													<div class="input input-dropdown" id="inputMetricPolicySLA_category" style="margin-bottom: 10px;">
-														<label>metric_category:</label>
-													</div>
-													<div class="input input-text" id="inputMetricPolicySLA_value" style="margin-bottom: 10px;">
-														<label>metric_max_lag_allowed:</label>
-													</div>
-													<br />
-													<br />
-													<div style="margin-bottom: 10px;">
-														<button id="btn_modal_metric_policy_add" type="submit" class="btn btn-default btn-primary" data-dismiss="modal">
-															<span class="glyphicon glyphicon-remove"></span> Add this metric SLA policy
-														</button>
-													</div>
-												</div>
-											</div>
-										</div>
-									</div>
-									<div>
-										<div>
-											<div>
-												<div id="SingleMetricPolicies"></div>
-											</div>
-										</div>
-									</div>
-								</div>
-								<div>
-									<div>
-										<div>
-											<div>
-												<div class="fieldset">
-													<div id="tableMetricPolicies">
-														<label>Select entries and use the remove selected button:</label>
-													</div>
-												</div>
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
-							<div class="modal-footer">
-								<button type="submit" class="btn btn-outline-secondary pull-left" data-dismiss="modal">
-									<span class="glyphicon glyphicon-remove"></span> Cancel
-								</button>
-								<button type="submit" id="btn_delete_metric_sla_policy_level1" class="btn btn-default btn-danger pull-right" data-dismiss="modal">
-									<span class="glyphicon glyphicon-remove"></span> Remove selected
-								</button>
-							</div>
-						</div>
-					</div>
-				</div>
 				<!-- Generic invalid selection -->
 				<div class="modal fade" id="modal_entry_update_invalid" role="dialog">
 					<div class="modal-dialog">
@@ -6688,7 +6634,9 @@
 						</div>
 					</div>
 				</div>
+
 			</html>
+
 		</panel>
 	</row>
 	<!-- Data source tracking UI elements -->
@@ -7526,19 +7474,5 @@
 			</html>
 		</panel>
 	</row>
-
-	<row>
-		<panel>
-			<html>
-| savedsearch "trackMe - metric per host table report" host="$tk_metric_host$"
-<br />
-show_metric_host_tracker is $show_metric_host_tracker$
-<br />
-tk_metric_host is $tk_metric_host$
-<br />
-			</html>
-		</panel>
-	</row>
-
 
 </form>

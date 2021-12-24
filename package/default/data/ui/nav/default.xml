@@ -1,5 +1,5 @@
 <nav search_view="search" color="#404040">
-  <view name="TrackMe" default="true" />
+  <view name="trackMe_home" default="true" />
   <view name="trackMe_summary" />
   <a href="trackMe_qos">TrackMe QOS</a>
   <a href="trackMe_manage_and_configure">TrackMe manage and configure</a>
