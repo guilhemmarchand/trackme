@@ -5422,34 +5422,19 @@ require([
             var tk_data_sourcetype = e.data["row.data_sourcetype"];
             // token required for operations
             setToken("tk_data_sourcetype", tk_data_sourcetype);
-            var tk_data_last_lag_seen = e.data["row.data_last_lag_seen"];
-            var tk_data_last_ingestion_lag_seen = e.data["row.data_last_ingestion_lag_seen"];
             var tk_data_lag_summary = e.data["row.lag (event / ingestion)"];
-            var tk_data_last_lag_seen_idx = e.data["row.data_last_lag_seen_idx"];
-            var tk_data_eventcount = e.data["row.data_eventcount"];
-            var tk_data_first_time_seen = e.data["row.data_first_time_seen"];
-            var tk_data_last_time_seen = e.data["row.data_last_time_seen"];
             var tk_data_last_time_seen_human = e.data["row.last time"];
-            var tk_data_last_ingest = e.data["row.data_last_ingest"];
             var tk_data_last_ingest_human = e.data["row.last ingest"];
-            var tk_data_last_time_seen_idx = e.data["row.data_last_time_seen_idx"];
-            var tk_data_last_time_seen_idx_human = e.data["row.data_last_time_seen_idx (translated)"];
             var tk_data_max_lag_allowed = e.data["row.data_max_lag_allowed"];
             // token required for auto lagging
             setToken("tk_data_max_lag_allowed", tk_data_max_lag_allowed);
-            var tk_data_lag_alert_kpis = e.data["row.data_lag_alert_kpis"];
             var tk_data_monitored_state = e.data["row.data_monitored_state"];
             var tk_data_monitoring_level = e.data["row.data_monitoring_level"];
-            var tk_data_monitoring_wdays = e.data["row.data_monitoring_wdays"];
             var tk_data_override_lagging_class = e.data["row.data_override_lagging_class"];
             // required for auto lagging
             setToken("tk_data_override_lagging_class", tk_data_override_lagging_class);
             var tk_data_source_state = e.data["row.data_source_state"];
-            var tk_data_tracker_runtime = e.data["row.data_tracker_runtime"];
-            var tk_data_previous_source_state = e.data["row.data_previous_source_state"];
-            var tk_data_previous_tracker_runtime = e.data["row.data_previous_tracker_runtime"];
             var tk_latest_flip_state = e.data["row.latest_flip_state"];
-            var tk_latest_flip_time = e.data["row.latest_flip_time"];
             var tk_latest_flip_time_human = e.data["row.latest_flip_time (translated)"];
             var tk_priority = e.data["row.priority"];
 
@@ -5649,10 +5634,6 @@ require([
             // data sampling
             var tk_data_sampling_status_message = e.data["row.data_sample_status_message"];
             var tk_data_sampling_status_colour = e.data["row.data_sample_status_colour"];
-            var tk_data_sample_anomaly_reason = e.data["row.data_sample_anomaly_reason"];
-            var tk_isanomaly = e.data["row.isAnomaly"];
-            var tk_data_sample_lastrun = e.data["row.data_sample_lastrun"];
-
             var tk_data_sampling_status_message_class;
             if (tk_data_sampling_status_colour == "green") {
                 var tk_data_sampling_status_message_class = "status_message_green";
@@ -5675,21 +5656,12 @@ require([
             var tk_status_message = e.data["row.status_message"];
 
             // dcount hosts
-            var tk_dcount_host = e.data["row.dcount_host"];
-            var tk_min_dcount_host = e.data["row.min_dcount_host"];
             setToken("form.tk_input_data_source_dcount_host", e.data["row.min_dcount_host"]);
 
             // outlier
-            var tk_outlierenabledstatus = e.data["row.enable_behaviour_analytic"];
-            var tk_outliermineventcount = e.data["row.OutlierMinEventCount"];
-            var tk_outlierlowerthresholdmultiplier = e.data["row.OutlierLowerThresholdMultiplier"];
-            var tk_outlierupperthresholdmultiplier = e.data["row.OutlierUpperThresholdMultiplier"];
-            var tk_outlieralertonupper = e.data["row.OutlierAlertOnUpper"];
-            var tk_outlier_period = e.data["row.OutlierTimePeriod"];
             var tk_outlier_span = e.data["row.OutlierSpan"];
             // token required for charting
             setToken("tk_outlier_span", tk_outlier_span);
-            var tk_isoutlier = e.data["row.isOutlier"];
             var tk_enable_behaviour_analytic = e.data["row.enable_behaviour_analytic"];
             // token required for outliers configuration
             setToken("tk_enable_behaviour_analytic", tk_enable_behaviour_analytic);
@@ -6766,9 +6738,7 @@ require([
             var tk_data_max_lag_allowed = e.data["row.data_max_lag_allowed"];
             var tk_latest_flip_time_human = e.data["row.latest_flip_time (translated)"];
             var tk_latest_flip_state = e.data["row.latest_flip_state"];
-            var tk_data_host_tags = e.data['row.data_host_tags'];
             var tk_data_max_lag_allowed = e.data["row.data_max_lag_allowed"];
-            var tk_data_monitoring_wdays = e.data["row.data_monitoring_wdays"];
             // token required for auto lagging
             setToken("tk_data_max_lag_allowed", tk_data_max_lag_allowed);
             var tk_data_override_lagging_class = e.data["row.data_override_lagging_class"];
@@ -6776,16 +6746,9 @@ require([
             setToken("tk_data_override_lagging_class", tk_data_override_lagging_class);
 
             // outlier
-            var tk_outlierenabledstatus = e.data["row.enable_behaviour_analytic"];
-            var tk_outliermineventcount = e.data["row.OutlierMinEventCount"];
-            var tk_outlierlowerthresholdmultiplier = e.data["row.OutlierLowerThresholdMultiplier"];
-            var tk_outlierupperthresholdmultiplier = e.data["row.OutlierUpperThresholdMultiplier"];
-            var tk_outlieralertonupper = e.data["row.OutlierAlertOnUpper"];
-            var tk_outlier_period = e.data["row.OutlierTimePeriod"];
             var tk_outlier_span = e.data["row.OutlierSpan"];
             // token required for charting
             setToken("tk_outlier_span", tk_outlier_span);
-            var tk_isoutlier = e.data["row.isOutlier"];
             var tk_enable_behaviour_analytic = e.data["row.enable_behaviour_analytic"];
             // token required for outliers configuration
             setToken("tk_enable_behaviour_analytic", tk_enable_behaviour_analytic);
@@ -6896,10 +6859,6 @@ require([
 
             // pre-fill alerting policy
             setToken("form.tk_input_host_alerting_policy", e.data['row.data_host_alerting_policy']);
-
-            // Get earliest / latest to be recycled in some use cases
-            var tk_earliest = getToken("modalTimeHost.earliest");
-            var tk_latest = getToken("modalTimeHost.latest");
 
             // Enable modal context
             $("#modal_manage_host").modal();
@@ -7431,21 +7390,10 @@ require([
             var tk_status_message = e.data["row.status_message"];
             var tk_metric_host_state = e.data['row.metric_host_state'];
             var tk_metric_monitored_state = e.data['row.metric_monitored_state'];
-            var tk_metric_index = e.data['row.metric_index_raw'];
-            var tk_metric_category = e.data['row.metric_category_raw'];
             var tk_metric_last_time_seen_human = e.data['row.last time'];
             var tk_metric_last_lag_seen = e.data['row.metric_last_lag_seen'];
-            var tk_object_group_name = e.data['row.object_group_name'];
-
-            var tk_data_lag_summary = e.data["row.lag (event / ingestion)"];
-            var tk_data_last_ingest_human = e.data["row.last ingest"];
-            var tk_data_last_time_seen_human = e.data["row.last time"];
-            var tk_data_max_lag_allowed = e.data["row.data_max_lag_allowed"];
             var tk_latest_flip_time_human = e.data["row.latest_flip_time (translated)"];
             var tk_latest_flip_state = e.data["row.latest_flip_state"];
-            var tk_data_host_tags = e.data['row.data_host_tags'];
-            var tk_data_max_lag_allowed = e.data["row.data_max_lag_allowed"];
-            var tk_data_monitoring_wdays = e.data["row.data_monitoring_wdays"];
 
             // pre-fill current priority
             setToken("form.tk_input_metric_host_priority", tk_priority);
@@ -7511,8 +7459,6 @@ require([
                 document.getElementById("btn_disable_monitoring_metric_host").disabled = true;
                 tk_metric_monitored_state_class = "title_grey";
             }
-
-            console.log("tk_metric_monitored_state_class is: " + tk_metric_monitored_state_class);
 
             // Dynamically manage state color
             var tk_metric_host_state_class;
@@ -8032,7 +7978,7 @@ require([
                 '<h3>Suppress period: <span style="color: dodgerblue;">' + tk_alert_suppress_period + '</h3></span>'
             );
 
-            $('#child-alert-tracking-info-panel3').html(                
+            $('#child-alert-tracking-info-panel3').html(
                 '<h3>Next scheduled time: <span style="color: dodgerblue;">' + tk_alert_next_scheduled_time + '</h3></span>' +
                 '<h3>Alert actions: <span style="color: dodgerblue;">' + tk_alert_actions + '</h3></span>'
             );
@@ -14545,7 +14491,7 @@ require([
         "charting.axisY2.abbreviation": "none",
         "charting.chart": "column",
         "charting.axisY.abbreviation": "none",
-        "charting.fieldColors": "{\"events_count\": 0xaec6cf, \"avg_lag_sec\": 0x8b0000}",
+        "charting.fieldColors": "{\"events_count\": 0x7fbfff, \"avg_lag_sec\": 0xff6961}",
         "trellis.enabled": "0",
         "height": "160",
         "managerid": "searchChartLagHostOverTime",
@@ -16796,8 +16742,6 @@ require([
             tk_keyid +
             '"';
 
-        console.log("searchQuery is: " + searchQuery);
-
         // Set the search parameters
         var searchParams = {
             exec_mode: "normal",
@@ -18084,8 +18028,9 @@ require([
                     searchMetricHostsMain.startSearch();
 
                     // notify
+                    var msg = "The entity priority has been updated successfully."
                     notify(
-                        "info",
+                        "success",
                         "bottom",
                         "Modification has been registered successfully.",
                         "5"
@@ -19684,9 +19629,9 @@ require([
 
         // notify
         notify(
-            "info",
+            "success",
             "bottom",
-            "Modification has been registered successfully.",
+            "Metric SLA policy/policies successfully deleted.",
             "5"
         );
 
@@ -20011,9 +19956,9 @@ require([
 
         // notify
         notify(
-            "info",
+            "success",
             "bottom",
-            "Modification has been registered successfully.",
+            "Lagging policy/policies successfully deleted.",
             "5"
         );
 
@@ -20419,9 +20364,9 @@ require([
 
         // notify
         notify(
-            "info",
+            "success",
             "bottom",
-            "Modification has been registered successfully.",
+            "Allowlist(s) successfully deleted.",
             "5"
         );
 
@@ -20717,9 +20662,9 @@ require([
 
         // notify
         notify(
-            "info",
+            "success",
             "bottom",
-            "Modification has been registered successfully.",
+            "Allowlist(s) successfully deleted.",
             "5"
         );
 
@@ -21014,9 +20959,9 @@ require([
 
         // notify
         notify(
-            "info",
+            "success",
             "bottom",
-            "Modification has been registered successfully.",
+            "Allowlist(s) successfully deleted.",
             "5"
         );
 
@@ -21296,9 +21241,9 @@ require([
 
         // notify
         notify(
-            "info",
+            "success",
             "bottom",
-            "Modification has been registered successfully.",
+            "Blocklist(s) successfully deleted.",
             "5"
         );
 
@@ -21714,9 +21659,9 @@ require([
 
         // notify
         notify(
-            "info",
+            "success",
             "bottom",
-            "Modification has been registered successfully.",
+            "Blocklist(s) successfully deleted.",
             "5"
         );
 
@@ -21852,9 +21797,9 @@ require([
 
         // notify
         notify(
-            "info",
+            "success",
             "bottom",
-            "Modification has been registered successfully.",
+            "Blocklist(s) successfully deleted.",
             "5"
         );
 
@@ -22130,9 +22075,9 @@ require([
 
         // notify
         notify(
-            "info",
+            "success",
             "bottom",
-            "Modification has been registered successfully.",
+            "Blocklist(s) successfully deleted.",
             "5"
         );
 
@@ -22408,9 +22353,9 @@ require([
 
         // notify
         notify(
-            "info",
+            "success",
             "bottom",
-            "Modification has been registered successfully.",
+            "Blocklist(s) successfully deleted.",
             "5"
         );
 
@@ -22693,9 +22638,9 @@ require([
 
         // notify
         notify(
-            "info",
+            "success",
             "bottom",
-            "Modification has been registered successfully.",
+            "Blocklist(s) successfully deleted.",
             "5"
         );
 
@@ -22971,9 +22916,9 @@ require([
 
         // notify
         notify(
-            "info",
+            "success",
             "bottom",
-            "Modification has been registered successfully.",
+            "Blocklist(s) successfully deleted.",
             "5"
         );
 
@@ -23252,9 +23197,9 @@ require([
 
         // notify
         notify(
-            "info",
+            "success",
             "bottom",
-            "Modification has been registered successfully.",
+            "Blocklist(s) successfully deleted.",
             "5"
         );
 
@@ -23531,9 +23476,9 @@ require([
 
         // notify
         notify(
-            "info",
+            "success",
             "bottom",
-            "Modification has been registered successfully.",
+            "Blocklist(s) successfully deleted.",
             "5"
         );
 
@@ -23828,9 +23773,9 @@ require([
 
         // notify
         notify(
-            "info",
+            "success",
             "bottom",
-            "Modification has been registered successfully.",
+            "Blocklist(s) successfully deleted.",
             "5"
         );
 
@@ -25086,9 +25031,9 @@ require([
 
         // notify
         notify(
-            "info",
+            "success",
             "bottom",
-            "Modification has been registered successfully.",
+            "Elastic Source successfully deleted.",
             "5"
         );
 
@@ -25230,9 +25175,9 @@ require([
 
         // notify
         notify(
-            "info",
+            "success",
             "bottom",
-            "Modification has been registered successfully.",
+            "Elastic Source successfully deleted.",
             "5"
         );
 
@@ -26479,9 +26424,9 @@ require([
 
                     // notify
                     notify(
-                        "info",
+                        "success",
                         "bottom",
-                        "Modification has been registered successfully.",
+                        "Monitoring wdays applied successfully.",
                         "5"
                     );
 
@@ -26579,7 +26524,7 @@ require([
                     notify(
                         "success",
                         "bottom",
-                        "The entity has been updated successfully.",
+                        "Priority updated successfully.",
                         "5"
                     );
 
@@ -26684,7 +26629,7 @@ require([
                     notify(
                         "info",
                         "bottom",
-                        "The entity has been updated successfully.",
+                        "Monitoring wdays applied successfully.",
                         "5"
                     );
 
@@ -26793,9 +26738,9 @@ require([
 
                     // notify
                     notify(
-                        "info",
+                        "success",
                         "bottom",
-                        "The entity has been updated successfully.",
+                        "Monitoring level updated successfully.",
                         "5"
                     );
 
@@ -26902,9 +26847,9 @@ require([
 
                     // notify
                     notify(
-                        "info",
+                        "success",
                         "bottom",
-                        "The entity has been updated successfully.",
+                        "Min dcount hosts updated successfully.",
                         "5"
                     );
 
@@ -27017,9 +26962,9 @@ require([
                     updateDataSource(tk_keyid);
                     // notify
                     notify(
-                        "info",
+                        "success",
                         "bottom",
-                        "The entity has been updated successfully.",
+                        "Max lag allowed updated successfully.",
                         "5"
                     );
                     // house cleaning
@@ -27194,7 +27139,7 @@ require([
 
                                             // notify
                                             notify(
-                                                "info",
+                                                "success",
                                                 "bottom",
                                                 "Modification has been registered successfully, max lagging value automatically defined to " +
                                                 value +
@@ -27415,7 +27360,7 @@ require([
 
                                             // notify
                                             notify(
-                                                "info",
+                                                "success",
                                                 "bottom",
                                                 "Modification has been registered successfully, max lagging value automatically defined to " +
                                                 value +
@@ -27636,7 +27581,7 @@ require([
 
                                             // notify
                                             notify(
-                                                "info",
+                                                "success",
                                                 "bottom",
                                                 "Modification has been registered successfully, max lagging value automatically defined to " +
                                                 value +
@@ -27858,7 +27803,7 @@ require([
 
                                             // notify
                                             notify(
-                                                "info",
+                                                "success",
                                                 "bottom",
                                                 "Modification has been registered successfully, max lagging value automatically defined to " +
                                                 value +
@@ -28050,9 +27995,9 @@ require([
 
                     // notify
                     notify(
-                        "info",
+                        "success",
                         "bottom",
-                        "Modification has been registered successfully.",
+                        "Monitoring wdays applied successfully.",
                         "5"
                     );
 
@@ -28148,7 +28093,7 @@ require([
                     notify(
                         "success",
                         "bottom",
-                        "The entity has been updated successfully.",
+                        "Priority updated successfully.",
                         "5"
                     );
 
@@ -28255,9 +28200,9 @@ require([
 
                     // notify
                     notify(
-                        "info",
+                        "success",
                         "bottom",
-                        "The entity has been updated successfully.",
+                        "Monitoring wdays applied successfully.",
                         "5"
                     );
 
@@ -28389,7 +28334,7 @@ require([
                     notify(
                         "info",
                         "bottom",
-                        "The entity has been updated successfully.",
+                        "Max lag allowed updated successfully.",
                         "5"
                     );
 
@@ -28568,7 +28513,7 @@ require([
 
                                             // notify
                                             notify(
-                                                "info",
+                                                "success",
                                                 "bottom",
                                                 "Modification has been registered successfully, max lagging value automatically defined to " +
                                                 value +
@@ -28786,7 +28731,7 @@ require([
 
                                             // notify
                                             notify(
-                                                "info",
+                                                "success",
                                                 "bottom",
                                                 "Modification has been registered successfully, max lagging value automatically defined to " +
                                                 value +
@@ -29004,7 +28949,7 @@ require([
 
                                             // notify
                                             notify(
-                                                "info",
+                                                "success",
                                                 "bottom",
                                                 "Modification has been registered successfully, max lagging value automatically defined to " +
                                                 value +
@@ -29221,7 +29166,7 @@ require([
 
                                             // notify
                                             notify(
-                                                "info",
+                                                "success",
                                                 "bottom",
                                                 "Modification has been registered successfully, max lagging value automatically defined to " +
                                                 value +
@@ -29699,9 +29644,9 @@ require([
 
                             // notify
                             notify(
-                                "info",
+                                "success",
                                 "bottom",
-                                "The entity has been updated successfully.",
+                                "Tag policy updated successfully.",
                                 "5"
                             );
 
@@ -29887,9 +29832,9 @@ require([
 
         // notify
         notify(
-            "info",
+            "success",
             "bottom",
-            "Modification has been registered successfully.",
+            "Tag policy/policies deleted successfully.",
             "5"
         );
 
@@ -30022,7 +29967,7 @@ require([
                         notify(
                             "success",
                             "bottom",
-                            "New tag successfully added.",
+                            "New tag(s) successfully added.",
                             "5"
                         );
 
@@ -31784,7 +31729,7 @@ require([
                     success: function(returneddata) {
                         // notify
                         var tk_data_name = getToken("tk_object");
-                        notify("info", "bottom", "Outliers configuration updated, please wait a few seconds while statistics are generated, click on refresh in the Outliers tab if statistics are not yet available.", "5");
+                        notify("success", "bottom", "Outliers configuration updated, please wait a few seconds while statistics are generated, click on refresh in the Outliers tab if statistics are not yet available.", "5");
 
                         // Generate metrics if outlier period was changed
                         if (tk_source_outlier_period != tk_input_data_source_outlier_span) {
@@ -32159,9 +32104,9 @@ require([
 
         // notify
         notify(
-            "info",
+            "success",
             "bottom",
-            "Modification has been registered successfully.",
+            "Data sampling custom rule(s) deleted successfully.",
             "5"
         );
 
@@ -32525,9 +32470,9 @@ require([
 
                         // notify
                         notify(
-                            "info",
+                            "success",
                             "bottom",
-                            "Update was successful.",
+                            "Data sampling record number updated successfully.",
                             "5"
                         );
 
@@ -33225,9 +33170,9 @@ require([
 
                             // notify
                             notify(
-                                "info",
+                                "success",
                                 "bottom",
-                                "Modification has been registered successfully.",
+                                "Data sampling custom rule registered successfully.",
                                 "5"
                             );
 
@@ -33524,7 +33469,7 @@ require([
 
                     // notify
                     notify(
-                        "info",
+                        "success",
                         "bottom",
                         "Outliers configuration updated, please wait a few seconds while statistics are generated, click on refresh in the Outliers tab if statistics are not yet available.",
                         "5"
