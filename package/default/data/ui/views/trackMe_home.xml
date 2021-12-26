@@ -3952,13 +3952,17 @@
 							<div id="data_source_changes" style="display: none">
 								<div style="padding: 20px;">
 									<div id="divDataSourceChangesChart" style="display: none">
-										<h3>Changes over time</h3>
-										<div id="chartAuditChangesDataSourceOverTime" class="view-elements"></div>
-										<div id="resultsLinkchartAuditChangesDataSourceOverTime" class="search-elements"></div>
+										<div style="padding: 20px;">
+											<h3>Changes over time</h3>
+											<div id="chartAuditChangesDataSourceOverTime" class="view-elements"></div>
+											<div id="resultsLinkchartAuditChangesDataSourceOverTime" class="search-elements"></div>
+										</div>
 									</div>
-									<div id="divDataSourceChangesTable" style="display: none">
-										<div id="elementMainTableAuditChangesDataSource" class="view-elements"></div>
-										<div id="resultsLinkelementMainTableAuditChangesDataSource" class="search-elements"></div>
+									<div style="padding: 20px;">
+										<div id="divDataSourceChangesTable" style="display: none">
+											<div id="elementMainTableAuditChangesDataSource" class="view-elements"></div>
+											<div id="resultsLinkelementMainTableAuditChangesDataSource" class="search-elements"></div>
+										</div>
 									</div>
 									<div id="divDataSourceChangesNotFound" style="display: none">
 										<div class="status_message_green">
