@@ -23841,6 +23841,23 @@ require([
     });
 
     //
+    // Hyrbid trackers
+    //
+
+    $(".btn_modify_hybrid_trackers_main").each(function() {
+        var $btn_group = $(this);
+        $btn_group.find("button").on("click", function() {
+            var $btn = $(this);
+
+            //submitTokens();
+            setToken("start_modify_hybrid_trackers", "true");
+
+            // Show input modal
+            $("#modify_hybrid_trackers_main").modal();
+        });
+    });
+
+    //
     // Elastic sources
     //
 

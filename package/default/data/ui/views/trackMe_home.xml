@@ -104,6 +104,68 @@
 						</div>
 					</div>
 				</div>
+
+				<!--
+                Hybrid trackers
+                -->
+				<div class="modal fade custom-modal-80" id="modify_hybrid_trackers_main" role="dialog">
+					<div class="modal-dialog">
+						<!-- Modal content-->
+						<div class="modal-content">
+							<div class="modal-header modal-header-info">
+								<button type="button" class="close" data-dismiss="modal"></button>
+								<h1>
+									<span class="glyphicon glyphicon-lock"></span>TrackMe Hybrid trackers - Manage and create								
+								</h1>
+							</div>
+							<div class="modal-body">
+
+								<h1>
+									TrackMe uses a default concept which handles entities disovery and management for all data sources, which you can control and customise to influence the root break by logic.
+								</h1>
+								<h2>
+									Updating this logic is a all or nothing change and impacts the entire behaviour.
+								</h2>
+								<h2>
+									However, you can create a custom hybrid tracker to handle additional use cases without affecting the main discovery and logic of data sources:
+								</h2>
+								<ul>
+									<li>
+									Discovering data sources based on a special break by statement list of fields
+									</li>
+									<li>
+									For instance, you could create an hybrid tracker to automatically create entities for your Cloud provider data using a <code>subscription_id</code> to automatically get a single entity per <code>index / sourcetype / Cloud tenant</code>
+									</li>
+									<li>
+									Ideally, the break by sequence should refer to indexed fields rather than search time extracted fields, which allows to use a tstats based hybrid tracker for the best performances at the lowest computing costs
+									</li>
+									<li>
+									However, hybrid trackers can be based on either tstats search logic (which implies indexed fields), or raw search logic (which allows search time extracted fields)
+									</li>
+									<li>
+									The entire process can be performed via this user interface, and you can manage existing hybrid trackers if needed.
+									</li>
+								</ul>								
+							</div>
+							<div class="modal-footer">
+								<button id="btn_modal_hybrid_trackers_manage" type="submit" style="margin-right: 15px;" class="btn btn-outline-primary pull-left" data-dismiss="modal">
+									<span class="glyphicon glyphicon-remove"></span> Manage existing hybrid trackers								
+								</button>
+								<button id="btn_modal_hybrid_tracker_add" type="submit" class="btn btn-outline-primary pull-left" data-dismiss="modal">
+									<span class="glyphicon glyphicon-remove"></span> Create a new hybrid tracker							
+								</button>
+								<button type="submit" class="btn btn-outline-secondary pull-right" data-dismiss="modal">
+									<span class="glyphicon glyphicon-remove"></span> Cancel								
+								</button>
+							</div>
+						</div>
+					</div>
+				</div>
+
+
+
+
+
 				<!--
                 Elastic sources
                 -->
@@ -7077,54 +7139,51 @@
 			<html>
 				<div>
 					<div style="margin-top: -15px;">
+						<div class="btn_modify_hybrid_trackers_main custom-btn">
+							<button type="submit" style="margin-right: 15px;" class="btn btn-outline-primary" data-dismiss="modal">
+								<span class="glyphicon glyphicon-remove"></span> Manage: hybrid trackers					
+							</button>
+						</div>
 						<div class="btn_modify_elastic_sources_main custom-btn">
 							<button type="submit" style="margin-right: 15px;" class="btn btn-outline-primary" data-dismiss="modal">
-								<span class="glyphicon glyphicon-remove"></span> Manage: elastic sources
-							
+								<span class="glyphicon glyphicon-remove"></span> Manage: elastic sources							
 							</button>
 						</div>
 						<div class="custom-btn">
 							<button type="submit" id="btn_modify_data_source_blacklist_main" style="margin-right: 15px;" class="btn btn-outline-primary" data-dismiss="modal">
-								<span class="glyphicon glyphicon-remove"></span> Manage: allowlists &amp; blocklists
-							
+								<span class="glyphicon glyphicon-remove"></span> Manage: allowlists &amp; blocklists							
 							</button>
 						</div>
 						<div class="btn_modify_custom_lagging custom-btn">
 							<button type="submit" style="margin-right: 15px;" class="btn btn-outline-primary" data-dismiss="modal">
-								<span class="glyphicon glyphicon-remove"></span> Manage: define lagging classes
-							
+								<span class="glyphicon glyphicon-remove"></span> Manage: define lagging classes							
 							</button>
 						</div>
 						<div class="btn_modify_tags_policies custom-btn">
 							<button type="submit" style="margin-right: 15px;" class="btn btn-outline-primary" data-dismiss="modal">
-								<span class="glyphicon glyphicon-remove"></span> Manage: tags policies
-							
+								<span class="glyphicon glyphicon-remove"></span> Manage: tags policies							
 							</button>
 						</div>
 						<div class="custom-btn">
 							<button type="submit" id="btn_modify_data_sampling_rules" style="margin-right: 15px;" class="btn btn-outline-primary" data-dismiss="modal">
-								<span class="glyphicon glyphicon-remove"></span> Manage: data sampling
-							
+								<span class="glyphicon glyphicon-remove"></span> Manage: data sampling							
 							</button>
 						</div>
 						<div class="custom-btn">
 							<button type="submit" id="btn_run_trackers" style="margin-right: 15px;" class="btn btn-outline-secondary">
-								<span class="glyphicon glyphicon-remove"></span> Run: Trackers reports
-							
+								<span class="glyphicon glyphicon-remove"></span> Run: Trackers reports							
 							</button>
 						</div>
 					</div>
 					<div style="float: left;">
 						<div class="btn_ops_index_queue custom-btn">
 							<button type="submit" style="margin-right: 15px;" class="btn btn-outline-info" data-dismiss="modal">
-								<span class="glyphicon glyphicon-remove"></span> Ops: Queues center
-							
+								<span class="glyphicon glyphicon-remove"></span> Ops: Queues center							
 							</button>
 						</div>
 						<div class="btn_ops_parsing_issues custom-btn">
 							<button type="submit" style="margin-right: 15px;" class="btn btn-outline-info" data-dismiss="modal">
-								<span class="glyphicon glyphicon-remove"></span> Ops: Parsing issues
-							
+								<span class="glyphicon glyphicon-remove"></span> Ops: Parsing issues							
 							</button>
 						</div>
 					</div>
