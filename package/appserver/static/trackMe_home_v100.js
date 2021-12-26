@@ -25905,7 +25905,7 @@ require([
         // Set the search parameters--specify a time range
         var searchParams = {
             earliest_time: "-24h",
-            latest_time: "-4h",
+            latest_time: "+4h",
         };
 
         // Run a normal search that immediately returns the job's SID
@@ -25984,7 +25984,7 @@ require([
 
         // Set the search parameters--specify a time range
         var searchParams = {
-            earliest_time: "-7d",
+            earliest_time: "-24h",
             latest_time: "+4h",
         };
 
