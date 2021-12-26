@@ -3990,7 +3990,7 @@
 									</button>
 								</div>
 								<div style="margin-right: 15px; float: right;">
-									<a class="btn btn-outline-primary" id="btn_search_data_source" data-dismiss="modal" target="_blank" href="search_data_source_url" role="button">Search</a>
+									<a class="btn btn-outline-primary" id="btn_search_data_source" target="_blank" href="search_data_source_url" role="button">Search</a>
 								</div>
 								<div style="margin-right: 15px; float: right;">
 									<button type="submit" id="btn_modify_data_source" role="button" data-dismiss="modal" class="btn btn-outline-primary">
