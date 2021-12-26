@@ -1,3 +1,11 @@
+
+/* tooltip table */
+a:hover .custom_title_tag {
+    background:black;
+    opacity: 1.0;
+	width: 600px;
+}
+
 .container-trackme-inputs {
 	display: flex;
 	flex-wrap: wrap;

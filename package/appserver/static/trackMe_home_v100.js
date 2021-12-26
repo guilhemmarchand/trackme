@@ -286,6 +286,38 @@ require([
 
     }
 
+    // tooltip like table
+    function renderTableToolTip(element) {
+
+        var CustomTooltipRenderer = TableView.BaseCellRenderer.extend({
+            canRender: function(cell) {
+                return cell.field === 'raw_sample';
+            },
+            render: function($td, cell) {
+    
+                var message = cell.value;
+                var tip = cell.value;
+    
+                if(message.length > 180) { message = message.substring(0,179) + "..." }
+    
+                $td.html(_.template('<div class="custom_title_tag"><a href="#" data-toggle="tooltip" data-container="body" data-placement="top" title="<%- tip%>"><%- message%></a></div>', {
+                    tip: tip,
+                    message: message
+                }));
+    
+                // This line wires up the Bootstrap tooltip to the cell markup
+                $td.children('[data-toggle="tooltip"]').tooltip();
+            }
+        });
+
+        // Register custom cell renderer
+        element.addCellRenderer(new CustomTooltipRenderer());
+
+        // Force the table to re-render
+        element.render();
+
+    }
+
     // handle multiselect all selection in a enhanced way
     function multiselectAll(element) {
         var values = element.val();
@@ -1025,8 +1057,7 @@ require([
         },
         runWhenTimeIsUndefined: false,
     }, {
-        tokens: true,
-        tokenNamespace: "submitted",
+        tokens: true
     });
 
     // blacklist metric_category
@@ -3758,6 +3789,7 @@ require([
 
     var searchWhiteListDataSource = new SearchManager({
         id: "searchWhiteListDataSource",
+        autostart: false,
         earliest_time: "-15m",
         cancelOnUnload: true,
         sample_ratio: null,
@@ -3928,6 +3960,7 @@ require([
 
     var searchBlackListDataSourceHost = new SearchManager({
         id: "searchBlackListDataSourceHost",
+        autostart: false,
         earliest_time: "-15m",
         cancelOnUnload: true,
         sample_ratio: null,
@@ -3984,6 +4017,7 @@ require([
 
     var searchBlackListDataSourceIndex = new SearchManager({
         id: "searchBlackListDataSourceIndex",
+        autostart: false,
         earliest_time: "-15m",
         cancelOnUnload: true,
         sample_ratio: null,
@@ -4039,6 +4073,7 @@ require([
 
     var searchBlackListDataSourceSourcetype = new SearchManager({
         id: "searchBlackListDataSourceSourcetype",
+        autostart: false,
         earliest_time: "-15m",
         cancelOnUnload: true,
         sample_ratio: null,
@@ -4084,6 +4119,7 @@ require([
 
     var searchBlackListDataSourceDataName = new SearchManager({
         id: "searchBlackListDataSourceDataName",
+        autostart: false,
         earliest_time: "-15m",
         cancelOnUnload: true,
         sample_ratio: null,
@@ -10066,7 +10102,7 @@ require([
         .render()
         .$el.appendTo($("resultsLinktableDataSamplingSimulateCustomRule"));
 
-    var tableDataSamplingSimulateCustomRuleLatestEvent = new TableElement({
+    var tableDataSamplingSimulateCustomRuleLatestEvent = new TableView({
         "id": "tableDataSamplingSimulateCustomRuleLatestEvent",
         "tokenDependencies": {
             "depends": "$start_simulation_data_sampling_custom_rule_show_events$"
@@ -10081,6 +10117,8 @@ require([
         tokens: true,
         tokenNamespace: "submitted"
     }).render();
+
+    renderTableToolTip(tableDataSamplingSimulateCustomRuleLatestEvent);
 
     var resultsLinktableDataSamplingSimulateCustomRuleLatestEvent = new ResultsLinkView({
         id: "resultsLinktableDataSamplingSimulateCustomRuleLatestEvent",
@@ -17107,6 +17145,7 @@ require([
 
         // fire up some searches
         setToken("start_get_tags_for_custom_alert", "true");
+        search_alerts_get_tags.startSearch();
 
         $("#add_custom_alert").modal();
     });
@@ -25246,6 +25285,8 @@ require([
             var $btn = $(this);
             //submitTokens();
             setToken("start_modify_data_source_whitelist", "true");
+            // start search
+            searchWhiteListDataSource.startSearch();
             // Show input modal
             $("#modal_modify_data_source_whitelist").modal();
         });
@@ -25334,6 +25375,8 @@ require([
 
             //submitTokens();
             setToken("start_modify_data_source_blacklist_host", "true");
+            // start search
+            searchBlackListDataSourceHost.startSearch();
             // Show input modal
             $("#modal_modify_data_source_blacklist_host").modal();
         });
@@ -25356,6 +25399,8 @@ require([
 
             //submitTokens();
             setToken("start_modify_data_source_blacklist_index", "true");
+            // start search
+            searchBlackListDataSourceIndex.startSearch();
             // Show input modal
             $("#modal_modify_data_source_blacklist_index").modal();
         });
@@ -25378,7 +25423,9 @@ require([
 
             //submitTokens();
             setToken("start_modify_data_source_blacklist_sourcetype", "true");
-            // Show input modal
+            // start search
+            searchBlackListDataSourceSourcetype.startSearch();
+            // Show input modal            
             $("#modal_modify_data_source_blacklist_sourcetype").modal();
         });
     });
@@ -25392,6 +25439,8 @@ require([
 
             //submitTokens();
             setToken("start_modify_data_source_blacklist_data_name", "true");
+            // start search
+            searchBlackListDataSourceDataName.startSearch();
             // Show input modal
             $("#modal_modify_data_source_blacklist_data_name").modal();
         });

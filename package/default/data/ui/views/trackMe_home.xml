@@ -1,11 +1,11 @@
-<form version="1.1" theme="dark" stylesheet="trackme:trackMe_home_v100.css,trackme:common.css,trackme:notifybar/jquery.notifyBar.css,trackme:css-loader/css-loader.css,trackme:checkbox_table.css" script="trackMe_home_v100.js,table_raw.js" hideEdit="true">
+<form version="1.1" theme="dark" stylesheet="trackme:trackMe_home_v100.css,trackme:common.css,trackme:notifybar/jquery.notifyBar.css,trackme:css-loader/css-loader.css,trackme:checkbox_table.css" script="trackMe_home_v100.js" hideEdit="true">
 	<label>TrackMe - Data tracking system</label>
 	<description>Monitoring your Splunk data availability made easy</description>
 	<row>
 		<panel>
 			<html>
 				<div id="cssloader" class="loader loader-default is-active" data-text="Please wait while loading trackMe..."></div>
-				<div style="margin-bottom: -10px; margin-top: 0px;" id="linkMainInput"></div>
+				<div style="margin-bottom: -8px; margin-top: 0px;" id="linkMainInput"></div>
 			</html>
 			<html>
 				<!-- RUN TRACKERS -->
@@ -414,52 +414,42 @@
 								</h1>
 							</div>
 							<div class="modal-body">
-								<b>Use this interface to create and manage shared elastic sources:</b>
-								<br />
-								<div>
-									<div style="width: 50%;">
-										<div >
-											<div>
-												<div id="SingleElasticSources"></div>
+								<h1>Use this interface to create and manage shared elastic sources:</h1>
+								<style>
+									.parent-elastic-shared-sources {
+										display: grid;
+										grid-template-columns: repeat(2, 1fr);
+										grid-template-rows: 1fr;
+										grid-column-gap: 0px;
+										grid-row-gap: 0px;
+									}
+								</style>
+								<div class="parent-elastic-shared-sources">
+									<div>
+										<div class="fieldset">
+											<div class="input input-text" id="modal_input_elastic_sources_search" style="margin-bottom: 10px;">
+												<label class="splunk-input-label">Search for elastic source:</label>
 											</div>
 										</div>
 									</div>
-								</div>
-								<div>
 									<div>
-										<div >
-											<div>
-												<div class="fieldset">
-													<div class="input input-text" id="modal_input_elastic_sources_search" style="margin-bottom: 10px;">
-														<label class="splunk-input-label">Search for elastic source:</label>
-													</div>
-												</div>
-											</div>
-										</div>
+										<div id="SingleElasticSources"></div>
 									</div>
 								</div>
 								<div style="margin-bottom: 20px;">
-									<div>
-										<div >
-											<div>
-												<div class="fieldset">
-													<div id="tableElasticSources">
-														<label>Click on the table for interactive actions:</label>
-													</div>
-												</div>
-											</div>
+									<div class="fieldset">
+										<div id="tableElasticSources">
+											<label>Click on the table for interactive actions:</label>
 										</div>
 									</div>
 								</div>
 							</div>
 							<div class="modal-footer">
 								<button type="submit" id="btn_modal_elastic_sources_add_back" class="btn btn-outline-secondary pull-left" data-dismiss="modal">
-									<span class="glyphicon glyphicon-remove"></span> Back
-								
+									<span class="glyphicon glyphicon-remove"></span> Back								
 								</button>
 								<button type="submit" id="btn_modal_elastic_sources_add_delete" class="btn btn-outline-danger pull-right" data-dismiss="modal">
-									<span class="glyphicon glyphicon-remove"></span> Remove selected
-								
+									<span class="glyphicon glyphicon-remove"></span> Remove selected								
 								</button>
 							</div>
 						</div>
@@ -472,56 +462,46 @@
 							<div class="modal-header modal-header-info">
 								<button type="button" class="close" data-dismiss="modal"></button>
 								<h1>
-									<span class="glyphicon glyphicon-lock"></span> Dedicated Elastic sources definition 
-								
+									<span class="glyphicon glyphicon-lock"></span> Dedicated Elastic sources definition								
 								</h1>
 							</div>
 							<div class="modal-body">
-								<b>Use this interface to create and manage dedicated elastic sources:</b>
-								<div>
-									<div style="width: 50%;">
-										<div >
-											<div>
-												<div id="SingleElasticSourcesDedicated"></div>
+								<style>
+									.parent-elastic-dedicated-sources {
+										display: grid;
+										grid-template-columns: repeat(2, 1fr);
+										grid-template-rows: 1fr;
+										grid-column-gap: 0px;
+										grid-row-gap: 0px;
+									}
+								</style>
+								<h1>Use this interface to create and manage dedicated elastic sources</h1>
+								<div class="parent-elastic-dedicated-sources">
+									<div>
+										<div class="fieldset">
+											<div class="input input-text" id="modal_input_elastic_sources_dedicated_search" style="margin-bottom: 10px;">
+												<label class="splunk-input-label">Search for elastic source:</label>
 											</div>
 										</div>
 									</div>
-								</div>
-								<div>
 									<div>
-										<div >
-											<div>
-												<div class="fieldset">
-													<div class="input input-text" id="modal_input_elastic_sources_dedicated_search" style="margin-bottom: 10px;">
-														<label class="splunk-input-label">Search for elastic source:</label>
-													</div>
-												</div>
-											</div>
-										</div>
+										<div id="SingleElasticSourcesDedicated"></div>
 									</div>
 								</div>
 								<div style="margin-bottom: 20px;">
-									<div>
-										<div >
-											<div>
-												<div class="fieldset">
-													<div id="tableElasticSourcesDedicated">
-														<label>Click on the table for interactive actions:</label>
-													</div>
-												</div>
-											</div>
+									<div class="fieldset">
+										<div id="tableElasticSourcesDedicated">
+											<label>Click on the table for interactive actions:</label>
 										</div>
 									</div>
 								</div>
 							</div>
 							<div class="modal-footer">
 								<button type="submit" id="btn_modal_elastic_sources_dedicated_add_back" class="btn btn-outline-secondary pull-left" data-dismiss="modal">
-									<span class="glyphicon glyphicon-remove"></span> Back
-								
+									<span class="glyphicon glyphicon-remove"></span> Back								
 								</button>
 								<button type="submit" id="btn_modal_elastic_sources_dedicated_add_delete" class="btn btn-outline-danger pull-right" data-dismiss="modal">
 									<span class="glyphicon glyphicon-remove"></span> Remove selected
-								
 								</button>
 							</div>
 						</div>
@@ -7778,7 +7758,7 @@
 							<span class="glyphicon glyphicon-remove"></span> Refresh
 						
 						</button>
-						<button type="submit" id="btn_create_alert" style="margin-right: 15px;" class="btn btn-default btn-outline-secondary" data-dismiss="modal">
+						<button type="submit" id="btn_create_alert" style="margin-right: 15px;" class="btn btn-default btn-outline-primary" data-dismiss="modal">
 							<span class="glyphicon glyphicon-remove"></span> Create a new alert
 						
 						</button>
