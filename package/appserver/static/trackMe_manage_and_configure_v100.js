@@ -406,7 +406,7 @@ require([
     {
       tokenDependencies: {},
       search:
-        'where title="trackme_audit_changes_retention" | table definition',
+        'where title="trackme_audit_changes_retention_days" | table definition',
       managerid: "searchGetMacrosDefinitions",
       id: "searchGetMacro_trackme_audit_changes_retention",
     },
@@ -1131,7 +1131,7 @@ require([
       e.preventDefault();
       rootUri = defineRootUri();
       var url = TokenUtils.replaceTokenNames(
-        rootUri + "trackme_audit_changes_retention?action=edit",
+        rootUri + "trackme_audit_changes_retention_days?action=edit",
         _.extend(submittedTokenModel.toJSON(), e.data),
         TokenUtils.getEscaper("url"),
         TokenUtils.getFilters(mvc.Components)
