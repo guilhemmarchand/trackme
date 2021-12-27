@@ -1322,12 +1322,7 @@ Summary statuses
    :alt: img_data_sampling_state_orange1.png
    :align: center
    :width: 1200px
-
-.. image:: img/first_steps/img_data_sampling_state_orange2.png
-   :alt: img_data_sampling_state_orange2.png
-   :align: center
-   :width: 1200px
-
+   
 *Red state: anomalies were detected*
 
 .. image:: img/first_steps/img_data_sampling_state_red.png
