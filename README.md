@@ -1,8 +1,8 @@
 # TrackMe - An application for Splunk administrators to monitor and track data sources and hosts availability the easy way
 
-| branch | build status |
-| ---    | ---          |
-| master | [![master status](https://circleci.com/gh/guilhemmarchand/trackme/tree/master.svg?style=svg)](https://circleci.com/gh/guilhemmarchand/trackme/tree/master)
+| branch | build status                                                                                                                                               |
+| ------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| master | [![master status](https://circleci.com/gh/guilhemmarchand/trackme/tree/master.svg?style=svg)](https://circleci.com/gh/guilhemmarchand/trackme/tree/master) |
 
 ## Download
 
@@ -22,15 +22,15 @@ https://github.com/guilhemmarchand/trackme/releases
 - No matters the purpose of your Splunk deployment, trackMe will easily become an essential and easy piece of your deployment, and even providing efficient answers to PCI and compliance requirements
 - Keep things under your control and be the first to know when data is not available, get alerted before your users get back to you!
 
-![screenshot1](./docs/img/screenshots_main/img001.png)
+![screenshot1](./docs/img/screenshots_main/screenshot.png)
 
-![screenshot2](./docs/img/screenshots_main/img002.png)
+![screenshot2](./docs/img/screenshots_main/screenshot1.png)
 
-![screenshot3](./docs/img/screenshots_main/img003.png)
+![screenshot3](./docs/img/screenshots_main/screenshot2.png)
 
-![screenshot4](./docs/img/screenshots_main/img004.png)
+![screenshot4](./docs/img/screenshots_main/screenshot3.png)
 
-![screenshot5](./docs/img/screenshots_main/img005.png)
+![screenshot5](./docs/img/screenshots_main/screenshot4.png)
 
 ## Why this application?
 

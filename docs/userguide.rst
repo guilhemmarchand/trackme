@@ -678,7 +678,7 @@ Rather than one data source that covers the index/sourcetype, the requirement is
 Any failure on the flow level which is represented by these new data sources will be detected.
 On the opposite, the default data source breaking on on the sourcetype would need a total failure of all pipelines to be detected.
 
-**By default, the data source would show up with a unique entity which is not filling my requirements:**
+**By default, the data source would show up with a unique entity which is not filling our requirements:**
 
 .. image:: img/first_steps/img033.png
    :alt: img/first_steps/img033
