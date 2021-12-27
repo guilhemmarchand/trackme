@@ -8249,7 +8249,7 @@ require([
 
     var resultsLinktableElasticSourcesTest = new ResultsLinkView({
         id: "resultsLinktableElasticSourcesTest",
-        managerid: "searchDataSourcesPostTable",
+        managerid: "searchElasticSourcesTest",
         "link.exportResults.visible": false,
         el: $("#resultsLinktableElasticSourcesTest"),
     });
