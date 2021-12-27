@@ -721,17 +721,10 @@ The following example shows the behaviour with a lookup that is updated every 30
    :align: center
    :width: 1200px
 
-Number of records are monitored automatically by the outliers detection, setting can be fined tuned to alert if the number of records goes below, and/or beyond a certain amount of records:
+A Lookup based Elastic Source acts transparently just as any other data source, so you can setup:
 
-.. image:: img/first_steps/img-rest-elastic-outliers.png
-   :alt: img/first_steps/img-rest-elastic-outliers
-   :align: center
-   :width: 1200px
-
-.. image:: img/first_steps/img-rest-elastic-outliers2.png
-   :alt: img/first_steps/img-rest-elastic-outliers2
-   :align: center
-   :width: 1200px
+- delays KPIs: how often shall the lookup be updated, which allows you to monitor that your update process (reports, etc) remains valid and operational
+- volume outliers: to automatically be alerted when the number of records is abnormal, and easily detects critical failures in your lookup update process
 
 Elastic source example 4: rest searches
 ---------------------------------------
@@ -841,13 +834,6 @@ Elastic source example 1: creation
    :align: center
    :width: 1200px
 
-**Let's click on this nice button!**
-
-.. image:: img/first_steps/img037.png
-   :alt: img/first_steps/img037
-   :align: center
-   :width: 1200px
-
 This looks good isn't it?
 
 **Shared tracker versus dedicated tracker:**
@@ -864,6 +850,7 @@ In this context:
 .. image:: img/first_steps/img038.png
    :alt: img/first_steps/img038
    :align: center
+   :width: 500px
 
 Nice! Let's click on that button and immediately run the shared tracker, upon its execution we can see an all brand new data source entity that matches what we created:
 
@@ -885,11 +872,7 @@ Ok that's cool!
 
 "What about the original data source that created automatically?".
 
-We can simply disable the monitoring state via the disable button et voila!
-
-.. image:: img/first_steps/img041.png
-   :alt: img/first_steps/img041
-   :align: center
+We can simply disable the monitoring state via the disable button as it not needed anymore.
 
 Elastic source example 2: creation
 ----------------------------------
@@ -929,6 +912,7 @@ For the purposes of the demonstration, we will this time create Elastic dedicate
 .. image:: img/first_steps/img043.png
    :alt: img/first_steps/img043
    :align: center
+   :width: 500px
 
 **Nice, let's click on the run button now, and repeat the operation for all entities!**
 
@@ -993,11 +977,6 @@ Notes:
 As we can see, the current lagging corresponds to the difference between now and the latest update of the lookup, TrackMe will immediately starts to compute all metrics, the event count corresponds to the number of records (which allows the usage of outliers detection too), etc.
 
 When TrackMe detects that the data source is a based on a lookup, the statistics are returned from the trackme metrics automatically.
-
-.. image:: img/first_steps/img-lookup-tracking5.png
-   :alt: img/first_steps/img-lookup-tracking5
-   :align: center
-   :width: 1200px
 
 Elastic source example 4: creation
 ----------------------------------
