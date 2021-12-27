@@ -3841,6 +3841,7 @@
                                         grid-column-gap: 0px;
                                         grid-row-gap: 0px;
                                         margin-left: 20px;
+										margin-bottom: 20px;
                                     }
                                 </style>
 								<div class="parent-data-source-overview-simulation-timeinputs">
@@ -5708,6 +5709,7 @@
                                         grid-column-gap: 0px;
                                         grid-row-gap: 0px;
                                         margin-left: 20px;
+										margin-bottom: 20px;
                                     }
                                 </style>
 								<div class="parent-data-host-overview-simulation-timeinputs">

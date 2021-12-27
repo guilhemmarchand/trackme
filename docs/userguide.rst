@@ -280,11 +280,6 @@ Lagging performances
 
    | mcatalog values(metric_name) values(_dims) where index=* metric_name=trackme.*
 
-.. image:: img/first_steps/img016.png
-   :alt: img/first_steps/img016
-   :align: center
-   :width: 1200px
-
 **The main dimensions are:**
 
 - ``object_category`` which represents the type of entities, being data_source or data_host
@@ -322,48 +317,6 @@ Status message
 
 .. image:: img/first_steps/img019.png
    :alt: img/first_steps/img019
-   :align: center
-   :width: 1200px
-
-*example of a red state due to outliers detection:*
-
-.. image:: img/first_steps/img020.png
-   :alt: img/first_steps/img020
-   :align: center
-   :width: 1200px
-
-*example of a red state due to data sampling anomalies detected:*
-
-.. image:: img/first_steps/img020_data_sampling.png
-   :alt: img/first_steps/img020_data_sampling
-   :align: center
-   :width: 1200px
-
-*example of a red state due to hosts dcount threshold not reached:*
-
-.. image:: img/first_steps/img020_data_sampling_dcount.png
-   :alt: img/first_steps/img020_data_sampling_dcount
-   :align: center
-   :width: 1200px
-
-*example of a blue state due to logical groups monitoring conditions not met (applies to data hosts and metrics hosts only):*
-
-.. image:: img/first_steps/img020_blue.png
-   :alt: img/first_steps/img020_blue
-   :align: center
-   :width: 1200px
-
-*example of an orange state due to data indexed in the future:*
-
-.. image:: img/first_steps/img020_orange.png
-   :alt: img/first_steps/img020_orange
-   :align: center
-   :width: 1200px
-
-*In addition, an integration using the timeline custom view provides an enhanced overview of the entity status over time:*
-
-.. image:: img/first_steps/timeline.png
-   :alt: img/first_steps/timeline
    :align: center
    :width: 1200px
 
@@ -487,10 +440,10 @@ See :ref:`Logical groups (clusters)` for more details on this feature
 
 See :ref:`Enrichment tags` for more details om this feature
 
-Unified update interface
-========================
+Entities main setting update screens
+====================================
 
-**For each type of tracking, a unified update screen is available by clicking on the modify button when looking at a specific entity:**
+**For each type of entities, a main settings screen update is available by clicking on the modify button when looking at a specific entity:**
 
 .. image:: img/first_steps/img023.png
    :alt: img/first_steps/img023
@@ -678,7 +631,7 @@ It is easy to understand that the default standard for data source ``index + ":"
    :align: center
    :width: 1200px
 
-In TrackMe data sources, this would appear as one entity and this is not helping me covering that use case:
+In TrackMe data sources, this would appear as one entity and this is not filling our requirements for that use case:
 
 .. image:: img/first_steps/img030.png
    :alt: img/first_steps/img030
@@ -2224,7 +2177,7 @@ Maximal lagging value
    :align: center
    :width: 1200px
 
-This topic is covered in details in first steps guide :ref:`Main navigation tabs` and :ref:`Unified update interface`.
+This topic is covered in details in first steps guide :ref:`Main navigation tabs` and :ref:`Entities main setting update screens`.
 
 Lagging classes
 ======================
