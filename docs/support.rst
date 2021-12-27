@@ -11,7 +11,7 @@ Open a question in Splunk community:
 Splunk community slack
 ======================
 
-Contact me on Splunk community slack, and even better, ask the community!
+Contact us on Splunk community slack, and even better, ask the community!
 
 - https://splunk-usergroups.slack.com
 
@@ -25,6 +25,6 @@ To report an issue, request a feature change or improvement, please open an issu
 Email support
 =============
 
-* guilhem.marchand@gmail.com
+* support@trackme-solutions.com
 
 However, previous options are far betters, and will give you all the chances to get a quick support from the community of fellow Splunkers.
