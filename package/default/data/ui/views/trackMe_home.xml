@@ -2984,6 +2984,9 @@
 										<div class="input input-dropdown" id="modal_input_data_sampling_custom_st_value" style="margin-top: -25px; margin-bottom: 20px; margin-right: 30px;">
 											<label class="splunk-input-label">Sourcetype name: (for simulation only)</label>
 										</div>
+										<div class="input input-time" id="modal_input_data_sampling_custom_timerange" style="margin-top: -25px; margin-bottom: 20px; margin-right: 30px;">
+											<label class="splunk-input-label">Time range:</label>
+										</div>
 									</div>
 								</div>
 								<div>

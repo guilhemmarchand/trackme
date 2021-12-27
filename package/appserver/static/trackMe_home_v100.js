@@ -3563,10 +3563,10 @@ require([
 
     var searchDataSamplingSimulateCustomRule = new SearchManager({
         id: "searchDataSamplingSimulateCustomRule",
-        earliest_time: "-15m",
+        earliest_time: "$timerange_sampling_simulation.earliest$",
         cancelOnUnload: true,
         sample_ratio: null,
-        latest_time: "now",
+        latest_time: "$timerange_sampling_simulation.latest$",
         search: '| `trackme_data_sampling_return_live_sample("$tk_input_data_sampling_dropdown$")` | mvexpand raw_sample | eval sourcetype="$tk_data_sampling_custom_st_value$", sourcetype_scope="$tk_data_sampling_custom_sourcetype_scope$", model_type="$tk_data_sampling_custom_rule_type$" | eval detected_format = case((sourcetype_scope=="*"), case(match(raw_sample, "$tk_data_sampling_custom_rule_regex$"), "$tk_data_sampling_custom_rule_name$"), in(sourcetype, `trackme_data_sampling_custom_models_simulate_genlist("$tk_data_sampling_custom_sourcetype_scope$")`), case(match(raw_sample, "$tk_data_sampling_custom_rule_regex$"), "$tk_data_sampling_custom_rule_name$")) | `trackme_data_sampling_simulate_custom_rule`',
         status_buckets: 0,
         app: utils.getCurrentApp(),
@@ -3582,10 +3582,10 @@ require([
 
     var searchDataSamplingSimulateCustomRuleLatestEvent = new SearchManager({
         id: "searchDataSamplingSimulateCustomRuleLatestEvent",
-        earliest_time: "-24h",
+        earliest_time: "$timerange_sampling_simulation.earliest$",
         cancelOnUnload: true,
         sample_ratio: null,
-        latest_time: "now",
+        latest_time: "$timerange_sampling_simulation.latest$",
         search: '| `trackme_data_sampling_return_live_sample("$tk_input_data_sampling_dropdown$")`',
         status_buckets: 0,
         app: utils.getCurrentApp(),
@@ -10049,6 +10049,24 @@ require([
 
     modal_input_data_sampling_custom_st_value.on("change", function(newValue) {
         FormUtils.handleValueChange(modal_input_data_sampling_custom_st_value);
+    });
+
+    var modal_input_data_sampling_custom_timerange = new TimeRangeInput({
+        id: "modal_input_data_sampling_custom_timerange",
+        searchWhenChanged: true,
+        default: {
+            latest_time: "now",
+            earliest_time: "-24h"
+        },
+        earliest_time: "$form.timerange_sampling_simulation.earliest$",
+        latest_time: "$form.timerange_sampling_simulation.latest$",
+        el: $("#modal_input_data_sampling_custom_timerange"),
+    }, {
+        tokens: true
+    }).render();
+
+    modal_input_data_sampling_custom_timerange.on("change", function(newValue) {
+        FormUtils.handleValueChange(modal_input_data_sampling_custom_timerange);
     });
 
     // Data sampling scope
