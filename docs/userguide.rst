@@ -1469,6 +1469,7 @@ Use this UI to choose a different value, increasing the number of events per sam
 .. image:: img/first_steps/img_data_sampling_records_nr.png
    :alt: img_data_sampling_records_nr.png
    :align: center
+   :width: 500px
 
 Clear state and run sampling
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -1480,8 +1481,8 @@ Use this function to clear any state previously determined, this forces the data
 - Use this action to clear any known states for this data source and run the inspection from zero, just as if it was discovered for the first time
 - You can use this action to clear an anomaly that was raised, when an alert is raised by the data sampling, the state is frozen until this anomaly is reviewed, once the issue is understood and fixed, run the action to clear the state and restart the inspection workflow for this data source
 
-Disable Data sampling for a give data source
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Disable Data sampling for a given data source
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 Use this function to disable data sampling for a given data source, there can be cases where you would need to disable this feature if for example there is a lack of quality which cannot be fixed, and some random formats are introduced out of your control.
 
@@ -1717,17 +1718,12 @@ The alert topic is as well discussed at the configuration step: :ref:`Step 7: en
 Alerts tracking main screen
 ---------------------------
 
-**Within the main TrackMe UI, the alerts tracking screen is available as a selectable tab:**
+**Within the main TrackMe UI, the alerts tracking screen is available as a selectable tab.**
+
+**The screen shows a 24 hours overview of the alerts activity:**
 
 .. image:: img/ootb_alerts.png
    :alt: ootb_alerts.png
-   :align: center
-   :width: 1200px
-
-**Depending on the alerts that were enabled, and the actiity of the environment, the screen shows a 24 hours overview of the alerts activity:**
-
-.. image:: img/ootb_alerts2.png
-   :alt: ootb_alerts2.png
    :align: center
    :width: 1200px
 
@@ -1813,12 +1809,12 @@ Alert action: TrackMe auto acknowledge
    :align: center
    :width: 1200px
 
-*An audit change event is automatically logged and visible in the UI:**
+**An audit change event is automatically logged and visible in the UI:**
 
 .. image:: img/alert_actions/auto_ack3.png
    :alt: auto_ack3.png
    :align: center
-   :width: 900px
+   :width: 1200px
 
 *The entity has the acknowledged icon visible in the main UI screen:*
 
