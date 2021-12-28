@@ -15,3 +15,4 @@ resource_grp,resource_desc
 /services/trackme/v1/smart_status,The Smart status endpoints provide advanced analysis and correlation of the current state of an entity.
 /services/trackme/v1/tag_policies,"Tags are keywords that can be defined per data source, this feature provides additional filtering options to group multiple data sources based on any custom criterias."
 /services/trackme/v1/identity_cards,"Data identity cards allow you to define a Web link and a documentation note that will be stored in a KVstore collection, and made available automatically via the UI and the out of the box alert."
+/services/trackme/v1/hybrid_trackers,"Hybrid trackers can be created to handle special use cases where entities need to be discovered using a custom search time or index time key field in the data set."
