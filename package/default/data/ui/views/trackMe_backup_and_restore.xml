@@ -10,11 +10,11 @@
         <h2 style="margin-top: 20px;">When a backup is taken, a record with Metadata is added in a dedicated KVstore collection (kv_trackme_backup_archives_info), records are automatically purged when the archive is deleted due to retention. (any missing archive record is as well added if discovered on a search head when a get backups command runs)</h2>
 
         <h2 style="margin-top: 20px; line-height: normal;">
-          <a target="_blank" href="https://trackme.readthedocs.io/en/latest/userguide.html#backup-and-restore">🔗Link to the backup and restore documentation</a>
+          <a target="_blank" href="https://trackme.readthedocs.io/en/latest/userguide.html#backup-and-restore">▶ Link to the backup and restore documentation</a>
         </h2>
 
         <h2 style="margin-top: 10px; line-height: normal;">
-          <a target="_blank" href="https://trackme.readthedocs.io/en/latest/rest_api_reference.html#backup-and-restore-endpoints">🔗Link to the API Reference for the backup and restore endpointst</a>
+          <a target="_blank" href="https://trackme.readthedocs.io/en/latest/rest_api_reference.html#backup-and-restore-endpoints">▶ Link to the API Reference for the backup and restore endpointst</a>
         </h2>
 
         <h2 style="margin-top: 25px; line-height: normal;">

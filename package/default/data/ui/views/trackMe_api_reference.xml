@@ -37,15 +37,15 @@
         </p>
 
         <h2 style="margin-top: 20px; line-height: normal;">
-          <a target="_blank" href="https://trackme.readthedocs.io/en/latest/rest_api_reference.html">🔗Link to the API Reference documentation in Read The Docs</a>
+          <a target="_blank" href="https://trackme.readthedocs.io/en/latest/rest_api_reference.html">▶ Link to the API Reference documentation in Read The Docs</a>
         </h2>
 
         <h2 style="margin-top: 10px; line-height: normal;">
-          <a target="_blank" href="https://documenter.getpostman.com/view/7845664/TVt2c3a9#105ff830-5834-4c95-b928-75ab553f5020">🔗Link to the API Reference documentation in Postman format</a>
+          <a target="_blank" href="https://documenter.getpostman.com/view/7845664/TVt2c3a9#105ff830-5834-4c95-b928-75ab553f5020">▶ Link to the API Reference documentation in Postman format</a>
         </h2>
 
         <h2 style="margin-top: 10px; line-height: normal;">
-          <a target="_blank" href="https://trackme.readthedocs.io/en/latest/rest_api_reference.html#rest-api-trackme-spl-command">🔗Link to the trackme SPL command documentation</a>
+          <a target="_blank" href="https://trackme.readthedocs.io/en/latest/rest_api_reference.html#rest-api-trackme-spl-command">▶ Link to the trackme SPL command documentation</a>
         </h2>
 
         <h2 style="margin-top: 25px; line-height: normal;">trackme API command Syntax:<br />
@@ -171,7 +171,7 @@
       </html>
       <html rejects="$resource_api_tk$ $resource_doc_tk$">
         <h2 style="margin-top: -10px; text-align: center;">
-           🔼 Please click on one entry in the table above to execute the describe action and get the endpoint usage 🔼
+           Please click on one entry in the table above to execute the describe action and get the endpoint usage
         </h2>
       </html>
       <event depends="$resource_api_tk$ $resource_doc_tk$">
