@@ -3563,10 +3563,10 @@ require([
 
     var searchDataSamplingSimulateCustomRule = new SearchManager({
         id: "searchDataSamplingSimulateCustomRule",
-        earliest_time: "-15m",
+        earliest_time: "$timerange_sampling_simulation.earliest$",
         cancelOnUnload: true,
         sample_ratio: null,
-        latest_time: "now",
+        latest_time: "$timerange_sampling_simulation.latest$",
         search: '| `trackme_data_sampling_return_live_sample("$tk_input_data_sampling_dropdown$")` | mvexpand raw_sample | eval sourcetype="$tk_data_sampling_custom_st_value$", sourcetype_scope="$tk_data_sampling_custom_sourcetype_scope$", model_type="$tk_data_sampling_custom_rule_type$" | eval detected_format = case((sourcetype_scope=="*"), case(match(raw_sample, "$tk_data_sampling_custom_rule_regex$"), "$tk_data_sampling_custom_rule_name$"), in(sourcetype, `trackme_data_sampling_custom_models_simulate_genlist("$tk_data_sampling_custom_sourcetype_scope$")`), case(match(raw_sample, "$tk_data_sampling_custom_rule_regex$"), "$tk_data_sampling_custom_rule_name$")) | `trackme_data_sampling_simulate_custom_rule`',
         status_buckets: 0,
         app: utils.getCurrentApp(),
@@ -3582,10 +3582,10 @@ require([
 
     var searchDataSamplingSimulateCustomRuleLatestEvent = new SearchManager({
         id: "searchDataSamplingSimulateCustomRuleLatestEvent",
-        earliest_time: "-24h",
+        earliest_time: "$timerange_sampling_simulation.earliest$",
         cancelOnUnload: true,
         sample_ratio: null,
-        latest_time: "now",
+        latest_time: "$timerange_sampling_simulation.latest$",
         search: '| `trackme_data_sampling_return_live_sample("$tk_input_data_sampling_dropdown$")`',
         status_buckets: 0,
         app: utils.getCurrentApp(),
@@ -5742,15 +5742,16 @@ require([
             var tk_latest = getToken("modalTime.latest");
 
             // Manage root search for overview, conditionally define the query depending on the search
-            var tk_elastic_source_search_mode = e.data["row.tk_elastic_source_search_mode"];
-            var tk_elastic_source_search_constraint = e.data["row.tk_elastic_source_search_constraint"];
-            var tk_elastic_source_from_part1 = e.data["row.tk_elastic_source_from_part1"];
-            var tk_elastic_source_from_part2 = e.data["row.tk_elastic_source_from_part2"];
-            var tk_elastic_mstats_idx = e.data["row.tk_elastic_mstats_idx"];
-            var tk_elastic_mstats_filters = e.data["row.tk_elastic_mstats_filters"];
+            var tk_elastic_source_search_mode = e.data["row.elastic_source_search_mode"];
+            var tk_elastic_source_search_constraint = e.data["row.elastic_source_search_constraint"];
+            var tk_elastic_source_from_part1 = e.data["row.elastic_source_from_part1"];
+            var tk_elastic_source_from_part2 = e.data["row.elastic_source_from_part2"];
+            var tk_elastic_mstats_idx = e.data["row.elastic_mstats_idx"];
+            var tk_elastic_mstats_filters = e.data["row.elastic_mstats_filters"];
+            var tk_data_source_raw_search;
 
             // Handle regular data sources and additional integration modes
-            if (tk_elastic_source_search_mode == "null") {
+            if (tk_elastic_source_search_mode === "null" || tk_elastic_source_search_mode === null) {
                 // cribl integration
                 if (/\|cribl:/i.test(tk_data_name)) {
                     // Extract the cribl_pipe value
@@ -5935,7 +5936,7 @@ require([
                     '| mstats latest(_value) as value where `trackme_metrics_idx` (metric_name=trackme.eventcount_4h OR metric_name=trackme.lag_event_sec OR metric_name=trackme.hostcount_4h) object_category="data_source" object="' +
                     tk_data_name +
                     '" by metric_name span=5m | eval {metric_name}=value | stats first(trackme.eventcount_4h) as count, first(trackme.lag_event_sec) as delta, max(trackme.hostcount_4h) as dcount_host by _time | eval event_lag=delta';
-                if (tk_elastic_mstats_idx == "null") {
+                if (tk_elastic_mstats_idx === "null" || tk_elastic_mstats_idx === null) {
                     tk_data_source_raw_search =
                         "?q=" +
                         encodeURI("| mpreview ") +
@@ -6064,7 +6065,7 @@ require([
                     '| mstats latest(_value) as value where `trackme_metrics_idx` (metric_name=trackme.eventcount_4h OR metric_name=trackme.lag_event_sec OR metric_name=trackme.hostcount_4h) object_category="data_source" object="' +
                     tk_data_name +
                     '" by metric_name span=5m | eval {metric_name}=value | stats first(trackme.eventcount_4h) as count, first(trackme.lag_event_sec) as delta, max(trackme.hostcount_4h) as dcount_host by _time | eval event_lag=delta';
-                if (tk_elastic_mstats_idx == "null") {
+                if (tk_elastic_mstats_idx === "null" || tk_elastic_mstats_idx === null) {
                     tk_data_source_raw_search =
                         "?q=" +
                         encodeURI("| mpreview ") +
@@ -6093,6 +6094,38 @@ require([
             }
 
             setToken("tk_data_source_overview_root_search", tk_data_source_overview_root_search);
+
+            // Define the history search
+
+            // Honour elastic sources
+            var search_data_source;
+
+            if (tk_elastic_source_search_mode === "null" || tk_elastic_source_search_mode === null) {
+
+                // cribl integration
+                if (/\|cribl:/i.test(tk_data_name)) {
+                    var search_data_source = 'search' + "?q=search%20index%3D\"" + encodeURI(tk_data_index) + "\"" + " sourcetype%3D\"" + encodeURI(tk_data_sourcetype) + "\"" + " cribl_pipe::" + encodeURI(cribl_pipe)
+                }
+                
+                // split by custom
+                else if (/\|key:/i.test(tk_data_name)) {
+                    regex_matches = tk_data_name.match(/\|key:([^\|]+)\|(.*)/);
+                    keyName = regex_matches[1];
+                    keyValue = regex_matches[2];
+                    var search_data_source = 'search' + "?q=search%20index%3D\"" + encodeURI(tk_data_index) + "\"" + " sourcetype%3D\"" + encodeURI(tk_data_sourcetype) + "\" " + keyName + "%3D\"" + encodeURI(keyValue) + "\""
+                }
+
+                // standard split
+                else {
+                    var search_data_source = 'search' + "?q=search%20index%3D\"" + encodeURI(tk_data_index) + "\"" + " sourcetype%3D\"" + encodeURI(tk_data_sourcetype) + "\""
+                }
+                
+            } else {
+                var search_data_source = 'search' + tk_data_source_raw_search
+            }
+
+            // Define the URL target
+            document.getElementById("btn_search_data_source").href = search_data_source;            
 
             // Enable modal context
             $("#modal_manage_data_source").modal();
@@ -8216,7 +8249,7 @@ require([
 
     var resultsLinktableElasticSourcesTest = new ResultsLinkView({
         id: "resultsLinktableElasticSourcesTest",
-        managerid: "searchDataSourcesPostTable",
+        managerid: "searchElasticSourcesTest",
         "link.exportResults.visible": false,
         el: $("#resultsLinktableElasticSourcesTest"),
     });
@@ -10016,6 +10049,24 @@ require([
 
     modal_input_data_sampling_custom_st_value.on("change", function(newValue) {
         FormUtils.handleValueChange(modal_input_data_sampling_custom_st_value);
+    });
+
+    var modal_input_data_sampling_custom_timerange = new TimeRangeInput({
+        id: "modal_input_data_sampling_custom_timerange",
+        searchWhenChanged: true,
+        default: {
+            latest_time: "now",
+            earliest_time: "-24h"
+        },
+        earliest_time: "$form.timerange_sampling_simulation.earliest$",
+        latest_time: "$form.timerange_sampling_simulation.latest$",
+        el: $("#modal_input_data_sampling_custom_timerange"),
+    }, {
+        tokens: true
+    }).render();
+
+    modal_input_data_sampling_custom_timerange.on("change", function(newValue) {
+        FormUtils.handleValueChange(modal_input_data_sampling_custom_timerange);
     });
 
     // Data sampling scope
@@ -16136,6 +16187,13 @@ require([
 
     // FUNCTIONS
 
+    // setnull
+    function setNull(str) {
+        if (!str || str.length === 0 || str === null) {
+            return 'null';
+        }
+    }
+
     function updateDataSource(tk_keyid) {
         // Perform a target search to update key values
         var searchQuery =
@@ -16277,7 +16335,7 @@ require([
                         var tk_doc_modal_target;
 
                         // If the documentation reference has not been set, define the href format
-                        if (tk_doc_link == "null") {
+                        if (tk_doc_link === "null" || tk_doc_link === null) {
                             tk_doc_link_main = "Click here to define a documentation reference";
                             tk_doc_modal_target = "define_identity_card";
                             // replace the textinput for modification requests
@@ -16290,7 +16348,7 @@ require([
                             document.getElementById("input_doc_link").value = tk_doc_link;
                         }
 
-                        if (tk_doc_note == "null") {
+                        if (tk_doc_note === "null" || tk_doc_note === null) {
                             tk_doc_link = "No documentation defined.";
                             // replace the textarea for modification requests
                             document.getElementById("input_doc_note").value = "documentation note";
@@ -25922,7 +25980,7 @@ require([
         // Set the search parameters--specify a time range
         var searchParams = {
             earliest_time: "-24h",
-            latest_time: "-4h",
+            latest_time: "+4h",
         };
 
         // Run a normal search that immediately returns the job's SID
@@ -26001,7 +26059,7 @@ require([
 
         // Set the search parameters--specify a time range
         var searchParams = {
-            earliest_time: "-7d",
+            earliest_time: "-24h",
             latest_time: "+4h",
         };
 

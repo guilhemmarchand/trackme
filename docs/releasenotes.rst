@@ -10,6 +10,12 @@ Version 1.3.0
     - Some functions such as builtin alert actions are not compatible any longer with Python2 and Splunk 7.x
     - For the latest version available for Splunk 7.x, see the release 1.2.51
 
+- HTML deprecation: migration of TrackMe to a full JS stack extension mode to handle the deprecation of HTML based user interfaces
+- Starting from version 1.3.0, there are no more HTML based UI, all UIs are simple xml based with full JS stack
+- Dark theme: TrackMe moves to a full dark theme based user interface
+- Various bug fixes and UI improvements
+- Long term logic issues handling for data sources and data hosts
+
 Version 1.2.58
 ==============
 

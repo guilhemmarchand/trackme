@@ -280,11 +280,6 @@ Lagging performances
 
    | mcatalog values(metric_name) values(_dims) where index=* metric_name=trackme.*
 
-.. image:: img/first_steps/img016.png
-   :alt: img/first_steps/img016
-   :align: center
-   :width: 1200px
-
 **The main dimensions are:**
 
 - ``object_category`` which represents the type of entities, being data_source or data_host
@@ -322,48 +317,6 @@ Status message
 
 .. image:: img/first_steps/img019.png
    :alt: img/first_steps/img019
-   :align: center
-   :width: 1200px
-
-*example of a red state due to outliers detection:*
-
-.. image:: img/first_steps/img020.png
-   :alt: img/first_steps/img020
-   :align: center
-   :width: 1200px
-
-*example of a red state due to data sampling anomalies detected:*
-
-.. image:: img/first_steps/img020_data_sampling.png
-   :alt: img/first_steps/img020_data_sampling
-   :align: center
-   :width: 1200px
-
-*example of a red state due to hosts dcount threshold not reached:*
-
-.. image:: img/first_steps/img020_data_sampling_dcount.png
-   :alt: img/first_steps/img020_data_sampling_dcount
-   :align: center
-   :width: 1200px
-
-*example of a blue state due to logical groups monitoring conditions not met (applies to data hosts and metrics hosts only):*
-
-.. image:: img/first_steps/img020_blue.png
-   :alt: img/first_steps/img020_blue
-   :align: center
-   :width: 1200px
-
-*example of an orange state due to data indexed in the future:*
-
-.. image:: img/first_steps/img020_orange.png
-   :alt: img/first_steps/img020_orange
-   :align: center
-   :width: 1200px
-
-*In addition, an integration using the timeline custom view provides an enhanced overview of the entity status over time:*
-
-.. image:: img/first_steps/timeline.png
-   :alt: img/first_steps/timeline
    :align: center
    :width: 1200px
 
@@ -487,10 +440,10 @@ See :ref:`Logical groups (clusters)` for more details on this feature
 
 See :ref:`Enrichment tags` for more details om this feature
 
-Unified update interface
-========================
+Entities main setting update screens
+====================================
 
-**For each type of tracking, a unified update screen is available by clicking on the modify button when looking at a specific entity:**
+**For each type of entities, a main settings screen update is available by clicking on the modify button when looking at a specific entity:**
 
 .. image:: img/first_steps/img023.png
    :alt: img/first_steps/img023
@@ -678,7 +631,7 @@ It is easy to understand that the default standard for data source ``index + ":"
    :align: center
    :width: 1200px
 
-In TrackMe data sources, this would appear as one entity and this is not helping me covering that use case:
+In TrackMe data sources, this would appear as one entity and this is not filling our requirements for that use case:
 
 .. image:: img/first_steps/img030.png
    :alt: img/first_steps/img030
@@ -725,7 +678,7 @@ Rather than one data source that covers the index/sourcetype, the requirement is
 Any failure on the flow level which is represented by these new data sources will be detected.
 On the opposite, the default data source breaking on on the sourcetype would need a total failure of all pipelines to be detected.
 
-**By default, the data source would show up with a unique entity which is not filling my requirements:**
+**By default, the data source would show up with a unique entity which is not filling our requirements:**
 
 .. image:: img/first_steps/img033.png
    :alt: img/first_steps/img033
@@ -768,17 +721,10 @@ The following example shows the behaviour with a lookup that is updated every 30
    :align: center
    :width: 1200px
 
-Number of records are monitored automatically by the outliers detection, setting can be fined tuned to alert if the number of records goes below, and/or beyond a certain amount of records:
+A Lookup based Elastic Source acts transparently just as any other data source, so you can setup:
 
-.. image:: img/first_steps/img-rest-elastic-outliers.png
-   :alt: img/first_steps/img-rest-elastic-outliers
-   :align: center
-   :width: 1200px
-
-.. image:: img/first_steps/img-rest-elastic-outliers2.png
-   :alt: img/first_steps/img-rest-elastic-outliers2
-   :align: center
-   :width: 1200px
+- delays KPIs: how often shall the lookup be updated, which allows you to monitor that your update process (reports, etc) remains valid and operational
+- volume outliers: to automatically be alerted when the number of records is abnormal, and easily detects critical failures in your lookup update process
 
 Elastic source example 4: rest searches
 ---------------------------------------
@@ -888,13 +834,6 @@ Elastic source example 1: creation
    :align: center
    :width: 1200px
 
-**Let's click on this nice button!**
-
-.. image:: img/first_steps/img037.png
-   :alt: img/first_steps/img037
-   :align: center
-   :width: 1200px
-
 This looks good isn't it?
 
 **Shared tracker versus dedicated tracker:**
@@ -911,6 +850,7 @@ In this context:
 .. image:: img/first_steps/img038.png
    :alt: img/first_steps/img038
    :align: center
+   :width: 500px
 
 Nice! Let's click on that button and immediately run the shared tracker, upon its execution we can see an all brand new data source entity that matches what we created:
 
@@ -932,11 +872,7 @@ Ok that's cool!
 
 "What about the original data source that created automatically?".
 
-We can simply disable the monitoring state via the disable button et voila!
-
-.. image:: img/first_steps/img041.png
-   :alt: img/first_steps/img041
-   :align: center
+We can simply disable the monitoring state via the disable button as it not needed anymore.
 
 Elastic source example 2: creation
 ----------------------------------
@@ -976,6 +912,7 @@ For the purposes of the demonstration, we will this time create Elastic dedicate
 .. image:: img/first_steps/img043.png
    :alt: img/first_steps/img043
    :align: center
+   :width: 500px
 
 **Nice, let's click on the run button now, and repeat the operation for all entities!**
 
@@ -1040,11 +977,6 @@ Notes:
 As we can see, the current lagging corresponds to the difference between now and the latest update of the lookup, TrackMe will immediately starts to compute all metrics, the event count corresponds to the number of records (which allows the usage of outliers detection too), etc.
 
 When TrackMe detects that the data source is a based on a lookup, the statistics are returned from the trackme metrics automatically.
-
-.. image:: img/first_steps/img-lookup-tracking5.png
-   :alt: img/first_steps/img-lookup-tracking5
-   :align: center
-   :width: 1200px
 
 Elastic source example 4: creation
 ----------------------------------
@@ -1390,12 +1322,7 @@ Summary statuses
    :alt: img_data_sampling_state_orange1.png
    :align: center
    :width: 1200px
-
-.. image:: img/first_steps/img_data_sampling_state_orange2.png
-   :alt: img_data_sampling_state_orange2.png
-   :align: center
-   :width: 1200px
-
+   
 *Red state: anomalies were detected*
 
 .. image:: img/first_steps/img_data_sampling_state_red.png
@@ -1542,6 +1469,7 @@ Use this UI to choose a different value, increasing the number of events per sam
 .. image:: img/first_steps/img_data_sampling_records_nr.png
    :alt: img_data_sampling_records_nr.png
    :align: center
+   :width: 500px
 
 Clear state and run sampling
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -1553,8 +1481,8 @@ Use this function to clear any state previously determined, this forces the data
 - Use this action to clear any known states for this data source and run the inspection from zero, just as if it was discovered for the first time
 - You can use this action to clear an anomaly that was raised, when an alert is raised by the data sampling, the state is frozen until this anomaly is reviewed, once the issue is understood and fixed, run the action to clear the state and restart the inspection workflow for this data source
 
-Disable Data sampling for a give data source
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Disable Data sampling for a given data source
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 Use this function to disable data sampling for a given data source, there can be cases where you would need to disable this feature if for example there is a lack of quality which cannot be fixed, and some random formats are introduced out of your control.
 
@@ -1790,17 +1718,12 @@ The alert topic is as well discussed at the configuration step: :ref:`Step 7: en
 Alerts tracking main screen
 ---------------------------
 
-**Within the main TrackMe UI, the alerts tracking screen is available as a selectable tab:**
+**Within the main TrackMe UI, the alerts tracking screen is available as a selectable tab.**
+
+**The screen shows a 24 hours overview of the alerts activity:**
 
 .. image:: img/ootb_alerts.png
    :alt: ootb_alerts.png
-   :align: center
-   :width: 1200px
-
-**Depending on the alerts that were enabled, and the actiity of the environment, the screen shows a 24 hours overview of the alerts activity:**
-
-.. image:: img/ootb_alerts2.png
-   :alt: ootb_alerts2.png
    :align: center
    :width: 1200px
 
@@ -1886,12 +1809,12 @@ Alert action: TrackMe auto acknowledge
    :align: center
    :width: 1200px
 
-*An audit change event is automatically logged and visible in the UI:**
+**An audit change event is automatically logged and visible in the UI:**
 
 .. image:: img/alert_actions/auto_ack3.png
    :alt: auto_ack3.png
    :align: center
-   :width: 900px
+   :width: 1200px
 
 *The entity has the acknowledged icon visible in the main UI screen:*
 
@@ -2224,7 +2147,7 @@ Maximal lagging value
    :align: center
    :width: 1200px
 
-This topic is covered in details in first steps guide :ref:`Main navigation tabs` and :ref:`Unified update interface`.
+This topic is covered in details in first steps guide :ref:`Main navigation tabs` and :ref:`Entities main setting update screens`.
 
 Lagging classes
 ======================

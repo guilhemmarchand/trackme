@@ -3046,6 +3046,9 @@
 										<div class="input input-dropdown" id="modal_input_data_sampling_custom_st_value" style="margin-top: -25px; margin-bottom: 20px; margin-right: 30px;">
 											<label class="splunk-input-label">Sourcetype name: (for simulation only)</label>
 										</div>
+										<div class="input input-time" id="modal_input_data_sampling_custom_timerange" style="margin-top: -25px; margin-bottom: 20px; margin-right: 30px;">
+											<label class="splunk-input-label">Time range:</label>
+										</div>
 									</div>
 								</div>
 								<div>
@@ -3903,6 +3906,7 @@
                                         grid-column-gap: 0px;
                                         grid-row-gap: 0px;
                                         margin-left: 20px;
+										margin-bottom: 20px;
                                     }
                                 </style>
 								<div class="parent-data-source-overview-simulation-timeinputs">
@@ -4052,7 +4056,7 @@
 									</button>
 								</div>
 								<div style="margin-right: 15px; float: right;">
-									<a class="btn btn-outline-primary" id="btn_search_data_source" data-dismiss="modal" target="_blank" href="search_data_source_url" role="button">Search</a>
+									<a class="btn btn-outline-primary" id="btn_search_data_source" target="_blank" href="search_data_source_url" role="button">Search</a>
 								</div>
 								<div style="margin-right: 15px; float: right;">
 									<button type="submit" id="btn_modify_data_source" role="button" data-dismiss="modal" class="btn btn-outline-primary">
@@ -5770,6 +5774,7 @@
                                         grid-column-gap: 0px;
                                         grid-row-gap: 0px;
                                         margin-left: 20px;
+										margin-bottom: 20px;
                                     }
                                 </style>
 								<div class="parent-data-host-overview-simulation-timeinputs">
