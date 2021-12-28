@@ -41,6 +41,8 @@ class TrackMeHandlerHybridTracker_v1(trackme_rest_handler.RESTHandler):
         root_constraint = None
         break_by_field = None
         owner = None
+        earliest = None
+        latest = None
         describe = False
 
         # Retrieve from data
@@ -98,6 +100,17 @@ class TrackMeHandlerHybridTracker_v1(trackme_rest_handler.RESTHandler):
                 except Exception as e:
                     update_comment = "API update"
 
+                # earliest and latest for the tracker, if not specified, defaults to -4h / +4h
+                try:
+                    earliest = resp_dict['earliest']
+                except Exception as e:
+                    earliest = "-4h"
+
+                try:
+                    latest = resp_dict['latest']
+                except Exception as e:
+                    latest = "+4h"
+
         else:
             # body is required in this endpoint, if not submitted describe the usage
             describe = True
@@ -107,7 +120,13 @@ class TrackMeHandlerHybridTracker_v1(trackme_rest_handler.RESTHandler):
 
             response = "{\"describe\": \"This endpoint allows creating a custom hybrid tracker for data sources, it requires a POST call with the following information:\""\
                 + ", \"options\" : [ { "\
-                + "\"data_name\": \"name of the data source\", "\
+                + "\"tracker_name\": \"name of the hybrid tracker report\", "\
+                + "\"search_mode\": \"the search mode for the tracker, can be tstats or raw\", "\
+                + "\"root_constraint\": \"the tracker report root search constraint, to define search filters scoping the data set\", "\
+                + "\"break_by_field\": \"the break by key field, used to discover and maintain the entities via this tracker\", "\
+                + "\"owner\": \"Optional, the Splunk user owning the objects to be created, defaults to admin\", "\
+                + "\"earliest\": \"Optional, the earliest time value for the tracker, defaults to -4h\", "\
+                + "\"latest\": \"Optional, the latest time value for the tracker, defaults to +4h\", "\
                 + "\"update_comment\": \"OPTIONAL: a comment for the update, comments are added to the audit record, if unset will be defined to: API update\""\
                 + " } ] }"
 
@@ -326,8 +345,8 @@ class TrackMeHandlerHybridTracker_v1(trackme_rest_handler.RESTHandler):
             kwargs = {"description": "TrackMe hybrid short term tracker",
                     "is_scheduled": True,
                     "cron_schedule": "*/5 * * * *",
-                    "dispatch.earliest_time": "-4h",
-                    "dispatch.latest_time": "+4h"}                            
+                    "dispatch.earliest_time": str(earliest),
+                    "dispatch.latest_time": str(latest)}
 
             # Update the server and refresh the local copy of the object
             try:
@@ -364,6 +383,8 @@ class TrackMeHandlerHybridTracker_v1(trackme_rest_handler.RESTHandler):
                 "tracker_name": str(tracker_name),
                 "break_by_field": str(break_by_field),
                 "search_mode": str(search_mode),
+                "earliest": str(earliest),
+                "latest": str(latest),
                 "action": "success"
                 })
 

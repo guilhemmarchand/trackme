@@ -24147,6 +24147,12 @@ require([
 
     // Create the new hybrid tracker
     $("#btn_modal_input_hybrid_add_new").click(function() {
+        // show modal
+        $("#modal_confirm_hybrid_tracker").modal();
+    });
+
+    // Create the new hybrid tracker
+    $("#btn_modal_input_hybrid_add_new_confirm").click(function() {
 
         var tk_hybrid_tracker_name = getToken("tk_input_hybrid_tracker_name");
         var tk_hybrid_search_mode = getToken("tk_input_hybrid_search_mode");
@@ -24160,6 +24166,18 @@ require([
         var tk_hybrid_earliest = getToken("tk_input_hybrid_tracker_earliest");
         var tk_hybrid_latest = getToken("tk_input_hybrid_tracker_latest");
 
+        // Retrieve update comment if any
+        var tk_comment = document.getElementById(
+            "hybrid_tracker_creation_comment"
+        ).value;
+
+        // if is not defined, give it a value and override text box content
+        if (tk_comment == "null") {
+            setToken("tk_update_comment", "No comments for update.");
+        } else if (tk_comment == "update note") {
+            tk_comment = "No comment for update.";
+        }
+
         // spinner
         cssloader("Please wait while creating the hybrid tracker...");
 
@@ -24167,7 +24185,9 @@ require([
         var searchQuery = "| trackme url=\"/services/trackme/v1/hybrid_trackers/hybrid_tracker\" " +
             "mode=\"post\" body=\"{'tracker_name': '" + tk_hybrid_tracker_name +
             "', 'search_mode': '" + tk_hybrid_search_mode + "', 'root_constraint': '" +
-            tk_hybrid_root_constraint + "', 'break_by_field': '" + tk_hybrid_break_by_field + "'}\" | spath";
+            tk_hybrid_root_constraint + "', 'break_by_field': '" + tk_hybrid_break_by_field +
+            "', 'earliest': '" + tk_hybrid_earliest + "', 'latest': '" + tk_hybrid_latest +
+            "', 'update_comment': '" + tk_comment + "'}\" | spath";
 
         // Set the search parameters--specify a time range
         var searchParams = {
