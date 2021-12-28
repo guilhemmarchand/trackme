@@ -217,7 +217,7 @@
 													<button type="submit" id="btn_modal_input_hybrid_add_simulate" style="margin-right: 15px;" class="btn btn-outline-primary">
 														<span class="glyphicon glyphicon-remove"></span> Simulate the search													
 													</button>
-													<button type="submit" id="btn_modal_input_hybrid_add_new" style="margin-right: 15px;" class="btn btn-outline-primary">
+													<button type="submit" id="btn_modal_input_hybrid_add_new" data-dismiss="modal" style="margin-right: 15px;" class="btn btn-outline-danger">
 														<span class="glyphicon glyphicon-remove"></span> Create a new hybrid tracker
 													</button>
 												</div>
@@ -235,6 +235,65 @@
 							<div class="modal-footer">
 								<button type="submit" class="btn btn-outline-secondary pull-left" data-dismiss="modal">
 									<span class="glyphicon glyphicon-remove"></span> Cancel								
+								</button>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<!-- hybrid tracker is successful -->
+				<div class="modal fade" id="modal_hybrid_tracker_creation_success" role="dialog">
+					<div class="modal-dialog">
+						<!-- Modal content-->
+						<div class="modal-content">
+							<div class="modal-header modal-header-success">
+								<button type="button" class="close" data-dismiss="modal"></button>
+								<h1>
+									<span class="glyphicon glyphicon-lock"></span>New tracker successfully created.
+								
+								</h1>
+							</div>
+							<div class="modal-body">
+								<h1>Congratulations, the new hybrid tracker was successfully created.</h1>
+								<h2>The following new tracker was created:</h2>
+								<div class="modal-error-message" style="margin: 10px 0; padding: 10px; border-radius: 3px 3px 3px 3px; color: white; background-color: dodgerblue; overflow-wrap: anywhere;">
+									<p>success return message</p>
+								</div>
+							</div>
+							<div class="modal-footer">
+								<button type="submit" id="modal_hybrid_tracker_run_tracker" class="btn btn-outline-primary" data-dismiss="modal">
+									<span class="glyphicon glyphicon-remove"></span> Run this hybrid tracker now								
+								</button>
+								<button type="submit" class="btn btn-outline-secondary" data-dismiss="modal">
+									<span class="glyphicon glyphicon-remove"></span> Close								
+								</button>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<!-- hybrid tracker creation has failed -->
+				<div class="modal fade" id="modal_hybrid_tracker_creation_error" role="dialog">
+					<div class="modal-dialog">
+						<!-- Modal content-->
+						<div class="modal-content">
+							<div class="modal-header modal-header-danger">
+								<button type="button" class="close" data-dismiss="modal"></button>
+								<h1>
+									<span class="glyphicon glyphicon-lock"></span>Oops! The new hybrid tracker creation has failed
+								
+								</h1>
+							</div>
+							<div class="modal-body">
+								<h1>Sorry, the new hybrid tracker was not created successfully.</h1>
+								<h2>The following error message was returned:</h2>
+								<div class="modal-error-message" style="margin: 10px 0; padding: 10px; border-radius: 3px 3px 3px 3px; color: white; background-color: #ff6961; overflow-wrap: anywhere;">
+									<p>error return message</p>
+								</div>
+							</div>
+							<div class="modal-footer">
+								<button type="submit" class="btn btn-outline-secondary" data-dismiss="modal">
+									<span class="glyphicon glyphicon-remove"></span> Close								
 								</button>
 							</div>
 						</div>

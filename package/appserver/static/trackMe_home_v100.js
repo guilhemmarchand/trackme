@@ -294,17 +294,19 @@ require([
                 return cell.field === 'raw_sample';
             },
             render: function($td, cell) {
-    
+
                 var message = cell.value;
                 var tip = cell.value;
-    
-                if(message.length > 180) { message = message.substring(0,179) + "..." }
-    
+
+                if (message.length > 180) {
+                    message = message.substring(0, 179) + "..."
+                }
+
                 $td.html(_.template('<div class="custom_title_tag"><a href="#" data-toggle="tooltip" data-container="body" data-placement="top" title="<%- tip%>"><%- message%></a></div>', {
                     tip: tip,
                     message: message
                 }));
-    
+
                 // This line wires up the Bootstrap tooltip to the cell markup
                 $td.children('[data-toggle="tooltip"]').tooltip();
             }
@@ -6146,7 +6148,7 @@ require([
                     keyValue = regex_matches[2];
                     var search_data_source = 'search' + "?q=search%20index%3D\"" + encodeURI(tk_data_index) + "\"" + " sourcetype%3D\"" + encodeURI(tk_data_sourcetype) + "\" " + keyName + "%3D\"" + encodeURI(keyValue) + "\""
                 }
-                                
+
                 // split by custom (tstats)
                 else if (/\|key:/i.test(tk_data_name)) {
                     regex_matches = tk_data_name.match(/\|key:([^\|]+)\|(.*)/);
@@ -6159,13 +6161,13 @@ require([
                 else {
                     var search_data_source = 'search' + "?q=search%20index%3D\"" + encodeURI(tk_data_index) + "\"" + " sourcetype%3D\"" + encodeURI(tk_data_sourcetype) + "\""
                 }
-                
+
             } else {
                 var search_data_source = 'search' + tk_data_source_raw_search
             }
 
             // Define the URL target
-            document.getElementById("btn_search_data_source").href = search_data_source;            
+            document.getElementById("btn_search_data_source").href = search_data_source;
 
             // Enable modal context
             $("#modal_manage_data_source").modal();
@@ -16274,7 +16276,7 @@ require([
     modal_input_hybrid_latest.on("change", function(newValue) {
         FormUtils.handleValueChange(modal_input_hybrid_latest);
     });
-    
+
     var modal_input_hybrid_search_mode = new DropdownInput({
         "id": "modal_input_hybrid_search_mode",
         "choices": [{
@@ -24085,7 +24087,7 @@ require([
         var tk_hybrid_break_by_field = getToken("tk_input_hybrid_break_by_field");
 
         var tk_hybrid_earliest = getToken("tk_input_hybrid_tracker_earliest");
-        var tk_hybrid_latest = getToken("tk_input_hybrid_tracker_latest");                
+        var tk_hybrid_latest = getToken("tk_input_hybrid_tracker_latest");
 
         // set the simulation search
         var tk_hybrid_tracker_simulation_search;
@@ -24106,12 +24108,12 @@ require([
                 "`comment(\"#### create the data_name value ####\")`\n" +
                 "| eval data_name=data_index . \":\" . data_sourcetype . \":\" . \"|key:\" . \"" + tk_hybrid_break_by_field + "\" . \"|\" . " + tk_hybrid_break_by_field +
                 "| stats dc(data_name) as dcount_entities, values(data_name) as entities\n" +
-                "| mvexpand entities | head 10 | stats first(dcount_entities) as dcount_entities, values(entities) as entities_sample\n" +            
+                "| mvexpand entities | head 10 | stats first(dcount_entities) as dcount_entities, values(entities) as entities_sample\n" +
                 "| `trackme_hybrid_tracker_simulation`";
 
-            } else if (tk_hybrid_search_mode === 'raw') {
+        } else if (tk_hybrid_search_mode === 'raw') {
 
-                tk_hybrid_tracker_simulation_search = "index=* sourcetype=* " + tk_hybrid_root_constraint + " | stats max(_indextime) as data_last_ingest, min(_time) as data_first_time_seen, max(_time) as data_last_time_seen, " +
+            tk_hybrid_tracker_simulation_search = "index=* sourcetype=* " + tk_hybrid_root_constraint + " | stats max(_indextime) as data_last_ingest, min(_time) as data_first_time_seen, max(_time) as data_last_time_seen, " +
                 "count as data_eventcount, dc(host) as dcount_host" + " by _time,index,sourcetype," + tk_hybrid_break_by_field + "\n" +
                 "`comment(\"#### tstats result table is loaded ####\")`\n" +
                 "| eval data_last_ingestion_lag_seen=data_last_ingest-data_last_time_seen\n" +
@@ -24125,10 +24127,10 @@ require([
                 "`comment(\"#### create the data_name value ####\")`\n" +
                 "| eval data_name=data_index . \":\" . data_sourcetype . \":\" . \"|key:\" . \"" + tk_hybrid_break_by_field + "\" . \"|\" . " + tk_hybrid_break_by_field +
                 "| stats dc(data_name) as dcount_entities, values(data_name) as entities\n" +
-                "| mvexpand entities | head 10 | stats first(dcount_entities) as dcount_entities, values(entities) as entities_sample\n" +            
+                "| mvexpand entities | head 10 | stats first(dcount_entities) as dcount_entities, values(entities) as entities_sample\n" +
                 "| `trackme_hybrid_tracker_simulation`";
 
-            }
+        }
 
         setToken("tk_hybrid_tracker_simulation_search", tk_hybrid_tracker_simulation_search);
 
@@ -24143,6 +24145,229 @@ require([
 
     });
 
+    // Create the new hybrid tracker
+    $("#btn_modal_input_hybrid_add_new").click(function() {
+
+        var tk_hybrid_tracker_name = getToken("tk_input_hybrid_tracker_name");
+        var tk_hybrid_search_mode = getToken("tk_input_hybrid_search_mode");
+
+        // This is not a Splunk form
+        var tk_hybrid_root_constraint = document.getElementById(
+            "modal_input_hybrid_root_constraint"
+        ).value;
+        var tk_hybrid_break_by_field = getToken("tk_input_hybrid_break_by_field");
+
+        var tk_hybrid_earliest = getToken("tk_input_hybrid_tracker_earliest");
+        var tk_hybrid_latest = getToken("tk_input_hybrid_tracker_latest");
+
+        // spinner
+        cssloader("Please wait while creating the hybrid tracker...");
+
+        // set the query
+        var searchQuery = "| trackme url=\"/services/trackme/v1/hybrid_trackers/hybrid_tracker\" " +
+            "mode=\"post\" body=\"{'tracker_name': '" + tk_hybrid_tracker_name +
+            "', 'search_mode': '" + tk_hybrid_search_mode + "', 'root_constraint': '" +
+            tk_hybrid_root_constraint + "', 'break_by_field': '" + tk_hybrid_break_by_field + "'}\" | spath";
+
+        // Set the search parameters--specify a time range
+        var searchParams = {
+            earliest_time: "-5m",
+            latest_time: "now",
+        };
+
+        // Run a blocking search and get back a job
+        service.search(searchQuery, searchParams, function(err, job) {
+
+            // Shall the search fail before we can get properties
+            if (job == null) {
+                let errorStr = "Unknown Error!";
+                if (
+                    err &&
+                    err.data &&
+                    err.data.messages &&
+                    err.data.messages[0]["text"]
+                ) {
+                    errorStr = err.data.messages[0]["text"];
+                } else if (err && err.data && err.data.messages) {
+                    errorStr = JSON.stringify(err.data.messages);
+                }
+                cssloaderremove();
+                $("#modal_update_collection_failure_return")
+                    .find(".modal-error-message p")
+                    .text(errorStr);
+                $("#modal_update_collection_failure_return").modal();
+            } else {
+                // Poll the status of the search job
+                job.track({
+                    period: 200,
+                }, {
+                    done: function(job) {
+
+                        // Get the results
+                        job.results({}, function(err, results, job) {
+                            var fields = results.fields;
+                            var rows = results.rows;
+                            var actionResult = "failure";
+                            var rawResult = "unknown";
+                            var trackerReportName = "unknown";
+                            for (var i = 0; i < rows.length; i++) {
+                                var values = rows[i];
+                                for (var j = 0; j < values.length; j++) {
+                                    var field = fields[j];
+                                    var value = values[j];
+                                    // get the action
+                                    if (field === "action") {
+                                        actionResult = value;
+                                    }
+                                    if (field === "_raw") {
+                                        rawResult = value;
+                                    }
+                                    if (field === "tracker_report") {
+                                        trackerReportName = value;
+                                    }
+                                }
+
+                                // Renove the spinner
+                                cssloaderremove();
+
+                                // Identify the operation result
+                                if (actionResult.includes("success")) {
+                                    // set the token
+                                    setToken("tk_hybrid_final_report", trackerReportName);
+                                    // set the message to be returned
+                                    $("#modal_hybrid_tracker_creation_success")
+                                        .find(".modal-error-message p")
+                                        .text(JSON.stringify(JSON.parse(rawResult), null, 2));
+                                    $("#modal_hybrid_tracker_creation_success").modal();
+                                } else {
+                                    // set the message to be returned
+                                    $("#modal_hybrid_tracker_creation_error")
+                                        .find(".modal-error-message p")
+                                        .text(rawResult);
+                                    $("#modal_hybrid_tracker_creation_error").modal();
+                                }
+                            }
+                        });
+                    },
+                    failed: function(properties) {
+                        let errorStr = "Unknown Error!";
+                        if (
+                            properties &&
+                            properties._properties &&
+                            properties._properties.messages &&
+                            properties._properties.messages[0]["text"]
+                        ) {
+                            errorStr = properties._properties.messages[0]["text"];
+                        } else if (
+                            properties &&
+                            properties._properties &&
+                            properties._properties.messages
+                        ) {
+                            errorStr = JSON.stringify(properties._properties.messages);
+                        }
+                        cssloaderremove();
+                        $("#modal_update_collection_failure_return")
+                            .find(".modal-error-message p")
+                            .text(errorStr);
+                        $("#modal_update_collection_failure_return").modal();
+                    },
+                    error: function(err) {
+                        done(err);
+                        cssloaderremove();
+                        $("#modal_update_collection_failure_flush").modal();
+                    },
+                });
+            }
+        });
+    });
+
+    // run hybrid tracker now
+    $("#modal_hybrid_tracker_run_tracker").click(
+        function() {
+
+            // Get the tracker name
+            var tk_tracker_name = getToken("tk_hybrid_final_report");
+
+            // Define the query
+            var searchQuery = '| savedsearch "' + tk_tracker_name + '"';
+
+            // get earliest and latest, as defined during the creation
+            var tk_hybrid_earliest = getToken("tk_input_hybrid_tracker_earliest");
+            var tk_hybrid_latest = getToken("tk_input_hybrid_tracker_latest");
+
+            // Set the search parameters--specify a time range
+            var searchParams = {
+                earliest_time: tk_hybrid_earliest,
+                latest_time: tk_hybrid_latest,
+            };
+
+            // Run a normal search that immediately returns the job's SID
+            service.search(searchQuery, searchParams, function(err, job) {
+
+                cssloader("Running the dedicated elastic tracker");
+
+                // Shall the search fail before we can get properties
+                if (job == null) {
+                    let errorStr = "Unknown Error!";
+                    if (
+                        err &&
+                        err.data &&
+                        err.data.messages &&
+                        err.data.messages[0]["text"]
+                    ) {
+                        errorStr = err.data.messages[0]["text"];
+                    } else if (err && err.data && err.data.messages) {
+                        errorStr = JSON.stringify(err.data.messages);
+                    }
+                    cssloaderremove();
+                    $("#modal_update_collection_failure_return")
+                        .find(".modal-error-message p")
+                        .text(errorStr);
+                    $("#modal_update_collection_failure_return").modal();
+                } else {
+                    // Poll the status of the search job
+                    job.track({
+                        period: 200,
+                    }, {
+                        done: function(job) {
+                            // Once the job is done, update all searches
+                            searchDataSourcesMain.startSearch();
+
+                            cssloaderremove();
+                            $("#modal_update_collection_done").modal();
+                        },
+                        failed: function(properties) {
+                            let errorStr = "Unknown Error!";
+                            if (
+                                properties &&
+                                properties._properties &&
+                                properties._properties.messages &&
+                                properties._properties.messages[0]["text"]
+                            ) {
+                                errorStr = properties._properties.messages[0]["text"];
+                            } else if (
+                                properties &&
+                                properties._properties &&
+                                properties._properties.messages
+                            ) {
+                                errorStr = JSON.stringify(properties._properties.messages);
+                            }
+                            cssloaderremove();
+                            $("#modal_update_collection_failure_return")
+                                .find(".modal-error-message p")
+                                .text(errorStr);
+                            $("#modal_update_collection_failure_return").modal();
+                        },
+                        error: function(err) {
+                            done(err);
+                            cssloaderremove();
+                            $("#modal_update_collection_failure").modal();
+                        },
+                    });
+                }
+            });
+        }
+    );
 
     //
     // Elastic sources
