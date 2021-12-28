@@ -3783,6 +3783,26 @@ require([
         tokens: true
     });
 
+    var searchHybridTrackerTest = new SearchManager({
+        id: "searchHybridTrackerTest",
+        autostart: false,
+        earliest_time: "$tk_input_hybrid_tracker_earliest$",
+        cancelOnUnload: true,
+        sample_ratio: null,
+        latest_time: "$tk_input_hybrid_tracker_latest$",
+        search: '$tk_hybrid_tracker_simulation_search$',
+        status_buckets: 0,
+        app: utils.getCurrentApp(),
+        auto_cancel: 90,
+        preview: true,
+        tokenDependencies: {
+            depends: "$start_simulation_hybrid_tracker$",
+        },
+        runWhenTimeIsUndefined: false,
+    }, {
+        tokens: true
+    });
+
     // whitelist
 
     // whitelist data_source
@@ -5774,6 +5794,18 @@ require([
                     setToken("tk_data_source_timechart_count_aggreg", "sum");
                 }
 
+                // split by custom mode (raw)
+                else if (/\|rawkey:/i.test(tk_data_name)) {
+                    regex_matches = tk_data_name.match(/\|rawkey:([^\|]+)\|(.*)/);
+                    keyName = regex_matches[1];
+                    keyValue = regex_matches[2];
+                    tk_data_source_overview_root_search =
+                        'index="' + tk_data_index + '" sourcetype="' + tk_data_sourcetype + '" ' + keyName + '="' + keyValue + '" ' +
+                        '| stats dc(host) as dcount_host count latest(_indextime) as indextime max(_time) as maxtime by _time, index, sourcetype, source, ' + keyName + ' | eval delta=(indextime-_time), event_lag=(now() - maxtime)';
+                    tk_data_source_raw_search = "null";
+                    setToken("tk_data_source_timechart_count_aggreg", "sum");
+                }
+
                 // split by custom mode
                 else if (/\|key:/i.test(tk_data_name)) {
                     regex_matches = tk_data_name.match(/\|key:([^\|]+)\|(.*)/);
@@ -6106,8 +6138,16 @@ require([
                 if (/\|cribl:/i.test(tk_data_name)) {
                     var search_data_source = 'search' + "?q=search%20index%3D\"" + encodeURI(tk_data_index) + "\"" + " sourcetype%3D\"" + encodeURI(tk_data_sourcetype) + "\"" + " cribl_pipe::" + encodeURI(cribl_pipe)
                 }
-                
-                // split by custom
+
+                // split by custom (raw)
+                else if (/\|rawkey:/i.test(tk_data_name)) {
+                    regex_matches = tk_data_name.match(/\|rawkey:([^\|]+)\|(.*)/);
+                    keyName = regex_matches[1];
+                    keyValue = regex_matches[2];
+                    var search_data_source = 'search' + "?q=search%20index%3D\"" + encodeURI(tk_data_index) + "\"" + " sourcetype%3D\"" + encodeURI(tk_data_sourcetype) + "\" " + keyName + "%3D\"" + encodeURI(keyValue) + "\""
+                }
+                                
+                // split by custom (tstats)
                 else if (/\|key:/i.test(tk_data_name)) {
                     regex_matches = tk_data_name.match(/\|key:([^\|]+)\|(.*)/);
                     keyName = regex_matches[1];
@@ -8257,6 +8297,37 @@ require([
     resultsLinktableElasticSourcesTest
         .render()
         .$el.appendTo($("resultsLinktableElasticSourcesTest"));
+
+    // hybrid tracker simulation
+    var tableHybridTrackerTest = new TableView({
+        "id": "tableHybridTrackerTest",
+        "tokenDependencies": {
+            "depends": "$start_simulation_hybrid_tracker$"
+        },
+        "count": 1,
+        "drilldown": "row",
+        "refresh.display": "none",
+        "wrap": "false",
+        "managerid": "searchHybridTrackerTest",
+        "el": $('#tableHybridTrackerTest')
+    }, {
+        tokens: true,
+        tokenNamespace: "submitted"
+    }).render();
+
+    // render icons
+    renderTableIcon(tableHybridTrackerTest);
+
+    var resultsLinktableHybridTrackerTest = new ResultsLinkView({
+        id: "resultsLinktableHybridTrackerTest",
+        managerid: "searchHybridTrackerTest",
+        "link.exportResults.visible": false,
+        el: $("#resultsLinktableHybridTrackerTest"),
+    });
+
+    resultsLinktableHybridTrackerTest
+        .render()
+        .$el.appendTo($("resultsLinktableHybridTrackerTest"));
 
     // elastic sources
 
@@ -16174,6 +16245,88 @@ require([
         .render()
         .$el.appendTo($("resultsLinktableMetricPolicies"));
 
+    var modal_input_hybrid_earliest = new TextInput({
+        "id": "modal_input_hybrid_earliest",
+        "searchWhenChanged": false,
+        "default": "-4h",
+        "initialValue": "-4h",
+        "value": "$form.tk_input_hybrid_tracker_earliest$",
+        "el": $('#modal_input_hybrid_earliest')
+    }, {
+        tokens: true
+    }).render();
+
+    modal_input_hybrid_earliest.on("change", function(newValue) {
+        FormUtils.handleValueChange(modal_input_hybrid_earliest);
+    });
+
+    var modal_input_hybrid_latest = new TextInput({
+        "id": "modal_input_hybrid_latest",
+        "searchWhenChanged": false,
+        "default": "+4h",
+        "initialValue": "+4h",
+        "value": "$form.tk_input_hybrid_tracker_latest$",
+        "el": $('#modal_input_hybrid_latest')
+    }, {
+        tokens: true
+    }).render();
+
+    modal_input_hybrid_latest.on("change", function(newValue) {
+        FormUtils.handleValueChange(modal_input_hybrid_latest);
+    });
+    
+    var modal_input_hybrid_search_mode = new DropdownInput({
+        "id": "modal_input_hybrid_search_mode",
+        "choices": [{
+                "label": "tstats",
+                "value": "tstats"
+            },
+            {
+                "label": "raw",
+                "value": "raw"
+            },
+        ],
+        "searchWhenChanged": false,
+        "default": "tstats",
+        "showClearButton": true,
+        "initialValue": "tstats",
+        "selectFirstChoice": false,
+        "value": "$form.tk_input_hybrid_search_mode$",
+        "el": $('#modal_input_hybrid_search_mode')
+    }, {
+        tokens: true
+    }).render();
+
+    modal_input_hybrid_search_mode.on("change", function(newValue) {
+        FormUtils.handleValueChange(modal_input_hybrid_search_mode);
+    });
+
+    var modal_input_hybrid_tracker_name = new TextInput({
+        "id": "modal_input_hybrid_tracker_name",
+        "searchWhenChanged": false,
+        "value": "$form.tk_input_hybrid_tracker_name$",
+        "el": $('#modal_input_hybrid_tracker_name')
+    }, {
+        tokens: true
+    }).render();
+
+    modal_input_hybrid_tracker_name.on("change", function(newValue) {
+        FormUtils.handleValueChange(modal_input_hybrid_tracker_name);
+    });
+
+    var modal_input_hybrid_break_by_field = new TextInput({
+        "id": "modal_input_hybrid_break_by_field",
+        "searchWhenChanged": false,
+        "value": "$form.tk_input_hybrid_break_by_field$",
+        "el": $('#modal_input_hybrid_break_by_field')
+    }, {
+        tokens: true
+    }).render();
+
+    modal_input_hybrid_break_by_field.on("change", function(newValue) {
+        FormUtils.handleValueChange(modal_input_hybrid_break_by_field);
+    });
+
     //
     // BEGIN OPERATIONS
     //
@@ -23914,6 +24067,82 @@ require([
             $("#modify_hybrid_trackers_main").modal();
         });
     });
+
+    $("#btn_modal_hybrid_tracker_add").click(function() {
+        // Show input modal
+        $("#add_hybrid_tracker").modal();
+    });
+
+    $("#btn_modal_input_hybrid_add_simulate").click(function() {
+
+        var tk_hybrid_tracker_name = getToken("tk_input_hybrid_tracker_name");
+        var tk_hybrid_search_mode = getToken("tk_input_hybrid_search_mode");
+
+        // This is not a Splunk form
+        var tk_hybrid_root_constraint = document.getElementById(
+            "modal_input_hybrid_root_constraint"
+        ).value;
+        var tk_hybrid_break_by_field = getToken("tk_input_hybrid_break_by_field");
+
+        var tk_hybrid_earliest = getToken("tk_input_hybrid_tracker_earliest");
+        var tk_hybrid_latest = getToken("tk_input_hybrid_tracker_latest");                
+
+        // set the simulation search
+        var tk_hybrid_tracker_simulation_search;
+
+        if (tk_hybrid_search_mode === 'tstats') {
+
+            tk_hybrid_tracker_simulation_search = "| `trackme_tstats` max(_indextime) as data_last_ingest, min(_time) as data_first_time_seen, max(_time) as data_last_time_seen, " +
+                "count as data_eventcount, dc(host) as dcount_host where index=* sourcetype=* " + tk_hybrid_root_constraint + " by index,sourcetype," + tk_hybrid_break_by_field + "\n" +
+                "`comment(\"#### tstats result table is loaded ####\")`\n" +
+                "| eval data_last_ingestion_lag_seen=data_last_ingest-data_last_time_seen\n" +
+                "`comment(\"#### intermediate calculation ####\")`\n" +
+                "| " + "stats max(data_last_ingest) as data_last_ingest, min(data_first_time_seen) as data_first_time_seen, " +
+                "max(data_last_time_seen) as data_last_time_seen, avg(data_last_ingestion_lag_seen) as data_last_ingestion_lag_seen, " +
+                "sum(data_eventcount) as data_eventcount, dc(host) as dcount_host by index,sourcetype," + tk_hybrid_break_by_field + "\n" +
+                "| eval data_last_ingestion_lag_seen=round(data_last_ingestion_lag_seen, 0)\n" +
+                "`comment(\"#### rename index and sourcetype ####\")`\n" +
+                "| rename index as data_index, sourcetype as data_sourcetype\n" +
+                "`comment(\"#### create the data_name value ####\")`\n" +
+                "| eval data_name=data_index . \":\" . data_sourcetype . \":\" . \"|key:\" . \"" + tk_hybrid_break_by_field + "\" . \"|\" . " + tk_hybrid_break_by_field +
+                "| stats dc(data_name) as dcount_entities, values(data_name) as entities\n" +
+                "| mvexpand entities | head 10 | stats first(dcount_entities) as dcount_entities, values(entities) as entities_sample\n" +            
+                "| `trackme_hybrid_tracker_simulation`";
+
+            } else if (tk_hybrid_search_mode === 'raw') {
+
+                tk_hybrid_tracker_simulation_search = "index=* sourcetype=* " + tk_hybrid_root_constraint + " | stats max(_indextime) as data_last_ingest, min(_time) as data_first_time_seen, max(_time) as data_last_time_seen, " +
+                "count as data_eventcount, dc(host) as dcount_host" + " by _time,index,sourcetype," + tk_hybrid_break_by_field + "\n" +
+                "`comment(\"#### tstats result table is loaded ####\")`\n" +
+                "| eval data_last_ingestion_lag_seen=data_last_ingest-data_last_time_seen\n" +
+                "`comment(\"#### intermediate calculation ####\")`\n" +
+                "| " + "stats max(data_last_ingest) as data_last_ingest, min(data_first_time_seen) as data_first_time_seen, " +
+                "max(data_last_time_seen) as data_last_time_seen, avg(data_last_ingestion_lag_seen) as data_last_ingestion_lag_seen, " +
+                "sum(data_eventcount) as data_eventcount, dc(host) as dcount_host by index,sourcetype," + tk_hybrid_break_by_field + "\n" +
+                "| eval data_last_ingestion_lag_seen=round(data_last_ingestion_lag_seen, 0)\n" +
+                "`comment(\"#### rename index and sourcetype ####\")`\n" +
+                "| rename index as data_index, sourcetype as data_sourcetype\n" +
+                "`comment(\"#### create the data_name value ####\")`\n" +
+                "| eval data_name=data_index . \":\" . data_sourcetype . \":\" . \"|key:\" . \"" + tk_hybrid_break_by_field + "\" . \"|\" . " + tk_hybrid_break_by_field +
+                "| stats dc(data_name) as dcount_entities, values(data_name) as entities\n" +
+                "| mvexpand entities | head 10 | stats first(dcount_entities) as dcount_entities, values(entities) as entities_sample\n" +            
+                "| `trackme_hybrid_tracker_simulation`";
+
+            }
+
+        setToken("tk_hybrid_tracker_simulation_search", tk_hybrid_tracker_simulation_search);
+
+        // free the search
+        setToken("start_simulation_hybrid_tracker", "true");
+
+        // start the search explicitely
+        searchHybridTrackerTest.startSearch();
+
+        // show the view
+        $("#divHybridTrackerTest").css("display", "inherit");
+
+    });
+
 
     //
     // Elastic sources

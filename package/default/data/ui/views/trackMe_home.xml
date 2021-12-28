@@ -137,7 +137,10 @@
 									For instance, you could create an hybrid tracker to automatically create entities for your Cloud provider data using a <code>subscription_id</code> to automatically get a single entity per <code>index / sourcetype / Cloud tenant</code>
 									</li>
 									<li>
-									Ideally, the break by sequence should refer to indexed fields rather than search time extracted fields, which allows to use a tstats based hybrid tracker for the best performances at the lowest computing costs
+									Another example, you could create an hybrid tracker to create entities based on a <code>company</code> fields which desribes subsidiaries in your data sets, generating entities per <code>index / sourcetype / company</code>
+									</li>
+									<li>
+									Ideally, the break by field should refer to an indexed time field rather than a search time extracted field, which allows to use a tstats based hybrid tracker for the best performances at the lowest computing costs
 									</li>
 									<li>
 									However, hybrid trackers can be based on either tstats search logic (which implies indexed fields), or raw search logic (which allows search time extracted fields)
@@ -162,9 +165,81 @@
 					</div>
 				</div>
 
-
-
-
+				<div class="modal fade custom-modal-80" id="add_hybrid_tracker" role="dialog">
+					<div class="modal-dialog">
+						<!-- Modal content-->
+						<div class="modal-content">
+							<div class="modal-header modal-header-info">
+								<button type="button" class="close" data-dismiss="modal"></button>
+								<h1>
+									<span class="glyphicon glyphicon-lock"></span> TrackMe Hybrid trackers - create a new tracker
+								
+								</h1>
+							</div>
+							<div class="modal-body">
+								<div>
+									<div>
+										<div>
+											<div>
+												<div style="display: inline-flex;">
+													<div class="input input-text" id="modal_input_hybrid_tracker_name" style="margin-bottom: 10px; min-width: 500px; max-width: 500px; margin-right: 150px;">
+														<label class="splunk-input-label">Enter the unique identifier for the new hybrid tracker:</label>
+													</div>
+													<div class="input input-dropdown" id="modal_input_hybrid_search_mode" style="margin-bottom: 10px;">
+														<label class="splunk-input-label">Choose the search mode:</label>
+													</div>
+												</div>
+												<div class="custom-textarea" style="margin-left: 10px;">
+													<legend style="color: white;">Fill the root search constraint, you can add any search filers as needed:</legend>
+													<p>
+														<label>Enter the constraint for the search: the search is automatically prefixed with index=* sourcetype=* and you can add any additional search filters</label>
+														<textarea
+                                                                id = "modal_input_hybrid_root_constraint"
+                                                                rows = "3"
+                                                                cols = "80" style="width: 1100px;"
+                                                                onfocus="if(this.value==this.defaultValue)this.value='';" onblur="if(this.value=='')this.value=this.defaultValue;">Enter the Splunk root search constraint</textarea>
+													</p>
+												</div>
+												<div class="fieldset">
+													<div class="input input-text" id="modal_input_hybrid_break_by_field" style="margin-bottom: 10px; min-width: 300px; max-width: 300px;">
+														<label class="splunk-input-label">Enter the break by field</label>
+													</div>
+												</div>
+												<div class="fieldset">
+													<div class="input input-text" id="modal_input_hybrid_earliest" style="margin-bottom: 10px; max-width: 300px;">
+														<label class="splunk-input-label">Earliest time for the tracker</label>
+													</div>
+													<div class="input input-text" id="modal_input_hybrid_latest" style="margin-bottom: 10px; max-width: 300px;">
+														<label class="splunk-input-label">Latest time for the tracker</label>
+													</div>
+												</div>
+												<div>
+													<button type="submit" id="btn_modal_input_hybrid_add_simulate" style="margin-right: 15px;" class="btn btn-outline-primary">
+														<span class="glyphicon glyphicon-remove"></span> Simulate the search													
+													</button>
+													<button type="submit" id="btn_modal_input_hybrid_add_new" style="margin-right: 15px;" class="btn btn-outline-primary">
+														<span class="glyphicon glyphicon-remove"></span> Create a new hybrid tracker
+													</button>
+												</div>
+											</div>
+											<br />
+										</div>
+									</div>
+								</div>
+								<div id="divHybridTrackerTest" style="display: none; min-height: 140px;">
+									<div id="tableHybridTrackerTest" class="view-elements"></div>
+									<div id="resultsLinktableHybridTrackerTest" class="search-elements"></div>
+									<br />
+								</div>
+							</div>
+							<div class="modal-footer">
+								<button type="submit" class="btn btn-outline-secondary pull-left" data-dismiss="modal">
+									<span class="glyphicon glyphicon-remove"></span> Cancel								
+								</button>
+							</div>
+						</div>
+					</div>
+				</div>
 
 				<!--
                 Elastic sources
