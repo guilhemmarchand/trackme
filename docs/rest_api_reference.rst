@@ -45,6 +45,8 @@ These resource groups are accessible by specific endpoint paths as following:
 +----------------------------------------------+----------------------------------------------+
 | :ref:`Identity Cards endpoints`              | /services/trackme/v1/identity_cards          |
 +----------------------------------------------+----------------------------------------------+
+| :ref:`Hybrid trackers endpoints`             | /services/trackme/v1/hybrid_tracker          |
++----------------------------------------------+----------------------------------------------+
 
 These endpoints can be used to interract with TrackMe in a programmatic fashion, for instance to perform integration tasks with automation systems.
 
@@ -5115,3 +5117,58 @@ identity_cards_delete_card / Remove an identity card
 ::
 
     Record with _key 6032a59c7e8f2844dd3b553e was deleted from the collection.
+
+Hybrid trackers endpoints
+-------------------------
+
+**Resources summary:**
+
++---------------------------------------------------------------------------------------------------+------------------------------------------------------------------------------+
+| Resource                                                                                          | API Path                                                                     | 
++===================================================================================================+==============================================================================+
+| :ref:`hybrid_tracker / Create a new hybrid tracker`                                               | /services/trackme/v1/hybrid_trackers/hybrid_tracker                          |
++---------------------------------------------------------------------------------------------------+------------------------------------------------------------------------------+
+
+hybrid_tracker / Create a new hybrid tracker
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+**This endpoint will create a new hybrid tracker report, allowing to discover and maintain entities using custom search filters, and a custom search times or indexed time extracted key:**
+
+- ``"tracker_name": name of the hybrid tracker report``
+- ``"search_mode": the search mode for the tracker, can be tstats or raw``
+- ``"root_constraint": the tracker report root search constraint, to define search filters scoping the data set``
+- ``"break_by_field": the break by key field, used to discover and maintain the entities via this tracker``
+- ``"owner": Optional, the Splunk user owning the objects to be created, defaults to admin``
+- ``"earliest": Optional, the earliest time value for the tracker, defaults to -4h``
+- ``"latest": Optional, the latest time value for the tracker, defaults to +4h``
+- ``"update_comment": Optional: a comment for the update, comments are added to the audit record, if unset will be defined to: API update``
+
+*External:*
+
+::
+
+    curl -k -u admin:'ch@ngeM3' -X POST https://localhost:8089/services/trackme/v1/hybrid_trackers/hybrid_tracker -d '{"tracker_name": "company key field tracker", "search_mode": "tstats", "root_constraint": "company::*", "break_by_field": "company", "owner": "admin", "earliest": "-8h", "latest": "+4h"}'
+
+*SPL query:*
+
+::
+
+    | trackme url="/services/trackme/v1/hybrid_trackers/hybrid_tracker" mode="post" body="{\"tracker_name\": \"company key field tracker\", \"search_mode\": \"tstats\", \"root_constraint\": \"company::*\", \"break_by_field\": \"company\", \"owner\": \"admin\", \"earliest\": \"-8h\", \"latest\": \"+4h\"}"
+
+*JSON response:*
+
+::
+
+    {
+        "split_by_macro":"trackme_root_splitby_hybrid_company_key_field_tracker",
+        "aggreg_intermediate_macro":"trackme_intermediate_aggreg_hybrid_company_key_field_tracker",
+        "abstract_report":"trackme_abstract_root_hybrid_company_key_field_tracker",
+        "tracker_report":"trackme_tracker_hybrid_company_key_field_tracker",
+        "root_constraint":"company::*",
+        "tracker_name":"company_key_field_tracker",
+        "break_by_field":"company",
+        "search_mode":"tstats",
+        "earliest":"-8h",
+        "latest":"+4h",
+        "action":"success"
+    }
