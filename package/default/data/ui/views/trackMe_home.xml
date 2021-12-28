@@ -121,39 +121,38 @@
 							<div class="modal-body">
 
 								<h1>
-									TrackMe uses a default concept which handles entities disovery and management for all data sources, which you can control and customise to influence the root break by logic.
+									TrackMe uses a default concept which handles entities disovery and management for all data sources. (based on indexes/sourcetypes by default)
 								</h1>
 								<h2>
-									Updating this logic is a all or nothing change and impacts the entire behaviour.
+									This logic can be updated, but this is a all or nothing change, as it impacts globally the way entities are discovered and maintained in TrackMe.
 								</h2>
 								<h2>
 									However, you can create a custom hybrid tracker to handle additional use cases without affecting the main discovery and logic of data sources:
 								</h2>
-								<ul>
-									<li>
-									Discovering data sources based on a special break by statement list of fields
-									</li>
-									<li>
-									For instance, you could create an hybrid tracker to automatically create entities for your Cloud provider data using a <code>subscription_id</code> to automatically get a single entity per <code>index / sourcetype / Cloud tenant</code>
-									</li>
-									<li>
-									Another example, you could create an hybrid tracker to create entities based on a <code>company</code> fields which desribes subsidiaries in your data sets, generating entities per <code>index / sourcetype / company</code>
-									</li>
-									<li>
-									Ideally, the break by field should refer to an indexed time field rather than a search time extracted field, which allows to use a tstats based hybrid tracker for the best performances at the lowest computing costs
-									</li>
-									<li>
-									However, hybrid trackers can be based on either tstats search logic (which implies indexed fields), or raw search logic (which allows search time extracted fields)
-									</li>
-									<li>
-									The entire process can be performed via this user interface, and you can manage existing hybrid trackers if needed.
-									</li>
-								</ul>								
+								<div style="line-height: 120%;">
+									<ul>
+										<li>
+										Discovering data sources based on a special break by statement relying on a specific key data field
+										</li>
+										<li>
+										For instance, you could create an hybrid tracker to automatically create entities for your Cloud provider data using a <code>subscription_id</code> to automatically get a single entity per <code>index / sourcetype / Cloud tenant</code>
+										</li>
+										<li>
+										Another example, you could create an hybrid tracker to create entities based on a <code>company</code> fields which desribes subsidiaries in your data sets, generating entities per <code>index / sourcetype / company</code>
+										</li>
+										<li>
+										Ideally, the break by field should refer to an indexed time field rather than a search time extracted field, which allows to use a tstats based hybrid tracker for the best performances at the lowest computing costs
+										</li>
+										<li>
+										However, hybrid trackers can be based on either tstats search logic (which implies indexed fields), or raw search logic (which allows search time extracted fields)
+										</li>
+										<li>
+										The hybrid tracker process can be performed easily via this screen, once the new entities have been created you can decide to disable the previously discovered entities, and optionally remove the data set from the out of the box trackers
+										</li>
+									</ul>
+								</div>						
 							</div>
 							<div class="modal-footer">
-								<button id="btn_modal_hybrid_trackers_manage" type="submit" style="margin-right: 15px;" class="btn btn-outline-primary pull-left" data-dismiss="modal">
-									<span class="glyphicon glyphicon-remove"></span> Manage existing hybrid trackers								
-								</button>
 								<button id="btn_modal_hybrid_tracker_add" type="submit" class="btn btn-outline-primary pull-left" data-dismiss="modal">
 									<span class="glyphicon glyphicon-remove"></span> Create a new hybrid tracker							
 								</button>
@@ -181,7 +180,7 @@
 									<div>
 										<div>
 											<div>
-												<div style="display: inline-flex;">
+												<div style="display: inline-flex; margin-left: 22px;">
 													<div class="input input-text" id="modal_input_hybrid_tracker_name" style="margin-bottom: 10px; min-width: 500px; max-width: 500px; margin-right: 150px;">
 														<label class="splunk-input-label">Enter the unique identifier for the new hybrid tracker:</label>
 													</div>
@@ -189,7 +188,7 @@
 														<label class="splunk-input-label">Choose the search mode:</label>
 													</div>
 												</div>
-												<div class="custom-textarea" style="margin-left: 10px;">
+												<div class="custom-textarea" style="margin-left: 22px;">
 													<legend style="color: white;">Fill the root search constraint, you can add any search filers as needed:</legend>
 													<p>
 														<label>Enter the constraint for the search: the search is automatically prefixed with index=* sourcetype=* and you can add any additional search filters</label>
@@ -201,8 +200,8 @@
 													</p>
 												</div>
 												<div class="fieldset">
-													<div class="input input-text" id="modal_input_hybrid_break_by_field" style="margin-bottom: 10px; min-width: 300px; max-width: 300px;">
-														<label class="splunk-input-label">Enter the break by field</label>
+													<div class="input input-text" id="modal_input_hybrid_break_by_field" style="margin-bottom: 10px; min-width: 500px; max-width: 500px;">
+														<label class="splunk-input-label">Enter the break by field, this is the key to break by when discovering and maintaining entities</label>
 													</div>
 												</div>
 												<div class="fieldset">

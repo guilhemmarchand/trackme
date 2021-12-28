@@ -16,6 +16,7 @@ import splunk.entity
 import splunk.Intersplunk
 import json
 import requests
+import time
 from urllib.parse import urlencode
 
 logger = logging.getLogger(__name__)
@@ -140,6 +141,25 @@ class TrackMeHandlerHybridTracker_v1(trackme_rest_handler.RESTHandler):
             except Exception as e:
                 return {
                     'payload': 'Warn: exception encountered while getting the SDK service to splunkd: ' + str(e), # Payload of the request.
+                    'status': 500 # HTTP status code
+                }
+
+            # Get audit service
+            # Audit collection
+            collection_name_audit = "kv_trackme_audit_changes"            
+            service_audit = client.connect(
+                owner="nobody",
+                app="trackme",
+                port=splunkd_port,
+                token=request_info.session_key
+            )
+
+            try:
+                collection_audit = service_audit.kvstore[collection_name_audit]
+
+            except Exception as e:
+                return {
+                    'payload': 'Warn: exception encountered while getting the audit collection service: ' + str(e), # Payload of the request.
                     'status': 500 # HTTP status code
                 }
 
@@ -347,6 +367,31 @@ class TrackMeHandlerHybridTracker_v1(trackme_rest_handler.RESTHandler):
                 "action": "success"
                 })
 
+        # Record an audit change
+        current_time = int(round(time.time() * 1000))
+        user = request_info.user
+
+        try:
+
+            # Insert the record
+            collection_audit.data.insert(json.dumps({    
+                "time": str(current_time),
+                "user": str(user),
+                "action": "success",
+                "change_type": "add hybrid tracker",
+                "object": "trackme_tracker_hybrid_" + str(tracker_name),
+                "object_category": "hybrid_tracker",
+                "object_attrs": str(audit_record),
+                "result": "N/A",
+                "comment": str(update_comment)
+                }))
+
+        except Exception as e:
+            return {
+                'payload': 'Warn: exception encountered: ' + str(e) # Payload of the request.
+            }
+
+        # final return
         return {
             "payload": str(audit_record),
             'status': 200 # HTTP status code
