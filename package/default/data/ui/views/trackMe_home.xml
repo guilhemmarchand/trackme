@@ -5188,6 +5188,39 @@
 						</div>
 					</div>
 				</div>
+				<!-- Modal window for hours ranges modification -->
+				<div class="modal fade" id="modal_modify_monitoring_data_host_hours_ranges_no" role="dialog">
+					<div class="modal-dialog">
+						<!-- Modal content-->
+						<div class="modal-content">
+							<div class="modal-header modal-header-danger">
+								<button type="button" class="close" data-dismiss="modal"></button>
+								<h1>
+									<span class="glyphicon glyphicon-lock"></span> Monitoring hours ranges update 
+								</h1>
+							</div>
+							<div class="modal-body">
+								<h2>Select the hours of the day where will be applied the monitoring rules:</h2>
+								<p>
+                                    If the data host triggers a red state during a period which is not monitored, it will be ignored by TrackMe alerts. 
+								</p>
+								<div class="fieldset">
+									<div class="input input-checkboxgroup" id="modal_input_data_host_hours_ranges_no">
+										<label></label>
+									</div>
+								</div>
+							</div>
+							<div class="modal-footer">
+								<button id="btn_modal_modify_monitoring_data_host_hours_ranges_no_cancel" type="submit" class="btn btn-outline-secondary pull-left" data-dismiss="modal">
+									<span class="glyphicon glyphicon-remove"></span> Cancel
+								</button>
+								<button id="btn_modal_modify_monitoring_data_host_hours_ranges_no_confirm" type="submit" class="btn btn-outline-danger pull-right" data-dismiss="modal">
+									<span class="glyphicon glyphicon-remove"></span> Ok
+								</button>
+							</div>
+						</div>
+					</div>
+				</div>
 				<!-- alert creation is successful -->
 				<div class="modal fade" id="modal_alert_creation_success" role="dialog">
 					<div class="modal-dialog">
@@ -6746,46 +6779,57 @@
 								</div>
 								<hr />
 								<style>
-								.parent-data-host-modify-l3 {
-									display: grid;
-									grid-template-columns: 1fr;
-									grid-template-rows: 1fr;
-									grid-column-gap: 0px;
-									grid-row-gap: 0px;
-								}
+									.parent-data-host-modify-l3 {
+										display: grid;
+										grid-template-columns: repeat(2, 1fr);
+										grid-template-rows: 1fr;
+										grid-column-gap: 0px;
+										grid-row-gap: 0px;
+									}
 								</style>
-								<div>
-									<h1>Week days monitoring:</h1>
-									<p>Monitor source on a all days basis, apply a builtin rule, or explicitly select week days:</p>
-									<div class="fieldset">
-										<div class="input input-text" id="modal_input_wdays_host">
-											<label></label>
+								<div class="parent-data-host-modify-l3">
+									<div>
+										<h1>Week days monitoring:</h1>
+										<p>Monitor source on a all days basis, apply a builtin rule, or explicitly select week days:</p>
+										<div class="fieldset">
+											<div class="input input-text" id="modal_input_wdays_host">
+												<label></label>
+											</div>
+										</div>
+										<div style="margin-top: 10px; margin-bottom: 10px;">
+											<button id="btn_modal_modify_monitoring_wdays_host_confirm" type="submit" class="btn btn-outline-danger" style="margin-right: 5px;">
+												<span class="glyphicon glyphicon-remove"></span> Apply wdays builtin rule
+											</button>
+											<button id="btn_modal_modify_wdays_host_no" type="submit" class="btn btn-outline-primary" data-dismiss="modal">
+												<span class="glyphicon glyphicon-remove"></span> Or select days of the week
+											</button>
 										</div>
 									</div>
-									<div style="margin-top: 10px; margin-bottom: 10px;">
-										<button id="btn_modal_modify_monitoring_wdays_host_confirm" type="submit" class="btn btn-outline-danger" style="margin-right: 5px;">
-											<span class="glyphicon glyphicon-remove"></span> Apply wdays builtin rule
-										
-										
-										</button>
-										<button id="btn_modal_modify_wdays_host_no" type="submit" class="btn btn-outline-primary" data-dismiss="modal">
-											<span class="glyphicon glyphicon-remove"></span> Or select days of the week
-										
-										
-										</button>
+									<div>
+										<h1>Hours range monitoring:</h1>
+										<p>Specify if this entity should apply specific hours ranges for monitoring:</p>
+										<div class="fieldset">
+											<div class="input input-text" id="modal_input_data_host_hours_ranges">
+												<label></label>
+											</div>
+										</div>
+										<div style="margin-top: 10px; margin-bottom: 10px;">
+											<button id="btn_modal_modify_monitoring_data_host_hours_ranges_confirm" type="submit" class="btn btn-outline-danger" style="margin-right: 5px;">
+												<span class="glyphicon glyphicon-remove"></span> Apply hours ranges builtin rule
+											</button>
+											<button id="btn_modal_modify_data_host_hours_ranges_no" type="submit" class="btn btn-outline-primary" data-dismiss="modal" style="margin-right: 5px;">
+												<span class="glyphicon glyphicon-remove"></span> Or select hours ranges
+											</button>
+										</div>
 									</div>
 								</div>
 							</div>
 							<div style="margin-top: 20px;" class="modal-footer">
 								<button type="submit" id="btn_close_data_host_unified" class="btn btn-outline-secondary pull-left" data-dismiss="modal">
-									<span class="glyphicon glyphicon-remove"></span> Back
-								
-								
+									<span class="glyphicon glyphicon-remove"></span> Back				
 								</button>
 								<button type="submit" class="btn btn-outline-secondary" data-dismiss="modal">
 									<span class="glyphicon glyphicon-remove"></span> Close
-								
-								
 								</button>
 							</div>
 						</div>

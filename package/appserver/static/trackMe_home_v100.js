@@ -6976,11 +6976,14 @@ require([
                 '</div>'
             );
 
-            // pref-fill current lagging input
+            // pre-fill current lagging input
             setToken("form.tk_input_lag_host", e.data['row.data_max_lag_allowed']);
 
-            // pref-fill current wdays input
+            // pre-fill current wdays input
             setToken("form.tk_input_wdays_host", e.data['row.data_monitoring_wdays']);
+
+            // pre-fill current hours ranges
+            setToken("form.tk_input_data_host_hours_ranges", e.data["row.data_monitoring_hours_ranges"]);
 
             // pre-fill current priority
             setToken("form.tk_input_host_priority", e.data['row.priority']);
@@ -12881,8 +12884,8 @@ require([
                 "value": "manual:all_ranges"
             },
             {
-                "label": "manual:8h-to-20h",
-                "value": "manual:8h-to-20h"
+                "label": "manual:08h-to-20h",
+                "value": "manual:08h-to-20h"
             }
         ],
         "searchWhenChanged": true,
@@ -12926,6 +12929,60 @@ require([
     
     modal_input_hours_ranges_no.on("change", function(newValue) {
         FormUtils.handleValueChange(modal_input_hours_ranges_no);
+    });
+    
+    var modal_input_data_host_hours_ranges = new DropdownInput({
+        "id": "modal_input_data_host_hours_ranges",
+        "choices": [{
+                "label": "manual:all_ranges",
+                "value": "manual:all_ranges"
+            },
+            {
+                "label": "manual:08h-to-20h",
+                "value": "manual:08h-to-20h"
+            }
+        ],
+        "searchWhenChanged": true,
+        "default": "manual:all_ranges",
+        "showClearButton": true,
+        "initialValue": "all_ranges",
+        "selectFirstChoice": false,
+        "value": "$form.tk_input_data_host_hours_ranges$",
+        "el": $('#modal_input_data_host_hours_ranges')
+    }, {
+        tokens: true
+    }).render();
+    
+    modal_input_data_host_hours_ranges.on("change", function(newValue) {
+        FormUtils.handleValueChange(modal_input_data_host_hours_ranges);
+    });
+    
+    modal_input_data_host_hours_ranges.on("valueChange", function(e) {
+        if (e.value === "manual:enter_hours_ranges") {
+            EventHandler.setToken("show_manual_hours_ranges", "true", {}, e.data);
+        } else {
+            EventHandler.unsetToken("show_manual_hours_ranges");
+        }
+    });
+    
+    var modal_input_data_host_hours_ranges_no = new CheckboxGroupInput({
+        "id": "modal_input_data_host_hours_ranges_no",
+        "prefix": "manual:",
+        "searchWhenChanged": true,
+        "default": ["1","2","3","4","5","6","7","8","9","10","11","12"],
+        "initialValue": ["1","2","3","4","5","6","7","8","9","10","11","12"],
+        "delimiter": ",",
+        "managerid": "search_gen_hours_ranges",
+        "labelField": "label",
+        "valueField": "value",
+        "value": "$form.tk_input_data_host_hours_ranges_no$",
+        "el": $('#modal_input_data_host_hours_ranges_no')
+    }, {
+        tokens: true
+    }).render();
+    
+    modal_input_data_host_hours_ranges_no.on("change", function(newValue) {
+        FormUtils.handleValueChange(modal_input_data_host_hours_ranges_no);
     });
     
     var modal_input_level = new DropdownInput({
@@ -27057,15 +27114,11 @@ require([
 
         var tk_keyid = getToken("tk_keyid");
         var tk_data_name = getToken("tk_object");
-        var tk_data_monitoring_wdays = getToken("tk_data_monitoring_wdays");
 
         // Create the endpoint URL
         var myendpoint_URl =
             "/en-US/splunkd/__raw/services/trackme/v1/data_sources/ds_update_wdays";
 
-        var tk_origin_data_monitoring_wdays = getToken(
-            "tk_data_monitoring_wdays"
-        );
         var tk_data_monitoring_wdays = getToken("tk_input_wdays");
 
         if (!tk_data_monitoring_wdays || !tk_data_monitoring_wdays.length) {
@@ -27126,9 +27179,7 @@ require([
                     object = tk_data_name;
                     object_category = "data_source";
                     object_attrs =
-                        "data_monitoring_wdays changed from:" +
-                        tk_origin_data_monitoring_wdays +
-                        " to:" +
+                        "data_monitoring_wdays changed to:" +
                         tk_data_monitoring_wdays;
                     result = message;
                     comment = "N/A";
@@ -27249,21 +27300,23 @@ require([
         }
     });
 
+    $("#btn_modal_modify_wdays_no").click(function() {
+        // Show input modal
+        $("#modal_modify_monitoring_wdays_no").modal();
+    });
+
     // hours ranges
 
     $("#btn_modal_modify_monitoring_hours_ranges_confirm").click(function() {
 
         var tk_keyid = getToken("tk_keyid");
         var tk_data_name = getToken("tk_object");
-        var tk_data_monitoring_hours_ranges = getToken("tk_data_monitoring_hours_ranges");
 
         // Create the endpoint URL
         var myendpoint_URl =
             "/en-US/splunkd/__raw/services/trackme/v1/data_sources/ds_update_hours_ranges";
 
-        var tk_origin_data_monitoring_hours_ranges = getToken(
-            "tk_data_monitoring_hours_ranges"
-        );
+        // get ranges
         var tk_data_monitoring_hours_ranges = getToken("tk_input_hours_ranges");
 
         if (!tk_data_monitoring_hours_ranges || !tk_data_monitoring_hours_ranges.length) {
@@ -27324,9 +27377,7 @@ require([
                     object = tk_data_name;
                     object_category = "data_source";
                     object_attrs =
-                        "data_monitoring_hours_ranges changed from:" +
-                        tk_origin_data_monitoring_hours_ranges +
-                        " to:" +
+                        "data_monitoring_hours_ranges changed to: " +
                         tk_data_monitoring_hours_ranges;
                     result = message;
                     comment = "N/A";
@@ -27349,11 +27400,6 @@ require([
         }
     });
 
-    $("#btn_modal_modify_wdays_no").click(function() {
-        // Show input modal
-        $("#modal_modify_monitoring_wdays_no").modal();
-    });
-
     $("#btn_modal_modify_hours_ranges_no").click(function() {
         // Show input modal
         $("#modal_modify_monitoring_hours_ranges_no").modal();
@@ -27363,15 +27409,12 @@ require([
 
         var tk_keyid = getToken("tk_keyid");
         var tk_data_name = getToken("tk_object");
-        var tk_data_monitoring_hours_ranges = getToken("tk_data_monitoring_hours_ranges");
 
         // Create the endpoint URL
         var myendpoint_URl =
             "/en-US/splunkd/__raw/services/trackme/v1/data_sources/ds_update_hours_ranges";
 
-        var tk_origin_data_monitoring_hours_ranges = getToken(
-            "tk_data_monitoring_hours_ranges"
-        );
+        // get ranges
         var tk_data_monitoring_hours_ranges_no = getToken("tk_input_hours_ranges_no");
 
         if (!tk_data_monitoring_hours_ranges_no || !tk_data_monitoring_hours_ranges_no.length) {
@@ -27436,9 +27479,7 @@ require([
                     object = tk_data_name;
                     object_category = "data_source";
                     object_attrs =
-                        "data_monitoring_hours_ranges changed from:" +
-                        tk_origin_data_monitoring_hours_ranges +
-                        " to:" +
+                        "data_monitoring_hours_ranges changed to: " +
                         tk_data_monitoring_hours_ranges_no;
                     result = message;
                     comment = "N/A";
@@ -27467,20 +27508,219 @@ require([
         $("#modal_modify_data_source_unified").modal();
     });
 
+    // hours ranges for data hosts
+
+    $("#btn_modal_modify_monitoring_data_host_hours_ranges_confirm").click(function() {
+
+        var tk_keyid = getToken("tk_keyid");
+        var tk_data_host = getToken("tk_object");
+
+        // Create the endpoint URL
+        var myendpoint_URl =
+            "/en-US/splunkd/__raw/services/trackme/v1/data_hosts/dh_update_hours_ranges";
+
+        // get ranges
+        var tk_data_monitoring_hours_ranges = getToken("tk_input_data_host_hours_ranges");
+
+        if (!tk_data_monitoring_hours_ranges || !tk_data_monitoring_hours_ranges.length) {
+            // Show an error message
+            $("#modal_entry_update_invalid").modal();
+            return;
+        } else {
+            // Create a dictionary to store the field names and values
+            var record = {
+                data_host: tk_data_host,
+                data_monitoring_hours_ranges: tk_data_monitoring_hours_ranges,
+                update_comment: "N/A",
+            };
+
+            $.ajax({
+                url: myendpoint_URl,
+                type: "POST",
+                async: true,
+                contentType: "application/json",
+                dataType: "text",
+                beforeSend: function(xhr) {
+                    xhr.overrideMimeType("text/plain; charset=x-user-defined");
+                },
+                data: JSON.stringify(record),
+                success: function(returneddata) {
+                    // Run the search again to update the table
+                    searchDataHostsMain.startSearch();
+
+                    // call update data source
+                    updateDataHost(tk_keyid);
+
+                    // notify
+                    notify(
+                        "success",
+                        "bottom",
+                        "Monitoring hours ranges applied successfully.",
+                        "5"
+                    );
+
+                    // house cleaning
+                    myendpoint_URl = undefined;
+                    delete myendpoint_URl;
+
+                    tk_keyid = undefined;
+                    delete tk_keyid;
+                    return;
+                },
+                error: function(xhr, textStatus, error) {
+                    message =
+                        "server response: " +
+                        xhr.responseText +
+                        "\n - http response: " +
+                        error;
+
+                    // Audit
+                    action = "failure";
+                    change_type = "modify hours ranges monitoring";
+                    object = tk_data_host;
+                    object_category = "data_host";
+                    object_attrs =
+                        "data_monitoring_hours_ranges changed to:" +
+                        tk_data_monitoring_hours_ranges;
+                    result = message;
+                    comment = "N/A";
+                    auditRecord(
+                        action,
+                        change_type,
+                        object,
+                        object_category,
+                        object_attrs,
+                        result,
+                        comment
+                    );
+
+                    $("#modal_update_collection_failure_return")
+                        .find(".modal-error-message p")
+                        .text(message);
+                    $("#modal_update_collection_failure_return").modal();
+                },
+            });
+        }
+    });
+
+    $("#btn_modal_modify_data_host_hours_ranges_no").click(function() {
+        // Show input modal
+        $("#modal_modify_monitoring_data_host_hours_ranges_no").modal();
+    });
+
+    $("#btn_modal_modify_monitoring_data_host_hours_ranges_no_confirm").click(function() {
+
+        var tk_keyid = getToken("tk_keyid");
+        var tk_data_host = getToken("tk_object");
+
+        // Create the endpoint URL
+        var myendpoint_URl =
+            "/en-US/splunkd/__raw/services/trackme/v1/data_hosts/dh_update_hours_ranges";
+
+        // get ranges
+        var tk_data_monitoring_hours_ranges_no = getToken("tk_input_data_host_hours_ranges_no");
+
+        if (!tk_data_monitoring_hours_ranges_no || !tk_data_monitoring_hours_ranges_no.length) {
+            // Show an error message
+            $("#modal_entry_update_invalid").modal();
+            return;
+        } else {
+            // Create a dictionary to store the field names and values
+            var record = {
+                data_host: tk_data_host,
+                data_monitoring_hours_ranges: tk_data_monitoring_hours_ranges_no,
+                update_comment: "N/A",
+            };
+
+            $.ajax({
+                url: myendpoint_URl,
+                type: "POST",
+                async: true,
+                contentType: "application/json",
+                dataType: "text",
+                beforeSend: function(xhr) {
+                    xhr.overrideMimeType("text/plain; charset=x-user-defined");
+                },
+                data: JSON.stringify(record),
+                success: function(returneddata) {
+                    // Run the search again to update the table
+                    searchDataHostsMain.startSearch();
+
+                    $("#modal_modify_data_host_unified").modal();
+
+                    // call update data source
+                    updateDataHost(tk_keyid);
+
+                    // notify
+                    notify(
+                        "success",
+                        "bottom",
+                        "Monitoring hours ranges applied successfully.",
+                        "5"
+                    );
+
+                    // pre-fill the form
+                    setToken("form.tk_input_data_host_hours_ranges", tk_data_monitoring_hours_ranges_no);
+
+                    // house cleaning
+                    myendpoint_URl = undefined;
+                    delete myendpoint_URl;
+                    tk_keyid = undefined;
+                    delete tk_keyid;
+                    return;
+                },
+                error: function(xhr, textStatus, error) {
+                    message =
+                        "server response: " +
+                        xhr.responseText +
+                        "\n - http response: " +
+                        error;
+
+                    // Audit
+                    action = "failure";
+                    change_type = "modify hours ranges monitoring";
+                    object = tk_data_host;
+                    object_category = "data_host";
+                    object_attrs =
+                        "data_monitoring_hours_ranges changed to:" +
+                        tk_data_monitoring_hours_ranges_no;
+                    result = message;
+                    comment = "N/A";
+                    auditRecord(
+                        action,
+                        change_type,
+                        object,
+                        object_category,
+                        object_attrs,
+                        result,
+                        comment
+                    );
+
+                    $("#modal_update_collection_failure_return")
+                        .find(".modal-error-message p")
+                        .text(message);
+                    $("#modal_update_collection_failure_return").modal();
+                },
+            });
+        }
+    });
+
+    // cancel: returns to unified modal
+    $("#btn_modal_modify_monitoring_data_host_hours_ranges_no_cancel").click(function() {
+        // Show input modal
+        $("#modal_modify_data_host_unified").modal();
+    });
+
     // wdays manual
     $("#btn_modal_modify_monitoring_wdays_no_confirm").click(function() {
 
         var tk_keyid = getToken("tk_keyid");
         var tk_data_name = getToken("tk_object");
-        var tk_data_monitoring_wdays = getToken("tk_data_monitoring_wdays");
 
         // Create the endpoint URL
         var myendpoint_URl =
             "/en-US/splunkd/__raw/services/trackme/v1/data_sources/ds_update_wdays";
 
-        var tk_origin_data_monitoring_wdays = getToken(
-            "tk_data_monitoring_wdays"
-        );
         var tk_data_monitoring_wdays_no = getToken("tk_input_wdays_no");
 
         if (!tk_data_monitoring_wdays_no || !tk_data_monitoring_wdays_no.length) {
@@ -27522,6 +27762,9 @@ require([
                         "5"
                     );
 
+                    // pre-fill current wdays input
+                    setToken("form.tk_input_wdays", tk_data_monitoring_wdays_no);
+
                     // house cleaning
                     myendpoint_URl = undefined;
                     delete myendpoint_URl;
@@ -27542,9 +27785,7 @@ require([
                     object = tk_data_name;
                     object_category = "data_source";
                     object_attrs =
-                        "data_monitoring_wdays changed from:" +
-                        tk_origin_data_monitoring_wdays +
-                        " to:" +
+                        "data_monitoring_wdays changed to:" +
                         tk_data_monitoring_wdays_no;
                     result = message;
                     comment = "N/A";
@@ -28846,15 +29087,11 @@ require([
 
         var tk_keyid = getToken("tk_keyid");
         var tk_data_host = getToken("tk_data_host");
-        var tk_data_monitoring_wdays = getToken("tk_data_monitoring_wdays");
 
         // Create the endpoint URL
         var myendpoint_URl =
             "/en-US/splunkd/__raw/services/trackme/v1/data_hosts/dh_update_wdays";
 
-        var tk_origin_data_monitoring_wdays = getToken(
-            "tk_data_monitoring_wdays"
-        );
         var tk_data_monitoring_wdays = getToken("tk_input_wdays_host");
 
         if (!tk_data_monitoring_wdays || !tk_data_monitoring_wdays.length) {
@@ -28913,9 +29150,7 @@ require([
                     object = tk_data_host;
                     object_category = "data_host";
                     object_attrs =
-                        "data_monitoring_wdays changed from:" +
-                        tk_origin_data_monitoring_wdays +
-                        " to:" +
+                        "data_monitoring_wdays changed to:" +
                         tk_data_monitoring_wdays;
                     result = message;
                     comment = "N/A";
@@ -29045,15 +29280,11 @@ require([
 
         var tk_keyid = getToken("tk_keyid");
         var tk_object = getToken("tk_object");
-        var tk_data_monitoring_wdays = getToken("tk_data_monitoring_wdays");
 
         // Create the endpoint URL
         var myendpoint_URl =
             "/en-US/splunkd/__raw/services/trackme/v1/data_hosts/dh_update_wdays";
 
-        var tk_origin_data_monitoring_wdays = getToken(
-            "tk_data_monitoring_wdays"
-        );
         var tk_data_monitoring_wdays_no = getToken("tk_input_wdays_no");
 
         if (!tk_data_monitoring_wdays_no || !tk_data_monitoring_wdays_no.length) {
@@ -29095,6 +29326,9 @@ require([
                         "5"
                     );
 
+                    // pre-fill current wdays input
+                    setToken("form.tk_input_wdays_host", tk_data_monitoring_wdays_no);
+
                     // house cleaning
                     myendpoint_URl = undefined;
                     delete myendpoint_URl;
@@ -29115,9 +29349,7 @@ require([
                     object = tk_data_name;
                     object_category = "data_host";
                     object_attrs =
-                        "data_monitoring_wdays changed from:" +
-                        tk_origin_data_monitoring_wdays +
-                        " to:" +
+                        "data_monitoring_wdays changed to:" +
                         tk_data_monitoring_wdays_no;
                     result = message;
                     comment = "N/A";
