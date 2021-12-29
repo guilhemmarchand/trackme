@@ -5125,14 +5125,12 @@
 								<button type="button" class="close" data-dismiss="modal"></button>
 								<h1>
 									<span class="glyphicon glyphicon-lock"></span> Monitoring week days update 
-								
-								
 								</h1>
 							</div>
 							<div class="modal-body">
-								<h2>Select the days of the week where will be applied the monitoring rules:</h2>
+								<h2>Select the days of the week when will be applied the monitoring rules:</h2>
 								<p>
-                                    If the data source triggers a red state during a day which is not monitored, it will be ignored by TrackMe alerts. 
+                                    If the entity triggers a red state during a period which is not monitored, it will be turned automatically to orange and therefore can be ignored by TrackMe alerts. 
 								</p>
 								<div class="fieldset">
 									<div class="input input-checkboxgroup" id="modal_input_wdays_no">
@@ -5169,7 +5167,7 @@
 							<div class="modal-body">
 								<h2>Select the hours of the day where will be applied the monitoring rules:</h2>
 								<p>
-                                    If the data source triggers a red state during a period which is not monitored, it will be ignored by TrackMe alerts. 
+                                    If the entity triggers a red state during a period which is not monitored, it will be turned automatically to orange and therefore can be ignored by TrackMe alerts. 
 								</p>
 								<div class="fieldset">
 									<div class="input input-checkboxgroup" id="modal_input_hours_ranges_no">
@@ -5202,7 +5200,7 @@
 							<div class="modal-body">
 								<h2>Select the hours of the day where will be applied the monitoring rules:</h2>
 								<p>
-                                    If the data host triggers a red state during a period which is not monitored, it will be ignored by TrackMe alerts. 
+                                    If the entity triggers a red state during a period which is not monitored, it will be turned automatically to orange and therefore can be ignored by TrackMe alerts. 
 								</p>
 								<div class="fieldset">
 									<div class="input input-checkboxgroup" id="modal_input_data_host_hours_ranges_no">
@@ -7169,14 +7167,12 @@
 								<button type="button" class="close" data-dismiss="modal"></button>
 								<h1>
 									<span class="glyphicon glyphicon-lock"></span> Monitoring week days update 
-								
-								
 								</h1>
 							</div>
 							<div class="modal-body">
-								<h2>Select the days of the week where will be applied the monitoring rules:</h2>
+								<h2>Select the days of the week when will be applied the monitoring rules:</h2>
 								<p>
-                                    If the data source triggers a red state during a day which is not monitored, it will be ignored by TrackMe alerts. 
+                                    If the entity triggers a red state during a period which is not monitored, it will be turned automatically to orange and therefore can be ignored by TrackMe alerts. 
 								</p>
 								<div class="fieldset">
 									<div class="input input-checkboxgroup" id="modal_input_wdays_host_no">
@@ -7187,13 +7183,9 @@
 							<div class="modal-footer">
 								<button id="btn_modal_modify_monitoring_wdays_host_no_cancel" type="submit" class="btn btn-outline-secondary pull-left" data-dismiss="modal">
 									<span class="glyphicon glyphicon-remove"></span> Cancel
-								
-								
 								</button>
 								<button id="btn_modal_modify_monitoring_wdays_host_no_confirm" type="submit" class="btn btn-outline-danger pull-right" data-dismiss="modal">
 									<span class="glyphicon glyphicon-remove"></span> Ok
-								
-								
 								</button>
 							</div>
 						</div>

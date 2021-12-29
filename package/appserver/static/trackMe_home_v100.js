@@ -740,6 +740,9 @@ require([
         app: utils.getCurrentApp(),
         auto_cancel: 90,
         preview: true,
+        tokenDependencies: {
+            depends: "$show_hours_ranges$",
+        },        
         runWhenTimeIsUndefined: false,
     }, {
         tokens: true
@@ -12915,8 +12918,8 @@ require([
         "id": "modal_input_hours_ranges_no",
         "prefix": "manual:",
         "searchWhenChanged": true,
-        "default": ["1","2","3","4","5","6","7","8","9","10","11","12"],
-        "initialValue": ["1","2","3","4","5","6","7","8","9","10","11","12"],
+        "default": ["0,1","2,3","4,5","6,7","8,9","10,11","12,13","14,15","16,17","18,19","20,21","22,23"],
+        "initialValue": ["0,1","2,3","4,5","6,7","8,9","10,11","12,13","14,15","16,17","18,19","20,21","22,23"],
         "delimiter": ",",
         "managerid": "search_gen_hours_ranges",
         "labelField": "label",
@@ -12969,8 +12972,8 @@ require([
         "id": "modal_input_data_host_hours_ranges_no",
         "prefix": "manual:",
         "searchWhenChanged": true,
-        "default": ["1","2","3","4","5","6","7","8","9","10","11","12"],
-        "initialValue": ["1","2","3","4","5","6","7","8","9","10","11","12"],
+        "default": ["0,1","2,3","4,5","6,7","8,9","10,11","12,13","14,15","16,17","18,19","20,21","22,23"],
+        "initialValue": ["0,1","2,3","4,5","6,7","8,9","10,11","12,13","14,15","16,17","18,19","20,21","22,23"],
         "delimiter": ",",
         "managerid": "search_gen_hours_ranges",
         "labelField": "label",
@@ -27401,6 +27404,8 @@ require([
     });
 
     $("#btn_modal_modify_hours_ranges_no").click(function() {
+        // free the populating search
+        setToken("show_hours_ranges", "true");
         // Show input modal
         $("#modal_modify_monitoring_hours_ranges_no").modal();
     });
@@ -27604,6 +27609,8 @@ require([
     });
 
     $("#btn_modal_modify_data_host_hours_ranges_no").click(function() {
+        // free the populating search
+        setToken("show_hours_ranges", "true");
         // Show input modal
         $("#modal_modify_monitoring_data_host_hours_ranges_no").modal();
     });
