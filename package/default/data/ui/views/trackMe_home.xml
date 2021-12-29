@@ -131,17 +131,24 @@
 								<h2>
 									This logic can be updated, but this is a all or nothing change, as it impacts globally the way entities are discovered and maintained in TrackMe.
 								</h2>
-								<h2>
-									However, you can create a custom hybrid tracker to handle additional use cases without affecting the main discovery and logic of data sources:
-								</h2>
-								<div style="line-height: 120%;">
+								<h1>
+									Hybrid trackers can be created to handle additional use cases without affecting the main discovery and logic of data sources:
+								</h1>
+
+								<style>
+									.hybrid-trackers-list li {
+										line-height:200%;
+									}
+								</style>
+
+								<div class="hybrid-trackers-list">
 									<ul>
 										<li>
-										Discovering data sources based on a special break by statement relying on a specific key data field
+										Discover and maintain data sources based on a special break by statement, relying on a target key data field
 										</li>
 										<li>
 										For instance, you could create an hybrid tracker to automatically create entities for your Cloud provider data using a 
-											<code>subscription_id</code> to automatically get a single entity per 
+											<code>subscription_id</code> and get a single entity per 
 											<code>index / sourcetype / Cloud tenant</code>
 										</li>
 										<li>
@@ -153,7 +160,7 @@
 										Ideally, the break by field should refer to an indexed time field rather than a search time extracted field, which allows to use a tstats based hybrid tracker for the best performances at the lowest computing costs
 										</li>
 										<li>
-										However, hybrid trackers can be based on either tstats search logic (which implies indexed fields), or raw search logic (which allows search time extracted fields)
+										However, hybrid trackers can be based on either <code>tstats</code> search logic (which implies indexed fields), or <code>raw</code> search logic (which allows search time extracted fields)
 										</li>
 										<li>
 										The hybrid tracker process can be performed easily via this screen, once the new entities have been created you can decide to disable the previously discovered entities, and optionally remove the data set from the out of the box trackers
