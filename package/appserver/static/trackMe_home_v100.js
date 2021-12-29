@@ -13570,7 +13570,7 @@ require([
         "id": "modal_input_custom_alert_suppress_period",
         "searchWhenChanged": false,
         "value": "$form.tk_input_custom_alert_suppress_period$",
-        "default": "24h",
+        "default": "15m",
         "el": $('#modal_input_custom_alert_suppress_period')
     }, {
         tokens: true
