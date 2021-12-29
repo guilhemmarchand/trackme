@@ -354,7 +354,7 @@ Action buttons
 
 See :ref:`Alerts tracking` for more details about the acknowledgment feature and alert related configurations
 
-See :ref:`Data source unified update` for more details about the unified update UI for data sources
+See :ref:`Data source main settings update` for more details about the unified update UI for data sources
 
 Data Hosts tracking and features
 --------------------------------
@@ -454,32 +454,32 @@ These interfaces are called unified as their main purpose is to provide a centra
 
 In this screens, you will define the priority level assignment, modify the lagging policy, manage logical groups, etc.
 
-Data source unified update
---------------------------
+Data source main settings update
+--------------------------------
 
 .. image:: img/first_steps/img024.png
    :alt: img/first_steps/img024
    :align: center
    :width: 1200px
 
-Data hosts unified update
--------------------------
+Data hosts main settings update
+-------------------------------
 
 .. image:: img/first_steps/img025.png
    :alt: img/first_steps/img025
    :align: center
    :width: 1200px
 
-Metric hosts unified update
----------------------------
+Metric hosts main settings update
+---------------------------------
 
 .. image:: img/first_steps/img026.png
    :alt: img/first_steps/img026
    :align: center
    :width: 1200px
 
-Unified update interface features
----------------------------------
+Main settings update interface features
+---------------------------------------
 
 **Lag monitoring policy:**
 
@@ -512,7 +512,15 @@ See :ref:`Priority management` for more details about this feature
 
 Week days monitoring allows using specific rules for data sources and data hosts regarding the day of the week, by default monitoring rules are always applied, therefore using week days rules allow influencing the ``red`` state depending on the current day of the week. (which would switch to ``orange`` accordingly)
 
-See :ref:`Week days monitoring` for more details about this feature
+**Hours ranges monitoring:**
+
+Similarly to the week days monitoring, you can specify for each entity the hours ranges of the day when the monitoring condition apply.
+
+In a nutshell, this means that you can specify which periods of the day a given entity can switch to red, and therefore be included in your alerting workflow.
+
+If the current hour range is not included in the monitoring rules, the entity would turn orange rather than red.
+
+See :ref:`Hours ranges monitoring` for more details about this feature
 
 **Monitoring level:**
 
@@ -2095,13 +2103,32 @@ Week days monitoring
 .. image:: img/week_days2.png
    :alt: week_days2.png
    :align: center
+   :width: 500px
 
-**Which is visible in the table:**
+An entity that would have normally triggered a red state would turn orange instead if the current day is not included in the week days monitoring, allowing to easily exclude it from your alerting logic.
 
-.. image:: img/week_days_table.png
-   :alt: week_days_table.png
+Hours ranges monitoring
+=======================
+
+.. admonition:: Hours days monitoring
+
+   In addition with the week days monitoring, you can explicitly choose which hours ranges of the days the monitoring rules should apply.
+
+.. image:: img/hours_ranges1.png
+   :alt: hours_ranges1.png
    :align: center
-   :width: 1200px
+
+**Several built-in rules are available:**
+
+* manual:all_ranges
+* manual:08h-to-20h
+
+**Or you can select explicitly which days of the week:**
+
+.. image:: img/hours_ranges2.png
+   :alt: hours_ranges2.png
+   :align: center
+   :width: 500px
 
 Monitoring level
 ================
