@@ -2073,7 +2073,7 @@ Monitored state (enable / disable buttons)
 .. image:: img/enable_disable.png
    :alt: enable_disable.png
    :align: center
-   :width: 800px
+   :width: 1200px
 
 If an entity is set to ``disabled``, it will not appear anymore in the main screens, will not be part of any alert results, and no more metrics will be collected for it.
 
@@ -2177,7 +2177,7 @@ Maximal lagging value
 This topic is covered in details in first steps guide :ref:`Main navigation tabs` and :ref:`Entities main setting update screens`.
 
 Lagging classes
-======================
+===============
 
 .. admonition:: Lagging classes
 
