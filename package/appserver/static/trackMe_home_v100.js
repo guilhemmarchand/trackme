@@ -16479,6 +16479,11 @@ require([
 
     // FUNCTIONS
 
+    // close all opened modals
+    function closeModals() {
+        $('.modal.in').modal('hide')
+    }
+
     // setnull
     function setNull(str) {
         if (!str || str.length === 0 || str === null) {
@@ -16987,6 +16992,7 @@ require([
                 $("#modal_update_collection_failure_return")
                     .find(".modal-error-message p")
                     .text(message);
+                closeModals();
                 $("#modal_update_collection_failure_return").modal();
             },
         });
@@ -17080,6 +17086,7 @@ require([
                 $("#modal_update_collection_failure_return")
                     .find(".modal-error-message p")
                     .text(message);
+                closeModals();
                 $("#modal_update_collection_failure_return").modal();
             },
         });
@@ -17883,7 +17890,7 @@ require([
                 $("#modal_alert_creation_error")
                     .find(".modal-error-message p")
                     .text(msg);
-                $("#add_custom_alert").modal("hide");
+                closeModals();
                 $("#modal_alert_creation_error").modal();
                 done();
                 return;
@@ -17928,7 +17935,7 @@ require([
                 $("#modal_alert_creation_error")
                     .find(".modal-error-message p")
                     .text(errorStr);
-                $("#add_custom_alert").modal("hide");
+                closeModals();
                 $("#modal_alert_creation_error").modal();
                 done(err);
                 return;
@@ -18063,6 +18070,7 @@ require([
                         $("#modal_update_collection_failure_return")
                             .find(".modal-error-message p")
                             .text(message);
+                        closeModals();
                         $("#modal_update_collection_failure_return").modal();
                     },
                 });
@@ -18164,6 +18172,7 @@ require([
                         $("#modal_update_collection_failure_return")
                             .find(".modal-error-message p")
                             .text(message);
+                        closeModals();
                         $("#modal_update_collection_failure_return").modal();
                     },
                 });
@@ -18361,6 +18370,7 @@ require([
                         $("#modal_update_collection_failure_return")
                             .find(".modal-error-message p")
                             .text(message);
+                        closeModals();
                         $("#modal_update_collection_failure_return").modal();
                     },
                 });
@@ -18467,6 +18477,7 @@ require([
                     $("#modal_update_collection_failure_return")
                         .find(".modal-error-message p")
                         .text(message);
+                    closeModals();
                     $("#modal_update_collection_failure_return").modal();
                 },
             });
@@ -18569,6 +18580,7 @@ require([
                         $("#modal_update_collection_failure_return")
                             .find(".modal-error-message p")
                             .text(message);
+                        closeModals();
                         $("#modal_update_collection_failure_return").modal();
                     },
                 });
@@ -18670,6 +18682,7 @@ require([
                         $("#modal_update_collection_failure_return")
                             .find(".modal-error-message p")
                             .text(message);
+                        closeModals();
                         $("#modal_update_collection_failure_return").modal();
                     },
                 });
@@ -18771,6 +18784,7 @@ require([
                         $("#modal_update_collection_failure_return")
                             .find(".modal-error-message p")
                             .text(message);
+                        closeModals();
                         $("#modal_update_collection_failure_return").modal();
                     },
                 });
@@ -18924,6 +18938,7 @@ require([
                                 $("#modal_update_collection_failure_return")
                                     .find(".modal-error-message p")
                                     .text(errorStr);
+                                closeModals();
                                 $("#modal_update_collection_failure_return").modal();
                             } else {
                                 // Poll the status of the search job
@@ -18967,11 +18982,13 @@ require([
                                         $("#modal_update_collection_failure_return")
                                             .find(".modal-error-message p")
                                             .text(errorStr);
+                                        closeModals();
                                         $("#modal_update_collection_failure_return").modal();
                                     },
                                     error: function(err) {
                                         done(err);
                                         cssloaderremove();
+                                        closeModals();
                                         $("#modal_update_collection_failure").modal();
                                     },
                                 });
@@ -19050,6 +19067,7 @@ require([
                                 $("#modal_update_collection_failure_return")
                                     .find(".modal-error-message p")
                                     .text(errorStr);
+                                closeModals();
                                 $("#modal_update_collection_failure_return").modal();
                             } else {
                                 // Poll the status of the search job
@@ -19093,11 +19111,13 @@ require([
                                         $("#modal_update_collection_failure_return")
                                             .find(".modal-error-message p")
                                             .text(errorStr);
+                                        closeModals();
                                         $("#modal_update_collection_failure_return").modal();
                                     },
                                     error: function(err) {
                                         done(err);
                                         cssloaderremove();
+                                        closeModals();
                                         $("#modal_update_collection_failure").modal();
                                     },
                                 });
@@ -19192,6 +19212,7 @@ require([
                                 $("#modal_update_collection_failure_return")
                                     .find(".modal-error-message p")
                                     .text(errorStr);
+                                closeModals();
                                 $("#modal_update_collection_failure_return").modal();
                             } else {
                                 // Poll the status of the search job
@@ -19235,11 +19256,13 @@ require([
                                         $("#modal_update_collection_failure_return")
                                             .find(".modal-error-message p")
                                             .text(errorStr);
+                                        closeModals();
                                         $("#modal_update_collection_failure_return").modal();
                                     },
                                     error: function(err) {
                                         done(err);
                                         cssloaderremove();
+                                        closeModals();
                                         $("#modal_update_collection_failure").modal();
                                     },
                                 });
@@ -19319,6 +19342,7 @@ require([
                                 $("#modal_update_collection_failure_return")
                                     .find(".modal-error-message p")
                                     .text(errorStr);
+                                closeModals();
                                 $("#modal_update_collection_failure_return").modal();
                             } else {
                                 // Poll the status of the search job
@@ -19362,11 +19386,13 @@ require([
                                         $("#modal_update_collection_failure_return")
                                             .find(".modal-error-message p")
                                             .text(errorStr);
+                                        closeModals();
                                         $("#modal_update_collection_failure_return").modal();
                                     },
                                     error: function(err) {
                                         done(err);
                                         cssloaderremove();
+                                        closeModals();
                                         $("#modal_update_collection_failure").modal();
                                     },
                                 });
@@ -19538,6 +19564,7 @@ require([
                                 $("#modal_update_collection_failure_return")
                                     .find(".modal-error-message p")
                                     .text(errorStr);
+                                closeModals();
                                 $("#modal_update_collection_failure_return").modal();
                             } else {
                                 // Poll the status of the search job
@@ -19581,11 +19608,13 @@ require([
                                         $("#modal_update_collection_failure_return")
                                             .find(".modal-error-message p")
                                             .text(errorStr);
+                                        closeModals();
                                         $("#modal_update_collection_failure_return").modal();
                                     },
                                     error: function(err) {
                                         done(err);
                                         cssloaderremove();
+                                        closeModals();
                                         $("#modal_update_collection_failure").modal();
                                     },
                                 });
@@ -19664,6 +19693,7 @@ require([
                                 $("#modal_update_collection_failure_return")
                                     .find(".modal-error-message p")
                                     .text(errorStr);
+                                closeModals();
                                 $("#modal_update_collection_failure_return").modal();
                             } else {
                                 // Poll the status of the search job
@@ -19707,11 +19737,13 @@ require([
                                         $("#modal_update_collection_failure_return")
                                             .find(".modal-error-message p")
                                             .text(errorStr);
+                                        closeModals();
                                         $("#modal_update_collection_failure_return").modal();
                                     },
                                     error: function(err) {
                                         done(err);
                                         cssloaderremove();
+                                        closeModals();
                                         $("#modal_update_collection_failure").modal();
                                     },
                                 });
@@ -19800,6 +19832,7 @@ require([
                     $("#modal_update_collection_failure_return")
                         .find(".modal-error-message p")
                         .text(errorStr);
+                    closeModals();
                     $("#modal_update_collection_failure_return").modal();
                 } else {
                     // Poll the status of the search job
@@ -19864,11 +19897,13 @@ require([
                             $("#modal_update_collection_failure_return")
                                 .find(".modal-error-message p")
                                 .text(errorStr);
+                            closeModals();
                             $("#modal_update_collection_failure_return").modal();
                         },
                         error: function(err) {
                             done(err);
                             audit_failure();
+                            closeModals();
                             $("#modal_update_collection_failure_flush").modal();
                         },
                     });
@@ -20124,6 +20159,7 @@ require([
                     $("#modal_update_collection_failure_return")
                         .find(".modal-error-message p")
                         .text(errorStr);
+                    closeModals();
                     $("#modal_update_collection_failure_return").modal();
                 } else {
                     // Poll the status of the search job
@@ -20184,11 +20220,13 @@ require([
                             $("#modal_update_collection_failure_return")
                                 .find(".modal-error-message p")
                                 .text(errorStr);
+                            closeModals();
                             $("#modal_update_collection_failure_return").modal();
                         },
                         error: function(err) {
                             done(err);
                             audit_failure();
+                            closeModals();
                             $("#modal_update_collection_failure_flush").modal();
                         },
                     });
@@ -20457,6 +20495,7 @@ require([
                     $("#modal_update_collection_failure_return")
                         .find(".modal-error-message p")
                         .text(message);
+                    closeModals();
                     $("#modal_update_collection_failure_return").modal();
                 },
             });
@@ -20546,6 +20585,7 @@ require([
                     $("#modal_update_collection_failure_return")
                         .find(".modal-error-message p")
                         .text(errorStr);
+                    closeModals();
                     $("#modal_update_collection_failure_return").modal();
                 } else {
                     // Poll the status of the search job
@@ -20602,11 +20642,13 @@ require([
                             $("#modal_update_collection_failure_return")
                                 .find(".modal-error-message p")
                                 .text(errorStr);
+                            closeModals();
                             $("#modal_update_collection_failure_return").modal();
                         },
                         error: function(err) {
                             done(err);
                             audit_failure();
+                            closeModals();
                             $("#modal_update_collection_failure_flush").modal();
                         },
                     });
@@ -20844,6 +20886,7 @@ require([
                     $("#modal_update_collection_failure_return")
                         .find(".modal-error-message p")
                         .text(errorStr);
+                    closeModals();
                     $("#modal_update_collection_failure_return").modal();
                 } else {
                     // Poll the status of the search job
@@ -20900,11 +20943,13 @@ require([
                             $("#modal_update_collection_failure_return")
                                 .find(".modal-error-message p")
                                 .text(errorStr);
+                            closeModals();
                             $("#modal_update_collection_failure_return").modal();
                         },
                         error: function(err) {
                             done(err);
                             audit_failure();
+                            closeModals();
                             $("#modal_update_collection_failure_flush").modal();
                         },
                     });
@@ -21142,6 +21187,7 @@ require([
                     $("#modal_update_collection_failure_return")
                         .find(".modal-error-message p")
                         .text(errorStr);
+                    closeModals();
                     $("#modal_update_collection_failure_return").modal();
                 } else {
                     // Poll the status of the search job
@@ -21197,11 +21243,13 @@ require([
                             $("#modal_update_collection_failure_return")
                                 .find(".modal-error-message p")
                                 .text(errorStr);
+                            closeModals();
                             $("#modal_update_collection_failure_return").modal();
                         },
                         error: function(err) {
                             done(err);
                             audit_failure();
+                            closeModals();
                             $("#modal_update_collection_failure_flush").modal();
                         },
                     });
@@ -21428,6 +21476,7 @@ require([
                     $("#modal_update_collection_failure_return")
                         .find(".modal-error-message p")
                         .text(errorStr);
+                    closeModals();
                     $("#modal_update_collection_failure_return").modal();
                 } else {
                     // Poll the status of the search job
@@ -21481,11 +21530,13 @@ require([
                             $("#modal_update_collection_failure_return")
                                 .find(".modal-error-message p")
                                 .text(errorStr);
+                            closeModals();
                             $("#modal_update_collection_failure_return").modal();
                         },
                         error: function(err) {
                             done(err);
                             audit_failure();
+                            closeModals();
                             $("#modal_update_collection_failure_flush").modal();
                         },
                     });
@@ -21706,6 +21757,7 @@ require([
                     $("#modal_update_collection_failure_return")
                         .find(".modal-error-message p")
                         .text(errorStr);
+                    closeModals();
                     $("#modal_update_collection_failure_return").modal();
                 } else {
                     // Poll the status of the search job
@@ -21759,11 +21811,13 @@ require([
                             $("#modal_update_collection_failure_return")
                                 .find(".modal-error-message p")
                                 .text(errorStr);
+                            closeModals();
                             $("#modal_update_collection_failure_return").modal();
                         },
                         error: function(err) {
                             done(err);
                             audit_failure();
+                            closeModals();
                             $("#modal_update_collection_failure_flush").modal();
                         },
                     });
@@ -21846,6 +21900,7 @@ require([
                     $("#modal_update_collection_failure_return")
                         .find(".modal-error-message p")
                         .text(errorStr);
+                    closeModals();
                     $("#modal_update_collection_failure_return").modal();
                 } else {
                     // Poll the status of the search job
@@ -21899,11 +21954,13 @@ require([
                             $("#modal_update_collection_failure_return")
                                 .find(".modal-error-message p")
                                 .text(errorStr);
+                            closeModals();
                             $("#modal_update_collection_failure_return").modal();
                         },
                         error: function(err) {
                             done(err);
                             audit_failure();
+                            closeModals();
                             $("#modal_update_collection_failure_flush").modal();
                         },
                     });
@@ -22262,6 +22319,7 @@ require([
                     $("#modal_update_collection_failure_return")
                         .find(".modal-error-message p")
                         .text(errorStr);
+                    closeModals();
                     $("#modal_update_collection_failure_return").modal();
                 } else {
                     // Poll the status of the search job
@@ -22315,11 +22373,13 @@ require([
                             $("#modal_update_collection_failure_return")
                                 .find(".modal-error-message p")
                                 .text(errorStr);
+                            closeModals();
                             $("#modal_update_collection_failure_return").modal();
                         },
                         error: function(err) {
                             done(err);
                             audit_failure();
+                            closeModals();
                             $("#modal_update_collection_failure_flush").modal();
                         },
                     });
@@ -22540,6 +22600,7 @@ require([
                     $("#modal_update_collection_failure_return")
                         .find(".modal-error-message p")
                         .text(errorStr);
+                    closeModals();
                     $("#modal_update_collection_failure_return").modal();
                 } else {
                     // Poll the status of the search job
@@ -22593,11 +22654,13 @@ require([
                             $("#modal_update_collection_failure_return")
                                 .find(".modal-error-message p")
                                 .text(errorStr);
+                            closeModals();
                             $("#modal_update_collection_failure_return").modal();
                         },
                         error: function(err) {
                             done(err);
                             audit_failure();
+                            closeModals();
                             $("#modal_update_collection_failure_flush").modal();
                         },
                     });
@@ -22818,6 +22881,7 @@ require([
                     $("#modal_update_collection_failure_return")
                         .find(".modal-error-message p")
                         .text(errorStr);
+                    closeModals();
                     $("#modal_update_collection_failure_return").modal();
                 } else {
                     // Poll the status of the search job
@@ -22874,11 +22938,13 @@ require([
                             $("#modal_update_collection_failure_return")
                                 .find(".modal-error-message p")
                                 .text(errorStr);
+                            closeModals();
                             $("#modal_update_collection_failure_return").modal();
                         },
                         error: function(err) {
                             done(err);
                             audit_failure();
+                            closeModals();
                             $("#modal_update_collection_failure_flush").modal();
                         },
                     });
@@ -23103,6 +23169,7 @@ require([
                     $("#modal_update_collection_failure_return")
                         .find(".modal-error-message p")
                         .text(errorStr);
+                    closeModals();
                     $("#modal_update_collection_failure_return").modal();
                 } else {
                     // Poll the status of the search job
@@ -23156,11 +23223,13 @@ require([
                             $("#modal_update_collection_failure_return")
                                 .find(".modal-error-message p")
                                 .text(errorStr);
+                            closeModals();
                             $("#modal_update_collection_failure_return").modal();
                         },
                         error: function(err) {
                             done(err);
                             audit_failure();
+                            closeModals();
                             $("#modal_update_collection_failure_flush").modal();
                         },
                     });
@@ -23381,6 +23450,7 @@ require([
                     $("#modal_update_collection_failure_return")
                         .find(".modal-error-message p")
                         .text(errorStr);
+                    closeModals();
                     $("#modal_update_collection_failure_return").modal();
                 } else {
                     // Poll the status of the search job
@@ -23437,11 +23507,13 @@ require([
                             $("#modal_update_collection_failure_return")
                                 .find(".modal-error-message p")
                                 .text(errorStr);
+                            closeModals();
                             $("#modal_update_collection_failure_return").modal();
                         },
                         error: function(err) {
                             done(err);
                             audit_failure();
+                            closeModals();
                             $("#modal_update_collection_failure_flush").modal();
                         },
                     });
@@ -23663,6 +23735,7 @@ require([
                     $("#modal_update_collection_failure_return")
                         .find(".modal-error-message p")
                         .text(errorStr);
+                    closeModals();
                     $("#modal_update_collection_failure_return").modal();
                 } else {
                     // Poll the status of the search job
@@ -23716,11 +23789,13 @@ require([
                             $("#modal_update_collection_failure_return")
                                 .find(".modal-error-message p")
                                 .text(errorStr);
+                            closeModals();
                             $("#modal_update_collection_failure_return").modal();
                         },
                         error: function(err) {
                             done(err);
                             audit_failure();
+                            closeModals();
                             $("#modal_update_collection_failure_flush").modal();
                         },
                     });
@@ -23947,6 +24022,7 @@ require([
                     $("#modal_update_collection_failure_return")
                         .find(".modal-error-message p")
                         .text(errorStr);
+                    closeModals();
                     $("#modal_update_collection_failure_return").modal();
                 } else {
                     // Poll the status of the search job
@@ -24008,11 +24084,13 @@ require([
                             $("#modal_update_collection_failure_return")
                                 .find(".modal-error-message p")
                                 .text(errorStr);
+                            closeModals();
                             $("#modal_update_collection_failure_return").modal();
                         },
                         error: function(err) {
                             done(err);
                             audit_failure();
+                            closeModals();
                             $("#modal_update_collection_failure_flush").modal();
                         },
                     });
@@ -24352,6 +24430,7 @@ require([
                 $("#modal_update_collection_failure_return")
                     .find(".modal-error-message p")
                     .text(errorStr);
+                closeModals();
                 $("#modal_update_collection_failure_return").modal();
             } else {
                 // Poll the status of the search job
@@ -24361,6 +24440,7 @@ require([
                     done: function(job) {
 
                         // Get the results
+                        jobResults = "unknown";
                         job.results({}, function(err, results, job) {
                             var fields = results.fields;
                             var rows = results.rows;
@@ -24401,9 +24481,21 @@ require([
                                     $("#modal_hybrid_tracker_creation_error")
                                         .find(".modal-error-message p")
                                         .text(rawResult);
+                                    closeModals();
                                     $("#modal_hybrid_tracker_creation_error").modal();
                                 }
                             }
+
+                            // unexpected failure
+                            if (actionResult === 'failure') {
+                                cssloaderremove();
+                                $("#modal_hybrid_tracker_creation_error")
+                                .find(".modal-error-message p")
+                                .text("Unknown failure, do you have the required permissions?");
+                                closeModals();
+                                $("#modal_hybrid_tracker_creation_error").modal();
+                            }
+
                         });
                     },
                     failed: function(properties) {
@@ -24426,11 +24518,13 @@ require([
                         $("#modal_update_collection_failure_return")
                             .find(".modal-error-message p")
                             .text(errorStr);
+                        closeModals();
                         $("#modal_update_collection_failure_return").modal();
                     },
                     error: function(err) {
                         done(err);
                         cssloaderremove();
+                        closeModals();
                         $("#modal_update_collection_failure_flush").modal();
                     },
                 });
@@ -24480,6 +24574,7 @@ require([
                     $("#modal_update_collection_failure_return")
                         .find(".modal-error-message p")
                         .text(errorStr);
+                    closeModals();
                     $("#modal_update_collection_failure_return").modal();
                 } else {
                     // Poll the status of the search job
@@ -24513,11 +24608,13 @@ require([
                             $("#modal_update_collection_failure_return")
                                 .find(".modal-error-message p")
                                 .text(errorStr);
+                            closeModals();
                             $("#modal_update_collection_failure_return").modal();
                         },
                         error: function(err) {
                             done(err);
                             cssloaderremove();
+                            closeModals();
                             $("#modal_update_collection_failure").modal();
                         },
                     });
@@ -24952,6 +25049,7 @@ require([
                         $("#modal_update_collection_failure_return")
                             .find(".modal-error-message p")
                             .text(message);
+                        closeModals();
                         $("#modal_update_collection_failure_return").modal();
                     },
                 });
@@ -25329,7 +25427,7 @@ require([
                         $("#modal_elastic_source_alert_creation_error")
                             .find(".modal-error-message p")
                             .text(msg);
-                        $("#add_elastic_sources").modal("hide");
+                        closeModals();
                         $("#modal_elastic_source_alert_creation_error").modal();
                         done();
                         return;
@@ -25377,7 +25475,7 @@ require([
                         $("#modal_elastic_source_alert_creation_error")
                             .find(".modal-error-message p")
                             .text(errorStr);
-                        $("#add_elastic_sources").modal("hide");
+                        closeModals();
                         $("#modal_elastic_source_alert_creation_error").modal();
                         done(err);
                         return;
@@ -25496,6 +25594,7 @@ require([
                 $("#modal_update_collection_failure_return")
                     .find(".modal-error-message p")
                     .text(errorStr);
+                closeModals();
                 $("#modal_update_collection_failure_return").modal();
             } else {
                 // Poll the status of the search job
@@ -25529,11 +25628,13 @@ require([
                         $("#modal_update_collection_failure_return")
                             .find(".modal-error-message p")
                             .text(errorStr);
+                        closeModals();
                         $("#modal_update_collection_failure_return").modal();
                     },
                     error: function(err) {
                         done(err);
                         cssloaderremove();
+                        closeModals();
                         $("#modal_update_collection_failure").modal();
                     },
                 });
@@ -25581,6 +25682,7 @@ require([
                     $("#modal_update_collection_failure_return")
                         .find(".modal-error-message p")
                         .text(errorStr);
+                    closeModals();
                     $("#modal_update_collection_failure_return").modal();
                 } else {
                     // Poll the status of the search job
@@ -25614,11 +25716,13 @@ require([
                             $("#modal_update_collection_failure_return")
                                 .find(".modal-error-message p")
                                 .text(errorStr);
+                            closeModals();
                             $("#modal_update_collection_failure_return").modal();
                         },
                         error: function(err) {
                             done(err);
                             cssloaderremove();
+                            closeModals();
                             $("#modal_update_collection_failure").modal();
                         },
                     });
@@ -25677,6 +25781,7 @@ require([
                     $("#modal_update_collection_failure_return")
                         .find(".modal-error-message p")
                         .text(errorStr);
+                    closeModals();
                     $("#modal_update_collection_failure_return").modal();
                 } else {
                     // Poll the status of the search job
@@ -25710,11 +25815,13 @@ require([
                             $("#modal_update_collection_failure_return")
                                 .find(".modal-error-message p")
                                 .text(errorStr);
+                            closeModals();
                             $("#modal_update_collection_failure_return").modal();
                         },
                         error: function(err) {
                             done(err);
                             cssloaderremove();
+                            closeModals();
                             $("#modal_update_collection_failure").modal();
                         },
                     });
@@ -25818,6 +25925,7 @@ require([
                     $("#modal_update_collection_failure_return")
                         .find(".modal-error-message p")
                         .text(errorStr);
+                    closeModals();
                     $("#modal_update_collection_failure_return").modal();
                 } else {
                     // Poll the status of the search job
@@ -25851,11 +25959,13 @@ require([
                             $("#modal_update_collection_failure_return")
                                 .find(".modal-error-message p")
                                 .text(errorStr);
+                            closeModals();
                             $("#modal_update_collection_failure_return").modal();
                         },
                         error: function(err) {
                             done(err);
                             cssloaderremove();
+                            closeModals();
                             $("#modal_update_collection_failure").modal();
                         },
                     });
@@ -26449,6 +26559,7 @@ require([
                 $("#modal_update_collection_failure_return")
                     .find(".modal-error-message p")
                     .text(errorStr);
+                closeModals();
                 $("#modal_update_collection_failure_return").modal();
             } else {
                 // Poll the status of the search job
@@ -26481,11 +26592,13 @@ require([
                         $("#modal_update_collection_failure_return")
                             .find(".modal-error-message p")
                             .text(errorStr);
+                        closeModals();
                         $("#modal_update_collection_failure_return").modal();
                     },
                     error: function(err) {
                         done(err);
                         cssloaderremove();
+                        closeModals();
                         $("#modal_update_collection_failure").modal();
                     },
                 });
@@ -26530,6 +26643,7 @@ require([
                 $("#modal_update_collection_failure_return")
                     .find(".modal-error-message p")
                     .text(errorStr);
+                closeModals();
                 $("#modal_update_collection_failure_return").modal();
             } else {
                 // Poll the status of the search job
@@ -26563,11 +26677,13 @@ require([
                         $("#modal_update_collection_failure_return")
                             .find(".modal-error-message p")
                             .text(errorStr);
+                        closeModals();
                         $("#modal_update_collection_failure_return").modal();
                     },
                     error: function(err) {
                         done(err);
                         cssloaderremove();
+                        closeModals();
                         $("#modal_update_collection_failure").modal();
                     },
                 });
@@ -26615,6 +26731,7 @@ require([
                 $("#modal_update_collection_failure_return")
                     .find(".modal-error-message p")
                     .text(errorStr);
+                closeModals();
                 $("#modal_update_collection_failure_return").modal();
             } else {
                 // Poll the status of the search job
@@ -26647,11 +26764,13 @@ require([
                         $("#modal_update_collection_failure_return")
                             .find(".modal-error-message p")
                             .text(errorStr);
+                        closeModals();
                         $("#modal_update_collection_failure_return").modal();
                     },
                     error: function(err) {
                         done(err);
                         cssloaderremove();
+                        closeModals();
                         $("#modal_update_collection_failure").modal();
                     },
                 });
@@ -26695,6 +26814,7 @@ require([
                 $("#modal_update_collection_failure_return")
                     .find(".modal-error-message p")
                     .text(errorStr);
+                closeModals();
                 $("#modal_update_collection_failure_return").modal();
             } else {
                 // Poll the status of the search job
@@ -26728,11 +26848,13 @@ require([
                         $("#modal_update_collection_failure_return")
                             .find(".modal-error-message p")
                             .text(errorStr);
+                        closeModals();
                         $("#modal_update_collection_failure_return").modal();
                     },
                     error: function(err) {
                         done(err);
                         cssloaderremove();
+                        closeModals();
                         $("#modal_update_collection_failure").modal();
                     },
                 });
@@ -26778,6 +26900,7 @@ require([
                 $("#modal_update_collection_failure_return")
                     .find(".modal-error-message p")
                     .text(errorStr);
+                closeModals();
                 $("#modal_update_collection_failure_return").modal();
             } else {
                 // Poll the status of the search job
@@ -26811,11 +26934,13 @@ require([
                         $("#modal_update_collection_failure_return")
                             .find(".modal-error-message p")
                             .text(errorStr);
+                        closeModals();
                         $("#modal_update_collection_failure_return").modal();
                     },
                     error: function(err) {
                         done(err);
                         cssloaderremove();
+                        closeModals();
                         $("#modal_update_collection_failure").modal();
                     },
                 });
@@ -26861,6 +26986,7 @@ require([
                 $("#modal_update_collection_failure_return")
                     .find(".modal-error-message p")
                     .text(errorStr);
+                closeModals();
                 $("#modal_update_collection_failure_return").modal();
             } else {
                 // Poll the status of the search job
@@ -26893,11 +27019,13 @@ require([
                         $("#modal_update_collection_failure_return")
                             .find(".modal-error-message p")
                             .text(errorStr);
+                        closeModals();
                         $("#modal_update_collection_failure_return").modal();
                     },
                     error: function(err) {
                         done(err);
                         cssloaderremove();
+                        closeModals();
                         $("#modal_update_collection_failure").modal();
                     },
                 });
@@ -26942,6 +27070,7 @@ require([
                 $("#modal_update_collection_failure_return")
                     .find(".modal-error-message p")
                     .text(errorStr);
+                closeModals();
                 $("#modal_update_collection_failure_return").modal();
             } else {
                 // Poll the status of the search job
@@ -26973,11 +27102,13 @@ require([
                         $("#modal_update_collection_failure_return")
                             .find(".modal-error-message p")
                             .text(errorStr);
+                        closeModals();
                         $("#modal_update_collection_failure_return").modal();
                     },
                     error: function(err) {
                         done(err);
                         cssloaderremove();
+                        closeModals();
                         $("#modal_update_collection_failure").modal();
                     },
                 });
@@ -27199,6 +27330,7 @@ require([
                     $("#modal_update_collection_failure_return")
                         .find(".modal-error-message p")
                         .text(message);
+                    closeModals();
                     $("#modal_update_collection_failure_return").modal();
                 },
             });
@@ -27297,6 +27429,7 @@ require([
                     $("#modal_update_collection_failure_return")
                         .find(".modal-error-message p")
                         .text(message);
+                    closeModals();
                     $("#modal_update_collection_failure_return").modal();
                 },
             });
@@ -27397,6 +27530,7 @@ require([
                     $("#modal_update_collection_failure_return")
                         .find(".modal-error-message p")
                         .text(message);
+                    closeModals();
                     $("#modal_update_collection_failure_return").modal();
                 },
             });
@@ -27501,6 +27635,7 @@ require([
                     $("#modal_update_collection_failure_return")
                         .find(".modal-error-message p")
                         .text(message);
+                    closeModals();
                     $("#modal_update_collection_failure_return").modal();
                 },
             });
@@ -27602,6 +27737,7 @@ require([
                     $("#modal_update_collection_failure_return")
                         .find(".modal-error-message p")
                         .text(message);
+                    closeModals();
                     $("#modal_update_collection_failure_return").modal();
                 },
             });
@@ -27706,6 +27842,7 @@ require([
                     $("#modal_update_collection_failure_return")
                         .find(".modal-error-message p")
                         .text(message);
+                    closeModals();
                     $("#modal_update_collection_failure_return").modal();
                 },
             });
@@ -27809,6 +27946,7 @@ require([
                     $("#modal_update_collection_failure_return")
                         .find(".modal-error-message p")
                         .text(message);
+                    closeModals();
                     $("#modal_update_collection_failure_return").modal();
                 },
             });
@@ -27920,6 +28058,7 @@ require([
                     $("#modal_update_collection_failure_return")
                         .find(".modal-error-message p")
                         .text(message);
+                    closeModals();
                     $("#modal_update_collection_failure_return").modal();
                 },
             });
@@ -28029,6 +28168,7 @@ require([
                     $("#modal_update_collection_failure_return")
                         .find(".modal-error-message p")
                         .text(message);
+                    closeModals();
                     $("#modal_update_collection_failure_return").modal();
                 },
             });
@@ -28146,6 +28286,7 @@ require([
                     $("#modal_update_collection_failure_return")
                         .find(".modal-error-message p")
                         .text(message);
+                    closeModals();
                     $("#modal_update_collection_failure_return").modal();
                 },
             });
@@ -28221,6 +28362,7 @@ require([
                 $("#modal_update_collection_failure_return")
                     .find(".modal-error-message p")
                     .text(errorStr);
+                closeModals();
                 $("#modal_update_collection_failure_return").modal();
             } else {
                 // Poll the status of the search job
@@ -28339,6 +28481,7 @@ require([
                         $("#modal_update_collection_failure_return")
                             .find(".modal-error-message p")
                             .text(errorStr);
+                        closeModals();
                         $("#modal_update_collection_failure_return").modal();
 
                         // Audit failure change
@@ -28443,6 +28586,7 @@ require([
                 $("#modal_update_collection_failure_return")
                     .find(".modal-error-message p")
                     .text(errorStr);
+                closeModals();
                 $("#modal_update_collection_failure_return").modal();
             } else {
                 // Poll the status of the search job
@@ -28560,6 +28704,7 @@ require([
                         $("#modal_update_collection_failure_return")
                             .find(".modal-error-message p")
                             .text(errorStr);
+                        closeModals();
                         $("#modal_update_collection_failure_return").modal();
 
                         // Audit failure change
@@ -28664,6 +28809,7 @@ require([
                 $("#modal_update_collection_failure_return")
                     .find(".modal-error-message p")
                     .text(errorStr);
+                closeModals();
                 $("#modal_update_collection_failure_return").modal();
             } else {
                 // Poll the status of the search job
@@ -28781,6 +28927,7 @@ require([
                         $("#modal_update_collection_failure_return")
                             .find(".modal-error-message p")
                             .text(errorStr);
+                        closeModals();
                         $("#modal_update_collection_failure_return").modal();
 
                         // Audit failure change
@@ -28885,6 +29032,7 @@ require([
                 $("#modal_update_collection_failure_return")
                     .find(".modal-error-message p")
                     .text(errorStr);
+                closeModals();
                 $("#modal_update_collection_failure_return").modal();
             } else {
                 // Poll the status of the search job
@@ -29003,6 +29151,7 @@ require([
                         $("#modal_update_collection_failure_return")
                             .find(".modal-error-message p")
                             .text(errorStr);
+                        closeModals();
                         $("#modal_update_collection_failure_return").modal();
 
                         // Audit failure change
@@ -29174,6 +29323,7 @@ require([
                     $("#modal_update_collection_failure_return")
                         .find(".modal-error-message p")
                         .text(message);
+                    closeModals();
                     $("#modal_update_collection_failure_return").modal();
                 },
             });
@@ -29270,6 +29420,7 @@ require([
                     $("#modal_update_collection_failure_return")
                         .find(".modal-error-message p")
                         .text(message);
+                    closeModals();
                     $("#modal_update_collection_failure_return").modal();
                 },
             });
@@ -29373,6 +29524,7 @@ require([
                     $("#modal_update_collection_failure_return")
                         .find(".modal-error-message p")
                         .text(message);
+                    closeModals();
                     $("#modal_update_collection_failure_return").modal();
                 },
             });
@@ -29511,6 +29663,7 @@ require([
                     $("#modal_update_collection_failure_return")
                         .find(".modal-error-message p")
                         .text(message);
+                    closeModals();
                     $("#modal_update_collection_failure_return").modal();
                 },
             });
@@ -29586,6 +29739,7 @@ require([
                 $("#modal_update_collection_failure_return")
                     .find(".modal-error-message p")
                     .text(errorStr);
+                closeModals();
                 $("#modal_update_collection_failure_return").modal();
             } else {
                 // Poll the status of the search job
@@ -29704,6 +29858,7 @@ require([
                         $("#modal_update_collection_failure_return")
                             .find(".modal-error-message p")
                             .text(errorStr);
+                        closeModals();
                         $("#modal_update_collection_failure_return").modal();
 
                         // Audit failure change
@@ -29804,6 +29959,7 @@ require([
                 $("#modal_update_collection_failure_return")
                     .find(".modal-error-message p")
                     .text(errorStr);
+                closeModals();
                 $("#modal_update_collection_failure_return").modal();
             } else {
                 // Poll the status of the search job
@@ -29921,6 +30077,7 @@ require([
                         $("#modal_update_collection_failure_return")
                             .find(".modal-error-message p")
                             .text(errorStr);
+                        closeModals();
                         $("#modal_update_collection_failure_return").modal();
 
                         // Audit failure change
@@ -30021,6 +30178,7 @@ require([
                 $("#modal_update_collection_failure_return")
                     .find(".modal-error-message p")
                     .text(errorStr);
+                closeModals();
                 $("#modal_update_collection_failure_return").modal();
             } else {
                 // Poll the status of the search job
@@ -30139,6 +30297,7 @@ require([
                         $("#modal_update_collection_failure_return")
                             .find(".modal-error-message p")
                             .text(errorStr);
+                        closeModals();
                         $("#modal_update_collection_failure_return").modal();
 
                         // Audit failure change
@@ -30239,6 +30398,7 @@ require([
                 $("#modal_update_collection_failure_return")
                     .find(".modal-error-message p")
                     .text(errorStr);
+                closeModals();
                 $("#modal_update_collection_failure_return").modal();
             } else {
                 // Poll the status of the search job
@@ -30356,6 +30516,7 @@ require([
                         $("#modal_update_collection_failure_return")
                             .find(".modal-error-message p")
                             .text(errorStr);
+                        closeModals();
                         $("#modal_update_collection_failure_return").modal();
 
                         // Audit failure change
@@ -30756,6 +30917,7 @@ require([
                     $("#modal_update_collection_failure_return")
                         .find(".modal-error-message p")
                         .text(errorStr);
+                    closeModals();
                     $("#modal_update_collection_failure_return").modal();
                 } else {
                     // Poll the status of the search job
@@ -30824,11 +30986,13 @@ require([
                             $("#modal_update_collection_failure_return")
                                 .find(".modal-error-message p")
                                 .text(errorStr);
+                            closeModals();
                             $("#modal_update_collection_failure_return").modal();
                         },
                         error: function(err) {
                             done(err);
                             audit_failure();
+                            closeModals();
                             $("#modal_update_collection_failure_flush").modal();
                         },
                     });
@@ -31083,6 +31247,7 @@ require([
                 $("#modal_update_collection_failure_return")
                     .find(".modal-error-message p")
                     .text(errorStr);
+                closeModals();
                 $("#modal_update_collection_failure_return").modal();
             } else {
                 // Poll the status of the search job
@@ -31183,11 +31348,13 @@ require([
                         $("#modal_update_collection_failure_return")
                             .find(".modal-error-message p")
                             .text(errorStr);
+                        closeModals();
                         $("#modal_update_collection_failure_return").modal();
                     },
                     error: function(err) {
                         done(err);
                         audit_failure();
+                        closeModals();
                         $("#modal_update_collection_failure_flush").modal();
                     },
                 });
@@ -31256,6 +31423,7 @@ require([
                 $("#modal_update_collection_failure_return")
                     .find(".modal-error-message p")
                     .text(errorStr);
+                closeModals();
                 $("#modal_update_collection_failure_return").modal();
             } else {
                 // Poll the status of the search job
@@ -31351,11 +31519,13 @@ require([
                         $("#modal_update_collection_failure_return")
                             .find(".modal-error-message p")
                             .text(errorStr);
+                        closeModals();
                         $("#modal_update_collection_failure_return").modal();
                     },
                     error: function(err) {
                         done(err);
                         audit_failure();
+                        closeModals();
                         $("#modal_update_collection_failure_flush").modal();
                     },
                 });
@@ -31422,6 +31592,7 @@ require([
                 $("#modal_update_collection_failure_return")
                     .find(".modal-error-message p")
                     .text(errorStr);
+                closeModals();
                 $("#modal_update_collection_failure_return").modal();
             } else {
                 // Poll the status of the search job
@@ -31499,11 +31670,13 @@ require([
                         $("#modal_update_collection_failure_return")
                             .find(".modal-error-message p")
                             .text(errorStr);
+                        closeModals();
                         $("#modal_update_collection_failure_return").modal();
                     },
                     error: function(err) {
                         done(err);
                         audit_failure();
+                        closeModals();
                         $("#modal_update_collection_failure_flush").modal();
                     },
                 });
@@ -31622,6 +31795,7 @@ require([
                         $("#modal_update_collection_failure_return")
                             .find(".modal-error-message p")
                             .text(errorStr);
+                        closeModals();
                         $("#modal_update_collection_failure_return").modal();
                     } else {
                         // Poll the status of the search job
@@ -31713,12 +31887,14 @@ require([
                                 $("#modal_update_collection_failure_return")
                                     .find(".modal-error-message p")
                                     .text(errorStr);
+                                closeModals();
                                 $("#modal_update_collection_failure_return").modal();
                             },
                             error: function(err) {
                                 done(err);
                                 cssloaderremove();
                                 audit_failure();
+                                closeModals();
                                 $("#modal_update_collection_failure_flush").modal();
                             },
                         });
@@ -31814,6 +31990,7 @@ require([
                     $("#modal_update_collection_failure_return")
                         .find(".modal-error-message p")
                         .text(errorStr);
+                    closeModals();
                     $("#modal_update_collection_failure_return").modal();
                 } else {
                     // Poll the status of the search job
@@ -31872,12 +32049,14 @@ require([
                             $("#modal_update_collection_failure_return")
                                 .find(".modal-error-message p")
                                 .text(errorStr);
+                            closeModals();
                             $("#modal_update_collection_failure_return").modal();
                         },
                         error: function(err) {
                             cssloaderremove();
                             done(err);
                             audit_failure();
+                            closeModals();
                             $("#modal_update_collection_failure_flush").modal();
                         },
                     });
@@ -31974,6 +32153,7 @@ require([
                     $("#modal_update_collection_failure_return")
                         .find(".modal-error-message p")
                         .text(errorStr);
+                    closeModals();
                     $("#modal_update_collection_failure_return").modal();
                 } else {
                     // Poll the status of the search job
@@ -32021,11 +32201,13 @@ require([
                             $("#modal_update_collection_failure_return")
                                 .find(".modal-error-message p")
                                 .text(errorStr);
+                            closeModals();
                             $("#modal_update_collection_failure_return").modal();
                         },
                         error: function(err) {
                             done(err);
                             cssloaderremove();
+                            closeModals();
                             $("#modal_update_collection_failure_flush").modal();
                         },
                     });
@@ -32196,6 +32378,7 @@ require([
                         $("#modal_update_collection_failure_return")
                             .find(".modal-error-message p")
                             .text(message);
+                        closeModals();
                         $("#modal_update_collection_failure_return").modal();
                     },
                 });
@@ -32311,6 +32494,7 @@ require([
                         $("#modal_update_collection_failure_return")
                             .find(".modal-error-message p")
                             .text(message);
+                        closeModals();
                         $("#modal_update_collection_failure_return").modal();
                     },
                 });
@@ -32436,6 +32620,7 @@ require([
                     $("#modal_update_collection_failure_return")
                         .find(".modal-error-message p")
                         .text(message);
+                    closeModals();
                     $("#modal_update_collection_failure_return").modal();
                 },
             });
@@ -32553,6 +32738,7 @@ require([
                     $("#modal_update_collection_failure_return")
                         .find(".modal-error-message p")
                         .text(message);
+                    closeModals();
                     $("#modal_update_collection_failure_return").modal();
                 },
             });
@@ -32677,6 +32863,7 @@ require([
                     $("#modal_update_collection_failure_return")
                         .find(".modal-error-message p")
                         .text(message);
+                    closeModals();
                     $("#modal_update_collection_failure_return").modal();
                 },
             });
@@ -32915,6 +33102,7 @@ require([
                         $("#modal_update_collection_failure_return")
                             .find(".modal-error-message p")
                             .text(message);
+                        closeModals();
                         $("#modal_update_collection_failure_return").modal();
                     },
                 });
@@ -33283,6 +33471,7 @@ require([
                 $("#modal_update_collection_failure_return")
                     .find(".modal-error-message p")
                     .text(errorStr);
+                closeModals();
                 $("#modal_update_collection_failure_return").modal();
             } else {
                 // Poll the status of the search job
@@ -33316,11 +33505,13 @@ require([
                         $("#modal_update_collection_failure_return")
                             .find(".modal-error-message p")
                             .text(errorStr);
+                        closeModals();
                         $("#modal_update_collection_failure_return").modal();
                     },
                     error: function(err) {
                         done(err);
                         cssloaderremove();
+                        closeModals();
                         $("#modal_update_collection_failure").modal();
                     },
                 });
@@ -33454,6 +33645,7 @@ require([
                         $("#modal_update_collection_failure_return")
                             .find(".modal-error-message p")
                             .text(errorStr);
+                        closeModals();
                         $("#modal_update_collection_failure_return").modal();
                     } else {
                         // Poll the status of the search job
@@ -33487,11 +33679,13 @@ require([
                                 $("#modal_update_collection_failure_return")
                                     .find(".modal-error-message p")
                                     .text(errorStr);
+                                closeModals();
                                 $("#modal_update_collection_failure_return").modal();
                             },
                             error: function(err) {
                                 done(err);
                                 cssloaderremove();
+                                closeModals();
                                 $("#modal_update_collection_failure").modal();
                             },
                         });
@@ -33571,6 +33765,7 @@ require([
                 $("#modal_update_collection_failure_return")
                     .find(".modal-error-message p")
                     .text(errorStr);
+                closeModals();
                 $("#modal_update_collection_failure_return").modal();
             } else {
                 // Poll the status of the search job
@@ -33648,6 +33843,7 @@ require([
                         $("#modal_update_collection_failure_return")
                             .find(".modal-error-message p")
                             .text(errorStr);
+                        closeModals();
                         $("#modal_update_collection_failure_return").modal();
                     },
                     error: function(err) {
@@ -33849,6 +34045,7 @@ require([
                                 $("#modal_update_collection_failure_return")
                                     .find(".modal-error-message p")
                                     .text(errorStr);
+                                closeModals();
                                 $("#modal_update_collection_failure_return").modal();
                             } else {
                                 // Poll the status of the search job
@@ -33884,11 +34081,13 @@ require([
                                         $("#modal_update_collection_failure_return")
                                             .find(".modal-error-message p")
                                             .text(errorStr);
+                                        closeModals();
                                         $("#modal_update_collection_failure_return").modal();
                                     },
                                     error: function(err) {
                                         done(err);
                                         cssloaderremove();
+                                        closeModals();
                                         $("#modal_update_collection_failure").modal();
                                     },
                                 });
@@ -33955,6 +34154,7 @@ require([
                         $("#modal_update_collection_failure_return")
                             .find(".modal-error-message p")
                             .text(errorStr);
+                        closeModals();
                         $("#modal_update_collection_failure_return").modal();
                     } else {
                         // Poll the status of the search job
@@ -33988,11 +34188,13 @@ require([
                                 $("#modal_update_collection_failure_return")
                                     .find(".modal-error-message p")
                                     .text(errorStr);
+                                closeModals();
                                 $("#modal_update_collection_failure_return").modal();
                             },
                             error: function(err) {
                                 done(err);
                                 cssloaderremove();
+                                closeModals();
                                 $("#modal_update_collection_failure").modal();
                             },
                         });
@@ -34283,6 +34485,7 @@ require([
                     $("#modal_update_collection_failure_return")
                         .find(".modal-error-message p")
                         .text(errorStr);
+                    closeModals();
                     $("#modal_update_collection_failure_return").modal();
                 } else {
                     // Poll the status of the search job
@@ -34361,11 +34564,13 @@ require([
                             $("#modal_update_collection_failure_return")
                                 .find(".modal-error-message p")
                                 .text(errorStr);
+                            closeModals();
                             $("#modal_update_collection_failure_return").modal();
                         },
                         error: function(err) {
                             done(err);
                             audit_failure();
+                            closeModals();
                             $("#modal_update_collection_failure_flush").modal();
                         },
                     });
@@ -34661,6 +34866,7 @@ require([
                     $("#modal_update_collection_failure_return")
                         .find(".modal-error-message p")
                         .text(message);
+                    closeModals();
                     $("#modal_update_collection_failure_return").modal();
                 },
             });
