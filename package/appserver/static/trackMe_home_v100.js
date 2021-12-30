@@ -5747,6 +5747,25 @@ require([
             // token required for outliers configuration
             setToken("tk_enable_behaviour_analytic", tk_enable_behaviour_analytic);
 
+            // pre-fill outliers
+            setToken("form.tk_input_data_source_enable_outlier", tk_enable_behaviour_analytic);
+            var tk_input_data_source_outlier_alert_on_upper = e.data['row.OutlierAlertOnUpper'];
+            setToken("form.tk_input_data_source_outlier_alert_on_upper", tk_input_data_source_outlier_alert_on_upper);
+            var tk_input_data_source_outlier_min_eventcount = e.data['row.OutlierMinEventCount'];
+            if (tk_input_data_source_outlier_min_eventcount === "0") {
+                setToken("form.tk_input_data_source_outlier_min_eventcount_mode", "dynamic");
+            }
+            else {
+                setToken("form.tk_input_data_source_outlier_min_eventcount_mode", "static");
+                setToken("form.tk_input_data_source_outlier_min_eventcount", tk_input_data_source_outlier_min_eventcount);
+            }
+            var tk_input_data_source_outlier_lower_threshold_multiplier = e.data['row.OutlierLowerThresholdMultiplier'];
+            setToken("form.tk_input_data_source_outlier_lower_threshold_multiplier", tk_input_data_source_outlier_lower_threshold_multiplier);
+            var tk_input_data_source_outlier_upper_threshold_multiplier = e.data['row.OutlierUpperThresholdMultiplier'];
+            setToken("form.tk_input_data_source_outlier_upper_threshold_multiplier", tk_input_data_source_outlier_upper_threshold_multiplier);
+            setToken("form.TimeOutlierConfigurationDataSource", e.data['row.OutlierTimePeriod']);
+            setToken("form.TimeOutlierConfigurationDataSourceSpan", e.data['row.OutlierSpan']);
+
             // elastic sources
             var tk_elastic_source_search_mode = e.data["row.elastic_source_search_mode"];
             var tk_elastic_source_search_constraint = e.data["row.elastic_source_search_constraint"];
@@ -6889,6 +6908,25 @@ require([
             var tk_enable_behaviour_analytic = e.data["row.enable_behaviour_analytic"];
             // token required for outliers configuration
             setToken("tk_enable_behaviour_analytic", tk_enable_behaviour_analytic);
+
+            // pre-fill outliers
+            setToken("form.tk_input_data_host_enable_outlier", tk_enable_behaviour_analytic);
+            var tk_input_data_host_outlier_alert_on_upper = e.data['row.OutlierAlertOnUpper'];
+            setToken("form.tk_input_data_host_outlier_alert_on_upper", tk_input_data_host_outlier_alert_on_upper);
+            var tk_input_data_host_outlier_min_eventcount = e.data['row.OutlierMinEventCount'];
+            if (tk_input_data_host_outlier_min_eventcount === "0") {
+                setToken("form.tk_input_data_host_outlier_min_eventcount_mode", "dynamic");
+            }
+            else {
+                setToken("form.tk_input_data_host_outlier_min_eventcount_mode", "static");
+                setToken("form.tk_input_data_host_outlier_min_eventcount", tk_input_data_host_outlier_min_eventcount);
+            }
+            var tk_input_data_host_outlier_lower_threshold_multiplier = e.data['row.OutlierLowerThresholdMultiplier'];
+            setToken("form.tk_input_data_host_outlier_lower_threshold_multiplier", tk_input_data_host_outlier_lower_threshold_multiplier);
+            var tk_input_data_host_outlier_upper_threshold_multiplier = e.data['row.OutlierUpperThresholdMultiplier'];
+            setToken("form.tk_input_data_host_outlier_upper_threshold_multiplier", tk_input_data_host_outlier_upper_threshold_multiplier);
+            setToken("form.TimeOutlierConfigurationDataHost", e.data['row.OutlierTimePeriod']);
+            setToken("form.TimeOutlierConfigurationDataHostSpan", e.data['row.OutlierSpan']);
 
             // required for various purposes
             setToken("tk_keyid", tk_keyid);
