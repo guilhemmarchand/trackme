@@ -147,7 +147,9 @@ class TrackMeHandlerSmartStatus_v1(trackme_rest_handler.RESTHandler):
                 + "| `trackme_eval_icons`"\
                 + "| `trackme_smart_status_weekdays_to_human`"\
                 + "| fillnull value=\"null\" data_name data_index data_sourcetype data_source_state data_lag_alert_kpis"\
-                + "data_last_lag_seen data_last_ingestion_lag_seen data_max_lag_allowed data_last_time_seen data_monitoring_wdays status_message enable_behaviour_analytic dcount_host "\
+                + "data_last_lag_seen data_last_ingestion_lag_seen data_max_lag_allowed data_last_time_seen "\
+                + "data_monitoring_wdays isUnderMonitoringDays data_monitoring_hours_ranges isUnderMonitoringHours "\
+                + "status_message enable_behaviour_analytic dcount_host "\
                 + "min_dcount_host isOutlier isAnomaly data_sample_anomaly_reason data_sample_status_colour data_sample_status_message "\
                 + "elastic_source_from_part1 elastic_source_from_part2 elastic_source_search_constraint elastic_source_search_mode"
 
@@ -169,6 +171,9 @@ class TrackMeHandlerSmartStatus_v1(trackme_rest_handler.RESTHandler):
                     data_max_lag_allowed = query_result["data_max_lag_allowed"]
                     data_last_time_seen = query_result["data_last_time_seen"]
                     data_monitoring_wdays = query_result["data_monitoring_wdays"]
+                    isUnderMonitoringDays = query_result["isUnderMonitoringDays"]
+                    data_monitoring_hours_ranges = query_result["data_monitoring_hours_ranges"]
+                    isUnderMonitoringHours = query_result["isUnderMonitoringHours"]
                     enable_behaviour_analytic = query_result["enable_behaviour_analytic"]
                     dcount_host = query_result["dcount_host"]
                     min_dcount_host = query_result["min_dcount_host"]
@@ -193,6 +198,9 @@ class TrackMeHandlerSmartStatus_v1(trackme_rest_handler.RESTHandler):
                     data_max_lag_allowed = None
                     data_last_time_seen = None
                     data_monitoring_wdays = None
+                    isUnderMonitoringDays = None
+                    data_monitoring_hours_ranges = None
+                    isUnderMonitoringHours = None
                     enable_behaviour_analytic = None
                     dcount_host = None
                     min_dcount_host = None
@@ -318,7 +326,7 @@ class TrackMeHandlerSmartStatus_v1(trackme_rest_handler.RESTHandler):
                     # subcase: data is in the future
                     ###############################################################
 
-                    if data_source_state in ("orange") and not (re.search("week days rules conditions are not met", str(status_message)) or isOutlier in ("1")):
+                    if data_source_state in ("orange") and not (re.search("week days and\/or hours ranges rules conditions are not met", str(status_message)) or isOutlier in ("1")):
 
                         # Get lagging statistics from live data
 
@@ -865,9 +873,25 @@ class TrackMeHandlerSmartStatus_v1(trackme_rest_handler.RESTHandler):
                         # increment the smart_code by 10
                         smart_code += 10
 
-                        if data_source_state in ("orange") and re.search("week days rules conditions are not met", str(status_message)):
-                            smart_result = "TrackMe triggered an alert due to the latest data available that is out of the acceptable window, the maximal event lag allowed is: " + str(data_max_lag_allowed) + " seconds, while the latest data available is: " + str(human_last_datetime) + ", the data is late by: " + str(current_delay) + " (days, HH:MM:SS)"\
-                                + ", however due to week days monitoring rules (" + str(data_monitoring_wdays) + "), the entity is currently in a state that will not generate an active alert."
+                        if data_source_state in ("orange") and re.search("week days and\/or hours ranges rules conditions are not met", str(status_message)):
+
+                            if str(isUnderMonitoringDays) == 'false':
+                                # increment the smart_code by 1
+                                smart_code += 1
+                                smart_result = "TrackMe triggered an alert due to the latest data available that is out of the acceptable window, the maximal event lag allowed is: " + str(data_max_lag_allowed) + " seconds, while the latest data available is: " + str(human_last_datetime) + ", the data is late by: " + str(current_delay) + " (days, HH:MM:SS)"\
+                                    + ", however due to week days monitoring rules (" + str(data_monitoring_wdays) + "), the entity is currently in a state that will not generate an active alert."
+                            elif str(isUnderMonitoringHours) == 'false':
+                                # increment the smart_code by 2
+                                smart_code += 2
+                                smart_result = "TrackMe triggered an alert due to the latest data available that is out of the acceptable window, the maximal event lag allowed is: " + str(data_max_lag_allowed) + " seconds, while the latest data available is: " + str(human_last_datetime) + ", the data is late by: " + str(current_delay) + " (days, HH:MM:SS)"\
+                                    + ", however due to hours ranges monitoring rules (" + str(data_monitoring_hours_ranges) + "), the entity is currently in a state that will not generate an active alert."
+                            # unexpected, assume the first case
+                            else:
+                                # increment the smart_code by 1
+                                smart_code += 1
+                                smart_result = "TrackMe triggered an alert due to the latest data available that is out of the acceptable window, the maximal event lag allowed is: " + str(data_max_lag_allowed) + " seconds, while the latest data available is: " + str(human_last_datetime) + ", the data is late by: " + str(current_delay) + " (days, HH:MM:SS)"\
+                                    + ", however due to week days monitoring rules (" + str(data_monitoring_wdays) + "), the entity is currently in a state that will not generate an active alert."
+
                         else:
                             smart_result = "TrackMe triggered an alert due to the latest data available that is out of the acceptable window, the maximal event lag allowed is: " + str(data_max_lag_allowed) + " seconds, while the latest data available is: " + str(human_last_datetime) + ", the data is late by: " + str(current_delay) + " (days, HH:MM:SS)"
 
@@ -1118,9 +1142,25 @@ class TrackMeHandlerSmartStatus_v1(trackme_rest_handler.RESTHandler):
                         # increment the smart_code by 20
                         smart_code += 20
 
-                        if data_source_state in ("orange") and re.search("week days rules conditions are not met", str(status_message)):
-                            smart_result = "TrackMe triggered an alert due to indexing lag detected out of the acceptable window, the maximal ingestion lag allowed is: " + str(data_max_lag_allowed) + " seconds, while an ingestion lag of " + str(datetime.timedelta(seconds=int(data_last_ingestion_lag_seen))) + " (days, HH:MM:SS) was detected, review the hosts attached to this report to investigate the root cause."\
-                                + " However due to week days monitoring rules (" + str(data_monitoring_wdays) + "), the entity is currently in a state that will not generate an active alert."
+                        if data_source_state in ("orange") and re.search("week days and\/or hours ranges rules conditions are not met", str(status_message)):
+
+                            if str(isUnderMonitoringDays) == 'false':
+                                # increment the smart_code by 1
+                                smart_code += 1
+                                smart_result = "TrackMe triggered an alert due to indexing lag detected out of the acceptable window, the maximal ingestion lag allowed is: " + str(data_max_lag_allowed) + " seconds, while an ingestion lag of " + str(datetime.timedelta(seconds=int(data_last_ingestion_lag_seen))) + " (days, HH:MM:SS) was detected, review the hosts attached to this report to investigate the root cause."\
+                                    + " However due to week days monitoring rules (" + str(data_monitoring_wdays) + "), the entity is currently in a state that will not generate an active alert."
+                            elif str(isUnderMonitoringHours) == 'false':
+                                # increment the smart_code by 2
+                                smart_code += 2
+                                smart_result = "TrackMe triggered an alert due to indexing lag detected out of the acceptable window, the maximal ingestion lag allowed is: " + str(data_max_lag_allowed) + " seconds, while an ingestion lag of " + str(datetime.timedelta(seconds=int(data_last_ingestion_lag_seen))) + " (days, HH:MM:SS) was detected, review the hosts attached to this report to investigate the root cause."\
+                                    + " However due to hours ranges monitoring rules (" + str(data_monitoring_hours_ranges) + "), the entity is currently in a state that will not generate an active alert."
+                            # unexpected, assume the first case
+                            else:
+                                # increment the smart_code by 1
+                                smart_code += 1
+                                smart_result = "TrackMe triggered an alert due to indexing lag detected out of the acceptable window, the maximal ingestion lag allowed is: " + str(data_max_lag_allowed) + " seconds, while an ingestion lag of " + str(datetime.timedelta(seconds=int(data_last_ingestion_lag_seen))) + " (days, HH:MM:SS) was detected, review the hosts attached to this report to investigate the root cause."\
+                                    + " However due to week days monitoring rules (" + str(data_monitoring_wdays) + "), the entity is currently in a state that will not generate an active alert."
+
                         else:
                             smart_result = "TrackMe triggered an alert due to indexing lag detected out of the acceptable window, the maximal ingestion lag allowed is: " + str(data_max_lag_allowed) + " seconds, while an ingestion lag of " + str(datetime.timedelta(seconds=int(data_last_ingestion_lag_seen))) + " (days, HH:MM:SS) was detected, review the hosts attached to this report to investigate the root cause."
 
@@ -1378,11 +1418,31 @@ class TrackMeHandlerSmartStatus_v1(trackme_rest_handler.RESTHandler):
                             summary = None
 
                         # define the message
-                        if data_source_state in ("orange") and re.search("week days rules conditions are not met", str(status_message)):
-                            smart_result = "TrackMe triggered an alert on " + str(flipping_time) + " due to the minimal distinct count of hosts configured for this data source (threshold: "\
-                            + str(min_dcount_host) + " hosts) which condition is not met as only " + str(dcount_host) \
-                            + " hosts are detected currently. Review this threshold and the current data source activity accordingly."\
-                            + " However due to week days monitoring rules (" + str(data_monitoring_wdays) + "), the entity is currently in a state that will not generate an active alert."
+                        if data_source_state in ("orange") and re.search("week days and\/or hours ranges rules conditions are not met", str(status_message)):
+
+                            if str(isUnderMonitoringDays) == 'false':
+                                # increment the smart_code by 1
+                                smart_code += 1
+                                smart_result = "TrackMe triggered an alert on " + str(flipping_time) + " due to the minimal distinct count of hosts configured for this data source (threshold: "\
+                                + str(min_dcount_host) + " hosts) which condition is not met as only " + str(dcount_host) \
+                                + " hosts are detected currently. Review this threshold and the current data source activity accordingly."\
+                                + " However due to week days monitoring rules (" + str(data_monitoring_wdays) + "), the entity is currently in a state that will not generate an active alert."
+                            elif str(isUnderMonitoringHours) == 'false':
+                                # increment the smart_code by 2
+                                smart_code += 2
+                                smart_result = "TrackMe triggered an alert on " + str(flipping_time) + " due to the minimal distinct count of hosts configured for this data source (threshold: "\
+                                + str(min_dcount_host) + " hosts) which condition is not met as only " + str(dcount_host) \
+                                + " hosts are detected currently. Review this threshold and the current data source activity accordingly."\
+                                + " However due to hours ranges monitoring rules (" + str(data_monitoring_hours_ranges) + "), the entity is currently in a state that will not generate an active alert."
+                            # unexpected, assume the first case
+                            else:
+                                # increment the smart_code by 1
+                                smart_code += 1
+                                smart_result = "TrackMe triggered an alert on " + str(flipping_time) + " due to the minimal distinct count of hosts configured for this data source (threshold: "\
+                                + str(min_dcount_host) + " hosts) which condition is not met as only " + str(dcount_host) \
+                                + " hosts are detected currently. Review this threshold and the current data source activity accordingly."\
+                                + " However due to week days monitoring rules (" + str(data_monitoring_wdays) + "), the entity is currently in a state that will not generate an active alert."
+
                         else:
                             smart_result = "TrackMe triggered an alert on " + str(flipping_time) + " due to the minimal distinct count of hosts configured for this data source (threshold: "\
                             + str(min_dcount_host) + " hosts) which condition is not met as only " + str(dcount_host)\
@@ -1484,12 +1544,36 @@ class TrackMeHandlerSmartStatus_v1(trackme_rest_handler.RESTHandler):
 
                         # define the message
                         if data_source_state in ("orange"):
-                            smart_result = "TrackMe triggered an alert on this data source due to outliers detection in the "\
-                            + "event count, outliers are based on the calculation of a lower and upper bound (if alerting on upper) determined "\
-                            + "against the data source usual behaviour and outliers parameters. Review the correlation results to determine "\
-                            + "if the behaviour is expected or symptomatic of an issue happening on the data source (lost of "\
-                            + "sources or hosts, etc.) and proceed to any outliers configuration fine tuning if necessary."\
-                            + " However due to week days monitoring rules (" + str(data_monitoring_wdays) + "), the entity is currently in a state that will not generate an active alert."
+
+                            if str(isUnderMonitoringDays) == 'false':
+                                # increment the smart_code by 1
+                                smart_code += 1
+                                smart_result = "TrackMe triggered an alert on this data source due to outliers detection in the "\
+                                + "event count, outliers are based on the calculation of a lower and upper bound (if alerting on upper) determined "\
+                                + "against the data source usual behaviour and outliers parameters. Review the correlation results to determine "\
+                                + "if the behaviour is expected or symptomatic of an issue happening on the data source (lost of "\
+                                + "sources or hosts, etc.) and proceed to any outliers configuration fine tuning if necessary."\
+                                + " However due to week days monitoring rules (" + str(data_monitoring_wdays) + "), the entity is currently in a state that will not generate an active alert."
+                            elif str(isUnderMonitoringHours) == 'false':
+                                # increment the smart_code by 2
+                                smart_code += 2
+                                smart_result = "TrackMe triggered an alert on this data source due to outliers detection in the "\
+                                + "event count, outliers are based on the calculation of a lower and upper bound (if alerting on upper) determined "\
+                                + "against the data source usual behaviour and outliers parameters. Review the correlation results to determine "\
+                                + "if the behaviour is expected or symptomatic of an issue happening on the data source (lost of "\
+                                + "sources or hosts, etc.) and proceed to any outliers configuration fine tuning if necessary."\
+                                + " However due to hours ranges monitoring rules (" + str(data_monitoring_hours_ranges) + "), the entity is currently in a state that will not generate an active alert."
+                            # unexpected, assume the first case
+                            else:
+                                # increment the smart_code by 1
+                                smart_code += 1
+                                smart_result = "TrackMe triggered an alert on this data source due to outliers detection in the "\
+                                + "event count, outliers are based on the calculation of a lower and upper bound (if alerting on upper) determined "\
+                                + "against the data source usual behaviour and outliers parameters. Review the correlation results to determine "\
+                                + "if the behaviour is expected or symptomatic of an issue happening on the data source (lost of "\
+                                + "sources or hosts, etc.) and proceed to any outliers configuration fine tuning if necessary."\
+                                + " However due to week days monitoring rules (" + str(data_monitoring_wdays) + "), the entity is currently in a state that will not generate an active alert."
+
                         else:
                             smart_result =  "TrackMe triggered an alert on this data source due to outliers detection in the "\
                             + "event count, outliers are based on the calculation of a lower and upper bound (if alerting on upper) determined "\
@@ -1759,11 +1843,31 @@ class TrackMeHandlerSmartStatus_v1(trackme_rest_handler.RESTHandler):
                         # Result
 
                         # define the message
-                        if data_source_state in ("orange") and re.search("week days rules conditions are not met", str(status_message)):
-                            smart_result = "TrackMe triggered an alert due to anomaly detection in the data sampling worfklow (reason: " + str(anomaly_reason)\
-                            + " detected on " + str(anomaly_mtime) + "), "\
-                            + " However due to week days monitoring rules (" + str(data_monitoring_wdays) + "), the entity is currently in a state that will not generate an active alert."\
-                            + ", [ message: " + str(smart_correlation) + " ]"
+                        if data_source_state in ("orange") and re.search("week days and\/or hours ranges rules conditions are not met", str(status_message)):
+
+                            if str(isUnderMonitoringDays) == 'false':
+                                # increment the smart_code by 1
+                                smart_code += 1
+                                smart_result = "TrackMe triggered an alert due to anomaly detection in the data sampling worfklow (reason: " + str(anomaly_reason)\
+                                + " detected on " + str(anomaly_mtime) + "), "\
+                                + " However due to week days monitoring rules (" + str(data_monitoring_wdays) + "), the entity is currently in a state that will not generate an active alert."\
+                                + ", [ message: " + str(smart_correlation) + " ]"
+                            elif str(isUnderMonitoringHours) == 'false':
+                                # increment the smart_code by 2
+                                smart_code += 2
+                                smart_result = "TrackMe triggered an alert due to anomaly detection in the data sampling worfklow (reason: " + str(anomaly_reason)\
+                                + " detected on " + str(anomaly_mtime) + "), "\
+                                + " However due to hours ranges monitoring rules (" + str(data_monitoring_hours_ranges) + "), the entity is currently in a state that will not generate an active alert."\
+                                + ", [ message: " + str(smart_correlation) + " ]"
+                            # unexpected, assume the first case
+                            else:
+                                # increment the smart_code by 1
+                                smart_code += 1
+                                smart_result = "TrackMe triggered an alert due to anomaly detection in the data sampling worfklow (reason: " + str(anomaly_reason)\
+                                + " detected on " + str(anomaly_mtime) + "), "\
+                                + " However due to week days monitoring rules (" + str(data_monitoring_wdays) + "), the entity is currently in a state that will not generate an active alert."\
+                                + ", [ message: " + str(smart_correlation) + " ]"
+
                         else:
                             smart_result =  "TrackMe triggered an alert due to anomaly detection in the data sampling worfklow (reason: " + str(anomaly_reason)\
                             + " detected on " + str(anomaly_mtime) + "), [ message: " + str(smart_correlation) + " ]"
@@ -1950,6 +2054,10 @@ class TrackMeHandlerSmartStatus_v1(trackme_rest_handler.RESTHandler):
                     isOutlier = query_result["isOutlier"]
                     enable_behaviour_analytic = query_result["enable_behaviour_analytic"]
                     data_host_alerting_policy = query_result["data_host_alerting_policy"]
+                    data_monitoring_wdays = query_result["data_monitoring_wdays"]
+                    isUnderMonitoringDays = query_result["isUnderMonitoringDays"]
+                    data_monitoring_hours_ranges = query_result["data_monitoring_hours_ranges"]
+                    isUnderMonitoringHours = query_result["isUnderMonitoringHours"]
 
                 except Exception as e:
                     data_host_state = None
@@ -1961,6 +2069,10 @@ class TrackMeHandlerSmartStatus_v1(trackme_rest_handler.RESTHandler):
                     enable_behaviour_analytic = None
                     isOutlier = None
                     data_host_alerting_policy = None
+                    data_monitoring_wdays = None
+                    isUnderMonitoringDays = None
+                    data_monitoring_hours_ranges = None
+                    isUnderMonitoringHours = None
 
                 #
                 # Flipping status correlation
@@ -2079,7 +2191,8 @@ class TrackMeHandlerSmartStatus_v1(trackme_rest_handler.RESTHandler):
                     # subcase: data indexed in the future
                     ######################################
 
-                    if data_host_state in ("orange"):
+                    # if the state is orange, but outliers is not in anomaly, assume the issue is data in the future
+                    if data_host_state == "orange" and isOutlier == "0" and str(isUnderMonitoringDays) == "true" and str(isUnderMonitoringHours) == "true":
 
                         # calculate a 24h time range in the future starting from now
                         earliest_time = "now"
@@ -2180,21 +2293,79 @@ class TrackMeHandlerSmartStatus_v1(trackme_rest_handler.RESTHandler):
                         smart_code += 10
 
                         if data_host_alerting_policy in ("track_per_host") and data_lag_alert_kpis in ("all_kpis", "lag_event_kpi") and int(data_last_lag_seen)>int(data_max_lag_allowed):
-                            smart_result = "TrackMe triggered an alert due to the latest data available that is out of the acceptable window, "\
-                            + "the maximal event lag allowed is: " + str(data_max_lag_allowed) + " seconds, while the latest data available is: "\
-                            + str(human_last_datetime) + ", the data is late by: " + str(current_delay) + " (days, HH:MM:SS)"
+
+                            if str(isUnderMonitoringDays) == 'false':
+                                # increment the smart_code by 1
+                                smart_code += 1
+                                smart_result = "TrackMe triggered an alert due to the latest data available that is out of the acceptable window, "\
+                                + "the maximal event lag allowed is: " + str(data_max_lag_allowed) + " seconds, while the latest data available is: "\
+                                + str(human_last_datetime) + ", the data is late by: " + str(current_delay) + " (days, HH:MM:SS)"\
+                                + ", however due to week days monitoring rules (" + str(data_monitoring_wdays) + "), the entity is currently in a state that will not generate an active alert."
+
+                            elif str(isUnderMonitoringHours) == 'false':
+                                # increment the smart_code by 2
+                                smart_code += 2
+                                smart_result = "TrackMe triggered an alert due to the latest data available that is out of the acceptable window, "\
+                                + "the maximal event lag allowed is: " + str(data_max_lag_allowed) + " seconds, while the latest data available is: "\
+                                + str(human_last_datetime) + ", the data is late by: " + str(current_delay) + " (days, HH:MM:SS)"\
+                                + ", however due to hours ranges monitoring rules (" + str(data_monitoring_hours_ranges) + "), the entity is currently in a state that will not generate an active alert."                                    
+
+                            else:
+                                smart_result = "TrackMe triggered an alert due to the latest data available that is out of the acceptable window, "\
+                                + "the maximal event lag allowed is: " + str(data_max_lag_allowed) + " seconds, while the latest data available is: "\
+                                + str(human_last_datetime) + ", the data is late by: " + str(current_delay) + " (days, HH:MM:SS)"
 
                         elif data_host_alerting_policy in ("track_per_host") and data_lag_alert_kpis in ("all_kpis", "lag_ingestion_kpi") and int(data_last_ingestion_lag_seen)>int(data_max_lag_allowed):
-                            smart_result = "TrackMe triggered an alert due to indexing lag detected out of the acceptable window, "\
-                            + "the maximal ingestion lag allowed is: " + str(data_max_lag_allowed) + " seconds, while an ingestion lag of "\
-                            + str(datetime.timedelta(seconds=int(data_last_ingestion_lag_seen))) + " (days, HH:MM:SS) was detected, review "\
-                            + "the sourcetypes attached to this report to investigate the root cause."
+
+                            if str(isUnderMonitoringDays) == 'false':
+                                # increment the smart_code by 1
+                                smart_code += 1
+                                smart_result = "TrackMe triggered an alert due to indexing lag detected out of the acceptable window, "\
+                                + "the maximal ingestion lag allowed is: " + str(data_max_lag_allowed) + " seconds, while an ingestion lag of "\
+                                + str(datetime.timedelta(seconds=int(data_last_ingestion_lag_seen))) + " (days, HH:MM:SS) was detected, review "\
+                                + "the sourcetypes attached to this report to investigate the root cause."\
+                                + " However, due to week days monitoring rules (" + str(data_monitoring_wdays) + "), the entity is currently in a state that will not generate an active alert."
+
+                            elif str(isUnderMonitoringHours) == 'false':
+                                # increment the smart_code by 2
+                                smart_code += 2
+                                smart_result = "TrackMe triggered an alert due to indexing lag detected out of the acceptable window, "\
+                                + "the maximal ingestion lag allowed is: " + str(data_max_lag_allowed) + " seconds, while an ingestion lag of "\
+                                + str(datetime.timedelta(seconds=int(data_last_ingestion_lag_seen))) + " (days, HH:MM:SS) was detected, review "\
+                                + "the sourcetypes attached to this report to investigate the root cause."\
+                                + " However, due to hours ranges monitoring rules (" + str(data_monitoring_hours_ranges) + "), the entity is currently in a state that will not generate an active alert."
+
+                            else:
+                                smart_result = "TrackMe triggered an alert due to indexing lag detected out of the acceptable window, "\
+                                + "the maximal ingestion lag allowed is: " + str(data_max_lag_allowed) + " seconds, while an ingestion lag of "\
+                                + str(datetime.timedelta(seconds=int(data_last_ingestion_lag_seen))) + " (days, HH:MM:SS) was detected, review "\
+                                + "the sourcetypes attached to this report to investigate the root cause."
 
                         elif data_host_alerting_policy in ("track_per_sourcetype"):
-                            smart_result = "TrackMe triggered an alert due to one or more sourcetypes in alert state, "\
-                            + "as the host policy is currently set to track per sourcetype, any sourcetype will impact the host global status. "\
-                            + "Review the attached report, if these sourcetypes have been decomissioned or blocklisted, reset the host to clear "\
-                            + "the current sourcetype knownledge."
+
+                            if str(isUnderMonitoringDays) == 'false':
+                                # increment the smart_code by 1
+                                smart_code += 1
+                                smart_result = "TrackMe triggered an alert due to one or more sourcetypes in alert state, "\
+                                + "as the host policy is currently set to track per sourcetype, any sourcetype will impact the host global status. "\
+                                + "Review the attached report, if these sourcetypes have been decomissioned or blocklisted, reset the host to clear "\
+                                + "the current sourcetype knownledge."\
+                                + " However, due to week days monitoring rules (" + str(data_monitoring_wdays) + "), the entity is currently in a state that will not generate an active alert."
+
+                            elif str(isUnderMonitoringHours) == 'false':
+                                # increment the smart_code by 2
+                                smart_code += 2
+                                smart_result = "TrackMe triggered an alert due to one or more sourcetypes in alert state, "\
+                                + "as the host policy is currently set to track per sourcetype, any sourcetype will impact the host global status. "\
+                                + "Review the attached report, if these sourcetypes have been decomissioned or blocklisted, reset the host to clear "\
+                                + "the current sourcetype knownledge."\
+                                + " However, due to hours ranges monitoring rules (" + str(data_monitoring_hours_ranges) + "), the entity is currently in a state that will not generate an active alert."
+
+                            else:
+                                smart_result = "TrackMe triggered an alert due to one or more sourcetypes in alert state, "\
+                                + "as the host policy is currently set to track per sourcetype, any sourcetype will impact the host global status. "\
+                                + "Review the attached report, if these sourcetypes have been decomissioned or blocklisted, reset the host to clear "\
+                                + "the current sourcetype knownledge."
 
                         else:
                             smart_result = None
@@ -2289,22 +2460,67 @@ class TrackMeHandlerSmartStatus_v1(trackme_rest_handler.RESTHandler):
                         # increment the smart_code by 40
                         smart_code += 40
 
-                        results = '{' \
-                        + '"data_host": "' + data_host  + '", '\
-                        + '"data_host_state": "' + data_host_state  + '", '\
-                        + '"smart_result": "TrackMe triggered an alert on this data host due to outliers detection in the '\
-                        + 'event count, outliers are based on the calculation of a lower and upper bound (if alerting on upper) determined '\
-                        + 'against the data host usual behaviour and outliers parameters. Review the correlation results to determine '\
-                        + 'if the behaviour is expected or symptomatic of an issue happening on the data host (lost of '\
-                        + 'sources, etc.) and proceed to any outliers configuration fine tuning if necessary.", '\
-                        + '"smart_code": "' + str(smart_code) + '", ' \
-                        + '"correlation_outliers": "[ description: Last 24h outliers detection ], [ OutliersCount: ' \
-                        + str(countOutliers) + ' ], [ latest4hcount: ' + str(latest4hcount) + ' ], [ lowerBound: ' \
-                        + str(lowerBound) + ' ], [ upperBound: ' + str(upperBound) + ' ], [ lastOutlier: ' \
-                        + str(lastOutlier) + ' ], [ lastOutlierReason: ' + str(lastOutlierReason) + ' ], [ OutlierAlertOnUpper: '\
-                        + str(OutlierAlertOnUpper) + ' ]", '\
-                        + '"correlation_flipping_state": "' + str(flipping_correlation_msg) + '"'\
-                        + '}'
+                        if str(isUnderMonitoringDays) == 'false':
+                            # increment the smart_code by 1
+                            smart_code += 1
+                            results = '{' \
+                            + '"data_host": "' + data_host  + '", '\
+                            + '"data_host_state": "' + data_host_state  + '", '\
+                            + '"smart_result": "TrackMe triggered an alert on this data host due to outliers detection in the '\
+                            + 'event count, outliers are based on the calculation of a lower and upper bound (if alerting on upper) determined '\
+                            + 'against the data host usual behaviour and outliers parameters. Review the correlation results to determine '\
+                            + 'if the behaviour is expected or symptomatic of an issue happening on the data host (lost of '\
+                            + 'sources, etc.) and proceed to any outliers configuration fine tuning if necessary. '\
+                            + ' However, due to week days monitoring rules (" + str(data_monitoring_hours_ranges) + "), the entity is currently in a state that will not generate an active alert.' \
+                            + '", '\
+                            + '"smart_code": "' + str(smart_code) + '", ' \
+                            + '"correlation_outliers": "[ description: Last 24h outliers detection ], [ OutliersCount: ' \
+                            + str(countOutliers) + ' ], [ latest4hcount: ' + str(latest4hcount) + ' ], [ lowerBound: ' \
+                            + str(lowerBound) + ' ], [ upperBound: ' + str(upperBound) + ' ], [ lastOutlier: ' \
+                            + str(lastOutlier) + ' ], [ lastOutlierReason: ' + str(lastOutlierReason) + ' ], [ OutlierAlertOnUpper: '\
+                            + str(OutlierAlertOnUpper) + ' ]", '\
+                            + '"correlation_flipping_state": "' + str(flipping_correlation_msg) + '"'\
+                            + '}'
+
+                        elif str(isUnderMonitoringHours) == 'false':
+                            # increment the smart_code by 2
+                            smart_code += 2
+                            results = '{' \
+                            + '"data_host": "' + data_host  + '", '\
+                            + '"data_host_state": "' + data_host_state  + '", '\
+                            + '"smart_result": "TrackMe triggered an alert on this data host due to outliers detection in the '\
+                            + 'event count, outliers are based on the calculation of a lower and upper bound (if alerting on upper) determined '\
+                            + 'against the data host usual behaviour and outliers parameters. Review the correlation results to determine '\
+                            + 'if the behaviour is expected or symptomatic of an issue happening on the data host (lost of '\
+                            + 'sources, etc.) and proceed to any outliers configuration fine tuning if necessary. '\
+                            + ' However, due to hours ranges monitoring rules (" + str(data_monitoring_hours_ranges) + "), the entity is currently in a state that will not generate an active alert.' \
+                            + '", '\
+                            + '"smart_code": "' + str(smart_code) + '", ' \
+                            + '"correlation_outliers": "[ description: Last 24h outliers detection ], [ OutliersCount: ' \
+                            + str(countOutliers) + ' ], [ latest4hcount: ' + str(latest4hcount) + ' ], [ lowerBound: ' \
+                            + str(lowerBound) + ' ], [ upperBound: ' + str(upperBound) + ' ], [ lastOutlier: ' \
+                            + str(lastOutlier) + ' ], [ lastOutlierReason: ' + str(lastOutlierReason) + ' ], [ OutlierAlertOnUpper: '\
+                            + str(OutlierAlertOnUpper) + ' ]", '\
+                            + '"correlation_flipping_state": "' + str(flipping_correlation_msg) + '"'\
+                            + '}'
+
+                        else:
+                            results = '{' \
+                            + '"data_host": "' + data_host  + '", '\
+                            + '"data_host_state": "' + data_host_state  + '", '\
+                            + '"smart_result": "TrackMe triggered an alert on this data host due to outliers detection in the '\
+                            + 'event count, outliers are based on the calculation of a lower and upper bound (if alerting on upper) determined '\
+                            + 'against the data host usual behaviour and outliers parameters. Review the correlation results to determine '\
+                            + 'if the behaviour is expected or symptomatic of an issue happening on the data host (lost of '\
+                            + 'sources, etc.) and proceed to any outliers configuration fine tuning if necessary.", '\
+                            + '"smart_code": "' + str(smart_code) + '", ' \
+                            + '"correlation_outliers": "[ description: Last 24h outliers detection ], [ OutliersCount: ' \
+                            + str(countOutliers) + ' ], [ latest4hcount: ' + str(latest4hcount) + ' ], [ lowerBound: ' \
+                            + str(lowerBound) + ' ], [ upperBound: ' + str(upperBound) + ' ], [ lastOutlier: ' \
+                            + str(lastOutlier) + ' ], [ lastOutlierReason: ' + str(lastOutlierReason) + ' ], [ OutlierAlertOnUpper: '\
+                            + str(OutlierAlertOnUpper) + ' ]", '\
+                            + '"correlation_flipping_state": "' + str(flipping_correlation_msg) + '"'\
+                            + '}'
 
                         return {
                             "payload": json.dumps(json.loads(results), indent=1),
