@@ -6390,7 +6390,7 @@
 										<div class="input input-dropdown" id="inputDataHostConfigOutlierOutlierMinEventCountMode">
 											<label>OutlierMinEventCount mode:</label>
 										</div>
-										<div style="max-width: 165px;" class="input input-text" id="inputDataHostConfigOutlierOutlierMinEventCount">
+										<div style="max-width: 180px; display: none;" class="input input-text" id="inputDataHostConfigOutlierOutlierMinEventCount">
 											<label>OutlierMinEventCount:</label>
 										</div>
 										<div style="max-width: 165px;" class="input input-text" id="inputDataHostConfigOutlierOutlierLowerThresholdMultiplier">

@@ -11987,16 +11987,15 @@ require([
     inputDataHostConfigOutlierOutlierMinEventCountMode.on("valueChange", function(e) {
         if (e.value === "dynamic") {
             EventHandler.setToken("form.tk_input_data_host_outlier_min_eventcount", "disabled", {}, e.data);
+            $("#inputDataHostConfigOutlierOutlierMinEventCount").css("display", "none");
         } else if (e.value === "static") {
             EventHandler.unsetToken("form.tk_input_data_host_outlier_min_eventcount");
+            $("#inputDataHostConfigOutlierOutlierMinEventCount").css("display", "inline-block");
         }
     });
 
     var inputDataHostConfigOutlierOutlierMinEventCount = new TextInput({
         "id": "inputDataHostConfigOutlierOutlierMinEventCount",
-        "tokenDependencies": {
-            "depends": "$show_tk_input_data_host_outlier_min_eventcount$"
-        },
         "searchWhenChanged": true,
         "value": "$form.tk_input_data_host_outlier_min_eventcount$",
         "el": $('#inputDataHostConfigOutlierOutlierMinEventCount')
