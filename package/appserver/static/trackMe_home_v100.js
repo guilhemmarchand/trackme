@@ -742,7 +742,7 @@ require([
         preview: true,
         tokenDependencies: {
             depends: "$show_hours_ranges$",
-        },        
+        },
         runWhenTimeIsUndefined: false,
     }, {
         tokens: true
@@ -12901,11 +12901,11 @@ require([
     }, {
         tokens: true
     }).render();
-    
+
     modal_input_hours_ranges.on("change", function(newValue) {
         FormUtils.handleValueChange(modal_input_hours_ranges);
     });
-    
+
     modal_input_hours_ranges.on("valueChange", function(e) {
         if (e.value === "manual:enter_hours_ranges") {
             EventHandler.setToken("show_manual_hours_ranges", "true", {}, e.data);
@@ -12913,13 +12913,13 @@ require([
             EventHandler.unsetToken("show_manual_hours_ranges");
         }
     });
-    
+
     var modal_input_hours_ranges_no = new CheckboxGroupInput({
         "id": "modal_input_hours_ranges_no",
         "prefix": "manual:",
         "searchWhenChanged": true,
-        "default": ["0,1","2,3","4,5","6,7","8,9","10,11","12,13","14,15","16,17","18,19","20,21","22,23"],
-        "initialValue": ["0,1","2,3","4,5","6,7","8,9","10,11","12,13","14,15","16,17","18,19","20,21","22,23"],
+        "default": ["0,1", "2,3", "4,5", "6,7", "8,9", "10,11", "12,13", "14,15", "16,17", "18,19", "20,21", "22,23"],
+        "initialValue": ["0,1", "2,3", "4,5", "6,7", "8,9", "10,11", "12,13", "14,15", "16,17", "18,19", "20,21", "22,23"],
         "delimiter": ",",
         "managerid": "search_gen_hours_ranges",
         "labelField": "label",
@@ -12929,11 +12929,11 @@ require([
     }, {
         tokens: true
     }).render();
-    
+
     modal_input_hours_ranges_no.on("change", function(newValue) {
         FormUtils.handleValueChange(modal_input_hours_ranges_no);
     });
-    
+
     var modal_input_data_host_hours_ranges = new DropdownInput({
         "id": "modal_input_data_host_hours_ranges",
         "choices": [{
@@ -12955,11 +12955,11 @@ require([
     }, {
         tokens: true
     }).render();
-    
+
     modal_input_data_host_hours_ranges.on("change", function(newValue) {
         FormUtils.handleValueChange(modal_input_data_host_hours_ranges);
     });
-    
+
     modal_input_data_host_hours_ranges.on("valueChange", function(e) {
         if (e.value === "manual:enter_hours_ranges") {
             EventHandler.setToken("show_manual_hours_ranges", "true", {}, e.data);
@@ -12967,13 +12967,13 @@ require([
             EventHandler.unsetToken("show_manual_hours_ranges");
         }
     });
-    
+
     var modal_input_data_host_hours_ranges_no = new CheckboxGroupInput({
         "id": "modal_input_data_host_hours_ranges_no",
         "prefix": "manual:",
         "searchWhenChanged": true,
-        "default": ["0,1","2,3","4,5","6,7","8,9","10,11","12,13","14,15","16,17","18,19","20,21","22,23"],
-        "initialValue": ["0,1","2,3","4,5","6,7","8,9","10,11","12,13","14,15","16,17","18,19","20,21","22,23"],
+        "default": ["0,1", "2,3", "4,5", "6,7", "8,9", "10,11", "12,13", "14,15", "16,17", "18,19", "20,21", "22,23"],
+        "initialValue": ["0,1", "2,3", "4,5", "6,7", "8,9", "10,11", "12,13", "14,15", "16,17", "18,19", "20,21", "22,23"],
         "delimiter": ",",
         "managerid": "search_gen_hours_ranges",
         "labelField": "label",
@@ -12983,11 +12983,11 @@ require([
     }, {
         tokens: true
     }).render();
-    
+
     modal_input_data_host_hours_ranges_no.on("change", function(newValue) {
         FormUtils.handleValueChange(modal_input_data_host_hours_ranges_no);
     });
-    
+
     var modal_input_level = new DropdownInput({
         "id": "modal_input_level",
         "choices": [{
@@ -18947,20 +18947,49 @@ require([
                                 }, {
                                     done: function(job) {
 
-                                        // notify
-                                        var msg = "The entity " + tk_metric_host + " has been temporary deleted."
-                                        notify(
-                                            "success",
-                                            "bottom",
-                                            msg,
-                                            "5"
-                                        );
+                                        // Get the results
+                                        job.results({}, function(err, results, job) {
+                                            var fields = results.fields;
+                                            var rows = results.rows;
+                                            var rawResult = "unknown";
+                                            for (var i = 0; i < rows.length; i++) {
+                                                var values = rows[i];
+                                                for (var j = 0; j < values.length; j++) {
+                                                    var field = fields[j];
+                                                    var value = values[j];
+                                                    if (field === "_raw") {
+                                                        rawResult = value;
+                                                    }
+                                                }
 
-                                        // Run the search again to update the table
-                                        searchMetricHostsMain.startSearch();
+                                                if (rawResult != 'unknown') {
+                                                    // notify
+                                                    var msg = "The entity " + tk_metric_host + " has been temporary deleted."
+                                                    notify(
+                                                        "success",
+                                                        "bottom",
+                                                        msg,
+                                                        "5"
+                                                    );
+                                                    // Run the search again to update the table
+                                                    searchMetricHostsMain.startSearch();
+                                                    // remove spinner
+                                                    cssloaderremove();
+                                                }
+                                            }
 
-                                        // remove spinner
-                                        cssloaderremove();
+                                            // unexpected failure
+                                            if (rawResult === 'unknown') {
+                                                cssloaderremove();
+                                                $("#modal_update_collection_failure_return")
+                                                    .find(".modal-error-message p")
+                                                    .text("Unknown failure, do you have the required permissions?");
+                                                closeModals();
+                                                $("#modal_update_collection_failure_return").modal();
+                                            }
+
+                                        });
+
                                     },
                                     failed: function(properties) {
                                         let errorStr = "Unknown Error!";
@@ -19076,20 +19105,49 @@ require([
                                 }, {
                                     done: function(job) {
 
-                                        // notify
-                                        var msg = "The entity " + tk_metric_host + " has been temporary deleted."
-                                        notify(
-                                            "success",
-                                            "bottom",
-                                            msg,
-                                            "5"
-                                        );
+                                        // Get the results
+                                        job.results({}, function(err, results, job) {
+                                            var fields = results.fields;
+                                            var rows = results.rows;
+                                            var rawResult = "unknown";
+                                            for (var i = 0; i < rows.length; i++) {
+                                                var values = rows[i];
+                                                for (var j = 0; j < values.length; j++) {
+                                                    var field = fields[j];
+                                                    var value = values[j];
+                                                    if (field === "_raw") {
+                                                        rawResult = value;
+                                                    }
+                                                }
 
-                                        // Run the search again to update the table
-                                        searchMetricHostsMain.startSearch();
+                                                if (rawResult != 'unknown') {
+                                                    // notify
+                                                    var msg = "The entity " + tk_metric_host + " has been permanently deleted."
+                                                    notify(
+                                                        "success",
+                                                        "bottom",
+                                                        msg,
+                                                        "5"
+                                                    );
+                                                    // Run the search again to update the table
+                                                    searchMetricHostsMain.startSearch();
+                                                    // remove spinner
+                                                    cssloaderremove();
+                                                }
+                                            }
 
-                                        // remove spinner
-                                        cssloaderremove();
+                                            // unexpected failure
+                                            if (rawResult === 'unknown') {
+                                                cssloaderremove();
+                                                $("#modal_update_collection_failure_return")
+                                                    .find(".modal-error-message p")
+                                                    .text("Unknown failure, do you have the required permissions?");
+                                                closeModals();
+                                                $("#modal_update_collection_failure_return").modal();
+                                            }
+
+                                        });
+
                                     },
                                     failed: function(properties) {
                                         let errorStr = "Unknown Error!";
@@ -19221,20 +19279,50 @@ require([
                                 }, {
                                     done: function(job) {
 
-                                        // notify
-                                        var msg = "The entity " + tk_data_name + " has been temporary deleted."
-                                        notify(
-                                            "success",
-                                            "bottom",
-                                            msg,
-                                            "5"
-                                        );
+                                        // Get the results
+                                        job.results({}, function(err, results, job) {
+                                            var fields = results.fields;
+                                            var rows = results.rows;
+                                            var rawResult = "unknown";
+                                            for (var i = 0; i < rows.length; i++) {
+                                                var values = rows[i];
+                                                for (var j = 0; j < values.length; j++) {
+                                                    var field = fields[j];
+                                                    var value = values[j];
+                                                    if (field === "_raw") {
+                                                        rawResult = value;
+                                                    }
+                                                }
 
-                                        // Run the search again to update the table
-                                        searchDataSourcesMain.startSearch();
+                                                if (rawResult != 'unknown') {
+                                                    // notify
+                                                    var msg = "The entity " + tk_data_name + " has been temporary deleted."
+                                                    notify(
+                                                        "success",
+                                                        "bottom",
+                                                        msg,
+                                                        "5"
+                                                    );
 
-                                        // remove spinner
-                                        cssloaderremove();
+                                                    // Run the search again to update the table
+                                                    searchDataSourcesMain.startSearch();
+
+                                                    // remove spinner
+                                                    cssloaderremove();
+                                                }
+                                            }
+
+                                            // unexpected failure
+                                            if (rawResult === 'unknown') {
+                                                cssloaderremove();
+                                                $("#modal_update_collection_failure_return")
+                                                    .find(".modal-error-message p")
+                                                    .text("Unknown failure, do you have the required permissions?");
+                                                closeModals();
+                                                $("#modal_update_collection_failure_return").modal();
+                                            }
+
+                                        });
                                     },
                                     failed: function(properties) {
                                         let errorStr = "Unknown Error!";
@@ -19351,20 +19439,50 @@ require([
                                 }, {
                                     done: function(job) {
 
-                                        // notify
-                                        var msg = "The entity " + tk_data_name + " has been permanently deleted."
-                                        notify(
-                                            "success",
-                                            "bottom",
-                                            msg,
-                                            "5"
-                                        );
+                                        // Get the results
+                                        job.results({}, function(err, results, job) {
+                                            var fields = results.fields;
+                                            var rows = results.rows;
+                                            var rawResult = "unknown";
+                                            for (var i = 0; i < rows.length; i++) {
+                                                var values = rows[i];
+                                                for (var j = 0; j < values.length; j++) {
+                                                    var field = fields[j];
+                                                    var value = values[j];
+                                                    if (field === "_raw") {
+                                                        rawResult = value;
+                                                    }
+                                                }
 
-                                        // Run the search again to update the table
-                                        searchDataSourcesMain.startSearch();
+                                                if (rawResult != 'unknown') {
+                                                    // notify
+                                                    var msg = "The entity " + tk_data_name + " has been permanently deleted."
+                                                    notify(
+                                                        "success",
+                                                        "bottom",
+                                                        msg,
+                                                        "5"
+                                                    );
 
-                                        // remove spinner
-                                        cssloaderremove();
+                                                    // Run the search again to update the table
+                                                    searchDataSourcesMain.startSearch();
+
+                                                    // remove spinner
+                                                    cssloaderremove();
+                                                }
+                                            }
+
+                                            // unexpected failure
+                                            if (rawResult === 'unknown') {
+                                                cssloaderremove();
+                                                $("#modal_update_collection_failure_return")
+                                                    .find(".modal-error-message p")
+                                                    .text("Unknown failure, do you have the required permissions?");
+                                                closeModals();
+                                                $("#modal_update_collection_failure_return").modal();
+                                            }
+
+                                        });
                                     },
                                     failed: function(properties) {
                                         let errorStr = "Unknown Error!";
@@ -19573,20 +19691,51 @@ require([
                                 }, {
                                     done: function(job) {
 
-                                        // notify
-                                        var msg = "The entity " + tk_data_host + " has been temporary deleted."
-                                        notify(
-                                            "success",
-                                            "bottom",
-                                            msg,
-                                            "5"
-                                        );
+                                        // Get the results
+                                        job.results({}, function(err, results, job) {
+                                            var fields = results.fields;
+                                            var rows = results.rows;
+                                            var rawResult = "unknown";
+                                            for (var i = 0; i < rows.length; i++) {
+                                                var values = rows[i];
+                                                for (var j = 0; j < values.length; j++) {
+                                                    var field = fields[j];
+                                                    var value = values[j];
+                                                    if (field === "_raw") {
+                                                        rawResult = value;
+                                                    }
+                                                }
 
-                                        // Run the search again to update the table
-                                        searchDataHostsMain.startSearch();
+                                                if (rawResult != 'unknown') {
+                                                    // notify
+                                                    var msg = "The entity " + tk_data_host + " has been temporary deleted."
+                                                    notify(
+                                                        "success",
+                                                        "bottom",
+                                                        msg,
+                                                        "5"
+                                                    );
 
-                                        // remove spinner
-                                        cssloaderremove();
+                                                    // Run the search again to update the table
+                                                    searchDataHostsMain.startSearch();
+
+                                                    // remove spinner
+                                                    cssloaderremove();
+                                                }
+                                            }
+
+                                            // unexpected failure
+                                            if (rawResult === 'unknown') {
+                                                cssloaderremove();
+                                                $("#modal_update_collection_failure_return")
+                                                    .find(".modal-error-message p")
+                                                    .text("Unknown failure, do you have the required permissions?");
+                                                closeModals();
+                                                $("#modal_update_collection_failure_return").modal();
+                                            }
+
+                                        });
+
                                     },
                                     failed: function(properties) {
                                         let errorStr = "Unknown Error!";
@@ -19702,20 +19851,50 @@ require([
                                 }, {
                                     done: function(job) {
 
-                                        // notify
-                                        var msg = "The entity " + tk_data_host + " has been permanently deleted."
-                                        notify(
-                                            "success",
-                                            "bottom",
-                                            msg,
-                                            "5"
-                                        );
+                                        // Get the results
+                                        job.results({}, function(err, results, job) {
+                                            var fields = results.fields;
+                                            var rows = results.rows;
+                                            var rawResult = "unknown";
+                                            for (var i = 0; i < rows.length; i++) {
+                                                var values = rows[i];
+                                                for (var j = 0; j < values.length; j++) {
+                                                    var field = fields[j];
+                                                    var value = values[j];
+                                                    if (field === "_raw") {
+                                                        rawResult = value;
+                                                    }
+                                                }
 
-                                        // Run the search again to update the table
-                                        searchDataHostsMain.startSearch();
+                                                if (rawResult != 'unknown') {
+                                                    // notify
+                                                    var msg = "The entity " + tk_data_host + " has been permanently deleted."
+                                                    notify(
+                                                        "success",
+                                                        "bottom",
+                                                        msg,
+                                                        "5"
+                                                    );
 
-                                        // remove spinner
-                                        cssloaderremove();
+                                                    // Run the search again to update the table
+                                                    searchDataHostsMain.startSearch();
+
+                                                    // remove spinner
+                                                    cssloaderremove();
+                                                }
+                                            }
+
+                                            // unexpected failure
+                                            if (rawResult === 'unknown') {
+                                                cssloaderremove();
+                                                $("#modal_update_collection_failure_return")
+                                                    .find(".modal-error-message p")
+                                                    .text("Unknown failure, do you have the required permissions?");
+                                                closeModals();
+                                                $("#modal_update_collection_failure_return").modal();
+                                            }
+
+                                        });
                                     },
                                     failed: function(properties) {
                                         let errorStr = "Unknown Error!";
@@ -24490,8 +24669,8 @@ require([
                             if (actionResult === 'failure') {
                                 cssloaderremove();
                                 $("#modal_hybrid_tracker_creation_error")
-                                .find(".modal-error-message p")
-                                .text("Unknown failure, do you have the required permissions?");
+                                    .find(".modal-error-message p")
+                                    .text("Unknown failure, do you have the required permissions?");
                                 closeModals();
                                 $("#modal_hybrid_tracker_creation_error").modal();
                             }
