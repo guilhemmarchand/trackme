@@ -4470,7 +4470,7 @@
 								<div style="padding: 20px;">
 									<div id="child-data-source-status-message"></div>
 								</div>
-								<div style="padding: 20px;">
+								<div style="padding: 20px; margin-bottom: 30px;">
 									<h3>Last 7 days timeline</h3>
 									<div id="TimelineDataSource" class="view-elements"></div>
 									<div id="resultsLinkTimelineDataSource" class="search-elements"></div>
@@ -4944,7 +4944,7 @@
 											</div>
 										</div>
 										<div class="child-data-source-modify-l2">
-											<h1>Hours ranges monitoring:</h1>
+											<h1>Hours range monitoring:</h1>
 											<p>Specify if this entity should apply specific hours ranges for monitoring:</p>
 											<div class="fieldset">
 												<div class="input input-text" id="modal_input_hours_ranges">
@@ -6515,7 +6515,7 @@
 								<div style="padding: 20px;">
 									<div id="child-data-host-status-message"></div>
 								</div>
-								<div style="padding: 20px;">
+								<div style="padding: 20px; margin-bottom: 30px;">
 									<h3>Last 7 days timeline</h3>
 									<div id="TimelineDataHost" class="view-elements"></div>
 									<div id="resultsLinkTimelineDataHost" class="search-elements"></div>
@@ -6804,7 +6804,7 @@
 										</div>
 									</div>
 									<div>
-										<h1>Hours ranges monitoring:</h1>
+										<h1>Hours range monitoring:</h1>
 										<p>Specify if this entity should apply specific hours ranges for monitoring:</p>
 										<div class="fieldset">
 											<div class="input input-text" id="modal_input_data_host_hours_ranges">
@@ -7298,7 +7298,7 @@
 								<div style="padding: 20px;">
 									<div id="child-metric-host-status-message"></div>
 								</div>
-								<div style="padding: 20px;">
+								<div style="padding: 20px; margin-bottom: 30px;">
 									<h3>Last 7 days timeline</h3>
 									<div id="TimelineMetricHost" class="view-elements"></div>
 									<div id="resultsLinkTimelineMetricHost" class="search-elements"></div>
