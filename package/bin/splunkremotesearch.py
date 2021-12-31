@@ -142,14 +142,17 @@ class SplunkRemoteSearch(GeneratingCommand):
             # Define the url
             url = str(splunk_url) + "/services/search/jobs/export"
 
+            # transform the results into a json field defining the _raw
+            search = str(self.search) + " | tojson"
+
             # Get data
             output_mode = "csv"
             exec_mode = "oneshot"
-            response = requests.post(url, headers={'Authorization': header}, verify=False, data={'search': self.search, 'output_mode': output_mode, 'exec_mode': exec_mode, 'earliest_time': self.earliest, 'latest_time': self.latest}) 
+            response = requests.post(url, headers={'Authorization': header}, verify=False, data={'search': search, 'output_mode': output_mode, 'exec_mode': exec_mode, 'earliest_time': self.earliest, 'latest_time': self.latest}) 
             csv_data = response.text
 
             if response.status_code not in (200, 201, 204):
-                response_error = 'remote search has failed!. url={}, data={}, HTTP Error={}, content={}'.format(url, self.search, response.status_code, response.text)
+                response_error = 'remote search has failed!. url={}, data={}, HTTP Error={}, content={}'.format(url, search, response.status_code, response.text)
                 self.logger.fatal(str(response_error))
                 data = { '_time': time.time(), '_raw': "{\"response\": \"" + str(response_error) + "\"" }
                 yield data
@@ -162,6 +165,6 @@ class SplunkRemoteSearch(GeneratingCommand):
 
                 # For row in CSV, generate the _raw
                 for row in readCSV:
-                    yield { '_time': time.time(), '_raw': "count=\"" + str(row['count']) + "\"", 'count': str(row['count']) }
+                    yield { '_time': time.time(), '_raw': str(row['_raw']) }
 
 dispatch(SplunkRemoteSearch, sys.argv, sys.stdin, sys.stdout, __name__)
