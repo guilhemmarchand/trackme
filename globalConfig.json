@@ -3,6 +3,74 @@
         "configuration": {
             "tabs": [
                 {
+                    "name": "account",
+                    "table": {
+                        "actions": [
+                            "edit",
+                            "delete",
+                            "clone"
+                        ],
+                        "header": [
+                            {
+                                "label": "Name",
+                                "field": "name"
+                            },
+                            {
+                                "label": "Auth Type",
+                                "field": "auth_type"
+                            }
+                        ]
+                    },
+                    "entity": [
+                        {
+                            "type": "text",
+                            "label": "Name",
+                            "validators": [
+                                {
+                                    "type": "string",
+                                    "errorMsg": "Length of ID should be between 1 and 50",
+                                    "minLength": 1,
+                                    "maxLength": 50
+                                },
+                                {
+                                    "type": "regex",
+                                    "errorMsg": "Name must begin with a letter and consist exclusively of alphanumeric characters and underscores.",
+                                    "pattern": "^[a-zA-Z]\\w*$"
+                                }
+                            ],
+                            "options": {
+                                "placeholder": "Required"
+                            },
+                            "field": "name",
+                            "help": "Enter a unique name for this Splunk remote environment.",
+                            "required": true
+                        },
+                        {
+                            "type": "text",
+                            "label": "Splunk target URL and port",
+                            "help": "https://mysplunk.mydomain.com:8089 (SSL is enforced, the URL will be prefixed with https:// if not set)",
+                            "field": "splunk_url",
+                            "required": true,
+                            "options": {
+                                "display": true
+                            }
+                        },
+                        {
+                            "type": "text",
+                            "label": "Bearer token",
+                            "help": "For client instances, set the bearer token used for remote access to the KVstore instance",
+                            "field": "bearer_token",
+                            "options": {
+                                "display": true
+                            },
+                            "defaultValue": "",
+                            "encrypted": true,
+                            "required": false
+                        }
+                    ],
+                    "title": "Remote Splunk deployments accounts"
+                },
+                {
                     "name": "logging",
                     "entity": [
                         {
