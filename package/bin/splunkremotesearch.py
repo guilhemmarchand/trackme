@@ -143,7 +143,7 @@ class SplunkRemoteSearch(GeneratingCommand):
             url = str(splunk_url) + "/services/search/jobs/export"
 
             # transform the results into a json field defining the _raw
-            search = str(self.search) + " | tojson"
+            search = str(self.search) + " | eval epochtime=if(isnotnull(_time), _time, now()) | tojson | table _time, epochtime, _raw"
 
             # Get data
             output_mode = "csv"
@@ -165,6 +165,13 @@ class SplunkRemoteSearch(GeneratingCommand):
 
                 # For row in CSV, generate the _raw
                 for row in readCSV:
-                    yield { '_time': time.time(), '_raw': str(row['_raw']) }
+
+                    # handle _time is not present
+                    try:
+                        epochtime = str(row['epochtime'])
+                    except Exception as e:
+                        epochtime = time.time()
+
+                    yield { '_time': str(epochtime), '_raw': str(row['_raw']) }
 
 dispatch(SplunkRemoteSearch, sys.argv, sys.stdin, sys.stdout, __name__)

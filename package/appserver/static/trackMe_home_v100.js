@@ -6085,6 +6085,52 @@ require([
                 setToken("tk_data_source_timechart_count_aggreg", "sum");
             }
 
+            // tstats over remote
+            else if (
+                tk_elastic_source_search_mode == "remote_tstats" &&
+                tk_elastic_source_from_part1 != "null" &&
+                tk_elastic_source_from_part2 != "null"
+            ) {
+                // rest seach requires escaping
+                tk_elastic_source_from_part2 = tk_elastic_source_from_part2.replace(
+                    /\"/g,
+                    '\\"'
+                );
+                // rest search needs special handling
+                tk_data_source_overview_root_search =
+                    "| splunkremotesearch " +
+                    tk_elastic_source_from_part1 +
+                    ' search="' +
+                    "| tstats dc(host) as dcount_host count latest(_indextime) as indextime max(_time) as maxtime where " +
+                    tk_elastic_source_from_part2 +
+                    ' by _time, index, sourcetype span=1s | eval delta=(indextime-_time), event_lag=(now() - maxtime) | fields _time count delta event_lag dcount_host"' +
+                    ' earliest="' +
+                    tk_earliest +
+                    '"' +
+                    ' latest="' +
+                    tk_latest +
+                    '"' +
+                    " | spath";
+                tk_data_source_raw_search =
+                    "?q=" +
+                    encodeURI(
+                        "| splunkremotesearch " +
+                        tk_elastic_source_from_part1 +
+                        ' search="' +
+                        "search " +
+                        tk_elastic_source_from_part2 +
+                        ' | head 10000"' +
+                        ' earliest="' +
+                        tk_earliest +
+                        '"' +
+                        ' latest="' +
+                        tk_latest +
+                        '"' +
+                        " | spath"
+                    );
+                setToken("tk_data_source_timechart_count_aggreg", "sum");
+            }
+
             // raw over rest
             else if (
                 tk_elastic_source_search_mode == "rest_raw" &&
@@ -6135,6 +6181,52 @@ require([
                 setToken("tk_data_source_timechart_count_aggreg", "sum");
             }
 
+            // raw over remote
+            else if (
+                tk_elastic_source_search_mode == "remote_raw" &&
+                tk_elastic_source_from_part1 != "null" &&
+                tk_elastic_source_from_part2 != "null"
+            ) {
+                // rest seach requires escaping
+                tk_elastic_source_from_part2 = tk_elastic_source_from_part2.replace(
+                    /\"/g,
+                    '\\"'
+                );
+                // rest search needs special handling
+                tk_data_source_overview_root_search =
+                    "| splunkremotesearch " +
+                    tk_elastic_source_from_part1 +
+                    ' search="' +
+                    "search " +
+                    tk_elastic_source_from_part2 +
+                    ' | eval delta=(_indextime-_time), event_lag=(now() - _time) | bucket _time span=1s | stats count, avg(delta) as delta, latest(event_lag) as event_lag, dc(host) as dcount_host by _time"' +
+                    ' earliest="' +
+                    tk_earliest +
+                    '"' +
+                    ' latest="' +
+                    tk_latest +
+                    '"' +
+                    " | spath";
+                tk_data_source_raw_search =
+                    "?q=" +
+                    encodeURI(
+                        "| splunkremotesearch " +
+                        tk_elastic_source_from_part1 +
+                        ' search="' +
+                        "search " +
+                        tk_elastic_source_from_part2 +
+                        ' | head 10000"' +
+                        ' earliest="' +
+                        tk_earliest +
+                        '"' +
+                        ' latest="' +
+                        tk_latest +
+                        '"' +
+                        " | spath"
+                    );
+                setToken("tk_data_source_timechart_count_aggreg", "sum");
+            }
+
             // mstats over rest (uses summary data)
             else if (
                 tk_elastic_source_search_mode == "rest_mstats" &&
@@ -6162,7 +6254,39 @@ require([
                         encodeURI(' earliest="-5m" latest=now');
                 }
                 setToken("tk_data_source_timechart_count_aggreg", "latest");
-            } else {
+            } 
+            
+            // mstats over remote (uses summary data)
+            else if (
+                tk_elastic_source_search_mode == "remote_mstats" &&
+                tk_elastic_mstats_filters != "null"
+            ) {
+                tk_data_source_overview_root_search =
+                    '| mstats latest(_value) as value where `trackme_metrics_idx` (metric_name=trackme.eventcount_4h OR metric_name=trackme.lag_event_sec OR metric_name=trackme.hostcount_4h) object_category="data_source" object="' +
+                    tk_data_name +
+                    '" by metric_name span=5m | eval {metric_name}=value | stats first(trackme.eventcount_4h) as count, first(trackme.lag_event_sec) as delta, max(trackme.hostcount_4h) as dcount_host by _time | eval event_lag=delta';
+                if (tk_elastic_mstats_idx === "null" || tk_elastic_mstats_idx === null) {
+                    tk_data_source_raw_search =
+                        "?q=" +
+                        encodeURI("| mpreview ") +
+                        encodeURI("index=*") +
+                        " " +
+                        encodeURI('filter="' + tk_elastic_mstats_filters + '"') +
+                        encodeURI(' earliest="-5m" latest=now');
+                } else {
+                    tk_data_source_raw_search =
+                        "?q=" +
+                        encodeURI("| mpreview ") +
+                        encodeURI(tk_elastic_mstats_idx) +
+                        " " +
+                        encodeURI('filter="' + tk_elastic_mstats_filters + '"') +
+                        encodeURI(' earliest="-5m" latest=now');
+                }
+                setToken("tk_data_source_timechart_count_aggreg", "latest");
+            }
+            
+            // anything else
+            else {
                 tk_data_source_overview_root_search =
                     '| `trackme_tstats` dc(host) as dcount_host count latest(_indextime) as indextime max(_time) as maxtime where index="' +
                     tk_data_index +
@@ -8419,20 +8543,20 @@ require([
                 "value": "mstats"
             },
             {
-                "label": "rest (tstats)",
-                "value": "rest_tstats"
+                "label": "remote (tstats)",
+                "value": "remote_tstats"
             },
             {
-                "label": "rest (raw)",
-                "value": "rest_raw"
+                "label": "remote (raw)",
+                "value": "remote_raw"
             },
             {
-                "label": "rest (from)",
-                "value": "rest_from"
+                "label": "remote (from)",
+                "value": "remote_from"
             },
             {
-                "label": "rest (mstats)",
-                "value": "rest_mstats"
+                "label": "remote (mstats)",
+                "value": "remote_mstats"
             },
         ],
         "searchWhenChanged": false,
@@ -25444,6 +25568,36 @@ require([
                         ' | `trackme_elastic_dedicated_tracker("' +
                         tk_input_elastic_source_data_name +
                         '")` | stats c';
+                    } else if (tk_input_elastic_source_search_type == "remote_tstats") {
+                        // Extract amd replace
+                        remote_matches = tk_raw_input_elastic_source_search_constraint.match(
+                            /((?:account)\=[^\|]*)\s{0,}\|\s{0,}(.*)/
+                        );
+                        remote_target = remote_matches[1];
+                        remote_constraint = remote_matches[2];
+                        remote_constraint = remote_constraint.replace(/\"/g, '\\"');
+                        tk_elastic_alert_root_search =
+                            "| splunkremotesearch " +
+                            remote_target +
+                            ' search="| tstats max(_indextime) as data_last_ingest, min(_time) as data_first_time_seen, max(_time) as data_last_time_seen, count as data_eventcount, dc(host) as dcount_host where ' +
+                            remote_constraint +
+                            ' | eval data_name=\\"' +
+                            tk_input_elastic_source_data_name +
+                            '\\", data_index=\\"' +
+                            tk_input_elastic_source_elastic_data_index +
+                            '\\", data_sourcetype=\\"' +
+                            tk_input_elastic_source_elastic_data_sourcetype +
+                            '\\", data_last_ingestion_lag_seen=data_last_ingest-data_last_time_seen"' +
+                            ' earliest="' +
+                            tk_input_elastic_source_earliest +
+                            '"' +
+                            ' latest="' +
+                            tk_input_elastic_source_latest +
+                            '"' +
+                            " | head 1 | spath " +
+                            ' | `trackme_elastic_dedicated_tracker("' +
+                            tk_input_elastic_source_data_name +
+                            '")` | stats c';
                 } else if (tk_input_elastic_source_search_type == "rest_mstats") {
                     // Extract amd replace
                     rest_matches = tk_raw_input_elastic_source_search_constraint.match(
@@ -25475,6 +25629,36 @@ require([
                         ' | `trackme_elastic_dedicated_tracker("' +
                         tk_input_elastic_source_data_name +
                         '")` | stats c';
+                    } else if (tk_input_elastic_source_search_type == "remote_mstats") {
+                        // Extract amd replace
+                        remote_matches = tk_raw_input_elastic_source_search_constraint.match(
+                            /((?:account)\=[^\|]*)\s{0,}\|\s{0,}(.*)/
+                        );
+                        remote_target = remote_matches[1];
+                        remote_constraint = remote_matches[2];
+                        remote_constraint = remote_constraint.replace(/\"/g, '\\"');
+                        tk_elastic_alert_root_search =
+                            "| splunkremotesearch " +
+                            remote_target +
+                            ' search="| mstats latest(_value) as value where ' +
+                            remote_constraint +
+                            ' by host, metric_name span=1s | stats min(_time) as data_first_time_seen, max(_time) as data_last_time_seen, dc(metric_name) as data_eventcount, dc(host) as dcount_host | eval data_last_ingest=data_last_time_seen | eval data_name=\\"' +
+                            tk_input_elastic_source_data_name +
+                            '\\", data_index=\\"' +
+                            tk_input_elastic_source_elastic_data_index +
+                            '\\", data_sourcetype=\\"' +
+                            tk_input_elastic_source_elastic_data_sourcetype +
+                            '\\", data_last_ingestion_lag_seen=data_last_ingest-data_last_time_seen"' +
+                            ' earliest="' +
+                            tk_input_elastic_source_earliest +
+                            '"' +
+                            ' latest="' +
+                            tk_input_elastic_source_latest +
+                            '"' +
+                            " | head 1 | spath " +
+                            ' | `trackme_elastic_dedicated_tracker("' +
+                            tk_input_elastic_source_data_name +
+                            '")` | stats c';    
                 } else if (tk_input_elastic_source_search_type == "rest_raw") {
                     // Extract amd replace
                     rest_matches = tk_raw_input_elastic_source_search_constraint.match(
@@ -25507,6 +25691,37 @@ require([
                         ' | `trackme_elastic_dedicated_tracker("' +
                         tk_input_elastic_source_data_name +
                         '")` | stats c';
+                    } else if (tk_input_elastic_source_search_type == "remote_raw") {
+                        // Extract amd replace
+                        remote_matches = tk_raw_input_elastic_source_search_constraint.match(
+                            /((?:account)\=[^\|]*)\s{0,}\|\s{0,}(.*)/
+                        );
+                        remote_target = remote_matches[1];
+                        remote_constraint = remote_matches[2];
+                        remote_constraint = remote_constraint.replace(/\"/g, '\\"');
+                        tk_elastic_alert_root_search =
+                            "| splunkremotesearch " +
+                            remote_target +
+                            ' search="search ' +
+                            remote_constraint +
+                            " | stats max(_indextime) as data_last_ingest, min(_time) as data_first_time_seen, max(_time) as data_last_time_seen, count as data_eventcount, dc(host) as dcount_host" +
+                            ' | eval data_name=\\"' +
+                            tk_input_elastic_source_data_name +
+                            '\\", data_index=\\"' +
+                            tk_input_elastic_source_elastic_data_index +
+                            '\\", data_sourcetype=\\"' +
+                            tk_input_elastic_source_elastic_data_sourcetype +
+                            '\\", data_last_ingestion_lag_seen=data_last_ingest-data_last_time_seen"' +
+                            ' earliest="' +
+                            tk_input_elastic_source_earliest +
+                            '"' +
+                            ' latest="' +
+                            tk_input_elastic_source_latest +
+                            '"' +
+                            " | head 1 | spath " +
+                            ' | `trackme_elastic_dedicated_tracker("' +
+                            tk_input_elastic_source_data_name +
+                            '")` | stats c';    
                 } else if (tk_input_elastic_source_search_type == "rest_from") {
                     if (
                         /datamodel:/i.test(tk_raw_input_elastic_source_search_constraint)
@@ -25583,6 +25798,82 @@ require([
                         );
                         return;
                     }
+
+                } else if (tk_input_elastic_source_search_type == "remote_from") {
+                    if (
+                        /datamodel:/i.test(tk_raw_input_elastic_source_search_constraint)
+                    ) {
+                        // Extract amd replace
+                        remote_matches = tk_raw_input_elastic_source_search_constraint.match(
+                            /((?:account)\=[^\|]*)\s{0,}\|\s{0,}(.*)/
+                        );
+                        remote_target = remote_matches[1];
+                        remote_constraint = remote_matches[2];
+                        remote_constraint = remote_constraint.replace(/\"/g, '\\"');
+                        tk_elastic_alert_root_search =
+                            "| splunkremotesearch " +
+                            remote_target +
+                            ' search="| from ' +
+                            remote_constraint +
+                            ' | stats max(_indextime) as data_last_ingest, min(_time) as data_first_time_seen, max(_time) as data_last_time_seen, count as data_eventcount, dc(host) as dcount_host | eval data_name=\\"' +
+                            tk_input_elastic_source_data_name +
+                            '\\", data_index=\\"' +
+                            tk_input_elastic_source_elastic_data_index +
+                            '\\", data_sourcetype=\\"' +
+                            tk_input_elastic_source_elastic_data_sourcetype +
+                            '\\", data_last_ingestion_lag_seen=data_last_ingest-data_last_time_seen"' +
+                            ' earliest="' +
+                            tk_input_elastic_source_earliest +
+                            '"' +
+                            ' latest="' +
+                            tk_input_elastic_source_latest +
+                            '"' +
+                            " | head 1 | spath " +
+                            ' | `trackme_elastic_dedicated_tracker("' +
+                            tk_input_elastic_source_data_name +
+                            '")` | stats c';
+                    } else if (
+                        /lookup:/i.test(tk_raw_input_elastic_source_search_constraint)
+                    ) {
+                        // Extract amd replace
+                        remote_matches = tk_raw_input_elastic_source_search_constraint.match(
+                            /((?:account)\=[^\|]*)\s{0,}\|\s{0,}(.*)/
+                        );
+                        remote_target = remote_matches[1];
+                        remote_constraint = remote_matches[2];
+                        remote_constraint = remote_constraint.replace(/\"/g, '\\"');
+                        tk_elastic_alert_root_search =
+                            "| splunkremotesearch " +
+                            remote_target +
+                            ' search="| from ' +
+                            remote_constraint +
+                            ' | eventstats max(_time) as indextime | eval _indextime=if(isnum(_indextime), _indextime, indextime) | fields - indextime | eval host=if(isnull(host), \\"none\\", host) | stats max(_indextime) as data_last_ingest, min(_time) as data_first_time_seen, max(_time) as data_last_time_seen, count as data_eventcount, dc(host) as dcount_host | eval data_name=\\"' +
+                            tk_input_elastic_source_data_name +
+                            '\\", data_index=\\"' +
+                            tk_input_elastic_source_elastic_data_index +
+                            '\\", data_sourcetype=\\"' +
+                            tk_input_elastic_source_elastic_data_sourcetype +
+                            '\\", data_last_ingestion_lag_seen=data_last_ingest-data_last_time_seen"' +
+                            ' earliest="' +
+                            tk_input_elastic_source_earliest +
+                            '"' +
+                            ' latest="' +
+                            tk_input_elastic_source_latest +
+                            '"' +
+                            " | head 1 | spath " +
+                            ' | `trackme_elastic_dedicated_tracker("' +
+                            tk_input_elastic_source_data_name +
+                            '")` | stats c';
+                    } else {
+                        notify(
+                            "error",
+                            "bottom",
+                            "This from query is not supported, only datamodel and lookup based from queries are accepted.",
+                            "5"
+                        );
+                        return;
+                    }
+
                 } else if (tk_input_elastic_source_search_type == "mstats") {
                     tk_elastic_alert_root_search =
                         "| mstats latest(_value) as value where " +
