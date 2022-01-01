@@ -5819,70 +5819,231 @@ require([
 
             // Handle regular data sources and additional integration modes
             if (tk_elastic_source_search_mode === "null" || tk_elastic_source_search_mode === null) {
-                // cribl integration
-                if (/\|cribl:/i.test(tk_data_name)) {
-                    // Extract the cribl_pipe value
-                    cribl_pipe_matches = tk_data_name.match(/\|cribl:(.*)/);
-                    cribl_pipe = cribl_pipe_matches[1];
 
-                    // create a token for the cribl_pipe
-                    setToken("tk_cribl_pipe", cribl_pipe);
+                // detect if remote
+                if (/^remote:/i.test(tk_data_name)) {
 
-                    // define the root search
-                    tk_data_source_overview_root_search =
-                        '| `trackme_tstats` dc(host) as dcount_host count latest(_indextime) as indextime max(_time) as maxtime where index="' +
+                    console.log("remote source detected");
+
+                    // extract the account name from the data_name
+                    regex_account_matches = tk_data_name.match(/\|account:([^\|]+)\|.*/);
+                    accountName = regex_account_matches[1];
+
+                    // cribl integration is not available in remote, but one can use remote with custom key to achieve the same result
+
+                    // split by custom mode (raw)
+                    if (/\|rawkey:/i.test(tk_data_name)) {
+                        regex_matches = tk_data_name.match(/\|rawkey:([^\|]+)\|(.*)/);
+                        keyName = regex_matches[1];
+                        keyValue = regex_matches[2];
+
+                        tk_data_source_overview_root_search =
+                        "| splunkremotesearch account=\"" +
+                        accountName +
+                        '\" search="' +
+                        "search " +
+                        'index=\\"' + tk_data_index + '\\" sourcetype=\\"' + tk_data_sourcetype + '\\" ' + keyName + '=\\"' + keyValue + '\\" ' +
+                        ' | eval delta=(_indextime-_time), event_lag=(now() - _time) | bucket _time span=1s | stats count, avg(delta) as delta, latest(event_lag) as event_lag, dc(host) as dcount_host by _time"' +
+                        '" earliest="' +
+                        tk_earliest +
+                        '"' +
+                        ' latest="' +
+                        tk_latest +
+                        '"' +
+                        " | spath";
+    
+                        tk_data_source_raw_search = "null";
+                        setToken("tk_data_source_timechart_count_aggreg", "sum");
+
+                        // define the raw events search
+                        tk_data_source_raw_search =
+                        "?q=" +
+                        encodeURI(
+                            "| splunkremotesearch account=\"" +
+                            accountName +
+                            '\" search="' +
+                            "search " +
+                            'index=\\"' + tk_data_index + '\\" sourcetype=\\"' + tk_data_sourcetype + '\\" ' + keyName + '=\\"' + keyValue + '\\"' +
+                            ' | head 10000"' +
+                            ' earliest="' +
+                            tk_earliest +
+                            '"' +
+                            ' latest="' +
+                            tk_latest +
+                            '"' +
+                            " | spath"
+                        );
+    
+                    }
+
+                    // split by custom mode
+                    else if (/\|key:/i.test(tk_data_name)) {
+                        regex_matches = tk_data_name.match(/\|key:([^\|]+)\|(.*)/);
+                        keyName = regex_matches[1];
+                        keyValue = regex_matches[2];
+
+                        tk_data_source_overview_root_search =
+                        "| splunkremotesearch account=\"" +
+                        accountName +
+                        '\" search="' +
+                        '| tstats dc(host) as dcount_host count latest(_indextime) as indextime max(_time) as maxtime where index=\\"' +
                         tk_data_index +
-                        '" sourcetype="' +
+                        '\\" sourcetype=\\"' +
                         tk_data_sourcetype +
-                        '" cribl_pipe::' +
-                        cribl_pipe +
-                        " `trackme_tstats_main_filter` by _time, index, sourcetype span=1s | eval delta=(indextime-_time), event_lag=(now() - maxtime)";
-                    tk_data_source_raw_search = "null";
-                    setToken("tk_data_source_timechart_count_aggreg", "sum");
-                }
-
-                // split by custom mode (raw)
-                else if (/\|rawkey:/i.test(tk_data_name)) {
-                    regex_matches = tk_data_name.match(/\|rawkey:([^\|]+)\|(.*)/);
-                    keyName = regex_matches[1];
-                    keyValue = regex_matches[2];
-                    tk_data_source_overview_root_search =
-                        'index="' + tk_data_index + '" sourcetype="' + tk_data_sourcetype + '" ' + keyName + '="' + keyValue + '" ' +
-                        '| stats dc(host) as dcount_host count latest(_indextime) as indextime max(_time) as maxtime by _time, index, sourcetype, source, ' + keyName + ' | eval delta=(indextime-_time), event_lag=(now() - maxtime)';
-                    tk_data_source_raw_search = "null";
-                    setToken("tk_data_source_timechart_count_aggreg", "sum");
-                }
-
-                // split by custom mode
-                else if (/\|key:/i.test(tk_data_name)) {
-                    regex_matches = tk_data_name.match(/\|key:([^\|]+)\|(.*)/);
-                    keyName = regex_matches[1];
-                    keyValue = regex_matches[2];
-                    tk_data_source_overview_root_search =
-                        '| `trackme_tstats` dc(host) as dcount_host count latest(_indextime) as indextime max(_time) as maxtime where index="' +
-                        tk_data_index +
-                        '" sourcetype="' +
-                        tk_data_sourcetype +
-                        '" ' +
+                        '\\" ' +
                         keyName +
-                        '="' +
+                        '=\\"' +
                         keyValue +
-                        '" `trackme_tstats_main_filter` by _time, index, sourcetype, source span=1s | eval delta=(indextime-_time), event_lag=(now() - maxtime)';
-                    tk_data_source_raw_search = "null";
-                    setToken("tk_data_source_timechart_count_aggreg", "sum");
+                        '\\" by _time, index, sourcetype span=1s | eval delta=(indextime-_time), event_lag=(now() - maxtime) | fields _time count delta event_lag dcount_host"' +
+                        ' earliest="' +
+                        tk_earliest +
+                        '"' +
+                        ' latest="' +
+                        tk_latest +
+                        '"' +
+                        " | spath";
+
+                        console.log("tk_data_source_overview_root_search is: " + tk_data_source_overview_root_search);
+
+                        tk_data_source_raw_search = "null";
+                        setToken("tk_data_source_timechart_count_aggreg", "sum");
+
+                        // define the raw events search
+                        tk_data_source_raw_search =
+                        "?q=" +
+                        encodeURI(
+                            "| splunkremotesearch account=\"" +
+                            accountName +
+                            '\" search="' +
+                            "search " +
+                            'index=\\"' + tk_data_index + '\\" sourcetype=\\"' + tk_data_sourcetype + '\\" ' + keyName + '=\\"' + keyValue + '\\"' +
+                            ' | head 10000"' +
+                            ' earliest="' +
+                            tk_earliest +
+                            '"' +
+                            ' latest="' +
+                            tk_latest +
+                            '"' +
+                            " | spath"
+                        );
+
+                    }
+
+                    // standard mode in remote
+                    else {
+
+                        tk_data_source_overview_root_search =
+                        "| splunkremotesearch account=\"" +
+                        accountName +
+                        '\" search="' +
+                        "| tstats dc(host) as dcount_host count latest(_indextime) as indextime max(_time) as maxtime where index=\\\"" +
+                        tk_data_index +
+                        '\\" sourcetype=\\"' +
+                        tk_data_sourcetype +
+                        '\\" by _time, index, sourcetype span=1s | eval delta=(indextime-_time), event_lag=(now() - maxtime) | fields _time count delta event_lag dcount_host"' +
+                        '" earliest="' +
+                        tk_earliest +
+                        '"' +
+                        ' latest="' +
+                        tk_latest +
+                        '"' +
+                        " | spath";
+                        setToken("tk_data_source_timechart_count_aggreg", "sum");
+
+                        // define the raw events search
+                        tk_data_source_raw_search =
+                        "?q=" +
+                        encodeURI(
+                            "| splunkremotesearch account=\"" +
+                            accountName +
+                            '\" search="' +
+                            "search " +
+                            'index=\\"' + tk_data_index + '\\" sourcetype=\\"' + tk_data_sourcetype + '\\" ' +
+                            ' | head 10000"' +
+                            ' earliest="' +
+                            tk_earliest +
+                            '"' +
+                            ' latest="' +
+                            tk_latest +
+                            '"' +
+                            " | spath"
+                        );
+
+                    }
+
                 }
 
-                // standard mode
+                // not remote
+
                 else {
-                    tk_data_source_overview_root_search =
-                        '| `trackme_tstats` dc(host) as dcount_host count latest(_indextime) as indextime max(_time) as maxtime where index="' +
-                        tk_data_index +
-                        '" sourcetype="' +
-                        tk_data_sourcetype +
-                        '" `trackme_tstats_main_filter` by _time, index, sourcetype span=1s | eval delta=(indextime-_time), event_lag=(now() - maxtime)';
-                    tk_data_source_raw_search = "null";
-                    setToken("tk_data_source_timechart_count_aggreg", "sum");
+
+                    // cribl integration
+                    if (/\|cribl:/i.test(tk_data_name)) {
+                        // Extract the cribl_pipe value
+                        cribl_pipe_matches = tk_data_name.match(/\|cribl:(.*)/);
+                        cribl_pipe = cribl_pipe_matches[1];
+
+                        // create a token for the cribl_pipe
+                        setToken("tk_cribl_pipe", cribl_pipe);
+
+                        // define the root search
+                        tk_data_source_overview_root_search =
+                            '| `trackme_tstats` dc(host) as dcount_host count latest(_indextime) as indextime max(_time) as maxtime where index="' +
+                            tk_data_index +
+                            '" sourcetype="' +
+                            tk_data_sourcetype +
+                            '" cribl_pipe::' +
+                            cribl_pipe +
+                            " `trackme_tstats_main_filter` by _time, index, sourcetype span=1s | eval delta=(indextime-_time), event_lag=(now() - maxtime)";
+                        tk_data_source_raw_search = "null";
+                        setToken("tk_data_source_timechart_count_aggreg", "sum");
+                    }
+
+                    // split by custom mode (raw)
+                    else if (/\|rawkey:/i.test(tk_data_name)) {
+                        regex_matches = tk_data_name.match(/\|rawkey:([^\|]+)\|(.*)/);
+                        keyName = regex_matches[1];
+                        keyValue = regex_matches[2];
+                        tk_data_source_overview_root_search =
+                            'index="' + tk_data_index + '" sourcetype="' + tk_data_sourcetype + '" ' + keyName + '="' + keyValue + '" ' +
+                            '| stats dc(host) as dcount_host count latest(_indextime) as indextime max(_time) as maxtime by _time, index, sourcetype, source, ' + keyName + ' | eval delta=(indextime-_time), event_lag=(now() - maxtime)';
+                        tk_data_source_raw_search = "null";
+                        setToken("tk_data_source_timechart_count_aggreg", "sum");
+                    }
+
+                    // split by custom mode
+                    else if (/\|key:/i.test(tk_data_name)) {
+                        regex_matches = tk_data_name.match(/\|key:([^\|]+)\|(.*)/);
+                        keyName = regex_matches[1];
+                        keyValue = regex_matches[2];
+                        tk_data_source_overview_root_search =
+                            '| `trackme_tstats` dc(host) as dcount_host count latest(_indextime) as indextime max(_time) as maxtime where index="' +
+                            tk_data_index +
+                            '" sourcetype="' +
+                            tk_data_sourcetype +
+                            '" ' +
+                            keyName +
+                            '="' +
+                            keyValue +
+                            '" `trackme_tstats_main_filter` by _time, index, sourcetype, source span=1s | eval delta=(indextime-_time), event_lag=(now() - maxtime)';
+                        tk_data_source_raw_search = "null";
+                        setToken("tk_data_source_timechart_count_aggreg", "sum");
+                    }
+
+                    // standard mode
+                    else {
+                        tk_data_source_overview_root_search =
+                            '| `trackme_tstats` dc(host) as dcount_host count latest(_indextime) as indextime max(_time) as maxtime where index="' +
+                            tk_data_index +
+                            '" sourcetype="' +
+                            tk_data_sourcetype +
+                            '" `trackme_tstats_main_filter` by _time, index, sourcetype span=1s | eval delta=(indextime-_time), event_lag=(now() - maxtime)';
+                        tk_data_source_raw_search = "null";
+                        setToken("tk_data_source_timechart_count_aggreg", "sum");
+                    }
+
                 }
+
             } else if (tk_elastic_source_search_mode == "tstats") {
                 tk_data_source_overview_root_search =
                     "| `trackme_tstats` dc(host) as dcount_host count latest(_indextime) as indextime max(_time) as maxtime where " +
@@ -6389,36 +6550,44 @@ require([
             // Honour elastic sources
             var search_data_source;
 
-            if (tk_elastic_source_search_mode === "null" || tk_elastic_source_search_mode === null) {
-
-                // cribl integration
-                if (/\|cribl:/i.test(tk_data_name)) {
-                    var search_data_source = 'search' + "?q=search%20index%3D\"" + encodeURI(tk_data_index) + "\"" + " sourcetype%3D\"" + encodeURI(tk_data_sourcetype) + "\"" + " cribl_pipe::" + encodeURI(cribl_pipe)
-                }
-
-                // split by custom (raw)
-                else if (/\|rawkey:/i.test(tk_data_name)) {
-                    regex_matches = tk_data_name.match(/\|rawkey:([^\|]+)\|(.*)/);
-                    keyName = regex_matches[1];
-                    keyValue = regex_matches[2];
-                    var search_data_source = 'search' + "?q=search%20index%3D\"" + encodeURI(tk_data_index) + "\"" + " sourcetype%3D\"" + encodeURI(tk_data_sourcetype) + "\" " + keyName + "%3D\"" + encodeURI(keyValue) + "\""
-                }
-
-                // split by custom (tstats)
-                else if (/\|key:/i.test(tk_data_name)) {
-                    regex_matches = tk_data_name.match(/\|key:([^\|]+)\|(.*)/);
-                    keyName = regex_matches[1];
-                    keyValue = regex_matches[2];
-                    var search_data_source = 'search' + "?q=search%20index%3D\"" + encodeURI(tk_data_index) + "\"" + " sourcetype%3D\"" + encodeURI(tk_data_sourcetype) + "\" " + keyName + "%3D\"" + encodeURI(keyValue) + "\""
-                }
-
-                // standard split
-                else {
-                    var search_data_source = 'search' + "?q=search%20index%3D\"" + encodeURI(tk_data_index) + "\"" + " sourcetype%3D\"" + encodeURI(tk_data_sourcetype) + "\""
-                }
-
-            } else {
+            if (/^remote:/i.test(tk_data_name)) {
                 var search_data_source = 'search' + tk_data_source_raw_search
+            }
+
+            else {
+
+                if (tk_elastic_source_search_mode === "null" || tk_elastic_source_search_mode === null) {
+
+                    // cribl integration
+                    if (/\|cribl:/i.test(tk_data_name)) {
+                        var search_data_source = 'search' + "?q=search%20index%3D\"" + encodeURI(tk_data_index) + "\"" + " sourcetype%3D\"" + encodeURI(tk_data_sourcetype) + "\"" + " cribl_pipe::" + encodeURI(cribl_pipe)
+                    }
+
+                    // split by custom (raw)
+                    else if (/\|rawkey:/i.test(tk_data_name)) {
+                        regex_matches = tk_data_name.match(/\|rawkey:([^\|]+)\|(.*)/);
+                        keyName = regex_matches[1];
+                        keyValue = regex_matches[2];
+                        var search_data_source = 'search' + "?q=search%20index%3D\"" + encodeURI(tk_data_index) + "\"" + " sourcetype%3D\"" + encodeURI(tk_data_sourcetype) + "\" " + keyName + "%3D\"" + encodeURI(keyValue) + "\""
+                    }
+
+                    // split by custom (tstats)
+                    else if (/\|key:/i.test(tk_data_name)) {
+                        regex_matches = tk_data_name.match(/\|key:([^\|]+)\|(.*)/);
+                        keyName = regex_matches[1];
+                        keyValue = regex_matches[2];
+                        var search_data_source = 'search' + "?q=search%20index%3D\"" + encodeURI(tk_data_index) + "\"" + " sourcetype%3D\"" + encodeURI(tk_data_sourcetype) + "\" " + keyName + "%3D\"" + encodeURI(keyValue) + "\""
+                    }
+
+                    // standard split
+                    else {
+                        var search_data_source = 'search' + "?q=search%20index%3D\"" + encodeURI(tk_data_index) + "\"" + " sourcetype%3D\"" + encodeURI(tk_data_sourcetype) + "\""
+                    }
+
+                } else {
+                    var search_data_source = 'search' + tk_data_source_raw_search
+                }
+
             }
 
             // Define the URL target
