@@ -148,19 +148,19 @@
 										</li>
 										<li>
 										For instance, you could create an hybrid tracker to automatically create entities for your Cloud provider data using a 
-											<code>subscription_id</code> and get a single entity per 
-											<code>index / sourcetype / Cloud tenant</code>
+											<code style="color: black; font-family: monospace;">subscription_id</code> and get a single entity per 
+											<code style="color: black; font-family: monospace;">index / sourcetype / Cloud tenant</code>
 										</li>
 										<li>
 										Another example, you could create an hybrid tracker to create entities based on a 
-											<code>company</code> fields which desribes subsidiaries in your data sets, generating entities per 
-											<code>index / sourcetype / company</code>
+											<code style="color: black; font-family: monospace;">company</code> fields which desribes subsidiaries in your data sets, generating entities per 
+											<code style="color: black; font-family: monospace;">index / sourcetype / company</code>
 										</li>
 										<li>
 										Ideally, the break by field should refer to an indexed time field rather than a search time extracted field, which allows to use a tstats based hybrid tracker for the best performances at the lowest computing costs
 										</li>
 										<li>
-										However, hybrid trackers can be based on either <code>tstats</code> search logic (which implies indexed fields), or <code>raw</code> search logic (which allows search time extracted fields)
+										However, hybrid trackers can be based on either <code style="color: black; font-family: monospace;">tstats</code> search logic (which implies indexed fields), or <code style="color: black; font-family: monospace;">raw</code> search logic (which allows search time extracted fields)
 										</li>
 										<li>
 										The hybrid tracker process can be performed easily via this screen, once the new entities have been created you can decide to disable the previously discovered entities, and optionally remove the data set from the out of the box trackers
@@ -1390,17 +1390,17 @@
 									<li>explicit names, example: 
 										
 										
-										<code>dev001</code>
+										<code style="color: black; font-family: monospace;">dev001</code>
 									</li>
 									<li>wildcards, example: 
 										
 										
-										<code>dev-*</code>
+										<code style="color: black; font-family: monospace;">dev-*</code>
 									</li>
 									<li>regular expressions, example: 
 										
 										
-										<code>(?i)dev-.*</code>
+										<code style="color: black; font-family: monospace;">(?i)dev-.*</code>
 									</li>
 								</ul>
 								<hr />
@@ -1467,17 +1467,17 @@
 									<li>explicit names, example: 
 										
 										
-										<code>dev001</code>
+										<code style="color: black; font-family: monospace;">dev001</code>
 									</li>
 									<li>wildcards, example: 
 										
 										
-										<code>dev-*</code>
+										<code style="color: black; font-family: monospace;">dev-*</code>
 									</li>
 									<li>regular expressions, example: 
 										
 										
-										<code>(?i)dev-.*</code>
+										<code style="color: black; font-family: monospace;">(?i)dev-.*</code>
 									</li>
 								</ul>
 								<hr />
@@ -1544,17 +1544,17 @@
 									<li>explicit names, example: 
 										
 										
-										<code>dev001</code>
+										<code style="color: black; font-family: monospace;">dev001</code>
 									</li>
 									<li>wildcards, example: 
 										
 										
-										<code>dev-*</code>
+										<code style="color: black; font-family: monospace;">dev-*</code>
 									</li>
 									<li>regular expressions, example: 
 										
 										
-										<code>(?i)dev-.*</code>
+										<code style="color: black; font-family: monospace;">(?i)dev-.*</code>
 									</li>
 								</ul>
 								<hr />
@@ -1621,17 +1621,17 @@
 									<li>explicit names, example: 
 										
 										
-										<code>dev001</code>
+										<code style="color: black; font-family: monospace;">dev001</code>
 									</li>
 									<li>wildcards, example: 
 										
 										
-										<code>dev-*</code>
+										<code style="color: black; font-family: monospace;">dev-*</code>
 									</li>
 									<li>regular expressions, example: 
 										
 										
-										<code>(?i)dev-.*</code>
+										<code style="color: black; font-family: monospace;">(?i)dev-.*</code>
 									</li>
 								</ul>
 								<hr />
@@ -1701,17 +1701,17 @@
 									<li>explicit names, example: 
 										
 										
-										<code>dev001</code>
+										<code style="color: black; font-family: monospace;">dev001</code>
 									</li>
 									<li>wildcards, example: 
 										
 										
-										<code>dev-*</code>
+										<code style="color: black; font-family: monospace;">dev-*</code>
 									</li>
 									<li>regular expressions, example: 
 										
 										
-										<code>(?i)dev-.*</code>
+										<code style="color: black; font-family: monospace;">(?i)dev-.*</code>
 									</li>
 								</ul>
 								<hr />
@@ -2412,17 +2412,17 @@
 									<li>explicit names, example: 
 										
 										
-										<code>dev001</code>
+										<code style="color: black; font-family: monospace;">dev001</code>
 									</li>
 									<li>wildcards, example: 
 										
 										
-										<code>dev-*</code>
+										<code style="color: black; font-family: monospace;">dev-*</code>
 									</li>
 									<li>regular expressions, example: 
 										
 										
-										<code>(?i)dev-.*</code>
+										<code style="color: black; font-family: monospace;">(?i)dev-.*</code>
 									</li>
 								</ul>
 								<hr />
@@ -2489,17 +2489,17 @@
 									<li>explicit names, example: 
 										
 										
-										<code>dev001</code>
+										<code style="color: black; font-family: monospace;">dev001</code>
 									</li>
 									<li>wildcards, example: 
 										
 										
-										<code>dev-*</code>
+										<code style="color: black; font-family: monospace;">dev-*</code>
 									</li>
 									<li>regular expressions, example: 
 										
 										
-										<code>(?i)dev-.*</code>
+										<code style="color: black; font-family: monospace;">(?i)dev-.*</code>
 									</li>
 								</ul>
 								<hr />
@@ -2566,17 +2566,17 @@
 									<li>explicit names, example: 
 										
 										
-										<code>dev001</code>
+										<code style="color: black; font-family: monospace;">dev001</code>
 									</li>
 									<li>wildcards, example: 
 										
 										
-										<code>dev-*</code>
+										<code style="color: black; font-family: monospace;">dev-*</code>
 									</li>
 									<li>regular expressions, example: 
 										
 										
-										<code>(?i)dev-.*</code>
+										<code style="color: black; font-family: monospace;">(?i)dev-.*</code>
 									</li>
 								</ul>
 								<hr />
@@ -2643,17 +2643,17 @@
 									<li>explicit names, example: 
 										
 										
-										<code>dev001</code>
+										<code style="color: black; font-family: monospace;">dev001</code>
 									</li>
 									<li>wildcards, example: 
 										
 										
-										<code>dev-*</code>
+										<code style="color: black; font-family: monospace;">dev-*</code>
 									</li>
 									<li>regular expressions, example: 
 										
 										
-										<code>(?i)dev-.*</code>
+										<code style="color: black; font-family: monospace;">(?i)dev-.*</code>
 									</li>
 								</ul>
 								<hr />
@@ -3001,10 +3001,10 @@
 												<label>Example: 
 													
 													
-													<code>^network_amer:.*</code> would match all data sources related to an index starting by network_* such as: 
+													<code style="color: black; font-family: monospace;">^network_amer:.*</code> would match all data sources related to an index starting by network_* such as: 
 													
 													
-													<code>network_amer:pan:traffic</code>
+													<code style="color: black; font-family: monospace;">network_amer:pan:traffic</code>
 												</label>
 												<textarea
                                                         id = "modal_input_tags_policies_regex"
@@ -3021,7 +3021,7 @@
 												<label>Example: 
 													
 													
-													<code>network,PII,AMER</code> would apply these tags to every data source was matched by the regular expression policy
+													<code style="color: black; font-family: monospace;">network,PII,AMER</code> would apply these tags to every data source was matched by the regular expression policy
 												
 												
 												</label>
@@ -3441,11 +3441,11 @@
 												<label>Example: 
 													
 													
-													<code>^\w{3}\s*\d{1,2}\s*\d{1,2}\:\d{1,2}\:\d{1,2}</code>
+													<code style="color: black; font-family: monospace;">^\w{3}\s*\d{1,2}\s*\d{1,2}\:\d{1,2}\:\d{1,2}</code>
 													<br />would match events in the following format: 
 													
 													
-													<code>Mar  1 00:01:51.047: %LINK-3-UPDOWN: Interface FastEthernet0/0, changed state to up</code>
+													<code style="color: black; font-family: monospace;">Mar  1 00:01:51.047: %LINK-3-UPDOWN: Interface FastEthernet0/0, changed state to up</code>
 													<br />
 												</label>
 												<textarea
