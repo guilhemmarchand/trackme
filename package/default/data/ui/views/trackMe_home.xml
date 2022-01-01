@@ -394,11 +394,12 @@
 									
 									
 									</li>
-									<li>Elastic sources should be used when the default concept of trackMe (statement by index/sourcetype) does not comply with your requirements, or does not provide the level of flexibility requested</li>
-									<li>Elastic sources can be based on a shared or dedicated tracker, the shared elastic tracker loads the content of the lookup trackme_elastic_sources, and performs all the searches in a single execution</li>
+									<li>Elastic sources can be used when the default concept of trackMe (statement by index/sourcetype) does not comply with your requirements, or does not provide the level of flexibility requested</li>
+									<li>Elastic sources may be based on a shared or dedicated tracker, the shared elastic tracker loads the content of the lookup trackme_elastic_sources, and performs all the searches in a single execution</li>
 									<li>A dedicated elastic tracker is a scheduled report created in the UI to manage, automatically integrated with TrackMe workflow</li>
 									<li>For large volume sources or advanced use cases such as mapping additional lookups, the usage of a dedicated elastic tracker is recommended (the search can be cutomised after its creation)</li>
 									<li>The shared elastic tracker should be reserved for high performing searches, ideally tstats based searches relying on indexed fields</li>
+									<li>You can track data on remote Splunk deployments transparently using the <b>splunkremotesearch</b> custom command, configure a Splunk remote deployment in <a target="_blank" href="configuration">configuration</a> and define remote Elastic Sources</li>
 								</ul>
 								<style type="text/css">
                                 .tg  {border-collapse:collapse;border-spacing:0;}
@@ -460,7 +461,7 @@
 												
 												
 												<span>
-													<code>index=my_index source=my_source</code>
+													<code style="color: black; font-family: monospace;">index=my_index source=my_source</code>
 												</span>
 												<br />- 
 												
@@ -469,7 +470,7 @@
 												
 												
 												<span>
-													<code>index=my_index tag=authentication app=my_application</code>
+													<code style="color: black; font-family: monospace;">index=my_index tag=authentication app=my_application</code>
 												</span>
 												<br />- 
 												
@@ -479,7 +480,7 @@
 												
 												<span>
 													<br />
-													<code>datamodel:"Authentication" | search user="*" action="success" app="my_application"</code>
+													<code style="color: black; font-family: monospace;">datamodel:"Authentication" | search user="*" action="success" app="my_application"</code>
 												</span>
 												<br />- 
 												
@@ -489,7 +490,7 @@
 												
 												<span>
 													<br />
-													<code>lookup:"my_lookup" | eval _time=strptime(lastUpdated, "%d/%m/%Y %H:%M:%S")</code>
+													<code style="color: black; font-family: monospace;">lookup:"my_lookup" | eval _time=strptime(lastUpdated, "%d/%m/%Y %H:%M:%S")</code>
 												</span>
 												<br />- 
 												
@@ -498,38 +499,35 @@
 												
 												
 												<span>
-													<code>index="k8s_metrics" metric_name="k8s.*" cluster_name="production"</code>
+													<code style="color: black; font-family: monospace;">index="k8s_metrics" metric_name="k8s.*" cluster_name="production"</code>
 												</span>
 												<br />Filters can include a time range which will override the default 4 hours time range of the wrapper tracker, as: 
 												
 												
 												<span>
-													<code>earliest="-15m" latest="+15m"</code>
+													<code style="color: black; font-family: monospace;">earliest="-15m" latest="+15m"</code>
 												</span>
 												<br />- 
 												
 												
-												<strong>rest</strong>: these are special remote searches performed against the 
+												<strong>remote</strong>: these are special remote searches performed against the 
 												
 												
-												<a target="_blank" href="https://docs.splunk.com/Documentation/Splunk/latest/RESTTUT/RESTsearches">Splunk API</a> using the SPL 
-												
-												
-												<a target="_blank" href="https://docs.splunk.com/Documentation/Splunk/latest/SearchReference/Rest">rest command.</a> This allows tracking data that is not available to the search head(s) hosting TrackMe.
+												<a target="_blank" href="https://docs.splunk.com/Documentation/Splunk/latest/RESTTUT/RESTsearches">Splunk API</a> using the <b>splunkremotesearch</b> custom command and bearer token based authentication, This allows tracking data on any remote Splunk deployment.
                                             
 												
 												
-												<br />Syntax examples for rest searches, the first part before the pipe needs to contain the rest target:
+												<br />Syntax examples for remote searches, the first part of the constraint before the pipe needs to contain the account configured in TrackMe <a target="_blank" href="configuration">configuration</a>:
                                             
 												
 												
 												<br />
 												<span>
-													<code>splunk_server="my_search_head" | index=my_index source=my_source</code>
+													<code style="color: black; font-family: monospace;">account="acme_lab" | index=my_index source=my_source</code>
 												</span>
 												<br />
 												<span>
-													<code>splunk_server_group="dmc_searchheadclustergroup_shc1" | lookup:asset_cmdb_lookup | eval _time=strptime(lastUpdated, "%d/%m/%Y %H:%M:%S")</code>
+													<code style="color: black; font-family: monospace;">account="acme_lab" | lookup:asset_cmdb_lookup | eval _time=strptime(lastUpdated, "%d/%m/%Y %H:%M:%S")</code>
 												</span>
 											</td>
 										</tr>
@@ -612,17 +610,17 @@
 													</p>
 												</div>
 												<div class="fieldset">
-													<div class="input input-text" id="modal_input_elastic_source_elastic_data_index" style="margin-bottom: 10px; max-width: 300px;">
+													<div class="input input-text" id="modal_input_elastic_source_elastic_data_index" style="margin-bottom: 10px; width: 300px; max-width: 300px;">
 														<label class="splunk-input-label">Optional: index value visible in the UI (white|blacklist applies)</label>
 													</div>
-													<div class="input input-text" id="modal_input_elastic_source_elastic_data_sourcetype" style="margin-bottom: 10px; max-width: 300px;">
+													<div class="input input-text" id="modal_input_elastic_source_elastic_data_sourcetype" style="margin-bottom: 10px; width: 300px; max-width: 300px;">
 														<label class="splunk-input-label">Optional: sourcetype visible in the UI (white|blacklist applies)</label>
 													</div>
-													<div class="input input-text" id="modal_input_elastic_source_earliest" style="margin-bottom: 10px; max-width: 300px;">
-														<label class="splunk-input-label">Earliest, for dedicated trackers only (shared tracker uses -4h)</label>
+													<div class="input input-text" id="modal_input_elastic_source_earliest" style="margin-bottom: 10px; width: 300px; max-width: 300px;">
+														<label class="splunk-input-label">Earliest, for dedicated trackers and remote searches (local shared trackers use -4h)</label>
 													</div>
-													<div class="input input-text" id="modal_input_elastic_source_latest" style="margin-bottom: 10px; max-width: 300px;">
-														<label class="splunk-input-label">Latest, for dedicated trackers only (shared tracker uses +4h)</label>
+													<div class="input input-text" id="modal_input_elastic_source_latest" style="margin-bottom: 10px; width: 300px; max-width: 300px;">
+														<label class="splunk-input-label">Latest, for dedicated trackers and remote searches (shared trackers use +4h)</label>
 													</div>
 												</div>
 												<div>

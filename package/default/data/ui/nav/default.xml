@@ -2,7 +2,10 @@
   <view name="trackMe_home" default="true" />
   <view name="trackMe_summary" />
   <a href="trackMe_qos">TrackMe QOS</a>
-  <a href="trackMe_manage_and_configure">TrackMe manage and configure</a>
+  <collection label="Manage &amp; configure">
+    <a href="trackMe_manage_and_configure">TrackMe manage and configure</a>
+    <a href="configuration">Configure Splunk remote accounts</a>
+  </collection>
   <a href="trackMe_maintenance_mode">Maintenance mode</a>
   <collection label="Search">
     <view name="search" />

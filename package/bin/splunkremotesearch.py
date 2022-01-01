@@ -89,30 +89,42 @@ class SplunkRemoteSearch(GeneratingCommand):
             # account configuration
             isfound = False
             splunk_url = None
+            app_namespace = None
 
             conf_file = "trackme_account"
             confs = self.service.confs[str(conf_file)]
             for stanza in confs:
-
                 if stanza.name == str(account):
                     isfound = True
                     for key, value in stanza.content.items():
                         if key == "splunk_url":
                             splunk_url = value
-
-            self.logger.fatal("DEBUG splunk url")
-            self.logger.fatal(str(splunk_url))
+                        if key == "app_namespace":
+                            app_namespace = value
 
             # end of get configuration
+
+            # enforce https
+            if not splunk_url.startswith("https://"):
+                splunk_url = "https://" + str(splunk_url)
+
+            # remote trailing slash in the URL, if any
+            if splunk_url.endswith('/'):
+                splunk_url = splunk_url[:-1]
 
             # Stop here if we cannot find the submitted account
             if not isfound:
                 self.logger.fatal('This acount has not been configured on this instance, cannot proceed!: %s', self)
-                
-            # else get the password
+                sys.exit(1)
+
+            # Splunk remote application namespace where searches are going to be executed, default to search if not defined
+            if not app_namespace:
+                app_namespace = "search"
+
+            # else get the bearer token stored encrypted
             else:
-                
-                self.logger.fatal('DEBUG: account was found')
+
+                # realm
                 credential_realm = '__REST_CREDENTIAL__#trackme#configs/conf-trackme_account'
 
                 # extract as raw json
@@ -122,9 +134,6 @@ class SplunkRemoteSearch(GeneratingCommand):
                     if credential.content.get('realm') == str(credential_realm):
                         bearer_token_rawvalue = bearer_token_rawvalue + str(credential.content.clear_password)
 
-                #self.logger.fatal("DEBUG pre token")
-                self.logger.fatal(str(bearer_token_rawvalue))
-
                 # extract a clean json object
                 bearer_token_rawvalue_match = re.search('\{\"bearer_token\":\s*\"(.*)\"\}', bearer_token_rawvalue)
                 if bearer_token_rawvalue_match:
@@ -132,46 +141,49 @@ class SplunkRemoteSearch(GeneratingCommand):
                 else:
                     bearer_token = None
 
-                self.logger.fatal("DEBUG final token")
-                self.logger.fatal(str(bearer_token))
-
-            # set the header
-            header = 'Bearer ' + str(bearer_token)
-
-            # run the search
-            # Define the url
-            url = str(splunk_url) + "/services/search/jobs/export"
-
-            # transform the results into a json field defining the _raw
-            search = str(self.search) + " | eval epochtime=if(isnotnull(_time), _time, now()) | tojson | table _time, epochtime, _raw"
-
-            # Get data
-            output_mode = "csv"
-            exec_mode = "oneshot"
-            response = requests.post(url, headers={'Authorization': header}, verify=False, data={'search': search, 'output_mode': output_mode, 'exec_mode': exec_mode, 'earliest_time': self.earliest, 'latest_time': self.latest}) 
-            csv_data = response.text
-
-            if response.status_code not in (200, 201, 204):
-                response_error = 'remote search has failed!. url={}, data={}, HTTP Error={}, content={}'.format(url, search, response.status_code, response.text)
-                self.logger.fatal(str(response_error))
-                data = { '_time': time.time(), '_raw': "{\"response\": \"" + str(response_error) + "\"" }
-                yield data
-                sys.exit(0)
+            if not bearer_token:
+                self.logger.fatal('The bearer token could not be retrieved for this account, cannot proceed!: %s', self)
+                sys.exit(1)
 
             else:
 
-                # Use the CSV dict reader
-                readCSV = csv.DictReader(csv_data.splitlines(True), delimiter=str(u','), quotechar=str(u'"'))
+                # set the header
+                header = 'Bearer ' + str(bearer_token)
 
-                # For row in CSV, generate the _raw
-                for row in readCSV:
+                # run the search
+                # Define the search url endpoint
+                url = str(splunk_url) + "/services/" + str(app_namespace) + "/jobs/export"
 
-                    # handle _time is not present
-                    try:
-                        epochtime = str(row['epochtime'])
-                    except Exception as e:
-                        epochtime = time.time()
+                # transform the results into a json field defining the _raw
+                search = str(self.search) + " | eval epochtime=if(isnotnull(_time), _time, now()) | tojson | table _time, epochtime, _raw"
 
-                    yield { '_time': str(epochtime), '_raw': str(row['_raw']) }
+                # Get data
+                output_mode = "csv"
+                exec_mode = "oneshot"
+                response = requests.post(url, headers={'Authorization': header}, verify=False, data={'search': search, 'output_mode': output_mode, 'exec_mode': exec_mode, 'earliest_time': self.earliest, 'latest_time': self.latest}) 
+                csv_data = response.text
+
+                if response.status_code not in (200, 201, 204):
+                    response_error = 'remote search has failed!. url={}, data={}, HTTP Error={}, content={}'.format(url, search, response.status_code, response.text)
+                    self.logger.fatal(str(response_error))
+                    data = { '_time': time.time(), '_raw': "{\"response\": \"" + str(response_error) + "\"" }
+                    yield data
+                    sys.exit(0)
+
+                else:
+
+                    # Use the CSV dict reader
+                    readCSV = csv.DictReader(csv_data.splitlines(True), delimiter=str(u','), quotechar=str(u'"'))
+
+                    # For row in CSV, generate the _raw
+                    for row in readCSV:
+
+                        # handle _time is not present
+                        try:
+                            epochtime = str(row['epochtime'])
+                        except Exception as e:
+                            epochtime = time.time()
+
+                        yield { '_time': str(epochtime), '_raw': str(row['_raw']) }
 
 dispatch(SplunkRemoteSearch, sys.argv, sys.stdin, sys.stdout, __name__)

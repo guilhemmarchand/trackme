@@ -48,7 +48,7 @@
                         {
                             "type": "text",
                             "label": "Splunk target URL and port",
-                            "help": "https://mysplunk.mydomain.com:8089 (SSL is enforced, the URL will be prefixed with https:// if not set)",
+                            "help": "https://mysplunk.mydomain.com:8089 (SSL is enforced, the URL will be prefixed with https:// if not set), the URL can be based on IP or FQDN",
                             "field": "splunk_url",
                             "required": true,
                             "options": {
@@ -65,7 +65,18 @@
                             },
                             "defaultValue": "",
                             "encrypted": true,
-                            "required": false
+                            "required": true
+                        },
+                        {
+                            "type": "text",
+                            "label": "Application namespace",
+                            "help": "The Splunk application namespace on the remote system where searches will be executed, defaults to the Splunk search app",
+                            "field": "app_namespace",
+                            "options": {
+                                "display": true
+                            },
+                            "defaultValue": "search",
+                            "required": true
                         }
                     ],
                     "title": "Remote Splunk deployments accounts"
