@@ -11626,9 +11626,18 @@ require([
     // input link selection for modal window
     var inputLinkTime = new LinkListInput({
         "id": "inputLinkTime",
-        "choices": [{
+        "choices": [
+            {
+                "value": "30m",
+                "label": "30m"
+            },
+            {
                 "value": "60m",
                 "label": "60m"
+            },
+            {
+                "value": "2h",
+                "label": "2h"
             },
             {
                 "value": "4h",
@@ -11686,50 +11695,176 @@ require([
     });
 
     inputLinkTime.on("valueChange", function(e) {
-        if (e.value === "60m") {
+
+        if (e.value === "30m") {
+            EventHandler.setToken("modalTime.earliest", "-30m", {}, e.data);
+            EventHandler.setToken("modalTime.latest", "now", {}, e.data);
+            EventHandler.setToken("modalTime.span", "1m", {}, e.data);
+
+            // dynamically replace the search
+            var tk_data_source_overview_root_search = getToken("tk_data_source_overview_root_search");
+            if (tk_data_source_overview_root_search != null) {
+                var re = /(earliest=\"\-\d*\w\")/;
+                tk_data_source_overview_root_search = tk_data_source_overview_root_search.replace(re, 'earliest="-30m"');
+                setToken("tk_data_source_overview_root_search", tk_data_source_overview_root_search);
+            }
+
+        } else if (e.value === "60m") {
             EventHandler.setToken("modalTime.earliest", "-60m", {}, e.data);
             EventHandler.setToken("modalTime.latest", "now", {}, e.data);
             EventHandler.setToken("modalTime.span", "1m", {}, e.data);
+
+            // dynamically replace the search
+            var tk_data_source_overview_root_search = getToken("tk_data_source_overview_root_search");
+            if (tk_data_source_overview_root_search != null) {
+                var re = /(earliest=\"\-\d*\w\")/;
+                tk_data_source_overview_root_search = tk_data_source_overview_root_search.replace(re, 'earliest="-60m"');
+                setToken("tk_data_source_overview_root_search", tk_data_source_overview_root_search);
+            }
+
+        } else if (e.value === "2h") {
+            EventHandler.setToken("modalTime.earliest", "-2h", {}, e.data);
+            EventHandler.setToken("modalTime.latest", "now", {}, e.data);
+            EventHandler.setToken("modalTime.span", "5m", {}, e.data);
+
+            // dynamically replace the search
+            var tk_data_source_overview_root_search = getToken("tk_data_source_overview_root_search");
+            if (tk_data_source_overview_root_search != null) {
+                var re = /(earliest=\"\-\d*\w\")/;
+                tk_data_source_overview_root_search = tk_data_source_overview_root_search.replace(re, 'earliest="-2h"');
+                setToken("tk_data_source_overview_root_search", tk_data_source_overview_root_search);
+            }
+
         } else if (e.value === "4h") {
             EventHandler.setToken("modalTime.earliest", "-4h", {}, e.data);
             EventHandler.setToken("modalTime.latest", "now", {}, e.data);
             EventHandler.setToken("modalTime.span", "5m", {}, e.data);
+
+            // dynamically replace the search
+            var tk_data_source_overview_root_search = getToken("tk_data_source_overview_root_search");
+            if (tk_data_source_overview_root_search != null) {
+                var re = /(earliest=\"\-\d*\w\")/;
+                tk_data_source_overview_root_search = tk_data_source_overview_root_search.replace(re, 'earliest="-4h"');
+                setToken("tk_data_source_overview_root_search", tk_data_source_overview_root_search);
+            }
+
         } else if (e.value === "8h") {
             EventHandler.setToken("modalTime.earliest", "-8h", {}, e.data);
             EventHandler.setToken("modalTime.latest", "now", {}, e.data);
             EventHandler.setToken("modalTime.span", "5m", {}, e.data);
+
+            // dynamically replace the search
+            var tk_data_source_overview_root_search = getToken("tk_data_source_overview_root_search");
+            if (tk_data_source_overview_root_search != null) {            
+                var re = /(earliest=\"\-\d*\w\")/;
+                tk_data_source_overview_root_search = tk_data_source_overview_root_search.replace(re, 'earliest="-8h"');
+                setToken("tk_data_source_overview_root_search", tk_data_source_overview_root_search);
+            }
+
         } else if (e.value === "12h") {
             EventHandler.setToken("modalTime.earliest", "-12h", {}, e.data);
             EventHandler.setToken("modalTime.latest", "now", {}, e.data);
             EventHandler.setToken("modalTime.span", "10m", {}, e.data);
+
+            // dynamically replace the search
+            var tk_data_source_overview_root_search = getToken("tk_data_source_overview_root_search");
+            if (tk_data_source_overview_root_search != null) {
+                var re = /(earliest=\"\-\d*\w\")/;
+                tk_data_source_overview_root_search = tk_data_source_overview_root_search.replace(re, 'earliest="-12h"');
+                setToken("tk_data_source_overview_root_search", tk_data_source_overview_root_search);
+            }
+
         } else if (e.value === "24h") {
             EventHandler.setToken("modalTime.earliest", "-24h", {}, e.data);
             EventHandler.setToken("modalTime.latest", "now", {}, e.data);
             EventHandler.setToken("modalTime.span", "15m", {}, e.data);
+
+            // dynamically replace the search
+            var tk_data_source_overview_root_search = getToken("tk_data_source_overview_root_search");
+            if (tk_data_source_overview_root_search != null) {
+                var re = /(earliest=\"\-\d*\w\")/;
+                tk_data_source_overview_root_search = tk_data_source_overview_root_search.replace(re, 'earliest="-24h"');
+                setToken("tk_data_source_overview_root_search", tk_data_source_overview_root_search);
+            }
+
         } else if (e.value === "48h") {
             EventHandler.setToken("modalTime.earliest", "-48h", {}, e.data);
             EventHandler.setToken("modalTime.latest", "now", {}, e.data);
             EventHandler.setToken("modalTime.span", "30m", {}, e.data);
+
+            // dynamically replace the search
+            var tk_data_source_overview_root_search = getToken("tk_data_source_overview_root_search");
+            if (tk_data_source_overview_root_search != null) {
+                var re = /(earliest=\"\-\d*\w\")/;
+                tk_data_source_overview_root_search = tk_data_source_overview_root_search.replace(re, 'earliest="-48h"');
+                setToken("tk_data_source_overview_root_search", tk_data_source_overview_root_search);
+            }
+
         } else if (e.value === "7d") {
             EventHandler.setToken("modalTime.earliest", "-7d", {}, e.data);
             EventHandler.setToken("modalTime.latest", "now", {}, e.data);
             EventHandler.setToken("modalTime.span", "1h", {}, e.data);
+
+            // dynamically replace the search
+            var tk_data_source_overview_root_search = getToken("tk_data_source_overview_root_search");
+            if (tk_data_source_overview_root_search != null) {
+                var re = /(earliest=\"\-\d*\w\")/;
+                tk_data_source_overview_root_search = tk_data_source_overview_root_search.replace(re, 'earliest="-7d"');
+                setToken("tk_data_source_overview_root_search", tk_data_source_overview_root_search);
+            }
+
         } else if (e.value === "15d") {
             EventHandler.setToken("modalTime.earliest", "-15d", {}, e.data);
             EventHandler.setToken("modalTime.latest", "now", {}, e.data);
             EventHandler.setToken("modalTime.span", "2h", {}, e.data);
+
+            // dynamically replace the search
+            var tk_data_source_overview_root_search = getToken("tk_data_source_overview_root_search");
+            if (tk_data_source_overview_root_search != null) {
+                var re = /(earliest=\"\-\d*\w\")/;
+                tk_data_source_overview_root_search = tk_data_source_overview_root_search.replace(re, 'earliest="-15d"');
+                setToken("tk_data_source_overview_root_search", tk_data_source_overview_root_search);
+            }
+
         } else if (e.value === "30d") {
             EventHandler.setToken("modalTime.earliest", "-30d", {}, e.data);
             EventHandler.setToken("modalTime.latest", "now", {}, e.data);
             EventHandler.setToken("modalTime.span", "4h", {}, e.data);
+
+            // dynamically replace the search
+            var tk_data_source_overview_root_search = getToken("tk_data_source_overview_root_search");
+            if (tk_data_source_overview_root_search != null) {
+                var re = /(earliest=\"\-\d*\w\")/;
+                tk_data_source_overview_root_search = tk_data_source_overview_root_search.replace(re, 'earliest="-30d"');
+                setToken("tk_data_source_overview_root_search", tk_data_source_overview_root_search);
+            }
+
         } else if (e.value === "60d") {
             EventHandler.setToken("modalTime.earliest", "-60d", {}, e.data);
             EventHandler.setToken("modalTime.latest", "now", {}, e.data);
             EventHandler.setToken("modalTime.span", "8h", {}, e.data);
+
+            // dynamically replace the search
+            var tk_data_source_overview_root_search = getToken("tk_data_source_overview_root_search");
+            if (tk_data_source_overview_root_search != null) {
+                var re = /(earliest=\"\-\d*\w\")/;
+                tk_data_source_overview_root_search = tk_data_source_overview_root_search.replace(re, 'earliest="-60d"');
+                setToken("tk_data_source_overview_root_search", tk_data_source_overview_root_search);
+            }
+
         } else if (e.value === "90d") {
             EventHandler.setToken("modalTime.earliest", "-90d", {}, e.data);
             EventHandler.setToken("modalTime.latest", "now", {}, e.data);
             EventHandler.setToken("modalTime.span", "12h", {}, e.data);
+
+            // dynamically replace the search
+            var tk_data_source_overview_root_search = getToken("tk_data_source_overview_root_search");
+            if (tk_data_source_overview_root_search != null) {            
+                var re = /(earliest=\"\-\d*\w\")/;
+                tk_data_source_overview_root_search = tk_data_source_overview_root_search.replace(re, 'earliest="-90d"');
+                setToken("tk_data_source_overview_root_search", tk_data_source_overview_root_search);
+            }
+
         }
     });
 
@@ -14286,9 +14421,18 @@ require([
     // input link selection for modal window
     var inputLinktAlertsTimeRange = new LinkListInput({
         "id": "inputLinktAlertsTimeRange",
-        "choices": [{
+        "choices": [
+            {
+                "value": "30m",
+                "label": "30m"
+            },
+            {
                 "value": "60m",
                 "label": "60m"
+            },
+            {
+                "value": "2h",
+                "label": "2h"
             },
             {
                 "value": "4h",
@@ -14346,10 +14490,18 @@ require([
     });
 
     inputLinktAlertsTimeRange.on("valueChange", function(e) {
-        if (e.value === "60m") {
+        if (e.value === "30m") {
+            EventHandler.setToken("showAlertsTime.earliest", "-30m", {}, e.data);
+            EventHandler.setToken("showAlertsTime.latest", "now", {}, e.data);
+            EventHandler.setToken("showAlertsTime.span", "1m", {}, e.data);
+        } else if (e.value === "60m") {
             EventHandler.setToken("showAlertsTime.earliest", "-60m", {}, e.data);
             EventHandler.setToken("showAlertsTime.latest", "now", {}, e.data);
             EventHandler.setToken("showAlertsTime.span", "1m", {}, e.data);
+        } else if (e.value === "2h") {
+            EventHandler.setToken("showAlertsTime.earliest", "-2h", {}, e.data);
+            EventHandler.setToken("showAlertsTime.latest", "now", {}, e.data);
+            EventHandler.setToken("showAlertsTime.span", "5m", {}, e.data);
         } else if (e.value === "4h") {
             EventHandler.setToken("showAlertsTime.earliest", "-4h", {}, e.data);
             EventHandler.setToken("showAlertsTime.latest", "now", {}, e.data);
@@ -14486,9 +14638,18 @@ require([
     // input link selection for modal window
     var inputLinkTimeHost = new LinkListInput({
         "id": "inputLinkTimeHost",
-        "choices": [{
+        "choices": [
+            {
+                "value": "30m",
+                "label": "30m"
+            },
+            {
                 "value": "60m",
                 "label": "60m"
+            },
+            {
+                "value": "2h",
+                "label": "2h"
             },
             {
                 "value": "4h",
@@ -14546,10 +14707,18 @@ require([
     });
 
     inputLinkTimeHost.on("valueChange", function(e) {
-        if (e.value === "60m") {
+        if (e.value === "30m") {
+            EventHandler.setToken("modalTimeHost.earliest", "-30m", {}, e.data);
+            EventHandler.setToken("modalTimeHost.latest", "now", {}, e.data);
+            EventHandler.setToken("modalTimeHost.span", "1m", {}, e.data);
+        } else if (e.value === "60m") {
             EventHandler.setToken("modalTimeHost.earliest", "-60m", {}, e.data);
             EventHandler.setToken("modalTimeHost.latest", "now", {}, e.data);
             EventHandler.setToken("modalTimeHost.span", "1m", {}, e.data);
+        } else if (e.value === "2h") {
+            EventHandler.setToken("modalTimeHost.earliest", "-2h", {}, e.data);
+            EventHandler.setToken("modalTimeHost.latest", "now", {}, e.data);
+            EventHandler.setToken("modalTimeHost.span", "5m", {}, e.data);
         } else if (e.value === "4h") {
             EventHandler.setToken("modalTimeHost.earliest", "-4h", {}, e.data);
             EventHandler.setToken("modalTimeHost.latest", "now", {}, e.data);
@@ -16080,9 +16249,18 @@ require([
     // input link selection for modal window
     var inputLinkTimeMetricHost = new LinkListInput({
         "id": "inputLinkTimeMetricHost",
-        "choices": [{
+        "choices": [
+            {
+                "value": "30m",
+                "label": "30m"
+            },            
+            {
                 "value": "60m",
                 "label": "60m"
+            },
+            {
+                "value": "2h",
+                "label": "2h"
             },
             {
                 "value": "4h",
@@ -16140,10 +16318,18 @@ require([
     });
 
     inputLinkTimeMetricHost.on("valueChange", function(e) {
-        if (e.value === "60m") {
+        if (e.value === "30m") {
+            EventHandler.setToken("modalTimeMetricHost.earliest", "-30m", {}, e.data);
+            EventHandler.setToken("modalTimeMetricHost.latest", "now", {}, e.data);
+            EventHandler.setToken("modalTimeMetricHost.span", "1m", {}, e.data);
+        } else if (e.value === "60m") {
             EventHandler.setToken("modalTimeMetricHost.earliest", "-60m", {}, e.data);
             EventHandler.setToken("modalTimeMetricHost.latest", "now", {}, e.data);
             EventHandler.setToken("modalTimeMetricHost.span", "1m", {}, e.data);
+        } else if (e.value === "2h") {
+            EventHandler.setToken("modalTimeMetricHost.earliest", "-2h", {}, e.data);
+            EventHandler.setToken("modalTimeMetricHost.latest", "now", {}, e.data);
+            EventHandler.setToken("modalTimeMetricHost.span", "5m", {}, e.data);
         } else if (e.value === "4h") {
             EventHandler.setToken("modalTimeMetricHost.earliest", "-4h", {}, e.data);
             EventHandler.setToken("modalTimeMetricHost.latest", "now", {}, e.data);
@@ -16231,7 +16417,7 @@ require([
             $("#metric_host_flipping").css("display", "none");
             $("#metric_host_status").css("display", "none");
             $("#metric_host_changes").css("display", "none");
-            $("#metric_host_timepicker").css("display", "inherit");
+            $("#metric_host_timepicker").css("display", "none");
         } else if (e.value === "flipping_status") {
             EventHandler.setToken("show_metric_host_flipping_status", "true", {}, e.data);
             EventHandler.unsetToken("show_metric_host_overview");
