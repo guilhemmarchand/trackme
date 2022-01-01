@@ -5823,8 +5823,6 @@ require([
                 // detect if remote
                 if (/^remote:/i.test(tk_data_name)) {
 
-                    console.log("remote source detected");
-
                     // extract the account name from the data_name
                     regex_account_matches = tk_data_name.match(/\|account:([^\|]+)\|.*/);
                     accountName = regex_account_matches[1];
@@ -5902,8 +5900,6 @@ require([
                         tk_latest +
                         '"' +
                         " | spath";
-
-                        console.log("tk_data_source_overview_root_search is: " + tk_data_source_overview_root_search);
 
                         tk_data_source_raw_search = "null";
                         setToken("tk_data_source_timechart_count_aggreg", "sum");
