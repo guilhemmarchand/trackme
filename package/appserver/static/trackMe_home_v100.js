@@ -1093,7 +1093,7 @@ require([
         cancelOnUnload: true,
         sample_ratio: null,
         latest_time: "$modalTimeBlackListMetricHost.latest$",
-        search: '| mcatalog values(metric_name) as metrics where index=* `trackme_mstats_main_filter` | rename metrics as metric_name | mvexpand metric_name | rex field=metric_name "(?<metric_category>[^.]*).{0,1}"  | stats count by metric_category | fields metric_category | lookup trackme_metric_host_monitoring_blacklist_metric_category metric_category | where isnull(metric_blacklist_state) | sort limit=0 metric_category',
+        search: '| mcatalog values(metric_name) as metrics where (index=_metrics OR index=*) `trackme_mstats_main_filter` | rename metrics as metric_name | mvexpand metric_name | rex field=metric_name "(?<metric_category>[^.]*).{0,1}"  | stats count by metric_category | fields metric_category | lookup trackme_metric_host_monitoring_blacklist_metric_category metric_category | where isnull(metric_blacklist_state) | sort limit=0 metric_category',
         status_buckets: 0,
         app: utils.getCurrentApp(),
         auto_cancel: 90,
@@ -27945,8 +27945,10 @@ require([
         $btn_group.find("button").on("click", function() {
             var $btn = $(this);
 
-            //submitTokens();
+            // allow the search
             setToken("start_modify_metric_host_blacklist_metric_category", "true");
+            // force start the search
+            searchPopulateMetricCategoriesForBlackListMetricHost.startSearch();
             // Show input modal
             $("#modal_modify_metric_host_blacklist_metric_category").modal();
         });
