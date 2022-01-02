@@ -1,10 +1,16 @@
 #!/usr/bin/env python
 # coding=utf-8
 
-# REST API SPL handler for TrackMe, allows interracting with the TrackMe API endpoints with get / post / delete calls
-# See: https://trackme.readthedocs.io/en/latest/rest_api_reference.html
-
 from __future__ import absolute_import, division, print_function, unicode_literals
+
+__author__ = "TrackMe Limited"
+__copyright__ = "Copyright 2021, TrackMe Limited, U.K."
+__credits__ = ["Guilhem Marchand"]
+__license__ = "TrackMe Limited, all rights reserved"
+__version__ = "0.1.0"
+__maintainer__ = "TrackMe Limited, U.K."
+__email__ = "support@trackme-solutions.com"
+__status__ = "PRODUCTION"
 
 import os
 import sys
@@ -14,8 +20,22 @@ import requests
 import json
 import re
 import time
+import logging
 
 splunkhome = os.environ['SPLUNK_HOME']
+
+# set logging
+filehandler = logging.FileHandler(splunkhome + "/var/log/splunk/trackme.log", 'a')
+formatter = logging.Formatter('%(asctime)s %(levelname)s %(filename)s %(funcName)s %(lineno)d %(message)s')
+filehandler.setFormatter(formatter)
+log = logging.getLogger()  # root logger - Good to get it only once.
+for hdlr in log.handlers[:]:  # remove the existing file handlers
+    if isinstance(hdlr,logging.FileHandler):
+        log.removeHandler(hdlr)
+log.addHandler(filehandler)      # set the new handler
+# set the log level to INFO, DEBUG as the default is ERROR
+log.setLevel(logging.INFO)
+
 sys.path.append(os.path.join(splunkhome, 'etc', 'apps', 'trackme', 'lib'))
 
 from splunklib.searchcommands import dispatch, GeneratingCommand, Configuration, Option, validators
@@ -36,6 +56,22 @@ class TrackMeRestHandler(GeneratingCommand):
     def generate(self, **kwargs):
 
         if (self.url and re.search(r"^\/services\/trackme\/v\d*", self.url)) and self.mode in ("get", "post", "delete"):
+
+            # get and set the loglevel
+            loglevel = 'INFO'
+            conf_file = "trackme_settings"
+            confs = self.service.confs[str(conf_file)]
+            for stanza in confs:
+                if stanza.name == 'logging':
+                    for key, value in stanza.content.items():
+                        if key == "loglevel":
+                            loglevel = value
+
+            if loglevel in ('DEBUG', 'INFO', 'WARNING', 'ERROR', 'CRITICAL'):
+                level = logging.getLevelName(loglevel)
+                log.setLevel(level)
+            else:
+                log.setLevel(logging.INFO)
 
             # Get the session key
             session_key = self._metadata.searchinfo.session_key
@@ -60,16 +96,20 @@ class TrackMeRestHandler(GeneratingCommand):
             # Get
             if self.mode in ("get"):
                 if self.body:
+                    logging.info("Running GET query to endpoint=" + str(target_url) + "with body=" + str(json_data))
                     response = requests.get(target_url, headers={'Authorization': header, 'Content-Type': 'application/json'}, verify=False, data=json_data)
                 else:
+                    logging.info("Running GET query to endpoint=" + str(target_url))
                     response = requests.get(target_url, headers={'Authorization': header}, verify=False)                    
 
             # Post (body is required)
             elif self.mode in ("post"):
+                logging.info("Running POST query to endpoint=" + str(target_url) + "with body=" + str(json_data))
                 response = requests.post(target_url, headers={'Authorization': header, 'Content-Type': 'application/json'}, verify=False, data=json_data)
 
             # Delete (body is required)
             elif self.mode in ("delete"):
+                logging.info("Running DELETE query to endpoint=" + str(target_url) + "with body=" + str(json_data))
                 response = requests.delete(target_url, headers={'Authorization': header, 'Content-Type': 'application/json'}, verify=False, data=json_data)
 
             # yield data
@@ -94,11 +134,12 @@ class TrackMeRestHandler(GeneratingCommand):
             # yield
             data = {'_time': time.time(), '_raw': response_data}
             yield data
+            logging.info(response_data)
 
         else:
-
             # yield
             data = {'_time': time.time(), '_raw': "{\"response\": \"" + "Error: bad request, URL must match /services/trackme/v1/<endpoint> and accepted HTTP modes are get / post / delete\"}"}
             yield data
+            logging.error("{\"response\": \"" + "Error: bad request, URL must match /services/trackme/v1/<endpoint> and accepted HTTP modes are get / post / delete\"}")
 
 dispatch(TrackMeRestHandler, sys.argv, sys.stdin, sys.stdout, __name__)
