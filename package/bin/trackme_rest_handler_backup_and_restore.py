@@ -1,5 +1,6 @@
 from __future__ import absolute_import, division, print_function, unicode_literals
 
+__name__ = "trackme_rest_handler_backup_and_restore.py"
 __author__ = "TrackMe Limited"
 __copyright__ = "Copyright 2021, TrackMe Limited, U.K."
 __credits__ = ["Guilhem Marchand"]
@@ -21,9 +22,20 @@ import json
 import socket
 import hashlib
 
-logger = logging.getLogger(__name__)
-
 splunkhome = os.environ['SPLUNK_HOME']
+
+# set logging
+logger = logging.getLogger(__name__)
+filehandler = logging.FileHandler(splunkhome + "/var/log/splunk/trackme_rest_handler_backup_and_restore.log", 'a')
+formatter = logging.Formatter('%(asctime)s %(levelname)s %(filename)s %(funcName)s %(lineno)d %(message)s')
+filehandler.setFormatter(formatter)
+log = logging.getLogger()
+for hdlr in log.handlers[:]:
+    if isinstance(hdlr,logging.FileHandler):
+        log.removeHandler(hdlr)
+log.addHandler(filehandler)
+log.setLevel(logging.INFO)
+
 sys.path.append(os.path.join(splunkhome, 'etc', 'apps', 'trackme', 'lib'))
 
 import trackme_rest_handler
@@ -77,6 +89,26 @@ class TrackMeHandlerBackupAndRestore_v1(trackme_rest_handler.RESTHandler):
                                                 namespace='trackme', sessionKey=request_info.session_key, owner='-')
             splunkd_port = entity['mgmtHostPort']
 
+            # Get service
+            service = client.connect(
+                owner="nobody",
+                app="trackme",
+                port=splunkd_port,
+                token=request_info.session_key
+            )
+
+            # set loglevel
+            loglevel = 'INFO'
+            conf_file = "trackme_settings"
+            confs = service.confs[str(conf_file)]
+            for stanza in confs:
+                if stanza.name == 'logging':
+                    for key, value in stanza.content.items():
+                        if key == "loglevel":
+                            loglevel = value
+            level = logging.getLevelName(loglevel)
+            log.setLevel(level)
+
             # Set backup root dir
             backuproot = os.path.join(splunkhome, 'etc', 'apps', 'trackme', 'backup')
 
@@ -86,6 +118,7 @@ class TrackMeHandlerBackupAndRestore_v1(trackme_rest_handler.RESTHandler):
             # check backup dir existence
             if not os.path.isdir(backuproot):
 
+                logging.info("{\"There are no backup archives available on this instance\"}")
                 return {
                     "payload": "{\"There are no backup archives available on this instance\"}",
                     'status': 200 # HTTP status code
@@ -100,6 +133,7 @@ class TrackMeHandlerBackupAndRestore_v1(trackme_rest_handler.RESTHandler):
 
                 if not backup_files:
 
+                    logging.info("{\"There are no backup archives available on this instance\"}")
                     return {
                         "payload": "{\"There are no backup archives available on this instance\"}",
                         'status': 200 # HTTP status code
@@ -159,11 +193,13 @@ class TrackMeHandlerBackupAndRestore_v1(trackme_rest_handler.RESTHandler):
                                     }))
 
                             except Exception as e:
+                                logging.error('Warn: exception encountered: ' + str(e))
                                 return {
                                     'payload': 'Warn: exception encountered: ' + str(e) # Payload of the request.
                                 }
 
                     # Render
+                    logging.info(collection_backup_archives_info.data.query())
                     return {
                         "payload": collection_backup_archives_info.data.query(),
                         'status': 200 # HTTP status code
@@ -208,6 +244,26 @@ class TrackMeHandlerBackupAndRestore_v1(trackme_rest_handler.RESTHandler):
                                                 namespace='trackme', sessionKey=request_info.session_key, owner='-')
             splunkd_port = entity['mgmtHostPort']
 
+            # Get service
+            service = client.connect(
+                owner="nobody",
+                app="trackme",
+                port=splunkd_port,
+                token=request_info.session_key
+            )
+
+            # set loglevel
+            loglevel = 'INFO'
+            conf_file = "trackme_settings"
+            confs = service.confs[str(conf_file)]
+            for stanza in confs:
+                if stanza.name == 'logging':
+                    for key, value in stanza.content.items():
+                        if key == "loglevel":
+                            loglevel = value
+            level = logging.getLevelName(loglevel)
+            log.setLevel(level)
+
             # Set backup root dir
             backuproot = os.path.join(splunkhome, 'etc', 'apps', 'trackme', 'backup')
 
@@ -248,6 +304,7 @@ class TrackMeHandlerBackupAndRestore_v1(trackme_rest_handler.RESTHandler):
                         collection_list = list(reader)
 
                 except Exception as e:
+                    logging.error('Warn: exception encountered: ' + str(e))
                     return {
                         'payload': 'Warn: exception encountered: ' + str(e) # Payload of the request.
                     }
@@ -260,6 +317,7 @@ class TrackMeHandlerBackupAndRestore_v1(trackme_rest_handler.RESTHandler):
                         collection_list = list(reader)
 
                 except Exception as e:
+                    logging.error('Warn: exception encountered: ' + str(e))
                     return {
                         'payload': 'Warn: exception encountered: ' + str(e) # Payload of the request.
                     }
@@ -299,12 +357,13 @@ class TrackMeHandlerBackupAndRestore_v1(trackme_rest_handler.RESTHandler):
                                 counter_performed +=1
 
                             except Exception as e:
-
+                                logging.error('Warn: exception encountered: ' + str(e))
                                 return {
                                     'payload': 'Warn: exception encountered: ' + str(e) # Payload of the request.
                                 }
 
                     except Exception as e:
+                        logging.error('Warn: exception encountered: ' + str(e))
                         return {
                             'payload': 'Warn: exception encountered: ' + str(e) # Payload of the request.
                         }
@@ -318,6 +377,7 @@ class TrackMeHandlerBackupAndRestore_v1(trackme_rest_handler.RESTHandler):
                     archive.add(backupdir, arcname='')
 
             except Exception as e:
+                logging.error('Warn: exception encountered: ' + str(e))
                 return {
                     'payload': 'Warn: exception encountered: ' + str(e) # Payload of the request.
                 }
@@ -327,6 +387,7 @@ class TrackMeHandlerBackupAndRestore_v1(trackme_rest_handler.RESTHandler):
                 shutil.rmtree(backupdir)
 
             except OSError as e:
+                logging.error("Error: %s : %s" % (backupdir, e.strerror))
                 return {
                     'payload': "Error: %s : %s" % (backupdir, e.strerror)
                 }
@@ -363,11 +424,13 @@ class TrackMeHandlerBackupAndRestore_v1(trackme_rest_handler.RESTHandler):
                     }))
 
             except Exception as e:
+                logging.error('Warn: exception encountered: ' + str(e))
                 return {
                     'payload': 'Warn: exception encountered: ' + str(e) # Payload of the request.
                 }
 
             # Finally render a status message
+            logging.info(str(status_message))
             return {
                 "payload": str(status_message),
                 'status': 200 # HTTP status code
@@ -384,6 +447,26 @@ class TrackMeHandlerBackupAndRestore_v1(trackme_rest_handler.RESTHandler):
         entity = splunk.entity.getEntity('/server', 'settings',
                                             namespace='trackme', sessionKey=request_info.session_key, owner='-')
         splunkd_port = entity['mgmtHostPort']
+
+        # Get service
+        service = client.connect(
+            owner="nobody",
+            app="trackme",
+            port=splunkd_port,
+            token=request_info.session_key
+        )
+
+        # set loglevel
+        loglevel = 'INFO'
+        conf_file = "trackme_settings"
+        confs = service.confs[str(conf_file)]
+        for stanza in confs:
+            if stanza.name == 'logging':
+                for key, value in stanza.content.items():
+                    if key == "loglevel":
+                        loglevel = value
+        level = logging.getLevelName(loglevel)
+        log.setLevel(level)
 
         # get local server name
         server_name = socket.gethostname()
@@ -411,6 +494,7 @@ class TrackMeHandlerBackupAndRestore_v1(trackme_rest_handler.RESTHandler):
                     retention_days = int(retention_days)
 
                 except Exception as e:
+                    logging.error('Warn: exception encountered: ' + str(e))
                     return {
                         'payload': 'Warn: exception encountered: ' + str(e) # Payload of the request.
                     }
@@ -461,6 +545,7 @@ class TrackMeHandlerBackupAndRestore_v1(trackme_rest_handler.RESTHandler):
                                 else:
                                     purgedlist = "[ " + str(full_path) + " ]"
                             except Exception as e:
+                                logging.error('Warn: exception encountered: ' + str(e))
                                 return {
                                     'payload': 'Warn: exception encountered: ' + str(e) # Payload of the request.
                                 }
@@ -508,17 +593,20 @@ class TrackMeHandlerBackupAndRestore_v1(trackme_rest_handler.RESTHandler):
                                             collection_backup_archives_info.data.delete(json.dumps({"_key":key}))
 
                                         except Exception as e:
+                                            logging.error('Warn: exception encountered: ' + str(e))
                                             return {
                                                 'payload': 'Warn: exception encountered: ' + str(e) # Payload of the request.
                                             }
 
                             except Exception as e:
+                                logging.error('Warn: exception encountered: ' + str(e))
                                 return {
                                     'payload': 'Warn: exception encountered: ' + str(e) # Payload of the request.
                                 }
 
             if purgedlist is None:
 
+                logging.info("{\"status\": \"There were no backup archive files older than " + str(retention_days) + " days to be purged\"}")
                 return {
                     "payload": "{\"status\": \"There were no backup archive files older than " + str(retention_days) + " days to be purged\"}",
                     'status': 200 # HTTP status code
@@ -558,6 +646,8 @@ class TrackMeHandlerBackupAndRestore_v1(trackme_rest_handler.RESTHandler):
                         # Remove the record
                         collection_backup_archives_info.data.delete(json.dumps({"_key":key}))
 
+                logging.info("{\"status\": \"The following archive files were purged due to retention (" + str(retention_days)\
+                    + " days)\", \"backup_files\": \"" + str(purgedlist) + "\"}")
                 return {
                     "payload": "{\"status\": \"The following archive files were purged due to retention (" + str(retention_days)\
                     + " days)\", \"backup_files\": \"" + str(purgedlist) + "\"}",
@@ -644,6 +734,26 @@ class TrackMeHandlerBackupAndRestore_v1(trackme_rest_handler.RESTHandler):
                                                 namespace='trackme', sessionKey=request_info.session_key, owner='-')
             splunkd_port = entity['mgmtHostPort']
 
+            # Get service
+            service = client.connect(
+                owner="nobody",
+                app="trackme",
+                port=splunkd_port,
+                token=request_info.session_key
+            )
+
+            # set loglevel
+            loglevel = 'INFO'
+            conf_file = "trackme_settings"
+            confs = service.confs[str(conf_file)]
+            for stanza in confs:
+                if stanza.name == 'logging':
+                    for key, value in stanza.content.items():
+                        if key == "loglevel":
+                            loglevel = value
+            level = logging.getLevelName(loglevel)
+            log.setLevel(level)
+
             # Set backup root dir
             backuproot = os.path.join(splunkhome, 'etc', 'apps', 'trackme', 'backup')
 
@@ -655,6 +765,7 @@ class TrackMeHandlerBackupAndRestore_v1(trackme_rest_handler.RESTHandler):
 
             # First, check the backup archive existence
             if not os.path.isfile(backupfile):
+                logging.error("{\"response\": \"ERROR: the archive name " + str(backupfile) + " could not be found, restore cannot be processed\"}")
                 return {
                     "payload": "{\"response\": \"ERROR: the archive name " + str(backupfile) + " could not be found, restore cannot be processed\"}"
                 }
@@ -665,6 +776,7 @@ class TrackMeHandlerBackupAndRestore_v1(trackme_rest_handler.RESTHandler):
                 tf = tarfile.open(backupfile)
                 tf.extractall(backupdir)                   
             except Exception as e:
+                logging.error("{\"response\": \"ERROR: the archive name " + str(backupfile) + " could not be extracted, restore cannot be processed: \"" + str(e) + "}")
                 return {
                     "payload": "{\"response\": \"ERROR: the archive name " + str(backupfile) + " could not be extracted, restore cannot be processed: \"" + str(e) + "}"
                 }
@@ -681,10 +793,13 @@ class TrackMeHandlerBackupAndRestore_v1(trackme_rest_handler.RESTHandler):
                     shutil.rmtree(backupdir)
 
                 except OSError as e:
+                    logging.error("Error: %s : %s" % (backupdir, e.strerror))
                     return {
                         'payload': "Error: %s : %s" % (backupdir, e.strerror)
                     }                                        
 
+                logging.info("{\"response\": \"Success: the archive " + str(backupfile) + " could be successfully extracted, "\
+                        + "the following KVstore collections can be restored (empty collections are not backed up)\", \"collections\": \"" + str(collections_json_files) + "\"}")
                 return {
                     "payload": "{\"response\": \"Success: the archive " + str(backupfile) + " could be successfully extracted, "\
                         + "the following KVstore collections can be restored (empty collections are not backed up)\", \"collections\": \"" + str(collections_json_files) + "\"}",
@@ -718,6 +833,7 @@ class TrackMeHandlerBackupAndRestore_v1(trackme_rest_handler.RESTHandler):
                                 collection_list = list(reader)
 
                         except Exception as e:
+                            logging.error('Warn: exception encountered: ' + str(e))
                             return {
                                 'payload': 'Warn: exception encountered: ' + str(e) # Payload of the request.
                             }
@@ -730,6 +846,7 @@ class TrackMeHandlerBackupAndRestore_v1(trackme_rest_handler.RESTHandler):
                                 collection_list = list(reader)
 
                         except Exception as e:
+                            logging.error('Warn: exception encountered: ' + str(e))
                             return {
                                 'payload': 'Warn: exception encountered: ' + str(e) # Payload of the request.
                             }
@@ -755,11 +872,13 @@ class TrackMeHandlerBackupAndRestore_v1(trackme_rest_handler.RESTHandler):
                                     collection.data.delete()
 
                                 except Exception as e:
+                                    logging.error('Warn: exception encountered: ' + str(e))
                                     return {
                                         'payload': 'Warn: exception encountered: ' + str(e) # Payload of the request.
                                     }
 
                             except Exception as e:
+                                logging.error('Warn: exception encountered: ' + str(e))
                                 return {
                                     'payload': 'Warn: exception encountered: ' + str(e) # Payload of the request.
                                 }
@@ -784,6 +903,7 @@ class TrackMeHandlerBackupAndRestore_v1(trackme_rest_handler.RESTHandler):
                             try:
                                 collection.data.batch_save(*chunk)
                             except Exception as e:
+                                logging.error('Warn: exception encountered: ' + str(e))
                                 return {
                                     'payload': 'Warn: exception encountered: ' + str(e) # Payload of the request.
                                 }
@@ -800,6 +920,7 @@ class TrackMeHandlerBackupAndRestore_v1(trackme_rest_handler.RESTHandler):
 
                         # check the json backup file existence
                         if not os.path.isfile(collection_source_file):
+                            logging.error("{\"response\": \"ERROR: the json file " + str(collection_source_file) + " could not be found, restore cannot be processed\"}")
                             return {
                                 "payload": "{\"response\": \"ERROR: the json file " + str(collection_source_file) + " could not be found, restore cannot be processed\"}"
                             }
@@ -816,6 +937,7 @@ class TrackMeHandlerBackupAndRestore_v1(trackme_rest_handler.RESTHandler):
                             collection.data.delete()
 
                         except Exception as e:
+                            logging.error('Warn: exception encountered: ' + str(e))
                             return {
                                 'payload': 'Warn: exception encountered: ' + str(e) # Payload of the request.
                             }
@@ -828,6 +950,7 @@ class TrackMeHandlerBackupAndRestore_v1(trackme_rest_handler.RESTHandler):
                             try:
                                 collection.data.batch_save(*chunk)
                             except Exception as e:
+                                logging.error('Warn: exception encountered: ' + str(e))
                                 return {
                                     'payload': 'Warn: exception encountered: ' + str(e) # Payload of the request.
                                 }
@@ -840,6 +963,7 @@ class TrackMeHandlerBackupAndRestore_v1(trackme_rest_handler.RESTHandler):
                     shutil.rmtree(backupdir)
 
                 except OSError as e:
+                    logging.error("Error: %s : %s" % (backupdir, e.strerror))
                     return {
                         'payload': "Error: %s : %s" % (backupdir, e.strerror)
                     }
@@ -851,6 +975,7 @@ class TrackMeHandlerBackupAndRestore_v1(trackme_rest_handler.RESTHandler):
                 result = "{ \"backup_archive\": \"" + str(backupfile) + "\", \"status\": \"restore is now complete, please reload TrackMe\","\
                     + "\"collections_files_restored\": \"" + str(collections_json_files) + "\"}"
 
+            logging.info(str(result))
             return {
                 "payload": str(result),
                 'status': 200 # HTTP status code
