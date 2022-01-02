@@ -1,5 +1,6 @@
 from __future__ import absolute_import, division, print_function, unicode_literals
 
+__name__ = "trackme_rest_handler_hybrid_trackers.py"
 __author__ = "TrackMe Limited"
 __copyright__ = "Copyright 2021, TrackMe Limited, U.K."
 __credits__ = ["Guilhem Marchand"]
@@ -19,9 +20,20 @@ import requests
 import time
 from urllib.parse import urlencode
 
-logger = logging.getLogger(__name__)
-
 splunkhome = os.environ['SPLUNK_HOME']
+
+# set logging
+logger = logging.getLogger(__name__)
+filehandler = logging.FileHandler(splunkhome + "/var/log/splunk/trackme_rest_handler_hybrid_trackers.log", 'a')
+formatter = logging.Formatter('%(asctime)s %(levelname)s %(filename)s %(funcName)s %(lineno)d %(message)s')
+filehandler.setFormatter(formatter)
+log = logging.getLogger()
+for hdlr in log.handlers[:]:
+    if isinstance(hdlr,logging.FileHandler):
+        log.removeHandler(hdlr)
+log.addHandler(filehandler)
+log.setLevel(logging.INFO)
+
 sys.path.append(os.path.join(splunkhome, 'etc', 'apps', 'trackme', 'lib'))
 
 import trackme_rest_handler
@@ -143,25 +155,30 @@ class TrackMeHandlerHybridTracker_v1(trackme_rest_handler.RESTHandler):
                                                 namespace='trackme', sessionKey=request_info.session_key, owner='-')
             splunkd_port = entity['mgmtHostPort']
 
+            # Get service
+            service = client.connect(
+                owner="nobody",
+                app="trackme",
+                port=splunkd_port,
+                token=request_info.session_key
+            )
+
+            # set loglevel
+            loglevel = 'INFO'
+            conf_file = "trackme_settings"
+            confs = service.confs[str(conf_file)]
+            for stanza in confs:
+                if stanza.name == 'logging':
+                    for key, value in stanza.content.items():
+                        if key == "loglevel":
+                            loglevel = value
+            level = logging.getLevelName(loglevel)
+            log.setLevel(level)
+
             # Define an header for requests authenticated communications with splunkd
             header = {
                 'Authorization': 'Splunk %s' % request_info.session_key,
                 'Content-Type': 'application/json'}
-
-            # Get SDK service
-            try:
-                service = client.connect(
-                    owner="nobody",
-                    app="trackme",
-                    port=splunkd_port,
-                    token=request_info.session_key
-                )
-
-            except Exception as e:
-                return {
-                    'payload': 'Warn: exception encountered while getting the SDK service to splunkd: ' + str(e), # Payload of the request.
-                    'status': 500 # HTTP status code
-                }
 
             # Get audit service
             # Audit collection
@@ -177,6 +194,7 @@ class TrackMeHandlerHybridTracker_v1(trackme_rest_handler.RESTHandler):
                 collection_audit = service_audit.kvstore[collection_name_audit]
 
             except Exception as e:
+                logging.error('Warn: exception encountered while getting the audit collection service: ' + str(e))
                 return {
                     'payload': 'Warn: exception encountered while getting the audit collection service: ' + str(e), # Payload of the request.
                     'status': 500 # HTTP status code
@@ -222,6 +240,7 @@ class TrackMeHandlerHybridTracker_v1(trackme_rest_handler.RESTHandler):
                 macros.create(name=str(macro_name), **{"app": "trackme", "sharing": "app", "definition": str(definition), "owner": str(owner)})
 
             except Exception as e:
+                logging.error('Warn: exception encountered while creating the break by fields macro: ' + str(e))
                 return {
                     'payload': 'Warn: exception encountered while creating the break by fields macro: ' + str(e), # Payload of the request.
                     'status': 500 # HTTP status code
@@ -262,6 +281,7 @@ class TrackMeHandlerHybridTracker_v1(trackme_rest_handler.RESTHandler):
                 newtracker = service.saved_searches.create(str(report_name), str(report_search))
 
             except Exception as e:
+                logging.error('Warn: exception encountered while creating the abstract tracker report: ' + str(e))
                 return {
                     'payload': 'Warn: exception encountered while creating the abstract tracker report: ' + str(e), # Payload of the request.
                     'status': 500 # HTTP status code
@@ -279,6 +299,7 @@ class TrackMeHandlerHybridTracker_v1(trackme_rest_handler.RESTHandler):
                 newtracker_update.update(**kwargs).refresh()
 
             except Exception as e:
+                logging.error('Warn: exception encountered: ' + str(e))
                 return {
                     'payload': 'Warn: exception encountered: ' + str(e), # Payload of the request.
                     'status': 500 # HTTP status code
@@ -291,6 +312,7 @@ class TrackMeHandlerHybridTracker_v1(trackme_rest_handler.RESTHandler):
                 service.post("%s/%s" % (newtracker_update.links["alternate"], "acl"), body=urlencode(kwargs))
 
             except Exception as e:
+                logging.error('Warn: exception encountered: ' + str(e))
                 return {
                     'payload': 'Warn: exception encountered: ' + str(e), # Payload of the request.
                     'status': 500 # HTTP status code
@@ -318,6 +340,7 @@ class TrackMeHandlerHybridTracker_v1(trackme_rest_handler.RESTHandler):
                 newtracker = service.saved_searches.create(str(report_name), str(report_search))
 
             except Exception as e:
+                logging.error('Warn: exception encountered: ' + str(e))
                 return {
                     'payload': 'Warn: exception encountered: ' + str(e), # Payload of the request.
                     'status': 500 # HTTP status code
@@ -338,6 +361,7 @@ class TrackMeHandlerHybridTracker_v1(trackme_rest_handler.RESTHandler):
                 newtracker_update.update(**kwargs).refresh()
 
             except Exception as e:
+                logging.error('Warn: exception encountered: ' + str(e))
                 return {
                     'payload': 'Warn: exception encountered: ' + str(e), # Payload of the request.
                     'status': 500 # HTTP status code
@@ -350,6 +374,7 @@ class TrackMeHandlerHybridTracker_v1(trackme_rest_handler.RESTHandler):
                 service.post("%s/%s" % (newtracker_update.links["alternate"], "acl"), body=urlencode(kwargs))
 
             except Exception as e:
+                logging.error('Warn: exception encountered: ' + str(e))
                 return {
                     'payload': 'Warn: exception encountered: ' + str(e), # Payload of the request.
                     'status': 500 # HTTP status code
@@ -396,11 +421,13 @@ class TrackMeHandlerHybridTracker_v1(trackme_rest_handler.RESTHandler):
                 }))
 
         except Exception as e:
+            logging.error('Warn: exception encountered: ' + str(e))
             return {
                 'payload': 'Warn: exception encountered: ' + str(e) # Payload of the request.
             }
 
         # final return
+        logging.debug(str(audit_record))
         return {
             "payload": str(audit_record),
             'status': 200 # HTTP status code
@@ -525,25 +552,30 @@ class TrackMeHandlerHybridTracker_v1(trackme_rest_handler.RESTHandler):
                                                 namespace='trackme', sessionKey=request_info.session_key, owner='-')
             splunkd_port = entity['mgmtHostPort']
 
+            # Get service
+            service = client.connect(
+                owner="nobody",
+                app="trackme",
+                port=splunkd_port,
+                token=request_info.session_key
+            )
+
+            # set loglevel
+            loglevel = 'INFO'
+            conf_file = "trackme_settings"
+            confs = service.confs[str(conf_file)]
+            for stanza in confs:
+                if stanza.name == 'logging':
+                    for key, value in stanza.content.items():
+                        if key == "loglevel":
+                            loglevel = value
+            level = logging.getLevelName(loglevel)
+            log.setLevel(level)
+
             # Define an header for requests authenticated communications with splunkd
             header = {
                 'Authorization': 'Splunk %s' % request_info.session_key,
                 'Content-Type': 'application/json'}
-
-            # Get SDK service
-            try:
-                service = client.connect(
-                    owner="nobody",
-                    app="trackme",
-                    port=splunkd_port,
-                    token=request_info.session_key
-                )
-
-            except Exception as e:
-                return {
-                    'payload': 'Warn: exception encountered while getting the SDK service to splunkd: ' + str(e), # Payload of the request.
-                    'status': 500 # HTTP status code
-                }
 
             # Get audit service
             # Audit collection
@@ -559,6 +591,7 @@ class TrackMeHandlerHybridTracker_v1(trackme_rest_handler.RESTHandler):
                 collection_audit = service_audit.kvstore[collection_name_audit]
 
             except Exception as e:
+                logging.error('Warn: exception encountered while getting the audit collection service: ' + str(e))
                 return {
                     'payload': 'Warn: exception encountered while getting the audit collection service: ' + str(e), # Payload of the request.
                     'status': 500 # HTTP status code
@@ -627,6 +660,7 @@ class TrackMeHandlerHybridTracker_v1(trackme_rest_handler.RESTHandler):
                 macros.create(name=str(macro_name), **{"app": "trackme", "sharing": "app", "definition": str(definition), "owner": str(owner)})
 
             except Exception as e:
+                logging.error('Warn: exception encountered while creating the break by fields macro: ' + str(e))
                 return {
                     'payload': 'Warn: exception encountered while creating the break by fields macro: ' + str(e), # Payload of the request.
                     'status': 500 # HTTP status code
@@ -672,6 +706,7 @@ class TrackMeHandlerHybridTracker_v1(trackme_rest_handler.RESTHandler):
                 newtracker = service.saved_searches.create(str(report_name), str(report_search))
 
             except Exception as e:
+                logging.error('Warn: exception encountered while creating the abstract tracker report: ' + str(e))
                 return {
                     'payload': 'Warn: exception encountered while creating the abstract tracker report: ' + str(e), # Payload of the request.
                     'status': 500 # HTTP status code
@@ -689,6 +724,7 @@ class TrackMeHandlerHybridTracker_v1(trackme_rest_handler.RESTHandler):
                 newtracker_update.update(**kwargs).refresh()
 
             except Exception as e:
+                logging.error('Warn: exception encountered: ' + str(e))
                 return {
                     'payload': 'Warn: exception encountered: ' + str(e), # Payload of the request.
                     'status': 500 # HTTP status code
@@ -701,6 +737,7 @@ class TrackMeHandlerHybridTracker_v1(trackme_rest_handler.RESTHandler):
                 service.post("%s/%s" % (newtracker_update.links["alternate"], "acl"), body=urlencode(kwargs))
 
             except Exception as e:
+                logging.error('Warn: exception encountered: ' + str(e))
                 return {
                     'payload': 'Warn: exception encountered: ' + str(e), # Payload of the request.
                     'status': 500 # HTTP status code
@@ -728,6 +765,7 @@ class TrackMeHandlerHybridTracker_v1(trackme_rest_handler.RESTHandler):
                 newtracker = service.saved_searches.create(str(report_name), str(report_search))
 
             except Exception as e:
+                logging.error('Warn: exception encountered: ' + str(e))
                 return {
                     'payload': 'Warn: exception encountered: ' + str(e), # Payload of the request.
                     'status': 500 # HTTP status code
@@ -748,6 +786,7 @@ class TrackMeHandlerHybridTracker_v1(trackme_rest_handler.RESTHandler):
                 newtracker_update.update(**kwargs).refresh()
 
             except Exception as e:
+                logging.error('Warn: exception encountered: ' + str(e))
                 return {
                     'payload': 'Warn: exception encountered: ' + str(e), # Payload of the request.
                     'status': 500 # HTTP status code
@@ -760,6 +799,7 @@ class TrackMeHandlerHybridTracker_v1(trackme_rest_handler.RESTHandler):
                 service.post("%s/%s" % (newtracker_update.links["alternate"], "acl"), body=urlencode(kwargs))
 
             except Exception as e:
+                logging.error('Warn: exception encountered: ' + str(e))
                 return {
                     'payload': 'Warn: exception encountered: ' + str(e), # Payload of the request.
                     'status': 500 # HTTP status code
@@ -807,11 +847,13 @@ class TrackMeHandlerHybridTracker_v1(trackme_rest_handler.RESTHandler):
                 }))
 
         except Exception as e:
+            logging.error('Warn: exception encountered: ' + str(e))
             return {
                 'payload': 'Warn: exception encountered: ' + str(e) # Payload of the request.
             }
 
         # final return
+        logging.debug(str(audit_record))
         return {
             "payload": str(audit_record),
             'status': 200 # HTTP status code
