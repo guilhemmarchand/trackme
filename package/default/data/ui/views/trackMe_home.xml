@@ -125,72 +125,113 @@
 								</h1>
 							</div>
 							<div class="modal-body">
-								<h1>
-									TrackMe uses a default concept which handles entities disovery and management for all data sources. (based on indexes/sourcetypes by default)
-								</h1>
-								<h2>
-									This logic can be updated, but this is a all or nothing change, as it impacts globally the way entities are discovered and maintained in TrackMe.
-								</h2>
-								<h1>
-									Hybrid trackers can be created to handle additional use cases without affecting the main discovery and logic of data sources:
-								</h1>
 
-								<style>
-									.hybrid-trackers-list li {
-										line-height:200%;
-									}
-								</style>
+								<div>
+									<h1>
+										TrackMe uses a default concept which handles entities disovery and management for all data sources. (based on indexes/sourcetypes by default)
+									</h1>
+									<h2>
+										This logic can be updated, but this is a all or nothing change, as it impacts globally the way entities are discovered and maintained in TrackMe.
+									</h2>
 
-								<div class="hybrid-trackers-list">
-									<ul>
-										<li>
-										Discover and maintain data sources based on a special break by statement, relying on a target key data field
-										</li>
-										<li>
-										For instance, you could create an hybrid tracker to automatically create entities for your Cloud provider data using a 
-											<code style="color: black; font-family: monospace;">subscription_id</code> and get a single entity per 
-											<code style="color: black; font-family: monospace;">index / sourcetype / Cloud tenant</code>
-										</li>
-										<li>
-										Another example, you could create an hybrid tracker to create entities based on a 
-											<code style="color: black; font-family: monospace;">company</code> fields which desribes subsidiaries in your data sets, generating entities per 
-											<code style="color: black; font-family: monospace;">index / sourcetype / company</code>
-										</li>
-										<li>
-										Ideally, the break by field should refer to an indexed time field rather than a search time extracted field, which allows to use a tstats based hybrid tracker for the best performances at the lowest computing costs
-										</li>
-										<li>
-										However, hybrid trackers can be based on either <code style="color: black; font-family: monospace;">tstats</code> search logic (which implies indexed fields), or <code style="color: black; font-family: monospace;">raw</code> search logic (which allows search time extracted fields)
-										</li>
-										<li>
-										The hybrid tracker process can be performed easily via this screen, once the new entities have been created you can decide to disable the previously discovered entities, and optionally remove the data set from the out of the box trackers
-										</li>
-									</ul>
+									<hr />
+
+									<h1>
+										Hybrid trackers can be created to handle additional use cases without affecting the main discovery and logic of data sources:
+									</h1>
+									<style>
+										.hybrid-trackers-list li {
+											line-height:200%;
+										}
+									</style>
+
+									<div class="hybrid-trackers-list">
+										<ul>
+											<li>
+											Discover and maintain data sources based on a special break by statement, relying on a target key data field
+											</li>
+											<li>
+											For instance, you could create an hybrid tracker to automatically create entities for your Cloud provider data using a 
+												<code style="color: black; font-family: monospace;">subscription_id</code> and get a single entity per 
+												<code style="color: black; font-family: monospace;">index / sourcetype / Cloud tenant</code>
+											</li>
+											<li>
+											Another example, you could create an hybrid tracker to create entities based on a 
+												<code style="color: black; font-family: monospace;">company</code> fields which desribes subsidiaries in your data sets, generating entities per 
+												<code style="color: black; font-family: monospace;">index / sourcetype / company</code>
+											</li>
+											<li>
+											Ideally, the break by field should refer to an indexed time field rather than a search time extracted field, which allows to use a tstats based hybrid tracker for the best performances at the lowest computing costs
+											</li>
+											<li>
+											However, hybrid trackers can be based on either <code style="color: black; font-family: monospace;">tstats</code> search logic (which implies indexed fields), or <code style="color: black; font-family: monospace;">raw</code> search logic (which allows search time extracted fields)
+											</li>
+											<li>
+											The hybrid tracker process can be performed easily via this screen, once the new entities have been created you can decide to disable the previously discovered entities, and optionally remove the data set from the out of the box trackers
+											</li>
+										</ul>
+									</div>
+
+									<hr />
+
+									<h1>
+										Hybrid local trackers versus remote local trackers:
+									</h1>
+
+									<h2>
+										In TrackMe, you can create two types of Hybrid trackers, local trackers which handle data locally available the search head running TrackMe, and remote trackers which can handle any remote Splunk deployment transparently:
+									</h2>
+
+									<div class="hybrid-trackers-list">
+										<ul>
+											<li>
+											An hybrid local tracker runs tstats or raw searches locally on the search head, it means the data must be accessible on the same search running hosting TrackMe
+											</li>
+											<li>
+											On the other hand, an hybrid remote tracker relies on a custom command <b>splunkremotesearch</b> which uses the Splunk API remotely and authenticates to the remote systems using a <b>bearer token</b>
+											</li>
+											<li>
+											You first need to configure one or more Splunk remote deployments, called accounts, in the <a target="_blank" href="configuration">configuration</a> UI
+											</li>
+											<li>
+											A Splunk remote deployment account consists in the URL and port for the Splunk API (which can be an IP, a FQDN, a VIP addressing your Search Head Cluster), a bearer token used for the authentication and optionally the application name space where searches will be executed
+											</li>
+											<li>
+											Once the account is configured, you can create an hybrid remote tracker linked to this account, using a custom key or not (therefore relying on index/sourcetype) with the search filters and time constraints as needed											
+											</li>
+											<li>
+											Finally, TrackMe generates remote entities <code style="color: black; font-family: monospace;">remote:|account=&lt;name&gt;|index:sourcetype</code>, which are transparently and automatically managed!
+											</li>
+										</ul>
+									</div>
+
+								</div>
+								<div style="margin-top: 20px; margin-bottom: 20px;">
+									<button id="btn_modal_hybrid_local_tracker_add" style="margin-right: 20px;" type="submit" class="btn btn-outline-primary" data-dismiss="modal">
+										<span class="glyphicon glyphicon-remove"></span> Create a new hybrid local tracker								
+									</button>
+									<button id="btn_modal_hybrid_remote_tracker_add" style="margin-right: 20px;" type="submit" class="btn btn-outline-primary" data-dismiss="modal">
+										<span class="glyphicon glyphicon-remove"></span> Create a new hybrid remote tracker								
+									</button>
 								</div>
 							</div>
 							<div class="modal-footer">
-								<button id="btn_modal_hybrid_tracker_add" type="submit" class="btn btn-outline-primary pull-left" data-dismiss="modal">
-									<span class="glyphicon glyphicon-remove"></span> Create a new hybrid tracker							
-								
-								</button>
-								<button type="submit" class="btn btn-outline-secondary pull-right" data-dismiss="modal">
-									<span class="glyphicon glyphicon-remove"></span> Cancel								
-								
+								<button type="submit" class="btn btn-outline-secondary pull-left" data-dismiss="modal">
+									<span class="glyphicon glyphicon-remove"></span> Cancel
 								</button>
 							</div>
 						</div>
 					</div>
 				</div>
-				<div class="modal fade custom-modal-80" id="add_hybrid_tracker" role="dialog">
+
+				<div class="modal fade custom-modal-80" id="add_hybrid_local_tracker" role="dialog">
 					<div class="modal-dialog">
 						<!-- Modal content-->
 						<div class="modal-content">
 							<div class="modal-header modal-header-info">
 								<button type="button" class="close" data-dismiss="modal"></button>
 								<h1>
-									<span class="glyphicon glyphicon-lock"></span> TrackMe Hybrid trackers - create a new tracker
-								
-								
+									<span class="glyphicon glyphicon-lock"></span> TrackMe Hybrid trackers - create a new local tracker
 								</h1>
 							</div>
 							<div class="modal-body">
@@ -198,7 +239,7 @@
 									<div>
 										<div>
 											<div>
-												<div style="display: inline-flex; margin-left: 22px;">
+												<div style="display: inline-flex; margin-left: 12px;">
 													<div class="input input-text" id="modal_input_hybrid_tracker_name" style="margin-bottom: 10px; min-width: 500px; max-width: 500px; margin-right: 150px;">
 														<label class="splunk-input-label">Enter the unique identifier for the new hybrid tracker:</label>
 													</div>
@@ -212,7 +253,7 @@
 														<label>Enter the constraint for the search: the search is automatically prefixed with index=* sourcetype=* and you can add any additional search filters</label>
 														<textarea
                                                                 id = "modal_input_hybrid_root_constraint"
-                                                                rows = "3"
+                                                                rows = "2"
                                                                 cols = "80" style="width: 1100px;"
                                                                 onfocus="if(this.value==this.defaultValue)this.value='';" onblur="if(this.value=='')this.value=this.defaultValue;">Enter the Splunk root search constraint</textarea>
 													</p>
@@ -221,8 +262,6 @@
 													<div class="input input-text" id="modal_input_hybrid_break_by_field" style="margin-bottom: 10px; min-width: 500px; max-width: 500px;">
 														<label class="splunk-input-label">Enter the break by field, this is the key to break by when discovering and maintaining entities</label>
 													</div>
-												</div>
-												<div class="fieldset">
 													<div class="input input-text" id="modal_input_hybrid_earliest" style="margin-bottom: 10px; max-width: 300px;">
 														<label class="splunk-input-label">Earliest time for the tracker</label>
 													</div>
@@ -231,11 +270,11 @@
 													</div>
 												</div>
 												<div>
-													<button type="submit" id="btn_modal_input_hybrid_add_simulate" style="margin-right: 15px;" class="btn btn-outline-primary">
+													<button type="submit" id="btn_modal_input_hybrid_local_add_simulate" style="margin-right: 15px;" class="btn btn-outline-primary">
 														<span class="glyphicon glyphicon-remove"></span> Simulate the search													
 													
 													</button>
-													<button type="submit" id="btn_modal_input_hybrid_add_new" data-dismiss="modal" style="margin-right: 15px;" class="btn btn-outline-danger">
+													<button type="submit" id="btn_modal_input_hybrid_local_add_new" data-dismiss="modal" style="margin-right: 15px;" class="btn btn-outline-danger">
 														<span class="glyphicon glyphicon-remove"></span> Create a new hybrid tracker
 													
 													</button>
@@ -253,13 +292,102 @@
 							</div>
 							<div class="modal-footer">
 								<button type="submit" class="btn btn-outline-secondary pull-left" data-dismiss="modal">
-									<span class="glyphicon glyphicon-remove"></span> Cancel								
-								
+									<span class="glyphicon glyphicon-remove"></span> Cancel
+								</button>
+								<button type="submit" id="btn_modal_hybrid_local_tracker_add_new_back" class="btn btn-outline-secondary pull-right" data-dismiss="modal">
+									<span class="glyphicon glyphicon-remove"></span> Back								
 								</button>
 							</div>
 						</div>
 					</div>
 				</div>
+
+				<div class="modal fade custom-modal-80" id="add_hybrid_remote_tracker" role="dialog">
+					<div class="modal-dialog">
+						<!-- Modal content-->
+						<div class="modal-content">
+							<div class="modal-header modal-header-info">
+								<button type="button" class="close" data-dismiss="modal"></button>
+								<h1>
+									<span class="glyphicon glyphicon-lock"></span> TrackMe Hybrid trackers - create a new remote tracker
+								</h1>
+							</div>
+							<div class="modal-body">
+								<div>
+									<div>
+										<div>
+											<div>
+												<div style="display: inline-flex; margin-left: 12px;">
+													<div class="input input-text" id="modal_input_hybrid_remote_tracker_name" style="margin-bottom: 10px; min-width: 500px; max-width: 500px; margin-right: 150px;">
+														<label class="splunk-input-label">Enter the unique identifier for the new hybrid tracker:</label>
+													</div>
+													<div class="input input-dropdown" id="modal_input_hybrid_remote_search_mode" style="margin-bottom: 10px;">
+														<label class="splunk-input-label">Choose the search mode:</label>
+													</div>
+												</div>
+												<div style="margin-left: 22px;">
+													<a target="_blank" href="configuration">Open the configuration interface to add or manage accounts</a>
+												</div>
+												<div class="fieldset">
+													<div class="input input-dropdown" id="modal_input_hybrid_remote_account" style="margin-bottom: 10px; min-width: 300px; max-width: 300px;">
+														<label class="splunk-input-label">Choose a Splunk deployment remote account:</label>
+													</div>
+												</div>
+												<div class="custom-textarea" style="margin-left: 22px;">
+													<legend style="color: white;">Fill the root search constraint, you can add any search filers as needed:</legend>
+													<p>
+														<label>Enter the constraint for the search: the search is automatically prefixed with index=* sourcetype=* and you can add any additional search filters</label>
+														<textarea
+                                                                id = "modal_input_hybrid_remote_root_constraint"
+                                                                rows = "2"
+                                                                cols = "80" style="width: 1100px;"
+                                                                onfocus="if(this.value==this.defaultValue)this.value='';" onblur="if(this.value=='')this.value=this.defaultValue;">Enter the Splunk root search constraint</textarea>
+													</p>
+												</div>
+												<div class="fieldset">
+													<div class="input input-text" id="modal_input_hybrid_remote_break_by_field" style="margin-bottom: 10px; min-width: 500px; max-width: 500px;">
+														<label class="splunk-input-label">Optional, Enter an additional break by field, if differs from none, will be used when discovering and maintaining entities (defaults to index+sourcetype)</label>
+													</div>
+													<div class="input input-text" id="modal_input_hybrid_remote_earliest" style="margin-bottom: 10px; min-width: 300px; max-width: 300px;">
+														<label class="splunk-input-label">Earliest time for the tracker, this is also applied to the remote API search</label>
+													</div>
+													<div class="input input-text" id="modal_input_hybrid_remote_latest" style="margin-bottom: 10px; min-width: 300px; max-width: 300px;">
+														<label class="splunk-input-label">Latest time for the tracker, this is also applied to the remote API search</label>
+													</div>
+												</div>
+												<div>
+													<button type="submit" id="btn_modal_input_hybrid_remote_add_simulate" style="margin-right: 15px;" class="btn btn-outline-primary">
+														<span class="glyphicon glyphicon-remove"></span> Simulate the search													
+													
+													</button>
+													<button type="submit" id="btn_modal_input_hybrid_remote_add_new" data-dismiss="modal" style="margin-right: 15px;" class="btn btn-outline-danger">
+														<span class="glyphicon glyphicon-remove"></span> Create a new hybrid tracker
+													
+													</button>
+												</div>
+											</div>
+											<br />
+										</div>
+									</div>
+								</div>
+								<div id="divHybridRemoteTrackerTest" style="display: none; min-height: 140px;">
+									<div id="tableHybridRemoteTrackerTest" class="view-elements"></div>
+									<div id="resultsLinktableHybridRemoteTrackerTest" class="search-elements"></div>
+									<br />
+								</div>
+							</div>
+							<div class="modal-footer">
+								<button type="submit" class="btn btn-outline-secondary pull-left" data-dismiss="modal">
+									<span class="glyphicon glyphicon-remove"></span> Cancel
+								</button>
+								<button type="submit" id="btn_modal_hybrid_remote_tracker_add_new_back" class="btn btn-outline-secondary pull-right" data-dismiss="modal">
+									<span class="glyphicon glyphicon-remove"></span> Back								
+								</button>
+							</div>
+						</div>
+					</div>
+				</div>
+
 				<!-- shared elastic sources deletion -->
 				<div id="delete_elastic_source">
 					<div>
@@ -293,14 +421,16 @@
 										</div>
 									</div>
 									<div class="modal-footer">
-										<button type="submit" role="button" class="btn btn-outline-secondary" data-dismiss="modal">
-											<span class="glyphicon glyphicon-remove"></span>Cancel									
-										
-										</button>
-										<button type="submit" id="btn_modal_input_hybrid_add_new_confirm" role="button" class="btn btn-outline-danger" data-dismiss="modal">
-											<span class="glyphicon glyphicon-remove"></span>Confirm										
-										
-										</button>
+										<div id="div_btn_modal_input_hybrid_add_new_confirm" style="display: none">
+											<button type="submit" id="btn_modal_input_hybrid_add_new_confirm" role="button" class="btn btn-outline-danger" data-dismiss="modal">
+												<span class="glyphicon glyphicon-remove"></span>Confirm
+											</button>
+										</div>
+										<div id="div_btn_modal_input_hybrid_remote_add_new_confirm" style="display: none">										
+											<button type="submit" id="btn_modal_input_hybrid_remote_add_new_confirm" role="button" class="btn btn-outline-danger" data-dismiss="modal">
+												<span class="glyphicon glyphicon-remove"></span>Confirm
+											</button>
+										</div>
 									</div>
 								</div>
 							</div>

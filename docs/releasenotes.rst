@@ -1,8 +1,8 @@
 Release notes
 #############
 
-Version 1.3.0
-==============
+Version 2.0.0
+=============
 
 .. warning:: **Splunk 8.x and Python3 support only**
 

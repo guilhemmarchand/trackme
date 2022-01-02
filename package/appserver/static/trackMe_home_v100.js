@@ -1154,6 +1154,27 @@ require([
         tokenNamespace: "submitted",
     });
 
+    // populate accounts
+    var searchPopulateConfigurationAccount = new SearchManager({
+        id: "searchPopulateConfigurationAccount",
+        earliest_time: "-5m",
+        cancelOnUnload: true,
+        sample_ratio: null,
+        latest_time: "+5m",
+        search: '| rest splunk_server=local "/servicesNS/nobody/trackme/trackme_account" | table title',
+        status_buckets: 0,
+        app: utils.getCurrentApp(),
+        auto_cancel: 90,
+        preview: true,
+        tokenDependencies: {
+            depends: "$show_configuration_account$",
+        },
+        runWhenTimeIsUndefined: false,
+    }, {
+        tokens: true,
+        tokenNamespace: "submitted",
+    });    
+
     // data sources monitoring
 
     var searchDataSourcesMain = new SearchManager({
@@ -3828,6 +3849,26 @@ require([
         tokens: true
     });
 
+    var searchHybridRemoteTrackerTest = new SearchManager({
+        id: "searchHybridRemoteTrackerTest",
+        autostart: false,
+        earliest_time: "$tk_input_hybrid_remote_tracker_earliest$",
+        cancelOnUnload: true,
+        sample_ratio: null,
+        latest_time: "$tk_input_hybrid_remote_tracker_latest$",
+        search: '$tk_hybrid_remote_tracker_simulation_search$',
+        status_buckets: 0,
+        app: utils.getCurrentApp(),
+        auto_cancel: 90,
+        preview: true,
+        tokenDependencies: {
+            depends: "$start_simulation_hybrid_remote_tracker$",
+        },
+        runWhenTimeIsUndefined: false,
+    }, {
+        tokens: true
+    });
+
     // whitelist
 
     // whitelist data_source
@@ -5842,7 +5883,7 @@ require([
                         "search " +
                         'index=\\"' + tk_data_index + '\\" sourcetype=\\"' + tk_data_sourcetype + '\\" ' + keyName + '=\\"' + keyValue + '\\" ' +
                         ' | eval delta=(_indextime-_time), event_lag=(now() - _time) | bucket _time span=1s | stats count, avg(delta) as delta, latest(event_lag) as event_lag, dc(host) as dcount_host by _time"' +
-                        '" earliest="' +
+                        ' earliest="' +
                         tk_earliest +
                         '"' +
                         ' latest="' +
@@ -5937,7 +5978,7 @@ require([
                         '\\" sourcetype=\\"' +
                         tk_data_sourcetype +
                         '\\" by _time, index, sourcetype span=1s | eval delta=(indextime-_time), event_lag=(now() - maxtime) | fields _time count delta event_lag dcount_host"' +
-                        '" earliest="' +
+                        ' earliest="' +
                         tk_earliest +
                         '"' +
                         ' latest="' +
@@ -6588,6 +6629,8 @@ require([
 
             // Define the URL target
             document.getElementById("btn_search_data_source").href = search_data_source;
+            // token is required for dynamic override
+            setToken("tk_data_source_raw_search", search_data_source);
 
             // Enable modal context
             $("#modal_manage_data_source").modal();
@@ -8742,7 +8785,7 @@ require([
         .render()
         .$el.appendTo($("resultsLinktableElasticSourcesTest"));
 
-    // hybrid tracker simulation
+    // hybrid local tracker simulation
     var tableHybridTrackerTest = new TableView({
         "id": "tableHybridTrackerTest",
         "tokenDependencies": {
@@ -8772,6 +8815,37 @@ require([
     resultsLinktableHybridTrackerTest
         .render()
         .$el.appendTo($("resultsLinktableHybridTrackerTest"));
+
+    // hybrid remote tracker simulation
+    var tableHybridRemoteTrackerTest = new TableView({
+        "id": "tableHybridRemoteTrackerTest",
+        "tokenDependencies": {
+            "depends": "$start_simulation_hybrid_remote_tracker$"
+        },
+        "count": 1,
+        "drilldown": "row",
+        "refresh.display": "none",
+        "wrap": "false",
+        "managerid": "searchHybridRemoteTrackerTest",
+        "el": $('#tableHybridRemoteTrackerTest')
+    }, {
+        tokens: true,
+        tokenNamespace: "submitted"
+    }).render();
+
+    // render icons
+    renderTableIcon(tableHybridRemoteTrackerTest);
+
+    var resultsLinktableHybridRemoteTrackerTest = new ResultsLinkView({
+        id: "resultsLinktableHybridRemoteTrackerTest",
+        managerid: "searchHybridRemoteTrackerTest",
+        "link.exportResults.visible": false,
+        el: $("#resultsLinktableHybridRemoteTrackerTest"),
+    });
+
+    resultsLinktableHybridRemoteTrackerTest
+        .render()
+        .$el.appendTo($("resultsLinktableHybridRemoteTrackerTest"));
 
     // elastic sources
 
@@ -11873,6 +11947,13 @@ require([
                 tk_data_source_overview_root_search = tk_data_source_overview_root_search.replace(re, 'earliest="-30m"');
                 setToken("tk_data_source_overview_root_search", tk_data_source_overview_root_search);
             }
+            var tk_data_source_raw_search = getToken("tk_data_source_raw_search");
+            if (tk_data_source_raw_search != null) {
+                var re = /(earliest=\%22\-\d*\w\%)/;
+                tk_data_source_raw_search = tk_data_source_raw_search.replace(re, 'earliest=%22-30m%');
+                setToken("tk_data_source_raw_search", tk_data_source_raw_search);
+                document.getElementById("btn_search_data_source").href = tk_data_source_raw_search;
+            }
 
         } else if (e.value === "60m") {
             EventHandler.setToken("modalTime.earliest", "-60m", {}, e.data);
@@ -11885,6 +11966,13 @@ require([
                 var re = /(earliest=\"\-\d*\w\")/;
                 tk_data_source_overview_root_search = tk_data_source_overview_root_search.replace(re, 'earliest="-60m"');
                 setToken("tk_data_source_overview_root_search", tk_data_source_overview_root_search);
+            }
+            var tk_data_source_raw_search = getToken("tk_data_source_raw_search");
+            if (tk_data_source_raw_search != null) {
+                var re = /(earliest=\%22\-\d*\w\%)/;
+                tk_data_source_raw_search = tk_data_source_raw_search.replace(re, 'earliest=%22-60m%');
+                setToken("tk_data_source_raw_search", tk_data_source_raw_search);
+                document.getElementById("btn_search_data_source").href = tk_data_source_raw_search;
             }
 
         } else if (e.value === "2h") {
@@ -11899,6 +11987,13 @@ require([
                 tk_data_source_overview_root_search = tk_data_source_overview_root_search.replace(re, 'earliest="-2h"');
                 setToken("tk_data_source_overview_root_search", tk_data_source_overview_root_search);
             }
+            var tk_data_source_raw_search = getToken("tk_data_source_raw_search");
+            if (tk_data_source_raw_search != null) {
+                var re = /(earliest=\%22\-\d*\w\%)/;
+                tk_data_source_raw_search = tk_data_source_raw_search.replace(re, 'earliest=%22-2h%');
+                setToken("tk_data_source_raw_search", tk_data_source_raw_search);
+                document.getElementById("btn_search_data_source").href = tk_data_source_raw_search;
+            }
 
         } else if (e.value === "4h") {
             EventHandler.setToken("modalTime.earliest", "-4h", {}, e.data);
@@ -11911,6 +12006,13 @@ require([
                 var re = /(earliest=\"\-\d*\w\")/;
                 tk_data_source_overview_root_search = tk_data_source_overview_root_search.replace(re, 'earliest="-4h"');
                 setToken("tk_data_source_overview_root_search", tk_data_source_overview_root_search);
+            }
+            var tk_data_source_raw_search = getToken("tk_data_source_raw_search");
+            if (tk_data_source_raw_search != null) {
+                var re = /(earliest=\%22\-\d*\w\%)/;
+                tk_data_source_raw_search = tk_data_source_raw_search.replace(re, 'earliest=%22-4h%');
+                setToken("tk_data_source_raw_search", tk_data_source_raw_search);
+                document.getElementById("btn_search_data_source").href = tk_data_source_raw_search;
             }
 
         } else if (e.value === "8h") {
@@ -11925,6 +12027,13 @@ require([
                 tk_data_source_overview_root_search = tk_data_source_overview_root_search.replace(re, 'earliest="-8h"');
                 setToken("tk_data_source_overview_root_search", tk_data_source_overview_root_search);
             }
+            var tk_data_source_raw_search = getToken("tk_data_source_raw_search");
+            if (tk_data_source_raw_search != null) {
+                var re = /(earliest=\%22\-\d*\w\%)/;
+                tk_data_source_raw_search = tk_data_source_raw_search.replace(re, 'earliest=%22-8h%');
+                setToken("tk_data_source_raw_search", tk_data_source_raw_search);
+                document.getElementById("btn_search_data_source").href = tk_data_source_raw_search;
+            }
 
         } else if (e.value === "12h") {
             EventHandler.setToken("modalTime.earliest", "-12h", {}, e.data);
@@ -11937,6 +12046,13 @@ require([
                 var re = /(earliest=\"\-\d*\w\")/;
                 tk_data_source_overview_root_search = tk_data_source_overview_root_search.replace(re, 'earliest="-12h"');
                 setToken("tk_data_source_overview_root_search", tk_data_source_overview_root_search);
+            }
+            var tk_data_source_raw_search = getToken("tk_data_source_raw_search");
+            if (tk_data_source_raw_search != null) {
+                var re = /(earliest=\%22\-\d*\w\%)/;
+                tk_data_source_raw_search = tk_data_source_raw_search.replace(re, 'earliest=%22-12h%');
+                setToken("tk_data_source_raw_search", tk_data_source_raw_search);
+                document.getElementById("btn_search_data_source").href = tk_data_source_raw_search;
             }
 
         } else if (e.value === "24h") {
@@ -11951,6 +12067,13 @@ require([
                 tk_data_source_overview_root_search = tk_data_source_overview_root_search.replace(re, 'earliest="-24h"');
                 setToken("tk_data_source_overview_root_search", tk_data_source_overview_root_search);
             }
+            var tk_data_source_raw_search = getToken("tk_data_source_raw_search");
+            if (tk_data_source_raw_search != null) {
+                var re = /(earliest=\%22\-\d*\w\%)/;
+                tk_data_source_raw_search = tk_data_source_raw_search.replace(re, 'earliest=%22-24h%');
+                setToken("tk_data_source_raw_search", tk_data_source_raw_search);
+                document.getElementById("btn_search_data_source").href = tk_data_source_raw_search;
+            }
 
         } else if (e.value === "48h") {
             EventHandler.setToken("modalTime.earliest", "-48h", {}, e.data);
@@ -11963,6 +12086,13 @@ require([
                 var re = /(earliest=\"\-\d*\w\")/;
                 tk_data_source_overview_root_search = tk_data_source_overview_root_search.replace(re, 'earliest="-48h"');
                 setToken("tk_data_source_overview_root_search", tk_data_source_overview_root_search);
+            }
+            var tk_data_source_raw_search = getToken("tk_data_source_raw_search");
+            if (tk_data_source_raw_search != null) {
+                var re = /(earliest=\%22\-\d*\w\%)/;
+                tk_data_source_raw_search = tk_data_source_raw_search.replace(re, 'earliest=%22-48h%');
+                setToken("tk_data_source_raw_search", tk_data_source_raw_search);
+                document.getElementById("btn_search_data_source").href = tk_data_source_raw_search;
             }
 
         } else if (e.value === "7d") {
@@ -11977,6 +12107,13 @@ require([
                 tk_data_source_overview_root_search = tk_data_source_overview_root_search.replace(re, 'earliest="-7d"');
                 setToken("tk_data_source_overview_root_search", tk_data_source_overview_root_search);
             }
+            var tk_data_source_raw_search = getToken("tk_data_source_raw_search");
+            if (tk_data_source_raw_search != null) {
+                var re = /(earliest=\%22\-\d*\w\%)/;
+                tk_data_source_raw_search = tk_data_source_raw_search.replace(re, 'earliest=%22-7d%');
+                setToken("tk_data_source_raw_search", tk_data_source_raw_search);
+                document.getElementById("btn_search_data_source").href = tk_data_source_raw_search;
+            }
 
         } else if (e.value === "15d") {
             EventHandler.setToken("modalTime.earliest", "-15d", {}, e.data);
@@ -11989,6 +12126,13 @@ require([
                 var re = /(earliest=\"\-\d*\w\")/;
                 tk_data_source_overview_root_search = tk_data_source_overview_root_search.replace(re, 'earliest="-15d"');
                 setToken("tk_data_source_overview_root_search", tk_data_source_overview_root_search);
+            }
+            var tk_data_source_raw_search = getToken("tk_data_source_raw_search");
+            if (tk_data_source_raw_search != null) {
+                var re = /(earliest=\%22\-\d*\w\%)/;
+                tk_data_source_raw_search = tk_data_source_raw_search.replace(re, 'earliest=%22-15d%');
+                setToken("tk_data_source_raw_search", tk_data_source_raw_search);
+                document.getElementById("btn_search_data_source").href = tk_data_source_raw_search;
             }
 
         } else if (e.value === "30d") {
@@ -12003,6 +12147,13 @@ require([
                 tk_data_source_overview_root_search = tk_data_source_overview_root_search.replace(re, 'earliest="-30d"');
                 setToken("tk_data_source_overview_root_search", tk_data_source_overview_root_search);
             }
+            var tk_data_source_raw_search = getToken("tk_data_source_raw_search");
+            if (tk_data_source_raw_search != null) {
+                var re = /(earliest=\%22\-\d*\w\%)/;
+                tk_data_source_raw_search = tk_data_source_raw_search.replace(re, 'earliest=%22-30d%');
+                setToken("tk_data_source_raw_search", tk_data_source_raw_search);
+                document.getElementById("btn_search_data_source").href = tk_data_source_raw_search;
+            }
 
         } else if (e.value === "60d") {
             EventHandler.setToken("modalTime.earliest", "-60d", {}, e.data);
@@ -12016,6 +12167,13 @@ require([
                 tk_data_source_overview_root_search = tk_data_source_overview_root_search.replace(re, 'earliest="-60d"');
                 setToken("tk_data_source_overview_root_search", tk_data_source_overview_root_search);
             }
+            var tk_data_source_raw_search = getToken("tk_data_source_raw_search");
+            if (tk_data_source_raw_search != null) {
+                var re = /(earliest=\%22\-\d*\w\%)/;
+                tk_data_source_raw_search = tk_data_source_raw_search.replace(re, 'earliest=%22-60d%');
+                setToken("tk_data_source_raw_search", tk_data_source_raw_search);
+                document.getElementById("btn_search_data_source").href = tk_data_source_raw_search;
+            }
 
         } else if (e.value === "90d") {
             EventHandler.setToken("modalTime.earliest", "-90d", {}, e.data);
@@ -12028,6 +12186,13 @@ require([
                 var re = /(earliest=\"\-\d*\w\")/;
                 tk_data_source_overview_root_search = tk_data_source_overview_root_search.replace(re, 'earliest="-90d"');
                 setToken("tk_data_source_overview_root_search", tk_data_source_overview_root_search);
+            }
+            var tk_data_source_raw_search = getToken("tk_data_source_raw_search");
+            if (tk_data_source_raw_search != null) {
+                var re = /(earliest=\%22\-\d*\w\%)/;
+                tk_data_source_raw_search = tk_data_source_raw_search.replace(re, 'earliest=%22-90d%');
+                setToken("tk_data_source_raw_search", tk_data_source_raw_search);
+                document.getElementById("btn_search_data_source").href = tk_data_source_raw_search;
             }
 
         }
@@ -16997,6 +17162,21 @@ require([
         FormUtils.handleValueChange(modal_input_hybrid_earliest);
     });
 
+    var modal_input_hybrid_remote_earliest = new TextInput({
+        "id": "modal_input_hybrid_remote_earliest",
+        "searchWhenChanged": false,
+        "default": "-4h",
+        "initialValue": "-4h",
+        "value": "$form.tk_input_hybrid_remote_tracker_earliest$",
+        "el": $('#modal_input_hybrid_remote_earliest')
+    }, {
+        tokens: true
+    }).render();
+
+    modal_input_hybrid_remote_earliest.on("change", function(newValue) {
+        FormUtils.handleValueChange(modal_input_hybrid_remote_earliest);
+    });
+
     var modal_input_hybrid_latest = new TextInput({
         "id": "modal_input_hybrid_latest",
         "searchWhenChanged": false,
@@ -17010,6 +17190,21 @@ require([
 
     modal_input_hybrid_latest.on("change", function(newValue) {
         FormUtils.handleValueChange(modal_input_hybrid_latest);
+    });
+
+    var modal_input_hybrid_remote_latest = new TextInput({
+        "id": "modal_input_hybrid_remote_latest",
+        "searchWhenChanged": false,
+        "default": "+4h",
+        "initialValue": "+4h",
+        "value": "$form.tk_input_hybrid_remote_tracker_latest$",
+        "el": $('#modal_input_hybrid_remote_latest')
+    }, {
+        tokens: true
+    }).render();
+
+    modal_input_hybrid_remote_latest.on("change", function(newValue) {
+        FormUtils.handleValueChange(modal_input_hybrid_remote_latest);
     });
 
     var modal_input_hybrid_search_mode = new DropdownInput({
@@ -17038,6 +17233,50 @@ require([
         FormUtils.handleValueChange(modal_input_hybrid_search_mode);
     });
 
+    var modal_input_hybrid_remote_search_mode = new DropdownInput({
+        "id": "modal_input_hybrid_remote_search_mode",
+        "choices": [{
+                "label": "tstats",
+                "value": "tstats"
+            },
+            {
+                "label": "raw",
+                "value": "raw"
+            },
+        ],
+        "searchWhenChanged": false,
+        "default": "tstats",
+        "showClearButton": true,
+        "initialValue": "tstats",
+        "selectFirstChoice": false,
+        "value": "$form.tk_input_hybrid_remote_search_mode$",
+        "el": $('#modal_input_hybrid_remote_search_mode')
+    }, {
+        tokens: true
+    }).render();
+
+    modal_input_hybrid_remote_search_mode.on("change", function(newValue) {
+        FormUtils.handleValueChange(modal_input_hybrid_remote_search_mode);
+    });
+
+    var modal_input_hybrid_remote_account = new DropdownInput({
+        "id": "modal_input_hybrid_remote_account",
+        "searchWhenChanged": false,
+        "showClearButton": true,
+        "selectFirstChoice": true,
+        "labelField": "title",
+        "valueField": "title",
+        "managerid": "searchPopulateConfigurationAccount",
+        "value": "$form.tk_input_hybrid_remote_account$",
+        "el": $('#modal_input_hybrid_remote_account')
+    }, {
+        tokens: true
+    }).render();
+
+    modal_input_hybrid_remote_account.on("change", function(newValue) {
+        FormUtils.handleValueChange(modal_input_hybrid_remote_account);
+    });
+
     var modal_input_hybrid_tracker_name = new TextInput({
         "id": "modal_input_hybrid_tracker_name",
         "searchWhenChanged": false,
@@ -17051,6 +17290,19 @@ require([
         FormUtils.handleValueChange(modal_input_hybrid_tracker_name);
     });
 
+    var modal_input_hybrid_remote_tracker_name = new TextInput({
+        "id": "modal_input_hybrid_remote_tracker_name",
+        "searchWhenChanged": false,
+        "value": "$form.tk_input_hybrid_remote_tracker_name$",
+        "el": $('#modal_input_hybrid_remote_tracker_name')
+    }, {
+        tokens: true
+    }).render();
+
+    modal_input_hybrid_remote_tracker_name.on("change", function(newValue) {
+        FormUtils.handleValueChange(modal_input_hybrid_remote_tracker_name);
+    });
+
     var modal_input_hybrid_break_by_field = new TextInput({
         "id": "modal_input_hybrid_break_by_field",
         "searchWhenChanged": false,
@@ -17062,6 +17314,21 @@ require([
 
     modal_input_hybrid_break_by_field.on("change", function(newValue) {
         FormUtils.handleValueChange(modal_input_hybrid_break_by_field);
+    });
+
+    var modal_input_hybrid_remote_break_by_field = new TextInput({
+        "id": "modal_input_hybrid_remote_break_by_field",
+        "searchWhenChanged": false,
+        "default": "none",
+        "initialValue": "none",
+        "value": "$form.tk_input_hybrid_remote_break_by_field$",
+        "el": $('#modal_input_hybrid_remote_break_by_field')
+    }, {
+        tokens: true
+    }).render();
+
+    modal_input_hybrid_remote_break_by_field.on("change", function(newValue) {
+        FormUtils.handleValueChange(modal_input_hybrid_remote_break_by_field);
     });
 
     //
@@ -25049,6 +25316,7 @@ require([
     // Hyrbid trackers
     //
 
+    // show main modal
     $(".btn_modify_hybrid_trackers_main").each(function() {
         var $btn_group = $(this);
         $btn_group.find("button").on("click", function() {
@@ -25062,12 +25330,36 @@ require([
         });
     });
 
-    $("#btn_modal_hybrid_tracker_add").click(function() {
+    // show add new local tracker modal
+    $("#btn_modal_hybrid_local_tracker_add").click(function() {
         // Show input modal
-        $("#add_hybrid_tracker").modal();
+        $("#add_hybrid_local_tracker").modal();
     });
 
-    $("#btn_modal_input_hybrid_add_simulate").click(function() {
+    // show add new remote tracker modal
+    $("#btn_modal_hybrid_remote_tracker_add").click(function() {
+        // Allow populating search
+        setToken("show_configuration_account", "true");
+        // force refresh search
+        searchPopulateConfigurationAccount.startSearch();
+        // Show input modal
+        $("#add_hybrid_remote_tracker").modal();
+    });
+
+    // go back to main from hybrid local new tracker
+    $("#btn_modal_hybrid_local_tracker_add_new_back").click(function() {
+        // Show input modal
+        $("#modify_hybrid_trackers_main").modal();
+    });
+
+    // go back to main from hybrid remote new tracker
+    $("#btn_modal_hybrid_remote_tracker_add_new_back").click(function() {
+        // Show input modal
+        $("#modify_hybrid_trackers_main").modal();
+    });
+
+    // simulate local tracker
+    $("#btn_modal_input_hybrid_local_add_simulate").click(function() {
 
         var tk_hybrid_tracker_name = getToken("tk_input_hybrid_tracker_name");
         var tk_hybrid_search_mode = getToken("tk_input_hybrid_search_mode");
@@ -25076,6 +25368,11 @@ require([
         var tk_hybrid_root_constraint = document.getElementById(
             "modal_input_hybrid_root_constraint"
         ).value;
+        // if unset, but users continues
+        if (tk_hybrid_root_constraint === 'Enter the Splunk root search constraint') {
+            tk_hybrid_root_constraint = "index=*"
+        }
+
         var tk_hybrid_break_by_field = getToken("tk_input_hybrid_break_by_field");
 
         var tk_hybrid_earliest = getToken("tk_input_hybrid_tracker_earliest");
@@ -25137,13 +25434,154 @@ require([
 
     });
 
+    // simulate remote tracker
+    $("#btn_modal_input_hybrid_remote_add_simulate").click(function() {
+
+        var tk_hybrid_tracker_name = getToken("tk_input_hybrid_remote_tracker_name");
+        var tk_hybrid_search_mode = getToken("tk_input_hybrid_remote_search_mode");
+
+        // This is not a Splunk form
+        var tk_hybrid_root_constraint = document.getElementById(
+            "modal_input_hybrid_remote_root_constraint"
+        ).value;
+
+        // if unset, but users continues
+        if (tk_hybrid_root_constraint === 'Enter the Splunk root search constraint') {
+            tk_hybrid_root_constraint = "index=*"
+        }
+
+        var tk_hybrid_break_by_field = getToken("tk_input_hybrid_remote_break_by_field");
+
+        var tk_hybrid_earliest = getToken("tk_input_hybrid_remote_tracker_earliest");
+        var tk_hybrid_latest = getToken("tk_input_hybrid_remote_tracker_latest");
+
+        // get the account
+        var tk_hybrid_account = getToken("tk_input_hybrid_remote_account");
+
+        // set the simulation search
+        var tk_hybrid_tracker_simulation_search;
+
+        if (tk_hybrid_search_mode === 'tstats') {
+
+            if (tk_hybrid_break_by_field != 'none') {
+                tk_hybrid_tracker_simulation_search = "| splunkremotesearch account=\"" + tk_hybrid_account + "\" search=\"| tstats max(_indextime) as data_last_ingest, min(_time) as data_first_time_seen, max(_time) as data_last_time_seen, " +
+                    "count as data_eventcount, dc(host) as dcount_host where index=* sourcetype=* " + tk_hybrid_root_constraint + " by index,sourcetype," + tk_hybrid_break_by_field + "\"" +
+                    " earliest=\"" + tk_hybrid_earliest + "\" latest=\"" + tk_hybrid_latest + "\" | spath\n" +
+                    "`comment(\"#### tstats result table is loaded ####\")`\n" +
+                    "| eval data_last_ingestion_lag_seen=data_last_ingest-data_last_time_seen\n" +
+                    "`comment(\"#### intermediate calculation ####\")`\n" +
+                    "| " + "stats max(data_last_ingest) as data_last_ingest, min(data_first_time_seen) as data_first_time_seen, " +
+                    "max(data_last_time_seen) as data_last_time_seen, avg(data_last_ingestion_lag_seen) as data_last_ingestion_lag_seen, " +
+                    "sum(data_eventcount) as data_eventcount, dc(host) as dcount_host by index,sourcetype," + tk_hybrid_break_by_field + "\n" +
+                    "| eval data_last_ingestion_lag_seen=round(data_last_ingestion_lag_seen, 0)\n" +
+                    "`comment(\"#### rename index and sourcetype ####\")`\n" +
+                    "| rename index as data_index, sourcetype as data_sourcetype\n" +
+                    "`comment(\"#### create the data_name value ####\")`\n" +
+                    "| eval data_name=\"remote:|account=" + tk_hybrid_account + "\" . \"|\" . data_index . \":\" . data_sourcetype . \":\" . \"|key:\" . \"" + tk_hybrid_break_by_field + "\" . \"|\" . " + tk_hybrid_break_by_field +
+                    "| stats dc(data_name) as dcount_entities, values(data_name) as entities\n" +
+                    "| mvexpand entities | head 10 | stats first(dcount_entities) as dcount_entities, values(entities) as entities_sample\n" +
+                    "| `trackme_hybrid_tracker_simulation`";
+
+            } else {
+                tk_hybrid_tracker_simulation_search = "| splunkremotesearch account=\"" + tk_hybrid_account + "\" search=\"| tstats max(_indextime) as data_last_ingest, min(_time) as data_first_time_seen, max(_time) as data_last_time_seen, " +
+                    "count as data_eventcount, dc(host) as dcount_host where index=* sourcetype=* " + tk_hybrid_root_constraint + " by index,sourcetype" + "\"" +
+                    " earliest=\"" + tk_hybrid_earliest + "\" latest=\"" + tk_hybrid_latest + "\" | spath\n" +
+                    "`comment(\"#### tstats result table is loaded ####\")`\n" +
+                    "| eval data_last_ingestion_lag_seen=data_last_ingest-data_last_time_seen\n" +
+                    "`comment(\"#### intermediate calculation ####\")`\n" +
+                    "| " + "stats max(data_last_ingest) as data_last_ingest, min(data_first_time_seen) as data_first_time_seen, " +
+                    "max(data_last_time_seen) as data_last_time_seen, avg(data_last_ingestion_lag_seen) as data_last_ingestion_lag_seen, " +
+                    "sum(data_eventcount) as data_eventcount, dc(host) as dcount_host by index,sourcetype" + "\n" +
+                    "| eval data_last_ingestion_lag_seen=round(data_last_ingestion_lag_seen, 0)\n" +
+                    "`comment(\"#### rename index and sourcetype ####\")`\n" +
+                    "| rename index as data_index, sourcetype as data_sourcetype\n" +
+                    "`comment(\"#### create the data_name value ####\")`\n" +
+                    "| eval data_name=\"remote:|account=" + tk_hybrid_account + "\" . \"|\" . data_index . \":\" . data_sourcetype" +
+                    "| stats dc(data_name) as dcount_entities, values(data_name) as entities\n" +
+                    "| mvexpand entities | head 10 | stats first(dcount_entities) as dcount_entities, values(entities) as entities_sample\n" +
+                    "| `trackme_hybrid_tracker_simulation`";
+            }
+
+        } else if (tk_hybrid_search_mode === 'raw') {
+
+            if (tk_hybrid_break_by_field != 'none') {
+
+                tk_hybrid_tracker_simulation_search = "| splunkremotesearch account=\"" + tk_hybrid_account + "\" search=\"search index=* sourcetype=* " + tk_hybrid_root_constraint +
+                    " | stats max(_indextime) as data_last_ingest, min(_time) as data_first_time_seen, max(_time) as data_last_time_seen, " +
+                    "count as data_eventcount, dc(host) as dcount_host" + " by _time,index,sourcetype," + tk_hybrid_break_by_field + "\"" +
+                    " earliest=\"" + tk_hybrid_earliest + "\" latest=\"" + tk_hybrid_latest + "\" | spath\n" +
+                    "`comment(\"#### tstats result table is loaded ####\")`\n" +
+                    "| eval data_last_ingestion_lag_seen=data_last_ingest-data_last_time_seen\n" +
+                    "`comment(\"#### intermediate calculation ####\")`\n" +
+                    "| " + "stats max(data_last_ingest) as data_last_ingest, min(data_first_time_seen) as data_first_time_seen, " +
+                    "max(data_last_time_seen) as data_last_time_seen, avg(data_last_ingestion_lag_seen) as data_last_ingestion_lag_seen, " +
+                    "sum(data_eventcount) as data_eventcount, dc(host) as dcount_host by index,sourcetype," + tk_hybrid_break_by_field + "\n" +
+                    "| eval data_last_ingestion_lag_seen=round(data_last_ingestion_lag_seen, 0)\n" +
+                    "`comment(\"#### rename index and sourcetype ####\")`\n" +
+                    "| rename index as data_index, sourcetype as data_sourcetype\n" +
+                    "`comment(\"#### create the data_name value ####\")`\n" +
+                    "| eval data_name=\"remote:|account=" + tk_hybrid_account + "\" . \"|\" . data_index . \":\" . data_sourcetype . \":\" . \"|key:\" . \"" + tk_hybrid_break_by_field + "\" . \"|\" . " + tk_hybrid_break_by_field +
+                    "| stats dc(data_name) as dcount_entities, values(data_name) as entities\n" +
+                    "| mvexpand entities | head 10 | stats first(dcount_entities) as dcount_entities, values(entities) as entities_sample\n" +
+                    "| `trackme_hybrid_tracker_simulation`";
+
+            } else {
+
+                tk_hybrid_tracker_simulation_search = "| splunkremotesearch account=\"" + tk_hybrid_account + "\" search=\"search index=* sourcetype=* " + tk_hybrid_root_constraint +
+                    " | stats max(_indextime) as data_last_ingest, min(_time) as data_first_time_seen, max(_time) as data_last_time_seen, " +
+                    "count as data_eventcount, dc(host) as dcount_host" + " by _time,index,sourcetype" + "\"" +
+                    " earliest=\"" + tk_hybrid_earliest + "\" latest=\"" + tk_hybrid_latest + "\" | spath\n" +
+                    "`comment(\"#### tstats result table is loaded ####\")`\n" +
+                    "| eval data_last_ingestion_lag_seen=data_last_ingest-data_last_time_seen\n" +
+                    "`comment(\"#### intermediate calculation ####\")`\n" +
+                    "| " + "stats max(data_last_ingest) as data_last_ingest, min(data_first_time_seen) as data_first_time_seen, " +
+                    "max(data_last_time_seen) as data_last_time_seen, avg(data_last_ingestion_lag_seen) as data_last_ingestion_lag_seen, " +
+                    "sum(data_eventcount) as data_eventcount, dc(host) as dcount_host by index,sourcetype" + "\n" +
+                    "| eval data_last_ingestion_lag_seen=round(data_last_ingestion_lag_seen, 0)\n" +
+                    "`comment(\"#### rename index and sourcetype ####\")`\n" +
+                    "| rename index as data_index, sourcetype as data_sourcetype\n" +
+                    "`comment(\"#### create the data_name value ####\")`\n" +
+                    "| eval data_name=\"remote:|account=" + tk_hybrid_account + "\" . \"|\" . data_index . \":\" . data_sourcetype" +
+                    "| stats dc(data_name) as dcount_entities, values(data_name) as entities\n" +
+                    "| mvexpand entities | head 10 | stats first(dcount_entities) as dcount_entities, values(entities) as entities_sample\n" +
+                    "| `trackme_hybrid_tracker_simulation`";
+
+            }
+
+        }
+
+        setToken("tk_hybrid_remote_tracker_simulation_search", tk_hybrid_tracker_simulation_search);
+
+        // free the search
+        setToken("start_simulation_hybrid_remote_tracker", "true");
+
+        // start the search explicitely
+        searchHybridRemoteTrackerTest.startSearch();
+
+        // show the view
+        $("#divHybridRemoteTrackerTest").css("display", "inherit");
+
+    });
+
     // Create the new hybrid tracker
-    $("#btn_modal_input_hybrid_add_new").click(function() {
+    $("#btn_modal_input_hybrid_local_add_new").click(function() {
+        // set buttons visibility
+        $("#div_btn_modal_input_hybrid_add_new_confirm").css("display", "inherit");
+        $("#div_btn_modal_input_hybrid_remote_add_new_confirm").css("display", "none");
         // show modal
         $("#modal_confirm_hybrid_tracker").modal();
     });
 
     // Create the new hybrid tracker
+    $("#btn_modal_input_hybrid_remote_add_new").click(function() {
+        // set buttons visibility
+        $("#div_btn_modal_input_hybrid_add_new_confirm").css("display", "none");
+        $("#div_btn_modal_input_hybrid_remote_add_new_confirm").css("display", "inherit");
+        // show modal
+        $("#modal_confirm_hybrid_tracker").modal();
+    });
+
+    // Create the new hybrid local tracker
     $("#btn_modal_input_hybrid_add_new_confirm").click(function() {
 
         var tk_hybrid_tracker_name = getToken("tk_input_hybrid_tracker_name");
@@ -25153,6 +25591,12 @@ require([
         var tk_hybrid_root_constraint = document.getElementById(
             "modal_input_hybrid_root_constraint"
         ).value;
+
+        // if unset
+        if (tk_hybrid_root_constraint === 'Enter the Splunk root search constraint') {
+            tk_hybrid_root_constraint = "index=*"
+        }
+
         var tk_hybrid_break_by_field = getToken("tk_input_hybrid_break_by_field");
 
         var tk_hybrid_earliest = getToken("tk_input_hybrid_tracker_earliest");
@@ -25174,8 +25618,185 @@ require([
         cssloader("Please wait while creating the hybrid tracker...");
 
         // set the query
-        var searchQuery = "| trackme url=\"/services/trackme/v1/hybrid_trackers/hybrid_tracker\" " +
+        var searchQuery = "| trackme url=\"/services/trackme/v1/hybrid_trackers/hybrid_local_tracker\" " +
             "mode=\"post\" body=\"{'tracker_name': '" + tk_hybrid_tracker_name +
+            "', 'search_mode': '" + tk_hybrid_search_mode + "', 'root_constraint': '" +
+            tk_hybrid_root_constraint + "', 'break_by_field': '" + tk_hybrid_break_by_field +
+            "', 'earliest': '" + tk_hybrid_earliest + "', 'latest': '" + tk_hybrid_latest +
+            "', 'update_comment': '" + tk_comment + "'}\" | spath";
+
+        // Set the search parameters--specify a time range
+        var searchParams = {
+            earliest_time: "-5m",
+            latest_time: "now",
+        };
+
+        // Run a blocking search and get back a job
+        service.search(searchQuery, searchParams, function(err, job) {
+
+            // Shall the search fail before we can get properties
+            if (job == null) {
+                let errorStr = "Unknown Error!";
+                if (
+                    err &&
+                    err.data &&
+                    err.data.messages &&
+                    err.data.messages[0]["text"]
+                ) {
+                    errorStr = err.data.messages[0]["text"];
+                } else if (err && err.data && err.data.messages) {
+                    errorStr = JSON.stringify(err.data.messages);
+                }
+                cssloaderremove();
+                $("#modal_update_collection_failure_return")
+                    .find(".modal-error-message p")
+                    .text(errorStr);
+                closeModals();
+                $("#modal_update_collection_failure_return").modal();
+            } else {
+                // Poll the status of the search job
+                job.track({
+                    period: 200,
+                }, {
+                    done: function(job) {
+
+                        // Get the results
+                        jobResults = "unknown";
+                        job.results({}, function(err, results, job) {
+                            var fields = results.fields;
+                            var rows = results.rows;
+                            var actionResult = "failure";
+                            var rawResult = "unknown";
+                            var trackerReportName = "unknown";
+                            for (var i = 0; i < rows.length; i++) {
+                                var values = rows[i];
+                                for (var j = 0; j < values.length; j++) {
+                                    var field = fields[j];
+                                    var value = values[j];
+                                    // get the action
+                                    if (field === "action") {
+                                        actionResult = value;
+                                    }
+                                    if (field === "_raw") {
+                                        rawResult = value;
+                                    }
+                                    if (field === "tracker_report") {
+                                        trackerReportName = value;
+                                    }
+                                }
+
+                                // Renove the spinner
+                                cssloaderremove();
+
+                                // Identify the operation result
+                                if (actionResult.includes("success")) {
+                                    // set the token
+                                    setToken("tk_hybrid_final_report", trackerReportName);
+                                    // set the message to be returned
+                                    $("#modal_hybrid_tracker_creation_success")
+                                        .find(".modal-error-message p")
+                                        .text(JSON.stringify(JSON.parse(rawResult), null, 2));
+                                    $("#modal_hybrid_tracker_creation_success").modal();
+                                } else {
+                                    // set the message to be returned
+                                    $("#modal_hybrid_tracker_creation_error")
+                                        .find(".modal-error-message p")
+                                        .text(rawResult);
+                                    closeModals();
+                                    $("#modal_hybrid_tracker_creation_error").modal();
+                                }
+                            }
+
+                            // unexpected failure
+                            if (actionResult === 'failure') {
+                                cssloaderremove();
+                                $("#modal_hybrid_tracker_creation_error")
+                                    .find(".modal-error-message p")
+                                    .text("Unknown failure, do you have the required permissions?");
+                                closeModals();
+                                $("#modal_hybrid_tracker_creation_error").modal();
+                            }
+
+                        });
+                    },
+                    failed: function(properties) {
+                        let errorStr = "Unknown Error!";
+                        if (
+                            properties &&
+                            properties._properties &&
+                            properties._properties.messages &&
+                            properties._properties.messages[0]["text"]
+                        ) {
+                            errorStr = properties._properties.messages[0]["text"];
+                        } else if (
+                            properties &&
+                            properties._properties &&
+                            properties._properties.messages
+                        ) {
+                            errorStr = JSON.stringify(properties._properties.messages);
+                        }
+                        cssloaderremove();
+                        $("#modal_update_collection_failure_return")
+                            .find(".modal-error-message p")
+                            .text(errorStr);
+                        closeModals();
+                        $("#modal_update_collection_failure_return").modal();
+                    },
+                    error: function(err) {
+                        done(err);
+                        cssloaderremove();
+                        closeModals();
+                        $("#modal_update_collection_failure_flush").modal();
+                    },
+                });
+            }
+        });
+    });
+
+    // Create the new hybrid remote tracker
+    $("#btn_modal_input_hybrid_remote_add_new_confirm").click(function() {
+
+        var tk_hybrid_tracker_name = getToken("tk_input_hybrid_remote_tracker_name");
+        var tk_hybrid_search_mode = getToken("tk_input_hybrid_remote_search_mode");
+
+        // This is not a Splunk form
+        var tk_hybrid_root_constraint = document.getElementById(
+            "modal_input_hybrid_remote_root_constraint"
+        ).value;
+
+        // if unset
+        if (tk_hybrid_root_constraint === 'Enter the Splunk root search constraint') {
+            tk_hybrid_root_constraint = "index=*"
+        }
+
+        var tk_hybrid_break_by_field = getToken("tk_input_hybrid_remote_break_by_field");
+
+        var tk_hybrid_earliest = getToken("tk_input_hybrid_remote_tracker_earliest");
+        var tk_hybrid_latest = getToken("tk_input_hybrid_remote_tracker_latest");
+
+        // get the account
+        var tk_hybrid_account = getToken("tk_input_hybrid_remote_account");
+
+        // Retrieve update comment if any
+        var tk_comment = document.getElementById(
+            "hybrid_tracker_creation_comment"
+        ).value;
+
+        // if is not defined, give it a value and override text box content
+        if (tk_comment == "null") {
+            setToken("tk_update_comment", "No comments for update.");
+        } else if (tk_comment == "update note") {
+            tk_comment = "No comment for update.";
+        }
+
+        // spinner
+        cssloader("Please wait while creating the hybrid tracker...");
+
+        // set the query
+        var searchQuery = "| trackme url=\"/services/trackme/v1/hybrid_trackers/hybrid_remote_tracker\" " +
+            "mode=\"post\" body=\"{" +
+            "'tracker_name': '" + tk_hybrid_tracker_name +
+            "', 'account': '" + tk_hybrid_account +
             "', 'search_mode': '" + tk_hybrid_search_mode + "', 'root_constraint': '" +
             tk_hybrid_root_constraint + "', 'break_by_field': '" + tk_hybrid_break_by_field +
             "', 'earliest': '" + tk_hybrid_earliest + "', 'latest': '" + tk_hybrid_latest +

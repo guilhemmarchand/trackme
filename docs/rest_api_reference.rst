@@ -5202,41 +5202,87 @@ Hybrid trackers endpoints
 +---------------------------------------------------------------------------------------------------+------------------------------------------------------------------------------+
 | Resource                                                                                          | API Path                                                                     | 
 +===================================================================================================+==============================================================================+
-| :ref:`hybrid_tracker / Create a new hybrid tracker`                                               | /services/trackme/v1/hybrid_trackers/hybrid_tracker                          |
+| :ref:`hybrid_local_tracker / Create a new hybrid local tracker`                                   | /services/trackme/v1/hybrid_trackers/hybrid_local_tracker                    |
++---------------------------------------------------------------------------------------------------+------------------------------------------------------------------------------+
+| :ref:`hybrid_remote_tracker / Create a new hybrid remote tracker`                                 | /services/trackme/v1/hybrid_trackers/hybrid_remote_tracker                   |
 +---------------------------------------------------------------------------------------------------+------------------------------------------------------------------------------+
 
-hybrid_tracker / Create a new hybrid tracker
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+hybrid_local_tracker / Create a new hybrid local tracker
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-**This endpoint will create a new hybrid tracker report, allowing to discover and maintain entities using custom search filters, and a custom search times or indexed time extracted key:**
+**This endpoint will create a new hybrid tracker report, allowing to discover and maintain entities using custom search filters, and a custom (search time or indexed time extracted) key:**
 
-- ``"tracker_name": name of the hybrid tracker report``
-- ``"search_mode": the search mode for the tracker, can be tstats or raw``
-- ``"root_constraint": the tracker report root search constraint, to define search filters scoping the data set``
-- ``"break_by_field": the break by key field, used to discover and maintain the entities via this tracker``
-- ``"owner": Optional, the Splunk user owning the objects to be created, defaults to admin``
-- ``"earliest": Optional, the earliest time value for the tracker, defaults to -4h``
-- ``"latest": Optional, the latest time value for the tracker, defaults to +4h``
-- ``"update_comment": Optional: a comment for the update, comments are added to the audit record, if unset will be defined to: API update``
+- ``"tracker_name"``: name of the hybrid tracker report
+- ``"search_mode"``: the search mode for the tracker, can be tstats or raw
+- ``"root_constraint"``: the tracker report root search constraint, to define search filters scoping the data set
+- ``"break_by_field"``: the break by key field, used to discover and maintain the entities via this tracker
+- ``"owner"``: Optional, the Splunk user owning the objects to be created, defaults to admin
+- ``"earliest"``: Optional, the earliest time value for the tracker, defaults to -4h
+- ``"latest"``: Optional, the latest time value for the tracker, defaults to +4h
+- ``"update_comment"``: Optional: a comment for the update, comments are added to the audit record, if unset will be defined to: API update
 
 *External:*
 
 ::
 
-    curl -k -u admin:'ch@ngeM3' -X POST https://localhost:8089/services/trackme/v1/hybrid_trackers/hybrid_tracker -d '{"tracker_name": "company key field tracker", "search_mode": "tstats", "root_constraint": "company::*", "break_by_field": "company", "owner": "admin", "earliest": "-8h", "latest": "+4h"}'
+    curl -k -u admin:'ch@ngeM3' -X POST https://localhost:8089/services/trackme/v1/hybrid_trackers/hybrid_local_tracker -d '{"tracker_name": "company key field tracker", "search_mode": "tstats", "root_constraint": "company::*", "break_by_field": "company", "owner": "admin", "earliest": "-8h", "latest": "+4h"}'
 
 *SPL query:*
 
 ::
 
-    | trackme url="/services/trackme/v1/hybrid_trackers/hybrid_tracker" mode="post" body="{\"tracker_name\": \"company key field tracker\", \"search_mode\": \"tstats\", \"root_constraint\": \"company::*\", \"break_by_field\": \"company\", \"owner\": \"admin\", \"earliest\": \"-8h\", \"latest\": \"+4h\"}"
+    | trackme url="/services/trackme/v1/hybrid_trackers/hybrid_local_tracker" mode="post" body="{\"tracker_name\": \"company key field tracker\", \"search_mode\": \"tstats\", \"root_constraint\": \"company::*\", \"break_by_field\": \"company\", \"owner\": \"admin\", \"earliest\": \"-8h\", \"latest\": \"+4h\"}"
 
 *JSON response:*
 
 ::
 
     {
-        "split_by_macro":"trackme_root_splitby_hybrid_company_key_field_tracker",
+        "aggreg_intermediate_macro":"trackme_intermediate_aggreg_hybrid_company_key_field_tracker",
+        "abstract_report":"trackme_abstract_root_hybrid_company_key_field_tracker",
+        "tracker_report":"trackme_tracker_hybrid_company_key_field_tracker",
+        "root_constraint":"company::*",
+        "tracker_name":"company_key_field_tracker",
+        "break_by_field":"company",
+        "search_mode":"tstats",
+        "earliest":"-8h",
+        "latest":"+4h",
+        "action":"success"
+    }
+
+hybrid_remote_tracker / Create a new hybrid remote tracker
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+**This endpoint will create a new hybrid remote tracker report, allowing to discover and maintain entities from a remote Splunk deployment using custom search filters, and optionally a custom (search time or indexed time extracted) key:**
+
+- ``"tracker_name"``: name of the hybrid tracker report
+- ``"account"``: name of the Splunk remote deployment account as it is configured in TrackMe
+- ``"search_mode"``: the search mode for the tracker, can be tstats or raw
+- ``"root_constraint"``: the tracker report root search constraint, to define search filters scoping the data set
+- ``"break_by_field"``: the break by key field, used to discover and maintain the entities via this tracker
+- ``"owner"``: Optional, the Splunk user owning the objects to be created, defaults to admin
+- ``"earliest"``: Optional, the earliest time value for the tracker, defaults to -4h
+- ``"latest"``: Optional, the latest time value for the tracker, defaults to +4h
+- ``"update_comment"``: Optional: a comment for the update, comments are added to the audit record, if unset will be defined to: API update
+
+*External:*
+
+::
+
+    curl -k -u admin:'ch@ngeM3' -X POST https://localhost:8089/services/trackme/v1/hybrid_trackers/hybrid_remote_tracker -d '{"tracker_name": "remote company key field tracker", "account": "LAB", "search_mode": "tstats", "root_constraint": "company::*", "break_by_field": "company", "owner": "admin", "earliest": "-8h", "latest": "+4h"}'
+
+*SPL query:*
+
+::
+
+    | trackme url="/services/trackme/v1/hybrid_trackers/hybrid_remote_tracker" mode="post" body="{\"tracker_name\": \"remote company key field tracker\", \"account\": \"LAB\", \"search_mode\": \"tstats\", \"root_constraint\": \"company::*\", \"break_by_field\": \"company\", \"owner\": \"admin\", \"earliest\": \"-8h\", \"latest\": \"+4h\"}"
+
+*JSON response:*
+
+::
+
+    {
+        "account":"LAB",
         "aggreg_intermediate_macro":"trackme_intermediate_aggreg_hybrid_company_key_field_tracker",
         "abstract_report":"trackme_abstract_root_hybrid_company_key_field_tracker",
         "tracker_report":"trackme_tracker_hybrid_company_key_field_tracker",

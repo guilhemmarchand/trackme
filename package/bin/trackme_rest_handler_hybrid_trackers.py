@@ -33,7 +33,7 @@ class TrackMeHandlerHybridTracker_v1(trackme_rest_handler.RESTHandler):
         super(TrackMeHandlerHybridTracker_v1, self).__init__(command_line, command_arg, logger)
 
     # Create a local hybrid tracker
-    def post_hybrid_tracker(self, request_info, **kwargs):
+    def post_hybrid_local_tracker(self, request_info, **kwargs):
 
         # args
         tracker_name = None
@@ -183,28 +183,13 @@ class TrackMeHandlerHybridTracker_v1(trackme_rest_handler.RESTHandler):
                 }
 
             #
-            # step 1: create the split by macro
+            # step 1: for local trackers, init a variable only
             #
 
-            macro_name = "trackme_root_splitby" + "_hybrid_" + str(tracker_name)
-            macros = service.confs["macros"]
-            definition = "index,sourcetype," + str(break_by_field)
-
-            # create the macro
-            try:
-                macros.create(name=str(macro_name), **{"app": "trackme", "sharing": "app", "definition": str(definition), "owner": str(owner)})
-
-            except Exception as e:
-                return {
-                    'payload': 'Warn: exception encountered while creating the break by fields macro: ' + str(e), # Payload of the request.
-                    'status': 500 # HTTP status code
-                }
-
-            record_url = 'https://localhost:' + str(splunkd_port) \
-                        + '/servicesNS/admin/trackme/data/macros/' + macro_name + "/acl"
-
-            response = requests.post(record_url, headers=header, data={'owner' : str(owner), 'sharing' : 'app', 'perms.write' : 'admin,trackme_admin', 'perms.read' : '*'},
-                                    verify=False)
+            if break_by_field:
+                trackme_root_splitby = "index,sourcetype," + str(break_by_field)
+            else:
+                trackme_root_splitby = "index,sourcetype"
 
             #
             # step 2: create the intermediate macro
@@ -216,7 +201,7 @@ class TrackMeHandlerHybridTracker_v1(trackme_rest_handler.RESTHandler):
             if search_mode in 'tstats':
                 definition = "stats max(data_last_ingest) as data_last_ingest, min(data_first_time_seen) as data_first_time_seen, " +\
                     "max(data_last_time_seen) as data_last_time_seen, avg(data_last_ingestion_lag_seen) as data_last_ingestion_lag_seen, " +\
-                    "sum(data_eventcount) as data_eventcount, dc(host) as dcount_host by index,sourcetype," + str(break_by_field) + "\n" +\
+                    "sum(data_eventcount) as data_eventcount, dc(host) as dcount_host by " + str(trackme_root_splitby) + "\n" +\
                     "| eval data_last_ingestion_lag_seen=round(data_last_ingestion_lag_seen, 0)\n" +\
                     "`comment(\"#### rename index and sourcetype ####\")`\n" +\
                     "| rename index as data_index, sourcetype as data_sourcetype\n" +\
@@ -225,7 +210,7 @@ class TrackMeHandlerHybridTracker_v1(trackme_rest_handler.RESTHandler):
             elif search_mode in 'raw':
                 definition = "stats max(data_last_ingest) as data_last_ingest, min(data_first_time_seen) as data_first_time_seen, " +\
                     "max(data_last_time_seen) as data_last_time_seen, avg(data_last_ingestion_lag_seen) as data_last_ingestion_lag_seen, " +\
-                    "sum(data_eventcount) as data_eventcount, dc(host) as dcount_host by index,sourcetype," + str(break_by_field) + "\n" +\
+                    "sum(data_eventcount) as data_eventcount, dc(host) as dcount_host by " + str(trackme_root_splitby) + "\n" +\
                     "| eval data_last_ingestion_lag_seen=round(data_last_ingestion_lag_seen, 0)\n" +\
                     "`comment(\"#### rename index and sourcetype ####\")`\n" +\
                     "| rename index as data_index, sourcetype as data_sourcetype\n" +\
@@ -255,7 +240,7 @@ class TrackMeHandlerHybridTracker_v1(trackme_rest_handler.RESTHandler):
             report_name = "trackme_abstract_root_hybrid_" + str(tracker_name)
             if search_mode in 'tstats':
                 report_search = "| `trackme_tstats` max(_indextime) as data_last_ingest, min(_time) as data_first_time_seen, max(_time) as data_last_time_seen, " +\
-                    "count as data_eventcount, dc(host) as dcount_host where index=* sourcetype=* " + str(root_constraint) + " by `" + "trackme_root_splitby" + "_hybrid_" + str(tracker_name) + "`\n" +\
+                    "count as data_eventcount, dc(host) as dcount_host where index=* sourcetype=* " + str(root_constraint) + " by " + str(trackme_root_splitby) + "\n" +\
                     "`comment(\"#### tstats result table is loaded ####\")`\n" +\
                     "| eval data_last_ingestion_lag_seen=data_last_ingest-data_last_time_seen\n" +\
                     "`comment(\"#### intermediate calculation ####\")`\n" +\
@@ -264,7 +249,7 @@ class TrackMeHandlerHybridTracker_v1(trackme_rest_handler.RESTHandler):
                     "`trackme_data_source_tracker_abstract`"
             elif search_mode in 'raw':
                 report_search = "index=* sourcetype=* " + str(root_constraint) + " | stats max(_indextime) as data_last_ingest, min(_time) as data_first_time_seen, max(_time) as data_last_time_seen, " +\
-                    "count as data_eventcount, dc(host) as dcount_host by `" + "trackme_root_splitby" + "_hybrid_" + str(tracker_name) + "`\n" +\
+                    "count as data_eventcount, dc(host) as dcount_host by " + str(trackme_root_splitby) + "\n" +\
                     "`comment(\"#### stats result table is loaded ####\")`\n" +\
                     "| eval data_last_ingestion_lag_seen=data_last_ingest-data_last_time_seen\n" +\
                     "`comment(\"#### intermediate calculation ####\")`\n" +\
@@ -374,8 +359,11 @@ class TrackMeHandlerHybridTracker_v1(trackme_rest_handler.RESTHandler):
         # END
         #
 
-        audit_record = json.dumps({    
-                "split_by_macro": "trackme_root_splitby" + "_hybrid_" + str(tracker_name),
+        # re-transform as a string
+        if not break_by_field:
+            break_by_field = 'none'
+
+        audit_record = json.dumps({
                 "aggreg_intermediate_macro": "trackme_intermediate_aggreg" + "_hybrid_" + str(tracker_name),
                 "abstract_report": "trackme_abstract_root_hybrid_" + str(tracker_name),
                 "tracker_report": "trackme_tracker_hybrid_" + str(tracker_name),
@@ -419,7 +407,7 @@ class TrackMeHandlerHybridTracker_v1(trackme_rest_handler.RESTHandler):
         }
 
     # Create a remote hybrid tracker
-    def post_hybrid_remote_tracker_customkey(self, request_info, **kwargs):
+    def post_hybrid_remote_tracker(self, request_info, **kwargs):
 
         # args
         tracker_name = None
@@ -469,11 +457,6 @@ class TrackMeHandlerHybridTracker_v1(trackme_rest_handler.RESTHandler):
                 # the root constraing of the tracker
                 root_constraint = resp_dict['root_constraint']
 
-                # the break by fields sequence, expressed as a comma separated list of fields
-                break_by_field = resp_dict['break_by_field']
-                if break_by_field:
-                    break_by_field = break_by_field.lower().replace(" ", "")
-
                 #
                 # optional args
                 #
@@ -500,6 +483,15 @@ class TrackMeHandlerHybridTracker_v1(trackme_rest_handler.RESTHandler):
                 except Exception as e:
                     latest = "+4h"
 
+                # Optional the additional break by field
+                try:
+                    break_by_field = resp_dict['break_by_field']
+                except Exception as e:
+                    break_by_field = None
+                # accept none as a way to deactivate the option
+                if break_by_field == 'none':
+                    break_by_field = None
+
         else:
             # body is required in this endpoint, if not submitted describe the usage
             describe = True
@@ -513,7 +505,7 @@ class TrackMeHandlerHybridTracker_v1(trackme_rest_handler.RESTHandler):
                 + "\"account\": \"name of tremote Splunk deployment account as configured in TrackMe\", "\
                 + "\"search_mode\": \"the search mode for the tracker, can be tstats or raw\", "\
                 + "\"root_constraint\": \"the tracker report root search constraint, to define search filters scoping the data set\", "\
-                + "\"break_by_field\": \"the break by key field, used to discover and maintain the entities via this tracker\", "\
+                + "\"break_by_field\": \"Optional, the break by key field, used to discover and maintain the entities via this tracker\", "\
                 + "\"owner\": \"Optional, the Splunk user owning the objects to be created, defaults to admin\", "\
                 + "\"earliest\": \"Optional, the earliest time value for the tracker, defaults to -4h\", "\
                 + "\"latest\": \"Optional, the latest time value for the tracker, defaults to +4h\", "\
@@ -576,7 +568,10 @@ class TrackMeHandlerHybridTracker_v1(trackme_rest_handler.RESTHandler):
             # step 1: for remote trackers, init a variable only
             #
 
-            trackme_root_splitby = "index,sourcetype," + str(break_by_field)
+            if break_by_field:
+                trackme_root_splitby = "index,sourcetype," + str(break_by_field)
+            else:
+                trackme_root_splitby = "index,sourcetype"
 
             #
             # step 2: create the intermediate macro
@@ -585,24 +580,47 @@ class TrackMeHandlerHybridTracker_v1(trackme_rest_handler.RESTHandler):
             macro_name = "trackme_intermediate_aggreg" + "_hybrid_" + str(tracker_name)
             macros = service.confs["macros"]
 
-            if search_mode in 'tstats':
-                definition = "stats max(data_last_ingest) as data_last_ingest, min(data_first_time_seen) as data_first_time_seen, " +\
-                    "max(data_last_time_seen) as data_last_time_seen, avg(data_last_ingestion_lag_seen) as data_last_ingestion_lag_seen, " +\
-                    "sum(data_eventcount) as data_eventcount, dc(host) as dcount_host by " + str(trackme_root_splitby) + "\n" +\
-                    "| eval data_last_ingestion_lag_seen=round(data_last_ingestion_lag_seen, 0)\n" +\
-                    "`comment(\"#### rename index and sourcetype ####\")`\n" +\
-                    "| rename index as data_index, sourcetype as data_sourcetype\n" +\
-                    "`comment(\"#### create the data_name value ####\")`\n" +\
-                    "| eval data_name=\"remote:|account:" + str(account.replace('"', '')) + "|\" . data_index . \":\" . data_sourcetype . \":\" . \"|key:\" . \"" + str(break_by_field) + "\" . \"|\" . " + str(break_by_field)
-            elif search_mode in 'raw':
-                definition = "stats max(data_last_ingest) as data_last_ingest, min(data_first_time_seen) as data_first_time_seen, " +\
-                    "max(data_last_time_seen) as data_last_time_seen, avg(data_last_ingestion_lag_seen) as data_last_ingestion_lag_seen, " +\
-                    "sum(data_eventcount) as data_eventcount, dc(host) as dcount_host by " + str(trackme_root_splitby) + "\n" +\
-                    "| eval data_last_ingestion_lag_seen=round(data_last_ingestion_lag_seen, 0)\n" +\
-                    "`comment(\"#### rename index and sourcetype ####\")`\n" +\
-                    "| rename index as data_index, sourcetype as data_sourcetype\n" +\
-                    "`comment(\"#### create the data_name value ####\")`\n" +\
-                    "| eval data_name=\"remote:|account:" + str(account.replace('"', '')) + "|\" . data_index . \":\" . data_sourcetype . \":\" . \"|rawkey:\" . \"" + str(break_by_field) + "\" . \"|\" . " + str(break_by_field)
+            if break_by_field:
+
+                if search_mode in 'tstats':
+                    definition = "stats max(data_last_ingest) as data_last_ingest, min(data_first_time_seen) as data_first_time_seen, " +\
+                        "max(data_last_time_seen) as data_last_time_seen, avg(data_last_ingestion_lag_seen) as data_last_ingestion_lag_seen, " +\
+                        "sum(data_eventcount) as data_eventcount, dc(host) as dcount_host by " + str(trackme_root_splitby) + "\n" +\
+                        "| eval data_last_ingestion_lag_seen=round(data_last_ingestion_lag_seen, 0)\n" +\
+                        "`comment(\"#### rename index and sourcetype ####\")`\n" +\
+                        "| rename index as data_index, sourcetype as data_sourcetype\n" +\
+                        "`comment(\"#### create the data_name value ####\")`\n" +\
+                        "| eval data_name=\"remote:|account:" + str(account.replace('"', '')) + "|\" . data_index . \":\" . data_sourcetype . \":\" . \"|key:\" . \"" + str(break_by_field) + "\" . \"|\" . " + str(break_by_field)
+                elif search_mode in 'raw':
+                    definition = "stats max(data_last_ingest) as data_last_ingest, min(data_first_time_seen) as data_first_time_seen, " +\
+                        "max(data_last_time_seen) as data_last_time_seen, avg(data_last_ingestion_lag_seen) as data_last_ingestion_lag_seen, " +\
+                        "sum(data_eventcount) as data_eventcount, dc(host) as dcount_host by " + str(trackme_root_splitby) + "\n" +\
+                        "| eval data_last_ingestion_lag_seen=round(data_last_ingestion_lag_seen, 0)\n" +\
+                        "`comment(\"#### rename index and sourcetype ####\")`\n" +\
+                        "| rename index as data_index, sourcetype as data_sourcetype\n" +\
+                        "`comment(\"#### create the data_name value ####\")`\n" +\
+                        "| eval data_name=\"remote:|account:" + str(account.replace('"', '')) + "|\" . data_index . \":\" . data_sourcetype . \":\" . \"|rawkey:\" . \"" + str(break_by_field) + "\" . \"|\" . " + str(break_by_field)
+
+            else:
+
+                if search_mode in 'tstats':
+                    definition = "stats max(data_last_ingest) as data_last_ingest, min(data_first_time_seen) as data_first_time_seen, " +\
+                        "max(data_last_time_seen) as data_last_time_seen, avg(data_last_ingestion_lag_seen) as data_last_ingestion_lag_seen, " +\
+                        "sum(data_eventcount) as data_eventcount, dc(host) as dcount_host by " + str(trackme_root_splitby) + "\n" +\
+                        "| eval data_last_ingestion_lag_seen=round(data_last_ingestion_lag_seen, 0)\n" +\
+                        "`comment(\"#### rename index and sourcetype ####\")`\n" +\
+                        "| rename index as data_index, sourcetype as data_sourcetype\n" +\
+                        "`comment(\"#### create the data_name value ####\")`\n" +\
+                        "| eval data_name=\"remote:|account:" + str(account.replace('"', '')) + "|\" . data_index . \":\" . data_sourcetype"
+                elif search_mode in 'raw':
+                    definition = "stats max(data_last_ingest) as data_last_ingest, min(data_first_time_seen) as data_first_time_seen, " +\
+                        "max(data_last_time_seen) as data_last_time_seen, avg(data_last_ingestion_lag_seen) as data_last_ingestion_lag_seen, " +\
+                        "sum(data_eventcount) as data_eventcount, dc(host) as dcount_host by " + str(trackme_root_splitby) + "\n" +\
+                        "| eval data_last_ingestion_lag_seen=round(data_last_ingestion_lag_seen, 0)\n" +\
+                        "`comment(\"#### rename index and sourcetype ####\")`\n" +\
+                        "| rename index as data_index, sourcetype as data_sourcetype\n" +\
+                        "`comment(\"#### create the data_name value ####\")`\n" +\
+                        "| eval data_name=\"remote:|account:" + str(account.replace('"', '')) + "|\" . data_index . \":\" . data_sourcetype"
 
             # create the macro
             try:
@@ -751,9 +769,12 @@ class TrackMeHandlerHybridTracker_v1(trackme_rest_handler.RESTHandler):
         # END
         #
 
+        # re-transform as a string
+        if not break_by_field:
+            break_by_field = 'none'
+
         audit_record = json.dumps({
                 "account": str(account),
-                "split_by_macro": "trackme_root_splitby" + "_hybrid_" + str(tracker_name),
                 "aggreg_intermediate_macro": "trackme_intermediate_aggreg" + "_hybrid_" + str(tracker_name),
                 "abstract_report": "trackme_abstract_root_hybrid_" + str(tracker_name),
                 "tracker_report": "trackme_tracker_hybrid_" + str(tracker_name),

@@ -10,9 +10,9 @@
         <sampleRatio>1</sampleRatio>
     </search>
     <search id="scheduling_table">
-        <query>index=_internal host="*" source=*scheduler.log status="*" AND status!="continued" trackme app="trackme" savedsearch_name="TrackMe - *"
+        <query>index=_internal host="*" source=*scheduler.log status="*" AND status!="continued" trackme app="trackme" (savedsearch_name="TrackMe - *" OR savedsearch_name="trackme_tracker_*")
 | stats avg(run_time) AS avg_run_time, max(run_time) AS max_run_time, latest(run_time) AS latest_run_time, max(_time) AS "last_run (dd/mm/YYYY H:M:S)" by app,savedsearch_name
-| append [ | rest splunk_server=local /servicesNS/-/trackme/saved/searches | search eai:acl.app="trackme" title="TrackMe - *" is_visible=1 | fields eai:acl.app, title, cron_schedule, schedule_window, disabled, next_scheduled_time | sort limit=0 title | rename eai:acl.app as app, title as savedsearch_name ]
+| append [ | rest splunk_server=local /servicesNS/-/trackme/saved/searches | search eai:acl.app="trackme" (title="TrackMe - *" OR title="trackme_tracker_*") is_visible=1 | fields eai:acl.app, title, cron_schedule, schedule_window, disabled, next_scheduled_time | sort limit=0 title | rename eai:acl.app as app, title as savedsearch_name ]
 | stats first(*) as "*" by app, savedsearch_name
 | eval "last_run (dd/mm/YYYY H:M:S)"=strftime('last_run (dd/mm/YYYY H:M:S)', "%d/%m/%Y %H:%M:%S")
 | foreach *_run_time [ eval &lt;&lt;FIELD&gt;&gt;=round('&lt;&lt;FIELD&gt;&gt;', 2) ]
@@ -200,14 +200,14 @@
             <title>Trackers - These scheduled reports are responsible for discovering and maintaining data states</title>
             <chart>
                 <search base="scheduling_table">
-                    <query>search "report (savedsearch_name)"="TrackMe - * tracker" | fields "report (savedsearch_name)", avg_run_time</query>
+                    <query>search "report (savedsearch_name)"="TrackMe - * tracker" OR "report (savedsearch_name)"="trackme_tracker_*" | fields "report (savedsearch_name)", avg_run_time</query>
                 </search>
                 <option name="charting.chart">pie</option>
                 <option name="charting.drilldown">all</option>
             </chart>
             <table>
                 <search base="scheduling_table">
-                    <query>search "report (savedsearch_name)"="TrackMe - * tracker" | sort "report (savedsearch_name)" | fields - avg_run_time</query>
+                    <query>search "report (savedsearch_name)"="TrackMe - * tracker" OR "report (savedsearch_name)"="trackme_tracker_*" | sort "report (savedsearch_name)" | fields - avg_run_time</query>
                 </search>
                 <option name="count">100</option>
                 <option name="dataOverlayMode">none</option>

@@ -46,15 +46,15 @@ master_doc = 'index'
 
 # General information about the project.
 project = u'TrackMe'
-copyright = u'2018-2020, Guilhem Marchand'
-author = u'Guilhem Marchand'
+copyright = u'2018-2021, TrackMe Limited, U.K.'
+author = u'TrackMe Limited, U.K.'
 
 # The version info for the project you're documenting, acts as replacement for
 # |version| and |release|, also used in various other places throughout the
 # built documents.
 #
 # The short X.Y version.
-version = u'1.3'
+version = u'2.0'
 # The full version, including alpha/beta/rc tags.
 release = u'1'
 
@@ -228,7 +228,7 @@ latex_elements = {
 #  author, documentclass [howto, manual, or own class]).
 latex_documents = [
     (master_doc, 'trackme.tex', u'trackme Documentation',
-     u'Guilhem Marchand', 'manual'),
+     u'TrackMe Limited, U.K.', 'manual'),
 ]
 
 # The name of an image file (relative to this directory) to place at the top of
