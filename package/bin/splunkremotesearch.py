@@ -21,10 +21,25 @@ import urllib3
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 import time
 import csv
-import json
+import logging
 import re
 
+# set splunkhome
 splunkhome = os.environ['SPLUNK_HOME']
+
+# set logging
+filehandler = logging.FileHandler(splunkhome + "/var/log/splunk/trackme_splunkremotesearch.log", 'a')
+formatter = logging.Formatter('%(asctime)s %(levelname)s %(filename)s %(funcName)s %(lineno)d %(message)s')
+filehandler.setFormatter(formatter)
+log = logging.getLogger()  # root logger - Good to get it only once.
+for hdlr in log.handlers[:]:  # remove the existing file handlers
+    if isinstance(hdlr,logging.FileHandler):
+        log.removeHandler(hdlr)
+log.addHandler(filehandler)      # set the new handler
+# set the log level to INFO, DEBUG as the default is ERROR
+log.setLevel(logging.INFO)
+
+# append libs
 sys.path.append(os.path.join(splunkhome, 'etc', 'apps', 'trackme', 'lib'))
 
 from splunklib.searchcommands import dispatch, GeneratingCommand, Configuration, Option, validators
@@ -61,6 +76,22 @@ class SplunkRemoteSearch(GeneratingCommand):
     def generate(self, **kwargs):
 
         if self:
+
+            # get and set the loglevel
+            loglevel = 'INFO'
+            conf_file = "trackme_settings"
+            confs = self.service.confs[str(conf_file)]
+            for stanza in confs:
+                if stanza.name == 'logging':
+                    for key, value in stanza.content.items():
+                        if key == "loglevel":
+                            loglevel = value
+
+            if loglevel in ('DEBUG', 'INFO', 'WARNING', 'ERROR', 'CRITICAL'):
+                level = logging.getLevelName(loglevel)
+                log.setLevel(level)
+            else:
+                log.setLevel(logging.INFO)
 
             # Get the session key
             session_key = self._metadata.searchinfo.session_key
@@ -104,6 +135,12 @@ class SplunkRemoteSearch(GeneratingCommand):
 
             # end of get configuration
 
+            # Stop here if we cannot find the submitted account
+            if not isfound:
+                self.logger.fatal('This acount has not been configured on this instance, cannot proceed!: %s', self)
+                logging.error('The account: ' + str(account) + ' has not been configured on this instance, cannot proceed!')
+                sys.exit(1)
+
             # enforce https
             if not splunk_url.startswith("https://"):
                 splunk_url = "https://" + str(splunk_url)
@@ -111,11 +148,6 @@ class SplunkRemoteSearch(GeneratingCommand):
             # remote trailing slash in the URL, if any
             if splunk_url.endswith('/'):
                 splunk_url = splunk_url[:-1]
-
-            # Stop here if we cannot find the submitted account
-            if not isfound:
-                self.logger.fatal('This acount has not been configured on this instance, cannot proceed!: %s', self)
-                sys.exit(1)
 
             # Splunk remote application namespace where searches are going to be executed, default to search if not defined
             if not app_namespace:
@@ -143,6 +175,7 @@ class SplunkRemoteSearch(GeneratingCommand):
 
             if not bearer_token:
                 self.logger.fatal('The bearer token could not be retrieved for this account, cannot proceed!: %s', self)
+                logging.error('The bearer token for the account: ' + str(account) + 'could not be retrieved for this account, cannot proceed!')
                 sys.exit(1)
 
             else:
@@ -166,8 +199,7 @@ class SplunkRemoteSearch(GeneratingCommand):
                 if response.status_code not in (200, 201, 204):
                     response_error = 'remote search has failed!. url={}, data={}, HTTP Error={}, content={}'.format(url, search, response.status_code, response.text)
                     self.logger.fatal(str(response_error))
-                    data = { '_time': time.time(), '_raw': "{\"response\": \"" + str(response_error) + "\"" }
-                    yield data
+                    logging.error('Remote search for account: ' + str(account) + ' has failed with the following exception: ' + str(response_error))
                     sys.exit(0)
 
                 else:
