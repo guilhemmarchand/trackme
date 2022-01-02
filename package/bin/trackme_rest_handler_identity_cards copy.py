@@ -91,9 +91,9 @@ class TrackMeHandlerIdentityCards_v1(trackme_rest_handler.RESTHandler):
         confs = service.confs[str(conf_file)]
         for stanza in confs:
             if stanza.name == 'logging':
-                for stanzakey, stanzavalue in stanza.content.items():
-                    if stanzakey == "loglevel":
-                        loglevel = stanzavalue
+                for key, value in stanza.content.items():
+                    if key == "loglevel":
+                        loglevel = value
         level = logging.getLevelName(loglevel)
         log.setLevel(level)
 
@@ -184,9 +184,9 @@ class TrackMeHandlerIdentityCards_v1(trackme_rest_handler.RESTHandler):
         confs = service.confs[str(conf_file)]
         for stanza in confs:
             if stanza.name == 'logging':
-                for stanzakey, stanzavalue in stanza.content.items():
-                    if stanzakey == "loglevel":
-                        loglevel = stanzavalue
+                for key, value in stanza.content.items():
+                    if key == "loglevel":
+                        loglevel = value
         level = logging.getLevelName(loglevel)
         log.setLevel(level)
 
@@ -297,9 +297,9 @@ class TrackMeHandlerIdentityCards_v1(trackme_rest_handler.RESTHandler):
         confs = service.confs[str(conf_file)]
         for stanza in confs:
             if stanza.name == 'logging':
-                for stanzakey, stanzavalue in stanza.content.items():
-                    if stanzakey == "loglevel":
-                        loglevel = stanzavalue
+                for key, value in stanza.content.items():
+                    if key == "loglevel":
+                        loglevel = value
         level = logging.getLevelName(loglevel)
         log.setLevel(level)
 
@@ -430,9 +430,9 @@ class TrackMeHandlerIdentityCards_v1(trackme_rest_handler.RESTHandler):
         confs = service.confs[str(conf_file)]
         for stanza in confs:
             if stanza.name == 'logging':
-                for stanzakey, stanzavalue in stanza.content.items():
-                    if stanzakey == "loglevel":
-                        loglevel = stanzavalue
+                for key, value in stanza.content.items():
+                    if key == "loglevel":
+                        loglevel = value
         level = logging.getLevelName(loglevel)
         log.setLevel(level)
 
@@ -622,9 +622,9 @@ class TrackMeHandlerIdentityCards_v1(trackme_rest_handler.RESTHandler):
         confs = service.confs[str(conf_file)]
         for stanza in confs:
             if stanza.name == 'logging':
-                for stanzakey, stanzavalue in stanza.content.items():
-                    if stanzakey == "loglevel":
-                        loglevel = stanzavalue
+                for key, value in stanza.content.items():
+                    if key == "loglevel":
+                        loglevel = value
         level = logging.getLevelName(loglevel)
         log.setLevel(level)
 
@@ -836,9 +836,9 @@ class TrackMeHandlerIdentityCards_v1(trackme_rest_handler.RESTHandler):
         confs = service.confs[str(conf_file)]
         for stanza in confs:
             if stanza.name == 'logging':
-                for stanzakey, stanzavalue in stanza.content.items():
-                    if stanzakey == "loglevel":
-                        loglevel = stanzavalue
+                for key, value in stanza.content.items():
+                    if key == "loglevel":
+                        loglevel = value
         level = logging.getLevelName(loglevel)
         log.setLevel(level)
 
@@ -1044,9 +1044,9 @@ class TrackMeHandlerIdentityCards_v1(trackme_rest_handler.RESTHandler):
         confs = service.confs[str(conf_file)]
         for stanza in confs:
             if stanza.name == 'logging':
-                for stanzakey, stanzavalue in stanza.content.items():
-                    if stanzakey == "loglevel":
-                        loglevel = stanzavalue
+                for key, value in stanza.content.items():
+                    if key == "loglevel":
+                        loglevel = value
         level = logging.getLevelName(loglevel)
         log.setLevel(level)
 
