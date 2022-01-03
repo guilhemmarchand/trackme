@@ -130,7 +130,8 @@ class TrackMeRestHandler(GeneratingCommand):
             # yield
             data = {'_time': time.time(), '_raw': response_data}
             yield data
-            logging.info(response_data)
+            logging.debug(response_data)
+            logging.info("call terminated, response is logged in debug mode only")
 
         else:
             # yield
