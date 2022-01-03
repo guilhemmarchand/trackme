@@ -1,5 +1,6 @@
 from __future__ import absolute_import, division, print_function, unicode_literals
 
+__name__ = "trackme_rest_handler_logical_groups.py"
 __author__ = "TrackMe Limited"
 __copyright__ = "Copyright 2021, TrackMe Limited, U.K."
 __credits__ = ["Guilhem Marchand"]
@@ -16,9 +17,20 @@ import splunk.entity
 import splunk.Intersplunk
 import json
 
-logger = logging.getLogger(__name__)
-
 splunkhome = os.environ['SPLUNK_HOME']
+
+# set logging
+logger = logging.getLogger(__name__)
+filehandler = logging.FileHandler(splunkhome + "/var/log/splunk/trackme_rest_handler_logical_groups.log", 'a')
+formatter = logging.Formatter('%(asctime)s %(levelname)s %(filename)s %(funcName)s %(lineno)d %(message)s')
+filehandler.setFormatter(formatter)
+log = logging.getLogger()
+for hdlr in log.handlers[:]:
+    if isinstance(hdlr,logging.FileHandler):
+        log.removeHandler(hdlr)
+log.addHandler(filehandler)
+log.setLevel(logging.INFO)
+
 sys.path.append(os.path.join(splunkhome, 'etc', 'apps', 'trackme', 'lib'))
 
 import trackme_rest_handler
@@ -65,24 +77,40 @@ class TrackMeHandlerLogicalGroups_v1(trackme_rest_handler.RESTHandler):
                                             namespace='trackme', sessionKey=request_info.session_key, owner='-')
         splunkd_port = entity['mgmtHostPort']
 
+        # Get service
+        service = client.connect(
+            owner="nobody",
+            app="trackme",
+            port=splunkd_port,
+            token=request_info.session_key
+        )
+
+        # set loglevel
+        loglevel = 'INFO'
+        conf_file = "trackme_settings"
+        confs = service.confs[str(conf_file)]
+        for stanza in confs:
+            if stanza.name == 'logging':
+                for stanzakey, stanzavalue in stanza.content.items():
+                    if stanzakey == "loglevel":
+                        loglevel = stanzavalue
+        logginglevel = logging.getLevelName(loglevel)
+        log.setLevel(logginglevel)
+
         try:
 
             collection_name = "kv_trackme_logical_group"            
-            service = client.connect(
-                owner="nobody",
-                app="trackme",
-                port=splunkd_port,
-                token=request_info.session_key
-            )
             collection = service.kvstore[collection_name]
 
             # Render
+            logging.debug(json.dumps(collection.data.query(), indent=1))
             return {
                 "payload": json.dumps(collection.data.query(), indent=1),
                 'status': 200 # HTTP status code
             }
 
         except Exception as e:
+            logging.error('Warn: exception encountered: ' + str(e))
             return {
                 'payload': 'Warn: exception encountered: ' + str(e) # Payload of the request.
             }
@@ -165,6 +193,7 @@ class TrackMeHandlerLogicalGroups_v1(trackme_rest_handler.RESTHandler):
             # Render result
             if key is not None and len(key)>2:
 
+                logging.debug(json.dumps(collection.data.query_by_id(key), indent=1))
                 return {
                     "payload": json.dumps(collection.data.query_by_id(key), indent=1),
                     'status': 200 # HTTP status code
@@ -172,12 +201,14 @@ class TrackMeHandlerLogicalGroups_v1(trackme_rest_handler.RESTHandler):
 
             else:
 
+                logging.error('Warn: resource not found ' + str(key))
                 return {
                     "payload": 'Warn: resource not found ' + str(key),
                     'status': 404 # HTTP status code
                 }
 
         except Exception as e:
+            logging.error('Warn: exception encountered: ' + str(e))
             return {
                 'payload': 'Warn: exception encountered: ' + str(e) # Payload of the request.
             }
@@ -332,10 +363,12 @@ class TrackMeHandlerLogicalGroups_v1(trackme_rest_handler.RESTHandler):
                         }))
 
                 except Exception as e:
+                    logging.error('Warn: exception encountered: ' + str(e))
                     return {
                         'payload': 'Warn: exception encountered: ' + str(e) # Payload of the request.
                     }
 
+                logging.debug(json.dumps(collection.data.query_by_id(key), indent=1))
                 return {
                     "payload": json.dumps(collection.data.query_by_id(key), indent=1),
                     'status': 200 # HTTP status code
@@ -370,16 +403,19 @@ class TrackMeHandlerLogicalGroups_v1(trackme_rest_handler.RESTHandler):
                         }))
 
                 except Exception as e:
+                    logging.error('Warn: exception encountered: ' + str(e))
                     return {
                         'payload': 'Warn: exception encountered: ' + str(e) # Payload of the request.
                     }
 
+                logging.debug(json.dumps(collection.data.query(query=str(query_string)), indent=1))
                 return {
                     "payload": json.dumps(collection.data.query(query=str(query_string)), indent=1),
                     'status': 200 # HTTP status code
                 }
 
         except Exception as e:
+            logging.error('Warn: exception encountered: ' + str(e))
             return {
                 'payload': 'Warn: exception encountered: ' + str(e) # Payload of the request.
             }
@@ -506,10 +542,12 @@ class TrackMeHandlerLogicalGroups_v1(trackme_rest_handler.RESTHandler):
                         }))
 
                 except Exception as e:
+                    logging.error('Warn: exception encountered: ' + str(e))
                     return {
                         'payload': 'Warn: exception encountered: ' + str(e) # Payload of the request.
                     }
 
+                logging.debug("Record with _key " + str(key) + " was deleted from the logical groups collection.")
                 return {
                     "payload": "Record with _key " + str(key) + " was deleted from the logical groups collection.",
                     'status': 200 # HTTP status code
@@ -517,12 +555,14 @@ class TrackMeHandlerLogicalGroups_v1(trackme_rest_handler.RESTHandler):
 
             else:
 
+                logging.error('Warn: resource not found ' + str(key))
                 return {
                     "payload": 'Warn: resource not found ' + str(key),
                     'status': 404 # HTTP status code
                 }
 
         except Exception as e:
+            logging.error('Warn: exception2 encountered: ' + str(e))
             return {
                 'payload': 'Warn: exception2 encountered: ' + str(e) # Payload of the request.
             }
@@ -679,6 +719,7 @@ class TrackMeHandlerLogicalGroups_v1(trackme_rest_handler.RESTHandler):
                     collection.data.update(str(key), new_record)
 
                 except Exception as e:
+                    logging.error('Warn: exception encountered: ' + str(e))
                     return {
                         'payload': 'Warn: exception encountered: ' + str(e) # Payload of the request.
                     }
@@ -704,22 +745,26 @@ class TrackMeHandlerLogicalGroups_v1(trackme_rest_handler.RESTHandler):
                         }))
 
                 except Exception as e:
+                    logging.error('Warn: exception encountered: ' + str(e))
                     return {
                         'payload': 'Warn: exception encountered: ' + str(e) # Payload of the request.
                     }
 
+                logging.debug(json.dumps(collection.data.query_by_id(key), indent=1))
                 return {
                     "payload": json.dumps(collection.data.query_by_id(key), indent=1),
                     'status': 200 # HTTP status code
                 }
 
             else:
+                logging.error('Warn: resource not found ' + str(key))
                 return {
                     "payload": 'Warn: resource not found ' + str(key),
                     'status': 404 # HTTP status code
                 }
 
         except Exception as e:
+            logging.error('Warn: exception encountered: ' + str(e))
             return {
                 'payload': 'Warn: exception encountered: ' + str(e) # Payload of the request.
             }
@@ -865,6 +910,7 @@ class TrackMeHandlerLogicalGroups_v1(trackme_rest_handler.RESTHandler):
                         collection.data.update(str(key), new_record)
 
                     except Exception as e:
+                        logging.error('Warn: exception encountered: ' + str(e))
                         return {
                             'payload': 'Warn: exception encountered: ' + str(e) # Payload of the request.
                         }
@@ -890,11 +936,13 @@ class TrackMeHandlerLogicalGroups_v1(trackme_rest_handler.RESTHandler):
                             }))
 
                     except Exception as e:
+                        logging.error('Warn: exception encountered: ' + str(e))
                         return {
                             'payload': 'Warn: exception encountered: ' + str(e) # Payload of the request.
                         }
                 
                     # end of work, return
+                    logging.debug(json.loads('{ "response": "object ' + str(object_name) + ' has been unassociated from logical group record key: ' + str(key) + "\" }"))
                     return {
                         "payload": json.loads('{ "response": "object ' + str(object_name) + ' has been unassociated from logical group record key: ' + str(key) + "\" }"),
                         'status': 200 # HTTP status code
@@ -902,18 +950,21 @@ class TrackMeHandlerLogicalGroups_v1(trackme_rest_handler.RESTHandler):
 
                 # no association, nothing to do                
                 else:
+                    logging.debug(json.loads('{ "response": "object ' + str(object_name) + ' has no active association with logical group record key: ' + str(key) + "\" }"))
                     return {
                         "payload": json.loads('{ "response": "object ' + str(object_name) + ' has no active association with logical group record key: ' + str(key) + "\" }"),
                         'status': 200 # HTTP status code
                     }
 
             else:
+                logging.error('Warn: resource not found ' + str(key))
                 return {
                    "payload": 'Warn: resource not found ' + str(key),
                     'status': 404 # HTTP status code
                 }
 
         except Exception as e:
+            logging.error('Warn: exception encountered: ' + str(e))
             return {
                 'payload': 'Warn: exception encountered: ' + str(e) # Payload of the request.
             }
