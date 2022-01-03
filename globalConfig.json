@@ -87,6 +87,7 @@
                         {
                             "type": "singleSelect",
                             "label": "Log level",
+                            "help": "The logging level applies to all custom commands and the TrackMe REST API, logs are indexed automatically within the _internal index",
                             "options": {
                                 "disableSearch": true,
                                 "autoCompleteFields": [
@@ -116,7 +117,7 @@
                             "field": "loglevel"
                         }
                     ],
-                    "title": "Logging"
+                    "title": "TrackMe Logging"
                 }
             ],
             "title": "Configuration",

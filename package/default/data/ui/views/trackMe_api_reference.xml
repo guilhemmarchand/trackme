@@ -32,8 +32,12 @@
         <p style="margin-top: 20px; line-height: normal;">
         Using these endpoints allows interracting with TrackMe in a programmatic and automated fashion, providing the capabilities to perform any of the actions you would achieve in the UI, and even more.
         <br />
-        A custom SPL command <a target="_blank" href="https://trackme.readthedocs.io/en/latest/rest_api_reference.html#rest-api-trackme-spl-command"><span style="color: blue;">trackme</span></a> is provided which allows queriying the endpoints in pure SPL commands (all actions are supported: get/post/delete), this makes the API capabilities even more accessible and powerful.
-  
+        A custom SPL command <a target="_blank" href="https://trackme.readthedocs.io/en/latest/rest_api_reference.html#rest-api-trackme-spl-command"><span style="color: dodgerblue;">trackme</span></a> is provided which allows queriying the endpoints in pure SPL commands (all actions are supported: get/post/delete), this makes the API capabilities even more accessible and powerful.
+        <br />
+        The TrackMe API logs are indexed in Splunk automatically and can be <a target="_blank" href="search?q=search%20index%3D_internal%20sourcetype%3Dtrackme%3Arest_api">searched</a> as follows:
+        <code style="font-size: 15px; color: black;">
+          index=_internal sourcetype=trackme:rest_api
+        </code>
         </p>
 
         <h2 style="margin-top: 20px; line-height: normal;">

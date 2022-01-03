@@ -14,7 +14,11 @@
         </h2>
 
         <h2 style="margin-top: 10px; line-height: normal;">
-          <a target="_blank" href="https://trackme.readthedocs.io/en/latest/rest_api_reference.html#backup-and-restore-endpoints">▶ Link to the API Reference for the backup and restore endpointst</a>
+          <a target="_blank" href="https://trackme.readthedocs.io/en/latest/rest_api_reference.html#backup-and-restore-endpoints">▶ Link to the API Reference for the backup and restore endpoints</a>
+        </h2>
+
+        <h2 style="margin-top: 10px; line-height: normal;">
+          <a target="_blank" href="search?q=search%20index%3D_internal%20sourcetype%3Dtrackme%3Arest_api%20trackme_rest_handler_backup_and_restore.py">▶ Link to the backup and restore endpoints logs</a>
         </h2>
 
         <h2 style="margin-top: 25px; line-height: normal;">
@@ -49,6 +53,13 @@
           </code>
         </h2>
 
+        <h2 style="margin-top: 25px; line-height: normal;">
+          <i>Consult the TrackMe Backup &amp; Restore API internal logs:</i>
+          <br/>
+          <code style="font-size: 15px; color: black;">
+            index=_internal sourcetype=trackme:rest_api trackme_rest_handler_backup_and_restore.py
+          </code>
+        </h2>
 
       </html>
     </panel>
@@ -104,6 +115,28 @@
         <option name="underLabel">LATEST BACKUP</option>
         <option name="useColors">1</option>
       </single>
+    </panel>
+  </row>
+  <row>
+    <panel>
+        <title>TrackMe Backup &amp; Restore logs (last 24 hours)</title>
+        <event>
+          <search>
+            <query>index=_internal sourcetype=trackme:rest_api trackme_rest_handler_backup_and_restore.py</query>
+            <earliest>-24h@m</earliest>
+            <latest>now</latest>
+          </search>
+          <option name="count">10</option>
+          <option name="list.drilldown">none</option>
+          <option name="list.wrap">1</option>
+          <option name="maxLines">5</option>
+          <option name="raw.drilldown">none</option>
+          <option name="rowNumbers">0</option>
+          <option name="table.drilldown">all</option>
+          <option name="table.sortDirection">asc</option>
+          <option name="table.wrap">1</option>
+          <option name="type">raw</option>
+        </event>
     </panel>
   </row>
   <row>

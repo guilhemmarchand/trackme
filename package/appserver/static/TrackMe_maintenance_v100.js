@@ -890,8 +890,6 @@ require([
       var that = $(this);
       that.off("click"); // remove handler
 
-      console.log("maintenance button clicked!");
-
       // Retrieve start date
       var inputStartMaintenance = document.getElementById(
         "inputStartMaintenance"
@@ -908,12 +906,6 @@ require([
       // Retrieve end time
       var inputEndMaintenanceTime = tokens.get("time_end_maintenance");
 
-      console.log("checking entries");
-      console.log("inputStartMaintenance is: " + inputStartMaintenance);
-      console.log("inputStartMaintenanceTime is: " + inputStartMaintenanceTime);
-      console.log("inputEndMaintenance is: " + inputEndMaintenance);
-      console.log("inputEndMaintenanceTime is: " + inputEndMaintenanceTime);
-
       // Validation submitted with no date entry
       if (
         !inputStartMaintenance ||
@@ -926,8 +918,6 @@ require([
         $("#maintenance_mode_data_is_invalid").modal();
         return;
       }
-
-      console.log("entries check ended");
 
       if (inputStartMaintenance && inputEndMaintenance) {
         // Retrieve update comment if any
@@ -1026,8 +1016,6 @@ require([
                 earliest_time: "-60m",
                 latest_time: "now",
               };
-
-              console.log("searchQuery is: " + searchQuery);
 
               // Update the collection
               service.search(searchQuery, searchParams, function (err, job) {
