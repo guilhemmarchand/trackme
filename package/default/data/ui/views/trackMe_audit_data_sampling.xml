@@ -154,16 +154,41 @@
   </row>
   <row>
     <panel>
+        <title>TrackMe Data Sampling Mass executor logs</title>
+        <event>
+          <search>
+            <query>index=_internal sourcetype=trackme:custom_commands:trackmesamplingexecutor</query>
+            <earliest>-4h@m</earliest>
+            <latest>now</latest>
+          </search>
+          <option name="count">10</option>
+          <option name="list.drilldown">none</option>
+          <option name="list.wrap">1</option>
+          <option name="maxLines">5</option>
+          <option name="raw.drilldown">none</option>
+          <option name="rowNumbers">0</option>
+          <option name="table.drilldown">all</option>
+          <option name="table.sortDirection">asc</option>
+          <option name="table.wrap">1</option>
+          <option name="type">raw</option>
+        </event>
+    </panel>
+  </row>
+  <row>
+    <panel>
       <table>
         <title>Tracker scheduler execution metrics - this view exposes some key information from the scheduling perspective such maximal number of entities that are to be processed in a single execution</title>
         <search>
-          <query>index=_internal sourcetype=scheduler earliest=-4h latest=now status="success" trackme app="trackme" savedsearch_name="TrackMe - Data sampling and format detection tracker"
-| stats avg(run_time) AS avg_run_time, max(run_time) AS max_run_time, latest(run_time) AS latest_run_time, latest(result_count) as last_processed_no_entities by savedsearch_name
+          <query>index=_internal sourcetype=trackme:custom_commands:trackmesamplingexecutor "data sampling job successfully executed"
+| rex "for\s(?&lt;no_entities&gt;\d*)\sentities"
+| rex "executed\sin\s(?&lt;run_time&gt;[\d*|\.]*)\s"
+| where no_entities&gt;1
+| stats avg(run_time) AS avg_run_time, max(run_time) AS max_run_time, latest(run_time) AS latest_run_time, avg(no_entities) as avg_processed_no_entities by _time
 | foreach avg_run_time max_run_time latest_run_time [ eval &lt;&lt;FIELD&gt;&gt; = round('&lt;&lt;FIELD&gt;&gt;', 2) ]
 | appendcols [ | inputlookup trackme_data_source_monitoring where data_monitored_state="enabled" | stats count as total_entities ]
 | eval potential_rate_sec=round(latest_run_time/last_processed_no_entities, 2)
 | eval max_accepted_run_time_sec=`trackme_data_sampling_max_allowed_runtime_sec`
-| eval max_entities_to_process=round(max_accepted_run_time_sec/potential_rate_sec, 0)</query>
+| eval max_entities_to_process=round(max_accepted_run_time_sec/potential_rate_sec, 0) | filldown total_entities</query>
           <earliest>-4h@m</earliest>
           <latest>now</latest>
         </search>
