@@ -91,11 +91,11 @@ class TrackMeHandlerDataSampling_v1(trackme_rest_handler.RESTHandler):
         confs = service.confs[str(conf_file)]
         for stanza in confs:
             if stanza.name == 'logging':
-                for key, value in stanza.content.items():
-                    if key == "loglevel":
-                        loglevel = value
-        level = logging.getLevelName(loglevel)
-        log.setLevel(level)
+                for stanzakey, stanzavalue in stanza.content.items():
+                    if stanzakey == "loglevel":
+                        loglevel = stanzavalue
+        logginglevel = logging.getLevelName(loglevel)
+        log.setLevel(logginglevel)
 
         try:
 
@@ -178,11 +178,11 @@ class TrackMeHandlerDataSampling_v1(trackme_rest_handler.RESTHandler):
         confs = service.confs[str(conf_file)]
         for stanza in confs:
             if stanza.name == 'logging':
-                for key, value in stanza.content.items():
-                    if key == "loglevel":
-                        loglevel = value
-        level = logging.getLevelName(loglevel)
-        log.setLevel(level)
+                for stanzakey, stanzavalue in stanza.content.items():
+                    if stanzakey == "loglevel":
+                        loglevel = stanzavalue
+        logginglevel = logging.getLevelName(loglevel)
+        log.setLevel(logginglevel)
         
         try:
 
@@ -292,11 +292,11 @@ class TrackMeHandlerDataSampling_v1(trackme_rest_handler.RESTHandler):
         confs = service.confs[str(conf_file)]
         for stanza in confs:
             if stanza.name == 'logging':
-                for key, value in stanza.content.items():
-                    if key == "loglevel":
-                        loglevel = value
-        level = logging.getLevelName(loglevel)
-        log.setLevel(level)
+                for stanzakey, stanzavalue in stanza.content.items():
+                    if stanzakey == "loglevel":
+                        loglevel = stanzavalue
+        logginglevel = logging.getLevelName(loglevel)
+        log.setLevel(logginglevel)
 
         try:
 
@@ -451,11 +451,11 @@ class TrackMeHandlerDataSampling_v1(trackme_rest_handler.RESTHandler):
         confs = service.confs[str(conf_file)]
         for stanza in confs:
             if stanza.name == 'logging':
-                for key, value in stanza.content.items():
-                    if key == "loglevel":
-                        loglevel = value
-        level = logging.getLevelName(loglevel)
-        log.setLevel(level)
+                for stanzakey, stanzavalue in stanza.content.items():
+                    if stanzakey == "loglevel":
+                        loglevel = stanzavalue
+        logginglevel = logging.getLevelName(loglevel)
+        log.setLevel(logginglevel)
 
         try:
 
@@ -612,11 +612,11 @@ class TrackMeHandlerDataSampling_v1(trackme_rest_handler.RESTHandler):
         confs = service.confs[str(conf_file)]
         for stanza in confs:
             if stanza.name == 'logging':
-                for key, value in stanza.content.items():
-                    if key == "loglevel":
-                        loglevel = value
-        level = logging.getLevelName(loglevel)
-        log.setLevel(level)
+                for stanzakey, stanzavalue in stanza.content.items():
+                    if stanzakey == "loglevel":
+                        loglevel = stanzavalue
+        logginglevel = logging.getLevelName(loglevel)
+        log.setLevel(logginglevel)
 
         try:
 
@@ -702,11 +702,11 @@ class TrackMeHandlerDataSampling_v1(trackme_rest_handler.RESTHandler):
         confs = service.confs[str(conf_file)]
         for stanza in confs:
             if stanza.name == 'logging':
-                for key, value in stanza.content.items():
-                    if key == "loglevel":
-                        loglevel = value
-        level = logging.getLevelName(loglevel)
-        log.setLevel(level)
+                for stanzakey, stanzavalue in stanza.content.items():
+                    if stanzakey == "loglevel":
+                        loglevel = stanzavalue
+        logginglevel = logging.getLevelName(loglevel)
+        log.setLevel(logginglevel)
 
         try:
 
@@ -831,11 +831,11 @@ class TrackMeHandlerDataSampling_v1(trackme_rest_handler.RESTHandler):
         confs = service.confs[str(conf_file)]
         for stanza in confs:
             if stanza.name == 'logging':
-                for key, value in stanza.content.items():
-                    if key == "loglevel":
-                        loglevel = value
-        level = logging.getLevelName(loglevel)
-        log.setLevel(level)
+                for stanzakey, stanzavalue in stanza.content.items():
+                    if stanzakey == "loglevel":
+                        loglevel = stanzavalue
+        logginglevel = logging.getLevelName(loglevel)
+        log.setLevel(logginglevel)
 
         try:
 
@@ -1037,11 +1037,11 @@ class TrackMeHandlerDataSampling_v1(trackme_rest_handler.RESTHandler):
         confs = service.confs[str(conf_file)]
         for stanza in confs:
             if stanza.name == 'logging':
-                for key, value in stanza.content.items():
-                    if key == "loglevel":
-                        loglevel = value
-        level = logging.getLevelName(loglevel)
-        log.setLevel(level)
+                for stanzakey, stanzavalue in stanza.content.items():
+                    if stanzakey == "loglevel":
+                        loglevel = stanzavalue
+        logginglevel = logging.getLevelName(loglevel)
+        log.setLevel(logginglevel)
 
         try:
 

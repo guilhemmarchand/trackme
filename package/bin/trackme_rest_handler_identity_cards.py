@@ -94,8 +94,8 @@ class TrackMeHandlerIdentityCards_v1(trackme_rest_handler.RESTHandler):
                 for stanzakey, stanzavalue in stanza.content.items():
                     if stanzakey == "loglevel":
                         loglevel = stanzavalue
-        level = logging.getLevelName(loglevel)
-        log.setLevel(level)
+        logginglevel = logging.getLevelName(loglevel)
+        log.setLevel(logginglevel)
 
         try:
 
@@ -187,8 +187,8 @@ class TrackMeHandlerIdentityCards_v1(trackme_rest_handler.RESTHandler):
                 for stanzakey, stanzavalue in stanza.content.items():
                     if stanzakey == "loglevel":
                         loglevel = stanzavalue
-        level = logging.getLevelName(loglevel)
-        log.setLevel(level)
+        logginglevel = logging.getLevelName(loglevel)
+        log.setLevel(logginglevel)
 
         try:
 
@@ -300,8 +300,8 @@ class TrackMeHandlerIdentityCards_v1(trackme_rest_handler.RESTHandler):
                 for stanzakey, stanzavalue in stanza.content.items():
                     if stanzakey == "loglevel":
                         loglevel = stanzavalue
-        level = logging.getLevelName(loglevel)
-        log.setLevel(level)
+        logginglevel = logging.getLevelName(loglevel)
+        log.setLevel(logginglevel)
 
         try:
 
@@ -433,8 +433,8 @@ class TrackMeHandlerIdentityCards_v1(trackme_rest_handler.RESTHandler):
                 for stanzakey, stanzavalue in stanza.content.items():
                     if stanzakey == "loglevel":
                         loglevel = stanzavalue
-        level = logging.getLevelName(loglevel)
-        log.setLevel(level)
+        logginglevel = logging.getLevelName(loglevel)
+        log.setLevel(logginglevel)
 
         try:
 
@@ -625,8 +625,8 @@ class TrackMeHandlerIdentityCards_v1(trackme_rest_handler.RESTHandler):
                 for stanzakey, stanzavalue in stanza.content.items():
                     if stanzakey == "loglevel":
                         loglevel = stanzavalue
-        level = logging.getLevelName(loglevel)
-        log.setLevel(level)
+        logginglevel = logging.getLevelName(loglevel)
+        log.setLevel(logginglevel)
 
         try:
 
@@ -839,8 +839,8 @@ class TrackMeHandlerIdentityCards_v1(trackme_rest_handler.RESTHandler):
                 for stanzakey, stanzavalue in stanza.content.items():
                     if stanzakey == "loglevel":
                         loglevel = stanzavalue
-        level = logging.getLevelName(loglevel)
-        log.setLevel(level)
+        logginglevel = logging.getLevelName(loglevel)
+        log.setLevel(logginglevel)
 
         try:
 
@@ -1047,8 +1047,8 @@ class TrackMeHandlerIdentityCards_v1(trackme_rest_handler.RESTHandler):
                 for stanzakey, stanzavalue in stanza.content.items():
                     if stanzakey == "loglevel":
                         loglevel = stanzavalue
-        level = logging.getLevelName(loglevel)
-        log.setLevel(level)
+        logginglevel = logging.getLevelName(loglevel)
+        log.setLevel(logginglevel)
 
         try:
 
