@@ -747,10 +747,10 @@
 														<label class="splunk-input-label">Optional: sourcetype visible in the UI (white|blacklist applies)</label>
 													</div>
 													<div class="input input-text" id="modal_input_elastic_source_earliest" style="margin-bottom: 10px; width: 300px; max-width: 300px;">
-														<label class="splunk-input-label">Earliest, for dedicated trackers and remote searches (local shared trackers use -4h)</label>
+														<label class="splunk-input-label">Earliest, applies for all types of sources</label>
 													</div>
 													<div class="input input-text" id="modal_input_elastic_source_latest" style="margin-bottom: 10px; width: 300px; max-width: 300px;">
-														<label class="splunk-input-label">Latest, for dedicated trackers and remote searches (shared trackers use +4h)</label>
+														<label class="splunk-input-label">Latest, applies for all types of sources</label>
 													</div>
 												</div>
 												<div>
@@ -855,6 +855,7 @@
 										grid-row-gap: 0px;
 									}
 								</style>
+								<h2>Access TrackMe <a target="_blank" href="search?q=index%3D_internal%20sourcetype%3Dtrackme%3Acustom_commands%3Atrackmeelasticexecutor">Elastic Sources shared mass executor job</a></h2>
 								<div class="parent-elastic-shared-sources">
 									<div>
 										<div class="fieldset">

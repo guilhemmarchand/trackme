@@ -28,7 +28,7 @@ urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 splunkhome = os.environ['SPLUNK_HOME']
 
 # set logging
-filehandler = logging.FileHandler(splunkhome + "/var/log/splunk/trackme_sampling_executor.log", 'a')
+filehandler = logging.FileHandler(splunkhome + "/var/log/splunk/trackme_elastic_sources_shared_executor.log", 'a')
 formatter = logging.Formatter('%(asctime)s %(levelname)s %(filename)s %(funcName)s %(lineno)d %(message)s')
 filehandler.setFormatter(formatter)
 log = logging.getLogger()  # root logger - Good to get it only once.
@@ -53,7 +53,7 @@ class DataSamplingExecutor(GeneratingCommand):
     search = Option(
         doc='''
         **Syntax:** **report=****
-        **Description:** The data sampling search code.''',
+        **Description:** The Elastic Sources shared search code.''',
         require=True, default=None)
 
     def generate(self, **kwargs):
@@ -103,7 +103,14 @@ class DataSamplingExecutor(GeneratingCommand):
                     if not search.startswith("|"):
                         search = "search " + search
 
-                    logging.info("Executing data sampling resulting search: " + search)
+                    # retrieve and apply earliest/latest from the resulting search
+                    kwargs_oneshot = {
+                                        "earliest_time": item.get('earliest'),
+                                        "latest_time": item.get('latest'),
+                                        "count": 0
+                                    }
+
+                    logging.info("Executing Elastic Source resulting search (earliest: " + item.get('earliest') + ", latest: " + item.get('latest') + "): " + search)
                     start = time.process_time()
                     try:
                         suboneshotsearch_results = service.jobs.oneshot(search, **kwargs_oneshot)
@@ -114,7 +121,12 @@ class DataSamplingExecutor(GeneratingCommand):
                         for subitem in subreader:
                             logging.debug(subitem)                    
 
-                            data = {'_time': time.time(), '_raw': subitem, 'key': subitem.get('key'), 'data_name': subitem.get('data_name'), 'raw_sample': subitem.get('raw_sample'), 'data_sourcetype': subitem.get('data_sourcetype')}
+                            data = {
+                                '_time': time.time(), '_raw': subitem, 'data_last_ingest': subitem.get('data_last_ingest'),
+                                'data_first_time_seen': subitem.get('data_first_time_seen'), 'data_last_time_seen': subitem.get('data_last_time_seen'),
+                                'data_eventcount': subitem.get('data_eventcount'), 'dcount_host': subitem.get('dcount_host'),
+                                'data_name': subitem.get('data_name'), 'data_index': subitem.get('data_index'),
+                                'data_sourcetype': subitem.get('data_sourcetype'), 'data_last_ingestion_lag_seen': subitem.get('data_last_ingestion_lag_seen')}
                             yield data
 
                         logging.info("search successfully executed in " + str(time.process_time() - start) + " seconds")
@@ -126,7 +138,7 @@ class DataSamplingExecutor(GeneratingCommand):
                 logging.error("main search failed with exception: " + str(e))
 
             # end
-            logging.info("data sampling job successfully executed in " + str(time.process_time() - mainstart) + " seconds for " + str(count) + " entities")
+            logging.info("Elastic Sources shared job successfully executed in " + str(time.process_time() - mainstart) + " seconds for " + str(count) + " entities")
 
         else:
 

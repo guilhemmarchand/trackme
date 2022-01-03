@@ -66,6 +66,12 @@
     <a href="trackMe_internal_scheduling">Audit scheduling</a>
     <a href="trackMe_kvstore">KVstore collections</a>
     <a href="trackMe_audit_data_sampling">Data sampling audit dashboard</a>
+    <a href="search?q=index%3D_internal%20sourcetype%3Dtrackme%3Acustom_commands%3Atrackme">trackme logs</a>
+    <a href="search?q=index%3D_internal%20sourcetype%3Dtrackme%3Acustom_commands%3Asplunkremotesearch">splunkremotesearch logs</a>
+    <a href="search?q=index%3D_internal%20sourcetype%3Dtrackme%3Acustom_commands%3Atrackmepurgeaudit">trackmepurgeaudit logs</a>
+    <a href="search?q=index%3D_internal%20sourcetype%3Dtrackme%3Acustom_commands%3Atrackmesamplingexecutor">trackmesamplingexecutor logs</a>
+    <a href="search?q=index%3D_internal%20sourcetype%3Dtrackme%3Acustom_commands%3Atrackmeelasticexecutor">trackmeelasticexecutor logs</a>
+    <a href="search?q=index%3D_internal%20sourcetype%3Dtrackme%3Arest_api">TrackMe REST API logs</a>
   </collection>
   <collection label="Help">
       <a href="https://trackme.readthedocs.io/">Documentation on readthedocs.org</a>
