@@ -21,7 +21,7 @@ splunkhome = os.environ['SPLUNK_HOME']
 
 # set logging
 logger = logging.getLogger(__name__)
-filehandler = logging.FileHandler(splunkhome + "/var/log/splunk/trackme_rest_handler_identity_cards.log", 'a')
+filehandler = logging.FileHandler(splunkhome + "/var/log/splunk/trackme_rest_api.log", 'a')
 formatter = logging.Formatter('%(asctime)s %(levelname)s %(filename)s %(funcName)s %(lineno)d %(message)s')
 filehandler.setFormatter(formatter)
 log = logging.getLogger()
