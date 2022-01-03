@@ -104,6 +104,7 @@ class TrackMeHandlerIdentityCards_v1(trackme_rest_handler.RESTHandler):
 
             # Render
             logging.debug(json.dumps(collection.data.query(), indent=1))
+            logging.info("success")
             return {
                 "payload": json.dumps(collection.data.query(), indent=1),
                 'status': 200 # HTTP status code
@@ -208,7 +209,7 @@ class TrackMeHandlerIdentityCards_v1(trackme_rest_handler.RESTHandler):
             # Render result
             if key is not None and len(key)>2:
 
-                logging.debug(json.dumps(collection.data.query_by_id(key), indent=1))
+                logging.info("success for record=" + json.dumps(collection.data.query_by_id(key), indent=1))
                 return {
                     "payload": json.dumps(collection.data.query_by_id(key), indent=1),
                     'status': 200 # HTTP status code
@@ -321,7 +322,7 @@ class TrackMeHandlerIdentityCards_v1(trackme_rest_handler.RESTHandler):
             # Render result
             if key is not None and len(key)>2:
 
-                logging.debug(json.dumps(collection.data.query_by_id(key), indent=1))
+                logging.info("success for record=" + json.dumps(collection.data.query_by_id(key), indent=1))
                 return {
                     "payload": json.dumps(collection.data.query_by_id(key), indent=1),
                     'status': 200 # HTTP status code
@@ -497,7 +498,7 @@ class TrackMeHandlerIdentityCards_v1(trackme_rest_handler.RESTHandler):
                         'payload': 'Warn: exception encountered: ' + str(e) # Payload of the request.
                     }
 
-                logging.debug(json.dumps(collection.data.query_by_id(key), indent=1))
+                logging.info("success for record=" + json.dumps(collection.data.query_by_id(key), indent=1))
                 return {
                     "payload": json.dumps(collection.data.query_by_id(key), indent=1),
                     'status': 200 # HTTP status code
@@ -535,7 +536,7 @@ class TrackMeHandlerIdentityCards_v1(trackme_rest_handler.RESTHandler):
                         'payload': 'Warn: exception encountered: ' + str(e) # Payload of the request.
                     }
 
-                logging.debug(json.dumps(collection.data.query(query=str(query_string)), indent=1))
+                logging.info("success for record=" + json.dumps(collection.data.query(query=str(query_string)), indent=1))
                 return {
                     "payload": json.dumps(collection.data.query(query=str(query_string)), indent=1),
                     'status': 200 # HTTP status code
@@ -745,7 +746,7 @@ class TrackMeHandlerIdentityCards_v1(trackme_rest_handler.RESTHandler):
                         'payload': 'Warn: exception encountered: ' + str(e) # Payload of the request.
                     }
 
-                logging.debug(json.dumps(collection.data.query_by_id(key), indent=1))
+                logging.info("success for record=" + json.dumps(collection.data.query_by_id(key), indent=1))
                 return {
                     "payload": json.dumps(collection.data.query_by_id(key), indent=1),
                     'status': 200 # HTTP status code
@@ -950,7 +951,7 @@ class TrackMeHandlerIdentityCards_v1(trackme_rest_handler.RESTHandler):
                         }
                 
                     # end of work, return
-                    logging.debug(json.loads('{ "response": "object ' + str(object_name) + ' has been unassociated from identity card record key: ' + str(key) + "\" }"))
+                    logging.info(json.loads('{ "response": "object ' + str(object_name) + ' has been unassociated from identity card record key: ' + str(key) + "\" }"))
                     return {
                         "payload": json.loads('{ "response": "object ' + str(object_name) + ' has been unassociated from identity card record key: ' + str(key) + "\" }"),
                         'status': 200 # HTTP status code
@@ -958,14 +959,14 @@ class TrackMeHandlerIdentityCards_v1(trackme_rest_handler.RESTHandler):
 
                 # no association, nothing to do                
                 else:
-                    logging.debug(str(json.dumps(collection.data.query_by_id(key), indent=1)))
+                    logging.info("success for record=" + str(json.dumps(collection.data.query_by_id(key), indent=1)))
                     return {
                         "payload": str(json.dumps(collection.data.query_by_id(key), indent=1)),
                         'status': 200 # HTTP status code
                     }
 
             else:
-                logging.debug(json.loads('{ "response": "object ' + str(object_name) + ' already has no identity card association."}'))
+                logging.info(json.loads('{ "response": "object ' + str(object_name) + ' already has no identity card association."}'))
                 return {
                     "payload": json.loads('{ "response": "object ' + str(object_name) + ' already has no identity card association."}'),
                     'status': 200 # HTTP status code
@@ -1110,7 +1111,7 @@ class TrackMeHandlerIdentityCards_v1(trackme_rest_handler.RESTHandler):
                         'payload': 'Warn: exception encountered: ' + str(e) # Payload of the request.
                     }
 
-                logging.debug("Record with _key " + str(key) + " was deleted from the collection.")
+                logging.info("Record with _key " + str(key) + " was deleted from the collection.")
                 return {
                     "payload": "Record with _key " + str(key) + " was deleted from the collection.",
                     'status': 200 # HTTP status code

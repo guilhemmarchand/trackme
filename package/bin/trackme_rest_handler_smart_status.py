@@ -307,7 +307,7 @@ class TrackMeHandlerSmartStatus_v1(trackme_rest_handler.RESTHandler):
                     + '"correlation_data_sampling": "' + str(data_sampling_state) + '"'\
                     + '}'
 
-                    logging.debug(json.dumps(json.loads(results), indent=1))
+                    logging.info("success for record=" + json.dumps(json.loads(results), indent=1))
                     return {
                         "payload": json.dumps(json.loads(results), indent=1),
                         'status': 200 # HTTP status code
@@ -630,7 +630,7 @@ class TrackMeHandlerSmartStatus_v1(trackme_rest_handler.RESTHandler):
                         + '"correlation_data_sampling": "' + str(data_sampling_state) + '"'\
                         + '}'
 
-                        logging.debug(json.dumps(json.loads(results_message), indent=1))
+                        logging.info("success for record=" + json.dumps(json.loads(results_message), indent=1))
                         return {
                             "payload": json.dumps(json.loads(results_message), indent=1),
                             'status': 200 # HTTP status code
@@ -933,7 +933,7 @@ class TrackMeHandlerSmartStatus_v1(trackme_rest_handler.RESTHandler):
                         + '"correlation_data_sampling": "' + str(data_sampling_state) + '"'\
                         + '}'
 
-                        logging.debug(json.dumps(json.loads(results_message), indent=1))
+                        logging.info("success for record=" + json.dumps(json.loads(results_message), indent=1))
                         return {
                             "payload": json.dumps(json.loads(results_message), indent=1),
                             'status': 200 # HTTP status code
@@ -1203,7 +1203,7 @@ class TrackMeHandlerSmartStatus_v1(trackme_rest_handler.RESTHandler):
                         + '"correlation_data_sampling": "' + str(data_sampling_state) + '"'\
                         + '}'
 
-                        logging.debug(json.dumps(json.loads(results_message), indent=1))
+                        logging.info("success for record=" + json.dumps(json.loads(results_message), indent=1))
                         return {
                             "payload": json.dumps(json.loads(results_message), indent=1),
                             'status': 200 # HTTP status code
@@ -1491,7 +1491,7 @@ class TrackMeHandlerSmartStatus_v1(trackme_rest_handler.RESTHandler):
                         + '"correlation_data_sampling": "' + str(data_sampling_state) + '"'\
                         + '}'
 
-                        logging.debug(json.dumps(json.loads(results), indent=1))
+                        logging.info("success for record=" + json.dumps(json.loads(results), indent=1))
                         return {
                             "payload": json.dumps(json.loads(results), indent=1),
                             'status': 200 # HTTP status code
@@ -1626,7 +1626,7 @@ class TrackMeHandlerSmartStatus_v1(trackme_rest_handler.RESTHandler):
                         + '"correlation_data_sampling": "' + str(data_sampling_state) + '"'\
                         + '}'
 
-                        logging.debug(json.dumps(json.loads(results), indent=1))
+                        logging.info("success for record=" + json.dumps(json.loads(results), indent=1))
                         return {
                             "payload": json.dumps(json.loads(results), indent=1),
                             'status': 200 # HTTP status code
@@ -1913,7 +1913,7 @@ class TrackMeHandlerSmartStatus_v1(trackme_rest_handler.RESTHandler):
                         + '"correlation_flipping_state": "' + str(flipping_correlation_msg) + '"'\
                         + '}'
 
-                        logging.debug(json.dumps(json.loads(results), indent=1))
+                        logging.info("success for record=" + json.dumps(json.loads(results), indent=1))
                         return {
                             "payload": json.dumps(json.loads(results), indent=1),
                             'status': 200 # HTTP status code
@@ -1943,7 +1943,7 @@ class TrackMeHandlerSmartStatus_v1(trackme_rest_handler.RESTHandler):
                         + '"smart_code": "' + "99" + '"'\
                         + '}'
 
-                        logging.debug(json.dumps(json.loads(results), indent=1))
+                        logging.error("record=" + json.dumps(json.loads(results), indent=1))
                         return {
                             "payload": json.dumps(json.loads(results), indent=1),
                             'status': 200 # HTTP status code
@@ -2002,7 +2002,6 @@ class TrackMeHandlerSmartStatus_v1(trackme_rest_handler.RESTHandler):
                 + "\"data_host\": \"name of the data host\""\
                 + " } ] }"
 
-            logging.debug(json.dumps(json.loads(str(response)), indent=1))
             return {
                 "payload": json.dumps(json.loads(str(response)), indent=1),
                 'status': 200 # HTTP status code
@@ -2182,7 +2181,7 @@ class TrackMeHandlerSmartStatus_v1(trackme_rest_handler.RESTHandler):
                     + '"correlation_flipping_state": "' + str(flipping_correlation_msg) + '"'\
                     + '}'
 
-                    logging.debug(json.dumps(json.loads(results), indent=1))
+                    logging.info("success for record=" + json.dumps(json.loads(results), indent=1))
                     return {
                         "payload": json.dumps(json.loads(results), indent=1),
                         'status': 200 # HTTP status code
@@ -2298,7 +2297,7 @@ class TrackMeHandlerSmartStatus_v1(trackme_rest_handler.RESTHandler):
                         + '"correlation_flipping_state": "' + str(flipping_correlation_msg) + '"'\
                         + '}'
 
-                        logging.debug(json.dumps(json.loads(results_message), indent=1))
+                        logging.info("success for record=" + json.dumps(json.loads(results_message), indent=1))
                         return {
                             "payload": json.dumps(json.loads(results_message), indent=1),
                             'status': 200 # HTTP status code
@@ -2433,7 +2432,7 @@ class TrackMeHandlerSmartStatus_v1(trackme_rest_handler.RESTHandler):
                         + '"correlation_flipping_state": "' + str(flipping_correlation_msg) + '"'\
                         + '}'
 
-                        logging.debug(json.dumps(json.loads(results_message), indent=1))
+                        logging.info("success for record=" + json.dumps(json.loads(results_message), indent=1))
                         return {
                             "payload": json.dumps(json.loads(results_message), indent=1),
                             'status': 200 # HTTP status code
@@ -2576,7 +2575,7 @@ class TrackMeHandlerSmartStatus_v1(trackme_rest_handler.RESTHandler):
                             + '"correlation_flipping_state": "' + str(flipping_correlation_msg) + '"'\
                             + '}'
 
-                        logging.debug(json.dumps(json.loads(results), indent=1))
+                        logging.info("success for record=" + json.dumps(json.loads(results), indent=1))
                         return {
                             "payload": json.dumps(json.loads(results), indent=1),
                             'status': 200 # HTTP status code
@@ -2599,7 +2598,7 @@ class TrackMeHandlerSmartStatus_v1(trackme_rest_handler.RESTHandler):
                         + '"smart_code": "' + "99" + '"'\
                         + '}'
 
-                        logging.debug(json.dumps(json.loads(results), indent=1))
+                        logging.error("record=" + json.dumps(json.loads(results), indent=1))
                         return {
                             "payload": json.dumps(json.loads(results), indent=1),
                             'status': 200 # HTTP status code
@@ -2656,7 +2655,6 @@ class TrackMeHandlerSmartStatus_v1(trackme_rest_handler.RESTHandler):
                 + "\"metric_host\": \"name of the metric host\""\
                 + " } ] }"
 
-            logging.debug(json.dumps(json.loads(str(response)), indent=1))
             return {
                 "payload": json.dumps(json.loads(str(response)), indent=1),
                 'status': 200 # HTTP status code
@@ -2815,7 +2813,7 @@ class TrackMeHandlerSmartStatus_v1(trackme_rest_handler.RESTHandler):
                     + '"correlation_flipping_state": "' + str(flipping_correlation_msg) + '"'\
                     + '}'
 
-                    logging.debug(json.dumps(json.loads(results), indent=1))
+                    logging.info("success for record=" + json.dumps(json.loads(results), indent=1))
                     return {
                         "payload": json.dumps(json.loads(results), indent=1),
                         'status': 200 # HTTP status code
@@ -2879,7 +2877,7 @@ class TrackMeHandlerSmartStatus_v1(trackme_rest_handler.RESTHandler):
                     + '"correlation_flipping_state": "' + str(flipping_correlation_msg) + '"'\
                     + '}'
 
-                    logging.debug(json.dumps(json.loads(results_message), indent=1))
+                    logging.info("success for record=" + json.dumps(json.loads(results_message), indent=1))
                     return {
                         "payload": json.dumps(json.loads(results_message), indent=1),
                         'status': 200 # HTTP status code

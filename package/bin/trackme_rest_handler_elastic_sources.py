@@ -105,6 +105,7 @@ class TrackMeHandlerElasticSources_v1(trackme_rest_handler.RESTHandler):
 
             # Render
             logging.debug(json.dumps(collection.data.query(), indent=1))
+            logging.info("success")
             return {
                 "payload": json.dumps(collection.data.query(), indent=1),
                 'status': 200 # HTTP status code
@@ -179,7 +180,7 @@ class TrackMeHandlerElasticSources_v1(trackme_rest_handler.RESTHandler):
             collection = service.kvstore[collection_name]
 
             # Render
-            logging.debug(json.dumps(collection.data.query(), indent=1))
+            logging.info("success for record=" + json.dumps(collection.data.query(), indent=1))
             return {
                 "payload": json.dumps(collection.data.query(), indent=1),
                 'status': 200 # HTTP status code
@@ -270,7 +271,7 @@ class TrackMeHandlerElasticSources_v1(trackme_rest_handler.RESTHandler):
 
             # Render result
             if record is not None and len(record)>2:
-                logging.debug(str(record))
+                logging.info("success for record=" + str(record))
                 return {
                     "payload": str(record),
                     'status': 200 # HTTP status code
@@ -370,7 +371,7 @@ class TrackMeHandlerElasticSources_v1(trackme_rest_handler.RESTHandler):
 
             # Render result
             if record is not None and len(record)>2:
-                logging.debug(str(record))
+                logging.info("success for record=" + str(record))
                 return {
                     "payload": str(record),
                     'status': 200 # HTTP status code
@@ -539,7 +540,7 @@ class TrackMeHandlerElasticSources_v1(trackme_rest_handler.RESTHandler):
                         'payload': 'Warn: exception encountered: ' + str(e) # Payload of the request.
                     }
 
-                logging.debug(str(record))
+                logging.info("success for record=" + str(record))
                 return {
                     "payload": str(record),
                     'status': 200 # HTTP status code
@@ -581,7 +582,7 @@ class TrackMeHandlerElasticSources_v1(trackme_rest_handler.RESTHandler):
                         'payload': 'Warn: exception encountered: ' + str(e) # Payload of the request.
                     }
 
-                logging.debug(str(record))
+                logging.info("success for record=" + str(record))
                 return {
                     "payload": str(record),
                     'status': 200 # HTTP status code
@@ -879,7 +880,7 @@ class TrackMeHandlerElasticSources_v1(trackme_rest_handler.RESTHandler):
                         'payload': 'Warn: exception encountered: ' + str(e) # Payload of the request.
                     }
 
-                logging.debug(str(record))
+                logging.info("success for record=" + str(record))
                 return {
                     "payload": str(record),
                     'status': 200 # HTTP status code
@@ -954,7 +955,7 @@ class TrackMeHandlerElasticSources_v1(trackme_rest_handler.RESTHandler):
                             'payload': 'Warn: exception encountered: ' + str(e) # Payload of the request.
                         }
 
-                    logging.debug(str(record))
+                    logging.info("success for record=" + str(record))
                     return {
                         "payload": str(record),
                         'status': 200 # HTTP status code
@@ -1151,14 +1152,14 @@ class TrackMeHandlerElasticSources_v1(trackme_rest_handler.RESTHandler):
                         }
 
                 if key is not None and len(key)>2 and key2 is not None and len(key2)>2:
-                    logging.debug("Record with _key " + str(key) + " was deleted from the Elastic source collection, record with _key " + str(key2) + " was deleted from the data sources collection.")
+                    logging.info("Record with _key " + str(key) + " was deleted from the Elastic source collection, record with _key " + str(key2) + " was deleted from the data sources collection.")
                     return {
                         "payload": "Record with _key " + str(key) + " was deleted from the Elastic source collection, record with _key " + str(key2) + " was deleted from the data sources collection.",
                         'status': 200 # HTTP status code
                     }
                 
                 else:
-                    logging.debug("Record with _key " + str(key) + " was deleted from the Elastic source collection.")
+                    logging.info("Record with _key " + str(key) + " was deleted from the Elastic source collection.")
                     return {
                         "payload": "Record with _key " + str(key) + " was deleted from the Elastic source collection.",
                         'status': 200 # HTTP status code
@@ -1403,28 +1404,28 @@ class TrackMeHandlerElasticSources_v1(trackme_rest_handler.RESTHandler):
                         }
 
                 if key is not None and len(key)>2 and key2 is not None and len(key2)>2 and tracker_was_removed:
-                    logging.debug("Record with _key " + str(key) + " was deleted from the Elastic source collection, report with name " + str(tracker_name) + " was deleted, record with _key " + str(key2) + " was deleted from the data sources collection.")
+                    logging.info("Record with _key " + str(key) + " was deleted from the Elastic source collection, report with name " + str(tracker_name) + " was deleted, record with _key " + str(key2) + " was deleted from the data sources collection.")
                     return {
                         "payload": "Record with _key " + str(key) + " was deleted from the Elastic source collection, report with name " + str(tracker_name) + " was deleted, record with _key " + str(key2) + " was deleted from the data sources collection.",
                         'status': 200 # HTTP status code
                     }
 
                 elif key is not None and len(key)>2 and key2 is not None and len(key2)>2:
-                    logging.debug("Record with _key " + str(key) + " was deleted from the Elastic source collection, record with _key " + str(key2) + " was deleted from the data sources collection.")
+                    logging.info("Record with _key " + str(key) + " was deleted from the Elastic source collection, record with _key " + str(key2) + " was deleted from the data sources collection.")
                     return {
                         "payload": "Record with _key " + str(key) + " was deleted from the Elastic source collection, record with _key " + str(key2) + " was deleted from the data sources collection.",
                         'status': 200 # HTTP status code
                     }
 
                 elif key is not None and len(key)>2 and tracker_was_removed:
-                    logging.debug("Record with _key " + str(key) + " was deleted from the Elastic source collection, report with name " + str(tracker_name) + " was deleted.")
+                    logging.info("Record with _key " + str(key) + " was deleted from the Elastic source collection, report with name " + str(tracker_name) + " was deleted.")
                     return {
                         "payload": "Record with _key " + str(key) + " was deleted from the Elastic source collection, report with name " + str(tracker_name) + " was deleted.",
                         'status': 200 # HTTP status code
                     }
 
                 else:
-                    logging.debug("Record with _key " + str(key) + " was deleted from the Elastic source collection.")
+                    logging.info("Record with _key " + str(key) + " was deleted from the Elastic source collection.")
                     return {
                         "payload": "Record with _key " + str(key) + " was deleted from the Elastic source collection.",
                         'status': 200 # HTTP status code

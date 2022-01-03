@@ -104,6 +104,7 @@ class TrackMeHandlerMaintenance_v1(trackme_rest_handler.RESTHandler):
 
             # Render
             logging.debug(json.dumps(collection.data.query(), indent=1))
+            logging.info("success")
             return {
                 "payload": json.dumps(collection.data.query(), indent=1),
                 'status': 200 # HTTP status code
@@ -294,7 +295,7 @@ class TrackMeHandlerMaintenance_v1(trackme_rest_handler.RESTHandler):
                         'payload': 'Warn: exception encountered: ' + str(e) # Payload of the request.
                     }
 
-                logging.debug(json.dumps(collection.data.query(), indent=1))
+                logging.info("success for record=" + json.dumps(collection.data.query(), indent=1))
                 return {
                     "payload": json.dumps(collection.data.query(), indent=1),
                     'status': 200 # HTTP status code
@@ -334,7 +335,7 @@ class TrackMeHandlerMaintenance_v1(trackme_rest_handler.RESTHandler):
                     }
 
                 # Render
-                logging.debug(json.dumps(collection.data.query(), indent=1))
+                logging.info("success for record=" + json.dumps(collection.data.query(), indent=1))
                 return {
                     "payload": json.dumps(collection.data.query(), indent=1),
                     'status': 200 # HTTP status code
@@ -489,7 +490,7 @@ class TrackMeHandlerMaintenance_v1(trackme_rest_handler.RESTHandler):
                         'payload': 'Warn: exception encountered: ' + str(e) # Payload of the request.
                     }
 
-                logging.debug(json.dumps(collection.data.query(), indent=1))
+                logging.info("success for record=" + json.dumps(collection.data.query(), indent=1))
                 return {
                     "payload": json.dumps(collection.data.query(), indent=1),
                     'status': 200 # HTTP status code
@@ -529,7 +530,7 @@ class TrackMeHandlerMaintenance_v1(trackme_rest_handler.RESTHandler):
                     }
 
                 # Render
-                logging.debug(json.dumps(collection.data.query(), indent=1))
+                logging.info("success for record=" + json.dumps(collection.data.query(), indent=1))
                 return {
                     "payload": json.dumps(collection.data.query(), indent=1),
                     'status': 200 # HTTP status code

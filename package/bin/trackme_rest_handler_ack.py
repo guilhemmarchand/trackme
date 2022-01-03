@@ -105,6 +105,7 @@ class TrackMeHandlerAck_v1(trackme_rest_handler.RESTHandler):
 
             # Render
             logging.debug(json.dumps(collection.data.query(), indent=1))
+            logging.info("success")
             return {
                 "payload": json.dumps(collection.data.query(), indent=1),
                 'status': 200 # HTTP status code
@@ -189,7 +190,7 @@ class TrackMeHandlerAck_v1(trackme_rest_handler.RESTHandler):
 
             # Render result
             if record is not None and len(record)>2:
-                logging.debug(str(record))
+                logging.info("success for record=" + str(record))
                 return {
                     "payload": str(record),
                     'status': 200 # HTTP status code
@@ -287,7 +288,7 @@ class TrackMeHandlerAck_v1(trackme_rest_handler.RESTHandler):
 
             # Render result
             if record is not None and len(record)>2:
-                logging.debug(str(record))
+                logging.info("success for record=" + str(record))
                 return {
                     "payload": str(record),
                     'status': 200 # HTTP status code
@@ -459,7 +460,7 @@ class TrackMeHandlerAck_v1(trackme_rest_handler.RESTHandler):
                         'payload': 'Warn: exception encountered: ' + str(e) # Payload of the request.
                     }
 
-                logging.debug(json.dumps(collection.data.query_by_id(key), indent=1))
+                logging.info("success for record=" + json.dumps(collection.data.query_by_id(key), indent=1))
                 return {
                     "payload": json.dumps(collection.data.query_by_id(key), indent=1),
                     'status': 200 # HTTP status code
@@ -503,7 +504,7 @@ class TrackMeHandlerAck_v1(trackme_rest_handler.RESTHandler):
                         'payload': 'Warn: exception encountered: ' + str(e) # Payload of the request.
                     }
 
-                logging.debug(json.dumps(json.loads(record), indent=1))
+                logging.info("success for record=" + json.dumps(json.loads(record), indent=1))
                 return {
                     "payload": json.dumps(json.loads(record), indent=1),
                     'status': 200 # HTTP status code
@@ -665,7 +666,7 @@ class TrackMeHandlerAck_v1(trackme_rest_handler.RESTHandler):
                         'payload': 'Warn: exception encountered: ' + str(e) # Payload of the request.
                     }
 
-                logging.debug(json.dumps(collection.data.query_by_id(key), indent=1))
+                logging.info("success for record=" + json.dumps(collection.data.query_by_id(key), indent=1))
                 return {
                     "payload": json.dumps(collection.data.query_by_id(key), indent=1),
                     'status': 200 # HTTP status code
@@ -675,7 +676,7 @@ class TrackMeHandlerAck_v1(trackme_rest_handler.RESTHandler):
 
                 # There no ack currently for this object, return http 200 with message
                 response = "{\"response\": \"There are no active acknowledgment for the entity object: " + str(object_value) + ", object_category: " + str(object_category_value + "\"}")
-                logging.debug(str(response))
+                logging.info(str(response))
                 return {
                     "payload": str(response),
                     'status': 200 # HTTP status code

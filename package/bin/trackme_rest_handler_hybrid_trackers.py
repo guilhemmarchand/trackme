@@ -427,7 +427,7 @@ class TrackMeHandlerHybridTracker_v1(trackme_rest_handler.RESTHandler):
             }
 
         # final return
-        logging.debug(str(audit_record))
+        logging.info(str(audit_record))
         return {
             "payload": str(audit_record),
             'status': 200 # HTTP status code
@@ -853,7 +853,7 @@ class TrackMeHandlerHybridTracker_v1(trackme_rest_handler.RESTHandler):
             }
 
         # final return
-        logging.debug(str(audit_record))
+        logging.info(str(audit_record))
         return {
             "payload": str(audit_record),
             'status': 200 # HTTP status code
