@@ -57,21 +57,17 @@ class TrackMeRestHandler(GeneratingCommand):
 
         if (self.url and re.search(r"^\/services\/trackme\/v\d*", self.url)) and self.mode in ("get", "post", "delete"):
 
-            # get and set the loglevel
+            # set loglevel
             loglevel = 'INFO'
             conf_file = "trackme_settings"
             confs = self.service.confs[str(conf_file)]
             for stanza in confs:
                 if stanza.name == 'logging':
-                    for key, value in stanza.content.items():
-                        if key == "loglevel":
-                            loglevel = value
-
-            if loglevel in ('DEBUG', 'INFO', 'WARNING', 'ERROR', 'CRITICAL'):
-                level = logging.getLevelName(loglevel)
-                log.setLevel(level)
-            else:
-                log.setLevel(logging.INFO)
+                    for stanzakey, stanzavalue in stanza.content.items():
+                        if stanzakey == "loglevel":
+                            loglevel = stanzavalue
+            logginglevel = logging.getLevelName(loglevel)
+            log.setLevel(logginglevel)
 
             # Get the session key
             session_key = self._metadata.searchinfo.session_key

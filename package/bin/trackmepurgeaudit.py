@@ -5,6 +5,15 @@
 
 from __future__ import absolute_import, division, print_function, unicode_literals
 
+__author__ = "TrackMe Limited"
+__copyright__ = "Copyright 2021, TrackMe Limited, U.K."
+__credits__ = ["Guilhem Marchand"]
+__license__ = "TrackMe Limited, all rights reserved"
+__version__ = "0.1.0"
+__maintainer__ = "TrackMe Limited, U.K."
+__email__ = "support@trackme-solutions.com"
+__status__ = "PRODUCTION"
+
 import os
 import sys
 import splunk
@@ -14,10 +23,24 @@ import time
 import datetime
 import csv
 import json
+import logging
 import urllib3
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
 splunkhome = os.environ['SPLUNK_HOME']
+
+# set logging
+filehandler = logging.FileHandler(splunkhome + "/var/log/splunk/trackme_trackmepurgeaudit.log", 'a')
+formatter = logging.Formatter('%(asctime)s %(levelname)s %(filename)s %(funcName)s %(lineno)d %(message)s')
+filehandler.setFormatter(formatter)
+log = logging.getLogger()  # root logger - Good to get it only once.
+for hdlr in log.handlers[:]:  # remove the existing file handlers
+    if isinstance(hdlr,logging.FileHandler):
+        log.removeHandler(hdlr)
+log.addHandler(filehandler)      # set the new handler
+# set the log level to INFO, DEBUG as the default is ERROR
+log.setLevel(logging.INFO)
+
 sys.path.append(os.path.join(splunkhome, 'etc', 'apps', 'trackme', 'lib'))
 
 from splunklib.searchcommands import dispatch, GeneratingCommand, Configuration, Option, validators
@@ -38,10 +61,6 @@ class PurgeAuditRecords(GeneratingCommand):
             entity = splunk.entity.getEntity('/server', 'settings',
                                                 namespace='trackme', sessionKey=session_key, owner='-')
             splunkd_port = entity['mgmtHostPort']
-
-            # log all actions
-            SPLUNK_HOME = os.environ["SPLUNK_HOME"]
-            splunklogfile = SPLUNK_HOME + "/var/log/splunk/trackme_audit_purge.log"
         
             # Define the headers
             header = 'Splunk ' + str(session_key)
@@ -85,13 +104,10 @@ class PurgeAuditRecords(GeneratingCommand):
                     # Set the raw message
                     raw = "purged record=\"" + str(row['key']) + "\", _time=\"" + str(row['_time']) + "\", record_age=\"" + str(record_age) + "\""
 
-                    # write to log file
-                    outputlog = open(splunklogfile, "a")
-                    t = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S,%f')
+                    # log
                     raw_kv_message = 'action=\"success"' \
                         + '\", ' + str(raw)
-                    outputlog.write(str(t[:-3]) + " INFO file=trackmepurgeaudit.py | customaction - signature=\"trackmepurgeaudit custom command called, " + str(raw_kv_message) + "\", app=\"trackme\" action_mode=\"saved\"\n")
-                    outputlog.close()
+                    logging.info(raw_kv_message)
 
                     # yield as output of the generation command
                     yield {'_time': time.time(), '_raw': str(raw)}
@@ -99,14 +115,7 @@ class PurgeAuditRecords(GeneratingCommand):
                 except Exception as e:
                     msg = "KVstore record with key: " + str(row['key']) + " failed to be deleted with exception: " + str(e)
                     self.logger.fatal(msg)
-
-                    # write to log file
-                    outputlog = open(splunklogfile, "a")
-                    t = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S,%f')
-                    raw_kv_message = 'action=\"failure"' \
-                        + '\", ' + str(raw)
-                    outputlog.write(str(t[:-3]) + " INFO file=trackmepurgeaudit.py | customaction - signature=\"trackmepurgeaudit custom command called, " + str(msg) + "\", app=\"trackme\" action_mode=\"saved\"\n")
-                    outputlog.close()
+                    logging.error(msg)
 
                     data = {'_time': time.time(), '_raw': "{\"response\": \"" + msg + "}"}
                     yield data
@@ -117,5 +126,6 @@ class PurgeAuditRecords(GeneratingCommand):
             # yield
             data = {'_time': time.time(), '_raw': "{\"response\": \"" + "Error: bad request}"}
             yield data
+            logging.error("{\"response\": \"" + "Error: bad request}")
 
 dispatch(PurgeAuditRecords, sys.argv, sys.stdin, sys.stdout, __name__)
